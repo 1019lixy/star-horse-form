@@ -120,7 +120,11 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       fieldName: "needCommonFields",
       type: "switch",
       formVisible: true,
-      listVisible: true
+      listVisible: true,
+      preps:{
+        activeValue: "Y",
+        inactiveValue: "N"
+      }
     },
     {
       label: "主键策略",
@@ -134,14 +138,22 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       fieldName: "createTable",
       type: "switch",
       formVisible: true,
-      listVisible: true
+      listVisible: true,
+      preps:{
+        activeValue: "Y",
+        inactiveValue: "N"
+      }
     },
     {
       label: "是否创建菜单",
       fieldName: "createMenu",
       type: "switch",
       formVisible: true,
-      listVisible: true
+      listVisible: true,
+      preps:{
+        activeValue: "Y",
+        inactiveValue: "N"
+      }
     },
     {
       label: "创建人",

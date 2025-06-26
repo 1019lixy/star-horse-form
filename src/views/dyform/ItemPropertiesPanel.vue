@@ -280,11 +280,14 @@ const convertFormFieldData = (items: any, type: string) => {
     //增加Help
     item["helpMsg"] = `${item["remark"] ?? ""}`;
     if (item["selectValues"] && isJson(item["selectValues"])) {
-      item["optionList"] = [];
+      if (!item.preps) {
+        item.preps = {};
+      }
+      item.preps["values"] = [];
       let datas = JSON.parse(item.selectValues);
       for (let i in datas) {
         let data: any = datas[i];
-        item["optionList"].push({
+        item.preps["values"].push({
           name: data.name || data,
           value: data.value || data
         });
@@ -483,7 +486,7 @@ watch(
       @closeAction="closeAction"
       @resetForm="dataRelationReset"
       :selfFunc="true">
-  
+
     <star-horse-form
         :outerFormData="formProps"
         primary-key=""

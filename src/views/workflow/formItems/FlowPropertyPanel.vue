@@ -37,36 +37,50 @@ const basicFieldList = ref<FieldInfo[]>([
     fieldName: "relationFormId",
     required: true,
     type: "select",
-    optionList: relationFormList,
-    formVisible: true
+    formVisible: true,
+    preps: {
+      values: relationFormList,
+    }
   },
   {
     label: "允许编辑",
     fieldName: "allowEdit",
     type: "switch",
     defaultValue: "N",
-    formVisible: true
+    formVisible: true,
+    preps:{
+      activeValue: "Y",
+      inactiveValue: "N"
+    }
   },
   {
     label: "任务变量",
     fieldName: "taskParams",
     type: "select",
-    optionList: taskParamsList,
-    formVisible: true
+    formVisible: true,
+    preps: {
+      values: taskParamsList,
+    }
   },
   {
     label: "是否会签",
     fieldName: "signFlag",
     type: "switch",
     defaultValue: "N",
-    formVisible: true
+    formVisible: true,
+    preps: {
+      activeValue: "Y",
+      inactiveValue: "N"
+    }
   },
   {
     label: "任务通知",
     fieldName: "taskNotice",
     type: "select",
-    optionList: taskNoticeList,
-    formVisible: true
+    formVisible: true,
+    preps:{
+      values: taskNoticeList,
+    }
   },
   {
     label: "超时设置",
@@ -78,15 +92,19 @@ const basicFieldList = ref<FieldInfo[]>([
     label: "经办人为空策略",
     fieldName: "auditorEmptyPolicy",
     type: "radio",
-    optionList: auditorEmptyPolicyList,
-    formVisible: true
+    formVisible: true,
+    preps:{
+      values: auditorEmptyPolicyList,
+    }
   },
   {
     label: "退回策略",
     fieldName: "returnPolicy",
     type: "radio",
-    optionList: returnPolicyList,
-    formVisible: true
+    formVisible: true,
+    preps:{
+      values: returnPolicyList,
+    }
   }
 ]);
 const btnTypeList = ref<SelectOption[]>([
@@ -140,15 +158,19 @@ const buttonFieldList = ref<FieldInfo[]>([
             label: "按钮类型",
             fieldName: "btnType",
             type: "select",
-            optionList: btnTypeList,
-            formVisible: true
+            formVisible: true,
+            preps:{
+              values: btnTypeList,
+            }
           },
           {
             label: "按钮行为",
             fieldName: "btnAction",
             type: "select",
-            optionList: btnActionList,
-            formVisible: true
+            formVisible: true,
+            preps:{
+              values: btnActionList,
+            }
           }
         ]
       }

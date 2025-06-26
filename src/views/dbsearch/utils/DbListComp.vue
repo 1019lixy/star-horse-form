@@ -93,9 +93,11 @@ let dataFieldInfo = ref<PageFieldInfo>({
       fieldName: "exclusionFields",
       type: "select",
       multiple: true,
-      optionList: selectFields,
       formVisible: true,
-      listVisible: true
+      listVisible: true,
+      preps:{
+        values: selectFields,
+      }
     },
     {
       batchFieldList: [
@@ -108,17 +110,21 @@ let dataFieldInfo = ref<PageFieldInfo>({
               label: "字段",
               fieldName: "fieldName",
               type: "select",
-              optionList: selectFields,
               formVisible: true,
-              listVisible: true
+              listVisible: true,
+              preps:{
+                values: selectFields,
+              }
             },
             {
               label: "组件类型",
               fieldName: "fieldType",
               type: "select",
-              optionList: allFormDataList,
               formVisible: true,
-              listVisible: true
+              listVisible: true,
+              preps:{
+                values: allFormDataList,
+              }
             }
           ]
         }

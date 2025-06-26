@@ -126,7 +126,9 @@ const formFieldList = reactive<PageFieldInfo>({
       defaultValue: "1",
       listVisible: true,
       formVisible: true,
-      optionList: menuPermissionStatus
+      preps:{
+        values: menuPermissionStatus
+      }
     }
   ]
 });

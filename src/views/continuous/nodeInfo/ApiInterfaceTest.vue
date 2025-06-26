@@ -34,10 +34,12 @@ const fieldList = reactive<PageFieldInfo | any>({
                 label: "执行方式",
                 fieldName: "nodeExecType",
                 type: "select",
-                optionList: execTypeList,
                 required: true,
                 formVisible: true,
-                listVisible: true
+                listVisible: true,
+                preps:{
+                  values: execTypeList,
+                }
               }
             ],
             [
@@ -45,7 +47,6 @@ const fieldList = reactive<PageFieldInfo | any>({
                 label: "节点成功条件",
                 fieldName: "nodeSuccessCondition",
                 type: "radio",
-                optionList: nodeSuccessConditionList,
                 actionName: "change",
                 actions: (val: any) => {
                   console.log(val);
@@ -59,15 +60,16 @@ const fieldList = reactive<PageFieldInfo | any>({
                     label: "  ",
                     fieldName: "assignNode",
                     type: "select",
-                    optionList: subNodeList,
                     required: true,
                     formVisible: assignSelect,
                     preps: {
+                      values: subNodeList,
                       colspan: 6
                     }
                   }
                 ],
                 preps: {
+                  values: nodeSuccessConditionList,
                   colspan: 13
                 }
               }

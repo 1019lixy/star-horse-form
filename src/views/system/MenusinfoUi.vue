@@ -135,7 +135,11 @@ const tableFieldList = reactive<PageFieldInfo>({
         type: "switch",
         defaultValue: "Y",
         formVisible: true,
-        listVisible: true
+        listVisible: true,
+        preps:{
+          activeValue: "Y",
+          inactiveValue: "N"
+        }
       },
       {
         label: "页面打开方式",

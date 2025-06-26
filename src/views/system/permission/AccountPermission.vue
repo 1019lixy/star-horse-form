@@ -53,8 +53,10 @@ const searchFields = reactive<SearchFields>({
       label: "状态",
       fieldName: "a.statusCode",
       type: "select",
-      optionList: accountPermissionStatus,
-      defaultVisible: true
+      defaultVisible: true,
+      preps:{
+        values: accountPermissionStatus,
+      }
     }
   ]
 });
@@ -64,10 +66,12 @@ const formFieldList = reactive<PageFieldInfo>({
       label: "分组名称",
       fieldName: "idRolesinfo",
       type: "select",
-      optionList: rolesList,
       formVisible: true,
       required: true,
       disabled: true,
+      preps:{
+        values: rolesList,
+      }
     },
     {
       label: "账号信息",
@@ -75,7 +79,7 @@ const formFieldList = reactive<PageFieldInfo>({
       aliasName: "userList",
       multiple: true,
       type: "page-select",
-      params: {
+      preps: {
         dataUrl: {
           pageListUrl: "/system-config/system/usersinfoEntity/pageList"
         },
@@ -120,7 +124,9 @@ const formFieldList = reactive<PageFieldInfo>({
       type: "select",
       listVisible: true,
       formVisible: true,
-      optionList: accountPermissionStatus
+      preps:{
+        values: accountPermissionStatus
+      }
     }
   ]
 });
@@ -168,7 +174,9 @@ const tableFieldList = reactive<PageFieldInfo>({
       type: "select",
       listVisible: true,
       formVisible: true,
-      optionList: accountPermissionStatus
+      preps:{
+        values: accountPermissionStatus
+      }
     }
   ],
   orderBy: [

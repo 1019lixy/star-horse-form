@@ -194,14 +194,22 @@ export function viewFieldInfo(
                     fieldName: "isAudit",
                     type: "switch",
                     formVisible: true,
-                    defaultValue: "N"
+                    defaultValue: "N",
+                    preps:{
+                        activeValue: "Y",
+                        inactiveValue: "N"
+                    }
                 },
                 {
                     label: "是否去重",
                     fieldName: "isDistinct",
                     type: "switch",
                     formVisible: true,
-                    defaultValue: "N"
+                    defaultValue: "N",
+                    preps:{
+                        activeValue: "Y",
+                        inactiveValue: "N"
+                    }
                 }
             ],
             [
@@ -211,14 +219,22 @@ export function viewFieldInfo(
                     type: "switch",
                     formVisible: true,
                     defaultValue: "N",
-                    helpMsg: "如果指定返回字段，该设置失效"
+                    helpMsg: "如果指定返回字段，该设置失效",
+                    preps:{
+                        activeValue: "Y",
+                        inactiveValue: "N"
+                    }
                 },
                 {
                     label: "是否创建菜单",
                     fieldName: "isCreateMenu",
                     type: "switch",
                     formVisible: true,
-                    defaultValue: "N"
+                    defaultValue: "N",
+                    preps:{
+                        activeValue: "Y",
+                        inactiveValue: "N"
+                    }
                 }
             ],
             [
@@ -231,6 +247,10 @@ export function viewFieldInfo(
                     actionName: "change",
                     actions: (val: any) => {
                         sortTableVisible.value = val["dataSortType"] == "Y";
+                    },
+                    preps:{
+                        activeValue: "Y",
+                        inactiveValue: "N"
                     }
                 },
                 {
@@ -242,6 +262,10 @@ export function viewFieldInfo(
                     actionName: "change",
                     actions: (val: any) => {
                         limitFieldVisible.value = val["limitFieldType"] == "Y";
+                    },
+                    preps:{
+                        activeValue: "Y",
+                        inactiveValue: "N"
                     }
                 }
             ],
@@ -313,7 +337,7 @@ export function viewFieldInfo(
                                 helpMsg: "返回字段和排除字段设置一个",
                                 formVisible: true,
                                 preps: {
-                                    multiple: "Y"
+                                    multiple: true
                                 }
                             },
                             {
@@ -322,7 +346,7 @@ export function viewFieldInfo(
                                 type: "select",
                                 formVisible: true,
                                 preps: {
-                                    multiple: "Y"
+                                    multiple: true
                                 }
                             }
                         ]

@@ -13,7 +13,10 @@ const searchFormData = reactive<SearchFields>({
     {label: "项目名称", fieldName: "projectName",  matchType: "lk", defaultVisible: true},
     {
       label: "程序语言", fieldName: "programLanguage",
-      type: "select", optionList: languageList, matchType: "lk", defaultVisible: true
+      type: "select",  matchType: "lk", defaultVisible: true,
+      preps:{
+        values: languageList,
+      }
     }
   ]
 });

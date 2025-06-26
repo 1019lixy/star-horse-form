@@ -77,7 +77,9 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       required: true,
       formVisible: true,
       listVisible: true,
-      optionList: cfgCategoryList
+      preps:{
+        values: cfgCategoryList
+      }
     },
     {
       label: "名称",
@@ -106,7 +108,10 @@ const tableFieldList = reactive<PageFieldInfo | any>({
         required: false,
         formVisible: true,
         listVisible: true,
-        preps: {}
+        preps:{
+          activeValue: "Y",
+          inactiveValue: "N"
+        }
       }
     ],
     [

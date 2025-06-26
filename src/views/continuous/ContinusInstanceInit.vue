@@ -57,10 +57,12 @@ let nodeField = ref<PageFieldInfo>({
         label: "执行方式",
         fieldName: "nodeExecType",
         type: "select",
-        optionList: execTypeList,
         required: true,
         formVisible: true,
-        listVisible: true
+        listVisible: true,
+        preps:{
+          values: execTypeList,
+        }
       }
     ],
     [

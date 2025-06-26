@@ -82,11 +82,12 @@ const extendCommonFields: FieldInfo[] = [
                         formVisible: true,
                         actionName: "change",
                         actions: (val: any) => {
-                            console.log(val);
                             val["_errorReportPersonVisible"] = val["errorReport"];
                             val["_errorReportTypeVisible"] = val["errorReport"];
                         },
-                        preps: {
+                        preps:{
+                            activeValue: "Y",
+                            inactiveValue: "N",
                             colspan: 6
                         }
                     }
@@ -110,11 +111,11 @@ const extendCommonFields: FieldInfo[] = [
                             {
                                 type: "select",
                                 label: "  ",
-                                
-                                optionList: codeCommitorList,
+
                                 fieldName: "errorCodeCommitor",
                                 preps: {
-                                    multiple: "Y"
+                                    values: codeCommitorList,
+                                    multiple: true
                                 }
                             }
                         ]
@@ -141,7 +142,9 @@ const extendCommonFields: FieldInfo[] = [
                                 val["_successReportTypeVisible"] = val["successReport"];
                             },
                             formVisible: true,
-                            preps: {
+                            preps:{
+                                activeValue: "Y",
+                                inactiveValue: "N",
                                 colspan: 6
                             }
                         }
@@ -164,11 +167,10 @@ const extendCommonFields: FieldInfo[] = [
                             {
                                 type: "select",
                                 label: "  ",
-                                
-                                optionList: codeCommitorList,
                                 fieldName: "successCodeCommitorVisible",
                                 preps: {
-                                    multiple: "Y"
+                                    values: codeCommitorList,
+                                    multiple: true
                                 }
                             }
                         ]

@@ -15,7 +15,7 @@ const flowFormFields = reactive<PageFieldInfo>({
         {
             label: "流程名称",
             fieldName: "name",
-            
+
             required: true,
             formVisible: true,
             listVisible: true
@@ -24,10 +24,12 @@ const flowFormFields = reactive<PageFieldInfo>({
             label: "流程分类",
             fieldName: "flowGroup",
             type: "select",
-            optionList: flowGroups,
             required: true,
             formVisible: true,
-            listVisible: true
+            listVisible: true,
+            preps: {
+                values: flowGroups,
+            }
         },
         {
             label: "图标",
@@ -37,8 +39,8 @@ const flowFormFields = reactive<PageFieldInfo>({
             formVisible: true,
             listVisible: true,
             preps: {
-                iconType:"user",
-                values:loadSvgIcons()
+                iconType: "user",
+                values: loadSvgIcons()
             }
         },
         {
@@ -46,7 +48,8 @@ const flowFormFields = reactive<PageFieldInfo>({
             fieldName: "bindFormName",
             aliasName: "bindForm",
             type: "page-select",
-            params: {
+            preps: {
+                multiple: true,
                 primaryKey: "idDynamicForm",
                 dataUrl: {
                     pageListUrl: "/userdb-manage/userdb/dynamicForm/pageList"
@@ -58,7 +61,7 @@ const flowFormFields = reactive<PageFieldInfo>({
                 fieldList: [
                     {
                         label: "表单名称",
-                        
+
                         fieldName: "formName",
                         searchVisible: true,
                         listVisible: true
@@ -69,19 +72,19 @@ const flowFormFields = reactive<PageFieldInfo>({
                         fieldName: "formIcon",
                         listVisible: true,
                         preps: {
-                            iconType:"user",
-                            values:loadSvgIcons()
+                            iconType: "user",
+                            values: loadSvgIcons()
                         }
                     },
                     {
                         label: "创建人",
-                        
+
                         fieldName: "createdBy",
                         listVisible: true
                     },
                     {
                         label: "创建时间",
-                        
+
                         fieldName: "createdTime",
                         listVisible: true
                     }
@@ -90,39 +93,41 @@ const flowFormFields = reactive<PageFieldInfo>({
             required: false,
             formVisible: true,
             listVisible: true,
-            preps: {
-                multiple: "Y"
-            }
         },
         {
             label: "流程图类型",
             fieldName: "flowType",
-            
-            
+
+
             listVisible: true
         },
         {
             label: "流程版本",
             fieldName: "flowVersion",
-            
-            
+
+
             listVisible: true
         },
         {
             label: "多表单显示模式",
             fieldName: "formVisibleType",
             type: "radio",
-            optionList: formVisibleTypeList,
             defaultValue: "step",
             formVisible: true,
-            listVisible: true
+            listVisible: true,
+            preps: {
+                values: formVisibleTypeList,
+            }
         },
         {
             label: "谁可以管理这个流程",
             fieldName: "flowManagerName",
             aliasName: "flowManager",
             type: "page-select",
-            params: {
+            formVisible: true,
+            listVisible: true,
+            preps: {
+                multiple: true,
                 primaryKey: "idEmployeeInfo",
                 dataUrl: {
                     pageListUrl: "/system-config/system/employeeInfo/pageList"
@@ -134,24 +139,19 @@ const flowFormFields = reactive<PageFieldInfo>({
                 fieldList: [
                     {
                         label: "姓名",
-                        
+
                         searchVisible: true,
                         fieldName: "name",
                         listVisible: true
                     },
                     {
                         label: "用户名",
-                        
+
                         searchVisible: true,
                         fieldName: "employeeNo",
                         listVisible: true
                     }
                 ]
-            },
-            formVisible: true,
-            listVisible: true,
-            preps: {
-                multiple: "Y"
             }
         },
         {
@@ -159,7 +159,7 @@ const flowFormFields = reactive<PageFieldInfo>({
             fieldName: "remark",
             type: "textarea",
             formVisible: true,
-            
+
         }
     ]
 });

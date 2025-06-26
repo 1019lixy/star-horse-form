@@ -34,7 +34,7 @@ export function defineType(type: string) {
             formVisible: true,
             listVisible: true,
             preps: {
-                multiple: "Y"
+                multiple: true
             }
         }
     ];
@@ -67,7 +67,7 @@ export function calendarManage(calendarList: Array<any>) {
                 formVisible: true,
                 listVisible: true,
                 preps: {
-                    multiple: "Y"
+                    multiple: true
                 }
             },
             {
@@ -216,8 +216,11 @@ export function calendarManage(calendarList: Array<any>) {
                 fieldName: "subscribeFlag",
                 type: "switch",
                 required: false,
-                
-                listVisible: true
+                listVisible: true,
+                preps:{
+                    activeValue: "Y",
+                    inactiveValue: "N"
+                }
             },
             {
                 label: "版本号",

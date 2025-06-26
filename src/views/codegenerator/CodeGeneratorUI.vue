@@ -43,11 +43,13 @@ const searchFormData = reactive<SearchFields>({
       label: "数据库信息",
       fieldName: "datasourceConfigId",
       type: "select",
-      optionList: dbInfoList,
-      defaultVisible: true
+      defaultVisible: true,
+      preps: {
+        values: dbInfoList
+      }
     },
-    {label: "应用名称", fieldName: "projectName",  matchType: "lk", defaultVisible: true},
-    {label: "项目名称", fieldName: "applicationName",  matchType: "lk", defaultVisible: true}
+    {label: "应用名称", fieldName: "projectName", matchType: "lk", defaultVisible: true},
+    {label: "项目名称", fieldName: "applicationName", matchType: "lk", defaultVisible: true}
   ]
 });
 const tableFieldList = reactive<PageFieldInfo>({
@@ -64,11 +66,11 @@ const tableFieldList = reactive<PageFieldInfo>({
         type: "select",
         required: true,
         formVisible: true,
-        optionList: dbInfoList,
-        actionNames: "change",
+        actionName: "change",
         actions: loadTabInfo,
         listVisible: true,
         preps: {
+          values: dbInfoList,
           needInitLink: true
         }
       },
@@ -79,8 +81,10 @@ const tableFieldList = reactive<PageFieldInfo>({
         formVisible: true,
         defaultValue: "java",
         helpMsg: "目前只支持Java,选择其它语言会构建失败",
-        optionList: languageList,
-        listVisible: true
+        listVisible: true,
+        preps: {
+          values: languageList,
+        }
       }
     ],
     [
@@ -89,46 +93,54 @@ const tableFieldList = reactive<PageFieldInfo>({
         fieldName: "backendTemplateVersion",
         type: "select",
         formVisible: true,
-        defaultValue: "2_0",
-        optionList: templateVersionList,
-        listVisible: true
+        defaultValue: "2_6",
+
+        listVisible: true,
+        preps: {
+          values: templateVersionList,
+        }
       },
       {
         label: "前端模版版本",
         fieldName: "frontTemplateVersion",
         type: "select",
         formVisible: true,
-        defaultValue: "2_0",
-        optionList: templateVersionList,
-        listVisible: true
+        defaultValue: "2_6",
+        listVisible: true,
+        preps: {
+          values: templateVersionList,
+        }
       }
     ],
     {
       label: "需要生成的表名",
       fieldName: "tablesList",
       type: "select",
-      multiple: true,
-      optionList: tableInfoList,
       helpMsg: `该属性为空表示生成所有数据库表的代码,
 如果表数量太多（>100），程序自动转异步执行，
 有构建失败风险.`,
       formVisible: true,
-      listVisible: true
+      listVisible: true,
+      preps: {
+        multiple: true,
+        values: tableInfoList,
+      }
     },
     {
       label: "需要排除的表",
       fieldName: "excludesList",
       type: "select",
-      multiple: true,
-      optionList: tableInfoList,
       formVisible: true,
-      listVisible: true
+      listVisible: true,
+      preps: {
+        multiple: true,
+        values: tableInfoList,
+      }
     },
     [
       {
         label: "去除表前缀",
         fieldName: "prefixesStr",
-
         aliasName: "prefixes",
         formVisible: true,
         helpMsg: `如果该属性为空，所生成的文件会带上表前缀，
@@ -152,9 +164,12 @@ eg: 表：dev_userinfo ,生成的文件是DevUserinfo.java;
       type: "select",
       formVisible: true,
       multiple: true,
-      optionList: fileTypeList,
+
       helpMsg: "为空生成所有类型文件",
-      listVisible: true
+      listVisible: true,
+      preps: {
+        values: fileTypeList,
+      }
     },
     {
       fieldName: "tab2",
@@ -207,7 +222,11 @@ eg: 表：dev_userinfo ,生成的文件是DevUserinfo.java;
               fieldName: "restFul",
               type: "switch",
               formVisible: true,
-              defaultValue: "Y"
+              defaultValue: "Y",
+              preps: {
+                activeValue: "Y",
+                inactiveValue: "N"
+              }
             },
             {
               label: "包构建类型",
@@ -215,8 +234,11 @@ eg: 表：dev_userinfo ,生成的文件是DevUserinfo.java;
               type: "select",
               formVisible: true,
               defaultValue: "jar",
-              optionList: packagingList,
-              helpMsg: "对应pom.xml文件中的packaging"
+
+              helpMsg: "对应pom.xml文件中的packaging",
+              preps: {
+                values: packagingList,
+              }
             },
             {
               label: "代码版本",
@@ -247,7 +269,11 @@ eg: 表：dev_userinfo ,生成的文件是DevUserinfo.java;
               label: "是否需要版权",
               fieldName: "needCopyright",
               type: "switch",
-              formVisible: true
+              formVisible: true,
+              preps: {
+                activeValue: "Y",
+                inactiveValue: "N"
+              }
             }
           ]
         },
@@ -260,7 +286,11 @@ eg: 表：dev_userinfo ,生成的文件是DevUserinfo.java;
               fieldName: "needUi",
               type: "switch",
               formVisible: true,
-              defaultValue: "Y"
+              defaultValue: "Y",
+              preps: {
+                activeValue: "Y",
+                inactiveValue: "N"
+              }
             },
             {
               label: "是否分离UI",
@@ -268,12 +298,15 @@ eg: 表：dev_userinfo ,生成的文件是DevUserinfo.java;
               type: "switch",
               formVisible: true,
               helpMsg: "UI文件和业务文件是否放在同一个module里面",
-              defaultValue: "N"
+              defaultValue: "N",
+              preps: {
+                activeValue: "Y",
+                inactiveValue: "N"
+              }
             },
             {
               label: "Ui 文件后缀",
               fieldName: "uiSuffix",
-
               formVisible: true,
               defaultValue: ".vue"
             },
@@ -282,8 +315,10 @@ eg: 表：dev_userinfo ,生成的文件是DevUserinfo.java;
               fieldName: "uiType",
               type: "select",
               formVisible: true,
-              optionList: uiTypeList,
-              defaultValue: "VUE_3_TS"
+              defaultValue: "VUE_3_TS",
+              preps: {
+                values: uiTypeList,
+              }
             }
           ]
         },
@@ -297,7 +332,11 @@ eg: 表：dev_userinfo ,生成的文件是DevUserinfo.java;
               type: "switch",
               formVisible: true,
               helpMsg: "DTO文件和业务文件是否放在同一个module里面",
-              defaultValue: "N"
+              defaultValue: "N",
+              preps: {
+                activeValue: "Y",
+                inactiveValue: "N"
+              }
             }
           ]
         }
@@ -374,9 +413,9 @@ const orderBy = ref<OrderByInfo[]>([
 
 const selectItemFun = (_data: any) => {
 };
-const dataFormat = (name: string, cellValue: object): any => {
+const dataFormat = (name: string, cellValue: any): any => {
   if (name == "datasourceConfigId") {
-    return dbInfoList.value.find((item) => item.value == cellValue)?.name || cellValue;
+    return dbInfoList.value.find((item: any) => item.value == cellValue)?.name || cellValue;
   }
   if (name == "createdTime" || name == "updatedTime") {
     return createDatetime(cellValue);
@@ -421,13 +460,15 @@ const generateMerge = (type: string) => {
       if (dataForm["prefixesStr"]) {
         dataForm["prefixesList"] = dataForm["prefixesStr"].split(";");
       }
+      let isError = false;
       download("/code-generator/generator/code/convertToCode", dataForm)
           .catch((err) => {
+            isError = true;
             warning(err);
           })
           .finally(() => {
             closeLoad();
-            if (type != "continue") {
+            if (type != "continue" && !isError) {
               closeAction();
             }
           });

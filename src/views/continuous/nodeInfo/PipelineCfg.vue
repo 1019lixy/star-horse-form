@@ -39,11 +39,13 @@ const fieldList = reactive<PageFieldInfo | any>({
                 label: "流水线类型",
                 fieldName: "lineType",
                 type: "select",
-                optionList: execTypeList,
                 required: true,
                 defaultValue: "single",
                 formVisible: true,
-                listVisible: true
+                listVisible: true,
+                preps:{
+                  values: execTypeList,
+                }
               },
               {
                 label: "Cron定时触发",
@@ -66,19 +68,18 @@ const fieldList = reactive<PageFieldInfo | any>({
                 label: "代码源类型",
                 fieldName: "vcsType",
                 type: "select",
-                optionList: repoList,
                 required: true,
                 defaultValue: "git",
                 formVisible: true,
                 listVisible: true,
                 preps: {
+                  values: repoList,
                   colspan: 6
                 }
               },
               {
                 label: "URL",
                 fieldName: "vcsUrl",
-
                 defaultValue: "git://123.com",
                 required: true,
                 formVisible: true,
@@ -96,7 +97,9 @@ const fieldList = reactive<PageFieldInfo | any>({
                 required: false,
                 formVisible: true,
                 listVisible: true,
-                preps: {
+                preps:{
+                  activeValue: "Y",
+                  inactiveValue: "N",
                   colspan: 6
                 }
               }

@@ -122,6 +122,10 @@ const menuformFieldList = reactive<PageFieldInfo>({
       actionName: "change",
       actions: (val: any) => {
         menuRequired.value = val["allMenu"] == "N";
+      },
+      preps:{
+        activeValue: "Y",
+        inactiveValue: "N"
       }
     },
     {

@@ -129,7 +129,11 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       type: "switch",
       required: false,
       formVisible: true,
-      listVisible: true
+      listVisible: true,
+      preps:{
+        activeValue: "Y",
+        inactiveValue: "N"
+      }
     },
     {
       label: "是否允许订阅",
@@ -137,7 +141,11 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       type: "switch",
       required: false,
       formVisible: true,
-      listVisible: true
+      listVisible: true,
+      preps:{
+        activeValue: "Y",
+        inactiveValue: "N"
+      }
     },
     {
       label: "邀请",
@@ -169,7 +177,11 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       type: "switch",
       required: false,
       formVisible: true,
-      listVisible: true
+      listVisible: true,
+      preps:{
+        activeValue: "Y",
+        inactiveValue: "N"
+      }
     },
     {
       label: "消息提醒方式",

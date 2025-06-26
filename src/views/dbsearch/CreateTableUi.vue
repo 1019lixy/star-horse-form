@@ -68,14 +68,22 @@ const columnFieldList = reactive<BatchFieldInfo>({
       type: "switch",
       defaultValue: "Y",
       formVisible: true,
-      listVisible: true
+      listVisible: true,
+      preps:{
+        activeValue: "Y",
+        inactiveValue: "N"
+      }
     },
     {
       label: "是否主键",
       fieldName: "isPrimaryKey",
       type: "switch",
       formVisible: true,
-      listVisible: true
+      listVisible: true,
+      preps:{
+        activeValue: "Y",
+        inactiveValue: "N"
+      }
     },
     {
       label: "备注",

@@ -79,30 +79,36 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       label: "用户组类型",
       fieldName: "roleType",
       type: "select",
-      optionList: roleTypes,
       required: true,
       formVisible: true,
-      editdisabled: true,
-      listVisible: true
+      editDisabled: true,
+      listVisible: true,
+      preps:{
+        values: roleTypes,
+      }
     },
     {
       label: "会话超时时间",
       fieldName: "sessionTimeOut",
       type: "select",
-      optionList: sessionTimeOut,
       required: true,
       formVisible: true,
       defaultValue: 30,
-      listVisible: true
+      listVisible: true,
+      preps:{
+        values: sessionTimeOut,
+      }
     },
     [
       {
         label: "系统权限",
         fieldName: "appsList",
         type: "select",
-        optionList: systemList,
         required: true,
         multiple: true,
+        preps:{
+          values: systemList,
+        }
       },
       {
         label: "菜单权限",

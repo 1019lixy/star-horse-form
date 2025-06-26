@@ -282,9 +282,11 @@ const httpTaskField = reactive<TabFieldInfo | any>({
             label: "请求方式",
             fieldName: "httpMethod",
             type: "select",
-            optionList: httpMethod(),
             formVisible: true,
-            listVisible: true
+            listVisible: true,
+            preps:{
+                values: httpMethod(),
+            }
         },
         {
             label: "请求头",
@@ -570,12 +572,14 @@ const scriptTaskField = reactive<TabFieldInfo | any>({
             label: "脚本格式",
             fieldName: "scriptType",
             type: "radio",
-            optionList: [
-                {name: "groovy", value: "groovy"},
-                {name: "JavaScript", value: "js"}
-            ],
             formVisible: true,
-            listVisible: true
+            listVisible: true,
+            preps:{
+                values: [
+                    {name: "groovy", value: "groovy"},
+                    {name: "JavaScript", value: "js"}
+                ],
+            }
         },
         {
             label: "脚本内容",
@@ -610,7 +614,11 @@ const generalItem = (node: any) => {
             type: "switch",
             defaultValue: "N",
             formVisible: true,
-            listVisible: true
+            listVisible: true,
+            preps:{
+                activeValue: "Y",
+                inactiveValue: "N"
+            }
         }
     ]);
     if (node.type == "bpmn:Task") {
@@ -619,7 +627,6 @@ const generalItem = (node: any) => {
             fieldName: "serviceType",
             type: "select",
             defaultValue: "task",
-            optionList: serviceTaskTypeList,
             actionName: "change",
             actions: (val: any) => {
                 console.log(val["serviceType"]);
@@ -637,7 +644,10 @@ const generalItem = (node: any) => {
                 }
             },
             formVisible: true,
-            listVisible: true
+            listVisible: true,
+            preps:{
+                values: serviceTaskTypeList,
+            }
         });
     }
     return reactive<any>({
@@ -654,13 +664,15 @@ const multiInstanceItem = {
             label: "多实例类型",
             type: "radio",
             fieldName: "multiInstanceType",
-            optionList: [
-                {name: "无", value: "none"},
-                {name: "串行", value: "serial"},
-                {name: "并行", value: "parallel"}
-            ],
             formVisible: true,
-            listVisible: true
+            listVisible: true,
+            preps:{
+                values: [
+                    {name: "无", value: "none"},
+                    {name: "串行", value: "serial"},
+                    {name: "并行", value: "parallel"}
+                ],
+            }
         }
     ]
 };
@@ -721,7 +733,11 @@ const userTaskNodeField = reactive<PageFieldInfo | any>({
                             fieldName: "async",
                             type: "switch",
                             formVisible: true,
-                            listVisible: true
+                            listVisible: true,
+                            preps:{
+                                activeValue: "Y",
+                                inactiveValue: "N"
+                            }
                         },
                         {
                             label: "跳过表达式",
@@ -759,10 +775,6 @@ const userTaskNodeField = reactive<PageFieldInfo | any>({
                                             label: "指定分配",
                                             fieldName: "assign",
                                             type: "radio",
-                                            optionList: [
-                                                {name: "指定人", value: "assignUser"},
-                                                {name: "发起人", value: "submit"}
-                                            ],
                                             formVisible: true,
                                             listVisible: true,
                                             actionName: "change",
@@ -775,6 +787,10 @@ const userTaskNodeField = reactive<PageFieldInfo | any>({
                                                 storeFields.push(candidateRoles);
                                             },
                                             preps: {
+                                                values: [
+                                                    {name: "指定人", value: "assignUser"},
+                                                    {name: "发起人", value: "submit"}
+                                                ],
                                                 radioType: "button"
                                             }
                                         },

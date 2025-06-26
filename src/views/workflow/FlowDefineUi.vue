@@ -39,14 +39,16 @@ let flowDeploymentList = ref<SelectOption[]>([
 //查询属性
 const searchFormData = reactive<SearchFields>({
   fieldList: [
-    {label: "流程名称", fieldName: "name",  matchType: "lk", defaultVisible: true},
+    {label: "流程名称", fieldName: "name", matchType: "lk", defaultVisible: true},
     {
       label: "流程分类",
       fieldName: "flowGroup",
       type: "select",
       matchType: "lk",
       defaultVisible: true,
-      optionList: flowGroupList
+      preps: {
+        values: flowGroupList
+      }
     },
     /* {"label": "流程类型", "fieldName": "flowType", "type": "input",matchType:"lk",defaultVisible: true},*/
     {
@@ -55,7 +57,9 @@ const searchFormData = reactive<SearchFields>({
       type: "select",
       matchType: "is",
       defaultVisible: true,
-      optionList: flowDeploymentList
+      preps: {
+        values: flowDeploymentList
+      }
     }
   ]
 });
@@ -120,9 +124,9 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       fieldName: "statusCode",
       type: "select",
       listVisible: true,
-      optionList: statusList,
-      listPrototypeDisplay: "text",
       preps: {
+        values: statusList,
+        listPrototypeDisplay: "text",
         tagMap: {
           "1": "success",
           "2": "default"
@@ -169,7 +173,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       formVisible: true,
 
     },
-    {label: "创建人", fieldName: "createdBy",  listVisible: true, preps: {}, commonFlag: "Y"},
+    {label: "创建人", fieldName: "createdBy", listVisible: true, preps: {}, commonFlag: "Y"},
     {
       label: "修改人",
       fieldName: "updatedBy",
@@ -196,7 +200,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
     },
     {label: "版本号", fieldName: "version", type: "number", listVisible: true, preps: {}, commonFlag: "Y"},
     {label: "是否删除", fieldName: "isDel", type: "number", preps: {}, commonFlag: "Y"},
-    {label: "数据编号", fieldName: "dataNo",   preps: {}, commonFlag: "Y"},
+    {label: "数据编号", fieldName: "dataNo", preps: {}, commonFlag: "Y"},
     {
       label: "状态名称",
       fieldName: "statusName",
@@ -205,7 +209,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       preps: {},
       commonFlag: "Y"
     },
-    {label: "国际编码", fieldName: "local",   preps: {}, commonFlag: "Y"},
+    {label: "国际编码", fieldName: "local", preps: {}, commonFlag: "Y"},
     {label: "备注", fieldName: "remark", type: "textarea", preps: {}, commonFlag: "Y"}
   ],
   batchFieldList: [],

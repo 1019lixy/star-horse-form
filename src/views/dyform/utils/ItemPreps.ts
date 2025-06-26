@@ -362,7 +362,11 @@ export function urlFields() {
                     fieldName: "isDynamicParam",
                     type: "switch",
                     defaultValue: "N",
-                    formVisible: true
+                    formVisible: true,
+                    preps:{
+                        activeValue: "Y",
+                        inactiveValue: "N"
+                    }
                 },
                 {
                     label: "参数名",
@@ -579,7 +583,11 @@ export function paramsFields(paramsConfigRef: Ref<any>, fieldName: string, item:
             fieldName: "searchFlag",
             type: "switch",
             defaultValue: "Y",
-            formVisible: true
+            formVisible: true,
+            preps:{
+                activeValue: "Y",
+                inactiveValue: "N"
+            }
         }
     ];
     const needFields: FieldInfo[] = [
@@ -722,7 +730,11 @@ export function containerField(fieldName: string) {
                         defaultValue: "Y",
                         required: true,
                         formVisible: true,
-                        listVisible: true
+                        listVisible: true,
+                        preps:{
+                            activeValue: "Y",
+                            inactiveValue: "N"
+                        }
                     }
                 ]
             }
@@ -768,7 +780,11 @@ export function containerField(fieldName: string) {
                         defaultValue: "Y",
                         required: true,
                         formVisible: true,
-                        listVisible: true
+                        listVisible: true,
+                        preps:{
+                            activeValue: "Y",
+                            inactiveValue: "N"
+                        }
                     }
                 ]
             }
@@ -814,7 +830,11 @@ export function containerField(fieldName: string) {
                         defaultValue: "Y",
                         required: true,
                         formVisible: true,
-                        listVisible: true
+                        listVisible: true,
+                        preps:{
+                            activeValue: "Y",
+                            inactiveValue: "N"
+                        }
                     }
                 ]
             }
@@ -1124,11 +1144,13 @@ export function relationDataField() {
                 label: "触发事件",
                 fieldName: "actionName",
                 type: "select",
-                optionList: eventList,
                 defaultValue: "change",
                 required: true,
                 formVisible: true,
-                listVisible: true
+                listVisible: true,
+                preps:{
+                    values: eventList,
+                }
             },
             {
                 batchFieldList: [
@@ -1141,7 +1163,6 @@ export function relationDataField() {
                                 label: "控制条件",
                                 fieldName: "controlCondition",
                                 type: "select",
-                                optionList: controlConditionList,
                                 required: true,
                                 changeName: "change",
                                 actions: (val: any) => {
@@ -1156,7 +1177,10 @@ export function relationDataField() {
                                     }
                                 },
                                 formVisible: true,
-                                listVisible: true
+                                listVisible: true,
+                                preps:{
+                                    values: controlConditionList,
+                                }
                             },
                             {
                                 label: "被控制属性",
@@ -1174,12 +1198,14 @@ export function relationDataField() {
                                 label: "匹配条件",
                                 fieldName: "matchType",
                                 type: "select",
-                                optionList: searchMatchList(),
                                 defaultValue: "eq",
                                 required: false,
                                 disabled: "Y",
                                 formVisible: true,
-                                listVisible: true
+                                listVisible: true,
+                                preps:{
+                                    values: searchMatchList(),
+                                }
                             },
                             {
                                 label: "参数",
@@ -1293,7 +1319,6 @@ export function compCommonFields(customerValid: Function): FieldInfo[] {
             fieldName: "rules",
             defaultValue: [],
             type: "select",
-            optionList: validRulesList,
             formVisible: true,
             actionName: "change",
             actions: (val: any) => {
@@ -1302,6 +1327,7 @@ export function compCommonFields(customerValid: Function): FieldInfo[] {
                 }
             },
             preps: {
+                values: validRulesList,
                 multiple: true
             }
         },

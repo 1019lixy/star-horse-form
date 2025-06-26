@@ -12,7 +12,9 @@ const requestMethod = [
 ];
 const searchFormData = reactive<SearchFields>({
   fieldList: [
-    {label: "请求方法", fieldName: "requestMethod", type: "select", optionList: requestMethod},
+    {label: "请求方法", fieldName: "requestMethod", type: "select", preps:{
+        values: requestMethod
+      }},
     {label: "操作人", defaultVisible: true, fieldName: "operator",  matchType: "lk"},
     {label: "访问接口", defaultVisible: true, fieldName: "signature",  matchType: "lk"},
     {label: "访问地址", fieldName: "url",  matchType: "lk"}

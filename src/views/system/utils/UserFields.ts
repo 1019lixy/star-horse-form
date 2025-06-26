@@ -102,11 +102,13 @@ const baseUserFields: Array<any> = [
             label: "所属用户组",
             fieldName: "rolesList",
             type: "select",
-            optionList: rolesList,
             required: true,
             formVisible: true,
-            multiple: "Y",
-            listVisible: true
+            listVisible: true,
+            preps:{
+                multiple: true,
+                values: rolesList,
+            }
         }
     ],
     ...userEditFieldInfo,
@@ -125,9 +127,11 @@ const fullUserField: Array<any> = [
         label: "学历",
         fieldName: "education",
         type: "select",
-        optionList: educationList,
         formVisible: true,
-        listVisible: true
+        listVisible: true,
+        preps:{
+            values: educationList,
+        }
     },
     [
         {
@@ -145,25 +149,31 @@ const fullUserField: Array<any> = [
         label: "籍贯",
         fieldName: "nativePlace",
         type: "select",
-        optionList: nativePlaceList,
         formVisible: true,
-        listVisible: true
+        listVisible: true,
+        preps:{
+            values: nativePlaceList,
+        }
     },
     {
         label: "政治面貌",
         fieldName: "politicalStatus",
         type: "select",
-        optionList: politicalStatusList,
         formVisible: true,
-        listVisible: true
+        listVisible: true,
+        preps:{
+            values: politicalStatusList,
+        }
     },
     {
         label: "证件类型",
         fieldName: "identityType",
         type: "select",
-        optionList: identityTypeList,
         formVisible: true,
-        listVisible: true
+        listVisible: true,
+        preps:{
+            values: identityTypeList,
+        }
     },
     {
         label: "证件编号",
@@ -178,7 +188,9 @@ const fullUserField: Array<any> = [
             fieldName: "statusCode",
             type: "select",
             formVisible: true,
-            optionList: statusList
+            preps:{
+                values: statusList
+            }
         },
         {
             label: "通信地址",

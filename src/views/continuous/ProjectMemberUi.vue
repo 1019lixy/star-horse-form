@@ -95,9 +95,11 @@ const tableFieldList = reactive({
       fieldName: "roleName",
       type: "select",
       required: true,
-      optionList: rolesList,
       formVisible: true,
       listVisible: true,
+      preps:{
+        values: rolesList,
+      }
     },
       {
         label: "是否管理员",

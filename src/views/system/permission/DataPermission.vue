@@ -44,11 +44,11 @@ const searchFormData = reactive<SearchFields>({
       defaultVisible: true,
       fieldName: "permissionType",
       type: "select",
-      preps:{
+      preps: {
         values: permissionType
       }
     },
-    {label: "被授权用户组/人", defaultVisible: true, fieldName: "userGroup",  matchType: "lk"}
+    {label: "被授权用户组/人", defaultVisible: true, fieldName: "userGroup", matchType: "lk"}
   ]
 });
 let groupVisible = ref<boolean>("false");
@@ -72,7 +72,7 @@ const formFieldList = reactive<PageFieldInfo | any>({
         required: true,
         formVisible: true,
         listVisible: true,
-        preps:{
+        preps: {
           values: permissionType,
         }
       },
@@ -85,7 +85,7 @@ const formFieldList = reactive<PageFieldInfo | any>({
         multiple: true,
         listVisible: true,
         preps: {
-          data:menusList,
+          data: menusList,
           props: {
             label: "menuName",
             value: "idMenusinfo"
@@ -101,8 +101,8 @@ const formFieldList = reactive<PageFieldInfo | any>({
       formVisible: groupVisible,
       multiple: true,
       listVisible: true,
-      preps:{
-        data:rolesList
+      preps: {
+        data: rolesList
       }
     },
     {
@@ -112,18 +112,18 @@ const formFieldList = reactive<PageFieldInfo | any>({
       type: "page-select",
       required: true,
       formVisible: userVisible,
-      multiple: "N",
       listVisible: true,
-      params: {
+      preps: {
+        multiple: false,
         primaryKey: "idUsersinfo",
         dataUrl: {
           pageListUrl: "/system-config/system/usersinfoEntity/pageList"
         },
         searchFieldList: {
           fieldList: [
-            {label: "用户名", defaultVisible: true, fieldName: "username",  matchType: "lk"},
-            {label: "姓名", defaultVisible: true, fieldName: "name",  matchType: "lk"},
-            {label: "工号", defaultVisible: true, fieldName: "employeeNo",  matchType: "lk"}
+            {label: "用户名", defaultVisible: true, fieldName: "username", matchType: "lk"},
+            {label: "姓名", defaultVisible: true, fieldName: "name", matchType: "lk"},
+            {label: "工号", defaultVisible: true, fieldName: "employeeNo", matchType: "lk"}
           ]
         },
         dataFormat: (name: string, val: any, row: any) => {
@@ -145,7 +145,7 @@ const formFieldList = reactive<PageFieldInfo | any>({
       multiple: true,
       defaultValue: ["view"],
       listVisible: true,
-      preps:{
+      preps: {
         values: authorityList,
       }
     },

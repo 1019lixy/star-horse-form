@@ -31,7 +31,10 @@ const searchFormData = reactive<SearchFields>({
       values:dbList
       }},
     {label: "被授权人编号", fieldName: "assignNo", defaultVisible: true,  matchType: "lk"},
-    {label: "授权类型 ", fieldName: "assignType", defaultVisible: true, type: "select", optionList: assignType},
+    {label: "授权类型 ", fieldName: "assignType", defaultVisible: true, type: "select",
+      preps:{
+        values: assignType
+      }},
     {label: "经办人", fieldName: "operator", }
   ]
 });
@@ -48,18 +51,19 @@ const tableFieldList = reactive({
       label: "授权数据库",
       fieldName: "dbinfoSingle",
       type: "select",
-      optionList: dbList,
       required: true,
       formVisible: true,
       listVisible: true,
-      editdisabled: true,
+      editDisabled: true,
+      preps:{
+        values: dbList,
+      }
     },
     [
       {
         label: "授权类型",
         fieldName: "assignType",
         type: "select",
-        optionList: assignType,
         required: true,
         formVisible: true,
         editdisabled: true,
@@ -67,7 +71,10 @@ const tableFieldList = reactive({
         actions: (val: any) => {
           searchUserOrRole(val);
         },
-        listVisible: true
+        listVisible: true,
+        preps:{
+          values: assignType,
+        }
       },
       {
         label: "被授权账号/角色",
@@ -77,7 +84,7 @@ const tableFieldList = reactive({
         formVisible: true,
         editdisabled: true,
         // optionList: userOrRoleList,
-        params: params,
+        preps: params,
         listVisible: true
       }
     ],

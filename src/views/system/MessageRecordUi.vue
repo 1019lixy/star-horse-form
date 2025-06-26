@@ -102,7 +102,11 @@ const tableFieldList = reactive<PageFieldInfo | any>({
         },
         required: true,
         formVisible: true,
-        listVisible: true
+        listVisible: true,
+        preps:{
+          activeValue: "Y",
+          inactiveValue: "N"
+        }
       },
       {
         label: "状态",

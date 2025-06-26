@@ -51,7 +51,11 @@ const processField = reactive<PageFieldInfo | any>({
               type: "switch",
               defaultValue: "Y",
               formVisible: true,
-              listVisible: true
+              listVisible: true,
+              preps:{
+                activeValue: "Y",
+                inactiveValue: "N"
+              }
             },
             {
               label: "流程启动人",
@@ -167,7 +171,10 @@ const processField = reactive<PageFieldInfo | any>({
                           listVisible: true,
                           preps: {
                             inactiveText: "全局",
-                            activeText: "当前实例"
+                            activeText: "当前实例",
+                              activeValue: "Y",
+                              inactiveValue: "N"
+
                           }
                         }
                       ]

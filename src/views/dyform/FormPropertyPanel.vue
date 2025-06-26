@@ -362,14 +362,14 @@ const tableFieldList = reactive<PageFieldInfo | any>({
               {
                 label: "隐藏必填字段的红色星号",
                 fieldName: "hideRequiredAsterisk",
-                defaultValue: "N",
+                defaultValue: false,
                 type: "switch",
                 formVisible: true
               },
               {
                 label: "校验失败时，滚动到第一个错误表单项",
                 fieldName: "scrollToError",
-                defaultValue: "Y",
+                defaultValue: true,
                 type: "switch",
                 formVisible: true
               },
@@ -388,21 +388,21 @@ const tableFieldList = reactive<PageFieldInfo | any>({
               {
                 label: "是否在输入框中显示校验结果反馈图标",
                 fieldName: "statusIcon",
-                defaultValue: "N",
+                defaultValue: false,
                 type: "switch",
                 formVisible: true
               },
               {
                 label: "是否显示校验错误信息",
                 fieldName: "showMessage",
-                defaultValue: "Y",
+                defaultValue: true,
                 type: "switch",
                 formVisible: true
               },
               {
                 label: "是否以行内形式展示校验信息",
                 fieldName: "inlineMessage",
-                defaultValue: "Y",
+                defaultValue: true,
                 type: "switch",
                 formVisible: true
               }
@@ -411,7 +411,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
               {
                 label: "是否在 rules 属性改变后立即触发一次验证",
                 fieldName: "validateOnRuleChange",
-                defaultValue: "N",
+                defaultValue: false,
                 type: "switch",
                 formVisible: true
               },
@@ -494,7 +494,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
                       label: "列表显示",
                       fieldName: "listVisible",
                       type: "switch",
-                      defaultValue: "Y",
+                      defaultValue: true,
                       formVisible: true
                     }
                   ]

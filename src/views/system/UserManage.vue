@@ -205,7 +205,9 @@ const tableFieldList = reactive<PageFieldInfo | any>({
             required: false,
             formVisible: true,
             listVisible: true,
-            preps: {
+            preps:{
+              activeValue: "Y",
+              inactiveValue: "N",
               colspan: 1
             }
           }
