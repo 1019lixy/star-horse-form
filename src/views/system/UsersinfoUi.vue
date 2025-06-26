@@ -213,7 +213,7 @@ const pwdFieldInfo = reactive<PageFieldInfo | any>({
       :title="'修改密码'"
       :dialogProps="dialogProps"
       @merge="pwdMerge"
-      @reset="resetForm"
+      @resetForm="resetForm"
   >
     <star-horse-form :compUrl="dataUrl" :fieldList="pwdFieldInfo" ref="pwdFormRef"/>
   </star-horse-dialog>

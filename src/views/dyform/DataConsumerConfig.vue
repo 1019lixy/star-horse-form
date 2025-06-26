@@ -442,7 +442,7 @@ const nodeOperation = (cell: any) => {
       :isBatch="false"
       @merge="conditionValid"
       @closeAction="conditionClose"
-      @reset="resetConditionForm"
+      @resetForm="resetConditionForm"
       :selfFunc="true"
   >
     <star-horse-form
@@ -459,7 +459,7 @@ const nodeOperation = (cell: any) => {
       :isBatch="false"
       @merge="submitValid"
       @closeAction="closeAction"
-      @reset="resetDataSourceForm"
+      @resetForm="resetDataSourceForm"
       :selfFunc="true"
   >
     <star-horse-form

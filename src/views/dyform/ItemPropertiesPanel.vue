@@ -465,7 +465,7 @@ watch(
       :isBatch="false"
       @merge="buttonEventMerge"
       @closeAction="closeAction"
-      @reset="buttonEventReset"
+      @resetForm="buttonEventReset"
       :selfFunc="true"
   >
     <star-horse-form
@@ -481,9 +481,9 @@ watch(
       :isBatch="false"
       @merge="dataRelationMerge"
       @closeAction="closeAction"
-      @reset="dataRelationReset"
-      :selfFunc="true"
-  >
+      @resetForm="dataRelationReset"
+      :selfFunc="true">
+  
     <star-horse-form
         :outerFormData="formProps"
         primary-key=""
@@ -497,7 +497,7 @@ watch(
       :isBatch="false"
       @merge="submitValid"
       @closeAction="closeAction"
-      @reset="resetDataSourceForm"
+      @resetForm="resetDataSourceForm"
       :selfFunc="true"
   >
     <data-source-comp ref="dataSourceFormRef" :formProps="formProps"/>
@@ -508,7 +508,7 @@ watch(
       :isBatch="false"
       @merge="paramsValid"
       @closeAction="closeAction"
-      @reset="resetDataSourceForm"
+      @resetForm="resetDataSourceForm"
       :selfFunc="true"
   >
     <star-horse-form
@@ -523,7 +523,7 @@ watch(
       :isBatch="false"
       @merge="containerAction"
       @closeAction="closeAction"
-      @reset="resetForm"
+      @resetForm="resetForm"
       :selfFunc="true"
   >
     <star-horse-form ref="containerPrepRef" :outerFormData="formInfo" :fieldList="containerField(currentItemType)"/>
@@ -534,7 +534,7 @@ watch(
       :isBatch="false"
       @merge="closeAction"
       @closeAction="closeAction"
-      @reset="closeAction"
+      @resetForm="closeAction"
       :selfFunc="true"
   >
     <el-tabs v-model="codeTab">

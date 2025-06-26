@@ -1,7 +1,7 @@
 <script setup lang="ts" name="FieldAnalysis">
 import {Config} from "@/api/settings";
 import {onMounted, PropType} from "vue";
-
+import {fieldPlaceholder} from "@/views/dyform/utils/ItemPreps";
 const props = defineProps({
   container: {type: String, default: ""},
   field: {type: Object as PropType<any>, required: true},
@@ -61,7 +61,7 @@ onMounted(() => {
         <el-tag>{{ container }}</el-tag>
       </el-col>
       <el-col :span="3">
-        <el-input v-model="field.preps['label']" :size="size" placeholder="标签名称" clearable/>
+        <el-input v-model="field.preps['label']" @input='fieldPlaceholder(field.preps)' :size="size" placeholder="标签名称" clearable/>
       </el-col>
       <el-col :span="3">
         <el-input v-model="field.preps['name']" :size="size" placeholder="属性名称" clearable/>

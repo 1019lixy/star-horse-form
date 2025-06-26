@@ -431,7 +431,7 @@ onMounted(() => {
       :dialog-visible="currentDataVisible"
       :selfFunc="true"
       :userBtn="dynamicBtn()"
-      @reset="dataReset"
+      @resetForm="dataReset"
       @closeAction="tableOperClose"
       @merge="() => tableSubmit(false)"
   >

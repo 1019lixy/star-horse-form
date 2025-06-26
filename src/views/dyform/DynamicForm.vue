@@ -16,7 +16,8 @@ import {
   useGlobalConfigStore,
   useSelfOperationStore,
   warning,
-  itemCheck
+  itemCheck,
+  uuid
 } from "star-horse-lowcode";
 import {useRoute, useRouter} from "vue-router";
 import {validDynamicFormCompParams} from "@/views/dyform/utils/preview";
@@ -570,7 +571,7 @@ let prepsModel = ref("one");
             <div class="w-full h-full overflow-hidden" @contextmenu="contextMenu">
               <el-scrollbar height="100%">
                 <draggable @add="(evt: Event) => onDragAdd(evt, list)" :class="currentPageClass" tag="div"
-                           group="starHorseGroup" ghost-class="ghost" :list="list">
+                           group="starHorseGroup" ghost-class="ghost" :list="list" :itemKey="uuid()">
                   <template #item="{ element: data, index }">
                     <div :class="{ 'comp-item': data.preps?.headerFlag == 'Y' }" :data-field-id="data.id"
                          :key="data.id">

@@ -1,4 +1,4 @@
-import {nextTick, reactive, Ref, ref, unref} from "vue";
+import { nextTick, reactive, Ref, ref, unref } from "vue";
 import {
     dictData,
     error,
@@ -12,8 +12,8 @@ import {
     useDesignFormStore,
     warning
 } from "star-horse-lowcode";
-import {ascOrDesc, dataType, httpMethod, validDataUrl} from "@/api/system";
-import {validRulesList} from "@/api/valid_utils";
+import { ascOrDesc, dataType, httpMethod, validDataUrl } from "@/api/system";
+import { validRulesList } from "@/api/valid_utils";
 import DataSourceComp from "./DataSourceComp.vue";
 
 const designForm = useDesignFormStore(piniaInstance);
@@ -171,7 +171,7 @@ export function createData(dataSourceRef: any, dataList: any, needDynamicData: b
                 errorMsg = "验证失败\n【标签值字段】错误：" + JSON.stringify(keys);
             } else {
                 dataList.forEach((item: any) => {
-                    reDataList.push({name: item[temp["selectLabel"]], value: item[temp["selectValue"]]});
+                    reDataList.push({ name: item[temp["selectLabel"]], value: item[temp["selectValue"]] });
                 });
             }
         } else {
@@ -198,7 +198,7 @@ export const validOperation = async (val: any, dataSourceRef: Ref<any>, fieldLis
                 console.log(temp, keys);
                 fieldList.value = [];
                 for (const ind in keys) {
-                    fieldList.value.push({name: keys[ind], value: keys[ind]});
+                    fieldList.value.push({ name: keys[ind], value: keys[ind] });
                 }
             }
             if (successMsg) {
@@ -226,8 +226,8 @@ export function dataSourceFields(dataSourceRef: Ref<any>, envList: Array<SelectO
 const urlBaseInfo: FieldInfo[] = [
     {
         fieldName: "preinterfaceUrl",
-        
-        
+
+
         defaultValue: "http://",
         preps: {
             colspan: -1
@@ -236,15 +236,15 @@ const urlBaseInfo: FieldInfo[] = [
     {
         label: "接口地址",
         fieldName: "interfaceUrl",
-        
+
         required: true,
         helpMsg: urlReturnDataHelpMsg,
         formVisible: true,
         preps: {
             colspan: 24,
             prependList: [
-                {name: "HTTP://", value: "http://"},
-                {name: "HTTPS://", value: "https://"}
+                { name: "HTTP://", value: "http://" },
+                { name: "HTTPS://", value: "https://" }
             ]
         }
     }
@@ -309,7 +309,7 @@ export function urlFields() {
                 const keys = Object.keys(data);
                 fieldList.value = [];
                 for (const ind in keys) {
-                    fieldList.value.push({name: keys[ind], value: keys[ind]});
+                    fieldList.value.push({ name: keys[ind], value: keys[ind] });
                 }
             },
             required: true,
@@ -320,7 +320,7 @@ export function urlFields() {
         {
             label: "列名",
             fieldName: "fieldName",
-            
+
             formVisible: true
         },
         {
@@ -347,7 +347,7 @@ export function urlFields() {
         {
             label: "目标属性名",
             fieldName: "distField",
-            
+
             formVisible: true
         }
     ];
@@ -364,29 +364,29 @@ export function urlFields() {
                     defaultValue: "N",
                     formVisible: true
                 },
-                    {
-                        label: "参数名",
-                        fieldName: "paramName",
-                        required: true,
-                        
-                        formVisible: true
-                    },
-                    {
-                        label: "匹配方式",
-                        fieldName: "matchType",
-                        type: "select",
-                        defaultValue: "eq",
-                        formVisible: true,
-                        preps: {
-                            values: searchMatchList()
-                        }
-                    },
-                    {
-                        label: "参数值",
-                        fieldName: "paramValue",
-                        type: "textarea",
-                        formVisible: true
-                    },]
+                {
+                    label: "参数名",
+                    fieldName: "paramName",
+                    required: true,
+
+                    formVisible: true
+                },
+                {
+                    label: "匹配方式",
+                    fieldName: "matchType",
+                    type: "select",
+                    defaultValue: "eq",
+                    formVisible: true,
+                    preps: {
+                        values: searchMatchList()
+                    }
+                },
+                {
+                    label: "参数值",
+                    fieldName: "paramValue",
+                    type: "textarea",
+                    formVisible: true
+                },]
             }]
         }
     ];
@@ -480,8 +480,8 @@ export function paramsFields(paramsConfigRef: Ref<any>, fieldName: string, item:
                 listVisible: true,
                 preps: {
                     values: [
-                        {name: "HTTP", value: "http"},
-                        {name: "HTTPS", value: "https"}
+                        { name: "HTTP", value: "http" },
+                        { name: "HTTPS", value: "https" }
                     ]
                 }
             }
@@ -490,7 +490,7 @@ export function paramsFields(paramsConfigRef: Ref<any>, fieldName: string, item:
             {
                 label: "IP/域名/服务名",
                 fieldName: "host",
-                
+
                 required: true,
                 formVisible: true,
                 listVisible: true,
@@ -514,7 +514,7 @@ export function paramsFields(paramsConfigRef: Ref<any>, fieldName: string, item:
         [{
             label: "接口地址",
             fieldName: "interfaceUrl",
-            
+
             required: true,
             helpMsg: urlReturnDataHelpMsg,
             formVisible: true,
@@ -544,7 +544,7 @@ export function paramsFields(paramsConfigRef: Ref<any>, fieldName: string, item:
         {
             label: "列名",
             fieldName: "fieldName",
-            
+
             formVisible: true
         },
         {
@@ -552,7 +552,7 @@ export function paramsFields(paramsConfigRef: Ref<any>, fieldName: string, item:
             fieldName: "ascOrDesc",
             type: "select",
             formVisible: true,
-            preps:{
+            preps: {
                 values: ascOrDesc()
             }
         }
@@ -561,7 +561,7 @@ export function paramsFields(paramsConfigRef: Ref<any>, fieldName: string, item:
         {
             label: "列名",
             fieldName: "label",
-            
+
             formVisible: true
         },
         {
@@ -570,7 +570,7 @@ export function paramsFields(paramsConfigRef: Ref<any>, fieldName: string, item:
             type: "select",
             allowCreate: true,
             formVisible: true,
-            preps:{
+            preps: {
                 values: fieldList,
             }
         },
@@ -588,14 +588,14 @@ export function paramsFields(paramsConfigRef: Ref<any>, fieldName: string, item:
             fieldName: "sourceField",
             type: "select",
             formVisible: true,
-            preps:{
+            preps: {
                 values: fieldList,
             }
         },
         {
             label: "目标属性名",
             fieldName: "distField",
-            
+
             formVisible: true
         }
     ];
@@ -607,7 +607,7 @@ export function paramsFields(paramsConfigRef: Ref<any>, fieldName: string, item:
             otherField.push({
                 label: temp.label,
                 fieldName: temp.fieldName,
-                
+
                 listVisible: true
             });
         }
@@ -623,7 +623,7 @@ export function paramsFields(paramsConfigRef: Ref<any>, fieldName: string, item:
             {
                 label: "数据源",
                 fieldName: "dataSource",
-                
+
                 required: true,
                 defaultValue: "data",
                 formVisible: true,
@@ -692,7 +692,7 @@ export function containerField(fieldName: string) {
                     {
                         label: "Tab名字",
                         fieldName: "label",
-                        
+
                         required: true,
                         formVisible: true,
                         listVisible: true
@@ -702,7 +702,7 @@ export function containerField(fieldName: string) {
                         fieldName: "tabName",
                         helpMsg: `默认作为tab组件的名称，
                 当设置对应关系时,系统作为表的主键`,
-                        
+
                         required: true,
                         formVisible: true,
                         listVisible: true
@@ -710,7 +710,7 @@ export function containerField(fieldName: string) {
                     {
                         label: "对象名字",
                         fieldName: "objectName",
-                        
+
                         required: true,
                         formVisible: true,
                         listVisible: true
@@ -738,7 +738,7 @@ export function containerField(fieldName: string) {
                     {
                         label: "Collapse名字",
                         fieldName: "label",
-                        
+
                         required: true,
                         formVisible: true,
                         listVisible: true
@@ -748,7 +748,7 @@ export function containerField(fieldName: string) {
                         fieldName: "tabName",
                         helpMsg: `默认作为Collapse组件的名称，
                 当设置对应关系时,系统作为表的主键`,
-                        
+
                         required: true,
                         formVisible: true,
                         listVisible: true
@@ -756,7 +756,7 @@ export function containerField(fieldName: string) {
                     {
                         label: "对象名字",
                         fieldName: "objectName",
-                        
+
                         required: true,
                         formVisible: true,
                         listVisible: true
@@ -784,7 +784,7 @@ export function containerField(fieldName: string) {
                     {
                         label: "Card名字",
                         fieldName: "title",
-                        
+
                         required: true,
                         formVisible: true,
                         listVisible: true
@@ -794,7 +794,7 @@ export function containerField(fieldName: string) {
                         fieldName: "tabName",
                         helpMsg: `默认作为Card组件的名称，
                 当设置对应关系时,系统作为表的主键`,
-                        
+
                         required: true,
                         formVisible: true,
                         listVisible: true
@@ -802,7 +802,7 @@ export function containerField(fieldName: string) {
                     {
                         label: "对象名字",
                         fieldName: "objectName",
-                        
+
                         required: true,
                         formVisible: true,
                         listVisible: true
@@ -831,14 +831,14 @@ export function containerField(fieldName: string) {
                     {
                         label: "列",
                         fieldName: "colIndex",
-                        
+
                         required: true,
                         formVisible: true,
                         listVisible: true,
                         batchFieldList: [
                             {
                                 batchName: "columns",
-                                batchDefaultData: {items: []},
+                                batchDefaultData: { items: [] },
                                 fieldList: [
                                     {
                                         label: "列宽",
@@ -883,14 +883,14 @@ export function containerField(fieldName: string) {
                     {
                         label: "列",
                         fieldName: "colIndex",
-                        
+
                         required: true,
                         formVisible: true,
                         listVisible: true,
                         batchFieldList: [
                             {
                                 batchName: "columns",
-                                batchDefaultData: {items: []},
+                                batchDefaultData: { items: [] },
                                 fieldList: [
                                     {
                                         label: "列宽",
@@ -976,8 +976,8 @@ const fieldMap: any = reactive({
                         pageListUrl: "userdb-manage/userdb/dynamicForm/pageList",
                     },
                     needField: [
-                        {sourceField: "formName", distField: "formName"},
-                        {sourceField: "dataNo", distField: "idDynamicForm"}
+                        { sourceField: "formName", distField: "formName" },
+                        { sourceField: "dataNo", distField: "idDynamicForm" }
                     ],
 
                     fieldList: [{
@@ -987,26 +987,26 @@ const fieldMap: any = reactive({
                         formVisible: true,
                         listVisible: true
                     },
-                        {
-                            label: "表名",
-                            fieldName: "tbName",
-                            searchVisible: true,
-                            formVisible: true,
-                            listVisible: true
-                        },
-                        {
-                            label: "主键",
-                            fieldName: "formId",
-                            formVisible: true,
-                            listVisible: true
-                        },
-                        {
-                            label: "数据源",
-                            fieldName: "datasourceConfigId",
-                            type: "select",
-                            formVisible: true,
-                            listVisible: true
-                        }]
+                    {
+                        label: "表名",
+                        fieldName: "tbName",
+                        searchVisible: true,
+                        formVisible: true,
+                        listVisible: true
+                    },
+                    {
+                        label: "主键",
+                        fieldName: "formId",
+                        formVisible: true,
+                        listVisible: true
+                    },
+                    {
+                        label: "数据源",
+                        fieldName: "datasourceConfigId",
+                        type: "select",
+                        formVisible: true,
+                        listVisible: true
+                    }]
                 },
             }
         ]
@@ -1018,7 +1018,7 @@ const fieldMap: any = reactive({
             {
                 label: "组件名称",
                 fieldName: "componentName",
-                
+
                 required: true,
                 formVisible: true,
                 listVisible: true
@@ -1037,7 +1037,7 @@ const fieldMap: any = reactive({
             {
                 label: "函数名称",
                 fieldName: "method",
-                
+
                 required: true,
                 formVisible: true,
                 listVisible: true
@@ -1063,11 +1063,11 @@ let currentField = ref<FieldInfo[]>([fieldMap["form"]]);
 
 export function buttonClickDataField() {
     const eventList: SelectOption[] = [
-        {name: "动态表单", value: "form"},
-        {name: "调用组件", value: "comp"},
-        {name: "调用接口", value: "inter"},
-        {name: "执行函数", value: "method"},
-        {name: "执行代码块", value: "code"},
+        { name: "动态表单", value: "form" },
+        { name: "调用组件", value: "comp" },
+        { name: "调用接口", value: "inter" },
+        { name: "执行函数", value: "method" },
+        { name: "执行代码块", value: "code" },
     ];
     return reactive<PageFieldInfo>({
         fieldList: [
@@ -1086,7 +1086,7 @@ export function buttonClickDataField() {
                         currentField.value = [fieldMap[viewType]];
                     }
                 },
-                preps:{
+                preps: {
                     values: eventList,
                 }
             },
@@ -1103,17 +1103,17 @@ export function buttonClickDataField() {
 export function relationDataField() {
     const fields: SelectOption[] = designForm.loadCompNames();
     const eventList: SelectOption[] = [
-        {name: "Change", value: "change"},
-        {name: "Input", value: "input"}
+        { name: "Change", value: "change" },
+        { name: "Input", value: "input" }
     ];
     const controlConditionList: SelectOption[] = [
-        {name: "数据联动", value: "dataLinkage"},
-        {name: "当前字段的值等于指定值时禁用被关联字段", value: "eqDisable"},
-        {name: "当前字段的值等于指定值时被关联字段禁用否则可编辑", value: "eqDisableOrEditable"},
-        {name: "当前字段的值等于指定值时被关联字段可编辑", value: "eqEditable"},
-        {name: "当前字段的值等于指定值时被关联字段可编辑否则禁用", value: "eqEditableOrDisable"},
-        {name: "当前字段的值等于指定值时时被关联字段赋予新值", value: "assignValue"},
-        {name: "当前字段的值等于指定值时被关联字段改变字段类型", value: "changeType"},
+        { name: "数据联动", value: "dataLinkage" },
+        { name: "当前字段的值等于指定值时禁用被关联字段", value: "eqDisable" },
+        { name: "当前字段的值等于指定值时被关联字段禁用否则可编辑", value: "eqDisableOrEditable" },
+        { name: "当前字段的值等于指定值时被关联字段可编辑", value: "eqEditable" },
+        { name: "当前字段的值等于指定值时被关联字段可编辑否则禁用", value: "eqEditableOrDisable" },
+        { name: "当前字段的值等于指定值时时被关联字段赋予新值", value: "assignValue" },
+        { name: "当前字段的值等于指定值时被关联字段改变字段类型", value: "changeType" },
     ];
     const fieldType = ref<string>("input");
     const fieldLinkVisible = ref<boolean>(false);
@@ -1158,18 +1158,18 @@ export function relationDataField() {
                                 formVisible: true,
                                 listVisible: true
                             },
-                                {
-                                    label: "被控制属性",
-                                    fieldName: "relationFields",
-                                    type: "tselect",
-                                    required: true,
-                                    formVisible: true,
-                                    listVisible: true,
-                                    preps: {
-                                        data: fields,
-                                        checkStrictly: "Y"
-                                    }
-                                }],
+                            {
+                                label: "被控制属性",
+                                fieldName: "relationFields",
+                                type: "tselect",
+                                required: true,
+                                formVisible: true,
+                                listVisible: true,
+                                preps: {
+                                    data: fields,
+                                    checkStrictly: "Y"
+                                }
+                            }],
                             [{
                                 label: "匹配条件",
                                 fieldName: "matchType",
@@ -1181,15 +1181,15 @@ export function relationDataField() {
                                 formVisible: true,
                                 listVisible: true
                             },
-                                {
-                                    label: "参数",
-                                    fieldName: "params",
-                                    type: fieldType,
-                                    required: false,
-                                    helpMsg: "1、如果是作为查询条件，则填写参数名称；\n2、如果是等于某个值，则填写具体的值；",
-                                    formVisible: true,
-                                    listVisible: true
-                                }],
+                            {
+                                label: "参数",
+                                fieldName: "params",
+                                type: fieldType,
+                                required: false,
+                                helpMsg: "1、如果是作为查询条件，则填写参数名称；\n2、如果是等于某个值，则填写具体的值；",
+                                formVisible: true,
+                                listVisible: true
+                            }],
                             {
                                 type: "divider",
                                 formVisible: fieldLinkVisible,
@@ -1215,6 +1215,46 @@ export function relationDataField() {
     });
 }
 
+
+
+
+const inputType = ["input", "textarea", "password", "number", "view-markdown", "json", "json-array"];
+const selectType = ["select", "tselect", "cascader", "autocomplete", "area", "cron", "transfer", "dialog-input", "page-select"];
+
+/**
+ * 给组件添加placeholder属性
+ * @param item
+ * @param itemType
+ */
+export function fieldPlaceholder(item: any) {
+    let preps: any = unref(designForm.currentComp);
+    let itemType: string = preps.itemType;
+    if (item['noPlaceholder']) {
+        delete item['placeholder'];
+        delete item['startPlaceholder'];
+        delete item['endPlaceholder'];
+        delete item['minPlaceholder'];
+        delete item['maxPlaceholder'];
+        return;
+    }
+    if (inputType.includes(itemType)) {
+        item['placeholder'] = "请输入" + item.label;
+    } else if (selectType.includes(itemType)) {
+        item['placeholder'] = "请选择" + item.label;
+    }
+    if (itemType == 'datetime') {
+        if (preps?.preps?.type?.includes("range")) {
+            item['startPlaceholder'] = "请选择开始日期";
+            item['endPlaceholder'] = "请选择结束日期";
+        } else {
+            item['placeholder'] = "请选择" + item.label;
+        }
+    } else if (itemType == "number-range") {
+        item['minPlaceholder'] = "请输入最小值";
+        item['maxPlaceholder'] = "请输入最大值";
+    }
+}
+
 const listPrototypeVisible = ref<boolean>(false);
 
 /**
@@ -1225,15 +1265,18 @@ export function compCommonFields(customerValid: Function): FieldInfo[] {
         {
             label: "标签名称",
             fieldName: "label",
-            
             required: true,
-            formVisible: true
+            formVisible: true,
+            actionName: "input",
+            actions: (val: any) => {
+                fieldPlaceholder(val);
+            }
         },
         {
             label: "属性名称",
             fieldName: "name",
             required: true,
-            
+
             formVisible: true
         },
 
@@ -1362,7 +1405,7 @@ export function compCommonFields(customerValid: Function): FieldInfo[] {
             label: "组件值",
             helpMsg: "可指定显示为什么组件",
             fieldName: "listPrototypeDisplay",
-            
+
             defaultValue: false,
             formVisible: listPrototypeVisible
         },
