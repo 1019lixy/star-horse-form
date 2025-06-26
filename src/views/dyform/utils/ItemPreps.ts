@@ -1267,7 +1267,7 @@ export function compCommonFields(customerValid: Function): FieldInfo[] {
             fieldName: "label",
             required: true,
             formVisible: true,
-            actionName: "input",
+            actionName: "blur",
             actions: (val: any) => {
                 fieldPlaceholder(val);
             }
