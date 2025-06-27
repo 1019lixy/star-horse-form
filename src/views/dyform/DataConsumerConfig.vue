@@ -426,7 +426,7 @@ const nodeOperation = (cell: any) => {
       :title="'数据预览'"
       @closeAction="closeAction"
       :isBatch="false"
-      :isView="true"
+      :source="3"
   >
     <DataPreview
         :compSize="compSize"

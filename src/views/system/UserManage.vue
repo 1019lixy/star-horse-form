@@ -1,6 +1,6 @@
 <script setup lang="ts" name="UserManage">
-import {Config} from "@/api/settings";
-import {computed, onActivated, onDeactivated, onMounted, provide, reactive, ref} from "vue";
+import { Config } from "@/api/settings";
+import { computed, onActivated, onDeactivated, onMounted, provide, reactive, ref } from "vue";
 import {
   apiInstance,
   ApiUrls,
@@ -14,15 +14,15 @@ import {
   SelectOption,
   warning
 } from "star-horse-lowcode";
-import {getCustomerParam} from "@/utils/auth";
-import {TreeNodeData} from "element-plus/es/components/tree-v2/src/types";
+import { getCustomerParam } from "@/utils/auth";
+import { TreeNodeData } from "element-plus/es/components/tree-v2/src/types";
 //后端交互接口地址
 const dataUrl: ApiUrls = apiInstance("system-config", "system/employeeInfo");
 const props = defineProps({
-  showButton: {type: Boolean, default: true},
-  cellEditable: {type: Boolean, default: true},
-  dialogInput: {type: Boolean, default: false},
-  multipleSelect: {type: Boolean, default: false}
+  showButton: { type: Boolean, default: true },
+  cellEditable: { type: Boolean, default: true },
+  dialogInput: { type: Boolean, default: false },
+  multipleSelect: { type: Boolean, default: false }
 });
 //主键
 const primaryKey = "idEmployeeInfo";
@@ -57,8 +57,8 @@ const searchFormData = reactive<SearchFields>({
       fieldName: "a.rank",
       defaultVisible: false,
       type: "tselect",
-      preps:{
-        data:rankList
+      preps: {
+        data: rankList
       }
     },
     {
@@ -66,8 +66,8 @@ const searchFormData = reactive<SearchFields>({
       fieldName: "a.station",
       defaultVisible: false,
       type: "tselect",
-      preps:{
-        data:stationList
+      preps: {
+        data: stationList
       }
     }
   ]
@@ -130,7 +130,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
             formVisible: true,
             listVisible: true,
             preps: {
-              data:rankList,
+              data: rankList,
               showCode: "Y"
             }
           },
@@ -142,7 +142,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
             formVisible: true,
             listVisible: true,
             preps: {
-              data:stationList,
+              data: stationList,
               showCode: "Y"
             }
           }
@@ -155,13 +155,14 @@ const tableFieldList = reactive<PageFieldInfo | any>({
             required: true,
             formVisible: true,
             listVisible: true,
-            actionName: "change",
-            actions: (val: any) => {
-              loadDepartByCompId(val);
+            actions: {
+              change: (val: any) => {
+                loadDepartByCompId(val);
+              }
             },
             preps: {
-              data:companyDataList,
-              checkStrictly: "Y"
+              data: companyDataList,
+              checkStrictly: true
             }
           },
           {
@@ -172,8 +173,8 @@ const tableFieldList = reactive<PageFieldInfo | any>({
             formVisible: true,
             listVisible: true,
             preps: {
-              data:departDataList,
-              checkStrictly: "Y"
+              data: departDataList,
+              checkStrictly: true
             }
           }
         ],
@@ -205,7 +206,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
             required: false,
             formVisible: true,
             listVisible: true,
-            preps:{
+            preps: {
               activeValue: "Y",
               inactiveValue: "N",
               colspan: 1
@@ -420,53 +421,29 @@ const testChange = (val: any) => {
 </script>
 <template>
   <star-horse-dialog :isShowBtnContinue="true" :dialog-visible="dialogProps?.editVisible" :dialogProps="dialogProps">
-    <star-horse-form
-        @refresh="employeeInfoRef?.loadByPage()"
-        :compUrl="dataUrl"
-        :fieldList="tableFieldList"
-        :rules="rules"
-    />
+    <star-horse-form @refresh="employeeInfoRef?.loadByPage()" :compUrl="dataUrl" :fieldList="tableFieldList"
+      :rules="rules" />
   </star-horse-dialog>
-  <star-horse-dialog
-      :dialog-visible="dialogProps?.viewVisible"
-      :dialogProps="dialogProps"
-      :title="'查看数据'"
-      :isView="true"
-  >
-    <star-horse-data-view :dataFormat="dataFormat" :field-list="tableFieldList" :compUrl="dataUrl"/>
+  <star-horse-dialog :dialog-visible="dialogProps?.viewVisible" :dialogProps="dialogProps" :source="3">
+    <star-horse-data-view :dataFormat="dataFormat" :field-list="tableFieldList" :compUrl="dataUrl" />
   </star-horse-dialog>
   <el-card class="inner_content">
     <el-splitter>
       <el-splitter-panel collapsible size="240" min="100" max="500">
-        <star-horse-tree
-            v-model:tree-datas="companyList"
-            :expand="true"
-            treeTitle="组织机构"
-            @selectData="companyChange"
-        />
+        <star-horse-tree v-model:tree-datas="companyList" :expand="true" treeTitle="组织机构" @selectData="companyChange" />
       </el-splitter-panel>
       <el-splitter-panel>
 
         <el-card class="inner_content ">
           <div class="search-content">
-            <div class="search_btn" :style="{ 'flex-direction': Config.buttonStyle.value == 'line'? 'column' : 'row' }">
-              <star-horse-search-comp
-                  @searchData="(data: any) => employeeInfoRef?.createSearchParams(data)"
-                  :formData="searchFormData"
-                  :compUrl="dataUrl"
-              />
+            <div class="search_btn" :style="{ 'flex-direction': Config.buttonStyle.value == 'line' ? 'column' : 'row' }">
+              <star-horse-search-comp @searchData="(data: any) => employeeInfoRef?.createSearchParams(data)"
+                :formData="searchFormData" :compUrl="dataUrl" />
             </div>
           </div>
-          <star-horse-table-comp
-              ref="employeeInfoRef"
-              :fieldList="tableFieldList"
-              :primaryKey="primaryKey"
-              :compUrl="dataUrl"
-              :dialogInput="dialogInput"
-              :multipleSelect="multipleSelect"
-              :disableAction="!showButton"
-              :dataFormat="dataFormat"
-          />
+          <star-horse-table-comp ref="employeeInfoRef" :fieldList="tableFieldList" :primaryKey="primaryKey"
+            :compUrl="dataUrl" :dialogInput="dialogInput" :multipleSelect="multipleSelect" :disableAction="!showButton"
+            :dataFormat="dataFormat" />
         </el-card>
       </el-splitter-panel>
     </el-splitter>

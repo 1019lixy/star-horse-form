@@ -157,7 +157,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
             listVisible: true,
 
             preps: {
-              checkStrictly: "Y"
+              checkStrictly: true
             }
           },
           {
@@ -168,7 +168,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
             formVisible: true,
             listVisible: true,
             preps: {
-              checkStrictly: "Y"
+              checkStrictly: true
             }
           }
         ],
@@ -379,8 +379,8 @@ onDeactivated(() => {
   <star-horse-dialog
       :dialog-visible="dialogProps?.viewVisible"
       :dialogProps="dialogProps"
-      :title="'查看数据'"
-      :isView="true"
+      
+      :source="3"
   >
     <star-horse-data-view :dataFormat="dataFormat" :field-list="tableFieldList" :compUrl="dataUrl"/>
   </star-horse-dialog>

@@ -120,7 +120,7 @@ const handleClose = () => {
 
 </script>
 <template>
-  <star-horse-dialog :selfFunc="true" :isView="true" :dialogVisible="dialogVisible" title="超时登录"
+  <star-horse-dialog :selfFunc="true" :source="3" :dialogVisible="dialogVisible" title="超时登录"
                      :box-width="'400px'"
                      :hideFullScreenIcon="true"
                      @closeAction="handleClose">

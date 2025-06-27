@@ -84,7 +84,7 @@ const formFieldList = reactive<PageFieldInfo>({
       helpMsg: "选择子节点时，一定要先选中父节点，否则在头部应用菜单栏无法显示",
       preps: {
         data: informationsList,
-        checkStrictly: "Y"
+        checkStrictly: true
       }
     },
     {
@@ -182,8 +182,8 @@ onMounted(async () => {
   <star-horse-dialog
       :dialog-visible="dialogProps.viewVisible"
       :dialogProps="dialogProps"
-      :title="'查看数据'"
-      :is-view="true"
+      
+      :source="3"
   >
     <star-horse-data-view :data-format="dataFormat" :field-list="tableFieldList" :compUrl="dataUrl"/>
   </star-horse-dialog>

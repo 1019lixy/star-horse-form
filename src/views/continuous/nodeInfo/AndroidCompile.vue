@@ -1,6 +1,6 @@
 <script setup lang="ts" name="AndroidCompile">
-import {onMounted, reactive, ref} from "vue";
-import {FieldInfo, loadData, PageFieldInfo, SelectOption, warning} from "star-horse-lowcode";
+import { onMounted, reactive, ref } from "vue";
+import { FieldInfo, loadData, PageFieldInfo, SelectOption, warning } from "star-horse-lowcode";
 
 const buildCfgRef = ref();
 const toolInfoRef = ref();
@@ -37,7 +37,7 @@ const fieldList = reactive<PageFieldInfo | any>({
                 required: true,
                 formVisible: true,
                 listVisible: true,
-                preps:{
+                preps: {
                   values: execTypeList,
                 }
               }
@@ -47,10 +47,11 @@ const fieldList = reactive<PageFieldInfo | any>({
                 label: "节点成功条件",
                 fieldName: "nodeSuccessCondition",
                 type: "radio",
-                actionName: "change",
-                actions: (val: any) => {
-                  console.log(val);
-                  assignSelect.value = val["nodeSuccessCondition"] == "assign";
+                actions: {
+                  change: (val: any) => {
+                    console.log(val);
+                    assignSelect.value = val["nodeSuccessCondition"] == "assign";
+                  }
                 },
                 required: true,
                 formVisible: true,
@@ -87,10 +88,11 @@ const fieldList = reactive<PageFieldInfo | any>({
                       label: "添加子节点",
                       type: "button",
                       fieldName: "subNodeBtn",
-                      actionName: "click",
-                      actions: (val: any) => {
-                        if (val["starHorseBtnName"] == "subNodeBtn") {
-                          addSubNode();
+                      actions: {
+                        click: (val: any) => {
+                          if (val["starHorseBtnName"] == "subNodeBtn") {
+                            addSubNode();
+                          }
                         }
                       },
                       preps: {
@@ -167,11 +169,11 @@ const init = async () => {
     ]
   });
   repoList.value = (await loadData("/continuous-manage/continuous/baseInfo/repoTypes")).data;
-  execTypeList.value.push({name: "并行", value: "serial"});
-  execTypeList.value.push({name: "串行", value: "parallel"});
-  nodeSuccessConditionList.value.push({name: "成功完成所有子任务", value: "all"});
-  nodeSuccessConditionList.value.push({name: "成功完成任意子任务", value: "any"});
-  nodeSuccessConditionList.value.push({name: "成功完成指定子任务", value: "assign"});
+  execTypeList.value.push({ name: "并行", value: "serial" });
+  execTypeList.value.push({ name: "串行", value: "parallel" });
+  nodeSuccessConditionList.value.push({ name: "成功完成所有子任务", value: "all" });
+  nodeSuccessConditionList.value.push({ name: "成功完成任意子任务", value: "any" });
+  nodeSuccessConditionList.value.push({ name: "成功完成指定子任务", value: "assign" });
 };
 onMounted(async () => {
   await init();
@@ -183,18 +185,11 @@ defineExpose({
 </script>
 
 <template>
-  <star-horse-dialog
-      :title="'节点列表'"
-      :dialogVisible="nodeDialog"
-      :self-func="true"
-      @closeAction="closeAction"
-      @merge="dataSubmit"
-      :is-batch="false"
-      :is-show-btn-continue="false"
-  >
-    <ToolInfo ref="toolInfoRef"/>
+  <star-horse-dialog :title="'节点列表'" :dialogVisible="nodeDialog" :self-func="true" @closeAction="closeAction"
+    @merge="dataSubmit" :is-batch="false" :is-show-btn-continue="false">
+    <ToolInfo ref="toolInfoRef" />
   </star-horse-dialog>
-  <star-horse-form ref="buildCfgRef" class="build-cfg" :fieldList="fieldList"/>
+  <star-horse-form ref="buildCfgRef" class="build-cfg" :fieldList="fieldList" />
 </template>
 
 <style scoped lang="scss">

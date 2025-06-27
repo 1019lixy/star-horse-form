@@ -1,5 +1,5 @@
 <script setup lang="ts" name="FormPropertyPanel">
-import {computed, onMounted, onUpdated, reactive, ref, watch} from "vue";
+import { computed, onMounted, onUpdated, reactive, ref, watch } from "vue";
 import {
   apiInstance,
   ApiUrls,
@@ -13,10 +13,10 @@ import {
   SelectOption,
   useDesignFormStore
 } from "star-horse-lowcode";
-import {Config} from "@/api/settings";
-import {loadDict, permissionMenus} from "@/api/star_horse_apis";
-import {dbConfigList, loadSvgIcons, loadSystemInfo,loadElementPlusIcon,} from "@/api/star_horse_utils";
-import {ascOrDesc, commonField, httpMethod} from "@/api/system";
+import { Config } from "@/api/settings";
+import { loadDict, permissionMenus } from "@/api/star_horse_apis";
+import { dbConfigList, loadSvgIcons, loadSystemInfo, loadElementPlusIcon, } from "@/api/star_horse_utils";
+import { ascOrDesc, commonField, httpMethod } from "@/api/system";
 
 const apiUrl: ApiUrls = apiInstance("userdb-manage", "userdb/dynamicForm");
 let designForm = useDesignFormStore(piniaInstance);
@@ -26,36 +26,36 @@ let dbList = ref<any>([]);
 let systemIconList = ref<SelectOption[]>([]);
 let relationDataList = ref<Array<SelectOption>>([]);
 let relationTypeList = ref<Array<SelectOption>>([
-  {name: "一对一", value: "11"},
-  {name: "一对多", value: "1n"},
-  {name: "多对一", value: "n1"},
-  {name: "多对多", value: "mn"}
+  { name: "一对一", value: "11" },
+  { name: "一对多", value: "1n" },
+  { name: "多对一", value: "n1" },
+  { name: "多对多", value: "mn" }
 ]);
 let dataSourceData = ref<any>();
 let primaryKeyPolicyList = ref<SelectOption[]>([
-  {name: "自增", value: "auto"},
-  {name: "动态赋值", value: "manual"},
-  {name: "序列", value: "sequence"}
+  { name: "自增", value: "auto" },
+  { name: "动态赋值", value: "manual" },
+  { name: "序列", value: "sequence" }
 ]);
 let pageStyleList = ref<SelectOption[]>([]);
 let requireAsteriskPositionList = ref<SelectOption[]>([
-  {name: "左", value: "left"},
-  {name: "右", value: "right"}
+  { name: "左", value: "left" },
+  { name: "右", value: "right" }
 ]);
 let labelPositionList = ref<SelectOption[]>([
-  {name: "左", value: "left"},
-  {name: "右", value: "right"},
-  {name: "顶部", value: "top"}
+  { name: "左", value: "left" },
+  { name: "右", value: "right" },
+  { name: "顶部", value: "top" }
 ]);
 let formSizeList = ref<SelectOption[]>([
-  {name: "大", value: "large"},
-  {name: "中", value: "default"},
-  {name: "小", value: "small"}
+  { name: "大", value: "large" },
+  { name: "中", value: "default" },
+  { name: "小", value: "small" }
 ]);
 let dataLoadConditionList = ref<SelectOption[]>([
-  {name: "创建人", value: "createdBy"},
-  {name: "租户", value: "tenantId"},
-  {name: "ID", value: "id"}
+  { name: "创建人", value: "createdBy" },
+  { name: "租户", value: "tenantId" },
+  { name: "ID", value: "id" }
 ]);
 let dynamicFieldList = ref<SelectOption[]>([]);
 let mainTableFieldList = ref<SelectOption[]>([]);
@@ -98,16 +98,17 @@ let httpMethodVisible = ref<boolean>(false);
 const tableFieldList = reactive<PageFieldInfo | any>({
   fieldList: [
     [
-      {label: "表单名称", fieldName: "formName",  required: true, formVisible: true},
+      { label: "表单名称", fieldName: "formName", required: true, formVisible: true },
       {
         label: "数据源",
         fieldName: "datasourceConfigId",
         helpMsg: dbPositionMsg,
         type: "select",
-        actionName: "change",
-        actions: (val: any) => {
-          if (val["datasourceConfigId"]) {
-            loadSameDataSourceTables(val);
+        actions: {
+          change: (val: any) => {
+            if (val["datasourceConfigId"]) {
+              loadSameDataSourceTables(val);
+            }
           }
         },
         required: true,
@@ -163,7 +164,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
               formVisible: true,
               editdisabled: true,
               preps: {
-                values:primaryKeyPolicyList,
+                values: primaryKeyPolicyList,
                 colspan: 8
               }
             }],
@@ -171,9 +172,10 @@ const tableFieldList = reactive<PageFieldInfo | any>({
               label: "所属系统",
               fieldName: "sysId",
               type: "tselect",
-              actionName: "change",
-              actions: (val: any) => {
-                loadMenus(val["sysId"]);
+              actions: {
+                change: (val: any) => {
+                  loadMenus(val["sysId"]);
+                }
               },
               formVisible: true,
               required: true,
@@ -189,7 +191,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
               formVisible: true,
               preps: {
                 colspan: 8,
-                iconType:"user",
+                iconType: "user",
                 values: loadSvgIcons()
               }
             }],
@@ -206,28 +208,29 @@ const tableFieldList = reactive<PageFieldInfo | any>({
                   colspan: 8
                 }
               }, {
-              label: "级联删除",
-              helpMsg: "页面字段删除时同步删除数据库对应表字段",
-              fieldName: "deleteCascade",
-              type: "switch",
-              defaultValue: "Y",
-              formVisible: true,
-              preps: {
-                colspan: 8,
-                activeValue: "Y",
-                inactiveValue: "N"
-              }
-            },],
+                label: "级联删除",
+                helpMsg: "页面字段删除时同步删除数据库对应表字段",
+                fieldName: "deleteCascade",
+                type: "switch",
+                defaultValue: "Y",
+                formVisible: true,
+                preps: {
+                  colspan: 8,
+                  activeValue: "Y",
+                  inactiveValue: "N"
+                }
+              },],
 
             [
               {
                 label: "创建菜单",
                 fieldName: "createMenu",
                 type: "switch",
-                actionName: "change",
-                actions: (val: any) => {
-                  loadMenus(val["sysId"]);
-                  menuFlag.value = val["createMenu"] == "Y";
+                actions: {
+                  change: (val: any) => {
+                    loadMenus(val["sysId"]);
+                    menuFlag.value = val["createMenu"] == "Y";
+                  }
                 },
                 defaultValue: "N",
                 formVisible: true,
@@ -259,9 +262,10 @@ const tableFieldList = reactive<PageFieldInfo | any>({
               fieldName: "pageStyle",
               type: "select",
               formVisible: true,
-              actionName: "change",
-              actions: (val: any) => {
-                conditionFlag.value = val["pageStyle"] == "form";
+              actions: {
+                change: (val: any) => {
+                  conditionFlag.value = val["pageStyle"] == "form";
+                }
               },
               preps: {
                 colspan: 6,
@@ -331,11 +335,11 @@ const tableFieldList = reactive<PageFieldInfo | any>({
                 defaultValue: "left",
                 type: "select",
                 formVisible: true,
-                preps:{
+                preps: {
                   values: labelPositionList,
                 }
               },
-              {label: "标签长度", fieldName: "labelWidth", helpMsg: "如：50px",  formVisible: true},
+              { label: "标签长度", fieldName: "labelWidth", helpMsg: "如：50px", formVisible: true },
               {
                 label: "表单验证规则名称",
                 fieldName: "rules",
@@ -355,8 +359,8 @@ const tableFieldList = reactive<PageFieldInfo | any>({
                   values: formSizeList
                 }
               },
-              {label: "表单域标签的后缀", fieldName: "labelSuffix",  formVisible: true},
-              {label: "禁用所有组件", fieldName: "disabled", defaultValue: false, type: "switch", formVisible: true}
+              { label: "表单域标签的后缀", fieldName: "labelSuffix", formVisible: true },
+              { label: "禁用所有组件", fieldName: "disabled", defaultValue: false, type: "switch", formVisible: true }
             ],
             [
               {
@@ -415,7 +419,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
                 type: "switch",
                 formVisible: true
               },
-              {label: "行内表单模式", fieldName: "inline", defaultValue: true, type: "switch", formVisible: true}
+              { label: "行内表单模式", fieldName: "inline", defaultValue: true, type: "switch", formVisible: true }
             ]
           ]
         },
@@ -431,14 +435,14 @@ const tableFieldList = reactive<PageFieldInfo | any>({
                 type: "switch",
                 defaultValue: "Y",
                 formVisible: true,
-                actionName: "change",
-                actions: (val: any) => {
-                  if (val["needCommonFields"] == "Y") {
-                    orderByFieldList.value = allTableFieldList.value;
-                  } else {
-                    orderByFieldList.value = mainTableFieldList.value;
+                actions: {
+                  change: (val: any) => {
+                    if (val["needCommonFields"] == "Y") {
+                      orderByFieldList.value = allTableFieldList.value;
+                    } else {
+                      orderByFieldList.value = mainTableFieldList.value;
+                    }
                   }
-
                 },
                 preps: {
                   activeValue: "Y",
@@ -469,7 +473,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
                       required: true,
                       formVisible: true,
                       preps: {
-                        values:commonField(),
+                        values: commonField(),
                         props: {
                           label: "label",
                           value: "fieldName"
@@ -529,7 +533,6 @@ const tableFieldList = reactive<PageFieldInfo | any>({
                   fieldName: "mappingTable",
                   type: "select",
                   formVisible: true,
-                  actionName: "change",
                   required: true,
                   preps: {
                     values: dataSourceData,
@@ -538,8 +541,10 @@ const tableFieldList = reactive<PageFieldInfo | any>({
                       value: "tbName"
                     }
                   },
-                  actions: (val: any) => {
-                    loadTableColumns(val["mappingTable"]);
+                  actions: {
+                    change: (val: any) => {
+                      loadTableColumns(val["mappingTable"]);
+                    }
                   }
                 },
                 {
@@ -548,7 +553,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
                   type: "select",
                   required: true,
                   formVisible: true,
-                  preps:{
+                  preps: {
                     values: tableColumnsList,
                   }
                 },
@@ -559,7 +564,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
                   required: true,
 
                   formVisible: true,
-                  preps:{
+                  preps: {
                     values: tableColumnsList,
                   }
                 },
@@ -593,7 +598,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
               initRows: 0,
               fieldList: [
                 [
-                  {label: "事件名称", fieldName: "eventName",  formVisible: true, required: true},
+                  { label: "事件名称", fieldName: "eventName", formVisible: true, required: true },
                   {
                     label: "图标",
                     fieldName: "icon",
@@ -602,7 +607,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
                     required: true,
                     preps: {
                       iconType: "user",
-                      values:loadSvgIcons()
+                      values: loadSvgIcons()
                     }
                   }
                 ],
@@ -613,7 +618,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
                     type: "select",
                     required: true,
                     formVisible: true,
-                    preps:{
+                    preps: {
                       values: authorityList,
                     }
                   },
@@ -623,10 +628,11 @@ const tableFieldList = reactive<PageFieldInfo | any>({
                     type: "select",
                     required: true,
                     formVisible: true,
-                    actionName: "change",
-                    actions: (val: any) => {
-                      urlFieldVisible.value = val["eventType"] && val["eventType"] != "dialog";
-                      httpMethodVisible.value = val["eventType"] && val["eventType"] == "interface";
+                    actions: {
+                      change: (val: any) => {
+                        urlFieldVisible.value = val["eventType"] && val["eventType"] != "dialog";
+                        httpMethodVisible.value = val["eventType"] && val["eventType"] == "interface";
+                      }
                     },
                     preps: {
                       values: eventTypeList,
@@ -638,7 +644,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
                     label: "请求地址",
                     fieldName: "content",
                     helpMsg:
-                        "请求接口：填写接口地址， 例如：/userdb-manage/xx/xx/xx;\n页面跳转：填写前端路由，例如：/test/UserInfo;\n弹窗：填写弹窗组件名称，例如：UserInfo。",
+                      "请求接口：填写接口地址， 例如：/userdb-manage/xx/xx/xx;\n页面跳转：填写前端路由，例如：/test/UserInfo;\n弹窗：填写弹窗组件名称，例如：UserInfo。",
                     required: true,
                     formVisible: true,
                     preps: {
@@ -694,7 +700,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
                   type: "select",
 
                   formVisible: true,
-                  preps:{
+                  preps: {
                     values: ascOrDesc(),
                   }
                 },
@@ -717,16 +723,16 @@ const initDbList = async () => {
   dbList.value = await dbConfigList();
 };
 const initData = async () => {
-  let params = [{propertyName: "statusCode", value: "1"}];
+  let params = [{ propertyName: "statusCode", value: "1" }];
   informationsList.value = await loadSystemInfo(params);
   systemIconList.value = loadElementPlusIcon();
-  loadDict("page_style").then((res:any) => {
+  loadDict("page_style").then((res: any) => {
     pageStyleList.value = res;
   });
-  loadDict("button_authority").then((res:any) => {
+  loadDict("button_authority").then((res: any) => {
     authorityList.value = res;
   });
-  loadDict("event_type").then((res:any) => {
+  loadDict("event_type").then((res: any) => {
     eventTypeList.value = res;
   });
 };
@@ -749,8 +755,8 @@ const analysisMainFields = async () => {
   }
   mainTableFieldList.value = reData.data;
   orderByFieldList.value = reData.data;
-  allTableFieldList.value = [...mainTableFieldList.value, ...commonField().map((item:any) => {
-    return {name: item.label, value: item.fieldName};
+  allTableFieldList.value = [...mainTableFieldList.value, ...commonField().map((item: any) => {
+    return { name: item.label, value: item.fieldName };
   })];
   if (formInfo.value?.needCommonFields == "Y") {
     orderByFieldList.value = allTableFieldList.value;
@@ -763,11 +769,11 @@ const loadSameDataSourceTables = (formInfo: any) => {
   formInfo["relations"] = [];
   currentDataSourceId.value = formInfo["datasourceConfigId"];
   params.push(
-      createCondition(
-          "datasourceConfigId",
-          formInfo["datasourceConfigId"] || null,
-          formInfo["datasourceConfigId"] ? "eq" : "is"
-      )
+    createCondition(
+      "datasourceConfigId",
+      formInfo["datasourceConfigId"] || null,
+      formInfo["datasourceConfigId"] ? "eq" : "is"
+    )
   );
   postRequest(apiUrl.listConditionUrl!, {
     fieldList: params
@@ -799,18 +805,18 @@ const loadTableColumns = (tbName: any) => {
   }
   tableColumnsList.value = [];
   getRequest(`/userdb-manage/dbsearch/dbinfoEntity/tableColumns/${currentDataSourceId.value}/${tbName}`).then(
-      (res: any) => {
-        if (res.data.code != 0) {
-          return;
-        }
-        let resData = res.data.data;
-        resData.forEach((item: any) => {
-          tableColumnsList.value.push({
-            name: item.comment,
-            value: item.fieldName
-          });
-        });
+    (res: any) => {
+      if (res.data.code != 0) {
+        return;
       }
+      let resData = res.data.data;
+      resData.forEach((item: any) => {
+        tableColumnsList.value.push({
+          name: item.comment,
+          value: item.fieldName
+        });
+      });
+    }
   );
 };
 /**
@@ -828,18 +834,18 @@ onMounted(() => {
   analysisMainFields();
 });
 onUpdated(() => {
- console.info("onUpdated");
+  console.info("onUpdated");
 });
 
 watch(
-    () => formInfo.value,
-    () => {
-      updateCompInfo();
-    },
-    {
-      immediate: true,
-      deep: true
-    }
+  () => formInfo.value,
+  () => {
+    updateCompInfo();
+  },
+  {
+    immediate: true,
+    deep: true
+  }
 );
 defineExpose({
   loadMenus,
@@ -853,10 +859,6 @@ defineExpose({
 }
 </style>
 <template>
-  <star-horse-form
-      label-position="right"
-      :outerFormData="formInfo"
-      :fieldList="tableFieldList"
-      ref="dynamicFormItemRef"
-  />
+  <star-horse-form label-position="right" :outerFormData="formInfo" :fieldList="tableFieldList"
+    ref="dynamicFormItemRef" />
 </template>

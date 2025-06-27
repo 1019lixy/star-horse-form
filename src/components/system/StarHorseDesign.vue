@@ -737,7 +737,7 @@ defineExpose({
       :title="'JSON'"
       @closeAction="closeAction"
       :isBatch="false"
-      :isView="true"
+      :source="3"
   >
     <star-horse-editor :value="jsonData" :lang="'json'"/>
   </star-horse-dialog>
@@ -844,7 +844,7 @@ defineExpose({
           <star-horse-form
               v-model:data-form="dataForm"
               v-if="checkIsNode() == 1"
-              :isView="readonly"
+              :source="readonly?3:1"
               ref="rightAttrPanel"
               @refresh="() => {}"
               :compUrl="compUrl"
@@ -854,7 +854,7 @@ defineExpose({
           <star-horse-form
               v-model:data-form="dataForm"
               v-else-if="checkIsNode() == 2"
-              :isView="readonly"
+              :source="readonly?3:1"
               ref="rightAttrPanel"
               @refresh="() => {}"
               :compUrl="compUrl"

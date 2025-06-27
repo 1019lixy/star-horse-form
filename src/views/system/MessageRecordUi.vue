@@ -7,10 +7,10 @@ import {
   SearchFields,
   SelectOption
 } from "star-horse-lowcode";
-import {loadDict} from "@/api/star_horse_apis";
-import {Config} from "@/api/settings";
-import {onActivated, onDeactivated, onMounted, provide, reactive, ref} from "vue";
-import {getCustomerParam} from "@/utils/auth";
+import { loadDict } from "@/api/star_horse_apis";
+import { Config } from "@/api/settings";
+import { onActivated, onDeactivated, onMounted, provide, reactive, ref } from "vue";
+import { getCustomerParam } from "@/utils/auth";
 //后端交互接口地址
 const dataUrl: ApiUrls = apiInstance("system-config", "system/messageRecord");
 //主键
@@ -29,7 +29,7 @@ const searchFormData = reactive<SearchFields>({
       fieldName: "category",
       defaultVisible: true,
       type: "select",
-      preps:{
+      preps: {
         values: categoryList,
       }
     },
@@ -38,7 +38,7 @@ const searchFormData = reactive<SearchFields>({
       fieldName: "type",
       defaultVisible: true,
       type: "select",
-      preps:{
+      preps: {
         values: typeList,
       }
     },
@@ -65,7 +65,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
         required: true,
         formVisible: true,
         listVisible: true,
-        preps:{
+        preps: {
           values: categoryList,
         }
       },
@@ -76,7 +76,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
         required: true,
         formVisible: true,
         listVisible: true,
-        preps:{
+        preps: {
           values: typeList,
         }
       }
@@ -96,14 +96,15 @@ const tableFieldList = reactive<PageFieldInfo | any>({
         fieldName: "commonFlag",
         type: "switch",
         defaultValue: "Y",
-        actionName: "change",
-        actions: (val: any) => {
-          personsVisible.value = val["commonFlag"] == "N";
+        actions: {
+          change: (val: any) => {
+            personsVisible.value = val["commonFlag"] == "N";
+          }
         },
         required: true,
         formVisible: true,
         listVisible: true,
-        preps:{
+        preps: {
           activeValue: "Y",
           inactiveValue: "N"
         }
@@ -115,7 +116,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
         required: false,
         formVisible: true,
         listVisible: !true,
-        preps:{
+        preps: {
           values: statusList,
         }
       }
@@ -287,40 +288,22 @@ onDeactivated(() => {
 </script>
 <template>
   <star-horse-dialog :isShowBtnContinue="true" :dialog-visible="dialogProps.editVisible" :dialogProps="dialogProps">
-    <star-horse-form
-        @refresh="messageRecordRef?.loadByPage()"
-        :compUrl="dataUrl"
-        :fieldList="tableFieldList"
-        :rules="rules"
-    />
+    <star-horse-form @refresh="messageRecordRef?.loadByPage()" :compUrl="dataUrl" :fieldList="tableFieldList"
+      :rules="rules" />
   </star-horse-dialog>
-  <star-horse-dialog
-      :dialog-visible="dialogProps.viewVisible"
-      :dialogProps="dialogProps"
-      :title="'查看数据'"
-      :isView="true"
-  >
-    <star-horse-data-view :dataFormat="dataFormat" :field-list="tableFieldList" :compUrl="dataUrl"/>
+  <star-horse-dialog :dialog-visible="dialogProps.viewVisible" :dialogProps="dialogProps" :source="3">
+    <star-horse-data-view :dataFormat="dataFormat" :field-list="tableFieldList" :compUrl="dataUrl" />
   </star-horse-dialog>
   <div class="search-content">
-    <div class="search_btn" :style="{ 'flex-direction': Config.buttonStyle.value == 'line'? 'column' : 'row' }">
-      <star-horse-search-comp
-          @searchData="(data: any) => messageRecordRef?.createSearchParams(data)"
-          :formData="searchFormData"
-          :compUrl="dataUrl"
-      />
+    <div class="search_btn" :style="{ 'flex-direction': Config.buttonStyle.value == 'line' ? 'column' : 'row' }">
+      <star-horse-search-comp @searchData="(data: any) => messageRecordRef?.createSearchParams(data)"
+        :formData="searchFormData" :compUrl="dataUrl" />
     </div>
   </div>
   <el-card class="inner_content">
-    <star-horse-table-comp
-        ref="messageRecordRef"
-        :fieldList="tableFieldList"
-        :primaryKey="primaryKey"
-        :compUrl="dataUrl"
-        :dataFormat="dataFormat"
-    />
+    <star-horse-table-comp ref="messageRecordRef" :fieldList="tableFieldList" :primaryKey="primaryKey"
+      :compUrl="dataUrl" :dataFormat="dataFormat" />
   </el-card>
 </template>
 <style lang="scss" scoped>
-//todo
-</style>
+//todo</style>

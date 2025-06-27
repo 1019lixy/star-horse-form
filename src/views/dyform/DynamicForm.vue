@@ -487,7 +487,7 @@ onMounted(async () => {
 let prepsModel = ref("one");
 </script>
 <template>
-  <star-horse-dialog :dialogVisible="codeDialogVisible" @closeAction="closeAction" :selfFunc="true" :isView="true"
+  <star-horse-dialog :dialogVisible="codeDialogVisible" @closeAction="closeAction" :selfFunc="true" :source="3"
                      :full-screen="true" :compSize="compSize" @merge="codeDoSave" :title="'代码'">
     <code-comp/>
   </star-horse-dialog>
@@ -512,7 +512,7 @@ let prepsModel = ref("one");
     </el-tabs>
   </star-horse-dialog>
   <star-horse-dialog :dialogVisible="isPreview" @closeAction="closeAction" :selfFunc="true" :compSize="compSize"
-                     :title="'表单预览'" :is-view="true">
+                     :title="'表单预览'" :source="3">
     <form-preview :list="list"/>
   </star-horse-dialog>
   <el-card class="inner_content my-0 mx-[5px]">

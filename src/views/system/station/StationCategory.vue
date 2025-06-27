@@ -264,8 +264,8 @@ onDeactivated(() => {
   <star-horse-dialog
       :dialog-visible="dialogProps.viewVisible"
       :dialogProps="dialogProps"
-      :isView="true"
-      :title="'查看数据'"
+      :source="3"
+      
   >
     <star-horse-data-view :compUrl="dataUrl" :dataFormat="dataFormat" :field-list="tableFieldList"/>
   </star-horse-dialog>

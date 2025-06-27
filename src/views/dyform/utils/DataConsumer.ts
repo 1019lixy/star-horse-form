@@ -1,5 +1,5 @@
-import {reactive, Ref, ref} from "vue";
-import {PageFieldInfo, searchMatchList, SelectOption} from "star-horse-lowcode";
+import { reactive, Ref, ref } from "vue";
+import { PageFieldInfo, searchMatchList, SelectOption } from "star-horse-lowcode";
 
 const tableVisible = ref<boolean>(true);
 const relationRequired = ref<boolean>(false);
@@ -152,7 +152,7 @@ export function viewFieldInfo(
                 {
                     label: "视图名称",
                     fieldName: "viewName",
-                    
+
                     required: true,
                     formVisible: true
                 },
@@ -195,7 +195,7 @@ export function viewFieldInfo(
                     type: "switch",
                     formVisible: true,
                     defaultValue: "N",
-                    preps:{
+                    preps: {
                         activeValue: "Y",
                         inactiveValue: "N"
                     }
@@ -206,7 +206,7 @@ export function viewFieldInfo(
                     type: "switch",
                     formVisible: true,
                     defaultValue: "N",
-                    preps:{
+                    preps: {
                         activeValue: "Y",
                         inactiveValue: "N"
                     }
@@ -220,7 +220,7 @@ export function viewFieldInfo(
                     formVisible: true,
                     defaultValue: "N",
                     helpMsg: "如果指定返回字段，该设置失效",
-                    preps:{
+                    preps: {
                         activeValue: "Y",
                         inactiveValue: "N"
                     }
@@ -231,7 +231,7 @@ export function viewFieldInfo(
                     type: "switch",
                     formVisible: true,
                     defaultValue: "N",
-                    preps:{
+                    preps: {
                         activeValue: "Y",
                         inactiveValue: "N"
                     }
@@ -244,11 +244,12 @@ export function viewFieldInfo(
                     type: "switch",
                     formVisible: true,
                     defaultValue: "N",
-                    actionName: "change",
-                    actions: (val: any) => {
-                        sortTableVisible.value = val["dataSortType"] == "Y";
+                    actions: {
+                        change: (val: any) => {
+                            sortTableVisible.value = val["dataSortType"] == "Y";
+                        }
                     },
-                    preps:{
+                    preps: {
                         activeValue: "Y",
                         inactiveValue: "N"
                     }
@@ -259,11 +260,12 @@ export function viewFieldInfo(
                     type: "switch",
                     formVisible: true,
                     defaultValue: "N",
-                    actionName: "change",
-                    actions: (val: any) => {
-                        limitFieldVisible.value = val["limitFieldType"] == "Y";
+                    actions: {
+                        change: (val: any) => {
+                            limitFieldVisible.value = val["limitFieldType"] == "Y";
+                        }
                     },
-                    preps:{
+                    preps: {
                         activeValue: "Y",
                         inactiveValue: "N"
                     }
@@ -286,10 +288,11 @@ export function viewFieldInfo(
                                 label: "表名",
                                 fieldName: "tableName",
                                 type: "select",
-                                actionName: "change",
-                                actions: (val: any) => {
-                                    val["fieldNameOptionList"] = lineDatas[val["tableName"]];
-                                    console.log(val);
+                                actions: {
+                                    change: (val: any) => {
+                                        val["fieldNameOptionList"] = lineDatas[val["tableName"]];
+                                        console.log(val);
+                                    }
                                 },
                                 formVisible: true,
                                 preps: {
@@ -319,14 +322,15 @@ export function viewFieldInfo(
                                 label: "表名",
                                 fieldName: "tableName",
                                 type: "select",
-                                actionName: "change",
-                                actions: (val: any) => {
-                                    val["fieldNameOptionList"] = lineDatas[val["tableName"]];
-                                    val["exclusionFieldNameOptionList"] = lineDatas[val["tableName"]];
-                                    console.log(val);
+                                actions: {
+                                    change: (val: any) => {
+                                        val["fieldNameOptionList"] = lineDatas[val["tableName"]];
+                                        val["exclusionFieldNameOptionList"] = lineDatas[val["tableName"]];
+                                        console.log(val);
+                                    }
                                 },
                                 formVisible: true,
-                                preps:{
+                                preps: {
                                     values: tableList,
                                 }
                             },
@@ -374,7 +378,7 @@ export function relationFieldInfo(datas: any) {
     });
     console.log(datas);
     lineDatas[datas.to] = [];
-    datas.toData?.items?.forEach((item:any) => {
+    datas.toData?.items?.forEach((item: any) => {
         lineDatas[datas.to].push({
             name: item.comment || item.fieldName,
             value: item.fieldName
@@ -425,10 +429,16 @@ export function relationFieldInfo(datas: any) {
                 type: "switch",
                 formVisible: true,
                 defaultValue: "N",
-                actionName: "change",
-                actions: (val: any) => {
-                    tableVisible.value = val["condition"] == "N";
-                    relationRequired.value = val["condition"] == "Y";
+                actions: {
+                    change: (val: any) => {
+                        tableVisible.value = val["condition"] == "N";
+                        relationRequired.value = val["condition"] == "Y";
+                    }
+                },
+                preps: {
+                    activeValue: "Y",
+                    inactiveValue: "N"
+
                 }
             },
             {
@@ -442,14 +452,15 @@ export function relationFieldInfo(datas: any) {
                                 label: "表名",
                                 fieldName: "tableName",
                                 type: "select",
-                                actionName: "change",
-                                actions: (val: any) => {
-                                    fieldNameList.value = lineDatas[val["tableName"]];
-                                    console.log(val, fieldNameList.value);
+                                actions: {
+                                    change: (val: any) => {
+                                        fieldNameList.value = lineDatas[val["tableName"]];
+                                        console.log(val, fieldNameList.value);
+                                    }
                                 },
                                 required: relationRequired,
                                 formVisible: true,
-                                preps:{
+                                preps: {
                                     values: tableList,
                                 }
                             },
@@ -459,7 +470,7 @@ export function relationFieldInfo(datas: any) {
                                 type: "select",
                                 required: relationRequired,
                                 formVisible: true,
-                                preps:{
+                                preps: {
                                     values: fieldNameList,
                                 }
                             },
@@ -476,7 +487,7 @@ export function relationFieldInfo(datas: any) {
                             {
                                 label: "匹配值",
                                 fieldName: "matchValue",
-                                
+
                                 required: relationRequired,
                                 formVisible: true
                             }

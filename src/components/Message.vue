@@ -194,8 +194,7 @@ defineProps({
   <star-horse-dialog
     :dialog-visible="dialogProps.viewVisible"
     :dialogProps="dialogProps"
-    :title="'查看数据'"
-    :isView="true"
+    :source="3"
     :selfFunc="true"
     @closeAction="close"
   >

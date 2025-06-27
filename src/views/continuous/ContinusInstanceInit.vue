@@ -72,11 +72,10 @@ let nodeField = ref<PageFieldInfo>({
         type: "radio",
         optionList: nodeSuccessConditionList,
         defaultValue: "any",
-        actionName: "change",
-        actions: (val: any) => {
+        actions: {change:(val: any) => {
           console.log(val);
           assignSelect.value = val["nodeSuccessCondition"] == "assign";
-        },
+        }},
         required: true,
         formVisible: true,
         listVisible: true,

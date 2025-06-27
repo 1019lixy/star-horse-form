@@ -45,7 +45,7 @@ onMounted(() => {
 <star-horse-dialog :isShowBtnContinue="true" :dialogVisible="dialogProps.editVisible" :dialogProps="dialogProps">
     <star-horse-form  @refresh="${convertToCamelCase(props.formInfo.tbName)}Ref?.loadByPage()" :compUrl="dataUrl" :fieldList="tableFieldList" :rules="rules"\/>
   <\/star-horse-dialog>
-  <star-horse-dialog :dialog-visible="dialogProps.viewVisible" :dialogProps="dialogProps" :title="'查看数据'" :is-view="true">
+  <star-horse-dialog :dialog-visible="dialogProps.viewVisible" :dialogProps="dialogProps"  :source="3">
     <star-horse-data-view :dataFormat="dataFormat" :field-list="tableFieldList" :compUrl="dataUrl"\/>
   <\/star-horse-dialog>
   <el-card class="inner_content">

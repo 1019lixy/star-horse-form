@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import {computed, nextTick, onActivated, onDeactivated, onMounted, provide, reactive, ref} from "vue";
-import {Config} from "@/api/settings";
+import { computed, nextTick, onActivated, onDeactivated, onMounted, provide, reactive, ref } from "vue";
+import { Config } from "@/api/settings";
 import {
   apiInstance,
   ApiUrls,
@@ -15,8 +15,8 @@ import {
   SelectOption,
   useGlobalConfigStore
 } from "star-horse-lowcode";
-import {loadDict} from "@/api/star_horse_apis";
-import {loadMenusInfo, loadSystemInfo} from "@/api/star_horse_utils";
+import { loadDict } from "@/api/star_horse_apis";
+import { loadMenusInfo, loadSystemInfo } from "@/api/star_horse_utils";
 
 defineOptions({
   name: "TenantInfo"
@@ -39,7 +39,7 @@ const formFields = reactive<object>({});
 provide("formFields", formFields);
 //查询属性
 const searchFormData = reactive<SearchFields>({
-  fieldList: [{label: "菜单名称", fieldName: "menuName", matchType: "lk", defaultVisible: true}]
+  fieldList: [{ label: "菜单名称", fieldName: "menuName", matchType: "lk", defaultVisible: true }]
 });
 const tableFieldList = reactive<PageFieldInfo | any>({
   fieldList: [
@@ -61,10 +61,10 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       listVisible: true,
       preps: {}
     },
-    {label: "创建人", fieldName: "createdBy",  listVisible: true, preps: {}, commonFlag: "Y"},
-    {label: "创建时间", fieldName: "createdTime", type: "datetime", listVisible: true, preps: {}, commonFlag: "Y"},
-    {label: "修改人", fieldName: "updatedBy",   preps: {}, commonFlag: "Y"},
-    {label: "修改时间", fieldName: "updatedTime", type: "datetime", preps: {}, commonFlag: "Y"}
+    { label: "创建人", fieldName: "createdBy", listVisible: true, preps: {}, commonFlag: "Y" },
+    { label: "创建时间", fieldName: "createdTime", type: "datetime", listVisible: true, preps: {}, commonFlag: "Y" },
+    { label: "修改人", fieldName: "updatedBy", preps: {}, commonFlag: "Y" },
+    { label: "修改时间", fieldName: "updatedTime", type: "datetime", preps: {}, commonFlag: "Y" }
   ],
   batchFieldList: [],
   userTableFuncs: [],
@@ -89,8 +89,8 @@ const formFieldList = reactive<PageFieldInfo>({
       multiple: true,
       helpMsg: "选择子节点时，一定要先选中父节点，否则在头部应用菜单栏无法显示",
       preps: {
-        data:informationsList,
-        checkStrictly: "Y"
+        data: informationsList,
+        checkStrictly: true
       }
     }
   ]
@@ -107,8 +107,8 @@ const menuformFieldList = reactive<PageFieldInfo>({
       required: true,
       viewVisible: false,
       disabled: true,
-      preps:{
-        data:informationsList
+      preps: {
+        data: informationsList
       }
     },
     {
@@ -119,11 +119,12 @@ const menuformFieldList = reactive<PageFieldInfo>({
       formVisible: true,
       required: false,
       viewVisible: false,
-      actionName: "change",
-      actions: (val: any) => {
-        menuRequired.value = val["allMenu"] == "N";
+      actions: {
+        change: (val: any) => {
+          menuRequired.value = val["allMenu"] == "N";
+        }
       },
-      preps:{
+      preps: {
         activeValue: "Y",
         inactiveValue: "N"
       }
@@ -137,14 +138,15 @@ const menuformFieldList = reactive<PageFieldInfo>({
       viewVisible: false,
       multiple: true,
       helpMsg: "选择子节点时，一定要先选中父节点，否则左侧菜单栏无法显示",
-      actionName: "change",
-      actions: (val: any) => {
-        if (val["menuList"]) {
-          val["allMenu"] = "N";
+      actions: {
+        change: (val: any) => {
+          if (val["menuList"]) {
+            val["allMenu"] = "N";
+          }
         }
       },
       preps: {
-        data:menusList,
+        data: menusList,
         checkStrictly: true,
         props: {
           label: "menuName",
@@ -268,111 +270,50 @@ onDeactivated(() => {
 });
 </script>
 <template>
-  <star-horse-dialog
-      title="添加应用"
-      boxWidth="40%"
-      :dialog-visible="dialogProps.editVisible"
-      :dialogProps="dialogProps"
-  >
-    <star-horse-form
-        @refresh="dataChange(outerData)"
-        :outerFormData="outerData"
-        @dataLoaded="dataLoaded"
-        :compUrl="tenantAppDataUrl"
-        :fieldList="formFieldList"
-        ref="tenantInfoFormRef"
-        :primaryKey="'idTenantAppMenusinfo'"
-        :rules="rules"
-    />
+  <star-horse-dialog title="添加应用" boxWidth="40%" :dialog-visible="dialogProps.editVisible" :dialogProps="dialogProps">
+    <star-horse-form @refresh="dataChange(outerData)" :outerFormData="outerData" @dataLoaded="dataLoaded"
+      :compUrl="tenantAppDataUrl" :fieldList="formFieldList" ref="tenantInfoFormRef"
+      :primaryKey="'idTenantAppMenusinfo'" :rules="rules" />
   </star-horse-dialog>
-  <star-horse-dialog
-      boxWidth="40%"
-      :dialog-visible="dialogProps.bakeVisible1"
-      :dialogProps="dialogProps"
-      :title="'添加菜单'"
-  >
-    <star-horse-form
-        @refresh="menuAddedRefresh"
-        :outerFormData="outerData"
-        @dataLoaded="dataLoaded"
-        :compUrl="tenantAppMenuDataUrl"
-        :fieldList="menuformFieldList"
-        :primaryKey="'idTenantAppMenusinfo'"
-        ref="tenantMenuInfoFormRef"
-        :rules="rules"
-    />
+  <star-horse-dialog boxWidth="40%" :dialog-visible="dialogProps.bakeVisible1" :dialogProps="dialogProps"
+    :title="'添加菜单'">
+    <star-horse-form @refresh="menuAddedRefresh" :outerFormData="outerData" @dataLoaded="dataLoaded"
+      :compUrl="tenantAppMenuDataUrl" :fieldList="menuformFieldList" :primaryKey="'idTenantAppMenusinfo'"
+      ref="tenantMenuInfoFormRef" :rules="rules" />
   </star-horse-dialog>
   <el-card class="inner_content">
     <el-splitter>
       <el-splitter-panel collapsible size="240" min="100" max="500">
-        <star-horse-tree
-            v-model:tree-datas="dynamicFormList"
-            ref="starHorseTreeRef"
-            :expand="true"
-            treeTitle="租户列表"
-            @selectData="dataChange"
-            @addData="addData"
-            btnTitle="添加应用"
-            :btnVisible="true"
-            :showDropdown="false"
-            :preps="{
+        <star-horse-tree v-model:tree-datas="dynamicFormList" ref="starHorseTreeRef" :expand="true" treeTitle="租户列表"
+          @selectData="dataChange" @addData="addData" btnTitle="添加应用" :btnVisible="true" :showDropdown="false" :preps="{
             label: 'tenantName',
             value: primaryKey
-          }"
-            :showPageBar="true"
-            :isDynamicData="true"
-            :autoLoad="true"
-            :compUrl="dataUrl"
-            :compSize="compSize"
-        />
+          }" :showPageBar="true" :isDynamicData="true" :autoLoad="true" :compUrl="dataUrl" :compSize="compSize" />
       </el-splitter-panel>
       <el-splitter-panel>
         <el-card class="inner_content h100">
           <el-splitter>
             <el-splitter-panel collapsible size="220" min="100" max="400">
-              <star-horse-tree
-                  ref="tenantAppTreeRef"
-                  :expand="true"
-                  treeTitle="应用列表"
-                  @selectData="appDataChange"
-                  @addData="addMenuData"
-                  @removeData="removeAppData"
-                  btnTitle="添加菜单"
-                  :btnVisible="true"
-                  rmvTitle="删除应用"
-                  :rmvVisible="true"
-                  :showDropdown="false"
-                  :preps="{
+              <star-horse-tree ref="tenantAppTreeRef" :expand="true" treeTitle="应用列表" @selectData="appDataChange"
+                @addData="addMenuData" @removeData="removeAppData" btnTitle="添加菜单" :btnVisible="true" rmvTitle="删除应用"
+                :rmvVisible="true" :showDropdown="false" :preps="{
                   label: 'appName',
                   value: 'idInformations'
-                }"
-                  :showPageBar="true"
-                  :isDynamicData="true"
-                  :autoLoad="false"
-                  :compUrl="tenantAppDataUrl"
-                  :compSize="compSize"
-              />
+                }" :showPageBar="true" :isDynamicData="true" :autoLoad="false" :compUrl="tenantAppDataUrl"
+                :compSize="compSize" />
             </el-splitter-panel>
             <el-splitter-panel>
               <el-card class="inner_content">
                 <div class="search-content">
                   <div class="search_btn"
-                       :style="{ 'flex-direction': Config.buttonStyle.value == 'line'? 'column' : 'row' }">
-                    <star-horse-search-comp
-                        @searchData="(data: any) => tenantAppMenusinfoRef?.createSearchParams(data)"
-                        :formData="searchFormData"
-                        :compUrl="dataUrl"
-                    />
+                    :style="{ 'flex-direction': Config.buttonStyle.value == 'line' ? 'column' : 'row' }">
+                    <star-horse-search-comp @searchData="(data: any) => tenantAppMenusinfoRef?.createSearchParams(data)"
+                      :formData="searchFormData" :compUrl="dataUrl" />
                   </div>
                 </div>
-                <star-horse-table-comp
-                    ref="tenantAppMenusinfoRef"
-                    :fieldList="tableFieldList"
-                    :primaryKey="'idTenantAppMenusinfo'"
-                    :compUrl="tenantAppMenuDataUrl"
-                    :dataFormat="dataFormat"
-                    :hideButtonList="true"
-                />
+                <star-horse-table-comp ref="tenantAppMenusinfoRef" :fieldList="tableFieldList"
+                  :primaryKey="'idTenantAppMenusinfo'" :compUrl="tenantAppMenuDataUrl" :dataFormat="dataFormat"
+                  :hideButtonList="true" />
               </el-card>
             </el-splitter-panel>
           </el-splitter>
@@ -382,5 +323,4 @@ onDeactivated(() => {
   </el-card>
 </template>
 <style lang="scss" scoped>
-//todo
-</style>
+//todo</style>

@@ -239,7 +239,7 @@ const dataFormat = (name: string, cellValue: any, _row: any): any => {
       @closeAction="closeAction"
       :box-width="'70%'"
       :isBatch="false"
-      :isView="true"
+      :source="3"
   >
     <ViewPage :param="currentRow.dataNo" :isPreview="true"/>
   </star-horse-dialog>
@@ -254,8 +254,8 @@ const dataFormat = (name: string, cellValue: any, _row: any): any => {
   <star-horse-dialog
       :dialog-visible="dialogProps.viewVisible"
       :dialogProps="dialogProps"
-      :title="'查看数据'"
-      :isView="true"
+      
+      :source="3"
   >
     <star-horse-data-view :dataFormat="dataFormat" :field-list="tableFieldList" :compUrl="dataUrl"/>
   </star-horse-dialog>

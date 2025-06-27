@@ -72,11 +72,10 @@ const dataSourceField = reactive<PageFieldInfo | any>({
         formVisible: true,
         listVisible: true,
         defaultValue: "data",
-        actionName: "change",
-        actions: (val: any) => {
+        actions:{change: (val: any) => {
           const type = val["dataSource"];
           innerFunc(type);
-        },
+        }},
         preps: {
           values: dataSourceList,
           radioType: "button"

@@ -1,5 +1,5 @@
 <script setup lang="ts" name="DbAssign">
-import {onMounted, provide, reactive, ref} from "vue";
+import { onMounted, provide, reactive, ref } from "vue";
 import {
   apiInstance,
   ApiUrls,
@@ -12,11 +12,11 @@ import {
   SelectOption,
   warning
 } from "star-horse-lowcode";
-import {Config} from "@/api/settings";
+import { Config } from "@/api/settings";
 
 const assignType = ref<SelectOption[]>([
-  {name: "按用户授权", value: 1},
-  {name: "按角色授权", value: 2}
+  { name: "按用户授权", value: 1 },
+  { name: "按角色授权", value: 2 }
 ]);
 const assignTypeRef = ref(null);
 let userOrRoleList = ref<SelectOption[]>([]);
@@ -26,19 +26,23 @@ const dataUrl: ApiUrls = apiInstance("userdb-manage", "dbsearch/dbAssign");
 
 const searchFormData = reactive<SearchFields>({
   fieldList: [
-    {label: "授权数据库", fieldName: "dbinfoSingle", defaultVisible: true, type: "select",
-      preps:{
-      values:dbList
-      }},
-    {label: "被授权人编号", fieldName: "assignNo", defaultVisible: true,  matchType: "lk"},
-    {label: "授权类型 ", fieldName: "assignType", defaultVisible: true, type: "select",
-      preps:{
+    {
+      label: "授权数据库", fieldName: "dbinfoSingle", defaultVisible: true, type: "select",
+      preps: {
+        values: dbList
+      }
+    },
+    { label: "被授权人编号", fieldName: "assignNo", defaultVisible: true, matchType: "lk" },
+    {
+      label: "授权类型 ", fieldName: "assignType", defaultVisible: true, type: "select",
+      preps: {
         values: assignType
-      }},
-    {label: "经办人", fieldName: "operator", }
+      }
+    },
+    { label: "经办人", fieldName: "operator", }
   ]
 });
-let params = ref<CompParams>({dataUrl: {}, fieldList: [], needField: [], primaryKey: ""});
+let params = ref<CompParams>({ dataUrl: {}, fieldList: [], needField: [], primaryKey: "" });
 const tableFieldList = reactive({
   fieldList: [
     {
@@ -55,7 +59,7 @@ const tableFieldList = reactive({
       formVisible: true,
       listVisible: true,
       editDisabled: true,
-      preps:{
+      preps: {
         values: dbList,
       }
     },
@@ -67,12 +71,13 @@ const tableFieldList = reactive({
         required: true,
         formVisible: true,
         editdisabled: true,
-        actionName: "change",
-        actions: (val: any) => {
-          searchUserOrRole(val);
+        actions: {
+          change: (val: any) => {
+            searchUserOrRole(val);
+          }
         },
         listVisible: true,
-        preps:{
+        preps: {
           values: assignType,
         }
       },
@@ -200,8 +205,8 @@ const searchUserOrRole = (val: any) => {
     return;
   }
   params.value.condition = [
-    {propertyName: "isDel", value: 0},
-    {propertyName: "statusCode", value: "1"}
+    { propertyName: "isDel", value: 0 },
+    { propertyName: "statusCode", value: "1" }
   ];
   if (type == 1) {
     params.value.fieldList = [
@@ -224,7 +229,7 @@ const searchUserOrRole = (val: any) => {
         listVisible: true
       }
     ];
-    params.value.needField = [{sourceField: "username", distField: "assignTo"}];
+    params.value.needField = [{ sourceField: "username", distField: "assignTo" }];
     params.value.dataUrl = {
       pageListUrl: "/system-config/system/usersinfoEntity/pageList"
     };
@@ -250,7 +255,7 @@ const searchUserOrRole = (val: any) => {
         listVisible: true
       }
     ];
-    params.value.needField = [{sourceField: "roleCode", distField: "assignTo"}];
+    params.value.needField = [{ sourceField: "roleCode", distField: "assignTo" }];
     params.value.dataUrl = {
       pageListUrl: "/system-config/system/rolesinfoEntity/pageList"
     };
@@ -259,16 +264,16 @@ const searchUserOrRole = (val: any) => {
 };
 const initDbList = async () => {
   let params = [
-    {propertyName: "isDel", value: 0},
-    {propertyName: "statusCode", value: "1"}
+    { propertyName: "isDel", value: 0 },
+    { propertyName: "statusCode", value: "1" }
   ];
-  let {data, error} = await loadData("/userdb-manage/dbsearch/dbinfoEntity/getAllByCondition", params);
+  let { data, error } = await loadData("/userdb-manage/dbsearch/dbinfoEntity/getAllByCondition", params);
   if (error) {
     warning(error);
     return;
   }
   data.forEach((item: any) => {
-    dbList.value.push({name: item.dbType + ":" + item.host + "/" + item.dbName, value: item.dataNo});
+    dbList.value.push({ name: item.dbType + ":" + item.host + "/" + item.dbName, value: item.dataNo });
   });
 };
 const dataFormat = (name: string, cellValue: object, row: any): any => {
@@ -293,42 +298,21 @@ onMounted(() => {
 <style lang="scss" scoped></style>
 <template>
   <star-horse-dialog :isShowBtnContinue="true" :dialogVisible="dialogProps.editVisible" :dialogProps="dialogProps">
-    <star-horse-form
-        @refresh="grantPermissionRef?.loadByPage()"
-        :compUrl="dataUrl"
-        :fieldList="tableFieldList"
-        :rules="rules"
-    />
+    <star-horse-form @refresh="grantPermissionRef?.loadByPage()" :compUrl="dataUrl" :fieldList="tableFieldList"
+      :rules="rules" />
   </star-horse-dialog>
-  <star-horse-dialog
-      :dialog-visible="dialogProps.viewVisible"
-      :dialogProps="dialogProps"
-      :title="'查看数据'"
-      :is-view="true"
-  >
-    <star-horse-data-view :dataFormat="dataFormat" :field-list="tableFieldList" :compUrl="dataUrl"/>
+  <star-horse-dialog :dialog-visible="dialogProps.viewVisible" :dialogProps="dialogProps" :source="3">
+    <star-horse-data-view :dataFormat="dataFormat" :field-list="tableFieldList" :compUrl="dataUrl" />
   </star-horse-dialog>
   <el-card class="inner_content">
     <div class="search_btn" :style="{ 'flex-direction': Config.buttonStyle.value == 'line' ? 'column' : 'row' }">
-      <star-horse-search-comp
-          @searchData="(data: any) => grantPermissionRef?.createSearchParams(data)"
-          :formData="searchFormData"
-          :compUrl="dataUrl"
-      />
-      <hr/>
-      <star-horse-button-list
-          @tableCompFunc="(fun: any) => grantPermissionRef.tableCompFunc(fun)"
-          :compUrl="dataUrl"
-          :dialogProps="dialogProps"
-          :showType="Config.buttonStyle"
-      />
+      <star-horse-search-comp @searchData="(data: any) => grantPermissionRef?.createSearchParams(data)"
+        :formData="searchFormData" :compUrl="dataUrl" />
+      <hr />
+      <star-horse-button-list @tableCompFunc="(fun: any) => grantPermissionRef.tableCompFunc(fun)" :compUrl="dataUrl"
+        :dialogProps="dialogProps" :showType="Config.buttonStyle" />
     </div>
-    <star-horse-table-comp
-        ref="grantPermissionRef"
-        :fieldList="tableFieldList"
-        :primaryKey="primaryKey"
-        :compUrl="dataUrl"
-        :dataFormat="dataFormat"
-    />
+    <star-horse-table-comp ref="grantPermissionRef" :fieldList="tableFieldList" :primaryKey="primaryKey"
+      :compUrl="dataUrl" :dataFormat="dataFormat" />
   </el-card>
 </template>

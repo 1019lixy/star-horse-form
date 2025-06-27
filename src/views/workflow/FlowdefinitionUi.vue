@@ -95,8 +95,8 @@ onMounted(async () => {
   <star-horse-dialog
       :dialog-visible="dialogProps.viewVisible"
       :dialogProps="dialogProps"
-      :title="'查看数据'"
-      :is-view="true"
+      
+      :source="3"
   >
     <star-horse-data-view :dataFormat="dataFormat" :field-list="tableFieldList" :compUrl="dataUrl"/>
   </star-horse-dialog>

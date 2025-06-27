@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import {reactive, ref} from "vue";
-import {FieldInfo, SelectOption} from "star-horse-lowcode";
+import { reactive, ref } from "vue";
+import { FieldInfo, SelectOption } from "star-horse-lowcode";
 
 const props = defineProps({});
 const flowPropertyPanel = ref();
@@ -8,13 +8,13 @@ const relationFormList = ref<SelectOption[]>([]);
 const taskParamsList = ref<SelectOption[]>([]);
 const taskNoticeList = ref<SelectOption[]>([]);
 const auditorEmptyPolicyList = ref<SelectOption[]>([
-  {name: "自动通过", value: "autoPass"},
-  {name: "自动拒绝", value: "autoReject"},
-  {name: "指定经办人", value: "assignee"}
+  { name: "自动通过", value: "autoPass" },
+  { name: "自动拒绝", value: "autoReject" },
+  { name: "指定经办人", value: "assignee" }
 ]);
 const returnPolicyList = ref<SelectOption[]>([
-  {name: "重新审批", value: "reAudit"},
-  {name: "从当前节点审批", value: "currentNodeAudit"}
+  { name: "重新审批", value: "reAudit" },
+  { name: "从当前节点审批", value: "currentNodeAudit" }
 ]);
 const basicFieldList = ref<FieldInfo[]>([
   {
@@ -48,7 +48,7 @@ const basicFieldList = ref<FieldInfo[]>([
     type: "switch",
     defaultValue: "N",
     formVisible: true,
-    preps:{
+    preps: {
       activeValue: "Y",
       inactiveValue: "N"
     }
@@ -78,7 +78,7 @@ const basicFieldList = ref<FieldInfo[]>([
     fieldName: "taskNotice",
     type: "select",
     formVisible: true,
-    preps:{
+    preps: {
       values: taskNoticeList,
     }
   },
@@ -93,7 +93,7 @@ const basicFieldList = ref<FieldInfo[]>([
     fieldName: "auditorEmptyPolicy",
     type: "radio",
     formVisible: true,
-    preps:{
+    preps: {
       values: auditorEmptyPolicyList,
     }
   },
@@ -102,42 +102,42 @@ const basicFieldList = ref<FieldInfo[]>([
     fieldName: "returnPolicy",
     type: "radio",
     formVisible: true,
-    preps:{
+    preps: {
       values: returnPolicyList,
     }
   }
 ]);
 const btnTypeList = ref<SelectOption[]>([
-  {name: "同意", value: "a"},
-  {name: "拒绝", value: "b"},
-  {name: "驳回", value: "c"},
-  {name: "驳回到起点", value: "d"},
-  {name: "驳回到历史任务", value: "e"},
-  {name: "撤销", value: "f"},
-  {name: "转办", value: "g"},
-  {name: "加签", value: "h"},
-  {name: "减签", value: "i"},
-  {name: "保存", value: "j"},
-  {name: "中止", value: "k"},
-  {name: "会签", value: "l"},
-  {name: "同意（会签）", value: "m"},
-  {name: "拒绝（会签）", value: "n"},
-  {name: "弃权（会签）", value: "o"},
-  {name: "指定审批人", value: "p"},
-  {name: "指定跳转", value: "q"}
+  { name: "同意", value: "a" },
+  { name: "拒绝", value: "b" },
+  { name: "驳回", value: "c" },
+  { name: "驳回到起点", value: "d" },
+  { name: "驳回到历史任务", value: "e" },
+  { name: "撤销", value: "f" },
+  { name: "转办", value: "g" },
+  { name: "加签", value: "h" },
+  { name: "减签", value: "i" },
+  { name: "保存", value: "j" },
+  { name: "中止", value: "k" },
+  { name: "会签", value: "l" },
+  { name: "同意（会签）", value: "m" },
+  { name: "拒绝（会签）", value: "n" },
+  { name: "弃权（会签）", value: "o" },
+  { name: "指定审批人", value: "p" },
+  { name: "指定跳转", value: "q" }
 ]);
 const btnActionList = ref<SelectOption[]>([
-  {name: "无操作", value: "a1"},
-  {name: "同意", value: "b1"},
-  {name: "拒绝", value: "c1"},
-  {name: "驳回", value: "d1"},
-  {name: "会签同意", value: "e1"},
-  {name: "会签拒绝", value: "f1"}
+  { name: "无操作", value: "a1" },
+  { name: "同意", value: "b1" },
+  { name: "拒绝", value: "c1" },
+  { name: "驳回", value: "d1" },
+  { name: "会签同意", value: "e1" },
+  { name: "会签拒绝", value: "f1" }
 ]);
 const autoAgreeList = ref<SelectOption[]>([
-  {name: "经办人为发起人", value: "1"},
-  {name: "经办人为上一节点经办人", value: "2"},
-  {name: "经办人为经办人审批过", value: "3"}
+  { name: "经办人为发起人", value: "1" },
+  { name: "经办人为上一节点经办人", value: "2" },
+  { name: "经办人为经办人审批过", value: "3" }
 ]);
 const buttonFieldList = ref<FieldInfo[]>([
   {
@@ -159,7 +159,7 @@ const buttonFieldList = ref<FieldInfo[]>([
             fieldName: "btnType",
             type: "select",
             formVisible: true,
-            preps:{
+            preps: {
               values: btnTypeList,
             }
           },
@@ -168,7 +168,7 @@ const buttonFieldList = ref<FieldInfo[]>([
             fieldName: "btnAction",
             type: "select",
             formVisible: true,
-            preps:{
+            preps: {
               values: btnActionList,
             }
           }
@@ -185,13 +185,13 @@ const buttonFieldList = ref<FieldInfo[]>([
   }
 ]);
 const assigneeTypeList = ref<SelectOption[]>([
-  {name: "审批人", value: "assignee"},
-  {name: "审批组", value: "assigneeGroup"},
-  {name: "角色", value: "role"},
-  {name: "部门", value: "dept"},
-  {name: "岗位", value: "job"},
-  {name: "发起人直接领导", value: "directLeader"},
-  {name: "发起人上级部门领导", value: "parentDeptLeader"}
+  { name: "审批人", value: "assignee" },
+  { name: "审批组", value: "assigneeGroup" },
+  { name: "角色", value: "role" },
+  { name: "部门", value: "dept" },
+  { name: "岗位", value: "job" },
+  { name: "发起人直接领导", value: "directLeader" },
+  { name: "发起人上级部门领导", value: "parentDeptLeader" }
 ]);
 const auditorFieldList = ref<FieldInfo[]>([
   {
@@ -229,28 +229,28 @@ const auditorFieldList = ref<FieldInfo[]>([
   }
 ]);
 const eventTypeList = ref<SelectOption[]>([
-  {name: "开始", value: "start"},
-  {name: "结束", value: "end"}
+  { name: "开始", value: "start" },
+  { name: "结束", value: "end" }
 ]);
 const columnTypeList = ref<SelectOption[]>([
-  {name: "值", value: "value"},
-  {name: "表达式", value: "exp"}
+  { name: "值", value: "value" },
+  { name: "表达式", value: "exp" }
 ]);
 const scriptTypeList = ref<SelectOption[]>([
-  {name: "内联脚本", value: "innerScript"},
-  {name: "外部脚本", value: "outerScript"}
+  { name: "内联脚本", value: "innerScript" },
+  { name: "外部脚本", value: "outerScript" }
 ]);
 const listenerTypeList = ref<SelectOption[]>([
-  {name: "Java类", value: "class"},
-  {name: "表达式", value: "exp"},
-  {name: "代理表达式", value: "proxyExp"},
-  {name: "脚本", value: "script"}
+  { name: "Java类", value: "class" },
+  { name: "表达式", value: "exp" },
+  { name: "代理表达式", value: "proxyExp" },
+  { name: "脚本", value: "script" }
 ]);
 const eventTypeList1 = ref<SelectOption[]>([
-  {name: "创建", value: "create"},
-  {name: "指派", value: "assign"},
-  {name: "完成", value: "finish"},
-  {name: "删除", value: "delete"}
+  { name: "创建", value: "create" },
+  { name: "指派", value: "assign" },
+  { name: "完成", value: "finish" },
+  { name: "删除", value: "delete" }
 ]);
 let labelName = ref<string>("");
 let formVisible = ref<boolean>(false);
@@ -279,17 +279,18 @@ const otherFieldList = ref<FieldInfo[]>([
             type: "select",
             required: true,
             optionList: listenerTypeList,
-            actionName: "change",
-            actions: (val) => {
-              let value = val["listenerType"];
-              if (!value) {
-                return;
-              }
-              labelName.value = listenerTypeList.value.find((item) => item.value == value)?.name;
-              formVisible.value = true;
-              scriptTypeformVisible.value = false;
-              if (value == "script") {
-                scriptTypeformVisible.value = true;
+            actions: {
+              change: (val) => {
+                let value = val["listenerType"];
+                if (!value) {
+                  return;
+                }
+                labelName.value = listenerTypeList.value.find((item) => item.value == value)?.name;
+                formVisible.value = true;
+                scriptTypeformVisible.value = false;
+                if (value == "script") {
+                  scriptTypeformVisible.value = true;
+                }
               }
             },
             formVisible: true
@@ -367,17 +368,18 @@ const otherFieldList = ref<FieldInfo[]>([
             type: "select",
             required: true,
             optionList: listenerTypeList,
-            actionName: "change",
-            actions: (val) => {
-              let value = val["listenerType"];
-              if (!value) {
-                return;
-              }
-              labelName.value = listenerTypeList.value.find((item) => item.value == value)?.name;
-              formVisible.value = true;
-              scriptTypeformVisible.value = false;
-              if (value == "script") {
-                scriptTypeformVisible.value = true;
+            actions: {
+              change: (val) => {
+                let value = val["listenerType"];
+                if (!value) {
+                  return;
+                }
+                labelName.value = listenerTypeList.value.find((item) => item.value == value)?.name;
+                formVisible.value = true;
+                scriptTypeformVisible.value = false;
+                if (value == "script") {
+                  scriptTypeformVisible.value = true;
+                }
               }
             },
             formVisible: true
@@ -484,6 +486,6 @@ const tableFieldList = reactive({
 });
 </script>
 <template>
-  <star-horse-form :fieldList="tableFieldList" ref="flowPropertyPanel"/>
+  <star-horse-form :fieldList="tableFieldList" ref="flowPropertyPanel" />
 </template>
 <style lang="scss" scoped></style>

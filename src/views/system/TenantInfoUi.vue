@@ -8,9 +8,9 @@ import {
   SearchFields,
   SelectOption
 } from "star-horse-lowcode";
-import {loadDict} from "@/api/star_horse_apis";
-import {Config} from "@/api/settings";
-import {nextTick, onActivated, onDeactivated, onMounted, provide, reactive, ref} from "vue";
+import { loadDict } from "@/api/star_horse_apis";
+import { Config } from "@/api/settings";
+import { nextTick, onActivated, onDeactivated, onMounted, provide, reactive, ref } from "vue";
 
 defineOptions({
   name: "TenantInfo"
@@ -28,18 +28,19 @@ provide("formFields", formFields);
 //查询属性
 const searchFormData = reactive<SearchFields>({
   fieldList: [
-    {label: "租户名称", fieldName: "tenantName", matchType: "lk", defaultVisible: true},
-    {label: "租户编码", fieldName: "tenantCode", matchType: "lk", defaultVisible: true},
+    { label: "租户名称", fieldName: "tenantName", matchType: "lk", defaultVisible: true },
+    { label: "租户编码", fieldName: "tenantCode", matchType: "lk", defaultVisible: true },
     {
       label: "临期租户",
       fieldName: "effectiveTime",
       type: "select",
-      actionName: "change",
-      actions: (value) => {
+      actions: {
+        change: (value) => {
 
+        }
       },
       defaultVisible: true,
-      preps:{
+      preps: {
         values: effectiveTimeList,
       }
     }
@@ -116,7 +117,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
         required: true,
         formVisible: true,
         listVisible: true,
-        preps: {urlOrDictName: "industry_list", dataSource: "dict"}
+        preps: { urlOrDictName: "industry_list", dataSource: "dict" }
       },
       {
         label: "有效期",
@@ -125,7 +126,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
         required: true,
         formVisible: true,
         listVisible: true,
-        preps: {needSplitName: "Y"}
+        preps: { needSplitName: "Y" }
       }
     ],
     [
@@ -136,7 +137,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
         required: true,
         formVisible: true,
         listVisible: true,
-        preps: {urlOrDictName: "expire_policy", dataSource: "dict"}
+        preps: { urlOrDictName: "expire_policy", dataSource: "dict" }
       },
       {
         label: "数据备份策略",
@@ -159,11 +160,11 @@ const tableFieldList = reactive<PageFieldInfo | any>({
         preps: {
           urlOrDictName: "message_tools",
           values: [
-            {name: "站内通知", value: "innerMsg"},
-            {name: "短信通知", value: "shortMsg"},
-            {name: "邮件通知", value: "email"},
-            {name: "钉钉通知", value: "dingding"},
-            {name: "企业微信", value: "webchat"}
+            { name: "站内通知", value: "innerMsg" },
+            { name: "短信通知", value: "shortMsg" },
+            { name: "邮件通知", value: "email" },
+            { name: "钉钉通知", value: "dingding" },
+            { name: "企业微信", value: "webchat" }
           ],
           dataSource: "dict"
         }
@@ -175,7 +176,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
         required: false,
         formVisible: true,
         listVisible: true,
-        preps:{
+        preps: {
           activeValue: "Y",
           inactiveValue: "N"
         }
@@ -212,24 +213,24 @@ const tableFieldList = reactive<PageFieldInfo | any>({
         preps: {}
       }
     ],
-    {label: "创建人", fieldName: "createdBy",  listVisible: true, preps: {}, commonFlag: "Y"},
-    {label: "修改人", fieldName: "updatedBy",   preps: {}, commonFlag: "Y"},
-    {label: "创建时间", fieldName: "createdTime", type: "datetime", listVisible: true, preps: {}, commonFlag: "Y"},
-    {label: "修改时间", fieldName: "updatedTime", type: "datetime", preps: {}, commonFlag: "Y"},
-    {label: "版本号", fieldName: "version", type: "number", listVisible: true, preps: {}, commonFlag: "Y"},
-    {label: "是否删除", fieldName: "isDel", type: "number", preps: {}, commonFlag: "Y"},
-    {label: "数据编号", fieldName: "dataNo",   preps: {}, commonFlag: "Y"},
+    { label: "创建人", fieldName: "createdBy", listVisible: true, preps: {}, commonFlag: "Y" },
+    { label: "修改人", fieldName: "updatedBy", preps: {}, commonFlag: "Y" },
+    { label: "创建时间", fieldName: "createdTime", type: "datetime", listVisible: true, preps: {}, commonFlag: "Y" },
+    { label: "修改时间", fieldName: "updatedTime", type: "datetime", preps: {}, commonFlag: "Y" },
+    { label: "版本号", fieldName: "version", type: "number", listVisible: true, preps: {}, commonFlag: "Y" },
+    { label: "是否删除", fieldName: "isDel", type: "number", preps: {}, commonFlag: "Y" },
+    { label: "数据编号", fieldName: "dataNo", preps: {}, commonFlag: "Y" },
     {
       label: "状态",
       fieldName: "statusCode",
       type: "select",
 
-      preps: {urlOrDictName: "common", name: "statusCode", dataSource: "dict"},
+      preps: { urlOrDictName: "common", name: "statusCode", dataSource: "dict" },
       commonFlag: "Y"
     },
-    {label: "状态名称", fieldName: "statusName",   preps: {}, commonFlag: "Y"},
-    {label: "国际编码", fieldName: "local",   preps: {}, commonFlag: "Y"},
-    {label: "备注", fieldName: "remark", type: "textarea", preps: {}, commonFlag: "Y"}
+    { label: "状态名称", fieldName: "statusName", preps: {}, commonFlag: "Y" },
+    { label: "国际编码", fieldName: "local", preps: {}, commonFlag: "Y" },
+    { label: "备注", fieldName: "remark", type: "textarea", preps: {}, commonFlag: "Y" }
   ],
   batchFieldList: [],
   userTableFuncs: [],
@@ -292,42 +293,22 @@ onDeactivated(() => {
 </script>
 <template>
   <star-horse-dialog :isShowBtnContinue="true" :dialog-visible="dialogProps.editVisible" :dialogProps="dialogProps">
-    <star-horse-form
-        @refresh="tenantInfoRef?.loadByPage()"
-        @dataLoaded="dataLoaded"
-        :compUrl="dataUrl"
-        :fieldList="tableFieldList"
-        ref="tenantInfoFormRef"
-        :rules="rules"
-    />
+    <star-horse-form @refresh="tenantInfoRef?.loadByPage()" @dataLoaded="dataLoaded" :compUrl="dataUrl"
+      :fieldList="tableFieldList" ref="tenantInfoFormRef" :rules="rules" />
   </star-horse-dialog>
-  <star-horse-dialog
-      :dialog-visible="dialogProps.viewVisible"
-      :dialogProps="dialogProps"
-      :title="'查看数据'"
-      :isView="true"
-  >
-    <star-horse-data-view :dataFormat="dataFormat" :field-list="tableFieldList" :compUrl="dataUrl"/>
+  <star-horse-dialog :dialog-visible="dialogProps.viewVisible" :dialogProps="dialogProps" :source="3">
+    <star-horse-data-view :dataFormat="dataFormat" :field-list="tableFieldList" :compUrl="dataUrl" />
   </star-horse-dialog>
   <div class="search-content">
-    <div class="search_btn" :style="{ 'flex-direction': Config.buttonStyle.value == 'line'? 'column' : 'row' }">
-      <star-horse-search-comp
-          @searchData="(data: any) => tenantInfoRef?.createSearchParams(data)"
-          :formData="searchFormData"
-          :compUrl="dataUrl"
-      />
+    <div class="search_btn" :style="{ 'flex-direction': Config.buttonStyle.value == 'line' ? 'column' : 'row' }">
+      <star-horse-search-comp @searchData="(data: any) => tenantInfoRef?.createSearchParams(data)"
+        :formData="searchFormData" :compUrl="dataUrl" />
     </div>
   </div>
   <el-card class="inner_content">
-    <star-horse-table-comp
-        ref="tenantInfoRef"
-        :fieldList="tableFieldList"
-        :primaryKey="primaryKey"
-        :compUrl="dataUrl"
-        :dataFormat="dataFormat"
-    />
+    <star-horse-table-comp ref="tenantInfoRef" :fieldList="tableFieldList" :primaryKey="primaryKey" :compUrl="dataUrl"
+      :dataFormat="dataFormat" />
   </el-card>
 </template>
 <style lang="scss" scoped>
-//todo
-</style>
+//todo</style>

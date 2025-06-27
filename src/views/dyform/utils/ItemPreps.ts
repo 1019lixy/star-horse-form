@@ -363,7 +363,7 @@ export function urlFields() {
                     type: "switch",
                     defaultValue: "N",
                     formVisible: true,
-                    preps:{
+                    preps: {
                         activeValue: "Y",
                         inactiveValue: "N"
                     }
@@ -584,7 +584,7 @@ export function paramsFields(paramsConfigRef: Ref<any>, fieldName: string, item:
             type: "switch",
             defaultValue: "Y",
             formVisible: true,
-            preps:{
+            preps: {
                 activeValue: "Y",
                 inactiveValue: "N"
             }
@@ -731,7 +731,7 @@ export function containerField(fieldName: string) {
                         required: true,
                         formVisible: true,
                         listVisible: true,
-                        preps:{
+                        preps: {
                             activeValue: "Y",
                             inactiveValue: "N"
                         }
@@ -781,7 +781,7 @@ export function containerField(fieldName: string) {
                         required: true,
                         formVisible: true,
                         listVisible: true,
-                        preps:{
+                        preps: {
                             activeValue: "Y",
                             inactiveValue: "N"
                         }
@@ -831,7 +831,7 @@ export function containerField(fieldName: string) {
                         required: true,
                         formVisible: true,
                         listVisible: true,
-                        preps:{
+                        preps: {
                             activeValue: "Y",
                             inactiveValue: "N"
                         }
@@ -868,20 +868,21 @@ export function containerField(fieldName: string) {
                                         required: true,
                                         formVisible: true,
                                         listVisible: true,
-                                        actionName: "change",
                                         preps: {
                                             min: 1,
                                             max: 24,
                                             step: 4
                                         },
-                                        actions: (val: any, type: string) => {
-                                            const obj = val.value || val;
-                                            const cols = obj.columns;
-                                            if (type == "oper") {
-                                                const len = 24 / cols.length;
-                                                cols.forEach((item: any) => {
-                                                    item.colspan = len;
-                                                });
+                                        actions: {
+                                            change: (val: any, type: string) => {
+                                                const obj = val.value || val;
+                                                const cols = obj.columns;
+                                                if (type == "oper") {
+                                                    const len = 24 / cols.length;
+                                                    cols.forEach((item: any) => {
+                                                        item.colspan = len;
+                                                    });
+                                                }
                                             }
                                         }
                                     }
@@ -920,20 +921,21 @@ export function containerField(fieldName: string) {
                                         required: true,
                                         formVisible: true,
                                         listVisible: true,
-                                        actionName: "change",
                                         preps: {
                                             min: 10,
                                             max: 100,
                                             step: 2
                                         },
-                                        actions: (val: any, type: string) => {
-                                            const obj = val.value || val;
-                                            const cols = obj.columns;
-                                            if (type == "oper") {
-                                                const len = 100 / cols.length;
-                                                cols.forEach((item: any) => {
-                                                    item.colWidth = len;
-                                                });
+                                        actions: {
+                                            change: (val: any, type: string) => {
+                                                const obj = val.value || val;
+                                                const cols = obj.columns;
+                                                if (type == "oper") {
+                                                    const len = 100 / cols.length;
+                                                    cols.forEach((item: any) => {
+                                                        item.colWidth = len;
+                                                    });
+                                                }
                                             }
                                         }
                                     },
@@ -945,7 +947,6 @@ export function containerField(fieldName: string) {
                                         required: true,
                                         formVisible: true,
                                         listVisible: true,
-                                        actionName: "change",
                                         preps: {
                                             min: 30,
                                             max: 100,
@@ -1099,11 +1100,12 @@ export function buttonClickDataField() {
                 defaultValue: "form",
                 formVisible: true,
                 listVisible: true,
-                actionName: "change",
-                actions: (val: any) => {
-                    const viewType = val.viewType;
-                    if (viewType) {
-                        currentField.value = [fieldMap[viewType]];
+                actions: {
+                    change: (val: any) => {
+                        const viewType = val.viewType;
+                        if (viewType) {
+                            currentField.value = [fieldMap[viewType]];
+                        }
                     }
                 },
                 preps: {
@@ -1148,7 +1150,7 @@ export function relationDataField() {
                 required: true,
                 formVisible: true,
                 listVisible: true,
-                preps:{
+                preps: {
                     values: eventList,
                 }
             },
@@ -1178,7 +1180,7 @@ export function relationDataField() {
                                 },
                                 formVisible: true,
                                 listVisible: true,
-                                preps:{
+                                preps: {
                                     values: controlConditionList,
                                 }
                             },
@@ -1191,7 +1193,7 @@ export function relationDataField() {
                                 listVisible: true,
                                 preps: {
                                     data: fields,
-                                    checkStrictly: "Y"
+                                    checkStrictly: true
                                 }
                             }],
                             [{
@@ -1203,7 +1205,7 @@ export function relationDataField() {
                                 disabled: "Y",
                                 formVisible: true,
                                 listVisible: true,
-                                preps:{
+                                preps: {
                                     values: searchMatchList(),
                                 }
                             },
@@ -1252,8 +1254,8 @@ const selectType = ["select", "tselect", "cascader", "autocomplete", "area", "cr
  * @param item
  * @param itemType
  */
-export function fieldPlaceholder(item: any,compInfo?:any) {
-    let preps: any =compInfo?? unref(designForm.currentComp);
+export function fieldPlaceholder(item: any, compInfo?: any) {
+    let preps: any = compInfo ?? unref(designForm.currentComp);
     let itemType: string = preps.itemType;
     if (item['noPlaceholder']) {
         delete item['placeholder'];
@@ -1293,9 +1295,10 @@ export function compCommonFields(customerValid: Function): FieldInfo[] {
             fieldName: "label",
             required: true,
             formVisible: true,
-            actionName: "blur",
-            actions: (val: any) => {
-                fieldPlaceholder(val);
+            actions: {
+                blur: (val: any) => {
+                    fieldPlaceholder(val);
+                }
             }
         },
         {
@@ -1320,10 +1323,11 @@ export function compCommonFields(customerValid: Function): FieldInfo[] {
             defaultValue: [],
             type: "select",
             formVisible: true,
-            actionName: "change",
-            actions: (val: any) => {
-                if (val?.rules?.includes("custom")) {
-                    customerValid(val);
+            actions: {
+                change: (val: any) => {
+                    if (val?.rules?.includes("custom")) {
+                        customerValid(val);
+                    }
                 }
             },
             preps: {
@@ -1415,14 +1419,15 @@ export function compCommonFields(customerValid: Function): FieldInfo[] {
             fieldName: "prototypeDisplay",
             type: "switch",
             defaultValue: false,
-            actionName: "change",
-            actions: (val: any) => {
-                if (val.prototypeDisplay) {
-                    val["listPrototypeDisplay"] = true;
-                    listPrototypeVisible.value = true;
-                } else {
-                    listPrototypeVisible.value = false;
-                    val["listPrototypeDisplay"] = false;
+            actions: {
+                change: (val: any) => {
+                    if (val.prototypeDisplay) {
+                        val["listPrototypeDisplay"] = true;
+                        listPrototypeVisible.value = true;
+                    } else {
+                        listPrototypeVisible.value = false;
+                        val["listPrototypeDisplay"] = false;
+                    }
                 }
             },
             formVisible: true

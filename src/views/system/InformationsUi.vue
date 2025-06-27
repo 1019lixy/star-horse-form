@@ -8,9 +8,9 @@ import {
   SearchFields,
   SelectOption
 } from "star-horse-lowcode";
-import {loadCustomInfo, loadElementPlusIcon, loadSystemInfo} from "@/api/star_horse_utils";
-import {Config} from "@/api/settings";
-import {onActivated, onMounted, provide, reactive, ref} from "vue";
+import { loadCustomInfo, loadElementPlusIcon, loadSystemInfo } from "@/api/star_horse_utils";
+import { Config } from "@/api/settings";
+import { onActivated, onMounted, provide, reactive, ref } from "vue";
 
 let informationsList = ref<any>([]);
 const dataUrl: ApiUrls = apiInstance("system-config", "system/informationsEntity");
@@ -32,7 +32,7 @@ const searchFormData = reactive<SearchFields>({
 
       matchType: "lk"
     },
-    {label: "添加时间", fieldName: "createdTime", type: "daterange", matchType: "bt"}
+    { label: "添加时间", fieldName: "createdTime", type: "daterange", matchType: "bt" }
   ]
 });
 const testFun = (formData: any) => {
@@ -56,9 +56,8 @@ const tableFieldList = reactive<PageFieldInfo>({
       fieldName: "parentId",
       type: "select",
       formVisible: true,
-      actionName: "change",
-      actions: testFun,
-      preps:{
+      actions: { change: testFun },
+      preps: {
         values: informationsList,
       }
     },
@@ -78,7 +77,7 @@ const tableFieldList = reactive<PageFieldInfo>({
         required: true,
         formVisible: true,
         listVisible: true,
-        preps:{
+        preps: {
           values: customerList,
         }
       }
@@ -122,8 +121,7 @@ const tableFieldList = reactive<PageFieldInfo>({
       type: "textarea",
       formVisible: true,
       listVisible: true,
-      actionName: "input",
-      actions: testFun
+      actions: { input: testFun }
     },
     {
       label: "创建人",
@@ -196,7 +194,7 @@ const dataFormat = (name: string, cellValue: object): any => {
   return cellValue;
 };
 const initData = async () => {
-  let params = [{propertyName: "statusCode", value: "1"}];
+  let params = [{ propertyName: "statusCode", value: "1" }];
   const datas = await loadSystemInfo(params);
   const customs = await loadCustomInfo(params);
   informationsList.value = datas;
@@ -212,37 +210,20 @@ onActivated(() => {
 <style></style>
 <template>
   <star-horse-dialog :isShowBtnContinue="true" :dialogVisible="dialogProps.editVisible" :dialogProps="dialogProps">
-    <star-horse-form
-        @refresh="informationsRef?.loadByPage()"
-        :compUrl="dataUrl"
-        :fieldList="tableFieldList"
-        :rules="rules"
-    />
+    <star-horse-form @refresh="informationsRef?.loadByPage()" :compUrl="dataUrl" :fieldList="tableFieldList"
+      :rules="rules" />
   </star-horse-dialog>
-  <star-horse-dialog
-      :dialog-visible="dialogProps.viewVisible"
-      :dialogProps="dialogProps"
-      :title="'查看数据'"
-      :is-view="true"
-  >
-    <star-horse-data-view :data-format="dataFormat" :field-list="tableFieldList" :compUrl="dataUrl"/>
+  <star-horse-dialog :dialog-visible="dialogProps.viewVisible" :dialogProps="dialogProps" :source="3">
+    <star-horse-data-view :data-format="dataFormat" :field-list="tableFieldList" :compUrl="dataUrl" />
   </star-horse-dialog>
   <div class="search-content">
-    <div class="search_btn" :style="{ 'flex-direction': Config.buttonStyle.value == 'line'? 'column' : 'row' }">
-      <star-horse-search-comp
-          @searchData="(data: any) => informationsRef?.createSearchParams(data)"
-          :formData="searchFormData"
-          :compUrl="dataUrl"
-      />
+    <div class="search_btn" :style="{ 'flex-direction': Config.buttonStyle.value == 'line' ? 'column' : 'row' }">
+      <star-horse-search-comp @searchData="(data: any) => informationsRef?.createSearchParams(data)"
+        :formData="searchFormData" :compUrl="dataUrl" />
     </div>
   </div>
   <el-card class="inner_content">
-    <star-horse-table-comp
-        ref="informationsRef"
-        :fieldList="tableFieldList"
-        :primaryKey="primaryKey"
-        :compUrl="dataUrl"
-        :dataFormat="dataFormat"
-    />
+    <star-horse-table-comp ref="informationsRef" :fieldList="tableFieldList" :primaryKey="primaryKey" :compUrl="dataUrl"
+      :dataFormat="dataFormat" />
   </el-card>
 </template>
