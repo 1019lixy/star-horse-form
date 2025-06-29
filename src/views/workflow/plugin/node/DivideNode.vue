@@ -9,7 +9,7 @@
           </div>
         </div>
       </div>
-      <FlowAddNode :node="node" :nodeType="FlowNodeEnums.SUGGEST_NODE" :readable="readable"/>
+      <AddNode :node="node" :nodeType="FlowNodeEnums.SUGGEST_NODE" :readable="readable"/>
     </div>
   </div>
 </template>

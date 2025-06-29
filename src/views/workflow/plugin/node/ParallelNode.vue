@@ -34,7 +34,7 @@
                 <DeleteConfirm :node="conditionNode"/>
               </div>
             </div>
-            <FlowAddNode
+            <AddNode
                 :node="node"
                 :nodeType="FlowNodeEnums.BRANCH_CONDITION_NODE"
                 :id="conditionNode.id"
@@ -50,7 +50,7 @@
       </div>
     </div>
     <div class="after-branch-btn">
-      <FlowAddNode :node="node" :nodeType="node.type" :readable="readable"/>
+      <AddNode :node="node" :nodeType="node.type" :readable="readable"/>
     </div>
   </div>
 </template>

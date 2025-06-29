@@ -299,7 +299,7 @@ const searchFormData = ref<any>([]);
 const loadColumnFields = async () => {
   searchFormData.value = [];
   columnList.value = [];
-  await postRequest(`${dataUrl.basePrefix}previewViewColumns`, createMergeData()).then(
+  await postRequest(`${dataUrl.basePrefix}/previewViewColumns`, createMergeData()).then(
       (res: any) => {
         let redata = res.data;
         if (redata.code != 0) {
@@ -353,7 +353,7 @@ const dataList = (currentPage: number, pageSize: number) => {
     pageSize: pageSize || 20,
     currentPage: currentPage || 1
   };
-  postRequest(`${dataUrl.basePrefix}preview`, dataPo)
+  postRequest(`${dataUrl.basePrefix}/preview`, dataPo)
       .then((res) => {
         let redata = res.data;
         if (redata.code != 0) {

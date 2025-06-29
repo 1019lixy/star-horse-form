@@ -138,7 +138,7 @@ watch(
                 <DeleteConfirm :node="conditionNode"/>
               </div>
             </div>
-            <FlowAddNode
+            <AddNode
                 :node="node"
                 :nodeType="FlowNodeEnums.BRANCH_CONDITION_NODE"
                 :id="conditionNode.id"
@@ -154,7 +154,7 @@ watch(
       </div>
     </div>
     <div class="after-branch-btn">
-      <FlowAddNode :node="node" :nodeType="FlowNodeEnums.BRANCH_NODE" :readable="readable"/>
+      <AddNode :node="node" :nodeType="FlowNodeEnums.BRANCH_NODE" :readable="readable"/>
     </div>
   </div>
 </template>

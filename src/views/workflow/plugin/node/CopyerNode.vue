@@ -91,7 +91,7 @@ onMounted(() => {
           <DeleteConfirm :node="node"/>
         </div>
       </div>
-      <FlowAddNode :node="node" :nodeType="node.type" :readable="readable"/>
+      <AddNode :node="node" :nodeType="node.type" :readable="readable"/>
     </div>
   </div>
 </template>

@@ -284,7 +284,7 @@ const convertFormFieldData = (items: any, type: string) => {
         item.preps = {};
       }
       item.preps["values"] = [];
-      let datas = JSON.parse(item.selectValues);
+      let datas = JSON.parse(item.selectValues?.replace(/'/g, '"'));
       for (let i in datas) {
         let data: any = datas[i];
         item.preps["values"].push({
@@ -296,10 +296,10 @@ const convertFormFieldData = (items: any, type: string) => {
     if (item["type"] == "button") {
       switch (type) {
         case "base":
-          item["actions"] = "";
+          item["actions"] = {};
           break;
         case "other":
-          item["actions"] = "";
+          item["actions"] = {};
           break;
         default:
           item["actions"] = (data: any) => jsButtonClick(data, item.actionName);
