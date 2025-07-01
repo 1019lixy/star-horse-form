@@ -27,7 +27,7 @@
           <DeleteConfirm :node="node"/>
         </div>
       </div>
-      <FlowAddNode :node="node" :nodeType="FlowNodeEnums.EVENT_NODE" :readable="readable"/>
+      <AddNode :node="node" :nodeType="FlowNodeEnums.EVENT_NODE" :readable="readable"/>
     </div>
   </div>
 </template>

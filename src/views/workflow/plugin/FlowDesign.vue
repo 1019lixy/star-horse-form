@@ -104,3 +104,8 @@ watch(
     {immediate: true, deep: true}
 );
 </script>
+<style lang="scss" scoped>
+.sh-plus_circle:before {
+  z-index: 9999;
+}
+</style>

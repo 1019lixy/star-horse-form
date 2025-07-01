@@ -34,7 +34,7 @@
         </div>
       </div>
       <!-- 如果子节点是意见分支,则只能添加一个意见分支 -->
-      <FlowAddNode :node="node" :nodeType="node.type" :readable="readable"/>
+      <AddNode :node="node" :nodeType="node.type" :readable="readable"/>
     </div>
   </div>
 </template>

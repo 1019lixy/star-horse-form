@@ -71,7 +71,7 @@ onMounted(() => {
                 <DeleteConfirm :node="conditionNode" @callback="delCallback"/>
               </div>
             </div>
-            <FlowAddNode
+            <AddNode
                 :node="node"
                 :nodeType="FlowNodeEnums.BRANCH_NODE"
                 :id="conditionNode.id"
@@ -87,7 +87,7 @@ onMounted(() => {
       </div>
     </div>
     <div class="after-branch-btn">
-      <FlowAddNode :node="node" :nodeType="FlowNodeEnums.BRANCH_NODE" :readable="readable"/>
+      <AddNode :node="node" :nodeType="FlowNodeEnums.BRANCH_NODE" :readable="readable"/>
     </div>
   </div>
 </template>

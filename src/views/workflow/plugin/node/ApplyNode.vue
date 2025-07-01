@@ -83,7 +83,7 @@ onMounted(() => {
           <DeleteConfirm :node="node"/>
         </div>
       </div>
-      <FlowAddNode :node="node" :nodeType="FlowNodeEnums.APPLY_NODE" :readable="readable"/>
+      <AddNode :node="node" :nodeType="FlowNodeEnums.APPLY_NODE" :readable="readable"/>
     </div>
   </div>
 </template>
