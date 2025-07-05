@@ -16,7 +16,7 @@ export const flexBoxContainerConfig: PageFieldInfo = {
          }
       },
       {
-         fieldName: "flex-direction",
+         fieldName: "flexDirection",
          label: "排列方向",
          formVisible:true,
          helpMsg: "指定项目布局的主轴方向。",
@@ -31,7 +31,7 @@ export const flexBoxContainerConfig: PageFieldInfo = {
          }
       },
       {
-         fieldName: "flex-wrap",
+         fieldName: "flexWrap",
          label: "换行方式",
          formVisible:true,
          helpMsg: "决定项目是否换行或多行排列。",
@@ -45,7 +45,7 @@ export const flexBoxContainerConfig: PageFieldInfo = {
          }
       },
       {
-         fieldName: "justify-content",
+         fieldName: "justifyContent",
          label: "主轴对齐",
          formVisible:true,
          helpMsg: "沿主轴对齐项目，控制水平间距。",
@@ -64,7 +64,7 @@ export const flexBoxContainerConfig: PageFieldInfo = {
          }
       },
       {
-         fieldName: "align-items",
+         fieldName: "alignItems",
          label: "交叉轴对齐",
          formVisible:true,
          helpMsg: "沿交叉轴对齐项目，影响垂直排列。",
@@ -80,7 +80,7 @@ export const flexBoxContainerConfig: PageFieldInfo = {
          }
       },
       {
-         fieldName: "align-content",
+         fieldName: "alignContent",
          label: "多行对齐",
          formVisible:true,
          helpMsg: "定义换行时弹性线之间的间距。",
