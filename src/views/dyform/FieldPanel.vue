@@ -349,7 +349,7 @@ i {
       }
     }
   }
-}
+} 
 
 :deep {
   .el-tabs__content {
@@ -363,7 +363,7 @@ i {
   .el-tabs__item {
     height: 80px;
     display: flex;
-    padding: 0 5px;
+    padding: 10px 5px;
     align-items: center;
     justify-content: center !important;
     vertical-align: middle !important;
