@@ -6,6 +6,7 @@ export const gridItemsConfig: PageFieldInfo = {
          label: "网格列",
          helpMsg: "定义元素在网格中的起始和结束列",
          type: "number-range",
+         formVisible:true,
          defaultValue: "0 / 0",
          preps: {
             icon: "",
@@ -19,6 +20,7 @@ export const gridItemsConfig: PageFieldInfo = {
          label: "网格行",
          helpMsg: "定义元素在网格中的起始和结束行",
          type: "number-range",
+         formVisible:true,
          defaultValue: "0 / 0",
          preps: {
             icon: "",
@@ -32,6 +34,7 @@ export const gridItemsConfig: PageFieldInfo = {
          label: "水平自对齐",
          helpMsg: "控制元素在网格容器内的水平对齐方式",
          type: "select",
+         formVisible:true,
          defaultValue: "stretch",
          preps: {
             icon: "",
@@ -46,6 +49,7 @@ export const gridItemsConfig: PageFieldInfo = {
          label: "垂直自对齐",
          helpMsg: "控制元素在网格容器内的垂直对齐方式",
          type: "select",
+         formVisible:true,
          defaultValue: "stretch",
          preps: {
             icon: "",
@@ -60,6 +64,7 @@ export const gridItemsConfig: PageFieldInfo = {
          label: "宽度",
          helpMsg: "指定元素宽度，包含单位选项",
          type: "input",
+         formVisible:true,
          defaultValue: "auto",
          preps: {
             icon: "",
@@ -77,6 +82,7 @@ export const gridItemsConfig: PageFieldInfo = {
          label: "高度",
          helpMsg: "指定元素高度，包含单位选项",
          type: "input",
+         formVisible:true,
          defaultValue: "auto",
          preps: {
             icon: "",
