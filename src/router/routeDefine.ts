@@ -115,6 +115,15 @@ routeDefine.push({
 });
 routeDefine.push(
     {
+        path: "/flex",
+        component: () => import("@/components/system/StarHorseFlexComp.vue"),
+        name: "弹性布局",
+        meta: {
+            keepAlive: "N",
+            title: "弹性布局"
+        }
+    },
+    {
         path: "/test",
         component: () => import("@/components/Test.vue"),
         name: "测试",

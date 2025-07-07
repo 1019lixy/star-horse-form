@@ -1,8 +1,8 @@
-import axios, {AxiosResponse, InternalAxiosRequestConfig} from "axios";
+import axios, { AxiosResponse, InternalAxiosRequestConfig } from "axios";
 import router from "@/router";
-import {Config} from "@/api/settings";
-import {reactive} from "vue";
-import {delLoginInfo, getToken, getUserInfo, setCustomerInfo, setToken, setUserInfo} from "@/utils/auth";
+import { Config } from "@/api/settings";
+import { reactive } from "vue";
+import { delLoginInfo, getToken, getUserInfo, setCustomerInfo, setToken, setUserInfo } from "@/utils/auth";
 import {
     error,
     getFingerId,
@@ -15,10 +15,10 @@ import {
     warning
 } from "star-horse-lowcode";
 
-import {useNavBarListStore} from "@/store/NavBarList";
-import {useViewCacheStore} from "@/store/ViewCache";
-import {NavigationGuardNext, RouteLocationNormalized} from "vue-router";
-import {ServiceEnums} from "@/components/enums/ServiceEnums";
+import { useNavBarListStore } from "@/store/NavBarList";
+import { useViewCacheStore } from "@/store/ViewCache";
+import { NavigationGuardNext, RouteLocationNormalized } from "vue-router";
+import { ServiceEnums } from "@/components/enums/ServiceEnums";
 
 const navBarListStore = useNavBarListStore(piniaInstance);
 const userStore = useUserInfoStore(piniaInstance);
@@ -55,21 +55,21 @@ const forceLoginOut = (showDialog?: boolean) => {
     let menusInfo = sessionStorage.getItem("menusInfo");
     const token = getToken();
     if (!token || token == "undefined" || !menusInfo || menusInfo == "undefined" || menusInfo == "null") {
-        router.push({path: "/login"});
+        router.push({ path: "/login" });
     } else {
         !showDialog && userStore.showLoginDialog();
     }
 };
 // 添加响应拦截器
 service.interceptors.response.use((response: AxiosResponse) => {
-        const code = response.data?.code;
-        // 401 未登录
-        if (code == 401) {
-            forceLoginOut();
-        } else {
-            return response;
-        }
-    },
+    const code = response.data?.code;
+    // 401 未登录
+    if (code == 401) {
+        forceLoginOut();
+    } else {
+        return response;
+    }
+},
     (err) => {
         let data = err?.response?.status ?? err.toString().toLowerCase();
         data = String(data);
@@ -123,25 +123,25 @@ export async function userLogin(loginData: any) {
         errMsg = resultData.error;
     } else {
         const userData = resultData.data;
-        if (loginData.tokenId != userData.dataNo) {
-            errMsg = "Token不一致，登录可能被非法劫持，请重新登录";
-        } else {
-            const condition = {
-                userId: userData.idUsersinfo
-            };
-            userData["rememberMe"] = loginData.rememberMe;
-            userStore.login(userData);
-            setToken(userData.dataNo, data.rememberMe);
-            setUserInfo(userData);
-            setCustomerInfo(userData.customerInfo);
-            //登录成功，获取当前用户的权限菜单
-            await permissionMenus(condition, "-1").then((res2) => {
-                createRouterAndMenuList(res2.data.data);
-                data = userData;
-            });
-        }
+        // if (loginData.tokenId != userData.dataNo) {
+        //     errMsg = "Token不一致，登录可能被非法劫持，请重新登录";
+        // } else {
+        const condition = {
+            userId: userData.idUsersinfo
+        };
+        userData["rememberMe"] = loginData.rememberMe;
+        userStore.login(userData);
+        setToken(userData.dataNo, data.rememberMe);
+        setUserInfo(userData);
+        setCustomerInfo(userData.customerInfo);
+        //登录成功，获取当前用户的权限菜单
+        await permissionMenus(condition, "-1").then((res2) => {
+            createRouterAndMenuList(res2.data.data);
+            data = userData;
+        });
+        // }
     }
-    return {data, errMsg};
+    return { data, errMsg };
 }
 
 /**
@@ -159,7 +159,7 @@ export async function userLogout(data: Array<any>) {
     navBarListStore.clearAll();
     viewListStore.clearAll();
     pagePermission.cleanPermission();
-    router.push({path: "/login"});
+    router.push({ path: "/login" });
 }
 
 export function getMenuId() {
@@ -283,7 +283,7 @@ export function createRouterAndMenuList(redata: Array<object>): MenusInfo[] {
 export function download(url: string, param: any) {
     return new Promise((resolve, reject) => {
         service
-            .post(url, param, {responseType: "blob"})
+            .post(url, param, { responseType: "blob" })
             .then((res) => {
                 downloadData(res.data, decodeURI(res.headers["content-disposition"].split("=")[1]));
                 resolve(null);
@@ -321,7 +321,7 @@ export function downloadData(data: any, name: string) {
 export async function loadDict(dictName: string) {
     let redata: Array<SelectOption> = [];
     const param = {
-        fieldList: [{propertyName: "dictType", value: dictName ?? "public"}]
+        fieldList: [{ propertyName: "dictType", value: dictName ?? "public" }]
     };
     await postRequest(`${ServiceEnums.SYSTEM_PREFIX}dictinfoEntity/getAllByCondition`, param)
         .then((res) => {

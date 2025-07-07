@@ -280,9 +280,11 @@
     text-align: center;
     flex-shrink: 0; // 禁止面板缩小
     width: 120px; // 加宽面板
+
     .relative {
       // 内部flex容器
       min-width: 0; // 允许内容收缩
+
       span {
         display: inline-block;
         max-width: 80px; // 控制文本最大宽度
