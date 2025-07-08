@@ -567,19 +567,17 @@ let prepsModel = ref("one");
             <template v-if="list.length === 0">
               <div class="empty-info">请从左侧组件库中选择一个组件, 然后用鼠标双击或者拖动该组件放置于此处</div>
             </template>
-            <div :class="currentPageClass" @contextmenu="contextMenu">
-              <el-scrollbar>
-                <draggable @add="(evt: Event) => onDragAdd(evt, list)" style="width:98%;height:100%; margin:0 auto;"
-                  tag="div" group="starHorseGroup" ghost-class="ghost" :list="list" :itemKey="uuid()">
-                  <template #item="{ element: data, index }">
-                    <div :class="{ 'comp-item': data.preps?.headerFlag == 'Y' }" :data-field-id="data.id"
-                      :key="data.id">
-                      <component :key="data.id" :field="data" :isDesign="true" :formInfo="formInfo"
-                        :index-of-parent-list="index" :is="itemCheck(data)" v-model:formData="formData" />
-                    </div>
-                  </template>
-                </draggable>
-              </el-scrollbar>
+            <div :class="currentPageClass" style="overflow: auto;scrollbar-width: thin;" @contextmenu="contextMenu">
+              <draggable @add="(evt: Event) => onDragAdd(evt, list)" style="width:98%;height:100%; margin:0 auto;"
+                tag="div" group="starHorseGroup" ghost-class="ghost" :list="list" :itemKey="uuid()">
+                <template #item="{ element: data, index }">
+                  <div :class="{ 'comp-item': data.preps?.headerFlag == 'Y' }" class="overflow-visible"
+                    :data-field-id="data.id" :key="data.id">
+                    <component :key="data.id" :field="data" :isDesign="true" :formInfo="formInfo"
+                      :index-of-parent-list="index" :is="itemCheck(data)" v-model:formData="formData" />
+                  </div>
+                </template>
+              </draggable>
             </div>
           </sh-form>
           <Teleport to="body">
