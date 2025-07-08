@@ -51,7 +51,7 @@ export type ItemConfig = ConfigBase & {
 };
 export interface Layout {
    name: string;
-   img: string;
+   icon: string;
    layout: {
       items: FlexboxItem[] | GridItem[];
       container: FlexboxContainer | GridContainer;

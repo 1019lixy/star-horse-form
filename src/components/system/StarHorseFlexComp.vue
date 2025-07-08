@@ -1,13 +1,16 @@
 <script setup lang="ts">
 
+import { flexboxLayouts } from "@/utils/flexbox/layouts";
 import { flexBoxContainerConfig } from "@/utils/flexbox/containerConfig";
 import { flexBoxItemsConfig } from "@/utils/flexbox/itemsConfig";
 import { gridContainerConfig } from "@/utils/grid/containerConfig";
 import { gridItemsConfig } from "@/utils/grid/itemsConfig";
+import { gridLayouts } from "@/utils/grid/layouts";
 import { PageFieldInfo, piniaInstance, uuid } from "star-horse-lowcode";
 import { useFlexDesignStore } from "@/store/FlexDesign";
-import { onMounted, ref, computed, defineOptions,watch } from "vue";
+import { onMounted, ref, computed, defineOptions, watch } from "vue";
 import FlexItem from '@/components/system/items/FlexItem.vue';
+import { Layout } from "@/components/types/dataTypes";
 defineOptions({
   name: "StarHorseFlexComp"
 
@@ -21,6 +24,7 @@ const containerDataForm = ref<any>({});
 const itemDataForm = ref<any>({});
 const containerConfig = ref<PageFieldInfo>({});
 const itemConfig = ref<PageFieldInfo>({});
+const layoutConfig = ref<Layout[]>([]);
 const flexModel = ref<string>("flex");
 const tabChange = (val: string) => {
 
@@ -48,9 +52,11 @@ const flexChange = (val: string) => {
   if (val == "flex") {
     containerConfig.value = flexBoxContainerConfig;
     itemConfig.value = flexBoxItemsConfig;
+    layoutConfig.value = flexboxLayouts;
   } else {
     containerConfig.value = gridContainerConfig;
     itemConfig.value = gridItemsConfig;
+    layoutConfig.value = gridLayouts;
   }
 }
 onMounted(() => {
@@ -100,6 +106,14 @@ watch(() => currentId.value, (val) => {
           <template #label>
             <star-horse-icon icon-class="template" style="color: var(--star-horse-style)" />&nbsp;<span>模板</span>
           </template>
+          <div class="flex-grid gap-4 w-full flex-wrap">
+            <template v-for="item in layoutConfig">
+              <div class="flex flex-col items-center justify-center ">
+                <star-horse-icon :icon-class="item.icon" size="80px" width="80px" height="80px" style="color: var(--star-horse-style)" />
+                {{ item.name }}
+              </div>
+            </template>
+          </div>
         </el-tab-pane>
       </el-tabs>
     </el-splitter-panel>
@@ -125,6 +139,11 @@ watch(() => currentId.value, (val) => {
   </el-splitter>
 </template>
 <style lang="scss" scoped>
+.flex-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);  // 两列布局
+    gap: 8px;  // 间隙统一设为8px
+}
 :deep {
   .el-tabs--left {
     .el-tabs__content {
