@@ -12,7 +12,7 @@ export interface Layout {
 
 export const flexboxLayouts: Layout[] = [
    {
-      name: "Fill Space",
+      name: "填充空间",
       icon: "fillSpace",
       layout: {
          items: [
@@ -24,7 +24,7 @@ export const flexboxLayouts: Layout[] = [
       },
    },
    {
-      name: "Stretch Middle",
+      name: "中部拉伸",
       icon: "stretchMiddle",
       layout: {
          items: [
@@ -36,7 +36,7 @@ export const flexboxLayouts: Layout[] = [
       },
    },
    {
-      name: "HTML5",
+      name: "HTML5布局",
       icon: "html5",
       layout: {
          items: [
@@ -54,7 +54,7 @@ export const flexboxLayouts: Layout[] = [
       },
    },
    {
-      name: "Alternating Grid",
+      name: "交替网格",
       icon: "alternatingGrid",
       layout: {
          items: [
@@ -68,7 +68,7 @@ export const flexboxLayouts: Layout[] = [
       },
    },
    {
-      name: "Masonry Column",
+      name: "瀑布流列布局",
       icon: "masonryColumn",
       layout: {
          items: [
@@ -85,18 +85,13 @@ export const flexboxLayouts: Layout[] = [
          container: {
             display: "flex",
             flexDirection: "column",
-            gap: "8px",
+            gap: "2%",
             flexWrap: "wrap",
-            height: "100%",
-            width: "100%",
-            alignItems: "center",
-            alignContent: "flex-start",
-            overflow:"hidden"
          },
       },
    },
    {
-      name: "Masonry Row",
+      name: "瀑布流行布局",
       icon: "masonryRow",
       layout: {
          items: [
@@ -119,7 +114,7 @@ export const flexboxLayouts: Layout[] = [
       },
    },
    {
-      name: "3x3 Grid",
+      name: "3x3网格",
       icon: "grid3x3",
       layout: {
          items: [
@@ -137,7 +132,7 @@ export const flexboxLayouts: Layout[] = [
       },
    },
    {
-      name: "4x4 Grid",
+      name: "4x4 网格",
       icon: "grid4x4",
       layout: {
          items: [
@@ -162,7 +157,7 @@ export const flexboxLayouts: Layout[] = [
       },
    },
    {
-      name: "Align Center",
+      name: "居中对齐",
       icon: "alignCenter",
       layout: {
          items: [
@@ -184,7 +179,7 @@ export const flexboxLayouts: Layout[] = [
       },
    },
    {
-      name: "Fill Right",
+      name: "右侧填充",
       icon: "fillRemainingSpace",
       layout: {
          items: [
@@ -196,7 +191,7 @@ export const flexboxLayouts: Layout[] = [
       },
    },
    {
-      name: "Fill Center",
+      name: "居中填充",
       icon: "fillRemainingSpace2",
       layout: {
          items: [
@@ -208,7 +203,7 @@ export const flexboxLayouts: Layout[] = [
       },
    },
    {
-      name: "Horizontal Bars",
+      name: "水平条布局",
       icon: "horizontalBars",
       layout: {
          items: [
@@ -222,7 +217,7 @@ export const flexboxLayouts: Layout[] = [
       },
    },
    {
-      name: "Vertical Bars",
+      name: "垂直条布局",
       icon: "verticalBars",
       layout: {
          items: [
@@ -236,7 +231,7 @@ export const flexboxLayouts: Layout[] = [
       },
    },
    {
-      name: "Row Wrap",
+      name: "行换行布局",
       icon: "rowWrap",
       layout: {
          items: [
@@ -264,7 +259,7 @@ export const flexboxLayouts: Layout[] = [
       },
    },
    {
-      name: "Vertical Stack",
+      name: "垂直堆叠布局",
       icon: "verticalStack",
       layout: {
          items: [

@@ -11,7 +11,7 @@ export interface Layout {
 
 export const gridLayouts: Layout[] = [
    {
-      name: "Pancake Stack",
+      name: "分层布局",
       icon:"pancakeStack",
       layout: {
          items: [
@@ -28,7 +28,7 @@ export const gridLayouts: Layout[] = [
       },
    },
    {
-      name: "Sidebar",
+      name: "侧边栏布局",
       icon:"sidebar",
       layout: {
          items: [
@@ -44,7 +44,7 @@ export const gridLayouts: Layout[] = [
       },
    },
    {
-      name: "HTML5",
+      name: "HTML5布局",
       icon:"html5",
       layout: {
          items: [
@@ -62,7 +62,7 @@ export const gridLayouts: Layout[] = [
       },
    },
    {
-      name: "HTML5 - 2",
+      name: "HTML5布局-2",
       icon:"html5-2",
       layout: {
          items: [
@@ -81,7 +81,7 @@ export const gridLayouts: Layout[] = [
       },
    },
    {
-      name: "12 Column System",
+      name: "12列网格系统",
       icon:"columnSystem",
       layout: {
          items: [
@@ -115,7 +115,7 @@ export const gridLayouts: Layout[] = [
       },
    },
    {
-      name: "Collage",
+      name: "拼贴布局",
       icon:"collage",
       layout: {
          items: [
@@ -174,7 +174,7 @@ export const gridLayouts: Layout[] = [
       },
    },
    {
-      name: "3x3 Grid",
+      name: "3x3 网格",
       icon:"grid3x3",
       layout: {
          items: [
@@ -197,7 +197,7 @@ export const gridLayouts: Layout[] = [
       },
    },
    {
-      name: "4x4 Grid",
+      name: "4x4 网格",
       icon:"grid4x4",
       layout: {
          items: [
@@ -227,7 +227,7 @@ export const gridLayouts: Layout[] = [
       },
    },
    {
-      name: "Infinite Rows",
+      name: "无限行布局",
       icon:"infiniteRows",
       layout: {
          items: [
@@ -251,7 +251,7 @@ export const gridLayouts: Layout[] = [
       },
    },
    {
-      name: "Infinite Columns",
+      name: "无限列布局",
       icon:"infiniteColumns",
       layout: {
          items: [

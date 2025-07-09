@@ -12,6 +12,8 @@ import { onMounted, ref, computed, defineOptions, watch } from "vue";
 import FlexItem from '@/components/system/items/FlexItem.vue';
 import { Layout } from "@/components/types/dataTypes";
 import SvgLoader from '@/components/system/SvgLoader.vue';
+import { GridItem } from "../types/GridType";
+import { FlexboxItem } from "../types/FlexType";
 defineOptions({
   name: "StarHorseFlexComp"
 
@@ -27,6 +29,8 @@ const containerConfig = ref<PageFieldInfo>({});
 const itemConfig = ref<PageFieldInfo>({});
 const layoutConfig = ref<Layout[]>([]);
 const flexModel = ref<string>("flex");
+const directions = ["column", "row-reverse", "column-reverse", "row"];
+let index = 0;
 const tabChange = (val: string) => {
 
 }
@@ -34,6 +38,20 @@ const addItem = () => {
   let itemId = uuid();
   flexDesign.addItem(itemId, {});
   selectItem(itemId);
+}
+/**
+ * 主轴方向
+ */
+const mainAxisDirection = () => {
+  if (index > 3) {
+    index = 0;
+  }
+  containerDataForm.value["flexDirection"] = directions[index];
+  Object.entries(flexDesign.getItems()).forEach(([_key, value]) => {
+    value["transform"] = "none";
+    value["transformOrigin"] = "50% 50% 0px";
+  });
+  index++;
 }
 const selectItem = (itemId: string) => {
   itemDataForm.value = flexDesign.getItem(itemId);
@@ -132,6 +150,11 @@ watch(() => currentId.value, (val: string) => {
             <el-menu-item :index="'1_1'" @click="addItem">
               <el-tooltip class="item" content="添加元素" effect="dark" placement="bottom">
                 <star-horse-icon icon-class="add" size="24px" style="color: var(--star-horse-style)" />
+              </el-tooltip>
+            </el-menu-item>
+            <el-menu-item :index="'1_2'" @click="mainAxisDirection">
+              <el-tooltip class="item" content="主轴方向" effect="dark" placement="bottom">
+                <star-horse-icon icon-class="refresh" size="24px" style="color: var(--star-horse-style)" />
               </el-tooltip>
             </el-menu-item>
           </el-menu>
