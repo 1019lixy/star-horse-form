@@ -144,6 +144,11 @@ watch(() => currentId.value, (val: string) => {
             </template>
           </div>
         </el-tab-pane>
+        <el-tab-pane name="comp">
+          <template #label>
+            <star-horse-icon icon-class="template" style="color: var(--star-horse-style)" />&nbsp;<span>组件</span>
+          </template>
+        </el-tab-pane>
       </el-tabs>
     </el-splitter-panel>
     <el-splitter-panel>
