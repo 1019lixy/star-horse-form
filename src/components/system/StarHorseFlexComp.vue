@@ -46,7 +46,9 @@ const mainAxisDirection = () => {
   if (index > 3) {
     index = 0;
   }
-  containerDataForm.value["flexDirection"] = directions[index];
+  const direction = directions[index];
+  containerDataForm.value["flexDirection"] = direction;
+  flexDesign.setContainerDirection(direction);
   Object.entries(flexDesign.getItems()).forEach(([_key, value]) => {
     value["transform"] = "none";
     value["transformOrigin"] = "50% 50% 0px";
@@ -55,6 +57,7 @@ const mainAxisDirection = () => {
 }
 const selectItem = (itemId: string) => {
   itemDataForm.value = flexDesign.getItem(itemId);
+  editTabModel.value = "item";
 }
 /**
  * 初始化
@@ -158,6 +161,7 @@ watch(() => currentId.value, (val: string) => {
               </el-tooltip>
             </el-menu-item>
           </el-menu>
+          {{ containerDataForm }}
         </div>
         <div :style="containerDataForm" class="flex-1">
           <template v-for="item in positionList">

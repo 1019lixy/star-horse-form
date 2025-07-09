@@ -4,6 +4,7 @@ import { defineStore } from "pinia";
 import { uuid } from "star-horse-lowcode";
 import { ref } from "vue";
 export const useFlexDesignStore = defineStore("flexDesign", () => {
+    const containerDirection = ref<string>("row");
     const containerInfo = ref<any>({});
     const itemsInfo = ref<Record<string, any>>({});
     const positionList = ref<string[]>([]);
@@ -16,6 +17,7 @@ export const useFlexDesignStore = defineStore("flexDesign", () => {
         itemsInfo.value = {};
         positionList.value = [];
         currentItem.value = "";
+        containerDirection.value = "row";
     };
     /**
      * 设置容器信息
@@ -24,6 +26,21 @@ export const useFlexDesignStore = defineStore("flexDesign", () => {
     const setContainerInfo = (container: any) => {
         containerInfo.value = container;
     }
+    /**
+     * 设置容器方向
+     * @param direction 方向
+     */
+    const setContainerDirection = (direction: string) => {
+        containerDirection.value = direction;
+    }
+    /**
+     * 获取容器方向
+     * @returns 方向
+     */
+    const getContainerDirection = () => {
+        return containerDirection.value;
+    }
+
     /**
      * 添加位置
      * @param position 
@@ -97,6 +114,8 @@ export const useFlexDesignStore = defineStore("flexDesign", () => {
         init,
         addItem,
         getItem,
+        setContainerDirection,
+        getContainerDirection,
         batchAddItems,
         setContainerInfo,
         setCurrentItem,
