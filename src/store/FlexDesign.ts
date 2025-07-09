@@ -49,6 +49,7 @@ export const useFlexDesignStore = defineStore("flexDesign", () => {
         items.forEach((item: FlexboxItem | GridItem) => {
             addItem(uuid(), item.styles);
         });
+        setCurrentItem(positionList.value[0]);
     }
     /**
      * 设置当前组件

@@ -42,12 +42,9 @@ const selectItem = (itemId: string) => {
  * 初始化
  */
 const init = () => {
-  flexDesign.init();
   flexChange("flex");
-  //测试，初始化5个div
-  for (let i = 0; i < 5; i++) {
-    addItem();
-  }
+  let layout: Layout = flexboxLayouts.find((item: Layout) => item.icon == "fillRemainingSpace")!;
+  layoutOperation(layout);
 };
 const flexChange = (val: string) => {
   flexDesign.init();
@@ -129,7 +126,7 @@ watch(() => currentId.value, (val: string) => {
       </el-tabs>
     </el-splitter-panel>
     <el-splitter-panel>
-      <div class=" flex flex-col mx-[10px]">
+      <div class=" flex flex-col mx-[10px] w-[98%] h-full">
         <div class="inner_button">
           <el-menu mode="horizontal" :ellipsis="false" style="height: inherit; width: 100%;">
             <el-menu-item :index="'1_1'" @click="addItem">
@@ -139,10 +136,9 @@ watch(() => currentId.value, (val: string) => {
             </el-menu-item>
           </el-menu>
         </div>
-        {{ currentId }}<br />{{ containerDataForm }}
-        <div :style="containerDataForm" class=" overflow-auto relative" >
+        <div :style="containerDataForm" class="flex-1">
           <template v-for="item in positionList">
-            <FlexItem :itemId="item" @selectItem="selectItem" />
+            <FlexItem :itemId="item" @selectItem="selectItem" :type="flexModel" />
           </template>
         </div>
       </div>
