@@ -137,7 +137,7 @@
     "@vue/compiler-sfc": "^3.5.17",
     "globals": "^16.3.0",
     "terser": "^5.43.1",
-    "vite": "^7.0.2",
+    "vite": "^7.0.3",
     "vite-plugin-vue-devtools": "^7.7.7"
   },
   "engines": {
