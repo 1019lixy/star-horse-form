@@ -1,11 +1,13 @@
 import { FlexboxItem } from "@/components/types/FlexType";
 import { GridItem } from "@/components/types/GridType";
+import { an } from "node_modules/@fullcalendar/core/internal-common.js";
 import { defineStore } from "pinia";
 import { uuid } from "star-horse-lowcode";
 import { ref } from "vue";
 export const useFlexDesignStore = defineStore("flexDesign", () => {
     const containerDirection = ref<string>("row");
     const containerInfo = ref<any>({});
+    const compList = ref<Record<string, any>>({});
     const itemsInfo = ref<Record<string, any>>({});
     const positionList = ref<string[]>([]);
     const currentItem = ref<string>("");
@@ -18,7 +20,61 @@ export const useFlexDesignStore = defineStore("flexDesign", () => {
         positionList.value = [];
         currentItem.value = "";
         containerDirection.value = "row";
+        compList.value = {};
     };
+    /**
+     * 添加组件到组件列表
+     * @param name 组件名称
+     * @param comp 组件
+     */
+    const addComp = (name: string, comp: any) => {
+        if (!Object.keys(compList.value).includes(name)) {
+            compList.value[name] = [];
+        }
+        compList.value[name].push(comp);
+    }
+    /**
+     * 批量添加组件到组件列表
+     * @param comps 组件列表
+     */
+    const batchAddComp = (comps: Record<string, any>) => {
+        Object.keys(comps).forEach((key) => {
+            addComp(key, comps[key]);
+        });
+    }
+    /**
+     * 获取组件
+     * @param name 组件名称
+     * @returns 组件
+     */
+    const getComp = (name: string) => {
+        if (!Object.keys(compList.value).includes(name)) {
+            compList.value[name] = [];
+        }
+        return compList.value[name];
+    }
+    /**
+     * 获取组件列表
+     * @returns 组件列表
+     */
+    const getCompList = () => {
+        return compList.value;
+    }
+    /**
+     * 移除组件
+     * @param name 组件名称
+     * @param id 组件id
+     */
+    const removeComp = (name: string, id: string) => {
+        const index = compList.value[name].findIndex((item: any) => item.id === id);
+        if (index !== -1) {
+            if (compList.value[name].length == 1) {
+                delete compList.value[name];
+            } else {
+                compList.value[name].splice(index, 1);
+            }
+        }
+    }
     /**
      * 设置容器信息
      * @param container 容器信息
@@ -101,7 +157,8 @@ export const useFlexDesignStore = defineStore("flexDesign", () => {
     const delItem = (position: string) => {
         delete itemsInfo.value[position];
         let index = positionList.value.indexOf(position);
-        positionList.value = positionList.value.filter((item) => item != position);
+        positionList.value = positionList.value.filter((item: any) => item != position);
+        compList.value = compList.value.filter((item: any) => item != position);
         if (currentItem.value == position) {
             index = index < positionList.value.length ? index : index - 1;
             setCurrentItem(positionList.value[index]);
@@ -112,6 +169,11 @@ export const useFlexDesignStore = defineStore("flexDesign", () => {
     }
     return {
         init,
+        addComp,
+        batchAddComp,
+        getComp,
+        getCompList,
+        removeComp,
         addItem,
         getItem,
         setContainerDirection,

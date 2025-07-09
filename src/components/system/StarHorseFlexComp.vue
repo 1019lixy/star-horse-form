@@ -1,19 +1,19 @@
 <script setup lang="ts">
 
-import { flexboxLayouts } from "@/utils/flexbox/layouts";
+import FlexItem from '@/components/system/items/FlexItem.vue';
+import SvgLoader from '@/components/system/SvgLoader.vue';
+import { Layout } from "@/components/types/dataTypes";
+import { useFlexDesignStore } from "@/store/FlexDesign";
 import { flexBoxContainerConfig } from "@/utils/flexbox/containerConfig";
 import { flexBoxItemsConfig } from "@/utils/flexbox/itemsConfig";
+import { flexboxLayouts } from "@/utils/flexbox/layouts";
 import { gridContainerConfig } from "@/utils/grid/containerConfig";
 import { gridItemsConfig } from "@/utils/grid/itemsConfig";
 import { gridLayouts } from "@/utils/grid/layouts";
+import FieldPanel from '@/views/dyform/FieldPanel.vue';
+import { compFieldInit } from '@/views/dyform/utils/FieldOperationUtils';
 import { PageFieldInfo, piniaInstance, uuid } from "star-horse-lowcode";
-import { useFlexDesignStore } from "@/store/FlexDesign";
-import { onMounted, ref, computed, defineOptions, watch } from "vue";
-import FlexItem from '@/components/system/items/FlexItem.vue';
-import { Layout } from "@/components/types/dataTypes";
-import SvgLoader from '@/components/system/SvgLoader.vue';
-import { GridItem } from "../types/GridType";
-import { FlexboxItem } from "../types/FlexType";
+import { computed, defineOptions, onMounted, ref, watch } from "vue";
 defineOptions({
   name: "StarHorseFlexComp"
 
@@ -59,6 +59,16 @@ const selectItem = (itemId: string) => {
   itemDataForm.value = flexDesign.getItem(itemId);
   editTabModel.value = "item";
 }
+const addComp=()=>{
+  flexDesign.addComp(currentId.value, {
+    id: uuid(),
+    type: "input",
+    label: "输入框",
+    formVisible:true,
+    fieldName: "name",
+    itemType: "item",
+  });
+}
 /**
  * 初始化
  */
@@ -88,8 +98,14 @@ const layoutOperation = (item: Layout) => {
   const items = item.layout.items;
   flexDesign.batchAddItems(JSON.parse(JSON.stringify(items)));
 }
+
 onMounted(() => {
   init();
+    compFieldInit().then(() => {
+    console.log("初始化完成");
+    //解决数据已经加载完成，但是组件属性没有加载完成的问题
+  
+  });
 });
 watch(() => currentId.value, (val: string) => {
   selectItem(val);
@@ -148,6 +164,7 @@ watch(() => currentId.value, (val: string) => {
           <template #label>
             <star-horse-icon icon-class="template" style="color: var(--star-horse-style)" />&nbsp;<span>组件</span>
           </template>
+        <FieldPanel/>
         </el-tab-pane>
       </el-tabs>
     </el-splitter-panel>

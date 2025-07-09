@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useFlexDesignStore } from '@/store/FlexDesign';
-import { piniaInstance, uuid } from 'star-horse-lowcode';
+import { piniaInstance, uuid,itemCheck } from 'star-horse-lowcode';
 import { computed, defineOptions, onMounted, ref } from 'vue';
 
 defineOptions({
@@ -14,6 +14,7 @@ const props = defineProps({
 const emit = defineEmits(["selectItem"]);
 const flexDesign = useFlexDesignStore(piniaInstance);
 const itemStyle = computed(() => flexDesign.getItem(props.itemId));
+const compList = computed(() => flexDesign.getComp(props.itemId));
 const currentId = computed(() => flexDesign.getCurrentItem());
 const containerDirection = computed(() => flexDesign.getContainerDirection());
 const list = ref<any[]>([]);
@@ -26,20 +27,9 @@ const deleteItem = () => {
     flexDesign.delItem(props.itemId);
 }
 const onDragAdd = (evt: Event, list: any[]) => {
-    const itemId = uuid();
-    const item = {
-        id: itemId,
-        type: 'input',
-        name: '输入框',
-        props: {
-            value: '输入框'
-        }
-    };
-    list.push(item);
+  
 }
-const itemCheck = (item: any) => {
-    return "input-item";
-}
+
 const init = () => {
 
 }
@@ -56,9 +46,10 @@ onMounted(() => {
         <div v-if="currentId == itemId" class="absolute top-0 left-0">
             <star-horse-icon iconClass="check" :color="'var(--star-horse-style)'" title="选中" />
         </div>
-        <div class="relative flex flex-col h-full w-full overflow-hidden">
-            <draggable @add="(evt: Event) => onDragAdd(evt, list)" style="width:98%;height:100%; margin:0 auto;"
-                tag="div" group="starHorseGroup" ghost-class="ghost" :list="list" :itemKey="uuid()">
+        <div class="relative flex flex-col h-full w-full overflow-hidden min-w-0">
+            <draggable @add="(evt: Event) => onDragAdd(evt, compList)"  class="w-full"
+                :style="{width: '100%', minWidth: 0}"
+                tag="div" group="starHorseGroup" ghost-class="ghost" :list="compList" :itemKey="uuid()">
                 <template #item="{ element: data, index }">
                     <div :class="{ 'comp-item': data.preps?.headerFlag == 'Y' }" class="overflow-visible"
                         :data-field-id="data.id" :key="data.id">
@@ -67,6 +58,7 @@ onMounted(() => {
                     </div>
                 </template>
             </draggable>
+            {{compList}}
         </div>
     </div>
 </template>
