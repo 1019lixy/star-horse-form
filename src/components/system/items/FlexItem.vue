@@ -28,7 +28,7 @@ onMounted(() => {
 })
 </script>
 <template>
-    <div :style="itemStyle" @click.stop="selectItem" class="relative min-h-[100px] min-w-[120px] flex flex-col"
+    <div :style="itemStyle" @click.stop="selectItem" class="item-info"
         style="border: 1px solid var(--star-horse-style);">
         <div class="absolute top-0 right-0 z-10" @click.stop="deleteItem">
             <star-horse-icon iconClass="delete" :cursor="'pointer'" :color="'var(--star-horse-danger)'" title="删除" />
@@ -36,9 +36,25 @@ onMounted(() => {
         <div v-if="currentId == itemId" class="absolute top-0 left-0">
             <star-horse-icon iconClass="check" :color="'var(--star-horse-style)'" title="选中" />
         </div>
-        <div class="relative flex-1">
+        <div class="relative">
             {{ itemStyle }}
         </div>
     </div>
 </template>
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.item-info {
+    border-radius: 3px;
+    padding: 1rem 1.5rem;
+    cursor: pointer;
+    opacity: 1; 
+    transform: none;
+    min-width: 7rem;
+    min-height: 5.5rem;
+    background: #fefefe;
+    margin:10px auto;
+    border: 3px solid #eee;
+    box-shadow: 4px 4px 0 0 var(--star-horse-style);
+    position: relative;
+    transition: background .3s ease, box-shadow .3s ease;
+}
+</style>

@@ -1,4 +1,7 @@
+import { FlexboxItem } from "@/components/types/FlexType";
+import { GridItem } from "@/components/types/GridType";
 import { defineStore } from "pinia";
+import { uuid } from "star-horse-lowcode";
 import { ref } from "vue";
 export const useFlexDesignStore = defineStore("flexDesign", () => {
     const containerInfo = ref<any>({});
@@ -14,6 +17,13 @@ export const useFlexDesignStore = defineStore("flexDesign", () => {
         positionList.value = [];
         currentItem.value = "";
     };
+    /**
+     * 设置容器信息
+     * @param container 容器信息
+     */
+    const setContainerInfo = (container: any) => {
+        containerInfo.value = container;
+    }
     /**
      * 添加位置
      * @param position 
@@ -31,6 +41,15 @@ export const useFlexDesignStore = defineStore("flexDesign", () => {
         addPosition(position);
         setCurrentItem(position);
     };
+    /**
+     * 批量添加组件
+     * @param items 
+     */
+    const batchAddItems = (items: FlexboxItem[] | GridItem[]) => {
+        items.forEach((item: FlexboxItem | GridItem) => {
+            addItem(uuid(), item.styles);
+        });
+    }
     /**
      * 设置当前组件
      * @param position 位置
@@ -77,6 +96,8 @@ export const useFlexDesignStore = defineStore("flexDesign", () => {
         init,
         addItem,
         getItem,
+        batchAddItems,
+        setContainerInfo,
         setCurrentItem,
         getCurrentItem,
         getPositionList,

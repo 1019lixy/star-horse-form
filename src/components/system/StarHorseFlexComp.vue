@@ -11,6 +11,7 @@ import { useFlexDesignStore } from "@/store/FlexDesign";
 import { onMounted, ref, computed, defineOptions, watch } from "vue";
 import FlexItem from '@/components/system/items/FlexItem.vue';
 import { Layout } from "@/components/types/dataTypes";
+import SvgLoader from '@/components/system/SvgLoader.vue';
 defineOptions({
   name: "StarHorseFlexComp"
 
@@ -49,6 +50,7 @@ const init = () => {
   }
 };
 const flexChange = (val: string) => {
+  flexDesign.init();
   if (val == "flex") {
     containerConfig.value = flexBoxContainerConfig;
     itemConfig.value = flexBoxItemsConfig;
@@ -59,10 +61,19 @@ const flexChange = (val: string) => {
     layoutConfig.value = gridLayouts;
   }
 }
+const layoutOperation = (item: Layout) => {
+  flexDesign.init();
+  const container = item.layout.container;
+  const tempContainerInfo = JSON.parse(JSON.stringify(container));
+  flexDesign.setContainerInfo(tempContainerInfo);
+  containerDataForm.value = tempContainerInfo;
+  const items = item.layout.items;
+  flexDesign.batchAddItems(JSON.parse(JSON.stringify(items)));
+}
 onMounted(() => {
   init();
 });
-watch(() => currentId.value, (val) => {
+watch(() => currentId.value, (val: string) => {
   selectItem(val);
 });
 </script>
@@ -108,8 +119,8 @@ watch(() => currentId.value, (val) => {
           </template>
           <div class="flex-grid gap-4 w-full flex-wrap">
             <template v-for="item in layoutConfig">
-              <div class="flex flex-col items-center justify-center ">
-                <star-horse-icon :icon-class="item.icon" size="80px" width="80px" height="80px" style="color: var(--star-horse-style)" />
+              <div class="flex flex-col items-center justify-center " @click="layoutOperation(item)">
+                <svg-loader :path="'./flexable/' + item.icon + '.svg'" :color="'var(--star-horse-style)'" size="80px" />
                 {{ item.name }}
               </div>
             </template>
@@ -128,8 +139,8 @@ watch(() => currentId.value, (val) => {
             </el-menu-item>
           </el-menu>
         </div>
-        {{ currentId }}
-        <div :style="containerDataForm" class="flex-1">
+        {{ currentId }}<br />{{ containerDataForm }}
+        <div :style="containerDataForm" class=" overflow-auto relative" >
           <template v-for="item in positionList">
             <FlexItem :itemId="item" @selectItem="selectItem" />
           </template>
@@ -140,10 +151,11 @@ watch(() => currentId.value, (val) => {
 </template>
 <style lang="scss" scoped>
 .flex-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);  // 两列布局
-    gap: 8px;  // 间隙统一设为8px
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); // 两列布局
+  gap: 8px; // 间隙统一设为8px
 }
+
 :deep {
   .el-tabs--left {
     .el-tabs__content {

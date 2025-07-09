@@ -12,7 +12,7 @@ export interface Layout {
 export const flexboxLayouts: Layout[] = [
    {
       name: "Fill Space",
-      icon:"flexable-fillSpace",
+      icon:"fillSpace",
       layout: {
          items: [
             { id: 1, text: "1", styles: { flexGrow: 1 } },
@@ -24,7 +24,7 @@ export const flexboxLayouts: Layout[] = [
    },
    {
       name: "Stretch Middle",
-      icon:"flexable-stretchMiddle",
+      icon:"stretchMiddle",
       layout: {
          items: [
             { id: 1, text: "1", styles: { width: "150px" } },
@@ -36,7 +36,7 @@ export const flexboxLayouts: Layout[] = [
    },
    {
       name: "HTML5",
-      icon:"flexable-html5",
+      icon:"html5",
       layout: {
          items: [
             { id: 1, text: "Header", styles: { width: "100%", height: "5%" } },
@@ -54,7 +54,7 @@ export const flexboxLayouts: Layout[] = [
    },
    {
       name: "Alternating Grid",
-      icon:"flexable-alternatingGrid",
+      icon:"alternatingGrid",
       layout: {
          items: [
             { id: 1, text: "1", styles: { flexGrow: 1 } },
@@ -68,12 +68,12 @@ export const flexboxLayouts: Layout[] = [
    },
    {
       name: "Masonry Column",
-      icon:"flexable-masonryColumn",
+      icon:"masonryColumn",
       layout: {
          items: [
-            { id: 1, text: "1", styles: { width: "32%", height: "40%" } },
-            { id: 2, text: "2", styles: { width: "32%", height: "30%" } },
-            { id: 3, text: "3", styles: { width: "32%", flexGrow: 1 } },
+            { id: 1, text: "1", styles: { width: "32%", height: "40%" ,"transform-origin": "50% 50% 0px"} },
+            { id: 2, text: "2", styles: { width: "32%", height: "30%" ,"transform-origin": "50% 50% 0px"} },
+            { id: 3, text: "3", styles: { width: "32%", flexGrow: 1,"transform-origin": "50% 50% 0px" } },
             { id: 4, text: "4", styles: { width: "32%", height: "25%" } },
             { id: 5, text: "5", styles: { width: "32%", height: "40%" } },
             { id: 6, text: "6", styles: { width: "32%", flexGrow: 1 } },
@@ -86,12 +86,13 @@ export const flexboxLayouts: Layout[] = [
             flexDirection: "column",
             gap: "2%",
             flexWrap: "wrap",
+            flexFlow:'column wrap'
          },
       },
    },
    {
       name: "Masonry Row",
-      icon:"flexable-masonryRow",
+      icon:"masonryRow",
       layout: {
          items: [
             { id: 1, text: "1", styles: { height: "32%", width: "40%" } },
@@ -114,7 +115,7 @@ export const flexboxLayouts: Layout[] = [
    },
    {
       name: "3x3 Grid",
-      icon:"flexable-grid3x3",
+      icon:"grid3x3",
       layout: {
          items: [
             { id: 1, text: "1", styles: { width: "32%", height: "32%" } },
@@ -132,7 +133,7 @@ export const flexboxLayouts: Layout[] = [
    },
    {
       name: "4x4 Grid",
-      icon:"flexable-grid4x4",
+      icon:"grid4x4",
       layout: {
          items: [
             { id: 1, text: "1", styles: { width: "23.5%", height: "23.5%" } },
@@ -157,7 +158,7 @@ export const flexboxLayouts: Layout[] = [
    },
    {
       name: "Align Center",
-      icon:"flexable-alignCenter",
+      icon:"alignCenter",
       layout: {
          items: [
             { id: 1, text: "1", styles: { width: "25%", height: "150px" } },
@@ -179,7 +180,7 @@ export const flexboxLayouts: Layout[] = [
    },
    {
       name: "Fill Right",
-      icon:"flexable-fillRemainingSpace",
+      icon:"fillRemainingSpace",
       layout: {
          items: [
             { id: 1, text: "1", styles: { height: "150px" } },
@@ -191,7 +192,7 @@ export const flexboxLayouts: Layout[] = [
    },
    {
       name: "Fill Center",
-      icon:"flexable-fillRemainingSpace2",
+      icon:"fillRemainingSpace2",
       layout: {
          items: [
             { id: 1, text: "1", styles: { height: "150px" } },
@@ -203,7 +204,7 @@ export const flexboxLayouts: Layout[] = [
    },
    {
       name: "Horizontal Bars",
-      icon:"flexable-horizontalBars",
+      icon:"horizontalBars",
       layout: {
          items: [
             { id: 1, text: "1", styles: { width: "40%" } },
@@ -217,7 +218,7 @@ export const flexboxLayouts: Layout[] = [
    },
    {
       name: "Vertical Bars",
-      icon:"flexable-verticalBars",
+      icon:"verticalBars",
       layout: {
          items: [
             { id: 1, text: "1", styles: { height: "40%" } },
@@ -231,7 +232,7 @@ export const flexboxLayouts: Layout[] = [
    },
    {
       name: "Row Wrap",
-      icon:"flexable-rowWrap",
+      icon:"rowWrap",
       layout: {
          items: [
             { id: 1, text: "1", styles: { height: "150px", width: "23.5%" } },
@@ -259,7 +260,7 @@ export const flexboxLayouts: Layout[] = [
    },
    {
       name: "Vertical Stack",
-      icon:"flexable-verticalStack",
+      icon:"verticalStack",
       layout: {
          items: [
             { id: 1, text: "1", styles: { width: "250px", flexGrow: 1 } },

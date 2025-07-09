@@ -11,13 +11,11 @@ const __dirname = path.dirname(__filename);
 const fontName = 'star-horse-icons';
 const fontStream = new SVGIcons2SVGFontStream({
     fontName: fontName,
-    normalize: false,
+    normalize: true,
     fixedWidth: false,  // 统一宽度
     centerVertically: true,
     centerHorizontally: true,
     preserveAspectRatio: true,
-    fontHeight: 1024,  // 新增分辨率设置
-    descent: 64        // 新增基线偏移
 });
 
 // 新增递归收集SVG文件函数

@@ -12,7 +12,7 @@ export interface Layout {
 export const gridLayouts: Layout[] = [
    {
       name: "Pancake Stack",
-      icon:"flexable-pancakeStack",
+      icon:"pancakeStack",
       layout: {
          items: [
             { id: 1, text: "Header", styles: {} },
@@ -29,7 +29,7 @@ export const gridLayouts: Layout[] = [
    },
    {
       name: "Sidebar",
-      icon:"flexable-sidebar",
+      icon:"sidebar",
       layout: {
          items: [
             { id: 1, text: "Sidebar", styles: {} },
@@ -45,7 +45,7 @@ export const gridLayouts: Layout[] = [
    },
    {
       name: "HTML5",
-      icon:"flexable-html5",
+      icon:"html5",
       layout: {
          items: [
             { id: 1, text: "Header", styles: { gridColumn: "1 / 3" } },
@@ -63,7 +63,7 @@ export const gridLayouts: Layout[] = [
    },
    {
       name: "HTML5 - 2",
-      icon:"flexable-html5_2",
+      icon:"html5-2",
       layout: {
          items: [
             { id: 1, text: "1", styles: { gridColumn: "1 / 4" } },
@@ -82,7 +82,7 @@ export const gridLayouts: Layout[] = [
    },
    {
       name: "12 Column System",
-      icon:"flexable-columnSystem",
+      icon:"columnSystem",
       layout: {
          items: [
             { id: 1, text: "Header", styles: { gridColumn: "1 / -1" } },
@@ -116,7 +116,7 @@ export const gridLayouts: Layout[] = [
    },
    {
       name: "Collage",
-      icon:"flexable-collage",
+      icon:"collage",
       layout: {
          items: [
             {
@@ -175,7 +175,7 @@ export const gridLayouts: Layout[] = [
    },
    {
       name: "3x3 Grid",
-      icon:"flexable-grid3x3",
+      icon:"grid3x3",
       layout: {
          items: [
             { id: 1, text: "1", styles: {} },
@@ -198,7 +198,7 @@ export const gridLayouts: Layout[] = [
    },
    {
       name: "4x4 Grid",
-      icon:"flexable-grid4x4",
+      icon:"grid4x4",
       layout: {
          items: [
             { id: 1, text: "1", styles: {} },
@@ -228,7 +228,7 @@ export const gridLayouts: Layout[] = [
    },
    {
       name: "Infinite Rows",
-      icon:"flexable-infiniteRows",
+      icon:"infiniteRows",
       layout: {
          items: [
             { id: 1, text: "1", styles: {} },
@@ -252,7 +252,7 @@ export const gridLayouts: Layout[] = [
    },
    {
       name: "Infinite Columns",
-      icon:"flexable-infiniteColumns",
+      icon:"infiniteColumns",
       layout: {
          items: [
             { id: 1, text: "1", styles: {} },

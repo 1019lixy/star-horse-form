@@ -297,6 +297,7 @@ declare module 'vue' {
     SubSystemMenu: typeof import('./src/components/menu/SubSystemMenu.vue')['default']
     SuggestNode: typeof import('./src/views/workflow/plugin/node/SuggestNode.vue')['default']
     SunburstItem: typeof import('./src/components/formcomp/charts/sunburst-item.vue')['default']
+    SvgLoader: typeof import('./src/components/system/SvgLoader.vue')['default']
     SystemParamsUi: typeof import('./src/views/system/SystemParamsUi.vue')['default']
     SystemSubMenu: typeof import('./src/components/menu/SystemSubMenu.vue')['default']
     TabPage: typeof import('./src/views/dyform/TabPage.vue')['default']
