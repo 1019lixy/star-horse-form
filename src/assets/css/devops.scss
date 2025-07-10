@@ -475,6 +475,7 @@
   display: flex;
   justify-content: space-between;
 }
+
 .field-area {
   width: 100%;
   height: 100%;
@@ -499,8 +500,10 @@
     margin-left: 8px;
 
     ul {
-      padding-left: 10px; /* 重置IE11默认样式 */
-      margin: 0; /* 重置IE11默认样式 */
+      padding-left: 10px;
+      /* 重置IE11默认样式 */
+      margin: 0;
+      /* 重置IE11默认样式 */
       margin-block-start: 0;
       margin-block-end: 0.25em;
       padding-inline-start: 10px;
@@ -565,4 +568,11 @@
       }
     }
   }
-} 
+}
+
+.ghost {
+  opacity: 0.8;
+  background: var(--star-horse-style);
+  margin-top: 3px !important;
+  height: 3px !important;
+}

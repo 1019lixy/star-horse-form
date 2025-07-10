@@ -12,7 +12,9 @@ import { gridItemsConfig } from "@/utils/grid/itemsConfig";
 import { gridLayouts } from "@/utils/grid/layouts";
 import { PageFieldInfo, piniaInstance, uuid } from "star-horse-lowcode";
 import { computed, defineOptions, onMounted, ref, watch } from "vue";
-import PageCompPanel from './items/PageCompPanel.vue';
+import PageCompPanel from '@/components/system/items/PageCompPanel.vue';
+import pageItemsComponent from "@/components/formcomp/pageitems/allPageItem";
+import { appInstance } from '@/main';
 defineOptions({
   name: "StarHorseFlexComp"
 
@@ -72,6 +74,7 @@ const addComp = () => {
  * 初始化
  */
 const init = () => {
+  appInstance.use(pageItemsComponent);
   flexChange("flex");
   let layout: Layout = flexboxLayouts.find((item: Layout) => item.icon == "fillRemainingSpace")!;
   layoutOperation(layout);
@@ -155,7 +158,7 @@ watch(() => currentId.value, (val: string) => {
           <div class="flex-grid gap-4 w-full flex-wrap">
             <template v-for="item in layoutConfig">
               <div class="flex flex-col items-center justify-center " @click="layoutOperation(item)">
-                <svg-loader :path="'./flexable/' + item.icon + '.svg'" :color="'var(--star-horse-style)'" size="80px" />
+                <svg-loader :path="'./flexable/' + item.icon" :color="'var(--star-horse-style)'" size="80px" />
                 {{ item.name }}
               </div>
             </template>

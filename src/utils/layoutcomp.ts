@@ -9,83 +9,86 @@ export const pageCompList: PageComp[] = [
         items: [{
             id: "1",
             label: "表格",
-            name: "table",
+            name: "ptable",
             icon: "table",
             preps: {}
         },
         {
             id: "2",
             label: "分页条",
-            name: "pagination",
+            name: "ppagebar",
             icon: "pagebar",
-            preps: {}
+            preps: {
+                layout:"prev,pager,next",
+                total:1000
+            }
         },
         {
             id: "3",
             label: "图片",
-            name: "image",
+            name: "pimage",
             icon: "image",
             preps: {}
         },
         {
             id: "4",
             label: "走马灯",
-            name: "carousel",
+            name: "pcarousel",
             icon: "carousel",
             preps: {}
         },
         {
             id: "5",
             label: "日历",
-            name: "calendar",
+            name: "pcalendar",
             icon: "calendar",
             preps: {}
         },
         {
             id: "6",
             label: "分割面板",
-            name: "splitter",
+            name: "psplitter",
             icon: "splitter",
             preps: {}
         },
         {
             id: "7",
             label: "统计",
-            name: "statistic",
+            name: "pstatistic",
             icon: "statistic",
             preps: {}
         },
         {
             id: "8",
             label: "页头",
-            name: "pageHeader",
+            name: "pnavbar",
             icon: "pageHeader",
             preps: {}
         },
         {
             id: "9",
             label: "菜单",
-            name: "menu",
+            name: "pmenubar",
             icon: "menu",
             preps: {}
         },
         {
             id: "10",
             label: "步骤条",
-            name: "steps",
+            name: "psteps",
             icon: "steps",
             preps: {}
         },
         {
             id: "11",
             label: "时间线",
-            name: "timeline",
+            name: "ptimeline",
             icon: "timeline",
             preps: {}
         }, {
             id: "12",
             label: "表单",
-            name: "form",
+            name: "pform",
             icon: "form",
             preps: {}
         }],

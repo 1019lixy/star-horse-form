@@ -5,33 +5,29 @@
         <div id="sh-flow-editor" class="sh-flow-editor-container" :style="zoomStyle">
           <div id="sh-flow-editor-content" class="sh-flow-editor-content">
             <!--            <FlowStartNode :node="nodeData"/>-->
-            <FlowNode :node="nodeData" :readable="readable"/>
+            <FlowNode :node="nodeData" :readable="readable" />
             <!--            <FlowEndNode :node="nodeData" :readable="readable"/>-->
           </div>
         </div>
-        <FlowHelper v-if="!readable"/>
-        <FlowTips v-if="readable"/>
-        <FlowZoom
-            v-model:zoomValue="zoomValue"
-            @saveImage="saveAsPng"
-            :saveBtnVisible="saveBtnVisible"
-            :mapBtnVisible="mapBtnVisible"
-            :zoomBtnVisible="zoomBtnVisible"
-        />
-        <FlowMap v-if="mapVisible && !scale.isMobile()"/>
-        <PrepIndex v-if="!readable"/>
+        <FlowHelper v-if="!readable" />
+        <FlowTips v-if="readable" />
+        <FlowZoom v-model:zoomValue="zoomValue" @saveImage="saveAsPng" :saveBtnVisible="saveBtnVisible"
+          :mapBtnVisible="mapBtnVisible" :zoomBtnVisible="zoomBtnVisible" />
+        <FlowMap v-if="mapVisible && !scale.isMobile()" />
+        <PrepIndex v-if="!readable" />
       </div>
     </div>
   </div>
 </template>
 <script setup lang="ts">
-import {computed, onMounted, ref, watch} from "vue";
-import {useFlowDesignStore} from "@/store/FlowDesign";
+import { computed, onMounted, ref, watch } from "vue";
+import { useFlowDesignStore } from "@/store/FlowDesign";
 import html2canvas from "html2canvas";
-import {scale} from "@/views/workflow/plugin/utils/deviceUtil";
-import {useRouter} from "vue-router";
-import {apiInstance, ApiUrls, piniaInstance} from "star-horse-lowcode";
-
+import { scale } from "@/views/workflow/plugin/utils/deviceUtil";
+import { useRouter } from "vue-router";
+import { apiInstance, ApiUrls, piniaInstance } from "star-horse-lowcode";
+import flowNodeComponent from "@/views/workflow/plugin/node/nodes";
+import { appInstance } from "@/main";
 defineProps({
   saveBtnVisible: {
     type: Boolean,
@@ -73,6 +69,7 @@ const saveAsPng = async () => {
 };
 
 const init = () => {
+  appInstance.use(flowNodeComponent);
   flowDesign.init();
   if (!nodeData.value || Object.keys(nodeData.value).length == 0) {
     flowDesign.flowSetNode(null);
@@ -97,11 +94,11 @@ defineExpose({
   nodeData
 });
 watch(
-    () => router.currentRoute.value.query,
-    () => {
-      loadData();
-    },
-    {immediate: true, deep: true}
+  () => router.currentRoute.value.query,
+  () => {
+    loadData();
+  },
+  { immediate: true, deep: true }
 );
 </script>
 <style lang="scss" scoped>

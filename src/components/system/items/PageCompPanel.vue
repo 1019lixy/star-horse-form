@@ -12,7 +12,7 @@ const props = defineProps({
 const emit = defineEmits(["selectItem"]);
 const activeNames = ref<string[]>(["a", "b"]);
 const onContainerCopy = (data: PageCompItem) => {
-
+    return JSON.parse(JSON.stringify(data));
 }
 const addElement = (item: PageCompItem, type: string) => {
 
@@ -44,9 +44,10 @@ onMounted(() => {
                             <template #item="{ element }">
                                 <li class="field-item" @dblclick="addElement(element, item.name)"
                                     :title="element.label">&nbsp;&nbsp;
-                                    <span><SvgLoader :path="'comp/'+element.icon+'.svg'" :size="'18px'"
-                                            style="color: var(--star-horse-style)" /><i>{{ element.label
-                                            }}</i></span>
+                                    <span>
+                                        <SvgLoader :path="'comp/' + element.icon" :size="'18px'" /><i>{{ element.label
+                                        }}</i>
+                                    </span>
                                 </li>
                             </template>
                         </draggable>

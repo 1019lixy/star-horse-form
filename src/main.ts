@@ -3,13 +3,12 @@ import "@/assets/css/flow.scss";
 import "star-horse-lowcode/assets/index.css";
 import "@/assets/css/devops.scss";
 import "tailwindcss/index.css";
-import nodeComponent from "@/views/continuous/nodeInfo/nodecomp";
+// import nodeComponent from "@/views/continuous/nodeInfo/nodecomp";
 import itemsComponent from "@/components/formcomp/items/allitem";
 import commonComponent from "@/components/common/index";
 import systemComponent from "@/components/system/SystemComp";
-import flowNodeComponent from "@/views/workflow/plugin/node/nodes";
 import App from "@/App.vue";
-import {createApp} from "vue";
+import { createApp } from "vue";
 // 导入svg图标
 import "animate.css";
 import router from "@/router/index";
@@ -21,7 +20,7 @@ import piniaCompInstance from "@/store";
 import "element-plus/dist/index.css";
 import * as ElementPlusIconsVue from "@element-plus/icons-vue";
 import VueParticles from "@tsparticles/vue3";
-import {loadSlim} from "@tsparticles/slim";
+import { loadSlim } from "@tsparticles/slim";
 import StarHorseLowCode from "star-horse-lowcode";
 
 const app = createApp(App);
@@ -44,8 +43,7 @@ for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
 app.use(commonComponent);
 app.use(systemComponent);
 app.use(itemsComponent);
-app.use(nodeComponent);
-app.use(flowNodeComponent);
+// app.use(nodeComponent);
 app.use(VueParticles, {
     init: async engine => {
         await loadSlim(engine);
@@ -68,7 +66,7 @@ app.config.errorHandler = (err, instance, info) => {
  * @param instance
  * @param info
  */
-app.config.warnHandler = () => {};
+app.config.warnHandler = () => null;
 // app.config.warnHandler=(msg, instance, trace)=>{
 //     console.log(msg);
 //     console.log(instance);

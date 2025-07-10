@@ -650,12 +650,7 @@ let prepsModel = ref("one");
 }
 
 // 在样式部分添加以下规则
-:deep(.ghost) {
-  opacity: 0.8;
-  background: var(--star-horse-style);
-  margin-top: 3px !important;
-  height: 3px !important;
-}
+
 
 
 :deep(.el-divider--horizontal) {
