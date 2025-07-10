@@ -4,6 +4,8 @@ defineOptions({
 });
 </script>
 
-<template>日历</template>
+<template>
+  <el-calendar/>
+</template>
 
 <style scoped lang="scss"></style>

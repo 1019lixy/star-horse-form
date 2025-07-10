@@ -61,7 +61,7 @@ export const pageCompList: PageComp[] = [
         {
             id: "8",
             label: "页头",
-            name: "pnavbar",
+            name: "ppageheader",
             icon: "pageHeader",
             preps: {}
         },

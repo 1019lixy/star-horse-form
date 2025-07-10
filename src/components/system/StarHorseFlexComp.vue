@@ -158,7 +158,7 @@ watch(() => currentId.value, (val: string) => {
           <div class="flex-grid gap-4 w-full flex-wrap">
             <template v-for="item in layoutConfig">
               <div class="flex flex-col items-center justify-center " @click="layoutOperation(item)">
-                <svg-loader :path="'./flexable/' + item.icon" :color="'var(--star-horse-style)'" size="80px" />
+                <svg-loader :path="'./flexable/' + item.icon"  cursor="pointer" size="80px" />
                 {{ item.name }}
               </div>
             </template>
@@ -184,6 +184,11 @@ watch(() => currentId.value, (val: string) => {
             <el-menu-item :index="'1_2'" @click="mainAxisDirection">
               <el-tooltip class="item" content="主轴方向" effect="dark" placement="bottom">
                 <star-horse-icon icon-class="refresh" size="24px" style="color: var(--star-horse-style)" />
+              </el-tooltip>
+            </el-menu-item>
+            <el-menu-item :index="'1_3'" @click="mainAxisDirection">
+              <el-tooltip class="item" content="代码" effect="dark" placement="bottom">
+                <star-horse-icon icon-class="code" size="24px" />
               </el-tooltip>
             </el-menu-item>
           </el-menu>
