@@ -119,7 +119,7 @@ onMounted(() => {
     min-height: 5.5rem;
     max-width: 100%;
     background: #fefefe;
-    margin: 0 auto;
+  /*   margin: 0 auto; */
     border: 3px solid var(--star-horse-style);
     position: relative;
     overflow: hidden;
