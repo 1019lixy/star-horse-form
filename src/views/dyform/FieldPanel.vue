@@ -231,12 +231,7 @@ i {
   font-size: 12px;
 }
 
-.field-area {
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
 
-}
 
 .temp-card {
   width: 99% !important;
@@ -265,92 +260,6 @@ i {
     height: 100%;
   }
 }
-
-.starhorse-collapse {
-  border-top-width: 0;
-  display: flex;
-  flex-direction: column;
-  /*  height: 100%;
-  overflow: hidden;*/
-
-  .el-collapse-item__header {
-    padding-left: 10px;
-    font-weight: bold;
-  }
-
-  .el-collapse-item__content {
-    padding-bottom: 6px;
-    margin-left: 8px;
-
-    ul {
-      padding-left: 10px; /* 重置IE11默认样式 */
-      margin: 0; /* 重置IE11默认样式 */
-      margin-block-start: 0;
-      margin-block-end: 0.25em;
-      padding-inline-start: 10px;
-
-      &:after {
-        content: "";
-        display: block;
-        clear: both;
-      }
-
-      .field-item {
-        display: inline-flex;
-        height: 28px;
-        line-height: 28px;
-        width: 100px;
-        float: left;
-        margin: 2px 6px 6px 0;
-        cursor: move;
-        white-space: nowrap;
-        text-overflow: ellipsis;
-        overflow: hidden;
-        border: 1px solid #f1f2f3;
-
-        span {
-          display: inline-flex;
-          justify-items: center;
-          vertical-align: middle;
-          align-items: center;
-          width: 100%;
-          padding: 0;
-          margin: 0;
-          height: 100%;
-
-          .svg-icon {
-            margin-left: 0;
-            margin-right: 3px;
-          }
-
-          i {
-            white-space: nowrap;
-            text-overflow: ellipsis;
-            overflow: hidden; // 确保这个属性存在
-            max-width: 70px; // 根据实际需要调整这个值
-          }
-        }
-
-        &:hover {
-          background: #ebeef5;
-          outline: 1px solid #999999;
-        }
-      }
-
-      .drag-handler {
-        position: absolute;
-        top: 0;
-        left: 160px;
-        background-color: #dddddd;
-        border-radius: 5px;
-        padding-right: 5px;
-        font-size: 11px;
-        color: #666666;
-      }
-    }
-  }
-} 
-
 :deep {
   .el-tabs__content {
     padding: 0 !important;

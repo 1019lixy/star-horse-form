@@ -1,5 +1,4 @@
 import { FlexboxContainer, FlexboxItem } from "@/components/types/FlexType";
-import { overflow } from "html2canvas/dist/types/css/property-descriptors/overflow.js";
 
 export interface Layout {
    name: string;
@@ -47,7 +46,7 @@ export const flexboxLayouts: Layout[] = [
          ],
          container: {
             display: "flex",
-            gap:"8px",
+            gap: "8px",
             flexWrap: "wrap",
             alignContent: "start",
          },
@@ -64,7 +63,7 @@ export const flexboxLayouts: Layout[] = [
             { id: 4, text: "4", styles: { flexGrow: 1 } },
             { id: 5, text: "5", styles: { flexGrow: 1 } },
          ],
-         container: { display: "flex", gap:"8px", flexWrap: "wrap" },
+         container: { display: "flex", gap: "8px", flexWrap: "wrap" },
       },
    },
    {
@@ -85,7 +84,7 @@ export const flexboxLayouts: Layout[] = [
          container: {
             display: "flex",
             flexDirection: "column",
-            gap:"8px",
+            gap: "8px",
             flexWrap: "wrap",
          },
       },
@@ -108,7 +107,7 @@ export const flexboxLayouts: Layout[] = [
          container: {
             display: "flex",
             flexDirection: "row",
-            gap:"8px",
+            gap: "8px",
             flexWrap: "wrap",
          },
       },
@@ -128,7 +127,7 @@ export const flexboxLayouts: Layout[] = [
             { id: 8, text: "8", styles: { width: "32%", height: "32%" } },
             { id: 9, text: "9", styles: { width: "32%", height: "32%" } },
          ],
-         container: { display: "flex", gap:"8px", flexWrap: "wrap" },
+         container: { display: "flex", gap: "8px", flexWrap: "wrap" },
       },
    },
    {
@@ -153,7 +152,7 @@ export const flexboxLayouts: Layout[] = [
             { id: 15, text: "15", styles: { width: "23.5%", height: "23.5%" } },
             { id: 16, text: "16", styles: { width: "23.5%", height: "23.5%" } },
          ],
-         container: { display: "flex", gap:"8px", flexWrap: "wrap" },
+         container: { display: "flex", gap: "8px", flexWrap: "wrap" },
       },
    },
    {
@@ -170,7 +169,7 @@ export const flexboxLayouts: Layout[] = [
          ],
          container: {
             display: "flex",
-            gap:"8px",
+            gap: "8px",
             flexWrap: "wrap",
             justifyContent: "center",
             alignItems: "center",
@@ -187,7 +186,7 @@ export const flexboxLayouts: Layout[] = [
             { id: 2, text: "2", styles: { height: "150px" } },
             { id: 3, text: "3", styles: { height: "150px", flexGrow: 1 } },
          ],
-         container: { display: "flex", gap:"8px", flexWrap: "wrap" },
+         container: { display: "flex", gap: "8px", flexWrap: "wrap" },
       },
    },
    {
@@ -199,7 +198,7 @@ export const flexboxLayouts: Layout[] = [
             { id: 2, text: "2", styles: { height: "150px", flexGrow: 1 } },
             { id: 3, text: "3", styles: { height: "150px" } },
          ],
-         container: { display: "flex", gap:"8px", flexWrap: "wrap" },
+         container: { display: "flex", gap: "8px", flexWrap: "wrap" },
       },
    },
    {
@@ -213,7 +212,7 @@ export const flexboxLayouts: Layout[] = [
             { id: 4, text: "4", styles: { width: "25%" } },
             { id: 5, text: "5", styles: { width: "35%" } },
          ],
-         container: { display: "flex", gap:"8px", flexDirection: "column" },
+         container: { display: "flex", gap: "8px", flexDirection: "column" },
       },
    },
    {
@@ -227,7 +226,7 @@ export const flexboxLayouts: Layout[] = [
             { id: 4, text: "4", styles: { height: "25%" } },
             { id: 5, text: "5", styles: { height: "35%" } },
          ],
-         container: { display: "flex", gap:"8px", alignItems: "end" },
+         container: { display: "flex", gap: "8px", alignItems: "end" },
       },
    },
    {
@@ -252,7 +251,7 @@ export const flexboxLayouts: Layout[] = [
          ],
          container: {
             display: "flex",
-            gap:"8px",
+            gap: "8px",
             flexWrap: "wrap",
             alignContent: "start",
          },
@@ -270,7 +269,7 @@ export const flexboxLayouts: Layout[] = [
          ],
          container: {
             display: "flex",
-            gap:"8px",
+            gap: "8px",
             flexDirection: "column",
             alignItems: "center",
          },

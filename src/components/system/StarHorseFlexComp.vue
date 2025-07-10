@@ -10,10 +10,9 @@ import { flexboxLayouts } from "@/utils/flexbox/layouts";
 import { gridContainerConfig } from "@/utils/grid/containerConfig";
 import { gridItemsConfig } from "@/utils/grid/itemsConfig";
 import { gridLayouts } from "@/utils/grid/layouts";
-import FieldPanel from '@/views/dyform/FieldPanel.vue';
-import { compFieldInit } from '@/views/dyform/utils/FieldOperationUtils';
 import { PageFieldInfo, piniaInstance, uuid } from "star-horse-lowcode";
 import { computed, defineOptions, onMounted, ref, watch } from "vue";
+import PageCompPanel from './items/PageCompPanel.vue';
 defineOptions({
   name: "StarHorseFlexComp"
 
@@ -59,12 +58,12 @@ const selectItem = (itemId: string) => {
   itemDataForm.value = flexDesign.getItem(itemId);
   editTabModel.value = "item";
 }
-const addComp=()=>{
+const addComp = () => {
   flexDesign.addComp(currentId.value, {
     id: uuid(),
     type: "input",
     label: "输入框",
-    formVisible:true,
+    formVisible: true,
     fieldName: "name",
     itemType: "item",
   });
@@ -93,19 +92,21 @@ const layoutOperation = (item: Layout) => {
   flexDesign.init();
   const container = item.layout.container;
   const tempContainerInfo = JSON.parse(JSON.stringify(container));
+  tempContainerInfo["minWidth"] = "auto";
   flexDesign.setContainerInfo(tempContainerInfo);
+
   containerDataForm.value = tempContainerInfo;
   const items = item.layout.items;
-  flexDesign.batchAddItems(JSON.parse(JSON.stringify(items)));
+  const tempItems = JSON.parse(JSON.stringify(items));
+  tempItems.forEach((item: any) => {
+    // item.styles["minWidth"] = "auto";
+    item.styles["overflow"] = "hidden";
+  })
+  flexDesign.batchAddItems(tempItems);
 }
 
 onMounted(() => {
   init();
-    compFieldInit().then(() => {
-    console.log("初始化完成");
-    //解决数据已经加载完成，但是组件属性没有加载完成的问题
-  
-  });
 });
 watch(() => currentId.value, (val: string) => {
   selectItem(val);
@@ -164,7 +165,7 @@ watch(() => currentId.value, (val: string) => {
           <template #label>
             <star-horse-icon icon-class="template" style="color: var(--star-horse-style)" />&nbsp;<span>组件</span>
           </template>
-        <FieldPanel/>
+          <PageCompPanel />
         </el-tab-pane>
       </el-tabs>
     </el-splitter-panel>
@@ -183,7 +184,6 @@ watch(() => currentId.value, (val: string) => {
               </el-tooltip>
             </el-menu-item>
           </el-menu>
-          {{ containerDataForm }}
         </div>
         <div :style="containerDataForm" class="flex-1">
           <template v-for="item in positionList">

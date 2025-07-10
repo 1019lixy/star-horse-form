@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { useFlexDesignStore } from '@/store/FlexDesign';
-import { piniaInstance, uuid,itemCheck } from 'star-horse-lowcode';
+import { co } from 'node_modules/@fullcalendar/core/internal-common';
+import { piniaInstance, uuid, itemCheck } from 'star-horse-lowcode';
 import { computed, defineOptions, onMounted, ref } from 'vue';
 
 defineOptions({
@@ -27,7 +28,7 @@ const deleteItem = () => {
     flexDesign.delItem(props.itemId);
 }
 const onDragAdd = (evt: Event, list: any[]) => {
-  
+
 }
 
 const init = () => {
@@ -46,19 +47,18 @@ onMounted(() => {
         <div v-if="currentId == itemId" class="absolute top-0 left-0">
             <star-horse-icon iconClass="check" :color="'var(--star-horse-style)'" title="选中" />
         </div>
-        <div class="relative flex flex-col h-full w-full overflow-hidden min-w-0">
-            <draggable @add="(evt: Event) => onDragAdd(evt, compList)"  class="w-full"
-                :style="{width: '100%', minWidth: 0}"
-                tag="div" group="starHorseGroup" ghost-class="ghost" :list="compList" :itemKey="uuid()">
+        <div class="relative flex flex-col h-full w-full overflow-hidden min-w-0 max-w-full">
+            <draggable @add="(evt: Event) => onDragAdd(evt, compList)" class="w-full"
+                :style="{ width: '100%', minWidth: 0 }" tag="div" group="starHorseGroup" ghost-class="ghost"
+                :list="compList" :itemKey="uuid()">
                 <template #item="{ element: data, index }">
                     <div :class="{ 'comp-item': data.preps?.headerFlag == 'Y' }" class="overflow-visible"
                         :data-field-id="data.id" :key="data.id">
                         <component :key="data.id" :field="data" :isDesign="true" :index-of-parent-list="index"
-                            :is="itemCheck(data)" v-model:formData="formData" />
+                            :is="itemCheck(data)" v-model:formData="formData" style="min-width: 0; width: 100%;" />
                     </div>
                 </template>
             </draggable>
-            {{compList}}
         </div>
     </div>
 </template>
@@ -73,11 +73,18 @@ onMounted(() => {
     cursor: pointer;
     min-width: 7rem;
     min-height: 5.5rem;
+    max-width: 100%;
     background: #fefefe;
     margin: 0 auto;
     border: 3px solid var(--star-horse-style);
-    box-shadow: 3px 3px 0 0 var(--star-horse-style);
     position: relative;
+    overflow: hidden;
     transition: background .3s ease, box-shadow .3s ease;
+    /* 修改调整方向 */
+    resize: both;
+    /* 允许水平调整 */
+    overflow: auto;
+    min-width: 120px;
+    min-height: 80px;
 }
 </style>

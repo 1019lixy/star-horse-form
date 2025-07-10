@@ -7,8 +7,8 @@ const props = defineProps({
     path: { type: String, required: true },
     size: { type: String, default: '20px' },
     cursor: { type: String, default: 'normal' },
-    marginLeft: { type: String, default: 'none' },
-    marginRight: { type: String, default: 'none' },
+    marginLeft: { type: String, default: '1px' },
+    marginRight: { type: String, default: '1px' },
     color: { type: String, default: "var(--star-horse-style)" },
 });
 const svgContainer = ref(null);
@@ -24,8 +24,8 @@ watch(() => props.path, loadSvg);
 <style scoped>
 :deep(svg) {
     cursor: v-bind(cursor);
-    width: v-bind(size);
-    height: v-bind(size);
+    width: v-bind(size) !important;
+    height: v-bind(size) !important;
     color: v-bind(color);
     margin-left: v-bind(marginLeft);
     margin-right: v-bind(marginRight);
