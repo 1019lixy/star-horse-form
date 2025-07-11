@@ -21,11 +21,11 @@ import {
     uploadRequest,
     warning
 } from "star-horse-lowcode";
-import {reactive, Reactive, ShallowRef, unref} from "vue";
-import {ElLoading} from "element-plus";
+import { reactive, Reactive, ShallowRef, unref } from "vue";
+import { ElLoading } from "element-plus";
 import * as ElementPlusIconsVue from "@element-plus/icons-vue";
-import {pinyin} from "pinyin-pro";
-import {ServiceEnums} from "@/components/enums/ServiceEnums";
+import { pinyin } from "pinyin-pro";
+import { ServiceEnums } from "@/components/enums/ServiceEnums";
 
 let loading: any = null;
 /**
@@ -145,7 +145,7 @@ export async function loadCustomInfo(params: any) {
                 const data = redata.data;
                 if (redata.data) {
                     data.forEach((item: any) => {
-                        const temp: SelectOption = {name: item.customerName, value: item.idCustomer};
+                        const temp: SelectOption = { name: item.customerName, value: item.idCustomer };
                         customerList.push(temp);
                     });
                 }
@@ -192,7 +192,7 @@ export async function loadRolesInfo(param: any) {
             } else {
                 const redata = res.data.data;
                 redata.forEach((item: any) => {
-                    roleData.push({name: item.roleName, value: item.idRolesinfo});
+                    roleData.push({ name: item.roleName, value: item.idRolesinfo });
                 });
             }
         })
@@ -210,7 +210,7 @@ export async function loadMenusInfo(direct: boolean, params: any, needSystem: bo
     let menuDatas: any = [];
     await postRequest(`${menuUrl}/${needSystem}`, {
         fieldList: params,
-        orderBy: [{fieldName: "idInformations"}]
+        orderBy: [{ fieldName: "idInformations" }]
     })
         .then((res) => {
             const redata = res.data;
@@ -418,7 +418,7 @@ export async function dictData(dictType: string, exclusion: Array<string> = []) 
         value: dictType
     });
     const dicts: SelectOption[] = [];
-    await postRequest(dictUrl, {fieldList: query})
+    await postRequest(dictUrl, { fieldList: query })
         .then((res) => {
             const redata = res.data;
             if (redata.code == 0) {
@@ -426,7 +426,7 @@ export async function dictData(dictType: string, exclusion: Array<string> = []) 
                     if (exclusion && exclusion.includes(item.dictCode)) {
                         return;
                     }
-                    dicts.push({name: item.dictName, value: item.dictCode});
+                    dicts.push({ name: item.dictName, value: item.dictCode });
                 });
             }
         })
@@ -442,7 +442,7 @@ export async function dictData(dictType: string, exclusion: Array<string> = []) 
 export function loadElementPlusIcon() {
     const menuIconList = [];
     for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
-        menuIconList.push({name: key, value: component.name});
+        menuIconList.push({ name: key, value: component.name });
     }
     return menuIconList;
 }
@@ -455,29 +455,37 @@ export function loadSvgIcons() {
     const menuIconList = [];
     for (const [key, value] of Object.entries(items)) {
         const name = key.slice(key.lastIndexOf("/") + 1, key.lastIndexOf("."));
-        menuIconList.push({name: name, value: name});
+        menuIconList.push({ name: name, value: name });
     }
     return menuIconList;
 }
-
+export async function loadSvgIconsByPath(path: string) {
+    warning("暂未实现");
+    return [];
+}
+// 正确导出方式示例（具名导出）
+export function demoFunc() {
+    // 确保返回数组
+    return [{ name: 'test', value: 1 }];
+}
 /**
  * 数据匹配方式
  */
 export function searchMatchList(): SelectOption[] {
     const data: SelectOption[] = [];
-    data.push({name: "等于", value: "eq"});
-    data.push({name: "不等于", value: "ne"});
-    data.push({name: "模糊", value: "lk"});
-    data.push({name: "为空", value: "ul"});
-    data.push({name: "不为空", value: "nu"});
-    data.push({name: "左模糊", value: "llk"});
-    data.push({name: "右模糊", value: "rlk"});
-    data.push({name: "不匹配", value: "nlk"});
-    data.push({name: "小于", value: "lt"});
-    data.push({name: "小于或等于", value: "lte"});
-    data.push({name: "大于", value: "gt"});
-    data.push({name: "大于或等于", value: "gte"});
-    data.push({name: "范围", value: "bt"});
+    data.push({ name: "等于", value: "eq" });
+    data.push({ name: "不等于", value: "ne" });
+    data.push({ name: "模糊", value: "lk" });
+    data.push({ name: "为空", value: "ul" });
+    data.push({ name: "不为空", value: "nu" });
+    data.push({ name: "左模糊", value: "llk" });
+    data.push({ name: "右模糊", value: "rlk" });
+    data.push({ name: "不匹配", value: "nlk" });
+    data.push({ name: "小于", value: "lt" });
+    data.push({ name: "小于或等于", value: "lte" });
+    data.push({ name: "大于", value: "gt" });
+    data.push({ name: "大于或等于", value: "gte" });
+    data.push({ name: "范围", value: "bt" });
     return data;
 }
 
@@ -501,7 +509,7 @@ export function copy(msg: string) {
  * @param row
  * @param rowIndex
  */
-export function rowClassName({row, rowIndex}: any) {
+export function rowClassName({ row, rowIndex }: any) {
     row.xh = rowIndex + 1;
 }
 
@@ -509,7 +517,7 @@ export function rowClassName({row, rowIndex}: any) {
  * 创建条件
  */
 export function createCondition(name: string, val: any, matchType: string = "eq"): SearchParams {
-    return {propertyName: name, value: val, operation: matchType};
+    return { propertyName: name, value: val, operation: matchType };
 }
 
 /**
@@ -523,7 +531,7 @@ export function createJoinCondition(
     rightFieldName: string,
     matchType: string = "eq"
 ): JoinSearchParams {
-    return {leftFieldName, rightFieldName, operation: matchType};
+    return { leftFieldName, rightFieldName, operation: matchType };
 }
 
 /**
@@ -554,7 +562,7 @@ export function filterTree(search: any, menusList: MenusInfo[]): MenusInfo[] {
         const includeNode = parentInclude || containsData;
         const filteredChildren: any =
             node.children && node.children.length > 0 ? filterRecursive(node.children, includeNode) : [];
-        return includeNode || filteredChildren.length > 0 ? {...node, children: filteredChildren} : null;
+        return includeNode || filteredChildren.length > 0 ? { ...node, children: filteredChildren } : null;
     };
     const filteredTree = filterRecursive(menusList, false);
     return JSON.parse(JSON.stringify(filteredTree));
@@ -654,7 +662,7 @@ export function formFieldMapping(fieldList: PageFieldInfo) {
             fieldList?.forEach((item) => {
                 if (item.defaultValue) {
                     if (isJson(item.defaultValue)) {
-                        let subTemp = {...batchDefaultValues[temp.batchName], ...item.defaultValue};
+                        let subTemp = { ...batchDefaultValues[temp.batchName], ...item.defaultValue };
                         Object.entries(subTemp).forEach(([key, value]) => {
                             tempData[key] = value;
                         });
@@ -663,7 +671,7 @@ export function formFieldMapping(fieldList: PageFieldInfo) {
                     }
                 }
                 if (item.aliasName) {
-                    mappingFields.push({name: item.fieldName, alias: item.aliasName});
+                    mappingFields.push({ name: item.fieldName, alias: item.aliasName });
                 }
                 if (item.actions) {
                     actions.push({
@@ -691,7 +699,7 @@ export function formFieldMapping(fieldList: PageFieldInfo) {
                         }
                     }
                     if (item.aliasName) {
-                        mappingFields.push({name: item.fieldName, alias: item.aliasName});
+                        mappingFields.push({ name: item.fieldName, alias: item.aliasName });
                     }
                     if (item.actions) {
                         actions.push({
@@ -722,7 +730,7 @@ export function formFieldMapping(fieldList: PageFieldInfo) {
                     }
                 }
                 if (temp.aliasName) {
-                    mappingFields.push({name: temp.fieldName, alias: temp.aliasName});
+                    mappingFields.push({ name: temp.fieldName, alias: temp.aliasName });
                 }
                 if (temp.actions) {
                     actions.push({
@@ -736,9 +744,9 @@ export function formFieldMapping(fieldList: PageFieldInfo) {
     fieldsOperation(tempList, defaultDatas);
     const batchTempList = fieldList?.batchFieldList!;
     tableOperation(batchTempList);
-    defaultDatas = {...defaultDatas, ...batchDefaultValues};
+    defaultDatas = { ...defaultDatas, ...batchDefaultValues };
     // debugger;
-    return {defaultDatas, mappingFields, batchDefaultValues, actions};
+    return { defaultDatas, mappingFields, batchDefaultValues, actions };
 }
 
 /**
@@ -748,7 +756,7 @@ export function formFieldMapping(fieldList: PageFieldInfo) {
 export function batchFieldDefaultValues(datas: BatchFieldInfo, dataForm: any) {
     let defaultValues: any = {};
     if (datas["batchDefaultData"]) {
-        defaultValues = {...datas["batchDefaultData"]};
+        defaultValues = { ...datas["batchDefaultData"] };
     }
     const fieldList = datas["fieldList"];
     for (const inde in fieldList) {
@@ -766,7 +774,7 @@ export function batchFieldDefaultValues(datas: BatchFieldInfo, dataForm: any) {
     if (dataForm) {
         let temp = unref(dataForm)[datas.batchName];
         if (temp) {
-            defaultValues = {...temp, ...defaultValues};
+            defaultValues = { ...temp, ...defaultValues };
         }
     }
     return defaultValues;
@@ -847,7 +855,7 @@ export async function dynamicUrlOperation(preps: any, queryInfo?: SearchParams[]
         const childrenOperation = (list: Array<any>) => {
             const options: SelectOption[] = [];
             list?.forEach((item: any) => {
-                const option: SelectOption = {name: item[temp["selectLabel"]], value: item[temp["selectValue"]]};
+                const option: SelectOption = { name: item[temp["selectLabel"]], value: item[temp["selectValue"]] };
                 if (item.children && item.children.length > 0) {
                     option.children = childrenOperation(item.children);
                 }
@@ -856,7 +864,7 @@ export async function dynamicUrlOperation(preps: any, queryInfo?: SearchParams[]
             return options;
         };
         validResult.data.forEach((item: any) => {
-            const option: SelectOption = {name: item[temp["selectLabel"]], value: item[temp["selectValue"]]};
+            const option: SelectOption = { name: item[temp["selectLabel"]], value: item[temp["selectValue"]] };
             if (item.children && item.children.length > 0) {
                 option.children = childrenOperation(item.children);
             }
@@ -881,7 +889,7 @@ export async function createFilter(queryString: string) {
 
 
 export async function dbConfigList(): Promise<SelectOption[]> {
-    const {data, error} = await loadGetData("/userdb-manage/dbsearch/dbinfoEntity/getDbInfoByUser");
+    const { data, error } = await loadGetData("/userdb-manage/dbsearch/dbinfoEntity/getDbInfoByUser");
     if (error) {
         warning(error);
         return [];

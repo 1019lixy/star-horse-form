@@ -1,11 +1,10 @@
 <script setup lang="ts">
-import { ModelRef, nextTick, onMounted, PropType, reactive, ref, unref, watch } from "vue";
-import { error, PageFieldInfo, searchMatchList, SelectOption } from "star-horse-lowcode";
-import { createData, urlReturnDataHelpMsg, validInterface, validOperation } from "@/views/dyform/utils/ItemPreps";
 import { loadDict } from "@/api/star_horse_apis";
+import { loadSvgIconsByPath } from "@/api/star_horse_utils";
 import { httpMethod } from "@/api/system";
-import { analysisData } from "@/api/deptment";
-import { loadSvgIcons } from "@/api/star_horse_utils";
+import { createData, urlReturnDataHelpMsg, validInterface, validOperation } from "@/views/dyform/utils/ItemPreps";
+import { error, PageFieldInfo, searchMatchList, SelectOption } from "star-horse-lowcode";
+import { ModelRef, nextTick, onMounted, PropType, reactive, ref, unref, watch } from "vue";
 
 defineOptions({
   name: "DataSourceComp",
@@ -52,9 +51,42 @@ const innerFunc = (type: string) => {
     dictRequired.value = true;
   }
 }
-const analysisData = (val: any) => {
+const analysisOptionData = (val: any) => {
   const temp=unref(val);
-  temp["values"] = loadSvgIcons();
+  console.log("开始解析数据", temp);
+    const analysisValue = temp["analysisValue"];
+  if(temp["analysisType"] === "path") {
+    if (!analysisValue) {
+      error("请填写解析路径");
+      return;
+    }
+     // 添加public路径处理
+    const publicPath = `/public/${analysisValue}`.replace(/\/+/g, '/');
+    temp["values"] = loadSvgIconsByPath(publicPath);
+  } else if (temp["analysisType"] === "func") {
+    if (!analysisValue) {
+      error("请填写函数名");
+      return;
+    }
+    import("@/api/star_horse_utils").then(async(utils) => {
+      if (utils && utils[analysisValue]) {
+        // 确保函数存在
+        if (typeof utils[analysisValue] === 'function') {
+          try {
+            const result =await utils[analysisValue]();
+            temp.values = Array.isArray(result) ? result : [];
+          } catch (e) {
+            error(`函数执行失败: ${e.message}`);
+          }
+        } else {
+          error("指定函数不存在");
+        }
+      } else {
+        error("未找到指定的工具函数");
+      }
+    });
+  
+  }
 }
 const dataSourceField = reactive<PageFieldInfo | any>({
   fieldList: [
@@ -99,12 +131,12 @@ const dataSourceField = reactive<PageFieldInfo | any>({
           fieldList: [[{
             label: "解析方式",
             fieldName: "analysisType",
+            helpMsg: "路径解析：只能解析项目public下的子路径，格式为 test/*.svg，\n函数解析：只能解析src/api/star_horse_utils.ts下的无参函数，格式为: analysisData",
             type: "radio",
             formVisible: true,
-            defaultValue: "path",
+            defaultValue: "func",
             preps: {
-              values: [{ name: "路径", value: "path" }, { name: "函数", value: "func" }],
-
+              values: [{ name: "路径", value: "path",disabled:true }, { name: "函数", value: "func" }],
               colspan: 6
             }
           }, {
@@ -120,7 +152,7 @@ const dataSourceField = reactive<PageFieldInfo | any>({
             fieldName: "btn",
             type: "button",
             formVisible: true,
-            actions: { click: (val: any) => analysisData(val) },
+            actions: { click: (val: any) => analysisOptionData(val) },
             preps: {
               colspan: 4
             }
@@ -128,6 +160,10 @@ const dataSourceField = reactive<PageFieldInfo | any>({
           batchFieldList: [
             {
               batchName: "values",
+              importInfo:{
+                importDataUrl: "/api/star_horse/dyform/importData",
+                downloadTemplateUrl: "/api/star_horse/dyform/downloadData",
+              },
               fieldList: [
                 {
                   label: "属性名",
