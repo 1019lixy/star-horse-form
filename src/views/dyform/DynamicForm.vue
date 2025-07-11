@@ -517,7 +517,7 @@ let prepsModel = ref("one");
   </star-horse-dialog>
   <el-card class="inner_content my-0 mx-[5px]">
     <el-splitter>
-      <el-splitter-panel collapsible size="270" min="180" max="350">
+      <el-splitter-panel collapsible size="280" min="200" max="350">
         <field-panel ref="fieldPanelRef" @loadData="loadTemplateData" />
       </el-splitter-panel>
       <el-splitter-panel>
@@ -588,8 +588,10 @@ let prepsModel = ref("one");
         </div>
 
       </el-splitter-panel>
-      <el-splitter-panel collapsible size="280" min="260" max="500">
-        <item-properties-panel ref="propertyRef" />
+      <el-splitter-panel collapsible size="280" min="260" max="500" class="!overflow-hidden">
+        <el-scrollbar>
+          <item-properties-panel ref="propertyRef" />
+        </el-scrollbar>
       </el-splitter-panel>
     </el-splitter>
 

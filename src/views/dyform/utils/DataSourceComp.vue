@@ -1,22 +1,24 @@
 <script setup lang="ts">
-import {ModelRef, nextTick, onMounted, PropType, reactive, ref, watch} from "vue";
-import {error, PageFieldInfo, searchMatchList, SelectOption} from "star-horse-lowcode";
-import {createData, urlReturnDataHelpMsg, validInterface, validOperation} from "@/views/dyform/utils/ItemPreps";
-import {loadDict} from "@/api/star_horse_apis";
-import {httpMethod} from "@/api/system";
+import { ModelRef, nextTick, onMounted, PropType, reactive, ref, unref, watch } from "vue";
+import { error, PageFieldInfo, searchMatchList, SelectOption } from "star-horse-lowcode";
+import { createData, urlReturnDataHelpMsg, validInterface, validOperation } from "@/views/dyform/utils/ItemPreps";
+import { loadDict } from "@/api/star_horse_apis";
+import { httpMethod } from "@/api/system";
+import { analysisData } from "@/api/deptment";
+import { loadSvgIcons } from "@/api/star_horse_utils";
 
 defineOptions({
   name: "DataSourceComp",
 })
 const props = defineProps({
-  formProps: {type: Object as PropType<any>},
-  preps: {type: Object as PropType<any>},
-  item: {type: Object as PropType<PageFieldInfo>, required: true},
+  formProps: { type: Object as PropType<any> },
+  preps: { type: Object as PropType<any> },
+  item: { type: Object as PropType<PageFieldInfo>, required: true },
 });
 const dataSourceList: Array<SelectOption> = [
-  {value: "data", name: "静态数据"},
-  {value: "url", name: "动态接口"},
-  {value: "dict", name: "数据字典"}
+  { value: "data", name: "静态数据" },
+  { value: "url", name: "动态接口" },
+  { value: "dict", name: "数据字典" }
 ];
 const dataSourceFormRef = ref();
 const dataForm: ModelRef<any> = defineModel("dataForm");
@@ -50,7 +52,10 @@ const innerFunc = (type: string) => {
     dictRequired.value = true;
   }
 }
-
+const analysisData = (val: any) => {
+  const temp=unref(val);
+  temp["values"] = loadSvgIcons();
+}
 const dataSourceField = reactive<PageFieldInfo | any>({
   fieldList: [
     [
@@ -72,10 +77,12 @@ const dataSourceField = reactive<PageFieldInfo | any>({
         formVisible: true,
         listVisible: true,
         defaultValue: "data",
-        actions:{change: (val: any) => {
-          const type = val["dataSource"];
-          innerFunc(type);
-        }},
+        actions: {
+          change: (val: any) => {
+            const type = val["dataSource"];
+            innerFunc(type);
+          }
+        },
         preps: {
           values: dataSourceList,
           radioType: "button"
@@ -89,6 +96,35 @@ const dataSourceField = reactive<PageFieldInfo | any>({
           title: "静态数据",
           tabName: "data",
           disabled: disableData,
+          fieldList: [[{
+            label: "解析方式",
+            fieldName: "analysisType",
+            type: "radio",
+            formVisible: true,
+            defaultValue: "path",
+            preps: {
+              values: [{ name: "路径", value: "path" }, { name: "函数", value: "func" }],
+
+              colspan: 6
+            }
+          }, {
+            label: "值",
+            fieldName: "analysisValue",
+            type: "input",
+            formVisible: true,
+            preps: {
+              colspan: 14
+            }
+          }, {
+            label: "解析",
+            fieldName: "btn",
+            type: "button",
+            formVisible: true,
+            actions: { click: (val: any) => analysisData(val) },
+            preps: {
+              colspan: 4
+            }
+          }]],
           batchFieldList: [
             {
               batchName: "values",
@@ -153,8 +189,8 @@ const dataSourceField = reactive<PageFieldInfo | any>({
                 listVisible: true,
                 preps: {
                   values: [
-                    {name: "HTTP", value: "http"},
-                    {name: "HTTPS", value: "https"}
+                    { name: "HTTP", value: "http" },
+                    { name: "HTTPS", value: "https" }
                   ]
                 }
               }
@@ -209,7 +245,7 @@ const dataSourceField = reactive<PageFieldInfo | any>({
                 required: urlRequired,
                 formVisible: true,
                 listVisible: true,
-                preps:{
+                preps: {
                   values: fieldList,
                 }
               },
@@ -217,7 +253,7 @@ const dataSourceField = reactive<PageFieldInfo | any>({
                 label: "标签值字段",
                 fieldName: "selectValue",
                 type: "select",
-                preps:{
+                preps: {
                   values: fieldList,
                 },
                 required: urlRequired,
@@ -243,7 +279,7 @@ const dataSourceField = reactive<PageFieldInfo | any>({
                         formVisible: true,
                         listVisible: true,
                         preps: {
-                          values:fieldList,
+                          values: fieldList,
                           allowCreate: "Y",
                         }
                       },
@@ -263,7 +299,7 @@ const dataSourceField = reactive<PageFieldInfo | any>({
                         required: urlRequired,
                         formVisible: true,
                         listVisible: true,
-                        preps:{
+                        preps: {
                           values: matchTypeList
                         }
 
@@ -373,20 +409,11 @@ defineExpose({
 
 <template>
   <el-scrollbar height="100%">
-    <star-horse-form :fieldList="dataSourceField" ref="dataSourceFormRef" v-if="!dataForm"/>
-    <star-horse-form-item
-        v-else
-        ref="dataSourceFormRef"
-        :fieldList="dataSourceField"
-        :dataIndex="(props.preps?.params?.totalTab||1)-1"
-        :subFormFlag="'Y'"
-        :objectName="'dataSource'"
-        v-model:dataForm="dataForm"
-    />
+    <star-horse-form :fieldList="dataSourceField" ref="dataSourceFormRef" v-if="!dataForm" />
+    <star-horse-form-item v-else ref="dataSourceFormRef" :fieldList="dataSourceField"
+      :dataIndex="(props.preps?.params?.totalTab || 1) - 1" :subFormFlag="'Y'" :objectName="'dataSource'"
+      v-model:dataForm="dataForm" />
   </el-scrollbar>
 </template>
 
-<style scoped lang="scss">
-
-</style>
-
+<style scoped lang="scss"></style>

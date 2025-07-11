@@ -57,7 +57,7 @@ const addElement = (element: any, type: string) => {
 }
 </script>
 <template>
-  <el-tabs v-model="tabModel" style="width: 100%; height: 100%; "
+  <el-tabs v-model="tabModel" class="h-full w-full"
            tab-position="left"
            @tabChange="tabChange"
            type="border-card">
@@ -70,9 +70,9 @@ const addElement = (element: any, type: string) => {
           <el-collapse class="starhorse-collapse" v-model="activeNames">
             <el-collapse-item name="a">
               <template #title>
-                <div class="collapse-item-title title">
-                  <div style="width: 80%">布局组件</div>
-                  <star-horse-icon icon-class="container" size="24px"
+                <div class="collapse-item-title title h-full flex justify-between">
+                  <div class="flex flex-row items-center h-full" >布局组件</div>
+                  <star-horse-icon icon-class="container" size="20px"
                                    style="color: var(--star-horse-style);margin-right: 10px"/>
                 </div>
               </template>
@@ -100,9 +100,9 @@ const addElement = (element: any, type: string) => {
             </el-collapse-item>
             <el-collapse-item name="b">
               <template #title>
-                <div class="collapse-item-title title">
-                  <div style="width: 80%">表单组件</div>
-                  &nbsp;<star-horse-icon icon-class="form" size="24px"
+                <div class="collapse-item-title title h-full flex justify-between">
+                  <div class="flex flex-row items-center h-full">表单组件</div>
+                  &nbsp;<star-horse-icon icon-class="form" size="20px"
                                          style="color: var(--star-horse-style);margin-right: 10px"/>
                 </div>
               </template>
@@ -132,8 +132,8 @@ const addElement = (element: any, type: string) => {
             </el-collapse-item>
             <el-collapse-item name="c">
               <template #title>
-                <div class="collapse-item-title title">
-                  <div style="width: 80%">自定义组件</div>
+                <div class="collapse-item-title title h-full flex justify-between">
+                  <div class="flex flex-row items-center h-full">自定义组件</div>
                   &nbsp;<star-horse-icon icon-class="other" size="24px"
                                          style="color: var(--star-horse-style);margin-right: 10px"/>
                 </div>
@@ -167,7 +167,7 @@ const addElement = (element: any, type: string) => {
     </el-tab-pane>
     <el-tab-pane name="dbinfo">
       <template #label>
-        <star-horse-icon icon-class="database" style="color: var(--star-horse-style)"/>&nbsp;<span>数据源</span>
+        <star-horse-icon icon-class="database" style="color: var(--star-horse-style)" size="20px" height="20px" width="20px"/>&nbsp;<span>数据源</span>
       </template>
       <db-list-comp/>
     </el-tab-pane>
@@ -230,9 +230,6 @@ i {
   font-style: normal;
   font-size: 12px;
 }
-
-
-
 .temp-card {
   width: 99% !important;
   padding: 0 !important;

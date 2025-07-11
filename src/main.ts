@@ -43,14 +43,13 @@ for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
 app.use(commonComponent);
 app.use(systemComponent);
 app.use(itemsComponent);
-// app.use(nodeComponent);
 app.use(VueParticles, {
     init: async engine => {
         await loadSlim(engine);
     },
 });
 
-app.config.performance = true;
+app.config.performance = false;
 /**
  * 处理未捕获异常
  * @param err

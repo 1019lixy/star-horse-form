@@ -32,8 +32,8 @@ onMounted(() => {
                 <template v-for="(item, index) in pageCompList" :key="index">
                     <el-collapse-item name="a">
                         <template #title>
-                            <div class="collapse-item-title title">
-                                <div style="width: 80%">{{ item.label }}</div>
+                            <div class="collapse-item-title title h-full flex justify-between">
+                                <div class="flex flex-row items-center h-full">{{ item.label }}</div>
                                 <star-horse-icon :icon-class="item.icon" size="24px"
                                     style="color: var(--star-horse-style);margin-right: 10px" />
                             </div>
@@ -46,7 +46,7 @@ onMounted(() => {
                                     :title="element.label">&nbsp;&nbsp;
                                     <span>
                                         <SvgLoader :path="'comp/' + element.icon" :size="'18px'" /><i>{{ element.label
-                                        }}</i>
+                                            }}</i>
                                     </span>
                                 </li>
                             </template>

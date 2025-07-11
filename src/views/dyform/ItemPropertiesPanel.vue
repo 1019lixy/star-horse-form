@@ -1,5 +1,5 @@
 <script setup lang="ts" name="ItemPropertiesPanel">
-import {computed, nextTick, onMounted, ref, unref, watch} from "vue";
+import { computed, nextTick, onMounted, ref, unref, watch } from "vue";
 import {
   error,
   formFieldMapping,
@@ -13,7 +13,7 @@ import {
   useGlobalConfigStore,
   warning
 } from "star-horse-lowcode";
-import {loadDict} from "@/api/star_horse_apis";
+import { loadDict } from "@/api/star_horse_apis";
 import {
   buttonClickDataField,
   compCommonFields,
@@ -21,7 +21,8 @@ import {
   paramsFields,
   relationDataField
 } from "@/views/dyform/utils/ItemPreps";
-import {Config} from "@/api/settings";
+import { Config } from "@/api/settings";
+import { loadSvgIcons } from "@/api/star_horse_utils";
 
 let designForm = useDesignFormStore(piniaInstance);
 let formDataList = computed(() => designForm.formDataList);
@@ -146,7 +147,7 @@ const paramsValid = async () => {
     item["type"] = "input";
     item["formVisible"] = true;
     if (item.searchFlag) {
-      searchFieldList.push({...item, matchType: "lk", defaultVisible: true});
+      searchFieldList.push({ ...item, matchType: "lk", defaultVisible: true });
     }
   });
   formProps.value["searchFieldList"] = {
@@ -266,7 +267,8 @@ let relationComps = ref<Array<string>>([
   "radio",
   "cascade",
   "page-select",
-  "dialog-input"
+  "dialog-input",
+  "icon"
 ]);
 let exclusionDataSource = ref<Array<string>>(["page-select", "switch", "dialog-input"]);
 let formFields = ref<PageFieldInfo>({
@@ -277,12 +279,12 @@ const convertFormFieldData = (items: any, type: string) => {
   items.forEach((item: any) => {
     item["formVisible"] = true;
     item["type"] = item["fieldType"];
+    if (!item.preps) {
+      item.preps = {};
+    }
     //增加Help
     item["helpMsg"] = `${item["remark"] ?? ""}`;
     if (item["selectValues"] && isJson(item["selectValues"])) {
-      if (!item.preps) {
-        item.preps = {};
-      }
       item.preps["values"] = [];
       let datas = JSON.parse(item.selectValues?.replace(/'/g, '"'));
       for (let i in datas) {
@@ -302,13 +304,17 @@ const convertFormFieldData = (items: any, type: string) => {
           item["actions"] = {};
           break;
         default:
-          item["actions"] = (data: any) => jsButtonClick(data, item.actionName);
+          item["actions"] = { click: (data: any) => jsButtonClick(data, item.actionName) };
+
       }
     }
-    if (item["type"] == "config") {
+    else if (item["type"] == "config") {
       item["type"] = "button";
       item["label"] = "参数配置";
       item["actions"] = (_data: any) => configParams(item.actionName);
+    } else if (item["type"] == "icon") {
+      item.preps["iconType"] = "user";
+      item.preps["values"] = loadSvgIcons();
     }
   });
 };
@@ -333,26 +339,28 @@ const assignValue = (fieldInfo: any) => {
           label: "编辑容器属性",
           fieldName: "rows",
           type: "button",
-          actions: (_data: any) => editContainerPrep(),
+          actions: { click: (_data: any) => editContainerPrep() },
           formVisible: true
         });
       }
     } else {
       let commonFields = compCommonFields(customerValid);
       if (relationComps.value.includes(currentItemType.value)) {
-        commonFields.push({
-          label: "配置联动策略",
-          fieldName: "dataRelation",
-          type: "button",
-          actions: (_data: any) => condifRelationPolicy(),
-          formVisible: true
-        });
+        if (currentItemType.value != "icon") {
+          commonFields.push({
+            label: "配置联动策略",
+            fieldName: "dataRelation",
+            type: "button",
+            actions: { click: (val: any) => condifRelationPolicy() },
+            formVisible: true
+          });
+        }
         if (!exclusionDataSource.value.includes(currentItemType.value)) {
           commonFields.push({
             label: "配置数据源",
             fieldName: "dataSource",
             type: "button",
-            actions: (_data: any) => dataSource(formProps.value["itemType"]),
+            actions: { click: (val: any) => dataSource(formProps.value["itemType"]) },
             formVisible: true
           });
         }
@@ -372,7 +380,7 @@ const assignValue = (fieldInfo: any) => {
           fieldName: "cfgClickEvent",
           type: "button",
           formVisible: true,
-          actions: (_data: any) => btnClickOpen(),
+          actions: { click: (_data: any) => btnClickOpen() },
         });
       }
     }
@@ -451,104 +459,47 @@ const testvalid = () => {
   })
 }
 watch(
-    () => [currentItemId, currentItemType],
-    () => {
-      assignPrep(currentItemType.value, parentCompType.value == "item");
-    },
-    {
-      immediate: true,
-      deep: true
-    }
+  () => [currentItemId, currentItemType],
+  () => {
+    assignPrep(currentItemType.value, parentCompType.value == "item");
+  },
+  {
+    immediate: true,
+    deep: true
+  }
 );
 </script>
 <template>
-  <star-horse-dialog
-      :dialogVisible="buttonEventDialogVisible"
-      :title="'按钮点击事件'"
-      :isBatch="false"
-      @merge="buttonEventMerge"
-      @closeAction="closeAction"
-      @resetForm="buttonEventReset"
-      :selfFunc="true"
-  >
-    <star-horse-form
-        :outerFormData="formProps"
-        primary-key=""
-        ref="buttonClickFormRef"
-        :fieldList="buttonClickDataField()"
-    />
+  <star-horse-dialog :dialogVisible="buttonEventDialogVisible" :title="'按钮点击事件'" :isBatch="false"
+    @merge="buttonEventMerge" @closeAction="closeAction" @resetForm="buttonEventReset" :selfFunc="true">
+    <star-horse-form :outerFormData="formProps" primary-key="" ref="buttonClickFormRef"
+      :fieldList="buttonClickDataField()" />
   </star-horse-dialog>
-  <star-horse-dialog
-      :dialogVisible="dataRelationDialogVisible"
-      :title="'数据联动策略配置'"
-      :isBatch="false"
-      @merge="dataRelationMerge"
-      @closeAction="closeAction"
-      @resetForm="dataRelationReset"
-      :selfFunc="true">
+  <star-horse-dialog :dialogVisible="dataRelationDialogVisible" :title="'数据联动策略配置'" :isBatch="false"
+    @merge="dataRelationMerge" @closeAction="closeAction" @resetForm="dataRelationReset" :selfFunc="true">
 
-    <star-horse-form
-        :outerFormData="formProps"
-        primary-key=""
-        ref="dataRelationFormRef"
-        :fieldList="relationDataField()"
-    />
+    <star-horse-form :outerFormData="formProps" primary-key="" ref="dataRelationFormRef"
+      :fieldList="relationDataField()" />
   </star-horse-dialog>
-  <star-horse-dialog
-      :dialogVisible="dataSourceDialogVisible"
-      :title="'数据源配置'"
-      :isBatch="false"
-      @merge="submitValid"
-      @closeAction="closeAction"
-      @resetForm="resetDataSourceForm"
-      :selfFunc="true"
-  >
-    <data-source-comp ref="dataSourceFormRef" :formProps="formProps"/>
+  <star-horse-dialog :dialogVisible="dataSourceDialogVisible" :title="'数据源配置'" :isBatch="false" @merge="submitValid"
+    @closeAction="closeAction" @resetForm="resetDataSourceForm" :selfFunc="true">
+    <data-source-comp ref="dataSourceFormRef" :formProps="formProps" />
   </star-horse-dialog>
-  <star-horse-dialog
-      :dialogVisible="paramsDialogVisible"
-      :title="'参数配置'"
-      :isBatch="false"
-      @merge="paramsValid"
-      @closeAction="closeAction"
-      @resetForm="resetDataSourceForm"
-      :selfFunc="true"
-  >
-    <star-horse-form
-        :outerFormData="formInfo"
-        ref="paramsConfigRef"
-        :fieldList="paramsFields(paramsConfigRef,fieldName, currentField)"
-    />
+  <star-horse-dialog :dialogVisible="paramsDialogVisible" :title="'参数配置'" :isBatch="false" @merge="paramsValid"
+    @closeAction="closeAction" @resetForm="resetDataSourceForm" :selfFunc="true">
+    <star-horse-form :outerFormData="formInfo" ref="paramsConfigRef"
+      :fieldList="paramsFields(paramsConfigRef, fieldName, currentField)" />
   </star-horse-dialog>
-  <star-horse-dialog
-      :dialogVisible="containerDialogVisible"
-      :title="'容器设置'"
-      :isBatch="false"
-      @merge="containerAction"
-      @closeAction="closeAction"
-      @resetForm="resetForm"
-      :selfFunc="true"
-  >
-    <star-horse-form ref="containerPrepRef" :outerFormData="formInfo" :fieldList="containerField(currentItemType)"/>
+  <star-horse-dialog :dialogVisible="containerDialogVisible" :title="'容器设置'" :isBatch="false" @merge="containerAction"
+    @closeAction="closeAction" @resetForm="resetForm" :selfFunc="true">
+    <star-horse-form ref="containerPrepRef" :outerFormData="formInfo" :fieldList="containerField(currentItemType)" />
   </star-horse-dialog>
-  <star-horse-dialog
-      :dialogVisible="jsEditor"
-      :title="'自定义信息'"
-      :isBatch="false"
-      @merge="closeAction"
-      @closeAction="closeAction"
-      @resetForm="closeAction"
-      :selfFunc="true"
-  >
+  <star-horse-dialog :dialogVisible="jsEditor" :title="'自定义信息'" :isBatch="false" @merge="closeAction"
+    @closeAction="closeAction" @resetForm="closeAction" :selfFunc="true">
     <el-tabs v-model="codeTab">
       <el-tab-pane label="代码" name="code">
-        <star-horse-editor
-            v-model:value="formProps[fieldName]"
-            lang="javascript"
-            ref="codeCompRef"
-            :helpMsg="hmsg"
-            style="height: 100%"
-        />
+        <star-horse-editor v-model:value="formProps[fieldName]" lang="javascript" ref="codeCompRef" :helpMsg="hmsg"
+          style="height: 100%" />
       </el-tab-pane>
       <el-tab-pane label="当前组件属性" name="currentField">
         <pre>
@@ -557,50 +508,46 @@ watch(
       </el-tab-pane>
       <el-tab-pane label="表单实例" name="formInstance">
         对象名字：formInstance
-        <table
-            border="1"
-            cellpadding="0"
-            cellspacing="0"
-            style="width: 100%; border: 1px dashed var(--star-horse-style)"
-        >
+        <table border="1" cellpadding="0" cellspacing="0"
+          style="width: 100%; border: 1px dashed var(--star-horse-style)">
           <thead style="border: 1px dashed var(--star-horse-style)">
-          <tr>
-            <th>名称</th>
-            <th>说明</th>
-            <th>类型</th>
-          </tr>
+            <tr>
+              <th>名称</th>
+              <th>说明</th>
+              <th>类型</th>
+            </tr>
           </thead>
           <tbody style="border: 1px dashed var(--star-horse-style)">
-          <tr>
-            <td>validate</td>
-            <td>对整个表单的内容进行验证。 接收一个回调函数，或返回 <code>Promise</code>。</td>
-            <td><span class="inline-flex items-center">Function</span></td>
-          </tr>
-          <tr>
-            <td>validateField</td>
-            <td>验证具体的某个字段。</td>
-            <td><span class="inline-flex items-center">Function</span></td>
-          </tr>
-          <tr>
-            <td>resetFields</td>
-            <td>重置该表单项，将其值重置为初始值，并移除校验结果</td>
-            <td><span class="inline-flex items-center">Function</span></td>
-          </tr>
-          <tr>
-            <td>scrollToField</td>
-            <td>滚动到指定的字段</td>
-            <td><span class="inline-flex items-center">Function</span></td>
-          </tr>
-          <tr>
-            <td>clearValidate</td>
-            <td>清理某个字段的表单验证信息。</td>
-            <td><span class="inline-flex items-center">Function</span></td>
-          </tr>
-          <tr>
-            <td>fields</td>
-            <td>获取所有字段的 context</td>
-            <td><span class="inline-flex items-center">Array</span></td>
-          </tr>
+            <tr>
+              <td>validate</td>
+              <td>对整个表单的内容进行验证。 接收一个回调函数，或返回 <code>Promise</code>。</td>
+              <td><span class="inline-flex items-center">Function</span></td>
+            </tr>
+            <tr>
+              <td>validateField</td>
+              <td>验证具体的某个字段。</td>
+              <td><span class="inline-flex items-center">Function</span></td>
+            </tr>
+            <tr>
+              <td>resetFields</td>
+              <td>重置该表单项，将其值重置为初始值，并移除校验结果</td>
+              <td><span class="inline-flex items-center">Function</span></td>
+            </tr>
+            <tr>
+              <td>scrollToField</td>
+              <td>滚动到指定的字段</td>
+              <td><span class="inline-flex items-center">Function</span></td>
+            </tr>
+            <tr>
+              <td>clearValidate</td>
+              <td>清理某个字段的表单验证信息。</td>
+              <td><span class="inline-flex items-center">Function</span></td>
+            </tr>
+            <tr>
+              <td>fields</td>
+              <td>获取所有字段的 context</td>
+              <td><span class="inline-flex items-center">Array</span></td>
+            </tr>
           </tbody>
         </table>
       </el-tab-pane>
@@ -611,25 +558,12 @@ watch(
       </el-tab-pane>
     </el-tabs>
   </star-horse-dialog>
-  <div class="dynamic-form" v-if="currentItemType">
-    <el-scrollbar height="100%">
-      <sh-form
-          v-model:dataForm="formProps"
-          class="dynamic-form"
-          ref="itemPropertiesRef"
-          :size="compSize"
-          :rules="rules"
-          :scroll-to-error="true"
-          :scroll-into-view-options="true"
-          :inline-message="false"
-          :status-icon="true"
-          label-width="auto"
-          label-position="right"
-          require-asterisk-position="right"
-      >
-        <star-horse-form-item :fieldList="formFields" :rules="rules" :compSize="compSize" v-model:dataForm="formProps"/>
-      </sh-form>
-    </el-scrollbar>
+  <div class="dynamic-form " v-if="currentItemType">
+    <sh-form v-model:dataForm="formProps" class="dynamic-form" ref="itemPropertiesRef" :size="compSize" :rules="rules"
+      :scroll-to-error="true" :scroll-into-view-options="true" :inline-message="false" :status-icon="true"
+      label-width="auto" label-position="right" require-asterisk-position="right">
+      <star-horse-form-item :fieldList="formFields" :rules="rules" :compSize="compSize" v-model:dataForm="formProps" />
+    </sh-form>
   </div>
 </template>
 <style lang="scss" scoped>
@@ -680,7 +614,7 @@ watch(
 
 .dynamic-form {
   width: 100%;
-  margin: 5px auto;
+  margin: 0 auto;
   overflow: hidden;
 }
 
