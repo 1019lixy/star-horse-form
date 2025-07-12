@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useLoginStore } from "@/store/Login";
-import { MenusInfo, piniaInstance, useUserInfoStore } from "star-horse-lowcode";
+import { MenusInfo, piniaInstance } from "star-horse-lowcode";
 import { computed, nextTick, onMounted, ref, watch } from "vue";
 
 const loginStore = useLoginStore(piniaInstance);

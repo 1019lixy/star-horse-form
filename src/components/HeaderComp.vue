@@ -34,7 +34,7 @@ const dataUrl: ApiUrls = apiInstance("system-config", "system/dictinfoEntity", [
 const configStore = useGlobalConfigStore(piniaInstance);
 const filterTableData = computed(() => filterTree(search.value, permissionMenuList.value));
 const configInfo = computed(() => configStore.configFormInfo);
-const { currentRoute, push, replace } = useRouter();
+const { push } = useRouter();
 const emits = defineEmits(["changeLang", "layoutConfig"]);
 const dialogProps = dialogPreps();
 const appinfoList = computed(() => loginStore.getAppInfoList());
@@ -45,7 +45,7 @@ let userInfo = getUserInfo();
 let permissionMenuList = ref<Array<any>>([]);
 const shortcutMultipleTable = ref();
 
-const initData = async () => {
+const initData =  () => {
   changeLang(getLang(), true);
 };
 onMounted(() => {
@@ -61,9 +61,6 @@ const layoutConfig = () => {
  * 个人信息弹窗
  */
 const modifyInfo = () => {
-  // dialogProps.dialogTitle = "更新个人信息";
-  // dialogProps.editVisible = true;
-  // resetForm();
   push("/userCenter");
 };
 
@@ -106,10 +103,6 @@ const addShortcutMenu = async () => {
   permissionMenuList.value = datas;
   dialogProps.bakeVisible1 = true;
   dialogProps.dialogTitle = "设置快捷菜单";
-  /**
-   * 坑，或者说是自己知识储备不足，dialog 是懒加载的，在dialog 打开前是获取不到Ref的，
-   * 因此需要先打开Dialog 后再对表格选中问题进行处理
-   */
   //在手动设置选中前,一定要先做清除选中,否则会出现很多重复被选中的情况
   await nextTick(async () => {
     // shortcutMultipleTable.value!.clearSelection();
@@ -197,28 +190,28 @@ const selectItem = (item: any) => {
         <star-horse-icon icon-class="search" color="var(--star-horse-style)" />
       </template>
     </el-input>
-    <star-horse-table-comp ref="shortcutMultipleTable" :field-list="fieldList" primaryKey="meta.title" :hideButtonList="true"
-      :compUrl="dataUrl" :disableAction="true" :showPageBar="false" :dataFormat="dataFormat" :allowSelectParent="false"
-      :expand="true" :reverseDataList="reverseDataList" :tableDataList="filterTableData" />
+    <star-horse-table-comp ref="shortcutMultipleTable" :field-list="fieldList" primaryKey="meta.title"
+      :hideButtonList="true" :compUrl="dataUrl" :disableAction="true" :showPageBar="false" :dataFormat="dataFormat"
+      :allowSelectParent="false" :expand="true" :reverseDataList="reverseDataList" :tableDataList="filterTableData" />
   </star-horse-dialog>
-  <div class="star-horse-inner-header">
-    <div :title="systemName" class="logo">
+  <div class="flex items-center justify-between overflow-hidden w-full h-[60%] vertical-align-middle flex-row " style="-webkit-box-align: center;-webkit-box-pack: justify;background: var(--star-horse-style);">
+    <div :title="systemName" class="flex items-center ml-[10px]">
       <img v-if="getCustomerInfo()?.logo" :src="getCustomerInfo()?.logo" :height="getCustomerInfo()?.height || 45" />
       <star-horse-icon v-else icon-class="logo" size="45px" width="45px" height="45px"
         style="color: var(--star-horse-white); font-weight: bold" />
     </div>
-    <div class="header-left">
-      <star-horse-menu :ellipsis="true" v-if="configInfo.menusCfg == 'tradition'" :mode="'horizontal'" @selectItem="selectItem"
-        :dataList="appinfoList" :preps="{
+    <div class="flex-1 flex flex-row items-center h-full ovflow-hidden">
+      <star-horse-menu :ellipsis="true" v-if="configInfo.menusCfg == 'tradition'" :mode="'horizontal'"
+        @selectItem="selectItem" :dataList="appinfoList" :preps="{
           id: 'idInformations',
           label: 'sysName',
           icon: 'sysLogo',
-          children:'children'
+          children: 'children'
         }" />
     </div>
-    <div class="header-right">
+    <div class="flex h-full w-[180px] mr-[10px] flex-row justify-between flex-no-wrap items-center">
       <Message />
-      <el-dropdown class="lang" @command="handleLanguageChanged" :show-arrow="false">
+      <el-dropdown class="flex flex-row" @command="handleLanguageChanged" :show-arrow="false">
         <span class=" flex items-center flex-row" style="cursor: pointer;color:#fff">
           {{ curLangName }}<star-horse-icon icon-class="arrow-down" style="color: var(--star-horse-white)" /></span>
         <template #dropdown>
@@ -264,7 +257,7 @@ const selectItem = (item: any) => {
   </div>
   <div style="clear: both"></div>
   <div class="shortcut" v-if="configInfo.shortCutMenus == 'Y'">
-    <div class="shortcut_ul">
+    <div class="shortcut_ul flex h-full w-full flex-row align-left items-center ml-0 pl-0">
       <template v-for="(item, index) in shortcutMenuList">
         <span>
           <el-tooltip :content="item.menuName">
@@ -300,55 +293,6 @@ const selectItem = (item: any) => {
   }
 }
 
-.star-horse-inner-header {
-  height: 50px;
-  width: 100%;
-  background: var(--star-horse-style);
-  /*padding: 16px 36px 15px 30px;*/
-  display: flex;
-  -webkit-box-align: center;
-  align-items: center;
-  -webkit-box-pack: justify;
-  justify-content: space-between;
-  vertical-align: middle;
-  box-sizing: border-box;
-  flex-direction: row;
-  overflow: hidden;
-
-  .logo {
-    align-items: center;
-    margin-left: 10px;
-  }
-
-
-
-  .header-left {
-    height: 100%;
-    flex: 1;
-    width: 100%;
-    display: flex;
-    overflow: hidden;
-    flex-direction: row;
-    align-items: center;
-  }
-
-  .header-right {
-    width: 180px;
-    height: 100%;
-    display: flex;
-    margin-right: 10px;
-    flex-wrap: nowrap;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-
-    .lang {
-      display: flex;
-      flex-direction: row;
-    }
-
-  }
-}
 
 .el-dropdown-menu>.el-dropdown-menu__item:first-child {
   border-bottom: 1px solid silver;
@@ -363,15 +307,6 @@ const selectItem = (item: any) => {
   box-sizing: border-box;
 
   .shortcut_ul {
-    width: 100%;
-    height: 100%;
-    display: flex;
-    flex-direction: row;
-    text-align: left;
-    align-items: center;
-    margin-left: 0;
-    padding-left: 0;
-
     span {
       display: flex;
       justify-content: center;

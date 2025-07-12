@@ -1,14 +1,13 @@
 import { createRouterAndMenuList } from "@/api/star_horse_apis.ts";
 import { getUserInfo, setCustomerInfo, setToken, setUserInfo } from "@/utils/auth.ts";
-import { an } from "node_modules/@fullcalendar/core/internal-common.js";
 import { defineStore } from "pinia";
 import { apiInstance, ApiUrls, loadData, MenusInfo, piniaInstance, postRequest, useUserInfoStore } from "star-horse-lowcode";
 import { ref } from "vue";
 const appinfoUrl: ApiUrls = apiInstance("system-config", "system/informationsEntity");
 const shortcutMenuUrl: ApiUrls = apiInstance("system-config", "system/shortcutMenu");
 const menuUrl: ApiUrls = apiInstance("system-config", "system/menusinfoEntity");
-const userStore = useUserInfoStore(piniaInstance);
 const userAuditUrl: ApiUrls = apiInstance("system-config", "system/usersAuditEntity");
+const userStore = useUserInfoStore(piniaInstance);
 export const useLoginStore = defineStore("login", () => {
     const appinfoList = ref([]);
     const menusList = ref<MenusInfo[]>([]);
