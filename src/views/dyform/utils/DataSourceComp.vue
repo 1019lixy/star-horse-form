@@ -52,28 +52,28 @@ const innerFunc = (type: string) => {
   }
 }
 const analysisOptionData = (val: any) => {
-  const temp=unref(val);
+  const temp = unref(val);
   console.log("开始解析数据", temp);
-    const analysisValue = temp["analysisValue"];
-  if(temp["analysisType"] === "path") {
+  const analysisValue = temp["analysisValue"];
+  if (temp["analysisType"] === "path") {
     if (!analysisValue) {
       error("请填写解析路径");
       return;
     }
-     // 添加public路径处理
-    const publicPath = `/public/${analysisValue}`.replace(/\/+/g, '/');
+    // 添加public路径处理
+    const publicPath = `/${analysisValue}`.replace(/\/+/g, '/');
     temp["values"] = loadSvgIconsByPath(publicPath);
   } else if (temp["analysisType"] === "func") {
     if (!analysisValue) {
       error("请填写函数名");
       return;
     }
-    import("@/api/star_horse_utils").then(async(utils) => {
+    import("@/api/star_horse_utils").then(async (utils) => {
       if (utils && utils[analysisValue]) {
         // 确保函数存在
         if (typeof utils[analysisValue] === 'function') {
           try {
-            const result =await utils[analysisValue]();
+            const result = await utils[analysisValue]();
             temp.values = Array.isArray(result) ? result : [];
           } catch (e) {
             error(`函数执行失败: ${e.message}`);
@@ -85,7 +85,7 @@ const analysisOptionData = (val: any) => {
         error("未找到指定的工具函数");
       }
     });
-  
+
   }
 }
 const dataSourceField = reactive<PageFieldInfo | any>({
@@ -136,8 +136,8 @@ const dataSourceField = reactive<PageFieldInfo | any>({
             formVisible: true,
             defaultValue: "func",
             preps: {
-              values: [{ name: "路径", value: "path",disabled:true }, { name: "函数", value: "func" }],
-              colspan: 6
+              values: [{ name: "路径", value: "path", disabled: true }, { name: "函数", value: "func" }],
+              colspan: 8
             }
           }, {
             label: "值",
@@ -154,13 +154,13 @@ const dataSourceField = reactive<PageFieldInfo | any>({
             formVisible: true,
             actions: { click: (val: any) => analysisOptionData(val) },
             preps: {
-              colspan: 4
+              colspan: 2
             }
           }]],
           batchFieldList: [
             {
               batchName: "values",
-              importInfo:{
+              importInfo: {
                 importDataUrl: "/api/star_horse/dyform/importData",
                 downloadTemplateUrl: "/api/star_horse/dyform/downloadData",
               },
@@ -235,7 +235,6 @@ const dataSourceField = reactive<PageFieldInfo | any>({
               {
                 label: "IP/域名/服务名",
                 fieldName: "host",
-
                 required: urlRequired,
                 formVisible: true,
                 listVisible: true,
@@ -256,22 +255,29 @@ const dataSourceField = reactive<PageFieldInfo | any>({
                 }
               }
             ],
-            {
+            [{
               label: "接口地址",
               fieldName: "interfaceUrl",
-
               required: urlRequired,
               helpMsg: urlReturnDataHelpMsg,
               formVisible: true,
               preps: {
-                appendAction: {
-                  icon: "valid",
-                  actions: async (val: any) => {
-                    await validOperation(val, dataSourceFormRef, fieldList, disableUrl, !dataForm.value, dataForm);
-                  }
-                }
+                colspan: 20
               }
-            },
+            }, {
+              label: "校验",
+              type: "button",
+              formVisible: true,
+              actions: {
+                click: async (val: any) => {
+                  await validOperation(val, dataSourceFormRef, fieldList, disableUrl, !dataForm.value, dataForm);
+                }
+              },
+              preps: {
+                icon: "valid",
+                colspan: 4
+              }
+            }],
             [
               {
                 label: "标签名字段",
@@ -369,23 +375,32 @@ const dataSourceField = reactive<PageFieldInfo | any>({
           tabName: "dict",
           disabled: disableDict,
           fieldList: [
-            {
+            [{
               label: "字典名称",
               fieldName: "urlOrDictName",
-
               required: dictRequired,
               formVisible: true,
               listVisible: true,
               preps: {
-                appendAction: {
-                  icon: "valid",
-                  actionTitle: "验证",
-                  actions: async (val: any) => {
-                    await validOperation(val, dataSourceFormRef, fieldList, disableUrl, !dataForm.value, dataForm);
-                  }
-                }
+                colspan: 20
               }
-            }
+            }, {
+              label: "验证",
+              fieldName: "urlOrDictNameBtn",
+              type: "button",
+              actions: {
+                click: async (val: any) => {
+                  await validOperation(val, dataSourceFormRef, fieldList, disableUrl, !dataForm.value, dataForm);
+                }
+              },
+              required: dictRequired,
+              formVisible: true,
+              listVisible: true,
+              preps: {
+                colspan: 4,
+                icon: "valid"
+              }
+            }]
           ]
         }
       ]

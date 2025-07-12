@@ -1,14 +1,15 @@
 <script lang="ts" setup>
-import {Config} from "@/api/settings";
-import {getValidateImg, rtCode, userLogin} from "@/api/star_horse_apis";
-import {JSEncrypt} from "jsencrypt";
-import {removeToken, setPublicKey} from "@/utils/auth";
-import {onMounted, reactive, ref, watch} from "vue";
-import {RouteLocationNormalized, useRouter} from "vue-router";
-import type {FormInstance, FormRules, TabsPaneContext} from "element-plus";
-import {piniaInstance, useGlobalConfigStore, warning} from "star-horse-lowcode";
-import {i18n} from "@/lang";
-import {particlesCfg} from "@/api/particlesConfig";
+import { particlesCfg } from "@/api/particlesConfig";
+import { Config } from "@/api/settings";
+import { getValidateImg, rtCode } from "@/api/star_horse_apis";
+import { i18n } from "@/lang";
+import { useLoginStore } from "@/store/Login";
+import { removeToken, setPublicKey } from "@/utils/auth";
+import type { FormInstance, FormRules, TabsPaneContext } from "element-plus";
+import { JSEncrypt } from "jsencrypt";
+import { piniaInstance, useGlobalConfigStore, warning } from "star-horse-lowcode";
+import { onMounted, reactive, ref, watch } from "vue";
+import { RouteLocationNormalized, useRouter } from "vue-router";
 
 interface LoginInfo {
   userName: string;
@@ -21,6 +22,7 @@ interface LoginInfo {
 
 const loginTitle = Config.title;
 let configStore = useGlobalConfigStore(piniaInstance);
+const loginStore = useLoginStore(piniaInstance);
 let validateImg = ref<string>("");
 let uuid = ref<string>("");
 let flag = ref<boolean>(false);
@@ -40,9 +42,9 @@ const loginFormRef = ref<FormInstance>();
 let router = useRouter();
 let showValid = ref<boolean>(false);
 let loginRules = reactive<FormRules<LoginInfo>>({
-  userName: [{required: true, trigger: "blur", message: i18n("login.userName", ["starhorse.notAllowEmpty"])}],
-  password: [{required: true, trigger: "blur", message: i18n("login.password", ["starhorse.notAllowEmpty"])}],
-  validCode: [{required: true, trigger: "blur", message: i18n("login.validCode", ["starhorse.notAllowEmpty"])}]
+  userName: [{ required: true, trigger: "blur", message: i18n("login.userName", ["starhorse.notAllowEmpty"]) }],
+  password: [{ required: true, trigger: "blur", message: i18n("login.password", ["starhorse.notAllowEmpty"]) }],
+  validCode: [{ required: true, trigger: "blur", message: i18n("login.validCode", ["starhorse.notAllowEmpty"]) }]
 });
 /**
  * 显示或者隐藏密码
@@ -73,7 +75,7 @@ const handleLogin = async (elForm: FormInstance | undefined, event: Event) => {
       //密码加密传输，需要加密时去掉注释，单后端认证服务需支持
       user["password"] = <string>encrypt.encrypt(loginForm.password);
       if (valid) {
-        let {errMsg} = await userLogin(user);
+        let { errMsg } = await loginStore.userLogin(user);
         if (errMsg) {
           warning(errMsg);
           refreshValidate();
@@ -119,77 +121,50 @@ const otherLogin = (typeName: string) => {
   console.log(typeName);
 };
 watch(
-    () => router.currentRoute.value,
-    (route: RouteLocationNormalized) => {
-      redirect.value = route.query && (route.query.redirect as string);
-    },
-    {
-      deep: true,
-      immediate: true
-    }
+  () => router.currentRoute.value,
+  (route: RouteLocationNormalized) => {
+    redirect.value = route.query && (route.query.redirect as string);
+  },
+  {
+    deep: true,
+    immediate: true
+  }
 );
 </script>
 <template>
   <div class="login1">
-    <vue-particles
-        id="tsparticles"
-        :particlesInit="particlesInit"
-        :particlesLoaded="particlesLoaded"
-        :options="particlesCfg"
-    />
+    <vue-particles id="tsparticles" :particlesInit="particlesInit" :particlesLoaded="particlesLoaded"
+      :options="particlesCfg" />
     <div class="loginav">
       <div class="loginbox boxall">
         <div class="logo">{{ Config.title }}</div>
-        <div class="logintit"
-        ><span>{{ i18n("loginButton.login") }}</span></div
-        >
-        <el-form
-            :model="loginForm"
-            :rules="loginRules"
-            :size="'large'"
-            class="logininput animate__animated animate__fadeIn"
-            label-position="top"
-            ref="loginFormRef"
-        >
+        <div class="logintit"><span>{{ i18n("loginButton.login") }}</span></div>
+        <el-form :model="loginForm" :rules="loginRules" :size="'large'"
+          class="logininput animate__animated animate__fadeIn" label-position="top" ref="loginFormRef">
           <el-form-item prop="userName" :label="i18n('login.userName')" required>
-            <el-input
-                auto-complete="off"
-                @keyup.enter="handleLogin(loginFormRef, $event)"
-                :placeholder="i18n('starhorse.pleaseInput', 'login.userName')"
-                prefix-icon="User"
-                type="text"
-                v-model="loginForm.userName"
-            >
+            <el-input auto-complete="off" @keyup.enter="handleLogin(loginFormRef, $event)"
+              :placeholder="i18n('starhorse.pleaseInput', 'login.userName')" prefix-icon="User" type="text"
+              v-model="loginForm.userName">
             </el-input>
           </el-form-item>
           <el-form-item prop="password" :label="i18n('login.password')" required>
-            <el-input
-                @keyup.enter.stop="handleLogin(loginFormRef, $event)"
-                :prefix-icon="flag ? 'Unlock' : 'Lock'"
-                auto-complete="off"
-                :placeholder="i18n('starhorse.pleaseInput', 'login.password')"
-                :type="flag ? 'text' : 'password'"
-                v-model="loginForm.password"
-            >
+            <el-input @keyup.enter.stop="handleLogin(loginFormRef, $event)" :prefix-icon="flag ? 'Unlock' : 'Lock'"
+              auto-complete="off" :placeholder="i18n('starhorse.pleaseInput', 'login.password')"
+              :type="flag ? 'text' : 'password'" v-model="loginForm.password">
               <template #suffix>
                 <el-icon @mousedown="getFlag" @mouseup="getFlag" style="cursor: pointer">
-                  <component :is="flag ? 'view' : 'hide'"/>
+                  <component :is="flag ? 'view' : 'hide'" />
                 </el-icon>
               </template>
             </el-input>
           </el-form-item>
           <el-form-item v-if="showValid" prop="validCode" :label="i18n('login.validCode')" required>
-            <el-input
-                @keyup.enter="handleLogin(loginFormRef, $event)"
-                auto-complete="off"
-                :placeholder="i18n('starhorse.pleaseInput', 'login.validCode')"
-                style="width: 63%"
-                prefix-icon="key"
-                v-model="loginForm.validCode"
-            >
+            <el-input @keyup.enter="handleLogin(loginFormRef, $event)" auto-complete="off"
+              :placeholder="i18n('starhorse.pleaseInput', 'login.validCode')" style="width: 63%" prefix-icon="key"
+              v-model="loginForm.validCode">
             </el-input>
             <div class="login-code">
-              <img :src="validateImg" @click="refreshValidate"/>
+              <img :src="validateImg" @click="refreshValidate" />
             </div>
           </el-form-item>
           <el-row>
@@ -203,18 +178,14 @@ watch(
             </el-col>
           </el-row>
           <el-form-item style="width: 100%; height: 50px">
-            <el-button
-                :loading="loading"
-                @click.stop="handleLogin(loginFormRef, $event)"
-                style="
+            <el-button :loading="loading" @click.stop="handleLogin(loginFormRef, $event)" style="
                 width: 100%;
                 height: 50px;
                 font-size: 16px;
                 border: none;
                 background: var(--star-horse-style);
                 color: var(--star-horse-white);
-              "
-            >
+              ">
               <span v-if="!loading">{{ i18n("loginButton.login") }}</span>
               <span v-else>{{ i18n("loginButton.logging") }}</span>
             </el-button>

@@ -1,8 +1,7 @@
-import axios, { AxiosResponse, InternalAxiosRequestConfig } from "axios";
-import router from "@/router";
 import { Config } from "@/api/settings";
-import { reactive } from "vue";
+import router from "@/router";
 import { delLoginInfo, getToken, getUserInfo, setCustomerInfo, setToken, setUserInfo } from "@/utils/auth";
+import axios, { AxiosResponse, InternalAxiosRequestConfig } from "axios";
 import {
     error,
     getFingerId,
@@ -15,10 +14,10 @@ import {
     warning
 } from "star-horse-lowcode";
 
+import { ServiceEnums } from "@/components/enums/ServiceEnums";
 import { useNavBarListStore } from "@/store/NavBarList";
 import { useViewCacheStore } from "@/store/ViewCache";
 import { NavigationGuardNext, RouteLocationNormalized } from "vue-router";
-import { ServiceEnums } from "@/components/enums/ServiceEnums";
 
 const navBarListStore = useNavBarListStore(piniaInstance);
 const userStore = useUserInfoStore(piniaInstance);
@@ -109,41 +108,6 @@ export async function rtCode(content: string) {
     });
     return data;
 }
-
-
-/**
- * 用户登录
- * @param loginData 登录参数
- */
-export async function userLogin(loginData: any) {
-    let data: any = {};
-    let errMsg = null;
-    const resultData = await loadData(`${ServiceEnums.SYSTEM_PREFIX}usersAuditEntity/userLogin`, loginData);
-    if (resultData.error) {
-        errMsg = resultData.error;
-    } else {
-        const userData = resultData.data;
-        // if (loginData.tokenId != userData.dataNo) {
-        //     errMsg = "Token不一致，登录可能被非法劫持，请重新登录";
-        // } else {
-        const condition = {
-            userId: userData.idUsersinfo
-        };
-        userData["rememberMe"] = loginData.rememberMe;
-        userStore.login(userData);
-        setToken(userData.dataNo, data.rememberMe);
-        setUserInfo(userData);
-        setCustomerInfo(userData.customerInfo);
-        //登录成功，获取当前用户的权限菜单
-        await permissionMenus(condition, "-1").then((res2) => {
-            createRouterAndMenuList(res2.data.data);
-            data = userData;
-        });
-        // }
-    }
-    return { data, errMsg };
-}
-
 /**
  * 退出登录
  * @param data 登出参数
@@ -212,7 +176,6 @@ export function createRouterAndMenuList(redata: Array<object>): MenusInfo[] {
     }
     const baseDir = "/src/views";
     const compPath = import.meta.glob("@/views/**/*.vue");
-
     /**
      * 递归组装菜单
      * @param redata
@@ -236,7 +199,7 @@ export function createRouterAndMenuList(redata: Array<object>): MenusInfo[] {
             let path = item.menuPath?.startsWith("/") ? item.menuPath : "/" + item.menuPath;
             path = path.endsWith(Config.fileExt) ? path : path + Config.fileExt;
             const prefix = key_index + "_";
-            const data = reactive<MenusInfo>({
+            const data: MenusInfo = {
                 path: item.menuPath,
                 component: compPath[`${baseDir}${path}`],
                 name: menuName,
@@ -247,7 +210,7 @@ export function createRouterAndMenuList(redata: Array<object>): MenusInfo[] {
                     menuId: menuId ? prefix + menuId : prefix + sindex++,
                     keepAlive: item.keepAlive
                 }
-            });
+            };
             if (path.indexOf("/page/") == -1) {
                 if (item.openType == "self") {
                     router.addRoute("Index", data);

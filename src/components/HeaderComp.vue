@@ -1,7 +1,13 @@
 <script lang="ts" setup name="Header">
-import {computed, nextTick, onMounted, ref, unref, watch} from "vue";
-import {Config} from "@/api/settings";
-import {userLogout} from "@/api/star_horse_apis";
+import { Config } from "@/api/settings";
+import { userLogout } from "@/api/star_horse_apis";
+import { filterTree } from "@/api/star_horse_utils";
+import Message from "@/components/Message.vue";
+import { i18n } from "@/lang";
+import { useLoginStore } from "@/store/Login";
+import { getLang, setLang } from "@/theme/localStorge";
+import { LangType } from "@/theme/theme";
+import { getCustomerInfo, getCustomerParam, getUserInfo } from "@/utils/auth";
 import {
   apiInstance,
   ApiUrls,
@@ -19,43 +25,28 @@ import {
   useUserInfoStore,
   warning
 } from "star-horse-lowcode";
-import {filterTree} from "@/api/star_horse_utils";
-import {getCustomerInfo, getCustomerParam, getToken, getUserInfo} from "@/utils/auth";
-import {getLang, setLang} from "@/theme/localStorge";
-import {LangType} from "@/theme/theme";
-import {i18n} from "@/lang";
-import {useRouter} from "vue-router";
-import Message from "@/components/Message.vue";
+import { computed, nextTick, onMounted, ref, unref } from "vue";
+import { useRouter } from "vue-router";
 
 const userStore = useUserInfoStore(piniaInstance);
-
+const loginStore = useLoginStore(piniaInstance);
 const dataUrl: ApiUrls = apiInstance("system-config", "system/dictinfoEntity", [getCustomerParam()]);
 const configStore = useGlobalConfigStore(piniaInstance);
 const filterTableData = computed(() => filterTree(search.value, permissionMenuList.value));
 const configInfo = computed(() => configStore.configFormInfo);
-const {currentRoute, push, replace} = useRouter();
+const { currentRoute, push, replace } = useRouter();
 const emits = defineEmits(["changeLang", "layoutConfig"]);
 const dialogProps = dialogPreps();
-const appinfoList = ref<any>([]);
+const appinfoList = computed(() => loginStore.getAppInfoList());
 const search = ref<string>();
-const shortcutMenuList = ref<Array<any>>([]);
+const shortcutMenuList = computed(() => loginStore.getShortcutMenuList());
 let systemName = Config.title;
 let userInfo = getUserInfo();
 let permissionMenuList = ref<Array<any>>([]);
 const shortcutMultipleTable = ref();
-const loadAppInfo = () => {
-  let query = getUserInfo()?.idUsersinfo;
-  postRequest('/system-config/system/informationsEntity/getUserSystem/' + query, [])
-      .then((res) => {
-        appinfoList.value = res?.data?.data;
-      }).catch((err) => {
-    console.log(err);
-  });
-};
+
 const initData = async () => {
-  await loadShortMenu();
   changeLang(getLang(), true);
-  loadAppInfo();
 };
 onMounted(() => {
   initData();
@@ -83,16 +74,6 @@ const loginOut = () => {
       userLogout(userInfo || {});
     }
   });
-};
-
-const loadShortMenu = async () => {
-  let param: any = [];
-  await postRequest("/system-config/system/shortcutMenu/currentUserShortcut", param)
-      .then((res) => {
-        shortcutMenuList.value = res?.data?.data;
-      }).catch((err) => {
-        console.log(err);
-      });
 };
 
 /**
@@ -156,17 +137,17 @@ const batchMerge = () => {
   });
   load("数据提交中");
   postRequest(`/system-config/system/shortcutMenu/mergeBatch/${userInfo.idUsersinfo}`, dataList)
-      .then((res: any) => {
-        success(res.data.cnMessage);
-        dialogProps.bakeVisible1 = false;
-        loadShortMenu();
-      })
-      .catch((err: any) => {
-        error(err);
-      })
-      .finally(() => {
-        closeLoad();
-      });
+    .then((res: any) => {
+      success(res.data.cnMessage);
+      dialogProps.bakeVisible1 = false;
+      loginStore.loadShortMenu();
+    })
+    .catch((err: any) => {
+      error(err);
+    })
+    .finally(() => {
+      closeLoad();
+    });
 };
 const shortcutReset = () => {
   shortcutMultipleTable.value!.clearSelection();
@@ -202,79 +183,44 @@ const dataFormat = (name: string, val: any, row: any) => {
   }
   return val;
 };
-const refreshCurrentView = async () => {
-  const {fullPath, query} = currentRoute.value;
-  query["redirectPath"] = fullPath;
-  await nextTick();
-  await replace({
-    path: "/redirect",
-    query: query
-  });
+const selectItem = (item: any) => {
+  const userId = getUserInfo()?.idUsersinfo;
+  loginStore.loadMenusInfo(userId, item?.idInformations);
 }
-watch(() => getToken(), (val) => {
-  if (val) {
-    initData();
-    refreshCurrentView();
-  }
-}, {deep: true})
 </script>
 <template>
-  <star-horse-dialog
-      :title="'编辑快捷菜单'"
-      :dialog-props="dialogProps"
-      :dialog-visible="dialogProps.bakeVisible1"
-      :self-func="true"
-      @merge="batchMerge"
-      @resetForm="shortcutReset"
-  >
-    <el-input
-        style="width: 50%"
-        v-model="search"
-        :size="configInfo.inputSize || 'default'"
-        placeholder="请输入关键字"
-        clearable
-    >
+  <star-horse-dialog :title="'编辑快捷菜单'" :dialog-props="dialogProps" :dialog-visible="dialogProps.bakeVisible1"
+    :self-func="true" @merge="batchMerge" @resetForm="shortcutReset">
+    <el-input style="width: 50%" v-model="search" :size="configInfo.inputSize || 'default'" placeholder="请输入关键字"
+      clearable>
       <template #append>
-        <star-horse-icon icon-class="search" color="var(--star-horse-style)"/>
+        <star-horse-icon icon-class="search" color="var(--star-horse-style)" />
       </template>
     </el-input>
-    <star-horse-table-comp
-        ref="shortcutMultipleTable"
-        :field-list="fieldList"
-        primaryKey="meta.title"
-        :compUrl="dataUrl"
-        :disableAction="true"
-        :showPageBar="false"
-        :dataFormat="dataFormat"
-        :allowSelectParent="false"
-        :expand="true"
-        :reverseDataList="reverseDataList"
-        :tableDataList="filterTableData"
-    />
+    <star-horse-table-comp ref="shortcutMultipleTable" :field-list="fieldList" primaryKey="meta.title" :hideButtonList="true"
+      :compUrl="dataUrl" :disableAction="true" :showPageBar="false" :dataFormat="dataFormat" :allowSelectParent="false"
+      :expand="true" :reverseDataList="reverseDataList" :tableDataList="filterTableData" />
   </star-horse-dialog>
   <div class="star-horse-inner-header">
     <div :title="systemName" class="logo">
-      <img v-if="getCustomerInfo()?.logo" :src="getCustomerInfo()?.logo" :height="getCustomerInfo()?.height || 45"/>
-      <star-horse-icon
-          v-else
-          icon-class="logo"
-          size="45px"
-          width="45px"
-          height="45px"
-          style="color: var(--star-horse-white); font-weight: bold"
-      />
+      <img v-if="getCustomerInfo()?.logo" :src="getCustomerInfo()?.logo" :height="getCustomerInfo()?.height || 45" />
+      <star-horse-icon v-else icon-class="logo" size="45px" width="45px" height="45px"
+        style="color: var(--star-horse-white); font-weight: bold" />
     </div>
     <div class="header-left">
-      <star-horse-hmenu :ellipsis="true" v-if="configInfo.menusCfg == 'tradition'"
-                        v-model:dataList="appinfoList"/>
-
+      <star-horse-menu :ellipsis="true" v-if="configInfo.menusCfg == 'tradition'" :mode="'horizontal'" @selectItem="selectItem"
+        :dataList="appinfoList" :preps="{
+          id: 'idInformations',
+          label: 'sysName',
+          icon: 'sysLogo',
+          children:'children'
+        }" />
     </div>
     <div class="header-right">
-      <Message/>
+      <Message />
       <el-dropdown class="lang" @command="handleLanguageChanged" :show-arrow="false">
-          <span class=" flex items-center flex-row" style="cursor: pointer;color:#fff">
-          {{ curLangName }}<star-horse-icon icon-class="arrow-down" style="color: var(--star-horse-white)"
-          /></span>
+        <span class=" flex items-center flex-row" style="cursor: pointer;color:#fff">
+          {{ curLangName }}<star-horse-icon icon-class="arrow-down" style="color: var(--star-horse-white)" /></span>
         <template #dropdown>
           <el-dropdown-menu>
             <el-dropdown-item command="zh_cn">中文</el-dropdown-item>
@@ -284,16 +230,10 @@ watch(() => getToken(), (val) => {
       </el-dropdown>
 
       <el-dropdown trigger="click" :show-arrow="false">
-          <span class="el-dropdown-link">
-            <star-horse-icon
-                icon-class="user-circle"
-                size="30px"
-                width="30px"
-                height="30px"
-                cursor="pointer"
-                style="vertical-align: middle; color: var(--star-horse-white)"
-            />
-          </span>
+        <span class="el-dropdown-link">
+          <star-horse-icon icon-class="user-circle" size="30px" width="30px" height="30px" cursor="pointer"
+            style="vertical-align: middle; color: var(--star-horse-white)" />
+        </span>
         <template #dropdown>
           <el-dropdown-menu>
             <el-dropdown-item>
@@ -301,20 +241,20 @@ watch(() => getToken(), (val) => {
               <p>({{ userInfo.username }})</p>
             </el-dropdown-item>
             <el-dropdown-item divided class="clearfix" @click="modifyInfo">
-              <star-horse-icon icon-class="user-circle" color="var(--star-horse-style)"/>
+              <star-horse-icon icon-class="user-circle" color="var(--star-horse-style)" />
               {{ i18n("main.header.authority") }}
             </el-dropdown-item>
             <el-dropdown-item divided class="clearfix" @click="push('/shcalendar')">
-              <star-horse-icon icon-class="calendar" color="var(--star-horse-style)"/>
+              <star-horse-icon icon-class="calendar" color="var(--star-horse-style)" />
               {{ i18n("main.header.calendar") }}
             </el-dropdown-item>
             <el-dropdown-item divided class="clearfix" @click="layoutConfig">
-              <star-horse-icon icon-class="layout" color="var(--star-horse-style)"/>
+              <star-horse-icon icon-class="layout" color="var(--star-horse-style)" />
               {{ i18n("main.header.layoutConfig") }}
             </el-dropdown-item>
 
             <el-dropdown-item divided @click="loginOut" class="clearfix">
-              <star-horse-icon icon-class="login_out" style="vertical-align: middle; color: #f56c6c"/>
+              <star-horse-icon icon-class="login_out" style="vertical-align: middle; color: #f56c6c" />
               {{ i18n("main.header.logout") }}
             </el-dropdown-item>
           </el-dropdown-menu>
@@ -330,19 +270,17 @@ watch(() => getToken(), (val) => {
           <el-tooltip :content="item.menuName">
             <router-link :to="{ path: item.menuPath }">
               <el-icon class="star-icon" style="color: var(--star-horse-white); font-size: 18px">
-                <component :is="item.menuIcon || 'document'"/>
+                <component :is="item.menuIcon || 'document'" />
               </el-icon>
               &nbsp;{{ item["menuName"] }}</router-link>
           </el-tooltip>
         </span>
-        <span
-            style="display: flex; height: 100%; width: 1px; cursor: none; color: #ffd04b"
-            v-if="index < shortcutMenuList.length - 1"
-        >|</span>
+        <span style="display: flex; height: 100%; width: 1px; cursor: none; color: #ffd04b"
+          v-if="index < shortcutMenuList.length - 1">|</span>
       </template>
       <span @click="addShortcutMenu">
         <el-tooltip content="添加快捷菜单">
-          <star-horse-icon icon-class="add" style="color: var(--star-horse-white)"/>
+          <star-horse-icon icon-class="add" style="color: var(--star-horse-white)" />
         </el-tooltip>
       </span>
     </div>
@@ -412,7 +350,7 @@ watch(() => getToken(), (val) => {
   }
 }
 
-.el-dropdown-menu > .el-dropdown-menu__item:first-child {
+.el-dropdown-menu>.el-dropdown-menu__item:first-child {
   border-bottom: 1px solid silver;
 }
 

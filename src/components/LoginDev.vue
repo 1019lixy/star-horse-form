@@ -1,14 +1,15 @@
 <script lang="ts" setup>
+import { particlesCfg } from "@/api/particlesConfig";
 import { Config } from "@/api/settings";
-import { getValidateImg, rtCode, userLogin } from "@/api/star_horse_apis";
-import { JSEncrypt } from "jsencrypt";
+import { getValidateImg, rtCode } from "@/api/star_horse_apis";
+import { i18n } from "@/lang";
+import { useLoginStore } from "@/store/Login";
 import { removeToken, setPublicKey } from "@/utils/auth";
+import type { FormInstance, FormRules, TabsPaneContext } from "element-plus";
+import { JSEncrypt } from "jsencrypt";
+import { piniaInstance, useGlobalConfigStore, warning } from "star-horse-lowcode";
 import { onMounted, reactive, ref, watch } from "vue";
 import { RouteLocationNormalized, useRouter } from "vue-router";
-import type { FormInstance, FormRules, TabsPaneContext } from "element-plus";
-import { piniaInstance, useGlobalConfigStore, warning } from "star-horse-lowcode";
-import { i18n } from "@/lang";
-import { particlesCfg } from "@/api/particlesConfig";
 
 interface LoginInfo {
   userName: string;
@@ -18,7 +19,7 @@ interface LoginInfo {
   validCode: string;
   uuid: string;
 }
-
+const loginStore = useLoginStore(piniaInstance);
 let configStore = useGlobalConfigStore(piniaInstance);
 let validateImg = ref<string>("");
 let uuid = ref<string>("");
@@ -71,7 +72,7 @@ const handleLogin = async (elForm: FormInstance | undefined, event: Event) => {
       //密码加密传输，需要加密时去掉注释，单后端认证服务需支持
       user["password"] = <string>encrypt.encrypt(loginForm.password);
       if (valid) {
-        let { errMsg } = await userLogin(user);
+        let { errMsg } = await loginStore.userLogin(user);
         if (errMsg) {
           warning(errMsg);
           refreshValidate();
@@ -185,7 +186,8 @@ watch(
               class="w-11 h-11 items-center justify-center inline-flex rounded-2xl font-bold text-lg text-white bg-blue-500 hover:shadow-lg cursor-pointer transition ease-in duration-300">
               <img
                 src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZlcnNpb249IjEuMSIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHhtbG5zOnN2Z2pzPSJodHRwOi8vc3ZnanMuY29tL3N2Z2pzIiB3aWR0aD0iNTEyIiBoZWlnaHQ9IjUxMiIgeD0iMCIgeT0iMCIgdmlld0JveD0iMCAwIDI0IDI0IiBzdHlsZT0iZW5hYmxlLWJhY2tncm91bmQ6bmV3IDAgMCA1MTIgNTEyIiB4bWw6c3BhY2U9InByZXNlcnZlIj48Zz48cGF0aCB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIGQ9Im0yMy45OTQgMjR2LS4wMDFoLjAwNnYtOC44MDJjMC00LjMwNi0uOTI3LTcuNjIzLTUuOTYxLTcuNjIzLTIuNDIgMC00LjA0NCAxLjMyOC00LjcwNyAyLjU4N2gtLjA3di0yLjE4NWgtNC43NzN2MTYuMDIzaDQuOTd2LTcuOTM0YzAtMi4wODkuMzk2LTQuMTA5IDIuOTgzLTQuMTA5IDIuNTQ5IDAgMi41ODcgMi4zODQgMi41ODcgNC4yNDN2Ny44MDF6IiBmaWxsPSIjZmZmZmZmIiBkYXRhLW9yaWdpbmFsPSIjMDAwMDAwIiBzdHlsZT0iIj48L3BhdGg+PHBhdGggeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiBkPSJtLjM5NiA3Ljk3N2g0Ljk3NnYxNi4wMjNoLTQuOTc2eiIgZmlsbD0iI2ZmZmZmZiIgZGF0YS1vcmlnaW5hbD0iIzAwMDAwMCIgc3R5bGU9IiI+PC9wYXRoPjxwYXRoIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgZD0ibTIuODgyIDBjLTEuNTkxIDAtMi44ODIgMS4yOTEtMi44ODIgMi44ODJzMS4yOTEgMi45MDkgMi44ODIgMi45MDkgMi44ODItMS4zMTggMi44ODItMi45MDljLS4wMDEtMS41OTEtMS4yOTItMi44ODItMi44ODItMi44ODJ6IiBmaWxsPSIjZmZmZmZmIiBkYXRhLW9yaWdpbmFsPSIjMDAwMDAwIiBzdHlsZT0iIj48L3BhdGg+PC9nPjwvc3ZnPg=="
-                class="w-4 h-4" /></div>
+                class="w-4 h-4" />
+            </div>
           </div>
           <div class="flex items-center justify-center space-x-2">
             <span class="h-px w-16 bg-gray-200"></span>

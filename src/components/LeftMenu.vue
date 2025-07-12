@@ -1,39 +1,22 @@
 <script setup lang="ts">
-import {createRouterAndMenuList, permissionMenus} from "@/api/star_horse_apis";
-import {computed, nextTick, onMounted, reactive, ref, unref, watch} from "vue";
-import {MenusInfo, piniaInstance, useGlobalConfigStore, useUserInfoStore} from "star-horse-lowcode";
-import {Config} from "@/api/settings";
-import {filterTree} from "@/api/star_horse_utils";
-
-let userInfoStore = useUserInfoStore(piniaInstance);
+import { Config } from "@/api/settings";
+import { filterTree } from "@/api/star_horse_utils";
+import { useLoginStore } from "@/store/Login";
+import { piniaInstance, useGlobalConfigStore } from "star-horse-lowcode";
+import { computed, nextTick, onMounted, ref, watch } from "vue";
+defineProps({
+  isCollapse: { type: Boolean, default: false }
+})
 let configStore = useGlobalConfigStore(piniaInstance);
+const loginStore = useLoginStore(piniaInstance);
 let compSize = computed(() => configStore.configFormInfo?.inputSize || Config.compSize);
 const emits = defineEmits(["collapseOperation"]);
-let leftMenuDatas = ref<MenusInfo[]>([]);
-let props = defineProps({
-  sysemId: {type: String},
-  isCollapse: {type: Boolean, default: true}
-});
+let leftMenuDatas = computed(() => loginStore.getMenusList());
+
 let defaultOpenMenu = ref<string>("");
-let menuIcon = ref<string>("expand");
-const menuBarFun = () => {
-  emits("collapseOperation");
-};
-const changeArrow = () => {
-  menuIcon.value = unref(menuIcon) == "expand" ? "collapse" : "expand";
-};
-const loadMenus = async (sysemId?: string) => {
-  if (!sysemId) {
-    sysemId = "-1";
-  }
-  await permissionMenus({}, sysemId).then((res) => {
-    let redata = res.data?.data;
-    if (redata) {
-      sessionStorage.setItem("menusInfo", JSON.stringify(redata));
-      leftMenuDatas.value = reactive(createRouterAndMenuList(redata));
-    }
-  });
-  await nextTick(() => {
+const setOpenMenu = () => {
+  filterTableData.value = leftMenuDatas.value;
+  nextTick(() => {
     if (leftMenuDatas.value?.length > 0) {
       let allId = leftMenuDatas.value.find((item: any) => item.path == "#")?.meta?.menuId;
       if (allId && systemMenu?.value) {
@@ -49,55 +32,39 @@ const loadMenus = async (sysemId?: string) => {
 const search = ref<string>("");
 const systemMenu = ref();
 const filterTableData = computed(() => filterTree(search.value, leftMenuDatas.value));
-onMounted(async () => {
-  let menus = userInfoStore.permissionMenus;
-  if (menus.length == 0) {
-    await loadMenus("-1");
-  } else {
-    leftMenuDatas.value = menus;
-  }
+onMounted(() => {
+
 });
 watch(
-    () => props.isCollapse,
-    () => {
-      changeArrow();
-    },
-    {immediate: true}
+  () => leftMenuDatas.value,
+  () => {
+    setOpenMenu();
+  },
+  { immediate: true }
 );
-watch(
-    () => props.sysemId,
-    (val) => {
-      loadMenus(val);
-    },
-    {immediate: false}
-);
+
 </script>
 <template>
   <div class="starhorse-menu">
     <el-scrollbar height="100%" class="base">
-      <el-menu
-          :collapse="isCollapse"
-          ref="systemMenu"
-          popper-effect="dark"
-          popper-class="popper-class"
-          :default-openeds="defaultOpenMenu"
-      >
+      <el-menu :collapse="isCollapse" ref="systemMenu" popper-effect="dark" popper-class="popper-class"
+        :default-openeds="defaultOpenMenu">
         <el-menu-item index="-1" style="height: 38px; background: var(--star-horse-background)">
           <el-icon class="star-icon" v-if="isCollapse">
-            <component :is="'search'"/>
+            <component :is="'search'" />
           </el-icon>
           <template #title>
             <el-input v-model="search" :size="compSize" placeholder="请输入关键字" clearable>
               <template #suffix>
-                <star-horse-icon icon-class="search" color="var(--star-horse-style)" size="16px"/>
+                <star-horse-icon icon-class="search" color="var(--star-horse-style)" size="16px" />
               </template>
             </el-input>
           </template>
         </el-menu-item>
-        <SubMenu v-model:dataList="filterTableData"/>
+        <SubMenu v-model:dataList="filterTableData" />
       </el-menu>
     </el-scrollbar>
-<!--    <div @click="menuBarFun" class="menu-button">
+    <!--    <div @click="menuBarFun" class="menu-button">
       <star-horse-icon :icon-class="menuIcon" color="var(&#45;&#45;star-horse-style)"/>
     </div>-->
   </div>

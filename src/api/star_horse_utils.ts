@@ -460,6 +460,10 @@ export function loadSvgIcons() {
     return menuIconList;
 }
 export async function loadSvgIconsByPath(path: string) {
+    import(path).then((res) => {
+        console.log("xxxx", res);
+    });
+
     warning("暂未实现");
     return [];
 }
@@ -561,7 +565,7 @@ export function filterTree(search: any, menusList: MenusInfo[]): MenusInfo[] {
         const containsData = !search || node.meta?.title.toLowerCase().includes(search?.toLowerCase());
         const includeNode = parentInclude || containsData;
         const filteredChildren: any =
-            node.children && node.children.length > 0 ? filterRecursive(node.children, includeNode) : [];
+            node?.children && node.children.length > 0 ? filterRecursive(node.children, includeNode) : [];
         return includeNode || filteredChildren.length > 0 ? { ...node, children: filteredChildren } : null;
     };
     const filteredTree = filterRecursive(menusList, false);

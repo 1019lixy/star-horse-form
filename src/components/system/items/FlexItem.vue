@@ -97,7 +97,8 @@ onMounted(() => {
             <draggable @add="(evt: Event) => onDragAdd(evt, compList)" class="w-full h-full min-w-[0]" tag="div"
                 group="starHorseGroup" ghost-class="ghost" :list="compList" :itemKey="uuid()">
                 <template #item="{ element: data, index }">
-                    <div class="overflow-visible flex flex-col flex-wrap w-full" :data-field-id="data.id" :key="data.id">
+                    <div class="overflow-visible flex flex-col flex-wrap w-full" :class="{ 'h-full': compList.length == 1 }"
+                        :data-field-id="data.id" :key="data.id">
                         <component :key="data.id" :field="data" :isDesign="true" :index-of-parent-list="index"
                             :is="data.name + '-item'" v-bind="data.preps" style="min-width: 0; width: 100%;" />
                     </div>
@@ -118,8 +119,9 @@ onMounted(() => {
     min-width: 7rem;
     min-height: 5.5rem;
     max-width: 100%;
+    width: inherit;
     background: #fefefe;
-  /*   margin: 0 auto; */
+    /*   margin: 0 auto; */
     border: 3px solid var(--star-horse-style);
     position: relative;
     overflow: hidden;

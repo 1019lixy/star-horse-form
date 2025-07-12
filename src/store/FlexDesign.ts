@@ -1,6 +1,5 @@
 import { FlexboxItem } from "@/components/types/FlexType";
 import { GridItem } from "@/components/types/GridType";
-import { an } from "node_modules/@fullcalendar/core/internal-common.js";
 import { defineStore } from "pinia";
 import { uuid } from "star-horse-lowcode";
 import { ref } from "vue";
@@ -103,7 +102,11 @@ export const useFlexDesignStore = defineStore("flexDesign", () => {
      */
     const addPosition = (position: string) => {
         positionList.value.push(position);
+        setItemWidth();
     };
+    const setItemWidth = () => {
+        containerInfo.value["width"] = positionList.value.length == 1 ? "100%" : "auto";
+    }
     /**
      * 添加组件
      * @param position 位置
@@ -163,6 +166,7 @@ export const useFlexDesignStore = defineStore("flexDesign", () => {
             index = index < positionList.value.length ? index : index - 1;
             setCurrentItem(positionList.value[index]);
         }
+        setItemWidth();
     };
     const getItems = () => {
         return itemsInfo.value;
