@@ -1,8 +1,11 @@
 <script setup lang="ts">
 
+import pageItemsComponent from "@/components/formcomp/pageitems/allPageItem";
 import FlexItem from '@/components/system/items/FlexItem.vue';
+import PageCompPanel from '@/components/system/items/PageCompPanel.vue';
 import SvgLoader from '@/components/system/SvgLoader.vue';
 import { Layout } from "@/components/types/dataTypes";
+import { appInstance } from '@/main';
 import { useFlexDesignStore } from "@/store/FlexDesign";
 import { flexBoxContainerConfig } from "@/utils/flexbox/containerConfig";
 import { flexBoxItemsConfig } from "@/utils/flexbox/itemsConfig";
@@ -10,11 +13,10 @@ import { flexboxLayouts } from "@/utils/flexbox/layouts";
 import { gridContainerConfig } from "@/utils/grid/containerConfig";
 import { gridItemsConfig } from "@/utils/grid/itemsConfig";
 import { gridLayouts } from "@/utils/grid/layouts";
+import "gridstack/dist/gridstack.min.css";
 import { PageFieldInfo, piniaInstance, uuid } from "star-horse-lowcode";
 import { computed, defineOptions, onMounted, ref, watch } from "vue";
-import PageCompPanel from '@/components/system/items/PageCompPanel.vue';
-import pageItemsComponent from "@/components/formcomp/pageitems/allPageItem";
-import { appInstance } from '@/main';
+import StarHorseRuler from './StarHorseRuler.vue';
 defineOptions({
   name: "StarHorseFlexComp"
 
@@ -30,6 +32,7 @@ const containerConfig = ref<PageFieldInfo>({});
 const itemConfig = ref<PageFieldInfo>({});
 const layoutConfig = ref<Layout[]>([]);
 const flexModel = ref<string>("flex");
+const needInfiniteViewer = ref<boolean>(true);
 const directions = ["column", "row-reverse", "column-reverse", "row"];
 let index = 0;
 const tabChange = (val: string) => {
@@ -107,7 +110,10 @@ const layoutOperation = (item: Layout) => {
   })
   flexDesign.batchAddItems(tempItems);
 }
+const autoScroll = () => {
+  needInfiniteViewer.value = !needInfiniteViewer.value;
 
+}
 onMounted(() => {
   init();
 });
@@ -158,7 +164,7 @@ watch(() => currentId.value, (val: string) => {
           <div class="flex-grid gap-4 w-full flex-wrap">
             <template v-for="item in layoutConfig">
               <div class="flex flex-col items-center justify-center " @click="layoutOperation(item)">
-                <svg-loader :path="'./flexable/' + item.icon"  cursor="pointer" size="80px" />
+                <svg-loader :path="'./flexable/' + item.icon" cursor="pointer" size="80px" />
                 {{ item.name }}
               </div>
             </template>
@@ -173,7 +179,7 @@ watch(() => currentId.value, (val: string) => {
       </el-tabs>
     </el-splitter-panel>
     <el-splitter-panel>
-      <div class=" flex flex-col mx-[10px] w-[98%] h-full">
+      <div class=" flex flex-col mx-[10px] w-[98%] h-full relative" style=" background: #86909c;">
         <div class="inner_button">
           <el-menu mode="horizontal" :ellipsis="false" style="height: inherit; width: 100%;">
             <el-menu-item :index="'1_1'" @click="addItem">
@@ -191,13 +197,20 @@ watch(() => currentId.value, (val: string) => {
                 <star-horse-icon icon-class="code" size="24px" />
               </el-tooltip>
             </el-menu-item>
+            <el-menu-item :index="'1_4'" @click="autoScroll">
+              <el-tooltip class="item" content="无限滚动" effect="dark" placement="bottom">
+                <star-horse-icon icon-class="drag" size="24px" />
+              </el-tooltip>
+            </el-menu-item>
           </el-menu>
         </div>
-        <div :style="containerDataForm" class="flex-1">
-          <template v-for="item in positionList">
-            <FlexItem :itemId="item" @selectItem="selectItem" :type="flexModel" />
-          </template>
-        </div>
+        <StarHorseRuler :needInfiniteViewer="needInfiniteViewer">
+          <div :style="containerDataForm" class="flex-1">
+            <template v-for="item in positionList">
+              <FlexItem :itemId="item" @selectItem="selectItem" :type="flexModel" />
+            </template>
+          </div>
+        </StarHorseRuler>
       </div>
     </el-splitter-panel>
   </el-splitter>
