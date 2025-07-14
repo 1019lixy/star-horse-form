@@ -193,23 +193,67 @@ watch(() => currentId.value, (val: string) => {
         </StarHorseRuler>
       </div>
     </el-splitter-panel>
-    <el-splitter-panel collapsible size="290" max="40%">
-      <el-tabs v-model="editTabModel" type="border-card" style="height: 100% !important; ">
-        <el-tab-pane name="container">
-          <template #label>
-            <star-horse-icon icon-class="container" style="color: var(--star-horse-style)" />&nbsp;<span>容器</span>
-          </template>
-          <sh-form v-model:dataForm="containerDataForm" :label-width="'auto'" :label-position="'top'">
-            <el-collapse v-model="containerCollapse" style="background: #1d2129 !important">
-              <el-collapse-item name="container">
+    <el-splitter-panel collapsible size="350" max="40%">
+      <el-scrollbar>
+        <el-tabs v-model="editTabModel" type="border-card" style="height: 100% !important; ">
+          <el-tab-pane name="container">
+            <template #label>
+              <star-horse-icon icon-class="container" style="color: var(--star-horse-style)" />&nbsp;<span>容器</span>
+            </template>
+            <sh-form v-model:dataForm="containerDataForm" :label-width="'auto'" :label-position="'top'">
+              <el-collapse v-model="containerCollapse" :expand-icon-position="'left'"  style="background: #1d2129 !important">
+                <el-collapse-item name="container">
+                  <template #title>
+                    <div class="collapse-item-title title">
+                      <div>布局</div>
+                    </div>
+                  </template>
+                  <div class="h-full">
+                    <StarHorseFormItem :fieldList="containerConfig" v-model:dataForm="containerDataForm" />
+                  </div>
+                </el-collapse-item>
+                <el-collapse-item name="position">
+                  <template #title>
+                    <div class="collapse-item-title title">
+                      <div>位置大小</div>
+                    </div>
+                  </template>
+                  <page-position v-model:dataForm="containerDataForm" />
+                </el-collapse-item>
+                <el-collapse-item name="background">
+                  <template #title>
+                    <div class="collapse-item-title title">
+                      <div>背景</div>
+                    </div>
+                  </template>
+                  <page-background v-model:dataForm="containerDataForm" />
+                </el-collapse-item>
+                <el-collapse-item name="font">
+                  <template #title>
+                    <div class="collapse-item-title title">
+                      <div>文字</div>
+                    </div>
+                  </template>
+                  <page-font v-model:dataForm="containerDataForm" />
+                </el-collapse-item>
+              </el-collapse>
+            </sh-form>
+          </el-tab-pane>
+          <el-tab-pane name="item">
+            <template #label>
+              <star-horse-icon icon-class="list" style="color: var(--star-horse-style)" />&nbsp;<span>节点</span>
+            </template>
+
+            <el-collapse v-model="itemCollapse" :expand-icon-position="'left'" style="background: #1d2129 !important">
+              <el-collapse-item name="item">
                 <template #title>
                   <div class="collapse-item-title title">
                     <div>布局</div>
                   </div>
                 </template>
-                <div class="h-full">
-                  <StarHorseFormItem :fieldList="containerConfig" v-model:dataForm="containerDataForm" />
-                </div>
+                <sh-form v-model:dataForm="itemDataForm" :label-width="'auto'" :label-position="'top'">
+                  <StarHorseFormItem :fieldList="itemConfig" v-model:dataForm="itemDataForm" />
+                </sh-form>
               </el-collapse-item>
               <el-collapse-item name="position">
                 <template #title>
@@ -217,7 +261,7 @@ watch(() => currentId.value, (val: string) => {
                     <div>位置大小</div>
                   </div>
                 </template>
-                <page-position v-model:dataForm="containerDataForm" />
+                <page-position v-model:dataForm="itemDataForm" />
               </el-collapse-item>
               <el-collapse-item name="background">
                 <template #title>
@@ -225,7 +269,7 @@ watch(() => currentId.value, (val: string) => {
                     <div>背景</div>
                   </div>
                 </template>
-                <page-background v-model:dataForm="containerDataForm" />
+                <page-background v-model:dataForm="itemDataForm" />
               </el-collapse-item>
               <el-collapse-item name="font">
                 <template #title>
@@ -233,54 +277,12 @@ watch(() => currentId.value, (val: string) => {
                     <div>文字</div>
                   </div>
                 </template>
-                <page-font v-model:dataForm="containerDataForm" />
+                <page-font v-model:dataForm="itemDataForm" />
               </el-collapse-item>
             </el-collapse>
-          </sh-form>
-        </el-tab-pane>
-        <el-tab-pane name="item">
-          <template #label>
-            <star-horse-icon icon-class="list" style="color: var(--star-horse-style)" />&nbsp;<span>节点</span>
-          </template>
-
-          <el-collapse v-model="itemCollapse" :expand-icon-position="'left'" style="background: #1d2129 !important">
-            <el-collapse-item name="item">
-              <template #title>
-                <div class="collapse-item-title title">
-                  <div>布局</div>
-                </div>
-              </template>
-              <sh-form v-model:dataForm="itemDataForm" :label-width="'auto'" :label-position="'top'">
-                <StarHorseFormItem :fieldList="itemConfig" v-model:dataForm="itemDataForm" />
-              </sh-form>
-            </el-collapse-item>
-            <el-collapse-item name="position">
-              <template #title>
-                <div class="collapse-item-title title">
-                  <div>位置大小</div>
-                </div>
-              </template>
-              <page-position v-model:dataForm="itemDataForm" />
-            </el-collapse-item>
-            <el-collapse-item name="background">
-              <template #title>
-                <div class="collapse-item-title title">
-                  <div>背景</div>
-                </div>
-              </template>
-              <page-background v-model:dataForm="itemDataForm" />
-            </el-collapse-item>
-            <el-collapse-item name="font">
-              <template #title>
-                <div class="collapse-item-title title">
-                  <div>文字</div>
-                </div>
-              </template>
-              <page-font v-model:dataForm="itemDataForm" />
-            </el-collapse-item>
-          </el-collapse>
-        </el-tab-pane>
-      </el-tabs>
+          </el-tab-pane>
+        </el-tabs>
+      </el-scrollbar>
     </el-splitter-panel>
   </el-splitter>
 </template>
