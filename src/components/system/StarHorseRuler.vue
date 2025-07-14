@@ -23,6 +23,8 @@ const onRestore = () => {
   horizontalGuides.value?.scrollGuides(0);
   verticalGuides.value?.scroll(0);
   verticalGuides.value?.scrollGuides(0);
+  vueInfiniteViewerRef.value?.scrollTo(0, 0);
+  vueInfiniteViewerRef.value?.resize();
 }
 const resizeFun = (e: any) => {
   horizontalGuides.value?.resize();
@@ -80,22 +82,17 @@ onBeforeUnmount(() => {
       <Guides ref="horizontalGuides" type="horizontal" v-bind:rulerStyle="{
         left: '30px',
         width: 'calc(100% - 30px)',
-        backgroundColor: 'purple',
         height: '30px'
       }" />
     </div>
     <div class="absolute left-0 top-0 h-full w-[30px]">
-      <Guides ref="verticalGuides" type="vertical" displayDragPos="true" v-bind:rulerStyle="{
+      <Guides ref="verticalGuides" type="vertical"  displayDragPos="true"  v-bind:rulerStyle="{
         top: '30px',
         height: 'calc(100% - 30px)',
-        backgroundColor: 'purple',
         width: '30px'
       }" v-on:changeGuides="onChange" />
     </div>
-    <VueInfiniteViewer v-if="needInfiniteViewer" ref="vueInfiniteViewerRef" :usePinch="true" :useWheelScroll="() => {
-      return true;
-    }
-      " :maxPinchWheel="3" :zoom="1" @scroll="viewScroller" class="viewer">
+    <VueInfiniteViewer v-if="needInfiniteViewer" ref="vueInfiniteViewerRef" :usePinch="true" :useWheelScroll="true" :maxPinchWheel="1" :zoom="1" @scroll="viewScroller" class="viewer">
       <slot></slot>
     </VueInfiniteViewer>
     <div v-else class="viewer">

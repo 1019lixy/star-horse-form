@@ -24,7 +24,7 @@ defineOptions({
 const flexDesign = useFlexDesignStore(piniaInstance);
 const positionList = computed(() => flexDesign.getPositionList());
 const currentId = computed(() => flexDesign.getCurrentItem());
-const tabModel = ref<string>("edit");
+const tabModel = ref<string>("template");
 const editTabModel = ref<string>("container");
 const containerDataForm = ref<any>({});
 const itemDataForm = ref<any>({});
@@ -132,31 +132,6 @@ watch(() => currentId.value, (val: string) => {
         </el-select>
       </div>
       <el-tabs v-model="tabModel" class="flex-1" tab-position="left" @tabChange="tabChange" type="border-card">
-        <el-tab-pane name="edit">
-          <template #label>
-            <star-horse-icon icon-class="component" style="color: var(--star-horse-style)" />&nbsp;<span>编辑</span>
-          </template>
-          <el-tabs v-model="editTabModel" type="border-card" style="height: 100% !important; ">
-            <el-tab-pane name="container">
-              <template #label>
-                <star-horse-icon icon-class="add" style="color: var(--star-horse-style)" />&nbsp;<span>容器</span>
-              </template>
-              <div class="h-full">
-                <sh-form v-model:dataForm="containerDataForm" :label-width="'auto'" :label-position="'top'">
-                  <StarHorseFormItem :fieldList="containerConfig" v-model:dataForm="containerDataForm" />
-                </sh-form>
-              </div>
-            </el-tab-pane>
-            <el-tab-pane name="item">
-              <template #label>
-                <star-horse-icon icon-class="add" style="color: var(--star-horse-style)" />&nbsp;<span>节点</span>
-              </template>
-              <sh-form v-model:dataForm="itemDataForm" :label-width="'auto'" :label-position="'top'">
-                <StarHorseFormItem :fieldList="itemConfig" v-model:dataForm="itemDataForm" />
-              </sh-form>
-            </el-tab-pane>
-          </el-tabs>
-        </el-tab-pane>
         <el-tab-pane name="template">
           <template #label>
             <star-horse-icon icon-class="template" style="color: var(--star-horse-style)" />&nbsp;<span>模板</span>
@@ -179,7 +154,7 @@ watch(() => currentId.value, (val: string) => {
       </el-tabs>
     </el-splitter-panel>
     <el-splitter-panel>
-      <div class=" flex flex-col mx-[10px] w-[98%] h-full relative" style=" background: #86909c;">
+      <div class=" flex flex-col  w-[99%] h-full relative" style=" margin:0 auto; background: #86909c;">
         <div class="inner_button">
           <el-menu mode="horizontal" :ellipsis="false" style="height: inherit; width: 100%;">
             <el-menu-item :index="'1_1'" @click="addItem">
@@ -212,6 +187,28 @@ watch(() => currentId.value, (val: string) => {
           </div>
         </StarHorseRuler>
       </div>
+    </el-splitter-panel>
+    <el-splitter-panel collapsible size="290" max="40%">
+      <el-tabs v-model="editTabModel" type="border-card" style="height: 100% !important; ">
+        <el-tab-pane name="container">
+          <template #label>
+            <star-horse-icon icon-class="container" style="color: var(--star-horse-style)" />&nbsp;<span>容器</span>
+          </template>
+          <div class="h-full">
+            <sh-form v-model:dataForm="containerDataForm" :label-width="'auto'" :label-position="'top'">
+              <StarHorseFormItem :fieldList="containerConfig" v-model:dataForm="containerDataForm" />
+            </sh-form>
+          </div>
+        </el-tab-pane>
+        <el-tab-pane name="item">
+          <template #label>
+            <star-horse-icon icon-class="item" style="color: var(--star-horse-style)" />&nbsp;<span>节点</span>
+          </template>
+          <sh-form v-model:dataForm="itemDataForm" :label-width="'auto'" :label-position="'top'">
+            <StarHorseFormItem :fieldList="itemConfig" v-model:dataForm="itemDataForm" />
+          </sh-form>
+        </el-tab-pane>
+      </el-tabs>
     </el-splitter-panel>
   </el-splitter>
 </template>
