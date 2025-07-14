@@ -2,10 +2,10 @@
 import StarHorseRuler from "@/components/system/StarHorseRuler.vue";
 import { i18n } from "@/lang";
 import { appInstance } from "@/main";
-import PageBackground from "@/views/dyform/page/PageBackground.vue";
-import PageFont from "@/views/dyform/page/PageFont.vue";
-import PageHeader from "@/views/dyform/page/PageHeader.vue";
-import PagePosition from "@/views/dyform/page/PagePosition.vue";
+import PageBackground from "@/components/system/items/PageBackground.vue";
+import PageFont from "@/components/system/items/PageFont.vue";
+import PageHeader from "@/components/system/items/PageHeader.vue";
+import PagePosition from "@/components/system/items/PagePosition.vue";
 import { apiInstance, createComponent, DynamicNode } from "star-horse-lowcode";
 import { onMounted, ref, resolveComponent } from "vue";
 

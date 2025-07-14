@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import {ref} from "vue";
 import {SHAPE_LIST} from "@/views/dyform/page/shapes";
-import icons from "./icon";
+import icons from "../../../views/dyform/page/icon";
 import images from "@/assets/image";
 
 let activeName = ref<string>("first");

@@ -13,7 +13,10 @@ import { flexboxLayouts } from "@/utils/flexbox/layouts";
 import { gridContainerConfig } from "@/utils/grid/containerConfig";
 import { gridItemsConfig } from "@/utils/grid/itemsConfig";
 import { gridLayouts } from "@/utils/grid/layouts";
-import "gridstack/dist/gridstack.min.css";
+import PageBackground from "@/components/system/items/PageBackground.vue";
+import PageFont from "@/components/system/items/PageFont.vue";
+import PageHeader from "@/components/system/items/PageHeader.vue";
+import PagePosition from "@/components/system/items/PagePosition.vue";
 import { PageFieldInfo, piniaInstance, uuid } from "star-horse-lowcode";
 import { computed, defineOptions, onMounted, ref, watch } from "vue";
 import StarHorseRuler from './StarHorseRuler.vue';
@@ -26,6 +29,8 @@ const positionList = computed(() => flexDesign.getPositionList());
 const currentId = computed(() => flexDesign.getCurrentItem());
 const tabModel = ref<string>("template");
 const editTabModel = ref<string>("container");
+const containerCollapse = ref<string>("container");
+const itemCollapse = ref<string>("item");
 const containerDataForm = ref<any>({});
 const itemDataForm = ref<any>({});
 const containerConfig = ref<PageFieldInfo>({});
@@ -194,19 +199,86 @@ watch(() => currentId.value, (val: string) => {
           <template #label>
             <star-horse-icon icon-class="container" style="color: var(--star-horse-style)" />&nbsp;<span>容器</span>
           </template>
-          <div class="h-full">
-            <sh-form v-model:dataForm="containerDataForm" :label-width="'auto'" :label-position="'top'">
-              <StarHorseFormItem :fieldList="containerConfig" v-model:dataForm="containerDataForm" />
-            </sh-form>
-          </div>
+          <sh-form v-model:dataForm="containerDataForm" :label-width="'auto'" :label-position="'top'">
+            <el-collapse v-model="containerCollapse" style="background: #1d2129 !important">
+              <el-collapse-item name="container">
+                <template #title>
+                  <div class="collapse-item-title title">
+                    <div>布局</div>
+                  </div>
+                </template>
+                <div class="h-full">
+                  <StarHorseFormItem :fieldList="containerConfig" v-model:dataForm="containerDataForm" />
+                </div>
+              </el-collapse-item>
+              <el-collapse-item name="position">
+                <template #title>
+                  <div class="collapse-item-title title">
+                    <div>位置大小</div>
+                  </div>
+                </template>
+                <page-position v-model:dataForm="containerDataForm" />
+              </el-collapse-item>
+              <el-collapse-item name="background">
+                <template #title>
+                  <div class="collapse-item-title title">
+                    <div>背景</div>
+                  </div>
+                </template>
+                <page-background v-model:dataForm="containerDataForm" />
+              </el-collapse-item>
+              <el-collapse-item name="font">
+                <template #title>
+                  <div class="collapse-item-title title">
+                    <div>文字</div>
+                  </div>
+                </template>
+                <page-font v-model:dataForm="containerDataForm" />
+              </el-collapse-item>
+            </el-collapse>
+          </sh-form>
         </el-tab-pane>
         <el-tab-pane name="item">
           <template #label>
-            <star-horse-icon icon-class="item" style="color: var(--star-horse-style)" />&nbsp;<span>节点</span>
+            <star-horse-icon icon-class="list" style="color: var(--star-horse-style)" />&nbsp;<span>节点</span>
           </template>
-          <sh-form v-model:dataForm="itemDataForm" :label-width="'auto'" :label-position="'top'">
-            <StarHorseFormItem :fieldList="itemConfig" v-model:dataForm="itemDataForm" />
-          </sh-form>
+
+          <el-collapse v-model="itemCollapse" :expand-icon-position="'left'" style="background: #1d2129 !important">
+            <el-collapse-item name="item">
+              <template #title>
+                <div class="collapse-item-title title">
+                  <div>布局</div>
+                </div>
+              </template>
+              <sh-form v-model:dataForm="itemDataForm" :label-width="'auto'" :label-position="'top'">
+                <StarHorseFormItem :fieldList="itemConfig" v-model:dataForm="itemDataForm" />
+              </sh-form>
+            </el-collapse-item>
+            <el-collapse-item name="position">
+              <template #title>
+                <div class="collapse-item-title title">
+                  <div>位置大小</div>
+                </div>
+              </template>
+              <page-position v-model:dataForm="itemDataForm" />
+            </el-collapse-item>
+            <el-collapse-item name="background">
+              <template #title>
+                <div class="collapse-item-title title">
+                  <div>背景</div>
+                </div>
+              </template>
+              <page-background v-model:dataForm="itemDataForm" />
+            </el-collapse-item>
+            <el-collapse-item name="font">
+              <template #title>
+                <div class="collapse-item-title title">
+                  <div>文字</div>
+                </div>
+              </template>
+              <page-font v-model:dataForm="itemDataForm" />
+            </el-collapse-item>
+          </el-collapse>
         </el-tab-pane>
       </el-tabs>
     </el-splitter-panel>

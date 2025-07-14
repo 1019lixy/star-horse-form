@@ -1,45 +1,39 @@
 <script setup lang="ts">
-import {ModelRef} from "vue";
+import { ModelRef } from "vue";
 
-let data: ModelRef<any> = defineModel("pageFont");
+let data: ModelRef<any> = defineModel("dataForm");
 </script>
 
 <template>
-  <el-form
-      v-model="data"
-      label-width="auto"
-      label-position="left"
-      style="width: 99%; margin: 0 auto; overflow-x: hidden"
-  >
+
+  <div class="row">
+    <el-form-item label="大小" prop="size">
+      <el-input v-model="data.size" size="small" placeholder=""></el-input>
+    </el-form-item>
+    <el-form-item label="行高" prop="lineHeight">
+      <el-input v-model="data.lineHeight" size="small" placeholder=""></el-input>
+    </el-form-item>
+  </div>
+  <el-form-item label="颜色" prop="color">
     <div class="row">
-      <el-form-item label="大小" prop="size">
-        <el-input v-model="data.size" size="small" placeholder=""></el-input>
-      </el-form-item>
-      <el-form-item label="行高" prop="lineHeight">
-        <el-input v-model="data.lineHeight" size="small" placeholder=""></el-input>
-      </el-form-item>
+      <el-color-picker v-model="data.color" color-format="rgb" size="small" />
+      <el-input v-model="data.color" size="small" placeholder="" style="margin-left: 5px" />
     </div>
-    <el-form-item label="颜色" prop="color">
-      <div class="row">
-        <el-color-picker v-model="data.color" color-format="rgb" size="small"/>
-        <el-input v-model="data.color" size="small" placeholder="" style="margin-left: 5px"/>
-      </div>
-    </el-form-item>
-    <el-form-item label="样式" prop="fontWeight">
-      <el-radio-group v-model="data.fontWeight" size="small">
-        <el-radio-button value="B" style="font-weight: bolder">B</el-radio-button>
-        <el-radio-button value="I" style="font-weight: bold; font-style: italic">I</el-radio-button>
-        <el-radio-button value="U" style="text-decoration: underline; font-weight: bold">U</el-radio-button>
-      </el-radio-group>
-    </el-form-item>
-    <el-form-item label="位置" prop="align">
-      <el-radio-group v-model="data.align" size="small">
-        <el-radio-button value="left" style="font-weight: bold">Left</el-radio-button>
-        <el-radio-button value="middle" style="font-weight: bold">Middle</el-radio-button>
-        <el-radio-button value="right" style="text-decoration: underline; font-weight: bold">Right</el-radio-button>
-      </el-radio-group>
-    </el-form-item>
-  </el-form>
+  </el-form-item>
+  <el-form-item label="样式" prop="fontWeight">
+    <el-radio-group v-model="data.fontWeight" size="small">
+      <el-radio-button value="B" style="font-weight: bolder">B</el-radio-button>
+      <el-radio-button value="I" style="font-weight: bold; font-style: italic">I</el-radio-button>
+      <el-radio-button value="U" style="text-decoration: underline; font-weight: bold">U</el-radio-button>
+    </el-radio-group>
+  </el-form-item>
+  <el-form-item label="位置" prop="align">
+    <el-radio-group v-model="data.align" size="small">
+      <el-radio-button value="left" style="font-weight: bold">Left</el-radio-button>
+      <el-radio-button value="middle" style="font-weight: bold">Middle</el-radio-button>
+      <el-radio-button value="right" style="text-decoration: underline; font-weight: bold">Right</el-radio-button>
+    </el-radio-group>
+  </el-form-item>
 </template>
 
 <style scoped lang="scss">
