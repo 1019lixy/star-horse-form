@@ -7,7 +7,8 @@ defineOptions({
 
 });
 defineProps({
-  needInfiniteViewer: { type: Boolean, default: true }
+  needInfiniteViewer: { type: Boolean, default: true },
+  theme: { type: String, default: "light" },
 })
 const horizontalGuides = ref();
 const verticalGuides = ref();
@@ -73,12 +74,13 @@ onBeforeUnmount(() => {
 <template>
   <div class="h-full w-full relative">
     <div class="relative h-[30px] w-[30px] box-border flex items-center z-[21]" @click="onRestore" ref="box">
-      <star-horse-icon icon-class="reset"  />
+      <star-horse-icon icon-class="reset" />
     </div>
     <div class="absolute left-0 top-0 w-full h-[30px]">
       <Guides ref="horizontalGuides" type="horizontal" v-bind:rulerStyle="{
         left: '30px',
         width: 'calc(100% - 30px)',
+        backgroundColor: 'purple',
         height: '30px'
       }" />
     </div>
@@ -86,6 +88,7 @@ onBeforeUnmount(() => {
       <Guides ref="verticalGuides" type="vertical" displayDragPos="true" v-bind:rulerStyle="{
         top: '30px',
         height: 'calc(100% - 30px)',
+        backgroundColor: 'purple',
         width: '30px'
       }" v-on:changeGuides="onChange" />
     </div>

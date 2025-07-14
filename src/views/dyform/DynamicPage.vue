@@ -7,7 +7,7 @@ import PageFont from "@/views/dyform/page/PageFont.vue";
 import PageHeader from "@/views/dyform/page/PageHeader.vue";
 import PagePosition from "@/views/dyform/page/PagePosition.vue";
 import { apiInstance, createComponent, DynamicNode } from "star-horse-lowcode";
-import { h, onMounted, ref, render, resolveComponent } from "vue";
+import { onMounted, ref, resolveComponent } from "vue";
 
 /**
  * 页面设计需要先设置排版，然后在排版上增加具体的组件，这样页面发布后才不会乱,
@@ -113,7 +113,7 @@ onMounted(async () => {
             </el-tab-pane>
             <el-tab-pane label="组件信息" name="first">
               <div class="add-weidget" @click="addNewWidget">
-                <star-horse-icon icon-class="plus"  />
+                <star-horse-icon icon-class="plus" />
               </div>
               <div class="star-horse-page" @click="dragItem('InputItem')">拖拽1</div>
               <div class="star-horse-page" @click="dragItem('SwitchItem')">拖拽2</div>
@@ -261,6 +261,7 @@ onMounted(async () => {
   width: 100%;
   height: 100%;
   overflow: hidden;
+  background: #1d2129;
 
   .panel {
     width: 200px;

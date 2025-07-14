@@ -588,7 +588,7 @@ let prepsModel = ref("one");
         </div>
 
       </el-splitter-panel>
-      <el-splitter-panel collapsible size="280" min="260" max="500" class="!overflow-hidden">
+      <el-splitter-panel collapsible :size="list.length > 0?280:0" min="260" max="500" class="!overflow-hidden">
         <el-scrollbar>
           <item-properties-panel ref="propertyRef" />
         </el-scrollbar>

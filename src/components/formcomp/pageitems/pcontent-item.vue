@@ -2,8 +2,17 @@
 defineOptions({
   name: "PageContentItem"
 });
+defineProps({
+  content: {
+    type: String,
+    default: ''
+  }
+})
 </script>
 
-<template>消息内容</template>
+<template>
+  <div class="relative flex flex-col flex-wrap w-full mx-[5px] my-[5px]"  v-html="content">
+  </div>
+</template>
 
 <style scoped lang="scss"></style>

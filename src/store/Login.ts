@@ -82,9 +82,9 @@ export const useLoginStore = defineStore("login", () => {
      * @returns 
      */
     const getShortcutMenuList = () => {
-        if (shortcutMenuList.value.length == 0) {
+        if (shortcutMenuList.value?.length == 0) {
             const shortsInfo: any = sessionStorage.getItem("shortsInfo");
-            if (!shortsInfo) {
+            if (!shortsInfo || shortsInfo == "undefined") {
                 loadShortMenu();
             } else {
                 shortcutMenuList.value = JSON.parse(shortsInfo);
@@ -97,9 +97,9 @@ export const useLoginStore = defineStore("login", () => {
      * @returns 
      */
     const getAppInfoList = () => {
-        if (appinfoList.value.length == 0) {
+        if (appinfoList.value?.length == 0) {
             const appsInfo: any = sessionStorage.getItem("appsInfo");
-            if (!appsInfo) {
+            if (!appsInfo || appsInfo == "undefined") {
                 loadAppInfo(getUserInfo()?.idUsersinfo);
             } else {
                 appinfoList.value = JSON.parse(appsInfo);
@@ -112,9 +112,9 @@ export const useLoginStore = defineStore("login", () => {
      * @returns 
      */
     const getMenusList = () => {
-        if (menusList.value.length == 0) {
+        if (menusList.value?.length == 0) {
             const menusInfo: any = sessionStorage.getItem("menusInfo");
-            if (!menusInfo) {
+            if (!menusInfo || menusInfo == "undefined") {
                 loadMenusInfo(getUserInfo()?.idUsersinfo, "-1");
             } else {
                 menusList.value = createRouterAndMenuList(JSON.parse(menusInfo));
