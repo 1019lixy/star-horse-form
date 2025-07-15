@@ -1,36 +1,50 @@
 <script setup lang="ts">
 import { ModelRef } from "vue";
 
-let data: ModelRef<any> = defineModel("dataForm");
+let fontInfo: ModelRef<any> = defineModel("dataForm");
 </script>
 
 <template>
 
   <div class="row">
-    <el-form-item label="大小" prop="size">
-      <el-input v-model="data.size" size="small" placeholder=""></el-input>
+    <el-form-item label="大小" prop="fontSize">
+      <el-input v-model="fontInfo.fontSize" size="small" placeholder=""></el-input>
     </el-form-item>
     <el-form-item label="行高" prop="lineHeight">
-      <el-input v-model="data.lineHeight" size="small" placeholder=""></el-input>
+      <el-input v-model="fontInfo.lineHeight" size="small" placeholder=""></el-input>
     </el-form-item>
   </div>
   <el-form-item label="颜色" prop="color">
     <div class="row">
-      <el-color-picker v-model="data.color" color-format="rgb" size="small" />
-      <el-input v-model="data.color" size="small" placeholder="" style="margin-left: 5px" />
+      <el-color-picker v-model="fontInfo.color" color-format="rgb" size="small" />
+      <el-input v-model="fontInfo.color" size="small" placeholder="" style="margin-left: 5px" />
     </div>
   </el-form-item>
   <el-form-item label="样式" prop="fontWeight">
-    <el-radio-group v-model="data.fontWeight" size="small">
-      <el-radio-button value="B" style="font-weight: bolder">B</el-radio-button>
-      <el-radio-button value="I" style="font-weight: bold; font-style: italic">I</el-radio-button>
-      <el-radio-button value="U" style="text-decoration: underline; font-weight: bold">U</el-radio-button>
-    </el-radio-group>
+    <div class="style-controls">
+      <el-radio-group v-model="fontInfo.fontWeight" size="small">
+        <el-radio-button :value="'bold'" :label="'B'">
+          <span :style="{ fontWeight: 'bold' }">B</span>
+        </el-radio-button>
+      </el-radio-group>
+
+      <el-radio-group v-model="fontInfo.fontStyle" size="small">
+        <el-radio-button :value="'italic'" :label="'I'">
+          <span :style="{ fontStyle: 'italic' }">I</span>
+        </el-radio-button>
+      </el-radio-group>
+
+      <el-radio-group v-model="fontInfo.textDecoration" size="small">
+        <el-radio-button :value="'underline'" :label="'U'">
+          <u>U</u>
+        </el-radio-button>
+      </el-radio-group>
+    </div>
   </el-form-item>
-  <el-form-item label="位置" prop="align">
-    <el-radio-group v-model="data.align" size="small">
+  <el-form-item label="位置" prop="textAlign">
+    <el-radio-group v-model="fontInfo.textAlign" size="small">
       <el-radio-button value="left" style="font-weight: bold">Left</el-radio-button>
-      <el-radio-button value="middle" style="font-weight: bold">Middle</el-radio-button>
+      <el-radio-button value="center" style="font-weight: bold">Middle</el-radio-button>
       <el-radio-button value="right" style="text-decoration: underline; font-weight: bold">Right</el-radio-button>
     </el-radio-group>
   </el-form-item>

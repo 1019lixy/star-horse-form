@@ -37,6 +37,8 @@ const itemConfig = ref<PageFieldInfo>({});
 const layoutConfig = ref<Layout[]>([]);
 const flexModel = ref<string>("flex");
 const needInfiniteViewer = ref<boolean>(true);
+const hideRuler = ref<boolean>(false);
+const isFullscreen = ref(false);
 const directions = ["column", "row-reverse", "column-reverse", "row"];
 let index = 0;
 const tabChange = (val: string) => {
@@ -116,10 +118,42 @@ const layoutOperation = (item: Layout) => {
 }
 const autoScroll = () => {
   needInfiniteViewer.value = !needInfiniteViewer.value;
+}
+const hideRulerFunc = () => {
+  hideRuler.value = !hideRuler.value;
+
+}
+const saveData = () => {
+
+}
+const preview = () => {
+
+}
+const publishPage = () => {
+
+
+}
+const sharePage = () => {
+
+
+}
+const fullScreen = () => {
+  if (!document.fullscreenElement) {
+    document.documentElement.requestFullscreen().then(() => {
+      isFullscreen.value = true;
+    });
+  } else {
+    document.exitFullscreen().then(() => {
+      isFullscreen.value = false;
+    });
+  }
 
 }
 onMounted(() => {
   init();
+  document.addEventListener('fullscreenchange', () => {
+    isFullscreen.value = !!document.fullscreenElement;
+  });
 });
 watch(() => currentId.value, (val: string) => {
   selectItem(val);
@@ -159,31 +193,53 @@ watch(() => currentId.value, (val: string) => {
     </el-splitter-panel>
     <el-splitter-panel>
       <div class=" flex flex-col  w-[99%] h-full relative" style=" margin:0 auto; background: #86909c;">
-        <div class="inner_button">
-          <el-menu mode="horizontal" :ellipsis="false" style="height: inherit; width: 100%;">
-            <el-menu-item :index="'1_1'" @click="addItem">
-              <el-tooltip class="item" content="添加元素" effect="dark" placement="bottom">
-                <star-horse-icon icon-class="add" size="24px" style="color: var(--star-horse-style)" />
-              </el-tooltip>
-            </el-menu-item>
-            <el-menu-item :index="'1_2'" @click="mainAxisDirection">
-              <el-tooltip class="item" content="主轴方向" effect="dark" placement="bottom">
-                <star-horse-icon icon-class="refresh" size="24px" style="color: var(--star-horse-style)" />
-              </el-tooltip>
-            </el-menu-item>
-            <el-menu-item :index="'1_3'" @click="mainAxisDirection">
-              <el-tooltip class="item" content="代码" effect="dark" placement="bottom">
-                <star-horse-icon icon-class="code" size="24px" />
-              </el-tooltip>
-            </el-menu-item>
-            <el-menu-item :index="'1_4'" @click="autoScroll">
-              <el-tooltip class="item" content="无限滚动" effect="dark" placement="bottom">
-                <star-horse-icon icon-class="drag" size="24px" />
-              </el-tooltip>
-            </el-menu-item>
-          </el-menu>
+        <div class="flex items-center w-full h-[40px]" style="background:#fefefe">
+          <el-tooltip class="item" content="添加元素" effect="dark" placement="bottom">
+            <star-horse-icon icon-class="add" size="24px" @click="addItem" cursor="pointer"
+              style="color: var(--star-horse-style)" />
+          </el-tooltip>
+          <div class="split-line" />
+          <el-tooltip class="item" content="主轴方向" effect="dark" placement="bottom">
+            <star-horse-icon icon-class="refresh" size="24px" @click="mainAxisDirection" cursor="pointer"
+              style="color: var(--star-horse-style)" />
+          </el-tooltip>
+          <div class="split-line" />
+          <el-tooltip class="item" content="代码" effect="dark" placement="bottom">
+            <star-horse-icon icon-class="code" size="24px" @click="mainAxisDirection" cursor="pointer" />
+          </el-tooltip>
+          <div class="split-line" />
+          <el-tooltip class="item" :content="needInfiniteViewer ? '关闭无限滚动' : '开启无限滚动'" effect="dark" placement="bottom">
+            <star-horse-icon :icon-class="needInfiniteViewer ? 'drag' : 'cancel'" size="24px" @click="autoScroll"
+              cursor="pointer" />
+          </el-tooltip>
+          <div class="split-line" />
+          <el-tooltip class="item" :content="hideRuler ? '开启标尺' : '关闭标尺'" effect="dark" placement="bottom">
+            <star-horse-icon :icon-class="hideRuler ? 'cancel' : 'eye'" size="24px" @click="hideRulerFunc"
+              cursor="pointer" />
+          </el-tooltip>
+          <div class="split-line" />
+          <el-tooltip content="保存">
+            <star-horse-icon icon-class="save" @click="saveData" cursor="pointer" />
+          </el-tooltip>
+          <div class="split-line" />
+          <el-tooltip content="预览">
+            <star-horse-icon icon-class="preview" @click="preview" cursor="pointer" />
+          </el-tooltip>
+          <div class="split-line" />
+          <el-tooltip content="发布">
+            <star-horse-icon icon-class="publish" @click="publishPage" cursor="pointer" />
+          </el-tooltip>
+          <div class="split-line" />
+          <el-tooltip content="分享">
+            <star-horse-icon icon-class="share" @click="sharePage" cursor="pointer" />
+          </el-tooltip>
+          <div class="split-line" />
+          <el-tooltip :content="isFullscreen ? '退出全屏' : '全屏'">
+            <star-horse-icon :icon-class="isFullscreen ? 'fullscreen-shrink' : 'fullscreen-expand'" @click="fullScreen"
+              cursor="pointer" />
+          </el-tooltip>
         </div>
-        <StarHorseRuler :needInfiniteViewer="needInfiniteViewer">
+        <StarHorseRuler :needInfiniteViewer="needInfiniteViewer" :hideHorizontalRuler="hideRuler" :hideVerticalRuler="hideRuler">
           <div :style="containerDataForm" class="flex-1">
             <template v-for="item in positionList">
               <FlexItem :itemId="item" @selectItem="selectItem" :type="flexModel" />

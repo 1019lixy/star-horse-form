@@ -257,7 +257,7 @@ declare module 'vue' {
     PageCompPanel: typeof import('./src/components/system/items/PageCompPanel.vue')['default']
     PageConfig: typeof import('./src/components/PageConfig.vue')['default']
     PageFont: typeof import('./src/components/system/items/PageFont.vue')['default']
-    PageHeader: typeof import('./src/components/system/items/PageHeader.vue')['default']
+    PageHeader: typeof import('./src/views/dyform/page/PageHeader.vue')['default']
     PagePosition: typeof import('./src/components/system/items/PagePosition.vue')['default']
     ParallelItem: typeof import('./src/components/formcomp/charts/parallel-item.vue')['default']
     ParallelNode: typeof import('./src/views/workflow/plugin/node/ParallelNode.vue')['default']

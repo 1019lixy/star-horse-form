@@ -7,11 +7,11 @@ const data: ModelRef<any> = defineModel("dataForm");
 <template>
 
   <div class="row">
-    <el-form-item label="X" prop="xPoint">
-      <el-input v-model="data.xPoint" size="small" placeholder="X" />
+    <el-form-item label="X" prop="left">
+      <el-input v-model="data.left" size="small" placeholder="X" />
     </el-form-item>
-    <el-form-item label="Y" prop="yPoint">
-      <el-input v-model="data.yPoint" size="small" placeholder="Y" />
+    <el-form-item label="Y" prop="top">
+      <el-input v-model="data.top" size="small" placeholder="Y" />
     </el-form-item>
   </div>
   <div class="row">
@@ -26,17 +26,24 @@ const data: ModelRef<any> = defineModel("dataForm");
   <div class="main-container">
     <!-- 外边框 -->
     <div class="border">
-      <input type="text" class="input-box horizontal-input outer-top" placeholder="margin top">
-      <input type="text" class="input-box vertical-input outer-left" placeholder="margin left">
-      <input type="text" class="input-box vertical-input outer-right" placeholder="margin right">
-      <input type="text" class="input-box horizontal-input outer-bottom" placeholder="margin bottom">
+      <input type="text" v-model="data.marginTop" class="input-box horizontal-input outer-top" placeholder="margin top">
+      <input type="text" v-model="data.marginLeft" class="input-box vertical-input outer-left"
+        placeholder="margin left">
+      <input type="text" v-model="data.marginRight" class="input-box vertical-input outer-right"
+        placeholder="margin right">
+      <input type="text" v-model="data.marginBottom" class="input-box horizontal-input outer-bottom"
+        placeholder="margin bottom">
 
       <!-- 内边框 -->
       <div class="inner-border">
-        <input type="text" class="input-box horizontal-input inner-top" placeholder="padding top">
-        <input type="text" class="input-box vertical-input inner-left" placeholder="padding left">
-        <input type="text" class="input-box vertical-input inner-right" placeholder="padding right">
-        <input type="text" class="input-box horizontal-input inner-bottom" placeholder="padding bottom">
+        <input type="text" v-model="data.paddingTop" class="input-box horizontal-input inner-top"
+          placeholder="padding top">
+        <input type="text" v-model="data.paddingLeft" class="input-box vertical-input inner-left"
+          placeholder="padding left">
+        <input type="text" v-model="data.paddingRight" class="input-box vertical-input inner-right"
+          placeholder="padding right">
+        <input type="text" v-model="data.paddingBottom" class="input-box horizontal-input inner-bottom"
+          placeholder="padding bottom">
 
         <!-- 中间内容 -->
         <div class="content">内容</div>
@@ -254,7 +261,7 @@ const data: ModelRef<any> = defineModel("dataForm");
   text-align: center;
   font-size: 12px;
   border-radius: 6px;
-  margin:5px auto;
+  margin: 5px auto;
   width: 100%;
   background-color: #a9aeb8;
   /* 深灰色背景 */
