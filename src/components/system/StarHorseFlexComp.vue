@@ -2,7 +2,10 @@
 
 import pageItemsComponent from "@/components/formcomp/pageitems/allPageItem";
 import FlexItem from '@/components/system/items/FlexItem.vue';
+import PageBackground from "@/components/system/items/PageBackground.vue";
 import PageCompPanel from '@/components/system/items/PageCompPanel.vue';
+import PageFont from "@/components/system/items/PageFont.vue";
+import PagePosition from "@/components/system/items/PagePosition.vue";
 import SvgLoader from '@/components/system/SvgLoader.vue';
 import { Layout } from "@/components/types/dataTypes";
 import { appInstance } from '@/main';
@@ -13,10 +16,6 @@ import { flexboxLayouts } from "@/utils/flexbox/layouts";
 import { gridContainerConfig } from "@/utils/grid/containerConfig";
 import { gridItemsConfig } from "@/utils/grid/itemsConfig";
 import { gridLayouts } from "@/utils/grid/layouts";
-import PageBackground from "@/components/system/items/PageBackground.vue";
-import PageFont from "@/components/system/items/PageFont.vue";
-import PageHeader from "@/components/system/items/PageHeader.vue";
-import PagePosition from "@/components/system/items/PagePosition.vue";
 import { PageFieldInfo, piniaInstance, uuid } from "star-horse-lowcode";
 import { computed, defineOptions, onMounted, ref, watch } from "vue";
 import StarHorseRuler from './StarHorseRuler.vue';
