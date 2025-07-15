@@ -472,26 +472,7 @@ export function demoFunc() {
     // 确保返回数组
     return [{ name: 'test', value: 1 }];
 }
-/**
- * 数据匹配方式
- */
-export function searchMatchList(): SelectOption[] {
-    const data: SelectOption[] = [];
-    data.push({ name: "等于", value: "eq" });
-    data.push({ name: "不等于", value: "ne" });
-    data.push({ name: "模糊", value: "lk" });
-    data.push({ name: "为空", value: "ul" });
-    data.push({ name: "不为空", value: "nu" });
-    data.push({ name: "左模糊", value: "llk" });
-    data.push({ name: "右模糊", value: "rlk" });
-    data.push({ name: "不匹配", value: "nlk" });
-    data.push({ name: "小于", value: "lt" });
-    data.push({ name: "小于或等于", value: "lte" });
-    data.push({ name: "大于", value: "gt" });
-    data.push({ name: "大于或等于", value: "gte" });
-    data.push({ name: "范围", value: "bt" });
-    return data;
-}
+
 
 /**
  * 复制数据

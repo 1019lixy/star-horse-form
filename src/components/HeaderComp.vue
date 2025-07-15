@@ -1,6 +1,6 @@
 <script lang="ts" setup name="Header">
 import { Config } from "@/api/settings";
-import { userLogout } from "@/api/star_horse_apis";
+import { permissionMenus, userLogout } from "@/api/star_horse_apis";
 import { filterTree } from "@/api/star_horse_utils";
 import Message from "@/components/Message.vue";
 import { i18n } from "@/lang";
@@ -98,6 +98,7 @@ const recallFun = (path: string, datas: any): any => {
 };
 const reverseDataList = ref<Array<any>>([]);
 const addShortcutMenu = async () => {
+  
   let datas = unref(userStore.permissionMenus);
   reverseDataList.value = [];
   permissionMenuList.value = datas;

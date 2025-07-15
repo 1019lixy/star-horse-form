@@ -105,7 +105,7 @@
     "sortablejs": "^1.15.6",
     "ssh2": "^1.16.0",
     "ssh2-sftp-client": "^12.0.1",
-    "star-horse-lowcode": "../testcode",
+    "star-horse-lowcode": "../shplugin",
     "string-width": "^7.2.0",
     "strip-ansi": "^7.1.0",
     "svg2ttf": "^6.0.3",
