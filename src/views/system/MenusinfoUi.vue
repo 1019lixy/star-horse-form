@@ -33,8 +33,6 @@ const currentInformation = ref<any>(null);
 const defaultCondition = ref<any>([]);
 const searchFormData = reactive<SearchFields>({
   fieldList: [
-    /*{label: "归属系统", fieldName: "idInformations", type: "select", optionList: informationsList},
-  {label: "父菜单", fieldName: "parentNo", type: "tselect", optionList: searchParentMenus},*/
     { label: "菜单名称", defaultVisible: true, fieldName: "menuName", matchType: "lk" },
     { label: "菜单编码", fieldName: "menuCode", matchType: "lk" }
   ]
@@ -360,7 +358,7 @@ onMounted(async () => {
 
         <el-card class="inner_content">
           <div class="search-content">
-            <div class="search_btn" :style="{ 'flex-direction': Config.buttonStyle.value == 'line' ? 'column' : 'row' }">
+            <div class="search_btn" >
               <star-horse-search-comp @searchData="(data: any) => menuTableListRef?.createSearchParams(data)"
                 :formData="searchFormData" :compUrl="dataUrl" />
             </div>

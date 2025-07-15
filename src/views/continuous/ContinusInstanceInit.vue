@@ -1,5 +1,5 @@
 <script setup lang="ts" name="ContinusInstanceInit">
-import {computed, ComputedRef, nextTick, onMounted, ref} from "vue";
+import { computed, ComputedRef, nextTick, onMounted, ref } from "vue";
 import {
   apiInstance,
   ApiUrls,
@@ -12,9 +12,9 @@ import {
   uuid,
   warning
 } from "star-horse-lowcode";
-import {loadDict} from "@/api/star_horse_apis";
-import {pipelineFields} from "@/views/continuous/utils/FieldsUtils";
-import {useRouter} from "vue-router";
+import { loadDict } from "@/api/star_horse_apis";
+import { pipelineFields } from "@/views/continuous/utils/FieldsUtils";
+import { useRouter } from "vue-router";
 
 let router = useRouter();
 const dataUrl: ApiUrls = apiInstance("continuous-manage", "continuous/pipelineConfig");
@@ -41,7 +41,7 @@ const pipelineNode: any = {
   id: uuid()
 }
 //当前节点属性
-const currentFieldList = ref<PageFieldInfo>({fieldList: []});
+const currentFieldList = ref<PageFieldInfo>({ fieldList: [] });
 let nodeField = ref<PageFieldInfo>({
   fieldList: [
     [
@@ -60,7 +60,7 @@ let nodeField = ref<PageFieldInfo>({
         required: true,
         formVisible: true,
         listVisible: true,
-        preps:{
+        preps: {
           values: execTypeList,
         }
       }
@@ -70,12 +70,13 @@ let nodeField = ref<PageFieldInfo>({
         label: "节点成功条件",
         fieldName: "nodeSuccessCondition",
         type: "radio",
-        optionList: nodeSuccessConditionList,
         defaultValue: "any",
-        actions: {change:(val: any) => {
-          console.log(val);
-          assignSelect.value = val["nodeSuccessCondition"] == "assign";
-        }},
+        actions: {
+          change: (val: any) => {
+            console.log(val);
+            assignSelect.value = val["nodeSuccessCondition"] == "assign";
+          }
+        },
         required: true,
         formVisible: true,
         listVisible: true,
@@ -84,15 +85,16 @@ let nodeField = ref<PageFieldInfo>({
             label: "  ",
             fieldName: "assignNode",
             type: "select",
-            optionList: subNodeList,
             required: true,
             formVisible: assignSelect,
             preps: {
+              values: subNodeList,
               colspan: 6
             }
           }
         ],
         preps: {
+          values: nodeSuccessConditionList,
           colspan: 13
         }
       }
@@ -253,7 +255,7 @@ const save = async (type: string) => {
       warning(result.cnMessage);
       return;
     }
-    operationConfirm("提交成功,是否返回列表？").then((res:boolean) => {
+    operationConfirm("提交成功,是否返回列表？").then((res: boolean) => {
       if (res) {
         goBack();
       } else {
@@ -266,7 +268,7 @@ const save = async (type: string) => {
  * 重置
  */
 const reset = () => {
-  currentNode.value = {...pipelineNode};
+  currentNode.value = { ...pipelineNode };
   currentCompName.value = pipelineNode.nodeCode;
   currentFieldList.value = pipelineFields;
   continuousStore.clear();
@@ -288,67 +290,48 @@ onMounted(async () => {
 
 </script>
 <template>
-  <star-horse-dialog
-      :title="'节点列表'"
-      :dialogVisible="nodeDialog"
-      :self-func="true"
-      @closeAction="closeAction"
-      @merge="dataSubmit"
-      :is-batch="false"
-      :is-show-btn-continue="false"
-  >
-    <ToolInfo ref="toolInfoRef" @selectNode="dataSubmit"/>
+  <star-horse-dialog :title="'节点列表'" :dialogVisible="nodeDialog" :self-func="true" @closeAction="closeAction"
+    @merge="dataSubmit" :is-batch="false" :is-show-btn-continue="false">
+    <ToolInfo ref="toolInfoRef" @selectNode="dataSubmit" />
   </star-horse-dialog>
-  <star-horse-dialog
-      :title="'更换模板'"
-      @merge="selectTemplate"
-      :dialogVisible="tempDialog"
-      :self-func="true"
-      @closeAction="closeAction"
-  >
-    <deploy-template ref="deployTemplateRef" @selectTemplate="selectTemplate"/>
+  <star-horse-dialog :title="'更换模板'" @merge="selectTemplate" :dialogVisible="tempDialog" :self-func="true"
+    @closeAction="closeAction">
+    <deploy-template ref="deployTemplateRef" @selectTemplate="selectTemplate" />
   </star-horse-dialog>
   <el-card class="inner_content relative">
     <div class="config-nav-bar relative">
       <div class="nav-bar-left">
         <span>{{ pipeLineData?.lineName || "未定义" }}</span>
         <span style="width: 40px"></span>
-        <span>当前模板：{{ pipelineNode.templateName || "无" }}</span
-        >&nbsp;&nbsp;
+        <span>当前模板：{{ pipelineNode.templateName || "无" }}</span>&nbsp;&nbsp;
         <el-button @click="changeTemplate" link class="flex items-center">
-          <star-horse-icon icon-class="transfer"/>
+          <star-horse-icon icon-class="transfer" />
           更换模板
         </el-button>
         <el-button @click="goBack" link class="flex items-center">
-          <star-horse-icon icon-class="return"/>
+          <star-horse-icon icon-class="return" />
           返回列表
         </el-button>
       </div>
       <div class="nav-bar-right">
         <el-button @click="save('publish')" style="background: var(--star-horse-style); color: var(--star-horse-white)">
-          <star-horse-icon icon-class="publish" color="white"/>
+          <star-horse-icon icon-class="publish" color="white" />
           保存并启用
         </el-button>
         <el-button @click="save('exec')">
-          <star-horse-icon icon-class="run"/>
+          <star-horse-icon icon-class="run" />
           保存并执行
         </el-button>
       </div>
     </div>
     <div class="pipeline-nav relative">
       <div class="nav">
-        <div
-            :class="{ 'is-active': -1 == currentNodeIndex }"
-            @click.stop="editNode(pipelineNode, -1)"
-            class="nav-setting nav-panel"
-        >
-          <star-horse-icon
-              icon-class="setting"
-              :style="{
-              'vertical-align': 'middle',
-              color: -1 == currentNodeIndex ? 'var(--star-horse-white)' : 'var(--star-horse-style)'
-            }"
-          />
+        <div :class="{ 'is-active': -1 == currentNodeIndex }" @click.stop="editNode(pipelineNode, -1)"
+          class="nav-setting nav-panel">
+          <star-horse-icon icon-class="setting" :style="{
+            'vertical-align': 'middle',
+            color: -1 == currentNodeIndex ? 'var(--star-horse-white)' : 'var(--star-horse-style)'
+          }" />
           流水线配置
         </div>
         <div class="nav-line"></div>
@@ -358,22 +341,22 @@ onMounted(async () => {
             <div class="continuous-node-content" v-for="(item, index) in processList">
               <div class="step">
                 <i class="icon node-arrow">
-                  <star-horse-icon icon-class="arrow-double-right"/>
+                  <star-horse-icon icon-class="arrow-double-right" />
                 </i>
                 <i @click="addNode(index)" class="icon node-add">
                   <el-tooltip content="插入节点">
-                    <star-horse-icon icon-class="add" cursor="pointer"/>
+                    <star-horse-icon icon-class="add" cursor="pointer" />
                   </el-tooltip>
                 </i>
               </div>
               <div :class="{ 'is-active': index == currentNodeIndex }" @click.stop="editNode(item, index)"
-                   class="nav-panel">
+                class="nav-panel">
                 <div class="relative flex flex-row items-center justify-center">
                   <star-horse-icon :icon-class="item.icon" size="30px"
-                                   :color="index == currentNodeIndex?'var(--star-horse-white)':'var(--star-horse-style)'"/>
+                    :color="index == currentNodeIndex ? 'var(--star-horse-white)' : 'var(--star-horse-style)'" />
                   <span>{{ item.nodeName }}</span>
                   <i class="icon pright">
-                    <star-horse-icon @click.stop="delNode(item)" icon-class="close" cursor="pointer" color="red"/>
+                    <star-horse-icon @click.stop="delNode(item)" icon-class="close" cursor="pointer" color="red" />
                   </i>
                 </div>
               </div>
@@ -382,26 +365,25 @@ onMounted(async () => {
         </el-scrollbar>
         <div class="step" v-if="processList.length > 0">
           <i class="icon node-arrow">
-            <star-horse-icon icon-class="arrow-double-right" style="vertical-align: middle"/>
+            <star-horse-icon icon-class="arrow-double-right" style="vertical-align: middle" />
           </i>
           <i @click="addNode(processList.length)" class="icon node-add">
             <el-tooltip content="插入节点">
-              <star-horse-icon icon-class="add" cursor="pointer" style="vertical-align: middle"/>
+              <star-horse-icon icon-class="add" cursor="pointer" style="vertical-align: middle" />
             </el-tooltip>
           </i>
         </div>
         <div class="start_end" v-if="processList.length > 0">结束</div>
         <el-button @click="addNode(-1)" class="init-btn" text>
-          <star-horse-icon icon-class="add" cursor="pointer" style="vertical-align: middle"/>
+          <star-horse-icon icon-class="add" cursor="pointer" style="vertical-align: middle" />
           添加节点
         </el-button>
       </div>
     </div>
     <div class="config-content relative">
       <div class=" py-[7px] mx-[7px] my-[10px] border-solid border-1 rounded"
-           style="border-color: var(--el-border-color-light);"
-      >
-        <node-fields :formNo="formNo" :staticFieldData="currentFieldList" ref="nodeCompRef"/>
+        style="border-color: var(--el-border-color-light);">
+        <node-fields :formNo="formNo" :staticFieldData="currentFieldList" ref="nodeCompRef" />
         <!--每个节点的基础信息-->
         <!--        <star-horse-form ref="nodeInfoRef" class="build-cfg" :outerFormData="currentNode" :fieldList="nodeField"/>-->
       </div>
@@ -413,6 +395,4 @@ onMounted(async () => {
     </div>
   </el-card>
 </template>
-<style lang="scss" scoped>
-
-</style>
+<style lang="scss" scoped></style>

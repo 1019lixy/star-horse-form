@@ -105,15 +105,7 @@ let roleTypeList = ref<SelectOption[]>([]);
 const tableFieldList = reactive<PageFieldInfo | any>({
   //属性列表
   fieldList: [
-    /* {
-     label: "角色类型",
-     fieldName: "roleType",
-     type: "select",
-     optionList: roleTypeList,
-     required: true,
-     formVisible: true,
-     listVisible: true,
-   },*/
+
     {
       label: "角色名称",
       fieldName: "roleName",

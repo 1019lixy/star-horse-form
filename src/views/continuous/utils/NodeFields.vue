@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {nextTick, onMounted, PropType, provide, reactive, ref, watch} from "vue";
+import { nextTick, onMounted, PropType, provide, reactive, ref, watch } from "vue";
 import {
   apiInstance,
   ApiUrls,
@@ -28,8 +28,8 @@ let relationTables = ref<any>({});
 const formInfo = ref<any>({});
 let outerFormData = ref<any>({});
 const props = defineProps({
-  formNo: {type: String},
-  staticFieldData: {type: Object as PropType<PageFieldInfo>,}
+  formNo: { type: String },
+  staticFieldData: { type: Object as PropType<PageFieldInfo>, }
 });
 const clear = () => {
   hasData.value = false;
@@ -38,7 +38,7 @@ const assignField = (data: any) => {
   dataUrl.value = apiInstance(data["dataUrl"].appName, data["dataUrl"].contextUrl);
   searchFormData.value = data["searchFormData"] as SearchProps[];
   primaryKey.value = data["primaryKey"];
-  tableFieldList.value = {...data["tableFieldList"]} as PageFieldInfo;
+  tableFieldList.value = { ...data["tableFieldList"] } as PageFieldInfo;
   relationTables.value = data["relationTables"];
   rules.value = data["rules"];
   formInfo.value = data["formInfo"];
@@ -64,7 +64,7 @@ const loadFormData = async (formNo: string) => {
     assignField(cacheData);
     return;
   }
-  let {data, error} = await loadGetData(`/userdb-manage/userdb/dynamicForm/dynamicPageInfo/${formNo}`);
+  let { data, error } = await loadGetData(`/userdb-manage/userdb/dynamicForm/dynamicPageInfo/${formNo}`);
   if (error) {
     errorMsg.value = error;
     hasData.value = false;
@@ -78,11 +78,11 @@ const loadFormData = async (formNo: string) => {
   closeLoad();
 };
 watch(
-    () => props,
-    () => {
-      init();
-    },
-    {deep: true}
+  () => props,
+  () => {
+    init();
+  },
+  { deep: true }
 )
 //记录表单的属性
 const formFields = reactive<Array<any>>([]);
@@ -112,7 +112,7 @@ const init = async () => {
     return;
   }
   if (props.staticFieldData?.fieldList?.length > 0) {
-    tableFieldList.value = {...props.staticFieldData};
+    tableFieldList.value = { ...props.staticFieldData };
   } else {
     await loadFormData(props.formNo!);
   }
@@ -127,15 +127,7 @@ defineExpose({
 })
 </script>
 <template>
-  <star-horse-form
-      :compUrl="dataUrl"
-      :formInfo="formInfo"
-      :dynamicForm="true"
-      ref="nodeFormRef"
-      :globalCondition="relationTables"
-      :outerFormData="outerFormData"
-      :fieldList="tableFieldList"
-      :rules="rules"
-  />
+  <star-horse-form :compUrl="dataUrl" :formInfo="formInfo" :dynamicForm="true" ref="nodeFormRef"
+    :globalCondition="relationTables" :outerFormData="outerFormData" :fieldList="tableFieldList" :rules="rules" />
 </template>
 <style scoped></style>

@@ -190,7 +190,7 @@ onMounted(async () => {
     <star-horse-data-view :dataFormat="dataFormat" :field-list="tableFieldList" :compUrl="dataUrl"/>
   </star-horse-dialog>
   <el-card class="inner_content">
-    <div class="search_btn" :style="{ 'flex-direction': Config.buttonStyle.value == 'line' ? 'column' : 'row' }">
+    <div class="search_btn" >
       <star-horse-search-comp
           @searchData="(data: any) => environmentInfoRef?.createSearchParams(data)"
           :formData="searchFormData"

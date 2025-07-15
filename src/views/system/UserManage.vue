@@ -436,7 +436,7 @@ const testChange = (val: any) => {
 
         <el-card class="inner_content ">
           <div class="search-content">
-            <div class="search_btn" :style="{ 'flex-direction': Config.buttonStyle.value == 'line' ? 'column' : 'row' }">
+            <div class="search_btn" >
               <star-horse-search-comp @searchData="(data: any) => employeeInfoRef?.createSearchParams(data)"
                 :formData="searchFormData" :compUrl="dataUrl" />
             </div>

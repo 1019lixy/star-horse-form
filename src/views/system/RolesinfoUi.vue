@@ -8,10 +8,10 @@ import {
   SelectOption,
   UserFuncInfo
 } from "star-horse-lowcode";
-import {loadDepartmentInfo, loadSystemInfo} from "@/api/star_horse_utils";
-import {Config} from "@/api/settings";
-import {onMounted, provide, reactive, ref} from "vue";
-import {isSystemManage} from "@/utils/auth";
+import { loadDepartmentInfo, loadSystemInfo } from "@/api/star_horse_utils";
+import { Config } from "@/api/settings";
+import { onMounted, provide, reactive, ref } from "vue";
+import { isSystemManage } from "@/utils/auth";
 
 const dataUrl: ApiUrls = apiInstance("system-config", "system/rolesinfoEntity");
 let departmentList = ref<SelectOption[]>([]);
@@ -21,20 +21,20 @@ let selfBtnFunc = ref<UserFuncInfo[]>([]);
 const starHorseTableCompRef = ref();
 // 0 普通角色 1高级角色 2普通管理员 3 超级管理员 默认 0
 const roleTypes = ref<SelectOption[]>([
-  {name: "普通用户组", value: 0},
-  {name: "高级用户组", value: 1},
-  {name: "超级用户组", value: 2}
+  { name: "普通用户组", value: 0 },
+  { name: "高级用户组", value: 1 },
+  { name: "超级用户组", value: 2 }
 ]);
 const sessionTimeOut = [
-  {name: "15分钟", value: 15},
-  {name: "30分钟", value: 30},
-  {name: "60分钟", value: 60},
-  {name: "180分钟", value: 180},
-  {name: "无限制", value: 0}
+  { name: "15分钟", value: 15 },
+  { name: "30分钟", value: 30 },
+  { name: "60分钟", value: 60 },
+  { name: "180分钟", value: 180 },
+  { name: "无限制", value: 0 }
 ];
 const searchFormData = reactive<SearchFields>({
   fieldList: [
-    {label: "用户组名称", fieldName: "roleName", defaultVisible: true,  matchType: "lk"},
+    { label: "用户组名称", fieldName: "roleName", defaultVisible: true, matchType: "lk" },
     /* {label: "角色编码", fieldName: "roleCode",  matchType: "lk"},*/
     {
       label: "用户组类型", fieldName: "roleType", defaultVisible: true, type: "select",
@@ -59,14 +59,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       formVisible: true,
       listVisible: true
     },
-    /*    {
-        label: "归属部门", fieldName: "idDepartment", type: "select", optionList: departmentList,
-        required: true,
-      },
-      {
-        label: "归属部门", fieldName: "departments", type: "select", optionList: departmentList,
-        required: true,  multiple:"Y",
-      },*/
+
     {
       label: "用户组编码",
       fieldName: "roleCode",
@@ -83,7 +76,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       formVisible: true,
       editDisabled: true,
       listVisible: true,
-      preps:{
+      preps: {
         values: roleTypes,
       }
     },
@@ -95,7 +88,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       formVisible: true,
       defaultValue: 30,
       listVisible: true,
-      preps:{
+      preps: {
         values: sessionTimeOut,
       }
     },
@@ -106,7 +99,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
         type: "select",
         required: true,
         multiple: true,
-        preps:{
+        preps: {
           values: systemList,
         }
       },
@@ -241,14 +234,14 @@ const recallFun = (id: string, datas: any): any => {
 
 const initData = async () => {
   let params: any = [
-    {propertyName: "isDel", value: 0},
-    {propertyName: "statusCode", value: "1"}
+    { propertyName: "isDel", value: 0 },
+    { propertyName: "statusCode", value: "1" }
   ];
   departmentList.value = await loadDepartmentInfo(params);
   systemList.value = await loadSystemInfo(params);
   //只有系统管理员可以看到系统管理员
   if (isSystemManage()) {
-    roleTypes.value.push({name: "系统用户组", value: 3});
+    roleTypes.value.push({ name: "系统用户组", value: 3 });
   }
 };
 onMounted(async () => {
@@ -258,37 +251,20 @@ onMounted(async () => {
 <style lang="scss" scoped></style>
 <template>
   <star-horse-dialog :isShowBtnContinue="true" :dialogVisible="dialogProps.editVisible" :dialogProps="dialogProps">
-    <star-horse-form
-        :compUrl="dataUrl"
-        @refresh="starHorseTableCompRef?.loadByPage()"
-        :fieldList="tableFieldList"
-        :rules="rules"
-    />
+    <star-horse-form :compUrl="dataUrl" @refresh="starHorseTableCompRef?.loadByPage()" :fieldList="tableFieldList"
+      :rules="rules" />
   </star-horse-dialog>
-  <star-horse-dialog
-      :dialog-visible="dialogProps.viewVisible"
-      :dialogProps="dialogProps"
-      
-      :source="3"
-  >
-    <star-horse-data-view :dataFormat="dataFormat" :field-list="tableFieldList" :compUrl="dataUrl"/>
+  <star-horse-dialog :dialog-visible="dialogProps.viewVisible" :dialogProps="dialogProps" :source="3">
+    <star-horse-data-view :dataFormat="dataFormat" :field-list="tableFieldList" :compUrl="dataUrl" />
   </star-horse-dialog>
   <div class="search-content">
-    <div class="search_btn" :style="{ 'flex-direction': Config.buttonStyle.value == 'line'? 'column' : 'row' }">
-      <star-horse-search-comp
-          @searchData="(data: any) => starHorseTableCompRef?.createSearchParams(data)"
-          :formData="searchFormData"
-          :compUrl="dataUrl"
-      />
+    <div class="search_btn" >
+      <star-horse-search-comp @searchData="(data: any) => starHorseTableCompRef?.createSearchParams(data)"
+        :formData="searchFormData" :compUrl="dataUrl" />
     </div>
   </div>
   <el-card class="inner_content">
-    <star-horse-table-comp
-        ref="starHorseTableCompRef"
-        :fieldList="tableFieldList"
-        :primaryKey="primaryKey"
-        :compUrl="dataUrl"
-        :dataFormat="dataFormat"
-    />
+    <star-horse-table-comp ref="starHorseTableCompRef" :fieldList="tableFieldList" :primaryKey="primaryKey"
+      :compUrl="dataUrl" :dataFormat="dataFormat" />
   </el-card>
 </template>

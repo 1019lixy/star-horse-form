@@ -306,7 +306,7 @@ onDeactivated(() => {
               <el-card class="inner_content">
                 <div class="search-content">
                   <div class="search_btn"
-                    :style="{ 'flex-direction': Config.buttonStyle.value == 'line' ? 'column' : 'row' }">
+                    >
                     <star-horse-search-comp @searchData="(data: any) => tenantAppMenusinfoRef?.createSearchParams(data)"
                       :formData="searchFormData" :compUrl="dataUrl" />
                   </div>

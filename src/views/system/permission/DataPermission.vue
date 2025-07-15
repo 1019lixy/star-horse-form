@@ -325,7 +325,7 @@ onMounted(async () => {
       </el-splitter-panel>
       <el-splitter-panel>
         <div class="search-content">
-          <div class="search_btn" :style="{ 'flex-direction': Config.buttonStyle.value == 'line' ? 'column' : 'row' }">
+          <div class="search_btn" >
             <star-horse-search-comp @searchData="(data: any) => dataPermissionRef?.createSearchParams(data)"
               :formData="searchFormData" :defaultCondition="defaultCondition" :compUrl="dataUrl" />
           </div>

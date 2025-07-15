@@ -45,7 +45,7 @@ let userInfo = getUserInfo();
 let permissionMenuList = ref<Array<any>>([]);
 const shortcutMultipleTable = ref();
 
-const initData =  () => {
+const initData = () => {
   changeLang(getLang(), true);
 };
 onMounted(() => {
@@ -194,7 +194,9 @@ const selectItem = (item: any) => {
       :hideButtonList="true" :compUrl="dataUrl" :disableAction="true" :showPageBar="false" :dataFormat="dataFormat"
       :allowSelectParent="false" :expand="true" :reverseDataList="reverseDataList" :tableDataList="filterTableData" />
   </star-horse-dialog>
-  <div class="flex items-center justify-between overflow-hidden w-full h-[60%] vertical-align-middle flex-row " style="-webkit-box-align: center;-webkit-box-pack: justify;background: var(--star-horse-style);">
+  <div class="flex items-center justify-between overflow-hidden w-full  vertical-align-middle flex-row "
+    :style="{ height: configInfo.shortCutMenus == 'Y' ? '60%' : 'inherit' }"
+    style="-webkit-box-align: center;-webkit-box-pack: justify;background: var(--star-horse-style);">
     <div :title="systemName" class="flex items-center ml-[10px]">
       <img v-if="getCustomerInfo()?.logo" :src="getCustomerInfo()?.logo" :height="getCustomerInfo()?.height || 45" />
       <star-horse-icon v-else icon-class="logo" size="45px" width="45px" height="45px"
@@ -255,7 +257,6 @@ const selectItem = (item: any) => {
       </el-dropdown>
     </div>
   </div>
-  <div style="clear: both"></div>
   <div class="shortcut" v-if="configInfo.shortCutMenus == 'Y'">
     <div class="shortcut_ul flex h-full w-full flex-row align-left items-center ml-0 pl-0">
       <template v-for="(item, index) in shortcutMenuList">

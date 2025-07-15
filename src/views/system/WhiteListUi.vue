@@ -1,6 +1,6 @@
 <script setup lang="ts" name="WhiteList">
-import {Config} from "@/api/settings";
-import {onMounted, provide, reactive, ref} from "vue";
+import { Config } from "@/api/settings";
+import { onMounted, provide, reactive, ref } from "vue";
 import {
   apiInstance,
   ApiUrls,
@@ -15,12 +15,13 @@ const dataUrl: ApiUrls = apiInstance("system-config", "system/whiteList");
 let typeList = ref<SelectOption[]>([]);
 const searchFormData = reactive<SearchFields>({
   fieldList: [
-    {label: "过滤类型", fieldName: "whiteType", defaultVisible: true, type: "select",
-     preps:{
-       values: typeList
-     }
+    {
+      label: "过滤类型", fieldName: "whiteType", defaultVisible: true, type: "select",
+      preps: {
+        values: typeList
+      }
     },
-    {label: "过滤内容", fieldName: "whiteName", defaultVisible: true,  matchType: "lk"}
+    { label: "过滤内容", fieldName: "whiteName", defaultVisible: true, matchType: "lk" }
   ]
 });
 const tableFieldList = reactive<PageFieldInfo>({
@@ -37,7 +38,7 @@ const tableFieldList = reactive<PageFieldInfo>({
       required: true,
       formVisible: true,
       listVisible: true,
-      preps:{
+      preps: {
         values: typeList,
       }
     },
@@ -139,37 +140,20 @@ onMounted(async () => {
 <style lang="scss" scoped></style>
 <template>
   <star-horse-dialog :isShowBtnContinue="true" :dialogVisible="dialogProps.editVisible" :dialogProps="dialogProps">
-    <star-horse-form
-        @refresh="whiteListRef?.loadByPage()"
-        :compUrl="dataUrl"
-        :fieldList="tableFieldList"
-        :rules="rules"
-    />
+    <star-horse-form @refresh="whiteListRef?.loadByPage()" :compUrl="dataUrl" :fieldList="tableFieldList"
+      :rules="rules" />
   </star-horse-dialog>
-  <star-horse-dialog
-      :dialog-visible="dialogProps.viewVisible"
-      :dialogProps="dialogProps"
-      
-      :source="3"
-  >
-    <star-horse-data-view :dataFormat="dataFormat" :field-list="tableFieldList" :compUrl="dataUrl"/>
+  <star-horse-dialog :dialog-visible="dialogProps.viewVisible" :dialogProps="dialogProps" :source="3">
+    <star-horse-data-view :dataFormat="dataFormat" :field-list="tableFieldList" :compUrl="dataUrl" />
   </star-horse-dialog>
   <div class="search-content">
-    <div class="search_btn" :style="{ 'flex-direction': Config.buttonStyle.value == 'line'? 'column' : 'row' }">
-      <star-horse-search-comp
-          @searchData="(data: any) => whiteListRef?.createSearchParams(data)"
-          :formData="searchFormData"
-          :compUrl="dataUrl"
-      />
+    <div class="search_btn" >
+      <star-horse-search-comp @searchData="(data: any) => whiteListRef?.createSearchParams(data)"
+        :formData="searchFormData" :compUrl="dataUrl" />
     </div>
   </div>
   <el-card class="inner_content">
-    <star-horse-table-comp
-        ref="whiteListRef"
-        :fieldList="tableFieldList"
-        :primaryKey="primaryKey"
-        :compUrl="dataUrl"
-        :dataFormat="dataFormat"
-    />
+    <star-horse-table-comp ref="whiteListRef" :fieldList="tableFieldList" :primaryKey="primaryKey" :compUrl="dataUrl"
+      :dataFormat="dataFormat" />
   </el-card>
 </template>

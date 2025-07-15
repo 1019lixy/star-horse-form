@@ -1,7 +1,7 @@
 /**
  * 工具参数
  */
-import {reactive, ref} from "vue";
+import { reactive, ref } from "vue";
 import {
     apiInstance,
     ApiUrls,
@@ -11,8 +11,8 @@ import {
     postRequest,
     SelectOption
 } from "star-horse-lowcode";
-import {loadDict} from "@/api/star_horse_apis";
-import {createJoinCondition,} from "@/api/star_horse_utils";
+import { loadDict } from "@/api/star_horse_apis";
+import { createJoinCondition, } from "@/api/star_horse_utils";
 const apiUrl: ApiUrls = apiInstance("userdb-manage", "userdb/formInstance/conToolManage/idToolManage/136");
 const toolParamApi: ApiUrls = apiInstance("continuous-manage", "continuous/toolParams");
 const compileLanguageList = ref<SelectOption[]>([]);
@@ -27,7 +27,7 @@ const reportTypeList = ref<SelectOption[]>([]);
 const loadLanguageVersions = (val: string) => {
     let versionList = compileLanguageList.value.find((item: any) => item.value == val)?.versionList;
     languageVersionList.value = versionList?.map((item: any) => {
-        return {name: item["toolVersion"], value: item["toolVersion"]}
+        return { name: item["toolVersion"], value: item["toolVersion"] }
     }) || [];
 };
 
@@ -48,23 +48,25 @@ const extendCommonFields: FieldInfo[] = [
                         label: "  ",
                         type: "checkbox",
                         formVisible: true,
-                        optionList: [{name: "使用唯一镜像名称", value: "Y"}],
+
                         fieldName: "singleImageFlag",
                         preps: {
+                            values: [{ name: "使用唯一镜像名称", value: "Y" }],
                             colspan: 6,
                             border: "Y"
                         }
                     },
-                        {
-                            label: "关联使用执行机",
-                            type: "select",
-                            formVisible: true,
-                            optionList: linkExecServerList,
-                            fieldName: "linkExecServer",
-                            preps: {
-                                colspan: 6
-                            }
+                    {
+                        label: "关联使用执行机",
+                        type: "select",
+                        formVisible: true,
+
+                        fieldName: "linkExecServer",
+                        preps: {
+                            values: linkExecServerList,
+                            colspan: 6
                         }
+                    }
                     ]
                 ]
             },
@@ -80,12 +82,13 @@ const extendCommonFields: FieldInfo[] = [
                         defaultValue: "N",
                         fieldName: "errorReport",
                         formVisible: true,
-                        actionName: "change",
-                        actions: (val: any) => {
-                            val["_errorReportPersonVisible"] = val["errorReport"];
-                            val["_errorReportTypeVisible"] = val["errorReport"];
+                        actions: {
+                            change: (val: any) => {
+                                val["_errorReportPersonVisible"] = val["errorReport"];
+                                val["_errorReportTypeVisible"] = val["errorReport"];
+                            }
                         },
-                        preps:{
+                        preps: {
                             activeValue: "Y",
                             inactiveValue: "N",
                             colspan: 6
@@ -95,16 +98,16 @@ const extendCommonFields: FieldInfo[] = [
                     {
                         label: "通知人",
                         type: "checkbox",
-                        
-                        optionList: reportPersonList,
                         fieldName: "errorReportPerson",
-                        actionName: "change",
-                        actions: (val: any) => {
-                            const temp = val["errorReportPerson"];
-                            val["_errorCodeCommitorVisible"] = temp && temp.includes("coder") ? "Y" : "N";
+                        actions: {
+                            change: (val: any) => {
+                                const temp = val["errorReportPerson"];
+                                val["_errorCodeCommitorVisible"] = temp && temp.includes("coder") ? "Y" : "N";
 
+                            }
                         },
                         preps: {
+                            values: reportPersonList,
                             border: "Y"
                         },
                         brotherNodes: [
@@ -123,10 +126,11 @@ const extendCommonFields: FieldInfo[] = [
                     {
                         label: "通知方式",
                         type: "checkbox",
-                        
-                        optionList: reportTypeList,
+
+
                         fieldName: "errorReportType",
                         preps: {
+                            values: reportTypeList,
                             border: "Y"
                         }
                     },
@@ -136,13 +140,14 @@ const extendCommonFields: FieldInfo[] = [
                             type: "switch",
                             defaultValue: "N",
                             fieldName: "successReport",
-                            actionName: "change",
-                            actions: (val: any) => {
-                                val["_successReportPersonVisible"] = val["successReport"];
-                                val["_successReportTypeVisible"] = val["successReport"];
+                            actions: {
+                                change: (val: any) => {
+                                    val["_successReportPersonVisible"] = val["successReport"];
+                                    val["_successReportTypeVisible"] = val["successReport"];
+                                }
                             },
                             formVisible: true,
-                            preps:{
+                            preps: {
                                 activeValue: "Y",
                                 inactiveValue: "N",
                                 colspan: 6
@@ -152,15 +157,17 @@ const extendCommonFields: FieldInfo[] = [
                     {
                         label: "通知人",
                         type: "checkbox",
-                        
-                        actionName: "change",
-                        actions: (val: any) => {
-                            const temp = val["successReportPerson"];
-                            val["_successCodeCommitorVisible"] = temp && temp.includes("coder") ? "Y" : "N";
+
+                        actions: {
+                            change: (val: any) => {
+                                const temp = val["successReportPerson"];
+                                val["_successCodeCommitorVisible"] = temp && temp.includes("coder") ? "Y" : "N";
+                            }
                         },
-                        optionList: reportPersonList,
+
                         fieldName: "successReportPerson",
                         preps: {
+                            values: reportPersonList,
                             border: "Y"
                         },
                         brotherNodes: [
@@ -178,9 +185,10 @@ const extendCommonFields: FieldInfo[] = [
                     {
                         label: "通知方式",
                         type: "checkbox",
-                        
-                        optionList: reportTypeList,
-                        fieldName: "successReportType"
+                        fieldName: "successReportType",
+                        preps: {
+                            values: reportTypeList,
+                        }
                     }
                 ]
             }
@@ -194,14 +202,16 @@ const gradleTools = reactive<any>([
             label: "Gradle版本",
             fieldName: "pluginVersion",
             type: "select",
-            optionList: pluginVersionList,
             required: true,
-            formVisible: true
+            formVisible: true,
+            preps: {
+                values: pluginVersionList,
+            }
         },
         {
             label: "Gradle文件",
             fieldName: "fileName",
-            
+
             defaultValue: "gradlew.bat",
             required: false,
             formVisible: true
@@ -222,14 +232,16 @@ const antTools = reactive<any>([
             label: "Ant版本",
             fieldName: "pluginVersion",
             type: "select",
-            optionList: pluginVersionList,
             required: true,
-            formVisible: true
+            formVisible: true,
+            preps: {
+                values: pluginVersionList,
+            }
         },
         {
             label: "Ant文件",
             fieldName: "fileName",
-            
+
             defaultValue: "build.xml",
             required: false,
             formVisible: true
@@ -249,24 +261,24 @@ const dataInit = () => {
     if (!compileLanguageList.value || compileLanguageList.value.length == 0) {
         let masterFields = ["toolType", "toolCode", "toolName", "defaultParams"];
         postRequest(apiUrl.basePrefix + "/joinQuery", {
-                limitFields: masterFields,
-                groupByFields: masterFields,
-                groupName: "versionList",
-                joinTables: [
-                    {
-                        tableName: "conToolVersion",
-                        joinType: "inner",
-                        aliasName: "b",
-                        limitFields: ["toolVersion", "toolSubVersion", "privateParams"],
-                        joinCondition: {
-                            joinFieldList: [createJoinCondition("a.idToolManage", "b.idToolManage")]
-                        }
+            limitFields: masterFields,
+            groupByFields: masterFields,
+            groupName: "versionList",
+            joinTables: [
+                {
+                    tableName: "conToolVersion",
+                    joinType: "inner",
+                    aliasName: "b",
+                    limitFields: ["toolVersion", "toolSubVersion", "privateParams"],
+                    joinCondition: {
+                        joinFieldList: [createJoinCondition("a.idToolManage", "b.idToolManage")]
                     }
-                ],
-                whereCondition: {
-                    fieldList: [createCondition("a.toolType", ["language", "compile"], "in")]
                 }
+            ],
+            whereCondition: {
+                fieldList: [createCondition("a.toolType", ["language", "compile"], "in")]
             }
+        }
         ).then((res: any) => {
             let reData = res.data;
             if (reData.code) {
@@ -274,10 +286,10 @@ const dataInit = () => {
                 return;
             }
             compileLanguageList.value = reData?.data.filter((item: any) => item.toolType == 'language').map((item: any) => {
-                return {name: item["toolName"], value: item["toolCode"], versionList: item["versionList"]}
+                return { name: item["toolName"], value: item["toolCode"], versionList: item["versionList"] }
             }); // 加载编译语言
             compileTypeList.value = reData?.data.filter((item: any) => item.toolType == 'compile').map((item: any) => {
-                return {name: item["toolName"], value: item["toolCode"], versionList: item["versionList"]}
+                return { name: item["toolName"], value: item["toolCode"], versionList: item["versionList"] }
             }); // 加载编译工具
         });
     }
@@ -296,7 +308,7 @@ const loadToolParams = async (toolName: string) => {
 const loadPlugin = async (name: string) => {
     let versionList = compileTypeList.value.find((item: any) => item.value == name)?.versionList;
     pluginVersionList.value = versionList?.map((item: any) => {
-        return {name: item["toolVersion"], value: item["toolVersion"]}
+        return { name: item["toolVersion"], value: item["toolVersion"] }
     }) || [];
     return await loadToolParams(name);
 };

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {nextTick, onMounted, provide, reactive, ref, watch} from "vue";
+import { nextTick, onMounted, provide, reactive, ref, watch } from "vue";
 import {
   apiInstance,
   ApiUrls,
@@ -14,7 +14,7 @@ import {
   userAction,
   UserFuncInfo
 } from "star-horse-lowcode";
-import {Config} from "@/api/settings";
+import { Config } from "@/api/settings";
 
 let designForm = useDesignFormStore(piniaInstance);
 const normalPageRef = ref();
@@ -23,7 +23,7 @@ let relationTables = ref<any>({});
 let dataUrl = ref<ApiUrls>();
 const errorMsg = ref("数据加载中");
 let searchFormData = ref<SearchProps[]>([]);
-const tableFieldList = ref<any>({fieldList: []});
+const tableFieldList = ref<any>({ fieldList: [] });
 /**
  * 表单数据直接取定义的数据preps,
  * 列表数据重新定义，方便排序和位置拖拽
@@ -36,13 +36,13 @@ const dataSource = ref<any>({});
 let dateFields = ref<Array<string>>([]);
 let extBtns = ref<Array<UserFuncInfo>>([]);
 const props = defineProps({
-  param: {type: String, required: true}
+  param: { type: String, required: true }
 });
 const clear = () => {
   hasData.value = false;
 };
 const loadFormData = async (formId: string) => {
-  let {data, error} = await loadData(`/userdb-manage/userdb/dynamicFormInfo/getDynamicForm/${formId}`, {});
+  let { data, error } = await loadData(`/userdb-manage/userdb/dynamicFormInfo/getDynamicForm/${formId}`, {});
   if (error) {
     errorMsg.value = error;
     clear();
@@ -66,17 +66,17 @@ const loadFormData = async (formId: string) => {
   normalPageRef.value?.init();
 };
 watch(
-    () => props.param,
-    (val) => {
-      try {
-        load("数据加载中。。。");
-        loadFormData(<string>val);
-      } catch (e) {
-        closeLoad();
-        console.log("数据类型不匹配");
-      }
-    },
-    {deep: true}
+  () => props.param,
+  (val) => {
+    try {
+      load("数据加载中。。。");
+      loadFormData(<string>val);
+    } catch (e) {
+      closeLoad();
+      console.log("数据类型不匹配");
+    }
+  },
+  { deep: true }
 );
 //记录表单的属性
 const formFields = reactive<Array<any>>([]);
@@ -118,64 +118,36 @@ onMounted(async () => {
   await init();
 });
 watch(
-    () => props.param,
-    () => {
-      loadPermission();
-    },
-    {
-      immediate: false
-    }
+  () => props.param,
+  () => {
+    loadPermission();
+  },
+  {
+    immediate: false
+  }
 );
 </script>
 <template>
   <template v-if="hasData">
     <star-horse-dialog :isShowBtnContinue="true" :dialogVisible="dialogProps.editVisible" :dialogProps="dialogProps">
-      <star-horse-form
-          @refresh="normalPageRef?.loadByPage()"
-          :compUrl="dataUrl"
-          :fieldList="tableFieldList"
-          :primary-key="primaryKey"
-          :rules="rules"
-          ref="normalFormRef"
-          :globalCondition="relationTables"
-          :dynamicForm="true"
-      />
+      <star-horse-form @refresh="normalPageRef?.loadByPage()" :compUrl="dataUrl" :fieldList="tableFieldList"
+        :primary-key="primaryKey" :rules="rules" ref="normalFormRef" :globalCondition="relationTables"
+        :dynamicForm="true" />
     </star-horse-dialog>
-    <star-horse-dialog
-        :dialog-visible="dialogProps.viewVisible"
-        :dialogProps="dialogProps"
-        
-        :source="3"
-    >
-      <star-horse-data-view
-          :dataFormat="dataFormat"
-          :field-list="tableFieldList"
-          :globalCondition="relationTables"
-          :dynamicForm="true"
-          :compUrl="dataUrl"
-      />
+    <star-horse-dialog :dialog-visible="dialogProps.viewVisible" :dialogProps="dialogProps" :source="3">
+      <star-horse-data-view :dataFormat="dataFormat" :field-list="tableFieldList" :globalCondition="relationTables"
+        :dynamicForm="true" :compUrl="dataUrl" />
     </star-horse-dialog>
     <div class="search-content">
-      <div class="search_btn" :style="{ 'flex-direction': Config.buttonStyle.value == 'line'? 'column' : 'row' }">
-        <star-horse-search-comp
-            @searchData="(data: any) => normalPageRef?.createSearchParams(data)"
-            :formData="searchFormData"
-            :compUrl="dataUrl"
-        />
+      <div class="search_btn">
+        <star-horse-search-comp @searchData="(data: any) => normalPageRef?.createSearchParams(data)"
+          :formData="searchFormData" :compUrl="dataUrl" />
       </div>
     </div>
     <el-card class="inner_content">
-      <star-horse-table-comp
-          ref="normalPageRef"
-          :fieldList="tableFieldList"
-          :primaryKey="primaryKey"
-          :globalConfig="relationTables"
-          :isDynamic="true"
-          :extendBtns="extBtns"
-          :compUrl="dataUrl"
-          :showBatchField="true"
-          :dataFormat="dataFormat"
-      />
+      <star-horse-table-comp ref="normalPageRef" :fieldList="tableFieldList" :primaryKey="primaryKey"
+        :globalConfig="relationTables" :isDynamic="true" :extendBtns="extBtns" :compUrl="dataUrl" :showBatchField="true"
+        :dataFormat="dataFormat" />
     </el-card>
   </template>
   <el-empty :content="errorMsg" v-else></el-empty>

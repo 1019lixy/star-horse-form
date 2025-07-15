@@ -180,8 +180,10 @@ const buttonFieldList = ref<FieldInfo[]>([
     label: "自动同意",
     fieldName: "autoAgree",
     type: "select",
-    optionList: autoAgreeList,
-    formVisible: true
+    formVisible: true,
+    preps: {
+      values: autoAgreeList,
+    }
   }
 ]);
 const assigneeTypeList = ref<SelectOption[]>([
@@ -198,8 +200,10 @@ const auditorFieldList = ref<FieldInfo[]>([
     label: "经办人候选类型",
     fieldName: "assigneeType",
     type: "radio",
-    optionList: assigneeTypeList,
-    formVisible: true
+    formVisible: true,
+    preps: {
+      values: assigneeTypeList,
+    }
   },
   {
     label: "添加经办人",
@@ -270,15 +274,17 @@ const otherFieldList = ref<FieldInfo[]>([
             fieldName: "eventType",
             type: "select",
             required: true,
-            optionList: eventTypeList,
-            formVisible: true
+            formVisible: true,
+            preps: {
+              values: eventTypeList
+            }
           },
           {
             label: "监听器类型",
             fieldName: "listenerType",
             type: "select",
             required: true,
-            optionList: listenerTypeList,
+
             actions: {
               change: (val) => {
                 let value = val["listenerType"];
@@ -293,7 +299,10 @@ const otherFieldList = ref<FieldInfo[]>([
                 }
               }
             },
-            formVisible: true
+            formVisible: true,
+            preps: {
+              values: listenerTypeList,
+            }
           },
           {
             label: labelName,
@@ -310,8 +319,10 @@ const otherFieldList = ref<FieldInfo[]>([
             fieldName: "scriptType",
             type: "select",
             required: true,
-            optionList: scriptTypeList,
-            formVisible: scriptTypeformVisible
+            formVisible: scriptTypeformVisible,
+            preps: {
+              values: scriptTypeList,
+            }
           },
           {
             batchFieldList: [
@@ -329,8 +340,10 @@ const otherFieldList = ref<FieldInfo[]>([
                     label: "字段类型",
                     fieldName: "columnType",
                     type: "select",
-                    optionList: columnTypeList,
-                    formVisible: true
+                    formVisible: true,
+                    preps: {
+                      values: columnTypeList,
+                    }
                   },
                   {
                     label: "值/表达式",
@@ -353,8 +366,10 @@ const otherFieldList = ref<FieldInfo[]>([
             label: "事件类型",
             fieldName: "eventType",
             type: "select",
-            optionList: eventTypeList1,
-            formVisible: true
+            formVisible: true,
+            preps: {
+              values: eventTypeList1,
+            }
           },
           {
             label: "监听器Id",
@@ -367,7 +382,6 @@ const otherFieldList = ref<FieldInfo[]>([
             fieldName: "listenerType",
             type: "select",
             required: true,
-            optionList: listenerTypeList,
             actions: {
               change: (val) => {
                 let value = val["listenerType"];
@@ -382,7 +396,10 @@ const otherFieldList = ref<FieldInfo[]>([
                 }
               }
             },
-            formVisible: true
+            formVisible: true,
+            preps: {
+              values: listenerTypeList,
+            }
           },
           {
             label: labelName,
@@ -399,8 +416,10 @@ const otherFieldList = ref<FieldInfo[]>([
             fieldName: "scriptType",
             type: "select",
             required: true,
-            optionList: scriptTypeList,
-            formVisible: scriptTypeformVisible
+            formVisible: scriptTypeformVisible,
+            preps: {
+              values: scriptTypeList,
+            }
           },
           {
             batchFieldList: [
@@ -418,8 +437,10 @@ const otherFieldList = ref<FieldInfo[]>([
                     label: "字段类型",
                     fieldName: "columnType",
                     type: "select",
-                    optionList: columnTypeList,
-                    formVisible: true
+                    formVisible: true,
+                    preps:{
+                      values: columnTypeList,
+                    }
                   },
                   {
                     label: "值/表达式",

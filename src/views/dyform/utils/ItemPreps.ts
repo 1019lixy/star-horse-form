@@ -320,8 +320,11 @@ export function urlFields() {
         {
             label: "列名",
             fieldName: "fieldName",
-
-            formVisible: true
+            type: "select",
+            formVisible: true,
+            preps: {
+                values: fieldList,
+            }
         },
         {
             label: "排序",
@@ -347,12 +350,11 @@ export function urlFields() {
         {
             label: "目标属性名",
             fieldName: "distField",
-
             formVisible: true
         }
     ];
     //需考虑或查询
-    const paramFields: FieldInfo[] = [
+    const paramFields: FieldInfo[] | any = [
         {
             batchFieldList: [{
                 batchName: "queryParams",
@@ -372,7 +374,6 @@ export function urlFields() {
                     label: "参数名",
                     fieldName: "paramName",
                     required: true,
-
                     formVisible: true
                 },
                 {
@@ -518,7 +519,6 @@ export function paramsFields(paramsConfigRef: Ref<any>, fieldName: string, item:
         [{
             label: "接口地址",
             fieldName: "interfaceUrl",
-
             required: true,
             helpMsg: urlReturnDataHelpMsg,
             formVisible: true,
@@ -548,8 +548,11 @@ export function paramsFields(paramsConfigRef: Ref<any>, fieldName: string, item:
         {
             label: "列名",
             fieldName: "fieldName",
-
-            formVisible: true
+            type: "select",
+            formVisible: true,
+            preps: {
+                values: fieldList,
+            }
         },
         {
             label: "排序",
@@ -603,7 +606,6 @@ export function paramsFields(paramsConfigRef: Ref<any>, fieldName: string, item:
         {
             label: "目标属性名",
             fieldName: "distField",
-
             formVisible: true
         }
     ];
@@ -615,7 +617,6 @@ export function paramsFields(paramsConfigRef: Ref<any>, fieldName: string, item:
             otherField.push({
                 label: temp.label,
                 fieldName: temp.fieldName,
-
                 listVisible: true
             });
         }
@@ -631,7 +632,6 @@ export function paramsFields(paramsConfigRef: Ref<any>, fieldName: string, item:
             {
                 label: "数据源",
                 fieldName: "dataSource",
-
                 required: true,
                 defaultValue: "data",
                 formVisible: true,

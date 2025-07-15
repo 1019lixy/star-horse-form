@@ -1,7 +1,7 @@
 <script setup lang="ts" name="ProjectInfoUi">
-import {onMounted, provide, reactive, ref} from "vue";
-import {apiInstance, ApiUrls, dialogPreps, dictData, SearchFields, SelectOption} from "star-horse-lowcode";
-import {Config} from "@/api/settings";
+import { onMounted, provide, reactive, ref } from "vue";
+import { apiInstance, ApiUrls, dialogPreps, dictData, SearchFields, SelectOption } from "star-horse-lowcode";
+import { Config } from "@/api/settings";
 
 const dataUrl: ApiUrls = apiInstance("continuous-manage", "continuous/projectInfo");
 let libTypeList = ref<Array<SelectOption>>([]);
@@ -10,11 +10,11 @@ let charsetList = ref<Array<SelectOption>>([]);
 let projectRoleList = ref<Array<SelectOption>>([]);
 const searchFormData = reactive<SearchFields>({
   fieldList: [
-    {label: "项目名称", fieldName: "projectName",  matchType: "lk", defaultVisible: true},
+    { label: "项目名称", fieldName: "projectName", matchType: "lk", defaultVisible: true },
     {
       label: "程序语言", fieldName: "programLanguage",
-      type: "select",  matchType: "lk", defaultVisible: true,
-      preps:{
+      type: "select", matchType: "lk", defaultVisible: true,
+      preps: {
         values: languageList,
       }
     }
@@ -31,10 +31,12 @@ const tableFieldList = reactive({
       label: "代码库类型",
       fieldName: "repoType",
       type: "select",
-      optionList: libTypeList,
       required: true,
       formVisible: true,
-      listVisible: true
+      listVisible: true,
+      preps: {
+        values: libTypeList
+      }
     },
     [
       {
@@ -49,17 +51,18 @@ const tableFieldList = reactive({
         label: "程序语言",
         fieldName: "programLanguage",
         type: "select",
-        optionList: languageList,
         required: true,
         formVisible: true,
-        listVisible: true
+        listVisible: true,
+        preps: {
+          values: languageList
+        }
       }
     ],
     [
       {
         label: "项目名称",
         fieldName: "projectName",
-
         required: true,
         formVisible: true,
         listVisible: true
@@ -69,10 +72,12 @@ const tableFieldList = reactive({
         fieldName: "projectCharset",
         type: "select",
         defaultValue: "UTF-8",
-        optionList: charsetList,
         required: true,
         formVisible: true,
-        listVisible: true
+        listVisible: true,
+        preps: {
+          values: charsetList
+        }
       }
     ],
     [
@@ -114,8 +119,8 @@ const tableFieldList = reactive({
                   pageListUrl: "system-config/system/employeeInfo/pageList",
                 },
                 needField: [
-                  {sourceField: "employeeNo", distField: "username"},
-                  {sourceField: "name", distField: "name"}
+                  { sourceField: "employeeNo", distField: "username" },
+                  { sourceField: "name", distField: "name" }
                 ],
 
                 fieldList: [{
@@ -128,40 +133,40 @@ const tableFieldList = reactive({
                   listVisible: true,
                   searchVisible: true,
                 },
-                  {
-                    label: "工号",
-                    fieldName: "employeeNo",
+                {
+                  label: "工号",
+                  fieldName: "employeeNo",
 
-                    editdisabled: true,
-                    prefix: "a",
-                    helpMsg: "如不填写系统自动生成",
-                    required: false,
-                    formVisible: true,
-                    listVisible: true,
-                    searchVisible: true,
-                  },
-                  {
-                    label: "职级",
-                    fieldName: "rank",
-                    type: "tselect",
-                    required: false,
-                    formVisible: true,
-                    listVisible: true,
-                    preps: {
-                      showCode: "Y"
-                    }
-                  },
-                  {
-                    label: "岗位",
-                    fieldName: "station",
-                    type: "tselect",
-                    required: false,
-                    formVisible: true,
-                    listVisible: true,
-                    preps: {
-                      showCode: "Y"
-                    }
-                  }]
+                  editdisabled: true,
+                  prefix: "a",
+                  helpMsg: "如不填写系统自动生成",
+                  required: false,
+                  formVisible: true,
+                  listVisible: true,
+                  searchVisible: true,
+                },
+                {
+                  label: "职级",
+                  fieldName: "rank",
+                  type: "tselect",
+                  required: false,
+                  formVisible: true,
+                  listVisible: true,
+                  preps: {
+                    showCode: "Y"
+                  }
+                },
+                {
+                  label: "岗位",
+                  fieldName: "station",
+                  type: "tselect",
+                  required: false,
+                  formVisible: true,
+                  listVisible: true,
+                  preps: {
+                    showCode: "Y"
+                  }
+                }]
               },
             },
             {
@@ -174,8 +179,10 @@ const tableFieldList = reactive({
               label: "角色名称",
               fieldName: "roleName",
               type: "select",
-              optionList: projectRoleList,
               formVisible: true,
+              preps: {
+                values: projectRoleList,
+              }
             },
             {
               label: "生效时间",
@@ -306,54 +313,29 @@ onMounted(async () => {
 });
 </script>
 <template>
-  <star-horse-dialog
-      :isShowBtnContinue="true"
-      :dialogVisible="dialogProps.editVisible"
-      :dialogProps="dialogProps">
-    <star-horse-form
-        @refresh="projectInfoRef?.loadByPage()"
-        :compUrl="dataUrl"
-        :fieldList="tableFieldList"
-        :rules="rules"
-    />
+  <star-horse-dialog :isShowBtnContinue="true" :dialogVisible="dialogProps.editVisible" :dialogProps="dialogProps">
+    <star-horse-form @refresh="projectInfoRef?.loadByPage()" :compUrl="dataUrl" :fieldList="tableFieldList"
+      :rules="rules" />
   </star-horse-dialog>
-  <star-horse-dialog
-      :dialog-visible="dialogProps.viewVisible"
-      :dialogProps="dialogProps"
-      
-      :source="3"
-  >
-    <star-horse-data-view :dataFormat="dataFormat" :field-list="tableFieldList" :compUrl="dataUrl"/>
+  <star-horse-dialog :dialog-visible="dialogProps.viewVisible" :dialogProps="dialogProps" :source="3">
+    <star-horse-data-view :dataFormat="dataFormat" :field-list="tableFieldList" :compUrl="dataUrl" />
   </star-horse-dialog>
   <div class="search-content">
-    <div class="search_btn" :style="{ 'flex-direction': Config.buttonStyle.value == 'line' ? 'column' : 'row' }">
-      <star-horse-search-comp
-          @searchData="(data: any) => projectInfoRef?.createSearchParams(data)"
-          :formData="searchFormData"
-          :compUrl="dataUrl"
-      />
+    <div class="search_btn" >
+      <star-horse-search-comp @searchData="(data: any) => projectInfoRef?.createSearchParams(data)"
+        :formData="searchFormData" :compUrl="dataUrl" />
     </div>
   </div>
   <el-card class="inner_content">
-    <div class="flex  h-full w-full overflow-hidden">
-      <div class="flex direction-vertical w-2/3">
-        <el-card class="inner_content">
-          <star-horse-table-comp
-              ref="projectInfoRef"
-              :fieldList="tableFieldList"
-              :primaryKey="primaryKey"
-              :compUrl="dataUrl"
-              :dataFormat="dataFormat"
-              @selectItem="selectItemFun"
-          />
-        </el-card>
-      </div>
-      <div class="flex-1 flex direction-vertical overflow-hidden ml-[8px]">
-        <project-member-ui :projectId="projectId" :roleList="projectRoleList"/>
-      </div>
-    </div>
-
-
+    <el-splitter>
+      <el-splitter-panel>
+        <star-horse-table-comp ref="projectInfoRef" :fieldList="tableFieldList" :primaryKey="primaryKey"
+          :compUrl="dataUrl" :dataFormat="dataFormat" @selectItem="selectItemFun" />
+      </el-splitter-panel>
+      <el-splitter-panel collapsible max="50%" size="40%">
+        <project-member-ui :projectId="projectId" :roleList="projectRoleList" />
+      </el-splitter-panel>
+    </el-splitter>
   </el-card>
 </template>
 <style lang="scss" scoped></style>
