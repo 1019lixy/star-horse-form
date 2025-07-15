@@ -201,7 +201,8 @@ watch(() => currentId.value, (val: string) => {
               <star-horse-icon icon-class="container" style="color: var(--star-horse-style)" />&nbsp;<span>容器</span>
             </template>
             <sh-form v-model:dataForm="containerDataForm" :label-width="'auto'" :label-position="'top'">
-              <el-collapse v-model="containerCollapse" :expand-icon-position="'left'"  style="background: #1d2129 !important">
+              <el-collapse v-model="containerCollapse" :expand-icon-position="'left'"
+                style="background: #1d2129 !important">
                 <el-collapse-item name="container">
                   <template #title>
                     <div class="collapse-item-title title">

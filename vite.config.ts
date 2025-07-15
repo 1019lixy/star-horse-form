@@ -248,8 +248,8 @@ export default defineConfig((mode) => {
                             // if (id.includes('gridstack')) return 'gridstack';
                             // if (id.includes('sortablejs')) return 'sortablejs';
                             // if (id.includes('lodash')) return 'lodash';
-                            // return "vendor";
-                            return id.toString().split('node_modules/')[1].split('/')[0].toString();
+                            return "vendor";
+                            // return id.toString().split('node_modules/')[1].split('/')[0].toString();
                         }
                     }
                 },
@@ -259,9 +259,9 @@ export default defineConfig((mode) => {
             },
             terserOptions: {
                 compress: {
-                    drop_console: mode.mode === "production",
-                    drop_debugger: mode.mode === "production",
-                    warnings: false,
+                    drop_console: false, //mode.mode === "production",
+                    drop_debugger: false,//mode.mode === "production",
+                    warnings: true,
                     // 新增：移除未使用的变量/函数（需确保业务代码无副作用）
                     unused: true,
                     // 新增：合并连续变量声明

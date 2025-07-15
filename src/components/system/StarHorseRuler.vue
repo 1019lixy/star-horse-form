@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { nextTick, onBeforeUnmount, onMounted, ref } from "vue";
-import Guides from "vue3-guides";
+import { default as Guides } from "vue3-guides";
 import { VueInfiniteViewer } from "vue3-infinite-viewer";
 defineOptions({
   name: "StarHorseRuler"
