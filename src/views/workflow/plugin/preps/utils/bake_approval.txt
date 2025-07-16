@@ -127,7 +127,7 @@
             <span class="light-text">(不能超过 25 人)</span>
             <user-item :formData="group" :field="{
               preps:{
-                multiple:'Y',
+                multiple:true,
                 name:'approverNames',
                 aliasName:'approverIds',
                 label:'成员',
@@ -157,7 +157,7 @@
             <span class="light-text">(不能超过 25 人)</span>
             <user-item :formData="group" :field="{
               preps:{
-                 multiple:'Y',
+                 multiple:true,
                  name:'approverNames',
                 aliasName:'approverIds',
                 label:'成员',

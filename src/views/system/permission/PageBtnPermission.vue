@@ -16,10 +16,10 @@ import {
   useGlobalConfigStore,
   warning
 } from "star-horse-lowcode";
-import {loadRolesInfo} from "@/api/star_horse_utils";
-import {Config} from "@/api/settings";
-import {computed, onMounted, provide, reactive, ref} from "vue";
-import {TreeNodeData} from "element-plus/es/components/tree-v2/src/types";
+import { loadRolesInfo } from "@/api/star_horse_utils";
+import { Config } from "@/api/settings";
+import { computed, onMounted, provide, reactive, ref } from "vue";
+import { TreeNodeData } from "element-plus/es/components/tree-v2/src/types";
 
 const dataUrl: ApiUrls = apiInstance("system-config", "system/rolesPkBtnAuthority");
 dataUrl.mergeUrl = "/system-config/system/resourcesSummaryEntity/merge";
@@ -39,7 +39,7 @@ const searchFormData = reactive<SearchFields>({
         values: rolesList
       }
     },
-    {label: "创建日期", fieldName: "createdTime", type: "date", matchType: "bt"}
+    { label: "创建日期", fieldName: "createdTime", type: "date", matchType: "bt" }
   ]
 });
 const formFieldList = reactive<PageFieldInfo | any>({
@@ -53,7 +53,7 @@ const formFieldList = reactive<PageFieldInfo | any>({
         formVisible: true,
         disabled: true,
         listVisible: true,
-        preps:{
+        preps: {
           values: rolesList,
         }
       },
@@ -65,7 +65,7 @@ const formFieldList = reactive<PageFieldInfo | any>({
         formVisible: true,
         disabled: true,
         listVisible: true,
-        preps:{
+        preps: {
           values: appinfoList,
         }
       }
@@ -77,9 +77,10 @@ const formFieldList = reactive<PageFieldInfo | any>({
         type: "tselect",
         required: true,
         formVisible: true,
-        multiple: true,
+
         listVisible: true,
         preps: {
+          multiple: true,
           data: menusSelectList
         }
       },
@@ -89,9 +90,10 @@ const formFieldList = reactive<PageFieldInfo | any>({
         type: "select",
         required: true,
         formVisible: true,
-        multiple: true,
+
         listVisible: true,
-        preps:{
+        preps: {
+          multiple: true,
           values: authorityList,
         }
       }
@@ -172,7 +174,7 @@ const roleChange = async (data: TreeNodeData, checked: boolean) => {
   currentUserGroupId.value = data.value;
   currentSystemId.value = 0;
   currentMenuId.value = 0;
-  dataForm.value = {idRolesinfo: data.value};
+  dataForm.value = { idRolesinfo: data.value };
   let roleSystemDatas = await loadData("/system-config/system/rolesPkAppinfo/getAllByCondition", {
     fieldList: [
       {
@@ -275,76 +277,40 @@ onMounted(async () => {
 <style lang="scss" scoped></style>
 <template>
   <star-horse-dialog :isShowBtnContinue="true" :dialogVisible="dialogProps.editVisible" :dialogProps="dialogProps">
-    <star-horse-form
-        :outerFormData="dataForm"
-        @refresh="refreshData"
-        :compUrl="dataUrl"
-        :fieldList="formFieldList"
-        :rules="rules"
-    />
+    <star-horse-form :outerFormData="dataForm" @refresh="refreshData" :compUrl="dataUrl" :fieldList="formFieldList"
+      :rules="rules" />
   </star-horse-dialog>
-  <star-horse-dialog
-      :dialog-visible="dialogProps.viewVisible"
-      :dialogProps="dialogProps"
-      
-      :source="3"
-  >
-    <star-horse-data-view :dataFormat="dataFormat" :field-list="tableFieldList" :compUrl="dataUrl"/>
+  <star-horse-dialog :dialog-visible="dialogProps.viewVisible" :dialogProps="dialogProps" :source="3">
+    <star-horse-data-view :dataFormat="dataFormat" :field-list="tableFieldList" :compUrl="dataUrl" />
   </star-horse-dialog>
   <el-card class="inner_content">
     <el-splitter>
       <el-splitter-panel collapsible size="240" min="100" max="500">
-        <star-horse-tree
-            v-model:tree-datas="rolesList"
-            treeTitle="用户组"
-            @selectData="roleChange"
-            :compSize="compSize"
-        />
+        <star-horse-tree v-model:tree-datas="rolesList" treeTitle="用户组" @selectData="roleChange" :compSize="compSize" />
       </el-splitter-panel>
-      <el-splitter-panel v-if="systemInfoList?.length > 0" size="200" min="100" max="300">
-        <star-horse-tree
-            v-model:treeDatas="systemInfoList"
-            treeTitle="应用系统"
-            :preps="{
-            label: 'sysName',
-            value: 'idInformations'
-          }"
-            @selectData="systemChange"
-            :compSize="compSize"
-        />
+      <el-splitter-panel :size="systemInfoList?.length > 0 ? 200 : 0" min="0" max="300">
+        <star-horse-tree v-model:treeDatas="systemInfoList" treeTitle="应用系统" :preps="{
+          label: 'sysName',
+          value: 'idInformations'
+        }" @selectData="systemChange" :compSize="compSize" />
       </el-splitter-panel>
-      <el-splitter-panel v-if="systemInfoList?.length > 0" size="200" min="100" max="300">
-        <star-horse-tree
-            v-model:treeDatas="menusList"
-            treeTitle="系统菜单"
-            :preps="{
-            label: 'menuName',
-            value: 'idMenusinfo',
-            children: 'children'
-          }"
-            @selectData="menuChange"
-            :compSize="compSize"
-        />
+      <el-splitter-panel :size="menusList?.length > 0 ? 200 : 0" min="0" max="300">
+        <star-horse-tree v-model:treeDatas="menusList" treeTitle="系统菜单" :preps="{
+          label: 'menuName',
+          value: 'idMenusinfo',
+          children: 'children'
+        }" @selectData="menuChange" :compSize="compSize" />
       </el-splitter-panel>
       <el-splitter-panel>
         <div class="search-content">
-          <div class="search_btn" :style="{ 'flex-direction': Config.buttonStyle.value == 'line'? 'column' : 'row' }">
-            <star-horse-search-comp
-                @searchData="(data: any) => menuBtnTableRef?.createSearchParams(data)"
-                :formData="searchFormData"
-                :defaultCondition="defaultCondition"
-                :compUrl="dataUrl"
-            />
+          <div class="search_btn" >
+            <star-horse-search-comp @searchData="(data: any) => menuBtnTableRef?.createSearchParams(data)"
+              :formData="searchFormData" :defaultCondition="defaultCondition" :compUrl="dataUrl" />
           </div>
         </div>
         <el-card class="inner_content">
-          <star-horse-table-comp
-              :fieldList="tableFieldList"
-              :primaryKey="primaryKey"
-              :compUrl="dataUrl"
-              :dataFormat="dataFormat"
-              ref="menuBtnTableRef"
-          />
+          <star-horse-table-comp :fieldList="tableFieldList" :primaryKey="primaryKey" :compUrl="dataUrl"
+            :dataFormat="dataFormat" ref="menuBtnTableRef" />
         </el-card>
       </el-splitter-panel>
     </el-splitter>

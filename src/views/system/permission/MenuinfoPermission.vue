@@ -15,10 +15,10 @@ import {
   useGlobalConfigStore,
   warning
 } from "star-horse-lowcode";
-import {loadMenusInfo, loadRolesInfo} from "@/api/star_horse_utils";
-import {computed, onMounted, provide, reactive, ref} from "vue";
-import {TreeNodeData} from "element-plus/es/components/tree-v2/src/types";
-import {Config} from "@/api/settings";
+import { loadMenusInfo, loadRolesInfo } from "@/api/star_horse_utils";
+import { computed, onMounted, provide, reactive, ref } from "vue";
+import { TreeNodeData } from "element-plus/es/components/tree-v2/src/types";
+import { Config } from "@/api/settings";
 
 const dataUrl: ApiUrls = apiInstance("system-config", "system/rolesPkMenusinfo");
 const menuPermission = ref();
@@ -81,7 +81,7 @@ const searchFields = reactive<SearchFields>({
       fieldName: "b.statusCode",
       type: "select",
       defaultVisible: true,
-      preps:{
+      preps: {
         values: menuPermissionStatus,
       }
     }
@@ -97,8 +97,8 @@ const formFieldList = reactive<PageFieldInfo>({
       required: true,
       viewVisible: false,
       disabled: true,
-      preps:{
-        data:appinfoList
+      preps: {
+        data: appinfoList
       }
     },
     {
@@ -108,10 +108,10 @@ const formFieldList = reactive<PageFieldInfo>({
       formVisible: true,
       required: true,
       viewVisible: false,
-      multiple: true,
       helpMsg: "选择子节点时，一定要先选中父节点，否则左侧菜单栏无法显示",
       preps: {
-        data:menusList,
+        multiple: true,
+        data: menusList,
         checkStrictly: true,
         props: {
           label: "menuName",
@@ -126,7 +126,7 @@ const formFieldList = reactive<PageFieldInfo>({
       defaultValue: "1",
       listVisible: true,
       formVisible: true,
-      preps:{
+      preps: {
         values: menuPermissionStatus
       }
     }
@@ -201,66 +201,38 @@ onMounted(async () => {
 
 <template>
   <star-horse-dialog :isShowBtnContinue="true" :dialogVisible="dialogProps.editVisible" :dialogProps="dialogProps">
-    <star-horse-form
-        :outerFormData="{
-        idInformations: currentSystemId,
-        idRolesinfo: currentUserGroupId
-      }"
-        @refresh="menuPermission.loadByPage()"
-        :compUrl="dataUrl"
-        :fieldList="formFieldList"
-    />
+    <star-horse-form :outerFormData="{
+      idInformations: currentSystemId,
+      idRolesinfo: currentUserGroupId
+    }" @refresh="menuPermission.loadByPage()" :compUrl="dataUrl" :fieldList="formFieldList" />
   </star-horse-dialog>
-  <star-horse-dialog
-      :dialog-visible="dialogProps.viewVisible"
-      :dialogProps="dialogProps"
-      
-      :source="3"
-  >
-    <star-horse-data-view :data-format="dataFormat" :field-list="tableFieldList" :compUrl="dataUrl"/>
+  <star-horse-dialog :dialog-visible="dialogProps.viewVisible" :dialogProps="dialogProps" :source="3">
+    <star-horse-data-view :data-format="dataFormat" :field-list="tableFieldList" :compUrl="dataUrl" />
   </star-horse-dialog>
   <el-card class="inner_content">
     <el-splitter>
       <el-splitter-panel collapsible size="240" min="100" max="500">
-        <star-horse-tree
-            v-model:treeDatas="rolesList"
-            treeTitle="用户组"
-            @selectData="userGroupChange"
-            :compSize="compSize"
-        />
+        <star-horse-tree v-model:treeDatas="rolesList" treeTitle="用户组" @selectData="userGroupChange"
+          :compSize="compSize" />
       </el-splitter-panel>
-      <el-splitter-panel v-if="systemInfoList.length > 0"  size="220" min="100" max="400">
-        <star-horse-tree
-            v-model:treeDatas="systemInfoList"
-            treeTitle="应用系统"
-            @selectData="systemChange"
-            :compSize="compSize"
-            :preps="{
-          label: 'sysName',
-          value: 'idInformations'
-        }"
-        />
+      <el-splitter-panel collapsible :size="systemInfoList.length > 0 ? 220 : 0" min="0" max="250">
+        <star-horse-tree v-model:treeDatas="systemInfoList" treeTitle="应用系统" @selectData="systemChange"
+          :compSize="compSize" :preps="{
+            label: 'sysName',
+            value: 'idInformations'
+          }" />
       </el-splitter-panel>
       <el-splitter-panel>
         <el-card class="inner_content ">
           <div class="search-content">
-            <div class="search_btn" :style="{ 'flex-direction': Config.buttonStyle.value == 'line'? 'column' : 'row' }">
-              <star-horse-search-comp
-                  @searchData="(data: any) => menuPermission.createSearchParams(data)"
-                  :formData="searchFields"
-                  :defaultCondition="defaultCondition"
-                  :compUrl="dataUrl"
-              />
+            <div class="search_btn"
+              >
+              <star-horse-search-comp @searchData="(data: any) => menuPermission.createSearchParams(data)"
+                :formData="searchFields" :defaultCondition="defaultCondition" :compUrl="dataUrl" />
             </div>
           </div>
-          <star-horse-table-comp
-              ref="menuPermission"
-              :fieldList="tableFieldList"
-              :primaryKey="primaryKey"
-              :compUrl="dataUrl"
-              :orderBy="tableFieldList.orderBy"
-              :dataFormat="dataFormat"
-          />
+          <star-horse-table-comp ref="menuPermission" :fieldList="tableFieldList" :primaryKey="primaryKey"
+            :compUrl="dataUrl" :orderBy="tableFieldList.orderBy" :dataFormat="dataFormat" />
         </el-card>
       </el-splitter-panel>
     </el-splitter>

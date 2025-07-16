@@ -98,8 +98,8 @@ const tableFieldList = reactive<PageFieldInfo | any>({
         fieldName: "appsList",
         type: "select",
         required: true,
-        multiple: true,
         preps: {
+          multiple: true,
           values: systemList,
         }
       },
@@ -108,8 +108,8 @@ const tableFieldList = reactive<PageFieldInfo | any>({
         fieldName: "menusList",
         type: "tselect",
         required: true,
-        multiple: true,
         preps: {
+          multiple: true,
           data: menusList
         }
       }

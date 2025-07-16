@@ -86,9 +86,9 @@ const formFieldList = reactive<PageFieldInfo>({
       formVisible: true,
       required: true,
       viewVisible: false,
-      multiple: true,
       helpMsg: "选择子节点时，一定要先选中父节点，否则在头部应用菜单栏无法显示",
       preps: {
+        multiple: true,
         data: informationsList,
         checkStrictly: true
       }
@@ -136,7 +136,7 @@ const menuformFieldList = reactive<PageFieldInfo>({
       formVisible: true,
       required: menuRequired,
       viewVisible: false,
-      multiple: true,
+    
       helpMsg: "选择子节点时，一定要先选中父节点，否则左侧菜单栏无法显示",
       actions: {
         change: (val: any) => {
@@ -146,6 +146,7 @@ const menuformFieldList = reactive<PageFieldInfo>({
         }
       },
       preps: {
+        multiple: true,
         data: menusList,
         checkStrictly: true,
         props: {
@@ -293,7 +294,7 @@ onDeactivated(() => {
       <el-splitter-panel>
         <el-card class="inner_content h100">
           <el-splitter>
-            <el-splitter-panel collapsible size="220" min="100" max="400">
+            <el-splitter-panel collapsible :size="Object.keys(currentTenantData).length==0?0:220"  max="400">
               <star-horse-tree ref="tenantAppTreeRef" :expand="true" treeTitle="应用列表" @selectData="appDataChange"
                 @addData="addMenuData" @removeData="removeAppData" btnTitle="添加菜单" :btnVisible="true" rmvTitle="删除应用"
                 :rmvVisible="true" :showDropdown="false" :preps="{

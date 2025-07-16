@@ -77,9 +77,9 @@ const formFieldList = reactive<PageFieldInfo>({
       label: "账号信息",
       fieldName: "userNameList",
       aliasName: "userList",
-      multiple: true,
       type: "page-select",
       preps: {
+        multiple: true,
         dataUrl: {
           pageListUrl: "/system-config/system/usersinfoEntity/pageList"
         },

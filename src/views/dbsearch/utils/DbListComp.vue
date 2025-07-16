@@ -91,10 +91,10 @@ let dataFieldInfo = ref<PageFieldInfo>({
       label: "排除字段",
       fieldName: "exclusionFields",
       type: "select",
-      multiple: true,
       formVisible: true,
       listVisible: true,
       preps: {
+        multiple: true,
         values: selectFields,
       }
     },

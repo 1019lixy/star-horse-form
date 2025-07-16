@@ -161,12 +161,10 @@ eg: 表：dev_userinfo ,生成的文件是DevUserinfo.java;
       label: "要生成的文件",
       fieldName: "fileTypesList",
       type: "select",
-      formVisible: true,
-      multiple: true,
-
-      helpMsg: "为空生成所有类型文件",
+      formVisible: true,      helpMsg: "为空生成所有类型文件",
       listVisible: true,
       preps: {
+        multiple: true,
         values: fileTypeList,
       }
     },

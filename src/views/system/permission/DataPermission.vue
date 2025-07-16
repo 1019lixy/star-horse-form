@@ -83,9 +83,10 @@ const formFieldList = reactive<PageFieldInfo | any>({
         type: "tselect",
         required: true,
         formVisible: true,
-        multiple: true,
+
         listVisible: true,
         preps: {
+          multiple: true,
           data: menusList,
           props: {
             label: "menuName",
@@ -100,9 +101,10 @@ const formFieldList = reactive<PageFieldInfo | any>({
       type: "tselect",
       required: true,
       formVisible: groupVisible,
-      multiple: true,
+
       listVisible: true,
       preps: {
+        multiple: true,
         data: rolesList
       }
     },
@@ -143,10 +145,11 @@ const formFieldList = reactive<PageFieldInfo | any>({
       type: "select",
       required: true,
       formVisible: true,
-      multiple: true,
+
       defaultValue: ["view"],
       listVisible: true,
       preps: {
+        multiple: true,
         values: authorityList,
       }
     },
@@ -316,7 +319,7 @@ onMounted(async () => {
         <star-horse-tree v-model:tree-datas="systemInfoList" treeTitle="应用系统" @selectData="systemChange"
           :compSize="compSize" />
       </el-splitter-panel>
-      <el-splitter-panel v-if="menusList?.length > 0" size="220" min="100" max="300">
+      <el-splitter-panel :size="menusList?.length > 0 ? 220 : 0" min="0" max="300">
         <star-horse-tree v-model:tree-datas="menusList" treeTitle="系统菜单" :preps="{
           label: 'menuName',
           value: 'idMenusinfo',
@@ -325,7 +328,7 @@ onMounted(async () => {
       </el-splitter-panel>
       <el-splitter-panel>
         <div class="search-content">
-          <div class="search_btn" >
+          <div class="search_btn">
             <star-horse-search-comp @searchData="(data: any) => dataPermissionRef?.createSearchParams(data)"
               :formData="searchFormData" :defaultCondition="defaultCondition" :compUrl="dataUrl" />
           </div>
