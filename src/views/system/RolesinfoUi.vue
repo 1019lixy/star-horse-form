@@ -63,10 +63,11 @@ const tableFieldList = reactive<PageFieldInfo | any>({
     {
       label: "用户组编码",
       fieldName: "roleCode",
-
       listVisible: true,
-      editdisabled: true,
-      required: true
+      required: true,
+      preps:{
+        editDisabled: true,
+      }
     },
     {
       label: "用户组类型",
@@ -74,9 +75,9 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       type: "select",
       required: true,
       formVisible: true,
-      editDisabled: true,
       listVisible: true,
       preps: {
+        editDisabled: true,
         values: roleTypes,
       }
     },
@@ -258,7 +259,7 @@ onMounted(async () => {
     <star-horse-data-view :dataFormat="dataFormat" :field-list="tableFieldList" :compUrl="dataUrl" />
   </star-horse-dialog>
   <div class="search-content">
-    <div class="search_btn" >
+    <div class="search_btn">
       <star-horse-search-comp @searchData="(data: any) => starHorseTableCompRef?.createSearchParams(data)"
         :formData="searchFormData" :compUrl="dataUrl" />
     </div>

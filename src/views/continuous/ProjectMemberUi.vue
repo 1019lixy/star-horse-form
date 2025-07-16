@@ -51,13 +51,16 @@ const tableFieldList = reactive({
             label: "工号",
             fieldName: "employeeNo",
 
-            editdisabled: true,
+           
             prefix: "a",
             helpMsg: "如不填写系统自动生成",
             required: false,
             formVisible: true,
             listVisible: true,
             searchVisible: true,
+            preps:{
+              editdisabled: true,
+            }
           },
           {
             label: "职级",

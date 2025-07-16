@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+import { loadCustomInfo, loadElementPlusIcon, loadSystemInfo } from "@/api/star_horse_utils";
 import {
   apiInstance,
   ApiUrls,
@@ -8,8 +9,6 @@ import {
   SearchFields,
   SelectOption
 } from "star-horse-lowcode";
-import { loadCustomInfo, loadElementPlusIcon, loadSystemInfo } from "@/api/star_horse_utils";
-import { Config } from "@/api/settings";
 import { onActivated, onMounted, provide, reactive, ref } from "vue";
 
 let informationsList = ref<any>([]);
@@ -19,14 +18,14 @@ let systemIconList = ref<SelectOption[]>([]);
 let customerList = ref<SelectOption[]>([]);
 const searchFormData = reactive<SearchFields>({
   fieldList: [
-    {
+   /*  {
       label: "归属主体", fieldName: "idCustomer", type: "select",
       preps: {
         values: customerList
       }
-    },
+    }, */
     {
-      label: "系统名称",
+      label: "应用名称",
       defaultVisible: true,
       fieldName: "sysName",
 
@@ -51,8 +50,8 @@ const tableFieldList = reactive<PageFieldInfo>({
       fieldName: "idInformations",
       type: "long"
     },
-    {
-      label: "上级系统",
+    [ {
+      label: "上级应用",
       fieldName: "parentId",
       type: "select",
       formVisible: true,
@@ -61,16 +60,16 @@ const tableFieldList = reactive<PageFieldInfo>({
         values: informationsList,
       }
     },
-    [
+  
       {
-        label: "系统名称",
+        label: "应用名称",
         fieldName: "sysName",
 
         required: true,
         formVisible: true,
         listVisible: true
       },
-      {
+      /* {
         label: "归属主体",
         fieldName: "idCustomer",
         type: "select",
@@ -80,7 +79,7 @@ const tableFieldList = reactive<PageFieldInfo>({
         preps: {
           values: customerList,
         }
-      }
+      } */
     ],
     /* {
      label: "归属主体", fieldName: "customer['customerName']", type: "select",

@@ -19,9 +19,12 @@ const userEditFieldInfo: Array<any> = [
             
             rules: "email",
             required: true,
-            editDisabled: "Y",
+            
             formVisible: true,
-            listVisible: true
+            listVisible: true,
+            preps:{
+                editDisabled: true,
+            }
         },
         {
             label: "联系电话",
@@ -85,9 +88,9 @@ const baseUserFields: Array<any> = [
             type: "user",
             required: true,
             formVisible: true,
-            editDisabled: "Y",
             listVisible: true,
             preps: {
+                editDisabled: true,
                 needField: [
                     {sourceField: "name", distField: "name"},
                     {sourceField: "employeeNo", distField: "employeeNo"},

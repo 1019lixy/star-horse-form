@@ -62,9 +62,12 @@ const tableFieldList = reactive<PageFieldInfo>({
         fieldName: "deptCode",
 
         required: true,
-        editdisabled: true,
+        
         formVisible: true,
-        listVisible: true
+        listVisible: true,
+        preps:{
+          editdisabled: true,
+        }
       }
     ],
     [

@@ -46,10 +46,13 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       label: "编码",
       fieldName: "rankTypeCode",
 
-      editdisabled: true,
+      
       required: true,
       formVisible: true,
-      listVisible: true
+      listVisible: true,
+      preps:{
+        editdisabled: true,
+      }
     },
     {
       label: "排序",

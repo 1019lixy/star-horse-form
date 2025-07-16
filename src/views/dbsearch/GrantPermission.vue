@@ -42,7 +42,7 @@ const searchFormData = reactive<SearchFields>({
     { label: "经办人", fieldName: "operator", }
   ]
 });
-let params = ref<CompParams>({ dataUrl: {}, fieldList: [], needField: [], primaryKey: "" });
+let params = ref<CompParams>({ dataUrl: {}, fieldList: [], needField: [], primaryKey: "" ,editdisabled: true});
 const tableFieldList = reactive({
   fieldList: [
     {
@@ -58,8 +58,9 @@ const tableFieldList = reactive({
       required: true,
       formVisible: true,
       listVisible: true,
-      editDisabled: true,
+      
       preps: {
+        editDisabled: true,
         values: dbList,
       }
     },
@@ -70,7 +71,7 @@ const tableFieldList = reactive({
         type: "select",
         required: true,
         formVisible: true,
-        editdisabled: true,
+        
         actions: {
           change: (val: any) => {
             searchUserOrRole(val);
@@ -78,6 +79,7 @@ const tableFieldList = reactive({
         },
         listVisible: true,
         preps: {
+          editdisabled: true,
           values: assignType,
         }
       },
@@ -87,7 +89,7 @@ const tableFieldList = reactive({
         type: "page-select",
         required: true,
         formVisible: true,
-        editdisabled: true,
+        
         // optionList: userOrRoleList,
         preps: params,
         listVisible: true

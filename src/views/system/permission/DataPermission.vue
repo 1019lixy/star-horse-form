@@ -238,7 +238,7 @@ let preValid = ref<any>({
 
 const loadMenus = async () => {
   let fieldList = [];
-  let roleList = getUserInfo()?.rolesList?.map((item) => item.idRolesinfo);
+  let roleList = getUserInfo()?.rolesList?.map((item:any) => item.idRolesinfo);
   fieldList.push(createCondition("a.idRolesinfo", roleList, "in"));
   if (currentSystemId.value) {
     fieldList.push(createCondition("a.idInformations", currentSystemId.value));

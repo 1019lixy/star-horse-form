@@ -1,6 +1,6 @@
 <script lang="ts" setup name="Header">
 import { Config } from "@/api/settings";
-import { permissionMenus, userLogout } from "@/api/star_horse_apis";
+import { userLogout } from "@/api/star_horse_apis";
 import { filterTree } from "@/api/star_horse_utils";
 import Message from "@/components/Message.vue";
 import { i18n } from "@/lang";

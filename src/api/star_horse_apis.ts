@@ -1,6 +1,6 @@
 import { Config } from "@/api/settings";
 import router from "@/router";
-import { delLoginInfo, getToken, getUserInfo, setCustomerInfo, setToken, setUserInfo } from "@/utils/auth";
+import { delLoginInfo, getToken, getUserInfo } from "@/utils/auth";
 import axios, { AxiosResponse, InternalAxiosRequestConfig } from "axios";
 import {
     error,

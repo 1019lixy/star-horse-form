@@ -101,10 +101,13 @@ const tableFieldList = reactive<PageFieldInfo | any>({
             label: "工号",
             fieldName: "employeeNo",
 
-            editdisabled: true,
+            
             required: true,
             formVisible: true,
-            listVisible: true
+            listVisible: true,
+            preps:{
+              editdisabled: true,
+            }
           },
           {
             label: "头像",

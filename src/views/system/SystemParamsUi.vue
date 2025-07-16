@@ -38,10 +38,13 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       label: "参数名",
       fieldName: "paramName",
 
-      editDisabled: true,
+      
       required: true,
       formVisible: true,
-      listVisible: true
+      listVisible: true,
+      preps:{
+        editDisabled: true,
+      }
     },
     {
       label: "参数值",

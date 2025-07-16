@@ -62,10 +62,13 @@ const tableFieldList = reactive<PageFieldInfo | any>({
         label: "公司编码",
         fieldName: "code",
 
-        editdisabled: true,
+        
         required: true,
         formVisible: true,
-        listVisible: true
+        listVisible: true,
+        preps:{
+          editdisabled: true,
+        }
       }
     ],
     [
