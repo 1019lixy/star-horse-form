@@ -3,11 +3,15 @@ import { getUserInfo, setCustomerInfo, setToken, setUserInfo } from "@/utils/aut
 import { defineStore } from "pinia";
 import { apiInstance, ApiUrls, loadData, MenusInfo, piniaInstance, postRequest, useUserInfoStore } from "star-horse-lowcode";
 import { ref } from "vue";
+import { useNavBarListStore } from "./NavBarList.ts";
+import { useViewCacheStore } from "./ViewCache.ts";
 const appinfoUrl: ApiUrls = apiInstance("system-config", "system/informationsEntity");
 const shortcutMenuUrl: ApiUrls = apiInstance("system-config", "system/shortcutMenu");
 const menuUrl: ApiUrls = apiInstance("system-config", "system/menusinfoEntity");
 const userAuditUrl: ApiUrls = apiInstance("system-config", "system/usersAuditEntity");
 const userStore = useUserInfoStore(piniaInstance);
+const navStore = useNavBarListStore(piniaInstance);
+const viewCache = useViewCacheStore(piniaInstance);
 export const useLoginStore = defineStore("login", () => {
     const appinfoList = ref([]);
     const menusList = ref<MenusInfo[]>([]);
@@ -25,6 +29,8 @@ export const useLoginStore = defineStore("login", () => {
      * 清除所有登录信息
      */
     const clearAll = () => {
+        navStore.clearAll();
+        viewCache.clearAll();
         sessionStorage.removeItem("menusInfo");
         sessionStorage.removeItem("appsInfo");
         sessionStorage.removeItem("shortsInfo");

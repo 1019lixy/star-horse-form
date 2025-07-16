@@ -1,7 +1,7 @@
-import {defineStore} from "pinia";
+import { defineStore } from "pinia";
 import router from "@/router/index";
-import {RouteLocationNormalizedLoaded} from "vue-router";
-import {ref} from "vue";
+import { RouteLocationNormalizedLoaded } from "vue-router";
+import { ref } from "vue";
 
 export const useNavBarListStore = defineStore("navBarList",
     () => {
@@ -70,7 +70,7 @@ export const useNavBarListStore = defineStore("navBarList",
                 }
             }
             index = index < 0 ? 0 : index >= len ? len - 1 : index;
-            router.push({path: dataList[index]["path"]});
+            router.push({ path: dataList[index]["path"] });
         };
         /**
          * 清空对象
@@ -79,6 +79,8 @@ export const useNavBarListStore = defineStore("navBarList",
             const route = navTagsList.value.find((item) => item.path == "/home");
             if (route) {
                 navTagsList.value = [route];
+            } else {
+                navTagsList.value = [];
             }
         };
         return {

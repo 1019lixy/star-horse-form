@@ -31,7 +31,6 @@ const searchFormData = reactive<SearchFields>({
   fieldList: [
     {label: "姓名", fieldName: "name", defaultVisible: true,  matchType: "lk"},
     {label: "用户名", fieldName: "username", defaultVisible: true,  matchType: "lk"},
-    {label: "员工编号", fieldName: "employeeNo", defaultVisible: true,  matchType: "lk"},
     {
       label: "所属用户组",
       fieldName: "idRolesinfo",
