@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, nextTick, onActivated, onDeactivated, onMounted, provide, reactive, ref } from "vue";
+import { computed, nextTick, onActivated, onDeactivated, onMounted, provide, reactive, ref, warn } from "vue";
 import { Config } from "@/api/settings";
 import {
   apiInstance,
@@ -13,7 +13,9 @@ import {
   postRequest,
   SearchFields,
   SelectOption,
-  useGlobalConfigStore
+  success,
+  useGlobalConfigStore,
+  warning
 } from "star-horse-lowcode";
 import { loadDict } from "@/api/star_horse_apis";
 import { loadMenusInfo, loadSystemInfo } from "@/api/star_horse_utils";
@@ -136,7 +138,7 @@ const menuformFieldList = reactive<PageFieldInfo>({
       formVisible: true,
       required: menuRequired,
       viewVisible: false,
-    
+
       helpMsg: "选择子节点时，一定要先选中父节点，否则左侧菜单栏无法显示",
       actions: {
         change: (val: any) => {
@@ -213,27 +215,26 @@ const removeAppData = (data: any) => {
     let params = [];
     params.push(createCondition("idTenantInfo", data["idTenantInfo"]));
     params.push(createCondition("idInformations", data["idInformations"]));
-    let index = 0;
     postRequest(tenantAppDataUrl.deleteByConditionUrl!, {
       fieldList: params
     }).then((res) => {
-      if (index > 0) {
-        dataChange(currentTenantData.value);
-      }
       if (!res.data.code) {
-        index++;
+        success("删除成功");
+        dataChange(currentTenantData.value);
+      } else {
+        warning(res.data.cnMessage);
       }
     });
-    postRequest(tenantAppMenuDataUrl.deleteByConditionUrl!, {
-      fieldList: params
-    }).then((res) => {
-      if (index > 0) {
-        dataChange(currentTenantData.value);
-      }
-      if (!res.data.code) {
-        index++;
-      }
-    });
+    // postRequest(tenantAppMenuDataUrl.deleteByConditionUrl!, {
+    //   fieldList: params
+    // }).then((res) => {
+    //   if (index > 0) {
+    //     dataChange(currentTenantData.value);
+    //   }
+    //   if (!res.data.code) {
+    //     index++;
+    //   }
+    // });
   });
 };
 const loadMenuBySystemId = async (systemId: any) => {
@@ -294,7 +295,7 @@ onDeactivated(() => {
       <el-splitter-panel>
         <el-card class="inner_content h100">
           <el-splitter>
-            <el-splitter-panel collapsible :size="Object.keys(currentTenantData).length==0?0:220"  max="400">
+            <el-splitter-panel collapsible :size="Object.keys(currentTenantData).length == 0 ? 0 : 220" max="400">
               <star-horse-tree ref="tenantAppTreeRef" :expand="true" treeTitle="应用列表" @selectData="appDataChange"
                 @addData="addMenuData" @removeData="removeAppData" btnTitle="添加菜单" :btnVisible="true" rmvTitle="删除应用"
                 :rmvVisible="true" :showDropdown="false" :preps="{
@@ -306,8 +307,7 @@ onDeactivated(() => {
             <el-splitter-panel>
               <el-card class="inner_content">
                 <div class="search-content">
-                  <div class="search_btn"
-                    >
+                  <div class="search_btn">
                     <star-horse-search-comp @searchData="(data: any) => tenantAppMenusinfoRef?.createSearchParams(data)"
                       :formData="searchFormData" :compUrl="dataUrl" />
                   </div>
