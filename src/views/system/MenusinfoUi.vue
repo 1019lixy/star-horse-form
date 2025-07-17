@@ -235,7 +235,7 @@ const loadMenuBySystemId = async (systemId: string) => {
   defaultCondition.value = params;
   let { data } = await loadData("/system-config/system/menusinfoEntity/getAllTreeDataByCondition/false", params);
   if (data) {
-    parentMenus.value = createTree(data, "dataNo", "menuName", "idMenusinfo");
+    parentMenus.value = createTree(JSON.parse(JSON.stringify(data)), "dataNo", "menuName", "idMenusinfo");
   }
 };
 const dialogProps = dialogPreps();
@@ -305,7 +305,6 @@ let extendBtns = ref<UserFuncInfo[]>([
     funcName: (row: any) => {
       dialogProps.ids = -1;
       dataForm.value["parentNo"] = row["dataNo"];
-      console.log(row);
       dialogProps.editVisible = true;
     }
   }

@@ -203,7 +203,7 @@ const selectItem = (item: any) => {
       <star-horse-icon v-else icon-class="logo" size="45px" width="45px" height="45px"
         style="color: var(--star-horse-white); font-weight: bold" />
     </div>
-    <div class="flex-1 flex flex-row items-center h-full ovflow-hidden">
+    <div class="flex-1 flex flex-row items-center h-full overflow-hidden">
       <star-horse-menu :ellipsis="true" v-if="configInfo.menusCfg == 'tradition'" :mode="'horizontal'"
         @selectItem="selectItem" :dataList="appinfoList" :preps="{
           id: 'idInformations',
