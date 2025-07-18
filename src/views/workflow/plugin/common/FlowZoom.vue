@@ -1,45 +1,53 @@
 <template>
   <star-horse-dialog
-      :dialogVisible="dataDialogVisible"
-      @closeAction="dataDialogVisible = false"
-      :selfFunc="true"
-      :boxWidth="'45%'"
-      :full-screen="false"
-      :compSize="flowCommon.size"
-      @merge="dataDoSave"
-      :title="'流程信息'"
+    :dialogVisible="dataDialogVisible"
+    @closeAction="dataDialogVisible = false"
+    :selfFunc="true"
+    :boxWidth="'45%'"
+    :full-screen="false"
+    :compSize="flowCommon.size"
+    @merge="dataDoSave"
+    :title="'流程信息'"
   >
-    <BasicInfo ref="basicInfoRef" :dialogFlag="true"/>
+    <BasicInfo ref="basicInfoRef" :dialogFlag="true" />
   </star-horse-dialog>
   <div class="sh-flow-editor-operate">
-    <div class="flow-btn" @click="saveData('publish')" v-if="saveBtnVisible && !readable">
+    <div
+      class="flow-btn"
+      @click="saveData('publish')"
+      v-if="saveBtnVisible && !readable"
+    >
       <el-tooltip content="发布流程">
-        <star-horse-icon icon-class="publish" cursor="pointer"/>
+        <star-horse-icon icon-class="publish" cursor="pointer" />
       </el-tooltip>
     </div>
-    <div class="flow-btn" @click="saveData('save')" v-if="saveBtnVisible && !readable">
+    <div
+      class="flow-btn"
+      @click="saveData('save')"
+      v-if="saveBtnVisible && !readable"
+    >
       <el-tooltip content="保存数据">
-        <star-horse-icon icon-class="save" cursor="pointer"/>
+        <star-horse-icon icon-class="save" cursor="pointer" />
       </el-tooltip>
     </div>
     <div class="flow-btn" @click="saveImage">
       <el-tooltip content="保存图片">
-        <star-horse-icon icon-class="image" cursor="pointer"/>
+        <star-horse-icon icon-class="image" cursor="pointer" />
       </el-tooltip>
     </div>
     <div class="flow-btn" @click="mapVisibleOperation" v-if="mapBtnVisible">
       <el-tooltip content="开启/关闭小地图">
-        <star-horse-icon icon-class="map" cursor="pointer"/>
+        <star-horse-icon icon-class="map" cursor="pointer" />
       </el-tooltip>
     </div>
     <div class="flow-btn" @click="viewCode">
       <el-tooltip content="查看代码">
-        <star-horse-icon icon-class="code" cursor="pointer"/>
+        <star-horse-icon icon-class="code" cursor="pointer" />
       </el-tooltip>
     </div>
     <div class="flow-btn" @click="exportCode">
       <el-tooltip content="导出Bpmn">
-        <star-horse-icon icon-class="export" cursor="pointer"/>
+        <star-horse-icon icon-class="export" cursor="pointer" />
       </el-tooltip>
     </div>
     <div class="sh-flow-editor-zoom" v-if="zoomBtnVisible">
@@ -49,47 +57,68 @@
     </div>
     <div class="flow-btn" @click="controlScale">
       <el-tooltip content="关闭/打开自动缩放">
-        <star-horse-icon icon-class="scale" cursor="pointer"/>
+        <star-horse-icon icon-class="scale" cursor="pointer" />
       </el-tooltip>
     </div>
     <div class="flow-btn" @click="goBack">
       <el-tooltip content="返回列表">
-        <star-horse-icon icon-class="return" cursor="pointer"/>
+        <star-horse-icon icon-class="return" cursor="pointer" />
       </el-tooltip>
     </div>
   </div>
   <el-drawer
-      v-model="drawer"
-      size="500px"
-      class="drawer"
-      :show-close="true"
-      :closable="true"
-      @click-outside="drawer = false"
-      :with-header="false"
+    v-model="drawer"
+    size="500px"
+    class="drawer"
+    :show-close="true"
+    :closable="true"
+    @click-outside="drawer = false"
+    :with-header="false"
   >
     <div style="height: 100vh">
       <div style="padding: 1px; background-color: #3883fa">
-        <el-button type="primary" plain @click="copyParseJson"> 复制格式化后的 JSON</el-button>
-        <el-button type="primary" plain @click="copyJson"> 复制压缩后的 JSON</el-button>
-        <el-button type="primary" plain @click="drawer = false"> 关闭弹窗</el-button>
+        <el-button type="primary" plain @click="copyParseJson">
+          复制格式化后的 JSON</el-button
+        >
+        <el-button type="primary" plain @click="copyJson">
+          复制压缩后的 JSON</el-button
+        >
+        <el-button type="primary" plain @click="drawer = false">
+          关闭弹窗</el-button
+        >
       </div>
       <star-horse-json-editor
-          class="editor"
-          ref="jsonEditorRef"
-          language="zh-CN"
-          current-mode="view"
-          v-model:modelValue="nodeData"
+        class="editor"
+        ref="jsonEditorRef"
+        language="zh-CN"
+        current-mode="view"
+        v-model:modelValue="nodeData"
       />
     </div>
   </el-drawer>
 </template>
 <script setup lang="ts">
-import {computed, ModelRef, nextTick, onActivated, onDeactivated, onMounted, ref} from "vue";
-import {useFlowDesignStore} from "@/store/FlowDesign";
-import {copy, downloadData, loadData, piniaInstance, uuid, warning} from "star-horse-lowcode";
-import {flowCommon} from "@/views/workflow/plugin/utils/flowCommon";
-import {doSaveData} from "@/views/workflow/utils/FlowFormUtils";
-import {useRouter} from "vue-router";
+import {
+  computed,
+  ModelRef,
+  nextTick,
+  onActivated,
+  onDeactivated,
+  onMounted,
+  ref,
+} from "vue";
+import { useFlowDesignStore } from "@/store/FlowDesign";
+import {
+  copy,
+  downloadData,
+  loadData,
+  piniaInstance,
+  uuid,
+  warning,
+} from "star-horse-lowcode";
+import { flowCommon } from "@/views/workflow/plugin/utils/flowCommon";
+import { doSaveData } from "@/views/workflow/utils/FlowFormUtils";
+import { useRouter } from "vue-router";
 
 const INIT_ZOOM_VALUE = 100;
 const MIN_ZOOM_VALUE = 10;
@@ -98,25 +127,25 @@ defineProps({
   min: {
     type: Number,
     required: false,
-    default: MIN_ZOOM_VALUE
+    default: MIN_ZOOM_VALUE,
   },
   max: {
     type: Number,
     required: false,
-    default: MAX_ZOOM_VALUE
+    default: MAX_ZOOM_VALUE,
   },
   saveBtnVisible: {
     type: Boolean,
-    default: true
+    default: true,
   },
   mapBtnVisible: {
     type: Boolean,
-    default: true
+    default: true,
   },
   zoomBtnVisible: {
     type: Boolean,
-    default: true
-  }
+    default: true,
+  },
 });
 const flowDesign = useFlowDesignStore(piniaInstance);
 const emits = defineEmits(["saveImage"]);
@@ -132,7 +161,7 @@ const jsonEditorRef = ref();
 const router = useRouter();
 const goBack = () => {
   router.push({
-    path: "/workflow/FlowDefineUi"
+    path: "/workflow/FlowDefineUi",
   });
 };
 const mapVisibleOperation = () => {
@@ -215,9 +244,12 @@ const exportCode = async () => {
     code: "test",
     name: "测试",
     version: 1,
-    remark: "测试"
+    remark: "测试",
   };
-  let reData = await loadData("/flow-engine/workflow/flowdefinition/dataConvertJsonToXml", params);
+  let reData = await loadData(
+    "/flow-engine/workflow/flowdefinition/dataConvertJsonToXml",
+    params,
+  );
   if (reData.error) {
     warning(reData.error);
     return;

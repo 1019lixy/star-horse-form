@@ -5,11 +5,18 @@ import {
   dialogPreps,
   PageFieldInfo,
   SearchFields,
-  SelectOption
+  SelectOption,
 } from "star-horse-lowcode";
 import { loadDict } from "@/api/star_horse_apis";
 import { Config } from "@/api/settings";
-import { onActivated, onDeactivated, onMounted, provide, reactive, ref } from "vue";
+import {
+  onActivated,
+  onDeactivated,
+  onMounted,
+  provide,
+  reactive,
+  ref,
+} from "vue";
 import { getCustomerParam } from "@/utils/auth";
 //后端交互接口地址
 const dataUrl: ApiUrls = apiInstance("system-config", "system/messageRecord");
@@ -31,7 +38,7 @@ const searchFormData = reactive<SearchFields>({
       type: "select",
       preps: {
         values: categoryList,
-      }
+      },
     },
     {
       label: "类别",
@@ -40,16 +47,15 @@ const searchFormData = reactive<SearchFields>({
       type: "select",
       preps: {
         values: typeList,
-      }
+      },
     },
     {
       label: "标题",
       fieldName: "title",
       defaultVisible: true,
       matchType: "lk",
-
-    }
-  ]
+    },
+  ],
 });
 let personsVisible = ref<boolean>(false);
 let statusList = ref<SelectOption[]>([]);
@@ -67,7 +73,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
         listVisible: true,
         preps: {
           values: categoryList,
-        }
+        },
       },
       {
         label: "类别",
@@ -78,8 +84,8 @@ const tableFieldList = reactive<PageFieldInfo | any>({
         listVisible: true,
         preps: {
           values: typeList,
-        }
-      }
+        },
+      },
     ],
     {
       label: "标题",
@@ -87,7 +93,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
 
       required: true,
       formVisible: true,
-      listVisible: true
+      listVisible: true,
     },
 
     [
@@ -99,15 +105,15 @@ const tableFieldList = reactive<PageFieldInfo | any>({
         actions: {
           change: (val: any) => {
             personsVisible.value = val["commonFlag"] == "N";
-          }
+          },
         },
         required: true,
         formVisible: true,
         listVisible: true,
         preps: {
           activeValue: "Y",
-          inactiveValue: "N"
-        }
+          inactiveValue: "N",
+        },
       },
       {
         label: "状态",
@@ -118,8 +124,8 @@ const tableFieldList = reactive<PageFieldInfo | any>({
         listVisible: !true,
         preps: {
           values: statusList,
-        }
-      }
+        },
+      },
     ],
     {
       label: "接收人",
@@ -131,7 +137,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       listVisible: true,
       preps: {
         multiple: true,
-      }
+      },
     },
     {
       label: "状态",
@@ -139,7 +145,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
 
       required: false,
       formVisible: !true,
-      listVisible: true
+      listVisible: true,
     },
     {
       label: "跳转Url",
@@ -147,7 +153,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
 
       required: false,
       formVisible: true,
-      listVisible: true
+      listVisible: true,
     },
     {
       label: "内容",
@@ -155,7 +161,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       type: "markdown",
       required: true,
       formVisible: true,
-      listVisible: true
+      listVisible: true,
     },
     {
       label: "版本号",
@@ -163,7 +169,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       type: "number",
       required: false,
       formVisible: !true,
-      listVisible: !true
+      listVisible: !true,
     },
     {
       label: "创建人",
@@ -171,7 +177,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
 
       required: false,
       formVisible: !true,
-      listVisible: true
+      listVisible: true,
     },
     {
       label: "创建时间",
@@ -179,7 +185,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       type: "datetime",
       required: false,
       formVisible: !true,
-      listVisible: true
+      listVisible: true,
     },
     {
       label: "修改人",
@@ -187,7 +193,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
 
       required: false,
       formVisible: !true,
-      listVisible: !true
+      listVisible: !true,
     },
     {
       label: "修改时间",
@@ -195,7 +201,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       type: "datetime",
       required: false,
       formVisible: !true,
-      listVisible: !true
+      listVisible: !true,
     },
     {
       label: "数据编号",
@@ -203,7 +209,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
 
       required: false,
       formVisible: !true,
-      listVisible: !true
+      listVisible: !true,
     },
     {
       label: "状态码",
@@ -211,7 +217,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
 
       required: false,
       formVisible: !true,
-      listVisible: !true
+      listVisible: !true,
     },
 
     {
@@ -220,7 +226,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       type: "number",
       required: false,
       formVisible: !true,
-      listVisible: !true
+      listVisible: !true,
     },
     {
       label: "国际编码",
@@ -228,7 +234,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
 
       required: false,
       formVisible: !true,
-      listVisible: !true
+      listVisible: !true,
     },
     {
       label: "备注",
@@ -236,11 +242,11 @@ const tableFieldList = reactive<PageFieldInfo | any>({
 
       required: false,
       formVisible: !true,
-      listVisible: !true
-    }
+      listVisible: !true,
+    },
   ],
   //默认查询条件
-  condition: [getCustomerParam()]
+  condition: [getCustomerParam()],
 });
 //校验
 const rules = {};
@@ -253,10 +259,8 @@ const initData = async () => {
   categoryList.value = await loadDict("message_category");
   statusList.value = await loadDict("message_status");
 };
-const activated = () => {
-};
-const deactivated = () => {
-};
+const activated = () => {};
+const deactivated = () => {};
 /**
  * 列表，查看数据时数据转换
  * @param name 名称
@@ -265,13 +269,21 @@ const deactivated = () => {
  */
 const dataFormat = (name: string, cellValue: any, row: any): any => {
   if (name == "type") {
-    return typeList.value.find((item) => item.value == cellValue)?.name || cellValue;
+    return (
+      typeList.value.find((item) => item.value == cellValue)?.name || cellValue
+    );
   }
   if (name == "category") {
-    return categoryList.value.find((item) => item.value == cellValue)?.name || cellValue;
+    return (
+      categoryList.value.find((item) => item.value == cellValue)?.name ||
+      cellValue
+    );
   }
   if (name == "statusCode") {
-    return statusList.value.find((item) => item.value == cellValue)?.name || cellValue;
+    return (
+      statusList.value.find((item) => item.value == cellValue)?.name ||
+      cellValue
+    );
   }
   //转换显示信息
   return cellValue;
@@ -287,23 +299,48 @@ onDeactivated(() => {
 });
 </script>
 <template>
-  <star-horse-dialog :isShowBtnContinue="true" :dialog-visible="dialogProps.editVisible" :dialogProps="dialogProps">
-    <star-horse-form @refresh="messageRecordRef?.loadByPage()" :compUrl="dataUrl" :fieldList="tableFieldList"
-      :rules="rules" />
+  <star-horse-dialog
+    :isShowBtnContinue="true"
+    :dialog-visible="dialogProps.editVisible"
+    :dialogProps="dialogProps"
+  >
+    <star-horse-form
+      @refresh="messageRecordRef?.loadByPage()"
+      :compUrl="dataUrl"
+      :fieldList="tableFieldList"
+      :rules="rules"
+    />
   </star-horse-dialog>
-  <star-horse-dialog :dialog-visible="dialogProps.viewVisible" :dialogProps="dialogProps" :source="3">
-    <star-horse-data-view :dataFormat="dataFormat" :field-list="tableFieldList" :compUrl="dataUrl" />
+  <star-horse-dialog
+    :dialog-visible="dialogProps.viewVisible"
+    :dialogProps="dialogProps"
+    :source="3"
+  >
+    <star-horse-data-view
+      :dataFormat="dataFormat"
+      :field-list="tableFieldList"
+      :compUrl="dataUrl"
+    />
   </star-horse-dialog>
   <div class="search-content">
-    <div class="search_btn" >
-      <star-horse-search-comp @searchData="(data: any) => messageRecordRef?.createSearchParams(data)"
-        :formData="searchFormData" :compUrl="dataUrl" />
+    <div class="search_btn">
+      <star-horse-search-comp
+        @searchData="(data: any) => messageRecordRef?.createSearchParams(data)"
+        :formData="searchFormData"
+        :compUrl="dataUrl"
+      />
     </div>
   </div>
   <el-card class="inner_content">
-    <star-horse-table-comp ref="messageRecordRef" :fieldList="tableFieldList" :primaryKey="primaryKey"
-      :compUrl="dataUrl" :dataFormat="dataFormat" />
+    <star-horse-table-comp
+      ref="messageRecordRef"
+      :fieldList="tableFieldList"
+      :primaryKey="primaryKey"
+      :compUrl="dataUrl"
+      :dataFormat="dataFormat"
+    />
   </el-card>
 </template>
 <style lang="scss" scoped>
-//todo</style>
+//todo
+</style>

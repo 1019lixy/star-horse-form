@@ -12,7 +12,7 @@ import {
   SearchProps,
   useDesignFormStore,
   userAction,
-  UserFuncInfo
+  UserFuncInfo,
 } from "star-horse-lowcode";
 import { Config } from "@/api/settings";
 
@@ -36,13 +36,16 @@ const dataSource = ref<any>({});
 let dateFields = ref<Array<string>>([]);
 let extBtns = ref<Array<UserFuncInfo>>([]);
 const props = defineProps({
-  param: { type: String, required: true }
+  param: { type: String, required: true },
 });
 const clear = () => {
   hasData.value = false;
 };
 const loadFormData = async (formId: string) => {
-  let { data, error } = await loadData(`/userdb-manage/userdb/dynamicFormInfo/getDynamicForm/${formId}`, {});
+  let { data, error } = await loadData(
+    `/userdb-manage/userdb/dynamicFormInfo/getDynamicForm/${formId}`,
+    {},
+  );
   if (error) {
     errorMsg.value = error;
     clear();
@@ -50,7 +53,10 @@ const loadFormData = async (formId: string) => {
     return;
   }
   hasData.value = data && Object.keys(data).length > 0;
-  dataUrl.value = apiInstance(data["dataUrl"]?.appName, data["dataUrl"]?.contextUrl);
+  dataUrl.value = apiInstance(
+    data["dataUrl"]?.appName,
+    data["dataUrl"]?.contextUrl,
+  );
   searchFormData.value = data["searchFormData"] as SearchProps[];
   primaryKey.value = data["primaryKey"];
   tableFieldList.value = data["tableFieldList"];
@@ -59,7 +65,11 @@ const loadFormData = async (formId: string) => {
   fieldMappingList.value = data?.fieldMappingList;
   relationTables.value = data["relationTables"];
   dataSource.value = data["dataSource"];
-  extBtns.value = userAction(normalPageRef, primaryKey.value, tableFieldList.value["userTableFuncs"]);
+  extBtns.value = userAction(
+    normalPageRef,
+    primaryKey.value,
+    tableFieldList.value["userTableFuncs"],
+  );
   delete tableFieldList.value["userTableFuncs"];
   await nextTick();
   closeLoad();
@@ -76,7 +86,7 @@ watch(
       console.log("数据类型不匹配");
     }
   },
-  { deep: true }
+  { deep: true },
 );
 //记录表单的属性
 const formFields = reactive<Array<any>>([]);
@@ -93,22 +103,25 @@ const dataFormat = (name: string, cellValue: any, row: any): any => {
     if (dataSource.value && Object.keys(dataSource.value).length > 0) {
       let temp = dataSource.value[name];
       if (temp) {
-        let stemp = temp.datas?.find((item: any) => item[temp.valueField] == cellValue);
+        let stemp = temp.datas?.find(
+          (item: any) => item[temp.valueField] == cellValue,
+        );
         return stemp ? stemp[temp.labelField] : cellValue || "--";
       }
     }
     return "null" == cellValue ? "--" : cellValue || "--";
   };
   if (fieldMappingList.value && fieldMappingList.value?.length > 0) {
-    let temp = fieldMappingList.value.find((item: any) => item["fieldName"] == name);
+    let temp = fieldMappingList.value.find(
+      (item: any) => item["fieldName"] == name,
+    );
     if (temp) {
       return row[temp.mappingDisplayField] || subFormat(name, cellValue, row);
     }
   }
   return subFormat(name, cellValue, row);
 };
-const loadPermission = async () => {
-};
+const loadPermission = async () => {};
 const init = async () => {
   designForm.setIsEdit(false);
   await loadPermission();
@@ -123,31 +136,62 @@ watch(
     loadPermission();
   },
   {
-    immediate: false
-  }
+    immediate: false,
+  },
 );
 </script>
 <template>
   <template v-if="hasData">
-    <star-horse-dialog :isShowBtnContinue="true" :dialogVisible="dialogProps.editVisible" :dialogProps="dialogProps">
-      <star-horse-form @refresh="normalPageRef?.loadByPage()" :compUrl="dataUrl" :fieldList="tableFieldList"
-        :primary-key="primaryKey" :rules="rules" ref="normalFormRef" :globalCondition="relationTables"
-        :dynamicForm="true" />
+    <star-horse-dialog
+      :isShowBtnContinue="true"
+      :dialogVisible="dialogProps.editVisible"
+      :dialogProps="dialogProps"
+    >
+      <star-horse-form
+        @refresh="normalPageRef?.loadByPage()"
+        :compUrl="dataUrl"
+        :fieldList="tableFieldList"
+        :primary-key="primaryKey"
+        :rules="rules"
+        ref="normalFormRef"
+        :globalCondition="relationTables"
+        :dynamicForm="true"
+      />
     </star-horse-dialog>
-    <star-horse-dialog :dialog-visible="dialogProps.viewVisible" :dialogProps="dialogProps" :source="3">
-      <star-horse-data-view :dataFormat="dataFormat" :field-list="tableFieldList" :globalCondition="relationTables"
-        :dynamicForm="true" :compUrl="dataUrl" />
+    <star-horse-dialog
+      :dialog-visible="dialogProps.viewVisible"
+      :dialogProps="dialogProps"
+      :source="3"
+    >
+      <star-horse-data-view
+        :dataFormat="dataFormat"
+        :field-list="tableFieldList"
+        :globalCondition="relationTables"
+        :dynamicForm="true"
+        :compUrl="dataUrl"
+      />
     </star-horse-dialog>
     <div class="search-content">
       <div class="search_btn">
-        <star-horse-search-comp @searchData="(data: any) => normalPageRef?.createSearchParams(data)"
-          :formData="searchFormData" :compUrl="dataUrl" />
+        <star-horse-search-comp
+          @searchData="(data: any) => normalPageRef?.createSearchParams(data)"
+          :formData="searchFormData"
+          :compUrl="dataUrl"
+        />
       </div>
     </div>
     <el-card class="inner_content">
-      <star-horse-table-comp ref="normalPageRef" :fieldList="tableFieldList" :primaryKey="primaryKey"
-        :globalConfig="relationTables" :isDynamic="true" :extendBtns="extBtns" :compUrl="dataUrl" :showBatchField="true"
-        :dataFormat="dataFormat" />
+      <star-horse-table-comp
+        ref="normalPageRef"
+        :fieldList="tableFieldList"
+        :primaryKey="primaryKey"
+        :globalConfig="relationTables"
+        :isDynamic="true"
+        :extendBtns="extBtns"
+        :compUrl="dataUrl"
+        :showBatchField="true"
+        :dataFormat="dataFormat"
+      />
     </el-card>
   </template>
   <el-empty :content="errorMsg" v-else></el-empty>

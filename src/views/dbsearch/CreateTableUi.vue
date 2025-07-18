@@ -1,7 +1,12 @@
 <script setup lang="ts">
-import {onMounted, provide, reactive, ref} from "vue";
-import {initDbList} from "@/views/dbsearch/utils/DbSearchUtils";
-import {apiInstance, ApiUrls, BatchFieldInfo, SelectOption} from "star-horse-lowcode";
+import { onMounted, provide, reactive, ref } from "vue";
+import { initDbList } from "@/views/dbsearch/utils/DbSearchUtils";
+import {
+  apiInstance,
+  ApiUrls,
+  BatchFieldInfo,
+  SelectOption,
+} from "star-horse-lowcode";
 
 const dataUrl: ApiUrls = apiInstance("userdb-manage", "dbsearch/dbinfoEntity");
 let dbList = ref<SelectOption[]>([]);
@@ -14,9 +19,9 @@ const tableFieldList = reactive({
       required: true,
       formVisible: true,
       listVisible: true,
-      preps:{
-        values:dbList
-      }
+      preps: {
+        values: dbList,
+      },
     },
     {
       label: "表名",
@@ -24,7 +29,7 @@ const tableFieldList = reactive({
 
       required: true,
       formVisible: true,
-      listVisible: true
+      listVisible: true,
     },
     {
       label: "描述",
@@ -32,9 +37,9 @@ const tableFieldList = reactive({
       type: "textarea",
       required: true,
       formVisible: true,
-      listVisible: true
-    }
-  ]
+      listVisible: true,
+    },
+  ],
 });
 const columnFieldList = reactive<BatchFieldInfo>({
   batchName: "column",
@@ -45,7 +50,7 @@ const columnFieldList = reactive<BatchFieldInfo>({
 
       required: true,
       formVisible: true,
-      listVisible: true
+      listVisible: true,
     },
     {
       label: "类型",
@@ -53,14 +58,14 @@ const columnFieldList = reactive<BatchFieldInfo>({
 
       required: true,
       formVisible: true,
-      listVisible: true
+      listVisible: true,
     },
     {
       label: "长度",
       fieldName: "length",
 
       formVisible: true,
-      listVisible: true
+      listVisible: true,
     },
     {
       label: "允许为空",
@@ -69,10 +74,10 @@ const columnFieldList = reactive<BatchFieldInfo>({
       defaultValue: "Y",
       formVisible: true,
       listVisible: true,
-      preps:{
+      preps: {
         activeValue: "Y",
-        inactiveValue: "N"
-      }
+        inactiveValue: "N",
+      },
     },
     {
       label: "是否主键",
@@ -80,10 +85,10 @@ const columnFieldList = reactive<BatchFieldInfo>({
       type: "switch",
       formVisible: true,
       listVisible: true,
-      preps:{
+      preps: {
         activeValue: "Y",
-        inactiveValue: "N"
-      }
+        inactiveValue: "N",
+      },
     },
     {
       label: "备注",
@@ -91,9 +96,9 @@ const columnFieldList = reactive<BatchFieldInfo>({
 
       required: true,
       formVisible: true,
-      listVisible: true
-    }
-  ]
+      listVisible: true,
+    },
+  ],
 });
 const indexFieldList = reactive<BatchFieldInfo>({
   batchName: "index",
@@ -104,7 +109,7 @@ const indexFieldList = reactive<BatchFieldInfo>({
 
       required: true,
       formVisible: true,
-      listVisible: true
+      listVisible: true,
     },
     {
       label: "描述",
@@ -112,44 +117,44 @@ const indexFieldList = reactive<BatchFieldInfo>({
 
       required: true,
       formVisible: true,
-      listVisible: true
-    }
-  ]
+      listVisible: true,
+    },
+  ],
 });
 const primaryKey = "idDbinfo";
 const dataForm = ref({
   columns: [],
-  index: []
+  index: [],
 });
 provide("dataForm", dataForm);
 type Option =
-    | {
-  label: string;
-  value: string | number | boolean;
-  disabled?: boolean;
-  [key: string]: any;
-}
-    | string
-    | number
-    | boolean
-    | undefined;
+  | {
+      label: string;
+      value: string | number | boolean;
+      disabled?: boolean;
+      [key: string]: any;
+    }
+  | string
+  | number
+  | boolean
+  | undefined;
 let segmentValue = ref("basic");
 let options = ref<Array<Option>>([
   {
     label: "基础信息",
     value: "basic",
-    icon: "document"
+    icon: "document",
   },
   {
     label: "列名",
     value: "column",
-    icon: "document"
+    icon: "document",
   },
   {
     label: "索引",
     value: "index",
-    icon: "document"
-  }
+    icon: "document",
+  },
 ]);
 const init = async () => {
   dbList.value = await initDbList();
@@ -165,7 +170,11 @@ onMounted(() => {
         <template #default="{ item }">
           <div class="table-segment">
             <div>
-              <star-horse-icon :icon-class="item.icon" :size="'20px'" color="var(--star-horse-white)"/>
+              <star-horse-icon
+                :icon-class="item.icon"
+                :size="'20px'"
+                color="var(--star-horse-white)"
+              />
               {{ item.label }}
             </div>
           </div>
@@ -173,14 +182,22 @@ onMounted(() => {
       </el-segmented>
     </div>
     <star-horse-form
-        v-model:data-form="dataForm"
-        v-if="segmentValue == 'basic'"
-        :primaryKey="primaryKey"
-        :fieldList="tableFieldList"
-        :compUrl="dataUrl"
+      v-model:data-form="dataForm"
+      v-if="segmentValue == 'basic'"
+      :primaryKey="primaryKey"
+      :fieldList="tableFieldList"
+      :compUrl="dataUrl"
     />
-    <star-horse-form-table v-if="segmentValue == 'column'" :item="columnFieldList" v-model:dataForm="dataForm"/>
-    <star-horse-form-table v-if="segmentValue == 'index'" :item="indexFieldList" v-model:dataForm="dataForm"/>
+    <star-horse-form-table
+      v-if="segmentValue == 'column'"
+      :item="columnFieldList"
+      v-model:dataForm="dataForm"
+    />
+    <star-horse-form-table
+      v-if="segmentValue == 'index'"
+      :item="indexFieldList"
+      v-model:dataForm="dataForm"
+    />
   </el-card>
 </template>
 <style scoped lang="scss">

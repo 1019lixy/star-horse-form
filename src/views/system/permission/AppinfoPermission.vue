@@ -10,12 +10,12 @@ import {
   SearchParams,
   SelectOption,
   useGlobalConfigStore,
-  warning
+  warning,
 } from "star-horse-lowcode";
-import {loadRolesInfo, loadSystemInfo} from "@/api/star_horse_utils";
-import {computed, onMounted, provide, reactive, ref} from "vue";
-import {TreeNodeData} from "element-plus/es/components/tree-v2/src/types";
-import {Config} from "@/api/settings";
+import { loadRolesInfo, loadSystemInfo } from "@/api/star_horse_utils";
+import { computed, onMounted, provide, reactive, ref } from "vue";
+import { TreeNodeData } from "element-plus/es/components/tree-v2/src/types";
+import { Config } from "@/api/settings";
 
 let informationsList = ref<any>([]);
 let appPermissionStatus = ref<SelectOption[]>([]);
@@ -23,7 +23,9 @@ const dataUrl: ApiUrls = apiInstance("system-config", "system/rolesPkAppinfo");
 const appinfoPermission = ref();
 let rolesList = ref<SelectOption[]>();
 let configStore = useGlobalConfigStore(piniaInstance);
-let compSize = computed(() => configStore.configFormInfo?.inputSize || Config.compSize);
+let compSize = computed(
+  () => configStore.configFormInfo?.inputSize || Config.compSize,
+);
 let currentUserGroupId = ref<number>(0);
 let defaultCondition = ref<SearchParams[]>([]);
 const checkChange = (data: TreeNodeData, checked: boolean) => {
@@ -31,8 +33,8 @@ const checkChange = (data: TreeNodeData, checked: boolean) => {
   defaultCondition.value = [
     {
       propertyName: "b.idRolesinfo",
-      value: data.value
-    }
+      value: data.value,
+    },
   ];
   appinfoPermission.value.createSearchParams(defaultCondition.value);
 };
@@ -45,8 +47,8 @@ const searchFields = reactive<SearchFields>({
       type: "tselect",
       matchType: "eq",
       preps: {
-        data: informationsList
-      }
+        data: informationsList,
+      },
     },
     {
       label: "状态",
@@ -55,9 +57,9 @@ const searchFields = reactive<SearchFields>({
       defaultVisible: true,
       preps: {
         values: appPermissionStatus,
-      }
-    }
-  ]
+      },
+    },
+  ],
 });
 const formFieldList = reactive<PageFieldInfo>({
   fieldList: [
@@ -71,7 +73,7 @@ const formFieldList = reactive<PageFieldInfo>({
       disabled: true,
       preps: {
         values: rolesList,
-      }
+      },
     },
     {
       label: "应用名称",
@@ -84,8 +86,8 @@ const formFieldList = reactive<PageFieldInfo>({
       preps: {
         multiple: true,
         data: informationsList,
-        checkStrictly: true
-      }
+        checkStrictly: true,
+      },
     },
     {
       label: "状态",
@@ -93,11 +95,11 @@ const formFieldList = reactive<PageFieldInfo>({
       type: "select",
       listVisible: true,
       formVisible: true,
-      preps:{
-        values: appPermissionStatus
-      }
-    }
-  ]
+      preps: {
+        values: appPermissionStatus,
+      },
+    },
+  ],
 });
 const tableFieldList = reactive<PageFieldInfo>({
   fieldList: [
@@ -105,39 +107,39 @@ const tableFieldList = reactive<PageFieldInfo>({
       label: "分组名称",
       fieldName: "roleName",
 
-      listVisible: true
+      listVisible: true,
     },
     {
       label: "分组编码",
       fieldName: "roleCode",
 
-      listVisible: true
+      listVisible: true,
     },
     {
       label: "系统名称",
       fieldName: "sysName",
 
-      listVisible: true
+      listVisible: true,
     },
     {
       label: "系统编码",
       fieldName: "sysCode",
 
-      listVisible: true
+      listVisible: true,
     },
     {
       label: "状态",
       fieldName: "statusName",
 
-      listVisible: true
-    }
+      listVisible: true,
+    },
   ],
   orderBy: [
     {
       fieldName: "idRolesinfo",
-      ascOrDesc: "asc"
-    }
-  ]
+      ascOrDesc: "asc",
+    },
+  ],
 });
 const primaryKey = ["idInformations", "idRolesinfo"];
 const dialogProps = dialogPreps();
@@ -149,11 +151,14 @@ let preValid = ref<any>({
       return false;
     }
     return true;
-  }
+  },
 });
 const dataFormat = (name: string, cellValue: object): any => {
   if (name == "statusCode") {
-    return appPermissionStatus.value.find((item) => item.value == cellValue)?.name || cellValue;
+    return (
+      appPermissionStatus.value.find((item) => item.value == cellValue)?.name ||
+      cellValue
+    );
   }
   return cellValue;
 };
@@ -169,54 +174,68 @@ onMounted(async () => {
 </script>
 
 <template>
-  <star-horse-dialog :isShowBtnContinue="true" :dialogVisible="dialogProps.editVisible" :dialogProps="dialogProps">
+  <star-horse-dialog
+    :isShowBtnContinue="true"
+    :dialogVisible="dialogProps.editVisible"
+    :dialogProps="dialogProps"
+  >
     <star-horse-form
-        :outerFormData="{
-        idRolesinfo: currentUserGroupId
+      :outerFormData="{
+        idRolesinfo: currentUserGroupId,
       }"
-        @refresh="appinfoPermission.loadByPage()"
-        :compUrl="dataUrl"
-        :fieldList="formFieldList"
+      @refresh="appinfoPermission.loadByPage()"
+      :compUrl="dataUrl"
+      :fieldList="formFieldList"
     />
   </star-horse-dialog>
   <star-horse-dialog
-      :dialog-visible="dialogProps.viewVisible"
-      :dialogProps="dialogProps"
-      
-      :source="3"
+    :dialog-visible="dialogProps.viewVisible"
+    :dialogProps="dialogProps"
+    :source="3"
   >
-    <star-horse-data-view :data-format="dataFormat" :field-list="tableFieldList" :compUrl="dataUrl"/>
+    <star-horse-data-view
+      :data-format="dataFormat"
+      :field-list="tableFieldList"
+      :compUrl="dataUrl"
+    />
   </star-horse-dialog>
   <el-card class="inner_content">
     <el-splitter>
       <el-splitter-panel collapsible size="240" min="100" max="500">
         <star-horse-tree
-            v-model:tree-datas="rolesList"
-            treeTitle="用户组"
-            @selectData="checkChange"
-            :compSize="compSize"
+          v-model:tree-datas="rolesList"
+          treeTitle="用户组"
+          @selectData="checkChange"
+          :compSize="compSize"
         />
       </el-splitter-panel>
       <el-splitter-panel>
-
         <el-card class="inner_content">
           <div class="search-content">
-            <div class="search_btn" :style="{ 'flex-direction': Config.buttonStyle.value == 'line'? 'column' : 'row' }">
+            <div
+              class="search_btn"
+              :style="{
+                'flex-direction':
+                  Config.buttonStyle.value == 'line' ? 'column' : 'row',
+              }"
+            >
               <star-horse-search-comp
-                  @searchData="(data: any) => appinfoPermission.createSearchParams(data)"
-                  :formData="searchFields"
-                  :defaultCondition="defaultCondition"
-                  :compUrl="dataUrl"
+                @searchData="
+                  (data: any) => appinfoPermission.createSearchParams(data)
+                "
+                :formData="searchFields"
+                :defaultCondition="defaultCondition"
+                :compUrl="dataUrl"
               />
             </div>
           </div>
           <star-horse-table-comp
-              ref="appinfoPermission"
-              :fieldList="tableFieldList"
-              :primaryKey="primaryKey"
-              :compUrl="dataUrl"
-              :orderBy="tableFieldList.orderBy"
-              :dataFormat="dataFormat"
+            ref="appinfoPermission"
+            :fieldList="tableFieldList"
+            :primaryKey="primaryKey"
+            :compUrl="dataUrl"
+            :orderBy="tableFieldList.orderBy"
+            :dataFormat="dataFormat"
           />
         </el-card>
       </el-splitter-panel>

@@ -1,7 +1,15 @@
 <script lang="ts" name="StationSequence" setup>
-import {Config} from "@/api/settings";
-import {nextTick, onActivated, onDeactivated, onMounted, provide, reactive, ref} from "vue";
-import {getCustomerParam} from "@/utils/auth";
+import { Config } from "@/api/settings";
+import {
+  nextTick,
+  onActivated,
+  onDeactivated,
+  onMounted,
+  provide,
+  reactive,
+  ref,
+} from "vue";
+import { getCustomerParam } from "@/utils/auth";
 import {
   apiInstance,
   ApiUrls,
@@ -11,7 +19,7 @@ import {
   PageFieldInfo,
   SearchFields,
   SearchParams,
-  UserFuncInfo
+  UserFuncInfo,
 } from "star-horse-lowcode";
 //后端交互接口地址
 const dataUrl: ApiUrls = apiInstance("system-config", "system/stationSequence");
@@ -34,8 +42,8 @@ let extendBtns = ref<UserFuncInfo[]>([
       outerForm.value["parentId"] = row[primaryKey];
       dialogProps.editVisible = true;
       await nextTick();
-    }
-  }
+    },
+  },
 ]);
 //查询属性
 const searchFormData = reactive<SearchFields>({
@@ -45,16 +53,14 @@ const searchFormData = reactive<SearchFields>({
       fieldName: "seqName",
       defaultVisible: true,
       matchType: "lk",
-
     },
     {
       label: "编码",
       fieldName: "seqCode",
       defaultVisible: true,
       matchType: "lk",
-
-    }
-  ]
+    },
+  ],
 });
 //页面属性
 const tableFieldList = reactive<PageFieldInfo | any>({
@@ -65,8 +71,6 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       fieldName: "idStationSequence",
 
       required: true,
-
-
     },
     [
       {
@@ -75,20 +79,19 @@ const tableFieldList = reactive<PageFieldInfo | any>({
 
         required: true,
         formVisible: true,
-        listVisible: true
+        listVisible: true,
       },
       {
         label: "编码",
         fieldName: "seqCode",
 
-        
         required: true,
         formVisible: true,
         listVisible: true,
-        preps:{
+        preps: {
           editdisabled: true,
-        }
-      }
+        },
+      },
     ],
     [
       {
@@ -100,12 +103,12 @@ const tableFieldList = reactive<PageFieldInfo | any>({
 
         preps: {
           checkStrictly: true,
-          data:stationSequenceList,
+          data: stationSequenceList,
           props: {
             label: "seqName",
-            value: "idStationSequence"
-          }
-        }
+            value: "idStationSequence",
+          },
+        },
       },
       {
         label: "排序",
@@ -114,8 +117,8 @@ const tableFieldList = reactive<PageFieldInfo | any>({
         defaultValue: 100,
         required: false,
         formVisible: true,
-        listVisible: true
-      }
+        listVisible: true,
+      },
     ],
     {
       label: "序列描述",
@@ -123,7 +126,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       type: "textarea",
       required: false,
       formVisible: true,
-      listVisible: true
+      listVisible: true,
     },
     {
       label: "版本号",
@@ -131,7 +134,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       type: "number",
       required: false,
       formVisible: !true,
-      listVisible: !true
+      listVisible: !true,
     },
     {
       label: "创建人",
@@ -139,7 +142,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
 
       required: false,
       formVisible: !true,
-      listVisible: true
+      listVisible: true,
     },
     {
       label: "创建时间",
@@ -147,7 +150,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
 
       required: false,
       formVisible: !true,
-      listVisible: true
+      listVisible: true,
     },
     {
       label: "修改人",
@@ -155,7 +158,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
 
       required: false,
       formVisible: !true,
-      listVisible: !true
+      listVisible: !true,
     },
     {
       label: "修改时间",
@@ -163,7 +166,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
 
       required: false,
       formVisible: !true,
-      listVisible: !true
+      listVisible: !true,
     },
     {
       label: "数据编号",
@@ -171,7 +174,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
 
       required: false,
       formVisible: !true,
-      listVisible: !true
+      listVisible: !true,
     },
     {
       label: "状态码",
@@ -179,7 +182,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
 
       required: false,
       formVisible: !true,
-      listVisible: !true
+      listVisible: !true,
     },
     {
       label: "状态名称",
@@ -187,7 +190,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
 
       required: false,
       formVisible: !true,
-      listVisible: !true
+      listVisible: !true,
     },
     {
       label: "是否删除",
@@ -195,7 +198,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       type: "number",
       required: false,
       formVisible: !true,
-      listVisible: !true
+      listVisible: !true,
     },
     {
       label: "国际编码",
@@ -203,11 +206,11 @@ const tableFieldList = reactive<PageFieldInfo | any>({
 
       required: false,
       formVisible: !true,
-      listVisible: !true
-    }
+      listVisible: !true,
+    },
   ],
   //默认查询条件
-  condition: [getCustomerParam()]
+  condition: [getCustomerParam()],
 });
 //校验
 const rules = {};
@@ -221,7 +224,7 @@ const initData = async () => {
   cond.orOperList = [createCondition("a.parentId", "")];
   let result = await loadData(dataUrl.listConditionUrl!, {
     fieldList: params,
-    orderBy: [{fieldName: "seqSort", ascOrDesc: "asc"}]
+    orderBy: [{ fieldName: "seqSort", ascOrDesc: "asc" }],
   });
   if (result.error) {
     console.log(result.error);
@@ -232,8 +235,7 @@ const initData = async () => {
 const activated = () => {
   initData();
 };
-const deactivated = () => {
-};
+const deactivated = () => {};
 /**
  * 列表，查看数据时数据转换
  * @param name 名称
@@ -255,40 +257,54 @@ onDeactivated(() => {
 });
 </script>
 <template>
-  <star-horse-dialog :dialog-visible="dialogProps.editVisible" :dialogProps="dialogProps" :isShowBtnContinue="true">
+  <star-horse-dialog
+    :dialog-visible="dialogProps.editVisible"
+    :dialogProps="dialogProps"
+    :isShowBtnContinue="true"
+  >
     <star-horse-form
-        :compUrl="dataUrl"
-        :fieldList="tableFieldList"
-        :rules="rules"
-        :outerFormData="outerForm"
-        @refresh="stationSequenceRef?.loadByPage()"
+      :compUrl="dataUrl"
+      :fieldList="tableFieldList"
+      :rules="rules"
+      :outerFormData="outerForm"
+      @refresh="stationSequenceRef?.loadByPage()"
     />
   </star-horse-dialog>
   <star-horse-dialog
-      :dialog-visible="dialogProps.viewVisible"
-      :dialogProps="dialogProps"
-      :source="3"
-      
+    :dialog-visible="dialogProps.viewVisible"
+    :dialogProps="dialogProps"
+    :source="3"
   >
-    <star-horse-data-view :compUrl="dataUrl" :dataFormat="dataFormat" :field-list="tableFieldList"/>
+    <star-horse-data-view
+      :compUrl="dataUrl"
+      :dataFormat="dataFormat"
+      :field-list="tableFieldList"
+    />
   </star-horse-dialog>
   <div class="search-content">
-    <div class="search_btn" :style="{ 'flex-direction': Config.buttonStyle.value == 'line'? 'column' : 'row' }">
+    <div
+      class="search_btn"
+      :style="{
+        'flex-direction': Config.buttonStyle.value == 'line' ? 'column' : 'row',
+      }"
+    >
       <star-horse-search-comp
-          @searchData="(data: any) => stationSequenceRef?.createSearchParams(data)"
-          :formData="searchFormData"
-          :compUrl="dataUrl"
+        @searchData="
+          (data: any) => stationSequenceRef?.createSearchParams(data)
+        "
+        :formData="searchFormData"
+        :compUrl="dataUrl"
       />
     </div>
   </div>
   <el-card class="inner_content">
     <star-horse-table-comp
-        ref="stationSequenceRef"
-        :compUrl="dataUrl"
-        :dataFormat="dataFormat"
-        :fieldList="tableFieldList"
-        :extendBtns="extendBtns"
-        :primaryKey="primaryKey"
+      ref="stationSequenceRef"
+      :compUrl="dataUrl"
+      :dataFormat="dataFormat"
+      :fieldList="tableFieldList"
+      :extendBtns="extendBtns"
+      :primaryKey="primaryKey"
     />
   </el-card>
 </template>

@@ -1,16 +1,24 @@
 <script setup lang="ts" name="DynamicFormDetails">
-import {apiInstance, ApiUrls, dialogPreps, SearchFields} from "star-horse-lowcode";
-import {onMounted, provide, reactive, ref} from "vue";
-import {Config} from "@/api/settings";
+import {
+  apiInstance,
+  ApiUrls,
+  dialogPreps,
+  SearchFields,
+} from "star-horse-lowcode";
+import { onMounted, provide, reactive, ref } from "vue";
+import { Config } from "@/api/settings";
 
-const dataUrl: ApiUrls = apiInstance("userdb-manage", "userdb/dynamicFormDetails");
+const dataUrl: ApiUrls = apiInstance(
+  "userdb-manage",
+  "userdb/dynamicFormDetails",
+);
 const searchFormData = reactive<SearchFields>({
   fieldList: [
-    {label: "主键", fieldName: "idDynamicFormDetails", type: "long"},
-    {label: "主键", fieldName: "idDynamicForm", type: "long"},
-    {label: "表单内容", fieldName: "content", },
-    {label: "表单属性", fieldName: "fieldNames", }
-  ]
+    { label: "主键", fieldName: "idDynamicFormDetails", type: "long" },
+    { label: "主键", fieldName: "idDynamicForm", type: "long" },
+    { label: "表单内容", fieldName: "content" },
+    { label: "表单属性", fieldName: "fieldNames" },
+  ],
 });
 const tableFieldList = reactive({
   fieldList: [
@@ -19,85 +27,79 @@ const tableFieldList = reactive({
       fieldName: "idDynamicFormDetails",
       type: "long",
       formVisible: true,
-      listVisible: true
+      listVisible: true,
     },
     {
       label: "主键",
       fieldName: "idDynamicForm",
       type: "long",
       formVisible: true,
-      listVisible: true
+      listVisible: true,
     },
     {
       label: "表单内容",
       fieldName: "content",
 
       formVisible: true,
-      listVisible: true
+      listVisible: true,
     },
     {
       label: "表单属性",
       fieldName: "fieldNames",
 
       formVisible: true,
-      listVisible: true
+      listVisible: true,
     },
     {
       label: "创建人",
       disabled: true,
       fieldName: "createdBy",
-
     },
     {
       label: "修改人",
       disabled: true,
       fieldName: "updatedBy",
-
     },
     {
       label: "创建日期",
       disabled: true,
       fieldName: "createdTime",
-      type: "date"
+      type: "date",
     },
     {
       label: "修改日期",
       disabled: true,
       fieldName: "updatedTime",
-      type: "date"
+      type: "date",
     },
     {
       label: "数据版本号",
       fieldName: "version",
-      type: "number"
+      type: "number",
     },
     {
       label: "是否已逻辑",
       fieldName: "isDel",
-      type: "number"
+      type: "number",
     },
     {
       label: "数据编号",
       fieldName: "dataNo",
-
     },
     {
       label: "状态码",
       fieldName: "statusCode",
-
     },
     {
       label: "状态码名称",
       fieldName: "statusName",
-
     },
     {
       label: "国际码",
       fieldName: "local",
-
-    }
+    },
   ],
-  batchFieldList: []
+  batchFieldList: [],
 });
 const primaryKey = "idDynamicFormDetails";
 const dynamicFormDetailsRef = ref();
@@ -108,46 +110,59 @@ provide("dialogProps", dialogProps);
 const dataFormat = (name: string, cellValue: object): any => {
   return cellValue;
 };
-const initData = async () => {
-};
+const initData = async () => {};
 onMounted(async () => {
   await initData();
 });
 </script>
 <style lang="scss" scoped></style>
 <template>
-  <star-horse-dialog :isShowBtnContinue="true" :dialogVisible="dialogProps.editVisible" :dialogProps="dialogProps">
+  <star-horse-dialog
+    :isShowBtnContinue="true"
+    :dialogVisible="dialogProps.editVisible"
+    :dialogProps="dialogProps"
+  >
     <star-horse-form
-        @refresh="dynamicFormDetailsRef?.loadByPage()"
-        :compUrl="dataUrl"
-        :fieldList="tableFieldList"
-        :rules="rules"
+      @refresh="dynamicFormDetailsRef?.loadByPage()"
+      :compUrl="dataUrl"
+      :fieldList="tableFieldList"
+      :rules="rules"
     />
   </star-horse-dialog>
   <star-horse-dialog
-      :dialog-visible="dialogProps.viewVisible"
-      :dialogProps="dialogProps"
-      
-      :source="3"
+    :dialog-visible="dialogProps.viewVisible"
+    :dialogProps="dialogProps"
+    :source="3"
   >
-    <star-horse-data-view :dataFormat="dataFormat" :field-list="tableFieldList" :compUrl="dataUrl"/>
+    <star-horse-data-view
+      :dataFormat="dataFormat"
+      :field-list="tableFieldList"
+      :compUrl="dataUrl"
+    />
   </star-horse-dialog>
   <div class="search-content">
-    <div class="search_btn" :style="{ 'flex-direction': Config.buttonStyle.value == 'line'? 'column' : 'row' }">
+    <div
+      class="search_btn"
+      :style="{
+        'flex-direction': Config.buttonStyle.value == 'line' ? 'column' : 'row',
+      }"
+    >
       <star-horse-search-comp
-          @searchData="(data: any) => dynamicFormDetailsRef?.createSearchParams(data)"
-          :formData="searchFormData"
-          :compUrl="dataUrl"
+        @searchData="
+          (data: any) => dynamicFormDetailsRef?.createSearchParams(data)
+        "
+        :formData="searchFormData"
+        :compUrl="dataUrl"
       />
     </div>
   </div>
   <el-card class="inner_content">
     <star-horse-table-comp
-        ref="dynamicFormDetailsRef"
-        :fieldList="tableFieldList"
-        :primaryKey="primaryKey"
-        :compUrl="dataUrl"
-        :dataFormat="dataFormat"
+      ref="dynamicFormDetailsRef"
+      :fieldList="tableFieldList"
+      :primaryKey="primaryKey"
+      :compUrl="dataUrl"
+      :dataFormat="dataFormat"
     />
   </el-card>
 </template>

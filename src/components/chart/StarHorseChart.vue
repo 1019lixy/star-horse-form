@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import {onMounted, ref} from "vue";
+import { onMounted, ref } from "vue";
 
 const props = defineProps({
-  height: {type: Object, default: "100%"},
-  width: {type: Object, default: "100%"}
+  height: { type: Object, default: "100%" },
+  width: { type: Object, default: "100%" },
 });
 const starHorseChartRef = ref();
 let ctx = ref();
@@ -14,22 +14,42 @@ let startY = ref<number>(0);
  * @Event 方法
  * @description: canvas 绘制网格背景
  * */
-const drawGrid1 = (lineColor, lineStepX, lineStepY, bgColor, bgStepX, bgStepY) => {
+const drawGrid1 = (
+  lineColor,
+  lineStepX,
+  lineStepY,
+  bgColor,
+  bgStepX,
+  bgStepY,
+) => {
   let context = ctx.value;
   context.save();
   context.lineWidth = 0.5;
   context.strokeStyle = lineColor;
   context.fillStyle = bgColor;
-  context.fillRect(bgStepX, bgStepY, starHorseChartRef.value.width, starHorseChartRef.value.height);
+  context.fillRect(
+    bgStepX,
+    bgStepY,
+    starHorseChartRef.value.width,
+    starHorseChartRef.value.height,
+  );
   context.setLineDash([]);
   context.beginPath();
-  for (let i = lineStepX + 0.5; i < starHorseChartRef.value.width; i += lineStepX) {
+  for (
+    let i = lineStepX + 0.5;
+    i < starHorseChartRef.value.width;
+    i += lineStepX
+  ) {
     context.beginPath();
     context.moveTo(i, 0 + 0.5);
     context.lineTo(i, starHorseChartRef.value.height + 0.5);
     context.stroke();
   }
-  for (let i = lineStepY + 0.5; i < starHorseChartRef.value.height; i += lineStepY) {
+  for (
+    let i = lineStepY + 0.5;
+    i < starHorseChartRef.value.height;
+    i += lineStepY
+  ) {
     context.beginPath();
     context.moveTo(0 + 0.5, i);
     context.lineTo(starHorseChartRef.value.width, i);
@@ -48,12 +68,12 @@ const drawCycle = () => {
       sex: "性别" + i,
       education: "学历" + i,
       school: "毕业院校" + i,
-      address: "地址在什么地方。。。。。" + i
+      address: "地址在什么地方。。。。。" + i,
     });
   }
   console.log(data.length);
   let width = 30,
-      height = 10;
+    height = 10;
   let total = height * data.length;
   context.fillStyle = "#ffcc22";
   context.strokeStyle = "#FF0000";
@@ -113,14 +133,14 @@ const drawGrid = (e, i) => {
   //e表示每两条线的间隔距离值；i颜色值，大格子的颜色和小格子的颜色值不同
   let P = "rgba(0,0,0,";
   let l = P + i + ")",
-      t = 0;
+    t = 0;
   let context = ctx.value;
   let scale = info.scale || 1;
   context.beginPath();
   //为优化性能，控制只绘制当前画面大小的网格线
   let winInfo = {
     width: starHorseChartRef.value.clientWidth,
-    height: starHorseChartRef.value.clientHeight
+    height: starHorseChartRef.value.clientHeight,
   };
   let viewMinx = 0;
   let viewMiny = 0;
@@ -128,15 +148,18 @@ const drawGrid = (e, i) => {
   let viewMaxy = winInfo.height;
   let isDraw = false;
   let windowViewPoints = [];
-  windowViewPoints.push({x: viewMinx, y: viewMiny});
-  windowViewPoints.push({x: viewMaxx, y: viewMaxy});
-  windowViewPoints.push({x: viewMinx, y: viewMaxy});
-  windowViewPoints.push({x: viewMaxx, y: viewMiny});
+  windowViewPoints.push({ x: viewMinx, y: viewMiny });
+  windowViewPoints.push({ x: viewMaxx, y: viewMaxy });
+  windowViewPoints.push({ x: viewMinx, y: viewMaxy });
+  windowViewPoints.push({ x: viewMaxx, y: viewMiny });
   let minX = 0,
-      maxX = 0,
-      minY = 0,
-      maxY = 0; //最大、最新 x y值
-  let tt: DOMMatrix = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+    maxX = 0,
+    minY = 0,
+    maxY = 0; //最大、最新 x y值
+  let tt: DOMMatrix = document.createElementNS(
+    "http://www.w3.org/2000/svg",
+    "svg",
+  );
   let n = tt.createSVGMatrix();
   windowViewPoints.forEach((item: any, index) => {
     let point = new DOMPoint(item.x, item.y);
@@ -184,20 +207,25 @@ const draw = () => {
   let B = 0.05;
   let t = 50;
   let e = 0;
-  for (e = 50 * scale; e >= 200;) {
+  for (e = 50 * scale; e >= 200; ) {
     e /= 4;
     t = e / scale;
   }
   for (
-      ;
-      50 > e; //缩小
+    ;
+    50 > e; //缩小
 
   ) {
     e *= 4;
     t = e / scale;
   }
   let i = B + ((e - 50) / 150) * (0.07 - B); //颜色值
-  ctx.value.clearRect(0, 0, starHorseChartRef.value.width, starHorseChartRef.value.height); //清空画布
+  ctx.value.clearRect(
+    0,
+    0,
+    starHorseChartRef.value.width,
+    starHorseChartRef.value.height,
+  ); //清空画布
   drawGrid(t, i + 0.03); //绘制小格子
   drawGrid(t * 4, 0.21 - i); //绘制大格子
 };
@@ -207,27 +235,32 @@ const onMouseDown = (event: MouseEvent) => {
   startX.value = event.offsetX;
 };
 const info = {
-  offset: {x: 0, y: 0},
+  offset: { x: 0, y: 0 },
   scale: 1,
   scaleStep: 0.01,
   minScale: 0.5,
-  maxScale: 2
+  maxScale: 2,
 };
 const getCanvasPostion = (e) => {
   return {
     x: e.offsetX,
-    y: e.offsetY
+    y: e.offsetY,
   };
 };
 const onMouseWheel = (e: WheelEvent) => {
   let context = ctx.value;
-  context.clearRect(0, 0, starHorseChartRef.value.width, starHorseChartRef.value.height);
+  context.clearRect(
+    0,
+    0,
+    starHorseChartRef.value.width,
+    starHorseChartRef.value.height,
+  );
   const canvasPosition = getCanvasPostion(e); //获取画布上的事件坐标
   console.log(canvasPosition);
   const realCanvasPosition = {
     //鼠标在画布上的坐标
     x: canvasPosition.x - info.offset.x,
-    y: canvasPosition.y - info.offset.y
+    y: canvasPosition.y - info.offset.y,
   };
   // 放缩时产生的偏移量
   const deltaX = (realCanvasPosition.x / info.scale) * info.scaleStep;
@@ -241,7 +274,14 @@ const onMouseWheel = (e: WheelEvent) => {
     info.offset.y += deltaY;
     info.scale -= info.scaleStep;
   }
-  context.setTransform(info.scale, 0, 0, info.scale, info.offset.x, info.offset.y);
+  context.setTransform(
+    info.scale,
+    0,
+    0,
+    info.scale,
+    info.offset.x,
+    info.offset.y,
+  );
   draw();
 };
 const onMouseMove = (event: MouseEvent) => {
@@ -258,12 +298,12 @@ const onMouseUp = (event: MouseEvent) => {
 <template>
   <div id="container" class="canvas-container">
     <canvas
-        ref="starHorseChartRef"
-        @mousedown="onMouseDown"
-        @mousemove="onMouseMove"
-        @wheel="onMouseWheel"
-        @mouseup="onMouseUp"
-        style="border: 1px solid #ccc"
+      ref="starHorseChartRef"
+      @mousedown="onMouseDown"
+      @mousemove="onMouseMove"
+      @wheel="onMouseWheel"
+      @mouseup="onMouseUp"
+      style="border: 1px solid #ccc"
     ></canvas>
   </div>
 </template>

@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import {useFlowDesignStore} from "@/store/FlowDesign";
-import {piniaInstance} from "star-horse-lowcode";
+import { useFlowDesignStore } from "@/store/FlowDesign";
+import { piniaInstance } from "star-horse-lowcode";
 
 const flowDesign = useFlowDesignStore(piniaInstance);
 const props = defineProps({
@@ -8,12 +8,12 @@ const props = defineProps({
     type: Object,
     default: function () {
       return {};
-    }
+    },
   },
   readable: {
     type: Boolean,
-    default: false
-  }
+    default: false,
+  },
 });
 /**
  * 选中节点
@@ -27,11 +27,17 @@ const selectNode = (node: any, parentNode: any) => {
 </script>
 <template>
   <div class="flow-row-container">
-    <component :is="node.type" :key="node.id" :node="node" :readable="readable" @selectNode="selectNode"/>
+    <component
+      :is="node.type"
+      :key="node.id"
+      :node="node"
+      :readable="readable"
+      @selectNode="selectNode"
+    />
     <FlowNode
-        v-if="node && node.childNode && node.childNode.hasOwnProperty('name')"
-        :node="node.childNode"
-        :readable="readable"
+      v-if="node && node.childNode && node.childNode.hasOwnProperty('name')"
+      :node="node.childNode"
+      :readable="readable"
     />
   </div>
 </template>

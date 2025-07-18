@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {ref} from "vue";
+import { ref } from "vue";
 
 let flowStyle = ref<string>("dingding");
 let currentStep = ref<number>(3);
@@ -21,25 +21,30 @@ const changeDesignStyle = () => {
     <div class="start-horse-workflow">
       <div class="flow-header">
         <div class="flow-step">
-          <el-steps :align-center="true" :active="currentStep" space="30%" simple>
+          <el-steps
+            :align-center="true"
+            :active="currentStep"
+            space="30%"
+            simple
+          >
             <el-step title="基础信息" @click="currentStep = 0">
               <template #icon>
-                <star-horse-icon icon-class="add"/>
+                <star-horse-icon icon-class="add" />
               </template>
             </el-step>
             <el-step title="流程变量" @click="currentStep = 1">
               <template #icon>
-                <star-horse-icon icon-class="add"/>
+                <star-horse-icon icon-class="add" />
               </template>
             </el-step>
             <el-step title="流程状态" @click="currentStep = 2">
               <template #icon>
-                <star-horse-icon icon-class="add"/>
+                <star-horse-icon icon-class="add" />
               </template>
             </el-step>
             <el-step title="流程设计" @click="currentStep = 3">
               <template #icon>
-                <star-horse-icon icon-class="add"/>
+                <star-horse-icon icon-class="add" />
               </template>
             </el-step>
           </el-steps>
@@ -49,10 +54,10 @@ const changeDesignStyle = () => {
         </div>
       </div>
       <div class="flow-body">
-        <base-info v-if="currentStep == 0"/>
-        <flow-params v-if="currentStep == 1"/>
-        <flow-status v-if="currentStep == 2"/>
-        <sh-flow-editor v-if="currentStep == 3" :flowStyle="flowStyle"/>
+        <base-info v-if="currentStep == 0" />
+        <flow-params v-if="currentStep == 1" />
+        <flow-status v-if="currentStep == 2" />
+        <sh-flow-editor v-if="currentStep == 3" :flowStyle="flowStyle" />
       </div>
     </div>
   </el-card>

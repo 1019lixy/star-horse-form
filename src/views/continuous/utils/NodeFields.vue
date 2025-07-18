@@ -1,5 +1,13 @@
 <script setup lang="ts">
-import { nextTick, onMounted, PropType, provide, reactive, ref, watch } from "vue";
+import {
+  nextTick,
+  onMounted,
+  PropType,
+  provide,
+  reactive,
+  ref,
+  watch,
+} from "vue";
 import {
   apiInstance,
   ApiUrls,
@@ -10,7 +18,7 @@ import {
   piniaInstance,
   SearchProps,
   useContinusConfigStore,
-  warning
+  warning,
 } from "star-horse-lowcode";
 
 let dataUrl = ref<ApiUrls>(apiInstance("", ""));
@@ -18,7 +26,7 @@ const continuousStore = useContinusConfigStore(piniaInstance);
 const errorMsg = ref("数据加载中");
 let searchFormData = ref<SearchProps[]>();
 const tableFieldList = ref<any>({
-  fieldList: []
+  fieldList: [],
 });
 const primaryKey = ref("");
 const nodeFormRef = ref();
@@ -29,31 +37,34 @@ const formInfo = ref<any>({});
 let outerFormData = ref<any>({});
 const props = defineProps({
   formNo: { type: String },
-  staticFieldData: { type: Object as PropType<PageFieldInfo>, }
+  staticFieldData: { type: Object as PropType<PageFieldInfo> },
 });
 const clear = () => {
   hasData.value = false;
 };
 const assignField = (data: any) => {
-  dataUrl.value = apiInstance(data["dataUrl"].appName, data["dataUrl"].contextUrl);
+  dataUrl.value = apiInstance(
+    data["dataUrl"].appName,
+    data["dataUrl"].contextUrl,
+  );
   searchFormData.value = data["searchFormData"] as SearchProps[];
   primaryKey.value = data["primaryKey"];
   tableFieldList.value = { ...data["tableFieldList"] } as PageFieldInfo;
   relationTables.value = data["relationTables"];
   rules.value = data["rules"];
   formInfo.value = data["formInfo"];
-}
+};
 const resetField = () => {
   dataUrl.value = apiInstance("", "");
   searchFormData.value = [];
   primaryKey.value = "";
   tableFieldList.value = {
-    fieldList: []
+    fieldList: [],
   };
   relationTables.value = {};
   rules.value = {};
   formInfo.value = {};
-}
+};
 const loadFormData = async (formNo: string) => {
   if (!formNo) {
     resetField();
@@ -64,7 +75,9 @@ const loadFormData = async (formNo: string) => {
     assignField(cacheData);
     return;
   }
-  let { data, error } = await loadGetData(`/userdb-manage/userdb/dynamicForm/dynamicPageInfo/${formNo}`);
+  let { data, error } = await loadGetData(
+    `/userdb-manage/userdb/dynamicForm/dynamicPageInfo/${formNo}`,
+  );
   if (error) {
     errorMsg.value = error;
     hasData.value = false;
@@ -82,8 +95,8 @@ watch(
   () => {
     init();
   },
-  { deep: true }
-)
+  { deep: true },
+);
 //记录表单的属性
 const formFields = reactive<Array<any>>([]);
 provide("formFields", formFields);
@@ -96,16 +109,16 @@ const getFormData = async () => {
     return false;
   }
   return nodeFormRef.value?.getFormData()?.value;
-}
+};
 const setFormData = (data: any) => {
   nextTick(() => {
     nodeFormRef.value?.setFormData(data);
-  })
-}
+  });
+};
 const resetForm = () => {
-  tableFieldList.value.fieldList = [];// 这样做会导致所有缓存的表单数据都丢失
+  tableFieldList.value.fieldList = []; // 这样做会导致所有缓存的表单数据都丢失
   nodeFormRef.value?.resetForm();
-}
+};
 const init = async () => {
   if (!props.formNo && !props.staticFieldData) {
     warning("NodeFields组件缺少参数");
@@ -123,11 +136,19 @@ onMounted(async () => {
 defineExpose({
   getFormData,
   setFormData,
-  resetForm
-})
+  resetForm,
+});
 </script>
 <template>
-  <star-horse-form :compUrl="dataUrl" :formInfo="formInfo" :dynamicForm="true" ref="nodeFormRef"
-    :globalCondition="relationTables" :outerFormData="outerFormData" :fieldList="tableFieldList" :rules="rules" />
+  <star-horse-form
+    :compUrl="dataUrl"
+    :formInfo="formInfo"
+    :dynamicForm="true"
+    ref="nodeFormRef"
+    :globalCondition="relationTables"
+    :outerFormData="outerFormData"
+    :fieldList="tableFieldList"
+    :rules="rules"
+  />
 </template>
 <style scoped></style>

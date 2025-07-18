@@ -1,26 +1,26 @@
 <template>
   <div id="sh-flow-editor-map" class="sh-flow-editor-map">
-    <img :src="mapImg"/>
+    <img :src="mapImg" />
     <div
-        id="sh-flow-editor-map-mask"
-        class="map-mask"
-        :style="mapMask"
-        @mousedown="handleMouseDown"
-        @mouseup="handleMouseUp"
-        @mouseleave="handleMouseUp"
+      id="sh-flow-editor-map-mask"
+      class="map-mask"
+      :style="mapMask"
+      @mousedown="handleMouseDown"
+      @mouseup="handleMouseUp"
+      @mouseleave="handleMouseUp"
     ></div>
   </div>
 </template>
 <script setup lang="ts">
-import {computed, nextTick, onBeforeUnmount, onMounted, ref} from "vue";
-import {useFlowDesignStore} from "@/store/FlowDesign";
-import {piniaInstance} from "star-horse-lowcode";
+import { computed, nextTick, onBeforeUnmount, onMounted, ref } from "vue";
+import { useFlowDesignStore } from "@/store/FlowDesign";
+import { piniaInstance } from "star-horse-lowcode";
 
 const props = defineProps({
   element: {
     type: String,
-    default: "#sh-flow-editor-content"
-  }
+    default: "#sh-flow-editor-content",
+  },
 });
 const flowDesignStore = useFlowDesignStore(piniaInstance);
 const mapImg = computed(() => flowDesignStore.mapImg);
@@ -57,7 +57,7 @@ const mapMask = computed(() => {
     width: "100%",
     height: `${scaleHeight.value * 100}%`,
     left: "0px",
-    top: `${top.value}px`
+    top: `${top.value}px`,
   };
 });
 const initSize = (flowDesign: any) => {
@@ -72,7 +72,10 @@ const handleMouseDown = (e: MouseEvent) => {
 const handleMouseMove = (e: MouseEvent) => {
   if (mouseDown.value) {
     const directionY = e.movementY || e.mozMovementY || e.webkitMovementY || 0;
-    if (directionY >= 0 && flowMapMsk.value.offsetHeight + top.value < flowMap.value.offsetHeight) {
+    if (
+      directionY >= 0 &&
+      flowMapMsk.value.offsetHeight + top.value < flowMap.value.offsetHeight
+    ) {
       top.value++;
     } else if (top.value > 0) {
       top.value--;

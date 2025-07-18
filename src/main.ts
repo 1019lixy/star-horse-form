@@ -27,7 +27,7 @@ const app = createApp(App);
 export const appInstance = app;
 app.use(router);
 app.use(StarHorseLowCode, {
-    router,
+  router,
 });
 app.use(piniaCompInstance);
 // app.use(ElementPlus, {
@@ -35,7 +35,7 @@ app.use(piniaCompInstance);
 // });
 app.component("draggable", draggable);
 for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
-    app.component(key, component);
+  app.component(key, component);
 }
 /**
  * 加载elementplus 自己提供的图标
@@ -44,9 +44,9 @@ app.use(commonComponent);
 app.use(systemComponent);
 app.use(itemsComponent);
 app.use(VueParticles, {
-    init: async engine => {
-        await loadSlim(engine);
-    },
+  init: async (engine) => {
+    await loadSlim(engine);
+  },
 });
 
 app.config.performance = false;
@@ -57,7 +57,7 @@ app.config.performance = false;
  * @param info
  */
 app.config.errorHandler = (err, instance, info) => {
-    console.error("未捕获异常", err, instance, info);
+  console.error("未捕获异常", err, instance, info);
 };
 /**
  * 处理警告

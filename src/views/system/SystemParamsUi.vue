@@ -1,8 +1,21 @@
 <script setup lang="ts" name="SystemParams">
-import {apiInstance, ApiUrls, dialogPreps, PageFieldInfo, SearchFields} from "star-horse-lowcode";
-import {Config} from "@/api/settings";
-import {onActivated, onDeactivated, onMounted, provide, reactive, ref} from "vue";
-import {getCustomerParam} from "@/utils/auth";
+import {
+  apiInstance,
+  ApiUrls,
+  dialogPreps,
+  PageFieldInfo,
+  SearchFields,
+} from "star-horse-lowcode";
+import { Config } from "@/api/settings";
+import {
+  onActivated,
+  onDeactivated,
+  onMounted,
+  provide,
+  reactive,
+  ref,
+} from "vue";
+import { getCustomerParam } from "@/utils/auth";
 //后端交互接口地址
 const dataUrl: ApiUrls = apiInstance("system-config", "system/systemParams");
 //主键
@@ -19,16 +32,14 @@ const searchFormData = reactive<SearchFields>({
       fieldName: "paramName",
       defaultVisible: true,
       matchType: "lk",
-
     },
     {
       label: "参数值",
       fieldName: "paramValue",
       defaultVisible: true,
       matchType: "lk",
-
-    }
-  ]
+    },
+  ],
 });
 //页面属性
 const tableFieldList = reactive<PageFieldInfo | any>({
@@ -38,13 +49,12 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       label: "参数名",
       fieldName: "paramName",
 
-      
       required: true,
       formVisible: true,
       listVisible: true,
-      preps:{
+      preps: {
         editDisabled: true,
-      }
+      },
     },
     {
       label: "参数值",
@@ -52,7 +62,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       type: "textarea",
       required: true,
       formVisible: true,
-      listVisible: true
+      listVisible: true,
     },
     {
       label: "版本号",
@@ -60,7 +70,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       type: "number",
       required: false,
       formVisible: !true,
-      listVisible: !true
+      listVisible: !true,
     },
     {
       label: "创建人",
@@ -68,7 +78,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
 
       required: false,
       formVisible: !true,
-      listVisible: !true
+      listVisible: !true,
     },
     {
       label: "创建时间",
@@ -76,7 +86,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       type: "datetime",
       required: false,
       formVisible: !true,
-      listVisible: !true
+      listVisible: !true,
     },
     {
       label: "修改人",
@@ -84,7 +94,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
 
       required: false,
       formVisible: !true,
-      listVisible: !true
+      listVisible: !true,
     },
     {
       label: "修改时间",
@@ -92,7 +102,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       type: "datetime",
       required: false,
       formVisible: !true,
-      listVisible: !true
+      listVisible: !true,
     },
     {
       label: "数据编号",
@@ -100,7 +110,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
 
       required: false,
       formVisible: !true,
-      listVisible: !true
+      listVisible: !true,
     },
     {
       label: "状态码",
@@ -108,7 +118,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
 
       required: false,
       formVisible: !true,
-      listVisible: !true
+      listVisible: !true,
     },
     {
       label: "状态名称",
@@ -116,7 +126,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
 
       required: false,
       formVisible: !true,
-      listVisible: !true
+      listVisible: !true,
     },
     {
       label: "是否删除",
@@ -124,7 +134,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       type: "number",
       required: false,
       formVisible: !true,
-      listVisible: !true
+      listVisible: !true,
     },
     {
       label: "国际编码",
@@ -132,7 +142,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
 
       required: false,
       formVisible: !true,
-      listVisible: !true
+      listVisible: !true,
     },
     {
       label: "备注",
@@ -140,11 +150,11 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       type: "textarea",
       required: false,
       formVisible: true,
-      listVisible: true
-    }
+      listVisible: true,
+    },
   ],
   //默认查询条件
-  condition: [getCustomerParam()]
+  condition: [getCustomerParam()],
 });
 //校验
 const rules = {};
@@ -152,12 +162,9 @@ const rules = {};
 const dialogProps = dialogPreps();
 provide("dialogProps", dialogProps);
 //初始化方法
-const initData = async () => {
-};
-const activated = () => {
-};
-const deactivated = () => {
-};
+const initData = async () => {};
+const activated = () => {};
+const deactivated = () => {};
 /**
  * 列表，查看数据时数据转换
  * @param name 名称
@@ -179,39 +186,51 @@ onDeactivated(() => {
 });
 </script>
 <template>
-  <star-horse-dialog :isShowBtnContinue="true" :dialog-visible="dialogProps.editVisible" :dialogProps="dialogProps">
+  <star-horse-dialog
+    :isShowBtnContinue="true"
+    :dialog-visible="dialogProps.editVisible"
+    :dialogProps="dialogProps"
+  >
     <star-horse-form
-        @refresh="systemParamsRef?.loadByPage()"
-        :compUrl="dataUrl"
-        :fieldList="tableFieldList"
-        :rules="rules"
+      @refresh="systemParamsRef?.loadByPage()"
+      :compUrl="dataUrl"
+      :fieldList="tableFieldList"
+      :rules="rules"
     />
   </star-horse-dialog>
   <star-horse-dialog
-      :dialog-visible="dialogProps.viewVisible"
-      :dialogProps="dialogProps"
-      
-      :source="3"
+    :dialog-visible="dialogProps.viewVisible"
+    :dialogProps="dialogProps"
+    :source="3"
   >
-    <star-horse-data-view :dataFormat="dataFormat" :field-list="tableFieldList" :compUrl="dataUrl"/>
+    <star-horse-data-view
+      :dataFormat="dataFormat"
+      :field-list="tableFieldList"
+      :compUrl="dataUrl"
+    />
   </star-horse-dialog>
   <div class="search-content">
-    <div class="search_btn" :style="{ 'flex-direction': Config.buttonStyle.value == 'line'? 'column' : 'row' }">
+    <div
+      class="search_btn"
+      :style="{
+        'flex-direction': Config.buttonStyle.value == 'line' ? 'column' : 'row',
+      }"
+    >
       <star-horse-search-comp
-          @searchData="(data: any) => systemParamsRef?.createSearchParams(data)"
-          :formData="searchFormData"
-          :compUrl="dataUrl"
+        @searchData="(data: any) => systemParamsRef?.createSearchParams(data)"
+        :formData="searchFormData"
+        :compUrl="dataUrl"
       />
     </div>
   </div>
   <el-card class="inner_content">
     <star-horse-table-comp
-        ref="systemParamsRef"
-        :fieldList="tableFieldList"
-        :primaryKey="primaryKey"
-        :compUrl="dataUrl"
-        :help-msg="`系统参数创建后，请不要随便删除或者修改，\n否则可能导致系统功能异常`"
-        :dataFormat="dataFormat"
+      ref="systemParamsRef"
+      :fieldList="tableFieldList"
+      :primaryKey="primaryKey"
+      :compUrl="dataUrl"
+      :help-msg="`系统参数创建后，请不要随便删除或者修改，\n否则可能导致系统功能异常`"
+      :dataFormat="dataFormat"
     />
   </el-card>
 </template>

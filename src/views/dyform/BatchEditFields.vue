@@ -1,11 +1,15 @@
 <script setup lang="ts" name="BatchEditFields">
-import {computed, reactive} from "vue";
-import {batchModifyAction, piniaInstance, useDesignFormStore} from "star-horse-lowcode";
-import {Config} from "@/api/settings";
+import { computed, reactive } from "vue";
+import {
+  batchModifyAction,
+  piniaInstance,
+  useDesignFormStore,
+} from "star-horse-lowcode";
+import { Config } from "@/api/settings";
 
 defineProps({
-  compSize: {type: String, default: Config.compSize},
-})
+  compSize: { type: String, default: Config.compSize },
+});
 let designForm = useDesignFormStore(piniaInstance);
 const list = computed(() => designForm.compList);
 let batchModifyData = reactive<any>({
@@ -14,7 +18,7 @@ let batchModifyData = reactive<any>({
   required: "N",
   formVisible: true,
   searchVisible: true,
-  listVisible: true
+  listVisible: true,
 });
 const batchOperation = (val: any, fieldName: string) => {
   batchModifyAction(list.value, val, fieldName);
@@ -40,60 +44,60 @@ const batchOperation = (val: any, fieldName: string) => {
       <el-row>
         <el-col :span="12">
           <el-input-number
-              v-model="batchModifyData.maxLength"
-              controls-position="right"
-              :size="compSize"
-              @change="(val: any) => batchOperation(val, 'maxLength')"
-              placeholder="字段长度"
-              clearable
+            v-model="batchModifyData.maxLength"
+            controls-position="right"
+            :size="compSize"
+            @change="(val: any) => batchOperation(val, 'maxLength')"
+            placeholder="字段长度"
+            clearable
           />
         </el-col>
         <el-col :span="12">
           <el-input-number
-              v-model="batchModifyData.precision"
-              controls-position="right"
-              :size="compSize"
-              @change="(val: any) => batchOperation(val, 'precision')"
-              placeholder="精度"
-              clearable
+            v-model="batchModifyData.precision"
+            controls-position="right"
+            :size="compSize"
+            @change="(val: any) => batchOperation(val, 'precision')"
+            placeholder="精度"
+            clearable
           />
         </el-col>
       </el-row>
     </el-col>
     <el-col :span="3">
       <el-switch
-          v-model="batchModifyData.required"
-          :size="compSize"
-          @change="(val: any) => batchOperation(val, 'required')"
-          :active-value=true
-          :inactive-value=false
+        v-model="batchModifyData.required"
+        :size="compSize"
+        @change="(val: any) => batchOperation(val, 'required')"
+        :active-value="true"
+        :inactive-value="false"
       />
     </el-col>
     <el-col :span="2">
       <el-switch
-          v-model="batchModifyData.formVisible"
-          :size="compSize"
-          @change="(val: any) => batchOperation(val, 'formVisible')"
-          :active-value=true
-          :inactive-value=false
+        v-model="batchModifyData.formVisible"
+        :size="compSize"
+        @change="(val: any) => batchOperation(val, 'formVisible')"
+        :active-value="true"
+        :inactive-value="false"
       />
     </el-col>
     <el-col :span="2">
       <el-switch
-          v-model="batchModifyData.searchVisible"
-          :size="compSize"
-          @change="(val: any) => batchOperation(val, 'searchVisible')"
-          :active-value=true
-          :inactive-value=false
+        v-model="batchModifyData.searchVisible"
+        :size="compSize"
+        @change="(val: any) => batchOperation(val, 'searchVisible')"
+        :active-value="true"
+        :inactive-value="false"
       />
     </el-col>
     <el-col :span="2">
       <el-switch
-          v-model="batchModifyData.listVisible"
-          :size="compSize"
-          @change="(val: any) => batchOperation(val, 'listVisible')"
-          :active-value=true
-          :inactive-value=false
+        v-model="batchModifyData.listVisible"
+        :size="compSize"
+        @change="(val: any) => batchOperation(val, 'listVisible')"
+        :active-value="true"
+        :inactive-value="false"
       />
     </el-col>
     <el-col :span="3"></el-col>
@@ -102,32 +106,35 @@ const batchOperation = (val: any, fieldName: string) => {
   <div class="flex-1 overflow-hidden">
     <el-scrollbar height="100%">
       <template v-for="(item, index) in list">
-        <template v-if="item.compType == 'container'" v-for="sitem in item.preps['elements']">
+        <template
+          v-if="item.compType == 'container'"
+          v-for="sitem in item.preps['elements']"
+        >
           <template v-for="sitem1 in sitem['columns']">
             <template v-for="(sitem2, sindex) in sitem1.items">
               <FieldAnalysis
-                  :index="index + sindex + 1"
-                  :size="compSize"
-                  :field="sitem2"
-                  :container="item.preps.label"
+                :index="index + sindex + 1"
+                :size="compSize"
+                :field="sitem2"
+                :container="item.preps.label"
               />
             </template>
           </template>
           <template v-for="(sitem2, sindex) in sitem.items">
             <FieldAnalysis
-                :index="index + sindex + 1"
-                :size="compSize"
-                :field="sitem2"
-                :container="sitem.label || item.preps.label"
+              :index="index + sindex + 1"
+              :size="compSize"
+              :field="sitem2"
+              :container="sitem.label || item.preps.label"
             />
           </template>
         </template>
         <FieldAnalysis
-            :index="index + 1"
-            :field="item"
-            :size="compSize"
-            v-if="item.compType == 'item'||item.compType == 'formItem'"
-            :container="'--'"
+          :index="index + 1"
+          :field="item"
+          :size="compSize"
+          v-if="item.compType == 'item' || item.compType == 'formItem'"
+          :container="'--'"
         />
       </template>
     </el-scrollbar>

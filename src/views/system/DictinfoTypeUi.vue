@@ -1,21 +1,38 @@
 <script setup lang="ts" name="DictinfoType">
-import {apiInstance, ApiUrls, dialogPreps, PageFieldInfo, SearchFields, SearchParams} from "star-horse-lowcode";
-import {Config} from "@/api/settings";
-import {onMounted, provide, reactive, ref} from "vue";
+import {
+  apiInstance,
+  ApiUrls,
+  dialogPreps,
+  PageFieldInfo,
+  SearchFields,
+  SearchParams,
+} from "star-horse-lowcode";
+import { Config } from "@/api/settings";
+import { onMounted, provide, reactive, ref } from "vue";
 
 const dataUrl: ApiUrls = apiInstance("system-config", "system/dictinfoType");
 const searchFormData = reactive<SearchFields>({
   fieldList: [
-    {label: "名称", defaultVisible: false, matchType: "lk", fieldName: "dictTypeName", },
-    {label: "编码", defaultVisible: true, matchType: "eq", fieldName: "dictTypeCode", }
-  ]
+    {
+      label: "名称",
+      defaultVisible: false,
+      matchType: "lk",
+      fieldName: "dictTypeName",
+    },
+    {
+      label: "编码",
+      defaultVisible: true,
+      matchType: "eq",
+      fieldName: "dictTypeCode",
+    },
+  ],
 });
 const tableFieldList = reactive<PageFieldInfo>({
   fieldList: [
     {
       label: "主键",
       fieldName: "idDictinfoType",
-      type: "long"
+      type: "long",
     },
     {
       label: "字典类型名称",
@@ -23,7 +40,7 @@ const tableFieldList = reactive<PageFieldInfo>({
 
       required: true,
       formVisible: true,
-      listVisible: true
+      listVisible: true,
     },
     {
       label: "字典类型编码",
@@ -31,16 +48,16 @@ const tableFieldList = reactive<PageFieldInfo>({
 
       required: true,
       formVisible: true,
-      listVisible: true
+      listVisible: true,
     },
     {
       label: "备注",
       fieldName: "remark",
       type: "textarea",
       formVisible: true,
-      listVisible: true
-    }
-  ]
+      listVisible: true,
+    },
+  ],
   //在表格右侧添加自定义功能
 });
 const primaryKey = "idDictinfoType";
@@ -61,68 +78,79 @@ const selectItemFun = (row: any) => {
 const searchData = (data: SearchParams[]) => {
   dictTypeRef.value.createSearchParams(data);
 };
-const initData = async () => {
-};
+const initData = async () => {};
 onMounted(async () => {
   await initData();
 });
 </script>
 <template>
-  <star-horse-dialog :isShowBtnContinue="true" :dialogVisible="dialogProps.editVisible" :dialogProps="dialogProps">
+  <star-horse-dialog
+    :isShowBtnContinue="true"
+    :dialogVisible="dialogProps.editVisible"
+    :dialogProps="dialogProps"
+  >
     <star-horse-form
-        @refresh="dictTypeRef?.loadByPage()"
-        :compUrl="dataUrl"
-        ref="dictTypeFormRef"
-        :fieldList="tableFieldList"
-        :rules="rules"
+      @refresh="dictTypeRef?.loadByPage()"
+      :compUrl="dataUrl"
+      ref="dictTypeFormRef"
+      :fieldList="tableFieldList"
+      :rules="rules"
     />
   </star-horse-dialog>
   <star-horse-dialog
-      :dialog-visible="dialogProps.viewVisible"
-      :dialogProps="dialogProps"
-      
-      :source="3"
+    :dialog-visible="dialogProps.viewVisible"
+    :dialogProps="dialogProps"
+    :source="3"
   >
-    <star-horse-data-view :dataFormat="dataFormat" :field-list="tableFieldList" :compUrl="dataUrl"/>
+    <star-horse-data-view
+      :dataFormat="dataFormat"
+      :field-list="tableFieldList"
+      :compUrl="dataUrl"
+    />
   </star-horse-dialog>
   <el-card class="inner_content">
     <el-splitter>
       <el-splitter-panel collapsible>
         <el-card class="inner_content">
           <div class="search-content">
-            <div class="search_btn"
-                 :style="{ 'flex-direction': Config.buttonStyle.value == 'line'? 'column' : 'row' }">
+            <div
+              class="search_btn"
+              :style="{
+                'flex-direction':
+                  Config.buttonStyle.value == 'line' ? 'column' : 'row',
+              }"
+            >
               <star-horse-search-comp
-                  @searchData="(data: any) => dictTypeRef?.createSearchParams(data)"
-                  :formData="searchFormData"
-                  :compUrl="dataUrl"
+                @searchData="
+                  (data: any) => dictTypeRef?.createSearchParams(data)
+                "
+                :formData="searchFormData"
+                :compUrl="dataUrl"
               />
             </div>
           </div>
           <star-horse-table-comp
-              ref="dictTypeRef"
-              @selectItem="selectItemFun"
-              :fieldList="tableFieldList"
-              :primaryKey="primaryKey"
-              :compUrl="dataUrl"
-              :order-by="[
+            ref="dictTypeRef"
+            @selectItem="selectItemFun"
+            :fieldList="tableFieldList"
+            :primaryKey="primaryKey"
+            :compUrl="dataUrl"
+            :order-by="[
               {
                 fieldName: 'createdTime',
-                ascOrDesc: 'desc'
-              }
+                ascOrDesc: 'desc',
+              },
             ]"
-              :dataFormat="dataFormat"
+            :dataFormat="dataFormat"
           />
         </el-card>
       </el-splitter-panel>
       <el-splitter-panel collapsible>
         <div class="h-full overflow-hidden">
-          <dictinfo-u-i :dictType="dictTypeCode"/>
+          <dictinfo-u-i :dictType="dictTypeCode" />
         </div>
       </el-splitter-panel>
     </el-splitter>
-
   </el-card>
 </template>
-<style lang="scss" scoped>
-</style>
+<style lang="scss" scoped></style>

@@ -1,6 +1,14 @@
 <script setup lang="ts" name="StarHorseDesign">
-import {computed, nextTick, onMounted, PropType, provide, ref, watch} from "vue";
-import {Cell, Graph, Shape, View} from "@antv/x6";
+import {
+  computed,
+  nextTick,
+  onMounted,
+  PropType,
+  provide,
+  ref,
+  watch,
+} from "vue";
+import { Cell, Graph, Shape, View } from "@antv/x6";
 import {
   ApiUrls,
   closeLoad,
@@ -13,12 +21,18 @@ import {
   PageFieldInfo,
   piniaInstance,
   useConsumerViewStore,
-  warning
+  warning,
 } from "star-horse-lowcode";
-import {commands, configInfo, helpMessage, ports, tableConfigInfo} from "@/utils/sh_design";
-import {useDesignGraphStore} from "@/store/DesignGraph";
-import {Config} from "@/api/settings";
-import {dynamicFormContextMenuData} from "@/plugins/AblesPlugin";
+import {
+  commands,
+  configInfo,
+  helpMessage,
+  ports,
+  tableConfigInfo,
+} from "@/utils/sh_design";
+import { useDesignGraphStore } from "@/store/DesignGraph";
+import { Config } from "@/api/settings";
+import { dynamicFormContextMenuData } from "@/plugins/AblesPlugin";
 
 const designGraph = useDesignGraphStore(piniaInstance);
 const consumerView = useConsumerViewStore(piniaInstance);
@@ -34,32 +48,41 @@ const currentCellInfo = ref<any>({});
 const fieldList = ref<PageFieldInfo>();
 const menuPosition = ref({
   top: "0px",
-  left: "0px"
+  left: "0px",
 });
 const props = defineProps({
-  registerNode: {type: Object, default: null},
-  lineHeight: {type: Number, default: 24},
-  tableWidth: {type: Number, default: 320},
-  tableFlag: {type: Boolean, default: false},
-  readonly: {type: Boolean, default: false},
-  compUrl: {type: Object as PropType<ApiUrls>},
-  nodeFieldList: {type: Object as PropType<PageFieldInfo>},
-  lineFieldList: {type: Object as PropType<PageFieldInfo>},
-  batchName: {type: String, default: "batchDataList"},
-  batchFieldName: {type: String, default: "batchFieldList"},
-  primaryKey: {type: String, required: true},
-  rules: {type: Object},
-  showCompList: {type: Object, required: true},
-  showDbList: {type: Object, required: false},
+  registerNode: { type: Object, default: null },
+  lineHeight: { type: Number, default: 24 },
+  tableWidth: { type: Number, default: 320 },
+  tableFlag: { type: Boolean, default: false },
+  readonly: { type: Boolean, default: false },
+  compUrl: { type: Object as PropType<ApiUrls> },
+  nodeFieldList: { type: Object as PropType<PageFieldInfo> },
+  lineFieldList: { type: Object as PropType<PageFieldInfo> },
+  batchName: { type: String, default: "batchDataList" },
+  batchFieldName: { type: String, default: "batchFieldList" },
+  primaryKey: { type: String, required: true },
+  rules: { type: Object },
+  showCompList: { type: Object, required: true },
+  showDbList: { type: Object, required: false },
   //table,normal,其他待定
-  compType: {type: String, default: "normal"},
+  compType: { type: String, default: "normal" },
   //drawer,normal
-  activeCollapse: {type: String, default: "0"},
-  panelStyle: {type: String, default: "normal"},
-  customerItems: {type: Array as PropType<CustomerItem[]>, default: []}
+  activeCollapse: { type: String, default: "0" },
+  panelStyle: { type: String, default: "normal" },
+  customerItems: { type: Array as PropType<CustomerItem[]>, default: [] },
 });
-const tabModel = computed(() => (props.showCompList ? "dynamicTable" : "dbList"));
-const emits = defineEmits(["config", "lineClick", "nodeClick", "save", "validation", "preview"]);
+const tabModel = computed(() =>
+  props.showCompList ? "dynamicTable" : "dbList",
+);
+const emits = defineEmits([
+  "config",
+  "lineClick",
+  "nodeClick",
+  "save",
+  "validation",
+  "preview",
+]);
 let compAttr = ref<any>({});
 provide("dataForm", compAttr);
 const dataForm = defineModel("dataForm");
@@ -106,14 +129,16 @@ const transform = (command: string) => {
       normalRightPanel.value = !normalRightPanel.value;
       break;
     case "empty":
-      operationConfirm("清空画布，所有的数据都会丢失，确定要清空吗？").then((res) => {
-        if (res) {
-          nodeList.value = [];
-          graph.value.resetCells([]);
-          nodeIndex = 0;
-          hasItems();
-        }
-      });
+      operationConfirm("清空画布，所有的数据都会丢失，确定要清空吗？").then(
+        (res) => {
+          if (res) {
+            nodeList.value = [];
+            graph.value.resetCells([]);
+            nodeIndex = 0;
+            hasItems();
+          }
+        },
+      );
       break;
     case "valid":
       dataValid();
@@ -147,8 +172,7 @@ const hasItems = () => {
 const closeAction = () => {
   dataPreviewVisible.value = false;
 };
-const dataValid = () => {
-};
+const dataValid = () => {};
 const alignOperation = (align: string) => {
   let cells = graph.value.getSelectedCells();
   if (align == "deleteItem" || align == "delete") {
@@ -220,13 +244,17 @@ let nodeList = ref<Array<Cell>>([]);
 const init = async () => {
   registerPort(props.registerNode?.portName);
   if (props.registerNode) {
-    registerNode(props.registerNode.name, props.registerNode.entity, props.registerNode.force);
+    registerNode(
+      props.registerNode.name,
+      props.registerNode.entity,
+      props.registerNode.force,
+    );
   }
   await nextTick();
   graph.value = new Graph({
     autoResize: true,
     container: starHorseDesignRef.value,
-    ...(props.compType == "table" ? tableConfigInfo : configInfo)
+    ...(props.compType == "table" ? tableConfigInfo : configInfo),
   });
   graph.value.resetCells([]);
   designGraph.setGraph(graph.value, props.readonly);
@@ -246,7 +274,9 @@ const init = async () => {
     }
   };
   graph.value.on("cell:mouseenter", (data: any) => {
-    const ports = starHorseDesignRef.value.querySelectorAll(".x6-port-body") as NodeListOf<SVGElement>;
+    const ports = starHorseDesignRef.value.querySelectorAll(
+      ".x6-port-body",
+    ) as NodeListOf<SVGElement>;
     showPorts(ports, true);
     if (data.cell.isNode()) {
       data.cell.addTools([
@@ -257,30 +287,32 @@ const init = async () => {
               fill: "#7c68fc",
               stroke: "#333",
               "stroke-width": 1,
-              "fill-opacity": 0.2
-            }
-          }
-        }
+              "fill-opacity": 0.2,
+            },
+          },
+        },
       ]);
     } else {
       data.cell.addTools([
-        {name: "segments"},
+        { name: "segments" },
         {
-          name: "source-arrowhead"
+          name: "source-arrowhead",
         },
         {
           name: "target-arrowhead",
           args: {
             attrs: {
-              fill: "blue"
-            }
-          }
-        }
+              fill: "blue",
+            },
+          },
+        },
       ]);
     }
   });
   graph.value.on("cell:mouseleave", (data: any) => {
-    const ports = starHorseDesignRef.value.querySelectorAll(".x6-port-body") as NodeListOf<SVGElement>;
+    const ports = starHorseDesignRef.value.querySelectorAll(
+      ".x6-port-body",
+    ) as NodeListOf<SVGElement>;
     showPorts(ports, false);
     if (data.cell.isNode()) {
       data.cell.removeTools();
@@ -320,10 +352,10 @@ const init = async () => {
               fill: "#7c68fc",
               stroke: "#333",
               "stroke-width": 1,
-              "fill-opacity": 0.2
-            }
-          }
-        }
+              "fill-opacity": 0.2,
+            },
+          },
+        },
       ]);
     }
   });
@@ -351,7 +383,7 @@ const clickOperation = async (view: any) => {
   let data = getCellnfo(cell)!;
   if (!isNode) {
     // graph.value.trigger("blank:click", {view});
-    graph.value.trigger("edge:click", {view});
+    graph.value.trigger("edge:click", { view });
   }
   currentCellInfo.value = data;
   if (data?.fromType == "table") {
@@ -396,14 +428,20 @@ const contextMenuOperation = (type: any) => {
   } else if (type == "cut") {
     graph.value.cut([currentComp.value]);
   } else if (type == "paste") {
-    const cells = graph.value.paste({offset: 32});
+    const cells = graph.value.paste({ offset: 32 });
     graph.value.cleanSelection();
     graph.value.select(cells);
   } else {
     transform(type);
   }
 };
-const contextMenu = (e: MouseEvent, _x: number, _y: number, cell: Cell, view: View) => {
+const contextMenu = (
+  e: MouseEvent,
+  _x: number,
+  _y: number,
+  cell: Cell,
+  view: View,
+) => {
   console.log(cell, view);
   // const menuWidth = 280;
   currentView.value = view;
@@ -412,7 +450,7 @@ const contextMenu = (e: MouseEvent, _x: number, _y: number, cell: Cell, view: Vi
   graph.value.select(cell);
   menuPosition.value = {
     top: `${e.pageY}px`, // 仍然使用页面坐标设置菜单位置
-    left: `${e.pageX}px`
+    left: `${e.pageX}px`,
   };
   nextTick(() => {
     contextmenuRef.value.show();
@@ -429,7 +467,7 @@ const changeLabelText = (val: any, color: string = "#15C912") => {
     currentComp.value!.insertLabel("OK", 0);
     currentComp.value!.getLabelAt(0)["attrs"]["label"] = {
       fill: color,
-      text: val
+      text: val,
     };
   }
 };
@@ -446,71 +484,71 @@ const registerNode = (name: string, entry: any, force: boolean = false) => {
  */
 const registerPort = (portName: string) => {
   Graph.registerNode(
-      "custom-rect",
-      {
-        inherit: "rect",
-        width: 140,
-        height: 50,
-        attrs: {
-          body: {
-            strokeWidth: 1,
-            stroke: "#5F95FF",
-            fill: "#EFF4FF",
-            rx: 10,
-            ry: 10
-          },
-          image: {
-            // 'xlink:href': defaultSvg,
-            width: 16,
-            height: 16,
-            x: 12,
-            y: 12
-          },
-          text: {
-            fontSize: 12,
-            fill: "#262626",
-            textAnchor: "middle",
-            textVerticalAnchor: "middle"
-          }
+    "custom-rect",
+    {
+      inherit: "rect",
+      width: 140,
+      height: 50,
+      attrs: {
+        body: {
+          strokeWidth: 1,
+          stroke: "#5F95FF",
+          fill: "#EFF4FF",
+          rx: 10,
+          ry: 10,
         },
-        markup: [
-          {
-            tagName: "rect",
-            selector: "body"
-          },
-          {
-            tagName: "svg",
-            selector: "image",
-            children: [
-              {
-                tagName: "use"
-              }
-            ]
-          },
-          {
-            tagName: "text",
-            selector: "text"
-          }
-        ],
-        ports: {...ports}
+        image: {
+          // 'xlink:href': defaultSvg,
+          width: 16,
+          height: 16,
+          x: 12,
+          y: 12,
+        },
+        text: {
+          fontSize: 12,
+          fill: "#262626",
+          textAnchor: "middle",
+          textVerticalAnchor: "middle",
+        },
       },
-      true
+      markup: [
+        {
+          tagName: "rect",
+          selector: "body",
+        },
+        {
+          tagName: "svg",
+          selector: "image",
+          children: [
+            {
+              tagName: "use",
+            },
+          ],
+        },
+        {
+          tagName: "text",
+          selector: "text",
+        },
+      ],
+      ports: { ...ports },
+    },
+    true,
   );
   if (portName) {
     Graph.registerPortLayout(
-        portName,
-        (portsPositionArgs: any) => {
-          return portsPositionArgs.map((_a: any, index: number) => {
-            return {
-              position: {
-                x: 0,
-                y: (index + 1) * props.lineHeight
-              },
-              angle: 0
-            };
-          });
-        },
-        true
+      portName,
+      (portsPositionArgs: any) => {
+        return portsPositionArgs.map((_a: any, index: number) => {
+          return {
+            position: {
+              x: 0,
+              y: (index + 1) * props.lineHeight,
+            },
+            angle: 0,
+          };
+        });
+      },
+      true,
     );
   }
 };
@@ -527,7 +565,7 @@ const analisyAllData = () => {
       relationList.push(getCellnfo(cell));
     }
   }
-  return {tables: tableList, relations: relationList};
+  return { tables: tableList, relations: relationList };
 };
 /**
  * 获取
@@ -544,7 +582,7 @@ const getCellnfo = (cell: any) => {
       fromId: cell.id,
       fromType: data.compType,
       from: data.fieldName || data.name || data.id,
-      fromData: data
+      fromData: data,
     };
   } else {
     let sourceNode = cell.getSourceNode();
@@ -566,13 +604,19 @@ const getCellnfo = (cell: any) => {
     let from = sourceInfo.fieldName || sourceInfo.name || sourceInfo.id;
     let fromLabel = sourceInfo.label;
     let fromType = sourceInfo.compType;
-    let fromPort = sourcePort.attrs?.name?.text || sourcePort.attrs?.fieldName?.text || sourcePort.id;
+    let fromPort =
+      sourcePort.attrs?.name?.text ||
+      sourcePort.attrs?.fieldName?.text ||
+      sourcePort.id;
     let toId = targetNode.id;
     let to = targetInfo.fieldName || targetInfo.name || sourceInfo.id;
     let toLabel = targetInfo.label;
     let toType = targetInfo.compType;
     console.log(sourcePort, targetPort);
-    let toPort = targetPort?.attrs?.name?.text || targetPort?.attrs?.fieldName?.text || targetPort.id;
+    let toPort =
+      targetPort?.attrs?.name?.text ||
+      targetPort?.attrs?.fieldName?.text ||
+      targetPort.id;
     return {
       fromId,
       from,
@@ -585,7 +629,7 @@ const getCellnfo = (cell: any) => {
       toLabel,
       toPort,
       toType,
-      toData: targetInfo
+      toData: targetInfo,
     };
   }
 };
@@ -658,7 +702,9 @@ const onQueryChanged = () => {
   } else {
     for (let index in dataList) {
       let temp = dataList[index];
-      let matchDatas = temp.compItems.filter((item: CompInfo) => item.label.indexOf(query.value) != -1);
+      let matchDatas = temp.compItems.filter(
+        (item: CompInfo) => item.label.indexOf(query.value) != -1,
+      );
       // console.log(matchDatas);
       if (matchDatas && matchDatas.length > 0) {
         temp.compItems = matchDatas;
@@ -683,7 +729,7 @@ const readCompAttr = async () => {
   if (data) {
     compAttr.value = data;
   } else {
-    compAttr.value = {...data, ...redata.defaultDatas};
+    compAttr.value = { ...data, ...redata.defaultDatas };
   }
   for (let key in redata.mappingFields) {
     let temp = redata.mappingFields[key];
@@ -702,23 +748,23 @@ onMounted(() => {
   filterDatas.value = props.customerItems;
 });
 watch(
-    () => props.customerItems,
-    () => {
-      filterDatas.value = props.customerItems;
-    },
-    {
-      deep: true
-    }
+  () => props.customerItems,
+  () => {
+    filterDatas.value = props.customerItems;
+  },
+  {
+    deep: true,
+  },
 );
 watch(
-    () => compAttr.value,
-    (val) => {
-      currentComp.value.setData(val);
-    },
-    {
-      immediate: false,
-      deep: true
-    }
+  () => compAttr.value,
+  (val) => {
+    currentComp.value.setData(val);
+  },
+  {
+    immediate: false,
+    deep: true,
+  },
 );
 defineExpose({
   graph,
@@ -728,18 +774,18 @@ defineExpose({
   getEdgeInfo: getCellnfo,
   edgeList,
   changeLabelText,
-  addNode
+  addNode,
 });
 </script>
 <template>
   <star-horse-dialog
-      :dialogVisible="dataPreviewVisible"
-      :title="'JSON'"
-      @closeAction="closeAction"
-      :isBatch="false"
-      :source="3"
+    :dialogVisible="dataPreviewVisible"
+    :title="'JSON'"
+    @closeAction="closeAction"
+    :isBatch="false"
+    :source="3"
   >
-    <star-horse-editor :value="jsonData" :lang="'json'"/>
+    <star-horse-editor :value="jsonData" :lang="'json'" />
   </star-horse-dialog>
   <el-card class="inner_content">
     <el-splitter v-show="!readonly">
@@ -747,35 +793,47 @@ defineExpose({
         <el-tabs v-model="tabModel">
           <el-tab-pane name="dynamicTable" v-if="showCompList">
             <template #label>
-              <star-horse-icon icon-class="setting" style="color: var(--star-horse-style)"/>&nbsp;<span>组件</span>
+              <star-horse-icon
+                icon-class="setting"
+                style="color: var(--star-horse-style)"
+              />&nbsp;<span>组件</span>
             </template>
             <el-input
-                v-model="query"
-                :size="Config.compSize"
-                clearable
-                placeholder="请输入关键字"
-                @keydown.enter="onQueryChanged"
+              v-model="query"
+              :size="Config.compSize"
+              clearable
+              placeholder="请输入关键字"
+              @keydown.enter="onQueryChanged"
             >
               <template #append>
-                <star-horse-icon @click="onQueryChanged" icon-class="search" color="var(--star-horse-style)"/>
+                <star-horse-icon
+                  @click="onQueryChanged"
+                  icon-class="search"
+                  color="var(--star-horse-style)"
+                />
               </template>
             </el-input>
             <el-scrollbar>
               <el-collapse accordion v-model="activeItem">
                 <template v-for="item in filterDatas">
-                  <el-collapse-item :name="item.name" :title="item.title" type="default">
+                  <el-collapse-item
+                    :name="item.name"
+                    :title="item.title"
+                    type="default"
+                  >
                     <el-scrollbar max-height="350">
                       <ul>
                         <li
-                            draggable="true"
-                            @dragstart="(evt) => dratStart(sitem, evt)"
-                            class="field-item"
-                            v-for="sitem in item.compItems"
-                        ><span
-                        >&nbsp;&nbsp;<star-horse-icon :icon-class="sitem.icon || 'default'"/>&nbsp;{{
-                            sitem.label || sitem.name
-                          }}</span
+                          draggable="true"
+                          @dragstart="(evt) => dratStart(sitem, evt)"
+                          class="field-item"
+                          v-for="sitem in item.compItems"
                         >
+                          <span
+                            >&nbsp;&nbsp;<star-horse-icon
+                              :icon-class="sitem.icon || 'default'"
+                            />&nbsp;{{ sitem.label || sitem.name }}</span
+                          >
                         </li>
                       </ul>
                     </el-scrollbar>
@@ -784,98 +842,138 @@ defineExpose({
               </el-collapse>
             </el-scrollbar>
           </el-tab-pane>
-          <el-tab-pane name="dbList" v-if="showDbList" class="flex items-center">
+          <el-tab-pane
+            name="dbList"
+            v-if="showDbList"
+            class="flex items-center"
+          >
             <template #label>
-              <star-horse-icon icon-class="database" style="color: var(--star-horse-style)"/>&nbsp;<span>数据源</span>
+              <star-horse-icon
+                icon-class="database"
+                style="color: var(--star-horse-style)"
+              />&nbsp;<span>数据源</span>
             </template>
-            <ConsumerDbListComp/>
+            <ConsumerDbListComp />
           </el-tab-pane>
         </el-tabs>
       </el-splitter-panel>
       <el-splitter-panel>
         <div class="design-main">
           <div class="inner_button">
-            <el-menu mode="horizontal" :ellipsis="false" style="height: inherit; width: 100%">
+            <el-menu
+              mode="horizontal"
+              :ellipsis="false"
+              style="height: inherit; width: 100%"
+            >
               <template v-for="(item, index) in commands">
-                <el-menu-item v-if="(hasData.length > 0 && !readonly) || item.defaultEdit">
-                  <el-tooltip class="item" :content="item.label" :index="index" effect="dark" placement="bottom">
+                <el-menu-item
+                  v-if="(hasData.length > 0 && !readonly) || item.defaultEdit"
+                >
+                  <el-tooltip
+                    class="item"
+                    :content="item.label"
+                    :index="index"
+                    effect="dark"
+                    placement="bottom"
+                  >
                     <star-horse-icon
-                        @click="transform(item.key)"
-                        :icon-class="item.icon"
-                        size="22px"
-                        width="26px"
-                        style="color: var(--star-horse-style)"
+                      @click="transform(item.key)"
+                      :icon-class="item.icon"
+                      size="22px"
+                      width="26px"
+                      style="color: var(--star-horse-style)"
                     />
                   </el-tooltip>
                 </el-menu-item>
               </template>
             </el-menu>
-            <help :message="helpMessage"/>
+            <help :message="helpMessage" />
           </div>
           <div
-              id="graph-dropdown"
-              @dragover.prevent="dragOver"
-              @drop="dragDrop"
-              class="app-content"
-              ref="starHorseDesignRef"
+            id="graph-dropdown"
+            @dragover.prevent="dragOver"
+            @drop="dragDrop"
+            class="app-content"
+            ref="starHorseDesignRef"
           ></div>
           <Teleport to="body">
             <ContentMenu
-                ref="contextmenuRef"
-                :style="{ 'z-index': 99999999, position: 'absolute', top: menuPosition.top, left: menuPosition.left }"
-                v-if="contextMenuVisible && !readonly"
-                :menu-data="dynamicFormContextMenuData({}, {}, 'scene', contextMenuOperation)"
+              ref="contextmenuRef"
+              :style="{
+                'z-index': 99999999,
+                position: 'absolute',
+                top: menuPosition.top,
+                left: menuPosition.left,
+              }"
+              v-if="contextMenuVisible && !readonly"
+              :menu-data="
+                dynamicFormContextMenuData(
+                  {},
+                  {},
+                  'scene',
+                  contextMenuOperation,
+                )
+              "
             />
           </Teleport>
         </div>
       </el-splitter-panel>
-      <el-splitter-panel v-if="panelStyle == 'normal'" size="280" min="250" max="400">
+      <el-splitter-panel
+        v-if="panelStyle == 'normal'"
+        size="280"
+        min="250"
+        max="400"
+      >
         <div class="right-attr-panel" v-show="normalRightPanel">
           <div class="title">属性面板</div>
           <div class="item" style="border-bottom: none">
             <div class="content" v-if="checkIsNode() == 1">
-              <h3>{{ compAttr["label"] || currentComp.label }}({{ compAttr["belongTo"] || "组件" }})</h3>
+              <h3>
+                {{ compAttr["label"] || currentComp.label }}({{
+                  compAttr["belongTo"] || "组件"
+                }})
+              </h3>
             </div>
             <div class="content" v-else-if="checkIsNode() == 2">
               <h3>连线属性</h3>
             </div>
           </div>
-          <hr/>
+          <hr />
           <star-horse-form
-              v-model:data-form="dataForm"
-              v-if="checkIsNode() == 1"
-              :source="readonly?3:1"
-              ref="rightAttrPanel"
-              @refresh="() => {}"
-              :compUrl="compUrl"
-              :fieldList="nodeFieldList"
-              :rules="rules"
+            v-model:data-form="dataForm"
+            v-if="checkIsNode() == 1"
+            :source="readonly ? 3 : 1"
+            ref="rightAttrPanel"
+            @refresh="() => {}"
+            :compUrl="compUrl"
+            :fieldList="nodeFieldList"
+            :rules="rules"
           />
           <star-horse-form
-              v-model:data-form="dataForm"
-              v-else-if="checkIsNode() == 2"
-              :source="readonly?3:1"
-              ref="rightAttrPanel"
-              @refresh="() => {}"
-              :compUrl="compUrl"
-              :fieldList="lineFieldList"
-              :rules="rules"
+            v-model:data-form="dataForm"
+            v-else-if="checkIsNode() == 2"
+            :source="readonly ? 3 : 1"
+            ref="rightAttrPanel"
+            @refresh="() => {}"
+            :compUrl="compUrl"
+            :fieldList="lineFieldList"
+            :rules="rules"
           />
           <div v-else class="empty-info">
-            <el-empty description="点击画布中的组件或者连线可设置属性"/>
+            <el-empty description="点击画布中的组件或者连线可设置属性" />
           </div>
         </div>
       </el-splitter-panel>
     </el-splitter>
   </el-card>
   <el-drawer
-      v-if="panelStyle == 'drawer'"
-      v-model="rightPanel"
-      title="属性面板"
-      direction="rtl"
-      :modal="false"
-      @close="writeAttrToComp"
-      size="30%"
+    v-if="panelStyle == 'drawer'"
+    v-model="rightPanel"
+    title="属性面板"
+    direction="rtl"
+    :modal="false"
+    @close="writeAttrToComp"
+    size="30%"
   >
     <div class="item" style="border-bottom: none">
       <div class="content" v-if="checkIsNode() == 1">
@@ -885,26 +983,26 @@ defineExpose({
         <h3>连线属性</h3>
       </div>
     </div>
-    <hr/>
+    <hr />
     <star-horse-form
-        v-model:data-form="dataForm"
-        v-if="checkIsNode() == 1"
-        ref="rightAttrPanel"
-        @refresh="() => {}"
-        :compUrl="compUrl"
-        :fieldList="nodeFieldList"
-        :rules="rules"
+      v-model:data-form="dataForm"
+      v-if="checkIsNode() == 1"
+      ref="rightAttrPanel"
+      @refresh="() => {}"
+      :compUrl="compUrl"
+      :fieldList="nodeFieldList"
+      :rules="rules"
     />
     <star-horse-form
-        v-model:data-form="dataForm"
-        v-else-if="checkIsNode() == 2"
-        ref="rightAttrPanel"
-        @refresh="() => {}"
-        :compUrl="compUrl"
-        :fieldList="lineFieldList"
-        :rules="rules"
+      v-model:data-form="dataForm"
+      v-else-if="checkIsNode() == 2"
+      ref="rightAttrPanel"
+      @refresh="() => {}"
+      :compUrl="compUrl"
+      :fieldList="lineFieldList"
+      :rules="rules"
     />
-    <div v-else class="empty-info"> 右侧面板</div>
+    <div v-else class="empty-info">右侧面板</div>
   </el-drawer>
 </template>
 <style lang="scss" scoped>

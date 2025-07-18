@@ -1,20 +1,19 @@
 <template>
-  <execution-listeners :node="node"/>
-  <FlowDrawerFooter @close="onClose" @save="onSave"/>
+  <execution-listeners :node="node" />
+  <FlowDrawerFooter @close="onClose" @save="onSave" />
 </template>
 <script setup lang="ts">
-import {useFlowDesignStore} from "@/store/FlowDesign";
-import {piniaInstance} from "star-horse-lowcode";
-import {ModelRef, onMounted} from "vue";
+import { useFlowDesignStore } from "@/store/FlowDesign";
+import { piniaInstance } from "star-horse-lowcode";
+import { ModelRef, onMounted } from "vue";
 
 defineOptions({
-  name: "ServicePrep"
+  name: "ServicePrep",
 });
 let node: ModelRef<any> = defineModel("activeData");
 
 const flowDesign = useFlowDesignStore(piniaInstance);
-const init = () => {
-};
+const init = () => {};
 onMounted(() => {
   init();
 });

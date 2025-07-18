@@ -1,8 +1,15 @@
 <template>
   <div class="designer-wrap">
-    <div class="designer-content-box" :style="{ height: readable ? '100vh' : 'calc(100vh - 50px)' }">
+    <div
+      class="designer-content-box"
+      :style="{ height: readable ? '100vh' : 'calc(100vh - 50px)' }"
+    >
       <div class="sh-flow-editor-wrap">
-        <div id="sh-flow-editor" class="sh-flow-editor-container" :style="zoomStyle">
+        <div
+          id="sh-flow-editor"
+          class="sh-flow-editor-container"
+          :style="zoomStyle"
+        >
           <div id="sh-flow-editor-content" class="sh-flow-editor-content">
             <!--            <FlowStartNode :node="nodeData"/>-->
             <FlowNode :node="nodeData" :readable="readable" />
@@ -11,8 +18,13 @@
         </div>
         <FlowHelper v-if="!readable" />
         <FlowTips v-if="readable" />
-        <FlowZoom v-model:zoomValue="zoomValue" @saveImage="saveAsPng" :saveBtnVisible="saveBtnVisible"
-          :mapBtnVisible="mapBtnVisible" :zoomBtnVisible="zoomBtnVisible" />
+        <FlowZoom
+          v-model:zoomValue="zoomValue"
+          @saveImage="saveAsPng"
+          :saveBtnVisible="saveBtnVisible"
+          :mapBtnVisible="mapBtnVisible"
+          :zoomBtnVisible="zoomBtnVisible"
+        />
         <FlowMap v-if="mapVisible && !scale.isMobile()" />
         <PrepIndex v-if="!readable" />
       </div>
@@ -31,16 +43,16 @@ import { appInstance } from "@/main";
 defineProps({
   saveBtnVisible: {
     type: Boolean,
-    default: true
+    default: true,
   },
   mapBtnVisible: {
     type: Boolean,
-    default: false
+    default: false,
   },
   zoomBtnVisible: {
     type: Boolean,
-    default: true
-  }
+    default: true,
+  },
 });
 const dataUrl: ApiUrls = apiInstance("flow-engine", "workflow/flowDefine");
 const router = useRouter();
@@ -49,19 +61,23 @@ let zoomValue = ref<number>(100);
 let zoomStyle = computed(() => {
   const zoom = zoomValue.value / 100;
   return {
-    zoom: zoom
+    zoom: zoom,
   };
 });
 let nodeData = computed(() => flowDesign.node);
 let readable = computed(() => flowDesign.readable);
 let mapVisible = computed(() => flowDesign.mapVisible);
 const saveAsPng = async () => {
-  const element: HTMLElement = document.getElementById("sh-flow-editor-content")!;
+  const element: HTMLElement = document.getElementById(
+    "sh-flow-editor-content",
+  )!;
   element.parentElement!.style.transform = "scale(1)";
   const canvas = await html2canvas(element, {
-    backgroundColor: "#efefef"
+    backgroundColor: "#efefef",
   });
-  const image = canvas.toDataURL("image/png").replace("image/png", "image/octet-stream");
+  const image = canvas
+    .toDataURL("image/png")
+    .replace("image/png", "image/octet-stream");
   let link = document.createElement("a");
   link.download = `star-flow-${Date.now()}.png`;
   link.href = image;
@@ -91,14 +107,14 @@ onMounted(() => {
   init();
 });
 defineExpose({
-  nodeData
+  nodeData,
 });
 watch(
   () => router.currentRoute.value.query,
   () => {
     loadData();
   },
-  { immediate: true, deep: true }
+  { immediate: true, deep: true },
 );
 </script>
 <style lang="scss" scoped>

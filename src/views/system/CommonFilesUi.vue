@@ -6,11 +6,18 @@ import {
   download,
   PageFieldInfo,
   SearchFields,
-  UserFuncInfo
+  UserFuncInfo,
 } from "star-horse-lowcode";
-import {Config} from "@/api/settings";
-import {onActivated, onDeactivated, onMounted, provide, reactive, ref} from "vue";
-import {getCustomerParam, getToken} from "@/utils/auth";
+import { Config } from "@/api/settings";
+import {
+  onActivated,
+  onDeactivated,
+  onMounted,
+  provide,
+  reactive,
+  ref,
+} from "vue";
+import { getCustomerParam, getToken } from "@/utils/auth";
 //后端交互接口地址
 const dataUrl: ApiUrls = apiInstance("system-config", "system/commonFiles");
 //主键
@@ -27,23 +34,20 @@ const searchFormData = reactive<SearchFields>({
       fieldName: "keyName",
       defaultVisible: true,
       matchType: "lk",
-
     },
     {
       label: "文件名",
       fieldName: "fileName",
       defaultVisible: true,
       matchType: "lk",
-
     },
     {
       label: "文件类型",
       fieldName: "fileType",
       defaultVisible: true,
       matchType: "lk",
-
-    }
-  ]
+    },
+  ],
 });
 //页面属性
 const tableFieldList = reactive<PageFieldInfo | any>({
@@ -55,7 +59,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
 
       required: true,
       formVisible: true,
-      listVisible: true
+      listVisible: true,
     },
     {
       label: "文件名",
@@ -63,7 +67,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
 
       required: false,
 
-      listVisible: true
+      listVisible: true,
     },
     {
       label: "文件大小",
@@ -71,7 +75,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       type: "number",
       required: false,
 
-      listVisible: true
+      listVisible: true,
     },
     {
       label: "文件类型",
@@ -79,7 +83,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
 
       required: false,
 
-      listVisible: true
+      listVisible: true,
     },
     {
       label: "文件路径",
@@ -95,9 +99,9 @@ const tableFieldList = reactive<PageFieldInfo | any>({
         showFileList: "Y",
         listType: "text",
         headers: {
-          token: getToken()
-        }
-      }
+          token: getToken(),
+        },
+      },
     },
     {
       label: "版本号",
@@ -105,7 +109,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       type: "number",
       required: false,
       formVisible: !true,
-      listVisible: true
+      listVisible: true,
     },
     {
       label: "创建人",
@@ -113,7 +117,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
 
       required: false,
       formVisible: !true,
-      listVisible: true
+      listVisible: true,
     },
     {
       label: "创建时间",
@@ -121,7 +125,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       type: "datetime",
       required: false,
       formVisible: !true,
-      listVisible: true
+      listVisible: true,
     },
     {
       label: "修改人",
@@ -129,7 +133,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
 
       required: false,
       formVisible: !true,
-      listVisible: true
+      listVisible: true,
     },
     {
       label: "修改时间",
@@ -137,7 +141,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       type: "datetime",
       required: false,
       formVisible: !true,
-      listVisible: true
+      listVisible: true,
     },
     {
       label: "数据编号",
@@ -145,7 +149,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
 
       required: false,
       formVisible: !true,
-      listVisible: !true
+      listVisible: !true,
     },
     {
       label: "状态码",
@@ -153,7 +157,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
 
       required: false,
       formVisible: !true,
-      listVisible: !true
+      listVisible: !true,
     },
     {
       label: "状态名称",
@@ -161,7 +165,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
 
       required: false,
       formVisible: !true,
-      listVisible: !true
+      listVisible: !true,
     },
     {
       label: "是否删除",
@@ -169,7 +173,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       type: "number",
       required: false,
       formVisible: !true,
-      listVisible: !true
+      listVisible: !true,
     },
     {
       label: "国际编码",
@@ -177,7 +181,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
 
       required: false,
       formVisible: !true,
-      listVisible: !true
+      listVisible: !true,
     },
     {
       label: "备注",
@@ -185,11 +189,11 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       type: "textarea",
       required: false,
       formVisible: true,
-      listVisible: true
-    }
+      listVisible: true,
+    },
   ],
   //默认查询条件
-  condition: [getCustomerParam()]
+  condition: [getCustomerParam()],
 });
 //校验
 const rules = {};
@@ -197,12 +201,9 @@ const rules = {};
 const dialogProps = dialogPreps();
 provide("dialogProps", dialogProps);
 //初始化方法
-const initData = async () => {
-};
-const activated = () => {
-};
-const deactivated = () => {
-};
+const initData = async () => {};
+const activated = () => {};
+const deactivated = () => {};
 /**
  * 列表，查看数据时数据转换
  * @param name 名称
@@ -229,45 +230,60 @@ const extendBtns: UserFuncInfo[] = [
     priority: 1,
     authority: "download",
     funcName: (row: any) => {
-      download(`/system-config/system/commonFiles/downloadFile/${row[primaryKey]}`, {});
-    }
-  }
+      download(
+        `/system-config/system/commonFiles/downloadFile/${row[primaryKey]}`,
+        {},
+      );
+    },
+  },
 ];
 </script>
 <template>
-  <star-horse-dialog :isShowBtnContinue="true" :dialog-visible="dialogProps.editVisible" :dialogProps="dialogProps">
+  <star-horse-dialog
+    :isShowBtnContinue="true"
+    :dialog-visible="dialogProps.editVisible"
+    :dialogProps="dialogProps"
+  >
     <star-horse-form
-        @refresh="commonFilesRef?.loadByPage()"
-        :compUrl="dataUrl"
-        :fieldList="tableFieldList"
-        :rules="rules"
+      @refresh="commonFilesRef?.loadByPage()"
+      :compUrl="dataUrl"
+      :fieldList="tableFieldList"
+      :rules="rules"
     />
   </star-horse-dialog>
   <star-horse-dialog
-      :dialog-visible="dialogProps.viewVisible"
-      :dialogProps="dialogProps"
-      
-      :source="3"
+    :dialog-visible="dialogProps.viewVisible"
+    :dialogProps="dialogProps"
+    :source="3"
   >
-    <star-horse-data-view :dataFormat="dataFormat" :field-list="tableFieldList" :compUrl="dataUrl"/>
+    <star-horse-data-view
+      :dataFormat="dataFormat"
+      :field-list="tableFieldList"
+      :compUrl="dataUrl"
+    />
   </star-horse-dialog>
   <div class="search-content">
-    <div class="search_btn" :style="{ 'flex-direction': Config.buttonStyle.value == 'line'? 'column' : 'row' }">
+    <div
+      class="search_btn"
+      :style="{
+        'flex-direction': Config.buttonStyle.value == 'line' ? 'column' : 'row',
+      }"
+    >
       <star-horse-search-comp
-          @searchData="(data: any) => commonFilesRef?.createSearchParams(data)"
-          :formData="searchFormData"
-          :compUrl="dataUrl"
+        @searchData="(data: any) => commonFilesRef?.createSearchParams(data)"
+        :formData="searchFormData"
+        :compUrl="dataUrl"
       />
     </div>
   </div>
   <el-card class="inner_content">
     <star-horse-table-comp
-        ref="commonFilesRef"
-        :fieldList="tableFieldList"
-        :primaryKey="primaryKey"
-        :compUrl="dataUrl"
-        :extendBtns="extendBtns"
-        :dataFormat="dataFormat"
+      ref="commonFilesRef"
+      :fieldList="tableFieldList"
+      :primaryKey="primaryKey"
+      :compUrl="dataUrl"
+      :extendBtns="extendBtns"
+      :dataFormat="dataFormat"
     />
   </el-card>
 </template>

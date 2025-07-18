@@ -1,16 +1,16 @@
 <script lang="ts" setup>
-import {computed, nextTick, onBeforeUnmount, onMounted, ref} from "vue";
-import {useZIndex} from "star-horse-lowcode";
+import { computed, nextTick, onBeforeUnmount, onMounted, ref } from "vue";
+import { useZIndex } from "star-horse-lowcode";
 
 defineOptions({
-  name: "PageEditorContentMenu"
+  name: "PageEditorContentMenu",
 });
 
 const props = defineProps({
-  menuData: {type: Array, default: () => []},
-  isSubMenu: {type: Boolean, default: false},
-  autoHide: {type: Boolean, default: true},
-  active: {type: [String, Number], default: ""}
+  menuData: { type: Array, default: () => [] },
+  isSubMenu: { type: Boolean, default: false },
+  autoHide: { type: Boolean, default: true },
+  active: { type: [String, Number], default: "" },
 });
 const emit = defineEmits<{
   hide: [];
@@ -28,16 +28,17 @@ const curZIndex = ref<number>(0);
 
 const menuPosition = ref({
   left: 0,
-  top: 0
+  top: 0,
 });
 
 const menuStyle = computed(() => ({
   top: `${menuPosition.value.top}px`,
   left: `${menuPosition.value.left}px`,
-  zIndex: curZIndex.value
+  zIndex: curZIndex.value,
 }));
 
-const contains = (el: HTMLElement) => menu.value?.contains(el) || subMenu.value?.contains(el);
+const contains = (el: HTMLElement) =>
+  menu.value?.contains(el) || subMenu.value?.contains(el);
 
 const hide = () => {
   if (!visible.value) return;
@@ -73,7 +74,7 @@ const setPosition = (e: MouseEvent) => {
   let left = e.clientX;
   menuPosition.value = {
     top,
-    left
+    left,
   };
 };
 
@@ -108,7 +109,7 @@ const showSubMenu = (item: any, index: number) => {
       }
       subMenu.value?.show({
         clientX: menu.value.offsetLeft + menu.value.clientWidth,
-        clientY: y
+        clientY: y,
       });
     }
   }, 0);
@@ -134,39 +135,45 @@ defineExpose({
   hide,
   show,
   contains,
-  setPosition
+  setPosition,
 });
 </script>
 <template>
   <transition name="fade">
-    <div v-show="visible" class="content-menu" ref="menu" :style="menuStyle" @mouseenter="mouseenterHandler()">
+    <div
+      v-show="visible"
+      class="content-menu"
+      ref="menu"
+      :style="menuStyle"
+      @mouseenter="mouseenterHandler()"
+    >
       <slot name="title"></slot>
 
       <template v-for="(item, index) in menuData">
-        <el-divider v-if="item.type == 'divider'" :direction="item.direction"/>
+        <el-divider v-if="item.type == 'divider'" :direction="item.direction" />
         <div
-            v-if="item.type == 'button' && item.display"
-            ref="buttons"
-            class="menu-item button"
-            :class="{ active: active && item.id === active }"
-            :data="item"
-            :key="index"
-            @mouseup="clickHandler(item)"
-            @mouseenter="showSubMenu(item, index)"
+          v-if="item.type == 'button' && item.display"
+          ref="buttons"
+          class="menu-item button"
+          :class="{ active: active && item.id === active }"
+          :data="item"
+          :key="index"
+          @mouseup="clickHandler(item)"
+          @mouseenter="showSubMenu(item, index)"
         >
-          <star-horse-icon :icon-class="item.icon"/>
+          <star-horse-icon :icon-class="item.icon" />
           {{ item.text }}
         </div>
       </template>
       <teleport to="body">
         <content-menu
-            v-if="subMenuData.length"
-            class="sub-menu"
-            ref="subMenu"
-            :active="active"
-            :menu-data="subMenuData"
-            :is-sub-menu="true"
-            @hide="hide"
+          v-if="subMenuData.length"
+          class="sub-menu"
+          ref="subMenu"
+          :active="active"
+          :menu-data="subMenuData"
+          :is-sub-menu="true"
+          @hide="hide"
         ></content-menu>
       </teleport>
     </div>

@@ -1,9 +1,17 @@
 <script setup lang="ts">
-import {nextTick, onActivated, onDeactivated, onMounted, provide, reactive, ref} from "vue";
-import {Config} from "@/api/settings";
-import {formVisibleTypeList} from "@/views/workflow/utils/FlowFormUtils";
-import {useFlowDesignStore} from "@/store/FlowDesign";
-import {useRouter} from "vue-router";
+import {
+  nextTick,
+  onActivated,
+  onDeactivated,
+  onMounted,
+  provide,
+  reactive,
+  ref,
+} from "vue";
+import { Config } from "@/api/settings";
+import { formVisibleTypeList } from "@/views/workflow/utils/FlowFormUtils";
+import { useFlowDesignStore } from "@/store/FlowDesign";
+import { useRouter } from "vue-router";
 import {
   apiInstance,
   ApiUrls,
@@ -13,12 +21,12 @@ import {
   piniaInstance,
   SearchFields,
   SelectOption,
-  UserFuncInfo
+  UserFuncInfo,
 } from "star-horse-lowcode";
-import {loadSvgIcons} from "@/api/star_horse_utils.js";
+import { loadSvgIcons } from "@/api/star_horse_utils.js";
 
 defineOptions({
-  name: "FlowDefine"
+  name: "FlowDefine",
 });
 //后端交互接口地址
 const dataUrl: ApiUrls = apiInstance("flow-engine", "workflow/flowDefine");
@@ -33,13 +41,18 @@ provide("formFields", formFields);
 let flowGroupList = ref<SelectOption[]>([]);
 let statusList = ref<SelectOption[]>([]);
 let flowDeploymentList = ref<SelectOption[]>([
-  {name: "已部署", value: "not null"},
-  {name: "未部署", value: "null"}
+  { name: "已部署", value: "not null" },
+  { name: "未部署", value: "null" },
 ]);
 //查询属性
 const searchFormData = reactive<SearchFields>({
   fieldList: [
-    {label: "流程名称", fieldName: "name", matchType: "lk", defaultVisible: true},
+    {
+      label: "流程名称",
+      fieldName: "name",
+      matchType: "lk",
+      defaultVisible: true,
+    },
     {
       label: "流程分类",
       fieldName: "flowGroup",
@@ -47,8 +60,8 @@ const searchFormData = reactive<SearchFields>({
       matchType: "lk",
       defaultVisible: true,
       preps: {
-        values: flowGroupList
-      }
+        values: flowGroupList,
+      },
     },
     /* {"label": "流程类型", "fieldName": "flowType", "type": "input",matchType:"lk",defaultVisible: true},*/
     {
@@ -58,10 +71,10 @@ const searchFormData = reactive<SearchFields>({
       matchType: "is",
       defaultVisible: true,
       preps: {
-        values: flowDeploymentList
-      }
-    }
-  ]
+        values: flowDeploymentList,
+      },
+    },
+  ],
 });
 const tableFieldList = reactive<PageFieldInfo | any>({
   fieldList: [
@@ -71,7 +84,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
 
       required: true,
       formVisible: true,
-      listVisible: true
+      listVisible: true,
     },
     {
       label: "流程部署ID",
@@ -79,7 +92,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
 
       required: true,
       formVisible: true,
-      listVisible: true
+      listVisible: true,
     },
     {
       label: "流程分类",
@@ -87,7 +100,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
 
       required: false,
       formVisible: true,
-      listVisible: true
+      listVisible: true,
     },
     {
       label: "绑定表单信息",
@@ -95,7 +108,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
 
       required: false,
       formVisible: true,
-      listVisible: true
+      listVisible: true,
     },
     {
       label: "图标",
@@ -108,16 +121,14 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       preps: {
         iconType: "user",
         values: loadSvgIcons(),
-        listView: "Y"
-      }
+        listView: "Y",
+      },
     },
     {
       label: "流程类型",
       fieldName: "flowType",
 
       required: false,
-
-
     },
     {
       label: "状态",
@@ -129,9 +140,9 @@ const tableFieldList = reactive<PageFieldInfo | any>({
         listPrototypeDisplay: "text",
         tagMap: {
           "1": "success",
-          "2": "default"
-        }
-      }
+          "2": "default",
+        },
+      },
     },
     {
       label: "流程版本",
@@ -139,7 +150,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
 
       required: false,
       formVisible: true,
-      listVisible: true
+      listVisible: true,
     },
     {
       label: "多表单显示模式",
@@ -147,7 +158,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
 
       required: false,
       formVisible: true,
-      listVisible: true
+      listVisible: true,
     },
     {
       label: "流程管理员",
@@ -155,7 +166,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
 
       required: false,
       formVisible: true,
-      listVisible: true
+      listVisible: true,
     },
     {
       label: "流程Xml文件",
@@ -163,7 +174,6 @@ const tableFieldList = reactive<PageFieldInfo | any>({
 
       required: true,
       formVisible: true,
-
     },
     {
       label: "流程Json文件",
@@ -171,16 +181,20 @@ const tableFieldList = reactive<PageFieldInfo | any>({
 
       required: true,
       formVisible: true,
-
     },
-    {label: "创建人", fieldName: "createdBy", listVisible: true, preps: {}, commonFlag: "Y"},
+    {
+      label: "创建人",
+      fieldName: "createdBy",
+      listVisible: true,
+      preps: {},
+      commonFlag: "Y",
+    },
     {
       label: "修改人",
       fieldName: "updatedBy",
 
-
       preps: {},
-      commonFlag: "Y"
+      commonFlag: "Y",
     },
     {
       label: "创建时间",
@@ -188,7 +202,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       type: "datetime",
       listVisible: true,
       preps: {},
-      commonFlag: "Y"
+      commonFlag: "Y",
     },
     {
       label: "修改时间",
@@ -196,21 +210,39 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       type: "datetime",
 
       preps: {},
-      commonFlag: "Y"
+      commonFlag: "Y",
     },
-    {label: "版本号", fieldName: "version", type: "number", listVisible: true, preps: {}, commonFlag: "Y"},
-    {label: "是否删除", fieldName: "isDel", type: "number", preps: {}, commonFlag: "Y"},
-    {label: "数据编号", fieldName: "dataNo", preps: {}, commonFlag: "Y"},
+    {
+      label: "版本号",
+      fieldName: "version",
+      type: "number",
+      listVisible: true,
+      preps: {},
+      commonFlag: "Y",
+    },
+    {
+      label: "是否删除",
+      fieldName: "isDel",
+      type: "number",
+      preps: {},
+      commonFlag: "Y",
+    },
+    { label: "数据编号", fieldName: "dataNo", preps: {}, commonFlag: "Y" },
     {
       label: "状态名称",
       fieldName: "statusName",
 
-
       preps: {},
-      commonFlag: "Y"
+      commonFlag: "Y",
     },
-    {label: "国际编码", fieldName: "local", preps: {}, commonFlag: "Y"},
-    {label: "备注", fieldName: "remark", type: "textarea", preps: {}, commonFlag: "Y"}
+    { label: "国际编码", fieldName: "local", preps: {}, commonFlag: "Y" },
+    {
+      label: "备注",
+      fieldName: "remark",
+      type: "textarea",
+      preps: {},
+      commonFlag: "Y",
+    },
   ],
   batchFieldList: [],
   userTableFuncs: [],
@@ -218,7 +250,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
   orderBy: [],
   batchName: "batchDataList",
   tableCellEditabled: false,
-  stopAutoLoad: false
+  stopAutoLoad: false,
 });
 //校验
 const rules = {};
@@ -230,8 +262,8 @@ const extendBtns = ref<UserFuncInfo[]>([
     priority: 1,
     authority: "edit",
     funcName: (row: any) => {
-      router.push({path: "/flowDesign", query: {data: row[primaryKey]}});
-    }
+      router.push({ path: "/flowDesign", query: { data: row[primaryKey] } });
+    },
   },
   {
     icon: "data-view",
@@ -239,9 +271,12 @@ const extendBtns = ref<UserFuncInfo[]>([
     priority: 2,
     authority: "view",
     funcName: (row: any) => {
-      router.push({path: "/flowDesign", query: {data: row[primaryKey], isView: "Y"}});
-    }
-  }
+      router.push({
+        path: "/flowDesign",
+        query: { data: row[primaryKey], isView: "Y" },
+      });
+    },
+  },
 ]);
 const extendBtns2 = ref<UserFuncInfo[]>([
   {
@@ -250,9 +285,9 @@ const extendBtns2 = ref<UserFuncInfo[]>([
     authority: "add",
     funcName: () => {
       flowDesign.init();
-      router.push({path: "/flowDesign"});
-    }
-  }
+      router.push({ path: "/flowDesign" });
+    },
+  },
 ]);
 //控制弹窗相关设置
 const dialogProps = dialogPreps();
@@ -266,8 +301,7 @@ const activated = async () => {
     flowDefineRef.value.loadByPage();
   });
 };
-const deactivated = () => {
-};
+const deactivated = () => {};
 /**
  * 列表，查看数据时数据转换
  * @param name 名称
@@ -276,7 +310,11 @@ const deactivated = () => {
  */
 const dataFormat = (name: string, cellValue: any, row: any): any => {
   if (name == "formVisibleType") {
-    return formVisibleTypeList.value.find((item: SelectOption) => item.value == cellValue)?.name || cellValue;
+    return (
+      formVisibleTypeList.value.find(
+        (item: SelectOption) => item.value == cellValue,
+      )?.name || cellValue
+    );
   }
   if (name == "statusCode") {
     return !row.flowDeploymentId ? "未部署" : "已部署";
@@ -295,39 +333,51 @@ onDeactivated(() => {
 });
 </script>
 <template>
-  <star-horse-dialog :isShowBtnContinue="true" :dialog-visible="dialogProps.editVisible" :dialogProps="dialogProps">
+  <star-horse-dialog
+    :isShowBtnContinue="true"
+    :dialog-visible="dialogProps.editVisible"
+    :dialogProps="dialogProps"
+  >
     <star-horse-form
-        @refresh="flowDefineRef?.loadByPage()"
-        :compUrl="dataUrl"
-        :fieldList="tableFieldList"
-        :rules="rules"
+      @refresh="flowDefineRef?.loadByPage()"
+      :compUrl="dataUrl"
+      :fieldList="tableFieldList"
+      :rules="rules"
     />
   </star-horse-dialog>
   <star-horse-dialog
-      :dialog-visible="dialogProps.viewVisible"
-      :dialogProps="dialogProps"
-      
-      :source="3"
+    :dialog-visible="dialogProps.viewVisible"
+    :dialogProps="dialogProps"
+    :source="3"
   >
-    <star-horse-data-view :dataFormat="dataFormat" :field-list="tableFieldList" :compUrl="dataUrl"/>
+    <star-horse-data-view
+      :dataFormat="dataFormat"
+      :field-list="tableFieldList"
+      :compUrl="dataUrl"
+    />
   </star-horse-dialog>
   <div class="search-content">
-    <div class="search_btn" :style="{ 'flex-direction': Config.buttonStyle.value == 'line'? 'column' : 'row' }">
+    <div
+      class="search_btn"
+      :style="{
+        'flex-direction': Config.buttonStyle.value == 'line' ? 'column' : 'row',
+      }"
+    >
       <star-horse-search-comp
-          @searchData="(data: any) => flowDefineRef?.createSearchParams(data)"
-          :formData="searchFormData"
-          :compUrl="dataUrl"
+        @searchData="(data: any) => flowDefineRef?.createSearchParams(data)"
+        :formData="searchFormData"
+        :compUrl="dataUrl"
       />
     </div>
   </div>
   <el-card class="inner_content">
     <star-horse-table-comp
-        ref="flowDefineRef"
-        :fieldList="tableFieldList"
-        :primaryKey="primaryKey"
-        :compUrl="dataUrl"
-        :extend-btns="extendBtns"
-        :dataFormat="dataFormat"
+      ref="flowDefineRef"
+      :fieldList="tableFieldList"
+      :primaryKey="primaryKey"
+      :compUrl="dataUrl"
+      :extend-btns="extendBtns"
+      :dataFormat="dataFormat"
     />
   </el-card>
 </template>

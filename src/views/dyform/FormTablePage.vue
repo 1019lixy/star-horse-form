@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {nextTick, onMounted, provide, reactive, ref, watch} from "vue";
+import { nextTick, onMounted, provide, reactive, ref, watch } from "vue";
 import {
   apiInstance,
   ApiUrls,
@@ -8,13 +8,14 @@ import {
   load,
   loadGetData,
   PageFieldInfo,
-  SearchProps
+  SearchProps,
 } from "star-horse-lowcode";
-import {useRoute, useRouter} from "vue-router";
-import {useNavBarListStore} from "@/store/NavBarList";
-import {Config} from "@/api/settings";
+import { useRoute, useRouter } from "vue-router";
+import { useNavBarListStore } from "@/store/NavBarList";
+import { Config } from "@/api/settings";
+import piniaCompInstance from "@/store";
 
-const navBarListStore = useNavBarListStore();
+const navBarListStore = useNavBarListStore(piniaCompInstance);
 const router = useRouter();
 const starHorseTableCompRef = ref();
 const currentRoute = useRoute();
@@ -22,19 +23,21 @@ const dataUrl = ref<ApiUrls>(apiInstance("", ""));
 const errorMsg = ref("数据加载中");
 let searchFormData = ref<SearchProps[]>();
 const tableFieldList = ref<PageFieldInfo>({
-  fieldList: []
+  fieldList: [],
 });
 const primaryKey = ref("");
 const rules = ref({});
 const hasData = ref(false);
 const props = defineProps({
-  param: {type: String, required: true}
+  param: { type: String, required: true },
 });
 const clear = () => {
   hasData.value = false;
 };
 const loadFormData = async (formId: string) => {
-  let {data, error} = await loadGetData(`/userdb-manage/userdb/dynamicForm/dynamicPageInfo/${formId}`);
+  let { data, error } = await loadGetData(
+    `/userdb-manage/userdb/dynamicForm/dynamicPageInfo/${formId}`,
+  );
   if (error) {
     errorMsg.value = error;
     hasData.value = false;
@@ -52,18 +55,18 @@ const loadFormData = async (formId: string) => {
   starHorseTableCompRef.value.init();
 };
 watch(
-    () => props.param,
-    (val) => {
-      clear();
-      try {
-        load("数据加载中。。。");
-        loadFormData(val as string);
-      } catch (e) {
-        closeLoad();
-        console.log("数据类型不匹配");
-      }
-    },
-    {deep: true}
+  () => props.param,
+  (val) => {
+    clear();
+    try {
+      load("数据加载中。。。");
+      loadFormData(val as string);
+    } catch (e) {
+      closeLoad();
+      console.log("数据类型不匹配");
+    }
+  },
+  { deep: true },
 );
 //记录表单的属性
 const formFields = reactive<Array<any>>([]);
@@ -84,45 +87,56 @@ onMounted(async () => {
 <style scoped></style>
 <template>
   <template v-if="hasData">
-    <star-horse-dialog :isShowBtnContinue="true" :dialogVisible="dialogProps.editVisible" :dialogProps="dialogProps">
+    <star-horse-dialog
+      :isShowBtnContinue="true"
+      :dialogVisible="dialogProps.editVisible"
+      :dialogProps="dialogProps"
+    >
       <star-horse-form
-          @refresh="starHorseTableCompRef?.loadByPage()"
-          :compUrl="dataUrl"
-          :fieldList="tableFieldList"
-          :rules="rules"
+        @refresh="starHorseTableCompRef?.loadByPage()"
+        :compUrl="dataUrl"
+        :fieldList="tableFieldList"
+        :rules="rules"
       />
     </star-horse-dialog>
     <star-horse-dialog
-        :dialog-visible="dialogProps.viewVisible"
-        :dialogProps="dialogProps"
-        
-        :source="3"
+      :dialog-visible="dialogProps.viewVisible"
+      :dialogProps="dialogProps"
+      :source="3"
     >
-      <star-horse-data-view :dataFormat="dataFormat" :field-list="tableFieldList" :compUrl="dataUrl"/>
+      <star-horse-data-view
+        :dataFormat="dataFormat"
+        :field-list="tableFieldList"
+        :compUrl="dataUrl"
+      />
     </star-horse-dialog>
     <el-card class="inner_content">
-      <div class="search_btn" >
+      <div class="search_btn">
         <star-horse-search-comp
-            @searchData="(data: any) => starHorseTableCompRef?.createSearchParams(data)"
-            :formData="searchFormData"
-            :compUrl="dataUrl"
+          @searchData="
+            (data: any) => starHorseTableCompRef?.createSearchParams(data)
+          "
+          :formData="searchFormData"
+          :compUrl="dataUrl"
         />
-        <hr/>
+        <hr />
         <star-horse-button-list
-            @tableCompFunc="(fun: any) => starHorseTableCompRef.tableCompFunc(fun)"
-            :compUrl="dataUrl"
-            :dialogProps="dialogProps"
-            :showType="Config.buttonStyle"
+          @tableCompFunc="
+            (fun: any) => starHorseTableCompRef.tableCompFunc(fun)
+          "
+          :compUrl="dataUrl"
+          :dialogProps="dialogProps"
+          :showType="Config.buttonStyle"
         />
       </div>
-      <hr/>
+      <hr />
       <star-horse-table-comp
-          ref="starHorseTableCompRef"
-          :fieldList="tableFieldList"
-          :primaryKey="primaryKey"
-          :compUrl="dataUrl"
-          :showBatchField="true"
-          :dataFormat="dataFormat"
+        ref="starHorseTableCompRef"
+        :fieldList="tableFieldList"
+        :primaryKey="primaryKey"
+        :compUrl="dataUrl"
+        :showBatchField="true"
+        :dataFormat="dataFormat"
       />
     </el-card>
   </template>

@@ -23,16 +23,20 @@ import {
   trim,
   useGlobalConfigStore,
   useUserInfoStore,
-  warning
+  warning,
 } from "star-horse-lowcode";
 import { computed, nextTick, onMounted, ref, unref } from "vue";
 import { useRouter } from "vue-router";
 
 const userStore = useUserInfoStore(piniaInstance);
 const loginStore = useLoginStore(piniaInstance);
-const dataUrl: ApiUrls = apiInstance("system-config", "system/dictinfoEntity", [getCustomerParam()]);
+const dataUrl: ApiUrls = apiInstance("system-config", "system/dictinfoEntity", [
+  getCustomerParam(),
+]);
 const configStore = useGlobalConfigStore(piniaInstance);
-const filterTableData = computed(() => filterTree(search.value, permissionMenuList.value));
+const filterTableData = computed(() =>
+  filterTree(search.value, permissionMenuList.value),
+);
 const configInfo = computed(() => configStore.configFormInfo);
 const { push } = useRouter();
 const emits = defineEmits(["changeLang", "layoutConfig"]);
@@ -98,7 +102,6 @@ const recallFun = (path: string, datas: any): any => {
 };
 const reverseDataList = ref<Array<any>>([]);
 const addShortcutMenu = async () => {
-  
   let datas = unref(userStore.permissionMenus);
   reverseDataList.value = [];
   permissionMenuList.value = datas;
@@ -126,11 +129,14 @@ const batchMerge = () => {
     dataList.push({
       idUsersinfo: userInfo?.idUsersinfo,
       menuName: item.meta.title,
-      menuPath: item.path
+      menuPath: item.path,
     });
   });
   load("数据提交中");
-  postRequest(`/system-config/system/shortcutMenu/mergeBatch/${userInfo.idUsersinfo}`, dataList)
+  postRequest(
+    `/system-config/system/shortcutMenu/mergeBatch/${userInfo.idUsersinfo}`,
+    dataList,
+  )
     .then((res: any) => {
       success(res.data.cnMessage);
       dialogProps.bakeVisible1 = false;
@@ -161,15 +167,15 @@ const fieldList = ref<PageFieldInfo>({
     {
       label: "菜单名称",
       listVisible: true,
-      fieldName: "meta.title"
+      fieldName: "meta.title",
     },
     {
       label: "菜单路径",
       listVisible: true,
-      fieldName: "path"
-    }
+      fieldName: "path",
+    },
   ],
-  stopAutoLoad: true
+  stopAutoLoad: true,
 });
 const dataFormat = (name: string, val: any, row: any) => {
   if (name == "meta.title") {
@@ -180,43 +186,100 @@ const dataFormat = (name: string, val: any, row: any) => {
 const selectItem = (item: any) => {
   const userId = getUserInfo()?.idUsersinfo;
   loginStore.loadMenusInfo(userId, item?.idInformations);
-}
+};
 </script>
 <template>
-  <star-horse-dialog :title="'编辑快捷菜单'" :dialog-props="dialogProps" :dialog-visible="dialogProps.bakeVisible1"
-    :self-func="true" @merge="batchMerge" @resetForm="shortcutReset">
-    <el-input style="width: 50%" v-model="search" :size="configInfo.inputSize || 'default'" placeholder="请输入关键字"
-      clearable>
+  <star-horse-dialog
+    :title="'编辑快捷菜单'"
+    :dialog-props="dialogProps"
+    :dialog-visible="dialogProps.bakeVisible1"
+    :self-func="true"
+    @merge="batchMerge"
+    @resetForm="shortcutReset"
+  >
+    <el-input
+      style="width: 50%"
+      v-model="search"
+      :size="configInfo.inputSize || 'default'"
+      placeholder="请输入关键字"
+      clearable
+    >
       <template #append>
         <star-horse-icon icon-class="search" color="var(--star-horse-style)" />
       </template>
     </el-input>
-    <star-horse-table-comp ref="shortcutMultipleTable" :field-list="fieldList" primaryKey="meta.title"
-      :hideButtonList="true" :compUrl="dataUrl" :disableAction="true" :showPageBar="false" :dataFormat="dataFormat"
-      :allowSelectParent="false" :expand="true" :reverseDataList="reverseDataList" :tableDataList="filterTableData" />
+    <star-horse-table-comp
+      ref="shortcutMultipleTable"
+      :field-list="fieldList"
+      primaryKey="meta.title"
+      :hideButtonList="true"
+      :compUrl="dataUrl"
+      :disableAction="true"
+      :showPageBar="false"
+      :dataFormat="dataFormat"
+      :allowSelectParent="false"
+      :expand="true"
+      :reverseDataList="reverseDataList"
+      :tableDataList="filterTableData"
+    />
   </star-horse-dialog>
-  <div class="flex items-center justify-between overflow-hidden w-full  vertical-align-middle flex-row "
+  <div
+    class="flex items-center justify-between overflow-hidden w-full vertical-align-middle flex-row"
     :style="{ height: configInfo.shortCutMenus == 'Y' ? '60%' : 'inherit' }"
-    style="-webkit-box-align: center;-webkit-box-pack: justify;background: var(--star-horse-style);">
+    style="
+      -webkit-box-align: center;
+      -webkit-box-pack: justify;
+      background: var(--star-horse-style);
+    "
+  >
     <div :title="systemName" class="flex items-center ml-[10px]">
-      <img v-if="getCustomerInfo()?.logo" :src="getCustomerInfo()?.logo" :height="getCustomerInfo()?.height || 45" />
-      <star-horse-icon v-else icon-class="logo" size="45px" width="45px" height="45px"
-        style="color: var(--star-horse-white); font-weight: bold" />
+      <img
+        v-if="getCustomerInfo()?.logo"
+        :src="getCustomerInfo()?.logo"
+        :height="getCustomerInfo()?.height || 45"
+      />
+      <star-horse-icon
+        v-else
+        icon-class="logo"
+        size="45px"
+        width="45px"
+        height="45px"
+        style="color: var(--star-horse-white); font-weight: bold"
+      />
     </div>
     <div class="flex-1 flex flex-row items-center h-full overflow-hidden">
-      <star-horse-menu :ellipsis="true" v-if="configInfo.menusCfg == 'tradition'" :mode="'horizontal'"
-        @selectItem="selectItem" :dataList="appinfoList" :preps="{
+      <star-horse-menu
+        :ellipsis="true"
+        v-if="configInfo.menusCfg == 'tradition'"
+        :mode="'horizontal'"
+        @selectItem="selectItem"
+        :dataList="appinfoList"
+        :preps="{
           id: 'idInformations',
           label: 'sysName',
           icon: 'sysLogo',
-          children: 'children'
-        }" />
+          children: 'children',
+        }"
+      />
     </div>
-    <div class="flex h-full w-[180px] mr-[10px] flex-row justify-between flex-no-wrap items-center">
+    <div
+      class="flex h-full w-[180px] mr-[10px] flex-row justify-between flex-no-wrap items-center"
+    >
       <Message />
-      <el-dropdown class="flex flex-row" @command="handleLanguageChanged" :show-arrow="false">
-        <span class=" flex items-center flex-row" style="cursor: pointer;color:#fff">
-          {{ curLangName }}<star-horse-icon icon-class="arrow-down" style="color: var(--star-horse-white)" /></span>
+      <el-dropdown
+        class="flex flex-row"
+        @command="handleLanguageChanged"
+        :show-arrow="false"
+      >
+        <span
+          class="flex items-center flex-row"
+          style="cursor: pointer; color: #fff"
+        >
+          {{ curLangName
+          }}<star-horse-icon
+            icon-class="arrow-down"
+            style="color: var(--star-horse-white)"
+        /></span>
         <template #dropdown>
           <el-dropdown-menu>
             <el-dropdown-item command="zh_cn">中文</el-dropdown-item>
@@ -227,8 +290,14 @@ const selectItem = (item: any) => {
 
       <el-dropdown trigger="click" :show-arrow="false">
         <span class="el-dropdown-link">
-          <star-horse-icon icon-class="user-circle" size="30px" width="30px" height="30px" cursor="pointer"
-            style="vertical-align: middle; color: var(--star-horse-white)" />
+          <star-horse-icon
+            icon-class="user-circle"
+            size="30px"
+            width="30px"
+            height="30px"
+            cursor="pointer"
+            style="vertical-align: middle; color: var(--star-horse-white)"
+          />
         </span>
         <template #dropdown>
           <el-dropdown-menu>
@@ -237,20 +306,36 @@ const selectItem = (item: any) => {
               <p>({{ userInfo.username }})</p>
             </el-dropdown-item>
             <el-dropdown-item divided class="clearfix" @click="modifyInfo">
-              <star-horse-icon icon-class="user-circle" color="var(--star-horse-style)" />
+              <star-horse-icon
+                icon-class="user-circle"
+                color="var(--star-horse-style)"
+              />
               {{ i18n("main.header.authority") }}
             </el-dropdown-item>
-            <el-dropdown-item divided class="clearfix" @click="push('/shcalendar')">
-              <star-horse-icon icon-class="calendar" color="var(--star-horse-style)" />
+            <el-dropdown-item
+              divided
+              class="clearfix"
+              @click="push('/shcalendar')"
+            >
+              <star-horse-icon
+                icon-class="calendar"
+                color="var(--star-horse-style)"
+              />
               {{ i18n("main.header.calendar") }}
             </el-dropdown-item>
             <el-dropdown-item divided class="clearfix" @click="layoutConfig">
-              <star-horse-icon icon-class="layout" color="var(--star-horse-style)" />
+              <star-horse-icon
+                icon-class="layout"
+                color="var(--star-horse-style)"
+              />
               {{ i18n("main.header.layoutConfig") }}
             </el-dropdown-item>
 
             <el-dropdown-item divided @click="loginOut" class="clearfix">
-              <star-horse-icon icon-class="login_out" style="vertical-align: middle; color: #f56c6c" />
+              <star-horse-icon
+                icon-class="login_out"
+                style="vertical-align: middle; color: #f56c6c"
+              />
               {{ i18n("main.header.logout") }}
             </el-dropdown-item>
           </el-dropdown-menu>
@@ -259,23 +344,41 @@ const selectItem = (item: any) => {
     </div>
   </div>
   <div class="shortcut" v-if="configInfo.shortCutMenus == 'Y'">
-    <div class="shortcut_ul flex h-full w-full flex-row align-left items-center ml-0 pl-0">
+    <div
+      class="shortcut_ul flex h-full w-full flex-row align-left items-center ml-0 pl-0"
+    >
       <template v-for="(item, index) in shortcutMenuList">
         <span>
           <el-tooltip :content="item.menuName">
             <router-link :to="{ path: item.menuPath }">
-              <el-icon class="star-icon" style="color: var(--star-horse-white); font-size: 18px">
+              <el-icon
+                class="star-icon"
+                style="color: var(--star-horse-white); font-size: 18px"
+              >
                 <component :is="item.menuIcon || 'document'" />
               </el-icon>
-              &nbsp;{{ item["menuName"] }}</router-link>
+              &nbsp;{{ item["menuName"] }}</router-link
+            >
           </el-tooltip>
         </span>
-        <span style="display: flex; height: 100%; width: 1px; cursor: none; color: #ffd04b"
-          v-if="index < shortcutMenuList.length - 1">|</span>
+        <span
+          style="
+            display: flex;
+            height: 100%;
+            width: 1px;
+            cursor: none;
+            color: #ffd04b;
+          "
+          v-if="index < shortcutMenuList.length - 1"
+          >|</span
+        >
       </template>
       <span @click="addShortcutMenu">
         <el-tooltip content="添加快捷菜单">
-          <star-horse-icon icon-class="add" style="color: var(--star-horse-white)" />
+          <star-horse-icon
+            icon-class="add"
+            style="color: var(--star-horse-white)"
+          />
         </el-tooltip>
       </span>
     </div>
@@ -295,8 +398,7 @@ const selectItem = (item: any) => {
   }
 }
 
-
-.el-dropdown-menu>.el-dropdown-menu__item:first-child {
+.el-dropdown-menu > .el-dropdown-menu__item:first-child {
   border-bottom: 1px solid silver;
 }
 

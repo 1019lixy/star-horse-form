@@ -1,18 +1,18 @@
 <template>
   <!--  {{deviceId}}-->
-  <component :is="loginComponent"/>
+  <component :is="loginComponent" />
 </template>
 
 <script setup lang="ts">
-import {onMounted, ref} from "vue";
+import { onMounted, ref } from "vue";
 import LoginDev from "@/components/LoginDev.vue";
 import LoginPrd from "@/components/LoginPrd.vue";
-import {generateDeviceId} from "star-horse-lowcode";
+import { generateDeviceId } from "star-horse-lowcode";
 
 const loginComponent = ref<any>(null);
 onMounted(async () => {
   // 生成设备ID
-  generateDeviceId('');
+  generateDeviceId("");
   let env: string = import.meta.env.MODE;
   const port = window.location.port;
   env = port == "5588" ? "development" : env;

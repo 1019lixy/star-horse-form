@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {onMounted} from "vue";
+import { onMounted } from "vue";
 
 const handleYResize = () => {
   const box = document.getElementsByClassName("box");
@@ -87,12 +87,12 @@ onMounted(() => {
 
 <template>
   <div class="box">
-    <div class="left"/>
-    <div class="y-resize"/>
+    <div class="left" />
+    <div class="y-resize" />
     <div class="right">
-      <div class="top"/>
-      <div class="x-resize"/>
-      <div class="bottom"/>
+      <div class="top" />
+      <div class="x-resize" />
+      <div class="bottom" />
     </div>
   </div>
 </template>

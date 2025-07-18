@@ -5,11 +5,13 @@ import { useLoginStore } from "@/store/Login";
 import { piniaInstance, useGlobalConfigStore } from "star-horse-lowcode";
 import { computed, nextTick, onMounted, ref, watch } from "vue";
 defineProps({
-  isCollapse: { type: Boolean, default: false }
-})
+  isCollapse: { type: Boolean, default: false },
+});
 let configStore = useGlobalConfigStore(piniaInstance);
 const loginStore = useLoginStore(piniaInstance);
-let compSize = computed(() => configStore.configFormInfo?.inputSize || Config.compSize);
+let compSize = computed(
+  () => configStore.configFormInfo?.inputSize || Config.compSize,
+);
 const emits = defineEmits(["collapseOperation"]);
 let leftMenuDatas = computed(() => loginStore.getMenusList());
 
@@ -18,7 +20,8 @@ const setOpenMenu = () => {
   filterTableData.value = leftMenuDatas.value;
   nextTick(() => {
     if (leftMenuDatas.value?.length > 0) {
-      let allId = leftMenuDatas.value.find((item: any) => item.path == "#")?.meta?.menuId;
+      let allId = leftMenuDatas.value.find((item: any) => item.path == "#")
+        ?.meta?.menuId;
       if (allId && systemMenu?.value) {
         try {
           systemMenu.value.open(allId);
@@ -31,32 +34,48 @@ const setOpenMenu = () => {
 };
 const search = ref<string>("");
 const systemMenu = ref();
-const filterTableData = computed(() => filterTree(search.value, leftMenuDatas.value));
-onMounted(() => {
-
-});
+const filterTableData = computed(() =>
+  filterTree(search.value, leftMenuDatas.value),
+);
+onMounted(() => {});
 watch(
   () => leftMenuDatas.value,
   () => {
     setOpenMenu();
   },
-  { immediate: true }
+  { immediate: true },
 );
-
 </script>
 <template>
   <div class="starhorse-menu">
     <el-scrollbar height="100%" class="base">
-      <el-menu :collapse="isCollapse" ref="systemMenu" popper-effect="dark" popper-class="popper-class"
-        :default-openeds="defaultOpenMenu">
-        <el-menu-item index="-1" style="height: 38px; background: var(--star-horse-background)">
+      <el-menu
+        :collapse="isCollapse"
+        ref="systemMenu"
+        popper-effect="dark"
+        popper-class="popper-class"
+        :default-openeds="defaultOpenMenu"
+      >
+        <el-menu-item
+          index="-1"
+          style="height: 38px; background: var(--star-horse-background)"
+        >
           <el-icon class="star-icon" v-if="isCollapse">
             <component :is="'search'" />
           </el-icon>
           <template #title>
-            <el-input v-model="search" :size="compSize" placeholder="请输入关键字" clearable>
+            <el-input
+              v-model="search"
+              :size="compSize"
+              placeholder="请输入关键字"
+              clearable
+            >
               <template #suffix>
-                <star-horse-icon icon-class="search" color="var(--star-horse-style)" size="16px" />
+                <star-horse-icon
+                  icon-class="search"
+                  color="var(--star-horse-style)"
+                  size="16px"
+                />
               </template>
             </el-input>
           </template>

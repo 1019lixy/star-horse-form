@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import {computed, onMounted} from "vue";
-import {piniaInstance, useDesignPageStore, uuid} from "star-horse-lowcode";
+import { computed, onMounted } from "vue";
+import { piniaInstance, useDesignPageStore, uuid } from "star-horse-lowcode";
 
 let designPage = useDesignPageStore(piniaInstance);
 let nodeList = computed(() => designPage.nodeList);
@@ -12,7 +12,7 @@ const handleClick = () => {
     height: 100,
     zIndex: designPage.defaultZindex + nodeList.value.length,
     left: 0,
-    top: 0
+    top: 0,
   });
 };
 onMounted(() => {
@@ -23,7 +23,11 @@ onMounted(() => {
 <template>
   <el-button @click="handleClick">添加节点</el-button>
   <div class="box" @click.stop="designPage.selectNode({})">
-    <StarHorseDraggable v-for="(item, index) in nodeList" :key="index" :node="item"/>
+    <StarHorseDraggable
+      v-for="(item, index) in nodeList"
+      :key="index"
+      :node="item"
+    />
   </div>
 </template>
 

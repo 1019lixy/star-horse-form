@@ -1,23 +1,29 @@
 <script setup lang="ts">
-import {nextTick, onMounted, PropType, ref} from "vue";
-import {ApiUrls, operationConfirm, postRequest, success, warning} from "star-horse-lowcode";
+import { nextTick, onMounted, PropType, ref } from "vue";
+import {
+  ApiUrls,
+  operationConfirm,
+  postRequest,
+  success,
+  warning,
+} from "star-horse-lowcode";
 
 const props = defineProps({
   dynamicFormList: {
     type: Array,
-    default: () => []
+    default: () => [],
   },
   dataUrl: {
     type: Object as PropType<ApiUrls>,
   },
   compSize: {
     type: String,
-    default: "default"
+    default: "default",
   },
   primaryKey: {
     type: String,
-    default: "id"
-  }
+    default: "id",
+  },
 });
 const emits = defineEmits(["change"]);
 const starHorseTreeRef = ref();
@@ -140,23 +146,25 @@ const dragStart = ($event) => {
   return false;
 };
 const dataChange = (menu: any) => {
-  emits("change", 'edit', menu);
+  emits("change", "edit", menu);
 };
 const rmvData = (menu: any) => {
   operationConfirm("确认删除吗？").then(() => {
-    postRequest(props.dataUrl?.deleteUrl!, [menu[props.primaryKey]]).then(res => {
-      if (res.data.code) {
-        warning(res.data.cnMessage);
-        return;
-      }
-      success("操作成功");
-      starHorseTreeRef.value.createSearchParams();
-    })
+    postRequest(props.dataUrl?.deleteUrl!, [menu[props.primaryKey]]).then(
+      (res) => {
+        if (res.data.code) {
+          warning(res.data.cnMessage);
+          return;
+        }
+        success("操作成功");
+        starHorseTreeRef.value.createSearchParams();
+      },
+    );
   });
 };
 const addData = (menu: any) => {
-  emits("change", 'subAdd', menu);
-}
+  emits("change", "subAdd", menu);
+};
 const init = async () => {
   await nextTick();
   screenshot.value.addEventListener("touchstart", dragStart, false);
@@ -166,42 +174,52 @@ onMounted(async () => {
   await init();
 });
 defineExpose({
-  hideDropDown
-})
+  hideDropDown,
+});
 </script>
 <template>
-  <div v-show="show" ref="screenshot" id="screenshot" class="absolute left-[20px] bottom-[20px] z-9999999">
-    <div ref="screenshotDropdown" v-if="dropDownVisible" class="form-list" @click.stop.prevent>
+  <div
+    v-show="show"
+    ref="screenshot"
+    id="screenshot"
+    class="absolute left-[20px] bottom-[20px] z-9999999"
+  >
+    <div
+      ref="screenshotDropdown"
+      v-if="dropDownVisible"
+      class="form-list"
+      @click.stop.prevent
+    >
       <star-horse-tree
-          ref="starHorseTreeRef"
-          :expand="true"
-          treeTitle="表单列表"
-          @selectData="dataChange"
-          @removeData="rmvData"
-          @addData="addData"
-          :preps="{
-                label: 'formName',
-                value: primaryKey
-              }"
-          :helpMsg="`点击节点进行编辑，点击按钮进行添加或删除`"
-          :showPageBar="true"
-          :isDynamicData="true"
-          :btnVisible="true"
-          :rmvVisible="true"
-          rmv-title="删除子表单"
-          btnTitle="添加子表单"
-          :autoLoad="true"
-          :compUrl="dataUrl"
-          :compSize="compSize"
+        ref="starHorseTreeRef"
+        :expand="true"
+        treeTitle="表单列表"
+        @selectData="dataChange"
+        @removeData="rmvData"
+        @addData="addData"
+        :preps="{
+          label: 'formName',
+          value: primaryKey,
+        }"
+        :helpMsg="`点击节点进行编辑，点击按钮进行添加或删除`"
+        :showPageBar="true"
+        :isDynamicData="true"
+        :btnVisible="true"
+        :rmvVisible="true"
+        rmv-title="删除子表单"
+        btnTitle="添加子表单"
+        :autoLoad="true"
+        :compUrl="dataUrl"
+        :compSize="compSize"
       />
     </div>
     <el-button
-        ref="screenshotBtnRef"
-        id="screenshotBtn"
-        @click.native.prevent.stop="showDropDown"
-        class="fixed-position-btn"
-        type="warning"
-        icon="menu"
+      ref="screenshotBtnRef"
+      id="screenshotBtn"
+      @click.native.prevent.stop="showDropDown"
+      class="fixed-position-btn"
+      type="warning"
+      icon="menu"
     ></el-button>
   </div>
 </template>
@@ -223,5 +241,4 @@ defineExpose({
   bottom: 20px;
   transform: translate(0, 0) !important;
 }
-
 </style>

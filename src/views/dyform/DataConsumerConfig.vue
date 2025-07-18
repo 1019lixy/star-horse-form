@@ -1,7 +1,7 @@
 <script setup lang="ts" name="DataConsumerConfig">
-import {computed, nextTick, onMounted, ref, unref, watch} from "vue";
-import {LocationQueryValue, useRoute} from "vue-router";
-import {Cell} from "@antv/x6";
+import { computed, nextTick, onMounted, ref, unref, watch } from "vue";
+import { LocationQueryValue, useRoute } from "vue-router";
+import { Cell } from "@antv/x6";
 import {
   apiInstance,
   ApiUrls,
@@ -17,17 +17,25 @@ import {
   success,
   useConsumerViewStore,
   useGlobalConfigStore,
-  warning
+  warning,
 } from "star-horse-lowcode";
-import {loadRolesInfo} from "@/api/star_horse_utils";
-import {consumerNodeData, relationFieldInfo, table_width, viewFieldInfo} from "@/views/dyform/utils/DataConsumer";
-import {tableColumns} from "@/views/dbsearch/utils/DbSearchUtils";
-import {Config} from "@/api/settings";
+import { loadRolesInfo } from "@/api/star_horse_utils";
+import {
+  consumerNodeData,
+  relationFieldInfo,
+  table_width,
+  viewFieldInfo,
+} from "@/views/dyform/utils/DataConsumer";
+import { tableColumns } from "@/views/dbsearch/utils/DbSearchUtils";
+import { Config } from "@/api/settings";
 
 const route = useRoute();
 const isView = ref<boolean>(false);
 //后端交互接口地址
-const dataUrl: ApiUrls = apiInstance("userdb-manage", "userdb/dynamicFormConsumerConfig");
+const dataUrl: ApiUrls = apiInstance(
+  "userdb-manage",
+  "userdb/dynamicFormConsumerConfig",
+);
 const customerItems = ref<CustomerItem[]>([]);
 const formConditionProps = ref<any>({});
 const dataForm = ref<any>({});
@@ -35,10 +43,11 @@ const relationConditionList = ref<Array<any>>([]);
 const consumerView = useConsumerViewStore(piniaInstance);
 let dbConfigId = computed(() => consumerView.dbConfigId);
 let configStore = useGlobalConfigStore(piniaInstance);
-let compSize = computed(() => configStore.configFormInfo?.buttonSize || Config.compSize);
+let compSize = computed(
+  () => configStore.configFormInfo?.buttonSize || Config.compSize,
+);
 
-const initDiagram = () => {
-};
+const initDiagram = () => {};
 let viewTypeList = ref<SelectOption[]>([]);
 let conditionList = ref<SelectOption[]>([]);
 let consumeAuthorityList = ref<SelectOption[]>([]);
@@ -74,7 +83,7 @@ const addNode = (data: any, columns: Array<any>, index: number = 0) => {
     name: data["key"],
     width: table_width,
     posX: x,
-    posY: y
+    posY: y,
   };
   cells.value = containerDiagramRef.value.addNode(datat);
   // console.log(cells);
@@ -86,7 +95,12 @@ const addNode = (data: any, columns: Array<any>, index: number = 0) => {
  * @param toTable 表名
  * @param toKey 字段名
  */
-const addLine = (fromTable: string, fromKey: string, toTable: string, toKey: string) => {
+const addLine = (
+  fromTable: string,
+  fromKey: string,
+  toTable: string,
+  toKey: string,
+) => {
   let nodes = unref(cells);
   const filterNode = (tableName: string) => {
     return nodes?.find((item) => item.getData().name == tableName);
@@ -103,18 +117,18 @@ const addLine = (fromTable: string, fromKey: string, toTable: string, toKey: str
   let edge = containerDiagramRef.value.graph.addEdge({
     source: {
       cell: fromNode!.id,
-      port: fromId
+      port: fromId,
     },
     target: {
       cell: toNode!.id,
-      port: toId
+      port: toId,
     },
     attrs: {
       line: {
         stroke: "var(--star-horse-style)",
-        strokeWidth: 2
-      }
-    }
+        strokeWidth: 2,
+      },
+    },
   });
   cells.value.push(edge);
 };
@@ -122,8 +136,7 @@ const newCreate = () => {
   cells.value = [];
   containerDiagramRef.value.graph.clearCells();
 };
-const checkRelation = () => {
-};
+const checkRelation = () => {};
 let isConfig = ref<boolean>(false);
 let viewConfigInfo = ref<any>({});
 /**
@@ -159,20 +172,20 @@ const submitValid = () => {
       let data = createMergeData();
       load("数据提交中");
       postRequest(dataUrl.mergeUrl!, data)
-          .then((res: any) => {
-            let redata = res.data;
-            if (redata.code != 0) {
-              error(redata.cnMessage);
-              return;
-            }
-            closeAction();
-            resetDataSourceForm();
-            newCreate();
-            success("数据处理成功");
-          })
-          .finally(() => {
-            closeLoad();
-          });
+        .then((res: any) => {
+          let redata = res.data;
+          if (redata.code != 0) {
+            error(redata.cnMessage);
+            return;
+          }
+          closeAction();
+          resetDataSourceForm();
+          newCreate();
+          success("数据处理成功");
+        })
+        .finally(() => {
+          closeLoad();
+        });
     }
   });
 };
@@ -214,7 +227,10 @@ const loadConfigData = async (configId: string | LocationQueryValue[]) => {
   //加载数据
   await nextTick();
   isView.value = route.query["isView"] == "Y";
-  let {data, error} = await loadData(dataUrl.loadByIdUrl + "/" + configId, {});
+  let { data, error } = await loadData(
+    dataUrl.loadByIdUrl + "/" + configId,
+    {},
+  );
   if (error) {
     warning(error);
     return;
@@ -231,10 +247,28 @@ const loadConfigData = async (configId: string | LocationQueryValue[]) => {
   for (let index in relationDatas) {
     let temp = relationDatas[index];
     let tbColumns = await tableColumns(dbCfgId, temp.fromTable);
-    addNode({comment: temp.fromTable, key: temp.fromTable, posX: temp.fromPosX, posY: temp.fromPosY}, tbColumns, 0);
+    addNode(
+      {
+        comment: temp.fromTable,
+        key: temp.fromTable,
+        posX: temp.fromPosX,
+        posY: temp.fromPosY,
+      },
+      tbColumns,
+      0,
+    );
     if (temp.toTable) {
       tbColumns = await tableColumns(dbCfgId, temp.toTable);
-      addNode({comment: temp.toTable, key: temp.toTable, posX: temp.toPosX, posY: temp.toPosY}, tbColumns, 1);
+      addNode(
+        {
+          comment: temp.toTable,
+          key: temp.toTable,
+          posX: temp.toPosX,
+          posY: temp.toPosY,
+        },
+        tbColumns,
+        1,
+      );
       //创建连线
       addLine(temp.fromTable, temp.fromField, temp.toTable, temp.toField);
     }
@@ -243,7 +277,6 @@ const loadConfigData = async (configId: string | LocationQueryValue[]) => {
     console.log(cells.value);
     containerDiagramRef.value.graph.resetCells(cells.value);
   }
-
 };
 const createMergeData = () => {
   let configInfo = viewConfigInfo.value;
@@ -271,14 +304,14 @@ const createMergeData = () => {
         fromPosX: temp.fromData.posX,
         fromPosY: temp.fromData.posY,
         toPosX: temp.toData.posX,
-        toPosY: temp.toData.posY
+        toPosY: temp.toData.posY,
       });
     }
   } else {
     let temp = tables[0];
     subData.push({
       fromTable: temp.from,
-      fromKey: "from1"
+      fromKey: "from1",
     });
   }
   let sortFieldsTemp = formProps.value["sortFields"];
@@ -288,7 +321,7 @@ const createMergeData = () => {
   formProps.value["sortFieldList"] = exclusionOptionList(sortFieldsTemp);
   formProps.value["limitFieldList"] = exclusionOptionList(limitFieldsTemp);
   let data = JSON.parse(JSON.stringify(formProps.value));
-  data = {...data, ...formData};
+  data = { ...data, ...formData };
   delete data["sortFields"];
   delete data["limitFields"];
   return data;
@@ -299,31 +332,32 @@ const searchFormData = ref<any>([]);
 const loadColumnFields = async () => {
   searchFormData.value = [];
   columnList.value = [];
-  await postRequest(`${dataUrl.basePrefix}/previewViewColumns`, createMergeData()).then(
-      (res: any) => {
-        let redata = res.data;
-        if (redata.code != 0) {
-          error(redata.cnMessage);
-          return;
+  await postRequest(
+    `${dataUrl.basePrefix}/previewViewColumns`,
+    createMergeData(),
+  ).then((res: any) => {
+    let redata = res.data;
+    if (redata.code != 0) {
+      error(redata.cnMessage);
+      return;
+    }
+    columnList.value = redata.data;
+    for (let key in columnList.value) {
+      let temp = columnList.value[key];
+      for (let j in temp) {
+        let stemp = temp[j] as any;
+        if (stemp.primaryFlag == "Y") {
+          continue;
         }
-        columnList.value = redata.data;
-        for (let key in columnList.value) {
-          let temp = columnList.value[key];
-          for (let j in temp) {
-            let stemp = temp[j] as any;
-            if (stemp.primaryFlag == "Y") {
-              continue;
-            }
-            searchFormData.value.push({
-              label: stemp.comment,
-              fieldName: key + "&" + stemp.name,
-              type: stemp.type,
-              matchType: "lk"
-            });
-          }
-        }
+        searchFormData.value.push({
+          label: stemp.comment,
+          fieldName: key + "&" + stemp.name,
+          type: stemp.type,
+          matchType: "lk",
+        });
       }
-  );
+    }
+  });
 };
 /**
  * 保存数据前配置
@@ -332,7 +366,7 @@ const loadColumnFields = async () => {
  */
 const configView = (dataInfo: any, isSubmit: boolean) => {
   isConfig.value = !isSubmit;
-  viewConfigInfo.value = {...dataInfo};
+  viewConfigInfo.value = { ...dataInfo };
   consumerDialogVisible.value = true;
 };
 /**
@@ -340,7 +374,7 @@ const configView = (dataInfo: any, isSubmit: boolean) => {
  * @param dataInfo
  */
 const preview = (dataInfo: any) => {
-  viewConfigInfo.value = {...dataInfo};
+  viewConfigInfo.value = { ...dataInfo };
   //加载视图
   loadColumnFields();
   dataList(1, 20);
@@ -351,29 +385,29 @@ const dataList = (currentPage: number, pageSize: number) => {
   let dataPo = {
     condition: createMergeData(),
     pageSize: pageSize || 20,
-    currentPage: currentPage || 1
+    currentPage: currentPage || 1,
   };
   postRequest(`${dataUrl.basePrefix}/preview`, dataPo)
-      .then((res) => {
-        let redata = res.data;
-        if (redata.code != 0) {
-          error(redata.cnMessage);
-          return;
-        }
-        previewDatas.value = redata.data;
-      })
-      .finally(() => {
-        closeLoad();
-      });
+    .then((res) => {
+      let redata = res.data;
+      if (redata.code != 0) {
+        error(redata.cnMessage);
+        return;
+      }
+      previewDatas.value = redata.data;
+    })
+    .finally(() => {
+      closeLoad();
+    });
 };
 watch(
-    () => route.query["configId"],
-    (val) => {
-      if (val) {
-        loadConfigData(val);
-      }
-    },
-    {immediate: false, deep: true}
+  () => route.query["configId"],
+  (val) => {
+    if (val) {
+      loadConfigData(val);
+    }
+  },
+  { immediate: false, deep: true },
 );
 const conditionFormRef = ref();
 const conditionValid = () => {
@@ -387,10 +421,10 @@ const conditionValid = () => {
     for (let index in relationConditionList.value) {
       let data = relationConditionList.value[index];
       if (
-          item.from == data.from &&
-          item.fromPort == data.fromPort &&
-          item.to == data.to &&
-          item.toPort == data.toPort
+        item.from == data.from &&
+        item.fromPort == data.fromPort &&
+        item.to == data.to &&
+        item.toPort == data.toPort
       ) {
         relationConditionList.value[index] = item;
         flag = true;
@@ -406,13 +440,16 @@ const conditionValid = () => {
 const lineOperation = (data: any) => {
   // console.log(data);
   let fdata = relationConditionList.value.find(
-      (item) =>
-          item.from == data.from && item.fromPort == data.fromPort && item.to == data.to && item.toPort == data.toPort
+    (item) =>
+      item.from == data.from &&
+      item.fromPort == data.fromPort &&
+      item.to == data.to &&
+      item.toPort == data.toPort,
   );
   if (fdata) {
     formConditionProps.value = fdata;
   } else {
-    formConditionProps.value = {...data};
+    formConditionProps.value = { ...data };
   }
   relationDialogVisible.value = true;
 };
@@ -422,72 +459,74 @@ const nodeOperation = (cell: any) => {
 </script>
 <template>
   <star-horse-dialog
-      :dialogVisible="dataPreviewVisible"
-      :title="'数据预览'"
-      @closeAction="closeAction"
-      :isBatch="false"
-      :source="3"
+    :dialogVisible="dataPreviewVisible"
+    :title="'数据预览'"
+    @closeAction="closeAction"
+    :isBatch="false"
+    :source="3"
   >
     <DataPreview
-        :compSize="compSize"
-        :item="previewDatas"
-        :columns="columnList"
-        @changePage="dataList"
-        :isPriview="true"
+      :compSize="compSize"
+      :item="previewDatas"
+      :columns="columnList"
+      @changePage="dataList"
+      :isPriview="true"
     />
   </star-horse-dialog>
   <star-horse-dialog
-      :dialogVisible="relationDialogVisible"
-      :title="'关系配置'"
-      :isBatch="false"
-      @merge="conditionValid"
-      @closeAction="conditionClose"
-      @resetForm="resetConditionForm"
-      :selfFunc="true"
+    :dialogVisible="relationDialogVisible"
+    :title="'关系配置'"
+    :isBatch="false"
+    @merge="conditionValid"
+    @closeAction="conditionClose"
+    @resetForm="resetConditionForm"
+    :selfFunc="true"
   >
     <star-horse-form
-        :outerFormData="formConditionProps"
-        ref="conditionFormRef"
-        :compUrl="dataUrl"
-        :fieldList="relationFieldInfo(formConditionProps)"
-        :rules="{}"
+      :outerFormData="formConditionProps"
+      ref="conditionFormRef"
+      :compUrl="dataUrl"
+      :fieldList="relationFieldInfo(formConditionProps)"
+      :rules="{}"
     />
   </star-horse-dialog>
   <star-horse-dialog
-      :dialogVisible="consumerDialogVisible"
-      :title="'消费配置'"
-      :isBatch="false"
-      @merge="submitValid"
-      @closeAction="closeAction"
-      @resetForm="resetDataSourceForm"
-      :selfFunc="true"
+    :dialogVisible="consumerDialogVisible"
+    :title="'消费配置'"
+    :isBatch="false"
+    @merge="submitValid"
+    @closeAction="closeAction"
+    @resetForm="resetDataSourceForm"
+    :selfFunc="true"
   >
     <star-horse-form
-        ref="dataSourceFormRef"
-        :outerFormData="formProps"
-        :compUrl="dataUrl"
-        :fieldList="viewFieldInfo(viewTypeList, consumeAuthorityList, viewConfigInfo)"
-        :rules="{}"
+      ref="dataSourceFormRef"
+      :outerFormData="formProps"
+      :compUrl="dataUrl"
+      :fieldList="
+        viewFieldInfo(viewTypeList, consumeAuthorityList, viewConfigInfo)
+      "
+      :rules="{}"
     />
   </star-horse-dialog>
   <el-card class="inner_content" style="height: 100%; padding: 5px">
     <star-horse-design
-        :customerItems="customerItems"
-        :register-node="consumerNodeData"
-        ref="containerDiagramRef"
-        :tableFlag="true"
-        :activeCollapse="'db'"
-        :panelStyle="'other'"
-        :showDbList="true"
-        :showCompList="false"
-        :compType="'table'"
-        v-model:data-form="dataForm"
-        @lineClick="lineOperation"
-        @preview="preview"
-        @save="(val: any) => configView(val, true)"
-        @config="(val: any) => configView(val, false)"
-        @validation="checkRelation"
-        @nodeClick="nodeOperation"
+      :customerItems="customerItems"
+      :register-node="consumerNodeData"
+      ref="containerDiagramRef"
+      :tableFlag="true"
+      :activeCollapse="'db'"
+      :panelStyle="'other'"
+      :showDbList="true"
+      :showCompList="false"
+      :compType="'table'"
+      v-model:data-form="dataForm"
+      @lineClick="lineOperation"
+      @preview="preview"
+      @save="(val: any) => configView(val, true)"
+      @config="(val: any) => configView(val, false)"
+      @validation="checkRelation"
+      @nodeClick="nodeOperation"
     />
   </el-card>
 </template>

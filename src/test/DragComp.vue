@@ -1,12 +1,12 @@
 <script setup lang="ts">
-import {dynamicPageContextMenuData, Editable} from "@/plugins/AblesPlugin";
-import {onMounted, ref} from "vue";
-import {uuid} from "star-horse-lowcode";
+import { dynamicPageContextMenuData, Editable } from "@/plugins/AblesPlugin";
+import { onMounted, ref } from "vue";
+import { uuid } from "star-horse-lowcode";
 
 const props = defineProps({
-  field: {type: Object, required: true},
-  formData: {type: Object, required: true},
-  itemName: {type: String, required: true}
+  field: { type: Object, required: true },
+  formData: { type: Object, required: true },
+  itemName: { type: String, required: true },
 });
 const target = ref();
 const moveable = ref({
@@ -20,31 +20,31 @@ const moveable = ref({
   rotatable: true,
   throttleRotate: 0.2,
   pinchable: true,
-  origin: false
+  origin: false,
 });
 const contentMenuRef = ref();
 const contextmenu = (e: MouseEvent) => {
   e.preventDefault();
   contentMenuRef.value?.show(e);
 };
-const handleDrag = ({target, transform}) => {
+const handleDrag = ({ target, transform }) => {
   console.log("onDrag", transform);
   target.style.transform = transform;
 };
-const handleResize = ({target, width, height}) => {
+const handleResize = ({ target, width, height }) => {
   console.log("onResize", width, height);
   target.style.width = `${width}px`;
   target.style.height = `${height}px`;
 };
-const handleScale = ({target, transform}) => {
+const handleScale = ({ target, transform }) => {
   console.log("onScale", transform);
   target.style.transform = transform;
 };
-const handleRotate = ({target, transform}) => {
+const handleRotate = ({ target, transform }) => {
   console.log("onRotate", transform);
   target.style.transform = transform;
 };
-const handleWarp = ({target, transform}) => {
+const handleWarp = ({ target, transform }) => {
   console.log("onWarp", transform);
   target.style.transform = transform;
 };
@@ -61,30 +61,33 @@ onMounted(() => {
 
 <template>
   <div
-      :class="clazz"
-      :style="{
+    :class="clazz"
+    :style="{
       display: 'flex',
-      alignItems: 'center'
+      alignItems: 'center',
     }"
-      @contextmenu="contextmenu"
-      ref="target"
+    @contextmenu="contextmenu"
+    ref="target"
   >
-    <component :is="itemName" :field="field" :formData="formData"/>
+    <component :is="itemName" :field="field" :formData="formData" />
   </div>
   <VueMoveable
-      class="moveable"
-      :target="['.' + clazz]"
-      :props="{ editable: true }"
-      v-bind="moveable"
-      :ables="[Editable]"
-      @drag="handleDrag"
-      @resize="handleResize"
-      @scale="handleScale"
-      @rotate="handleRotate"
-      @warp="handleWarp"
+    class="moveable"
+    :target="['.' + clazz]"
+    :props="{ editable: true }"
+    v-bind="moveable"
+    :ables="[Editable]"
+    @drag="handleDrag"
+    @resize="handleResize"
+    @scale="handleScale"
+    @rotate="handleRotate"
+    @warp="handleWarp"
   />
   <Teleport to="body">
-    <ContentMenu ref="contentMenuRef" :menu-data="dynamicPageContextMenuData()"/>
+    <ContentMenu
+      ref="contentMenuRef"
+      :menu-data="dynamicPageContextMenuData()"
+    />
   </Teleport>
 </template>
 

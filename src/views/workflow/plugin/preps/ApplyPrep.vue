@@ -4,32 +4,39 @@
       <div class="flow-item">
         <el-tabs v-model="activeTab" type="border-card" stretch>
           <el-tab-pane label="基础设置" name="basic">
-            <ExecutionListeners :node="node"/>
+            <ExecutionListeners :node="node" />
           </el-tab-pane>
           <el-tab-pane label="表单权限" name="form">
             <star-horse-data-selector
-                data-url="/userdb-manage/userdb/dynamicForm/pageList"
-                display-name="formName"
-                display-value="idDynamicForm"
-                :pageSize="100"
-                placeholder="请选择表单"
-                v-model="node.formId"
+              data-url="/userdb-manage/userdb/dynamicForm/pageList"
+              display-name="formName"
+              display-value="idDynamicForm"
+              :pageSize="100"
+              placeholder="请选择表单"
+              v-model="node.formId"
             />
-            <AuthForm v-model="node.privilege" :formId="node.formId" writable/>
+            <AuthForm v-model="node.privilege" :formId="node.formId" writable />
           </el-tab-pane>
         </el-tabs>
       </div>
     </div>
   </div>
-  <FlowDrawerFooter @close="onClose" @save="onSave"/>
+  <FlowDrawerFooter @close="onClose" @save="onSave" />
 </template>
 <script setup lang="ts">
-import {computed, defineModel, defineOptions, ModelRef, ref, watch} from "vue";
-import {useFlowDesignStore} from "@/store/FlowDesign";
-import {piniaInstance} from "star-horse-lowcode";
+import {
+  computed,
+  defineModel,
+  defineOptions,
+  ModelRef,
+  ref,
+  watch,
+} from "vue";
+import { useFlowDesignStore } from "@/store/FlowDesign";
+import { piniaInstance } from "star-horse-lowcode";
 
 defineOptions({
-  name: "ApplyPrep"
+  name: "ApplyPrep",
 });
 let activeTab = ref<string>("basic");
 let node: ModelRef<any> = defineModel("activeData");
@@ -37,7 +44,11 @@ const flowDesign = useFlowDesignStore(piniaInstance);
 const flowFormInfo = computed(() => flowDesign.flowFormInfo);
 node.value.content = computed(() => {
   let privilege = node.value.privilege;
-  return privilege == "edit" ? "可编辑" : privilege == "readonly" ? "只读" : "禁止查看";
+  return privilege == "edit"
+    ? "可编辑"
+    : privilege == "readonly"
+      ? "只读"
+      : "禁止查看";
 });
 const onClose = () => {
   flowDesign.setActive(false);
@@ -51,15 +62,15 @@ const onSave = () => {
   onClose();
 };
 watch(
-    () => node.value.formId,
-    (val) => {
-      if (val) {
-        flowDesign.formAddField("formId", val);
-      }
-    },
-    {
-      immediate: true,
-      deep: true
+  () => node.value.formId,
+  (val) => {
+    if (val) {
+      flowDesign.formAddField("formId", val);
     }
+  },
+  {
+    immediate: true,
+    deep: true,
+  },
 );
 </script>

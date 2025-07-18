@@ -7,37 +7,57 @@ import {
   PageFieldInfo,
   SearchFields,
   SelectOption,
-  UserFuncInfo
+  UserFuncInfo,
 } from "star-horse-lowcode";
-import {onMounted, provide, reactive, ref} from "vue";
-import {useRouter} from "vue-router";
-import {Config} from "@/api/settings";
+import { onMounted, provide, reactive, ref } from "vue";
+import { useRouter } from "vue-router";
+import { Config } from "@/api/settings";
 
 const router = useRouter();
 //后端交互接口地址
-const dataUrl: ApiUrls = apiInstance("userdb-manage", "userdb/dynamicFormConsumerConfig");
+const dataUrl: ApiUrls = apiInstance(
+  "userdb-manage",
+  "userdb/dynamicFormConsumerConfig",
+);
 let viewTypeList = ref<SelectOption[]>([]);
 let auditList = ref<SelectOption[]>([
-  {name: "是", value: "Y"},
-  {name: "否", value: "N"}
+  { name: "是", value: "Y" },
+  { name: "否", value: "N" },
 ]);
 //查询属性
 const searchFormData = reactive<SearchFields>({
   fieldList: [
-    {label: "视图名称", fieldName: "viewName", defaultVisible: true,  matchType: "lk"},
     {
-      label: "视图类别", fieldName: "viewType", defaultVisible: true, type: "select",
-      preps: {
-        values: viewTypeList
-      }
+      label: "视图名称",
+      fieldName: "viewName",
+      defaultVisible: true,
+      matchType: "lk",
     },
-    {label: "消费权限", fieldName: "consumeAuthority", defaultVisible: true, type: "select"},
     {
-      label: "是否需要认证", fieldName: "isAudit", defaultVisible: true, type: "select", preps: {
-        values: auditList
-      }
-    }
-  ]
+      label: "视图类别",
+      fieldName: "viewType",
+      defaultVisible: true,
+      type: "select",
+      preps: {
+        values: viewTypeList,
+      },
+    },
+    {
+      label: "消费权限",
+      fieldName: "consumeAuthority",
+      defaultVisible: true,
+      type: "select",
+    },
+    {
+      label: "是否需要认证",
+      fieldName: "isAudit",
+      defaultVisible: true,
+      type: "select",
+      preps: {
+        values: auditList,
+      },
+    },
+  ],
 });
 const currentRow = ref<any>({});
 const preview = (row: any, _currentPage: number, _pageSize: number) => {
@@ -51,13 +71,13 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       label: "主键",
       fieldName: "idConsumerConfig",
       type: "long",
-      required: true
+      required: true,
     },
     {
       label: "视图Token",
       fieldName: "dataNo",
 
-      listVisible: true
+      listVisible: true,
     },
     {
       label: "视图名称",
@@ -65,7 +85,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
 
       required: true,
       formVisible: true,
-      listVisible: true
+      listVisible: true,
     },
     {
       label: "视图类别",
@@ -73,14 +93,14 @@ const tableFieldList = reactive<PageFieldInfo | any>({
 
       required: true,
       formVisible: true,
-      listVisible: true
+      listVisible: true,
     },
     {
       label: "消费权限",
       fieldName: "consumeAuthority",
 
       formVisible: true,
-      listVisible: true
+      listVisible: true,
     },
     {
       label: "是否需要认证 ",
@@ -88,7 +108,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
 
       required: true,
       formVisible: true,
-      listVisible: true
+      listVisible: true,
     },
     {
       label: "单次请求数据限制",
@@ -96,73 +116,72 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       type: "long",
       required: true,
       formVisible: true,
-      listVisible: true
+      listVisible: true,
     },
     {
       label: "版本号",
       fieldName: "version",
-      type: "long"
+      type: "long",
     },
     {
       label: "创建人",
       disabled: true,
       fieldName: "createdBy",
 
-      listVisible: true
+      listVisible: true,
     },
     {
       label: "创建时间",
       fieldName: "createdTime",
       type: "date",
-      listVisible: true
+      listVisible: true,
     },
     {
       label: "修改人",
       disabled: true,
       fieldName: "updatedBy",
 
-      listVisible: true
+      listVisible: true,
     },
     {
       label: "修改时间",
       fieldName: "updatedTime",
-      type: "date"
+      type: "date",
     },
     {
       label: "状态吗",
       fieldName: "statusCode",
-
     },
     {
       label: "状态名称",
       fieldName: "statusName",
-
     },
     {
       label: "是否删除",
       fieldName: "isDel",
-      type: "long"
+      type: "long",
     },
     {
       label: "国际码",
       fieldName: "local",
-
     },
     {
       label: "备注",
       fieldName: "remark",
 
       formVisible: true,
-      listVisible: true
-    }
+      listVisible: true,
+    },
   ],
-  userTableFuncs: [{
-    btnName: "数据预览",
-    authority: "view",
-    icon: "preview",
-    priority: 3,
-    funcName: (row: any) => preview(row, 1, 20)
-  }]
+  userTableFuncs: [
+    {
+      btnName: "数据预览",
+      authority: "view",
+      icon: "preview",
+      priority: 3,
+      funcName: (row: any) => preview(row, 1, 20),
+    },
+  ],
 });
 //主键
 const primaryKey = "idConsumerConfig";
@@ -188,7 +207,7 @@ const initData = async () => {
     authority: "add",
     funcName: () => {
       router.push("/dyform/DataConsumerConfig");
-    }
+    },
   });
   expandBtns.value?.push({
     btnName: "编辑",
@@ -197,8 +216,11 @@ const initData = async () => {
     priority: 1,
     funcName: (params: any) => {
       //params 页面刷新后 参数丢失，query 页面刷新后参数不会丢失
-      router.push({path: "/dyform/DataConsumerConfig", query: {configId: params[primaryKey]}});
-    }
+      router.push({
+        path: "/dyform/DataConsumerConfig",
+        query: { configId: params[primaryKey] },
+      });
+    },
   });
   expandBtns.value?.push({
     btnName: "查看详情",
@@ -206,8 +228,11 @@ const initData = async () => {
     authority: "view",
     priority: 2,
     funcName: (params: any) => {
-      router.push({path: "/dyform/DataConsumerConfig", query: {configId: params[primaryKey], isView: "Y"}});
-    }
+      router.push({
+        path: "/dyform/DataConsumerConfig",
+        query: { configId: params[primaryKey], isView: "Y" },
+      });
+    },
   });
 };
 onMounted(async () => {
@@ -222,10 +247,14 @@ onMounted(async () => {
 const dataFormat = (name: string, cellValue: any, _row: any): any => {
   //转换显示信息
   if (name == "viewType") {
-    let redata = viewTypeList.value?.find((item: SelectOption) => item.value == cellValue);
+    let redata = viewTypeList.value?.find(
+      (item: SelectOption) => item.value == cellValue,
+    );
     return redata?.name || cellValue;
   } else if (name == "isAudit") {
-    let redata = auditList.value?.find((item: SelectOption) => item.value == cellValue);
+    let redata = auditList.value?.find(
+      (item: SelectOption) => item.value == cellValue,
+    );
     return redata?.name || cellValue;
   }
   return cellValue;
@@ -234,48 +263,62 @@ const dataFormat = (name: string, cellValue: any, _row: any): any => {
 <style lang="scss" scoped></style>
 <template>
   <star-horse-dialog
-      :dialogVisible="dialogProps.bakeVisible1"
-      :title="'数据预览'"
-      @closeAction="closeAction"
-      :box-width="'70%'"
-      :isBatch="false"
-      :source="3"
+    :dialogVisible="dialogProps.bakeVisible1"
+    :title="'数据预览'"
+    @closeAction="closeAction"
+    :box-width="'70%'"
+    :isBatch="false"
+    :source="3"
   >
-    <ViewPage :param="currentRow.dataNo" :isPreview="true"/>
+    <ViewPage :param="currentRow.dataNo" :isPreview="true" />
   </star-horse-dialog>
-  <star-horse-dialog :isShowBtnContinue="true" :dialogVisible="dialogProps.editVisible" :dialogProps="dialogProps">
+  <star-horse-dialog
+    :isShowBtnContinue="true"
+    :dialogVisible="dialogProps.editVisible"
+    :dialogProps="dialogProps"
+  >
     <star-horse-form
-        @refresh="dynamicFormConsumerConfigRef?.loadByPage()"
-        :compUrl="dataUrl"
-        :fieldList="tableFieldList"
-        :rules="rules"
+      @refresh="dynamicFormConsumerConfigRef?.loadByPage()"
+      :compUrl="dataUrl"
+      :fieldList="tableFieldList"
+      :rules="rules"
     />
   </star-horse-dialog>
   <star-horse-dialog
-      :dialog-visible="dialogProps.viewVisible"
-      :dialogProps="dialogProps"
-      
-      :source="3"
+    :dialog-visible="dialogProps.viewVisible"
+    :dialogProps="dialogProps"
+    :source="3"
   >
-    <star-horse-data-view :dataFormat="dataFormat" :field-list="tableFieldList" :compUrl="dataUrl"/>
+    <star-horse-data-view
+      :dataFormat="dataFormat"
+      :field-list="tableFieldList"
+      :compUrl="dataUrl"
+    />
   </star-horse-dialog>
   <div class="search-content">
-    <div class="search_btn" :style="{ 'flex-direction': Config.buttonStyle.value == 'line'? 'column' : 'row' }">
+    <div
+      class="search_btn"
+      :style="{
+        'flex-direction': Config.buttonStyle.value == 'line' ? 'column' : 'row',
+      }"
+    >
       <star-horse-search-comp
-          @searchData="(data: any) => dynamicFormConsumerConfigRef?.createSearchParams(data)"
-          :formData="searchFormData"
-          :compUrl="dataUrl"
+        @searchData="
+          (data: any) => dynamicFormConsumerConfigRef?.createSearchParams(data)
+        "
+        :formData="searchFormData"
+        :compUrl="dataUrl"
       />
     </div>
   </div>
   <el-card class="inner_content">
     <star-horse-table-comp
-        ref="dynamicFormConsumerConfigRef"
-        :fieldList="tableFieldList"
-        :primaryKey="primaryKey"
-        :compUrl="dataUrl"
-        :dataFormat="dataFormat"
-        :extendBtns="expandBtns"
+      ref="dynamicFormConsumerConfigRef"
+      :fieldList="tableFieldList"
+      :primaryKey="primaryKey"
+      :compUrl="dataUrl"
+      :dataFormat="dataFormat"
+      :extendBtns="expandBtns"
     />
   </el-card>
 </template>

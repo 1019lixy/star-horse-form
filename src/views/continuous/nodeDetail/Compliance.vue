@@ -1,5 +1,5 @@
 <script setup lang="ts" name="Compliance">
-import {ref} from "vue";
+import { ref } from "vue";
 
 const tabCurrent = ref("second");
 </script>
@@ -37,7 +37,7 @@ const tabCurrent = ref("second");
         </el-space>
       </el-tab-pane>
       <el-tab-pane label="实时日志" name="second">
-        <data-log/>
+        <data-log />
       </el-tab-pane>
       <el-tab-pane label="作业配置" name="third"></el-tab-pane>
     </el-tabs>

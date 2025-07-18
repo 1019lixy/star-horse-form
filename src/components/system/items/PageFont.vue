@@ -5,19 +5,35 @@ let fontInfo: ModelRef<any> = defineModel("dataForm");
 </script>
 
 <template>
-
   <div class="row">
     <el-form-item label="大小" prop="fontSize">
-      <el-input v-model="fontInfo.fontSize" size="small" placeholder=""></el-input>
+      <el-input
+        v-model="fontInfo.fontSize"
+        size="small"
+        placeholder=""
+      ></el-input>
     </el-form-item>
     <el-form-item label="行高" prop="lineHeight">
-      <el-input v-model="fontInfo.lineHeight" size="small" placeholder=""></el-input>
+      <el-input
+        v-model="fontInfo.lineHeight"
+        size="small"
+        placeholder=""
+      ></el-input>
     </el-form-item>
   </div>
   <el-form-item label="颜色" prop="color">
     <div class="row">
-      <el-color-picker v-model="fontInfo.color" color-format="rgb" size="small" />
-      <el-input v-model="fontInfo.color" size="small" placeholder="" style="margin-left: 5px" />
+      <el-color-picker
+        v-model="fontInfo.color"
+        color-format="rgb"
+        size="small"
+      />
+      <el-input
+        v-model="fontInfo.color"
+        size="small"
+        placeholder=""
+        style="margin-left: 5px"
+      />
     </div>
   </el-form-item>
   <el-form-item label="样式" prop="fontWeight">
@@ -43,9 +59,17 @@ let fontInfo: ModelRef<any> = defineModel("dataForm");
   </el-form-item>
   <el-form-item label="位置" prop="textAlign">
     <el-radio-group v-model="fontInfo.textAlign" size="small">
-      <el-radio-button value="left" style="font-weight: bold">Left</el-radio-button>
-      <el-radio-button value="center" style="font-weight: bold">Middle</el-radio-button>
-      <el-radio-button value="right" style="text-decoration: underline; font-weight: bold">Right</el-radio-button>
+      <el-radio-button value="left" style="font-weight: bold"
+        >Left</el-radio-button
+      >
+      <el-radio-button value="center" style="font-weight: bold"
+        >Middle</el-radio-button
+      >
+      <el-radio-button
+        value="right"
+        style="text-decoration: underline; font-weight: bold"
+        >Right</el-radio-button
+      >
     </el-radio-group>
   </el-form-item>
 </template>

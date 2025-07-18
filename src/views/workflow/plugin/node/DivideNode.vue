@@ -5,22 +5,26 @@
         <div class="node-name" :class="nameClass(node, 'node-temmi')">
           分隔
           <div v-if="!readable" class="close-icon">
-            <star-horse-icon iconClass="close"/>
+            <star-horse-icon iconClass="close" />
           </div>
         </div>
       </div>
-      <AddNode :node="node" :nodeType="FlowNodeEnums.SUGGEST_NODE" :readable="readable"/>
+      <AddNode
+        :node="node"
+        :nodeType="FlowNodeEnums.SUGGEST_NODE"
+        :readable="readable"
+      />
     </div>
   </div>
 </template>
 <script setup lang="ts">
-import {computed, onMounted} from "vue";
-import {FlowNodeEnums} from "@/views/workflow/plugin/enums/FlowNodeEnums";
-import {closeLoad, piniaInstance} from "star-horse-lowcode";
-import {useFlowDesignStore} from "@/store/FlowDesign";
+import { computed, onMounted } from "vue";
+import { FlowNodeEnums } from "@/views/workflow/plugin/enums/FlowNodeEnums";
+import { closeLoad, piniaInstance } from "star-horse-lowcode";
+import { useFlowDesignStore } from "@/store/FlowDesign";
 
 defineOptions({
-  name: "DivideNode"
+  name: "DivideNode",
 });
 const flowDesign = useFlowDesignStore(piniaInstance);
 const props = defineProps({
@@ -28,12 +32,12 @@ const props = defineProps({
     type: Object,
     default: function () {
       return {};
-    }
+    },
   },
   readable: {
     type: Boolean,
-    default: false
-  }
+    default: false,
+  },
 });
 
 const emits = defineEmits(["selectNode"]);
@@ -48,7 +52,7 @@ let nameClass = computed(() => {
     return {
       "node-status-not": node.statusCode == 0,
       "node-status-current": node.statusCode == 1,
-      "node-status-complete": node.statusCode == 2
+      "node-status-complete": node.statusCode == 2,
     };
   };
 });

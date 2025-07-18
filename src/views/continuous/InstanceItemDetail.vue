@@ -1,11 +1,11 @@
 <script setup lang="ts" name="InstanceItemDetail">
-import {ref} from "vue";
+import { ref } from "vue";
 
 const props = defineProps({
   isEdit: {
     type: Number,
-    default: 1 //1 编辑 2 已发布
-  }
+    default: 1, //1 编辑 2 已发布
+  },
 });
 const emits = defineEmits(["nodeDetail"]);
 let dataSourceStatus = ref<number>(1);
@@ -26,15 +26,12 @@ const getStatus = (statusCode: number) => {
       return "background:#d8d8d8";
   }
 };
-const showDetail = (nodeType: string, instanceId: string) => {
-};
+const showDetail = (nodeType: string, instanceId: string) => {};
 const execLine = () => {
   console.log("执行");
 };
-const configLine = () => {
-};
-const publishLine = () => {
-};
+const configLine = () => {};
+const publishLine = () => {};
 </script>
 <template>
   <div class="instance-item">
@@ -63,8 +60,11 @@ const publishLine = () => {
           </div>
         </div>
       </div>
-      <div class="line-node multi-node" style="width: 228px; transform: translate(460px, 0)">
-        <div :style="getStatus(3)" class="node-title ">
+      <div
+        class="line-node multi-node"
+        style="width: 228px; transform: translate(460px, 0)"
+      >
+        <div :style="getStatus(3)" class="node-title">
           <div>部署-扫描-单元测试</div>
           <div>0s|未执行</div>
         </div>
@@ -72,54 +72,72 @@ const publishLine = () => {
           <div @click="dataDetail('deploy_ci')" class="line-node-item">
             <div class="title">CI</div>
             <el-button
-                @click="operationAction('deploy_ci')"
-                size="small"
-                style="background: var(--star-horse-style); color: var(--star-horse-white)"
+              @click="operationAction('deploy_ci')"
+              size="small"
+              style="
+                background: var(--star-horse-style);
+                color: var(--star-horse-white);
+              "
             >
-              <star-horse-icon icon-class="run" color="var(--star-horse-white)"/>
+              <star-horse-icon
+                icon-class="run"
+                color="var(--star-horse-white)"
+              />
               发起部署
             </el-button>
           </div>
           <div @click="dataDetail('deploy_test1')" class="line-node-item">
             <div class="title">Test1</div>
             <el-button
-                @click="operationAction('deploy_test1')"
-                size="small"
-                style="background: var(--star-horse-style); color: var(--star-horse-white)"
+              @click="operationAction('deploy_test1')"
+              size="small"
+              style="
+                background: var(--star-horse-style);
+                color: var(--star-horse-white);
+              "
             >
-              <star-horse-icon icon-class="run" color="var(--star-horse-white)"/>
+              <star-horse-icon
+                icon-class="run"
+                color="var(--star-horse-white)"
+              />
               发起部署
             </el-button>
           </div>
           <div @click="dataDetail('deploy_test2')" class="line-node-item">
             <div class="title">Test2</div>
             <el-button
-                @click="operationAction('deploy_test2')"
-                size="small"
-                style="background: var(--star-horse-style); color: var(--star-horse-white)"
+              @click="operationAction('deploy_test2')"
+              size="small"
+              style="
+                background: var(--star-horse-style);
+                color: var(--star-horse-white);
+              "
             >
-              <star-horse-icon icon-class="run" color="var(--star-horse-white)"/>
+              <star-horse-icon
+                icon-class="run"
+                color="var(--star-horse-white)"
+              />
               发起部署
             </el-button>
           </div>
           <div class="line-node-item">
             <div class="title">Sonar</div>
             <el-button text size="small">
-              <star-horse-icon icon-class="reset"/>
+              <star-horse-icon icon-class="reset" />
               再次执行
             </el-button>
           </div>
           <div class="line-node-item">
             <div class="title">Fortify</div>
             <el-button text size="small">
-              <star-horse-icon icon-class="reset"/>
+              <star-horse-icon icon-class="reset" />
               再次执行
             </el-button>
           </div>
           <div class="line-node-item">
             <div class="title">Junit</div>
             <el-button link size="small">
-              <star-horse-icon icon-class="reset"/>
+              <star-horse-icon icon-class="reset" />
               再次执行
             </el-button>
           </div>
@@ -148,11 +166,31 @@ const publishLine = () => {
       </div>
       <svg width="100%">
         <defs></defs>
-        <path class="svg-path" d="M 180,14 H230" style="stroke: rgb(0, 195, 95)"></path>
-        <path class="svg-path" d="M 400,14 H460" style="stroke: rgb(239, 83, 81)"></path>
-        <path class="svg-path" d="M 678,14 H738" style="stroke: rgb(204, 204, 204)"></path>
-        <path class="svg-path" d="M 908,14 H968" style="stroke: rgb(204, 204, 204)"></path>
-        <path class="svg-path" d="M 1138,14 H1198" style="stroke: rgb(204, 204, 204)"></path>
+        <path
+          class="svg-path"
+          d="M 180,14 H230"
+          style="stroke: rgb(0, 195, 95)"
+        ></path>
+        <path
+          class="svg-path"
+          d="M 400,14 H460"
+          style="stroke: rgb(239, 83, 81)"
+        ></path>
+        <path
+          class="svg-path"
+          d="M 678,14 H738"
+          style="stroke: rgb(204, 204, 204)"
+        ></path>
+        <path
+          class="svg-path"
+          d="M 908,14 H968"
+          style="stroke: rgb(204, 204, 204)"
+        ></path>
+        <path
+          class="svg-path"
+          d="M 1138,14 H1198"
+          style="stroke: rgb(204, 204, 204)"
+        ></path>
         <path class="svg-path"></path>
       </svg>
     </div>

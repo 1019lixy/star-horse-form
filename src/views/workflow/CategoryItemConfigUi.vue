@@ -1,6 +1,14 @@
 <script setup lang="ts">
-import {Config} from "@/api/settings";
-import {nextTick, onActivated, onDeactivated, onMounted, provide, reactive, ref} from "vue";
+import { Config } from "@/api/settings";
+import {
+  nextTick,
+  onActivated,
+  onDeactivated,
+  onMounted,
+  provide,
+  reactive,
+  ref,
+} from "vue";
 import {
   apiInstance,
   ApiUrls,
@@ -8,15 +16,18 @@ import {
   dictData,
   PageFieldInfo,
   SearchFields,
-  SelectOption
+  SelectOption,
 } from "star-horse-lowcode";
-import {loadSvgIcons} from "@/api/star_horse_utils.js";
+import { loadSvgIcons } from "@/api/star_horse_utils.js";
 
 defineOptions({
-  name: "CategoryItemConfig"
+  name: "CategoryItemConfig",
 });
 //后端交互接口地址
-const dataUrl: ApiUrls = apiInstance("flow-engine", "workflow/categoryItemConfig");
+const dataUrl: ApiUrls = apiInstance(
+  "flow-engine",
+  "workflow/categoryItemConfig",
+);
 //主键
 const primaryKey = "idCategoryItemConfig";
 const categoryItemConfigRef = ref();
@@ -33,9 +44,9 @@ const searchFormData = reactive<SearchFields>({
       type: "select",
       matchType: "eq",
       defaultVisible: true,
-      preps:{
-        values: cfgCategoryList
-      }
+      preps: {
+        values: cfgCategoryList,
+      },
     },
     {
       label: "名称",
@@ -43,7 +54,7 @@ const searchFormData = reactive<SearchFields>({
 
       matchType: "lk",
       defaultVisible: true,
-      preps: {}
+      preps: {},
     },
     {
       label: "编码",
@@ -51,7 +62,7 @@ const searchFormData = reactive<SearchFields>({
 
       matchType: "lk",
       defaultVisible: true,
-      preps: {}
+      preps: {},
     },
     {
       label: "是否选中",
@@ -61,12 +72,12 @@ const searchFormData = reactive<SearchFields>({
       defaultVisible: true,
       preps: {
         values: [
-          {name: "是", value: "Y"},
-          {name: "否", value: "N"}
-        ]
-      }
-    }
-  ]
+          { name: "是", value: "Y" },
+          { name: "否", value: "N" },
+        ],
+      },
+    },
+  ],
 });
 const tableFieldList = reactive<PageFieldInfo | any>({
   fieldList: [
@@ -77,9 +88,9 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       required: true,
       formVisible: true,
       listVisible: true,
-      preps:{
-        values: cfgCategoryList
-      }
+      preps: {
+        values: cfgCategoryList,
+      },
     },
     {
       label: "名称",
@@ -88,7 +99,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       required: true,
       formVisible: true,
       listVisible: true,
-      preps: {}
+      preps: {},
     },
     [
       {
@@ -98,7 +109,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
         required: false,
         formVisible: true,
         listVisible: true,
-        preps: {}
+        preps: {},
       },
       {
         label: "是否选中",
@@ -108,11 +119,11 @@ const tableFieldList = reactive<PageFieldInfo | any>({
         required: false,
         formVisible: true,
         listVisible: true,
-        preps:{
+        preps: {
           activeValue: "Y",
-          inactiveValue: "N"
-        }
-      }
+          inactiveValue: "N",
+        },
+      },
     ],
     [
       {
@@ -123,8 +134,8 @@ const tableFieldList = reactive<PageFieldInfo | any>({
         formVisible: true,
         listVisible: true,
         preps: {
-          assignType: "url"
-        }
+          assignType: "url",
+        },
       },
       {
         label: "图标",
@@ -133,11 +144,11 @@ const tableFieldList = reactive<PageFieldInfo | any>({
         required: false,
         formVisible: true,
         listVisible: true,
-        preps:{
-          iconType:"user",
-          values:loadSvgIcons()
-        }
-      }
+        preps: {
+          iconType: "user",
+          values: loadSvgIcons(),
+        },
+      },
     ],
     {
       label: "描述",
@@ -146,25 +157,22 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       required: true,
       formVisible: true,
       listVisible: true,
-      preps: {}
+      preps: {},
     },
     {
       label: "创建人",
       fieldName: "createdBy",
 
-
       listVisible: true,
       preps: {},
-      commonFlag: "Y"
+      commonFlag: "Y",
     },
     {
       label: "修改人",
       fieldName: "updatedBy",
 
-
-
       preps: {},
-      commonFlag: "Y"
+      commonFlag: "Y",
     },
     {
       label: "创建时间",
@@ -173,7 +181,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
 
       listVisible: true,
       preps: {},
-      commonFlag: "Y"
+      commonFlag: "Y",
     },
     {
       label: "创建日期",
@@ -182,16 +190,15 @@ const tableFieldList = reactive<PageFieldInfo | any>({
 
       listVisible: true,
       preps: {},
-      commonFlag: "N"
+      commonFlag: "N",
     },
     {
       label: "修改时间",
       fieldName: "updatedTime",
       type: "datetime",
 
-
       preps: {},
-      commonFlag: "Y"
+      commonFlag: "Y",
     },
     {
       label: "版本号",
@@ -200,62 +207,52 @@ const tableFieldList = reactive<PageFieldInfo | any>({
 
       listVisible: true,
       preps: {},
-      commonFlag: "Y"
+      commonFlag: "Y",
     },
     {
       label: "是否删除",
       fieldName: "isDel",
       type: "number",
 
-
       preps: {},
-      commonFlag: "Y"
+      commonFlag: "Y",
     },
     {
       label: "数据编号",
       fieldName: "dataNo",
 
-
-
       preps: {},
-      commonFlag: "Y"
+      commonFlag: "Y",
     },
     {
       label: "状态码",
       fieldName: "statusCode",
 
-
-
       preps: {},
-      commonFlag: "Y"
+      commonFlag: "Y",
     },
     {
       label: "状态名称",
       fieldName: "statusName",
       type: "string",
 
-
       preps: {},
-      commonFlag: "Y"
+      commonFlag: "Y",
     },
     {
       label: "国际编码",
       fieldName: "local",
 
-
-
       preps: {},
-      commonFlag: "Y"
+      commonFlag: "Y",
     },
     {
       label: "备注",
       fieldName: "remark",
 
-
-
       preps: {},
-      commonFlag: "Y"
-    }
+      commonFlag: "Y",
+    },
   ],
   batchFieldList: [],
   userTableFuncs: [],
@@ -263,7 +260,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
   orderBy: [],
   batchName: "batchDataList",
   tableCellEditabled: false,
-  stopAutoLoad: false
+  stopAutoLoad: false,
 });
 //校验
 const rules = {};
@@ -279,8 +276,7 @@ const activated = async () => {
     categoryItemConfigRef.value.loadByPage();
   });
 };
-const deactivated = () => {
-};
+const deactivated = () => {};
 /**
  * 列表，查看数据时数据转换
  * @param name 名称
@@ -289,7 +285,10 @@ const deactivated = () => {
  */
 const dataFormat = (name: string, cellValue: any, row: any): any => {
   if (name === "cfgCategory") {
-    return cfgCategoryList.value.find((item) => item.value == cellValue)?.name || cellValue;
+    return (
+      cfgCategoryList.value.find((item) => item.value == cellValue)?.name ||
+      cellValue
+    );
   }
   //转换显示信息
   return cellValue;
@@ -305,38 +304,52 @@ onDeactivated(() => {
 });
 </script>
 <template>
-  <star-horse-dialog :isShowBtnContinue="true" :dialog-visible="dialogProps.editVisible" :dialogProps="dialogProps">
+  <star-horse-dialog
+    :isShowBtnContinue="true"
+    :dialog-visible="dialogProps.editVisible"
+    :dialogProps="dialogProps"
+  >
     <star-horse-form
-        @refresh="categoryItemConfigRef?.loadByPage()"
-        :compUrl="dataUrl"
-        :fieldList="tableFieldList"
-        :rules="rules"
+      @refresh="categoryItemConfigRef?.loadByPage()"
+      :compUrl="dataUrl"
+      :fieldList="tableFieldList"
+      :rules="rules"
     />
   </star-horse-dialog>
   <star-horse-dialog
-      :dialog-visible="dialogProps.viewVisible"
-      :dialogProps="dialogProps"
-      
-      :source="3"
+    :dialog-visible="dialogProps.viewVisible"
+    :dialogProps="dialogProps"
+    :source="3"
   >
-    <star-horse-data-view :dataFormat="dataFormat" :field-list="tableFieldList" :compUrl="dataUrl"/>
+    <star-horse-data-view
+      :dataFormat="dataFormat"
+      :field-list="tableFieldList"
+      :compUrl="dataUrl"
+    />
   </star-horse-dialog>
   <div class="search-content">
-    <div class="search_btn" :style="{ 'flex-direction': Config.buttonStyle.value == 'line'? 'column' : 'row' }">
+    <div
+      class="search_btn"
+      :style="{
+        'flex-direction': Config.buttonStyle.value == 'line' ? 'column' : 'row',
+      }"
+    >
       <star-horse-search-comp
-          @searchData="(data: any) => categoryItemConfigRef?.createSearchParams(data)"
-          :formData="searchFormData"
-          :compUrl="dataUrl"
+        @searchData="
+          (data: any) => categoryItemConfigRef?.createSearchParams(data)
+        "
+        :formData="searchFormData"
+        :compUrl="dataUrl"
       />
     </div>
   </div>
   <el-card class="inner_content">
     <star-horse-table-comp
-        ref="categoryItemConfigRef"
-        :fieldList="tableFieldList"
-        :primaryKey="primaryKey"
-        :compUrl="dataUrl"
-        :dataFormat="dataFormat"
+      ref="categoryItemConfigRef"
+      :fieldList="tableFieldList"
+      :primaryKey="primaryKey"
+      :compUrl="dataUrl"
+      :dataFormat="dataFormat"
     />
   </el-card>
 </template>

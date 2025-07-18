@@ -1,46 +1,61 @@
 <template>
-  <starhorse-form-item :isDesign="isDesign" :disabled="disabled" :bareFlag="bareFlag" :formItem="field"
-                       :parentField="parentField">
-    <div ref="container" style="height: 600px;width: 100%;position: relative"></div>
+  <starhorse-form-item
+    :isDesign="isDesign"
+    :disabled="disabled"
+    :bareFlag="bareFlag"
+    :formItem="field"
+    :parentField="parentField"
+  >
+    <div
+      ref="container"
+      style="height: 600px; width: 100%; position: relative"
+    ></div>
   </starhorse-form-item>
 </template>
 
 <script setup lang="ts">
-import {onBeforeUnmount, onMounted, ref} from 'vue'
-import {createUniver, defaultTheme, LocaleType, merge, Univer} from '@univerjs/presets';
-import {UniverSheetsCorePreset} from '@univerjs/presets/preset-sheets-core';
-import UniverPresetSheetsCoreZhCN from '@univerjs/presets/preset-sheets-core/locales/zh-CN';
-import '@univerjs/presets/lib/styles/preset-sheets-core.css';
+import { onBeforeUnmount, onMounted, ref } from "vue";
+import {
+  createUniver,
+  defaultTheme,
+  LocaleType,
+  merge,
+  Univer,
+} from "@univerjs/presets";
+import { UniverSheetsCorePreset } from "@univerjs/presets/preset-sheets-core";
+import UniverPresetSheetsCoreZhCN from "@univerjs/presets/preset-sheets-core/locales/zh-CN";
+import "@univerjs/presets/lib/styles/preset-sheets-core.css";
 const props = defineProps({
   isDesign: {
     type: Boolean,
-    default: false
+    default: false,
   },
   disabled: {
     type: Boolean,
-    default: false
+    default: false,
   },
   bareFlag: {
     type: Boolean,
-    default: false
-  }, isSearch: {
+    default: false,
+  },
+  isSearch: {
     type: Boolean,
-    default: false
+    default: false,
   },
   field: {
     type: Object,
-    default: {}
+    default: {},
   },
   parentField: {
     type: Object,
-    default: {}
+    default: {},
   },
   formInfo: {
     type: Object,
-    default: {}
-  }
+    default: {},
+  },
 });
-const emits = defineEmits(['selfFunc', 'selectItem']);
+const emits = defineEmits(["selfFunc", "selectItem"]);
 const formData = defineModel("formData");
 const itemAction = () => {
   emits("selfFunc", formData);
@@ -49,13 +64,10 @@ const container = ref<HTMLElement | null>(null);
 const univerAPIRef = ref<any>(null);
 
 onMounted(() => {
-  const {univerAPI} = createUniver({
+  const { univerAPI } = createUniver({
     locale: LocaleType.ZH_CN,
     locales: {
-      [LocaleType.ZH_CN]: merge(
-          {},
-          UniverPresetSheetsCoreZhCN,
-      ),
+      [LocaleType.ZH_CN]: merge({}, UniverPresetSheetsCoreZhCN),
     },
     theme: defaultTheme,
     presets: [
@@ -65,14 +77,12 @@ onMounted(() => {
     ],
   });
 
-  univerAPI.createWorkbook({name: 'Test Sheet'});
+  univerAPI.createWorkbook({ name: "Test Sheet" });
   univerAPIRef.value = univerAPI;
-
 });
 
 onBeforeUnmount(() => {
   container.value?.dispose();
   univerAPIRef.value = null;
 });
-
 </script>

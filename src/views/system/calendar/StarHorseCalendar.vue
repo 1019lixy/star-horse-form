@@ -1,14 +1,17 @@
 <script setup lang="ts">
-import {nextTick, onBeforeUnmount, onMounted, ref, watch} from "vue";
+import { nextTick, onBeforeUnmount, onMounted, ref, watch } from "vue";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import timeGridPlugin from "@fullcalendar/timegrid";
 import multiMonthPlugin from "@fullcalendar/multimonth";
 import interactionPlugin from "@fullcalendar/interaction";
 import zhCnLocale from "@fullcalendar/core/locales/zh-cn";
 import listPlugin from "@fullcalendar/list";
-import {CalendarOptions} from "@fullcalendar/core";
-import {getUserInfo} from "@/utils/auth";
-import {calendarManage, defineType} from "@/views/system/calendar/CalendarProps";
+import { CalendarOptions } from "@fullcalendar/core";
+import { getUserInfo } from "@/utils/auth";
+import {
+  calendarManage,
+  defineType,
+} from "@/views/system/calendar/CalendarProps";
 import {
   createCondition,
   currentDate,
@@ -19,12 +22,12 @@ import {
   SearchParams,
   success,
   uuid,
-  warning
+  warning,
 } from "star-horse-lowcode";
 
 const props = defineProps({
-  eventList: {type: Array, default: []},
-  compSize: {type: String, default: "small"}
+  eventList: { type: Array, default: [] },
+  compSize: { type: String, default: "small" },
 });
 const fullCalendar = ref();
 const dialogFullCalendar = ref();
@@ -42,7 +45,7 @@ const commonOptions = {
     dayGridPlugin,
     timeGridPlugin,
     interactionPlugin, // needed for dateClick
-    listPlugin
+    listPlugin,
   ],
   events: [],
   height: "100%",
@@ -56,7 +59,7 @@ const commonOptions = {
     hour: "2-digit",
     minute: "2-digit",
     meridiem: false,
-    hour12: false // 设置时间为24小时
+    hour12: false, // 设置时间为24小时
   },
   weekNumbers: true,
   dayMaxEvents: true,
@@ -73,7 +76,7 @@ const commonOptions = {
   initialDate: new Date(), //初始化日期
   // initialEvents: INITIAL_EVENTS, // alternatively, use the `events` setting to fetch from a feed
   locale: zhCnLocale,
-  nextDayThreshold: "01:00:00"
+  nextDayThreshold: "01:00:00",
 };
 let calenderModel = ref<string>("view");
 const formCalendarOptions = ref<any>({
@@ -87,22 +90,30 @@ const formCalendarOptions = ref<any>({
         startStr: item.startStr,
         sTime: "00:00",
         endStr: item.startStr,
-        eTime: "24:00"
+        eTime: "24:00",
       };
     } else {
       let st =
-          (item.start.getHours() < 10 ? "0" + item.start.getHours() : item.start.getHours()) +
-          ":" +
-          (item.start.getMinutes() < 10 ? "0" + item.start.getMinutes() : item.start.getMinutes());
+        (item.start.getHours() < 10
+          ? "0" + item.start.getHours()
+          : item.start.getHours()) +
+        ":" +
+        (item.start.getMinutes() < 10
+          ? "0" + item.start.getMinutes()
+          : item.start.getMinutes());
       let se =
-          (item.end.getHours() < 10 ? "0" + item.end.getHours() : item.end.getHours()) +
-          ":" +
-          (item.end.getMinutes() < 10 ? "0" + item.end.getMinutes() : item.end.getMinutes());
+        (item.end.getHours() < 10
+          ? "0" + item.end.getHours()
+          : item.end.getHours()) +
+        ":" +
+        (item.end.getMinutes() < 10
+          ? "0" + item.end.getMinutes()
+          : item.end.getMinutes());
       outerData.value = {
         startStr: item.startStr.split("T")[0],
         sTime: st,
         endStr: item.endStr.split("T")[0],
-        eTime: se
+        eTime: se,
       };
     }
   },
@@ -110,7 +121,7 @@ const formCalendarOptions = ref<any>({
     outerData.value = {};
     // 日程点击事件
     console.log("eventClick", item);
-  }
+  },
 });
 let currentDateParam = ref<Date>(null);
 let initFlag = ref<boolean>(true);
@@ -119,12 +130,13 @@ const calendarOptions = ref<CalendarOptions>({
   headerToolbar: false,
   select: (item: any) => {
     let date = new Date();
-    let ss = date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
+    let ss =
+      date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
     outerData.value = {
       startStr: item.startStr,
       sTime: ss,
       endStr: item.endStr,
-      eTime: ss
+      eTime: ss,
     };
     if (calenderModel.value != "edit") {
       return;
@@ -138,7 +150,7 @@ const calendarOptions = ref<CalendarOptions>({
       id: item.event.id,
       backgroundColor: item.event.backgroundColor,
       borderColor: item.event.borderColor,
-      ...item.event.extendedProps
+      ...item.event.extendedProps,
     };
     if (calenderModel.value != "edit") {
       return;
@@ -175,7 +187,8 @@ const calendarOptions = ref<CalendarOptions>({
     let date = new Date();
     outerData.value = {
       startStr: item.dateStr,
-      sTime: date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds()
+      sTime:
+        date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds(),
     };
 
     if (calenderModel.value != "edit") {
@@ -202,15 +215,13 @@ const calendarOptions = ref<CalendarOptions>({
   customButtons: {
     btn: {
       text: "看板",
-      click: () => {
-      }
+      click: () => {},
     },
     editBtn: {
       text: editTitle,
-      click: () => {
-      }
-    }
-  }
+      click: () => {},
+    },
+  },
 });
 const changeDate = (date: any) => {
   console.log(date);
@@ -231,21 +242,25 @@ onBeforeUnmount(() => {
 
 // 周背景色
 watch(
-    dateValue,
-    (newValue) => {
-      // 获取用户选择的日期
-      const selectedDate = new Date(newValue);
-      // 获取用户选择日期是所在周的第几天（周日为0，周一为1，以此类推）
-      const dayOfWeek = selectedDate.getDay();
-      // 计算周一的日期
-      let monday = new Date(selectedDate);
-      monday.setDate(selectedDate.getDate() - dayOfWeek + (dayOfWeek === 0 ? -6 : 1));
-      // 计算周日的日期
-      let sunday = new Date(selectedDate);
-      sunday.setDate(selectedDate.getDate() + (7 - dayOfWeek) + (dayOfWeek === 0 ? -7 : 0));
-      selectedWeekRange.value = [monday, sunday];
-    },
-    {immediate: true}
+  dateValue,
+  (newValue) => {
+    // 获取用户选择的日期
+    const selectedDate = new Date(newValue);
+    // 获取用户选择日期是所在周的第几天（周日为0，周一为1，以此类推）
+    const dayOfWeek = selectedDate.getDay();
+    // 计算周一的日期
+    let monday = new Date(selectedDate);
+    monday.setDate(
+      selectedDate.getDate() - dayOfWeek + (dayOfWeek === 0 ? -6 : 1),
+    );
+    // 计算周日的日期
+    let sunday = new Date(selectedDate);
+    sunday.setDate(
+      selectedDate.getDate() + (7 - dayOfWeek) + (dayOfWeek === 0 ? -7 : 0),
+    );
+    selectedWeekRange.value = [monday, sunday];
+  },
+  { immediate: true },
 );
 
 const calendarFieldRef = ref();
@@ -264,7 +279,10 @@ const calendarManageSubmit = async () => {
     return;
   }
   let data = calendarMangeRef.value.getFormData().value;
-  let mergeResult = await loadData("system-config/system/calendarManage/merge", data);
+  let mergeResult = await loadData(
+    "system-config/system/calendarManage/merge",
+    data,
+  );
   if (mergeResult.error) {
     warning(mergeResult.error);
     return;
@@ -281,7 +299,9 @@ const submit = async (action: string) => {
   let data = calendarFieldRef.value.getFormData().value;
   console.log(data);
   if (data.id) {
-    let event: any = fullCalendar.value.getApi().view.calendar.getEventById(data.id);
+    let event: any = fullCalendar.value
+      .getApi()
+      .view.calendar.getEventById(data.id);
     if (event) {
       event.remove();
     }
@@ -291,7 +311,7 @@ const submit = async (action: string) => {
   let temp = {
     ...data,
     start: data["startStr"] + " " + data["sTime"],
-    end: data["endStr"] + " " + data["eTime"]
+    end: data["endStr"] + " " + data["eTime"],
   };
   fullCalendar.value.getApi().view.calendar.addEvent(temp);
   if (action == "close") {
@@ -306,7 +326,9 @@ let calendarMangeRef = ref();
 const exportData = async (data: any) => {
   await nextTick();
   if (data.id) {
-    let event: any = dialogFullCalendar.value.getApi().view.calendar.getEventById(data.id);
+    let event: any = dialogFullCalendar.value
+      .getApi()
+      .view.calendar.getEventById(data.id);
     if (event) {
       event.remove();
     }
@@ -343,9 +365,9 @@ const calendarOperation = async (cmd: string, item: any) => {
   console.log(cmd, item);
   if (cmd == "delete") {
     let resultData = await deleteByIds(
-        "/system-config/system/calendarDefine/batchDeleteById",
-        [item["idCalendarDefine"]],
-        "删除日历后，所有日程都蒋被删除，确认要删除吗？"
+      "/system-config/system/calendarDefine/batchDeleteById",
+      [item["idCalendarDefine"]],
+      "删除日历后，所有日程都蒋被删除，确认要删除吗？",
     );
     if (resultData) {
       initData();
@@ -362,7 +384,10 @@ const calendarTypeSubmit = async () => {
     return;
   }
   let formData = calendarTypeRef.value.getFormData().value;
-  let resultData = await loadData("system-config/system/calendarDefine/merge", formData);
+  let resultData = await loadData(
+    "system-config/system/calendarDefine/merge",
+    formData,
+  );
   if (resultData.error) {
     warning(resultData.error);
     return;
@@ -376,15 +401,23 @@ let isInit = ref<boolean>(false);
 const initData = async () => {
   isInit.value = true;
   let userInfo = getUserInfo();
-  let resultData = await loadData("system-config/system/calendarDefine/getAllByCondition", {
-    fieldList: [createCondition("createdBy", userInfo.name + "(" + userInfo.username + ")")],
-    orderBy: [
-      {
-        fieldName: "createdTime",
-        ascOrDesc: "asc"
-      }
-    ]
-  });
+  let resultData = await loadData(
+    "system-config/system/calendarDefine/getAllByCondition",
+    {
+      fieldList: [
+        createCondition(
+          "createdBy",
+          userInfo.name + "(" + userInfo.username + ")",
+        ),
+      ],
+      orderBy: [
+        {
+          fieldName: "createdTime",
+          ascOrDesc: "asc",
+        },
+      ],
+    },
+  );
   if (resultData.error) {
     warning(resultData.error);
     return;
@@ -401,7 +434,9 @@ const loadAllCalendar = async (ids: any, searchParam: SearchParams[] = []) => {
   if (!ids || ids.length == 0) {
     return;
   }
-  params.push(createCondition("idCalendarDefine", ids, Array.isArray(ids) ? "in" : "eq"));
+  params.push(
+    createCondition("idCalendarDefine", ids, Array.isArray(ids) ? "in" : "eq"),
+  );
   if (searchParam?.length > 0) {
     params = params.concat(searchParam);
   }
@@ -409,16 +444,25 @@ const loadAllCalendar = async (ids: any, searchParam: SearchParams[] = []) => {
   if (currentDateParam.value) {
     ymd = monthRange(currentDateParam.value);
   }
-  params.push(createCondition("createdTime", [ymd.starDateStr + " 00:00:00", ymd.lastDateStr + " 23:59:59"], "bt"));
-  let resultData = await loadData("system-config/system/calendarManage/getAllByCondition", {
-    fieldList: params,
-    orderBy: [
-      {
-        fieldName: "createdTime",
-        ascOrDesc: "asc"
-      }
-    ]
-  });
+  params.push(
+    createCondition(
+      "createdTime",
+      [ymd.starDateStr + " 00:00:00", ymd.lastDateStr + " 23:59:59"],
+      "bt",
+    ),
+  );
+  let resultData = await loadData(
+    "system-config/system/calendarManage/getAllByCondition",
+    {
+      fieldList: params,
+      orderBy: [
+        {
+          fieldName: "createdTime",
+          ascOrDesc: "asc",
+        },
+      ],
+    },
+  );
   if (resultData.error) {
     console.log(resultData.error);
     return;
@@ -429,7 +473,8 @@ const loadAllCalendar = async (ids: any, searchParam: SearchParams[] = []) => {
   for (let i in datas) {
     let data = datas[i];
     data["id"] = data["idCalendarManage"];
-    data["start"] = data["startStr"] + (data.sTime ? " " + data.sTime : " 00:00");
+    data["start"] =
+      data["startStr"] + (data.sTime ? " " + data.sTime : " 00:00");
     data["end"] = data["endStr"] + (data.eTime ? " " + data.eTime : " 23:59");
     fullCalendar.value.getApi().view.calendar.addEvent(data);
   }
@@ -467,7 +512,8 @@ const changeDateRange = (type: string) => {
 const changeModel = (type: string) => {
   if (type == "editBtn") {
     calenderModel.value = calenderModel.value == "view" ? "edit" : "view";
-    editTitle.value = calenderModel.value == "view" ? "开启编辑模式" : "关闭编辑模式";
+    editTitle.value =
+      calenderModel.value == "view" ? "开启编辑模式" : "关闭编辑模式";
   } else {
     fullCalendar.value.getApi().changeView(type);
   }
@@ -485,92 +531,120 @@ onMounted(async () => {
 
 <template>
   <star-horse-dialog
-      :title="'添加日程'"
-      @closeAction="close"
-      @merge="calendarManageSubmit"
-      :dialog-visible="calendarManageVisible"
-      :draggable="true"
-      :self-func="true"
+    :title="'添加日程'"
+    @closeAction="close"
+    @merge="calendarManageSubmit"
+    :dialog-visible="calendarManageVisible"
+    :draggable="true"
+    :self-func="true"
   >
     <div class="dialog-body2">
       <div class="dialog-form">
         <star-horse-form
-            :formSize="compSize"
-            :outer-form-data="outerData"
-            :field-list="calendarManage(myCalendarList)"
-            @exportData="exportData"
-            ref="calendarMangeRef"
+          :formSize="compSize"
+          :outer-form-data="outerData"
+          :field-list="calendarManage(myCalendarList)"
+          @exportData="exportData"
+          ref="calendarMangeRef"
         />
       </div>
       <div class="dialog-calendar">
         <FullCalendar
-            ref="dialogFullCalendar"
-            :eventLimit="true"
-            allDayText="全天"
-            :editable="true"
-            :options="formCalendarOptions"
+          ref="dialogFullCalendar"
+          :eventLimit="true"
+          allDayText="全天"
+          :editable="true"
+          :options="formCalendarOptions"
         >
         </FullCalendar>
       </div>
     </div>
   </star-horse-dialog>
   <star-horse-dialog
-      :title="'添加日历'"
-      @closeAction="close"
-      @merge="calendarTypeSubmit"
-      :dialog-visible="calendarTypeVisible"
-      :draggable="true"
-      :self-func="true"
+    :title="'添加日历'"
+    @closeAction="close"
+    @merge="calendarTypeSubmit"
+    :dialog-visible="calendarTypeVisible"
+    :draggable="true"
+    :self-func="true"
   >
     <star-horse-form
-        :formSize="compSize"
-        :outer-form-data="outerData"
-        :field-list="{
-        fieldList: defineType('calendar')
+      :formSize="compSize"
+      :outer-form-data="outerData"
+      :field-list="{
+        fieldList: defineType('calendar'),
       }"
-        ref="calendarTypeRef"
+      ref="calendarTypeRef"
     />
   </star-horse-dialog>
   <div class="star-horse-calendar">
     <div class="calendar-left">
       <div class="create-calender">
-        <el-button text @click="addCalendar('meeting', $event)" :size="compSize">
-          <star-horse-icon icon-class="meeting"/>
+        <el-button
+          text
+          @click="addCalendar('meeting', $event)"
+          :size="compSize"
+        >
+          <star-horse-icon icon-class="meeting" />
           预定会议
         </el-button>
-        <el-button text @click="addCalendar('calendar', $event)" :size="compSize">
-          <star-horse-icon icon-class="calendar"/>
+        <el-button
+          text
+          @click="addCalendar('calendar', $event)"
+          :size="compSize"
+        >
+          <star-horse-icon icon-class="calendar" />
           新建日程
         </el-button>
       </div>
       <div class="create-calender">
-        <el-input v-model="searchText" :size="compSize" @keydown.enter="searchCalendar" placeholder="请输入日程">
+        <el-input
+          v-model="searchText"
+          :size="compSize"
+          @keydown.enter="searchCalendar"
+          placeholder="请输入日程"
+        >
           <template #prefix>
             <el-icon>
-              <Search/>
+              <Search />
             </el-icon>
           </template>
         </el-input>
       </div>
-      <el-calendar v-model="dateValue" ref="starHorseDateRef" class="custom-calendar">
+      <el-calendar
+        v-model="dateValue"
+        ref="starHorseDateRef"
+        class="custom-calendar"
+      >
         <template #header="{ date }">
           <div class="date-header">
             <span>{{ date }}</span>
             <div class="header-body">
-              <el-icon @click="selectDate('prev-month')" style="cursor: pointer">
-                <ArrowLeftBold/>
+              <el-icon
+                @click="selectDate('prev-month')"
+                style="cursor: pointer"
+              >
+                <ArrowLeftBold />
               </el-icon>
-              <el-icon @click="selectDate('next-month')" style="cursor: pointer">
-                <ArrowRightBold/>
+              <el-icon
+                @click="selectDate('next-month')"
+                style="cursor: pointer"
+              >
+                <ArrowRightBold />
               </el-icon>
             </div>
           </div>
         </template>
         <template #date-cell="{ data }">
           <p
-              class="calendar-cell"
-              :class="[data.date >= selectedWeekRange[0] && data.date <= selectedWeekRange[1] ? 'is-week' : '']"
-              @click="changeDate(data.date)"
+            class="calendar-cell"
+            :class="[
+              data.date >= selectedWeekRange[0] &&
+              data.date <= selectedWeekRange[1]
+                ? 'is-week'
+                : '',
+            ]"
+            @click="changeDate(data.date)"
           >
             {{ data.day.split("-").slice(2).join() }}
             {{ data.isSelected ? "✔️" : "" }}
@@ -582,25 +656,43 @@ onMounted(async () => {
           <template #title>
             <div class="collapse-item-title title">
               <div style="width: 80%">我的日历</div>
-              <star-horse-icon icon-class="add" title="添加日历" @click="addCalendarType"/>
+              <star-horse-icon
+                icon-class="add"
+                title="添加日历"
+                @click="addCalendarType"
+              />
             </div>
           </template>
           <template v-for="item in myCalendarList">
             <div class="my-calendar">
-              <div class="title" @click="loadAllCalendar(item.idCalendarDefine)">
-                <star-horse-icon :icon-class="item.category || 'user-cycle'"/>
+              <div
+                class="title"
+                @click="loadAllCalendar(item.idCalendarDefine)"
+              >
+                <star-horse-icon :icon-class="item.category || 'user-cycle'" />
                 {{ item.calendarName }}
               </div>
-              <el-dropdown placement="bottom" @command="(cmd) => calendarOperation(cmd, item)">
-                <star-horse-icon icon-class="more" cursor="pointer" color="var(--star-horse-style)" size="20px"/>
+              <el-dropdown
+                placement="bottom"
+                @command="(cmd) => calendarOperation(cmd, item)"
+              >
+                <star-horse-icon
+                  icon-class="more"
+                  cursor="pointer"
+                  color="var(--star-horse-style)"
+                  size="20px"
+                />
                 <template #dropdown>
                   <el-dropdown-menu>
                     <el-dropdown-item command="add">
-                      <star-horse-icon icon-class="add"/>
+                      <star-horse-icon icon-class="add" />
                       添加日程
                     </el-dropdown-item>
                     <el-dropdown-item command="delete">
-                      <star-horse-icon icon-class="delete" color="var(--el-color-danger)"/>
+                      <star-horse-icon
+                        icon-class="delete"
+                        color="var(--el-color-danger)"
+                      />
                       删除日历
                     </el-dropdown-item>
                   </el-dropdown-menu>
@@ -615,71 +707,80 @@ onMounted(async () => {
       <div class="calendar-tool-bar">
         <div class="tool-bar-left">
           <star-horse-icon
-              title="上一年"
-              @click="changeDateRange('preYear')"
-              cursor="pointer"
-              icon-class="arrow-double-left"
-              size="14px"
+            title="上一年"
+            @click="changeDateRange('preYear')"
+            cursor="pointer"
+            icon-class="arrow-double-left"
+            size="14px"
           />
           <star-horse-icon
-              title="上一月"
-              @click="changeDateRange('pre')"
-              cursor="pointer"
-              icon-class="arrow-left"
-              size="14px"
+            title="上一月"
+            @click="changeDateRange('pre')"
+            cursor="pointer"
+            icon-class="arrow-left"
+            size="14px"
           />
           <star-horse-icon
-              title="下一月"
-              @click="changeDateRange('next')"
-              cursor="pointer"
-              icon-class="arrow-right"
-              size="14px"
+            title="下一月"
+            @click="changeDateRange('next')"
+            cursor="pointer"
+            icon-class="arrow-right"
+            size="14px"
           />
           <star-horse-icon
-              title="下一年"
-              @click="changeDateRange('nextYear')"
-              cursor="pointer"
-              icon-class="arrow-double-right"
-              size="14px"
+            title="下一年"
+            @click="changeDateRange('nextYear')"
+            cursor="pointer"
+            icon-class="arrow-double-right"
+            size="14px"
           />
-          <star-horse-icon title="当前日期" @click="changeDateRange('today')" cursor="pointer" icon-class="today"/>
+          <star-horse-icon
+            title="当前日期"
+            @click="changeDateRange('today')"
+            cursor="pointer"
+            icon-class="today"
+          />
         </div>
         <div class="tool-bar-center">{{ calendarTitle }}</div>
         <div class="tool-bar-right">
-          <el-button link :size="compSize" @click="changeModel('multiMonthYear')">
-            <star-horse-icon cursor="pointer" icon-class="calendar"/>
+          <el-button
+            link
+            :size="compSize"
+            @click="changeModel('multiMonthYear')"
+          >
+            <star-horse-icon cursor="pointer" icon-class="calendar" />
             年
           </el-button>
           <el-button link :size="compSize" @click="changeModel('dayGridMonth')">
-            <star-horse-icon cursor="pointer" icon-class="calendar"/>
+            <star-horse-icon cursor="pointer" icon-class="calendar" />
             月
           </el-button>
           <el-button link :size="compSize" @click="changeModel('timeGridWeek')">
-            <star-horse-icon cursor="pointer" icon-class="calendar"/>
+            <star-horse-icon cursor="pointer" icon-class="calendar" />
             周
           </el-button>
           <el-button link :size="compSize" @click="changeModel('timeGridDay')">
-            <star-horse-icon cursor="pointer" icon-class="calendar"/>
+            <star-horse-icon cursor="pointer" icon-class="calendar" />
             日
           </el-button>
           <el-button link :size="compSize" @click="changeModel('listMonth')">
-            <star-horse-icon cursor="pointer" icon-class="calendar"/>
+            <star-horse-icon cursor="pointer" icon-class="calendar" />
             列表
           </el-button>
           <el-button link :size="compSize" @click="changeModel('editBtn')">
-            <star-horse-icon cursor="pointer" icon-class="edit"/>
+            <star-horse-icon cursor="pointer" icon-class="edit" />
             {{ editTitle }}
           </el-button>
         </div>
       </div>
       <FullCalendar
-          ref="fullCalendar"
-          height="parent"
-          :eventLimit="true"
-          allDayText="全天"
-          :editable="true"
-          :options="calendarOptions"
-          class="app-calendar"
+        ref="fullCalendar"
+        height="parent"
+        :eventLimit="true"
+        allDayText="全天"
+        :editable="true"
+        :options="calendarOptions"
+        class="app-calendar"
       >
         <!--        <template v-slot:eventContent="arg">
                   <span>{{ arg.timeText }}</span>

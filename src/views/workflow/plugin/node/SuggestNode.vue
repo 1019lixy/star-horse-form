@@ -1,20 +1,20 @@
 <script setup lang="ts">
-import {useFlowDesignStore} from "@/store/FlowDesign";
-import {closeLoad, piniaInstance} from "star-horse-lowcode";
-import {FlowNodeEnums} from "@/views/workflow/plugin/enums/FlowNodeEnums";
-import {onMounted} from "vue";
+import { useFlowDesignStore } from "@/store/FlowDesign";
+import { closeLoad, piniaInstance } from "star-horse-lowcode";
+import { FlowNodeEnums } from "@/views/workflow/plugin/enums/FlowNodeEnums";
+import { onMounted } from "vue";
 
 const props = defineProps({
   node: {
     type: Object,
     default: function () {
       return {};
-    }
+    },
   },
   readable: {
     type: Boolean,
-    default: false
-  }
+    default: false,
+  },
 });
 const emits = defineEmits(["selectNode"]);
 const selectNode = (node: any) => {
@@ -23,10 +23,10 @@ const selectNode = (node: any) => {
 const flowDesign = useFlowDesignStore(piniaInstance);
 const delCallback = (_conditionNode: any) => {
   let currNode = {
-    id: props.node.pid
+    id: props.node.pid,
   };
   // 将对应的审批节点的添加按钮开启
-  flowDesign.flowUpdateNode({currNode, field: "addable", value: true});
+  flowDesign.flowUpdateNode({ currNode, field: "addable", value: true });
 };
 const init = () => {
   closeLoad();
@@ -41,13 +41,16 @@ onMounted(() => {
     <div class="flow-branch">
       <div class="meet-node"></div>
       <div
-          class="flow-col"
-          v-for="(conditionNode, index) in node.conditionNodes"
-          :key="index"
-          @click.stop="selectNode(conditionNode)"
+        class="flow-col"
+        v-for="(conditionNode, index) in node.conditionNodes"
+        :key="index"
+        @click.stop="selectNode(conditionNode)"
       >
         <div class="clear-left-border" v-if="index == 0"></div>
-        <div class="clear-right-border" v-if="node.conditionNodes.length - 1 == index"></div>
+        <div
+          class="clear-right-border"
+          v-if="node.conditionNodes.length - 1 == index"
+        ></div>
         <div class="flow-row">
           <div class="flow-box">
             <div class="flow-item flow-node-branch">
@@ -55,39 +58,57 @@ onMounted(() => {
                 <div class="node-name">
                   <span>{{ conditionNode.name }}</span>
                   <span style="margin-left: 10px">
-                    <star-horse-icon v-if="index == 0" icon-class="check-circle" theme="filled" style="color: green"/>
                     <star-horse-icon
-                        v-if="node.conditionNodes.length - 1 == index"
-                        icon-class="close"
-                        theme="filled"
-                        style="color: red"
+                      v-if="index == 0"
+                      icon-class="check-circle"
+                      theme="filled"
+                      style="color: green"
+                    />
+                    <star-horse-icon
+                      v-if="node.conditionNodes.length - 1 == index"
+                      icon-class="close"
+                      theme="filled"
+                      style="color: red"
                     />
                   </span>
                 </div>
-                <div v-if="!readable && !conditionNode.deletable" class="close-icon">
-                  <star-horse-icon iconClass="close" @click.stop="conditionNode.deletable = true"/>
+                <div
+                  v-if="!readable && !conditionNode.deletable"
+                  class="close-icon"
+                >
+                  <star-horse-icon
+                    iconClass="close"
+                    @click.stop="conditionNode.deletable = true"
+                  />
                 </div>
                 <!-- 删除提示 -->
-                <DeleteConfirm :node="conditionNode" @callback="delCallback"/>
+                <DeleteConfirm :node="conditionNode" @callback="delCallback" />
               </div>
             </div>
             <AddNode
-                :node="node"
-                :nodeType="FlowNodeEnums.BRANCH_NODE"
-                :id="conditionNode.id"
-                :readable="readable"
+              :node="node"
+              :nodeType="FlowNodeEnums.BRANCH_NODE"
+              :id="conditionNode.id"
+              :readable="readable"
             />
           </div>
         </div>
         <FlowNode
-            v-if="conditionNode.childNode && conditionNode.childNode.hasOwnProperty('name')"
-            :node="conditionNode.childNode"
-            :readable="readable"
+          v-if="
+            conditionNode.childNode &&
+            conditionNode.childNode.hasOwnProperty('name')
+          "
+          :node="conditionNode.childNode"
+          :readable="readable"
         />
       </div>
     </div>
     <div class="after-branch-btn">
-      <AddNode :node="node" :nodeType="FlowNodeEnums.BRANCH_NODE" :readable="readable"/>
+      <AddNode
+        :node="node"
+        :nodeType="FlowNodeEnums.BRANCH_NODE"
+        :readable="readable"
+      />
     </div>
   </div>
 </template>

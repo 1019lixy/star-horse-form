@@ -1,8 +1,21 @@
 <script setup lang="ts" name="CalendarDefine">
-import {onActivated, onDeactivated, onMounted, provide, reactive, ref} from "vue";
-import {Config} from "@/api/settings";
-import {apiInstance, ApiUrls, dialogPreps, PageFieldInfo, SearchFields} from "star-horse-lowcode";
-import {getCustomerParam} from "@/utils/auth";
+import {
+  onActivated,
+  onDeactivated,
+  onMounted,
+  provide,
+  reactive,
+  ref,
+} from "vue";
+import { Config } from "@/api/settings";
+import {
+  apiInstance,
+  ApiUrls,
+  dialogPreps,
+  PageFieldInfo,
+  SearchFields,
+} from "star-horse-lowcode";
+import { getCustomerParam } from "@/utils/auth";
 //后端交互接口地址
 const dataUrl: ApiUrls = apiInstance("system-config", "system/calendarDefine");
 //主键
@@ -19,23 +32,20 @@ const searchFormData = reactive<SearchFields>({
       fieldName: "category",
       defaultVisible: false,
       matchType: "lk",
-
     },
     {
       label: "日历名称",
       fieldName: "calendarName",
       defaultVisible: false,
       matchType: "lk",
-
     },
     {
       label: "共享成员",
       fieldName: "sharPerson",
       defaultVisible: false,
       matchType: "lk",
-
-    }
-  ]
+    },
+  ],
 });
 //页面属性
 const tableFieldList = reactive<PageFieldInfo | any>({
@@ -47,7 +57,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
 
       required: true,
       formVisible: true,
-      listVisible: true
+      listVisible: true,
     },
     {
       label: "日历分类",
@@ -55,7 +65,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
 
       required: false,
       formVisible: true,
-      listVisible: true
+      listVisible: true,
     },
     {
       label: "日历名称",
@@ -63,7 +73,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
 
       required: false,
       formVisible: true,
-      listVisible: true
+      listVisible: true,
     },
     {
       label: "共享成员",
@@ -71,7 +81,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
 
       required: false,
       formVisible: true,
-      listVisible: true
+      listVisible: true,
     },
     {
       label: "版本号",
@@ -79,7 +89,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       type: "number",
       required: false,
       formVisible: !true,
-      listVisible: !true
+      listVisible: !true,
     },
     {
       label: "创建人",
@@ -87,7 +97,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
 
       required: false,
       formVisible: !true,
-      listVisible: !true
+      listVisible: !true,
     },
     {
       label: "创建时间",
@@ -95,7 +105,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       type: "datetime",
       required: false,
       formVisible: !true,
-      listVisible: !true
+      listVisible: !true,
     },
     {
       label: "修改人",
@@ -103,7 +113,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
 
       required: false,
       formVisible: !true,
-      listVisible: !true
+      listVisible: !true,
     },
     {
       label: "修改时间",
@@ -111,7 +121,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       type: "datetime",
       required: false,
       formVisible: !true,
-      listVisible: !true
+      listVisible: !true,
     },
     {
       label: "数据编号",
@@ -119,7 +129,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
 
       required: false,
       formVisible: !true,
-      listVisible: !true
+      listVisible: !true,
     },
     {
       label: "状态码",
@@ -127,7 +137,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
 
       required: false,
       formVisible: !true,
-      listVisible: !true
+      listVisible: !true,
     },
     {
       label: "状态名称",
@@ -135,7 +145,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
 
       required: false,
       formVisible: !true,
-      listVisible: !true
+      listVisible: !true,
     },
     {
       label: "是否删除",
@@ -143,7 +153,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       type: "number",
       required: false,
       formVisible: !true,
-      listVisible: !true
+      listVisible: !true,
     },
     {
       label: "国际编码",
@@ -151,7 +161,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
 
       required: false,
       formVisible: !true,
-      listVisible: !true
+      listVisible: !true,
     },
     {
       label: "备注",
@@ -159,11 +169,11 @@ const tableFieldList = reactive<PageFieldInfo | any>({
 
       required: false,
       formVisible: !true,
-      listVisible: !true
-    }
+      listVisible: !true,
+    },
   ],
   //默认查询条件
-  condition: [getCustomerParam()]
+  condition: [getCustomerParam()],
 });
 //校验
 const rules = {};
@@ -171,12 +181,9 @@ const rules = {};
 const dialogProps = dialogPreps();
 provide("dialogProps", dialogProps);
 //初始化方法
-const initData = async () => {
-};
-const activated = () => {
-};
-const deactivated = () => {
-};
+const initData = async () => {};
+const activated = () => {};
+const deactivated = () => {};
 /**
  * 列表，查看数据时数据转换
  * @param name 名称
@@ -198,38 +205,50 @@ onDeactivated(() => {
 });
 </script>
 <template>
-  <star-horse-dialog :isShowBtnContinue="true" :dialog-visible="dialogProps.editVisible" :dialogProps="dialogProps">
+  <star-horse-dialog
+    :isShowBtnContinue="true"
+    :dialog-visible="dialogProps.editVisible"
+    :dialogProps="dialogProps"
+  >
     <star-horse-form
-        @refresh="calendarDefineRef?.loadByPage()"
-        :compUrl="dataUrl"
-        :fieldList="tableFieldList"
-        :rules="rules"
+      @refresh="calendarDefineRef?.loadByPage()"
+      :compUrl="dataUrl"
+      :fieldList="tableFieldList"
+      :rules="rules"
     />
   </star-horse-dialog>
   <star-horse-dialog
-      :dialog-visible="dialogProps.viewVisible"
-      :dialogProps="dialogProps"
-      
-      :source="3"
+    :dialog-visible="dialogProps.viewVisible"
+    :dialogProps="dialogProps"
+    :source="3"
   >
-    <star-horse-data-view :dataFormat="dataFormat" :field-list="tableFieldList" :compUrl="dataUrl"/>
+    <star-horse-data-view
+      :dataFormat="dataFormat"
+      :field-list="tableFieldList"
+      :compUrl="dataUrl"
+    />
   </star-horse-dialog>
   <div class="search-content">
-    <div class="search_btn" :style="{ 'flex-direction': Config.buttonStyle.value == 'line'? 'column' : 'row' }">
+    <div
+      class="search_btn"
+      :style="{
+        'flex-direction': Config.buttonStyle.value == 'line' ? 'column' : 'row',
+      }"
+    >
       <star-horse-search-comp
-          @searchData="(data: any) => calendarDefineRef?.createSearchParams(data)"
-          :formData="searchFormData"
-          :compUrl="dataUrl"
+        @searchData="(data: any) => calendarDefineRef?.createSearchParams(data)"
+        :formData="searchFormData"
+        :compUrl="dataUrl"
       />
     </div>
   </div>
   <el-card class="inner_content">
     <star-horse-table-comp
-        ref="calendarDefineRef"
-        :fieldList="tableFieldList"
-        :primaryKey="primaryKey"
-        :compUrl="dataUrl"
-        :dataFormat="dataFormat"
+      ref="calendarDefineRef"
+      :fieldList="tableFieldList"
+      :primaryKey="primaryKey"
+      :compUrl="dataUrl"
+      :dataFormat="dataFormat"
     />
   </el-card>
 </template>

@@ -11,36 +11,64 @@ const beforeUpload = (file: File) => {
     reader.readAsDataURL(file);
     reader.onload = () => {
       // currentBackgroundImage.value = reader.result;
-      backgroundData.value.backgroundImage = 'url(' + reader.result + ')';
+      backgroundData.value.backgroundImage = "url(" + reader.result + ")";
       console.log(backgroundData.value.backgroundImage);
       resolve(false); // 阻止自动上传
     };
   });
-}
-watch(() => backgroundData.value.backgroundImage, () => {
-  // 使用正则表达式提取url内容
-  const match = backgroundData.value.backgroundImage.match(/url\((['"]?)(.*?)\1\)/);
-  currentBackgroundImage.value = match ? match[2] : '';
-})
+};
+watch(
+  () => backgroundData.value.backgroundImage,
+  () => {
+    // 使用正则表达式提取url内容
+    const match = backgroundData.value.backgroundImage.match(
+      /url\((['"]?)(.*?)\1\)/,
+    );
+    currentBackgroundImage.value = match ? match[2] : "";
+  },
+);
 </script>
 
 <template>
   <el-form-item label="颜色" prop="backgroundColor">
     <div class="row">
-      <el-color-picker v-model="backgroundData.backgroundColor" color-format="rgb" size="small" placeholder="X" />
-      <el-input v-model="backgroundData.backgroundColor" size="small" placeholder="" style="margin-left: 5px" />
+      <el-color-picker
+        v-model="backgroundData.backgroundColor"
+        color-format="rgb"
+        size="small"
+        placeholder="X"
+      />
+      <el-input
+        v-model="backgroundData.backgroundColor"
+        size="small"
+        placeholder=""
+        style="margin-left: 5px"
+      />
     </div>
   </el-form-item>
   <el-form-item label="背景图片" prop="backgroundImage">
-    <el-upload :before-upload="beforeUpload" list-type="picture-card" accept="image/*" :show-file-list="false">
-      <img v-if="backgroundData.backgroundImage" :src="currentBackgroundImage" class="preview-image" />
+    <el-upload
+      :before-upload="beforeUpload"
+      list-type="picture-card"
+      accept="image/*"
+      :show-file-list="false"
+    >
+      <img
+        v-if="backgroundData.backgroundImage"
+        :src="currentBackgroundImage"
+        class="preview-image"
+      />
       <el-icon v-else>
         <Plus />
       </el-icon>
     </el-upload>
   </el-form-item>
   <el-form-item label="背景大小" prop="backgroundSize">
-    <el-input v-model="backgroundData.backgroundSize" size="small" placeholder="背景大小"></el-input>
+    <el-input
+      v-model="backgroundData.backgroundSize"
+      size="small"
+      placeholder="背景大小"
+    ></el-input>
   </el-form-item>
 
   <el-form-item label="背景重复" prop="repeat">

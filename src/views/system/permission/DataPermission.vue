@@ -14,7 +14,7 @@ import {
   SearchParams,
   SelectOption,
   useGlobalConfigStore,
-  warning
+  warning,
 } from "star-horse-lowcode";
 import { loadRolesInfo, loadSystemInfo } from "@/api/star_horse_utils";
 import { Config } from "@/api/settings";
@@ -29,7 +29,7 @@ let appinfoList = ref<SelectOption[]>([]);
 let permissionType = ref<SelectOption[]>([
   { name: "数据共享到个人", value: "sharePerson" },
   { name: "数据共享到用户组", value: "shareGroup" },
-  { name: "临时赋权", value: "empowerment" }
+  { name: "临时赋权", value: "empowerment" },
 ]);
 let rolesList = ref<SelectOption[]>([]);
 let menusList = ref<SelectOption[]>([]);
@@ -45,11 +45,16 @@ const searchFormData = reactive<SearchFields>({
       fieldName: "permissionType",
       type: "select",
       preps: {
-        values: permissionType
-      }
+        values: permissionType,
+      },
     },
-    { label: "被授权用户组/人", defaultVisible: true, fieldName: "userGroup", matchType: "lk" }
-  ]
+    {
+      label: "被授权用户组/人",
+      defaultVisible: true,
+      fieldName: "userGroup",
+      matchType: "lk",
+    },
+  ],
 });
 let groupVisible = ref<boolean>("false");
 let userVisible = ref<boolean>("true");
@@ -67,15 +72,17 @@ const formFieldList = reactive<PageFieldInfo | any>({
           change: (val: any) => {
             groupVisible.value = val["permissionType"] == "shareGroup";
             val["userGroup"] = "";
-            userVisible.value = val["permissionType"] == "sharePerson" || val["permissionType"] == "empowerment";
-          }
+            userVisible.value =
+              val["permissionType"] == "sharePerson" ||
+              val["permissionType"] == "empowerment";
+          },
         },
         required: true,
         formVisible: true,
         listVisible: true,
         preps: {
           values: permissionType,
-        }
+        },
       },
       {
         label: "授权菜单",
@@ -90,10 +97,10 @@ const formFieldList = reactive<PageFieldInfo | any>({
           data: menusList,
           props: {
             label: "menuName",
-            value: "idMenusinfo"
-          }
-        }
-      }
+            value: "idMenusinfo",
+          },
+        },
+      },
     ],
     {
       label: "用户组",
@@ -105,8 +112,8 @@ const formFieldList = reactive<PageFieldInfo | any>({
       listVisible: true,
       preps: {
         multiple: true,
-        data: rolesList
-      }
+        data: rolesList,
+      },
     },
     {
       label: "被授权账号",
@@ -120,24 +127,39 @@ const formFieldList = reactive<PageFieldInfo | any>({
         multiple: false,
         primaryKey: "idUsersinfo",
         dataUrl: {
-          pageListUrl: "/system-config/system/usersinfoEntity/pageList"
+          pageListUrl: "/system-config/system/usersinfoEntity/pageList",
         },
         searchFieldList: {
           fieldList: [
-            { label: "用户名", defaultVisible: true, fieldName: "username", matchType: "lk" },
-            { label: "姓名", defaultVisible: true, fieldName: "name", matchType: "lk" },
-            { label: "工号", defaultVisible: true, fieldName: "employeeNo", matchType: "lk" }
-          ]
+            {
+              label: "用户名",
+              defaultVisible: true,
+              fieldName: "username",
+              matchType: "lk",
+            },
+            {
+              label: "姓名",
+              defaultVisible: true,
+              fieldName: "name",
+              matchType: "lk",
+            },
+            {
+              label: "工号",
+              defaultVisible: true,
+              fieldName: "employeeNo",
+              matchType: "lk",
+            },
+          ],
         },
         dataFormat: (name: string, val: any, row: any) => {
           return userFormat(name, val, row);
         },
         needField: [
           { sourceField: "idUsersinfo", distField: "userGroup" },
-          { sourceField: "name", distField: "userGroupName" }
+          { sourceField: "name", distField: "userGroupName" },
         ],
-        fieldList: baseUserFields
-      }
+        fieldList: baseUserFields,
+      },
     },
     {
       label: "权限",
@@ -151,7 +173,7 @@ const formFieldList = reactive<PageFieldInfo | any>({
       preps: {
         multiple: true,
         values: authorityList,
-      }
+      },
     },
     {
       label: "有效期",
@@ -159,10 +181,10 @@ const formFieldList = reactive<PageFieldInfo | any>({
       type: "daterange",
       required: true,
       formVisible: true,
-      listVisible: true
-    }
+      listVisible: true,
+    },
   ],
-  cellEditable: false
+  cellEditable: false,
 });
 const tableFieldList = reactive<PageFieldInfo | any>({
   fieldList: [
@@ -170,36 +192,38 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       label: "权限类型",
       fieldName: "permissionType",
 
-      listVisible: true
+      listVisible: true,
     },
     {
       label: "被授权用户组/账号",
       fieldName: "userGroup",
 
-      listVisible: true
+      listVisible: true,
     },
     {
       label: "有效期",
       fieldName: "validTime",
 
-      listVisible: true
+      listVisible: true,
     },
     {
       label: "授权菜单",
       fieldName: "menuList",
 
-      listVisible: true
+      listVisible: true,
     },
     {
       label: "权限",
       fieldName: "permissionList",
-      listVisible: true
-    }
+      listVisible: true,
+    },
   ],
-  cellEditable: false
+  cellEditable: false,
 });
 let configStore = useGlobalConfigStore(piniaInstance);
-let compSize = computed(() => configStore.configFormInfo?.inputSize || Config.compSize);
+let compSize = computed(
+  () => configStore.configFormInfo?.inputSize || Config.compSize,
+);
 //主键
 const primaryKey = "idDataPermission";
 const dataPermissionRef = ref();
@@ -212,13 +236,20 @@ provide("dialogProps", dialogProps);
 
 const dataFormat = (name: string, cellValue: any, row: any): any => {
   if (name == "validTime") {
-    return createDatetime(row["validTimeStart"]) + " 到 " + createDatetime(row["validTimeEnd"]);
+    return (
+      createDatetime(row["validTimeStart"]) +
+      " 到 " +
+      createDatetime(row["validTimeEnd"])
+    );
   } else if (name == "menuList") {
     return cellValue.map((item) => item.menuName).toString();
   } else if (name == "permissionList") {
     return cellValue.map((item) => item.resName).join(";");
   } else if (name == "permissionType") {
-    return permissionType.value.find((item) => item.value == cellValue)?.name || cellValue;
+    return (
+      permissionType.value.find((item) => item.value == cellValue)?.name ||
+      cellValue
+    );
   }
   return cellValue;
 };
@@ -233,40 +264,48 @@ let preValid = ref<any>({
       return false;
     }
     return true;
-  }
+  },
 });
 
 const loadMenus = async () => {
   let fieldList = [];
-  let roleList = getUserInfo()?.rolesList?.map((item:any) => item.idRolesinfo);
+  let roleList = getUserInfo()?.rolesList?.map((item: any) => item.idRolesinfo);
   fieldList.push(createCondition("a.idRolesinfo", roleList, "in"));
   if (currentSystemId.value) {
     fieldList.push(createCondition("a.idInformations", currentSystemId.value));
   }
   menusList.value = [];
-  let menusDatas = await loadData("/system-config/system/menusinfoEntity/rolesAppMenus", {
-    fieldList: fieldList,
-    orderBy: [
-      {
-        fieldName: "a.idRolesinfo",
-        ascOrDesc: "asc"
-      },
-      {
-        fieldName: "a.idInformations",
-        ascOrDesc: "asc"
-      },
-      {
-        fieldName: "b.dataIndex",
-        ascOrDesc: "asc"
-      }
-    ]
-  });
+  let menusDatas = await loadData(
+    "/system-config/system/menusinfoEntity/rolesAppMenus",
+    {
+      fieldList: fieldList,
+      orderBy: [
+        {
+          fieldName: "a.idRolesinfo",
+          ascOrDesc: "asc",
+        },
+        {
+          fieldName: "a.idInformations",
+          ascOrDesc: "asc",
+        },
+        {
+          fieldName: "b.dataIndex",
+          ascOrDesc: "asc",
+        },
+      ],
+    },
+  );
   if (menusDatas.error) {
     warning(menusDatas.error);
     return;
   }
   menusList.value = menusDatas.data;
-  menusSelectList.value = createTree(menusDatas.data, "idMenusinfo", "menuName", "");
+  menusSelectList.value = createTree(
+    menusDatas.data,
+    "idMenusinfo",
+    "menuName",
+    "",
+  );
 };
 const systemChange = async (data: TreeNodeData, _checked: boolean) => {
   currentSystemId.value = data.value;
@@ -306,36 +345,78 @@ onMounted(async () => {
 </script>
 <style lang="scss" scoped></style>
 <template>
-  <star-horse-dialog :isShowBtnContinue="true" :dialogVisible="dialogProps.editVisible" :dialogProps="dialogProps">
-    <star-horse-form :outerFormData="dataForm" @refresh="dataPermissionRef?.loadByPage()" :compUrl="dataUrl"
-      :fieldList="formFieldList" :rules="rules" />
+  <star-horse-dialog
+    :isShowBtnContinue="true"
+    :dialogVisible="dialogProps.editVisible"
+    :dialogProps="dialogProps"
+  >
+    <star-horse-form
+      :outerFormData="dataForm"
+      @refresh="dataPermissionRef?.loadByPage()"
+      :compUrl="dataUrl"
+      :fieldList="formFieldList"
+      :rules="rules"
+    />
   </star-horse-dialog>
-  <star-horse-dialog :dialog-visible="dialogProps.viewVisible" :dialogProps="dialogProps" :source="3">
-    <star-horse-data-view :dataFormat="dataFormat" :field-list="tableFieldList" :compUrl="dataUrl" />
+  <star-horse-dialog
+    :dialog-visible="dialogProps.viewVisible"
+    :dialogProps="dialogProps"
+    :source="3"
+  >
+    <star-horse-data-view
+      :dataFormat="dataFormat"
+      :field-list="tableFieldList"
+      :compUrl="dataUrl"
+    />
   </star-horse-dialog>
   <el-card class="inner_content">
     <el-splitter>
       <el-splitter-panel collapsible size="240" min="100" max="500">
-        <star-horse-tree v-model:tree-datas="systemInfoList" treeTitle="应用系统" @selectData="systemChange"
-          :compSize="compSize" />
+        <star-horse-tree
+          v-model:tree-datas="systemInfoList"
+          treeTitle="应用系统"
+          @selectData="systemChange"
+          :compSize="compSize"
+        />
       </el-splitter-panel>
-      <el-splitter-panel :size="menusList?.length > 0 ? 220 : 0" min="0" max="300">
-        <star-horse-tree v-model:tree-datas="menusList" treeTitle="系统菜单" :preps="{
-          label: 'menuName',
-          value: 'idMenusinfo',
-          children: 'children'
-        }" @selectData="menuChange" :compSize="compSize" />
+      <el-splitter-panel
+        :size="menusList?.length > 0 ? 220 : 0"
+        min="0"
+        max="300"
+      >
+        <star-horse-tree
+          v-model:tree-datas="menusList"
+          treeTitle="系统菜单"
+          :preps="{
+            label: 'menuName',
+            value: 'idMenusinfo',
+            children: 'children',
+          }"
+          @selectData="menuChange"
+          :compSize="compSize"
+        />
       </el-splitter-panel>
       <el-splitter-panel>
         <div class="search-content">
           <div class="search_btn">
-            <star-horse-search-comp @searchData="(data: any) => dataPermissionRef?.createSearchParams(data)"
-              :formData="searchFormData" :defaultCondition="defaultCondition" :compUrl="dataUrl" />
+            <star-horse-search-comp
+              @searchData="
+                (data: any) => dataPermissionRef?.createSearchParams(data)
+              "
+              :formData="searchFormData"
+              :defaultCondition="defaultCondition"
+              :compUrl="dataUrl"
+            />
           </div>
         </div>
         <el-card class="inner_content h100">
-          <star-horse-table-comp :fieldList="tableFieldList" :primaryKey="primaryKey" :compUrl="dataUrl"
-            :dataFormat="dataFormat" ref="dataPermissionRef" />
+          <star-horse-table-comp
+            :fieldList="tableFieldList"
+            :primaryKey="primaryKey"
+            :compUrl="dataUrl"
+            :dataFormat="dataFormat"
+            ref="dataPermissionRef"
+          />
         </el-card>
       </el-splitter-panel>
     </el-splitter>

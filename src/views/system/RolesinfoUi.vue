@@ -6,7 +6,7 @@ import {
   PageFieldInfo,
   SearchFields,
   SelectOption,
-  UserFuncInfo
+  UserFuncInfo,
 } from "star-horse-lowcode";
 import { loadDepartmentInfo, loadSystemInfo } from "@/api/star_horse_utils";
 import { Config } from "@/api/settings";
@@ -23,33 +23,41 @@ const starHorseTableCompRef = ref();
 const roleTypes = ref<SelectOption[]>([
   { name: "普通用户组", value: 0 },
   { name: "高级用户组", value: 1 },
-  { name: "超级用户组", value: 2 }
+  { name: "超级用户组", value: 2 },
 ]);
 const sessionTimeOut = [
   { name: "15分钟", value: 15 },
   { name: "30分钟", value: 30 },
   { name: "60分钟", value: 60 },
   { name: "180分钟", value: 180 },
-  { name: "无限制", value: 0 }
+  { name: "无限制", value: 0 },
 ];
 const searchFormData = reactive<SearchFields>({
   fieldList: [
-    { label: "用户组名称", fieldName: "roleName", defaultVisible: true, matchType: "lk" },
+    {
+      label: "用户组名称",
+      fieldName: "roleName",
+      defaultVisible: true,
+      matchType: "lk",
+    },
     /* {label: "角色编码", fieldName: "roleCode",  matchType: "lk"},*/
     {
-      label: "用户组类型", fieldName: "roleType", defaultVisible: true, type: "select",
+      label: "用户组类型",
+      fieldName: "roleType",
+      defaultVisible: true,
+      type: "select",
       preps: {
-        values: roleTypes
-      }
-    }
-  ]
+        values: roleTypes,
+      },
+    },
+  ],
 });
 const tableFieldList = reactive<PageFieldInfo | any>({
   fieldList: [
     {
       label: "主键",
       fieldName: "idRolesinfo",
-      type: "long"
+      type: "long",
     },
     {
       label: "用户组名称",
@@ -57,7 +65,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
 
       required: true,
       formVisible: true,
-      listVisible: true
+      listVisible: true,
     },
 
     {
@@ -65,9 +73,9 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       fieldName: "roleCode",
       listVisible: true,
       required: true,
-      preps:{
+      preps: {
         editDisabled: true,
-      }
+      },
     },
     {
       label: "用户组类型",
@@ -79,7 +87,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       preps: {
         editDisabled: true,
         values: roleTypes,
-      }
+      },
     },
     {
       label: "会话超时时间",
@@ -91,7 +99,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       listVisible: true,
       preps: {
         values: sessionTimeOut,
-      }
+      },
     },
     [
       {
@@ -102,7 +110,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
         preps: {
           multiple: true,
           values: systemList,
-        }
+        },
       },
       {
         label: "菜单权限",
@@ -111,74 +119,69 @@ const tableFieldList = reactive<PageFieldInfo | any>({
         required: true,
         preps: {
           multiple: true,
-          data: menusList
-        }
-      }
+          data: menusList,
+        },
+      },
     ],
     {
       label: "用户组职责",
       fieldName: "roleDesc",
       type: "textarea",
       formVisible: true,
-      listVisible: true
+      listVisible: true,
     },
     {
       label: "创建人",
       disabled: true,
       fieldName: "createdBy",
 
-      listVisible: true
+      listVisible: true,
     },
     {
       label: "修改人",
       disabled: true,
       fieldName: "updatedBy",
-
     },
     {
       label: "创建日期",
       disabled: true,
       fieldName: "createdTime",
       type: "date",
-      listVisible: true
+      listVisible: true,
     },
     {
       label: "修改日期",
       disabled: true,
       fieldName: "updatedTime",
-      type: "date"
+      type: "date",
     },
     {
       label: "数据版本号",
       fieldName: "version",
-      type: "number"
+      type: "number",
     },
     {
       label: "是否已逻辑",
       fieldName: "isDel",
-      type: "number"
+      type: "number",
     },
     {
       label: "数据编号",
       fieldName: "dataNo",
-
     },
     {
       label: "状态码",
       fieldName: "statusCode",
-
     },
     {
       label: "状态码名称",
       fieldName: "statusName",
-
     },
     {
       label: "国际码",
       fieldName: "local",
-
-    }
-  ]
+    },
+  ],
 });
 const primaryKey = "idRolesinfo";
 const rules = {};
@@ -188,7 +191,9 @@ provide("dialogProps", dialogProps);
 const dataFormat = (name: string, cellValue: any, row: any): any => {
   let data = [] as Array<any>;
   if (name == "roleType") {
-    let fdata = roleTypes.value.find((item) => item.value == parseInt(cellValue));
+    let fdata = roleTypes.value.find(
+      (item) => item.value == parseInt(cellValue),
+    );
     return fdata?.name || cellValue;
   } else if (name == "departments" && row) {
     row["departments"]?.forEach((item: any) => {
@@ -236,7 +241,7 @@ const recallFun = (id: string, datas: any): any => {
 const initData = async () => {
   let params: any = [
     { propertyName: "isDel", value: 0 },
-    { propertyName: "statusCode", value: "1" }
+    { propertyName: "statusCode", value: "1" },
   ];
   departmentList.value = await loadDepartmentInfo(params);
   systemList.value = await loadSystemInfo(params);
@@ -251,21 +256,47 @@ onMounted(async () => {
 </script>
 <style lang="scss" scoped></style>
 <template>
-  <star-horse-dialog :isShowBtnContinue="true" :dialogVisible="dialogProps.editVisible" :dialogProps="dialogProps">
-    <star-horse-form :compUrl="dataUrl" @refresh="starHorseTableCompRef?.loadByPage()" :fieldList="tableFieldList"
-      :rules="rules" />
+  <star-horse-dialog
+    :isShowBtnContinue="true"
+    :dialogVisible="dialogProps.editVisible"
+    :dialogProps="dialogProps"
+  >
+    <star-horse-form
+      :compUrl="dataUrl"
+      @refresh="starHorseTableCompRef?.loadByPage()"
+      :fieldList="tableFieldList"
+      :rules="rules"
+    />
   </star-horse-dialog>
-  <star-horse-dialog :dialog-visible="dialogProps.viewVisible" :dialogProps="dialogProps" :source="3">
-    <star-horse-data-view :dataFormat="dataFormat" :field-list="tableFieldList" :compUrl="dataUrl" />
+  <star-horse-dialog
+    :dialog-visible="dialogProps.viewVisible"
+    :dialogProps="dialogProps"
+    :source="3"
+  >
+    <star-horse-data-view
+      :dataFormat="dataFormat"
+      :field-list="tableFieldList"
+      :compUrl="dataUrl"
+    />
   </star-horse-dialog>
   <div class="search-content">
     <div class="search_btn">
-      <star-horse-search-comp @searchData="(data: any) => starHorseTableCompRef?.createSearchParams(data)"
-        :formData="searchFormData" :compUrl="dataUrl" />
+      <star-horse-search-comp
+        @searchData="
+          (data: any) => starHorseTableCompRef?.createSearchParams(data)
+        "
+        :formData="searchFormData"
+        :compUrl="dataUrl"
+      />
     </div>
   </div>
   <el-card class="inner_content">
-    <star-horse-table-comp ref="starHorseTableCompRef" :fieldList="tableFieldList" :primaryKey="primaryKey"
-      :compUrl="dataUrl" :dataFormat="dataFormat" />
+    <star-horse-table-comp
+      ref="starHorseTableCompRef"
+      :fieldList="tableFieldList"
+      :primaryKey="primaryKey"
+      :compUrl="dataUrl"
+      :dataFormat="dataFormat"
+    />
   </el-card>
 </template>

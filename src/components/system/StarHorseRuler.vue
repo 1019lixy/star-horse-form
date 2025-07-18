@@ -3,22 +3,20 @@ import { nextTick, onBeforeUnmount, onMounted, ref } from "vue";
 import { default as Guides } from "vue3-guides";
 import { VueInfiniteViewer } from "vue3-infinite-viewer";
 defineOptions({
-  name: "StarHorseRuler"
+  name: "StarHorseRuler",
 });
 defineProps({
   needInfiniteViewer: { type: Boolean, default: true },
   theme: { type: String, default: "light" },
   hideHorizontalRuler: { type: Boolean, default: false },
   hideVerticalRuler: { type: Boolean, default: false },
-})
+});
 const horizontalGuides = ref();
 const verticalGuides = ref();
 const vueInfiniteViewerRef = ref();
 const scrollX = ref(0);
 const scrollY = ref(0);
-const onChange = () => {
-
-}
+const onChange = () => {};
 const onRestore = () => {
   horizontalGuides.value?.scroll(0);
   horizontalGuides.value?.scrollGuides(0);
@@ -26,11 +24,11 @@ const onRestore = () => {
   verticalGuides.value?.scrollGuides(0);
   vueInfiniteViewerRef.value?.scrollTo(0, 0);
   vueInfiniteViewerRef.value?.resize();
-}
+};
 const resizeFun = (e: any) => {
   horizontalGuides.value?.resize();
   verticalGuides.value?.resize();
-}
+};
 const sheelFun = (e: any) => {
   scrollX.value += e.deltaX;
   scrollY.value += e.deltaY;
@@ -38,7 +36,7 @@ const sheelFun = (e: any) => {
   horizontalGuides.value?.scrollGuides(scrollY.value);
   verticalGuides.value?.scroll(scrollY.value);
   verticalGuides.value?.scrollGuides(scrollX.value);
-}
+};
 const initGuides = () => {
   nextTick(() => {
     setTimeout(() => {
@@ -48,7 +46,6 @@ const initGuides = () => {
     window.addEventListener("resize", resizeFun);
     window.addEventListener("wheel", sheelFun);
   });
-
 };
 const viewScroller = (e: any) => {
   let type = e.currentTarget.horizontalScrollbar.type;
@@ -72,31 +69,58 @@ onMounted(() => {
 onBeforeUnmount(() => {
   window.removeEventListener("resize", resizeFun);
   window.removeEventListener("wheel", sheelFun);
-})
+});
 </script>
 <template>
   <div class="h-full w-full relative">
-    <div class="relative h-[30px] w-[30px] box-border flex items-center z-[21]" @click="onRestore"
-      v-if="!hideHorizontalRuler || !hideVerticalRuler" ref="box">
+    <div
+      class="relative h-[30px] w-[30px] box-border flex items-center z-[21]"
+      @click="onRestore"
+      v-if="!hideHorizontalRuler || !hideVerticalRuler"
+      ref="box"
+    >
       <star-horse-icon icon-class="reset" />
     </div>
-    <div class="absolute left-0 top-0 w-full h-[30px]" v-if="!hideHorizontalRuler">
-      <Guides ref="horizontalGuides" type="horizontal" v-bind:rulerStyle="{
-        left: '30px',
-        width: 'calc(100% - 30px)',
-        height: '30px'
-      }" />
+    <div
+      class="absolute left-0 top-0 w-full h-[30px]"
+      v-if="!hideHorizontalRuler"
+    >
+      <Guides
+        ref="horizontalGuides"
+        type="horizontal"
+        v-bind:rulerStyle="{
+          left: '30px',
+          width: 'calc(100% - 30px)',
+          height: '30px',
+        }"
+      />
     </div>
-    <div class="absolute left-0 top-0 h-full w-[30px]" v-if="!hideVerticalRuler">
-      <Guides ref="verticalGuides" type="vertical" displayDragPos="true" v-bind:rulerStyle="{
-        top: '30px',
-        height: 'calc(100% - 30px)',
-        width: '30px'
-      }" v-on:changeGuides="onChange" />
+    <div
+      class="absolute left-0 top-0 h-full w-[30px]"
+      v-if="!hideVerticalRuler"
+    >
+      <Guides
+        ref="verticalGuides"
+        type="vertical"
+        displayDragPos="true"
+        v-bind:rulerStyle="{
+          top: '30px',
+          height: 'calc(100% - 30px)',
+          width: '30px',
+        }"
+        v-on:changeGuides="onChange"
+      />
     </div>
-    <VueInfiniteViewer v-if="needInfiniteViewer" ref="vueInfiniteViewerRef" :usePinch="true" :useWheelScroll="true"
-      :maxPinchWheel="1" :zoom="1" @scroll="viewScroller"
-      :class="{ viewer: !hideHorizontalRuler || !hideVerticalRuler }">
+    <VueInfiniteViewer
+      v-if="needInfiniteViewer"
+      ref="vueInfiniteViewerRef"
+      :usePinch="true"
+      :useWheelScroll="true"
+      :maxPinchWheel="1"
+      :zoom="1"
+      @scroll="viewScroller"
+      :class="{ viewer: !hideHorizontalRuler || !hideVerticalRuler }"
+    >
       <slot></slot>
     </VueInfiniteViewer>
     <div v-else :class="{ viewer: !hideHorizontalRuler || !hideVerticalRuler }">

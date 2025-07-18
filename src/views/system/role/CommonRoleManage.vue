@@ -1,9 +1,17 @@
 <script setup lang="ts" name="CompanyRole">
-import {Config} from "@/api/settings";
-import {nextTick, onActivated, onDeactivated, onMounted, provide, reactive, ref} from "vue";
-import {TreeNodeData} from "element-plus/es/components/tree-v2/src/types";
-import {statusList} from "@/views/system/utils/UserFields";
-import {getCustomerParam} from "@/utils/auth";
+import { Config } from "@/api/settings";
+import {
+  nextTick,
+  onActivated,
+  onDeactivated,
+  onMounted,
+  provide,
+  reactive,
+  ref,
+} from "vue";
+import { TreeNodeData } from "element-plus/es/components/tree-v2/src/types";
+import { statusList } from "@/views/system/utils/UserFields";
+import { getCustomerParam } from "@/utils/auth";
 import {
   apiInstance,
   ApiUrls,
@@ -23,10 +31,13 @@ import {
   SelectOption,
   success,
   UserFuncInfo,
-  warning
+  warning,
 } from "star-horse-lowcode";
 //后端交互接口地址
-const dataUrl: ApiUrls = apiInstance("system-config", "system/companyRolePkEmployee");
+const dataUrl: ApiUrls = apiInstance(
+  "system-config",
+  "system/companyRolePkEmployee",
+);
 dataUrl.condition = [createCondition("a.roleType", "common_role")];
 //主键
 const primaryKey = "idCompanyRole";
@@ -34,7 +45,7 @@ const companyRoleRef = ref();
 const assignRoleCompanyRef = ref();
 let companyList = ref<Array<any>>([]);
 let outerFormData = ref<any>({
-  roleType: "common_role"
+  roleType: "common_role",
 });
 //定义表单的所有属性
 const formFields = reactive<object>({});
@@ -43,7 +54,9 @@ let currentUserGroupId = ref<number>(0);
 let defaultCondition = ref<SearchParams[]>([]);
 const companyChange = (data: TreeNodeData, _checked: boolean) => {
   currentUserGroupId.value = data["idCompanyDefine"];
-  defaultCondition.value = [createCondition("b.idCompanyDefine", currentUserGroupId.value)];
+  defaultCondition.value = [
+    createCondition("b.idCompanyDefine", currentUserGroupId.value),
+  ];
   companyRoleRef.value.createSearchParams(defaultCondition.value);
 };
 //查询属性
@@ -54,23 +67,20 @@ const searchFormData = reactive<SearchFields>({
       fieldName: "roleName",
       defaultVisible: true,
       matchType: "lk",
-
     },
     {
       label: "角色编码",
       fieldName: "roleCode",
       defaultVisible: true,
       matchType: "lk",
-
-    }
-  ]
+    },
+  ],
 });
 const viewCompField = ref<DyCompField>({
   name: "UserInfoComp",
   emits: ["closeAction"],
   methods: {},
-  onMounted: () => {
-  },
+  onMounted: () => {},
   template: `
     <el-descriptions
         title="人员信息"
@@ -97,7 +107,7 @@ const viewCompField = ref<DyCompField>({
         {{ data.companyName }}-{{ data.deptName }}
       </el-descriptions-item>
     </el-descriptions>
-  `
+  `,
 });
 let roleTypeList = ref<SelectOption[]>([]);
 //页面属性
@@ -110,7 +120,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
 
       required: true,
       formVisible: true,
-      listVisible: true
+      listVisible: true,
     },
     {
       label: "角色编码",
@@ -118,7 +128,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
 
       required: true,
       formVisible: true,
-      listVisible: true
+      listVisible: true,
     },
 
     {
@@ -127,7 +137,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       type: "number",
       required: false,
       formVisible: !true,
-      listVisible: !true
+      listVisible: !true,
     },
     {
       label: "创建人",
@@ -135,7 +145,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
 
       required: false,
       formVisible: !true,
-      listVisible: true
+      listVisible: true,
     },
     {
       label: "创建时间",
@@ -143,7 +153,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
 
       required: false,
       formVisible: !true,
-      listVisible: true
+      listVisible: true,
     },
     {
       label: "修改人",
@@ -151,7 +161,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
 
       required: false,
       formVisible: !true,
-      listVisible: true
+      listVisible: true,
     },
     {
       label: "修改时间",
@@ -159,7 +169,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
 
       required: false,
       formVisible: !true,
-      listVisible: true
+      listVisible: true,
     },
     {
       label: "数据编号",
@@ -167,7 +177,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
 
       required: false,
       formVisible: !true,
-      listVisible: !true
+      listVisible: !true,
     },
     {
       label: "状态码",
@@ -176,9 +186,9 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       required: false,
       formVisible: true,
       listVisible: !true,
-      preps:{
+      preps: {
         values: statusList,
-      }
+      },
     },
     {
       label: "状态名称",
@@ -186,7 +196,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
 
       required: false,
       formVisible: !true,
-      listVisible: !true
+      listVisible: !true,
     },
     {
       label: "是否删除",
@@ -194,7 +204,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       type: "number",
       required: false,
       formVisible: !true,
-      listVisible: !true
+      listVisible: !true,
     },
     {
       label: "国际编码",
@@ -202,7 +212,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
 
       required: false,
       formVisible: !true,
-      listVisible: !true
+      listVisible: !true,
     },
     {
       label: "备注",
@@ -210,11 +220,11 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       type: "textarea",
       required: false,
       formVisible: true,
-      listVisible: !true
-    }
+      listVisible: !true,
+    },
   ],
   //默认查询条件
-  condition: [getCustomerParam()]
+  condition: [getCustomerParam()],
 });
 
 const expandTable = reactive<ExpandTable>({
@@ -225,19 +235,19 @@ const expandTable = reactive<ExpandTable>({
     "idCompanyRole",
     {
       source: "idEmployeeInfo",
-      dist: "idEmployee"
-    }
+      dist: "idEmployee",
+    },
   ],
   showButton: true,
   expandUrls: {
-    deleteUrl: "/system-config/system/companyRolePkEmployee/batchDeleteById"
+    deleteUrl: "/system-config/system/companyRolePkEmployee/batchDeleteById",
   },
   extendFuncs: [
     {
       icon: "delete",
       btnName: "删除",
-      authority: "delete"
-    }
+      authority: "delete",
+    },
   ],
   fieldList: [
     {
@@ -251,8 +261,8 @@ const expandTable = reactive<ExpandTable>({
         showComp: "Y",
         popover: "Y",
         placement: "top",
-        compField: viewCompField
-      }
+        compField: viewCompField,
+      },
     },
     {
       label: "所属公司",
@@ -260,7 +270,7 @@ const expandTable = reactive<ExpandTable>({
 
       required: true,
       formVisible: true,
-      listVisible: true
+      listVisible: true,
     },
     {
       label: "所属部门",
@@ -268,9 +278,9 @@ const expandTable = reactive<ExpandTable>({
 
       required: true,
       formVisible: true,
-      listVisible: true
-    }
-  ]
+      listVisible: true,
+    },
+  ],
 });
 //校验
 const rules = {};
@@ -293,12 +303,15 @@ let extendBtns = ref<UserFuncInfo[]>([
       dialogProps.bakeVisible1 = true;
       await nextTick();
       assignRoleCompanyRef.value.setSelectData(row.companyList);
-    }
-  }
+    },
+  },
 ]);
 //初始化方法
 const initData = async () => {
-  let result = await loadData("/system-config/system/companyDefine/getAllByCondition", {});
+  let result = await loadData(
+    "/system-config/system/companyDefine/getAllByCondition",
+    {},
+  );
   if (result.error) {
     warning(result.error);
     return;
@@ -307,7 +320,8 @@ const initData = async () => {
   roleTypeList.value = await dictData("company_role_type");
 };
 const assignRoleUser = () => {
-  let selectedDatas = userTableRef.value.$refs.employeeInfoRef.multipleSelection;
+  let selectedDatas =
+    userTableRef.value.$refs.employeeInfoRef.multipleSelection;
   console.log(selectedDatas);
   if (!selectedDatas || selectedDatas.length == 0) {
     warning("请选择人员信息");
@@ -318,27 +332,26 @@ const assignRoleUser = () => {
     datas.push({
       idCompanyDefine: currentRow.value.idCompanyDefine,
       idCompanyRole: currentRow.value.idCompanyRole,
-      idEmployee: selectedDatas[index].idEmployeeInfo
+      idEmployee: selectedDatas[index].idEmployeeInfo,
     });
   }
   load("数据提交中");
   postRequest("/system-config/system/companyRolePkEmployee/mergeBatch", datas)
-      .then((res) => {
-        if (res.data.code) {
-          error(res.data.cnMessage);
-          return;
-        }
-        success(res.data.cnMessage);
-        dialogProps.bakeVisible1 = false;
-        companyRoleRef.value.loadByPage();
-      })
-      .finally(() => closeLoad());
+    .then((res) => {
+      if (res.data.code) {
+        error(res.data.cnMessage);
+        return;
+      }
+      success(res.data.cnMessage);
+      dialogProps.bakeVisible1 = false;
+      companyRoleRef.value.loadByPage();
+    })
+    .finally(() => closeLoad());
 };
 const activated = () => {
   initData();
 };
-const deactivated = () => {
-};
+const deactivated = () => {};
 /**
  * 列表，查看数据时数据转换
  * @param name 名称
@@ -361,74 +374,89 @@ onDeactivated(() => {
 </script>
 <template>
   <star-horse-dialog
-      :self-func="true"
-      :title="'添加人员'"
-      :dialog-visible="dialogProps.bakeVisible1"
-      :dialogProps="dialogProps"
-      @merge="assignRoleUser"
+    :self-func="true"
+    :title="'添加人员'"
+    :dialog-visible="dialogProps.bakeVisible1"
+    :dialogProps="dialogProps"
+    @merge="assignRoleUser"
   >
     <div style="width: 100%">
       <user-manage
-          :cellEditable="false"
-          :showButton="false"
-          :dialogInput="true"
-          :multipleSelect="true"
-          ref="userTableRef"
+        :cellEditable="false"
+        :showButton="false"
+        :dialogInput="true"
+        :multipleSelect="true"
+        ref="userTableRef"
       />
     </div>
   </star-horse-dialog>
-  <star-horse-dialog :isShowBtnContinue="true" :dialog-visible="dialogProps.editVisible" :dialogProps="dialogProps">
+  <star-horse-dialog
+    :isShowBtnContinue="true"
+    :dialog-visible="dialogProps.editVisible"
+    :dialogProps="dialogProps"
+  >
     <star-horse-form
-        @refresh="companyRoleRef?.loadByPage()"
-        :compUrl="dataUrl"
-        :fieldList="tableFieldList"
-        :rules="rules"
-        :outerFormData="outerFormData"
+      @refresh="companyRoleRef?.loadByPage()"
+      :compUrl="dataUrl"
+      :fieldList="tableFieldList"
+      :rules="rules"
+      :outerFormData="outerFormData"
     />
   </star-horse-dialog>
   <star-horse-dialog
-      :dialog-visible="dialogProps.viewVisible"
-      :dialogProps="dialogProps"
-      
-      :source="3"
+    :dialog-visible="dialogProps.viewVisible"
+    :dialogProps="dialogProps"
+    :source="3"
   >
-    <star-horse-data-view :dataFormat="dataFormat" :field-list="tableFieldList" :compUrl="dataUrl"/>
+    <star-horse-data-view
+      :dataFormat="dataFormat"
+      :field-list="tableFieldList"
+      :compUrl="dataUrl"
+    />
   </star-horse-dialog>
   <el-card class="inner_content">
     <el-splitter>
       <el-splitter-panel collapsible size="240" min="100" max="500">
         <star-horse-tree
-            v-model:tree-datas="companyList"
-            :expand="true"
-            treeTitle="公司列表"
-            @selectData="companyChange"
-            :preps="{
-          label: 'name',
-          value: 'idCompanyDefine'
-        }"
+          v-model:tree-datas="companyList"
+          :expand="true"
+          treeTitle="公司列表"
+          @selectData="companyChange"
+          :preps="{
+            label: 'name',
+            value: 'idCompanyDefine',
+          }"
         />
       </el-splitter-panel>
       <el-splitter-panel>
-        <el-card class="inner_content ">
+        <el-card class="inner_content">
           <div class="search-content">
-            <div class="search_btn" :style="{ 'flex-direction': Config.buttonStyle.value == 'line'? 'column' : 'row' }">
+            <div
+              class="search_btn"
+              :style="{
+                'flex-direction':
+                  Config.buttonStyle.value == 'line' ? 'column' : 'row',
+              }"
+            >
               <star-horse-search-comp
-                  @searchData="(data: any) => companyRoleRef?.createSearchParams(data)"
-                  :formData="searchFormData"
-                  :defaultCondition="defaultCondition"
-                  :compUrl="dataUrl"
+                @searchData="
+                  (data: any) => companyRoleRef?.createSearchParams(data)
+                "
+                :formData="searchFormData"
+                :defaultCondition="defaultCondition"
+                :compUrl="dataUrl"
               />
             </div>
           </div>
           <star-horse-table-comp
-              ref="companyRoleRef"
-              :fieldList="tableFieldList"
-              :primaryKey="primaryKey"
-              :compUrl="dataUrl"
-              :disableAction="true"
-              :expandTable="expandTable"
-              :extendBtns="extendBtns"
-              :dataFormat="dataFormat"
+            ref="companyRoleRef"
+            :fieldList="tableFieldList"
+            :primaryKey="primaryKey"
+            :compUrl="dataUrl"
+            :disableAction="true"
+            :expandTable="expandTable"
+            :extendBtns="extendBtns"
+            :dataFormat="dataFormat"
           />
         </el-card>
       </el-splitter-panel>

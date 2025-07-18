@@ -1,8 +1,8 @@
 <script setup lang="ts" name="DataLog">
-import {ref} from "vue";
+import { ref } from "vue";
 
 const value = ref(
-    "continuous-manage:8859 2022-11-28 09:49:58 [Catalina-utility-2] DEBUG o.a.catalina.session.ManagerBase - End expire sessions StandardManager processingTime 1 expired sessions: 0\n" +
+  "continuous-manage:8859 2022-11-28 09:49:58 [Catalina-utility-2] DEBUG o.a.catalina.session.ManagerBase - End expire sessions StandardManager processingTime 1 expired sessions: 0\n" +
     "continuous-manage:8859 2022-11-28 09:50:58 [Catalina-utility-2] DEBUG o.a.catalina.session.ManagerBase - Start expire sessions StandardManager at 1669600258602 sessioncount 0\n" +
     "continuous-manage:8859 2022-11-28 09:50:58 [Catalina-utility-2] DEBUG o.a.catalina.session.ManagerBase - End expire sessions StandardManager processingTime 0 expired sessions: 0\n" +
     "continuous-manage:8859 2022-11-28 09:51:58 [Catalina-utility-1] DEBUG o.a.catalina.session.ManagerBase - Start expire sessions StandardManager at 1669600318654 sessioncount 0\n" +
@@ -140,7 +140,7 @@ const value = ref(
     "continuous-manage:8859 2022-11-28 10:57:01 [Catalina-utility-2] DEBUG o.a.catalina.session.ManagerBase - End expire sessions StandardManager processingTime 1 expired sessions: 0\n" +
     "continuous-manage:8859 2022-11-28 10:58:01 [Catalina-utility-1] DEBUG o.a.catalina.session.ManagerBase - Start expire sessions StandardManager at 1669604281678 sessioncount 0\n" +
     "continuous-manage:8859 2022-11-28 10:58:01 [Catalina-utility-1] DEBUG o.a.catalina.session.ManagerBase - End expire sessions StandardManager processingTime 0 expired sessions: 0\n" +
-    "continuous-manage:8859 2022-11-28 10:59:01 [Catalina-utility-1] DEBUG o.a.catalina.session.ManagerBase - Start expire sessions StandardManager at 1669604341718 sessioncount 0\n"
+    "continuous-manage:8859 2022-11-28 10:59:01 [Catalina-utility-1] DEBUG o.a.catalina.session.ManagerBase - Start expire sessions StandardManager at 1669604341718 sessioncount 0\n",
 );
 </script>
 <style lang="scss" scoped>
@@ -156,6 +156,6 @@ const value = ref(
 </style>
 <template>
   <div class="query-area">
-    <star-horse-editor :value="value" :lang="'markdown'"/>
+    <star-horse-editor :value="value" :lang="'markdown'" />
   </div>
 </template>

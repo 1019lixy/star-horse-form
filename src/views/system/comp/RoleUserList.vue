@@ -1,9 +1,16 @@
 <script setup lang="ts" name="RoleUserList">
-import {Config} from "@/api/settings";
-import {onActivated, onDeactivated, onMounted, PropType, provide, reactive, ref} from "vue";
-import {getCustomerParam} from "@/utils/auth";
+import { Config } from "@/api/settings";
 import {
-
+  onActivated,
+  onDeactivated,
+  onMounted,
+  PropType,
+  provide,
+  reactive,
+  ref,
+} from "vue";
+import { getCustomerParam } from "@/utils/auth";
+import {
   apiInstance,
   ApiUrls,
   closeLoad,
@@ -17,18 +24,19 @@ import {
   SearchParams,
   success,
   UserFuncInfo,
-  warning
+  warning,
 } from "star-horse-lowcode";
-import {analysisField} from "@/api/star_horse_utils"
+import { analysisField } from "@/api/star_horse_utils";
 //后端交互接口地址
 const dataUrl: ApiUrls = apiInstance("system-config", "system/employeeInfo");
 dataUrl.pageListUrl = "/system-config/system/employeeInfo/compRolePageList";
-dataUrl.deleteUrl = "/system-config/system/companyRolePkEmployee/batchDeleteById";
+dataUrl.deleteUrl =
+  "/system-config/system/companyRolePkEmployee/batchDeleteById";
 const props = defineProps({
-  showButton: {type: Boolean, default: true},
-  dialogInput: {type: Boolean, default: false},
-  multipleSelect: {type: Boolean, default: false},
-  queryCondition: {type: Array as PropType<SearchParams[]>, default: []}
+  showButton: { type: Boolean, default: true },
+  dialogInput: { type: Boolean, default: false },
+  multipleSelect: { type: Boolean, default: false },
+  queryCondition: { type: Array as PropType<SearchParams[]>, default: [] },
 });
 //主键
 const primaryKey = "idEmployeeInfo";
@@ -44,34 +52,32 @@ const searchFormData = reactive<SearchFields>({
       fieldName: "name",
       defaultVisible: true,
       matchType: "lk",
-
     },
     {
       label: "工号",
       fieldName: "employeeNo",
       defaultVisible: true,
       matchType: "lk",
-
     },
     {
       label: "职级",
       fieldName: "rank",
       defaultVisible: false,
       type: "tselect",
-      preps:{
-        data:rankList
-      }
+      preps: {
+        data: rankList,
+      },
     },
     {
       label: "岗位",
       fieldName: "station",
       defaultVisible: false,
       type: "tselect",
-      preps:{
-        data:stationList
-      }
-    }
-  ]
+      preps: {
+        data: stationList,
+      },
+    },
+  ],
 });
 //页面属性
 const tableFieldList = reactive<PageFieldInfo | any>({
@@ -83,8 +89,6 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       fieldName: "idEmployeeInfo",
 
       required: true,
-
-
     },
     {
       dytableList: [
@@ -95,19 +99,18 @@ const tableFieldList = reactive<PageFieldInfo | any>({
 
             required: true,
             formVisible: true,
-            listVisible: true
+            listVisible: true,
           },
           {
             label: "工号",
             fieldName: "employeeNo",
 
-            
             required: true,
             formVisible: true,
             listVisible: true,
-            preps:{
+            preps: {
               editdisabled: true,
-            }
+            },
           },
           {
             label: "头像",
@@ -120,9 +123,9 @@ const tableFieldList = reactive<PageFieldInfo | any>({
               autoUpload: "N",
               action: "xx",
               wordBreak: true,
-              rowspan: 2
-            }
-          }
+              rowspan: 2,
+            },
+          },
         ],
         [
           {
@@ -133,9 +136,9 @@ const tableFieldList = reactive<PageFieldInfo | any>({
             formVisible: true,
             listVisible: true,
             preps: {
-              data:rankList,
-              showCode: "Y"
-            }
+              data: rankList,
+              showCode: "Y",
+            },
           },
           {
             label: "岗位",
@@ -145,10 +148,10 @@ const tableFieldList = reactive<PageFieldInfo | any>({
             formVisible: true,
             listVisible: true,
             preps: {
-              data:stationList,
-              showCode: "Y"
-            }
-          }
+              data: stationList,
+              showCode: "Y",
+            },
+          },
         ],
         [
           {
@@ -160,8 +163,8 @@ const tableFieldList = reactive<PageFieldInfo | any>({
             listVisible: true,
 
             preps: {
-              checkStrictly: true
-            }
+              checkStrictly: true,
+            },
           },
           {
             label: "所属部门",
@@ -171,9 +174,9 @@ const tableFieldList = reactive<PageFieldInfo | any>({
             formVisible: true,
             listVisible: true,
             preps: {
-              checkStrictly: true
-            }
-          }
+              checkStrictly: true,
+            },
+          },
         ],
         [
           {
@@ -184,11 +187,11 @@ const tableFieldList = reactive<PageFieldInfo | any>({
             formVisible: true,
             listVisible: true,
             preps: {
-              colspan: 1
-            }
-          }
-        ]
-      ]
+              colspan: 1,
+            },
+          },
+        ],
+      ],
     },
     {
       label: "版本号",
@@ -196,7 +199,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       type: "number",
       required: false,
       formVisible: !true,
-      listVisible: !true
+      listVisible: !true,
     },
     {
       label: "创建人",
@@ -204,7 +207,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
 
       required: false,
       formVisible: !true,
-      listVisible: !true
+      listVisible: !true,
     },
     {
       label: "创建时间",
@@ -212,7 +215,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
 
       required: false,
       formVisible: !true,
-      listVisible: !true
+      listVisible: !true,
     },
     {
       label: "修改人",
@@ -220,7 +223,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
 
       required: false,
       formVisible: !true,
-      listVisible: !true
+      listVisible: !true,
     },
     {
       label: "修改时间",
@@ -228,7 +231,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
 
       required: false,
       formVisible: !true,
-      listVisible: !true
+      listVisible: !true,
     },
     {
       label: "数据编号",
@@ -236,7 +239,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
 
       required: false,
       formVisible: !true,
-      listVisible: !true
+      listVisible: !true,
     },
     {
       label: "状态码",
@@ -244,7 +247,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
 
       required: false,
       formVisible: !true,
-      listVisible: !true
+      listVisible: !true,
     },
     {
       label: "状态名称",
@@ -252,7 +255,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
 
       required: false,
       formVisible: !true,
-      listVisible: !true
+      listVisible: !true,
     },
     {
       label: "是否删除",
@@ -260,7 +263,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       type: "number",
       required: false,
       formVisible: !true,
-      listVisible: !true
+      listVisible: !true,
     },
     {
       label: "国际编码",
@@ -268,7 +271,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
 
       required: false,
       formVisible: !true,
-      listVisible: !true
+      listVisible: !true,
     },
     {
       label: "备注",
@@ -276,12 +279,12 @@ const tableFieldList = reactive<PageFieldInfo | any>({
 
       required: false,
       formVisible: !true,
-      listVisible: !true
-    }
+      listVisible: !true,
+    },
   ],
   //默认查询条件
   condition: [getCustomerParam()],
-  stopAutoLoad: false
+  stopAutoLoad: false,
 });
 //校验
 //控制弹窗相关设置
@@ -296,27 +299,33 @@ let extendBtns = ref<UserFuncInfo[]>([
       let flag = await operationConfirm("确定要移出吗？");
       if (flag) {
         let params: Array<any> = [];
-        let idCompanyDefine = analysisField(props.queryCondition, "idCompanyDefine");
-        let idCompanyRole = analysisField(props.queryCondition, "idCompanyRole");
+        let idCompanyDefine = analysisField(
+          props.queryCondition,
+          "idCompanyDefine",
+        );
+        let idCompanyRole = analysisField(
+          props.queryCondition,
+          "idCompanyRole",
+        );
         params.push({
           idEmployee: row.idEmployeeInfo,
           idCompanyDefine: idCompanyDefine.value,
-          idCompanyRole: idCompanyRole.value
+          idCompanyRole: idCompanyRole.value,
         });
         load("数据处理中");
         employeeInfoRef.value.loadByPage();
         postRequest(dataUrl.deleteUrl!, params)
-            .then((res) => {
-              if (res.data.code) {
-                warning(res.data.cnMessage);
-                return;
-              }
-              success("操作成功");
-            })
-            .finally(() => closeLoad());
+          .then((res) => {
+            if (res.data.code) {
+              warning(res.data.cnMessage);
+              return;
+            }
+            success("操作成功");
+          })
+          .finally(() => closeLoad());
       }
-    }
-  }
+    },
+  },
 ]);
 //初始化方法
 const initData = async () => {
@@ -334,7 +343,10 @@ const initData = async () => {
     rankList.value = result.data;
   }
   //加载岗位
-  result = await loadData("/system-config/system/stationDefine/stationTree", {});
+  result = await loadData(
+    "/system-config/system/stationDefine/stationTree",
+    {},
+  );
   if (result.error) {
     warning(result.error);
   } else {
@@ -344,8 +356,7 @@ const initData = async () => {
 const activated = () => {
   //initData();
 };
-const deactivated = () => {
-};
+const deactivated = () => {};
 /**
  * 列表，查看数据时数据转换
  * @param name 名称
@@ -380,34 +391,42 @@ onDeactivated(() => {
 </script>
 <template>
   <star-horse-dialog
-      :dialog-visible="dialogProps?.viewVisible"
-      :dialogProps="dialogProps"
-      
-      :source="3"
+    :dialog-visible="dialogProps?.viewVisible"
+    :dialogProps="dialogProps"
+    :source="3"
   >
-    <star-horse-data-view :dataFormat="dataFormat" :field-list="tableFieldList" :compUrl="dataUrl"/>
+    <star-horse-data-view
+      :dataFormat="dataFormat"
+      :field-list="tableFieldList"
+      :compUrl="dataUrl"
+    />
   </star-horse-dialog>
   <div class="search-content">
-    <div class="search_btn" :style="{ 'flex-direction': Config.buttonStyle.value == 'line'? 'column' : 'row' }">
+    <div
+      class="search_btn"
+      :style="{
+        'flex-direction': Config.buttonStyle.value == 'line' ? 'column' : 'row',
+      }"
+    >
       <star-horse-search-comp
-          @searchData="(data: any) => employeeInfoRef?.createSearchParams(data)"
-          :formData="searchFormData"
-          :compUrl="dataUrl"
+        @searchData="(data: any) => employeeInfoRef?.createSearchParams(data)"
+        :formData="searchFormData"
+        :compUrl="dataUrl"
       />
     </div>
   </div>
   <el-card class="inner_content">
     <star-horse-table-comp
-        ref="employeeInfoRef"
-        :fieldList="tableFieldList"
-        :primaryKey="primaryKey"
-        :compUrl="dataUrl"
-        :dialogInput="dialogInput"
-        :filterCondition="tableFieldList.condition"
-        :multipleSelect="multipleSelect"
-        :disableAction="!showButton"
-        :extendBtns="extendBtns"
-        :dataFormat="dataFormat"
+      ref="employeeInfoRef"
+      :fieldList="tableFieldList"
+      :primaryKey="primaryKey"
+      :compUrl="dataUrl"
+      :dialogInput="dialogInput"
+      :filterCondition="tableFieldList.condition"
+      :multipleSelect="multipleSelect"
+      :disableAction="!showButton"
+      :extendBtns="extendBtns"
+      :dataFormat="dataFormat"
     />
   </el-card>
 </template>

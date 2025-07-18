@@ -1,38 +1,43 @@
 <script setup lang="ts">
-import {computed, inject} from "vue";
+import { computed, inject } from "vue";
 
 const props = defineProps({
-  dataList: {type: Array<any>, required: true},
-  level: {type: Number, default: 1}
+  dataList: { type: Array<any>, required: true },
+  level: { type: Number, default: 1 },
 });
 const loadMenuFun = inject("loadMenu") as Function;
-let menuColor = computed(() => (props.level > 1 ? "var(--star-horse-shadow)" : "var(--star-horse-background)"));
+let menuColor = computed(() =>
+  props.level > 1 ? "var(--star-horse-shadow)" : "var(--star-horse-background)",
+);
 </script>
 <template>
-  <div v-if="level > 1" style="height: 2px; background: var(--star-horse-white)"></div>
+  <div
+    v-if="level > 1"
+    style="height: 2px; background: var(--star-horse-white)"
+  ></div>
   <template v-for="item in dataList">
     <el-sub-menu
-        popper-class="popper-class"
-        v-if="item.children && item.children.length > 0"
-        :index="item.idInformations"
-        @click="loadMenuFun(item.idInformations)"
+      popper-class="popper-class"
+      v-if="item.children && item.children.length > 0"
+      :index="item.idInformations"
+      @click="loadMenuFun(item.idInformations)"
     >
       <template #title>
         <el-icon class="star-icon">
-          <component :is="item.sysLogo || 'document'"/>
+          <component :is="item.sysLogo || 'document'" />
         </el-icon>
         <span>{{ item.sysName }} </span>
       </template>
-      <SystemSubMenu :dataList="item.children" :level="level + 1"/>
+      <SystemSubMenu :dataList="item.children" :level="level + 1" />
     </el-sub-menu>
     <el-menu-item
-        popper-class="popper-class"
-        v-else
-        :index="item.idInformations"
-        @click="loadMenuFun(item.idInformations)"
+      popper-class="popper-class"
+      v-else
+      :index="item.idInformations"
+      @click="loadMenuFun(item.idInformations)"
     >
       <el-icon class="star-icon">
-        <component :is="item.sysLogo || 'document'"/>
+        <component :is="item.sysLogo || 'document'" />
       </el-icon>
       <template #title>
         <span>{{ item.sysName }} </span>

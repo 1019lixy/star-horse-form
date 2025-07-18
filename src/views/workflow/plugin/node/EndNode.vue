@@ -9,19 +9,19 @@
 </template>
 <script setup lang="ts">
 defineOptions({
-  name: "FlowNodeEnd"
+  name: "FlowNodeEnd",
 });
 const props = defineProps({
   node: {
     type: Object,
     default: function () {
       return {};
-    }
+    },
   },
   readable: {
     type: Boolean,
-    default: false
-  }
+    default: false,
+  },
 });
 
 const emits = defineEmits(["selectNode"]);

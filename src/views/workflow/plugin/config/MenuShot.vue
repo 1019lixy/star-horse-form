@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import {nextTick, onMounted, ref} from "vue";
+import { nextTick, onMounted, ref } from "vue";
 
 defineProps({
   menus: {
     type: Array,
-    default: () => []
-  }
+    default: () => [],
+  },
 });
 const emits = defineEmits(["change"]);
 let startX = ref<any>(undefined); //判断是否要打开下拉
@@ -140,19 +140,28 @@ onMounted(async () => {
 </script>
 <template>
   <div v-show="show" ref="screenshot" id="screenshot" class="screenshot">
-    <div ref="screenshotDropdown" v-if="dropDownVisible" class="screenshot-dropdown">
-      <div class="flex items-center " v-for="(menu, i) in menus" :key="i" @click="changeMenu(menu)">
-        <star-horse-icon icon-class="info"/>
+    <div
+      ref="screenshotDropdown"
+      v-if="dropDownVisible"
+      class="screenshot-dropdown"
+    >
+      <div
+        class="flex items-center"
+        v-for="(menu, i) in menus"
+        :key="i"
+        @click="changeMenu(menu)"
+      >
+        <star-horse-icon icon-class="info" />
         <span>{{ menu.name }}</span>
       </div>
     </div>
     <el-button
-        ref="screenshotBtnRef"
-        id="screenshotBtn"
-        @click.native.prevent.stop="showDropDown"
-        class="screenshot-btn el-dropdown-link"
-        type="danger"
-        icon="menu"
+      ref="screenshotBtnRef"
+      id="screenshotBtn"
+      @click.native.prevent.stop="showDropDown"
+      class="screenshot-btn el-dropdown-link"
+      type="danger"
+      icon="menu"
     ></el-button>
   </div>
 </template>

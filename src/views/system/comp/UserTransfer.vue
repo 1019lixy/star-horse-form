@@ -1,13 +1,13 @@
 <script setup lang="ts" name="UserTransfer">
-import {onMounted, ref} from "vue";
-import {analysisData} from "@/api/deptment";
-import {closeLoad, postRequest, SelectOption} from "star-horse-lowcode";
+import { onMounted, ref } from "vue";
+import { analysisData } from "@/api/deptment";
+import { closeLoad, postRequest, SelectOption } from "star-horse-lowcode";
 
 const deptUserList = ref<SelectOption>([]);
 const selectUsers = ref<Array<number>>([]);
 const pageInfo = ref<any>({
   currentPage: 1,
-  pageSize: 100
+  pageSize: 100,
 });
 const init = async () => {
   // deptUserList.value = await loadDeptUser(false, []);
@@ -46,28 +46,34 @@ const loadByPage = async () => {
   await postRequest("/system-config/system/usersinfoEntity/pageList", {
     currentPage: pageInfo.value.currentPage,
     pageSize: pageInfo.value.pageSize,
-    fieldList: searchFields.value
+    fieldList: searchFields.value,
   })
-      .then((res) => {
-        let redata = res.data.data;
-        pageInfo.value["dataList"] = redata.dataList;
-        redata.dataList.forEach((item) => {
-          let {listNames, listValues} = analysisData(item.deptList, "", "deptName", "idDepartment");
-          deptUserList.value.push({
-            name: listNames.join("/") + "_" + item.name + "(" + item.username + ")",
-            value: item.idUsersinfo
-          });
+    .then((res) => {
+      let redata = res.data.data;
+      pageInfo.value["dataList"] = redata.dataList;
+      redata.dataList.forEach((item) => {
+        let { listNames, listValues } = analysisData(
+          item.deptList,
+          "",
+          "deptName",
+          "idDepartment",
+        );
+        deptUserList.value.push({
+          name:
+            listNames.join("/") + "_" + item.name + "(" + item.username + ")",
+          value: item.idUsersinfo,
         });
-        console.log(deptUserList.value);
-        pageInfo.value["totalPage"] = redata.totalPages;
-        pageInfo.value["totalData"] = redata.totalDatas;
-      })
-      .catch((err) => {
-        console.log(err);
-      })
-      .finally(() => {
-        closeLoad();
       });
+      console.log(deptUserList.value);
+      pageInfo.value["totalPage"] = redata.totalPages;
+      pageInfo.value["totalData"] = redata.totalDatas;
+    })
+    .catch((err) => {
+      console.log(err);
+    })
+    .finally(() => {
+      closeLoad();
+    });
 };
 const getSelectedUsers = () => {
   return selectUsers.value;
@@ -77,46 +83,46 @@ const resetSelect = (val: Array<number> | null) => {
 };
 defineExpose({
   getSelectedUsers,
-  resetSelect
+  resetSelect,
 });
 </script>
 <template>
   <div style="text-align: center; height: 100%">
     <el-transfer
-        filterable
-        :props="{
+      filterable
+      :props="{
         key: 'value',
-        label: 'name'
+        label: 'name',
       }"
-        v-model="selectUsers"
-        :data="deptUserList"
-        :titles="['用户列表', '已选用户']"
-        :button-texts="['移除', '添加']"
-        :format="{
+      v-model="selectUsers"
+      :data="deptUserList"
+      :titles="['用户列表', '已选用户']"
+      :button-texts="['移除', '添加']"
+      :format="{
         noChecked: '${total}',
-        hasChecked: '${checked}/${total}'
+        hasChecked: '${checked}/${total}',
       }"
     >
       <template #left-footer>
         <el-pagination
-            :total="pageInfo.totalData || 0"
-            @current-change="pageChangeClick"
-            @size-change="pageSizeClick"
-            layout="prev, pager, next"
-            :currentPage="pageInfo.currentPage || 1"
-            :pageSize="pageInfo.pageSize || 50"
-            :pageCount="pageInfo.totalPage || 1"
+          :total="pageInfo.totalData || 0"
+          @current-change="pageChangeClick"
+          @size-change="pageSizeClick"
+          layout="prev, pager, next"
+          :currentPage="pageInfo.currentPage || 1"
+          :pageSize="pageInfo.pageSize || 50"
+          :pageCount="pageInfo.totalPage || 1"
         />
       </template>
       <template #right-footer>
         <el-pagination
-            :total="deptUserList.length"
-            @current-change="pageChangeClick"
-            @size-change="pageSizeClick"
-            layout="prev, pager, next"
-            :currentPage="1"
-            :pageSize="50"
-            :pageCount="1"
+          :total="deptUserList.length"
+          @current-change="pageChangeClick"
+          @size-change="pageSizeClick"
+          layout="prev, pager, next"
+          :currentPage="1"
+          :pageSize="50"
+          :pageCount="1"
         />
       </template>
     </el-transfer>

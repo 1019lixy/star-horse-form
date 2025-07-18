@@ -1,23 +1,37 @@
 <script setup lang="ts">
-import {onMounted, ref} from "vue";
-import {apiInstance, ApiUrls, dictData, postRequest, SelectOption, warning} from "star-horse-lowcode";
+import { onMounted, ref } from "vue";
+import {
+  apiInstance,
+  ApiUrls,
+  dictData,
+  postRequest,
+  SelectOption,
+  warning,
+} from "star-horse-lowcode";
 
 const emits = defineEmits(["selectNode"]);
-const apiUrl: ApiUrls = apiInstance("userdb-manage", "userdb/formInstance/conNodeConfigures/idNodeConfigure/136")
+const apiUrl: ApiUrls = apiInstance(
+  "userdb-manage",
+  "userdb/formInstance/conNodeConfigures/idNodeConfigure/136",
+);
 const currentItem = ref<string>("all");
 const currentNode = ref<any>({});
 let categoryNodeList = ref<Array<any>>([]);
 let nodeList = ref<Array<any>>([]);
-let nodeTypeList = ref<SelectOption[]>([])
+let nodeTypeList = ref<SelectOption[]>([]);
 
 const changeNode = (nodeType: string) => {
   currentItem.value = nodeType;
   if (nodeType == "all") {
     categoryNodeList.value = nodeList.value;
   } else {
-    categoryNodeList.value = nodeList.value.filter((item) => item.nodeType == nodeType);
+    categoryNodeList.value = nodeList.value.filter(
+      (item) => item.nodeType == nodeType,
+    );
   }
-  currentNode.value = categoryNodeList.value.find((item) => item.defaultFlag == "Y");
+  currentNode.value = categoryNodeList.value.find(
+    (item) => item.defaultFlag == "Y",
+  );
 };
 const selectNode = (item: any, action: string) => {
   currentNode.value = item;
@@ -35,7 +49,7 @@ const init = async () => {
   nodeList.value = [];
   nodeTypeList.value = await dictData("CONTINUS_NODE_TYPE");
   postRequest(apiUrl.listConditionUrl!, {
-    orderBy: [{fieldName: "dataSort", ascOrDesc: "asc"}]
+    orderBy: [{ fieldName: "dataSort", ascOrDesc: "asc" }],
   }).then((res) => {
     let resData = res.data;
     if (resData?.code) {
@@ -45,24 +59,27 @@ const init = async () => {
     nodeList.value = resData?.data;
     changeNode("all");
   });
-
 };
 onMounted(() => {
   init();
 });
 defineExpose({
   getNode,
-  setNode
+  setNode,
 });
 </script>
 
 <template>
   <div class="content-tools">
     <div class="node-menu">
-      <div v-for="item in nodeTypeList" :class="{ active: currentItem == item.value }" @click="changeNode(item.value)"
-           class="node-item">{{ item.name }}
+      <div
+        v-for="item in nodeTypeList"
+        :class="{ active: currentItem == item.value }"
+        @click="changeNode(item.value)"
+        class="node-item"
+      >
+        {{ item.name }}
       </div>
-
     </div>
 
     <div class="node-list">
@@ -71,14 +88,16 @@ defineExpose({
           <div class="node">
             <div class="item-box" v-for="(item, index) in categoryNodeList">
               <div
-                  class="node-info"
-                  @dblclick="selectNode(item,'dblClick')"
-                  @click="selectNode(item,'click')"
-                  :class="{ 'item-active': item.nodeCode == currentNode?.nodeCode }"
+                class="node-info"
+                @dblclick="selectNode(item, 'dblClick')"
+                @click="selectNode(item, 'click')"
+                :class="{
+                  'item-active': item.nodeCode == currentNode?.nodeCode,
+                }"
               >
                 <div class="item-logo">
                   <div class="node-icon">
-                    <star-horse-icon :icon-class="item.icon" size="40px"/>
+                    <star-horse-icon :icon-class="item.icon" size="40px" />
                   </div>
                   <span class="text text-overflow">{{ item.nodeName }}</span>
                 </div>

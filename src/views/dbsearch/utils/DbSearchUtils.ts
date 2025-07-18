@@ -1,13 +1,13 @@
 import {
-    closeLoad,
-    error,
-    getRequest,
-    load,
-    loadGetData,
-    piniaInstance,
-    SelectOption,
-    useConsumerViewStore,
-    warning
+  closeLoad,
+  error,
+  getRequest,
+  load,
+  loadGetData,
+  piniaInstance,
+  SelectOption,
+  useConsumerViewStore,
+  warning,
 } from "star-horse-lowcode";
 
 const consumerView = useConsumerViewStore(piniaInstance);
@@ -17,67 +17,73 @@ const consumerView = useConsumerViewStore(piniaInstance);
  * @param configId
  */
 export function openDatabase(configId: any): Promise<any> | null {
-    if (!configId) {
-        return null;
-    }
-    load("数据加载中");
-    return new Promise<any>((resolve, reject) => {
-        getRequest(`/userdb-manage/dbsearch/dbinfoEntity/openConn/${configId}`)
-            .then((res: any) => {
-                if (res.data.code != 0) {
-                    error(res.data.cnMessage);
-                    return;
-                }
-                resolve(res.data.data);
-            })
-            .catch((err: any) => {
-                reject(err);
-            })
-            .finally(() => {
-                closeLoad();
-            });
-    });
+  if (!configId) {
+    return null;
+  }
+  load("数据加载中");
+  return new Promise<any>((resolve, reject) => {
+    getRequest(`/userdb-manage/dbsearch/dbinfoEntity/openConn/${configId}`)
+      .then((res: any) => {
+        if (res.data.code != 0) {
+          error(res.data.cnMessage);
+          return;
+        }
+        resolve(res.data.data);
+      })
+      .catch((err: any) => {
+        reject(err);
+      })
+      .finally(() => {
+        closeLoad();
+      });
+  });
 }
 
 /**
  * 初始化当前用户权限的数据库配置信息
  */
 export async function initDbList(): Promise<Array<SelectOption>> {
-    const {data, error} = await loadGetData("/userdb-manage/dbsearch/dbinfoEntity/getDbInfoByUser");
-    if (error) {
-        warning(error);
-        return [];
-    }
-    const redata: Array<SelectOption> = [];
-    data.forEach((item: any) => {
-        redata.push({
-            name: item.name,
-            value: item.configId + ""
-        });
+  const { data, error } = await loadGetData(
+    "/userdb-manage/dbsearch/dbinfoEntity/getDbInfoByUser",
+  );
+  if (error) {
+    warning(error);
+    return [];
+  }
+  const redata: Array<SelectOption> = [];
+  data.forEach((item: any) => {
+    redata.push({
+      name: item.name,
+      value: item.configId + "",
     });
-    return redata;
+  });
+  return redata;
 }
 
 /**
  * 获取数据库所有表信息
  * @param configId
  */
-export async function tableList(configId: number): Promise<Array<SelectOption>> {
-    const {data, error} = await loadGetData(`/userdb-manage/dbsearch/dbinfoEntity/tableList/${configId}`);
-    if (error) {
-        warning(error);
-        return [];
+export async function tableList(
+  configId: number,
+): Promise<Array<SelectOption>> {
+  const { data, error } = await loadGetData(
+    `/userdb-manage/dbsearch/dbinfoEntity/tableList/${configId}`,
+  );
+  if (error) {
+    warning(error);
+    return [];
+  }
+  const redata: Array<SelectOption> = [];
+  data.forEach((item: any) => {
+    if (!item.tableName.includes("BIN$")) {
+      redata.push({
+        name: (item.comment || "") + `(${item.tableName})`,
+        value: item.tableName,
+      });
     }
-    const redata: Array<SelectOption> = [];
-    data.forEach((item: any) => {
-        if (!item.tableName.includes("BIN$")) {
-            redata.push({
-                name: (item.comment || "") + `(${item.tableName})`,
-                value: item.tableName
-            });
-        }
-    });
-    return redata;
+  });
+  return redata;
 }
 
 /**
@@ -85,23 +91,28 @@ export async function tableList(configId: number): Promise<Array<SelectOption>> 
  * @param configId 数据库配置Id
  * @param tableName 表名
  */
-export async function tableColumns(configId: any, tableName: string): Promise<Array<any>> {
-    let redata: Array<any> = [];
-    if (!tableName) {
-        return redata;
-    }
-    // load("数据加载中");
-    await getRequest(`/userdb-manage/dbsearch/dbinfoEntity/tableColumns/${configId}/${tableName}`)
-        .then((res: any) => {
-            if (res.data.code != 0) {
-                warning(res.data.cnMessage);
-                return;
-            }
-            redata = res.data.data;
-            consumerView.addTableInfo(tableName, redata);
-        })
-        .finally(() => {
-            closeLoad();
-        });
+export async function tableColumns(
+  configId: any,
+  tableName: string,
+): Promise<Array<any>> {
+  let redata: Array<any> = [];
+  if (!tableName) {
     return redata;
+  }
+  // load("数据加载中");
+  await getRequest(
+    `/userdb-manage/dbsearch/dbinfoEntity/tableColumns/${configId}/${tableName}`,
+  )
+    .then((res: any) => {
+      if (res.data.code != 0) {
+        warning(res.data.cnMessage);
+        return;
+      }
+      redata = res.data.data;
+      consumerView.addTableInfo(tableName, redata);
+    })
+    .finally(() => {
+      closeLoad();
+    });
+  return redata;
 }

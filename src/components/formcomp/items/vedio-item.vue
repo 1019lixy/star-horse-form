@@ -1,11 +1,22 @@
 <template>
-  <starhorse-form-item :isDesign="isDesign" :disabled="disabled" :bareFlag="bareFlag" :formItem="field"
-                       :parentField="parentField">
+  <starhorse-form-item
+    :isDesign="isDesign"
+    :disabled="disabled"
+    :bareFlag="bareFlag"
+    :formItem="field"
+    :parentField="parentField"
+  >
     <div class="mainContainer">
       <div class="video-container">
         <div>
-          <video :fid="field.preps['name']" name="videoElement" class="centeredVideo" ref="videoElement" controls
-                 autoplay>
+          <video
+            :fid="field.preps['name']"
+            name="videoElement"
+            class="centeredVideo"
+            ref="videoElement"
+            controls
+            autoplay
+          >
             Your browser is too old which doesn't support HTML5 video.
           </video>
         </div>
@@ -15,46 +26,47 @@
         <el-button @click="start()">Start</el-button>
         <el-button @click="pause()">Pause</el-button>
         <el-button @click="destroy()">Destroy</el-button>
-        <el-input style="width: 100px" type="text" v-model="seekpoint"/>
+        <el-input style="width: 100px" type="text" v-model="seekpoint" />
         <el-button @click="seekto()">SeekTo</el-button>
       </div>
     </div>
   </starhorse-form-item>
 </template>
 <script setup lang="ts" name="vedioItem">
-import {onMounted, ref} from "vue";
+import { onMounted, ref } from "vue";
 import flvjs from "flv.js";
 
 const props = defineProps({
   isDesign: {
     type: Boolean,
-    default: false
+    default: false,
   },
   disabled: {
     type: Boolean,
-    default: false
+    default: false,
   },
   bareFlag: {
     type: Boolean,
-    default: false
-  }, isSearch: {
+    default: false,
+  },
+  isSearch: {
     type: Boolean,
-    default: false
+    default: false,
   },
   field: {
     type: Object,
-    default: {}
+    default: {},
   },
   parentField: {
     type: Object,
-    default: {}
+    default: {},
   },
   formInfo: {
     type: Object,
-    default: {}
-  }
+    default: {},
+  },
 });
-const emits = defineEmits(['selfFunc', 'selectItem']);
+const emits = defineEmits(["selfFunc", "selectItem"]);
 const formData = defineModel("formData");
 const itemAction = () => {
   emits("selfFunc", formData);
@@ -70,15 +82,16 @@ const load = () => {
       hasVideo: props.field.preps?.["hasVideo"] == "Y", //是否有视频
       isLive: props.field.preps?.["isLive"] == "Y", // 是否是直播流，默认 true
       type: props.field.preps?.["videoType"] || "mp4", // 是否是直播流，默认 true
-      stashInitialSize: props.field.preps?.["stashInitialSize"] || 128 // 减少首帧显示等待时长
+      stashInitialSize: props.field.preps?.["stashInitialSize"] || 128, // 减少首帧显示等待时长
     };
     player.value = flvjs.createPlayer(flvOption, {
       enableWorker: props.field.preps?.["enableWorker"] == "Y", // 不启用分离的线程进行转换，之前为true
       enableStashBuffer: props.field.preps?.["enableStashBuffer"] == "Y", // 关闭IO隐藏缓冲区
       stashInitialSize: props.field.preps?.["stashInitialSize"] || 128, // 减少首帧显示等待时长
-      autoCleanupSourceBuffer: props.field.preps?.["autoCleanupSourceBuffer"] == "Y", // 打开自动清除缓存
+      autoCleanupSourceBuffer:
+        props.field.preps?.["autoCleanupSourceBuffer"] == "Y", // 打开自动清除缓存
       fixAudioTimestampGap: props.field.preps?.["fixAudioTimestampGap"] == "Y", //false才会音视频同步,新增
-      lazyLoad: props.field.preps?.["lazyLoad"] == "Y" // 去掉懒加载,新增
+      lazyLoad: props.field.preps?.["lazyLoad"] == "Y", // 去掉懒加载,新增
     });
     player.value.attachMediaElement(element);
     if (props.field.preps?.["autoLoad"] == "Y") {
@@ -115,15 +128,13 @@ const getCfg = (key: string, def: any) => {
       ret = def;
     }
     return ret;
-  } catch (e) {
-  }
+  } catch (e) {}
   return def;
 };
 const setCfg = (key: string, value: any) => {
   try {
     sessionStorage.setItem("vedio-item." + key, value);
-  } catch (e) {
-  }
+  } catch (e) {}
 };
 const saveSettings = () => {
   setCfg("sURL", field["videoUrl"]);
@@ -131,7 +142,6 @@ const saveSettings = () => {
 onMounted(() => {
   load();
 });
-
 </script>
 <style lang="scss" scoped>
 .mainContainer {

@@ -1,9 +1,22 @@
 <script setup lang="ts" name="CalendarManage">
-import {Config} from "@/api/settings";
-import {onActivated, onDeactivated, onMounted, provide, reactive, ref} from "vue";
-import {getCustomerParam} from "@/utils/auth";
-import {apiInstance, ApiUrls,  PageFieldInfo, SearchFields, SelectOption} from "star-horse-lowcode";
-import {loadDict} from "@/api/star_horse_apis";
+import { Config } from "@/api/settings";
+import {
+  onActivated,
+  onDeactivated,
+  onMounted,
+  provide,
+  reactive,
+  ref,
+} from "vue";
+import { getCustomerParam } from "@/utils/auth";
+import {
+  apiInstance,
+  ApiUrls,
+  PageFieldInfo,
+  SearchFields,
+  SelectOption,
+} from "star-horse-lowcode";
+import { loadDict } from "@/api/star_horse_apis";
 //后端交互接口地址
 const dataUrl: ApiUrls = apiInstance("system-config", "system/calendarManage");
 //主键
@@ -13,8 +26,8 @@ const calendarManageRef = ref();
 const formFields = reactive<object>({});
 provide("formFields", formFields);
 const commonSelectList = ref<SelectOption[]>([
-  {name: "是", value: "Y"},
-  {name: "否", value: "N"}
+  { name: "是", value: "Y" },
+  { name: "否", value: "N" },
 ]);
 //查询属性
 const searchFormData = reactive<SearchFields>({
@@ -24,7 +37,6 @@ const searchFormData = reactive<SearchFields>({
       fieldName: "title",
       defaultVisible: true,
       matchType: "lk",
-
     },
     {
       label: "开始日期",
@@ -32,8 +44,8 @@ const searchFormData = reactive<SearchFields>({
       defaultVisible: false,
       type: "date",
       preps: {
-        valueFormat: "YYYY-MM-dd"
-      }
+        valueFormat: "YYYY-MM-dd",
+      },
     },
     {
       label: "结束日期",
@@ -41,37 +53,37 @@ const searchFormData = reactive<SearchFields>({
       defaultVisible: false,
       type: "date",
       preps: {
-        valueFormat: "YYYY-MM-dd"
-      }
+        valueFormat: "YYYY-MM-dd",
+      },
     },
     {
       label: "是否公开",
       fieldName: "publicFlag",
       defaultVisible: false,
       type: "select",
-     preps:{
-       values: commonSelectList
-     }
+      preps: {
+        values: commonSelectList,
+      },
     },
     {
       label: "是否允许订阅",
       fieldName: "subscribeFlag",
       defaultVisible: false,
       type: "select",
-      preps:{
-        values: commonSelectList
-      }
+      preps: {
+        values: commonSelectList,
+      },
     },
     {
       label: "是否消息提醒",
       fieldName: "messageFlag",
       defaultVisible: false,
       type: "select",
-      preps:{
-        values: commonSelectList
-      }
-    }
-  ]
+      preps: {
+        values: commonSelectList,
+      },
+    },
+  ],
 });
 let messageTypeList = ref<SelectOption[]>([]);
 //页面属性
@@ -84,7 +96,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
 
       required: false,
       formVisible: true,
-      listVisible: true
+      listVisible: true,
     },
     {
       label: "开始日期",
@@ -100,9 +112,9 @@ const tableFieldList = reactive<PageFieldInfo | any>({
           type: "time",
           required: false,
           formVisible: true,
-          listVisible: true
-        }
-      ]
+          listVisible: true,
+        },
+      ],
     },
 
     {
@@ -119,9 +131,9 @@ const tableFieldList = reactive<PageFieldInfo | any>({
           type: "time",
           required: false,
           formVisible: true,
-          listVisible: true
-        }
-      ]
+          listVisible: true,
+        },
+      ],
     },
     {
       label: "是否公开",
@@ -130,10 +142,10 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       required: false,
       formVisible: true,
       listVisible: true,
-      preps:{
+      preps: {
         activeValue: "Y",
-        inactiveValue: "N"
-      }
+        inactiveValue: "N",
+      },
     },
     {
       label: "是否允许订阅",
@@ -142,10 +154,10 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       required: false,
       formVisible: true,
       listVisible: true,
-      preps:{
+      preps: {
         activeValue: "Y",
-        inactiveValue: "N"
-      }
+        inactiveValue: "N",
+      },
     },
     {
       label: "邀请",
@@ -153,7 +165,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       type: "user",
       required: false,
       formVisible: true,
-      listVisible: true
+      listVisible: true,
     },
     {
       label: "抄送",
@@ -161,7 +173,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       type: "user",
       required: false,
       formVisible: true,
-      listVisible: true
+      listVisible: true,
     },
     {
       label: "日程内容",
@@ -169,7 +181,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       type: "textarea",
       required: false,
       formVisible: true,
-      listVisible: true
+      listVisible: true,
     },
     {
       label: "是否消息提醒",
@@ -178,10 +190,10 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       required: false,
       formVisible: true,
       listVisible: true,
-      preps:{
+      preps: {
         activeValue: "Y",
-        inactiveValue: "N"
-      }
+        inactiveValue: "N",
+      },
     },
     {
       label: "消息提醒方式",
@@ -190,9 +202,9 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       required: false,
       formVisible: true,
       listVisible: true,
-      preps:{
+      preps: {
         values: messageTypeList,
-      }
+      },
     },
     {
       label: "版本号",
@@ -200,7 +212,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       type: "number",
       required: false,
       formVisible: !true,
-      listVisible: !true
+      listVisible: !true,
     },
     {
       label: "创建人",
@@ -208,7 +220,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
 
       required: false,
       formVisible: !true,
-      listVisible: !true
+      listVisible: !true,
     },
     {
       label: "创建时间",
@@ -216,7 +228,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       type: "datetime",
       required: false,
       formVisible: !true,
-      listVisible: !true
+      listVisible: !true,
     },
     {
       label: "修改人",
@@ -224,7 +236,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
 
       required: false,
       formVisible: !true,
-      listVisible: !true
+      listVisible: !true,
     },
     {
       label: "修改时间",
@@ -232,7 +244,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       type: "datetime",
       required: false,
       formVisible: !true,
-      listVisible: !true
+      listVisible: !true,
     },
     {
       label: "数据编号",
@@ -240,7 +252,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
 
       required: false,
       formVisible: !true,
-      listVisible: !true
+      listVisible: !true,
     },
     {
       label: "状态码",
@@ -248,7 +260,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
 
       required: false,
       formVisible: !true,
-      listVisible: !true
+      listVisible: !true,
     },
     {
       label: "状态名称",
@@ -256,7 +268,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
 
       required: false,
       formVisible: !true,
-      listVisible: !true
+      listVisible: !true,
     },
     {
       label: "是否删除",
@@ -264,7 +276,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       type: "number",
       required: false,
       formVisible: !true,
-      listVisible: !true
+      listVisible: !true,
     },
     {
       label: "国际编码",
@@ -272,7 +284,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
 
       required: false,
       formVisible: !true,
-      listVisible: !true
+      listVisible: !true,
     },
     {
       label: "备注",
@@ -280,11 +292,11 @@ const tableFieldList = reactive<PageFieldInfo | any>({
 
       required: false,
       formVisible: !true,
-      listVisible: !true
-    }
+      listVisible: !true,
+    },
   ],
   //默认查询条件
-  condition: [getCustomerParam()]
+  condition: [getCustomerParam()],
 });
 //校验
 const rules = {};
@@ -295,10 +307,8 @@ provide("dialogProps", dialogProps);
 const initData = async () => {
   messageTypeList.value = await loadDict("message_type");
 };
-const activated = () => {
-};
-const deactivated = () => {
-};
+const activated = () => {};
+const deactivated = () => {};
 /**
  * 列表，查看数据时数据转换
  * @param name 名称
@@ -320,38 +330,50 @@ onDeactivated(() => {
 });
 </script>
 <template>
-  <star-horse-dialog :isShowBtnContinue="true" :dialog-visible="dialogProps.editVisible" :dialogProps="dialogProps">
+  <star-horse-dialog
+    :isShowBtnContinue="true"
+    :dialog-visible="dialogProps.editVisible"
+    :dialogProps="dialogProps"
+  >
     <star-horse-form
-        @refresh="calendarManageRef?.loadByPage()"
-        :compUrl="dataUrl"
-        :fieldList="tableFieldList"
-        :rules="rules"
+      @refresh="calendarManageRef?.loadByPage()"
+      :compUrl="dataUrl"
+      :fieldList="tableFieldList"
+      :rules="rules"
     />
   </star-horse-dialog>
   <star-horse-dialog
-      :dialog-visible="dialogProps.viewVisible"
-      :dialogProps="dialogProps"
-      
-      :source="3"
+    :dialog-visible="dialogProps.viewVisible"
+    :dialogProps="dialogProps"
+    :source="3"
   >
-    <star-horse-data-view :dataFormat="dataFormat" :field-list="tableFieldList" :compUrl="dataUrl"/>
+    <star-horse-data-view
+      :dataFormat="dataFormat"
+      :field-list="tableFieldList"
+      :compUrl="dataUrl"
+    />
   </star-horse-dialog>
   <div class="search-content">
-    <div class="search_btn" :style="{ 'flex-direction': Config.buttonStyle.value == 'line'? 'column' : 'row' }">
+    <div
+      class="search_btn"
+      :style="{
+        'flex-direction': Config.buttonStyle.value == 'line' ? 'column' : 'row',
+      }"
+    >
       <star-horse-search-comp
-          @searchData="(data: any) => calendarManageRef?.createSearchParams(data)"
-          :formData="searchFormData"
-          :compUrl="dataUrl"
+        @searchData="(data: any) => calendarManageRef?.createSearchParams(data)"
+        :formData="searchFormData"
+        :compUrl="dataUrl"
       />
     </div>
   </div>
   <el-card class="inner_content">
     <star-horse-table-comp
-        ref="calendarManageRef"
-        :fieldList="tableFieldList"
-        :primaryKey="primaryKey"
-        :compUrl="dataUrl"
-        :dataFormat="dataFormat"
+      ref="calendarManageRef"
+      :fieldList="tableFieldList"
+      :primaryKey="primaryKey"
+      :compUrl="dataUrl"
+      :dataFormat="dataFormat"
     />
   </el-card>
 </template>

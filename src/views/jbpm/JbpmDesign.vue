@@ -1,17 +1,17 @@
 <script setup lang="ts" name="JbpmDesign">
-import {flowTemplate} from "@/views/jbpm/utils/template";
+import { flowTemplate } from "@/views/jbpm/utils/template";
 import "bpmn-js/dist/assets/diagram-js.css";
 import "bpmn-js/dist/assets/bpmn-js.css";
 import "bpmn-js/dist/assets/bpmn-font/css/bpmn-embedded.css";
 import "bpmn-js-bpmnlint/dist/assets/css/bpmn-js-bpmnlint.css";
 import "bpmn-js-token-simulation/assets/css/bpmn-js-token-simulation.css";
 import "@/assets/css/diagram-js-minimap.css";
-import {computed, nextTick, onMounted, ref} from "vue";
-import {piniaInstance, uuid} from "star-horse-lowcode";
-import {createBpmnModeler, createNewFlow} from "@/views/jbpm/utils/FlowData";
-import {xmlStrNew} from "./utils/linting-cloud.js";
-import {useFlowDesignStore} from "@/store/FlowDesign";
-import {ElementRegistry} from "bpmn-js/lib/features/auto-place/BpmnAutoPlaceUtil";
+import { computed, nextTick, onMounted, ref } from "vue";
+import { piniaInstance, uuid } from "star-horse-lowcode";
+import { createBpmnModeler, createNewFlow } from "@/views/jbpm/utils/FlowData";
+import { xmlStrNew } from "./utils/linting-cloud.js";
+import { useFlowDesignStore } from "@/store/FlowDesign";
+import { ElementRegistry } from "bpmn-js/lib/features/auto-place/BpmnAutoPlaceUtil";
 // 模拟流转流程
 
 let bpmnModeler: any = null;
@@ -91,14 +91,13 @@ const createData = () => {
     flowId: processId,
     isUpdate: false,
     processTypeList: [
-      {name: "请假", value: "001"},
-      {name: "报销", value: "002"},
-      {name: "聚餐", value: "003"}
-    ]
+      { name: "请假", value: "001" },
+      { name: "报销", value: "002" },
+      { name: "聚餐", value: "003" },
+    ],
   };
 };
-const flowCheck = () => {
-};
+const flowCheck = () => {};
 
 const init = async () => {
   bpmnModeler = createBpmnModeler(canvas.value, properties.value);
@@ -117,7 +116,9 @@ const elementPosition = (elementKey: string, event: MouseEvent) => {
   event?.preventDefault();
   event?.stopPropagation();
   let registry = bpmnModeler.get<ElementRegistry>("elementRegistry");
-  bpmnModeler.get("selection").select([registry.find((item: any) => item.id == elementKey)]);
+  bpmnModeler
+    .get("selection")
+    .select([registry.find((item: any) => item.id == elementKey)]);
 };
 onMounted(() => {
   createData();
@@ -129,12 +130,19 @@ onMounted(() => {
     <el-splitter>
       <el-splitter-panel>
         <div class="jbpm">
-          <jbpm-header :modeler="bpmnModeler" :process-data="initData" @flowCheck="flowCheck" @restart="restart"/>
+          <jbpm-header
+            :modeler="bpmnModeler"
+            :process-data="initData"
+            @flowCheck="flowCheck"
+            @restart="restart"
+          />
           <div class="bpmn-container">
             <div class="bpmn-content" ref="canvas"></div>
             <div class="bpmn-linter open">
               <div class="toggle-btn" @click="showMessage">
-                <star-horse-icon :iconClass="isShow ? 'arrow-double-down' : 'arrow-double-up'"/>
+                <star-horse-icon
+                  :iconClass="isShow ? 'arrow-double-down' : 'arrow-double-up'"
+                />
               </div>
               <el-card>
                 <template #header>
@@ -150,16 +158,25 @@ onMounted(() => {
                 <el-collapse accordion v-if="isShow">
                   <el-collapse-item v-for="(data, key) in lintDatas">
                     <template #title>
-                      <div class="title" style="justify-content: space-between; display: flex; align-items: center">
+                      <div
+                        class="title"
+                        style="
+                          justify-content: space-between;
+                          display: flex;
+                          align-items: center;
+                        "
+                      >
                         <div style="width: 80%">{{ key }}</div>
                         <star-horse-icon
-                            icon-class="position"
-                            style="cursor: pointer"
-                            @click="elementPosition(key, $event)"
+                          icon-class="position"
+                          style="cursor: pointer"
+                          @click="elementPosition(key, $event)"
                         />
                       </div>
                     </template>
-                    <div class="message-item" v-for="(item, sindex) in data"> {{ sindex + 1 }}.{{ item.message }}</div>
+                    <div class="message-item" v-for="(item, sindex) in data">
+                      {{ sindex + 1 }}.{{ item.message }}
+                    </div>
                   </el-collapse-item>
                 </el-collapse>
               </el-card>
@@ -168,7 +185,11 @@ onMounted(() => {
         </div>
       </el-splitter-panel>
       <el-splitter-panel collapsible size="350" min="250" max="500">
-        <jbpm-property-panel :modeler="bpmnModeler" :process="initData" v-if="bpmnModeler"/>
+        <jbpm-property-panel
+          :modeler="bpmnModeler"
+          :process="initData"
+          v-if="bpmnModeler"
+        />
       </el-splitter-panel>
     </el-splitter>
   </el-card>
@@ -193,7 +214,8 @@ onMounted(() => {
     .bpmn-content {
       width: 100%;
       height: 100%;
-      background: url("data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGRlZnM+PHBhdHRlcm4gaWQ9ImEiIHdpZHRoPSI0MCIgaGVpZ2h0PSI0MCIgcGF0dGVyblVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+PHBhdGggZD0iTTAgMTBoNDBNMTAgMHY0ME0wIDIwaDQwTTIwIDB2NDBNMCAzMGg0ME0zMCAwdjQwIiBmaWxsPSJub25lIiBzdHJva2U9IiNlMGUwZTAiIG9wYWNpdHk9Ii4yIi8+PHBhdGggZD0iTTQwIDBIMHY0MCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjZTBlMGUwIi8+PC9wYXR0ZXJuPjwvZGVmcz48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSJ1cmwoI2EpIi8+PC9zdmc+") repeat !important;
+      background: url("data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGRlZnM+PHBhdHRlcm4gaWQ9ImEiIHdpZHRoPSI0MCIgaGVpZ2h0PSI0MCIgcGF0dGVyblVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+PHBhdGggZD0iTTAgMTBoNDBNMTAgMHY0ME0wIDIwaDQwTTIwIDB2NDBNMCAzMGg0ME0zMCAwdjQwIiBmaWxsPSJub25lIiBzdHJva2U9IiNlMGUwZTAiIG9wYWNpdHk9Ii4yIi8+PHBhdGggZD0iTTQwIDBIMHY0MCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjZTBlMGUwIi8+PC9wYXR0ZXJuPjwvZGVmcz48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSJ1cmwoI2EpIi8+PC9zdmc+")
+        repeat !important;
     }
 
     .canvas {
@@ -202,7 +224,6 @@ onMounted(() => {
     }
   }
 }
-
 
 .container {
   height: inherit;

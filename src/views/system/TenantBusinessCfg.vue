@@ -1,5 +1,15 @@
 <script setup lang="ts">
-import { computed, nextTick, onActivated, onDeactivated, onMounted, provide, reactive, ref, warn } from "vue";
+import {
+  computed,
+  nextTick,
+  onActivated,
+  onDeactivated,
+  onMounted,
+  provide,
+  reactive,
+  ref,
+  warn,
+} from "vue";
 import { Config } from "@/api/settings";
 import {
   apiInstance,
@@ -15,20 +25,28 @@ import {
   SelectOption,
   success,
   useGlobalConfigStore,
-  warning
+  warning,
 } from "star-horse-lowcode";
 import { loadDict } from "@/api/star_horse_apis";
 import { loadMenusInfo, loadSystemInfo } from "@/api/star_horse_utils";
 
 defineOptions({
-  name: "TenantInfo"
+  name: "TenantInfo",
 });
 //后端交互接口地址
 const dataUrl: ApiUrls = apiInstance("system-config", "system/tenantInfo");
-const tenantAppDataUrl: ApiUrls = apiInstance("system-config", "system/tenantAppinfo");
-const tenantAppMenuDataUrl: ApiUrls = apiInstance("system-config", "system/tenantAppMenusinfo");
+const tenantAppDataUrl: ApiUrls = apiInstance(
+  "system-config",
+  "system/tenantAppinfo",
+);
+const tenantAppMenuDataUrl: ApiUrls = apiInstance(
+  "system-config",
+  "system/tenantAppMenusinfo",
+);
 let configStore = useGlobalConfigStore(piniaInstance);
-let compSize = computed(() => configStore.configFormInfo?.inputSize || Config.compSize);
+let compSize = computed(
+  () => configStore.configFormInfo?.inputSize || Config.compSize,
+);
 //主键
 const primaryKey = "idTenantInfo";
 const tenantInfoRef = ref();
@@ -41,7 +59,14 @@ const formFields = reactive<object>({});
 provide("formFields", formFields);
 //查询属性
 const searchFormData = reactive<SearchFields>({
-  fieldList: [{ label: "菜单名称", fieldName: "menuName", matchType: "lk", defaultVisible: true }]
+  fieldList: [
+    {
+      label: "菜单名称",
+      fieldName: "menuName",
+      matchType: "lk",
+      defaultVisible: true,
+    },
+  ],
 });
 const tableFieldList = reactive<PageFieldInfo | any>({
   fieldList: [
@@ -52,7 +77,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       required: false,
       formVisible: true,
       listVisible: true,
-      preps: {}
+      preps: {},
     },
     {
       label: "排序",
@@ -61,12 +86,31 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       required: false,
       formVisible: true,
       listVisible: true,
-      preps: {}
+      preps: {},
     },
-    { label: "创建人", fieldName: "createdBy", listVisible: true, preps: {}, commonFlag: "Y" },
-    { label: "创建时间", fieldName: "createdTime", type: "datetime", listVisible: true, preps: {}, commonFlag: "Y" },
+    {
+      label: "创建人",
+      fieldName: "createdBy",
+      listVisible: true,
+      preps: {},
+      commonFlag: "Y",
+    },
+    {
+      label: "创建时间",
+      fieldName: "createdTime",
+      type: "datetime",
+      listVisible: true,
+      preps: {},
+      commonFlag: "Y",
+    },
     { label: "修改人", fieldName: "updatedBy", preps: {}, commonFlag: "Y" },
-    { label: "修改时间", fieldName: "updatedTime", type: "datetime", preps: {}, commonFlag: "Y" }
+    {
+      label: "修改时间",
+      fieldName: "updatedTime",
+      type: "datetime",
+      preps: {},
+      commonFlag: "Y",
+    },
   ],
   batchFieldList: [],
   userTableFuncs: [],
@@ -74,7 +118,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
   orderBy: [],
   batchName: "batchDataList",
   tableCellEditabled: false,
-  stopAutoLoad: false
+  stopAutoLoad: false,
 });
 
 let informationsList = ref<any>([]);
@@ -92,10 +136,10 @@ const formFieldList = reactive<PageFieldInfo>({
       preps: {
         multiple: true,
         data: informationsList,
-        checkStrictly: true
-      }
-    }
-  ]
+        checkStrictly: true,
+      },
+    },
+  ],
 });
 let menuRequired = ref<boolean>(false);
 const menuformFieldList = reactive<PageFieldInfo>({
@@ -110,8 +154,8 @@ const menuformFieldList = reactive<PageFieldInfo>({
       viewVisible: false,
       disabled: true,
       preps: {
-        data: informationsList
-      }
+        data: informationsList,
+      },
     },
     {
       label: "分配所有菜单",
@@ -124,12 +168,12 @@ const menuformFieldList = reactive<PageFieldInfo>({
       actions: {
         change: (val: any) => {
           menuRequired.value = val["allMenu"] == "N";
-        }
+        },
       },
       preps: {
         activeValue: "Y",
-        inactiveValue: "N"
-      }
+        inactiveValue: "N",
+      },
     },
     {
       label: "指定菜单",
@@ -145,7 +189,7 @@ const menuformFieldList = reactive<PageFieldInfo>({
           if (val["menuList"]) {
             val["allMenu"] = "N";
           }
-        }
+        },
       },
       preps: {
         multiple: true,
@@ -153,11 +197,11 @@ const menuformFieldList = reactive<PageFieldInfo>({
         checkStrictly: true,
         props: {
           label: "menuName",
-          value: "idMenusinfo"
-        }
-      }
-    }
-  ]
+          value: "idMenusinfo",
+        },
+      },
+    },
+  ],
 });
 //校验
 const rules = {};
@@ -181,8 +225,7 @@ const activated = async () => {
 const dataLoaded = (data: any) => {
   //将数据范围的字段进行处理
 };
-const deactivated = () => {
-};
+const deactivated = () => {};
 const tenantAppTreeRef = ref();
 let currentTenantData = ref<any>({});
 const dataChange = (data: any) => {
@@ -216,7 +259,7 @@ const removeAppData = (data: any) => {
     params.push(createCondition("idTenantInfo", data["idTenantInfo"]));
     params.push(createCondition("idInformations", data["idInformations"]));
     postRequest(tenantAppDataUrl.deleteByConditionUrl!, {
-      fieldList: params
+      fieldList: params,
     }).then((res) => {
       if (!res.data.code) {
         success("删除成功");
@@ -256,7 +299,11 @@ const menuAddedRefresh = () => {
  */
 const dataFormat = (name: string, cellValue: any, row: any): any => {
   if (name == "effectiveTime") {
-    return createDatetime(row.effectiveTimeStart) + "-" + createDatetime(row.effectiveTimeEnd);
+    return (
+      createDatetime(row.effectiveTimeStart) +
+      "-" +
+      createDatetime(row.effectiveTimeEnd)
+    );
   }
   //转换显示信息
   return cellValue;
@@ -272,49 +319,117 @@ onDeactivated(() => {
 });
 </script>
 <template>
-  <star-horse-dialog title="添加应用" boxWidth="40%" :dialog-visible="dialogProps.editVisible" :dialogProps="dialogProps">
-    <star-horse-form @refresh="dataChange(outerData)" :outerFormData="outerData" @dataLoaded="dataLoaded"
-      :compUrl="tenantAppDataUrl" :fieldList="formFieldList" ref="tenantInfoFormRef"
-      :primaryKey="'idTenantAppMenusinfo'" :rules="rules" />
+  <star-horse-dialog
+    title="添加应用"
+    boxWidth="40%"
+    :dialog-visible="dialogProps.editVisible"
+    :dialogProps="dialogProps"
+  >
+    <star-horse-form
+      @refresh="dataChange(outerData)"
+      :outerFormData="outerData"
+      @dataLoaded="dataLoaded"
+      :compUrl="tenantAppDataUrl"
+      :fieldList="formFieldList"
+      ref="tenantInfoFormRef"
+      :primaryKey="'idTenantAppMenusinfo'"
+      :rules="rules"
+    />
   </star-horse-dialog>
-  <star-horse-dialog boxWidth="40%" :dialog-visible="dialogProps.bakeVisible1" :dialogProps="dialogProps"
-    :title="'添加菜单'">
-    <star-horse-form @refresh="menuAddedRefresh" :outerFormData="outerData" @dataLoaded="dataLoaded"
-      :compUrl="tenantAppMenuDataUrl" :fieldList="menuformFieldList" :primaryKey="'idTenantAppMenusinfo'"
-      ref="tenantMenuInfoFormRef" :rules="rules" />
+  <star-horse-dialog
+    boxWidth="40%"
+    :dialog-visible="dialogProps.bakeVisible1"
+    :dialogProps="dialogProps"
+    :title="'添加菜单'"
+  >
+    <star-horse-form
+      @refresh="menuAddedRefresh"
+      :outerFormData="outerData"
+      @dataLoaded="dataLoaded"
+      :compUrl="tenantAppMenuDataUrl"
+      :fieldList="menuformFieldList"
+      :primaryKey="'idTenantAppMenusinfo'"
+      ref="tenantMenuInfoFormRef"
+      :rules="rules"
+    />
   </star-horse-dialog>
   <el-card class="inner_content">
     <el-splitter>
       <el-splitter-panel collapsible size="240" min="100" max="500">
-        <star-horse-tree v-model:tree-datas="dynamicFormList" ref="starHorseTreeRef" :expand="true" treeTitle="租户列表"
-          @selectData="dataChange" @addData="addData" btnTitle="添加应用" :btnVisible="true" :showDropdown="false" :preps="{
+        <star-horse-tree
+          v-model:tree-datas="dynamicFormList"
+          ref="starHorseTreeRef"
+          :expand="true"
+          treeTitle="租户列表"
+          @selectData="dataChange"
+          @addData="addData"
+          btnTitle="添加应用"
+          :btnVisible="true"
+          :showDropdown="false"
+          :preps="{
             label: 'tenantName',
-            value: primaryKey
-          }" :showPageBar="true" :isDynamicData="true" :autoLoad="true" :compUrl="dataUrl" :compSize="compSize" />
+            value: primaryKey,
+          }"
+          :showPageBar="true"
+          :isDynamicData="true"
+          :autoLoad="true"
+          :compUrl="dataUrl"
+          :compSize="compSize"
+        />
       </el-splitter-panel>
       <el-splitter-panel>
         <el-card class="inner_content h100">
           <el-splitter>
-            <el-splitter-panel collapsible :size="Object.keys(currentTenantData).length == 0 ? 0 : 220" max="400">
-              <star-horse-tree ref="tenantAppTreeRef" :expand="true" treeTitle="应用列表" @selectData="appDataChange"
-                @addData="addMenuData" @removeData="removeAppData" btnTitle="添加菜单" :btnVisible="true" rmvTitle="删除应用"
-                :rmvVisible="true" :showDropdown="false" :preps="{
+            <el-splitter-panel
+              collapsible
+              :size="Object.keys(currentTenantData).length == 0 ? 0 : 220"
+              max="400"
+            >
+              <star-horse-tree
+                ref="tenantAppTreeRef"
+                :expand="true"
+                treeTitle="应用列表"
+                @selectData="appDataChange"
+                @addData="addMenuData"
+                @removeData="removeAppData"
+                btnTitle="添加菜单"
+                :btnVisible="true"
+                rmvTitle="删除应用"
+                :rmvVisible="true"
+                :showDropdown="false"
+                :preps="{
                   label: 'appName',
-                  value: 'idInformations'
-                }" :showPageBar="true" :isDynamicData="true" :autoLoad="false" :compUrl="tenantAppDataUrl"
-                :compSize="compSize" />
+                  value: 'idInformations',
+                }"
+                :showPageBar="true"
+                :isDynamicData="true"
+                :autoLoad="false"
+                :compUrl="tenantAppDataUrl"
+                :compSize="compSize"
+              />
             </el-splitter-panel>
             <el-splitter-panel>
               <el-card class="inner_content">
                 <div class="search-content">
                   <div class="search_btn">
-                    <star-horse-search-comp @searchData="(data: any) => tenantAppMenusinfoRef?.createSearchParams(data)"
-                      :formData="searchFormData" :compUrl="dataUrl" />
+                    <star-horse-search-comp
+                      @searchData="
+                        (data: any) =>
+                          tenantAppMenusinfoRef?.createSearchParams(data)
+                      "
+                      :formData="searchFormData"
+                      :compUrl="dataUrl"
+                    />
                   </div>
                 </div>
-                <star-horse-table-comp ref="tenantAppMenusinfoRef" :fieldList="tableFieldList"
-                  :primaryKey="'idTenantAppMenusinfo'" :compUrl="tenantAppMenuDataUrl" :dataFormat="dataFormat"
-                  :hideButtonList="true" />
+                <star-horse-table-comp
+                  ref="tenantAppMenusinfoRef"
+                  :fieldList="tableFieldList"
+                  :primaryKey="'idTenantAppMenusinfo'"
+                  :compUrl="tenantAppMenuDataUrl"
+                  :dataFormat="dataFormat"
+                  :hideButtonList="true"
+                />
               </el-card>
             </el-splitter-panel>
           </el-splitter>
@@ -324,4 +439,5 @@ onDeactivated(() => {
   </el-card>
 </template>
 <style lang="scss" scoped>
-//todo</style>
+//todo
+</style>

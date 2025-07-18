@@ -3,16 +3,15 @@ import {
   apiInstance,
   ApiUrls,
   dialogPreps,
-
   PageFieldInfo,
   piniaInstance,
   SearchFields,
   SelectOption,
-  useButtonPermissionStore
+  useButtonPermissionStore,
 } from "star-horse-lowcode";
-import {Config} from "@/api/settings";
-import {computed, onMounted, provide, reactive, ref} from "vue";
-import {loadSvgIcons,loadElementPlusIcon,} from "@/api/star_horse_utils.js";
+import { Config } from "@/api/settings";
+import { computed, onMounted, provide, reactive, ref } from "vue";
+import { loadSvgIcons, loadElementPlusIcon } from "@/api/star_horse_utils.js";
 //后端交互接口地址
 const dataUrl: ApiUrls = apiInstance("system-config", "system/customer");
 const buttonPermission = useButtonPermissionStore(piniaInstance);
@@ -24,16 +23,16 @@ const searchFormData = reactive<SearchFields>({
       defaultVisible: true,
       fieldName: "customerName",
 
-      matchType: "lk"
+      matchType: "lk",
     },
     {
       label: "客户编码",
       fieldName: "customerCode",
 
       defaultVisible: true,
-      matchType: "lk"
-    }
-  ]
+      matchType: "lk",
+    },
+  ],
 });
 let systemIconList = ref<SelectOption[]>([]);
 //页面属性
@@ -43,7 +42,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       label: "主键",
       fieldName: "idCustomer",
       type: "long",
-      required: true
+      required: true,
     },
     {
       label: "客户名称",
@@ -51,14 +50,14 @@ const tableFieldList = reactive<PageFieldInfo | any>({
 
       required: true,
       formVisible: true,
-      listVisible: true
+      listVisible: true,
     },
     {
       label: "客户编码",
       fieldName: "customerCode",
 
       disabled: true,
-      listVisible: true
+      listVisible: true,
     },
     {
       label: "Logo",
@@ -66,74 +65,68 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       type: "icon",
       formVisible: true,
       listVisible: true,
-      preps:{
-        listPrototypeDisplay:false,
-        values:loadSvgIcons(),
-        iconType:"user",
-        listView:false
-      }
+      preps: {
+        listPrototypeDisplay: false,
+        values: loadSvgIcons(),
+        iconType: "user",
+        listView: false,
+      },
     },
     {
       label: "描述",
       fieldName: "customerDesc",
       type: "textarea",
       formVisible: true,
-      listVisible: true
+      listVisible: true,
     },
     {
       label: "创建人",
       disabled: true,
       fieldName: "createdBy",
-
     },
     {
       label: "修改人",
       disabled: true,
       fieldName: "updatedBy",
-
     },
     {
       label: "创建时间",
       fieldName: "createdTime",
-      type: "date"
+      type: "date",
     },
     {
       label: "修改时间",
       fieldName: "updatedTime",
-      type: "date"
+      type: "date",
     },
     {
       label: "版本号",
       fieldName: "version",
-      type: "number"
+      type: "number",
     },
     {
       label: "是否逻辑删除",
       fieldName: "isDel",
-      type: "number"
+      type: "number",
     },
     {
       label: "数据编号",
       fieldName: "dataNo",
-
     },
     {
       label: "状态码",
       fieldName: "statusCode",
-
     },
     {
       label: "状态名称",
       fieldName: "statusName",
-
     },
     {
       label: "国际码",
       fieldName: "local",
-
-    }
+    },
   ],
-  cellEditable: true
+  cellEditable: true,
 });
 //主键
 const primaryKey = "idCustomer";
@@ -163,38 +156,50 @@ const dataFormat = (_name: string, cellValue: any, row: any): any => {
 };
 </script>
 <template>
-  <star-horse-dialog :isShowBtnContinue="true" :dialogVisible="dialogProps.editVisible" :dialogProps="dialogProps">
+  <star-horse-dialog
+    :isShowBtnContinue="true"
+    :dialogVisible="dialogProps.editVisible"
+    :dialogProps="dialogProps"
+  >
     <star-horse-form
-        @refresh="customerRef?.loadByPage()"
-        :compUrl="dataUrl"
-        :fieldList="tableFieldList"
-        :rules="rules"
+      @refresh="customerRef?.loadByPage()"
+      :compUrl="dataUrl"
+      :fieldList="tableFieldList"
+      :rules="rules"
     />
   </star-horse-dialog>
   <star-horse-dialog
-      :dialog-visible="dialogProps.viewVisible"
-      :dialogProps="dialogProps"
-      
-      :source="3"
+    :dialog-visible="dialogProps.viewVisible"
+    :dialogProps="dialogProps"
+    :source="3"
   >
-    <star-horse-data-view :dataFormat="dataFormat" :field-list="tableFieldList" :compUrl="dataUrl"/>
+    <star-horse-data-view
+      :dataFormat="dataFormat"
+      :field-list="tableFieldList"
+      :compUrl="dataUrl"
+    />
   </star-horse-dialog>
   <div class="search-content">
-    <div class="search_btn" :style="{ 'flex-direction': Config.buttonStyle.value == 'line'? 'column' : 'row' }">
+    <div
+      class="search_btn"
+      :style="{
+        'flex-direction': Config.buttonStyle.value == 'line' ? 'column' : 'row',
+      }"
+    >
       <star-horse-search-comp
-          @searchData="(data: any) => customerRef?.createSearchParams(data)"
-          :formData="searchFormData"
-          :compUrl="dataUrl"
+        @searchData="(data: any) => customerRef?.createSearchParams(data)"
+        :formData="searchFormData"
+        :compUrl="dataUrl"
       />
     </div>
   </div>
   <el-card class="inner_content">
     <star-horse-table-comp
-        ref="customerRef"
-        :fieldList="tableFieldList"
-        :primaryKey="primaryKey"
-        :compUrl="dataUrl"
-        :dataFormat="dataFormat"
+      ref="customerRef"
+      :fieldList="tableFieldList"
+      :primaryKey="primaryKey"
+      :compUrl="dataUrl"
+      :dataFormat="dataFormat"
     />
   </el-card>
 </template>

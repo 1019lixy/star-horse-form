@@ -13,12 +13,11 @@ import {
   SearchFields,
   SelectOption,
   UserFuncInfo,
-  warning
+  warning,
 } from "star-horse-lowcode";
-import {onMounted, provide, reactive, ref} from "vue";
-import {Config} from "@/api/settings";
-import {initDbList, tableList} from "@/views/dbsearch/utils/DbSearchUtils";
-
+import { onMounted, provide, reactive, ref } from "vue";
+import { Config } from "@/api/settings";
+import { initDbList, tableList } from "@/views/dbsearch/utils/DbSearchUtils";
 
 const dataUrl: ApiUrls = apiInstance("code-generator", "generator/code");
 
@@ -45,19 +44,29 @@ const searchFormData = reactive<SearchFields>({
       type: "select",
       defaultVisible: true,
       preps: {
-        values: dbInfoList
-      }
+        values: dbInfoList,
+      },
     },
-    {label: "应用名称", fieldName: "projectName", matchType: "lk", defaultVisible: true},
-    {label: "项目名称", fieldName: "applicationName", matchType: "lk", defaultVisible: true}
-  ]
+    {
+      label: "应用名称",
+      fieldName: "projectName",
+      matchType: "lk",
+      defaultVisible: true,
+    },
+    {
+      label: "项目名称",
+      fieldName: "applicationName",
+      matchType: "lk",
+      defaultVisible: true,
+    },
+  ],
 });
 const tableFieldList = reactive<PageFieldInfo>({
   fieldList: [
     {
       label: "主键",
       fieldName: "idCodeGenerator",
-      type: "long"
+      type: "long",
     },
     [
       {
@@ -66,12 +75,12 @@ const tableFieldList = reactive<PageFieldInfo>({
         type: "select",
         required: true,
         formVisible: true,
-        actions: {change:loadTabInfo},
+        actions: { change: loadTabInfo },
         listVisible: true,
         preps: {
           values: dbInfoList,
-          needInitLink: true
-        }
+          needInitLink: true,
+        },
       },
       {
         label: "后端程序语言",
@@ -83,8 +92,8 @@ const tableFieldList = reactive<PageFieldInfo>({
         listVisible: true,
         preps: {
           values: languageList,
-        }
-      }
+        },
+      },
     ],
     [
       {
@@ -97,7 +106,7 @@ const tableFieldList = reactive<PageFieldInfo>({
         listVisible: true,
         preps: {
           values: templateVersionList,
-        }
+        },
       },
       {
         label: "前端模版版本",
@@ -108,8 +117,8 @@ const tableFieldList = reactive<PageFieldInfo>({
         listVisible: true,
         preps: {
           values: templateVersionList,
-        }
-      }
+        },
+      },
     ],
     {
       label: "需要生成的表名",
@@ -123,7 +132,7 @@ const tableFieldList = reactive<PageFieldInfo>({
       preps: {
         multiple: true,
         values: tableInfoList,
-      }
+      },
     },
     {
       label: "需要排除的表",
@@ -134,7 +143,7 @@ const tableFieldList = reactive<PageFieldInfo>({
       preps: {
         multiple: true,
         values: tableInfoList,
-      }
+      },
     },
     [
       {
@@ -145,7 +154,7 @@ const tableFieldList = reactive<PageFieldInfo>({
         helpMsg: `如果该属性为空，所生成的文件会带上表前缀，
 eg: 表：dev_userinfo ,生成的文件是DevUserinfo.java;
 多个前缀请用英文分号（;）隔开。`,
-        listVisible: true
+        listVisible: true,
       },
       {
         label: "包名",
@@ -154,19 +163,20 @@ eg: 表：dev_userinfo ,生成的文件是DevUserinfo.java;
         required: true,
         formVisible: true,
         helpMsg: "eg: com.starhorse.test",
-        listVisible: true
-      }
+        listVisible: true,
+      },
     ],
     {
       label: "要生成的文件",
       fieldName: "fileTypesList",
       type: "select",
-      formVisible: true,      helpMsg: "为空生成所有类型文件",
+      formVisible: true,
+      helpMsg: "为空生成所有类型文件",
       listVisible: true,
       preps: {
         multiple: true,
         values: fileTypeList,
-      }
+      },
     },
     {
       fieldName: "tab2",
@@ -180,7 +190,7 @@ eg: 表：dev_userinfo ,生成的文件是DevUserinfo.java;
               fieldName: "projectName",
 
               formVisible: true,
-              helpMsg: "生成代码归属项目"
+              helpMsg: "生成代码归属项目",
             },
             {
               label: "模块名称",
@@ -189,7 +199,7 @@ eg: 表：dev_userinfo ,生成的文件是DevUserinfo.java;
               required: true,
               formVisible: true,
               helpMsg: "Maven 项目的模块名会追加到包名的后面",
-              listVisible: true
+              listVisible: true,
             },
             {
               label: "应用名称",
@@ -198,21 +208,21 @@ eg: 表：dev_userinfo ,生成的文件是DevUserinfo.java;
               required: true,
               formVisible: true,
               helpMsg: "在配置文件application.yml中对应spring.application.name",
-              listVisible: true
+              listVisible: true,
             },
             {
               label: "应用端口",
               fieldName: "port",
               type: "number",
               formVisible: true,
-              helpMsg: "在配置文件application.yml中对应server.port"
+              helpMsg: "在配置文件application.yml中对应server.port",
             },
             {
               label: "发布目录",
               fieldName: "targetDir",
 
               formVisible: true,
-              helpMsg: "文件部署到服务器上的目录"
+              helpMsg: "文件部署到服务器上的目录",
             },
             {
               label: "RestFul风格接口",
@@ -222,8 +232,8 @@ eg: 表：dev_userinfo ,生成的文件是DevUserinfo.java;
               defaultValue: "Y",
               preps: {
                 activeValue: "Y",
-                inactiveValue: "N"
-              }
+                inactiveValue: "N",
+              },
             },
             {
               label: "包构建类型",
@@ -235,16 +245,16 @@ eg: 表：dev_userinfo ,生成的文件是DevUserinfo.java;
               helpMsg: "对应pom.xml文件中的packaging",
               preps: {
                 values: packagingList,
-              }
+              },
             },
             {
               label: "代码版本",
               fieldName: "version",
 
               helpMsg: "对应pom.xml文件中version",
-              formVisible: true
-            }
-          ]
+              formVisible: true,
+            },
+          ],
         },
         {
           title: "注释相关",
@@ -254,13 +264,13 @@ eg: 表：dev_userinfo ,生成的文件是DevUserinfo.java;
               label: "开发人员",
               fieldName: "author",
 
-              formVisible: true
+              formVisible: true,
             },
             {
               label: "邮箱地址",
               fieldName: "email",
 
-              formVisible: true
+              formVisible: true,
             },
             {
               label: "是否需要版权",
@@ -269,10 +279,10 @@ eg: 表：dev_userinfo ,生成的文件是DevUserinfo.java;
               formVisible: true,
               preps: {
                 activeValue: "Y",
-                inactiveValue: "N"
-              }
-            }
-          ]
+                inactiveValue: "N",
+              },
+            },
+          ],
         },
         {
           title: "UI相关",
@@ -286,8 +296,8 @@ eg: 表：dev_userinfo ,生成的文件是DevUserinfo.java;
               defaultValue: "Y",
               preps: {
                 activeValue: "Y",
-                inactiveValue: "N"
-              }
+                inactiveValue: "N",
+              },
             },
             {
               label: "是否分离UI",
@@ -298,14 +308,14 @@ eg: 表：dev_userinfo ,生成的文件是DevUserinfo.java;
               defaultValue: "N",
               preps: {
                 activeValue: "Y",
-                inactiveValue: "N"
-              }
+                inactiveValue: "N",
+              },
             },
             {
               label: "Ui 文件后缀",
               fieldName: "uiSuffix",
               formVisible: true,
-              defaultValue: ".vue"
+              defaultValue: ".vue",
             },
             {
               label: "UI 类型",
@@ -315,9 +325,9 @@ eg: 表：dev_userinfo ,生成的文件是DevUserinfo.java;
               defaultValue: "VUE_3_TS",
               preps: {
                 values: uiTypeList,
-              }
-            }
-          ]
+              },
+            },
+          ],
         },
         {
           title: "Dto相关",
@@ -332,33 +342,33 @@ eg: 表：dev_userinfo ,生成的文件是DevUserinfo.java;
               defaultValue: "N",
               preps: {
                 activeValue: "Y",
-                inactiveValue: "N"
-              }
-            }
-          ]
-        }
-      ]
+                inactiveValue: "N",
+              },
+            },
+          ],
+        },
+      ],
     },
     {
       label: "创建人",
       disabled: true,
       fieldName: "createdBy",
 
-      listVisible: true
+      listVisible: true,
     },
     {
       label: "创建日期",
       disabled: true,
       fieldName: "createdTime",
       type: "date",
-      listVisible: true
+      listVisible: true,
     },
     {
       label: "修改人",
       disabled: true,
       fieldName: "updatedBy",
 
-      listVisible: true
+      listVisible: true,
     },
 
     {
@@ -366,35 +376,31 @@ eg: 表：dev_userinfo ,生成的文件是DevUserinfo.java;
       disabled: true,
       fieldName: "updatedTime",
       type: "date",
-      listVisible: true
+      listVisible: true,
     },
     {
       label: "是否已逻辑",
       fieldName: "isDel",
-      type: "number"
+      type: "number",
     },
     {
       label: "数据编号",
       fieldName: "dataNo",
-
     },
     {
       label: "状态码",
       fieldName: "statusCode",
-
     },
     {
       label: "状态码名称",
       fieldName: "statusName",
-
     },
     {
       label: "国际码",
       fieldName: "local",
-
-    }
+    },
   ],
-  batchFieldList: []
+  batchFieldList: [],
 });
 const primaryKey = "idCodeGenerator";
 const codeGeneratorRef = ref();
@@ -404,15 +410,17 @@ provide("dialogProps", dialogProps);
 const orderBy = ref<OrderByInfo[]>([
   {
     fieldName: "updatedTime",
-    ascOrDesc: "desc"
-  }
+    ascOrDesc: "desc",
+  },
 ]);
 
-const selectItemFun = (_data: any) => {
-};
+const selectItemFun = (_data: any) => {};
 const dataFormat = (name: string, cellValue: any): any => {
   if (name == "datasourceConfigId") {
-    return dbInfoList.value.find((item: any) => item.value == cellValue)?.name || cellValue;
+    return (
+      dbInfoList.value.find((item: any) => item.value == cellValue)?.name ||
+      cellValue
+    );
   }
   if (name == "createdTime" || name == "updatedTime") {
     return createDatetime(cellValue);
@@ -438,15 +446,17 @@ let extendBtns = ref<UserFuncInfo[]>([
     priority: 1,
     funcName: (row: any) => {
       load("代码生成中，请稍后");
-      download(`/code-generator/generator/code/convertToCodeById/${row[primaryKey]}`)
-          .catch((err) => {
-            warning(err);
-          })
-          .finally(() => {
-            closeLoad();
-          });
-    }
-  }
+      download(
+        `/code-generator/generator/code/convertToCodeById/${row[primaryKey]}`,
+      )
+        .catch((err) => {
+          warning(err);
+        })
+        .finally(() => {
+          closeLoad();
+        });
+    },
+  },
 ]);
 const generateFormRef = ref();
 const generateMerge = (type: string) => {
@@ -459,16 +469,16 @@ const generateMerge = (type: string) => {
       }
       let isError = false;
       download("/code-generator/generator/code/convertToCode", dataForm)
-          .catch((err) => {
-            isError = true;
-            warning(err);
-          })
-          .finally(() => {
-            closeLoad();
-            if (type != "continue" && !isError) {
-              closeAction();
-            }
-          });
+        .catch((err) => {
+          isError = true;
+          warning(err);
+        })
+        .finally(() => {
+          closeLoad();
+          if (type != "continue" && !isError) {
+            closeAction();
+          }
+        });
     }
   });
 };
@@ -478,48 +488,56 @@ const closeAction = () => {
 </script>
 <template>
   <star-horse-dialog
-      :isShowBtnContinue="true"
-      :dialogVisible="dialogProps.editVisible"
-      :dialogProps="dialogProps"
-      :selfFunc="true"
-      @merge="generateMerge"
-      @closeAction="closeAction"
+    :isShowBtnContinue="true"
+    :dialogVisible="dialogProps.editVisible"
+    :dialogProps="dialogProps"
+    :selfFunc="true"
+    @merge="generateMerge"
+    @closeAction="closeAction"
   >
     <star-horse-form
-        ref="generateFormRef"
-        @refresh="codeGeneratorRef?.loadByPage()"
-        :compUrl="dataUrl"
-        :fieldList="tableFieldList"
-        :rules="rules"
+      ref="generateFormRef"
+      @refresh="codeGeneratorRef?.loadByPage()"
+      :compUrl="dataUrl"
+      :fieldList="tableFieldList"
+      :rules="rules"
     />
   </star-horse-dialog>
   <star-horse-dialog
-      :dialog-visible="dialogProps.viewVisible"
-      :dialogProps="dialogProps"
-      
-      :source="3"
+    :dialog-visible="dialogProps.viewVisible"
+    :dialogProps="dialogProps"
+    :source="3"
   >
-    <star-horse-data-view :dataFormat="dataFormat" :field-list="tableFieldList" :compUrl="dataUrl"/>
+    <star-horse-data-view
+      :dataFormat="dataFormat"
+      :field-list="tableFieldList"
+      :compUrl="dataUrl"
+    />
   </star-horse-dialog>
   <div class="search-content">
-    <div class="search_btn" :style="{ 'flex-direction': Config.buttonStyle.value == 'line'? 'column' : 'row' }">
+    <div
+      class="search_btn"
+      :style="{
+        'flex-direction': Config.buttonStyle.value == 'line' ? 'column' : 'row',
+      }"
+    >
       <star-horse-search-comp
-          @searchData="(data: any) => codeGeneratorRef?.createSearchParams(data)"
-          :formData="searchFormData"
-          :compUrl="dataUrl"
+        @searchData="(data: any) => codeGeneratorRef?.createSearchParams(data)"
+        :formData="searchFormData"
+        :compUrl="dataUrl"
       />
     </div>
   </div>
   <el-card class="inner_content">
     <star-horse-table-comp
-        ref="codeGeneratorRef"
-        :fieldList="tableFieldList"
-        :primaryKey="primaryKey"
-        :compUrl="dataUrl"
-        :orderBy="orderBy"
-        :extendBtns="extendBtns"
-        :dataFormat="dataFormat"
-        @selectItem="selectItemFun"
+      ref="codeGeneratorRef"
+      :fieldList="tableFieldList"
+      :primaryKey="primaryKey"
+      :compUrl="dataUrl"
+      :orderBy="orderBy"
+      :extendBtns="extendBtns"
+      :dataFormat="dataFormat"
+      @selectItem="selectItemFun"
     />
   </el-card>
 </template>

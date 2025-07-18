@@ -10,28 +10,44 @@ import {
   SearchParams,
   SelectOption,
   UserFuncInfo,
-  warning
+  warning,
 } from "star-horse-lowcode";
-import {loadDepartmentInfo} from "@/api/star_horse_utils";
-import {Config} from "@/api/settings";
-import {nextTick, onActivated, onDeactivated, onMounted, provide, reactive, ref} from "vue";
-import {TreeNodeData} from "element-plus/es/components/tree-v2/src/types";
+import { loadDepartmentInfo } from "@/api/star_horse_utils";
+import { Config } from "@/api/settings";
+import {
+  nextTick,
+  onActivated,
+  onDeactivated,
+  onMounted,
+  provide,
+  reactive,
+  ref,
+} from "vue";
+import { TreeNodeData } from "element-plus/es/components/tree-v2/src/types";
 
-const dataUrl: ApiUrls = apiInstance("system-config", "system/departmentEntity");
+const dataUrl: ApiUrls = apiInstance(
+  "system-config",
+  "system/departmentEntity",
+);
 let departmentList = ref<SelectOption[]>([]);
 let companyList = ref<Array<any>>([]);
 const searchFormData = reactive<SearchFields>({
   fieldList: [
-    {label: "部门名称", defaultVisible: true, fieldName: "deptName",  matchType: "lk"},
-    {label: "部门编码", fieldName: "deptCode",  matchType: "lk"}
-  ]
+    {
+      label: "部门名称",
+      defaultVisible: true,
+      fieldName: "deptName",
+      matchType: "lk",
+    },
+    { label: "部门编码", fieldName: "deptCode", matchType: "lk" },
+  ],
 });
 const tableFieldList = reactive<PageFieldInfo>({
   fieldList: [
     {
       label: "主键",
       fieldName: "idDepartment",
-      type: "long"
+      type: "long",
     },
     {
       label: "上级部门",
@@ -41,12 +57,12 @@ const tableFieldList = reactive<PageFieldInfo>({
       preps: {
         checkStrictly: true,
         filterable: "Y",
-        data:departmentList,
+        data: departmentList,
         props: {
           label: "deptName",
-          value: "idDepartment"
-        }
-      }
+          value: "idDepartment",
+        },
+      },
     },
     [
       {
@@ -55,20 +71,20 @@ const tableFieldList = reactive<PageFieldInfo>({
 
         required: true,
         formVisible: true,
-        listVisible: true
+        listVisible: true,
       },
       {
         label: "部门编码",
         fieldName: "deptCode",
 
         required: true,
-        
+
         formVisible: true,
         listVisible: true,
-        preps:{
+        preps: {
           editdisabled: true,
-        }
-      }
+        },
+      },
     ],
     [
       {
@@ -81,10 +97,10 @@ const tableFieldList = reactive<PageFieldInfo>({
         listVisible: true,
         preps: {
           needField: [
-            {sourceField: "name", distField: "deptMasterName"},
-            {sourceField: "idEmployeeInfo", distField: "deptMaster"}
-          ]
-        }
+            { sourceField: "name", distField: "deptMasterName" },
+            { sourceField: "idEmployeeInfo", distField: "deptMaster" },
+          ],
+        },
       },
       {
         label: "分管领导",
@@ -96,18 +112,18 @@ const tableFieldList = reactive<PageFieldInfo>({
         listVisible: true,
         preps: {
           needField: [
-            {sourceField: "name", distField: "manageMasterName"},
-            {sourceField: "idEmployeeInfo", distField: "manageMaster"}
-          ]
-        }
-      }
+            { sourceField: "name", distField: "manageMasterName" },
+            { sourceField: "idEmployeeInfo", distField: "manageMaster" },
+          ],
+        },
+      },
     ],
     {
       label: "所属公司",
       disabled: true,
       fieldName: "companyName",
 
-      listVisible: true
+      listVisible: true,
     },
     [
       {
@@ -118,85 +134,79 @@ const tableFieldList = reactive<PageFieldInfo>({
         formVisible: true,
         preps: {
           checkStrictly: true,
-          data:companyList,
+          data: companyList,
           props: {
             label: "name",
-            value: "idCompanyDefine"
-          }
-        }
+            value: "idCompanyDefine",
+          },
+        },
       },
       {
         label: "部门电话",
         fieldName: "deptPhone",
 
         formVisible: true,
-        listVisible: true
-      }
+        listVisible: true,
+      },
     ],
     {
       label: "部门职责",
       fieldName: "deptDesc",
       type: "textarea",
       formVisible: true,
-      listVisible: true
+      listVisible: true,
     },
     {
       label: "创建人",
       disabled: true,
       fieldName: "createdBy",
-
     },
     {
       label: "修改人",
       disabled: true,
       fieldName: "updatedBy",
-
     },
     {
       label: "创建日期",
       disabled: true,
       fieldName: "createdTime",
       type: "date",
-      listVisible: true
+      listVisible: true,
     },
     {
       label: "修改日期",
       disabled: true,
       fieldName: "updatedTime",
-      type: "date"
+      type: "date",
     },
     {
       label: "数据版本号",
       fieldName: "version",
-      type: "number"
+      type: "number",
     },
     {
       label: "是否已逻辑",
       fieldName: "isDel",
-      type: "number"
+      type: "number",
     },
     {
       label: "数据编号",
       fieldName: "dataNo",
-
     },
     {
       label: "状态码",
       fieldName: "statusCode",
-
     },
     {
       label: "状态码名称",
       fieldName: "statusName",
-
     },
     {
       label: "国际码",
       fieldName: "local",
-
-    }
+    },
   ],
-  stopAutoLoad: true
+  stopAutoLoad: true,
 });
 const primaryKey = "idDepartment";
 const departmentRef = ref();
@@ -215,8 +225,8 @@ let extendBtns = ref<UserFuncInfo[]>([
       dialogProps.editVisible = true;
       await nextTick();
       // assignRoleCompanyRef.value.setSelectData(row.companyList);
-    }
-  }
+    },
+  },
 ]);
 
 const dataFormat = (_name: string, cellValue: object): any => {
@@ -225,22 +235,28 @@ const dataFormat = (_name: string, cellValue: object): any => {
 const activated = () => {
   initData();
 };
-const deactivated = () => {
-};
+const deactivated = () => {};
 const initData = async () => {
-  let result = await loadData("/system-config/system/companyDefine/getAllByCondition", {});
+  let result = await loadData(
+    "/system-config/system/companyDefine/getAllByCondition",
+    {},
+  );
   if (result.error) {
     warning(result.error);
     return;
   }
   companyList.value = result.data;
-  departmentList.value = await loadDepartmentInfo([{propertyName: "isDel", value: 0}]);
+  departmentList.value = await loadDepartmentInfo([
+    { propertyName: "isDel", value: 0 },
+  ]);
 };
 let currentUserGroupId = ref<number>(0);
 let defaultCondition = ref<SearchParams[]>([]);
 const companyChange = (data: TreeNodeData, _checked: boolean) => {
   currentUserGroupId.value = data["idCompanyDefine"];
-  defaultCondition.value = [createCondition("b.idCompanyDefine", currentUserGroupId.value)];
+  defaultCondition.value = [
+    createCondition("b.idCompanyDefine", currentUserGroupId.value),
+  ];
   departmentRef.value.createSearchParams(defaultCondition.value);
 };
 onMounted(async () => {
@@ -255,55 +271,70 @@ onDeactivated(() => {
 </script>
 <style lang="scss" scoped></style>
 <template>
-  <star-horse-dialog :isShowBtnContinue="true" :dialogVisible="dialogProps.editVisible" :dialogProps="dialogProps">
+  <star-horse-dialog
+    :isShowBtnContinue="true"
+    :dialogVisible="dialogProps.editVisible"
+    :dialogProps="dialogProps"
+  >
     <star-horse-form
-        @refresh="departmentRef?.loadByPage()"
-        :compUrl="dataUrl"
-        :fieldList="tableFieldList"
-        :outerFormData="outerForm"
-        :rules="rules"
+      @refresh="departmentRef?.loadByPage()"
+      :compUrl="dataUrl"
+      :fieldList="tableFieldList"
+      :outerFormData="outerForm"
+      :rules="rules"
     />
   </star-horse-dialog>
   <star-horse-dialog
-      :dialog-visible="dialogProps.viewVisible"
-      :dialogProps="dialogProps"
-      
-      :source="3"
+    :dialog-visible="dialogProps.viewVisible"
+    :dialogProps="dialogProps"
+    :source="3"
   >
-    <star-horse-data-view :dataFormat="dataFormat" :field-list="tableFieldList" :compUrl="dataUrl"/>
+    <star-horse-data-view
+      :dataFormat="dataFormat"
+      :field-list="tableFieldList"
+      :compUrl="dataUrl"
+    />
   </star-horse-dialog>
   <el-card class="inner_content">
     <el-splitter>
       <el-splitter-panel collapsible size="240" min="100" max="500">
         <star-horse-tree
-            v-model:tree-datas="companyList"
-            :expand="true"
-            treeTitle="公司列表"
-            @selectData="companyChange"
-            :preps="{
-          label: 'name',
-          value: 'idCompanyDefine'
-        }"
+          v-model:tree-datas="companyList"
+          :expand="true"
+          treeTitle="公司列表"
+          @selectData="companyChange"
+          :preps="{
+            label: 'name',
+            value: 'idCompanyDefine',
+          }"
         />
       </el-splitter-panel>
       <el-splitter-panel>
-        <el-card class="inner_content ">
+        <el-card class="inner_content">
           <div class="search-content">
-            <div class="search_btn" :style="{ 'flex-direction': Config.buttonStyle.value == 'line'? 'column' : 'row' }">
+            <div
+              class="search_btn"
+              :style="{
+                'flex-direction':
+                  Config.buttonStyle.value == 'line' ? 'column' : 'row',
+              }"
+            >
               <star-horse-search-comp
-                  @searchData="(data: any) => departmentRef?.createSearchParams(data)"
-                  :formData="searchFormData"
-                  :compUrl="dataUrl"
+                @searchData="
+                  (data: any) => departmentRef?.createSearchParams(data)
+                "
+                :formData="searchFormData"
+                :compUrl="dataUrl"
               />
             </div>
           </div>
           <star-horse-table-comp
-              ref="departmentRef"
-              :fieldList="tableFieldList"
-              :primaryKey="primaryKey"
-              :compUrl="dataUrl"
-              :extendBtns="extendBtns"
-              :dataFormat="dataFormat"
+            ref="departmentRef"
+            :fieldList="tableFieldList"
+            :primaryKey="primaryKey"
+            :compUrl="dataUrl"
+            :extendBtns="extendBtns"
+            :dataFormat="dataFormat"
           />
         </el-card>
       </el-splitter-panel>

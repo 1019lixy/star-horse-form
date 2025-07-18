@@ -1,18 +1,16 @@
 <script setup lang="ts" name="ContinusInstanceDetail">
-
 import { useRouter } from "vue-router";
 
 const router = useRouter();
 const execLine = () => {
   console.log("执行");
 };
-const nodeDetail = (id: number) => {
-};
+const nodeDetail = (id: number) => {};
 const goBack = () => {
   router.push({
-    path: "/continuous/ContinusInstanceConfig"
+    path: "/continuous/ContinusInstanceConfig",
   });
-}
+};
 </script>
 
 <template>
@@ -31,7 +29,14 @@ const goBack = () => {
       <span>#71992</span>
     </div>
     <div class="nav-bar-right">
-      <el-button @click="execLine" title="" style="background: var(--star-horse-style); color: var(--star-horse-white)">
+      <el-button
+        @click="execLine"
+        title=""
+        style="
+          background: var(--star-horse-style);
+          color: var(--star-horse-white);
+        "
+      >
         <star-horse-icon icon-class="run" color="var(--star-horse-white)" />
         <el-tooltip content="执行">执行</el-tooltip>
       </el-button>

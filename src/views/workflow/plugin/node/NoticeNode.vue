@@ -1,11 +1,18 @@
 <template>
   <div class="flow-row">
     <div class="flow-box">
-      <div class="flow-item" :class="{ 'flow-item-active': currentNode.id == node.id }" @click.stop="selectNode">
+      <div
+        class="flow-item"
+        :class="{ 'flow-item-active': currentNode.id == node.id }"
+        @click.stop="selectNode"
+      >
         <div class="flow-node-box" :class="{ 'has-error': node.error }">
           <div class="node-name" :class="nameClass(node, 'node-tz')">
-            <EditName :node="node"/>
-            <star-horse-icon icon-class="notice_node" style="margin-left: 10px"/>
+            <EditName :node="node" />
+            <star-horse-icon
+              icon-class="notice_node"
+              style="margin-left: 10px"
+            />
           </div>
           <div class="node-main">
             <span v-if="node.content">
@@ -17,28 +24,43 @@
             <span v-else class="hint-title">设置此节点</span>
           </div>
           <!-- 错误提示 -->
-          <el-tooltip :content="node.errorMsg" placement="top" v-if="node.error">
-            <star-horse-icon icon-class="exclamation-circle" theme="filled" class="node-error"/>
+          <el-tooltip
+            :content="node.errorMsg"
+            placement="top"
+            v-if="node.error"
+          >
+            <star-horse-icon
+              icon-class="exclamation-circle"
+              theme="filled"
+              class="node-error"
+            />
           </el-tooltip>
           <div v-if="!readable && !node.deletable" class="close-icon">
-            <star-horse-icon iconClass="close" @click.stop="node.deletable = true"/>
+            <star-horse-icon
+              iconClass="close"
+              @click.stop="node.deletable = true"
+            />
           </div>
           <!-- 删除提示 -->
-          <DeleteConfirm :node="node"/>
+          <DeleteConfirm :node="node" />
         </div>
       </div>
-      <AddNode :node="node" :nodeType="FlowNodeEnums.EVENT_NODE" :readable="readable"/>
+      <AddNode
+        :node="node"
+        :nodeType="FlowNodeEnums.EVENT_NODE"
+        :readable="readable"
+      />
     </div>
   </div>
 </template>
 <script setup lang="ts">
-import {computed, onMounted} from "vue";
-import {useFlowDesignStore} from "@/store/FlowDesign";
-import {closeLoad, piniaInstance} from "star-horse-lowcode";
-import {FlowNodeEnums} from "@/views/workflow/plugin/enums/FlowNodeEnums";
+import { computed, onMounted } from "vue";
+import { useFlowDesignStore } from "@/store/FlowDesign";
+import { closeLoad, piniaInstance } from "star-horse-lowcode";
+import { FlowNodeEnums } from "@/views/workflow/plugin/enums/FlowNodeEnums";
 
 defineOptions({
-  name: "NoticeNode"
+  name: "NoticeNode",
 });
 const flowDesign = useFlowDesignStore(piniaInstance);
 let currentNode = computed(() => flowDesign.currentNode);
@@ -47,12 +69,12 @@ const props = defineProps({
     type: Object,
     default: function () {
       return {};
-    }
+    },
   },
   readable: {
     type: Boolean,
-    default: false
-  }
+    default: false,
+  },
 });
 const emits = defineEmits(["selectNode"]);
 props.node.error = computed(() => {
@@ -88,7 +110,7 @@ let nameClass = computed(() => {
     return {
       "node-status-not": node.statusCode == 0,
       "node-status-current": node.statusCode == 1,
-      "node-status-complete": node.statusCode == 2
+      "node-status-complete": node.statusCode == 2,
     };
   };
 });

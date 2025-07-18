@@ -1,22 +1,24 @@
 <script setup lang="ts">
-import {computed, nextTick, onMounted, ref, unref, watch} from "vue";
-import type {RouteLocationNormalizedLoaded, RouterLinkProps} from "vue-router";
-import {useRouter} from "vue-router";
-import {useNavBarListStore} from "@/store/NavBarList";
-import {useScrollTo} from "@/components/tags/useScrollTo";
-import {useTemplateRefsList} from "@vueuse/core";
+import { computed, nextTick, onMounted, ref, unref, watch } from "vue";
+import type {
+  RouteLocationNormalizedLoaded,
+  RouterLinkProps,
+} from "vue-router";
+import { useRouter } from "vue-router";
+import { useNavBarListStore } from "@/store/NavBarList";
+import { useScrollTo } from "@/components/tags/useScrollTo";
+import { useTemplateRefsList } from "@vueuse/core";
 import piniaCompInstance from "@/store";
 
-const {currentRoute, push, replace} = useRouter();
+const { currentRoute, push, replace } = useRouter();
 const viewListStore = useNavBarListStore(piniaCompInstance);
 const navTagsList = computed(() => viewListStore.navTagsList);
 // 初始化tag
-const initTags = () => {
-};
+const initTags = () => {};
 const selectedTag = ref<RouteLocationNormalizedLoaded>();
 // 新增tag
 const addTags = () => {
-  const {name} = unref(currentRoute);
+  const { name } = unref(currentRoute);
   if (name) {
     selectedTag.value = unref(currentRoute);
     viewListStore.setCurrentView(currentRoute.value);
@@ -37,7 +39,9 @@ const closeAllTags = () => {
 // 关闭其他
 const closeOthersTags = () => {
   let path = unref(selectedTag)?.path;
-  let fData: any = navTagsList.value.find((item: RouteLocationNormalizedLoaded) => item.path == path);
+  let fData: any = navTagsList.value.find(
+    (item: RouteLocationNormalizedLoaded) => item.path == path,
+  );
   viewListStore.clearAll();
   if (fData?.path) {
     viewListStore.addNavBar(fData);
@@ -49,12 +53,12 @@ const refreshSelectedTag = async (view?: RouteLocationNormalizedLoaded) => {
   if (!view) {
     return;
   }
-  const {fullPath, query} = view;
+  const { fullPath, query } = view;
   query["redirectPath"] = fullPath;
   await nextTick();
   await replace({
     path: "/redirect",
-    query: query
+    query: query,
   });
 };
 // 关闭左侧
@@ -113,28 +117,36 @@ const moveToTarget = (currentTag: RouteLocationNormalizedLoaded) => {
     firstTag = tagList[0];
     lastTag = tagList[tagList.length - 1];
   }
-  if ((firstTag?.to as RouteLocationNormalizedLoaded).fullPath === currentTag.fullPath) {
+  if (
+    (firstTag?.to as RouteLocationNormalizedLoaded).fullPath ===
+    currentTag.fullPath
+  ) {
     // 直接滚动到0的位置
-    const {start} = useScrollTo({
+    const { start } = useScrollTo({
       el: wrap$!,
       position: "scrollLeft",
       to: 0,
-      duration: 500
+      duration: 500,
     });
     start();
-  } else if ((lastTag?.to as RouteLocationNormalizedLoaded).fullPath === currentTag.fullPath) {
+  } else if (
+    (lastTag?.to as RouteLocationNormalizedLoaded).fullPath ===
+    currentTag.fullPath
+  ) {
     // 滚动到最后的位置
-    const {start} = useScrollTo({
+    const { start } = useScrollTo({
       el: wrap$!,
       position: "scrollLeft",
       to: wrap$!.scrollWidth - wrap$!.offsetWidth,
-      duration: 500
+      duration: 500,
     });
     start();
   } else {
     // find preTag and nextTag
     const currentIndex: number = tagList.findIndex(
-        (item) => (item?.to as RouteLocationNormalizedLoaded).fullPath === currentTag.fullPath
+      (item) =>
+        (item?.to as RouteLocationNormalizedLoaded).fullPath ===
+        currentTag.fullPath,
     );
     const tgsRefs = document.getElementsByClassName("tags-item");
     const prevTag = tgsRefs[currentIndex - 1] as HTMLElement;
@@ -144,19 +156,19 @@ const moveToTarget = (currentTag: RouteLocationNormalizedLoaded) => {
     // the tag's offsetLeft before of prevTag
     const beforePrevTagOffsetLeft = prevTag.offsetLeft - 4;
     if (afterNextTagOffsetLeft > unref(scrollLeftNumber) + wrap$!.offsetWidth) {
-      const {start} = useScrollTo({
+      const { start } = useScrollTo({
         el: wrap$!,
         position: "scrollLeft",
         to: afterNextTagOffsetLeft - wrap$!.offsetWidth,
-        duration: 500
+        duration: 500,
       });
       start();
     } else if (beforePrevTagOffsetLeft < unref(scrollLeftNumber)) {
-      const {start} = useScrollTo({
+      const { start } = useScrollTo({
         el: wrap$!,
         position: "scrollLeft",
         to: beforePrevTagOffsetLeft,
-        duration: 500
+        duration: 500,
       });
       start();
     }
@@ -169,7 +181,10 @@ const isActive = (route: RouteLocationNormalizedLoaded): boolean => {
 // 所有右键菜单组件的元素
 const itemRefs = useTemplateRefsList<InstanceType<any>>();
 // 右键菜单装填改变的时候
-const visibleChange = (visible: boolean, tagItem: RouteLocationNormalizedLoaded) => {
+const visibleChange = (
+  visible: boolean,
+  tagItem: RouteLocationNormalizedLoaded,
+) => {
   selectedTag.value = tagItem;
   viewListStore.setCurrentView(tagItem);
   if (visible) {
@@ -191,11 +206,11 @@ const scroll = (scroll: any) => {
 // 移动到某个位置
 const move = (to: number) => {
   const wrap$ = unref(scrollbarRef)?.wrapRef;
-  const {start} = useScrollTo({
+  const { start } = useScrollTo({
     el: wrap$!,
     position: "scrollLeft",
     to: unref(scrollLeftNumber) + to,
-    duration: 500
+    duration: 500,
   });
   start();
 };
@@ -204,35 +219,39 @@ onMounted(() => {
   addTags();
 });
 watch(
-    () => currentRoute.value,
-    () => {
-      addTags();
-      moveToCurrentTag();
-    }
+  () => currentRoute.value,
+  () => {
+    addTags();
+    moveToCurrentTag();
+  },
 );
 </script>
 <template>
   <div class="prefixCls">
     <el-tooltip content="向左移动">
       <span class="tool" @click="move(-200)">
-        <star-horse-icon icon-class="arrow-double-left" size="16px" style="color: var(--star-horse-style)"
-                         cursor="pointer"/>
+        <star-horse-icon
+          icon-class="arrow-double-left"
+          size="16px"
+          style="color: var(--star-horse-style)"
+          cursor="pointer"
+        />
       </span>
     </el-tooltip>
     <div class="overflow-hidden">
       <ElScrollbar ref="scrollbarRef" style="height: 100%" @scroll="scroll">
         <div class="flex items-center relative z-999999">
           <ContextMenu
-              :ref="itemRefs.set"
-              v-for="item in navTagsList"
-              :schema="[
+            :ref="itemRefs.set"
+            v-for="item in navTagsList"
+            :schema="[
               {
                 icon: 'refresh',
                 label: '刷新页面',
                 disabled: false,
                 command: () => {
                   refreshSelectedTag(item);
-                }
+                },
               },
               {
                 icon: 'close',
@@ -240,7 +259,7 @@ watch(
                 disabled: item.path == '/home',
                 command: () => {
                   closeSelectedTag(item);
-                }
+                },
               },
               {
                 divided: true,
@@ -249,7 +268,7 @@ watch(
                 disabled: false,
                 command: () => {
                   closeLeftTags();
-                }
+                },
               },
               {
                 icon: 'list-right',
@@ -257,7 +276,7 @@ watch(
                 disabled: false,
                 command: () => {
                   closeRightTags();
-                }
+                },
               },
               {
                 divided: true,
@@ -266,39 +285,47 @@ watch(
                 disabled: false,
                 command: () => {
                   closeOthersTags();
-                }
+                },
               },
               {
                 icon: 'close-all',
                 label: '关闭所有',
                 command: () => {
                   closeAllTags();
-                }
-              }
+                },
+              },
             ]"
-              :tag-item="item"
-              :key="item.path"
-              @visible-change="visibleChange"
-              :class="['tags-item', $route.path === item.path ? 'is-active' : '']"
+            :tag-item="item"
+            :key="item.path"
+            @visible-change="visibleChange"
+            :class="['tags-item', $route.path === item.path ? 'is-active' : '']"
           >
             <div class="flex items-center justify-between">
-              <router-link :ref="tagLinksRefs.set" :to="{ ...item }" custom v-slot="{ navigate }">
+              <router-link
+                :ref="tagLinksRefs.set"
+                :to="{ ...item }"
+                custom
+                v-slot="{ navigate }"
+              >
                 <div @click="navigate" class="tags">
                   <el-icon
-                      :style="{
-                      color: $route.path === item.path ? 'var(--star-horse-white)' : '',
-                      size: '18px'
+                    :style="{
+                      color:
+                        $route.path === item.path
+                          ? 'var(--star-horse-white)'
+                          : '',
+                      size: '18px',
                     }"
                   >
-                    <component :is="item.meta.menuIcon || 'document'"/>
+                    <component :is="item.meta.menuIcon || 'document'" />
                   </el-icon>
                   &nbsp;{{ item.meta.title }}
                   <star-horse-icon
-                      v-if="item.path != '/home'"
-                      icon-class="close"
-                      class="close-icon"
-                      cursor="pointer"
-                      @click.prevent.stop="closeSelectedTag(item)"
+                    v-if="item.path != '/home'"
+                    icon-class="close"
+                    class="close-icon"
+                    cursor="pointer"
+                    @click.prevent.stop="closeSelectedTag(item)"
                   />
                 </div>
               </router-link>
@@ -309,25 +336,34 @@ watch(
     </div>
     <el-tooltip content="向右移动">
       <span class="tool" @click="move(200)">
-        <star-horse-icon icon-class="arrow-double-right" size="16px" style="color: var(--star-horse-style)"
-                         cursor="pointer"/>
+        <star-horse-icon
+          icon-class="arrow-double-right"
+          size="16px"
+          style="color: var(--star-horse-style)"
+          cursor="pointer"
+        />
       </span>
     </el-tooltip>
     <el-tooltip content="刷新菜单">
       <span class="tool" @click="refreshSelectedTag(selectedTag)">
-        <star-horse-icon icon-class="refresh" size="16px" style="color: var(--star-horse-style)" cursor="pointer"/>
+        <star-horse-icon
+          icon-class="refresh"
+          size="16px"
+          style="color: var(--star-horse-style)"
+          cursor="pointer"
+        />
       </span>
     </el-tooltip>
     <ContextMenu
-        trigger="click"
-        :schema="[
+      trigger="click"
+      :schema="[
         {
           icon: 'refresh',
           label: '刷新页面',
           disabled: false,
           command: () => {
             refreshSelectedTag(selectedTag);
-          }
+          },
         },
         {
           icon: 'close',
@@ -335,7 +371,7 @@ watch(
           disabled: currentRoute.path == '/home',
           command: () => {
             closeSelectedTag(selectedTag!);
-          }
+          },
         },
         {
           divided: true,
@@ -344,7 +380,7 @@ watch(
           disabled: false,
           command: () => {
             closeLeftTags();
-          }
+          },
         },
         {
           icon: 'list-right',
@@ -352,7 +388,7 @@ watch(
           disabled: false,
           command: () => {
             closeRightTags();
-          }
+          },
         },
         {
           divided: true,
@@ -361,19 +397,24 @@ watch(
           disabled: false,
           command: () => {
             closeOthersTags();
-          }
+          },
         },
         {
           icon: 'close-all',
           label: '关闭所有',
           command: () => {
             closeAllTags();
-          }
-        }
+          },
+        },
       ]"
     >
       <span class="tool">
-        <star-horse-icon icon-class="menu" size="16px" style="color: var(--star-horse-style)" cursor="pointer"/>
+        <star-horse-icon
+          icon-class="menu"
+          size="16px"
+          style="color: var(--star-horse-style)"
+          cursor="pointer"
+        />
       </span>
     </ContextMenu>
   </div>

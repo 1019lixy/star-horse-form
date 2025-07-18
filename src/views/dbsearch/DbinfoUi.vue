@@ -11,31 +11,41 @@ import {
   SearchFields,
   success,
   useGlobalConfigStore,
-  warning
+  warning,
 } from "star-horse-lowcode";
 import { Config } from "@/api/settings";
 
 const dataUrl: ApiUrls = apiInstance("userdb-manage", "dbsearch/dbinfoEntity");
 let configStore = useGlobalConfigStore(piniaInstance);
-let compSize = computed(() => configStore.configFormInfo?.inputSize || Config.compSize);
+let compSize = computed(
+  () => configStore.configFormInfo?.inputSize || Config.compSize,
+);
 let dbTypeList = ref<Array<any>>([]);
 const searchFormData = reactive<SearchFields>({
   fieldList: [
     {
-      label: "数据库类型", fieldName: "dbType", type: "select", defaultVisible: true,
+      label: "数据库类型",
+      fieldName: "dbType",
+      type: "select",
+      defaultVisible: true,
       preps: {
-        values: dbTypeList
-      }
+        values: dbTypeList,
+      },
     },
-    { label: "数据库名称", fieldName: "dbName", defaultVisible: true, matchType: "lk" }
-  ]
+    {
+      label: "数据库名称",
+      fieldName: "dbName",
+      defaultVisible: true,
+      matchType: "lk",
+    },
+  ],
 });
 const tableFieldList = reactive<PageFieldInfo>({
   fieldList: [
     {
       label: "主键",
       fieldName: "idDbinfo",
-      type: "long"
+      type: "long",
     },
     [
       {
@@ -46,13 +56,15 @@ const tableFieldList = reactive<PageFieldInfo>({
         formVisible: true,
         actions: {
           change: (val: any) => {
-            val["port"] = dbTypeList.value.find((item) => item.value == val["dbType"])?.port || val["port"];
-          }
+            val["port"] =
+              dbTypeList.value.find((item) => item.value == val["dbType"])
+                ?.port || val["port"];
+          },
         },
         listVisible: true,
         preps: {
-          values: dbTypeList
-        }
+          values: dbTypeList,
+        },
       },
       {
         label: "数据库名称/实例",
@@ -68,11 +80,11 @@ const tableFieldList = reactive<PageFieldInfo>({
             defaultValue: "N",
             formVisible: true,
             preps: {
-              values: [{ name: "不存在创建", value: "Y" }]
-            }
-          }
-        ]
-      }
+              values: [{ name: "不存在创建", value: "Y" }],
+            },
+          },
+        ],
+      },
     ],
     [
       {
@@ -81,7 +93,7 @@ const tableFieldList = reactive<PageFieldInfo>({
 
         formVisible: true,
         required: true,
-        listVisible: true
+        listVisible: true,
       },
       {
         label: "数据库端口",
@@ -89,8 +101,8 @@ const tableFieldList = reactive<PageFieldInfo>({
         type: "number",
         formVisible: true,
         required: true,
-        listVisible: true
-      }
+        listVisible: true,
+      },
     ],
     [
       {
@@ -99,7 +111,7 @@ const tableFieldList = reactive<PageFieldInfo>({
 
         formVisible: true,
         required: true,
-        listVisible: true
+        listVisible: true,
       },
       {
         label: "密码",
@@ -107,79 +119,73 @@ const tableFieldList = reactive<PageFieldInfo>({
         type: "password",
         formVisible: true,
         required: true,
-        listVisible: true
-      }
+        listVisible: true,
+      },
     ],
     {
       label: "禁用操作权限",
       fieldName: "exclusions",
       type: "textarea",
       formVisible: true,
-      listVisible: true
+      listVisible: true,
     },
     {
       label: "数据库描述",
       fieldName: "dbComment",
       type: "textarea",
       formVisible: true,
-      listVisible: true
+      listVisible: true,
     },
     {
       label: "创建人",
       disabled: true,
       fieldName: "createdBy",
-
     },
     {
       label: "修改人",
       disabled: true,
       fieldName: "updatedBy",
-
     },
     {
       label: "创建日期",
       disabled: true,
       fieldName: "createdTime",
-      type: "date"
+      type: "date",
     },
     {
       label: "修改日期",
       disabled: true,
       fieldName: "updatedTime",
-      type: "date"
+      type: "date",
     },
     {
       label: "数据版本号",
       fieldName: "version",
-      type: "number"
+      type: "number",
     },
     {
       label: "是否已逻辑",
       fieldName: "isDel",
-      type: "number"
+      type: "number",
     },
     {
       label: "数据编号",
       fieldName: "dataNo",
-
     },
     {
       label: "状态码",
       fieldName: "statusCode",
-
     },
     {
       label: "状态码名称",
       fieldName: "statusName",
-
     },
     {
       label: "国际码",
       fieldName: "local",
-
-    }
+    },
   ],
-  batchFieldList: []
+  batchFieldList: [],
 });
 const primaryKey = "idDbinfo";
 const dbinfoRef = ref();
@@ -189,13 +195,19 @@ const dialogProps = dialogPreps();
 provide("dialogProps", dialogProps);
 
 const loadDbTypeList = async () => {
-  let { data, error } = await loadGetData("/userdb-manage/dbsearch/dbinfoEntity/dbType");
+  let { data, error } = await loadGetData(
+    "/userdb-manage/dbsearch/dbinfoEntity/dbType",
+  );
   if (error) {
     warning(error);
     return;
   }
   for (let val in data) {
-    let sdata: any = { name: data[val].dbTypeName, value: data[val].dbTypeCode, port: data[val].dbDefaultPort };
+    let sdata: any = {
+      name: data[val].dbTypeName,
+      value: data[val].dbTypeCode,
+      port: data[val].dbDefaultPort,
+    };
     dbTypeList.value.push(sdata);
   }
 };
@@ -217,7 +229,10 @@ const validDb = async () => {
     return;
   }
   let data = dbinfoFormRef.value.getFormData().value;
-  let resultData = await loadData("/userdb-manage/dbsearch/dbinfoEntity/validDbInfo", data);
+  let resultData = await loadData(
+    "/userdb-manage/dbsearch/dbinfoEntity/validDbInfo",
+    data,
+  );
   if (resultData.error) {
     warning(resultData.error);
     return;
@@ -234,10 +249,19 @@ onMounted(() => {
 </script>
 <style lang="scss" scoped></style>
 <template>
-  <star-horse-dialog :isShowBtnContinue="true" :dialogVisible="dialogProps.editVisible" :compSize="compSize"
-    :dialogProps="dialogProps">
-    <star-horse-form @refresh="dbinfoRef?.loadByPage()" :compUrl="dataUrl" :fieldList="tableFieldList" :rules="rules"
-      ref="dbinfoFormRef" />
+  <star-horse-dialog
+    :isShowBtnContinue="true"
+    :dialogVisible="dialogProps.editVisible"
+    :compSize="compSize"
+    :dialogProps="dialogProps"
+  >
+    <star-horse-form
+      @refresh="dbinfoRef?.loadByPage()"
+      :compUrl="dataUrl"
+      :fieldList="tableFieldList"
+      :rules="rules"
+      ref="dbinfoFormRef"
+    />
     <template #extend>
       <el-button @click="validDb" type="primary" :size="compSize">
         <star-horse-icon icon-class="valid" color="var(--star-horse-white)" />
@@ -245,22 +269,39 @@ onMounted(() => {
       </el-button>
     </template>
   </star-horse-dialog>
-  <star-horse-dialog :dialog-visible="dialogProps.viewVisible" :dialogProps="dialogProps" :source="3">
-    <star-horse-data-view :dataFormat="dataFormat" :field-list="tableFieldList" :compUrl="dataUrl" />
+  <star-horse-dialog
+    :dialog-visible="dialogProps.viewVisible"
+    :dialogProps="dialogProps"
+    :source="3"
+  >
+    <star-horse-data-view
+      :dataFormat="dataFormat"
+      :field-list="tableFieldList"
+      :compUrl="dataUrl"
+    />
   </star-horse-dialog>
   <div class="search-content">
-    <div class="search_btn" >
-      <star-horse-search-comp @searchData="(data: any) => dbinfoRef?.createSearchParams(data)"
-        :formData="searchFormData" :compUrl="dataUrl" />
+    <div class="search_btn">
+      <star-horse-search-comp
+        @searchData="(data: any) => dbinfoRef?.createSearchParams(data)"
+        :formData="searchFormData"
+        :compUrl="dataUrl"
+      />
     </div>
   </div>
   <el-card class="inner_content">
-    <star-horse-table-comp ref="dbinfoRef" :fieldList="tableFieldList" :primaryKey="primaryKey" :compUrl="dataUrl"
+    <star-horse-table-comp
+      ref="dbinfoRef"
+      :fieldList="tableFieldList"
+      :primaryKey="primaryKey"
+      :compUrl="dataUrl"
       :order-by="[
         {
           fieldName: 'createdTime',
-          ascOrDesc: 'desc'
-        }
-      ]" :dataFormat="dataFormat" />
+          ascOrDesc: 'desc',
+        },
+      ]"
+      :dataFormat="dataFormat"
+    />
   </el-card>
 </template>

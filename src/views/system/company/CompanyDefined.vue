@@ -1,7 +1,14 @@
 <script setup lang="ts" name="CompanyDefine">
-import {onActivated, onDeactivated, onMounted, provide, reactive, ref} from "vue";
-import {Config} from "@/api/settings";
-import {getCustomerParam} from "@/utils/auth";
+import {
+  onActivated,
+  onDeactivated,
+  onMounted,
+  provide,
+  reactive,
+  ref,
+} from "vue";
+import { Config } from "@/api/settings";
+import { getCustomerParam } from "@/utils/auth";
 import {
   apiInstance,
   ApiUrls,
@@ -12,7 +19,7 @@ import {
   SearchFields,
   SelectOption,
   UserFuncInfo,
-  warning
+  warning,
 } from "star-horse-lowcode";
 
 //后端交互接口地址
@@ -33,16 +40,14 @@ const searchFormData = reactive<SearchFields>({
       fieldName: "name",
       defaultVisible: true,
       matchType: "lk",
-
     },
     {
       label: "公司编码",
       fieldName: "code",
       defaultVisible: true,
       matchType: "lk",
-
-    }
-  ]
+    },
+  ],
 });
 
 //页面属性
@@ -56,20 +61,19 @@ const tableFieldList = reactive<PageFieldInfo | any>({
 
         required: true,
         formVisible: true,
-        listVisible: true
+        listVisible: true,
       },
       {
         label: "公司编码",
         fieldName: "code",
 
-        
         required: true,
         formVisible: true,
         listVisible: true,
-        preps:{
+        preps: {
           editdisabled: true,
-        }
-      }
+        },
+      },
     ],
     [
       {
@@ -80,10 +84,10 @@ const tableFieldList = reactive<PageFieldInfo | any>({
         formVisible: true,
         listVisible: true,
         preps: {
-          data:companyCategoryList,
+          data: companyCategoryList,
           checkStrictly: true,
-          defaultExpandAll: "Y"
-        }
+          defaultExpandAll: "Y",
+        },
       },
       {
         label: "排序",
@@ -91,8 +95,8 @@ const tableFieldList = reactive<PageFieldInfo | any>({
         type: "number",
         required: true,
         formVisible: true,
-        listVisible: true
-      }
+        listVisible: true,
+      },
     ],
     [
       {
@@ -101,7 +105,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
 
         required: false,
         formVisible: true,
-        listVisible: true
+        listVisible: true,
       },
       {
         label: "父节点",
@@ -109,22 +113,22 @@ const tableFieldList = reactive<PageFieldInfo | any>({
         type: "tselect",
         formVisible: true,
         preps: {
-          data:companyList,
+          data: companyList,
           checkStrictly: true,
-          defaultExpandAll: "Y"
-        }
-      }
+          defaultExpandAll: "Y",
+        },
+      },
     ],
     {
       label: "备注",
       fieldName: "remark",
       type: "textarea",
       formVisible: true,
-      listVisible: true
-    }
+      listVisible: true,
+    },
   ],
   //默认查询条件
-  condition: [getCustomerParam()]
+  condition: [getCustomerParam()],
 });
 //校验
 const rules = {};
@@ -141,21 +145,32 @@ let extendBtns = ref<UserFuncInfo[]>([
     funcName: (row: any) => {
       outerForm.value["parentId"] = row[primaryKey];
       dialogProps.editVisible = true;
-    }
-  }
+    },
+  },
 ]);
 //初始化方法
 const initData = async () => {
-  let data = await loadData("/system-config/system/companyCategory/getAllByCondition", {});
+  let data = await loadData(
+    "/system-config/system/companyCategory/getAllByCondition",
+    {},
+  );
   if (data.error) {
     warning(data.error);
     return;
   }
-  companyCategoryList.value = createTree(data.data, "categoryCode", "categoryName", "");
+  companyCategoryList.value = createTree(
+    data.data,
+    "categoryCode",
+    "categoryName",
+    "",
+  );
   await actived();
 };
 const actived = async () => {
-  let data = await loadData("/system-config/system/companyDefine/getAllByCondition", {});
+  let data = await loadData(
+    "/system-config/system/companyDefine/getAllByCondition",
+    {},
+  );
   if (data.error) {
     warning(data.error);
     return;
@@ -177,44 +192,55 @@ onMounted(async () => {
 onActivated(() => {
   actived();
 });
-onDeactivated(() => {
-});
+onDeactivated(() => {});
 </script>
 <template>
-  <star-horse-dialog :isShowBtnContinue="true" :dialog-visible="dialogProps.editVisible" :dialogProps="dialogProps">
+  <star-horse-dialog
+    :isShowBtnContinue="true"
+    :dialog-visible="dialogProps.editVisible"
+    :dialogProps="dialogProps"
+  >
     <star-horse-form
-        @refresh="companyDefineRef?.loadByPage()"
-        :compUrl="dataUrl"
-        :fieldList="tableFieldList"
-        :rules="rules"
-        :outerFormData="outerForm"
+      @refresh="companyDefineRef?.loadByPage()"
+      :compUrl="dataUrl"
+      :fieldList="tableFieldList"
+      :rules="rules"
+      :outerFormData="outerForm"
     />
   </star-horse-dialog>
   <star-horse-dialog
-      :dialog-visible="dialogProps.viewVisible"
-      :dialogProps="dialogProps"
-      
-      :source="3"
+    :dialog-visible="dialogProps.viewVisible"
+    :dialogProps="dialogProps"
+    :source="3"
   >
-    <star-horse-data-view :dataFormat="dataFormat" :field-list="tableFieldList" :compUrl="dataUrl"/>
+    <star-horse-data-view
+      :dataFormat="dataFormat"
+      :field-list="tableFieldList"
+      :compUrl="dataUrl"
+    />
   </star-horse-dialog>
   <div class="search-content">
-    <div class="search_btn" :style="{ 'flex-direction': Config.buttonStyle.value == 'line'? 'column' : 'row' }">
+    <div
+      class="search_btn"
+      :style="{
+        'flex-direction': Config.buttonStyle.value == 'line' ? 'column' : 'row',
+      }"
+    >
       <star-horse-search-comp
-          @searchData="(data: any) => companyDefineRef?.createSearchParams(data)"
-          :formData="searchFormData"
-          :compUrl="dataUrl"
+        @searchData="(data: any) => companyDefineRef?.createSearchParams(data)"
+        :formData="searchFormData"
+        :compUrl="dataUrl"
       />
     </div>
   </div>
   <el-card class="inner_content">
     <star-horse-table-comp
-        ref="companyDefineRef"
-        :fieldList="tableFieldList"
-        :primaryKey="primaryKey"
-        :compUrl="dataUrl"
-        :extendBtns="extendBtns"
-        :dataFormat="dataFormat"
+      ref="companyDefineRef"
+      :fieldList="tableFieldList"
+      :primaryKey="primaryKey"
+      :compUrl="dataUrl"
+      :extendBtns="extendBtns"
+      :dataFormat="dataFormat"
     />
   </el-card>
 </template>

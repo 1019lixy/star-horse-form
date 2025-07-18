@@ -14,14 +14,17 @@ import {
   SelectOption,
   useButtonPermissionStore,
   useGlobalConfigStore,
-  warning
+  warning,
 } from "star-horse-lowcode";
 import { loadRolesInfo } from "@/api/star_horse_utils";
 import { Config } from "@/api/settings";
 import { computed, onMounted, provide, reactive, ref } from "vue";
 import { TreeNodeData } from "element-plus/es/components/tree-v2/src/types";
 
-const dataUrl: ApiUrls = apiInstance("system-config", "system/rolesPkBtnAuthority");
+const dataUrl: ApiUrls = apiInstance(
+  "system-config",
+  "system/rolesPkBtnAuthority",
+);
 dataUrl.mergeUrl = "/system-config/system/resourcesSummaryEntity/merge";
 let systemInfoList = ref<SelectOption[]>([]);
 let appinfoList = ref<SelectOption[]>([]);
@@ -34,13 +37,21 @@ let defaultCondition = ref<SearchParams[]>([]);
 const searchFormData = reactive<SearchFields>({
   fieldList: [
     {
-      label: "角色名称", defaultVisible: true, fieldName: "idRolesinfo", type: "select",
+      label: "角色名称",
+      defaultVisible: true,
+      fieldName: "idRolesinfo",
+      type: "select",
       preps: {
-        values: rolesList
-      }
+        values: rolesList,
+      },
     },
-    { label: "创建日期", fieldName: "createdTime", type: "date", matchType: "bt" }
-  ]
+    {
+      label: "创建日期",
+      fieldName: "createdTime",
+      type: "date",
+      matchType: "bt",
+    },
+  ],
 });
 const formFieldList = reactive<PageFieldInfo | any>({
   fieldList: [
@@ -55,7 +66,7 @@ const formFieldList = reactive<PageFieldInfo | any>({
         listVisible: true,
         preps: {
           values: rolesList,
-        }
+        },
       },
       {
         label: "所属系统",
@@ -67,8 +78,8 @@ const formFieldList = reactive<PageFieldInfo | any>({
         listVisible: true,
         preps: {
           values: appinfoList,
-        }
-      }
+        },
+      },
     ],
     [
       {
@@ -81,8 +92,8 @@ const formFieldList = reactive<PageFieldInfo | any>({
         listVisible: true,
         preps: {
           multiple: true,
-          data: menusSelectList
-        }
+          data: menusSelectList,
+        },
       },
       {
         label: "权限",
@@ -95,11 +106,11 @@ const formFieldList = reactive<PageFieldInfo | any>({
         preps: {
           multiple: true,
           values: authorityList,
-        }
-      }
-    ]
+        },
+      },
+    ],
   ],
-  cellEditable: false
+  cellEditable: false,
 });
 const tableFieldList = reactive<PageFieldInfo | any>({
   fieldList: [
@@ -107,37 +118,39 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       label: "角色名称",
       fieldName: "roleName",
 
-      formVisible: true
+      formVisible: true,
     },
     {
       label: "系统名称",
       fieldName: "sysName",
 
-      listVisible: true
+      listVisible: true,
     },
     {
       label: "系统编码",
       fieldName: "sysCode",
 
-      listVisible: true
+      listVisible: true,
     },
     {
       label: "菜单名称",
       fieldName: "menuName",
 
-      listVisible: true
+      listVisible: true,
     },
     {
       label: "权限",
       fieldName: "btnNames",
-      listVisible: true
-    }
+      listVisible: true,
+    },
   ],
-  cellEditable: false
+  cellEditable: false,
 });
 let configStore = useGlobalConfigStore(piniaInstance);
 let pagePermission = useButtonPermissionStore(piniaInstance);
-let compSize = computed(() => configStore.configFormInfo?.inputSize || Config.compSize);
+let compSize = computed(
+  () => configStore.configFormInfo?.inputSize || Config.compSize,
+);
 const primaryKey = ["idMenusinfo", "idRolesinfo", "idInformations"];
 const rules = {};
 const dialogProps = dialogPreps();
@@ -162,7 +175,7 @@ let preValid = ref<any>({
       return false;
     }
     return true;
-  }
+  },
 });
 /**
  * 点击事件
@@ -175,26 +188,34 @@ const roleChange = async (data: TreeNodeData, checked: boolean) => {
   currentSystemId.value = 0;
   currentMenuId.value = 0;
   dataForm.value = { idRolesinfo: data.value };
-  let roleSystemDatas = await loadData("/system-config/system/rolesPkAppinfo/getAllByCondition", {
-    fieldList: [
-      {
-        propertyName: "b.idRolesinfo",
-        value: data.value
-      }
-    ],
-    orderBy: [
-      {
-        fieldName: "idInformations",
-        ascOrDesc: "asc"
-      }
-    ]
-  });
+  let roleSystemDatas = await loadData(
+    "/system-config/system/rolesPkAppinfo/getAllByCondition",
+    {
+      fieldList: [
+        {
+          propertyName: "b.idRolesinfo",
+          value: data.value,
+        },
+      ],
+      orderBy: [
+        {
+          fieldName: "idInformations",
+          ascOrDesc: "asc",
+        },
+      ],
+    },
+  );
   if (roleSystemDatas.error) {
     warning(roleSystemDatas.error);
     return;
   }
   systemInfoList.value = roleSystemDatas.data;
-  appinfoList.value = createTree(roleSystemDatas.data, "idInformations", "sysName", "");
+  appinfoList.value = createTree(
+    roleSystemDatas.data,
+    "idInformations",
+    "sysName",
+    "",
+  );
   //同时加载当前角色下的所有菜单
   loadMenus();
   doQuery();
@@ -206,29 +227,37 @@ const loadMenus = async () => {
     fieldList.push(createCondition("a.idInformations", currentSystemId.value));
   }
   menusList.value = [];
-  let menusDatas = await loadData("/system-config/system/menusinfoEntity/rolesAppMenus", {
-    fieldList: fieldList,
-    orderBy: [
-      {
-        fieldName: "a.idRolesinfo",
-        ascOrDesc: "asc"
-      },
-      {
-        fieldName: "a.idInformations",
-        ascOrDesc: "asc"
-      },
-      {
-        fieldName: "b.dataIndex",
-        ascOrDesc: "asc"
-      }
-    ]
-  });
+  let menusDatas = await loadData(
+    "/system-config/system/menusinfoEntity/rolesAppMenus",
+    {
+      fieldList: fieldList,
+      orderBy: [
+        {
+          fieldName: "a.idRolesinfo",
+          ascOrDesc: "asc",
+        },
+        {
+          fieldName: "a.idInformations",
+          ascOrDesc: "asc",
+        },
+        {
+          fieldName: "b.dataIndex",
+          ascOrDesc: "asc",
+        },
+      ],
+    },
+  );
   if (menusDatas.error) {
     warning(menusDatas.error);
     return;
   }
   menusList.value = menusDatas.data;
-  menusSelectList.value = createTree(menusDatas.data, "idMenusinfo", "menuName", "");
+  menusSelectList.value = createTree(
+    menusDatas.data,
+    "idMenusinfo",
+    "menuName",
+    "",
+  );
 };
 const systemChange = async (data: TreeNodeData, checked: boolean) => {
   currentSystemId.value = data.idInformations;
@@ -276,41 +305,94 @@ onMounted(async () => {
 </script>
 <style lang="scss" scoped></style>
 <template>
-  <star-horse-dialog :isShowBtnContinue="true" :dialogVisible="dialogProps.editVisible" :dialogProps="dialogProps">
-    <star-horse-form :outerFormData="dataForm" @refresh="refreshData" :compUrl="dataUrl" :fieldList="formFieldList"
-      :rules="rules" />
+  <star-horse-dialog
+    :isShowBtnContinue="true"
+    :dialogVisible="dialogProps.editVisible"
+    :dialogProps="dialogProps"
+  >
+    <star-horse-form
+      :outerFormData="dataForm"
+      @refresh="refreshData"
+      :compUrl="dataUrl"
+      :fieldList="formFieldList"
+      :rules="rules"
+    />
   </star-horse-dialog>
-  <star-horse-dialog :dialog-visible="dialogProps.viewVisible" :dialogProps="dialogProps" :source="3">
-    <star-horse-data-view :dataFormat="dataFormat" :field-list="tableFieldList" :compUrl="dataUrl" />
+  <star-horse-dialog
+    :dialog-visible="dialogProps.viewVisible"
+    :dialogProps="dialogProps"
+    :source="3"
+  >
+    <star-horse-data-view
+      :dataFormat="dataFormat"
+      :field-list="tableFieldList"
+      :compUrl="dataUrl"
+    />
   </star-horse-dialog>
   <el-card class="inner_content">
     <el-splitter>
       <el-splitter-panel collapsible size="240" min="100" max="500">
-        <star-horse-tree v-model:tree-datas="rolesList" treeTitle="用户组" @selectData="roleChange" :compSize="compSize" />
+        <star-horse-tree
+          v-model:tree-datas="rolesList"
+          treeTitle="用户组"
+          @selectData="roleChange"
+          :compSize="compSize"
+        />
       </el-splitter-panel>
-      <el-splitter-panel :size="systemInfoList?.length > 0 ? 200 : 0" min="0" max="300">
-        <star-horse-tree v-model:treeDatas="systemInfoList" treeTitle="应用系统" :preps="{
-          label: 'sysName',
-          value: 'idInformations'
-        }" @selectData="systemChange" :compSize="compSize" />
+      <el-splitter-panel
+        :size="systemInfoList?.length > 0 ? 200 : 0"
+        min="0"
+        max="300"
+      >
+        <star-horse-tree
+          v-model:treeDatas="systemInfoList"
+          treeTitle="应用系统"
+          :preps="{
+            label: 'sysName',
+            value: 'idInformations',
+          }"
+          @selectData="systemChange"
+          :compSize="compSize"
+        />
       </el-splitter-panel>
-      <el-splitter-panel :size="menusList?.length > 0 ? 200 : 0" min="0" max="300">
-        <star-horse-tree v-model:treeDatas="menusList" treeTitle="系统菜单" :preps="{
-          label: 'menuName',
-          value: 'idMenusinfo',
-          children: 'children'
-        }" @selectData="menuChange" :compSize="compSize" />
+      <el-splitter-panel
+        :size="menusList?.length > 0 ? 200 : 0"
+        min="0"
+        max="300"
+      >
+        <star-horse-tree
+          v-model:treeDatas="menusList"
+          treeTitle="系统菜单"
+          :preps="{
+            label: 'menuName',
+            value: 'idMenusinfo',
+            children: 'children',
+          }"
+          @selectData="menuChange"
+          :compSize="compSize"
+        />
       </el-splitter-panel>
       <el-splitter-panel>
         <div class="search-content">
-          <div class="search_btn" >
-            <star-horse-search-comp @searchData="(data: any) => menuBtnTableRef?.createSearchParams(data)"
-              :formData="searchFormData" :defaultCondition="defaultCondition" :compUrl="dataUrl" />
+          <div class="search_btn">
+            <star-horse-search-comp
+              @searchData="
+                (data: any) => menuBtnTableRef?.createSearchParams(data)
+              "
+              :formData="searchFormData"
+              :defaultCondition="defaultCondition"
+              :compUrl="dataUrl"
+            />
           </div>
         </div>
         <el-card class="inner_content">
-          <star-horse-table-comp :fieldList="tableFieldList" :primaryKey="primaryKey" :compUrl="dataUrl"
-            :dataFormat="dataFormat" ref="menuBtnTableRef" />
+          <star-horse-table-comp
+            :fieldList="tableFieldList"
+            :primaryKey="primaryKey"
+            :compUrl="dataUrl"
+            :dataFormat="dataFormat"
+            ref="menuBtnTableRef"
+          />
         </el-card>
       </el-splitter-panel>
     </el-splitter>

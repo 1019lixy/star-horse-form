@@ -1,52 +1,63 @@
 <template>
-  <starhorse-form-item :isDesign="isDesign" :disabled="disabled" :bareFlag="bareFlag" :formItem="field"
-                       :parentField="parentField">
-    <div ref="container" style="height: 600px;width: 100%"/>
+  <starhorse-form-item
+    :isDesign="isDesign"
+    :disabled="disabled"
+    :bareFlag="bareFlag"
+    :formItem="field"
+    :parentField="parentField"
+  >
+    <div ref="container" style="height: 600px; width: 100%" />
   </starhorse-form-item>
 </template>
 <script setup lang="ts" name="excelItem">
-import {onMounted, ref} from "vue";
-import {createUniver, defaultTheme, LocaleType, merge} from '@univerjs/presets'
-import {UniverDocsCorePreset} from '@univerjs/presets/preset-docs-core'
-import docsCoreZhCN from '@univerjs/presets/preset-docs-core/locales/zh-CN'
-import {UniverDocsDrawingPreset} from '@univerjs/presets/preset-docs-drawing'
-import docsDrawingZhCN from '@univerjs/presets/preset-docs-drawing/locales/zh-CN'
-import {UniverDocsHyperLinkPreset} from '@univerjs/presets/preset-docs-hyper-link'
-import docsHyperLinkZhCN from '@univerjs/presets/preset-docs-hyper-link/locales/zh-CN'
-import '@univerjs/presets/lib/styles/preset-docs-core.css'
-import '@univerjs/presets/lib/styles/preset-docs-drawing.css'
-import '@univerjs/presets/lib/styles/preset-docs-hyper-link.css'
+import { onMounted, ref } from "vue";
+import {
+  createUniver,
+  defaultTheme,
+  LocaleType,
+  merge,
+} from "@univerjs/presets";
+import { UniverDocsCorePreset } from "@univerjs/presets/preset-docs-core";
+import docsCoreZhCN from "@univerjs/presets/preset-docs-core/locales/zh-CN";
+import { UniverDocsDrawingPreset } from "@univerjs/presets/preset-docs-drawing";
+import docsDrawingZhCN from "@univerjs/presets/preset-docs-drawing/locales/zh-CN";
+import { UniverDocsHyperLinkPreset } from "@univerjs/presets/preset-docs-hyper-link";
+import docsHyperLinkZhCN from "@univerjs/presets/preset-docs-hyper-link/locales/zh-CN";
+import "@univerjs/presets/lib/styles/preset-docs-core.css";
+import "@univerjs/presets/lib/styles/preset-docs-drawing.css";
+import "@univerjs/presets/lib/styles/preset-docs-hyper-link.css";
 
 const props = defineProps({
   isDesign: {
     type: Boolean,
-    default: false
+    default: false,
   },
   disabled: {
     type: Boolean,
-    default: false
+    default: false,
   },
   bareFlag: {
     type: Boolean,
-    default: false
-  }, isSearch: {
+    default: false,
+  },
+  isSearch: {
     type: Boolean,
-    default: false
+    default: false,
   },
   field: {
     type: Object,
-    default: {}
+    default: {},
   },
   parentField: {
     type: Object,
-    default: {}
+    default: {},
   },
   formInfo: {
     type: Object,
-    default: {}
-  }
+    default: {},
+  },
 });
-const emits = defineEmits(['selfFunc', 'selectItem']);
+const emits = defineEmits(["selfFunc", "selectItem"]);
 const formData = defineModel("formData");
 const itemAction = () => {
   emits("selfFunc", formData);
@@ -54,14 +65,14 @@ const itemAction = () => {
 const container = ref<HTMLElement | null>(null);
 
 const init = async () => {
-  const {univerAPI} = createUniver({
+  const { univerAPI } = createUniver({
     locale: LocaleType.ZH_CN,
     locales: {
       [LocaleType.ZH_CN]: merge(
-          {},
-          docsCoreZhCN,
-          docsDrawingZhCN,
-          docsHyperLinkZhCN,
+        {},
+        docsCoreZhCN,
+        docsDrawingZhCN,
+        docsHyperLinkZhCN,
       ),
     },
     theme: defaultTheme,
@@ -72,15 +83,12 @@ const init = async () => {
       UniverDocsDrawingPreset(),
       UniverDocsHyperLinkPreset(),
     ],
-  })
-  univerAPI.createUniverDoc({})
-
+  });
+  univerAPI.createUniverDoc({});
 };
-const rendered = () => {
-};
+const rendered = () => {};
 onMounted(() => {
   init();
 });
-
 </script>
 <style scoped></style>

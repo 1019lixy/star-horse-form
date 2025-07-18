@@ -4,27 +4,31 @@
       <div class="flow-item" @click.stop="selectNode">
         <div class="node-name node-start">开始</div>
       </div>
-      <AddNode :node="node" :nodeType="FlowNodeEnums.START_NODE" :readable="readable"/>
+      <AddNode
+        :node="node"
+        :nodeType="FlowNodeEnums.START_NODE"
+        :readable="readable"
+      />
     </div>
   </div>
 </template>
 <script setup lang="ts">
-import {FlowNodeEnums} from "@/views/workflow/plugin/enums/FlowNodeEnums";
+import { FlowNodeEnums } from "@/views/workflow/plugin/enums/FlowNodeEnums";
 
 defineOptions({
-  name: "StartNode"
+  name: "StartNode",
 });
 const props = defineProps({
   node: {
     type: Object,
     default: function () {
       return {};
-    }
+    },
   },
   readable: {
     type: Boolean,
-    default: true
-  }
+    default: true,
+  },
 });
 const emits = defineEmits(["selectNode"]);
 const selectNode = () => {

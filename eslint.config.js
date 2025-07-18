@@ -6,7 +6,7 @@ import vuePlugin from 'eslint-plugin-vue';
 export default [
     {
         files: ['**/*.vue', '**/*.js', '**/*.ts'],
-        ignores: ['node_modules/', 'dist/'],
+        ignores: ['node_modules/', 'dist/','*.svg','*'],
         languageOptions: {
             ecmaVersion: 'latest',
             sourceType: 'module',

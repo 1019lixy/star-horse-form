@@ -1,11 +1,15 @@
 <template>
   <div class="flow-row">
     <div class="flow-box">
-      <div class="flow-item" :class="{ 'flow-item-active': currentNode.id == node.id }" @click.stop="selectNode">
+      <div
+        class="flow-item"
+        :class="{ 'flow-item-active': currentNode.id == node.id }"
+        @click.stop="selectNode"
+      >
         <div class="flow-node-box" :class="{ 'has-error': node.error }">
           <div class="node-name" :class="nameClass(node, 'node-task')">
-            <EditName :node="node"/>
-            <star-horse-icon icon-class="task" style="margin-left: 10px"/>
+            <EditName :node="node" />
+            <star-horse-icon icon-class="task" style="margin-left: 10px" />
           </div>
           <div class="node-main">
             <span v-if="node.content">
@@ -17,28 +21,39 @@
             <span v-else class="hint-title">配置此节点</span>
           </div>
           <!-- 错误提示 -->
-          <el-tooltip :content="node.errorMsg" placement="top" v-if="node.error">
-            <star-horse-icon icon-class="exclamation-circle" theme="filled" class="node-error"/>
+          <el-tooltip
+            :content="node.errorMsg"
+            placement="top"
+            v-if="node.error"
+          >
+            <star-horse-icon
+              icon-class="exclamation-circle"
+              theme="filled"
+              class="node-error"
+            />
           </el-tooltip>
           <!-- 只有是填写节点才能删除，发起节点不能删除 -->
           <div v-if="!readable && !node.deletable" class="close-icon">
-            <star-horse-icon icon-class="close" @click.stop="node.deletable = true"/>
+            <star-horse-icon
+              icon-class="close"
+              @click.stop="node.deletable = true"
+            />
           </div>
           <!-- 删除提示 -->
-          <DeleteConfirm :node="node"/>
+          <DeleteConfirm :node="node" />
         </div>
       </div>
-      <AddNode :node="node" :nodeType="node.type" :readable="readable"/>
+      <AddNode :node="node" :nodeType="node.type" :readable="readable" />
     </div>
   </div>
 </template>
 <script setup lang="ts">
-import {computed, onMounted} from "vue";
-import {useFlowDesignStore} from "@/store/FlowDesign";
-import {closeLoad, piniaInstance} from "star-horse-lowcode";
+import { computed, onMounted } from "vue";
+import { useFlowDesignStore } from "@/store/FlowDesign";
+import { closeLoad, piniaInstance } from "star-horse-lowcode";
 
 defineOptions({
-  name: "ServiceNode"
+  name: "ServiceNode",
 });
 const flowDesign = useFlowDesignStore(piniaInstance);
 let currentNode = computed(() => flowDesign.currentNode);
@@ -47,12 +62,12 @@ const props = defineProps({
     type: Object,
     default: function () {
       return {};
-    }
+    },
   },
   readable: {
     type: Boolean,
-    default: false
-  }
+    default: false,
+  },
 });
 const emits = defineEmits(["selectNode"]);
 props.node.error = computed(() => {
@@ -87,7 +102,7 @@ let nameClass = computed(() => {
     return {
       "node-status-not": node.statusCode == 0,
       "node-status-current": node.statusCode == 1,
-      "node-status-complete": node.statusCode == 2
+      "node-status-complete": node.statusCode == 2,
     };
   };
 });

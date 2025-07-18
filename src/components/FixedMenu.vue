@@ -8,10 +8,12 @@ let leftMenuDatas = computed(() => loginStore.getMenusList());
 let props = defineProps({
   sysemId: { type: String },
   isCollapse: { type: Boolean, default: true },
-  top: { type: String, default: "83px" }
+  top: { type: String, default: "83px" },
 });
 let defaultOpenMenu = ref<Array<string>>([]);
-let htop = ref<string>(computed(() => props.top).value == "83px" ? "65px" : "35px");
+let htop = ref<string>(
+  computed(() => props.top).value == "83px" ? "65px" : "35px",
+);
 const setOpenMenu = () => {
   let allId = leftMenuDatas.value.map((item: MenusInfo) => item.meta.menuId);
   nextTick(() => {
@@ -24,24 +26,27 @@ const overHandler = (item: any) => {
   currentItem.value = item;
 };
 
-onMounted(() => {
-
-});
+onMounted(() => {});
 
 watch(
   () => leftMenuDatas.value,
   (val: any) => {
-    setOpenMenu()
+    setOpenMenu();
   },
-  { immediate: false }
+  { immediate: false },
 );
 </script>
 <template>
   <div class="starhorse-menu">
     <div class="menu-base">
       <template v-for="item in leftMenuDatas">
-        <div :class="{ 'menu-item': true, 'is-active': item.meta.title == currentItem.meta?.title }"
-          @mouseover="overHandler(item)">
+        <div
+          :class="{
+            'menu-item': true,
+            'is-active': item.meta.title == currentItem.meta?.title,
+          }"
+          @mouseover="overHandler(item)"
+        >
           <div class="menu-item-icon">
             <el-icon class="star-icon">
               <component :is="item.meta.menuIcon || 'document'" />
@@ -49,7 +54,10 @@ watch(
           </div>
           <div class="menu-item-title">{{ item.meta.title }}</div>
           <div class="menu-item-line"></div>
-          <div class="menu-sub-item" v-if="item.children && item.meta.title == currentItem.meta?.title">
+          <div
+            class="menu-sub-item"
+            v-if="item.children && item.meta.title == currentItem.meta?.title"
+          >
             <FixedSubMenu :top="top" :data-list="item.children" />
           </div>
         </div>

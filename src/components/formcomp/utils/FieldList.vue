@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import {piniaInstance, useDesignFormStore} from "star-horse-lowcode";
-import {computed, ref} from "vue";
+import { piniaInstance, useDesignFormStore } from "star-horse-lowcode";
+import { computed, ref } from "vue";
 
 defineOptions({
-  name: "FieldList"
+  name: "FieldList",
 });
 const containerRef = ref();
 const emits = defineEmits(["selectData"]);
@@ -30,10 +30,12 @@ const selectData = (item: any) => {
         <el-divider content-position="left">容器</el-divider>
         <ul id="container">
           <template v-for="item in containerList">
-            <li class="field-item" @click="selectData(item)"
-            >&nbsp;&nbsp;
+            <li class="field-item" @click="selectData(item)">
+              &nbsp;&nbsp;
               <div>
-                <star-horse-icon :icon-class="item.itemIcon"/> &nbsp;{{ item.itemName }}
+                <star-horse-icon :icon-class="item.itemIcon" /> &nbsp;{{
+                  item.itemName
+                }}
               </div>
             </li>
           </template>
@@ -41,10 +43,12 @@ const selectData = (item: any) => {
         <el-divider content-position="left">基础组件</el-divider>
         <ul id="basic">
           <template v-for="item in formDataList">
-            <li class="field-item" @click="selectData(item)"
-            >&nbsp;&nbsp;
+            <li class="field-item" @click="selectData(item)">
+              &nbsp;&nbsp;
               <div>
-                <star-horse-icon :icon-class="item.itemIcon"/> &nbsp;{{ item.itemName }}
+                <star-horse-icon :icon-class="item.itemIcon" /> &nbsp;{{
+                  item.itemName
+                }}
               </div>
             </li>
           </template>
@@ -52,10 +56,12 @@ const selectData = (item: any) => {
         <el-divider content-position="left">自定义组件</el-divider>
         <ul id="self">
           <template v-for="item in selfFormDataList">
-            <li class="field-item" @click="selectData(item)"
-            >&nbsp;&nbsp;
+            <li class="field-item" @click="selectData(item)">
+              &nbsp;&nbsp;
               <div>
-                <star-horse-icon :icon-class="item.itemIcon"/> &nbsp;{{ item.itemName }}
+                <star-horse-icon :icon-class="item.itemIcon" /> &nbsp;{{
+                  item.itemName
+                }}
               </div>
             </li>
           </template>

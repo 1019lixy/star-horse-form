@@ -1,11 +1,23 @@
 <script setup lang="ts">
-import {onMounted, ref} from "vue";
-import {apiInstance, ApiUrls, loadData, postRequest, warning} from "star-horse-lowcode";
-import {createJoinCondition,} from "@/api/star_horse_utils";
+import { onMounted, ref } from "vue";
+import {
+  apiInstance,
+  ApiUrls,
+  loadData,
+  postRequest,
+  warning,
+} from "star-horse-lowcode";
+import { createJoinCondition } from "@/api/star_horse_utils";
 
 const emits = defineEmits(["selectTemplate"]);
-const apiUrl: ApiUrls = apiInstance("userdb-manage", "/userdb/formInstance/conTemplate/idTemplate/136");
-const nodeCfgUrl: ApiUrls = apiInstance("userdb-manage", "userdb/formInstance/conNodeConfigures/idNodeConfigure/136")
+const apiUrl: ApiUrls = apiInstance(
+  "userdb-manage",
+  "/userdb/formInstance/conTemplate/idTemplate/136",
+);
+const nodeCfgUrl: ApiUrls = apiInstance(
+  "userdb-manage",
+  "userdb/formInstance/conNodeConfigures/idNodeConfigure/136",
+);
 const nodeList = ref<any>([]);
 const templateList = ref<any>([]);
 let currentTemplate = ref<any>({});
@@ -24,10 +36,10 @@ const loadTemplate = async () => {
         aliasName: "b",
         limitFields: ["nodeName"],
         joinCondition: {
-          joinFieldList: [createJoinCondition("a.idTemplate", "b.idTemplate")]
-        }
-      }
-    ]
+          joinFieldList: [createJoinCondition("a.idTemplate", "b.idTemplate")],
+        },
+      },
+    ],
   }).then((res) => {
     if (res.data?.code) {
       warning(res.data?.cnMessage);
@@ -35,9 +47,13 @@ const loadTemplate = async () => {
     }
     let reData = res.data?.data;
     reData?.forEach((item: any) => {
-      item.nodeList = item.nodeList.map((node: any) => {
-        return nodeList.value.find((nodeItem: any) => nodeItem.nodeCode == node.nodeName);
-      }).filter((item: any) => item);
+      item.nodeList = item.nodeList
+        .map((node: any) => {
+          return nodeList.value.find(
+            (nodeItem: any) => nodeItem.nodeCode == node.nodeName,
+          );
+        })
+        .filter((item: any) => item);
     });
     templateList.value = reData;
     console.log(templateList.value);
@@ -61,7 +77,7 @@ onMounted(() => {
 });
 defineExpose({
   getTemplate,
-  setTemplate
+  setTemplate,
 });
 </script>
 
@@ -69,10 +85,10 @@ defineExpose({
   <div class="template-list">
     <template v-for="item in templateList">
       <div
-          class="template-item"
-          :class="{ 'is-active': currentTemplate?.idTemplate == item.idTemplate }"
-          @click="selectItem(item,'click')"
-          @dblclick="selectItem(item,'dblClick')"
+        class="template-item"
+        :class="{ 'is-active': currentTemplate?.idTemplate == item.idTemplate }"
+        @click="selectItem(item, 'click')"
+        @dblclick="selectItem(item, 'dblClick')"
       >
         <div class="title">
           <el-tag type="info">{{ item.templateName }}</el-tag>
@@ -81,10 +97,16 @@ defineExpose({
         <div class="contents">
           <div class="content" v-for="(sitem, index) in item.nodeList">
             <div class="relative flex flex-row items-center justify-center">
-              <star-horse-icon :icon-class="sitem.icon||'document'" size="30px"/>
+              <star-horse-icon
+                :icon-class="sitem.icon || 'document'"
+                size="30px"
+              />
               <span>{{ sitem.nodeName }}</span>
             </div>
-            <star-horse-icon icon-class="arrow-double-right" v-if="index < item.nodeList.length - 1"/>
+            <star-horse-icon
+              icon-class="arrow-double-right"
+              v-if="index < item.nodeList.length - 1"
+            />
           </div>
         </div>
       </div>

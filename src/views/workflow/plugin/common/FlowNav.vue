@@ -1,19 +1,19 @@
 <script setup lang="ts">
-import {computed, ref} from "vue";
-import {flowCommon} from "@/views/workflow/plugin/utils/flowCommon";
-import {scale} from "@/views/workflow/plugin/utils/deviceUtil";
-import {useFlowDesignStore} from "@/store/FlowDesign";
-import {piniaInstance, warning} from "star-horse-lowcode";
+import { computed, ref } from "vue";
+import { flowCommon } from "@/views/workflow/plugin/utils/flowCommon";
+import { scale } from "@/views/workflow/plugin/utils/deviceUtil";
+import { useFlowDesignStore } from "@/store/FlowDesign";
+import { piniaInstance, warning } from "star-horse-lowcode";
 
 defineProps({
   currentNav: {
     type: Number,
-    default: 1
+    default: 1,
   },
   buttonName: {
     type: String,
-    default: "发布"
-  }
+    default: "发布",
+  },
 });
 const emits = defineEmits(["change", "flowSave", "changeFlow"]);
 const navItems = ref<Array<any>>([
@@ -21,26 +21,26 @@ const navItems = ref<Array<any>>([
     name: "基础信息",
     shortName: "基础",
     type: 1,
-    path: "/basicInfo"
+    path: "/basicInfo",
   },
   {
     name: "表单设计",
     shortName: "表单",
     type: 2,
-    path: "/formDesign"
+    path: "/formDesign",
   },
   {
     name: "流程设计",
     shortName: "流程",
     type: 3,
-    path: "/flowDesign"
+    path: "/flowDesign",
   },
   {
     name: "更多配置",
     shortName: "配置",
     type: 4,
-    path: "/flowSetting"
-  }
+    path: "/flowSetting",
+  },
 ]);
 const flowDesign = useFlowDesignStore(piniaInstance);
 let navable = computed(() => flowDesign.navable);
@@ -62,8 +62,11 @@ const changeFlow = () => {
 <template>
   <div class="designer-nav-box">
     <div class="designer-nav-return">
-      <router-link :to="{ path: '/workflow/FlowDefineUi' }" style="display: flex; width: 100px; margin-right: 10px">
-        <star-horse-icon icon-class="back"/>
+      <router-link
+        :to="{ path: '/workflow/FlowDefineUi' }"
+        style="display: flex; width: 100px; margin-right: 10px"
+      >
+        <star-horse-icon icon-class="back" />
         返回
       </router-link>
       <div v-if="!scale.isMobile()" class="select-version-box">
@@ -71,22 +74,30 @@ const changeFlow = () => {
       </div>
     </div>
     <div class="designer-nav-center">
-      <div v-for="(item, i) in navItems" :key="i" :class="{ 'designer-nav-center-wrap': true }">
+      <div
+        v-for="(item, i) in navItems"
+        :key="i"
+        :class="{ 'designer-nav-center-wrap': true }"
+      >
         <template v-if="item.type == 2">
           <div
-              v-if="!formInfo.bindForm || !formInfo.bindForm.length"
-              class="designer-nav-center-wrap-item"
-              @click="onChange(item)"
+            v-if="!formInfo.bindForm || !formInfo.bindForm.length"
+            class="designer-nav-center-wrap-item"
+            @click="onChange(item)"
           >
             <span :class="{ 'act-item': currentNav == item.type }">{{
-                scale.isMobile() ? item.shortName : item.name
-              }}</span>
-          </div>
-        </template>
-        <div v-else class="designer-nav-center-wrap-item" @click="onChange(item)">
-          <span :class="{ 'act-item': currentNav == item.type }">{{
               scale.isMobile() ? item.shortName : item.name
             }}</span>
+          </div>
+        </template>
+        <div
+          v-else
+          class="designer-nav-center-wrap-item"
+          @click="onChange(item)"
+        >
+          <span :class="{ 'act-item': currentNav == item.type }">{{
+            scale.isMobile() ? item.shortName : item.name
+          }}</span>
         </div>
       </div>
     </div>
@@ -95,11 +106,15 @@ const changeFlow = () => {
               <span>切换</span>
             </el-button>-->
       <el-button type="info" :size="flowCommon.size" @click="flowSave('save')">
-        <star-horse-icon icon-class="save" color="var(--star-style-white)"/>
+        <star-horse-icon icon-class="save" color="var(--star-style-white)" />
         暂存
       </el-button>
-      <el-button type="primary" :size="flowCommon.size" @click="flowSave('publish')">
-        <star-horse-icon icon-class="publish" color="var(--star-style-white)"/>
+      <el-button
+        type="primary"
+        :size="flowCommon.size"
+        @click="flowSave('publish')"
+      >
+        <star-horse-icon icon-class="publish" color="var(--star-style-white)" />
         {{ buttonName }}
       </el-button>
     </div>

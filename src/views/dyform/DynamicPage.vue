@@ -19,7 +19,7 @@ let propertyItem = ref<string>("1");
 let dyPageInfo = ref<any>({
   position: {},
   background: {},
-  pageFont: {}
+  pageFont: {},
 });
 
 let currentItem = ref<any>({});
@@ -27,22 +27,20 @@ const dragItem = (item: any) => {
   const temp: DynamicNode = {
     id: item,
     name: item,
-  }
+  };
   currentItem.value = temp;
   items.value.push(temp);
   console.log(item);
 };
-const init = async () => {
-};
+const init = async () => {};
 
 const count = ref<number>(0);
 let items = ref<Array<DynamicNode>>([
   {
-
     id: "1",
     name: "测试",
-    content: "1"
-  }
+    content: "1",
+  },
 ]);
 const dynamicComponent = (itemName: string) => {
   // 使用 resolveComponent 获取全局注册的组件
@@ -58,25 +56,28 @@ const dynamicComponent = (itemName: string) => {
   // });
   let components: any = {};
   components[itemName] = globalComponent;
-  return createComponent({
-    components: components,
-    name: "dynamicComponent",
-    template: `
+  return createComponent(
+    {
+      components: components,
+      name: "dynamicComponent",
+      template: `
       <div ref="root" class="grid-stack-item my-custom-grid-item-component">
         <div class="grid-stack-item-content">
           <component :is="itemName" :field="{preps:{}}" :formData="{}"/>
         </div>
       </div>`,
-    props: {
-      itemName: {
-        type: String,
-        required: true
+      props: {
+        itemName: {
+          type: String,
+          required: true,
+        },
+        itemId: { type: String || Number },
       },
-      itemId: { type: String || Number }
+      methods: {},
+      emits: ["remove"],
     },
-    methods: {},
-    emits: ["remove"]
-  }, appInstance);
+    appInstance,
+  );
 };
 
 let shadowDom: any = {};
@@ -87,17 +88,16 @@ const addNewWidget = () => {
     x: Math.round(12 * Math.random()),
     y: Math.round(5 * Math.random()),
     w: Math.round(1 + 3 * Math.random()),
-    h: Math.round(1 + 3 * Math.random())
+    h: Math.round(1 + 3 * Math.random()),
   };
   node.id = String(count.value++);
   // items.value.push(node);
 };
 
-
 const selectNode = (item: any) => {
   console.log("--------------------", item);
   currentItem.value = item;
-}
+};
 onMounted(async () => {
   await init();
 });
@@ -109,14 +109,17 @@ onMounted(async () => {
       <el-splitter>
         <el-splitter-panel collapsible size="250" max="350">
           <el-tabs tab-position="left" type="border-card" v-model="panelModel">
-            <el-tab-pane label="布局模版" name="zero">
-            </el-tab-pane>
+            <el-tab-pane label="布局模版" name="zero"> </el-tab-pane>
             <el-tab-pane label="组件信息" name="first">
               <div class="add-weidget" @click="addNewWidget">
                 <star-horse-icon icon-class="plus" />
               </div>
-              <div class="star-horse-page" @click="dragItem('InputItem')">拖拽1</div>
-              <div class="star-horse-page" @click="dragItem('SwitchItem')">拖拽2</div>
+              <div class="star-horse-page" @click="dragItem('InputItem')">
+                拖拽1
+              </div>
+              <div class="star-horse-page" @click="dragItem('SwitchItem')">
+                拖拽2
+              </div>
             </el-tab-pane>
             <el-tab-pane label="高级信息" name="second"></el-tab-pane>
             <el-tab-pane label="扩展信息" name="third"></el-tab-pane>
@@ -124,34 +127,45 @@ onMounted(async () => {
         </el-splitter-panel>
         <el-splitter-panel>
           <StarHorseRuler>
-            <div class="agrid-stack" :style="{
-              ...dyPageInfo.position,
+            <div
+              class="agrid-stack"
+              :style="{
+                ...dyPageInfo.position,
 
-              height: dyPageInfo.position.height || '100%',
-              width: dyPageInfo.position.width || '100%',
-              overflow: dyPageInfo.position.overflow || 'auto',
-              paddingLeft: dyPageInfo.position.paddingLeft || '0',
-              paddingRight: dyPageInfo.position.paddingRight || '0',
-              paddingTop: dyPageInfo.position.paddingTop || '0',
-              paddingBottom: dyPageInfo.position.paddingBottom || '0',
-              marginLeft: dyPageInfo.position.marginLeft || '0',
-              marginRight: dyPageInfo.position.marginRight || '0',
-              marginTop: dyPageInfo.position.marginTop || '0',
-              marginBottom: dyPageInfo.position.marginBottom || '0',
-              ...dyPageInfo.background,
-              ...dyPageInfo.pageFont
-            }">
+                height: dyPageInfo.position.height || '100%',
+                width: dyPageInfo.position.width || '100%',
+                overflow: dyPageInfo.position.overflow || 'auto',
+                paddingLeft: dyPageInfo.position.paddingLeft || '0',
+                paddingRight: dyPageInfo.position.paddingRight || '0',
+                paddingTop: dyPageInfo.position.paddingTop || '0',
+                paddingBottom: dyPageInfo.position.paddingBottom || '0',
+                marginLeft: dyPageInfo.position.marginLeft || '0',
+                marginRight: dyPageInfo.position.marginRight || '0',
+                marginTop: dyPageInfo.position.marginTop || '0',
+                marginBottom: dyPageInfo.position.marginBottom || '0',
+                ...dyPageInfo.background,
+                ...dyPageInfo.pageFont,
+              }"
+            >
               {{ items }}
-              <template v-for="(item, ind) in items" :key="'data'+ind">
-                <StarHorseDraggable style="pointer-events: auto !important;" :node="item" :msg="item.name"
-                  :isActive="currentItem.id == item.id" @mousedown.native="selectNode(item)" />
+              <template v-for="(item, ind) in items" :key="'data' + ind">
+                <StarHorseDraggable
+                  style="pointer-events: auto !important"
+                  :node="item"
+                  :msg="item.name"
+                  :isActive="currentItem.id == item.id"
+                  @mousedown.native="selectNode(item)"
+                />
               </template>
             </div>
           </StarHorseRuler>
         </el-splitter-panel>
         <el-splitter-panel collapsible size="250" max="350">
           <el-scrollbar>
-            <el-collapse v-model="propertyItem" style="background: #1d2129 !important">
+            <el-collapse
+              v-model="propertyItem"
+              style="background: #1d2129 !important"
+            >
               <el-collapse-item name="1">
                 <template #title>
                   <div class="collapse-item-title title">
@@ -226,8 +240,6 @@ onMounted(async () => {
 :deep(.el-tabs__content) {
   padding: 5px;
 }
-
-
 
 :deep(.el-tabs__header) {
   background: #1d2129;
@@ -308,8 +320,6 @@ a {
   text-decoration: none;
   color: #333;
 }
-
-
 
 .box {
   position: relative;

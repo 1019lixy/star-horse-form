@@ -1,15 +1,14 @@
 <script setup lang="ts">
-
 const props = defineProps({
-  flowStyle: {type: String, default: "dingding"}
+  flowStyle: { type: String, default: "dingding" },
 });
 </script>
 
 <template>
   <div class="sh-flow-editor">
     <div class="design-area">
-      <jbpm-design v-if="flowStyle == 'flowable'"/>
-      <FlowDesign v-if="flowStyle == 'dingding'" :saveBtnVisible="false"/>
+      <jbpm-design v-if="flowStyle == 'flowable'" />
+      <FlowDesign v-if="flowStyle == 'dingding'" :saveBtnVisible="false" />
     </div>
   </div>
 </template>

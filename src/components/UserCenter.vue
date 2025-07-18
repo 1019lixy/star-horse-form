@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import {getPublicKey, getUserInfo} from "@/utils/auth";
-import {computed, onMounted, provide, reactive, ref} from "vue";
+import { getPublicKey, getUserInfo } from "@/utils/auth";
+import { computed, onMounted, provide, reactive, ref } from "vue";
 import {
   copy,
   dialogPreps,
@@ -9,28 +9,33 @@ import {
   postRequest,
   success,
   useGlobalConfigStore,
-  warning
+  warning,
 } from "star-horse-lowcode";
-import {initSelectData, userEditFieldInfo} from "@/views/system/utils/UserFields";
-import {Config} from "@/api/settings";
-import {JSEncrypt} from "jsencrypt";
-import {ServiceEnums} from "@/components/enums/ServiceEnums";
+import {
+  initSelectData,
+  userEditFieldInfo,
+} from "@/views/system/utils/UserFields";
+import { Config } from "@/api/settings";
+import { JSEncrypt } from "jsencrypt";
+import { ServiceEnums } from "@/components/enums/ServiceEnums";
 
 let userInfo = ref<any>({});
 let depts = ref<string>("--");
 let roles = ref<string>("--");
 let configStore = useGlobalConfigStore(piniaInstance);
-let compSize = computed(() => configStore.configFormInfo?.inputSize || Config.compSize);
-const userFormRef = ref<Record<string, InstanceType<typeof StarHorseForm>>>({});// 明确组件类型
-const activeName = ref<string>('basic');
+let compSize = computed(
+  () => configStore.configFormInfo?.inputSize || Config.compSize,
+);
+const userFormRef = ref<Record<string, InstanceType<typeof StarHorseForm>>>({}); // 明确组件类型
+const activeName = ref<string>("basic");
 const url: any = {
   basic: `${ServiceEnums.SYSTEM_PREFIX}usersinfoEntity/userSelfEdit`,
-  password: `${ServiceEnums.SYSTEM_PREFIX}usersAuditEntity/editPassword`
-}
+  password: `${ServiceEnums.SYSTEM_PREFIX}usersAuditEntity/editPassword`,
+};
 const dialogProps = dialogPreps();
 provide("dialogProps", dialogProps);
 const baseFieldList = reactive<PageFieldInfo | any>({
-  fieldList: userEditFieldInfo
+  fieldList: userEditFieldInfo,
 });
 const passwordFieldList = reactive<PageFieldInfo | any>({
   fieldList: [
@@ -39,57 +44,66 @@ const passwordFieldList = reactive<PageFieldInfo | any>({
       fieldName: "oldPassword",
       type: "password",
       required: true,
-      formVisible: true
+      formVisible: true,
     },
     {
       label: "新密码",
       fieldName: "password",
       type: "password",
-      rules: ["password", {
-        name: "dataLength",
-        options: {
-          min: 6,
-          max: 14
-        }
-      }, {
-        trigger: "blur",
-        validator(_rule: any, value: any, callback: Function) {
-          const formData = userFormRef.value[activeName.value].getFormData()?.value;
-          if (value == formData.oldPassword) {
-            callback(new Error("新密码不能与旧密码相同"));
-          } else {
-            callback();
-          }
-        }
-      }],
+      rules: [
+        "password",
+        {
+          name: "dataLength",
+          options: {
+            min: 6,
+            max: 14,
+          },
+        },
+        {
+          trigger: "blur",
+          validator(_rule: any, value: any, callback: Function) {
+            const formData =
+              userFormRef.value[activeName.value].getFormData()?.value;
+            if (value == formData.oldPassword) {
+              callback(new Error("新密码不能与旧密码相同"));
+            } else {
+              callback();
+            }
+          },
+        },
+      ],
       required: true,
-      formVisible: true
+      formVisible: true,
     },
     {
       label: "确认密码",
       fieldName: "confirmPassword",
       type: "password",
-      rules: [{
-        trigger: "blur",
-        validator(_rule: any, value: any, callback: Function) {
-          const formData = userFormRef.value[activeName.value].getFormData()?.value;
-          if (value !== formData.password) {
-            callback(new Error("两次输入的密码不一致"));
-          } else {
-            callback();
-          }
-        }
-      }],
+      rules: [
+        {
+          trigger: "blur",
+          validator(_rule: any, value: any, callback: Function) {
+            const formData =
+              userFormRef.value[activeName.value].getFormData()?.value;
+            if (value !== formData.password) {
+              callback(new Error("两次输入的密码不一致"));
+            } else {
+              callback();
+            }
+          },
+        },
+      ],
       required: true,
-      formVisible: true
-    }
-  ]
+      formVisible: true,
+    },
+  ],
 });
 
 const doModifyUserInfo = async () => {
   const currentForm: any = userFormRef.value[activeName.value];
   if (!currentForm) return;
-  let validateResult: boolean = await currentForm.$refs.starHorseFormRef.validate();
+  let validateResult: boolean =
+    await currentForm.$refs.starHorseFormRef.validate();
   if (!validateResult) return;
   let dataForm = currentForm.getFormData()?.value;
   console.log(dataForm);
@@ -118,25 +132,26 @@ const resetForm = () => {
   dataForm["employeeNo"] = userInfo.value?.employeeNo;
   userFormRef.value[activeName.value].setFormData(dataForm);
 };
-const setRef = (name: string) => (el: InstanceType<typeof StarHorseForm> | null) => {
-  if (el) {
-    userFormRef.value[name] = el;
-  }
-};
+const setRef =
+  (name: string) => (el: InstanceType<typeof StarHorseForm> | null) => {
+    if (el) {
+      userFormRef.value[name] = el;
+    }
+  };
 const init = async () => {
   userInfo.value = getUserInfo();
   await initSelectData();
   dialogProps.ids = userInfo.value.idUsersinfo;
   depts.value = userInfo.value.deptList
-      ?.map((item: any) => {
-        return item.deptName;
-      })
-      .join(";");
+    ?.map((item: any) => {
+      return item.deptName;
+    })
+    .join(";");
   roles.value = userInfo.value.rolesList
-      ?.map((item: any) => {
-        return item.roleName;
-      })
-      .join(";");
+    ?.map((item: any) => {
+      return item.roleName;
+    })
+    .join(";");
 };
 onMounted(async () => {
   await init();
@@ -155,45 +170,53 @@ onMounted(async () => {
           </template>
           <div class="avatar">
             <el-avatar
-                shape="square"
-                :size="100"
-                :fit="'cover'"
-                :src="ServiceEnums.SYSTEM_SERVICE+userInfo.photoUrl"
+              shape="square"
+              :size="100"
+              :fit="'cover'"
+              :src="ServiceEnums.SYSTEM_SERVICE + userInfo.photoUrl"
             />
           </div>
           <div class="details">
             <ul>
               <li>
                 <div class="li-label">
-                  <star-horse-icon icon-class="user-circle"/>
+                  <star-horse-icon icon-class="user-circle" />
                   用户名/姓名/工号
                 </div>
-                <div>{{ userInfo.username }}/{{ userInfo.name || "--" }}/{{ userInfo.employeeNo || "--" }}</div>
+                <div>
+                  {{ userInfo.username }}/{{ userInfo.name || "--" }}/{{
+                    userInfo.employeeNo || "--"
+                  }}
+                </div>
               </li>
               <li>
                 <div class="li-label">
-                  <star-horse-icon icon-class="phone"/>
+                  <star-horse-icon icon-class="phone" />
                   联系电话
                 </div>
-                <div class="pointer" @click="copy(userInfo.phone)">{{ userInfo.phone || "--" }}</div>
+                <div class="pointer" @click="copy(userInfo.phone)">
+                  {{ userInfo.phone || "--" }}
+                </div>
               </li>
               <li>
                 <div class="li-label">
-                  <star-horse-icon icon-class="email"/>
+                  <star-horse-icon icon-class="email" />
                   邮箱
                 </div>
-                <div class="pointer" @click="copy(userInfo.email)">{{ userInfo.email || "--" }}</div>
+                <div class="pointer" @click="copy(userInfo.email)">
+                  {{ userInfo.email || "--" }}
+                </div>
               </li>
               <li>
                 <div class="li-label">
-                  <star-horse-icon icon-class="dept"/>
+                  <star-horse-icon icon-class="dept" />
                   所属部门
                 </div>
                 <div>{{ depts }}</div>
               </li>
               <li>
                 <div class="li-label">
-                  <star-horse-icon icon-class="role"/>
+                  <star-horse-icon icon-class="role" />
                   系统角色
                 </div>
                 <div>{{ roles }}</div>
@@ -207,8 +230,15 @@ onMounted(async () => {
           <template #header>
             <div class="card-header">
               <span>基本信息</span>
-              <el-button :size="compSize" type="primary" @click="doModifyUserInfo">
-                <star-horse-icon icon-class="save" color="var(--star-horse-white)"/>
+              <el-button
+                :size="compSize"
+                type="primary"
+                @click="doModifyUserInfo"
+              >
+                <star-horse-icon
+                  icon-class="save"
+                  color="var(--star-horse-white)"
+                />
                 保存
               </el-button>
             </div>
@@ -217,15 +247,15 @@ onMounted(async () => {
             <el-tabs v-model="activeName">
               <el-tab-pane label="基本资料" name="basic">
                 <star-horse-form
-                    :outerFormData="userInfo"
-                    :fieldList="baseFieldList"
-                    :ref="setRef('basic')"
+                  :outerFormData="userInfo"
+                  :fieldList="baseFieldList"
+                  :ref="setRef('basic')"
                 />
               </el-tab-pane>
               <el-tab-pane label="修改密码" name="password">
                 <star-horse-form
-                    :fieldList="passwordFieldList"
-                    :ref="setRef('password')"
+                  :fieldList="passwordFieldList"
+                  :ref="setRef('password')"
                 />
               </el-tab-pane>
             </el-tabs>

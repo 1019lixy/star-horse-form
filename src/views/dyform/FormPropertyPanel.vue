@@ -6,16 +6,20 @@ import {
   createCondition,
   getRequest,
   loadData,
-
   PageFieldInfo,
   piniaInstance,
   postRequest,
   SelectOption,
-  useDesignFormStore
+  useDesignFormStore,
 } from "star-horse-lowcode";
 import { Config } from "@/api/settings";
 import { loadDict, permissionMenus } from "@/api/star_horse_apis";
-import { dbConfigList, loadSvgIcons, loadSystemInfo, loadElementPlusIcon, } from "@/api/star_horse_utils";
+import {
+  dbConfigList,
+  loadSvgIcons,
+  loadSystemInfo,
+  loadElementPlusIcon,
+} from "@/api/star_horse_utils";
 import { ascOrDesc, commonField, httpMethod } from "@/api/system";
 
 const apiUrl: ApiUrls = apiInstance("userdb-manage", "userdb/dynamicForm");
@@ -29,33 +33,33 @@ let relationTypeList = ref<Array<SelectOption>>([
   { name: "一对一", value: "11" },
   { name: "一对多", value: "1n" },
   { name: "多对一", value: "n1" },
-  { name: "多对多", value: "mn" }
+  { name: "多对多", value: "mn" },
 ]);
 let dataSourceData = ref<any>();
 let primaryKeyPolicyList = ref<SelectOption[]>([
   { name: "自增", value: "auto" },
   { name: "动态赋值", value: "manual" },
-  { name: "序列", value: "sequence" }
+  { name: "序列", value: "sequence" },
 ]);
 let pageStyleList = ref<SelectOption[]>([]);
 let requireAsteriskPositionList = ref<SelectOption[]>([
   { name: "左", value: "left" },
-  { name: "右", value: "right" }
+  { name: "右", value: "right" },
 ]);
 let labelPositionList = ref<SelectOption[]>([
   { name: "左", value: "left" },
   { name: "右", value: "right" },
-  { name: "顶部", value: "top" }
+  { name: "顶部", value: "top" },
 ]);
 let formSizeList = ref<SelectOption[]>([
   { name: "大", value: "large" },
   { name: "中", value: "default" },
-  { name: "小", value: "small" }
+  { name: "小", value: "small" },
 ]);
 let dataLoadConditionList = ref<SelectOption[]>([
   { name: "创建人", value: "createdBy" },
   { name: "租户", value: "tenantId" },
-  { name: "ID", value: "id" }
+  { name: "ID", value: "id" },
 ]);
 let dynamicFieldList = ref<SelectOption[]>([]);
 let mainTableFieldList = ref<SelectOption[]>([]);
@@ -98,7 +102,12 @@ let httpMethodVisible = ref<boolean>(false);
 const tableFieldList = reactive<PageFieldInfo | any>({
   fieldList: [
     [
-      { label: "表单名称", fieldName: "formName", required: true, formVisible: true },
+      {
+        label: "表单名称",
+        fieldName: "formName",
+        required: true,
+        formVisible: true,
+      },
       {
         label: "数据源",
         fieldName: "datasourceConfigId",
@@ -109,14 +118,14 @@ const tableFieldList = reactive<PageFieldInfo | any>({
             if (val["datasourceConfigId"]) {
               loadSameDataSourceTables(val);
             }
-          }
+          },
         },
         required: true,
         formVisible: true,
         preps: {
-          values: dbList
-        }
-      }
+          values: dbList,
+        },
+      },
     ],
     {
       fieldName: "tab1",
@@ -125,79 +134,88 @@ const tableFieldList = reactive<PageFieldInfo | any>({
           title: "基础属性",
           tabName: "tab1",
           fieldList: [
-            [{
-              label: "表名",
-              fieldName: "tbName",
+            [
+              {
+                label: "表名",
+                fieldName: "tbName",
 
-              required: true,
-              formVisible: true,
-              
-              preps: {
-                editdisabled: true,
-                colspan: 16
-              }
-            }, {
-              label: "创建表",
-              fieldName: "createTable",
-              type: "switch",
-              defaultValue: "N",
-              formVisible: true,
-              preps: {
-                colspan: 8,
-                activeValue: "Y",
-                inactiveValue: "N"
-              }
-            }],
-            [{
-              label: "主键",
-              fieldName: "formId",
+                required: true,
+                formVisible: true,
 
-              required: true,
-              formVisible: true,
-              
-              preps: {
-                editdisabled: true,
-                colspan: 16
-              }
-            }, {
-              label: "主键策略",
-              fieldName: "primaryKeyPolicy",
-              type: "select",
-              formVisible: true,
-              
-              preps: {
-                editdisabled: true,
-                values: primaryKeyPolicyList,
-                colspan: 8
-              }
-            }],
-            [{
-              label: "所属系统",
-              fieldName: "sysId",
-              type: "tselect",
-              actions: {
-                change: (val: any) => {
-                  loadMenus(val["sysId"]);
-                }
+                preps: {
+                  editdisabled: true,
+                  colspan: 16,
+                },
               },
-              formVisible: true,
-              required: true,
-              preps: {
-                checkStrictly: true,
-                colspan: 9,
-                data: informationsList
-              }
-            }, {
-              label: "表单图标",
-              fieldName: "formIcon",
-              type: "icon",
-              formVisible: true,
-              preps: {
-                colspan: 8,
-                iconType: "user",
-                values: loadSvgIcons()
-              }
-            }],
+              {
+                label: "创建表",
+                fieldName: "createTable",
+                type: "switch",
+                defaultValue: "N",
+                formVisible: true,
+                preps: {
+                  colspan: 8,
+                  activeValue: "Y",
+                  inactiveValue: "N",
+                },
+              },
+            ],
+            [
+              {
+                label: "主键",
+                fieldName: "formId",
+
+                required: true,
+                formVisible: true,
+
+                preps: {
+                  editdisabled: true,
+                  colspan: 16,
+                },
+              },
+              {
+                label: "主键策略",
+                fieldName: "primaryKeyPolicy",
+                type: "select",
+                formVisible: true,
+
+                preps: {
+                  editdisabled: true,
+                  values: primaryKeyPolicyList,
+                  colspan: 8,
+                },
+              },
+            ],
+            [
+              {
+                label: "所属系统",
+                fieldName: "sysId",
+                type: "tselect",
+                actions: {
+                  change: (val: any) => {
+                    loadMenus(val["sysId"]);
+                  },
+                },
+                formVisible: true,
+                required: true,
+                preps: {
+                  checkStrictly: true,
+                  colspan: 9,
+                  data: informationsList,
+                },
+              },
+              {
+                label: "表单图标",
+                fieldName: "formIcon",
+                type: "icon",
+                formVisible: true,
+                preps: {
+                  colspan: 8,
+                  iconType: "user",
+                  values: loadSvgIcons(),
+                },
+              },
+            ],
             [
               {
                 label: "存为模板",
@@ -208,9 +226,10 @@ const tableFieldList = reactive<PageFieldInfo | any>({
                 preps: {
                   activeValue: 1,
                   inactiveValue: 2,
-                  colspan: 8
-                }
-              }, {
+                  colspan: 8,
+                },
+              },
+              {
                 label: "级联删除",
                 helpMsg: "页面字段删除时同步删除数据库对应表字段",
                 fieldName: "deleteCascade",
@@ -220,9 +239,10 @@ const tableFieldList = reactive<PageFieldInfo | any>({
                 preps: {
                   colspan: 8,
                   activeValue: "Y",
-                  inactiveValue: "N"
-                }
-              },],
+                  inactiveValue: "N",
+                },
+              },
+            ],
 
             [
               {
@@ -233,15 +253,15 @@ const tableFieldList = reactive<PageFieldInfo | any>({
                   change: (val: any) => {
                     loadMenus(val["sysId"]);
                     menuFlag.value = val["createMenu"] == "Y";
-                  }
+                  },
                 },
                 defaultValue: "N",
                 formVisible: true,
                 preps: {
                   colspan: 6,
                   activeValue: "Y",
-                  inactiveValue: "N"
-                }
+                  inactiveValue: "N",
+                },
               },
 
               {
@@ -255,38 +275,40 @@ const tableFieldList = reactive<PageFieldInfo | any>({
                   data: menusInfoList,
                   props: {
                     label: "menuName",
-                    value: "dataNo"
-                  }
-                }
-              }
-            ],
-            [{
-              label: "页面版式",
-              fieldName: "pageStyle",
-              type: "select",
-              formVisible: true,
-              actions: {
-                change: (val: any) => {
-                  conditionFlag.value = val["pageStyle"] == "form";
-                }
+                    value: "dataNo",
+                  },
+                },
               },
-              preps: {
-                colspan: 6,
-                values: pageStyleList
-              }
-            }, {
-              label: "数据加载条件",
-              fieldName: "dataLoadField",
-              type: "select",
-              formVisible: conditionFlag,
+            ],
+            [
+              {
+                label: "页面版式",
+                fieldName: "pageStyle",
+                type: "select",
+                formVisible: true,
+                actions: {
+                  change: (val: any) => {
+                    conditionFlag.value = val["pageStyle"] == "form";
+                  },
+                },
+                preps: {
+                  colspan: 6,
+                  values: pageStyleList,
+                },
+              },
+              {
+                label: "数据加载条件",
+                fieldName: "dataLoadField",
+                type: "select",
+                formVisible: conditionFlag,
 
-              preps: {
-                colspan: 9,
-                values: dataLoadConditionList,
-              }
-            }],
-
-          ]
+                preps: {
+                  colspan: 9,
+                  values: dataLoadConditionList,
+                },
+              },
+            ],
+          ],
         },
         {
           title: "映射关系配置",
@@ -304,8 +326,8 @@ const tableFieldList = reactive<PageFieldInfo | any>({
                   required: true,
                   formVisible: true,
                   preps: {
-                    values: relationDataList
-                  }
+                    values: relationDataList,
+                  },
                 },
                 {
                   label: "映射关系",
@@ -315,17 +337,17 @@ const tableFieldList = reactive<PageFieldInfo | any>({
                   required: true,
                   formVisible: true,
                   preps: {
-                    values: relationTypeList
-                  }
-                }
-              ]
-            }
-          ]
+                    values: relationTypeList,
+                  },
+                },
+              ],
+            },
+          ],
         },
         {
           title: "脚本绑定",
           tabName: "tab3",
-          fieldList: []
+          fieldList: [],
         },
         {
           title: "其它属性",
@@ -340,16 +362,21 @@ const tableFieldList = reactive<PageFieldInfo | any>({
                 formVisible: true,
                 preps: {
                   values: labelPositionList,
-                }
+                },
               },
-              { label: "标签长度", fieldName: "labelWidth", helpMsg: "如：50px", formVisible: true },
+              {
+                label: "标签长度",
+                fieldName: "labelWidth",
+                helpMsg: "如：50px",
+                formVisible: true,
+              },
               {
                 label: "表单验证规则名称",
                 fieldName: "rules",
                 defaultValue: "rules",
 
-                formVisible: true
-              }
+                formVisible: true,
+              },
             ],
             [
               {
@@ -359,11 +386,21 @@ const tableFieldList = reactive<PageFieldInfo | any>({
                 type: "select",
                 formVisible: true,
                 preps: {
-                  values: formSizeList
-                }
+                  values: formSizeList,
+                },
               },
-              { label: "表单域标签的后缀", fieldName: "labelSuffix", formVisible: true },
-              { label: "禁用所有组件", fieldName: "disabled", defaultValue: false, type: "switch", formVisible: true }
+              {
+                label: "表单域标签的后缀",
+                fieldName: "labelSuffix",
+                formVisible: true,
+              },
+              {
+                label: "禁用所有组件",
+                fieldName: "disabled",
+                defaultValue: false,
+                type: "switch",
+                formVisible: true,
+              },
             ],
             [
               {
@@ -371,14 +408,14 @@ const tableFieldList = reactive<PageFieldInfo | any>({
                 fieldName: "hideRequiredAsterisk",
                 defaultValue: false,
                 type: "switch",
-                formVisible: true
+                formVisible: true,
               },
               {
                 label: "校验失败时，滚动到第一个错误表单项",
                 fieldName: "scrollToError",
                 defaultValue: true,
                 type: "switch",
-                formVisible: true
+                formVisible: true,
               },
               {
                 label: "星号的位置",
@@ -387,9 +424,9 @@ const tableFieldList = reactive<PageFieldInfo | any>({
                 type: "radio",
                 formVisible: true,
                 preps: {
-                  values: requireAsteriskPositionList
-                }
-              }
+                  values: requireAsteriskPositionList,
+                },
+              },
             ],
             [
               {
@@ -397,22 +434,22 @@ const tableFieldList = reactive<PageFieldInfo | any>({
                 fieldName: "statusIcon",
                 defaultValue: false,
                 type: "switch",
-                formVisible: true
+                formVisible: true,
               },
               {
                 label: "是否显示校验错误信息",
                 fieldName: "showMessage",
                 defaultValue: true,
                 type: "switch",
-                formVisible: true
+                formVisible: true,
               },
               {
                 label: "是否以行内形式展示校验信息",
                 fieldName: "inlineMessage",
                 defaultValue: true,
                 type: "switch",
-                formVisible: true
-              }
+                formVisible: true,
+              },
             ],
             [
               {
@@ -420,11 +457,17 @@ const tableFieldList = reactive<PageFieldInfo | any>({
                 fieldName: "validateOnRuleChange",
                 defaultValue: false,
                 type: "switch",
-                formVisible: true
+                formVisible: true,
               },
-              { label: "行内表单模式", fieldName: "inline", defaultValue: true, type: "switch", formVisible: true }
-            ]
-          ]
+              {
+                label: "行内表单模式",
+                fieldName: "inline",
+                defaultValue: true,
+                type: "switch",
+                formVisible: true,
+              },
+            ],
+          ],
         },
         {
           title: "公共属性",
@@ -445,12 +488,12 @@ const tableFieldList = reactive<PageFieldInfo | any>({
                     } else {
                       orderByFieldList.value = mainTableFieldList.value;
                     }
-                  }
+                  },
                 },
                 preps: {
                   activeValue: "Y",
-                  inactiveValue: "N"
-                }
+                  inactiveValue: "N",
+                },
               },
               {
                 label: "状态字典",
@@ -458,8 +501,8 @@ const tableFieldList = reactive<PageFieldInfo | any>({
                 fieldName: "statusDictName",
 
                 defaultValue: "common",
-                formVisible: true
-              }
+                formVisible: true,
+              },
             ],
             {
               batchFieldList: [
@@ -479,36 +522,36 @@ const tableFieldList = reactive<PageFieldInfo | any>({
                         values: commonField(),
                         props: {
                           label: "label",
-                          value: "fieldName"
-                        }
-                      }
+                          value: "fieldName",
+                        },
+                      },
                     },
                     {
                       label: "查询显示",
                       fieldName: "searchVisible",
                       type: "switch",
                       defaultValue: false,
-                      formVisible: true
+                      formVisible: true,
                     },
                     {
                       label: "表单显示",
                       fieldName: "formVisible",
                       type: "switch",
                       defaultValue: false,
-                      formVisible: true
+                      formVisible: true,
                     },
                     {
                       label: "列表显示",
                       fieldName: "listVisible",
                       type: "switch",
                       defaultValue: true,
-                      formVisible: true
-                    }
-                  ]
-                }
-              ]
-            }
-          ]
+                      formVisible: true,
+                    },
+                  ],
+                },
+              ],
+            },
+          ],
         },
         {
           tabName: "tab6",
@@ -529,7 +572,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
                   required: true,
                   preps: {
                     values: dynamicFieldList,
-                  }
+                  },
                 },
                 {
                   label: "映射表",
@@ -541,14 +584,14 @@ const tableFieldList = reactive<PageFieldInfo | any>({
                     values: dataSourceData,
                     props: {
                       label: "formName",
-                      value: "tbName"
-                    }
+                      value: "tbName",
+                    },
                   },
                   actions: {
                     change: (val: any) => {
                       loadTableColumns(val["mappingTable"]);
-                    }
-                  }
+                    },
+                  },
                 },
                 {
                   label: "关联字段",
@@ -558,7 +601,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
                   formVisible: true,
                   preps: {
                     values: tableColumnsList,
-                  }
+                  },
                 },
                 {
                   label: "显示字段",
@@ -569,25 +612,26 @@ const tableFieldList = reactive<PageFieldInfo | any>({
                   formVisible: true,
                   preps: {
                     values: tableColumnsList,
-                  }
+                  },
                 },
                 {
                   label: "显示别名",
                   fieldName: "displayAliasField",
 
-                  helpMsg: "关联字段与主表字段冲突时配置,\n必须以字母开头不能有特殊符号",
+                  helpMsg:
+                    "关联字段与主表字段冲突时配置,\n必须以字母开头不能有特殊符号",
                   formVisible: true,
                   rules: [
                     {
                       pattern: /^[a-zA-Z][a-zA-Z0-9_]*$/,
                       message: "必须以字母开头不能有特殊符号",
-                      trigger: "blur"
-                    }
-                  ]
-                }
-              ]
-            }
-          ]
+                      trigger: "blur",
+                    },
+                  ],
+                },
+              ],
+            },
+          ],
         },
         {
           tabName: "tab7",
@@ -601,7 +645,12 @@ const tableFieldList = reactive<PageFieldInfo | any>({
               initRows: 0,
               fieldList: [
                 [
-                  { label: "事件名称", fieldName: "eventName", formVisible: true, required: true },
+                  {
+                    label: "事件名称",
+                    fieldName: "eventName",
+                    formVisible: true,
+                    required: true,
+                  },
                   {
                     label: "图标",
                     fieldName: "icon",
@@ -610,9 +659,9 @@ const tableFieldList = reactive<PageFieldInfo | any>({
                     required: true,
                     preps: {
                       iconType: "user",
-                      values: loadSvgIcons()
-                    }
-                  }
+                      values: loadSvgIcons(),
+                    },
+                  },
                 ],
                 [
                   {
@@ -623,7 +672,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
                     formVisible: true,
                     preps: {
                       values: authorityList,
-                    }
+                    },
                   },
                   {
                     label: "事件类别",
@@ -633,14 +682,16 @@ const tableFieldList = reactive<PageFieldInfo | any>({
                     formVisible: true,
                     actions: {
                       change: (val: any) => {
-                        urlFieldVisible.value = val["eventType"] && val["eventType"] != "dialog";
-                        httpMethodVisible.value = val["eventType"] && val["eventType"] == "interface";
-                      }
+                        urlFieldVisible.value =
+                          val["eventType"] && val["eventType"] != "dialog";
+                        httpMethodVisible.value =
+                          val["eventType"] && val["eventType"] == "interface";
+                      },
                     },
                     preps: {
                       values: eventTypeList,
-                    }
-                  }
+                    },
+                  },
                 ],
                 [
                   {
@@ -651,8 +702,8 @@ const tableFieldList = reactive<PageFieldInfo | any>({
                     required: true,
                     formVisible: true,
                     preps: {
-                      colspan: 18
-                    }
+                      colspan: 18,
+                    },
                   },
                   {
                     label: "请求方式",
@@ -663,19 +714,19 @@ const tableFieldList = reactive<PageFieldInfo | any>({
                     formVisible: httpMethodVisible,
                     preps: {
                       values: httpMethod(),
-                      colspan: 5
-                    }
-                  }
+                      colspan: 5,
+                    },
+                  },
                 ],
                 {
                   label: "参数",
                   fieldName: "parameters",
                   type: "json",
-                  formVisible: urlFieldVisible
-                }
-              ]
-            }
-          ]
+                  formVisible: urlFieldVisible,
+                },
+              ],
+            },
+          ],
         },
         {
           tabName: "tab8",
@@ -695,7 +746,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
                   formVisible: true,
                   preps: {
                     values: orderByFieldList,
-                  }
+                  },
                 },
                 {
                   label: "排序方式",
@@ -705,22 +756,22 @@ const tableFieldList = reactive<PageFieldInfo | any>({
                   formVisible: true,
                   preps: {
                     values: ascOrDesc(),
-                  }
+                  },
                 },
                 {
                   label: "优先级",
                   fieldName: "priority",
                   type: "number",
                   defaultValue: 1,
-                  formVisible: true
-                }
-              ]
-            }
-          ]
-        }
-      ]
-    }
-  ]
+                  formVisible: true,
+                },
+              ],
+            },
+          ],
+        },
+      ],
+    },
+  ],
 });
 const initDbList = async () => {
   dbList.value = await dbConfigList();
@@ -740,7 +791,10 @@ const initData = async () => {
   });
 };
 const analysisDynamicFields = async (formInfo: any) => {
-  let reData = await loadData(apiUrl.basePrefix + "/analysisDynamicDatasourceFields", formInfo);
+  let reData = await loadData(
+    apiUrl.basePrefix + "/analysisDynamicDatasourceFields",
+    formInfo,
+  );
   if (reData.error) {
     // warning(reData.error);
     return;
@@ -750,17 +804,20 @@ const analysisDynamicFields = async (formInfo: any) => {
 const analysisMainFields = async () => {
   let reData = await loadData(apiUrl.basePrefix + "/analysisMainTableFields", {
     details: {
-      content: JSON.stringify(designForm.compList)
-    }
+      content: JSON.stringify(designForm.compList),
+    },
   });
   if (reData.error) {
     return;
   }
   mainTableFieldList.value = reData.data;
   orderByFieldList.value = reData.data;
-  allTableFieldList.value = [...mainTableFieldList.value, ...commonField().map((item: any) => {
-    return { name: item.label, value: item.fieldName };
-  })];
+  allTableFieldList.value = [
+    ...mainTableFieldList.value,
+    ...commonField().map((item: any) => {
+      return { name: item.label, value: item.fieldName };
+    }),
+  ];
   if (formInfo.value?.needCommonFields == "Y") {
     orderByFieldList.value = allTableFieldList.value;
   }
@@ -775,11 +832,11 @@ const loadSameDataSourceTables = (formInfo: any) => {
     createCondition(
       "datasourceConfigId",
       formInfo["datasourceConfigId"] || null,
-      formInfo["datasourceConfigId"] ? "eq" : "is"
-    )
+      formInfo["datasourceConfigId"] ? "eq" : "is",
+    ),
   );
   postRequest(apiUrl.listConditionUrl!, {
-    fieldList: params
+    fieldList: params,
   }).then((res: any) => {
     relationDataList.value = [];
     if (res.data.code != 0) {
@@ -789,7 +846,7 @@ const loadSameDataSourceTables = (formInfo: any) => {
     dataSourceData.value.forEach((item: any) => {
       relationDataList.value.push({
         name: item.formName,
-        value: item.formId
+        value: item.formId,
       });
     });
   });
@@ -807,26 +864,25 @@ const loadTableColumns = (tbName: any) => {
     return;
   }
   tableColumnsList.value = [];
-  getRequest(`/userdb-manage/dbsearch/dbinfoEntity/tableColumns/${currentDataSourceId.value}/${tbName}`).then(
-    (res: any) => {
-      if (res.data.code != 0) {
-        return;
-      }
-      let resData = res.data.data;
-      resData.forEach((item: any) => {
-        tableColumnsList.value.push({
-          name: item.comment,
-          value: item.fieldName
-        });
-      });
+  getRequest(
+    `/userdb-manage/dbsearch/dbinfoEntity/tableColumns/${currentDataSourceId.value}/${tbName}`,
+  ).then((res: any) => {
+    if (res.data.code != 0) {
+      return;
     }
-  );
+    let resData = res.data.data;
+    resData.forEach((item: any) => {
+      tableColumnsList.value.push({
+        name: item.comment,
+        value: item.fieldName,
+      });
+    });
+  });
 };
 /**
  * 表单更新的时候，更新表单的属性
  */
-const updateCompInfo = () => {
-};
+const updateCompInfo = () => {};
 const getFormData = () => {
   return dynamicFormItemRef.value.getFormData();
 };
@@ -847,13 +903,13 @@ watch(
   },
   {
     immediate: true,
-    deep: true
-  }
+    deep: true,
+  },
 );
 defineExpose({
   loadMenus,
   getFormData,
-  analysisDynamicFields
+  analysisDynamicFields,
 });
 </script>
 <style lang="scss" scoped>
@@ -862,6 +918,10 @@ defineExpose({
 }
 </style>
 <template>
-  <star-horse-form label-position="right" :outerFormData="formInfo" :fieldList="tableFieldList"
-    ref="dynamicFormItemRef" />
+  <star-horse-form
+    label-position="right"
+    :outerFormData="formInfo"
+    :fieldList="tableFieldList"
+    ref="dynamicFormItemRef"
+  />
 </template>

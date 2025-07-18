@@ -2,18 +2,22 @@
   <el-dropdown @command="handleSetLanguage" class="languages" trigger="click">
     <div style="font-size: 15px; color: var(--star-horse-white)">
       <span>{{ langName }}</span>
-      <i class="el-icon-arrow-down el-icon--right"/>
+      <i class="el-icon-arrow-down el-icon--right" />
     </div>
     <template #dropdown>
       <el-dropdown-menu>
-        <el-dropdown-item :disabled="language === 'zh'" command="zh">中文</el-dropdown-item>
-        <el-dropdown-item :disabled="language === 'en'" command="en">English</el-dropdown-item>
+        <el-dropdown-item :disabled="language === 'zh'" command="zh"
+          >中文</el-dropdown-item
+        >
+        <el-dropdown-item :disabled="language === 'en'" command="en"
+          >English</el-dropdown-item
+        >
       </el-dropdown-menu>
     </template>
   </el-dropdown>
 </template>
 <script setup lang="ts">
-import {onMounted, ref} from "vue";
+import { onMounted, ref } from "vue";
 
 const langName = ref("");
 const language = ref("");

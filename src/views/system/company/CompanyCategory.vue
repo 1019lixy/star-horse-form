@@ -1,16 +1,16 @@
 <script setup lang="ts" name="CompanyCategory">
-import {onMounted, provide, reactive, ref} from "vue";
-import {Config} from "@/api/settings";
-import {getCustomerParam} from "@/utils/auth";
+import { onMounted, provide, reactive, ref } from "vue";
+import { Config } from "@/api/settings";
+import { getCustomerParam } from "@/utils/auth";
 import {
   apiInstance,
   ApiUrls,
   dialogPreps,
   PageFieldInfo,
   SearchFields,
-  UserFuncInfo
+  UserFuncInfo,
 } from "star-horse-lowcode";
-import {commonField} from "@/api/system";
+import { commonField } from "@/api/system";
 //后端交互接口地址
 const dataUrl: ApiUrls = apiInstance("system-config", "system/companyCategory");
 //主键
@@ -26,15 +26,15 @@ const searchFormData = reactive<SearchFields>({
       label: "名称",
       fieldName: "categoryName",
       defaultVisible: true,
-      matchType: "lk"
+      matchType: "lk",
     },
     {
       label: "编码",
       fieldName: "categoryCode",
       defaultVisible: true,
-      matchType: "lk"
-    }
-  ]
+      matchType: "lk",
+    },
+  ],
 });
 //页面属性
 const tableFieldList = reactive<PageFieldInfo | any>({
@@ -48,19 +48,19 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       listVisible: true,
       listPrototypeDisplay: "tag",
       preps: {
-        tagType: "info"
-      }
+        tagType: "info",
+      },
     },
     {
       label: "编码",
       fieldName: "categoryCode",
       required: true,
-      
+
       formVisible: true,
       listVisible: true,
-      preps:{
+      preps: {
         editdisabled: true,
-      }
+      },
     },
     {
       label: "序号",
@@ -69,13 +69,13 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       required: false,
       formVisible: true,
       listVisible: true,
-      listPrototypeDisplay: "text"
+      listPrototypeDisplay: "text",
     },
-    ...commonField()
+    ...commonField(),
   ],
   cellEditable: true,
   //默认查询条件
-  condition: [getCustomerParam()]
+  condition: [getCustomerParam()],
 });
 //校验
 const rules = {};
@@ -92,8 +92,8 @@ let extendBtns = ref<UserFuncInfo[]>([
     funcName: (row: any) => {
       outerForm.value["parentId"] = row[primaryKey];
       dialogProps.editVisible = true;
-    }
-  }
+    },
+  },
 ]);
 //初始化方法
 const initData = async () => {
@@ -118,40 +118,54 @@ onMounted(async () => {
 });
 </script>
 <template>
-  <star-horse-dialog :isShowBtnContinue="true" :dialog-visible="dialogProps.editVisible" :dialogProps="dialogProps">
+  <star-horse-dialog
+    :isShowBtnContinue="true"
+    :dialog-visible="dialogProps.editVisible"
+    :dialogProps="dialogProps"
+  >
     <star-horse-form
-        @refresh="companyCategoryRef?.loadByPage()"
-        :compUrl="dataUrl"
-        :fieldList="tableFieldList"
-        :outerFormData="outerForm"
-        :rules="rules"
+      @refresh="companyCategoryRef?.loadByPage()"
+      :compUrl="dataUrl"
+      :fieldList="tableFieldList"
+      :outerFormData="outerForm"
+      :rules="rules"
     />
   </star-horse-dialog>
   <star-horse-dialog
-      :dialog-visible="dialogProps.viewVisible"
-      :dialogProps="dialogProps"
-      
-      :source="3"
+    :dialog-visible="dialogProps.viewVisible"
+    :dialogProps="dialogProps"
+    :source="3"
   >
-    <star-horse-data-view :dataFormat="dataFormat" :field-list="tableFieldList" :compUrl="dataUrl"/>
+    <star-horse-data-view
+      :dataFormat="dataFormat"
+      :field-list="tableFieldList"
+      :compUrl="dataUrl"
+    />
   </star-horse-dialog>
   <div class="search-content">
-    <div class="search_btn" :style="{ 'flex-direction': Config.buttonStyle.value == 'line'? 'column' : 'row' }">
+    <div
+      class="search_btn"
+      :style="{
+        'flex-direction': Config.buttonStyle.value == 'line' ? 'column' : 'row',
+      }"
+    >
       <star-horse-search-comp
-          @searchData="(data: any) => companyCategoryRef?.createSearchParams(data)"
-          :formData="searchFormData"
-          :compUrl="dataUrl"
+        @searchData="
+          (data: any) => companyCategoryRef?.createSearchParams(data)
+        "
+        :formData="searchFormData"
+        :compUrl="dataUrl"
       />
     </div>
   </div>
   <el-card class="inner_content">
     <star-horse-table-comp
-        ref="companyCategoryRef"
-        :fieldList="tableFieldList"
-        :primaryKey="primaryKey"
-        :compUrl="dataUrl"
-        :extendBtns="extendBtns"
-        :dataFormat="dataFormat"
+      ref="companyCategoryRef"
+      :fieldList="tableFieldList"
+      :primaryKey="primaryKey"
+      :compUrl="dataUrl"
+      :extendBtns="extendBtns"
+      :dataFormat="dataFormat"
     />
   </el-card>
 </template>

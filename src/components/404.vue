@@ -1,6 +1,6 @@
 <script lang="ts" setup name="NotFound">
-import {useRouter} from "vue-router";
-import {i18n} from "@/lang";
+import { useRouter } from "vue-router";
+import { i18n } from "@/lang";
 
 const router = useRouter();
 const backFun = () => {
@@ -13,7 +13,13 @@ const backFun = () => {
   height: 100vh;
   margin: 0;
   padding: 0;
-  background: radial-gradient(circle, var(--star-horse-style), #1f4f96, #1b2949, #000);
+  background: radial-gradient(
+    circle,
+    var(--star-horse-style),
+    #1f4f96,
+    #1b2949,
+    #000
+  );
 }
 
 .stage {
@@ -40,13 +46,14 @@ const backFun = () => {
 }
 
 .layer:after {
-  font: 150px/0.65 "Pacifico",
-  "Kaushan Script",
-  Futura,
-  "Roboto",
-  "Trebuchet MS",
-  Helvetica,
-  sans-serif;
+  font:
+    150px/0.65 "Pacifico",
+    "Kaushan Script",
+    Futura,
+    "Roboto",
+    "Trebuchet MS",
+    Helvetica,
+    sans-serif;
   content: "Star Horse Say :\A\A 404  :( \A\A   Page not Found";
   white-space: pre;
   text-align: center;
@@ -145,9 +152,10 @@ const backFun = () => {
 
 .layer:nth-child(n + 11):after {
   -webkit-text-stroke: 15px var(--star-horse-style);
-  text-shadow: 6px 0 6px #00366b,
-  5px 5px 5px #002951,
-  0 6px 6px #00366b;
+  text-shadow:
+    6px 0 6px #00366b,
+    5px 5px 5px #002951,
+    0 6px 6px #00366b;
 }
 
 .layer:nth-child(n + 12):after {

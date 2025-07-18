@@ -1,39 +1,51 @@
 <template>
   <div class="bpmn-panel">
     <div style="height: 45px">
-      <div :class="{ active: configTab == 'node' }" @click="handleConfigSelect('node')" class="config-tab"
-      >节点属性
+      <div
+        :class="{ active: configTab == 'node' }"
+        @click="handleConfigSelect('node')"
+        class="config-tab"
+      >
+        节点属性
       </div>
-      <div :class="{ active: configTab == 'process' }" @click="handleConfigSelect('process')" class="config-tab">
+      <div
+        :class="{ active: configTab == 'process' }"
+        @click="handleConfigSelect('process')"
+        class="config-tab"
+      >
         流程属性
       </div>
     </div>
     <el-scrollbar height="100%">
       <node-property-panel
-          :formData="formData"
-          :modeler="modeler"
-          :nodeElement="nodeElement"
-          :tab="configTab"
-          v-if="configTab == 'node'"
-          @modifyConfigTab="modifyConfigTab"
-          @modifyFormData="modifyFormData"
+        :formData="formData"
+        :modeler="modeler"
+        :nodeElement="nodeElement"
+        :tab="configTab"
+        v-if="configTab == 'node'"
+        @modifyConfigTab="modifyConfigTab"
+        @modifyFormData="modifyFormData"
       />
-      <process-property-panel v-if="configTab == 'process'" :element="nodeElement" :modeler="modeler"/>
+      <process-property-panel
+        v-if="configTab == 'process'"
+        :element="nodeElement"
+        :modeler="modeler"
+      />
     </el-scrollbar>
   </div>
 </template>
 <script setup lang="ts" name="JbpmPropertyPanel">
-import {onMounted, ref} from "vue";
+import { onMounted, ref } from "vue";
 
 const props = defineProps({
   modeler: {
     type: Object,
-    required: true
+    required: true,
   },
   process: {
     type: Object,
-    required: true
-  }
+    required: true,
+  },
 });
 const emits = defineEmits(["updateXml"]);
 let configTab = ref<string>("node");
@@ -70,7 +82,7 @@ const handleModeler = () => {
   // //节点属性变化
   props.modeler.on("element.changed", (e: any) => {
     console.log("element.changed", e);
-    const {element} = e;
+    const { element } = e;
     if (!element) {
       return;
     }
@@ -79,7 +91,7 @@ const handleModeler = () => {
   // //节点点击事件
   props.modeler.on("element.click", (e: any) => {
     console.log("element.click", e);
-    const {element} = e;
+    const { element } = e;
     if (element.type == props.modeler._definitions.rootElements[0].$type) {
       modifyConfigTab(0);
     } else {

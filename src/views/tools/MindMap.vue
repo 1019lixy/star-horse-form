@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {onMounted, ref} from "vue";
+import { onMounted, ref } from "vue";
 import MindMap from "simple-mind-map";
 import MiniMap from "simple-mind-map/src/plugins/MiniMap.js";
 import Watermark from "simple-mind-map/src/plugins/Watermark.js";
@@ -19,29 +19,29 @@ import Cooperate from "simple-mind-map/src/plugins/Cooperate.js";
 
 let mindMapContainerRef = ref<HTMLElement>();
 MindMap.usePlugin(MiniMap)
-    .usePlugin(Watermark)
-    .usePlugin(Drag)
-    .usePlugin(KeyboardNavigation)
-    .usePlugin(ExportPDF)
-    .usePlugin(ExportXMind)
-    .usePlugin(Export)
-    .usePlugin(Select)
-    .usePlugin(AssociativeLine)
-    .usePlugin(NodeImgAdjust)
-    .usePlugin(TouchEvent)
-    .usePlugin(SearchPlugin)
-    .usePlugin(Painter)
-    .usePlugin(Formula)
-    .usePlugin(Cooperate); // 协同插件
+  .usePlugin(Watermark)
+  .usePlugin(Drag)
+  .usePlugin(KeyboardNavigation)
+  .usePlugin(ExportPDF)
+  .usePlugin(ExportXMind)
+  .usePlugin(Export)
+  .usePlugin(Select)
+  .usePlugin(AssociativeLine)
+  .usePlugin(NodeImgAdjust)
+  .usePlugin(TouchEvent)
+  .usePlugin(SearchPlugin)
+  .usePlugin(Painter)
+  .usePlugin(Formula)
+  .usePlugin(Cooperate); // 协同插件
 const init = () => {
   const mindMap = new MindMap({
     el: document.getElementById("mindMapContainer"),
     data: {
       data: {
-        text: "根节点"
+        text: "根节点",
       },
-      children: []
-    }
+      children: [],
+    },
   });
 };
 

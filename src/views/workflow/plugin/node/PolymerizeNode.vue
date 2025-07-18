@@ -4,20 +4,23 @@
       <div class="flow-item flow-node-branch" @click.stop="selectNode">
         <div class="flow-branch-suggest">
           <div class="node-name">
-            <EditName :node="node" style="width: 90%"/>
-            <star-horse-icon icon-class="parallel_node" style="margin-left: 10px"/>
+            <EditName :node="node" style="width: 90%" />
+            <star-horse-icon
+              icon-class="parallel_node"
+              style="margin-left: 10px"
+            />
           </div>
         </div>
       </div>
       <!-- 如果子节点是意见分支,则只能添加一个意见分支 -->
-      <AddNode :node="node" :nodeType="node.type" :readable="readable"/>
+      <AddNode :node="node" :nodeType="node.type" :readable="readable" />
     </div>
   </div>
 </template>
 <script setup lang="ts">
-import {onMounted} from "vue";
-import {closeLoad, piniaInstance, warning} from "star-horse-lowcode";
-import {useFlowDesignStore} from "@/store/FlowDesign";
+import { onMounted } from "vue";
+import { closeLoad, piniaInstance, warning } from "star-horse-lowcode";
+import { useFlowDesignStore } from "@/store/FlowDesign";
 
 const flowDesign = useFlowDesignStore(piniaInstance);
 const props = defineProps({
@@ -25,12 +28,12 @@ const props = defineProps({
     type: Object,
     default: function () {
       return {};
-    }
+    },
   },
   readable: {
     type: Boolean,
-    default: false
-  }
+    default: false,
+  },
 });
 const emits = defineEmits(["selectNode"]);
 const selectNode = () => {

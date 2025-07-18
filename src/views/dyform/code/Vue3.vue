@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import {onMounted, ref, watch} from "vue";
-import {convertToCamelCase} from "star-horse-lowcode";
+import { onMounted, ref, watch } from "vue";
+import { convertToCamelCase } from "star-horse-lowcode";
 
 const props = defineProps({
-  formInfo: {type: Object, required: true},
-  compList: {type: Array, required: true},
-  compSize: {type: String, required: true}
+  formInfo: { type: Object, required: true },
+  compList: { type: Array, required: true },
+  compSize: { type: String, required: true },
 });
 let searchFieldList: Array<any> = [];
 let formData: Array<any> = [];
@@ -66,8 +66,16 @@ onMounted(() => {
 `;
 };
 const init = () => {
-  let searchFields = JSON.stringify(props.compList?.searchFormData || [], null, 4);
-  let formFields = JSON.stringify(props.compList?.tableFieldList?.fieldList || [], null, 4);
+  let searchFields = JSON.stringify(
+    props.compList?.searchFormData || [],
+    null,
+    4,
+  );
+  let formFields = JSON.stringify(
+    props.compList?.tableFieldList?.fieldList || [],
+    null,
+    4,
+  );
   code.value = asssignVal(searchFields, formFields);
   if (starHorseEditorRef.value) {
     starHorseEditorRef.value.setValue(code.value);
@@ -90,26 +98,34 @@ onMounted(() => {
   init();
 });
 watch(
-    () => props.compList,
-    () => {
-      init();
-    },
-    {
-      immediate: true,
-      deep: true
-    }
+  () => props.compList,
+  () => {
+    init();
+  },
+  {
+    immediate: true,
+    deep: true,
+  },
 );
 </script>
 <template>
   <div class="vue3-code">
     <div class="code-editor">
       <el-scrollbar height="100%">
-        <StarHorseEditor :lang="'vue'" v-model:value="code" ref="starHorseEditorRef"/>
+        <StarHorseEditor
+          :lang="'vue'"
+          v-model:value="code"
+          ref="starHorseEditorRef"
+        />
       </el-scrollbar>
     </div>
     <div class="inner_button">
       <el-button type="primary" @click="saveFile" :size="compSize">
-        <star-horse-icon icon-class="save" size="16px" color="var(--star-horse-white)"/>
+        <star-horse-icon
+          icon-class="save"
+          size="16px"
+          color="var(--star-horse-white)"
+        />
         保存为文件
       </el-button>
     </div>

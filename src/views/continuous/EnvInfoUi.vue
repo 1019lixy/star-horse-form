@@ -1,22 +1,42 @@
 <script setup lang="ts" name="EnvInfo">
-import {onMounted, provide, reactive, ref} from "vue";
-import {apiInstance, ApiUrls, dialogPreps, SearchFields} from "star-horse-lowcode";
-import {Config} from "@/api/settings";
+import { onMounted, provide, reactive, ref } from "vue";
+import {
+  apiInstance,
+  ApiUrls,
+  dialogPreps,
+  SearchFields,
+} from "star-horse-lowcode";
+import { Config } from "@/api/settings";
 
 const dataUrl: ApiUrls = apiInstance("continuous-manage", "continuous/envInfo");
 const searchFormData = reactive<SearchFields>({
   fieldList: [
-    {label: "项目名称", fieldName: "projectName",  matchType: "lk", defaultVisible: true},
-    {label: "项目类型", fieldName: "projectType",  matchType: "lk", defaultVisible: true},
-    {label: "程序语言", fieldName: "language",  matchType: "lk", defaultVisible: true}
-  ]
+    {
+      label: "项目名称",
+      fieldName: "projectName",
+      matchType: "lk",
+      defaultVisible: true,
+    },
+    {
+      label: "项目类型",
+      fieldName: "projectType",
+      matchType: "lk",
+      defaultVisible: true,
+    },
+    {
+      label: "程序语言",
+      fieldName: "language",
+      matchType: "lk",
+      defaultVisible: true,
+    },
+  ],
 });
 const tableFieldList = reactive({
   fieldList: [
     {
       label: "主键",
       fieldName: "idEnvInfo",
-      type: "long"
+      type: "long",
     },
     {
       label: "环境名称",
@@ -24,7 +44,7 @@ const tableFieldList = reactive({
 
       required: true,
       formVisible: true,
-      listVisible: true
+      listVisible: true,
     },
     [
       {
@@ -32,15 +52,15 @@ const tableFieldList = reactive({
         fieldName: "nevCode",
 
         formVisible: true,
-        listVisible: true
+        listVisible: true,
       },
       {
         label: "环境地址",
         fieldName: "envHose",
         type: "number",
         formVisible: true,
-        listVisible: true
-      }
+        listVisible: true,
+      },
     ],
     [
       {
@@ -49,7 +69,7 @@ const tableFieldList = reactive({
 
         required: true,
         formVisible: true,
-        listVisible: true
+        listVisible: true,
       },
       {
         label: "初始空间大小",
@@ -57,8 +77,8 @@ const tableFieldList = reactive({
 
         required: true,
         formVisible: true,
-        listVisible: true
-      }
+        listVisible: true,
+      },
     ],
     [
       {
@@ -67,7 +87,7 @@ const tableFieldList = reactive({
 
         required: true,
         formVisible: true,
-        listVisible: true
+        listVisible: true,
       },
       {
         label: "程序语言",
@@ -75,8 +95,8 @@ const tableFieldList = reactive({
 
         required: true,
         formVisible: true,
-        listVisible: true
-      }
+        listVisible: true,
+      },
     ],
     [
       {
@@ -84,78 +104,72 @@ const tableFieldList = reactive({
         fieldName: "expirationDate",
 
         formVisible: true,
-        listVisible: true
+        listVisible: true,
       },
       {
         label: "生效时间",
         fieldName: "effectiveDate",
 
         formVisible: true,
-        listVisible: true
-      }
+        listVisible: true,
+      },
     ],
     {
       label: "备注",
       fieldName: "remark",
       type: "textarea",
-      formVisible: true
+      formVisible: true,
     },
     {
       label: "创建人",
       disabled: true,
       fieldName: "createdBy",
-
     },
     {
       label: "修改人",
       disabled: true,
       fieldName: "updatedBy",
-
     },
     {
       label: "创建日期",
       disabled: true,
       fieldName: "createdTime",
-      type: "date"
+      type: "date",
     },
     {
       label: "修改日期",
       disabled: true,
       fieldName: "updatedTime",
-      type: "date"
+      type: "date",
     },
     {
       label: "数据版本号",
       fieldName: "version",
-      type: "number"
+      type: "number",
     },
     {
       label: "是否已逻辑",
       fieldName: "isDel",
-      type: "number"
+      type: "number",
     },
     {
       label: "数据编号",
       fieldName: "dataNo",
-
     },
     {
       label: "状态码",
       fieldName: "statusCode",
-
     },
     {
       label: "状态码名称",
       fieldName: "statusName",
-
     },
     {
       label: "国际码",
       fieldName: "local",
-
-    }
+    },
   ],
-  batchFieldList: []
+  batchFieldList: [],
 });
 const primaryKey = "idEnvInfo";
 const environmentInfoRef = ref();
@@ -166,51 +180,59 @@ provide("dialogProps", dialogProps);
 const dataFormat = (name: string, cellValue: object): any => {
   return cellValue;
 };
-const init = async () => {
-};
+const init = async () => {};
 onMounted(async () => {
   await init();
 });
 </script>
 <template>
-  <star-horse-dialog :isShowBtnContinue="true" :dialogVisible="dialogProps.editVisible" :dialogProps="dialogProps">
+  <star-horse-dialog
+    :isShowBtnContinue="true"
+    :dialogVisible="dialogProps.editVisible"
+    :dialogProps="dialogProps"
+  >
     <star-horse-form
-        @refresh="environmentInfoRef?.loadByPage()"
-        :compUrl="dataUrl"
-        :fieldList="tableFieldList"
-        :rules="rules"
+      @refresh="environmentInfoRef?.loadByPage()"
+      :compUrl="dataUrl"
+      :fieldList="tableFieldList"
+      :rules="rules"
     />
   </star-horse-dialog>
   <star-horse-dialog
-      :dialog-visible="dialogProps.viewVisible"
-      :dialogProps="dialogProps"
-      
-      :source="3"
+    :dialog-visible="dialogProps.viewVisible"
+    :dialogProps="dialogProps"
+    :source="3"
   >
-    <star-horse-data-view :dataFormat="dataFormat" :field-list="tableFieldList" :compUrl="dataUrl"/>
+    <star-horse-data-view
+      :dataFormat="dataFormat"
+      :field-list="tableFieldList"
+      :compUrl="dataUrl"
+    />
   </star-horse-dialog>
   <el-card class="inner_content">
-    <div class="search_btn" >
+    <div class="search_btn">
       <star-horse-search-comp
-          @searchData="(data: any) => environmentInfoRef?.createSearchParams(data)"
-          :formData="searchFormData"
-          :compUrl="dataUrl"
+        @searchData="
+          (data: any) => environmentInfoRef?.createSearchParams(data)
+        "
+        :formData="searchFormData"
+        :compUrl="dataUrl"
       />
-      <hr/>
+      <hr />
       <star-horse-button-list
-          @tableCompFunc="(fun: any) => environmentInfoRef.tableCompFunc(fun)"
-          :compUrl="dataUrl"
-          :dialogProps="dialogProps"
-          :showType="Config.buttonStyle"
+        @tableCompFunc="(fun: any) => environmentInfoRef.tableCompFunc(fun)"
+        :compUrl="dataUrl"
+        :dialogProps="dialogProps"
+        :showType="Config.buttonStyle"
       />
     </div>
     <star-horse-table-comp
-        ref="environmentInfoRef"
-        :fieldList="tableFieldList"
-        :primaryKey="primaryKey"
-        :compUrl="dataUrl"
-        :dataFormat="dataFormat"
-        @selectItem="selectItemFun"
+      ref="environmentInfoRef"
+      :fieldList="tableFieldList"
+      :primaryKey="primaryKey"
+      :compUrl="dataUrl"
+      :dataFormat="dataFormat"
+      @selectItem="selectItemFun"
     />
   </el-card>
 </template>

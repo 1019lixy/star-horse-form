@@ -10,11 +10,11 @@ const taskNoticeList = ref<SelectOption[]>([]);
 const auditorEmptyPolicyList = ref<SelectOption[]>([
   { name: "自动通过", value: "autoPass" },
   { name: "自动拒绝", value: "autoReject" },
-  { name: "指定经办人", value: "assignee" }
+  { name: "指定经办人", value: "assignee" },
 ]);
 const returnPolicyList = ref<SelectOption[]>([
   { name: "重新审批", value: "reAudit" },
-  { name: "从当前节点审批", value: "currentNodeAudit" }
+  { name: "从当前节点审批", value: "currentNodeAudit" },
 ]);
 const basicFieldList = ref<FieldInfo[]>([
   {
@@ -23,14 +23,14 @@ const basicFieldList = ref<FieldInfo[]>([
     required: true,
 
     disabled: true,
-    formVisible: true
+    formVisible: true,
   },
   {
     label: "任务名称",
     fieldName: "taskName",
     required: true,
 
-    formVisible: true
+    formVisible: true,
   },
   {
     label: "关联表单",
@@ -40,7 +40,7 @@ const basicFieldList = ref<FieldInfo[]>([
     formVisible: true,
     preps: {
       values: relationFormList,
-    }
+    },
   },
   {
     label: "允许编辑",
@@ -50,8 +50,8 @@ const basicFieldList = ref<FieldInfo[]>([
     formVisible: true,
     preps: {
       activeValue: "Y",
-      inactiveValue: "N"
-    }
+      inactiveValue: "N",
+    },
   },
   {
     label: "任务变量",
@@ -60,7 +60,7 @@ const basicFieldList = ref<FieldInfo[]>([
     formVisible: true,
     preps: {
       values: taskParamsList,
-    }
+    },
   },
   {
     label: "是否会签",
@@ -70,8 +70,8 @@ const basicFieldList = ref<FieldInfo[]>([
     formVisible: true,
     preps: {
       activeValue: "Y",
-      inactiveValue: "N"
-    }
+      inactiveValue: "N",
+    },
   },
   {
     label: "任务通知",
@@ -80,13 +80,13 @@ const basicFieldList = ref<FieldInfo[]>([
     formVisible: true,
     preps: {
       values: taskNoticeList,
-    }
+    },
   },
   {
     label: "超时设置",
     fieldName: "timeOutSetting",
 
-    formVisible: true
+    formVisible: true,
   },
   {
     label: "经办人为空策略",
@@ -95,7 +95,7 @@ const basicFieldList = ref<FieldInfo[]>([
     formVisible: true,
     preps: {
       values: auditorEmptyPolicyList,
-    }
+    },
   },
   {
     label: "退回策略",
@@ -104,8 +104,8 @@ const basicFieldList = ref<FieldInfo[]>([
     formVisible: true,
     preps: {
       values: returnPolicyList,
-    }
-  }
+    },
+  },
 ]);
 const btnTypeList = ref<SelectOption[]>([
   { name: "同意", value: "a" },
@@ -124,7 +124,7 @@ const btnTypeList = ref<SelectOption[]>([
   { name: "拒绝（会签）", value: "n" },
   { name: "弃权（会签）", value: "o" },
   { name: "指定审批人", value: "p" },
-  { name: "指定跳转", value: "q" }
+  { name: "指定跳转", value: "q" },
 ]);
 const btnActionList = ref<SelectOption[]>([
   { name: "无操作", value: "a1" },
@@ -132,12 +132,12 @@ const btnActionList = ref<SelectOption[]>([
   { name: "拒绝", value: "c1" },
   { name: "驳回", value: "d1" },
   { name: "会签同意", value: "e1" },
-  { name: "会签拒绝", value: "f1" }
+  { name: "会签拒绝", value: "f1" },
 ]);
 const autoAgreeList = ref<SelectOption[]>([
   { name: "经办人为发起人", value: "1" },
   { name: "经办人为上一节点经办人", value: "2" },
-  { name: "经办人为经办人审批过", value: "3" }
+  { name: "经办人为经办人审批过", value: "3" },
 ]);
 const buttonFieldList = ref<FieldInfo[]>([
   {
@@ -152,7 +152,7 @@ const buttonFieldList = ref<FieldInfo[]>([
             label: "按钮名称",
             fieldName: "btnName",
 
-            formVisible: true
+            formVisible: true,
           },
           {
             label: "按钮类型",
@@ -161,7 +161,7 @@ const buttonFieldList = ref<FieldInfo[]>([
             formVisible: true,
             preps: {
               values: btnTypeList,
-            }
+            },
           },
           {
             label: "按钮行为",
@@ -170,11 +170,11 @@ const buttonFieldList = ref<FieldInfo[]>([
             formVisible: true,
             preps: {
               values: btnActionList,
-            }
-          }
-        ]
-      }
-    ]
+            },
+          },
+        ],
+      },
+    ],
   },
   {
     label: "自动同意",
@@ -183,8 +183,8 @@ const buttonFieldList = ref<FieldInfo[]>([
     formVisible: true,
     preps: {
       values: autoAgreeList,
-    }
-  }
+    },
+  },
 ]);
 const assigneeTypeList = ref<SelectOption[]>([
   { name: "审批人", value: "assignee" },
@@ -193,7 +193,7 @@ const assigneeTypeList = ref<SelectOption[]>([
   { name: "部门", value: "dept" },
   { name: "岗位", value: "job" },
   { name: "发起人直接领导", value: "directLeader" },
-  { name: "发起人上级部门领导", value: "parentDeptLeader" }
+  { name: "发起人上级部门领导", value: "parentDeptLeader" },
 ]);
 const auditorFieldList = ref<FieldInfo[]>([
   {
@@ -203,7 +203,7 @@ const auditorFieldList = ref<FieldInfo[]>([
     formVisible: true,
     preps: {
       values: assigneeTypeList,
-    }
+    },
   },
   {
     label: "添加经办人",
@@ -211,12 +211,12 @@ const auditorFieldList = ref<FieldInfo[]>([
     type: "dialog-input",
     preps: {
       dataUrl: {
-        pageListUrl: ""
+        pageListUrl: "",
       },
       needField: [],
-      fieldList: []
+      fieldList: [],
     },
-    formVisible: true
+    formVisible: true,
   },
   {
     label: "添加抄送人",
@@ -224,37 +224,37 @@ const auditorFieldList = ref<FieldInfo[]>([
     type: "dialog-input",
     preps: {
       dataUrl: {
-        pageListUrl: ""
+        pageListUrl: "",
       },
       needField: [],
-      fieldList: []
+      fieldList: [],
     },
-    formVisible: true
-  }
+    formVisible: true,
+  },
 ]);
 const eventTypeList = ref<SelectOption[]>([
   { name: "开始", value: "start" },
-  { name: "结束", value: "end" }
+  { name: "结束", value: "end" },
 ]);
 const columnTypeList = ref<SelectOption[]>([
   { name: "值", value: "value" },
-  { name: "表达式", value: "exp" }
+  { name: "表达式", value: "exp" },
 ]);
 const scriptTypeList = ref<SelectOption[]>([
   { name: "内联脚本", value: "innerScript" },
-  { name: "外部脚本", value: "outerScript" }
+  { name: "外部脚本", value: "outerScript" },
 ]);
 const listenerTypeList = ref<SelectOption[]>([
   { name: "Java类", value: "class" },
   { name: "表达式", value: "exp" },
   { name: "代理表达式", value: "proxyExp" },
-  { name: "脚本", value: "script" }
+  { name: "脚本", value: "script" },
 ]);
 const eventTypeList1 = ref<SelectOption[]>([
   { name: "创建", value: "create" },
   { name: "指派", value: "assign" },
   { name: "完成", value: "finish" },
-  { name: "删除", value: "delete" }
+  { name: "删除", value: "delete" },
 ]);
 let labelName = ref<string>("");
 let formVisible = ref<boolean>(false);
@@ -276,8 +276,8 @@ const otherFieldList = ref<FieldInfo[]>([
             required: true,
             formVisible: true,
             preps: {
-              values: eventTypeList
-            }
+              values: eventTypeList,
+            },
           },
           {
             label: "监听器类型",
@@ -291,18 +291,20 @@ const otherFieldList = ref<FieldInfo[]>([
                 if (!value) {
                   return;
                 }
-                labelName.value = listenerTypeList.value.find((item) => item.value == value)?.name;
+                labelName.value = listenerTypeList.value.find(
+                  (item) => item.value == value,
+                )?.name;
                 formVisible.value = true;
                 scriptTypeformVisible.value = false;
                 if (value == "script") {
                   scriptTypeformVisible.value = true;
                 }
-              }
+              },
             },
             formVisible: true,
             preps: {
               values: listenerTypeList,
-            }
+            },
           },
           {
             label: labelName,
@@ -311,8 +313,8 @@ const otherFieldList = ref<FieldInfo[]>([
             required: true,
             formVisible: formVisible,
             preps: {
-              placeholder: "请输入"
-            }
+              placeholder: "请输入",
+            },
           },
           {
             label: "脚本类型",
@@ -322,7 +324,7 @@ const otherFieldList = ref<FieldInfo[]>([
             formVisible: scriptTypeformVisible,
             preps: {
               values: scriptTypeList,
-            }
+            },
           },
           {
             batchFieldList: [
@@ -334,7 +336,7 @@ const otherFieldList = ref<FieldInfo[]>([
                     label: "字段名称",
                     fieldName: "name",
 
-                    formVisible: true
+                    formVisible: true,
                   },
                   {
                     label: "字段类型",
@@ -343,19 +345,19 @@ const otherFieldList = ref<FieldInfo[]>([
                     formVisible: true,
                     preps: {
                       values: columnTypeList,
-                    }
+                    },
                   },
                   {
                     label: "值/表达式",
                     fieldName: "columnValue",
 
-                    formVisible: true
-                  }
-                ]
-              }
-            ]
-          }
-        ]
+                    formVisible: true,
+                  },
+                ],
+              },
+            ],
+          },
+        ],
       },
       {
         batchName: "taskListener",
@@ -369,13 +371,13 @@ const otherFieldList = ref<FieldInfo[]>([
             formVisible: true,
             preps: {
               values: eventTypeList1,
-            }
+            },
           },
           {
             label: "监听器Id",
             fieldName: "listenerId",
 
-            formVisible: true
+            formVisible: true,
           },
           {
             label: "监听器类型",
@@ -388,18 +390,20 @@ const otherFieldList = ref<FieldInfo[]>([
                 if (!value) {
                   return;
                 }
-                labelName.value = listenerTypeList.value.find((item) => item.value == value)?.name;
+                labelName.value = listenerTypeList.value.find(
+                  (item) => item.value == value,
+                )?.name;
                 formVisible.value = true;
                 scriptTypeformVisible.value = false;
                 if (value == "script") {
                   scriptTypeformVisible.value = true;
                 }
-              }
+              },
             },
             formVisible: true,
             preps: {
               values: listenerTypeList,
-            }
+            },
           },
           {
             label: labelName,
@@ -408,8 +412,8 @@ const otherFieldList = ref<FieldInfo[]>([
             required: true,
             formVisible: formVisible,
             preps: {
-              placeholder: "请输入"
-            }
+              placeholder: "请输入",
+            },
           },
           {
             label: "脚本类型",
@@ -419,7 +423,7 @@ const otherFieldList = ref<FieldInfo[]>([
             formVisible: scriptTypeformVisible,
             preps: {
               values: scriptTypeList,
-            }
+            },
           },
           {
             batchFieldList: [
@@ -431,28 +435,28 @@ const otherFieldList = ref<FieldInfo[]>([
                     label: "字段名称",
                     fieldName: "name",
 
-                    formVisible: true
+                    formVisible: true,
                   },
                   {
                     label: "字段类型",
                     fieldName: "columnType",
                     type: "select",
                     formVisible: true,
-                    preps:{
+                    preps: {
                       values: columnTypeList,
-                    }
+                    },
                   },
                   {
                     label: "值/表达式",
                     fieldName: "columnValue",
 
-                    formVisible: true
-                  }
-                ]
-              }
-            ]
-          }
-        ]
+                    formVisible: true,
+                  },
+                ],
+              },
+            ],
+          },
+        ],
       },
       {
         batchName: "extendProperties",
@@ -463,18 +467,18 @@ const otherFieldList = ref<FieldInfo[]>([
             label: "属性名",
             fieldName: "propName",
 
-            formVisible: true
+            formVisible: true,
           },
           {
             label: "属性值",
             fieldName: "propValue",
 
-            formVisible: true
-          }
-        ]
-      }
-    ]
-  }
+            formVisible: true,
+          },
+        ],
+      },
+    ],
+  },
 ]);
 const tableFieldList = reactive({
   fieldList: [
@@ -484,26 +488,26 @@ const tableFieldList = reactive({
         {
           title: "基础信息",
           tabName: "basic",
-          fieldList: basicFieldList
+          fieldList: basicFieldList,
         },
         {
           title: "按钮设置",
           tabName: "button",
-          fieldList: buttonFieldList
+          fieldList: buttonFieldList,
         },
         {
           title: "事务处理人",
           tabName: "auditor",
-          fieldList: auditorFieldList
+          fieldList: auditorFieldList,
         },
         {
           title: "其他配置",
           tabName: "other",
-          fieldList: otherFieldList
-        }
-      ]
-    }
-  ]
+          fieldList: otherFieldList,
+        },
+      ],
+    },
+  ],
 });
 </script>
 <template>

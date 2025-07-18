@@ -1,5 +1,5 @@
 <script setup lang="ts" name="QualityAccessControl">
-import {ref} from "vue";
+import { ref } from "vue";
 
 const tabCurrent = ref("second");
 </script>
@@ -8,7 +8,7 @@ const tabCurrent = ref("second");
   <el-card>
     <el-tabs type="card" v-model="tabCurrent">
       <el-tab-pane label="实时日志" name="first">
-        <data-log/>
+        <data-log />
       </el-tab-pane>
       <el-tab-pane label="作业配置" name="second"></el-tab-pane>
     </el-tabs>

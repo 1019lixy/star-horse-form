@@ -1,5 +1,14 @@
 <script lang="ts" setup name="DynamicForm">
-import { computed, nextTick, onActivated, onBeforeUnmount, onDeactivated, onMounted, ref, watch } from "vue";
+import {
+  computed,
+  nextTick,
+  onActivated,
+  onBeforeUnmount,
+  onDeactivated,
+  onMounted,
+  ref,
+  watch,
+} from "vue";
 
 import {
   apiInstance,
@@ -17,18 +26,24 @@ import {
   useSelfOperationStore,
   warning,
   itemCheck,
-  uuid
+  uuid,
 } from "star-horse-lowcode";
 import { useRoute, useRouter } from "vue-router";
 import { validDynamicFormCompParams } from "@/views/dyform/utils/preview";
 import { delCacheData, getCacheData, setCacheData } from "@/api/cached_utils";
 import { i18n } from "@/lang";
 import { Config } from "@/api/settings";
-import { initKeyboardEvent, removeKeyboardEvent } from "@/api/keyboard-event-utils";
+import {
+  initKeyboardEvent,
+  removeKeyboardEvent,
+} from "@/api/keyboard-event-utils";
 import { ModuleEnums } from "@/components/enums/ModuleEnums";
 import { compFieldInit } from "@/views/dyform/utils/FieldOperationUtils";
 import { dynamicFormContextMenuData } from "@/plugins/AblesPlugin.ts";
-import { dynamicFormHelpMessage, formActions } from "@/views/dyform/utils/DynamicForm.ts";
+import {
+  dynamicFormHelpMessage,
+  formActions,
+} from "@/views/dyform/utils/DynamicForm.ts";
 
 const dataUrl = apiInstance("userdb-manage", "userdb/dynamicForm");
 let designForm = useDesignFormStore(piniaInstance);
@@ -38,7 +53,9 @@ let pagePermission = useButtonPermissionStore(piniaInstance);
 let userOperation = useSelfOperationStore(piniaInstance);
 let configStore = useGlobalConfigStore(piniaInstance);
 let permissions = ref<any>({});
-let compSize = computed(() => configStore.configFormInfo?.buttonSize || Config.compSize);
+let compSize = computed(
+  () => configStore.configFormInfo?.buttonSize || Config.compSize,
+);
 let draggingItem = computed(() => designForm.draggingItem);
 let list = computed(() => designForm.compList);
 let isPreview = computed(() => designForm.previewVisible);
@@ -69,14 +86,22 @@ const init = async () => {
     //解决数据已经加载完成，但是组件属性没有加载完成的问题
     if (list.value.length > 0) {
       let activeItem = list.value[0];
-      designForm.selectItem(activeItem, activeItem.itemType, activeItem.compType);
+      designForm.selectItem(
+        activeItem,
+        activeItem.itemType,
+        activeItem.compType,
+      );
     }
   });
   permissions.value = await pagePermission.addRoute(route);
   cacheData.value = getCacheData(cacheName);
 };
 const propertyRef = ref();
-const loadFormData = async (formId: any, isParent: boolean, isTemplate?: boolean) => {
+const loadFormData = async (
+  formId: any,
+  isParent: boolean,
+  isTemplate?: boolean,
+) => {
   await nextTick();
   designForm.clearAll(false);
   let resultData: any = await loadData(dataUrl.loadByIdUrl! + "/" + formId, {});
@@ -148,12 +173,14 @@ const closeAction = () => {
 };
 const clearData = (flag: boolean = true) => {
   if (list.value?.length > 0) {
-    operationConfirm("新建将清空舞台上的所有元素，是否确定要清空？").then((res: boolean) => {
-      if (res) {
-        designForm.clearAll(flag);
-        delCacheData(cacheName);
-      }
-    });
+    operationConfirm("新建将清空舞台上的所有元素，是否确定要清空？").then(
+      (res: boolean) => {
+        if (res) {
+          designForm.clearAll(flag);
+          delCacheData(cacheName);
+        }
+      },
+    );
   } else {
     designForm.clearAll(flag);
   }
@@ -173,8 +200,7 @@ const formPropertyRef = ref();
 /**
  * 代码操作
  */
-const codeDoSave = () => {
-};
+const codeDoSave = () => {};
 /**
  * 创建表单信息
  */
@@ -207,15 +233,20 @@ const doSave = async (isDraft: boolean = false) => {
       return;
     }
   }
-  await formPropertyRef.value.$refs.dynamicFormItemRef.$refs.starHorseFormRef.validate((evt: boolean) => {
-    flag = evt;
-  });
+  await formPropertyRef.value.$refs.dynamicFormItemRef.$refs.starHorseFormRef.validate(
+    (evt: boolean) => {
+      flag = evt;
+    },
+  );
   if (!flag) {
     warning("请先填写表单信息");
     return;
   }
   load("数据提交中，请等待");
-  postRequest(`${dataUrl.basePrefix}/${isDraft ? "mergeDraft" : "merge"}`, createFormInfo())
+  postRequest(
+    `${dataUrl.basePrefix}/${isDraft ? "mergeDraft" : "merge"}`,
+    createFormInfo(),
+  )
     .then((res: any) => {
       if (res.data.code != 0) {
         activeTab.value = "second";
@@ -249,21 +280,20 @@ const doSave = async (isDraft: boolean = false) => {
 const goBack = () => {
   let sdata = {
     path: "/dyform/DynamicFormUi",
-    componentName: "DynamicFormUi"
+    componentName: "DynamicFormUi",
   };
   router.push(sdata);
 };
-const formInfoChange = (_data: any) => {
-};
+const formInfoChange = (_data: any) => {};
 const scrollHandler = (e: CustomEvent) => {
   nextTick(() => {
     const target = document.querySelector(`[data-field-id="${e.detail}"]`);
     target?.scrollIntoView({
-      behavior: 'smooth',
-      block: 'nearest'
+      behavior: "smooth",
+      block: "nearest",
     });
   });
-}
+};
 /**
  * 开启或者关闭快捷键
  * @param val
@@ -271,10 +301,10 @@ const scrollHandler = (e: CustomEvent) => {
 const shortKeySwitch = (val: boolean) => {
   if (val) {
     initKeyboardEvent(actions, ModuleEnums.DYNAMIC_FORM);
-    window.addEventListener('scroll-to-field', scrollHandler);
+    window.addEventListener("scroll-to-field", scrollHandler);
   } else {
     removeKeyboardEvent(actions, ModuleEnums.DYNAMIC_FORM);
-    window.removeEventListener('scroll-to-field', scrollHandler);
+    window.removeEventListener("scroll-to-field", scrollHandler);
   }
 };
 const onDragAdd = async (_evt: Event, dataList: Array<any>) => {
@@ -285,7 +315,11 @@ const onDragAdd = async (_evt: Event, dataList: Array<any>) => {
     let temp = draggingItem.value[draggingItem.value.length - 1];
     designForm.selectItem(temp, temp["itemType"], "");
   } else {
-    designForm.selectItem(draggingItem.value, draggingItem.value["itemType"], "");
+    designForm.selectItem(
+      draggingItem.value,
+      draggingItem.value["itemType"],
+      "",
+    );
   }
 };
 const createCode = () => {
@@ -340,7 +374,7 @@ const formFieldLayer = ref<boolean>(false);
 const viewFieldLayer = () => {
   shortKeySwitch(false);
   formFieldLayer.value = true;
-}
+};
 const actions = (action: string) => {
   switch (action) {
     case "leftPanel":
@@ -404,7 +438,7 @@ const analysisQueryParams = () => {
 };
 const loadTemplateData = (formId: string) => {
   loadFormData(formId, false, true);
-}
+};
 const contentMenuRef = ref();
 const contextMenu = async (evt: MouseEvent) => {
   if (!isEdit.value) {
@@ -427,13 +461,12 @@ const changeDataHandle = (type: string, data: any) => {
   if (type == "subAdd") {
     loadFormData(formId, true);
   } else if (type == "remove") {
-
   } else if (type == "edit") {
     loadFormData(formId, false);
   } else {
     console.log(type, data);
   }
-}
+};
 /**
  * 键盘事件
  * @param evt
@@ -459,7 +492,7 @@ watch(
       analysisQueryParams();
     }
   },
-  { immediate: true, deep: true }
+  { immediate: true, deep: true },
 );
 
 const listWatcher = watch(
@@ -476,8 +509,8 @@ const listWatcher = watch(
   },
   {
     immediate: false,
-    deep: true
-  }
+    deep: true,
+  },
 );
 
 onMounted(async () => {
@@ -487,32 +520,74 @@ onMounted(async () => {
 let prepsModel = ref("one");
 </script>
 <template>
-  <star-horse-dialog :dialogVisible="codeDialogVisible" @closeAction="closeAction" :selfFunc="true" :source="3"
-    :full-screen="true" :compSize="compSize" @merge="codeDoSave" :title="'代码'">
+  <star-horse-dialog
+    :dialogVisible="codeDialogVisible"
+    @closeAction="closeAction"
+    :selfFunc="true"
+    :source="3"
+    :full-screen="true"
+    :compSize="compSize"
+    @merge="codeDoSave"
+    :title="'代码'"
+  >
     <code-comp />
   </star-horse-dialog>
-  <star-horse-dialog :dialogVisible="configDialogVisible" @closeAction="closeAction" :selfFunc="true"
-    :compSize="compSize" @merge="doSave(false)" :title="'表单配置'">
+  <star-horse-dialog
+    :dialogVisible="configDialogVisible"
+    @closeAction="closeAction"
+    :selfFunc="true"
+    :compSize="compSize"
+    @merge="doSave(false)"
+    :title="'表单配置'"
+  >
     <FormPropertyPanel ref="formPropertyRef" />
     <template #extend>
-      <el-button @click="doSave(true)" style="background: var(--star-horse-style); color: var(--star-horse-white)"
-        :size="compSize">
-        <star-horse-icon icon-class="short_save" cursor="pointer" style="color: var(--star-horse-white)" />
+      <el-button
+        @click="doSave(true)"
+        style="
+          background: var(--star-horse-style);
+          color: var(--star-horse-white);
+        "
+        :size="compSize"
+      >
+        <star-horse-icon
+          icon-class="short_save"
+          cursor="pointer"
+          style="color: var(--star-horse-white)"
+        />
         暂存
       </el-button>
     </template>
   </star-horse-dialog>
-  <star-horse-dialog :dialogVisible="batchEditFieldVisible" @closeAction="closeAction" :selfFunc="true"
-    :compSize="compSize" @merge="closeAction" :title="'批量修改属性'">
+  <star-horse-dialog
+    :dialogVisible="batchEditFieldVisible"
+    @closeAction="closeAction"
+    :selfFunc="true"
+    :compSize="compSize"
+    @merge="closeAction"
+    :title="'批量修改属性'"
+  >
     <el-tabs v-model="prepsModel">
-      <el-tab-pane name="one" label="业务字段" class="flex overflow-hidden flex-col">
+      <el-tab-pane
+        name="one"
+        label="业务字段"
+        class="flex overflow-hidden flex-col"
+      >
         <batch-edit-fields :compSize="compSize" />
       </el-tab-pane>
-      <el-tab-pane name="two" label="公共字段"> 在配置或者提交功能里设置</el-tab-pane>
+      <el-tab-pane name="two" label="公共字段">
+        在配置或者提交功能里设置</el-tab-pane
+      >
     </el-tabs>
   </star-horse-dialog>
-  <star-horse-dialog :dialogVisible="isPreview" @closeAction="closeAction" :selfFunc="true" :compSize="compSize"
-    :title="'表单预览'" :source="3">
+  <star-horse-dialog
+    :dialogVisible="isPreview"
+    @closeAction="closeAction"
+    :selfFunc="true"
+    :compSize="compSize"
+    :title="'表单预览'"
+    :source="3"
+  >
     <form-preview :list="list" />
   </star-horse-dialog>
   <el-card class="inner_content my-0 mx-[5px]">
@@ -523,80 +598,175 @@ let prepsModel = ref("one");
       <el-splitter-panel>
         <div class="main-design-outer">
           <div class="inner_button">
-            <el-menu mode="horizontal" :ellipsis="false" style="height: inherit; width: 100%;">
+            <el-menu
+              mode="horizontal"
+              :ellipsis="false"
+              style="height: inherit; width: 100%"
+            >
               <template v-for="(item, index) in formActions">
-                <el-menu-item v-if="
-                  (list.length > 0 || item.defaultEdit) &&
-                  (item.auth == 'none' || permissions[item.auth]) &&
-                  !item.children
-                " :index="'1_' + index" @click="actions(item.key)">
-                  <el-tooltip class="item" :content="item.label" effect="dark" placement="bottom">
-                    <star-horse-icon :icon-class="item.icon" size="24px" style="color: var(--star-horse-style)" />
+                <el-menu-item
+                  v-if="
+                    (list.length > 0 || item.defaultEdit) &&
+                    (item.auth == 'none' || permissions[item.auth]) &&
+                    !item.children
+                  "
+                  :index="'1_' + index"
+                  @click="actions(item.key)"
+                >
+                  <el-tooltip
+                    class="item"
+                    :content="item.label"
+                    effect="dark"
+                    placement="bottom"
+                  >
+                    <star-horse-icon
+                      :icon-class="item.icon"
+                      size="24px"
+                      style="color: var(--star-horse-style)"
+                    />
                   </el-tooltip>
                 </el-menu-item>
                 <template v-if="item.children && item.children.length > 0">
                   <el-sub-menu :index="'1_' + index">
                     <template #title>
-                      <el-tooltip class="item" :content="currentPageStyle.label" effect="dark" placement="bottom">
-                        <star-horse-icon :icon-class="item.icon" size="24px" style="color: var(--star-horse-style)" />
+                      <el-tooltip
+                        class="item"
+                        :content="currentPageStyle.label"
+                        effect="dark"
+                        placement="bottom"
+                      >
+                        <star-horse-icon
+                          :icon-class="item.icon"
+                          size="24px"
+                          style="color: var(--star-horse-style)"
+                        />
                       </el-tooltip>
                     </template>
-                    <el-menu-item v-for="(sitem, sindex) in item.children" :index="'2_' + sindex"
-                      @click="actionsStyle(sitem)">
-                      <star-horse-icon :icon-class="sitem.icon" size="24px" style="color: var(--star-horse-style)" />
+                    <el-menu-item
+                      v-for="(sitem, sindex) in item.children"
+                      :index="'2_' + sindex"
+                      @click="actionsStyle(sitem)"
+                    >
+                      <star-horse-icon
+                        :icon-class="sitem.icon"
+                        size="24px"
+                        style="color: var(--star-horse-style)"
+                      />
                       {{ sitem.label }}
                     </el-menu-item>
                   </el-sub-menu>
                 </template>
               </template>
             </el-menu>
-            <el-tooltip content="恢复缓存数据" v-if="cacheData && cacheData.length > 0">
-              <star-horse-icon icon-class="reset" @click="cacheDataRestore($event)" />
+            <el-tooltip
+              content="恢复缓存数据"
+              v-if="cacheData && cacheData.length > 0"
+            >
+              <star-horse-icon
+                icon-class="reset"
+                @click="cacheDataRestore($event)"
+              />
             </el-tooltip>
             <help :message="dynamicFormHelpMessage" />
           </div>
-          <sh-form ref="dynamicFormRef" :needScroller="false" class="design-form-container"
-            :class="{ 'dragging-area': isDragging }" :disabled="formInfo['disabled'] == 'Y'"
-            :hide-required-asterisk="formInfo['hideRequiredAsterisk'] == 'Y'" :inline="formInfo.inline == 'Y'"
-            :inline-message="formInfo['inlineMessage'] == 'Y'" :label-position="formInfo['labelPosition']"
-            :label-suffix="formInfo['labelSuffix']" :label-width="formInfo['labelWidth']" v-model:dataForm="formData"
-            :require-asterisk-position="formInfo['requireAsteriskPosition']" :rules="formInfo.rules || {}"
-            :scroll-to-error="formInfo['scrollToError'] == 'Y'" :show-message="formInfo['showMessage'] == 'Y'"
-            :size="'default'" :status-icon="formInfo['statusIcon'] == 'Y'"
-            :validate-on-rule-change="formInfo['validateOnRuleChange'] == 'Y'" style="width: 100% !important;">
+          <sh-form
+            ref="dynamicFormRef"
+            :needScroller="false"
+            class="design-form-container"
+            :class="{ 'dragging-area': isDragging }"
+            :disabled="formInfo['disabled'] == 'Y'"
+            :hide-required-asterisk="formInfo['hideRequiredAsterisk'] == 'Y'"
+            :inline="formInfo.inline == 'Y'"
+            :inline-message="formInfo['inlineMessage'] == 'Y'"
+            :label-position="formInfo['labelPosition']"
+            :label-suffix="formInfo['labelSuffix']"
+            :label-width="formInfo['labelWidth']"
+            v-model:dataForm="formData"
+            :require-asterisk-position="formInfo['requireAsteriskPosition']"
+            :rules="formInfo.rules || {}"
+            :scroll-to-error="formInfo['scrollToError'] == 'Y'"
+            :show-message="formInfo['showMessage'] == 'Y'"
+            :size="'default'"
+            :status-icon="formInfo['statusIcon'] == 'Y'"
+            :validate-on-rule-change="formInfo['validateOnRuleChange'] == 'Y'"
+            style="width: 100% !important"
+          >
             <template v-if="list.length === 0">
-              <div class="empty-info">请从左侧组件库中选择一个组件, 然后用鼠标双击或者拖动该组件放置于此处</div>
+              <div class="empty-info">
+                请从左侧组件库中选择一个组件,
+                然后用鼠标双击或者拖动该组件放置于此处
+              </div>
             </template>
-            <div :class="currentPageClass" style="overflow: auto;scrollbar-width: thin;" @contextmenu="contextMenu">
-              <draggable @add="(evt: Event) => onDragAdd(evt, list)" style="width:98%;height:100%; margin:0 auto;"
-                tag="div" group="starHorseGroup" ghost-class="ghost" :list="list" :itemKey="uuid()">
+            <div
+              :class="currentPageClass"
+              style="overflow: auto; scrollbar-width: thin"
+              @contextmenu="contextMenu"
+            >
+              <draggable
+                @add="(evt: Event) => onDragAdd(evt, list)"
+                style="width: 98%; height: 100%; margin: 0 auto"
+                tag="div"
+                group="starHorseGroup"
+                ghost-class="ghost"
+                :list="list"
+                :itemKey="uuid()"
+              >
                 <template #item="{ element: data, index }">
-                  <div :class="{ 'comp-item': data.preps?.headerFlag == 'Y' }" class="overflow-visible"
-                    :data-field-id="data.id" :key="data.id">
-                    <component :key="data.id" :field="data" :isDesign="true" :formInfo="formInfo"
-                      :index-of-parent-list="index" :is="itemCheck(data)" v-model:formData="formData" />
+                  <div
+                    :class="{ 'comp-item': data.preps?.headerFlag == 'Y' }"
+                    class="overflow-visible"
+                    :data-field-id="data.id"
+                    :key="data.id"
+                  >
+                    <component
+                      :key="data.id"
+                      :field="data"
+                      :isDesign="true"
+                      :formInfo="formInfo"
+                      :index-of-parent-list="index"
+                      :is="itemCheck(data)"
+                      v-model:formData="formData"
+                    />
                   </div>
                 </template>
               </draggable>
             </div>
           </sh-form>
           <Teleport to="body">
-            <ContentMenu ref="contentMenuRef" :menu-data="dynamicFormContextMenuData({}, {})" />
+            <ContentMenu
+              ref="contentMenuRef"
+              :menu-data="dynamicFormContextMenuData({}, {})"
+            />
           </Teleport>
-          <FormMenuShot ref="formListRef" @change="changeDataHandle" :dataUrl="dataUrl" primaryKey="idDynamicForm" />
+          <FormMenuShot
+            ref="formListRef"
+            @change="changeDataHandle"
+            :dataUrl="dataUrl"
+            primaryKey="idDynamicForm"
+          />
           <div class="main-copyright">{{ i18n("starhorse.copyright") }}</div>
         </div>
-
       </el-splitter-panel>
-      <el-splitter-panel collapsible :size="list.length > 0?280:0" min="260" max="500" class="!overflow-hidden">
+      <el-splitter-panel
+        collapsible
+        :size="list.length > 0 ? 280 : 0"
+        min="260"
+        max="500"
+        class="!overflow-hidden"
+      >
         <el-scrollbar>
           <item-properties-panel ref="propertyRef" />
         </el-scrollbar>
       </el-splitter-panel>
     </el-splitter>
-
   </el-card>
-  <el-drawer v-model="formFieldLayer" direction="ltr" size="20%" :with-header="false" :show-close="false">
+  <el-drawer
+    v-model="formFieldLayer"
+    direction="ltr"
+    size="20%"
+    :with-header="false"
+    :show-close="false"
+  >
     <template #header>
       <h4>表单属性层级</h4>
     </template>
@@ -653,8 +823,6 @@ let prepsModel = ref("one");
 
 // 在样式部分添加以下规则
 
-
-
 :deep(.el-divider--horizontal) {
   margin: 10px 0;
 }
@@ -694,7 +862,6 @@ let prepsModel = ref("one");
   left: 0;
   transform: translate(0, 0);
 }
-
 
 .inner_button {
   ul {

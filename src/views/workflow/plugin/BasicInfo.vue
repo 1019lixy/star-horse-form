@@ -1,22 +1,25 @@
 <script setup lang="ts">
-import {computed, onMounted, ref} from "vue";
-import {dictData, piniaInstance} from "star-horse-lowcode";
-import {flowFormFields, setFlowGroups} from "@/views/workflow/utils/FlowFormUtils";
-import {useFlowDesignStore} from "@/store/FlowDesign";
+import { computed, onMounted, ref } from "vue";
+import { dictData, piniaInstance } from "star-horse-lowcode";
+import {
+  flowFormFields,
+  setFlowGroups,
+} from "@/views/workflow/utils/FlowFormUtils";
+import { useFlowDesignStore } from "@/store/FlowDesign";
 
 defineProps({
   navable: {
     type: Boolean,
-    default: true
+    default: true,
   },
   dialogFlag: {
     type: Boolean,
-    default: false
+    default: false,
   },
   readable: {
     type: Boolean,
-    default: false
-  }
+    default: false,
+  },
 });
 let flowFormRef = ref();
 const flowDesign = useFlowDesignStore(piniaInstance);
@@ -33,16 +36,25 @@ onMounted(() => {
 });
 defineExpose({
   flowFormRef,
-  getFormData
+  getFormData,
 });
 </script>
 <template>
   <div class="designer-wrap" v-if="!dialogFlag">
     <div class="designer-base-info">
       <div class="base-info-panel">
-        <star-horse-form :field-list="flowFormFields" :outerFormData="formInfo" ref="flowFormRef"/>
+        <star-horse-form
+          :field-list="flowFormFields"
+          :outerFormData="formInfo"
+          ref="flowFormRef"
+        />
       </div>
     </div>
   </div>
-  <star-horse-form v-else :field-list="flowFormFields" :outerFormData="formInfo" ref="flowFormRef"/>
+  <star-horse-form
+    v-else
+    :field-list="flowFormFields"
+    :outerFormData="formInfo"
+    ref="flowFormRef"
+  />
 </template>

@@ -1,8 +1,15 @@
 <script lang="ts" name="StationDefine" setup>
-import {onActivated, onDeactivated, onMounted, provide, reactive, ref} from "vue";
-import {Config} from "@/api/settings";
-import {getCustomerParam} from "@/utils/auth";
-import {TreeNodeData} from "element-plus/es/components/tree-v2/src/types";
+import {
+  onActivated,
+  onDeactivated,
+  onMounted,
+  provide,
+  reactive,
+  ref,
+} from "vue";
+import { Config } from "@/api/settings";
+import { getCustomerParam } from "@/utils/auth";
+import { TreeNodeData } from "element-plus/es/components/tree-v2/src/types";
 import {
   apiInstance,
   ApiUrls,
@@ -11,7 +18,7 @@ import {
   loadData,
   PageFieldInfo,
   SearchFields,
-  SearchParams
+  SearchParams,
 } from "star-horse-lowcode";
 //后端交互接口地址
 const dataUrl: ApiUrls = apiInstance("system-config", "system/stationDefine");
@@ -30,16 +37,14 @@ const searchFormData = reactive<SearchFields>({
       fieldName: "stationName",
       defaultVisible: true,
       matchType: "lk",
-
     },
     {
       label: "岗位编码",
       fieldName: "stationCode",
       defaultVisible: true,
       matchType: "lk",
-
-    }
-  ]
+    },
+  ],
 });
 //页面属性
 const tableFieldList = reactive<PageFieldInfo | any>({
@@ -50,8 +55,6 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       fieldName: "idStationDefine",
 
       required: true,
-
-
     },
 
     [
@@ -61,7 +64,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
 
         required: false,
         formVisible: true,
-        listVisible: true
+        listVisible: true,
       },
       {
         label: "岗位编码",
@@ -69,8 +72,8 @@ const tableFieldList = reactive<PageFieldInfo | any>({
 
         required: false,
         formVisible: true,
-        listVisible: true
-      }
+        listVisible: true,
+      },
     ],
     [
       {
@@ -81,13 +84,13 @@ const tableFieldList = reactive<PageFieldInfo | any>({
         formVisible: true,
         listVisible: true,
         preps: {
-          data:stationSequenceList,
+          data: stationSequenceList,
           checkStrictly: true,
           props: {
             label: "seqName",
-            value: "idStationSequence"
-          }
-        }
+            value: "idStationSequence",
+          },
+        },
       },
       {
         label: "岗位排序",
@@ -96,8 +99,8 @@ const tableFieldList = reactive<PageFieldInfo | any>({
         defaultValue: 100,
         required: false,
         formVisible: true,
-        listVisible: true
-      }
+        listVisible: true,
+      },
     ],
     {
       label: "版本号",
@@ -105,7 +108,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       type: "number",
       required: false,
       formVisible: !true,
-      listVisible: !true
+      listVisible: !true,
     },
     {
       label: "创建人",
@@ -113,7 +116,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
 
       required: false,
       formVisible: !true,
-      listVisible: !true
+      listVisible: !true,
     },
     {
       label: "创建时间",
@@ -121,7 +124,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
 
       required: false,
       formVisible: !true,
-      listVisible: !true
+      listVisible: !true,
     },
     {
       label: "修改人",
@@ -129,7 +132,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
 
       required: false,
       formVisible: !true,
-      listVisible: !true
+      listVisible: !true,
     },
     {
       label: "修改时间",
@@ -137,7 +140,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
 
       required: false,
       formVisible: !true,
-      listVisible: !true
+      listVisible: !true,
     },
     {
       label: "数据编号",
@@ -145,7 +148,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
 
       required: false,
       formVisible: !true,
-      listVisible: !true
+      listVisible: !true,
     },
     {
       label: "状态码",
@@ -153,7 +156,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
 
       required: false,
       formVisible: !true,
-      listVisible: !true
+      listVisible: !true,
     },
     {
       label: "状态名称",
@@ -161,7 +164,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
 
       required: false,
       formVisible: !true,
-      listVisible: !true
+      listVisible: !true,
     },
     {
       label: "是否删除",
@@ -169,7 +172,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       type: "number",
       required: false,
       formVisible: !true,
-      listVisible: !true
+      listVisible: !true,
     },
     {
       label: "国际编码",
@@ -177,7 +180,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
 
       required: false,
       formVisible: !true,
-      listVisible: !true
+      listVisible: !true,
     },
     {
       label: "备注",
@@ -185,11 +188,11 @@ const tableFieldList = reactive<PageFieldInfo | any>({
 
       required: false,
       formVisible: !true,
-      listVisible: !true
-    }
+      listVisible: !true,
+    },
   ],
   //默认查询条件
-  condition: [getCustomerParam()]
+  condition: [getCustomerParam()],
 });
 //校验
 const rules = {};
@@ -201,7 +204,9 @@ let outForm = ref<any>({});
 const sequenceChange = (data: TreeNodeData, _checked: boolean) => {
   currentSeqId.value = data["idStationSequence"];
   outForm.value["idStationSequence"] = currentSeqId.value;
-  let params: SearchParams[] = [createCondition("a.idStationSequence", currentSeqId.value)];
+  let params: SearchParams[] = [
+    createCondition("a.idStationSequence", currentSeqId.value),
+  ];
   stationDefineRef.value.createSearchParams(params);
 };
 //初始化方法
@@ -209,20 +214,21 @@ const initData = async () => {
   let params: SearchParams[] = [];
   let cond = createCondition("a.parentId", null, "is");
   cond.orOperList = [createCondition("a.parentId", "")];
-  let result = await loadData("/system-config/system/stationSequence/getAllByCondition", {
-    fieldList: params,
-    orderBy: [{fieldName: "seqSort", ascOrDesc: "asc"}]
-  });
+  let result = await loadData(
+    "/system-config/system/stationSequence/getAllByCondition",
+    {
+      fieldList: params,
+      orderBy: [{ fieldName: "seqSort", ascOrDesc: "asc" }],
+    },
+  );
   if (result.error) {
     console.log(result.error);
     return;
   }
   stationSequenceList.value = result.data;
 };
-const activated = () => {
-};
-const deactivated = () => {
-};
+const activated = () => {};
+const deactivated = () => {};
 /**
  * 列表，查看数据时数据转换
  * @param name 名称
@@ -247,54 +253,69 @@ onDeactivated(() => {
 });
 </script>
 <template>
-  <star-horse-dialog :dialog-visible="dialogProps.editVisible" :dialogProps="dialogProps" :isShowBtnContinue="true">
+  <star-horse-dialog
+    :dialog-visible="dialogProps.editVisible"
+    :dialogProps="dialogProps"
+    :isShowBtnContinue="true"
+  >
     <star-horse-form
-        :compUrl="dataUrl"
-        :fieldList="tableFieldList"
-        :rules="rules"
-        :outerFormData="outForm"
-        @refresh="stationDefineRef?.loadByPage()"
+      :compUrl="dataUrl"
+      :fieldList="tableFieldList"
+      :rules="rules"
+      :outerFormData="outForm"
+      @refresh="stationDefineRef?.loadByPage()"
     />
   </star-horse-dialog>
   <star-horse-dialog
-      :dialog-visible="dialogProps.viewVisible"
-      :dialogProps="dialogProps"
-      :source="3"
-      
+    :dialog-visible="dialogProps.viewVisible"
+    :dialogProps="dialogProps"
+    :source="3"
   >
-    <star-horse-data-view :compUrl="dataUrl" :dataFormat="dataFormat" :field-list="tableFieldList"/>
+    <star-horse-data-view
+      :compUrl="dataUrl"
+      :dataFormat="dataFormat"
+      :field-list="tableFieldList"
+    />
   </star-horse-dialog>
   <el-card class="inner_content">
     <el-splitter>
       <el-splitter-panel collapsible size="240" min="100" max="500">
         <star-horse-tree
-            v-model:tree-datas="stationSequenceList"
-            :expand="true"
-            treeTitle="职位序列"
-            @selectData="sequenceChange"
-            :preps="{
-          label: 'seqName',
-          value: 'idStationSequence'
-        }"
+          v-model:tree-datas="stationSequenceList"
+          :expand="true"
+          treeTitle="职位序列"
+          @selectData="sequenceChange"
+          :preps="{
+            label: 'seqName',
+            value: 'idStationSequence',
+          }"
         />
       </el-splitter-panel>
       <el-splitter-panel>
-        <el-card class="inner_content ">
+        <el-card class="inner_content">
           <div class="search-content">
-            <div class="search_btn" :style="{ 'flex-direction': Config.buttonStyle.value == 'line'? 'column' : 'row' }">
+            <div
+              class="search_btn"
+              :style="{
+                'flex-direction':
+                  Config.buttonStyle.value == 'line' ? 'column' : 'row',
+              }"
+            >
               <star-horse-search-comp
-                  @searchData="(data: any) => stationDefineRef?.createSearchParams(data)"
-                  :formData="searchFormData"
-                  :compUrl="dataUrl"
+                @searchData="
+                  (data: any) => stationDefineRef?.createSearchParams(data)
+                "
+                :formData="searchFormData"
+                :compUrl="dataUrl"
               />
             </div>
           </div>
           <star-horse-table-comp
-              ref="stationDefineRef"
-              :compUrl="dataUrl"
-              :dataFormat="dataFormat"
-              :fieldList="tableFieldList"
-              :primaryKey="primaryKey"
+            ref="stationDefineRef"
+            :compUrl="dataUrl"
+            :dataFormat="dataFormat"
+            :fieldList="tableFieldList"
+            :primaryKey="primaryKey"
           />
         </el-card>
       </el-splitter-panel>

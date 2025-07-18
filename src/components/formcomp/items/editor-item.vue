@@ -1,55 +1,60 @@
 <template>
-  <starhorse-form-item :isDesign="isDesign" :disabled="disabled" :bareFlag="bareFlag" :formItem="field"
-                       :parentField="parentField">
-    <star-horse-editor :lang="field.preps?.lang || 'javascript'"
-                       style="min-height: 200px !important; flex-direction: column !important"
-                       v-model:value="formData[field.preps['name']]"/>
+  <starhorse-form-item
+    :isDesign="isDesign"
+    :disabled="disabled"
+    :bareFlag="bareFlag"
+    :formItem="field"
+    :parentField="parentField"
+  >
+    <star-horse-editor
+      :lang="field.preps?.lang || 'javascript'"
+      style="min-height: 200px !important; flex-direction: column !important"
+      v-model:value="formData[field.preps['name']]"
+    />
   </starhorse-form-item>
 </template>
 <script setup lang="ts" name="codeItem">
-import {onMounted} from "vue";
+import { onMounted } from "vue";
 
 const props = defineProps({
   isDesign: {
     type: Boolean,
-    default: false
+    default: false,
   },
   disabled: {
     type: Boolean,
-    default: false
+    default: false,
   },
   bareFlag: {
     type: Boolean,
-    default: false
-  }, isSearch: {
+    default: false,
+  },
+  isSearch: {
     type: Boolean,
-    default: false
+    default: false,
   },
   field: {
     type: Object,
-    default: {}
+    default: {},
   },
   parentField: {
     type: Object,
-    default: {}
+    default: {},
   },
   formInfo: {
     type: Object,
-    default: {}
-  }
+    default: {},
+  },
 });
-const emits = defineEmits(['selfFunc', 'selectItem']);
+const emits = defineEmits(["selfFunc", "selectItem"]);
 const formData = defineModel("formData");
 const itemAction = () => {
   emits("selfFunc", formData);
 };
-const init = async () => {
-};
-const rendered = () => {
-};
+const init = async () => {};
+const rendered = () => {};
 onMounted(() => {
   init();
 });
-
 </script>
 <style scoped></style>

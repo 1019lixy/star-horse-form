@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {computed, onMounted, provide, reactive, ref, watch} from "vue";
+import { computed, onMounted, provide, reactive, ref, watch } from "vue";
 import {
   apiInstance,
   closeLoad,
@@ -10,25 +10,31 @@ import {
   piniaInstance,
   SearchProps,
   useDesignFormStore,
-  useGlobalConfigStore
+  useGlobalConfigStore,
 } from "star-horse-lowcode";
-import {analysisSearchData, viewColumns, viewDataList} from "@/views/dyform/utils/preview";
-import {Config} from "@/api/settings";
+import {
+  analysisSearchData,
+  viewColumns,
+  viewDataList,
+} from "@/views/dyform/utils/preview";
+import { Config } from "@/api/settings";
 
 let designForm = useDesignFormStore(piniaInstance);
 const props = defineProps({
-  param: {type: String, required: true},
-  isPreview: {type: Boolean, default: false}
+  param: { type: String, required: true },
+  isPreview: { type: Boolean, default: false },
 });
 let configStore = useGlobalConfigStore(piniaInstance);
-let compSize = computed(() => configStore.configFormInfo?.inputSize || Config.compSize);
+let compSize = computed(
+  () => configStore.configFormInfo?.inputSize || Config.compSize,
+);
 
 const dataUrl = apiInstance("userdb-manage", "consumer/api");
 dataUrl.exportAllUrl = `${dataUrl.basePrefix}/exportData/${props.param}`;
 const errorMsg = ref("数据加载中");
 let searchFormData = ref<SearchProps[]>([]);
 const tableFieldList = ref<any>({
-  fieldList: []
+  fieldList: [],
 });
 /**
  * 表单数据直接取定义的数据preps,
@@ -49,30 +55,33 @@ const exportData = () => {
   let params = {
     fieldList: viewSearchRef.value.createSearchParams(searchFormData.value),
     pageSize: 100,
-    currentPage: 1
+    currentPage: 1,
   };
   download(dataUrl.exportAllUrl!, params)
-      .catch((err) => {
-        error("接口不存在或网络异常:" + err);
-      })
-      .finally(() => {
-        closeLoad();
-      });
+    .catch((err) => {
+      error("接口不存在或网络异常:" + err);
+    })
+    .finally(() => {
+      closeLoad();
+    });
 };
 const columnList = ref([]);
 const loadColumnFields = async () => {
   searchFormData.value = [];
   columnList.value = [];
-  let {formDatas, columns} = await viewColumns(props.param);
+  let { formDatas, columns } = await viewColumns(props.param);
   searchFormData.value = formDatas;
   columnList.value = columns;
 };
 const loadFormData = async (currentPage: number, pageSize: number) => {
-  let {viewDatas, error} = await viewDataList(
-      props.param,
-      currentPage,
-      pageSize,
-      analysisSearchData(viewSearchRef.value?.searchForm || {}, searchFormData.value)
+  let { viewDatas, error } = await viewDataList(
+    props.param,
+    currentPage,
+    pageSize,
+    analysisSearchData(
+      viewSearchRef.value?.searchForm || {},
+      searchFormData.value,
+    ),
   );
   if (error) {
     errorMsg.value = error;
@@ -86,21 +95,21 @@ const loadFormData = async (currentPage: number, pageSize: number) => {
 };
 //监听数据变化
 watch(
-    () => props.param,
-    () => {
-      clear();
-      try {
-        if (props.param) {
-          load("数据加载中。。。");
-          loadColumnFields();
-          loadFormData(1, 20);
-        }
-      } catch (e) {
-        closeLoad();
-        console.log("数据类型不匹配");
+  () => props.param,
+  () => {
+    clear();
+    try {
+      if (props.param) {
+        load("数据加载中。。。");
+        loadColumnFields();
+        loadFormData(1, 20);
       }
-    },
-    {deep: true}
+    } catch (e) {
+      closeLoad();
+      console.log("数据类型不匹配");
+    }
+  },
+  { deep: true },
 );
 //记录表单的属性
 const formFields = reactive<Array<any>>([]);
@@ -122,47 +131,57 @@ onMounted(async () => {
 </script>
 <template>
   <template v-if="hasData">
-    <star-horse-dialog :isShowBtnContinue="true" :dialogVisible="dialogProps.editVisible" :dialogProps="dialogProps">
+    <star-horse-dialog
+      :isShowBtnContinue="true"
+      :dialogVisible="dialogProps.editVisible"
+      :dialogProps="dialogProps"
+    >
       <sh-dynamic-form
-          @refresh="starHorseTableCompRef?.loadByPage()"
-          :compUrl="dataUrl"
-          :formInfo="formInfo"
-          :fieldList="tableFieldList.dynamicFormas"
-          :rules="rules"
+        @refresh="starHorseTableCompRef?.loadByPage()"
+        :compUrl="dataUrl"
+        :formInfo="formInfo"
+        :fieldList="tableFieldList.dynamicFormas"
+        :rules="rules"
       />
     </star-horse-dialog>
     <star-horse-dialog
-        :dialog-visible="dialogProps.viewVisible"
-        :dialogProps="dialogProps"
-        
-        :source="3"
+      :dialog-visible="dialogProps.viewVisible"
+      :dialogProps="dialogProps"
+      :source="3"
     >
       <star-horse-data-view
-          :dataFormat="dataFormat"
-          :data-list="primaryKey"
-          :field-list="tableFieldList"
-          :compUrl="dataUrl"
+        :dataFormat="dataFormat"
+        :data-list="primaryKey"
+        :field-list="tableFieldList"
+        :compUrl="dataUrl"
       />
     </star-horse-dialog>
     <div class="search-content">
-      <div class="search_btn" :style="{ 'flex-direction': Config.buttonStyle.value == 'line'? 'column' : 'row' }">
+      <div
+        class="search_btn"
+        :style="{
+          'flex-direction':
+            Config.buttonStyle.value == 'line' ? 'column' : 'row',
+        }"
+      >
         <star-horse-search-comp
-            @searchData="(data: any) => starHorseTableCompRef?.createSearchParams(data)"
-            :formData="searchFormData"
-            :compUrl="dataUrl"
+          @searchData="
+            (data: any) => starHorseTableCompRef?.createSearchParams(data)
+          "
+          :formData="searchFormData"
+          :compUrl="dataUrl"
         />
       </div>
     </div>
     <el-card class="inner_content">
-
       <DataPreview
-          ref="starHorseTableCompRef"
-          :item="previewDatas"
-          :columns="columnList"
-          @exportData="exportData"
-          @changePage="loadFormData"
-          :isPreview="isPreview"
-          :compSize="compSize"
+        ref="starHorseTableCompRef"
+        :item="previewDatas"
+        :columns="columnList"
+        @exportData="exportData"
+        @changePage="loadFormData"
+        :isPreview="isPreview"
+        :compSize="compSize"
       />
     </el-card>
   </template>

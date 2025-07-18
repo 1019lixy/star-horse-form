@@ -1,6 +1,14 @@
 <script setup lang="ts" name="UserManage">
 import { Config } from "@/api/settings";
-import { computed, onActivated, onDeactivated, onMounted, provide, reactive, ref } from "vue";
+import {
+  computed,
+  onActivated,
+  onDeactivated,
+  onMounted,
+  provide,
+  reactive,
+  ref,
+} from "vue";
 import {
   apiInstance,
   ApiUrls,
@@ -12,7 +20,7 @@ import {
   SearchFields,
   SearchParams,
   SelectOption,
-  warning
+  warning,
 } from "star-horse-lowcode";
 import { getCustomerParam } from "@/utils/auth";
 import { TreeNodeData } from "element-plus/es/components/tree-v2/src/types";
@@ -22,7 +30,7 @@ const props = defineProps({
   showButton: { type: Boolean, default: true },
   cellEditable: { type: Boolean, default: true },
   dialogInput: { type: Boolean, default: false },
-  multipleSelect: { type: Boolean, default: false }
+  multipleSelect: { type: Boolean, default: false },
 });
 //主键
 const primaryKey = "idEmployeeInfo";
@@ -43,14 +51,12 @@ const searchFormData = reactive<SearchFields>({
       fieldName: "a.name",
       defaultVisible: true,
       matchType: "lk",
-
     },
     {
       label: "工号",
       fieldName: "a.employeeNo",
       defaultVisible: true,
       matchType: "lk",
-
     },
     {
       label: "职级",
@@ -58,8 +64,8 @@ const searchFormData = reactive<SearchFields>({
       defaultVisible: false,
       type: "tselect",
       preps: {
-        data: rankList
-      }
+        data: rankList,
+      },
     },
     {
       label: "岗位",
@@ -67,10 +73,10 @@ const searchFormData = reactive<SearchFields>({
       defaultVisible: false,
       type: "tselect",
       preps: {
-        data: stationList
-      }
-    }
-  ]
+        data: stationList,
+      },
+    },
+  ],
 });
 //页面属性
 const tableFieldList = reactive<PageFieldInfo | any>({
@@ -82,8 +88,6 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       fieldName: "idEmployeeInfo",
 
       required: true,
-
-
     },
     {
       dytableList: [
@@ -94,7 +98,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
 
             required: true,
             formVisible: true,
-            listVisible: true
+            listVisible: true,
           },
           {
             label: "工号",
@@ -103,9 +107,9 @@ const tableFieldList = reactive<PageFieldInfo | any>({
             required: false,
             formVisible: true,
             listVisible: true,
-            preps:{
+            preps: {
               editdisabled: true,
-            }
+            },
           },
           {
             label: "头像",
@@ -118,9 +122,9 @@ const tableFieldList = reactive<PageFieldInfo | any>({
               autoUpload: "N",
               action: "xx",
               wordBreak: true,
-              rowspan: 4
-            }
-          }
+              rowspan: 4,
+            },
+          },
         ],
         [
           {
@@ -132,8 +136,8 @@ const tableFieldList = reactive<PageFieldInfo | any>({
             listVisible: true,
             preps: {
               data: rankList,
-              showCode: "Y"
-            }
+              showCode: "Y",
+            },
           },
           {
             label: "岗位",
@@ -144,9 +148,9 @@ const tableFieldList = reactive<PageFieldInfo | any>({
             listVisible: true,
             preps: {
               data: stationList,
-              showCode: "Y"
-            }
-          }
+              showCode: "Y",
+            },
+          },
         ],
         [
           {
@@ -159,12 +163,12 @@ const tableFieldList = reactive<PageFieldInfo | any>({
             actions: {
               change: (val: any) => {
                 loadDepartByCompId(val);
-              }
+              },
             },
             preps: {
               data: companyDataList,
-              checkStrictly: true
-            }
+              checkStrictly: true,
+            },
           },
           {
             label: "所属部门",
@@ -175,9 +179,9 @@ const tableFieldList = reactive<PageFieldInfo | any>({
             listVisible: true,
             preps: {
               data: departDataList,
-              checkStrictly: true
-            }
-          }
+              checkStrictly: true,
+            },
+          },
         ],
         [
           {
@@ -186,7 +190,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
 
             required: true,
             formVisible: true,
-            listVisible: true
+            listVisible: true,
           },
           {
             label: "紧急联系电话",
@@ -195,8 +199,8 @@ const tableFieldList = reactive<PageFieldInfo | any>({
             helpMsg: "方便特殊情况联系家属",
             required: true,
             formVisible: true,
-            listVisible: true
-          }
+            listVisible: true,
+          },
         ],
         [
           {
@@ -210,11 +214,11 @@ const tableFieldList = reactive<PageFieldInfo | any>({
             preps: {
               activeValue: "Y",
               inactiveValue: "N",
-              colspan: 1
-            }
-          }
-        ]
-      ]
+              colspan: 1,
+            },
+          },
+        ],
+      ],
     },
     {
       label: "邮箱",
@@ -222,7 +226,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
 
       required: false,
       formVisible: !true,
-      listVisible: true
+      listVisible: true,
     },
     {
       label: "版本号",
@@ -230,7 +234,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       type: "number",
       required: false,
       formVisible: !true,
-      listVisible: !true
+      listVisible: !true,
     },
     {
       label: "创建人",
@@ -238,7 +242,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
 
       required: false,
       formVisible: !true,
-      listVisible: !true
+      listVisible: !true,
     },
     {
       label: "创建时间",
@@ -246,7 +250,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
 
       required: false,
       formVisible: !true,
-      listVisible: !true
+      listVisible: !true,
     },
     {
       label: "修改人",
@@ -254,7 +258,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
 
       required: false,
       formVisible: !true,
-      listVisible: !true
+      listVisible: !true,
     },
     {
       label: "修改时间",
@@ -262,7 +266,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
 
       required: false,
       formVisible: !true,
-      listVisible: !true
+      listVisible: !true,
     },
     {
       label: "数据编号",
@@ -270,7 +274,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
 
       required: false,
       formVisible: !true,
-      listVisible: !true
+      listVisible: !true,
     },
     {
       label: "状态码",
@@ -278,7 +282,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
 
       required: false,
       formVisible: !true,
-      listVisible: !true
+      listVisible: !true,
     },
     {
       label: "状态名称",
@@ -286,7 +290,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
 
       required: false,
       formVisible: !true,
-      listVisible: !true
+      listVisible: !true,
     },
     {
       label: "是否删除",
@@ -294,7 +298,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       type: "number",
       required: false,
       formVisible: !true,
-      listVisible: !true
+      listVisible: !true,
     },
     {
       label: "国际编码",
@@ -302,7 +306,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
 
       required: false,
       formVisible: !true,
-      listVisible: !true
+      listVisible: !true,
     },
     {
       label: "备注",
@@ -310,12 +314,12 @@ const tableFieldList = reactive<PageFieldInfo | any>({
 
       required: false,
       formVisible: !true,
-      listVisible: !true
-    }
+      listVisible: !true,
+    },
   ],
   //默认查询条件
   condition: [getCustomerParam()],
-  stopAutoLoad: false
+  stopAutoLoad: false,
 });
 //校验
 const rules = {};
@@ -339,29 +343,48 @@ const loadDepartByCompId = async (val: any) => {
     return;
   }
   params.push(createCondition("a.idCompanyDefine", compId));
-  let result = await loadData("/system-config/system/departmentEntity/getAllByCondition", {
-    fieldList: params
-  });
+  let result = await loadData(
+    "/system-config/system/departmentEntity/getAllByCondition",
+    {
+      fieldList: params,
+    },
+  );
   if (result.error) {
     console.log(result.error);
   } else {
-    departDataList.value = createTree(result.data, "idDepartment", "deptName", "");
+    departDataList.value = createTree(
+      result.data,
+      "idDepartment",
+      "deptName",
+      "",
+    );
   }
 };
 //初始化方法
 const initData = async () => {
-  let result = await loadData("/system-config/system/companyDefine/compDeptTree", {});
+  let result = await loadData(
+    "/system-config/system/companyDefine/compDeptTree",
+    {},
+  );
   if (result.error) {
     warning(result.error);
   } else {
     companyList.value = result.data;
   }
 
-  result = await loadData("/system-config/system/companyDefine/getAllByCondition", {});
+  result = await loadData(
+    "/system-config/system/companyDefine/getAllByCondition",
+    {},
+  );
   if (result.error) {
     warning(result.error);
   } else {
-    companyDataList.value = createTree(result.data, "idCompanyDefine", "name", "");
+    companyDataList.value = createTree(
+      result.data,
+      "idCompanyDefine",
+      "name",
+      "",
+    );
   }
   //加载职级
   result = await loadData("/system-config/system/rankDefine/rankTree", {});
@@ -371,7 +394,10 @@ const initData = async () => {
     rankList.value = result.data;
   }
   //加载岗位
-  result = await loadData("/system-config/system/stationDefine/stationTree", {});
+  result = await loadData(
+    "/system-config/system/stationDefine/stationTree",
+    {},
+  );
   if (result.error) {
     warning(result.error);
   } else {
@@ -381,8 +407,7 @@ const initData = async () => {
 const activated = () => {
   //initData();
 };
-const deactivated = () => {
-};
+const deactivated = () => {};
 /**
  * 列表，查看数据时数据转换
  * @param name 名称
@@ -421,30 +446,62 @@ const testChange = (val: any) => {
 };
 </script>
 <template>
-  <star-horse-dialog :isShowBtnContinue="true" :dialog-visible="dialogProps?.editVisible" :dialogProps="dialogProps">
-    <star-horse-form @refresh="employeeInfoRef?.loadByPage()" :compUrl="dataUrl" :fieldList="tableFieldList"
-      :rules="rules" />
+  <star-horse-dialog
+    :isShowBtnContinue="true"
+    :dialog-visible="dialogProps?.editVisible"
+    :dialogProps="dialogProps"
+  >
+    <star-horse-form
+      @refresh="employeeInfoRef?.loadByPage()"
+      :compUrl="dataUrl"
+      :fieldList="tableFieldList"
+      :rules="rules"
+    />
   </star-horse-dialog>
-  <star-horse-dialog :dialog-visible="dialogProps?.viewVisible" :dialogProps="dialogProps" :source="3">
-    <star-horse-data-view :dataFormat="dataFormat" :field-list="tableFieldList" :compUrl="dataUrl" />
+  <star-horse-dialog
+    :dialog-visible="dialogProps?.viewVisible"
+    :dialogProps="dialogProps"
+    :source="3"
+  >
+    <star-horse-data-view
+      :dataFormat="dataFormat"
+      :field-list="tableFieldList"
+      :compUrl="dataUrl"
+    />
   </star-horse-dialog>
   <el-card class="inner_content">
     <el-splitter>
       <el-splitter-panel collapsible size="240" min="100" max="500">
-        <star-horse-tree v-model:tree-datas="companyList" :expand="true" treeTitle="组织机构" @selectData="companyChange" />
+        <star-horse-tree
+          v-model:tree-datas="companyList"
+          :expand="true"
+          treeTitle="组织机构"
+          @selectData="companyChange"
+        />
       </el-splitter-panel>
       <el-splitter-panel>
-
-        <el-card class="inner_content ">
+        <el-card class="inner_content">
           <div class="search-content">
-            <div class="search_btn" >
-              <star-horse-search-comp @searchData="(data: any) => employeeInfoRef?.createSearchParams(data)"
-                :formData="searchFormData" :compUrl="dataUrl" />
+            <div class="search_btn">
+              <star-horse-search-comp
+                @searchData="
+                  (data: any) => employeeInfoRef?.createSearchParams(data)
+                "
+                :formData="searchFormData"
+                :compUrl="dataUrl"
+              />
             </div>
           </div>
-          <star-horse-table-comp ref="employeeInfoRef" :fieldList="tableFieldList" :primaryKey="primaryKey"
-            :compUrl="dataUrl" :dialogInput="dialogInput" :multipleSelect="multipleSelect" :disableAction="!showButton"
-            :dataFormat="dataFormat" />
+          <star-horse-table-comp
+            ref="employeeInfoRef"
+            :fieldList="tableFieldList"
+            :primaryKey="primaryKey"
+            :compUrl="dataUrl"
+            :dialogInput="dialogInput"
+            :multipleSelect="multipleSelect"
+            :disableAction="!showButton"
+            :dataFormat="dataFormat"
+          />
         </el-card>
       </el-splitter-panel>
     </el-splitter>

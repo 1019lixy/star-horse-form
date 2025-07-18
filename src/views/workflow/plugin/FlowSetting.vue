@@ -1,18 +1,18 @@
 <template>
   <div class="designer-wrap">
-    <MenuShot :menus="menus" @change="changeMenu"/>
+    <MenuShot :menus="menus" @change="changeMenu" />
     <div class="designer-content-box">
       <div class="flowSetting-box">
         <div v-if="!scale.isMobile()" class="flowSetting-nav-box">
           <div class="flowSetting-nav-group">
             <div
-                v-for="(menu, i) in menus"
-                :key="i"
-                :class="{ 'act-item': menu.activate == true }"
-                class="flowSetting-nav-group-item"
-                @click="changeMenu(menu)"
+              v-for="(menu, i) in menus"
+              :key="i"
+              :class="{ 'act-item': menu.activate == true }"
+              class="flowSetting-nav-group-item"
+              @click="changeMenu(menu)"
             >
-              <img :src="flowCommon.settingBaseIcon"/>
+              <img :src="flowCommon.settingBaseIcon" />
               <span>{{ menu.name }}</span>
             </div>
           </div>
@@ -28,22 +28,22 @@
   </div>
 </template>
 <script setup lang="ts">
-import {flowCommon} from "@/views/workflow/plugin/utils/flowCommon";
-import {computed, ref} from "vue";
-import {scale} from "@/views/workflow/plugin/utils/deviceUtil";
-import {useFlowDesignStore} from "@/store/FlowDesign";
-import {piniaInstance} from "star-horse-lowcode";
+import { flowCommon } from "@/views/workflow/plugin/utils/flowCommon";
+import { computed, ref } from "vue";
+import { scale } from "@/views/workflow/plugin/utils/deviceUtil";
+import { useFlowDesignStore } from "@/store/FlowDesign";
+import { piniaInstance } from "star-horse-lowcode";
 
 const flowDesign = useFlowDesignStore(piniaInstance);
 const props = defineProps({
   navable: {
     type: Boolean,
-    default: true
+    default: true,
   },
   readable: {
     type: Boolean,
-    default: false
-  }
+    default: false,
+  },
 });
 const emits = defineEmits(["save"]);
 const nodeData = computed(() => flowDesign.node);
@@ -54,17 +54,17 @@ let menus = ref<Array<any>>([
   {
     name: "基本配置",
     code: 1,
-    activate: true
+    activate: true,
   },
   {
     name: "展示设置",
     code: 2,
-    activate: false
+    activate: false,
   },
   {
     name: "提醒填写",
     code: 3,
-    activate: false
+    activate: false,
   },
   /* {
   name: '审批人设置',
@@ -74,14 +74,12 @@ let menus = ref<Array<any>>([
   {
     name: "打印模板",
     code: 5,
-    activate: false
-  }
+    activate: false,
+  },
 ]);
 // const isActivate=computed(()=>menu.value.activate)
-const toReturn = () => {
-};
-const change = (type) => {
-};
+const toReturn = () => {};
+const change = (type) => {};
 const changeMenu = (menu) => {
   currentContext.value = menu.code;
   menus.value.forEach((m) => {

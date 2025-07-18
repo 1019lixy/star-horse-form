@@ -1,59 +1,68 @@
-import { FlexboxContainer, FlexboxItem, FlexboxItemStyle } from "@/components/types/FlexType";
-import { GridContainer, GridItem, GridItemStyle } from "@/components/types/GridType";
+import {
+  FlexboxContainer,
+  FlexboxItem,
+  FlexboxItemStyle,
+} from "@/components/types/FlexType";
+import {
+  GridContainer,
+  GridItem,
+  GridItemStyle,
+} from "@/components/types/GridType";
 
-type ConfigBase = TypeConfig & ItemType & {
-   title: string;
-   description: string;
-   icon: string;
-   defaultValue: string;
-   // itemType?: "default" | "dropdown";
-   // itemType?: ItemType;
-};
+type ConfigBase = TypeConfig &
+  ItemType & {
+    title: string;
+    description: string;
+    icon: string;
+    defaultValue: string;
+    // itemType?: "default" | "dropdown";
+    // itemType?: ItemType;
+  };
 
 type ItemType = DropDownConfig | { itemType?: "default"; defaultValue: string };
 
 type DropDownConfig = DropDownType & {
-   itemType?: "dropdown";
-   dropDownSeparator?: string;
-}
+  itemType?: "dropdown";
+  dropDownSeparator?: string;
+};
 
 type DropDownType =
-   | { dropDownType: "iteration"; placeholder: string }
-   | { dropDownType: "combine"; combineData: CombineType[] }
+  | { dropDownType: "iteration"; placeholder: string }
+  | { dropDownType: "combine"; combineData: CombineType[] };
 
 export type CombineType = TypeConfig & {
-   key: string;
-   title: string;
-   description: string;
-}
+  key: string;
+  title: string;
+  description: string;
+};
 
 type TypeConfig = SelectConfig | InputConfig;
 
 type SelectConfig = {
-   type: "select";
-   options: string[];
-}
+  type: "select";
+  options: string[];
+};
 
 type InputConfig = InputType & {
-   type: "input";
-}
+  type: "input";
+};
 
 type InputType =
-   | { inputType: "unit"; unitOptions: string[] }
-   | { inputType: "number"; step?: number };
+  | { inputType: "unit"; unitOptions: string[] }
+  | { inputType: "number"; step?: number };
 
 export type ContainerConfig = ConfigBase & {
-   key: keyof FlexboxContainer | keyof GridContainer;
+  key: keyof FlexboxContainer | keyof GridContainer;
 };
 
 export type ItemConfig = ConfigBase & {
-   key: keyof FlexboxItemStyle | keyof GridItemStyle;
+  key: keyof FlexboxItemStyle | keyof GridItemStyle;
 };
 export interface Layout {
-   name: string;
-   icon: string;
-   layout: {
-      items: FlexboxItem[] | GridItem[];
-      container: FlexboxContainer | GridContainer;
-   };
+  name: string;
+  icon: string;
+  layout: {
+    items: FlexboxItem[] | GridItem[];
+    container: FlexboxContainer | GridContainer;
+  };
 }

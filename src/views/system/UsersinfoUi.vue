@@ -13,24 +13,35 @@ import {
   success,
   trim,
   useGlobalConfigStore,
-  warning
+  warning,
 } from "star-horse-lowcode";
-import {Config} from "@/api/settings";
-import {computed, nextTick, onMounted, provide, reactive, ref} from "vue";
-import {ElTreeV2} from "element-plus";
-import {TreeNodeData} from "element-plus/es/components/tree-v2/src/types";
-import {baseUserFields, initSelectData, rolesList, sexList, userFormat} from "@/views/system/utils/UserFields";
+import { Config } from "@/api/settings";
+import { computed, nextTick, onMounted, provide, reactive, ref } from "vue";
+import { ElTreeV2 } from "element-plus";
+import { TreeNodeData } from "element-plus/es/components/tree-v2/src/types";
+import {
+  baseUserFields,
+  initSelectData,
+  rolesList,
+  sexList,
+  userFormat,
+} from "@/views/system/utils/UserFields";
 
 const props = defineProps({
-  viewRolesinfoId: {type: String},
-  disableAction: {type: Boolean, default: false}
+  viewRolesinfoId: { type: String },
+  disableAction: { type: Boolean, default: false },
 });
 const dataUrl: ApiUrls = apiInstance("system-config", "system/usersinfoEntity");
 const usersinfoTableListRef = ref();
 const searchFormData = reactive<SearchFields>({
   fieldList: [
-    {label: "姓名", fieldName: "name", defaultVisible: true,  matchType: "lk"},
-    {label: "用户名", fieldName: "username", defaultVisible: true,  matchType: "lk"},
+    { label: "姓名", fieldName: "name", defaultVisible: true, matchType: "lk" },
+    {
+      label: "用户名",
+      fieldName: "username",
+      defaultVisible: true,
+      matchType: "lk",
+    },
     {
       label: "所属用户组",
       fieldName: "idRolesinfo",
@@ -38,14 +49,16 @@ const searchFormData = reactive<SearchFields>({
       prefix: "b",
       defaultValue: props.viewRolesinfoId,
       disabled: !!props.viewRolesinfoId,
-      preps:{
-        values:rolesList
-      }
-    }
-  ]
+      preps: {
+        values: rolesList,
+      },
+    },
+  ],
 });
 let configStore = useGlobalConfigStore(piniaInstance);
-let compSize = computed(() => configStore.configFormInfo?.inputSize || Config.compSize);
+let compSize = computed(
+  () => configStore.configFormInfo?.inputSize || Config.compSize,
+);
 //修改密码方法
 const pwdFormRef = ref();
 const resetForm = () => {
@@ -75,7 +88,7 @@ const pwdMerge = () => {
       return;
     }
     postRequest(
-        "/system-config/system/usersAuditEntity/refreshInvalidPassword/" +
+      "/system-config/system/usersAuditEntity/refreshInvalidPassword/" +
         pwdForm.username +
         "/" +
         pwd +
@@ -83,7 +96,7 @@ const pwdMerge = () => {
         (pwdForm.oldPassword || "0") +
         "/" +
         pwdForm.phone,
-        {}
+      {},
     ).then((res) => {
       let redata = res.data;
       if (redata.code == 1) {
@@ -111,9 +124,9 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       btnName: "修改密码",
       funcName: (row: any) => {
         editPwd(row);
-      }
-    }
-  ]
+      },
+    },
+  ],
 });
 const primaryKey = "idUsersinfo";
 const rules = {};
@@ -122,7 +135,9 @@ provide("dialogProps", dialogProps);
 
 const dataFormat = (name: string, cellValue: any, row: any): any => {
   if (name == "sex") {
-    let fdata = sexList.value.find((item: any) => parseInt(item.value) == parseInt(cellValue));
+    let fdata = sexList.value.find(
+      (item: any) => parseInt(item.value) == parseInt(cellValue),
+    );
     return fdata?.name || cellValue;
   }
 
@@ -162,7 +177,9 @@ const initData = async () => {
   await nextTick();
   //如果是从其它页面加载的该页面，则将条件加入查询
   if (props.viewRolesinfoId) {
-    let params: SearchParams[] = [{propertyName: "b.idRolesinfo", value: props.viewRolesinfoId}];
+    let params: SearchParams[] = [
+      { propertyName: "b.idRolesinfo", value: props.viewRolesinfoId },
+    ];
     usersinfoTableListRef.value.createSearchParams(params);
   }
 };
@@ -176,79 +193,97 @@ const pwdFieldInfo = reactive<PageFieldInfo | any>({
         label: "工号",
         fieldName: "employeeNo",
         type: "tag",
-        formVisible: true
+        formVisible: true,
       },
       {
         label: "用户名",
         fieldName: "username",
         type: "tag",
-        formVisible: true
-      }
+        formVisible: true,
+      },
     ],
     [
       {
         label: "密码",
         fieldName: "password",
         type: "password",
-        formVisible: true
+        formVisible: true,
       },
       {
         label: "确认密码",
         fieldName: "rePassword",
         type: "password",
-        formVisible: true
-      }
-    ]
-  ]
+        formVisible: true,
+      },
+    ],
+  ],
 });
 </script>
 <template>
   <star-horse-dialog
-      :dialog-visible="dialogProps.bakeVisible3"
-      :is-show-reset="false"
-      :is-show-save="false"
-      :is-show-btn-continue="false"
-      :self-func="true"
-      :title="'修改密码'"
-      :dialogProps="dialogProps"
-      @merge="pwdMerge"
-      @resetForm="resetForm"
+    :dialog-visible="dialogProps.bakeVisible3"
+    :is-show-reset="false"
+    :is-show-save="false"
+    :is-show-btn-continue="false"
+    :self-func="true"
+    :title="'修改密码'"
+    :dialogProps="dialogProps"
+    @merge="pwdMerge"
+    @resetForm="resetForm"
   >
-    <star-horse-form :compUrl="dataUrl" :fieldList="pwdFieldInfo" ref="pwdFormRef"/>
-  </star-horse-dialog>
-  <star-horse-dialog :isShowBtnContinue="true" :dialogVisible="dialogProps.editVisible" :dialogProps="dialogProps">
     <star-horse-form
-        @refresh="usersinfoTableListRef?.loadByPage()"
-        :compUrl="dataUrl"
-        :fieldList="tableFieldList"
-        :rules="rules"
+      :compUrl="dataUrl"
+      :fieldList="pwdFieldInfo"
+      ref="pwdFormRef"
     />
   </star-horse-dialog>
   <star-horse-dialog
-      :dialog-visible="dialogProps.viewVisible"
-      :dialogProps="dialogProps"
-      
-      :source="3"
+    :isShowBtnContinue="true"
+    :dialogVisible="dialogProps.editVisible"
+    :dialogProps="dialogProps"
   >
-    <star-horse-data-view :dataFormat="dataFormat" :field-list="tableFieldList" :compUrl="dataUrl"/>
+    <star-horse-form
+      @refresh="usersinfoTableListRef?.loadByPage()"
+      :compUrl="dataUrl"
+      :fieldList="tableFieldList"
+      :rules="rules"
+    />
+  </star-horse-dialog>
+  <star-horse-dialog
+    :dialog-visible="dialogProps.viewVisible"
+    :dialogProps="dialogProps"
+    :source="3"
+  >
+    <star-horse-data-view
+      :dataFormat="dataFormat"
+      :field-list="tableFieldList"
+      :compUrl="dataUrl"
+    />
   </star-horse-dialog>
   <div class="search-content">
-    <div class="search_btn" :style="{ 'flex-direction': Config.buttonStyle.value == 'line'? 'column' : 'row' }">
+    <div
+      class="search_btn"
+      :style="{
+        'flex-direction': Config.buttonStyle.value == 'line' ? 'column' : 'row',
+      }"
+    >
       <star-horse-search-comp
-          @searchData="(data: any) => usersinfoTableListRef?.createSearchParams(data)"
-          :formData="searchFormData"
-          :compUrl="dataUrl"
+        @searchData="
+          (data: any) => usersinfoTableListRef?.createSearchParams(data)
+        "
+        :formData="searchFormData"
+        :compUrl="dataUrl"
       />
     </div>
   </div>
   <el-card class="inner_content">
     <star-horse-table-comp
-        ref="usersinfoTableListRef"
-        :fieldList="tableFieldList"
-        :primaryKey="primaryKey"
-        :compUrl="dataUrl"
-        :dataFormat="dataFormat"
-        :disableAction="disableAction"
+      ref="usersinfoTableListRef"
+      :fieldList="tableFieldList"
+      :primaryKey="primaryKey"
+      :compUrl="dataUrl"
+      :dataFormat="dataFormat"
+      :disableAction="disableAction"
     />
   </el-card>
 </template>

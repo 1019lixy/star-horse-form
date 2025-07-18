@@ -1,8 +1,11 @@
 <script setup lang="ts" name="EnvInfo">
-import {onMounted, provide, reactive, ref} from "vue";
-import {Config} from "@/api/settings";
-import {useRouter} from "vue-router";
-import {flowFormFields, setFlowGroups} from "@/views/workflow/utils/FlowFormUtils";
+import { onMounted, provide, reactive, ref } from "vue";
+import { Config } from "@/api/settings";
+import { useRouter } from "vue-router";
+import {
+  flowFormFields,
+  setFlowGroups,
+} from "@/views/workflow/utils/FlowFormUtils";
 import {
   apiInstance,
   ApiUrls,
@@ -10,14 +13,19 @@ import {
   dictData,
   SearchFields,
   SelectOption,
-  UserFuncInfo
+  UserFuncInfo,
 } from "star-horse-lowcode";
 
 const dataUrl: ApiUrls = apiInstance("flow-engine", "workflow/flowoperation");
 let flowGroupList = ref<SelectOption[]>([]);
 const searchFormData = reactive<SearchFields>({
   fieldList: [
-    {label: "流程名称", fieldName: "flowName",  matchType: "lk", defaultVisible: true},
+    {
+      label: "流程名称",
+      fieldName: "flowName",
+      matchType: "lk",
+      defaultVisible: true,
+    },
     {
       label: "流程分类",
       fieldName: "flowGroup",
@@ -26,9 +34,9 @@ const searchFormData = reactive<SearchFields>({
       defaultVisible: true,
       preps: {
         values: flowGroupList,
-      }
-    }
-  ]
+      },
+    },
+  ],
 });
 const router = useRouter();
 const primaryKey = "idEnvInfo";
@@ -41,42 +49,41 @@ const extendBtns: UserFuncInfo[] = [
     btnName: "编辑",
     authority: "edit",
     funcName: (row: any) => {
-      router.push({path: "/flowDesign", query: {data: row}});
-    }
+      router.push({ path: "/flowDesign", query: { data: row } });
+    },
   },
   {
     authority: "exec",
     funcName: (row: any) => {
       console.log(row);
     },
-    btnName: "启动"
+    btnName: "启动",
   },
   {
     authority: "edit",
     funcName: (row: any) => {
       console.log(row);
     },
-    btnName: "发布"
+    btnName: "发布",
   },
   {
     authority: "edit",
     funcName: (row: any) => {
       console.log(row);
     },
-    btnName: "版本管理"
-  }
+    btnName: "版本管理",
+  },
 ];
-const selectItemFun = (_item: any) => {
-};
+const selectItemFun = (_item: any) => {};
 const addBtnFunc: UserFuncInfo[] = [
   {
     icon: "add",
     btnName: "新增",
     authority: "add",
     funcName: () => {
-      router.push({path: "/flowDesign"});
-    }
-  }
+      router.push({ path: "/flowDesign" });
+    },
+  },
 ];
 
 const dataFormat = (_name: string, cellValue: any): any => {
@@ -93,31 +100,39 @@ onMounted(async () => {
 </script>
 <template>
   <star-horse-dialog
-      :dialog-visible="dialogProps.viewVisible"
-      :dialogProps="dialogProps"
-      
-      :source="3"
+    :dialog-visible="dialogProps.viewVisible"
+    :dialogProps="dialogProps"
+    :source="3"
   >
-    <star-horse-data-view :dataFormat="dataFormat" :field-list="tableFieldList" :compUrl="dataUrl"/>
+    <star-horse-data-view
+      :dataFormat="dataFormat"
+      :field-list="tableFieldList"
+      :compUrl="dataUrl"
+    />
   </star-horse-dialog>
   <div class="search-content">
-    <div class="search_btn" :style="{ 'flex-direction': Config.buttonStyle.value == 'line'? 'column' : 'row' }">
+    <div
+      class="search_btn"
+      :style="{
+        'flex-direction': Config.buttonStyle.value == 'line' ? 'column' : 'row',
+      }"
+    >
       <star-horse-search-comp
-          @searchData="(data: any) => flowDefinitionRef?.createSearchParams(data)"
-          :formData="searchFormData"
-          :compUrl="dataUrl"
+        @searchData="(data: any) => flowDefinitionRef?.createSearchParams(data)"
+        :formData="searchFormData"
+        :compUrl="dataUrl"
       />
     </div>
   </div>
   <el-card class="inner_content">
     <star-horse-table-comp
-        ref="flowDefinitionRef"
-        :fieldList="flowFormFields"
-        :primaryKey="primaryKey"
-        :compUrl="dataUrl"
-        :extendBtns="extendBtns"
-        :dataFormat="dataFormat"
-        @selectItem="selectItemFun"
+      ref="flowDefinitionRef"
+      :fieldList="flowFormFields"
+      :primaryKey="primaryKey"
+      :compUrl="dataUrl"
+      :extendBtns="extendBtns"
+      :dataFormat="dataFormat"
+      @selectItem="selectItemFun"
     />
   </el-card>
 </template>

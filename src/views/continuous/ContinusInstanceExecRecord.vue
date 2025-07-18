@@ -1,30 +1,35 @@
 <script setup lang="ts" name="ContinusInstanceExecRecord">
-import {ref} from "vue";
-import {apiInstance, ApiUrls} from "star-horse-lowcode";
+import { ref } from "vue";
+import { apiInstance, ApiUrls } from "star-horse-lowcode";
 
-const apiUrl: ApiUrls = apiInstance("continuous-manage", "continuous/continuousInstance");
+const apiUrl: ApiUrls = apiInstance(
+  "continuous-manage",
+  "continuous/continuousInstance",
+);
 const primaryKey: string = "idContinusInst";
 let activeName: string = ref<string>("first");
 const execLine = () => {
   console.log("执行");
 };
-const handleClick = (tab: string, event: Event) => {
-};
+const handleClick = (tab: string, event: Event) => {};
 </script>
 
 <template>
   <div class="config-nav-bar">
     <div class="nav-bar-left">
-      <span><star-horse-icon icon-class="flow"/>流水线</span>
+      <span><star-horse-icon icon-class="flow" />流水线</span>
     </div>
     <div class="nav-bar-right">
       <el-button
-          @click="execLine"
-          link
-          title=""
-          style="background: var(--star-horse-style); color: var(--star-horse-white)"
+        @click="execLine"
+        link
+        title=""
+        style="
+          background: var(--star-horse-style);
+          color: var(--star-horse-white);
+        "
       >
-        <star-horse-icon icon-class="fa-circle-play"/>
+        <star-horse-icon icon-class="fa-circle-play" />
         <el-tooltip content="执行">执行</el-tooltip>
       </el-button>
     </div>
@@ -38,6 +43,4 @@ const handleClick = (tab: string, event: Event) => {
     <el-tab-pane label="回滚记录" name="third">回滚记录</el-tab-pane>
   </el-tabs>
 </template>
-<style lang="scss" scoped>
-
-</style>
+<style lang="scss" scoped></style>

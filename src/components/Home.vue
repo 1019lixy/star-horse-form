@@ -7,6 +7,7 @@
           2. 接入催办，撤回。
 
         </pre>
+
         <!--        <a href="https://blog.csdn.net/oa2000/article/details/106612615">工作流操作说明</a><br/>
         <a href="https://gitee.com/mengxin-no1/meeting-jie">在线会议</a><br/>
         <a href="https://tsai996.github.io/lowflow-design/">lowflow-design</a><br/>
@@ -22,8 +23,11 @@
   </el-card>
 </template>
 <script setup lang="ts">
-import {onMounted, ref} from "vue";
-
+import piniaCompInstance from "@/store";
+import { useNavBarListStore } from "@/store/NavBarList";
+import { computed, onMounted, ref } from "vue";
+const viewListStore = useNavBarListStore(piniaCompInstance);
+const navTagsList = computed(() => viewListStore.navTagsList);
 let general = ref<string>("a");
 let visible = ref<boolean>(true);
 let matchList = ref<Array<any>>([

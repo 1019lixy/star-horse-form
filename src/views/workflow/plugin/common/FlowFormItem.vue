@@ -1,35 +1,39 @@
 <template>
-  <star-horse-form :fieldList="tableFieldList" :globalCondition="relationTables" :dynamicForm="true"/>
+  <star-horse-form
+    :fieldList="tableFieldList"
+    :globalCondition="relationTables"
+    :dynamicForm="true"
+  />
 </template>
 <script setup lang="ts">
-import {onMounted, ref} from "vue";
-import {closeLoad, loadGetData, SearchProps} from "star-horse-lowcode";
+import { onMounted, ref } from "vue";
+import { closeLoad, loadGetData, SearchProps } from "star-horse-lowcode";
 
 const props = defineProps({
-  dataNo: {type: String, required: true},
+  dataNo: { type: String, required: true },
   readable: {
     type: Boolean,
-    default: false
+    default: false,
   },
   node: {
     type: Object,
     default: function () {
       return {};
-    }
+    },
   },
   value: {
     type: Array,
     default: function () {
       return [];
-    }
-  }
+    },
+  },
 });
 let relationTables = ref<any>({});
 
 const errorMsg = ref("数据加载中");
 let searchFormData = ref<SearchProps[]>([]);
 const tableFieldList = ref<any>({
-  fieldList: []
+  fieldList: [],
 });
 /**
  * 表单数据直接取定义的数据preps,
@@ -40,7 +44,9 @@ const rules = ref<any>({});
 const hasData = ref<boolean>(true);
 const formInfo = ref<any>({});
 const loadFormData = async (formId: string) => {
-  let {data, error} = await loadGetData(`/userdb-manage/userdb/dynamicForm/dynamicPageInfo/${formId}`);
+  let { data, error } = await loadGetData(
+    `/userdb-manage/userdb/dynamicForm/dynamicPageInfo/${formId}`,
+  );
   if (error) {
     errorMsg.value = error;
     closeLoad();
