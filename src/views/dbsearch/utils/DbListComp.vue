@@ -1,10 +1,14 @@
 <script setup lang="ts">
-import { computed, ComputedRef, nextTick, onMounted, ref, unref } from "vue";
+import { permissionMenus } from "@/api/star_horse_apis";
+import { useLoginStore } from "@/store/Login";
 import {
   initDbList,
   openDatabase,
   tableColumns,
 } from "@/views/dbsearch/utils/DbSearchUtils";
+import { success } from "star-horse-lowcode";
+import { apiInstance } from "star-horse-lowcode";
+import { postRequest } from "star-horse-lowcode";
 import {
   BtnAuth,
   convertToCamelCase,
@@ -16,9 +20,15 @@ import {
   useGlobalConfigStore,
   warning,
 } from "star-horse-lowcode";
-
+import { computed, ComputedRef, nextTick, onMounted, ref, unref } from "vue";
+const props = defineProps({
+  batchCreatePage: { type: Boolean, default: false },
+});
+const dataUrl = apiInstance("userdb-manage", "userdb/dynamicForm");
 let configStore = useGlobalConfigStore(piniaInstance);
 let designForm = useDesignFormStore(piniaInstance);
+const loginStore = useLoginStore(piniaInstance);
+const appinfoList = computed(() => loginStore.getAppInfoList());
 let allFormDataList = computed(() => designForm.allFormDataList);
 let compSize = computed(
   () => configStore.configFormInfo?.buttonSize || "small",
@@ -63,6 +73,127 @@ let added = ref<string>("N");
 const containerTypeOperation = (val: any) => {
   columnsContr.value = val["containerType"] == "box" ? "N" : "Y";
 };
+const configFormRef = ref<any>();
+const createMenuFlag = ref<boolean>(false);
+const appList = ref<Array<SelectOption>>([]);
+const menuList = ref<Array<SelectOption>>([]);
+const configFieldInfo = ref<PageFieldInfo>({
+  fieldList: [
+
+    [{
+      label: "数据库信息",
+      fieldName: "dbInfo",
+      type: "select",
+      formVisible: true,
+      listVisible: true,
+      actions: {
+        change: (val: any) => {
+          dbIndex.value = val["dbInfo"];
+          openDb(true);
+        },
+      },
+      preps: {
+        values: dbList,
+      },
+    }, {
+      label: "组件类型",
+      fieldName: "containerType",
+      type: "select",
+      defaultValue: "box",
+      formVisible: true,
+      listVisible: true,
+      preps: {
+        values: containerTypeList,
+      },
+    }],
+    [{
+      label: "每行显示列数",
+      fieldName: "columns",
+      type: "number",
+      formVisible: true,
+      listVisible: true,
+      preps: {
+        min: 1,
+        max: 12,
+        step: 1,
+      }
+    },
+    {
+      label: "显示公共属性",
+      fieldName: "commonFieldFlag",
+      type: "switch",
+      formVisible: true,
+      listVisible: true,
+      preps: {
+        activeValue: "Y",
+        inactiveValue: "N",
+      },
+
+    }, {
+      label: "是否创建菜单",
+      fieldName: "isCreateMenu",
+      type: "switch",
+      formVisible: true,
+      defaultValue: false,
+      actions: {
+        change: (val: any) => {
+          createMenuFlag.value = val["isCreateMenu"];
+        },
+      },
+    }],
+    [{
+      label: "归属应用",
+      fieldName: "idInformations",
+      type: "tselect",
+      required: true,
+      formVisible: createMenuFlag,
+      actions: {
+        change: (val: any) => {
+          loadMenuBySystemId(val["idInformations"]);
+        },
+      },
+      preps: {
+        props: {
+          label: "sysName",
+          value: "idInformations",
+        },
+        checkStrictly: true,
+        data: appinfoList,
+      },
+    }, {
+      label: "父菜单",
+      fieldName: "parentNo",
+      type: "tselect",
+      formVisible: createMenuFlag,
+      listVisible: true,
+      preps: {
+        checkStrictly: true,
+        data: menuList,
+        props: {
+          label: "menuName",
+          value: "dataNo",
+        },
+      },
+    }],
+    {
+      label: "数据库表",
+      fieldName: "tableNameList",
+      type: "transfer",
+      formVisible: true,
+      required: true,
+      listVisible: true,
+      preps: {
+        props: {
+          label: "comment",
+          key: "tableName",
+        },
+        data: assignDataList,
+      },
+    }
+
+
+  ],
+});
 let dataFieldInfo = ref<PageFieldInfo>({
   fieldList: [
     [
@@ -179,7 +310,7 @@ const tableOperClose = () => {
   // dataForm.value = {};
   currentDataVisible.value = false;
 };
-const openDb = () => {
+const openDb = (commentAndTableVisible: boolean = false) => {
   if (!dbIndex.value || dbIndex.value == "undefined") {
     return;
   }
@@ -189,6 +320,9 @@ const openDb = () => {
       item["visible"] = false;
       item["containerType"] = "box";
       item["columns"] = configData.value.columns;
+      if (commentAndTableVisible) {
+        item["comment"] = item["tableName"] + "(" + item["comment"] + ")";
+      }
     });
     assignDataList.value = tableAndColumnsList.value;
   });
@@ -225,8 +359,15 @@ const filterData = () => {
     item.tableName.toLowerCase().match(filterTableName.value.toLowerCase()),
   );
 };
+const loadMenuBySystemId = (systemId: string) => {
+  menuList.value = [];
+  permissionMenus({}, systemId).then((res: any) => {
+    menuList.value = res.data?.data;
+  });
+};
 const init = async () => {
   dbList.value = await initDbList();
+
 };
 const getDefaultVal = (type: string) => {
   if (type == "number" || type == "slider" || type == "rate") {
@@ -463,28 +604,42 @@ const dynamicBtn = () => {
   });
   return userBtn;
 };
+const configDataSubmit = (type: string) => {
+  // closeAction();
+  console.log(type);
+  configFormRef.value.$refs.starHorseFormRef.validate((res: boolean) => {
+    // 提交配置数据
+    if (!res) {
+      return;
+    }
+    let tempFormData = configFormRef.value.getFormData().value;
+    configData.value = { ...tempFormData };
+    if (props.batchCreatePage) {
+      //创建页面
+      postRequest(`${dataUrl.basePrefix}/batchCreateForm`, configData.value).then((res: any) => {
+        if (res.data.code) {
+          warning(res.data.cnMessage);
+          return;
+        } else {
+          success(res.data.cnMessage);
+          closeAction();
+        }
+      });
+    }
+  });
+};
 onMounted(() => {
   init();
 });
 </script>
 <template>
-  <star-horse-dialog
-    :boxWidth="'640px'"
-    :dialog-visible="currentDataVisible"
-    :selfFunc="true"
-    :userBtn="dynamicBtn()"
-    @resetForm="dataReset"
-    @closeAction="tableOperClose"
-    @merge="() => tableSubmit(false)"
-  >
+  <star-horse-dialog :boxWidth="'640px'" :dialog-visible="currentDataVisible" :selfFunc="true" :userBtn="dynamicBtn()"
+    @resetForm="dataReset" @closeAction="tableOperClose" @merge="() => tableSubmit(false)">
     <el-tabs v-model="tbTab">
       <el-tab-pane name="tb1">
         <template #label>
           <div class="flex items-center">
-            <star-horse-icon
-              icon-class="config"
-              color="var(--star-horse-style)"
-            />
+            <star-horse-icon icon-class="config" color="var(--star-horse-style)" />
             风格设置
             <help :width="400" :message="configMsg" />
           </div>
@@ -517,52 +672,18 @@ onMounted(() => {
       </el-tab-pane>
     </el-tabs>
   </star-horse-dialog>
-  <star-horse-dialog
-    :dialogVisible="configDialogVisible"
-    @closeAction="closeAction"
-    :selfFunc="true"
-    :hideFullScreenIcon="true"
-    @resetForm="configData = { columns: 1 }"
-    @merge="closeAction"
-    :title="'属性配置'"
-    :box-width="'20%'"
-  >
-    <el-form :model="configData" :size="compSize">
-      <el-form-item label="每行显示列数">
-        <el-input-number
-          min="1"
-          max="12"
-          step="1"
-          v-model="configData.columns"
-          placeholder="请设置每行列数"
-        />
-      </el-form-item>
-      <el-form-item label="显示公共属性">
-        <el-switch
-          v-model="configData.commonFieldFlag"
-          active-value="Y"
-          inactive-value="N"
-        />
-      </el-form-item>
-    </el-form>
+  <star-horse-dialog :dialogVisible="configDialogVisible" @closeAction="closeAction" :selfFunc="true"
+    :hideFullScreenIcon="true" @resetForm="configData = { columns: 1 }" @merge="configDataSubmit" :title="'属性配置'"
+    :box-width="'50%'">
+    <star-horse-form :size="compSize" :outerFormData="configData" :fieldList="configFieldInfo" ref="configFormRef">
+    </star-horse-form>
+
   </star-horse-dialog>
   <el-row style="margin-top: 15px">
     <el-col :span="18">
-      <el-select
-        :size="compSize"
-        @change="openDb"
-        clearable
-        filterable
-        id="dbInfo"
-        placeholder="请选择数据库信息"
-        v-model="dbIndex"
-      >
-        <el-option
-          :key="sitem.value"
-          :label="sitem.name"
-          :value="sitem.value"
-          v-for="sitem in dbList"
-        ></el-option>
+      <el-select :size="compSize" @change="openDb" clearable filterable id="dbInfo" placeholder="请选择数据库信息"
+        v-model="dbIndex">
+        <el-option :key="sitem.value" :label="sitem.name" :value="sitem.value" v-for="sitem in dbList"></el-option>
       </el-select>
     </el-col>
     <el-col :span="6">
@@ -573,52 +694,29 @@ onMounted(() => {
     </el-col>
   </el-row>
   <div style="margin-top: 5px"></div>
-  <el-input
-    :size="compSize"
-    placeholder="请输入关键字"
-    v-model="filterTableName"
-    @keydown.enter="filterData"
-  >
+  <el-input :size="compSize" placeholder="请输入关键字" v-model="filterTableName" @keydown.enter="filterData">
     <template #append>
-      <star-horse-icon
-        @click="filterData"
-        icon-class="search"
-        color="var(--star-horse-style)"
-      />
+      <star-horse-icon @click="filterData" icon-class="search" color="var(--star-horse-style)" />
     </template>
   </el-input>
   <el-scrollbar height="90%">
-    <draggable
-      :clone="onDataCopy"
-      :group="{ name: 'starHorseGroup', pull: 'clone', put: false }"
-      :sort="false"
-      animation="300"
-      ghost-class="ghost"
-      item-key="id"
-      tag="ul"
-      :list="assignDataList"
-    >
+    <draggable :clone="onDataCopy" :group="{ name: 'starHorseGroup', pull: 'clone', put: false }" :sort="false"
+      animation="300" ghost-class="ghost" item-key="id" tag="ul" :list="assignDataList">
       <template #item="{ element: data, index: idx }">
-        <li
-          :style="{
-            border:
-              currentData.tableName == data.tableName
-                ? '2px dashed var(--star-horse-style)'
-                : 'none',
-            'align-items': 'center',
-            cursor: 'move',
-          }"
-        >
+        <li :style="{
+          border:
+            currentData.tableName == data.tableName
+              ? '2px dashed var(--star-horse-style)'
+              : 'none',
+          'align-items': 'center',
+          cursor: 'move',
+        }">
           <star-horse-icon icon-class="table" style="height: 18px" />
           <el-tooltip :content="data.comment">
             {{ data.tableName }}
           </el-tooltip>
-          <star-horse-icon
-            title="查看&配置"
-            icon-class="setting"
-            style="color: var(--star-horse-style); cursor: pointer"
-            @click="(evt: Event) => contextOperation(evt, data, idx)"
-          />
+          <star-horse-icon title="查看&配置" icon-class="setting" style="color: var(--star-horse-style); cursor: pointer"
+            @click="(evt: Event) => contextOperation(evt, data, idx)" />
         </li>
       </template>
     </draggable>
@@ -679,8 +777,8 @@ ul {
 .field-table {
   border: 1px solid var(--star-horse-style);
 
-  tr > th,
-  tr > td {
+  tr>th,
+  tr>td {
     border: 1px solid var(--star-horse-style);
     height: 25px;
     font-size: 12px;

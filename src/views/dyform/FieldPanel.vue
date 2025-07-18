@@ -8,7 +8,9 @@ import {
   useDesignFormStore,
 } from "star-horse-lowcode";
 import { fieldCopy } from "@/views/dyform/utils/FieldOperationUtils";
-
+const props = defineProps({
+  batchCreatePage: { type: Boolean, default: false },
+});
 const emits = defineEmits(["loadData"]);
 const dataUrl: ApiUrls = apiInstance("userdb-manage", "userdb/dynamicForm");
 let designForm = useDesignFormStore(piniaInstance);
@@ -64,141 +66,69 @@ const addElement = (element: any, type: string) => {
 };
 </script>
 <template>
-  <el-tabs
-    v-model="tabModel"
-    class="h-full w-full"
-    tab-position="left"
-    @tabChange="tabChange"
-    type="border-card"
-  >
+  <el-tabs v-model="tabModel" class="h-full w-full" tab-position="left" @tabChange="tabChange" type="border-card">
     <el-tab-pane name="component">
       <template #label>
-        <star-horse-icon
-          icon-class="component"
-          style="color: var(--star-horse-style)"
-        />&nbsp;<span>组件</span>
+        <star-horse-icon icon-class="component" style="color: var(--star-horse-style)" />&nbsp;<span>组件</span>
       </template>
       <div class="field-area">
         <el-scrollbar height="100%">
           <el-collapse class="starhorse-collapse" v-model="activeNames">
             <el-collapse-item name="a">
               <template #title>
-                <div
-                  class="collapse-item-title title h-full flex justify-between"
-                >
+                <div class="collapse-item-title title h-full flex justify-between">
                   <div class="flex flex-row items-center h-full">布局组件</div>
-                  <star-horse-icon
-                    icon-class="container"
-                    size="20px"
-                    style="color: var(--star-horse-style); margin-right: 10px"
-                  />
+                  <star-horse-icon icon-class="container" size="20px"
+                    style="color: var(--star-horse-style); margin-right: 10px" />
                 </div>
               </template>
-              <draggable
-                :clone="onContainerCopy"
-                :group="{ name: 'starHorseGroup', pull: 'clone', put: false }"
-                :sort="false"
-                animation="300"
-                ghost-class="ghost"
-                item-key="id"
-                tag="ul"
-                :list="containerList"
-              >
+              <draggable :clone="onContainerCopy" :group="{ name: 'starHorseGroup', pull: 'clone', put: false }"
+                :sort="false" animation="300" ghost-class="ghost" item-key="id" tag="ul" :list="containerList">
                 <template #item="{ element }">
-                  <li
-                    class="field-item"
-                    @dblclick="addElement(element, 'container')"
-                    :title="element.itemName"
-                  >
+                  <li class="field-item" @dblclick="addElement(element, 'container')" :title="element.itemName">
                     &nbsp;&nbsp;
-                    <span
-                      ><star-horse-icon
-                        :icon-class="element.itemIcon"
-                        style="color: var(--star-horse-style)"
-                      /><i>{{ element.itemName }}</i></span
-                    >
+                    <span><star-horse-icon :icon-class="element.itemIcon" style="color: var(--star-horse-style)" /><i>{{
+                        element.itemName }}</i></span>
                   </li>
                 </template>
               </draggable>
             </el-collapse-item>
             <el-collapse-item name="b">
               <template #title>
-                <div
-                  class="collapse-item-title title h-full flex justify-between"
-                >
+                <div class="collapse-item-title title h-full flex justify-between">
                   <div class="flex flex-row items-center h-full">表单组件</div>
-                  &nbsp;<star-horse-icon
-                    icon-class="form"
-                    size="20px"
-                    style="color: var(--star-horse-style); margin-right: 10px"
-                  />
+                  &nbsp;<star-horse-icon icon-class="form" size="20px"
+                    style="color: var(--star-horse-style); margin-right: 10px" />
                 </div>
               </template>
-              <draggable
-                :clone="onFormItemCopy"
-                :group="{ name: 'starHorseGroup', pull: 'clone', put: false }"
-                :sort="false"
-                animation="300"
-                ghost-class="ghost"
-                item-key="key"
-                tag="ul"
-                :list="formDataList"
-              >
+              <draggable :clone="onFormItemCopy" :group="{ name: 'starHorseGroup', pull: 'clone', put: false }"
+                :sort="false" animation="300" ghost-class="ghost" item-key="key" tag="ul" :list="formDataList">
                 <template #item="{ element }">
-                  <li
-                    class="field-item"
-                    @dblclick="addElement(element, 'item')"
-                    :title="element.itemName"
-                  >
+                  <li class="field-item" @dblclick="addElement(element, 'item')" :title="element.itemName">
                     &nbsp;&nbsp;
-                    <span
-                      ><star-horse-icon
-                        :icon-class="element.itemIcon"
-                        style="color: var(--star-horse-style)"
-                      /><i>{{ element.itemName }}</i></span
-                    >
+                    <span><star-horse-icon :icon-class="element.itemIcon" style="color: var(--star-horse-style)" /><i>{{
+                        element.itemName }}</i></span>
                   </li>
                 </template>
               </draggable>
             </el-collapse-item>
             <el-collapse-item name="c">
               <template #title>
-                <div
-                  class="collapse-item-title title h-full flex justify-between"
-                >
+                <div class="collapse-item-title title h-full flex justify-between">
                   <div class="flex flex-row items-center h-full">
                     自定义组件
                   </div>
-                  &nbsp;<star-horse-icon
-                    icon-class="other"
-                    size="24px"
-                    style="color: var(--star-horse-style); margin-right: 10px"
-                  />
+                  &nbsp;<star-horse-icon icon-class="other" size="24px"
+                    style="color: var(--star-horse-style); margin-right: 10px" />
                 </div>
               </template>
-              <draggable
-                :clone="onFormItemCopy"
-                :group="{ name: 'starHorseGroup', pull: 'clone', put: false }"
-                :sort="false"
-                animation="300"
-                ghost-class="ghost"
-                item-key="key"
-                tag="ul"
-                :list="selfFormDataList"
-              >
+              <draggable :clone="onFormItemCopy" :group="{ name: 'starHorseGroup', pull: 'clone', put: false }"
+                :sort="false" animation="300" ghost-class="ghost" item-key="key" tag="ul" :list="selfFormDataList">
                 <template #item="{ element }">
-                  <li
-                    class="field-item"
-                    @dblclick="addElement(element, 'item')"
-                    :title="element.itemName"
-                  >
+                  <li class="field-item" @dblclick="addElement(element, 'item')" :title="element.itemName">
                     &nbsp;&nbsp;
-                    <span
-                      ><star-horse-icon
-                        :icon-class="element.itemIcon"
-                        style="color: var(--star-horse-style)"
-                      /><i>{{ element.itemName }}</i></span
-                    >
+                    <span><star-horse-icon :icon-class="element.itemIcon" style="color: var(--star-horse-style)" /><i>{{
+                        element.itemName }}</i></span>
                   </li>
                 </template>
               </draggable>
@@ -210,38 +140,23 @@ const addElement = (element: any, type: string) => {
     </el-tab-pane>
     <el-tab-pane name="dbinfo">
       <template #label>
-        <star-horse-icon
-          icon-class="database"
-          style="color: var(--star-horse-style)"
-          size="20px"
-          height="20px"
-          width="20px"
-        />&nbsp;<span>数据源</span>
+        <star-horse-icon icon-class="database" style="color: var(--star-horse-style)" size="20px" height="20px"
+          width="20px" />&nbsp;<span>数据源</span>
       </template>
-      <db-list-comp />
+      <db-list-comp :batchCreatePage="batchCreatePage" />
     </el-tab-pane>
     <el-tab-pane name="charts">
       <template #label>
-        <star-horse-icon
-          icon-class="charts"
-          style="color: var(--star-horse-style)"
-        />&nbsp;<span>图表</span>
+        <star-horse-icon icon-class="charts" style="color: var(--star-horse-style)" />&nbsp;<span>图表</span>
       </template>
     </el-tab-pane>
     <el-tab-pane name="template">
       <template #label>
-        <star-horse-icon
-          icon-class="template"
-          style="color: var(--star-horse-style)"
-        />&nbsp;<span>模板</span>
+        <star-horse-icon icon-class="template" style="color: var(--star-horse-style)" />&nbsp;<span>模板</span>
       </template>
       <div class="field-area m-t-8">
         <el-scrollbar height="100%">
-          <el-card
-            class="temp-card"
-            style="margin-bottom: 10px !important"
-            v-for="item in templateList"
-          >
+          <el-card class="temp-card" style="margin-bottom: 10px !important" v-for="item in templateList">
             <div class="flex w-full flex-1 justify-center items-center">
               <el-popover placement="right" :width="500">
                 <template #reference>
@@ -252,31 +167,19 @@ const addElement = (element: any, type: string) => {
                   </el-image>
                 </template>
                 <template #default>
-                  <form-preview
-                    :compSize="'small'"
-                    :formDisabled="true"
-                    :list="JSON.parse(item['details'].content || [])"
-                    :ref="createRef"
-                    class="flex w-full flex-1 justify-center items-center"
-                    v-if="item['details'].content"
-                  />
+                  <form-preview :compSize="'small'" :formDisabled="true"
+                    :list="JSON.parse(item['details'].content || [])" :ref="createRef"
+                    class="flex w-full flex-1 justify-center items-center" v-if="item['details'].content" />
                 </template>
               </el-popover>
             </div>
             <template #footer>
               <div class="flex items-center">
-                <div
-                  class="w-[60%] overflow-hidden text-ellipsis whitespace-nowrap"
-                >
+                <div class="w-[60%] overflow-hidden text-ellipsis whitespace-nowrap">
                   #{{ item.formName }}
                 </div>
                 <div class="flex-1 justify-end">
-                  <el-button
-                    size="small"
-                    link
-                    @click="loadFormData(item.idDynamicForm)"
-                    icon="plus"
-                    >加载此模板
+                  <el-button size="small" link @click="loadFormData(item.idDynamicForm)" icon="plus">加载此模板
                   </el-button>
                 </div>
               </div>
@@ -287,10 +190,7 @@ const addElement = (element: any, type: string) => {
     </el-tab-pane>
     <el-tab-pane name="help">
       <template #label>
-        <star-horse-icon
-          icon-class="help"
-          style="color: var(--star-horse-style)"
-        />&nbsp;<span>帮助</span>
+        <star-horse-icon icon-class="help" style="color: var(--star-horse-style)" />&nbsp;<span>帮助</span>
       </template>
     </el-tab-pane>
   </el-tabs>
@@ -300,6 +200,7 @@ i {
   font-style: normal;
   font-size: 12px;
 }
+
 .temp-card {
   width: 99% !important;
   padding: 0 !important;
@@ -327,6 +228,7 @@ i {
     height: 100%;
   }
 }
+
 :deep {
   .el-tabs__content {
     padding: 0 !important;

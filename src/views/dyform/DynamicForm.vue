@@ -269,7 +269,7 @@ const doSave = async (isDraft: boolean = false) => {
       //       goBack();
       //     });
     })
-    .catch((err) => {
+    .catch((err:any) => {
       closeAction();
       error("操作异常:" + err);
     })
@@ -593,7 +593,7 @@ let prepsModel = ref("one");
   <el-card class="inner_content my-0 mx-[5px]">
     <el-splitter>
       <el-splitter-panel collapsible size="280" min="200" max="350">
-        <field-panel ref="fieldPanelRef" @loadData="loadTemplateData" />
+        <field-panel ref="fieldPanelRef" @loadData="loadTemplateData" :batchCreatePage="true" />
       </el-splitter-panel>
       <el-splitter-panel>
         <div class="main-design-outer">
