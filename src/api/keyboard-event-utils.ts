@@ -362,33 +362,26 @@ export const initKeyboardEvent = (
   ...params: any
 ) => {
   removeKeyboardEvent(actions, module, params);
-  window.addEventListener(
-    "keydown",
-    (evt: KeyboardEvent) => keyboardEvent(evt, actions, module, params),
-    true,
-  );
-  window.addEventListener(
-    "keyup",
-    (evt: KeyboardEvent) => resetCtrlKey(evt),
-    true,
-  );
+  
+  // 将处理函数保存为变量，用于后续卸载
+  const keydownHandler = (evt: KeyboardEvent) => keyboardEvent(evt, actions, module, ...params);
+  const keyupHandler = (evt: KeyboardEvent) => resetCtrlKey(evt);
+
+  window.addEventListener("keydown", keydownHandler, true);
+  window.addEventListener("keyup", keyupHandler, true);
   window.addEventListener("blur", windowBlur, false);
+
+  // 返回包含处理函数的对象用于卸载
+  return {
+    keydown: keydownHandler,
+    keyup: keyupHandler
+  };
 };
 //移除键盘事件
 export const removeKeyboardEvent = (
-  actions: Function,
-  module: ModuleEnums,
-  ...params: any
+  handlers: { keydown: Function; keyup: Function }
 ) => {
-  window.removeEventListener(
-    "keydown",
-    (evt: KeyboardEvent) => keyboardEvent(evt, actions, module, params),
-    true,
-  );
-  window.removeEventListener(
-    "keyup",
-    (evt: KeyboardEvent) => resetCtrlKey(evt),
-    true,
-  );
-  window.removeEventListener("blur", windowBlur, false);
+  window.removeEventListener("keydown", handlers.keydown as EventListener, true);
+  window.removeEventListener("keyup", handlers.keyup as EventListener, true);
+   window.removeEventListener("blur", windowBlur, false);
 };

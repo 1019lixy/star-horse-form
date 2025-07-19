@@ -19,6 +19,7 @@ import {
   loadSvgIcons,
   loadSystemInfo,
   loadElementPlusIcon,
+  loadRolesInfo,
 } from "@/api/star_horse_utils";
 import { ascOrDesc, commonField, httpMethod } from "@/api/system";
 
@@ -36,11 +37,7 @@ let relationTypeList = ref<Array<SelectOption>>([
   { name: "多对多", value: "mn" },
 ]);
 let dataSourceData = ref<any>();
-let primaryKeyPolicyList = ref<SelectOption[]>([
-  { name: "自增", value: "auto" },
-  { name: "动态赋值", value: "manual" },
-  { name: "序列", value: "sequence" },
-]);
+let primaryKeyPolicyList = ref<SelectOption[]>([]);
 let pageStyleList = ref<SelectOption[]>([]);
 let requireAsteriskPositionList = ref<SelectOption[]>([
   { name: "左", value: "left" },
@@ -56,11 +53,7 @@ let formSizeList = ref<SelectOption[]>([
   { name: "中", value: "default" },
   { name: "小", value: "small" },
 ]);
-let dataLoadConditionList = ref<SelectOption[]>([
-  { name: "创建人", value: "createdBy" },
-  { name: "租户", value: "tenantId" },
-  { name: "ID", value: "id" },
-]);
+let dataLoadConditionList = ref<SelectOption[]>([]);
 let dynamicFieldList = ref<SelectOption[]>([]);
 let mainTableFieldList = ref<SelectOption[]>([]);
 let allTableFieldList = ref<SelectOption[]>([]);
@@ -70,6 +63,7 @@ let authorityList = ref<SelectOption[]>([]);
 let eventTypeList = ref<SelectOption[]>([]);
 let informationsList = ref<any>([]);
 let menusInfoList = ref<any>([]);
+let rolesList = ref<any>([]);
 let menuFlag = ref<boolean>(false);
 let conditionFlag = ref<boolean>(false);
 const relationMsg = `
@@ -95,6 +89,9 @@ const loadMenus = (val: any) => {
   }
   permissionMenus({}, val).then((res: any) => {
     menusInfoList.value = res.data.data;
+  });
+  loadRolesInfo([]).then((res: any) => {
+    rolesList.value = res;
   });
 };
 let urlFieldVisible = ref<boolean>(false);
@@ -164,7 +161,6 @@ const tableFieldList = reactive<PageFieldInfo | any>({
               {
                 label: "主键",
                 fieldName: "formId",
-
                 required: true,
                 formVisible: true,
 
@@ -188,7 +184,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
             ],
             [
               {
-                label: "所属系统",
+                label: "归属应用",
                 fieldName: "sysId",
                 type: "tselect",
                 actions: {
@@ -218,6 +214,54 @@ const tableFieldList = reactive<PageFieldInfo | any>({
             ],
             [
               {
+                label: "创建菜单",
+                fieldName: "createMenu",
+                type: "switch",
+                actions: {
+                  change: (val: any) => {
+                    loadMenus(val["sysId"]);
+                    menuFlag.value = val["createMenu"] == "Y";
+                  },
+                },
+                defaultValue: "N",
+                formVisible: true,
+                preps: {
+                  colspan: 6,
+                  activeValue: "Y",
+                  inactiveValue: "N",
+                },
+              },
+
+              {
+                label: "父级菜单",
+                fieldName: "parentMenuId",
+                type: "tselect",
+                formVisible: menuFlag,
+                preps: {
+                  checkStrictly: true,
+                  colspan: 9,
+                  data: menusInfoList,
+                  props: {
+                    label: "menuName",
+                    value: "dataNo",
+                  },
+                },
+              },
+              {
+                label: "授权用户组",
+                fieldName: "userGroupList",
+                type: "select",
+                formVisible: menuFlag,
+                listVisible: true,
+                preps: {
+                  colspan: 9,
+                  multiple: true,
+                  values: rolesList
+                },
+              }
+            ],
+            [
+              {
                 label: "存为模板",
                 fieldName: "templateFlag",
                 type: "switch",
@@ -244,45 +288,10 @@ const tableFieldList = reactive<PageFieldInfo | any>({
               },
             ],
 
-            [
-              {
-                label: "创建菜单",
-                fieldName: "createMenu",
-                type: "switch",
-                actions: {
-                  change: (val: any) => {
-                    loadMenus(val["sysId"]);
-                    menuFlag.value = val["createMenu"] == "Y";
-                  },
-                },
-                defaultValue: "N",
-                formVisible: true,
-                preps: {
-                  colspan: 6,
-                  activeValue: "Y",
-                  inactiveValue: "N",
-                },
-              },
 
-              {
-                label: "父级菜单",
-                fieldName: "parentMenuId",
-                type: "tselect",
-                formVisible: menuFlag,
-                preps: {
-                  checkStrictly: true,
-                  colspan: 18,
-                  data: menusInfoList,
-                  props: {
-                    label: "menuName",
-                    value: "dataNo",
-                  },
-                },
-              },
-            ],
             [
               {
-                label: "页面版式",
+                label: "页面风格",
                 fieldName: "pageStyle",
                 type: "select",
                 formVisible: true,
@@ -301,7 +310,6 @@ const tableFieldList = reactive<PageFieldInfo | any>({
                 fieldName: "dataLoadField",
                 type: "select",
                 formVisible: conditionFlag,
-
                 preps: {
                   colspan: 9,
                   values: dataLoadConditionList,
@@ -789,6 +797,12 @@ const initData = async () => {
   loadDict("event_type").then((res: any) => {
     eventTypeList.value = res;
   });
+  loadDict("DATA_LOAD_CONDITION").then((res: any) => {
+    dataLoadConditionList.value = res;
+  }); 
+  loadDict("PRIMARY_KEY_POLICY").then((res: any) => {
+    primaryKeyPolicyList.value = res;
+  });
 };
 const analysisDynamicFields = async (formInfo: any) => {
   let reData = await loadData(
@@ -882,7 +896,7 @@ const loadTableColumns = (tbName: any) => {
 /**
  * 表单更新的时候，更新表单的属性
  */
-const updateCompInfo = () => {};
+const updateCompInfo = () => { };
 const getFormData = () => {
   return dynamicFormItemRef.value.getFormData();
 };
@@ -918,10 +932,6 @@ defineExpose({
 }
 </style>
 <template>
-  <star-horse-form
-    label-position="right"
-    :outerFormData="formInfo"
-    :fieldList="tableFieldList"
-    ref="dynamicFormItemRef"
-  />
+  <star-horse-form label-position="right" :outerFormData="formInfo" :fieldList="tableFieldList"
+    ref="dynamicFormItemRef" />
 </template>

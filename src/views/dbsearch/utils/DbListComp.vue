@@ -1,24 +1,21 @@
 <script setup lang="ts">
-import { permissionMenus } from "@/api/star_horse_apis";
+import { loadDict, permissionMenus } from "@/api/star_horse_apis";
+import { loadRolesInfo } from "@/api/star_horse_utils";
 import { useLoginStore } from "@/store/Login";
 import {
   initDbList,
   openDatabase,
   tableColumns,
 } from "@/views/dbsearch/utils/DbSearchUtils";
-import { success } from "star-horse-lowcode";
-import { apiInstance } from "star-horse-lowcode";
-import { postRequest } from "star-horse-lowcode";
+import { mutable } from "element-plus/es/utils/typescript.mjs";
 import {
-  BtnAuth,
+  apiInstance, BtnAuth,
   convertToCamelCase,
   isJson,
   PageFieldInfo,
-  piniaInstance,
-  SelectOption,
-  useDesignFormStore,
+  piniaInstance, postRequest, SelectOption, success, useDesignFormStore,
   useGlobalConfigStore,
-  warning,
+  warning
 } from "star-horse-lowcode";
 import { computed, ComputedRef, nextTick, onMounted, ref, unref } from "vue";
 const props = defineProps({
@@ -75,20 +72,23 @@ const containerTypeOperation = (val: any) => {
 };
 const configFormRef = ref<any>();
 const createMenuFlag = ref<boolean>(false);
-const appList = ref<Array<SelectOption>>([]);
+const conditionFlag = ref<boolean>(false);
+const rolesList = ref<Array<SelectOption>>([]);
 const menuList = ref<Array<SelectOption>>([]);
+const pageStyleList = ref<Array<SelectOption>>([]);
+const dataLoadConditionList = ref<Array<SelectOption>>([]);
+const primaryKeyPolicyList = ref<Array<SelectOption>>([]);
 const configFieldInfo = ref<PageFieldInfo>({
   fieldList: [
-
     [{
       label: "数据库信息",
-      fieldName: "dbInfo",
+      fieldName: "idDbConfigInfo",
       type: "select",
       formVisible: true,
       listVisible: true,
       actions: {
         change: (val: any) => {
-          dbIndex.value = val["dbInfo"];
+          dbIndex.value = val["idDbConfigInfo"];
           openDb(true);
         },
       },
@@ -105,6 +105,17 @@ const configFieldInfo = ref<PageFieldInfo>({
       preps: {
         values: containerTypeList,
       },
+    }, {
+      label: "是否子表",
+      fieldName: "subFormFlag",
+      type: "switch",
+      helpMsg: "多表联合创建表单时适用",
+      formVisible: true,
+      listVisible: true,
+      preps: {
+        disable: true
+      }
+
     }],
     [{
       label: "每行显示列数",
@@ -174,7 +185,57 @@ const configFieldInfo = ref<PageFieldInfo>({
           value: "dataNo",
         },
       },
+    }, {
+      label: "授权用户组",
+      fieldName: "userGroupList",
+      type: "select",
+      formVisible: createMenuFlag,
+      listVisible: true,
+      preps: {
+        multiple: true,
+        values: rolesList
+      },
     }],
+    [
+      {
+        label: "主键策略",
+        fieldName: "primaryKeyPolicy",
+        type: "select",
+        defaultValue: "manual",
+        formVisible: true,
+        preps: {
+          editdisabled: true,
+          values: primaryKeyPolicyList,
+          colspan: 8,
+        },
+      },
+      {
+        label: "页面风格",
+        fieldName: "pageStyle",
+        type: "select",
+        defaultValue: "general",
+        formVisible: true,
+        actions: {
+          change: (val: any) => {
+            conditionFlag.value = val["pageStyle"] == "form";
+          },
+        },
+        preps: {
+          colspan: 8,
+          values: pageStyleList,
+        },
+      },
+      {
+        label: "数据加载条件",
+        fieldName: "dataLoadField",
+        type: "select",
+        formVisible: conditionFlag,
+        preps: {
+          colspan: 8,
+          values: dataLoadConditionList,
+        },
+      },
+    ],
     {
       label: "数据库表",
       fieldName: "tableNameList",
@@ -184,14 +245,12 @@ const configFieldInfo = ref<PageFieldInfo>({
       listVisible: true,
       preps: {
         props: {
-          label: "comment",
+          label: "label",
           key: "tableName",
         },
         data: assignDataList,
       },
     }
-
-
   ],
 });
 let dataFieldInfo = ref<PageFieldInfo>({
@@ -321,7 +380,7 @@ const openDb = (commentAndTableVisible: boolean = false) => {
       item["containerType"] = "box";
       item["columns"] = configData.value.columns;
       if (commentAndTableVisible) {
-        item["comment"] = item["tableName"] + "(" + item["comment"] + ")";
+        item["label"] = item["tableName"] + "(" + item["comment"] + ")";
       }
     });
     assignDataList.value = tableAndColumnsList.value;
@@ -366,8 +425,21 @@ const loadMenuBySystemId = (systemId: string) => {
   });
 };
 const init = async () => {
-  dbList.value = await initDbList();
-
+  initDbList().then(res => {
+    dbList.value = res;
+  });
+  loadRolesInfo([]).then(res => {
+    rolesList.value = res;
+  });
+  loadDict("page_style").then((res: any) => {
+    pageStyleList.value = res;
+  });
+  loadDict("DATA_LOAD_CONDITION").then((res: any) => {
+    dataLoadConditionList.value = res;
+  });
+  loadDict("PRIMARY_KEY_POLICY").then((res: any) => {
+    primaryKeyPolicyList.value = res;
+  });
 };
 const getDefaultVal = (type: string) => {
   if (type == "number" || type == "slider" || type == "rate") {
@@ -456,12 +528,12 @@ const onDataCopy = async (data: any) => {
      * 处理preps
      */
     mvData["preps"] = {
-      clearable: "N",
+      clearable: true,
       comment: "",
-      controls: "Y",
-      required: reData["nullFlag"] == "n" ? "Y" : "N",
+      controls: true,
+      required: reData["nullFlag"] == "N" ? true : false,
       controlsPosition: "",
-      disabled: "N",
+      disabled: false,
       formVisible: true,
       placeholder: "",
     };
@@ -498,14 +570,14 @@ const onDataCopy = async (data: any) => {
       itemType: "box",
       preps: {
         id: boxId,
-        formVisible: "N",
+        formVisible: false,
         gutter: 0,
         justify: "start",
-        readonly: "N",
-        required: "N",
+        readonly: false,
+        required: false,
         searchVisible: false,
-        size: "small",
-        listVisible: "N",
+        size: "default",
+        listVisible: false,
         tag: "div",
         label: "栅格",
         name: "box",
@@ -606,7 +678,6 @@ const dynamicBtn = () => {
 };
 const configDataSubmit = (type: string) => {
   // closeAction();
-  console.log(type);
   configFormRef.value.$refs.starHorseFormRef.validate((res: boolean) => {
     // 提交配置数据
     if (!res) {
@@ -615,6 +686,23 @@ const configDataSubmit = (type: string) => {
     let tempFormData = configFormRef.value.getFormData().value;
     configData.value = { ...tempFormData };
     if (props.batchCreatePage) {
+      let tableInfoList: any = [];
+      tempFormData["tableNameList"]?.forEach((item: string) => {
+        let findData = assignDataList.value?.find((temp: any) => temp.tableName == item);
+        if (findData) {
+          let comment = "";
+          if (isJson(findData.comment)) {
+            comment = JSON.parse(findData.comment)["desc"];
+          } else {
+            comment = findData.comment;
+          }
+          tableInfoList.push({
+            tableName: findData.tableName,
+            comment: findData.comment
+          })
+        }
+      });
+      configData.value["tableNameList"] = tableInfoList;
       //创建页面
       postRequest(`${dataUrl.basePrefix}/batchCreateForm`, configData.value).then((res: any) => {
         if (res.data.code) {
@@ -622,7 +710,12 @@ const configDataSubmit = (type: string) => {
           return;
         } else {
           success(res.data.cnMessage);
-          closeAction();
+          configData.value = { column: 1 };
+          configFormRef.value.resetForm();
+          if (type == "close") {
+            closeAction();
+          }
+
         }
       });
     }
@@ -673,7 +766,7 @@ onMounted(() => {
     </el-tabs>
   </star-horse-dialog>
   <star-horse-dialog :dialogVisible="configDialogVisible" @closeAction="closeAction" :selfFunc="true"
-    :hideFullScreenIcon="true" @resetForm="configData = { columns: 1 }" @merge="configDataSubmit" :title="'属性配置'"
+    :isShowBtnContinue="true" @resetForm="configData = { columns: 1 }" @merge="configDataSubmit" :title="'批量生成动态表单'"
     :box-width="'50%'">
     <star-horse-form :size="compSize" :outerFormData="configData" :fieldList="configFieldInfo" ref="configFormRef">
     </star-horse-form>
