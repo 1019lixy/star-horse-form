@@ -329,15 +329,15 @@ export const keyboardEvent = (
     );
   } else if (ctrlKey.value) {
     keyInfo = shortKeyList(module).find(
-      (item) => item.key == evt.key && item.ctrl,
+      (item) => item.key == evt.key && item.ctrl&&!item.alt&&!item.shift,
     );
   } else if (altKey.value) {
     keyInfo = shortKeyList(module).find(
-      (item) => item.key == evt.key && item.alt,
+      (item) => item.key == evt.key && item.alt&&!item.ctrl&&!item.shift,
     );
   } else if (shiftKey.value) {
     keyInfo = shortKeyList(module).find(
-      (item) => item.key == evt.key && item.shift,
+      (item) => item.key == evt.key && item.shift&&!item.ctrl&&!item.alt,
     );
   } else {
     keyInfo = shortKeyList(module).find(
