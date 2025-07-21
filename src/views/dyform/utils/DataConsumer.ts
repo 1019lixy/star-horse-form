@@ -1,5 +1,7 @@
 import {reactive, Ref, ref} from 'vue';
 import {PageFieldInfo, searchMatchList, SelectOption,} from 'star-horse-lowcode';
+import { fi } from 'element-plus/es/locale/index.mjs';
+import { ascOrDesc } from '@/api/system.ts';
 
 const tableVisible = ref<boolean>(true);
 const relationRequired = ref<boolean>(false);
@@ -278,10 +280,12 @@ export function viewFieldInfo(
         formVisible: true,
       },
       {
+        fieldName: 'sortFields',
         batchFieldList: [
           {
             batchName: 'sortFields',
             title: '排序方式',
+            tabName: 'sortFields',
             disVisible: sortTableVisible,
             fieldList: [
               {
@@ -310,12 +314,16 @@ export function viewFieldInfo(
                 fieldName: 'sortType',
                 type: 'select',
                 formVisible: true,
+                preps: {
+                  values: ascOrDesc(),
+                },
               },
             ],
           },
           {
             batchName: 'limitFields',
             title: '指定返回字段',
+            tabName: 'limitFields',
             disVisible: limitFieldVisible,
             fieldList: [
               {

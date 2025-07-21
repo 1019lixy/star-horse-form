@@ -739,9 +739,11 @@ const configDataSubmit = (type: string) => {
           let comment = '';
           if (isJson(findData.comment)) {
             comment = JSON.parse(findData.comment)['desc'];
+            debugger;
           } else {
             comment = findData.comment;
           }
+          debugger;
           tableInfoList.push({
             tableName: findData.tableName,
             comment: comment,
