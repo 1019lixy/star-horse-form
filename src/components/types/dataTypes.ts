@@ -2,12 +2,12 @@ import {
   FlexboxContainer,
   FlexboxItem,
   FlexboxItemStyle,
-} from "@/components/types/FlexType";
+} from '@/components/types/FlexType';
 import {
   GridContainer,
   GridItem,
   GridItemStyle,
-} from "@/components/types/GridType";
+} from '@/components/types/GridType';
 
 type ConfigBase = TypeConfig &
   ItemType & {
@@ -19,16 +19,16 @@ type ConfigBase = TypeConfig &
     // itemType?: ItemType;
   };
 
-type ItemType = DropDownConfig | { itemType?: "default"; defaultValue: string };
+type ItemType = DropDownConfig | { itemType?: 'default'; defaultValue: string };
 
 type DropDownConfig = DropDownType & {
-  itemType?: "dropdown";
+  itemType?: 'dropdown';
   dropDownSeparator?: string;
 };
 
 type DropDownType =
-  | { dropDownType: "iteration"; placeholder: string }
-  | { dropDownType: "combine"; combineData: CombineType[] };
+  | { dropDownType: 'iteration'; placeholder: string }
+  | { dropDownType: 'combine'; combineData: CombineType[] };
 
 export type CombineType = TypeConfig & {
   key: string;
@@ -39,17 +39,17 @@ export type CombineType = TypeConfig & {
 type TypeConfig = SelectConfig | InputConfig;
 
 type SelectConfig = {
-  type: "select";
+  type: 'select';
   options: string[];
 };
 
 type InputConfig = InputType & {
-  type: "input";
+  type: 'input';
 };
 
 type InputType =
-  | { inputType: "unit"; unitOptions: string[] }
-  | { inputType: "number"; step?: number };
+  | { inputType: 'unit'; unitOptions: string[] }
+  | { inputType: 'number'; step?: number };
 
 export type ContainerConfig = ConfigBase & {
   key: keyof FlexboxContainer | keyof GridContainer;

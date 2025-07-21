@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import { onMounted, ref } from "vue";
+import { onMounted, ref } from 'vue';
 
 const props = defineProps({
-  height: { type: Object, default: "100%" },
-  width: { type: Object, default: "100%" },
+  height: { type: Object, default: '100%' },
+  width: { type: Object, default: '100%' },
 });
 const starHorseChartRef = ref();
 let ctx = ref();
@@ -64,19 +64,19 @@ const drawCycle = () => {
   let context = ctx.value;
   for (let i = 0; i < 10; i++) {
     data.push({
-      name: "姓名" + i,
-      sex: "性别" + i,
-      education: "学历" + i,
-      school: "毕业院校" + i,
-      address: "地址在什么地方。。。。。" + i,
+      name: '姓名' + i,
+      sex: '性别' + i,
+      education: '学历' + i,
+      school: '毕业院校' + i,
+      address: '地址在什么地方。。。。。' + i,
     });
   }
   console.log(data.length);
   let width = 30,
     height = 10;
   let total = height * data.length;
-  context.fillStyle = "#ffcc22";
-  context.strokeStyle = "#FF0000";
+  context.fillStyle = '#ffcc22';
+  context.strokeStyle = '#FF0000';
   // context.scale(.5,.5);
   for (let i = 0; i <= 5; i++) {
     context.lineWidth = 1;
@@ -108,7 +108,7 @@ const drawCycle = () => {
   // }
 };
 const resize = () => {
-  let container = document.getElementById("container");
+  let container = document.getElementById('container');
   // 获取Canvas元素的实际宽度和高度
   const canvasWidth = container.offsetWidth;
   const canvasHeight = container.offsetHeight;
@@ -118,7 +118,7 @@ const resize = () => {
   drawCycle();
 };
 const init = async () => {
-  ctx.value = starHorseChartRef.value.getContext("2d");
+  ctx.value = starHorseChartRef.value.getContext('2d');
   let ratio = window.devicePixelRatio || 1;
   resize();
   draw();
@@ -131,8 +131,8 @@ onMounted(() => {
 });
 const drawGrid = (e, i) => {
   //e表示每两条线的间隔距离值；i颜色值，大格子的颜色和小格子的颜色值不同
-  let P = "rgba(0,0,0,";
-  let l = P + i + ")",
+  let P = 'rgba(0,0,0,';
+  let l = P + i + ')',
     t = 0;
   let context = ctx.value;
   let scale = info.scale || 1;
@@ -157,8 +157,8 @@ const drawGrid = (e, i) => {
     minY = 0,
     maxY = 0; //最大、最新 x y值
   let tt: DOMMatrix = document.createElementNS(
-    "http://www.w3.org/2000/svg",
-    "svg",
+    'http://www.w3.org/2000/svg',
+    'svg',
   );
   let n = tt.createSVGMatrix();
   windowViewPoints.forEach((item: any, index) => {

@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { getPublicKey, getUserInfo } from "@/utils/auth";
-import { computed, onMounted, provide, reactive, ref } from "vue";
+import { getPublicKey, getUserInfo } from '@/utils/auth';
+import { computed, onMounted, provide, reactive, ref } from 'vue';
 import {
   copy,
   dialogPreps,
@@ -10,62 +10,62 @@ import {
   success,
   useGlobalConfigStore,
   warning,
-} from "star-horse-lowcode";
+} from 'star-horse-lowcode';
 import {
   initSelectData,
   userEditFieldInfo,
-} from "@/views/system/utils/UserFields";
-import { Config } from "@/api/settings";
-import { JSEncrypt } from "jsencrypt";
-import { ServiceEnums } from "@/components/enums/ServiceEnums";
+} from '@/views/system/utils/UserFields';
+import { Config } from '@/api/settings';
+import { JSEncrypt } from 'jsencrypt';
+import { ServiceEnums } from '@/components/enums/ServiceEnums';
 
 let userInfo = ref<any>({});
-let depts = ref<string>("--");
-let roles = ref<string>("--");
+let depts = ref<string>('--');
+let roles = ref<string>('--');
 let configStore = useGlobalConfigStore(piniaInstance);
 let compSize = computed(
   () => configStore.configFormInfo?.inputSize || Config.compSize,
 );
 const userFormRef = ref<Record<string, InstanceType<typeof StarHorseForm>>>({}); // 明确组件类型
-const activeName = ref<string>("basic");
+const activeName = ref<string>('basic');
 const url: any = {
   basic: `${ServiceEnums.SYSTEM_PREFIX}usersinfoEntity/userSelfEdit`,
   password: `${ServiceEnums.SYSTEM_PREFIX}usersAuditEntity/editPassword`,
 };
 const dialogProps = dialogPreps();
-provide("dialogProps", dialogProps);
+provide('dialogProps', dialogProps);
 const baseFieldList = reactive<PageFieldInfo | any>({
   fieldList: userEditFieldInfo,
 });
 const passwordFieldList = reactive<PageFieldInfo | any>({
   fieldList: [
     {
-      label: "原始密码",
-      fieldName: "oldPassword",
-      type: "password",
+      label: '原始密码',
+      fieldName: 'oldPassword',
+      type: 'password',
       required: true,
       formVisible: true,
     },
     {
-      label: "新密码",
-      fieldName: "password",
-      type: "password",
+      label: '新密码',
+      fieldName: 'password',
+      type: 'password',
       rules: [
-        "password",
+        'password',
         {
-          name: "dataLength",
+          name: 'dataLength',
           options: {
             min: 6,
             max: 14,
           },
         },
         {
-          trigger: "blur",
+          trigger: 'blur',
           validator(_rule: any, value: any, callback: Function) {
             const formData =
               userFormRef.value[activeName.value].getFormData()?.value;
             if (value == formData.oldPassword) {
-              callback(new Error("新密码不能与旧密码相同"));
+              callback(new Error('新密码不能与旧密码相同'));
             } else {
               callback();
             }
@@ -76,17 +76,17 @@ const passwordFieldList = reactive<PageFieldInfo | any>({
       formVisible: true,
     },
     {
-      label: "确认密码",
-      fieldName: "confirmPassword",
-      type: "password",
+      label: '确认密码',
+      fieldName: 'confirmPassword',
+      type: 'password',
       rules: [
         {
-          trigger: "blur",
+          trigger: 'blur',
           validator(_rule: any, value: any, callback: Function) {
             const formData =
               userFormRef.value[activeName.value].getFormData()?.value;
             if (value !== formData.password) {
-              callback(new Error("两次输入的密码不一致"));
+              callback(new Error('两次输入的密码不一致'));
             } else {
               callback();
             }
@@ -107,12 +107,12 @@ const doModifyUserInfo = async () => {
   if (!validateResult) return;
   let dataForm = currentForm.getFormData()?.value;
   console.log(dataForm);
-  if (activeName.value == "password") {
+  if (activeName.value == 'password') {
     let encrypt = new JSEncrypt();
     encrypt.setPublicKey(getPublicKey()!);
-    dataForm["oldPassword"] = encrypt.encrypt(dataForm["oldPassword"]);
-    dataForm["password"] = encrypt.encrypt(dataForm["password"]);
-    dataForm["confirmPassword"] = encrypt.encrypt(dataForm["confirmPassword"]);
+    dataForm['oldPassword'] = encrypt.encrypt(dataForm['oldPassword']);
+    dataForm['password'] = encrypt.encrypt(dataForm['password']);
+    dataForm['confirmPassword'] = encrypt.encrypt(dataForm['confirmPassword']);
   }
   postRequest(url[activeName.value], dataForm).then((res) => {
     let redata = res.data;
@@ -128,8 +128,8 @@ const doModifyUserInfo = async () => {
  */
 const resetForm = () => {
   let dataForm: any = {};
-  dataForm["username"] = userInfo.value?.username;
-  dataForm["employeeNo"] = userInfo.value?.employeeNo;
+  dataForm['username'] = userInfo.value?.username;
+  dataForm['employeeNo'] = userInfo.value?.employeeNo;
   userFormRef.value[activeName.value].setFormData(dataForm);
 };
 const setRef =
@@ -146,12 +146,12 @@ const init = async () => {
     ?.map((item: any) => {
       return item.deptName;
     })
-    .join(";");
+    .join(';');
   roles.value = userInfo.value.rolesList
     ?.map((item: any) => {
       return item.roleName;
     })
-    .join(";");
+    .join(';');
 };
 onMounted(async () => {
   await init();

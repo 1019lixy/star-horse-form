@@ -1,36 +1,36 @@
 <script setup lang="ts">
-import { onMounted, reactive, ref, unref } from "vue";
-import { SearchParams } from "star-horse-lowcode";
+import { onMounted, reactive, ref, unref } from 'vue';
+import { SearchParams } from 'star-horse-lowcode';
 import {
   closeLoad,
   createCondition,
   dialogPreps,
   isJson,
   loadData,
-} from "star-horse-lowcode";
-import { createDatetime } from "star-horse-lowcode";
-import { OrderByInfo, PageFieldInfo } from "star-horse-lowcode";
-import websocket from "@/api/websocket";
-import { getUserInfo } from "@/utils/auth";
-import { message } from "star-horse-lowcode";
-import { postRequest } from "@/api/star_horse_apis";
+} from 'star-horse-lowcode';
+import { createDatetime } from 'star-horse-lowcode';
+import { OrderByInfo, PageFieldInfo } from 'star-horse-lowcode';
+import websocket from '@/api/websocket';
+import { getUserInfo } from '@/utils/auth';
+import { message } from 'star-horse-lowcode';
+import { postRequest } from '@/api/star_horse_apis';
 
 defineProps({
-  compSize: { type: String, default: "small" },
+  compSize: { type: String, default: 'small' },
 });
-let currentTab = ref<string>("notice");
+let currentTab = ref<string>('notice');
 let messageList = ref<Array<any>>([]);
 let auditList = ref<Array<any>>([]);
 let totals = ref<number>(0);
 let totalMessages = ref<number>(0);
 let totalAudit = ref<number>(0);
-const url = "/system-config/system/messageRecord/getAllByCondition";
-const pageUrl = "/system-config/system/messageRecord/pageList";
+const url = '/system-config/system/messageRecord/getAllByCondition';
+const pageUrl = '/system-config/system/messageRecord/pageList';
 const init = async () => {
-  let params = createParams("notice");
+  let params = createParams('notice');
   let resultData = await loadData(url, params.fieldList, params.orderBy);
   let msgTemp: Array<any> = resultData.data;
-  params = createParams("pending");
+  params = createParams('pending');
   resultData = await loadData(url, params.fieldList, params.orderBy);
   let auditTemp: Array<any> = resultData.data;
   reCount(msgTemp, auditTemp);
@@ -39,13 +39,13 @@ const init = async () => {
 };
 const reCount = (msgList: Array<any>, auditList: Array<any>) => {
   totalMessages.value =
-    msgList?.filter((item) => item.statusCode == "1")?.length || 0;
+    msgList?.filter((item) => item.statusCode == '1')?.length || 0;
   totalAudit.value =
-    auditList?.filter((item) => item.statusCode == "1")?.length || 0;
+    auditList?.filter((item) => item.statusCode == '1')?.length || 0;
   totals.value = totalMessages.value + totalAudit.value;
 };
 const webSocketOperation = () => {
-  console.log("当前环境:", import.meta.env.MODE);
+  console.log('当前环境:', import.meta.env.MODE);
   websocket.init(import.meta.env.VITE_WEBSOCKET_URL, getUserInfo().idUsersinfo);
   websocket.setMessageCallback((data: any) => {
     let reData = JSON.parse(data);
@@ -53,7 +53,7 @@ const webSocketOperation = () => {
       return;
     }
     reData = JSON.parse(reData.data);
-    if (reData.type == "notice") {
+    if (reData.type == 'notice') {
       let temp = messageList.value.find(
         (item) => item.idMessageRecord == reData.idMessageRecord,
       );
@@ -71,11 +71,11 @@ const webSocketOperation = () => {
       // auditList.value.splice(0, 0, reData);
     }
     message(
-      "你有新消息:" + reData.title,
-      "info",
+      '你有新消息:' + reData.title,
+      'info',
       2500,
-      "新消息提醒",
-      "top-right",
+      '新消息提醒',
+      'top-right',
     );
     init();
   });
@@ -97,17 +97,17 @@ let auditPageInfo = ref<any>({
 const formField = reactive<PageFieldInfo>({
   fieldList: [
     {
-      label: "标题",
-      fieldName: "title",
-      type: "input",
+      label: '标题',
+      fieldName: 'title',
+      type: 'input',
       required: true,
       formVisible: true,
       listVisible: true,
     },
     {
-      label: "内容",
-      fieldName: "content",
-      type: "markdown",
+      label: '内容',
+      fieldName: 'content',
+      type: 'markdown',
       required: true,
       formVisible: true,
       listVisible: true,
@@ -124,17 +124,17 @@ const close = () => {
 };
 const updateMessage = async () => {
   let temp = unref(outerData);
-  if (temp.type == "notice") {
-    temp.statusName = "已读";
+  if (temp.type == 'notice') {
+    temp.statusName = '已读';
   } else {
-    temp.statusName = "已处理";
+    temp.statusName = '已处理';
   }
-  temp.statusCode = "2";
-  await loadData("/system-config/system/messageResult/merge", temp);
+  temp.statusCode = '2';
+  await loadData('/system-config/system/messageResult/merge', temp);
   await init();
 };
 const pageChangeClick = async (page: number) => {
-  if (currentTab.value == "notice") {
+  if (currentTab.value == 'notice') {
     noticePageInfo.value.currentPage = page;
   } else {
     auditPageInfo.value.currentPage = page;
@@ -142,7 +142,7 @@ const pageChangeClick = async (page: number) => {
   loadByPage();
 };
 const pageSizeClick = async (size: number) => {
-  if (currentTab.value == "notice") {
+  if (currentTab.value == 'notice') {
     noticePageInfo.value.pageSize = size;
   } else {
     auditPageInfo.value.pageSize = size;
@@ -155,29 +155,29 @@ const tabChange = (tab: string) => {
 };
 const createParams = (type: string) => {
   let fieldList: SearchParams[] = [];
-  fieldList.push(createCondition("type", type || currentTab.value));
-  let param: SearchParams = createCondition("commonFlag", "Y");
+  fieldList.push(createCondition('type', type || currentTab.value));
+  let param: SearchParams = createCondition('commonFlag', 'Y');
   param.orOperList = [
-    createCondition("receivePersons", getUserInfo()?.username),
+    createCondition('receivePersons', getUserInfo()?.username),
   ];
   fieldList.push(param);
   let orderBy: OrderByInfo[] = [
-    { fieldName: "statusCode", ascOrDesc: "asc" },
-    { fieldName: "createdTime", ascOrDesc: "desc" },
+    { fieldName: 'statusCode', ascOrDesc: 'asc' },
+    { fieldName: 'createdTime', ascOrDesc: 'desc' },
   ];
   return { fieldList, orderBy };
 };
 const loadByPage = () => {
-  let params = createParams("");
+  let params = createParams('');
   postRequest(pageUrl, {
     fieldList: params.fieldList,
     orderBy: params.orderBy,
     currentPage:
-      currentTab.value == "notice"
+      currentTab.value == 'notice'
         ? noticePageInfo.value.currentPage
         : auditPageInfo.value.currentPage,
     pageSize:
-      (currentTab.value == "notice"
+      (currentTab.value == 'notice'
         ? noticePageInfo.value.pageSize
         : auditPageInfo.value.pageSize) || 20,
   })
@@ -187,7 +187,7 @@ const loadByPage = () => {
         return;
       }
       let redata = res?.data.data;
-      if (currentTab.value == "notice") {
+      if (currentTab.value == 'notice') {
         noticePageInfo.value.totalData = redata.totalDatas;
         noticePageInfo.value.totalPage = redata.totalPages;
         noticePageInfo.value.currentPage = redata.currentPage;
@@ -209,7 +209,7 @@ const loadByPage = () => {
     });
 };
 const auditMessage = (item: any) => {
-  message("功能开发中...", "info", 2500, "提示", "bottom-right");
+  message('功能开发中...', 'info', 2500, '提示', 'bottom-right');
 };
 onMounted(() => {
   init();

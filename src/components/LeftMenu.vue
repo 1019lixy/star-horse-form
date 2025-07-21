@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import { Config } from "@/api/settings";
-import { filterTree } from "@/api/star_horse_utils";
-import { useLoginStore } from "@/store/Login";
-import { piniaInstance, useGlobalConfigStore } from "star-horse-lowcode";
-import { computed, nextTick, onMounted, ref, watch } from "vue";
+import { Config } from '@/api/settings';
+import { filterTree } from '@/api/star_horse_utils';
+import { useLoginStore } from '@/store/Login';
+import { piniaInstance, useGlobalConfigStore } from 'star-horse-lowcode';
+import { computed, nextTick, onMounted, ref, watch } from 'vue';
 defineProps({
   isCollapse: { type: Boolean, default: false },
 });
@@ -12,15 +12,15 @@ const loginStore = useLoginStore(piniaInstance);
 let compSize = computed(
   () => configStore.configFormInfo?.inputSize || Config.compSize,
 );
-const emits = defineEmits(["collapseOperation"]);
+const emits = defineEmits(['collapseOperation']);
 let leftMenuDatas = computed(() => loginStore.getMenusList());
 
-let defaultOpenMenu = ref<string>("");
+let defaultOpenMenu = ref<string>('');
 const setOpenMenu = () => {
   filterTableData.value = leftMenuDatas.value;
   nextTick(() => {
     if (leftMenuDatas.value?.length > 0) {
-      let allId = leftMenuDatas.value.find((item: any) => item.path == "#")
+      let allId = leftMenuDatas.value.find((item: any) => item.path == '#')
         ?.meta?.menuId;
       if (allId && systemMenu?.value) {
         try {
@@ -32,7 +32,7 @@ const setOpenMenu = () => {
     }
   });
 };
-const search = ref<string>("");
+const search = ref<string>('');
 const systemMenu = ref();
 const filterTableData = computed(() =>
   filterTree(search.value, leftMenuDatas.value),

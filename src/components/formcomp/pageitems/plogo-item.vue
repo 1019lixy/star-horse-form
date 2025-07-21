@@ -1,6 +1,6 @@
 <script setup lang="ts">
 defineOptions({
-  name: "PageLogoItem",
+  name: 'PageLogoItem',
 });
 interface LinkItem {
   id: string;
@@ -13,11 +13,11 @@ interface LinkItem {
 defineProps({
   logoWidth: {
     type: String,
-    default: "100px",
+    default: '100px',
   },
   logoHeight: {
     type: String,
-    default: "100px",
+    default: '100px',
   },
   item: {
     type: Object as () => LinkItem,

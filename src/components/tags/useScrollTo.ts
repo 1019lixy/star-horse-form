@@ -1,4 +1,4 @@
-import { ref, unref } from "vue";
+import { ref, unref } from 'vue';
 
 export interface ScrollToParams {
   el: HTMLElement;
@@ -22,7 +22,7 @@ const move = (el: HTMLElement, position: string, amount: number) => {
 
 export function useScrollTo({
   el,
-  position = "scrollLeft",
+  position = 'scrollLeft',
   to,
   duration = 500,
   callback,

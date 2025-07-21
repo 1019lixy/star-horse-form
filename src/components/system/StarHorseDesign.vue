@@ -7,8 +7,8 @@ import {
   provide,
   ref,
   watch,
-} from "vue";
-import { Cell, Graph, Shape, View } from "@antv/x6";
+} from 'vue';
+import { Cell, Graph, Shape, View } from '@antv/x6';
 import {
   ApiUrls,
   closeLoad,
@@ -22,17 +22,17 @@ import {
   piniaInstance,
   useConsumerViewStore,
   warning,
-} from "star-horse-lowcode";
+} from 'star-horse-lowcode';
 import {
   commands,
   configInfo,
   helpMessage,
   ports,
   tableConfigInfo,
-} from "@/utils/sh_design";
-import { useDesignGraphStore } from "@/store/DesignGraph";
-import { Config } from "@/api/settings";
-import { dynamicFormContextMenuData } from "@/plugins/AblesPlugin";
+} from '@/utils/sh_design';
+import { useDesignGraphStore } from '@/store/DesignGraph';
+import { Config } from '@/api/settings';
+import { dynamicFormContextMenuData } from '@/plugins/AblesPlugin';
 
 const designGraph = useDesignGraphStore(piniaInstance);
 const consumerView = useConsumerViewStore(piniaInstance);
@@ -40,15 +40,15 @@ const starHorseDesignRef = ref();
 const graph = ref();
 const contextmenuRef = ref();
 const leftPanelVisible = ref<boolean>(true);
-const connectorStyle = ref<string>("normal");
+const connectorStyle = ref<string>('normal');
 const rightPanel = ref<boolean>(false);
 const normalRightPanel = ref<boolean>(true);
 const currentComp = ref<any>();
 const currentCellInfo = ref<any>({});
 const fieldList = ref<PageFieldInfo>();
 const menuPosition = ref({
-  top: "0px",
-  left: "0px",
+  top: '0px',
+  left: '0px',
 });
 const props = defineProps({
   registerNode: { type: Object, default: null },
@@ -59,77 +59,77 @@ const props = defineProps({
   compUrl: { type: Object as PropType<ApiUrls> },
   nodeFieldList: { type: Object as PropType<PageFieldInfo> },
   lineFieldList: { type: Object as PropType<PageFieldInfo> },
-  batchName: { type: String, default: "batchDataList" },
-  batchFieldName: { type: String, default: "batchFieldList" },
+  batchName: { type: String, default: 'batchDataList' },
+  batchFieldName: { type: String, default: 'batchFieldList' },
   primaryKey: { type: String, required: true },
   rules: { type: Object },
   showCompList: { type: Object, required: true },
   showDbList: { type: Object, required: false },
   //table,normal,其他待定
-  compType: { type: String, default: "normal" },
+  compType: { type: String, default: 'normal' },
   //drawer,normal
-  activeCollapse: { type: String, default: "0" },
-  panelStyle: { type: String, default: "normal" },
+  activeCollapse: { type: String, default: '0' },
+  panelStyle: { type: String, default: 'normal' },
   customerItems: { type: Array as PropType<CustomerItem[]>, default: [] },
 });
 const tabModel = computed(() =>
-  props.showCompList ? "dynamicTable" : "dbList",
+  props.showCompList ? 'dynamicTable' : 'dbList',
 );
 const emits = defineEmits([
-  "config",
-  "lineClick",
-  "nodeClick",
-  "save",
-  "validation",
-  "preview",
+  'config',
+  'lineClick',
+  'nodeClick',
+  'save',
+  'validation',
+  'preview',
 ]);
 let compAttr = ref<any>({});
-provide("dataForm", compAttr);
-const dataForm = defineModel("dataForm");
+provide('dataForm', compAttr);
+const dataForm = defineModel('dataForm');
 const jsonData = ref<string>();
 const dataPreviewVisible = ref<boolean>(false);
 let activeItem = computed(() => props.activeCollapse);
 const hasData = ref<Array<any>>([]);
 const transform = (command: string) => {
   switch (command) {
-    case "translate":
+    case 'translate':
       graph.value.translate(20, 20);
       break;
-    case "zoomIn":
+    case 'zoomIn':
       graph.value.zoom(0.2);
       break;
-    case "zoomOut":
+    case 'zoomOut':
       graph.value.zoom(-0.2);
       break;
-    case "zoomTo":
+    case 'zoomTo':
       graph.value.zoomTo(1);
       break;
-    case "zoomToFit":
+    case 'zoomToFit':
       graph.value.zoomToFit();
       break;
-    case "centerContent":
+    case 'centerContent':
       graph.value.centerContent();
       break;
-    case "reDo":
+    case 'reDo':
       graph.value.redo();
       break;
-    case "unDo":
+    case 'unDo':
       graph.value.undo();
       break;
-    case "lineMode":
-      connectorStyle.value = "normal";
+    case 'lineMode':
+      connectorStyle.value = 'normal';
       break;
-    case "verticalMode":
-      connectorStyle.value = "rounded";
+    case 'verticalMode':
+      connectorStyle.value = 'rounded';
       break;
-    case "leftPanel":
+    case 'leftPanel':
       leftPanelVisible.value = !leftPanelVisible.value;
       break;
-    case "rightPanel":
+    case 'rightPanel':
       normalRightPanel.value = !normalRightPanel.value;
       break;
-    case "empty":
-      operationConfirm("清空画布，所有的数据都会丢失，确定要清空吗？").then(
+    case 'empty':
+      operationConfirm('清空画布，所有的数据都会丢失，确定要清空吗？').then(
         (res) => {
           if (res) {
             nodeList.value = [];
@@ -140,22 +140,22 @@ const transform = (command: string) => {
         },
       );
       break;
-    case "valid":
+    case 'valid':
       dataValid();
       break;
-    case "json":
+    case 'json':
       //显示JSON数据
       jsonData.value = JSON.stringify(graph.value.toJSON(), null, 4);
       dataPreviewVisible.value = true;
       break;
-    case "save":
-      emits("save", analisyAllData());
+    case 'save':
+      emits('save', analisyAllData());
       break;
-    case "config":
-      emits("config", analisyAllData());
+    case 'config':
+      emits('config', analisyAllData());
       break;
-    case "preview":
-      emits("preview", analisyAllData());
+    case 'preview':
+      emits('preview', analisyAllData());
       break;
     default:
       alignOperation(command);
@@ -175,12 +175,12 @@ const closeAction = () => {
 const dataValid = () => {};
 const alignOperation = (align: string) => {
   let cells = graph.value.getSelectedCells();
-  if (align == "deleteItem" || align == "delete") {
+  if (align == 'deleteItem' || align == 'delete') {
     if (!cells || cells.length == 0) {
-      warning("请先选择要删除的对象");
+      warning('请先选择要删除的对象');
       return;
     }
-    operationConfirm("确定要删除所选的元素吗？").then((res) => {
+    operationConfirm('确定要删除所选的元素吗？').then((res) => {
       if (res) {
         deleteNode(cells);
         graph.value.removeCells(cells);
@@ -201,7 +201,7 @@ const alignOperation = (align: string) => {
   //   let _cell = cells[index];
   //   //  console.log(cell.position());
   // }
-  if (align == "alignTop") {
+  if (align == 'alignTop') {
     let pos = cells.map((item: any) => item.position().y);
     let min = Math.min(...pos);
     for (let index in cells) {
@@ -209,7 +209,7 @@ const alignOperation = (align: string) => {
       cell.setPosition(cell.position().x, min);
     }
   }
-  if (align == "alignBottom") {
+  if (align == 'alignBottom') {
     let pos = cells.map((item: any) => item.position().y);
     let max = Math.max(...pos);
     for (let index in cells) {
@@ -217,7 +217,7 @@ const alignOperation = (align: string) => {
       cell.setPosition(cell.position().x, max);
     }
   }
-  if (align == "alignLeft") {
+  if (align == 'alignLeft') {
     let pos = cells.map((item: any) => item.position().x);
     let min = Math.min(...pos);
     for (let index in cells) {
@@ -225,7 +225,7 @@ const alignOperation = (align: string) => {
       cell.setPosition(min, cell.position().y);
     }
   }
-  if (align == "alignRight") {
+  if (align == 'alignRight') {
     let pos = cells.map((item: any) => item.position().x);
     let max = Math.max(...pos);
     for (let index in cells) {
@@ -254,121 +254,121 @@ const init = async () => {
   graph.value = new Graph({
     autoResize: true,
     container: starHorseDesignRef.value,
-    ...(props.compType == "table" ? tableConfigInfo : configInfo),
+    ...(props.compType == 'table' ? tableConfigInfo : configInfo),
   });
   graph.value.resetCells([]);
   designGraph.setGraph(graph.value, props.readonly);
-  console.log("画布初始化完成。。。");
+  console.log('画布初始化完成。。。');
   // delete
-  graph.value.bindKey(["backspace", "delete"], () => {
-    alignOperation("deleteItem");
+  graph.value.bindKey(['backspace', 'delete'], () => {
+    alignOperation('deleteItem');
   });
   // 控制连接桩显示/隐藏
   const showPorts = (ports: NodeListOf<SVGElement>, show: boolean) => {
     for (let i = 0, len = ports.length; i < len; i += 1) {
       let temp = ports[i];
       //过滤掉表格的字段
-      if (temp.localName != "g") {
-        temp.style.visibility = show ? "visible" : "hidden";
+      if (temp.localName != 'g') {
+        temp.style.visibility = show ? 'visible' : 'hidden';
       }
     }
   };
-  graph.value.on("cell:mouseenter", (data: any) => {
+  graph.value.on('cell:mouseenter', (data: any) => {
     const ports = starHorseDesignRef.value.querySelectorAll(
-      ".x6-port-body",
+      '.x6-port-body',
     ) as NodeListOf<SVGElement>;
     showPorts(ports, true);
     if (data.cell.isNode()) {
       data.cell.addTools([
         {
-          name: "boundary",
+          name: 'boundary',
           args: {
             attrs: {
-              fill: "#7c68fc",
-              stroke: "#333",
-              "stroke-width": 1,
-              "fill-opacity": 0.2,
+              fill: '#7c68fc',
+              stroke: '#333',
+              'stroke-width': 1,
+              'fill-opacity': 0.2,
             },
           },
         },
       ]);
     } else {
       data.cell.addTools([
-        { name: "segments" },
+        { name: 'segments' },
         {
-          name: "source-arrowhead",
+          name: 'source-arrowhead',
         },
         {
-          name: "target-arrowhead",
+          name: 'target-arrowhead',
           args: {
             attrs: {
-              fill: "blue",
+              fill: 'blue',
             },
           },
         },
       ]);
     }
   });
-  graph.value.on("cell:mouseleave", (data: any) => {
+  graph.value.on('cell:mouseleave', (data: any) => {
     const ports = starHorseDesignRef.value.querySelectorAll(
-      ".x6-port-body",
+      '.x6-port-body',
     ) as NodeListOf<SVGElement>;
     showPorts(ports, false);
     if (data.cell.isNode()) {
       data.cell.removeTools();
     } else {
-      data.cell.removeTools(["source-arrowhead", "target-arrowhead"]);
+      data.cell.removeTools(['source-arrowhead', 'target-arrowhead']);
     }
   });
   // #endregion
-  graph.value.on("cell:added", (edge: any) => {
+  graph.value.on('cell:added', (edge: any) => {
     designGraph.setCell(edge.cell, true);
-    if (edge.cell.isEdge() && props.compType != "table") {
-      designGraph.setLabel("OK", "#15C912");
+    if (edge.cell.isEdge() && props.compType != 'table') {
+      designGraph.setLabel('OK', '#15C912');
     } else {
       clickOperation(edge);
     }
   });
-  graph.value.on("edge:connected", (edge: any) => {
+  graph.value.on('edge:connected', (edge: any) => {
     clickOperation(edge.view);
   });
   //节点右键菜单
-  graph.value.on("cell:contextmenu", (data: any) => {
+  graph.value.on('cell:contextmenu', (data: any) => {
     contextMenu(data.e, data.x, data.y, data.cell, data.view);
   });
   // //连线右键菜单
   // //点击节点
-  graph.value.on("cell:click", (data: any) => {
+  graph.value.on('cell:click', (data: any) => {
     // graph.value.trigger("blank:click", {e, x, y, edge, view});
-    if (props.panelStyle == "normal" || props.compType == "table") {
+    if (props.panelStyle == 'normal' || props.compType == 'table') {
       clickOperation(data.view);
     }
     if (data.cell.isEdge()) {
       data.cell.addTools([
         {
-          name: "boundary",
+          name: 'boundary',
           args: {
             attrs: {
-              fill: "#7c68fc",
-              stroke: "#333",
-              "stroke-width": 1,
-              "fill-opacity": 0.2,
+              fill: '#7c68fc',
+              stroke: '#333',
+              'stroke-width': 1,
+              'fill-opacity': 0.2,
             },
           },
         },
       ]);
     }
   });
-  graph.value.on("blank:click", () => {
+  graph.value.on('blank:click', () => {
     let cells = graph.value.getCells();
     for (let index in cells) {
       cells[index].removeTools();
     }
     currentComp.value = null;
   });
-  if (props.panelStyle == "drawer") {
+  if (props.panelStyle == 'drawer') {
     //点击连线
-    graph.value.on("cell:dblclick", async (data: any) => {
+    graph.value.on('cell:dblclick', async (data: any) => {
       clickOperation(data.view);
     });
   }
@@ -383,16 +383,16 @@ const clickOperation = async (view: any) => {
   let data = getCellnfo(cell)!;
   if (!isNode) {
     // graph.value.trigger("blank:click", {view});
-    graph.value.trigger("edge:click", { view });
+    graph.value.trigger('edge:click', { view });
   }
   currentCellInfo.value = data;
-  if (data?.fromType == "table") {
-    emits(isNode ? "nodeClick" : "lineClick", data);
+  if (data?.fromType == 'table') {
+    emits(isNode ? 'nodeClick' : 'lineClick', data);
     //
   } else {
     currentComp.value = cell;
     await readCompAttr();
-    if (props.panelStyle == "drawer") {
+    if (props.panelStyle == 'drawer') {
       rightPanel.value = true;
     }
     await nextTick(() => {
@@ -423,11 +423,11 @@ const deleteNode = (cells: Array<any>) => {
 };
 const contextMenuOperation = (type: any) => {
   console.log(type);
-  if (type == "copy") {
+  if (type == 'copy') {
     graph.value.copy([currentComp.value]);
-  } else if (type == "cut") {
+  } else if (type == 'cut') {
     graph.value.cut([currentComp.value]);
-  } else if (type == "paste") {
+  } else if (type == 'paste') {
     const cells = graph.value.paste({ offset: 32 });
     graph.value.cleanSelection();
     graph.value.select(cells);
@@ -459,13 +459,13 @@ const contextMenu = (
 /**
  * 更改标签信息
  */
-const changeLabelText = (val: any, color: string = "#15C912") => {
+const changeLabelText = (val: any, color: string = '#15C912') => {
   if (currentComp.value.isNode()) {
-    currentComp.value!.setAttr("label/text", val);
+    currentComp.value!.setAttr('label/text', val);
   } else {
     currentComp.value!.removeLabelAt(0);
-    currentComp.value!.insertLabel("OK", 0);
-    currentComp.value!.getLabelAt(0)["attrs"]["label"] = {
+    currentComp.value!.insertLabel('OK', 0);
+    currentComp.value!.getLabelAt(0)['attrs']['label'] = {
       fill: color,
       text: val,
     };
@@ -484,16 +484,16 @@ const registerNode = (name: string, entry: any, force: boolean = false) => {
  */
 const registerPort = (portName: string) => {
   Graph.registerNode(
-    "custom-rect",
+    'custom-rect',
     {
-      inherit: "rect",
+      inherit: 'rect',
       width: 140,
       height: 50,
       attrs: {
         body: {
           strokeWidth: 1,
-          stroke: "#5F95FF",
-          fill: "#EFF4FF",
+          stroke: '#5F95FF',
+          fill: '#EFF4FF',
           rx: 10,
           ry: 10,
         },
@@ -506,28 +506,28 @@ const registerPort = (portName: string) => {
         },
         text: {
           fontSize: 12,
-          fill: "#262626",
-          textAnchor: "middle",
-          textVerticalAnchor: "middle",
+          fill: '#262626',
+          textAnchor: 'middle',
+          textVerticalAnchor: 'middle',
         },
       },
       markup: [
         {
-          tagName: "rect",
-          selector: "body",
+          tagName: 'rect',
+          selector: 'body',
         },
         {
-          tagName: "svg",
-          selector: "image",
+          tagName: 'svg',
+          selector: 'image',
           children: [
             {
-              tagName: "use",
+              tagName: 'use',
             },
           ],
         },
         {
-          tagName: "text",
-          selector: "text",
+          tagName: 'text',
+          selector: 'text',
         },
       ],
       ports: { ...ports },
@@ -592,12 +592,12 @@ const getCellnfo = (cell: any) => {
     let targetNode = cell.getTargetNode();
     let targetInfo = targetNode?.getData();
     if (!targetInfo) {
-      console.log("连线没有目标节点");
+      console.log('连线没有目标节点');
       return;
     }
     let targetPort = targetNode.getPort(cell.store.data?.target.port);
     if (!targetPort) {
-      console.log("连线没有目标属性");
+      console.log('连线没有目标属性');
       return;
     }
     let fromId = sourceNode.id;
@@ -648,22 +648,22 @@ const edgeList = () => {
 };
 const dratStart = (item: any, evt: DragEvent) => {
   let dt = evt.dataTransfer!;
-  dt.effectAllowed = "copy";
-  dt.setData("text/plain", JSON.stringify(item));
+  dt.effectAllowed = 'copy';
+  dt.setData('text/plain', JSON.stringify(item));
 };
 let nodeIndex = 0;
 const dragDrop = (evt: DragEvent) => {
   let dt = evt.dataTransfer!;
-  let data = JSON.parse(dt.getData("text/plain")) as NodeInfo;
-  data["index"] = nodeIndex++;
-  data["posX"] = evt.pageX;
-  data["posY"] = evt.pageY;
+  let data = JSON.parse(dt.getData('text/plain')) as NodeInfo;
+  data['index'] = nodeIndex++;
+  data['posX'] = evt.pageX;
+  data['posY'] = evt.pageY;
   //有items 数据
-  if (Object.keys(data).includes("items")) {
-    data["shape"] = "er-rect";
-    data["compType"] = "table";
+  if (Object.keys(data).includes('items')) {
+    data['shape'] = 'er-rect';
+    data['compType'] = 'table';
   } else {
-    data["shape"] = "custom-rect";
+    data['shape'] = 'custom-rect';
     //创建普通节点
   }
   addNode(data);
@@ -674,9 +674,9 @@ const dragDrop = (evt: DragEvent) => {
  */
 const addNode = (data: any) => {
   //如果网络慢可能还没有数据回来
-  if (Object.keys(data).includes("items") && data["items"]?.length == 0) {
-    load("数据解析中");
-    data["items"] = consumerView.getTableInfo(data["name"]);
+  if (Object.keys(data).includes('items') && data['items']?.length == 0) {
+    load('数据解析中');
+    data['items'] = consumerView.getTableInfo(data['name']);
     setTimeout(() => {
       let cell = designGraph.addNode(data);
       nodeList.value.push(cell);
@@ -691,7 +691,7 @@ const addNode = (data: any) => {
 const dragOver = (evt: DragEvent) => {
   evt.preventDefault();
 };
-const query = ref<string>("");
+const query = ref<string>('');
 const filterDatas = ref<Array<CustomerItem>>([]);
 const onQueryChanged = () => {
   let dataList = JSON.parse(JSON.stringify(props.customerItems));
@@ -740,7 +740,7 @@ const readCompAttr = async () => {
       compAttr.value[temp.name] = currentCellInfo.value[temp.alias];
     }
   }
-  compAttr.value["nodeFlag"] = isNode;
+  compAttr.value['nodeFlag'] = isNode;
   // console.log(data, currentCellInfo.value, defaultDatas, mappingFields, compAttr.value);
 };
 onMounted(() => {

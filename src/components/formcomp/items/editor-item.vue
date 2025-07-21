@@ -14,7 +14,7 @@
   </starhorse-form-item>
 </template>
 <script setup lang="ts" name="codeItem">
-import { onMounted } from "vue";
+import { onMounted } from 'vue';
 
 const props = defineProps({
   isDesign: {
@@ -46,10 +46,10 @@ const props = defineProps({
     default: {},
   },
 });
-const emits = defineEmits(["selfFunc", "selectItem"]);
-const formData = defineModel("formData");
+const emits = defineEmits(['selfFunc', 'selectItem']);
+const formData = defineModel('formData');
 const itemAction = () => {
-  emits("selfFunc", formData);
+  emits('selfFunc', formData);
 };
 const init = async () => {};
 const rendered = () => {};

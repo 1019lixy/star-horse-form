@@ -1,15 +1,15 @@
 <script setup lang="ts">
 defineOptions({
-  name: "PagePagebarItem",
+  name: 'PagePagebarItem',
 });
 defineProps({
   total: { type: Number, default: 10 },
   pageSize: { type: Number, default: 10 },
 });
-const emits = defineEmits(["update:pageSize"]);
+const emits = defineEmits(['update:pageSize']);
 const handleCurrentChange = () => {};
 const handleSizeChange = (val: number) => {
-  emits("update:pageSize", val);
+  emits('update:pageSize', val);
 };
 </script>
 

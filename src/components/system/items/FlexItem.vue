@@ -1,17 +1,17 @@
 <script setup lang="ts">
-import { useFlexDesignStore } from "@/store/FlexDesign";
-import { piniaInstance, uuid } from "star-horse-lowcode";
-import { computed, defineOptions, onBeforeUnmount, onMounted, ref } from "vue";
+import { useFlexDesignStore } from '@/store/FlexDesign';
+import { piniaInstance, uuid } from 'star-horse-lowcode';
+import { computed, defineOptions, onBeforeUnmount, onMounted, ref } from 'vue';
 
 defineOptions({
-  name: "FlexItem",
+  name: 'FlexItem',
 });
 const props = defineProps({
   itemId: { type: String, required: true },
-  type: { type: String, default: "flex" },
-  direction: { type: String, default: "row" },
+  type: { type: String, default: 'flex' },
+  direction: { type: String, default: 'row' },
 });
-const emit = defineEmits(["selectItem"]);
+const emit = defineEmits(['selectItem']);
 const flexDesign = useFlexDesignStore(piniaInstance);
 const itemStyle = computed(() => flexDesign.getItem(props.itemId));
 const compList = computed(() => flexDesign.getComp(props.itemId));
@@ -19,7 +19,7 @@ const currentId = computed(() => flexDesign.getCurrentItem());
 const containerDirection = computed(() => flexDesign.getContainerDirection());
 const selectItem = () => {
   flexDesign.setCurrentItem(props.itemId);
-  emit("selectItem", props.itemId);
+  emit('selectItem', props.itemId);
 };
 const deleteItem = () => {
   flexDesign.delItem(props.itemId);
@@ -32,7 +32,7 @@ let startX = 0;
 let startY = 0;
 let startWidth = 0;
 let startHeight = 0;
-let resizeDirection = "";
+let resizeDirection = '';
 
 const startResize = (dir: string, e: MouseEvent) => {
   resizeDirection = dir;
@@ -41,8 +41,8 @@ const startResize = (dir: string, e: MouseEvent) => {
   if (resizeContainer.value) {
     startWidth = resizeContainer.value.offsetWidth;
     startHeight = resizeContainer.value.offsetHeight;
-    document.addEventListener("mousemove", handleResize);
-    document.addEventListener("mouseup", stopResize);
+    document.addEventListener('mousemove', handleResize);
+    document.addEventListener('mouseup', stopResize);
   }
 };
 
@@ -50,9 +50,9 @@ const handleResize = (e: MouseEvent) => {
   if (!resizeContainer.value) return;
   const deltaX = e.clientX - startX;
   const deltaY = e.clientY - startY;
-  if (resizeDirection === "right") {
+  if (resizeDirection === 'right') {
     resizeContainer.value.style.width = `${startWidth + deltaX}px`;
-  } else if (resizeDirection === "bottom") {
+  } else if (resizeDirection === 'bottom') {
     resizeContainer.value.style.height = `${startHeight + deltaY}px`;
   }
 };
@@ -65,8 +65,8 @@ const stopResize = () => {
   itemStyle.value.height = resizeContainer.value?.style?.height;
 };
 const removeListener = () => {
-  document.removeEventListener("mousemove", handleResize);
-  document.removeEventListener("mouseup", stopResize);
+  document.removeEventListener('mousemove', handleResize);
+  document.removeEventListener('mouseup', stopResize);
 };
 onBeforeUnmount(() => {
   removeListener();
