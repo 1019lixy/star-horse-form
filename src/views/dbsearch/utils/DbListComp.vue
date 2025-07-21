@@ -730,7 +730,7 @@ const configDataSubmit = (type: string) => {
           }
           tableInfoList.push({
             tableName: findData.tableName,
-            comment: findData.comment
+            comment: comment
           })
         }
       });

@@ -42,7 +42,7 @@ const loadFormData = async (formId: string) => {
   if (error) {
     errorMsg.value = error;
     hasData.value = false;
-    closeLoad();
+    // closeLoad();
     return;
   }
   hasData.value = data && Object.keys(data).length > 0;
@@ -56,7 +56,7 @@ const loadFormData = async (formId: string) => {
   rules.value = data["rules"];
   relationTables.value = data["relationTables"];
   await nextTick();
-  closeLoad();
+  // closeLoad();
   loadInstanceData();
 };
 const loadInstanceData = () => {
@@ -80,10 +80,10 @@ watch(
   (val) => {
     clear();
     try {
-      load("数据加载中。。。");
+      // load("数据加载中。。。");
       loadFormData(<string>val);
     } catch (e) {
-      closeLoad();
+      // closeLoad();
       console.log("数据类型不匹配");
     }
   },

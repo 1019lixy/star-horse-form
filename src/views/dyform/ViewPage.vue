@@ -1,5 +1,10 @@
 <script setup lang="ts">
-import { computed, onMounted, provide, reactive, ref, watch } from "vue";
+import { Config } from "@/api/settings";
+import {
+  analysisSearchData,
+  viewColumns,
+  viewDataList,
+} from "@/views/dyform/utils/preview";
 import {
   apiInstance,
   closeLoad,
@@ -12,12 +17,7 @@ import {
   useDesignFormStore,
   useGlobalConfigStore,
 } from "star-horse-lowcode";
-import {
-  analysisSearchData,
-  viewColumns,
-  viewDataList,
-} from "@/views/dyform/utils/preview";
-import { Config } from "@/api/settings";
+import { computed, onMounted, provide, reactive, ref, watch } from "vue";
 
 let designForm = useDesignFormStore(piniaInstance);
 const props = defineProps({
@@ -100,12 +100,12 @@ watch(
     clear();
     try {
       if (props.param) {
-        load("数据加载中。。。");
+        // load("数据加载中。。。");
         loadColumnFields();
         loadFormData(1, 20);
       }
     } catch (e) {
-      closeLoad();
+      // closeLoad();
       console.log("数据类型不匹配");
     }
   },
@@ -131,58 +131,24 @@ onMounted(async () => {
 </script>
 <template>
   <template v-if="hasData">
-    <star-horse-dialog
-      :isShowBtnContinue="true"
-      :dialogVisible="dialogProps.editVisible"
-      :dialogProps="dialogProps"
-    >
-      <sh-dynamic-form
-        @refresh="starHorseTableCompRef?.loadByPage()"
-        :compUrl="dataUrl"
-        :formInfo="formInfo"
-        :fieldList="tableFieldList.dynamicFormas"
-        :rules="rules"
-      />
+    <star-horse-dialog :isShowBtnContinue="true" :dialogVisible="dialogProps.editVisible" :dialogProps="dialogProps">
+      <sh-dynamic-form @refresh="starHorseTableCompRef?.loadByPage()" :compUrl="dataUrl" :formInfo="formInfo"
+        :fieldList="tableFieldList.dynamicFormas" :rules="rules" />
     </star-horse-dialog>
-    <star-horse-dialog
-      :dialog-visible="dialogProps.viewVisible"
-      :dialogProps="dialogProps"
-      :source="3"
-    >
-      <star-horse-data-view
-        :dataFormat="dataFormat"
-        :data-list="primaryKey"
-        :field-list="tableFieldList"
-        :compUrl="dataUrl"
-      />
+    <star-horse-dialog :dialog-visible="dialogProps.viewVisible" :dialogProps="dialogProps" :source="3">
+      <star-horse-data-view :dataFormat="dataFormat" :data-list="primaryKey" :field-list="tableFieldList"
+        :compUrl="dataUrl" />
     </star-horse-dialog>
     <div class="search-content">
-      <div
-        class="search_btn"
-        :style="{
-          'flex-direction':
-            Config.buttonStyle.value == 'line' ? 'column' : 'row',
-        }"
-      >
-        <star-horse-search-comp
-          @searchData="
-            (data: any) => starHorseTableCompRef?.createSearchParams(data)
-          "
-          :formData="searchFormData"
-          :compUrl="dataUrl"
-        />
+      <div class="search_btn">
+        <star-horse-search-comp @searchData="
+          (data: any) => starHorseTableCompRef?.createSearchParams(data)
+        " :formData="searchFormData" :compUrl="dataUrl" />
       </div>
     </div>
     <el-card class="inner_content">
-      <DataPreview
-        ref="starHorseTableCompRef"
-        :item="previewDatas"
-        :columns="columnList"
-        @exportData="exportData"
-        @changePage="loadFormData"
-        :isPreview="isPreview"
-        :compSize="compSize"
-      />
+      <DataPreview ref="starHorseTableCompRef" :item="previewDatas" :columns="columnList" @exportData="exportData"
+        @changePage="loadFormData" :isPreview="isPreview" :compSize="compSize" />
     </el-card>
   </template>
 </template>

@@ -1,20 +1,17 @@
 <script setup lang="ts">
-import { nextTick, onMounted, provide, reactive, ref, watch } from "vue";
 import {
   apiInstance,
   ApiUrls,
-  closeLoad,
   createDatetime,
   dialogPreps,
-  load,
   loadData,
   piniaInstance,
   SearchProps,
   useDesignFormStore,
   userAction,
-  UserFuncInfo,
+  UserFuncInfo
 } from "star-horse-lowcode";
-import { Config } from "@/api/settings";
+import { nextTick, onMounted, provide, reactive, ref, watch } from "vue";
 
 let designForm = useDesignFormStore(piniaInstance);
 const normalPageRef = ref();
@@ -49,7 +46,7 @@ const loadFormData = async (formId: string) => {
   if (error) {
     errorMsg.value = error;
     clear();
-    closeLoad();
+    // closeLoad();
     return;
   }
   hasData.value = data && Object.keys(data).length > 0;
@@ -72,17 +69,17 @@ const loadFormData = async (formId: string) => {
   );
   delete tableFieldList.value["userTableFuncs"];
   await nextTick();
-  closeLoad();
+  // closeLoad();
   normalPageRef.value?.init();
 };
 watch(
   () => props.param,
   (val) => {
     try {
-      load("数据加载中。。。");
+      // load("数据加载中。。。");
       loadFormData(<string>val);
     } catch (e) {
-      closeLoad();
+      // closeLoad();
       console.log("数据类型不匹配");
     }
   },
@@ -121,77 +118,46 @@ const dataFormat = (name: string, cellValue: any, row: any): any => {
   }
   return subFormat(name, cellValue, row);
 };
-const loadPermission = async () => {};
+// const loadPermission = async () => {};
 const init = async () => {
   designForm.setIsEdit(false);
-  await loadPermission();
+  // await loadPermission();
   await loadFormData(props.param);
 };
 onMounted(async () => {
   await init();
 });
-watch(
-  () => props.param,
-  () => {
-    loadPermission();
-  },
-  {
-    immediate: false,
-  },
-);
+// watch(
+//   () => props.param,
+//   () => {
+//     loadPermission();
+//   },
+//   {
+//     immediate: false,
+//   },
+// );
 </script>
 <template>
   <template v-if="hasData">
-    <star-horse-dialog
-      :isShowBtnContinue="true"
-      :dialogVisible="dialogProps.editVisible"
-      :dialogProps="dialogProps"
-    >
-      <star-horse-form
-        @refresh="normalPageRef?.loadByPage()"
-        :compUrl="dataUrl"
-        :fieldList="tableFieldList"
-        :primary-key="primaryKey"
-        :rules="rules"
-        ref="normalFormRef"
-        :globalCondition="relationTables"
-        :dynamicForm="true"
-      />
+    <star-horse-dialog :isShowBtnContinue="true" :dialogVisible="dialogProps.editVisible" :dialogProps="dialogProps">
+      <star-horse-form @refresh="normalPageRef?.loadByPage()" :compUrl="dataUrl" :fieldList="tableFieldList"
+        :primary-key="primaryKey" :rules="rules" ref="normalFormRef" :globalCondition="relationTables"
+        :dynamicForm="true" />
     </star-horse-dialog>
-    <star-horse-dialog
-      :dialog-visible="dialogProps.viewVisible"
-      :dialogProps="dialogProps"
-      :source="3"
-    >
-      <star-horse-data-view
-        :dataFormat="dataFormat"
-        :field-list="tableFieldList"
-        :globalCondition="relationTables"
-        :dynamicForm="true"
-        :compUrl="dataUrl"
-      />
+    <star-horse-dialog :dialog-visible="dialogProps.viewVisible" :dialogProps="dialogProps" :source="3">
+      <star-horse-data-view :dataFormat="dataFormat" :field-list="tableFieldList" :globalCondition="relationTables"
+        :dynamicForm="true" :compUrl="dataUrl" />
     </star-horse-dialog>
     <div class="search-content">
       <div class="search_btn">
-        <star-horse-search-comp
-          @searchData="(data: any) => normalPageRef?.createSearchParams(data)"
-          :formData="searchFormData"
-          :compUrl="dataUrl"
-        />
+        <star-horse-search-comp @searchData="(data: any) => normalPageRef?.createSearchParams(data)"
+          :formData="searchFormData" :compUrl="dataUrl" />
       </div>
     </div>
     <el-card class="inner_content">
-      <star-horse-table-comp
-        ref="normalPageRef"
-        :fieldList="tableFieldList"
-        :primaryKey="primaryKey"
-        :globalConfig="relationTables"
-        :isDynamic="true"
-        :extendBtns="extBtns"
-        :compUrl="dataUrl"
-        :showBatchField="true"
-        :dataFormat="dataFormat"
-      />
+      <star-horse-table-comp ref="normalPageRef" :fieldList="tableFieldList" :primaryKey="primaryKey"
+        :globalConfig="relationTables" :isDynamic="true" :extendBtns="extBtns" :compUrl="dataUrl" :showBatchField="true"
+        :dataFormat="dataFormat" />
     </el-card>
   </template>
   <el-empty :content="errorMsg" v-else></el-empty>
