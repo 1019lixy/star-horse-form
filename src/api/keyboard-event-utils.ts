@@ -361,8 +361,7 @@ export const initKeyboardEvent = (
   module: ModuleEnums,
   ...params: any
 ) => {
-  removeKeyboardEvent(actions, module, params);
-  
+  // removeKeyboardEvent(actions, module, params);
   // 将处理函数保存为变量，用于后续卸载
   const keydownHandler = (evt: KeyboardEvent) => keyboardEvent(evt, actions, module, ...params);
   const keyupHandler = (evt: KeyboardEvent) => resetCtrlKey(evt);
