@@ -1,8 +1,8 @@
 import fs from 'node:fs';
 import {SVGIcons2SVGFontStream} from 'svgicons2svgfont';
-import svg2ttf from "svg2ttf";
-import ttf2woff from "ttf2woff";
-import path from "path";
+import svg2ttf from 'svg2ttf';
+import ttf2woff from 'ttf2woff';
+import path from 'path';
 import {fileURLToPath} from 'url';
 
 const __filename = fileURLToPath(import.meta.url);
@@ -41,9 +41,9 @@ allSVGs.forEach((file, index) => {
 // 添加目录名前缀防止冲突（示例：flow-add-user）
     let dirName = path.basename(path.dirname(file));
     if (dirName !== 'icons') {
-        dirName += "-";
+        dirName += '-';
     } else {
-        dirName = "";
+        dirName = '';
     }
     glyph.metadata = {
         name: `${dirName}${fileName}`,
@@ -58,24 +58,24 @@ fontStream.pipe(fs.createWriteStream(svgPath))
         const svg = fs.readFileSync(svgPath, 'utf8');
         const ttf = svg2ttf(svg).buffer;
         fs.writeFileSync(path.resolve(__dirname, `../assets/${fontName}.woff`), ttf2woff(ttf));
-        fs.unlinkSync(svgPath)
+        fs.unlinkSync(svgPath);
         // 生成CSS文件
         const cssContent = [
-            `@font-face {`,
+            '@font-face {',
             `  font-family: '${fontName}';`,
             `  src: url('./${fontName}.woff') format('woff');`,
-            `  font-display: block;`,
-            `}`,
-            `.sh_icon {`,
+            '  font-display: block;',
+            '}',
+            '.sh_icon {',
             `  font-family: '${fontName}' ;`,
-            `  speak: none;`,
-            `  font-style: normal;`,
-            `  font-weight: normal;`,
-            `  text-transform: none;`,
-            `  line-height: 1;`,
-            `  -webkit-font-smoothing: antialiased;`,
-            `}`,
-            ``
+            '  speak: none;',
+            '  font-style: normal;',
+            '  font-weight: normal;',
+            '  text-transform: none;',
+            '  line-height: 1;',
+            '  -webkit-font-smoothing: antialiased;',
+            '}',
+            ''
         ];
 
         // 遍历图标生成类
@@ -85,9 +85,9 @@ fontStream.pipe(fs.createWriteStream(svgPath))
             let dirName = path.basename(path.dirname(file));
             const unicode = String.fromCharCode(0xe000 + index);
             if (dirName !== 'icons') {
-                dirName += "-";
+                dirName += '-';
             } else {
-                dirName = "";
+                dirName = '';
             }
             // console.log(file);
             cssContent.push(`.sh-${dirName}${fileName}::before { content: "\\${unicode.charCodeAt(0).toString(16)}"; }`);

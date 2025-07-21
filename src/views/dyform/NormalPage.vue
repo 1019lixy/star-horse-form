@@ -9,7 +9,7 @@ import {
   SearchProps,
   useDesignFormStore,
   userAction,
-  UserFuncInfo
+  UserFuncInfo,
 } from "star-horse-lowcode";
 import { nextTick, onMounted, provide, reactive, ref, watch } from "vue";
 
@@ -139,25 +139,56 @@ onMounted(async () => {
 </script>
 <template>
   <template v-if="hasData">
-    <star-horse-dialog :isShowBtnContinue="true" :dialogVisible="dialogProps.editVisible" :dialogProps="dialogProps">
-      <star-horse-form @refresh="normalPageRef?.loadByPage()" :compUrl="dataUrl" :fieldList="tableFieldList"
-        :primary-key="primaryKey" :rules="rules" ref="normalFormRef" :globalCondition="relationTables"
-        :dynamicForm="true" />
+    <star-horse-dialog
+      :isShowBtnContinue="true"
+      :dialogVisible="dialogProps.editVisible"
+      :dialogProps="dialogProps"
+    >
+      <star-horse-form
+        @refresh="normalPageRef?.loadByPage()"
+        :compUrl="dataUrl"
+        :fieldList="tableFieldList"
+        :primary-key="primaryKey"
+        :rules="rules"
+        ref="normalFormRef"
+        :globalCondition="relationTables"
+        :dynamicForm="true"
+      />
     </star-horse-dialog>
-    <star-horse-dialog :dialog-visible="dialogProps.viewVisible" :dialogProps="dialogProps" :source="3">
-      <star-horse-data-view :dataFormat="dataFormat" :field-list="tableFieldList" :globalCondition="relationTables"
-        :dynamicForm="true" :compUrl="dataUrl" />
+    <star-horse-dialog
+      :dialog-visible="dialogProps.viewVisible"
+      :dialogProps="dialogProps"
+      :source="3"
+    >
+      <star-horse-data-view
+        :dataFormat="dataFormat"
+        :field-list="tableFieldList"
+        :globalCondition="relationTables"
+        :dynamicForm="true"
+        :compUrl="dataUrl"
+      />
     </star-horse-dialog>
     <div class="search-content">
       <div class="search_btn">
-        <star-horse-search-comp @searchData="(data: any) => normalPageRef?.createSearchParams(data)"
-          :formData="searchFormData" :compUrl="dataUrl" />
+        <star-horse-search-comp
+          @searchData="(data: any) => normalPageRef?.createSearchParams(data)"
+          :formData="searchFormData"
+          :compUrl="dataUrl"
+        />
       </div>
     </div>
     <el-card class="inner_content">
-      <star-horse-table-comp ref="normalPageRef" :fieldList="tableFieldList" :primaryKey="primaryKey"
-        :globalConfig="relationTables" :isDynamic="true" :extendBtns="extBtns" :compUrl="dataUrl" :showBatchField="true"
-        :dataFormat="dataFormat" />
+      <star-horse-table-comp
+        ref="normalPageRef"
+        :fieldList="tableFieldList"
+        :primaryKey="primaryKey"
+        :globalConfig="relationTables"
+        :isDynamic="true"
+        :extendBtns="extBtns"
+        :compUrl="dataUrl"
+        :showBatchField="true"
+        :dataFormat="dataFormat"
+      />
     </el-card>
   </template>
   <el-empty :content="errorMsg" v-else></el-empty>

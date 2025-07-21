@@ -329,15 +329,15 @@ export const keyboardEvent = (
     );
   } else if (ctrlKey.value) {
     keyInfo = shortKeyList(module).find(
-      (item) => item.key == evt.key && item.ctrl&&!item.alt&&!item.shift,
+      (item) => item.key == evt.key && item.ctrl && !item.alt && !item.shift,
     );
   } else if (altKey.value) {
     keyInfo = shortKeyList(module).find(
-      (item) => item.key == evt.key && item.alt&&!item.ctrl&&!item.shift,
+      (item) => item.key == evt.key && item.alt && !item.ctrl && !item.shift,
     );
   } else if (shiftKey.value) {
     keyInfo = shortKeyList(module).find(
-      (item) => item.key == evt.key && item.shift&&!item.ctrl&&!item.alt,
+      (item) => item.key == evt.key && item.shift && !item.ctrl && !item.alt,
     );
   } else {
     keyInfo = shortKeyList(module).find(
@@ -363,7 +363,8 @@ export const initKeyboardEvent = (
 ) => {
   // removeKeyboardEvent(actions, module, params);
   // 将处理函数保存为变量，用于后续卸载
-  const keydownHandler = (evt: KeyboardEvent) => keyboardEvent(evt, actions, module, ...params);
+  const keydownHandler = (evt: KeyboardEvent) =>
+    keyboardEvent(evt, actions, module, ...params);
   const keyupHandler = (evt: KeyboardEvent) => resetCtrlKey(evt);
 
   window.addEventListener("keydown", keydownHandler, true);
@@ -373,14 +374,19 @@ export const initKeyboardEvent = (
   // 返回包含处理函数的对象用于卸载
   return {
     keydown: keydownHandler,
-    keyup: keyupHandler
+    keyup: keyupHandler,
   };
 };
 //移除键盘事件
-export const removeKeyboardEvent = (
-  handlers: { keydown: Function; keyup: Function }
-) => {
-  window.removeEventListener("keydown", handlers.keydown as EventListener, true);
+export const removeKeyboardEvent = (handlers: {
+  keydown: Function;
+  keyup: Function;
+}) => {
+  window.removeEventListener(
+    "keydown",
+    handlers.keydown as EventListener,
+    true,
+  );
   window.removeEventListener("keyup", handlers.keyup as EventListener, true);
-   window.removeEventListener("blur", windowBlur, false);
+  window.removeEventListener("blur", windowBlur, false);
 };

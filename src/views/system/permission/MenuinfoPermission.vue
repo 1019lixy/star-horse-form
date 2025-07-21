@@ -41,7 +41,7 @@ const userGroupChange = async (data: TreeNodeData, checked: boolean) => {
   currentUserGroupId.value = data.value;
   currentSystemId.value = 0;
   let roleSystemDatas = await loadData(
-    `/system-config/system/rolesPkAppinfo/getAllByCondition`,
+    "/system-config/system/rolesPkAppinfo/getAllByCondition",
     {
       fieldList: [
         {

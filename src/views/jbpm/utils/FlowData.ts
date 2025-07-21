@@ -6,6 +6,7 @@ import { useFlowDesignStore } from "@/store/FlowDesign";
 import { flowTemplate } from "@/views/jbpm/utils/template";
 import customTranslate from "@/views/jbpm/utils/zh_CN";
 import BpmnEditorActions from "bpmn-js/lib/features/editor-actions/BpmnEditorActions";
+import $ from "jquery";
 import {
   Canvas,
   EventBus,

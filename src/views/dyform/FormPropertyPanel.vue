@@ -256,9 +256,9 @@ const tableFieldList = reactive<PageFieldInfo | any>({
                 preps: {
                   colspan: 9,
                   multiple: true,
-                  values: rolesList
+                  values: rolesList,
                 },
-              }
+              },
             ],
             [
               {
@@ -287,7 +287,6 @@ const tableFieldList = reactive<PageFieldInfo | any>({
                 },
               },
             ],
-
 
             [
               {
@@ -799,7 +798,7 @@ const initData = async () => {
   });
   loadDict("DATA_LOAD_CONDITION").then((res: any) => {
     dataLoadConditionList.value = res;
-  }); 
+  });
   loadDict("PRIMARY_KEY_POLICY").then((res: any) => {
     primaryKeyPolicyList.value = res;
   });
@@ -896,7 +895,7 @@ const loadTableColumns = (tbName: any) => {
 /**
  * 表单更新的时候，更新表单的属性
  */
-const updateCompInfo = () => { };
+const updateCompInfo = () => {};
 const getFormData = () => {
   return dynamicFormItemRef.value.getFormData();
 };
@@ -932,6 +931,10 @@ defineExpose({
 }
 </style>
 <template>
-  <star-horse-form label-position="right" :outerFormData="formInfo" :fieldList="tableFieldList"
-    ref="dynamicFormItemRef" />
+  <star-horse-form
+    label-position="right"
+    :outerFormData="formInfo"
+    :fieldList="tableFieldList"
+    ref="dynamicFormItemRef"
+  />
 </template>

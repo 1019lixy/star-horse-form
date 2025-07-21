@@ -131,24 +131,52 @@ onMounted(async () => {
 </script>
 <template>
   <template v-if="hasData">
-    <star-horse-dialog :isShowBtnContinue="true" :dialogVisible="dialogProps.editVisible" :dialogProps="dialogProps">
-      <sh-dynamic-form @refresh="starHorseTableCompRef?.loadByPage()" :compUrl="dataUrl" :formInfo="formInfo"
-        :fieldList="tableFieldList.dynamicFormas" :rules="rules" />
+    <star-horse-dialog
+      :isShowBtnContinue="true"
+      :dialogVisible="dialogProps.editVisible"
+      :dialogProps="dialogProps"
+    >
+      <sh-dynamic-form
+        @refresh="starHorseTableCompRef?.loadByPage()"
+        :compUrl="dataUrl"
+        :formInfo="formInfo"
+        :fieldList="tableFieldList.dynamicFormas"
+        :rules="rules"
+      />
     </star-horse-dialog>
-    <star-horse-dialog :dialog-visible="dialogProps.viewVisible" :dialogProps="dialogProps" :source="3">
-      <star-horse-data-view :dataFormat="dataFormat" :data-list="primaryKey" :field-list="tableFieldList"
-        :compUrl="dataUrl" />
+    <star-horse-dialog
+      :dialog-visible="dialogProps.viewVisible"
+      :dialogProps="dialogProps"
+      :source="3"
+    >
+      <star-horse-data-view
+        :dataFormat="dataFormat"
+        :data-list="primaryKey"
+        :field-list="tableFieldList"
+        :compUrl="dataUrl"
+      />
     </star-horse-dialog>
     <div class="search-content">
       <div class="search_btn">
-        <star-horse-search-comp @searchData="
-          (data: any) => starHorseTableCompRef?.createSearchParams(data)
-        " :formData="searchFormData" :compUrl="dataUrl" />
+        <star-horse-search-comp
+          @searchData="
+            (data: any) => starHorseTableCompRef?.createSearchParams(data)
+          "
+          :formData="searchFormData"
+          :compUrl="dataUrl"
+        />
       </div>
     </div>
     <el-card class="inner_content">
-      <DataPreview ref="starHorseTableCompRef" :item="previewDatas" :columns="columnList" @exportData="exportData"
-        @changePage="loadFormData" :isPreview="isPreview" :compSize="compSize" />
+      <DataPreview
+        ref="starHorseTableCompRef"
+        :item="previewDatas"
+        :columns="columnList"
+        @exportData="exportData"
+        @changePage="loadFormData"
+        :isPreview="isPreview"
+        :compSize="compSize"
+      />
     </el-card>
   </template>
 </template>
