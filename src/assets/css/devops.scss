@@ -247,6 +247,7 @@
       align-items: center;
       justify-content: center;
       border: 1px solid #e8e8e8;
+      padding-left: 3px;
     }
   }
 
@@ -274,7 +275,7 @@
     position: relative;
     text-align: center;
     flex-shrink: 0; // 禁止面板缩小
-    width: 120px; // 加宽面板
+    min-width: 100px; // 加宽面板
 
     .relative {
       // 内部flex容器
@@ -295,6 +296,10 @@
 
     &:hover .pright {
       display: block;
+      right: -7px;
+      top: -2px;
+      transform: translateX(12px);
+      position: absolute;
     }
 
     .text-overflow {
@@ -335,13 +340,11 @@
       cursor: pointer;
       display: none;
       color: var(--star-horse-style);
-      font-size: 16px;
       position: absolute;
     }
 
     .node-arrow {
       cursor: pointer;
-      font-size: 16px;
       align-items: center;
       display: flex;
     }
@@ -420,11 +423,24 @@
       align-items: center;
       display: flex;
       height: 74px;
-
+      position: relative;
+     /* &:before {
+        content: '';
+        position: absolute;
+        top: 35px;
+        left: 0;
+        right: 0;
+        height: 2px;
+        background: var(--star-horse-style);
+        z-index: 0;  // 确保线条在节点下方
+        transform: translateY(-50%);
+      }*/
       .continuous-node-content {
         align-items: center;
         height: 35px;
         display: flex;
+        position: relative;  // 添加定位上下文
+        z-index: 1;  // 节点内容层级高于线条
       }
     }
   }

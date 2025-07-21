@@ -90,7 +90,7 @@ defineExpose({
               >
                 <div class="item-logo">
                   <div class="node-icon">
-                    <star-horse-icon :icon-class="item.icon" size="40px" />
+                    <star-horse-icon :icon-class="item.icon" size="40px" width="44px" height="42px"/>
                   </div>
                   <span class="text text-overflow">{{ item.nodeName }}</span>
                 </div>

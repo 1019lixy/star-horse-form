@@ -7,7 +7,7 @@ import {
   PageFieldInfo,
   piniaInstance,
   postRequest,
-  SelectOption,
+  SelectOption, StarHorseIcon,
   useContinusConfigStore,
   uuid,
   warning,
@@ -378,14 +378,14 @@ onMounted(async () => {
               v-for="(item, index) in processList"
             >
               <div class="step">
-                <i class="icon node-arrow">
+                <div class="icon node-arrow">
                   <star-horse-icon icon-class="arrow-double-right" />
-                </i>
-                <i @click="addNode(index)" class="icon node-add">
+                </div>
+                <div @click="addNode(index)" class="icon node-add">
                   <el-tooltip content="插入节点">
                     <star-horse-icon icon-class="add" cursor="pointer" />
                   </el-tooltip>
-                </i>
+                </div>
               </div>
               <div
                 :class="{ 'is-active': index == currentNodeIndex }"
@@ -395,7 +395,7 @@ onMounted(async () => {
                 <div class="relative flex flex-row items-center justify-center">
                   <star-horse-icon
                     :icon-class="item.icon"
-                    size="30px"
+                    size="24px"
                     :color="
                       index == currentNodeIndex
                         ? 'var(--star-horse-white)'
