@@ -7,11 +7,12 @@ import {
   openDatabase,
   tableColumns,
 } from "@/views/dbsearch/utils/DbSearchUtils";
-import { mutable } from "element-plus/es/utils/typescript.mjs";
 import {
   apiInstance, BtnAuth,
+  closeLoad,
   convertToCamelCase,
   isJson,
+  load,
   PageFieldInfo,
   piniaInstance, postRequest, SelectOption, success, useDesignFormStore,
   useGlobalConfigStore,
@@ -71,6 +72,7 @@ const containerTypeOperation = (val: any) => {
   columnsContr.value = val["containerType"] == "box" ? "N" : "Y";
 };
 const configFormRef = ref<any>();
+const tableFormRef = ref<any>();
 const createMenuFlag = ref<boolean>(false);
 const conditionFlag = ref<boolean>(false);
 const rolesList = ref<Array<SelectOption>>([]);
@@ -78,6 +80,31 @@ const menuList = ref<Array<SelectOption>>([]);
 const pageStyleList = ref<Array<SelectOption>>([]);
 const dataLoadConditionList = ref<Array<SelectOption>>([]);
 const primaryKeyPolicyList = ref<Array<SelectOption>>([]);
+const tableFieldInfo = ref<PageFieldInfo>({
+  batchFieldList: [
+    {
+      batchName: "tableNameList",
+      staticData: "N",
+      fieldList: [
+        {
+          label: "表名",
+          fieldName: "tableName",
+          type: "input",
+          formVisible: true,
+          listVisible: true,
+          required: true,
+        }, {
+          label: "菜单名称",
+          fieldName: "comment",
+          type: "input",
+          formVisible: true,
+          listVisible: true,
+          required: true,
+        }
+      ]
+    }
+  ]
+});
 const configFieldInfo = ref<PageFieldInfo>({
   fieldList: [
     [{
@@ -86,6 +113,7 @@ const configFieldInfo = ref<PageFieldInfo>({
       type: "select",
       formVisible: true,
       listVisible: true,
+      required: true,
       actions: {
         change: (val: any) => {
           dbIndex.value = val["idDbConfigInfo"];
@@ -328,6 +356,7 @@ let dataFieldInfo = ref<PageFieldInfo>({
   ],
 });
 let currentDataVisible = ref<boolean>(false);
+let tableDialogVisible = ref<boolean>(false);
 const contextOperation = async (evt: Event, data: any, _index: number) => {
   evt.preventDefault();
   evt.stopPropagation();
@@ -654,6 +683,7 @@ const onDataCopy = async (data: any) => {
 const configDialogVisible = ref<boolean>(false);
 const closeAction = () => {
   configDialogVisible.value = false;
+  tableDialogVisible.value = false;
 };
 const viewConfig = () => {
   configDialogVisible.value = true;
@@ -676,6 +706,7 @@ const dynamicBtn = () => {
   });
   return userBtn;
 };
+const parentDialogType = ref<string>("");
 const configDataSubmit = (type: string) => {
   // closeAction();
   configFormRef.value.$refs.starHorseFormRef.validate((res: boolean) => {
@@ -683,6 +714,7 @@ const configDataSubmit = (type: string) => {
     if (!res) {
       return;
     }
+    parentDialogType.value = type;
     let tempFormData = configFormRef.value.getFormData().value;
     configData.value = { ...tempFormData };
     if (props.batchCreatePage) {
@@ -703,30 +735,57 @@ const configDataSubmit = (type: string) => {
         }
       });
       configData.value["tableNameList"] = tableInfoList;
-      //创建页面
-      postRequest(`${dataUrl.basePrefix}/batchCreateForm`, configData.value).then((res: any) => {
-        if (res.data.code) {
-          warning(res.data.cnMessage);
-          return;
-        } else {
-          success(res.data.cnMessage);
-          configData.value = { column: 1 };
-          configFormRef.value.resetForm();
-          if (type == "close") {
-            closeAction();
-          }
-
-        }
-      });
+      if (createMenuFlag.value) {
+        tableDialogVisible.value = true;
+        return;
+      } else {
+        execCreateData(type);
+      }
     }
   });
 };
+const execCreateData = (type: string) => {
+  tableFormRef.value.$refs.starHorseFormRef.validate((res: boolean) => {
+    // 提交配置数据
+    if (!res) {
+      return;
+    }
+    doCreateData(parentDialogType.value);
+    tableDialogVisible.value = false;
+  });
+}
+const doCreateData = (type: string) => {
+  //创建页面
+  load("页面创建中");
+  postRequest(`${dataUrl.basePrefix}/batchCreateForm`, configData.value).then((res: any) => {
+    if (res.data.code) {
+      warning(res.data.cnMessage);
+      return;
+    } else {
+      success(res.data.cnMessage);
+      configData.value = { column: 1 };
+      configFormRef.value.resetForm();
+      if (type == "close") {
+        closeAction();
+      }
+
+    }
+  }).finally(()=>{
+    closeLoad();
+  });
+}
 onMounted(() => {
   init();
 });
 </script>
 <template>
-  <star-horse-dialog :boxWidth="'640px'" :dialog-visible="currentDataVisible" :selfFunc="true" :userBtn="dynamicBtn()"
+  <star-horse-dialog :dialogVisible="tableDialogVisible" @closeAction="tableDialogVisible = false" :selfFunc="true"
+    :isShowBtnContinue="false" @resetForm="configData = { columns: 1 }" @merge="execCreateData" :title="'列表信息'"
+    :box-width="'40%'">
+    <star-horse-form :size="compSize" :outerFormData="configData" :fieldList="tableFieldInfo" ref="tableFormRef">
+    </star-horse-form>
+  </star-horse-dialog>
+  <star-horse-dialog :boxWidth="'640px'" :dialogDisible="currentDataVisible" :selfFunc="true" :userBtn="dynamicBtn()"
     @resetForm="dataReset" @closeAction="tableOperClose" @merge="() => tableSubmit(false)">
     <el-tabs v-model="tbTab">
       <el-tab-pane name="tb1">
@@ -770,7 +829,6 @@ onMounted(() => {
     :box-width="'50%'">
     <star-horse-form :size="compSize" :outerFormData="configData" :fieldList="configFieldInfo" ref="configFormRef">
     </star-horse-form>
-
   </star-horse-dialog>
   <el-row style="margin-top: 15px">
     <el-col :span="18">
