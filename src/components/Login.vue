@@ -4,10 +4,10 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref } from 'vue';
+import {onMounted, ref} from 'vue';
 import LoginDev from '@/components/LoginDev.vue';
 import LoginPrd from '@/components/LoginPrd.vue';
-import { generateDeviceId } from 'star-horse-lowcode';
+import {generateDeviceId} from 'star-horse-lowcode';
 
 const loginComponent = ref<any>(null);
 onMounted(async () => {

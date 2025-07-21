@@ -35,7 +35,7 @@
   </div>
 </template>
 <script setup lang="ts" name="JbpmPropertyPanel">
-import { onMounted, ref } from 'vue';
+import {onMounted, ref} from 'vue';
 
 const props = defineProps({
   modeler: {

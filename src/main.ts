@@ -8,7 +8,7 @@ import itemsComponent from "@/components/formcomp/items/allitem";
 import commonComponent from "@/components/common/index";
 import systemComponent from "@/components/system/SystemComp";
 import App from "@/App.vue";
-import { createApp } from "vue";
+import {createApp} from "vue";
 // 导入svg图标
 import "animate.css";
 import router from "@/router/index";
@@ -20,7 +20,7 @@ import piniaCompInstance from "@/store";
 import "element-plus/dist/index.css";
 import * as ElementPlusIconsVue from "@element-plus/icons-vue";
 import VueParticles from "@tsparticles/vue3";
-import { loadSlim } from "@tsparticles/slim";
+import {loadSlim} from "@tsparticles/slim";
 import StarHorseLowCode from "star-horse-lowcode";
 
 const app = createApp(App);

@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { piniaInstance, useDesignFormStore } from 'star-horse-lowcode';
-import { computed, ref } from 'vue';
+import {piniaInstance, useDesignFormStore} from 'star-horse-lowcode';
+import {computed, ref} from 'vue';
 
 defineOptions({
   name: 'FieldList',

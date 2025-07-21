@@ -1,6 +1,5 @@
 <script setup lang="ts" name="WhiteList">
-import { Config } from '@/api/settings';
-import { onMounted, provide, reactive, ref } from 'vue';
+import {onMounted, provide, reactive, ref} from 'vue';
 import {
   apiInstance,
   ApiUrls,

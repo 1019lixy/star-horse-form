@@ -1,4 +1,4 @@
-import { PageFieldInfo } from "star-horse-lowcode";
+import {PageFieldInfo} from "star-horse-lowcode";
 
 export const gridContainerConfig: PageFieldInfo = {
   fieldList: [

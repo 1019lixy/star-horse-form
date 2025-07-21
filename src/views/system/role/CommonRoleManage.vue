@@ -1,17 +1,8 @@
 <script setup lang="ts" name="CompanyRole">
-import { Config } from '@/api/settings';
-import {
-  nextTick,
-  onActivated,
-  onDeactivated,
-  onMounted,
-  provide,
-  reactive,
-  ref,
-} from 'vue';
-import { TreeNodeData } from 'element-plus/es/components/tree-v2/src/types';
-import { statusList } from '@/views/system/utils/UserFields';
-import { getCustomerParam } from '@/utils/auth';
+import {nextTick, onActivated, onDeactivated, onMounted, provide, reactive, ref,} from 'vue';
+import {TreeNodeData} from 'element-plus/es/components/tree-v2/src/types';
+import {statusList} from '@/views/system/utils/UserFields';
+import {getCustomerParam} from '@/utils/auth';
 import {
   apiInstance,
   ApiUrls,
@@ -433,10 +424,7 @@ onDeactivated(() => {
           <div class="search-content">
             <div
               class="search_btn"
-              :style="{
-                'flex-direction':
-                  Config.buttonStyle.value == 'line' ? 'column' : 'row',
-              }"
+
             >
               <star-horse-search-comp
                 @searchData="

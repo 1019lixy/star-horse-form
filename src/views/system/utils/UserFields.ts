@@ -1,7 +1,7 @@
-import { dictData, SelectOption } from 'star-horse-lowcode';
-import { loadRolesInfo, loadDepartmentInfo } from '@/api/star_horse_utils';
-import { ref } from 'vue';
-import { analysisData } from '@/api/deptment';
+import {dictData, SelectOption} from 'star-horse-lowcode';
+import {loadDepartmentInfo, loadRolesInfo} from '@/api/star_horse_utils';
+import {ref} from 'vue';
+import {analysisData} from '@/api/deptment';
 
 const deptList = ref<SelectOption[]>([]);
 const rolesList = ref<SelectOption[]>([]);

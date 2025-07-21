@@ -1,19 +1,15 @@
 <script lang="ts" setup>
-import { particlesCfg } from '@/api/particlesConfig';
-import { Config } from '@/api/settings';
-import { getValidateImg, rtCode } from '@/api/star_horse_apis';
-import { i18n } from '@/lang';
-import { useLoginStore } from '@/store/Login';
-import { removeToken, setPublicKey } from '@/utils/auth';
-import type { FormInstance, FormRules, TabsPaneContext } from 'element-plus';
-import { JSEncrypt } from 'jsencrypt';
-import {
-  piniaInstance,
-  useGlobalConfigStore,
-  warning,
-} from 'star-horse-lowcode';
-import { onMounted, reactive, ref, watch } from 'vue';
-import { RouteLocationNormalized, useRouter } from 'vue-router';
+import {particlesCfg} from '@/api/particlesConfig';
+import {Config} from '@/api/settings';
+import {getValidateImg, rtCode} from '@/api/star_horse_apis';
+import {i18n} from '@/lang';
+import {useLoginStore} from '@/store/Login';
+import {removeToken, setPublicKey} from '@/utils/auth';
+import type {FormInstance, FormRules, TabsPaneContext} from 'element-plus';
+import {JSEncrypt} from 'jsencrypt';
+import {piniaInstance, useGlobalConfigStore, warning,} from 'star-horse-lowcode';
+import {onMounted, reactive, ref, watch} from 'vue';
+import {RouteLocationNormalized, useRouter} from 'vue-router';
 
 interface LoginInfo {
   userName: string;

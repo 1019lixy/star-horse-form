@@ -1,5 +1,5 @@
 <script setup lang="ts" name="PageBackground">
-import { ModelRef, watch } from 'vue';
+import {ModelRef, watch} from 'vue';
 
 let backgroundData: ModelRef<any> = defineModel('dataForm');
 const currentBackgroundImage = ref('');

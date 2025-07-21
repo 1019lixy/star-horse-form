@@ -1,16 +1,11 @@
-import {
-  createRouter,
-  createWebHistory,
-  NavigationGuardNext,
-  RouteLocationNormalized,
-} from "vue-router";
+import {createRouter, createWebHistory, NavigationGuardNext, RouteLocationNormalized,} from "vue-router";
 import routeDefine from "@/router/routeDefine";
-import { starhorseProcess } from "@/utils/starhorseProcess";
-import { Config } from "@/api/settings";
-import { getToken } from "@/utils/auth";
-import { restoreMenu } from "@/api/star_horse_apis";
-import { useNavBarListStore } from "@/store/NavBarList";
-import { useViewCacheStore } from "@/store/ViewCache";
+import {starhorseProcess} from "@/utils/starhorseProcess";
+import {Config} from "@/api/settings";
+import {getToken} from "@/utils/auth";
+import {restoreMenu} from "@/api/star_horse_apis";
+import {useNavBarListStore} from "@/store/NavBarList";
+import {useViewCacheStore} from "@/store/ViewCache";
 import piniaCompInstance from "@/store";
 
 const { start, done } = starhorseProcess();

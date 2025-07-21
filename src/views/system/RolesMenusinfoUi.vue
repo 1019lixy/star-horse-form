@@ -1,13 +1,6 @@
 <script setup lang="ts" name="RolesMenusinfo">
-import {
-  apiInstance,
-  ApiUrls,
-  dialogPreps,
-  PageFieldInfo,
-  SearchFields,
-} from 'star-horse-lowcode';
-import { Config } from '@/api/settings';
-import { onMounted, provide, reactive, ref } from 'vue';
+import {apiInstance, ApiUrls, dialogPreps, PageFieldInfo, SearchFields,} from 'star-horse-lowcode';
+import {onMounted, provide, reactive, ref} from 'vue';
 //后端交互接口地址
 const dataUrl: ApiUrls = apiInstance('system-config', 'system/rolesMenusinfo');
 //查询属性

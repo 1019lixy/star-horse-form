@@ -1,4 +1,4 @@
-import { LangType } from "./theme";
+import {LangType} from "./theme";
 
 /**
  * 获取系统语言

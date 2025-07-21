@@ -1,17 +1,8 @@
 <script setup lang="ts">
-import {
-  nextTick,
-  onActivated,
-  onDeactivated,
-  onMounted,
-  provide,
-  reactive,
-  ref,
-} from 'vue';
-import { Config } from '@/api/settings';
-import { formVisibleTypeList } from '@/views/workflow/utils/FlowFormUtils';
-import { useFlowDesignStore } from '@/store/FlowDesign';
-import { useRouter } from 'vue-router';
+import {nextTick, onActivated, onDeactivated, onMounted, provide, reactive, ref,} from 'vue';
+import {formVisibleTypeList} from '@/views/workflow/utils/FlowFormUtils';
+import {useFlowDesignStore} from '@/store/FlowDesign';
+import {useRouter} from 'vue-router';
 import {
   apiInstance,
   ApiUrls,
@@ -23,7 +14,7 @@ import {
   SelectOption,
   UserFuncInfo,
 } from 'star-horse-lowcode';
-import { loadSvgIcons } from '@/api/star_horse_utils.js';
+import {loadSvgIcons} from '@/api/star_horse_utils.js';
 
 defineOptions({
   name: 'FlowDefine',

@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { onMounted, ref, watch } from 'vue';
-import { loadData, warning } from 'star-horse-lowcode';
-import { useVModel } from '@vueuse/core';
+import {onMounted, ref, watch} from 'vue';
+import {loadData, warning} from 'star-horse-lowcode';
+import {useVModel} from '@vueuse/core';
 
 const emits = defineEmits<{ e: 'update:modelValue'; modelValue: string }>();
 let commonFieldList = ref<any>([]);

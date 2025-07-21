@@ -1,5 +1,5 @@
 <script setup lang="ts" name="SqlAudit">
-import { ref } from 'vue';
+import {ref} from 'vue';
 
 const tabCurrent = ref('second');
 </script>

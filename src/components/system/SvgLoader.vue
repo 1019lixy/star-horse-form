@@ -2,7 +2,8 @@
   <div ref="svgContainer"></div>
 </template>
 <script lang="ts" setup>
-import { ref, onMounted, watch } from 'vue';
+import {onMounted, ref, watch} from 'vue';
+
 const props = defineProps({
   path: { type: String, required: true },
   size: { type: String, default: '20px' },

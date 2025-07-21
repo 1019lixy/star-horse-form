@@ -54,10 +54,10 @@
   </div>
 </template>
 <script setup lang="ts">
-import { computed, onMounted } from 'vue';
-import { useFlowDesignStore } from '@/store/FlowDesign';
-import { closeLoad, piniaInstance } from 'star-horse-lowcode';
-import { FlowNodeEnums } from '@/views/workflow/plugin/enums/FlowNodeEnums';
+import {computed, onMounted} from 'vue';
+import {useFlowDesignStore} from '@/store/FlowDesign';
+import {closeLoad, piniaInstance} from 'star-horse-lowcode';
+import {FlowNodeEnums} from '@/views/workflow/plugin/enums/FlowNodeEnums';
 
 defineOptions({
   name: 'NoticeNode',

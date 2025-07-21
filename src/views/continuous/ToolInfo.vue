@@ -1,13 +1,6 @@
 <script setup lang="ts">
-import { onMounted, ref } from 'vue';
-import {
-  apiInstance,
-  ApiUrls,
-  dictData,
-  postRequest,
-  SelectOption,
-  warning,
-} from 'star-horse-lowcode';
+import {onMounted, ref} from 'vue';
+import {apiInstance, ApiUrls, dictData, postRequest, SelectOption, warning,} from 'star-horse-lowcode';
 
 const emits = defineEmits(['selectNode']);
 const apiUrl: ApiUrls = apiInstance(

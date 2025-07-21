@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { nextTick, onMounted, provide, reactive, ref, watch } from 'vue';
+import {nextTick, onMounted, provide, reactive, ref, watch} from 'vue';
 import {
   apiInstance,
   ApiUrls,
@@ -8,11 +8,10 @@ import {
   load,
   loadGetData,
   PageFieldInfo,
-  SearchProps,
+  SearchFields,
 } from 'star-horse-lowcode';
-import { useRoute, useRouter } from 'vue-router';
-import { useNavBarListStore } from '@/store/NavBarList';
-import { Config } from '@/api/settings';
+import {useRoute, useRouter} from 'vue-router';
+import {useNavBarListStore} from '@/store/NavBarList';
 import piniaCompInstance from '@/store';
 
 const navBarListStore = useNavBarListStore(piniaCompInstance);
@@ -21,7 +20,7 @@ const starHorseTableCompRef = ref();
 const currentRoute = useRoute();
 const dataUrl = ref<ApiUrls>(apiInstance('', ''));
 const errorMsg = ref('数据加载中');
-let searchFormData = ref<SearchProps[]>();
+let searchFormData = ref<SearchFields>({});
 const tableFieldList = ref<PageFieldInfo>({
   fieldList: [],
 });
@@ -46,7 +45,7 @@ const loadFormData = async (formId: string) => {
   }
   hasData.value = data && Object.keys(data).length > 0;
   dataUrl.value = data['dataUrl'];
-  searchFormData.value = data['searchFormData'] as SearchProps[];
+  searchFormData.value = data['searchFormData'] as SearchFields;
   primaryKey.value = data['primaryKey'];
   tableFieldList.value = data['tableFieldList'] as PageFieldInfo;
   rules.value = data['rules'];
@@ -110,26 +109,19 @@ onMounted(async () => {
         :compUrl="dataUrl"
       />
     </star-horse-dialog>
-    <el-card class="inner_content">
+    <div class="search_content" v-if="searchFormData.fieldList?.length>0">
       <div class="search_btn">
         <star-horse-search-comp
-          @searchData="
+            @searchData="
             (data: any) => starHorseTableCompRef?.createSearchParams(data)
           "
-          :formData="searchFormData"
-          :compUrl="dataUrl"
-        />
-        <hr />
-        <star-horse-button-list
-          @tableCompFunc="
-            (fun: any) => starHorseTableCompRef.tableCompFunc(fun)
-          "
-          :compUrl="dataUrl"
-          :dialogProps="dialogProps"
-          :showType="Config.buttonStyle"
+            :formData="searchFormData"
+            :compUrl="dataUrl"
         />
       </div>
-      <hr />
+    </div>
+    <el-card class="inner_content">
+
       <star-horse-table-comp
         ref="starHorseTableCompRef"
         :fieldList="tableFieldList"

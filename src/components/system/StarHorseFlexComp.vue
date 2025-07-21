@@ -6,18 +6,19 @@ import PageCompPanel from '@/components/system/items/PageCompPanel.vue';
 import PageFont from '@/components/system/items/PageFont.vue';
 import PagePosition from '@/components/system/items/PagePosition.vue';
 import SvgLoader from '@/components/system/SvgLoader.vue';
-import { Layout } from '@/components/types/dataTypes';
-import { appInstance } from '@/main';
-import { useFlexDesignStore } from '@/store/FlexDesign';
-import { flexBoxContainerConfig } from '@/utils/flexbox/containerConfig';
-import { flexBoxItemsConfig } from '@/utils/flexbox/itemsConfig';
-import { flexboxLayouts } from '@/utils/flexbox/layouts';
-import { gridContainerConfig } from '@/utils/grid/containerConfig';
-import { gridItemsConfig } from '@/utils/grid/itemsConfig';
-import { gridLayouts } from '@/utils/grid/layouts';
-import { PageFieldInfo, piniaInstance, uuid } from 'star-horse-lowcode';
-import { computed, defineOptions, onMounted, ref, watch } from 'vue';
+import {Layout} from '@/components/types/dataTypes';
+import {appInstance} from '@/main';
+import {useFlexDesignStore} from '@/store/FlexDesign';
+import {flexBoxContainerConfig} from '@/utils/flexbox/containerConfig';
+import {flexBoxItemsConfig} from '@/utils/flexbox/itemsConfig';
+import {flexboxLayouts} from '@/utils/flexbox/layouts';
+import {gridContainerConfig} from '@/utils/grid/containerConfig';
+import {gridItemsConfig} from '@/utils/grid/itemsConfig';
+import {gridLayouts} from '@/utils/grid/layouts';
+import {PageFieldInfo, piniaInstance, uuid} from 'star-horse-lowcode';
+import {computed, defineOptions, onMounted, ref, watch} from 'vue';
 import StarHorseRuler from './StarHorseRuler.vue';
+
 defineOptions({
   name: 'StarHorseFlexComp',
 });

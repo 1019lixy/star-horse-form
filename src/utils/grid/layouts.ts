@@ -1,4 +1,4 @@
-import { GridContainer, GridItem } from "@/components/types/GridType";
+import {GridContainer, GridItem} from "@/components/types/GridType";
 
 export interface Layout {
   name: string;

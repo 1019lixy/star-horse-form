@@ -1,14 +1,5 @@
 <script setup lang="ts" name="UserManage">
-import { Config } from '@/api/settings';
-import {
-  computed,
-  onActivated,
-  onDeactivated,
-  onMounted,
-  provide,
-  reactive,
-  ref,
-} from 'vue';
+import {computed, onActivated, onDeactivated, onMounted, provide, reactive, ref,} from 'vue';
 import {
   apiInstance,
   ApiUrls,
@@ -22,8 +13,8 @@ import {
   SelectOption,
   warning,
 } from 'star-horse-lowcode';
-import { getCustomerParam } from '@/utils/auth';
-import { TreeNodeData } from 'element-plus/es/components/tree-v2/src/types';
+import {getCustomerParam} from '@/utils/auth';
+import {TreeNodeData} from 'element-plus/es/components/tree-v2/src/types';
 //后端交互接口地址
 const dataUrl: ApiUrls = apiInstance('system-config', 'system/employeeInfo');
 const props = defineProps({

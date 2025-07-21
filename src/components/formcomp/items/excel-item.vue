@@ -14,17 +14,12 @@
 </template>
 
 <script setup lang="ts">
-import { onBeforeUnmount, onMounted, ref } from 'vue';
-import {
-  createUniver,
-  defaultTheme,
-  LocaleType,
-  merge,
-  Univer,
-} from '@univerjs/presets';
-import { UniverSheetsCorePreset } from '@univerjs/presets/preset-sheets-core';
+import {onBeforeUnmount, onMounted, ref} from 'vue';
+import {createUniver, defaultTheme, LocaleType, merge,} from '@univerjs/presets';
+import {UniverSheetsCorePreset} from '@univerjs/presets/preset-sheets-core';
 import UniverPresetSheetsCoreZhCN from '@univerjs/presets/preset-sheets-core/locales/zh-CN';
 import '@univerjs/presets/lib/styles/preset-sheets-core.css';
+
 const props = defineProps({
   isDesign: {
     type: Boolean,

@@ -1,15 +1,6 @@
 <script lang="ts" name="StationSequence" setup>
-import { Config } from '@/api/settings';
-import {
-  nextTick,
-  onActivated,
-  onDeactivated,
-  onMounted,
-  provide,
-  reactive,
-  ref,
-} from 'vue';
-import { getCustomerParam } from '@/utils/auth';
+import {nextTick, onActivated, onDeactivated, onMounted, provide, reactive, ref,} from 'vue';
+import {getCustomerParam} from '@/utils/auth';
 import {
   apiInstance,
   ApiUrls,

@@ -1,7 +1,7 @@
-import { defineStore } from "pinia";
+import {defineStore} from "pinia";
 import router from "@/router/index";
-import { RouteLocationNormalizedLoaded } from "vue-router";
-import { ref } from "vue";
+import {RouteLocationNormalizedLoaded} from "vue-router";
+import {ref} from "vue";
 
 export const useNavBarListStore = defineStore("navBarList", () => {
   const currentView = ref<any>({});

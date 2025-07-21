@@ -12,18 +12,9 @@ import {
   UserFuncInfo,
   warning,
 } from 'star-horse-lowcode';
-import { loadDepartmentInfo } from '@/api/star_horse_utils';
-import { Config } from '@/api/settings';
-import {
-  nextTick,
-  onActivated,
-  onDeactivated,
-  onMounted,
-  provide,
-  reactive,
-  ref,
-} from 'vue';
-import { TreeNodeData } from 'element-plus/es/components/tree-v2/src/types';
+import {loadDepartmentInfo} from '@/api/star_horse_utils';
+import {nextTick, onActivated, onDeactivated, onMounted, provide, reactive, ref,} from 'vue';
+import {TreeNodeData} from 'element-plus/es/components/tree-v2/src/types';
 
 const dataUrl: ApiUrls = apiInstance(
   'system-config',
@@ -314,10 +305,7 @@ onDeactivated(() => {
           <div class="search-content">
             <div
               class="search_btn"
-              :style="{
-                'flex-direction':
-                  Config.buttonStyle.value == 'line' ? 'column' : 'row',
-              }"
+
             >
               <star-horse-search-comp
                 @searchData="

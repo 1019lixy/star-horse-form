@@ -77,11 +77,11 @@
   </div>
 </template>
 <script setup lang="ts">
-import { addBranch } from '@/views/workflow/plugin/utils/flowCommon';
-import { computed, onMounted } from 'vue';
-import { useFlowDesignStore } from '@/store/FlowDesign';
-import { closeLoad, piniaInstance, warning } from 'star-horse-lowcode';
-import { FlowNodeEnums } from '@/views/workflow/plugin/enums/FlowNodeEnums';
+import {addBranch} from '@/views/workflow/plugin/utils/flowCommon';
+import {computed, onMounted} from 'vue';
+import {useFlowDesignStore} from '@/store/FlowDesign';
+import {closeLoad, piniaInstance, warning} from 'star-horse-lowcode';
+import {FlowNodeEnums} from '@/views/workflow/plugin/enums/FlowNodeEnums';
 
 const flowDesign = useFlowDesignStore(piniaInstance);
 let currentNode = computed(() => flowDesign.currentNode);

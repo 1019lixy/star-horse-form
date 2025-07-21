@@ -1,14 +1,8 @@
 <script setup lang="ts">
-import { computed, onMounted, ref } from 'vue';
-import { scale } from '@/views/workflow/plugin/utils/deviceUtil';
-import { useFlowDesignStore } from '@/store/FlowDesign';
-import {
-  apiInstance,
-  ApiUrls,
-  createCondition,
-  loadData,
-  piniaInstance,
-} from 'star-horse-lowcode';
+import {computed, onMounted, ref} from 'vue';
+import {scale} from '@/views/workflow/plugin/utils/deviceUtil';
+import {useFlowDesignStore} from '@/store/FlowDesign';
+import {apiInstance, ApiUrls, createCondition, loadData, piniaInstance,} from 'star-horse-lowcode';
 
 const dataUrl: ApiUrls = apiInstance(
   'flow-engine',

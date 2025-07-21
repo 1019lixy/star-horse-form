@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import { computed, ref } from 'vue';
-import { flowCommon } from '@/views/workflow/plugin/utils/flowCommon';
-import { scale } from '@/views/workflow/plugin/utils/deviceUtil';
-import { useFlowDesignStore } from '@/store/FlowDesign';
-import { piniaInstance, warning } from 'star-horse-lowcode';
+import {computed, ref} from 'vue';
+import {flowCommon} from '@/views/workflow/plugin/utils/flowCommon';
+import {scale} from '@/views/workflow/plugin/utils/deviceUtil';
+import {useFlowDesignStore} from '@/store/FlowDesign';
+import {piniaInstance, warning} from 'star-horse-lowcode';
 
 defineProps({
   currentNav: {

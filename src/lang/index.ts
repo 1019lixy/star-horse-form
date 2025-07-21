@@ -1,7 +1,7 @@
 import zh_CN from "@/lang/zh_CN";
 import en_US from "@/lang/en_US";
-import { LangType } from "@/theme/theme";
-import { getLang } from "@/theme/localStorge";
+import {LangType} from "@/theme/theme";
+import {getLang} from "@/theme/localStorge";
 
 const language = {
   zh_cn: zh_CN,

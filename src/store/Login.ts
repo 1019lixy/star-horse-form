@@ -1,24 +1,20 @@
-import { createRouterAndMenuList } from "@/api/star_horse_apis.ts";
+import {createRouterAndMenuList} from "@/api/star_horse_apis.ts";
+import {getUserInfo, setCustomerInfo, setToken, setUserInfo,} from "@/utils/auth.ts";
+import {defineStore} from "pinia";
 import {
-  getUserInfo,
-  setCustomerInfo,
-  setToken,
-  setUserInfo,
-} from "@/utils/auth.ts";
-import { defineStore } from "pinia";
-import {
-  apiInstance,
-  ApiUrls,
-  loadData,
-  MenusInfo,
-  piniaInstance,
-  postRequest,
-  useUserInfoStore,
+    apiInstance,
+    ApiUrls,
+    loadData,
+    MenusInfo,
+    piniaInstance,
+    postRequest,
+    useUserInfoStore,
 } from "star-horse-lowcode";
-import { ref } from "vue";
-import { useNavBarListStore } from "@/store/NavBarList";
-import { useViewCacheStore } from "@/store/ViewCache";
+import {ref} from "vue";
+import {useNavBarListStore} from "@/store/NavBarList";
+import {useViewCacheStore} from "@/store/ViewCache";
 import piniaCompInstance from "@/store";
+
 const appinfoUrl: ApiUrls = apiInstance(
   "system-config",
   "system/informationsEntity",

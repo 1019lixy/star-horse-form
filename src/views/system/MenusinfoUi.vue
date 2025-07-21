@@ -19,11 +19,11 @@ import {
   UserFuncInfo,
   warning,
 } from 'star-horse-lowcode';
-import { findNodesWithValue, treeCheckChange } from '@/api/system';
-import { loadSvgIcons, loadSystemInfo } from '@/api/star_horse_utils';
-import { Config } from '@/api/settings';
-import { computed, onMounted, provide, reactive, ref, unref } from 'vue';
-import { TreeNodeData } from 'element-plus/es/components/tree-v2/src/types';
+import {findNodesWithValue, treeCheckChange} from '@/api/system';
+import {loadSvgIcons, loadSystemInfo} from '@/api/star_horse_utils';
+import {Config} from '@/api/settings';
+import {computed, onMounted, provide, reactive, ref, unref} from 'vue';
+import {TreeNodeData} from 'element-plus/es/components/tree-v2/src/types';
 
 const dataUrl: ApiUrls = apiInstance('system-config', 'system/menusinfoEntity');
 let parentMenus: any = ref<any>([]);

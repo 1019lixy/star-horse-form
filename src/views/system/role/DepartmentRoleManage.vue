@@ -19,19 +19,11 @@ import {
   useGlobalConfigStore,
   warning,
 } from 'star-horse-lowcode';
-import { Config } from '@/api/settings';
-import {
-  computed,
-  onActivated,
-  onDeactivated,
-  onMounted,
-  provide,
-  reactive,
-  ref,
-} from 'vue';
-import { getCustomerParam } from '@/utils/auth';
-import { TreeNodeData } from 'element-plus/es/components/tree-v2/src/types';
-import { getRowIdentity } from 'element-plus/es/components/table/src/util';
+import {Config} from '@/api/settings';
+import {computed, onActivated, onDeactivated, onMounted, provide, reactive, ref,} from 'vue';
+import {getCustomerParam} from '@/utils/auth';
+import {TreeNodeData} from 'element-plus/es/components/tree-v2/src/types';
+import {getRowIdentity} from 'element-plus/es/components/table/src/util';
 //后端交互接口地址
 const dataUrl: ApiUrls = apiInstance('system-config', 'system/companyRole');
 dataUrl.pageListUrl = '/system-config/system/companyRole/departRoleUserList';
@@ -294,10 +286,7 @@ onDeactivated(() => {
           <div class="search-content">
             <div
               class="search_btn"
-              :style="{
-                'flex-direction':
-                  Config.buttonStyle.value == 'line' ? 'column' : 'row',
-              }"
+
             >
               <star-horse-search-comp
                 @searchData="loadInstanceData"

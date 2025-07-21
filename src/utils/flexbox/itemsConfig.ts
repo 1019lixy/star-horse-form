@@ -1,4 +1,4 @@
-import { PageFieldInfo } from "star-horse-lowcode";
+import {PageFieldInfo} from "star-horse-lowcode";
 // ... 前面import部分保持不变 ...
 
 export const flexBoxItemsConfig: PageFieldInfo = {

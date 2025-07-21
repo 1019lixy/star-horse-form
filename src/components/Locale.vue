@@ -17,7 +17,7 @@
   </el-dropdown>
 </template>
 <script setup lang="ts">
-import { onMounted, ref } from 'vue';
+import {onMounted, ref} from 'vue';
 
 const langName = ref('');
 const language = ref('');

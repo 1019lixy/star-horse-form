@@ -1,6 +1,6 @@
 <script setup lang="ts" name="ContinusInstanceExecRecord">
-import { ref } from 'vue';
-import { apiInstance, ApiUrls } from 'star-horse-lowcode';
+import {ref} from 'vue';
+import {apiInstance, ApiUrls} from 'star-horse-lowcode';
 
 const apiUrl: ApiUrls = apiInstance(
   'continuous-manage',

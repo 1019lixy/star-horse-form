@@ -1,16 +1,16 @@
 <script lang="ts" setup>
 import router from '@/router';
-import { computed, nextTick, onMounted, provide, ref, watch } from 'vue';
-import { useNavBarListStore } from '@/store/NavBarList';
-import { useViewCacheStore } from '@/store/ViewCache';
+import {computed, nextTick, onMounted, provide, ref, watch} from 'vue';
+import {useNavBarListStore} from '@/store/NavBarList';
+import {useViewCacheStore} from '@/store/ViewCache';
 import piniaCompInstance from '@/store';
 import zhCn from 'element-plus/dist/locale/zh-cn.mjs';
 import en from 'element-plus/dist/locale/en.mjs';
-import { LangType } from '@/theme/theme';
-import { getLang } from '@/theme/localStorge';
-import { i18n } from '@/lang';
+import {LangType} from '@/theme/theme';
+import {getLang} from '@/theme/localStorge';
+import {i18n} from '@/lang';
 import $ from 'jquery';
-import { piniaInstance, useGlobalConfigStore } from 'star-horse-lowcode';
+import {piniaInstance, useGlobalConfigStore} from 'star-horse-lowcode';
 
 let configStore = useGlobalConfigStore(piniaInstance);
 const route = router.getRoutes().find((item) => item.path == '/home');

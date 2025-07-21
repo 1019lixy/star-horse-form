@@ -1,29 +1,10 @@
 <script setup lang="ts">
-import { loadDict } from '@/api/star_horse_apis';
-import { loadSvgIconsByPath } from '@/api/star_horse_utils';
-import { httpMethod } from '@/api/system';
-import {
-  createData,
-  urlReturnDataHelpMsg,
-  validInterface,
-  validOperation,
-} from '@/views/dyform/utils/ItemPreps';
-import {
-  error,
-  PageFieldInfo,
-  searchMatchList,
-  SelectOption,
-} from 'star-horse-lowcode';
-import {
-  ModelRef,
-  nextTick,
-  onMounted,
-  PropType,
-  reactive,
-  ref,
-  unref,
-  watch,
-} from 'vue';
+import {loadDict} from '@/api/star_horse_apis';
+import {loadSvgIconsByPath} from '@/api/star_horse_utils';
+import {httpMethod} from '@/api/system';
+import {createData, urlReturnDataHelpMsg, validInterface, validOperation,} from '@/views/dyform/utils/ItemPreps';
+import {error, PageFieldInfo, searchMatchList, SelectOption,} from 'star-horse-lowcode';
+import {ModelRef, nextTick, onMounted, PropType, reactive, ref, unref, watch,} from 'vue';
 
 defineOptions({
   name: 'DataSourceComp',

@@ -1,15 +1,6 @@
 <script setup lang="ts" name="RoleUserList">
-import { Config } from '@/api/settings';
-import {
-  onActivated,
-  onDeactivated,
-  onMounted,
-  PropType,
-  provide,
-  reactive,
-  ref,
-} from 'vue';
-import { getCustomerParam } from '@/utils/auth';
+import {onActivated, onDeactivated, onMounted, PropType, provide, reactive, ref,} from 'vue';
+import {getCustomerParam} from '@/utils/auth';
 import {
   apiInstance,
   ApiUrls,
@@ -26,7 +17,7 @@ import {
   UserFuncInfo,
   warning,
 } from 'star-horse-lowcode';
-import { analysisField } from '@/api/star_horse_utils';
+import {analysisField} from '@/api/star_horse_utils';
 //后端交互接口地址
 const dataUrl: ApiUrls = apiInstance('system-config', 'system/employeeInfo');
 dataUrl.pageListUrl = '/system-config/system/employeeInfo/compRolePageList';

@@ -1,10 +1,6 @@
 <script setup lang="ts">
-import { Config } from '@/api/settings';
-import {
-  analysisSearchData,
-  viewColumns,
-  viewDataList,
-} from '@/views/dyform/utils/preview';
+import {Config} from '@/api/settings';
+import {analysisSearchData, viewColumns, viewDataList,} from '@/views/dyform/utils/preview';
 import {
   apiInstance,
   closeLoad,
@@ -13,11 +9,11 @@ import {
   error,
   load,
   piniaInstance,
-  SearchProps,
+  SearchFields,
   useDesignFormStore,
   useGlobalConfigStore,
 } from 'star-horse-lowcode';
-import { computed, onMounted, provide, reactive, ref, watch } from 'vue';
+import {computed, onMounted, provide, reactive, ref, watch} from 'vue';
 
 let designForm = useDesignFormStore(piniaInstance);
 const props = defineProps({
@@ -32,7 +28,7 @@ let compSize = computed(
 const dataUrl = apiInstance('userdb-manage', 'consumer/api');
 dataUrl.exportAllUrl = `${dataUrl.basePrefix}/exportData/${props.param}`;
 const errorMsg = ref('数据加载中');
-let searchFormData = ref<SearchProps[]>([]);
+let searchFormData = ref<SearchFields>({});
 const tableFieldList = ref<any>({
   fieldList: [],
 });
@@ -67,7 +63,9 @@ const exportData = () => {
 };
 const columnList = ref([]);
 const loadColumnFields = async () => {
-  searchFormData.value = [];
+  searchFormData.value = {
+    fieldList: [],
+  };
   columnList.value = [];
   let { formDatas, columns } = await viewColumns(props.param);
   searchFormData.value = formDatas;

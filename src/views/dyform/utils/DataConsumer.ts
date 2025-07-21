@@ -1,9 +1,5 @@
-import { reactive, Ref, ref } from 'vue';
-import {
-  PageFieldInfo,
-  searchMatchList,
-  SelectOption,
-} from 'star-horse-lowcode';
+import {reactive, Ref, ref} from 'vue';
+import {PageFieldInfo, searchMatchList, SelectOption,} from 'star-horse-lowcode';
 
 const tableVisible = ref<boolean>(true);
 const relationRequired = ref<boolean>(false);

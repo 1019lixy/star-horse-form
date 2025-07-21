@@ -1,12 +1,6 @@
 <script setup lang="ts" name="DynamicFormDetails">
-import {
-  apiInstance,
-  ApiUrls,
-  dialogPreps,
-  SearchFields,
-} from 'star-horse-lowcode';
-import { onMounted, provide, reactive, ref } from 'vue';
-import { Config } from '@/api/settings';
+import {apiInstance, ApiUrls, dialogPreps, SearchFields,} from 'star-horse-lowcode';
+import {onMounted, provide, reactive, ref} from 'vue';
 
 const dataUrl: ApiUrls = apiInstance(
   'userdb-manage',

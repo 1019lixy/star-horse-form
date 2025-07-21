@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { useLoginStore } from '@/store/Login';
-import { MenusInfo, piniaInstance } from 'star-horse-lowcode';
-import { computed, nextTick, onMounted, ref, watch } from 'vue';
+import {useLoginStore} from '@/store/Login';
+import {MenusInfo, piniaInstance} from 'star-horse-lowcode';
+import {computed, nextTick, onMounted, ref, watch} from 'vue';
 
 const loginStore = useLoginStore(piniaInstance);
 let leftMenuDatas = computed(() => loginStore.getMenusList());

@@ -8,16 +8,8 @@ import {
   SearchFields,
   UserFuncInfo,
 } from 'star-horse-lowcode';
-import { Config } from '@/api/settings';
-import {
-  onActivated,
-  onDeactivated,
-  onMounted,
-  provide,
-  reactive,
-  ref,
-} from 'vue';
-import { getCustomerParam, getToken } from '@/utils/auth';
+import {onActivated, onDeactivated, onMounted, provide, reactive, ref,} from 'vue';
+import {getCustomerParam, getToken} from '@/utils/auth';
 //后端交互接口地址
 const dataUrl: ApiUrls = apiInstance('system-config', 'system/commonFiles');
 //主键

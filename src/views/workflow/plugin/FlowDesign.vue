@@ -32,14 +32,15 @@
   </div>
 </template>
 <script setup lang="ts">
-import { computed, onMounted, ref, watch } from 'vue';
-import { useFlowDesignStore } from '@/store/FlowDesign';
+import {computed, onMounted, ref, watch} from 'vue';
+import {useFlowDesignStore} from '@/store/FlowDesign';
 import html2canvas from 'html2canvas';
-import { scale } from '@/views/workflow/plugin/utils/deviceUtil';
-import { useRouter } from 'vue-router';
-import { apiInstance, ApiUrls, piniaInstance } from 'star-horse-lowcode';
+import {scale} from '@/views/workflow/plugin/utils/deviceUtil';
+import {useRouter} from 'vue-router';
+import {apiInstance, ApiUrls, piniaInstance} from 'star-horse-lowcode';
 import flowNodeComponent from '@/views/workflow/plugin/node/nodes';
-import { appInstance } from '@/main';
+import {appInstance} from '@/main';
+
 defineProps({
   saveBtnVisible: {
     type: Boolean,

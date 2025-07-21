@@ -1,4 +1,4 @@
-import type { NProgressOptions } from "nprogress";
+import type {NProgressOptions} from "nprogress";
 import NProgress from "nprogress";
 import "@/assets/css/nprogress.css";
 //全局进度条的配置

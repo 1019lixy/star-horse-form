@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { unref } from 'vue';
-import { useRouter } from 'vue-router';
+import {unref} from 'vue';
+import {useRouter} from 'vue-router';
 
 const { currentRoute, replace } = useRouter();
 const { params, query } = unref(currentRoute);

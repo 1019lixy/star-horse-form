@@ -1,14 +1,6 @@
 <script setup lang="ts" name="CompanyDefine">
-import {
-  onActivated,
-  onDeactivated,
-  onMounted,
-  provide,
-  reactive,
-  ref,
-} from 'vue';
-import { Config } from '@/api/settings';
-import { getCustomerParam } from '@/utils/auth';
+import {onActivated, onDeactivated, onMounted, provide, reactive, ref,} from 'vue';
+import {getCustomerParam} from '@/utils/auth';
 import {
   apiInstance,
   ApiUrls,

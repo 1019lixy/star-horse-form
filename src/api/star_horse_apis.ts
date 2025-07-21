@@ -1,23 +1,23 @@
-import { Config } from "@/api/settings";
+import {Config} from "@/api/settings";
 import router from "@/router";
-import { delLoginInfo, getToken, getUserInfo } from "@/utils/auth";
-import axios, { AxiosResponse, InternalAxiosRequestConfig } from "axios";
+import {delLoginInfo, getToken, getUserInfo} from "@/utils/auth";
+import axios, {AxiosResponse, InternalAxiosRequestConfig} from "axios";
 import {
-  error,
-  getFingerId,
-  loadData,
-  MenusInfo,
-  piniaInstance,
-  SelectOption,
-  useButtonPermissionStore,
-  useUserInfoStore,
-  warning,
+    error,
+    getFingerId,
+    loadData,
+    MenusInfo,
+    piniaInstance,
+    SelectOption,
+    useButtonPermissionStore,
+    useUserInfoStore,
+    warning,
 } from "star-horse-lowcode";
 
-import { ServiceEnums } from "@/components/enums/ServiceEnums";
-import { useNavBarListStore } from "@/store/NavBarList";
-import { useViewCacheStore } from "@/store/ViewCache";
-import { NavigationGuardNext, RouteLocationNormalized } from "vue-router";
+import {ServiceEnums} from "@/components/enums/ServiceEnums";
+import {useNavBarListStore} from "@/store/NavBarList";
+import {useViewCacheStore} from "@/store/ViewCache";
+import {NavigationGuardNext, RouteLocationNormalized} from "vue-router";
 import piniaCompInstance from "@/store";
 
 const navBarListStore = useNavBarListStore(piniaCompInstance);

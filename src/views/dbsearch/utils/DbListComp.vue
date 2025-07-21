@@ -1,12 +1,8 @@
 <script setup lang="ts">
-import { loadDict, permissionMenus } from '@/api/star_horse_apis';
-import { loadRolesInfo } from '@/api/star_horse_utils';
-import { useLoginStore } from '@/store/Login';
-import {
-  initDbList,
-  openDatabase,
-  tableColumns,
-} from '@/views/dbsearch/utils/DbSearchUtils';
+import {loadDict, permissionMenus} from '@/api/star_horse_apis';
+import {loadRolesInfo} from '@/api/star_horse_utils';
+import {useLoginStore} from '@/store/Login';
+import {initDbList, openDatabase, tableColumns,} from '@/views/dbsearch/utils/DbSearchUtils';
 import {
   apiInstance,
   BtnAuth,
@@ -23,7 +19,8 @@ import {
   useGlobalConfigStore,
   warning,
 } from 'star-horse-lowcode';
-import { computed, ComputedRef, nextTick, onMounted, ref, unref } from 'vue';
+import {computed, ComputedRef, nextTick, onMounted, ref, unref} from 'vue';
+
 const props = defineProps({
   batchCreatePage: { type: Boolean, default: false },
 });

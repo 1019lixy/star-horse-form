@@ -1,12 +1,6 @@
 <script setup lang="ts" name="ComplianceScanReport">
-import { onMounted, provide, reactive } from 'vue';
-import {
-  apiInstance,
-  ApiUrls,
-  dialogPreps,
-  PageFieldInfo,
-  SearchFields,
-} from 'star-horse-lowcode';
+import {onMounted, provide, reactive} from 'vue';
+import {apiInstance, ApiUrls, dialogPreps, PageFieldInfo, SearchFields,} from 'star-horse-lowcode';
 
 const dataUrl: ApiUrls = apiInstance(
   'continuous-manage',

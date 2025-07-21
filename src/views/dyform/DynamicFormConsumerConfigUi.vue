@@ -9,9 +9,8 @@ import {
   SelectOption,
   UserFuncInfo,
 } from 'star-horse-lowcode';
-import { onMounted, provide, reactive, ref } from 'vue';
-import { useRouter } from 'vue-router';
-import { Config } from '@/api/settings';
+import {onMounted, provide, reactive, ref} from 'vue';
+import {useRouter} from 'vue-router';
 
 const router = useRouter();
 //后端交互接口地址

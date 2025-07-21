@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, onMounted, provide, reactive, ref } from 'vue';
+import {computed, onMounted, provide, reactive, ref} from 'vue';
 import {
   apiInstance,
   closeLoad,
@@ -17,8 +17,8 @@ import {
   useGlobalConfigStore,
   warning,
 } from 'star-horse-lowcode';
-import { getRowIdentity } from 'element-plus/es/components/table/src/util';
-import { Config } from '@/api/settings';
+import {getRowIdentity} from 'element-plus/es/components/table/src/util';
+import {Config} from '@/api/settings';
 
 let configStore = useGlobalConfigStore(piniaInstance);
 let compSize = computed(

@@ -1,13 +1,5 @@
 <script setup lang="ts">
-import {
-  nextTick,
-  onMounted,
-  PropType,
-  provide,
-  reactive,
-  ref,
-  watch,
-} from 'vue';
+import {nextTick, onMounted, PropType, provide, reactive, ref, watch,} from 'vue';
 import {
   apiInstance,
   ApiUrls,
@@ -16,7 +8,7 @@ import {
   loadGetData,
   PageFieldInfo,
   piniaInstance,
-  SearchProps,
+  SearchFields,
   useContinusConfigStore,
   warning,
 } from 'star-horse-lowcode';
@@ -24,7 +16,7 @@ import {
 let dataUrl = ref<ApiUrls>(apiInstance('', ''));
 const continuousStore = useContinusConfigStore(piniaInstance);
 const errorMsg = ref('数据加载中');
-let searchFormData = ref<SearchProps[]>();
+let searchFormData = ref<SearchFields>({});
 const tableFieldList = ref<any>({
   fieldList: [],
 });
@@ -47,7 +39,7 @@ const assignField = (data: any) => {
     data['dataUrl'].appName,
     data['dataUrl'].contextUrl,
   );
-  searchFormData.value = data['searchFormData'] as SearchProps[];
+  searchFormData.value = data['searchFormData'] as SearchFields;
   primaryKey.value = data['primaryKey'];
   tableFieldList.value = { ...data['tableFieldList'] } as PageFieldInfo;
   relationTables.value = data['relationTables'];
@@ -56,7 +48,9 @@ const assignField = (data: any) => {
 };
 const resetField = () => {
   dataUrl.value = apiInstance('', '');
-  searchFormData.value = [];
+  searchFormData.value ={
+    fieldList:[]
+  };
   primaryKey.value = '';
   tableFieldList.value = {
     fieldList: [],

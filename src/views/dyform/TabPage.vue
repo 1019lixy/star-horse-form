@@ -1,27 +1,24 @@
 <script setup lang="ts">
-import { nextTick, onMounted, provide, reactive, ref, watch } from 'vue';
+import {nextTick, onMounted, provide, reactive, ref, watch} from 'vue';
 import {
   apiInstance,
   ApiUrls,
-  closeLoad,
   createDatetime,
   dialogPreps,
-  load,
   loadData,
   piniaInstance,
-  SearchProps,
+  SearchFields,
   useDesignFormStore,
   userAction,
   UserFuncInfo,
 } from 'star-horse-lowcode';
-import { TabsPaneContext } from 'element-plus';
-import { Config } from '@/api/settings';
+import {TabsPaneContext} from 'element-plus';
 
 let designForm = useDesignFormStore(piniaInstance);
 const starHorseTableCompRef = ref();
 let dataUrl = ref<ApiUrls>(apiInstance('', ''));
 const errorMsg = ref('数据加载中');
-let searchFormData = ref<SearchProps[]>();
+let searchFormData = ref<SearchFields>({});
 const tableFieldList = ref<any>({
   fieldList: [],
 });
@@ -36,16 +33,17 @@ let dateFields = ref<Array<string>>([]);
 const activeName = ref<string>('form');
 let extBtns = ref<Array<UserFuncInfo>>([]);
 const props = defineProps({
-  param: { type: String, required: true },
+  param: {type: String, required: true},
 });
-const handleClick = (_tab: TabsPaneContext, _event: Event) => {};
+const handleClick = (_tab: TabsPaneContext, _event: Event) => {
+};
 const clear = () => {
   hasData.value = false;
 };
 const loadFormData = async (formId: string) => {
-  let { data, error } = await loadData(
-    `/userdb-manage/userdb/dynamicFormInfo/getDynamicForm/${formId}`,
-    {},
+  let {data, error} = await loadData(
+      `/userdb-manage/userdb/dynamicFormInfo/getDynamicForm/${formId}`,
+      {},
   );
   if (error) {
     errorMsg.value = error;
@@ -55,10 +53,10 @@ const loadFormData = async (formId: string) => {
   }
   hasData.value = data && Object.keys(data).length > 0;
   dataUrl.value = apiInstance(
-    data['dataUrl']?.appName,
-    data['dataUrl']?.contextUrl,
+      data['dataUrl']?.appName,
+      data['dataUrl']?.contextUrl,
   );
-  searchFormData.value = data['searchFormData'] as SearchProps[];
+  searchFormData.value = data['searchFormData'] as SearchFields;
   primaryKey.value = data['primaryKey'];
   tableFieldList.value = data['tableFieldList'];
   rules.value = data['rules'];
@@ -67,9 +65,9 @@ const loadFormData = async (formId: string) => {
   relationTables.value = data['relationTables'];
   dataSource.value = data['dataSource'];
   extBtns.value = userAction(
-    starHorseTableCompRef,
-    primaryKey.value,
-    tableFieldList.value['userTableFuncs'],
+      starHorseTableCompRef,
+      primaryKey.value,
+      tableFieldList.value['userTableFuncs'],
   );
   delete tableFieldList.value['userTableFuncs'];
   await nextTick();
@@ -77,18 +75,18 @@ const loadFormData = async (formId: string) => {
   starHorseTableCompRef.value!.init();
 };
 watch(
-  () => props.param,
-  (val) => {
-    clear();
-    try {
-      // load("数据加载中。。。");
-      loadFormData(<string>val);
-    } catch (e) {
-      // closeLoad();
-      console.log('数据类型不匹配');
-    }
-  },
-  { deep: true },
+    () => props.param,
+    (val) => {
+      clear();
+      try {
+        // load("数据加载中。。。");
+        loadFormData(<string>val);
+      } catch (e) {
+        // closeLoad();
+        console.log('数据类型不匹配');
+      }
+    },
+    {deep: true},
 );
 //记录表单的属性
 const formFields = reactive<Array<any>>([]);
@@ -112,7 +110,7 @@ const dataFormat = (name: string, cellValue: object, row: any): any => {
       let temp = dataSource.value[name];
       if (temp) {
         let stemp = temp.datas?.find(
-          (item: any) => item[temp.valueField] == cellValue,
+            (item: any) => item[temp.valueField] == cellValue,
         );
         return stemp ? stemp[temp.labelField] : cellValue || '--';
       }
@@ -121,7 +119,7 @@ const dataFormat = (name: string, cellValue: object, row: any): any => {
   };
   if (fieldMappingList.value && fieldMappingList.value?.length > 0) {
     let temp = fieldMappingList.value.find(
-      (item: any) => item['fieldName'] == name,
+        (item: any) => item['fieldName'] == name,
     );
     if (temp) {
       return row[temp.mappingDisplayField] || subFormat(name, cellValue, row);
@@ -136,60 +134,56 @@ onMounted(async () => {
 <template>
   <template v-if="hasData">
     <star-horse-dialog
-      :dialog-visible="dialogProps.viewVisible"
-      :dialogProps="dialogProps"
-      :source="3"
+        :dialog-visible="dialogProps.viewVisible"
+        :dialogProps="dialogProps"
+        :source="3"
     >
       <star-horse-data-view
-        :dataFormat="dataFormat"
-        :primary-key="primaryKey"
-        :dynamicForm="true"
-        :field-list="tableFieldList"
-        :compUrl="dataUrl"
+          :dataFormat="dataFormat"
+          :primary-key="primaryKey"
+          :dynamicForm="true"
+          :field-list="tableFieldList"
+          :compUrl="dataUrl"
       />
     </star-horse-dialog>
     <el-card class="inner_content">
       <el-tabs v-model="activeName" type="border-card" @tab-click="handleClick">
         <el-tab-pane label="表单" name="form">
           <star-horse-form
-            @refresh="starHorseTableCompRef?.loadByPage()"
-            :dynamicForm="true"
-            :compUrl="dataUrl"
-            :formInfo="formInfo"
-            :fieldList="tableFieldList"
-            :rules="rules"
-            :globalCondition="relationTables"
-            :typeModel="'form'"
+              @refresh="starHorseTableCompRef?.loadByPage()"
+              :dynamicForm="true"
+              :compUrl="dataUrl"
+              :formInfo="formInfo"
+              :fieldList="tableFieldList"
+              :rules="rules"
+              :globalCondition="relationTables"
+              :typeModel="'form'"
           />
         </el-tab-pane>
         <el-tab-pane label="数据列表" name="table">
-          <div class="search-content">
+          <div class="search-content" v-if="searchFormData.fieldList?.length>0">
             <div
-              class="search_btn"
-              :style="{
-                'flex-direction':
-                  Config.buttonStyle.value == 'line' ? 'column' : 'row',
-              }"
+                class="search_btn"
             >
               <star-horse-search-comp
-                @searchData="
+                  @searchData="
                   (data: any) => starHorseTableCompRef?.createSearchParams(data)
                 "
-                :formData="searchFormData"
-                :compUrl="dataUrl"
+                  :formData="searchFormData"
+                  :compUrl="dataUrl"
               />
             </div>
           </div>
           <star-horse-table-comp
-            ref="starHorseTableCompRef"
-            :fieldList="tableFieldList"
-            :primaryKey="primaryKey"
-            :compUrl="dataUrl"
-            :globalConfig="relationTables"
-            :isDynamic="true"
-            :extendBtns="extBtns"
-            :showBatchField="true"
-            :dataFormat="dataFormat"
+              ref="starHorseTableCompRef"
+              :fieldList="tableFieldList"
+              :primaryKey="primaryKey"
+              :compUrl="dataUrl"
+              :globalConfig="relationTables"
+              :isDynamic="true"
+              :extendBtns="extBtns"
+              :showBatchField="true"
+              :dataFormat="dataFormat"
           />
         </el-tab-pane>
       </el-tabs>

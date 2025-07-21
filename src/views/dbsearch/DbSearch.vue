@@ -1,7 +1,7 @@
 <script setup lang="ts" name="DbSearch">
-import { computed, onMounted, ref, unref } from 'vue';
-import { Config } from '@/api/settings';
-import { initDbList } from '@/views/dbsearch/utils/DbSearchUtils';
+import {computed, onMounted, ref, unref} from 'vue';
+import {Config} from '@/api/settings';
+import {initDbList} from '@/views/dbsearch/utils/DbSearchUtils';
 import {
   closeLoad,
   commonParseCodeToName,

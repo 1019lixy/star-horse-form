@@ -1,4 +1,4 @@
-import { postRequest, SelectOption } from "star-horse-lowcode";
+import {postRequest, SelectOption} from "star-horse-lowcode";
 
 const deptAndUserTree: string =
   "/system-config/system/departmentEntity/deptAndUserTree";

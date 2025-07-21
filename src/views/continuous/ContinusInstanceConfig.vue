@@ -1,13 +1,8 @@
 <script setup lang="ts" name="ContinusInstanceConfig">
-import { onBeforeUnmount, onMounted, onUpdated, reactive, ref } from 'vue';
-import { useRouter } from 'vue-router';
-import {
-  apiInstance,
-  ApiUrls,
-  createCondition,
-  PageProps,
-  postRequest,
-} from 'star-horse-lowcode';
+import {onBeforeUnmount, onMounted, onUpdated, reactive, ref} from 'vue';
+import {useRouter} from 'vue-router';
+import {apiInstance, ApiUrls, createCondition, PageProps, postRequest,} from 'star-horse-lowcode';
+
 const dataUrl: ApiUrls = apiInstance(
   'continuous-manage',
   'continuous/pipelineConfig',

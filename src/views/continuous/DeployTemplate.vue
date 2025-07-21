@@ -1,13 +1,7 @@
 <script setup lang="ts">
-import { onMounted, ref } from 'vue';
-import {
-  apiInstance,
-  ApiUrls,
-  loadData,
-  postRequest,
-  warning,
-} from 'star-horse-lowcode';
-import { createJoinCondition } from '@/api/star_horse_utils';
+import {onMounted, ref} from 'vue';
+import {apiInstance, ApiUrls, loadData, postRequest, warning,} from 'star-horse-lowcode';
+import {createJoinCondition} from '@/api/star_horse_utils';
 
 const emits = defineEmits(['selectTemplate']);
 const apiUrl: ApiUrls = apiInstance(

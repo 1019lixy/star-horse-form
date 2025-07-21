@@ -1,4 +1,4 @@
-import { FlexboxContainer, FlexboxItem } from "@/components/types/FlexType";
+import {FlexboxContainer, FlexboxItem} from "@/components/types/FlexType";
 
 export interface Layout {
   name: string;

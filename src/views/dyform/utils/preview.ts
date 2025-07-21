@@ -1,11 +1,4 @@
-import {
-  closeLoad,
-  error,
-  load,
-  postRequest,
-  SearchParams,
-  success,
-} from 'star-horse-lowcode';
+import {closeLoad, error, load, postRequest, SearchParams, success,} from 'star-horse-lowcode';
 
 /**
  * 获取视图属性

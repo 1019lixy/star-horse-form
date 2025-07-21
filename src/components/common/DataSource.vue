@@ -1,12 +1,9 @@
 <script setup lang="ts">
-import { onMounted, ref, toRef } from 'vue';
-import {
-  createData,
-  dataSourceFields,
-  validInterface,
-} from '@/views/dyform/utils/ItemPreps';
-import { searchMatchList, SelectOption, warning } from 'star-horse-lowcode';
-import { loadDict } from '@/api/star_horse_apis';
+import {onMounted, ref, toRef} from 'vue';
+import {createData, dataSourceFields, validInterface,} from '@/views/dyform/utils/ItemPreps';
+import {searchMatchList, SelectOption, warning} from 'star-horse-lowcode';
+import {loadDict} from '@/api/star_horse_apis';
+
 defineOptions({
   name: 'DataSource',
 });

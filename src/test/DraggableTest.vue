@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onMounted } from "vue";
+import {onMounted} from "vue";
 
 const handleYResize = () => {
   const box = document.getElementsByClassName("box");

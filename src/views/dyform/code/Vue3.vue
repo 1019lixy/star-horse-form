@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { onMounted, ref, watch } from 'vue';
-import { convertToCamelCase } from 'star-horse-lowcode';
+import {onMounted, ref, watch} from 'vue';
+import {convertToCamelCase} from 'star-horse-lowcode';
 
 const props = defineProps({
   formInfo: { type: Object, required: true },

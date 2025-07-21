@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { dynamicPageContextMenuData, Editable } from "@/plugins/AblesPlugin";
-import { onMounted, ref } from "vue";
-import { uuid } from "star-horse-lowcode";
+import {dynamicPageContextMenuData, Editable} from "@/plugins/AblesPlugin";
+import {onMounted, ref} from "vue";
+import {uuid} from "star-horse-lowcode";
 
 const props = defineProps({
   field: { type: Object, required: true },

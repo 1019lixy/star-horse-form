@@ -1,14 +1,5 @@
 <script setup lang="ts">
-import { Config } from '@/api/settings';
-import {
-  nextTick,
-  onActivated,
-  onDeactivated,
-  onMounted,
-  provide,
-  reactive,
-  ref,
-} from 'vue';
+import {nextTick, onActivated, onDeactivated, onMounted, provide, reactive, ref,} from 'vue';
 import {
   apiInstance,
   ApiUrls,
@@ -18,7 +9,7 @@ import {
   SearchFields,
   SelectOption,
 } from 'star-horse-lowcode';
-import { loadSvgIcons } from '@/api/star_horse_utils.js';
+import {loadSvgIcons} from '@/api/star_horse_utils.js';
 
 defineOptions({
   name: 'CategoryItemConfig',

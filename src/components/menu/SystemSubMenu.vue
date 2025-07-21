@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, inject } from 'vue';
+import {computed, inject} from 'vue';
 
 const props = defineProps({
   dataList: { type: Array<any>, required: true },

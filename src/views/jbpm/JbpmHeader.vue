@@ -1,6 +1,6 @@
 <script lang="ts" setup name="JbpmHeader">
-import { nextTick, onMounted, PropType, ref } from 'vue';
-import { flowButtonList, setBpmnModeler } from '@/views/jbpm/utils/FlowData';
+import {nextTick, onMounted, PropType, ref} from 'vue';
+import {flowButtonList, setBpmnModeler} from '@/views/jbpm/utils/FlowData';
 
 const props = defineProps({
   processData: {

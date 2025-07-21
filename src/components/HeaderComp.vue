@@ -1,13 +1,13 @@
 <script lang="ts" setup name="Header">
-import { Config } from '@/api/settings';
-import { userLogout } from '@/api/star_horse_apis';
-import { filterTree } from '@/api/star_horse_utils';
+import {Config} from '@/api/settings';
+import {userLogout} from '@/api/star_horse_apis';
+import {filterTree} from '@/api/star_horse_utils';
 import Message from '@/components/Message.vue';
-import { i18n } from '@/lang';
-import { useLoginStore } from '@/store/Login';
-import { getLang, setLang } from '@/theme/localStorge';
-import { LangType } from '@/theme/theme';
-import { getCustomerInfo, getCustomerParam, getUserInfo } from '@/utils/auth';
+import {i18n} from '@/lang';
+import {useLoginStore} from '@/store/Login';
+import {getLang, setLang} from '@/theme/localStorge';
+import {LangType} from '@/theme/theme';
+import {getCustomerInfo, getCustomerParam, getUserInfo} from '@/utils/auth';
 import {
   apiInstance,
   ApiUrls,
@@ -25,8 +25,8 @@ import {
   useUserInfoStore,
   warning,
 } from 'star-horse-lowcode';
-import { computed, nextTick, onMounted, ref, unref } from 'vue';
-import { useRouter } from 'vue-router';
+import {computed, nextTick, onMounted, ref, unref} from 'vue';
+import {useRouter} from 'vue-router';
 
 const userStore = useUserInfoStore(piniaInstance);
 const loginStore = useLoginStore(piniaInstance);

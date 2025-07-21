@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { useFlowDesignStore } from '@/store/FlowDesign';
-import { closeLoad, piniaInstance } from 'star-horse-lowcode';
-import { FlowNodeEnums } from '@/views/workflow/plugin/enums/FlowNodeEnums';
-import { onMounted } from 'vue';
+import {useFlowDesignStore} from '@/store/FlowDesign';
+import {closeLoad, piniaInstance} from 'star-horse-lowcode';
+import {FlowNodeEnums} from '@/views/workflow/plugin/enums/FlowNodeEnums';
+import {onMounted} from 'vue';
 
 const props = defineProps({
   node: {

@@ -1,4 +1,4 @@
-import { PageComp } from "@/components/types/PageLayoutComp.ts";
+import {PageComp} from "@/components/types/PageLayoutComp.ts";
 
 export const pageCompList: PageComp[] = [
   {

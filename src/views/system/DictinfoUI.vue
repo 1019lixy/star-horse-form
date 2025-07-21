@@ -9,9 +9,9 @@ import {
   SelectOption,
   UserFuncInfo,
 } from 'star-horse-lowcode';
-import { Config } from '@/api/settings';
-import { loadDict } from '@/api/star_horse_apis';
-import { computed, onMounted, provide, reactive, ref, watch } from 'vue';
+import {Config} from '@/api/settings';
+import {loadDict} from '@/api/star_horse_apis';
+import {computed, onMounted, provide, reactive, ref, watch} from 'vue';
 
 const dictinfoRef = ref();
 const dictSearchRef = ref();

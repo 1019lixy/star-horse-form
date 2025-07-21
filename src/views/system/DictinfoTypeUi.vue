@@ -1,14 +1,6 @@
 <script setup lang="ts" name="DictinfoType">
-import {
-  apiInstance,
-  ApiUrls,
-  dialogPreps,
-  PageFieldInfo,
-  SearchFields,
-  SearchParams,
-} from 'star-horse-lowcode';
-import { Config } from '@/api/settings';
-import { onMounted, provide, reactive, ref } from 'vue';
+import {apiInstance, ApiUrls, dialogPreps, PageFieldInfo, SearchFields, SearchParams,} from 'star-horse-lowcode';
+import {onMounted, provide, reactive, ref} from 'vue';
 
 const dataUrl: ApiUrls = apiInstance('system-config', 'system/dictinfoType');
 const searchFormData = reactive<SearchFields>({
@@ -115,10 +107,7 @@ onMounted(async () => {
           <div class="search-content">
             <div
               class="search_btn"
-              :style="{
-                'flex-direction':
-                  Config.buttonStyle.value == 'line' ? 'column' : 'row',
-              }"
+
             >
               <star-horse-search-comp
                 @searchData="

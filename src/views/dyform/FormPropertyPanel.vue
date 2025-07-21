@@ -1,5 +1,5 @@
 <script setup lang="ts" name="FormPropertyPanel">
-import { computed, onMounted, onUpdated, reactive, ref, watch } from 'vue';
+import {computed, onMounted, onUpdated, reactive, ref, watch} from 'vue';
 import {
   apiInstance,
   ApiUrls,
@@ -12,16 +12,10 @@ import {
   SelectOption,
   useDesignFormStore,
 } from 'star-horse-lowcode';
-import { Config } from '@/api/settings';
-import { loadDict, permissionMenus } from '@/api/star_horse_apis';
-import {
-  dbConfigList,
-  loadSvgIcons,
-  loadSystemInfo,
-  loadElementPlusIcon,
-  loadRolesInfo,
-} from '@/api/star_horse_utils';
-import { ascOrDesc, commonField, httpMethod } from '@/api/system';
+import {Config} from '@/api/settings';
+import {loadDict, permissionMenus} from '@/api/star_horse_apis';
+import {dbConfigList, loadElementPlusIcon, loadRolesInfo, loadSvgIcons, loadSystemInfo,} from '@/api/star_horse_utils';
+import {ascOrDesc, commonField, httpMethod} from '@/api/system';
 
 const apiUrl: ApiUrls = apiInstance('userdb-manage', 'userdb/dynamicForm');
 let designForm = useDesignFormStore(piniaInstance);

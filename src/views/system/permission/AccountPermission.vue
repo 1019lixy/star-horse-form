@@ -13,10 +13,10 @@ import {
   useGlobalConfigStore,
   warning,
 } from 'star-horse-lowcode';
-import { loadRolesInfo } from '@/api/star_horse_utils';
-import { computed, onMounted, provide, reactive, ref } from 'vue';
-import { TreeNodeData } from 'element-plus/es/components/tree-v2/src/types';
-import { Config } from '@/api/settings';
+import {loadRolesInfo} from '@/api/star_horse_utils';
+import {computed, onMounted, provide, reactive, ref} from 'vue';
+import {TreeNodeData} from 'element-plus/es/components/tree-v2/src/types';
+import {Config} from '@/api/settings';
 
 let rolesList = ref<SelectOption[]>([]);
 let accountPermissionStatus = ref<SelectOption[]>();
@@ -264,10 +264,7 @@ onMounted(async () => {
           <div class="search-content">
             <div
               class="search_btn"
-              :style="{
-                'flex-direction':
-                  Config.buttonStyle.value == 'line' ? 'column' : 'row',
-              }"
+
             >
               <star-horse-search-comp
                 @searchData="

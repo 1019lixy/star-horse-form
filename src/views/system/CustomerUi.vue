@@ -9,9 +9,8 @@ import {
   SelectOption,
   useButtonPermissionStore,
 } from 'star-horse-lowcode';
-import { Config } from '@/api/settings';
-import { computed, onMounted, provide, reactive, ref } from 'vue';
-import { loadSvgIcons, loadElementPlusIcon } from '@/api/star_horse_utils.js';
+import {onMounted, provide, reactive, ref} from 'vue';
+import {loadElementPlusIcon, loadSvgIcons} from '@/api/star_horse_utils.js';
 //后端交互接口地址
 const dataUrl: ApiUrls = apiInstance('system-config', 'system/customer');
 const buttonPermission = useButtonPermissionStore(piniaInstance);

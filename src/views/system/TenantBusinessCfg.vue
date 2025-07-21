@@ -1,16 +1,6 @@
 <script setup lang="ts">
-import {
-  computed,
-  nextTick,
-  onActivated,
-  onDeactivated,
-  onMounted,
-  provide,
-  reactive,
-  ref,
-  warn,
-} from 'vue';
-import { Config } from '@/api/settings';
+import {computed, nextTick, onActivated, onDeactivated, onMounted, provide, reactive, ref,} from 'vue';
+import {Config} from '@/api/settings';
 import {
   apiInstance,
   ApiUrls,
@@ -27,8 +17,8 @@ import {
   useGlobalConfigStore,
   warning,
 } from 'star-horse-lowcode';
-import { loadDict } from '@/api/star_horse_apis';
-import { loadMenusInfo, loadSystemInfo } from '@/api/star_horse_utils';
+import {loadDict} from '@/api/star_horse_apis';
+import {loadMenusInfo, loadSystemInfo} from '@/api/star_horse_utils';
 
 defineOptions({
   name: 'TenantInfo',

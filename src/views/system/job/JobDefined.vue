@@ -1,15 +1,7 @@
 <script lang="ts" name="RankDefine" setup>
-import { Config } from '@/api/settings';
-import {
-  onActivated,
-  onDeactivated,
-  onMounted,
-  provide,
-  reactive,
-  ref,
-} from 'vue';
-import { getCustomerParam } from '@/utils/auth';
-import { TreeNodeData } from 'element-plus/es/components/tree-v2/src/types';
+import {onActivated, onDeactivated, onMounted, provide, reactive, ref,} from 'vue';
+import {getCustomerParam} from '@/utils/auth';
+import {TreeNodeData} from 'element-plus/es/components/tree-v2/src/types';
 import {
   apiInstance,
   ApiUrls,
@@ -287,10 +279,7 @@ onDeactivated(() => {
           <div class="search-content">
             <div
               class="search_btn"
-              :style="{
-                'flex-direction':
-                  Config.buttonStyle.value == 'line' ? 'column' : 'row',
-              }"
+
             >
               <star-horse-search-comp
                 @searchData="

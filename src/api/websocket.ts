@@ -1,6 +1,6 @@
 // WebSocket地址
-import { warning } from "star-horse-lowcode";
-import { getUserInfo } from "@/utils/auth";
+import {warning} from "star-horse-lowcode";
+import {getUserInfo} from "@/utils/auth";
 
 let globalUrl: string = "";
 // WebSocket实例

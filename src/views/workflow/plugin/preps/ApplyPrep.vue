@@ -24,16 +24,9 @@
   <FlowDrawerFooter @close="onClose" @save="onSave" />
 </template>
 <script setup lang="ts">
-import {
-  computed,
-  defineModel,
-  defineOptions,
-  ModelRef,
-  ref,
-  watch,
-} from 'vue';
-import { useFlowDesignStore } from '@/store/FlowDesign';
-import { piniaInstance } from 'star-horse-lowcode';
+import {computed, defineModel, defineOptions, ModelRef, ref, watch,} from 'vue';
+import {useFlowDesignStore} from '@/store/FlowDesign';
+import {piniaInstance} from 'star-horse-lowcode';
 
 defineOptions({
   name: 'ApplyPrep',

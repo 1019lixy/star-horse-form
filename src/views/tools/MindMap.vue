@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onMounted, ref } from 'vue';
+import {onMounted, ref} from 'vue';
 import MindMap from 'simple-mind-map';
 import MiniMap from 'simple-mind-map/src/plugins/MiniMap.js';
 import Watermark from 'simple-mind-map/src/plugins/Watermark.js';

@@ -1,9 +1,5 @@
 <script lang="ts" setup>
-import {
-  loadCustomInfo,
-  loadElementPlusIcon,
-  loadSystemInfo,
-} from '@/api/star_horse_utils';
+import {loadCustomInfo, loadElementPlusIcon, loadSystemInfo,} from '@/api/star_horse_utils';
 import {
   apiInstance,
   ApiUrls,
@@ -13,7 +9,7 @@ import {
   SearchFields,
   SelectOption,
 } from 'star-horse-lowcode';
-import { onActivated, onMounted, provide, reactive, ref } from 'vue';
+import {onActivated, onMounted, provide, reactive, ref} from 'vue';
 
 let informationsList = ref<any>([]);
 const dataUrl: ApiUrls = apiInstance(

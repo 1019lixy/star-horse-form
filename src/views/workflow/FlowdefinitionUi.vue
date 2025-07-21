@@ -1,11 +1,7 @@
 <script setup lang="ts" name="EnvInfo">
-import { onMounted, provide, reactive, ref } from 'vue';
-import { Config } from '@/api/settings';
-import { useRouter } from 'vue-router';
-import {
-  flowFormFields,
-  setFlowGroups,
-} from '@/views/workflow/utils/FlowFormUtils';
+import {onMounted, provide, reactive, ref} from 'vue';
+import {useRouter} from 'vue-router';
+import {flowFormFields, setFlowGroups,} from '@/views/workflow/utils/FlowFormUtils';
 import {
   apiInstance,
   ApiUrls,

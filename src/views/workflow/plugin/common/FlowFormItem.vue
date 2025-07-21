@@ -1,16 +1,16 @@
 <template>
   <star-horse-form
-    :fieldList="tableFieldList"
-    :globalCondition="relationTables"
-    :dynamicForm="true"
+      :fieldList="tableFieldList"
+      :globalCondition="relationTables"
+      :dynamicForm="true"
   />
 </template>
 <script setup lang="ts">
-import { onMounted, ref } from 'vue';
-import { closeLoad, loadGetData, SearchProps } from 'star-horse-lowcode';
+import {onMounted, ref} from 'vue';
+import {closeLoad, loadGetData, SearchFields} from 'star-horse-lowcode';
 
 const props = defineProps({
-  dataNo: { type: String, required: true },
+  dataNo: {type: String, required: true},
   readable: {
     type: Boolean,
     default: false,
@@ -31,7 +31,7 @@ const props = defineProps({
 let relationTables = ref<any>({});
 
 const errorMsg = ref('数据加载中');
-let searchFormData = ref<SearchProps[]>([]);
+let searchFormData = ref<SearchFields>({});
 const tableFieldList = ref<any>({
   fieldList: [],
 });
@@ -44,8 +44,8 @@ const rules = ref<any>({});
 const hasData = ref<boolean>(true);
 const formInfo = ref<any>({});
 const loadFormData = async (formId: string) => {
-  let { data, error } = await loadGetData(
-    `/userdb-manage/userdb/dynamicForm/dynamicPageInfo/${formId}`,
+  let {data, error} = await loadGetData(
+      `/userdb-manage/userdb/dynamicForm/dynamicPageInfo/${formId}`,
   );
   if (error) {
     errorMsg.value = error;
@@ -53,7 +53,7 @@ const loadFormData = async (formId: string) => {
     return;
   }
   hasData.value = data && Object.keys(data).length > 0;
-  searchFormData.value = data['searchFormData'] as SearchProps[];
+  searchFormData.value = data['searchFormData'] as SearchFields;
   primaryKey.value = data['primaryKey'];
   tableFieldList.value = data['tableFieldList'];
   formInfo.value = data['formInfo'];

@@ -1,4 +1,4 @@
-import { createPinia } from "pinia";
+import {createPinia} from "pinia";
 import piniaPersist from "pinia-plugin-persistedstate";
 // import piniaPluginReset from "pinia-plugin-reset";
 

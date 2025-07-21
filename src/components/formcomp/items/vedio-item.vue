@@ -33,7 +33,7 @@
   </starhorse-form-item>
 </template>
 <script setup lang="ts" name="vedioItem">
-import { onMounted, ref } from 'vue';
+import {onMounted, ref} from 'vue';
 import flvjs from 'flv.js';
 
 const props = defineProps({

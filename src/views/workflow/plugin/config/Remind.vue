@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+import {ref} from 'vue';
 
 let bodyStyle = ref<any>({
   padding: '12px 12px 0',

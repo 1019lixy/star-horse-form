@@ -1,24 +1,22 @@
 import BpmnModeler from 'bpmn-js/lib/Modeler';
 import TokenSimulationModule from 'bpmn-js-token-simulation';
-import { piniaInstance, postRequest, uuid, warning } from 'star-horse-lowcode';
-import { computed, markRaw, ref, unref } from 'vue';
-import { useFlowDesignStore } from '@/store/FlowDesign';
-import { flowTemplate } from '@/views/jbpm/utils/template';
+import {piniaInstance, postRequest, uuid, warning} from 'star-horse-lowcode';
+import {computed, markRaw, ref, unref} from 'vue';
+import {useFlowDesignStore} from '@/store/FlowDesign';
+import {flowTemplate} from '@/views/jbpm/utils/template';
 import customTranslate from '@/views/jbpm/utils/zh_CN';
 import BpmnEditorActions from 'bpmn-js/lib/features/editor-actions/BpmnEditorActions';
 import $ from 'jquery';
-import {
-  Canvas,
-  EventBus,
-} from 'bpmn-js/lib/features/context-pad/ContextPadProvider';
+import {Canvas, EventBus,} from 'bpmn-js/lib/features/context-pad/ContextPadProvider';
 import Modeling from 'bpmn-js/lib/features/modeling/Modeling';
-import { Moddle } from 'bpmn-js/lib/model/Types';
-import { ModdleElement } from 'bpmnlint/lib/types';
+import {Moddle} from 'bpmn-js/lib/model/Types';
+import {ModdleElement} from 'bpmnlint/lib/types';
 import lintModule from 'bpmn-js-bpmnlint';
 import bpmnlintConfig from '../packed-config.js';
 import minimapModule from 'diagram-js-minimap';
-import { ElementRegistry } from 'bpmn-js/lib/features/auto-place/BpmnAutoPlaceUtil';
+import {ElementRegistry} from 'bpmn-js/lib/features/auto-place/BpmnAutoPlaceUtil';
 import route from '@/router';
+
 let bpmnModeler: any = null;
 const execution = ref<string>('exec1');
 const executionLabel = ref<string>('模拟运行');

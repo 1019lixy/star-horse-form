@@ -19,8 +19,8 @@
   </starhorse-form-item>
 </template>
 <script setup lang="ts" name="pdfItem">
-import { computed, onMounted, ref } from 'vue';
-import { warning } from 'star-horse-lowcode';
+import {computed, onMounted, ref} from 'vue';
+import {warning} from 'star-horse-lowcode';
 
 const props = defineProps({
   isDesign: {

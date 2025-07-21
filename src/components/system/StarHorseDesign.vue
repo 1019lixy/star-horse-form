@@ -1,14 +1,6 @@
 <script setup lang="ts" name="StarHorseDesign">
-import {
-  computed,
-  nextTick,
-  onMounted,
-  PropType,
-  provide,
-  ref,
-  watch,
-} from 'vue';
-import { Cell, Graph, Shape, View } from '@antv/x6';
+import {computed, nextTick, onMounted, PropType, provide, ref, watch,} from 'vue';
+import {Cell, Graph, View} from '@antv/x6';
 import {
   ApiUrls,
   closeLoad,
@@ -23,16 +15,10 @@ import {
   useConsumerViewStore,
   warning,
 } from 'star-horse-lowcode';
-import {
-  commands,
-  configInfo,
-  helpMessage,
-  ports,
-  tableConfigInfo,
-} from '@/utils/sh_design';
-import { useDesignGraphStore } from '@/store/DesignGraph';
-import { Config } from '@/api/settings';
-import { dynamicFormContextMenuData } from '@/plugins/AblesPlugin';
+import {commands, configInfo, helpMessage, ports, tableConfigInfo,} from '@/utils/sh_design';
+import {useDesignGraphStore} from '@/store/DesignGraph';
+import {Config} from '@/api/settings';
+import {dynamicFormContextMenuData} from '@/plugins/AblesPlugin';
 
 const designGraph = useDesignGraphStore(piniaInstance);
 const consumerView = useConsumerViewStore(piniaInstance);

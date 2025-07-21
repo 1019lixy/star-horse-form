@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import { addBranch } from '@/views/workflow/plugin/utils/flowCommon';
-import { computed, onMounted, watch } from 'vue';
-import { useFlowDesignStore } from '@/store/FlowDesign';
-import { closeLoad, piniaInstance } from 'star-horse-lowcode';
-import { FlowNodeEnums } from '@/views/workflow/plugin/enums/FlowNodeEnums';
+import {addBranch} from '@/views/workflow/plugin/utils/flowCommon';
+import {computed, onMounted, watch} from 'vue';
+import {useFlowDesignStore} from '@/store/FlowDesign';
+import {closeLoad, piniaInstance} from 'star-horse-lowcode';
+import {FlowNodeEnums} from '@/views/workflow/plugin/enums/FlowNodeEnums';
 
 defineOptions({
   name: 'BranchNode',

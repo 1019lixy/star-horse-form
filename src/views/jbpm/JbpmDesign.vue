@@ -1,17 +1,17 @@
 <script setup lang="ts" name="JbpmDesign">
-import { flowTemplate } from '@/views/jbpm/utils/template';
+import {flowTemplate} from '@/views/jbpm/utils/template';
 import 'bpmn-js/dist/assets/diagram-js.css';
 import 'bpmn-js/dist/assets/bpmn-js.css';
 import 'bpmn-js/dist/assets/bpmn-font/css/bpmn-embedded.css';
 import 'bpmn-js-bpmnlint/dist/assets/css/bpmn-js-bpmnlint.css';
 import 'bpmn-js-token-simulation/assets/css/bpmn-js-token-simulation.css';
 import '@/assets/css/diagram-js-minimap.css';
-import { computed, nextTick, onMounted, ref } from 'vue';
-import { piniaInstance, uuid } from 'star-horse-lowcode';
-import { createBpmnModeler, createNewFlow } from '@/views/jbpm/utils/FlowData';
-import { xmlStrNew } from './utils/linting-cloud.js';
-import { useFlowDesignStore } from '@/store/FlowDesign';
-import { ElementRegistry } from 'bpmn-js/lib/features/auto-place/BpmnAutoPlaceUtil';
+import {computed, nextTick, onMounted, ref} from 'vue';
+import {piniaInstance, uuid} from 'star-horse-lowcode';
+import {createBpmnModeler, createNewFlow} from '@/views/jbpm/utils/FlowData';
+import {xmlStrNew} from './utils/linting-cloud.js';
+import {useFlowDesignStore} from '@/store/FlowDesign';
+import {ElementRegistry} from 'bpmn-js/lib/features/auto-place/BpmnAutoPlaceUtil';
 // 模拟流转流程
 
 let bpmnModeler: any = null;

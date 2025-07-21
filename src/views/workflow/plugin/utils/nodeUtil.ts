@@ -1,7 +1,7 @@
-import { uuid } from 'star-horse-lowcode';
+import {uuid} from 'star-horse-lowcode';
 import html2canvas from 'html2canvas';
-import { isRef, Ref } from 'vue';
-import { FlowNodeEnums } from '@/views/workflow/plugin/enums/FlowNodeEnums';
+import {isRef, Ref} from 'vue';
+import {FlowNodeEnums} from '@/views/workflow/plugin/enums/FlowNodeEnums';
 
 /**
  *   获取条件/并行节点

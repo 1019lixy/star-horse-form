@@ -1,5 +1,5 @@
-import { Config } from "@/api/settings";
-import { SearchParams } from "star-horse-lowcode";
+import {Config} from "@/api/settings";
+import {SearchParams} from "star-horse-lowcode";
 
 export function getToken() {
   return sessionStorage.getItem(Config.TokenKey);

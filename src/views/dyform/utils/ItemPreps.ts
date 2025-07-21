@@ -1,19 +1,19 @@
-import { nextTick, reactive, Ref, ref, unref } from 'vue';
+import {nextTick, reactive, Ref, ref, unref} from 'vue';
 import {
-  dictData,
-  error,
-  FieldInfo,
-  loadData,
-  PageFieldInfo,
-  piniaInstance,
-  searchMatchList,
-  SelectOption,
-  success,
-  useDesignFormStore,
-  warning,
+    dictData,
+    error,
+    FieldInfo,
+    loadData,
+    PageFieldInfo,
+    piniaInstance,
+    searchMatchList,
+    SelectOption,
+    success,
+    useDesignFormStore,
+    warning,
 } from 'star-horse-lowcode';
-import { ascOrDesc, dataType, httpMethod, validDataUrl } from '@/api/system';
-import { validRulesList } from '@/api/valid_utils';
+import {ascOrDesc, dataType, httpMethod, validDataUrl} from '@/api/system';
+import {validRulesList} from '@/api/valid_utils';
 import DataSourceComp from './DataSourceComp.vue';
 
 const designForm = useDesignFormStore(piniaInstance);

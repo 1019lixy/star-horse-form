@@ -1,9 +1,10 @@
 <script setup lang="ts">
-import { Config } from '@/api/settings';
-import { filterTree } from '@/api/star_horse_utils';
-import { useLoginStore } from '@/store/Login';
-import { piniaInstance, useGlobalConfigStore } from 'star-horse-lowcode';
-import { computed, nextTick, onMounted, ref, watch } from 'vue';
+import {Config} from '@/api/settings';
+import {filterTree} from '@/api/star_horse_utils';
+import {useLoginStore} from '@/store/Login';
+import {piniaInstance, useGlobalConfigStore} from 'star-horse-lowcode';
+import {computed, nextTick, onMounted, ref, watch} from 'vue';
+
 defineProps({
   isCollapse: { type: Boolean, default: false },
 });

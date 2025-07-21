@@ -1,39 +1,26 @@
 <script setup lang="ts" name="StarHorseEditor">
-import { nextTick, onMounted, ref } from 'vue';
-import { basicSetup } from 'codemirror';
-import { EditorView, keymap } from '@codemirror/view';
-import { Compartment } from '@codemirror/state';
-import { insertTab, standardKeymap, historyKeymap } from '@codemirror/commands';
-import { autocompletion, CompletionContext } from '@codemirror/autocomplete';
-import { python } from '@codemirror/lang-python';
-import {
-  javascript,
-  javascriptLanguage,
-  scopeCompletionSource,
-} from '@codemirror/lang-javascript';
-import { java, javaLanguage } from '@codemirror/lang-java';
-import { json } from '@codemirror/lang-json';
-import { yaml } from '@codemirror/lang-yaml';
-import { css } from '@codemirror/lang-css';
-import { vue } from '@codemirror/lang-vue';
-import { html } from '@codemirror/lang-html';
-import { cpp } from '@codemirror/lang-cpp';
-import { xml } from '@codemirror/lang-xml';
-import { markdown } from '@codemirror/lang-markdown';
-import { go } from '@codemirror/lang-go';
-import { sql } from '@codemirror/lang-sql';
-import { showMinimap } from '@replit/codemirror-minimap';
-import { javaKeywords } from '../code/java';
-import {
-  amy,
-  ayuLight,
-  barf,
-  bespin,
-  birdsOfParadise,
-  boysAndGirls,
-  clouds,
-  dracula,
-} from 'thememirror';
+import {nextTick, onMounted, ref} from 'vue';
+import {basicSetup} from 'codemirror';
+import {EditorView, keymap} from '@codemirror/view';
+import {Compartment} from '@codemirror/state';
+import {historyKeymap, insertTab, standardKeymap} from '@codemirror/commands';
+import {autocompletion, CompletionContext} from '@codemirror/autocomplete';
+import {python} from '@codemirror/lang-python';
+import {javascript, javascriptLanguage, scopeCompletionSource,} from '@codemirror/lang-javascript';
+import {java, javaLanguage} from '@codemirror/lang-java';
+import {json} from '@codemirror/lang-json';
+import {yaml} from '@codemirror/lang-yaml';
+import {css} from '@codemirror/lang-css';
+import {vue} from '@codemirror/lang-vue';
+import {html} from '@codemirror/lang-html';
+import {cpp} from '@codemirror/lang-cpp';
+import {xml} from '@codemirror/lang-xml';
+import {markdown} from '@codemirror/lang-markdown';
+import {go} from '@codemirror/lang-go';
+import {sql} from '@codemirror/lang-sql';
+import {showMinimap} from '@replit/codemirror-minimap';
+import {javaKeywords} from '../code/java';
+import {amy, ayuLight, barf, bespin, birdsOfParadise, boysAndGirls, clouds, dracula,} from 'thememirror';
 
 const model = defineModel('value', { default: '' });
 const editorLang = ref<any>(javascript());

@@ -1,14 +1,7 @@
-import { isRef, reactive, ref } from 'vue';
-import {
-  error,
-  PageFieldInfo,
-  piniaInstance,
-  postRequest,
-  SelectOption,
-  success,
-} from 'star-horse-lowcode';
-import { useFlowDesignStore } from '@/store/FlowDesign';
-import { loadSvgIcons } from '@/api/star_horse_utils';
+import {isRef, reactive, ref} from 'vue';
+import {error, PageFieldInfo, piniaInstance, postRequest, SelectOption, success,} from 'star-horse-lowcode';
+import {useFlowDesignStore} from '@/store/FlowDesign';
+import {loadSvgIcons} from '@/api/star_horse_utils';
 
 const flowDesign = useFlowDesignStore(piniaInstance);
 const flowGroups = ref<SelectOption[]>([]);

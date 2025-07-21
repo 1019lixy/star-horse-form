@@ -1,16 +1,8 @@
 <script setup lang="ts" name="CompanyCategory">
-import { onMounted, provide, reactive, ref } from 'vue';
-import { Config } from '@/api/settings';
-import { getCustomerParam } from '@/utils/auth';
-import {
-  apiInstance,
-  ApiUrls,
-  dialogPreps,
-  PageFieldInfo,
-  SearchFields,
-  UserFuncInfo,
-} from 'star-horse-lowcode';
-import { commonField } from '@/api/system';
+import {onMounted, provide, reactive, ref} from 'vue';
+import {getCustomerParam} from '@/utils/auth';
+import {apiInstance, ApiUrls, dialogPreps, PageFieldInfo, SearchFields, UserFuncInfo,} from 'star-horse-lowcode';
+import {commonField} from '@/api/system';
 //后端交互接口地址
 const dataUrl: ApiUrls = apiInstance('system-config', 'system/companyCategory');
 //主键
