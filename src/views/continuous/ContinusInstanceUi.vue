@@ -1,35 +1,35 @@
 <script setup lang="ts" name="ContinusInstanceUi">
-import { onMounted, provide, reactive, ref } from "vue";
+import { onMounted, provide, reactive, ref } from 'vue';
 import {
   apiInstance,
   ApiUrls,
   dialogPreps,
   SearchFields,
-} from "star-horse-lowcode";
-import { Config } from "@/api/settings";
+} from 'star-horse-lowcode';
+import { Config } from '@/api/settings';
 
 const dataUrl: ApiUrls = apiInstance(
-  "continuous-manage",
-  "continuous/continuousInstance",
+  'continuous-manage',
+  'continuous/continuousInstance',
 );
 const searchFormData = reactive<SearchFields>({
   fieldList: [
     {
-      label: "项目名称",
-      fieldName: "projectName",
-      matchType: "lk",
+      label: '项目名称',
+      fieldName: 'projectName',
+      matchType: 'lk',
       defaultVisible: true,
     },
     {
-      label: "项目类型",
-      fieldName: "projectType",
-      matchType: "lk",
+      label: '项目类型',
+      fieldName: 'projectType',
+      matchType: 'lk',
       defaultVisible: true,
     },
     {
-      label: "程序语言",
-      fieldName: "language",
-      matchType: "lk",
+      label: '程序语言',
+      fieldName: 'language',
+      matchType: 'lk',
       defaultVisible: true,
     },
   ],
@@ -37,13 +37,13 @@ const searchFormData = reactive<SearchFields>({
 const tableFieldList = reactive({
   fieldList: [
     {
-      label: "主键",
-      fieldName: "idContinusInst",
-      type: "long",
+      label: '主键',
+      fieldName: 'idContinusInst',
+      type: 'long',
     },
     {
-      label: "实例名称",
-      fieldName: "instanceName",
+      label: '实例名称',
+      fieldName: 'instanceName',
 
       required: true,
       formVisible: true,
@@ -51,33 +51,33 @@ const tableFieldList = reactive({
     },
     [
       {
-        label: "模板",
-        fieldName: "template",
+        label: '模板',
+        fieldName: 'template',
 
         formVisible: true,
         listVisible: true,
       },
       {
-        label: "是否独占 1是 2否 默认2",
-        fieldName: "isAlone",
-        type: "number",
+        label: '是否独占 1是 2否 默认2',
+        fieldName: 'isAlone',
+        type: 'number',
         formVisible: true,
         listVisible: true,
       },
     ],
     [
       {
-        label: "关联计划",
-        fieldName: "linkDataPlan",
+        label: '关联计划',
+        fieldName: 'linkDataPlan',
 
         required: true,
         formVisible: true,
         listVisible: true,
       },
       {
-        label: "Cron定时触发执行",
-        fieldName: "cron",
-        type: "cron",
+        label: 'Cron定时触发执行',
+        fieldName: 'cron',
+        type: 'cron',
         required: true,
         formVisible: true,
         listVisible: true,
@@ -85,16 +85,16 @@ const tableFieldList = reactive({
     ],
     [
       {
-        label: "代码下载后存放目录",
-        fieldName: "targetDir",
+        label: '代码下载后存放目录',
+        fieldName: 'targetDir',
 
         required: true,
         formVisible: true,
         listVisible: true,
       },
       {
-        label: "是否自动触发构建 1是 2否 默认2",
-        fieldName: "autoBuild",
+        label: '是否自动触发构建 1是 2否 默认2',
+        fieldName: 'autoBuild',
 
         required: true,
         formVisible: true,
@@ -102,67 +102,67 @@ const tableFieldList = reactive({
       },
     ],
     {
-      label: "备注",
-      fieldName: "remark",
-      type: "textarea",
+      label: '备注',
+      fieldName: 'remark',
+      type: 'textarea',
       formVisible: true,
     },
     {
-      label: "创建人",
+      label: '创建人',
       disabled: true,
-      fieldName: "createdBy",
+      fieldName: 'createdBy',
     },
     {
-      label: "修改人",
+      label: '修改人',
       disabled: true,
-      fieldName: "updatedBy",
+      fieldName: 'updatedBy',
     },
     {
-      label: "创建日期",
+      label: '创建日期',
       disabled: true,
-      fieldName: "createdTime",
-      type: "date",
+      fieldName: 'createdTime',
+      type: 'date',
     },
     {
-      label: "修改日期",
+      label: '修改日期',
       disabled: true,
-      fieldName: "updatedTime",
-      type: "date",
+      fieldName: 'updatedTime',
+      type: 'date',
     },
     {
-      label: "数据版本号",
-      fieldName: "version",
-      type: "number",
+      label: '数据版本号',
+      fieldName: 'version',
+      type: 'number',
     },
     {
-      label: "是否已逻辑",
-      fieldName: "isDel",
-      type: "number",
+      label: '是否已逻辑',
+      fieldName: 'isDel',
+      type: 'number',
     },
     {
-      label: "数据编号",
-      fieldName: "dataNo",
+      label: '数据编号',
+      fieldName: 'dataNo',
     },
     {
-      label: "状态码",
-      fieldName: "statusCode",
+      label: '状态码',
+      fieldName: 'statusCode',
     },
     {
-      label: "状态码名称",
-      fieldName: "statusName",
+      label: '状态码名称',
+      fieldName: 'statusName',
     },
     {
-      label: "国际码",
-      fieldName: "local",
+      label: '国际码',
+      fieldName: 'local',
     },
   ],
   batchFieldList: [],
 });
-const primaryKey = "idContinusInst";
+const primaryKey = 'idContinusInst';
 const environmentInfoRef = ref();
 const rules = {};
 const dialogProps = dialogPreps();
-provide("dialogProps", dialogProps);
+provide('dialogProps', dialogProps);
 
 const selectItemFun = (data: any) => {};
 const dataFormat = (name: string, cellValue: object): any => {

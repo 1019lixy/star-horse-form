@@ -6,10 +6,10 @@ import {
   provide,
   reactive,
   ref,
-} from "vue";
-import { Config } from "@/api/settings";
-import { getCustomerParam } from "@/utils/auth";
-import { TreeNodeData } from "element-plus/es/components/tree-v2/src/types";
+} from 'vue';
+import { Config } from '@/api/settings';
+import { getCustomerParam } from '@/utils/auth';
+import { TreeNodeData } from 'element-plus/es/components/tree-v2/src/types';
 import {
   apiInstance,
   ApiUrls,
@@ -19,30 +19,30 @@ import {
   PageFieldInfo,
   SearchFields,
   SearchParams,
-} from "star-horse-lowcode";
+} from 'star-horse-lowcode';
 //后端交互接口地址
-const dataUrl: ApiUrls = apiInstance("system-config", "system/stationDefine");
+const dataUrl: ApiUrls = apiInstance('system-config', 'system/stationDefine');
 //主键
-const primaryKey = "idStationDefine";
+const primaryKey = 'idStationDefine';
 const stationDefineRef = ref();
 //定义表单的所有属性
 const formFields = reactive<object>({});
-provide("formFields", formFields);
+provide('formFields', formFields);
 let stationSequenceList = ref<Array<any>>([]);
 //查询属性
 const searchFormData = reactive<SearchFields>({
   fieldList: [
     {
-      label: "岗位名称",
-      fieldName: "stationName",
+      label: '岗位名称',
+      fieldName: 'stationName',
       defaultVisible: true,
-      matchType: "lk",
+      matchType: 'lk',
     },
     {
-      label: "岗位编码",
-      fieldName: "stationCode",
+      label: '岗位编码',
+      fieldName: 'stationCode',
       defaultVisible: true,
-      matchType: "lk",
+      matchType: 'lk',
     },
   ],
 });
@@ -51,24 +51,24 @@ const tableFieldList = reactive<PageFieldInfo | any>({
   //属性列表
   fieldList: [
     {
-      label: "主键",
-      fieldName: "idStationDefine",
+      label: '主键',
+      fieldName: 'idStationDefine',
 
       required: true,
     },
 
     [
       {
-        label: "岗位名称",
-        fieldName: "stationName",
+        label: '岗位名称',
+        fieldName: 'stationName',
 
         required: false,
         formVisible: true,
         listVisible: true,
       },
       {
-        label: "岗位编码",
-        fieldName: "stationCode",
+        label: '岗位编码',
+        fieldName: 'stationCode',
 
         required: false,
         formVisible: true,
@@ -77,9 +77,9 @@ const tableFieldList = reactive<PageFieldInfo | any>({
     ],
     [
       {
-        label: "所属序列",
-        fieldName: "idStationSequence",
-        type: "tselect",
+        label: '所属序列',
+        fieldName: 'idStationSequence',
+        type: 'tselect',
         required: false,
         formVisible: true,
         listVisible: true,
@@ -87,15 +87,15 @@ const tableFieldList = reactive<PageFieldInfo | any>({
           data: stationSequenceList,
           checkStrictly: true,
           props: {
-            label: "seqName",
-            value: "idStationSequence",
+            label: 'seqName',
+            value: 'idStationSequence',
           },
         },
       },
       {
-        label: "岗位排序",
-        fieldName: "stationSort",
-        type: "number",
+        label: '岗位排序',
+        fieldName: 'stationSort',
+        type: 'number',
         defaultValue: 100,
         required: false,
         formVisible: true,
@@ -103,88 +103,88 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       },
     ],
     {
-      label: "版本号",
-      fieldName: "version",
-      type: "number",
+      label: '版本号',
+      fieldName: 'version',
+      type: 'number',
       required: false,
       formVisible: !true,
       listVisible: !true,
     },
     {
-      label: "创建人",
-      fieldName: "createdBy",
+      label: '创建人',
+      fieldName: 'createdBy',
 
       required: false,
       formVisible: !true,
       listVisible: !true,
     },
     {
-      label: "创建时间",
-      fieldName: "createdTime",
+      label: '创建时间',
+      fieldName: 'createdTime',
 
       required: false,
       formVisible: !true,
       listVisible: !true,
     },
     {
-      label: "修改人",
-      fieldName: "updatedBy",
+      label: '修改人',
+      fieldName: 'updatedBy',
 
       required: false,
       formVisible: !true,
       listVisible: !true,
     },
     {
-      label: "修改时间",
-      fieldName: "updatedTime",
+      label: '修改时间',
+      fieldName: 'updatedTime',
 
       required: false,
       formVisible: !true,
       listVisible: !true,
     },
     {
-      label: "数据编号",
-      fieldName: "dataNo",
+      label: '数据编号',
+      fieldName: 'dataNo',
 
       required: false,
       formVisible: !true,
       listVisible: !true,
     },
     {
-      label: "状态码",
-      fieldName: "statusCode",
+      label: '状态码',
+      fieldName: 'statusCode',
 
       required: false,
       formVisible: !true,
       listVisible: !true,
     },
     {
-      label: "状态名称",
-      fieldName: "statusName",
+      label: '状态名称',
+      fieldName: 'statusName',
 
       required: false,
       formVisible: !true,
       listVisible: !true,
     },
     {
-      label: "是否删除",
-      fieldName: "isDel",
-      type: "number",
+      label: '是否删除',
+      fieldName: 'isDel',
+      type: 'number',
       required: false,
       formVisible: !true,
       listVisible: !true,
     },
     {
-      label: "国际编码",
-      fieldName: "local",
+      label: '国际编码',
+      fieldName: 'local',
 
       required: false,
       formVisible: !true,
       listVisible: !true,
     },
     {
-      label: "备注",
-      fieldName: "remark",
+      label: '备注',
+      fieldName: 'remark',
 
       required: false,
       formVisible: !true,
@@ -198,27 +198,27 @@ const tableFieldList = reactive<PageFieldInfo | any>({
 const rules = {};
 //控制弹窗相关设置
 const dialogProps = dialogPreps();
-provide("dialogProps", dialogProps);
-let currentSeqId = ref<string>("");
+provide('dialogProps', dialogProps);
+let currentSeqId = ref<string>('');
 let outForm = ref<any>({});
 const sequenceChange = (data: TreeNodeData, _checked: boolean) => {
-  currentSeqId.value = data["idStationSequence"];
-  outForm.value["idStationSequence"] = currentSeqId.value;
+  currentSeqId.value = data['idStationSequence'];
+  outForm.value['idStationSequence'] = currentSeqId.value;
   let params: SearchParams[] = [
-    createCondition("a.idStationSequence", currentSeqId.value),
+    createCondition('a.idStationSequence', currentSeqId.value),
   ];
   stationDefineRef.value.createSearchParams(params);
 };
 //初始化方法
 const initData = async () => {
   let params: SearchParams[] = [];
-  let cond = createCondition("a.parentId", null, "is");
-  cond.orOperList = [createCondition("a.parentId", "")];
+  let cond = createCondition('a.parentId', null, 'is');
+  cond.orOperList = [createCondition('a.parentId', '')];
   let result = await loadData(
-    "/system-config/system/stationSequence/getAllByCondition",
+    '/system-config/system/stationSequence/getAllByCondition',
     {
       fieldList: params,
-      orderBy: [{ fieldName: "seqSort", ascOrDesc: "asc" }],
+      orderBy: [{ fieldName: 'seqSort', ascOrDesc: 'asc' }],
     },
   );
   if (result.error) {
@@ -236,8 +236,8 @@ const deactivated = () => {};
  * @param row 列表行数据
  */
 const dataFormat = (name: string, cellValue: any, row: any): any => {
-  if (name == "idStationSequence") {
-    return row["seqName"] || cellValue;
+  if (name == 'idStationSequence') {
+    return row['seqName'] || cellValue;
   }
   //转换显示信息
   return cellValue;

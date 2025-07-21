@@ -7,11 +7,11 @@ import {
   provide,
   reactive,
   ref,
-} from "vue";
-import { Config } from "@/api/settings";
-import { formVisibleTypeList } from "@/views/workflow/utils/FlowFormUtils";
-import { useFlowDesignStore } from "@/store/FlowDesign";
-import { useRouter } from "vue-router";
+} from 'vue';
+import { Config } from '@/api/settings';
+import { formVisibleTypeList } from '@/views/workflow/utils/FlowFormUtils';
+import { useFlowDesignStore } from '@/store/FlowDesign';
+import { useRouter } from 'vue-router';
 import {
   apiInstance,
   ApiUrls,
@@ -22,42 +22,42 @@ import {
   SearchFields,
   SelectOption,
   UserFuncInfo,
-} from "star-horse-lowcode";
-import { loadSvgIcons } from "@/api/star_horse_utils.js";
+} from 'star-horse-lowcode';
+import { loadSvgIcons } from '@/api/star_horse_utils.js';
 
 defineOptions({
-  name: "FlowDefine",
+  name: 'FlowDefine',
 });
 //后端交互接口地址
-const dataUrl: ApiUrls = apiInstance("flow-engine", "workflow/flowDefine");
+const dataUrl: ApiUrls = apiInstance('flow-engine', 'workflow/flowDefine');
 //主键
-const primaryKey = "idFlowDefine";
+const primaryKey = 'idFlowDefine';
 const flowDefineRef = ref();
 const router = useRouter();
 const flowDesign = useFlowDesignStore(piniaInstance);
 //定义表单的所有属性
 const formFields = reactive<object>({});
-provide("formFields", formFields);
+provide('formFields', formFields);
 let flowGroupList = ref<SelectOption[]>([]);
 let statusList = ref<SelectOption[]>([]);
 let flowDeploymentList = ref<SelectOption[]>([
-  { name: "已部署", value: "not null" },
-  { name: "未部署", value: "null" },
+  { name: '已部署', value: 'not null' },
+  { name: '未部署', value: 'null' },
 ]);
 //查询属性
 const searchFormData = reactive<SearchFields>({
   fieldList: [
     {
-      label: "流程名称",
-      fieldName: "name",
-      matchType: "lk",
+      label: '流程名称',
+      fieldName: 'name',
+      matchType: 'lk',
       defaultVisible: true,
     },
     {
-      label: "流程分类",
-      fieldName: "flowGroup",
-      type: "select",
-      matchType: "lk",
+      label: '流程分类',
+      fieldName: 'flowGroup',
+      type: 'select',
+      matchType: 'lk',
       defaultVisible: true,
       preps: {
         values: flowGroupList,
@@ -65,10 +65,10 @@ const searchFormData = reactive<SearchFields>({
     },
     /* {"label": "流程类型", "fieldName": "flowType", "type": "input",matchType:"lk",defaultVisible: true},*/
     {
-      label: "是否部署",
-      fieldName: "flowDeploymentId",
-      type: "select",
-      matchType: "is",
+      label: '是否部署',
+      fieldName: 'flowDeploymentId',
+      type: 'select',
+      matchType: 'is',
       defaultVisible: true,
       preps: {
         values: flowDeploymentList,
@@ -79,176 +79,176 @@ const searchFormData = reactive<SearchFields>({
 const tableFieldList = reactive<PageFieldInfo | any>({
   fieldList: [
     {
-      label: "流程名称",
-      fieldName: "name",
+      label: '流程名称',
+      fieldName: 'name',
 
       required: true,
       formVisible: true,
       listVisible: true,
     },
     {
-      label: "流程部署ID",
-      fieldName: "flowDeploymentId",
+      label: '流程部署ID',
+      fieldName: 'flowDeploymentId',
 
       required: true,
       formVisible: true,
       listVisible: true,
     },
     {
-      label: "流程分类",
-      fieldName: "flowGroup",
+      label: '流程分类',
+      fieldName: 'flowGroup',
 
       required: false,
       formVisible: true,
       listVisible: true,
     },
     {
-      label: "绑定表单信息",
-      fieldName: "bindForm",
+      label: '绑定表单信息',
+      fieldName: 'bindForm',
 
       required: false,
       formVisible: true,
       listVisible: true,
     },
     {
-      label: "图标",
-      fieldName: "flowIcon",
-      type: "icon",
+      label: '图标',
+      fieldName: 'flowIcon',
+      type: 'icon',
       listPrototypeDisplay: true,
       required: false,
       formVisible: true,
       listVisible: true,
       preps: {
-        iconType: "user",
+        iconType: 'user',
         values: loadSvgIcons(),
-        listView: "Y",
+        listView: 'Y',
       },
     },
     {
-      label: "流程类型",
-      fieldName: "flowType",
+      label: '流程类型',
+      fieldName: 'flowType',
 
       required: false,
     },
     {
-      label: "状态",
-      fieldName: "statusCode",
-      type: "select",
+      label: '状态',
+      fieldName: 'statusCode',
+      type: 'select',
       listVisible: true,
       preps: {
         values: statusList,
-        listPrototypeDisplay: "text",
+        listPrototypeDisplay: 'text',
         tagMap: {
-          "1": "success",
-          "2": "default",
+          '1': 'success',
+          '2': 'default',
         },
       },
     },
     {
-      label: "流程版本",
-      fieldName: "flowVersion",
+      label: '流程版本',
+      fieldName: 'flowVersion',
 
       required: false,
       formVisible: true,
       listVisible: true,
     },
     {
-      label: "多表单显示模式",
-      fieldName: "formVisibleType",
+      label: '多表单显示模式',
+      fieldName: 'formVisibleType',
 
       required: false,
       formVisible: true,
       listVisible: true,
     },
     {
-      label: "流程管理员",
-      fieldName: "flowManager",
+      label: '流程管理员',
+      fieldName: 'flowManager',
 
       required: false,
       formVisible: true,
       listVisible: true,
     },
     {
-      label: "流程Xml文件",
-      fieldName: "xmlFile",
+      label: '流程Xml文件',
+      fieldName: 'xmlFile',
 
       required: true,
       formVisible: true,
     },
     {
-      label: "流程Json文件",
-      fieldName: "jsonFile",
+      label: '流程Json文件',
+      fieldName: 'jsonFile',
 
       required: true,
       formVisible: true,
     },
     {
-      label: "创建人",
-      fieldName: "createdBy",
+      label: '创建人',
+      fieldName: 'createdBy',
       listVisible: true,
       preps: {},
-      commonFlag: "Y",
+      commonFlag: 'Y',
     },
     {
-      label: "修改人",
-      fieldName: "updatedBy",
+      label: '修改人',
+      fieldName: 'updatedBy',
 
       preps: {},
-      commonFlag: "Y",
+      commonFlag: 'Y',
     },
     {
-      label: "创建时间",
-      fieldName: "createdTime",
-      type: "datetime",
+      label: '创建时间',
+      fieldName: 'createdTime',
+      type: 'datetime',
       listVisible: true,
       preps: {},
-      commonFlag: "Y",
+      commonFlag: 'Y',
     },
     {
-      label: "修改时间",
-      fieldName: "updatedTime",
-      type: "datetime",
+      label: '修改时间',
+      fieldName: 'updatedTime',
+      type: 'datetime',
 
       preps: {},
-      commonFlag: "Y",
+      commonFlag: 'Y',
     },
     {
-      label: "版本号",
-      fieldName: "version",
-      type: "number",
+      label: '版本号',
+      fieldName: 'version',
+      type: 'number',
       listVisible: true,
       preps: {},
-      commonFlag: "Y",
+      commonFlag: 'Y',
     },
     {
-      label: "是否删除",
-      fieldName: "isDel",
-      type: "number",
+      label: '是否删除',
+      fieldName: 'isDel',
+      type: 'number',
       preps: {},
-      commonFlag: "Y",
+      commonFlag: 'Y',
     },
-    { label: "数据编号", fieldName: "dataNo", preps: {}, commonFlag: "Y" },
+    { label: '数据编号', fieldName: 'dataNo', preps: {}, commonFlag: 'Y' },
     {
-      label: "状态名称",
-      fieldName: "statusName",
+      label: '状态名称',
+      fieldName: 'statusName',
 
       preps: {},
-      commonFlag: "Y",
+      commonFlag: 'Y',
     },
-    { label: "国际编码", fieldName: "local", preps: {}, commonFlag: "Y" },
+    { label: '国际编码', fieldName: 'local', preps: {}, commonFlag: 'Y' },
     {
-      label: "备注",
-      fieldName: "remark",
-      type: "textarea",
+      label: '备注',
+      fieldName: 'remark',
+      type: 'textarea',
       preps: {},
-      commonFlag: "Y",
+      commonFlag: 'Y',
     },
   ],
   batchFieldList: [],
   userTableFuncs: [],
   dynamicFormas: [],
   orderBy: [],
-  batchName: "batchDataList",
+  batchName: 'batchDataList',
   tableCellEditabled: false,
   stopAutoLoad: false,
 });
@@ -257,44 +257,44 @@ const rules = {};
 //扩展按钮
 const extendBtns = ref<UserFuncInfo[]>([
   {
-    icon: "edit",
-    btnName: "编辑",
+    icon: 'edit',
+    btnName: '编辑',
     priority: 1,
-    authority: "edit",
+    authority: 'edit',
     funcName: (row: any) => {
-      router.push({ path: "/flowDesign", query: { data: row[primaryKey] } });
+      router.push({ path: '/flowDesign', query: { data: row[primaryKey] } });
     },
   },
   {
-    icon: "data-view",
-    btnName: "查看",
+    icon: 'data-view',
+    btnName: '查看',
     priority: 2,
-    authority: "view",
+    authority: 'view',
     funcName: (row: any) => {
       router.push({
-        path: "/flowDesign",
-        query: { data: row[primaryKey], isView: "Y" },
+        path: '/flowDesign',
+        query: { data: row[primaryKey], isView: 'Y' },
       });
     },
   },
 ]);
 const extendBtns2 = ref<UserFuncInfo[]>([
   {
-    icon: "add",
-    btnName: "新增",
-    authority: "add",
+    icon: 'add',
+    btnName: '新增',
+    authority: 'add',
     funcName: () => {
       flowDesign.init();
-      router.push({ path: "/flowDesign" });
+      router.push({ path: '/flowDesign' });
     },
   },
 ]);
 //控制弹窗相关设置
 const dialogProps = dialogPreps();
-provide("dialogProps", dialogProps);
+provide('dialogProps', dialogProps);
 //初始化方法
 const initData = async () => {
-  flowGroupList.value = await dictData("flow_group");
+  flowGroupList.value = await dictData('flow_group');
 };
 const activated = async () => {
   await nextTick(() => {
@@ -309,15 +309,15 @@ const deactivated = () => {};
  * @param row 列表行数据
  */
 const dataFormat = (name: string, cellValue: any, row: any): any => {
-  if (name == "formVisibleType") {
+  if (name == 'formVisibleType') {
     return (
       formVisibleTypeList.value.find(
         (item: SelectOption) => item.value == cellValue,
       )?.name || cellValue
     );
   }
-  if (name == "statusCode") {
-    return !row.flowDeploymentId ? "未部署" : "已部署";
+  if (name == 'statusCode') {
+    return !row.flowDeploymentId ? '未部署' : '已部署';
   }
   //转换显示信息
   return cellValue;
@@ -359,9 +359,7 @@ onDeactivated(() => {
   <div class="search-content">
     <div
       class="search_btn"
-      :style="{
-        'flex-direction': Config.buttonStyle.value == 'line' ? 'column' : 'row',
-      }"
+
     >
       <star-horse-search-comp
         @searchData="(data: any) => flowDefineRef?.createSearchParams(data)"

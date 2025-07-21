@@ -1,6 +1,6 @@
-import { reactive } from "vue";
-import { getCustomerParam } from "@/utils/auth";
-import { dictData, PageFieldInfo } from "star-horse-lowcode";
+import { reactive } from 'vue';
+import { getCustomerParam } from '@/utils/auth';
+import { dictData, PageFieldInfo } from 'star-horse-lowcode';
 
 /**
  * 日历表单参数
@@ -9,8 +9,8 @@ import { dictData, PageFieldInfo } from "star-horse-lowcode";
 export function defineType(type: string) {
   return [
     {
-      label: "日历分类",
-      fieldName: "category",
+      label: '日历分类',
+      fieldName: 'category',
 
       defaultValue: type,
       required: true,
@@ -18,18 +18,18 @@ export function defineType(type: string) {
       listVisible: true,
     },
     {
-      label: "日历名称",
-      fieldName: "calendarName",
+      label: '日历名称',
+      fieldName: 'calendarName',
 
       required: true,
       formVisible: true,
       listVisible: true,
     },
     {
-      label: "共享成员",
-      fieldName: "sharePerson",
-      aliasName: "sharePersonNo",
-      type: "user",
+      label: '共享成员',
+      fieldName: 'sharePerson',
+      aliasName: 'sharePersonNo',
+      type: 'user',
       required: false,
       formVisible: true,
       listVisible: true,
@@ -43,26 +43,26 @@ export function defineType(type: string) {
 /**
  * 日程表单参数
  */
-const remindTime = await dictData("remind_time");
-const repeatRemindType = await dictData("repeat_policy");
+const remindTime = await dictData('remind_time');
+const repeatRemindType = await dictData('repeat_policy');
 
 export function calendarManage(calendarList: Array<any>) {
   return reactive<PageFieldInfo | any>({
     //属性列表
     fieldList: [
       {
-        label: "日程/会议名称",
-        fieldName: "title",
+        label: '日程/会议名称',
+        fieldName: 'title',
 
         required: true,
         formVisible: true,
         listVisible: true,
       },
       {
-        label: "参与人",
-        fieldName: "invitePersonsName",
-        aliasName: "invitePersons",
-        type: "user",
+        label: '参与人',
+        fieldName: 'invitePersonsName',
+        aliasName: 'invitePersons',
+        type: 'user',
         required: false,
         formVisible: true,
         listVisible: true,
@@ -71,54 +71,54 @@ export function calendarManage(calendarList: Array<any>) {
         },
       },
       {
-        label: "开始日期",
-        fieldName: "startStr",
-        type: "date",
+        label: '开始日期',
+        fieldName: 'startStr',
+        type: 'date',
         required: false,
         formVisible: true,
         listVisible: true,
         preps: {
-          valueFormat: "YYYY-MM-DD",
-          format: "YYYY-MM-DD",
+          valueFormat: 'YYYY-MM-DD',
+          format: 'YYYY-MM-DD',
         },
         brotherNodes: [
           {
-            label: "开始时间",
-            fieldName: "sTime",
-            type: "time",
+            label: '开始时间',
+            fieldName: 'sTime',
+            type: 'time',
             required: false,
             formVisible: true,
             listVisible: true,
           },
           {
-            label: "全天",
-            fieldName: "allDay",
-            type: "checkbox",
+            label: '全天',
+            fieldName: 'allDay',
+            type: 'checkbox',
             required: false,
             formVisible: true,
             listVisible: true,
             preps: {
-              values: [{ name: "全天", value: "all" }],
+              values: [{ name: '全天', value: 'all' }],
             },
           },
         ],
       },
       {
-        label: "结束日期",
-        fieldName: "endStr",
-        type: "date",
+        label: '结束日期',
+        fieldName: 'endStr',
+        type: 'date',
         required: false,
         formVisible: true,
         listVisible: true,
         preps: {
-          valueFormat: "YYYY-MM-DD",
-          format: "YYYY-MM-DD",
+          valueFormat: 'YYYY-MM-DD',
+          format: 'YYYY-MM-DD',
         },
         brotherNodes: [
           {
-            label: "结束时间",
-            fieldName: "eTime",
-            type: "time",
+            label: '结束时间',
+            fieldName: 'eTime',
+            type: 'time',
             required: false,
             formVisible: true,
             listVisible: true,
@@ -126,58 +126,58 @@ export function calendarManage(calendarList: Array<any>) {
         ],
       },
       {
-        label: "地点",
-        fieldName: "address",
+        label: '地点',
+        fieldName: 'address',
 
         required: false,
         formVisible: true,
         listVisible: true,
       },
       {
-        label: "附件",
-        fieldName: "file",
-        type: "upload",
+        label: '附件',
+        fieldName: 'file',
+        type: 'upload',
         required: false,
         formVisible: true,
         listVisible: true,
         preps: {
-          listType: "text",
-          action: "/system-config/annex/upload/common",
+          listType: 'text',
+          action: '/system-config/annex/upload/common',
         },
       },
       {
-        label: "描述",
-        fieldName: "content",
-        type: "markdown",
+        label: '描述',
+        fieldName: 'content',
+        type: 'markdown',
         required: false,
         formVisible: true,
         listVisible: true,
         preps: {
-          leftToolbar: "clear | bold ul ol",
-          rightToolbar: "preview fullscreen",
+          leftToolbar: 'clear | bold ul ol',
+          rightToolbar: 'preview fullscreen',
         },
       },
       {
-        label: "日历",
-        fieldName: "idCalendarDefine",
-        type: "select",
+        label: '日历',
+        fieldName: 'idCalendarDefine',
+        type: 'select',
         required: false,
         formVisible: true,
         listVisible: true,
         preps: {
           values: calendarList,
           props: {
-            label: "calendarName",
-            value: "idCalendarDefine",
+            label: 'calendarName',
+            value: 'idCalendarDefine',
           },
         },
       },
       {
-        label: "提醒",
-        fieldName: "remindTime",
-        type: "select",
+        label: '提醒',
+        fieldName: 'remindTime',
+        type: 'select',
         required: false,
-        defaultValue: "2",
+        defaultValue: '2',
         formVisible: true,
         listVisible: true,
         preps: {
@@ -185,10 +185,10 @@ export function calendarManage(calendarList: Array<any>) {
         },
       },
       {
-        label: "重复",
-        fieldName: "repeatRemind",
-        type: "select",
-        defaultValue: "A",
+        label: '重复',
+        fieldName: 'repeatRemind',
+        type: 'select',
+        defaultValue: 'A',
         required: false,
         formVisible: true,
         listVisible: true,
@@ -197,114 +197,114 @@ export function calendarManage(calendarList: Array<any>) {
         },
       },
       {
-        label: "设置",
-        fieldName: "messageFlagList",
-        type: "checkbox",
-        defaultValue: ["1"],
+        label: '设置',
+        fieldName: 'messageFlagList',
+        type: 'checkbox',
+        defaultValue: ['1'],
         required: false,
         formVisible: true,
         listVisible: true,
         preps: {
           values: [
-            { name: "允许成员主动加入", value: "1" },
-            { name: "同时邮件通知参与人", value: "2" },
+            { name: '允许成员主动加入', value: '1' },
+            { name: '同时邮件通知参与人', value: '2' },
           ],
         },
       },
       {
-        label: "是否允许订阅",
-        fieldName: "subscribeFlag",
-        type: "switch",
+        label: '是否允许订阅',
+        fieldName: 'subscribeFlag',
+        type: 'switch',
         required: false,
         listVisible: true,
         preps: {
-          activeValue: "Y",
-          inactiveValue: "N",
+          activeValue: 'Y',
+          inactiveValue: 'N',
         },
       },
       {
-        label: "版本号",
-        fieldName: "version",
-        type: "number",
+        label: '版本号',
+        fieldName: 'version',
+        type: 'number',
         required: false,
         formVisible: !true,
         listVisible: !true,
       },
       {
-        label: "创建人",
-        fieldName: "createdBy",
+        label: '创建人',
+        fieldName: 'createdBy',
 
         required: false,
         formVisible: !true,
         listVisible: !true,
       },
       {
-        label: "创建时间",
-        fieldName: "createdTime",
-        type: "datetime",
+        label: '创建时间',
+        fieldName: 'createdTime',
+        type: 'datetime',
         required: false,
         formVisible: !true,
         listVisible: !true,
       },
       {
-        label: "修改人",
-        fieldName: "updatedBy",
+        label: '修改人',
+        fieldName: 'updatedBy',
 
         required: false,
         formVisible: !true,
         listVisible: !true,
       },
       {
-        label: "修改时间",
-        fieldName: "updatedTime",
-        type: "datetime",
+        label: '修改时间',
+        fieldName: 'updatedTime',
+        type: 'datetime',
         required: false,
         formVisible: !true,
         listVisible: !true,
       },
       {
-        label: "数据编号",
-        fieldName: "dataNo",
+        label: '数据编号',
+        fieldName: 'dataNo',
 
         required: false,
         formVisible: !true,
         listVisible: !true,
       },
       {
-        label: "状态码",
-        fieldName: "statusCode",
+        label: '状态码',
+        fieldName: 'statusCode',
 
         required: false,
         formVisible: !true,
         listVisible: !true,
       },
       {
-        label: "状态名称",
-        fieldName: "statusName",
+        label: '状态名称',
+        fieldName: 'statusName',
 
         required: false,
         formVisible: !true,
         listVisible: !true,
       },
       {
-        label: "是否删除",
-        fieldName: "isDel",
-        type: "number",
+        label: '是否删除',
+        fieldName: 'isDel',
+        type: 'number',
         required: false,
         formVisible: !true,
         listVisible: !true,
       },
       {
-        label: "国际编码",
-        fieldName: "local",
+        label: '国际编码',
+        fieldName: 'local',
 
         required: false,
         formVisible: !true,
         listVisible: !true,
       },
       {
-        label: "备注",
-        fieldName: "remark",
+        label: '备注',
+        fieldName: 'remark',
 
         required: false,
         formVisible: !true,

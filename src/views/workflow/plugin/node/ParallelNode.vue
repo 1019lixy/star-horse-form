@@ -77,11 +77,11 @@
   </div>
 </template>
 <script setup lang="ts">
-import { addBranch } from "@/views/workflow/plugin/utils/flowCommon";
-import { computed, onMounted } from "vue";
-import { useFlowDesignStore } from "@/store/FlowDesign";
-import { closeLoad, piniaInstance, warning } from "star-horse-lowcode";
-import { FlowNodeEnums } from "@/views/workflow/plugin/enums/FlowNodeEnums";
+import { addBranch } from '@/views/workflow/plugin/utils/flowCommon';
+import { computed, onMounted } from 'vue';
+import { useFlowDesignStore } from '@/store/FlowDesign';
+import { closeLoad, piniaInstance, warning } from 'star-horse-lowcode';
+import { FlowNodeEnums } from '@/views/workflow/plugin/enums/FlowNodeEnums';
 
 const flowDesign = useFlowDesignStore(piniaInstance);
 let currentNode = computed(() => flowDesign.currentNode);
@@ -97,9 +97,9 @@ const props = defineProps({
     default: false,
   },
 });
-const emits = defineEmits(["selectNode"]);
+const emits = defineEmits(['selectNode']);
 const selectNode = (node: any) => {
-  warning("并行节点无需编辑");
+  warning('并行节点无需编辑');
   // emits('selectNode', node, props.node);
 };
 const init = () => {

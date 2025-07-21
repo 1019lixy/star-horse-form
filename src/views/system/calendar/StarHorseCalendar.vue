@@ -1,17 +1,17 @@
 <script setup lang="ts">
-import { nextTick, onBeforeUnmount, onMounted, ref, watch } from "vue";
-import dayGridPlugin from "@fullcalendar/daygrid";
-import timeGridPlugin from "@fullcalendar/timegrid";
-import multiMonthPlugin from "@fullcalendar/multimonth";
-import interactionPlugin from "@fullcalendar/interaction";
-import zhCnLocale from "@fullcalendar/core/locales/zh-cn";
-import listPlugin from "@fullcalendar/list";
-import { CalendarOptions } from "@fullcalendar/core";
-import { getUserInfo } from "@/utils/auth";
+import { nextTick, onBeforeUnmount, onMounted, ref, watch } from 'vue';
+import dayGridPlugin from '@fullcalendar/daygrid';
+import timeGridPlugin from '@fullcalendar/timegrid';
+import multiMonthPlugin from '@fullcalendar/multimonth';
+import interactionPlugin from '@fullcalendar/interaction';
+import zhCnLocale from '@fullcalendar/core/locales/zh-cn';
+import listPlugin from '@fullcalendar/list';
+import { CalendarOptions } from '@fullcalendar/core';
+import { getUserInfo } from '@/utils/auth';
 import {
   calendarManage,
   defineType,
-} from "@/views/system/calendar/CalendarProps";
+} from '@/views/system/calendar/CalendarProps';
 import {
   createCondition,
   currentDate,
@@ -23,11 +23,11 @@ import {
   success,
   uuid,
   warning,
-} from "star-horse-lowcode";
+} from 'star-horse-lowcode';
 
 const props = defineProps({
   eventList: { type: Array, default: [] },
-  compSize: { type: String, default: "small" },
+  compSize: { type: String, default: 'small' },
 });
 const fullCalendar = ref();
 const dialogFullCalendar = ref();
@@ -35,9 +35,9 @@ const starHorseDateRef = ref();
 let dateValue = ref<any>(null);
 let selectedWeekRange = ref<Array<any>>([]);
 let outerData = ref<any>({});
-const calendarTitle = ref<string>("");
-const collapseModel = ref<string>("first");
-let editTitle = ref<string>("开启编辑模式");
+const calendarTitle = ref<string>('');
+const collapseModel = ref<string>('first');
+let editTitle = ref<string>('开启编辑模式');
 const commonOptions = {
   plugins: [
     // 加载插件，V5采用插件模块方式加入
@@ -48,16 +48,16 @@ const commonOptions = {
     listPlugin,
   ],
   events: [],
-  height: "100%",
+  height: '100%',
   handleWindowResize: true, //随浏览器窗口变化
   // initialView: 'dayGridMonth', // 初始化插件显示
   droppable: true, //可拖拽的
-  timeZone: "local", //采用时区
+  timeZone: 'local', //采用时区
   selectable: true,
   firstDay: 0,
   slotLabelFormat: {
-    hour: "2-digit",
-    minute: "2-digit",
+    hour: '2-digit',
+    minute: '2-digit',
     meridiem: false,
     hour12: false, // 设置时间为24小时
   },
@@ -76,43 +76,43 @@ const commonOptions = {
   initialDate: new Date(), //初始化日期
   // initialEvents: INITIAL_EVENTS, // alternatively, use the `events` setting to fetch from a feed
   locale: zhCnLocale,
-  nextDayThreshold: "01:00:00",
+  nextDayThreshold: '01:00:00',
 };
-let calenderModel = ref<string>("view");
+let calenderModel = ref<string>('view');
 const formCalendarOptions = ref<any>({
   ...commonOptions,
-  initialView: "timeGridDay", // 初始化插件显示
+  initialView: 'timeGridDay', // 初始化插件显示
   select: (item: any) => {
-    console.log("select", item);
+    console.log('select', item);
     outerData.value = {};
     if (item.allDay) {
       outerData.value = {
         startStr: item.startStr,
-        sTime: "00:00",
+        sTime: '00:00',
         endStr: item.startStr,
-        eTime: "24:00",
+        eTime: '24:00',
       };
     } else {
       let st =
         (item.start.getHours() < 10
-          ? "0" + item.start.getHours()
+          ? '0' + item.start.getHours()
           : item.start.getHours()) +
-        ":" +
+        ':' +
         (item.start.getMinutes() < 10
-          ? "0" + item.start.getMinutes()
+          ? '0' + item.start.getMinutes()
           : item.start.getMinutes());
       let se =
         (item.end.getHours() < 10
-          ? "0" + item.end.getHours()
+          ? '0' + item.end.getHours()
           : item.end.getHours()) +
-        ":" +
+        ':' +
         (item.end.getMinutes() < 10
-          ? "0" + item.end.getMinutes()
+          ? '0' + item.end.getMinutes()
           : item.end.getMinutes());
       outerData.value = {
-        startStr: item.startStr.split("T")[0],
+        startStr: item.startStr.split('T')[0],
         sTime: st,
-        endStr: item.endStr.split("T")[0],
+        endStr: item.endStr.split('T')[0],
         eTime: se,
       };
     }
@@ -120,7 +120,7 @@ const formCalendarOptions = ref<any>({
   eventClick: async (item: any) => {
     outerData.value = {};
     // 日程点击事件
-    console.log("eventClick", item);
+    console.log('eventClick', item);
   },
 });
 let currentDateParam = ref<Date>(null);
@@ -131,18 +131,18 @@ const calendarOptions = ref<CalendarOptions>({
   select: (item: any) => {
     let date = new Date();
     let ss =
-      date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
+      date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds();
     outerData.value = {
       startStr: item.startStr,
       sTime: ss,
       endStr: item.endStr,
       eTime: ss,
     };
-    if (calenderModel.value != "edit") {
+    if (calenderModel.value != 'edit') {
       return;
     }
     calendarManageVisible.value = true;
-    console.log("select", item);
+    console.log('select', item);
   },
   eventClick: async (item: any) => {
     outerData.value = {
@@ -152,21 +152,21 @@ const calendarOptions = ref<CalendarOptions>({
       borderColor: item.event.borderColor,
       ...item.event.extendedProps,
     };
-    if (calenderModel.value != "edit") {
+    if (calenderModel.value != 'edit') {
       return;
     }
     calendarManageVisible.value = true;
     await nextTick();
-    dialogFullCalendar.value.getApi().changeView("timeGridDay");
+    dialogFullCalendar.value.getApi().changeView('timeGridDay');
     // 日程点击事件
-    console.log("eventClick", item);
+    console.log('eventClick', item);
   },
   eventMouseEnter: (item: any) => {
     // 用户将鼠标悬停在事件上时触发
-    console.log("eventMouseEnter", item);
+    console.log('eventMouseEnter', item);
   },
   datesSet: (item: CalendarOptions) => {
-    console.log("datesSet", item);
+    console.log('datesSet', item);
     calendarTitle.value = item.view.title;
   },
   // eventSources: (item) => {
@@ -188,33 +188,33 @@ const calendarOptions = ref<CalendarOptions>({
     outerData.value = {
       startStr: item.dateStr,
       sTime:
-        date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds(),
+        date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds(),
     };
 
-    if (calenderModel.value != "edit") {
+    if (calenderModel.value != 'edit') {
       return;
     }
     calendarManageVisible.value = true;
     await nextTick();
-    dialogFullCalendar.value.getApi().changeView("timeGridDay");
+    dialogFullCalendar.value.getApi().changeView('timeGridDay');
     //日期方格点击事件
-    console.log("dateClick", item, outerData);
+    console.log('dateClick', item, outerData);
   },
   eventAdd: (item: any) => {
     //添加
-    console.log("eventAdd", item);
+    console.log('eventAdd', item);
   },
   eventChange: (item: any) => {
     //更改
-    console.log("eventChange", item);
+    console.log('eventChange', item);
   },
   eventRemove: (item: any) => {
     //删除
-    console.log("eventRemove", item);
+    console.log('eventRemove', item);
   },
   customButtons: {
     btn: {
-      text: "看板",
+      text: '看板',
       click: () => {},
     },
     editBtn: {
@@ -280,14 +280,14 @@ const calendarManageSubmit = async () => {
   }
   let data = calendarMangeRef.value.getFormData().value;
   let mergeResult = await loadData(
-    "system-config/system/calendarManage/merge",
+    'system-config/system/calendarManage/merge',
     data,
   );
   if (mergeResult.error) {
     warning(mergeResult.error);
     return;
   }
-  success("操作成功");
+  success('操作成功');
   loadAllCalendar();
   close();
 };
@@ -306,19 +306,19 @@ const submit = async (action: string) => {
       event.remove();
     }
   } else {
-    data["id"] = uuid();
+    data['id'] = uuid();
   }
   let temp = {
     ...data,
-    start: data["startStr"] + " " + data["sTime"],
-    end: data["endStr"] + " " + data["eTime"],
+    start: data['startStr'] + ' ' + data['sTime'],
+    end: data['endStr'] + ' ' + data['eTime'],
   };
   fullCalendar.value.getApi().view.calendar.addEvent(temp);
-  if (action == "close") {
+  if (action == 'close') {
     close();
   }
 };
-let searchText = ref<string>("");
+let searchText = ref<string>('');
 let calendarTypeVisible = ref<boolean>(false);
 let calendarManageVisible = ref<boolean>(false);
 let calendarTypeRef = ref();
@@ -333,23 +333,23 @@ const exportData = async (data: any) => {
       event.remove();
     }
   } else {
-    data["id"] = uuid();
+    data['id'] = uuid();
   }
   let flag = false;
-  if (data.allDay?.includes("all")) {
+  if (data.allDay?.includes('all')) {
     flag = true;
     let str = currentDate();
-    data["startStr"] = str;
-    data["start"] = str + " 00:00";
-    data["endStr"] = str;
-    data["end"] = str + " 23:59";
+    data['startStr'] = str;
+    data['start'] = str + ' 00:00';
+    data['endStr'] = str;
+    data['end'] = str + ' 23:59';
   } else {
     if (data.sTime) {
       flag = true;
-      data["start"] = (data["startStr"] || "") + " " + (data["sTime"] || "");
+      data['start'] = (data['startStr'] || '') + ' ' + (data['sTime'] || '');
     }
     if (data.eTime) {
-      data["end"] = (data["endStr"] || "") + " " + (data["eTime"] || "");
+      data['end'] = (data['endStr'] || '') + ' ' + (data['eTime'] || '');
     }
   }
   if (dialogFullCalendar.value && flag) {
@@ -363,11 +363,11 @@ const addCalendarType = (evt: MouseEvent) => {
 };
 const calendarOperation = async (cmd: string, item: any) => {
   console.log(cmd, item);
-  if (cmd == "delete") {
+  if (cmd == 'delete') {
     let resultData = await deleteByIds(
-      "/system-config/system/calendarDefine/batchDeleteById",
-      [item["idCalendarDefine"]],
-      "删除日历后，所有日程都蒋被删除，确认要删除吗？",
+      '/system-config/system/calendarDefine/batchDeleteById',
+      [item['idCalendarDefine']],
+      '删除日历后，所有日程都蒋被删除，确认要删除吗？',
     );
     if (resultData) {
       initData();
@@ -375,7 +375,7 @@ const calendarOperation = async (cmd: string, item: any) => {
   } else {
     calendarManageVisible.value = true;
     await nextTick();
-    dialogFullCalendar.value.getApi().changeView("timeGridDay");
+    dialogFullCalendar.value.getApi().changeView('timeGridDay');
   }
 };
 const calendarTypeSubmit = async () => {
@@ -385,14 +385,14 @@ const calendarTypeSubmit = async () => {
   }
   let formData = calendarTypeRef.value.getFormData().value;
   let resultData = await loadData(
-    "system-config/system/calendarDefine/merge",
+    'system-config/system/calendarDefine/merge',
     formData,
   );
   if (resultData.error) {
     warning(resultData.error);
     return;
   }
-  success("操作成功");
+  success('操作成功');
   initData();
   close();
 };
@@ -402,18 +402,18 @@ const initData = async () => {
   isInit.value = true;
   let userInfo = getUserInfo();
   let resultData = await loadData(
-    "system-config/system/calendarDefine/getAllByCondition",
+    'system-config/system/calendarDefine/getAllByCondition',
     {
       fieldList: [
         createCondition(
-          "createdBy",
-          userInfo.name + "(" + userInfo.username + ")",
+          'createdBy',
+          userInfo.name + '(' + userInfo.username + ')',
         ),
       ],
       orderBy: [
         {
-          fieldName: "createdTime",
-          ascOrDesc: "asc",
+          fieldName: 'createdTime',
+          ascOrDesc: 'asc',
         },
       ],
     },
@@ -435,7 +435,7 @@ const loadAllCalendar = async (ids: any, searchParam: SearchParams[] = []) => {
     return;
   }
   params.push(
-    createCondition("idCalendarDefine", ids, Array.isArray(ids) ? "in" : "eq"),
+    createCondition('idCalendarDefine', ids, Array.isArray(ids) ? 'in' : 'eq'),
   );
   if (searchParam?.length > 0) {
     params = params.concat(searchParam);
@@ -446,19 +446,19 @@ const loadAllCalendar = async (ids: any, searchParam: SearchParams[] = []) => {
   }
   params.push(
     createCondition(
-      "createdTime",
-      [ymd.starDateStr + " 00:00:00", ymd.lastDateStr + " 23:59:59"],
-      "bt",
+      'createdTime',
+      [ymd.starDateStr + ' 00:00:00', ymd.lastDateStr + ' 23:59:59'],
+      'bt',
     ),
   );
   let resultData = await loadData(
-    "system-config/system/calendarManage/getAllByCondition",
+    'system-config/system/calendarManage/getAllByCondition',
     {
       fieldList: params,
       orderBy: [
         {
-          fieldName: "createdTime",
-          ascOrDesc: "asc",
+          fieldName: 'createdTime',
+          ascOrDesc: 'asc',
         },
       ],
     },
@@ -472,33 +472,33 @@ const loadAllCalendar = async (ids: any, searchParam: SearchParams[] = []) => {
   let datas = resultData.data;
   for (let i in datas) {
     let data = datas[i];
-    data["id"] = data["idCalendarManage"];
-    data["start"] =
-      data["startStr"] + (data.sTime ? " " + data.sTime : " 00:00");
-    data["end"] = data["endStr"] + (data.eTime ? " " + data.eTime : " 23:59");
+    data['id'] = data['idCalendarManage'];
+    data['start'] =
+      data['startStr'] + (data.sTime ? ' ' + data.sTime : ' 00:00');
+    data['end'] = data['endStr'] + (data.eTime ? ' ' + data.eTime : ' 23:59');
     fullCalendar.value.getApi().view.calendar.addEvent(data);
   }
 };
 const searchCalendar = () => {
   let params: SearchParams[] = [];
   if (searchText.value) {
-    params.push(createCondition("title", searchText.value, "lk"));
+    params.push(createCondition('title', searchText.value, 'lk'));
   }
   loadAllCalendar(null, params);
 };
 const changeDateRange = (type: string) => {
   let api = fullCalendar.value.getApi();
   switch (type) {
-    case "preYear":
+    case 'preYear':
       api.prevYear();
       break;
-    case "pre":
+    case 'pre':
       api.prev();
       break;
-    case "nextYear":
+    case 'nextYear':
       api.nextYear();
       break;
-    case "next":
+    case 'next':
       api.next();
       break;
     default:
@@ -510,10 +510,10 @@ const changeDateRange = (type: string) => {
   loadAllCalendar();
 };
 const changeModel = (type: string) => {
-  if (type == "editBtn") {
-    calenderModel.value = calenderModel.value == "view" ? "edit" : "view";
+  if (type == 'editBtn') {
+    calenderModel.value = calenderModel.value == 'view' ? 'edit' : 'view';
     editTitle.value =
-      calenderModel.value == "view" ? "开启编辑模式" : "关闭编辑模式";
+      calenderModel.value == 'view' ? '开启编辑模式' : '关闭编辑模式';
   } else {
     fullCalendar.value.getApi().changeView(type);
   }
@@ -521,9 +521,9 @@ const changeModel = (type: string) => {
 onMounted(async () => {
   await initData();
   await nextTick();
-  fullCalendar.value.getApi().changeView("dayGridMonth");
+  fullCalendar.value.getApi().changeView('dayGridMonth');
   setTimeout(() => {
-    fullCalendar.value.getApi().changeView("dayGridMonth");
+    fullCalendar.value.getApi().changeView('dayGridMonth');
     // calendarTitle.value=fullCalendar.value.title;
   }, 500);
 });

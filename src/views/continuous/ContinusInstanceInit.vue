@@ -1,5 +1,5 @@
 <script setup lang="ts" name="ContinusInstanceInit">
-import { computed, ComputedRef, nextTick, onMounted, ref } from "vue";
+import { computed, ComputedRef, nextTick, onMounted, ref } from 'vue';
 import {
   apiInstance,
   ApiUrls,
@@ -11,15 +11,15 @@ import {
   useContinusConfigStore,
   uuid,
   warning,
-} from "star-horse-lowcode";
-import { loadDict } from "@/api/star_horse_apis";
-import { pipelineFields } from "@/views/continuous/utils/FieldsUtils";
-import { useRouter } from "vue-router";
+} from 'star-horse-lowcode';
+import { loadDict } from '@/api/star_horse_apis';
+import { pipelineFields } from '@/views/continuous/utils/FieldsUtils';
+import { useRouter } from 'vue-router';
 
 let router = useRouter();
 const dataUrl: ApiUrls = apiInstance(
-  "continuous-manage",
-  "continuous/pipelineConfig",
+  'continuous-manage',
+  'continuous/pipelineConfig',
 );
 const nodeCompRef = ref<any>();
 // const nodeInfoRef = ref<any>();
@@ -33,8 +33,8 @@ const nodeInfo = computed(() => continuousStore.nodeInfo);
 let pipeLineData: ComputedRef = computed(() =>
   continuousStore.getNodeInfo(pipelineNode.id),
 );
-let currentCompName = ref<string>("PipelineCfg");
-let formNo = ref<string>("");
+let currentCompName = ref<string>('PipelineCfg');
+let formNo = ref<string>('');
 const processList = ref<any>([]);
 let currentNode = ref<any>({});
 let execTypeList = ref<SelectOption[]>([]);
@@ -42,7 +42,7 @@ let nodeSuccessConditionList = ref<SelectOption[]>([]);
 let subNodeList = ref<SelectOption[]>([]);
 let assignSelect = ref<boolean>(false);
 const pipelineNode: any = {
-  nodeCode: "PipelineCfg",
+  nodeCode: 'PipelineCfg',
   id: uuid(),
 };
 //当前节点属性
@@ -51,17 +51,17 @@ let nodeField = ref<PageFieldInfo>({
   fieldList: [
     [
       {
-        label: "名称",
-        fieldName: "nodeName",
+        label: '名称',
+        fieldName: 'nodeName',
 
         required: true,
         formVisible: true,
         listVisible: true,
       },
       {
-        label: "执行方式",
-        fieldName: "nodeExecType",
-        type: "select",
+        label: '执行方式',
+        fieldName: 'nodeExecType',
+        type: 'select',
         required: true,
         formVisible: true,
         listVisible: true,
@@ -72,14 +72,14 @@ let nodeField = ref<PageFieldInfo>({
     ],
     [
       {
-        label: "节点成功条件",
-        fieldName: "nodeSuccessCondition",
-        type: "radio",
-        defaultValue: "any",
+        label: '节点成功条件',
+        fieldName: 'nodeSuccessCondition',
+        type: 'radio',
+        defaultValue: 'any',
         actions: {
           change: (val: any) => {
             console.log(val);
-            assignSelect.value = val["nodeSuccessCondition"] == "assign";
+            assignSelect.value = val['nodeSuccessCondition'] == 'assign';
           },
         },
         required: true,
@@ -87,9 +87,9 @@ let nodeField = ref<PageFieldInfo>({
         listVisible: true,
         brotherNodes: [
           {
-            label: "  ",
-            fieldName: "assignNode",
-            type: "select",
+            label: '  ',
+            fieldName: 'assignNode',
+            type: 'select',
             required: true,
             formVisible: assignSelect,
             preps: {
@@ -114,7 +114,7 @@ const changeTemplate = () => {
 };
 const goBack = () => {
   router.push({
-    path: "/continuous/ContinusInstanceConfig",
+    path: '/continuous/ContinusInstanceConfig',
   });
 };
 const preCurrentNodeIndex = ref<number>(-1);
@@ -125,7 +125,7 @@ const preCurrentNodeIndex = ref<number>(-1);
 const addNode = async (currentIndex: number) => {
   let result = await validate();
   if (!result) {
-    warning("请先填写节点信息");
+    warning('请先填写节点信息');
     return;
   }
   preCurrentNodeIndex.value = currentIndex;
@@ -151,19 +151,19 @@ const isChange = ref<boolean>(false);
 const editNode = async (node: any, currentIndex: number) => {
   let result = await validate();
   if (!result) {
-    return "error";
+    return 'error';
   }
   //如果点击的是当前节点，则不做任何操作
   if (currentNode.value.id == node.id) {
-    return "same";
+    return 'same';
   }
   nodeCompRef.value?.resetForm();
   // nodeInfoRef.value?.resetForm();
   isChange.value = true;
   currentNode.value = node;
   currentCompName.value = node.nodeCode;
-  if (node.nodeCode == "PipelineCfg") {
-    formNo.value = "";
+  if (node.nodeCode == 'PipelineCfg') {
+    formNo.value = '';
     currentFieldList.value = pipelineFields;
   } else {
     formNo.value = node.dynamicFormNo;
@@ -174,7 +174,7 @@ const editNode = async (node: any, currentIndex: number) => {
   if (formData) {
     nodeCompRef.value.setFormData(formData);
   }
-  return "ok";
+  return 'ok';
 };
 const delNode = (item: any) => {
   let index = processList.value.indexOf(item);
@@ -195,11 +195,11 @@ const dataSubmit = async () => {
   let node = toolInfoRef.value.getNode();
   console.log(node);
   if (!node) {
-    warning("请先选择要配置的节点");
+    warning('请先选择要配置的节点');
     return;
   }
   node = JSON.parse(JSON.stringify(node));
-  node["id"] = uuid();
+  node['id'] = uuid();
   let index =
     preCurrentNodeIndex.value == -1
       ? processList.value.length
@@ -215,14 +215,14 @@ const dataSubmit = async () => {
 const selectTemplate = async () => {
   let template = deployTemplateRef.value.getTemplate();
   if (!template || Object.keys(template).length == 0) {
-    warning("请选择要更换的模板");
+    warning('请选择要更换的模板');
     return;
   }
   pipelineNode.templateName = template.templateName;
   pipelineNode.idTemplate = template.idTemplate;
   let nodeList = JSON.parse(JSON.stringify(template.nodeList));
   nodeList.forEach((item: any) => {
-    item["id"] = uuid();
+    item['id'] = uuid();
   });
   processList.value = nodeList;
   closeAction();
@@ -245,25 +245,25 @@ const save = async (type: string) => {
   }
   let nodeList: any = [];
   if (!processList.value || processList.value.length == 0) {
-    warning("请先添加节点");
+    warning('请先添加节点');
     return;
   }
   processList.value?.forEach((item: any, num: number) => {
     const params = continuousStore.getNodeInfo(item.id);
-    item["nodeParams"] = Array.isArray(params) ? params : [params];
-    item["dataIndex"] = num + 1;
+    item['nodeParams'] = Array.isArray(params) ? params : [params];
+    item['dataIndex'] = num + 1;
     nodeList.push(item);
   });
-  pipeLineData.value["nodeList"] = nodeList;
-  pipeLineData.value["execFlag"] = type;
-  pipeLineData.value["isPublished"] = "Y";
+  pipeLineData.value['nodeList'] = nodeList;
+  pipeLineData.value['execFlag'] = type;
+  pipeLineData.value['isPublished'] = 'Y';
   postRequest(dataUrl.mergeUrl, pipeLineData.value).then((res: any) => {
     let result = res?.data;
     if (result?.code) {
       warning(result.cnMessage);
       return;
     }
-    operationConfirm("提交成功,是否返回列表？").then((res: boolean) => {
+    operationConfirm('提交成功,是否返回列表？').then((res: boolean) => {
       if (res) {
         goBack();
       } else {
@@ -284,10 +284,10 @@ const reset = () => {
 };
 const init = async () => {
   reset();
-  loadDict("CONTINUS_SUBNODE_FINISH_CONDITION").then((res) => {
+  loadDict('CONTINUS_SUBNODE_FINISH_CONDITION').then((res) => {
     nodeSuccessConditionList.value = res;
   });
-  loadDict("CONTINUS_SUBNODE_EXECUTE_TYPE").then((res) => {
+  loadDict('CONTINUS_SUBNODE_EXECUTE_TYPE').then((res) => {
     execTypeList.value = res;
   });
   continuousStore.clear();

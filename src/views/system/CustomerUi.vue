@@ -8,29 +8,29 @@ import {
   SearchFields,
   SelectOption,
   useButtonPermissionStore,
-} from "star-horse-lowcode";
-import { Config } from "@/api/settings";
-import { computed, onMounted, provide, reactive, ref } from "vue";
-import { loadSvgIcons, loadElementPlusIcon } from "@/api/star_horse_utils.js";
+} from 'star-horse-lowcode';
+import { Config } from '@/api/settings';
+import { computed, onMounted, provide, reactive, ref } from 'vue';
+import { loadSvgIcons, loadElementPlusIcon } from '@/api/star_horse_utils.js';
 //后端交互接口地址
-const dataUrl: ApiUrls = apiInstance("system-config", "system/customer");
+const dataUrl: ApiUrls = apiInstance('system-config', 'system/customer');
 const buttonPermission = useButtonPermissionStore(piniaInstance);
 //查询属性
 const searchFormData = reactive<SearchFields>({
   fieldList: [
     {
-      label: "客户名称",
+      label: '客户名称',
       defaultVisible: true,
-      fieldName: "customerName",
+      fieldName: 'customerName',
 
-      matchType: "lk",
+      matchType: 'lk',
     },
     {
-      label: "客户编码",
-      fieldName: "customerCode",
+      label: '客户编码',
+      fieldName: 'customerCode',
 
       defaultVisible: true,
-      matchType: "lk",
+      matchType: 'lk',
     },
   ],
 });
@@ -39,103 +39,103 @@ let systemIconList = ref<SelectOption[]>([]);
 const tableFieldList = reactive<PageFieldInfo | any>({
   fieldList: [
     {
-      label: "主键",
-      fieldName: "idCustomer",
-      type: "long",
+      label: '主键',
+      fieldName: 'idCustomer',
+      type: 'long',
       required: true,
     },
     {
-      label: "客户名称",
-      fieldName: "customerName",
+      label: '客户名称',
+      fieldName: 'customerName',
 
       required: true,
       formVisible: true,
       listVisible: true,
     },
     {
-      label: "客户编码",
-      fieldName: "customerCode",
+      label: '客户编码',
+      fieldName: 'customerCode',
 
       disabled: true,
       listVisible: true,
     },
     {
-      label: "Logo",
-      fieldName: "customerLogo",
-      type: "icon",
+      label: 'Logo',
+      fieldName: 'customerLogo',
+      type: 'icon',
       formVisible: true,
       listVisible: true,
       preps: {
         listPrototypeDisplay: false,
         values: loadSvgIcons(),
-        iconType: "user",
+        iconType: 'user',
         listView: false,
       },
     },
     {
-      label: "描述",
-      fieldName: "customerDesc",
-      type: "textarea",
+      label: '描述',
+      fieldName: 'customerDesc',
+      type: 'textarea',
       formVisible: true,
       listVisible: true,
     },
     {
-      label: "创建人",
+      label: '创建人',
       disabled: true,
-      fieldName: "createdBy",
+      fieldName: 'createdBy',
     },
     {
-      label: "修改人",
+      label: '修改人',
       disabled: true,
-      fieldName: "updatedBy",
+      fieldName: 'updatedBy',
     },
     {
-      label: "创建时间",
-      fieldName: "createdTime",
-      type: "date",
+      label: '创建时间',
+      fieldName: 'createdTime',
+      type: 'date',
     },
     {
-      label: "修改时间",
-      fieldName: "updatedTime",
-      type: "date",
+      label: '修改时间',
+      fieldName: 'updatedTime',
+      type: 'date',
     },
     {
-      label: "版本号",
-      fieldName: "version",
-      type: "number",
+      label: '版本号',
+      fieldName: 'version',
+      type: 'number',
     },
     {
-      label: "是否逻辑删除",
-      fieldName: "isDel",
-      type: "number",
+      label: '是否逻辑删除',
+      fieldName: 'isDel',
+      type: 'number',
     },
     {
-      label: "数据编号",
-      fieldName: "dataNo",
+      label: '数据编号',
+      fieldName: 'dataNo',
     },
     {
-      label: "状态码",
-      fieldName: "statusCode",
+      label: '状态码',
+      fieldName: 'statusCode',
     },
     {
-      label: "状态名称",
-      fieldName: "statusName",
+      label: '状态名称',
+      fieldName: 'statusName',
     },
     {
-      label: "国际码",
-      fieldName: "local",
+      label: '国际码',
+      fieldName: 'local',
     },
   ],
   cellEditable: true,
 });
 //主键
-const primaryKey = "idCustomer";
+const primaryKey = 'idCustomer';
 const customerRef = ref();
 //校验
 const rules = {};
 //控制弹窗相关设置
 const dialogProps = dialogPreps();
-provide("dialogProps", dialogProps);
+provide('dialogProps', dialogProps);
 
 //初始化方法
 const initData = async () => {
@@ -182,9 +182,7 @@ const dataFormat = (_name: string, cellValue: any, row: any): any => {
   <div class="search-content">
     <div
       class="search_btn"
-      :style="{
-        'flex-direction': Config.buttonStyle.value == 'line' ? 'column' : 'row',
-      }"
+
     >
       <star-horse-search-comp
         @searchData="(data: any) => customerRef?.createSearchParams(data)"

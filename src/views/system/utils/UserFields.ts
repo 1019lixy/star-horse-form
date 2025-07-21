@@ -1,7 +1,7 @@
-import { dictData, SelectOption } from "star-horse-lowcode";
-import { loadRolesInfo, loadDepartmentInfo } from "@/api/star_horse_utils";
-import { ref } from "vue";
-import { analysisData } from "@/api/deptment";
+import { dictData, SelectOption } from 'star-horse-lowcode';
+import { loadRolesInfo, loadDepartmentInfo } from '@/api/star_horse_utils';
+import { ref } from 'vue';
+import { analysisData } from '@/api/deptment';
 
 const deptList = ref<SelectOption[]>([]);
 const rolesList = ref<SelectOption[]>([]);
@@ -14,10 +14,10 @@ const identityTypeList = ref<SelectOption[]>([]);
 const userEditFieldInfo: Array<any> = [
   [
     {
-      label: "邮箱地址",
-      fieldName: "email",
+      label: '邮箱地址',
+      fieldName: 'email',
 
-      rules: "email",
+      rules: 'email',
       required: true,
 
       formVisible: true,
@@ -27,10 +27,10 @@ const userEditFieldInfo: Array<any> = [
       },
     },
     {
-      label: "联系电话",
-      fieldName: "phone",
+      label: '联系电话',
+      fieldName: 'phone',
 
-      rules: "phone",
+      rules: 'phone',
       required: true,
       formVisible: true,
       listVisible: true,
@@ -38,17 +38,17 @@ const userEditFieldInfo: Array<any> = [
   ],
   [
     {
-      label: "姓名",
-      fieldName: "name",
+      label: '姓名',
+      fieldName: 'name',
 
       required: true,
       formVisible: true,
       listVisible: true,
     },
     {
-      label: "性别",
-      fieldName: "sex",
-      type: "radio",
+      label: '性别',
+      fieldName: 'sex',
+      type: 'radio',
       defaultValue: 3,
       formVisible: true,
       listVisible: true,
@@ -58,53 +58,53 @@ const userEditFieldInfo: Array<any> = [
     },
   ],
   {
-    label: "紧急联系人电话",
-    fieldName: "bakePhone",
-    rules: "phone",
+    label: '紧急联系人电话',
+    fieldName: 'bakePhone',
+    rules: 'phone',
 
     formVisible: true,
   },
 ];
 const userFormat = (name: string, val: any, row: any) => {
-  if (name == "rolesList" && row["rolesList"]) {
+  if (name == 'rolesList' && row['rolesList']) {
     const roles: Array<string> = [];
-    row["rolesList"].forEach((item: any) => {
+    row['rolesList'].forEach((item: any) => {
       roles.push(item.roleName);
     });
-    return roles.join(";");
+    return roles.join(';');
   }
-  if (name == "deptList" && row["deptList"]) {
-    const data = analysisData(row["deptList"], "", "deptName", "idDepartment");
-    return data.listNames.join("/");
+  if (name == 'deptList' && row['deptList']) {
+    const data = analysisData(row['deptList'], '', 'deptName', 'idDepartment');
+    return data.listNames.join('/');
   }
   return val;
 };
 const baseUserFields: Array<any> = [
   [
     {
-      label: "用户名",
-      fieldName: "username",
-      aliasName: "employeeNo",
-      type: "user",
+      label: '用户名',
+      fieldName: 'username',
+      aliasName: 'employeeNo',
+      type: 'user',
       required: true,
       formVisible: true,
       listVisible: true,
       preps: {
         editDisabled: true,
         needField: [
-          { sourceField: "name", distField: "name" },
-          { sourceField: "employeeNo", distField: "employeeNo" },
-          { sourceField: "employeeNo", distField: "username" },
-          { sourceField: "phone", distField: "phone" },
-          { sourceField: "sex", distField: "sex" },
-          { sourceField: "bakePhone", distField: "bakePhone" },
+          { sourceField: 'name', distField: 'name' },
+          { sourceField: 'employeeNo', distField: 'employeeNo' },
+          { sourceField: 'employeeNo', distField: 'username' },
+          { sourceField: 'phone', distField: 'phone' },
+          { sourceField: 'sex', distField: 'sex' },
+          { sourceField: 'bakePhone', distField: 'bakePhone' },
         ],
       },
     },
     {
-      label: "所属用户组",
-      fieldName: "rolesList",
-      type: "select",
+      label: '所属用户组',
+      fieldName: 'rolesList',
+      type: 'select',
       required: true,
       formVisible: true,
       listVisible: true,
@@ -116,8 +116,8 @@ const baseUserFields: Array<any> = [
   ],
   ...userEditFieldInfo,
   {
-    label: "状态",
-    fieldName: "statusName",
+    label: '状态',
+    fieldName: 'statusName',
 
     listVisible: true,
   },
@@ -127,9 +127,9 @@ const fullUserField: Array<any> = [
   ...userEditFieldInfo,
 
   {
-    label: "学历",
-    fieldName: "education",
-    type: "select",
+    label: '学历',
+    fieldName: 'education',
+    type: 'select',
     formVisible: true,
     listVisible: true,
     preps: {
@@ -138,20 +138,20 @@ const fullUserField: Array<any> = [
   },
   [
     {
-      label: "入职时间",
-      fieldName: "entryDate",
-      type: "date",
+      label: '入职时间',
+      fieldName: 'entryDate',
+      type: 'date',
     },
     {
-      label: "离职时间",
-      fieldName: "leaveDate",
-      type: "date",
+      label: '离职时间',
+      fieldName: 'leaveDate',
+      type: 'date',
     },
   ],
   {
-    label: "籍贯",
-    fieldName: "nativePlace",
-    type: "select",
+    label: '籍贯',
+    fieldName: 'nativePlace',
+    type: 'select',
     formVisible: true,
     listVisible: true,
     preps: {
@@ -159,9 +159,9 @@ const fullUserField: Array<any> = [
     },
   },
   {
-    label: "政治面貌",
-    fieldName: "politicalStatus",
-    type: "select",
+    label: '政治面貌',
+    fieldName: 'politicalStatus',
+    type: 'select',
     formVisible: true,
     listVisible: true,
     preps: {
@@ -169,9 +169,9 @@ const fullUserField: Array<any> = [
     },
   },
   {
-    label: "证件类型",
-    fieldName: "identityType",
-    type: "select",
+    label: '证件类型',
+    fieldName: 'identityType',
+    type: 'select',
     formVisible: true,
     listVisible: true,
     preps: {
@@ -179,94 +179,94 @@ const fullUserField: Array<any> = [
     },
   },
   {
-    label: "证件编号",
-    fieldName: "identityNo",
+    label: '证件编号',
+    fieldName: 'identityNo',
 
     formVisible: true,
     listVisible: true,
   },
   [
     {
-      label: "状态",
-      fieldName: "statusCode",
-      type: "select",
+      label: '状态',
+      fieldName: 'statusCode',
+      type: 'select',
       formVisible: true,
       preps: {
         values: statusList,
       },
     },
     {
-      label: "通信地址",
-      fieldName: "address",
+      label: '通信地址',
+      fieldName: 'address',
 
       formVisible: true,
       listVisible: true,
     },
   ],
   {
-    label: "备注",
-    fieldName: "remark",
-    type: "textarea",
+    label: '备注',
+    fieldName: 'remark',
+    type: 'textarea',
     formVisible: true,
     listVisible: true,
   },
   {
-    label: "证件照",
-    fieldName: "imagePath",
+    label: '证件照',
+    fieldName: 'imagePath',
   },
   {
-    label: "创建人",
-    disabled: "Y",
-    fieldName: "createdBy",
+    label: '创建人',
+    disabled: 'Y',
+    fieldName: 'createdBy',
 
     listVisible: true,
   },
   {
-    label: "修改人",
-    disabled: "Y",
-    fieldName: "updatedBy",
+    label: '修改人',
+    disabled: 'Y',
+    fieldName: 'updatedBy',
   },
   {
-    label: "创建日期",
-    disabled: "Y",
-    fieldName: "createdTime",
-    type: "date",
+    label: '创建日期',
+    disabled: 'Y',
+    fieldName: 'createdTime',
+    type: 'date',
     listVisible: true,
   },
   {
-    label: "修改日期",
-    disabled: "Y",
-    fieldName: "updatedTime",
-    type: "date",
+    label: '修改日期',
+    disabled: 'Y',
+    fieldName: 'updatedTime',
+    type: 'date',
   },
   {
-    label: "数据版本号",
-    fieldName: "version",
-    type: "number",
+    label: '数据版本号',
+    fieldName: 'version',
+    type: 'number',
   },
   {
-    label: "是否已逻辑删除",
-    fieldName: "isDel",
-    type: "number",
+    label: '是否已逻辑删除',
+    fieldName: 'isDel',
+    type: 'number',
   },
   {
-    label: "数据编号",
-    fieldName: "dataNo",
+    label: '数据编号',
+    fieldName: 'dataNo',
   },
 
   {
-    label: "国际码",
-    fieldName: "local",
+    label: '国际码',
+    fieldName: 'local',
   },
 ];
 const initSelectData = async () => {
   rolesList.value = await loadRolesInfo([]);
   deptList.value = await loadDepartmentInfo([]);
-  statusList.value = await dictData("common");
+  statusList.value = await dictData('common');
   sexList.value = [
-    { name: "男", value: 1 },
-    { name: "女", value: 2 },
-    { name: "保密", value: 3 },
+    { name: '男', value: 1 },
+    { name: '女', value: 2 },
+    { name: '保密', value: 3 },
   ];
 };
 export {

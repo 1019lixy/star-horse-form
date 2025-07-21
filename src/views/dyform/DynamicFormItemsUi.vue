@@ -6,37 +6,37 @@ import {
   PageFieldInfo,
   SearchFields,
   SelectOption,
-} from "star-horse-lowcode";
-import { onMounted, provide, reactive, ref } from "vue";
-import { Config } from "@/api/settings";
+} from 'star-horse-lowcode';
+import { onMounted, provide, reactive, ref } from 'vue';
+import { Config } from '@/api/settings';
 //后端交互接口地址
 const dataUrl: ApiUrls = apiInstance(
-  "userdb-manage",
-  "userdb/dynamicFormItems",
+  'userdb-manage',
+  'userdb/dynamicFormItems',
 );
 const categoryList = ref<SelectOption[]>([
   {
-    name: "容器",
-    value: "2",
+    name: '容器',
+    value: '2',
   },
   {
-    name: "标准组件",
-    value: "1",
+    name: '标准组件',
+    value: '1',
   },
   {
-    name: "自定义组件",
-    value: "3",
+    name: '自定义组件',
+    value: '3',
   },
 ]);
 //查询属性
 const searchFormData = reactive<SearchFields>({
   fieldList: [
-    { label: "名称", fieldName: "itemName", matchType: "lk" },
-    { label: "类别", fieldName: "itemType", matchType: "lk" },
+    { label: '名称', fieldName: 'itemName', matchType: 'lk' },
+    { label: '类别', fieldName: 'itemType', matchType: 'lk' },
     {
-      label: "分类",
-      fieldName: "category",
-      type: "select",
+      label: '分类',
+      fieldName: 'category',
+      type: 'select',
       preps: {
         values: categoryList,
       },
@@ -47,39 +47,39 @@ const searchFormData = reactive<SearchFields>({
 const tableFieldList = reactive<PageFieldInfo | any>({
   fieldList: [
     {
-      label: "主键",
-      fieldName: "idFormItems",
-      type: "long",
+      label: '主键',
+      fieldName: 'idFormItems',
+      type: 'long',
       required: true,
     },
     {
-      label: "名称",
-      fieldName: "itemName",
+      label: '名称',
+      fieldName: 'itemName',
 
       required: true,
       formVisible: true,
       listVisible: true,
     },
     {
-      label: "类别",
-      fieldName: "itemType",
+      label: '类别',
+      fieldName: 'itemType',
 
       required: true,
       formVisible: true,
       listVisible: true,
     },
     {
-      label: "图标",
-      fieldName: "itemIcon",
+      label: '图标',
+      fieldName: 'itemIcon',
 
       required: true,
       formVisible: true,
       listVisible: true,
     },
     {
-      label: "分类",
-      fieldName: "category",
-      type: "select",
+      label: '分类',
+      fieldName: 'category',
+      type: 'select',
       required: true,
       formVisible: true,
       listVisible: true,
@@ -88,62 +88,62 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       },
     },
     {
-      label: "版本号",
-      fieldName: "version",
-      type: "number",
+      label: '版本号',
+      fieldName: 'version',
+      type: 'number',
     },
     {
-      label: "创建人",
+      label: '创建人',
       disabled: true,
-      fieldName: "createdBy",
+      fieldName: 'createdBy',
     },
     {
-      label: "创建时间",
-      fieldName: "createdTime",
-      type: "date",
+      label: '创建时间',
+      fieldName: 'createdTime',
+      type: 'date',
     },
     {
-      label: "修改人",
+      label: '修改人',
       disabled: true,
-      fieldName: "updatedBy",
+      fieldName: 'updatedBy',
     },
     {
-      label: "修改时间",
-      fieldName: "updatedTime",
-      type: "date",
+      label: '修改时间',
+      fieldName: 'updatedTime',
+      type: 'date',
     },
     {
-      label: "数据编号",
-      fieldName: "dataNo",
+      label: '数据编号',
+      fieldName: 'dataNo',
     },
     {
-      label: "状态吗",
-      fieldName: "statusCode",
+      label: '状态吗',
+      fieldName: 'statusCode',
     },
     {
-      label: "状态名称",
-      fieldName: "statusName",
+      label: '状态名称',
+      fieldName: 'statusName',
     },
     {
-      label: "是否删除",
-      fieldName: "isDel",
-      type: "number",
+      label: '是否删除',
+      fieldName: 'isDel',
+      type: 'number',
     },
     {
-      label: "国际码",
-      fieldName: "local",
+      label: '国际码',
+      fieldName: 'local',
     },
     {
-      label: "备注",
-      fieldName: "remark",
+      label: '备注',
+      fieldName: 'remark',
 
       formVisible: true,
       listVisible: true,
     },
     {
-      label: "元素排序",
-      fieldName: "dataSort",
-      type: "number",
+      label: '元素排序',
+      fieldName: 'dataSort',
+      type: 'number',
       required: true,
       formVisible: true,
       listVisible: true,
@@ -151,13 +151,13 @@ const tableFieldList = reactive<PageFieldInfo | any>({
   ],
 });
 //主键
-const primaryKey = "idFormItems";
+const primaryKey = 'idFormItems';
 const dynamicFormItemsRef = ref();
 //校验
 const rules = {};
 //控制弹窗相关设置
 const dialogProps = dialogPreps();
-provide("dialogProps", dialogProps);
+provide('dialogProps', dialogProps);
 //初始化方法
 const initData = async () => {};
 onMounted(async () => {
@@ -171,7 +171,7 @@ onMounted(async () => {
  */
 const dataFormat = (name: string, cellValue: any, row: any): any => {
   //转换显示信息
-  if (name == "category") {
+  if (name == 'category') {
     let redata = categoryList.value.find((item) => item.value == cellValue);
     return redata?.name || cellValue;
   }
@@ -206,9 +206,7 @@ const dataFormat = (name: string, cellValue: any, row: any): any => {
   <div class="search-content">
     <div
       class="search_btn"
-      :style="{
-        'flex-direction': Config.buttonStyle.value == 'line' ? 'column' : 'row',
-      }"
+
     >
       <star-horse-search-comp
         @searchData="

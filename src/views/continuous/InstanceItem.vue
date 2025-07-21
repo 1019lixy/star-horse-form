@@ -1,5 +1,5 @@
 <script setup lang="ts" name="InstanceItem">
-import { useRouter } from "vue-router";
+import { useRouter } from 'vue-router';
 import {
   apiInstance,
   ApiUrls,
@@ -7,12 +7,12 @@ import {
   createDatetime,
   success,
   warning,
-} from "star-horse-lowcode";
-import { PropType } from "vue";
+} from 'star-horse-lowcode';
+import { PropType } from 'vue';
 
 const configUrl: ApiUrls = apiInstance(
-  "continuous-manage",
-  "continuous/pipelineConfig",
+  'continuous-manage',
+  'continuous/pipelineConfig',
 );
 const router = useRouter();
 const props = defineProps({
@@ -27,41 +27,41 @@ const props = defineProps({
 });
 const execRecord = (instanceId: string) => {
   router.push({
-    path: "/continuous/instanceExecRecord",
+    path: '/continuous/instanceExecRecord',
     query: { instanceId: instanceId, isEdit: props.isEdit },
   });
 };
 const lineDetail = (instanceId: string) => {
   router.push({
-    path: "/continuous/ContinusInstanceDetail",
+    path: '/continuous/ContinusInstanceDetail',
     query: { instanceId: instanceId, isEdit: props.isEdit },
   });
 };
 const execLine = () => {
-  console.log("执行");
+  console.log('执行');
 };
 const configLine = (instanceId: string) => {
   router.push({
-    path: "/continuous/ContinusInstanceInit",
+    path: '/continuous/ContinusInstanceInit',
     query: { instanceId: instanceId, isEdit: props.isEdit },
   });
 };
 const publishLine = () => {
   configUrl
     .modifyColumnsAction({
-      columnsInfo: { isPublished: "Y" },
+      columnsInfo: { isPublished: 'Y' },
       conditions: [
         createCondition(
-          "idPipelineConfig",
+          'idPipelineConfig',
           props.nodeInfo.idPipelineConfig,
-          "eq",
+          'eq',
         ),
       ],
     })
     .then((res) => {
       if (res?.data?.code == 0) {
-        props.nodeInfo.isPublished = "Y";
-        success("发布成功");
+        props.nodeInfo.isPublished = 'Y';
+        success('发布成功');
       } else {
         warning(res?.data?.cnMessage);
       }

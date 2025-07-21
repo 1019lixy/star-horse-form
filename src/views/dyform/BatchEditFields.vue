@@ -1,11 +1,11 @@
 <script setup lang="ts" name="BatchEditFields">
-import { computed, reactive } from "vue";
+import { computed, reactive } from 'vue';
 import {
   batchModifyAction,
   piniaInstance,
   useDesignFormStore,
-} from "star-horse-lowcode";
-import { Config } from "@/api/settings";
+} from 'star-horse-lowcode';
+import { Config } from '@/api/settings';
 
 defineProps({
   compSize: { type: String, default: Config.compSize },
@@ -15,7 +15,7 @@ const list = computed(() => designForm.compList);
 let batchModifyData = reactive<any>({
   maxLength: 100,
   precision: 0,
-  required: "N",
+  required: 'N',
   formVisible: true,
   searchVisible: true,
   listVisible: true,

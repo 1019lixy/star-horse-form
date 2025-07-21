@@ -5,52 +5,52 @@ import {
   dialogPreps,
   PageFieldInfo,
   SearchFields,
-} from "star-horse-lowcode";
-import { commonField } from "@/api/system";
-import { Config } from "@/api/settings";
-import { onMounted, provide, reactive, ref } from "vue";
+} from 'star-horse-lowcode';
+import { commonField } from '@/api/system';
+import { Config } from '@/api/settings';
+import { onMounted, provide, reactive, ref } from 'vue';
 
-const dataUrl: ApiUrls = apiInstance("system-config", "system/areainfo");
+const dataUrl: ApiUrls = apiInstance('system-config', 'system/areainfo');
 const searchFormData = reactive<SearchFields>({
   fieldList: [
     {
-      label: "区域名称",
+      label: '区域名称',
       defaultVisible: true,
-      matchType: "lk",
-      fieldName: "areaName",
+      matchType: 'lk',
+      fieldName: 'areaName',
     },
     {
-      label: "区域编码",
+      label: '区域编码',
       defaultVisible: true,
-      matchType: "lk",
-      fieldName: "areaCode",
+      matchType: 'lk',
+      fieldName: 'areaCode',
     },
   ],
 });
 const tableFieldList = reactive<PageFieldInfo>({
   fieldList: [
     {
-      label: "区域主键",
-      fieldName: "idAreainfo",
-      type: "long",
+      label: '区域主键',
+      fieldName: 'idAreainfo',
+      type: 'long',
     },
     {
-      label: "父节点编号",
-      fieldName: "parentNo",
-      type: "select",
+      label: '父节点编号',
+      fieldName: 'parentNo',
+      type: 'select',
       formVisible: true,
       listVisible: true,
     },
     {
-      label: "区域名称",
-      fieldName: "areaName",
+      label: '区域名称',
+      fieldName: 'areaName',
 
       formVisible: true,
       listVisible: true,
     },
     {
-      label: "区域编码",
-      fieldName: "areaCode",
+      label: '区域编码',
+      fieldName: 'areaCode',
 
       formVisible: true,
       listVisible: true,
@@ -59,11 +59,11 @@ const tableFieldList = reactive<PageFieldInfo>({
   ],
   batchFieldList: [],
 });
-const primaryKey = "idAreainfo";
+const primaryKey = 'idAreainfo';
 const areainfoRef = ref();
 const rules = {};
 const dialogProps = dialogPreps();
-provide("dialogProps", dialogProps);
+provide('dialogProps', dialogProps);
 
 const dataFormat = (_name: string, cellValue: object): any => {
   return cellValue;
@@ -100,9 +100,7 @@ onMounted(() => {
   <div class="search-content">
     <div
       class="search_btn"
-      :style="{
-        'flex-direction': Config.buttonStyle.value == 'line' ? 'column' : 'row',
-      }"
+
     >
       <star-horse-search-comp
         @searchData="(data: any) => areainfoRef?.createSearchParams(data)"

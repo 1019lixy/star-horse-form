@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { nextTick, onMounted, provide, reactive, ref, watch } from "vue";
+import { nextTick, onMounted, provide, reactive, ref, watch } from 'vue';
 import {
   apiInstance,
   ApiUrls,
@@ -12,17 +12,17 @@ import {
   postRequest,
   SearchProps,
   useDesignFormStore,
-} from "star-horse-lowcode";
-import { getUserInfo } from "@/utils/auth";
+} from 'star-horse-lowcode';
+import { getUserInfo } from '@/utils/auth';
 
 let designForm = useDesignFormStore(piniaInstance);
-let dataUrl = ref<ApiUrls>(apiInstance("", ""));
-const errorMsg = ref("数据加载中");
+let dataUrl = ref<ApiUrls>(apiInstance('', ''));
+const errorMsg = ref('数据加载中');
 let searchFormData = ref<SearchProps[]>();
 const tableFieldList = ref<any>({
   fieldList: [],
 });
-const primaryKey = ref("");
+const primaryKey = ref('');
 const rules = ref({});
 const hasData = ref(false);
 let relationTables = ref<any>({});
@@ -47,14 +47,14 @@ const loadFormData = async (formId: string) => {
   }
   hasData.value = data && Object.keys(data).length > 0;
   dataUrl.value = apiInstance(
-    data["dataUrl"]?.appName,
-    data["dataUrl"]?.contextUrl,
+    data['dataUrl']?.appName,
+    data['dataUrl']?.contextUrl,
   );
-  searchFormData.value = data["searchFormData"] as SearchProps[];
-  primaryKey.value = data["primaryKey"];
-  tableFieldList.value = data["tableFieldList"];
-  rules.value = data["rules"];
-  relationTables.value = data["relationTables"];
+  searchFormData.value = data['searchFormData'] as SearchProps[];
+  primaryKey.value = data['primaryKey'];
+  tableFieldList.value = data['tableFieldList'];
+  rules.value = data['rules'];
+  relationTables.value = data['relationTables'];
   await nextTick();
   // closeLoad();
   loadInstanceData();
@@ -84,16 +84,16 @@ watch(
       loadFormData(<string>val);
     } catch (e) {
       // closeLoad();
-      console.log("数据类型不匹配");
+      console.log('数据类型不匹配');
     }
   },
   { deep: true },
 );
 //记录表单的属性
 const formFields = reactive<Array<any>>([]);
-provide("formFields", formFields);
+provide('formFields', formFields);
 const dialogProps = dialogPreps();
-provide("dialogProps", dialogProps);
+provide('dialogProps', dialogProps);
 
 const init = async () => {
   designForm.setIsEdit(false);

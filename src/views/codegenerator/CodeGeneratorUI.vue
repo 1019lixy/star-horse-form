@@ -14,12 +14,12 @@ import {
   SelectOption,
   UserFuncInfo,
   warning,
-} from "star-horse-lowcode";
-import { onMounted, provide, reactive, ref } from "vue";
-import { Config } from "@/api/settings";
-import { initDbList, tableList } from "@/views/dbsearch/utils/DbSearchUtils";
+} from 'star-horse-lowcode';
+import { onMounted, provide, reactive, ref } from 'vue';
+import { Config } from '@/api/settings';
+import { initDbList, tableList } from '@/views/dbsearch/utils/DbSearchUtils';
 
-const dataUrl: ApiUrls = apiInstance("code-generator", "generator/code");
+const dataUrl: ApiUrls = apiInstance('code-generator', 'generator/code');
 
 let dbInfoList = ref<Array<SelectOption>>([]);
 let tableInfoList = ref<Array<SelectOption>>([]);
@@ -30,8 +30,8 @@ let fileTypeList = ref<Array<SelectOption>>([]);
 let uiTypeList = ref<Array<SelectOption>>([]);
 let packagingList = ref<Array<SelectOption>>([]);
 const loadTabInfo = async (val: any) => {
-  let dataId = val["datasourceConfigId"];
-  if (!dataId || dataId == "undefined") {
+  let dataId = val['datasourceConfigId'];
+  if (!dataId || dataId == 'undefined') {
     return;
   }
   tableInfoList.value = await tableList(dataId);
@@ -39,24 +39,24 @@ const loadTabInfo = async (val: any) => {
 const searchFormData = reactive<SearchFields>({
   fieldList: [
     {
-      label: "数据库信息",
-      fieldName: "datasourceConfigId",
-      type: "select",
+      label: '数据库信息',
+      fieldName: 'datasourceConfigId',
+      type: 'select',
       defaultVisible: true,
       preps: {
         values: dbInfoList,
       },
     },
     {
-      label: "应用名称",
-      fieldName: "projectName",
-      matchType: "lk",
+      label: '应用名称',
+      fieldName: 'projectName',
+      matchType: 'lk',
       defaultVisible: true,
     },
     {
-      label: "项目名称",
-      fieldName: "applicationName",
-      matchType: "lk",
+      label: '项目名称',
+      fieldName: 'applicationName',
+      matchType: 'lk',
       defaultVisible: true,
     },
   ],
@@ -64,15 +64,15 @@ const searchFormData = reactive<SearchFields>({
 const tableFieldList = reactive<PageFieldInfo>({
   fieldList: [
     {
-      label: "主键",
-      fieldName: "idCodeGenerator",
-      type: "long",
+      label: '主键',
+      fieldName: 'idCodeGenerator',
+      type: 'long',
     },
     [
       {
-        label: "数据库信息",
-        fieldName: "datasourceConfigId",
-        type: "select",
+        label: '数据库信息',
+        fieldName: 'datasourceConfigId',
+        type: 'select',
         required: true,
         formVisible: true,
         actions: { change: loadTabInfo },
@@ -83,12 +83,12 @@ const tableFieldList = reactive<PageFieldInfo>({
         },
       },
       {
-        label: "后端程序语言",
-        fieldName: "language",
-        type: "select",
+        label: '后端程序语言',
+        fieldName: 'language',
+        type: 'select',
         formVisible: true,
-        defaultValue: "java",
-        helpMsg: "目前只支持Java,选择其它语言会构建失败",
+        defaultValue: 'java',
+        helpMsg: '目前只支持Java,选择其它语言会构建失败',
         listVisible: true,
         preps: {
           values: languageList,
@@ -97,11 +97,11 @@ const tableFieldList = reactive<PageFieldInfo>({
     ],
     [
       {
-        label: "后端模版版本",
-        fieldName: "backendTemplateVersion",
-        type: "select",
+        label: '后端模版版本',
+        fieldName: 'backendTemplateVersion',
+        type: 'select',
         formVisible: true,
-        defaultValue: "2_6",
+        defaultValue: '2_6',
 
         listVisible: true,
         preps: {
@@ -109,11 +109,11 @@ const tableFieldList = reactive<PageFieldInfo>({
         },
       },
       {
-        label: "前端模版版本",
-        fieldName: "frontTemplateVersion",
-        type: "select",
+        label: '前端模版版本',
+        fieldName: 'frontTemplateVersion',
+        type: 'select',
         formVisible: true,
-        defaultValue: "2_6",
+        defaultValue: '2_6',
         listVisible: true,
         preps: {
           values: templateVersionList,
@@ -121,9 +121,9 @@ const tableFieldList = reactive<PageFieldInfo>({
       },
     ],
     {
-      label: "需要生成的表名",
-      fieldName: "tablesList",
-      type: "select",
+      label: '需要生成的表名',
+      fieldName: 'tablesList',
+      type: 'select',
       helpMsg: `该属性为空表示生成所有数据库表的代码,
 如果表数量太多（>100），程序自动转异步执行，
 有构建失败风险.`,
@@ -135,9 +135,9 @@ const tableFieldList = reactive<PageFieldInfo>({
       },
     },
     {
-      label: "需要排除的表",
-      fieldName: "excludesList",
-      type: "select",
+      label: '需要排除的表',
+      fieldName: 'excludesList',
+      type: 'select',
       formVisible: true,
       listVisible: true,
       preps: {
@@ -147,9 +147,9 @@ const tableFieldList = reactive<PageFieldInfo>({
     },
     [
       {
-        label: "去除表前缀",
-        fieldName: "prefixesStr",
-        aliasName: "prefixes",
+        label: '去除表前缀',
+        fieldName: 'prefixesStr',
+        aliasName: 'prefixes',
         formVisible: true,
         helpMsg: `如果该属性为空，所生成的文件会带上表前缀，
 eg: 表：dev_userinfo ,生成的文件是DevUserinfo.java;
@@ -157,21 +157,21 @@ eg: 表：dev_userinfo ,生成的文件是DevUserinfo.java;
         listVisible: true,
       },
       {
-        label: "包名",
-        fieldName: "packageName",
+        label: '包名',
+        fieldName: 'packageName',
 
         required: true,
         formVisible: true,
-        helpMsg: "eg: com.starhorse.test",
+        helpMsg: 'eg: com.starhorse.test',
         listVisible: true,
       },
     ],
     {
-      label: "要生成的文件",
-      fieldName: "fileTypesList",
-      type: "select",
+      label: '要生成的文件',
+      fieldName: 'fileTypesList',
+      type: 'select',
       formVisible: true,
-      helpMsg: "为空生成所有类型文件",
+      helpMsg: '为空生成所有类型文件',
       listVisible: true,
       preps: {
         multiple: true,
@@ -179,150 +179,150 @@ eg: 表：dev_userinfo ,生成的文件是DevUserinfo.java;
       },
     },
     {
-      fieldName: "tab2",
+      fieldName: 'tab2',
       tabList: [
         {
-          title: "模块相关",
-          tabName: "tab2",
+          title: '模块相关',
+          tabName: 'tab2',
           fieldList: [
             {
-              label: "项目名称",
-              fieldName: "projectName",
+              label: '项目名称',
+              fieldName: 'projectName',
 
               formVisible: true,
-              helpMsg: "生成代码归属项目",
+              helpMsg: '生成代码归属项目',
             },
             {
-              label: "模块名称",
-              fieldName: "categoryName",
-
-              required: true,
-              formVisible: true,
-              helpMsg: "Maven 项目的模块名会追加到包名的后面",
-              listVisible: true,
-            },
-            {
-              label: "应用名称",
-              fieldName: "applicationName",
+              label: '模块名称',
+              fieldName: 'categoryName',
 
               required: true,
               formVisible: true,
-              helpMsg: "在配置文件application.yml中对应spring.application.name",
+              helpMsg: 'Maven 项目的模块名会追加到包名的后面',
               listVisible: true,
             },
             {
-              label: "应用端口",
-              fieldName: "port",
-              type: "number",
+              label: '应用名称',
+              fieldName: 'applicationName',
+
+              required: true,
               formVisible: true,
-              helpMsg: "在配置文件application.yml中对应server.port",
+              helpMsg: '在配置文件application.yml中对应spring.application.name',
+              listVisible: true,
             },
             {
-              label: "发布目录",
-              fieldName: "targetDir",
+              label: '应用端口',
+              fieldName: 'port',
+              type: 'number',
+              formVisible: true,
+              helpMsg: '在配置文件application.yml中对应server.port',
+            },
+            {
+              label: '发布目录',
+              fieldName: 'targetDir',
 
               formVisible: true,
-              helpMsg: "文件部署到服务器上的目录",
+              helpMsg: '文件部署到服务器上的目录',
             },
             {
-              label: "RestFul风格接口",
-              fieldName: "restFul",
-              type: "switch",
+              label: 'RestFul风格接口',
+              fieldName: 'restFul',
+              type: 'switch',
               formVisible: true,
-              defaultValue: "Y",
+              defaultValue: 'Y',
               preps: {
-                activeValue: "Y",
-                inactiveValue: "N",
+                activeValue: 'Y',
+                inactiveValue: 'N',
               },
             },
             {
-              label: "包构建类型",
-              fieldName: "war",
-              type: "select",
+              label: '包构建类型',
+              fieldName: 'war',
+              type: 'select',
               formVisible: true,
-              defaultValue: "jar",
+              defaultValue: 'jar',
 
-              helpMsg: "对应pom.xml文件中的packaging",
+              helpMsg: '对应pom.xml文件中的packaging',
               preps: {
                 values: packagingList,
               },
             },
             {
-              label: "代码版本",
-              fieldName: "version",
+              label: '代码版本',
+              fieldName: 'version',
 
-              helpMsg: "对应pom.xml文件中version",
+              helpMsg: '对应pom.xml文件中version',
               formVisible: true,
             },
           ],
         },
         {
-          title: "注释相关",
-          tabName: "tab1",
+          title: '注释相关',
+          tabName: 'tab1',
           fieldList: [
             {
-              label: "开发人员",
-              fieldName: "author",
+              label: '开发人员',
+              fieldName: 'author',
 
               formVisible: true,
             },
             {
-              label: "邮箱地址",
-              fieldName: "email",
+              label: '邮箱地址',
+              fieldName: 'email',
 
               formVisible: true,
             },
             {
-              label: "是否需要版权",
-              fieldName: "needCopyright",
-              type: "switch",
+              label: '是否需要版权',
+              fieldName: 'needCopyright',
+              type: 'switch',
               formVisible: true,
               preps: {
-                activeValue: "Y",
-                inactiveValue: "N",
+                activeValue: 'Y',
+                inactiveValue: 'N',
               },
             },
           ],
         },
         {
-          title: "UI相关",
-          tabName: "tab3",
+          title: 'UI相关',
+          tabName: 'tab3',
           fieldList: [
             {
-              label: "是否生成UI页面",
-              fieldName: "needUi",
-              type: "switch",
+              label: '是否生成UI页面',
+              fieldName: 'needUi',
+              type: 'switch',
               formVisible: true,
-              defaultValue: "Y",
+              defaultValue: 'Y',
               preps: {
-                activeValue: "Y",
-                inactiveValue: "N",
+                activeValue: 'Y',
+                inactiveValue: 'N',
               },
             },
             {
-              label: "是否分离UI",
-              fieldName: "needSplitUI",
-              type: "switch",
+              label: '是否分离UI',
+              fieldName: 'needSplitUI',
+              type: 'switch',
               formVisible: true,
-              helpMsg: "UI文件和业务文件是否放在同一个module里面",
-              defaultValue: "N",
+              helpMsg: 'UI文件和业务文件是否放在同一个module里面',
+              defaultValue: 'N',
               preps: {
-                activeValue: "Y",
-                inactiveValue: "N",
+                activeValue: 'Y',
+                inactiveValue: 'N',
               },
             },
             {
-              label: "Ui 文件后缀",
-              fieldName: "uiSuffix",
+              label: 'Ui 文件后缀',
+              fieldName: 'uiSuffix',
               formVisible: true,
-              defaultValue: ".vue",
+              defaultValue: '.vue',
             },
             {
-              label: "UI 类型",
-              fieldName: "uiType",
-              type: "select",
+              label: 'UI 类型',
+              fieldName: 'uiType',
+              type: 'select',
               formVisible: true,
-              defaultValue: "VUE_3_TS",
+              defaultValue: 'VUE_3_TS',
               preps: {
                 values: uiTypeList,
               },
@@ -330,19 +330,19 @@ eg: 表：dev_userinfo ,生成的文件是DevUserinfo.java;
           ],
         },
         {
-          title: "Dto相关",
-          tabName: "tab4",
+          title: 'Dto相关',
+          tabName: 'tab4',
           fieldList: [
             {
-              label: "是否分离DTO",
-              fieldName: "needSplitDto",
-              type: "switch",
+              label: '是否分离DTO',
+              fieldName: 'needSplitDto',
+              type: 'switch',
               formVisible: true,
-              helpMsg: "DTO文件和业务文件是否放在同一个module里面",
-              defaultValue: "N",
+              helpMsg: 'DTO文件和业务文件是否放在同一个module里面',
+              defaultValue: 'N',
               preps: {
-                activeValue: "Y",
-                inactiveValue: "N",
+                activeValue: 'Y',
+                inactiveValue: 'N',
               },
             },
           ],
@@ -350,102 +350,102 @@ eg: 表：dev_userinfo ,生成的文件是DevUserinfo.java;
       ],
     },
     {
-      label: "创建人",
+      label: '创建人',
       disabled: true,
-      fieldName: "createdBy",
+      fieldName: 'createdBy',
 
       listVisible: true,
     },
     {
-      label: "创建日期",
+      label: '创建日期',
       disabled: true,
-      fieldName: "createdTime",
-      type: "date",
+      fieldName: 'createdTime',
+      type: 'date',
       listVisible: true,
     },
     {
-      label: "修改人",
+      label: '修改人',
       disabled: true,
-      fieldName: "updatedBy",
+      fieldName: 'updatedBy',
 
       listVisible: true,
     },
 
     {
-      label: "修改日期",
+      label: '修改日期',
       disabled: true,
-      fieldName: "updatedTime",
-      type: "date",
+      fieldName: 'updatedTime',
+      type: 'date',
       listVisible: true,
     },
     {
-      label: "是否已逻辑",
-      fieldName: "isDel",
-      type: "number",
+      label: '是否已逻辑',
+      fieldName: 'isDel',
+      type: 'number',
     },
     {
-      label: "数据编号",
-      fieldName: "dataNo",
+      label: '数据编号',
+      fieldName: 'dataNo',
     },
     {
-      label: "状态码",
-      fieldName: "statusCode",
+      label: '状态码',
+      fieldName: 'statusCode',
     },
     {
-      label: "状态码名称",
-      fieldName: "statusName",
+      label: '状态码名称',
+      fieldName: 'statusName',
     },
     {
-      label: "国际码",
-      fieldName: "local",
+      label: '国际码',
+      fieldName: 'local',
     },
   ],
   batchFieldList: [],
 });
-const primaryKey = "idCodeGenerator";
+const primaryKey = 'idCodeGenerator';
 const codeGeneratorRef = ref();
 const rules = {};
 const dialogProps = dialogPreps();
-provide("dialogProps", dialogProps);
+provide('dialogProps', dialogProps);
 const orderBy = ref<OrderByInfo[]>([
   {
-    fieldName: "updatedTime",
-    ascOrDesc: "desc",
+    fieldName: 'updatedTime',
+    ascOrDesc: 'desc',
   },
 ]);
 
 const selectItemFun = (_data: any) => {};
 const dataFormat = (name: string, cellValue: any): any => {
-  if (name == "datasourceConfigId") {
+  if (name == 'datasourceConfigId') {
     return (
       dbInfoList.value.find((item: any) => item.value == cellValue)?.name ||
       cellValue
     );
   }
-  if (name == "createdTime" || name == "updatedTime") {
+  if (name == 'createdTime' || name == 'updatedTime') {
     return createDatetime(cellValue);
   }
   return cellValue;
 };
 const init = async () => {
   dbInfoList.value = await initDbList();
-  fileTypeList.value = await dictData("program_file_type");
-  templateVersionList.value = await dictData("template_version");
-  languageList.value = await dictData("program_language");
-  uiTypeList.value = await dictData("ui_type");
-  packagingList.value = await dictData("packaging_type");
+  fileTypeList.value = await dictData('program_file_type');
+  templateVersionList.value = await dictData('template_version');
+  languageList.value = await dictData('program_language');
+  uiTypeList.value = await dictData('ui_type');
+  packagingList.value = await dictData('packaging_type');
 };
 onMounted(async () => {
   await init();
 });
 let extendBtns = ref<UserFuncInfo[]>([
   {
-    btnName: "重新生成代码",
-    authority: "add",
-    icon: "code",
+    btnName: '重新生成代码',
+    authority: 'add',
+    icon: 'code',
     priority: 1,
     funcName: (row: any) => {
-      load("代码生成中，请稍后");
+      load('代码生成中，请稍后');
       download(
         `/code-generator/generator/code/convertToCodeById/${row[primaryKey]}`,
       )
@@ -463,19 +463,19 @@ const generateMerge = (type: string) => {
   generateFormRef.value.$refs.starHorseFormRef.validate((res: boolean) => {
     let dataForm: any = generateFormRef.value.getFormData()?.value;
     if (res) {
-      load("代码生成中,请稍后...");
-      if (dataForm["prefixesStr"]) {
-        dataForm["prefixesList"] = dataForm["prefixesStr"].split(";");
+      load('代码生成中,请稍后...');
+      if (dataForm['prefixesStr']) {
+        dataForm['prefixesList'] = dataForm['prefixesStr'].split(';');
       }
       let isError = false;
-      download("/code-generator/generator/code/convertToCode", dataForm)
+      download('/code-generator/generator/code/convertToCode', dataForm)
         .catch((err) => {
           isError = true;
           warning(err);
         })
         .finally(() => {
           closeLoad();
-          if (type != "continue" && !isError) {
+          if (type != 'continue' && !isError) {
             closeAction();
           }
         });
@@ -517,9 +517,7 @@ const closeAction = () => {
   <div class="search-content">
     <div
       class="search_btn"
-      :style="{
-        'flex-direction': Config.buttonStyle.value == 'line' ? 'column' : 'row',
-      }"
+
     >
       <star-horse-search-comp
         @searchData="(data: any) => codeGeneratorRef?.createSearchParams(data)"

@@ -5,7 +5,7 @@ import {
   postRequest,
   SearchParams,
   success,
-} from "star-horse-lowcode";
+} from 'star-horse-lowcode';
 
 /**
  * 获取视图属性
@@ -14,7 +14,7 @@ import {
 export async function viewColumns(param: string) {
   let formDatas: any = [],
     columns: any = [];
-  await postRequest("/userdb-manage/consumer/api/viewColumns", {
+  await postRequest('/userdb-manage/consumer/api/viewColumns', {
     viewToken: param,
   }).then((res) => {
     const redata = res.data;
@@ -27,15 +27,15 @@ export async function viewColumns(param: string) {
       const temp = columns[key];
       for (const j in temp) {
         const stemp = temp[j];
-        if (stemp.primaryKey == "Y") {
+        if (stemp.primaryKey == 'Y') {
           continue;
         }
         formDatas.push({
           label: stemp.comment,
-          fieldName: key + "&" + stemp.fieldName,
+          fieldName: key + '&' + stemp.fieldName,
           type: convertType(stemp.type),
           defaultVisible: stemp.listVisible,
-          matchType: "lk",
+          matchType: 'lk',
         });
       }
     }
@@ -44,12 +44,12 @@ export async function viewColumns(param: string) {
 }
 
 const convertType = (type: string) => {
-  if (type.includes("int") || type.includes("num")) {
-    return "number";
-  } else if (type.includes("date") || type.includes("time")) {
-    return "datetime";
+  if (type.includes('int') || type.includes('num')) {
+    return 'number';
+  } else if (type.includes('date') || type.includes('time')) {
+    return 'datetime';
   } else {
-    return "input";
+    return 'input';
   }
 };
 
@@ -76,8 +76,8 @@ export async function viewDataList(
   };
   let viewDatas: any = [],
     error;
-  load("数据加载中");
-  await postRequest("/userdb-manage/consumer/api/pageList", dataPo)
+  load('数据加载中');
+  await postRequest('/userdb-manage/consumer/api/pageList', dataPo)
     .then((res) => {
       const redata = res.data;
       if (redata.code != 0) {
@@ -103,31 +103,31 @@ export function analysisSearchData(searchForm: any, searchFormData: any) {
     let val = searchForm[key];
     const temp = searchFormData.find((item: any) => item.fieldName == key);
     if (val) {
-      if (temp?.type == "datarange") {
-        val = [val[0] + " 00:00:00", val[1] + " 23:59:59"];
-      } else if (temp?.type == "date") {
-        val = [val + " 00:00:00", val + " 23:59:59"];
+      if (temp?.type == 'datarange') {
+        val = [val[0] + ' 00:00:00', val[1] + ' 23:59:59'];
+      } else if (temp?.type == 'date') {
+        val = [val + ' 00:00:00', val + ' 23:59:59'];
       }
       const param: SearchParams = {
         propertyName: key,
-        operation: temp?.matchType || "eq",
+        operation: temp?.matchType || 'eq',
         value: val,
       };
       //处理is查询
-      if (temp?.matchType == "is") {
-        if (val == "null") {
+      if (temp?.matchType == 'is') {
+        if (val == 'null') {
           param.orOperList = [
             {
               propertyName: key,
-              operation: "eq",
-              value: "",
+              operation: 'eq',
+              value: '',
             },
           ];
-        } else if (val == "not null") {
+        } else if (val == 'not null') {
           searchFields.push({
             propertyName: key,
-            operation: "neq",
-            value: "",
+            operation: 'neq',
+            value: '',
           });
         }
       }
@@ -155,7 +155,7 @@ export function validDynamicFormCompParams(
   compList: Array<any>,
   isSubmit: boolean = false,
 ) {
-  let errorMsg = "";
+  let errorMsg = '';
   // console.log("校验表单组件参数完整性", compList);
   const { fieldList, tabNames, objectNames, batchNames } =
     analysisFields(compList);
@@ -163,13 +163,13 @@ export function validDynamicFormCompParams(
   const dupObjectNames = arrayDuplicateDatas(objectNames);
   const dupBatchNames = arrayDuplicateDatas(batchNames);
   if (dupTabNames.length > 0) {
-    errorMsg = `Tab组件中tabName 名${dupTabNames.join(";")}重复，请在容器对应属性面板【基础属性->编辑容器属性】中检查所有Tab组件`;
+    errorMsg = `Tab组件中tabName 名${dupTabNames.join(';')}重复，请在容器对应属性面板【基础属性->编辑容器属性】中检查所有Tab组件`;
   }
   if (dupObjectNames.length > 0) {
-    errorMsg += `\nTab组件中objectName 名${dupObjectNames.join(";")}重复，请在容器对应属性面板【基础属性->编辑容器属性】中检查所有Tab组件`;
+    errorMsg += `\nTab组件中objectName 名${dupObjectNames.join(';')}重复，请在容器对应属性面板【基础属性->编辑容器属性】中检查所有Tab组件`;
   }
   if (dupBatchNames.length > 0) {
-    errorMsg += `\nTable组件中集合名称${dupBatchNames.join(";")}重复，请在容器对应属性面板【基础属性->集合名称】中检查所有Table组件`;
+    errorMsg += `\nTable组件中集合名称${dupBatchNames.join(';')}重复，请在容器对应属性面板【基础属性->集合名称】中检查所有Table组件`;
   }
   /**
    * 主要校验 参数是否重名，必须的参数是否赋值，参数数据合法性，此举旨在保证数据提交后可以正常运行，
@@ -181,31 +181,31 @@ export function validDynamicFormCompParams(
     console.log(temp);
     const preps = temp.preps;
     const name = preps.label;
-    let msg = "";
+    let msg = '';
     const itemType = temp.itemType;
-    if (itemType == "dialog-input" || itemType == "page-select") {
-      const temp = "\n" + name + "组件必须在【属性面板->基础属性->参数配置】中";
+    if (itemType == 'dialog-input' || itemType == 'page-select') {
+      const temp = '\n' + name + '组件必须在【属性面板->基础属性->参数配置】中';
       if (!preps.dataUrl?.host) {
-        msg += ",配置IP地址或服务名";
+        msg += ',配置IP地址或服务名';
       }
       if (!preps.dataUrl?.pageListUrl) {
-        msg += ",配置Url地址";
+        msg += ',配置Url地址';
       }
 
       if (!preps.fieldLists || preps.fieldLists?.length == 0) {
-        msg += ",配置显示属性";
+        msg += ',配置显示属性';
       }
       if (!preps.needField || preps.needField?.length < 1) {
-        msg += ",配置回调字段";
+        msg += ',配置回调字段';
       }
       if (msg.length > 0) {
         msg = temp + msg;
       }
     } else if (
-      itemType == "select" ||
-      itemType == "transfer" ||
-      itemType == "autocomplete" ||
-      itemType == "cascade"
+      itemType == 'select' ||
+      itemType == 'transfer' ||
+      itemType == 'autocomplete' ||
+      itemType == 'cascade'
     ) {
       console.log(preps);
       if (
@@ -214,11 +214,11 @@ export function validDynamicFormCompParams(
         !preps.urlOrDictName
       ) {
         msg =
-          "\n" + name + "组件必须在【属性面板->基础属性->数据源】中配置数据源";
+          '\n' + name + '组件必须在【属性面板->基础属性->数据源】中配置数据源';
       }
-    } else if (itemType == "checkbox" || itemType == "radio") {
+    } else if (itemType == 'checkbox' || itemType == 'radio') {
       if (!preps.values || preps.values?.length <= 0) {
-        msg = "\n" + name + "组件必须在【属性面板->基础属性】中配置候选项";
+        msg = '\n' + name + '组件必须在【属性面板->基础属性】中配置候选项';
       }
     }
     if (msg.length > 0) {
@@ -226,7 +226,7 @@ export function validDynamicFormCompParams(
     }
   }
   if (!errorMsg && !isSubmit) {
-    success("校验通过");
+    success('校验通过');
   }
   return errorMsg;
 }
@@ -273,15 +273,15 @@ export function analysisFields(compList: Array<any>) {
       for (const index in dataList) {
         const temp = dataList[index];
         const itempType = temp.itemType;
-        if (itempType == "box" || itempType == "dytable") {
+        if (itempType == 'box' || itempType == 'dytable') {
           loopAnalysis(temp.preps.elements);
         } else if (
-          itempType == "tab" ||
-          itempType == "card" ||
-          itempType == "collapse"
+          itempType == 'tab' ||
+          itempType == 'card' ||
+          itempType == 'collapse'
         ) {
           tabListAnalysis(temp.preps.elements);
-        } else if (itempType == "table") {
+        } else if (itempType == 'table') {
           tableListAnalysis(temp.preps);
         } else {
           if (Object.keys(temp).length > 0) {

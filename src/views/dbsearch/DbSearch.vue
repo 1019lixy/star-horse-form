@@ -1,7 +1,7 @@
 <script setup lang="ts" name="DbSearch">
-import { computed, onMounted, ref, unref } from "vue";
-import { Config } from "@/api/settings";
-import { initDbList } from "@/views/dbsearch/utils/DbSearchUtils";
+import { computed, onMounted, ref, unref } from 'vue';
+import { Config } from '@/api/settings';
+import { initDbList } from '@/views/dbsearch/utils/DbSearchUtils';
 import {
   closeLoad,
   commonParseCodeToName,
@@ -13,22 +13,22 @@ import {
   postRequest,
   useGlobalConfigStore,
   warning,
-} from "star-horse-lowcode";
+} from 'star-horse-lowcode';
 
 let editorRef = ref(null);
 let cacheValue = ref({});
 let dbList = ref<any>([]);
 let drawer = ref(false);
-let direction = ref<string>("rtl"); //ltr:left to right,rtl:right to left ,ttb:top to bottom,btt:bottom to top
+let direction = ref<string>('rtl'); //ltr:left to right,rtl:right to left ,ttb:top to bottom,btt:bottom to top
 let queryResult = ref<any>([]);
 let detailData = ref<any>({});
 let pageSize = ref<number>(10);
-let activeName = ref<string>("Result1");
+let activeName = ref<string>('Result1');
 let pageSizeLimit = ref<Array<number>>([10, 20, 50, 100]); //每条Sql允许一次查询数据量
 let tableAndColumnsList = ref<any>([]);
 let tableList = ref<any>({});
 let assignDataList = ref<any>([]);
-let value = ref<string>("");
+let value = ref<string>('');
 let dbIndex = ref<any>(null);
 let currentIndex = ref<any>(null);
 let readOnly = ref<boolean>(true);
@@ -66,7 +66,7 @@ const openDb = () => {
     assignDataList.value = tableAndColumnsList.value;
     btnDisabled.value = false;
     currentIndex.value = dbIndex.value;
-    editor.setAutoCompletion("test", tableAndColumnsList.value);
+    editor.setAutoCompletion('test', tableAndColumnsList.value);
   });
 };
 const getSql = () => {
@@ -82,24 +82,24 @@ const getSql = () => {
 };
 const executeSql = () => {
   if (!dbIndex.value) {
-    warning("执行Sql前先连接数据库");
+    warning('执行Sql前先连接数据库');
     return;
   }
   let datas = getSql();
   if (!datas) {
     return;
   }
-  datas = datas.split(";");
+  datas = datas.split(';');
   let tempList: any = [];
   datas.forEach((item: any) => {
-    let temp = item.replaceAll("\n", "");
+    let temp = item.replaceAll('\n', '');
     temp = temp.trim();
     if (temp) {
       tempList.push(temp);
     }
   });
   if (tempList.length > 5) {
-    warning("一次最多只能执行5条Sql");
+    warning('一次最多只能执行5条Sql');
     return;
   }
   let reqData = {
@@ -108,8 +108,8 @@ const executeSql = () => {
     currentPage: 1,
     idDbinfo: dbIndex.value,
   };
-  load("数据查询中...");
-  postRequest("/userdb-manage/dbsearch/dbinfoEntity/search", reqData)
+  load('数据查询中...');
+  postRequest('/userdb-manage/dbsearch/dbinfoEntity/search', reqData)
     .then((res) => {
       if (res.data.code != 0) {
         error(res.data.cnMessage);
@@ -128,7 +128,7 @@ const resultDataFormat = (
   index: number,
 ) => {
   if (!cellValue) {
-    return "-";
+    return '-';
   }
   cellValue = commonParseCodeToName(column.property, cellValue);
   return cellValue;
@@ -148,8 +148,8 @@ const handleCurrentChange = (
     currentPage: currentPage,
     idDbinfo: dbIndex.value,
   };
-  load("数据查询中...");
-  postRequest("/userdb-manage/dbsearch/dbinfoEntity/search", reqData)
+  load('数据查询中...');
+  postRequest('/userdb-manage/dbsearch/dbinfoEntity/search', reqData)
     .then((res) => {
       if (res.data.code == 1) {
         warning(res.data.cnMessage);
@@ -164,16 +164,16 @@ const handleCurrentChange = (
 const executeStop = () => {};
 
 const exportData = (item: any) => {
-  load("数据处理中");
+  load('数据处理中');
   let params = {
     datasourceConfigId: dbIndex.value,
     currentSql: item.currentSql,
     pageSize: pageSize.value,
     currentPage: item.currentPage,
   };
-  download("/userdb-manage/dbsearch/dbinfoEntity/exportData", params)
+  download('/userdb-manage/dbsearch/dbinfoEntity/exportData', params)
     .catch((err) => {
-      error("接口不存在或网络异常:" + err);
+      error('接口不存在或网络异常:' + err);
     })
     .finally(() => {
       closeLoad();
@@ -205,7 +205,7 @@ const tableField = (tableName: string) => {
       closeLoad();
     });
 };
-const filterTableName = ref("");
+const filterTableName = ref('');
 const filterData = () => {
   if (!filterTableName.value) {
     assignDataList.value = tableAndColumnsList.value;
@@ -217,53 +217,53 @@ const filterData = () => {
 };
 const dratStart = (item: any, evt: DragEvent) => {
   let dt = evt.dataTransfer!;
-  dt.effectAllowed = "copy";
-  dt.setData("text/plain", item.tableName);
+  dt.effectAllowed = 'copy';
+  dt.setData('text/plain', item.tableName);
 };
-let bakeData = ref<string>("");
+let bakeData = ref<string>('');
 const dragOver = (evt: DragEvent) => {
   evt.preventDefault();
   bakeData.value = unref(sqlInfo);
 };
-const sqlInfo = ref<string>("");
+const sqlInfo = ref<string>('');
 const dragDrop = (evt: DragEvent) => {
   let dt = evt.dataTransfer!;
-  let data = dt.getData("text/plain");
+  let data = dt.getData('text/plain');
   if (!unref(bakeData)) {
-    sqlInfo.value = " SELECT * FROM " + data;
+    sqlInfo.value = ' SELECT * FROM ' + data;
   } else {
-    sqlInfo.value = unref(bakeData) + " " + data;
+    sqlInfo.value = unref(bakeData) + ' ' + data;
   }
 };
 let btnDisabled = ref<boolean>(true);
 const btnList = [
   {
-    label: "执行",
-    icon: "run",
+    label: '执行',
+    icon: 'run',
     disabled: btnDisabled,
-    type: "primary",
+    type: 'primary',
     actions: executeSql,
   },
   {
-    label: "停止",
-    icon: "stop",
+    label: '停止',
+    icon: 'stop',
     disabled: btnDisabled,
-    type: "danger",
+    type: 'danger',
     actions: executeStop,
   },
   {
-    label: "格式化",
-    icon: "format",
+    label: '格式化',
+    icon: 'format',
     disabled: btnDisabled,
-    type: "warning",
+    type: 'warning',
     actions: () => {
       editorRef.value?.editor.dispatch({
         changes: {
           from: 0,
           to: editorRef.value?.editor.state.doc.length,
           insert:
-            editorRef.value?.editor.state.doc.toString().replaceAll("\n", "") +
-            "\n",
+            editorRef.value?.editor.state.doc.toString().replaceAll('\n', '') +
+            '\n',
         },
       });
     },

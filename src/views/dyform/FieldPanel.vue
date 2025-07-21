@@ -1,31 +1,31 @@
 <script setup lang="ts" name="FieldPanel">
-import { computed, ref } from "vue";
+import { computed, ref } from 'vue';
 import {
   apiInstance,
   ApiUrls,
   loadData,
   piniaInstance,
   useDesignFormStore,
-} from "star-horse-lowcode";
-import { fieldCopy } from "@/views/dyform/utils/FieldOperationUtils";
+} from 'star-horse-lowcode';
+import { fieldCopy } from '@/views/dyform/utils/FieldOperationUtils';
 const props = defineProps({
   batchCreatePage: { type: Boolean, default: false },
 });
-const emits = defineEmits(["loadData"]);
-const dataUrl: ApiUrls = apiInstance("userdb-manage", "userdb/dynamicForm");
+const emits = defineEmits(['loadData']);
+const dataUrl: ApiUrls = apiInstance('userdb-manage', 'userdb/dynamicForm');
 let designForm = useDesignFormStore(piniaInstance);
 let formDataList = computed(() => designForm.formDataList);
 let containerList = computed(() => designForm.containerList);
 let selfFormDataList = computed(() => designForm.selfFormDataList);
 let list = computed(() => designForm.compList);
-let tabModel = ref<string>("component");
-let activeNames = ref(["a", "b", "c", "d"]);
+let tabModel = ref<string>('component');
+let activeNames = ref(['a', 'b', 'c', 'd']);
 
 const onContainerCopy = (data: any) => {
-  return onDataCopy(data, "container");
+  return onDataCopy(data, 'container');
 };
 const onFormItemCopy = (data: any) => {
-  return onDataCopy(data, "formItem");
+  return onDataCopy(data, 'formItem');
 };
 
 const onDataCopy = (data: any, type: string) => {
@@ -37,8 +37,8 @@ const templateList = ref<any[]>([]);
 const previewImages = ref<Record<string, string>>({}); // 新增：存储生成的图片
 
 const tabChange = (name: string) => {
-  if (name == "template") {
-    loadData(dataUrl.basePrefix + "/loadTemplate", {}).then(
+  if (name == 'template') {
+    loadData(dataUrl.basePrefix + '/loadTemplate', {}).then(
       async (res: any) => {
         templateList.value = res.data || [];
       },
@@ -46,7 +46,7 @@ const tabChange = (name: string) => {
   }
 };
 const loadFormData = (formId: any) => {
-  emits("loadData", formId);
+  emits('loadData', formId);
 };
 const previewRefs = ref<any[]>([]); // 新增ref数组
 // 新增：生成所有预览图片的方法
@@ -58,9 +58,9 @@ const addElement = (element: any, type: string) => {
   list.value.push(mvData);
   if (Array.isArray(mvData)) {
     let temp = mvData[mvData.length - 1];
-    designForm.selectItem(temp, temp["itemType"], "");
+    designForm.selectItem(temp, temp['itemType'], '');
   } else {
-    designForm.selectItem(mvData, mvData["itemType"], "");
+    designForm.selectItem(mvData, mvData['itemType'], '');
   }
   // designForm.addElement(element,type)
 };

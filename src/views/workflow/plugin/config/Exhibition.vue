@@ -56,8 +56,8 @@
   </div>
 </template>
 <script setup lang="ts">
-import { flowCommon } from "@/views/workflow/plugin/utils/flowCommon";
-import { ref } from "vue";
+import { flowCommon } from '@/views/workflow/plugin/utils/flowCommon';
+import { ref } from 'vue';
 
 let radioGroup = ref<number>(0);
 let radioGroup2 = ref<number>(0);

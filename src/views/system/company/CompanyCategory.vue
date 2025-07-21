@@ -1,7 +1,7 @@
 <script setup lang="ts" name="CompanyCategory">
-import { onMounted, provide, reactive, ref } from "vue";
-import { Config } from "@/api/settings";
-import { getCustomerParam } from "@/utils/auth";
+import { onMounted, provide, reactive, ref } from 'vue';
+import { Config } from '@/api/settings';
+import { getCustomerParam } from '@/utils/auth';
 import {
   apiInstance,
   ApiUrls,
@@ -9,30 +9,30 @@ import {
   PageFieldInfo,
   SearchFields,
   UserFuncInfo,
-} from "star-horse-lowcode";
-import { commonField } from "@/api/system";
+} from 'star-horse-lowcode';
+import { commonField } from '@/api/system';
 //后端交互接口地址
-const dataUrl: ApiUrls = apiInstance("system-config", "system/companyCategory");
+const dataUrl: ApiUrls = apiInstance('system-config', 'system/companyCategory');
 //主键
-const primaryKey = "idCompanyCategory";
+const primaryKey = 'idCompanyCategory';
 const companyCategoryRef = ref();
 //定义表单的所有属性
 const formFields = reactive<object>({});
-provide("formFields", formFields);
+provide('formFields', formFields);
 //查询属性
 const searchFormData = reactive<SearchFields>({
   fieldList: [
     {
-      label: "名称",
-      fieldName: "categoryName",
+      label: '名称',
+      fieldName: 'categoryName',
       defaultVisible: true,
-      matchType: "lk",
+      matchType: 'lk',
     },
     {
-      label: "编码",
-      fieldName: "categoryCode",
+      label: '编码',
+      fieldName: 'categoryCode',
       defaultVisible: true,
-      matchType: "lk",
+      matchType: 'lk',
     },
   ],
 });
@@ -41,19 +41,19 @@ const tableFieldList = reactive<PageFieldInfo | any>({
   //属性列表
   fieldList: [
     {
-      label: "名称",
-      fieldName: "categoryName",
+      label: '名称',
+      fieldName: 'categoryName',
       required: true,
       formVisible: true,
       listVisible: true,
-      listPrototypeDisplay: "tag",
+      listPrototypeDisplay: 'tag',
       preps: {
-        tagType: "info",
+        tagType: 'info',
       },
     },
     {
-      label: "编码",
-      fieldName: "categoryCode",
+      label: '编码',
+      fieldName: 'categoryCode',
       required: true,
 
       formVisible: true,
@@ -63,13 +63,13 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       },
     },
     {
-      label: "序号",
-      fieldName: "dataSort",
-      type: "number",
+      label: '序号',
+      fieldName: 'dataSort',
+      type: 'number',
       required: false,
       formVisible: true,
       listVisible: true,
-      listPrototypeDisplay: "text",
+      listPrototypeDisplay: 'text',
     },
     ...commonField(),
   ],
@@ -81,16 +81,16 @@ const tableFieldList = reactive<PageFieldInfo | any>({
 const rules = {};
 //控制弹窗相关设置
 const dialogProps = dialogPreps();
-provide("dialogProps", dialogProps);
+provide('dialogProps', dialogProps);
 let outerForm = ref<any>({});
 let extendBtns = ref<UserFuncInfo[]>([
   {
-    btnName: "添加子节点",
-    authority: "add",
-    icon: "plus",
+    btnName: '添加子节点',
+    authority: 'add',
+    icon: 'plus',
     priority: 1,
     funcName: (row: any) => {
-      outerForm.value["parentId"] = row[primaryKey];
+      outerForm.value['parentId'] = row[primaryKey];
       dialogProps.editVisible = true;
     },
   },
@@ -107,7 +107,7 @@ const initData = async () => {
  */
 const dataFormat = (name: string, cellValue: any, row: any): any => {
   //转换显示信息
-  if (name == "parentId" && row.parent) {
+  if (name == 'parentId' && row.parent) {
     row.parent.categoryName;
   }
   //转换显示信息
@@ -145,9 +145,7 @@ onMounted(async () => {
   <div class="search-content">
     <div
       class="search_btn"
-      :style="{
-        'flex-direction': Config.buttonStyle.value == 'line' ? 'column' : 'row',
-      }"
+
     >
       <star-horse-search-comp
         @searchData="

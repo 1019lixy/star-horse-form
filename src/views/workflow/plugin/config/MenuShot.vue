@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { nextTick, onMounted, ref } from "vue";
+import { nextTick, onMounted, ref } from 'vue';
 
 defineProps({
   menus: {
@@ -7,7 +7,7 @@ defineProps({
     default: () => [],
   },
 });
-const emits = defineEmits(["change"]);
+const emits = defineEmits(['change']);
 let startX = ref<any>(undefined); //判断是否要打开下拉
 let endX = ref<any>(undefined);
 let startY = ref<any>(undefined);
@@ -23,12 +23,12 @@ let xOffset = ref<number>(0);
 let yOffset = ref<number>(0);
 let dropDownVisible = ref<boolean>(false);
 let show = ref<boolean>(true);
-let body = document.querySelectorAll("body")[0];
+let body = document.querySelectorAll('body')[0];
 const screenshot = ref();
 const screenshotBtnRef = ref();
 const hideDropDown = () => {
   dropDownVisible.value = false;
-  body.removeEventListener("click", hideDropDown, false);
+  body.removeEventListener('click', hideDropDown, false);
   let screenshotBtn = screenshotBtnRef.value.$el;
   if (screenshotBtn) {
     screenshotBtn.style.opacity = 0.2;
@@ -41,7 +41,7 @@ const showDropDown = (e) => {
     if (dropDownVisible.value == false) {
       hideDropDown();
     } else {
-      body.addEventListener("click", hideDropDown, false);
+      body.addEventListener('click', hideDropDown, false);
       let screenshotBtn = screenshotBtnRef.value.$el;
       if (screenshotBtn) {
         screenshotBtn.style.opacity = 1;
@@ -50,11 +50,11 @@ const showDropDown = (e) => {
   }
 };
 const setTranslate = (xPos: number, yPos: number, el: any) => {
-  el.style.transform = "translate3d(" + xPos + "px, " + yPos + "px, 0)";
+  el.style.transform = 'translate3d(' + xPos + 'px, ' + yPos + 'px, 0)';
 };
 const drag = ($event) => {
   if (active.value) {
-    if ($event.type === "touchmove") {
+    if ($event.type === 'touchmove') {
       currentX.value = $event.touches[0].clientX - initialX.value;
       currentY.value = $event.touches[0].clientY - initialY.value;
     } else {
@@ -72,7 +72,7 @@ const dragEnd = ($event) => {
   initialX.value = currentX.value;
   initialY.value = currentY.value;
   //判断是否手机touch事件
-  if ($event.type === "touchstart") {
+  if ($event.type === 'touchstart') {
     //记录结束的位置 当开始和结束的位置一样的时候，需要触发下拉菜单展示
     endX.value = $event.touches[0].clientX;
     endY.value = $event.touches[0].clientY;
@@ -87,14 +87,14 @@ const dragEnd = ($event) => {
   }
   active.value = false;
 
-  body.removeEventListener("touchend", dragEnd);
-  body.removeEventListener("touchmove", drag);
-  body.removeEventListener("mouseup", dragEnd);
-  body.removeEventListener("mousemove", drag);
+  body.removeEventListener('touchend', dragEnd);
+  body.removeEventListener('touchmove', drag);
+  body.removeEventListener('mouseup', dragEnd);
+  body.removeEventListener('mousemove', drag);
   return false;
 };
 const dragStart = ($event) => {
-  if ($event.type === "touchstart") {
+  if ($event.type === 'touchstart') {
     initialX.value = $event.touches[0].clientX - xOffset.value;
     initialY.value = $event.touches[0].clientY - yOffset.value;
     //记录开始的位置 当开始和结束的位置一样的时候，需要触发下拉菜单展示
@@ -108,14 +108,14 @@ const dragStart = ($event) => {
     startY.value = $event.clientY;
   }
   if ($event.currentTarget.id === screenshot.value.id) {
-    body.removeEventListener("touchend", dragEnd, false);
-    body.removeEventListener("touchmove", drag, false);
-    body.removeEventListener("mouseup", dragEnd, false);
-    body.removeEventListener("mousemove", drag, false);
-    body.addEventListener("touchend", dragEnd, false);
-    body.addEventListener("touchmove", drag, false);
-    body.addEventListener("mouseup", dragEnd, false);
-    body.addEventListener("mousemove", drag, false);
+    body.removeEventListener('touchend', dragEnd, false);
+    body.removeEventListener('touchmove', drag, false);
+    body.removeEventListener('mouseup', dragEnd, false);
+    body.removeEventListener('mousemove', drag, false);
+    body.addEventListener('touchend', dragEnd, false);
+    body.addEventListener('touchmove', drag, false);
+    body.addEventListener('mouseup', dragEnd, false);
+    body.addEventListener('mousemove', drag, false);
     //是否是拖拽状态
     active.value = true;
   }
@@ -127,12 +127,12 @@ const dragStart = ($event) => {
   return false;
 };
 const changeMenu = (menu: any) => {
-  emits("change", menu);
+  emits('change', menu);
 };
 const init = async () => {
   await nextTick();
-  screenshot.value.addEventListener("touchstart", dragStart, false);
-  screenshot.value.addEventListener("mousedown", dragStart, false);
+  screenshot.value.addEventListener('touchstart', dragStart, false);
+  screenshot.value.addEventListener('mousedown', dragStart, false);
 };
 onMounted(async () => {
   await init();

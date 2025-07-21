@@ -5,24 +5,24 @@ import {
   dialogPreps,
   PageFieldInfo,
   SearchFields,
-} from "star-horse-lowcode";
-import { Config } from "@/api/settings";
-import { onMounted, provide, reactive, ref } from "vue";
+} from 'star-horse-lowcode';
+import { Config } from '@/api/settings';
+import { onMounted, provide, reactive, ref } from 'vue';
 //后端交互接口地址
-const dataUrl: ApiUrls = apiInstance("system-config", "system/rolesMenusinfo");
+const dataUrl: ApiUrls = apiInstance('system-config', 'system/rolesMenusinfo');
 //查询属性
 const searchFormData = reactive<SearchFields>({
   fieldList: [
     {
-      label: "系统名称",
+      label: '系统名称',
       defaultVisible: true,
-      fieldName: "idInformations",
-      type: "select",
+      fieldName: 'idInformations',
+      type: 'select',
     },
     {
-      label: "菜单名称",
+      label: '菜单名称',
       defaultVisible: true,
-      fieldName: "idMenusinfo",
+      fieldName: 'idMenusinfo',
     },
   ],
 });
@@ -30,98 +30,98 @@ const searchFormData = reactive<SearchFields>({
 const tableFieldList = reactive<PageFieldInfo | any>({
   fieldList: [
     {
-      label: "主键",
-      fieldName: "idRolesMenusinfo",
-      type: "long",
+      label: '主键',
+      fieldName: 'idRolesMenusinfo',
+      type: 'long',
       required: true,
     },
     {
-      label: "角色Id",
-      fieldName: "idRolesinfo",
-      type: "long",
+      label: '角色Id',
+      fieldName: 'idRolesinfo',
+      type: 'long',
       required: true,
     },
     {
-      label: "系统Id",
-      fieldName: "idInformations",
-      type: "long",
+      label: '系统Id',
+      fieldName: 'idInformations',
+      type: 'long',
     },
     {
-      label: "菜单Id",
-      fieldName: "idMenusinfo",
-      type: "long",
+      label: '菜单Id',
+      fieldName: 'idMenusinfo',
+      type: 'long',
       required: true,
     },
     {
-      label: "系统名称",
-      fieldName: "sysName",
+      label: '系统名称',
+      fieldName: 'sysName',
 
       listVisible: true,
     },
     {
-      label: "菜单名称",
-      fieldName: "menuName",
+      label: '菜单名称',
+      fieldName: 'menuName',
 
       required: true,
       listVisible: true,
     },
     {
-      label: "创建人",
+      label: '创建人',
       disabled: true,
-      fieldName: "createdBy",
+      fieldName: 'createdBy',
     },
     {
-      label: "修改人",
+      label: '修改人',
       disabled: true,
-      fieldName: "updatedBy",
+      fieldName: 'updatedBy',
     },
     {
-      label: "创建时间",
-      fieldName: "createdTime",
-      type: "date",
+      label: '创建时间',
+      fieldName: 'createdTime',
+      type: 'date',
     },
     {
-      label: "修改时间",
-      fieldName: "updatedTime",
-      type: "date",
+      label: '修改时间',
+      fieldName: 'updatedTime',
+      type: 'date',
     },
     {
-      label: "版本号",
-      fieldName: "version",
-      type: "number",
+      label: '版本号',
+      fieldName: 'version',
+      type: 'number',
     },
     {
-      label: "是否逻辑删除",
-      fieldName: "isDel",
-      type: "number",
+      label: '是否逻辑删除',
+      fieldName: 'isDel',
+      type: 'number',
     },
     {
-      label: "数据编号",
-      fieldName: "dataNo",
+      label: '数据编号',
+      fieldName: 'dataNo',
     },
     {
-      label: "数据状态码",
-      fieldName: "statusCode",
+      label: '数据状态码',
+      fieldName: 'statusCode',
     },
     {
-      label: "数据状态名称",
-      fieldName: "statusName",
+      label: '数据状态名称',
+      fieldName: 'statusName',
     },
     {
-      label: "国际码",
-      fieldName: "local",
+      label: '国际码',
+      fieldName: 'local',
     },
   ],
   cellEditable: false,
 });
 //主键
-const primaryKey = "idRolesMenusinfo";
+const primaryKey = 'idRolesMenusinfo';
 const rolesMenusinfoRef = ref();
 //校验
 const rules = {};
 //控制弹窗相关设置
 const dialogProps = dialogPreps();
-provide("dialogProps", dialogProps);
+provide('dialogProps', dialogProps);
 
 //初始化方法
 const initData = async () => {};
@@ -166,9 +166,7 @@ const dataFormat = (name: string, cellValue: any, row: any): any => {
   <div class="search-content">
     <div
       class="search_btn"
-      :style="{
-        'flex-direction': Config.buttonStyle.value == 'line' ? 'column' : 'row',
-      }"
+
     >
       <star-horse-search-comp
         @searchData="(data: any) => rolesMenusinfoRef?.createSearchParams(data)"

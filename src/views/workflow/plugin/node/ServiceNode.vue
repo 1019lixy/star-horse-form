@@ -48,12 +48,12 @@
   </div>
 </template>
 <script setup lang="ts">
-import { computed, onMounted } from "vue";
-import { useFlowDesignStore } from "@/store/FlowDesign";
-import { closeLoad, piniaInstance } from "star-horse-lowcode";
+import { computed, onMounted } from 'vue';
+import { useFlowDesignStore } from '@/store/FlowDesign';
+import { closeLoad, piniaInstance } from 'star-horse-lowcode';
 
 defineOptions({
-  name: "ServiceNode",
+  name: 'ServiceNode',
 });
 const flowDesign = useFlowDesignStore(piniaInstance);
 let currentNode = computed(() => flowDesign.currentNode);
@@ -69,30 +69,30 @@ const props = defineProps({
     default: false,
   },
 });
-const emits = defineEmits(["selectNode"]);
+const emits = defineEmits(['selectNode']);
 props.node.error = computed(() => {
   let flag = false;
-  let msg = "";
+  let msg = '';
 
   if (!props.node.executionListeners) {
     flag = true;
-    msg += "未配置执行器\n";
+    msg += '未配置执行器\n';
   }
   props.node.executionListeners?.forEach((item: any) => {
     if (!item.implementationType) {
       flag = true;
-      msg += "未配置执行器类型\n";
+      msg += '未配置执行器类型\n';
     }
     if (!item.implementation) {
       flag = true;
-      msg += "执行器未配置参数\n";
+      msg += '执行器未配置参数\n';
     }
   });
   props.node.errorMsg = msg;
   return flag;
 });
 const selectNode = () => {
-  emits("selectNode", props.node);
+  emits('selectNode', props.node);
 };
 let nameClass = computed(() => {
   return (node: any, defaultStyle: string) => {
@@ -100,9 +100,9 @@ let nameClass = computed(() => {
       return defaultStyle;
     }
     return {
-      "node-status-not": node.statusCode == 0,
-      "node-status-current": node.statusCode == 1,
-      "node-status-complete": node.statusCode == 2,
+      'node-status-not': node.statusCode == 0,
+      'node-status-current': node.statusCode == 1,
+      'node-status-complete': node.statusCode == 2,
     };
   };
 });

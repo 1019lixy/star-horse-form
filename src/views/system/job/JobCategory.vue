@@ -1,5 +1,5 @@
 <script lang="ts" name="RankType" setup>
-import { Config } from "@/api/settings";
+import { Config } from '@/api/settings';
 import {
   onActivated,
   onDeactivated,
@@ -7,37 +7,37 @@ import {
   provide,
   reactive,
   ref,
-} from "vue";
-import { getCustomerParam } from "@/utils/auth";
+} from 'vue';
+import { getCustomerParam } from '@/utils/auth';
 import {
   apiInstance,
   ApiUrls,
   dialogPreps,
   PageFieldInfo,
   SearchFields,
-} from "star-horse-lowcode";
+} from 'star-horse-lowcode';
 //后端交互接口地址
-const dataUrl: ApiUrls = apiInstance("system-config", "system/rankType");
+const dataUrl: ApiUrls = apiInstance('system-config', 'system/rankType');
 //主键
-const primaryKey = "idRankType";
+const primaryKey = 'idRankType';
 const rankTypeRef = ref();
 //定义表单的所有属性
 const formFields = reactive<object>({});
-provide("formFields", formFields);
+provide('formFields', formFields);
 //查询属性
 const searchFormData = reactive<SearchFields>({
   fieldList: [
     {
-      label: "分类名称",
-      fieldName: "rankTypeName",
+      label: '分类名称',
+      fieldName: 'rankTypeName',
       defaultVisible: true,
-      matchType: "lk",
+      matchType: 'lk',
     },
     {
-      label: "编码",
-      fieldName: "rankTypeCode",
+      label: '编码',
+      fieldName: 'rankTypeCode',
       defaultVisible: true,
-      matchType: "lk",
+      matchType: 'lk',
     },
   ],
 });
@@ -46,16 +46,16 @@ const tableFieldList = reactive<PageFieldInfo | any>({
   //属性列表
   fieldList: [
     {
-      label: "分类名称",
-      fieldName: "rankTypeName",
+      label: '分类名称',
+      fieldName: 'rankTypeName',
 
       required: true,
       formVisible: true,
       listVisible: true,
     },
     {
-      label: "编码",
-      fieldName: "rankTypeCode",
+      label: '编码',
+      fieldName: 'rankTypeCode',
 
       required: true,
       formVisible: true,
@@ -65,97 +65,97 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       },
     },
     {
-      label: "排序",
-      fieldName: "rankTypeSort",
-      type: "number",
+      label: '排序',
+      fieldName: 'rankTypeSort',
+      type: 'number',
       defaultValue: 1,
       required: false,
       formVisible: true,
       listVisible: true,
     },
     {
-      label: "职能描述",
-      fieldName: "remark",
-      type: "textarea",
+      label: '职能描述',
+      fieldName: 'remark',
+      type: 'textarea',
       required: false,
       formVisible: true,
       listVisible: true,
     },
     {
-      label: "版本号",
-      fieldName: "version",
-      type: "number",
+      label: '版本号',
+      fieldName: 'version',
+      type: 'number',
       required: false,
       formVisible: !true,
       listVisible: !true,
     },
     {
-      label: "创建人",
-      fieldName: "createdBy",
+      label: '创建人',
+      fieldName: 'createdBy',
 
       required: false,
       formVisible: !true,
       listVisible: !true,
     },
     {
-      label: "创建时间",
-      fieldName: "createdTime",
+      label: '创建时间',
+      fieldName: 'createdTime',
 
       required: false,
       formVisible: !true,
       listVisible: !true,
     },
     {
-      label: "修改人",
-      fieldName: "updatedBy",
+      label: '修改人',
+      fieldName: 'updatedBy',
 
       required: false,
       formVisible: !true,
       listVisible: !true,
     },
     {
-      label: "修改时间",
-      fieldName: "updatedTime",
+      label: '修改时间',
+      fieldName: 'updatedTime',
 
       required: false,
       formVisible: !true,
       listVisible: !true,
     },
     {
-      label: "数据编号",
-      fieldName: "dataNo",
+      label: '数据编号',
+      fieldName: 'dataNo',
 
       required: false,
       formVisible: !true,
       listVisible: !true,
     },
     {
-      label: "状态码",
-      fieldName: "statusCode",
+      label: '状态码',
+      fieldName: 'statusCode',
 
       required: false,
       formVisible: !true,
       listVisible: !true,
     },
     {
-      label: "状态名称",
-      fieldName: "statusName",
+      label: '状态名称',
+      fieldName: 'statusName',
 
       required: false,
       formVisible: !true,
       listVisible: !true,
     },
     {
-      label: "是否删除",
-      fieldName: "isDel",
-      type: "number",
+      label: '是否删除',
+      fieldName: 'isDel',
+      type: 'number',
       required: false,
       formVisible: !true,
       listVisible: !true,
     },
     {
-      label: "国际编码",
-      fieldName: "local",
+      label: '国际编码',
+      fieldName: 'local',
 
       required: false,
       formVisible: !true,
@@ -169,7 +169,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
 const rules = {};
 //控制弹窗相关设置
 const dialogProps = dialogPreps();
-provide("dialogProps", dialogProps);
+provide('dialogProps', dialogProps);
 //初始化方法
 const initData = async () => {};
 const activated = () => {};
@@ -222,9 +222,7 @@ onDeactivated(() => {
   <div class="search-content">
     <div
       class="search_btn"
-      :style="{
-        'flex-direction': Config.buttonStyle.value == 'line' ? 'column' : 'row',
-      }"
+
     >
       <star-horse-search-comp
         @searchData="(data: any) => rankTypeRef?.createSearchParams(data)"

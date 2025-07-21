@@ -1,27 +1,27 @@
 <script setup lang="ts">
-import { ref } from "vue";
+import { ref } from 'vue';
 
 let bodyStyle = ref<any>({
-  padding: "12px 12px 0",
-  "margin-bottom": "8px",
-  border: "1px solid rgba(17, 31, 44, 0.08)",
-  "box-shadow": "0 2px 8px 0 rgb(17 31 44 / 4%)",
-  "border-radius": "8px",
+  padding: '12px 12px 0',
+  'margin-bottom': '8px',
+  border: '1px solid rgba(17, 31, 44, 0.08)',
+  'box-shadow': '0 2px 8px 0 rgb(17 31 44 / 4%)',
+  'border-radius': '8px',
 });
 let form = ref<any>({});
 let items = ref<Array<any>>([
   {
-    id: "",
-    name: "提醒方式",
+    id: '',
+    name: '提醒方式',
     checked: true,
-    des: "xxxxxxxxxxxx",
-    icon: "",
+    des: 'xxxxxxxxxxxx',
+    icon: '',
   },
   {
-    id: "",
-    name: "提醒方式",
+    id: '',
+    name: '提醒方式',
     checked: true,
-    icon: "",
+    icon: '',
   },
   /* {
   id: '',

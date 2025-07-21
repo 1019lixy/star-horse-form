@@ -1,13 +1,13 @@
 <script setup lang="ts" name="ProcessProperty">
-import { onMounted, reactive, ref } from "vue";
-import { PageFieldInfo } from "star-horse-lowcode";
+import { onMounted, reactive, ref } from 'vue';
+import { PageFieldInfo } from 'star-horse-lowcode';
 import {
   dataTypeList,
   entityTypeList,
   execListener,
   extendPrep,
   processEventTypeList,
-} from "@/views/jbpm/panel/Fields";
+} from '@/views/jbpm/panel/Fields';
 
 const props = defineProps({
   modeler: {
@@ -23,52 +23,52 @@ const props = defineProps({
 const processField = reactive<PageFieldInfo | any>({
   fieldList: [
     {
-      fileName: "normal",
+      fileName: 'normal',
       collapseList: [
         {
-          title: "常规",
-          tabName: "normal",
+          title: '常规',
+          tabName: 'normal',
           fieldList: [
             {
-              label: "ID",
-              fieldName: "processId",
+              label: 'ID',
+              fieldName: 'processId',
 
               disabled: true,
               formVisible: true,
               listVisible: true,
             },
             {
-              label: "流程名称",
-              fieldName: "processName",
+              label: '流程名称',
+              fieldName: 'processName',
 
               required: true,
               formVisible: true,
               listVisible: true,
             },
             {
-              label: "可执行",
-              fieldName: "executeAble",
-              type: "switch",
-              defaultValue: "Y",
+              label: '可执行',
+              fieldName: 'executeAble',
+              type: 'switch',
+              defaultValue: 'Y',
               formVisible: true,
               listVisible: true,
               preps: {
-                activeValue: "Y",
-                inactiveValue: "N",
+                activeValue: 'Y',
+                inactiveValue: 'N',
               },
             },
             {
-              label: "流程启动人",
-              fieldName: "executeOperator",
-              type: "dialog-input",
+              label: '流程启动人',
+              fieldName: 'executeOperator',
+              type: 'dialog-input',
               formVisible: true,
               listVisible: true,
               preps: {},
             },
             {
-              label: "流程启角色",
-              fieldName: "executeRole",
-              type: "dialog-input",
+              label: '流程启角色',
+              fieldName: 'executeRole',
+              type: 'dialog-input',
               formVisible: true,
               listVisible: true,
               preps: {},
@@ -76,30 +76,30 @@ const processField = reactive<PageFieldInfo | any>({
           ],
         },
         {
-          title: "全局事件",
-          tabName: "globalEvent",
+          title: '全局事件',
+          tabName: 'globalEvent',
           fieldList: [
             {
-              fieldName: "message",
+              fieldName: 'message',
               collapseList: [
                 {
-                  title: "消息列表",
-                  tabName: "message",
+                  title: '消息列表',
+                  tabName: 'message',
                   batchFieldList: [
                     {
-                      batchName: "messageList",
-                      staticData: "Y",
+                      batchName: 'messageList',
+                      staticData: 'Y',
                       fieldList: [
                         {
-                          label: "ID",
-                          fieldName: "id",
+                          label: 'ID',
+                          fieldName: 'id',
 
                           formVisible: true,
                           listVisible: true,
                         },
                         {
-                          label: "名称",
-                          fieldName: "name",
+                          label: '名称',
+                          fieldName: 'name',
 
                           formVisible: true,
                           listVisible: true,
@@ -109,30 +109,30 @@ const processField = reactive<PageFieldInfo | any>({
                   ],
                 },
                 {
-                  title: "错误列表",
-                  tabName: "error",
+                  title: '错误列表',
+                  tabName: 'error',
                   batchFieldList: [
                     {
-                      batchName: "errorList",
-                      staticData: "Y",
+                      batchName: 'errorList',
+                      staticData: 'Y',
                       fieldList: [
                         {
-                          label: "ID",
-                          fieldName: "id",
+                          label: 'ID',
+                          fieldName: 'id',
 
                           formVisible: true,
                           listVisible: true,
                         },
                         {
-                          label: "名称",
-                          fieldName: "name",
+                          label: '名称',
+                          fieldName: 'name',
 
                           formVisible: true,
                           listVisible: true,
                         },
                         {
-                          label: "错误编码",
-                          fieldName: "errorCode",
+                          label: '错误编码',
+                          fieldName: 'errorCode',
 
                           formVisible: true,
                           listVisible: true,
@@ -142,38 +142,38 @@ const processField = reactive<PageFieldInfo | any>({
                   ],
                 },
                 {
-                  title: "信号列表",
-                  tabName: "signal",
+                  title: '信号列表',
+                  tabName: 'signal',
                   batchFieldList: [
                     {
-                      batchName: "signalList",
-                      staticData: "Y",
+                      batchName: 'signalList',
+                      staticData: 'Y',
                       fieldList: [
                         {
-                          label: "ID",
-                          fieldName: "id",
+                          label: 'ID',
+                          fieldName: 'id',
 
                           formVisible: true,
                           listVisible: true,
                         },
                         {
-                          label: "名称",
-                          fieldName: "name",
+                          label: '名称',
+                          fieldName: 'name',
 
                           formVisible: true,
                           listVisible: true,
                         },
                         {
-                          label: "作用域",
-                          fieldName: "area",
-                          type: "switch",
+                          label: '作用域',
+                          fieldName: 'area',
+                          type: 'switch',
                           formVisible: true,
                           listVisible: true,
                           preps: {
-                            inactiveText: "全局",
-                            activeText: "当前实例",
-                            activeValue: "Y",
-                            inactiveValue: "N",
+                            inactiveText: '全局',
+                            activeText: '当前实例',
+                            activeValue: 'Y',
+                            inactiveValue: 'N',
                           },
                         },
                       ],
@@ -181,30 +181,30 @@ const processField = reactive<PageFieldInfo | any>({
                   ],
                 },
                 {
-                  title: "升级列表",
-                  tabName: "improve",
+                  title: '升级列表',
+                  tabName: 'improve',
                   batchFieldList: [
                     {
-                      batchName: "improveList",
-                      staticData: "Y",
+                      batchName: 'improveList',
+                      staticData: 'Y',
                       fieldList: [
                         {
-                          label: "ID",
-                          fieldName: "id",
+                          label: 'ID',
+                          fieldName: 'id',
 
                           formVisible: true,
                           listVisible: true,
                         },
                         {
-                          label: "名称",
-                          fieldName: "name",
+                          label: '名称',
+                          fieldName: 'name',
 
                           formVisible: true,
                           listVisible: true,
                         },
                         {
-                          label: "升级编码",
-                          fieldName: "code",
+                          label: '升级编码',
+                          fieldName: 'code',
 
                           formVisible: true,
                           listVisible: true,
@@ -217,19 +217,19 @@ const processField = reactive<PageFieldInfo | any>({
             },
           ],
         },
-        execListener("process", "执行监听器", "execListener", "execListeners"),
+        execListener('process', '执行监听器', 'execListener', 'execListeners'),
         {
-          title: "事件监听器",
-          tabName: "eventListener",
+          title: '事件监听器',
+          tabName: 'eventListener',
           batchFieldList: [
             {
-              batchName: "eventListeners",
-              staticData: "Y",
+              batchName: 'eventListeners',
+              staticData: 'Y',
               fieldList: [
                 {
-                  label: "事件类型",
-                  fieldName: "eventType",
-                  type: "select",
+                  label: '事件类型',
+                  fieldName: 'eventType',
+                  type: 'select',
 
                   formVisible: true,
                   listVisible: true,
@@ -239,45 +239,45 @@ const processField = reactive<PageFieldInfo | any>({
                   },
                 },
                 {
-                  label: "监听器类型",
-                  fieldName: "listenerType",
-                  type: "radio",
+                  label: '监听器类型',
+                  fieldName: 'listenerType',
+                  type: 'radio',
                   formVisible: true,
                   listVisible: true,
                   preps: {
                     values: [
-                      { name: "Java类", value: "java" },
-                      { name: "代理表达式", value: "proxyExp" },
+                      { name: 'Java类', value: 'java' },
+                      { name: '代理表达式', value: 'proxyExp' },
                     ],
-                    radioType: "button",
+                    radioType: 'button',
                   },
                 },
                 {
-                  label: "抛出事件",
-                  fieldName: "throwEvent",
-                  type: "radio",
+                  label: '抛出事件',
+                  fieldName: 'throwEvent',
+                  type: 'radio',
 
                   formVisible: true,
                   listVisible: true,
                   preps: {
                     values: [
-                      { name: "是", value: "Y" },
-                      { name: "否", value: "N" },
+                      { name: '是', value: 'Y' },
+                      { name: '否', value: 'N' },
                     ],
-                    radioType: "button",
+                    radioType: 'button',
                   },
                 },
                 {
-                  label: "监听器",
-                  fieldName: "listenerName",
+                  label: '监听器',
+                  fieldName: 'listenerName',
 
                   formVisible: true,
                   listVisible: true,
                 },
                 {
-                  label: "实体类型",
-                  fieldName: "entityType",
-                  type: "select",
+                  label: '实体类型',
+                  fieldName: 'entityType',
+                  type: 'select',
                   formVisible: true,
                   listVisible: true,
                   preps: {
@@ -289,24 +289,24 @@ const processField = reactive<PageFieldInfo | any>({
           ],
         },
         {
-          title: "数据对象",
-          tabName: "dataObject",
+          title: '数据对象',
+          tabName: 'dataObject',
           batchFieldList: [
             {
-              batchName: "dataObjects",
-              staticData: "Y",
+              batchName: 'dataObjects',
+              staticData: 'Y',
               fieldList: [
                 {
-                  label: "名称",
-                  fieldName: "name",
+                  label: '名称',
+                  fieldName: 'name',
 
                   formVisible: true,
                   listVisible: true,
                 },
                 {
-                  label: "数据类型",
-                  fieldName: "dataType",
-                  type: "select",
+                  label: '数据类型',
+                  fieldName: 'dataType',
+                  type: 'select',
                   formVisible: true,
                   listVisible: true,
                   preps: {
@@ -314,8 +314,8 @@ const processField = reactive<PageFieldInfo | any>({
                   },
                 },
                 {
-                  label: "默认值",
-                  fieldName: "defaultValue",
+                  label: '默认值',
+                  fieldName: 'defaultValue',
 
                   formVisible: true,
                   listVisible: true,
@@ -326,13 +326,13 @@ const processField = reactive<PageFieldInfo | any>({
         },
         extendPrep,
         {
-          title: "描述文档",
-          tabName: "description",
+          title: '描述文档',
+          tabName: 'description',
           fieldList: [
             {
-              label: "文档",
-              fieldName: "desc",
-              type: "textarea",
+              label: '文档',
+              fieldName: 'desc',
+              type: 'textarea',
               formVisible: true,
               listVisible: true,
             },
@@ -347,17 +347,17 @@ onMounted(() => {
   localProcessData.value = props.processData;
 });
 const updateId = (name: string) => {
-  props.modeler.get("modeling").updateProperties(props.element, { id: name });
+  props.modeler.get('modeling').updateProperties(props.element, { id: name });
 };
 const updateName = (name: string) => {
-  props.modeler.get("modeling").updateProperties(props.element, { name: name });
+  props.modeler.get('modeling').updateProperties(props.element, { name: name });
 };
 const updateDesc = (name: string) => {
   let doc = props.modeler
-    .get("bpmnFactory")
-    .create("bpmn:Documentation", { text: name });
+    .get('bpmnFactory')
+    .create('bpmn:Documentation', { text: name });
   props.modeler
-    .get("modeling")
+    .get('modeling')
     .updateProperties(props.element, { documentation: [doc] });
 };
 </script>

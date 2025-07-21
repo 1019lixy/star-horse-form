@@ -1,7 +1,7 @@
 /**
  * 工具参数
  */
-import { reactive, ref } from "vue";
+import { reactive, ref } from 'vue';
 import {
   apiInstance,
   ApiUrls,
@@ -10,16 +10,16 @@ import {
   loadData,
   postRequest,
   SelectOption,
-} from "star-horse-lowcode";
-import { loadDict } from "@/api/star_horse_apis";
-import { createJoinCondition } from "@/api/star_horse_utils";
+} from 'star-horse-lowcode';
+import { loadDict } from '@/api/star_horse_apis';
+import { createJoinCondition } from '@/api/star_horse_utils';
 const apiUrl: ApiUrls = apiInstance(
-  "userdb-manage",
-  "userdb/formInstance/conToolManage/idToolManage/136",
+  'userdb-manage',
+  'userdb/formInstance/conToolManage/idToolManage/136',
 );
 const toolParamApi: ApiUrls = apiInstance(
-  "continuous-manage",
-  "continuous/toolParams",
+  'continuous-manage',
+  'continuous/toolParams',
 );
 const compileLanguageList = ref<SelectOption[]>([]);
 const compileTypeList = ref<SelectOption[]>([]);
@@ -36,7 +36,7 @@ const loadLanguageVersions = (val: string) => {
   )?.versionList;
   languageVersionList.value =
     versionList?.map((item: any) => {
-      return { name: item["toolVersion"], value: item["toolVersion"] };
+      return { name: item['toolVersion'], value: item['toolVersion'] };
     }) || [];
 };
 
@@ -45,33 +45,33 @@ const loadLanguageVersions = (val: string) => {
  */
 const extendCommonFields: FieldInfo[] = [
   {
-    fieldName: "row1",
+    fieldName: 'row1',
     collapseList: [
       {
-        title: "高级设置",
-        tabName: "row1",
-        subFormFlag: "N",
-        objectName: "advancedSetting",
+        title: '高级设置',
+        tabName: 'row1',
+        subFormFlag: 'N',
+        objectName: 'advancedSetting',
         fieldList: [
           [
             {
-              label: "  ",
-              type: "checkbox",
+              label: '  ',
+              type: 'checkbox',
               formVisible: true,
 
-              fieldName: "singleImageFlag",
+              fieldName: 'singleImageFlag',
               preps: {
-                values: [{ name: "使用唯一镜像名称", value: "Y" }],
+                values: [{ name: '使用唯一镜像名称', value: 'Y' }],
                 colspan: 6,
-                border: "Y",
+                border: 'Y',
               },
             },
             {
-              label: "关联使用执行机",
-              type: "select",
+              label: '关联使用执行机',
+              type: 'select',
               formVisible: true,
 
-              fieldName: "linkExecServer",
+              fieldName: 'linkExecServer',
               preps: {
                 values: linkExecServerList,
                 colspan: 6,
@@ -81,52 +81,52 @@ const extendCommonFields: FieldInfo[] = [
         ],
       },
       {
-        title: "运行结果通知",
-        tabName: "result",
-        subFormFlag: "Y",
-        objectName: "resultReport",
+        title: '运行结果通知',
+        tabName: 'result',
+        subFormFlag: 'Y',
+        objectName: 'resultReport',
         fieldList: [
           [
             {
-              label: "失败时通知",
-              type: "switch",
-              defaultValue: "N",
-              fieldName: "errorReport",
+              label: '失败时通知',
+              type: 'switch',
+              defaultValue: 'N',
+              fieldName: 'errorReport',
               formVisible: true,
               actions: {
                 change: (val: any) => {
-                  val["_errorReportPersonVisible"] = val["errorReport"];
-                  val["_errorReportTypeVisible"] = val["errorReport"];
+                  val['_errorReportPersonVisible'] = val['errorReport'];
+                  val['_errorReportTypeVisible'] = val['errorReport'];
                 },
               },
               preps: {
-                activeValue: "Y",
-                inactiveValue: "N",
+                activeValue: 'Y',
+                inactiveValue: 'N',
                 colspan: 6,
               },
             },
           ],
           {
-            label: "通知人",
-            type: "checkbox",
-            fieldName: "errorReportPerson",
+            label: '通知人',
+            type: 'checkbox',
+            fieldName: 'errorReportPerson',
             actions: {
               change: (val: any) => {
-                const temp = val["errorReportPerson"];
-                val["_errorCodeCommitorVisible"] =
-                  temp && temp.includes("coder") ? "Y" : "N";
+                const temp = val['errorReportPerson'];
+                val['_errorCodeCommitorVisible'] =
+                  temp && temp.includes('coder') ? 'Y' : 'N';
               },
             },
             preps: {
               values: reportPersonList,
-              border: "Y",
+              border: 'Y',
             },
             brotherNodes: [
               {
-                type: "select",
-                label: "  ",
+                type: 'select',
+                label: '  ',
 
-                fieldName: "errorCodeCommitor",
+                fieldName: 'errorCodeCommitor',
                 preps: {
                   values: codeCommitorList,
                   multiple: true,
@@ -135,57 +135,57 @@ const extendCommonFields: FieldInfo[] = [
             ],
           },
           {
-            label: "通知方式",
-            type: "checkbox",
+            label: '通知方式',
+            type: 'checkbox',
 
-            fieldName: "errorReportType",
+            fieldName: 'errorReportType',
             preps: {
               values: reportTypeList,
-              border: "Y",
+              border: 'Y',
             },
           },
           [
             {
-              label: "成功时通知",
-              type: "switch",
-              defaultValue: "N",
-              fieldName: "successReport",
+              label: '成功时通知',
+              type: 'switch',
+              defaultValue: 'N',
+              fieldName: 'successReport',
               actions: {
                 change: (val: any) => {
-                  val["_successReportPersonVisible"] = val["successReport"];
-                  val["_successReportTypeVisible"] = val["successReport"];
+                  val['_successReportPersonVisible'] = val['successReport'];
+                  val['_successReportTypeVisible'] = val['successReport'];
                 },
               },
               formVisible: true,
               preps: {
-                activeValue: "Y",
-                inactiveValue: "N",
+                activeValue: 'Y',
+                inactiveValue: 'N',
                 colspan: 6,
               },
             },
           ],
           {
-            label: "通知人",
-            type: "checkbox",
+            label: '通知人',
+            type: 'checkbox',
 
             actions: {
               change: (val: any) => {
-                const temp = val["successReportPerson"];
-                val["_successCodeCommitorVisible"] =
-                  temp && temp.includes("coder") ? "Y" : "N";
+                const temp = val['successReportPerson'];
+                val['_successCodeCommitorVisible'] =
+                  temp && temp.includes('coder') ? 'Y' : 'N';
               },
             },
 
-            fieldName: "successReportPerson",
+            fieldName: 'successReportPerson',
             preps: {
               values: reportPersonList,
-              border: "Y",
+              border: 'Y',
             },
             brotherNodes: [
               {
-                type: "select",
-                label: "  ",
-                fieldName: "successCodeCommitorVisible",
+                type: 'select',
+                label: '  ',
+                fieldName: 'successCodeCommitorVisible',
                 preps: {
                   values: codeCommitorList,
                   multiple: true,
@@ -194,9 +194,9 @@ const extendCommonFields: FieldInfo[] = [
             ],
           },
           {
-            label: "通知方式",
-            type: "checkbox",
-            fieldName: "successReportType",
+            label: '通知方式',
+            type: 'checkbox',
+            fieldName: 'successReportType',
             preps: {
               values: reportTypeList,
             },
@@ -210,9 +210,9 @@ const extendCommonFields: FieldInfo[] = [
 const gradleTools = reactive<any>([
   [
     {
-      label: "Gradle版本",
-      fieldName: "pluginVersion",
-      type: "select",
+      label: 'Gradle版本',
+      fieldName: 'pluginVersion',
+      type: 'select',
       required: true,
       formVisible: true,
       preps: {
@@ -220,19 +220,19 @@ const gradleTools = reactive<any>([
       },
     },
     {
-      label: "Gradle文件",
-      fieldName: "fileName",
+      label: 'Gradle文件',
+      fieldName: 'fileName',
 
-      defaultValue: "gradlew.bat",
+      defaultValue: 'gradlew.bat',
       required: false,
       formVisible: true,
     },
   ],
   {
-    label: "编译脚本",
-    fieldName: "compileScript",
-    type: "textarea",
-    defaultValue: "gradle build ",
+    label: '编译脚本',
+    fieldName: 'compileScript',
+    type: 'textarea',
+    defaultValue: 'gradle build ',
     required: false,
     formVisible: true,
   },
@@ -240,9 +240,9 @@ const gradleTools = reactive<any>([
 const antTools = reactive<any>([
   [
     {
-      label: "Ant版本",
-      fieldName: "pluginVersion",
-      type: "select",
+      label: 'Ant版本',
+      fieldName: 'pluginVersion',
+      type: 'select',
       required: true,
       formVisible: true,
       preps: {
@@ -250,19 +250,19 @@ const antTools = reactive<any>([
       },
     },
     {
-      label: "Ant文件",
-      fieldName: "fileName",
+      label: 'Ant文件',
+      fieldName: 'fileName',
 
-      defaultValue: "build.xml",
+      defaultValue: 'build.xml',
       required: false,
       formVisible: true,
     },
   ],
   {
-    label: "编译脚本",
-    fieldName: "compileScript",
-    type: "textarea",
-    defaultValue: "ant build ",
+    label: '编译脚本',
+    fieldName: 'compileScript',
+    type: 'textarea',
+    defaultValue: 'ant build ',
     required: false,
     formVisible: true,
   },
@@ -270,59 +270,59 @@ const antTools = reactive<any>([
 
 const dataInit = () => {
   if (!compileLanguageList.value || compileLanguageList.value.length == 0) {
-    let masterFields = ["toolType", "toolCode", "toolName", "defaultParams"];
-    postRequest(apiUrl.basePrefix + "/joinQuery", {
+    let masterFields = ['toolType', 'toolCode', 'toolName', 'defaultParams'];
+    postRequest(apiUrl.basePrefix + '/joinQuery', {
       limitFields: masterFields,
       groupByFields: masterFields,
-      groupName: "versionList",
+      groupName: 'versionList',
       joinTables: [
         {
-          tableName: "conToolVersion",
-          joinType: "inner",
-          aliasName: "b",
-          limitFields: ["toolVersion", "toolSubVersion", "privateParams"],
+          tableName: 'conToolVersion',
+          joinType: 'inner',
+          aliasName: 'b',
+          limitFields: ['toolVersion', 'toolSubVersion', 'privateParams'],
           joinCondition: {
             joinFieldList: [
-              createJoinCondition("a.idToolManage", "b.idToolManage"),
+              createJoinCondition('a.idToolManage', 'b.idToolManage'),
             ],
           },
         },
       ],
       whereCondition: {
         fieldList: [
-          createCondition("a.toolType", ["language", "compile"], "in"),
+          createCondition('a.toolType', ['language', 'compile'], 'in'),
         ],
       },
     }).then((res: any) => {
       let reData = res.data;
       if (reData.code) {
-        console.log("加载编译语言失败");
+        console.log('加载编译语言失败');
         return;
       }
       compileLanguageList.value = reData?.data
-        .filter((item: any) => item.toolType == "language")
+        .filter((item: any) => item.toolType == 'language')
         .map((item: any) => {
           return {
-            name: item["toolName"],
-            value: item["toolCode"],
-            versionList: item["versionList"],
+            name: item['toolName'],
+            value: item['toolCode'],
+            versionList: item['versionList'],
           };
         }); // 加载编译语言
       compileTypeList.value = reData?.data
-        .filter((item: any) => item.toolType == "compile")
+        .filter((item: any) => item.toolType == 'compile')
         .map((item: any) => {
           return {
-            name: item["toolName"],
-            value: item["toolCode"],
-            versionList: item["versionList"],
+            name: item['toolName'],
+            value: item['toolCode'],
+            versionList: item['versionList'],
           };
         }); // 加载编译工具
     });
   }
-  loadDict("message_tools").then((res: any) => {
+  loadDict('message_tools').then((res: any) => {
     reportTypeList.value = res;
   });
-  loadDict("CONTINUS_JOB_REPORT_PERSON").then((res: any) => {
+  loadDict('CONTINUS_JOB_REPORT_PERSON').then((res: any) => {
     reportPersonList.value = res;
   });
 };
@@ -340,7 +340,7 @@ const loadPlugin = async (name: string) => {
   )?.versionList;
   pluginVersionList.value =
     versionList?.map((item: any) => {
-      return { name: item["toolVersion"], value: item["toolVersion"] };
+      return { name: item['toolVersion'], value: item['toolVersion'] };
     }) || [];
   return await loadToolParams(name);
 };

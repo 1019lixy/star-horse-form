@@ -1,7 +1,7 @@
 <script setup lang="ts" name="Safety">
-import { ref } from "vue";
+import { ref } from 'vue';
 
-const tabCurrent = ref("second");
+const tabCurrent = ref('second');
 </script>
 <style scoped></style>
 <template>

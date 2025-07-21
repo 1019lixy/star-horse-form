@@ -55,23 +55,23 @@
   <FlowDrawerFooter @close="onClose" @save="onSave" />
 </template>
 <script setup lang="ts">
-import { ModelRef, ref } from "vue";
-import { useFlowDesignStore } from "@/store/FlowDesign";
-import { piniaInstance, SelectOption } from "star-horse-lowcode";
+import { ModelRef, ref } from 'vue';
+import { useFlowDesignStore } from '@/store/FlowDesign';
+import { piniaInstance, SelectOption } from 'star-horse-lowcode';
 
 defineOptions({
-  name: "WritePrep",
+  name: 'WritePrep',
 });
-const rules = [{ trigger: "blur", required: true, message: "必填项不能为空" }];
+const rules = [{ trigger: 'blur', required: true, message: '必填项不能为空' }];
 const timeOptionList = ref<SelectOption[]>([
-  { name: "秒", value: "PT%sS" },
-  { name: "分钟", value: "PT%sM" },
-  { name: "小时", value: "PT%sH" },
-  { name: "天", value: "P%sD" },
-  { name: "周", value: "P%sW" },
-  { name: "月", value: "P%sM" },
+  { name: '秒', value: 'PT%sS' },
+  { name: '分钟', value: 'PT%sM' },
+  { name: '小时', value: 'PT%sH' },
+  { name: '天', value: 'P%sD' },
+  { name: '周', value: 'P%sW' },
+  { name: '月', value: 'P%sM' },
 ]);
-let node: ModelRef<any> = defineModel("activeData");
+let node: ModelRef<any> = defineModel('activeData');
 const timerNodeRef = ref();
 const flowDesign = useFlowDesignStore(piniaInstance);
 const onClose = () => {
@@ -83,13 +83,13 @@ const onClose = () => {
 const onSave = () => {
   timerNodeRef.value.validate((valid: boolean) => {
     if (valid) {
-      if (node.value.waitType == "duration" || node.value.duration) {
+      if (node.value.waitType == 'duration' || node.value.duration) {
         node.value.content =
           node.value.duration +
             timeOptionList.value.find((item) => item.value == node.value.unit)
-              ?.name || "";
+              ?.name || '';
       }
-      if (node.value.waitType == "date") {
+      if (node.value.waitType == 'date') {
         node.value.content = node.value.timeDate;
       }
       onClose();

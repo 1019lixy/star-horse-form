@@ -1,17 +1,17 @@
 <script setup lang="ts">
-import { ref } from "vue";
-import { SHAPE_LIST } from "@/views/dyform/page/shapes";
-import icons from "./icon";
-import images from "@/assets/image";
+import { ref } from 'vue';
+import { SHAPE_LIST } from '@/views/dyform/page/shapes';
+import icons from './icon';
+import images from '@/assets/image';
 
-let activeName = ref<string>("first");
+let activeName = ref<string>('first');
 const goBack = () => {
   window.history.back();
 };
 const strToObj = (str: string) => {
   // 使用DOMParser来解析字符串
   const parser = new DOMParser();
-  return parser.parseFromString(str, "image/svg+xml");
+  return parser.parseFromString(str, 'image/svg+xml');
 };
 </script>
 

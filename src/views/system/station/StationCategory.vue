@@ -1,5 +1,5 @@
 <script lang="ts" name="StationSequence" setup>
-import { Config } from "@/api/settings";
+import { Config } from '@/api/settings';
 import {
   nextTick,
   onActivated,
@@ -8,8 +8,8 @@ import {
   provide,
   reactive,
   ref,
-} from "vue";
-import { getCustomerParam } from "@/utils/auth";
+} from 'vue';
+import { getCustomerParam } from '@/utils/auth';
 import {
   apiInstance,
   ApiUrls,
@@ -20,26 +20,26 @@ import {
   SearchFields,
   SearchParams,
   UserFuncInfo,
-} from "star-horse-lowcode";
+} from 'star-horse-lowcode';
 //后端交互接口地址
-const dataUrl: ApiUrls = apiInstance("system-config", "system/stationSequence");
+const dataUrl: ApiUrls = apiInstance('system-config', 'system/stationSequence');
 //主键
-const primaryKey = "idStationSequence";
+const primaryKey = 'idStationSequence';
 const stationSequenceRef = ref();
 //定义表单的所有属性
 const formFields = reactive<any>({});
 const outerForm = ref<any>({});
-provide("formFields", formFields);
+provide('formFields', formFields);
 let stationSequenceList = ref<Array<any>>([]);
 let extendBtns = ref<UserFuncInfo[]>([
   {
-    btnName: "添加子节点",
-    authority: "add",
-    icon: "add",
+    btnName: '添加子节点',
+    authority: 'add',
+    icon: 'add',
     priority: 1,
     funcName: async (row: any) => {
       console.log(row);
-      outerForm.value["parentId"] = row[primaryKey];
+      outerForm.value['parentId'] = row[primaryKey];
       dialogProps.editVisible = true;
       await nextTick();
     },
@@ -49,16 +49,16 @@ let extendBtns = ref<UserFuncInfo[]>([
 const searchFormData = reactive<SearchFields>({
   fieldList: [
     {
-      label: "名称",
-      fieldName: "seqName",
+      label: '名称',
+      fieldName: 'seqName',
       defaultVisible: true,
-      matchType: "lk",
+      matchType: 'lk',
     },
     {
-      label: "编码",
-      fieldName: "seqCode",
+      label: '编码',
+      fieldName: 'seqCode',
       defaultVisible: true,
-      matchType: "lk",
+      matchType: 'lk',
     },
   ],
 });
@@ -67,23 +67,23 @@ const tableFieldList = reactive<PageFieldInfo | any>({
   //属性列表
   fieldList: [
     {
-      label: "主键",
-      fieldName: "idStationSequence",
+      label: '主键',
+      fieldName: 'idStationSequence',
 
       required: true,
     },
     [
       {
-        label: "名称",
-        fieldName: "seqName",
+        label: '名称',
+        fieldName: 'seqName',
 
         required: true,
         formVisible: true,
         listVisible: true,
       },
       {
-        label: "编码",
-        fieldName: "seqCode",
+        label: '编码',
+        fieldName: 'seqCode',
 
         required: true,
         formVisible: true,
@@ -95,9 +95,9 @@ const tableFieldList = reactive<PageFieldInfo | any>({
     ],
     [
       {
-        label: "父节点",
-        fieldName: "parentId",
-        type: "tselect",
+        label: '父节点',
+        fieldName: 'parentId',
+        type: 'tselect',
         required: false,
         formVisible: true,
 
@@ -105,15 +105,15 @@ const tableFieldList = reactive<PageFieldInfo | any>({
           checkStrictly: true,
           data: stationSequenceList,
           props: {
-            label: "seqName",
-            value: "idStationSequence",
+            label: 'seqName',
+            value: 'idStationSequence',
           },
         },
       },
       {
-        label: "排序",
-        fieldName: "seqSort",
-        type: "number",
+        label: '排序',
+        fieldName: 'seqSort',
+        type: 'number',
         defaultValue: 100,
         required: false,
         formVisible: true,
@@ -121,88 +121,88 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       },
     ],
     {
-      label: "序列描述",
-      fieldName: "remark",
-      type: "textarea",
+      label: '序列描述',
+      fieldName: 'remark',
+      type: 'textarea',
       required: false,
       formVisible: true,
       listVisible: true,
     },
     {
-      label: "版本号",
-      fieldName: "version",
-      type: "number",
+      label: '版本号',
+      fieldName: 'version',
+      type: 'number',
       required: false,
       formVisible: !true,
       listVisible: !true,
     },
     {
-      label: "创建人",
-      fieldName: "createdBy",
+      label: '创建人',
+      fieldName: 'createdBy',
 
       required: false,
       formVisible: !true,
       listVisible: true,
     },
     {
-      label: "创建时间",
-      fieldName: "createdTime",
+      label: '创建时间',
+      fieldName: 'createdTime',
 
       required: false,
       formVisible: !true,
       listVisible: true,
     },
     {
-      label: "修改人",
-      fieldName: "updatedBy",
+      label: '修改人',
+      fieldName: 'updatedBy',
 
       required: false,
       formVisible: !true,
       listVisible: !true,
     },
     {
-      label: "修改时间",
-      fieldName: "updatedTime",
+      label: '修改时间',
+      fieldName: 'updatedTime',
 
       required: false,
       formVisible: !true,
       listVisible: !true,
     },
     {
-      label: "数据编号",
-      fieldName: "dataNo",
+      label: '数据编号',
+      fieldName: 'dataNo',
 
       required: false,
       formVisible: !true,
       listVisible: !true,
     },
     {
-      label: "状态码",
-      fieldName: "statusCode",
+      label: '状态码',
+      fieldName: 'statusCode',
 
       required: false,
       formVisible: !true,
       listVisible: !true,
     },
     {
-      label: "状态名称",
-      fieldName: "statusName",
+      label: '状态名称',
+      fieldName: 'statusName',
 
       required: false,
       formVisible: !true,
       listVisible: !true,
     },
     {
-      label: "是否删除",
-      fieldName: "isDel",
-      type: "number",
+      label: '是否删除',
+      fieldName: 'isDel',
+      type: 'number',
       required: false,
       formVisible: !true,
       listVisible: !true,
     },
     {
-      label: "国际编码",
-      fieldName: "local",
+      label: '国际编码',
+      fieldName: 'local',
 
       required: false,
       formVisible: !true,
@@ -216,15 +216,15 @@ const tableFieldList = reactive<PageFieldInfo | any>({
 const rules = {};
 //控制弹窗相关设置
 const dialogProps = dialogPreps();
-provide("dialogProps", dialogProps);
+provide('dialogProps', dialogProps);
 //初始化方法
 const initData = async () => {
   let params: SearchParams[] = [];
-  let cond = createCondition("a.parentId", null, "is");
-  cond.orOperList = [createCondition("a.parentId", "")];
+  let cond = createCondition('a.parentId', null, 'is');
+  cond.orOperList = [createCondition('a.parentId', '')];
   let result = await loadData(dataUrl.listConditionUrl!, {
     fieldList: params,
-    orderBy: [{ fieldName: "seqSort", ascOrDesc: "asc" }],
+    orderBy: [{ fieldName: 'seqSort', ascOrDesc: 'asc' }],
   });
   if (result.error) {
     console.log(result.error);
@@ -284,9 +284,7 @@ onDeactivated(() => {
   <div class="search-content">
     <div
       class="search_btn"
-      :style="{
-        'flex-direction': Config.buttonStyle.value == 'line' ? 'column' : 'row',
-      }"
+
     >
       <star-horse-search-comp
         @searchData="

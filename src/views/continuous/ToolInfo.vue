@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onMounted, ref } from "vue";
+import { onMounted, ref } from 'vue';
 import {
   apiInstance,
   ApiUrls,
@@ -7,14 +7,14 @@ import {
   postRequest,
   SelectOption,
   warning,
-} from "star-horse-lowcode";
+} from 'star-horse-lowcode';
 
-const emits = defineEmits(["selectNode"]);
+const emits = defineEmits(['selectNode']);
 const apiUrl: ApiUrls = apiInstance(
-  "userdb-manage",
-  "userdb/formInstance/conNodeConfigures/idNodeConfigure/136",
+  'userdb-manage',
+  'userdb/formInstance/conNodeConfigures/idNodeConfigure/136',
 );
-const currentItem = ref<string>("all");
+const currentItem = ref<string>('all');
 const currentNode = ref<any>({});
 let categoryNodeList = ref<Array<any>>([]);
 let nodeList = ref<Array<any>>([]);
@@ -22,7 +22,7 @@ let nodeTypeList = ref<SelectOption[]>([]);
 
 const changeNode = (nodeType: string) => {
   currentItem.value = nodeType;
-  if (nodeType == "all") {
+  if (nodeType == 'all') {
     categoryNodeList.value = nodeList.value;
   } else {
     categoryNodeList.value = nodeList.value.filter(
@@ -30,13 +30,13 @@ const changeNode = (nodeType: string) => {
     );
   }
   currentNode.value = categoryNodeList.value.find(
-    (item) => item.defaultFlag == "Y",
+    (item) => item.defaultFlag == 'Y',
   );
 };
 const selectNode = (item: any, action: string) => {
   currentNode.value = item;
-  if (action == "dblClick") {
-    emits("selectNode", item);
+  if (action == 'dblClick') {
+    emits('selectNode', item);
   }
 };
 const setNode = (nodeCode: string) => {
@@ -47,9 +47,9 @@ const getNode = () => {
 };
 const init = async () => {
   nodeList.value = [];
-  nodeTypeList.value = await dictData("CONTINUS_NODE_TYPE");
+  nodeTypeList.value = await dictData('CONTINUS_NODE_TYPE');
   postRequest(apiUrl.listConditionUrl!, {
-    orderBy: [{ fieldName: "dataSort", ascOrDesc: "asc" }],
+    orderBy: [{ fieldName: 'dataSort', ascOrDesc: 'asc' }],
   }).then((res) => {
     let resData = res.data;
     if (resData?.code) {
@@ -57,7 +57,7 @@ const init = async () => {
       return;
     }
     nodeList.value = resData?.data;
-    changeNode("all");
+    changeNode('all');
   });
 };
 onMounted(() => {

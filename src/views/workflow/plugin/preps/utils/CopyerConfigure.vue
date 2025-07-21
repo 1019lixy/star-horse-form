@@ -26,12 +26,12 @@
   </div>
 </template>
 <script setup lang="ts">
-import { onMounted, ref } from "vue";
-import { useVModel } from "@vueuse/core";
-import { createCondition, postRequest } from "star-horse-lowcode";
+import { onMounted, ref } from 'vue';
+import { useVModel } from '@vueuse/core';
+import { createCondition, postRequest } from 'star-horse-lowcode';
 
 defineOptions({
-  name: "CopyerConfigure",
+  name: 'CopyerConfigure',
 });
 const props = defineProps({
   modelValue: {
@@ -41,15 +41,15 @@ const props = defineProps({
     },
   },
 });
-const emits = defineEmits(["update:modelValue"]);
-let config = useVModel(props, "modelValue", emits);
+const emits = defineEmits(['update:modelValue']);
+let config = useVModel(props, 'modelValue', emits);
 let operations = ref<Array<any>>([]);
 const init = () => {
   postRequest(
-    "/userdb-manage/userdb/formInstance/shNodeMappingPreps/idNodeMappingPrep/337537414606095357/getAllByCondition",
+    '/userdb-manage/userdb/formInstance/shNodeMappingPreps/idNodeMappingPrep/337537414606095357/getAllByCondition',
     {
-      fieldList: [createCondition("idFlowNode", "cc_advance_config")],
-      orderBy: [{ fieldName: "createdTime", ascOrDesc: "ASC" }],
+      fieldList: [createCondition('idFlowNode', 'cc_advance_config')],
+      orderBy: [{ fieldName: 'createdTime', ascOrDesc: 'ASC' }],
     },
   ).then((res) => {
     if (res.data.code) {
