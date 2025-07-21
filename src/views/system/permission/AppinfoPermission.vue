@@ -153,11 +153,11 @@ let preValid = ref<any>({
     return true;
   },
 });
-const dataFormat = (name: string, cellValue: object): any => {
+const dataFormat = (name: string, cellValue: any): any => {
   if (name == "statusCode") {
     return (
-      appPermissionStatus.value.find((item) => item.value == cellValue)?.name ||
-      cellValue
+      appPermissionStatus.value.find((item: any) => item.value == cellValue)
+        ?.name || cellValue
     );
   }
   return cellValue;
