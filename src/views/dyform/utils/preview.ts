@@ -184,7 +184,7 @@ export function validDynamicFormCompParams(
         let msg = '';
         const itemType = temp.itemType;
         if (itemType == 'dialog-input' || itemType == 'page-select') {
-            const temp = '\n' + name + '组件必须在【属性面板->基础属性->参数配置】中';
+            const temp = '\n【' + name + '】组件必须在【属性面板->基础属性->参数配置】中';
             if (!preps.dataUrl?.host) {
                 msg += ',配置IP地址或服务名';
             }
@@ -208,7 +208,7 @@ export function validDynamicFormCompParams(
                 !preps.urlOrDictName
             ) {
                 msg =
-                    '\n' + name + '组件必须在【属性面板->基础属性->数据源】中配置数据源';
+                    '\n【' + name + '】组件必须在【属性面板->基础属性->数据源】中配置数据源;';
             }
         }
         if (msg.length > 0) {
