@@ -7,10 +7,12 @@ import {
   dialogPreps,
   PageFieldInfo,
   piniaInstance,
+  postRequest,
   SearchFields,
   SelectOption,
   StarHorseDialog,
-  UserFuncInfo
+  UserFuncInfo,
+  warning
 } from 'star-horse-lowcode';
 import {initDbList} from "@/views/dbsearch/utils/DbSearchUtils.js";
 import {loadRolesInfo} from "@/api/star_horse_utils.js";
@@ -214,6 +216,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
     'preps': {}
   }], {
     'batchFieldList': [{
+      staticColumn:"N",
       'batchName': 'dynamicScriptColumnsList',
       'title': '动态列表',
       'fieldList': [{
@@ -389,12 +392,39 @@ const dataLoaded = (data: any) => {
     dynamicScriptConsumerViewFormRef.value.updateFormData(temp);
   }
 };
+const analyzeScript = () => {
+ const dataInfo:any= dynamicScriptConsumerViewFormRef.value.getFormData().value;
+  if (!dataInfo || !dataInfo.idDbinfo) {
+    warning('请先选择数据库');
+    return;
+  }
+  if (!dataInfo || !dataInfo.sqlContent) {
+   warning('请先输入脚本内容');
+    return;
+  }
+  postRequest(`${dataUrl.basePrefix}/analyzeScript`, {
+    idDbinfo: dataInfo.idDbinfo,
+   scriptContent: dataInfo.sqlContent,
+  }).then((res) => {
+    if (res.data.code) {
+      warning(res.data.cnMessage);
+      return;
+    }
+    let data = res.data.data;
+    if (data && data.length > 0) {
+      dataInfo.dynamicScriptColumnsList = data;
+    } else {
+      warning('未解析到任何字段');
+    }
+  });
+  
+};
 const userBtn: UserFuncInfo[] = [{
   btnName: '解析脚本',
   icon: 'code',
   authority: 'edit',
   funcName: () => {
-    alert(3);
+    analyzeScript();
   }
 }];
 const deactivated = () => {
