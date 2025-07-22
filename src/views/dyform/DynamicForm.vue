@@ -727,6 +727,7 @@ let prepsModel = ref('one');
                       :field="data"
                       :isDesign="true"
                       :formInfo="formInfo"
+                      :showFormItem="true"
                       :index-of-parent-list="index"
                       :is="itemCheck(data)"
                       v-model:formData="formData"

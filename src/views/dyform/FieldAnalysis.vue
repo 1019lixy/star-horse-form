@@ -86,6 +86,7 @@ onMounted(() => {
       <el-col :span="3">
         <el-input
           v-model="field.preps['name']"
+          @blur="fieldPlaceholder(field.preps, field)"
           :size="size"
           placeholder="属性名称"
           clearable

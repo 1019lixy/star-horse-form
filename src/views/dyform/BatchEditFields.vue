@@ -11,7 +11,7 @@ const list = computed(() => designForm.compList);
 let batchModifyData = reactive<any>({
   maxLength: 100,
   precision: 0,
-  required: 'N',
+  required: false,
   formVisible: true,
   searchVisible: true,
   listVisible: true,

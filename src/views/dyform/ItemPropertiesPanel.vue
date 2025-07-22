@@ -59,7 +59,6 @@ const containerPrepRef = ref<any>(null);
 //-----------------------数据源相关属性---------------------
 let matchTypeList = ref<SelectOption[]>();
 const jsButtonClick = (data: any, actionName: string) => {
-  console.log(data);
   jsEditor.value = !jsEditor.value;
   if (!Object.keys(formProps.value).includes(actionName)) {
     data[actionName] = '';
@@ -105,8 +104,7 @@ const dataRelationMerge = async () => {
   if (!flag) {
     return;
   }
-  formProps.value['dataRelation'] =
-      dataRelationFormRef?.value.getFormData().value;
+  formProps.value['dataRelation'] = dataRelationFormRef?.value.getFormData().value;
   closeAction();
 };
 const paramsValid = async () => {
