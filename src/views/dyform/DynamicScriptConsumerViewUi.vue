@@ -165,6 +165,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
     'listVisible': true,
     'preps': {
       'urlOrDictName': 'script_button_authority',
+       multiple: true,
       'dataSource': 'dict'
     }
   }, {
