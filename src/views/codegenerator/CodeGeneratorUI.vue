@@ -78,7 +78,7 @@ const tableFieldList = reactive<PageFieldInfo>({
         listVisible: true,
         preps: {
           values: dbInfoList,
-          needInitLink: true,
+          stopInitCallAction: true,
         },
       },
       {

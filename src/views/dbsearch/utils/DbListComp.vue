@@ -140,19 +140,6 @@ const configFieldInfo = ref<PageFieldInfo>({
         },
       },
       {
-        label: '是否子表',
-        fieldName: 'subFormFlag',
-        type: 'switch',
-        helpMsg: '多表联合创建表单时适用',
-        formVisible: true,
-        listVisible: true,
-        preps: {
-          disable: true,
-        },
-      },
-    ],
-    [
-      {
         label: '每行显示列数',
         fieldName: 'columns',
         type: 'number',
@@ -164,6 +151,20 @@ const configFieldInfo = ref<PageFieldInfo>({
           step: 1,
         },
       },
+      /*{
+        label: '是否子表',
+        fieldName: 'subFormFlag',
+        type: 'switch',
+        helpMsg: '多表联合创建表单时适用',
+        formVisible: true,
+        listVisible: true,
+        preps: {
+          disable: true,
+        },
+      },*/
+    ],
+    [
+
       {
         label: '显示公共属性',
         fieldName: 'commonFieldFlag',
@@ -223,8 +224,8 @@ const configFieldInfo = ref<PageFieldInfo>({
             value: 'dataNo',
           },
         },
-      },
-      {
+      }],
+      [{
         label: '授权用户组',
         fieldName: 'userGroupList',
         type: 'select',
@@ -235,7 +236,21 @@ const configFieldInfo = ref<PageFieldInfo>({
           values: rolesList,
         },
       },
+        {
+          'label': '按钮权限',
+          'fieldName': 'buttonPermissionsList',
+          'type': 'select',
+          'required': false,
+          'formVisible': createMenuFlag,
+          'listVisible': true,
+          'preps': {
+            multiple: true,
+            'urlOrDictName': 'button_authority',
+            'dataSource': 'dict'
+          }
+        },
     ],
+
     [
       {
         label: '主键策略',
@@ -276,6 +291,7 @@ const configFieldInfo = ref<PageFieldInfo>({
         },
       },
     ],
+
     {
       label: '数据库表',
       fieldName: 'tableNameList',

@@ -129,54 +129,13 @@ const tableFieldList = reactive<PageFieldInfo | any>({
               {
                 label: '表名',
                 fieldName: 'tbName',
-
                 required: true,
                 formVisible: true,
-
                 preps: {
                   editdisabled: true,
-                  colspan: 16,
+                  colspan: 11,
                 },
               },
-              {
-                label: '创建表',
-                fieldName: 'createTable',
-                type: 'switch',
-                defaultValue: 'N',
-                formVisible: true,
-                preps: {
-                  colspan: 8,
-                  activeValue: 'Y',
-                  inactiveValue: 'N',
-                },
-              },
-            ],
-            [
-              {
-                label: '主键',
-                fieldName: 'formId',
-                required: true,
-                formVisible: true,
-
-                preps: {
-                  editdisabled: true,
-                  colspan: 16,
-                },
-              },
-              {
-                label: '主键策略',
-                fieldName: 'primaryKeyPolicy',
-                type: 'select',
-                formVisible: true,
-
-                preps: {
-                  editdisabled: true,
-                  values: primaryKeyPolicyList,
-                  colspan: 8,
-                },
-              },
-            ],
-            [
               {
                 label: '归属应用',
                 fieldName: 'sysId',
@@ -190,17 +149,53 @@ const tableFieldList = reactive<PageFieldInfo | any>({
                 required: true,
                 preps: {
                   checkStrictly: true,
-                  colspan: 9,
+                  colspan: 8,
                   data: informationsList,
+                },
+              },
+              {
+                label: '创建表',
+                fieldName: 'createTable',
+                type: 'switch',
+                defaultValue: 'N',
+                formVisible: true,
+                preps: {
+                  colspan: 5,
+                  activeValue: 'Y',
+                  inactiveValue: 'N',
+                },
+              },
+            ],
+            [
+              {
+                label: '主键',
+                fieldName: 'formId',
+                required: true,
+                formVisible: true,
+                preps: {
+                  editdisabled: true,
+                  colspan: 11,
+                },
+              },
+              {
+                label: '主键策略',
+                fieldName: 'primaryKeyPolicy',
+                type: 'select',
+                formVisible: true,
+                preps: {
+                  editdisabled: true,
+                  values: primaryKeyPolicyList,
+                  colspan: 8,
                 },
               },
               {
                 label: '表单图标',
                 fieldName: 'formIcon',
                 type: 'icon',
+                defaultValue:'document',
                 formVisible: true,
                 preps: {
-                  colspan: 8,
+                  colspan: 5,
                   iconType: 'user',
                   values: loadSvgIcons(),
                 },
@@ -208,7 +203,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
             ],
             [
               {
-                label: '创建菜单',
+                label: '是否创建菜单',
                 fieldName: 'createMenu',
                 type: 'switch',
                 actions: {
@@ -220,25 +215,9 @@ const tableFieldList = reactive<PageFieldInfo | any>({
                 defaultValue: 'N',
                 formVisible: true,
                 preps: {
-                  colspan: 6,
+                  colspan: 12,
                   activeValue: 'Y',
                   inactiveValue: 'N',
-                },
-              },
-
-              {
-                label: '父级菜单',
-                fieldName: 'parentMenuId',
-                type: 'tselect',
-                formVisible: menuFlag,
-                preps: {
-                  checkStrictly: true,
-                  colspan: 9,
-                  data: menusInfoList,
-                  props: {
-                    label: 'menuName',
-                    value: 'dataNo',
-                  },
                 },
               },
               {
@@ -248,11 +227,43 @@ const tableFieldList = reactive<PageFieldInfo | any>({
                 formVisible: menuFlag,
                 listVisible: true,
                 preps: {
-                  colspan: 9,
+                  colspan: 12,
                   multiple: true,
                   values: rolesList,
                 },
               },
+
+            ],
+            [
+              {
+                label: '父级菜单',
+                fieldName: 'parentMenuId',
+                type: 'tselect',
+                formVisible: menuFlag,
+                preps: {
+                  checkStrictly: true,
+                  colspan: 12,
+                  data: menusInfoList,
+                  props: {
+                    label: 'menuName',
+                    value: 'dataNo',
+                  },
+                },
+              },
+              {
+                'label': '按钮权限',
+                'fieldName': 'buttonPermissionsList',
+                'type': 'select',
+                'required': false,
+                'formVisible': menuFlag,
+                'listVisible': true,
+                'preps': {
+                  multiple: true,
+                  colspan: 12,
+                  'urlOrDictName': 'button_authority',
+                  'dataSource': 'dict'
+                }
+              }
             ],
             [
               {
@@ -264,7 +275,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
                 preps: {
                   activeValue: 1,
                   inactiveValue: 2,
-                  colspan: 8,
+                  colspan:8,
                 },
               },
               {
@@ -294,7 +305,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
                   },
                 },
                 preps: {
-                  colspan: 6,
+                  colspan: 8,
                   values: pageStyleList,
                 },
               },
@@ -304,7 +315,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
                 type: 'select',
                 formVisible: conditionFlag,
                 preps: {
-                  colspan: 9,
+                  colspan: 8,
                   values: dataLoadConditionList,
                 },
               },

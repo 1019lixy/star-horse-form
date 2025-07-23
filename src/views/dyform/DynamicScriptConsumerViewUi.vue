@@ -3,8 +3,9 @@ import {computed, nextTick, onActivated, onDeactivated, onMounted, provide, reac
 import {
   apiInstance,
   ApiUrls,
-  createDatetime,
+  closeLoad,
   dialogPreps,
+  load,
   PageFieldInfo,
   piniaInstance,
   postRequest,
@@ -15,7 +16,7 @@ import {
   warning
 } from 'star-horse-lowcode';
 import {initDbList} from "@/views/dbsearch/utils/DbSearchUtils.js";
-import {loadRolesInfo} from "@/api/star_horse_utils.js";
+import {findAppInfo, loadRolesInfo} from "@/api/star_horse_utils.js";
 import {permissionMenus} from "@/api/star_horse_apis.js";
 import {useLoginStore} from "@/store/Login.js";
 
@@ -75,6 +76,9 @@ const searchFormData = reactive<SearchFields>({
     }
   }]
 });
+const appFieldVisible = ref<boolean>(false);
+const interFieldVisible = ref<boolean>(false);
+
 const tableFieldList = reactive<PageFieldInfo | any>({
   'fieldList': [[{
     'label': '描述',
@@ -109,13 +113,20 @@ const tableFieldList = reactive<PageFieldInfo | any>({
     'required': true,
     'formVisible': true,
     'listVisible': true,
+    actions: {
+      change: (val: any) => {
+        console.log(val);
+        appFieldVisible.value = val['consumerType'] == 'app';
+        interFieldVisible.value = val['consumerType'] == 'inter';
+      }
+    },
     'preps': {'values': [{'name': '应用', 'value': 'app'}, {'name': '接口', 'value': 'inter'}], 'dataSource': 'data'}
   }], [{
     'label': '归属应用',
     'fieldName': 'idAppinfo',
     'type': 'tselect',
     'required': false,
-    'formVisible': true,
+    'formVisible': appFieldVisible,
     'listVisible': true,
     actions: {
       change: (val: any) => {
@@ -135,7 +146,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
     'fieldName': 'parentMenuNo',
     'type': 'tselect',
     'required': false,
-    'formVisible': true,
+    'formVisible': appFieldVisible,
     'listVisible': true,
     preps: {
       checkStrictly: true,
@@ -147,51 +158,54 @@ const tableFieldList = reactive<PageFieldInfo | any>({
     },
   }], [{
     'label': '按钮权限',
-    'fieldName': 'buttonPermissions',
+    'fieldName': 'buttonPermissionsList',
     'type': 'select',
     'required': false,
-    'formVisible': true,
+    'formVisible': appFieldVisible,
     'listVisible': true,
     'preps': {
       'urlOrDictName': 'script_button_authority',
       'dataSource': 'dict'
     }
   }, {
-    'label': '是否认证',
-    'fieldName': 'authFlag',
-    'type': 'switch',
+    'label': '授权用户组',
+    'fieldName': 'userGroupList',
+    'type': 'select',
     'required': false,
-    'formVisible': true,
+    'formVisible': appFieldVisible,
     'listVisible': true,
     'preps': {
-      activeValue: 'Y',
-      inactiveValue: 'N',
+      'values': rolesList,
+      multiple: true,
     }
   }], [{
     'label': '最大消费数量',
     'fieldName': 'maxConsumerNums',
     'type': 'number',
     'required': false,
-    'formVisible': true,
+    'formVisible': interFieldVisible,
     'listVisible': true,
     defaultValue: 100,
     'preps': {}
   }, {
-    'label': '授权用户组',
-    'fieldName': 'idUserGroups',
-    'type': 'select',
+    'label': '是否认证',
+    'fieldName': 'authFlag',
+    'type': 'switch',
     'required': false,
-    'formVisible': true,
+    'formVisible': interFieldVisible,
     'listVisible': true,
-    'preps': {'values': rolesList}
+    'preps': {
+      activeValue: 'Y',
+      inactiveValue: 'N',
+    }
   }], [{
     'label': '服务时效',
     'fieldName': 'serviceTime',
     'type': 'daterange',
     'required': true,
+    helpMsg: '在指定的时间范围内数据可以被消费，\n超出时间范围数据不可访问。',
     'formVisible': true,
     'listVisible': true,
-
     'preps': {'needSplitName': true}
   }, {
     'label': '服务状态',
@@ -213,16 +227,18 @@ const tableFieldList = reactive<PageFieldInfo | any>({
     'formVisible': true,
     'listVisible': true,
 
-    'preps': {}
+    'preps': {
+      rows: 5
+    }
   }], {
     'batchFieldList': [{
-      staticColumn:"N",
+      staticColumn: 'N',
       'batchName': 'dynamicScriptColumnsList',
       'title': '动态列表',
       'fieldList': [{
         'label': '字段名称',
         'fieldName': 'columnName',
-        'type': 'input',
+        'type': 'tag',
         'required': true,
         'formVisible': true,
         'listVisible': true,
@@ -393,18 +409,19 @@ const dataLoaded = (data: any) => {
   }
 };
 const analyzeScript = () => {
- const dataInfo:any= dynamicScriptConsumerViewFormRef.value.getFormData().value;
+  const dataInfo: any = dynamicScriptConsumerViewFormRef.value.getFormData().value;
   if (!dataInfo || !dataInfo.idDbinfo) {
     warning('请先选择数据库');
     return;
   }
   if (!dataInfo || !dataInfo.sqlContent) {
-   warning('请先输入脚本内容');
+    warning('请先输入脚本内容');
     return;
   }
+  load('脚本解析中');
   postRequest(`${dataUrl.basePrefix}/analyzeScript`, {
     idDbinfo: dataInfo.idDbinfo,
-   scriptContent: dataInfo.sqlContent,
+    scriptContent: dataInfo.sqlContent,
   }).then((res) => {
     if (res.data.code) {
       warning(res.data.cnMessage);
@@ -412,12 +429,23 @@ const analyzeScript = () => {
     }
     let data = res.data.data;
     if (data && data.length > 0) {
+      if (dataInfo.dynamicScriptColumnsList?.length > 0) {
+        //保留原来的字段，如果没有就新增
+        data.forEach((item: any) => {
+          let fdata = dataInfo.dynamicScriptColumnsList.find((item2: any) => item2.columnName == item.columnName);
+          if (fdata) {
+            item.labelName = fdata.labelName;
+          }
+        });
+      }
       dataInfo.dynamicScriptColumnsList = data;
     } else {
       warning('未解析到任何字段');
     }
+  }).finally(() => {
+    closeLoad();
   });
-  
+
 };
 const userBtn: UserFuncInfo[] = [{
   btnName: '解析脚本',
@@ -437,8 +465,11 @@ const deactivated = () => {
  * @param row 列表行数据
  */
 const dataFormat = (name: string, cellValue: any, row: any): any => {
-  if (name == 'serviceTime') {
-    return createDatetime(row.serviceTimeStart) + '-' + createDatetime(row.serviceTimeEnd);
+  // if (Object.keys(row).find(item => item.includes('serviceTime'))) {
+  //   row['serviceTime'] =[row.serviceTimeStart, row.serviceTimeEnd];
+  // }
+  if (name == 'idAppinfo') {
+    return findAppInfo(appinfoList.value, cellValue)?.sysName || cellValue;
   }
   //转换显示信息
   return cellValue;
