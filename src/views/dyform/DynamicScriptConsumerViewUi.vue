@@ -153,7 +153,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
     'formVisible': true,
     'listVisible': true,
     'preps': {
-      'urlOrDictName': 'button_authority',
+      'urlOrDictName': 'script_button_authority',
       'dataSource': 'dict'
     }
   }, {
