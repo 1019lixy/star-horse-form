@@ -90,7 +90,6 @@ declare module 'vue' {
     DynamicFormItemsUi: typeof import('./src/views/dyform/DynamicFormItemsUi.vue')['default']
     DynamicFormUi: typeof import('./src/views/dyform/DynamicFormUi.vue')['default']
     DynamicPage: typeof import('./src/views/dyform/DynamicPage.vue')['default']
-    DynamicScript: typeof import('./src/views/dyform/DynamicScript.vue')['default']
     DynamicScriptColumnsUi: typeof import('./src/views/dyform/DynamicScriptColumnsUi.vue')['default']
     DynamicScriptConsumerViewUi: typeof import('./src/views/dyform/DynamicScriptConsumerViewUi.vue')['default']
     EditName: typeof import('./src/views/workflow/plugin/common/EditName.vue')['default']
