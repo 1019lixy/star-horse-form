@@ -27,3 +27,4 @@ dist-ssr
 *.sw?
 components.d.ts
 /plugin-dist/
+release
