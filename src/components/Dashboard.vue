@@ -11,6 +11,7 @@ import {getLang} from '@/theme/localStorge';
 import {i18n} from '@/lang';
 import $ from 'jquery';
 import {piniaInstance, useGlobalConfigStore} from 'star-horse-lowcode';
+import {getUserInfo} from "@/utils/auth.js";
 
 let configStore = useGlobalConfigStore(piniaInstance);
 const route = router.getRoutes().find((item) => item.path == '/home');
@@ -96,6 +97,7 @@ onMounted(async () => {
 </script>
 <template>
   <el-config-provider :locale="locale">
+    <el-watermark class="h-full w-fill" :content="getUserInfo().username">
     <el-container class="star-horse-container">
       <el-header class="star-horse-header">
         <header-comp
@@ -159,6 +161,7 @@ onMounted(async () => {
       </template>
       <template #footer></template>
     </el-drawer>
+    </el-watermark>
   </el-config-provider>
 </template>
 <style lang="scss" scoped>

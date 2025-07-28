@@ -160,6 +160,7 @@ declare module 'vue' {
     ElTooltip: typeof import('element-plus/es')['ElTooltip']
     ElTransfer: typeof import('element-plus/es')['ElTransfer']
     ElUpload: typeof import('element-plus/es')['ElUpload']
+    ElWatermark: typeof import('element-plus/es')['ElWatermark']
     EndNode: typeof import('./src/views/workflow/plugin/node/EndNode.vue')['default']
     EndPrep: typeof import('./src/views/workflow/plugin/preps/EndPrep.vue')['default']
     EnvInfo: typeof import('./src/views/continuous/nodeDetail/EnvInfo.vue')['default']
