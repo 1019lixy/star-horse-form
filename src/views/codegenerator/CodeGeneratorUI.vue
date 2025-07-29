@@ -17,6 +17,7 @@ import {
 } from 'star-horse-lowcode';
 import { onMounted, provide, reactive, ref } from 'vue';
 import { initDbList, tableList } from '@/views/dbsearch/utils/DbSearchUtils';
+import { min } from 'rxjs';
 
 const dataUrl: ApiUrls = apiInstance('code-generator', 'generator/code');
 
@@ -165,7 +166,7 @@ eg: 表：dev_userinfo ,生成的文件是DevUserinfo.java;
         listVisible: true,
       },
     ],
-    {
+    [{
       label: '要生成的文件',
       fieldName: 'fileTypesList',
       type: 'select',
@@ -176,7 +177,19 @@ eg: 表：dev_userinfo ,生成的文件是DevUserinfo.java;
         multiple: true,
         values: fileTypeList,
       },
-    },
+    }, {
+      label: '分组列数',
+      fieldName: 'groupColumns',
+      type: 'number',
+      formVisible: true,
+      helpMsg: '表单页面分组列数，默认2',
+      listVisible: true,
+      defaultValue: 2,
+      preps: {
+        min: 2,
+        max: 6,
+      },
+    }],
     {
       fieldName: 'tab2',
       tabList: [
@@ -413,7 +426,7 @@ const orderBy = ref<OrderByInfo[]>([
   },
 ]);
 
-const selectItemFun = (_data: any) => {};
+const selectItemFun = (_data: any) => { };
 const dataFormat = (name: string, cellValue: any): any => {
   if (name == 'datasourceConfigId') {
     return (
@@ -486,53 +499,24 @@ const closeAction = () => {
 };
 </script>
 <template>
-  <star-horse-dialog
-    :isShowBtnContinue="true"
-    :dialogVisible="dialogProps.editVisible"
-    :dialogProps="dialogProps"
-    :selfFunc="true"
-    @merge="generateMerge"
-    @closeAction="closeAction"
-  >
-    <star-horse-form
-      ref="generateFormRef"
-      @refresh="codeGeneratorRef?.loadByPage()"
-      :compUrl="dataUrl"
-      :fieldList="tableFieldList"
-      :rules="rules"
-    />
+  <star-horse-dialog :isShowBtnContinue="true" :dialogVisible="dialogProps.editVisible" :dialogProps="dialogProps"
+    :selfFunc="true" @merge="generateMerge" @closeAction="closeAction">
+    <star-horse-form ref="generateFormRef" @refresh="codeGeneratorRef?.loadByPage()" :compUrl="dataUrl"
+      :fieldList="tableFieldList" :rules="rules" />
   </star-horse-dialog>
-  <star-horse-dialog
-    :dialog-visible="dialogProps.viewVisible"
-    :dialogProps="dialogProps"
-    :source="3"
-  >
-    <star-horse-data-view
-      :dataFormat="dataFormat"
-      :field-list="tableFieldList"
-      :compUrl="dataUrl"
-    />
+  <star-horse-dialog :dialog-visible="dialogProps.viewVisible" :dialogProps="dialogProps" :source="3">
+    <star-horse-data-view :dataFormat="dataFormat" :field-list="tableFieldList" :compUrl="dataUrl" />
   </star-horse-dialog>
   <div class="search-content">
     <div class="search_btn">
-      <star-horse-search-comp
-        @searchData="(data: any) => codeGeneratorRef?.createSearchParams(data)"
-        :formData="searchFormData"
-        :compUrl="dataUrl"
-      />
+      <star-horse-search-comp @searchData="(data: any) => codeGeneratorRef?.createSearchParams(data)"
+        :formData="searchFormData" :compUrl="dataUrl" />
     </div>
   </div>
   <el-card class="inner_content">
-    <star-horse-table-comp
-      ref="codeGeneratorRef"
-      :fieldList="tableFieldList"
-      :primaryKey="primaryKey"
-      :compUrl="dataUrl"
-      :orderBy="orderBy"
-      :extendBtns="extendBtns"
-      :dataFormat="dataFormat"
-      @selectItem="selectItemFun"
-    />
+    <star-horse-table-comp ref="codeGeneratorRef" :fieldList="tableFieldList" :primaryKey="primaryKey"
+      :compUrl="dataUrl" :orderBy="orderBy" :extendBtns="extendBtns" :dataFormat="dataFormat"
+      @selectItem="selectItemFun" />
   </el-card>
 </template>
 <style lang="scss" scoped></style>
