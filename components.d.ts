@@ -279,6 +279,7 @@ declare module 'vue' {
     PtableItem: typeof import('./src/components/formcomp/pageitems/ptable-item.vue')['default']
     PtimelineItem: typeof import('./src/components/formcomp/pageitems/ptimeline-item.vue')['default']
     QualityAccessControl: typeof import('./src/views/continuous/nodeDetail/QualityAccessControl.vue')['default']
+    QueryResult: typeof import('./src/views/dbsearch/QueryResult.vue')['default']
     RadarItem: typeof import('./src/components/formcomp/charts/radar-item.vue')['default']
     React: typeof import('./src/views/dyform/code/React.vue')['default']
     Redirect: typeof import('./src/views/utils/Redirect.vue')['default']

@@ -1,30 +1,14 @@
 <script setup lang="ts" name="DbSearch">
-import { computed, onMounted, ref, unref } from 'vue';
-import { Config } from '@/api/settings';
-import { initDbList } from '@/views/dbsearch/utils/DbSearchUtils';
-import {
-  closeLoad,
-  commonParseCodeToName,
-  download,
-  error,
-  getRequest,
-  load,
-  piniaInstance,
-  postRequest,
-  useGlobalConfigStore,
-  warning,
-} from 'star-horse-lowcode';
+import {computed, onMounted, ref, unref} from 'vue';
+import {Config} from '@/api/settings';
+import {initDbList} from '@/views/dbsearch/utils/DbSearchUtils';
+import {closeLoad, error, getRequest, piniaInstance, useGlobalConfigStore, warning,} from 'star-horse-lowcode';
+import QueryResult from "@/views/dbsearch/QueryResult.vue";
 
-let editorRef = ref(null);
+let editorRef = ref<any>(null);
 let cacheValue = ref({});
 let dbList = ref<any>([]);
-let drawer = ref(false);
-let direction = ref<string>('rtl'); //ltr:left to right,rtl:right to left ,ttb:top to bottom,btt:bottom to top
-let queryResult = ref<any>([]);
-let detailData = ref<any>({});
 let pageSize = ref<number>(10);
-let activeName = ref<string>('Result1');
-let pageSizeLimit = ref<Array<number>>([10, 20, 50, 100]); //每条Sql允许一次查询数据量
 let tableAndColumnsList = ref<any>([]);
 let tableList = ref<any>({});
 let assignDataList = ref<any>([]);
@@ -34,7 +18,7 @@ let currentIndex = ref<any>(null);
 let readOnly = ref<boolean>(true);
 let configStore = useGlobalConfigStore(piniaInstance);
 let compSize = computed(
-  () => configStore.configFormInfo?.inputSize || Config.compSize,
+    () => configStore.configFormInfo?.inputSize || Config.compSize,
 );
 const init = async () => {
   dbList.value = await initDbList();
@@ -42,20 +26,12 @@ const init = async () => {
 onMounted(() => {
   init();
 });
-const handleClose = () => {
-  drawer.value = !drawer.value;
-};
-/**
- * 查看详情
- */
-const viewDataDetail = (row: any, column: any, event: Event) => {
-  drawer.value = !drawer.value;
-  detailData.value = row;
-};
+
+
 const openDb = () => {
   let editor = editorRef.value!;
   getRequest(
-    `/userdb-manage/dbsearch/dbinfoEntity/openConn/${dbIndex.value}`,
+      `/userdb-manage/dbsearch/dbinfoEntity/openConn/${dbIndex.value}`,
   ).then((res) => {
     tableList.value = {};
     if (res.data.code != 0) {
@@ -72,14 +48,15 @@ const openDb = () => {
 const getSql = () => {
   let editor = editorRef.value!.editor.state;
   let sData = editor.sliceDoc(
-    editor.selection.main.from,
-    editor.selection.main.to,
+      editor.selection.main.from,
+      editor.selection.main.to,
   );
   if (!sData) {
     sData = editor.doc.toString();
   }
   return sData;
 };
+const reqData = ref<any>({});
 const executeSql = () => {
   if (!dbIndex.value) {
     warning('执行Sql前先连接数据库');
@@ -102,108 +79,44 @@ const executeSql = () => {
     warning('一次最多只能执行5条Sql');
     return;
   }
-  let reqData = {
+  reqData.value = {
     sqls: tempList,
     pageSize: pageSize.value,
     currentPage: 1,
     idDbinfo: dbIndex.value,
   };
-  load('数据查询中...');
-  postRequest('/userdb-manage/dbsearch/dbinfoEntity/search', reqData)
-    .then((res) => {
-      if (res.data.code != 0) {
-        error(res.data.cnMessage);
-      } else {
-        queryResult.value = res.data.data;
-      }
-    })
-    .finally(() => {
-      closeLoad();
-    });
 };
-const resultDataFormat = (
-  row: any,
-  column: any,
-  cellValue: any,
-  index: number,
-) => {
-  if (!cellValue) {
-    return '-';
-  }
-  cellValue = commonParseCodeToName(column.property, cellValue);
-  return cellValue;
-};
-const columnListFun = (datas: any) => {
-  return `<el-popover placement="bottom" :popper-style="{width: 'unset !important'}" trigger="click"><el-checkbox v-for="data in ${datas}" :label="data"/> </el-popover>`;
-};
-const handleCurrentChange = (
-  index: number,
-  sql: string,
-  currentPage: number,
-  pageSize: number,
-) => {
-  let reqData = {
-    sqls: [sql],
-    pageSize: pageSize,
-    currentPage: currentPage,
-    idDbinfo: dbIndex.value,
-  };
-  load('数据查询中...');
-  postRequest('/userdb-manage/dbsearch/dbinfoEntity/search', reqData)
-    .then((res) => {
-      if (res.data.code == 1) {
-        warning(res.data.cnMessage);
-        return;
-      }
-      queryResult.value[index] = res.data.data[0];
-    })
-    .finally(() => {
-      closeLoad();
-    });
-};
-const executeStop = () => {};
 
-const exportData = (item: any) => {
-  load('数据处理中');
-  let params = {
-    datasourceConfigId: dbIndex.value,
-    currentSql: item.currentSql,
-    pageSize: pageSize.value,
-    currentPage: item.currentPage,
-  };
-  download('/userdb-manage/dbsearch/dbinfoEntity/exportData', params)
-    .catch((err) => {
-      error('接口不存在或网络异常:' + err);
-    })
-    .finally(() => {
-      closeLoad();
-    });
+
+const executeStop = () => {
 };
+
+
 const tableField = (tableName: string) => {
   let fdata = tableAndColumnsList.value.find(
-    (item: any) => item.tableName == tableName,
+      (item: any) => item.tableName == tableName,
   );
   if (fdata?.fields?.length > 0) {
     //如果已经有值，则不再请求后端
     return;
   }
   getRequest(
-    `/userdb-manage/dbsearch/dbinfoEntity/tableColumns/${dbIndex.value}/${tableName}`,
+      `/userdb-manage/dbsearch/dbinfoEntity/tableColumns/${dbIndex.value}/${tableName}`,
   )
-    .then((res) => {
-      if (res.data.code != 0) {
-        warning(res.data.cnMessage);
-        return;
-      }
-      tableList.value[tableName] = [];
-      fdata.fields = res.data.data;
-      fdata.fields.forEach((sitem: any) => {
-        tableList.value[tableName].push(sitem.filedName);
+      .then((res) => {
+        if (res.data.code != 0) {
+          warning(res.data.cnMessage);
+          return;
+        }
+        tableList.value[tableName] = [];
+        fdata.fields = res.data.data;
+        fdata.fields.forEach((sitem: any) => {
+          tableList.value[tableName].push(sitem.filedName);
+        });
+      })
+      .finally(() => {
+        closeLoad();
       });
-    })
-    .finally(() => {
-      closeLoad();
-    });
 };
 const filterTableName = ref('');
 const filterData = () => {
@@ -212,7 +125,7 @@ const filterData = () => {
     return;
   }
   assignDataList.value = tableAndColumnsList.value.filter((item: any) =>
-    item.tableName.toLowerCase().match(filterTableName.value.toLowerCase()),
+      item.tableName.toLowerCase().match(filterTableName.value.toLowerCase()),
   );
 };
 const dratStart = (item: any, evt: DragEvent) => {
@@ -262,8 +175,8 @@ const btnList = [
           from: 0,
           to: editorRef.value?.editor.state.doc.length,
           insert:
-            editorRef.value?.editor.state.doc.toString().replaceAll('\n', '') +
-            '\n',
+              editorRef.value?.editor.state.doc.toString().replaceAll('\n', '') +
+              '\n',
         },
       });
     },
@@ -286,65 +199,65 @@ const operMsg = `
     <el-splitter>
       <el-splitter-panel collapsible size="260" min="250" max="350">
         <div
-          class="flex flex-col items-center h-full overflow-hidden"
-          style="width: 98%"
+            class="flex flex-col items-center h-full overflow-hidden"
+            style="width: 98%"
         >
           <el-select
-            :size="compSize"
-            @change="openDb"
-            clearable
-            filterable
-            id="dbInfo"
-            placeholder="请选择数据库信息"
-            v-model="dbIndex"
+              :size="compSize"
+              @change="openDb"
+              clearable
+              filterable
+              id="dbInfo"
+              placeholder="请选择数据库信息"
+              v-model="dbIndex"
           >
             <el-option
-              :key="sitem.value"
-              :label="sitem.name"
-              :value="sitem.value"
-              v-for="sitem in dbList"
+                :key="sitem.value"
+                :label="sitem.name"
+                :value="sitem.value"
+                v-for="sitem in dbList"
             />
           </el-select>
           <div style="margin-top: 5px"></div>
           <template v-if="assignDataList.length > 0">
             <el-input
-              :size="compSize"
-              placeholder="请输入关键字"
-              v-model="filterTableName"
-              @keydown.enter="filterData"
+                :size="compSize"
+                placeholder="请输入关键字"
+                v-model="filterTableName"
+                @keydown.enter="filterData"
             >
               <template #suffix>
                 <star-horse-icon
-                  @click="filterData"
-                  icon-class="search"
-                  color="var(--star-horse-style)"
+                    @click="filterData"
+                    icon-class="search"
+                    color="var(--star-horse-style)"
                 />
               </template>
             </el-input>
             <div
-              class="flex-1 w-[99%] overflow-hidden"
-              style="margin: 1px auto"
+                class="flex-1 w-[99%] overflow-hidden"
+                style="margin: 1px auto"
             >
               <el-scrollbar>
                 <ul class="db_table_list">
                   <template v-for="(data, index) in assignDataList">
                     <el-popover
-                      :popper-style="{ width: 'unset !important' }"
-                      placement="right"
-                      trigger="click"
+                        :popper-style="{ width: 'unset !important' }"
+                        placement="right"
+                        trigger="click"
                     >
                       <template #reference>
                         <li
-                          @click="tableField(data.tableName)"
-                          @dragstart="(evt) => dratStart(data, evt)"
-                          draggable="true"
-                          class="flex items-center cursor-move h-[30px]"
+                            @click="tableField(data.tableName)"
+                            @dragstart="(evt) => dratStart(data, evt)"
+                            draggable="true"
+                            class="flex items-center cursor-move h-[30px]"
                         >
                           <star-horse-icon
-                            icon-class="table"
-                            size="16px"
-                            height="16px"
-                            width="16px"
+                              icon-class="table"
+                              size="16px"
+                              height="16px"
+                              width="16px"
                           />
                           <el-tooltip :content="data.comment">
                             {{ data.tableName }}
@@ -352,26 +265,26 @@ const operMsg = `
                         </li>
                       </template>
                       <table
-                        class="el-table field-table"
-                        style="min-width: calc(100vh - 50%); overflow: auto"
+                          class="el-table field-table"
+                          style="min-width: calc(100vh - 50%); overflow: auto"
                       >
                         <thead>
-                          <tr>
-                            <th>名称</th>
-                            <th>类型</th>
-                            <th>空标识</th>
-                            <th>主键</th>
-                            <th>备注</th>
-                          </tr>
+                        <tr>
+                          <th>名称</th>
+                          <th>类型</th>
+                          <th>空标识</th>
+                          <th>主键</th>
+                          <th>备注</th>
+                        </tr>
                         </thead>
                         <tbody>
-                          <tr v-for="sdata in data.fields">
-                            <td>{{ sdata.fieldName }}</td>
-                            <td>{{ sdata.type }}</td>
-                            <td>{{ sdata.nullFlag }}</td>
-                            <td>{{ sdata.primaryKey }}</td>
-                            <td>{{ sdata.comment }}</td>
-                          </tr>
+                        <tr v-for="sdata in data.fields">
+                          <td>{{ sdata.fieldName }}</td>
+                          <td>{{ sdata.type }}</td>
+                          <td>{{ sdata.nullFlag }}</td>
+                          <td>{{ sdata.primaryKey }}</td>
+                          <td>{{ sdata.comment }}</td>
+                        </tr>
                         </tbody>
                       </table>
                     </el-popover>
@@ -387,143 +300,23 @@ const operMsg = `
           <el-splitter-panel>
             <div class="h-full" @dragover.prevent="dragOver" @drop="dragDrop">
               <StarHorseEditor
-                :lang="'sql'"
-                ref="editorRef"
-                :btnList="btnList"
-                v-model:value="sqlInfo"
+                  :lang="'sql'"
+                  ref="editorRef"
+                  :helpMsg="operMsg"
+                  :btnList="btnList"
+                  v-model:value="sqlInfo"
               />
             </div>
           </el-splitter-panel>
           <el-splitter-panel
-            collapsible
-            size="350"
-            v-if="queryResult?.length > 0"
-          >
-            <el-tabs class="h-full" type="border-card" v-model="activeName">
-              <el-tab-pane
-                :label="'Result' + (indexa + 1)"
-                :name="'Result' + (indexa + 1)"
-                v-for="(item, indexa) in queryResult"
-              >
-                <div class="flex items-center justify-between h-[30px]">
-                  <el-select
-                    style="width: 200px !important; margin-right: 5px"
-                    v-model="pageSize"
-                    :size="compSize"
-                  >
-                    <el-option
-                      :key="sitem"
-                      :label="'每页' + sitem + '条'"
-                      :value="sitem"
-                      v-for="sitem in pageSizeLimit"
-                    >
-                    </el-option>
-                  </el-select>
-                  <el-button
-                    :size="compSize"
-                    @click="exportData(item)"
-                    link
-                    title=""
-                  >
-                    <star-horse-icon icon-class="excel-export" />
-                    导出
-                  </el-button>
-                </div>
-
-                <hr />
-                <el-table
-                  :size="compSize"
-                  :data="item.dataList"
-                  :id="'queryResultId' + (indexa + 1)"
-                  @row-dblclick="viewDataDetail"
-                  highlight-current-row
-                  ref="multipleTable"
-                  stripe
-                  min-height="350px"
-                  style="width: 2500px"
-                  :row-style="{ height: '30px' }"
-                  :cell-style="{ height: '30px', 'font-size': '12px' }"
-                  :header-cell-style="{
-                    background: '#f2f2f2',
-                    color: '#707070',
-                    'font-size': '13px',
-                    'background-image':
-                      '-webkit-gradient(linear,left 0,left 100%,from(#f8f8f8),to(#ececec))',
-                  }"
-                  border
-                >
-                  <!--  <el-table-column label="显示/隐藏" :render-header="columnListFun(item.columnNames)"/>-->
-                  <el-table-column
-                    :formatter="resultDataFormat"
-                    :index="index"
-                    :label="pp"
-                    :prop="pp"
-                    :show-overflow-tooltip="true"
-                    min-width="200px"
-                    sortable
-                    v-for="(pp, index) in item.columnNames"
-                  >
-                  </el-table-column>
-                </el-table>
-                <hr />
-                <el-pagination
-                  :size="compSize"
-                  :total="item.totalDatas"
-                  @current-change="
-                    handleCurrentChange(
-                      indexa,
-                      item.currentSql,
-                      item.currentPage,
-                      item.pageSize,
-                    )
-                  "
-                  layout="total,  prev, pager, next,jumper"
-                  v-model:currentPage="item.currentPage"
-                  v-model:page-size="item.pageSize"
-                />
-              </el-tab-pane>
-            </el-tabs>
+              collapsible
+              size="350">
+            <QueryResult :reqData="reqData" :dbIndex="dbIndex" :compSize="compSize"/>
           </el-splitter-panel>
         </el-splitter>
       </el-splitter-panel>
     </el-splitter>
-    <el-drawer
-      :before-close="handleClose"
-      :direction="direction"
-      title="数据详情"
-      v-model="drawer"
-    >
-      <div class="el-table__header-wrapper">
-        <table class="el-table">
-          <thead>
-            <tr class="el-table__header">
-              <th class="el-table__cell">
-                <div class="cell">字段名</div>
-              </th>
-              <th class="el-table__cell">
-                <div class="cell">值</div>
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr
-              :class="[
-                'el-table__row',
-                index % 2 == 0 ? 'el-table__row--striped' : '',
-              ]"
-              v-for="(val, key, index) in detailData"
-            >
-              <td class="el-table__cell">
-                <div class="cell">{{ key }}</div>
-              </td>
-              <td class="el-table__cell">
-                <div class="cell">{{ commonParseCodeToName(key, val) }}</div>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </el-drawer>
+
   </el-card>
 </template>
 <style lang="scss" scoped>

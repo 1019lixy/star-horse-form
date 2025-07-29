@@ -1,37 +1,42 @@
 <script setup lang="ts">
-import { computed, ModelRef } from 'vue';
+import {computed, ModelRef} from 'vue';
 
 const props = defineProps({
-  level: { type: Number, default: 1 },
+  level: {type: Number, default: 1},
 });
 const dataList: ModelRef<any> = defineModel('dataList');
 let menuColor = computed(() =>
-  props.level > 1 ? 'var(--star-horse-shadow)' : 'var(--star-horse-background)',
+    props.level > 1 ? 'var(--star-horse-shadow)' : 'var(--star-horse-background)',
 );
 </script>
 <template>
   <div
-    v-if="level > 1"
-    style="height: 2px; background: var(--star-horse-white)"
+      v-if="level > 1"
+      style="height: 2px; background: var(--star-horse-white)"
   ></div>
   <template v-for="item in dataList">
     <el-sub-menu v-if="item.children?.length > 0" :index="item.meta.menuId">
       <template #title>
         <el-icon class="star-icon">
-          <component :is="item.meta.menuIcon || 'document'" />
+          <component :is="item.meta.menuIcon || 'document'"/>
         </el-icon>
-        <span>{{ item.meta.title }} </span>
+        <span v-if="!item.path||item.path.length<5">{{ item.meta.title }} </span>
+        <router-link v-else :to="{ path: item.path }">{{
+            item.meta.title
+          }}
+        </router-link>
       </template>
       <SubMenu v-model:dataList="item.children" :level="level + 1"></SubMenu>
     </el-sub-menu>
     <el-menu-item popper-class="popper-class" v-else :index="item.meta.menuId">
       <el-icon class="star-icon">
-        <component :is="item.meta.menuIcon || 'document'" />
+        <component :is="item.meta.menuIcon || 'document'"/>
       </el-icon>
       <template #title>
         <router-link :to="{ path: item.path }">{{
-          item.meta.title
-        }}</router-link>
+            item.meta.title
+          }}
+        </router-link>
       </template>
     </el-menu-item>
   </template>

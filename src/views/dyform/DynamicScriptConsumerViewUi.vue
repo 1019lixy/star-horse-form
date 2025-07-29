@@ -1,14 +1,5 @@
 <script setup lang="ts">
-import {
-  computed,
-  nextTick,
-  onActivated,
-  onDeactivated,
-  onMounted,
-  provide,
-  reactive,
-  ref,
-} from 'vue';
+import {computed, nextTick, onActivated, onDeactivated, onMounted, provide, reactive, ref,} from 'vue';
 import {
   apiInstance,
   ApiUrls,
@@ -24,18 +15,19 @@ import {
   UserFuncInfo,
   warning,
 } from 'star-horse-lowcode';
-import { initDbList } from '@/views/dbsearch/utils/DbSearchUtils.js';
-import { findAppInfo, loadRolesInfo } from '@/api/star_horse_utils.js';
-import { permissionMenus } from '@/api/star_horse_apis.js';
-import { useLoginStore } from '@/store/Login.js';
+import {initDbList} from '@/views/dbsearch/utils/DbSearchUtils.js';
+import {findAppInfo, loadRolesInfo} from '@/api/star_horse_utils.js';
+import {permissionMenus} from '@/api/star_horse_apis.js';
+import {useLoginStore} from '@/store/Login.js';
+import QueryResult from "@/views/dbsearch/QueryResult.vue";
 
 defineOptions({
   name: 'DynamicScriptConsumerView',
 });
 //后端交互接口地址
 const dataUrl: ApiUrls = apiInstance(
-  'userdb-manage',
-  'userdb/dynamicScriptConsumerView',
+    'userdb-manage',
+    'userdb/dynamicScriptConsumerView',
 );
 //主键
 const primaryKey = 'idDynamicScriptConsumerView';
@@ -74,7 +66,7 @@ const searchFormData = reactive<SearchFields>({
       type: 'select',
       matchType: 'eq',
       defaultVisible: true,
-      preps: { values: dbList },
+      preps: {values: dbList},
     },
     {
       label: '归属应用',
@@ -128,7 +120,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
         required: true,
         formVisible: true,
         listVisible: true,
-        preps: { values: dbList },
+        preps: {values: dbList},
       },
       {
         label: '消费模式',
@@ -146,8 +138,8 @@ const tableFieldList = reactive<PageFieldInfo | any>({
         },
         preps: {
           values: [
-            { name: '应用', value: 'app' },
-            { name: '接口', value: 'inter' },
+            {name: '应用', value: 'app'},
+            {name: '接口', value: 'inter'},
           ],
           dataSource: 'data',
         },
@@ -250,10 +242,10 @@ const tableFieldList = reactive<PageFieldInfo | any>({
         type: 'daterange',
         required: true,
         helpMsg:
-          '在指定的时间范围内数据可以被消费，\n超出时间范围数据不可访问。',
+            '在指定的时间范围内数据可以被消费，\n超出时间范围数据不可访问。',
         formVisible: true,
         listVisible: true,
-        preps: { needSplitName: true },
+        preps: {needSplitName: true},
       },
       {
         label: '服务状态',
@@ -262,10 +254,11 @@ const tableFieldList = reactive<PageFieldInfo | any>({
         required: true,
         formVisible: true,
         listVisible: true,
-
         preps: {
+          activeText: '服务中',
           activeValue: 'Y',
           inactiveValue: 'N',
+          inactiveText: '受限',
         },
       },
     ],
@@ -442,7 +435,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
   batchFieldList: [],
   userTableFuncs: [],
   dynamicFormas: [],
-  orderBy: [{ fieldName: 'idDynamicScriptConsumerView', ascOrDesc: 'desc' }],
+  orderBy: [{fieldName: 'idDynamicScriptConsumerView', ascOrDesc: 'desc'}],
   batchName: 'batchDataList',
   tableCellEditabled: false,
   stopAutoLoad: false,
@@ -484,48 +477,67 @@ const dataLoaded = (data: any) => {
     dynamicScriptConsumerViewFormRef.value.updateFormData(temp);
   }
 };
-const analyzeScript = () => {
+const getDataInfo = () => {
   const dataInfo: any =
-    dynamicScriptConsumerViewFormRef.value.getFormData().value;
+      dynamicScriptConsumerViewFormRef.value.getFormData().value;
   if (!dataInfo || !dataInfo.idDbinfo) {
     warning('请先选择数据库');
-    return;
+    return null;
   }
   if (!dataInfo || !dataInfo.sqlContent) {
     warning('请先输入脚本内容');
-    return;
+    return null;
   }
+  return dataInfo;
+};
+const analyzeScript = () => {
+  const dataInfo = getDataInfo();
+  if (!dataInfo) return;
   load('脚本解析中');
   postRequest(`${dataUrl.basePrefix}/analyzeScript`, {
     idDbinfo: dataInfo.idDbinfo,
     scriptContent: dataInfo.sqlContent,
   })
-    .then((res) => {
-      if (res.data.code) {
-        warning(res.data.cnMessage);
-        return;
-      }
-      let data = res.data.data;
-      if (data && data.length > 0) {
-        if (dataInfo.dynamicScriptColumnsList?.length > 0) {
-          //保留原来的字段，如果没有就新增
-          data.forEach((item: any) => {
-            let fdata = dataInfo.dynamicScriptColumnsList.find(
-              (item2: any) => item2.columnName == item.columnName,
-            );
-            if (fdata) {
-              item.labelName = fdata.labelName;
-            }
-          });
+      .then((res) => {
+        if (res.data.code) {
+          warning(res.data.cnMessage);
+          return;
         }
-        dataInfo.dynamicScriptColumnsList = data;
-      } else {
-        warning('未解析到任何字段');
-      }
-    })
-    .finally(() => {
-      closeLoad();
-    });
+        let data = res.data.data;
+        if (data && data.length > 0) {
+          if (dataInfo.dynamicScriptColumnsList?.length > 0) {
+            //保留原来的字段，如果没有就新增
+            data.forEach((item: any) => {
+              let fdata = dataInfo.dynamicScriptColumnsList.find(
+                  (item2: any) => item2.columnName == item.columnName,
+              );
+              if (fdata) {
+                item.labelName = fdata.labelName;
+              }
+            });
+          }
+          dataInfo.dynamicScriptColumnsList = data;
+        } else {
+          warning('未解析到任何字段');
+        }
+      })
+      .finally(() => {
+        closeLoad();
+      });
+};
+const reqData = ref<any>({});
+const dbIndex = ref<string>("");
+const scriptSreview = () => {
+  const dataInfo = getDataInfo();
+  if (!dataInfo) return;
+  dbIndex.value = dataInfo.idDbinfo;
+  reqData.value = {
+    sqls: [dataInfo.sqlContent],
+    pageSize: 10,
+    currentPage: 1,
+    idDbinfo: dataInfo.idDbinfo,
+  };
+  dialogProps.bakeVisible1 = true;
 };
 const userBtn: UserFuncInfo[] = [
   {
@@ -536,8 +548,17 @@ const userBtn: UserFuncInfo[] = [
       analyzeScript();
     },
   },
+  {
+    btnName: '预览',
+    icon: 'preview',
+    authority: 'view',
+    funcName: () => {
+      scriptSreview();
+    },
+  },
 ];
-const deactivated = () => {};
+const deactivated = () => {
+};
 /**
  * 列表，查看数据时数据转换
  * @param name 名称
@@ -550,6 +571,12 @@ const dataFormat = (name: string, cellValue: any, row: any): any => {
   // }
   if (name == 'idAppinfo') {
     return findAppInfo(appinfoList.value, cellValue)?.sysName || cellValue;
+  }
+  if (name == 'authFlag') {
+    return cellValue == 'Y' ? '是' : '否';
+  }
+  if (name == 'serviceStatus') {
+    return cellValue == 'Y' ? '服务中' : '受限';
   }
   //转换显示信息
   return cellValue;
@@ -566,49 +593,58 @@ onDeactivated(() => {
 </script>
 <template>
   <star-horse-dialog
-    :isShowBtnContinue="true"
-    :userBtn="userBtn"
-    :dialog-visible="dialogProps.editVisible"
-    :dialogProps="dialogProps"
+      title="数据预览"
+      :source="3"
+      :selfClose="true"
+      :dialog-visible="dialogProps.bakeVisible1"
+      @closeAction="dialogProps.bakeVisible1=false"
+  >
+    <QueryResult :reqData="reqData" :dbIndex="dbIndex"/>
+  </star-horse-dialog>
+  <star-horse-dialog
+      :isShowBtnContinue="true"
+      :userBtn="userBtn"
+      :dialog-visible="dialogProps.editVisible"
+      :dialogProps="dialogProps"
   >
     <star-horse-form
-      @refresh="dynamicScriptConsumerViewRef?.loadByPage()"
-      @dataLoaded="dataLoaded"
-      :compUrl="dataUrl"
-      :fieldList="tableFieldList"
-      ref="dynamicScriptConsumerViewFormRef"
-      :rules="rules"
+        @refresh="dynamicScriptConsumerViewRef?.loadByPage()"
+        @dataLoaded="dataLoaded"
+        :compUrl="dataUrl"
+        :fieldList="tableFieldList"
+        ref="dynamicScriptConsumerViewFormRef"
+        :rules="rules"
     />
   </star-horse-dialog>
   <star-horse-dialog
-    :dialog-visible="dialogProps.viewVisible"
-    :dialogProps="dialogProps"
-    :source="3"
+      :dialog-visible="dialogProps.viewVisible"
+      :dialogProps="dialogProps"
+      :source="3"
   >
     <star-horse-data-view
-      :dataFormat="dataFormat"
-      :field-list="tableFieldList"
-      :compUrl="dataUrl"
+        :dataFormat="dataFormat"
+        :field-list="tableFieldList"
+        :compUrl="dataUrl"
     />
   </star-horse-dialog>
   <div class="search-content">
     <div class="search_btn">
       <star-horse-search-comp
-        @searchData="
+          @searchData="
           (data: any) => dynamicScriptConsumerViewRef?.createSearchParams(data)
         "
-        :formData="searchFormData"
-        :compUrl="dataUrl"
+          :formData="searchFormData"
+          :compUrl="dataUrl"
       />
     </div>
   </div>
   <el-card class="inner_content">
     <star-horse-table-comp
-      ref="dynamicScriptConsumerViewRef"
-      :fieldList="tableFieldList"
-      :primaryKey="primaryKey"
-      :compUrl="dataUrl"
-      :dataFormat="dataFormat"
+        ref="dynamicScriptConsumerViewRef"
+        :fieldList="tableFieldList"
+        :primaryKey="primaryKey"
+        :compUrl="dataUrl"
+        :dataFormat="dataFormat"
     />
   </el-card>
 </template>
