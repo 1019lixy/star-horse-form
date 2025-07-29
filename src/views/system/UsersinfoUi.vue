@@ -15,11 +15,17 @@ import {
   useGlobalConfigStore,
   warning,
 } from 'star-horse-lowcode';
-import {Config} from '@/api/settings';
-import {computed, nextTick, onMounted, provide, reactive, ref} from 'vue';
-import {ElTreeV2} from 'element-plus';
-import {TreeNodeData} from 'element-plus/es/components/tree-v2/src/types';
-import {baseUserFields, initSelectData, rolesList, sexList, userFormat,} from '@/views/system/utils/UserFields';
+import { Config } from '@/api/settings';
+import { computed, nextTick, onMounted, provide, reactive, ref } from 'vue';
+import { ElTreeV2 } from 'element-plus';
+import { TreeNodeData } from 'element-plus/es/components/tree-v2/src/types';
+import {
+  baseUserFields,
+  initSelectData,
+  rolesList,
+  sexList,
+  userFormat,
+} from '@/views/system/utils/UserFields';
 
 const props = defineProps({
   viewRolesinfoId: { type: String },
@@ -255,10 +261,7 @@ const pwdFieldInfo = reactive<PageFieldInfo | any>({
     />
   </star-horse-dialog>
   <div class="search-content">
-    <div
-      class="search_btn"
-
-    >
+    <div class="search_btn">
       <star-horse-search-comp
         @searchData="
           (data: any) => usersinfoTableListRef?.createSearchParams(data)

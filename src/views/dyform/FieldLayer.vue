@@ -1,6 +1,6 @@
 <script setup lang="ts" name="FieldLayer">
-import {computed, onMounted} from 'vue';
-import {piniaInstance, useDesignFormStore} from 'star-horse-lowcode';
+import { computed, onMounted } from 'vue';
+import { piniaInstance, useDesignFormStore } from 'star-horse-lowcode';
 
 const designForm = useDesignFormStore(piniaInstance);
 

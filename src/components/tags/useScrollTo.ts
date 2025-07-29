@@ -1,4 +1,4 @@
-import {ref, unref} from 'vue';
+import { ref, unref } from 'vue';
 
 export interface ScrollToParams {
   el: HTMLElement;

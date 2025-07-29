@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {nextTick, onMounted, ref} from 'vue';
+import { nextTick, onMounted, ref } from 'vue';
 
 defineProps({
   menus: {

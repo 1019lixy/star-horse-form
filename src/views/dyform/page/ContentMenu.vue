@@ -1,6 +1,6 @@
 <script lang="ts" setup>
-import {computed, nextTick, onBeforeUnmount, onMounted, ref} from 'vue';
-import {useZIndex} from 'star-horse-lowcode';
+import { computed, nextTick, onBeforeUnmount, onMounted, ref } from 'vue';
+import { useZIndex } from 'star-horse-lowcode';
 
 defineOptions({
   name: 'PageEditorContentMenu',

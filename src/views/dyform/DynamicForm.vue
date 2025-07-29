@@ -1,5 +1,14 @@
 <script lang="ts" setup name="DynamicForm">
-import {computed, nextTick, onActivated, onBeforeUnmount, onDeactivated, onMounted, ref, watch,} from 'vue';
+import {
+  computed,
+  nextTick,
+  onActivated,
+  onBeforeUnmount,
+  onDeactivated,
+  onMounted,
+  ref,
+  watch,
+} from 'vue';
 
 import {
   apiInstance,
@@ -19,16 +28,22 @@ import {
   uuid,
   warning,
 } from 'star-horse-lowcode';
-import {useRoute, useRouter} from 'vue-router';
-import {validDynamicFormCompParams} from '@/views/dyform/utils/preview';
-import {delCacheData, getCacheData, setCacheData} from '@/api/cached_utils';
-import {i18n} from '@/lang';
-import {Config} from '@/api/settings';
-import {initKeyboardEvent, removeKeyboardEvent,} from '@/api/keyboard-event-utils';
-import {ModuleEnums} from '@/components/enums/ModuleEnums';
-import {compFieldInit} from '@/views/dyform/utils/FieldOperationUtils';
-import {dynamicFormContextMenuData} from '@/plugins/AblesPlugin.ts';
-import {dynamicFormHelpMessage, formActions,} from '@/views/dyform/utils/DynamicForm.ts';
+import { useRoute, useRouter } from 'vue-router';
+import { validDynamicFormCompParams } from '@/views/dyform/utils/preview';
+import { delCacheData, getCacheData, setCacheData } from '@/api/cached_utils';
+import { i18n } from '@/lang';
+import { Config } from '@/api/settings';
+import {
+  initKeyboardEvent,
+  removeKeyboardEvent,
+} from '@/api/keyboard-event-utils';
+import { ModuleEnums } from '@/components/enums/ModuleEnums';
+import { compFieldInit } from '@/views/dyform/utils/FieldOperationUtils';
+import { dynamicFormContextMenuData } from '@/plugins/AblesPlugin.ts';
+import {
+  dynamicFormHelpMessage,
+  formActions,
+} from '@/views/dyform/utils/DynamicForm.ts';
 
 const dataUrl = apiInstance('userdb-manage', 'userdb/dynamicForm');
 let designForm = useDesignFormStore(piniaInstance);

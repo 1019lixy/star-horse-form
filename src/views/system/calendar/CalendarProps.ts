@@ -1,6 +1,6 @@
-import {reactive} from 'vue';
-import {getCustomerParam} from '@/utils/auth';
-import {dictData, PageFieldInfo} from 'star-horse-lowcode';
+import { reactive } from 'vue';
+import { getCustomerParam } from '@/utils/auth';
+import { dictData, PageFieldInfo } from 'star-horse-lowcode';
 
 /**
  * 日历表单参数

@@ -1,13 +1,13 @@
 import {
-    closeLoad,
-    error,
-    getRequest,
-    load,
-    loadGetData,
-    piniaInstance,
-    SelectOption,
-    useConsumerViewStore,
-    warning,
+  closeLoad,
+  error,
+  getRequest,
+  load,
+  loadGetData,
+  piniaInstance,
+  SelectOption,
+  useConsumerViewStore,
+  warning,
 } from 'star-horse-lowcode';
 
 const consumerView = useConsumerViewStore(piniaInstance);

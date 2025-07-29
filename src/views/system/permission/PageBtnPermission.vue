@@ -16,10 +16,10 @@ import {
   useGlobalConfigStore,
   warning,
 } from 'star-horse-lowcode';
-import {loadRolesInfo} from '@/api/star_horse_utils';
-import {Config} from '@/api/settings';
-import {computed, onMounted, provide, reactive, ref} from 'vue';
-import {TreeNodeData} from 'element-plus/es/components/tree-v2/src/types';
+import { loadRolesInfo } from '@/api/star_horse_utils';
+import { Config } from '@/api/settings';
+import { computed, onMounted, provide, reactive, ref } from 'vue';
+import { TreeNodeData } from 'element-plus/es/components/tree-v2/src/types';
 
 const dataUrl: ApiUrls = apiInstance(
   'system-config',

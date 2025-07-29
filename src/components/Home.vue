@@ -24,8 +24,8 @@
 </template>
 <script setup lang="ts">
 import piniaCompInstance from '@/store';
-import {useNavBarListStore} from '@/store/NavBarList';
-import {computed, onMounted, ref} from 'vue';
+import { useNavBarListStore } from '@/store/NavBarList';
+import { computed, onMounted, ref } from 'vue';
 
 const viewListStore = useNavBarListStore(piniaCompInstance);
 const navTagsList = computed(() => viewListStore.navTagsList);

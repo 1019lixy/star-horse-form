@@ -1,7 +1,14 @@
 <script setup lang="ts" name="InstanceItem">
-import {useRouter} from 'vue-router';
-import {apiInstance, ApiUrls, createCondition, createDatetime, success, warning,} from 'star-horse-lowcode';
-import {PropType} from 'vue';
+import { useRouter } from 'vue-router';
+import {
+  apiInstance,
+  ApiUrls,
+  createCondition,
+  createDatetime,
+  success,
+  warning,
+} from 'star-horse-lowcode';
+import { PropType } from 'vue';
 
 const configUrl: ApiUrls = apiInstance(
   'continuous-manage',

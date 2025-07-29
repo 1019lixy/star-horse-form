@@ -1,6 +1,12 @@
 <script setup lang="ts" name="DynamicFormActions">
-import {apiInstance, ApiUrls, dialogPreps, PageFieldInfo, SearchFields,} from 'star-horse-lowcode';
-import {onMounted, provide, reactive, ref} from 'vue';
+import {
+  apiInstance,
+  ApiUrls,
+  dialogPreps,
+  PageFieldInfo,
+  SearchFields,
+} from 'star-horse-lowcode';
+import { onMounted, provide, reactive, ref } from 'vue';
 //后端交互接口地址
 const dataUrl: ApiUrls = apiInstance(
   'userdb-manage',
@@ -175,10 +181,7 @@ const dataFormat = (name: string, cellValue: any, row: any): any => {
     />
   </star-horse-dialog>
   <div class="search-content">
-    <div
-      class="search_btn"
-
-    >
+    <div class="search_btn">
       <star-horse-search-comp
         @searchData="
           (data: any) => dynamicFormActionRef?.createSearchParams(data)

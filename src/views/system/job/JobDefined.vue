@@ -1,7 +1,14 @@
 <script lang="ts" name="RankDefine" setup>
-import {onActivated, onDeactivated, onMounted, provide, reactive, ref,} from 'vue';
-import {getCustomerParam} from '@/utils/auth';
-import {TreeNodeData} from 'element-plus/es/components/tree-v2/src/types';
+import {
+  onActivated,
+  onDeactivated,
+  onMounted,
+  provide,
+  reactive,
+  ref,
+} from 'vue';
+import { getCustomerParam } from '@/utils/auth';
+import { TreeNodeData } from 'element-plus/es/components/tree-v2/src/types';
 import {
   apiInstance,
   ApiUrls,
@@ -277,10 +284,7 @@ onDeactivated(() => {
       <el-splitter-panel>
         <el-card class="inner_content">
           <div class="search-content">
-            <div
-              class="search_btn"
-
-            >
+            <div class="search_btn">
               <star-horse-search-comp
                 @searchData="
                   (data: any) => rankDefineRef?.createSearchParams(data)

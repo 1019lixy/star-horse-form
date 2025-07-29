@@ -1,5 +1,5 @@
 <script setup lang="ts" name="ContinusInstanceInit">
-import {computed, ComputedRef, nextTick, onMounted, ref} from 'vue';
+import { computed, ComputedRef, nextTick, onMounted, ref } from 'vue';
 import {
   apiInstance,
   ApiUrls,
@@ -7,14 +7,15 @@ import {
   PageFieldInfo,
   piniaInstance,
   postRequest,
-  SelectOption, StarHorseIcon,
+  SelectOption,
+  StarHorseIcon,
   useContinusConfigStore,
   uuid,
   warning,
 } from 'star-horse-lowcode';
-import {loadDict} from '@/api/star_horse_apis';
-import {pipelineFields} from '@/views/continuous/utils/FieldsUtils';
-import {useRouter} from 'vue-router';
+import { loadDict } from '@/api/star_horse_apis';
+import { pipelineFields } from '@/views/continuous/utils/FieldsUtils';
+import { useRouter } from 'vue-router';
 
 let router = useRouter();
 const dataUrl: ApiUrls = apiInstance(

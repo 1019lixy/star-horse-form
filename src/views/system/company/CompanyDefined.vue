@@ -1,6 +1,13 @@
 <script setup lang="ts" name="CompanyDefine">
-import {onActivated, onDeactivated, onMounted, provide, reactive, ref,} from 'vue';
-import {getCustomerParam} from '@/utils/auth';
+import {
+  onActivated,
+  onDeactivated,
+  onMounted,
+  provide,
+  reactive,
+  ref,
+} from 'vue';
+import { getCustomerParam } from '@/utils/auth';
 import {
   apiInstance,
   ApiUrls,
@@ -212,10 +219,7 @@ onDeactivated(() => {});
     />
   </star-horse-dialog>
   <div class="search-content">
-    <div
-      class="search_btn"
-
-    >
+    <div class="search_btn">
       <star-horse-search-comp
         @searchData="(data: any) => companyDefineRef?.createSearchParams(data)"
         :formData="searchFormData"

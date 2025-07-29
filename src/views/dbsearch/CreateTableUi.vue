@@ -1,7 +1,12 @@
 <script setup lang="ts">
-import {onMounted, provide, reactive, ref} from 'vue';
-import {initDbList} from '@/views/dbsearch/utils/DbSearchUtils';
-import {apiInstance, ApiUrls, BatchFieldInfo, SelectOption,} from 'star-horse-lowcode';
+import { onMounted, provide, reactive, ref } from 'vue';
+import { initDbList } from '@/views/dbsearch/utils/DbSearchUtils';
+import {
+  apiInstance,
+  ApiUrls,
+  BatchFieldInfo,
+  SelectOption,
+} from 'star-horse-lowcode';
 
 const dataUrl: ApiUrls = apiInstance('userdb-manage', 'dbsearch/dbinfoEntity');
 let dbList = ref<SelectOption[]>([]);

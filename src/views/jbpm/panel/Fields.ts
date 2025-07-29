@@ -1,6 +1,11 @@
-import {reactive, ref} from 'vue';
-import {FieldInfo, PageFieldInfo, SelectOption, TabFieldInfo,} from 'star-horse-lowcode';
-import {httpMethod} from '@/api/system';
+import { reactive, ref } from 'vue';
+import {
+  FieldInfo,
+  PageFieldInfo,
+  SelectOption,
+  TabFieldInfo,
+} from 'star-horse-lowcode';
+import { httpMethod } from '@/api/system';
 
 const processEventTypeList = ref<SelectOption[]>([
   { name: 'ENGINE_CREATED', value: 'ENGINE_CREATED' },

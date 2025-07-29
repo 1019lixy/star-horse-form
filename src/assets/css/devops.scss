@@ -424,7 +424,7 @@
       display: flex;
       height: 74px;
       position: relative;
-     /* &:before {
+      /* &:before {
         content: '';
         position: absolute;
         top: 35px;
@@ -439,8 +439,8 @@
         align-items: center;
         height: 35px;
         display: flex;
-        position: relative;  // 添加定位上下文
-        z-index: 1;  // 节点内容层级高于线条
+        position: relative; // 添加定位上下文
+        z-index: 1; // 节点内容层级高于线条
       }
     }
   }

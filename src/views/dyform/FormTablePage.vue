@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {nextTick, onMounted, provide, reactive, ref, watch} from 'vue';
+import { nextTick, onMounted, provide, reactive, ref, watch } from 'vue';
 import {
   apiInstance,
   ApiUrls,
@@ -10,8 +10,8 @@ import {
   PageFieldInfo,
   SearchFields,
 } from 'star-horse-lowcode';
-import {useRoute, useRouter} from 'vue-router';
-import {useNavBarListStore} from '@/store/NavBarList';
+import { useRoute, useRouter } from 'vue-router';
+import { useNavBarListStore } from '@/store/NavBarList';
 import piniaCompInstance from '@/store';
 
 const navBarListStore = useNavBarListStore(piniaCompInstance);
@@ -109,19 +109,18 @@ onMounted(async () => {
         :compUrl="dataUrl"
       />
     </star-horse-dialog>
-    <div class="search_content" v-if="searchFormData.fieldList?.length>0">
+    <div class="search_content" v-if="searchFormData.fieldList?.length > 0">
       <div class="search_btn">
         <star-horse-search-comp
-            @searchData="
+          @searchData="
             (data: any) => starHorseTableCompRef?.createSearchParams(data)
           "
-            :formData="searchFormData"
-            :compUrl="dataUrl"
+          :formData="searchFormData"
+          :compUrl="dataUrl"
         />
       </div>
     </div>
     <el-card class="inner_content">
-
       <star-horse-table-comp
         ref="starHorseTableCompRef"
         :fieldList="tableFieldList"

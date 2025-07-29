@@ -1,7 +1,13 @@
 <script setup lang="ts" name="ProcessProperty">
-import {onMounted, reactive, ref} from 'vue';
-import {PageFieldInfo} from 'star-horse-lowcode';
-import {dataTypeList, entityTypeList, execListener, extendPrep, processEventTypeList,} from '@/views/jbpm/panel/Fields';
+import { onMounted, reactive, ref } from 'vue';
+import { PageFieldInfo } from 'star-horse-lowcode';
+import {
+  dataTypeList,
+  entityTypeList,
+  execListener,
+  extendPrep,
+  processEventTypeList,
+} from '@/views/jbpm/panel/Fields';
 
 const props = defineProps({
   modeler: {

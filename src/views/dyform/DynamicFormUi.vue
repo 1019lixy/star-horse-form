@@ -14,10 +14,10 @@ import {
   UserFuncInfo,
   warning,
 } from 'star-horse-lowcode';
-import {dbConfigList, loadSystemInfo} from '@/api/star_horse_utils';
-import {computed, nextTick, onMounted, provide, reactive, ref} from 'vue';
-import {useRouter} from 'vue-router';
-import {Config} from '@/api/settings';
+import { dbConfigList, loadSystemInfo } from '@/api/star_horse_utils';
+import { computed, nextTick, onMounted, provide, reactive, ref } from 'vue';
+import { useRouter } from 'vue-router';
+import { Config } from '@/api/settings';
 
 const router = useRouter();
 const dataUrl: ApiUrls = apiInstance('userdb-manage', 'userdb/dynamicForm');
@@ -386,10 +386,7 @@ onMounted(() => {
     />
   </star-horse-dialog>
   <div class="search-content">
-    <div
-      class="search_btn"
-
-    >
+    <div class="search_btn">
       <star-horse-search-comp
         @searchData="createSearch"
         :formData="searchFormData"

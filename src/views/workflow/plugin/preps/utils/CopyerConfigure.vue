@@ -26,9 +26,9 @@
   </div>
 </template>
 <script setup lang="ts">
-import {onMounted, ref} from 'vue';
-import {useVModel} from '@vueuse/core';
-import {createCondition, postRequest} from 'star-horse-lowcode';
+import { onMounted, ref } from 'vue';
+import { useVModel } from '@vueuse/core';
+import { createCondition, postRequest } from 'star-horse-lowcode';
 
 defineOptions({
   name: 'CopyerConfigure',

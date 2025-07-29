@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import {useFlexDesignStore} from '@/store/FlexDesign';
-import {piniaInstance, uuid} from 'star-horse-lowcode';
-import {computed, defineOptions, onBeforeUnmount, onMounted, ref} from 'vue';
+import { useFlexDesignStore } from '@/store/FlexDesign';
+import { piniaInstance, uuid } from 'star-horse-lowcode';
+import { computed, defineOptions, onBeforeUnmount, onMounted, ref } from 'vue';
 
 defineOptions({
   name: 'FlexItem',

@@ -14,7 +14,7 @@
   </starhorse-form-item>
 </template>
 <script setup lang="ts" name="codeItem">
-import {onMounted} from 'vue';
+import { onMounted } from 'vue';
 
 const props = defineProps({
   isDesign: {

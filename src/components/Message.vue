@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {onMounted, reactive, ref, unref} from 'vue';
+import { onMounted, reactive, ref, unref } from 'vue';
 import {
   closeLoad,
   createCondition,
@@ -10,11 +10,11 @@ import {
   message,
   OrderByInfo,
   PageFieldInfo,
-  SearchParams
+  SearchParams,
 } from 'star-horse-lowcode';
 import websocket from '@/api/websocket';
-import {getUserInfo} from '@/utils/auth';
-import {postRequest} from '@/api/star_horse_apis';
+import { getUserInfo } from '@/utils/auth';
+import { postRequest } from '@/api/star_horse_apis';
 
 defineProps({
   compSize: { type: String, default: 'small' },

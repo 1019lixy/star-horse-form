@@ -1,5 +1,5 @@
 <script setup lang="ts" name="ContinusInstanceDetail">
-import {useRouter} from 'vue-router';
+import { useRouter } from 'vue-router';
 
 const router = useRouter();
 const execLine = () => {

@@ -1,7 +1,20 @@
 <script setup lang="ts" name="SystemParams">
-import {apiInstance, ApiUrls, dialogPreps, PageFieldInfo, SearchFields,} from 'star-horse-lowcode';
-import {onActivated, onDeactivated, onMounted, provide, reactive, ref,} from 'vue';
-import {getCustomerParam} from '@/utils/auth';
+import {
+  apiInstance,
+  ApiUrls,
+  dialogPreps,
+  PageFieldInfo,
+  SearchFields,
+} from 'star-horse-lowcode';
+import {
+  onActivated,
+  onDeactivated,
+  onMounted,
+  provide,
+  reactive,
+  ref,
+} from 'vue';
+import { getCustomerParam } from '@/utils/auth';
 //后端交互接口地址
 const dataUrl: ApiUrls = apiInstance('system-config', 'system/systemParams');
 //主键
@@ -196,10 +209,7 @@ onDeactivated(() => {
     />
   </star-horse-dialog>
   <div class="search-content">
-    <div
-      class="search_btn"
-
-    >
+    <div class="search_btn">
       <star-horse-search-comp
         @searchData="(data: any) => systemParamsRef?.createSearchParams(data)"
         :formData="searchFormData"

@@ -1,6 +1,14 @@
 <script setup lang="ts" name="CompanyRole">
-import {Config} from '@/api/settings';
-import {computed, onActivated, onDeactivated, onMounted, provide, reactive, ref,} from 'vue';
+import { Config } from '@/api/settings';
+import {
+  computed,
+  onActivated,
+  onDeactivated,
+  onMounted,
+  provide,
+  reactive,
+  ref,
+} from 'vue';
 import {
   apiInstance,
   ApiUrls,
@@ -21,9 +29,9 @@ import {
   UserFuncInfo,
   warning,
 } from 'star-horse-lowcode';
-import {statusList} from '@/views/system/utils/UserFields';
-import {getCustomerParam} from '@/utils/auth';
-import {TreeNodeData} from 'element-plus/es/components/tree-v2/src/types';
+import { statusList } from '@/views/system/utils/UserFields';
+import { getCustomerParam } from '@/utils/auth';
+import { TreeNodeData } from 'element-plus/es/components/tree-v2/src/types';
 //后端交互接口地址
 const dataUrl: ApiUrls = apiInstance('system-config', 'system/companyRole');
 dataUrl.condition = [createCondition('a.roleType', 'common_role', 'neq')];
@@ -326,10 +334,7 @@ onDeactivated(() => {
       <el-splitter-panel>
         <el-card class="inner_content">
           <div class="search-content">
-            <div
-              class="search_btn"
-
-            >
+            <div class="search_btn">
               <star-horse-search-comp
                 @searchData="
                   (data: any) => companyRoleRef?.createSearchParams(data)

@@ -1,5 +1,5 @@
 <script setup lang="ts" name="PropertyPanel">
-import {ref, watch} from 'vue';
+import { ref, watch } from 'vue';
 
 const props = defineProps({
   activeTab: { type: String, default: 'first' },

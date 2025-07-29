@@ -8,8 +8,15 @@ import {
   SearchFields,
   UserFuncInfo,
 } from 'star-horse-lowcode';
-import {onActivated, onDeactivated, onMounted, provide, reactive, ref,} from 'vue';
-import {getCustomerParam, getToken} from '@/utils/auth';
+import {
+  onActivated,
+  onDeactivated,
+  onMounted,
+  provide,
+  reactive,
+  ref,
+} from 'vue';
+import { getCustomerParam, getToken } from '@/utils/auth';
 //后端交互接口地址
 const dataUrl: ApiUrls = apiInstance('system-config', 'system/commonFiles');
 //主键
@@ -255,10 +262,7 @@ const extendBtns: UserFuncInfo[] = [
     />
   </star-horse-dialog>
   <div class="search-content">
-    <div
-      class="search_btn"
-
-    >
+    <div class="search_btn">
       <star-horse-search-comp
         @searchData="(data: any) => commonFilesRef?.createSearchParams(data)"
         :formData="searchFormData"

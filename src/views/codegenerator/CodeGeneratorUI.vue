@@ -15,8 +15,8 @@ import {
   UserFuncInfo,
   warning,
 } from 'star-horse-lowcode';
-import {onMounted, provide, reactive, ref} from 'vue';
-import {initDbList, tableList} from '@/views/dbsearch/utils/DbSearchUtils';
+import { onMounted, provide, reactive, ref } from 'vue';
+import { initDbList, tableList } from '@/views/dbsearch/utils/DbSearchUtils';
 
 const dataUrl: ApiUrls = apiInstance('code-generator', 'generator/code');
 
@@ -514,10 +514,7 @@ const closeAction = () => {
     />
   </star-horse-dialog>
   <div class="search-content">
-    <div
-      class="search_btn"
-
-    >
+    <div class="search_btn">
       <star-horse-search-comp
         @searchData="(data: any) => codeGeneratorRef?.createSearchParams(data)"
         :formData="searchFormData"

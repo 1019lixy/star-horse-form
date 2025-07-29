@@ -1,5 +1,5 @@
 <script setup lang="ts" name="DbAssign">
-import {onMounted, provide, reactive, ref} from 'vue';
+import { onMounted, provide, reactive, ref } from 'vue';
 import {
   apiInstance,
   ApiUrls,
@@ -12,7 +12,7 @@ import {
   SelectOption,
   warning,
 } from 'star-horse-lowcode';
-import {Config} from '@/api/settings';
+import { Config } from '@/api/settings';
 
 const assignType = ref<SelectOption[]>([
   { name: '按用户授权', value: 1 },

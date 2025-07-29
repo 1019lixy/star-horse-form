@@ -1,5 +1,5 @@
 <script setup lang="ts" name="InstanceItemDetail">
-import {ref} from 'vue';
+import { ref } from 'vue';
 
 const props = defineProps({
   isEdit: {

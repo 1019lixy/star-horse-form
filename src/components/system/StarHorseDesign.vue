@@ -1,6 +1,14 @@
 <script setup lang="ts" name="StarHorseDesign">
-import {computed, nextTick, onMounted, PropType, provide, ref, watch,} from 'vue';
-import {Cell, Graph, View} from '@antv/x6';
+import {
+  computed,
+  nextTick,
+  onMounted,
+  PropType,
+  provide,
+  ref,
+  watch,
+} from 'vue';
+import { Cell, Graph, View } from '@antv/x6';
 import {
   ApiUrls,
   closeLoad,
@@ -15,10 +23,16 @@ import {
   useConsumerViewStore,
   warning,
 } from 'star-horse-lowcode';
-import {commands, configInfo, helpMessage, ports, tableConfigInfo,} from '@/utils/sh_design';
-import {useDesignGraphStore} from '@/store/DesignGraph';
-import {Config} from '@/api/settings';
-import {dynamicFormContextMenuData} from '@/plugins/AblesPlugin';
+import {
+  commands,
+  configInfo,
+  helpMessage,
+  ports,
+  tableConfigInfo,
+} from '@/utils/sh_design';
+import { useDesignGraphStore } from '@/store/DesignGraph';
+import { Config } from '@/api/settings';
+import { dynamicFormContextMenuData } from '@/plugins/AblesPlugin';
 
 const designGraph = useDesignGraphStore(piniaInstance);
 const consumerView = useConsumerViewStore(piniaInstance);
@@ -250,7 +264,7 @@ const init = async () => {
     alignOperation('deleteItem');
   });
   // 控制连接桩显示/隐藏
-  const showPorts = (ports: NodeListOf<SVGElement>, show: boolean) => {
+  const showPorts = (ports: any, show: boolean) => {
     for (let i = 0, len = ports.length; i < len; i += 1) {
       let temp = ports[i];
       //过滤掉表格的字段
@@ -262,7 +276,7 @@ const init = async () => {
   graph.value.on('cell:mouseenter', (data: any) => {
     const ports = starHorseDesignRef.value.querySelectorAll(
       '.x6-port-body',
-    ) as NodeListOf<SVGElement>;
+    ) as any;
     showPorts(ports, true);
     if (data.cell.isNode()) {
       data.cell.addTools([
@@ -298,7 +312,7 @@ const init = async () => {
   graph.value.on('cell:mouseleave', (data: any) => {
     const ports = starHorseDesignRef.value.querySelectorAll(
       '.x6-port-body',
-    ) as NodeListOf<SVGElement>;
+    ) as any;
     showPorts(ports, false);
     if (data.cell.isNode()) {
       data.cell.removeTools();

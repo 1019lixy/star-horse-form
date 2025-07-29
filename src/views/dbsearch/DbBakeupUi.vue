@@ -1,5 +1,5 @@
 <script setup lang="ts" name="DbBakeup">
-import {onMounted, provide, reactive, ref} from 'vue';
+import { onMounted, provide, reactive, ref } from 'vue';
 import {
   apiInstance,
   ApiUrls,
@@ -14,7 +14,7 @@ import {
   UserFuncInfo,
   warning,
 } from 'star-horse-lowcode';
-import {initDbList} from '@/views/dbsearch/utils/DbSearchUtils';
+import { initDbList } from '@/views/dbsearch/utils/DbSearchUtils';
 //后端交互接口地址
 const dataUrl: ApiUrls = apiInstance('userdb-manage', 'dbsearch/dbBakeup');
 let dbList = ref<SelectOption[]>([]);
@@ -233,10 +233,7 @@ const dataFormat = (name: string, cellValue: any, _row: any): any => {
     />
   </star-horse-dialog>
   <div class="search-content">
-    <div
-      class="search_btn"
-
-    >
+    <div class="search_btn">
       <star-horse-search-comp
         @searchData="(data: any) => dbBakeupRef?.createSearchParams(data)"
         :formData="searchFormData"

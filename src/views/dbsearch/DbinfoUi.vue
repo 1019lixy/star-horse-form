@@ -1,5 +1,5 @@
 <script setup lang="ts" name="Dbinfo">
-import {computed, onMounted, provide, reactive, ref} from 'vue';
+import { computed, onMounted, provide, reactive, ref } from 'vue';
 import {
   apiInstance,
   ApiUrls,
@@ -13,7 +13,7 @@ import {
   useGlobalConfigStore,
   warning,
 } from 'star-horse-lowcode';
-import {Config} from '@/api/settings';
+import { Config } from '@/api/settings';
 
 const dataUrl: ApiUrls = apiInstance('userdb-manage', 'dbsearch/dbinfoEntity');
 let configStore = useGlobalConfigStore(piniaInstance);

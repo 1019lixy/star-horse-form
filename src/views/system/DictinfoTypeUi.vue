@@ -1,6 +1,13 @@
 <script setup lang="ts" name="DictinfoType">
-import {apiInstance, ApiUrls, dialogPreps, PageFieldInfo, SearchFields, SearchParams,} from 'star-horse-lowcode';
-import {onMounted, provide, reactive, ref} from 'vue';
+import {
+  apiInstance,
+  ApiUrls,
+  dialogPreps,
+  PageFieldInfo,
+  SearchFields,
+  SearchParams,
+} from 'star-horse-lowcode';
+import { onMounted, provide, reactive, ref } from 'vue';
 
 const dataUrl: ApiUrls = apiInstance('system-config', 'system/dictinfoType');
 const searchFormData = reactive<SearchFields>({
@@ -105,10 +112,7 @@ onMounted(async () => {
       <el-splitter-panel collapsible>
         <el-card class="inner_content">
           <div class="search-content">
-            <div
-              class="search_btn"
-
-            >
+            <div class="search_btn">
               <star-horse-search-comp
                 @searchData="
                   (data: any) => dictTypeRef?.createSearchParams(data)

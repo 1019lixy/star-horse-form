@@ -1,7 +1,7 @@
 <script setup lang="ts" name="DataConsumerConfig">
-import {computed, nextTick, onMounted, ref, unref, watch} from 'vue';
-import {LocationQueryValue, useRoute} from 'vue-router';
-import {Cell} from '@antv/x6';
+import { computed, nextTick, onMounted, ref, unref, watch } from 'vue';
+import { LocationQueryValue, useRoute } from 'vue-router';
+import { Cell } from '@antv/x6';
 import {
   apiInstance,
   ApiUrls,
@@ -19,10 +19,15 @@ import {
   useGlobalConfigStore,
   warning,
 } from 'star-horse-lowcode';
-import {loadRolesInfo} from '@/api/star_horse_utils';
-import {consumerNodeData, relationFieldInfo, table_width, viewFieldInfo,} from '@/views/dyform/utils/DataConsumer';
-import {tableColumns} from '@/views/dbsearch/utils/DbSearchUtils';
-import {Config} from '@/api/settings';
+import { loadRolesInfo } from '@/api/star_horse_utils';
+import {
+  consumerNodeData,
+  relationFieldInfo,
+  table_width,
+  viewFieldInfo,
+} from '@/views/dyform/utils/DataConsumer';
+import { tableColumns } from '@/views/dbsearch/utils/DbSearchUtils';
+import { Config } from '@/api/settings';
 
 const route = useRoute();
 const isView = ref<boolean>(false);

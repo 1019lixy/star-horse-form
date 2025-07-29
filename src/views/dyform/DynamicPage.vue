@@ -1,13 +1,13 @@
 <script lang="ts" setup name="DynamicPage">
 import StarHorseRuler from '@/components/system/StarHorseRuler.vue';
-import {i18n} from '@/lang';
-import {appInstance} from '@/main';
+import { i18n } from '@/lang';
+import { appInstance } from '@/main';
 import PageBackground from '@/components/system/items/PageBackground.vue';
 import PageFont from '@/components/system/items/PageFont.vue';
 import PageHeader from '@/views/dyform/page/PageHeader.vue';
 import PagePosition from '@/components/system/items/PagePosition.vue';
-import {apiInstance, createComponent, DynamicNode} from 'star-horse-lowcode';
-import {onMounted, ref, resolveComponent} from 'vue';
+import { apiInstance, createComponent, DynamicNode } from 'star-horse-lowcode';
+import { onMounted, ref, resolveComponent } from 'vue';
 
 /**
  * 页面设计需要先设置排版，然后在排版上增加具体的组件，这样页面发布后才不会乱,

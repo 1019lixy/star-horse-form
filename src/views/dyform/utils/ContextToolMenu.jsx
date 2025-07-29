@@ -1,4 +1,4 @@
-import {ElDropdown, ElDropdownItem} from "element-plus";
+import { ElDropdown, ElDropdownItem } from "element-plus";
 // ContextMenu挂载的Vue实例
 let app = null;
 let timer = null; // timer

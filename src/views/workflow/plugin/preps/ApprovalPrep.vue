@@ -1,9 +1,16 @@
 <script setup lang="ts">
-import {flowCommon, radioStyle,} from '@/views/workflow/plugin/utils/flowCommon';
-import {computed, ModelRef, onMounted, ref} from 'vue';
-import {useFlowDesignStore} from '@/store/FlowDesign';
-import {createCondition, piniaInstance, postRequest,} from 'star-horse-lowcode';
-import {FlowNodeEnums} from '../enums/FlowNodeEnums';
+import {
+  flowCommon,
+  radioStyle,
+} from '@/views/workflow/plugin/utils/flowCommon';
+import { computed, ModelRef, onMounted, ref } from 'vue';
+import { useFlowDesignStore } from '@/store/FlowDesign';
+import {
+  createCondition,
+  piniaInstance,
+  postRequest,
+} from 'star-horse-lowcode';
+import { FlowNodeEnums } from '../enums/FlowNodeEnums';
 
 defineOptions({
   name: 'ApprovalPrep',

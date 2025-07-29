@@ -1,6 +1,12 @@
 <script setup lang="ts" name="ProjectMember">
-import {computed, onMounted, provide, reactive, ref, watch} from 'vue';
-import {apiInstance, ApiUrls, dialogPreps, SearchFields, SearchParams,} from 'star-horse-lowcode';
+import { computed, onMounted, provide, reactive, ref, watch } from 'vue';
+import {
+  apiInstance,
+  ApiUrls,
+  dialogPreps,
+  SearchFields,
+  SearchParams,
+} from 'star-horse-lowcode';
 
 const props = defineProps({
   projectId: { type: String },

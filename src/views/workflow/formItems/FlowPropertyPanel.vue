@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import {reactive, ref} from 'vue';
-import {FieldInfo, SelectOption} from 'star-horse-lowcode';
+import { reactive, ref } from 'vue';
+import { FieldInfo, SelectOption } from 'star-horse-lowcode';
 
 const props = defineProps({});
 const flowPropertyPanel = ref();

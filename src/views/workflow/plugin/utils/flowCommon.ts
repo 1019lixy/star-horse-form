@@ -1,6 +1,6 @@
-import {scale} from '@/views/workflow/plugin/utils/deviceUtil';
-import {useFlowDesignStore} from '@/store/FlowDesign';
-import {piniaInstance} from 'star-horse-lowcode';
+import { scale } from '@/views/workflow/plugin/utils/deviceUtil';
+import { useFlowDesignStore } from '@/store/FlowDesign';
+import { piniaInstance } from 'star-horse-lowcode';
 
 const flowDesign = useFlowDesignStore(piniaInstance);
 

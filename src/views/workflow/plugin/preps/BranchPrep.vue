@@ -1,8 +1,14 @@
 <script setup lang="ts">
-import {flowCommon} from '@/views/workflow/plugin/utils/flowCommon';
-import {dictData, piniaInstance, searchMatchList, SelectOption, uuid,} from 'star-horse-lowcode';
-import {computed, ModelRef, onMounted, ref, watch} from 'vue';
-import {useFlowDesignStore} from '@/store/FlowDesign';
+import { flowCommon } from '@/views/workflow/plugin/utils/flowCommon';
+import {
+  dictData,
+  piniaInstance,
+  searchMatchList,
+  SelectOption,
+  uuid,
+} from 'star-horse-lowcode';
+import { computed, ModelRef, onMounted, ref, watch } from 'vue';
+import { useFlowDesignStore } from '@/store/FlowDesign';
 
 defineOptions({
   name: 'BranchPrep',

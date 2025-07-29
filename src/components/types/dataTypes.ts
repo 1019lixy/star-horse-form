@@ -1,5 +1,13 @@
-import {FlexboxContainer, FlexboxItem, FlexboxItemStyle,} from '@/components/types/FlexType';
-import {GridContainer, GridItem, GridItemStyle,} from '@/components/types/GridType';
+import {
+  FlexboxContainer,
+  FlexboxItem,
+  FlexboxItemStyle,
+} from '@/components/types/FlexType';
+import {
+  GridContainer,
+  GridItem,
+  GridItemStyle,
+} from '@/components/types/GridType';
 
 type ConfigBase = TypeConfig &
   ItemType & {
