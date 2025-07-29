@@ -55,9 +55,9 @@
   <FlowDrawerFooter @close="onClose" @save="onSave" />
 </template>
 <script setup lang="ts">
-import {ModelRef, ref} from 'vue';
-import {useFlowDesignStore} from '@/store/FlowDesign';
-import {piniaInstance, SelectOption} from 'star-horse-lowcode';
+import { ModelRef, ref } from 'vue';
+import { useFlowDesignStore } from '@/store/FlowDesign';
+import { piniaInstance, SelectOption } from 'star-horse-lowcode';
 
 defineOptions({
   name: 'WritePrep',

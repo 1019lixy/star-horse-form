@@ -1,4 +1,4 @@
-import {flow_zh} from './translations.js';
+import { flow_zh } from './translations.js';
 
 export default function customTranslate(template, replacements) {
   replacements = replacements || {};

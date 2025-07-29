@@ -1,4 +1,4 @@
-import {App, defineAsyncComponent} from 'vue';
+import { App, defineAsyncComponent } from 'vue';
 
 const items = import.meta.glob('@/views/workflow/plugin/node/*.vue');
 export default function install(app: App<Element>) {

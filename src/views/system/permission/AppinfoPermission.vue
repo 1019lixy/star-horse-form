@@ -12,10 +12,10 @@ import {
   useGlobalConfigStore,
   warning,
 } from 'star-horse-lowcode';
-import {loadRolesInfo, loadSystemInfo} from '@/api/star_horse_utils';
-import {computed, onMounted, provide, reactive, ref} from 'vue';
-import {TreeNodeData} from 'element-plus/es/components/tree-v2/src/types';
-import {Config} from '@/api/settings';
+import { loadRolesInfo, loadSystemInfo } from '@/api/star_horse_utils';
+import { computed, onMounted, provide, reactive, ref } from 'vue';
+import { TreeNodeData } from 'element-plus/es/components/tree-v2/src/types';
+import { Config } from '@/api/settings';
 
 let informationsList = ref<any>([]);
 let appPermissionStatus = ref<SelectOption[]>([]);
@@ -212,10 +212,7 @@ onMounted(async () => {
       <el-splitter-panel>
         <el-card class="inner_content">
           <div class="search-content">
-            <div
-              class="search_btn"
-
-            >
+            <div class="search_btn">
               <star-horse-search-comp
                 @searchData="
                   (data: any) => appinfoPermission.createSearchParams(data)

@@ -12,9 +12,9 @@
   </div>
 </template>
 <script setup lang="ts">
-import {computed, nextTick, onBeforeUnmount, onMounted, ref} from 'vue';
-import {useFlowDesignStore} from '@/store/FlowDesign';
-import {piniaInstance} from 'star-horse-lowcode';
+import { computed, nextTick, onBeforeUnmount, onMounted, ref } from 'vue';
+import { useFlowDesignStore } from '@/store/FlowDesign';
+import { piniaInstance } from 'star-horse-lowcode';
 
 const props = defineProps({
   element: {

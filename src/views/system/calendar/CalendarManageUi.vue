@@ -1,8 +1,22 @@
 <script setup lang="ts" name="CalendarManage">
-import {onActivated, onDeactivated, onMounted, provide, reactive, ref,} from 'vue';
-import {getCustomerParam} from '@/utils/auth';
-import {apiInstance, ApiUrls, PageFieldInfo, SearchFields, SelectOption,} from 'star-horse-lowcode';
-import {loadDict} from '@/api/star_horse_apis';
+import {
+  onActivated,
+  onDeactivated,
+  onMounted,
+  provide,
+  reactive,
+  ref,
+} from 'vue';
+import { getCustomerParam } from '@/utils/auth';
+import {
+  apiInstance,
+  ApiUrls,
+  PageFieldInfo,
+  SearchFields,
+  SelectOption,
+    dialogPreps
+} from 'star-horse-lowcode';
+import { loadDict } from '@/api/star_horse_apis';
 //后端交互接口地址
 const dataUrl: ApiUrls = apiInstance('system-config', 'system/calendarManage');
 //主键
@@ -340,10 +354,7 @@ onDeactivated(() => {
     />
   </star-horse-dialog>
   <div class="search-content">
-    <div
-      class="search_btn"
-
-    >
+    <div class="search_btn">
       <star-horse-search-comp
         @searchData="(data: any) => calendarManageRef?.createSearchParams(data)"
         :formData="searchFormData"

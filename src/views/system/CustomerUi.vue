@@ -9,8 +9,8 @@ import {
   SelectOption,
   useButtonPermissionStore,
 } from 'star-horse-lowcode';
-import {onMounted, provide, reactive, ref} from 'vue';
-import {loadElementPlusIcon, loadSvgIcons} from '@/api/star_horse_utils.js';
+import { onMounted, provide, reactive, ref } from 'vue';
+import { loadElementPlusIcon, loadSvgIcons } from '@/api/star_horse_utils.js';
 //后端交互接口地址
 const dataUrl: ApiUrls = apiInstance('system-config', 'system/customer');
 const buttonPermission = useButtonPermissionStore(piniaInstance);
@@ -179,10 +179,7 @@ const dataFormat = (_name: string, cellValue: any, row: any): any => {
     />
   </star-horse-dialog>
   <div class="search-content">
-    <div
-      class="search_btn"
-
-    >
+    <div class="search_btn">
       <star-horse-search-comp
         @searchData="(data: any) => customerRef?.createSearchParams(data)"
         :formData="searchFormData"

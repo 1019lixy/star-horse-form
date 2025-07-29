@@ -1,7 +1,11 @@
 <script setup lang="ts" name="BatchEditFields">
-import {computed, reactive} from 'vue';
-import {batchModifyAction, piniaInstance, useDesignFormStore,} from 'star-horse-lowcode';
-import {Config} from '@/api/settings';
+import { computed, reactive } from 'vue';
+import {
+  batchModifyAction,
+  piniaInstance,
+  useDesignFormStore,
+} from 'star-horse-lowcode';
+import { Config } from '@/api/settings';
 
 defineProps({
   compSize: { type: String, default: Config.compSize },

@@ -1,5 +1,13 @@
 <script setup lang="ts">
-import {nextTick, onActivated, onDeactivated, onMounted, provide, reactive, ref,} from 'vue';
+import {
+  nextTick,
+  onActivated,
+  onDeactivated,
+  onMounted,
+  provide,
+  reactive,
+  ref,
+} from 'vue';
 import {
   apiInstance,
   ApiUrls,
@@ -9,7 +17,7 @@ import {
   SearchFields,
   SelectOption,
 } from 'star-horse-lowcode';
-import {loadSvgIcons} from '@/api/star_horse_utils.js';
+import { loadSvgIcons } from '@/api/star_horse_utils.js';
 
 defineOptions({
   name: 'CategoryItemConfig',
@@ -319,10 +327,7 @@ onDeactivated(() => {
     />
   </star-horse-dialog>
   <div class="search-content">
-    <div
-      class="search_btn"
-
-    >
+    <div class="search_btn">
       <star-horse-search-comp
         @searchData="
           (data: any) => categoryItemConfigRef?.createSearchParams(data)

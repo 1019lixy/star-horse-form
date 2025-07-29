@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import {computed, ModelRef, ref} from 'vue';
-import {useFlowDesignStore} from '@/store/FlowDesign';
-import {piniaInstance} from 'star-horse-lowcode';
+import { computed, ModelRef, ref } from 'vue';
+import { useFlowDesignStore } from '@/store/FlowDesign';
+import { piniaInstance } from 'star-horse-lowcode';
 
 defineOptions({
   name: 'CopyerPrep',

@@ -1,5 +1,5 @@
 <script setup lang="ts" name="Repo">
-import {ref} from 'vue';
+import { ref } from 'vue';
 
 const tabCurrent = ref('first');
 </script>

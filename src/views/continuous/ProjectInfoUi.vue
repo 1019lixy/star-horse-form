@@ -1,6 +1,13 @@
 <script setup lang="ts" name="ProjectInfoUi">
-import {onMounted, provide, reactive, ref} from 'vue';
-import {apiInstance, ApiUrls, dialogPreps, dictData, SearchFields, SelectOption,} from 'star-horse-lowcode';
+import { onMounted, provide, reactive, ref } from 'vue';
+import {
+  apiInstance,
+  ApiUrls,
+  dialogPreps,
+  dictData,
+  SearchFields,
+  SelectOption,
+} from 'star-horse-lowcode';
 
 const dataUrl: ApiUrls = apiInstance(
   'continuous-manage',

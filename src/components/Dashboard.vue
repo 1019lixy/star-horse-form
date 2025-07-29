@@ -1,16 +1,17 @@
 <script lang="ts" setup>
 import router from '@/router';
-import {computed, nextTick, onMounted, provide, ref, watch} from 'vue';
-import {useNavBarListStore} from '@/store/NavBarList';
-import {useViewCacheStore} from '@/store/ViewCache';
+import { computed, nextTick, onMounted, provide, ref, watch } from 'vue';
+import { useNavBarListStore } from '@/store/NavBarList';
+import { useViewCacheStore } from '@/store/ViewCache';
 import piniaCompInstance from '@/store';
 import zhCn from 'element-plus/dist/locale/zh-cn.mjs';
 import en from 'element-plus/dist/locale/en.mjs';
-import {LangType} from '@/theme/theme';
-import {getLang} from '@/theme/localStorge';
-import {i18n} from '@/lang';
+import { LangType } from '@/theme/theme';
+import { getLang } from '@/theme/localStorge';
+import { i18n } from '@/lang';
 import $ from 'jquery';
-import {piniaInstance, useGlobalConfigStore} from 'star-horse-lowcode';
+import { piniaInstance, useGlobalConfigStore } from 'star-horse-lowcode';
+import { getUserInfo } from '@/utils/auth.js';
 
 let configStore = useGlobalConfigStore(piniaInstance);
 const route = router.getRoutes().find((item) => item.path == '/home');
@@ -96,69 +97,71 @@ onMounted(async () => {
 </script>
 <template>
   <el-config-provider :locale="locale">
-    <el-container class="star-horse-container">
-      <el-header class="star-horse-header">
-        <header-comp
-          :is-collapse="!isCollapse"
-          @changeLang="changeLang"
-          @layoutConfig="layoutConfig"
-        />
-      </el-header>
-      <el-container class="star-horse-container-main">
-        <el-splitter>
-          <el-splitter-panel
-            @update:size="sizeChange"
-            :collapsible="configInfo.menusCfg == 'tradition'"
-            :size="outerIsCollapse"
-            min="64px"
-            :max="'500px'"
-          >
-            <left-menu
-              v-if="configInfo.menusCfg == 'tradition'"
-              :sysem-id="sysemId"
-              :is-collapse="!isCollapse"
-              @collapseOperation="collapseOperation"
-            />
-            <FixedMenu
-              :sysem-id="sysemId"
-              :top="configInfo.shortCutMenus == 'N' ? '53px' : '83px'"
-              v-if="configInfo.menusCfg == 'fixed'"
-            />
-          </el-splitter-panel>
-          <el-splitter-panel :resizable="configInfo.menusCfg == 'tradition'">
-            <el-main
-              class="star-horse-main animate__animated animate__bounceInUp"
+    <el-watermark class="h-full w-fill" :content="getUserInfo().username">
+      <el-container class="star-horse-container">
+        <el-header class="star-horse-header">
+          <header-comp
+            :is-collapse="!isCollapse"
+            @changeLang="changeLang"
+            @layoutConfig="layoutConfig"
+          />
+        </el-header>
+        <el-container class="star-horse-container-main">
+          <el-splitter>
+            <el-splitter-panel
+              @update:size="sizeChange"
+              :collapsible="configInfo.menusCfg == 'tradition'"
+              :size="outerIsCollapse"
+              min="64px"
+              :max="'500px'"
             >
-              <tags-view v-if="configInfo.tagsView == 'Y'" />
-              <router-view v-slot="{ Component }">
-                <transition name="solid">
-                  <keep-alive :include="cachedDatas">
-                    <Suspense>
-                      <component :is="Component" />
-                      <template #fallback> 数据加载中...</template>
-                    </Suspense>
-                  </keep-alive>
-                </transition>
-              </router-view>
-              <div class="main-copyright">
-                {{ i18n("starhorse.copyright") }}
-              </div>
-            </el-main>
-          </el-splitter-panel>
-        </el-splitter>
+              <left-menu
+                v-if="configInfo.menusCfg == 'tradition'"
+                :sysem-id="sysemId"
+                :is-collapse="!isCollapse"
+                @collapseOperation="collapseOperation"
+              />
+              <FixedMenu
+                :sysem-id="sysemId"
+                :top="configInfo.shortCutMenus == 'N' ? '53px' : '83px'"
+                v-if="configInfo.menusCfg == 'fixed'"
+              />
+            </el-splitter-panel>
+            <el-splitter-panel :resizable="configInfo.menusCfg == 'tradition'">
+              <el-main
+                class="star-horse-main animate__animated animate__bounceInUp"
+              >
+                <tags-view v-if="configInfo.tagsView == 'Y'" />
+                <router-view v-slot="{ Component }">
+                  <transition name="solid">
+                    <keep-alive :include="cachedDatas">
+                      <Suspense>
+                        <component :is="Component" />
+                        <template #fallback> 数据加载中...</template>
+                      </Suspense>
+                    </keep-alive>
+                  </transition>
+                </router-view>
+                <div class="main-copyright">
+                  {{ i18n("starhorse.copyright") }}
+                </div>
+              </el-main>
+            </el-splitter-panel>
+          </el-splitter>
+        </el-container>
       </el-container>
-    </el-container>
-    <el-drawer v-model="drawer" :direction="direction">
-      <template #header>
-        <h3>操作习惯配置</h3>
-      </template>
-      <template #default>
-        <el-card class="inner_content operation-area">
-          <page-config />
-        </el-card>
-      </template>
-      <template #footer></template>
-    </el-drawer>
+      <el-drawer v-model="drawer" :direction="direction">
+        <template #header>
+          <h3>操作习惯配置</h3>
+        </template>
+        <template #default>
+          <el-card class="inner_content operation-area">
+            <page-config />
+          </el-card>
+        </template>
+        <template #footer></template>
+      </el-drawer>
+    </el-watermark>
   </el-config-provider>
 </template>
 <style lang="scss" scoped>

@@ -1,7 +1,10 @@
 <script setup lang="ts" name="EnvInfo">
-import {onMounted, provide, reactive, ref} from 'vue';
-import {useRouter} from 'vue-router';
-import {flowFormFields, setFlowGroups,} from '@/views/workflow/utils/FlowFormUtils';
+import { onMounted, provide, reactive, ref } from 'vue';
+import { useRouter } from 'vue-router';
+import {
+  flowFormFields,
+  setFlowGroups,
+} from '@/views/workflow/utils/FlowFormUtils';
 import {
   apiInstance,
   ApiUrls,
@@ -107,10 +110,7 @@ onMounted(async () => {
     />
   </star-horse-dialog>
   <div class="search-content">
-    <div
-      class="search_btn"
-
-    >
+    <div class="search_btn">
       <star-horse-search-comp
         @searchData="(data: any) => flowDefinitionRef?.createSearchParams(data)"
         :formData="searchFormData"

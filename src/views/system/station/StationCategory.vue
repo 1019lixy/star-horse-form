@@ -1,6 +1,14 @@
 <script lang="ts" name="StationSequence" setup>
-import {nextTick, onActivated, onDeactivated, onMounted, provide, reactive, ref,} from 'vue';
-import {getCustomerParam} from '@/utils/auth';
+import {
+  nextTick,
+  onActivated,
+  onDeactivated,
+  onMounted,
+  provide,
+  reactive,
+  ref,
+} from 'vue';
+import { getCustomerParam } from '@/utils/auth';
 import {
   apiInstance,
   ApiUrls,
@@ -273,10 +281,7 @@ onDeactivated(() => {
     />
   </star-horse-dialog>
   <div class="search-content">
-    <div
-      class="search_btn"
-
-    >
+    <div class="search_btn">
       <star-horse-search-comp
         @searchData="
           (data: any) => stationSequenceRef?.createSearchParams(data)

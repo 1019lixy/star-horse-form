@@ -1,7 +1,20 @@
 <script setup lang="ts" name="CalendarDefine">
-import {onActivated, onDeactivated, onMounted, provide, reactive, ref,} from 'vue';
-import {apiInstance, ApiUrls, dialogPreps, PageFieldInfo, SearchFields,} from 'star-horse-lowcode';
-import {getCustomerParam} from '@/utils/auth';
+import {
+  onActivated,
+  onDeactivated,
+  onMounted,
+  provide,
+  reactive,
+  ref,
+} from 'vue';
+import {
+  apiInstance,
+  ApiUrls,
+  dialogPreps,
+  PageFieldInfo,
+  SearchFields,
+} from 'star-horse-lowcode';
+import { getCustomerParam } from '@/utils/auth';
 //后端交互接口地址
 const dataUrl: ApiUrls = apiInstance('system-config', 'system/calendarDefine');
 //主键
@@ -215,10 +228,7 @@ onDeactivated(() => {
     />
   </star-horse-dialog>
   <div class="search-content">
-    <div
-      class="search_btn"
-
-    >
+    <div class="search_btn">
       <star-horse-search-comp
         @searchData="(data: any) => calendarDefineRef?.createSearchParams(data)"
         :formData="searchFormData"

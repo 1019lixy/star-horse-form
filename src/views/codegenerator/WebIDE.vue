@@ -1,8 +1,11 @@
 <script setup lang="ts">
-import {onMounted, ref} from 'vue';
-import {loadTemplate, templateList,} from '@/views/codegenerator/utils/IdeOperation';
-import {SelectOption} from 'star-horse-lowcode';
-import {commands} from '@/utils/sh_design';
+import { onMounted, ref } from 'vue';
+import {
+  loadTemplate,
+  templateList,
+} from '@/views/codegenerator/utils/IdeOperation';
+import { SelectOption } from 'star-horse-lowcode';
+import { commands } from '@/utils/sh_design';
 
 const editor = ref();
 let tempList = ref<SelectOption[]>([]);

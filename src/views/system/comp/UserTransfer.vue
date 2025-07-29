@@ -1,7 +1,7 @@
 <script setup lang="ts" name="UserTransfer">
-import {onMounted, ref} from 'vue';
-import {analysisData} from '@/api/deptment';
-import {closeLoad, postRequest, SelectOption} from 'star-horse-lowcode';
+import { onMounted, ref } from 'vue';
+import { analysisData } from '@/api/deptment';
+import { closeLoad, postRequest, SelectOption } from 'star-horse-lowcode';
 
 const deptUserList = ref<SelectOption>([]);
 const selectUsers = ref<Array<number>>([]);

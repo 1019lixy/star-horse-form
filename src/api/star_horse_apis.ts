@@ -1,47 +1,47 @@
-import {Config} from "@/api/settings";
-import router from "@/router";
-import {delLoginInfo, getToken, getUserInfo} from "@/utils/auth";
-import axios, {AxiosResponse, InternalAxiosRequestConfig} from "axios";
+import { Config } from '@/api/settings';
+import router from '@/router';
+import { delLoginInfo, getToken, getUserInfo } from '@/utils/auth';
+import axios, { AxiosResponse, InternalAxiosRequestConfig } from 'axios';
 import {
-    error,
-    getFingerId,
-    loadData,
-    MenusInfo,
-    piniaInstance,
-    SelectOption,
-    useButtonPermissionStore,
-    useUserInfoStore,
-    warning,
-} from "star-horse-lowcode";
+  error,
+  getFingerId,
+  loadData,
+  MenusInfo,
+  piniaInstance,
+  SelectOption,
+  useButtonPermissionStore,
+  useUserInfoStore,
+  warning,
+} from 'star-horse-lowcode';
 
-import {ServiceEnums} from "@/components/enums/ServiceEnums";
-import {useNavBarListStore} from "@/store/NavBarList";
-import {useViewCacheStore} from "@/store/ViewCache";
-import {NavigationGuardNext, RouteLocationNormalized} from "vue-router";
-import piniaCompInstance from "@/store";
+import { ServiceEnums } from '@/components/enums/ServiceEnums';
+import { useNavBarListStore } from '@/store/NavBarList';
+import { useViewCacheStore } from '@/store/ViewCache';
+import { NavigationGuardNext, RouteLocationNormalized } from 'vue-router';
+import piniaCompInstance from '@/store';
 
 const navBarListStore = useNavBarListStore(piniaCompInstance);
 const userStore = useUserInfoStore(piniaInstance);
 const pagePermission = useButtonPermissionStore(piniaInstance);
 const viewListStore = useViewCacheStore(piniaCompInstance);
 
-const service = axios.create({
-  baseURL: "/",
+const axiosInstance = axios.create({
+  baseURL: '/',
   timeout: 50000,
   headers: {
-    "Content-Type": "application/json; charset=utf-8",
+    'Content-Type': 'application/json; charset=utf-8',
   },
 });
 // 添加请求拦截器
-service.interceptors.request.use(
+axiosInstance.interceptors.request.use(
   (config: InternalAxiosRequestConfig) => {
     const token = getToken();
     const fingerToken = getFingerId();
     // 请求头带上token
     if (token && config.headers) {
       config.headers.token = token;
-      config.headers["Finger-Token"] = fingerToken;
-      config.headers["menuPosition"] = getMenuId();
+      config.headers['Finger-Token'] = fingerToken;
+      config.headers['menuPosition'] = getMenuId();
     }
     return config;
   },
@@ -52,22 +52,22 @@ service.interceptors.request.use(
 );
 
 const forceLoginOut = (showDialog?: boolean) => {
-  let menusInfo = sessionStorage.getItem("menusInfo");
+  let menusInfo = sessionStorage.getItem('menusInfo');
   const token = getToken();
   if (
     !token ||
-    token == "undefined" ||
+    token == 'undefined' ||
     !menusInfo ||
-    menusInfo == "undefined" ||
-    menusInfo == "null"
+    menusInfo == 'undefined' ||
+    menusInfo == 'null'
   ) {
-    router.push({ path: "/login" });
+    router.push({ path: '/login' });
   } else {
     !showDialog && userStore.showLoginDialog();
   }
 };
 // 添加响应拦截器
-service.interceptors.response.use(
+axiosInstance.interceptors.response.use(
   (response: AxiosResponse) => {
     const code = response.data?.code;
     // 401 未登录
@@ -80,11 +80,11 @@ service.interceptors.response.use(
   (err) => {
     let data = err?.response?.status ?? err.toString().toLowerCase();
     data = String(data);
-    if (data == "401" || data?.includes("status code 401")) {
+    if (data == '401' || data?.includes('status code 401')) {
       forceLoginOut();
-    } else if (data == "500" || data?.includes("status code 500")) {
+    } else if (data == '500' || data?.includes('status code 500')) {
       forceLoginOut(true);
-      error("服务接口异常，请联系管理员");
+      error('服务接口异常，请联系管理员');
       return Promise.reject(err);
     } else {
       // 对响应错误做点什么
@@ -92,7 +92,7 @@ service.interceptors.response.use(
     }
   },
 );
-
+export { axiosInstance };
 function getUserId() {
   const userInfo = getUserInfo();
   return userInfo?.idUsersinfo;
@@ -110,7 +110,7 @@ export function getValidateImg() {
  * @param content
  */
 export async function rtCode(content: string) {
-  let data = "";
+  let data = '';
   await getRequest(`${ServiceEnums.GLOBAL_PREFIX}qrCode/${content}`).then(
     (res) => {
       data = res.data.data;
@@ -136,16 +136,16 @@ export async function userLogout(data: Array<any>) {
   navBarListStore.clearAll();
   viewListStore.clearAll();
   pagePermission.cleanPermission();
-  router.push({ path: "/login" });
+  router.push({ path: '/login' });
 }
 
 export function getMenuId() {
   const meta = router.currentRoute.value.meta;
   let menuId = meta?.menuId as string;
   if (!menuId) {
-    return "";
+    return '';
   }
-  menuId = menuId.split("_")[1];
+  menuId = menuId.split('_')[1];
   return menuId;
 }
 
@@ -169,7 +169,7 @@ export async function restoreMenu(
   to: RouteLocationNormalized,
   _next: NavigationGuardNext,
 ) {
-  const data = sessionStorage.getItem("menusInfo");
+  const data = sessionStorage.getItem('menusInfo');
   if (data) {
     createRouterAndMenuList(JSON.parse(data));
   }
@@ -179,7 +179,7 @@ export async function restoreMenu(
   if (redata) {
     await router.push(to);
   } else {
-    await router.push("/");
+    await router.push('/');
   }
 }
 
@@ -194,8 +194,8 @@ export function createRouterAndMenuList(redata: Array<object>): MenusInfo[] {
   if (redata?.length == 0) {
     return leftMenuDatas;
   }
-  const baseDir = "/src/views";
-  const compPath = import.meta.glob("@/views/**/*.vue");
+  const baseDir = '/src/views';
+  const compPath = import.meta.glob('@/views/**/*.vue');
   /**
    * 递归组装菜单
    * @param redata
@@ -206,24 +206,24 @@ export function createRouterAndMenuList(redata: Array<object>): MenusInfo[] {
     const menuDatas: MenusInfo[] = [];
     for (let index = 0; index < redata.length; index++) {
       const item = redata[index];
-      if (item.menuPath == "#" && item.children?.length == 0) {
+      if (item.menuPath == '#' && item.children?.length == 0) {
         continue;
       }
       const menuId = item.idMenusinfo;
       if (menuId) {
         pageButtonPermissions[menuId.toString()] =
-          item["pageButtonPermissions"];
+          item['pageButtonPermissions'];
       }
-      const arr = item.menuPath.split("/");
+      const arr = item.menuPath.split('/');
       let menuName = arr[arr.length - 1];
       menuName = menuName.endsWith(Config.fileExt)
-        ? menuName.split(".")[0]
+        ? menuName.split('.')[0]
         : menuName;
-      let path = item.menuPath?.startsWith("/")
+      let path = item.menuPath?.startsWith('/')
         ? item.menuPath
-        : "/" + item.menuPath;
+        : '/' + item.menuPath;
       path = path.endsWith(Config.fileExt) ? path : path + Config.fileExt;
-      const prefix = key_index + "_";
+      const prefix = key_index + '_';
       const data: MenusInfo = {
         path: item.menuPath,
         component: compPath[`${baseDir}${path}`],
@@ -236,9 +236,9 @@ export function createRouterAndMenuList(redata: Array<object>): MenusInfo[] {
           keepAlive: item.keepAlive,
         },
       };
-      if (path.indexOf("/page/") == -1) {
-        if (item.openType == "self") {
-          router.addRoute("Index", data);
+      if (path.indexOf('/page/') == -1) {
+        if (item.openType == 'self') {
+          router.addRoute('Index', data);
         } else {
           router.addRoute(data);
         }
@@ -258,9 +258,9 @@ export function createRouterAndMenuList(redata: Array<object>): MenusInfo[] {
 
   userStore.addPermissionMenus(leftMenuDatas);
   pagePermission.addAllPermission(pageButtonPermissions);
-  sessionStorage.setItem("menusInfo", JSON.stringify(redata));
+  sessionStorage.setItem('menusInfo', JSON.stringify(redata));
   sessionStorage.setItem(
-    "dynamicMenusLists",
+    'dynamicMenusLists',
     JSON.stringify(userStore.dynamicMenus),
   );
   return leftMenuDatas;
@@ -273,12 +273,12 @@ export function createRouterAndMenuList(redata: Array<object>): MenusInfo[] {
  */
 export function download(url: string, param: any) {
   return new Promise((resolve, reject) => {
-    service
-      .post(url, param, { responseType: "blob" })
+    axiosInstance
+      .post(url, param, { responseType: 'blob' })
       .then((res) => {
         downloadData(
           res.data,
-          decodeURI(res.headers["content-disposition"].split("=")[1]),
+          decodeURI(res.headers['content-disposition'].split('=')[1]),
         );
         resolve(null);
       })
@@ -296,7 +296,7 @@ export function download(url: string, param: any) {
  */
 export function downloadData(data: any, name: string) {
   const blob = new Blob([data]);
-  const delement = document.createElement("a");
+  const delement = document.createElement('a');
   const href = window.URL.createObjectURL(blob);
   delement.href = href;
   delement.download = name;
@@ -314,7 +314,7 @@ export function downloadData(data: any, name: string) {
 export async function loadDict(dictName: string) {
   let redata: Array<SelectOption> = [];
   const param = {
-    fieldList: [{ propertyName: "dictType", value: dictName ?? "public" }],
+    fieldList: [{ propertyName: 'dictType', value: dictName ?? 'public' }],
   };
   await postRequest(
     `${ServiceEnums.SYSTEM_PREFIX}dictinfoEntity/getAllByCondition`,
@@ -344,7 +344,7 @@ export async function loadDict(dictName: string) {
  * @returns {Promise<AxiosResponse<any>>}
  */
 export function postRequest(url: string, data: Array<any> | any) {
-  return service.post(url, data);
+  return axiosInstance.post(url, data);
 }
 
 /**
@@ -353,5 +353,5 @@ export function postRequest(url: string, data: Array<any> | any) {
  * @returns {Promise<AxiosResponse<any>>}
  */
 export function getRequest(url: string) {
-  return service.get(url);
+  return axiosInstance.get(url);
 }

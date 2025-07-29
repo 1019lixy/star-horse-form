@@ -1,8 +1,16 @@
 <script setup lang="ts" name="CompanyRole">
-import {nextTick, onActivated, onDeactivated, onMounted, provide, reactive, ref,} from 'vue';
-import {TreeNodeData} from 'element-plus/es/components/tree-v2/src/types';
-import {statusList} from '@/views/system/utils/UserFields';
-import {getCustomerParam} from '@/utils/auth';
+import {
+  nextTick,
+  onActivated,
+  onDeactivated,
+  onMounted,
+  provide,
+  reactive,
+  ref,
+} from 'vue';
+import { TreeNodeData } from 'element-plus/es/components/tree-v2/src/types';
+import { statusList } from '@/views/system/utils/UserFields';
+import { getCustomerParam } from '@/utils/auth';
 import {
   apiInstance,
   ApiUrls,
@@ -422,10 +430,7 @@ onDeactivated(() => {
       <el-splitter-panel>
         <el-card class="inner_content">
           <div class="search-content">
-            <div
-              class="search_btn"
-
-            >
+            <div class="search_btn">
               <star-horse-search-comp
                 @searchData="
                   (data: any) => companyRoleRef?.createSearchParams(data)

@@ -1,5 +1,5 @@
 <script setup lang="ts" name="FormPropertyPanel">
-import {computed, onMounted, onUpdated, reactive, ref, watch} from 'vue';
+import { computed, onMounted, onUpdated, reactive, ref, watch } from 'vue';
 import {
   apiInstance,
   ApiUrls,
@@ -12,10 +12,16 @@ import {
   SelectOption,
   useDesignFormStore,
 } from 'star-horse-lowcode';
-import {Config} from '@/api/settings';
-import {loadDict, permissionMenus} from '@/api/star_horse_apis';
-import {dbConfigList, loadElementPlusIcon, loadRolesInfo, loadSvgIcons, loadSystemInfo,} from '@/api/star_horse_utils';
-import {ascOrDesc, commonField, httpMethod} from '@/api/system';
+import { Config } from '@/api/settings';
+import { loadDict, permissionMenus } from '@/api/star_horse_apis';
+import {
+  dbConfigList,
+  loadElementPlusIcon,
+  loadRolesInfo,
+  loadSvgIcons,
+  loadSystemInfo,
+} from '@/api/star_horse_utils';
+import { ascOrDesc, commonField, httpMethod } from '@/api/system';
 
 const apiUrl: ApiUrls = apiInstance('userdb-manage', 'userdb/dynamicForm');
 let designForm = useDesignFormStore(piniaInstance);
@@ -192,7 +198,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
                 label: '表单图标',
                 fieldName: 'formIcon',
                 type: 'icon',
-                defaultValue:'document',
+                defaultValue: 'document',
                 formVisible: true,
                 preps: {
                   colspan: 5,
@@ -232,7 +238,6 @@ const tableFieldList = reactive<PageFieldInfo | any>({
                   values: rolesList,
                 },
               },
-
             ],
             [
               {
@@ -251,19 +256,19 @@ const tableFieldList = reactive<PageFieldInfo | any>({
                 },
               },
               {
-                'label': '按钮权限',
-                'fieldName': 'buttonPermissionsList',
-                'type': 'select',
-                'required': false,
-                'formVisible': menuFlag,
-                'listVisible': true,
-                'preps': {
+                label: '按钮权限',
+                fieldName: 'buttonPermissionsList',
+                type: 'select',
+                required: false,
+                formVisible: menuFlag,
+                listVisible: true,
+                preps: {
                   multiple: true,
                   colspan: 12,
-                  'urlOrDictName': 'button_authority',
-                  'dataSource': 'dict'
-                }
-              }
+                  urlOrDictName: 'button_authority',
+                  dataSource: 'dict',
+                },
+              },
             ],
             [
               {
@@ -275,7 +280,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
                 preps: {
                   activeValue: 1,
                   inactiveValue: 2,
-                  colspan:8,
+                  colspan: 8,
                 },
               },
               {

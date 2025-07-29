@@ -1,6 +1,11 @@
 <script setup lang="ts" name="DynamicFormDetails">
-import {apiInstance, ApiUrls, dialogPreps, SearchFields,} from 'star-horse-lowcode';
-import {onMounted, provide, reactive, ref} from 'vue';
+import {
+  apiInstance,
+  ApiUrls,
+  dialogPreps,
+  SearchFields,
+} from 'star-horse-lowcode';
+import { onMounted, provide, reactive, ref } from 'vue';
 
 const dataUrl: ApiUrls = apiInstance(
   'userdb-manage',
@@ -135,10 +140,7 @@ onMounted(async () => {
     />
   </star-horse-dialog>
   <div class="search-content">
-    <div
-      class="search_btn"
-
-    >
+    <div class="search_btn">
       <star-horse-search-comp
         @searchData="
           (data: any) => dynamicFormDetailsRef?.createSearchParams(data)

@@ -22,11 +22,20 @@ import {
   UserFuncInfo,
   warning,
 } from 'star-horse-lowcode';
-import {Config} from '@/api/settings';
-import {computed, nextTick, onActivated, onDeactivated, onMounted, provide, reactive, ref,} from 'vue';
-import {getCustomerParam} from '@/utils/auth';
-import {TreeNodeData} from 'element-plus/es/components/tree-v2/src/types';
-import {statusList} from '@/views/system/utils/UserFields';
+import { Config } from '@/api/settings';
+import {
+  computed,
+  nextTick,
+  onActivated,
+  onDeactivated,
+  onMounted,
+  provide,
+  reactive,
+  ref,
+} from 'vue';
+import { getCustomerParam } from '@/utils/auth';
+import { TreeNodeData } from 'element-plus/es/components/tree-v2/src/types';
+import { statusList } from '@/views/system/utils/UserFields';
 //后端交互接口地址
 const dataUrl: ApiUrls = apiInstance('system-config', 'system/companyRole');
 dataUrl.condition = [createCondition('a.roleType', 'common_role')];
@@ -390,10 +399,7 @@ onDeactivated(() => {
       <el-splitter-panel>
         <el-card class="inner_content">
           <div class="search-content">
-            <div
-              class="search_btn"
-
-            >
+            <div class="search_btn">
               <star-horse-search-comp
                 @searchData="
                   (data: any) => companyRoleRef?.createSearchParams(data)

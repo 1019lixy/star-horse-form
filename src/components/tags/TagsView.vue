@@ -1,10 +1,13 @@
 <script setup lang="ts">
-import {computed, nextTick, onMounted, ref, unref, watch} from 'vue';
-import type {RouteLocationNormalizedLoaded, RouterLinkProps,} from 'vue-router';
-import {useRouter} from 'vue-router';
-import {useNavBarListStore} from '@/store/NavBarList';
-import {useScrollTo} from '@/components/tags/useScrollTo';
-import {useTemplateRefsList} from '@vueuse/core';
+import { computed, nextTick, onMounted, ref, unref, watch } from 'vue';
+import type {
+  RouteLocationNormalizedLoaded,
+  RouterLinkProps,
+} from 'vue-router';
+import { useRouter } from 'vue-router';
+import { useNavBarListStore } from '@/store/NavBarList';
+import { useScrollTo } from '@/components/tags/useScrollTo';
+import { useTemplateRefsList } from '@vueuse/core';
 import piniaCompInstance from '@/store';
 
 const { currentRoute, push, replace } = useRouter();

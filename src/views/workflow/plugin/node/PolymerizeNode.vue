@@ -18,9 +18,9 @@
   </div>
 </template>
 <script setup lang="ts">
-import {onMounted} from 'vue';
-import {closeLoad, piniaInstance, warning} from 'star-horse-lowcode';
-import {useFlowDesignStore} from '@/store/FlowDesign';
+import { onMounted } from 'vue';
+import { closeLoad, piniaInstance, warning } from 'star-horse-lowcode';
+import { useFlowDesignStore } from '@/store/FlowDesign';
 
 const flowDesign = useFlowDesignStore(piniaInstance);
 const props = defineProps({

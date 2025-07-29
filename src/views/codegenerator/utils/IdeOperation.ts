@@ -1,4 +1,4 @@
-import {postRequest, SelectOption} from 'star-horse-lowcode';
+import { postRequest, SelectOption } from 'star-horse-lowcode';
 
 const templateListUrl: string = '/code-generator/dynamic/code/templateList';
 const loadTemplateUrl: string = '/code-generator/dynamic/code/loadTemplate';

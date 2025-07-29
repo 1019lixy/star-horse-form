@@ -1,7 +1,7 @@
-import zh_CN from "@/lang/zh_CN";
-import en_US from "@/lang/en_US";
-import {LangType} from "@/theme/theme";
-import {getLang} from "@/theme/localStorge";
+import zh_CN from '@/lang/zh_CN';
+import en_US from '@/lang/en_US';
+import { LangType } from '@/theme/theme';
+import { getLang } from '@/theme/localStorge';
 
 const language = {
   zh_cn: zh_CN,
@@ -30,6 +30,6 @@ export function i18n(key: keyof typeof zh_CN, ...args: any[]) {
         resultList.push(temp);
       }
     });
-    return resultList.join("en_us" === LangType.EN_US ? " " : "");
+    return resultList.join('en_us' === LangType.EN_US ? ' ' : '');
   }
 }

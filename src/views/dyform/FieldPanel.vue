@@ -1,7 +1,13 @@
 <script setup lang="ts" name="FieldPanel">
-import {computed, ref} from 'vue';
-import {apiInstance, ApiUrls, loadData, piniaInstance, useDesignFormStore,} from 'star-horse-lowcode';
-import {fieldCopy} from '@/views/dyform/utils/FieldOperationUtils';
+import { computed, ref } from 'vue';
+import {
+  apiInstance,
+  ApiUrls,
+  loadData,
+  piniaInstance,
+  useDesignFormStore,
+} from 'star-horse-lowcode';
+import { fieldCopy } from '@/views/dyform/utils/FieldOperationUtils';
 
 const props = defineProps({
   batchCreatePage: { type: Boolean, default: false },

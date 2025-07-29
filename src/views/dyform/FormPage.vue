@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {nextTick, onMounted, provide, reactive, ref, watch} from 'vue';
+import { nextTick, onMounted, provide, reactive, ref, watch } from 'vue';
 import {
   apiInstance,
   ApiUrls,
@@ -11,7 +11,7 @@ import {
   SearchFields,
   useDesignFormStore,
 } from 'star-horse-lowcode';
-import {getUserInfo} from '@/utils/auth';
+import { getUserInfo } from '@/utils/auth';
 
 let designForm = useDesignFormStore(piniaInstance);
 let dataUrl = ref<ApiUrls>(apiInstance('', ''));
@@ -27,15 +27,15 @@ let relationTables = ref<any>({});
 const formInfo = ref<any>({});
 let outerFormData = ref<any>({});
 const props = defineProps({
-  param: {type: String, required: true},
+  param: { type: String, required: true },
 });
 const clear = () => {
   hasData.value = false;
 };
 const loadFormData = async (formId: string) => {
-  let {data, error} = await loadData(
-      `/userdb-manage/userdb/dynamicFormInfo/getDynamicForm/${formId}`,
-      {},
+  let { data, error } = await loadData(
+    `/userdb-manage/userdb/dynamicFormInfo/getDynamicForm/${formId}`,
+    {},
   );
   if (error) {
     errorMsg.value = error;
@@ -44,8 +44,8 @@ const loadFormData = async (formId: string) => {
   }
   hasData.value = data && Object.keys(data).length > 0;
   dataUrl.value = apiInstance(
-      data['dataUrl']?.appName,
-      data['dataUrl']?.contextUrl,
+    data['dataUrl']?.appName,
+    data['dataUrl']?.contextUrl,
   );
   searchFormData.value = data['searchFormData'] as SearchFields;
   primaryKey.value = data['primaryKey'];
@@ -73,18 +73,18 @@ const loadInstanceData = () => {
   }
 };
 watch(
-    () => props.param,
-    (val) => {
-      clear();
-      try {
-        // load("数据加载中。。。");
-        loadFormData(<string>val);
-      } catch (e) {
-        // closeLoad();
-        console.log('数据类型不匹配');
-      }
-    },
-    {deep: true},
+  () => props.param,
+  (val) => {
+    clear();
+    try {
+      // load("数据加载中。。。");
+      loadFormData(<string>val);
+    } catch (e) {
+      // closeLoad();
+      console.log('数据类型不匹配');
+    }
+  },
+  { deep: true },
 );
 //记录表单的属性
 const formFields = reactive<Array<any>>([]);
@@ -104,15 +104,15 @@ onMounted(async () => {
   <template v-if="hasData">
     <el-card class="inner_content">
       <star-horse-form
-          :compUrl="dataUrl"
-          :formInfo="formInfo"
-          :dynamicForm="true"
-          :globalCondition="relationTables"
-          :outerFormData="outerFormData"
-          @refresh="loadInstanceData"
-          :fieldList="tableFieldList"
-          :rules="rules"
-          :typeModel="'form'"
+        :compUrl="dataUrl"
+        :formInfo="formInfo"
+        :dynamicForm="true"
+        :globalCondition="relationTables"
+        :outerFormData="outerFormData"
+        @refresh="loadInstanceData"
+        :fieldList="tableFieldList"
+        :rules="rules"
+        :typeModel="'form'"
       />
     </el-card>
   </template>

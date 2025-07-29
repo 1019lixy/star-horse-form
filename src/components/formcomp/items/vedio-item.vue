@@ -33,7 +33,7 @@
   </starhorse-form-item>
 </template>
 <script setup lang="ts" name="vedioItem">
-import {onMounted, ref} from 'vue';
+import { onMounted, ref } from 'vue';
 import flvjs from 'flv.js';
 
 const props = defineProps({
@@ -68,6 +68,7 @@ const props = defineProps({
 });
 const emits = defineEmits(['selfFunc', 'selectItem']);
 const formData = defineModel('formData');
+const seekpoint=ref();
 const itemAction = () => {
   emits('selfFunc', formData);
 };
@@ -137,7 +138,7 @@ const setCfg = (key: string, value: any) => {
   } catch (e) {}
 };
 const saveSettings = () => {
-  setCfg('sURL', field['videoUrl']);
+  setCfg('sURL', props.field.preps?.['videoUrl']);
 };
 onMounted(() => {
   load();

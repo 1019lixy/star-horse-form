@@ -1,7 +1,7 @@
 <script setup lang="ts" name="FieldAnalysis">
-import {Config} from '@/api/settings';
-import {onMounted, PropType} from 'vue';
-import {fieldPlaceholder} from '@/views/dyform/utils/ItemPreps';
+import { Config } from '@/api/settings';
+import { onMounted, PropType } from 'vue';
+import { fieldPlaceholder } from '@/views/dyform/utils/ItemPreps';
 
 const props = defineProps({
   container: { type: String, default: '' },

@@ -1,5 +1,5 @@
 <script setup lang="ts" name="DataLog">
-import {ref} from 'vue';
+import { ref } from 'vue';
 
 const value = ref(
   'continuous-manage:8859 2022-11-28 09:49:58 [Catalina-utility-2] DEBUG o.a.catalina.session.ManagerBase - End expire sessions StandardManager processingTime 1 expired sessions: 0\n' +

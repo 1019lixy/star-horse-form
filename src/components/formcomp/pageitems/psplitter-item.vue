@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import {ref} from 'vue';
-import {uuid} from 'star-horse-lowcode';
+import { ref } from 'vue';
+import { uuid } from 'star-horse-lowcode';
 
 defineOptions({
   name: 'PageSplitterItem',

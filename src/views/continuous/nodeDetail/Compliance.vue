@@ -1,5 +1,5 @@
 <script setup lang="ts" name="Compliance">
-import {ref} from 'vue';
+import { ref } from 'vue';
 
 const tabCurrent = ref('second');
 </script>

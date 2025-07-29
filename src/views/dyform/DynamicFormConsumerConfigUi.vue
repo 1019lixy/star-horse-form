@@ -9,8 +9,8 @@ import {
   SelectOption,
   UserFuncInfo,
 } from 'star-horse-lowcode';
-import {onMounted, provide, reactive, ref} from 'vue';
-import {useRouter} from 'vue-router';
+import { onMounted, provide, reactive, ref } from 'vue';
+import { useRouter } from 'vue-router';
 
 const router = useRouter();
 //后端交互接口地址
@@ -295,10 +295,7 @@ const dataFormat = (name: string, cellValue: any, _row: any): any => {
     />
   </star-horse-dialog>
   <div class="search-content">
-    <div
-      class="search_btn"
-
-    >
+    <div class="search_btn">
       <star-horse-search-comp
         @searchData="
           (data: any) => dynamicFormConsumerConfigRef?.createSearchParams(data)

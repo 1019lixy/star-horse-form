@@ -1,6 +1,12 @@
 <script setup lang="ts" name="Audit">
-import {apiInstance, ApiUrls, dialogPreps, PageFieldInfo, SearchFields,} from 'star-horse-lowcode';
-import {onMounted, provide, reactive, ref} from 'vue';
+import {
+  apiInstance,
+  ApiUrls,
+  dialogPreps,
+  PageFieldInfo,
+  SearchFields,
+} from 'star-horse-lowcode';
+import { onMounted, provide, reactive, ref } from 'vue';
 
 const dataUrl: ApiUrls = apiInstance('system-config', 'system/auditEntity');
 const requestMethod = [
@@ -174,10 +180,7 @@ onMounted(async () => {
     />
   </star-horse-dialog>
   <div class="search-content">
-    <div
-      class="search_btn"
-
-    >
+    <div class="search_btn">
       <star-horse-search-comp
         @searchData="(data: any) => auditRef?.createSearchParams(data)"
         :formData="searchFormData"

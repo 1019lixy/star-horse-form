@@ -1,6 +1,13 @@
 <script setup lang="ts">
-import {onMounted, ref} from 'vue';
-import {apiInstance, ApiUrls, dictData, postRequest, SelectOption, warning,} from 'star-horse-lowcode';
+import { onMounted, ref } from 'vue';
+import {
+  apiInstance,
+  ApiUrls,
+  dictData,
+  postRequest,
+  SelectOption,
+  warning,
+} from 'star-horse-lowcode';
 
 const emits = defineEmits(['selectNode']);
 const apiUrl: ApiUrls = apiInstance(
@@ -90,7 +97,12 @@ defineExpose({
               >
                 <div class="item-logo">
                   <div class="node-icon">
-                    <star-horse-icon :icon-class="item.icon" size="40px" width="44px" height="42px"/>
+                    <star-horse-icon
+                      :icon-class="item.icon"
+                      size="40px"
+                      width="44px"
+                      height="42px"
+                    />
                   </div>
                   <span class="text text-overflow">{{ item.nodeName }}</span>
                 </div>

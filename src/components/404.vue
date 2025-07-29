@@ -1,6 +1,6 @@
 <script lang="ts" setup name="NotFound">
-import {useRouter} from 'vue-router';
-import {i18n} from '@/lang';
+import { useRouter } from 'vue-router';
+import { i18n } from '@/lang';
 
 const router = useRouter();
 const backFun = () => {

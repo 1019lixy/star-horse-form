@@ -1,5 +1,13 @@
 <script setup lang="ts">
-import {nextTick, onMounted, PropType, provide, reactive, ref, watch,} from 'vue';
+import {
+  nextTick,
+  onMounted,
+  PropType,
+  provide,
+  reactive,
+  ref,
+  watch,
+} from 'vue';
 import {
   apiInstance,
   ApiUrls,
@@ -48,8 +56,8 @@ const assignField = (data: any) => {
 };
 const resetField = () => {
   dataUrl.value = apiInstance('', '');
-  searchFormData.value ={
-    fieldList:[]
+  searchFormData.value = {
+    fieldList: [],
   };
   primaryKey.value = '';
   tableFieldList.value = {

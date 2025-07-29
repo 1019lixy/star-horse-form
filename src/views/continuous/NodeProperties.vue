@@ -1,7 +1,12 @@
 <script setup lang="ts" name="NodeProperties">
-import {onMounted, provide, reactive, ref} from 'vue';
-import {apiInstance, ApiUrls, dialogPreps, SearchFields,} from 'star-horse-lowcode';
-import {Config} from '@antv/x6';
+import { onMounted, provide, reactive, ref } from 'vue';
+import {
+  apiInstance,
+  ApiUrls,
+  dialogPreps,
+  SearchFields,
+} from 'star-horse-lowcode';
+import { Config } from '@antv/x6';
 
 const dataUrl: ApiUrls = apiInstance(
   'continuous-manage',

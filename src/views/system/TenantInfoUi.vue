@@ -8,8 +8,16 @@ import {
   SearchFields,
   SelectOption,
 } from 'star-horse-lowcode';
-import {loadDict} from '@/api/star_horse_apis';
-import {nextTick, onActivated, onDeactivated, onMounted, provide, reactive, ref,} from 'vue';
+import { loadDict } from '@/api/star_horse_apis';
+import {
+  nextTick,
+  onActivated,
+  onDeactivated,
+  onMounted,
+  provide,
+  reactive,
+  ref,
+} from 'vue';
 
 defineOptions({
   name: 'TenantInfo',

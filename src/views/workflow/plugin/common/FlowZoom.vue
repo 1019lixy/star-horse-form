@@ -98,12 +98,27 @@
   </el-drawer>
 </template>
 <script setup lang="ts">
-import {computed, ModelRef, nextTick, onActivated, onDeactivated, onMounted, ref,} from 'vue';
-import {useFlowDesignStore} from '@/store/FlowDesign';
-import {copy, downloadData, loadData, piniaInstance, uuid, warning,} from 'star-horse-lowcode';
-import {flowCommon} from '@/views/workflow/plugin/utils/flowCommon';
-import {doSaveData} from '@/views/workflow/utils/FlowFormUtils';
-import {useRouter} from 'vue-router';
+import {
+  computed,
+  ModelRef,
+  nextTick,
+  onActivated,
+  onDeactivated,
+  onMounted,
+  ref,
+} from 'vue';
+import { useFlowDesignStore } from '@/store/FlowDesign';
+import {
+  copy,
+  downloadData,
+  loadData,
+  piniaInstance,
+  uuid,
+  warning,
+} from 'star-horse-lowcode';
+import { flowCommon } from '@/views/workflow/plugin/utils/flowCommon';
+import { doSaveData } from '@/views/workflow/utils/FlowFormUtils';
+import { useRouter } from 'vue-router';
 
 const INIT_ZOOM_VALUE = 100;
 const MIN_ZOOM_VALUE = 10;

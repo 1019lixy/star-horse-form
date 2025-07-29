@@ -1,6 +1,11 @@
 <script setup lang="ts" name="UsersAudit">
-import {onMounted, provide, reactive, ref} from 'vue';
-import {apiInstance, ApiUrls, dialogPreps, SearchFields,} from 'star-horse-lowcode';
+import { onMounted, provide, reactive, ref } from 'vue';
+import {
+  apiInstance,
+  ApiUrls,
+  dialogPreps,
+  SearchFields,
+} from 'star-horse-lowcode';
 
 const dataUrl: ApiUrls = apiInstance('system-config', 'system/usersAudit');
 const searchFormData = reactive<SearchFields>({
@@ -155,10 +160,7 @@ onMounted(async () => {
     />
   </star-horse-dialog>
   <div class="search-content">
-    <div
-      class="search_btn"
-
-    >
+    <div class="search_btn">
       <star-horse-search-comp
         @searchData="(data: any) => usersAuditRef?.createSearchParams(data)"
         :formData="searchFormData"

@@ -1,7 +1,13 @@
 <script setup lang="ts" name="Areainfo">
-import {apiInstance, ApiUrls, dialogPreps, PageFieldInfo, SearchFields,} from 'star-horse-lowcode';
-import {commonField} from '@/api/system';
-import {onMounted, provide, reactive, ref} from 'vue';
+import {
+  apiInstance,
+  ApiUrls,
+  dialogPreps,
+  PageFieldInfo,
+  SearchFields,
+} from 'star-horse-lowcode';
+import { commonField } from '@/api/system';
+import { onMounted, provide, reactive, ref } from 'vue';
 
 const dataUrl: ApiUrls = apiInstance('system-config', 'system/areainfo');
 const searchFormData = reactive<SearchFields>({
@@ -61,56 +67,52 @@ provide('dialogProps', dialogProps);
 const dataFormat = (_name: string, cellValue: object): any => {
   return cellValue;
 };
-const initData = async () => {
-};
+const initData = async () => {};
 onMounted(() => {
   initData();
 });
 </script>
 <template>
   <star-horse-dialog
-      :isShowBtnContinue="true"
-      :dialogVisible="dialogProps.editVisible"
-      :dialogProps="dialogProps"
+    :isShowBtnContinue="true"
+    :dialogVisible="dialogProps.editVisible"
+    :dialogProps="dialogProps"
   >
     <star-horse-form
-        @refresh="areainfoRef?.loadByPage()"
-        :compUrl="dataUrl"
-        :fieldList="tableFieldList"
-        :rules="rules"
+      @refresh="areainfoRef?.loadByPage()"
+      :compUrl="dataUrl"
+      :fieldList="tableFieldList"
+      :rules="rules"
     />
   </star-horse-dialog>
   <star-horse-dialog
-      :dialog-visible="dialogProps.viewVisible"
-      :dialogProps="dialogProps"
-      :source="3"
+    :dialog-visible="dialogProps.viewVisible"
+    :dialogProps="dialogProps"
+    :source="3"
   >
     <star-horse-data-view
-        :dataFormat="dataFormat"
-        :field-list="tableFieldList"
-        :compUrl="dataUrl"
+      :dataFormat="dataFormat"
+      :field-list="tableFieldList"
+      :compUrl="dataUrl"
     />
   </star-horse-dialog>
   <div class="search-content">
-    <div
-        class="search_btn"
-
-    >
+    <div class="search_btn">
       <star-horse-search-comp
-          @searchData="(data: any) => areainfoRef?.createSearchParams(data)"
-          :formData="searchFormData"
-          :compUrl="dataUrl"
+        @searchData="(data: any) => areainfoRef?.createSearchParams(data)"
+        :formData="searchFormData"
+        :compUrl="dataUrl"
       />
     </div>
   </div>
   <el-card class="inner_content">
     <star-horse-table-comp
-        ref="areainfoRef"
-        :fieldList="tableFieldList"
-        :primaryKey="primaryKey"
-        :compUrl="dataUrl"
-        :dataFormat="dataFormat"
-        :showPageBar="false"
+      ref="areainfoRef"
+      :fieldList="tableFieldList"
+      :primaryKey="primaryKey"
+      :compUrl="dataUrl"
+      :dataFormat="dataFormat"
+      :showPageBar="false"
     />
   </el-card>
 </template>

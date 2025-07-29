@@ -1,6 +1,10 @@
 <script setup lang="ts">
-import {Config} from '@/api/settings';
-import {analysisSearchData, viewColumns, viewDataList,} from '@/views/dyform/utils/preview';
+import { Config } from '@/api/settings';
+import {
+  analysisSearchData,
+  viewColumns,
+  viewDataList,
+} from '@/views/dyform/utils/preview';
 import {
   apiInstance,
   closeLoad,
@@ -13,7 +17,7 @@ import {
   useDesignFormStore,
   useGlobalConfigStore,
 } from 'star-horse-lowcode';
-import {computed, onMounted, provide, reactive, ref, watch} from 'vue';
+import { computed, onMounted, provide, reactive, ref, watch } from 'vue';
 
 let designForm = useDesignFormStore(piniaInstance);
 const props = defineProps({

@@ -1,7 +1,13 @@
 <script setup lang="ts">
-import {computed, onMounted, ref} from 'vue';
-import {piniaInstance, postRequest, useDesignFormStore, useGlobalConfigStore, warning,} from 'star-horse-lowcode';
-import {Config} from '@/api/settings';
+import { computed, onMounted, ref } from 'vue';
+import {
+  piniaInstance,
+  postRequest,
+  useDesignFormStore,
+  useGlobalConfigStore,
+  warning,
+} from 'star-horse-lowcode';
+import { Config } from '@/api/settings';
 
 let configStore = useGlobalConfigStore(piniaInstance);
 let designForm = useDesignFormStore(piniaInstance);

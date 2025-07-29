@@ -1,26 +1,26 @@
 import {
-    BatchFieldInfo,
-    createDatetime,
-    error,
-    FieldInfo,
-    getRequest,
-    JoinSearchParams,
-    MenusInfo,
-    operationConfirm,
-    OrderByInfo,
-    PageFieldInfo,
-    postRequest,
-    SearchParams,
-    SelectOption,
-    success,
-    TabFieldInfo,
-    warning,
+  BatchFieldInfo,
+  createDatetime,
+  error,
+  FieldInfo,
+  getRequest,
+  JoinSearchParams,
+  MenusInfo,
+  operationConfirm,
+  OrderByInfo,
+  PageFieldInfo,
+  postRequest,
+  SearchParams,
+  SelectOption,
+  success,
+  TabFieldInfo,
+  warning,
 } from 'star-horse-lowcode';
-import {reactive, ShallowRef, unref} from 'vue';
-import {ElLoading} from 'element-plus';
+import { reactive, ShallowRef, unref } from 'vue';
+import { ElLoading } from 'element-plus';
 import * as ElementPlusIconsVue from '@element-plus/icons-vue';
-import {pinyin} from 'pinyin-pro';
-import {ServiceEnums} from '@/components/enums/ServiceEnums';
+import { pinyin } from 'pinyin-pro';
+import { ServiceEnums } from '@/components/enums/ServiceEnums';
 
 let loading: any = null;
 /**
@@ -978,7 +978,7 @@ export function textToPinYin(text: string, toCamel: boolean = true): string {
  * @param list 应用列表
  * @param id 应用id
  */
-export  function findAppInfo (list: any[], id: string): any{
+export function findAppInfo(list: any[], id: string): any {
   for (const item of list) {
     if (item.idInformations === id) {
       return item;
@@ -989,4 +989,4 @@ export  function findAppInfo (list: any[], id: string): any{
     }
   }
   return null;
-};
+}

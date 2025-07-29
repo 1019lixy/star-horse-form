@@ -1,8 +1,12 @@
 <script setup lang="ts">
-import {onMounted, ref, toRef} from 'vue';
-import {createData, dataSourceFields, validInterface,} from '@/views/dyform/utils/ItemPreps';
-import {searchMatchList, SelectOption, warning} from 'star-horse-lowcode';
-import {loadDict} from '@/api/star_horse_apis';
+import { onMounted, ref, toRef } from 'vue';
+import {
+  createData,
+  dataSourceFields,
+  validInterface,
+} from '@/views/dyform/utils/ItemPreps';
+import { searchMatchList, SelectOption, warning } from 'star-horse-lowcode';
+import { loadDict } from '@/api/star_horse_apis';
 
 defineOptions({
   name: 'DataSource',
@@ -42,7 +46,7 @@ const setFormData = (data: any) => {
   dataSourceFormRef.value?.setFormData(data);
 };
 onMounted(async () => {
-  matchTypeList.value = searchMatchList();
+  // matchTypeList.value = searchMatchList();
   envList.value = await loadDict('system_environment');
 });
 defineExpose({

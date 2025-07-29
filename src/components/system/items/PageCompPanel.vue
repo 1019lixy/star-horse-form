@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import {defineOptions, onMounted, ref} from 'vue';
-import {pageCompList} from '@/utils/layoutcomp';
-import {PageCompItem} from '@/components/types/PageLayoutComp';
+import { defineOptions, onMounted, ref } from 'vue';
+import { pageCompList } from '@/utils/layoutcomp';
+import { PageCompItem } from '@/components/types/PageLayoutComp';
 import SvgLoader from '../SvgLoader.vue';
 
 defineOptions({

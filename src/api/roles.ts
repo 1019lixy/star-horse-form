@@ -1,4 +1,4 @@
-import {getRequest, postRequest} from "star-horse-lowcode";
+import { getRequest, postRequest } from 'star-horse-lowcode';
 
 /**
  * 获取角色菜单

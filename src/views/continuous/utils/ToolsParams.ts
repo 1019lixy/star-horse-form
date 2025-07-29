@@ -1,18 +1,18 @@
 /**
  * 工具参数
  */
-import {reactive, ref} from 'vue';
+import { reactive, ref } from 'vue';
 import {
-    apiInstance,
-    ApiUrls,
-    createCondition,
-    FieldInfo,
-    loadData,
-    postRequest,
-    SelectOption,
+  apiInstance,
+  ApiUrls,
+  createCondition,
+  FieldInfo,
+  loadData,
+  postRequest,
+  SelectOption,
 } from 'star-horse-lowcode';
-import {loadDict} from '@/api/star_horse_apis';
-import {createJoinCondition} from '@/api/star_horse_utils';
+import { loadDict } from '@/api/star_horse_apis';
+import { createJoinCondition } from '@/api/star_horse_utils';
 
 const apiUrl: ApiUrls = apiInstance(
   'userdb-manage',

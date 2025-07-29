@@ -1,16 +1,16 @@
 <script setup lang="ts">
-import {onMounted} from "vue";
+import { onMounted } from 'vue';
 
 const handleYResize = () => {
-  const box = document.getElementsByClassName("box");
-  const left = document.getElementsByClassName("left");
-  const resize = document.getElementsByClassName("y-resize");
-  const right = document.getElementsByClassName("right");
+  const box = document.getElementsByClassName('box');
+  const left = document.getElementsByClassName('left');
+  const resize = document.getElementsByClassName('y-resize');
+  const right = document.getElementsByClassName('right');
   for (let i = 0; i < resize.length; i++) {
     // 鼠标按下事件
     resize[i].onmousedown = function (e) {
       // 颜色改变提醒
-      resize[i].style.background = "#818181";
+      resize[i].style.background = '#818181';
       const startX = e.clientX;
       resize[i].left = resize[i].offsetLeft;
       // 鼠标拖动事件
@@ -23,14 +23,14 @@ const handleYResize = () => {
 
         resize[i].style.left = moveLen; // 设置left区域的宽度
         for (let j = 0; j < left.length; j++) {
-          left[j].style.width = moveLen + "px";
-          right[j].style.width = box[i].clientWidth - moveLen - 10 + "px";
+          left[j].style.width = moveLen + 'px';
+          right[j].style.width = box[i].clientWidth - moveLen - 10 + 'px';
         }
       };
       // 鼠标松开事件
       document.onmouseup = function (evt) {
         // 颜色恢复
-        resize[i].style.background = "#C0C4CC";
+        resize[i].style.background = '#C0C4CC';
         document.onmousemove = null;
         document.onmouseup = null;
         resize[i].releaseCapture && resize[i].releaseCapture(); // 当你不在需要继续获得鼠标消息就要应该调用ReleaseCapture()释放掉
@@ -41,15 +41,15 @@ const handleYResize = () => {
   }
 };
 const handleXResize = () => {
-  const box = document.getElementsByClassName("box");
-  const top = document.getElementsByClassName("top");
-  const resize = document.getElementsByClassName("x-resize");
-  const bottom = document.getElementsByClassName("bottom");
+  const box = document.getElementsByClassName('box');
+  const top = document.getElementsByClassName('top');
+  const resize = document.getElementsByClassName('x-resize');
+  const bottom = document.getElementsByClassName('bottom');
   for (let i = 0; i < resize.length; i++) {
     // 鼠标按下事件
     resize[i].onmousedown = function (e) {
       // 颜色改变提醒
-      resize[i].style.background = "#818181";
+      resize[i].style.background = '#818181';
       const startY = e.clientY;
       resize[i].top = top[i].offsetHeight;
       // 鼠标拖动事件
@@ -62,14 +62,14 @@ const handleXResize = () => {
 
         resize[i].style.height = moveLen; // 设置top区域的高度
         for (let j = 0; j < top.length; j++) {
-          top[j].style.height = moveLen + "px";
-          bottom[j].style.height = box[i].clientHeight - moveLen - 10 + "px";
+          top[j].style.height = moveLen + 'px';
+          bottom[j].style.height = box[i].clientHeight - moveLen - 10 + 'px';
         }
       };
       // 鼠标松开事件
       document.onmouseup = function (evt) {
         // 颜色恢复
-        resize[i].style.background = "#C0C4CC";
+        resize[i].style.background = '#C0C4CC';
         document.onmousemove = null;
         document.onmouseup = null;
         resize[i].releaseCapture && resize[i].releaseCapture(); // 当你不在需要继续获得鼠标消息就要应该调用ReleaseCapture()释放掉

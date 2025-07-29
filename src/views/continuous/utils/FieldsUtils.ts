@@ -1,5 +1,10 @@
-import {reactive, ref} from 'vue';
-import {apiInstance, loadData, PageFieldInfo, SelectOption,} from 'star-horse-lowcode';
+import { reactive, ref } from 'vue';
+import {
+  apiInstance,
+  loadData,
+  PageFieldInfo,
+  SelectOption,
+} from 'star-horse-lowcode';
 
 const urlApi = apiInstance('continuous-manage', 'continuous/repoHooks');
 const branchList = ref<SelectOption[]>([]);
