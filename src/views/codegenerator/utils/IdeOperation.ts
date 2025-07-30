@@ -1,7 +1,7 @@
 import { postRequest, SelectOption } from 'star-horse-lowcode';
 
-const templateListUrl: string = '/code-generator/dynamic/code/templateList';
-const loadTemplateUrl: string = '/code-generator/dynamic/code/loadTemplate';
+const templateListUrl: string = '/userdb-manage/dynamic/code/templateList';
+const loadTemplateUrl: string = '/userdb-manage/dynamic/code/loadTemplate';
 
 /**
  * 加载模板列表

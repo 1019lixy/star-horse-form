@@ -143,13 +143,13 @@ export default defineConfig((mode) => {
             path.replace(/^\/system-config/, "/system-config-dev"),
           ws: true,
         },
-        "/code-generator": {
+      /*  "/code-generator": {
           target: codeHost,
           changeOrigin: true,
           rewrite: (path: string) =>
             path.replace(/^\/code-generator/, "/code-generator-dev"),
           ws: true,
-        },
+        },*/
         "/flow-engine": {
           target: workflowHost,
           changeOrigin: true,

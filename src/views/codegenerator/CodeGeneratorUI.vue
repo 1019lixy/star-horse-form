@@ -18,7 +18,7 @@ import {
 import { onMounted, provide, reactive, ref } from 'vue';
 import { initDbList, tableList } from '@/views/dbsearch/utils/DbSearchUtils';
 
-const dataUrl: ApiUrls = apiInstance('code-generator', 'generator/code');
+const dataUrl: ApiUrls = apiInstance('userdb-manage', 'generator/code');
 
 let dbInfoList = ref<Array<SelectOption>>([]);
 let tableInfoList = ref<Array<SelectOption>>([]);
@@ -446,7 +446,7 @@ let extendBtns = ref<UserFuncInfo[]>([
     funcName: (row: any) => {
       load('代码生成中，请稍后');
       download(
-        `/code-generator/generator/code/convertToCodeById/${row[primaryKey]}`,
+        `/userdb-manage/generator/code/convertToCodeById/${row[primaryKey]}`,
       )
         .catch((err) => {
           warning(err);
@@ -467,7 +467,7 @@ const generateMerge = (type: string) => {
         dataForm['prefixesList'] = dataForm['prefixesStr'].split(';');
       }
       let isError = false;
-      download('/code-generator/generator/code/convertToCode', dataForm)
+      download('/userdb-manage/generator/code/convertToCode', dataForm)
         .catch((err) => {
           isError = true;
           warning(err);
