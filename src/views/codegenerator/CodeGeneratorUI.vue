@@ -174,8 +174,22 @@ eg: 表：dev_userinfo ,生成的文件是DevUserinfo.java;
       helpMsg: '为空生成所有类型文件',
       listVisible: true,
       preps: {
+        colspan:12,
         multiple: true,
         values: fileTypeList,
+      },
+    },{
+      label: '分组条件',
+      fieldName: 'visibleColumns',
+      type: 'number',
+      formVisible: true,
+      helpMsg: '字段可见列数大于指定值时触发表单分组,默认不分组',
+      listVisible: true,
+      defaultValue: -1,
+      preps: {
+        colspan: 6,
+        min: -1,
+        max: 10,
       },
     }, {
       label: '分组列数',
@@ -186,6 +200,7 @@ eg: 表：dev_userinfo ,生成的文件是DevUserinfo.java;
       listVisible: true,
       defaultValue: 2,
       preps: {
+        colspan: 6,
         min: 2,
         max: 6,
       },
