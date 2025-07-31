@@ -28,9 +28,9 @@
 import {
   serviceTaskNodeField,
   userTaskNodeField,
-} from '@/views/jbpm/panel/Fields';
-import { computed, ref, watch } from 'vue';
-import { Config } from '@/api/settings';
+} from "@/views/jbpm/panel/Fields";
+import { computed, ref, watch } from "vue";
+import { Config } from "@/api/settings";
 
 const props = defineProps({
   modeler: {
@@ -46,12 +46,12 @@ const props = defineProps({
     required: true,
   },
   compSize: { type: String, default: Config.compSize },
-  tab: { type: String, default: 'node' },
+  tab: { type: String, default: "node" },
 });
 const userTaskFormRef = ref();
 const taskFormRef = ref();
 const otherTaskFormRef = ref();
-const emits = defineEmits(['modifyFormData']);
+const emits = defineEmits(["modifyFormData"]);
 let outFormData = computed(() => {
   let obj = props.nodeElement.businessObject;
   if (!obj) {
@@ -70,12 +70,12 @@ let otherFormData = computed(
   () => otherTaskFormRef?.value?.getFormData().value,
 );
 const exportData = (formData: any) => {
-  console.log('触发', formData);
+  console.log("触发", formData);
 };
 const updateProperties = (properties: any) => {
-  console.log('updateProperties', properties);
-  let modeling = props.modeler.get('modeling');
-  let shape = props.modeler.get('elementRegistry').get(props.nodeElement.id);
+  console.log("updateProperties", properties);
+  let modeling = props.modeler.get("modeling");
+  let shape = props.modeler.get("elementRegistry").get(props.nodeElement.id);
   modeling.updateProperties(shape, properties);
 };
 /**
@@ -96,8 +96,8 @@ const updateCompAttr = () => {
 
 const updateSequenceFlow = (val: any) => {
   let newCondition = props.modeler
-    .get('moddle')
-    .create('bpmn:FormalExpression', {
+    .get("moddle")
+    .create("bpmn:FormalExpression", {
       body: val,
     });
   updateProperties({ conditionExpression: newCondition });
@@ -107,7 +107,7 @@ const addUser = (properties: any) => {
   Object.assign(properties, {
     userType: Object.keys(properties)[0],
   });
-  emits('modifyFormData', properties);
+  emits("modifyFormData", properties);
 };
 watch(
   [() => userFormData, () => taskFormData, () => otherFormData],

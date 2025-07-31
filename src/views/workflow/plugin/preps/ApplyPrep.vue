@@ -31,24 +31,24 @@ import {
   ModelRef,
   ref,
   watch,
-} from 'vue';
-import { useFlowDesignStore } from '@/store/FlowDesign';
-import { piniaInstance } from 'star-horse-lowcode';
+} from "vue";
+import { useFlowDesignStore } from "@/store/FlowDesign";
+import { piniaInstance } from "star-horse-lowcode";
 
 defineOptions({
-  name: 'ApplyPrep',
+  name: "ApplyPrep",
 });
-let activeTab = ref<string>('basic');
-let node: ModelRef<any> = defineModel('activeData');
+let activeTab = ref<string>("basic");
+let node: ModelRef<any> = defineModel("activeData");
 const flowDesign = useFlowDesignStore(piniaInstance);
 const flowFormInfo = computed(() => flowDesign.flowFormInfo);
 node.value.content = computed(() => {
   let privilege = node.value.privilege;
-  return privilege == 'edit'
-    ? '可编辑'
-    : privilege == 'readonly'
-      ? '只读'
-      : '禁止查看';
+  return privilege == "edit"
+    ? "可编辑"
+    : privilege == "readonly"
+      ? "只读"
+      : "禁止查看";
 });
 const onClose = () => {
   flowDesign.setActive(false);
@@ -58,14 +58,14 @@ const onClose = () => {
  */
 const onSave = () => {
   //记录表单的ID
-  flowFormInfo.value['formId'] = node.value.formId;
+  flowFormInfo.value["formId"] = node.value.formId;
   onClose();
 };
 watch(
   () => node.value.formId,
   (val) => {
     if (val) {
-      flowDesign.formAddField('formId', val);
+      flowDesign.formAddField("formId", val);
     }
   },
   {

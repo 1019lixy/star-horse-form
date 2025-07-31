@@ -1,6 +1,6 @@
 <script setup lang="ts" name="FieldLayer">
-import { computed, onMounted } from 'vue';
-import { piniaInstance, useDesignFormStore } from 'star-horse-lowcode';
+import { computed, onMounted } from "vue";
+import { piniaInstance, useDesignFormStore } from "star-horse-lowcode";
 
 const designForm = useDesignFormStore(piniaInstance);
 
@@ -13,9 +13,9 @@ const dataChange = (data: any) => {
   const compItem = designForm.selectItemById(data.id);
   // designForm.setCurrentItemId(data.id);
   // designForm.setCurrentComp(compItem);
-  designForm.selectItem(compItem, compItem.itemType, '');
+  designForm.selectItem(compItem, compItem.itemType, "");
   // 新增：触发滚动定位
-  const event = new CustomEvent('scroll-to-field', { detail: data.id });
+  const event = new CustomEvent("scroll-to-field", { detail: data.id });
   window.dispatchEvent(event);
 };
 onMounted(() => {});

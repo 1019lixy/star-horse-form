@@ -48,12 +48,12 @@
   </div>
 </template>
 <script setup lang="ts">
-import { computed, onMounted } from 'vue';
-import { useFlowDesignStore } from '@/store/FlowDesign';
-import { closeLoad, piniaInstance } from 'star-horse-lowcode';
+import { computed, onMounted } from "vue";
+import { useFlowDesignStore } from "@/store/FlowDesign";
+import { closeLoad, piniaInstance } from "star-horse-lowcode";
 
 defineOptions({
-  name: 'TimerNode',
+  name: "TimerNode",
 });
 const flowDesign = useFlowDesignStore(piniaInstance);
 let currentNode = computed(() => flowDesign.currentNode);
@@ -72,28 +72,28 @@ const props = defineProps({
 });
 props.node.error = computed(() => {
   let flag = false;
-  let msg = '';
+  let msg = "";
   if (!props.node.waitType) {
-    msg = '未配置时间类型';
+    msg = "未配置时间类型";
     flag = true;
   }
   if (
-    props.node.waitType == 'duration' &&
+    props.node.waitType == "duration" &&
     (!props.node.duration || !props.node.unit)
   ) {
-    msg += '\n未配置等待时长或单位';
+    msg += "\n未配置等待时长或单位";
     flag = true;
   }
-  if (props.node.waitType == 'date' && !props.node.timeDate) {
-    msg += '\n未配置时间';
+  if (props.node.waitType == "date" && !props.node.timeDate) {
+    msg += "\n未配置时间";
     flag = true;
   }
   props.node.errorMsg = msg;
   return flag;
 });
-const emits = defineEmits(['selectNode']);
+const emits = defineEmits(["selectNode"]);
 const selectNode = () => {
-  emits('selectNode', props.node);
+  emits("selectNode", props.node);
 };
 let nameClass = computed(() => {
   return (node: any, defaultStyle: string) => {
@@ -101,9 +101,9 @@ let nameClass = computed(() => {
       return defaultStyle;
     }
     return {
-      'node-status-not': node.statusCode == 0,
-      'node-status-current': node.statusCode == 1,
-      'node-status-complete': node.statusCode == 2,
+      "node-status-not": node.statusCode == 0,
+      "node-status-current": node.statusCode == 1,
+      "node-status-complete": node.statusCode == 2,
     };
   };
 });

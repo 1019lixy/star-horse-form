@@ -18,13 +18,13 @@
   </div>
 </template>
 <script setup lang="ts">
-import { computed, onMounted } from 'vue';
-import { FlowNodeEnums } from '@/views/workflow/plugin/enums/FlowNodeEnums';
-import { closeLoad, piniaInstance } from 'star-horse-lowcode';
-import { useFlowDesignStore } from '@/store/FlowDesign';
+import { computed, onMounted } from "vue";
+import { FlowNodeEnums } from "@/views/workflow/plugin/enums/FlowNodeEnums";
+import { closeLoad, piniaInstance } from "star-horse-lowcode";
+import { useFlowDesignStore } from "@/store/FlowDesign";
 
 defineOptions({
-  name: 'DivideNode',
+  name: "DivideNode",
 });
 const flowDesign = useFlowDesignStore(piniaInstance);
 const props = defineProps({
@@ -40,9 +40,9 @@ const props = defineProps({
   },
 });
 
-const emits = defineEmits(['selectNode']);
+const emits = defineEmits(["selectNode"]);
 const selectNode = () => {
-  emits('selectNode', props.node);
+  emits("selectNode", props.node);
 };
 let nameClass = computed(() => {
   return (node: any, defaultStyle: string) => {
@@ -50,9 +50,9 @@ let nameClass = computed(() => {
       return defaultStyle;
     }
     return {
-      'node-status-not': node.statusCode == 0,
-      'node-status-current': node.statusCode == 1,
-      'node-status-complete': node.statusCode == 2,
+      "node-status-not": node.statusCode == 0,
+      "node-status-current": node.statusCode == 1,
+      "node-status-complete": node.statusCode == 2,
     };
   };
 });

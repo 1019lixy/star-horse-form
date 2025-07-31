@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import PimageItem from './pimage-item.vue';
+import PimageItem from "./pimage-item.vue";
 
 defineOptions({
-  name: 'PageLinkItem',
+  name: "PageLinkItem",
 });
 interface LinkItem {
   id: string;

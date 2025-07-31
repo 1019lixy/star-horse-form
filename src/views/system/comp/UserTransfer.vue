@@ -1,7 +1,7 @@
 <script setup lang="ts" name="UserTransfer">
-import { onMounted, ref } from 'vue';
-import { analysisData } from '@/api/deptment';
-import { closeLoad, postRequest, SelectOption } from 'star-horse-lowcode';
+import { onMounted, ref } from "vue";
+import { analysisData } from "@/api/deptment";
+import { closeLoad, postRequest, SelectOption } from "star-horse-lowcode";
 
 const deptUserList = ref<SelectOption>([]);
 const selectUsers = ref<Array<number>>([]);
@@ -43,30 +43,30 @@ const filterMethod = (query, item) => {
   // loadByPage();
 };
 const loadByPage = async () => {
-  await postRequest('/system-config/system/usersinfoEntity/pageList', {
+  await postRequest("/system-config/system/usersinfoEntity/pageList", {
     currentPage: pageInfo.value.currentPage,
     pageSize: pageInfo.value.pageSize,
     fieldList: searchFields.value,
   })
     .then((res) => {
       let redata = res.data.data;
-      pageInfo.value['dataList'] = redata.dataList;
+      pageInfo.value["dataList"] = redata.dataList;
       redata.dataList.forEach((item) => {
         let { listNames, listValues } = analysisData(
           item.deptList,
-          '',
-          'deptName',
-          'idDepartment',
+          "",
+          "deptName",
+          "idDepartment",
         );
         deptUserList.value.push({
           name:
-            listNames.join('/') + '_' + item.name + '(' + item.username + ')',
+            listNames.join("/") + "_" + item.name + "(" + item.username + ")",
           value: item.idUsersinfo,
         });
       });
       console.log(deptUserList.value);
-      pageInfo.value['totalPage'] = redata.totalPages;
-      pageInfo.value['totalData'] = redata.totalDatas;
+      pageInfo.value["totalPage"] = redata.totalPages;
+      pageInfo.value["totalData"] = redata.totalDatas;
     })
     .catch((err) => {
       console.log(err);
@@ -87,7 +87,7 @@ defineExpose({
 });
 </script>
 <template>
-  <div style="text-align: center; height: 100%">
+  <div class="f-full text-center">
     <el-transfer
       filterable
       :props="{

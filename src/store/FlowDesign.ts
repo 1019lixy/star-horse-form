@@ -1,26 +1,26 @@
-import { defineStore } from 'pinia';
-import { ref } from 'vue';
+import { defineStore } from "pinia";
+import { ref } from "vue";
 import {
   addCondition,
   delBranchNode,
   delNode,
   updateMap,
   updateNode,
-} from '@/views/workflow/plugin/utils/nodeUtil';
-import { FlowNodeEnums } from '@/views/workflow/plugin/enums/FlowNodeEnums';
-import { apiInstance, ApiUrls } from 'star-horse-lowcode';
-import { nodePrepList } from '@/views/workflow/plugin/utils/nodePreps';
+} from "@/views/workflow/plugin/utils/nodeUtil";
+import { FlowNodeEnums } from "@/views/workflow/plugin/enums/FlowNodeEnums";
+import { apiInstance, ApiUrls } from "star-horse-lowcode";
+import { nodePrepList } from "@/views/workflow/plugin/utils/nodePreps";
 
 const dataUrl: ApiUrls = apiInstance(
-  'userdb-manage',
-  'userdb/formInstance/shFlowNode/idFlowNode/337537414606095357',
+  "userdb-manage",
+  "userdb/formInstance/shFlowNode/idFlowNode/337537414606095357",
 );
 const prepUrl: ApiUrls = apiInstance(
-  'userdb-manage',
-  'userdb/formInstance/shNodeMappingPreps/idNodeMappingPrep/337537414606095357',
+  "userdb-manage",
+  "userdb/formInstance/shNodeMappingPreps/idNodeMappingPrep/337537414606095357",
 );
 
-export const useFlowDesignStore = defineStore('flowDesign', () => {
+export const useFlowDesignStore = defineStore("flowDesign", () => {
   const nodeList = ref<any>([]);
   const nodePrepMap = ref<any>({});
   const commonPreps = ref<any>({});
@@ -30,7 +30,7 @@ export const useFlowDesignStore = defineStore('flowDesign', () => {
   //  节点数据
   const node = ref<any>(nodePrepList(FlowNodeEnums.APPLY_NODE));
   //  缩略图
-  const mapImg = ref<string>('');
+  const mapImg = ref<string>("");
   // 意见分支
   const suggestBranchEnable = ref<boolean>(true);
   // 并行节点
@@ -123,14 +123,14 @@ export const useFlowDesignStore = defineStore('flowDesign', () => {
      */
     if (parentNodeType == FlowNodeEnums.START_NODE) {
       //  开始
-      if (parentNode.hasOwnProperty('name')) {
+      if (parentNode.hasOwnProperty("name")) {
         // 如果添加的是并行节点
         if (currentNode.type == FlowNodeEnums.PARALLEL_NODE) {
           currentNode.childNode.childNode = parentNode;
-          currentNode.childNode.childNode['pid'] = currentNode.childNode.id;
+          currentNode.childNode.childNode["pid"] = currentNode.childNode.id;
         } else {
           currentNode.childNode = parentNode;
-          currentNode.childNode['pid'] = currentNode.id;
+          currentNode.childNode["pid"] = currentNode.id;
         }
         currentNode.pid = 0;
       }

@@ -1,15 +1,15 @@
 <script setup lang="ts" name="ContinusInstanceExecRecord">
-import { ref } from 'vue';
-import { apiInstance, ApiUrls } from 'star-horse-lowcode';
+import { ref } from "vue";
+import { apiInstance, ApiUrls } from "star-horse-lowcode";
 
 const apiUrl: ApiUrls = apiInstance(
-  'continuous-manage',
-  'continuous/continuousInstance',
+  "continuous-manage",
+  "continuous/continuousInstance",
 );
-const primaryKey: string = 'idContinusInst';
-let activeName: string = ref<string>('first');
+const primaryKey: string = "idContinusInst";
+let activeName: string = ref<string>("first");
 const execLine = () => {
-  console.log('执行');
+  console.log("执行");
 };
 const handleClick = (tab: string, event: Event) => {};
 </script>

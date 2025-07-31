@@ -5,8 +5,8 @@ import {
   useDesignFormStore,
   useDesignPageStore,
   uuid,
-} from 'star-horse-lowcode';
-import { computed, reactive, ref } from 'vue';
+} from "star-horse-lowcode";
+import { computed, reactive, ref } from "vue";
 
 const copyerAction = useCopyerOperationStore(piniaInstance);
 const designForm = useDesignFormStore(piniaInstance);
@@ -20,12 +20,12 @@ const pasteDisplay = computed(() => {
 
 export function getParentComp(parentField: any) {
   return parentField &&
-    (parentField.itemType == 'box' ||
-      parentField.itemType == 'tab' ||
-      parentField.itemType == 'dytable' ||
-      parentField.itemType == 'table')
-    ? 'container'
-    : 'item';
+    (parentField.itemType == "box" ||
+      parentField.itemType == "tab" ||
+      parentField.itemType == "dytable" ||
+      parentField.itemType == "table")
+    ? "container"
+    : "item";
 }
 
 /**
@@ -66,10 +66,10 @@ export function removeItem(isEdit: boolean, formItem: any, parentField: any) {
   const parentItemType = parentField?.itemType;
   const dataList = compList.value;
   if (
-    parentItemType == 'tab' ||
-    parentItemType == 'table' ||
-    parentItemType == 'card' ||
-    parentItemType == 'collapse'
+    parentItemType == "tab" ||
+    parentItemType == "table" ||
+    parentItemType == "card" ||
+    parentItemType == "collapse"
   ) {
     const elements = parentField!.preps.elements;
     for (let i = 0; i < elements.length; i++) {
@@ -82,7 +82,7 @@ export function removeItem(isEdit: boolean, formItem: any, parentField: any) {
         }
       }
     }
-  } else if (parentItemType == 'box' || parentItemType == 'dytable') {
+  } else if (parentItemType == "box" || parentItemType == "dytable") {
     const elements = parentField!.preps.elements;
     for (const index in elements) {
       const sdataTemp = elements[index];
@@ -124,7 +124,7 @@ export function moveUpItem(isEdit: boolean, formItem: any, parentField: any) {
   }
   //这个数据解析好麻烦
   const dataList = compList.value;
-  if (parentField?.itemType == 'tab') {
+  if (parentField?.itemType == "tab") {
     const elements = parentField!.preps.elements;
     for (let i = 0; i < elements.length; i++) {
       const items = elements[i].items;
@@ -137,10 +137,10 @@ export function moveUpItem(isEdit: boolean, formItem: any, parentField: any) {
         }
       }
     }
-  } else if (parentField?.itemType == 'box') {
+  } else if (parentField?.itemType == "box") {
   }
   const compType = getParentComp(parentField);
-  if (compType === 'item') {
+  if (compType === "item") {
     for (let i = 0; i < dataList.length; i++) {
       if (formItem.id === dataList[i].id && i > 0) {
         const temp = dataList[i];
@@ -152,7 +152,7 @@ export function moveUpItem(isEdit: boolean, formItem: any, parentField: any) {
   } else {
     for (let i = 0; i < dataList.length; i++) {
       const dataTemp = dataList[i];
-      if (dataTemp.compType !== 'container') {
+      if (dataTemp.compType !== "container") {
         continue;
       }
       const elements = dataTemp.preps.elements;
@@ -181,7 +181,7 @@ export function moveDownItem(isEdit: boolean, formItem: any, parentField: any) {
     return;
   }
   const dataList = compList.value;
-  if (parentField?.itemType == 'tab') {
+  if (parentField?.itemType == "tab") {
     const elements = parentField!.preps.elements;
     for (let i = 0; i < elements.length; i++) {
       const items = elements[i].items;
@@ -194,10 +194,10 @@ export function moveDownItem(isEdit: boolean, formItem: any, parentField: any) {
         }
       }
     }
-  } else if (parentField?.itemType == 'box') {
+  } else if (parentField?.itemType == "box") {
   }
   const compType = getParentComp(parentField);
-  if (compType === 'item') {
+  if (compType === "item") {
     for (let i = 0; i < dataList.length; i++) {
       if (formItem.id === dataList[i].id && i < dataList.length - 1) {
         const temp = dataList[i];
@@ -209,7 +209,7 @@ export function moveDownItem(isEdit: boolean, formItem: any, parentField: any) {
   } else {
     for (let i = 0; i < dataList.length; i++) {
       const dataTemp = dataList[i];
-      if (dataTemp.compType !== 'container') {
+      if (dataTemp.compType !== "container") {
         continue;
       }
       const elements = dataTemp.preps.elements;
@@ -237,18 +237,18 @@ const fieldIndex = ref<number>(200);
 const complexFields = (items: Array<any>, isCut: boolean = false) => {
   for (const index in items) {
     const item = items[index];
-    if (item.compType == 'container') {
+    if (item.compType == "container") {
       const sitems = item.preps.elements;
       for (const sindex in sitems) {
         complexFields(sitems[sindex].items);
       }
     } else {
       item.id = uuid();
-      item['preps']['id'] = item.id;
+      item["preps"]["id"] = item.id;
       if (!isCut) {
         fieldIndex.value++;
         item.preps.name = item.preps.name + fieldIndex.value;
-        item.preps.label = item.preps.label + '(复制)';
+        item.preps.label = item.preps.label + "(复制)";
       }
     }
   }
@@ -271,7 +271,7 @@ export const copyContainer = (
   const container = JSON.parse(JSON.stringify(currentContainer));
   container.id = uuid();
   //box和dytable 有列属性
-  if (containerType == 'box' || containerType == 'dytable') {
+  if (containerType == "box" || containerType == "dytable") {
     const rows = container.preps.elements;
     for (const index in rows) {
       const row = rows[index];
@@ -289,7 +289,7 @@ export const copyContainer = (
     }
   }
   parentComp.push(container);
-  designForm.selectItem(container, containerType, '');
+  designForm.selectItem(container, containerType, "");
 };
 
 /**
@@ -303,11 +303,11 @@ export function contextOperation(act: string, item: any, parentItem: any) {
 }
 
 export function cut(item: any, parentItem: any) {
-  copyerAction.operation('cut', parentItem, item);
+  copyerAction.operation("cut", parentItem, item);
 }
 
 export function copy(item: any, parentItem: any) {
-  copyerAction.operation('copy', parentItem, item);
+  copyerAction.operation("copy", parentItem, item);
 }
 
 export function paste(parentItem: any) {
@@ -320,7 +320,7 @@ export function paste(parentItem: any) {
     copyContainer(parentItem!.preps?.elements, copyerData);
   } else {
     //拷贝容器
-    if (getParentComp(copyerData) == 'container') {
+    if (getParentComp(copyerData) == "container") {
       const parentContainer = copyerAction.parentContainer;
       copyContainer(
         parentContainer ? parentContainer!.preps?.elements : compList.value,
@@ -345,19 +345,19 @@ export function paste(parentItem: any) {
 export function dynamicFormContextMenuData(
   item: any,
   parentItem: any,
-  flag: string = 'scene',
+  flag: string = "scene",
   recall?: Function,
 ) {
   const menus = reactive<Array<any>>([]);
-  if (flag == 'scene') {
+  if (flag == "scene") {
     menus.push({
-      type: 'button',
-      text: '新建',
-      icon: 'new',
+      type: "button",
+      text: "新建",
+      icon: "new",
       display: true,
       handler: () => {
         if (recall) {
-          recall('new');
+          recall("new");
         } else {
         }
       },
@@ -365,158 +365,158 @@ export function dynamicFormContextMenuData(
   }
   menus.push(
     {
-      type: 'button',
-      text: '剪切',
-      icon: 'cut',
+      type: "button",
+      text: "剪切",
+      icon: "cut",
       display: true,
       handler: () => {
         if (recall) {
-          recall('cut');
+          recall("cut");
         } else {
           cut(item, parentItem);
         }
       },
     },
     {
-      type: 'button',
-      text: '复制',
-      icon: 'copy',
+      type: "button",
+      text: "复制",
+      icon: "copy",
       display: true,
       handler: () => {
         if (recall) {
-          recall('copy');
+          recall("copy");
         } else {
           copy(item, parentItem);
         }
       },
     },
     {
-      type: 'button',
-      text: '粘贴',
-      icon: 'paste',
+      type: "button",
+      text: "粘贴",
+      icon: "paste",
       display: pasteDisplay,
       handler: () => {
         if (recall) {
-          recall('paste');
+          recall("paste");
         } else {
           paste(parentItem);
         }
       },
     },
     {
-      type: 'divider',
-      direction: 'horizontal',
+      type: "divider",
+      direction: "horizontal",
       display: () => true,
     },
   );
-  if (flag == 'scene') {
+  if (flag == "scene") {
     menus.push(
       {
-        type: 'button',
-        text: '全选',
-        icon: 'select-all',
+        type: "button",
+        text: "全选",
+        icon: "select-all",
         display: true,
         handler: () => {
           if (recall) {
-            recall('select-all');
+            recall("select-all");
           } else {
           }
         },
       },
       {
-        type: 'button',
-        text: '清空',
-        icon: 'dustbin',
+        type: "button",
+        text: "清空",
+        icon: "dustbin",
         display: true,
         handler: () => {
           if (recall) {
-            recall('dustbin');
+            recall("dustbin");
           } else {
           }
         },
       },
       {
-        type: 'divider',
-        direction: 'horizontal',
+        type: "divider",
+        direction: "horizontal",
         display: true,
       },
       {
-        type: 'button',
-        text: '预览',
-        icon: 'preview',
+        type: "button",
+        text: "预览",
+        icon: "preview",
         display: true,
         handler: () => {
           if (recall) {
-            recall('preview');
+            recall("preview");
           } else {
           }
         },
       },
     );
   }
-  if (flag == 'container') {
+  if (flag == "container") {
     menus.push({
-      type: 'button',
-      text: '添加组件',
-      icon: 'new',
+      type: "button",
+      text: "添加组件",
+      icon: "new",
       display: true,
       handler: () => {
         designForm.setComponentVisible(true);
       },
     });
     menus.push({
-      type: 'button',
-      text: '选中容器',
-      icon: 'select-parent',
+      type: "button",
+      text: "选中容器",
+      icon: "select-parent",
       display: currentItemId.value != item.id,
       handler: () => {
-        designForm.selectItem(item, item?.itemType, '');
+        designForm.selectItem(item, item?.itemType, "");
       },
     });
   }
   menus.push(
     {
-      type: 'button',
-      text: '撤销',
-      icon: 'undo',
+      type: "button",
+      text: "撤销",
+      icon: "undo",
       display: true,
       handler: () => {
         if (recall) {
-          recall('undo');
+          recall("undo");
         } else {
         }
       },
     },
     {
-      type: 'divider',
-      direction: 'horizontal',
+      type: "divider",
+      direction: "horizontal",
       display: true,
     },
     {
-      type: 'button',
-      text: '删除',
-      icon: 'delete',
+      type: "button",
+      text: "删除",
+      icon: "delete",
       display: () => true,
       handler: () => {
         if (recall) {
-          recall('delete');
+          recall("delete");
         } else {
         }
       },
     },
     {
-      type: 'divider',
-      direction: 'horizontal',
+      type: "divider",
+      direction: "horizontal",
       display: true,
     },
     {
-      type: 'button',
-      text: '属性',
-      icon: 'prep',
+      type: "button",
+      text: "属性",
+      icon: "prep",
       display: true,
       handler: () => {
         if (recall) {
-          recall('prep');
+          recall("prep");
         } else {
         }
       },
@@ -530,60 +530,60 @@ export function dynamicPageContextMenuData(node: DynamicNode) {
   let contentMenuData: Array<any> = [];
   contentMenuData = [
     {
-      type: 'button',
-      text: '水平居中',
-      icon: 'center',
+      type: "button",
+      text: "水平居中",
+      icon: "center",
       display: true,
       handler: () => {},
     },
     {
-      type: 'button',
-      text: '复制',
-      icon: 'copy',
+      type: "button",
+      text: "复制",
+      icon: "copy",
       display: true,
       handler: () => {
         const temp = JSON.parse(JSON.stringify(node));
         temp.id = uuid();
-        temp.name = temp.name + '复制';
+        temp.name = temp.name + "复制";
         designPage.addNode(temp);
       },
     },
     {
-      type: 'divider',
-      direction: 'horizontal',
+      type: "divider",
+      direction: "horizontal",
       display: true,
     },
     {
-      type: 'button',
-      text: '上移一层',
-      icon: 'up-layer',
+      type: "button",
+      text: "上移一层",
+      icon: "up-layer",
       display: true,
       handler: () => {
         node.zIndex = (node.zIndex || 100) + 1;
       },
     },
     {
-      type: 'button',
-      text: '下移一层',
-      icon: 'down-layer',
+      type: "button",
+      text: "下移一层",
+      icon: "down-layer",
       display: node.zIndex && node.zIndex > 100,
       handler: () => {
         node.zIndex = node.zIndex && node.zIndex > 100 ? node.zIndex - 1 : 100;
       },
     },
     {
-      type: 'button',
-      text: '置顶',
-      icon: 'to-top',
+      type: "button",
+      text: "置顶",
+      icon: "to-top",
       display: true,
       handler: () => {
         node.zIndex = designPage.maxZIndex() + 1;
       },
     },
     {
-      type: 'button',
-      text: '置底',
-      icon: 'to-bottom',
+      type: "button",
+      text: "置底",
+      icon: "to-bottom",
       display: node.zIndex && node.zIndex > 100,
       handler: () => {
         node.zIndex = 100;
@@ -591,28 +591,28 @@ export function dynamicPageContextMenuData(node: DynamicNode) {
     },
 
     {
-      type: 'divider',
-      direction: 'horizontal',
+      type: "divider",
+      direction: "horizontal",
       display: true,
     },
     {
-      type: 'button',
-      text: '删除',
-      icon: 'delete',
+      type: "button",
+      text: "删除",
+      icon: "delete",
       display: true,
       handler: () => {
         designPage.removeNode(node.id);
       },
     },
     {
-      type: 'divider',
-      direction: 'horizontal',
+      type: "divider",
+      direction: "horizontal",
       display: true,
     },
     {
-      type: 'button',
-      icon: 'empty_setting',
-      text: '清空参考线',
+      type: "button",
+      icon: "empty_setting",
+      text: "清空参考线",
       display: true,
       handler: () => {},
     },

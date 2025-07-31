@@ -32,14 +32,14 @@
   </div>
 </template>
 <script setup lang="ts">
-import { computed, onMounted, ref, watch } from 'vue';
-import { useFlowDesignStore } from '@/store/FlowDesign';
-import html2canvas from 'html2canvas';
-import { scale } from '@/views/workflow/plugin/utils/deviceUtil';
-import { useRouter } from 'vue-router';
-import { apiInstance, ApiUrls, piniaInstance } from 'star-horse-lowcode';
-import flowNodeComponent from '@/views/workflow/plugin/node/nodes';
-import { appInstance } from '@/main';
+import { computed, onMounted, ref, watch } from "vue";
+import { useFlowDesignStore } from "@/store/FlowDesign";
+import html2canvas from "html2canvas";
+import { scale } from "@/views/workflow/plugin/utils/deviceUtil";
+import { useRouter } from "vue-router";
+import { apiInstance, ApiUrls, piniaInstance } from "star-horse-lowcode";
+import flowNodeComponent from "@/views/workflow/plugin/node/nodes";
+import { appInstance } from "@/main";
 
 defineProps({
   saveBtnVisible: {
@@ -55,7 +55,7 @@ defineProps({
     default: true,
   },
 });
-const dataUrl: ApiUrls = apiInstance('flow-engine', 'workflow/flowDefine');
+const dataUrl: ApiUrls = apiInstance("flow-engine", "workflow/flowDefine");
 const router = useRouter();
 const flowDesign = useFlowDesignStore(piniaInstance);
 let zoomValue = ref<number>(100);
@@ -70,16 +70,16 @@ let readable = computed(() => flowDesign.readable);
 let mapVisible = computed(() => flowDesign.mapVisible);
 const saveAsPng = async () => {
   const element: HTMLElement = document.getElementById(
-    'sh-flow-editor-content',
+    "sh-flow-editor-content",
   )!;
-  element.parentElement!.style.transform = 'scale(1)';
+  element.parentElement!.style.transform = "scale(1)";
   const canvas = await html2canvas(element, {
-    backgroundColor: '#efefef',
+    backgroundColor: "#efefef",
   });
   const image = canvas
-    .toDataURL('image/png')
-    .replace('image/png', 'image/octet-stream');
-  let link = document.createElement('a');
+    .toDataURL("image/png")
+    .replace("image/png", "image/octet-stream");
+  let link = document.createElement("a");
   link.download = `star-flow-${Date.now()}.png`;
   link.href = image;
   link.click();
@@ -95,11 +95,11 @@ const init = () => {
 const loadData = async () => {
   let id = router.currentRoute.value.query.data;
   let isView = router.currentRoute.value.query.isView;
-  flowDesign.setReadable('Y' == isView);
+  flowDesign.setReadable("Y" == isView);
   if (id) {
-    let data = await dataUrl.loadByIdAction!(id, 'Y' == isView);
-    data['bindForm'] = data['bindForm']?.split(';');
-    data['flowManager'] = data['flowManager']?.split(';');
+    let data = await dataUrl.loadByIdAction!(id, "Y" == isView);
+    data["bindForm"] = data["bindForm"]?.split(";");
+    data["flowManager"] = data["flowManager"]?.split(";");
     flowDesign.flowSetFormInfo(data);
     flowDesign.setNode(JSON.parse(data.jsonFile)?.process);
   }

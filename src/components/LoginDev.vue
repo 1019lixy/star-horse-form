@@ -1,19 +1,19 @@
 <script lang="ts" setup>
-import { particlesCfg } from '@/api/particlesConfig';
-import { Config } from '@/api/settings';
-import { getValidateImg, rtCode } from '@/api/star_horse_apis';
-import { i18n } from '@/lang';
-import { useLoginStore } from '@/store/Login';
-import { removeToken, setPublicKey } from '@/utils/auth';
-import type { FormInstance, FormRules, TabsPaneContext } from 'element-plus';
-import { JSEncrypt } from 'jsencrypt';
+import { particlesCfg } from "@/api/particlesConfig";
+import { Config } from "@/api/settings";
+import { getValidateImg, rtCode } from "@/api/star_horse_apis";
+import { i18n } from "@/lang";
+import { useLoginStore } from "@/store/Login";
+import { removeToken, setPublicKey } from "@/utils/auth";
+import type { FormInstance, FormRules, TabsPaneContext } from "element-plus";
+import { JSEncrypt } from "jsencrypt";
 import {
   piniaInstance,
   useGlobalConfigStore,
   warning,
-} from 'star-horse-lowcode';
-import { onMounted, reactive, ref, watch } from 'vue';
-import { RouteLocationNormalized, useRouter } from 'vue-router';
+} from "star-horse-lowcode";
+import { onMounted, reactive, ref, watch } from "vue";
+import { RouteLocationNormalized, useRouter } from "vue-router";
 
 interface LoginInfo {
   userName: string;
@@ -25,19 +25,19 @@ interface LoginInfo {
 }
 const loginStore = useLoginStore(piniaInstance);
 let configStore = useGlobalConfigStore(piniaInstance);
-let validateImg = ref<string>('');
-let uuid = ref<string>('');
+let validateImg = ref<string>("");
+let uuid = ref<string>("");
 let flag = ref<boolean>(false);
-let redirect = ref<string>('');
-let publicKey = ref<string>('');
+let redirect = ref<string>("");
+let publicKey = ref<string>("");
 let loading = ref<boolean>(false);
 let loginForm = reactive<LoginInfo>({
-  password: '',
-  rememberMe: '',
-  tokenId: '',
-  userName: '',
-  uuid: '',
-  validCode: '',
+  password: "",
+  rememberMe: "",
+  tokenId: "",
+  userName: "",
+  uuid: "",
+  validCode: "",
 });
 const loginFormRef = ref<FormInstance>();
 let router = useRouter();
@@ -46,22 +46,22 @@ let loginRules = reactive<FormRules<LoginInfo>>({
   userName: [
     {
       required: true,
-      trigger: 'blur',
-      message: i18n('login.userName', ['starhorse.notAllowEmpty']),
+      trigger: "blur",
+      message: i18n("login.userName", ["starhorse.notAllowEmpty"]),
     },
   ],
   password: [
     {
       required: true,
-      trigger: 'blur',
-      message: i18n('login.password', ['starhorse.notAllowEmpty']),
+      trigger: "blur",
+      message: i18n("login.password", ["starhorse.notAllowEmpty"]),
     },
   ],
   validCode: [
     {
       required: true,
-      trigger: 'blur',
-      message: i18n('login.validCode', ['starhorse.notAllowEmpty']),
+      trigger: "blur",
+      message: i18n("login.validCode", ["starhorse.notAllowEmpty"]),
     },
   ],
 });
@@ -92,7 +92,7 @@ const handleLogin = async (elForm: FormInstance | undefined, event: Event) => {
         uuid: loginForm?.uuid,
       };
       //密码加密传输，需要加密时去掉注释，单后端认证服务需支持
-      user['password'] = <string>encrypt.encrypt(loginForm.password);
+      user["password"] = <string>encrypt.encrypt(loginForm.password);
       if (valid) {
         let { errMsg } = await loginStore.userLogin(user);
         if (errMsg) {
@@ -104,7 +104,7 @@ const handleLogin = async (elForm: FormInstance | undefined, event: Event) => {
           if (redirect.value) {
             router.push(<string>redirect.value);
           } else {
-            router.push('/');
+            router.push("/");
           }
         }
       }
@@ -126,10 +126,10 @@ const refreshValidate = () => {
 onMounted(() => {
   refreshValidate();
 });
-let rtCodeimg = ref('');
+let rtCodeimg = ref("");
 const handleClick = async (tab: TabsPaneContext, _event: Event) => {
-  if (tab.paneName == 'second') {
-    rtCodeimg.value = await rtCode('hello');
+  if (tab.paneName == "second") {
+    rtCodeimg.value = await rtCode("hello");
   }
 };
 const register = () => {};
@@ -141,7 +141,7 @@ const otherLogin = (typeName: string) => {
   console.log(typeName);
 };
 const particlesLoaded = async (container: any) => {
-  console.log('Particles container loaded', container);
+  console.log("Particles container loaded", container);
 };
 watch(
   () => router.currentRoute.value,

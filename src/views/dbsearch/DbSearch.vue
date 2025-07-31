@@ -1,24 +1,28 @@
 <script setup lang="ts" name="DbSearch">
-import {computed, onMounted, ref, unref} from 'vue';
-import {Config} from '@/api/settings';
-import {initDbList} from '@/views/dbsearch/utils/DbSearchUtils';
-import {closeLoad, error, getRequest, piniaInstance, useGlobalConfigStore, warning,} from 'star-horse-lowcode';
+import { computed, onMounted, ref, unref } from "vue";
+import { Config } from "@/api/settings";
+import { initDbList } from "@/views/dbsearch/utils/DbSearchUtils";
+import {
+  closeLoad,
+  error,
+  getRequest,
+  piniaInstance,
+  useGlobalConfigStore,
+  warning,
+} from "star-horse-lowcode";
 import QueryResult from "@/views/dbsearch/QueryResult.vue";
 
 let editorRef = ref<any>(null);
-let cacheValue = ref({});
 let dbList = ref<any>([]);
 let pageSize = ref<number>(10);
 let tableAndColumnsList = ref<any>([]);
 let tableList = ref<any>({});
 let assignDataList = ref<any>([]);
-let value = ref<string>('');
 let dbIndex = ref<any>(null);
 let currentIndex = ref<any>(null);
-let readOnly = ref<boolean>(true);
 let configStore = useGlobalConfigStore(piniaInstance);
 let compSize = computed(
-    () => configStore.configFormInfo?.inputSize || Config.compSize,
+  () => configStore.configFormInfo?.inputSize || Config.compSize,
 );
 const init = async () => {
   dbList.value = await initDbList();
@@ -27,11 +31,10 @@ onMounted(() => {
   init();
 });
 
-
 const openDb = () => {
   let editor = editorRef.value!;
   getRequest(
-      `/userdb-manage/dbsearch/dbinfoEntity/openConn/${dbIndex.value}`,
+    `/userdb-manage/dbsearch/dbinfoEntity/openConn/${dbIndex.value}`,
   ).then((res) => {
     tableList.value = {};
     if (res.data.code != 0) {
@@ -42,14 +45,14 @@ const openDb = () => {
     assignDataList.value = tableAndColumnsList.value;
     btnDisabled.value = false;
     currentIndex.value = dbIndex.value;
-    editor.setAutoCompletion('test', tableAndColumnsList.value);
+    editor.setAutoCompletion("test", tableAndColumnsList.value);
   });
 };
 const getSql = () => {
   let editor = editorRef.value!.editor.state;
   let sData = editor.sliceDoc(
-      editor.selection.main.from,
-      editor.selection.main.to,
+    editor.selection.main.from,
+    editor.selection.main.to,
   );
   if (!sData) {
     sData = editor.doc.toString();
@@ -59,24 +62,24 @@ const getSql = () => {
 const reqData = ref<any>({});
 const executeSql = () => {
   if (!dbIndex.value) {
-    warning('执行Sql前先连接数据库');
+    warning("执行Sql前先连接数据库");
     return;
   }
   let datas = getSql();
   if (!datas) {
     return;
   }
-  datas = datas.split(';');
+  datas = datas.split(";");
   let tempList: any = [];
   datas.forEach((item: any) => {
-    let temp = item.replaceAll('\n', '');
+    let temp = item.replaceAll("\n", "");
     temp = temp.trim();
     if (temp) {
       tempList.push(temp);
     }
   });
   if (tempList.length > 5) {
-    warning('一次最多只能执行5条Sql');
+    warning("一次最多只能执行5条Sql");
     return;
   }
   reqData.value = {
@@ -87,96 +90,93 @@ const executeSql = () => {
   };
 };
 
-
-const executeStop = () => {
-};
-
+const executeStop = () => {};
 
 const tableField = (tableName: string) => {
   let fdata = tableAndColumnsList.value.find(
-      (item: any) => item.tableName == tableName,
+    (item: any) => item.tableName == tableName,
   );
   if (fdata?.fields?.length > 0) {
     //如果已经有值，则不再请求后端
     return;
   }
   getRequest(
-      `/userdb-manage/dbsearch/dbinfoEntity/tableColumns/${dbIndex.value}/${tableName}`,
+    `/userdb-manage/dbsearch/dbinfoEntity/tableColumns/${dbIndex.value}/${tableName}`,
   )
-      .then((res) => {
-        if (res.data.code != 0) {
-          warning(res.data.cnMessage);
-          return;
-        }
-        tableList.value[tableName] = [];
-        fdata.fields = res.data.data;
-        fdata.fields.forEach((sitem: any) => {
-          tableList.value[tableName].push(sitem.filedName);
-        });
-      })
-      .finally(() => {
-        closeLoad();
+    .then((res) => {
+      if (res.data.code != 0) {
+        warning(res.data.cnMessage);
+        return;
+      }
+      tableList.value[tableName] = [];
+      fdata.fields = res.data.data;
+      fdata.fields.forEach((sitem: any) => {
+        tableList.value[tableName].push(sitem.filedName);
       });
+    })
+    .finally(() => {
+      closeLoad();
+    });
 };
-const filterTableName = ref('');
+const filterTableName = ref("");
 const filterData = () => {
   if (!filterTableName.value) {
     assignDataList.value = tableAndColumnsList.value;
     return;
   }
   assignDataList.value = tableAndColumnsList.value.filter((item: any) =>
-      item.tableName.toLowerCase().match(filterTableName.value.toLowerCase()),
+    item.tableName.toLowerCase().match(filterTableName.value.toLowerCase()),
   );
 };
 const dratStart = (item: any, evt: DragEvent) => {
   let dt = evt.dataTransfer!;
-  dt.effectAllowed = 'copy';
-  dt.setData('text/plain', item.tableName);
+  dt.effectAllowed = "copy";
+  dt.setData("text/plain", item.tableName);
 };
-let bakeData = ref<string>('');
+let bakeData = ref<string>("");
 const dragOver = (evt: DragEvent) => {
   evt.preventDefault();
   bakeData.value = unref(sqlInfo);
 };
-const sqlInfo = ref<string>('');
+const sqlInfo = ref<string>("");
 const dragDrop = (evt: DragEvent) => {
   let dt = evt.dataTransfer!;
-  let data = dt.getData('text/plain');
+  let data = dt.getData("text/plain");
   if (!unref(bakeData)) {
-    sqlInfo.value = ' SELECT * FROM ' + data;
+    sqlInfo.value = " SELECT * FROM " + data;
   } else {
-    sqlInfo.value = unref(bakeData) + ' ' + data;
+    sqlInfo.value = unref(bakeData) + " " + data;
   }
 };
 let btnDisabled = ref<boolean>(true);
 const btnList = [
   {
-    label: '执行',
-    icon: 'run',
+    label: "执行",
+    icon: "run",
     disabled: btnDisabled,
-    type: 'primary',
+    type: "primary",
     actions: executeSql,
   },
   {
-    label: '停止',
-    icon: 'stop',
+    label: "停止",
+    icon: "stop",
     disabled: btnDisabled,
-    type: 'danger',
+    type: "danger",
     actions: executeStop,
   },
   {
-    label: '格式化',
-    icon: 'format',
+    label: "格式化",
+    icon: "format",
     disabled: btnDisabled,
-    type: 'warning',
+    type: "warning",
     actions: () => {
       editorRef.value?.editor.dispatch({
         changes: {
           from: 0,
           to: editorRef.value?.editor.state.doc.length,
           insert:
-              editorRef.value?.editor.state.doc.toString().replaceAll('\n', '') +
-              '\n',
+            editorRef.value?.editor.state.doc.toString().replaceAll("\n", "") +
+            "\n",
         },
       });
     },
@@ -199,65 +199,65 @@ const operMsg = `
     <el-splitter>
       <el-splitter-panel collapsible size="260" min="250" max="350">
         <div
-            class="flex flex-col items-center h-full overflow-hidden"
-            style="width: 98%"
+          class="flex flex-col items-center h-full overflow-hidden"
+          style="width: 98%"
         >
           <el-select
-              :size="compSize"
-              @change="openDb"
-              clearable
-              filterable
-              id="dbInfo"
-              placeholder="请选择数据库信息"
-              v-model="dbIndex"
+            :size="compSize"
+            @change="openDb"
+            clearable
+            filterable
+            id="dbInfo"
+            placeholder="请选择数据库信息"
+            v-model="dbIndex"
           >
             <el-option
-                :key="sitem.value"
-                :label="sitem.name"
-                :value="sitem.value"
-                v-for="sitem in dbList"
+              :key="sitem.value"
+              :label="sitem.name"
+              :value="sitem.value"
+              v-for="sitem in dbList"
             />
           </el-select>
           <div style="margin-top: 5px"></div>
           <template v-if="assignDataList.length > 0">
             <el-input
-                :size="compSize"
-                placeholder="请输入关键字"
-                v-model="filterTableName"
-                @keydown.enter="filterData"
+              :size="compSize"
+              placeholder="请输入关键字"
+              v-model="filterTableName"
+              @keydown.enter="filterData"
             >
               <template #suffix>
                 <star-horse-icon
-                    @click="filterData"
-                    icon-class="search"
-                    color="var(--star-horse-style)"
+                  @click="filterData"
+                  icon-class="search"
+                  color="var(--star-horse-style)"
                 />
               </template>
             </el-input>
             <div
-                class="flex-1 w-[99%] overflow-hidden"
-                style="margin: 1px auto"
+              class="flex-1 w-[99%] overflow-hidden"
+              style="margin: 1px auto"
             >
               <el-scrollbar>
                 <ul class="db_table_list">
                   <template v-for="(data, index) in assignDataList">
                     <el-popover
-                        :popper-style="{ width: 'unset !important' }"
-                        placement="right"
-                        trigger="click"
+                      :popper-style="{ width: 'unset !important' }"
+                      placement="right"
+                      trigger="click"
                     >
                       <template #reference>
                         <li
-                            @click="tableField(data.tableName)"
-                            @dragstart="(evt) => dratStart(data, evt)"
-                            draggable="true"
-                            class="flex items-center cursor-move h-[30px]"
+                          @click="tableField(data.tableName)"
+                          @dragstart="(evt) => dratStart(data, evt)"
+                          draggable="true"
+                          class="flex items-center cursor-move h-[30px]"
                         >
                           <star-horse-icon
-                              icon-class="table"
-                              size="16px"
-                              height="16px"
-                              width="16px"
+                            icon-class="table"
+                            size="16px"
+                            height="16px"
+                            width="16px"
                           />
                           <el-tooltip :content="data.comment">
                             {{ data.tableName }}
@@ -265,26 +265,26 @@ const operMsg = `
                         </li>
                       </template>
                       <table
-                          class="el-table field-table"
-                          style="min-width: calc(100vh - 50%); overflow: auto"
+                        class="el-table field-table"
+                        style="min-width: calc(100vh - 50%); overflow: auto"
                       >
                         <thead>
-                        <tr>
-                          <th>名称</th>
-                          <th>类型</th>
-                          <th>空标识</th>
-                          <th>主键</th>
-                          <th>备注</th>
-                        </tr>
+                          <tr>
+                            <th>名称</th>
+                            <th>类型</th>
+                            <th>空标识</th>
+                            <th>主键</th>
+                            <th>备注</th>
+                          </tr>
                         </thead>
                         <tbody>
-                        <tr v-for="sdata in data.fields">
-                          <td>{{ sdata.fieldName }}</td>
-                          <td>{{ sdata.type }}</td>
-                          <td>{{ sdata.nullFlag }}</td>
-                          <td>{{ sdata.primaryKey }}</td>
-                          <td>{{ sdata.comment }}</td>
-                        </tr>
+                          <tr v-for="sdata in data.fields">
+                            <td>{{ sdata.fieldName }}</td>
+                            <td>{{ sdata.type }}</td>
+                            <td>{{ sdata.nullFlag }}</td>
+                            <td>{{ sdata.primaryKey }}</td>
+                            <td>{{ sdata.comment }}</td>
+                          </tr>
                         </tbody>
                       </table>
                     </el-popover>
@@ -300,23 +300,24 @@ const operMsg = `
           <el-splitter-panel>
             <div class="h-full" @dragover.prevent="dragOver" @drop="dragDrop">
               <StarHorseEditor
-                  :lang="'sql'"
-                  ref="editorRef"
-                  :helpMsg="operMsg"
-                  :btnList="btnList"
-                  v-model:value="sqlInfo"
+                :lang="'sql'"
+                ref="editorRef"
+                :helpMsg="operMsg"
+                :btnList="btnList"
+                v-model:value="sqlInfo"
               />
             </div>
           </el-splitter-panel>
-          <el-splitter-panel
-              collapsible
-              size="350">
-            <QueryResult :reqData="reqData" :dbIndex="dbIndex" :compSize="compSize"/>
+          <el-splitter-panel collapsible size="350">
+            <QueryResult
+              :reqData="reqData"
+              :dbIndex="dbIndex"
+              :compSize="compSize"
+            />
           </el-splitter-panel>
         </el-splitter>
       </el-splitter-panel>
     </el-splitter>
-
   </el-card>
 </template>
 <style lang="scss" scoped>

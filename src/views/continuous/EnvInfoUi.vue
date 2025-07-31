@@ -1,32 +1,32 @@
 <script setup lang="ts" name="EnvInfo">
-import { onMounted, provide, reactive, ref } from 'vue';
+import { onMounted, provide, reactive, ref } from "vue";
 import {
   apiInstance,
   ApiUrls,
   dialogPreps,
   SearchFields,
-} from 'star-horse-lowcode';
-import { Config } from '@/api/settings';
+} from "star-horse-lowcode";
+import { Config } from "@/api/settings";
 
-const dataUrl: ApiUrls = apiInstance('continuous-manage', 'continuous/envInfo');
+const dataUrl: ApiUrls = apiInstance("continuous-manage", "continuous/envInfo");
 const searchFormData = reactive<SearchFields>({
   fieldList: [
     {
-      label: '项目名称',
-      fieldName: 'projectName',
-      matchType: 'lk',
+      label: "项目名称",
+      fieldName: "projectName",
+      matchType: "lk",
       defaultVisible: true,
     },
     {
-      label: '项目类型',
-      fieldName: 'projectType',
-      matchType: 'lk',
+      label: "项目类型",
+      fieldName: "projectType",
+      matchType: "lk",
       defaultVisible: true,
     },
     {
-      label: '程序语言',
-      fieldName: 'language',
-      matchType: 'lk',
+      label: "程序语言",
+      fieldName: "language",
+      matchType: "lk",
       defaultVisible: true,
     },
   ],
@@ -34,13 +34,13 @@ const searchFormData = reactive<SearchFields>({
 const tableFieldList = reactive({
   fieldList: [
     {
-      label: '主键',
-      fieldName: 'idEnvInfo',
-      type: 'long',
+      label: "主键",
+      fieldName: "idEnvInfo",
+      type: "long",
     },
     {
-      label: '环境名称',
-      fieldName: 'envName',
+      label: "环境名称",
+      fieldName: "envName",
 
       required: true,
       formVisible: true,
@@ -48,50 +48,32 @@ const tableFieldList = reactive({
     },
     [
       {
-        label: '环境编码',
-        fieldName: 'nevCode',
+        label: "环境编码",
+        fieldName: "nevCode",
 
         formVisible: true,
         listVisible: true,
       },
       {
-        label: '环境地址',
-        fieldName: 'envHose',
-        type: 'number',
+        label: "环境地址",
+        fieldName: "envHose",
+        type: "number",
         formVisible: true,
         listVisible: true,
       },
     ],
     [
       {
-        label: '环境端口',
-        fieldName: 'envPort',
+        label: "环境端口",
+        fieldName: "envPort",
 
         required: true,
         formVisible: true,
         listVisible: true,
       },
       {
-        label: '初始空间大小',
-        fieldName: 'envInitSpace',
-
-        required: true,
-        formVisible: true,
-        listVisible: true,
-      },
-    ],
-    [
-      {
-        label: '已使用空间大小',
-        fieldName: 'envUsedSpace',
-
-        required: true,
-        formVisible: true,
-        listVisible: true,
-      },
-      {
-        label: '程序语言',
-        fieldName: 'language',
+        label: "初始空间大小",
+        fieldName: "envInitSpace",
 
         required: true,
         formVisible: true,
@@ -100,82 +82,100 @@ const tableFieldList = reactive({
     ],
     [
       {
-        label: '失效日期',
-        fieldName: 'expirationDate',
+        label: "已使用空间大小",
+        fieldName: "envUsedSpace",
+
+        required: true,
+        formVisible: true,
+        listVisible: true,
+      },
+      {
+        label: "程序语言",
+        fieldName: "language",
+
+        required: true,
+        formVisible: true,
+        listVisible: true,
+      },
+    ],
+    [
+      {
+        label: "失效日期",
+        fieldName: "expirationDate",
 
         formVisible: true,
         listVisible: true,
       },
       {
-        label: '生效时间',
-        fieldName: 'effectiveDate',
+        label: "生效时间",
+        fieldName: "effectiveDate",
 
         formVisible: true,
         listVisible: true,
       },
     ],
     {
-      label: '备注',
-      fieldName: 'remark',
-      type: 'textarea',
+      label: "备注",
+      fieldName: "remark",
+      type: "textarea",
       formVisible: true,
     },
     {
-      label: '创建人',
+      label: "创建人",
       disabled: true,
-      fieldName: 'createdBy',
+      fieldName: "createdBy",
     },
     {
-      label: '修改人',
+      label: "修改人",
       disabled: true,
-      fieldName: 'updatedBy',
+      fieldName: "updatedBy",
     },
     {
-      label: '创建日期',
+      label: "创建日期",
       disabled: true,
-      fieldName: 'createdTime',
-      type: 'date',
+      fieldName: "createdTime",
+      type: "date",
     },
     {
-      label: '修改日期',
+      label: "修改日期",
       disabled: true,
-      fieldName: 'updatedTime',
-      type: 'date',
+      fieldName: "updatedTime",
+      type: "date",
     },
     {
-      label: '数据版本号',
-      fieldName: 'version',
-      type: 'number',
+      label: "数据版本号",
+      fieldName: "version",
+      type: "number",
     },
     {
-      label: '是否已逻辑',
-      fieldName: 'isDel',
-      type: 'number',
+      label: "是否已逻辑",
+      fieldName: "isDel",
+      type: "number",
     },
     {
-      label: '数据编号',
-      fieldName: 'dataNo',
+      label: "数据编号",
+      fieldName: "dataNo",
     },
     {
-      label: '状态码',
-      fieldName: 'statusCode',
+      label: "状态码",
+      fieldName: "statusCode",
     },
     {
-      label: '状态码名称',
-      fieldName: 'statusName',
+      label: "状态码名称",
+      fieldName: "statusName",
     },
     {
-      label: '国际码',
-      fieldName: 'local',
+      label: "国际码",
+      fieldName: "local",
     },
   ],
   batchFieldList: [],
 });
-const primaryKey = 'idEnvInfo';
+const primaryKey = "idEnvInfo";
 const environmentInfoRef = ref();
 const rules = {};
 const dialogProps = dialogPreps();
-provide('dialogProps', dialogProps);
+provide("dialogProps", dialogProps);
 
 const dataFormat = (name: string, cellValue: object): any => {
   return cellValue;

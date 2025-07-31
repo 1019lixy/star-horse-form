@@ -1,11 +1,11 @@
 <script setup lang="ts">
 defineOptions({
-  name: 'PageContentItem',
+  name: "PageContentItem",
 });
 defineProps({
   content: {
     type: String,
-    default: '',
+    default: "",
   },
 });
 </script>

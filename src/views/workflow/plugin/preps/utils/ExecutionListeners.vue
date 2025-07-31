@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { onMounted, ref } from 'vue';
-import { createCondition, postRequest } from 'star-horse-lowcode';
+import { onMounted, ref } from "vue";
+import { createCondition, postRequest } from "star-horse-lowcode";
 
 const props = defineProps({
   node: {
@@ -15,9 +15,9 @@ const addListener = () => {
     props.node.executionListeners = [];
   }
   props.node.executionListeners?.push({
-    event: 'start',
-    implementationType: 'delegateExpression',
-    implementation: '',
+    event: "start",
+    implementationType: "delegateExpression",
+    implementation: "",
   });
 };
 const delListener = (index: number) => {
@@ -26,10 +26,10 @@ const delListener = (index: number) => {
 let implementationTypeList = ref<Array<any>>([]);
 const init = () => {
   postRequest(
-    '/userdb-manage/userdb/formInstance/shNodeMappingPreps/idNodeMappingPrep/337537414606095357/getAllByCondition',
+    "/userdb-manage/userdb/formInstance/shNodeMappingPreps/idNodeMappingPrep/337537414606095357/getAllByCondition",
     {
-      fieldList: [createCondition('idFlowNode', 'implementationType')],
-      orderBy: [{ fieldName: 'createdTime', ascOrDesc: 'ASC' }],
+      fieldList: [createCondition("idFlowNode", "implementationType")],
+      orderBy: [{ fieldName: "createdTime", ascOrDesc: "ASC" }],
     },
   ).then((res) => {
     if (res.data.code) {

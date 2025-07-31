@@ -13,10 +13,10 @@
   </div>
 </template>
 <script setup lang="ts">
-import { FlowNodeEnums } from '@/views/workflow/plugin/enums/FlowNodeEnums';
+import { FlowNodeEnums } from "@/views/workflow/plugin/enums/FlowNodeEnums";
 
 defineOptions({
-  name: 'StartNode',
+  name: "StartNode",
 });
 const props = defineProps({
   node: {
@@ -30,8 +30,8 @@ const props = defineProps({
     default: true,
   },
 });
-const emits = defineEmits(['selectNode']);
+const emits = defineEmits(["selectNode"]);
 const selectNode = () => {
-  emits('selectNode', props.node);
+  emits("selectNode", props.node);
 };
 </script>

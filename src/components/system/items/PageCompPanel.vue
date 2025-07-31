@@ -1,15 +1,15 @@
 <script setup lang="ts">
-import { defineOptions, onMounted, ref } from 'vue';
-import { pageCompList } from '@/utils/layoutcomp';
-import { PageCompItem } from '@/components/types/PageLayoutComp';
-import SvgLoader from '../SvgLoader.vue';
+import { defineOptions, onMounted, ref } from "vue";
+import { pageCompList } from "@/utils/layoutcomp";
+import { PageCompItem } from "@/components/types/PageLayoutComp";
+import SvgLoader from "../SvgLoader.vue";
 
 defineOptions({
-  name: 'PageCompPanel',
+  name: "PageCompPanel",
 });
 const props = defineProps({});
-const emit = defineEmits(['selectItem']);
-const activeNames = ref<string[]>(['a', 'b']);
+const emit = defineEmits(["selectItem"]);
+const activeNames = ref<string[]>(["a", "b"]);
 const onContainerCopy = (data: PageCompItem) => {
   return JSON.parse(JSON.stringify(data));
 };

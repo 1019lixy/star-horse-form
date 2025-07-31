@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import { nextTick, onMounted, ref, watch } from 'vue';
-import { useFlowDesignStore } from '@/store/FlowDesign';
-import { apiInstance, ApiUrls, piniaInstance } from 'star-horse-lowcode';
-import { useRouter } from 'vue-router';
-import { doSaveData } from '@/views/workflow/utils/FlowFormUtils';
+import { nextTick, onMounted, ref, watch } from "vue";
+import { useFlowDesignStore } from "@/store/FlowDesign";
+import { apiInstance, ApiUrls, piniaInstance } from "star-horse-lowcode";
+import { useRouter } from "vue-router";
+import { doSaveData } from "@/views/workflow/utils/FlowFormUtils";
 
-const dataUrl: ApiUrls = apiInstance('flow-engine', 'workflow/flowDefine');
+const dataUrl: ApiUrls = apiInstance("flow-engine", "workflow/flowDefine");
 const props = defineProps({
   data: {
     type: Object,
@@ -16,17 +16,17 @@ const props = defineProps({
   },
 });
 let router = useRouter();
-let flowStyle = ref<string>('dingding');
+let flowStyle = ref<string>("dingding");
 const flowDesign = useFlowDesignStore(piniaInstance);
 const basicInfoRef = ref();
 const flowDesignRef = ref();
 const flowSettingRef = ref();
 let currentData = ref<number>(1);
 const changeFlow = () => {
-  if (flowStyle.value == 'dingding') {
-    flowStyle.value = 'flowable';
+  if (flowStyle.value == "dingding") {
+    flowStyle.value = "flowable";
   } else {
-    flowStyle.value = 'dingding';
+    flowStyle.value = "dingding";
   }
 };
 /**
@@ -68,9 +68,9 @@ const loadData = async () => {
   let id = router.currentRoute.value.query.data;
   let isView = router.currentRoute.value.query.isView;
   if (id) {
-    let data = await dataUrl.loadByIdAction!(id, 'Y' == isView);
-    data['bindForm'] = data['bindForm']?.split(';');
-    data['flowManager'] = data['flowManager']?.split(';');
+    let data = await dataUrl.loadByIdAction!(id, "Y" == isView);
+    data["bindForm"] = data["bindForm"]?.split(";");
+    data["flowManager"] = data["flowManager"]?.split(";");
     flowDesign.flowSetFormInfo(data);
     flowDesign.setNode(JSON.parse(data.jsonFile)?.process);
   }

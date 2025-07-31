@@ -1,12 +1,12 @@
 <script setup lang="ts">
-import { addBranch } from '@/views/workflow/plugin/utils/flowCommon';
-import { computed, onMounted, watch } from 'vue';
-import { useFlowDesignStore } from '@/store/FlowDesign';
-import { closeLoad, piniaInstance } from 'star-horse-lowcode';
-import { FlowNodeEnums } from '@/views/workflow/plugin/enums/FlowNodeEnums';
+import { addBranch } from "@/views/workflow/plugin/utils/flowCommon";
+import { computed, onMounted, watch } from "vue";
+import { useFlowDesignStore } from "@/store/FlowDesign";
+import { closeLoad, piniaInstance } from "star-horse-lowcode";
+import { FlowNodeEnums } from "@/views/workflow/plugin/enums/FlowNodeEnums";
 
 defineOptions({
-  name: 'BranchNode',
+  name: "BranchNode",
 });
 const flowDesign = useFlowDesignStore(piniaInstance);
 let currentNode = computed(() => flowDesign.currentNode);
@@ -21,9 +21,9 @@ const props = defineProps({
   },
 });
 
-const emits = defineEmits(['selectNode']);
+const emits = defineEmits(["selectNode"]);
 const selectNode = (node: any) => {
-  emits('selectNode', node, props.node);
+  emits("selectNode", node, props.node);
 };
 let nameClass = computed(() => {
   return (node: any, defaultStyle: string) => {
@@ -31,31 +31,31 @@ let nameClass = computed(() => {
       return defaultStyle;
     }
     return {
-      'node-status-not': node.statusCode == 0,
-      'node-status-current': node.statusCode == 1,
-      'node-status-complete': node.statusCode == 2,
+      "node-status-not": node.statusCode == 0,
+      "node-status-current": node.statusCode == 1,
+      "node-status-complete": node.statusCode == 2,
     };
   };
 });
 const errorCheck = () => {
   props.node.conditionNodes.forEach((conditionNode: any) => {
     let flag = false;
-    let msg = '';
+    let msg = "";
     if (conditionNode.otherFlag) {
       conditionNode.error = false;
-      conditionNode.errorMsg = '';
+      conditionNode.errorMsg = "";
       return;
     }
     if (!conditionNode.branchType) {
       flag = true;
-      msg += '未配置条件规则\n';
+      msg += "未配置条件规则\n";
     }
     if (
       !conditionNode.conditionGroups ||
       !conditionNode.conditionGroups.length
     ) {
       flag = true;
-      msg += '未配置条件\n';
+      msg += "未配置条件\n";
     } else {
       conditionNode.conditionGroups.forEach((condition: any, index: number) => {
         condition.conditions.forEach((condition: any, sindex: number) => {

@@ -1,13 +1,13 @@
 <script setup lang="ts">
-import { computed, ModelRef, ref } from 'vue';
-import { useFlowDesignStore } from '@/store/FlowDesign';
-import { piniaInstance } from 'star-horse-lowcode';
+import { computed, ModelRef, ref } from "vue";
+import { useFlowDesignStore } from "@/store/FlowDesign";
+import { piniaInstance } from "star-horse-lowcode";
 
 defineOptions({
-  name: 'CopyerPrep',
+  name: "CopyerPrep",
 });
-let node: ModelRef<any> = defineModel('activeData');
-let copyerTab = ref<string>('1');
+let node: ModelRef<any> = defineModel("activeData");
+let copyerTab = ref<string>("1");
 
 const flowDesign = useFlowDesignStore(piniaInstance);
 const flowFormInfo = computed(() => flowDesign.flowFormInfo);
@@ -19,20 +19,20 @@ const onClose = () => {
  */
 const onSave = () => {
   // 更新节点显示信息
-  let content = '';
+  let content = "";
   node.value.approveGroups.forEach((group: any) => {
     if (Array.isArray(group.approverNames) && group.approverNames.length > 0) {
-      content += group.approverNames.join(',');
+      content += group.approverNames.join(",");
     } else {
       content += group.approverNames;
     }
     if (content) {
-      content += ',';
+      content += ",";
     }
   });
   if (!content && node.value.operations?.customCc) {
     //  是否设置发起人填写
-    content += '发起人填写';
+    content += "发起人填写";
   }
   onClose();
 };

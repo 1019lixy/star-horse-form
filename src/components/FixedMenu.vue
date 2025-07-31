@@ -1,18 +1,18 @@
 <script setup lang="ts">
-import { useLoginStore } from '@/store/Login';
-import { MenusInfo, piniaInstance } from 'star-horse-lowcode';
-import { computed, nextTick, onMounted, ref, watch } from 'vue';
+import { useLoginStore } from "@/store/Login";
+import { MenusInfo, piniaInstance } from "star-horse-lowcode";
+import { computed, nextTick, onMounted, ref, watch } from "vue";
 
 const loginStore = useLoginStore(piniaInstance);
 let leftMenuDatas = computed(() => loginStore.getMenusList());
 let props = defineProps({
   sysemId: { type: String },
   isCollapse: { type: Boolean, default: true },
-  top: { type: String, default: '83px' },
+  top: { type: String, default: "83px" },
 });
 let defaultOpenMenu = ref<Array<string>>([]);
 let htop = ref<string>(
-  computed(() => props.top).value == '83px' ? '65px' : '35px',
+  computed(() => props.top).value == "83px" ? "65px" : "35px",
 );
 const setOpenMenu = () => {
   let allId = leftMenuDatas.value.map((item: MenusInfo) => item.meta.menuId);

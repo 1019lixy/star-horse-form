@@ -1,18 +1,18 @@
 <script setup lang="ts">
-import { computed, onMounted, ref } from 'vue';
-import { scale } from '@/views/workflow/plugin/utils/deviceUtil';
-import { useFlowDesignStore } from '@/store/FlowDesign';
+import { computed, onMounted, ref } from "vue";
+import { scale } from "@/views/workflow/plugin/utils/deviceUtil";
+import { useFlowDesignStore } from "@/store/FlowDesign";
 import {
   apiInstance,
   ApiUrls,
   createCondition,
   loadData,
   piniaInstance,
-} from 'star-horse-lowcode';
+} from "star-horse-lowcode";
 
 const dataUrl: ApiUrls = apiInstance(
-  'flow-engine',
-  'workflow/categoryItemConfig',
+  "flow-engine",
+  "workflow/categoryItemConfig",
 );
 const flowDesign = useFlowDesignStore(piniaInstance);
 const suggestBranchEnable = computed(() => flowDesign.suggestBranchEnable);
@@ -21,12 +21,12 @@ const dynamicFlow = ref<boolean>(false);
 let visibleHelper = ref<boolean>(false);
 let visibleAdvice = ref<boolean>(false);
 let visibleSelf = ref<boolean>(false);
-let placement = ref<string>('ltr');
+let placement = ref<string>("ltr");
 let helpItemList = ref<any>([]);
 let advancedItemList = ref<any>([]);
 let selfItemList = ref<any>([]);
 const wrapStyle = {
-  top: '50px',
+  top: "50px",
 };
 const showHelperDrawer = () => {
   visibleHelper.value = true;
@@ -43,13 +43,13 @@ const onClose = () => {
   visibleSelf.value = false;
 };
 const init = async () => {
-  let params = [createCondition('a.cfgCategory', ['help', 'advanced'], 'in')];
+  let params = [createCondition("a.cfgCategory", ["help", "advanced"], "in")];
   let res = await loadData(dataUrl.listConditionUrl!, params);
   helpItemList.value = res?.data?.filter(
-    (item: any) => item.cfgCategory == 'help',
+    (item: any) => item.cfgCategory == "help",
   );
   advancedItemList.value = res?.data?.filter(
-    (item: any) => item.cfgCategory == 'advanced',
+    (item: any) => item.cfgCategory == "advanced",
   );
 };
 onMounted(() => {

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 const props = defineProps({
-  flowStyle: { type: String, default: 'dingding' },
+  flowStyle: { type: String, default: "dingding" },
 });
 </script>
 

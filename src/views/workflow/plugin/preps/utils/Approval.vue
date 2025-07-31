@@ -4,10 +4,10 @@ import {
   piniaInstance,
   postRequest,
   uuid,
-} from 'star-horse-lowcode';
-import { getApproveNodes } from '@/views/workflow/plugin/utils/nodeUtil';
-import { computed, onMounted, ref } from 'vue';
-import { useFlowDesignStore } from '@/store/FlowDesign';
+} from "star-horse-lowcode";
+import { getApproveNodes } from "@/views/workflow/plugin/utils/nodeUtil";
+import { computed, onMounted, ref } from "vue";
+import { useFlowDesignStore } from "@/store/FlowDesign";
 
 const props = defineProps({
   groups: {
@@ -24,228 +24,228 @@ const props = defineProps({
   },
   title: {
     type: String,
-    default: '审批人',
+    default: "审批人",
   },
 });
 const flowDesign = useFlowDesignStore(piniaInstance);
 let headStyle = ref<any>({
-  background: '#f5f6f7',
-  'min-height': '40px',
+  background: "#f5f6f7",
+  "min-height": "40px",
 });
 
 let approvals = ref<Array<any>>([]);
 // 上级方式
 let higherLevelModes = ref<Array<any>>([
   {
-    name: '自下而上（以发起人的直属上级为第一级）',
+    name: "自下而上（以发起人的直属上级为第一级）",
     value: 1,
     popovers: [
       {
-        title: '什么是上级 - 自下而上？',
-        content: '以发起人的直属上级为第一级，向更高管理层级递增',
+        title: "什么是上级 - 自下而上？",
+        content: "以发起人的直属上级为第一级，向更高管理层级递增",
       },
       {
         content:
-          '图示：若小王为发起人，则小张是小王的“直属上级”，小李是小王的“第二级上级”',
+          "图示：若小王为发起人，则小张是小王的“直属上级”，小李是小王的“第二级上级”",
       },
     ],
 
-    hrefName: '查看和设置上级信息',
+    hrefName: "查看和设置上级信息",
   },
   {
-    name: '自上而下（以公司的最高上级为第一级）',
-    code: 'higherLevel',
+    name: "自上而下（以公司的最高上级为第一级）",
+    code: "higherLevel",
     value: 2,
     popovers: [
       {
-        title: '什么是上级 - 自上而下？',
-        content: '以公司组织架构中的最高上级为第一级，向更低管理层级递增',
+        title: "什么是上级 - 自上而下？",
+        content: "以公司组织架构中的最高上级为第一级，向更低管理层级递增",
       },
       {
         content:
-          '图示：若小王为发起人，则小赵是小王的“最高上级”，小周是小王的“第二级上级”',
+          "图示：若小王为发起人，则小赵是小王的“最高上级”，小周是小王的“第二级上级”",
       },
     ],
 
-    hrefName: '查看和设置上级信息',
+    hrefName: "查看和设置上级信息",
   },
 ]);
 // 上级层级
 let higherLevels = ref<Array<any>>([
   {
-    name: '直属上级',
-    value: '1',
+    name: "直属上级",
+    value: "1",
   },
   {
-    name: '第二级上级',
-    value: '2',
+    name: "第二级上级",
+    value: "2",
   },
   {
-    name: '第三级上级',
-    value: '3',
+    name: "第三级上级",
+    value: "3",
   },
   {
-    name: '第四级上级',
-    value: '4',
+    name: "第四级上级",
+    value: "4",
   },
   {
-    name: '第五级上级',
-    value: '5',
+    name: "第五级上级",
+    value: "5",
   },
   {
-    name: '第六级上级',
-    value: '6',
+    name: "第六级上级",
+    value: "6",
   },
   {
-    name: '第七级上级',
-    value: '7',
+    name: "第七级上级",
+    value: "7",
   },
   {
-    name: '第八级上级',
-    value: '8',
+    name: "第八级上级",
+    value: "8",
   },
   {
-    name: '第九级上级',
-    value: '9',
+    name: "第九级上级",
+    value: "9",
   },
   {
-    name: '第十级上级',
-    value: '10',
+    name: "第十级上级",
+    value: "10",
   },
   {
-    name: '第十一级上级',
-    value: '11',
+    name: "第十一级上级",
+    value: "11",
   },
   {
-    name: '第十二级上级',
-    value: '12',
+    name: "第十二级上级",
+    value: "12",
   },
 ]);
 // 部门负责人方式
 let departmentHeadModes = ref<Array<any>>([
   {
-    name: '自下而上（以发起人的直接部门负责人为第一级）',
+    name: "自下而上（以发起人的直接部门负责人为第一级）",
     value: 1,
     popovers: [
       {
-        title: '什么是部门负责人 - 自下而上？',
-        content: '以发起人的直接部门负责人为第一级，向更高管理层级递增',
+        title: "什么是部门负责人 - 自下而上？",
+        content: "以发起人的直接部门负责人为第一级，向更高管理层级递增",
       },
       {
         content:
-          '图示：若小王为发起人，则小张是小王的“直接部门负责人”，小李是小王的“第二级部门负责人”',
+          "图示：若小王为发起人，则小张是小王的“直接部门负责人”，小李是小王的“第二级部门负责人”",
       },
     ],
 
-    hrefName: '如何配置部门负责人？',
+    hrefName: "如何配置部门负责人？",
   },
   {
-    name: '自上而下（以公司的最高部门负责人为第一级）',
-    code: 'higherLevel',
+    name: "自上而下（以公司的最高部门负责人为第一级）",
+    code: "higherLevel",
     value: 2,
     popovers: [
       {
-        title: '什么是部门负责人 - 自上而下？',
-        content: '以公司组织架构中的最高部门负责人为第一级，向更低管理层级递增',
+        title: "什么是部门负责人 - 自上而下？",
+        content: "以公司组织架构中的最高部门负责人为第一级，向更低管理层级递增",
       },
       {
         content:
-          '图示：若小王为发起人，则小赵是小王的“最高部门负责人”，小周是小王的“第二级部门负责人”',
+          "图示：若小王为发起人，则小赵是小王的“最高部门负责人”，小周是小王的“第二级部门负责人”",
       },
     ],
 
-    hrefName: '查看和设置上级信息',
+    hrefName: "查看和设置上级信息",
   },
 ]);
 // 部门负责人层级
 let departmentHeads = ref<Array<any>>([
   {
-    name: '直属部门负责人',
-    value: '1',
+    name: "直属部门负责人",
+    value: "1",
   },
   {
-    name: '第二级部门负责人',
-    value: '2',
+    name: "第二级部门负责人",
+    value: "2",
   },
   {
-    name: '第三级部门负责人',
-    value: '3',
+    name: "第三级部门负责人",
+    value: "3",
   },
   {
-    name: '第四级部门负责人',
-    value: '4',
+    name: "第四级部门负责人",
+    value: "4",
   },
   {
-    name: '第五级部门负责人',
-    value: '5',
+    name: "第五级部门负责人",
+    value: "5",
   },
   {
-    name: '第六级部门负责人',
-    value: '6',
+    name: "第六级部门负责人",
+    value: "6",
   },
   {
-    name: '第七级部门负责人',
-    value: '7',
+    name: "第七级部门负责人",
+    value: "7",
   },
   {
-    name: '第八级部门负责人',
-    value: '8',
+    name: "第八级部门负责人",
+    value: "8",
   },
   {
-    name: '第九级部门负责人',
-    value: '9',
+    name: "第九级部门负责人",
+    value: "9",
   },
   {
-    name: '第十级部门负责人',
-    value: '10',
+    name: "第十级部门负责人",
+    value: "10",
   },
   {
-    name: '第十一级部门负责人',
-    value: '11',
+    name: "第十一级部门负责人",
+    value: "11",
   },
   {
-    name: '第十二级部门负责人',
-    value: '12',
+    name: "第十二级部门负责人",
+    value: "12",
   },
 ]);
 // 部门审批人
 let departmentApprovals = ref<Array<any>>([
   {
-    name: '部长',
-    value: '101',
+    name: "部长",
+    value: "101",
   },
   {
-    name: '体系负责人',
-    value: '102',
+    name: "体系负责人",
+    value: "102",
   },
   {
-    name: 'HRBP',
-    value: '103',
+    name: "HRBP",
+    value: "103",
   },
   {
-    name: '部门助理',
-    value: '104',
+    name: "部门助理",
+    value: "104",
   },
   {
-    name: '资产助理',
-    value: '105',
+    name: "资产助理",
+    value: "105",
   },
   {
-    name: '办公账号员',
-    value: '106',
+    name: "办公账号员",
+    value: "106",
   },
   {
-    name: '门禁员',
-    value: '107',
+    name: "门禁员",
+    value: "107",
   },
   {
-    name: '转岗须知员',
-    value: '108',
+    name: "转岗须知员",
+    value: "108",
   },
 
   {
-    name: '项目负责人',
-    value: '110',
+    name: "项目负责人",
+    value: "110",
   },
 ]);
 // 角色
@@ -283,13 +283,13 @@ const changeApproveType = (group: any) => {
   group.currentApproveType = item;
   selectorParmas.value = {
     placeholder: `请选${item.approveType}`,
-    displayFieldName: 'name',
-    displayFieldValue: 'id',
+    displayFieldName: "name",
+    displayFieldValue: "id",
   };
   postRequest(
-    '/userdb-manage/userdb/formInstance/flApprovalFields/idApprovalFields/337537414606095357/getAllByCondition',
+    "/userdb-manage/userdb/formInstance/flApprovalFields/idApprovalFields/337537414606095357/getAllByCondition",
     {
-      fieldList: [createCondition('a.idApprovalType', group.approveType)],
+      fieldList: [createCondition("a.idApprovalType", group.approveType)],
     },
   ).then((res) => {
     dataList.value = res.data?.data;
@@ -319,26 +319,26 @@ const delApproval = (group: any) => {
   });
 };
 const init = async () => {
-  props.node['audit'] = {};
+  props.node["audit"] = {};
   //加载职级
-  postRequest('/system-config/system/rankDefine/rankTree', {}).then((res) => {
+  postRequest("/system-config/system/rankDefine/rankTree", {}).then((res) => {
     rankList.value = res.data?.data;
   });
   //加载岗位
-  postRequest('/system-config/system/stationDefine/stationTree', {}).then(
+  postRequest("/system-config/system/stationDefine/stationTree", {}).then(
     (res) => {
       stationList.value = res.data?.data;
     },
   );
 
   //加载角色
-  postRequest('/system-config/system/companyRole/getAllByCondition', {
-    fieldList: [createCondition('a.roleType', 'common_role')],
+  postRequest("/system-config/system/companyRole/getAllByCondition", {
+    fieldList: [createCondition("a.roleType", "common_role")],
   }).then((res) => {
     roleList.value = res.data?.data;
   });
   postRequest(
-    '/userdb-manage/userdb/formInstance/flApprovalType/idApprovalType/337537414606095357/getAllByCondition',
+    "/userdb-manage/userdb/formInstance/flApprovalType/idApprovalType/337537414606095357/getAllByCondition",
     {},
   ).then((res) => {
     approvals.value = res.data?.data;

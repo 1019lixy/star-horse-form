@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import { computed, onMounted, ref } from 'vue';
-import { dictData, piniaInstance } from 'star-horse-lowcode';
+import { computed, onMounted, ref } from "vue";
+import { dictData, piniaInstance } from "star-horse-lowcode";
 import {
   flowFormFields,
   setFlowGroups,
-} from '@/views/workflow/utils/FlowFormUtils';
-import { useFlowDesignStore } from '@/store/FlowDesign';
+} from "@/views/workflow/utils/FlowFormUtils";
+import { useFlowDesignStore } from "@/store/FlowDesign";
 
 defineProps({
   navable: {
@@ -25,7 +25,7 @@ let flowFormRef = ref();
 const flowDesign = useFlowDesignStore(piniaInstance);
 const formInfo = computed(() => flowDesign.flowFormInfo);
 const init = async () => {
-  let data = await dictData('flow_group');
+  let data = await dictData("flow_group");
   setFlowGroups(data);
 };
 const getFormData = () => {

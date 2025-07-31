@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import { computed, onMounted } from 'vue';
-import { useFlowDesignStore } from '@/store/FlowDesign';
-import { closeLoad, piniaInstance } from 'star-horse-lowcode';
-import { FlowNodeEnums } from '@/views/workflow/plugin/enums/FlowNodeEnums';
+import { computed, onMounted } from "vue";
+import { useFlowDesignStore } from "@/store/FlowDesign";
+import { closeLoad, piniaInstance } from "star-horse-lowcode";
+import { FlowNodeEnums } from "@/views/workflow/plugin/enums/FlowNodeEnums";
 
 defineOptions({
-  name: 'ApplyNode',
+  name: "ApplyNode",
 });
 const flowDesign = useFlowDesignStore(piniaInstance);
 let currentNode = computed(() => flowDesign.currentNode);
@@ -23,12 +23,12 @@ const props = defineProps({
 });
 props.node.error = computed(() => {
   let flag = !props.node.formId;
-  props.node.errorMsg = flag ? '未配置表单' : '';
+  props.node.errorMsg = flag ? "未配置表单" : "";
   return flag;
 });
-const emits = defineEmits(['selectNode']);
+const emits = defineEmits(["selectNode"]);
 const selectNode = () => {
-  emits('selectNode', props.node);
+  emits("selectNode", props.node);
 };
 let nameClass = computed(() => {
   return (node: any, defaultStyle: string) => {
@@ -36,9 +36,9 @@ let nameClass = computed(() => {
       return defaultStyle;
     }
     return {
-      'node-status-not': node.statusCode == 0,
-      'node-status-current': node.statusCode == 1,
-      'node-status-complete': node.statusCode == 2,
+      "node-status-not": node.statusCode == 0,
+      "node-status-current": node.statusCode == 1,
+      "node-status-complete": node.statusCode == 2,
     };
   };
 });

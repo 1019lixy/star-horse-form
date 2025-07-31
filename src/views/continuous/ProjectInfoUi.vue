@@ -1,5 +1,5 @@
 <script setup lang="ts" name="ProjectInfoUi">
-import { onMounted, provide, reactive, ref } from 'vue';
+import { onMounted, provide, reactive, ref } from "vue";
 import {
   apiInstance,
   ApiUrls,
@@ -7,11 +7,11 @@ import {
   dictData,
   SearchFields,
   SelectOption,
-} from 'star-horse-lowcode';
+} from "star-horse-lowcode";
 
 const dataUrl: ApiUrls = apiInstance(
-  'continuous-manage',
-  'continuous/projectInfo',
+  "continuous-manage",
+  "continuous/projectInfo",
 );
 let libTypeList = ref<Array<SelectOption>>([]);
 let languageList = ref<Array<SelectOption>>([]);
@@ -20,16 +20,16 @@ let projectRoleList = ref<Array<SelectOption>>([]);
 const searchFormData = reactive<SearchFields>({
   fieldList: [
     {
-      label: '项目名称',
-      fieldName: 'projectName',
-      matchType: 'lk',
+      label: "项目名称",
+      fieldName: "projectName",
+      matchType: "lk",
       defaultVisible: true,
     },
     {
-      label: '程序语言',
-      fieldName: 'programLanguage',
-      type: 'select',
-      matchType: 'lk',
+      label: "程序语言",
+      fieldName: "programLanguage",
+      type: "select",
+      matchType: "lk",
       defaultVisible: true,
       preps: {
         values: languageList,
@@ -40,14 +40,14 @@ const searchFormData = reactive<SearchFields>({
 const tableFieldList = reactive({
   fieldList: [
     {
-      label: '主键',
-      fieldName: 'idProjectInfo',
-      type: 'long',
+      label: "主键",
+      fieldName: "idProjectInfo",
+      type: "long",
     },
     {
-      label: '代码库类型',
-      fieldName: 'repoType',
-      type: 'select',
+      label: "代码库类型",
+      fieldName: "repoType",
+      type: "select",
       required: true,
       formVisible: true,
       listVisible: true,
@@ -57,17 +57,17 @@ const tableFieldList = reactive({
     },
     [
       {
-        label: '代码库地址',
-        fieldName: 'repoUrl',
+        label: "代码库地址",
+        fieldName: "repoUrl",
 
-        helpMsg: 'eg:[http://|https://|ssh://|git@]192.168.0.1/test',
+        helpMsg: "eg:[http://|https://|ssh://|git@]192.168.0.1/test",
         formVisible: true,
         listVisible: true,
       },
       {
-        label: '程序语言',
-        fieldName: 'programLanguage',
-        type: 'select',
+        label: "程序语言",
+        fieldName: "programLanguage",
+        type: "select",
         required: true,
         formVisible: true,
         listVisible: true,
@@ -78,17 +78,17 @@ const tableFieldList = reactive({
     ],
     [
       {
-        label: '项目名称',
-        fieldName: 'projectName',
+        label: "项目名称",
+        fieldName: "projectName",
         required: true,
         formVisible: true,
         listVisible: true,
       },
       {
-        label: '项目字符集',
-        fieldName: 'projectCharset',
-        type: 'select',
-        defaultValue: 'UTF-8',
+        label: "项目字符集",
+        fieldName: "projectCharset",
+        type: "select",
+        defaultValue: "UTF-8",
         required: true,
         formVisible: true,
         listVisible: true,
@@ -99,64 +99,64 @@ const tableFieldList = reactive({
     ],
     [
       {
-        label: '流水线账号',
-        fieldName: 'lineAccount',
+        label: "流水线账号",
+        fieldName: "lineAccount",
 
         formVisible: true,
         listVisible: true,
       },
       {
-        label: '流水线密码',
-        fieldName: 'lineSecurity',
+        label: "流水线密码",
+        fieldName: "lineSecurity",
 
         formVisible: true,
         listVisible: true,
       },
     ],
     {
-      label: '备注',
-      fieldName: 'remark',
-      type: 'textarea',
+      label: "备注",
+      fieldName: "remark",
+      type: "textarea",
       formVisible: true,
     },
     {
       batchFieldList: [
         {
-          batchName: 'memberList',
-          title: '项目成员',
+          batchName: "memberList",
+          title: "项目成员",
           fieldList: [
             {
-              label: '用户名',
-              fieldName: 'username',
-              type: 'dialog-input',
+              label: "用户名",
+              fieldName: "username",
+              type: "dialog-input",
               formVisible: true,
               preps: {
-                primaryKey: 'idEmployeeInfo',
+                primaryKey: "idEmployeeInfo",
                 dataUrl: {
-                  pageListUrl: 'system-config/system/employeeInfo/pageList',
+                  pageListUrl: "system-config/system/employeeInfo/pageList",
                 },
                 needField: [
-                  { sourceField: 'employeeNo', distField: 'username' },
-                  { sourceField: 'name', distField: 'name' },
+                  { sourceField: "employeeNo", distField: "username" },
+                  { sourceField: "name", distField: "name" },
                 ],
 
                 fieldList: [
                   {
-                    label: '姓名',
-                    fieldName: 'name',
+                    label: "姓名",
+                    fieldName: "name",
 
                     required: true,
-                    prefix: 'a',
+                    prefix: "a",
                     formVisible: true,
                     listVisible: true,
                     searchVisible: true,
                   },
                   {
-                    label: '工号',
-                    fieldName: 'employeeNo',
+                    label: "工号",
+                    fieldName: "employeeNo",
 
-                    prefix: 'a',
-                    helpMsg: '如不填写系统自动生成',
+                    prefix: "a",
+                    helpMsg: "如不填写系统自动生成",
                     required: false,
                     formVisible: true,
                     listVisible: true,
@@ -166,68 +166,68 @@ const tableFieldList = reactive({
                     },
                   },
                   {
-                    label: '职级',
-                    fieldName: 'rank',
-                    type: 'tselect',
+                    label: "职级",
+                    fieldName: "rank",
+                    type: "tselect",
                     required: false,
                     formVisible: true,
                     listVisible: true,
                     preps: {
-                      showCode: 'Y',
+                      showCode: "Y",
                     },
                   },
                   {
-                    label: '岗位',
-                    fieldName: 'station',
-                    type: 'tselect',
+                    label: "岗位",
+                    fieldName: "station",
+                    type: "tselect",
                     required: false,
                     formVisible: true,
                     listVisible: true,
                     preps: {
-                      showCode: 'Y',
+                      showCode: "Y",
                     },
                   },
                 ],
               },
             },
             {
-              label: '姓名',
-              fieldName: 'name',
-              type: 'tag',
+              label: "姓名",
+              fieldName: "name",
+              type: "tag",
               formVisible: true,
             },
             {
-              label: '角色名称',
-              fieldName: 'roleName',
-              type: 'select',
+              label: "角色名称",
+              fieldName: "roleName",
+              type: "select",
               formVisible: true,
               preps: {
                 values: projectRoleList,
               },
             },
             {
-              label: '生效时间',
-              fieldName: 'effectiveDate',
-              type: 'datetime',
+              label: "生效时间",
+              fieldName: "effectiveDate",
+              type: "datetime",
               formVisible: true,
             },
             {
-              label: '失效日期',
-              fieldName: 'expirationDate',
-              type: 'datetime',
+              label: "失效日期",
+              fieldName: "expirationDate",
+              type: "datetime",
               formVisible: true,
             },
             {
-              label: '是否管理员',
-              fieldName: 'isManager',
-              type: 'switch',
-              defaultValue: '2',
+              label: "是否管理员",
+              fieldName: "isManager",
+              type: "switch",
+              defaultValue: "2",
               formVisible: true,
               preps: {
-                activeValue: '1',
-                activeText: '是',
-                inactiveValue: '2',
-                inactiveText: '否',
+                activeValue: "1",
+                activeText: "是",
+                inactiveValue: "2",
+                inactiveText: "否",
               },
             },
           ],
@@ -235,72 +235,72 @@ const tableFieldList = reactive({
       ],
     },
     {
-      label: '创建人',
+      label: "创建人",
       disabled: true,
-      fieldName: 'createdBy',
+      fieldName: "createdBy",
 
       listVisible: true,
     },
     {
-      label: '创建日期',
+      label: "创建日期",
       disabled: true,
-      fieldName: 'createdTime',
-      type: 'date',
+      fieldName: "createdTime",
+      type: "date",
       listVisible: true,
     },
     {
-      label: '修改人',
+      label: "修改人",
       disabled: true,
-      fieldName: 'updatedBy',
+      fieldName: "updatedBy",
 
       listVisible: true,
     },
 
     {
-      label: '修改日期',
+      label: "修改日期",
       disabled: true,
-      fieldName: 'updatedTime',
-      type: 'date',
+      fieldName: "updatedTime",
+      type: "date",
       listVisible: true,
     },
     {
-      label: '数据版本号',
-      fieldName: 'version',
-      type: 'number',
+      label: "数据版本号",
+      fieldName: "version",
+      type: "number",
     },
     {
-      label: '是否已逻辑',
-      fieldName: 'isDel',
-      type: 'number',
+      label: "是否已逻辑",
+      fieldName: "isDel",
+      type: "number",
     },
     {
-      label: '数据编号',
-      fieldName: 'dataNo',
+      label: "数据编号",
+      fieldName: "dataNo",
     },
     {
-      label: '状态码',
-      fieldName: 'statusCode',
+      label: "状态码",
+      fieldName: "statusCode",
     },
     {
-      label: '状态码名称',
-      fieldName: 'statusName',
+      label: "状态码名称",
+      fieldName: "statusName",
     },
     {
-      label: '国际码',
-      fieldName: 'local',
+      label: "国际码",
+      fieldName: "local",
     },
   ],
   batchFieldList: [],
 });
-const primaryKey = 'idProjectInfo';
+const primaryKey = "idProjectInfo";
 const projectInfoRef = ref();
 const rules = {};
 const dialogProps = dialogPreps();
-provide('dialogProps', dialogProps);
+provide("dialogProps", dialogProps);
 
 const dataFormat = (name: string, cellValue: any, row: any): any => {
-  if (name == 'isManager') return cellValue == '1' ? '是' : '否';
-  if (name == 'roleName')
+  if (name == "isManager") return cellValue == "1" ? "是" : "否";
+  if (name == "roleName")
     return (
       projectRoleList.value.find((item) => item.value == cellValue)?.name ||
       cellValue
@@ -309,16 +309,16 @@ const dataFormat = (name: string, cellValue: any, row: any): any => {
   return cellValue;
 };
 const init = async () => {
-  dictData('REPO_TYPE').then((res) => {
+  dictData("REPO_TYPE").then((res) => {
     libTypeList.value = res;
   });
-  dictData('program_language').then((res) => {
+  dictData("program_language").then((res) => {
     languageList.value = res;
   });
-  dictData('CHARSET').then((res) => {
+  dictData("CHARSET").then((res) => {
     charsetList.value = res;
   });
-  dictData('PROJECT_ROLE').then((res) => {
+  dictData("PROJECT_ROLE").then((res) => {
     projectRoleList.value = res;
   });
 };

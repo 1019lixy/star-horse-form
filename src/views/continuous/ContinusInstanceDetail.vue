@@ -1,14 +1,14 @@
 <script setup lang="ts" name="ContinusInstanceDetail">
-import { useRouter } from 'vue-router';
+import { useRouter } from "vue-router";
 
 const router = useRouter();
 const execLine = () => {
-  console.log('执行');
+  console.log("执行");
 };
 const nodeDetail = (id: number) => {};
 const goBack = () => {
   router.push({
-    path: '/continuous/ContinusInstanceConfig',
+    path: "/continuous/ContinusInstanceConfig",
   });
 };
 </script>

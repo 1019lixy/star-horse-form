@@ -1,6 +1,6 @@
-import { scale } from '@/views/workflow/plugin/utils/deviceUtil';
-import { useFlowDesignStore } from '@/store/FlowDesign';
-import { piniaInstance } from 'star-horse-lowcode';
+import { scale } from "@/views/workflow/plugin/utils/deviceUtil";
+import { useFlowDesignStore } from "@/store/FlowDesign";
+import { piniaInstance } from "star-horse-lowcode";
 
 const flowDesign = useFlowDesignStore(piniaInstance);
 
@@ -52,10 +52,10 @@ export function addBranch(node: any) {
  */
 export function radioStyle() {
   return {
-    display: 'block',
-    height: '22px',
-    lineHeight: '22px',
-    'margin-bottom': '16px',
+    display: "block",
+    height: "22px",
+    lineHeight: "22px",
+    "margin-bottom": "16px",
   };
 }
 
@@ -64,11 +64,11 @@ export function radioStyle() {
  * @returns
  */
 export function approvalRadioStyle() {
-  const width = scale.isMobile() ? '45%' : '31%';
+  const width = scale.isMobile() ? "45%" : "31%";
   return {
     width: width,
-    lineHeight: '22px',
-    marginBottom: '16px',
+    lineHeight: "22px",
+    marginBottom: "16px",
   };
 }
 
@@ -81,19 +81,19 @@ export function nameClass(node: any, defaultStyle: any) {
     return defaultStyle;
   }
   return {
-    'node-status-not': node.statusCode == 0,
-    'node-status-current': node.statusCode == 1,
-    'node-status-complete': node.statusCode == 2,
+    "node-status-not": node.statusCode == 0,
+    "node-status-current": node.statusCode == 1,
+    "node-status-complete": node.statusCode == 2,
   };
 }
 
 export const flowCommon = {
   isActive: false,
   // 大小，可选值为 small large
-  size: 'small',
+  size: "small",
   // el-drawer内容滚动
   bodyStyle: {
-    height: 'calc(100vh - 114px)',
-    'overflow-y': 'auto',
+    height: "calc(100vh - 114px)",
+    "overflow-y": "auto",
   },
 };

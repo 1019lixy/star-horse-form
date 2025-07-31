@@ -1,145 +1,145 @@
-import { reactive, ref } from 'vue';
+import { reactive, ref } from "vue";
 import {
   FieldInfo,
   PageFieldInfo,
   SelectOption,
   TabFieldInfo,
-} from 'star-horse-lowcode';
-import { httpMethod } from '@/api/system';
+} from "star-horse-lowcode";
+import { httpMethod } from "@/api/system";
 
 const processEventTypeList = ref<SelectOption[]>([
-  { name: 'ENGINE_CREATED', value: 'ENGINE_CREATED' },
-  { name: 'ENGINE_CLOSED', value: 'ENGINE_CLOSED' },
-  { name: 'ENTITY_CREATED', value: 'ENTITY_CREATED' },
-  { name: 'ENTITY_INITIALIZED', value: 'ENTITY_INITIALIZED' },
-  { name: 'ENTITY_UPDATED', value: 'ENTITY_UPDATED' },
-  { name: 'ENTITY_DELETED', value: 'ENTITY_DELETED' },
-  { name: 'ENTITY_SUSPENDED', value: 'ENTITY_SUSPENDED' },
-  { name: 'ENTITY_ACTIVATED', value: 'ENTITY_ACTIVATED' },
-  { name: 'JOB_EXECUTION_SUCCESS', value: 'JOB_EXECUTION_SUCCESS' },
-  { name: 'JOB_EXECUTION_FAILURE', value: 'JOB_EXECUTION_FAILURE' },
-  { name: 'JOB_RETRIES_DECREMENTED', value: 'JOB_RETRIES_DECREMENTED' },
-  { name: 'JOB_CANCELED', value: 'JOB_CANCELED' },
-  { name: 'TIMER_SCHEDULED', value: 'TIMER_SCHEDULED' },
-  { name: 'TIMER_FIRED', value: 'TIMER_FIRED' },
-  { name: 'ACTIVITY_STARTED', value: 'ACTIVITY_STARTED' },
-  { name: 'ACTIVITY_COMPLETED', value: 'ACTIVITY_COMPLETED' },
-  { name: 'ACTIVITY_CANCELLED', value: 'ACTIVITY_CANCELLED' },
-  { name: 'ACTIVITY_SIGNALED', value: 'ACTIVITY_SIGNALED' },
-  { name: 'ACTIVITY_MESSAGE_RECEIVED', value: 'ACTIVITY_MESSAGE_RECEIVED' },
-  { name: 'ACTIVITY_MESSAGE_WAITING', value: 'ACTIVITY_MESSAGE_WAITING' },
-  { name: 'ACTIVITY_MESSAGE_CANCELLED', value: 'ACTIVITY_MESSAGE_CANCELLED' },
-  { name: 'ACTIVITY_ERROR_RECEIVED', value: 'ACTIVITY_ERROR_RECEIVED' },
-  { name: 'UNCAUGHT_BPMN_ERROR', value: 'UNCAUGHT_BPMN_ERROR' },
-  { name: 'ACTIVITY_COMPENSATE', value: 'ACTIVITY_COMPENSATE' },
+  { name: "ENGINE_CREATED", value: "ENGINE_CREATED" },
+  { name: "ENGINE_CLOSED", value: "ENGINE_CLOSED" },
+  { name: "ENTITY_CREATED", value: "ENTITY_CREATED" },
+  { name: "ENTITY_INITIALIZED", value: "ENTITY_INITIALIZED" },
+  { name: "ENTITY_UPDATED", value: "ENTITY_UPDATED" },
+  { name: "ENTITY_DELETED", value: "ENTITY_DELETED" },
+  { name: "ENTITY_SUSPENDED", value: "ENTITY_SUSPENDED" },
+  { name: "ENTITY_ACTIVATED", value: "ENTITY_ACTIVATED" },
+  { name: "JOB_EXECUTION_SUCCESS", value: "JOB_EXECUTION_SUCCESS" },
+  { name: "JOB_EXECUTION_FAILURE", value: "JOB_EXECUTION_FAILURE" },
+  { name: "JOB_RETRIES_DECREMENTED", value: "JOB_RETRIES_DECREMENTED" },
+  { name: "JOB_CANCELED", value: "JOB_CANCELED" },
+  { name: "TIMER_SCHEDULED", value: "TIMER_SCHEDULED" },
+  { name: "TIMER_FIRED", value: "TIMER_FIRED" },
+  { name: "ACTIVITY_STARTED", value: "ACTIVITY_STARTED" },
+  { name: "ACTIVITY_COMPLETED", value: "ACTIVITY_COMPLETED" },
+  { name: "ACTIVITY_CANCELLED", value: "ACTIVITY_CANCELLED" },
+  { name: "ACTIVITY_SIGNALED", value: "ACTIVITY_SIGNALED" },
+  { name: "ACTIVITY_MESSAGE_RECEIVED", value: "ACTIVITY_MESSAGE_RECEIVED" },
+  { name: "ACTIVITY_MESSAGE_WAITING", value: "ACTIVITY_MESSAGE_WAITING" },
+  { name: "ACTIVITY_MESSAGE_CANCELLED", value: "ACTIVITY_MESSAGE_CANCELLED" },
+  { name: "ACTIVITY_ERROR_RECEIVED", value: "ACTIVITY_ERROR_RECEIVED" },
+  { name: "UNCAUGHT_BPMN_ERROR", value: "UNCAUGHT_BPMN_ERROR" },
+  { name: "ACTIVITY_COMPENSATE", value: "ACTIVITY_COMPENSATE" },
   {
-    name: 'MULTI_INSTANCE_ACTIVITY_STARTED',
-    value: 'MULTI_INSTANCE_ACTIVITY_STARTED',
+    name: "MULTI_INSTANCE_ACTIVITY_STARTED",
+    value: "MULTI_INSTANCE_ACTIVITY_STARTED",
   },
   {
-    name: 'MULTI_INSTANCE_ACTIVITY_COMPLETED',
-    value: 'MULTI_INSTANCE_ACTIVITY_COMPLETED',
+    name: "MULTI_INSTANCE_ACTIVITY_COMPLETED",
+    value: "MULTI_INSTANCE_ACTIVITY_COMPLETED",
   },
   {
-    name: 'MULTI_INSTANCE_ACTIVITY_CANCELLED',
-    value: 'MULTI_INSTANCE_ACTIVITY_CANCELLED',
+    name: "MULTI_INSTANCE_ACTIVITY_CANCELLED",
+    value: "MULTI_INSTANCE_ACTIVITY_CANCELLED",
   },
-  { name: 'VARIABLE_CREATED', value: 'VARIABLE_CREATED' },
-  { name: 'VARIABLE_UPDATED', value: 'VARIABLE_UPDATED' },
-  { name: 'VARIABLE_DELETED', value: 'VARIABLE_DELETED' },
-  { name: 'TASK_ASSIGNED', value: 'TASK_ASSIGNED' },
-  { name: 'TASK_CREATED', value: 'TASK_CREATED' },
-  { name: 'TASK_COMPLETED', value: 'TASK_COMPLETED' },
-  { name: 'PROCESS_CREATED', value: 'PROCESS_CREATED' },
-  { name: 'PROCESS_STARTED', value: 'PROCESS_STARTED' },
-  { name: 'PROCESS_COMPLETED', value: 'PROCESS_COMPLETED' },
+  { name: "VARIABLE_CREATED", value: "VARIABLE_CREATED" },
+  { name: "VARIABLE_UPDATED", value: "VARIABLE_UPDATED" },
+  { name: "VARIABLE_DELETED", value: "VARIABLE_DELETED" },
+  { name: "TASK_ASSIGNED", value: "TASK_ASSIGNED" },
+  { name: "TASK_CREATED", value: "TASK_CREATED" },
+  { name: "TASK_COMPLETED", value: "TASK_COMPLETED" },
+  { name: "PROCESS_CREATED", value: "PROCESS_CREATED" },
+  { name: "PROCESS_STARTED", value: "PROCESS_STARTED" },
+  { name: "PROCESS_COMPLETED", value: "PROCESS_COMPLETED" },
   {
-    name: 'PROCESS_COMPLETED_WITH_TERMINATE_END_EVE',
-    value: 'PROCESS_COMPLETED_WITH_TERMINATE_END_EVE',
+    name: "PROCESS_COMPLETED_WITH_TERMINATE_END_EVE",
+    value: "PROCESS_COMPLETED_WITH_TERMINATE_END_EVE",
   },
-  { name: 'PROCESS_CANCELLED', value: 'PROCESS_CANCELLED' },
-  { name: 'MEMBERSHIP_CREATED', value: 'MEMBERSHIP_CREATED' },
-  { name: 'MEMBERSHIP_DELETED', value: 'MEMBERSHIP_DELETED' },
-  { name: 'MEMBERSHIPS_DELETED', value: 'MEMBERSHIPS_DELETED' },
+  { name: "PROCESS_CANCELLED", value: "PROCESS_CANCELLED" },
+  { name: "MEMBERSHIP_CREATED", value: "MEMBERSHIP_CREATED" },
+  { name: "MEMBERSHIP_DELETED", value: "MEMBERSHIP_DELETED" },
+  { name: "MEMBERSHIPS_DELETED", value: "MEMBERSHIPS_DELETED" },
 ]);
 const entityTypeList = ref<SelectOption[]>([
-  { name: '附件', value: 'attachment' },
-  { name: '备注', value: 'comment' },
-  { name: '执行', value: 'execution' },
-  { name: '身份关联', value: 'identity-link' },
-  { name: '作业', value: 'job' },
-  { name: '流程实例', value: 'process-instance' },
-  { name: '流程定义', value: 'process-definition' },
-  { name: '任务', value: 'task' },
+  { name: "附件", value: "attachment" },
+  { name: "备注", value: "comment" },
+  { name: "执行", value: "execution" },
+  { name: "身份关联", value: "identity-link" },
+  { name: "作业", value: "job" },
+  { name: "流程实例", value: "process-instance" },
+  { name: "流程定义", value: "process-definition" },
+  { name: "任务", value: "task" },
 ]);
 const dataTypeList = ref<SelectOption[]>([
-  { name: '字符串', value: 'str' },
-  { name: '布尔值', value: 'bool' },
-  { name: '时间', value: 'time' },
-  { name: '小数', value: 'decimal' },
-  { name: '整数', value: 'int' },
-  { name: '长整数', value: 'long' },
+  { name: "字符串", value: "str" },
+  { name: "布尔值", value: "bool" },
+  { name: "时间", value: "time" },
+  { name: "小数", value: "decimal" },
+  { name: "整数", value: "int" },
+  { name: "长整数", value: "long" },
 ]);
 const eventTypeList = ref<SelectOption[]>([
-  { name: '开始', value: 'start' },
-  { name: '启用', value: 'enable' },
-  { name: '结束', value: 'end' },
+  { name: "开始", value: "start" },
+  { name: "启用", value: "enable" },
+  { name: "结束", value: "end" },
 ]);
 const taskTypeList = ref<SelectOption[]>([
-  { name: '创建', value: 'create' },
-  { name: '指派', value: 'assign' },
-  { name: '完成', value: 'finish' },
-  { name: '删除', value: 'delete' },
+  { name: "创建", value: "create" },
+  { name: "指派", value: "assign" },
+  { name: "完成", value: "finish" },
+  { name: "删除", value: "delete" },
 ]);
 const listenerTypeFields = {
-  label: '监听器类型',
-  fieldName: 'listenerType',
-  type: 'radio',
+  label: "监听器类型",
+  fieldName: "listenerType",
+  type: "radio",
   formVisible: true,
   listVisible: true,
   preps: {
     values: [
-      { name: 'Java类', value: 'java' },
-      { name: '表达式', value: 'exp' },
+      { name: "Java类", value: "java" },
+      { name: "表达式", value: "exp" },
       {
-        name: '代理表达式',
-        value: 'proxyExp',
+        name: "代理表达式",
+        value: "proxyExp",
       },
     ],
-    radioType: 'button',
+    radioType: "button",
   },
 };
 const injectColumnsFields = {
   batchFieldList: [
     {
-      title: '注入字段',
-      batchName: 'injectNames',
-      staticData: 'Y',
+      title: "注入字段",
+      batchName: "injectNames",
+      staticData: "Y",
       fieldList: [
         {
-          label: '字段名称',
-          fieldName: 'name',
+          label: "字段名称",
+          fieldName: "name",
 
           formVisible: true,
           listVisible: true,
         },
         {
-          label: '字段类型',
-          fieldName: 'type',
-          type: 'radio',
+          label: "字段类型",
+          fieldName: "type",
+          type: "radio",
           formVisible: true,
           listVisible: true,
           preps: {
             values: [
-              { name: '字符串', value: 'str' },
-              { name: '表达式', value: 'exp' },
+              { name: "字符串", value: "str" },
+              { name: "表达式", value: "exp" },
             ],
-            radioType: 'button',
+            radioType: "button",
           },
         },
         {
-          label: '字段值',
-          fieldName: 'value',
+          label: "字段值",
+          fieldName: "value",
 
           formVisible: true,
           listVisible: true,
@@ -160,44 +160,44 @@ const execListener = (
     batchFieldList: [
       {
         batchName: batchName,
-        staticData: 'Y',
+        staticData: "Y",
         fieldList: [
           {
-            label: '事件类型',
-            fieldName: 'eventType',
-            type: 'radio',
+            label: "事件类型",
+            fieldName: "eventType",
+            type: "radio",
 
             formVisible: true,
             listVisible: true,
             preps: {
-              values: type == 'task' ? taskTypeList : eventTypeList,
-              radioType: 'button',
+              values: type == "task" ? taskTypeList : eventTypeList,
+              radioType: "button",
             },
           },
           listenerTypeFields,
           {
-            label: '事务类型',
-            fieldName: 'transnationalType',
-            type: 'radio',
+            label: "事务类型",
+            fieldName: "transnationalType",
+            type: "radio",
 
             formVisible: true,
             listVisible: true,
             preps: {
               values: [
-                { name: '提交前', value: 'beforeSubmit' },
+                { name: "提交前", value: "beforeSubmit" },
                 {
-                  name: '提交后',
-                  value: 'afterSubmit',
+                  name: "提交后",
+                  value: "afterSubmit",
                 },
-                { name: '回滚', value: 'rollBack' },
+                { name: "回滚", value: "rollBack" },
               ],
-              radioType: 'button',
+              radioType: "button",
             },
           },
           {
-            label: '监听器',
-            fieldName: 'listenerName',
-            type: 'dialog-input',
+            label: "监听器",
+            fieldName: "listenerName",
+            type: "dialog-input",
             preps: {},
             formVisible: true,
             listVisible: true,
@@ -209,24 +209,24 @@ const execListener = (
   };
 };
 const extendPrep = {
-  title: '扩展属性',
-  tabName: 'extendPrep',
+  title: "扩展属性",
+  tabName: "extendPrep",
   batchFieldList: [
     {
-      batchName: 'extendPreps',
-      staticData: 'Y',
+      batchName: "extendPreps",
+      staticData: "Y",
       fieldList: [
         {
-          label: '属性名',
-          fieldName: 'name',
+          label: "属性名",
+          fieldName: "name",
 
           formVisible: true,
           listVisible: true,
         },
         {
-          label: '数据类型',
-          fieldName: 'dataType',
-          type: 'select',
+          label: "数据类型",
+          fieldName: "dataType",
+          type: "select",
           formVisible: true,
           listVisible: true,
           preps: {
@@ -234,8 +234,8 @@ const extendPrep = {
           },
         },
         {
-          label: '属性值',
-          fieldName: 'vaLue',
+          label: "属性值",
+          fieldName: "vaLue",
 
           formVisible: true,
           listVisible: true,
@@ -245,28 +245,28 @@ const extendPrep = {
   ],
 };
 const serviceTaskTypeList = ref<SelectOption[]>([
-  { name: '任务', value: 'task' },
-  { name: 'Rest任务', value: 'rest' },
-  { name: 'Http任务', value: 'http' },
-  { name: 'MQ任务', value: 'mq' },
-  { name: '邮件任务', value: 'email' },
-  { name: 'Shell任务', value: 'shell' },
+  { name: "任务", value: "task" },
+  { name: "Rest任务", value: "rest" },
+  { name: "Http任务", value: "http" },
+  { name: "MQ任务", value: "mq" },
+  { name: "邮件任务", value: "email" },
+  { name: "Shell任务", value: "shell" },
 ]);
 const restTaskField = reactive<TabFieldInfo | any>({
-  title: 'Rest任务',
-  tabName: 'rest',
+  title: "Rest任务",
+  tabName: "rest",
   fieldList: [
     {
-      label: '请求地址',
-      fieldName: 'url',
+      label: "请求地址",
+      fieldName: "url",
 
       formVisible: true,
       listVisible: true,
     },
     {
-      label: '请求方式',
-      fieldName: 'httpMethod',
-      type: 'select',
+      label: "请求方式",
+      fieldName: "httpMethod",
+      type: "select",
       formVisible: true,
       listVisible: true,
       preps: {
@@ -274,36 +274,36 @@ const restTaskField = reactive<TabFieldInfo | any>({
       },
     },
     {
-      label: '请求头',
-      fieldName: 'header',
-      type: 'json',
+      label: "请求头",
+      fieldName: "header",
+      type: "json",
       formVisible: true,
       listVisible: true,
     },
     {
-      label: '请求内容',
-      fieldName: 'body',
-      type: 'json',
+      label: "请求内容",
+      fieldName: "body",
+      type: "json",
       formVisible: true,
       listVisible: true,
     },
   ],
 });
 const httpTaskField = reactive<TabFieldInfo | any>({
-  title: 'Http任务',
-  tabName: 'http',
+  title: "Http任务",
+  tabName: "http",
   fieldList: [
     {
-      label: '请求地址',
-      fieldName: 'url',
+      label: "请求地址",
+      fieldName: "url",
 
       formVisible: true,
       listVisible: true,
     },
     {
-      label: '请求方式',
-      fieldName: 'httpMethod',
-      type: 'select',
+      label: "请求方式",
+      fieldName: "httpMethod",
+      type: "select",
       formVisible: true,
       listVisible: true,
       preps: {
@@ -311,111 +311,111 @@ const httpTaskField = reactive<TabFieldInfo | any>({
       },
     },
     {
-      label: '请求头',
-      fieldName: 'header',
-      type: 'json',
+      label: "请求头",
+      fieldName: "header",
+      type: "json",
       formVisible: true,
       listVisible: true,
     },
     {
-      label: '请求内容',
-      fieldName: 'body',
-      type: 'json',
+      label: "请求内容",
+      fieldName: "body",
+      type: "json",
       formVisible: true,
       listVisible: true,
     },
     {
-      label: '返回变量',
-      fieldName: 'responseParam',
+      label: "返回变量",
+      fieldName: "responseParam",
 
       formVisible: true,
       listVisible: true,
     },
     {
-      label: '忽略异常',
-      fieldName: 'ignoreError',
-      type: 'switch',
+      label: "忽略异常",
+      fieldName: "ignoreError",
+      type: "switch",
       formVisible: true,
       listVisible: true,
     },
     {
-      label: '允许重定向',
-      fieldName: 'allowRedirect',
-      type: 'switch',
+      label: "允许重定向",
+      fieldName: "allowRedirect",
+      type: "switch",
       formVisible: true,
       listVisible: true,
     },
     {
-      label: '临时变量',
-      fieldName: 'tempVariable',
-      type: 'switch',
+      label: "临时变量",
+      fieldName: "tempVariable",
+      type: "switch",
       formVisible: true,
       listVisible: true,
     },
     {
-      label: '结果格式化JSON',
-      fieldName: 'resultFormatToJson',
-      type: 'switch',
+      label: "结果格式化JSON",
+      fieldName: "resultFormatToJson",
+      type: "switch",
       formVisible: true,
       listVisible: true,
     },
   ],
 });
 const mqTaskField = reactive<TabFieldInfo | any>({
-  title: 'MQ任务',
-  tabName: 'mq',
+  title: "MQ任务",
+  tabName: "mq",
   fieldList: [
     {
-      label: '队列名称',
-      fieldName: 'queueName',
+      label: "队列名称",
+      fieldName: "queueName",
 
       formVisible: true,
       listVisible: true,
     },
     {
-      label: '参数内容',
-      fieldName: 'body',
-      type: 'textarea',
+      label: "参数内容",
+      fieldName: "body",
+      type: "textarea",
       formVisible: true,
       listVisible: true,
     },
   ],
 });
 const emailTaskField = reactive<TabFieldInfo | any>({
-  title: '邮件任务',
-  tabName: 'email',
+  title: "邮件任务",
+  tabName: "email",
   fieldList: [
     {
-      label: '收件人',
-      fieldName: 'receives',
-      type: 'dialog-input',
+      label: "收件人",
+      fieldName: "receives",
+      type: "dialog-input",
       preps: {},
       formVisible: true,
       listVisible: true,
     },
     {
-      label: '主题',
-      fieldName: 'subject',
+      label: "主题",
+      fieldName: "subject",
 
       formVisible: true,
       listVisible: true,
     },
     {
-      label: '正文',
-      fieldName: 'body',
-      type: 'htmleditor',
+      label: "正文",
+      fieldName: "body",
+      type: "htmleditor",
       formVisible: true,
       listVisible: true,
     },
   ],
 });
 const shellTaskField = reactive<TabFieldInfo | any>({
-  title: 'Shell任务',
-  tabName: 'shell',
+  title: "Shell任务",
+  tabName: "shell",
   fieldList: [
     {
-      label: '命令',
-      fieldName: 'command',
+      label: "命令",
+      fieldName: "command",
 
       formVisible: true,
       listVisible: true,
@@ -423,11 +423,11 @@ const shellTaskField = reactive<TabFieldInfo | any>({
     {
       batchFieldList: [
         {
-          batchName: 'inputParams',
+          batchName: "inputParams",
           fieldList: [
             {
-              label: '参数名',
-              fieldName: 'paramName',
+              label: "参数名",
+              fieldName: "paramName",
 
               formVisible: true,
               listVisible: true,
@@ -437,16 +437,16 @@ const shellTaskField = reactive<TabFieldInfo | any>({
       ],
     },
     {
-      label: '输出变量',
-      fieldName: 'outputParam',
+      label: "输出变量",
+      fieldName: "outputParam",
 
       formVisible: true,
       listVisible: true,
     },
     {
-      label: '是否等待',
-      fieldName: 'waitFlag',
-      type: 'switch',
+      label: "是否等待",
+      fieldName: "waitFlag",
+      type: "switch",
       formVisible: true,
       listVisible: true,
     },
@@ -454,21 +454,21 @@ const shellTaskField = reactive<TabFieldInfo | any>({
 });
 
 const sendTaskField = reactive<TabFieldInfo | any>({
-  title: '抄送任务',
-  tabName: 'sendTask',
+  title: "抄送任务",
+  tabName: "sendTask",
   fieldList: [
     {
-      label: '抄送人',
-      fieldName: 'cc',
-      type: 'dialog-input',
+      label: "抄送人",
+      fieldName: "cc",
+      type: "dialog-input",
       preps: {},
       formVisible: true,
       listVisible: true,
     },
     {
-      label: '抄送内容',
-      fieldName: 'body',
-      type: 'textarea',
+      label: "抄送内容",
+      fieldName: "body",
+      type: "textarea",
       formVisible: true,
       listVisible: true,
     },
@@ -476,105 +476,105 @@ const sendTaskField = reactive<TabFieldInfo | any>({
 });
 const serviceTask = ref<any>({});
 const serviceTaskField = reactive<any>({
-  title: '服务任务',
-  tabName: 'service',
+  title: "服务任务",
+  tabName: "service",
   fieldList: [listenerTypeFields, injectColumnsFields],
 });
 
 const businessRuleTaskField = reactive<TabFieldInfo | any>({
-  title: '决策任务',
-  tabName: 'businessRule',
+  title: "决策任务",
+  tabName: "businessRule",
   fieldList: [
     {
-      label: '决策',
-      type: 'dialog-input',
-      fieldName: 'policy',
+      label: "决策",
+      type: "dialog-input",
+      fieldName: "policy",
       preps: {},
       formVisible: true,
       listVisible: true,
     },
     {
-      label: '未找到策略,报错',
-      type: 'switch',
-      fieldName: 'noMatchedReportError',
+      label: "未找到策略,报错",
+      type: "switch",
+      fieldName: "noMatchedReportError",
       formVisible: true,
       listVisible: true,
     },
     {
-      label: '回退到租户',
-      type: 'switch',
-      fieldName: 'returnTent',
+      label: "回退到租户",
+      type: "switch",
+      fieldName: "returnTent",
       formVisible: true,
       listVisible: true,
     },
   ],
 });
 const callActivityField = reactive<TabFieldInfo | any>({
-  title: '调用活动',
-  tabName: 'activity',
+  title: "调用活动",
+  tabName: "activity",
   fieldList: [
     {
-      label: '实例名称',
+      label: "实例名称",
 
-      fieldName: 'instanceName',
+      fieldName: "instanceName",
       formVisible: true,
       listVisible: true,
     },
     {
-      label: '被调用实例',
-      type: 'dialog-input',
-      fieldName: 'calledInstanceName',
+      label: "被调用实例",
+      type: "dialog-input",
+      fieldName: "calledInstanceName",
       formVisible: true,
       listVisible: true,
       preps: {},
     },
     {
-      label: '变量继承',
-      type: 'switch',
-      fieldName: 'variableExtend',
+      label: "变量继承",
+      type: "switch",
+      fieldName: "variableExtend",
       formVisible: true,
       listVisible: true,
     },
     {
-      fieldName: 'input',
+      fieldName: "input",
       batchFieldList: [
         {
-          title: '输入参数',
-          tabName: 'input',
-          batchName: 'inputParams',
+          title: "输入参数",
+          tabName: "input",
+          batchName: "inputParams",
           fieldList: [
             {
-              label: '源',
+              label: "源",
 
-              fieldName: 'source',
+              fieldName: "source",
               formVisible: true,
               listVisible: true,
             },
             {
-              label: '目标',
+              label: "目标",
 
-              fieldName: 'dist',
+              fieldName: "dist",
               formVisible: true,
               listVisible: true,
             },
           ],
         },
         {
-          title: '输出参数',
-          tabName: 'output',
-          batchName: 'outputParams',
+          title: "输出参数",
+          tabName: "output",
+          batchName: "outputParams",
           fieldList: [
             {
-              label: '源',
+              label: "源",
 
-              fieldName: 'source',
+              fieldName: "source",
               formVisible: true,
               listVisible: true,
             },
             {
-              label: '目标',
+              label: "目标",
 
-              fieldName: 'dist',
+              fieldName: "dist",
               formVisible: true,
               listVisible: true,
             },
@@ -585,26 +585,26 @@ const callActivityField = reactive<TabFieldInfo | any>({
   ],
 });
 const scriptTaskField = reactive<TabFieldInfo | any>({
-  title: '脚本任务',
-  tabName: 'script',
+  title: "脚本任务",
+  tabName: "script",
   fieldList: [
     {
-      label: '脚本格式',
-      fieldName: 'scriptType',
-      type: 'radio',
+      label: "脚本格式",
+      fieldName: "scriptType",
+      type: "radio",
       formVisible: true,
       listVisible: true,
       preps: {
         values: [
-          { name: 'groovy', value: 'groovy' },
-          { name: 'JavaScript', value: 'js' },
+          { name: "groovy", value: "groovy" },
+          { name: "JavaScript", value: "js" },
         ],
       },
     },
     {
-      label: '脚本内容',
-      fieldName: 'scriptContent',
-      type: 'textarea',
+      label: "脚本内容",
+      fieldName: "scriptContent",
+      type: "textarea",
       formVisible: true,
       listVisible: true,
     },
@@ -613,53 +613,53 @@ const scriptTaskField = reactive<TabFieldInfo | any>({
 const generalItem = (node: any) => {
   const fieldList = reactive<any>([
     {
-      label: 'Id',
-      fieldName: 'id',
+      label: "Id",
+      fieldName: "id",
 
-      disabled: 'Y',
+      disabled: "Y",
       formVisible: true,
       listVisible: true,
     },
     {
-      label: '名称',
-      fieldName: 'name',
+      label: "名称",
+      fieldName: "name",
 
       required: true,
       formVisible: true,
       listVisible: true,
     },
     {
-      label: '异步',
-      fieldName: 'async',
-      type: 'switch',
-      defaultValue: 'N',
+      label: "异步",
+      fieldName: "async",
+      type: "switch",
+      defaultValue: "N",
       formVisible: true,
       listVisible: true,
       preps: {
-        activeValue: 'Y',
-        inactiveValue: 'N',
+        activeValue: "Y",
+        inactiveValue: "N",
       },
     },
   ]);
-  if (node.type == 'bpmn:Task') {
+  if (node.type == "bpmn:Task") {
     fieldList.push({
-      label: '服务类别',
-      fieldName: 'serviceType',
-      type: 'select',
-      defaultValue: 'task',
+      label: "服务类别",
+      fieldName: "serviceType",
+      type: "select",
+      defaultValue: "task",
       actions: {
         change: (val: any) => {
-          console.log(val['serviceType']);
-          const type = val['serviceType'];
-          if (type == 'rest') {
+          console.log(val["serviceType"]);
+          const type = val["serviceType"];
+          if (type == "rest") {
             serviceTask.value = restTaskField;
-          } else if (type == 'http') {
+          } else if (type == "http") {
             serviceTask.value = httpTaskField;
-          } else if (type == 'mq') {
+          } else if (type == "mq") {
             serviceTask.value = mqTaskField;
-          } else if (type == 'email') {
+          } else if (type == "email") {
             serviceTask.value = emailTaskField;
-          } else if (type == 'shell') {
+          } else if (type == "shell") {
             serviceTask.value = shellTaskField;
           }
         },
@@ -672,51 +672,51 @@ const generalItem = (node: any) => {
     });
   }
   return reactive<any>({
-    title: '常规',
-    tabName: 'general',
+    title: "常规",
+    tabName: "general",
     fieldList: fieldList,
   });
 };
 const multiInstanceItem = {
-  title: '多实例',
-  tabName: 'multiInstance',
+  title: "多实例",
+  tabName: "multiInstance",
   fieldList: [
     {
-      label: '多实例类型',
-      type: 'radio',
-      fieldName: 'multiInstanceType',
+      label: "多实例类型",
+      type: "radio",
+      fieldName: "multiInstanceType",
       formVisible: true,
       listVisible: true,
       preps: {
         values: [
-          { name: '无', value: 'none' },
-          { name: '串行', value: 'serial' },
-          { name: '并行', value: 'parallel' },
+          { name: "无", value: "none" },
+          { name: "串行", value: "serial" },
+          { name: "并行", value: "parallel" },
         ],
       },
     },
   ],
 };
 const assignee: FieldInfo = {
-  label: '分配人员',
-  fieldName: 'assignee',
-  type: 'dialog-input',
+  label: "分配人员",
+  fieldName: "assignee",
+  type: "dialog-input",
   preps: {},
   formVisible: true,
   listVisible: true,
 };
 const candidateUsers: FieldInfo = {
-  label: '候选人员',
-  fieldName: 'candidateUsers',
-  type: 'dialog-input',
+  label: "候选人员",
+  fieldName: "candidateUsers",
+  type: "dialog-input",
   preps: {},
   formVisible: true,
   listVisible: true,
 };
 const candidateRoles: FieldInfo = {
-  label: '候选角色',
-  fieldName: 'candidateRoles',
-  type: 'dialog-input',
+  label: "候选角色",
+  fieldName: "candidateRoles",
+  type: "dialog-input",
   preps: {},
   formVisible: true,
   listVisible: true,
@@ -731,81 +731,81 @@ const storeFields = reactive<Array<FieldInfo>>([
 const userTaskNodeField = reactive<PageFieldInfo | any>({
   fieldList: [
     {
-      fieldName: 'normal',
+      fieldName: "normal",
       collapseList: [
         {
-          title: '常规',
-          tabName: 'normal',
+          title: "常规",
+          tabName: "normal",
           fieldList: [
             {
-              label: 'ID',
-              fieldName: 'id',
+              label: "ID",
+              fieldName: "id",
 
-              disabled: 'Y',
+              disabled: "Y",
               formVisible: true,
               listVisible: true,
               brotherNodes: [
                 {
-                  label: '设为提交人',
-                  fieldName: 'id',
-                  type: 'button',
+                  label: "设为提交人",
+                  fieldName: "id",
+                  type: "button",
                   formVisible: true,
                 },
               ],
             },
             {
-              label: '异步',
-              fieldName: 'async',
-              type: 'switch',
+              label: "异步",
+              fieldName: "async",
+              type: "switch",
               formVisible: true,
               listVisible: true,
               preps: {
-                activeValue: 'Y',
-                inactiveValue: 'N',
+                activeValue: "Y",
+                inactiveValue: "N",
               },
             },
             {
-              label: '跳过表达式',
-              fieldName: 'jumpExp',
+              label: "跳过表达式",
+              fieldName: "jumpExp",
 
               formVisible: true,
               listVisible: true,
             },
             {
-              label: '备注',
-              fieldName: 'remark',
-              type: 'textarea',
+              label: "备注",
+              fieldName: "remark",
+              type: "textarea",
               formVisible: true,
               listVisible: true,
             },
           ],
         },
         {
-          title: '用户任务',
-          tabName: 'userTask',
+          title: "用户任务",
+          tabName: "userTask",
           fieldList: [
             {
-              fieldName: 'fixed',
+              fieldName: "fixed",
               tabList: [
                 {
-                  title: '固定值',
-                  tabName: 'fixed',
+                  title: "固定值",
+                  tabName: "fixed",
                   fieldList: [assignee, candidateUsers, candidateRoles],
                 },
                 {
-                  title: '身份存储',
-                  tabName: 'idStore',
+                  title: "身份存储",
+                  tabName: "idStore",
                   fieldList: [
                     {
-                      label: '指定分配',
-                      fieldName: 'assign',
-                      type: 'radio',
+                      label: "指定分配",
+                      fieldName: "assign",
+                      type: "radio",
                       formVisible: true,
                       listVisible: true,
                       actions: {
                         change: (val: any) => {
                           storeFields.splice(0, storeFields.length);
-                          if (val['assign'] == 'assignUser') {
+                          if (val["assign"] == "assignUser") {
                             storeFields.push(assignee);
                           }
                           storeFields.push(candidateUsers);
@@ -814,10 +814,10 @@ const userTaskNodeField = reactive<PageFieldInfo | any>({
                       },
                       preps: {
                         values: [
-                          { name: '指定人', value: 'assignUser' },
-                          { name: '发起人', value: 'submit' },
+                          { name: "指定人", value: "assignUser" },
+                          { name: "发起人", value: "submit" },
                         ],
-                        radioType: 'button',
+                        radioType: "button",
                       },
                     },
                     ...storeFields,
@@ -826,73 +826,73 @@ const userTaskNodeField = reactive<PageFieldInfo | any>({
               ],
             },
             {
-              label: '到期时间',
-              fieldName: 'timeout',
+              label: "到期时间",
+              fieldName: "timeout",
 
               formVisible: true,
               listVisible: true,
             },
             {
-              label: '优先级',
-              type: 'number',
-              fieldName: 'priority',
+              label: "优先级",
+              type: "number",
+              fieldName: "priority",
               formVisible: true,
               listVisible: true,
             },
           ],
         },
         {
-          title: '审批配置',
-          tabName: 'auditConfig',
-          fieldName: 'a',
-          displayStyle: 'list',
+          title: "审批配置",
+          tabName: "auditConfig",
+          fieldName: "a",
+          displayStyle: "list",
           batchFieldList: [
             {
-              title: '下一审批人',
-              batchName: 'nextAuditors',
-              tabName: 'a',
-              staticData: 'Y',
+              title: "下一审批人",
+              batchName: "nextAuditors",
+              tabName: "a",
+              staticData: "Y",
               fieldList: [
                 {
-                  label: '名称',
+                  label: "名称",
 
-                  fieldName: 'name',
+                  fieldName: "name",
                   formVisible: true,
                   listVisible: true,
                 },
                 {
-                  label: '编码',
+                  label: "编码",
 
-                  fieldName: 'code',
+                  fieldName: "code",
                   formVisible: true,
                   listVisible: true,
                 },
                 {
-                  label: '是否多选',
-                  type: 'switch',
-                  fieldName: 'multipleFlag',
+                  label: "是否多选",
+                  type: "switch",
+                  fieldName: "multipleFlag",
                   formVisible: true,
                   listVisible: true,
                 },
               ],
             },
             {
-              title: '下一流转配置',
-              batchName: 'nextTransfer',
-              tabName: 'b',
-              staticData: 'Y',
+              title: "下一流转配置",
+              batchName: "nextTransfer",
+              tabName: "b",
+              staticData: "Y",
               fieldList: [
                 {
-                  label: '名称',
+                  label: "名称",
 
-                  fieldName: 'name',
+                  fieldName: "name",
                   formVisible: true,
                   listVisible: true,
                 },
                 {
-                  label: '编码',
+                  label: "编码",
 
-                  fieldName: 'code',
+                  fieldName: "code",
                   formVisible: true,
                   listVisible: true,
                 },
@@ -901,11 +901,11 @@ const userTaskNodeField = reactive<PageFieldInfo | any>({
           ],
         },
         {
-          title: '表单',
-          tabName: 'form',
+          title: "表单",
+          tabName: "form",
         },
-        execListener('task', '任务监听', 'taskListener', 'taskListeners'),
-        execListener('exec', '执行监听', 'execListener', 'execListeners'),
+        execListener("task", "任务监听", "taskListener", "taskListeners"),
+        execListener("exec", "执行监听", "execListener", "execListeners"),
         multiInstanceItem,
         extendPrep,
       ],
@@ -913,27 +913,27 @@ const userTaskNodeField = reactive<PageFieldInfo | any>({
   ],
 });
 const serviceTaskNodeField = (node: any) => {
-  if (node.type == 'bpmn:ServiceTask') {
+  if (node.type == "bpmn:ServiceTask") {
     serviceTask.value = serviceTaskField;
-  } else if (node.type == 'bpmn:SendTask') {
+  } else if (node.type == "bpmn:SendTask") {
     serviceTask.value = sendTaskField;
-  } else if (node.type == 'bpmn.ScriptTask') {
+  } else if (node.type == "bpmn.ScriptTask") {
     serviceTask.value = scriptTaskField;
-  } else if (node.type == 'bpmn:CallActivity') {
+  } else if (node.type == "bpmn:CallActivity") {
     serviceTask.value = callActivityField;
-  } else if (node.type == 'bpmn:BusinessRuleTask') {
+  } else if (node.type == "bpmn:BusinessRuleTask") {
     serviceTask.value = businessRuleTaskField;
-  } else if (node.type != 'bpmn:Task') {
+  } else if (node.type != "bpmn:Task") {
     serviceTask.value = {};
   }
   return reactive<PageFieldInfo | any>({
     fieldList: [
       {
-        fieldName: 'general',
+        fieldName: "general",
         collapseList: [
           generalItem(node),
           serviceTask.value,
-          execListener('exec', '执行监听', 'execListener', 'execListeners'),
+          execListener("exec", "执行监听", "execListener", "execListeners"),
           multiInstanceItem,
           extendPrep,
         ],

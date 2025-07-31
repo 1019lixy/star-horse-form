@@ -6,8 +6,8 @@
   />
 </template>
 <script setup lang="ts">
-import { onMounted, ref } from 'vue';
-import { closeLoad, loadGetData, SearchFields } from 'star-horse-lowcode';
+import { onMounted, ref } from "vue";
+import { closeLoad, loadGetData, SearchFields } from "star-horse-lowcode";
 
 const props = defineProps({
   dataNo: { type: String, required: true },
@@ -30,7 +30,7 @@ const props = defineProps({
 });
 let relationTables = ref<any>({});
 
-const errorMsg = ref('数据加载中');
+const errorMsg = ref("数据加载中");
 let searchFormData = ref<SearchFields>({});
 const tableFieldList = ref<any>({
   fieldList: [],
@@ -39,7 +39,7 @@ const tableFieldList = ref<any>({
  * 表单数据直接取定义的数据preps,
  * 列表数据重新定义，方便排序和位置拖拽
  */
-const primaryKey = ref<string>('');
+const primaryKey = ref<string>("");
 const rules = ref<any>({});
 const hasData = ref<boolean>(true);
 const formInfo = ref<any>({});
@@ -53,11 +53,11 @@ const loadFormData = async (formId: string) => {
     return;
   }
   hasData.value = data && Object.keys(data).length > 0;
-  searchFormData.value = data['searchFormData'] as SearchFields;
-  primaryKey.value = data['primaryKey'];
-  tableFieldList.value = data['tableFieldList'];
-  formInfo.value = data['formInfo'];
-  relationTables.value = data['relationTables'];
+  searchFormData.value = data["searchFormData"] as SearchFields;
+  primaryKey.value = data["primaryKey"];
+  tableFieldList.value = data["tableFieldList"];
+  formInfo.value = data["formInfo"];
+  relationTables.value = data["relationTables"];
 };
 const init = () => {
   loadFormData(props.dataNo);

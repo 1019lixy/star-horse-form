@@ -1,36 +1,36 @@
 <script setup lang="ts" name="FieldAnalysis">
-import { Config } from '@/api/settings';
-import { onMounted, PropType } from 'vue';
-import { fieldPlaceholder } from '@/views/dyform/utils/ItemPreps';
+import { Config } from "@/api/settings";
+import { onMounted, PropType } from "vue";
+import { fieldPlaceholder } from "@/views/dyform/utils/ItemPreps";
 
 const props = defineProps({
-  container: { type: String, default: '' },
+  container: { type: String, default: "" },
   field: { type: Object as PropType<any>, required: true },
   index: { type: Number, required: true, default: 1 },
   size: { type: String, default: Config.compSize },
 });
 const numberLengthComp: Array<string> = [
-  'number',
-  'rate',
-  'number-range',
-  'slider',
+  "number",
+  "rate",
+  "number-range",
+  "slider",
 ];
-const exclusionLengthComp: Array<string> = ['time', 'time-picker', 'datetime'];
+const exclusionLengthComp: Array<string> = ["time", "time-picker", "datetime"];
 const needBigLengthComp: Array<string> = [
-  'textarea',
-  'htmleditor',
-  'json',
-  'json-array',
-  'html',
-  'signature',
-  'markdown',
+  "textarea",
+  "htmleditor",
+  "json",
+  "json-array",
+  "html",
+  "signature",
+  "markdown",
 ];
 
 onMounted(() => {
   let preps = props.field.preps;
   if (needBigLengthComp.includes(props.field.itemType)) {
     preps.maxLength = preps.maxLength ?? 2000;
-  } else if (props.field.itemType == 'switch') {
+  } else if (props.field.itemType == "switch") {
     preps.maxLength = 20;
   } else if (numberLengthComp.includes(props.field.itemType)) {
     preps.precision = preps.precision ?? 2;

@@ -1,33 +1,33 @@
-import { FlowNodeEnums } from '@/views/workflow/plugin/enums/FlowNodeEnums';
-import { uuid } from 'star-horse-lowcode';
+import { FlowNodeEnums } from "@/views/workflow/plugin/enums/FlowNodeEnums";
+import { uuid } from "star-horse-lowcode";
 
 const nodeInfoList = () => {
   return [
     {
-      nodeName: '审批节点',
-      nodeCode: 'ApprovalNode',
-      nodeIcon: 'audit_node',
+      nodeName: "审批节点",
+      nodeCode: "ApprovalNode",
+      nodeIcon: "audit_node",
     },
     {
-      nodeName: '办理节点',
-      nodeCode: 'HandleNode',
-      nodeIcon: 'handle_node',
+      nodeName: "办理节点",
+      nodeCode: "HandleNode",
+      nodeIcon: "handle_node",
     },
     {
-      nodeName: '条件节点',
-      nodeCode: 'BranchNode',
-      nodeIcon: 'branch_node',
+      nodeName: "条件节点",
+      nodeCode: "BranchNode",
+      nodeIcon: "branch_node",
     },
     {
-      nodeName: '并行分支',
-      nodeCode: 'ParallelNode',
-      nodeIcon: 'parallel_node',
+      nodeName: "并行分支",
+      nodeCode: "ParallelNode",
+      nodeIcon: "parallel_node",
     },
 
     {
-      nodeName: '服务节点',
-      nodeCode: 'ServiceNode',
-      nodeIcon: 'task',
+      nodeName: "服务节点",
+      nodeCode: "ServiceNode",
+      nodeIcon: "task",
     },
     /*认知里还没有对事件节点有进一步认识*/
     /*   {
@@ -36,25 +36,25 @@ const nodeInfoList = () => {
                    "nodeIcon": "event_node",
                },*/
     {
-      nodeName: '抄送节点',
-      nodeCode: 'CopyerNode',
-      nodeIcon: 'copy_node',
+      nodeName: "抄送节点",
+      nodeCode: "CopyerNode",
+      nodeIcon: "copy_node",
     },
     {
-      nodeName: '时间节点',
-      nodeCode: 'TimerNode',
-      nodeIcon: 'timer',
+      nodeName: "时间节点",
+      nodeCode: "TimerNode",
+      nodeIcon: "timer",
     },
     {
-      nodeName: '意见分支',
-      nodeCode: 'SuggestNode',
-      nodeIcon: 'text',
+      nodeName: "意见分支",
+      nodeCode: "SuggestNode",
+      nodeIcon: "text",
     },
 
     {
-      nodeName: '通知节点',
-      nodeCode: 'NoticeNode',
-      nodeIcon: 'copy_node',
+      nodeName: "通知节点",
+      nodeCode: "NoticeNode",
+      nodeIcon: "copy_node",
     },
   ];
 };
@@ -65,20 +65,20 @@ const nodeInfoList = () => {
 const startNode = () => {
   return {
     id: uuid(),
-    name: '发起人',
+    name: "发起人",
     type: FlowNodeEnums.APPLY_NODE,
     // 流程节点状态(用于只读模式, 0:未进行 1:进行中  2:已完成)
     statusCode: -1,
     // 是否有错误
     error: false,
     //错误提示
-    errorMsg: '',
+    errorMsg: "",
     // 表单ID
-    formId: '',
+    formId: "",
     //表单类型
-    formType: '',
+    formType: "",
     //表单默认可编辑
-    privilege: 'edit',
+    privilege: "edit",
     // 子节点
     childNode: endNode(),
     // 显示添加按钮
@@ -91,12 +91,12 @@ const startNode = () => {
 const endNode = () => {
   return {
     id: uuid(),
-    name: '结束',
+    name: "结束",
     type: FlowNodeEnums.END_NODE,
     // 流程节点状态(用于只读模式, 0:未进行 1:进行中  2:已完成)
     statusCode: -1,
     //错误提示
-    errorMsg: '',
+    errorMsg: "",
     // 是否有错误
     error: false,
   };
@@ -107,26 +107,26 @@ const endNode = () => {
 const approverNodePreps = (type: string) => {
   return {
     id: uuid(),
-    name: type == 'approve' ? '审批人' : '办理人',
+    name: type == "approve" ? "审批人" : "办理人",
     subType: type,
     type:
-      type == 'approve'
+      type == "approve"
         ? FlowNodeEnums.APPROVER_NODE
         : FlowNodeEnums.HANDLE_NODE,
     // 流程节点状态(用于只读模式, 0:未进行 1:进行中  2:已完成)
     statusCode: -1,
     //错误提示
-    errorMsg: '',
+    errorMsg: "",
     // 流程基础配置属性
-    approvalMethod: 'assign',
+    approvalMethod: "assign",
     // 审批方式
-    approvalMode: 'sequential',
+    approvalMode: "sequential",
     // 审批模式
     multiPercent: 100,
     // 审批人与发起人为同一人时
-    sameMode: 'B',
+    sameMode: "B",
     // 审批人为空时
-    noHander: 'A',
+    noHander: "A",
     // 审批设置
     approveGroups: [
       {
@@ -144,7 +144,7 @@ const approverNodePreps = (type: string) => {
     //无审批人
     nobodyUsers: [],
     // 表单权限
-    privilege: 'edit',
+    privilege: "edit",
     // 高级配置
     operations: {},
     // 子节点
@@ -165,12 +165,12 @@ const approverNodePreps = (type: string) => {
 const copyerNodePreps = () => {
   return {
     id: uuid(),
-    name: '抄送人',
+    name: "抄送人",
     type: FlowNodeEnums.COPYER_NODE,
     // 流程节点状态(用于只读模式, 0:未进行 1:进行中  2:已完成)
     statusCode: -1,
     //错误提示
-    errorMsg: '',
+    errorMsg: "",
     // 子节点
     childNode: null,
     //密送人
@@ -190,7 +190,7 @@ const copyerNodePreps = () => {
       },
     ],
     // 表单权限
-    privilege: 'readonly',
+    privilege: "readonly",
     // 高级配置
     operations: {},
     // 显示添加按钮
@@ -209,12 +209,12 @@ const copyerNodePreps = () => {
 const noticeNodePreps = () => {
   return {
     id: uuid(),
-    name: '通知',
+    name: "通知",
     type: FlowNodeEnums.NOTICE_NODE,
     // 流程节点状态(用于只读模式, 0:未进行 1:进行中  2:已完成)
     statusCode: -1,
     //错误提示
-    errorMsg: '',
+    errorMsg: "",
     // 子节点
     childNode: null,
     //通知方式
@@ -236,7 +236,7 @@ const noticeNodePreps = () => {
       },
     ],
     // 表单权限
-    privilege: 'readonly',
+    privilege: "readonly",
     // 显示添加按钮
     addable: true,
     // 可删除提示
@@ -251,14 +251,14 @@ const noticeNodePreps = () => {
 const serviceNodePreps = () => {
   return {
     id: uuid(),
-    name: '服务节点',
+    name: "服务节点",
     type: FlowNodeEnums.SERVICE_NODE,
     // 流程节点状态(用于只读模式, 0:未进行 1:进行中  2:已完成)
     statusCode: -1,
     executionListeners: [
       {
-        event: 'start',
-        implementationType: 'class',
+        event: "start",
+        implementationType: "class",
       },
     ],
     // 子节点
@@ -268,7 +268,7 @@ const serviceNodePreps = () => {
     // 可删除提示
     deletable: false,
     //错误提示
-    errorMsg: '',
+    errorMsg: "",
     // 是否有错误
     error: false,
   };
@@ -280,20 +280,20 @@ const serviceNodePreps = () => {
 const timerNodePreps = () => {
   return {
     id: uuid(),
-    name: '计时等待',
+    name: "计时等待",
     type: FlowNodeEnums.TIMER_NODE,
     // 流程节点状态(用于只读模式, 0:未进行 1:进行中  2:已完成)
     statusCode: -1,
-    waitType: 'duration',
+    waitType: "duration",
     //等待时间单位
-    unit: 'PT%sS',
+    unit: "PT%sS",
     // 子节点
     childNode: null,
     // 审批设置
     // 显示添加按钮
     addable: true,
     //错误提示
-    errorMsg: '',
+    errorMsg: "",
     // 可删除提示
     deletable: false,
     // 是否有错误
@@ -306,7 +306,7 @@ const timerNodePreps = () => {
 const eventNodePreps = () => {
   return {
     id: uuid(),
-    name: '事件',
+    name: "事件",
     type: FlowNodeEnums.EVENT_NODE,
     // 流程节点状态(用于只读模式, 0:未进行 1:进行中  2:已完成)
     statusCode: -1,
@@ -317,7 +317,7 @@ const eventNodePreps = () => {
     // 可删除提示
     deletable: false,
     //错误提示
-    errorMsg: '',
+    errorMsg: "",
     // 是否有错误
     error: false,
   };
@@ -329,12 +329,12 @@ const branchNodePreps = () => {
   const uid = uuid();
   return {
     id: uid,
-    name: '路由',
+    name: "路由",
     type: FlowNodeEnums.BRANCH_NODE,
     // 流程节点状态(用于只读模式, 0:未进行 1:进行中  2:已完成)
     statusCode: -1,
     //错误提示
-    errorMsg: '',
+    errorMsg: "",
     // 子节点
     childNode: null,
     // 显示添加按钮
@@ -344,7 +344,7 @@ const branchNodePreps = () => {
       {
         id: uuid(),
         pid: uid,
-        name: '分支1',
+        name: "分支1",
         type: FlowNodeEnums.BRANCH_CONDITION_NODE,
         // 流程节点状态(用于只读模式, 0:未进行 1:进行中  2:已完成)
         statusCode: -1,
@@ -352,7 +352,7 @@ const branchNodePreps = () => {
         error: false,
         otherFlag: false,
         //错误提示
-        errorMsg: '',
+        errorMsg: "",
         // 子节点
         childNode: null,
         // 显示添加按钮
@@ -363,7 +363,7 @@ const branchNodePreps = () => {
         conditionGroups: [],
         // 流程基础配置属性
         // 分支类型
-        branchType: 'rule',
+        branchType: "rule",
         // 优先级
         priorityLevel: 1,
         // 显示优先级
@@ -372,7 +372,7 @@ const branchNodePreps = () => {
       {
         id: uuid(),
         pid: uid,
-        name: '其他情况',
+        name: "其他情况",
         type: FlowNodeEnums.BRANCH_CONDITION_NODE,
         // 流程节点状态(用于只读模式, 0:未进行 1:进行中  2:已完成)
         statusCode: -1,
@@ -386,7 +386,7 @@ const branchNodePreps = () => {
         // 条件组
         conditionGroups: [],
         // 分支类型
-        branchType: 'rule',
+        branchType: "rule",
         // 优先级
         priorityLevel: 2,
         // 显示优先级
@@ -394,9 +394,9 @@ const branchNodePreps = () => {
         // 是否有错误
         error: false,
         //错误提示
-        errorMsg: '',
+        errorMsg: "",
         // 显示内容
-        content: '其他情况进入此流程',
+        content: "其他情况进入此流程",
       },
     ],
   };
@@ -408,7 +408,7 @@ const suggestNodePreps = () => {
   const uid = uuid();
   return {
     id: uid,
-    name: '意见',
+    name: "意见",
     type: FlowNodeEnums.SUGGEST_NODE,
     // 流程节点状态(用于只读模式, 0:未进行 1:进行中  2:已完成)
     statusCode: -1,
@@ -417,14 +417,14 @@ const suggestNodePreps = () => {
     // 显示添加按钮
     addable: true,
     //错误提示
-    errorMsg: '',
+    errorMsg: "",
     // 是否有错误
     error: false,
     conditionNodes: [
       {
         id: uuid(),
         pid: uid,
-        name: '同意',
+        name: "同意",
         type: FlowNodeEnums.SUGGEST_SUB_NODE,
         // 流程基础配置属性
         attr: {
@@ -438,7 +438,7 @@ const suggestNodePreps = () => {
         // 显示添加按钮
         addable: true,
         //错误提示
-        errorMsg: '',
+        errorMsg: "",
         // 可删除提示
         deletable: false,
         // 是否有错误
@@ -447,7 +447,7 @@ const suggestNodePreps = () => {
       {
         id: uuid(),
         pid: uid,
-        name: '不同意',
+        name: "不同意",
         type: FlowNodeEnums.SUGGEST_SUB_NODE,
         // 流程基础配置属性
         attr: {
@@ -463,7 +463,7 @@ const suggestNodePreps = () => {
         // 可删除提示
         deletable: false,
         //错误提示
-        errorMsg: '',
+        errorMsg: "",
         // 是否有错误
         error: false,
       },
@@ -477,14 +477,14 @@ const parallelNodePreps = () => {
   const uid = uuid();
   return {
     id: uid,
-    name: '并行',
+    name: "并行",
     type: FlowNodeEnums.PARALLEL_NODE,
     // 流程节点状态(用于只读模式, 0:未进行 1:进行中  2:已完成)
     statusCode: -1,
     // 显示添加按钮
     addable: true,
     //错误提示
-    errorMsg: '',
+    errorMsg: "",
     // 聚合节点
     childNode: null,
     //每个分支的第一个节点
@@ -495,16 +495,16 @@ const parallelNodePreps = () => {
       {
         id: uuid(),
         pid: uid,
-        name: '并行1',
+        name: "并行1",
         type: FlowNodeEnums.BRANCH_CONDITION_NODE,
         // 流程节点状态(用于只读模式, 0:未进行 1:进行中  2:已完成)
         statusCode: -1,
         // 是否有错误
         error: false,
         //错误提示
-        errorMsg: '',
+        errorMsg: "",
         // 显示内容
-        content: '任意(其他)',
+        content: "任意(其他)",
         // 子节点
         childNode: null,
         // 显示添加按钮
@@ -512,23 +512,23 @@ const parallelNodePreps = () => {
         // 可删除提示
         deletable: false,
         // 流程基础配置属性
-        branchType: 'other',
+        branchType: "other",
         // 条件组
         conditionGroups: [],
       },
       {
         id: uuid(),
         pid: uid,
-        name: '并行2',
+        name: "并行2",
         type: FlowNodeEnums.BRANCH_CONDITION_NODE,
         // 流程节点状态(用于只读模式, 0:未进行 1:进行中  2:已完成)
         statusCode: -1,
         // 是否有错误
         error: false,
         //错误提示
-        errorMsg: '',
+        errorMsg: "",
         // 显示内容
-        content: '任意(其他)',
+        content: "任意(其他)",
         // 子节点
         childNode: null,
         // 显示添加按钮
@@ -537,7 +537,7 @@ const parallelNodePreps = () => {
         deletable: false,
         // 流程基础配置属性
         // 分支类型
-        branchType: 'other',
+        branchType: "other",
         // 条件组
         conditionGroups: [],
       },
@@ -559,11 +559,11 @@ const nodePreps: any = {
   [FlowNodeEnums.END_NODE]: endNode,
 };
 const nodePrepList = (node: FlowNodeEnums) => {
-  let param = '';
+  let param = "";
   if (node == FlowNodeEnums.HANDLE_NODE) {
-    param = 'handle';
+    param = "handle";
   } else if (node == FlowNodeEnums.APPROVER_NODE) {
-    param = 'approve';
+    param = "approve";
   }
   return nodePreps[node](param);
 };

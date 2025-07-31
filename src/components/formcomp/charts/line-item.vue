@@ -1,6 +1,6 @@
 <script lang="ts">
-import { defineComponent, onMounted, ref } from 'vue';
-import * as echarts from 'echarts';
+import { defineComponent, onMounted, ref } from "vue";
+import * as echarts from "echarts";
 
 export default defineComponent({
   setup(_props, context) {
@@ -8,21 +8,21 @@ export default defineComponent({
     const init = () => {
       type EChartsOption = echarts.EChartsOption;
       let myChart = echarts.init(shChartRef.value, null, {
-        renderer: 'svg',
+        renderer: "svg",
       });
       let option: EChartsOption;
       option = {
         xAxis: {
-          type: 'category',
-          data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+          type: "category",
+          data: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
         },
         yAxis: {
-          type: 'value',
+          type: "value",
         },
         series: [
           {
             data: [150, 230, 224, 218, 135, 147, 260],
-            type: 'line',
+            type: "line",
           },
         ],
       };

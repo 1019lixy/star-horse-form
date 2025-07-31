@@ -6,9 +6,9 @@ import {
   provide,
   reactive,
   ref,
-} from 'vue';
-import { getCustomerParam } from '@/utils/auth';
-import { TreeNodeData } from 'element-plus/es/components/tree-v2/src/types';
+} from "vue";
+import { getCustomerParam } from "@/utils/auth";
+import { TreeNodeData } from "element-plus/es/components/tree-v2/src/types";
 import {
   apiInstance,
   ApiUrls,
@@ -18,30 +18,30 @@ import {
   PageFieldInfo,
   SearchFields,
   SearchParams,
-} from 'star-horse-lowcode';
+} from "star-horse-lowcode";
 //后端交互接口地址
-const dataUrl: ApiUrls = apiInstance('system-config', 'system/rankDefine');
+const dataUrl: ApiUrls = apiInstance("system-config", "system/rankDefine");
 //主键
-const primaryKey = 'idRankDefine';
+const primaryKey = "idRankDefine";
 const rankDefineRef = ref();
 //定义表单的所有属性
 const formFields = reactive<object>({});
-provide('formFields', formFields);
+provide("formFields", formFields);
 let rankTypeList = ref<any>({});
 //查询属性
 const searchFormData = reactive<SearchFields>({
   fieldList: [
     {
-      label: '职级名称',
-      fieldName: 'rankName',
+      label: "职级名称",
+      fieldName: "rankName",
       defaultVisible: true,
-      matchType: 'lk',
+      matchType: "lk",
     },
     {
-      label: '职级编码',
-      fieldName: 'rankCode',
+      label: "职级编码",
+      fieldName: "rankCode",
       defaultVisible: true,
-      matchType: 'lk',
+      matchType: "lk",
     },
   ],
 });
@@ -51,16 +51,16 @@ const tableFieldList = reactive<PageFieldInfo | any>({
   fieldList: [
     [
       {
-        label: '职级名称',
-        fieldName: 'rankName',
+        label: "职级名称",
+        fieldName: "rankName",
 
         required: false,
         formVisible: true,
         listVisible: true,
       },
       {
-        label: '职级编码',
-        fieldName: 'rankCode',
+        label: "职级编码",
+        fieldName: "rankCode",
 
         required: false,
         formVisible: true,
@@ -72,9 +72,9 @@ const tableFieldList = reactive<PageFieldInfo | any>({
     ],
     [
       {
-        label: '所属分类',
-        fieldName: 'idRankType',
-        type: 'tselect',
+        label: "所属分类",
+        fieldName: "idRankType",
+        type: "tselect",
         required: false,
         formVisible: true,
         listVisible: true,
@@ -82,103 +82,103 @@ const tableFieldList = reactive<PageFieldInfo | any>({
           checkStrictly: true,
           data: rankTypeList,
           props: {
-            label: 'rankTypeName',
-            value: 'idRankType',
+            label: "rankTypeName",
+            value: "idRankType",
           },
         },
       },
       {
-        label: '职级排序',
-        fieldName: 'rankSort',
-        type: 'number',
+        label: "职级排序",
+        fieldName: "rankSort",
+        type: "number",
         required: false,
         formVisible: true,
         listVisible: true,
       },
     ],
     {
-      label: '备注',
-      fieldName: 'remark',
-      type: 'textarea',
+      label: "备注",
+      fieldName: "remark",
+      type: "textarea",
       required: false,
       formVisible: true,
       listVisible: true,
     },
     {
-      label: '版本号',
-      fieldName: 'version',
-      type: 'number',
+      label: "版本号",
+      fieldName: "version",
+      type: "number",
       required: false,
       formVisible: !true,
       listVisible: !true,
     },
     {
-      label: '创建人',
-      fieldName: 'createdBy',
+      label: "创建人",
+      fieldName: "createdBy",
 
       required: false,
       formVisible: !true,
       listVisible: true,
     },
     {
-      label: '创建时间',
-      fieldName: 'createdTime',
+      label: "创建时间",
+      fieldName: "createdTime",
 
       required: false,
       formVisible: !true,
       listVisible: true,
     },
     {
-      label: '修改人',
-      fieldName: 'updatedBy',
+      label: "修改人",
+      fieldName: "updatedBy",
 
       required: false,
       formVisible: !true,
       listVisible: !true,
     },
     {
-      label: '修改时间',
-      fieldName: 'updatedTime',
+      label: "修改时间",
+      fieldName: "updatedTime",
 
       required: false,
       formVisible: !true,
       listVisible: !true,
     },
     {
-      label: '数据编号',
-      fieldName: 'dataNo',
+      label: "数据编号",
+      fieldName: "dataNo",
 
       required: false,
       formVisible: !true,
       listVisible: !true,
     },
     {
-      label: '状态码',
-      fieldName: 'statusCode',
+      label: "状态码",
+      fieldName: "statusCode",
 
       required: false,
       formVisible: !true,
       listVisible: !true,
     },
     {
-      label: '状态名称',
-      fieldName: 'statusName',
+      label: "状态名称",
+      fieldName: "statusName",
 
       required: false,
       formVisible: !true,
       listVisible: !true,
     },
     {
-      label: '是否删除',
-      fieldName: 'isDel',
-      type: 'number',
+      label: "是否删除",
+      fieldName: "isDel",
+      type: "number",
       required: false,
       formVisible: !true,
       listVisible: !true,
     },
     {
-      label: '国际编码',
-      fieldName: 'local',
+      label: "国际编码",
+      fieldName: "local",
 
       required: false,
       formVisible: !true,
@@ -192,24 +192,24 @@ const tableFieldList = reactive<PageFieldInfo | any>({
 const rules = {};
 //控制弹窗相关设置
 const dialogProps = dialogPreps();
-provide('dialogProps', dialogProps);
-let currentRankTypeId = ref<string>('');
+provide("dialogProps", dialogProps);
+let currentRankTypeId = ref<string>("");
 let outForm = ref<any>({});
 
 const rankTypeChange = (data: TreeNodeData, _checked: boolean) => {
-  currentRankTypeId.value = data['idRankType'];
-  outForm.value['idRankType'] = currentRankTypeId.value;
+  currentRankTypeId.value = data["idRankType"];
+  outForm.value["idRankType"] = currentRankTypeId.value;
   let params: SearchParams[] = [
-    createCondition('a.idRankType', currentRankTypeId.value),
+    createCondition("a.idRankType", currentRankTypeId.value),
   ];
   rankDefineRef.value.createSearchParams(params);
 };
 //初始化方法
 const initData = async () => {
   let result = await loadData(
-    '/system-config/system/rankType/getAllByCondition',
+    "/system-config/system/rankType/getAllByCondition",
     {
-      orderBy: [{ fieldName: 'rankTypeSort', ascOrDesc: 'asc' }],
+      orderBy: [{ fieldName: "rankTypeSort", ascOrDesc: "asc" }],
     },
   );
   if (result.error) {
@@ -241,70 +241,72 @@ onDeactivated(() => {
 });
 </script>
 <template>
-  <star-horse-dialog
-    :dialog-visible="dialogProps.editVisible"
-    :dialogProps="dialogProps"
-    :isShowBtnContinue="true"
-  >
-    <star-horse-form
-      :compUrl="dataUrl"
-      :fieldList="tableFieldList"
-      :rules="rules"
-      :outerFormData="outForm"
-      @refresh="rankDefineRef?.loadByPage()"
-    />
-  </star-horse-dialog>
-  <star-horse-dialog
-    :dialog-visible="dialogProps.viewVisible"
-    :dialogProps="dialogProps"
-    :source="3"
-  >
-    <star-horse-data-view
-      :compUrl="dataUrl"
-      :dataFormat="dataFormat"
-      :field-list="tableFieldList"
-    />
-  </star-horse-dialog>
-  <el-card class="inner_content">
-    <el-splitter>
-      <el-splitter-panel collapsible size="240" min="100" max="500">
-        <star-horse-tree
-          v-model:tree-datas="rankTypeList"
-          :expand="true"
-          :showCode="true"
-          treeTitle="职级分类"
-          @selectData="rankTypeChange"
-          :preps="{
-            label: 'rankTypeName',
-            value: 'idRankType',
-            code: 'rankTypeCode',
-          }"
-        />
-      </el-splitter-panel>
-      <el-splitter-panel>
-        <el-card class="inner_content">
-          <div class="search-content">
-            <div class="search_btn">
-              <star-horse-search-comp
-                @searchData="
-                  (data: any) => rankDefineRef?.createSearchParams(data)
-                "
-                :formData="searchFormData"
-                :compUrl="dataUrl"
-              />
-            </div>
-          </div>
-          <star-horse-table-comp
-            ref="rankDefineRef"
-            :compUrl="dataUrl"
-            :dataFormat="dataFormat"
-            :fieldList="tableFieldList"
-            :primaryKey="primaryKey"
+  <div class="flex flex-col h-full overflow-hidden">
+    <star-horse-dialog
+      :dialog-visible="dialogProps.editVisible"
+      :dialogProps="dialogProps"
+      :isShowBtnContinue="true"
+    >
+      <star-horse-form
+        :compUrl="dataUrl"
+        :fieldList="tableFieldList"
+        :rules="rules"
+        :outerFormData="outForm"
+        @refresh="rankDefineRef?.loadByPage()"
+      />
+    </star-horse-dialog>
+    <star-horse-dialog
+      :dialog-visible="dialogProps.viewVisible"
+      :dialogProps="dialogProps"
+      :source="3"
+    >
+      <star-horse-data-view
+        :compUrl="dataUrl"
+        :dataFormat="dataFormat"
+        :field-list="tableFieldList"
+      />
+    </star-horse-dialog>
+    <el-card class="inner_content">
+      <el-splitter>
+        <el-splitter-panel collapsible size="240" min="100" max="500">
+          <star-horse-tree
+            v-model:tree-datas="rankTypeList"
+            :expand="true"
+            :showCode="true"
+            treeTitle="职级分类"
+            @selectData="rankTypeChange"
+            :preps="{
+              label: 'rankTypeName',
+              value: 'idRankType',
+              code: 'rankTypeCode',
+            }"
           />
-        </el-card>
-      </el-splitter-panel>
-    </el-splitter>
-  </el-card>
+        </el-splitter-panel>
+        <el-splitter-panel>
+          <el-card class="inner_content">
+            <div class="search-content">
+              <div class="search_btn">
+                <star-horse-search-comp
+                  @searchData="
+                    (data: any) => rankDefineRef?.createSearchParams(data)
+                  "
+                  :formData="searchFormData"
+                  :compUrl="dataUrl"
+                />
+              </div>
+            </div>
+            <star-horse-table-comp
+              ref="rankDefineRef"
+              :compUrl="dataUrl"
+              :dataFormat="dataFormat"
+              :fieldList="tableFieldList"
+              :primaryKey="primaryKey"
+            />
+          </el-card>
+        </el-splitter-panel>
+      </el-splitter>
+    </el-card>
+  </div>
 </template>
 <style lang="scss" scoped>
 //todo

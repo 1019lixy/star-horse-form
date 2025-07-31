@@ -35,28 +35,28 @@
   </div>
 </template>
 <script setup lang="ts">
-import { computed, onMounted, ref } from 'vue';
-import { useFlowDesignStore } from '@/store/FlowDesign';
+import { computed, onMounted, ref } from "vue";
+import { useFlowDesignStore } from "@/store/FlowDesign";
 import {
   apiInstance,
   ApiUrls,
   createCondition,
   piniaInstance,
   SearchParams,
-} from 'star-horse-lowcode';
+} from "star-horse-lowcode";
 import {
   nodeInfoList,
   nodePrepList,
-} from '@/views/workflow/plugin/utils/nodePreps';
-import { FlowNodeEnums } from '@/views/workflow/plugin/enums/FlowNodeEnums';
+} from "@/views/workflow/plugin/utils/nodePreps";
+import { FlowNodeEnums } from "@/views/workflow/plugin/enums/FlowNodeEnums";
 
 const nodeRef = ref();
 const prepUrl: ApiUrls = apiInstance(
-  'userdb-manage',
-  'userdb/formInstance/shNodeMappingPreps/idNodeMappingPrep/337537414606095357',
+  "userdb-manage",
+  "userdb/formInstance/shNodeMappingPreps/idNodeMappingPrep/337537414606095357",
 );
 defineOptions({
-  name: 'FlowNodeAdd',
+  name: "FlowNodeAdd",
 });
 const props = defineProps({
   node: {
@@ -71,7 +71,7 @@ const props = defineProps({
   },
   id: {
     type: String,
-    default: '',
+    default: "",
   },
   readable: {
     type: Boolean,
@@ -109,7 +109,7 @@ const loadNodePrep = async (item: any) => {
   let prep = flowDesign.getPrepMap(item.idFlowNode);
   if (!prep) {
     let params: SearchParams[] = [
-      createCondition('idFlowNode', item.idFlowNode),
+      createCondition("idFlowNode", item.idFlowNode),
     ];
     let res = await prepUrl.queryConditionAction!(params);
     let temp: any = {};
@@ -132,7 +132,7 @@ const addNode = async (item: any) => {
   if (preps && Object.keys(preps).length > 0) {
     currentNode = { ...currentNode, ...preps };
   }
-  currentNode['nodeId'] = item.idFlowNode;
+  currentNode["nodeId"] = item.idFlowNode;
   let parentNode = props.node;
   let nodeType = props.nodeType;
   let id = props.id;
@@ -142,7 +142,7 @@ const addNode = async (item: any) => {
     item.nodeCode == FlowNodeEnums.SUGGEST_NODE
   ) {
     // 当审批节点下添加意见分支,就不允许添加其他类型的节点了
-    flowDesign.flowUpdateNode({ currentNode, field: 'addable', value: false });
+    flowDesign.flowUpdateNode({ currentNode, field: "addable", value: false });
   }
 };
 const init = async () => {};

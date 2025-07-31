@@ -1,5 +1,5 @@
-import { Config } from '@/api/settings';
-import { SearchParams } from 'star-horse-lowcode';
+import { Config } from "@/api/settings";
+import { SearchParams } from "star-horse-lowcode";
 
 export function getToken() {
   return sessionStorage.getItem(Config.TokenKey);
@@ -33,7 +33,7 @@ export function setCustomerInfo(customerInfo: any) {
 export function getCustomerInfo() {
   const str = sessionStorage.getItem(Config.customerInfo);
   //未找到客户编码
-  if (!str || str == 'undefined') {
+  if (!str || str == "undefined") {
     return null;
   }
   return JSON.parse(str);
@@ -43,7 +43,7 @@ export function getCustomerInfo() {
  * 获取查询对象
  */
 export function getCustomerParam(
-  propertyName: string = '',
+  propertyName: string = "",
 ): SearchParams | null {
   const customerInfo = getCustomerInfo();
   if (!customerInfo || !propertyName) {
@@ -90,6 +90,6 @@ export function delLoginInfo() {
   sessionStorage.removeItem(Config.loginInfo);
   sessionStorage.removeItem(Config.publicKey);
   sessionStorage.removeItem(Config.customerInfo);
-  sessionStorage.removeItem('menusInfo');
-  sessionStorage.removeItem('dynamicMenusLists');
+  sessionStorage.removeItem("menusInfo");
+  sessionStorage.removeItem("dynamicMenusLists");
 }

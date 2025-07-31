@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { Config } from '@/api/settings';
-import { computed, ref } from 'vue';
-import { commonField } from '@/api/system';
-import { itemCheck } from 'star-horse-lowcode';
+import { Config } from "@/api/settings";
+import { computed, ref } from "vue";
+import { commonField } from "@/api/system";
+import { itemCheck } from "star-horse-lowcode";
 
 const props = defineProps({
   list: { type: Array<any>, required: true },
@@ -20,8 +20,8 @@ let fieldList = computed(() => {
         (item2) => item2.fieldName == item.fieldName,
       );
       if (tempItem) {
-        tempItem['required'] = item.required;
-        tempItem['preps'] = { ...tempItem };
+        tempItem["required"] = item.required;
+        tempItem["preps"] = { ...tempItem };
         tempList.push(tempItem);
       }
     });

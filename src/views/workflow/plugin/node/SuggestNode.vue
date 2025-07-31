@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { useFlowDesignStore } from '@/store/FlowDesign';
-import { closeLoad, piniaInstance } from 'star-horse-lowcode';
-import { FlowNodeEnums } from '@/views/workflow/plugin/enums/FlowNodeEnums';
-import { onMounted } from 'vue';
+import { useFlowDesignStore } from "@/store/FlowDesign";
+import { closeLoad, piniaInstance } from "star-horse-lowcode";
+import { FlowNodeEnums } from "@/views/workflow/plugin/enums/FlowNodeEnums";
+import { onMounted } from "vue";
 
 const props = defineProps({
   node: {
@@ -16,9 +16,9 @@ const props = defineProps({
     default: false,
   },
 });
-const emits = defineEmits(['selectNode']);
+const emits = defineEmits(["selectNode"]);
 const selectNode = (node: any) => {
-  emits('selectNode', node);
+  emits("selectNode", node);
 };
 const flowDesign = useFlowDesignStore(piniaInstance);
 const delCallback = (_conditionNode: any) => {
@@ -26,7 +26,7 @@ const delCallback = (_conditionNode: any) => {
     id: props.node.pid,
   };
   // 将对应的审批节点的添加按钮开启
-  flowDesign.flowUpdateNode({ currNode, field: 'addable', value: true });
+  flowDesign.flowUpdateNode({ currNode, field: "addable", value: true });
 };
 const init = () => {
   closeLoad();

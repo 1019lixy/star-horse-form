@@ -19,10 +19,10 @@
   </div>
 </template>
 <script setup lang="ts">
-import { delNode, flowCommon } from '@/views/workflow/plugin/utils/flowCommon';
+import { delNode, flowCommon } from "@/views/workflow/plugin/utils/flowCommon";
 
 defineOptions({
-  name: 'DeleteConfirm',
+  name: "DeleteConfirm",
 });
 defineProps({
   node: {
@@ -32,8 +32,8 @@ defineProps({
     },
   },
 });
-const emits = defineEmits(['callback']);
+const emits = defineEmits(["callback"]);
 const callback = () => {
-  emits('callback');
+  emits("callback");
 };
 </script>

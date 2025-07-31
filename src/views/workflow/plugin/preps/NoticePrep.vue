@@ -125,35 +125,35 @@
   <FlowDrawerFooter @save="onClose" @close="onClose" />
 </template>
 <script setup lang="ts">
-import { flowCommon } from '@/views/workflow/plugin/utils/flowCommon';
-import { ModelRef, onMounted, ref } from 'vue';
+import { flowCommon } from "@/views/workflow/plugin/utils/flowCommon";
+import { ModelRef, onMounted, ref } from "vue";
 import {
   dictData,
   FieldInfo,
   piniaInstance,
   warning,
-} from 'star-horse-lowcode';
-import { useFlowDesignStore } from '@/store/FlowDesign';
-import { getValidType } from '@/api/valid_utils';
+} from "star-horse-lowcode";
+import { useFlowDesignStore } from "@/store/FlowDesign";
+import { getValidType } from "@/api/valid_utils";
 
 defineOptions({
-  name: 'NoticePrep',
+  name: "NoticePrep",
 });
 
-let node: ModelRef<any> = defineModel('activeData');
+let node: ModelRef<any> = defineModel("activeData");
 
 const flowDesign = useFlowDesignStore(piniaInstance);
-let noticeTab = ref<string>('1');
+let noticeTab = ref<string>("1");
 // 邮件选择项
 let fieldList = ref<Array<FieldInfo>>([]);
 let notices = ref<Array<any>>([]);
 
 const newTemplate = () => {
-  warning('加急开发中');
+  warning("加急开发中");
 };
 let currentExtend = ref<Array<any>>([]);
 let drawer = ref<boolean>(false);
-let currentName = ref<string>('');
+let currentName = ref<string>("");
 let extendForm = ref<any>({});
 
 const closeAction = () => {
@@ -164,20 +164,20 @@ const closeAction = () => {
 };
 const addExtendData = (type: string) => {
   extendForm.value = {};
-  if (type == 'phone') {
+  if (type == "phone") {
     fieldList.value = [
       {
-        label: '手机号',
-        fieldName: 'phone',
+        label: "手机号",
+        fieldName: "phone",
 
         required: true,
-        rules: getValidType('phone'),
+        rules: getValidType("phone"),
         formVisible: true,
       },
     ];
     node.value.extendPhones = node.value.extendPhones || [];
     currentExtend.value = node.value.extendPhones;
-    currentName.value = 'extendPhones';
+    currentName.value = "extendPhones";
     extendForm.value[currentName.value] = node.value.extendPhones.map(
       (item: any) => {
         return { phone: item };
@@ -186,17 +186,17 @@ const addExtendData = (type: string) => {
   } else {
     fieldList.value = [
       {
-        label: '邮箱号',
-        fieldName: 'email',
+        label: "邮箱号",
+        fieldName: "email",
 
         required: true,
-        rules: getValidType('email'),
+        rules: getValidType("email"),
         formVisible: true,
       },
     ];
     node.value.extendEmails = node.value.extendEmails || [];
     currentExtend.value = node.value.extendEmails;
-    currentName.value = 'extendEmails';
+    currentName.value = "extendEmails";
     extendForm.value[currentName.value] = node.value.extendEmails.map(
       (item: any) => {
         return { email: item };
@@ -210,7 +210,7 @@ const onClose = () => {
   flowDesign.setActive(false);
 };
 const init = async () => {
-  notices.value = await dictData('message_tools');
+  notices.value = await dictData("message_tools");
 };
 onMounted(() => {
   init();
