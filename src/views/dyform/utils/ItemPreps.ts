@@ -1350,7 +1350,7 @@ const listPrototypeVisible = ref<boolean>(false);
 /**
  * 定义所有组件的公共属性
  */
-export function compCommonFields(customerValid: Function): FieldInfo[] {
+export function compCommonFields(customerValid: Function, isNumber: boolean): FieldInfo[] {
   return reactive<FieldInfo[]>([
     {
       label: '标签名称',
@@ -1379,7 +1379,7 @@ export function compCommonFields(customerValid: Function): FieldInfo[] {
       label: '数据长度',
       fieldName: 'maxLength',
       required: true,
-      defaultValue: 100,
+      defaultValue: isNumber ? 10 : 255,
       type: 'number',
       formVisible: true,
     },
