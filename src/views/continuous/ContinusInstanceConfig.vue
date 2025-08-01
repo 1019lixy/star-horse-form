@@ -1,5 +1,5 @@
 <script setup lang="ts" name="ContinusInstanceConfig">
-import { onBeforeUnmount, onMounted, onUpdated, reactive, ref } from 'vue';
+import { onActivated, onBeforeUnmount, onMounted, onUpdated, reactive, ref } from 'vue';
 import { useRouter } from 'vue-router';
 import {
   apiInstance,
@@ -94,7 +94,7 @@ onBeforeUnmount(() => {
   const scrollbar = document.querySelector('.el-scrollbar__wrap');
   scrollbar?.removeEventListener('scroll', handleScroll);
 });
-onUpdated(() => {
+onActivated(() => {
   init();
 });
 onMounted(() => {

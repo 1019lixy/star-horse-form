@@ -1,5 +1,5 @@
 <script setup lang="ts" name="FormPropertyPanel">
-import { computed, onMounted, onUpdated, reactive, ref, watch } from 'vue';
+import { computed, onActivated, onMounted, onUpdated, reactive, ref, watch } from 'vue';
 import {
   apiInstance,
   ApiUrls,
@@ -920,8 +920,8 @@ onMounted(() => {
   loadMenus(formInfo.value['sysId']);
   analysisMainFields();
 });
-onUpdated(() => {
-  console.info('onUpdated');
+onActivated(() => {
+  console.info('onActivated');
 });
 
 watch(

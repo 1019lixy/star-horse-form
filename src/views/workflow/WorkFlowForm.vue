@@ -89,22 +89,15 @@ watch(
 );
 </script>
 <template>
-  <el-card class="inner_content">
-    <FlowNav
-      :currentNav="currentData"
-      @changeFlow="changeFlow"
-      @flowSave="flowSave"
-      @change="change"
-    />
-    <BasicInfo ref="basicInfoRef" v-if="currentData == 1" />
-    <DynamicForm ref="basicInfoRef" v-if="currentData == 2" />
-    <UFlowDesign
-      ref="flowDesignRef"
-      :flowStyle="flowStyle"
-      v-if="currentData == 3"
-    />
-    <FlowSetting ref="flowSettingRef" v-if="currentData == 4" />
-  </el-card>
+  <div class="flex flex-col h-full overflow-hidden">
+    <el-card class="inner_content">
+      <FlowNav :currentNav="currentData" @changeFlow="changeFlow" @flowSave="flowSave" @change="change" />
+      <BasicInfo ref="basicInfoRef" v-if="currentData == 1" />
+      <DynamicForm ref="basicInfoRef" v-if="currentData == 2" />
+      <UFlowDesign ref="flowDesignRef" :flowStyle="flowStyle" v-if="currentData == 3" />
+      <FlowSetting ref="flowSettingRef" v-if="currentData == 4" />
+    </el-card>
+  </div>
 </template>
 
 <style scoped lang="scss"></style>

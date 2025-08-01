@@ -40,9 +40,9 @@ defineExpose({
 });
 </script>
 <template>
-  <div class="designer-wrap" v-if="!dialogFlag">
-    <div class="designer-base-info">
-      <div class="base-info-panel">
+  <div class="w-full h-full overflow-hidden" v-if="!dialogFlag">
+    <div class="h-full mx-auto my-0 overflow-y-auto bg-[#f2f3f5]">
+      <div class="w-[70%] my-[24px] py-[10px] mx-auto flex flex-col bg-[#fff]">
         <star-horse-form
           :field-list="flowFormFields"
           :outerFormData="formInfo"
