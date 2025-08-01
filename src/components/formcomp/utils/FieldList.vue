@@ -1,18 +1,18 @@
 <script setup lang="ts">
-import { piniaInstance, useDesignFormStore } from "star-horse-lowcode";
-import { computed, ref } from "vue";
+import { piniaInstance, useDesignFormStore } from 'star-horse-lowcode';
+import { computed, ref } from 'vue';
 
 defineOptions({
-  name: "FieldList",
+  name: 'FieldList',
 });
 const containerRef = ref();
-const emits = defineEmits(["selectData"]);
+const emits = defineEmits(['selectData']);
 let designForm = useDesignFormStore(piniaInstance);
 let formDataList = computed(() => designForm.formDataList);
 let containerList = computed(() => designForm.containerList);
 let selfFormDataList = computed(() => designForm.selfFormDataList);
 const selectData = (item: any) => {
-  emits("selectData", item);
+  emits('selectData', item);
 };
 </script>
 

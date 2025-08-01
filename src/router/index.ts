@@ -3,28 +3,28 @@ import {
   createWebHistory,
   NavigationGuardNext,
   RouteLocationNormalized,
-} from "vue-router";
-import routeDefine from "@/router/routeDefine";
-import { starhorseProcess } from "@/utils/starhorseProcess";
-import { Config } from "@/api/settings";
-import { getToken } from "@/utils/auth";
-import { restoreMenu } from "@/api/star_horse_apis";
-import { useNavBarListStore } from "@/store/NavBarList";
-import { useViewCacheStore } from "@/store/ViewCache";
-import piniaCompInstance from "@/store";
+} from 'vue-router';
+import routeDefine from '@/router/routeDefine';
+import { starhorseProcess } from '@/utils/starhorseProcess';
+import { Config } from '@/api/settings';
+import { getToken } from '@/utils/auth';
+import { restoreMenu } from '@/api/star_horse_apis';
+import { useNavBarListStore } from '@/store/NavBarList';
+import { useViewCacheStore } from '@/store/ViewCache';
+import piniaCompInstance from '@/store';
 
 const { start, done } = starhorseProcess();
 const navBarListStore = useNavBarListStore(piniaCompInstance);
 const viewListStore = useViewCacheStore(piniaCompInstance);
 const router = createRouter({
-  history: createWebHistory("/"),
+  history: createWebHistory('/'),
   routes: routeDefine,
   scrollBehavior: () => ({ left: 0, top: 0 }),
 });
-const whiteList = ["/login", "/404"]; // N redirect whitelist
+const whiteList = ['/login', '/404']; // N redirect whitelist
 const assignTitle = (meta: any) => {
   if (meta.title) {
-    document.title = meta.title + " - " + Config.title;
+    document.title = meta.title + ' - ' + Config.title;
   }
 };
 router.beforeEach(
@@ -36,11 +36,11 @@ router.beforeEach(
     assignTitle(to.meta);
     start();
     let token = getToken();
-    console.log("token:", token);
+    console.log('token:', token);
     if (token) {
       // 已登录且要跳转的页面是登录页
-      if (to.path === "/login") {
-        next({ path: "/" });
+      if (to.path === '/login') {
+        next({ path: '/' });
       } else {
         //第一次验证路由是不是存在，不存在则重新加载
         if (!to.name || !router.hasRoute(to.name)) {
@@ -49,12 +49,12 @@ router.beforeEach(
           let path = to.path;
           //判断是不是动态菜单
           path =
-            path.indexOf("page/") == -1
+            path.indexOf('page/') == -1
               ? path
-              : path.substring(0, path.lastIndexOf("/")) + "/:param";
+              : path.substring(0, path.lastIndexOf('/')) + '/:param';
           const toPath = router.getRoutes().find((item) => item.path === path);
-          if (to.path.indexOf("page/") == -1 && !toPath?.components) {
-            next("/404");
+          if (to.path.indexOf('page/') == -1 && !toPath?.components) {
+            next('/404');
           } else {
             next();
           }
@@ -67,7 +67,7 @@ router.beforeEach(
         next();
       } else {
         //中断当前导航执行新的导航
-        next({ path: "/login", query: { redirect: to.fullPath } }); // 否则全部重定向到登录页
+        next({ path: '/login', query: { redirect: to.fullPath } }); // 否则全部重定向到登录页
       }
     }
   },
@@ -77,10 +77,10 @@ router.beforeResolve((_to, _from, next) => {
 });
 router.afterEach((to, _from) => {
   done();
-  if (to.path !== "/login" && to.path !== "/404") {
+  if (to.path !== '/login' && to.path !== '/404') {
     //动态表单路由，导航信息拼接
-    if (to.path.indexOf("page/") != -1) {
-      const menuLists = sessionStorage.getItem("dynamicMenusLists");
+    if (to.path.indexOf('page/') != -1) {
+      const menuLists = sessionStorage.getItem('dynamicMenusLists');
       if (menuLists) {
         const menus = JSON.parse(menuLists);
         const fdata = menus.find((item: any) => item.path == to.path);
@@ -93,7 +93,7 @@ router.afterEach((to, _from) => {
     if (!to.meta.noCache) {
       navBarListStore.addNavBar(to);
     }
-    if (keepAlive == "Y") {
+    if (keepAlive == 'Y') {
       viewListStore.setViewCache(to);
     }
   }

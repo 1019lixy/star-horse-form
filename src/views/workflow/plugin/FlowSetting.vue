@@ -28,11 +28,11 @@
   </div>
 </template>
 <script setup lang="ts">
-import { flowCommon } from "@/views/workflow/plugin/utils/flowCommon";
-import { computed, ref } from "vue";
-import { scale } from "@/views/workflow/plugin/utils/deviceUtil";
-import { useFlowDesignStore } from "@/store/FlowDesign";
-import { piniaInstance } from "star-horse-lowcode";
+import { flowCommon } from '@/views/workflow/plugin/utils/flowCommon';
+import { computed, ref } from 'vue';
+import { scale } from '@/views/workflow/plugin/utils/deviceUtil';
+import { useFlowDesignStore } from '@/store/FlowDesign';
+import { piniaInstance } from 'star-horse-lowcode';
 
 const flowDesign = useFlowDesignStore(piniaInstance);
 const props = defineProps({
@@ -45,24 +45,24 @@ const props = defineProps({
     default: false,
   },
 });
-const emits = defineEmits(["save"]);
+const emits = defineEmits(['save']);
 const nodeData = computed(() => flowDesign.node);
 let currentNav = ref<number>(2);
 let currentContext = ref<number>(1);
-let buttonName = ref<string>("保存");
+let buttonName = ref<string>('保存');
 let menus = ref<Array<any>>([
   {
-    name: "基本配置",
+    name: '基本配置',
     code: 1,
     activate: true,
   },
   {
-    name: "展示设置",
+    name: '展示设置',
     code: 2,
     activate: false,
   },
   {
-    name: "提醒填写",
+    name: '提醒填写',
     code: 3,
     activate: false,
   },
@@ -72,7 +72,7 @@ let menus = ref<Array<any>>([
   activate: false,
 }, */
   {
-    name: "打印模板",
+    name: '打印模板',
     code: 5,
     activate: false,
   },
@@ -91,6 +91,6 @@ const changeMenu = (menu) => {
   });
 };
 const save = () => {
-  emits("save", nodeData);
+  emits('save', nodeData);
 };
 </script>

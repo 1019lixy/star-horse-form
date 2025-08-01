@@ -6,43 +6,43 @@ import {
   provide,
   reactive,
   ref,
-} from "vue";
+} from 'vue';
 import {
   apiInstance,
   ApiUrls,
   dialogPreps,
   PageFieldInfo,
   SearchFields,
-} from "star-horse-lowcode";
-import { getCustomerParam } from "@/utils/auth";
+} from 'star-horse-lowcode';
+import { getCustomerParam } from '@/utils/auth';
 //后端交互接口地址
-const dataUrl: ApiUrls = apiInstance("system-config", "system/calendarDefine");
+const dataUrl: ApiUrls = apiInstance('system-config', 'system/calendarDefine');
 //主键
-const primaryKey = "idCalendarDefine";
+const primaryKey = 'idCalendarDefine';
 const calendarDefineRef = ref();
 //定义表单的所有属性
 const formFields = reactive<object>({});
-provide("formFields", formFields);
+provide('formFields', formFields);
 //查询属性
 const searchFormData = reactive<SearchFields>({
   fieldList: [
     {
-      label: "日历分类",
-      fieldName: "category",
+      label: '日历分类',
+      fieldName: 'category',
       defaultVisible: false,
-      matchType: "lk",
+      matchType: 'lk',
     },
     {
-      label: "日历名称",
-      fieldName: "calendarName",
+      label: '日历名称',
+      fieldName: 'calendarName',
       defaultVisible: false,
-      matchType: "lk",
+      matchType: 'lk',
     },
     {
-      label: "共享成员",
-      fieldName: "sharPerson",
+      label: '共享成员',
+      fieldName: 'sharPerson',
       defaultVisible: false,
-      matchType: "lk",
+      matchType: 'lk',
     },
   ],
 });
@@ -51,120 +51,120 @@ const tableFieldList = reactive<PageFieldInfo | any>({
   //属性列表
   fieldList: [
     {
-      label: "主键",
-      fieldName: "idCalendarDefine",
+      label: '主键',
+      fieldName: 'idCalendarDefine',
 
       required: true,
       formVisible: true,
       listVisible: true,
     },
     {
-      label: "日历分类",
-      fieldName: "category",
+      label: '日历分类',
+      fieldName: 'category',
 
       required: false,
       formVisible: true,
       listVisible: true,
     },
     {
-      label: "日历名称",
-      fieldName: "calendarName",
+      label: '日历名称',
+      fieldName: 'calendarName',
 
       required: false,
       formVisible: true,
       listVisible: true,
     },
     {
-      label: "共享成员",
-      fieldName: "sharPerson",
+      label: '共享成员',
+      fieldName: 'sharPerson',
 
       required: false,
       formVisible: true,
       listVisible: true,
     },
     {
-      label: "版本号",
-      fieldName: "version",
-      type: "number",
+      label: '版本号',
+      fieldName: 'version',
+      type: 'number',
       required: false,
       formVisible: !true,
       listVisible: !true,
     },
     {
-      label: "创建人",
-      fieldName: "createdBy",
+      label: '创建人',
+      fieldName: 'createdBy',
 
       required: false,
       formVisible: !true,
       listVisible: !true,
     },
     {
-      label: "创建时间",
-      fieldName: "createdTime",
-      type: "datetime",
+      label: '创建时间',
+      fieldName: 'createdTime',
+      type: 'datetime',
       required: false,
       formVisible: !true,
       listVisible: !true,
     },
     {
-      label: "修改人",
-      fieldName: "updatedBy",
+      label: '修改人',
+      fieldName: 'updatedBy',
 
       required: false,
       formVisible: !true,
       listVisible: !true,
     },
     {
-      label: "修改时间",
-      fieldName: "updatedTime",
-      type: "datetime",
+      label: '修改时间',
+      fieldName: 'updatedTime',
+      type: 'datetime',
       required: false,
       formVisible: !true,
       listVisible: !true,
     },
     {
-      label: "数据编号",
-      fieldName: "dataNo",
+      label: '数据编号',
+      fieldName: 'dataNo',
 
       required: false,
       formVisible: !true,
       listVisible: !true,
     },
     {
-      label: "状态码",
-      fieldName: "statusCode",
+      label: '状态码',
+      fieldName: 'statusCode',
 
       required: false,
       formVisible: !true,
       listVisible: !true,
     },
     {
-      label: "状态名称",
-      fieldName: "statusName",
+      label: '状态名称',
+      fieldName: 'statusName',
 
       required: false,
       formVisible: !true,
       listVisible: !true,
     },
     {
-      label: "是否删除",
-      fieldName: "isDel",
-      type: "number",
+      label: '是否删除',
+      fieldName: 'isDel',
+      type: 'number',
       required: false,
       formVisible: !true,
       listVisible: !true,
     },
     {
-      label: "国际编码",
-      fieldName: "local",
+      label: '国际编码',
+      fieldName: 'local',
 
       required: false,
       formVisible: !true,
       listVisible: !true,
     },
     {
-      label: "备注",
-      fieldName: "remark",
+      label: '备注',
+      fieldName: 'remark',
 
       required: false,
       formVisible: !true,
@@ -178,7 +178,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
 const rules = {};
 //控制弹窗相关设置
 const dialogProps = dialogPreps();
-provide("dialogProps", dialogProps);
+provide('dialogProps', dialogProps);
 //初始化方法
 const initData = async () => {};
 const activated = () => {};

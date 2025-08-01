@@ -14,16 +14,16 @@
 </template>
 
 <script setup lang="ts">
-import { onBeforeUnmount, onMounted, ref } from "vue";
+import { onBeforeUnmount, onMounted, ref } from 'vue';
 import {
   createUniver,
   defaultTheme,
   LocaleType,
   merge,
-} from "@univerjs/presets";
-import { UniverSheetsCorePreset } from "@univerjs/presets/preset-sheets-core";
-import UniverPresetSheetsCoreZhCN from "@univerjs/presets/preset-sheets-core/locales/zh-CN";
-import "@univerjs/presets/lib/styles/preset-sheets-core.css";
+} from '@univerjs/presets';
+import { UniverSheetsCorePreset } from '@univerjs/presets/preset-sheets-core';
+import UniverPresetSheetsCoreZhCN from '@univerjs/presets/preset-sheets-core/locales/zh-CN';
+import '@univerjs/presets/lib/styles/preset-sheets-core.css';
 
 const props = defineProps({
   isDesign: {
@@ -55,10 +55,10 @@ const props = defineProps({
     default: {},
   },
 });
-const emits = defineEmits(["selfFunc", "selectItem"]);
-const formData = defineModel("formData");
+const emits = defineEmits(['selfFunc', 'selectItem']);
+const formData = defineModel('formData');
 const itemAction = () => {
-  emits("selfFunc", formData);
+  emits('selfFunc', formData);
 };
 const container = ref<HTMLElement | null>(null);
 const univerAPIRef = ref<any>(null);
@@ -77,7 +77,7 @@ onMounted(() => {
     ],
   });
 
-  univerAPI.createWorkbook({ name: "Test Sheet" });
+  univerAPI.createWorkbook({ name: 'Test Sheet' });
   univerAPIRef.value = univerAPI;
 });
 

@@ -2,19 +2,19 @@
   <div ref="svgContainer"></div>
 </template>
 <script lang="ts" setup>
-import { onMounted, ref, watch } from "vue";
+import { onMounted, ref, watch } from 'vue';
 
 const props = defineProps({
   path: { type: String, required: true },
-  size: { type: String, default: "20px" },
-  cursor: { type: String, default: "normal" },
-  marginLeft: { type: String, default: "1px" },
-  marginRight: { type: String, default: "1px" },
-  color: { type: String, default: "var(--star-horse-style)" },
+  size: { type: String, default: '20px' },
+  cursor: { type: String, default: 'normal' },
+  marginLeft: { type: String, default: '1px' },
+  marginRight: { type: String, default: '1px' },
+  color: { type: String, default: 'var(--star-horse-style)' },
 });
 const svgContainer = ref(null);
 const loadSvg = async () => {
-  const path = props.path.endsWith(".svg") ? props.path : `${props.path}.svg`;
+  const path = props.path.endsWith('.svg') ? props.path : `${props.path}.svg`;
   const response = await fetch(path);
   let svgText = await response.text();
   // svgText = svgText.replace(/fill="[^"]*"/g, 'fill="currentColor"');

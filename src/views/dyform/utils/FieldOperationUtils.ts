@@ -4,27 +4,27 @@ import {
   SearchParams,
   useDesignFormStore,
   uuid,
-} from "star-horse-lowcode";
-import { computed } from "vue";
+} from 'star-horse-lowcode';
+import { computed } from 'vue';
 
 const designForm = useDesignFormStore(piniaInstance);
 const formData = computed(() => designForm.formData);
 const numField: Array<string> = [
-  "minlength",
-  "maxLength",
-  "step",
-  "rows",
-  "height",
-  "width",
-  "columns",
-  "gutter",
-  "limit",
-  "precision",
-  "min",
-  "max",
-  "highThreshold",
-  "lowThreshold",
-  "multipleLimit",
+  'minlength',
+  'maxLength',
+  'step',
+  'rows',
+  'height',
+  'width',
+  'columns',
+  'gutter',
+  'limit',
+  'precision',
+  'min',
+  'max',
+  'highThreshold',
+  'lowThreshold',
+  'multipleLimit',
 ];
 
 /**
@@ -32,12 +32,12 @@ const numField: Array<string> = [
  * @param type
  */
 const getDefaultVal = (type: string) => {
-  if (type == "number" || type == "slider" || type == "rate") {
+  if (type == 'number' || type == 'slider' || type == 'rate') {
     return undefined;
-  } else if (type == "checkbox" || type == "transfer") {
+  } else if (type == 'checkbox' || type == 'transfer') {
     return [];
   } else {
-    return "";
+    return '';
   }
 };
 
@@ -51,13 +51,13 @@ export function fieldCopy(data: any, type: string) {
   //如果数据没有索引，则初始化索引
   const ms = designForm.getFieldDataIndex();
   const mvData: any = {};
-  mvData["id"] = "Id" + uuid();
+  mvData['id'] = 'Id' + uuid();
   // console.log(reData);
   /**
    * 处理preps
    */
   const preps = reData.preps;
-  mvData["preps"] = {};
+  mvData['preps'] = {};
   for (const key in preps) {
     const temp = preps[key];
     if (numField.includes(temp.fieldName)) {
@@ -70,22 +70,22 @@ export function fieldCopy(data: any, type: string) {
       mvData.preps[temp.fieldName] = temp.defaultValues;
     }
   }
-  mvData.preps["id"] = mvData["id"];
-  mvData.preps["label"] = reData.itemName;
-  mvData.preps["itemNameLabel"] = reData.itemName;
-  mvData.preps["name"] = reData.itemType + ms;
+  mvData.preps['id'] = mvData['id'];
+  mvData.preps['label'] = reData.itemName;
+  mvData.preps['itemNameLabel'] = reData.itemName;
+  mvData.preps['name'] = reData.itemType + ms;
   formData.value[reData.preps.fieldName] = getDefaultVal(reData.itemType);
-  mvData["compType"] = type;
-  mvData["fieldName"] = mvData.preps["name"];
-  mvData["itemType"] = reData.itemType;
-  if (reData.itemType == "box") {
-    mvData.preps["elements"] = [
+  mvData['compType'] = type;
+  mvData['fieldName'] = mvData.preps['name'];
+  mvData['itemType'] = reData.itemType;
+  if (reData.itemType == 'box') {
+    mvData.preps['elements'] = [
       { rowIndex: 1, columns: [{ colIndex: 1, colspan: 24, items: [] }] },
     ];
-  } else if (reData.itemType == "table") {
-    mvData.preps["elements"] = [{ colIndex: 1, columns: 1, items: [] }];
-  } else if (reData.itemType == "dytable") {
-    mvData.preps["elements"] = [
+  } else if (reData.itemType == 'table') {
+    mvData.preps['elements'] = [{ colIndex: 1, columns: 1, items: [] }];
+  } else if (reData.itemType == 'dytable') {
+    mvData.preps['elements'] = [
       {
         colIndex: 1,
         columns: [{ colIndex: 1, colspan: 1, rowspan: 1, items: [] }],
@@ -96,7 +96,7 @@ export function fieldCopy(data: any, type: string) {
 }
 
 export function compFieldInit() {
-  const url = "/userdb-manage/userdb/dynamicFormItems/getAllByCondition";
+  const url = '/userdb-manage/userdb/dynamicFormItems/getAllByCondition';
   const allFormDataList: Array<any> = [];
   const assignData = (datas: any) => {
     datas.forEach((item: any) => {
@@ -109,17 +109,17 @@ export function compFieldInit() {
   const initContainer = () => {
     const params: SearchParams[] = [
       {
-        propertyName: "category",
+        propertyName: 'category',
         value: 2,
       },
       {
-        propertyName: "isDel",
+        propertyName: 'isDel',
         value: 0,
       },
     ];
     const query = {
       fieldList: params,
-      orderBy: [{ fieldName: "dataSort", ascOrDesc: "asc" }],
+      orderBy: [{ fieldName: 'dataSort', ascOrDesc: 'asc' }],
     };
     return new Promise((resolve) => {
       postRequest(url, query).then((res) => {
@@ -130,17 +130,17 @@ export function compFieldInit() {
   const initItems = () => {
     const params: SearchParams[] = [
       {
-        propertyName: "category",
+        propertyName: 'category',
         value: 1,
       },
       {
-        propertyName: "isDel",
+        propertyName: 'isDel',
         value: 0,
       },
     ];
     const query = {
       fieldList: params,
-      orderBy: [{ fieldName: "dataSort", ascOrDesc: "asc" }],
+      orderBy: [{ fieldName: 'dataSort', ascOrDesc: 'asc' }],
     };
     return new Promise((resolve) => {
       postRequest(url, query).then((res) => {
@@ -151,17 +151,17 @@ export function compFieldInit() {
   const initSelfItems = () => {
     const params: SearchParams[] = [
       {
-        propertyName: "category",
+        propertyName: 'category',
         value: 3,
       },
       {
-        propertyName: "isDel",
+        propertyName: 'isDel',
         value: 0,
       },
     ];
     const query = {
       fieldList: params,
-      orderBy: [{ fieldName: "dataSort", ascOrDesc: "asc" }],
+      orderBy: [{ fieldName: 'dataSort', ascOrDesc: 'asc' }],
     };
     return new Promise((resolve) => {
       postRequest(url, query).then((res) => {

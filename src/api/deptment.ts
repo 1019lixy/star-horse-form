@@ -1,7 +1,7 @@
-import { postRequest, SelectOption } from "star-horse-lowcode";
+import { postRequest, SelectOption } from 'star-horse-lowcode';
 
 const deptAndUserTree: string =
-  "/system-config/system/departmentEntity/deptAndUserTree";
+  '/system-config/system/departmentEntity/deptAndUserTree';
 
 /**
  * 获取部门用户
@@ -25,9 +25,9 @@ export async function loadDeptUser(direct: boolean, params: any) {
           //构建用户部门树
           menuDatas = createDeptUserTree(
             redata.data,
-            "",
-            "deptName",
-            "idDepartment",
+            '',
+            'deptName',
+            'idDepartment',
           );
         }
       }
@@ -54,16 +54,16 @@ export function createDeptUserTree(
   const deptUserList: Array<SelectOption> = [];
   datas.forEach((item: any) => {
     const temp: any = {};
-    temp["value"] = valField ? item[valField] : parseInt(item[val]);
-    temp["name"] = item[name];
-    temp["children"] = [];
-    const userList = item["userList"];
+    temp['value'] = valField ? item[valField] : parseInt(item[val]);
+    temp['name'] = item[name];
+    temp['children'] = [];
+    const userList = item['userList'];
     if (item.children && item.children.length > 0) {
-      temp["children"] = createDeptUserTree(item.children, valField, name, val);
+      temp['children'] = createDeptUserTree(item.children, valField, name, val);
     }
     userList.forEach((item: any) => {
-      temp["children"].push({
-        name: item.userName + "(" + item.name + ")",
+      temp['children'].push({
+        name: item.userName + '(' + item.name + ')',
         value: item.idUsersinfo,
       });
     });
@@ -89,14 +89,14 @@ export function analysisData(
     listValues: Array<number> = [];
   datas.forEach((item: any) => {
     const temp: any = {};
-    temp["value"] = valField ? item[valField] : parseInt(item[val]);
-    temp["name"] = item[name];
-    listNames.push(temp["name"]);
-    listValues.push(temp["value"]);
+    temp['value'] = valField ? item[valField] : parseInt(item[val]);
+    temp['name'] = item[name];
+    listNames.push(temp['name']);
+    listValues.push(temp['value']);
     if (item.children && item.children.length > 0) {
-      temp["children"] = analysisData(item.children, valField, name, val);
-      listNames.push(...temp["children"]["listNames"]);
-      listValues.push(...temp["children"]["listValues"]);
+      temp['children'] = analysisData(item.children, valField, name, val);
+      listNames.push(...temp['children']['listNames']);
+      listValues.push(...temp['children']['listValues']);
     }
   });
   return {

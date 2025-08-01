@@ -7,7 +7,7 @@ import {
   provide,
   reactive,
   ref,
-} from "vue";
+} from 'vue';
 import {
   apiInstance,
   ApiUrls,
@@ -16,63 +16,63 @@ import {
   PageFieldInfo,
   SearchFields,
   SelectOption,
-} from "star-horse-lowcode";
-import { loadSvgIcons } from "@/api/star_horse_utils.js";
+} from 'star-horse-lowcode';
+import { loadSvgIcons } from '@/api/star_horse_utils.js';
 
 defineOptions({
-  name: "CategoryItemConfig",
+  name: 'CategoryItemConfig',
 });
 //后端交互接口地址
 const dataUrl: ApiUrls = apiInstance(
-  "flow-engine",
-  "workflow/categoryItemConfig",
+  'flow-engine',
+  'workflow/categoryItemConfig',
 );
 //主键
-const primaryKey = "idCategoryItemConfig";
+const primaryKey = 'idCategoryItemConfig';
 const categoryItemConfigRef = ref();
 //定义表单的所有属性
 const formFields = reactive<object>({});
-provide("formFields", formFields);
+provide('formFields', formFields);
 let cfgCategoryList = ref<SelectOption[]>([]);
 //查询属性
 const searchFormData = reactive<SearchFields>({
   fieldList: [
     {
-      label: "配置类别",
-      fieldName: "cfgCategory",
-      type: "select",
-      matchType: "eq",
+      label: '配置类别',
+      fieldName: 'cfgCategory',
+      type: 'select',
+      matchType: 'eq',
       defaultVisible: true,
       preps: {
         values: cfgCategoryList,
       },
     },
     {
-      label: "名称",
-      fieldName: "name",
+      label: '名称',
+      fieldName: 'name',
 
-      matchType: "lk",
+      matchType: 'lk',
       defaultVisible: true,
       preps: {},
     },
     {
-      label: "编码",
-      fieldName: "code",
+      label: '编码',
+      fieldName: 'code',
 
-      matchType: "lk",
+      matchType: 'lk',
       defaultVisible: true,
       preps: {},
     },
     {
-      label: "是否选中",
-      fieldName: "checkedFlag",
-      type: "select",
-      matchType: "eq",
+      label: '是否选中',
+      fieldName: 'checkedFlag',
+      type: 'select',
+      matchType: 'eq',
       defaultVisible: true,
       preps: {
         values: [
-          { name: "是", value: "Y" },
-          { name: "否", value: "N" },
+          { name: '是', value: 'Y' },
+          { name: '否', value: 'N' },
         ],
       },
     },
@@ -81,9 +81,9 @@ const searchFormData = reactive<SearchFields>({
 const tableFieldList = reactive<PageFieldInfo | any>({
   fieldList: [
     {
-      label: "配置类别",
-      fieldName: "cfgCategory",
-      type: "select",
+      label: '配置类别',
+      fieldName: 'cfgCategory',
+      type: 'select',
       required: true,
       formVisible: true,
       listVisible: true,
@@ -92,8 +92,8 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       },
     },
     {
-      label: "名称",
-      fieldName: "name",
+      label: '名称',
+      fieldName: 'name',
 
       required: true,
       formVisible: true,
@@ -102,8 +102,8 @@ const tableFieldList = reactive<PageFieldInfo | any>({
     },
     [
       {
-        label: "编码",
-        fieldName: "code",
+        label: '编码',
+        fieldName: 'code',
 
         required: false,
         formVisible: true,
@@ -111,153 +111,153 @@ const tableFieldList = reactive<PageFieldInfo | any>({
         preps: {},
       },
       {
-        label: "是否选中",
-        fieldName: "checkedFlag",
-        type: "switch",
-        defaultValue: "N",
+        label: '是否选中',
+        fieldName: 'checkedFlag',
+        type: 'switch',
+        defaultValue: 'N',
         required: false,
         formVisible: true,
         listVisible: true,
         preps: {
-          activeValue: "Y",
-          inactiveValue: "N",
+          activeValue: 'Y',
+          inactiveValue: 'N',
         },
       },
     ],
     [
       {
-        label: "图片地址",
-        fieldName: "imageUrl",
-        type: "image",
+        label: '图片地址',
+        fieldName: 'imageUrl',
+        type: 'image',
         required: false,
         formVisible: true,
         listVisible: true,
         preps: {
-          assignType: "url",
+          assignType: 'url',
         },
       },
       {
-        label: "图标",
-        fieldName: "icon",
-        type: "icon",
+        label: '图标',
+        fieldName: 'icon',
+        type: 'icon',
         required: false,
         formVisible: true,
         listVisible: true,
         preps: {
-          iconType: "user",
+          iconType: 'user',
           values: loadSvgIcons(),
         },
       },
     ],
     {
-      label: "描述",
-      fieldName: "description",
-      type: "textarea",
+      label: '描述',
+      fieldName: 'description',
+      type: 'textarea',
       required: true,
       formVisible: true,
       listVisible: true,
       preps: {},
     },
     {
-      label: "创建人",
-      fieldName: "createdBy",
+      label: '创建人',
+      fieldName: 'createdBy',
 
       listVisible: true,
       preps: {},
-      commonFlag: "Y",
+      commonFlag: 'Y',
     },
     {
-      label: "修改人",
-      fieldName: "updatedBy",
+      label: '修改人',
+      fieldName: 'updatedBy',
 
       preps: {},
-      commonFlag: "Y",
+      commonFlag: 'Y',
     },
     {
-      label: "创建时间",
-      fieldName: "createdTime",
-      type: "datetime",
-
-      listVisible: true,
-      preps: {},
-      commonFlag: "Y",
-    },
-    {
-      label: "创建日期",
-      fieldName: "createdTime",
-      type: "datetime",
+      label: '创建时间',
+      fieldName: 'createdTime',
+      type: 'datetime',
 
       listVisible: true,
       preps: {},
-      commonFlag: "N",
+      commonFlag: 'Y',
     },
     {
-      label: "修改时间",
-      fieldName: "updatedTime",
-      type: "datetime",
-
-      preps: {},
-      commonFlag: "Y",
-    },
-    {
-      label: "版本号",
-      fieldName: "version",
-      type: "number",
+      label: '创建日期',
+      fieldName: 'createdTime',
+      type: 'datetime',
 
       listVisible: true,
       preps: {},
-      commonFlag: "Y",
+      commonFlag: 'N',
     },
     {
-      label: "是否删除",
-      fieldName: "isDel",
-      type: "number",
+      label: '修改时间',
+      fieldName: 'updatedTime',
+      type: 'datetime',
 
       preps: {},
-      commonFlag: "Y",
+      commonFlag: 'Y',
     },
     {
-      label: "数据编号",
-      fieldName: "dataNo",
+      label: '版本号',
+      fieldName: 'version',
+      type: 'number',
 
+      listVisible: true,
       preps: {},
-      commonFlag: "Y",
+      commonFlag: 'Y',
     },
     {
-      label: "状态码",
-      fieldName: "statusCode",
+      label: '是否删除',
+      fieldName: 'isDel',
+      type: 'number',
 
       preps: {},
-      commonFlag: "Y",
+      commonFlag: 'Y',
     },
     {
-      label: "状态名称",
-      fieldName: "statusName",
-      type: "string",
+      label: '数据编号',
+      fieldName: 'dataNo',
 
       preps: {},
-      commonFlag: "Y",
+      commonFlag: 'Y',
     },
     {
-      label: "国际编码",
-      fieldName: "local",
+      label: '状态码',
+      fieldName: 'statusCode',
 
       preps: {},
-      commonFlag: "Y",
+      commonFlag: 'Y',
     },
     {
-      label: "备注",
-      fieldName: "remark",
+      label: '状态名称',
+      fieldName: 'statusName',
+      type: 'string',
 
       preps: {},
-      commonFlag: "Y",
+      commonFlag: 'Y',
+    },
+    {
+      label: '国际编码',
+      fieldName: 'local',
+
+      preps: {},
+      commonFlag: 'Y',
+    },
+    {
+      label: '备注',
+      fieldName: 'remark',
+
+      preps: {},
+      commonFlag: 'Y',
     },
   ],
   batchFieldList: [],
   userTableFuncs: [],
   dynamicFormas: [],
   orderBy: [],
-  batchName: "batchDataList",
+  batchName: 'batchDataList',
   tableCellEditabled: false,
   stopAutoLoad: false,
 });
@@ -265,10 +265,10 @@ const tableFieldList = reactive<PageFieldInfo | any>({
 const rules = {};
 //控制弹窗相关设置
 const dialogProps = dialogPreps();
-provide("dialogProps", dialogProps);
+provide('dialogProps', dialogProps);
 //初始化方法
 const initData = async () => {
-  cfgCategoryList.value = await dictData("flow_helper_category");
+  cfgCategoryList.value = await dictData('flow_helper_category');
 };
 const activated = async () => {
   await nextTick(() => {
@@ -283,7 +283,7 @@ const deactivated = () => {};
  * @param row 列表行数据
  */
 const dataFormat = (name: string, cellValue: any, row: any): any => {
-  if (name === "cfgCategory") {
+  if (name === 'cfgCategory') {
     return (
       cfgCategoryList.value.find((item) => item.value == cellValue)?.name ||
       cellValue

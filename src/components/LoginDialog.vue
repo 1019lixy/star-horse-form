@@ -1,14 +1,14 @@
 <script lang="ts" setup>
-import { Config } from "@/api/settings";
-import { getValidateImg } from "@/api/star_horse_apis";
-import { i18n } from "@/lang";
-import { useLoginStore } from "@/store/Login";
-import { setPublicKey } from "@/utils/auth";
-import type { FormInstance, FormRules } from "element-plus";
-import { JSEncrypt } from "jsencrypt";
-import { piniaInstance, useUserInfoStore, warning } from "star-horse-lowcode";
-import { computed, onMounted, reactive, ref, watch } from "vue";
-import { useRouter } from "vue-router";
+import { Config } from '@/api/settings';
+import { getValidateImg } from '@/api/star_horse_apis';
+import { i18n } from '@/lang';
+import { useLoginStore } from '@/store/Login';
+import { setPublicKey } from '@/utils/auth';
+import type { FormInstance, FormRules } from 'element-plus';
+import { JSEncrypt } from 'jsencrypt';
+import { piniaInstance, useUserInfoStore, warning } from 'star-horse-lowcode';
+import { computed, onMounted, reactive, ref, watch } from 'vue';
+import { useRouter } from 'vue-router';
 
 interface LoginInfo {
   userName: string;
@@ -20,24 +20,24 @@ interface LoginInfo {
 }
 
 const { currentRoute, replace } = useRouter();
-const loginDialogVisible = defineModel<boolean>("loginDialogVisible");
+const loginDialogVisible = defineModel<boolean>('loginDialogVisible');
 const userInfoStore = useUserInfoStore(piniaInstance);
 const loginStore = useLoginStore(piniaInstance);
 const dialogVisible = computed(
-  () => loginDialogVisible.value && currentRoute.value.path != "/login",
+  () => loginDialogVisible.value && currentRoute.value.path != '/login',
 );
-let validateImg = ref<string>("");
-let uuid = ref<string>("");
+let validateImg = ref<string>('');
+let uuid = ref<string>('');
 let flag = ref<boolean>(false);
-let publicKey = ref<string>("");
+let publicKey = ref<string>('');
 let loading = ref<boolean>(false);
 let loginForm = reactive<LoginInfo>({
-  password: "",
-  rememberMe: "",
-  tokenId: "",
-  userName: "",
-  uuid: "",
-  validCode: "",
+  password: '',
+  rememberMe: '',
+  tokenId: '',
+  userName: '',
+  uuid: '',
+  validCode: '',
 });
 const loginFormRef = ref<FormInstance>();
 let showValid = ref<boolean>(false);
@@ -45,22 +45,22 @@ let loginRules = reactive<FormRules<LoginInfo>>({
   userName: [
     {
       required: true,
-      trigger: "blur",
-      message: i18n("login.userName", ["starhorse.notAllowEmpty"]),
+      trigger: 'blur',
+      message: i18n('login.userName', ['starhorse.notAllowEmpty']),
     },
   ],
   password: [
     {
       required: true,
-      trigger: "blur",
-      message: i18n("login.password", ["starhorse.notAllowEmpty"]),
+      trigger: 'blur',
+      message: i18n('login.password', ['starhorse.notAllowEmpty']),
     },
   ],
   validCode: [
     {
       required: true,
-      trigger: "blur",
-      message: i18n("login.validCode", ["starhorse.notAllowEmpty"]),
+      trigger: 'blur',
+      message: i18n('login.validCode', ['starhorse.notAllowEmpty']),
     },
   ],
 });
@@ -91,7 +91,7 @@ const handleLogin = async (elForm: FormInstance | undefined, event: Event) => {
         uuid: loginForm?.uuid,
       };
       //密码加密传输，需要加密时去掉注释，单后端认证服务需支持
-      user["password"] = <string>encrypt.encrypt(loginForm.password);
+      user['password'] = <string>encrypt.encrypt(loginForm.password);
       if (valid) {
         let { errMsg } = await loginStore.userLogin(user);
         if (errMsg) {
@@ -101,9 +101,9 @@ const handleLogin = async (elForm: FormInstance | undefined, event: Event) => {
         } else {
           loading.value = !loading.value;
           const { query, fullPath } = currentRoute.value;
-          query["redirectPath"] = fullPath;
+          query['redirectPath'] = fullPath;
           await replace({
-            path: "/redirect",
+            path: '/redirect',
             query: query,
           });
           handleClose();

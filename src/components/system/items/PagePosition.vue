@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { ModelRef } from "vue";
+import { ModelRef } from 'vue';
 
-const data: ModelRef<any> = defineModel("dataForm");
+const data: ModelRef<any> = defineModel('dataForm');
 </script>
 
 <template>

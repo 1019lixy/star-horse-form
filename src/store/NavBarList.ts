@@ -1,9 +1,9 @@
-import { defineStore } from "pinia";
-import router from "@/router/index";
-import { RouteLocationNormalizedLoaded } from "vue-router";
-import { ref } from "vue";
+import { defineStore } from 'pinia';
+import router from '@/router/index';
+import { RouteLocationNormalizedLoaded } from 'vue-router';
+import { ref } from 'vue';
 
-export const useNavBarListStore = defineStore("navBarList", () => {
+export const useNavBarListStore = defineStore('navBarList', () => {
   const currentView = ref<any>({});
   const navTagsList = ref<RouteLocationNormalizedLoaded[]>([]);
 
@@ -33,7 +33,7 @@ export const useNavBarListStore = defineStore("navBarList", () => {
     );
     // @ts-ignore
     if (!nav) {
-      if (data.name == "Index" || data.name == "Home") {
+      if (data.name == 'Index' || data.name == 'Home') {
         dataList.splice(0, 0, data);
       } else {
         dataList.push(data);
@@ -67,19 +67,19 @@ export const useNavBarListStore = defineStore("navBarList", () => {
        * @type {{ [x: string]: any; }}
        */
       const temp = dataList[i];
-      if (currentPath == temp["path"]) {
+      if (currentPath == temp['path']) {
         index = i + data;
         break;
       }
     }
     index = index < 0 ? 0 : index >= len ? len - 1 : index;
-    router.push({ path: dataList[index]["path"] });
+    router.push({ path: dataList[index]['path'] });
   };
   /**
    * 清空对象
    */
   const clearAll = () => {
-    const route = navTagsList.value.find((item) => item.path == "/home");
+    const route = navTagsList.value.find((item) => item.path == '/home');
     if (route) {
       navTagsList.value = [route];
     } else {

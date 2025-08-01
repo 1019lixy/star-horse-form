@@ -8,7 +8,7 @@ import {
   onMounted,
   ref,
   watch,
-} from "vue";
+} from 'vue';
 
 import {
   apiInstance,
@@ -27,25 +27,25 @@ import {
   useSelfOperationStore,
   uuid,
   warning,
-} from "star-horse-lowcode";
-import { useRoute, useRouter } from "vue-router";
-import { validDynamicFormCompParams } from "@/views/dyform/utils/preview";
-import { delCacheData, getCacheData, setCacheData } from "@/api/cached_utils";
-import { i18n } from "@/lang";
-import { Config } from "@/api/settings";
+} from 'star-horse-lowcode';
+import { useRoute, useRouter } from 'vue-router';
+import { validDynamicFormCompParams } from '@/views/dyform/utils/preview';
+import { delCacheData, getCacheData, setCacheData } from '@/api/cached_utils';
+import { i18n } from '@/lang';
+import { Config } from '@/api/settings';
 import {
   initKeyboardEvent,
   removeKeyboardEvent,
-} from "@/api/keyboard-event-utils";
-import { ModuleEnums } from "@/components/enums/ModuleEnums";
-import { compFieldInit } from "@/views/dyform/utils/FieldOperationUtils";
-import { dynamicFormContextMenuData } from "@/plugins/AblesPlugin.ts";
+} from '@/api/keyboard-event-utils';
+import { ModuleEnums } from '@/components/enums/ModuleEnums';
+import { compFieldInit } from '@/views/dyform/utils/FieldOperationUtils';
+import { dynamicFormContextMenuData } from '@/plugins/AblesPlugin.ts';
 import {
   dynamicFormHelpMessage,
   formActions,
-} from "@/views/dyform/utils/DynamicForm.ts";
+} from '@/views/dyform/utils/DynamicForm.ts';
 
-const dataUrl = apiInstance("userdb-manage", "userdb/dynamicForm");
+const dataUrl = apiInstance('userdb-manage', 'userdb/dynamicForm');
 let designForm = useDesignFormStore(piniaInstance);
 let route = useRoute();
 let router = useRouter();
@@ -61,8 +61,8 @@ let list = computed(() => designForm.compList);
 let isPreview = computed(() => designForm.previewVisible);
 let isEdit = computed(() => designForm.isEdit);
 let batchEditFieldVisible = computed(() => designForm.batchEditFieldVisible);
-let activeTab = ref<any>("first");
-let errMessage = ref<string>("");
+let activeTab = ref<any>('first');
+let errMessage = ref<string>('');
 let formData = computed(() => designForm.formData);
 let formInfo = computed(() => designForm.formInfo);
 const isDragging = computed(() => designForm.isDragging);
@@ -72,17 +72,17 @@ const dynamicFormRef = ref();
 const previewDynamicFormRef = ref();
 let reOrUnDoFlag = ref<boolean>(false);
 let initFinish = ref<boolean>(false);
-let currentPageStyle = ref<any>({ label: "电脑", key: "pc" });
-let currentPageClass = ref<string>("main-design");
-let cacheData = ref<any>("");
-let cacheName = "dynamicFormCache";
+let currentPageStyle = ref<any>({ label: '电脑', key: 'pc' });
+let currentPageClass = ref<string>('main-design');
+let cacheData = ref<any>('');
+let cacheName = 'dynamicFormCache';
 const init = async () => {
   //初始化数据
   designForm.clearAll(true);
   //加载组件属性
   compFieldInit().then(() => {
     initFinish.value = true;
-    console.log("初始化完成");
+    console.log('初始化完成');
     //解决数据已经加载完成，但是组件属性没有加载完成的问题
     if (list.value.length > 0) {
       let activeItem = list.value[0];
@@ -104,55 +104,55 @@ const loadFormData = async (
 ) => {
   await nextTick();
   designForm.clearAll(false);
-  let resultData: any = await loadData(dataUrl.loadByIdUrl! + "/" + formId, {});
+  let resultData: any = await loadData(dataUrl.loadByIdUrl! + '/' + formId, {});
   if (resultData.error) {
     warning(resultData.error);
     return;
   }
   let dynamicFormData: any = resultData.data;
   if (isParent) {
-    dynamicFormData["idDynamicForm"] = null;
-    dynamicFormData["parentId"] = formId;
+    dynamicFormData['idDynamicForm'] = null;
+    dynamicFormData['parentId'] = formId;
     //数据编号一定要清空，否则数据会跳过重复验证
-    dynamicFormData["dataNo"] = null;
-    dynamicFormData["formId"] = dynamicFormData["formId"] + "Sub";
-    dynamicFormData["tbName"] = dynamicFormData["tbName"] + "Sub";
+    dynamicFormData['dataNo'] = null;
+    dynamicFormData['formId'] = dynamicFormData['formId'] + 'Sub';
+    dynamicFormData['tbName'] = dynamicFormData['tbName'] + 'Sub';
   }
-  if (dynamicFormData["relations"]) {
-    dynamicFormData["relations"] = JSON.parse(dynamicFormData["relations"]);
+  if (dynamicFormData['relations']) {
+    dynamicFormData['relations'] = JSON.parse(dynamicFormData['relations']);
   }
 
-  let details = dynamicFormData["details"];
+  let details = dynamicFormData['details'];
   if (isTemplate) {
     let times = new Date().getTime();
-    dynamicFormData["idDynamicForm"] = undefined;
-    dynamicFormData["parentId"] = undefined;
-    dynamicFormData["dataNo"] = undefined;
-    dynamicFormData["formId"] = "Id" + times + "Temp";
-    dynamicFormData["tbName"] = "Tb" + times + "Temp";
-    dynamicFormData["formName"] = undefined;
-    dynamicFormData["datasourceConfigId"] = undefined;
-    dynamicFormData["createMenu"] = "N";
-    dynamicFormData["createTable"] = "N";
-    details["idDynamicForm"] = undefined;
-    details["idDynamicFormDetails"] = undefined;
-    details["dataNo"] = undefined;
-    details["tenantId"] = undefined;
-    dynamicFormData["createdBy"] = undefined;
-    dynamicFormData["updatedBy"] = undefined;
-    dynamicFormData["createdTime"] = undefined;
-    dynamicFormData["updatedTime"] = undefined;
-    dynamicFormData["sysId"] = undefined;
-    dynamicFormData["templateFlag"] = undefined;
-    details["createdBy"] = undefined;
-    details["updatedBy"] = undefined;
-    details["createdTime"] = undefined;
-    details["updatedTime"] = undefined;
+    dynamicFormData['idDynamicForm'] = undefined;
+    dynamicFormData['parentId'] = undefined;
+    dynamicFormData['dataNo'] = undefined;
+    dynamicFormData['formId'] = 'Id' + times + 'Temp';
+    dynamicFormData['tbName'] = 'Tb' + times + 'Temp';
+    dynamicFormData['formName'] = undefined;
+    dynamicFormData['datasourceConfigId'] = undefined;
+    dynamicFormData['createMenu'] = 'N';
+    dynamicFormData['createTable'] = 'N';
+    details['idDynamicForm'] = undefined;
+    details['idDynamicFormDetails'] = undefined;
+    details['dataNo'] = undefined;
+    details['tenantId'] = undefined;
+    dynamicFormData['createdBy'] = undefined;
+    dynamicFormData['updatedBy'] = undefined;
+    dynamicFormData['createdTime'] = undefined;
+    dynamicFormData['updatedTime'] = undefined;
+    dynamicFormData['sysId'] = undefined;
+    dynamicFormData['templateFlag'] = undefined;
+    details['createdBy'] = undefined;
+    details['updatedBy'] = undefined;
+    details['createdTime'] = undefined;
+    details['updatedTime'] = undefined;
   }
-  dynamicFormData["details"] = {};
+  dynamicFormData['details'] = {};
   designForm.setFormInfo(dynamicFormData);
-  designForm.setCompList(JSON.parse(details?.content || "[]"));
-  designForm.setFormData(JSON.parse(details?.fieldNames || "{}"));
+  designForm.setCompList(JSON.parse(details?.content || '[]'));
+  designForm.setFormData(JSON.parse(details?.fieldNames || '{}'));
   designForm.setIsEdit(true);
   let activeItem = list.value[0];
   //如果组件属性已经加载完成，则直接选中第一个组件
@@ -173,7 +173,7 @@ const closeAction = () => {
 };
 const clearData = (flag: boolean = true) => {
   if (list.value?.length > 0) {
-    operationConfirm("新建将清空舞台上的所有元素，是否确定要清空？").then(
+    operationConfirm('新建将清空舞台上的所有元素，是否确定要清空？').then(
       (res: boolean) => {
         if (res) {
           designForm.clearAll(flag);
@@ -207,13 +207,13 @@ const codeDoSave = () => {};
 const createFormInfo = () => {
   let dynameForm = JSON.parse(JSON.stringify(formInfo.value));
   //解决多次转换
-  dynameForm!["relations"] =
-    dynameForm["relations"] && dynameForm["relations"] instanceof Array
-      ? JSON.stringify(dynameForm["relations"])
-      : dynameForm["relations"];
-  dynameForm!["details"] = {};
-  dynameForm!["details"]["content"] = JSON.stringify(list.value);
-  dynameForm!["details"]["fieldNames"] = "{}"; //JSON.stringify(formData.value);
+  dynameForm!['relations'] =
+    dynameForm['relations'] && dynameForm['relations'] instanceof Array
+      ? JSON.stringify(dynameForm['relations'])
+      : dynameForm['relations'];
+  dynameForm!['details'] = {};
+  dynameForm!['details']['content'] = JSON.stringify(list.value);
+  dynameForm!['details']['fieldNames'] = '{}'; //JSON.stringify(formData.value);
   return dynameForm;
 };
 const doSave = async (isDraft: boolean = false) => {
@@ -239,17 +239,17 @@ const doSave = async (isDraft: boolean = false) => {
     },
   );
   if (!flag) {
-    warning("请先填写表单信息");
+    warning('请先填写表单信息');
     return;
   }
-  load("数据提交中，请等待");
+  load('数据提交中，请等待');
   postRequest(
-    `${dataUrl.basePrefix}/${isDraft ? "mergeDraft" : "merge"}`,
+    `${dataUrl.basePrefix}/${isDraft ? 'mergeDraft' : 'merge'}`,
     createFormInfo(),
   )
     .then((res: any) => {
       if (res.data.code != 0) {
-        activeTab.value = "second";
+        activeTab.value = 'second';
         warning(res.data.cnMessage);
         return;
       }
@@ -271,7 +271,7 @@ const doSave = async (isDraft: boolean = false) => {
     })
     .catch((err: any) => {
       closeAction();
-      error("操作异常:" + err);
+      error('操作异常:' + err);
     })
     .finally(() => {
       closeLoad();
@@ -279,8 +279,8 @@ const doSave = async (isDraft: boolean = false) => {
 };
 const goBack = () => {
   let sdata = {
-    path: "/dyform/DynamicFormUi",
-    componentName: "DynamicFormUi",
+    path: '/dyform/DynamicFormUi',
+    componentName: 'DynamicFormUi',
   };
   router.push(sdata);
 };
@@ -292,8 +292,8 @@ const scrollHandler = (e: CustomEvent) => {
       `[data-field-id="${customEvent.detail}"]`,
     );
     target?.scrollIntoView({
-      behavior: "smooth",
-      block: "nearest",
+      behavior: 'smooth',
+      block: 'nearest',
     });
   });
 };
@@ -310,13 +310,13 @@ const shortKeySwitch = (val: boolean) => {
       actions,
       ModuleEnums.DYNAMIC_FORM,
     );
-    window.addEventListener("scroll-to-field", scrollHandler as EventListener);
+    window.addEventListener('scroll-to-field', scrollHandler as EventListener);
   } else {
     if (keyboardHandlers.value) {
       removeKeyboardEvent(keyboardHandlers.value);
     }
     window.removeEventListener(
-      "scroll-to-field",
+      'scroll-to-field',
       scrollHandler as EventListener,
     );
   }
@@ -327,12 +327,12 @@ const onDragAdd = async (_evt: Event, dataList: Array<any>) => {
   }
   if (Array.isArray(draggingItem.value)) {
     let temp = draggingItem.value[draggingItem.value.length - 1];
-    designForm.selectItem(temp, temp["itemType"], "");
+    designForm.selectItem(temp, temp['itemType'], '');
   } else {
     designForm.selectItem(
       draggingItem.value,
-      draggingItem.value["itemType"],
-      "",
+      draggingItem.value['itemType'],
+      '',
     );
   }
 };
@@ -364,12 +364,12 @@ let rightPanelVisible = ref<boolean>(true);
 //页面风格
 const actionsStyle = (item: any) => {
   currentPageStyle.value = item;
-  if (item.key == "pad") {
-    currentPageClass.value = "main-design-pad";
-  } else if (item.key == "phone") {
-    currentPageClass.value = "main-design-phone";
+  if (item.key == 'pad') {
+    currentPageClass.value = 'main-design-pad';
+  } else if (item.key == 'phone') {
+    currentPageClass.value = 'main-design-phone';
   } else {
-    currentPageClass.value = "main-design";
+    currentPageClass.value = 'main-design';
   }
 };
 const cacheDataRestore = (evt: MouseEvent) => {
@@ -381,7 +381,7 @@ const cacheDataRestore = (evt: MouseEvent) => {
     } catch (e) {
       designForm.setCompList(cacheData.value);
     }
-    cacheData.value = "";
+    cacheData.value = '';
   }
 };
 const formFieldLayer = ref<boolean>(false);
@@ -391,59 +391,59 @@ const viewFieldLayer = () => {
 };
 const actions = (action: string) => {
   switch (action) {
-    case "leftPanel":
+    case 'leftPanel':
       leftPanelVisible.value = !leftPanelVisible.value;
       break;
-    case "rightPanel":
+    case 'rightPanel':
       rightPanelVisible.value = !rightPanelVisible.value;
       break;
-    case "new":
-    case "empty":
+    case 'new':
+    case 'empty':
       clearData(false);
       break;
-    case "eprep":
+    case 'eprep':
       batchEdit();
       break;
-    case "layer":
+    case 'layer':
       viewFieldLayer();
       break;
-    case "save":
+    case 'save':
       tableEdit(true);
       break;
-    case "preview":
+    case 'preview':
       preview();
       break;
-    case "valid":
+    case 'valid':
       errMessage.value = validDynamicFormCompParams(list.value);
       if (errMessage.value) {
         warning(errMessage.value);
       }
       break;
-    case "code":
+    case 'code':
       createCode();
       break;
-    case "undo":
+    case 'undo':
       reOrUnDoFlag.value = true;
       designForm.undo();
       break;
-    case "redo":
+    case 'redo':
       reOrUnDoFlag.value = true;
       designForm.redo();
       break;
-    case "goBack":
+    case 'goBack':
       goBack();
       break;
   }
 };
 
 const analysisParentParam = () => {
-  let parentId = route.query["parentId"];
-  if (parentId && "0" != parentId) {
+  let parentId = route.query['parentId'];
+  if (parentId && '0' != parentId) {
     loadFormData(parentId, true);
   }
 };
 const analysisQueryParams = () => {
-  let formId = route.query["formId"];
+  let formId = route.query['formId'];
   if (formId) {
     loadFormData(formId, false);
     return;
@@ -456,7 +456,7 @@ const loadTemplateData = (formId: string) => {
 const contentMenuRef = ref();
 const contextMenu = async (evt: MouseEvent) => {
   if (!isEdit.value) {
-    console.log("当前处于预览状态，不能右键操作");
+    console.log('当前处于预览状态，不能右键操作');
     return;
   }
   evt.preventDefault();
@@ -471,11 +471,11 @@ const contextMenu = async (evt: MouseEvent) => {
  */
 const changeDataHandle = (type: string, data: any) => {
   console.log(type, data);
-  let formId = data["idDynamicForm"];
-  if (type == "subAdd") {
+  let formId = data['idDynamicForm'];
+  if (type == 'subAdd') {
     loadFormData(formId, true);
-  } else if (type == "remove") {
-  } else if (type == "edit") {
+  } else if (type == 'remove') {
+  } else if (type == 'edit') {
     loadFormData(formId, false);
   } else {
     console.log(type, data);
@@ -532,7 +532,7 @@ onMounted(async () => {
   await init();
   shortKeySwitch(true);
 });
-let prepsModel = ref("one");
+let prepsModel = ref('one');
 </script>
 <template>
   <div class="flex flex-col h-full overflow-hidden">

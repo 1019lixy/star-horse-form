@@ -33,8 +33,8 @@
   </starhorse-form-item>
 </template>
 <script setup lang="ts" name="vedioItem">
-import { onMounted, ref } from "vue";
-import flvjs from "flv.js";
+import { onMounted, ref } from 'vue';
+import flvjs from 'flv.js';
 
 const props = defineProps({
   isDesign: {
@@ -66,39 +66,39 @@ const props = defineProps({
     default: {},
   },
 });
-const emits = defineEmits(["selfFunc", "selectItem"]);
-const formData = defineModel("formData");
+const emits = defineEmits(['selfFunc', 'selectItem']);
+const formData = defineModel('formData');
 const seekpoint = ref();
 const itemAction = () => {
-  emits("selfFunc", formData);
+  emits('selfFunc', formData);
 };
 const player = ref();
 
 const load = () => {
-  let element = document.getElementsByName("videoElement")[0];
+  let element = document.getElementsByName('videoElement')[0];
   if (flvjs.isSupported() && element) {
     const flvOption = {
-      url: props.field.preps?.["videoUrl"], // 播放地址
-      hasAudio: props.field.preps?.["hasAudio"] == "Y", // 是否有音频
-      hasVideo: props.field.preps?.["hasVideo"] == "Y", //是否有视频
-      isLive: props.field.preps?.["isLive"] == "Y", // 是否是直播流，默认 true
-      type: props.field.preps?.["videoType"] || "mp4", // 是否是直播流，默认 true
-      stashInitialSize: props.field.preps?.["stashInitialSize"] || 128, // 减少首帧显示等待时长
+      url: props.field.preps?.['videoUrl'], // 播放地址
+      hasAudio: props.field.preps?.['hasAudio'] == 'Y', // 是否有音频
+      hasVideo: props.field.preps?.['hasVideo'] == 'Y', //是否有视频
+      isLive: props.field.preps?.['isLive'] == 'Y', // 是否是直播流，默认 true
+      type: props.field.preps?.['videoType'] || 'mp4', // 是否是直播流，默认 true
+      stashInitialSize: props.field.preps?.['stashInitialSize'] || 128, // 减少首帧显示等待时长
     };
     player.value = flvjs.createPlayer(flvOption, {
-      enableWorker: props.field.preps?.["enableWorker"] == "Y", // 不启用分离的线程进行转换，之前为true
-      enableStashBuffer: props.field.preps?.["enableStashBuffer"] == "Y", // 关闭IO隐藏缓冲区
-      stashInitialSize: props.field.preps?.["stashInitialSize"] || 128, // 减少首帧显示等待时长
+      enableWorker: props.field.preps?.['enableWorker'] == 'Y', // 不启用分离的线程进行转换，之前为true
+      enableStashBuffer: props.field.preps?.['enableStashBuffer'] == 'Y', // 关闭IO隐藏缓冲区
+      stashInitialSize: props.field.preps?.['stashInitialSize'] || 128, // 减少首帧显示等待时长
       autoCleanupSourceBuffer:
-        props.field.preps?.["autoCleanupSourceBuffer"] == "Y", // 打开自动清除缓存
-      fixAudioTimestampGap: props.field.preps?.["fixAudioTimestampGap"] == "Y", //false才会音视频同步,新增
-      lazyLoad: props.field.preps?.["lazyLoad"] == "Y", // 去掉懒加载,新增
+        props.field.preps?.['autoCleanupSourceBuffer'] == 'Y', // 打开自动清除缓存
+      fixAudioTimestampGap: props.field.preps?.['fixAudioTimestampGap'] == 'Y', //false才会音视频同步,新增
+      lazyLoad: props.field.preps?.['lazyLoad'] == 'Y', // 去掉懒加载,新增
     });
     player.value.attachMediaElement(element);
-    if (props.field.preps?.["autoLoad"] == "Y") {
+    if (props.field.preps?.['autoLoad'] == 'Y') {
       player.value.load();
     }
-    if (props.field.preps?.["autoPlay"] == "Y") {
+    if (props.field.preps?.['autoPlay'] == 'Y') {
       player.value.play();
     }
     // state.endedReloadFlag = true; // 重置画面停滞的播放状态，下次停滞了会再次打开
@@ -124,7 +124,7 @@ const seekto = () => {
 };
 const getCfg = (key: string, def: any) => {
   try {
-    let ret = sessionStorage.getItem("vedio-item." + key);
+    let ret = sessionStorage.getItem('vedio-item.' + key);
     if (ret === null) {
       ret = def;
     }
@@ -134,11 +134,11 @@ const getCfg = (key: string, def: any) => {
 };
 const setCfg = (key: string, value: any) => {
   try {
-    sessionStorage.setItem("vedio-item." + key, value);
+    sessionStorage.setItem('vedio-item.' + key, value);
   } catch (e) {}
 };
 const saveSettings = () => {
-  setCfg("sURL", props.field.preps?.["videoUrl"]);
+  setCfg('sURL', props.field.preps?.['videoUrl']);
 };
 onMounted(() => {
   load();

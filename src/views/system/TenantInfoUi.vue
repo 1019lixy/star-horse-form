@@ -7,8 +7,8 @@ import {
   PageFieldInfo,
   SearchFields,
   SelectOption,
-} from "star-horse-lowcode";
-import { loadDict } from "@/api/star_horse_apis";
+} from 'star-horse-lowcode';
+import { loadDict } from '@/api/star_horse_apis';
 import {
   nextTick,
   onActivated,
@@ -17,40 +17,40 @@ import {
   provide,
   reactive,
   ref,
-} from "vue";
+} from 'vue';
 
 defineOptions({
-  name: "TenantInfo",
+  name: 'TenantInfo',
 });
 //后端交互接口地址
-const dataUrl: ApiUrls = apiInstance("system-config", "system/tenantInfo");
+const dataUrl: ApiUrls = apiInstance('system-config', 'system/tenantInfo');
 //主键
-const primaryKey = "idTenantInfo";
+const primaryKey = 'idTenantInfo';
 const tenantInfoRef = ref();
 const tenantInfoFormRef = ref();
 let effectiveTimeList = ref<SelectOption[]>([]);
 //定义表单的所有属性
 const formFields = reactive<object>({});
-provide("formFields", formFields);
+provide('formFields', formFields);
 //查询属性
 const searchFormData = reactive<SearchFields>({
   fieldList: [
     {
-      label: "租户名称",
-      fieldName: "tenantName",
-      matchType: "lk",
+      label: '租户名称',
+      fieldName: 'tenantName',
+      matchType: 'lk',
       defaultVisible: true,
     },
     {
-      label: "租户编码",
-      fieldName: "tenantCode",
-      matchType: "lk",
+      label: '租户编码',
+      fieldName: 'tenantCode',
+      matchType: 'lk',
       defaultVisible: true,
     },
     {
-      label: "临期租户",
-      fieldName: "effectiveTime",
-      type: "select",
+      label: '临期租户',
+      fieldName: 'effectiveTime',
+      type: 'select',
       actions: {
         change: (value) => {},
       },
@@ -65,8 +65,8 @@ const tableFieldList = reactive<PageFieldInfo | any>({
   fieldList: [
     [
       {
-        label: "租户名称",
-        fieldName: "tenantName",
+        label: '租户名称',
+        fieldName: 'tenantName',
 
         required: true,
         formVisible: true,
@@ -74,8 +74,8 @@ const tableFieldList = reactive<PageFieldInfo | any>({
         preps: {},
       },
       {
-        label: "租户编码",
-        fieldName: "tenantCode",
+        label: '租户编码',
+        fieldName: 'tenantCode',
         required: true,
         formVisible: true,
         listVisible: true,
@@ -86,8 +86,8 @@ const tableFieldList = reactive<PageFieldInfo | any>({
     ],
     [
       {
-        label: "联系人",
-        fieldName: "linkMan",
+        label: '联系人',
+        fieldName: 'linkMan',
 
         required: true,
         formVisible: true,
@@ -95,8 +95,8 @@ const tableFieldList = reactive<PageFieldInfo | any>({
         preps: {},
       },
       {
-        label: "联系电话",
-        fieldName: "phone",
+        label: '联系电话',
+        fieldName: 'phone',
 
         required: true,
         formVisible: true,
@@ -106,8 +106,8 @@ const tableFieldList = reactive<PageFieldInfo | any>({
     ],
     [
       {
-        label: "邮箱",
-        fieldName: "email",
+        label: '邮箱',
+        fieldName: 'email',
 
         required: true,
         formVisible: true,
@@ -115,8 +115,8 @@ const tableFieldList = reactive<PageFieldInfo | any>({
         preps: {},
       },
       {
-        label: "座机",
-        fieldName: "tel",
+        label: '座机',
+        fieldName: 'tel',
 
         required: false,
         formVisible: true,
@@ -126,38 +126,38 @@ const tableFieldList = reactive<PageFieldInfo | any>({
     ],
     [
       {
-        label: "行业",
-        fieldName: "industry",
-        type: "select",
+        label: '行业',
+        fieldName: 'industry',
+        type: 'select',
         required: true,
         formVisible: true,
         listVisible: true,
-        preps: { urlOrDictName: "industry_list", dataSource: "dict" },
+        preps: { urlOrDictName: 'industry_list', dataSource: 'dict' },
       },
       {
-        label: "有效期",
-        fieldName: "effectiveTime",
-        type: "daterange",
+        label: '有效期',
+        fieldName: 'effectiveTime',
+        type: 'daterange',
         required: true,
         formVisible: true,
         listVisible: true,
-        preps: { needSplitName: "Y" },
+        preps: { needSplitName: 'Y' },
       },
     ],
     [
       {
-        label: "过期策略",
-        fieldName: "expirePolicy",
-        type: "select",
+        label: '过期策略',
+        fieldName: 'expirePolicy',
+        type: 'select',
         required: true,
         formVisible: true,
         listVisible: true,
-        preps: { urlOrDictName: "expire_policy", dataSource: "dict" },
+        preps: { urlOrDictName: 'expire_policy', dataSource: 'dict' },
       },
       {
-        label: "数据备份策略",
-        fieldName: "dataBakePolicy",
-        type: "cron",
+        label: '数据备份策略',
+        fieldName: 'dataBakePolicy',
+        type: 'cron',
         required: true,
         formVisible: true,
         listVisible: true,
@@ -166,51 +166,51 @@ const tableFieldList = reactive<PageFieldInfo | any>({
     ],
     [
       {
-        label: "业务提醒方式",
-        fieldName: "businessNotice",
-        type: "select",
+        label: '业务提醒方式',
+        fieldName: 'businessNotice',
+        type: 'select',
         required: true,
         formVisible: true,
         listVisible: true,
         preps: {
-          urlOrDictName: "message_tools",
+          urlOrDictName: 'message_tools',
           values: [
-            { name: "站内通知", value: "innerMsg" },
-            { name: "短信通知", value: "shortMsg" },
-            { name: "邮件通知", value: "email" },
-            { name: "钉钉通知", value: "dingding" },
-            { name: "企业微信", value: "webchat" },
+            { name: '站内通知', value: 'innerMsg' },
+            { name: '短信通知', value: 'shortMsg' },
+            { name: '邮件通知', value: 'email' },
+            { name: '钉钉通知', value: 'dingding' },
+            { name: '企业微信', value: 'webchat' },
           ],
-          dataSource: "dict",
+          dataSource: 'dict',
         },
       },
       {
-        label: "是否订阅接口",
-        fieldName: "orderIntfaceFlag",
-        type: "switch",
+        label: '是否订阅接口',
+        fieldName: 'orderIntfaceFlag',
+        type: 'switch',
         required: false,
         formVisible: true,
         listVisible: true,
         preps: {
-          activeValue: "Y",
-          inactiveValue: "N",
+          activeValue: 'Y',
+          inactiveValue: 'N',
         },
       },
     ],
     [
       {
-        label: "消息模板",
-        fieldName: "messageTemplate",
-        type: "textarea",
+        label: '消息模板',
+        fieldName: 'messageTemplate',
+        type: 'textarea',
         required: false,
         formVisible: true,
         listVisible: true,
         preps: {},
       },
       {
-        label: "联系人地址",
-        fieldName: "address",
-        type: "textarea",
+        label: '联系人地址',
+        fieldName: 'address',
+        type: 'textarea',
         required: false,
         formVisible: true,
         listVisible: true,
@@ -219,9 +219,9 @@ const tableFieldList = reactive<PageFieldInfo | any>({
     ],
     [
       {
-        label: "业务描述",
-        fieldName: "businessDesc",
-        type: "textarea",
+        label: '业务描述',
+        fieldName: 'businessDesc',
+        type: 'textarea',
         required: false,
         formVisible: true,
         listVisible: true,
@@ -229,71 +229,71 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       },
     ],
     {
-      label: "创建人",
-      fieldName: "createdBy",
+      label: '创建人',
+      fieldName: 'createdBy',
       listVisible: true,
       preps: {},
-      commonFlag: "Y",
+      commonFlag: 'Y',
     },
-    { label: "修改人", fieldName: "updatedBy", preps: {}, commonFlag: "Y" },
+    { label: '修改人', fieldName: 'updatedBy', preps: {}, commonFlag: 'Y' },
     {
-      label: "创建时间",
-      fieldName: "createdTime",
-      type: "datetime",
+      label: '创建时间',
+      fieldName: 'createdTime',
+      type: 'datetime',
       listVisible: true,
       preps: {},
-      commonFlag: "Y",
+      commonFlag: 'Y',
     },
     {
-      label: "修改时间",
-      fieldName: "updatedTime",
-      type: "datetime",
+      label: '修改时间',
+      fieldName: 'updatedTime',
+      type: 'datetime',
       preps: {},
-      commonFlag: "Y",
+      commonFlag: 'Y',
     },
     {
-      label: "版本号",
-      fieldName: "version",
-      type: "number",
+      label: '版本号',
+      fieldName: 'version',
+      type: 'number',
       listVisible: true,
       preps: {},
-      commonFlag: "Y",
+      commonFlag: 'Y',
     },
     {
-      label: "是否删除",
-      fieldName: "isDel",
-      type: "number",
+      label: '是否删除',
+      fieldName: 'isDel',
+      type: 'number',
       preps: {},
-      commonFlag: "Y",
+      commonFlag: 'Y',
     },
-    { label: "数据编号", fieldName: "dataNo", preps: {}, commonFlag: "Y" },
+    { label: '数据编号', fieldName: 'dataNo', preps: {}, commonFlag: 'Y' },
     {
-      label: "状态",
-      fieldName: "statusCode",
-      type: "select",
+      label: '状态',
+      fieldName: 'statusCode',
+      type: 'select',
 
       preps: {
-        urlOrDictName: "common",
-        name: "statusCode",
-        dataSource: "dict",
+        urlOrDictName: 'common',
+        name: 'statusCode',
+        dataSource: 'dict',
       },
-      commonFlag: "Y",
+      commonFlag: 'Y',
     },
-    { label: "状态名称", fieldName: "statusName", preps: {}, commonFlag: "Y" },
-    { label: "国际编码", fieldName: "local", preps: {}, commonFlag: "Y" },
+    { label: '状态名称', fieldName: 'statusName', preps: {}, commonFlag: 'Y' },
+    { label: '国际编码', fieldName: 'local', preps: {}, commonFlag: 'Y' },
     {
-      label: "备注",
-      fieldName: "remark",
-      type: "textarea",
+      label: '备注',
+      fieldName: 'remark',
+      type: 'textarea',
       preps: {},
-      commonFlag: "Y",
+      commonFlag: 'Y',
     },
   ],
   batchFieldList: [],
   userTableFuncs: [],
   dynamicFormas: [],
   orderBy: [],
-  batchName: "batchDataList",
+  batchName: 'batchDataList',
   tableCellEditabled: false,
   stopAutoLoad: false,
 });
@@ -301,10 +301,10 @@ const tableFieldList = reactive<PageFieldInfo | any>({
 const rules = {};
 //控制弹窗相关设置
 const dialogProps = dialogPreps();
-provide("dialogProps", dialogProps);
+provide('dialogProps', dialogProps);
 //初始化方法
 const initData = async () => {
-  effectiveTimeList.value = await loadDict("effective_time");
+  effectiveTimeList.value = await loadDict('effective_time');
 };
 const activated = async () => {
   await nextTick(() => {
@@ -318,9 +318,9 @@ const activated = async () => {
 const dataLoaded = (data: any) => {
   //将数据范围的字段进行处理
   let temp: any = {};
-  temp["effectiveTime"] = [
-    data["effectiveTimeStart"],
-    data["effectiveTimeEnd"],
+  temp['effectiveTime'] = [
+    data['effectiveTimeStart'],
+    data['effectiveTimeEnd'],
   ];
   if (Object.keys(temp).length > 0) {
     tenantInfoFormRef.value.updateFormData(temp);
@@ -334,10 +334,10 @@ const deactivated = () => {};
  * @param row 列表行数据
  */
 const dataFormat = (name: string, cellValue: any, row: any): any => {
-  if (name == "effectiveTime") {
+  if (name == 'effectiveTime') {
     return (
       createDatetime(row.effectiveTimeStart) +
-      "-" +
+      '-' +
       createDatetime(row.effectiveTimeEnd)
     );
   }

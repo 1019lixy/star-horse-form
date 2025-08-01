@@ -1,7 +1,7 @@
 <script setup lang="ts" name="DbSearch">
-import { computed, onMounted, ref, unref } from "vue";
-import { Config } from "@/api/settings";
-import { initDbList } from "@/views/dbsearch/utils/DbSearchUtils";
+import { computed, onMounted, ref, unref } from 'vue';
+import { Config } from '@/api/settings';
+import { initDbList } from '@/views/dbsearch/utils/DbSearchUtils';
 import {
   closeLoad,
   error,
@@ -9,8 +9,8 @@ import {
   piniaInstance,
   useGlobalConfigStore,
   warning,
-} from "star-horse-lowcode";
-import QueryResult from "@/views/dbsearch/QueryResult.vue";
+} from 'star-horse-lowcode';
+import QueryResult from '@/views/dbsearch/QueryResult.vue';
 
 let editorRef = ref<any>(null);
 let dbList = ref<any>([]);
@@ -45,7 +45,7 @@ const openDb = () => {
     assignDataList.value = tableAndColumnsList.value;
     btnDisabled.value = false;
     currentIndex.value = dbIndex.value;
-    editor.setAutoCompletion("test", tableAndColumnsList.value);
+    editor.setAutoCompletion('test', tableAndColumnsList.value);
   });
 };
 const getSql = () => {
@@ -62,24 +62,24 @@ const getSql = () => {
 const reqData = ref<any>({});
 const executeSql = () => {
   if (!dbIndex.value) {
-    warning("执行Sql前先连接数据库");
+    warning('执行Sql前先连接数据库');
     return;
   }
   let datas = getSql();
   if (!datas) {
     return;
   }
-  datas = datas.split(";");
+  datas = datas.split(';');
   let tempList: any = [];
   datas.forEach((item: any) => {
-    let temp = item.replaceAll("\n", "");
+    let temp = item.replaceAll('\n', '');
     temp = temp.trim();
     if (temp) {
       tempList.push(temp);
     }
   });
   if (tempList.length > 5) {
-    warning("一次最多只能执行5条Sql");
+    warning('一次最多只能执行5条Sql');
     return;
   }
   reqData.value = {
@@ -118,7 +118,7 @@ const tableField = (tableName: string) => {
       closeLoad();
     });
 };
-const filterTableName = ref("");
+const filterTableName = ref('');
 const filterData = () => {
   if (!filterTableName.value) {
     assignDataList.value = tableAndColumnsList.value;
@@ -130,53 +130,53 @@ const filterData = () => {
 };
 const dratStart = (item: any, evt: DragEvent) => {
   let dt = evt.dataTransfer!;
-  dt.effectAllowed = "copy";
-  dt.setData("text/plain", item.tableName);
+  dt.effectAllowed = 'copy';
+  dt.setData('text/plain', item.tableName);
 };
-let bakeData = ref<string>("");
+let bakeData = ref<string>('');
 const dragOver = (evt: DragEvent) => {
   evt.preventDefault();
   bakeData.value = unref(sqlInfo);
 };
-const sqlInfo = ref<string>("");
+const sqlInfo = ref<string>('');
 const dragDrop = (evt: DragEvent) => {
   let dt = evt.dataTransfer!;
-  let data = dt.getData("text/plain");
+  let data = dt.getData('text/plain');
   if (!unref(bakeData)) {
-    sqlInfo.value = " SELECT * FROM " + data;
+    sqlInfo.value = ' SELECT * FROM ' + data;
   } else {
-    sqlInfo.value = unref(bakeData) + " " + data;
+    sqlInfo.value = unref(bakeData) + ' ' + data;
   }
 };
 let btnDisabled = ref<boolean>(true);
 const btnList = [
   {
-    label: "执行",
-    icon: "run",
+    label: '执行',
+    icon: 'run',
     disabled: btnDisabled,
-    type: "primary",
+    type: 'primary',
     actions: executeSql,
   },
   {
-    label: "停止",
-    icon: "stop",
+    label: '停止',
+    icon: 'stop',
     disabled: btnDisabled,
-    type: "danger",
+    type: 'danger',
     actions: executeStop,
   },
   {
-    label: "格式化",
-    icon: "format",
+    label: '格式化',
+    icon: 'format',
     disabled: btnDisabled,
-    type: "warning",
+    type: 'warning',
     actions: () => {
       editorRef.value?.editor.dispatch({
         changes: {
           from: 0,
           to: editorRef.value?.editor.state.doc.length,
           insert:
-            editorRef.value?.editor.state.doc.toString().replaceAll("\n", "") +
-            "\n",
+            editorRef.value?.editor.state.doc.toString().replaceAll('\n', '') +
+            '\n',
         },
       });
     },

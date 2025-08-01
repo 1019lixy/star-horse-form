@@ -1,13 +1,13 @@
 <script setup lang="ts">
-import { computed, onMounted } from "vue";
-import { piniaInstance, useDesignPageStore, uuid } from "star-horse-lowcode";
+import { computed, onMounted } from 'vue';
+import { piniaInstance, useDesignPageStore, uuid } from 'star-horse-lowcode';
 
 let designPage = useDesignPageStore(piniaInstance);
 let nodeList = computed(() => designPage.nodeList);
 const handleClick = () => {
   designPage.addNode({
     id: uuid(),
-    name: "节点" + (nodeList.value.length + 1),
+    name: '节点' + (nodeList.value.length + 1),
     width: 100,
     height: 100,
     zIndex: designPage.defaultZindex + nodeList.value.length,

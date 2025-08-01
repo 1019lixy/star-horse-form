@@ -1,14 +1,14 @@
 <script setup lang="ts">
-import { computed, nextTick, onMounted, ref, unref, watch } from "vue";
+import { computed, nextTick, onMounted, ref, unref, watch } from 'vue';
 import type {
   RouteLocationNormalizedLoaded,
   RouterLinkProps,
-} from "vue-router";
-import { useRouter } from "vue-router";
-import { useNavBarListStore } from "@/store/NavBarList";
-import { useScrollTo } from "@/components/tags/useScrollTo";
-import { useTemplateRefsList } from "@vueuse/core";
-import piniaCompInstance from "@/store";
+} from 'vue-router';
+import { useRouter } from 'vue-router';
+import { useNavBarListStore } from '@/store/NavBarList';
+import { useScrollTo } from '@/components/tags/useScrollTo';
+import { useTemplateRefsList } from '@vueuse/core';
+import piniaCompInstance from '@/store';
 
 const { currentRoute, push, replace } = useRouter();
 const viewListStore = useNavBarListStore(piniaCompInstance);
@@ -54,10 +54,10 @@ const refreshSelectedTag = async (view?: RouteLocationNormalizedLoaded) => {
     return;
   }
   const { fullPath, query } = view;
-  query["redirectPath"] = fullPath;
+  query['redirectPath'] = fullPath;
   await nextTick();
   await replace({
-    path: "/redirect",
+    path: '/redirect',
     query: query,
   });
 };
@@ -80,7 +80,7 @@ const getCurrentIndex = (path: string) => {
 // 关闭右侧
 const closeRightTags = () => {
   let tagsList = navTagsList.value;
-  let path = unref(selectedTag)?.path || "";
+  let path = unref(selectedTag)?.path || '';
   tagsList.splice(getCurrentIndex(path) + 1, tagsList.length - 1);
   toLastView();
 };
@@ -124,7 +124,7 @@ const moveToTarget = (currentTag: RouteLocationNormalizedLoaded) => {
     // 直接滚动到0的位置
     const { start } = useScrollTo({
       el: wrap$!,
-      position: "scrollLeft",
+      position: 'scrollLeft',
       to: 0,
       duration: 500,
     });
@@ -136,7 +136,7 @@ const moveToTarget = (currentTag: RouteLocationNormalizedLoaded) => {
     // 滚动到最后的位置
     const { start } = useScrollTo({
       el: wrap$!,
-      position: "scrollLeft",
+      position: 'scrollLeft',
       to: wrap$!.scrollWidth - wrap$!.offsetWidth,
       duration: 500,
     });
@@ -148,7 +148,7 @@ const moveToTarget = (currentTag: RouteLocationNormalizedLoaded) => {
         (item?.to as RouteLocationNormalizedLoaded).fullPath ===
         currentTag.fullPath,
     );
-    const tgsRefs = document.getElementsByClassName("tags-item");
+    const tgsRefs = document.getElementsByClassName('tags-item');
     const prevTag = tgsRefs[currentIndex - 1] as HTMLElement;
     const nextTag = tgsRefs[currentIndex + 1] as HTMLElement;
     // the tag's offsetLeft after of nextTag
@@ -158,7 +158,7 @@ const moveToTarget = (currentTag: RouteLocationNormalizedLoaded) => {
     if (afterNextTagOffsetLeft > unref(scrollLeftNumber) + wrap$!.offsetWidth) {
       const { start } = useScrollTo({
         el: wrap$!,
-        position: "scrollLeft",
+        position: 'scrollLeft',
         to: afterNextTagOffsetLeft - wrap$!.offsetWidth,
         duration: 500,
       });
@@ -166,7 +166,7 @@ const moveToTarget = (currentTag: RouteLocationNormalizedLoaded) => {
     } else if (beforePrevTagOffsetLeft < unref(scrollLeftNumber)) {
       const { start } = useScrollTo({
         el: wrap$!,
-        position: "scrollLeft",
+        position: 'scrollLeft',
         to: beforePrevTagOffsetLeft,
         duration: 500,
       });
@@ -208,7 +208,7 @@ const move = (to: number) => {
   const wrap$ = unref(scrollbarRef)?.wrapRef;
   const { start } = useScrollTo({
     el: wrap$!,
-    position: "scrollLeft",
+    position: 'scrollLeft',
     to: unref(scrollLeftNumber) + to,
     duration: 500,
   });

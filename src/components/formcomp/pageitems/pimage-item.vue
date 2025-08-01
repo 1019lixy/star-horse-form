@@ -1,6 +1,6 @@
 <script setup lang="ts">
 defineOptions({
-  name: "PageImageItem",
+  name: 'PageImageItem',
 });
 interface ImageInfo {
   imageUrl: string;

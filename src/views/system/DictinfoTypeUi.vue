@@ -6,73 +6,73 @@ import {
   PageFieldInfo,
   SearchFields,
   SearchParams,
-} from "star-horse-lowcode";
-import { onMounted, provide, reactive, ref } from "vue";
+} from 'star-horse-lowcode';
+import { onMounted, provide, reactive, ref } from 'vue';
 
-const dataUrl: ApiUrls = apiInstance("system-config", "system/dictinfoType");
+const dataUrl: ApiUrls = apiInstance('system-config', 'system/dictinfoType');
 const searchFormData = reactive<SearchFields>({
   fieldList: [
     {
-      label: "名称",
+      label: '名称',
       defaultVisible: false,
-      matchType: "lk",
-      fieldName: "dictTypeName",
+      matchType: 'lk',
+      fieldName: 'dictTypeName',
     },
     {
-      label: "编码",
+      label: '编码',
       defaultVisible: true,
-      matchType: "eq",
-      fieldName: "dictTypeCode",
+      matchType: 'eq',
+      fieldName: 'dictTypeCode',
     },
   ],
 });
 const tableFieldList = reactive<PageFieldInfo>({
   fieldList: [
     {
-      label: "主键",
-      fieldName: "idDictinfoType",
-      type: "long",
+      label: '主键',
+      fieldName: 'idDictinfoType',
+      type: 'long',
     },
     {
-      label: "字典类型名称",
-      fieldName: "dictTypeName",
+      label: '字典类型名称',
+      fieldName: 'dictTypeName',
 
       required: true,
       formVisible: true,
       listVisible: true,
     },
     {
-      label: "字典类型编码",
-      fieldName: "dictTypeCode",
+      label: '字典类型编码',
+      fieldName: 'dictTypeCode',
 
       required: true,
       formVisible: true,
       listVisible: true,
     },
     {
-      label: "备注",
-      fieldName: "remark",
-      type: "textarea",
+      label: '备注',
+      fieldName: 'remark',
+      type: 'textarea',
       formVisible: true,
       listVisible: true,
     },
   ],
   //在表格右侧添加自定义功能
 });
-const primaryKey = "idDictinfoType";
+const primaryKey = 'idDictinfoType';
 const rules = {};
 const dialogProps = dialogPreps();
-provide("dialogProps", dialogProps);
+provide('dialogProps', dialogProps);
 
 const dataFormat = (_name: string, cellValue: object): any => {
   return cellValue;
 };
-let dictTypeCode = ref<string>("");
+let dictTypeCode = ref<string>('');
 const dictTypeRef = ref();
 const dictTypeFormRef = ref();
 //在ts中获取不到方法
 const selectItemFun = (row: any) => {
-  dictTypeCode.value = row["dictTypeCode"];
+  dictTypeCode.value = row['dictTypeCode'];
 };
 const searchData = (data: SearchParams[]) => {
   dictTypeRef.value.createSearchParams(data);

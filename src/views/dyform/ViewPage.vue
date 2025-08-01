@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import { Config } from "@/api/settings";
+import { Config } from '@/api/settings';
 import {
   analysisSearchData,
   viewColumns,
   viewDataList,
-} from "@/views/dyform/utils/preview";
+} from '@/views/dyform/utils/preview';
 import {
   apiInstance,
   closeLoad,
@@ -16,8 +16,8 @@ import {
   SearchFields,
   useDesignFormStore,
   useGlobalConfigStore,
-} from "star-horse-lowcode";
-import { computed, onMounted, provide, reactive, ref, watch } from "vue";
+} from 'star-horse-lowcode';
+import { computed, onMounted, provide, reactive, ref, watch } from 'vue';
 
 let designForm = useDesignFormStore(piniaInstance);
 const props = defineProps({
@@ -29,9 +29,9 @@ let compSize = computed(
   () => configStore.configFormInfo?.inputSize || Config.compSize,
 );
 
-const dataUrl = apiInstance("userdb-manage", "consumer/api");
+const dataUrl = apiInstance('userdb-manage', 'consumer/api');
 dataUrl.exportAllUrl = `${dataUrl.basePrefix}/exportData/${props.param}`;
-const errorMsg = ref("数据加载中");
+const errorMsg = ref('数据加载中');
 let searchFormData = ref<SearchFields>({});
 const tableFieldList = ref<any>({
   fieldList: [],
@@ -40,7 +40,7 @@ const tableFieldList = ref<any>({
  * 表单数据直接取定义的数据preps,
  * 列表数据重新定义，方便排序和位置拖拽
  */
-const primaryKey = ref<string>("");
+const primaryKey = ref<string>('');
 const viewSearchRef = ref();
 const rules = ref<any>({});
 const hasData = ref<boolean>(false);
@@ -51,7 +51,7 @@ const clear = () => {
   hasData.value = false;
 };
 const exportData = () => {
-  load("数据处理中");
+  load('数据处理中');
   let params = {
     fieldList: viewSearchRef.value.createSearchParams(searchFormData.value),
     pageSize: 100,
@@ -59,7 +59,7 @@ const exportData = () => {
   };
   download(dataUrl.exportAllUrl!, params)
     .catch((err) => {
-      error("接口不存在或网络异常:" + err);
+      error('接口不存在或网络异常:' + err);
     })
     .finally(() => {
       closeLoad();
@@ -108,16 +108,16 @@ watch(
       }
     } catch (e) {
       // closeLoad();
-      console.log("数据类型不匹配");
+      console.log('数据类型不匹配');
     }
   },
   { deep: true },
 );
 //记录表单的属性
 const formFields = reactive<Array<any>>([]);
-provide("formFields", formFields);
+provide('formFields', formFields);
 const dialogProps = dialogPreps();
-provide("dialogProps", dialogProps);
+provide('dialogProps', dialogProps);
 
 const dataFormat = (name: string, cellValue: object): any => {
   return cellValue;

@@ -7,7 +7,7 @@ import {
   PageFieldInfo,
   SearchFields,
   UserFuncInfo,
-} from "star-horse-lowcode";
+} from 'star-horse-lowcode';
 import {
   onActivated,
   onDeactivated,
@@ -15,36 +15,36 @@ import {
   provide,
   reactive,
   ref,
-} from "vue";
-import { getCustomerParam, getToken } from "@/utils/auth";
+} from 'vue';
+import { getCustomerParam, getToken } from '@/utils/auth';
 //后端交互接口地址
-const dataUrl: ApiUrls = apiInstance("system-config", "system/commonFiles");
+const dataUrl: ApiUrls = apiInstance('system-config', 'system/commonFiles');
 //主键
-const primaryKey = "idCommonFiles";
+const primaryKey = 'idCommonFiles';
 const commonFilesRef = ref();
 //定义表单的所有属性
 const formFields = reactive<object>({});
-provide("formFields", formFields);
+provide('formFields', formFields);
 //查询属性
 const searchFormData = reactive<SearchFields>({
   fieldList: [
     {
-      label: "唯一标识",
-      fieldName: "keyName",
+      label: '唯一标识',
+      fieldName: 'keyName',
       defaultVisible: true,
-      matchType: "lk",
+      matchType: 'lk',
     },
     {
-      label: "文件名",
-      fieldName: "fileName",
+      label: '文件名',
+      fieldName: 'fileName',
       defaultVisible: true,
-      matchType: "lk",
+      matchType: 'lk',
     },
     {
-      label: "文件类型",
-      fieldName: "fileType",
+      label: '文件类型',
+      fieldName: 'fileType',
       defaultVisible: true,
-      matchType: "lk",
+      matchType: 'lk',
     },
   ],
 });
@@ -53,139 +53,139 @@ const tableFieldList = reactive<PageFieldInfo | any>({
   //属性列表
   fieldList: [
     {
-      label: "唯一标识",
-      fieldName: "keyName",
+      label: '唯一标识',
+      fieldName: 'keyName',
 
       required: true,
       formVisible: true,
       listVisible: true,
     },
     {
-      label: "文件名",
-      fieldName: "fileRealName",
+      label: '文件名',
+      fieldName: 'fileRealName',
 
       required: false,
 
       listVisible: true,
     },
     {
-      label: "文件大小",
-      fieldName: "size",
-      type: "number",
+      label: '文件大小',
+      fieldName: 'size',
+      type: 'number',
       required: false,
 
       listVisible: true,
     },
     {
-      label: "文件类型",
-      fieldName: "fileType",
+      label: '文件类型',
+      fieldName: 'fileType',
 
       required: false,
 
       listVisible: true,
     },
     {
-      label: "文件路径",
-      fieldName: "file",
-      type: "upload",
+      label: '文件路径',
+      fieldName: 'file',
+      type: 'upload',
       required: false,
       formVisible: true,
       listVisible: true,
       preps: {
-        drag: "Y",
-        autoUpload: "Y",
-        action: "/system-config/annex/upload/commonFiles",
-        showFileList: "Y",
-        listType: "text",
+        drag: 'Y',
+        autoUpload: 'Y',
+        action: '/system-config/annex/upload/commonFiles',
+        showFileList: 'Y',
+        listType: 'text',
         headers: {
           token: getToken(),
         },
       },
     },
     {
-      label: "版本号",
-      fieldName: "version",
-      type: "number",
+      label: '版本号',
+      fieldName: 'version',
+      type: 'number',
       required: false,
       formVisible: !true,
       listVisible: true,
     },
     {
-      label: "创建人",
-      fieldName: "createdBy",
-
-      required: false,
-      formVisible: !true,
-      listVisible: true,
-    },
-    {
-      label: "创建时间",
-      fieldName: "createdTime",
-      type: "datetime",
-      required: false,
-      formVisible: !true,
-      listVisible: true,
-    },
-    {
-      label: "修改人",
-      fieldName: "updatedBy",
+      label: '创建人',
+      fieldName: 'createdBy',
 
       required: false,
       formVisible: !true,
       listVisible: true,
     },
     {
-      label: "修改时间",
-      fieldName: "updatedTime",
-      type: "datetime",
+      label: '创建时间',
+      fieldName: 'createdTime',
+      type: 'datetime',
       required: false,
       formVisible: !true,
       listVisible: true,
     },
     {
-      label: "数据编号",
-      fieldName: "dataNo",
+      label: '修改人',
+      fieldName: 'updatedBy',
+
+      required: false,
+      formVisible: !true,
+      listVisible: true,
+    },
+    {
+      label: '修改时间',
+      fieldName: 'updatedTime',
+      type: 'datetime',
+      required: false,
+      formVisible: !true,
+      listVisible: true,
+    },
+    {
+      label: '数据编号',
+      fieldName: 'dataNo',
 
       required: false,
       formVisible: !true,
       listVisible: !true,
     },
     {
-      label: "状态码",
-      fieldName: "statusCode",
+      label: '状态码',
+      fieldName: 'statusCode',
 
       required: false,
       formVisible: !true,
       listVisible: !true,
     },
     {
-      label: "状态名称",
-      fieldName: "statusName",
+      label: '状态名称',
+      fieldName: 'statusName',
 
       required: false,
       formVisible: !true,
       listVisible: !true,
     },
     {
-      label: "是否删除",
-      fieldName: "isDel",
-      type: "number",
+      label: '是否删除',
+      fieldName: 'isDel',
+      type: 'number',
       required: false,
       formVisible: !true,
       listVisible: !true,
     },
     {
-      label: "国际编码",
-      fieldName: "local",
+      label: '国际编码',
+      fieldName: 'local',
 
       required: false,
       formVisible: !true,
       listVisible: !true,
     },
     {
-      label: "备注",
-      fieldName: "remark",
-      type: "textarea",
+      label: '备注',
+      fieldName: 'remark',
+      type: 'textarea',
       required: false,
       formVisible: true,
       listVisible: true,
@@ -198,7 +198,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
 const rules = {};
 //控制弹窗相关设置
 const dialogProps = dialogPreps();
-provide("dialogProps", dialogProps);
+provide('dialogProps', dialogProps);
 //初始化方法
 const initData = async () => {};
 const activated = () => {};
@@ -224,10 +224,10 @@ onDeactivated(() => {
 });
 const extendBtns: UserFuncInfo[] = [
   {
-    icon: "download",
-    btnName: "下载",
+    icon: 'download',
+    btnName: '下载',
     priority: 1,
-    authority: "download",
+    authority: 'download',
     funcName: (row: any) => {
       download(
         `/system-config/system/commonFiles/downloadFile/${row[primaryKey]}`,

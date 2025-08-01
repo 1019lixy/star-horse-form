@@ -17,31 +17,31 @@
   </el-dropdown>
 </template>
 <script setup lang="ts">
-import { onMounted, ref } from "vue";
+import { onMounted, ref } from 'vue';
 
-const langName = ref("");
-const language = ref("");
+const langName = ref('');
+const language = ref('');
 const init = () => {
-  let lang = localStorage.getItem("lang");
-  if (!lang || lang == "zh") {
-    langName.value = "中文";
-    language.value = "zh";
+  let lang = localStorage.getItem('lang');
+  if (!lang || lang == 'zh') {
+    langName.value = '中文';
+    language.value = 'zh';
   } else {
-    langName.value = "English";
-    language.value = "en";
+    langName.value = 'English';
+    language.value = 'en';
   }
 };
 onMounted(() => {
   init();
 });
 const handleSetLanguage = (lang: string) => {
-  if (lang === "zh") {
-    langName.value = "中文";
+  if (lang === 'zh') {
+    langName.value = '中文';
   } else {
-    langName.value = "English";
+    langName.value = 'English';
   }
   language.value = lang;
-  localStorage.setItem("lang", lang);
+  localStorage.setItem('lang', lang);
   location.reload();
 };
 </script>

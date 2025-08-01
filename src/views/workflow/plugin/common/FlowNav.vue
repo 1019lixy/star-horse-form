@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import { computed, ref } from "vue";
-import { flowCommon } from "@/views/workflow/plugin/utils/flowCommon";
-import { scale } from "@/views/workflow/plugin/utils/deviceUtil";
-import { useFlowDesignStore } from "@/store/FlowDesign";
-import { piniaInstance, warning } from "star-horse-lowcode";
+import { computed, ref } from 'vue';
+import { flowCommon } from '@/views/workflow/plugin/utils/flowCommon';
+import { scale } from '@/views/workflow/plugin/utils/deviceUtil';
+import { useFlowDesignStore } from '@/store/FlowDesign';
+import { piniaInstance, warning } from 'star-horse-lowcode';
 
 defineProps({
   currentNav: {
@@ -12,34 +12,34 @@ defineProps({
   },
   buttonName: {
     type: String,
-    default: "发布",
+    default: '发布',
   },
 });
-const emits = defineEmits(["change", "flowSave", "changeFlow"]);
+const emits = defineEmits(['change', 'flowSave', 'changeFlow']);
 const navItems = ref<Array<any>>([
   {
-    name: "基础信息",
-    shortName: "基础",
+    name: '基础信息',
+    shortName: '基础',
     type: 1,
-    path: "/basicInfo",
+    path: '/basicInfo',
   },
   {
-    name: "表单设计",
-    shortName: "表单",
+    name: '表单设计',
+    shortName: '表单',
     type: 2,
-    path: "/formDesign",
+    path: '/formDesign',
   },
   {
-    name: "流程设计",
-    shortName: "流程",
+    name: '流程设计',
+    shortName: '流程',
     type: 3,
-    path: "/flowDesign",
+    path: '/flowDesign',
   },
   {
-    name: "更多配置",
-    shortName: "配置",
+    name: '更多配置',
+    shortName: '配置',
     type: 4,
-    path: "/flowSetting",
+    path: '/flowSetting',
   },
 ]);
 const flowDesign = useFlowDesignStore(piniaInstance);
@@ -47,16 +47,16 @@ let navable = computed(() => flowDesign.navable);
 let formInfo = computed(() => flowDesign.flowFormInfo);
 const onChange = (item: any) => {
   if (!navable.value) {
-    warning("请先完成当前页面的数据填写");
+    warning('请先完成当前页面的数据填写');
     return;
   }
-  emits("change", item);
+  emits('change', item);
 };
 const flowSave = (type: string) => {
-  emits("flowSave", type);
+  emits('flowSave', type);
 };
 const changeFlow = () => {
-  emits("changeFlow");
+  emits('changeFlow');
 };
 </script>
 <template>

@@ -1,14 +1,14 @@
 <script setup lang="ts">
-import { nextTick, onBeforeUnmount, onMounted, ref } from "vue";
-import { default as Guides } from "vue3-guides";
-import { VueInfiniteViewer } from "vue3-infinite-viewer";
+import { nextTick, onBeforeUnmount, onMounted, ref } from 'vue';
+import { default as Guides } from 'vue3-guides';
+import { VueInfiniteViewer } from 'vue3-infinite-viewer';
 
 defineOptions({
-  name: "StarHorseRuler",
+  name: 'StarHorseRuler',
 });
 defineProps({
   needInfiniteViewer: { type: Boolean, default: true },
-  theme: { type: String, default: "light" },
+  theme: { type: String, default: 'light' },
   hideHorizontalRuler: { type: Boolean, default: false },
   hideVerticalRuler: { type: Boolean, default: false },
 });
@@ -44,13 +44,13 @@ const initGuides = () => {
       horizontalGuides.value?.resize();
       verticalGuides.value?.resize();
     }, 500);
-    window.addEventListener("resize", resizeFun);
-    window.addEventListener("wheel", sheelFun);
+    window.addEventListener('resize', resizeFun);
+    window.addEventListener('wheel', sheelFun);
   });
 };
 const viewScroller = (e: any) => {
   let type = e.currentTarget.horizontalScrollbar.type;
-  if (type == "horizontal") {
+  if (type == 'horizontal') {
     horizontalGuides.value?.scroll(e.scrollLeft);
     horizontalGuides.value?.scrollGuides(e.scrollTop);
   } else {
@@ -68,8 +68,8 @@ onMounted(() => {
   init();
 });
 onBeforeUnmount(() => {
-  window.removeEventListener("resize", resizeFun);
-  window.removeEventListener("wheel", sheelFun);
+  window.removeEventListener('resize', resizeFun);
+  window.removeEventListener('wheel', sheelFun);
 });
 </script>
 <template>

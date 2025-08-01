@@ -1,42 +1,42 @@
 <script setup lang="ts">
-import { onMounted, ref } from "vue";
+import { onMounted, ref } from 'vue';
 import {
   apiInstance,
   ApiUrls,
   loadData,
   postRequest,
   warning,
-} from "star-horse-lowcode";
-import { createJoinCondition } from "@/api/star_horse_utils";
+} from 'star-horse-lowcode';
+import { createJoinCondition } from '@/api/star_horse_utils';
 
-const emits = defineEmits(["selectTemplate"]);
+const emits = defineEmits(['selectTemplate']);
 const apiUrl: ApiUrls = apiInstance(
-  "userdb-manage",
-  "/userdb/formInstance/conTemplate/idTemplate/136",
+  'userdb-manage',
+  '/userdb/formInstance/conTemplate/idTemplate/136',
 );
 const nodeCfgUrl: ApiUrls = apiInstance(
-  "userdb-manage",
-  "userdb/formInstance/conNodeConfigures/idNodeConfigure/136",
+  'userdb-manage',
+  'userdb/formInstance/conNodeConfigures/idNodeConfigure/136',
 );
 const nodeList = ref<any>([]);
 const templateList = ref<any>([]);
 let currentTemplate = ref<any>({});
 const loadTemplate = async () => {
-  let fields = ["idTemplate", "templateName", "templateCode"];
+  let fields = ['idTemplate', 'templateName', 'templateCode'];
   let reData = await loadData(nodeCfgUrl.listConditionUrl!, {});
   nodeList.value = reData?.data;
-  postRequest(apiUrl.basePrefix + "/joinQuery", {
+  postRequest(apiUrl.basePrefix + '/joinQuery', {
     limitFields: fields,
     groupByFields: fields,
-    groupName: "nodeList",
+    groupName: 'nodeList',
     joinTables: [
       {
-        tableName: "conTemplateNode",
-        joinType: "inner",
-        aliasName: "b",
-        limitFields: ["nodeName"],
+        tableName: 'conTemplateNode',
+        joinType: 'inner',
+        aliasName: 'b',
+        limitFields: ['nodeName'],
         joinCondition: {
-          joinFieldList: [createJoinCondition("a.idTemplate", "b.idTemplate")],
+          joinFieldList: [createJoinCondition('a.idTemplate', 'b.idTemplate')],
         },
       },
     ],
@@ -62,8 +62,8 @@ const loadTemplate = async () => {
 
 const selectItem = (item: any, action: string) => {
   currentTemplate.value = item;
-  if (action == "dblClick") {
-    emits("selectTemplate", item);
+  if (action == 'dblClick') {
+    emits('selectTemplate', item);
   }
 };
 const getTemplate = () => {

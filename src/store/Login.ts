@@ -1,11 +1,11 @@
-import { createRouterAndMenuList } from "@/api/star_horse_apis.ts";
+import { createRouterAndMenuList } from '@/api/star_horse_apis.ts';
 import {
   getUserInfo,
   setCustomerInfo,
   setToken,
   setUserInfo,
-} from "@/utils/auth.ts";
-import { defineStore } from "pinia";
+} from '@/utils/auth.ts';
+import { defineStore } from 'pinia';
 import {
   apiInstance,
   ApiUrls,
@@ -14,29 +14,29 @@ import {
   piniaInstance,
   postRequest,
   useUserInfoStore,
-} from "star-horse-lowcode";
-import { ref } from "vue";
-import { useNavBarListStore } from "@/store/NavBarList";
-import { useViewCacheStore } from "@/store/ViewCache";
-import piniaCompInstance from "@/store";
+} from 'star-horse-lowcode';
+import { ref } from 'vue';
+import { useNavBarListStore } from '@/store/NavBarList';
+import { useViewCacheStore } from '@/store/ViewCache';
+import piniaCompInstance from '@/store';
 
 const appinfoUrl: ApiUrls = apiInstance(
-  "system-config",
-  "system/informationsEntity",
+  'system-config',
+  'system/informationsEntity',
 );
 const shortcutMenuUrl: ApiUrls = apiInstance(
-  "system-config",
-  "system/shortcutMenu",
+  'system-config',
+  'system/shortcutMenu',
 );
-const menuUrl: ApiUrls = apiInstance("system-config", "system/menusinfoEntity");
+const menuUrl: ApiUrls = apiInstance('system-config', 'system/menusinfoEntity');
 const userAuditUrl: ApiUrls = apiInstance(
-  "system-config",
-  "system/usersAuditEntity",
+  'system-config',
+  'system/usersAuditEntity',
 );
 const userStore = useUserInfoStore(piniaInstance);
 const navStore = useNavBarListStore(piniaCompInstance);
 const viewCache = useViewCacheStore(piniaCompInstance);
-export const useLoginStore = defineStore("login", () => {
+export const useLoginStore = defineStore('login', () => {
   const appinfoList = ref([]);
   const menusList = ref<MenusInfo[]>([]);
   const shortcutMenuList = ref([]);
@@ -46,7 +46,7 @@ export const useLoginStore = defineStore("login", () => {
   const init = () => {
     let userId = getUserInfo()?.idUsersinfo;
     loadAppInfo(userId);
-    loadMenusInfo(userId, "-1");
+    loadMenusInfo(userId, '-1');
     loadShortMenu();
   };
   /**
@@ -55,9 +55,9 @@ export const useLoginStore = defineStore("login", () => {
   const clearAll = () => {
     navStore.clearAll();
     viewCache.clearAll();
-    sessionStorage.removeItem("menusInfo");
-    sessionStorage.removeItem("appsInfo");
-    sessionStorage.removeItem("shortsInfo");
+    sessionStorage.removeItem('menusInfo');
+    sessionStorage.removeItem('appsInfo');
+    sessionStorage.removeItem('shortsInfo');
     appinfoList.value = [];
     menusList.value = [];
     shortcutMenuList.value = [];
@@ -69,13 +69,13 @@ export const useLoginStore = defineStore("login", () => {
    */
   const loadMenusInfo = (userId: string, appId: string) => {
     if (!appId) {
-      appId = "-1";
+      appId = '-1';
     }
     postRequest(`${menuUrl.basePrefix}/permissionMenus/${userId}/${appId}`, [])
       .then((res: any) => {
         const redata = res?.data?.data;
         if (redata) {
-          sessionStorage.setItem("menusInfo", JSON.stringify(redata));
+          sessionStorage.setItem('menusInfo', JSON.stringify(redata));
           menusList.value = createRouterAndMenuList(redata);
         }
       })
@@ -91,7 +91,7 @@ export const useLoginStore = defineStore("login", () => {
     postRequest(`${appinfoUrl.basePrefix}/getUserSystem/${userId}`, [])
       .then((res: any) => {
         const redata = res?.data?.data;
-        sessionStorage.setItem("appsInfo", JSON.stringify(redata));
+        sessionStorage.setItem('appsInfo', JSON.stringify(redata));
         appinfoList.value = redata;
       })
       .catch((err: any) => {
@@ -106,7 +106,7 @@ export const useLoginStore = defineStore("login", () => {
     postRequest(`${shortcutMenuUrl.basePrefix}/currentUserShortcut`, param)
       .then((res: any) => {
         const redata = res?.data?.data;
-        sessionStorage.setItem("shortsInfo", JSON.stringify(redata));
+        sessionStorage.setItem('shortsInfo', JSON.stringify(redata));
         shortcutMenuList.value = redata;
       })
       .catch((err: any) => {
@@ -119,8 +119,8 @@ export const useLoginStore = defineStore("login", () => {
    */
   const getShortcutMenuList = () => {
     if (shortcutMenuList.value?.length == 0) {
-      const shortsInfo: any = sessionStorage.getItem("shortsInfo");
-      if (!shortsInfo || shortsInfo == "undefined") {
+      const shortsInfo: any = sessionStorage.getItem('shortsInfo');
+      if (!shortsInfo || shortsInfo == 'undefined') {
         loadShortMenu();
       } else {
         shortcutMenuList.value = JSON.parse(shortsInfo);
@@ -134,8 +134,8 @@ export const useLoginStore = defineStore("login", () => {
    */
   const getAppInfoList = () => {
     if (appinfoList.value?.length == 0) {
-      const appsInfo: any = sessionStorage.getItem("appsInfo");
-      if (!appsInfo || appsInfo == "undefined") {
+      const appsInfo: any = sessionStorage.getItem('appsInfo');
+      if (!appsInfo || appsInfo == 'undefined') {
         loadAppInfo(getUserInfo()?.idUsersinfo);
       } else {
         appinfoList.value = JSON.parse(appsInfo);
@@ -149,9 +149,9 @@ export const useLoginStore = defineStore("login", () => {
    */
   const getMenusList = () => {
     if (menusList.value?.length == 0) {
-      const menusInfo: any = sessionStorage.getItem("menusInfo");
-      if (!menusInfo || menusInfo == "undefined") {
-        loadMenusInfo(getUserInfo()?.idUsersinfo, "-1");
+      const menusInfo: any = sessionStorage.getItem('menusInfo');
+      if (!menusInfo || menusInfo == 'undefined') {
+        loadMenusInfo(getUserInfo()?.idUsersinfo, '-1');
       } else {
         menusList.value = createRouterAndMenuList(JSON.parse(menusInfo));
       }
@@ -174,7 +174,7 @@ export const useLoginStore = defineStore("login", () => {
       errMsg = resultData.error;
     } else {
       const userData = resultData.data;
-      userData["rememberMe"] = loginData.rememberMe;
+      userData['rememberMe'] = loginData.rememberMe;
       userStore.login(userData);
       userStore.closeLoginDialog();
       setToken(userData.dataNo, data.rememberMe);

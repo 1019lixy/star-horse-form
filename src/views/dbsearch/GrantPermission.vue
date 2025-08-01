@@ -13,7 +13,7 @@ import {
   warning,
 } from 'star-horse-lowcode';
 import {Config} from '@/api/settings';
-import {loadDict} from "@/api/star_horse_apis.js";
+import {loadDict} from '@/api/star_horse_apis.js';
 
 const assignType = ref<SelectOption[]>([
   {name: '按用户授权', value: 1},

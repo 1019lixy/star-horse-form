@@ -1,55 +1,55 @@
 <script setup lang="ts">
-import { flowCommon } from "@/views/workflow/plugin/utils/flowCommon";
+import { flowCommon } from '@/views/workflow/plugin/utils/flowCommon';
 import {
   dictData,
   piniaInstance,
   searchMatchList,
   SelectOption,
   uuid,
-} from "star-horse-lowcode";
-import { computed, ModelRef, onMounted, ref, watch } from "vue";
-import { useFlowDesignStore } from "@/store/FlowDesign";
+} from 'star-horse-lowcode';
+import { computed, ModelRef, onMounted, ref, watch } from 'vue';
+import { useFlowDesignStore } from '@/store/FlowDesign';
 
 defineOptions({
-  name: "BranchPrep",
+  name: 'BranchPrep',
 });
-let node: ModelRef<any> = defineModel("activeData");
+let node: ModelRef<any> = defineModel('activeData');
 
 // 等级
 let levelOptions = ref<Array<any>>([]);
 let branchTypes = ref<SelectOption[]>([]);
 let columns = ref<Array<any>>([
-  { label: "姓名", value: "姓名" },
-  { label: "工号", value: "工号" },
-  { label: "部门", value: "部门" },
-  { label: "Base地", value: "Base地" },
-  { label: "所属体系", value: "所属体系" },
-  { label: "归属地", value: "归属地" },
+  { label: '姓名', value: '姓名' },
+  { label: '工号', value: '工号' },
+  { label: '部门', value: '部门' },
+  { label: 'Base地', value: 'Base地' },
+  { label: '所属体系', value: '所属体系' },
+  { label: '归属地', value: '归属地' },
 ]);
-let formColumns = ref<Array<any>>([{ label: "加班类型", value: "加班类型" }]);
+let formColumns = ref<Array<any>>([{ label: '加班类型', value: '加班类型' }]);
 
 // 值类型
 let valueTypes = ref<Array<any>>([
-  { label: "固定", value: "1" },
-  { label: "动态值", value: "2" },
-  { label: "流程值", value: "3" },
-  { label: "数据源", value: "4" },
+  { label: '固定', value: '1' },
+  { label: '动态值', value: '2' },
+  { label: '流程值', value: '3' },
+  { label: '数据源', value: '4' },
 ]);
 // 动态值类型
 let dynamicValueTypes = ref<Array<any>>([
-  { label: "当前员工", value: "1" },
-  { label: "当前员工工号", value: "2" },
-  { label: "当前部门", value: "3" },
-  { label: "当前组织", value: "4" },
-  { label: "下级部门", value: "5" },
-  { label: "上级部门", value: "6" },
-  { label: "当前日期", value: "7" },
-  { label: "当前时间", value: "8" },
+  { label: '当前员工', value: '1' },
+  { label: '当前员工工号', value: '2' },
+  { label: '当前部门', value: '3' },
+  { label: '当前组织', value: '4' },
+  { label: '下级部门', value: '5' },
+  { label: '上级部门', value: '6' },
+  { label: '当前日期', value: '7' },
+  { label: '当前时间', value: '8' },
 ]);
 // 流程值类型
 let flowValueTypes = ref<Array<any>>([
-  { label: "流程状态", value: "1" },
-  { label: "流程创建人", value: "2" },
+  { label: '流程状态', value: '1' },
+  { label: '流程创建人', value: '2' },
 ]);
 // 表单数据
 const flowDesign = useFlowDesignStore(piniaInstance);
@@ -62,7 +62,7 @@ const initLevel = () => {
       let priorityLevel = index + 1;
       if (!item.otherFlag) {
         levelOptions.value.push({
-          label: "优先" + priorityLevel,
+          label: '优先' + priorityLevel,
           value: priorityLevel,
         });
       }
@@ -77,17 +77,17 @@ const addGroup = (type: number) => {
   if (type == 1) {
     node.value.conditionGroups.push({
       id: uuid(),
-      condition: "OR",
+      condition: 'OR',
       conditions: [
         {
           id: uuid(),
-          columnId: "姓名",
-          columnName: "姓名",
-          columnValue: "姓名",
+          columnId: '姓名',
+          columnName: '姓名',
+          columnValue: '姓名',
           columnType: undefined,
-          optType: "eq",
-          optTypeName: "等于",
-          valueType: "1",
+          optType: 'eq',
+          optTypeName: '等于',
+          valueType: '1',
           conditionValue: [],
           conditionValueName: [],
         },
@@ -137,33 +137,33 @@ const delCondition = (type: number, currGroup: any, CurrCondition: any) => {
  */
 const onSave = () => {
   // 更新节点显示信息
-  let content = "";
-  if (node.value.branchType == "rule") {
+  let content = '';
+  if (node.value.branchType == 'rule') {
     node.value.conditionGroups.forEach((group: any, j: number) => {
       if (j != 0) {
-        content += " 或 ";
+        content += ' 或 ';
       }
       if (group.conditions.length > 0) {
         group.conditions.forEach((condition: any, i: number) => {
           // const conditionValueName = condition.conditionValueName[0];
           // if (conditionValueName) {
           if (i != 0) {
-            content += " 且 ";
+            content += ' 且 ';
           }
           content +=
-            "[" +
+            '[' +
             condition.columnValue +
-            " " +
+            ' ' +
             condition.optTypeName +
-            " " +
+            ' ' +
             condition.conditionValue +
-            "]";
+            ']';
           // }
         });
       }
     });
   } else {
-    content += "任意(其他)";
+    content += '任意(其他)';
   }
   onClose();
 };
@@ -180,7 +180,7 @@ const levelChange = (newVal: any) => {
 };
 
 const init = async () => {
-  branchTypes.value = await dictData("flow_branch_type");
+  branchTypes.value = await dictData('flow_branch_type');
   currentLevel.value = node.value.priorityLevel;
   level.value = currentLevel.value;
   initLevel();

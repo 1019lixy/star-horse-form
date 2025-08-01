@@ -1,21 +1,21 @@
 <script setup lang="ts">
-import { onMounted, provide, reactive, ref } from "vue";
-import { initDbList } from "@/views/dbsearch/utils/DbSearchUtils";
+import { onMounted, provide, reactive, ref } from 'vue';
+import { initDbList } from '@/views/dbsearch/utils/DbSearchUtils';
 import {
   apiInstance,
   ApiUrls,
   BatchFieldInfo,
   SelectOption,
-} from "star-horse-lowcode";
+} from 'star-horse-lowcode';
 
-const dataUrl: ApiUrls = apiInstance("userdb-manage", "dbsearch/dbinfoEntity");
+const dataUrl: ApiUrls = apiInstance('userdb-manage', 'dbsearch/dbinfoEntity');
 let dbList = ref<SelectOption[]>([]);
 const tableFieldList = reactive({
   fieldList: [
     {
-      label: "数据库信息",
-      fieldName: "dbconfigId",
-      type: "select",
+      label: '数据库信息',
+      fieldName: 'dbconfigId',
+      type: 'select',
       required: true,
       formVisible: true,
       listVisible: true,
@@ -24,17 +24,17 @@ const tableFieldList = reactive({
       },
     },
     {
-      label: "表名",
-      fieldName: "tableName",
+      label: '表名',
+      fieldName: 'tableName',
 
       required: true,
       formVisible: true,
       listVisible: true,
     },
     {
-      label: "描述",
-      fieldName: "comment",
-      type: "textarea",
+      label: '描述',
+      fieldName: 'comment',
+      type: 'textarea',
       required: true,
       formVisible: true,
       listVisible: true,
@@ -42,57 +42,57 @@ const tableFieldList = reactive({
   ],
 });
 const columnFieldList = reactive<BatchFieldInfo>({
-  batchName: "column",
+  batchName: 'column',
   fieldList: [
     {
-      label: "名称",
-      fieldName: "name",
+      label: '名称',
+      fieldName: 'name',
 
       required: true,
       formVisible: true,
       listVisible: true,
     },
     {
-      label: "类型",
-      fieldName: "type",
+      label: '类型',
+      fieldName: 'type',
 
       required: true,
       formVisible: true,
       listVisible: true,
     },
     {
-      label: "长度",
-      fieldName: "length",
+      label: '长度',
+      fieldName: 'length',
 
       formVisible: true,
       listVisible: true,
     },
     {
-      label: "允许为空",
-      fieldName: "allowNull",
-      type: "switch",
-      defaultValue: "Y",
+      label: '允许为空',
+      fieldName: 'allowNull',
+      type: 'switch',
+      defaultValue: 'Y',
       formVisible: true,
       listVisible: true,
       preps: {
-        activeValue: "Y",
-        inactiveValue: "N",
+        activeValue: 'Y',
+        inactiveValue: 'N',
       },
     },
     {
-      label: "是否主键",
-      fieldName: "isPrimaryKey",
-      type: "switch",
+      label: '是否主键',
+      fieldName: 'isPrimaryKey',
+      type: 'switch',
       formVisible: true,
       listVisible: true,
       preps: {
-        activeValue: "Y",
-        inactiveValue: "N",
+        activeValue: 'Y',
+        inactiveValue: 'N',
       },
     },
     {
-      label: "备注",
-      fieldName: "comment",
+      label: '备注',
+      fieldName: 'comment',
 
       required: true,
       formVisible: true,
@@ -101,19 +101,19 @@ const columnFieldList = reactive<BatchFieldInfo>({
   ],
 });
 const indexFieldList = reactive<BatchFieldInfo>({
-  batchName: "index",
+  batchName: 'index',
   fieldList: [
     {
-      label: "表名",
-      fieldName: "tableName",
+      label: '表名',
+      fieldName: 'tableName',
 
       required: true,
       formVisible: true,
       listVisible: true,
     },
     {
-      label: "描述",
-      fieldName: "comment",
+      label: '描述',
+      fieldName: 'comment',
 
       required: true,
       formVisible: true,
@@ -121,12 +121,12 @@ const indexFieldList = reactive<BatchFieldInfo>({
     },
   ],
 });
-const primaryKey = "idDbinfo";
+const primaryKey = 'idDbinfo';
 const dataForm = ref({
   columns: [],
   index: [],
 });
-provide("dataForm", dataForm);
+provide('dataForm', dataForm);
 type Option =
   | {
       label: string;
@@ -138,22 +138,22 @@ type Option =
   | number
   | boolean
   | undefined;
-let segmentValue = ref("basic");
+let segmentValue = ref('basic');
 let options = ref<Array<Option>>([
   {
-    label: "基础信息",
-    value: "basic",
-    icon: "document",
+    label: '基础信息',
+    value: 'basic',
+    icon: 'document',
   },
   {
-    label: "列名",
-    value: "column",
-    icon: "document",
+    label: '列名',
+    value: 'column',
+    icon: 'document',
   },
   {
-    label: "索引",
-    value: "index",
-    icon: "document",
+    label: '索引',
+    value: 'index',
+    icon: 'document',
   },
 ]);
 const init = async () => {

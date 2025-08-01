@@ -1,16 +1,16 @@
 <script setup lang="ts">
-import { onMounted, ref } from "vue";
+import { onMounted, ref } from 'vue';
 import {
   loadTemplate,
   templateList,
-} from "@/views/codegenerator/utils/IdeOperation";
-import { SelectOption } from "star-horse-lowcode";
-import { commands } from "@/utils/sh_design";
+} from '@/views/codegenerator/utils/IdeOperation';
+import { SelectOption } from 'star-horse-lowcode';
+import { commands } from '@/utils/sh_design';
 
 const editor = ref();
 let tempList = ref<SelectOption[]>([]);
-let sourceCode = ref<string>("");
-let templateCode = ref<string>("");
+let sourceCode = ref<string>('');
+let templateCode = ref<string>('');
 const transform = (_val: string) => {};
 const init = async () => {
   tempList.value = await templateList();
@@ -18,12 +18,12 @@ const init = async () => {
 const changeTemplate = async (val: string) => {
   let value = await loadTemplate(
     val,
-    "com.starhorse.devops.customer",
-    "Customer",
+    'com.starhorse.devops.customer',
+    'Customer',
   );
   editor.value.setValue(value);
 };
-const helpMessage = "";
+const helpMessage = '';
 onMounted(() => {
   init();
 });

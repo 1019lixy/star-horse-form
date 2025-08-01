@@ -7,7 +7,7 @@ import {
   reactive,
   ref,
   watch,
-} from "vue";
+} from 'vue';
 import {
   apiInstance,
   ApiUrls,
@@ -19,16 +19,16 @@ import {
   SearchFields,
   useContinusConfigStore,
   warning,
-} from "star-horse-lowcode";
+} from 'star-horse-lowcode';
 
-let dataUrl = ref<ApiUrls>(apiInstance("", ""));
+let dataUrl = ref<ApiUrls>(apiInstance('', ''));
 const continuousStore = useContinusConfigStore(piniaInstance);
-const errorMsg = ref("数据加载中");
+const errorMsg = ref('数据加载中');
 let searchFormData = ref<SearchFields>({});
 const tableFieldList = ref<any>({
   fieldList: [],
 });
-const primaryKey = ref("");
+const primaryKey = ref('');
 const nodeFormRef = ref();
 const rules = ref({});
 const hasData = ref(false);
@@ -44,22 +44,22 @@ const clear = () => {
 };
 const assignField = (data: any) => {
   dataUrl.value = apiInstance(
-    data["dataUrl"].appName,
-    data["dataUrl"].contextUrl,
+    data['dataUrl'].appName,
+    data['dataUrl'].contextUrl,
   );
-  searchFormData.value = data["searchFormData"] as SearchFields;
-  primaryKey.value = data["primaryKey"];
-  tableFieldList.value = { ...data["tableFieldList"] } as PageFieldInfo;
-  relationTables.value = data["relationTables"];
-  rules.value = data["rules"];
-  formInfo.value = data["formInfo"];
+  searchFormData.value = data['searchFormData'] as SearchFields;
+  primaryKey.value = data['primaryKey'];
+  tableFieldList.value = { ...data['tableFieldList'] } as PageFieldInfo;
+  relationTables.value = data['relationTables'];
+  rules.value = data['rules'];
+  formInfo.value = data['formInfo'];
 };
 const resetField = () => {
-  dataUrl.value = apiInstance("", "");
+  dataUrl.value = apiInstance('', '');
   searchFormData.value = {
     fieldList: [],
   };
-  primaryKey.value = "";
+  primaryKey.value = '';
   tableFieldList.value = {
     fieldList: [],
   };
@@ -101,9 +101,9 @@ watch(
 );
 //记录表单的属性
 const formFields = reactive<Array<any>>([]);
-provide("formFields", formFields);
+provide('formFields', formFields);
 const dialogProps = dialogPreps();
-provide("dialogProps", dialogProps);
+provide('dialogProps', dialogProps);
 const getFormData = async () => {
   // 校验表单
   let result = await nodeFormRef.value?.starHorseFormRef.validate();
@@ -123,7 +123,7 @@ const resetForm = () => {
 };
 const init = async () => {
   if (!props.formNo && !props.staticFieldData) {
-    warning("NodeFields组件缺少参数");
+    warning('NodeFields组件缺少参数');
     return;
   }
   if (props.staticFieldData?.fieldList?.length > 0) {

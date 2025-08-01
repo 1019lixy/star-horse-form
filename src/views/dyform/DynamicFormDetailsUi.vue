@@ -4,107 +4,107 @@ import {
   ApiUrls,
   dialogPreps,
   SearchFields,
-} from "star-horse-lowcode";
-import { onMounted, provide, reactive, ref } from "vue";
+} from 'star-horse-lowcode';
+import { onMounted, provide, reactive, ref } from 'vue';
 
 const dataUrl: ApiUrls = apiInstance(
-  "userdb-manage",
-  "userdb/dynamicFormDetails",
+  'userdb-manage',
+  'userdb/dynamicFormDetails',
 );
 const searchFormData = reactive<SearchFields>({
   fieldList: [
-    { label: "主键", fieldName: "idDynamicFormDetails", type: "long" },
-    { label: "主键", fieldName: "idDynamicForm", type: "long" },
-    { label: "表单内容", fieldName: "content" },
-    { label: "表单属性", fieldName: "fieldNames" },
+    { label: '主键', fieldName: 'idDynamicFormDetails', type: 'long' },
+    { label: '主键', fieldName: 'idDynamicForm', type: 'long' },
+    { label: '表单内容', fieldName: 'content' },
+    { label: '表单属性', fieldName: 'fieldNames' },
   ],
 });
 const tableFieldList = reactive({
   fieldList: [
     {
-      label: "主键",
-      fieldName: "idDynamicFormDetails",
-      type: "long",
+      label: '主键',
+      fieldName: 'idDynamicFormDetails',
+      type: 'long',
       formVisible: true,
       listVisible: true,
     },
     {
-      label: "主键",
-      fieldName: "idDynamicForm",
-      type: "long",
+      label: '主键',
+      fieldName: 'idDynamicForm',
+      type: 'long',
       formVisible: true,
       listVisible: true,
     },
     {
-      label: "表单内容",
-      fieldName: "content",
+      label: '表单内容',
+      fieldName: 'content',
 
       formVisible: true,
       listVisible: true,
     },
     {
-      label: "表单属性",
-      fieldName: "fieldNames",
+      label: '表单属性',
+      fieldName: 'fieldNames',
 
       formVisible: true,
       listVisible: true,
     },
     {
-      label: "创建人",
+      label: '创建人',
       disabled: true,
-      fieldName: "createdBy",
+      fieldName: 'createdBy',
     },
     {
-      label: "修改人",
+      label: '修改人',
       disabled: true,
-      fieldName: "updatedBy",
+      fieldName: 'updatedBy',
     },
     {
-      label: "创建日期",
+      label: '创建日期',
       disabled: true,
-      fieldName: "createdTime",
-      type: "date",
+      fieldName: 'createdTime',
+      type: 'date',
     },
     {
-      label: "修改日期",
+      label: '修改日期',
       disabled: true,
-      fieldName: "updatedTime",
-      type: "date",
+      fieldName: 'updatedTime',
+      type: 'date',
     },
     {
-      label: "数据版本号",
-      fieldName: "version",
-      type: "number",
+      label: '数据版本号',
+      fieldName: 'version',
+      type: 'number',
     },
     {
-      label: "是否已逻辑",
-      fieldName: "isDel",
-      type: "number",
+      label: '是否已逻辑',
+      fieldName: 'isDel',
+      type: 'number',
     },
     {
-      label: "数据编号",
-      fieldName: "dataNo",
+      label: '数据编号',
+      fieldName: 'dataNo',
     },
     {
-      label: "状态码",
-      fieldName: "statusCode",
+      label: '状态码',
+      fieldName: 'statusCode',
     },
     {
-      label: "状态码名称",
-      fieldName: "statusName",
+      label: '状态码名称',
+      fieldName: 'statusName',
     },
     {
-      label: "国际码",
-      fieldName: "local",
+      label: '国际码',
+      fieldName: 'local',
     },
   ],
   batchFieldList: [],
 });
-const primaryKey = "idDynamicFormDetails";
+const primaryKey = 'idDynamicFormDetails';
 const dynamicFormDetailsRef = ref();
 const rules = {};
 const dialogProps = dialogPreps();
-provide("dialogProps", dialogProps);
+provide('dialogProps', dialogProps);
 
 const dataFormat = (name: string, cellValue: object): any => {
   return cellValue;

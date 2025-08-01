@@ -2,50 +2,50 @@
 import {
   flowCommon,
   radioStyle,
-} from "@/views/workflow/plugin/utils/flowCommon";
-import { computed, ModelRef, onMounted, ref } from "vue";
-import { useFlowDesignStore } from "@/store/FlowDesign";
+} from '@/views/workflow/plugin/utils/flowCommon';
+import { computed, ModelRef, onMounted, ref } from 'vue';
+import { useFlowDesignStore } from '@/store/FlowDesign';
 import {
   createCondition,
   piniaInstance,
   postRequest,
-} from "star-horse-lowcode";
-import { FlowNodeEnums } from "../enums/FlowNodeEnums";
+} from 'star-horse-lowcode';
+import { FlowNodeEnums } from '../enums/FlowNodeEnums';
 
 defineOptions({
-  name: "ApprovalPrep",
+  name: 'ApprovalPrep',
 });
-let node: ModelRef<any> = defineModel("activeData");
-let approvalTab = ref<string>("1");
+let node: ModelRef<any> = defineModel('activeData');
+let approvalTab = ref<string>('1');
 const flowFormInfo = computed(() => flowDesign.flowFormInfo);
 // 审批类型
 let approvalMethods = ref<Array<any>>([
   {
-    name: "指定人员",
-    value: "assign",
+    name: '指定人员',
+    value: 'assign',
   },
   {
-    name: "自动通过",
-    value: "pass",
+    name: '自动通过',
+    value: 'pass',
   },
   {
-    name: "自动拒绝",
-    value: "reject",
+    name: '自动拒绝',
+    value: 'reject',
   },
 ]);
 // 审批方式
 let approvalModes = ref<Array<any>>([
   {
-    name: "依次审批(一人通过再到下一个人处理)",
-    value: "sequential",
+    name: '依次审批(一人通过再到下一个人处理)',
+    value: 'sequential',
   },
   {
-    name: "多人会签",
-    value: "joint",
+    name: '多人会签',
+    value: 'joint',
   },
   {
-    name: "多人或签(一人通过或否决)",
-    value: "single",
+    name: '多人或签(一人通过或否决)',
+    value: 'single',
   },
 ]);
 let approvalWithNulls = ref<Array<any>>([]);
@@ -59,15 +59,15 @@ const onClose = () => {
  */
 const onSave = () => {
   // 更新节点显示信息
-  let content = "";
+  let content = '';
   node.value.approveGroups.forEach((group: any) => {
     if (Array.isArray(group.approverNames) && group.approverNames.length > 0) {
-      content += group.approverNames.join(",");
+      content += group.approverNames.join(',');
     } else {
       content += group.approverNames;
     }
     if (content) {
-      content += ",";
+      content += ',';
     }
   });
 
@@ -75,16 +75,16 @@ const onSave = () => {
 };
 const init = () => {
   postRequest(
-    "/userdb-manage/userdb/formInstance/shNodeMappingPreps/idNodeMappingPrep/337537414606095357/getAllByCondition",
+    '/userdb-manage/userdb/formInstance/shNodeMappingPreps/idNodeMappingPrep/337537414606095357/getAllByCondition',
     {
       fieldList: [
         createCondition(
-          "idFlowNode",
-          ["applyEqAuditMode", "approvalNullOperationType"],
-          "in",
+          'idFlowNode',
+          ['applyEqAuditMode', 'approvalNullOperationType'],
+          'in',
         ),
       ],
-      orderBy: [{ fieldName: "createdTime", ascOrDesc: "ASC" }],
+      orderBy: [{ fieldName: 'createdTime', ascOrDesc: 'ASC' }],
     },
   ).then((res) => {
     if (res.data.code) {
@@ -93,10 +93,10 @@ const init = () => {
     }
     let reData: Array<any> = res.data.data;
     sameApprovals.value = reData.filter((item: any) => {
-      return item.idFlowNode == "applyEqAuditMode";
+      return item.idFlowNode == 'applyEqAuditMode';
     });
     approvalWithNulls.value = reData.filter((item: any) => {
-      return item.idFlowNode == "approvalNullOperationType";
+      return item.idFlowNode == 'approvalNullOperationType';
     });
   });
 };

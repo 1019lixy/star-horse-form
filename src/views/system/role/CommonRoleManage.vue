@@ -7,10 +7,10 @@ import {
   provide,
   reactive,
   ref,
-} from "vue";
-import { TreeNodeData } from "element-plus/es/components/tree-v2/src/types";
-import { statusList } from "@/views/system/utils/UserFields";
-import { getCustomerParam } from "@/utils/auth";
+} from 'vue';
+import { TreeNodeData } from 'element-plus/es/components/tree-v2/src/types';
+import { statusList } from '@/views/system/utils/UserFields';
+import { getCustomerParam } from '@/utils/auth';
 import {
   apiInstance,
   ApiUrls,
@@ -31,30 +31,30 @@ import {
   success,
   UserFuncInfo,
   warning,
-} from "star-horse-lowcode";
+} from 'star-horse-lowcode';
 //后端交互接口地址
 const dataUrl: ApiUrls = apiInstance(
-  "system-config",
-  "system/companyRolePkEmployee",
+  'system-config',
+  'system/companyRolePkEmployee',
 );
-dataUrl.condition = [createCondition("a.roleType", "common_role")];
+dataUrl.condition = [createCondition('a.roleType', 'common_role')];
 //主键
-const primaryKey = "idCompanyRole";
+const primaryKey = 'idCompanyRole';
 const companyRoleRef = ref();
 const assignRoleCompanyRef = ref();
 let companyList = ref<Array<any>>([]);
 let outerFormData = ref<any>({
-  roleType: "common_role",
+  roleType: 'common_role',
 });
 //定义表单的所有属性
 const formFields = reactive<object>({});
-provide("formFields", formFields);
+provide('formFields', formFields);
 let currentUserGroupId = ref<number>(0);
 let defaultCondition = ref<SearchParams[]>([]);
 const companyChange = (data: TreeNodeData, _checked: boolean) => {
-  currentUserGroupId.value = data["idCompanyDefine"];
+  currentUserGroupId.value = data['idCompanyDefine'];
   defaultCondition.value = [
-    createCondition("b.idCompanyDefine", currentUserGroupId.value),
+    createCondition('b.idCompanyDefine', currentUserGroupId.value),
   ];
   companyRoleRef.value.createSearchParams(defaultCondition.value);
 };
@@ -62,22 +62,22 @@ const companyChange = (data: TreeNodeData, _checked: boolean) => {
 const searchFormData = reactive<SearchFields>({
   fieldList: [
     {
-      label: "角色名称",
-      fieldName: "roleName",
+      label: '角色名称',
+      fieldName: 'roleName',
       defaultVisible: true,
-      matchType: "lk",
+      matchType: 'lk',
     },
     {
-      label: "角色编码",
-      fieldName: "roleCode",
+      label: '角色编码',
+      fieldName: 'roleCode',
       defaultVisible: true,
-      matchType: "lk",
+      matchType: 'lk',
     },
   ],
 });
 const viewCompField = ref<DyCompField>({
-  name: "UserInfoComp",
-  emits: ["closeAction"],
+  name: 'UserInfoComp',
+  emits: ['closeAction'],
   methods: {},
   onMounted: () => {},
   template: `
@@ -114,16 +114,16 @@ const tableFieldList = reactive<PageFieldInfo | any>({
   //属性列表
   fieldList: [
     {
-      label: "角色名称",
-      fieldName: "roleName",
+      label: '角色名称',
+      fieldName: 'roleName',
 
       required: true,
       formVisible: true,
       listVisible: true,
     },
     {
-      label: "角色编码",
-      fieldName: "roleCode",
+      label: '角色编码',
+      fieldName: 'roleCode',
 
       required: true,
       formVisible: true,
@@ -131,57 +131,57 @@ const tableFieldList = reactive<PageFieldInfo | any>({
     },
 
     {
-      label: "版本号",
-      fieldName: "version",
-      type: "number",
+      label: '版本号',
+      fieldName: 'version',
+      type: 'number',
       required: false,
       formVisible: !true,
       listVisible: !true,
     },
     {
-      label: "创建人",
-      fieldName: "createdBy",
+      label: '创建人',
+      fieldName: 'createdBy',
 
       required: false,
       formVisible: !true,
       listVisible: true,
     },
     {
-      label: "创建时间",
-      fieldName: "createdTime",
+      label: '创建时间',
+      fieldName: 'createdTime',
 
       required: false,
       formVisible: !true,
       listVisible: true,
     },
     {
-      label: "修改人",
-      fieldName: "updatedBy",
+      label: '修改人',
+      fieldName: 'updatedBy',
 
       required: false,
       formVisible: !true,
       listVisible: true,
     },
     {
-      label: "修改时间",
-      fieldName: "updatedTime",
+      label: '修改时间',
+      fieldName: 'updatedTime',
 
       required: false,
       formVisible: !true,
       listVisible: true,
     },
     {
-      label: "数据编号",
-      fieldName: "dataNo",
+      label: '数据编号',
+      fieldName: 'dataNo',
 
       required: false,
       formVisible: !true,
       listVisible: !true,
     },
     {
-      label: "状态码",
-      fieldName: "statusCode",
-      type: "select",
+      label: '状态码',
+      fieldName: 'statusCode',
+      type: 'select',
       required: false,
       formVisible: true,
       listVisible: !true,
@@ -190,33 +190,33 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       },
     },
     {
-      label: "状态名称",
-      fieldName: "statusName",
+      label: '状态名称',
+      fieldName: 'statusName',
 
       required: false,
       formVisible: !true,
       listVisible: !true,
     },
     {
-      label: "是否删除",
-      fieldName: "isDel",
-      type: "number",
+      label: '是否删除',
+      fieldName: 'isDel',
+      type: 'number',
       required: false,
       formVisible: !true,
       listVisible: !true,
     },
     {
-      label: "国际编码",
-      fieldName: "local",
+      label: '国际编码',
+      fieldName: 'local',
 
       required: false,
       formVisible: !true,
       listVisible: !true,
     },
     {
-      label: "备注",
-      fieldName: "remark",
-      type: "textarea",
+      label: '备注',
+      fieldName: 'remark',
+      type: 'textarea',
       required: false,
       formVisible: true,
       listVisible: !true,
@@ -227,53 +227,53 @@ const tableFieldList = reactive<PageFieldInfo | any>({
 });
 
 const expandTable = reactive<ExpandTable>({
-  dataField: "employeeList",
-  title: "人员信息",
+  dataField: 'employeeList',
+  title: '人员信息',
   primaryKey: [
-    "idCompanyDefine",
-    "idCompanyRole",
+    'idCompanyDefine',
+    'idCompanyRole',
     {
-      source: "idEmployeeInfo",
-      dist: "idEmployee",
+      source: 'idEmployeeInfo',
+      dist: 'idEmployee',
     },
   ],
   showButton: true,
   expandUrls: {
-    deleteUrl: "/system-config/system/companyRolePkEmployee/batchDeleteById",
+    deleteUrl: '/system-config/system/companyRolePkEmployee/batchDeleteById',
   },
   extendFuncs: [
     {
-      icon: "delete",
-      btnName: "删除",
-      authority: "delete",
+      icon: 'delete',
+      btnName: '删除',
+      authority: 'delete',
     },
   ],
   fieldList: [
     {
-      label: "姓名",
-      fieldName: "name",
-      type: "tag",
+      label: '姓名',
+      fieldName: 'name',
+      type: 'tag',
       required: true,
       formVisible: true,
       listVisible: true,
       preps: {
-        showComp: "Y",
-        popover: "Y",
-        placement: "top",
+        showComp: 'Y',
+        popover: 'Y',
+        placement: 'top',
         compField: viewCompField,
       },
     },
     {
-      label: "所属公司",
-      fieldName: "companyName",
+      label: '所属公司',
+      fieldName: 'companyName',
 
       required: true,
       formVisible: true,
       listVisible: true,
     },
     {
-      label: "所属部门",
-      fieldName: "deptName",
+      label: '所属部门',
+      fieldName: 'deptName',
 
       required: true,
       formVisible: true,
@@ -285,17 +285,17 @@ const expandTable = reactive<ExpandTable>({
 const rules = {};
 //控制弹窗相关设置
 const dialogProps = dialogPreps();
-provide("dialogProps", dialogProps);
+provide('dialogProps', dialogProps);
 const userTableRef = ref();
 let currentRow = ref<any>({});
 let extendBtns = ref<UserFuncInfo[]>([
   {
-    btnName: "添加人员",
-    authority: "add",
-    icon: "user-add",
+    btnName: '添加人员',
+    authority: 'add',
+    icon: 'user-add',
     funcName: async (row: any) => {
       if (!currentUserGroupId.value) {
-        warning("请先在左侧选择公司");
+        warning('请先在左侧选择公司');
         return;
       }
       currentRow.value = row;
@@ -308,7 +308,7 @@ let extendBtns = ref<UserFuncInfo[]>([
 //初始化方法
 const initData = async () => {
   let result = await loadData(
-    "/system-config/system/companyDefine/getAllByCondition",
+    '/system-config/system/companyDefine/getAllByCondition',
     {},
   );
   if (result.error) {
@@ -316,14 +316,14 @@ const initData = async () => {
     return;
   }
   companyList.value = result.data;
-  roleTypeList.value = await dictData("company_role_type");
+  roleTypeList.value = await dictData('company_role_type');
 };
 const assignRoleUser = () => {
   let selectedDatas =
     userTableRef.value.$refs.employeeInfoRef.multipleSelection;
   console.log(selectedDatas);
   if (!selectedDatas || selectedDatas.length == 0) {
-    warning("请选择人员信息");
+    warning('请选择人员信息');
     return;
   }
   let datas = [];
@@ -334,8 +334,8 @@ const assignRoleUser = () => {
       idEmployee: selectedDatas[index].idEmployeeInfo,
     });
   }
-  load("数据提交中");
-  postRequest("/system-config/system/companyRolePkEmployee/mergeBatch", datas)
+  load('数据提交中');
+  postRequest('/system-config/system/companyRolePkEmployee/mergeBatch', datas)
     .then((res) => {
       if (res.data.code) {
         error(res.data.cnMessage);

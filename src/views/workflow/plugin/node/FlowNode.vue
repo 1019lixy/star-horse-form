@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { useFlowDesignStore } from "@/store/FlowDesign";
-import { piniaInstance } from "star-horse-lowcode";
+import { useFlowDesignStore } from '@/store/FlowDesign';
+import { piniaInstance } from 'star-horse-lowcode';
 
 const flowDesign = useFlowDesignStore(piniaInstance);
 const props = defineProps({

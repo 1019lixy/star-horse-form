@@ -7,7 +7,7 @@ import {
   onActivated,
   onDeactivated,
   nextTick,
-} from "vue";
+} from 'vue';
 import {
   apiInstance,
   dialogPreps,
@@ -15,65 +15,65 @@ import {
   PageFieldInfo,
   ApiUrls,
   createDatetime,
-} from "star-horse-lowcode";
-import { getCustomerParam } from "@/utils/auth";
+} from 'star-horse-lowcode';
+import { getCustomerParam } from '@/utils/auth';
 defineOptions({
-  name: "DynamicScriptColumns",
+  name: 'DynamicScriptColumns',
 });
 //后端交互接口地址
 const dataUrl: ApiUrls = apiInstance(
-  "userdb-manage",
-  "userdb/dynamicScriptColumns",
+  'userdb-manage',
+  'userdb/dynamicScriptColumns',
 );
 //主键
-const primaryKey = "idDynamicScriptColumn";
+const primaryKey = 'idDynamicScriptColumn';
 const dynamicScriptColumnsRef = ref();
 const dynamicScriptColumnsFormRef = ref();
 //定义表单的所有属性
 const formFields = reactive<Object>({});
-provide("formFields", formFields);
+provide('formFields', formFields);
 //查询属性
 const searchFormData = reactive<SearchFields>({
   fieldList: [
     {
-      label: "字段名称",
-      fieldName: "columnName",
-      matchType: "lk",
+      label: '字段名称',
+      fieldName: 'columnName',
+      matchType: 'lk',
     },
     {
-      label: "描述",
-      fieldName: "labelName",
-      matchType: "lk",
+      label: '描述',
+      fieldName: 'labelName',
+      matchType: 'lk',
     },
     {
-      label: "查询显示",
-      fieldName: "searchVisible",
+      label: '查询显示',
+      fieldName: 'searchVisible',
       defaultVisible: true,
-      matchType: "lk",
+      matchType: 'lk',
     },
     {
-      label: "表单显示",
-      fieldName: "formVisible",
+      label: '表单显示',
+      fieldName: 'formVisible',
       defaultVisible: true,
-      matchType: "lk",
+      matchType: 'lk',
     },
     {
-      label: "列表显示",
-      fieldName: "listVisible",
+      label: '列表显示',
+      fieldName: 'listVisible',
       defaultVisible: true,
-      matchType: "lk",
+      matchType: 'lk',
     },
     {
-      label: "动态脚本消费视图",
-      fieldName: "idDynamicScriptConsumerView",
+      label: '动态脚本消费视图',
+      fieldName: 'idDynamicScriptConsumerView',
       defaultVisible: true,
-      matchType: "lk",
+      matchType: 'lk',
     },
     {
-      label: "租户",
-      fieldName: "tenantId",
+      label: '租户',
+      fieldName: 'tenantId',
       defaultVisible: true,
-      matchType: "lk",
+      matchType: 'lk',
     },
   ],
 });
@@ -82,106 +82,106 @@ const tableFieldList = reactive<PageFieldInfo | any>({
   //属性列表
   fieldList: [
     {
-      label: "主键",
-      fieldName: "idDynamicScriptColumn",
+      label: '主键',
+      fieldName: 'idDynamicScriptColumn',
       required: true,
       formVisible: true,
       listVisible: true,
     },
     {
-      label: "字段名称",
-      fieldName: "columnName",
+      label: '字段名称',
+      fieldName: 'columnName',
       formVisible: true,
       listVisible: true,
     },
     {
-      label: "描述",
-      fieldName: "labelName",
+      label: '描述',
+      fieldName: 'labelName',
       formVisible: true,
       listVisible: true,
     },
     {
-      label: "查询显示",
-      fieldName: "searchVisible",
+      label: '查询显示',
+      fieldName: 'searchVisible',
       required: true,
       formVisible: true,
       listVisible: true,
     },
     {
-      label: "表单显示",
-      fieldName: "formVisible",
+      label: '表单显示',
+      fieldName: 'formVisible',
       required: true,
       formVisible: true,
       listVisible: true,
     },
     {
-      label: "列表显示",
-      fieldName: "listVisible",
+      label: '列表显示',
+      fieldName: 'listVisible',
       required: true,
       formVisible: true,
       listVisible: true,
     },
     {
-      label: "动态脚本消费视图",
-      fieldName: "idDynamicScriptConsumerView",
+      label: '动态脚本消费视图',
+      fieldName: 'idDynamicScriptConsumerView',
       required: true,
       formVisible: true,
       listVisible: true,
     },
     {
-      label: "版本号",
-      fieldName: "version",
-      type: "number",
+      label: '版本号',
+      fieldName: 'version',
+      type: 'number',
     },
     {
-      label: "创建人",
-      fieldName: "createdBy",
+      label: '创建人',
+      fieldName: 'createdBy',
     },
     {
-      label: "创建时间",
-      fieldName: "createdTime",
-      type: "datetime",
+      label: '创建时间',
+      fieldName: 'createdTime',
+      type: 'datetime',
     },
     {
-      label: "修改人",
-      fieldName: "updatedBy",
+      label: '修改人',
+      fieldName: 'updatedBy',
     },
     {
-      label: "修改时间",
-      fieldName: "updatedTime",
-      type: "datetime",
+      label: '修改时间',
+      fieldName: 'updatedTime',
+      type: 'datetime',
     },
     {
-      label: "数据编号",
-      fieldName: "dataNo",
+      label: '数据编号',
+      fieldName: 'dataNo',
     },
     {
-      label: "状态",
-      fieldName: "statusCode",
+      label: '状态',
+      fieldName: 'statusCode',
     },
     {
-      label: "状态名称",
-      fieldName: "statusName",
+      label: '状态名称',
+      fieldName: 'statusName',
     },
     {
-      label: "是否删除",
-      fieldName: "isDel",
-      type: "number",
+      label: '是否删除',
+      fieldName: 'isDel',
+      type: 'number',
     },
     {
-      label: "国际编码",
-      fieldName: "local",
+      label: '国际编码',
+      fieldName: 'local',
     },
     {
-      label: "租户",
-      fieldName: "tenantId",
+      label: '租户',
+      fieldName: 'tenantId',
       required: true,
       formVisible: true,
       listVisible: true,
     },
     {
-      label: "备注",
-      fieldName: "remark",
+      label: '备注',
+      fieldName: 'remark',
     },
   ],
   //默认查询条件
@@ -191,7 +191,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
 const rules = {};
 //控制弹窗相关设置
 const dialogProps = dialogPreps();
-provide("dialogProps", dialogProps);
+provide('dialogProps', dialogProps);
 //初始化方法
 const initData = async () => {};
 const activated = async () => {

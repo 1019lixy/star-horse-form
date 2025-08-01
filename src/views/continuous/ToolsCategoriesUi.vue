@@ -1,30 +1,30 @@
 <script setup lang="ts" name="ToolsCategories">
-import { onMounted, provide, reactive, ref } from "vue";
+import { onMounted, provide, reactive, ref } from 'vue';
 import {
   apiInstance,
   ApiUrls,
   dialogPreps,
   SearchFields,
-} from "star-horse-lowcode";
-import { Config } from "@/api/settings";
+} from 'star-horse-lowcode';
+import { Config } from '@/api/settings';
 
 const dataUrl: ApiUrls = apiInstance(
-  "continuous-manage",
-  "continuous/toolsCategories",
+  'continuous-manage',
+  'continuous/toolsCategories',
 );
 const searchFormData = reactive<SearchFields>({
   fieldList: [
     {
-      label: "节点",
-      fieldName: "idNodeProperty",
-      matchType: "lk",
+      label: '节点',
+      fieldName: 'idNodeProperty',
+      matchType: 'lk',
       defaultVisible: true,
     },
     {
-      label: "测试报告类型",
-      fieldName: "projectType",
-      type: "reportType",
-      matchType: "lk",
+      label: '测试报告类型',
+      fieldName: 'projectType',
+      type: 'reportType',
+      matchType: 'lk',
       defaultVisible: true,
     },
   ],
@@ -32,12 +32,12 @@ const searchFormData = reactive<SearchFields>({
 const tableFieldList = reactive({
   fieldList: [
     {
-      label: "主键",
-      fieldName: "idToolCategory",
+      label: '主键',
+      fieldName: 'idToolCategory',
     },
     {
-      label: "工具名称",
-      fieldName: "toolName",
+      label: '工具名称',
+      fieldName: 'toolName',
 
       required: true,
       formVisible: true,
@@ -45,90 +45,90 @@ const tableFieldList = reactive({
     },
     [
       {
-        label: "工具编码",
-        fieldName: "toolCode",
+        label: '工具编码',
+        fieldName: 'toolCode',
 
         formVisible: true,
         listVisible: true,
       },
       {
-        label: "发行版本",
-        fieldName: "toolVersion",
+        label: '发行版本',
+        fieldName: 'toolVersion',
 
         formVisible: true,
         listVisible: true,
       },
     ],
     {
-      label: "工具描述",
-      fieldName: "toolDesc",
-      type: "textarea",
+      label: '工具描述',
+      fieldName: 'toolDesc',
+      type: 'textarea',
       required: true,
       formVisible: true,
       listVisible: true,
     },
     {
-      label: "备注",
-      fieldName: "remark",
-      type: "textarea",
+      label: '备注',
+      fieldName: 'remark',
+      type: 'textarea',
       formVisible: true,
     },
     {
-      label: "创建人",
+      label: '创建人',
       disabled: true,
-      fieldName: "createdBy",
+      fieldName: 'createdBy',
     },
     {
-      label: "修改人",
+      label: '修改人',
       disabled: true,
-      fieldName: "updatedBy",
+      fieldName: 'updatedBy',
     },
     {
-      label: "创建日期",
+      label: '创建日期',
       disabled: true,
-      fieldName: "createdTime",
-      type: "date",
+      fieldName: 'createdTime',
+      type: 'date',
     },
     {
-      label: "修改日期",
+      label: '修改日期',
       disabled: true,
-      fieldName: "updatedTime",
-      type: "date",
+      fieldName: 'updatedTime',
+      type: 'date',
     },
     {
-      label: "数据版本号",
-      fieldName: "version",
-      type: "number",
+      label: '数据版本号',
+      fieldName: 'version',
+      type: 'number',
     },
     {
-      label: "是否已逻辑",
-      fieldName: "isDel",
-      type: "number",
+      label: '是否已逻辑',
+      fieldName: 'isDel',
+      type: 'number',
     },
     {
-      label: "数据编号",
-      fieldName: "dataNo",
+      label: '数据编号',
+      fieldName: 'dataNo',
     },
     {
-      label: "状态码",
-      fieldName: "statusCode",
+      label: '状态码',
+      fieldName: 'statusCode',
     },
     {
-      label: "状态码名称",
-      fieldName: "statusName",
+      label: '状态码名称',
+      fieldName: 'statusName',
     },
     {
-      label: "国际码",
-      fieldName: "local",
+      label: '国际码',
+      fieldName: 'local',
     },
   ],
   batchFieldList: [],
 });
-const primaryKey = "idToolCategory";
+const primaryKey = 'idToolCategory';
 const toolsCategoriesRef = ref();
 const rules = {};
 const dialogProps = dialogPreps();
-provide("dialogProps", dialogProps);
+provide('dialogProps', dialogProps);
 
 const selectItemFun = (data: any) => {};
 const dataFormat = (name: string, cellValue: object): any => {
