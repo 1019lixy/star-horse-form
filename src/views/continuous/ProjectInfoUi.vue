@@ -331,6 +331,7 @@ onMounted(async () => {
 });
 </script>
 <template>
+  <div class="flex flex-col h-full overflow-hidden">
   <star-horse-dialog
     :isShowBtnContinue="true"
     :dialogVisible="dialogProps.editVisible"
@@ -380,5 +381,6 @@ onMounted(async () => {
       </el-splitter-panel>
     </el-splitter>
   </el-card>
+  </div>
 </template>
 <style lang="scss" scoped></style>

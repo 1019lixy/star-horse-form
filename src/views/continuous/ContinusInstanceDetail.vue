@@ -14,6 +14,7 @@ const goBack = () => {
 </script>
 
 <template>
+  <div class="flex flex-col h-full overflow-hidden">
   <div class="config-nav-bar">
     <div class="nav-bar-left">
       <el-button @click="goBack" link class="flex items-center">
@@ -44,5 +45,6 @@ const goBack = () => {
   </div>
   <instance-item-detail @nodeDetail="nodeDetail" />
   <compliance />
+  </div>
 </template>
 <style lang="scss" scoped></style>

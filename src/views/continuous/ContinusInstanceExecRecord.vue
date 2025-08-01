@@ -15,6 +15,7 @@ const handleClick = (tab: string, event: Event) => {};
 </script>
 
 <template>
+  <div class="flex flex-col h-full overflow-hidden">
   <div class="config-nav-bar">
     <div class="nav-bar-left">
       <span><star-horse-icon icon-class="flow" />流水线</span>
@@ -42,5 +43,6 @@ const handleClick = (tab: string, event: Event) => {};
     <el-tab-pane label="修改历史" name="second">修改历史</el-tab-pane>
     <el-tab-pane label="回滚记录" name="third">回滚记录</el-tab-pane>
   </el-tabs>
+  </div>
 </template>
 <style lang="scss" scoped></style>

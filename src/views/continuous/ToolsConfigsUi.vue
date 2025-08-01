@@ -149,6 +149,7 @@ onMounted(async () => {
 });
 </script>
 <template>
+  <div class="flex flex-col h-full overflow-hidden">
   <star-horse-dialog
     :isShowBtnContinue="true"
     :dialogVisible="dialogProps.editVisible"
@@ -198,4 +199,5 @@ onMounted(async () => {
       @selectItem="selectItemFun"
     />
   </el-card>
+  </div>
 </template>

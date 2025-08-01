@@ -13,13 +13,8 @@ let code = ref<string>('');
 const starHorseEditorRef = ref();
 const asssignVal = (searchFields: string, formFields: string) => {
   return `<script setup lang='ts'>
-import {ApiUrls} from "star-horse-lowcode";
-import {apiInstance,dialogPreps} "star-horse-lowcode";
-import {Config} from "@\/api\/settings";
-import {DialogProps} from "star-horse-lowcode"
 import {onMounted, provide, reactive, ref} from "vue";
-import {SearchProps} from "star-horse-lowcode";
-import {PageFieldInfo} from "star-horse-lowcode";
+import {ApiUrls,apiInstance,dialogPreps,DialogProps,SearchProps,PageFieldInfo} from "star-horse-lowcode";
 const searchFormData = reactive<Array<SearchProps>>(${searchFields});
 const tableFieldList = reactive<PageFieldInfo>({
     fieldList:${formFields}
@@ -34,7 +29,13 @@ const ${convertToCamelCase(props.formInfo.tbName)}Ref = ref();
 const rules = {};
 const dialogProps =dialogPreps();
 provide("dialogProps", dialogProps);
-const dataFormat = (name: string, cellValue: Object): any => {
+/**
+* 数据格式化
+* @param name 字段名称
+* @param cellValue 字段值
+* @param row 行数据
+*/
+const dataFormat = (name: string, cellValue: any,row:any): any => {
   return cellValue;
 }
 onMounted(() => {
@@ -42,24 +43,24 @@ onMounted(() => {
 });
 <\/script>
 <template>
+<div class="flex flex-col h-full overflow-hidden">
 <star-horse-dialog :isShowBtnContinue="true" :dialogVisible="dialogProps.editVisible" :dialogProps="dialogProps">
     <star-horse-form  @refresh="${convertToCamelCase(props.formInfo.tbName)}Ref?.loadByPage()" :compUrl="dataUrl" :fieldList="tableFieldList" :rules="rules"\/>
   <\/star-horse-dialog>
   <star-horse-dialog :dialog-visible="dialogProps.viewVisible" :dialogProps="dialogProps"  :source="3">
     <star-horse-data-view :dataFormat="dataFormat" :field-list="tableFieldList" :compUrl="dataUrl"\/>
   <\/star-horse-dialog>
-  <el-card class="inner_content">
-    <div class="search_btn" :style="{'flex-direction':Config.buttonStyle.value=='line'?'column':'row'}">
+  <div class="search-content">
+   <div class="search_btn">
       <star-horse-search-comp   @searchData="(data:any)=>${convertToCamelCase(props.formInfo.tbName)}Ref?.createSearchParams(data)" :formData="searchFormData"
                               :compUrl="dataUrl"\/>
-      <hr>
-      <star-horse-button-list   @tableCompFunc="(fun:any)=>${convertToCamelCase(props.formInfo.tbName)}Ref.tableCompFunc(fun)" :compUrl="dataUrl"
-                              :dialogProps="dialogProps" :showType="Config.buttonStyle"\/>
     <\/div>
-    <hr>
+   <\/div>
+  <el-card class="inner_content">
     <star-horse-table-comp    ref="${convertToCamelCase(props.formInfo.tbName)}Ref" :fieldList="tableFieldList" :primaryKey="primaryKey" :compUrl="dataUrl"
                            :dataFormat="dataFormat"\/>
   <\/el-card>
+  <\/div>
 <\/template>
 <style scoped lang="scss">
 <\/style>

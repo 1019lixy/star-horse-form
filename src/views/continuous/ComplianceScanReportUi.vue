@@ -182,6 +182,7 @@ onMounted(async () => {
 </script>
 <style lang="scss" scoped></style>
 <template>
+  <div class="flex flex-col h-full overflow-hidden">
   <star-horse-dialog
     :isShowBtnContinue="true"
     :dialogVisible="dialogProps.editVisible"
@@ -217,4 +218,5 @@ onMounted(async () => {
       :dataFormat="dataFormat"
     />
   </el-card>
+  </div>
 </template>

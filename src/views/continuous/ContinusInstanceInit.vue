@@ -298,6 +298,7 @@ onMounted(async () => {
 });
 </script>
 <template>
+  <div class="flex flex-col h-full overflow-hidden">
   <star-horse-dialog
     :title="'节点列表'"
     :dialogVisible="nodeDialog"
@@ -465,5 +466,6 @@ onMounted(async () => {
             </div>-->
     </div>
   </el-card>
+  </div>
 </template>
 <style lang="scss" scoped></style>

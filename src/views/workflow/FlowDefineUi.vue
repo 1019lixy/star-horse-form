@@ -332,6 +332,7 @@ onDeactivated(() => {
 });
 </script>
 <template>
+  <div class="flex flex-col h-full overflow-hidden">
   <star-horse-dialog
     :isShowBtnContinue="true"
     :dialog-visible="dialogProps.editVisible"
@@ -374,6 +375,7 @@ onDeactivated(() => {
       :dataFormat="dataFormat"
     />
   </el-card>
+  </div>
 </template>
 <style lang="scss" scoped>
 //todo
