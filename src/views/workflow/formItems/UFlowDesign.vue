@@ -1,14 +1,17 @@
 <script setup lang="ts">
+import FlowDesign from "@/views/workflow/plugin/FlowDesign.vue";
+
 const props = defineProps({
-  flowStyle: { type: String, default: 'dingding' },
+  flowStyle: {type: String, default: 'dingding'},
+  stopInitFormInfo: {type: Boolean, default: false},
 });
 </script>
 
 <template>
   <div class="sh-flow-editor">
     <div class="design-area">
-      <jbpm-design v-if="flowStyle == 'flowable'" />
-      <FlowDesign v-if="flowStyle == 'dingding'" :saveBtnVisible="false" />
+      <jbpm-design v-if="flowStyle == 'flowable'"/>
+      <FlowDesign v-if="flowStyle == 'dingding'" :saveBtnVisible="false" :stopInitFormInfo="stopInitFormInfo"/>
     </div>
   </div>
 </template>

@@ -17,8 +17,8 @@ import piniaCompInstance from '@/store';
 import { axiosInstance } from '@/api/star_horse_apis';
 import 'element-plus/dist/index.css';
 import * as ElementPlusIconsVue from '@element-plus/icons-vue';
-import VueParticles from '@tsparticles/vue3';
-import { loadSlim } from '@tsparticles/slim';
+// import VueParticles from '@tsparticles/vue3';
+// import { loadSlim } from '@tsparticles/slim';
 import StarHorseLowCode from 'star-horse-lowcode';
 
 const app = createApp(App);
@@ -42,11 +42,11 @@ for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
 app.use(commonComponent);
 app.use(systemComponent);
 app.use(itemsComponent);
-app.use(VueParticles, {
-  init: async (engine) => {
-    await loadSlim(engine);
-  },
-});
+// app.use(VueParticles, {
+//   init: async (engine) => {
+//     await loadSlim(engine);
+//   },
+// });
 
 app.config.performance = false;
 /**

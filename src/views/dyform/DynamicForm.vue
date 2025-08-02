@@ -533,6 +533,10 @@ onMounted(async () => {
   shortKeySwitch(true);
 });
 let prepsModel = ref('one');
+defineExpose({
+  loadFormData,
+  loadTemplateData,
+});
 </script>
 <template>
   <div class="flex flex-col h-full overflow-hidden">

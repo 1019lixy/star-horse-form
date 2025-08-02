@@ -31,11 +31,14 @@ const init = async () => {
 const getFormData = () => {
   return flowFormRef.value.getFormData();
 };
+const setFormData = (data: any) => {
+  flowFormRef.value.setFormData(data);
+};
 onMounted(() => {
   init();
 });
 defineExpose({
-  flowFormRef,
+  setFormData,
   getFormData,
 });
 </script>
@@ -44,6 +47,8 @@ defineExpose({
     <div class="h-full mx-auto my-0 overflow-y-auto bg-[#f2f3f5]">
       <div class="w-[70%] my-[24px] py-[10px] mx-auto flex flex-col bg-[#fff]">
         <star-horse-form
+            formSize="large"
+            label-position="top"
           :field-list="flowFormFields"
           :outerFormData="formInfo"
           ref="flowFormRef"

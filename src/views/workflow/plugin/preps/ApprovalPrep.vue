@@ -300,7 +300,7 @@ onMounted(() => {
           >
             <AuthForm
               v-model="node.privilege"
-              :form-id="flowFormInfo?.formId"
+              :form-id="flowFormInfo?.bindForm"
             />
           </el-form-item>
           <template v-else>
@@ -312,7 +312,7 @@ onMounted(() => {
               placeholder="请选择表单"
               v-model="node.formId"
             />
-            <AuthForm v-model="node.privilege" :formId="node.formId" writable />
+            <AuthForm v-model="node.privilege" :formId="flowFormInfo?.bindForm??node.formId" writable />
           </template>
         </el-tab-pane>
         <el-tab-pane key="3" name="3" label="任务监听">

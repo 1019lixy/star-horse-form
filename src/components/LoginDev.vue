@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { particlesCfg } from '@/api/particlesConfig';
+// import { particlesCfg } from '@/api/particlesConfig';
 import { Config } from '@/api/settings';
 import { getValidateImg, rtCode } from '@/api/star_horse_apis';
 import { i18n } from '@/lang';
@@ -162,11 +162,11 @@ watch(
       <div
         class="login-bg sm:w-1/2 xl:w-3/5 h-full hidden md:flex flex-auto items-center justify-center p-10 overflow-hidden bg-purple-900 text-white bg-no-repeat bg-cover relative"
       >
-        <vue-particles
+<!--        <vue-particles
           id="tsparticles"
           @particlesLoaded="particlesLoaded"
           :options="particlesCfg"
-        />
+        />-->
         <div
           class="absolute bg-gradient-to-b from-indigo-600 to-blue-500 opacity-75 inset-0 z-0"
         ></div>

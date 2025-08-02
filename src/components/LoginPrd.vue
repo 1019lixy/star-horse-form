@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { particlesCfg } from '@/api/particlesConfig';
+// import { particlesCfg } from '@/api/particlesConfig';
 import { Config } from '@/api/settings';
 import { getValidateImg, rtCode } from '@/api/star_horse_apis';
 import { i18n } from '@/lang';
@@ -155,12 +155,12 @@ watch(
 </script>
 <template>
   <div class="login1">
-    <vue-particles
+<!--    <vue-particles
       id="tsparticles"
       :particlesInit="particlesInit"
       :particlesLoaded="particlesLoaded"
       :options="particlesCfg"
-    />
+    />-->
     <div class="loginav">
       <div class="loginbox boxall">
         <div class="logo">{{ Config.title }}</div>
