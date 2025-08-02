@@ -71,12 +71,13 @@ watch(
 <template>
   <el-divider content-position="left">表单权限</el-divider>
   <div class="form-detail" v-if="dataList && dataList.length > 0">
-    <el-radio-group v-model="privilege">
-      <el-radio value="edit" key="edit">可编辑</el-radio>
-      <el-radio value="readonly" key="readonly">只读</el-radio>
-      <el-radio value="forbidden" key="forbidden">禁止查看</el-radio>
+    <el-radio-group  v-model="privilege" fill="var(--star-horse-style)">
+      <el-radio-button value="edit" key="edit">可编辑</el-radio-button>
+      <el-radio-button value="readonly" key="readonly">只读</el-radio-button>
+      <el-radio-button value="forbidden" key="forbidden">禁止查看</el-radio-button>
     </el-radio-group>
     <el-divider content-position="left">表单预览</el-divider>
+    {{privilege}}
     <form-preview
       :formDisabled="privilege == 'readonly'"
       v-if="privilege != 'forbidden'"

@@ -123,7 +123,10 @@ watch(
 );
 </script>
 <style lang="scss" scoped>
-.sh-plus_circle:before {
-  z-index: 9999;
+.sh-plus_circle {
+  &:before{
+    z-index: 99;
+  }
+
 }
 </style>

@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { scale } from '@/views/workflow/plugin/utils/deviceUtil';
-import { computed, ref } from 'vue';
+import {scale} from '@/views/workflow/plugin/utils/deviceUtil';
+import {computed, ref, shallowRef} from 'vue';
 import ApplyPrep from '@/views/workflow/plugin/preps/ApplyPrep.vue';
 import ApprovalPrep from '@/views/workflow/plugin/preps/ApprovalPrep.vue';
 import BranchPrep from '@/views/workflow/plugin/preps/BranchPrep.vue';
@@ -10,9 +10,9 @@ import NoticePrep from '@/views/workflow/plugin/preps/NoticePrep.vue';
 import ServicePrep from '@/views/workflow/plugin/preps/ServicePrep.vue';
 import TimerPrep from '@/views/workflow/plugin/preps/TimerPrep.vue';
 import EndPrep from '@/views/workflow/plugin/preps/EndPrep.vue';
-import { flowCommon } from '@/views/workflow/plugin/utils/flowCommon';
-import { useFlowDesignStore } from '@/store/FlowDesign';
-import { piniaInstance } from 'star-horse-lowcode';
+import {flowCommon} from '@/views/workflow/plugin/utils/flowCommon';
+import {useFlowDesignStore} from '@/store/FlowDesign';
+import {piniaInstance, StarHorseIcon} from 'star-horse-lowcode';
 
 let headerStyle = ref<any>({
   background: 'linear-gradient(89.96deg,#fa6f32 .05%,#fb9337 79.83%)',
@@ -21,7 +21,7 @@ let headerStyle = ref<any>({
 const flowDesign = useFlowDesignStore(piniaInstance);
 let activeNode = computed(() => flowDesign.currentNode);
 let activePanel = computed(() => flowDesign.active);
-const panels = ref<any>({
+const panels = shallowRef<any>({
   ApplyNode: ApplyPrep,
   ApprovalNode: ApprovalPrep,
   HandleNode: ApprovalPrep,
@@ -34,6 +34,21 @@ const panels = ref<any>({
   ServiceNode: ServicePrep,
   EndNode: EndPrep,
 });
+const drawerWidth = ref(40); // 添加宽度响应式变量
+
+// 拖拽逻辑
+let isFullScreen = false;
+
+
+const fullScreenOperation = () => {
+  if (isFullScreen) {
+    drawerWidth.value = 40;
+  } else {
+    drawerWidth.value = 50;
+  }
+  isFullScreen = !isFullScreen;
+
+};
 
 const onClose = () => {
   flowDesign.setActive(false);
@@ -42,29 +57,66 @@ const onClose = () => {
 
 <template>
   <el-drawer
-    :width="scale.isMobile() ? '100%' : '40%'"
-    :headerStyle="headerStyle"
-    :bodyStyle="flowCommon.bodyStyle"
-    placement="right"
-    :closable="true"
-    @click-outside="onClose"
-    v-model="activePanel"
-    @close="onClose"
+      :size="scale.isMobile() ? '100%' : `${drawerWidth}%`"
+      :headerStyle="headerStyle"
+      :bodyStyle="flowCommon.bodyStyle"
+      placement="right"
+      :show-close="false"
+      @click-outside="onClose"
+      v-model="activePanel"
+      @close="onClose"
   >
-    <template #header>
+    <template #header="{ close, titleId, titleClass }">
       <div class="drawer-header">
-        <!--        <star-horse-icon icon-class="audit_node" color="#fff" style="margin-left: 10px"/>-->
-        <div class="flow-drawer-title">
-          <EditName :node="activeNode" />
+        <div :id="titleId" :class="titleClass" class="flow-drawer-title">
+          <EditName :node="activeNode"/>
         </div>
+        <div class="flex items-center">
+          <el-button
+              style="
+                  background: var(--star-horse-style);
+                  color: var(--star-horse-white);
+                "
+              @click="fullScreenOperation"
+              link
+              v-if="!!isFullScreen "
+              :title="''"
+          >
+            <star-horse-icon
+                icon-class="fullscreen-shrink"
+                color="var(--star-horse-white)"
+                cursor="pointer"
+            />
+          </el-button>
+          <el-button
+              style="
+                  background: var(--star-horse-style);
+                  color: var(--star-horse-white);
+                "
+              @click="fullScreenOperation"
+              v-if="!isFullScreen "
+              link
+              :title="''"
+          >
+            <star-horse-icon
+                icon-class="fullscreen-expand"
+                color="var(--star-horse-white)"
+                cursor="pointer"
+            />
+          </el-button>
+        </div>
+        <star-horse-icon icon-class="close" color="var(--star-horse-white)" cursor="pointer" @click="close"/>
       </div>
     </template>
-    <component :is="panels[activeNode.type]" :activeData="activeNode" />
+    <component :is="panels[activeNode.type]" :activeData="activeNode"/>
   </el-drawer>
 </template>
 
 <style scoped lang="scss">
-:deep(.el-tabs__content) {
-  margin-top: 10px;
+
+:deep {
+  .el-tabs__content {
+    margin-top: 10px;
+  }
 }
 </style>

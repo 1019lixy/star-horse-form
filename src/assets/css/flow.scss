@@ -102,8 +102,8 @@
                 display: flex;
                 justify-content: center;
                 align-items: center;
-
-                img {
+                z-index: 999;
+                svg {
                   cursor: pointer;
                 }
               }
@@ -1011,19 +1011,7 @@
               font-size: 14px;
             }
 
-            &:before {
-              content: "";
-              position: absolute;
-              top: -14px;
-              left: 50%;
-              transform: translate(-50%);
-              width: 10px;
-              height: 10px;
-              border-style: solid;
-              border-radius: 50%;
-              border-color: rgb(202, 202, 202) transparent transparent;
-              background-color: var(--star-horse-light-gray);
-            }
+
           }
         }
       }

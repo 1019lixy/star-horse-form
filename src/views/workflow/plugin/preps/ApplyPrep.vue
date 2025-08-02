@@ -8,6 +8,7 @@
           </el-tab-pane>
           <el-tab-pane label="表单权限" name="form">
             <star-horse-data-selector
+                class="z-9999"
                 data-url="/userdb-manage/userdb/dynamicForm/pageList"
                 display-name="formName"
                 display-value="idDynamicForm"

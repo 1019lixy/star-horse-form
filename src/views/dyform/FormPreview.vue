@@ -29,9 +29,9 @@ let fieldList = computed(() => {
 });
 let formData = ref<any>({});
 const checkIsDisabled = (item: any) => {
-  if (props.formDisabled) {
-    item.preps.disabled = true;
-  }
+  // if (props.formDisabled) {
+  //   item.preps.disabled = true;
+  // }
   return item;
 };
 defineExpose({
@@ -57,7 +57,6 @@ defineExpose({
             v-model:formData="formData"
             :isDesign="false"
             :showFormItem="true"
-            :disabled="formDisabled"
             :is="itemCheck(data)"
           />
         </template>
@@ -67,7 +66,6 @@ defineExpose({
             v-model:formData="formData"
             :isDesign="false"
             :showFormItem="true"
-            :disabled="formDisabled"
             :is="itemCheck(data)"
           />
         </template>

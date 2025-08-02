@@ -11,6 +11,7 @@ import {
   postRequest,
 } from 'star-horse-lowcode';
 import { FlowNodeEnums } from '../enums/FlowNodeEnums';
+import {operate} from "rxjs/internal/util/lift";
 
 defineOptions({
   name: 'ApprovalPrep',
@@ -49,6 +50,7 @@ let approvalModes = ref<Array<any>>([
   },
 ]);
 let approvalWithNulls = ref<Array<any>>([]);
+let operatorApprovals = ref<Array<any>>([]);
 let sameApprovals = ref<Array<any>>([]);
 const flowDesign = useFlowDesignStore(piniaInstance);
 const onClose = () => {
@@ -80,7 +82,7 @@ const init = () => {
       fieldList: [
         createCondition(
           'idFlowNode',
-          ['applyEqAuditMode', 'approvalNullOperationType'],
+          ['applyEqAuditMode', 'approvalNullOperationType', 'operatorApprovalsType'],
           'in',
         ),
       ],
@@ -98,6 +100,9 @@ const init = () => {
     approvalWithNulls.value = reData.filter((item: any) => {
       return item.idFlowNode == 'approvalNullOperationType';
     });
+    operatorApprovals.value = reData.filter((item: any) => {
+      return item.idFlowNode == 'operatorApprovalsType';
+    });
   });
 };
 onMounted(() => {
@@ -113,13 +118,13 @@ onMounted(() => {
         prop="approvalMethod"
       >
         <el-radio-group v-model="node.approvalMethod" button-style="solid">
-          <el-radio
+          <el-radio-button
             :value="approvalMethod.value"
             v-for="(approvalMethod, i) in approvalMethods"
             :key="i"
           >
             {{ approvalMethod.name }}
-          </el-radio>
+          </el-radio-button>
         </el-radio-group>
       </el-form-item>
       <el-alert
@@ -127,7 +132,7 @@ onMounted(() => {
         title="当流程中某个节点不需要审批，但需要对审批单进行业务办理时，可设置办理人节点，场景如财务打款、处理盖章等"
         type="success"
       />
-      <el-tabs v-if="node.approvalMethod == 'assign'" v-model="approvalTab">
+      <el-tabs v-if="node.approvalMethod == 'assign'" type="border-card" v-model="approvalTab">
         <el-tab-pane key="1" name="1" label="审批设置">
           <el-form-item>
             <FlowNodeApproval
@@ -152,14 +157,15 @@ onMounted(() => {
                 {{ approvalMode.name }}
               </el-radio>
             </el-radio-group>
-            <div style="margin-top: 15px" v-if="node.approvalMode === 'joint'">
-              需要
+            <div class="my-[15px] flex items-center w-full" v-if="node.approvalMode === 'joint'">
+              <span>需要</span>
               <el-input-number
+                class="!w-[200px]"
                 v-model="node.multiPercent"
                 :min="1"
                 :max="100"
               />
-              %人员通过
+             <span>%人员通过</span>
             </div>
           </el-form-item>
           <el-form-item label="审批人与发起人为同一人时" prop="sameMode">
@@ -176,9 +182,7 @@ onMounted(() => {
               >
                 <span>{{ sameApproval.attrName }}</span>
                 <el-popover
-                  v-if="
-                    sameApproval.popovers && sameApproval.popovers.length > 0
-                  "
+                  v-if="sameApproval.popovers?.length > 0"
                   placement="top-start"
                   trigger="hover"
                   :popper-style="{ width: 'unset !important' }"
@@ -199,9 +203,49 @@ onMounted(() => {
               </el-radio>
             </el-radio-group>
           </el-form-item>
+          <el-form-item prop="operator">
+            <template #label>
+              <div class="flex items-center">{{
+                  node.type == FlowNodeEnums.APPROVER_NODE ? "审批人" : "办理人"
+                }}</div>
+            </template>
+            <el-radio-group
+                v-model="node.operator"
+                :size="flowCommon.size"
+                class="w-full"
+            >
+              <el-radio
+                  v-for="(operator, i) in operatorApprovals"
+                  :key="i"
+                  :value="operator.attrValue"
+                  :style="radioStyle"
+              > <span>{{ operator.attrName }}</span>
+                <el-popover
+                    v-if="
+                    operator.popovers?.length > 0
+                  "
+                    placement="top-start"
+                    trigger="hover"
+                    :popper-style="{ width: 'unset !important' }"
+                >
+                  <template #reference>
+                    <star-horse-icon
+                        style="margin-left: 5px"
+                        icon-class="question-circle"
+                    />
+                  </template>
+                  <div class="approver-tip-content">
+                    <div class="approver-tip-main-content">
+                      {{ operator.defaultValue }}
+                    </div>
+                  </div>
+                </el-popover>
+              </el-radio>
+            </el-radio-group>
+          </el-form-item>
           <el-form-item prop="noHander">
             <template #label>
-              {{
+              <div class="flex items-center">{{
                 node.type == FlowNodeEnums.APPROVER_NODE ? "审批人" : "办理人"
               }}为空时
               <el-popover
@@ -242,6 +286,7 @@ onMounted(() => {
                   </div>
                 </div>
               </el-popover>
+              </div>
             </template>
             <el-radio-group
               v-model="node.noHander"
@@ -257,8 +302,7 @@ onMounted(() => {
                 <span>{{ approvalWithNull.attrName }}</span>
                 <el-popover
                   v-if="
-                    approvalWithNull.popovers &&
-                    approvalWithNull.popovers.length > 0
+                    approvalWithNull.popovers?.length > 0
                   "
                   placement="top-start"
                   trigger="hover"
@@ -279,6 +323,7 @@ onMounted(() => {
               </el-radio>
             </el-radio-group>
           </el-form-item>
+
           <div class="flow-content">
             <div class="flow-item">
               <p class="flow-item-title">提示：</p>
