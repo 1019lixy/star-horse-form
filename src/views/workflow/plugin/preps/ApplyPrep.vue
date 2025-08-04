@@ -22,7 +22,7 @@
       </div>
     </div>
   </div>
-  <FlowDrawerFooter @close="onClose" @save="onSave"/>
+  <DrawerFooter @close="onClose" @save="onSave"/>
 </template>
 <script setup lang="ts">
 import {computed, defineModel, defineOptions, ModelRef, ref, watch,} from 'vue';

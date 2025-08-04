@@ -149,4 +149,9 @@ onMounted(() => {
   position: relative;
   z-index: 99;
 }
+
+:deep(.svg-icon) {
+  margin: 0 auto !important;
+
+}
 </style>

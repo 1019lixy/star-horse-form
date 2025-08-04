@@ -1,6 +1,6 @@
 <template>
   <execution-listeners :node="node" />
-  <FlowDrawerFooter @close="onClose" @save="onSave" />
+  <DrawerFooter @close="onClose" @save="onSave" />
 </template>
 <script setup lang="ts">
 import { useFlowDesignStore } from '@/store/FlowDesign';

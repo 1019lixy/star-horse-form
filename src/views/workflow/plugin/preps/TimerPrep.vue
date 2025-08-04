@@ -52,7 +52,7 @@
     </el-form-item>
   </el-form>
 
-  <FlowDrawerFooter @close="onClose" @save="onSave" />
+  <DrawerFooter @close="onClose" @save="onSave" />
 </template>
 <script setup lang="ts">
 import { ModelRef, ref } from 'vue';

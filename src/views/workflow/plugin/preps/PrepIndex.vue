@@ -62,6 +62,7 @@ const onClose = () => {
       :bodyStyle="flowCommon.bodyStyle"
       placement="right"
       :show-close="false"
+      z-index="1999"
       @click-outside="onClose"
       v-model="activePanel"
       @close="onClose"
@@ -108,7 +109,9 @@ const onClose = () => {
         <star-horse-icon icon-class="close" color="var(--star-horse-white)" cursor="pointer" @click="close"/>
       </div>
     </template>
-    <component :is="panels[activeNode.type]" :activeData="activeNode"/>
+    <el-scrollbar>
+      <component :is="panels[activeNode.type]" :activeData="activeNode"/>
+    </el-scrollbar>
   </el-drawer>
 </template>
 

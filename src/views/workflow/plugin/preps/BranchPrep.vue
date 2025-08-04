@@ -397,7 +397,7 @@ watch(
       </div>
     </div>
   </el-form>
-  <FlowDrawerFooter @close="onClose" @save="onSave" />
+  <DrawerFooter @close="onClose" @save="onSave" />
 </template>
 <style lang="scss" scoped>
 :deep {

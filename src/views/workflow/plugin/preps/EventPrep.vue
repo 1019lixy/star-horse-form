@@ -89,7 +89,7 @@
       </el-form>
     </div>
   </div>
-  <FlowDrawerFooter @close="onClose" />
+  <DrawerFooter @close="onClose" />
 </template>
 <script setup lang="ts" name="Event">
 import { flowCommon } from '@/views/workflow/plugin/utils/flowCommon';

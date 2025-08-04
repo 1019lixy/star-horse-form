@@ -42,14 +42,14 @@ const onSave = () => {
     <el-tabs v-model="copyerTab">
       <el-tab-pane key="1" name="1" label="抄送设置">
         <el-form-item label="抄送人" prop="approveGroups">
-          <FlowNodeApproval
+          <Approval
             :groups="node.approveGroups"
             :node="node"
             title="抄送人"
           />
         </el-form-item>
         <el-form-item label="密送人" prop="secretApproveGroups">
-          <FlowNodeApproval
+          <Approval
             :groups="node.secretApproveGroups"
             :node="node"
             title="密送人"
@@ -62,11 +62,11 @@ const onSave = () => {
         </el-form-item>
       </el-tab-pane>
       <el-tab-pane key="3" name="3" label="高级设置">
-        <FlowNodeCopyerConfigure v-model="node.operations" />
+        <CopyerConfigure v-model="node.operations" />
       </el-tab-pane>
     </el-tabs>
   </el-form>
-  <FlowDrawerFooter @close="onClose" @save="onSave" />
+  <DrawerFooter @close="onClose" @save="onSave" />
 </template>
 <style lang="scss" scoped>
 :deep(.el-form-item__label) {
