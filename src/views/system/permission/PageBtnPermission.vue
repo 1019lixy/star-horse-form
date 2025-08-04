@@ -92,6 +92,7 @@ const formFieldList = reactive<PageFieldInfo | any>({
         listVisible: true,
         preps: {
           multiple: true,
+          showHeader: true,
           data: menusSelectList,
         },
       },
