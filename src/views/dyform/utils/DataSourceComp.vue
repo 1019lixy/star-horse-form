@@ -421,10 +421,15 @@ const dataSourceField = reactive<PageFieldInfo | any>({
                 label: '字典名称',
                 fieldName: 'urlOrDictName',
                 required: dictRequired,
+                type:'datapicker',
                 formVisible: true,
                 listVisible: true,
                 preps: {
-                  colspan: 20,
+                  dataUrl:'/system-config/system/dictinfoType/pageList',
+                  displayName:'dictTypeName',
+                  displayValue:'dictTypeCode',
+                  pageSize:'100',
+                  colspan: 16,
                 },
               },
               {
@@ -447,7 +452,7 @@ const dataSourceField = reactive<PageFieldInfo | any>({
                 formVisible: true,
                 listVisible: true,
                 preps: {
-                  colspan: 4,
+                  colspan: 8,
                   icon: 'valid',
                 },
               },

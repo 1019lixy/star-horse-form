@@ -494,6 +494,7 @@ onMounted(async () => {
       :dialogVisible="dialogProps.batchEditVisible"
       :dialogProps="dialogProps"
       :self-func="true"
+      box-height="75%"
       @merge="exchangeMerge"
     >
       <star-horse-form
