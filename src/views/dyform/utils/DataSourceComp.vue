@@ -428,7 +428,7 @@ const dataSourceField = reactive<PageFieldInfo | any>({
                   dataUrl:'/system-config/system/dictinfoType/pageList',
                   displayName:'dictTypeName',
                   displayValue:'dictTypeCode',
-                  pageSize:'100',
+                  pageSize:100,
                   colspan: 16,
                 },
               },
