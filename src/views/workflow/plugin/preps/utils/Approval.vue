@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import {createCondition, postRequest, uuid,} from 'star-horse-lowcode';
 import {onMounted, ref} from 'vue';
+
 const props = defineProps({
   groups: {
     type: Array<any>,
@@ -36,6 +37,7 @@ let selectorParmas = ref<any>({});
 const changeApproveType = (group: any) => {
   group.approverIds = [];
   group.approverNames = [];
+  dataList.value = [];
   dataSelectorVisible.value = false;
   let item = approvals.value.find(
       (item: any) => item.idApprovalType == group.approveType,

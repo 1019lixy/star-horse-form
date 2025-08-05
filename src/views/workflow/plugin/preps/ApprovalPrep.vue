@@ -128,57 +128,8 @@ onMounted(() => {
       <el-tabs v-if="node.approvalMethod == 'assign'" type="border-card" v-model="approvalTab">
         <el-tab-pane key="audit" name="audit" label="审批设置">
           <approval :node="node" :groups="node.approveGroups"/>
-          <!--          <el-form-item prop="operator">
-                      <template #label>
-                        <div class="flex items-center">{{
-                            node.type == FlowNodeEnums.APPROVER_NODE ? "审批人" : "办理人"
-                          }}</div>
-                      </template>
-                      <el-radio-group
-                          v-model="node.operator"
-                          :size="flowCommon.size"
-                          class="w-full"
-                      >
-                        <el-radio
-                            v-for="(operator, i) in operatorApprovals"
-                            :key="i"
-                            :value="operator.attrValue"
-                            :style="radioStyle"
-                        > <span>{{ operator.attrName }}</span>
-                          <el-popover
-                              v-if="
-                              operator.popovers?.length > 0
-                            "
-                              placement="top-start"
-                              trigger="hover"
-                              :popper-style="{ width: 'unset !important' }"
-                          >
-                            <template #reference>
-                              <star-horse-icon
-                                  style="margin-left: 5px"
-                                  icon-class="question-circle"
-                              />
-                            </template>
-                            <div class="approver-tip-content">
-                              <div class="approver-tip-main-content">
-                                {{ operator.defaultValue }}
-                              </div>
-                            </div>
-                          </el-popover>
-                        </el-radio>
-                      </el-radio-group>
-                    </el-form-item>-->
         </el-tab-pane>
         <el-tab-pane key="optional" name="optional" label="选项设置">
-          <el-form-item>
-            <FlowNodeApproval
-                :groups="node.approveGroups"
-                :node="node"
-                :title="
-                node.type == FlowNodeEnums.APPROVER_NODE ? '审批人' : '办理人'
-              "
-            />
-          </el-form-item>
           <el-form-item label="审批方式" prop="approvalMode">
             <el-radio-group
                 v-model="node.approvalMode"
