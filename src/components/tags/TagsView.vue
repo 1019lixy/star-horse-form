@@ -240,7 +240,7 @@ watch(
     </el-tooltip>
     <div class="overflow-hidden">
       <ElScrollbar ref="scrollbarRef" style="height: 100%" @scroll="scroll">
-        <div class="flex items-center relative z-999999">
+        <div class="flex items-center relative z-99">
           <ContextMenu
             :ref="itemRefs.set"
             v-for="item in navTagsList"
