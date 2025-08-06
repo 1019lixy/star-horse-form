@@ -284,7 +284,6 @@ const goBack = () => {
   };
   router.push(sdata);
 };
-const formInfoChange = (_data: any) => {};
 const scrollHandler = (e: CustomEvent) => {
   const customEvent = e as CustomEvent;
   nextTick(() => {
