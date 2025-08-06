@@ -1,42 +1,23 @@
 <script setup lang="ts">
-import { loadDict } from '@/api/star_horse_apis';
-import { loadSvgIconsByPath } from '@/api/star_horse_utils';
-import { httpMethod } from '@/api/system';
-import {
-  createData,
-  urlReturnDataHelpMsg,
-  validInterface,
-  validOperation,
-} from '@/views/dyform/utils/ItemPreps';
-import {
-  error,
-  PageFieldInfo,
-  searchMatchList,
-  SelectOption,
-} from 'star-horse-lowcode';
-import {
-  ModelRef,
-  nextTick,
-  onMounted,
-  PropType,
-  reactive,
-  ref,
-  unref,
-  watch,
-} from 'vue';
+import {loadDict} from '@/api/star_horse_apis';
+import {loadSvgIconsByPath} from '@/api/star_horse_utils';
+import {httpMethod} from '@/api/system';
+import {createData, urlReturnDataHelpMsg, validInterface, validOperation,} from '@/views/dyform/utils/ItemPreps';
+import {error, PageFieldInfo, searchMatchList, SelectOption,} from 'star-horse-lowcode';
+import {ModelRef, nextTick, onMounted, PropType, reactive, ref, unref, watch,} from 'vue';
 
 defineOptions({
   name: 'DataSourceComp',
 });
 const props = defineProps({
-  formProps: { type: Object as PropType<any> },
-  preps: { type: Object as PropType<any> },
-  item: { type: Object as PropType<PageFieldInfo>, required: true },
+  formProps: {type: Object as PropType<any>},
+  preps: {type: Object as PropType<any>},
+  item: {type: Object as PropType<PageFieldInfo>, required: true},
 });
 const dataSourceList: Array<SelectOption> = [
-  { value: 'data', name: '静态数据' },
-  { value: 'url', name: '动态接口' },
-  { value: 'dict', name: '数据字典' },
+  {value: 'data', name: '静态数据'},
+  {value: 'url', name: '动态接口'},
+  {value: 'dict', name: '数据字典'},
 ];
 const dataSourceFormRef = ref();
 const dataForm: ModelRef<any> = defineModel('dataForm');
@@ -87,7 +68,7 @@ const analysisOptionData = (val: any) => {
       error('请填写函数名');
       return;
     }
-    import('@/api/star_horse_utils').then(async (utils) => {
+    import('@/api/star_horse_utils').then(async (utils:any) => {
       if (utils && utils[analysisValue]) {
         // 确保函数存在
         if (typeof utils[analysisValue] === 'function') {
@@ -130,6 +111,7 @@ const dataSourceField = reactive<PageFieldInfo | any>({
         actions: {
           change: (val: any) => {
             const type = val['dataSource'];
+            console.log('type',type);
             innerFunc(type);
           },
         },
@@ -152,14 +134,14 @@ const dataSourceField = reactive<PageFieldInfo | any>({
                 label: '解析方式',
                 fieldName: 'analysisType',
                 helpMsg:
-                  '路径解析：只能解析项目public下的子路径，格式为 test/*.svg，\n函数解析：只能解析src/api/star_horse_utils.ts下的无参函数，格式为: analysisData',
+                    '路径解析：只能解析项目public下的子路径，格式为 test/*.svg，\n函数解析：只能解析src/api/star_horse_utils.ts下的无参函数，格式为: analysisData',
                 type: 'radio',
                 formVisible: true,
                 defaultValue: 'func',
                 preps: {
                   values: [
-                    { name: '路径', value: 'path', disabled: true },
-                    { name: '函数', value: 'func' },
+                    {name: '路径', value: 'path', disabled: true},
+                    {name: '函数', value: 'func'},
                   ],
                   colspan: 8,
                 },
@@ -178,7 +160,7 @@ const dataSourceField = reactive<PageFieldInfo | any>({
                 fieldName: 'btn',
                 type: 'button',
                 formVisible: true,
-                actions: { click: (val: any) => analysisOptionData(val) },
+                actions: {click: (val: any) => analysisOptionData(val)},
                 preps: {
                   colspan: 2,
                 },
@@ -253,8 +235,8 @@ const dataSourceField = reactive<PageFieldInfo | any>({
                 listVisible: true,
                 preps: {
                   values: [
-                    { name: 'HTTP', value: 'http' },
-                    { name: 'HTTPS', value: 'https' },
+                    {name: 'HTTP', value: 'http'},
+                    {name: 'HTTPS', value: 'https'},
                   ],
                 },
               },
@@ -301,12 +283,12 @@ const dataSourceField = reactive<PageFieldInfo | any>({
                 actions: {
                   click: async (val: any) => {
                     await validOperation(
-                      val,
-                      dataSourceFormRef,
-                      fieldList,
-                      disableUrl,
-                      !dataForm.value,
-                      dataForm,
+                        val,
+                        dataSourceFormRef,
+                        fieldList,
+                        disableUrl,
+                        !dataForm.value,
+                        dataForm,
                     );
                   },
                 },
@@ -421,14 +403,14 @@ const dataSourceField = reactive<PageFieldInfo | any>({
                 label: '字典名称',
                 fieldName: 'urlOrDictName',
                 required: dictRequired,
-                type:'datapicker',
+                type: 'datapicker',
                 formVisible: true,
                 listVisible: true,
                 preps: {
-                  dataUrl:'/system-config/system/dictinfoType/pageList',
-                  displayName:'dictTypeName',
-                  displayValue:'dictTypeCode',
-                  pageSize:100,
+                  dataUrl: '/system-config/system/dictinfoType/pageList',
+                  displayName: 'dictTypeName',
+                  displayValue: 'dictTypeCode',
+                  pageSize: 100,
                   colspan: 16,
                 },
               },
@@ -438,13 +420,14 @@ const dataSourceField = reactive<PageFieldInfo | any>({
                 type: 'button',
                 actions: {
                   click: async (val: any) => {
+                    console.log(val);
                     await validOperation(
-                      val,
-                      dataSourceFormRef,
-                      fieldList,
-                      disableUrl,
-                      !dataForm.value,
-                      dataForm,
+                        val,
+                        dataSourceFormRef,
+                        fieldList,
+                        disableUrl,
+                        !dataForm.value,
+                        dataForm,
                     );
                   },
                 },
@@ -466,25 +449,25 @@ const dataSourceField = reactive<PageFieldInfo | any>({
 const submitValid = async () => {
   let flag: boolean = false;
   await validInterface(
-    props.formProps,
-    dataSourceFormRef,
-    (dataList: any, _successMsg: string, errorMsg: string) => {
-      if (!errorMsg) {
-        //只保存静态数据,
-        if (props.formProps) {
-          props.formProps['values'] = createData(
-            dataSourceFormRef,
-            dataList,
-          ).reDataList;
+      props.formProps,
+      dataSourceFormRef,
+      (dataList: any, _successMsg: string, errorMsg: string) => {
+        if (!errorMsg) {
+          //只保存静态数据,
+          if (props.formProps) {
+            props.formProps['values'] = createData(
+                dataSourceFormRef,
+                dataList,
+            ).reDataList;
+          }
+          flag = true;
+        } else {
+          error(errorMsg);
+          flag = false;
         }
-        flag = true;
-      } else {
-        error(errorMsg);
-        flag = false;
-      }
-    },
-    !dataForm.value,
-    dataForm,
+      },
+      !dataForm.value,
+      dataForm,
   );
   return flag;
 };
@@ -510,10 +493,10 @@ const getFormData = () => {
   return dataSourceFormRef.value?.getFormData();
 };
 watch(
-  () => dataForm.value?.dataSource,
-  (val) => {
-    currentTabName.value = val || 'data';
-  },
+    () => dataForm.value?.dataSource,
+    (val) => {
+      currentTabName.value = val || 'data';
+    },
 );
 onMounted(() => {
   init();
@@ -529,18 +512,18 @@ defineExpose({
 <template>
   <el-scrollbar height="100%">
     <star-horse-form
-      :fieldList="dataSourceField"
-      ref="dataSourceFormRef"
-      v-if="!dataForm"
+        :fieldList="dataSourceField"
+        ref="dataSourceFormRef"
+        v-if="!dataForm"
     />
     <star-horse-form-item
-      v-else
-      ref="dataSourceFormRef"
-      :fieldList="dataSourceField"
-      :dataIndex="(props.preps?.params?.totalTab || 1) - 1"
-      :subFormFlag="'Y'"
-      :objectName="'dataSource'"
-      v-model:dataForm="dataForm"
+        v-else
+        ref="dataSourceFormRef"
+        :fieldList="dataSourceField"
+        :dataIndex="(props.preps?.params?.totalTab || 1) - 1"
+        :subFormFlag="'Y'"
+        :objectName="'dataSource'"
+        v-model:dataForm="dataForm"
     />
   </el-scrollbar>
 </template>

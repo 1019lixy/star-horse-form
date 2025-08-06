@@ -147,6 +147,7 @@ const handleClose = () => {
     :dialogVisible="dialogVisible"
     title="超时登录"
     :box-width="'400px'"
+    :box-height="'330px'"
     :hideFullScreenIcon="true"
     @closeAction="handleClose"
   >
