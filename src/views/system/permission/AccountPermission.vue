@@ -6,7 +6,7 @@ import {
   dialogPreps,
   dictData,
   PageFieldInfo,
-  piniaInstance,
+  piniaInstance, PreValid,
   SearchFields,
   SearchParams,
   SelectOption,
@@ -196,15 +196,16 @@ const primaryKey = ["idUsersinfo", "idRolesinfo"];
 const dialogProps = dialogPreps();
 provide("dialogProps", dialogProps);
 
-let preValid = ref<any>({
-  add: () => {
+let preValid = ref<Array<PreValid>>([{
+  authority:"add",
+  valid: () => {
     if (!currentUserGroupId.value) {
       warning("请先选择分组");
       return false;
     }
     return true;
   },
-});
+}]);
 const dataFormat = (name: string, cellValue: object): any => {
   if (name == "statusCode") {
     return (
@@ -279,6 +280,7 @@ onMounted(async () => {
               :fieldList="tableFieldList"
               :primaryKey="primaryKey"
               :compUrl="dataUrl"
+              :preValidFunc="preValid"
               :orderBy="tableFieldList.orderBy"
               :dataFormat="dataFormat"
             />

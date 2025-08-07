@@ -8,7 +8,7 @@ import {
   dictData,
   loadData,
   PageFieldInfo,
-  piniaInstance,
+  piniaInstance, PreValid,
   SearchFields,
   SearchParams,
   SelectOption,
@@ -165,8 +165,9 @@ const menuBtnTableRef = ref();
 let currentUserGroupId = ref<number>(0);
 let currentSystemId = ref<number>(0);
 let currentMenuId = ref<number>(0);
-let preValid = ref<any>({
-  add: () => {
+let preValid = ref<Array<PreValid>>([{
+  authority:"add",
+  valid: () => {
     if (!currentUserGroupId.value) {
       warning("请先选择分组");
       return false;
@@ -177,7 +178,7 @@ let preValid = ref<any>({
     }
     return true;
   },
-});
+}]);
 /**
  * 点击事件
  * @param data
@@ -392,6 +393,7 @@ onMounted(async () => {
               :fieldList="tableFieldList"
               :primaryKey="primaryKey"
               :compUrl="dataUrl"
+              :preValidFunc="preValid"
               :dataFormat="dataFormat"
               ref="menuBtnTableRef"
             />
