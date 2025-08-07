@@ -20,14 +20,14 @@
   </div>
 </template>
 <script setup lang="ts">
-import { flowCommon } from '@/views/workflow/plugin/utils/flowCommon';
-import { scale } from '@/views/workflow/plugin/utils/deviceUtil';
+import { flowCommon } from "@/views/workflow/plugin/utils/flowCommon";
+import { scale } from "@/views/workflow/plugin/utils/deviceUtil";
 
-const emits = defineEmits(['save', 'close']);
+const emits = defineEmits(["save", "close"]);
 const onSave = () => {
-  emits('save');
+  emits("save");
 };
 const onClose = () => {
-  emits('close');
+  emits("close");
 };
 </script>

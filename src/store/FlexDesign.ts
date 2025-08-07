@@ -1,16 +1,16 @@
-import { FlexboxItem } from '@/components/types/FlexType';
-import { GridItem } from '@/components/types/GridType';
-import { defineStore } from 'pinia';
-import { uuid } from 'star-horse-lowcode';
-import { ref } from 'vue';
+import { FlexboxItem } from "@/components/types/FlexType";
+import { GridItem } from "@/components/types/GridType";
+import { defineStore } from "pinia";
+import { uuid } from "star-horse-lowcode";
+import { ref } from "vue";
 
-export const useFlexDesignStore = defineStore('flexDesign', () => {
-  const containerDirection = ref<string>('row');
+export const useFlexDesignStore = defineStore("flexDesign", () => {
+  const containerDirection = ref<string>("row");
   const containerInfo = ref<any>({});
   const compList = ref<Record<string, any>>({});
   const itemsInfo = ref<Record<string, any>>({});
   const positionList = ref<string[]>([]);
-  const currentItem = ref<string>('');
+  const currentItem = ref<string>("");
   /**
    * 初始化数据
    */
@@ -18,8 +18,8 @@ export const useFlexDesignStore = defineStore('flexDesign', () => {
     containerInfo.value = {};
     itemsInfo.value = {};
     positionList.value = [];
-    currentItem.value = '';
-    containerDirection.value = 'row';
+    currentItem.value = "";
+    containerDirection.value = "row";
     compList.value = {};
   };
   /**
@@ -106,8 +106,8 @@ export const useFlexDesignStore = defineStore('flexDesign', () => {
     setItemWidth();
   };
   const setItemWidth = () => {
-    containerInfo.value['width'] =
-      positionList.value.length == 1 ? '100%' : 'auto';
+    containerInfo.value["width"] =
+      positionList.value.length == 1 ? "100%" : "auto";
   };
   /**
    * 添加组件

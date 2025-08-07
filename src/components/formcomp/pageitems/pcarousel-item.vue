@@ -1,6 +1,6 @@
 <script setup lang="ts">
 defineOptions({
-  name: 'PageCarouselItem',
+  name: "PageCarouselItem",
 });
 interface CarouselInfo {
   name: string;
@@ -15,11 +15,11 @@ defineProps({
   },
   type: {
     type: String,
-    default: 'card',
+    default: "card",
   },
   height: {
     type: String,
-    default: '200px',
+    default: "200px",
   },
   items: {
     type: Array as () => CarouselInfo[],

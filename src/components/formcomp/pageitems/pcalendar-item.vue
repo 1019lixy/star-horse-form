@@ -1,15 +1,15 @@
 <script setup lang="ts">
 defineOptions({
-  name: 'PageCalendarItem',
+  name: "PageCalendarItem",
 });
 defineProps({
   width: {
     type: String,
-    default: '200px',
+    default: "200px",
   },
   height: {
     type: String,
-    default: '200px',
+    default: "200px",
   },
 });
 </script>

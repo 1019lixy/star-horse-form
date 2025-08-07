@@ -9,8 +9,8 @@ import {
   SelectOption,
   useConsumerViewStore,
   warning,
-} from 'star-horse-lowcode';
-const dbInfoUrl = apiInstance('userdb-manage', 'dbsearch/dbinfoEntity');
+} from "star-horse-lowcode";
+const dbInfoUrl = apiInstance("userdb-manage", "dbsearch/dbinfoEntity");
 const consumerView = useConsumerViewStore(piniaInstance);
 
 /**
@@ -21,7 +21,7 @@ export function openDatabase(configId: any): Promise<any> | null {
   if (!configId) {
     return null;
   }
-  load('数据加载中');
+  load("数据加载中");
   return new Promise<any>((resolve, reject) => {
     getRequest(`${dbInfoUrl.basePrefix}/openConn/${configId}`)
       .then((res: any) => {
@@ -55,7 +55,7 @@ export async function initDbList(): Promise<Array<SelectOption>> {
   data.forEach((item: any) => {
     redata.push({
       name: item.name,
-      value: item.configId + '',
+      value: item.configId + "",
     });
   });
   return redata;
@@ -77,9 +77,9 @@ export async function tableList(
   }
   const redata: Array<SelectOption> = [];
   data.forEach((item: any) => {
-    if (!item.tableName.includes('BIN$')) {
+    if (!item.tableName.includes("BIN$")) {
       redata.push({
-        name: (item.comment || '') + `(${item.tableName})`,
+        name: (item.comment || "") + `(${item.tableName})`,
         value: item.tableName,
       });
     }

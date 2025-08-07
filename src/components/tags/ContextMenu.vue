@@ -1,16 +1,16 @@
 <script setup lang="ts" name="ContextMenu">
-import { PropType, ref } from 'vue';
-import type { RouteLocationNormalizedLoaded } from 'vue-router';
+import { PropType, ref } from "vue";
+import type { RouteLocationNormalizedLoaded } from "vue-router";
 
-const emit = defineEmits(['visibleChange']);
+const emit = defineEmits(["visibleChange"]);
 const props = defineProps({
   schema: {
     type: Array<any>,
     default: () => [],
   },
   trigger: {
-    type: String as PropType<'click' | 'hover' | 'focus' | 'contextmenu'>,
-    default: 'contextmenu',
+    type: String as PropType<"click" | "hover" | "focus" | "contextmenu">,
+    default: "contextmenu",
   },
   tagItem: {
     type: Object as PropType<RouteLocationNormalizedLoaded>,
@@ -21,7 +21,7 @@ const command = (item: any) => {
   item.command && item.command(item);
 };
 const visibleChange = (visible: boolean) => {
-  emit('visibleChange', visible, props.tagItem);
+  emit("visibleChange", visible, props.tagItem);
 };
 const elDropdownMenuRef = ref(null);
 defineExpose({

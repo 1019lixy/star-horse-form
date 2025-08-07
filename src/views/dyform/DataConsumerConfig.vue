@@ -1,7 +1,7 @@
 <script setup lang="ts" name="DataConsumerConfig">
-import { computed, nextTick, onMounted, ref, unref, watch } from 'vue';
-import { LocationQueryValue, useRoute } from 'vue-router';
-import { Cell } from '@antv/x6';
+import { computed, nextTick, onMounted, ref, unref, watch } from "vue";
+import { LocationQueryValue, useRoute } from "vue-router";
+import { Cell } from "@antv/x6";
 import {
   apiInstance,
   ApiUrls,
@@ -18,23 +18,23 @@ import {
   useConsumerViewStore,
   useGlobalConfigStore,
   warning,
-} from 'star-horse-lowcode';
-import { loadRolesInfo } from '@/api/star_horse_utils';
+} from "star-horse-lowcode";
+import { loadRolesInfo } from "@/api/star_horse_utils";
 import {
   consumerNodeData,
   relationFieldInfo,
   table_width,
   viewFieldInfo,
-} from '@/views/dyform/utils/DataConsumer';
-import { tableColumns } from '@/views/dbsearch/utils/DbSearchUtils';
-import { Config } from '@/api/settings';
+} from "@/views/dyform/utils/DataConsumer";
+import { tableColumns } from "@/views/dbsearch/utils/DbSearchUtils";
+import { Config } from "@/api/settings";
 
 const route = useRoute();
 const isView = ref<boolean>(false);
 //后端交互接口地址
 const dataUrl: ApiUrls = apiInstance(
-  'userdb-manage',
-  'userdb/dynamicFormConsumerConfig',
+  "userdb-manage",
+  "userdb/dynamicFormConsumerConfig",
 );
 const customerItems = ref<CustomerItem[]>([]);
 const formConditionProps = ref<any>({});
@@ -53,17 +53,17 @@ let conditionList = ref<SelectOption[]>([]);
 let consumeAuthorityList = ref<SelectOption[]>([]);
 const init = () => {
   initDiagram();
-  dictData('consumer_type').then((res: SelectOption[]) => {
+  dictData("consumer_type").then((res: SelectOption[]) => {
     viewTypeList.value = res;
   });
-  dictData('consumer_relation_condition').then((res: SelectOption[]) => {
+  dictData("consumer_relation_condition").then((res: SelectOption[]) => {
     conditionList.value = res;
   });
   loadRolesInfo([]).then((res: SelectOption[]) => {
     consumeAuthorityList.value = res;
   });
-  if (route.query['configId']) {
-    loadConfigData(route.query['configId']);
+  if (route.query["configId"]) {
+    loadConfigData(route.query["configId"]);
   }
 };
 onMounted(() => {
@@ -76,11 +76,11 @@ const addNode = (data: any, columns: Array<any>, index: number = 0) => {
   let y = data.posY || Math.floor(index / 4) * 100 + 150;
   let datat = {
     items: columns,
-    compType: 'table',
-    shape: 'er-rect',
-    label: data['key'],
-    tableName: data['key'],
-    name: data['key'],
+    compType: "table",
+    shape: "er-rect",
+    label: data["key"],
+    tableName: data["key"],
+    name: data["key"],
     width: table_width,
     posX: x,
     posY: y,
@@ -125,7 +125,7 @@ const addLine = (
     },
     attrs: {
       line: {
-        stroke: 'var(--star-horse-style)',
+        stroke: "var(--star-horse-style)",
         strokeWidth: 2,
       },
     },
@@ -150,7 +150,7 @@ const exclusionOptionList = (tempCond: any) => {
     let dataList = JSON.parse(JSON.stringify(tempCond));
     for (let i in dataList) {
       let stemp = dataList[i];
-      delete stemp['optionList'];
+      delete stemp["optionList"];
       condition.push(stemp);
     }
   }
@@ -170,7 +170,7 @@ const submitValid = () => {
   dataSourceFormRef.value.$refs.starHorseFormRef.validate((result: boolean) => {
     if (result) {
       let data = createMergeData();
-      load('数据提交中');
+      load("数据提交中");
       postRequest(dataUrl.mergeUrl!, data)
         .then((res: any) => {
           let redata = res.data;
@@ -181,7 +181,7 @@ const submitValid = () => {
           closeAction();
           resetDataSourceForm();
           newCreate();
-          success('数据处理成功');
+          success("数据处理成功");
         })
         .finally(() => {
           closeLoad();
@@ -208,7 +208,7 @@ const getRelationTable = (datas: any, tableName: string): any => {
   for (let index = 0; index < tempDatas.length; index++) {
     let temp = tempDatas[index];
     if (temp.key == tableName) {
-      delete temp['children'];
+      delete temp["children"];
       return temp;
     }
     if (temp.children?.length > 0) {
@@ -226,9 +226,9 @@ const getRelationTable = (datas: any, tableName: string): any => {
 const loadConfigData = async (configId: string | LocationQueryValue[]) => {
   //加载数据
   await nextTick();
-  isView.value = route.query['isView'] == 'Y';
+  isView.value = route.query["isView"] == "Y";
   let { data, error } = await loadData(
-    dataUrl.loadByIdUrl + '/' + configId,
+    dataUrl.loadByIdUrl + "/" + configId,
     {},
   );
   if (error) {
@@ -236,12 +236,12 @@ const loadConfigData = async (configId: string | LocationQueryValue[]) => {
     return;
   }
   newCreate();
-  let dbCfgId = data['dataSourceConfigId'];
+  let dbCfgId = data["dataSourceConfigId"];
   consumerView.setDbConfigId(dbCfgId);
   formProps.value = data;
-  formProps.value['sortFields'] = JSON.parse(data['sortFields']);
-  formProps.value['limitFields'] = JSON.parse(data['limitFields']);
-  let relationDatas = data['consumerConfigRelationList'];
+  formProps.value["sortFields"] = JSON.parse(data["sortFields"]);
+  formProps.value["limitFields"] = JSON.parse(data["limitFields"]);
+  let relationDatas = data["consumerConfigRelationList"];
   //把表加入舞台
   //把关系加入舞台
   for (let index in relationDatas) {
@@ -284,7 +284,7 @@ const createMergeData = () => {
   let formData: any = dataSourceFormRef.value?.getFormData().value || {};
   let tables = configInfo.tables;
   if (!relations && tables.length > 1) {
-    warning('两张表之间必须要设置关联关系');
+    warning("两张表之间必须要设置关联关系");
     return {};
   }
   //如果有关系则只处理有关系的数据
@@ -295,11 +295,11 @@ const createMergeData = () => {
       subData.push({
         fromTable: temp.from,
         fromLabel: temp.fromLabel,
-        fromKey: 'from' + index,
+        fromKey: "from" + index,
         fromField: temp.fromPort,
         toTable: temp.to,
         toLabel: temp.toLabel,
-        toKey: 'to' + index,
+        toKey: "to" + index,
         toField: temp.toPort,
         fromPosX: temp.fromData.posX,
         fromPosY: temp.fromData.posY,
@@ -311,19 +311,19 @@ const createMergeData = () => {
     let temp = tables[0];
     subData.push({
       fromTable: temp.from,
-      fromKey: 'from1',
+      fromKey: "from1",
     });
   }
-  let sortFieldsTemp = formProps.value['sortFields'];
-  let limitFieldsTemp = formProps.value['limitFields'];
-  formProps.value['consumerConfigRelationList'] = subData;
-  formProps.value['dataSourceConfigId'] = dbConfigId.value;
-  formProps.value['sortFieldList'] = exclusionOptionList(sortFieldsTemp);
-  formProps.value['limitFieldList'] = exclusionOptionList(limitFieldsTemp);
+  let sortFieldsTemp = formProps.value["sortFields"];
+  let limitFieldsTemp = formProps.value["limitFields"];
+  formProps.value["consumerConfigRelationList"] = subData;
+  formProps.value["dataSourceConfigId"] = dbConfigId.value;
+  formProps.value["sortFieldList"] = exclusionOptionList(sortFieldsTemp);
+  formProps.value["limitFieldList"] = exclusionOptionList(limitFieldsTemp);
   let data = JSON.parse(JSON.stringify(formProps.value));
   data = { ...data, ...formData };
-  delete data['sortFields'];
-  delete data['limitFields'];
+  delete data["sortFields"];
+  delete data["limitFields"];
   return data;
 };
 let previewDatas = ref<any>({});
@@ -346,14 +346,14 @@ const loadColumnFields = async () => {
       let temp = columnList.value[key];
       for (let j in temp) {
         let stemp = temp[j] as any;
-        if (stemp.primaryFlag == 'Y') {
+        if (stemp.primaryFlag == "Y") {
           continue;
         }
         searchFormData.value.push({
           label: stemp.comment,
-          fieldName: key + '&' + stemp.name,
+          fieldName: key + "&" + stemp.name,
           type: stemp.type,
-          matchType: 'lk',
+          matchType: "lk",
         });
       }
     }
@@ -381,7 +381,7 @@ const preview = (dataInfo: any) => {
   dataPreviewVisible.value = true;
 };
 const dataList = (currentPage: number, pageSize: number) => {
-  load('数据解析中');
+  load("数据解析中");
   let dataPo = {
     condition: createMergeData(),
     pageSize: pageSize || 20,
@@ -401,7 +401,7 @@ const dataList = (currentPage: number, pageSize: number) => {
     });
 };
 watch(
-  () => route.query['configId'],
+  () => route.query["configId"],
   (val) => {
     if (val) {
       loadConfigData(val);
@@ -413,7 +413,7 @@ const conditionFormRef = ref();
 const conditionValid = () => {
   conditionFormRef.value.$refs.starHorseFormRef.validate((result: boolean) => {
     if (!result) {
-      console.error('验证失败');
+      console.error("验证失败");
       return;
     }
     let item = formConditionProps.value;

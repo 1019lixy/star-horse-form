@@ -20,7 +20,7 @@
   </div>
 </template>
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref } from "vue";
 
 defineProps({
   node: {
@@ -30,7 +30,7 @@ defineProps({
   width: {
     type: String,
     required: false,
-    default: '100%',
+    default: "100%",
   },
 });
 let isInput = ref<boolean>(false);

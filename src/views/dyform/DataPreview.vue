@@ -1,26 +1,26 @@
 <script setup lang="ts" name="DataPreview">
-import { onMounted, ref, watch } from 'vue';
-import { commonDataFormat } from '@/api/star_horse_utils';
-import { Config } from '@/api/settings';
+import { onMounted, ref, watch } from "vue";
+import { commonDataFormat } from "@/api/star_horse_utils";
+import { Config } from "@/api/settings";
 
 const props = defineProps({
   item: { type: Object, default: {} },
   columns: { type: Array<any>, default: [] },
   isPreview: { type: Boolean, default: false },
   compSize: { type: String, default: Config.compSize },
-  sourceType: { type: String, default: 'consumer' },
+  sourceType: { type: String, default: "consumer" },
 });
-const emits = defineEmits(['changePage', 'exportData']);
+const emits = defineEmits(["changePage", "exportData"]);
 const viewDataPreviewRef = ref();
 let toolFields = ref<Array<any>>([]);
 let currentPage = ref(1);
 let pageSize = ref(20);
 const tableCompFunc = (func: any) => {
-  if (func == 'refresh') {
+  if (func == "refresh") {
     handleCurrentChange(currentPage.value, pageSize.value);
-  } else if (func == 'exportData') {
-    emits('exportData');
-  } else if (func == 'exec') {
+  } else if (func == "exportData") {
+    emits("exportData");
+  } else if (func == "exec") {
   }
 };
 const createSearchParams = (formData: any) => {
@@ -49,7 +49,7 @@ const resultDataFormat = (row: any, column: any, val: any) => {
 const handleCurrentChange = (cp: number, ps: number) => {
   currentPage.value = cp;
   pageSize.value = ps;
-  emits('changePage', currentPage.value, pageSize.value);
+  emits("changePage", currentPage.value, pageSize.value);
 };
 defineExpose({
   tableCompFunc,

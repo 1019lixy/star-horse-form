@@ -15,21 +15,21 @@ import {
   SelectOption,
   useGlobalConfigStore,
   warning,
-} from 'star-horse-lowcode';
-import { loadRolesInfo, loadSystemInfo } from '@/api/star_horse_utils';
-import { Config } from '@/api/settings';
-import { computed, onMounted, provide, reactive, ref } from 'vue';
-import { TreeNodeData } from 'element-plus/es/components/tree-v2/src/types';
-import { getUserInfo } from '@/utils/auth';
-import { baseUserFields, userFormat } from '@/views/system/utils/UserFields';
+} from "star-horse-lowcode";
+import { loadRolesInfo, loadSystemInfo } from "@/api/star_horse_utils";
+import { Config } from "@/api/settings";
+import { computed, onMounted, provide, reactive, ref } from "vue";
+import { TreeNodeData } from "element-plus/es/components/tree-v2/src/types";
+import { getUserInfo } from "@/utils/auth";
+import { baseUserFields, userFormat } from "@/views/system/utils/UserFields";
 
-const dataUrl: ApiUrls = apiInstance('system-config', 'system/dataPermission');
+const dataUrl: ApiUrls = apiInstance("system-config", "system/dataPermission");
 let systemInfoList = ref<SelectOption[]>([]);
 let appinfoList = ref<SelectOption[]>([]);
 let permissionType = ref<SelectOption[]>([
-  { name: '数据共享到个人', value: 'sharePerson' },
-  { name: '数据共享到用户组', value: 'shareGroup' },
-  { name: '临时赋权', value: 'empowerment' },
+  { name: "数据共享到个人", value: "sharePerson" },
+  { name: "数据共享到用户组", value: "shareGroup" },
+  { name: "临时赋权", value: "empowerment" },
 ]);
 let rolesList = ref<SelectOption[]>([]);
 let menusList = ref<SelectOption[]>([]);
@@ -40,41 +40,41 @@ let defaultCondition = ref<SearchParams[]>([]);
 const searchFormData = reactive<SearchFields>({
   fieldList: [
     {
-      label: '权限类型',
+      label: "权限类型",
       defaultVisible: true,
-      fieldName: 'permissionType',
-      type: 'select',
+      fieldName: "permissionType",
+      type: "select",
       preps: {
         values: permissionType,
       },
     },
     {
-      label: '被授权用户组/人',
+      label: "被授权用户组/人",
       defaultVisible: true,
-      fieldName: 'userGroup',
-      matchType: 'lk',
+      fieldName: "userGroup",
+      matchType: "lk",
     },
   ],
 });
-let groupVisible = ref<boolean>('false');
-let userVisible = ref<boolean>('true');
+let groupVisible = ref<boolean>("false");
+let userVisible = ref<boolean>("true");
 const formFieldList = reactive<PageFieldInfo | any>({
   fieldList: [
     [
       {
-        label: '权限类型',
-        fieldName: 'permissionType',
-        type: 'select',
-        defaultValue: 'sharePerson',
+        label: "权限类型",
+        fieldName: "permissionType",
+        type: "select",
+        defaultValue: "sharePerson",
         helpMsg:
-          '数据共享：被授权人如果能访问对应模块，则可看到被共享的数据；\n 临时赋权：被授权人可以访问被赋权的模块及数据。',
+          "数据共享：被授权人如果能访问对应模块，则可看到被共享的数据；\n 临时赋权：被授权人可以访问被赋权的模块及数据。",
         actions: {
           change: (val: any) => {
-            groupVisible.value = val['permissionType'] == 'shareGroup';
-            val['userGroup'] = '';
+            groupVisible.value = val["permissionType"] == "shareGroup";
+            val["userGroup"] = "";
             userVisible.value =
-              val['permissionType'] == 'sharePerson' ||
-              val['permissionType'] == 'empowerment';
+              val["permissionType"] == "sharePerson" ||
+              val["permissionType"] == "empowerment";
           },
         },
         required: true,
@@ -85,9 +85,9 @@ const formFieldList = reactive<PageFieldInfo | any>({
         },
       },
       {
-        label: '授权菜单',
-        fieldName: 'menuList',
-        type: 'tselect',
+        label: "授权菜单",
+        fieldName: "menuList",
+        type: "tselect",
         required: true,
         formVisible: true,
 
@@ -96,16 +96,16 @@ const formFieldList = reactive<PageFieldInfo | any>({
           multiple: true,
           data: menusList,
           props: {
-            label: 'menuName',
-            value: 'idMenusinfo',
+            label: "menuName",
+            value: "idMenusinfo",
           },
         },
       },
     ],
     {
-      label: '用户组',
-      fieldName: 'userGroup',
-      type: 'tselect',
+      label: "用户组",
+      fieldName: "userGroup",
+      type: "tselect",
       required: true,
       formVisible: groupVisible,
 
@@ -116,38 +116,38 @@ const formFieldList = reactive<PageFieldInfo | any>({
       },
     },
     {
-      label: '被授权账号',
-      fieldName: 'userGroupName',
-      aliasName: 'userGroup',
-      type: 'page-select',
+      label: "被授权账号",
+      fieldName: "userGroupName",
+      aliasName: "userGroup",
+      type: "page-select",
       required: true,
       formVisible: userVisible,
       listVisible: true,
       preps: {
         multiple: false,
-        primaryKey: 'idUsersinfo',
+        primaryKey: "idUsersinfo",
         dataUrl: {
-          pageListUrl: '/system-config/system/usersinfoEntity/pageList',
+          pageListUrl: "/system-config/system/usersinfoEntity/pageList",
         },
         searchFieldList: {
           fieldList: [
             {
-              label: '用户名',
+              label: "用户名",
               defaultVisible: true,
-              fieldName: 'username',
-              matchType: 'lk',
+              fieldName: "username",
+              matchType: "lk",
             },
             {
-              label: '姓名',
+              label: "姓名",
               defaultVisible: true,
-              fieldName: 'name',
-              matchType: 'lk',
+              fieldName: "name",
+              matchType: "lk",
             },
             {
-              label: '工号',
+              label: "工号",
               defaultVisible: true,
-              fieldName: 'employeeNo',
-              matchType: 'lk',
+              fieldName: "employeeNo",
+              matchType: "lk",
             },
           ],
         },
@@ -155,20 +155,20 @@ const formFieldList = reactive<PageFieldInfo | any>({
           return userFormat(name, val, row);
         },
         needField: [
-          { sourceField: 'idUsersinfo', distField: 'userGroup' },
-          { sourceField: 'name', distField: 'userGroupName' },
+          { sourceField: "idUsersinfo", distField: "userGroup" },
+          { sourceField: "name", distField: "userGroupName" },
         ],
         fieldList: baseUserFields,
       },
     },
     {
-      label: '权限',
-      fieldName: 'permissionList',
-      type: 'select',
+      label: "权限",
+      fieldName: "permissionList",
+      type: "select",
       required: true,
       formVisible: true,
 
-      defaultValue: ['view'],
+      defaultValue: ["view"],
       listVisible: true,
       preps: {
         multiple: true,
@@ -176,9 +176,9 @@ const formFieldList = reactive<PageFieldInfo | any>({
       },
     },
     {
-      label: '有效期',
-      fieldName: 'validTime',
-      type: 'daterange',
+      label: "有效期",
+      fieldName: "validTime",
+      type: "daterange",
       required: true,
       formVisible: true,
       listVisible: true,
@@ -189,32 +189,32 @@ const formFieldList = reactive<PageFieldInfo | any>({
 const tableFieldList = reactive<PageFieldInfo | any>({
   fieldList: [
     {
-      label: '权限类型',
-      fieldName: 'permissionType',
+      label: "权限类型",
+      fieldName: "permissionType",
 
       listVisible: true,
     },
     {
-      label: '被授权用户组/账号',
-      fieldName: 'userGroup',
+      label: "被授权用户组/账号",
+      fieldName: "userGroup",
 
       listVisible: true,
     },
     {
-      label: '有效期',
-      fieldName: 'validTime',
+      label: "有效期",
+      fieldName: "validTime",
 
       listVisible: true,
     },
     {
-      label: '授权菜单',
-      fieldName: 'menuList',
+      label: "授权菜单",
+      fieldName: "menuList",
 
       listVisible: true,
     },
     {
-      label: '权限',
-      fieldName: 'permissionList',
+      label: "权限",
+      fieldName: "permissionList",
       listVisible: true,
     },
   ],
@@ -225,27 +225,27 @@ let compSize = computed(
   () => configStore.configFormInfo?.inputSize || Config.compSize,
 );
 //主键
-const primaryKey = 'idDataPermission';
+const primaryKey = "idDataPermission";
 const dataPermissionRef = ref();
 //定义表单的所有属性
 const formFields = reactive<object>({});
-provide('formFields', formFields);
+provide("formFields", formFields);
 const rules = {};
 const dialogProps = dialogPreps();
-provide('dialogProps', dialogProps);
+provide("dialogProps", dialogProps);
 
 const dataFormat = (name: string, cellValue: any, row: any): any => {
-  if (name == 'validTime') {
+  if (name == "validTime") {
     return (
-      createDatetime(row['validTimeStart']) +
-      ' 到 ' +
-      createDatetime(row['validTimeEnd'])
+      createDatetime(row["validTimeStart"]) +
+      " 到 " +
+      createDatetime(row["validTimeEnd"])
     );
-  } else if (name == 'menuList') {
+  } else if (name == "menuList") {
     return cellValue.map((item) => item.menuName).toString();
-  } else if (name == 'permissionList') {
-    return cellValue.map((item) => item.resName).join(';');
-  } else if (name == 'permissionType') {
+  } else if (name == "permissionList") {
+    return cellValue.map((item) => item.resName).join(";");
+  } else if (name == "permissionType") {
     return (
       permissionType.value.find((item) => item.value == cellValue)?.name ||
       cellValue
@@ -260,7 +260,7 @@ let currentMenuId = ref<number>(0);
 let preValid = ref<any>({
   add: () => {
     if (!currentSystemId.value) {
-      warning('请先选择应用');
+      warning("请先选择应用");
       return false;
     }
     return true;
@@ -270,27 +270,27 @@ let preValid = ref<any>({
 const loadMenus = async () => {
   let fieldList = [];
   let roleList = getUserInfo()?.rolesList?.map((item: any) => item.idRolesinfo);
-  fieldList.push(createCondition('a.idRolesinfo', roleList, 'in'));
+  fieldList.push(createCondition("a.idRolesinfo", roleList, "in"));
   if (currentSystemId.value) {
-    fieldList.push(createCondition('a.idInformations', currentSystemId.value));
+    fieldList.push(createCondition("a.idInformations", currentSystemId.value));
   }
   menusList.value = [];
   let menusDatas = await loadData(
-    '/system-config/system/menusinfoEntity/rolesAppMenus',
+    "/system-config/system/menusinfoEntity/rolesAppMenus",
     {
       fieldList: fieldList,
       orderBy: [
         {
-          fieldName: 'a.idRolesinfo',
-          ascOrDesc: 'asc',
+          fieldName: "a.idRolesinfo",
+          ascOrDesc: "asc",
         },
         {
-          fieldName: 'a.idInformations',
-          ascOrDesc: 'asc',
+          fieldName: "a.idInformations",
+          ascOrDesc: "asc",
         },
         {
-          fieldName: 'b.dataIndex',
-          ascOrDesc: 'asc',
+          fieldName: "b.dataIndex",
+          ascOrDesc: "asc",
         },
       ],
     },
@@ -302,16 +302,16 @@ const loadMenus = async () => {
   menusList.value = menusDatas.data;
   menusSelectList.value = createTree(
     menusDatas.data,
-    'idMenusinfo',
-    'menuName',
-    '',
+    "idMenusinfo",
+    "menuName",
+    "",
   );
 };
 const systemChange = async (data: TreeNodeData, _checked: boolean) => {
   currentSystemId.value = data.value;
   currentMenuId.value = 0;
-  dataForm.value['idInformations'] = data.value;
-  delete dataForm.value['menusList'];
+  dataForm.value["idInformations"] = data.value;
+  delete dataForm.value["menusList"];
   await loadMenus();
   doQuery();
   //加载菜单
@@ -319,25 +319,25 @@ const systemChange = async (data: TreeNodeData, _checked: boolean) => {
 
 const menuChange = (data: TreeNodeData, checked: boolean) => {
   currentMenuId.value = data.idMenusinfo;
-  dataForm.value['menusList'] = [data.idMenusinfo];
+  dataForm.value["menusList"] = [data.idMenusinfo];
   doQuery();
 };
 const doQuery = () => {
   let params: SearchParams[] = [];
   //  let roleList = getUserInfo()?.rolesList?.map(item => item.idRolesinfo);
   if (currentSystemId.value) {
-    params.push(createCondition('c.idInformations', currentSystemId.value));
+    params.push(createCondition("c.idInformations", currentSystemId.value));
   }
   defaultCondition.value = JSON.parse(JSON.stringify(params));
   if (currentMenuId.value) {
-    params.push(createCondition('b.idMenusinfo', currentMenuId.value));
+    params.push(createCondition("b.idMenusinfo", currentMenuId.value));
   }
   dataPermissionRef.value.createSearchParams(params);
 };
 const initData = async () => {
   systemInfoList.value = await loadSystemInfo([]);
   rolesList.value = await loadRolesInfo([]);
-  authorityList.value = await dictData('button_authority');
+  authorityList.value = await dictData("button_authority");
 };
 onMounted(async () => {
   await initData();

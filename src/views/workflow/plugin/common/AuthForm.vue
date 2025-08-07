@@ -1,16 +1,16 @@
 <script setup lang="ts">
-import { onMounted, ref, watch } from 'vue';
-import { loadData, warning } from 'star-horse-lowcode';
-import { useVModel } from '@vueuse/core';
+import { onMounted, ref, watch } from "vue";
+import { loadData, warning } from "star-horse-lowcode";
+import { useVModel } from "@vueuse/core";
 
-const emits = defineEmits<{ e: 'update:modelValue'; modelValue: string }>();
+const emits = defineEmits<{ e: "update:modelValue"; modelValue: string }>();
 let commonFieldList = ref<any>([]);
 let dataList = ref<any>([]);
 let currentData = ref<any>({});
 const props = defineProps({
   compSize: {
     type: String,
-    default: 'small',
+    default: "small",
   },
   readable: {
     type: Boolean,
@@ -28,10 +28,10 @@ const props = defineProps({
   },
   modelValue: {
     type: String,
-    default: 'edit',
+    default: "edit",
   },
 });
-let privilege = useVModel(props, 'modelValue', emits);
+let privilege = useVModel(props, "modelValue", emits);
 const dataChange = async (formId: string) => {
   if (!formId) {
     dataList.value = [];
@@ -40,7 +40,7 @@ const dataChange = async (formId: string) => {
     return;
   }
   let { data, error } = await loadData(
-    '/userdb-manage/userdb/dynamicForm/getById/' + formId,
+    "/userdb-manage/userdb/dynamicForm/getById/" + formId,
     {},
   );
   if (error) {
@@ -48,7 +48,7 @@ const dataChange = async (formId: string) => {
     return;
   }
   currentData.value = data;
-  dataList.value = JSON.parse(data['details'].content);
+  dataList.value = JSON.parse(data["details"].content);
   commonFieldList.value = data.commonFieldControllers;
 };
 const init = () => {
@@ -71,13 +71,15 @@ watch(
 <template>
   <el-divider content-position="left">表单权限</el-divider>
   <div class="form-detail" v-if="dataList && dataList.length > 0">
-    <el-radio-group  v-model="privilege" fill="var(--star-horse-style)">
+    <el-radio-group v-model="privilege" fill="var(--star-horse-style)">
       <el-radio-button value="edit" key="edit">可编辑</el-radio-button>
       <el-radio-button value="readonly" key="readonly">只读</el-radio-button>
-      <el-radio-button value="forbidden" key="forbidden">禁止查看</el-radio-button>
+      <el-radio-button value="forbidden" key="forbidden"
+        >禁止查看</el-radio-button
+      >
     </el-radio-group>
     <el-divider content-position="left">表单预览</el-divider>
-    {{privilege}}
+    {{ privilege }}
     <form-preview
       :formDisabled="privilege == 'readonly'"
       v-if="privilege != 'forbidden'"

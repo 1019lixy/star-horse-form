@@ -5,125 +5,125 @@ import {
   dialogPreps,
   PageFieldInfo,
   SearchFields,
-} from 'star-horse-lowcode';
-import { onMounted, provide, reactive, ref } from 'vue';
+} from "star-horse-lowcode";
+import { onMounted, provide, reactive, ref } from "vue";
 //后端交互接口地址
 const dataUrl: ApiUrls = apiInstance(
-  'userdb-manage',
-  'userdb/dynamicFormActions',
+  "userdb-manage",
+  "userdb/dynamicFormActions",
 );
 //查询属性
 const searchFormData = reactive<SearchFields>({
   fieldList: [
-    { label: '主键', fieldName: 'idFormActions', type: 'long' },
-    { label: '归属元素', fieldName: 'idFormItems', type: 'long' },
-    { label: '标签名称', fieldName: 'label' },
-    { label: '事件名称', fieldName: 'actionName' },
-    { label: '属性类别', fieldName: 'fieldType' },
-    { label: '备注', fieldName: 'remark' },
-    { label: '元素排序', fieldName: 'dataSort', type: 'number' },
+    { label: "主键", fieldName: "idFormActions", type: "long" },
+    { label: "归属元素", fieldName: "idFormItems", type: "long" },
+    { label: "标签名称", fieldName: "label" },
+    { label: "事件名称", fieldName: "actionName" },
+    { label: "属性类别", fieldName: "fieldType" },
+    { label: "备注", fieldName: "remark" },
+    { label: "元素排序", fieldName: "dataSort", type: "number" },
   ],
 });
 //页面属性
 const tableFieldList = reactive<PageFieldInfo | any>({
   fieldList: [
     {
-      label: '主键',
-      fieldName: 'idFormActions',
-      type: 'long',
+      label: "主键",
+      fieldName: "idFormActions",
+      type: "long",
       required: true,
       formVisible: true,
       listVisible: true,
     },
     {
-      label: '归属元素',
-      fieldName: 'idFormItems',
-      type: 'long',
+      label: "归属元素",
+      fieldName: "idFormItems",
+      type: "long",
       required: true,
       formVisible: true,
       listVisible: true,
     },
     {
-      label: '标签名称',
-      fieldName: 'label',
+      label: "标签名称",
+      fieldName: "label",
 
       required: true,
       formVisible: true,
       listVisible: true,
     },
     {
-      label: '事件名称',
-      fieldName: 'actionName',
+      label: "事件名称",
+      fieldName: "actionName",
 
       required: true,
       formVisible: true,
       listVisible: true,
     },
     {
-      label: '属性类别',
-      fieldName: 'fieldType',
+      label: "属性类别",
+      fieldName: "fieldType",
 
       required: true,
       formVisible: true,
       listVisible: true,
     },
     {
-      label: '版本号',
-      fieldName: 'version',
-      type: 'number',
+      label: "版本号",
+      fieldName: "version",
+      type: "number",
     },
     {
-      label: '创建人',
+      label: "创建人",
       disabled: true,
-      fieldName: 'createdBy',
+      fieldName: "createdBy",
     },
     {
-      label: '创建时间',
-      fieldName: 'createdTime',
-      type: 'date',
+      label: "创建时间",
+      fieldName: "createdTime",
+      type: "date",
     },
     {
-      label: '修改人',
+      label: "修改人",
       disabled: true,
-      fieldName: 'updatedBy',
+      fieldName: "updatedBy",
     },
     {
-      label: '修改时间',
-      fieldName: 'updatedTime',
-      type: 'date',
+      label: "修改时间",
+      fieldName: "updatedTime",
+      type: "date",
     },
     {
-      label: '数据编号',
-      fieldName: 'dataNo',
+      label: "数据编号",
+      fieldName: "dataNo",
     },
     {
-      label: '状态吗',
-      fieldName: 'statusCode',
+      label: "状态吗",
+      fieldName: "statusCode",
     },
     {
-      label: '状态名称',
-      fieldName: 'statusName',
+      label: "状态名称",
+      fieldName: "statusName",
     },
     {
-      label: '是否删除',
-      fieldName: 'isDel',
-      type: 'number',
+      label: "是否删除",
+      fieldName: "isDel",
+      type: "number",
     },
     {
-      label: '国际码',
-      fieldName: 'local',
+      label: "国际码",
+      fieldName: "local",
     },
     {
-      label: '备注',
-      fieldName: 'remark',
+      label: "备注",
+      fieldName: "remark",
 
       formVisible: true,
       listVisible: true,
     },
     {
-      label: '元素排序',
-      fieldName: 'dataSort',
-      type: 'number',
+      label: "元素排序",
+      fieldName: "dataSort",
+      type: "number",
       required: true,
       formVisible: true,
       listVisible: true,
@@ -131,13 +131,13 @@ const tableFieldList = reactive<PageFieldInfo | any>({
   ],
 });
 //主键
-const primaryKey = 'idFormActions';
+const primaryKey = "idFormActions";
 const dynamicFormActionRef = ref();
 //校验
 const rules = {};
 //控制弹窗相关设置
 const dialogProps = dialogPreps();
-provide('dialogProps', dialogProps);
+provide("dialogProps", dialogProps);
 
 //初始化方法
 const initData = async () => {};

@@ -1,17 +1,27 @@
 <script setup lang="ts">
-import {computed, onMounted, ref} from 'vue';
-import {useFlowDesignStore} from '@/store/FlowDesign';
-import {apiInstance, ApiUrls, createCondition, piniaInstance, SearchParams, StarHorseIcon,} from 'star-horse-lowcode';
-import {nodeInfoList, nodePrepList,} from '@/views/workflow/plugin/utils/nodePreps';
-import {FlowNodeEnums} from '@/views/workflow/plugin/enums/FlowNodeEnums';
+import { computed, onMounted, ref } from "vue";
+import { useFlowDesignStore } from "@/store/FlowDesign";
+import {
+  apiInstance,
+  ApiUrls,
+  createCondition,
+  piniaInstance,
+  SearchParams,
+  StarHorseIcon,
+} from "star-horse-lowcode";
+import {
+  nodeInfoList,
+  nodePrepList,
+} from "@/views/workflow/plugin/utils/nodePreps";
+import { FlowNodeEnums } from "@/views/workflow/plugin/enums/FlowNodeEnums";
 
 const nodeRef = ref();
 const prepUrl: ApiUrls = apiInstance(
-    'userdb-manage',
-    'userdb/formInstance/shNodeMappingPreps/idNodeMappingPrep/337537414606095357',
+  "userdb-manage",
+  "userdb/formInstance/shNodeMappingPreps/idNodeMappingPrep/337537414606095357",
 );
 defineOptions({
-  name: 'FlowNodeAdd',
+  name: "FlowNodeAdd",
 });
 const props = defineProps({
   node: {
@@ -26,7 +36,7 @@ const props = defineProps({
   },
   id: {
     type: String,
-    default: '',
+    default: "",
   },
   readable: {
     type: Boolean,
@@ -43,8 +53,8 @@ const checkVisible = (item: any) => {
   //nodeType == 1 && suggestBranchEnable
   if (item.nodeCode == FlowNodeEnums.SUGGEST_NODE) {
     if (
-        props.nodeType != FlowNodeEnums.APPROVER_NODE ||
-        !suggestBranchEnable.value
+      props.nodeType != FlowNodeEnums.APPROVER_NODE ||
+      !suggestBranchEnable.value
     ) {
       return false;
     }
@@ -52,8 +62,8 @@ const checkVisible = (item: any) => {
   //nodeType != 10 && parallelBranchEnable
   if (item.nodeCode == FlowNodeEnums.PARALLEL_NODE) {
     if (
-        !parallelBranchEnable.value ||
-        props.nodeType == FlowNodeEnums.PARALLEL_SUB_NODE
+      !parallelBranchEnable.value ||
+      props.nodeType == FlowNodeEnums.PARALLEL_SUB_NODE
     ) {
       return false;
     }
@@ -64,7 +74,7 @@ const loadNodePrep = async (item: any) => {
   let prep = flowDesign.getPrepMap(item.idFlowNode);
   if (!prep) {
     let params: SearchParams[] = [
-      createCondition('idFlowNode', item.idFlowNode),
+      createCondition("idFlowNode", item.idFlowNode),
     ];
     let res = await prepUrl.queryConditionAction!(params);
     let temp: any = {};
@@ -81,27 +91,26 @@ const addNode = async (item: any) => {
   let preps = await loadNodePrep(item);
   nodeRef.value.hide();
   let currentPreps: any = JSON.parse(
-      JSON.stringify(nodePrepList(item.nodeCode)),
+    JSON.stringify(nodePrepList(item.nodeCode)),
   );
-  currentNode = {...currentNode, ...currentPreps};
+  currentNode = { ...currentNode, ...currentPreps };
   if (preps && Object.keys(preps).length > 0) {
-    currentNode = {...currentNode, ...preps};
+    currentNode = { ...currentNode, ...preps };
   }
-  currentNode['nodeId'] = item.idFlowNode;
+  currentNode["nodeId"] = item.idFlowNode;
   let parentNode = props.node;
   let nodeType = props.nodeType;
   let id = props.id;
   flowDesign.flowAddNode(currentNode, parentNode, nodeType, id);
   if (
-      nodeType == FlowNodeEnums.APPROVER_NODE &&
-      item.nodeCode == FlowNodeEnums.SUGGEST_NODE
+    nodeType == FlowNodeEnums.APPROVER_NODE &&
+    item.nodeCode == FlowNodeEnums.SUGGEST_NODE
   ) {
     // 当审批节点下添加意见分支,就不允许添加其他类型的节点了
-    flowDesign.flowUpdateNode({currentNode, field: 'addable', value: false});
+    flowDesign.flowUpdateNode({ currentNode, field: "addable", value: false });
   }
 };
-const init = async () => {
-};
+const init = async () => {};
 onMounted(() => {
   init();
 });
@@ -109,19 +118,19 @@ onMounted(() => {
 <template>
   <div class="after-node-btn">
     <el-popover
-        placement="right"
-        ref="nodeRef"
-        trigger="hover"
-        aria-hidden="true"
-        :popper-style="{ width: 'unset !important' }"
+      placement="right"
+      ref="nodeRef"
+      trigger="hover"
+      aria-hidden="true"
+      :popper-style="{ width: 'unset !important' }"
     >
       <template #reference>
         <!-- 当审批节点下添加意见分支,就不允许添加其他类型的节点了 -->
         <star-horse-icon
-            style="cursor: pointer;"
-            icon-class="plus_circle"
-            cursor="pointer"
-            v-if="
+          style="cursor: pointer"
+          icon-class="plus_circle"
+          cursor="pointer"
+          v-if="
             !readable &&
             (nodeType != FlowNodeEnums.APPROVER_NODE ||
               (nodeType == FlowNodeEnums.APPROVER_NODE && node.addable))
@@ -131,13 +140,13 @@ onMounted(() => {
       <el-menu mode="vertical" class="flow-menu-vertical">
         <template v-for="item in nodeList">
           <el-menu-item
-              :key="item.idFlowNode"
-              @click="addNode(item)"
-              v-if="checkVisible(item)"
+            :key="item.idFlowNode"
+            @click="addNode(item)"
+            v-if="checkVisible(item)"
           >
-            <star-horse-icon :icon-class="item.nodeIcon"/>
+            <star-horse-icon :icon-class="item.nodeIcon" />
             <span>{{ item.nodeName }}</span>
-            <help v-if="item.remark" :message="item.remark"/>
+            <help v-if="item.remark" :message="item.remark" />
           </el-menu-item>
         </template>
       </el-menu>
@@ -152,6 +161,5 @@ onMounted(() => {
 
 :deep(.svg-icon) {
   margin: 0 auto !important;
-
 }
 </style>

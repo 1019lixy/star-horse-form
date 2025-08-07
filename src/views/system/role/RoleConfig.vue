@@ -1,5 +1,5 @@
 <script setup lang="ts" name="CompanyRole">
-import { Config } from '@/api/settings';
+import { Config } from "@/api/settings";
 import {
   computed,
   onActivated,
@@ -8,7 +8,7 @@ import {
   provide,
   reactive,
   ref,
-} from 'vue';
+} from "vue";
 import {
   apiInstance,
   ApiUrls,
@@ -28,22 +28,22 @@ import {
   useGlobalConfigStore,
   UserFuncInfo,
   warning,
-} from 'star-horse-lowcode';
-import { statusList } from '@/views/system/utils/UserFields';
-import { getCustomerParam } from '@/utils/auth';
-import { TreeNodeData } from 'element-plus/es/components/tree-v2/src/types';
+} from "star-horse-lowcode";
+import { statusList } from "@/views/system/utils/UserFields";
+import { getCustomerParam } from "@/utils/auth";
+import { TreeNodeData } from "element-plus/es/components/tree-v2/src/types";
 //后端交互接口地址
-const dataUrl: ApiUrls = apiInstance('system-config', 'system/companyRole');
-dataUrl.condition = [createCondition('a.roleType', 'common_role', 'neq')];
+const dataUrl: ApiUrls = apiInstance("system-config", "system/companyRole");
+dataUrl.condition = [createCondition("a.roleType", "common_role", "neq")];
 //主键
-const primaryKey = 'idCompanyRole';
+const primaryKey = "idCompanyRole";
 const companyRoleRef = ref();
 const assignRoleCompanyRef = ref();
 let companyList = ref<Array<any>>([]);
 let outerFormData = ref<any>({});
 //定义表单的所有属性
 const formFields = reactive<object>({});
-provide('formFields', formFields);
+provide("formFields", formFields);
 let configStore = useGlobalConfigStore(piniaInstance);
 let compSize = computed(
   () => configStore.configFormInfo?.inputSize || Config.compSize,
@@ -52,10 +52,10 @@ let currentUserGroupId = ref<number>(0);
 let defaultCondition = ref<SearchParams[]>([]);
 
 const roleTypeChange = (data: TreeNodeData, _checked: boolean) => {
-  currentUserGroupId.value = data['value'];
-  outerFormData.value['roleType'] = data['value'];
+  currentUserGroupId.value = data["value"];
+  outerFormData.value["roleType"] = data["value"];
   defaultCondition.value = [
-    createCondition('a.roleType', currentUserGroupId.value),
+    createCondition("a.roleType", currentUserGroupId.value),
   ];
   companyRoleRef.value.createSearchParams(defaultCondition.value);
 };
@@ -63,16 +63,16 @@ const roleTypeChange = (data: TreeNodeData, _checked: boolean) => {
 const searchFormData = reactive<SearchFields>({
   fieldList: [
     {
-      label: '角色名称',
-      fieldName: 'roleName',
+      label: "角色名称",
+      fieldName: "roleName",
       defaultVisible: true,
-      matchType: 'lk',
+      matchType: "lk",
     },
     {
-      label: '角色编码',
-      fieldName: 'roleCode',
+      label: "角色编码",
+      fieldName: "roleCode",
       defaultVisible: true,
-      matchType: 'lk',
+      matchType: "lk",
     },
   ],
 });
@@ -83,9 +83,9 @@ const tableFieldList = reactive<PageFieldInfo | any>({
   //属性列表
   fieldList: [
     {
-      label: '角色类型',
-      fieldName: 'roleType',
-      type: 'select',
+      label: "角色类型",
+      fieldName: "roleType",
+      type: "select",
       required: true,
       formVisible: true,
       listVisible: true,
@@ -94,16 +94,16 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       },
     },
     {
-      label: '角色名称',
-      fieldName: 'roleName',
+      label: "角色名称",
+      fieldName: "roleName",
 
       required: true,
       formVisible: true,
       listVisible: true,
     },
     {
-      label: '角色编码',
-      fieldName: 'roleCode',
+      label: "角色编码",
+      fieldName: "roleCode",
 
       required: true,
       formVisible: true,
@@ -111,57 +111,57 @@ const tableFieldList = reactive<PageFieldInfo | any>({
     },
 
     {
-      label: '版本号',
-      fieldName: 'version',
-      type: 'number',
+      label: "版本号",
+      fieldName: "version",
+      type: "number",
       required: false,
       formVisible: !true,
       listVisible: !true,
     },
     {
-      label: '创建人',
-      fieldName: 'createdBy',
+      label: "创建人",
+      fieldName: "createdBy",
 
       required: false,
       formVisible: !true,
       listVisible: true,
     },
     {
-      label: '创建时间',
-      fieldName: 'createdTime',
+      label: "创建时间",
+      fieldName: "createdTime",
 
       required: false,
       formVisible: !true,
       listVisible: true,
     },
     {
-      label: '修改人',
-      fieldName: 'updatedBy',
+      label: "修改人",
+      fieldName: "updatedBy",
 
       required: false,
       formVisible: !true,
       listVisible: true,
     },
     {
-      label: '修改时间',
-      fieldName: 'updatedTime',
+      label: "修改时间",
+      fieldName: "updatedTime",
 
       required: false,
       formVisible: !true,
       listVisible: true,
     },
     {
-      label: '数据编号',
-      fieldName: 'dataNo',
+      label: "数据编号",
+      fieldName: "dataNo",
 
       required: false,
       formVisible: !true,
       listVisible: !true,
     },
     {
-      label: '状态码',
-      fieldName: 'statusCode',
-      type: 'select',
+      label: "状态码",
+      fieldName: "statusCode",
+      type: "select",
       required: false,
       formVisible: true,
       listVisible: !true,
@@ -170,33 +170,33 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       },
     },
     {
-      label: '状态名称',
-      fieldName: 'statusName',
+      label: "状态名称",
+      fieldName: "statusName",
 
       required: false,
       formVisible: !true,
       listVisible: !true,
     },
     {
-      label: '是否删除',
-      fieldName: 'isDel',
-      type: 'number',
+      label: "是否删除",
+      fieldName: "isDel",
+      type: "number",
       required: false,
       formVisible: !true,
       listVisible: !true,
     },
     {
-      label: '国际编码',
-      fieldName: 'local',
+      label: "国际编码",
+      fieldName: "local",
 
       required: false,
       formVisible: !true,
       listVisible: !true,
     },
     {
-      label: '备注',
-      fieldName: 'remark',
-      type: 'textarea',
+      label: "备注",
+      fieldName: "remark",
+      type: "textarea",
       required: false,
       formVisible: true,
       listVisible: !true,
@@ -210,28 +210,28 @@ const rules = {};
 let outerForm = ref<any>({});
 //控制弹窗相关设置
 const dialogProps = dialogPreps();
-provide('dialogProps', dialogProps);
+provide("dialogProps", dialogProps);
 let extendBtns = ref<UserFuncInfo[]>([]);
 //初始化方法
 const initData = async () => {
-  roleTypeList.value = await dictData('company_role_type', ['common_role']);
+  roleTypeList.value = await dictData("company_role_type", ["common_role"]);
 };
 const assignCompany = () => {
   let selectedDatas = assignRoleCompanyRef.value.getSelectData();
   console.log(selectedDatas);
   if (!selectedDatas || selectedDatas.length == 0) {
-    warning('请设置当前角色的归属公司');
+    warning("请设置当前角色的归属公司");
     return;
   }
   let datas = [];
   for (let index in selectedDatas) {
     datas.push({
-      idCompanyRole: outerForm.value['idCompanyRole'],
+      idCompanyRole: outerForm.value["idCompanyRole"],
       idCompanyDefine: selectedDatas[index].idCompanyDefine,
     });
   }
-  load('数据提交中');
-  postRequest('/system-config/system/companyRolePkDefine/mergeBatch', datas)
+  load("数据提交中");
+  postRequest("/system-config/system/companyRolePkDefine/mergeBatch", datas)
     .then((res) => {
       if (res.data.code) {
         error(res.data.cnMessage);
@@ -254,7 +254,7 @@ const deactivated = () => {};
  * @param row 列表行数据
  */
 const dataFormat = (name: string, cellValue: any, row: any): any => {
-  if (name == 'roleType') {
+  if (name == "roleType") {
     return (
       roleTypeList.value.find((item) => item.value == cellValue)?.name ||
       cellValue

@@ -19,8 +19,8 @@
   </starhorse-form-item>
 </template>
 <script setup lang="ts" name="pdfItem">
-import { computed, onMounted, ref } from 'vue';
-import { warning } from 'star-horse-lowcode';
+import { computed, onMounted, ref } from "vue";
+import { warning } from "star-horse-lowcode";
 
 const props = defineProps({
   isDesign: {
@@ -52,28 +52,28 @@ const props = defineProps({
     default: {},
   },
 });
-const emits = defineEmits(['selfFunc', 'selectItem']);
-const formData = defineModel('formData');
+const emits = defineEmits(["selfFunc", "selectItem"]);
+const formData = defineModel("formData");
 const itemAction = () => {
-  emits('selfFunc', formData);
+  emits("selfFunc", formData);
 };
 let filePath = computed(() => {
-  let path = formData[props.field.preps['name']];
+  let path = formData[props.field.preps["name"]];
   if (path) {
     path = `?file=${path}`;
   } else {
-    path = '';
+    path = "";
   }
   return `/lib/pdfjs/web/viewer.html${encodeURIComponent(path)}`;
 });
 let pdfPages = ref(0); // pdf文件的页数
 
 const pdfView = () => {
-  if (!filePath.value.includes('file=')) {
-    warning('请先上传文件');
+  if (!filePath.value.includes("file=")) {
+    warning("请先上传文件");
     return;
   }
-  window.open(`${filePath.value}`, '_blank');
+  window.open(`${filePath.value}`, "_blank");
 };
 onMounted(() => {});
 </script>

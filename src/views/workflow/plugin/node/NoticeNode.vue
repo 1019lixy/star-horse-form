@@ -54,13 +54,13 @@
   </div>
 </template>
 <script setup lang="ts">
-import { computed, onMounted } from 'vue';
-import { useFlowDesignStore } from '@/store/FlowDesign';
-import { closeLoad, piniaInstance } from 'star-horse-lowcode';
-import { FlowNodeEnums } from '@/views/workflow/plugin/enums/FlowNodeEnums';
+import { computed, onMounted } from "vue";
+import { useFlowDesignStore } from "@/store/FlowDesign";
+import { closeLoad, piniaInstance } from "star-horse-lowcode";
+import { FlowNodeEnums } from "@/views/workflow/plugin/enums/FlowNodeEnums";
 
 defineOptions({
-  name: 'NoticeNode',
+  name: "NoticeNode",
 });
 const flowDesign = useFlowDesignStore(piniaInstance);
 let currentNode = computed(() => flowDesign.currentNode);
@@ -76,31 +76,31 @@ const props = defineProps({
     default: false,
   },
 });
-const emits = defineEmits(['selectNode']);
+const emits = defineEmits(["selectNode"]);
 props.node.error = computed(() => {
   let flag = false;
-  let msg = '';
+  let msg = "";
   if (!props.node.noticeType || !props.node.noticeType.length) {
-    msg += '未选择通知类型\n';
+    msg += "未选择通知类型\n";
     flag = true;
   }
   if (!props.node.approveGroups || !props.node.approveGroups.length) {
-    msg += '未选择通知人\n';
+    msg += "未选择通知人\n";
     flag = true;
   }
   if (!props.node.subject) {
-    msg += '未填写主题\n';
+    msg += "未填写主题\n";
     flag = true;
   }
   if (!props.node.content) {
-    msg += '未填写内容\n';
+    msg += "未填写内容\n";
     flag = true;
   }
   props.node.errorMsg = msg;
   return flag;
 });
 const selectNode = () => {
-  emits('selectNode', props.node);
+  emits("selectNode", props.node);
 };
 let nameClass = computed(() => {
   return (node: any, defaultStyle: string) => {
@@ -108,9 +108,9 @@ let nameClass = computed(() => {
       return defaultStyle;
     }
     return {
-      'node-status-not': node.statusCode == 0,
-      'node-status-current': node.statusCode == 1,
-      'node-status-complete': node.statusCode == 2,
+      "node-status-not": node.statusCode == 0,
+      "node-status-current": node.statusCode == 1,
+      "node-status-complete": node.statusCode == 2,
     };
   };
 });

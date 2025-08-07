@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Config } from '@/api/settings';
+import { Config } from "@/api/settings";
 import {
   apiInstance,
   closeLoad,
@@ -9,25 +9,25 @@ import {
   load,
   postRequest,
   warning,
-} from 'star-horse-lowcode';
-import { onMounted, ref, watch } from 'vue';
+} from "star-horse-lowcode";
+import { onMounted, ref, watch } from "vue";
 
 defineOptions({
-  name: 'QueryResult',
+  name: "QueryResult",
 });
 const props = defineProps({
   reqData: { type: Object, default: {} },
-  dbIndex: { type: String, default: '' },
+  dbIndex: { type: String, default: "" },
   compSize: { type: String, default: Config.compSize },
-  requestSource: { type: String, default: 'onlineQuery' },
+  requestSource: { type: String, default: "onlineQuery" },
 });
-const dataUrl = apiInstance('userdb-manage', 'dbsearch/dbinfoEntity');
-const emits = defineEmits(['error', 'queryResultChange']);
+const dataUrl = apiInstance("userdb-manage", "dbsearch/dbinfoEntity");
+const emits = defineEmits(["error", "queryResultChange"]);
 const queryResult = ref<any>({});
 let pageSize = ref<number>(10);
-let activeName = ref<string>('Result1');
+let activeName = ref<string>("Result1");
 let drawer = ref(false);
-let direction = ref<string>('rtl');
+let direction = ref<string>("rtl");
 let pageSizeLimit = ref<Array<number>>([10, 20, 50, 100]);
 let detailData = ref<any>({});
 const handleClose = () => {
@@ -48,13 +48,13 @@ const querySql = () => {
   if (!props.reqData.sqls) {
     return;
   }
-  load('数据查询中...');
+  load("数据查询中...");
   props.reqData.requestSource = props.requestSource;
   postRequest(`${dataUrl.basePrefix}/search`, props.reqData)
     .then((res) => {
       if (res.data.code != 0) {
         error(res.data.cnMessage);
-        emits('error', res.data.cnMessage);
+        emits("error", res.data.cnMessage);
       } else {
         queryResult.value = res.data.data;
       }
@@ -64,7 +64,7 @@ const querySql = () => {
     });
 };
 const exportData = (item: any) => {
-  load('数据处理中');
+  load("数据处理中");
   let params = {
     datasourceConfigId: props.dbIndex,
     currentSql: item.currentSql,
@@ -74,8 +74,8 @@ const exportData = (item: any) => {
   };
   download(`${dataUrl.basePrefix}/exportData`, params)
     .catch((err) => {
-      error('接口不存在或网络异常:' + err);
-      emits('error', '接口不存在或网络异常:' + err);
+      error("接口不存在或网络异常:" + err);
+      emits("error", "接口不存在或网络异常:" + err);
     })
     .finally(() => {
       closeLoad();
@@ -95,7 +95,7 @@ const resultDataFormat = (
   index: number,
 ) => {
   if (!cellValue) {
-    return '-';
+    return "-";
   }
   cellValue = commonParseCodeToName(column.property, cellValue);
   return cellValue;
@@ -113,12 +113,12 @@ const handleCurrentChange = (
     idDbinfo: props.dbIndex,
     requestSource: props.requestSource,
   };
-  load('数据查询中...');
+  load("数据查询中...");
   postRequest(`${dataUrl.basePrefix}/search`, reqData)
     .then((res) => {
       if (res.data.code == 1) {
         warning(res.data.cnMessage);
-        emits('error', res.data.cnMessage);
+        emits("error", res.data.cnMessage);
         return;
       }
       queryResult.value[index] = res.data.data[0];

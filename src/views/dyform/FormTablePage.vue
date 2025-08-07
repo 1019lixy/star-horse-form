@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { nextTick, onMounted, provide, reactive, ref, watch } from 'vue';
+import { nextTick, onMounted, provide, reactive, ref, watch } from "vue";
 import {
   apiInstance,
   ApiUrls,
@@ -9,22 +9,22 @@ import {
   loadGetData,
   PageFieldInfo,
   SearchFields,
-} from 'star-horse-lowcode';
-import { useRoute, useRouter } from 'vue-router';
-import { useNavBarListStore } from '@/store/NavBarList';
-import piniaCompInstance from '@/store';
+} from "star-horse-lowcode";
+import { useRoute, useRouter } from "vue-router";
+import { useNavBarListStore } from "@/store/NavBarList";
+import piniaCompInstance from "@/store";
 
 const navBarListStore = useNavBarListStore(piniaCompInstance);
 const router = useRouter();
 const starHorseTableCompRef = ref();
 const currentRoute = useRoute();
-const dataUrl = ref<ApiUrls>(apiInstance('', ''));
-const errorMsg = ref('数据加载中');
+const dataUrl = ref<ApiUrls>(apiInstance("", ""));
+const errorMsg = ref("数据加载中");
 let searchFormData = ref<SearchFields>({});
 const tableFieldList = ref<PageFieldInfo>({
   fieldList: [],
 });
-const primaryKey = ref('');
+const primaryKey = ref("");
 const rules = ref({});
 const hasData = ref(false);
 const props = defineProps({
@@ -44,11 +44,11 @@ const loadFormData = async (formId: string) => {
     return;
   }
   hasData.value = data && Object.keys(data).length > 0;
-  dataUrl.value = data['dataUrl'];
-  searchFormData.value = data['searchFormData'] as SearchFields;
-  primaryKey.value = data['primaryKey'];
-  tableFieldList.value = data['tableFieldList'] as PageFieldInfo;
-  rules.value = data['rules'];
+  dataUrl.value = data["dataUrl"];
+  searchFormData.value = data["searchFormData"] as SearchFields;
+  primaryKey.value = data["primaryKey"];
+  tableFieldList.value = data["tableFieldList"] as PageFieldInfo;
+  rules.value = data["rules"];
   await nextTick();
   closeLoad();
   starHorseTableCompRef.value.init();
@@ -58,20 +58,20 @@ watch(
   (val) => {
     clear();
     try {
-      load('数据加载中。。。');
+      load("数据加载中。。。");
       loadFormData(val as string);
     } catch (e) {
       closeLoad();
-      console.log('数据类型不匹配');
+      console.log("数据类型不匹配");
     }
   },
   { deep: true },
 );
 //记录表单的属性
 const formFields = reactive<Array<any>>([]);
-provide('formFields', formFields);
+provide("formFields", formFields);
 const dialogProps = dialogPreps();
-provide('dialogProps', dialogProps);
+provide("dialogProps", dialogProps);
 
 const dataFormat = (name: string, cellValue: object): any => {
   return cellValue;

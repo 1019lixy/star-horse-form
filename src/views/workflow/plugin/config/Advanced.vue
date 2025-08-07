@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import { onMounted, ref } from 'vue';
-import { scale } from '@/views/workflow/plugin/utils/deviceUtil';
-import { apiInstance, ApiUrls, createCondition } from 'star-horse-lowcode';
+import { onMounted, ref } from "vue";
+import { scale } from "@/views/workflow/plugin/utils/deviceUtil";
+import { apiInstance, ApiUrls, createCondition } from "star-horse-lowcode";
 
 const dataUrl: ApiUrls = apiInstance(
-  'flow-engine',
-  'workflow/categoryItemConfig',
+  "flow-engine",
+  "workflow/categoryItemConfig",
 );
 const props = defineProps({
   read: {
@@ -14,7 +14,7 @@ const props = defineProps({
   },
   designPath: {
     type: String,
-    default: '/design',
+    default: "/design",
   },
 });
 // 自动去重设置
@@ -25,17 +25,17 @@ let appendVisible = ref<boolean>(false);
 let revokeVisible = ref<boolean>(false);
 let items = ref<Array<any>>([]);
 const setSetting = (item: any) => {
-  console.log('item', item);
-  if (item.code == 'duplicateVisible') {
+  console.log("item", item);
+  if (item.code == "duplicateVisible") {
     duplicateVisible.value = true;
-  } else if (item.code == 'appendVisible') {
+  } else if (item.code == "appendVisible") {
     appendVisible.value = true;
-  } else if (item.code == 'revokeVisible') {
+  } else if (item.code == "revokeVisible") {
     revokeVisible.value = true;
   }
 };
 const init = async () => {
-  let params = [createCondition('a.cfgCategory', 'basic')];
+  let params = [createCondition("a.cfgCategory", "basic")];
   let res = await dataUrl.queryConditionAction!(params);
   items.value = res.data;
 };

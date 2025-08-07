@@ -7,8 +7,8 @@ import {
   provide,
   reactive,
   ref,
-} from 'vue';
-import { getCustomerParam } from '@/utils/auth';
+} from "vue";
+import { getCustomerParam } from "@/utils/auth";
 import {
   apiInstance,
   ApiUrls,
@@ -24,13 +24,13 @@ import {
   success,
   UserFuncInfo,
   warning,
-} from 'star-horse-lowcode';
-import { analysisField } from '@/api/star_horse_utils';
+} from "star-horse-lowcode";
+import { analysisField } from "@/api/star_horse_utils";
 //后端交互接口地址
-const dataUrl: ApiUrls = apiInstance('system-config', 'system/employeeInfo');
-dataUrl.pageListUrl = '/system-config/system/employeeInfo/compRolePageList';
+const dataUrl: ApiUrls = apiInstance("system-config", "system/employeeInfo");
+dataUrl.pageListUrl = "/system-config/system/employeeInfo/compRolePageList";
 dataUrl.deleteUrl =
-  '/system-config/system/companyRolePkEmployee/batchDeleteById';
+  "/system-config/system/companyRolePkEmployee/batchDeleteById";
 const props = defineProps({
   showButton: { type: Boolean, default: true },
   dialogInput: { type: Boolean, default: false },
@@ -38,7 +38,7 @@ const props = defineProps({
   queryCondition: { type: Array as PropType<SearchParams[]>, default: [] },
 });
 //主键
-const primaryKey = 'idEmployeeInfo';
+const primaryKey = "idEmployeeInfo";
 const employeeInfoRef = ref();
 //定义表单的所有属性
 let rankList = ref<any>([]);
@@ -47,31 +47,31 @@ let stationList = ref<any>([]);
 const searchFormData = reactive<SearchFields>({
   fieldList: [
     {
-      label: '姓名',
-      fieldName: 'name',
+      label: "姓名",
+      fieldName: "name",
       defaultVisible: true,
-      matchType: 'lk',
+      matchType: "lk",
     },
     {
-      label: '工号',
-      fieldName: 'employeeNo',
+      label: "工号",
+      fieldName: "employeeNo",
       defaultVisible: true,
-      matchType: 'lk',
+      matchType: "lk",
     },
     {
-      label: '职级',
-      fieldName: 'rank',
+      label: "职级",
+      fieldName: "rank",
       defaultVisible: false,
-      type: 'tselect',
+      type: "tselect",
       preps: {
         data: rankList,
       },
     },
     {
-      label: '岗位',
-      fieldName: 'station',
+      label: "岗位",
+      fieldName: "station",
       defaultVisible: false,
-      type: 'tselect',
+      type: "tselect",
       preps: {
         data: stationList,
       },
@@ -84,8 +84,8 @@ const tableFieldList = reactive<PageFieldInfo | any>({
   //属性列表
   fieldList: [
     {
-      label: '主键',
-      fieldName: 'idEmployeeInfo',
+      label: "主键",
+      fieldName: "idEmployeeInfo",
 
       required: true,
     },
@@ -93,16 +93,16 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       dytableList: [
         [
           {
-            label: '姓名',
-            fieldName: 'name',
+            label: "姓名",
+            fieldName: "name",
 
             required: true,
             formVisible: true,
             listVisible: true,
           },
           {
-            label: '工号',
-            fieldName: 'employeeNo',
+            label: "工号",
+            fieldName: "employeeNo",
 
             required: true,
             formVisible: true,
@@ -112,15 +112,15 @@ const tableFieldList = reactive<PageFieldInfo | any>({
             },
           },
           {
-            label: '头像',
-            fieldName: 'photo',
-            type: 'upload',
+            label: "头像",
+            fieldName: "photo",
+            type: "upload",
             required: false,
             formVisible: true,
             listVisible: true,
             preps: {
-              autoUpload: 'N',
-              action: 'xx',
+              autoUpload: "N",
+              action: "xx",
               wordBreak: true,
               rowspan: 2,
             },
@@ -128,34 +128,34 @@ const tableFieldList = reactive<PageFieldInfo | any>({
         ],
         [
           {
-            label: '职级',
-            fieldName: 'rank',
-            type: 'tselect',
+            label: "职级",
+            fieldName: "rank",
+            type: "tselect",
             required: false,
             formVisible: true,
             listVisible: true,
             preps: {
               data: rankList,
-              showCode: 'Y',
+              showCode: "Y",
             },
           },
           {
-            label: '岗位',
-            fieldName: 'station',
-            type: 'tselect',
+            label: "岗位",
+            fieldName: "station",
+            type: "tselect",
             required: false,
             formVisible: true,
             listVisible: true,
             preps: {
               data: stationList,
-              showCode: 'Y',
+              showCode: "Y",
             },
           },
         ],
         [
           {
-            label: '所属公司',
-            fieldName: 'idCompanyDefine',
+            label: "所属公司",
+            fieldName: "idCompanyDefine",
 
             required: true,
             formVisible: true,
@@ -166,8 +166,8 @@ const tableFieldList = reactive<PageFieldInfo | any>({
             },
           },
           {
-            label: '所属部门',
-            fieldName: 'idDepartmentInfo',
+            label: "所属部门",
+            fieldName: "idDepartmentInfo",
 
             required: true,
             formVisible: true,
@@ -179,8 +179,8 @@ const tableFieldList = reactive<PageFieldInfo | any>({
         ],
         [
           {
-            label: '联系电话',
-            fieldName: 'phone',
+            label: "联系电话",
+            fieldName: "phone",
 
             required: false,
             formVisible: true,
@@ -193,88 +193,88 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       ],
     },
     {
-      label: '版本号',
-      fieldName: 'version',
-      type: 'number',
+      label: "版本号",
+      fieldName: "version",
+      type: "number",
       required: false,
       formVisible: !true,
       listVisible: !true,
     },
     {
-      label: '创建人',
-      fieldName: 'createdBy',
+      label: "创建人",
+      fieldName: "createdBy",
 
       required: false,
       formVisible: !true,
       listVisible: !true,
     },
     {
-      label: '创建时间',
-      fieldName: 'createdTime',
+      label: "创建时间",
+      fieldName: "createdTime",
 
       required: false,
       formVisible: !true,
       listVisible: !true,
     },
     {
-      label: '修改人',
-      fieldName: 'updatedBy',
+      label: "修改人",
+      fieldName: "updatedBy",
 
       required: false,
       formVisible: !true,
       listVisible: !true,
     },
     {
-      label: '修改时间',
-      fieldName: 'updatedTime',
+      label: "修改时间",
+      fieldName: "updatedTime",
 
       required: false,
       formVisible: !true,
       listVisible: !true,
     },
     {
-      label: '数据编号',
-      fieldName: 'dataNo',
+      label: "数据编号",
+      fieldName: "dataNo",
 
       required: false,
       formVisible: !true,
       listVisible: !true,
     },
     {
-      label: '状态码',
-      fieldName: 'statusCode',
+      label: "状态码",
+      fieldName: "statusCode",
 
       required: false,
       formVisible: !true,
       listVisible: !true,
     },
     {
-      label: '状态名称',
-      fieldName: 'statusName',
+      label: "状态名称",
+      fieldName: "statusName",
 
       required: false,
       formVisible: !true,
       listVisible: !true,
     },
     {
-      label: '是否删除',
-      fieldName: 'isDel',
-      type: 'number',
+      label: "是否删除",
+      fieldName: "isDel",
+      type: "number",
       required: false,
       formVisible: !true,
       listVisible: !true,
     },
     {
-      label: '国际编码',
-      fieldName: 'local',
+      label: "国际编码",
+      fieldName: "local",
 
       required: false,
       formVisible: !true,
       listVisible: !true,
     },
     {
-      label: '备注',
-      fieldName: 'remark',
+      label: "备注",
+      fieldName: "remark",
 
       required: false,
       formVisible: !true,
@@ -288,30 +288,30 @@ const tableFieldList = reactive<PageFieldInfo | any>({
 //校验
 //控制弹窗相关设置
 const dialogProps = dialogPreps();
-provide('dialogProps', dialogProps);
+provide("dialogProps", dialogProps);
 let extendBtns = ref<UserFuncInfo[]>([
   {
-    btnName: '移出',
-    authority: 'delete',
-    icon: 'delete',
+    btnName: "移出",
+    authority: "delete",
+    icon: "delete",
     funcName: async (row: any) => {
-      let flag = await operationConfirm('确定要移出吗？');
+      let flag = await operationConfirm("确定要移出吗？");
       if (flag) {
         let params: Array<any> = [];
         let idCompanyDefine = analysisField(
           props.queryCondition,
-          'idCompanyDefine',
+          "idCompanyDefine",
         );
         let idCompanyRole = analysisField(
           props.queryCondition,
-          'idCompanyRole',
+          "idCompanyRole",
         );
         params.push({
           idEmployee: row.idEmployeeInfo,
           idCompanyDefine: idCompanyDefine.value,
           idCompanyRole: idCompanyRole.value,
         });
-        load('数据处理中');
+        load("数据处理中");
         employeeInfoRef.value.loadByPage();
         postRequest(dataUrl.deleteUrl!, params)
           .then((res) => {
@@ -319,7 +319,7 @@ let extendBtns = ref<UserFuncInfo[]>([
               warning(res.data.cnMessage);
               return;
             }
-            success('操作成功');
+            success("操作成功");
           })
           .finally(() => closeLoad());
       }
@@ -335,7 +335,7 @@ const initData = async () => {
     tableFieldList.condition.push(cond);
   }
   //加载职级
-  let result = await loadData('/system-config/system/rankDefine/rankTree', {});
+  let result = await loadData("/system-config/system/rankDefine/rankTree", {});
   if (result.error) {
     warning(result.error);
   } else {
@@ -343,7 +343,7 @@ const initData = async () => {
   }
   //加载岗位
   result = await loadData(
-    '/system-config/system/stationDefine/stationTree',
+    "/system-config/system/stationDefine/stationTree",
     {},
   );
   if (result.error) {
@@ -364,17 +364,17 @@ const deactivated = () => {};
  */
 const dataFormat = (name: string, cellValue: any, row: any): any => {
   //转换显示信息
-  if (name == 'idCompanyDefine') {
-    return row['companyName'] || cellValue;
+  if (name == "idCompanyDefine") {
+    return row["companyName"] || cellValue;
   }
-  if (name == 'idDepartmentInfo') {
-    return row['deptName'] || cellValue;
+  if (name == "idDepartmentInfo") {
+    return row["deptName"] || cellValue;
   }
-  if (name == 'rank') {
-    return row['rankName'] || cellValue;
+  if (name == "rank") {
+    return row["rankName"] || cellValue;
   }
-  if (name == 'station') {
-    return row['stationName'] || cellValue;
+  if (name == "station") {
+    return row["stationName"] || cellValue;
   }
   return cellValue;
 };

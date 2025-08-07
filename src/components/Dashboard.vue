@@ -1,27 +1,27 @@
 <script lang="ts" setup>
-import router from '@/router';
-import { computed, nextTick, onMounted, provide, ref, watch } from 'vue';
-import { useNavBarListStore } from '@/store/NavBarList';
-import { useViewCacheStore } from '@/store/ViewCache';
-import piniaCompInstance from '@/store';
-import zhCn from 'element-plus/dist/locale/zh-cn.mjs';
-import en from 'element-plus/dist/locale/en.mjs';
-import { LangType } from '@/theme/theme';
-import { getLang } from '@/theme/localStorge';
-import { i18n } from '@/lang';
-import $ from 'jquery';
-import { piniaInstance, useGlobalConfigStore } from 'star-horse-lowcode';
-import { getUserInfo } from '@/utils/auth.js';
+import router from "@/router";
+import { computed, nextTick, onMounted, provide, ref, watch } from "vue";
+import { useNavBarListStore } from "@/store/NavBarList";
+import { useViewCacheStore } from "@/store/ViewCache";
+import piniaCompInstance from "@/store";
+import zhCn from "element-plus/dist/locale/zh-cn.mjs";
+import en from "element-plus/dist/locale/en.mjs";
+import { LangType } from "@/theme/theme";
+import { getLang } from "@/theme/localStorge";
+import { i18n } from "@/lang";
+import $ from "jquery";
+import { piniaInstance, useGlobalConfigStore } from "star-horse-lowcode";
+import { getUserInfo } from "@/utils/auth.js";
 
 let configStore = useGlobalConfigStore(piniaInstance);
-const route = router.getRoutes().find((item) => item.path == '/home');
+const route = router.getRoutes().find((item) => item.path == "/home");
 let drawer = ref<boolean>(false);
 const configInfo = computed(() => configStore.configFormInfo);
 let viewListStore = useViewCacheStore(piniaCompInstance);
 const navBarListStore = useNavBarListStore(piniaCompInstance);
 const cachedDatas = computed(() => viewListStore.viewListDatas);
 let isCollapse = ref<boolean>(true);
-let sysemId = ref<string>('-1');
+let sysemId = ref<string>("-1");
 let outerIsCollapse = ref<number>(64);
 
 let locale = ref(zhCn);
@@ -36,7 +36,7 @@ const layoutConfig = () => {
 const loadMenuFun = (data: string) => {
   sysemId.value = data;
 };
-provide('loadMenu', loadMenuFun);
+provide("loadMenu", loadMenuFun);
 
 const collapseOperation = () => {
   isCollapse.value = !isCollapse.value;
@@ -46,7 +46,7 @@ watch(
   (val) => {
     if (!configInfo.value) return;
     setTimeout(() => {
-      if (configInfo.value?.menusCfg == 'fixed') {
+      if (configInfo.value?.menusCfg == "fixed") {
         outerIsCollapse.value = 95;
       } else {
         outerIsCollapse.value = val ? 250 : 64;
@@ -61,7 +61,7 @@ watch(
   () => configInfo.value?.menusCfg,
   (sval) => {
     if (!configInfo.value) return;
-    if (sval == 'tradition') {
+    if (sval == "tradition") {
       outerIsCollapse.value = 250;
     } else {
       outerIsCollapse.value = 95;
@@ -87,10 +87,10 @@ onMounted(async () => {
   changeLang(getLang(), true);
   navBarListStore.addNavBar(route);
   configStore.clearAll();
-  $('.star-horse-left').addClass('animate__animated animate__bounceInLeft');
+  $(".star-horse-left").addClass("animate__animated animate__bounceInLeft");
   setTimeout(() => {
-    $('.star-horse-left').removeClass(
-      'animate__animated animate__bounceInLeft',
+    $(".star-horse-left").removeClass(
+      "animate__animated animate__bounceInLeft",
     );
   }, 1000);
 });

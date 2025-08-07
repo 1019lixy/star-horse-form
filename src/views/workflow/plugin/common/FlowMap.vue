@@ -12,14 +12,14 @@
   </div>
 </template>
 <script setup lang="ts">
-import { computed, nextTick, onBeforeUnmount, onMounted, ref } from 'vue';
-import { useFlowDesignStore } from '@/store/FlowDesign';
-import { piniaInstance } from 'star-horse-lowcode';
+import { computed, nextTick, onBeforeUnmount, onMounted, ref } from "vue";
+import { useFlowDesignStore } from "@/store/FlowDesign";
+import { piniaInstance } from "star-horse-lowcode";
 
 const props = defineProps({
   element: {
     type: String,
-    default: '#sh-flow-editor-content',
+    default: "#sh-flow-editor-content",
   },
 });
 const flowDesignStore = useFlowDesignStore(piniaInstance);
@@ -54,9 +54,9 @@ const scaleOffsetHeight = computed(() => {
 // 地图窗口占比窗口(红色窗口)样式
 const mapMask = computed(() => {
   return {
-    width: '100%',
+    width: "100%",
     height: `${scaleHeight.value * 100}%`,
-    left: '0px',
+    left: "0px",
     top: `${top.value}px`,
   };
 });
@@ -90,13 +90,13 @@ const handleMouseUp = (e: MouseEvent) => {
 let timer: any = null;
 const init = async () => {
   await nextTick();
-  flowDesign.value = document.querySelector('#sh-flow-editor');
-  flowMap.value = document.querySelector('#sh-flow-editor-map');
-  flowMapMsk.value = document.querySelector('#sh-flow-editor-map-mask');
+  flowDesign.value = document.querySelector("#sh-flow-editor");
+  flowMap.value = document.querySelector("#sh-flow-editor-map");
+  flowMapMsk.value = document.querySelector("#sh-flow-editor-map-mask");
   initSize(flowDesign.value);
   flowDesignStore.refreshMap();
   // 监听滚动条
-  window.addEventListener('scroll', handleScroll, true);
+  window.addEventListener("scroll", handleScroll, true);
   // 监听出现滚动条
   timer = setInterval(() => {
     if (flowDesign.value.scrollHeight > flowDesign.value.clientHeight) {
@@ -107,9 +107,9 @@ const init = async () => {
     initSize(flowDesign.value);
   }, 1000);
   // 监听鼠标移动
-  window.addEventListener('mousemove', handleMouseMove);
+  window.addEventListener("mousemove", handleMouseMove);
   // 监听页面的mouseleave事件，当鼠标移出浏览器页面可用区域 并 松开按键时，停止拖动
-  window.addEventListener('mouseleave', handleMouseUp);
+  window.addEventListener("mouseleave", handleMouseUp);
 };
 onBeforeUnmount(() => {
   clearInterval(timer);

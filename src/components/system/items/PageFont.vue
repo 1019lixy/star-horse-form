@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { ModelRef } from 'vue';
+import { ModelRef } from "vue";
 
-let fontInfo: ModelRef<any> = defineModel('dataForm');
+let fontInfo: ModelRef<any> = defineModel("dataForm");
 </script>
 
 <template>

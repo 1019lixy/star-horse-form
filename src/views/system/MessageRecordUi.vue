@@ -6,8 +6,8 @@ import {
   PageFieldInfo,
   SearchFields,
   SelectOption,
-} from 'star-horse-lowcode';
-import { loadDict } from '@/api/star_horse_apis';
+} from "star-horse-lowcode";
+import { loadDict } from "@/api/star_horse_apis";
 import {
   onActivated,
   onDeactivated,
@@ -15,44 +15,44 @@ import {
   provide,
   reactive,
   ref,
-} from 'vue';
-import { getCustomerParam } from '@/utils/auth';
+} from "vue";
+import { getCustomerParam } from "@/utils/auth";
 //后端交互接口地址
-const dataUrl: ApiUrls = apiInstance('system-config', 'system/messageRecord');
+const dataUrl: ApiUrls = apiInstance("system-config", "system/messageRecord");
 //主键
-const primaryKey = 'idMessageRecord';
+const primaryKey = "idMessageRecord";
 const messageRecordRef = ref();
 //定义表单的所有属性
 const formFields = reactive<object>({});
-provide('formFields', formFields);
+provide("formFields", formFields);
 let typeList = ref<SelectOption[]>([]);
 let categoryList = ref<SelectOption[]>([]);
 //查询属性
 const searchFormData = reactive<SearchFields>({
   fieldList: [
     {
-      label: '分类',
-      fieldName: 'category',
+      label: "分类",
+      fieldName: "category",
       defaultVisible: true,
-      type: 'select',
+      type: "select",
       preps: {
         values: categoryList,
       },
     },
     {
-      label: '类别',
-      fieldName: 'type',
+      label: "类别",
+      fieldName: "type",
       defaultVisible: true,
-      type: 'select',
+      type: "select",
       preps: {
         values: typeList,
       },
     },
     {
-      label: '标题',
-      fieldName: 'title',
+      label: "标题",
+      fieldName: "title",
       defaultVisible: true,
-      matchType: 'lk',
+      matchType: "lk",
     },
   ],
 });
@@ -64,9 +64,9 @@ const tableFieldList = reactive<PageFieldInfo | any>({
   fieldList: [
     [
       {
-        label: '分类',
-        fieldName: 'category',
-        type: 'select',
+        label: "分类",
+        fieldName: "category",
+        type: "select",
         required: true,
         formVisible: true,
         listVisible: true,
@@ -75,9 +75,9 @@ const tableFieldList = reactive<PageFieldInfo | any>({
         },
       },
       {
-        label: '类别',
-        fieldName: 'type',
-        type: 'select',
+        label: "类别",
+        fieldName: "type",
+        type: "select",
         required: true,
         formVisible: true,
         listVisible: true,
@@ -87,8 +87,8 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       },
     ],
     {
-      label: '标题',
-      fieldName: 'title',
+      label: "标题",
+      fieldName: "title",
 
       required: true,
       formVisible: true,
@@ -97,27 +97,27 @@ const tableFieldList = reactive<PageFieldInfo | any>({
 
     [
       {
-        label: '是否广播消息',
-        fieldName: 'commonFlag',
-        type: 'switch',
-        defaultValue: 'Y',
+        label: "是否广播消息",
+        fieldName: "commonFlag",
+        type: "switch",
+        defaultValue: "Y",
         actions: {
           change: (val: any) => {
-            personsVisible.value = val['commonFlag'] == 'N';
+            personsVisible.value = val["commonFlag"] == "N";
           },
         },
         required: true,
         formVisible: true,
         listVisible: true,
         preps: {
-          activeValue: 'Y',
-          inactiveValue: 'N',
+          activeValue: "Y",
+          inactiveValue: "N",
         },
       },
       {
-        label: '状态',
-        fieldName: 'statusCode',
-        type: 'select',
+        label: "状态",
+        fieldName: "statusCode",
+        type: "select",
         required: false,
         formVisible: true,
         listVisible: !true,
@@ -127,10 +127,10 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       },
     ],
     {
-      label: '接收人',
-      fieldName: 'receivePersonsName',
-      aliasName: 'receivePersons',
-      type: 'user',
+      label: "接收人",
+      fieldName: "receivePersonsName",
+      aliasName: "receivePersons",
+      type: "user",
       required: true,
       formVisible: personsVisible,
       listVisible: true,
@@ -139,80 +139,80 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       },
     },
     {
-      label: '状态',
-      fieldName: 'statusName',
+      label: "状态",
+      fieldName: "statusName",
 
       required: false,
       formVisible: !true,
       listVisible: true,
     },
     {
-      label: '跳转Url',
-      fieldName: 'url',
+      label: "跳转Url",
+      fieldName: "url",
 
       required: false,
       formVisible: true,
       listVisible: true,
     },
     {
-      label: '内容',
-      fieldName: 'content',
-      type: 'markdown',
+      label: "内容",
+      fieldName: "content",
+      type: "markdown",
       required: true,
       formVisible: true,
       listVisible: true,
     },
     {
-      label: '版本号',
-      fieldName: 'version',
-      type: 'number',
+      label: "版本号",
+      fieldName: "version",
+      type: "number",
       required: false,
       formVisible: !true,
       listVisible: !true,
     },
     {
-      label: '创建人',
-      fieldName: 'createdBy',
+      label: "创建人",
+      fieldName: "createdBy",
 
       required: false,
       formVisible: !true,
       listVisible: true,
     },
     {
-      label: '创建时间',
-      fieldName: 'createdTime',
-      type: 'datetime',
+      label: "创建时间",
+      fieldName: "createdTime",
+      type: "datetime",
       required: false,
       formVisible: !true,
       listVisible: true,
     },
     {
-      label: '修改人',
-      fieldName: 'updatedBy',
+      label: "修改人",
+      fieldName: "updatedBy",
 
       required: false,
       formVisible: !true,
       listVisible: !true,
     },
     {
-      label: '修改时间',
-      fieldName: 'updatedTime',
-      type: 'datetime',
+      label: "修改时间",
+      fieldName: "updatedTime",
+      type: "datetime",
       required: false,
       formVisible: !true,
       listVisible: !true,
     },
     {
-      label: '数据编号',
-      fieldName: 'dataNo',
+      label: "数据编号",
+      fieldName: "dataNo",
 
       required: false,
       formVisible: !true,
       listVisible: !true,
     },
     {
-      label: '状态码',
-      fieldName: 'statusCode',
+      label: "状态码",
+      fieldName: "statusCode",
 
       required: false,
       formVisible: !true,
@@ -220,24 +220,24 @@ const tableFieldList = reactive<PageFieldInfo | any>({
     },
 
     {
-      label: '是否删除',
-      fieldName: 'isDel',
-      type: 'number',
+      label: "是否删除",
+      fieldName: "isDel",
+      type: "number",
       required: false,
       formVisible: !true,
       listVisible: !true,
     },
     {
-      label: '国际编码',
-      fieldName: 'local',
+      label: "国际编码",
+      fieldName: "local",
 
       required: false,
       formVisible: !true,
       listVisible: !true,
     },
     {
-      label: '备注',
-      fieldName: 'remark',
+      label: "备注",
+      fieldName: "remark",
 
       required: false,
       formVisible: !true,
@@ -251,12 +251,12 @@ const tableFieldList = reactive<PageFieldInfo | any>({
 const rules = {};
 //控制弹窗相关设置
 const dialogProps = dialogPreps();
-provide('dialogProps', dialogProps);
+provide("dialogProps", dialogProps);
 //初始化方法
 const initData = async () => {
-  typeList.value = await loadDict('message_type');
-  categoryList.value = await loadDict('message_category');
-  statusList.value = await loadDict('message_status');
+  typeList.value = await loadDict("message_type");
+  categoryList.value = await loadDict("message_category");
+  statusList.value = await loadDict("message_status");
 };
 const activated = () => {};
 const deactivated = () => {};
@@ -267,18 +267,18 @@ const deactivated = () => {};
  * @param row 列表行数据
  */
 const dataFormat = (name: string, cellValue: any, row: any): any => {
-  if (name == 'type') {
+  if (name == "type") {
     return (
       typeList.value.find((item) => item.value == cellValue)?.name || cellValue
     );
   }
-  if (name == 'category') {
+  if (name == "category") {
     return (
       categoryList.value.find((item) => item.value == cellValue)?.name ||
       cellValue
     );
   }
-  if (name == 'statusCode') {
+  if (name == "statusCode") {
     return (
       statusList.value.find((item) => item.value == cellValue)?.name ||
       cellValue

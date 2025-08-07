@@ -23,13 +23,13 @@
   </el-card>
 </template>
 <script setup lang="ts">
-import piniaCompInstance from '@/store';
-import { useNavBarListStore } from '@/store/NavBarList';
-import { computed, onMounted, ref } from 'vue';
+import piniaCompInstance from "@/store";
+import { useNavBarListStore } from "@/store/NavBarList";
+import { computed, onMounted, ref } from "vue";
 
 const viewListStore = useNavBarListStore(piniaCompInstance);
 const navTagsList = computed(() => viewListStore.navTagsList);
-let general = ref<string>('a');
+let general = ref<string>("a");
 let visible = ref<boolean>(true);
 let matchList = ref<Array<any>>([
   // {

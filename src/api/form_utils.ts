@@ -23,9 +23,9 @@ export function getFormData(
   parentIndex: number,
   index: number,
 ) {
-  if (item.subFormFlag == 'Y') {
+  if (item.subFormFlag == "Y") {
     if (item && item.objectName) {
-      console.log('checkObject', item.objectName);
+      console.log("checkObject", item.objectName);
       if (!Object.keys(dataForm).includes(item.objectName)) {
         dataForm[item.objectName] = [{}];
       }
@@ -56,12 +56,12 @@ export function getDataIndex(
 ) {
   let pronPrefix: number = 0;
   if (prefix && prefix.length > 0) {
-    if (data.subFormFlag == 'Y') {
+    if (data.subFormFlag == "Y") {
       pronPrefix = parentIndex > -1 ? 0 : index;
     } else {
       pronPrefix = parentIndex;
     }
-  } else if (data.subFormFlag == 'Y') {
+  } else if (data.subFormFlag == "Y") {
     //如果父表大于0,说明当前是父表的子表，应该用父表的索引
     pronPrefix = parentIndex > 0 ? parentIndex : index;
   } else {

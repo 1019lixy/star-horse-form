@@ -1,21 +1,21 @@
 <script lang="ts" setup name="DynamicPage">
-import StarHorseRuler from '@/components/system/StarHorseRuler.vue';
-import { i18n } from '@/lang';
-import { appInstance } from '@/main';
-import PageBackground from '@/components/system/items/PageBackground.vue';
-import PageFont from '@/components/system/items/PageFont.vue';
-import PageHeader from '@/views/dyform/page/PageHeader.vue';
-import PagePosition from '@/components/system/items/PagePosition.vue';
-import { apiInstance, createComponent, DynamicNode } from 'star-horse-lowcode';
-import { onMounted, ref, resolveComponent } from 'vue';
+import StarHorseRuler from "@/components/system/StarHorseRuler.vue";
+import { i18n } from "@/lang";
+import { appInstance } from "@/main";
+import PageBackground from "@/components/system/items/PageBackground.vue";
+import PageFont from "@/components/system/items/PageFont.vue";
+import PageHeader from "@/views/dyform/page/PageHeader.vue";
+import PagePosition from "@/components/system/items/PagePosition.vue";
+import { apiInstance, createComponent, DynamicNode } from "star-horse-lowcode";
+import { onMounted, ref, resolveComponent } from "vue";
 
 /**
  * 页面设计需要先设置排版，然后在排版上增加具体的组件，这样页面发布后才不会乱,
  * 那么前提是要先设计好页面的排版得模版库，可参照flexbox-labs，然后再增加组件，这样才能保证页面的排版不会乱
  */
-const dataUrl = apiInstance('userdb-manage', 'userdb/dynamicPage');
-let panelModel = ref<string>('first');
-let propertyItem = ref<string>('1');
+const dataUrl = apiInstance("userdb-manage", "userdb/dynamicPage");
+let panelModel = ref<string>("first");
+let propertyItem = ref<string>("1");
 let dyPageInfo = ref<any>({
   position: {},
   background: {},
@@ -37,9 +37,9 @@ const init = async () => {};
 const count = ref<number>(0);
 let items = ref<Array<DynamicNode>>([
   {
-    id: '1',
-    name: '测试',
-    content: '1',
+    id: "1",
+    name: "测试",
+    content: "1",
   },
 ]);
 const dynamicComponent = (itemName: string) => {
@@ -59,7 +59,7 @@ const dynamicComponent = (itemName: string) => {
   return createComponent(
     {
       components: components,
-      name: 'dynamicComponent',
+      name: "dynamicComponent",
       template: `
       <div ref="root" class="grid-stack-item my-custom-grid-item-component">
         <div class="grid-stack-item-content">
@@ -74,7 +74,7 @@ const dynamicComponent = (itemName: string) => {
         itemId: { type: String || Number },
       },
       methods: {},
-      emits: ['remove'],
+      emits: ["remove"],
     },
     appInstance,
   );
@@ -83,7 +83,7 @@ const dynamicComponent = (itemName: string) => {
 let shadowDom: any = {};
 
 const addNewWidget = () => {
-  currentItem.value = 'cron';
+  currentItem.value = "cron";
   const node = items.value[count.value] || {
     x: Math.round(12 * Math.random()),
     y: Math.round(5 * Math.random()),
@@ -95,7 +95,7 @@ const addNewWidget = () => {
 };
 
 const selectNode = (item: any) => {
-  console.log('--------------------', item);
+  console.log("--------------------", item);
   currentItem.value = item;
 };
 onMounted(async () => {

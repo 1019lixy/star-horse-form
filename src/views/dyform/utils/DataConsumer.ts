@@ -1,11 +1,11 @@
-import { reactive, Ref, ref } from 'vue';
+import { reactive, Ref, ref } from "vue";
 import {
   PageFieldInfo,
   searchMatchList,
   SelectOption,
-} from 'star-horse-lowcode';
-import { fi } from 'element-plus/es/locale/index.mjs';
-import { ascOrDesc } from '@/api/system.ts';
+} from "star-horse-lowcode";
+import { fi } from "element-plus/es/locale/index.mjs";
+import { ascOrDesc } from "@/api/system.ts";
 
 const tableVisible = ref<boolean>(true);
 const relationRequired = ref<boolean>(false);
@@ -17,32 +17,32 @@ const tableList = ref<SelectOption[]>([]);
 export const line_height = 24;
 export const table_width = 320;
 export const consumerNodeData: any = {
-  portName: 'erPortPosition',
-  name: 'er-rect',
+  portName: "erPortPosition",
+  name: "er-rect",
   entity: {
-    inherit: 'rect',
+    inherit: "rect",
     markup: [
       {
-        tagName: 'rect',
-        selector: 'body',
+        tagName: "rect",
+        selector: "body",
       },
       {
-        tagName: 'text',
-        selector: 'label',
+        tagName: "text",
+        selector: "label",
       },
     ],
     attrs: {
       rect: {
         strokeWidth: 1,
-        stroke: 'var(--star-horse-style)',
-        fill: 'var(--star-horse-style)',
+        stroke: "var(--star-horse-style)",
+        fill: "var(--star-horse-style)",
       },
       label: {
-        fontWeight: 'bold',
-        fill: '#ffffff',
+        fontWeight: "bold",
+        fill: "#ffffff",
         fontSize: 12,
-        textAnchor: 'middle',
-        textVerticalAnchor: 'middle',
+        textAnchor: "middle",
+        textVerticalAnchor: "middle",
         textWrap: {
           width: 300,
           ellipsis: true,
@@ -55,20 +55,20 @@ export const consumerNodeData: any = {
         list: {
           markup: [
             {
-              tagName: 'rect',
-              selector: 'portBody',
+              tagName: "rect",
+              selector: "portBody",
             },
             {
-              tagName: 'text',
-              selector: 'fieldName',
+              tagName: "text",
+              selector: "fieldName",
             },
             /*       {
                                              tagName: 'text',
                                              selector: 'type',
                                            },*/
             {
-              tagName: 'text',
-              selector: 'comment',
+              tagName: "text",
+              selector: "comment",
             },
             /*   {
                                          tagName: 'text',
@@ -81,14 +81,14 @@ export const consumerNodeData: any = {
               height: line_height,
               strokeWidth: 1,
               magnet: true,
-              stroke: 'var(--star-horse-style)',
-              fill: '#EFF4FF',
+              stroke: "var(--star-horse-style)",
+              fill: "#EFF4FF",
             },
             name: {
               refX: 6,
               refY: 6,
               fontSize: 10,
-              ref: 'portBody',
+              ref: "portBody",
               textWrap: {
                 width: 78,
                 ellipsis: true,
@@ -102,7 +102,7 @@ export const consumerNodeData: any = {
                                        fontSize: 10,
                                      },*/
             comment: {
-              ref: 'portBody',
+              ref: "portBody",
               refX: 150,
               refY: 6,
               fontSize: 10,
@@ -119,7 +119,7 @@ export const consumerNodeData: any = {
                                         ref: "portBody",
                                       },*/
           },
-          position: 'erPortPosition',
+          position: "erPortPosition",
         },
       },
     },
@@ -156,16 +156,16 @@ export function viewFieldInfo(
     fieldList: [
       [
         {
-          label: '视图名称',
-          fieldName: 'viewName',
+          label: "视图名称",
+          fieldName: "viewName",
 
           required: true,
           formVisible: true,
         },
         {
-          label: '视图类型',
-          fieldName: 'viewType',
-          type: 'select',
+          label: "视图类型",
+          fieldName: "viewType",
+          type: "select",
           required: true,
           formVisible: true,
           preps: {
@@ -175,9 +175,9 @@ export function viewFieldInfo(
       ],
       [
         {
-          label: '消费权限',
-          fieldName: 'consumeAuthority',
-          type: 'select',
+          label: "消费权限",
+          fieldName: "consumeAuthority",
+          type: "select",
           required: true,
           formVisible: true,
           preps: {
@@ -185,9 +185,9 @@ export function viewFieldInfo(
           },
         },
         {
-          label: '单次最大数量',
-          fieldName: 'dataLimits',
-          type: 'number',
+          label: "单次最大数量",
+          fieldName: "dataLimits",
+          type: "number",
           required: true,
           formVisible: true,
           min: 1,
@@ -196,109 +196,109 @@ export function viewFieldInfo(
       ],
       [
         {
-          label: '是否认证',
-          fieldName: 'isAudit',
-          type: 'switch',
+          label: "是否认证",
+          fieldName: "isAudit",
+          type: "switch",
           formVisible: true,
-          defaultValue: 'N',
+          defaultValue: "N",
           preps: {
-            activeValue: 'Y',
-            inactiveValue: 'N',
+            activeValue: "Y",
+            inactiveValue: "N",
           },
         },
         {
-          label: '是否去重',
-          fieldName: 'isDistinct',
-          type: 'switch',
+          label: "是否去重",
+          fieldName: "isDistinct",
+          type: "switch",
           formVisible: true,
-          defaultValue: 'N',
+          defaultValue: "N",
           preps: {
-            activeValue: 'Y',
-            inactiveValue: 'N',
-          },
-        },
-      ],
-      [
-        {
-          label: '是否需要公共字段',
-          fieldName: 'isCommonField',
-          type: 'switch',
-          formVisible: true,
-          defaultValue: 'N',
-          helpMsg: '如果指定返回字段，该设置失效',
-          preps: {
-            activeValue: 'Y',
-            inactiveValue: 'N',
-          },
-        },
-        {
-          label: '是否创建菜单',
-          fieldName: 'isCreateMenu',
-          type: 'switch',
-          formVisible: true,
-          defaultValue: 'N',
-          preps: {
-            activeValue: 'Y',
-            inactiveValue: 'N',
+            activeValue: "Y",
+            inactiveValue: "N",
           },
         },
       ],
       [
         {
-          label: '是否字段排序',
-          fieldName: 'dataSortType',
-          type: 'switch',
+          label: "是否需要公共字段",
+          fieldName: "isCommonField",
+          type: "switch",
           formVisible: true,
-          defaultValue: 'N',
-          actions: {
-            change: (val: any) => {
-              sortTableVisible.value = val['dataSortType'] == 'Y';
-            },
-          },
+          defaultValue: "N",
+          helpMsg: "如果指定返回字段，该设置失效",
           preps: {
-            activeValue: 'Y',
-            inactiveValue: 'N',
+            activeValue: "Y",
+            inactiveValue: "N",
           },
         },
         {
-          label: '是否指定返回字段',
-          fieldName: 'limitFieldType',
-          type: 'switch',
+          label: "是否创建菜单",
+          fieldName: "isCreateMenu",
+          type: "switch",
           formVisible: true,
-          defaultValue: 'N',
+          defaultValue: "N",
+          preps: {
+            activeValue: "Y",
+            inactiveValue: "N",
+          },
+        },
+      ],
+      [
+        {
+          label: "是否字段排序",
+          fieldName: "dataSortType",
+          type: "switch",
+          formVisible: true,
+          defaultValue: "N",
           actions: {
             change: (val: any) => {
-              limitFieldVisible.value = val['limitFieldType'] == 'Y';
+              sortTableVisible.value = val["dataSortType"] == "Y";
             },
           },
           preps: {
-            activeValue: 'Y',
-            inactiveValue: 'N',
+            activeValue: "Y",
+            inactiveValue: "N",
+          },
+        },
+        {
+          label: "是否指定返回字段",
+          fieldName: "limitFieldType",
+          type: "switch",
+          formVisible: true,
+          defaultValue: "N",
+          actions: {
+            change: (val: any) => {
+              limitFieldVisible.value = val["limitFieldType"] == "Y";
+            },
+          },
+          preps: {
+            activeValue: "Y",
+            inactiveValue: "N",
           },
         },
       ],
       {
-        label: '视图描述',
-        fieldName: 'remark',
-        type: 'textarea',
+        label: "视图描述",
+        fieldName: "remark",
+        type: "textarea",
         formVisible: true,
       },
       {
-        fieldName: 'sortFields',
+        fieldName: "sortFields",
         batchFieldList: [
           {
-            batchName: 'sortFields',
-            title: '排序方式',
-            tabName: 'sortFields',
+            batchName: "sortFields",
+            title: "排序方式",
+            tabName: "sortFields",
             disVisible: sortTableVisible,
             fieldList: [
               {
-                label: '表名',
-                fieldName: 'tableName',
-                type: 'select',
+                label: "表名",
+                fieldName: "tableName",
+                type: "select",
                 actions: {
                   change: (val: any) => {
-                    val['fieldNameOptionList'] = lineDatas[val['tableName']];
+                    val["fieldNameOptionList"] = lineDatas[val["tableName"]];
                     console.log(val);
                   },
                 },
@@ -308,15 +308,15 @@ export function viewFieldInfo(
                 },
               },
               {
-                label: '属性名',
-                fieldName: 'fieldName',
-                type: 'select',
+                label: "属性名",
+                fieldName: "fieldName",
+                type: "select",
                 formVisible: true,
               },
               {
-                label: '排序方式',
-                fieldName: 'sortType',
-                type: 'select',
+                label: "排序方式",
+                fieldName: "sortType",
+                type: "select",
                 formVisible: true,
                 preps: {
                   values: ascOrDesc(),
@@ -325,20 +325,20 @@ export function viewFieldInfo(
             ],
           },
           {
-            batchName: 'limitFields',
-            title: '指定返回字段',
-            tabName: 'limitFields',
+            batchName: "limitFields",
+            title: "指定返回字段",
+            tabName: "limitFields",
             disVisible: limitFieldVisible,
             fieldList: [
               {
-                label: '表名',
-                fieldName: 'tableName',
-                type: 'select',
+                label: "表名",
+                fieldName: "tableName",
+                type: "select",
                 actions: {
                   change: (val: any) => {
-                    val['fieldNameOptionList'] = lineDatas[val['tableName']];
-                    val['exclusionFieldNameOptionList'] =
-                      lineDatas[val['tableName']];
+                    val["fieldNameOptionList"] = lineDatas[val["tableName"]];
+                    val["exclusionFieldNameOptionList"] =
+                      lineDatas[val["tableName"]];
                     console.log(val);
                   },
                 },
@@ -348,19 +348,19 @@ export function viewFieldInfo(
                 },
               },
               {
-                label: '返回字段',
-                fieldName: 'fieldName',
-                type: 'select',
-                helpMsg: '返回字段和排除字段设置一个',
+                label: "返回字段",
+                fieldName: "fieldName",
+                type: "select",
+                helpMsg: "返回字段和排除字段设置一个",
                 formVisible: true,
                 preps: {
                   multiple: true,
                 },
               },
               {
-                label: '排除字段',
-                fieldName: 'exclusionFieldName',
-                type: 'select',
+                label: "排除字段",
+                fieldName: "exclusionFieldName",
+                type: "select",
                 formVisible: true,
                 preps: {
                   multiple: true,
@@ -410,63 +410,63 @@ export function relationFieldInfo(datas: any) {
     fieldList: [
       [
         {
-          label: '关联主表名',
-          fieldName: 'from',
-          type: 'tag',
+          label: "关联主表名",
+          fieldName: "from",
+          type: "tag",
           formVisible: true,
         },
         {
-          label: '关联主表字段名',
-          fieldName: 'fromPort',
-          type: 'tag',
+          label: "关联主表字段名",
+          fieldName: "fromPort",
+          type: "tag",
           formVisible: true,
         },
       ],
       [
         {
-          label: '被关联表名',
-          fieldName: 'to',
-          type: 'tag',
+          label: "被关联表名",
+          fieldName: "to",
+          type: "tag",
           formVisible: true,
         },
         {
-          label: '被关联表字段名',
-          fieldName: 'toPort',
-          type: 'tag',
+          label: "被关联表字段名",
+          fieldName: "toPort",
+          type: "tag",
           formVisible: true,
         },
       ],
       {
-        label: '自定义条件',
-        fieldName: 'condition',
-        type: 'switch',
+        label: "自定义条件",
+        fieldName: "condition",
+        type: "switch",
         formVisible: true,
-        defaultValue: 'N',
+        defaultValue: "N",
         actions: {
           change: (val: any) => {
-            tableVisible.value = val['condition'] == 'N';
-            relationRequired.value = val['condition'] == 'Y';
+            tableVisible.value = val["condition"] == "N";
+            relationRequired.value = val["condition"] == "Y";
           },
         },
         preps: {
-          activeValue: 'Y',
-          inactiveValue: 'N',
+          activeValue: "Y",
+          inactiveValue: "N",
         },
       },
       {
         batchFieldList: [
           {
-            batchName: 'conditionList',
-            title: '自定义条件',
+            batchName: "conditionList",
+            title: "自定义条件",
             disVisible: tableVisible,
             fieldList: [
               {
-                label: '表名',
-                fieldName: 'tableName',
-                type: 'select',
+                label: "表名",
+                fieldName: "tableName",
+                type: "select",
                 actions: {
                   change: (val: any) => {
-                    fieldNameList.value = lineDatas[val['tableName']];
+                    fieldNameList.value = lineDatas[val["tableName"]];
                     console.log(val, fieldNameList.value);
                   },
                 },
@@ -477,9 +477,9 @@ export function relationFieldInfo(datas: any) {
                 },
               },
               {
-                label: '属性名',
-                fieldName: 'fieldName',
-                type: 'select',
+                label: "属性名",
+                fieldName: "fieldName",
+                type: "select",
                 required: relationRequired,
                 formVisible: true,
                 preps: {
@@ -487,9 +487,9 @@ export function relationFieldInfo(datas: any) {
                 },
               },
               {
-                label: '匹配方式',
-                fieldName: 'matchType',
-                type: 'select',
+                label: "匹配方式",
+                fieldName: "matchType",
+                type: "select",
                 required: relationRequired,
                 formVisible: true,
                 preps: {
@@ -497,8 +497,8 @@ export function relationFieldInfo(datas: any) {
                 },
               },
               {
-                label: '匹配值',
-                fieldName: 'matchValue',
+                label: "匹配值",
+                fieldName: "matchValue",
 
                 required: relationRequired,
                 formVisible: true,

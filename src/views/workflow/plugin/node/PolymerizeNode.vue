@@ -18,9 +18,9 @@
   </div>
 </template>
 <script setup lang="ts">
-import { onMounted } from 'vue';
-import { closeLoad, piniaInstance, warning } from 'star-horse-lowcode';
-import { useFlowDesignStore } from '@/store/FlowDesign';
+import { onMounted } from "vue";
+import { closeLoad, piniaInstance, warning } from "star-horse-lowcode";
+import { useFlowDesignStore } from "@/store/FlowDesign";
 
 const flowDesign = useFlowDesignStore(piniaInstance);
 const props = defineProps({
@@ -35,9 +35,9 @@ const props = defineProps({
     default: false,
   },
 });
-const emits = defineEmits(['selectNode']);
+const emits = defineEmits(["selectNode"]);
 const selectNode = () => {
-  warning('聚合节点无需编辑');
+  warning("聚合节点无需编辑");
   // emits('selectNode',props.node);
 };
 const init = () => {

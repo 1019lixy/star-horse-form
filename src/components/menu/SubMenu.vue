@@ -1,12 +1,12 @@
 <script setup lang="ts">
-import { computed, ModelRef } from 'vue';
+import { computed, ModelRef } from "vue";
 
 const props = defineProps({
   level: { type: Number, default: 1 },
 });
-const dataList: ModelRef<any> = defineModel('dataList');
+const dataList: ModelRef<any> = defineModel("dataList");
 let menuColor = computed(() =>
-  props.level > 1 ? 'var(--star-horse-shadow)' : 'var(--star-horse-background)',
+  props.level > 1 ? "var(--star-horse-shadow)" : "var(--star-horse-background)",
 );
 </script>
 <template>

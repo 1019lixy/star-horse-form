@@ -15,12 +15,12 @@ import {
   success,
   TabFieldInfo,
   warning,
-} from 'star-horse-lowcode';
-import { reactive, ShallowRef, unref } from 'vue';
-import { ElLoading } from 'element-plus';
-import * as ElementPlusIconsVue from '@element-plus/icons-vue';
-import { pinyin } from 'pinyin-pro';
-import { ServiceEnums } from '@/components/enums/ServiceEnums';
+} from "star-horse-lowcode";
+import { reactive, ShallowRef, unref } from "vue";
+import { ElLoading } from "element-plus";
+import * as ElementPlusIconsVue from "@element-plus/icons-vue";
+import { pinyin } from "pinyin-pro";
+import { ServiceEnums } from "@/components/enums/ServiceEnums";
 
 let loading: any = null;
 /**
@@ -52,7 +52,7 @@ export async function loadData(
   orderBy: OrderByInfo[] = [],
 ) {
   let data: any = null;
-  let error = '';
+  let error = "";
   let cond = params;
   if (params instanceof Array) {
     cond = {
@@ -86,7 +86,7 @@ export async function loadData(
  */
 export async function loadGetData(url: string) {
   let data = reactive<any>([]);
-  let error: string = '';
+  let error: string = "";
   await getRequest(url)
     .then((res) => {
       const redata = res.data;
@@ -120,7 +120,7 @@ export async function loadSystemInfo(params: any, newUrl?: string) {
       if (redata.code == 0) {
         const data = redata.data;
         if (redata.data) {
-          systemList = createTree(data, 'idInformations', 'sysName', '');
+          systemList = createTree(data, "idInformations", "sysName", "");
         }
       }
     })
@@ -220,7 +220,7 @@ export async function loadMenusInfo(
   let menuDatas: any = [];
   await postRequest(`${menuUrl}/${needSystem}`, {
     fieldList: params,
-    orderBy: [{ fieldName: 'idInformations' }],
+    orderBy: [{ fieldName: "idInformations" }],
   })
     .then((res) => {
       const redata = res.data;
@@ -231,7 +231,7 @@ export async function loadMenusInfo(
           menuDatas = redata.data;
         } else {
           //构建菜单树
-          menuDatas = createTree(redata.data, 'idMenusinfo', 'menuName', '');
+          menuDatas = createTree(redata.data, "idMenusinfo", "menuName", "");
         }
       }
     })
@@ -257,10 +257,10 @@ export function createTree(
   const list: SelectOption[] = [];
   data.forEach((item: any) => {
     const temp: any = {};
-    temp['value'] = valField ? item[valField] : parseInt(item[val]);
-    temp['name'] = item[name];
+    temp["value"] = valField ? item[valField] : parseInt(item[val]);
+    temp["name"] = item[name];
     if (item.children && item.children.length > 0) {
-      temp['children'] = createTree(item.children, valField, name, val);
+      temp["children"] = createTree(item.children, valField, name, val);
     }
     list.push(temp);
   });
@@ -276,9 +276,9 @@ export function load(msg: string, defaultTarget?: string) {
   closeLoad();
   loading = ElLoading.service({
     lock: true,
-    target: defaultTarget ?? '#app',
-    text: msg || 'Loading...',
-    background: 'rgba(0, 0, 0, 0.7)',
+    target: defaultTarget ?? "#app",
+    text: msg || "Loading...",
+    background: "rgba(0, 0, 0, 0.7)",
   });
 }
 
@@ -289,7 +289,7 @@ export function closeLoad() {
   if (loading) {
     loading.close();
     loading = null;
-    $('.el-loading-mask').remove();
+    $(".el-loading-mask").remove();
   }
 }
 
@@ -332,7 +332,7 @@ export function camelCaseToUnderline(str: string) {
     return undefined;
   }
   return str.replace(/[A-Z]/g, (match, _p1) => {
-    return '_' + match.toLowerCase();
+    return "_" + match.toLowerCase();
   });
 }
 
@@ -343,25 +343,25 @@ export function camelCaseToUnderline(str: string) {
  */
 export function commonParseCodeToName(name: string, cellValue: any) {
   if (!cellValue && cellValue != 0) {
-    return '-';
+    return "-";
   }
-  if (name == 'isDel' || name.includes('&isDel')) {
-    return cellValue == 1 ? '是' : '否';
+  if (name == "isDel" || name.includes("&isDel")) {
+    return cellValue == 1 ? "是" : "否";
   }
-  if (name == 'state' || name.includes('&state')) {
-    return cellValue == 1 ? '正常' : '异常';
+  if (name == "state" || name.includes("&state")) {
+    return cellValue == 1 ? "正常" : "异常";
   }
   const preps: Array<string> = [
-    'createdTime',
-    'updatedTime',
-    'createdDate',
-    'updatedDate',
-    'createTime',
-    'editTime',
+    "createdTime",
+    "updatedTime",
+    "createdDate",
+    "updatedDate",
+    "createTime",
+    "editTime",
   ];
   const result = preps.find(
     (item) =>
-      name?.includes('&' + item) ||
+      name?.includes("&" + item) ||
       convertToCamelCase(name)?.toLowerCase() === item.toLowerCase(),
   );
   if (result) {
@@ -378,16 +378,16 @@ export function commonParseCodeToName(name: string, cellValue: any) {
  * @param params
  */
 export async function loadById(url: string, id: any, params: any = {}) {
-  if (!url || 'undefined' == id) {
-    warning('请提供正确的数据');
+  if (!url || "undefined" == id) {
+    warning("请提供正确的数据");
     return;
   }
   let objData: any = {};
-  const suffix: string = id ? '/' + id : '';
+  const suffix: string = id ? "/" + id : "";
   await postRequest(url + suffix, params).then((res) => {
     const redata = res.data.data;
     if (!redata) {
-      warning('未找到对应数据');
+      warning("未找到对应数据");
     } else {
       objData = redata;
     }
@@ -404,14 +404,14 @@ export async function loadById(url: string, id: any, params: any = {}) {
 export async function deleteByIds(
   url: string,
   ids: any,
-  msg: string = '确认需要删除选择的数据吗？',
+  msg: string = "确认需要删除选择的数据吗？",
 ) {
   if (!url) {
-    warning('请提供正确的数据');
+    warning("请提供正确的数据");
     return;
   }
   if (!ids || ids.length == 0) {
-    warning('请选择要删除的数据');
+    warning("请选择要删除的数据");
     return;
   }
   let objData: boolean = false;
@@ -430,7 +430,7 @@ export async function deleteByIds(
       objData = true;
     })
     .catch((err) => {
-      error('接口不存在或网络异常:' + err);
+      error("接口不存在或网络异常:" + err);
       objData = false;
     })
     .finally(() => {
@@ -450,7 +450,7 @@ export async function dictData(
 ) {
   const query = [];
   query.push({
-    propertyName: 'dictType',
+    propertyName: "dictType",
     value: dictType,
   });
   const dicts: SelectOption[] = [];
@@ -467,7 +467,7 @@ export async function dictData(
       }
     })
     .catch((err: any) => {
-      console.log('接口不存在或网络异常', err);
+      console.log("接口不存在或网络异常", err);
     });
   return dicts;
 }
@@ -487,10 +487,10 @@ export function loadElementPlusIcon() {
  * 自定义的svg图标
  */
 export function loadSvgIcons() {
-  const items = import.meta.glob('@/icons/*.svg');
+  const items = import.meta.glob("@/icons/*.svg");
   const menuIconList = [];
   for (const [key, value] of Object.entries(items)) {
-    const name = key.slice(key.lastIndexOf('/') + 1, key.lastIndexOf('.'));
+    const name = key.slice(key.lastIndexOf("/") + 1, key.lastIndexOf("."));
     menuIconList.push({ name: name, value: name });
   }
   return menuIconList;
@@ -498,17 +498,17 @@ export function loadSvgIcons() {
 
 export async function loadSvgIconsByPath(path: string) {
   import(path).then((res) => {
-    console.log('xxxx', res);
+    console.log("xxxx", res);
   });
 
-  warning('暂未实现');
+  warning("暂未实现");
   return [];
 }
 
 // 正确导出方式示例（具名导出）
 export function demoFunc() {
   // 确保返回数组
-  return [{ name: 'test', value: 1 }];
+  return [{ name: "test", value: 1 }];
 }
 
 /**
@@ -519,10 +519,10 @@ export function copy(msg: string) {
   navigator.clipboard
     .writeText(msg)
     .then(() => {
-      success('已复制');
+      success("已复制");
     })
     .catch(() => {
-      error('复制失败');
+      error("复制失败");
     });
 }
 
@@ -541,7 +541,7 @@ export function rowClassName({ row, rowIndex }: any) {
 export function createCondition(
   name: string,
   val: any,
-  matchType: string = 'eq',
+  matchType: string = "eq",
 ): SearchParams {
   return { propertyName: name, value: val, operation: matchType };
 }
@@ -555,7 +555,7 @@ export function createCondition(
 export function createJoinCondition(
   leftFieldName: string,
   rightFieldName: string,
-  matchType: string = 'eq',
+  matchType: string = "eq",
 ): JoinSearchParams {
   return { leftFieldName, rightFieldName, operation: matchType };
 }
@@ -651,14 +651,14 @@ export function relationFieldOperation(
  * @param v
  */
 export function isJson(v: any) {
-  if (v && typeof v === 'string') {
+  if (v && typeof v === "string") {
     const start = v.substring(0, 1);
     const end = v.substring(v.length - 1, v.length);
-    return (start == '{' && end == '}') || (start == '[' && end == ']');
+    return (start == "{" && end == "}") || (start == "[" && end == "]");
   }
   if (
-    typeof v === 'object' &&
-    Object.prototype.toString.call(v).toLowerCase() === '[object object]' &&
+    typeof v === "object" &&
+    Object.prototype.toString.call(v).toLowerCase() === "[object object]" &&
     !v.length
   ) {
     return true;
@@ -679,7 +679,7 @@ export function formFieldMapping(fieldList: PageFieldInfo) {
   const batchDefaultValues: any = {};
   const tabOperation = (data: TabFieldInfo) => {
     const fieldList = data.fieldList as Array<FieldInfo>;
-    if ('Y' == data.subFormFlag) {
+    if ("Y" == data.subFormFlag) {
       defaultDatas[data.tabName] = {};
       //如果是子表
       fieldsOperation(fieldList, defaultDatas[data.tabName]);
@@ -693,8 +693,8 @@ export function formFieldMapping(fieldList: PageFieldInfo) {
       if (!defaultDatas[temp.batchName]) {
         defaultDatas[temp.batchName] = [];
       }
-      if (!batchDefaultValues[temp.batchName + 'DefaultValue']) {
-        batchDefaultValues[temp.batchName + 'DefaultValue'] = [];
+      if (!batchDefaultValues[temp.batchName + "DefaultValue"]) {
+        batchDefaultValues[temp.batchName + "DefaultValue"] = [];
       }
       const fieldList = temp.fieldList as Array<FieldInfo>;
       let tempData: any = {};
@@ -723,7 +723,7 @@ export function formFieldMapping(fieldList: PageFieldInfo) {
           });
         }
       });
-      batchDefaultValues[temp.batchName + 'DefaultValue'].push(tempData);
+      batchDefaultValues[temp.batchName + "DefaultValue"].push(tempData);
     }
   };
   const fieldsOperation = (dataList: any, defaultData: any) => {
@@ -750,17 +750,17 @@ export function formFieldMapping(fieldList: PageFieldInfo) {
             });
           }
         });
-      } else if (temp['tabList'] || temp['collapseList'] || temp['cardList']) {
+      } else if (temp["tabList"] || temp["collapseList"] || temp["cardList"]) {
         //如果是tabList
         const tabList =
-          temp['tabList'] || temp['collapseList'] || temp['cardList'];
+          temp["tabList"] || temp["collapseList"] || temp["cardList"];
         for (const index in tabList) {
           const temp = tabList[index];
           tabOperation(temp);
         }
-      } else if (temp['batchFieldList']) {
+      } else if (temp["batchFieldList"]) {
         //如果是tableList
-        const tableList = temp['batchFieldList'] as Array<BatchFieldInfo>;
+        const tableList = temp["batchFieldList"] as Array<BatchFieldInfo>;
         tableOperation(tableList);
       } else {
         if (temp.defaultValue) {
@@ -798,10 +798,10 @@ export function formFieldMapping(fieldList: PageFieldInfo) {
  */
 export function batchFieldDefaultValues(datas: BatchFieldInfo, dataForm: any) {
   let defaultValues: any = {};
-  if (datas['batchDefaultData']) {
-    defaultValues = { ...datas['batchDefaultData'] };
+  if (datas["batchDefaultData"]) {
+    defaultValues = { ...datas["batchDefaultData"] };
   }
-  const fieldList = datas['fieldList'];
+  const fieldList = datas["fieldList"];
   for (const inde in fieldList) {
     const temp = fieldList[inde];
     if (temp.defaultValue) {
@@ -831,23 +831,23 @@ export function batchFieldDefaultValues(datas: BatchFieldInfo, dataForm: any) {
 export async function compDynamicData(preps: any) {
   const temp = preps;
   let reDataList: SelectOption[] = [];
-  const dataSource = temp['dataSource'];
-  const urlOrDictName = temp['urlOrDictName'];
+  const dataSource = temp["dataSource"];
+  const urlOrDictName = temp["urlOrDictName"];
   //如果已经有数据了，就不再请求
-  if (preps['values'] && preps['values'].length > 0) {
-    return preps['values'];
+  if (preps["values"] && preps["values"].length > 0) {
+    return preps["values"];
   }
-  if (dataSource == 'url') {
+  if (dataSource == "url") {
     reDataList = await dynamicUrlOperation(preps);
-  } else if (dataSource == 'dict') {
+  } else if (dataSource == "dict") {
     const dicts = await dictData(urlOrDictName);
     if (Object.keys(dicts).length == 0) {
-      error('数据字典可能未配置');
+      error("数据字典可能未配置");
     } else {
       reDataList = dicts;
     }
   } else {
-    reDataList = temp['values'];
+    reDataList = temp["values"];
   }
   return reDataList;
 }
@@ -865,7 +865,7 @@ export async function dynamicUrlOperation(
   const temp = preps;
   const reDataList: SelectOption[] = [];
   const requestParams: any = [];
-  const queryParams = temp['queryParams'];
+  const queryParams = temp["queryParams"];
   queryParams?.forEach((item: any) => {
     if (!item.name) {
       return;
@@ -880,20 +880,20 @@ export async function dynamicUrlOperation(
   if (queryInfo) {
     requestParams.push(...queryInfo);
   }
-  let url = temp['preinterfaceUrl'] + temp['interfaceUrl'];
+  let url = temp["preinterfaceUrl"] + temp["interfaceUrl"];
   const params = {
-    url: temp['interfaceUrl'],
-    host: temp['host'],
-    port: temp['port'],
-    protocol: temp['protocol'],
-    env: temp['env'],
-    httpMethod: temp.httpMethod || 'POST',
-    dataType: temp.dataType || 'JSON',
+    url: temp["interfaceUrl"],
+    host: temp["host"],
+    port: temp["port"],
+    protocol: temp["protocol"],
+    env: temp["env"],
+    httpMethod: temp.httpMethod || "POST",
+    dataType: temp.dataType || "JSON",
     searchInfo: {
       fieldList: requestParams,
     },
   };
-  url = '/system-config/redirect/execute';
+  url = "/system-config/redirect/execute";
   const validResult = await loadData(url, params);
   if (validResult.error) {
     error(validResult.error);
@@ -902,8 +902,8 @@ export async function dynamicUrlOperation(
       const options: SelectOption[] = [];
       list?.forEach((item: any) => {
         const option: SelectOption = {
-          name: item[temp['selectLabel']],
-          value: item[temp['selectValue']],
+          name: item[temp["selectLabel"]],
+          value: item[temp["selectValue"]],
         };
         if (item.children && item.children.length > 0) {
           option.children = childrenOperation(item.children);
@@ -914,8 +914,8 @@ export async function dynamicUrlOperation(
     };
     validResult.data.forEach((item: any) => {
       const option: SelectOption = {
-        name: item[temp['selectLabel']],
-        value: item[temp['selectValue']],
+        name: item[temp["selectLabel"]],
+        value: item[temp["selectValue"]],
       };
       if (item.children && item.children.length > 0) {
         option.children = childrenOperation(item.children);
@@ -944,7 +944,7 @@ export async function createFilter(queryString: string) {
 
 export async function dbConfigList(): Promise<SelectOption[]> {
   const { data, error } = await loadGetData(
-    '/userdb-manage/dbsearch/dbinfoEntity/getDbInfoByUser',
+    "/userdb-manage/dbsearch/dbinfoEntity/getDbInfoByUser",
   );
   if (error) {
     warning(error);
@@ -953,7 +953,7 @@ export async function dbConfigList(): Promise<SelectOption[]> {
   return data?.map((item: any) => {
     return {
       name: item.name,
-      value: item.configId + '',
+      value: item.configId + "",
     };
   });
 }
@@ -965,14 +965,14 @@ export async function dbConfigList(): Promise<SelectOption[]> {
  */
 export function textToPinYin(text: string, toCamel: boolean = true): string {
   const data = pinyin(text, {
-    toneType: 'none',
+    toneType: "none",
   });
   if (toCamel) {
-    const arr = data.split(' ');
+    const arr = data.split(" ");
     arr.forEach((item, index) => {
       if (index > 0) arr[index] = item.charAt(0).toUpperCase() + item.slice(1);
     });
-    return arr.join('');
+    return arr.join("");
   }
   return data;
 }

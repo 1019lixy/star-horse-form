@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import { computed, onMounted } from 'vue';
-import { useFlowDesignStore } from '@/store/FlowDesign';
-import { closeLoad, piniaInstance } from 'star-horse-lowcode';
+import { computed, onMounted } from "vue";
+import { useFlowDesignStore } from "@/store/FlowDesign";
+import { closeLoad, piniaInstance } from "star-horse-lowcode";
 
 defineOptions({
-  name: 'CopyerNode',
+  name: "CopyerNode",
 });
 
 const flowDesign = useFlowDesignStore(piniaInstance);
@@ -23,10 +23,10 @@ const props = defineProps({
   },
 });
 
-const emits = defineEmits(['selectNode']);
+const emits = defineEmits(["selectNode"]);
 props.node.error = computed(() => {
   let flag = false;
-  let msg = '';
+  let msg = "";
   if (
     !props.node.approveGroups ||
     !props.node.approveGroups.length ||
@@ -34,13 +34,13 @@ props.node.error = computed(() => {
     !props.node.approveGroups[0].approverIds?.length
   ) {
     flag = true;
-    msg += '未配置抄送人';
+    msg += "未配置抄送人";
   }
   props.node.errorMsg = msg;
   return flag;
 });
 const selectNode = () => {
-  emits('selectNode', props.node);
+  emits("selectNode", props.node);
 };
 let nameClass = computed(() => {
   return (node: any, defaultStyle: string) => {
@@ -48,9 +48,9 @@ let nameClass = computed(() => {
       return defaultStyle;
     }
     return {
-      'node-status-not': node.statusCode == 0,
-      'node-status-current': node.statusCode == 1,
-      'node-status-complete': node.statusCode == 2,
+      "node-status-not": node.statusCode == 0,
+      "node-status-current": node.statusCode == 1,
+      "node-status-complete": node.statusCode == 2,
     };
   };
 });

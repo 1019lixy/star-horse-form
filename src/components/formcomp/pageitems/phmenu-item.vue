@@ -1,6 +1,6 @@
 <script setup lang="ts">
 defineOptions({
-  name: 'PageHMenuItem',
+  name: "PageHMenuItem",
 });
 interface MenuPreps {
   id: string;
@@ -10,7 +10,7 @@ interface MenuPreps {
 }
 defineProps({
   ellipsis: { type: Boolean, default: true },
-  mode: { type: String, default: 'horizontal' },
+  mode: { type: String, default: "horizontal" },
   dataList: {
     type: Array as () => any[],
     default: () => [],

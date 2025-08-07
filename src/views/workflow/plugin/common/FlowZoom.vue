@@ -106,8 +106,8 @@ import {
   onDeactivated,
   onMounted,
   ref,
-} from 'vue';
-import { useFlowDesignStore } from '@/store/FlowDesign';
+} from "vue";
+import { useFlowDesignStore } from "@/store/FlowDesign";
 import {
   copy,
   downloadData,
@@ -115,10 +115,10 @@ import {
   piniaInstance,
   uuid,
   warning,
-} from 'star-horse-lowcode';
-import { flowCommon } from '@/views/workflow/plugin/utils/flowCommon';
-import { doSaveData } from '@/views/workflow/utils/FlowFormUtils';
-import { useRouter } from 'vue-router';
+} from "star-horse-lowcode";
+import { flowCommon } from "@/views/workflow/plugin/utils/flowCommon";
+import { doSaveData } from "@/views/workflow/utils/FlowFormUtils";
+import { useRouter } from "vue-router";
 
 const INIT_ZOOM_VALUE = 100;
 const MIN_ZOOM_VALUE = 10;
@@ -148,8 +148,8 @@ defineProps({
   },
 });
 const flowDesign = useFlowDesignStore(piniaInstance);
-const emits = defineEmits(['saveImage']);
-const zoomValue: ModelRef<any> = defineModel('zoomValue')!;
+const emits = defineEmits(["saveImage"]);
+const zoomValue: ModelRef<any> = defineModel("zoomValue")!;
 const basicInfoRef = ref();
 let scaleEnable = ref<boolean>(false);
 let nodeData = computed(() => flowDesign.node);
@@ -161,7 +161,7 @@ const jsonEditorRef = ref();
 const router = useRouter();
 const goBack = () => {
   router.push({
-    path: '/workflow/FlowDefineUi',
+    path: "/workflow/FlowDefineUi",
   });
 };
 const mapVisibleOperation = () => {
@@ -170,7 +170,7 @@ const mapVisibleOperation = () => {
     flowDesign.refreshMap(true);
   }
 };
-let operType: string = '';
+let operType: string = "";
 const saveData = (type: string) => {
   operType = type;
   dataDialogVisible.value = true;
@@ -223,10 +223,10 @@ const onZoomIn = () => {
   zoomValue.value = value;
 };
 const saveImage = () => {
-  emits('saveImage');
+  emits("saveImage");
 };
 const copyParseJson = async () => {
-  copy(JSON.stringify(nodeData.value, null, '  '));
+  copy(JSON.stringify(nodeData.value, null, "  "));
 };
 const copyJson = async () => {
   copy(JSON.stringify(nodeData.value));
@@ -241,29 +241,29 @@ const exportCode = async () => {
   let params = {
     id: uuid(),
     process: nodeData.value,
-    code: 'test',
-    name: '测试',
+    code: "test",
+    name: "测试",
     version: 1,
-    remark: '测试',
+    remark: "测试",
   };
   let reData = await loadData(
-    '/flow-engine/workflow/flowdefinition/dataConvertJsonToXml',
+    "/flow-engine/workflow/flowdefinition/dataConvertJsonToXml",
     params,
   );
   if (reData.error) {
     warning(reData.error);
     return;
   } else {
-    downloadData(reData.data, new Date().getDate() + 'bpmn.xml');
+    downloadData(reData.data, new Date().getDate() + "bpmn.xml");
   }
 };
 const init = () => {
   if (scaleEnable.value) {
-    window.addEventListener('wheel', handleWheel, true);
+    window.addEventListener("wheel", handleWheel, true);
   }
 };
 const deactivate = () => {
-  window.removeEventListener('wheel', handleWheel, true);
+  window.removeEventListener("wheel", handleWheel, true);
 };
 onActivated(() => {
   init();

@@ -1,12 +1,12 @@
 function getAugmentedNamespace(n) {
     var f = n.default;
-    if (typeof f == 'function') {
+    if (typeof f == "function") {
         var a = function () {
             return f.apply(this, arguments);
         };
         a.prototype = f.prototype;
     } else a = {};
-    Object.defineProperty(a, '__esModule', {value: true});
+    Object.defineProperty(a, "__esModule", {value: true});
     Object.keys(n).forEach(function (k) {
         var d = Object.getOwnPropertyDescriptor(n, k);
         Object.defineProperty(
@@ -43,7 +43,7 @@ var conditionalFlows = function () {
             const missingCondition = !hasCondition$2(flow) && !isDefaultFlow$1(node, flow);
 
             if (missingCondition) {
-                reporter.report(flow.id, 'Sequence flow is missing condition', ['conditionExpression']);
+                reporter.report(flow.id, "Sequence flow is missing condition", ["conditionExpression"]);
             }
         });
     }
@@ -56,7 +56,7 @@ var conditionalFlows = function () {
 // helpers /////////////////////////////
 
 function isConditionalForking(node) {
-    const defaultFlow = node['default'];
+    const defaultFlow = node["default"];
     const outgoing = node.outgoing || [];
 
     return defaultFlow || outgoing.find(hasCondition$2);
@@ -67,7 +67,7 @@ function hasCondition$2(flow) {
 }
 
 function isDefaultFlow$1(node, flow) {
-    return node['default'] === flow;
+    return node["default"] === flow;
 }
 
 /**
@@ -79,11 +79,11 @@ function isDefaultFlow$1(node, flow) {
  * @return {Boolean}
  */
 function is$j(node, type) {
-    if (type.indexOf(':') === -1) {
-        type = 'bpmn:' + type;
+    if (type.indexOf(":") === -1) {
+        type = "bpmn:" + type;
     }
 
-    return typeof node.$instanceOf === 'function' ? node.$instanceOf(type) : node.$type === type;
+    return typeof node.$instanceOf === "function" ? node.$instanceOf(type) : node.$type === type;
 }
 
 /**
@@ -117,18 +117,18 @@ var endEventRequired = function () {
     function hasEndEvent(node) {
         const flowElements = node.flowElements || [];
 
-        return flowElements.some((node) => is$i(node, 'bpmn:EndEvent'));
+        return flowElements.some((node) => is$i(node, "bpmn:EndEvent"));
     }
 
     function check(node, reporter) {
-        if (!isAny$9(node, ['bpmn:Process', 'bpmn:SubProcess'])) {
+        if (!isAny$9(node, ["bpmn:Process", "bpmn:SubProcess"])) {
             return;
         }
 
         if (!hasEndEvent(node)) {
-            const type = is$i(node, 'bpmn:SubProcess') ? 'Sub process' : 'Process';
+            const type = is$i(node, "bpmn:SubProcess") ? "Sub process" : "Process";
 
-            reporter.report(node.id, type + ' is missing end event');
+            reporter.report(node.id, type + " is missing end event");
         }
     }
 
@@ -143,21 +143,21 @@ const {is: is$h} = require$$0;
  */
 var eventSubProcessTypedStartEvent = function () {
     function check(node, reporter) {
-        if (!is$h(node, 'bpmn:SubProcess') || !node.triggeredByEvent) {
+        if (!is$h(node, "bpmn:SubProcess") || !node.triggeredByEvent) {
             return;
         }
 
         const flowElements = node.flowElements || [];
 
         flowElements.forEach(function (flowElement) {
-            if (!is$h(flowElement, 'bpmn:StartEvent')) {
+            if (!is$h(flowElement, "bpmn:StartEvent")) {
                 return false;
             }
 
             const eventDefinitions = flowElement.eventDefinitions || [];
 
             if (eventDefinitions.length === 0) {
-                reporter.report(flowElement.id, 'Start event is missing event definition', ['eventDefinitions']);
+                reporter.report(flowElement.id, "Start event is missing event definition", ["eventDefinitions"]);
             }
         });
     }
@@ -178,14 +178,14 @@ const {isAny: isAny$8} = require$$0;
  */
 var fakeJoin = function () {
     function check(node, reporter) {
-        if (!isAny$8(node, ['bpmn:Activity', 'bpmn:Event'])) {
+        if (!isAny$8(node, ["bpmn:Activity", "bpmn:Event"])) {
             return;
         }
 
         const incoming = node.incoming || [];
 
         if (incoming.length > 1) {
-            reporter.report(node.id, 'Incoming flows do not join');
+            reporter.report(node.id, "Incoming flows do not join");
         }
     }
 
@@ -214,7 +214,7 @@ const {isAny: isAny$7, is: is$g} = require$$0;
  */
 var global = function () {
     function check(node, reporter) {
-        if (!is$g(node, 'bpmn:Definitions')) {
+        if (!is$g(node, "bpmn:Definitions")) {
             return false;
         }
 
@@ -223,15 +223,15 @@ var global = function () {
 
         events.forEach((event) => {
             if (!hasName(event)) {
-                reporter.report(event.id, 'Element is missing name');
+                reporter.report(event.id, "Element is missing name");
             }
 
             if (!isReferenced(event, eventDefinitions)) {
-                reporter.report(event.id, 'Element is unused');
+                reporter.report(event.id, "Element is unused");
             }
 
             if (!isUnique(event, events)) {
-                reporter.report(event.id, 'Element name is not unique');
+                reporter.report(event.id, "Element name is not unique");
             }
         });
     }
@@ -244,7 +244,7 @@ var global = function () {
 
     function getEvents(definition) {
         return definition.rootElements.filter((node) =>
-            isAny$7(node, ['bpmn:Error', 'bpmn:Escalation', 'bpmn:Message', 'bpmn:Signal'])
+            isAny$7(node, ["bpmn:Error", "bpmn:Escalation", "bpmn:Message", "bpmn:Signal"])
         );
     }
 
@@ -270,29 +270,29 @@ var global = function () {
     }
 
     function hasName(event) {
-        return event.name?.trim() !== '';
+        return event.name?.trim() !== "";
     }
 
     function isReferenced(event, eventDefinitions) {
-        if (is$g(event, 'bpmn:Error')) {
-            return eventDefinitions.some((node) => is$g(node, 'bpmn:ErrorEventDefinition') && event.id === node.errorRef?.id);
+        if (is$g(event, "bpmn:Error")) {
+            return eventDefinitions.some((node) => is$g(node, "bpmn:ErrorEventDefinition") && event.id === node.errorRef?.id);
         }
 
-        if (is$g(event, 'bpmn:Escalation')) {
+        if (is$g(event, "bpmn:Escalation")) {
             return eventDefinitions.some(
-                (node) => is$g(node, 'bpmn:EscalationEventDefinition') && event.id === node.escalationRef?.id
+                (node) => is$g(node, "bpmn:EscalationEventDefinition") && event.id === node.escalationRef?.id
             );
         }
 
-        if (is$g(event, 'bpmn:Message')) {
+        if (is$g(event, "bpmn:Message")) {
             return eventDefinitions.some(
-                (node) => is$g(node, 'bpmn:MessageEventDefinition') && event.id === node.messageRef?.id
+                (node) => is$g(node, "bpmn:MessageEventDefinition") && event.id === node.messageRef?.id
             );
         }
 
-        if (is$g(event, 'bpmn:Signal')) {
+        if (is$g(event, "bpmn:Signal")) {
             return eventDefinitions.some(
-                (node) => is$g(node, 'bpmn:SignalEventDefinition') && event.id === node.signalRef?.id
+                (node) => is$g(node, "bpmn:SignalEventDefinition") && event.id === node.signalRef?.id
             );
         }
     }
@@ -309,36 +309,36 @@ const {is: is$f, isAny: isAny$6} = require$$0;
  */
 var labelRequired = function () {
     function check(node, reporter) {
-        if (isAny$6(node, ['bpmn:ParallelGateway', 'bpmn:EventBasedGateway'])) {
+        if (isAny$6(node, ["bpmn:ParallelGateway", "bpmn:EventBasedGateway"])) {
             return;
         }
 
         // ignore joining gateways
-        if (is$f(node, 'bpmn:Gateway') && !isForking(node)) {
+        if (is$f(node, "bpmn:Gateway") && !isForking(node)) {
             return;
         }
 
-        if (is$f(node, 'bpmn:BoundaryEvent')) {
+        if (is$f(node, "bpmn:BoundaryEvent")) {
             return;
         }
 
         // ignore sub-processes
-        if (is$f(node, 'bpmn:SubProcess')) {
+        if (is$f(node, "bpmn:SubProcess")) {
             // TODO(nikku): better ignore expanded sub-processes only
             return;
         }
 
         // ignore sequence flow without condition
-        if (is$f(node, 'bpmn:SequenceFlow') && !hasCondition$1(node)) {
+        if (is$f(node, "bpmn:SequenceFlow") && !hasCondition$1(node)) {
             return;
         }
 
         // ignore data objects and artifacts for now
-        if (isAny$6(node, ['bpmn:node', 'bpmn:SequenceFlow', 'bpmn:Participant', 'bpmn:Lane'])) {
-            const name = (node.name || '').trim();
+        if (isAny$6(node, ["bpmn:node", "bpmn:SequenceFlow", "bpmn:Participant", "bpmn:Lane"])) {
+            const name = (node.name || "").trim();
 
             if (name.length === 0) {
-                reporter.report(node.id, 'Element is missing label/name', ['name']);
+                reporter.report(node.id, "Element is missing label/name", ["name"]);
             }
         }
     }
@@ -389,15 +389,15 @@ function isNil(obj) {
 }
 
 function isArray(obj) {
-    return nativeToString.call(obj) === '[object Array]';
+    return nativeToString.call(obj) === "[object Array]";
 }
 
 function isObject(obj) {
-    return nativeToString.call(obj) === '[object Object]';
+    return nativeToString.call(obj) === "[object Object]";
 }
 
 function isNumber(obj) {
-    return nativeToString.call(obj) === '[object Number]';
+    return nativeToString.call(obj) === "[object Number]";
 }
 
 /**
@@ -409,16 +409,16 @@ function isFunction(obj) {
     const tag = nativeToString.call(obj);
 
     return (
-        tag === '[object Function]' ||
-        tag === '[object AsyncFunction]' ||
-        tag === '[object GeneratorFunction]' ||
-        tag === '[object AsyncGeneratorFunction]' ||
-        tag === '[object Proxy]'
+        tag === "[object Function]" ||
+        tag === "[object AsyncFunction]" ||
+        tag === "[object GeneratorFunction]" ||
+        tag === "[object AsyncGeneratorFunction]" ||
+        tag === "[object Proxy]"
     );
 }
 
 function isString(obj) {
-    return nativeToString.call(obj) === '[object String]';
+    return nativeToString.call(obj) === "[object String]";
 }
 
 /**
@@ -431,7 +431,7 @@ function ensureArray(obj) {
         return;
     }
 
-    throw new Error('must supply array');
+    throw new Error("must supply array");
 }
 
 /**
@@ -740,7 +740,7 @@ function groupBy$1(collection, extractor, grouped = {}) {
     extractor = toExtractor(extractor);
 
     forEach(collection, function (val) {
-        let discriminator = extractor(val) || '_';
+        let discriminator = extractor(val) || "_";
 
         let group = grouped[discriminator];
 
@@ -1025,16 +1025,16 @@ function set(target, path, value) {
     let currentTarget = target;
 
     forEach(path, function (key, idx) {
-        if (typeof key !== 'number' && typeof key !== 'string') {
-            throw new Error('illegal key type: ' + typeof key + '. Key should be of type number or string.');
+        if (typeof key !== "number" && typeof key !== "string") {
+            throw new Error("illegal key type: " + typeof key + ". Key should be of type number or string.");
         }
 
-        if (key === 'constructor') {
-            throw new Error('illegal key: constructor');
+        if (key === "constructor") {
+            throw new Error("illegal key: constructor");
         }
 
-        if (key === '__proto__') {
-            throw new Error('illegal key: __proto__');
+        if (key === "__proto__") {
+            throw new Error("illegal key: __proto__");
         }
 
         let nextKey = path[idx + 1];
@@ -1156,7 +1156,7 @@ function merge(target, ...sources) {
         }
 
         forEach(source, function (sourceVal, key) {
-            if (key === '__proto__') {
+            if (key === "__proto__") {
                 return;
             }
 
@@ -1234,7 +1234,7 @@ const {is: is$e} = require$$0;
  */
 var linkEvent = function () {
     function check(node, reporter) {
-        if (!is$e(node, 'bpmn:FlowElementsContainer')) {
+        if (!is$e(node, "bpmn:FlowElementsContainer")) {
             return;
         }
 
@@ -1242,7 +1242,7 @@ var linkEvent = function () {
 
         for (const link of links) {
             if (!link.name) {
-                reporter.report(link.id, 'Link event is missing name');
+                reporter.report(link.id, "Link event is missing name");
             }
         }
 
@@ -1260,7 +1260,7 @@ var linkEvent = function () {
 
                 reporter.report(
                     event.id,
-                    `Link ${isThrowEvent(event) ? 'catch' : 'throw'} event with name <${name}> missing in scope`
+                    `Link ${isThrowEvent(event) ? "catch" : "throw"} event with name <${name}> missing in scope`
                 );
             }
 
@@ -1292,19 +1292,19 @@ var linkEvent = function () {
 function isLinkEvent(node) {
     var eventDefinitions = node.eventDefinitions || [];
 
-    if (!is$e(node, 'bpmn:Event')) {
+    if (!is$e(node, "bpmn:Event")) {
         return false;
     }
 
-    return eventDefinitions.some((definition) => is$e(definition, 'bpmn:LinkEventDefinition'));
+    return eventDefinitions.some((definition) => is$e(definition, "bpmn:LinkEventDefinition"));
 }
 
 function isThrowEvent(node) {
-    return is$e(node, 'bpmn:ThrowEvent');
+    return is$e(node, "bpmn:ThrowEvent");
 }
 
 function isCatchEvent(node) {
-    return is$e(node, 'bpmn:CatchEvent');
+    return is$e(node, "bpmn:CatchEvent");
 }
 
 const {is: is$d} = require$$0;
@@ -1317,7 +1317,7 @@ const {flatten} = dist;
  */
 var noBpmndi = function () {
     function check(node, reporter) {
-        if (!is$d(node, 'bpmn:Definitions')) {
+        if (!is$d(node, "bpmn:Definitions")) {
             return false;
         }
 
@@ -1333,7 +1333,7 @@ var noBpmndi = function () {
         // (4) Report elements without BPMNDI
         visualBpmnElements.forEach((element) => {
             if (diBpmnReferences.indexOf(element.id) === -1) {
-                reporter.report(element.id, 'Element is missing bpmndi');
+                reporter.report(element.id, "Element is missing bpmndi");
             }
         });
     }
@@ -1416,7 +1416,7 @@ function getAllDiBpmnReferences(definitionsNode) {
 }
 
 function hasVisualRepresentation(element) {
-    const noVisRepresentation = ['bpmn:DataObject'];
+    const noVisRepresentation = ["bpmn:DataObject"];
 
     return noVisRepresentation.includes(element.$type) ? false : true;
 }
@@ -1444,7 +1444,7 @@ function disallowNodeType$2(type) {
     return function () {
         function check(node, reporter) {
             if (is$c(node, type)) {
-                reporter.report(node.id, 'Element has disallowed type <' + type + '>');
+                reporter.report(node.id, "Element has disallowed type <" + type + ">");
             }
         }
 
@@ -1458,7 +1458,7 @@ helper.disallowNodeType = disallowNodeType$2;
 
 const disallowNodeType$1 = helper.disallowNodeType;
 
-var noComplexGateway = disallowNodeType$1('bpmn:ComplexGateway');
+var noComplexGateway = disallowNodeType$1("bpmn:ComplexGateway");
 
 const {isAny: isAny$5, is: is$b} = require$$0;
 
@@ -1469,7 +1469,7 @@ const {isAny: isAny$5, is: is$b} = require$$0;
  */
 var noDisconnected = function () {
     function check(node, reporter) {
-        if (!isAny$5(node, ['bpmn:Task', 'bpmn:Gateway', 'bpmn:SubProcess', 'bpmn:Event']) || node.triggeredByEvent) {
+        if (!isAny$5(node, ["bpmn:Task", "bpmn:Gateway", "bpmn:SubProcess", "bpmn:Event"]) || node.triggeredByEvent) {
             return;
         }
 
@@ -1484,7 +1484,7 @@ var noDisconnected = function () {
         const outgoing = node.outgoing || [];
 
         if (!incoming.length && !outgoing.length) {
-            reporter.report(node.id, 'Element is not connected');
+            reporter.report(node.id, "Element is not connected");
         }
     }
 
@@ -1498,7 +1498,7 @@ var noDisconnected = function () {
 function isCompensationBoundary(node) {
     var eventDefinitions = node.eventDefinitions;
 
-    if (!is$b(node, 'bpmn:BoundaryEvent')) {
+    if (!is$b(node, "bpmn:BoundaryEvent")) {
         return false;
     }
 
@@ -1506,7 +1506,7 @@ function isCompensationBoundary(node) {
         return false;
     }
 
-    return is$b(eventDefinitions[0], 'bpmn:CompensateEventDefinition');
+    return is$b(eventDefinitions[0], "bpmn:CompensateEventDefinition");
 }
 
 function isCompensationActivity(node) {
@@ -1535,26 +1535,26 @@ var noDuplicateSequenceFlows = function () {
     const incomingReported = {};
 
     function check(node, reporter) {
-        if (!is$a(node, 'bpmn:SequenceFlow')) {
+        if (!is$a(node, "bpmn:SequenceFlow")) {
             return;
         }
 
         const key = flowKey(node);
 
         if (key in keyed) {
-            reporter.report(node.id, 'SequenceFlow is a duplicate');
+            reporter.report(node.id, "SequenceFlow is a duplicate");
 
             const sourceId = node.sourceRef.id;
             const targetId = node.targetRef.id;
 
             if (!outgoingReported[sourceId]) {
-                reporter.report(sourceId, 'Duplicate outgoing sequence flows');
+                reporter.report(sourceId, "Duplicate outgoing sequence flows");
 
                 outgoingReported[sourceId] = true;
             }
 
             if (!incomingReported[targetId]) {
-                reporter.report(targetId, 'Duplicate incoming sequence flows');
+                reporter.report(targetId, "Duplicate incoming sequence flows");
 
                 incomingReported[targetId] = true;
             }
@@ -1573,11 +1573,11 @@ var noDuplicateSequenceFlows = function () {
 function flowKey(flow) {
     const conditionExpression = flow.conditionExpression;
 
-    const condition = conditionExpression ? conditionExpression.body : '';
+    const condition = conditionExpression ? conditionExpression.body : "";
     const source = flow.sourceRef ? flow.sourceRef.id : flow.id;
     const target = flow.targetRef ? flow.targetRef.id : flow.id;
 
-    return source + '#' + target + '#' + condition;
+    return source + "#" + target + "#" + condition;
 }
 
 const {is: is$9} = require$$0;
@@ -1588,7 +1588,7 @@ const {is: is$9} = require$$0;
  */
 var noGatewayJoinFork = function () {
     function check(node, reporter) {
-        if (!is$9(node, 'bpmn:Gateway')) {
+        if (!is$9(node, "bpmn:Gateway")) {
             return;
         }
 
@@ -1596,7 +1596,7 @@ var noGatewayJoinFork = function () {
         const outgoing = node.outgoing || [];
 
         if (incoming.length > 1 && outgoing.length > 1) {
-            reporter.report(node.id, 'Gateway forks and joins');
+            reporter.report(node.id, "Gateway forks and joins");
         }
     }
 
@@ -1616,7 +1616,7 @@ const {isAny: isAny$4} = require$$0;
  */
 var noImplicitSplit = function () {
     function check(node, reporter) {
-        if (!isAny$4(node, ['bpmn:Activity', 'bpmn:Event'])) {
+        if (!isAny$4(node, ["bpmn:Activity", "bpmn:Event"])) {
             return;
         }
 
@@ -1627,7 +1627,7 @@ var noImplicitSplit = function () {
         });
 
         if (outgoingWithoutCondition.length > 1) {
-            reporter.report(node.id, 'Flow splits implicitly');
+            reporter.report(node.id, "Flow splits implicitly");
         }
     }
 
@@ -1643,7 +1643,7 @@ function hasCondition(flow) {
 }
 
 function isDefaultFlow(node, flow) {
-    return node['default'] === flow;
+    return node["default"] === flow;
 }
 
 const {is: is$8, isAny: isAny$3} = require$$0;
@@ -1656,22 +1656,22 @@ var noImplicitEnd = function () {
         const eventDefinitions = node.eventDefinitions || [];
 
         return (
-            eventDefinitions.length && eventDefinitions.every((definition) => is$8(definition, 'bpmn:LinkEventDefinition'))
+            eventDefinitions.length && eventDefinitions.every((definition) => is$8(definition, "bpmn:LinkEventDefinition"))
         );
     }
 
     function isImplicitEnd(node) {
         const outgoing = node.outgoing || [];
 
-        if (is$8(node, 'bpmn:SubProcess') && node.triggeredByEvent) {
+        if (is$8(node, "bpmn:SubProcess") && node.triggeredByEvent) {
             return false;
         }
 
-        if (is$8(node, 'bpmn:IntermediateThrowEvent') && isLinkEvent(node)) {
+        if (is$8(node, "bpmn:IntermediateThrowEvent") && isLinkEvent(node)) {
             return false;
         }
 
-        if (is$8(node, 'bpmn:EndEvent')) {
+        if (is$8(node, "bpmn:EndEvent")) {
             return false;
         }
 
@@ -1679,12 +1679,12 @@ var noImplicitEnd = function () {
     }
 
     function check(node, reporter) {
-        if (!isAny$3(node, ['bpmn:Event', 'bpmn:Activity', 'bpmn:Gateway'])) {
+        if (!isAny$3(node, ["bpmn:Event", "bpmn:Activity", "bpmn:Gateway"])) {
             return;
         }
 
         if (isImplicitEnd(node)) {
-            reporter.report(node.id, 'Element is an implicit end');
+            reporter.report(node.id, "Element is an implicit end");
         }
     }
 
@@ -1701,26 +1701,26 @@ var noImplicitStart = function () {
         const eventDefinitions = node.eventDefinitions || [];
 
         return (
-            eventDefinitions.length && eventDefinitions.every((definition) => is$7(definition, 'bpmn:LinkEventDefinition'))
+            eventDefinitions.length && eventDefinitions.every((definition) => is$7(definition, "bpmn:LinkEventDefinition"))
         );
     }
 
     function isImplicitStart(node) {
         const incoming = node.incoming || [];
 
-        if (is$7(node, 'bpmn:Activity') && node.isForCompensation) {
+        if (is$7(node, "bpmn:Activity") && node.isForCompensation) {
             return false;
         }
 
-        if (is$7(node, 'bpmn:SubProcess') && node.triggeredByEvent) {
+        if (is$7(node, "bpmn:SubProcess") && node.triggeredByEvent) {
             return false;
         }
 
-        if (is$7(node, 'bpmn:IntermediateCatchEvent') && isLinkEvent(node)) {
+        if (is$7(node, "bpmn:IntermediateCatchEvent") && isLinkEvent(node)) {
             return false;
         }
 
-        if (isAny$2(node, ['bpmn:StartEvent', 'bpmn:BoundaryEvent'])) {
+        if (isAny$2(node, ["bpmn:StartEvent", "bpmn:BoundaryEvent"])) {
             return false;
         }
 
@@ -1728,12 +1728,12 @@ var noImplicitStart = function () {
     }
 
     function check(node, reporter) {
-        if (!isAny$2(node, ['bpmn:Event', 'bpmn:Activity', 'bpmn:Gateway'])) {
+        if (!isAny$2(node, ["bpmn:Event", "bpmn:Activity", "bpmn:Gateway"])) {
             return;
         }
 
         if (isImplicitStart(node)) {
-            reporter.report(node.id, 'Element is an implicit start');
+            reporter.report(node.id, "Element is an implicit start");
         }
     }
 
@@ -1742,7 +1742,7 @@ var noImplicitStart = function () {
 
 const disallowNodeType = helper.disallowNodeType;
 
-var noInclusiveGateway = disallowNodeType('bpmn:InclusiveGateway');
+var noInclusiveGateway = disallowNodeType("bpmn:InclusiveGateway");
 
 const {is: is$6} = require$$0;
 
@@ -1753,7 +1753,7 @@ const {is: is$6} = require$$0;
  */
 var noOverlappingElements = function () {
     function check(node, reporter) {
-        if (!is$6(node, 'bpmn:Definitions')) {
+        if (!is$6(node, "bpmn:Definitions")) {
             return;
         }
 
@@ -1764,7 +1764,7 @@ var noOverlappingElements = function () {
         const processElementsParentDiMap = new Map(); // map with sub/process as key and its parent boundary di object
 
         rootElements
-            .filter((element) => is$6(element, 'bpmn:Collaboration'))
+            .filter((element) => is$6(element, "bpmn:Collaboration"))
             .forEach((collaboration) => {
                 const participants = collaboration.participants || [];
                 checkElementsArray(participants, elementsToReport, diObjects);
@@ -1775,15 +1775,15 @@ var noOverlappingElements = function () {
             });
 
         rootElements
-            .filter((element) => is$6(element, 'bpmn:Process'))
+            .filter((element) => is$6(element, "bpmn:Process"))
             .forEach((process) => {
                 const parentDi = processElementsParentDiMap.get(process) || {};
                 checkProcess(process, elementsToReport, elementsOutsideToReport, diObjects, parentDi);
             });
 
         // report elements
-        elementsToReport.forEach((element) => reporter.report(element.id, 'Element overlaps with other element'));
-        elementsOutsideToReport.forEach((element) => reporter.report(element.id, 'Element is outside of parent boundary'));
+        elementsToReport.forEach((element) => reporter.report(element.id, "Element overlaps with other element"));
+        elementsOutsideToReport.forEach((element) => reporter.report(element.id, "Element is outside of parent boundary"));
     }
 
     return {
@@ -1816,7 +1816,7 @@ function checkProcess(node, elementsToReport, elementsOutsideToReport, diObjects
     //
     flowElementsWithDi.forEach((element) => {
         if (
-            !is$6(element, 'bpmn:DataStoreReference') &&
+            !is$6(element, "bpmn:DataStoreReference") &&
             isOutsideParentBoundary(diObjects.get(element).bounds, parentDi.bounds)
         ) {
             elementsOutsideToReport.add(element);
@@ -1824,7 +1824,7 @@ function checkProcess(node, elementsToReport, elementsOutsideToReport, diObjects
     });
 
     // recurse into subprocesses
-    const subProcesses = flowElements.filter((element) => is$6(element, 'bpmn:SubProcess'));
+    const subProcesses = flowElements.filter((element) => is$6(element, "bpmn:SubProcess"));
     subProcesses.forEach((subProcess) => {
         const subProcessDi = diObjects.get(subProcess) || {};
         const subProcessParentBoundary = subProcessDi.isExpanded ? subProcessDi : {};
@@ -1897,11 +1897,11 @@ function isCollision(firstBounds, secondBounds) {
 function isValidShapeElement(bounds) {
     return (
         !!bounds &&
-        is$6(bounds, 'dc:Bounds') &&
-        typeof bounds.x === 'number' &&
-        typeof bounds.y === 'number' &&
-        typeof bounds.width === 'number' &&
-        typeof bounds.height === 'number'
+        is$6(bounds, "dc:Bounds") &&
+        typeof bounds.x === "number" &&
+        typeof bounds.y === "number" &&
+        typeof bounds.width === "number" &&
+        typeof bounds.height === "number"
     );
 }
 
@@ -1936,14 +1936,14 @@ const {is: is$5} = require$$0;
  */
 var singleBlankStartEvent = function () {
     function check(node, reporter) {
-        if (!is$5(node, 'bpmn:FlowElementsContainer')) {
+        if (!is$5(node, "bpmn:FlowElementsContainer")) {
             return;
         }
 
         const flowElements = node.flowElements || [];
 
         const blankStartEvents = flowElements.filter(function (flowElement) {
-            if (!is$5(flowElement, 'bpmn:StartEvent')) {
+            if (!is$5(flowElement, "bpmn:StartEvent")) {
                 return false;
             }
 
@@ -1953,9 +1953,9 @@ var singleBlankStartEvent = function () {
         });
 
         if (blankStartEvents.length > 1) {
-            const type = is$5(node, 'bpmn:SubProcess') ? 'Sub process' : 'Process';
+            const type = is$5(node, "bpmn:SubProcess") ? "Sub process" : "Process";
 
-            reporter.report(node.id, type + ' has multiple blank start events');
+            reporter.report(node.id, type + " has multiple blank start events");
         }
     }
 
@@ -1971,14 +1971,14 @@ const {is: is$4} = require$$0;
  */
 var singleEventDefinition = function () {
     function check(node, reporter) {
-        if (!is$4(node, 'bpmn:Event')) {
+        if (!is$4(node, "bpmn:Event")) {
             return;
         }
 
         const eventDefinitions = node.eventDefinitions || [];
 
         if (eventDefinitions.length > 1) {
-            reporter.report(node.id, 'Event has multiple event definitions', ['eventDefinitions']);
+            reporter.report(node.id, "Event has multiple event definitions", ["eventDefinitions"]);
         }
     }
 
@@ -1996,18 +1996,18 @@ var startEventRequired = function () {
     function hasStartEvent(node) {
         const flowElements = node.flowElements || [];
 
-        return flowElements.some((node) => is$3(node, 'bpmn:StartEvent'));
+        return flowElements.some((node) => is$3(node, "bpmn:StartEvent"));
     }
 
     function check(node, reporter) {
-        if (!isAny$1(node, ['bpmn:Process', 'bpmn:SubProcess'])) {
+        if (!isAny$1(node, ["bpmn:Process", "bpmn:SubProcess"])) {
             return;
         }
 
         if (!hasStartEvent(node)) {
-            const type = is$3(node, 'bpmn:SubProcess') ? 'Sub process' : 'Process';
+            const type = is$3(node, "bpmn:SubProcess") ? "Sub process" : "Process";
 
-            reporter.report(node.id, type + ' is missing start event');
+            reporter.report(node.id, type + " is missing start event");
         }
     }
 
@@ -2022,21 +2022,21 @@ const {is: is$2} = require$$0;
  */
 var subProcessBlankStartEvent = function () {
     function check(node, reporter) {
-        if (!is$2(node, 'bpmn:SubProcess') || node.triggeredByEvent) {
+        if (!is$2(node, "bpmn:SubProcess") || node.triggeredByEvent) {
             return;
         }
 
         const flowElements = node.flowElements || [];
 
         flowElements.forEach(function (flowElement) {
-            if (!is$2(flowElement, 'bpmn:StartEvent')) {
+            if (!is$2(flowElement, "bpmn:StartEvent")) {
                 return false;
             }
 
             const eventDefinitions = flowElement.eventDefinitions || [];
 
             if (eventDefinitions.length > 0) {
-                reporter.report(flowElement.id, 'Start event must be blank', ['eventDefinitions']);
+                reporter.report(flowElement.id, "Start event must be blank", ["eventDefinitions"]);
             }
         });
     }
@@ -2055,7 +2055,7 @@ const {is: is$1} = require$$0;
  */
 var superfluousGateway = function () {
     function check(node, reporter) {
-        if (!is$1(node, 'bpmn:Gateway')) {
+        if (!is$1(node, "bpmn:Gateway")) {
             return;
         }
 
@@ -2063,7 +2063,7 @@ var superfluousGateway = function () {
         const outgoing = node.outgoing || [];
 
         if (incoming.length === 1 && outgoing.length === 1) {
-            reporter.report(node.id, 'Gateway is superfluous. It only has one source and target.');
+            reporter.report(node.id, "Gateway is superfluous. It only has one source and target.");
         }
     }
 
@@ -2081,13 +2081,13 @@ const {is, isAny} = require$$0;
  */
 var superfluousTermination = function () {
     function check(node, reporter) {
-        if (!isAny(node, ['bpmn:Process', 'bpmn:SubProcess'])) {
+        if (!isAny(node, ["bpmn:Process", "bpmn:SubProcess"])) {
             return;
         }
 
         const flowElements = node.flowElements || [];
 
-        const ends = flowElements.filter((element) => is(element, 'bpmn:node') && (element.outgoing || []).length === 0);
+        const ends = flowElements.filter((element) => is(element, "bpmn:node") && (element.outgoing || []).length === 0);
 
         const terminateEnds = ends.filter(isTerminateEnd);
 
@@ -2101,7 +2101,7 @@ var superfluousTermination = function () {
 
         if (superfluous) {
             for (const node of terminateEnds) {
-                reporter.report(node.id, 'Termination is superfluous.');
+                reporter.report(node.id, "Termination is superfluous.");
             }
         }
     }
@@ -2113,17 +2113,17 @@ var superfluousTermination = function () {
 
 function isTerminateEnd(element) {
     return (
-        is(element, 'bpmn:EndEvent') &&
-        (element.eventDefinitions || []).some((eventDefinition) => is(eventDefinition, 'bpmn:TerminateEventDefinition'))
+        is(element, "bpmn:EndEvent") &&
+        (element.eventDefinitions || []).some((eventDefinition) => is(eventDefinition, "bpmn:TerminateEventDefinition"))
     );
 }
 
 function isInterruptingEventSub(element) {
-    const isEventSub = is(element, 'bpmn:SubProcess') && element.triggeredByEvent;
+    const isEventSub = is(element, "bpmn:SubProcess") && element.triggeredByEvent;
 
     return (
         isEventSub &&
-        (element.flowElements || []).some((element) => is(element, 'bpmn:StartEvent') && element.isInterrupting)
+        (element.flowElements || []).some((element) => is(element, "bpmn:StartEvent") && element.isInterrupting)
     );
 }
 
@@ -2139,45 +2139,45 @@ function Resolver() {
 }
 
 Resolver.prototype.resolveRule = function (pkg, ruleName) {
-    const rule = cache[pkg + '/' + ruleName];
+    const rule = cache[pkg + "/" + ruleName];
 
     if (!rule) {
-        throw new Error('cannot resolve rule <' + pkg + '/' + ruleName + '>: not bundled');
+        throw new Error("cannot resolve rule <" + pkg + "/" + ruleName + ">: not bundled");
     }
 
     return rule;
 };
 
 Resolver.prototype.resolveConfig = function (pkg, configName) {
-    throw new Error('cannot resolve config <' + configName + '> in <' + pkg + '>: not bundled');
+    throw new Error("cannot resolve config <" + configName + "> in <" + pkg + ">: not bundled");
 };
 
 const resolver = new Resolver();
 
 const rules = {
-    'conditional-flows': 'error',
-    'end-event-required': 'error',
-    'event-sub-process-typed-start-event': 'error',
-    'fake-join': 'warn',
-    global: 'warn',
-    'label-required': 'error',
-    'link-event': 'error',
-    'no-bpmndi': 'error',
-    'no-complex-gateway': 'error',
-    'no-disconnected': 'error',
-    'no-duplicate-sequence-flows': 'error',
-    'no-gateway-join-fork': 'error',
-    'no-implicit-split': 'error',
-    'no-implicit-end': 'error',
-    'no-implicit-start': 'error',
-    'no-inclusive-gateway': 'error',
-    'no-overlapping-elements': 'warn',
-    'single-blank-start-event': 'error',
-    'single-event-definition': 'error',
-    'start-event-required': 'error',
-    'sub-process-blank-start-event': 'error',
-    'superfluous-gateway': 'warn',
-    'superfluous-termination': 'warn'
+    "conditional-flows": "error",
+    "end-event-required": "error",
+    "event-sub-process-typed-start-event": "error",
+    "fake-join": "warn",
+    global: "warn",
+    "label-required": "error",
+    "link-event": "error",
+    "no-bpmndi": "error",
+    "no-complex-gateway": "error",
+    "no-disconnected": "error",
+    "no-duplicate-sequence-flows": "error",
+    "no-gateway-join-fork": "error",
+    "no-implicit-split": "error",
+    "no-implicit-end": "error",
+    "no-implicit-start": "error",
+    "no-inclusive-gateway": "error",
+    "no-overlapping-elements": "warn",
+    "single-blank-start-event": "error",
+    "single-event-definition": "error",
+    "start-event-required": "error",
+    "sub-process-blank-start-event": "error",
+    "superfluous-gateway": "warn",
+    "superfluous-termination": "warn"
 };
 
 const config = {
@@ -2189,50 +2189,50 @@ const bundle = {
     config: config
 };
 
-cache['bpmnlint/conditional-flows'] = conditionalFlows;
+cache["bpmnlint/conditional-flows"] = conditionalFlows;
 
-cache['bpmnlint/end-event-required'] = endEventRequired;
+cache["bpmnlint/end-event-required"] = endEventRequired;
 
-cache['bpmnlint/event-sub-process-typed-start-event'] = eventSubProcessTypedStartEvent;
+cache["bpmnlint/event-sub-process-typed-start-event"] = eventSubProcessTypedStartEvent;
 
-cache['bpmnlint/fake-join'] = fakeJoin;
+cache["bpmnlint/fake-join"] = fakeJoin;
 
-cache['bpmnlint/global'] = global;
+cache["bpmnlint/global"] = global;
 
-cache['bpmnlint/label-required'] = labelRequired;
+cache["bpmnlint/label-required"] = labelRequired;
 
-cache['bpmnlint/link-event'] = linkEvent;
+cache["bpmnlint/link-event"] = linkEvent;
 
-cache['bpmnlint/no-bpmndi'] = noBpmndi;
+cache["bpmnlint/no-bpmndi"] = noBpmndi;
 
-cache['bpmnlint/no-complex-gateway'] = noComplexGateway;
+cache["bpmnlint/no-complex-gateway"] = noComplexGateway;
 
-cache['bpmnlint/no-disconnected'] = noDisconnected;
+cache["bpmnlint/no-disconnected"] = noDisconnected;
 
-cache['bpmnlint/no-duplicate-sequence-flows'] = noDuplicateSequenceFlows;
+cache["bpmnlint/no-duplicate-sequence-flows"] = noDuplicateSequenceFlows;
 
-cache['bpmnlint/no-gateway-join-fork'] = noGatewayJoinFork;
+cache["bpmnlint/no-gateway-join-fork"] = noGatewayJoinFork;
 
-cache['bpmnlint/no-implicit-split'] = noImplicitSplit;
+cache["bpmnlint/no-implicit-split"] = noImplicitSplit;
 
-cache['bpmnlint/no-implicit-end'] = noImplicitEnd;
+cache["bpmnlint/no-implicit-end"] = noImplicitEnd;
 
-cache['bpmnlint/no-implicit-start'] = noImplicitStart;
+cache["bpmnlint/no-implicit-start"] = noImplicitStart;
 
-cache['bpmnlint/no-inclusive-gateway'] = noInclusiveGateway;
+cache["bpmnlint/no-inclusive-gateway"] = noInclusiveGateway;
 
-cache['bpmnlint/no-overlapping-elements'] = noOverlappingElements;
+cache["bpmnlint/no-overlapping-elements"] = noOverlappingElements;
 
-cache['bpmnlint/single-blank-start-event'] = singleBlankStartEvent;
+cache["bpmnlint/single-blank-start-event"] = singleBlankStartEvent;
 
-cache['bpmnlint/single-event-definition'] = singleEventDefinition;
+cache["bpmnlint/single-event-definition"] = singleEventDefinition;
 
-cache['bpmnlint/start-event-required'] = startEventRequired;
+cache["bpmnlint/start-event-required"] = startEventRequired;
 
-cache['bpmnlint/sub-process-blank-start-event'] = subProcessBlankStartEvent;
+cache["bpmnlint/sub-process-blank-start-event"] = subProcessBlankStartEvent;
 
-cache['bpmnlint/superfluous-gateway'] = superfluousGateway;
+cache["bpmnlint/superfluous-gateway"] = superfluousGateway;
 
-cache['bpmnlint/superfluous-termination'] = superfluousTermination;
+cache["bpmnlint/superfluous-termination"] = superfluousTermination;
 
 export {config, bundle as default, resolver};

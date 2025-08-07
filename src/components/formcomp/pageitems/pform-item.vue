@@ -1,6 +1,6 @@
 <script setup lang="ts">
 defineOptions({
-  name: 'PageFormItem',
+  name: "PageFormItem",
 });
 const flag = true;
 </script>

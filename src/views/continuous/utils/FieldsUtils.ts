@@ -1,12 +1,12 @@
-import { reactive, ref } from 'vue';
+import { reactive, ref } from "vue";
 import {
   apiInstance,
   loadData,
   PageFieldInfo,
   SelectOption,
-} from 'star-horse-lowcode';
+} from "star-horse-lowcode";
 
-const urlApi = apiInstance('continuous-manage', 'continuous/repoHooks');
+const urlApi = apiInstance("continuous-manage", "continuous/repoHooks");
 const branchList = ref<SelectOption[]>([]);
 const loadBranch = (idProjectInfo: string) => {
   loadData(`${urlApi.basePrefix}/branches/${idProjectInfo}`, {}).then((res) => {
@@ -18,39 +18,39 @@ const pipelineFields = reactive<PageFieldInfo | any>({
     {
       cardList: [
         {
-          title: '基础信息',
-          tabName: 'baseInfo',
+          title: "基础信息",
+          tabName: "baseInfo",
           fieldList: [
             [
               {
-                label: '流水线名称',
-                fieldName: 'lineName',
+                label: "流水线名称",
+                fieldName: "lineName",
 
-                defaultValue: '测试',
+                defaultValue: "测试",
                 required: true,
                 formVisible: true,
                 listVisible: true,
               },
               {
-                label: '流水线类型',
-                fieldName: 'lineType',
-                type: 'select',
+                label: "流水线类型",
+                fieldName: "lineType",
+                type: "select",
                 required: true,
-                defaultValue: 'single',
+                defaultValue: "single",
                 formVisible: true,
                 listVisible: true,
                 preps: {
-                  dataSource: 'dict',
-                  urlOrDictName: 'PIPELINE_EXECUTION_TYPE',
+                  dataSource: "dict",
+                  urlOrDictName: "PIPELINE_EXECUTION_TYPE",
                 },
               },
             ],
             [
               {
-                label: '项目名称',
-                fieldName: 'projectName',
-                aliasName: 'idProjectInfo',
-                type: 'dialog-input',
+                label: "项目名称",
+                fieldName: "projectName",
+                aliasName: "idProjectInfo",
+                type: "dialog-input",
                 required: true,
                 formVisible: true,
                 listVisible: true,
@@ -58,43 +58,43 @@ const pipelineFields = reactive<PageFieldInfo | any>({
                   recall: (data: any) => {
                     loadBranch(data.idProjectInfo);
                   },
-                  primaryKey: 'idProjectInfo',
+                  primaryKey: "idProjectInfo",
                   dataUrl: {
                     pageListUrl:
-                      'continuous-manage/continuous/projectInfo/pageList',
+                      "continuous-manage/continuous/projectInfo/pageList",
                   },
                   needField: [
                     {
-                      sourceField: 'idProjectInfo',
-                      distField: 'idProjectInfo',
+                      sourceField: "idProjectInfo",
+                      distField: "idProjectInfo",
                     },
-                    { sourceField: 'projectName', distField: 'projectName' },
+                    { sourceField: "projectName", distField: "projectName" },
                   ],
 
                   fieldList: [
                     {
-                      label: '项目名称',
-                      fieldName: 'projectName',
+                      label: "项目名称",
+                      fieldName: "projectName",
 
                       required: true,
-                      prefix: 'a',
+                      prefix: "a",
                       formVisible: true,
                       listVisible: true,
                       searchVisible: true,
                     },
                     {
-                      label: '程序语言',
-                      fieldName: 'programLanguage',
+                      label: "程序语言",
+                      fieldName: "programLanguage",
 
-                      prefix: 'a',
+                      prefix: "a",
                       required: false,
                       formVisible: true,
                       listVisible: true,
                       searchVisible: true,
                     },
                     {
-                      label: '代码库地址',
-                      fieldName: 'repoUrl',
+                      label: "代码库地址",
+                      fieldName: "repoUrl",
 
                       required: false,
                       formVisible: true,
@@ -104,11 +104,11 @@ const pipelineFields = reactive<PageFieldInfo | any>({
                 },
               },
               {
-                label: '代码分支',
-                fieldName: 'codeBranch',
-                type: 'select',
+                label: "代码分支",
+                fieldName: "codeBranch",
+                type: "select",
                 required: false,
-                defaultValue: 'master',
+                defaultValue: "master",
                 formVisible: true,
                 listVisible: true,
                 preps: {
@@ -118,17 +118,17 @@ const pipelineFields = reactive<PageFieldInfo | any>({
             ],
             [
               {
-                label: 'Cron定时触发',
-                fieldName: 'cron',
-                type: 'cron',
-                helpMsg: '不设置则表示手动触发',
+                label: "Cron定时触发",
+                fieldName: "cron",
+                type: "cron",
+                helpMsg: "不设置则表示手动触发",
                 required: false,
                 formVisible: true,
                 listVisible: true,
               },
               {
-                label: '代码下载目标目录',
-                fieldName: 'targetDir',
+                label: "代码下载目标目录",
+                fieldName: "targetDir",
 
                 required: false,
                 formVisible: true,

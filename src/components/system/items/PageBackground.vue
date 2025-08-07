@@ -1,8 +1,8 @@
 <script setup lang="ts" name="PageBackground">
-import { ModelRef, watch, ref } from 'vue';
+import { ModelRef, watch, ref } from "vue";
 
-let backgroundData: ModelRef<any> = defineModel('dataForm');
-const currentBackgroundImage = ref('');
+let backgroundData: ModelRef<any> = defineModel("dataForm");
+const currentBackgroundImage = ref("");
 // 新增文件转base64方法
 const beforeUpload = (file: File) => {
   console.log(file);
@@ -11,7 +11,7 @@ const beforeUpload = (file: File) => {
     reader.readAsDataURL(file);
     reader.onload = () => {
       // currentBackgroundImage.value = reader.result;
-      backgroundData.value.backgroundImage = 'url(' + reader.result + ')';
+      backgroundData.value.backgroundImage = "url(" + reader.result + ")";
       console.log(backgroundData.value.backgroundImage);
       resolve(false); // 阻止自动上传
     };
@@ -24,7 +24,7 @@ watch(
     const match = backgroundData.value.backgroundImage.match(
       /url\((['"]?)(.*?)\1\)/,
     );
-    currentBackgroundImage.value = match ? match[2] : '';
+    currentBackgroundImage.value = match ? match[2] : "";
   },
 );
 </script>

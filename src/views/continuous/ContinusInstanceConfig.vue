@@ -1,20 +1,27 @@
 <script setup lang="ts" name="ContinusInstanceConfig">
-import { onActivated, onBeforeUnmount, onMounted, onUpdated, reactive, ref } from 'vue';
-import { useRouter } from 'vue-router';
+import {
+  onActivated,
+  onBeforeUnmount,
+  onMounted,
+  onUpdated,
+  reactive,
+  ref,
+} from "vue";
+import { useRouter } from "vue-router";
 import {
   apiInstance,
   ApiUrls,
   createCondition,
   PageProps,
   postRequest,
-} from 'star-horse-lowcode';
+} from "star-horse-lowcode";
 
 const dataUrl: ApiUrls = apiInstance(
-  'continuous-manage',
-  'continuous/pipelineConfig',
+  "continuous-manage",
+  "continuous/pipelineConfig",
 );
 const router = useRouter();
-const keyWords = ref<string>('');
+const keyWords = ref<string>("");
 const loading = ref<boolean>(false);
 const isSearch = ref<boolean>(false);
 let pageInfo = reactive<PageProps>({
@@ -31,7 +38,7 @@ const dataFilter = () => {
   init();
 };
 const newPipeline = () => {
-  router.push('/continuous/ContinusInstanceInit');
+  router.push("/continuous/ContinusInstanceInit");
 };
 // 滚动事件处理
 const handleScroll = (e: Event) => {
@@ -53,14 +60,14 @@ const init = async () => {
   loading.value = true;
   const params = [];
   if (keyWords.value) {
-    params.push(createCondition('projectName', keyWords.value, 'lk'));
+    params.push(createCondition("projectName", keyWords.value, "lk"));
   }
   try {
     postRequest(dataUrl.pageListUrl, {
       currentPage: pageInfo.currentPage,
       pageSize: pageInfo.pageSize,
       fieldList: params,
-      orderBy: [{ fieldName: 'createdTime', orderType: 'desc' }],
+      orderBy: [{ fieldName: "createdTime", orderType: "desc" }],
     }).then((res: any) => {
       if (res?.data?.code != 0) {
         res && console.error(res?.data?.cnMessage);
@@ -86,21 +93,21 @@ const init = async () => {
 };
 const goBack = () => {
   router.push({
-    path: '/home',
+    path: "/home",
   });
 };
 // 生命周期
 onBeforeUnmount(() => {
-  const scrollbar = document.querySelector('.el-scrollbar__wrap');
-  scrollbar?.removeEventListener('scroll', handleScroll);
+  const scrollbar = document.querySelector(".el-scrollbar__wrap");
+  scrollbar?.removeEventListener("scroll", handleScroll);
 });
 onActivated(() => {
   init();
 });
 onMounted(() => {
-  const scrollbar = document.querySelector('.el-scrollbar__wrap');
+  const scrollbar = document.querySelector(".el-scrollbar__wrap");
   if (scrollbar) {
-    scrollbar.addEventListener('scroll', handleScroll);
+    scrollbar.addEventListener("scroll", handleScroll);
   }
   init();
 });

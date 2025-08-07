@@ -1,4 +1,4 @@
-import { Shape } from '@antv/x6';
+import { Shape } from "@antv/x6";
 
 const commands: any = [
   /* {
@@ -8,28 +8,28 @@ const commands: any = [
         label: "左侧工具栏"
     },*/
   {
-    icon: 'zoom_in',
+    icon: "zoom_in",
     defaultEdit: true,
-    key: 'zoomIn',
-    label: '放大(0.2)',
+    key: "zoomIn",
+    label: "放大(0.2)",
   },
   {
-    icon: 'zoom_out',
+    icon: "zoom_out",
     defaultEdit: true,
-    key: 'zoomOut',
-    label: '缩小(-0.2)',
+    key: "zoomOut",
+    label: "缩小(-0.2)",
   },
   {
-    icon: 'auto_fit',
+    icon: "auto_fit",
     defaultEdit: true,
-    key: 'zoomToFit',
-    label: '自适应',
+    key: "zoomToFit",
+    label: "自适应",
   },
   {
-    icon: 'equal',
+    icon: "equal",
     defaultEdit: true,
-    key: 'zoomTo',
-    label: '1:1大小',
+    key: "zoomTo",
+    label: "1:1大小",
   },
   /*  {
             icon: "line_arrow",
@@ -42,74 +42,74 @@ const commands: any = [
             label: '直角连接模式',
         },*/
   {
-    icon: 'align_top',
-    key: 'alignTop',
-    label: '向上对齐',
+    icon: "align_top",
+    key: "alignTop",
+    label: "向上对齐",
   },
   {
-    icon: 'align_bottom',
-    key: 'alignBottom',
-    label: '向下对齐',
+    icon: "align_bottom",
+    key: "alignBottom",
+    label: "向下对齐",
   },
   {
-    icon: 'align_left',
-    key: 'alignLeft',
-    label: '向左对齐',
+    icon: "align_left",
+    key: "alignLeft",
+    label: "向左对齐",
   },
   {
-    icon: 'align_right',
-    key: 'alignRight',
-    label: '向右对齐',
+    icon: "align_right",
+    key: "alignRight",
+    label: "向右对齐",
   },
   {
-    icon: 'center',
-    key: 'centerContent',
-    label: '居中',
+    icon: "center",
+    key: "centerContent",
+    label: "居中",
   },
   {
-    icon: 'dustbin',
-    key: 'deleteItem',
-    label: '删除元素',
+    icon: "dustbin",
+    key: "deleteItem",
+    label: "删除元素",
   },
   {
-    icon: 'empty_setting',
-    key: 'empty',
-    label: '清空画布',
+    icon: "empty_setting",
+    key: "empty",
+    label: "清空画布",
   },
   {
-    icon: 'undo',
-    key: 'unDo',
-    label: '后退一步',
+    icon: "undo",
+    key: "unDo",
+    label: "后退一步",
   },
   {
-    icon: 'redo',
-    key: 'reDo',
-    label: '前进一步',
+    icon: "redo",
+    key: "reDo",
+    label: "前进一步",
   },
   {
-    icon: 'json_file',
-    key: 'json',
-    label: 'JSON数据',
+    icon: "json_file",
+    key: "json",
+    label: "JSON数据",
   },
   {
-    icon: 'config',
-    key: 'config',
-    label: '配置',
+    icon: "config",
+    key: "config",
+    label: "配置",
   },
   {
-    icon: 'valid',
-    key: 'valid',
-    label: '校验',
+    icon: "valid",
+    key: "valid",
+    label: "校验",
   },
   {
-    icon: 'preview',
-    key: 'preview',
-    label: '预览',
+    icon: "preview",
+    key: "preview",
+    label: "预览",
   },
   {
-    icon: 'save',
-    key: 'save',
-    label: '保存',
+    icon: "save",
+    key: "save",
+    label: "保存",
   },
   /*{
           icon: "right_panel",
@@ -125,61 +125,61 @@ const commands: any = [
 const ports = {
   groups: {
     top: {
-      position: 'top',
+      position: "top",
       attrs: {
         circle: {
           r: 4,
           magnet: true,
-          stroke: 'var(--star-horse-style)',
+          stroke: "var(--star-horse-style)",
           strokeWidth: 1,
-          fill: '#fff',
+          fill: "#fff",
           style: {
-            visibility: 'hidden',
+            visibility: "hidden",
           },
         },
       },
     },
     right: {
-      position: 'right',
+      position: "right",
       attrs: {
         circle: {
           r: 4,
           magnet: true,
-          stroke: 'var(--star-horse-style)',
+          stroke: "var(--star-horse-style)",
           strokeWidth: 1,
-          fill: '#fff',
+          fill: "#fff",
           style: {
-            visibility: 'hidden',
+            visibility: "hidden",
           },
         },
       },
     },
     bottom: {
-      position: 'bottom',
+      position: "bottom",
       attrs: {
         circle: {
           r: 4,
           magnet: true,
-          stroke: 'var(--star-horse-style)',
+          stroke: "var(--star-horse-style)",
           strokeWidth: 1,
-          fill: '#fff',
+          fill: "#fff",
           style: {
-            visibility: 'hidden',
+            visibility: "hidden",
           },
         },
       },
     },
     left: {
-      position: 'left',
+      position: "left",
       attrs: {
         circle: {
           r: 4,
           magnet: true,
-          stroke: 'var(--star-horse-style)',
+          stroke: "var(--star-horse-style)",
           strokeWidth: 1,
-          fill: '#fff',
+          fill: "#fff",
           style: {
-            visibility: 'hidden',
+            visibility: "hidden",
           },
         },
       },
@@ -187,16 +187,16 @@ const ports = {
   },
   items: [
     {
-      group: 'top',
+      group: "top",
     },
     {
-      group: 'right',
+      group: "right",
     },
     {
-      group: 'bottom',
+      group: "bottom",
     },
     {
-      group: 'left',
+      group: "left",
     },
   ],
 };
@@ -213,18 +213,18 @@ const commonConfig = {
   resizing: true,
   panning: {
     enabled: true,
-    modifiers: ['alt'],
+    modifiers: ["alt"],
   },
   grid: {
     visible: true,
-    type: 'doubleMesh',
+    type: "doubleMesh",
     args: [
       {
-        color: '#eee', // 主网格线颜色
+        color: "#eee", // 主网格线颜色
         thickness: 1, // 主网格线宽度
       },
       {
-        color: '#ddd', // 次网格线颜色
+        color: "#ddd", // 次网格线颜色
         thickness: 1, // 次网格线宽度
         factor: 4, // 主次网格线间隔
       },
@@ -239,7 +239,7 @@ const commonConfig = {
   mousewheel: {
     enabled: true,
     zoomAtMousePosition: true,
-    modifiers: 'ctrl',
+    modifiers: "ctrl",
     maxScale: 4,
     minScale: 0.2,
   },
@@ -254,24 +254,24 @@ const configInfo: any = {
   highlighting: {
     // 当连接桩可以被链接时，在连接桩外围渲染一个 2px 宽的红色矩形框
     magnetAdsorbed: {
-      name: 'stroke',
+      name: "stroke",
       args: {
         attrs: {
-          stroke: '#5F95FF',
+          stroke: "#5F95FF",
         },
       },
     },
   },
   connecting: {
     router: {
-      name: 'er',
+      name: "er",
       args: {
         offset: 25,
-        direction: 'H',
+        direction: "H",
       },
     },
     connector: {
-      name: 'rounded',
+      name: "rounded",
       args: {
         radius: 8,
       },
@@ -289,20 +289,20 @@ const configInfo: any = {
         // defaultLabel: "OK", //添加此属性再动态设置Label 报错
         tools: [
           {
-            name: 'edge-editor',
+            name: "edge-editor",
             args: {
               attrs: {
-                backgroundColor: 'var(--star-horse-front-color)',
+                backgroundColor: "var(--star-horse-front-color)",
               },
             },
           },
         ],
         attrs: {
           line: {
-            stroke: 'var(--star-horse-style)',
+            stroke: "var(--star-horse-style)",
             strokeWidth: 2,
             targetMarker: {
-              name: 'block',
+              name: "block",
               width: 12,
               height: 8,
             },
@@ -317,10 +317,10 @@ const tableConfigInfo = {
   ...commonConfig,
   connecting: {
     router: {
-      name: 'er',
+      name: "er",
       args: {
         offset: 25,
-        direction: 'H',
+        direction: "H",
       },
     },
     allowBlank: false,
@@ -329,7 +329,7 @@ const tableConfigInfo = {
       return new Shape.Edge({
         attrs: {
           line: {
-            stroke: '#A2B1C3',
+            stroke: "#A2B1C3",
             strokeWidth: 2,
           },
         },

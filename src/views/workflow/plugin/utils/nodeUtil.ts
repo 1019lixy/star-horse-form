@@ -1,7 +1,7 @@
-import { uuid } from 'star-horse-lowcode';
-import html2canvas from 'html2canvas';
-import { isRef, Ref } from 'vue';
-import { FlowNodeEnums } from '@/views/workflow/plugin/enums/FlowNodeEnums';
+import { uuid } from "star-horse-lowcode";
+import html2canvas from "html2canvas";
+import { isRef, Ref } from "vue";
+import { FlowNodeEnums } from "@/views/workflow/plugin/enums/FlowNodeEnums";
 
 /**
  *   获取条件/并行节点
@@ -10,7 +10,7 @@ export function addCondition(node: any, len: any) {
   return {
     pid: node.id,
     id: uuid(),
-    name: (node.type == FlowNodeEnums.BRANCH_NODE ? '分支' : '并行') + len,
+    name: (node.type == FlowNodeEnums.BRANCH_NODE ? "分支" : "并行") + len,
     type:
       node.type == FlowNodeEnums.BRANCH_NODE
         ? FlowNodeEnums.BRANCH_CONDITION_NODE
@@ -18,7 +18,7 @@ export function addCondition(node: any, len: any) {
     // 显示添加按钮
     addable: true,
     //状态
-    statusCode: '-1',
+    statusCode: "-1",
     otherFlag: false,
     // 可删除提示
     deletable: false,
@@ -28,12 +28,12 @@ export function addCondition(node: any, len: any) {
     // 是否有错误
     error: false,
     // 分支类型
-    branchType: node.type == FlowNodeEnums.BRANCH_NODE ? 'rule' : null,
+    branchType: node.type == FlowNodeEnums.BRANCH_NODE ? "rule" : null,
     // 显示内容
-    content: node.type == FlowNodeEnums.BRANCH_NODE ? null : '任意(其他)',
+    content: node.type == FlowNodeEnums.BRANCH_NODE ? null : "任意(其他)",
     // 子节点
     childNode: null,
-    errorMsg: '',
+    errorMsg: "",
     // 条件组
     conditionGroups: [],
   };
@@ -93,7 +93,7 @@ export function delNode(node: any, currNode: any) {
     // if (currNode.type == FlowNodeEnums.PARALLEL_NODE) {
     //     childNode = currNode.childNode?.childNode;
     // }
-    if (childNode && childNode.hasOwnProperty('name')) {
+    if (childNode && childNode.hasOwnProperty("name")) {
       childNode.pid = currNode.pid;
     }
     //  将当前节点的子节点挂载到父节点
@@ -186,15 +186,15 @@ export function getApproveNodes(node: any, approveNodes: Array<any>) {
 export async function updateMap(mapImg: Ref<string>) {
   // await nextTick();
   setTimeout(() => {
-    const content: any = document.querySelector('#sh-flow-editor-content');
+    const content: any = document.querySelector("#sh-flow-editor-content");
     html2canvas(content, {
-      backgroundColor: '#aaa',
+      backgroundColor: "#aaa",
       scale: 1,
       width: content.clientWidth,
       height: content.scrollHeight,
       windowHeight: content.scrollHeight,
     }).then((canvas) => {
-      mapImg.value = canvas.toDataURL('image/jpeg', 0.8);
+      mapImg.value = canvas.toDataURL("image/jpeg", 0.8);
     });
   }, 300);
 }

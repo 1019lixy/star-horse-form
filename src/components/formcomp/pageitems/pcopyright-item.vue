@@ -1,9 +1,9 @@
 <script setup lang="ts">
 defineOptions({
-  name: 'PageCopyrightItem',
+  name: "PageCopyrightItem",
 });
 defineProps({
-  copyright: { type: String, default: '@2023 版权所有' },
+  copyright: { type: String, default: "@2023 版权所有" },
 });
 const year = new Date().getFullYear();
 </script>

@@ -92,12 +92,12 @@
   <DrawerFooter @close="onClose" />
 </template>
 <script setup lang="ts" name="Event">
-import { flowCommon } from '@/views/workflow/plugin/utils/flowCommon';
-import { useFlowDesignStore } from '@/store/FlowDesign';
-import { piniaInstance } from 'star-horse-lowcode';
-import { ModelRef } from 'vue';
+import { flowCommon } from "@/views/workflow/plugin/utils/flowCommon";
+import { useFlowDesignStore } from "@/store/FlowDesign";
+import { piniaInstance } from "star-horse-lowcode";
+import { ModelRef } from "vue";
 
-let node: ModelRef<any> = defineModel('activeData');
+let node: ModelRef<any> = defineModel("activeData");
 const flowDesign = useFlowDesignStore(piniaInstance);
 const onClose = () => {
   flowDesign.setActive(false);

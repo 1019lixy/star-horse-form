@@ -9,7 +9,7 @@
 </template>
 <script setup lang="ts">
 defineOptions({
-  name: 'FlowNodeEnd',
+  name: "FlowNodeEnd",
 });
 const props = defineProps({
   node: {
@@ -24,8 +24,8 @@ const props = defineProps({
   },
 });
 
-const emits = defineEmits(['selectNode']);
+const emits = defineEmits(["selectNode"]);
 const selectNode = () => {
-  emits('selectNode', props.node);
+  emits("selectNode", props.node);
 };
 </script>

@@ -3,11 +3,11 @@
   <LoginDialog v-model:loginDialogVisible="visible" />
 </template>
 <script lang="ts" setup>
-import { computed, ComputedRef, onMounted, unref } from 'vue';
-import { piniaInstance, useUserInfoStore } from 'star-horse-lowcode';
+import { computed, ComputedRef, onMounted, unref } from "vue";
+import { piniaInstance, useUserInfoStore } from "star-horse-lowcode";
 
-import LoginDialog from '@/components/LoginDialog.vue';
-import { getToken } from '@/utils/auth.ts';
+import LoginDialog from "@/components/LoginDialog.vue";
+import { getToken } from "@/utils/auth.ts";
 
 const userInfoStore = useUserInfoStore(piniaInstance);
 const visible: ComputedRef<boolean> = computed(() => {

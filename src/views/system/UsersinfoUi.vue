@@ -14,39 +14,39 @@ import {
   trim,
   useGlobalConfigStore,
   warning,
-} from 'star-horse-lowcode';
-import { Config } from '@/api/settings';
-import { computed, nextTick, onMounted, provide, reactive, ref } from 'vue';
-import { ElTreeV2 } from 'element-plus';
-import { TreeNodeData } from 'element-plus/es/components/tree-v2/src/types';
+} from "star-horse-lowcode";
+import { Config } from "@/api/settings";
+import { computed, nextTick, onMounted, provide, reactive, ref } from "vue";
+import { ElTreeV2 } from "element-plus";
+import { TreeNodeData } from "element-plus/es/components/tree-v2/src/types";
 import {
   baseUserFields,
   initSelectData,
   rolesList,
   sexList,
   userFormat,
-} from '@/views/system/utils/UserFields';
+} from "@/views/system/utils/UserFields";
 
 const props = defineProps({
   viewRolesinfoId: { type: String },
   disableAction: { type: Boolean, default: false },
 });
-const dataUrl: ApiUrls = apiInstance('system-config', 'system/usersinfoEntity');
+const dataUrl: ApiUrls = apiInstance("system-config", "system/usersinfoEntity");
 const usersinfoTableListRef = ref();
 const searchFormData = reactive<SearchFields>({
   fieldList: [
-    { label: '姓名', fieldName: 'name', defaultVisible: true, matchType: 'lk' },
+    { label: "姓名", fieldName: "name", defaultVisible: true, matchType: "lk" },
     {
-      label: '用户名',
-      fieldName: 'username',
+      label: "用户名",
+      fieldName: "username",
       defaultVisible: true,
-      matchType: 'lk',
+      matchType: "lk",
     },
     {
-      label: '所属用户组',
-      fieldName: 'idRolesinfo',
-      type: 'select',
-      prefix: 'b',
+      label: "所属用户组",
+      fieldName: "idRolesinfo",
+      type: "select",
+      prefix: "b",
       defaultValue: props.viewRolesinfoId,
       disabled: !!props.viewRolesinfoId,
       preps: {
@@ -63,8 +63,8 @@ let compSize = computed(
 const pwdFormRef = ref();
 const resetForm = () => {
   let data = pwdFormRef.value.getFormData();
-  data.value.password = '';
-  data.value.rePassword = '';
+  data.value.password = "";
+  data.value.rePassword = "";
   // ruleForm.value = {};
 };
 const pwdMerge = () => {
@@ -76,25 +76,25 @@ const pwdMerge = () => {
     let pwd = pwdForm.password;
     let rePwd = pwdForm.rePassword;
     if (!trim(pwd)) {
-      warning('不能设置空格密码');
+      warning("不能设置空格密码");
       return;
     }
     if (pwd.length < 6 || pwd.length > 15) {
-      warning('请设置长度为6到15的密码');
+      warning("请设置长度为6到15的密码");
       return;
     }
     if (pwd !== rePwd) {
-      warning('两次密码不一致，请重新录入');
+      warning("两次密码不一致，请重新录入");
       return;
     }
     postRequest(
-      '/system-config/system/usersAuditEntity/refreshInvalidPassword/' +
+      "/system-config/system/usersAuditEntity/refreshInvalidPassword/" +
         pwdForm.username +
-        '/' +
+        "/" +
         pwd +
-        '/' +
-        (pwdForm.oldPassword || '0') +
-        '/' +
+        "/" +
+        (pwdForm.oldPassword || "0") +
+        "/" +
         pwdForm.phone,
       {},
     ).then((res) => {
@@ -120,21 +120,21 @@ const tableFieldList = reactive<PageFieldInfo | any>({
   stopAutoLoad: !!props.viewRolesinfoId,
   userTableFuncs: [
     {
-      authority: 'edit',
-      btnName: '修改密码',
+      authority: "edit",
+      btnName: "修改密码",
       funcName: (row: any) => {
         editPwd(row);
       },
     },
   ],
 });
-const primaryKey = 'idUsersinfo';
+const primaryKey = "idUsersinfo";
 const rules = {};
 const dialogProps = dialogPreps();
-provide('dialogProps', dialogProps);
+provide("dialogProps", dialogProps);
 
 const dataFormat = (name: string, cellValue: any, row: any): any => {
-  if (name == 'sex') {
+  if (name == "sex") {
     let fdata = sexList.value.find(
       (item: any) => parseInt(item.value) == parseInt(cellValue),
     );
@@ -144,7 +144,7 @@ const dataFormat = (name: string, cellValue: any, row: any): any => {
   return userFormat(name, cellValue, row);
 };
 const treeRef = ref<InstanceType<typeof ElTreeV2>>();
-const query = ref('');
+const query = ref("");
 const onQueryChanged = (query: string) => {
   treeRef.value!.filter(query);
 };
@@ -167,7 +167,7 @@ const checkChange = (data: TreeNodeData, checked: boolean) => {
   let conditions: Array<SearchParams> = [];
   console.log(data);
 
-  conditions.push(createCondition('c.idDepartment', data.idDepartment));
+  conditions.push(createCondition("c.idDepartment", data.idDepartment));
   // menuTableListRef.value.setDataInfo(conditions, null);
   usersinfoTableListRef.value.createSearchParams(conditions);
 };
@@ -178,7 +178,7 @@ const initData = async () => {
   //如果是从其它页面加载的该页面，则将条件加入查询
   if (props.viewRolesinfoId) {
     let params: SearchParams[] = [
-      { propertyName: 'b.idRolesinfo', value: props.viewRolesinfoId },
+      { propertyName: "b.idRolesinfo", value: props.viewRolesinfoId },
     ];
     usersinfoTableListRef.value.createSearchParams(params);
   }
@@ -190,29 +190,29 @@ const pwdFieldInfo = reactive<PageFieldInfo | any>({
   fieldList: [
     [
       {
-        label: '工号',
-        fieldName: 'employeeNo',
-        type: 'tag',
+        label: "工号",
+        fieldName: "employeeNo",
+        type: "tag",
         formVisible: true,
       },
       {
-        label: '用户名',
-        fieldName: 'username',
-        type: 'tag',
+        label: "用户名",
+        fieldName: "username",
+        type: "tag",
         formVisible: true,
       },
     ],
     [
       {
-        label: '密码',
-        fieldName: 'password',
-        type: 'password',
+        label: "密码",
+        fieldName: "password",
+        type: "password",
         formVisible: true,
       },
       {
-        label: '确认密码',
-        fieldName: 'rePassword',
-        type: 'password',
+        label: "确认密码",
+        fieldName: "rePassword",
+        type: "password",
         formVisible: true,
       },
     ],

@@ -1,44 +1,44 @@
 <script setup lang="ts">
-import pageItemsComponent from '@/components/formcomp/pageitems/allPageItem';
-import FlexItem from '@/components/system/items/FlexItem.vue';
-import PageBackground from '@/components/system/items/PageBackground.vue';
-import PageCompPanel from '@/components/system/items/PageCompPanel.vue';
-import PageFont from '@/components/system/items/PageFont.vue';
-import PagePosition from '@/components/system/items/PagePosition.vue';
-import SvgLoader from '@/components/system/SvgLoader.vue';
-import { Layout } from '@/components/types/dataTypes';
-import { appInstance } from '@/main';
-import { useFlexDesignStore } from '@/store/FlexDesign';
-import { flexBoxContainerConfig } from '@/utils/flexbox/containerConfig';
-import { flexBoxItemsConfig } from '@/utils/flexbox/itemsConfig';
-import { flexboxLayouts } from '@/utils/flexbox/layouts';
-import { gridContainerConfig } from '@/utils/grid/containerConfig';
-import { gridItemsConfig } from '@/utils/grid/itemsConfig';
-import { gridLayouts } from '@/utils/grid/layouts';
-import { PageFieldInfo, piniaInstance, uuid } from 'star-horse-lowcode';
-import { computed, defineOptions, onMounted, ref, watch } from 'vue';
-import StarHorseRuler from './StarHorseRuler.vue';
+import pageItemsComponent from "@/components/formcomp/pageitems/allPageItem";
+import FlexItem from "@/components/system/items/FlexItem.vue";
+import PageBackground from "@/components/system/items/PageBackground.vue";
+import PageCompPanel from "@/components/system/items/PageCompPanel.vue";
+import PageFont from "@/components/system/items/PageFont.vue";
+import PagePosition from "@/components/system/items/PagePosition.vue";
+import SvgLoader from "@/components/system/SvgLoader.vue";
+import { Layout } from "@/components/types/dataTypes";
+import { appInstance } from "@/main";
+import { useFlexDesignStore } from "@/store/FlexDesign";
+import { flexBoxContainerConfig } from "@/utils/flexbox/containerConfig";
+import { flexBoxItemsConfig } from "@/utils/flexbox/itemsConfig";
+import { flexboxLayouts } from "@/utils/flexbox/layouts";
+import { gridContainerConfig } from "@/utils/grid/containerConfig";
+import { gridItemsConfig } from "@/utils/grid/itemsConfig";
+import { gridLayouts } from "@/utils/grid/layouts";
+import { PageFieldInfo, piniaInstance, uuid } from "star-horse-lowcode";
+import { computed, defineOptions, onMounted, ref, watch } from "vue";
+import StarHorseRuler from "./StarHorseRuler.vue";
 
 defineOptions({
-  name: 'StarHorseFlexComp',
+  name: "StarHorseFlexComp",
 });
 const flexDesign = useFlexDesignStore(piniaInstance);
 const positionList = computed(() => flexDesign.getPositionList());
 const currentId = computed(() => flexDesign.getCurrentItem());
-const tabModel = ref<string>('template');
-const editTabModel = ref<string>('container');
-const containerCollapse = ref<string>('container');
-const itemCollapse = ref<string>('item');
+const tabModel = ref<string>("template");
+const editTabModel = ref<string>("container");
+const containerCollapse = ref<string>("container");
+const itemCollapse = ref<string>("item");
 const containerDataForm = ref<any>({});
 const itemDataForm = ref<any>({});
 const containerConfig = ref<PageFieldInfo>({});
 const itemConfig = ref<PageFieldInfo>({});
 const layoutConfig = ref<Layout[]>([]);
-const flexModel = ref<string>('flex');
+const flexModel = ref<string>("flex");
 const needInfiniteViewer = ref<boolean>(true);
 const hideRuler = ref<boolean>(false);
 const isFullscreen = ref(false);
-const directions = ['column', 'row-reverse', 'column-reverse', 'row'];
+const directions = ["column", "row-reverse", "column-reverse", "row"];
 let index = 0;
 const tabChange = (val: string) => {};
 const addItem = () => {
@@ -54,26 +54,26 @@ const mainAxisDirection = () => {
     index = 0;
   }
   const direction = directions[index];
-  containerDataForm.value['flexDirection'] = direction;
+  containerDataForm.value["flexDirection"] = direction;
   flexDesign.setContainerDirection(direction);
   Object.entries(flexDesign.getItems()).forEach(([_key, value]) => {
-    value['transform'] = 'none';
-    value['transformOrigin'] = '50% 50% 0px';
+    value["transform"] = "none";
+    value["transformOrigin"] = "50% 50% 0px";
   });
   index++;
 };
 const selectItem = (itemId: string) => {
   itemDataForm.value = flexDesign.getItem(itemId);
-  editTabModel.value = 'item';
+  editTabModel.value = "item";
 };
 const addComp = () => {
   flexDesign.addComp(currentId.value, {
     id: uuid(),
-    type: 'input',
-    label: '输入框',
+    type: "input",
+    label: "输入框",
     formVisible: true,
-    fieldName: 'name',
-    itemType: 'item',
+    fieldName: "name",
+    itemType: "item",
   });
 };
 /**
@@ -81,15 +81,15 @@ const addComp = () => {
  */
 const init = () => {
   appInstance.use(pageItemsComponent);
-  flexChange('flex');
+  flexChange("flex");
   let layout: Layout = flexboxLayouts.find(
-    (item: Layout) => item.icon == 'fillRemainingSpace',
+    (item: Layout) => item.icon == "fillRemainingSpace",
   )!;
   layoutOperation(layout);
 };
 const flexChange = (val: string) => {
   flexDesign.init();
-  if (val == 'flex') {
+  if (val == "flex") {
     containerConfig.value = flexBoxContainerConfig;
     itemConfig.value = flexBoxItemsConfig;
     layoutConfig.value = flexboxLayouts;
@@ -103,7 +103,7 @@ const layoutOperation = (item: Layout) => {
   flexDesign.init();
   const container = item.layout.container;
   const tempContainerInfo = JSON.parse(JSON.stringify(container));
-  tempContainerInfo['minWidth'] = 'auto';
+  tempContainerInfo["minWidth"] = "auto";
   flexDesign.setContainerInfo(tempContainerInfo);
 
   containerDataForm.value = tempContainerInfo;
@@ -111,7 +111,7 @@ const layoutOperation = (item: Layout) => {
   const tempItems = JSON.parse(JSON.stringify(items));
   tempItems.forEach((item: any) => {
     // item.styles["minWidth"] = "auto";
-    item.styles['overflow'] = 'hidden';
+    item.styles["overflow"] = "hidden";
   });
   flexDesign.batchAddItems(tempItems);
 };
@@ -138,7 +138,7 @@ const fullScreen = () => {
 };
 onMounted(() => {
   init();
-  document.addEventListener('fullscreenchange', () => {
+  document.addEventListener("fullscreenchange", () => {
     isFullscreen.value = !!document.fullscreenElement;
   });
 });

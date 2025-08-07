@@ -1,13 +1,13 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref } from "vue";
 
-let flowStyle = ref<string>('dingding');
+let flowStyle = ref<string>("dingding");
 let currentStep = ref<number>(3);
 const changeDesignStyle = () => {
-  if (flowStyle.value == 'dingding') {
-    flowStyle.value = 'flowable';
+  if (flowStyle.value == "dingding") {
+    flowStyle.value = "flowable";
   } else {
-    flowStyle.value = 'dingding';
+    flowStyle.value = "dingding";
   }
 };
 /**

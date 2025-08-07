@@ -1,13 +1,13 @@
 <script lang="ts" setup name="Header">
-import { Config } from '@/api/settings';
-import { userLogout } from '@/api/star_horse_apis';
-import { filterTree } from '@/api/star_horse_utils';
-import Message from '@/components/Message.vue';
-import { i18n } from '@/lang';
-import { useLoginStore } from '@/store/Login';
-import { getLang, setLang } from '@/theme/localStorge';
-import { LangType } from '@/theme/theme';
-import { getCustomerInfo, getCustomerParam, getUserInfo } from '@/utils/auth';
+import { Config } from "@/api/settings";
+import { userLogout } from "@/api/star_horse_apis";
+import { filterTree } from "@/api/star_horse_utils";
+import Message from "@/components/Message.vue";
+import { i18n } from "@/lang";
+import { useLoginStore } from "@/store/Login";
+import { getLang, setLang } from "@/theme/localStorge";
+import { LangType } from "@/theme/theme";
+import { getCustomerInfo, getCustomerParam, getUserInfo } from "@/utils/auth";
 import {
   apiInstance,
   ApiUrls,
@@ -24,13 +24,13 @@ import {
   useGlobalConfigStore,
   useUserInfoStore,
   warning,
-} from 'star-horse-lowcode';
-import { computed, nextTick, onMounted, ref, unref } from 'vue';
-import { useRouter } from 'vue-router';
+} from "star-horse-lowcode";
+import { computed, nextTick, onMounted, ref, unref } from "vue";
+import { useRouter } from "vue-router";
 
 const userStore = useUserInfoStore(piniaInstance);
 const loginStore = useLoginStore(piniaInstance);
-const dataUrl: ApiUrls = apiInstance('system-config', 'system/dictinfoEntity', [
+const dataUrl: ApiUrls = apiInstance("system-config", "system/dictinfoEntity", [
   getCustomerParam(),
 ]);
 const configStore = useGlobalConfigStore(piniaInstance);
@@ -39,7 +39,7 @@ const filterTableData = computed(() =>
 );
 const configInfo = computed(() => configStore.configFormInfo);
 const { push } = useRouter();
-const emits = defineEmits(['changeLang', 'layoutConfig']);
+const emits = defineEmits(["changeLang", "layoutConfig"]);
 const dialogProps = dialogPreps();
 const appinfoList = computed(() => loginStore.getAppInfoList());
 const search = ref<string>();
@@ -59,17 +59,17 @@ onMounted(() => {
  * 权限弹窗
  */
 const layoutConfig = () => {
-  emits('layoutConfig');
+  emits("layoutConfig");
 };
 /**
  * 个人信息弹窗
  */
 const modifyInfo = () => {
-  push('/userCenter');
+  push("/userCenter");
 };
 
 const loginOut = () => {
-  operationConfirm('是否确认退出系统?').then((res: boolean) => {
+  operationConfirm("是否确认退出系统?").then((res: boolean) => {
     if (res) {
       userStore.logout();
       userLogout(userInfo || {});
@@ -106,7 +106,7 @@ const addShortcutMenu = async () => {
   reverseDataList.value = [];
   permissionMenuList.value = datas;
   dialogProps.bakeVisible1 = true;
-  dialogProps.dialogTitle = '设置快捷菜单';
+  dialogProps.dialogTitle = "设置快捷菜单";
   //在手动设置选中前,一定要先做清除选中,否则会出现很多重复被选中的情况
   await nextTick(async () => {
     // shortcutMultipleTable.value!.clearSelection();
@@ -121,7 +121,7 @@ const addShortcutMenu = async () => {
 const batchMerge = () => {
   let selectedRows = unref(shortcutMultipleTable.value!.getSelectedDatas());
   if (selectedRows.length > 10) {
-    warning('快捷菜单最多只能设置10个');
+    warning("快捷菜单最多只能设置10个");
     return;
   }
   let dataList: Array<any> = [];
@@ -132,7 +132,7 @@ const batchMerge = () => {
       menuPath: item.path,
     });
   });
-  load('数据提交中');
+  load("数据提交中");
   postRequest(
     `/system-config/system/shortcutMenu/mergeBatch/${userInfo.idUsersinfo}`,
     dataList,
@@ -152,34 +152,34 @@ const batchMerge = () => {
 const shortcutReset = () => {
   shortcutMultipleTable.value!.clearSelection();
 };
-let curLangName = ref('中文');
+let curLangName = ref("中文");
 const handleLanguageChanged = (lang: LangType) => {
   changeLang(lang, false);
   window.location.reload();
 };
 const changeLang = (lang: LangType, isInit: boolean) => {
-  curLangName.value = lang == LangType.ZH_CN ? '中文' : 'English';
+  curLangName.value = lang == LangType.ZH_CN ? "中文" : "English";
   setLang(lang);
-  emits('changeLang', lang, isInit);
+  emits("changeLang", lang, isInit);
 };
 const fieldList = ref<PageFieldInfo>({
   fieldList: [
     {
-      label: '菜单名称',
+      label: "菜单名称",
       listVisible: true,
-      fieldName: 'meta.title',
+      fieldName: "meta.title",
     },
     {
-      label: '菜单路径',
+      label: "菜单路径",
       listVisible: true,
-      fieldName: 'path',
+      fieldName: "path",
     },
   ],
   stopAutoLoad: true,
 });
 const dataFormat = (name: string, val: any, row: any) => {
-  if (name == 'meta.title') {
-    return row['meta']['title'];
+  if (name == "meta.title") {
+    return row["meta"]["title"];
   }
   return val;
 };

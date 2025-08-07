@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { nextTick, onMounted, provide, reactive, ref, watch } from 'vue';
+import { nextTick, onMounted, provide, reactive, ref, watch } from "vue";
 import {
   apiInstance,
   ApiUrls,
@@ -11,18 +11,18 @@ import {
   useDesignFormStore,
   userAction,
   UserFuncInfo,
-} from 'star-horse-lowcode';
-import { TabsPaneContext } from 'element-plus';
+} from "star-horse-lowcode";
+import { TabsPaneContext } from "element-plus";
 
 let designForm = useDesignFormStore(piniaInstance);
 const starHorseTableCompRef = ref();
-let dataUrl = ref<ApiUrls>(apiInstance('', ''));
-const errorMsg = ref('数据加载中');
+let dataUrl = ref<ApiUrls>(apiInstance("", ""));
+const errorMsg = ref("数据加载中");
 let searchFormData = ref<SearchFields>({});
 const tableFieldList = ref<any>({
   fieldList: [],
 });
-const primaryKey = ref('');
+const primaryKey = ref("");
 const rules = ref({});
 const hasData = ref(false);
 let relationTables = ref<any>({});
@@ -30,7 +30,7 @@ const formInfo = ref<any>({});
 const fieldMappingList = ref<any>([]);
 const dataSource = ref<any>({});
 let dateFields = ref<Array<string>>([]);
-const activeName = ref<string>('form');
+const activeName = ref<string>("form");
 let extBtns = ref<Array<UserFuncInfo>>([]);
 const props = defineProps({
   param: { type: String, required: true },
@@ -52,23 +52,23 @@ const loadFormData = async (formId: string) => {
   }
   hasData.value = data && Object.keys(data).length > 0;
   dataUrl.value = apiInstance(
-    data['dataUrl']?.appName,
-    data['dataUrl']?.contextUrl,
+    data["dataUrl"]?.appName,
+    data["dataUrl"]?.contextUrl,
   );
-  searchFormData.value = data['searchFormData'] as SearchFields;
-  primaryKey.value = data['primaryKey'];
-  tableFieldList.value = data['tableFieldList'];
-  rules.value = data['rules'];
-  dateFields.value = data['dateFields'];
+  searchFormData.value = data["searchFormData"] as SearchFields;
+  primaryKey.value = data["primaryKey"];
+  tableFieldList.value = data["tableFieldList"];
+  rules.value = data["rules"];
+  dateFields.value = data["dateFields"];
   fieldMappingList.value = data?.fieldMappingList;
-  relationTables.value = data['relationTables'];
-  dataSource.value = data['dataSource'];
+  relationTables.value = data["relationTables"];
+  dataSource.value = data["dataSource"];
   extBtns.value = userAction(
     starHorseTableCompRef,
     primaryKey.value,
-    tableFieldList.value['userTableFuncs'],
+    tableFieldList.value["userTableFuncs"],
   );
-  delete tableFieldList.value['userTableFuncs'];
+  delete tableFieldList.value["userTableFuncs"];
   await nextTick();
   // closeLoad();
   starHorseTableCompRef.value!.init();
@@ -82,16 +82,16 @@ watch(
       loadFormData(<string>val);
     } catch (e) {
       // closeLoad();
-      console.log('数据类型不匹配');
+      console.log("数据类型不匹配");
     }
   },
   { deep: true },
 );
 //记录表单的属性
 const formFields = reactive<Array<any>>([]);
-provide('formFields', formFields);
+provide("formFields", formFields);
 const dialogProps = dialogPreps();
-provide('dialogProps', dialogProps);
+provide("dialogProps", dialogProps);
 
 const init = async () => {
   designForm.setIsEdit(false);
@@ -111,14 +111,14 @@ const dataFormat = (name: string, cellValue: object, row: any): any => {
         let stemp = temp.datas?.find(
           (item: any) => item[temp.valueField] == cellValue,
         );
-        return stemp ? stemp[temp.labelField] : cellValue || '--';
+        return stemp ? stemp[temp.labelField] : cellValue || "--";
       }
     }
-    return 'null' == cellValue ? '--' : cellValue || '--';
+    return "null" == cellValue ? "--" : cellValue || "--";
   };
   if (fieldMappingList.value && fieldMappingList.value?.length > 0) {
     let temp = fieldMappingList.value.find(
-      (item: any) => item['fieldName'] == name,
+      (item: any) => item["fieldName"] == name,
     );
     if (temp) {
       return row[temp.mappingDisplayField] || subFormat(name, cellValue, row);
