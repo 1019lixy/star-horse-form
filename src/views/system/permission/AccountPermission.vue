@@ -83,7 +83,7 @@ const formFieldList = reactive<PageFieldInfo>({
       preps: {
         multiple: true,
         dataUrl: {
-          pageListUrl: "/system-config/system/usersinfoEntity/pageList",
+          pageListUrl: "/system-config/system/usersinfo/pageList",
         },
         needField: [
           { sourceField: "username", distField: "userNameList" },

@@ -34,7 +34,7 @@ onMounted(() => {
 const openDb = () => {
   let editor = editorRef.value!;
   getRequest(
-    `/userdb-manage/dbsearch/dbinfoEntity/openConn/${dbIndex.value}`,
+    `/userdb-manage/dbsearch/dbinfo/openConn/${dbIndex.value}`,
   ).then((res) => {
     tableList.value = {};
     if (res.data.code != 0) {
@@ -101,7 +101,7 @@ const tableField = (tableName: string) => {
     return;
   }
   getRequest(
-    `/userdb-manage/dbsearch/dbinfoEntity/tableColumns/${dbIndex.value}/${tableName}`,
+    `/userdb-manage/dbsearch/dbinfo/tableColumns/${dbIndex.value}/${tableName}`,
   )
     .then((res) => {
       if (res.data.code != 0) {

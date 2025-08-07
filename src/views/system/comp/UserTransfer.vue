@@ -43,7 +43,7 @@ const filterMethod = (query, item) => {
   // loadByPage();
 };
 const loadByPage = async () => {
-  await postRequest("/system-config/system/usersinfoEntity/pageList", {
+  await postRequest("/system-config/system/usersinfo/pageList", {
     currentPage: pageInfo.value.currentPage,
     pageSize: pageInfo.value.pageSize,
     fieldList: searchFields.value,

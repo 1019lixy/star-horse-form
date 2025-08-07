@@ -1,7 +1,7 @@
 import { postRequest, SelectOption } from "star-horse-lowcode";
 
 const deptAndUserTree: string =
-  "/system-config/system/departmentEntity/deptAndUserTree";
+  "/system-config/system/department/deptAndUserTree";
 
 /**
  * 获取部门用户

@@ -22,16 +22,16 @@ import piniaCompInstance from "@/store";
 
 const appinfoUrl: ApiUrls = apiInstance(
   "system-config",
-  "system/informationsEntity",
+  "system/informations",
 );
 const shortcutMenuUrl: ApiUrls = apiInstance(
   "system-config",
   "system/shortcutMenu",
 );
-const menuUrl: ApiUrls = apiInstance("system-config", "system/menusinfoEntity");
+const menuUrl: ApiUrls = apiInstance("system-config", "system/menusinfo");
 const userAuditUrl: ApiUrls = apiInstance(
   "system-config",
-  "system/usersAuditEntity",
+  "system/usersAudit",
 );
 const userStore = useUserInfoStore(piniaInstance);
 const navStore = useNavBarListStore(piniaCompInstance);

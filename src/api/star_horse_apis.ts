@@ -124,7 +124,7 @@ export async function rtCode(content: string) {
  */
 export async function userLogout(data: Array<any>) {
   const resultDdata = await loadData(
-    `${ServiceEnums.SYSTEM_PREFIX}usersAuditEntity/userLogout`,
+    `${ServiceEnums.SYSTEM_PREFIX}usersAudit/userLogout`,
     data,
   );
   if (resultDdata.error) {
@@ -157,7 +157,7 @@ export function getMenuId() {
 export async function permissionMenus(data: any, sysId: string) {
   const userId = data?.userId || getUserId();
   return await postRequest(
-    `${ServiceEnums.SYSTEM_PREFIX}menusinfoEntity/permissionMenus/${userId}/${sysId}`,
+    `${ServiceEnums.SYSTEM_PREFIX}menusinfo/permissionMenus/${userId}/${sysId}`,
     {},
   );
 }
@@ -317,7 +317,7 @@ export async function loadDict(dictName: string) {
     fieldList: [{ propertyName: "dictType", value: dictName ?? "public" }],
   };
   await postRequest(
-    `${ServiceEnums.SYSTEM_PREFIX}dictinfoEntity/getAllByCondition`,
+    `${ServiceEnums.SYSTEM_PREFIX}dictinfo/getAllByCondition`,
     param,
   )
     .then((res) => {

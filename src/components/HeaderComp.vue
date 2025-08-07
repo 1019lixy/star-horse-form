@@ -30,7 +30,7 @@ import { useRouter } from "vue-router";
 
 const userStore = useUserInfoStore(piniaInstance);
 const loginStore = useLoginStore(piniaInstance);
-const dataUrl: ApiUrls = apiInstance("system-config", "system/dictinfoEntity", [
+const dataUrl: ApiUrls = apiInstance("system-config", "system/dictinfo", [
   getCustomerParam(),
 ]);
 const configStore = useGlobalConfigStore(piniaInstance);

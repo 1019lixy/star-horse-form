@@ -26,7 +26,7 @@ import { TreeNodeData } from "element-plus/es/components/tree-v2/src/types";
 
 const dataUrl: ApiUrls = apiInstance(
   "system-config",
-  "system/departmentEntity",
+  "system/department",
 );
 let departmentList = ref<SelectOption[]>([]);
 let companyList = ref<Array<any>>([]);

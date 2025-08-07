@@ -21,7 +21,7 @@ const props = defineProps({
   compSize: { type: String, default: Config.compSize },
   requestSource: { type: String, default: "onlineQuery" },
 });
-const dataUrl = apiInstance("userdb-manage", "dbsearch/dbinfoEntity");
+const dataUrl = apiInstance("userdb-manage", "dbsearch/dbinfo");
 const emits = defineEmits(["error", "queryResultChange"]);
 const queryResult = ref<any>({});
 let pageSize = ref<number>(10);

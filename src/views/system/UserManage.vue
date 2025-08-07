@@ -343,7 +343,7 @@ const loadDepartByCompId = async (val: any) => {
   }
   params.push(createCondition("a.idCompanyDefine", compId));
   let result = await loadData(
-    "/system-config/system/departmentEntity/getAllByCondition",
+    "/system-config/system/department/getAllByCondition",
     {
       fieldList: params,
     },

@@ -31,7 +31,7 @@ const props = defineProps({
   viewRolesinfoId: { type: String },
   disableAction: { type: Boolean, default: false },
 });
-const dataUrl: ApiUrls = apiInstance("system-config", "system/usersinfoEntity");
+const dataUrl: ApiUrls = apiInstance("system-config", "system/usersinfo");
 const usersinfoTableListRef = ref();
 const searchFormData = reactive<SearchFields>({
   fieldList: [
@@ -88,7 +88,7 @@ const pwdMerge = () => {
       return;
     }
     postRequest(
-      "/system-config/system/usersAuditEntity/refreshInvalidPassword/" +
+      "/system-config/system/usersAudit/refreshInvalidPassword/" +
         pwdForm.username +
         "/" +
         pwd +

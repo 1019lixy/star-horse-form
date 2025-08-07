@@ -12,7 +12,7 @@ import { loadDepartmentInfo, loadSystemInfo } from "@/api/star_horse_utils";
 import { onMounted, provide, reactive, ref } from "vue";
 import { isSystemManage } from "@/utils/auth";
 
-const dataUrl: ApiUrls = apiInstance("system-config", "system/rolesinfoEntity");
+const dataUrl: ApiUrls = apiInstance("system-config", "system/rolesinfo");
 let departmentList = ref<SelectOption[]>([]);
 let systemList = ref<SelectOption[]>([]);
 let menusList = ref([]);

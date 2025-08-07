@@ -25,7 +25,7 @@ const dataUrl: ApiUrls = apiInstance(
   "system-config",
   "system/rolesPkBtnAuthority",
 );
-dataUrl.mergeUrl = "/system-config/system/resourcesSummaryEntity/merge";
+dataUrl.mergeUrl = "/system-config/system/resourcesSummary/merge";
 let systemInfoList = ref<SelectOption[]>([]);
 let appinfoList = ref<SelectOption[]>([]);
 let rolesList = ref<SelectOption[]>([]);
@@ -229,7 +229,7 @@ const loadMenus = async () => {
   }
   menusList.value = [];
   let menusDatas = await loadData(
-    "/system-config/system/menusinfoEntity/rolesAppMenus",
+    "/system-config/system/menusinfo/rolesAppMenus",
     {
       fieldList: fieldList,
       orderBy: [

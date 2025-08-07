@@ -807,7 +807,7 @@ const initData = async () => {
   let params = [{ propertyName: "statusCode", value: "1" }];
   informationsList.value = await loadSystemInfo(
     params,
-    `${ServiceEnums.SYSTEM_PREFIX}informationsEntity/getUserSystem/${getUserInfo()?.idUsersinfo}`,
+    `${ServiceEnums.SYSTEM_PREFIX}informations/getUserSystem/${getUserInfo()?.idUsersinfo}`,
   );
   systemIconList.value = loadElementPlusIcon();
   loadDict("page_style").then((res: any) => {
@@ -901,7 +901,7 @@ const loadTableColumns = (tbName: any) => {
   }
   tableColumnsList.value = [];
   getRequest(
-    `/userdb-manage/dbsearch/dbinfoEntity/tableColumns/${currentDataSourceId.value}/${tbName}`,
+    `/userdb-manage/dbsearch/dbinfo/tableColumns/${currentDataSourceId.value}/${tbName}`,
   ).then((res: any) => {
     if (res.data.code != 0) {
       return;

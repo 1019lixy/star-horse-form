@@ -8,7 +8,7 @@ import {
 } from "star-horse-lowcode";
 import { onMounted, provide, reactive, ref } from "vue";
 
-const dataUrl: ApiUrls = apiInstance("system-config", "system/auditEntity");
+const dataUrl: ApiUrls = apiInstance("system-config", "system/audit");
 const requestMethod = [
   { name: "POST", value: "POST" },
   { name: "GET", value: "GET" },

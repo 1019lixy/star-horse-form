@@ -8,7 +8,7 @@ import {
   SelectOption,
 } from "star-horse-lowcode";
 
-const dataUrl: ApiUrls = apiInstance("userdb-manage", "dbsearch/dbinfoEntity");
+const dataUrl: ApiUrls = apiInstance("userdb-manage", "dbsearch/dbinfo");
 let dbList = ref<SelectOption[]>([]);
 const tableFieldList = reactive({
   fieldList: [

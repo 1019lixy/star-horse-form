@@ -10,7 +10,7 @@ import {
   useConsumerViewStore,
   warning,
 } from "star-horse-lowcode";
-const dbInfoUrl = apiInstance("userdb-manage", "dbsearch/dbinfoEntity");
+const dbInfoUrl = apiInstance("userdb-manage", "dbsearch/dbinfo");
 const consumerView = useConsumerViewStore(piniaInstance);
 
 /**

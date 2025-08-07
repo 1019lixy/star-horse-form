@@ -255,7 +255,7 @@ const searchUserOrRole = (val: any) => {
       { sourceField: "username", distField: "assignTo" },
     ];
     params.value.dataUrl = {
-      pageListUrl: "/system-config/system/usersinfoEntity/pageList",
+      pageListUrl: "/system-config/system/usersinfo/pageList",
     };
     params.value.primaryKey = "idUsersinfo";
   } else {
@@ -284,7 +284,7 @@ const searchUserOrRole = (val: any) => {
       /* {sourceField: 'roleName', distField: 'roleName'},*/
     ];
     params.value.dataUrl = {
-      pageListUrl: "/system-config/system/rolesinfoEntity/pageList",
+      pageListUrl: "/system-config/system/rolesinfo/pageList",
     };
     params.value.primaryKey = "idRolesinfo";
   }
@@ -301,7 +301,7 @@ const initDbList = async () => {
     { propertyName: "statusCode", value: "1" },
   ];
   let { data, error } = await loadData(
-    "/userdb-manage/dbsearch/dbinfoEntity/getAllByCondition",
+    "/userdb-manage/dbsearch/dbinfo/getAllByCondition",
     params,
   );
   loadDict("TABLE_OPERATION_AUTHORITY").then((res) => {

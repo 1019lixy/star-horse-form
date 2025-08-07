@@ -15,7 +15,7 @@ import { computed, onMounted, provide, reactive, ref, watch } from "vue";
 
 const dictinfoRef = ref();
 const dictSearchRef = ref();
-const dataUrl: ApiUrls = apiInstance("system-config", "system/dictinfoEntity");
+const dataUrl: ApiUrls = apiInstance("system-config", "system/dictinfo");
 const commonDictList = ref<SelectOption[]>([]);
 const props = defineProps({
   dictType: { type: String, required: true },

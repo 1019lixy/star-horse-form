@@ -7,7 +7,7 @@ import { getRequest, postRequest } from "star-horse-lowcode";
 export async function loadRolesMenus(idRolesinfo: number) {
   let roleMenus: any = [];
   await getRequest(
-    `/system-config/system/rolesinfoEntity/roleAuthorityPageList/${idRolesinfo}`,
+    `/system-config/system/rolesinfo/roleAuthorityPageList/${idRolesinfo}`,
   )
     .then((res) => {
       if (res.data.code != 0) {

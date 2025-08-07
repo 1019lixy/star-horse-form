@@ -15,7 +15,7 @@ import {
 } from "star-horse-lowcode";
 import { Config } from "@/api/settings";
 
-const dataUrl: ApiUrls = apiInstance("userdb-manage", "dbsearch/dbinfoEntity");
+const dataUrl: ApiUrls = apiInstance("userdb-manage", "dbsearch/dbinfo");
 let configStore = useGlobalConfigStore(piniaInstance);
 let compSize = computed(
   () => configStore.configFormInfo?.inputSize || Config.compSize,
@@ -196,7 +196,7 @@ provide("dialogProps", dialogProps);
 
 const loadDbTypeList = async () => {
   let { data, error } = await loadGetData(
-    "/userdb-manage/dbsearch/dbinfoEntity/dbType",
+    "/userdb-manage/dbsearch/dbinfo/dbType",
   );
   if (error) {
     warning(error);
@@ -230,7 +230,7 @@ const validDb = async () => {
   }
   let data = dbinfoFormRef.value.getFormData().value;
   let resultData = await loadData(
-    "/userdb-manage/dbsearch/dbinfoEntity/validDbInfo",
+    "/userdb-manage/dbsearch/dbinfo/validDbInfo",
     data,
   );
   if (resultData.error) {

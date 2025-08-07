@@ -30,8 +30,8 @@ let compSize = computed(
 const userFormRef = ref<Record<string, InstanceType<typeof StarHorseForm>>>({}); // 明确组件类型
 const activeName = ref<string>("basic");
 const url: any = {
-  basic: `${ServiceEnums.SYSTEM_PREFIX}usersinfoEntity/userSelfEdit`,
-  password: `${ServiceEnums.SYSTEM_PREFIX}usersAuditEntity/editPassword`,
+  basic: `${ServiceEnums.SYSTEM_PREFIX}usersinfo/userSelfEdit`,
+  password: `${ServiceEnums.SYSTEM_PREFIX}usersAudit/editPassword`,
 };
 const dialogProps = dialogPreps();
 provide("dialogProps", dialogProps);

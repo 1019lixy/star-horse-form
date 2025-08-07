@@ -26,15 +26,15 @@ let loading: any = null;
 /**
  * 系统接口
  */
-const systemUrl: string = `${ServiceEnums.SYSTEM_PREFIX}informationsEntity/systemTree`;
+const systemUrl: string = `${ServiceEnums.SYSTEM_PREFIX}informations/systemTree`;
 /**
  * 字典接口
  */
-const dictUrl: string = `${ServiceEnums.SYSTEM_PREFIX}dictinfoEntity/getAllByCondition`;
+const dictUrl: string = `${ServiceEnums.SYSTEM_PREFIX}dictinfo/getAllByCondition`;
 /**
  * 获取所有菜单
  */
-const menuUrl: string = `${ServiceEnums.SYSTEM_PREFIX}menusinfoEntity/getAllTreeDataByCondition`;
+const menuUrl: string = `${ServiceEnums.SYSTEM_PREFIX}menusinfo/getAllTreeDataByCondition`;
 /**
  * 归属主体
  */
@@ -166,7 +166,7 @@ export async function loadCustomInfo(params: any) {
  */
 export async function loadDepartmentInfo(param: any) {
   let deptData: any = [];
-  await postRequest(`${ServiceEnums.SYSTEM_PREFIX}departmentEntity/deptTree`, {
+  await postRequest(`${ServiceEnums.SYSTEM_PREFIX}department/deptTree`, {
     fieldList: param,
   })
     .then((res) => {
@@ -187,7 +187,7 @@ export async function loadDepartmentInfo(param: any) {
 export async function loadRolesInfo(param: any) {
   const roleData: SelectOption[] = [];
   await postRequest(
-    `${ServiceEnums.SYSTEM_PREFIX}rolesinfoEntity/queryUserAllRoles`,
+    `${ServiceEnums.SYSTEM_PREFIX}rolesinfo/queryUserAllRoles`,
     {
       fieldList: param,
     },
@@ -944,7 +944,7 @@ export async function createFilter(queryString: string) {
 
 export async function dbConfigList(): Promise<SelectOption[]> {
   const { data, error } = await loadGetData(
-    "/userdb-manage/dbsearch/dbinfoEntity/getDbInfoByUser",
+    "/userdb-manage/dbsearch/dbinfo/getDbInfoByUser",
   );
   if (error) {
     warning(error);

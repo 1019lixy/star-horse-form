@@ -127,7 +127,7 @@ const formFieldList = reactive<PageFieldInfo | any>({
         multiple: false,
         primaryKey: "idUsersinfo",
         dataUrl: {
-          pageListUrl: "/system-config/system/usersinfoEntity/pageList",
+          pageListUrl: "/system-config/system/usersinfo/pageList",
         },
         searchFieldList: {
           fieldList: [
@@ -276,7 +276,7 @@ const loadMenus = async () => {
   }
   menusList.value = [];
   let menusDatas = await loadData(
-    "/system-config/system/menusinfoEntity/rolesAppMenus",
+    "/system-config/system/menusinfo/rolesAppMenus",
     {
       fieldList: fieldList,
       orderBy: [

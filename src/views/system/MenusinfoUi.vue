@@ -25,7 +25,7 @@ import { Config } from "@/api/settings";
 import { computed, onMounted, provide, reactive, ref, unref } from "vue";
 import { TreeNodeData } from "element-plus/es/components/tree-v2/src/types";
 
-const dataUrl: ApiUrls = apiInstance("system-config", "system/menusinfoEntity");
+const dataUrl: ApiUrls = apiInstance("system-config", "system/menusinfo");
 let parentMenus: any = ref<any>([]);
 let searchParentMenus: any = ref<any>([]);
 let informationsList: any = ref<any>([]);
