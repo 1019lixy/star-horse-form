@@ -210,10 +210,11 @@ export function createRouterAndMenuList(redata: Array<object>): MenusInfo[] {
         continue;
       }
       const menuId = item.idMenusinfo;
-      if (menuId) {
-        pageButtonPermissions[menuId.toString()] =
-          item["pageButtonPermissions"];
-      }
+      // if (menuId) {
+      //   pageButtonPermissions[menuId.toString()] =
+      //     item["pageButtonPermissions"];
+      // }
+      // console.log("createRouterAndMenuList", item);
       const arr = item.menuPath.split("/");
       let menuName = arr[arr.length - 1];
       menuName = menuName.endsWith(Config.fileExt)
@@ -246,7 +247,7 @@ export function createRouterAndMenuList(redata: Array<object>): MenusInfo[] {
         userStore.addDynamicMenus(data);
       }
       //如果有子节点
-      if (item.children && item.children.length > 0) {
+      if (item.children?.length > 0) {
         data.children = loopCreateMenu(item.children, key_index + 1);
       }
       menuDatas.push(data);
