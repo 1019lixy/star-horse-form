@@ -276,18 +276,18 @@ const extendBtns = ref<UserFuncInfo[]>([
       });
     },
   },
-]);
-const extendBtns2 = ref<UserFuncInfo[]>([
   {
     icon: "add",
     btnName: "新增",
     authority: "add",
+    position:"toolbar",
     funcName: () => {
       flowDesign.init();
       router.push({ path: "/flowDesign" });
     },
   },
 ]);
+
 //控制弹窗相关设置
 const dialogProps = dialogPreps();
 provide("dialogProps", dialogProps);
