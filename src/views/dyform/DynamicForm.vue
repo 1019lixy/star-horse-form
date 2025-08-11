@@ -74,7 +74,9 @@ let reOrUnDoFlag = ref<boolean>(false);
 let initFinish = ref<boolean>(false);
 let currentPageStyle = ref<any>({ label: "电脑", key: "pc" });
 let currentPageClass = ref<string>("main-design");
-let cacheData = ref<any>("");
+let cacheData = computed(() => {
+  return getCacheData(cacheName);
+});
 let cacheName = "dynamicFormCache";
 const init = async () => {
   //初始化数据
@@ -94,7 +96,7 @@ const init = async () => {
     }
   });
   permissions.value = await pagePermission.addRoute(route);
-  cacheData.value = getCacheData(cacheName);
+
 };
 const propertyRef = ref();
 const loadFormData = async (
@@ -380,7 +382,7 @@ const cacheDataRestore = (evt: MouseEvent) => {
     } catch (e) {
       designForm.setCompList(cacheData.value);
     }
-    cacheData.value = "";
+    setCacheData(cacheName, null);
   }
 };
 const formFieldLayer = ref<boolean>(false);
@@ -683,7 +685,7 @@ defineExpose({
               </el-menu>
               <el-tooltip
                 content="恢复缓存数据"
-                v-if="cacheData && cacheData.length > 0"
+                v-if="cacheData?.length > 0"
               >
                 <star-horse-icon
                   icon-class="reset"
