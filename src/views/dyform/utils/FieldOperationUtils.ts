@@ -80,15 +80,16 @@ export function fieldCopy(data: any, type: string) {
   mvData["itemType"] = reData.itemType;
   if (reData.itemType == "box") {
     mvData.preps["elements"] = [
-      { rowIndex: 1, columns: [{ colIndex: 1, colspan: 24, items: [] }] },
+      { _uuid:uuid(), rowIndex: 1, columns: [{ _uuid: uuid(), colIndex: 1, colspan: 24, items: [] }] },
     ];
   } else if (reData.itemType == "table") {
-    mvData.preps["elements"] = [{ colIndex: 1, columns: 1, items: [] }];
+    mvData.preps["elements"] = [{_uuid: uuid(), colIndex: 1, columns: 1, items: [] }];
   } else if (reData.itemType == "dytable") {
     mvData.preps["elements"] = [
       {
+        _uuid: uuid(),
         colIndex: 1,
-        columns: [{ colIndex: 1, colspan: 1, rowspan: 1, items: [] }],
+        columns: [{ _uuid: uuid(), colIndex: 1, colspan: 1, rowspan: 1, items: [] }],
       },
     ];
   }

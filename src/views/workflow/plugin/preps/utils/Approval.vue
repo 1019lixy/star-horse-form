@@ -1,6 +1,29 @@
 <script setup lang="ts">
-import { createCondition, postRequest, uuid } from "star-horse-lowcode";
-import { onMounted, ref } from "vue";
+import {createCondition, postRequest, StarHorseDataSelector, uuid} from "star-horse-lowcode";
+import {onMounted, ref} from "vue";
+
+interface Dynamic {
+  /**
+   * 接口或字典
+   */
+  interOrDict: string;
+  /**
+   * 显示名称
+   */
+  displayName: string;
+  /**
+   * 值名称
+   */
+  displayValue: string;
+  /**
+   * 参数
+   */
+  params: any;
+  /**
+   * 是否代理
+   */
+  proxy:boolean;
+}
 
 const props = defineProps({
   groups: {
@@ -29,7 +52,12 @@ let rankList = ref<any>([]);
 let stationList = ref<any>([]);
 
 let dataSelectorVisible = ref<boolean>(false);
-let dataList = ref<any>([]);
+let dataList = ref<Dynamic>({
+  interOrDict: "",
+  displayName: "",
+  displayValue: "",
+  params: {},
+});
 let selectorParmas = ref<any>({});
 /**
  * 改变审批人类型
@@ -37,10 +65,16 @@ let selectorParmas = ref<any>({});
 const changeApproveType = (group: any) => {
   group.approverIds = [];
   group.approverNames = [];
-  dataList.value = [];
+  dataList.value ={
+    interOrDict: "",
+    displayName: "",
+    displayValue: "",
+    params: {},
+    proxy: false,
+  };
   dataSelectorVisible.value = false;
   let item = approvals.value.find(
-    (item: any) => item.idApprovalType == group.approveType,
+      (item: any) => item.idApprovalType == group.approveType,
   );
   group.currentApproveType = item;
   selectorParmas.value = {
@@ -49,12 +83,19 @@ const changeApproveType = (group: any) => {
     displayFieldValue: "id",
   };
   postRequest(
-    "/userdb-manage/userdb/formInstance/flApprovalFields/idApprovalFields/337537414606095357/getAllByCondition",
-    {
-      fieldList: [createCondition("a.idApprovalType", group.approveType)],
-    },
+      "/userdb-manage/userdb/formInstance/flApprovalFields/idApprovalFields/337537414606095357/getOneByCondition",
+      {
+        fieldList: [createCondition("a.idApprovalType", group.approveType)],
+      },
   ).then((res) => {
-    dataList.value = res.data?.data;
+    const reData = res.data?.data;
+    dataList.value = {
+      interOrDict: reData?.interOrDict,
+      displayName: reData?.fieldName,
+      displayValue: reData?.fieldValue,
+      params: reData?.params ? JSON.parse(reData?.params) : [],
+      proxy: reData?.proxy??true,
+    };
     dataSelectorVisible.value = true;
   });
 };
@@ -89,9 +130,9 @@ const init = async () => {
   });
   //加载岗位
   postRequest("/system-config/system/stationDefine/stationTree", {}).then(
-    (res) => {
-      stationList.value = res.data?.data;
-    },
+      (res) => {
+        stationList.value = res.data?.data;
+      },
   );
   //加载角色
   postRequest("/system-config/system/companyRole/getAllByCondition", {
@@ -100,8 +141,8 @@ const init = async () => {
     roleList.value = res.data?.data;
   });
   postRequest(
-    "/userdb-manage/userdb/formInstance/flApprovalType/idApprovalType/337537414606095357/getAllByCondition",
-    {},
+      "/userdb-manage/userdb/formInstance/flApprovalType/idApprovalType/337537414606095357/getAllByCondition",
+      {},
   ).then((res) => {
     approvals.value = res.data?.data;
   });
@@ -114,44 +155,44 @@ onMounted(() => {
   <el-form :model="groups" label-position="top">
     <div v-for="(group, index) in groups" :key="index" class="listener-box">
       <el-button
-        class="listener-close"
-        @click="delApproval(group)"
-        plain
-        circle
-        icon="CircleClose"
-        size="small"
-        type="danger"
+          class="listener-close"
+          @click="delApproval(group)"
+          plain
+          circle
+          icon="CircleClose"
+          size="small"
+          type="danger"
       />
       <el-form-item :label="title" :prop="`groups.${index}.approveType`">
         <el-radio-group
-          style="margin-bottom: 10px; width: 100%"
-          v-model="group.approveType"
-          filterable
-          clearable
-          default-first-option
-          @change="changeApproveType(group)"
+            style="margin-bottom: 10px; width: 100%"
+            v-model="group.approveType"
+            filterable
+            clearable
+            default-first-option
+            @change="changeApproveType(group)"
         >
           <el-radio
-            v-for="item in approvals"
-            :key="item.idApprovalType"
-            :value="item.idApprovalType"
-            :label="item.approvalType"
-            :disabled="item.statusCode == '0' && groups.length > 1"
+              v-for="item in approvals"
+              :key="item.idApprovalType"
+              :value="item.idApprovalType"
+              :label="item.approvalType"
+              :disabled="item.statusCode == '0' && groups.length > 1"
           >
             <div class="flex flex-row justify-between items-center">
               <div>{{ item.approvalType }}</div>
               <div style="color: var(--el-text-color-secondary)">
                 <el-popover
-                  v-if="item.remark?.length > 0"
-                  :popper-style="{ width: 'unset !important' }"
-                  placement="top-start"
-                  trigger="hover"
+                    v-if="item.remark?.length > 0"
+                    :popper-style="{ width: 'unset !important' }"
+                    placement="top-start"
+                    trigger="hover"
                 >
                   <template #reference>
                     <star-horse-icon
-                      style="margin-left: 5px"
-                      size="18px"
-                      icon-class="question-circle"
+                        style="margin-left: 5px"
+                        size="18px"
+                        icon-class="question-circle"
                     />
                   </template>
                   <div class="approver-tip-content">
@@ -166,18 +207,22 @@ onMounted(() => {
         </el-radio-group>
       </el-form-item>
       <el-form-item
-        v-if="
+          v-if="
           group.approveType &&
           group.currentApproveType?.approvalCode != 'reject'
         "
-        :label="'指定' + (group.currentApproveType?.approvalType || '')"
-        :prop="`groups.${index}.approverIds`"
+          :label="'指定' + (group.currentApproveType?.approvalType || '')"
+          :prop="`groups.${index}.approverIds`"
       >
         <star-horse-data-selector
-          multiple
-          v-model="group.approverIds"
-          :datas="dataList"
-          :placeholder="
+            multiple
+            v-model="group.approverIds"
+            :dataUrl="dataList.interOrDict"
+            :displayName="dataList.displayName"
+            :displayValue="dataList.displayValue"
+            :params="dataList.params"
+            :proxy="dataList.proxy"
+            :placeholder="
             '请选择' + (group.currentApproveType?.approvalType || '')
           "
         />
@@ -185,7 +230,7 @@ onMounted(() => {
     </div>
     <div class="listener-btn">
       <el-button link @click="addApproval" type="primary" icon="Plus"
-        >添加
+      >添加
       </el-button>
     </div>
   </el-form>
