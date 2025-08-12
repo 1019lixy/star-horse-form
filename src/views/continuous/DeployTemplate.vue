@@ -12,7 +12,7 @@ import { createJoinCondition } from "@/api/star_horse_utils";
 const emits = defineEmits(["selectTemplate"]);
 const apiUrl: ApiUrls = apiInstance(
   "userdb-manage",
-  "/userdb/formInstance/conTemplate/idTemplate/136",
+  "userdb/formInstance/conTemplate/idTemplate/136",
 );
 const nodeCfgUrl: ApiUrls = apiInstance(
   "userdb-manage",

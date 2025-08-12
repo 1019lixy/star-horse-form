@@ -19,8 +19,9 @@ import { TreeNodeData } from "element-plus/es/components/tree-v2/src/types";
 import { Config } from "@/api/settings";
 
 let rolesList = ref<SelectOption[]>([]);
-let accountPermissionStatus = ref<SelectOption[]>();
+let accountPermissionStatus = ref<SelectOption[]>([]);
 let accountPermission = ref();
+let accountPermissionFormRef = ref();
 let configStore = useGlobalConfigStore(piniaInstance);
 let compSize = computed(
   () => configStore.configFormInfo?.inputSize || Config.compSize,
@@ -81,6 +82,7 @@ const formFieldList = reactive<PageFieldInfo>({
       aliasName: "userList",
       type: "page-select",
       preps: {
+        primaryKey: "idUsersinfo",
         multiple: true,
         dataUrl: {
           pageListUrl: "/system-config/system/usersinfo/pageList",
@@ -209,7 +211,7 @@ let preValid = ref<Array<PreValid>>([{
 const dataFormat = (name: string, cellValue: object): any => {
   if (name == "statusCode") {
     return (
-      accountPermissionStatus.value.find((item) => item.value == cellValue)
+      accountPermissionStatus.value.find((item:any) => item.value == cellValue)
         ?.name || cellValue
     );
   }
@@ -232,6 +234,7 @@ onMounted(async () => {
       :dialogProps="dialogProps"
     >
       <star-horse-form
+        ref="accountPermissionFormRef"
         :outerFormData="{
           idRolesinfo: currentUserGroupId,
         }"
