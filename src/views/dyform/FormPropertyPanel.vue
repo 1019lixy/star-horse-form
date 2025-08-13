@@ -138,7 +138,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
     {
       fieldName: "tab1",
       actions: {
-        "change": (val: any) => {
+        "tabChange": (val: any) => {
           if (val == "tab2" && !relationDataList.value?.length) {
             warning("请选择数据源");
           }

@@ -14,10 +14,7 @@ import { useRoute, useRouter } from "vue-router";
 import { useNavBarListStore } from "@/store/NavBarList";
 import piniaCompInstance from "@/store";
 
-const navBarListStore = useNavBarListStore(piniaCompInstance);
-const router = useRouter();
 const starHorseTableCompRef = ref();
-const currentRoute = useRoute();
 const dataUrl = ref<ApiUrls>(apiInstance("", ""));
 const errorMsg = ref("数据加载中");
 let searchFormData = ref<SearchFields>({});
