@@ -49,7 +49,7 @@ routeDefine.push({
     {
       path: "/tab/page/:param",
       name: "TabPage",
-      component: () => import("@/views/dyform/TabPage.vue"),
+      component: () => import("@/components/commonpage/TabPage.vue"),
       props: true,
       meta: {
         title: "动态表单实例",
@@ -60,7 +60,7 @@ routeDefine.push({
     {
       path: "/general/page/:param",
       name: "NormalPage",
-      component: () => import("@/views/dyform/NormalPage.vue"),
+      component: () => import("@/components/commonpage/NormalPage.vue"),
       props: true,
       meta: {
         title: "动态表单实例",
@@ -71,7 +71,7 @@ routeDefine.push({
     {
       path: "/list/page/:param",
       name: "FormTablePage",
-      component: () => import("@/views/dyform/FormTablePage.vue"),
+      component: () => import("@/components/commonpage/FormTablePage.vue"),
       props: true,
       meta: {
         title: "动态表单实例",
@@ -82,7 +82,7 @@ routeDefine.push({
     {
       path: "/form/page/:param",
       name: "TabPage",
-      component: () => import("@/views/dyform/FormPage.vue"),
+      component: () => import("@/components/commonpage/FormPage.vue"),
       props: true,
       meta: {
         title: "动态表单实例",
@@ -93,7 +93,7 @@ routeDefine.push({
     {
       path: "/view/page/:param",
       name: "ViewPage",
-      component: () => import("@/views/dyform/ViewPage.vue"),
+      component: () => import("@/components/commonpage/ViewPage.vue"),
       props: true,
       meta: {
         title: "动态视图",
