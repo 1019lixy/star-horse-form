@@ -14,7 +14,7 @@ import {
 } from "star-horse-lowcode";
 import { ascOrDesc, dataType, httpMethod, validDataUrl } from "@/api/system";
 import { validRulesList } from "@/api/valid_utils";
-import DataSourceComp from "./DataSourceComp.vue";
+import WebUrlComp from "./WebUrlComp.vue";
 
 const designForm = useDesignFormStore(piniaInstance);
 
@@ -1280,7 +1280,7 @@ export function relationDataField() {
                 formVisible: fieldLinkVisible,
                 preps: {
                   bareFlag: "Y",
-                  compName: DataSourceComp,
+                  compName: WebUrlComp,
                 },
               },
             ],
