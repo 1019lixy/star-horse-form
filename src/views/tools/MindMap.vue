@@ -35,7 +35,7 @@ MindMap.usePlugin(MiniMap)
   .usePlugin(Cooperate); // 协同插件
 const init = () => {
   const mindMap = new MindMap({
-    el: document.getElementById("mindMapContainer"),
+    el: mindMapContainerRef.value,
     data: {
       data: {
         text: "根节点",

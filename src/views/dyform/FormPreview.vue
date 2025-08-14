@@ -10,6 +10,8 @@ const props = defineProps({
   compSize: { type: String, default: Config.compSize },
   formDisabled: { type: Boolean, default: false },
 });
+const previewFormRef = ref<any>();
+
 let commonFields = commonField();
 let fieldList = computed(() => {
   let tempList: any = [];
@@ -34,40 +36,26 @@ const checkIsDisabled = (item: any) => {
   // }
   return item;
 };
+const getFields = () => {
+  return previewFormRef.value.getFields();
+}
 defineExpose({
-  formData,
+  formData, getFields
 });
 </script>
 
 <template>
   <div class="form-preview">
-    <sh-form
-      :label-width="'auto'"
-      :label-position="'right'"
-      :require-asterisk-position="'right'"
-      :disabled="formDisabled"
-      :rules="{}"
-      v-model:dataForm="formData"
-      :size="compSize"
-    >
+    <sh-form :label-width="'auto'" :label-position="'right'" :require-asterisk-position="'right'"
+      :disabled="formDisabled" :rules="{}" v-model:dataForm="formData" :size="compSize" ref="previewFormRef">
       <el-scrollbar height="100%" style="width: 100% !important">
         <template v-for="data in list">
-          <component
-            :field="checkIsDisabled(data)"
-            v-model:formData="formData"
-            :isDesign="false"
-            :showFormItem="true"
-            :is="itemCheck(data)"
-          />
+          <component :field="checkIsDisabled(data)" v-model:formData="formData" :isDesign="false" :formInfo="list"
+            :showFormItem="true" :is="itemCheck(data)" />
         </template>
         <template v-for="data in fieldList">
-          <component
-            :field="checkIsDisabled(data)"
-            v-model:formData="formData"
-            :isDesign="false"
-            :showFormItem="true"
-            :is="itemCheck(data)"
-          />
+          <component :field="checkIsDisabled(data)" v-model:formData="formData" :isDesign="false" :showFormItem="true"
+            :formInfo="fieldList" :is="itemCheck(data)" />
         </template>
       </el-scrollbar>
     </sh-form>

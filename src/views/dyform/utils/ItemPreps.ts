@@ -1207,17 +1207,18 @@ export function relationDataField() {
                   fieldName: "controlCondition",
                   type: "select",
                   required: true,
-                  changeName: "change",
-                  actions: (val: any) => {
-                    fieldLinkVisible.value =
-                      val["controlCondition"] == "dataLinkage";
-                    val["_matchTypeEditable"] = false;
-                    delete val["_paramsType"];
-                    const temp = val["controlCondition"];
-                    if (temp == "assignValue") {
-                      val["_paramsType"] = "json";
-                    } else if (temp == "query") {
-                      val["_matchTypeEditable"] = true;
+                  actions: {
+                    change: (val: any) => {
+                      fieldLinkVisible.value =
+                        val["controlCondition"] == "dataLinkage";
+                      val["_matchTypeEditable"] = false;
+                      delete val["_paramsType"];
+                      const temp = val["controlCondition"];
+                      if (temp == "assignValue") {
+                        val["_paramsType"] = "json";
+                      } else if (temp == "query") {
+                        val["_matchTypeEditable"] = true;
+                      }
                     }
                   },
                   formVisible: true,
@@ -1235,6 +1236,7 @@ export function relationDataField() {
                   listVisible: true,
                   preps: {
                     data: fields,
+                    multiple: true,
                     checkStrictly: true,
                   },
                 },
@@ -1278,7 +1280,7 @@ export function relationDataField() {
                 formVisible: fieldLinkVisible,
                 preps: {
                   bareFlag: "Y",
-                  name: DataSourceComp,
+                  compName: DataSourceComp,
                 },
               },
             ],

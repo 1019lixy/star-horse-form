@@ -66,10 +66,10 @@ let errMessage = ref<string>("");
 let formData = computed(() => designForm.formData);
 let formInfo = computed(() => designForm.formInfo);
 const isDragging = computed(() => designForm.isDragging);
-let shortKeyDisabled = computed(() => designForm.shortKeyDisabled);
 const fieldPanelRef = ref();
 const dynamicFormRef = ref();
 const previewDynamicFormRef = ref();
+const previewFormRef = ref();
 let reOrUnDoFlag = ref<boolean>(false);
 let initFinish = ref<boolean>(false);
 let currentPageStyle = ref<any>({ label: "电脑", key: "pc" });
@@ -609,7 +609,7 @@ defineExpose({
       :title="'表单预览'"
       :source="3"
     >
-      <form-preview :list="list" />
+      <form-preview :list="list" ref="previewFormRef"/>
     </star-horse-dialog>
     <el-card class="inner_content my-0 mx-[5px]">
       <el-splitter>
