@@ -29,7 +29,6 @@ const dataSourceFormRef = ref();
 const dataForm: ModelRef<any> = defineModel("dataForm");
 const matchTypeList = searchMatchList();
 const disableUrl = ref<boolean>(true);
-const urlRequired = ref<boolean>(false);
 const currentTabName = ref<string>("data");
 const fieldList = ref<SelectOption[]>([]);
 let envList = ref<Array<SelectOption>>([]);
@@ -184,7 +183,6 @@ const dataSourceField = reactive<PageFieldInfo | any>({
                 {
                   label: "参数值",
                   fieldName: "value",
-
                   required: true,
                   formVisible: true,
                   listVisible: true
@@ -249,7 +247,9 @@ const submitValid = async () => {
       }
     },
     !dataForm.value,
-    dataForm
+    dataForm,
+    true
+
   );
   return flag;
 };

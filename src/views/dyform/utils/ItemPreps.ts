@@ -54,6 +54,7 @@ export async function validInterface(
   recall: Function,
   validForm: boolean = true,
   formData?: any,
+  onlyUrl: boolean = false,
 ) {
   let flag = false;
   let dataList: SelectOption[] = [];
@@ -81,7 +82,7 @@ export async function validInterface(
   const customParams = temp["customParams"];
   let validErrorMsg: string = "";
   let validSuccessMsg: string = "";
-  if (dataSource == "url") {
+  if (dataSource == "url" && onlyUrl) {
     const requestParams = [] as any;
     queryParams?.forEach((item: any) => {
       if (!item.name) {
@@ -1157,25 +1158,14 @@ export function relationDataField() {
     { name: "Input", value: "input" },
   ];
   const controlConditionList: SelectOption[] = [
-    { name: "数据联动", value: "dataLinkage" },
-    { name: "当前字段的值等于指定值时禁用被关联字段", value: "eqDisable" },
-    {
-      name: "当前字段的值等于指定值时被关联字段禁用否则可编辑",
-      value: "eqDisableOrEditable",
-    },
-    { name: "当前字段的值等于指定值时被关联字段可编辑", value: "eqEditable" },
-    {
-      name: "当前字段的值等于指定值时被关联字段可编辑否则禁用",
-      value: "eqEditableOrDisable",
-    },
-    {
-      name: "当前字段的值等于指定值时时被关联字段赋予新值",
-      value: "assignValue",
-    },
-    {
-      name: "当前字段的值等于指定值时被关联字段改变字段类型",
-      value: "changeType",
-    },
+    { name: "满足条件触发数据联动", value: "eqConditionDataLinkage" },
+    { name: "数据作为参数触发数据联动", value: "asParamDataLinkage" },
+    { name: "等于指定值时禁用被关联字段", value: "eqDisable" },
+    { name: "等于指定值时可编辑被关联字段", value: "eqEditable" },
+    { name: "等于指定值时隐藏被关联字段", value: "eqHide" },
+    { name: "等于指定值时显示被关联字段", value: "eqVisible" },
+    { name: "等于指定值时被关联字段赋予新值", value: "assignValue" },
+    { name: "数据等于指定值时被关联字段改变字段类型", value: "changeType" },
   ];
   const fieldType = ref<string>("input");
   const fieldLinkVisible = ref<boolean>(false);
@@ -1207,24 +1197,33 @@ export function relationDataField() {
                   fieldName: "controlCondition",
                   type: "select",
                   required: true,
-                  actions: {
-                    change: (val: any) => {
-                      fieldLinkVisible.value =
-                        val["controlCondition"] == "dataLinkage";
-                      val["_matchTypeEditable"] = false;
-                      delete val["_paramsType"];
-                      const temp = val["controlCondition"];
-                      if (temp == "assignValue") {
-                        val["_paramsType"] = "json";
-                      } else if (temp == "query") {
-                        val["_matchTypeEditable"] = true;
-                      }
-                    }
-                  },
                   formVisible: true,
                   listVisible: true,
                   preps: {
                     values: controlConditionList,
+                    dataRelation: {
+                      actionName: "change",
+                      relationDetails: [
+                        {
+                          matchType: "eq",
+                          controlCondition: "eqVisible",
+                          relationFields: ["dataLinkage", "dataSourceDivider"],
+                          matchFieldValue: ["eqConditionDataLinkage","asParamDataLinkage"]
+                        },
+                        {
+                          matchType: "eq",
+                          controlCondition: "eqVisible",
+                          relationFields: ["newValue"],
+                          matchFieldValue: "assignValue",
+                        },
+                        {
+                          matchType: "eq",
+                          controlCondition: "eqVisible",
+                          relationFields: ["newType"],
+                          matchFieldValue: "changeType"
+                        },
+                      ],
+                    },
                   },
                 },
                 {
@@ -1257,7 +1256,7 @@ export function relationDataField() {
                 },
                 {
                   label: "参数",
-                  fieldName: "params",
+                  fieldName: "matchFieldValue",
                   type: fieldType,
                   required: false,
                   helpMsg:
@@ -1268,16 +1267,35 @@ export function relationDataField() {
               ],
               {
                 type: "divider",
-                formVisible: fieldLinkVisible,
+                formVisible: false,
+                fieldName: "dataSourceDivider",
                 preps: {
                   bareFlag: "Y",
                   content: "数据源",
                 },
               },
               {
+                label: "赋新值",
+                type: "input",
+                fieldName: "newValue",
+                formVisible: false,
+                preps: {},
+              },
+              {
+                label: "修改字段类型",
+                type: "select",
+                fieldName: "newType",
+                formVisible: false,
+                preps: {
+                  dataSource:"dict",
+                  urlOrDictName: "field_type",
+                },
+              },
+              {
                 label: "联动数据源",
                 type: "usercomp",
-                formVisible: fieldLinkVisible,
+                fieldName: "dataLinkage",
+                formVisible: false,
                 preps: {
                   bareFlag: "Y",
                   compName: WebUrlComp,
@@ -1286,7 +1304,7 @@ export function relationDataField() {
             ],
           },
         ],
-      },
+      }
     ],
   });
 }
