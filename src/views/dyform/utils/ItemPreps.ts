@@ -82,7 +82,7 @@ export async function validInterface(
   const customParams = temp["customParams"];
   let validErrorMsg: string = "";
   let validSuccessMsg: string = "";
-  if (dataSource == "url" && onlyUrl) {
+  if (dataSource == "url" || onlyUrl) {
     const requestParams = [] as any;
     queryParams?.forEach((item: any) => {
       if (!item.name) {
@@ -203,6 +203,8 @@ export const validOperation = async (
   disableUrl: Ref<any>,
   validForm: boolean = true,
   formData?: any,
+  onlyUrl: boolean = false,
+
 ) => {
   await validInterface(
     val,
@@ -211,7 +213,6 @@ export const validOperation = async (
       if (dataList && !disableUrl.value) {
         const temp = dataList[0];
         const keys = Object.keys(temp || {});
-        console.log(temp, keys);
         fieldList.value = [];
         for (const ind in keys) {
           fieldList.value.push({ name: keys[ind], value: keys[ind] });
@@ -223,12 +224,15 @@ export const validOperation = async (
       if (errorMsg) {
         error(errorMsg);
       }
+
       // if (recall) {
       //     recall(dataList, successMsg, errorMsg);
       // }
     },
     validForm,
     formData,
+    onlyUrl,
+
   );
 };
 

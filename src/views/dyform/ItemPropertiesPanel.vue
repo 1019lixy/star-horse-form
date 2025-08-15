@@ -98,15 +98,18 @@ const submitValid = async () => {
 const dataRelationMerge = async () => {
   let flag: boolean = false;
   let formRef = dataRelationFormRef?.value?.$refs.starHorseFormRef;
+  debugger;
   await formRef.validate((res: boolean) => {
     flag = res;
   });
   if (!flag) {
     return;
   }
-  formProps.value["dataRelation"] =
-    dataRelationFormRef?.value.getFormData().value;
-  closeAction();
+  const relationData = dataRelationFormRef?.value.getFormData().value;
+  console.log(relationData);
+  formProps.value["dataRelation"] = relationData;
+
+  // closeAction();
 };
 const paramsValid = async () => {
   let flag = false;
@@ -166,7 +169,7 @@ const paramsValid = async () => {
   });
   closeAction();
 };
-const resetForm = () => {};
+const resetForm = () => { };
 const resetDataSourceForm = () => {
   formProps.value["dataSource"] = "data";
   formProps.value["httpMethod"] = null;
@@ -174,7 +177,7 @@ const resetDataSourceForm = () => {
   formProps.value["queryParams"] = [];
   formProps.value["values"] = [];
 };
-const dataRelationReset = () => {};
+const dataRelationReset = () => { };
 const editContainerPrep = async () => {
   containerDialogVisible.value = true;
   designForm.setShortKeyDisabled(true);
@@ -486,112 +489,45 @@ watch(
 </script>
 <template>
   <div class="flex flex-col h-full overflow-hidden">
-    <star-horse-dialog
-      :dialogVisible="buttonEventDialogVisible"
-      :title="'按钮点击事件'"
-      :isBatch="false"
-      @merge="buttonEventMerge"
-      @closeAction="closeAction"
-      @resetForm="buttonEventReset"
-      :selfFunc="true"
-    >
-      <star-horse-form
-        :outerFormData="formProps"
-        primary-key=""
-        ref="buttonClickFormRef"
-        :fieldList="buttonClickDataField()"
-      />
+    <star-horse-dialog :dialogVisible="buttonEventDialogVisible" :title="'按钮点击事件'" :isBatch="false"
+      @merge="buttonEventMerge" @closeAction="closeAction" @resetForm="buttonEventReset" :selfFunc="true">
+      <star-horse-form :outerFormData="formProps" primary-key="" ref="buttonClickFormRef"
+        :fieldList="buttonClickDataField()" />
     </star-horse-dialog>
-    <star-horse-dialog
-      :dialogVisible="dataRelationDialogVisible"
-      :title="'数据联动策略配置'"
-      :isBatch="false"
-      @merge="dataRelationMerge"
-      @closeAction="closeAction"
-      @resetForm="dataRelationReset"
-      :selfFunc="true"
-    >
-      <star-horse-form
-        :outerFormData="formProps"
-        primary-key=""
-        ref="dataRelationFormRef"
-        :fieldList="relationDataField()"
-      />
+    <star-horse-dialog :dialogVisible="dataRelationDialogVisible" :title="'数据联动策略配置'" :isBatch="false"
+      @merge="dataRelationMerge" @closeAction="closeAction" @resetForm="dataRelationReset" :selfFunc="true">
+      <star-horse-form :outerFormData="formProps" primary-key="" ref="dataRelationFormRef"
+        :fieldList="relationDataField()" />
     </star-horse-dialog>
-    <star-horse-dialog
-      :dialogVisible="dataSourceDialogVisible"
-      :title="'数据源配置'"
-      :isBatch="false"
-      @merge="submitValid"
-      @closeAction="closeAction"
-      @resetForm="resetDataSourceForm"
-      :selfFunc="true"
-    >
+    <star-horse-dialog :dialogVisible="dataSourceDialogVisible" :title="'数据源配置'" :isBatch="false" @merge="submitValid"
+      @closeAction="closeAction" @resetForm="resetDataSourceForm" :selfFunc="true">
       <data-source-comp ref="dataSourceFormRef" :formProps="formProps" />
     </star-horse-dialog>
-    <star-horse-dialog
-      :dialogVisible="paramsDialogVisible"
-      :title="'参数配置'"
-      :isBatch="false"
-      @merge="paramsValid"
-      @closeAction="closeAction"
-      @resetForm="resetDataSourceForm"
-      :selfFunc="true"
-    >
-      <star-horse-form
-        :outerFormData="formInfo"
-        ref="paramsConfigRef"
-        :fieldList="paramsFields(paramsConfigRef, fieldName, currentField)"
-      />
+    <star-horse-dialog :dialogVisible="paramsDialogVisible" :title="'参数配置'" :isBatch="false" @merge="paramsValid"
+      @closeAction="closeAction" @resetForm="resetDataSourceForm" :selfFunc="true">
+      <star-horse-form :outerFormData="formInfo" ref="paramsConfigRef"
+        :fieldList="paramsFields(paramsConfigRef, fieldName, currentField)" />
     </star-horse-dialog>
-    <star-horse-dialog
-      :dialogVisible="containerDialogVisible"
-      :title="'容器设置'"
-      :isBatch="false"
-      @merge="containerAction"
-      @closeAction="closeAction"
-      @resetForm="resetForm"
-      :selfFunc="true"
-    >
-      <star-horse-form
-        ref="containerPrepRef"
-        :outerFormData="formInfo"
-        :fieldList="containerField(currentItemType)"
-      />
+    <star-horse-dialog :dialogVisible="containerDialogVisible" :title="'容器设置'" :isBatch="false" @merge="containerAction"
+      @closeAction="closeAction" @resetForm="resetForm" :selfFunc="true">
+      <star-horse-form ref="containerPrepRef" :outerFormData="formInfo" :fieldList="containerField(currentItemType)" />
     </star-horse-dialog>
-    <star-horse-dialog
-      :dialogVisible="jsEditor"
-      :title="'自定义信息'"
-      :isBatch="false"
-      @merge="closeAction"
-      @closeAction="closeAction"
-      @resetForm="closeAction"
-      :selfFunc="true"
-    >
+    <star-horse-dialog :dialogVisible="jsEditor" :title="'自定义信息'" :isBatch="false" @merge="closeAction"
+      @closeAction="closeAction" @resetForm="closeAction" :selfFunc="true">
       <el-tabs v-model="codeTab">
         <el-tab-pane label="代码" name="code">
-          <star-horse-editor
-            v-model:value="formProps[fieldName]"
-            lang="javascript"
-            ref="codeCompRef"
-            :helpMsg="hmsg"
-            style="height: 100%"
-          />
+          <star-horse-editor v-model:value="formProps[fieldName]" lang="javascript" ref="codeCompRef" :helpMsg="hmsg"
+            style="height: 100%" />
         </el-tab-pane>
         <el-tab-pane label="当前组件属性" name="currentField">
           <pre>
           {{ JSON.stringify(currentField, null, 4) }}
-        </pre
-          >
+        </pre>
         </el-tab-pane>
         <el-tab-pane label="表单实例" name="formInstance">
           对象名字：formInstance
-          <table
-            border="1"
-            cellpadding="0"
-            cellspacing="0"
-            style="width: 100%; border: 1px dashed var(--star-horse-style)"
-          >
+          <table border="1" cellpadding="0" cellspacing="0"
+            style="width: 100%; border: 1px dashed var(--star-horse-style)">
             <thead style="border: 1px dashed var(--star-horse-style)">
               <tr>
                 <th>名称</th>
@@ -639,32 +575,16 @@ watch(
         <el-tab-pane label="表单属性" name="formDatas">
           <pre>
           {{ JSON.stringify(list, null, 4) }}
-        </pre
-          >
+        </pre>
         </el-tab-pane>
       </el-tabs>
     </star-horse-dialog>
     <div class="dynamic-form" v-if="currentItemType">
-      <sh-form
-        v-model:dataForm="formProps"
-        class="dynamic-form"
-        ref="itemPropertiesRef"
-        :size="compSize"
-        :rules="rules"
-        :scroll-to-error="true"
-        :scroll-into-view-options="true"
-        :inline-message="false"
-        :status-icon="true"
-        label-width="auto"
-        label-position="right"
-        require-asterisk-position="right"
-      >
-        <star-horse-form-item
-          :fieldList="formFields"
-          :rules="rules"
-          :compSize="compSize"
-          v-model:dataForm="formProps"
-        />
+      <sh-form v-model:dataForm="formProps" class="dynamic-form" ref="itemPropertiesRef" :size="compSize" :rules="rules"
+        :scroll-to-error="true" :scroll-into-view-options="true" :inline-message="false" :status-icon="true"
+        label-width="auto" label-position="right" require-asterisk-position="right">
+        <star-horse-form-item :fieldList="formFields" :rules="rules" :compSize="compSize"
+          v-model:dataForm="formProps" />
       </sh-form>
     </div>
   </div>

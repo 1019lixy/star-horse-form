@@ -28,7 +28,7 @@ const props = defineProps({
 const dataSourceFormRef = ref();
 const dataForm: ModelRef<any> = defineModel("dataForm");
 const matchTypeList = searchMatchList();
-const disableUrl = ref<boolean>(true);
+const disableUrl = ref<boolean>(false);
 const currentTabName = ref<string>("data");
 const fieldList = ref<SelectOption[]>([]);
 let envList = ref<Array<SelectOption>>([]);
@@ -123,9 +123,13 @@ const dataSourceField = reactive<PageFieldInfo | any>({
               fieldList,
               disableUrl,
               !dataForm.value,
-              dataForm
+              dataForm,
+              true,
+
             );
+            console.log(fieldList.value);
           }
+        
         },
         preps: {
           icon: "valid",
@@ -214,7 +218,7 @@ const dataSourceField = reactive<PageFieldInfo | any>({
               type: "json",
               formVisible: true,
               listVisible: true,
-              required: true,
+              required: false,
               defaultValue: "",
               preps: {
                 devType: "Y"
