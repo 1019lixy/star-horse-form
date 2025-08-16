@@ -1,5 +1,6 @@
-import { nextTick, reactive, Ref, ref, unref } from "vue";
+import { nextTick, reactive, Ref, ref, unref,computed } from "vue";
 import {
+  compDynamicData,
   dictData,
   error,
   FieldInfo,
@@ -204,7 +205,6 @@ export const validOperation = async (
   validForm: boolean = true,
   formData?: any,
   onlyUrl: boolean = false,
-
 ) => {
   await validInterface(
     val,
@@ -232,7 +232,6 @@ export const validOperation = async (
     validForm,
     formData,
     onlyUrl,
-
   );
 };
 
@@ -1151,12 +1150,19 @@ export function buttonClickDataField() {
     ],
   });
 }
+const formFields = computed(()=>designForm.forceLoadCompNames());
 
 /**
  * 关联
+ * @param preps 当前组件参数
+
  */
-export function relationDataField() {
-  const fields: SelectOption[] = designForm.loadCompNames();
+export function relationDataField(preps: any) {
+  const currentFieldValues = ref<SelectOption[]>([]);
+  compDynamicData({ preps: preps }).then((res) => {
+    currentFieldValues.value = res;
+  });
+
   const eventList: SelectOption[] = [
     { name: "Change", value: "change" },
     { name: "Input", value: "input" },
@@ -1168,12 +1174,11 @@ export function relationDataField() {
     { name: "等于指定值时可编辑被关联字段", value: "eqEditable" },
     { name: "等于指定值时隐藏被关联字段", value: "eqHide" },
     { name: "等于指定值时显示被关联字段", value: "eqVisible" },
+    { name: "等于指定值时被关联字段必填", value: "eqRequired" },
     { name: "等于指定值时被关联字段赋予新值", value: "assignValue" },
     { name: "数据等于指定值时被关联字段改变字段类型", value: "changeType" },
   ];
-  const fieldType = ref<string>("input");
-  const fieldLinkVisible = ref<boolean>(false);
-  // let matchType = ref<boolean>(false);
+
   return reactive<PageFieldInfo | any>({
     fieldList: [
       {
@@ -1203,6 +1208,7 @@ export function relationDataField() {
                   required: true,
                   formVisible: true,
                   listVisible: true,
+
                   preps: {
                     values: controlConditionList,
                     dataRelation: {
@@ -1211,8 +1217,11 @@ export function relationDataField() {
                         {
                           matchType: "eq",
                           controlCondition: "eqVisible",
-                          relationFields: ["dataLinkage", "dataSourceDivider"],
-                          matchFieldValue: ["eqConditionDataLinkage","asParamDataLinkage"]
+                          relationFields: ["params", "dataSourceDivider"],
+                          matchFieldValue: [
+                            "eqConditionDataLinkage",
+                            "asParamDataLinkage",
+                          ],
                         },
                         {
                           matchType: "eq",
@@ -1224,12 +1233,39 @@ export function relationDataField() {
                           matchType: "eq",
                           controlCondition: "eqVisible",
                           relationFields: ["newType"],
-                          matchFieldValue: "changeType"
+                          matchFieldValue: "changeType",
+                        },
+                        {
+                          matchType: "eq",
+                          controlCondition: "eqVisible",
+                          relationFields: ["matchFieldName"],
+                          matchFieldValue: "asParamDataLinkage",
+                        },
+                        {
+                          matchType: "eq",
+                          controlCondition: "eqRequired",
+                          relationFields: ["matchFieldValue"],
+                          matchFieldValue: [
+                            "eqDisable",
+                            "eqVisible",
+                            "eqEditable",
+                            "eqRequired",
+                            "eqHide",
+                            "eqConditionDataLinkage",
+                          ],
+                        },
+                        {
+                          matchType: "eq",
+                          controlCondition: "eqRequired",
+                          relationFields: ["matchFieldName"],
+                          matchFieldValue: ["asParamDataLinkage"],
                         },
                       ],
                     },
                   },
                 },
+              ],
+              [
                 {
                   label: "被控制属性",
                   fieldName: "relationFields",
@@ -1237,36 +1273,55 @@ export function relationDataField() {
                   required: true,
                   formVisible: true,
                   listVisible: true,
+                  helpMsg:
+                    "相同的属性不能配置到多个相同的控制条件中，\n否则后面的条件会覆盖前面的条件,导致数据联动失效",
                   preps: {
-                    data: fields,
+                    data: formFields.value,
+
                     multiple: true,
                     checkStrictly: true,
                   },
                 },
-              ],
-              [
+
                 {
                   label: "匹配条件",
                   fieldName: "matchType",
                   type: "select",
                   defaultValue: "eq",
                   required: false,
-                  disabled: "Y",
                   formVisible: true,
                   listVisible: true,
                   preps: {
+                    disabled: true,
                     values: searchMatchList(),
                   },
                 },
+              ],
+              [
                 {
-                  label: "参数",
+                  label: "参数名",
+                  fieldName: "matchFieldName",
+                  required: false,
+                  defaultValue: preps.name,
+                  helpMsg: "作为查询条件时的参数名",
+                  formVisible: false,
+                  listVisible: true,
+                },
+                {
+                  label: "参数/匹配值",
                   fieldName: "matchFieldValue",
-                  type: fieldType,
+                  type: "select",
                   required: false,
                   helpMsg:
-                    "1、如果是作为查询条件，则填写参数名称；\n2、如果是等于某个值，则填写具体的值；",
+                    "作为触发事件的匹配值；\n控制条件为数据作为参数触发数据联动时，没有选中则所有数据都作为联动参数，\n否则只有选中的才会作为联动参数",
+
                   formVisible: true,
                   listVisible: true,
+                  preps: {
+                    values: currentFieldValues,
+                    multiple: true,
+                    allowCreate: true,
+                  },
                 },
               ],
               {
@@ -1289,26 +1344,29 @@ export function relationDataField() {
                 label: "修改字段类型",
                 type: "select",
                 fieldName: "newType",
+                helpMsg: "字段:field_type",
                 formVisible: false,
                 preps: {
-                  dataSource:"dict",
+                  dataSource: "dict",
                   urlOrDictName: "field_type",
                 },
               },
               {
                 label: "联动数据源",
                 type: "usercomp",
-                fieldName: "dataLinkage",
+                fieldName: "params",
                 formVisible: false,
                 preps: {
+                  batchName: "params",
                   bareFlag: "Y",
+                  subFormFlag: true,
                   compName: WebUrlComp,
                 },
               },
             ],
           },
         ],
-      }
+      },
     ],
   });
 }

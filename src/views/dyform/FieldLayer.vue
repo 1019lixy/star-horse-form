@@ -5,7 +5,7 @@ import { piniaInstance, useDesignFormStore } from "star-horse-lowcode";
 const designForm = useDesignFormStore(piniaInstance);
 
 const draggingItem = computed(() => designForm.draggingItem);
-const compNames = computed(() => designForm.loadCompNames());
+const compNames = computed(() => designForm.forceLoadCompNames());
 const dataChange = (data: any) => {
   if (!data) {
     return;

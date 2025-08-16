@@ -70,10 +70,10 @@ const condifRelationPolicy = async () => {
   dataRelationDialogVisible.value = true;
   designForm.setShortKeyDisabled(true);
   let temp = formProps.value["dataRelation"] ?? {};
-  await nextTick();
-  setTimeout(() => {
-    dataRelationFormRef.value?.setFormData(temp);
-  }, 200);
+  console.log(temp)
+  await nextTick(()=>{
+    temp&&dataRelationFormRef.value?.setFormData(temp);
+  });
 };
 const configParams = async (params: any) => {
   paramsDialogVisible.value = true;
@@ -98,7 +98,6 @@ const submitValid = async () => {
 const dataRelationMerge = async () => {
   let flag: boolean = false;
   let formRef = dataRelationFormRef?.value?.$refs.starHorseFormRef;
-  debugger;
   await formRef.validate((res: boolean) => {
     flag = res;
   });
@@ -108,8 +107,7 @@ const dataRelationMerge = async () => {
   const relationData = dataRelationFormRef?.value.getFormData().value;
   console.log(relationData);
   formProps.value["dataRelation"] = relationData;
-
-  // closeAction();
+  closeAction();
 };
 const paramsValid = async () => {
   let flag = false;
@@ -497,7 +495,7 @@ watch(
     <star-horse-dialog :dialogVisible="dataRelationDialogVisible" :title="'数据联动策略配置'" :isBatch="false"
       @merge="dataRelationMerge" @closeAction="closeAction" @resetForm="dataRelationReset" :selfFunc="true">
       <star-horse-form :outerFormData="formProps" primary-key="" ref="dataRelationFormRef"
-        :fieldList="relationDataField()" />
+        :fieldList="relationDataField(formProps)" />
     </star-horse-dialog>
     <star-horse-dialog :dialogVisible="dataSourceDialogVisible" :title="'数据源配置'" :isBatch="false" @merge="submitValid"
       @closeAction="closeAction" @resetForm="resetDataSourceForm" :selfFunc="true">

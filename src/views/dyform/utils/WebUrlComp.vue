@@ -22,7 +22,19 @@ const props = defineProps({
   item: {
     type: Object as PropType<PageFieldInfo>, default: () => {
     }
+  },
+  source: {
+    type: Number, default: 0
+  },
+  batchName: {
+    type: String,
+    default: ""
+  },
+  subFormFlag: {
+    type: Boolean,
+    default: false
   }
+
 });
 
 const dataSourceFormRef = ref();
@@ -123,13 +135,13 @@ const dataSourceField = reactive<PageFieldInfo | any>({
               fieldList,
               disableUrl,
               !dataForm.value,
-              dataForm,
+              dataForm.value[props.batchName],
+
               true,
 
             );
-            console.log(fieldList.value);
           }
-        
+
         },
         preps: {
           icon: "valid",
@@ -258,6 +270,12 @@ const submitValid = async () => {
   return flag;
 };
 const isInited = ref<boolean>(false);
+  const createSubForm = () => {
+  if (props.subFormFlag && !dataForm.value[props.batchName]) {
+    dataForm.value[props.batchName] = {};
+  }
+  return props.batchName;
+}
 const init = () => {
   loadDict("system_environment").then((res) => {
     envList.value = res;
@@ -278,12 +296,7 @@ const setFormData = (data: any) => {
 const getFormData = () => {
   return dataSourceFormRef.value?.getFormData();
 };
-watch(
-  () => dataForm.value?.dataSource,
-  (val) => {
-    currentTabName.value = val || "data";
-  }
-);
+
 onMounted(() => {
   init();
 });
@@ -297,20 +310,11 @@ defineExpose({
 
 <template>
   <el-scrollbar height="100%">
-    <star-horse-form
-      :fieldList="dataSourceField"
-      ref="dataSourceFormRef"
-      v-if="!dataForm"
-    />
-    <star-horse-form-item
-      v-else
-      ref="dataSourceFormRef"
-      :fieldList="dataSourceField"
-      :dataIndex="(props.preps?.params?.totalTab || 1) - 1"
-      :subFormFlag="'Y'"
-      :objectName="'dataSource'"
-      v-model:dataForm="dataForm"
-    />
+    <star-horse-form :fieldList="dataSourceField" ref="dataSourceFormRef" v-if="!dataForm" />
+    <star-horse-form-item v-else ref="dataSourceFormRef" :fieldList="dataSourceField"
+      :dataIndex="(props.preps?.params?.totalTab || 1) - 1" :subFormFlag="subFormFlag ? 'Y' : 'N'"
+      :propPrefix="batchName" :key="createSubForm()"
+      :batchName="batchName" :source="source" v-model:dataForm="dataForm[batchName]" />
   </el-scrollbar>
 </template>
 
