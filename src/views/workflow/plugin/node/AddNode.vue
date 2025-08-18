@@ -48,7 +48,7 @@ const suggestBranchEnable = computed(() => flowDesign.suggestBranchEnable);
 const parallelBranchEnable = computed(() => flowDesign.parallelBranchEnable);
 // const node: ModelRef<any> = defineModel("node");
 let commonPreps = computed(() => flowDesign.commonPreps);
-let nodeList = nodeInfoList();
+let nodeList :any= nodeInfoList();
 const checkVisible = (item: any) => {
   //nodeType == 1 && suggestBranchEnable
   if (item.nodeCode == FlowNodeEnums.SUGGEST_NODE) {

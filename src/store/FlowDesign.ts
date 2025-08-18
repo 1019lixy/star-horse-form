@@ -27,6 +27,7 @@ export const useFlowDesignStore = defineStore("flowDesign", () => {
   const currentNode = ref<any>({});
   const parentNode = ref<any>({});
   const flowFormInfo = ref<any>({});
+  const formId = ref<string>("");
   //  节点数据
   const node = ref<any>(nodePrepList(FlowNodeEnums.APPLY_NODE));
   //  缩略图
@@ -40,6 +41,13 @@ export const useFlowDesignStore = defineStore("flowDesign", () => {
   const lintData = ref<any>({});
   const active = ref<boolean>(false);
   const mapVisible = ref<boolean>(false);
+  const setFormId = (id: string) => {
+    formId.value = id;
+  };
+
+  const getFormId = () => {
+    return formId.value;
+  };
 
   const setNavable = (flag: boolean) => {
     navable.value = flag;
@@ -252,6 +260,9 @@ export const useFlowDesignStore = defineStore("flowDesign", () => {
     readable,
     lintData,
     mapVisible,
+    formId,
+    setFormId,
+    getFormId,
     setMapVisible,
     putNodePrepMap,
     setActive,

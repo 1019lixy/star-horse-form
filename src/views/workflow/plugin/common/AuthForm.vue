@@ -2,11 +2,6 @@
 import { onMounted, ref, watch } from "vue";
 import { loadData, warning } from "star-horse-lowcode";
 import { useVModel } from "@vueuse/core";
-
-const emits = defineEmits<{ e: "update:modelValue"; modelValue: string }>();
-let commonFieldList = ref<any>([]);
-let dataList = ref<any>([]);
-let currentData = ref<any>({});
 const props = defineProps({
   compSize: {
     type: String,
@@ -31,6 +26,12 @@ const props = defineProps({
     default: "edit",
   },
 });
+const emits = defineEmits<{ e: "update:modelValue"; modelValue: string }>();
+let commonFieldList = ref<any>([]);
+let dataList = ref<any>([]);
+let currentData = ref<any>({});
+
+const isPreview = ref<boolean>(false);
 let privilege = useVModel(props, "modelValue", emits);
 const dataChange = async (formId: string) => {
   if (!formId) {
@@ -51,6 +52,14 @@ const dataChange = async (formId: string) => {
   dataList.value = JSON.parse(data["details"].content);
   commonFieldList.value = data.commonFieldControllers;
 };
+const previewForm = () => {
+  isPreview.value = true;
+
+}
+const closeAction = () => {
+  isPreview.value = false;
+
+}
 const init = () => {
   dataChange(props.formId);
 };
@@ -69,32 +78,27 @@ watch(
 );
 </script>
 <template>
-  <el-divider content-position="left">表单权限</el-divider>
-  <div class="form-detail" v-if="dataList && dataList.length > 0">
+  <star-horse-dialog :dialogVisible="isPreview" @closeAction="closeAction" :selfFunc="true" :compSize="compSize"
+    :title="'表单预览'" :source="3">
+    <form-preview :formDisabled="privilege == 'readonly'" v-if="privilege != 'forbidden'"
+      :commonFieldList="commonFieldList" :compSize="compSize" :list="dataList" />
+  </star-horse-dialog>
+  <el-divider content-position="center">表单权限</el-divider>
+  <div class="flex flex-col w-full items-center justify-center gap-[10px]" v-if="dataList?.length > 0">
+
     <el-radio-group v-model="privilege" fill="var(--star-horse-style)">
       <el-radio-button value="edit" key="edit">可编辑</el-radio-button>
       <el-radio-button value="readonly" key="readonly">只读</el-radio-button>
-      <el-radio-button value="forbidden" key="forbidden"
-        >禁止查看</el-radio-button
-      >
+      <el-radio-button value="forbidden" key="forbidden">禁止查看</el-radio-button>
     </el-radio-group>
-    <el-divider content-position="left">表单预览</el-divider>
-    {{ privilege }}
-    <form-preview
-      :formDisabled="privilege == 'readonly'"
-      v-if="privilege != 'forbidden'"
-      :commonFieldList="commonFieldList"
-      :compSize="compSize"
-      :list="dataList"
-    />
+    <el-divider content-position="center">表单预览</el-divider>
+    <div class="flex mx-[10px] items-center w-full justify-center">
+      <el-button @click="previewForm" icon="search" type="success">预览</el-button>
+
+    </div>
   </div>
   <el-empty description="请选择表单" v-else />
 </template>
 <style lang="scss" scoped>
-.form-detail {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 10px;
-}
+
 </style>

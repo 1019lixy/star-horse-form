@@ -16,9 +16,14 @@ import Approval from "@/views/workflow/plugin/preps/utils/Approval.vue";
 defineOptions({
   name: "ApprovalPrep",
 });
+const flowDesign = useFlowDesignStore(piniaInstance);
 let node: ModelRef<any> = defineModel("activeData");
 let approvalTab = ref<string>("audit");
 const flowFormInfo = computed(() => flowDesign.flowFormInfo);
+const formId = computed(() => flowDesign.getFormId());
+
+
+
 // 审批类型
 let approvalMethods = ref<Array<any>>([
   {
@@ -52,7 +57,7 @@ let approvalModes = ref<Array<any>>([
 let approvalWithNulls = ref<Array<any>>([]);
 let operatorApprovals = ref<Array<any>>([]);
 let sameApprovals = ref<Array<any>>([]);
-const flowDesign = useFlowDesignStore(piniaInstance);
+
 const onClose = () => {
   flowDesign.setActive(false);
 };
@@ -307,30 +312,16 @@ onMounted(() => {
         </el-tab-pane>
         <el-tab-pane key="formAuthority" name="formAuthority" label="表单权限">
           <el-form-item
-            v-if="node.type == FlowNodeEnums.APPROVER_NODE"
+          
             label="表单权限"
             prop="privilege"
           >
             <AuthForm
               v-model="node.privilege"
-              :form-id="flowFormInfo?.bindForm"
+              :form-id="formId"
             />
           </el-form-item>
-          <template v-else>
-            <star-horse-data-selector
-              data-url="/userdb-manage/userdb/dynamicForm/pageList"
-              display-name="formName"
-              display-value="idDynamicForm"
-              :pageSize="100"
-              placeholder="请选择表单"
-              v-model="node.formId"
-            />
-            <AuthForm
-              v-model="node.privilege"
-              :formId="flowFormInfo?.bindForm ?? node.formId"
-              writable
-            />
-          </template>
+          
         </el-tab-pane>
         <el-tab-pane
           key="executionListeners"
