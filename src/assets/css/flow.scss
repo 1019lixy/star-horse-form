@@ -1633,6 +1633,7 @@
 }
 
 .flow-helper {
+  .flow-helper-variable,
   .flow-helper-template,
   .flow-helper-strengthen,
   .flow-helper-self {
@@ -1649,7 +1650,11 @@
     border-radius: 0 100px 100px 0;
     box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 10%);
   }
-
+  .flow-helper-variable {
+    left: 0;
+    top: 5px;
+    margin-top: 20px;
+  }
   .flow-helper-template {
     left: 0;
     top: 55px;

@@ -1,16 +1,19 @@
 <script setup lang="ts">
-import { computed, ModelRef, ref } from "vue";
-import { useFlowDesignStore } from "@/store/FlowDesign";
-import { piniaInstance } from "star-horse-lowcode";
+import {computed, ModelRef, ref} from "vue";
+import {useFlowDesignStore} from "@/store/FlowDesign";
+import {piniaInstance} from "star-horse-lowcode";
+import BasePrep from "@/views/workflow/plugin/preps/BasePrep.vue";
+import Approval from "@/views/workflow/plugin/preps/utils/Approval.vue";
 
 defineOptions({
   name: "CopyerPrep",
 });
 let node: ModelRef<any> = defineModel("activeData");
-let copyerTab = ref<string>("1");
+let copyerTab = ref<string>("basic");
 
 const flowDesign = useFlowDesignStore(piniaInstance);
 const flowFormInfo = computed(() => flowDesign.flowFormInfo);
+const formId = computed(() => flowDesign.getFormId());
 const onClose = () => {
   flowDesign.setActive(false);
 };
@@ -39,30 +42,40 @@ const onSave = () => {
 </script>
 <template>
   <el-form v-model="node" label-position="top">
-    <el-tabs v-model="copyerTab">
-      <el-tab-pane key="1" name="1" label="抄送设置">
+    <el-tabs v-model="copyerTab" type="border-card">
+      <el-tab-pane key="basic" name="basic" label="节点信息">
+        <BasePrep :nodeInfo="node"/>
+      </el-tab-pane>
+      <el-tab-pane key="copy" name="copy" label="抄送设置">
         <el-form-item label="抄送人" prop="approveGroups">
-          <Approval :groups="node.approveGroups" :node="node" title="抄送人" />
+          <Approval :groups="node.approveGroups" :node="node" title="抄送人" :multiple="true"/>
         </el-form-item>
         <el-form-item label="密送人" prop="secretApproveGroups">
           <Approval
-            :groups="node.secretApproveGroups"
-            :node="node"
-            title="密送人"
+              :multiple="true"
+              :groups="node.secretApproveGroups"
+              :node="node"
+              title="密送人"
           />
         </el-form-item>
       </el-tab-pane>
-      <el-tab-pane key="2" name="2" label="表单权限">
-        <el-form-item label="表单权限" prop="privilege">
-          <AuthForm v-model="node.privilege" :form-id="flowFormInfo?.formId" />
+      <el-tab-pane key="authority" name="authority" label="表单权限">
+        <el-form-item
+            label="表单权限"
+            prop="privilege"
+        >
+          <AuthForm
+              v-model="node.privilege"
+              :form-id="formId"
+          />
         </el-form-item>
       </el-tab-pane>
-      <el-tab-pane key="3" name="3" label="高级设置">
-        <CopyerConfigure v-model="node.operations" />
+      <el-tab-pane key="advanced" name="advanced" label="高级设置">
+        <CopyerConfigure v-model="node.operations"/>
       </el-tab-pane>
     </el-tabs>
   </el-form>
-  <DrawerFooter @close="onClose" @save="onSave" />
+  <DrawerFooter @close="onClose" @save="onSave"/>
 </template>
 <style lang="scss" scoped>
 :deep(.el-form-item__label) {

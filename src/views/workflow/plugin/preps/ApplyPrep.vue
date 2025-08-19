@@ -9,6 +9,7 @@ import {
 } from "vue";
 import { useFlowDesignStore } from "@/store/FlowDesign";
 import { piniaInstance } from "star-horse-lowcode";
+import BasePrep from "@/views/workflow/plugin/preps/BasePrep.vue";
 
 defineOptions({
   name: "ApplyPrep",
@@ -59,15 +60,19 @@ watch(
   <div class="flow-module">
     <div class="flow-content">
       <div class="flow-item">
-        <el-tabs v-model="activeTab" type="border-card" stretch>
-          <el-tab-pane label="基础设置" name="basic">
-            <ExecutionListeners :node="node" />
+        <el-tabs v-model="activeTab" type="border-card">
+          <el-tab-pane key="basic" name="basic" label="节点信息">
+            <BasePrep :nodeInfo="node"/>
           </el-tab-pane>
-          <el-tab-pane label="表单权限" name="form">
+          <el-tab-pane label="表单配置" name="form">
             <star-horse-data-selector class="z-9999" data-url="/userdb-manage/userdb/dynamicForm/pageList"
               display-name="formName" display-value="idDynamicForm" :pageSize="100" placeholder="请选择表单"
-              v-model="node.formId" />
-            <AuthForm v-model="node.privilege" :formId="node.formId || flowFormInfo?.bindForm" writable />
+              v-model="node.formId" :multiple="false" />
+            <AuthForm v-model="node.privilege" :node="node" :formId="node.formId || flowFormInfo?.bindForm" writable />
+          </el-tab-pane>
+          <el-tab-pane label="任务监听" name="listener">
+
+            <ExecutionListeners :node="node" />
           </el-tab-pane>
         </el-tabs>
       </div>

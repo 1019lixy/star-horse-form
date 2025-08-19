@@ -12,7 +12,6 @@
         >
           <div id="sh-flow-editor-content" class="sh-flow-editor-content">
             <!--            <FlowStartNode :node="nodeData"/>-->
-            {{ nodeData }}
             <FlowNode :node="nodeData" :readable="readable" />
             <!--            <FlowEndNode :node="nodeData" :readable="readable"/>-->
           </div>
