@@ -1,7 +1,6 @@
 <script setup lang="ts">
-import { uuid } from "star-horse-lowcode";
-import { ModelRef, onMounted, ref } from "vue";
-import { scale } from "@/views/workflow/plugin/utils/deviceUtil";
+import {uuid} from "star-horse-lowcode";
+import {ModelRef, onMounted, ref} from "vue";
 
 defineOptions({
   name: "ApproverConfigure",
@@ -49,7 +48,7 @@ let operations = ref<Array<any>>([
     value: "4",
     icon: "flow-revoke",
     content:
-      "允许申请人对未进入流程（第一个流程节点为待处理状态）的申请进行撤回",
+        "允许申请人对未进入流程（第一个流程节点为待处理状态）的申请进行撤回",
     code: "revoke",
   },
   {
@@ -129,7 +128,8 @@ const openPasswordModal = (checked: any, security: any) => {
     passwordVisible.value = true;
   }
 };
-const changeConfigure = () => {};
+const changeConfigure = () => {
+};
 const init = () => {
   let datas: Array<any> = [
     ...operations.value,
@@ -155,9 +155,9 @@ onMounted(() => {
           <div class="flow-item">
             <div class="flow-item-left">
               <star-horse-icon
-                :icon-class="operation.icon"
-                size="36px"
-                boxShow="true"
+                  :icon-class="operation.icon"
+                  size="36px"
+                  boxShow="true"
               />
               <div class="flow-desc">
                 <p class="option-title">{{ operation.name }}</p>
@@ -166,10 +166,10 @@ onMounted(() => {
             </div>
             <div class="flow-item-switch">
               <el-switch
-                v-model="configure[operation.code]"
-                active-text="开"
-                inactive-text="关"
-                @change="changeConfigure"
+                  v-model="configure[operation.code]"
+                  active-text="开"
+                  inactive-text="关"
+                  @change="changeConfigure"
               />
             </div>
           </div>
@@ -178,24 +178,41 @@ onMounted(() => {
       <div class="flow-item">
         <p class="flow-item-title">超时配置</p>
         <div class="flow-option" v-for="(timeout, i) in timeouts" :key="i">
-          <div class="flow-item">
-            <div class="flow-item-left">
-              <star-horse-icon
-                :icon-class="timeout.icon"
-                size="36px"
-                boxShow="true"
-              />
-              <div class="flow-desc">
-                <p class="option-title">{{ timeout.name }}</p>
-                <p class="option-desc">{{ timeout.content }}</p>
+          <div class="flex-col  " style="border-bottom: 1px solid #fff">
+            <div class="flow-item border-none!">
+              <div class="flow-item-left">
+                <star-horse-icon
+                    :icon-class="timeout.icon"
+                    size="36px"
+                    boxShow="true"
+                />
+                <div class="flow-desc">
+                  <p class="option-title">{{ timeout.name }}</p>
+                  <p class="option-desc">{{ timeout.content }}</p>
+                </div>
+              </div>
+              <div class="flow-item-switch">
+                <el-switch
+                    v-model="configure[timeout.code]"
+                    active-text="开"
+                    inactive-text="关"
+                />
               </div>
             </div>
-            <div class="flow-item-switch">
-              <el-switch
-                v-model="configure[timeout.code]"
-                active-text="开"
-                inactive-text="关"
+            <div v-if="configure[timeout.code]" class="flex flex-row items-center w-full">
+              <el-select v-model="configure.timeoutType" class="w-[30%]!">
+                <el-option label="不设置" value="1"/>
+                <el-option label="自动审批" value="2"/>
+                <el-option label="发送通知" value="3"/>
+              </el-select>
+              <el-input
+                  type="number"
+                  class="flex-1!"
+                  :disabled="!configure.timeoutType || configure.timeoutType == '1'"
+                  v-model="configure.timeoutValue"
+                  placeholder="输入超时时间"
               />
+              <span class="w-[10%]">&nbsp;小时</span>
             </div>
           </div>
         </div>
@@ -203,12 +220,12 @@ onMounted(() => {
       <div class="flow-item">
         <p class="flow-item-title">安全配置</p>
         <div class="flow-option" v-for="(security, i) in securities" :key="i">
-          <div class="flow-item">
+          <div class="flow-item border-none! ">
             <div class="flow-item-left">
               <star-horse-icon
-                :icon-class="security.icon"
-                size="36px"
-                boxShow="true"
+                  :icon-class="security.icon"
+                  size="36px"
+                  boxShow="true"
               />
               <div class="flow-desc">
                 <p class="option-title">{{ security.name }}</p>
@@ -217,33 +234,17 @@ onMounted(() => {
             </div>
             <div class="flow-item-switch">
               <el-switch
-                v-model="configure[security.code]"
-                active-text="开"
-                inactive-text="关"
-                @change="(checked) => openPasswordModal(checked, security)"
+                  v-model="configure[security.code]"
+                  active-text="开"
+                  inactive-text="关"
+
               />
             </div>
           </div>
         </div>
       </div>
     </div>
-    <div style="height: 30px" />
   </el-scrollbar>
-  <!-- 填写密码 -->
-  <star-horse-dialog
-    self-func="true"
-    :dialog-visible="passwordVisible"
-    @merge="passwordVisible = false"
-    :box-width="scale.isMobile() ? '100%' : '40%'"
-    title="填写密码"
-    @closeAction="passwordVisible = false"
-  >
-    <el-input
-      type="password"
-      v-model="configure.passwordValue"
-      placeholder="输入密码"
-    />
-  </star-horse-dialog>
 </template>
 <style scoped lang="scss">
 .flow-item-title {

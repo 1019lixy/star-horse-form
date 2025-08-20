@@ -3,3 +3,7 @@
 textarea 组件需要增加行数的默认值
 
 动态表单分配权限的地方需根据权限获取菜单信息
+
+Bug总结：
+  在star-horse-form 中假如表单数据对象为formData, 不要在使用outerFormData="formData"后属性，还使用表单setFormData(formData["subData"])进行赋值，
+  这样会导致数据层级改变，formData的数据最终变成subData的子节点，

@@ -69,9 +69,9 @@ const jsButtonClick = (data: any, actionName: string) => {
 const condifRelationPolicy = async () => {
   dataRelationDialogVisible.value = true;
   designForm.setShortKeyDisabled(true);
-  let temp = formProps.value["dataRelation"] ?? {};
-  console.log(temp)
   await nextTick(()=>{
+    let temp = formProps.value["dataRelation"];
+    console.log(temp)
     temp&&dataRelationFormRef.value?.setFormData(temp);
   });
 };
@@ -105,8 +105,9 @@ const dataRelationMerge = async () => {
     return;
   }
   const relationData = dataRelationFormRef?.value.getFormData().value;
-  console.log(relationData);
+ 
   formProps.value["dataRelation"] = relationData;
+  console.log(JSON.stringify({...formProps.value}) );
   closeAction();
 };
 const paramsValid = async () => {
@@ -494,7 +495,7 @@ watch(
     </star-horse-dialog>
     <star-horse-dialog :dialogVisible="dataRelationDialogVisible" :title="'数据联动策略配置'" :isBatch="false"
       @merge="dataRelationMerge" @closeAction="closeAction" @resetForm="dataRelationReset" :selfFunc="true">
-      <star-horse-form :outerFormData="formProps" primary-key="" ref="dataRelationFormRef"
+      <star-horse-form  primary-key="" ref="dataRelationFormRef"
         :fieldList="relationDataField(formProps)" />
     </star-horse-dialog>
     <star-horse-dialog :dialogVisible="dataSourceDialogVisible" :title="'数据源配置'" :isBatch="false" @merge="submitValid"

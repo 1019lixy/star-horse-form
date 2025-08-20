@@ -8,7 +8,11 @@
   </el-drawer>
   <el-form :model="node" label-position="top">
     <el-tabs v-model="noticeTab">
-      <el-tab-pane key="1" name="1" label="通知设置">
+
+      <el-tab-pane key="basic" name="basic" label="节点信息">
+        <BasePrep :nodeInfo="node"/>
+      </el-tab-pane>
+      <el-tab-pane key="notice" name="notice" label="通知设置">
         <el-form-item label="发送通知人" prop="approveGroups">
           <Approval :groups="node.approveGroups" :node="node" title="通知人" />
         </el-form-item>
@@ -20,7 +24,7 @@
           />
         </el-form-item>
       </el-tab-pane>
-      <el-tab-pane key="2" name="2" label="内容设置">
+      <el-tab-pane key="content" name="content" label="内容设置">
         <el-form-item label="通知类型" prop="noticeType">
           <el-checkbox-group v-model="node.noticeType">
             <el-row :gutter="24">
@@ -132,6 +136,7 @@ import {
 } from "star-horse-lowcode";
 import { useFlowDesignStore } from "@/store/FlowDesign";
 import { getValidType } from "@/api/valid_utils";
+import BasePrep from "@/views/workflow/plugin/preps/BasePrep.vue";
 
 defineOptions({
   name: "NoticePrep",
@@ -140,7 +145,7 @@ defineOptions({
 let node: ModelRef<any> = defineModel("activeData");
 
 const flowDesign = useFlowDesignStore(piniaInstance);
-let noticeTab = ref<string>("1");
+let noticeTab = ref<string>("basic");
 // 邮件选择项
 let fieldList = ref<Array<FieldInfo>>([]);
 let notices = ref<Array<any>>([]);

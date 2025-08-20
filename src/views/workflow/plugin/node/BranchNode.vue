@@ -59,10 +59,10 @@ const errorCheck = () => {
     } else {
       conditionNode.conditionGroups.forEach((condition: any, index: number) => {
         condition.conditions.forEach((condition: any, sindex: number) => {
-          if (!condition.columnName) {
+         /* if (!condition.columnName) {
             flag = true;
             msg += `条件${index}未配置条件字段\n`;
-          }
+          }*/
           if (!condition.optType) {
             flag = true;
             msg += `条件${index}未配置条件操作符\n`;
