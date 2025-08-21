@@ -177,7 +177,7 @@ const execListener = (
                         formVisible: true,
                         listVisible: true,
                         preps: {
-                            values: type == "task" ? taskTypeList : eventTypeList,
+                            values: type == "task" ? taskTypeList : eventList,
                             radioType: "button",
                         },
                     },

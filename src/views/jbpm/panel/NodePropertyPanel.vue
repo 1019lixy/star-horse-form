@@ -3,18 +3,21 @@
 
   <star-horse-form
     ref="userTaskFormRef"
+    :formSize="'default'"
     :outerFormData="outFormData"
     v-if="nodeElement.type == 'bpmn:UserTask'"
     :field-list="userTaskNodeField"
   />
   <star-horse-form
     ref="taskFormRef"
+    :formSize="'default'"
     :outerFormData="outFormData"
     v-if="nodeElement.type == 'bpmn:Task'"
     :field-list="serviceTaskNodeField(nodeElement)"
   />
   <star-horse-form
     ref="otherTaskFormRef"
+    :formSize="'default'"
     :outerFormData="outFormData"
     v-else-if="
       nodeElement?.type &&

@@ -363,5 +363,5 @@ const updateDesc = (name: string) => {
 </script>
 <style scoped></style>
 <template>
-  <star-horse-form :field-list="processField" />
+  <star-horse-form formSize="default" :field-list="processField" />
 </template>
