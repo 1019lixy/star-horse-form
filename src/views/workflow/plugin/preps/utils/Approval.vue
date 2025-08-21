@@ -61,7 +61,7 @@ const changeApproveType = (group: any) => {
 
   dataSelectorVisible.value = false;
   let item = approvals.value.find(
-      (item: any) => item.idApprovalType == group.approveType,
+      (item: any) => item.approvalCode == group.approveType,
   );
   group.currentApproveType = item;
   selectorParmas.value = {
@@ -72,7 +72,7 @@ const changeApproveType = (group: any) => {
   postRequest(
       "/userdb-manage/userdb/formInstance/flApprovalFields/idApprovalFields/337537414606095357/getOneByCondition",
       {
-        fieldList: [createCondition("a.idApprovalType", group.approveType)],
+        fieldList: [createCondition("a.idApprovalType", item.idApprovalType)],
       },
   ).then((res) => {
     const reData = res.data?.data;
@@ -130,7 +130,7 @@ onMounted(() => {
       <el-form-item :label="nodePreName+'人'" :prop="`groups.${index}.approveType`">
         <el-radio-group style="margin-bottom: 10px; width: 100%" v-model="group.approveType" filterable clearable
                         default-first-option @change="changeApproveType(group)">
-          <el-radio v-for="item in approvals" :key="item.idApprovalType" :value="item.idApprovalType"
+          <el-radio v-for="item in approvals" :key="item.idApprovalType" :value="item.approvalCode"
                     :label="item.approvalType" :disabled="item.statusCode == '0' && groups.length > 1">
             <div class="flex flex-row justify-between items-center">
               <div>{{ item.approvalType.replace('审批', nodePreName) }}</div>

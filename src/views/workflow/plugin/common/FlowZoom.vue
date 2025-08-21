@@ -239,7 +239,7 @@ const viewCode = async () => {
 };
 const exportCode = async () => {
   let params = {
-    id: uuid(),
+    flowDeploymentId: uuid(),
     process: nodeData.value,
     code: "test",
     name: "测试",

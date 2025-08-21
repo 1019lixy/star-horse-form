@@ -13,8 +13,8 @@ defineOptions({
 const flowDesign = useFlowDesignStore(piniaInstance);
 let node: ModelRef<any> = defineModel("activeData");
 let approvalTab = ref<string>("basic");
-const flowFormInfo = computed(() => flowDesign.flowFormInfo);
-const nodePreName=computed(() => node.value.type == FlowNodeEnums.HANDLE_NODE?"办理":"审批");
+// const flowFormInfo = computed(() => flowDesign.flowFormInfo);
+const nodePreName = computed(() => node.value.type == FlowNodeEnums.HANDLE_NODE ? "办理" : "审批");
 const formId = computed(() => flowDesign.getFormId());
 let dataList = ref<any>({
   interOrDict: "",
@@ -63,7 +63,11 @@ const onSave = () => {
       content += ",";
     }
   });
-
+  if (node.value.approvalMode) {
+    content = approvalModes.value.find((item: any) => item.value == node.value.approvalMode).name;
+    content = content.replace("审批", nodePreName.value);
+  }
+  node.value.content = content;
   onClose();
 };
 const init = () => {
@@ -134,7 +138,7 @@ onMounted(() => {
                   v-for="(approvalMode, i) in approvalModes"
                   :key="i"
               >
-                {{ approvalMode.name.replace('审批',nodePreName) }}
+                {{ approvalMode.name.replace('审批', nodePreName) }}
               </el-radio>
             </el-radio-group>
             <div
@@ -165,7 +169,7 @@ onMounted(() => {
 
               >
                 <div class="flex flex-row items-center mx-[10px] ">
-                  <span>{{ sameApproval.attrName.replace('审批',nodePreName) }}</span>
+                  <span>{{ sameApproval.attrName.replace('审批', nodePreName) }}</span>
                   <el-popover
                       v-if="sameApproval.defaultValue?.length > 0"
                       placement="top-start"
@@ -196,7 +200,7 @@ onMounted(() => {
           <el-form-item prop="noHander">
             <template #label>
               <div class="flex items-center">
-                {{nodePreName }}人为空时
+                {{ nodePreName }}人为空时
                 <el-popover
                     placement="top-start"
                     trigger="hover"
@@ -211,22 +215,22 @@ onMounted(() => {
                   <div class="approver-tip-content">
                     <div class="approver-tip-main-content">
                       <p class="main-title">
-                        什么情况下会出现{{nodePreName }}人为空？
+                        什么情况下会出现{{ nodePreName }}人为空？
                       </p>
                       <p class="content">
-                        设置了“上级”{{nodePreName }}，但申请人在管理后台 -
+                        设置了“上级”{{ nodePreName }}，但申请人在管理后台 -
                         组织架构中没有上级
                       </p>
                       <p class="content">
-                        设置了“部门负责人”{{nodePreName }}，但申请人在管理后台 -
+                        设置了“部门负责人”{{ nodePreName }}，但申请人在管理后台 -
                         组织架构中没有部门负责人
                       </p>
                       <p class="content">
-                        设置了“角色”{{nodePreName }}，但该角色在管理后台 -
+                        设置了“角色”{{ nodePreName }}，但该角色在管理后台 -
                         组织架构中没有任何成员
                       </p>
                       <p class="content">
-                        设置了“用户组”{{nodePreName }}，但该用户组在管理后台 -
+                        设置了“用户组”{{ nodePreName }}，但该用户组在管理后台 -
                         组织架构中没有任何成员
                       </p>
                     </div>
@@ -246,7 +250,7 @@ onMounted(() => {
                   :style="radioStyle"
               >
                 <div class="flex flex-row items-center mx-[10px] ">
-                  <span>{{ approvalWithNull.attrName.replace('审批',nodePreName) }}</span>
+                  <span>{{ approvalWithNull.attrName.replace('审批', nodePreName) }}</span>
                   <el-popover
                       v-if="approvalWithNull.defaultValue?.length > 0"
                       placement="top-start"
@@ -282,9 +286,9 @@ onMounted(() => {
               <p class="flow-item-title">提示：</p>
               <div class="hint-info">
                 <p v-if="node.type == FlowNodeEnums.HANDLE_NODE">
-                  办理人不涉及{{nodePreName }}人去重设置，不同节点相同的办理人仍需要执行。
+                  办理人不涉及{{ nodePreName }}人去重设置，不同节点相同的办理人仍需要执行。
                 </p>
-                <p>若{{nodePreName }}人离职，会自动转交给{{nodePreName }}人的上级代为处理</p>
+                <p>若{{ nodePreName }}人离职，会自动转交给{{ nodePreName }}人的上级代为处理</p>
                 <p>抄送的人数最多支持100人以内</p>
               </div>
             </div>

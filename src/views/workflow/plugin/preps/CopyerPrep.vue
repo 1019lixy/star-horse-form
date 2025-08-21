@@ -37,6 +37,7 @@ const onSave = () => {
     //  是否设置发起人填写
     content += "发起人填写";
   }
+  node.value.content= content;
   onClose();
 };
 </script>

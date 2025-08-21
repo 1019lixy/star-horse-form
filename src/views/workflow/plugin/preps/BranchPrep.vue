@@ -150,9 +150,12 @@ const onSave = () => {
         });
       }
     });
+  } else if (node.value.branchType == "formula") {
+    content += node.value.formula;
   } else {
     content += "任意(其他)";
   }
+  node.value.content= content;
   onClose();
 };
 let currentLevel = ref<number>(0);
