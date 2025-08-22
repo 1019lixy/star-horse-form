@@ -75,12 +75,11 @@ onMounted(() => {
           </div>
           <div class="node-main">
             <span v-if="node.content">
-              表单权限:
               <el-tooltip placement="top" :content="node.content">
                 {{ node.content }}
               </el-tooltip>
             </span>
-            <span v-else class="hint-title">默认表单全可编辑</span>
+            <span v-else class="hint-title">默认</span>
           </div>
           <!-- 错误提示 -->
           <el-tooltip
