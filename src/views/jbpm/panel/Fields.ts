@@ -98,6 +98,7 @@ const eventField = {
     label: "事件",
     fieldName: "eventName",
     type: "radio",
+    required:true,
     formVisible: true,
     listVisible: true,
     preps: {
@@ -109,8 +110,10 @@ const listenerTypeFields = {
     label: "监听器类型",
     fieldName: "listenerType",
     type: "radio",
+    required:true,
     formVisible: true,
     listVisible: true,
+    helpMsg: "实现 ExecutionListener 接口 \n 委托表达式：${myExecutionListener}\n 表达式: ${myExecutionListener.notify(execution)} \n java类：${com.example.listener.MyExecutionListener}",
     preps: {
         values: eventTypeList.value,
         radioType: "button",

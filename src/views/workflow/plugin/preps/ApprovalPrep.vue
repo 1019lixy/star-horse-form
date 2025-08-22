@@ -13,6 +13,7 @@ defineOptions({
 const flowDesign = useFlowDesignStore(piniaInstance);
 let node: ModelRef<any> = defineModel("activeData");
 let approvalTab = ref<string>("basic");
+const approvalFormRef = ref();
 // const flowFormInfo = computed(() => flowDesign.flowFormInfo);
 const nodePreName = computed(() => node.value.type == FlowNodeEnums.HANDLE_NODE ? "办理" : "审批");
 const formId = computed(() => flowDesign.getFormId());
@@ -23,7 +24,50 @@ let dataList = ref<any>({
   params: {},
   proxy: false,
 });
-
+/*const approvalFields=reactive<PageFieldInfo|any>({
+  fieldList:[{
+    fieldName:"basic",
+    tabList:[{
+      title:"节点信息",
+      tabName:"basic",
+      fieldList:[
+        {
+          fieldName:"basePrep",
+          type:"usercomp",
+          preps:{
+            compName:BasePrep,
+          },
+        }
+      ]
+    },{
+      title:`任务${nodePreName}人设置`,
+      tabName:"audit",
+      fieldList:[
+        {
+          fieldName:"approval",
+          type:"usercomp",
+          preps:{
+            compName:approval,
+          },
+        }
+      ]
+    },{
+      title:`${nodePreName}设置`,
+      tabName:"optional",
+      fieldList:[
+        {
+          fieldName:"approvalMode",
+          label:`${nodePreName}方式`,
+          type:"radio",
+          preps:{
+            values:approvalModes,
+            radioButton:true,
+          },
+        }
+      ]
+    }]
+  }]
+});*/
 
 // 审批方式
 let approvalModes = ref<Array<any>>([
@@ -50,7 +94,11 @@ const onClose = () => {
 /**
  * 保存配置
  */
-const onSave = () => {
+const onSave = async () => {
+  const result = await approvalFormRef.value.validate();
+  if (!result) {
+    return;
+  }
   // 更新节点显示信息
   let content = "";
   node.value.approveGroups.forEach((group: any) => {
@@ -110,7 +158,7 @@ onMounted(() => {
 </script>
 <template>
   <el-card class="inner_content h100">
-    <el-form :model="node" label-position="top" :size="flowCommon.size">
+    <el-form :model="node" :label-position="'top'" ref="approvalFormRef" :size="flowCommon.size">
       <el-alert
           v-if="node.type == FlowNodeEnums.HANDLE_NODE"
           title="当流程中某个节点不需要审批，但需要对审批单进行业务办理时，可设置办理人节点，场景如财务打款、处理盖章等"
@@ -127,7 +175,7 @@ onMounted(() => {
           <approval :node="node" :groups="node.approveGroups"/>
         </el-tab-pane>
         <el-tab-pane key="optional" name="optional" :label="`${nodePreName}设置`">
-          <el-form-item :label="`${nodePreName}方式`" prop="approvalMode">
+          <el-form-item :label="`${nodePreName}方式`" prop="approvalMode" required>
             <el-radio-group
                 v-model="node.approvalMode"
                 button-style="solid"
@@ -155,7 +203,7 @@ onMounted(() => {
               <span>%人员通过</span>
             </div>
           </el-form-item>
-          <el-form-item :label="`${nodePreName}人与发起人为同一人时`" prop="sameMode">
+          <el-form-item :label="`${nodePreName}人与发起人为同一人时`" prop="sameMode" required>
             <el-radio-group
                 v-model="node.sameMode"
                 :size="flowCommon.size"
@@ -197,8 +245,8 @@ onMounted(() => {
             </template>
           </el-form-item>
 
-          <el-form-item prop="noHander">
-            <template #label>
+          <el-form-item prop="noHander" required>
+            <template #label class="flex">
               <div class="flex items-center">
                 {{ nodePreName }}人为空时
                 <el-popover
@@ -328,5 +376,6 @@ onMounted(() => {
 <style lang="scss" scoped>
 :deep(.el-form-item__label) {
   font-weight: 800;
+  display: flex;
 }
 </style>

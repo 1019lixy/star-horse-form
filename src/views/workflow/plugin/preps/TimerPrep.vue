@@ -57,7 +57,6 @@
       </el-tab-pane>
     </el-tabs>
   </el-form>
-
   <DrawerFooter @close="onClose" @save="onSave"/>
 </template>
 <script setup lang="ts">

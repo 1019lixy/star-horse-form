@@ -187,7 +187,7 @@ watch(
 );
 </script>
 <template>
-  <el-form v-model="node" label-position="top">
+  <el-form v-model="node" label-position="top"   :size="flowCommon.size">
     <el-tabs
         type="border-card"
         v-model="approvalTab"
@@ -202,7 +202,6 @@ watch(
               @change="levelChange"
               filterable
               clearable
-              :size="flowCommon.size"
               placeholder="请选择等级"
           >
             <el-option
@@ -218,7 +217,6 @@ watch(
               v-model="node.branchType"
               filterable
               clearable
-              :size="flowCommon.size"
               placeholder="请选择分支类型"
           >
             <el-radio-button

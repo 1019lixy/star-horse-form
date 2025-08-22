@@ -237,7 +237,6 @@ onMounted(() => {
                   v-model="configure[security.code]"
                   active-text="开"
                   inactive-text="关"
-
               />
             </div>
           </div>

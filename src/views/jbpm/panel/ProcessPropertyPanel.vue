@@ -299,7 +299,6 @@ const processField = reactive<PageFieldInfo | any>({
                 {
                   label: "名称",
                   fieldName: "name",
-
                   formVisible: true,
                   listVisible: true,
                 },
@@ -316,7 +315,6 @@ const processField = reactive<PageFieldInfo | any>({
                 {
                   label: "默认值",
                   fieldName: "defaultValue",
-
                   formVisible: true,
                   listVisible: true,
                 },
