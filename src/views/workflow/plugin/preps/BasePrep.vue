@@ -41,7 +41,7 @@ const basePrepField = reactive<PageFieldInfo>({
   }, {
     label: "任务变量",
     type: "select",
-    fieldName: "taskVariable",
+    fieldName: "taskVariables",
     formVisible: true,
     preps: {
       multiple: true,

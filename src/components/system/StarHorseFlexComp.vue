@@ -6,6 +6,10 @@ import PageCompPanel from "@/components/system/items/PageCompPanel.vue";
 import PageFont from "@/components/system/items/PageFont.vue";
 import PagePosition from "@/components/system/items/PagePosition.vue";
 import SvgLoader from "@/components/system/SvgLoader.vue";
+import FlexSaveDialog from "@/components/system/dialogs/FlexSaveDialog.vue";
+import FlexPreviewDialog from "@/components/system/dialogs/FlexPreviewDialog.vue";
+import FlexShareDialog from "@/components/system/dialogs/FlexShareDialog.vue";
+import FlexPublishDialog from "@/components/system/dialogs/FlexPublishDialog.vue";
 import { Layout } from "@/components/types/dataTypes";
 import { appInstance } from "@/main";
 import { useFlexDesignStore } from "@/store/FlexDesign";
@@ -15,9 +19,10 @@ import { flexboxLayouts } from "@/utils/flexbox/layouts";
 import { gridContainerConfig } from "@/utils/grid/containerConfig";
 import { gridItemsConfig } from "@/utils/grid/itemsConfig";
 import { gridLayouts } from "@/utils/grid/layouts";
-import { PageFieldInfo, piniaInstance, uuid } from "star-horse-lowcode";
-import { computed, defineOptions, onMounted, ref, watch } from "vue";
+import { PageFieldInfo, piniaInstance, uuid, success, error, warning } from "star-horse-lowcode";
+import { computed, defineOptions, onMounted, onUnmounted, ref, watch } from "vue";
 import StarHorseRuler from "./StarHorseRuler.vue";
+import { saveFlexDesign, loadFlexDesign, shareFlexDesign, publishFlexDesign, generatePreview, type FlexDesignData, type ShareResult, type PublishResult } from "@/api/flexDesign";
 
 defineOptions({
   name: "StarHorseFlexComp",
@@ -39,6 +44,18 @@ const needInfiniteViewer = ref<boolean>(true);
 const hideRuler = ref<boolean>(false);
 const isFullscreen = ref(false);
 const directions = ["column", "row-reverse", "column-reverse", "row"];
+
+// Dialog states
+const saveDialogVisible = ref(false);
+const previewDialogVisible = ref(false);
+const shareDialogVisible = ref(false);
+const publishDialogVisible = ref(false);
+
+// Design metadata
+const currentDesignId = ref<string>("");
+const currentDesignName = ref<string>("未命名设计");
+const currentDesignDescription = ref<string>("");
+
 let index = 0;
 const tabChange = (val: string) => {};
 const addItem = () => {
@@ -121,10 +138,101 @@ const autoScroll = () => {
 const hideRulerFunc = () => {
   hideRuler.value = !hideRuler.value;
 };
-const saveData = () => {};
-const preview = () => {};
-const publishPage = () => {};
-const sharePage = () => {};
+const saveData = () => {
+  saveDialogVisible.value = true;
+};
+
+const preview = () => {
+  // 验证设计数据
+  const validation = flexDesign.validateDesign();
+  if (!validation.isValid) {
+    error("设计数据验证失败，请检查设计内容");
+    console.warn("验证错误:", validation.errors);
+    return;
+  }
+  previewDialogVisible.value = true;
+};
+
+const publishPage = () => {
+  // 验证设计数据
+  const validation = flexDesign.validateDesign();
+  if (!validation.isValid) {
+    error("设计数据验证失败，无法发布");
+    console.warn("验证错误:", validation.errors);
+    return;
+  }
+  publishDialogVisible.value = true;
+};
+
+const sharePage = () => {
+  // 验证设计数据
+  const validation = flexDesign.validateDesign();
+  if (!validation.isValid) {
+    error("设计数据验证失败，无法分享");
+    console.warn("验证错误:", validation.errors);
+    return;
+  }
+  shareDialogVisible.value = true;
+};
+
+// Dialog event handlers
+const handleSaved = (result: FlexDesignData) => {
+  currentDesignId.value = result.id || "";
+  currentDesignName.value = result.name;
+  currentDesignDescription.value = result.description || "";
+  saveDialogVisible.value = false;
+  success("设计保存成功");
+};
+
+const handleShared = (result: ShareResult) => {
+  shareDialogVisible.value = false;
+  success("分享链接生成成功");
+  console.log("分享结果:", result);
+};
+
+const handlePublished = (result: PublishResult) => {
+  publishDialogVisible.value = false;
+  success("设计发布成功");
+  console.log("发布结果:", result);
+};
+
+const handleSaveTemplate = (templateData: any) => {
+  console.log("保存模板:", templateData);
+  success("模板保存成功");
+  previewDialogVisible.value = false;
+};
+
+// Load design data
+const loadDesign = async (designId: string) => {
+  try {
+    const designData = await loadFlexDesign(designId);
+    flexDesign.loadDesignData(designData);
+    currentDesignId.value = designData.id || "";
+    currentDesignName.value = designData.name;
+    currentDesignDescription.value = designData.description || "";
+    success("设计加载成功");
+  } catch (err) {
+    console.error("加载设计失败:", err);
+    error("加载设计失败");
+  }
+};
+
+// Auto-save functionality
+const autoSave = async () => {
+  if (currentDesignId.value) {
+    try {
+      const designData = flexDesign.serializeDesignData(
+        currentDesignName.value,
+        currentDesignDescription.value,
+        flexModel.value
+      );
+      await saveFlexDesign({ ...designData, id: currentDesignId.value });
+      console.log("自动保存成功");
+    } catch (error) {
+      console.error("自动保存失败:", error);
+    }
+  }
+};
 const fullScreen = () => {
   if (!document.fullscreenElement) {
     document.documentElement.requestFullscreen().then(() => {
@@ -140,6 +248,20 @@ onMounted(() => {
   init();
   document.addEventListener("fullscreenchange", () => {
     isFullscreen.value = !!document.fullscreenElement;
+  });
+  
+  // 设置自动保存，每5分钟保存一次
+  const autoSaveInterval = setInterval(() => {
+    autoSave();
+  }, 5 * 60 * 1000); // 5分钟
+  
+  // 监听页面卸载，自动保存
+  window.addEventListener('beforeunload', autoSave);
+  
+  // 组件销毁时清理资源
+  onUnmounted(() => {
+    clearInterval(autoSaveInterval);
+    window.removeEventListener('beforeunload', autoSave);
   });
 });
 watch(
@@ -463,6 +585,46 @@ watch(
       </el-scrollbar>
     </el-splitter-panel>
   </el-splitter>
+
+  <!-- Save Dialog -->
+  <FlexSaveDialog
+    :dialogVisible="saveDialogVisible"
+    :designName="currentDesignName"
+    :designDescription="currentDesignDescription"
+    :designId="currentDesignId"
+    :isEdit="!!currentDesignId"
+    @closeDialog="saveDialogVisible = false"
+    @saved="handleSaved"
+  />
+
+  <!-- Preview Dialog -->
+  <FlexPreviewDialog
+    :dialogVisible="previewDialogVisible"
+    :designName="currentDesignName"
+    :flexModel="flexModel"
+    :containerDataForm="containerDataForm"
+    :designDescription="currentDesignDescription"
+    @closeDialog="previewDialogVisible = false"
+    @saveTemplate="handleSaveTemplate"
+  />
+
+  <!-- Share Dialog -->
+  <FlexShareDialog
+    :dialogVisible="shareDialogVisible"
+    :designName="currentDesignName"
+    :designDescription="currentDesignDescription"
+    @closeDialog="shareDialogVisible = false"
+    @shared="handleShared"
+  />
+
+  <!-- Publish Dialog -->
+  <FlexPublishDialog
+    :dialogVisible="publishDialogVisible"
+    :designName="currentDesignName"
+    :designDescription="currentDesignDescription"
+    @closeDialog="publishDialogVisible = false"
+    @published="handlePublished"
+  />
 </template>
 <style lang="scss" scoped>
 .flex-grid {

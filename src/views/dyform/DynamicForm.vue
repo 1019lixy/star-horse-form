@@ -724,13 +724,14 @@ defineExpose({
               </template>
               <div
                 :class="currentPageClass"
-                style="overflow: auto; scrollbar-width: thin"
+                style=""
                 @contextmenu="contextMenu"
               >
                 <draggable
                   @add="(evt: Event) => onDragAdd(evt, list)"
-                  style="width: 98%; height: 100%; margin: 0 auto"
+                  style="scrollbar-width: thin"
                   tag="div"
+                  class="h-full w-full overflow-auto "
                   group="starHorseGroup"
                   ghost-class="ghost"
                   :list="list"
