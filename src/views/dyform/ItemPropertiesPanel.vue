@@ -71,7 +71,6 @@ const condifRelationPolicy = async () => {
   designForm.setShortKeyDisabled(true);
   await nextTick(()=>{
     let temp = formProps.value["dataRelation"];
-    console.log(temp)
     temp&&dataRelationFormRef.value?.setFormData(temp);
   });
 };
@@ -107,7 +106,6 @@ const dataRelationMerge = async () => {
   const relationData = dataRelationFormRef?.value.getFormData().value;
  
   formProps.value["dataRelation"] = relationData;
-  console.log(JSON.stringify({...formProps.value}) );
   closeAction();
 };
 const paramsValid = async () => {
