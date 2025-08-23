@@ -930,3 +930,29 @@ button.el-collapse-item__header {
   background: #e5e5e5 !important;
   border: 2px dashed var(--star-horse-style) !important;
 }
+
+/* Table row anchors for database relationship creation */
+.table-row-anchor {
+  opacity: 0 !important;
+  transition: opacity 0.2s ease-in-out;
+}
+
+/* Show anchors when hovering over the specific port/row */
+.x6-port:hover .table-row-anchor {
+  opacity: 1 !important;
+}
+
+/* Show all anchors when dragging a connection */
+.x6-graph-svg.connecting .table-row-anchor,
+.x6-graph-svg[data-connecting="true"] .table-row-anchor {
+  opacity: 1 !important;
+}
+
+/* Specific positioning for table anchors */
+.table-left-anchor {
+  transform: translateX(-2px);
+}
+
+.table-right-anchor {
+  transform: translateX(2px);
+}

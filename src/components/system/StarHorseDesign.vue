@@ -52,8 +52,8 @@ const menuPosition = ref({
 });
 const props = defineProps({
   registerNode: { type: Object, default: null },
-  lineHeight: { type: Number, default: 24 },
-  tableWidth: { type: Number, default: 320 },
+  lineHeight: { type: Number, default: 32 },
+  tableWidth: { type: Number, default: 480 },
   tableFlag: { type: Boolean, default: false },
   readonly: { type: Boolean, default: false },
   compUrl: { type: Object as PropType<ApiUrls> },
@@ -331,10 +331,37 @@ const init = async () => {
   });
   graph.value.on("edge:connected", (edge: any) => {
     clickOperation(edge.view);
+    // Hide all anchors when connection is completed
+    const allAnchors = starHorseDesignRef.value.querySelectorAll(
+      ".table-row-anchor",
+    ) as any;
+    for (let i = 0; i < allAnchors.length; i++) {
+      allAnchors[i].style.opacity = "0";
+    }
   });
   //节点右键菜单
   graph.value.on("cell:contextmenu", (data: any) => {
     contextMenu(data.e, data.x, data.y, data.cell, data.view);
+  });
+  
+  // Handle connection start - show all table anchors
+  graph.value.on("edge:mousedown", () => {
+    const allAnchors = starHorseDesignRef.value.querySelectorAll(
+      ".table-row-anchor",
+    ) as any;
+    for (let i = 0; i < allAnchors.length; i++) {
+      allAnchors[i].style.opacity = "1";
+    }
+  });
+  
+  // Handle port click to start connection
+  graph.value.on("node:port:mousedown", () => {
+    const allAnchors = starHorseDesignRef.value.querySelectorAll(
+      ".table-row-anchor",
+    ) as any;
+    for (let i = 0; i < allAnchors.length; i++) {
+      allAnchors[i].style.opacity = "1";
+    }
   });
   // //连线右键菜单
   // //点击节点
@@ -365,6 +392,14 @@ const init = async () => {
       cells[index].removeTools();
     }
     currentComp.value = null;
+    
+    // Hide all anchors when clicking on blank space
+    const allAnchors = starHorseDesignRef.value.querySelectorAll(
+      ".table-row-anchor",
+    ) as any;
+    for (let i = 0; i < allAnchors.length; i++) {
+      allAnchors[i].style.opacity = "0";
+    }
   });
   if (props.panelStyle == "drawer") {
     //点击连线

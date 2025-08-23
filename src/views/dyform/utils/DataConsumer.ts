@@ -4,7 +4,6 @@ import {
   searchMatchList,
   SelectOption,
 } from "star-horse-lowcode";
-import { fi } from "element-plus/es/locale/index.mjs";
 import { ascOrDesc } from "@/api/system.ts";
 
 const tableVisible = ref<boolean>(true);
@@ -14,8 +13,8 @@ const limitFieldVisible = ref<boolean>(true);
 let lineDatas: any = {};
 const tableList = ref<SelectOption[]>([]);
 // const fieldList = ref<SelectOption[]>([]);
-export const line_height = 24;
-export const table_width = 320;
+export const line_height = 32;
+export const table_width = 480;
 export const consumerNodeData: any = {
   portName: "erPortPosition",
   name: "er-rect",
@@ -30,24 +29,139 @@ export const consumerNodeData: any = {
         tagName: "text",
         selector: "label",
       },
+      {
+        tagName: "rect",
+        selector: "headerBg",
+      },
+      {
+        tagName: "text",
+        selector: "headerName",
+      },
+      {
+        tagName: "text",
+        selector: "headerType",
+      },
+      {
+        tagName: "text",
+        selector: "headerLength",
+      },
+      {
+        tagName: "text",
+        selector: "headerDesc",
+      },
+      {
+        tagName: "line",
+        selector: "separator1",
+      },
+      {
+        tagName: "line",
+        selector: "separator2",
+      },
+      {
+        tagName: "line",
+        selector: "separator3",
+      },
     ],
     attrs: {
+      body: {
+        strokeWidth: 1,
+        stroke: "var(--star-horse-style)",
+        fill: "var(--star-horse-style)",
+        height: 25,
+        width: table_width,
+      },
       rect: {
         strokeWidth: 1,
         stroke: "var(--star-horse-style)",
         fill: "var(--star-horse-style)",
+        height: 25,
+        width: table_width,
       },
       label: {
         fontWeight: "bold",
         fill: "#ffffff",
-        fontSize: 12,
+        fontSize: 14,
         textAnchor: "middle",
         textVerticalAnchor: "middle",
+        refY: 12.5,
         textWrap: {
-          width: 300,
+          width: table_width - 20,
           ellipsis: true,
           breakWord: true,
         },
+      },
+      headerBg: {
+        refY: 25,
+        refX: 0,
+        width: table_width,
+        height: line_height,
+        strokeWidth: 1,
+        stroke: "var(--star-horse-style)",
+        fill: "#e6f3ff",
+      },
+      separator1: {
+        refX1: 100,
+        refY1: 25,
+        refX2: 100,
+        refY2: 25 + line_height,
+        stroke: "var(--star-horse-style)",
+        strokeWidth: 1,
+      },
+      separator2: {
+        refX1: 200,
+        refY1: 25,
+        refX2: 200,
+        refY2: 25 + line_height,
+        stroke: "var(--star-horse-style)",
+        strokeWidth: 1,
+      },
+      separator3: {
+        refX1: 270,
+        refY1: 25,
+        refX2: 270,
+        refY2: 25 + line_height,
+        stroke: "var(--star-horse-style)",
+        strokeWidth: 1,
+      },
+      headerName: {
+        refY: 25 + line_height / 2,
+        refX: 50,
+        fontSize: 12,
+        fontWeight: "bold",
+        fill: "#2c5aa0",
+        text: "列名",
+        textAnchor: "middle",
+        textVerticalAnchor: "middle",
+      },
+      headerType: {
+        refY: 25 + line_height / 2,
+        refX: 150,
+        fontSize: 12,
+        fontWeight: "bold",
+        fill: "#2c5aa0",
+        text: "类型",
+        textAnchor: "middle",
+        textVerticalAnchor: "middle",
+      },
+      headerLength: {
+        refY: 25 + line_height / 2,
+        refX: 235,
+        fontSize: 12,
+        fontWeight: "bold",
+        fill: "#2c5aa0",
+        text: "主键",
+        textAnchor: "middle",
+        textVerticalAnchor: "middle",
+      },
+      headerDesc: {
+        refY: 25 + line_height / 2,
+        refX: 375,
+        fontSize: 12,
+        fontWeight: "bold",
+        fill: "#2c5aa0",
+        text: "描述",
+        textAnchor: "middle",
+        textVerticalAnchor: "middle",
       },
     },
     ports: {
@@ -59,65 +173,151 @@ export const consumerNodeData: any = {
               selector: "portBody",
             },
             {
+              tagName: "line",
+              selector: "portSeparator1",
+            },
+            {
+              tagName: "line",
+              selector: "portSeparator2",
+            },
+            {
+              tagName: "line",
+              selector: "portSeparator3",
+            },
+            {
+              tagName: "circle",
+              selector: "leftAnchor",
+            },
+            {
+              tagName: "circle",
+              selector: "rightAnchor",
+            },
+            {
               tagName: "text",
               selector: "fieldName",
             },
-            /*       {
-                                             tagName: 'text',
-                                             selector: 'type',
-                                           },*/
+            {
+              tagName: "text",
+              selector: "type",
+            },
+            {
+              tagName: "text",
+              selector: "primaryKey",
+            },
             {
               tagName: "text",
               selector: "comment",
             },
-            /*   {
-                                         tagName: 'text',
-                                         selector: 'primaryFlag',
-                                       },*/
           ],
           attrs: {
             portBody: {
               width: table_width,
               height: line_height,
               strokeWidth: 1,
+              magnet: false,
+              stroke: "var(--star-horse-style)",
+              fill: "#ffffff",
+            },
+            portSeparator1: {
+              refX1: 100,
+              refY1: 0,
+              refX2: 100,
+              refY2: line_height,
+              stroke: "#e0e0e0",
+              strokeWidth: 1,
+            },
+            portSeparator2: {
+              refX1: 200,
+              refY1: 0,
+              refX2: 200,
+              refY2: line_height,
+              stroke: "#e0e0e0",
+              strokeWidth: 1,
+            },
+            portSeparator3: {
+              refX1: 270,
+              refY1: 0,
+              refX2: 270,
+              refY2: line_height,
+              stroke: "#e0e0e0",
+              strokeWidth: 1,
+            },
+            leftAnchor: {
+              refX: 0,
+              refY: line_height / 2,
+              r: 4,
               magnet: true,
               stroke: "var(--star-horse-style)",
-              fill: "#EFF4FF",
+              strokeWidth: 2,
+              fill: "#ffffff",
+              cursor: "crosshair",
+              opacity: 0,
+              class: "table-row-anchor table-left-anchor",
             },
-            name: {
-              refX: 6,
-              refY: 6,
+            rightAnchor: {
+              refX: table_width,
+              refY: line_height / 2,
+              r: 4,
+              magnet: true,
+              stroke: "var(--star-horse-style)",
+              strokeWidth: 2,
+              fill: "#ffffff",
+              cursor: "crosshair",
+              opacity: 0,
+              class: "table-row-anchor table-right-anchor",
+            },
+            fieldName: {
+              refX: 25,
+              refY: line_height / 2,
               fontSize: 10,
               ref: "portBody",
+              fill: "#333",
+              textVerticalAnchor: "middle",
               textWrap: {
-                width: 78,
+                width: 90,
                 ellipsis: true,
                 breakWord: true,
               },
             },
-            /* type: {
-                                       ref: "portBody",
-                                       refX: 80,
-                                       refY: 6,
-                                       fontSize: 10,
-                                     },*/
+            type: {
+              ref: "portBody",
+              refX: 125,
+              refY: line_height / 2,
+              fontSize: 10,
+              fill: "#666",
+              textVerticalAnchor: "middle",
+              textWrap: {
+                width: 90,
+                ellipsis: true,
+                breakWord: true,
+              },
+            },
+            primaryKey: {
+              ref: "portBody",
+              refX: 225,
+              refY: line_height / 2,
+              fontSize: 10,
+              fill: "#666",
+              textVerticalAnchor: "middle",
+              textWrap: {
+                width: 60,
+                ellipsis: true,
+                breakWord: true,
+              },
+            },
             comment: {
               ref: "portBody",
-              refX: 150,
-              refY: 6,
+              refX: 295,
+              refY: line_height / 2,
               fontSize: 10,
+              fill: "#666",
+              textVerticalAnchor: "middle",
               textWrap: {
-                width: 150,
+                width: 170,
                 ellipsis: true,
                 breakWord: true,
               },
             },
-            /*  primaryFlag: {
-                                        refX: 300,
-                                        refY: 6,
-                                        fontSize: 10,
-                                        ref: "portBody",
-                                      },*/
           },
           position: "erPortPosition",
         },
