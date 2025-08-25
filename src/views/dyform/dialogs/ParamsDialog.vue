@@ -1,0 +1,111 @@
+<script setup lang="ts">
+import { ref, nextTick } from "vue";
+import { warning } from "star-horse-lowcode";
+import { paramsFields } from "@/views/dyform/utils/ItemPreps";
+
+const props = defineProps<{
+  visible: boolean;
+  formProps: any;
+  formInfo: any;
+  fieldName: string;
+  currentField: any;
+}>();
+
+const emit = defineEmits<{
+  (e: "merge"): void;
+  (e: "close"): void;
+  (e: "reset"): void;
+}>();
+
+const paramsConfigRef = ref<any>(null);
+
+const paramsValid = async () => {
+  let flag = false;
+  await paramsConfigRef.value.$refs.starHorseFormRef.validate(
+    (res: boolean) => {
+      flag = res;
+    },
+  );
+  if (!flag) {
+    return;
+  }
+  const formData = paramsConfigRef.value.getFormData();
+  if (!formData["primaryKey"]) {
+    warning("请选择主键字段");
+    return;
+  }
+  if (!formData["needField"]?.length) {
+    warning("请配置回调字段");
+    return;
+  }
+  if (!formData["fieldLists"].length) {
+    warning("请至少配置一个显示字段");
+    return;
+  }
+  for (let key in formData) {
+    props.formProps[key] = formData[key];
+  }
+  props.formProps["redirect"] = true;
+  props.formProps["dataUrl"] = {
+    redirect: true,
+    env: formData["env"],
+    host: formData["host"],
+    pageListUrl: formData["interfaceUrl"],
+    httpMethod: formData["httpMethod"],
+    port: formData["port"],
+    protocol: formData["protocol"],
+    params: formData.params,
+  };
+  let searchFieldList: Array<any> = [];
+  props.formProps["fieldLists"].forEach((item: any) => {
+    item["listVisible"] = true;
+    item["type"] = "input";
+    item["formVisible"] = true;
+    if (item.searchFlag) {
+      searchFieldList.push({ ...item, matchType: "lk", defaultVisible: true });
+    }
+  });
+  props.formProps["searchFieldList"] = {
+    fieldList: searchFieldList,
+  };
+  props.formProps["fieldList"] = {
+    fieldList: props.formProps["fieldLists"],
+  };
+  //删除多余的属性
+  props.formProps["orderBy"]?.forEach((item: any) => {
+    delete item["xh"];
+  });
+  emit("merge");
+};
+
+const resetDataSourceForm = () => {
+  // Reset logic if needed
+};
+
+defineExpose({
+  setFormData: async (data: any) => {
+    await nextTick();
+    if (paramsConfigRef.value) {
+      setTimeout(() => {
+        paramsConfigRef.value?.setFormData(data);
+      }, 200);
+    }
+  }
+});
+</script>
+
+<template>
+  <star-horse-dialog 
+    :dialogVisible="visible" 
+    title="参数配置" 
+    :isBatch="false" 
+    @merge="paramsValid"
+    @closeAction="emit('close')" 
+    @resetForm="resetDataSourceForm" 
+    :selfFunc="true">
+    <star-horse-form 
+      :outerFormData="formInfo" 
+      ref="paramsConfigRef"
+      :fieldList="paramsFields(paramsConfigRef, fieldName, currentField)" />
+  </star-horse-dialog>
+</template>
