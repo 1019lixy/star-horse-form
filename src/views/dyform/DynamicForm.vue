@@ -531,6 +531,19 @@ defineExpose({
   loadFormData,
   loadTemplateData,
 });
+
+// Add dark mode support
+const isDarkMode = ref(false);
+
+const toggleDarkMode = () => {
+  isDarkMode.value = !isDarkMode.value;
+  if (isDarkMode.value) {
+    document.documentElement.classList.add('dark');
+  } else {
+    document.documentElement.classList.remove('dark');
+  }
+};
+
 </script>
 
 <template>
@@ -652,8 +665,6 @@ defineExpose({
 .fade-move {
   transition: transform 0.3s ease;
 }
-
-
 
 .design-form-container {
   width: 100%;

@@ -450,6 +450,180 @@ const handleDialogClose = () => {
 </template>
 
 <style lang="scss" scoped>
+.item-properties-container {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.properties-header {
+  padding: 16px;
+  border-bottom: 1px solid #ebeef5;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  
+  h3 {
+    margin: 0;
+    font-size: 16px;
+    font-weight: 500;
+  }
+  
+  .component-info {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 8px;
+    font-size: 13px;
+    opacity: 0.9;
+  }
+  
+  .component-icon {
+    font-size: 16px;
+  }
+}
+
+.properties-content {
+  flex: 1;
+  overflow: hidden;
+}
+
+.properties-form {
+  padding: 16px;
+}
+
+.property-section {
+  margin-bottom: 20px;
+  border: 1px solid #ebeef5;
+  border-radius: 6px;
+  overflow: hidden;
+  
+  .section-header {
+    background: #f5f7fa;
+    padding: 12px 16px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    
+    &:hover {
+      background: #ecf5ff;
+    }
+    
+    h4 {
+      margin: 0;
+      font-size: 14px;
+      font-weight: 500;
+      color: #303133;
+    }
+    
+    .section-actions {
+      display: flex;
+      gap: 8px;
+    }
+  }
+  
+  .section-content {
+    padding: 16px;
+    background: white;
+  }
+}
+
+.property-group {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 16px;
+  margin-bottom: 16px;
+  
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+
+.property-item {
+  display: flex;
+  flex-direction: column;
+  
+  .property-label {
+    font-size: 13px;
+    color: #606266;
+    margin-bottom: 6px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    
+    .required {
+      color: #f56c6c;
+    }
+  }
+  
+  .property-control {
+    flex: 1;
+  }
+}
+
+.quick-actions {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  padding: 16px;
+  border-top: 1px solid #ebeef5;
+  background: #fafafa;
+}
+
+.action-button {
+  flex: 1;
+  min-width: 120px;
+  
+  &:hover {
+    transform: translateY(-1px);
+  }
+}
+
+.empty-properties {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  padding: 20px;
+  color: #909399;
+  text-align: center;
+  
+  .empty-icon {
+    font-size: 48px;
+    margin-bottom: 12px;
+    color: #c0c4cc;
+  }
+  
+  h3 {
+    margin: 0 0 8px 0;
+    font-size: 16px;
+    font-weight: 500;
+    color: #606266;
+  }
+  
+  p {
+    margin: 0;
+    font-size: 13px;
+    line-height: 1.5;
+  }
+}
+
+// Responsive design
+@media (max-width: 768px) {
+  .property-group {
+    grid-template-columns: 1fr;
+  }
+  
+  .quick-actions {
+    flex-direction: column;
+    
+    .action-button {
+      width: 100%;
+    }
+  }
+}
+
 :deep(.el-collapse-item) {
   overflow: hidden;
 
