@@ -35,22 +35,24 @@ defineExpose({
     if (containerPrepRef.value) {
       containerPrepRef.value.setFormData(data);
     }
-  }
+  },
 });
 </script>
 
 <template>
-  <star-horse-dialog 
-    :dialogVisible="visible" 
-    :title="i18n('dyform.container.dialog.title')" 
-    :isBatch="false" 
+  <star-horse-dialog
+    :dialogVisible="visible"
+    :title="i18n('dyform.container.dialog.title')"
+    :isBatch="false"
     @merge="containerAction"
-    @closeAction="emit('close')" 
-    @resetForm="resetForm" 
-    :selfFunc="true">
-    <star-horse-form 
-      ref="containerPrepRef" 
-      :outerFormData="formInfo" 
-      :fieldList="containerField(currentItemType)" />
+    @closeAction="emit('close')"
+    @resetForm="resetForm"
+    :selfFunc="true"
+  >
+    <star-horse-form
+      ref="containerPrepRef"
+      :outerFormData="formInfo"
+      :fieldList="containerField(currentItemType)"
+    />
   </star-horse-dialog>
 </template>

@@ -8,7 +8,8 @@ import {
   dictData,
   loadData,
   PageFieldInfo,
-  piniaInstance, PreValid,
+  piniaInstance,
+  PreValid,
   SearchFields,
   SearchParams,
   SelectOption,
@@ -211,20 +212,22 @@ const tableFieldList = reactive<PageFieldInfo>({
 const primaryKey = ["idInformations", "idRolesinfo", "idMenusinfo"];
 const dialogProps = dialogPreps();
 provide("dialogProps", dialogProps);
-let preValid = ref<Array<PreValid>>([{
-  authority:"add",
-  valid: () => {
-    if (!currentUserGroupId.value) {
-      warning(i18n("system.please.select.user.group"));
-      return false;
-    }
-    if (!currentSystemId.value) {
-      warning(i18n("system.please.select.application"));
-      return false;
-    }
-    return true;
+let preValid = ref<Array<PreValid>>([
+  {
+    authority: "add",
+    valid: () => {
+      if (!currentUserGroupId.value) {
+        warning(i18n("system.please.select.user.group"));
+        return false;
+      }
+      if (!currentSystemId.value) {
+        warning(i18n("system.please.select.application"));
+        return false;
+      }
+      return true;
+    },
   },
-}]);
+]);
 
 const dataFormat = (name: string, cellValue: object): any => {
   if (name == "statusCode") {

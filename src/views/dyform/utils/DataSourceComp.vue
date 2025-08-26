@@ -29,11 +29,11 @@ defineOptions({
   name: "DataSourceComp",
 });
 const props = defineProps({
-  formProps: { type: Object as PropType<any> ,default:()=>{}},
+  formProps: { type: Object as PropType<any>, default: () => {} },
 
-  preps: { type: Object as PropType<any> ,default:()=>{}},
+  preps: { type: Object as PropType<any>, default: () => {} },
 
-  item: { type: Object as PropType<PageFieldInfo>, default:()=>{}},
+  item: { type: Object as PropType<PageFieldInfo>, default: () => {} },
 });
 const dataSourceList: Array<SelectOption> = [
   { value: "data", name: "静态数据" },

@@ -138,12 +138,11 @@ const tableFieldList = reactive<PageFieldInfo | any>({
     {
       fieldName: "tab1",
       actions: {
-        "tabChange": (val: any) => {
+        tabChange: (val: any) => {
           if (val == "tab2" && !relationDataList.value?.length) {
             warning("请选择数据源");
           }
-        }
-
+        },
       },
       tabList: [
         {
@@ -927,7 +926,7 @@ const loadTableColumns = (tbName: any) => {
 /**
  * 表单更新的时候，更新表单的属性
  */
-const updateCompInfo = () => { };
+const updateCompInfo = () => {};
 const getFormData = () => {
   return dynamicFormItemRef.value.getFormData();
 };
@@ -963,6 +962,10 @@ defineExpose({
 }
 </style>
 <template>
-  <star-horse-form label-position="right" :outerFormData="formInfo" :fieldList="tableFieldList"
-    ref="dynamicFormItemRef" />
+  <star-horse-form
+    label-position="right"
+    :outerFormData="formInfo"
+    :fieldList="tableFieldList"
+    ref="dynamicFormItemRef"
+  />
 </template>

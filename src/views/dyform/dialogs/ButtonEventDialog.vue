@@ -34,23 +34,25 @@ const buttonEventReset = () => {
 };
 
 defineExpose({
-  buttonEventReset
+  buttonEventReset,
 });
 </script>
 
 <template>
-  <star-horse-dialog 
-    :dialogVisible="visible" 
-    :title="i18n('dyform.button.event.title')" 
+  <star-horse-dialog
+    :dialogVisible="visible"
+    :title="i18n('dyform.button.event.title')"
     :isBatch="false"
-    @merge="buttonEventMerge" 
-    @closeAction="emit('close')" 
-    @resetForm="buttonEventReset" 
-    :selfFunc="true">
-    <star-horse-form 
-      :outerFormData="formProps" 
-      primary-key="" 
+    @merge="buttonEventMerge"
+    @closeAction="emit('close')"
+    @resetForm="buttonEventReset"
+    :selfFunc="true"
+  >
+    <star-horse-form
+      :outerFormData="formProps"
+      primary-key=""
       ref="buttonClickFormRef"
-      :fieldList="buttonClickDataField()" />
+      :fieldList="buttonClickDataField()"
+    />
   </star-horse-dialog>
 </template>

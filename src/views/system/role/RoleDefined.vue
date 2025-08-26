@@ -87,7 +87,7 @@ const viewCompField = ref<DyCompField>({
   emits: ["closeAction"],
   methods: {
     closeAction: (role: any, item: any) => {
-      operationConfirm(i18n('system.confirm.delete')).then((_) => {
+      operationConfirm(i18n("system.confirm.delete")).then((_) => {
         postRequest(
           `/system-config/system/companyRolePkDefine/deleteData/${role.idCompanyRole}/${item.idCompanyDefine}`,
           {},

@@ -6,7 +6,8 @@ import {
   dialogPreps,
   dictData,
   PageFieldInfo,
-  piniaInstance, PreValid,
+  piniaInstance,
+  PreValid,
   SearchFields,
   SearchParams,
   SelectOption,
@@ -199,20 +200,22 @@ const primaryKey = ["idUsersinfo", "idRolesinfo"];
 const dialogProps = dialogPreps();
 provide("dialogProps", dialogProps);
 
-let preValid = ref<Array<PreValid>>([{
-  authority:"add",
-  valid: () => {
-    if (!currentUserGroupId.value) {
-      warning(i18n("system.please.select.group"));
-      return false;
-    }
-    return true;
+let preValid = ref<Array<PreValid>>([
+  {
+    authority: "add",
+    valid: () => {
+      if (!currentUserGroupId.value) {
+        warning(i18n("system.please.select.group"));
+        return false;
+      }
+      return true;
+    },
   },
-}]);
+]);
 const dataFormat = (name: string, cellValue: object): any => {
   if (name == "statusCode") {
     return (
-      accountPermissionStatus.value.find((item:any) => item.value == cellValue)
+      accountPermissionStatus.value.find((item: any) => item.value == cellValue)
         ?.name || cellValue
     );
   }

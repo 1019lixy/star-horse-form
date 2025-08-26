@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import {PageFieldInfo, piniaInstance} from 'star-horse-lowcode';
-import {computed, reactive, ref, unref} from 'vue';
-import {useFlowDesignStore} from "@/store/FlowDesign.js";
+import { PageFieldInfo, piniaInstance } from "star-horse-lowcode";
+import { computed, reactive, ref, unref } from "vue";
+import { useFlowDesignStore } from "@/store/FlowDesign.js";
 
 interface BasePrepProps {
   source: any;
@@ -10,7 +10,7 @@ interface BasePrepProps {
 
 const props = withDefaults(defineProps<BasePrepProps>(), {
   source: 1,
-  dataForm: true
+  dataForm: true,
 });
 const flowDesign = useFlowDesignStore(piniaInstance);
 const signHelpMsg = `
@@ -27,40 +27,45 @@ const nodeInfo = defineModel("nodeInfo");
 const basePrepRef = ref();
 const processVariables = computed(() => flowDesign.processVariables);
 const basePrepField = reactive<PageFieldInfo>({
-  fieldList: [{
-    label: "任务ID",
-    fieldName: "id",
-    formVisible: true,
-    preps: {
-      disabled: true,
+  fieldList: [
+    {
+      label: "任务ID",
+      fieldName: "id",
+      formVisible: true,
+      preps: {
+        disabled: true,
+      },
     },
-  }, {
-    label: "任务名称",
-    fieldName: "name",
-    formVisible: true,
-  }, {
-    label: "任务变量",
-    type: "select",
-    fieldName: "taskVariables",
-    formVisible: true,
-    preps: {
-      multiple: true,
-      values: unref(processVariables),
-      props: {
-        label: "paramLabel",
-        value: "paramName",
-      }
-    }
-  }]
+    {
+      label: "任务名称",
+      fieldName: "name",
+      formVisible: true,
+    },
+    {
+      label: "任务变量",
+      type: "select",
+      fieldName: "taskVariables",
+      formVisible: true,
+      preps: {
+        multiple: true,
+        values: unref(processVariables),
+        props: {
+          label: "paramLabel",
+          value: "paramName",
+        },
+      },
+    },
+  ],
 });
-
 </script>
 <template>
   <el-scrollbar height="100%">
-    <star-horse-form-item ref="basePrepRef"
-                          :fieldList="basePrepField"
-                          :dataIndex="0"
-                          compSize="default"
-                          v-model:dataForm="nodeInfo"/>
+    <star-horse-form-item
+      ref="basePrepRef"
+      :fieldList="basePrepField"
+      :dataIndex="0"
+      compSize="default"
+      v-model:dataForm="nodeInfo"
+    />
   </el-scrollbar>
 </template>

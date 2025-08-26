@@ -25,10 +25,7 @@ import {
 import { TreeNodeData } from "element-plus/es/components/tree-v2/src/types";
 import { i18n } from "@/lang";
 
-const dataUrl: ApiUrls = apiInstance(
-  "system-config",
-  "system/department",
-);
+const dataUrl: ApiUrls = apiInstance("system-config", "system/department");
 let departmentList = ref<SelectOption[]>([]);
 let companyList = ref<Array<any>>([]);
 const searchFormData = reactive<SearchFields>({
@@ -39,7 +36,11 @@ const searchFormData = reactive<SearchFields>({
       fieldName: "deptName",
       matchType: "lk",
     },
-    { label: i18n("system.department.code"), fieldName: "deptCode", matchType: "lk" },
+    {
+      label: i18n("system.department.code"),
+      fieldName: "deptCode",
+      matchType: "lk",
+    },
   ],
 });
 const tableFieldList = reactive<PageFieldInfo>({

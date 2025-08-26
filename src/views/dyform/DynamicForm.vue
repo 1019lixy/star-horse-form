@@ -305,10 +305,10 @@ const doSave = async (isDraft: boolean = false) => {
       warning(errMessage.value);
       // Show error in a more prominent way
       ElMessage({
-        message: '表单验证失败，请检查组件配置',
-        type: 'error',
+        message: "表单验证失败，请检查组件配置",
+        type: "error",
         duration: 5000,
-        showClose: true
+        showClose: true,
       });
       return;
     }
@@ -322,10 +322,10 @@ const doSave = async (isDraft: boolean = false) => {
     warning("请先填写表单信息");
     // Show error in a more prominent way
     ElMessage({
-      message: '请完善表单基本信息',
-      type: 'error',
+      message: "请完善表单基本信息",
+      type: "error",
       duration: 5000,
-      showClose: true
+      showClose: true,
     });
     return;
   }
@@ -341,9 +341,9 @@ const doSave = async (isDraft: boolean = false) => {
         // Show error in a more prominent way
         ElMessage({
           message: res.data.cnMessage,
-          type: 'error',
+          type: "error",
           duration: 5000,
-          showClose: true
+          showClose: true,
         });
         return;
       }
@@ -354,8 +354,8 @@ const doSave = async (isDraft: boolean = false) => {
       success(res.data.cnMessage);
       ElMessage({
         message: res.data.cnMessage,
-        type: 'success',
-        duration: 3000
+        type: "success",
+        duration: 3000,
       });
     })
     .catch((err: any) => {
@@ -363,9 +363,9 @@ const doSave = async (isDraft: boolean = false) => {
       error("操作异常:" + err);
       ElMessage({
         message: "操作异常，请稍后重试",
-        type: 'error',
+        type: "error",
         duration: 5000,
-        showClose: true
+        showClose: true,
       });
     })
     .finally(() => {
@@ -402,13 +402,13 @@ const onComponentSelect = (component: any) => {
 };
 
 const createCode = () => {
-  openDialog('codeDialogVisible');
+  openDialog("codeDialogVisible");
   designForm.setShortKeyDisabled(true);
   shortKeySwitch(false);
 };
 
 const batchEdit = () => {
-  openDialog('batchEditFieldVisible');
+  openDialog("batchEditFieldVisible");
   designForm.setShortKeyDisabled(true);
 };
 
@@ -416,7 +416,7 @@ const isSubmit = ref(false);
 
 const tableEdit = async (submit: boolean) => {
   isSubmit.value = submit;
-  openDialog('configDialogVisible');
+  openDialog("configDialogVisible");
   designForm.setShortKeyDisabled(true);
   await nextTick(() => {
     if (configDialogRef.value) {
@@ -455,7 +455,7 @@ const cacheDataRestore = (evt: MouseEvent) => {
 
 const viewFieldLayer = () => {
   shortKeySwitch(false);
-  openDialog('formFieldLayer');
+  openDialog("formFieldLayer");
 };
 
 const analysisParentParam = () => {
@@ -582,7 +582,7 @@ defineExpose({
   loadFormData,
   loadTemplateData,
   validatePreviewForm, // Expose validation method
-  exportPreviewToHtml  // Expose export method
+  exportPreviewToHtml, // Expose export method
 });
 
 // Add dark mode support
@@ -591,12 +591,11 @@ const isDarkMode = ref(false);
 const toggleDarkMode = () => {
   isDarkMode.value = !isDarkMode.value;
   if (isDarkMode.value) {
-    document.documentElement.classList.add('dark');
+    document.documentElement.classList.add("dark");
   } else {
-    document.documentElement.classList.remove('dark');
+    document.documentElement.classList.remove("dark");
   }
 };
-
 </script>
 
 <template>
@@ -608,7 +607,7 @@ const toggleDarkMode = () => {
       @close="closeAction"
       @save="codeDoSave"
     />
-    
+
     <ConfigDialog
       ref="configDialogRef"
       :visible="dialogStates.configDialogVisible"
@@ -617,14 +616,14 @@ const toggleDarkMode = () => {
       @save="() => doSave(false)"
       @saveDraft="() => doSave(true)"
     />
-    
+
     <BatchEditDialog
       :visible="dialogStates.batchEditFieldVisible"
       :compSize="compSize"
       @close="closeAction"
       @save="closeAction"
     />
-    
+
     <PreviewDialog
       :visible="isPreview"
       :compSize="compSize"
@@ -633,11 +632,9 @@ const toggleDarkMode = () => {
       @close="closeAction"
       ref="previewDialogRef"
     />
-    
-    <FieldLayerDrawer
-      v-model:visible="dialogStates.formFieldLayer"
-    />
-    
+
+    <FieldLayerDrawer v-model:visible="dialogStates.formFieldLayer" />
+
     <el-card class="inner_content my-0 mx-[5px]">
       <el-splitter>
         <el-splitter-panel collapsible size="280" min="200" max="350">
@@ -659,7 +656,7 @@ const toggleDarkMode = () => {
               @cacheRestore="cacheDataRestore"
               @contextMenu="contextMenu"
             />
-            
+
             <FormDesigner
               :list="list"
               :form-data="formData"
@@ -672,7 +669,7 @@ const toggleDarkMode = () => {
               @select-component="onComponentSelect"
               ref="dynamicFormRef"
             />
-            
+
             <FormMenuShot
               ref="formListRef"
               @change="changeDataHandle"

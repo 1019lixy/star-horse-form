@@ -8,9 +8,8 @@
   </el-drawer>
   <el-form :model="node" label-position="top">
     <el-tabs v-model="noticeTab">
-
       <el-tab-pane key="basic" name="basic" label="节点信息">
-        <BasePrep :nodeInfo="node"/>
+        <BasePrep :nodeInfo="node" />
       </el-tab-pane>
       <el-tab-pane key="notice" name="notice" label="通知设置">
         <el-form-item label="发送通知人" prop="approveGroups">

@@ -1001,7 +1001,9 @@ export const formatBoolean = (cellValue: any) => {
 };
 
 export const formatStatus = (cellValue: any) => {
-  return cellValue == 1 ? i18n("utils.status.normal") : i18n("utils.status.abnormal");
+  return cellValue == 1
+    ? i18n("utils.status.normal")
+    : i18n("utils.status.abnormal");
 };
 
 export const validateData = (data: any) => {

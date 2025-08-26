@@ -9,7 +9,8 @@ import {
   dictData,
   loadData,
   PageFieldInfo,
-  piniaInstance, PreValid,
+  piniaInstance,
+  PreValid,
   SearchFields,
   SearchParams,
   SelectOption,
@@ -258,16 +259,18 @@ const dataFormat = (name: string, cellValue: any, row: any): any => {
 let currentUserGroupId = ref<number>(0);
 let currentSystemId = ref<number>(0);
 let currentMenuId = ref<number>(0);
-let preValid = ref<Array<PreValid>>([{
-  authority:"add",
-  valid: () => {
-    if (!currentSystemId.value) {
-      warning(i18n("system.please.select.application"));
-      return false;
-    }
-    return true;
+let preValid = ref<Array<PreValid>>([
+  {
+    authority: "add",
+    valid: () => {
+      if (!currentSystemId.value) {
+        warning(i18n("system.please.select.application"));
+        return false;
+      }
+      return true;
+    },
   },
-}]);
+]);
 
 const loadMenus = async () => {
   let fieldList = [];

@@ -39,22 +39,24 @@ defineExpose({
     if (dataRelationFormRef.value) {
       dataRelationFormRef.value.setFormData(data);
     }
-  }
+  },
 });
 </script>
 
 <template>
-  <star-horse-dialog 
-    :dialogVisible="visible" 
-    :title="i18n('dyform.data.relation.dialog.title')" 
+  <star-horse-dialog
+    :dialogVisible="visible"
+    :title="i18n('dyform.data.relation.dialog.title')"
     :isBatch="false"
-    @merge="dataRelationMerge" 
-    @closeAction="emit('close')" 
-    @resetForm="dataRelationReset" 
-    :selfFunc="true">
-    <star-horse-form 
-      primary-key="" 
+    @merge="dataRelationMerge"
+    @closeAction="emit('close')"
+    @resetForm="dataRelationReset"
+    :selfFunc="true"
+  >
+    <star-horse-form
+      primary-key=""
       ref="dataRelationFormRef"
-      :fieldList="relationDataField(formProps)" />
+      :fieldList="relationDataField(formProps)"
+    />
   </star-horse-dialog>
 </template>

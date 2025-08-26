@@ -205,7 +205,9 @@ watch(
             <h2 class="mt-6 text-3xl font-bold text-gray-900">
               {{ i18n("loginButton.welcomeBack") }}
             </h2>
-            <p class="mt-2 text-sm text-gray-500">{{ i18n("loginDev.thirdPartyLogin") }}</p>
+            <p class="mt-2 text-sm text-gray-500">
+              {{ i18n("loginDev.thirdPartyLogin") }}
+            </p>
           </div>
           <div class="flex flex-row justify-center items-center space-x-3">
             <div

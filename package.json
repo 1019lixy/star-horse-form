@@ -7,7 +7,7 @@
   "description": "星马低代码平台",
   "scripts": {
     "lint": "eslint .",
-    "lint:fix": "NODE_OPTIONS=\"--max-old-space-size=8192\" eslint . --fix",
+    "lint:fix": "cross-env NODE_OPTIONS=\"--max-old-space-size=8192\" eslint . --fix",
     "format": "prettier --write \"./**/*.{jsx,ts,tsx,vue,css,scss,html}\"",
     "serve": " vite --mode development",
     "build:dev": " vite build --mode development",

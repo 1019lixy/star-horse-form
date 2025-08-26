@@ -79,7 +79,7 @@ let formFields = ref<PageFieldInfo>({
 let rules: any = {};
 
 const jsButtonClick = (data: any, actionName: string) => {
-  openDialog('jsEditor');
+  openDialog("jsEditor");
   if (!Object.keys(formProps.value).includes(actionName)) {
     data[actionName] = "";
   }
@@ -87,31 +87,31 @@ const jsButtonClick = (data: any, actionName: string) => {
 };
 
 const condifRelationPolicy = async () => {
-  openDialog('dataRelationDialog');
-  await nextTick(()=>{
+  openDialog("dataRelationDialog");
+  await nextTick(() => {
     // Data relation dialog will handle its own form data setting
   });
 };
 
 const configParams = async (params: any) => {
-  openDialog('paramsDialog');
+  openDialog("paramsDialog");
   fieldName.value = params;
   await nextTick();
   // Params dialog will handle its own form data setting
 };
 
 const dataSource = async (_type: string) => {
-  openDialog('dataSourceDialog');
+  openDialog("dataSourceDialog");
   await nextTick();
   // Data source dialog will handle its own form data setting
 };
 
 const btnClickOpen = () => {
-  openDialog('buttonEventDialog');
+  openDialog("buttonEventDialog");
 };
 
 const editContainerPrep = async () => {
-  openDialog('containerDialog');
+  openDialog("containerDialog");
   await nextTick();
   // Container dialog will handle its own form data setting
 };
@@ -373,7 +373,7 @@ const handleDialogClose = () => {
       @close="handleDialogClose"
       @reset="handleDialogClose"
     />
-    
+
     <!-- Data Relation Dialog -->
     <DataRelationDialog
       :visible="dialogStates.dataRelationDialog"
@@ -382,7 +382,7 @@ const handleDialogClose = () => {
       @close="handleDialogClose"
       @reset="handleDialogClose"
     />
-    
+
     <!-- Data Source Dialog -->
     <DataSourceDialog
       :visible="dialogStates.dataSourceDialog"
@@ -391,7 +391,7 @@ const handleDialogClose = () => {
       @close="handleDialogClose"
       @reset="handleDialogClose"
     />
-    
+
     <!-- Params Dialog -->
     <ParamsDialog
       :visible="dialogStates.paramsDialog"
@@ -403,7 +403,7 @@ const handleDialogClose = () => {
       @close="handleDialogClose"
       @reset="handleDialogClose"
     />
-    
+
     <!-- Container Dialog -->
     <ContainerDialog
       :visible="dialogStates.containerDialog"
@@ -414,7 +414,7 @@ const handleDialogClose = () => {
       @close="handleDialogClose"
       @reset="handleDialogClose"
     />
-    
+
     <!-- JS Editor Dialog -->
     <JsEditorDialog
       :visible="dialogStates.jsEditor"
@@ -424,26 +424,28 @@ const handleDialogClose = () => {
       :list="list"
       @close="handleDialogClose"
     />
-    
+
     <div class="dynamic-form" v-if="currentItemType">
-      <sh-form 
-        v-model:dataForm="formProps" 
-        class="dynamic-form" 
-        ref="itemPropertiesRef" 
-        :size="compSize" 
+      <sh-form
+        v-model:dataForm="formProps"
+        class="dynamic-form"
+        ref="itemPropertiesRef"
+        :size="compSize"
         :rules="rules"
-        :scroll-to-error="true" 
-        :scroll-into-view-options="true" 
-        :inline-message="false" 
+        :scroll-to-error="true"
+        :scroll-into-view-options="true"
+        :inline-message="false"
         :status-icon="true"
-        label-width="auto" 
-        label-position="right" 
-        require-asterisk-position="right">
-        <star-horse-form-item 
-          :fieldList="formFields" 
-          :rules="rules" 
+        label-width="auto"
+        label-position="right"
+        require-asterisk-position="right"
+      >
+        <star-horse-form-item
+          :fieldList="formFields"
+          :rules="rules"
           :compSize="compSize"
-          v-model:dataForm="formProps" />
+          v-model:dataForm="formProps"
+        />
       </sh-form>
     </div>
   </div>
@@ -461,13 +463,13 @@ const handleDialogClose = () => {
   border-bottom: 1px solid #ebeef5;
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   color: white;
-  
+
   h3 {
     margin: 0;
     font-size: 16px;
     font-weight: 500;
   }
-  
+
   .component-info {
     display: flex;
     align-items: center;
@@ -476,7 +478,7 @@ const handleDialogClose = () => {
     font-size: 13px;
     opacity: 0.9;
   }
-  
+
   .component-icon {
     font-size: 16px;
   }
@@ -496,7 +498,7 @@ const handleDialogClose = () => {
   border: 1px solid #ebeef5;
   border-radius: 6px;
   overflow: hidden;
-  
+
   .section-header {
     background: #f5f7fa;
     padding: 12px 16px;
@@ -504,24 +506,24 @@ const handleDialogClose = () => {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    
+
     &:hover {
       background: #ecf5ff;
     }
-    
+
     h4 {
       margin: 0;
       font-size: 14px;
       font-weight: 500;
       color: #303133;
     }
-    
+
     .section-actions {
       display: flex;
       gap: 8px;
     }
   }
-  
+
   .section-content {
     padding: 16px;
     background: white;
@@ -533,7 +535,7 @@ const handleDialogClose = () => {
   grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
   gap: 16px;
   margin-bottom: 16px;
-  
+
   &:last-child {
     margin-bottom: 0;
   }
@@ -542,7 +544,7 @@ const handleDialogClose = () => {
 .property-item {
   display: flex;
   flex-direction: column;
-  
+
   .property-label {
     font-size: 13px;
     color: #606266;
@@ -550,12 +552,12 @@ const handleDialogClose = () => {
     display: flex;
     align-items: center;
     gap: 4px;
-    
+
     .required {
       color: #f56c6c;
     }
   }
-  
+
   .property-control {
     flex: 1;
   }
@@ -573,7 +575,7 @@ const handleDialogClose = () => {
 .action-button {
   flex: 1;
   min-width: 120px;
-  
+
   &:hover {
     transform: translateY(-1px);
   }
@@ -588,20 +590,20 @@ const handleDialogClose = () => {
   padding: 20px;
   color: #909399;
   text-align: center;
-  
+
   .empty-icon {
     font-size: 48px;
     margin-bottom: 12px;
     color: #c0c4cc;
   }
-  
+
   h3 {
     margin: 0 0 8px 0;
     font-size: 16px;
     font-weight: 500;
     color: #606266;
   }
-  
+
   p {
     margin: 0;
     font-size: 13px;
@@ -614,10 +616,10 @@ const handleDialogClose = () => {
   .property-group {
     grid-template-columns: 1fr;
   }
-  
+
   .quick-actions {
     flex-direction: column;
-    
+
     .action-button {
       width: 100%;
     }

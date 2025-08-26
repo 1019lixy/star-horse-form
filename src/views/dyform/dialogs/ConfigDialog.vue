@@ -36,7 +36,7 @@ const analysisDynamicFields = (formData: any) => {
 };
 
 defineExpose({
-  analysisDynamicFields
+  analysisDynamicFields,
 });
 </script>
 

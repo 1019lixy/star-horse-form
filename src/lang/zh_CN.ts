@@ -100,7 +100,8 @@ export default {
   "dyform.field.layer.title": "表单属性层级",
   "dyform.field.list.title": "表单列表",
   "dyform.designer.welcome": "欢迎使用表单设计器",
-  "dyform.designer.instruction": "请从左侧组件库中选择一个组件，然后用鼠标双击或者拖动该组件放置于此处",
+  "dyform.designer.instruction":
+    "请从左侧组件库中选择一个组件，然后用鼠标双击或者拖动该组件放置于此处",
   "dyform.designer.tip.drag": "拖拽组件",
   "dyform.designer.tip.config": "配置属性",
   "dyform.designer.tip.build": "快速构建",
@@ -151,9 +152,11 @@ export default {
   "dyform.help.shortcut.moveDown": "向下移动选中组件",
   "dyform.help.moreShortcuts": "其它快捷键待更新",
   "dyform.help.description": "描述",
-  "dyform.help.designerDescription": "表单设计器是一款通过拖拽即可实现复杂表单模型，可满足大部分常见业务",
+  "dyform.help.designerDescription":
+    "表单设计器是一款通过拖拽即可实现复杂表单模型，可满足大部分常见业务",
   "dyform.help.rules": "规则",
-  "dyform.help.rule1": "所有同级组件的名字不能重复，在Tab组件中tabName和objectName不能重复",
+  "dyform.help.rule1":
+    "所有同级组件的名字不能重复，在Tab组件中tabName和objectName不能重复",
   "dyform.help.rule2": "Table组件中batchFieldName不能重复",
   "dyform.help.steps": "操作步骤",
   "dyform.help.step1": "在左边拖动或者双击组件可添加到中间设计舞台",
@@ -164,8 +167,10 @@ export default {
   "dyform.help.step6": "在头部预览按钮可以预览表单信息",
   "dyform.help.step7": "在舞台上点击鼠标右键可打开右键菜单",
   "dyform.help.blindSpots": "盲点（数据源生成的表单模型）",
-  "dyform.help.blindSpot1": "须注意选择器、单选框、多选框等组件的值类型，系统默认是字符串类型，如果数据库设置是数值类型需要在对应字段的属性面板中修改值类型",
-  "dyform.help.blindSpot2": "提交时须注意表的主键生成策略，默认是动态赋值，如果是自增，需要在保存时修改主键策略",
+  "dyform.help.blindSpot1":
+    "须注意选择器、单选框、多选框等组件的值类型，系统默认是字符串类型，如果数据库设置是数值类型需要在对应字段的属性面板中修改值类型",
+  "dyform.help.blindSpot2":
+    "提交时须注意表的主键生成策略，默认是动态赋值，如果是自增，需要在保存时修改主键策略",
   "dyform.help.notImplemented": "未实现",
   "dyform.batch.edit.commonFieldsMessage": "在配置或者提交功能里设置",
   "dyform.config.dialog.title": "表单配置",
@@ -189,9 +194,11 @@ export default {
   "dyform.js.editor.table.name": "名称",
   "dyform.js.editor.table.description": "说明",
   "dyform.js.editor.table.type": "类型",
-  "dyform.js.editor.formInstance.validate": "对整个表单的内容进行验证。 接收一个回调函数，或返回",
+  "dyform.js.editor.formInstance.validate":
+    "对整个表单的内容进行验证。 接收一个回调函数，或返回",
   "dyform.js.editor.formInstance.validateField": "验证具体的某个字段。",
-  "dyform.js.editor.formInstance.resetFields": "重置该表单项，将其值重置为初始值，并移除校验结果",
+  "dyform.js.editor.formInstance.resetFields":
+    "重置该表单项，将其值重置为初始值，并移除校验结果",
   "dyform.js.editor.formInstance.scrollToField": "滚动到指定的字段",
   "dyform.js.editor.formInstance.clearValidate": "清理某个字段的表单验证信息。",
   "dyform.js.editor.formInstance.fields": "获取所有字段的 context",
@@ -347,7 +354,7 @@ export default {
   "system.updated.time": "修改时间",
   "system.version": "版本号",
   "system.is.logical.deleted": "是否逻辑删除",
-  "system.status.name": "状态名称",
+  // "system.status.name": "状态名称",
   "system.department.name": "部门名称",
   "system.department.code": "部门编码",
   "system.parent.department": "上级部门",
@@ -399,9 +406,9 @@ export default {
   "system.recipient": "接收人",
   "system.redirect.url": "跳转Url",
   "system.content": "内容",
-  "system.version": "版本号",
-  "system.created.time": "创建时间",
-  "system.updated.time": "修改时间",
+  // "system.version": "版本号",
+  // "system.created.time": "创建时间",
+  // "system.updated.time": "修改时间",
   "system.system.name": "系统名称",
   "system.role.id": "角色Id",
   "system.system.id": "系统Id",
@@ -441,13 +448,19 @@ export default {
   "dbsearch.primary.key": "主键",
   "dbsearch.comment": "备注",
   "dbsearch.usage.instructions": "使用说明",
-  "dbsearch.currently.shortcuts.disabled": "目前快捷键失效,提示表字段需先单击表名加载字段到本地",
-  "dbsearch.connect.database.before.use": "使用前需先连接数据库;如果在左侧下拉框中,无数据或者无您要连接的DB,请联系管理员配置并授权",
-  "dbsearch.sql.executor.theoretically.supports": "Sql查询器理论上支持数据库的所有DDL,DML,DCL等操作,但基于合规性,请在配置数据库的时候慎重赋予操作权限",
-  "dbsearch.recommend.not.execute.time.consuming.sql": "建议不要执行耗时的Sql,容易被网关拦截",
-  "dbsearch.recommend.add.semicolon": "建议每条Sql写完后加上";",以方便多条sql拆分",
-  "dbsearch.default.each.sql.return.ten.records": "默认每条Sql 一次最多返回10条数据,页面支持最大返回100条配置",
-  "dbsearch.each.time.max.execute.five.sql": "每次最多执行的Sql数不能超过5条,超过数量取前5条",
+  "dbsearch.currently.shortcuts.disabled":
+    "目前快捷键失效,提示表字段需先单击表名加载字段到本地",
+  "dbsearch.connect.database.before.use":
+    "使用前需先连接数据库;如果在左侧下拉框中,无数据或者无您要连接的DB,请联系管理员配置并授权",
+  "dbsearch.sql.executor.theoretically.supports":
+    "Sql查询器理论上支持数据库的所有DDL,DML,DCL等操作,但基于合规性,请在配置数据库的时候慎重赋予操作权限",
+  "dbsearch.recommend.not.execute.time.consuming.sql":
+    "建议不要执行耗时的Sql,容易被网关拦截",
+  "dbsearch.recommend.add.semicolon": "建议每条Sql写完后加上,以方便多条sql拆分",
+  "dbsearch.default.each.sql.return.ten.records":
+    "默认每条Sql 一次最多返回10条数据,页面支持最大返回100条配置",
+  "dbsearch.each.time.max.execute.five.sql":
+    "每次最多执行的Sql数不能超过5条,超过数量取前5条",
   "dbsearch.executor.supports.selected.sql": "执行器支持选中某条Sql进行执行",
   "dbsearch.open.prompt": "打开提示",
   /**
@@ -484,22 +497,29 @@ export default {
   "codegen.dto.related": "Dto相关",
   "codegen.separate.dto": "是否分离DTO",
   "codegen.primary.key": "主键",
-  "codegen.currently.only.support.java": "目前只支持Java,选择其它语言会构建失败",
-  "codegen.this.property.empty": "该属性为空表示生成所有数据库表的代码,如果表数量太多（>100），程序自动转异步执行，有构建失败风险.",
-  "codegen.if.this.property.empty": "如果该属性为空，所生成的文件会带上表前缀，eg: 表：dev_userinfo ,生成的文件是DevUserinfo.java;多个前缀请用英文分号（;）隔开。",
+  "codegen.currently.only.support.java":
+    "目前只支持Java,选择其它语言会构建失败",
+  "codegen.this.property.empty":
+    "该属性为空表示生成所有数据库表的代码,如果表数量太多（>100），程序自动转异步执行，有构建失败风险.",
+  "codegen.if.this.property.empty":
+    "如果该属性为空，所生成的文件会带上表前缀，eg: 表：dev_userinfo ,生成的文件是DevUserinfo.java;多个前缀请用英文分号（;）隔开。",
   "codegen.empty.generate.all.types": "为空生成所有类型文件",
-  "codegen.field.visible.columns": "字段可见列数大于指定值时触发表单分组,默认不分组",
+  "codegen.field.visible.columns":
+    "字段可见列数大于指定值时触发表单分组,默认不分组",
   "codegen.form.page.group.columns": "表单页面分组列数，默认2",
   "codegen.code.belong.project": "生成代码归属项目",
   "codegen.maven.project.module.name": "Maven 项目的模块名会追加到包名的后面",
-  "codegen.config.file.application.name": "在配置文件application.yml中对应spring.application.name",
-  "codegen.config.file.server.port": "在配置文件application.yml中对应server.port",
+  "codegen.config.file.application.name":
+    "在配置文件application.yml中对应spring.application.name",
+  "codegen.config.file.server.port":
+    "在配置文件application.yml中对应server.port",
   "codegen.target.directory": "发布目录",
   "codegen.files.deploy.server.directory": "文件部署到服务器上的目录",
   "codegen.pom.xml.packaging": "对应pom.xml文件中的packaging",
   "codegen.pom.xml.version": "对应pom.xml文件中version",
   "codegen.ui.files.business.files": "UI文件和业务文件是否放在同一个module里面",
-  "codegen.dto.files.business.files": "DTO文件和业务文件是否放在同一个module里面",
+  "codegen.dto.files.business.files":
+    "DTO文件和业务文件是否放在同一个module里面",
   "codegen.created.by": "创建人",
   "codegen.created.date": "创建日期",
   "codegen.updated.by": "修改人",
@@ -850,7 +870,8 @@ export default {
   /**
    * StarHorseDesign Component
    */
-  "starHorseDesign.clearCanvasConfirm": "清空画布，所有的数据都会丢失，确定要清空吗？",
+  "starHorseDesign.clearCanvasConfirm":
+    "清空画布，所有的数据都会丢失，确定要清空吗？",
   "starHorseDesign.deleteItemWarning": "请先选择要删除的对象",
   "starHorseDesign.deleteItemConfirm": "确定要删除所选的元素吗？",
   /**
@@ -893,11 +914,11 @@ export default {
   /**
    * Tenant Business Configuration
    */
-  "system.menu.name": "菜单名称",
-  "system.sort": "排序",
-  "system.application.name": "应用名称",
-  "system.select.child.node.first": "选择子节点时，一定要先选中父节点，否则在头部应用菜单栏无法显示",
-  "system.system.name": "系统名称",
+  // "system.menu.name": "菜单名称",
+  // "system.sort": "排序",
+  // "system.application.name": "应用名称",
+  // "system.select.child.node.first": "选择子节点时，一定要先选中父节点，否则在头部应用菜单栏无法显示",
+  // "system.system.name": "系统名称",
   "system.assign.all.menus": "分配所有菜单",
   "system.specified.menu": "指定菜单",
   "system.add.application": "添加应用",
@@ -943,13 +964,13 @@ export default {
   /**
    * Users Audit
    */
-  "system.password": "密码",
+  // "system.password": "密码",
   "system.effective.date": "生效日期",
   "system.expired.date": "失效日期",
   "system.data.type": "数据类型",
-  "system.created.date": "创建日期",
-  "system.updated.date": "修改日期",
-  "system.data.version": "数据版本号",
+  // "system.created.date": "创建日期",
+  // "system.updated.date": "修改日期",
+  // "system.data.version": "数据版本号",
   /**
    * White List
    */
@@ -1012,23 +1033,23 @@ export default {
    * Account Permission
    */
   "system.account": "账号",
-  "system.name": "姓名",
-  "system.status": "状态",
+  // "system.name": "姓名",
+  // "system.status": "状态",
   "system.group.name": "分组名称",
   "system.account.info": "账号信息",
-  "system.username": "用户名",
-  "system.contact.phone": "联系电话",
-  "system.email": "邮箱",
+  // "system.username": "用户名",
+  // "system.contact.phone": "联系电话",
+  // "system.email": "邮箱",
   "system.group.code": "分组编码",
   "system.email.address": "邮箱地址",
   "system.please.select.group": "请先选择分组",
-  "system.user.group": "用户组",
+  // "system.user.group": "用户组",
   /**
    * Appinfo Permission
    */
-  "system.system.name": "系统名称",
-  "system.application.name": "应用名称",
-  "system.system.code": "系统编码",
+  // "system.system.name": "系统名称",
+  // "system.application.name": "应用名称",
+  // "system.system.code": "系统编码",
   "system.please.select.user.group": "请先选择用户分组",
   /**
    * Data Permission
@@ -1036,10 +1057,10 @@ export default {
   "system.permission.type": "权限类型",
   "system.authorized.user.group": "被授权用户组/人",
   "system.authorized.menu": "授权菜单",
-  "system.user.group": "用户组",
+  // "system.user.group": "用户组",
   "system.authorized.account": "被授权账号",
   "system.permission": "权限",
-  "system.validity.period": "有效期",
+  // "system.validity.period": "有效期",
   "system.authorized.user.group.account": "被授权用户组/账号",
   "system.please.select.application": "请先选择应用",
   "system.application.system": "应用系统",
@@ -1047,39 +1068,39 @@ export default {
   /**
    * Menuinfo Permission
    */
-  "system.menu.name": "菜单名称",
-  "system.assign.all.menus": "分配所有菜单",
-  "system.specified.menu": "指定菜单",
+  // "system.menu.name": "菜单名称",
+  // "system.assign.all.menus": "分配所有菜单",
+  // "system.specified.menu": "指定菜单",
   /**
    * Page Button Permission
    */
   "system.role.name": "角色名称",
-  "system.created.date": "创建日期",
+  // "system.created.date": "创建日期",
   "system.owned.system": "所属系统",
-  "system.permission": "权限",
+  // "system.permission": "权限",
   "system.btn.names": "按钮名称",
   /**
    * Common Role Manage
    */
-  "system.role.code": "角色编码",
-  "system.version": "版本号",
-  "system.created.by": "创建人",
-  "system.created.time": "创建时间",
-  "system.updated.by": "修改人",
-  "system.updated.time": "修改时间",
-  "system.data.number": "数据编号",
-  "system.status.code": "状态码",
-  "system.status.name": "状态名称",
-  "system.is.logical.deleted": "是否删除",
-  "system.international.code": "国际编码",
-  "system.remark": "备注",
+  // "system.role.code": "角色编码",
+  // "system.version": "版本号",
+  // "system.created.by": "创建人",
+  // "system.created.time": "创建时间",
+  // "system.updated.by": "修改人",
+  // "system.updated.time": "修改时间",
+  // "system.data.number": "数据编号",
+  // "system.status.code": "状态码",
+  // "system.status.name": "状态名称",
+  // "system.is.logical.deleted": "是否删除",
+  // "system.international.code": "国际编码",
+  // "system.remark": "备注",
   "system.personnel.info": "人员信息",
   "system.name.employee.number": "姓名/工号",
   "system.rank": "职级",
   "system.position": "岗位",
   "system.affiliated.organization": "所属组织",
-  "system.affiliated.company": "所属公司",
-  "system.affiliated.department": "所属部门",
+  // "system.affiliated.company": "所属公司",
+  // "system.affiliated.department": "所属部门",
   "system.delete": "删除",
   "system.add.personnel": "添加人员",
   "system.please.select.company.first": "请先在左侧选择公司",
@@ -1091,7 +1112,7 @@ export default {
    */
   "system.company.name.code": "公司名称/编码",
   "system.role.name.code": "角色名称/编码",
-  "system.company.name": "公司名称",
+  // "system.company.name": "公司名称",
   "system.load.company.role.info.error": "加载公司角色信息异常",
   "system.set.personnel": "设置人员",
   "system.view.all.personnel.info": "查看所有人员信息",
@@ -1106,9 +1127,9 @@ export default {
    */
   "system.affiliated.company.quantity": "归属公司(数量)",
   "system.configure.affiliated.company": "配置归属公司",
-  "system.affiliated.company": "归属公司",
+  // "system.affiliated.company": "归属公司",
   "system.confirm.delete": "确定要删除吗？",
-  "system.data.submitting": "数据提交中",
+  // "system.data.submitting": "数据提交中",
   /**
    * Station Category
    */
@@ -1124,11 +1145,11 @@ export default {
   /**
    * User Fields
    */
-  "system.email.address": "邮箱地址",
-  "system.contact.phone": "联系电话",
+  // "system.email.address": "邮箱地址",
+  // "system.contact.phone": "联系电话",
   "system.sex": "性别",
-  "system.emergency.contact.phone": "紧急联系人电话",
-  "system.user.group": "所属用户组",
+  // "system.emergency.contact.phone": "紧急联系人电话",
+  // "system.user.group": "所属用户组",
   "system.education": "学历",
   "system.entry.time": "入职时间",
   "system.leave.time": "离职时间",
@@ -1186,5 +1207,4 @@ export default {
    * Help Component
    */
   "help.defaultMessage": "帮助",
-
 };

@@ -137,7 +137,9 @@ onMounted(async () => {
                     <keep-alive :include="cachedDatas">
                       <Suspense>
                         <component :is="Component" />
-                        <template #fallback> {{ i18n("dashboard.pageLoading") }}</template>
+                        <template #fallback>
+                          {{ i18n("dashboard.pageLoading") }}</template
+                        >
                       </Suspense>
                     </keep-alive>
                   </transition>

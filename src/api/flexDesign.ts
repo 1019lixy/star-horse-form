@@ -1,7 +1,6 @@
-import { postRequest, getRequest } from "./star_horse_apis";
 import { ServiceEnums } from "@/components/enums/ServiceEnums";
-import { success, error, warning, uuid } from "star-horse-lowcode";
 import { i18n } from "@/lang";
+import { error, success, uuid, getRequest, postRequest } from "star-horse-lowcode";
 
 export interface FlexDesignData {
   id?: string;
@@ -16,7 +15,7 @@ export interface FlexDesignData {
   flexModel: string;
   createdAt?: string;
   updatedAt?: string;
-  status?: 'draft' | 'published';
+  status?: "draft" | "published";
   version?: number;
   shareCode?: string;
   previewUrl?: string;
@@ -45,14 +44,14 @@ export async function saveFlexDesign(designData: FlexDesignData) {
       ...designData,
       id: designData.id || uuid(),
       updatedAt: new Date().toISOString(),
-      status: 'draft'
+      status: "draft",
     };
-    
+
     const response = await postRequest(
       `${ServiceEnums.SYSTEM_PREFIX}flexDesign/save`,
-      data
+      data,
     );
-    
+
     if (response.data.code === 0) {
       success("保存成功");
       return response.data.data;
@@ -75,9 +74,9 @@ export async function saveFlexDesign(designData: FlexDesignData) {
 export async function loadFlexDesign(id: string): Promise<FlexDesignData> {
   try {
     const response = await getRequest(
-      `${ServiceEnums.SYSTEM_PREFIX}flexDesign/load/${id}`
+      `${ServiceEnums.SYSTEM_PREFIX}flexDesign/load/${id}`,
     );
-    
+
     if (response.data.code === 0) {
       return response.data.data;
     } else {
@@ -98,9 +97,9 @@ export async function loadFlexDesign(id: string): Promise<FlexDesignData> {
 export async function getFlexDesignList() {
   try {
     const response = await getRequest(
-      `${ServiceEnums.SYSTEM_PREFIX}flexDesign/list`
+      `${ServiceEnums.SYSTEM_PREFIX}flexDesign/list`,
     );
-    
+
     if (response.data.code === 0) {
       return response.data.data;
     } else {
@@ -120,19 +119,22 @@ export async function getFlexDesignList() {
  * @param expiryDays 过期天数，默认7天
  * @returns 分享结果
  */
-export async function shareFlexDesign(designData: FlexDesignData, expiryDays: number = 7): Promise<ShareResult> {
+export async function shareFlexDesign(
+  designData: FlexDesignData,
+  expiryDays: number = 7,
+): Promise<ShareResult> {
   try {
     const shareData = {
       ...designData,
       shareCode: uuid(),
-      expiryDays
+      expiryDays,
     };
-    
+
     const response = await postRequest(
       `${ServiceEnums.SYSTEM_PREFIX}flexDesign/share`,
-      shareData
+      shareData,
     );
-    
+
     if (response.data.code === 0) {
       success("分享链接生成成功");
       return response.data.data;
@@ -152,12 +154,14 @@ export async function shareFlexDesign(designData: FlexDesignData, expiryDays: nu
  * @param shareCode 分享码
  * @returns 设计数据
  */
-export async function getSharedFlexDesign(shareCode: string): Promise<FlexDesignData> {
+export async function getSharedFlexDesign(
+  shareCode: string,
+): Promise<FlexDesignData> {
   try {
     const response = await getRequest(
-      `${ServiceEnums.SYSTEM_PREFIX}flexDesign/shared/${shareCode}`
+      `${ServiceEnums.SYSTEM_PREFIX}flexDesign/shared/${shareCode}`,
     );
-    
+
     if (response.data.code === 0) {
       return response.data.data;
     } else {
@@ -176,20 +180,22 @@ export async function getSharedFlexDesign(shareCode: string): Promise<FlexDesign
  * @param designData 设计数据
  * @returns 发布结果
  */
-export async function publishFlexDesign(designData: FlexDesignData): Promise<PublishResult> {
+export async function publishFlexDesign(
+  designData: FlexDesignData,
+): Promise<PublishResult> {
   try {
     const publishData = {
       ...designData,
-      status: 'published',
+      status: "published",
       publishDate: new Date().toISOString(),
-      version: (designData.version || 0) + 1
+      version: (designData.version || 0) + 1,
     };
-    
+
     const response = await postRequest(
       `${ServiceEnums.SYSTEM_PREFIX}flexDesign/publish`,
-      publishData
+      publishData,
     );
-    
+
     if (response.data.code === 0) {
       success("发布成功");
       return response.data.data;
@@ -213,9 +219,9 @@ export async function generatePreview(designData: FlexDesignData) {
   try {
     const response = await postRequest(
       `${ServiceEnums.SYSTEM_PREFIX}flexDesign/preview`,
-      designData
+      designData,
     );
-    
+
     if (response.data.code === 0) {
       return response.data.data;
     } else {
@@ -237,9 +243,9 @@ export async function deleteFlexDesign(id: string) {
   try {
     const response = await postRequest(
       `${ServiceEnums.SYSTEM_PREFIX}flexDesign/delete/${id}`,
-      {}
+      {},
     );
-    
+
     if (response.data.code === 0) {
       success("删除成功");
       return response.data.data;
@@ -263,9 +269,9 @@ export async function duplicateFlexDesign(id: string, newName: string) {
   try {
     const response = await postRequest(
       `${ServiceEnums.SYSTEM_PREFIX}flexDesign/duplicate`,
-      { id, newName }
+      { id, newName },
     );
-    
+
     if (response.data.code === 0) {
       success("复制成功");
       return response.data.data;
@@ -284,7 +290,7 @@ export const saveDesign = async (data: any) => {
   try {
     const response = await postRequest(
       `${ServiceEnums.SYSTEM_PREFIX}flexDesign/save`,
-      data
+      data,
     );
 
     if (response.data.code === 0) {
@@ -304,7 +310,7 @@ export const saveDesign = async (data: any) => {
 export const loadDesign = async (id: string) => {
   try {
     const response = await getRequest(
-      `${ServiceEnums.SYSTEM_PREFIX}flexDesign/load/${id}`
+      `${ServiceEnums.SYSTEM_PREFIX}flexDesign/load/${id}`,
     );
 
     if (response.data.code === 0) {
@@ -323,7 +329,7 @@ export const getDesignList = async (params: any) => {
   try {
     const response = await getRequest(
       `${ServiceEnums.SYSTEM_PREFIX}flexDesign/list`,
-      params
+      params,
     );
 
     if (response.data.code === 0) {
@@ -342,13 +348,15 @@ export const generateShareLink = async (id: string) => {
   try {
     const response = await postRequest(
       `${ServiceEnums.SYSTEM_PREFIX}flexDesign/share`,
-      { id }
+      { id },
     );
 
     if (response.data.code === 0) {
       success(i18n("flex.design.share.generate.success"));
     } else {
-      error(response.data.cnMessage || i18n("flex.design.share.generate.failure"));
+      error(
+        response.data.cnMessage || i18n("flex.design.share.generate.failure"),
+      );
     }
 
     return response.data.data;
@@ -362,7 +370,7 @@ export const generateShareLink = async (id: string) => {
 export const loadSharedDesign = async (shareId: string) => {
   try {
     const response = await getRequest(
-      `${ServiceEnums.SYSTEM_PREFIX}flexDesign/shared/${shareId}`
+      `${ServiceEnums.SYSTEM_PREFIX}flexDesign/shared/${shareId}`,
     );
 
     if (response.data.code === 0) {
@@ -381,7 +389,7 @@ export const publishDesign = async (id: string) => {
   try {
     const response = await postRequest(
       `${ServiceEnums.SYSTEM_PREFIX}flexDesign/publish`,
-      { id }
+      { id },
     );
 
     if (response.data.code === 0) {
@@ -398,30 +406,13 @@ export const publishDesign = async (id: string) => {
   }
 };
 
-export const generatePreview = async (id: string) => {
-  try {
-    const response = await postRequest(
-      `${ServiceEnums.SYSTEM_PREFIX}flexDesign/preview`,
-      { id }
-    );
 
-    if (response.data.code === 0) {
-      return response.data.data;
-    } else {
-      error(response.data.cnMessage || i18n("flex.design.preview.failure"));
-    }
-  } catch (err) {
-    console.error("生成预览失败:", err);
-    error("生成预览失败，请检查网络连接");
-    throw err;
-  }
-};
 
 export const deleteDesign = async (id: string) => {
   try {
     const response = await postRequest(
       `${ServiceEnums.SYSTEM_PREFIX}flexDesign/delete/${id}`,
-      {}
+      {},
     );
 
     if (response.data.code === 0) {
@@ -442,7 +433,7 @@ export const copyDesign = async (id: string) => {
   try {
     const response = await postRequest(
       `${ServiceEnums.SYSTEM_PREFIX}flexDesign/duplicate`,
-      { id }
+      { id },
     );
 
     if (response.data.code === 0) {

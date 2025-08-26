@@ -150,9 +150,15 @@ onMounted(() => {
                   <div class="flow-message">
                     <div class="title">{{ i18n("jbpm.flow.validation") }}</div>
                     <div class="message-count">
-                      <el-tag type="danger">{{ i18n("jbpm.error") }} {{ errorNums }}</el-tag>
-                      <el-tag type="warning">{{ i18n("jbpm.warning") }} {{ warningNums }}</el-tag>
-                      <el-tag type="info">{{ i18n("jbpm.info") }} {{ infoNums }}</el-tag>
+                      <el-tag type="danger"
+                        >{{ i18n("jbpm.error") }} {{ errorNums }}</el-tag
+                      >
+                      <el-tag type="warning"
+                        >{{ i18n("jbpm.warning") }} {{ warningNums }}</el-tag
+                      >
+                      <el-tag type="info"
+                        >{{ i18n("jbpm.info") }} {{ infoNums }}</el-tag
+                      >
                     </div>
                   </div>
                 </template>

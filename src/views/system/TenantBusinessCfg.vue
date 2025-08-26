@@ -103,11 +103,11 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       preps: {},
       commonFlag: "Y",
     },
-    { 
-      label: i18n("system.updated.by"), 
-      fieldName: "updatedBy", 
-      preps: {}, 
-      commonFlag: "Y" 
+    {
+      label: i18n("system.updated.by"),
+      fieldName: "updatedBy",
+      preps: {},
+      commonFlag: "Y",
     },
     {
       label: i18n("system.updated.time"),

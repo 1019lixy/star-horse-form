@@ -211,7 +211,13 @@ const loadByPage = () => {
     });
 };
 const auditMessage = (item: any) => {
-  message(i18n("message.functionDevelopment"), "info", 2500, i18n("message.tip"), "bottom-right");
+  message(
+    i18n("message.functionDevelopment"),
+    "info",
+    2500,
+    i18n("message.tip"),
+    "bottom-right",
+  );
 };
 onMounted(() => {
   init();
@@ -246,7 +252,9 @@ onMounted(() => {
     <el-tabs v-model="currentTab" @tab-change="tabChange">
       <el-tab-pane :label="i18n('message.tab.notice')" name="notice">
         <template #label>
-          <el-badge :value="totalMessages"> {{ i18n('message.tab.notice') }} </el-badge>
+          <el-badge :value="totalMessages">
+            {{ i18n("message.tab.notice") }}
+          </el-badge>
         </template>
         <div class="message-body">
           <el-scrollbar>
@@ -284,7 +292,9 @@ onMounted(() => {
       </el-tab-pane>
       <el-tab-pane :label="i18n('message.tab.pending')" name="pending">
         <template #label>
-          <el-badge :value="totalAudit"> {{ i18n('message.tab.pending') }} </el-badge>
+          <el-badge :value="totalAudit">
+            {{ i18n("message.tab.pending") }}
+          </el-badge>
         </template>
         <div class="message-body">
           <el-scrollbar>

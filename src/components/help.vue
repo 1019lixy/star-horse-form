@@ -3,7 +3,11 @@ import { i18n } from "@/lang";
 
 defineProps({
   width: { type: Number, default: 340 },
-  message: { type: String, required: true, default: i18n("help.defaultMessage") },
+  message: {
+    type: String,
+    required: true,
+    default: i18n("help.defaultMessage"),
+  },
 });
 </script>
 <template>

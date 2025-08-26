@@ -1,9 +1,17 @@
 <script setup lang="ts">
-import {flowCommon, radioStyle,} from "@/views/workflow/plugin/utils/flowCommon";
-import {computed, ModelRef, onMounted, ref} from "vue";
-import {useFlowDesignStore} from "@/store/FlowDesign";
-import {createCondition, piniaInstance, postRequest, StarHorseDataSelector,} from "star-horse-lowcode";
-import {FlowNodeEnums} from "../enums/FlowNodeEnums";
+import {
+  flowCommon,
+  radioStyle,
+} from "@/views/workflow/plugin/utils/flowCommon";
+import { computed, ModelRef, onMounted, ref } from "vue";
+import { useFlowDesignStore } from "@/store/FlowDesign";
+import {
+  createCondition,
+  piniaInstance,
+  postRequest,
+  StarHorseDataSelector,
+} from "star-horse-lowcode";
+import { FlowNodeEnums } from "../enums/FlowNodeEnums";
 import Approval from "@/views/workflow/plugin/preps/utils/Approval.vue";
 import BasePrep from "@/views/workflow/plugin/preps/BasePrep.vue";
 
@@ -15,7 +23,9 @@ let node: ModelRef<any> = defineModel("activeData");
 let approvalTab = ref<string>("basic");
 const approvalFormRef = ref();
 // const flowFormInfo = computed(() => flowDesign.flowFormInfo);
-const nodePreName = computed(() => node.value.type == FlowNodeEnums.HANDLE_NODE ? "办理" : "审批");
+const nodePreName = computed(() =>
+  node.value.type == FlowNodeEnums.HANDLE_NODE ? "办理" : "审批",
+);
 const formId = computed(() => flowDesign.getFormId());
 let dataList = ref<any>({
   interOrDict: "",
@@ -112,7 +122,9 @@ const onSave = async () => {
     }
   });
   if (node.value.approvalMode) {
-    content = approvalModes.value.find((item: any) => item.value == node.value.approvalMode).name;
+    content = approvalModes.value.find(
+      (item: any) => item.value == node.value.approvalMode,
+    ).name;
     content = content.replace("审批", nodePreName.value);
   }
   node.value.content = content;
@@ -120,21 +132,21 @@ const onSave = async () => {
 };
 const init = () => {
   postRequest(
-      "/userdb-manage/userdb/formInstance/shNodeMappingPreps/idNodeMappingPrep/337537414606095357/getAllByCondition",
-      {
-        fieldList: [
-          createCondition(
-              "idFlowNode",
-              [
-                "applyEqAuditMode",
-                "approvalNullOperationType",
-                "operatorApprovalsType",
-              ],
-              "in",
-          ),
-        ],
-        orderBy: [{fieldName: "createdTime", ascOrDesc: "ASC"}],
-      },
+    "/userdb-manage/userdb/formInstance/shNodeMappingPreps/idNodeMappingPrep/337537414606095357/getAllByCondition",
+    {
+      fieldList: [
+        createCondition(
+          "idFlowNode",
+          [
+            "applyEqAuditMode",
+            "approvalNullOperationType",
+            "operatorApprovalsType",
+          ],
+          "in",
+        ),
+      ],
+      orderBy: [{ fieldName: "createdTime", ascOrDesc: "ASC" }],
+    },
   ).then((res) => {
     if (res.data.code) {
       console.log(res.data.cnMessage);
@@ -158,76 +170,95 @@ onMounted(() => {
 </script>
 <template>
   <el-card class="inner_content h100">
-    <el-form :model="node" :label-position="'top'" ref="approvalFormRef" :size="flowCommon.size">
+    <el-form
+      :model="node"
+      :label-position="'top'"
+      ref="approvalFormRef"
+      :size="flowCommon.size"
+    >
       <el-alert
-          v-if="node.type == FlowNodeEnums.HANDLE_NODE"
-          title="当流程中某个节点不需要审批，但需要对审批单进行业务办理时，可设置办理人节点，场景如财务打款、处理盖章等"
-          type="success"
+        v-if="node.type == FlowNodeEnums.HANDLE_NODE"
+        title="当流程中某个节点不需要审批，但需要对审批单进行业务办理时，可设置办理人节点，场景如财务打款、处理盖章等"
+        type="success"
       />
-      <el-tabs
-          type="border-card"
-          v-model="approvalTab"
-      >
+      <el-tabs type="border-card" v-model="approvalTab">
         <el-tab-pane key="basic" name="basic" label="节点信息">
-          <BasePrep :nodeInfo="node"/>
+          <BasePrep :nodeInfo="node" />
         </el-tab-pane>
-        <el-tab-pane key="audit" name="audit" :label="`任务${nodePreName}人设置`">
-          <approval :node="node" :groups="node.approveGroups"/>
+        <el-tab-pane
+          key="audit"
+          name="audit"
+          :label="`任务${nodePreName}人设置`"
+        >
+          <approval :node="node" :groups="node.approveGroups" />
         </el-tab-pane>
-        <el-tab-pane key="optional" name="optional" :label="`${nodePreName}设置`">
-          <el-form-item :label="`${nodePreName}方式`" prop="approvalMode" required>
+        <el-tab-pane
+          key="optional"
+          name="optional"
+          :label="`${nodePreName}设置`"
+        >
+          <el-form-item
+            :label="`${nodePreName}方式`"
+            prop="approvalMode"
+            required
+          >
             <el-radio-group
-                v-model="node.approvalMode"
-                button-style="solid"
-                class="w-full"
+              v-model="node.approvalMode"
+              button-style="solid"
+              class="w-full"
             >
               <el-radio
-                  :value="approvalMode.value"
-                  v-for="(approvalMode, i) in approvalModes"
-                  :key="i"
+                :value="approvalMode.value"
+                v-for="(approvalMode, i) in approvalModes"
+                :key="i"
               >
-                {{ approvalMode.name.replace('审批', nodePreName) }}
+                {{ approvalMode.name.replace("审批", nodePreName) }}
               </el-radio>
             </el-radio-group>
             <div
-                class="my-[15px] flex items-center w-full"
-                v-if="node.approvalMode === 'joint'"
+              class="my-[15px] flex items-center w-full"
+              v-if="node.approvalMode === 'joint'"
             >
               <span>需要</span>
               <el-input-number
-                  class="!w-[200px]"
-                  v-model="node.multiPercent"
-                  :min="1"
-                  :max="100"
+                class="!w-[200px]"
+                v-model="node.multiPercent"
+                :min="1"
+                :max="100"
               />
               <span>%人员通过</span>
             </div>
           </el-form-item>
-          <el-form-item :label="`${nodePreName}人与发起人为同一人时`" prop="sameMode" required>
+          <el-form-item
+            :label="`${nodePreName}人与发起人为同一人时`"
+            prop="sameMode"
+            required
+          >
             <el-radio-group
-                v-model="node.sameMode"
-                :size="flowCommon.size"
-                class="w-full"
+              v-model="node.sameMode"
+              :size="flowCommon.size"
+              class="w-full"
             >
               <el-radio
-                  v-for="(sameApproval, i) in sameApprovals"
-                  :key="i"
-                  :value="sameApproval.attrValue"
-                  :style="radioStyle"
-
+                v-for="(sameApproval, i) in sameApprovals"
+                :key="i"
+                :value="sameApproval.attrValue"
+                :style="radioStyle"
               >
-                <div class="flex flex-row items-center mx-[10px] ">
-                  <span>{{ sameApproval.attrName.replace('审批', nodePreName) }}</span>
+                <div class="flex flex-row items-center mx-[10px]">
+                  <span>{{
+                    sameApproval.attrName.replace("审批", nodePreName)
+                  }}</span>
                   <el-popover
-                      v-if="sameApproval.defaultValue?.length > 0"
-                      placement="top-start"
-                      trigger="hover"
-                      :popper-style="{ width: 'unset !important' }"
+                    v-if="sameApproval.defaultValue?.length > 0"
+                    placement="top-start"
+                    trigger="hover"
+                    :popper-style="{ width: 'unset !important' }"
                   >
                     <template #reference>
                       <star-horse-icon
-                          style="margin-left: 5px"
-                          icon-class="question-circle"
+                        style="margin-left: 5px"
+                        icon-class="question-circle"
                       />
                     </template>
 
@@ -240,8 +271,7 @@ onMounted(() => {
                 </div>
               </el-radio>
             </el-radio-group>
-            <template v-if="node.sameMode==''||node.sameMode==''">
-
+            <template v-if="node.sameMode == '' || node.sameMode == ''">
             </template>
           </el-form-item>
 
@@ -250,14 +280,14 @@ onMounted(() => {
               <div class="flex items-center">
                 {{ nodePreName }}人为空时
                 <el-popover
-                    placement="top-start"
-                    trigger="hover"
-                    :popper-style="{ width: 'unset !important' }"
+                  placement="top-start"
+                  trigger="hover"
+                  :popper-style="{ width: 'unset !important' }"
                 >
                   <template #reference>
                     <star-horse-icon
-                        style="margin-left: 5px"
-                        icon-class="question-circle"
+                      style="margin-left: 5px"
+                      icon-class="question-circle"
                     />
                   </template>
                   <div class="approver-tip-content">
@@ -270,8 +300,8 @@ onMounted(() => {
                         组织架构中没有上级
                       </p>
                       <p class="content">
-                        设置了“部门负责人”{{ nodePreName }}，但申请人在管理后台 -
-                        组织架构中没有部门负责人
+                        设置了“部门负责人”{{ nodePreName }}，但申请人在管理后台
+                        - 组织架构中没有部门负责人
                       </p>
                       <p class="content">
                         设置了“角色”{{ nodePreName }}，但该角色在管理后台 -
@@ -287,28 +317,30 @@ onMounted(() => {
               </div>
             </template>
             <el-radio-group
-                v-model="node.noHander"
-                :size="flowCommon.size"
-                class="w-full"
+              v-model="node.noHander"
+              :size="flowCommon.size"
+              class="w-full"
             >
               <el-radio
-                  v-for="(approvalWithNull, i) in approvalWithNulls"
-                  :key="i"
-                  :value="approvalWithNull.attrValue"
-                  :style="radioStyle"
+                v-for="(approvalWithNull, i) in approvalWithNulls"
+                :key="i"
+                :value="approvalWithNull.attrValue"
+                :style="radioStyle"
               >
-                <div class="flex flex-row items-center mx-[10px] ">
-                  <span>{{ approvalWithNull.attrName.replace('审批', nodePreName) }}</span>
+                <div class="flex flex-row items-center mx-[10px]">
+                  <span>{{
+                    approvalWithNull.attrName.replace("审批", nodePreName)
+                  }}</span>
                   <el-popover
-                      v-if="approvalWithNull.defaultValue?.length > 0"
-                      placement="top-start"
-                      trigger="hover"
-                      :popper-style="{ width: 'unset !important' }"
+                    v-if="approvalWithNull.defaultValue?.length > 0"
+                    placement="top-start"
+                    trigger="hover"
+                    :popper-style="{ width: 'unset !important' }"
                   >
                     <template #reference>
                       <star-horse-icon
-                          style="margin-left: 5px"
-                          icon-class="question-circle"
+                        style="margin-left: 5px"
+                        icon-class="question-circle"
                       />
                     </template>
                     <div class="approver-tip-content">
@@ -320,12 +352,22 @@ onMounted(() => {
                 </div>
               </el-radio>
             </el-radio-group>
-            <template v-if="node.noHander=='B'">
-              <star-horse-data-selector multiple v-model="node.noHanderApproverIds" :dataUrl="dataList.interOrDict"
-                                        :displayName="dataList.displayName" :displayValue="dataList.displayValue"
-                                        :params="dataList.params"
-                                        :proxy="dataList.proxy" :placeholder="'请选择' + (approvalWithNulls?.find(item=>item.attrValue==node.noHander)?.attrName || '')
-            "/>
+            <template v-if="node.noHander == 'B'">
+              <star-horse-data-selector
+                multiple
+                v-model="node.noHanderApproverIds"
+                :dataUrl="dataList.interOrDict"
+                :displayName="dataList.displayName"
+                :displayValue="dataList.displayValue"
+                :params="dataList.params"
+                :proxy="dataList.proxy"
+                :placeholder="
+                  '请选择' +
+                  (approvalWithNulls?.find(
+                    (item) => item.attrValue == node.noHander,
+                  )?.attrName || '')
+                "
+              />
             </template>
           </el-form-item>
 
@@ -334,44 +376,43 @@ onMounted(() => {
               <p class="flow-item-title">提示：</p>
               <div class="hint-info">
                 <p v-if="node.type == FlowNodeEnums.HANDLE_NODE">
-                  办理人不涉及{{ nodePreName }}人去重设置，不同节点相同的办理人仍需要执行。
+                  办理人不涉及{{
+                    nodePreName
+                  }}人去重设置，不同节点相同的办理人仍需要执行。
                 </p>
-                <p>若{{ nodePreName }}人离职，会自动转交给{{ nodePreName }}人的上级代为处理</p>
+                <p>
+                  若{{ nodePreName }}人离职，会自动转交给{{
+                    nodePreName
+                  }}人的上级代为处理
+                </p>
                 <p>抄送的人数最多支持100人以内</p>
               </div>
             </div>
           </div>
         </el-tab-pane>
         <el-tab-pane key="formAuthority" name="formAuthority" label="表单权限">
-          <el-form-item
-              label="表单权限"
-              prop="privilege"
-          >
-            <AuthForm
-                v-model="node.privilege"
-                :form-id="formId"
-            />
+          <el-form-item label="表单权限" prop="privilege">
+            <AuthForm v-model="node.privilege" :form-id="formId" />
           </el-form-item>
-
         </el-tab-pane>
         <el-tab-pane
-            key="executionListeners"
-            name="executionListeners"
-            label="任务监听"
+          key="executionListeners"
+          name="executionListeners"
+          label="任务监听"
         >
-          <ExecutionListeners :node="node"/>
+          <ExecutionListeners :node="node" />
         </el-tab-pane>
         <el-tab-pane
-            key="advancedSettings"
-            name="advancedSettings"
-            label="高级设置"
+          key="advancedSettings"
+          name="advancedSettings"
+          label="高级设置"
         >
-          <ApproverConfigure v-model:configure="node.operations"/>
+          <ApproverConfigure v-model:configure="node.operations" />
         </el-tab-pane>
       </el-tabs>
     </el-form>
   </el-card>
-  <DrawerFooter @close="onClose" @save="onSave"/>
+  <DrawerFooter @close="onClose" @save="onSave" />
 </template>
 <style lang="scss" scoped>
 :deep(.el-form-item__label) {

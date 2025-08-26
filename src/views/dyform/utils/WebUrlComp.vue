@@ -1,40 +1,58 @@
 <script setup lang="ts">
 import { loadDict } from "@/api/star_horse_apis";
 import { httpMethod } from "@/api/system";
-import { createData, urlReturnDataHelpMsg, validInterface, validOperation } from "@/views/dyform/utils/ItemPreps";
-import { error, PageFieldInfo, searchMatchList, SelectOption } from "star-horse-lowcode";
-import { ModelRef, nextTick, onMounted, PropType, reactive, ref, watch } from "vue";
+import {
+  createData,
+  urlReturnDataHelpMsg,
+  validInterface,
+  validOperation,
+} from "@/views/dyform/utils/ItemPreps";
+import {
+  error,
+  PageFieldInfo,
+  searchMatchList,
+  SelectOption,
+} from "star-horse-lowcode";
+import {
+  ModelRef,
+  nextTick,
+  onMounted,
+  PropType,
+  reactive,
+  ref,
+  watch,
+} from "vue";
 
 defineOptions({
-  name: "WebUrlComp"
+  name: "WebUrlComp",
 });
 const props = defineProps({
   formProps: {
-    type: Object as PropType<any>, default: () => {
-    }
+    type: Object as PropType<any>,
+    default: () => {},
   },
 
   preps: {
-    type: Object as PropType<any>, default: () => {
-    }
+    type: Object as PropType<any>,
+    default: () => {},
   },
 
   item: {
-    type: Object as PropType<PageFieldInfo>, default: () => {
-    }
+    type: Object as PropType<PageFieldInfo>,
+    default: () => {},
   },
   source: {
-    type: Number, default: 0
+    type: Number,
+    default: 0,
   },
   batchName: {
     type: String,
-    default: ""
+    default: "",
   },
   subFormFlag: {
     type: Boolean,
-    default: false
-  }
-
+    default: false,
+  },
 });
 
 const dataSourceFormRef = ref();
@@ -57,8 +75,8 @@ const dataSourceField = reactive<PageFieldInfo | any>({
         formVisible: true,
         listVisible: true,
         preps: {
-          values: envList
-        }
+          values: envList,
+        },
       },
       {
         label: "请求方式",
@@ -69,8 +87,8 @@ const dataSourceField = reactive<PageFieldInfo | any>({
         formVisible: true,
         listVisible: true,
         preps: {
-          values: httpMethod()
-        }
+          values: httpMethod(),
+        },
       },
       {
         label: "协议",
@@ -83,10 +101,10 @@ const dataSourceField = reactive<PageFieldInfo | any>({
         preps: {
           values: [
             { name: "HTTP", value: "http" },
-            { name: "HTTPS", value: "https" }
-          ]
-        }
-      }
+            { name: "HTTPS", value: "https" },
+          ],
+        },
+      },
     ],
     [
       {
@@ -96,8 +114,8 @@ const dataSourceField = reactive<PageFieldInfo | any>({
         formVisible: true,
         listVisible: true,
         preps: {
-          colspan: 16
-        }
+          colspan: 16,
+        },
       },
       {
         label: "端口",
@@ -108,9 +126,9 @@ const dataSourceField = reactive<PageFieldInfo | any>({
         formVisible: true,
         listVisible: true,
         preps: {
-          colspan: 8
-        }
-      }
+          colspan: 8,
+        },
+      },
     ],
     [
       {
@@ -120,8 +138,8 @@ const dataSourceField = reactive<PageFieldInfo | any>({
         helpMsg: urlReturnDataHelpMsg,
         formVisible: true,
         preps: {
-          colspan: 20
-        }
+          colspan: 20,
+        },
       },
       {
         label: "校验",
@@ -138,16 +156,14 @@ const dataSourceField = reactive<PageFieldInfo | any>({
               dataForm.value[props.batchName],
 
               true,
-
             );
-          }
-
+          },
         },
         preps: {
           icon: "valid",
-          colspan: 4
-        }
-      }
+          colspan: 4,
+        },
+      },
     ],
     [
       {
@@ -158,20 +174,20 @@ const dataSourceField = reactive<PageFieldInfo | any>({
         formVisible: true,
         listVisible: true,
         preps: {
-          values: fieldList
-        }
+          values: fieldList,
+        },
       },
       {
         label: "标签值字段",
         fieldName: "selectValue",
         type: "select",
         preps: {
-          values: fieldList
+          values: fieldList,
         },
         required: true,
         formVisible: true,
-        listVisible: true
-      }
+        listVisible: true,
+      },
     ],
     {
       fieldName: "queryParams",
@@ -193,15 +209,15 @@ const dataSourceField = reactive<PageFieldInfo | any>({
                   listVisible: true,
                   preps: {
                     values: fieldList,
-                    allowCreate: "Y"
-                  }
+                    allowCreate: "Y",
+                  },
                 },
                 {
                   label: "参数值",
                   fieldName: "value",
                   required: true,
                   formVisible: true,
-                  listVisible: true
+                  listVisible: true,
                 },
                 {
                   label: "匹配方式",
@@ -212,12 +228,12 @@ const dataSourceField = reactive<PageFieldInfo | any>({
                   formVisible: true,
                   listVisible: true,
                   preps: {
-                    values: matchTypeList
-                  }
-                }
-              ]
-            }
-          ]
+                    values: matchTypeList,
+                  },
+                },
+              ],
+            },
+          ],
         },
         {
           title: "自定义参数",
@@ -233,14 +249,14 @@ const dataSourceField = reactive<PageFieldInfo | any>({
               required: false,
               defaultValue: "",
               preps: {
-                devType: "Y"
-              }
-            }
-          ]
-        }
-      ]
-    }
-  ]
+                devType: "Y",
+              },
+            },
+          ],
+        },
+      ],
+    },
+  ],
 });
 const submitValid = async () => {
   let flag: boolean = false;
@@ -253,7 +269,7 @@ const submitValid = async () => {
         if (props.formProps) {
           props.formProps["values"] = createData(
             dataSourceFormRef,
-            dataList
+            dataList,
           ).reDataList;
         }
         flag = true;
@@ -264,18 +280,17 @@ const submitValid = async () => {
     },
     !dataForm.value,
     dataForm,
-    true
-
+    true,
   );
   return flag;
 };
 const isInited = ref<boolean>(false);
-  const createSubForm = () => {
+const createSubForm = () => {
   if (props.subFormFlag && !dataForm.value[props.batchName]) {
     dataForm.value[props.batchName] = {};
   }
   return props.batchName;
-}
+};
 const init = () => {
   loadDict("system_environment").then((res) => {
     envList.value = res;
@@ -304,17 +319,29 @@ onMounted(() => {
 defineExpose({
   submitValid,
   setFormData,
-  getFormData
+  getFormData,
 });
 </script>
 
 <template>
   <el-scrollbar height="100%">
-    <star-horse-form :fieldList="dataSourceField" ref="dataSourceFormRef" v-if="!dataForm" />
-    <star-horse-form-item v-else ref="dataSourceFormRef" :fieldList="dataSourceField"
-      :dataIndex="(props.preps?.params?.totalTab || 1) - 1" :subFormFlag="subFormFlag ? 'Y' : 'N'"
-      :propPrefix="batchName" :key="createSubForm()"
-      :batchName="batchName" :source="source" v-model:dataForm="dataForm[batchName]" />
+    <star-horse-form
+      :fieldList="dataSourceField"
+      ref="dataSourceFormRef"
+      v-if="!dataForm"
+    />
+    <star-horse-form-item
+      v-else
+      ref="dataSourceFormRef"
+      :fieldList="dataSourceField"
+      :dataIndex="(props.preps?.params?.totalTab || 1) - 1"
+      :subFormFlag="subFormFlag ? 'Y' : 'N'"
+      :propPrefix="batchName"
+      :key="createSubForm()"
+      :batchName="batchName"
+      :source="source"
+      v-model:dataForm="dataForm[batchName]"
+    />
   </el-scrollbar>
 </template>
 

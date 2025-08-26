@@ -1,9 +1,12 @@
 <script setup lang="ts">
-import {useFlowDesignStore} from "@/store/FlowDesign";
-import {piniaInstance} from "star-horse-lowcode";
-import {computed, ModelRef, onMounted, ref} from "vue";
+import { useFlowDesignStore } from "@/store/FlowDesign";
+import { piniaInstance } from "star-horse-lowcode";
+import { computed, ModelRef, onMounted, ref } from "vue";
 import BasePrep from "@/views/workflow/plugin/preps/BasePrep.vue";
-import {serviceFieldsInfo, serviceTaskTypeList} from "@/views/jbpm/panel/Fields.js";
+import {
+  serviceFieldsInfo,
+  serviceTaskTypeList,
+} from "@/views/jbpm/panel/Fields.js";
 
 defineOptions({
   name: "ServicePrep",
@@ -23,7 +26,6 @@ const init = () => {
     // serviceTypeChange("task");
     node.value.serviceType = "task";
   }
-
 };
 onMounted(() => {
   init();
@@ -49,32 +51,40 @@ const onSave = async () => {
 </script>
 <template>
   <ShForm :model="node" label-position="top" ref="formRef">
-    <el-tabs
-        type="border-card"
-        v-model="approvalTab"
-    >
+    <el-tabs type="border-card" v-model="approvalTab">
       <el-tab-pane key="basic" name="basic" label="节点信息">
-        <BasePrep :nodeInfo="node"/>
+        <BasePrep :nodeInfo="node" />
       </el-tab-pane>
-      <el-tab-pane key="serviceType" name="serviceTaskType" label="服务类别配置">
+      <el-tab-pane
+        key="serviceType"
+        name="serviceTaskType"
+        label="服务类别配置"
+      >
         <el-divider content-position="left">节点类别</el-divider>
         <el-radio-group v-model="node.serviceType">
-          <el-radio v-for="item in serviceTaskTypeList"
-                    :label="item.name"
-                    :value="item.value"/>
+          <el-radio
+            v-for="item in serviceTaskTypeList"
+            :label="item.name"
+            :value="item.value"
+          />
         </el-radio-group>
         <el-divider content-position="left">
-          {{ serviceTaskTypeList.find(item => item.value == node.serviceType)?.name ?? node.serviceType }}配置
+          {{
+            serviceTaskTypeList.find((item) => item.value == node.serviceType)
+              ?.name ?? node.serviceType
+          }}配置
         </el-divider>
         <el-scrollbar height="100%">
-          <star-horse-form-item ref="basePrepRef"
-                                :fieldList="serviceField"
-                                :dataIndex="0"
-                                compSize="default"
-                                batchName="params"
-                                propPrefix="params"
-                                subFormFlag="Y"
-                                v-model:dataForm="node['params']"/>
+          <star-horse-form-item
+            ref="basePrepRef"
+            :fieldList="serviceField"
+            :dataIndex="0"
+            compSize="default"
+            batchName="params"
+            propPrefix="params"
+            subFormFlag="Y"
+            v-model:dataForm="node['params']"
+          />
         </el-scrollbar>
       </el-tab-pane>
       <!--      <el-tab-pane label="服务配置" name="service">
@@ -82,6 +92,6 @@ const onSave = async () => {
             </el-tab-pane>-->
     </el-tabs>
   </ShForm>
-  <DrawerFooter @close="onClose" @save="onSave"/>
+  <DrawerFooter @close="onClose" @save="onSave" />
 </template>
 <style scoped></style>

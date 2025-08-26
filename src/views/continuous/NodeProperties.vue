@@ -189,3 +189,70 @@ const tableFieldList = reactive({
   ],
   batchFieldList: [],
 });
+const primaryKey = "idNodeProperty";
+const nodePropertyRef = ref();
+const rules = {};
+const dialogProps = dialogPreps();
+provide("dialogProps", dialogProps);
+
+const selectItemFun = (data: any) => {};
+const dataFormat = (name: string, cellValue: object): any => {
+  return cellValue;
+};
+const init = async () => {};
+onMounted(async () => {
+  await init();
+});
+</script>
+<template>
+  <div class="flex flex-col h-full overflow-hidden">
+    <star-horse-dialog
+      :isShowBtnContinue="true"
+      :dialogVisible="dialogProps.editVisible"
+      :dialogProps="dialogProps"
+    >
+      <star-horse-form
+        @refresh="nodePropertyRef?.loadByPage()"
+        :compUrl="dataUrl"
+        :fieldList="tableFieldList"
+        :rules="rules"
+      />
+    </star-horse-dialog>
+    <star-horse-dialog
+      :dialog-visible="dialogProps.viewVisible"
+      :dialogProps="dialogProps"
+      :source="3"
+    >
+      <star-horse-data-view
+        :dataFormat="dataFormat"
+        :field-list="tableFieldList"
+        :compUrl="dataUrl"
+      />
+    </star-horse-dialog>
+    <el-card class="inner_content">
+      <div class="search_btn">
+        <star-horse-search-comp
+          @searchData="(data: any) => nodePropertyRef?.createSearchParams(data)"
+          :formData="searchFormData"
+          :compUrl="dataUrl"
+        />
+        <hr />
+        <star-horse-button-list
+          @tableCompFunc="(fun: any) => nodePropertyRef.tableCompFunc(fun)"
+          :compUrl="dataUrl"
+          :dialogProps="dialogProps"
+          :showType="Config.buttonStyle"
+        />
+      </div>
+      <star-horse-table-comp
+        ref="nodePropertyRef"
+        :fieldList="tableFieldList"
+        :primaryKey="primaryKey"
+        :compUrl="dataUrl"
+        :dataFormat="dataFormat"
+        @selectItem="selectItemFun"
+      />
+    </el-card>
+  </div>
+</template>
+

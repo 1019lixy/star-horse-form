@@ -8,7 +8,8 @@ import {
   dictData,
   loadData,
   PageFieldInfo,
-  piniaInstance, PreValid,
+  piniaInstance,
+  PreValid,
   SearchFields,
   SearchParams,
   SelectOption,
@@ -166,20 +167,22 @@ const menuBtnTableRef = ref();
 let currentUserGroupId = ref<number>(0);
 let currentSystemId = ref<number>(0);
 let currentMenuId = ref<number>(0);
-let preValid = ref<Array<PreValid>>([{
-  authority:"add",
-  valid: () => {
-    if (!currentUserGroupId.value) {
-      warning(i18n("system.please.select.group"));
-      return false;
-    }
-    if (!currentSystemId.value) {
-      warning(i18n("system.please.select.application"));
-      return false;
-    }
-    return true;
+let preValid = ref<Array<PreValid>>([
+  {
+    authority: "add",
+    valid: () => {
+      if (!currentUserGroupId.value) {
+        warning(i18n("system.please.select.group"));
+        return false;
+      }
+      if (!currentSystemId.value) {
+        warning(i18n("system.please.select.application"));
+        return false;
+      }
+      return true;
+    },
   },
-}]);
+]);
 /**
  * 点击事件
  * @param data

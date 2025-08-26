@@ -35,21 +35,20 @@ defineExpose({
     if (dataSourceFormRef.value) {
       dataSourceFormRef.value.setFormData(data);
     }
-  }
+  },
 });
 </script>
 
 <template>
-  <star-horse-dialog 
-    :dialogVisible="visible" 
-    :title="i18n('dyform.data.source.dialog.title')" 
-    :isBatch="false" 
+  <star-horse-dialog
+    :dialogVisible="visible"
+    :title="i18n('dyform.data.source.dialog.title')"
+    :isBatch="false"
     @merge="submitValid"
-    @closeAction="emit('close')" 
-    @resetForm="resetDataSourceForm" 
-    :selfFunc="true">
-    <data-source-comp 
-      ref="dataSourceFormRef" 
-      :formProps="formProps" />
+    @closeAction="emit('close')"
+    @resetForm="resetDataSourceForm"
+    :selfFunc="true"
+  >
+    <data-source-comp ref="dataSourceFormRef" :formProps="formProps" />
   </star-horse-dialog>
 </template>

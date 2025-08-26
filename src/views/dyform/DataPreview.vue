@@ -104,7 +104,11 @@ defineExpose({
               </el-tag>
             </template>
           </el-table-column>
-          <el-table-column prop="listVisible" :label="i18n('dataPreview.showHide')" width="100">
+          <el-table-column
+            prop="listVisible"
+            :label="i18n('dataPreview.showHide')"
+            width="100"
+          >
             <template #default="scope">
               <el-switch
                 v-model="scope.row.listVisible"

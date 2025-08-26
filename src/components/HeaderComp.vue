@@ -1,12 +1,12 @@
 <script lang="ts" setup name="Header">
-import {Config} from "@/api/settings";
-import {userLogout} from "@/api/star_horse_apis";
+import { Config } from "@/api/settings";
+import { userLogout } from "@/api/star_horse_apis";
 import Message from "@/components/Message.vue";
-import {i18n} from "@/lang";
-import {useLoginStore} from "@/store/Login";
-import {getLang, setLang} from "@/theme/localStorge";
-import {LangType} from "@/theme/theme";
-import {getCustomerInfo, getUserInfo} from "@/utils/auth";
+import { i18n } from "@/lang";
+import { useLoginStore } from "@/store/Login";
+import { getLang, setLang } from "@/theme/localStorge";
+import { LangType } from "@/theme/theme";
+import { getCustomerInfo, getUserInfo } from "@/utils/auth";
 import {
   apiInstance,
   ApiUrls,
@@ -22,15 +22,15 @@ import {
   useUserInfoStore,
   warning,
 } from "star-horse-lowcode";
-import {computed, onMounted, ref} from "vue";
-import {useRouter} from "vue-router";
+import { computed, onMounted, ref } from "vue";
+import { useRouter } from "vue-router";
 
 const userStore = useUserInfoStore(piniaInstance);
 const loginStore = useLoginStore(piniaInstance);
 const menuUrl: ApiUrls = apiInstance("system-config", "system/menusinfo");
 const configStore = useGlobalConfigStore(piniaInstance);
 const configInfo = computed(() => configStore.configFormInfo);
-const {push} = useRouter();
+const { push } = useRouter();
 const emits = defineEmits(["changeLang", "layoutConfig"]);
 const appinfoList = computed(() => loginStore.getAppInfoList());
 const shortcutMenuList = computed(() => loginStore.getShortcutMenuList());
@@ -85,19 +85,20 @@ const batchMerge = (datas: Array<any>) => {
   });
   load(i18n("userCenter.dataSubmitting"));
   postRequest(
-      `/system-config/system/shortcutMenu/mergeBatch/${userInfo.idUsersinfo}`,
-      dataList,
+    `/system-config/system/shortcutMenu/mergeBatch/${userInfo.idUsersinfo}`,
+    dataList,
   )
-      .then((res: any) => {
-        success(res.data.cnMessage);
-        dataPickerRef.value.close();
-        loginStore.loadShortMenu();
-      }).catch((err: any) => {
-    error(err);
-  }).finally(() => {
-    closeLoad();
-  });
-
+    .then((res: any) => {
+      success(res.data.cnMessage);
+      dataPickerRef.value.close();
+      loginStore.loadShortMenu();
+    })
+    .catch((err: any) => {
+      error(err);
+    })
+    .finally(() => {
+      closeLoad();
+    });
 };
 let curLangName = ref("");
 const handleLanguageChanged = (lang: LangType) => {
@@ -105,11 +106,11 @@ const handleLanguageChanged = (lang: LangType) => {
   window.location.reload();
 };
 const changeLang = (lang: LangType, isInit: boolean) => {
-  curLangName.value = lang == LangType.ZH_CN ? i18n("locale.chinese") : i18n("locale.english");
+  curLangName.value =
+    lang == LangType.ZH_CN ? i18n("locale.chinese") : i18n("locale.english");
   setLang(lang);
   emits("changeLang", lang, isInit);
 };
-
 
 const selectItem = (item: any) => {
   const userId = getUserInfo()?.idUsersinfo;
@@ -118,22 +119,22 @@ const selectItem = (item: any) => {
 </script>
 <template>
   <DataPicker
-      ref="dataPickerRef"
-      :title="i18n('header.shortcutMenu.title')"
-      :data-url="`${menuUrl.basePrefix}/permissionMenus/${getUserInfo()?.idUsersinfo}/-1`"
-      :page-size="100"
-      :display-name="'menuName'"
-      :display-value="'dataNo'"
-      :checkStrictly="true"
-      :multiple="true"
-      :autoClose="false"
-      @dataSubmit="batchMerge"
-      v-model="selectData"
+    ref="dataPickerRef"
+    :title="i18n('header.shortcutMenu.title')"
+    :data-url="`${menuUrl.basePrefix}/permissionMenus/${getUserInfo()?.idUsersinfo}/-1`"
+    :page-size="100"
+    :display-name="'menuName'"
+    :display-value="'dataNo'"
+    :checkStrictly="true"
+    :multiple="true"
+    :autoClose="false"
+    @dataSubmit="batchMerge"
+    v-model="selectData"
   />
   <div
-      class="flex items-center justify-between overflow-hidden w-full vertical-align-middle flex-row"
-      :style="{ height: configInfo.shortCutMenus == 'Y' ? '60%' : 'inherit' }"
-      style="
+    class="flex items-center justify-between overflow-hidden w-full vertical-align-middle flex-row"
+    :style="{ height: configInfo.shortCutMenus == 'Y' ? '60%' : 'inherit' }"
+    style="
       -webkit-box-align: center;
       -webkit-box-pack: justify;
       background: var(--star-horse-style);
@@ -141,27 +142,27 @@ const selectItem = (item: any) => {
   >
     <div :title="systemName" class="flex items-center ml-[10px]">
       <img
-          v-if="getCustomerInfo()?.logo"
-          :src="getCustomerInfo()?.logo"
-          :height="getCustomerInfo()?.height || 45"
+        v-if="getCustomerInfo()?.logo"
+        :src="getCustomerInfo()?.logo"
+        :height="getCustomerInfo()?.height || 45"
       />
       <star-horse-icon
-          v-else
-          icon-class="logo"
-          size="45px"
-          width="45px"
-          height="45px"
-          style="color: var(--star-horse-white); font-weight: bold"
+        v-else
+        icon-class="logo"
+        size="45px"
+        width="45px"
+        height="45px"
+        style="color: var(--star-horse-white); font-weight: bold"
       />
     </div>
     <div class="flex-1 flex flex-row items-center h-full overflow-hidden">
       <star-horse-menu
-          :ellipsis="true"
-          v-if="configInfo.menusCfg == 'tradition'"
-          :mode="'horizontal'"
-          @selectItem="selectItem"
-          :dataList="appinfoList"
-          :preps="{
+        :ellipsis="true"
+        v-if="configInfo.menusCfg == 'tradition'"
+        :mode="'horizontal'"
+        @selectItem="selectItem"
+        :dataList="appinfoList"
+        :preps="{
           id: 'idInformations',
           label: 'sysName',
           icon: 'sysLogo',
@@ -170,28 +171,31 @@ const selectItem = (item: any) => {
       />
     </div>
     <div
-        class="flex h-full w-[180px] mr-[10px] flex-row justify-between flex-no-wrap items-center"
+      class="flex h-full w-[180px] mr-[10px] flex-row justify-between flex-no-wrap items-center"
     >
-      <Message/>
+      <Message />
       <el-dropdown
-          class="flex flex-row"
-          @command="handleLanguageChanged"
-          :show-arrow="false"
+        class="flex flex-row"
+        @command="handleLanguageChanged"
+        :show-arrow="false"
       >
         <span
-            class="flex items-center flex-row"
-            style="cursor: pointer; color: #fff"
+          class="flex items-center flex-row"
+          style="cursor: pointer; color: #fff"
         >
-          {{
-            curLangName
+          {{ curLangName
           }}<star-horse-icon
             icon-class="arrow-down"
             style="color: var(--star-horse-white)"
         /></span>
         <template #dropdown>
           <el-dropdown-menu>
-            <el-dropdown-item command="zh_cn">{{ i18n("locale.chinese") }}</el-dropdown-item>
-            <el-dropdown-item command="en_us">{{ i18n("locale.english") }}</el-dropdown-item>
+            <el-dropdown-item command="zh_cn">{{
+              i18n("locale.chinese")
+            }}</el-dropdown-item>
+            <el-dropdown-item command="en_us">{{
+              i18n("locale.english")
+            }}</el-dropdown-item>
           </el-dropdown-menu>
         </template>
       </el-dropdown>
@@ -199,12 +203,12 @@ const selectItem = (item: any) => {
       <el-dropdown trigger="click" :show-arrow="false">
         <span class="el-dropdown-link">
           <star-horse-icon
-              icon-class="user-circle"
-              size="30px"
-              width="30px"
-              height="30px"
-              cursor="pointer"
-              style="vertical-align: middle; color: var(--star-horse-white)"
+            icon-class="user-circle"
+            size="30px"
+            width="30px"
+            height="30px"
+            cursor="pointer"
+            style="vertical-align: middle; color: var(--star-horse-white)"
           />
         </span>
         <template #dropdown>
@@ -215,34 +219,34 @@ const selectItem = (item: any) => {
             </el-dropdown-item>
             <el-dropdown-item divided class="clearfix" @click="modifyInfo">
               <star-horse-icon
-                  icon-class="user-circle"
-                  color="var(--star-horse-style)"
+                icon-class="user-circle"
+                color="var(--star-horse-style)"
               />
               {{ i18n("main.header.authority") }}
             </el-dropdown-item>
             <el-dropdown-item
-                divided
-                class="clearfix"
-                @click="push('/shcalendar')"
+              divided
+              class="clearfix"
+              @click="push('/shcalendar')"
             >
               <star-horse-icon
-                  icon-class="calendar"
-                  color="var(--star-horse-style)"
+                icon-class="calendar"
+                color="var(--star-horse-style)"
               />
               {{ i18n("main.header.calendar") }}
             </el-dropdown-item>
             <el-dropdown-item divided class="clearfix" @click="layoutConfig">
               <star-horse-icon
-                  icon-class="layout"
-                  color="var(--star-horse-style)"
+                icon-class="layout"
+                color="var(--star-horse-style)"
               />
               {{ i18n("main.header.layoutConfig") }}
             </el-dropdown-item>
 
             <el-dropdown-item divided @click="loginOut" class="clearfix">
               <star-horse-icon
-                  icon-class="login_out"
-                  style="vertical-align: middle; color: #f56c6c"
+                icon-class="login_out"
+                style="vertical-align: middle; color: #f56c6c"
               />
               {{ i18n("main.header.logout") }}
             </el-dropdown-item>
@@ -253,39 +257,39 @@ const selectItem = (item: any) => {
   </div>
   <div class="shortcut" v-if="configInfo.shortCutMenus == 'Y'">
     <div
-        class="shortcut_ul flex h-full w-full flex-row align-left items-center ml-0 pl-0"
+      class="shortcut_ul flex h-full w-full flex-row align-left items-center ml-0 pl-0"
     >
       <template v-for="(item, index) in shortcutMenuList">
         <span>
           <el-tooltip :content="item.menuName">
             <router-link :to="{ path: item.menuPath }">
               <el-icon
-                  class="star-icon"
-                  style="color: var(--star-horse-white); font-size: 18px"
+                class="star-icon"
+                style="color: var(--star-horse-white); font-size: 18px"
               >
-                <component :is="item.menuIcon || 'document'"/>
+                <component :is="item.menuIcon || 'document'" />
               </el-icon>
               &nbsp;{{ item["menuName"] }}</router-link
             >
           </el-tooltip>
         </span>
         <span
-            style="
+          style="
             display: flex;
             height: 100%;
             width: 1px;
             cursor: none;
             color: #ffd04b;
           "
-            v-if="index < shortcutMenuList.length - 1"
-        >|</span
+          v-if="index < shortcutMenuList.length - 1"
+          >|</span
         >
       </template>
       <span @click="addShortcutMenu">
         <el-tooltip :content="i18n('header.shortcutMenu.tooltip')">
           <star-horse-icon
-              icon-class="add"
-              style="color: var(--star-horse-white)"
+            icon-class="add"
+            style="color: var(--star-horse-white)"
           />
         </el-tooltip>
       </span>

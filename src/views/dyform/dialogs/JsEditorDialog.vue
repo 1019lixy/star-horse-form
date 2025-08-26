@@ -28,30 +28,42 @@ const hmsg: string = `
 </script>
 
 <template>
-  <star-horse-dialog 
-    :dialogVisible="visible" 
-    :title="i18n('dyform.js.editor.title')" 
-    :isBatch="false" 
+  <star-horse-dialog
+    :dialogVisible="visible"
+    :title="i18n('dyform.js.editor.title')"
+    :isBatch="false"
     @merge="emit('close')"
-    @closeAction="emit('close')" 
-    @resetForm="emit('close')" 
-    :selfFunc="true">
+    @closeAction="emit('close')"
+    @resetForm="emit('close')"
+    :selfFunc="true"
+  >
     <el-tabs v-model="codeTab">
       <el-tab-pane :label="i18n('dyform.js.editor.tab.code')" name="code">
-        <star-horse-editor 
-          v-model:value="formProps[fieldName]" 
-          lang="javascript" 
-          ref="codeCompRef" 
+        <star-horse-editor
+          v-model:value="formProps[fieldName]"
+          lang="javascript"
+          ref="codeCompRef"
           :helpMsg="hmsg"
-          style="height: 100%" />
+          style="height: 100%"
+        />
       </el-tab-pane>
-      <el-tab-pane :label="i18n('dyform.js.editor.tab.currentField')" name="currentField">
+      <el-tab-pane
+        :label="i18n('dyform.js.editor.tab.currentField')"
+        name="currentField"
+      >
         <pre>{{ JSON.stringify(currentField, null, 4) }}</pre>
       </el-tab-pane>
-      <el-tab-pane :label="i18n('dyform.js.editor.tab.formInstance')" name="formInstance">
+      <el-tab-pane
+        :label="i18n('dyform.js.editor.tab.formInstance')"
+        name="formInstance"
+      >
         ${i18n("dyform.js.editor.objectName")}：formInstance
-        <table border="1" cellpadding="0" cellspacing="0"
-          style="width: 100%; border: 1px dashed var(--star-horse-style)">
+        <table
+          border="1"
+          cellpadding="0"
+          cellspacing="0"
+          style="width: 100%; border: 1px dashed var(--star-horse-style)"
+        >
           <thead style="border: 1px dashed var(--star-horse-style)">
             <tr>
               <th>${i18n("dyform.js.editor.table.name")}</th>
@@ -96,7 +108,11 @@ const hmsg: string = `
           </tbody>
         </table>
       </el-tab-pane>
-      <el-tab-pane :label="i18n('dyform.js.editor.tab.formProperties')" name="formDatas" v-if="list">
+      <el-tab-pane
+        :label="i18n('dyform.js.editor.tab.formProperties')"
+        name="formDatas"
+        v-if="list"
+      >
         <pre>{{ JSON.stringify(list, null, 4) }}</pre>
       </el-tab-pane>
     </el-tabs>

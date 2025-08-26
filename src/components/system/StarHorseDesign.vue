@@ -344,7 +344,7 @@ const init = async () => {
   graph.value.on("cell:contextmenu", (data: any) => {
     contextMenu(data.e, data.x, data.y, data.cell, data.view);
   });
-  
+
   // Handle connection start - show all table anchors
   graph.value.on("edge:mousedown", () => {
     const allAnchors = starHorseDesignRef.value.querySelectorAll(
@@ -354,7 +354,7 @@ const init = async () => {
       allAnchors[i].style.opacity = "1";
     }
   });
-  
+
   // Handle port click to start connection
   graph.value.on("node:port:mousedown", () => {
     const allAnchors = starHorseDesignRef.value.querySelectorAll(
@@ -393,7 +393,7 @@ const init = async () => {
       cells[index].removeTools();
     }
     currentComp.value = null;
-    
+
     // Hide all anchors when clicking on blank space
     const allAnchors = starHorseDesignRef.value.querySelectorAll(
       ".table-row-anchor",

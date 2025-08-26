@@ -17,10 +17,7 @@ import { onActivated, onMounted, provide, reactive, ref } from "vue";
 import { i18n } from "@/lang";
 
 let informationsList = ref<any>([]);
-const dataUrl: ApiUrls = apiInstance(
-  "system-config",
-  "system/informations",
-);
+const dataUrl: ApiUrls = apiInstance("system-config", "system/informations");
 dataUrl.loadByIdUrl = dataUrl.basePrefix + "/getInformationById";
 let systemIconList = ref<SelectOption[]>([]);
 let customerList = ref<SelectOption[]>([]);

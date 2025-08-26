@@ -19,7 +19,7 @@ import {
 import { Config } from "@/api/settings";
 import { JSEncrypt } from "jsencrypt";
 import { ServiceEnums } from "@/components/enums/ServiceEnums";
-
+import { i18n } from "@/lang";
 let userInfo = ref<any>({});
 let depts = ref<string>("--");
 let roles = ref<string>("--");
@@ -253,7 +253,10 @@ onMounted(async () => {
                   :ref="setRef('basic')"
                 />
               </el-tab-pane>
-              <el-tab-pane :label="i18n('userCenter.changePassword')" name="password">
+              <el-tab-pane
+                :label="i18n('userCenter.changePassword')"
+                name="password"
+              >
                 <star-horse-form
                   :fieldList="passwordFieldList"
                   :ref="setRef('password')"

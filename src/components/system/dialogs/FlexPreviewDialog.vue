@@ -11,22 +11,26 @@
     <div class="preview-container">
       <div class="preview-header">
         <div class="preview-info">
-          <h3>{{ designName || '未命名设计' }}</h3>
+          <h3>{{ designName || "未命名设计" }}</h3>
           <p v-if="designDescription">{{ designDescription }}</p>
           <div class="design-stats">
-            <el-tag size="small" type="info">元素数量: {{ designSummary.itemCount }}</el-tag>
-            <el-tag size="small" type="success" style="margin-left: 8px;">
+            <el-tag size="small" type="info"
+              >元素数量: {{ designSummary.itemCount }}</el-tag
+            >
+            <el-tag size="small" type="success" style="margin-left: 8px">
               组件数量: {{ designSummary.compCount }}
             </el-tag>
-            <el-tag size="small" type="warning" style="margin-left: 8px;">
+            <el-tag size="small" type="warning" style="margin-left: 8px">
               方向: {{ designSummary.containerDirection }}
             </el-tag>
           </div>
         </div>
         <div class="preview-actions">
           <el-button size="small" @click="toggleDeviceMode">
-            <star-horse-icon :icon-class="deviceMode === 'desktop' ? 'mobile' : 'desktop'" />
-            {{ deviceMode === 'desktop' ? '移动端预览' : '桌面端预览' }}
+            <star-horse-icon
+              :icon-class="deviceMode === 'desktop' ? 'mobile' : 'desktop'"
+            />
+            {{ deviceMode === "desktop" ? "移动端预览" : "桌面端预览" }}
           </el-button>
           <el-button size="small" @click="refreshPreview">
             <star-horse-icon icon-class="refresh" />
@@ -38,7 +42,7 @@
           </el-button>
           <el-button size="small" @click="showDebugInfo = !showDebugInfo">
             <star-horse-icon icon-class="info" />
-            {{ showDebugInfo ? '隐藏调试' : '调试信息' }}
+            {{ showDebugInfo ? "隐藏调试" : "调试信息" }}
           </el-button>
         </div>
       </div>
@@ -55,14 +59,10 @@
           </div>
           <div class="frame-content" ref="previewContentRef">
             <div :style="containerStyles" class="flex-1">
-            <template v-for="item in positionList">
-              <FlexItem
-                :itemId="item"
-              
-                :type="flexModel"
-              />
-            </template>
-          </div>
+              <template v-for="item in positionList">
+                <FlexItem :itemId="item" :type="flexModel" />
+              </template>
+            </div>
           </div>
         </div>
       </div>
@@ -89,11 +89,17 @@
           </div>
           <div class="debug-section">
             <h4>容器信息 (store):</h4>
-            <pre>{{ JSON.stringify(flexDesign.getContainerInfo(), null, 2) }}</pre>
+            <pre>{{
+              JSON.stringify(flexDesign.getContainerInfo(), null, 2)
+            }}</pre>
           </div>
           <div class="debug-section">
             <h4>元素信息:</h4>
-            <div v-for="position in positionList" :key="position" class="debug-item">
+            <div
+              v-for="position in positionList"
+              :key="position"
+              class="debug-item"
+            >
               <strong>{{ position }}:</strong>
               <pre>{{ getItemStyle(position) }}</pre>
             </div>
@@ -102,7 +108,10 @@
       </div>
 
       <div class="preview-footer">
-        <div class="validation-info" v-if="validationResult && !validationResult.isValid">
+        <div
+          class="validation-info"
+          v-if="validationResult && !validationResult.isValid"
+        >
           <el-alert
             title="设计验证失败"
             type="warning"
@@ -110,7 +119,9 @@
             show-icon
           >
             <ul>
-              <li v-for="error in validationResult.errors" :key="error">{{ error }}</li>
+              <li v-for="error in validationResult.errors" :key="error">
+                {{ error }}
+              </li>
             </ul>
           </el-alert>
         </div>
@@ -130,7 +141,7 @@
         </div>
         <div class="footer-actions">
           <el-button @click="toggleCodeView">
-            {{ showCode ? '隐藏代码' : '查看代码' }}
+            {{ showCode ? "隐藏代码" : "查看代码" }}
           </el-button>
           <el-button type="primary" @click="saveAsTemplate">
             保存为模板
@@ -144,7 +155,7 @@
 <script setup lang="ts">
 import { computed, ref, watch, nextTick } from "vue";
 import { useFlexDesignStore } from "@/store/FlexDesign";
-import { piniaInstance, success,error } from "star-horse-lowcode";
+import { piniaInstance, success, error } from "star-horse-lowcode";
 import { generatePreview } from "@/api/flexDesign";
 import FlexItem from "@/components/system/items/FlexItem.vue";
 
@@ -152,7 +163,7 @@ interface Props {
   dialogVisible: boolean;
   designName?: string;
   designDescription?: string;
-  flexModel:string;
+  flexModel: string;
   containerDataForm?: any;
 }
 
@@ -164,10 +175,10 @@ const emit = defineEmits<{
 
 const flexDesign = useFlexDesignStore(piniaInstance);
 const previewContentRef = ref<HTMLElement>();
-const deviceMode = ref<'desktop' | 'mobile'>('desktop');
+const deviceMode = ref<"desktop" | "mobile">("desktop");
 const showCode = ref(false);
 const showDebugInfo = ref(false);
-const selectedPreviewItem = ref<string>('');
+const selectedPreviewItem = ref<string>("");
 
 /**
  * 将驼峰命名转换为CSS属性格式
@@ -175,46 +186,48 @@ const selectedPreviewItem = ref<string>('');
  * @returns CSS格式的属性名
  */
 const camelToKebab = (key: string): string => {
-  return key.replace(/([A-Z])/g, '-$1').toLowerCase();
+  return key.replace(/([A-Z])/g, "-$1").toLowerCase();
 };
 
 const designSummary = computed(() => flexDesign.getDesignSummary());
 const validationResult = computed(() => flexDesign.validateDesign());
-const htmlCode = computed(() => flexDesign.generatePreviewHTML(props.flexModel, props.containerDataForm));
+const htmlCode = computed(() =>
+  flexDesign.generatePreviewHTML(props.flexModel, props.containerDataForm),
+);
 const positionList = computed(() => flexDesign.getPositionList());
 const currentItem = computed(() => flexDesign.getCurrentItem());
 const containerStyles = computed(() => {
-    const containerInfo=flexDesign.getContainerInfo();
-    //将容器信息转换成样式Css格式的属性
-    let style:any={};
-    Object.keys(containerInfo).forEach(key => {
-        style[camelToKebab(key)] = containerInfo[key];
-    });
-    return style;
+  const containerInfo = flexDesign.getContainerInfo();
+  //将容器信息转换成样式Css格式的属性
+  let style: any = {};
+  Object.keys(containerInfo).forEach((key) => {
+    style[camelToKebab(key)] = containerInfo[key];
+  });
+  return style;
 });
 
 const deviceModeClass = computed(() => ({
-  'preview-desktop': deviceMode.value === 'desktop',
-  'preview-mobile': deviceMode.value === 'mobile'
+  "preview-desktop": deviceMode.value === "desktop",
+  "preview-mobile": deviceMode.value === "mobile",
 }));
 
 const getItemStyle = (position: string) => {
   const item = flexDesign.getItem(position);
   const itemStyles = item || {};
-  
+
   // 添加默认样式确保元素可见
   const defaultStyles = {
-    minHeight: '40px',
-    padding: '8px',
-    backgroundColor: itemStyles.backgroundColor || '#f5f5f5',
-    border: '1px solid #ddd',
-    margin: '2px',
-    ...itemStyles
+    minHeight: "40px",
+    padding: "8px",
+    backgroundColor: itemStyles.backgroundColor || "#f5f5f5",
+    border: "1px solid #ddd",
+    margin: "2px",
+    ...itemStyles,
   };
-  
+
   return Object.entries(defaultStyles)
     .map(([key, value]) => `${key}: ${value}`)
-    .join('; ');
+    .join("; ");
 };
 
 const hasComponents = (position: string) => {
@@ -229,16 +242,16 @@ const getComponents = (position: string) => {
 const getComponentType = (type: string) => {
   // 根据类型返回对应的组件
   const componentMap: Record<string, string> = {
-    'input': 'el-input',
-    'button': 'el-button',
-    'text': 'span',
-    'image': 'img'
+    input: "el-input",
+    button: "el-button",
+    text: "span",
+    image: "img",
   };
-  return componentMap[type] || 'div';
+  return componentMap[type] || "div";
 };
 
 const toggleDeviceMode = () => {
-  deviceMode.value = deviceMode.value === 'desktop' ? 'mobile' : 'desktop';
+  deviceMode.value = deviceMode.value === "desktop" ? "mobile" : "desktop";
 };
 
 const refreshPreview = () => {
@@ -247,21 +260,21 @@ const refreshPreview = () => {
       previewContentRef.value.scrollTop = 0;
     }
   });
- success('预览已刷新');
+  success("预览已刷新");
 };
 
 const exportHTML = () => {
   const html = htmlCode.value;
-  const blob = new Blob([html], { type: 'text/html' });
+  const blob = new Blob([html], { type: "text/html" });
   const url = URL.createObjectURL(blob);
-  const a = document.createElement('a');
+  const a = document.createElement("a");
   a.href = url;
-  a.download = `${props.designName || 'flex-design'}.html`;
+  a.download = `${props.designName || "flex-design"}.html`;
   document.body.appendChild(a);
   a.click();
   document.body.removeChild(a);
   URL.revokeObjectURL(url);
- success('HTML文件已导出');
+  success("HTML文件已导出");
 };
 
 const selectPreviewItem = (position: string) => {
@@ -275,34 +288,37 @@ const toggleCodeView = () => {
 const copyCode = async () => {
   try {
     await navigator.clipboard.writeText(htmlCode.value);
-   success('代码已复制到剪贴板');
+    success("代码已复制到剪贴板");
   } catch (err) {
-    console.error('复制失败:', err);
-   error('复制失败，请手动复制');
+    console.error("复制失败:", err);
+    error("复制失败，请手动复制");
   }
 };
 
 const saveAsTemplate = () => {
   const designData = flexDesign.serializeDesignData(
-    props.designName || '未命名模板',
-    props.designDescription || ''
+    props.designName || "未命名模板",
+    props.designDescription || "",
   );
-  emit('saveTemplate', designData);
+  emit("saveTemplate", designData);
 };
 
 const closeDialog = () => {
-  emit('closeDialog');
+  emit("closeDialog");
 };
 
 // 监听dialog显示状态，重置数据
-watch(() => props.dialogVisible, (visible) => {
-  if (visible) {
-    selectedPreviewItem.value = '';
-    showCode.value = false;
-    showDebugInfo.value = false;
-    deviceMode.value = 'desktop';
-  }
-});
+watch(
+  () => props.dialogVisible,
+  (visible) => {
+    if (visible) {
+      selectedPreviewItem.value = "";
+      showCode.value = false;
+      showDebugInfo.value = false;
+      deviceMode.value = "desktop";
+    }
+  },
+);
 </script>
 
 <style lang="scss" scoped>
@@ -421,7 +437,7 @@ watch(() => props.dialogVisible, (visible) => {
 
 .preview-container-content {
   /* 保持灵活性，不强制设置任何布局相关属性 */
-  
+
   /* 由内联样式控制flex属性 */
 }
 
@@ -431,7 +447,7 @@ watch(() => props.dialogVisible, (visible) => {
   transition: all 0.2s ease;
   position: relative;
   /* 让元素可以正常参与flex布局 */
-  
+
   &:hover {
     border-color: #409eff;
     background: rgba(64, 158, 255, 0.05);
@@ -505,7 +521,7 @@ watch(() => props.dialogVisible, (visible) => {
       margin: 0;
 
       code {
-        font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+        font-family: "Monaco", "Menlo", "Ubuntu Mono", monospace;
         font-size: 12px;
         line-height: 1.4;
       }
@@ -523,22 +539,22 @@ watch(() => props.dialogVisible, (visible) => {
 .debug-panel {
   background: #f8f9fa;
   border-top: 1px solid #e8e8e8;
-  
+
   .debug-content {
     padding: 16px;
     max-height: 300px;
     overflow-y: auto;
   }
-  
+
   .debug-section {
     margin-bottom: 16px;
-    
+
     h4 {
       margin: 0 0 8px 0;
       color: #333;
       font-size: 14px;
     }
-    
+
     pre {
       background: #f5f5f5;
       padding: 8px;
@@ -548,15 +564,15 @@ watch(() => props.dialogVisible, (visible) => {
       overflow-x: auto;
     }
   }
-  
+
   .debug-item {
     margin-bottom: 8px;
-    
+
     strong {
       color: #409eff;
       font-size: 12px;
     }
-    
+
     pre {
       margin-top: 4px;
     }

@@ -90,7 +90,9 @@ const addElement = (element: any, type: string) => {
                 <div
                   class="collapse-item-title title h-full flex justify-between"
                 >
-                  <div class="flex flex-row items-center h-full">{{ i18n("dyform.collapse.layout") }}</div>
+                  <div class="flex flex-row items-center h-full">
+                    {{ i18n("dyform.collapse.layout") }}
+                  </div>
                   <star-horse-icon
                     icon-class="container"
                     size="20px"
@@ -130,7 +132,9 @@ const addElement = (element: any, type: string) => {
                 <div
                   class="collapse-item-title title h-full flex justify-between"
                 >
-                  <div class="flex flex-row items-center h-full">{{ i18n("dyform.collapse.form") }}</div>
+                  <div class="flex flex-row items-center h-full">
+                    {{ i18n("dyform.collapse.form") }}
+                  </div>
                   &nbsp;<star-horse-icon
                     icon-class="form"
                     size="20px"

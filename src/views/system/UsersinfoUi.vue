@@ -36,7 +36,12 @@ const dataUrl: ApiUrls = apiInstance("system-config", "system/usersinfo");
 const usersinfoTableListRef = ref();
 const searchFormData = reactive<SearchFields>({
   fieldList: [
-    { label: i18n("system.name"), fieldName: "name", defaultVisible: true, matchType: "lk" },
+    {
+      label: i18n("system.name"),
+      fieldName: "name",
+      defaultVisible: true,
+      matchType: "lk",
+    },
     {
       label: i18n("system.username"),
       fieldName: "username",
@@ -97,7 +102,7 @@ const pwdMerge = () => {
         (pwdForm.oldPassword || "0") +
         "/" +
         pwdForm.phone,
-      {}
+      {},
     ).then((res) => {
       let redata = res.data;
       if (redata.code == 1) {
@@ -219,7 +224,6 @@ const initData = async () => {
 onMounted(async () => {
   await initData();
 });
-
 </script>
 <template>
   <div class="flex flex-col h-full overflow-hidden">

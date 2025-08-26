@@ -1,4 +1,4 @@
-import { nextTick, reactive, Ref, ref, unref,computed } from "vue";
+import { nextTick, reactive, Ref, ref, unref, computed } from "vue";
 import {
   compDynamicData,
   dictData,
@@ -1150,7 +1150,7 @@ export function buttonClickDataField() {
     ],
   });
 }
-const formFields = computed(()=>designForm.forceLoadCompNames());
+const formFields = computed(() => designForm.forceLoadCompNames());
 
 /**
  * 关联

@@ -157,7 +157,9 @@ const tableFieldList = reactive({
                     fieldName: "employeeNo",
 
                     prefix: "a",
-                    helpMsg: i18n("project.info.if.not.filled.system.auto.generate"),
+                    helpMsg: i18n(
+                      "project.info.if.not.filled.system.auto.generate",
+                    ),
                     required: false,
                     formVisible: true,
                     listVisible: true,
@@ -293,3 +295,98 @@ const tableFieldList = reactive({
   ],
   batchFieldList: [],
 });
+const primaryKey = "idProjectInfo";
+const projectInfoRef = ref();
+const rules = {};
+const dialogProps = dialogPreps();
+provide("dialogProps", dialogProps);
+
+const dataFormat = (name: string, cellValue: any, row: any): any => {
+  if (name == "isManager") return cellValue == "1" ? "是" : "否";
+  if (name == "roleName")
+    return (
+      projectRoleList.value.find((item) => item.value == cellValue)?.name ||
+      cellValue
+    );
+
+  return cellValue;
+};
+const init = async () => {
+  dictData("REPO_TYPE").then((res) => {
+    libTypeList.value = res;
+  });
+  dictData("program_language").then((res) => {
+    languageList.value = res;
+  });
+  dictData("CHARSET").then((res) => {
+    charsetList.value = res;
+  });
+  dictData("PROJECT_ROLE").then((res) => {
+    projectRoleList.value = res;
+  });
+};
+let projectId = ref<number>(-1);
+const selectItemFun = (row: any) => {
+  projectId.value = row[primaryKey];
+};
+onMounted(async () => {
+  await init();
+});
+</script>
+<template>
+  <div class="flex flex-col h-full overflow-hidden">
+    <star-horse-dialog
+      :isShowBtnContinue="true"
+      :dialogVisible="dialogProps.editVisible"
+      :dialogProps="dialogProps"
+    >
+      <star-horse-form
+        @refresh="projectInfoRef?.loadByPage()"
+        :compUrl="dataUrl"
+        :fieldList="tableFieldList"
+        :rules="rules"
+      />
+    </star-horse-dialog>
+    <star-horse-dialog
+      :dialog-visible="dialogProps.viewVisible"
+      :dialogProps="dialogProps"
+      :source="3"
+    >
+      <star-horse-data-view
+        :dataFormat="dataFormat"
+        :field-list="tableFieldList"
+        :compUrl="dataUrl"
+      />
+    </star-horse-dialog>
+    <div class="search-content">
+      <div class="search_btn">
+        <star-horse-search-comp
+          @searchData="(data: any) => projectInfoRef?.createSearchParams(data)"
+          :formData="searchFormData"
+          :compUrl="dataUrl"
+        />
+      </div>
+    </div>
+    <el-card class="inner_content">
+      <el-splitter>
+        <el-splitter-panel>
+          <star-horse-table-comp
+            ref="projectInfoRef"
+            :fieldList="tableFieldList"
+            :primaryKey="primaryKey"
+            :compUrl="dataUrl"
+            :dataFormat="dataFormat"
+            @selectItem="selectItemFun"
+          />
+        </el-splitter-panel>
+        <el-splitter-panel collapsible max="50%" size="40%">
+          <project-member-ui
+            :projectId="projectId"
+            :roleList="projectRoleList"
+          />
+        </el-splitter-panel>
+      </el-splitter>
+    </el-card>
+  </div>
+</template>
+<style lang="scss" scoped></style>

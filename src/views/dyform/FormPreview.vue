@@ -57,41 +57,41 @@ defineExpose({
   formData,
   getFields,
   validate,
-  $el: previewFormRef // Expose the element for HTML export
+  $el: previewFormRef, // Expose the element for HTML export
 });
 </script>
 
 <template>
   <div class="form-preview">
-    <sh-form 
-      :label-width="'auto'" 
-      :label-position="'right'" 
+    <sh-form
+      :label-width="'auto'"
+      :label-position="'right'"
       :require-asterisk-position="'right'"
-      :disabled="formDisabled" 
-      :rules="{}" 
-      v-model:dataForm="formData" 
-      :size="compSize" 
+      :disabled="formDisabled"
+      :rules="{}"
+      v-model:dataForm="formData"
+      :size="compSize"
       ref="previewFormRef"
     >
       <el-scrollbar height="100%" style="width: 100% !important">
         <template v-for="data in list" :key="data.id">
-          <component 
-            :field="checkIsDisabled(data)" 
-            v-model:formData="formData" 
-            :isDesign="false" 
+          <component
+            :field="checkIsDisabled(data)"
+            v-model:formData="formData"
+            :isDesign="false"
             :formInfo="list"
-            :showFormItem="true" 
-            :is="itemCheck(data)" 
+            :showFormItem="true"
+            :is="itemCheck(data)"
           />
         </template>
         <template v-for="data in fieldList" :key="data.fieldName">
-          <component 
-            :field="checkIsDisabled(data)" 
-            v-model:formData="formData" 
-            :isDesign="false" 
+          <component
+            :field="checkIsDisabled(data)"
+            v-model:formData="formData"
+            :isDesign="false"
             :showFormItem="true"
-            :formInfo="fieldList" 
-            :is="itemCheck(data)" 
+            :formInfo="fieldList"
+            :is="itemCheck(data)"
           />
         </template>
       </el-scrollbar>

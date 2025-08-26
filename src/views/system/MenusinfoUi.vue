@@ -116,8 +116,14 @@ const menuExchangeFieldList = reactive<PageFieldInfo>({
       required: true,
       formVisible: true,
       preps: {
-        titles: [i18n("system.original.application.menu"), i18n("system.target.application.menu")],
-        buttonTexts: [i18n("system.return.to.left"), i18n("system.add.to.right")],
+        titles: [
+          i18n("system.original.application.menu"),
+          i18n("system.target.application.menu"),
+        ],
+        buttonTexts: [
+          i18n("system.return.to.left"),
+          i18n("system.add.to.right"),
+        ],
         props: {
           key: primaryKey,
           label: "menuName",

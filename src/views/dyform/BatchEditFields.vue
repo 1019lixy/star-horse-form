@@ -28,18 +28,32 @@ const batchOperation = (val: any, fieldName: string) => {
 <template>
   <div class="flex flex-col h-full overflow-hidden">
     <el-row style="font-weight: bold; font-size: 12px; margin: 5px 0">
-      <el-col :span="3">{{ i18n("dyform.batch.edit.field.containerName") }}</el-col>
+      <el-col :span="3">{{
+        i18n("dyform.batch.edit.field.containerName")
+      }}</el-col>
       <el-col :span="3">{{ i18n("dyform.batch.edit.field.labelName") }}</el-col>
       <el-col :span="3">{{ i18n("dyform.batch.edit.field.fieldName") }}</el-col>
-      <el-col :span="3">{{ i18n("dyform.batch.edit.field.maxLengthPrecision") }}</el-col>
+      <el-col :span="3">{{
+        i18n("dyform.batch.edit.field.maxLengthPrecision")
+      }}</el-col>
       <el-col :span="3">{{ i18n("dyform.batch.edit.field.required") }}</el-col>
-      <el-col :span="2">{{ i18n("dyform.batch.edit.field.formDisplay") }}</el-col>
-      <el-col :span="2">{{ i18n("dyform.batch.edit.field.searchDisplay") }}</el-col>
-      <el-col :span="2">{{ i18n("dyform.batch.edit.field.listDisplay") }}</el-col>
-      <el-col :span="3">{{ i18n("dyform.batch.edit.field.defaultValue") }}</el-col>
+      <el-col :span="2">{{
+        i18n("dyform.batch.edit.field.formDisplay")
+      }}</el-col>
+      <el-col :span="2">{{
+        i18n("dyform.batch.edit.field.searchDisplay")
+      }}</el-col>
+      <el-col :span="2">{{
+        i18n("dyform.batch.edit.field.listDisplay")
+      }}</el-col>
+      <el-col :span="3">{{
+        i18n("dyform.batch.edit.field.defaultValue")
+      }}</el-col>
     </el-row>
     <el-row style="font-weight: bold; font-size: 12px; margin: 10px 0">
-      <el-col :span="3">{{ i18n("dyform.batch.edit.field.batchSetting") }}</el-col>
+      <el-col :span="3">{{
+        i18n("dyform.batch.edit.field.batchSetting")
+      }}</el-col>
       <el-col :span="2">--</el-col>
       <el-col :span="2">--</el-col>
       <el-col :span="5">
@@ -50,7 +64,9 @@ const batchOperation = (val: any, fieldName: string) => {
               controls-position="right"
               :size="compSize"
               @change="(val: any) => batchOperation(val, 'maxLength')"
-              :placeholder="i18n('dyform.batch.edit.field.placeholder.fieldLength')"
+              :placeholder="
+                i18n('dyform.batch.edit.field.placeholder.fieldLength')
+              "
               clearable
             />
           </el-col>
@@ -60,7 +76,9 @@ const batchOperation = (val: any, fieldName: string) => {
               controls-position="right"
               :size="compSize"
               @change="(val: any) => batchOperation(val, 'precision')"
-              :placeholder="i18n('dyform.batch.edit.field.placeholder.precision')"
+              :placeholder="
+                i18n('dyform.batch.edit.field.placeholder.precision')
+              "
               clearable
             />
           </el-col>
@@ -104,7 +122,9 @@ const batchOperation = (val: any, fieldName: string) => {
       </el-col>
       <el-col :span="3"></el-col>
     </el-row>
-    <el-divider content-position="center">{{ i18n("dyform.batch.edit.field.info") }}</el-divider>
+    <el-divider content-position="center">{{
+      i18n("dyform.batch.edit.field.info")
+    }}</el-divider>
     <div class="flex-1 overflow-hidden">
       <el-scrollbar height="100%">
         <template v-for="(item, index) in list">

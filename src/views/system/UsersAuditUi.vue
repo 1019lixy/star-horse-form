@@ -11,11 +11,27 @@ import { i18n } from "@/lang";
 const dataUrl: ApiUrls = apiInstance("system-config", "system/usersAudit");
 const searchFormData = reactive<SearchFields>({
   fieldList: [
-    { label: i18n("system.primary.key"), fieldName: "idUsersAudit", type: "long" },
-    { label: i18n("system.primary.key"), fieldName: "idUserinfo", type: "long" },
+    {
+      label: i18n("system.primary.key"),
+      fieldName: "idUsersAudit",
+      type: "long",
+    },
+    {
+      label: i18n("system.primary.key"),
+      fieldName: "idUserinfo",
+      type: "long",
+    },
     { label: i18n("system.password"), fieldName: "password" },
-    { label: i18n("system.effective.date"), fieldName: "effectiveDate", type: "date" },
-    { label: i18n("system.expired.date"), fieldName: "expiredDate", type: "date" },
+    {
+      label: i18n("system.effective.date"),
+      fieldName: "effectiveDate",
+      type: "date",
+    },
+    {
+      label: i18n("system.expired.date"),
+      fieldName: "expiredDate",
+      type: "date",
+    },
     { label: i18n("system.remark"), fieldName: "remark" },
     { label: i18n("system.data.type"), fieldName: "dataType", type: "number" },
   ],

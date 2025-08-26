@@ -6,12 +6,12 @@
     </div>
     <template #dropdown>
       <el-dropdown-menu>
-        <el-dropdown-item :disabled="language === 'zh'" command="zh"
-          >{{ i18n("locale.chinese") }}</el-dropdown-item
-        >
-        <el-dropdown-item :disabled="language === 'en'" command="en"
-          >{{ i18n("locale.english") }}</el-dropdown-item
-        >
+        <el-dropdown-item :disabled="language === 'zh'" command="zh">{{
+          i18n("locale.chinese")
+        }}</el-dropdown-item>
+        <el-dropdown-item :disabled="language === 'en'" command="en">{{
+          i18n("locale.english")
+        }}</el-dropdown-item>
       </el-dropdown-menu>
     </template>
   </el-dropdown>

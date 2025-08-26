@@ -38,14 +38,26 @@ let classicsList = ref<Array<any>>([
   { code: "azure", color: "#f0ffff", name: i18n("color.azure") },
   { code: "honeydew", color: "#f0fff0", name: i18n("color.honeydew") },
   { code: "aliceblue", color: "#f0f8ff", name: i18n("color.aliceblue") },
-  { code: "lightgoldenrodyellow", color: "#fafad2", name: i18n("color.lightgoldenrodyellow") },
+  {
+    code: "lightgoldenrodyellow",
+    color: "#fafad2",
+    name: i18n("color.lightgoldenrodyellow"),
+  },
   { code: "lightyellow", color: "#ffffe0", name: i18n("color.lightyellow") },
   { code: "lemonchiffon", color: "#fffacd", name: i18n("color.lemonchiffon") },
   { code: "cornsilk", color: "#fff8dc", name: i18n("color.cornsilk") },
   { code: "seaShell", color: "#fff5ee", name: i18n("color.seaShell") },
-  { code: "lavenderblush", color: "#fff0f5", name: i18n("color.lavenderblush") },
+  {
+    code: "lavenderblush",
+    color: "#fff0f5",
+    name: i18n("color.lavenderblush"),
+  },
   { code: "papayawhip", color: "#ffefd5", name: i18n("color.papayawhip") },
-  { code: "blanchedalmond", color: "#ffebcd", name: i18n("color.blanchedalmond") },
+  {
+    code: "blanchedalmond",
+    color: "#ffebcd",
+    name: i18n("color.blanchedalmond"),
+  },
   { code: "mistyrose", color: "#ffe4e1", name: i18n("color.mistyrose") },
   { code: "bisque", color: "#ffe4c4", name: i18n("color.bisque") },
   { code: "moccasin", color: "#ffe4b5", name: i18n("color.moccasin") },
@@ -71,7 +83,11 @@ let classicsList = ref<Array<any>>([
   { code: "sandybrown", color: "#f4a460", name: i18n("color.sandybrown") },
   { code: "khaki", color: "#f0e68c", name: i18n("color.khaki") },
   { code: "lightcoral", color: "#f08080", name: i18n("color.lightcoral") },
-  { code: "palegoldenrod", color: "#eee8aa", name: i18n("color.palegoldenrod") },
+  {
+    code: "palegoldenrod",
+    color: "#eee8aa",
+    name: i18n("color.palegoldenrod"),
+  },
   { code: "violet", color: "#ee82ee", name: i18n("color.violet") },
   { code: "darksalmon", color: "#e9967a", name: i18n("color.darksalmon") },
   { code: "lavender", color: "#e6e6fa", name: i18n("color.lavender") },
@@ -80,7 +96,11 @@ let classicsList = ref<Array<any>>([
   { code: "plum", color: "#dda0dd", name: i18n("color.plum") },
   { code: "gainsboro", color: "#dcdcdc", name: i18n("color.gainsboro") },
   { code: "crimson", color: "#dc143c", name: i18n("color.crimson") },
-  { code: "palevioletred", color: "#db7093", name: i18n("color.palevioletred") },
+  {
+    code: "palevioletred",
+    color: "#db7093",
+    name: i18n("color.palevioletred"),
+  },
   { code: "goldenrod", color: "#daa520", name: i18n("color.goldenrod") },
   { code: "orchid", color: "#da70d6", name: i18n("color.orchid") },
   { code: "thistle", color: "#d8bfd8", name: i18n("color.thistle") },
@@ -89,16 +109,32 @@ let classicsList = ref<Array<any>>([
   { code: "chocolate", color: "#d2691e", name: i18n("color.chocolate") },
   { code: "peru", color: "#cd853f", name: i18n("color.peru") },
   { code: "indianred", color: "#cd5c5c", name: i18n("color.indianred") },
-  { code: "mediumvioletred", color: "#c71585", name: i18n("color.mediumvioletred") },
+  {
+    code: "mediumvioletred",
+    color: "#c71585",
+    name: i18n("color.mediumvioletred"),
+  },
   { code: "silver", color: "#c0c0c0", name: i18n("color.silver") },
   { code: "darkkhaki", color: "#bdb76b", name: i18n("color.darkkhaki") },
   { code: "rosybrown", color: "#bc8f8f", name: i18n("color.rosybrown") },
   { code: "mediumorchid", color: "#ba55d3", name: i18n("color.mediumorchid") },
-  { code: "darkgoldenrod", color: "#b8860b", name: i18n("color.darkgoldenrod") },
+  {
+    code: "darkgoldenrod",
+    color: "#b8860b",
+    name: i18n("color.darkgoldenrod"),
+  },
   { code: "firebrick", color: "#b22222", name: i18n("color.firebrick") },
   { code: "powderblue", color: "#b0e0e6", name: i18n("color.powderblue") },
-  { code: "lightsteelblue", color: "#b0c4de", name: i18n("color.lightsteelblue") },
-  { code: "paleturquoise", color: "#afeeee", name: i18n("color.paleturquoise") },
+  {
+    code: "lightsteelblue",
+    color: "#b0c4de",
+    name: i18n("color.lightsteelblue"),
+  },
+  {
+    code: "paleturquoise",
+    color: "#afeeee",
+    name: i18n("color.paleturquoise"),
+  },
   { code: "greenyellow", color: "#adff2f", name: i18n("color.greenyellow") },
   { code: "lightblue", color: "#add8e6", name: i18n("color.lightblue") },
   { code: "darkgrey", color: "#a9a9a9", name: i18n("color.darkgrey") },
@@ -122,38 +158,90 @@ let classicsList = ref<Array<any>>([
   { code: "aquamarine", color: "#7fffd4", name: i18n("color.aquamarine") },
   { code: "chartreuse", color: "#7fff00", name: i18n("color.chartreuse") },
   { code: "lawngreen", color: "#7cfc00", name: i18n("color.lawngreen") },
-  { code: "mediumslateblue", color: "#7b68ee", name: i18n("color.mediumslateblue") },
-  { code: "lightslategrey", color: "#778899", name: i18n("color.lightslategrey") },
+  {
+    code: "mediumslateblue",
+    color: "#7b68ee",
+    name: i18n("color.mediumslateblue"),
+  },
+  {
+    code: "lightslategrey",
+    color: "#778899",
+    name: i18n("color.lightslategrey"),
+  },
   { code: "slategrey", color: "#708090", name: i18n("color.slategrey") },
   { code: "olivedrab", color: "#6b8e23", name: i18n("color.olivedrab") },
   { code: "slateblue", color: "#6a5acd", name: i18n("color.slateblue") },
   { code: "grey", color: "#808080", name: i18n("color.grey") },
   { code: "dimgray", color: "#696969", name: i18n("color.dimgray") },
-  { code: "mediumaquamarine", color: "#66cdaa", name: i18n("color.mediumaquamarine") },
-  { code: "cornflowerblue", color: "#6495ed", name: i18n("color.cornflowerblue") },
+  {
+    code: "mediumaquamarine",
+    color: "#66cdaa",
+    name: i18n("color.mediumaquamarine"),
+  },
+  {
+    code: "cornflowerblue",
+    color: "#6495ed",
+    name: i18n("color.cornflowerblue"),
+  },
   { code: "cadetblue", color: "#5f9ea0", name: i18n("color.cadetblue") },
-  { code: "darkolivegreen", color: "#556b2f", name: i18n("color.darkolivegreen") },
+  {
+    code: "darkolivegreen",
+    color: "#556b2f",
+    name: i18n("color.darkolivegreen"),
+  },
   { code: "indigo", color: "#4b0082", name: i18n("color.indigo") },
-  { code: "mediumturquoise", color: "#48d1cc", name: i18n("color.mediumturquoise") },
-  { code: "darkslateblue", color: "#483d8b", name: i18n("color.darkslateblue") },
+  {
+    code: "mediumturquoise",
+    color: "#48d1cc",
+    name: i18n("color.mediumturquoise"),
+  },
+  {
+    code: "darkslateblue",
+    color: "#483d8b",
+    name: i18n("color.darkslateblue"),
+  },
   { code: "steelblue", color: "#4682b4", name: i18n("color.steelblue") },
   { code: "royalblue", color: "#4169e1", name: i18n("color.royalblue") },
   { code: "turquoise", color: "#40e0d0", name: i18n("color.turquoise") },
-  { code: "mediumseagreen", color: "#3cb371", name: i18n("color.mediumseagreen") },
+  {
+    code: "mediumseagreen",
+    color: "#3cb371",
+    name: i18n("color.mediumseagreen"),
+  },
   { code: "limegreen", color: "#32cd32", name: i18n("color.limegreen") },
-  { code: "darkslategrey", color: "#2f4f4f", name: i18n("color.darkslategrey") },
+  {
+    code: "darkslategrey",
+    color: "#2f4f4f",
+    name: i18n("color.darkslategrey"),
+  },
   { code: "seagreen", color: "#2e8b57", name: i18n("color.seagreen") },
   { code: "forestgreen", color: "#228b22", name: i18n("color.forestgreen") },
-  { code: "lightseagreen", color: "#20b2aa", name: i18n("color.lightseagreen") },
+  {
+    code: "lightseagreen",
+    color: "#20b2aa",
+    name: i18n("color.lightseagreen"),
+  },
   { code: "dodgerblue", color: "#1e90ff", name: i18n("color.dodgerblue") },
   { code: "midnightblue", color: "#191970", name: i18n("color.midnightblue") },
   { code: "aqua", color: "#00ffff", name: i18n("color.aqua") },
   { code: "cyan", color: "#00ffff", name: i18n("color.cyan") },
   { code: "springgreen", color: "#00ff7f", name: i18n("color.springgreen") },
   { code: "lime", color: "#00ff00", name: i18n("color.lime") },
-  { code: "mediumspringgreen", color: "#00fa9a", name: i18n("color.mediumspringgreen") },
-  { code: "darkturquoise", color: "#00ced1", name: i18n("color.darkturquoise") },
-  { code: "darkturquoise1", color: "#00c7e1", name: i18n("color.darkturquoise1") },
+  {
+    code: "mediumspringgreen",
+    color: "#00fa9a",
+    name: i18n("color.mediumspringgreen"),
+  },
+  {
+    code: "darkturquoise",
+    color: "#00ced1",
+    name: i18n("color.darkturquoise"),
+  },
+  {
+    code: "darkturquoise1",
+    color: "#00c7e1",
+    name: i18n("color.darkturquoise1"),
+  },
   { code: "deepskyblue", color: "#00bfff", name: i18n("color.deepskyblue") },
   { code: "darkcyan", color: "#008b8b", name: i18n("color.darkcyan") },
   { code: "teal", color: "#008080", name: i18n("color.teal") },
@@ -221,7 +309,11 @@ onMounted(() => {
         label-position="top"
       >
         <el-divider content-position="left">
-          <el-form-item prop="themeColor" :label="i18n('pageConfig.color')" :label-position="'left'">
+          <el-form-item
+            prop="themeColor"
+            :label="i18n('pageConfig.color')"
+            :label-position="'left'"
+          >
             <el-color-picker
               v-model="configInfo.themeColor"
               @change="changeOperation"
@@ -249,7 +341,10 @@ onMounted(() => {
         </el-divider>
         <el-row gutter="10">
           <el-col :span="8">
-            <el-form-item prop="inputSize" :label="i18n('pageConfig.componentSize')">
+            <el-form-item
+              prop="inputSize"
+              :label="i18n('pageConfig.componentSize')"
+            >
               <el-select
                 v-model="configInfo.inputSize"
                 @change="changeOperation"
@@ -264,7 +359,10 @@ onMounted(() => {
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item prop="buttonSize" :label="i18n('pageConfig.buttonSize')">
+            <el-form-item
+              prop="buttonSize"
+              :label="i18n('pageConfig.buttonSize')"
+            >
               <el-select
                 v-model="configInfo.buttonSize"
                 @change="changeOperation"
@@ -279,7 +377,10 @@ onMounted(() => {
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item prop="tableType" :label="i18n('pageConfig.dataDisplay')">
+            <el-form-item
+              prop="tableType"
+              :label="i18n('pageConfig.dataDisplay')"
+            >
               <el-select
                 v-model="configInfo.tableType"
                 @change="changeOperation"
@@ -299,7 +400,10 @@ onMounted(() => {
         </el-divider>
         <el-row gutter="10">
           <el-col :span="12">
-            <el-form-item prop="position" :label="i18n('pageConfig.menuPosition')">
+            <el-form-item
+              prop="position"
+              :label="i18n('pageConfig.menuPosition')"
+            >
               <el-radio-group
                 v-model="configInfo.position"
                 @change="changeOperation"
@@ -316,8 +420,14 @@ onMounted(() => {
                 v-model="configInfo.menusCfg"
                 @change="changeOperation"
               >
-                <el-radio :label="i18n('pageConfig.traditionalStyle')" value="tradition" />
-                <el-radio :label="i18n('pageConfig.fixedWidth')" value="fixed" />
+                <el-radio
+                  :label="i18n('pageConfig.traditionalStyle')"
+                  value="tradition"
+                />
+                <el-radio
+                  :label="i18n('pageConfig.fixedWidth')"
+                  value="fixed"
+                />
               </el-radio-group>
             </el-form-item>
           </el-col>
@@ -339,7 +449,10 @@ onMounted(() => {
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item prop="shortCutMenus" :label="i18n('pageConfig.shortcutMenu')">
+            <el-form-item
+              prop="shortCutMenus"
+              :label="i18n('pageConfig.shortcutMenu')"
+            >
               <el-switch
                 v-model="configInfo.shortCutMenus"
                 :active-value="'Y'"
@@ -350,7 +463,10 @@ onMounted(() => {
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item prop="buttonShowType" :label="i18n('pageConfig.buttonDisplayStyle')">
+            <el-form-item
+              prop="buttonShowType"
+              :label="i18n('pageConfig.buttonDisplayStyle')"
+            >
               <el-select
                 v-model="configInfo.buttonShowType"
                 @change="changeOperation"

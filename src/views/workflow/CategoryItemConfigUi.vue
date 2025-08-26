@@ -262,3 +262,94 @@ const tableFieldList = reactive<PageFieldInfo | any>({
   tableCellEditabled: false,
   stopAutoLoad: false,
 });
+//校验
+const rules = {};
+//控制弹窗相关设置
+const dialogProps = dialogPreps();
+provide("dialogProps", dialogProps);
+//初始化方法
+const initData = async () => {
+  cfgCategoryList.value = await dictData("flow_helper_category");
+};
+const activated = async () => {
+  await nextTick(() => {
+    categoryItemConfigRef.value.loadByPage();
+  });
+};
+const deactivated = () => {};
+/**
+ * 列表，查看数据时数据转换
+ * @param name 名称
+ * @param cellValue 值
+ * @param row 列表行数据
+ */
+const dataFormat = (name: string, cellValue: any, row: any): any => {
+  if (name === "cfgCategory") {
+    return (
+      cfgCategoryList.value.find((item) => item.value == cellValue)?.name ||
+      cellValue
+    );
+  }
+  //转换显示信息
+  return cellValue;
+};
+onMounted(async () => {
+  await initData();
+});
+onActivated(() => {
+  activated();
+});
+onDeactivated(() => {
+  deactivated();
+});
+</script>
+<template>
+  <div class="flex flex-col h-full overflow-hidden">
+    <star-horse-dialog
+      :isShowBtnContinue="true"
+      :dialog-visible="dialogProps.editVisible"
+      :dialogProps="dialogProps"
+    >
+      <star-horse-form
+        @refresh="categoryItemConfigRef?.loadByPage()"
+        :compUrl="dataUrl"
+        :fieldList="tableFieldList"
+        :rules="rules"
+      />
+    </star-horse-dialog>
+    <star-horse-dialog
+      :dialog-visible="dialogProps.viewVisible"
+      :dialogProps="dialogProps"
+      :source="3"
+    >
+      <star-horse-data-view
+        :dataFormat="dataFormat"
+        :field-list="tableFieldList"
+        :compUrl="dataUrl"
+      />
+    </star-horse-dialog>
+    <div class="search-content">
+      <div class="search_btn">
+        <star-horse-search-comp
+          @searchData="
+            (data: any) => categoryItemConfigRef?.createSearchParams(data)
+          "
+          :formData="searchFormData"
+          :compUrl="dataUrl"
+        />
+      </div>
+    </div>
+    <el-card class="inner_content">
+      <star-horse-table-comp
+        ref="categoryItemConfigRef"
+        :fieldList="tableFieldList"
+        :primaryKey="primaryKey"
+        :compUrl="dataUrl"
+        :dataFormat="dataFormat"
+      />
+    </el-card>
+  </div>
+</template>
+<style lang="scss" scoped>
+//todo
+</style>

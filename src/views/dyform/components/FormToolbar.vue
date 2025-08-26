@@ -1,6 +1,9 @@
 <script setup lang="ts">
 import { dynamicFormContextMenuData } from "@/plugins/AblesPlugin.ts";
-import { dynamicFormHelpMessage, formActions } from "@/views/dyform/utils/DynamicForm.ts";
+import {
+  dynamicFormHelpMessage,
+  formActions,
+} from "@/views/dyform/utils/DynamicForm.ts";
 import { i18n } from "@/lang";
 
 const emit = defineEmits<{
@@ -102,10 +105,7 @@ const contextMenu = (evt: MouseEvent) => {
       :content="i18n('dyform.toolbar.cache.restore')"
       v-if="cacheData?.length > 0"
     >
-      <star-horse-icon
-        icon-class="reset"
-        @click="cacheDataRestore($event)"
-      />
+      <star-horse-icon icon-class="reset" @click="cacheDataRestore($event)" />
     </el-tooltip>
     <help :message="dynamicFormHelpMessage" />
   </div>

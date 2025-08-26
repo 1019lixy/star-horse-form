@@ -1,13 +1,14 @@
 <script setup lang="ts">
-import { success, erroror } from "star-horse-lowcode";
-import { ref, computed } from "vue";
 import { i18n } from "@/lang";
+import { er } from "node_modules/@fullcalendar/core/internal-common";
+import { error, success } from "star-horse-lowcode";
+import { ref } from "vue";
 
 const emit = defineEmits<{
-  (e: "close"): vo
+  (e: "close"): void;
 }>();
 
-const props = defineProps<{ 
+const props = defineProps<{
   visible: boolean;
   compSize: string;
   list: any[];
@@ -22,13 +23,17 @@ const previewFormRef = ref();
 
 // Form validation function
 const validateForm = async () => {
-  if (previewFormRef.value && previewFormRef.value.$refs && previewFormRef.value.$refs.previewFormRef) {
+  if (
+    previewFormRef.value &&
+    previewFormRef.value.$refs &&
+    previewFormRef.value.$refs.previewFormRef
+  ) {
     try {
       await previewFormRef.value.$refs.previewFormRef.validate();
       success(i18n("dyform.preview.validate.success"));
       return true;
-    } catch (error) {
-      erroror(i18n("dyform.preview.validate.failure"));
+    } catch (e) {
+      error(i18n("dyform.preview.validate.failure"));
       return false;
     }
   }
@@ -38,10 +43,10 @@ const validateForm = async () => {
 // HTML export function
 const exportToHtml = () => {
   if (!previewFormRef.value) return;
-  
+
   // Get the form content
   const formContent = previewFormRef.value.$el.innerHTML;
-  
+
   // Create HTML template
   const htmlContent = `
 <!DOCTYPE html>
@@ -86,7 +91,7 @@ const exportToHtml = () => {
 <body>
     <div class="form-container">
         <h1>${i18n("dyform.preview.html.title")}</h1>
-        <div class="${props.currentPageClass || 'main-design'}">
+        <div class="${props.currentPageClass || "main-design"}">
             ${formContent}
         </div>
     </div>
@@ -95,35 +100,29 @@ const exportToHtml = () => {
   `.trim();
 
   // Create blob and download
-  const blob = new Blob([htmlContent], { type: 'text/html;charset=utf-8' });
+  const blob = new Blob([htmlContent], { type: "text/html;charset=utf-8" });
   const url = URL.createObjectURL(blob);
-  const link = document.createElement('a');
+  const link = document.createElement("a");
   link.href = url;
-  link.download = 'form-preview.html';
+  link.download = "form-preview.html";
   document.body.appendChild(link);
   link.click();
   document.body.removeChild(link);
   URL.revokeObjectURL(url);
-  
+
   success(i18n("dyform.preview.html.export.success"));
 };
 
 // Expose methods for parent component to use
 defineExpose({
   validateForm,
-  exportToHtml
+  exportToHtml,
 });
 </script>
 
 <template>
-  <star-horse-dialog
-    :dialogVisible="visible"
-    @closeAction="closeAction"
-    :selfFunc="true"
-    :compSize="compSize"
-    :title="i18n('dyform.preview.dialog.title')"
-    :source="3"
-  >
+  <star-horse-dialog :dialogVisible="visible" @closeAction="closeAction" :selfFunc="true" :compSize="compSize"
+    :title="i18n('dyform.preview.dialog.title')" :source="3">
     <template #header>
       <div class="dialog-actions">
         <el-button @click="validateForm" type="primary" size="small">
@@ -134,11 +133,7 @@ defineExpose({
         </el-button>
       </div>
     </template>
-    <form-preview 
-      :list="list" 
-      ref="previewFormRef" 
-      :class="currentPageClass"
-    />
+    <form-preview :list="list" ref="previewFormRef" :class="currentPageClass" />
   </star-horse-dialog>
 </template>
 

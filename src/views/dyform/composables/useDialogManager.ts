@@ -16,7 +16,7 @@ export function useDialogManager() {
     dataSourceDialog: false,
     paramsDialog: false,
     containerDialog: false,
-    jsEditor: false
+    jsEditor: false,
   });
 
   const setShortKeyDisabled = (disabled: boolean) => {
@@ -25,10 +25,10 @@ export function useDialogManager() {
 
   const openDialog = (dialogName: string) => {
     // Close all dialogs first
-    Object.keys(dialogStates.value).forEach(key => {
+    Object.keys(dialogStates.value).forEach((key) => {
       dialogStates.value[key as keyof typeof dialogStates.value] = false;
     });
-    
+
     // Open the requested dialog
     if (dialogName in dialogStates.value) {
       dialogStates.value[dialogName as keyof typeof dialogStates.value] = true;
@@ -37,7 +37,7 @@ export function useDialogManager() {
   };
 
   const closeAllDialogs = () => {
-    Object.keys(dialogStates.value).forEach(key => {
+    Object.keys(dialogStates.value).forEach((key) => {
       dialogStates.value[key as keyof typeof dialogStates.value] = false;
     });
     setShortKeyDisabled(false);
@@ -54,6 +54,6 @@ export function useDialogManager() {
     dialogStates,
     openDialog,
     closeAllDialogs,
-    closeDialog
+    closeDialog,
   };
 }

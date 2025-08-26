@@ -91,22 +91,24 @@ defineExpose({
         paramsConfigRef.value?.setFormData(data);
       }, 200);
     }
-  }
+  },
 });
 </script>
 
 <template>
-  <star-horse-dialog 
-    :dialogVisible="visible" 
-    :title="i18n('dyform.params.dialog.title')" 
-    :isBatch="false" 
+  <star-horse-dialog
+    :dialogVisible="visible"
+    :title="i18n('dyform.params.dialog.title')"
+    :isBatch="false"
     @merge="paramsValid"
-    @closeAction="emit('close')" 
-    @resetForm="resetDataSourceForm" 
-    :selfFunc="true">
-    <star-horse-form 
-      :outerFormData="formInfo" 
+    @closeAction="emit('close')"
+    @resetForm="resetDataSourceForm"
+    :selfFunc="true"
+  >
+    <star-horse-form
+      :outerFormData="formInfo"
       ref="paramsConfigRef"
-      :fieldList="paramsFields(paramsConfigRef, fieldName, currentField)" />
+      :fieldList="paramsFields(paramsConfigRef, fieldName, currentField)"
+    />
   </star-horse-dialog>
 </template>

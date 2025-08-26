@@ -6,12 +6,14 @@ import {
 } from "../../../api/keyboard-event-utils.js";
 
 export function useKeyboardEvents(actions: (action: string) => void) {
-  const keyboardHandlers = ref<{ keydown: Function; keyup: Function } | null>(null);
+  const keyboardHandlers = ref<{ keydown: Function; keyup: Function } | null>(
+    null,
+  );
 
   const scrollHandler = (e: CustomEvent) => {
     const customEvent = e as CustomEvent;
     const target = document.querySelector(
-      `[data-field-id="${customEvent.detail}"]`
+      `[data-field-id="${customEvent.detail}"]`,
     );
     target?.scrollIntoView({
       behavior: "smooth",
@@ -29,7 +31,10 @@ export function useKeyboardEvents(actions: (action: string) => void) {
         actions,
         ModuleEnums.DYNAMIC_FORM,
       );
-      window.addEventListener("scroll-to-field", scrollHandler as EventListener);
+      window.addEventListener(
+        "scroll-to-field",
+        scrollHandler as EventListener,
+      );
     } else {
       if (keyboardHandlers.value) {
         removeKeyboardEvent(keyboardHandlers.value);
@@ -43,6 +48,6 @@ export function useKeyboardEvents(actions: (action: string) => void) {
 
   return {
     shortKeySwitch,
-    scrollHandler
+    scrollHandler,
   };
 }

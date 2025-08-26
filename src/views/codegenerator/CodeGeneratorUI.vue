@@ -1,4 +1,6 @@
 <script setup lang="ts" name="EnvInfo">
+import { i18n } from "@/lang";
+import { initDbList, tableList } from "@/views/dbsearch/utils/DbSearchUtils";
 import {
   apiInstance,
   ApiUrls,
@@ -16,9 +18,6 @@ import {
   warning,
 } from "star-horse-lowcode";
 import { onMounted, provide, reactive, ref } from "vue";
-import { initDbList, tableList } from "@/views/dbsearch/utils/DbSearchUtils";
-import { min } from "rxjs";
-import { i18n } from "@/lang";
 
 const dataUrl: ApiUrls = apiInstance("userdb-manage", "generator/code");
 
@@ -430,3 +429,111 @@ const tableFieldList = reactive<PageFieldInfo>({
   ],
   batchFieldList: [],
 });
+const primaryKey = "idCodeGenerator";
+const codeGeneratorRef = ref();
+const rules = {};
+const dialogProps = dialogPreps();
+provide("dialogProps", dialogProps);
+const orderBy = ref<OrderByInfo[]>([
+  {
+    fieldName: "updatedTime",
+    ascOrDesc: "desc",
+  },
+]);
+
+const selectItemFun = (_data: any) => { };
+const dataFormat = (name: string, cellValue: any): any => {
+  if (name == "datasourceConfigId") {
+    return (
+      dbInfoList.value.find((item: any) => item.value == cellValue)?.name ||
+      cellValue
+    );
+  }
+  if (name == "createdTime" || name == "updatedTime") {
+    return createDatetime(cellValue);
+  }
+  return cellValue;
+};
+const init = async () => {
+  dbInfoList.value = await initDbList();
+  fileTypeList.value = await dictData("program_file_type");
+  templateVersionList.value = await dictData("template_version");
+  languageList.value = await dictData("program_language");
+  uiTypeList.value = await dictData("ui_type");
+  packagingList.value = await dictData("packaging_type");
+};
+onMounted(async () => {
+  await init();
+});
+let extendBtns = ref<UserFuncInfo[]>([
+  {
+    btnName: "重新生成代码",
+    authority: "add",
+    icon: "code",
+    priority: 1,
+    funcName: (row: any) => {
+      load("代码生成中，请稍后");
+      download(
+        `/userdb-manage/generator/code/convertToCodeById/${row[primaryKey]}`,
+      ).catch((err) => {
+          warning(err);
+        })
+        .finally(() => {
+          closeLoad();
+        });
+    },
+  },
+]);
+const generateFormRef = ref();
+const generateMerge = (type: string) => {
+  generateFormRef.value.$refs.starHorseFormRef.validate((res: boolean) => {
+    let dataForm: any = generateFormRef.value.getFormData()?.value;
+    if (res) {
+      load("代码生成中,请稍后...");
+      if (dataForm["prefixesStr"]) {
+        dataForm["prefixesList"] = dataForm["prefixesStr"].split(";");
+      }
+      let isError = false;
+      download("/userdb-manage/generator/code/convertToCode", dataForm)
+        .catch((err) => {
+          isError = true;
+          warning(err);
+        })
+        .finally(() => {
+          closeLoad();
+          if (type != "continue" && !isError) {
+            closeAction();
+          }
+        });
+    }
+  });
+};
+const closeAction = () => {
+  dialogProps.editVisible = false;
+};
+</script>
+<template>
+  <div class="flex flex-col h-full overflow-hidden">
+    <star-horse-dialog :isShowBtnContinue="true" :dialogVisible="dialogProps.editVisible" :dialogProps="dialogProps"
+      :selfFunc="true" @merge="generateMerge" @closeAction="closeAction">
+      <star-horse-form ref="generateFormRef" @refresh="codeGeneratorRef?.loadByPage()" :compUrl="dataUrl"
+        :fieldList="tableFieldList" :rules="rules" />
+    </star-horse-dialog>
+    <star-horse-dialog :dialog-visible="dialogProps.viewVisible" :dialogProps="dialogProps" :source="3">
+      <star-horse-data-view :dataFormat="dataFormat" :field-list="tableFieldList" :compUrl="dataUrl" />
+    </star-horse-dialog>
+    <div class="search-content">
+      <div class="search_btn">
+        <star-horse-search-comp @searchData="
+          (data: any) => codeGeneratorRef?.createSearchParams(data)
+        " :formData="searchFormData" :compUrl="dataUrl" />
+      </div>
+    </div>
+    <el-card class="inner_content">
+      <star-horse-table-comp ref="codeGeneratorRef" :fieldList="tableFieldList" :primaryKey="primaryKey"
+        :compUrl="dataUrl" :orderBy="orderBy" :extendBtns="extendBtns" :dataFormat="dataFormat"
+        @selectItem="selectItemFun" />
+    </el-card>
+  </div>
+</template>
+<style lang="scss" scoped></style>
