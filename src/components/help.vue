@@ -1,7 +1,9 @@
 <script setup lang="ts" name="help">
+import { i18n } from "@/lang";
+
 defineProps({
   width: { type: Number, default: 340 },
-  message: { type: String, required: true, default: "帮助" },
+  message: { type: String, required: true, default: i18n("help.defaultMessage") },
 });
 </script>
 <template>

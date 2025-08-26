@@ -8,6 +8,7 @@ import {
   useDesignFormStore,
 } from "star-horse-lowcode";
 import { fieldCopy } from "@/views/dyform/utils/FieldOperationUtils";
+import { i18n } from "@/lang";
 
 const props = defineProps({
   batchCreatePage: { type: Boolean, default: false },
@@ -79,7 +80,7 @@ const addElement = (element: any, type: string) => {
         <star-horse-icon
           icon-class="component"
           style="color: var(--star-horse-style)"
-        />&nbsp;<span>组件</span>
+        />&nbsp;<span>{{ i18n("dyform.tab.component") }}</span>
       </template>
       <div class="field-area">
         <el-scrollbar height="100%">
@@ -89,7 +90,7 @@ const addElement = (element: any, type: string) => {
                 <div
                   class="collapse-item-title title h-full flex justify-between"
                 >
-                  <div class="flex flex-row items-center h-full">布局组件</div>
+                  <div class="flex flex-row items-center h-full">{{ i18n("dyform.collapse.layout") }}</div>
                   <star-horse-icon
                     icon-class="container"
                     size="20px"
@@ -129,7 +130,7 @@ const addElement = (element: any, type: string) => {
                 <div
                   class="collapse-item-title title h-full flex justify-between"
                 >
-                  <div class="flex flex-row items-center h-full">表单组件</div>
+                  <div class="flex flex-row items-center h-full">{{ i18n("dyform.collapse.form") }}</div>
                   &nbsp;<star-horse-icon
                     icon-class="form"
                     size="20px"
@@ -170,7 +171,7 @@ const addElement = (element: any, type: string) => {
                   class="collapse-item-title title h-full flex justify-between"
                 >
                   <div class="flex flex-row items-center h-full">
-                    自定义组件
+                    {{ i18n("dyform.collapse.custom") }}
                   </div>
                   &nbsp;<star-horse-icon
                     icon-class="other"
@@ -219,7 +220,7 @@ const addElement = (element: any, type: string) => {
           size="20px"
           height="20px"
           width="20px"
-        />&nbsp;<span>数据源</span>
+        />&nbsp;<span>{{ i18n("dyform.tab.dbinfo") }}</span>
       </template>
       <db-list-comp :batchCreatePage="batchCreatePage" />
     </el-tab-pane>
@@ -228,7 +229,7 @@ const addElement = (element: any, type: string) => {
         <star-horse-icon
           icon-class="charts"
           style="color: var(--star-horse-style)"
-        />&nbsp;<span>图表</span>
+        />&nbsp;<span>{{ i18n("dyform.tab.charts") }}</span>
       </template>
     </el-tab-pane>
     <el-tab-pane name="template">
@@ -236,7 +237,7 @@ const addElement = (element: any, type: string) => {
         <star-horse-icon
           icon-class="template"
           style="color: var(--star-horse-style)"
-        />&nbsp;<span>模板</span>
+        />&nbsp;<span>{{ i18n("dyform.tab.template") }}</span>
       </template>
       <div class="field-area m-t-8">
         <el-scrollbar height="100%">
@@ -279,7 +280,7 @@ const addElement = (element: any, type: string) => {
                     link
                     @click="loadFormData(item.idDynamicForm)"
                     icon="plus"
-                    >加载此模板
+                    >{{ i18n("dyform.template.load") }}
                   </el-button>
                 </div>
               </div>
@@ -293,7 +294,7 @@ const addElement = (element: any, type: string) => {
         <star-horse-icon
           icon-class="help"
           style="color: var(--star-horse-style)"
-        />&nbsp;<span>帮助</span>
+        />&nbsp;<span>{{ i18n("dyform.tab.help") }}</span>
       </template>
     </el-tab-pane>
   </el-tabs>

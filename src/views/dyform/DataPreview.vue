@@ -2,6 +2,7 @@
 import { onMounted, ref, watch } from "vue";
 import { commonDataFormat } from "@/api/star_horse_utils";
 import { Config } from "@/api/settings";
+import { i18n } from "@/lang";
 
 const props = defineProps({
   item: { type: Object, default: {} },
@@ -65,7 +66,7 @@ defineExpose({
         placement="left-end"
       >
         <template #reference>
-          <el-tooltip content="显示/隐藏列">
+          <el-tooltip :content="i18n('dataPreview.showHideColumns')">
             <star-horse-icon
               icon-class="setting"
               color="var(--star-horse-style)"
@@ -85,7 +86,7 @@ defineExpose({
           style="width: 100%"
           border
         >
-          <el-table-column prop="" label="排序" width="60">
+          <el-table-column prop="" :label="i18n('dataPreview.sort')" width="60">
             <el-tag class="move" style="cursor: move">
               <el-icon style="cursor: move">
                 <Sort />
@@ -94,7 +95,7 @@ defineExpose({
           </el-table-column>
           <el-table-column
             prop="comment"
-            label="列名"
+            :label="i18n('dataPreview.columnName')"
             :show-overflow-tooltip="true"
           >
             <template #default="scope">
@@ -103,7 +104,7 @@ defineExpose({
               </el-tag>
             </template>
           </el-table-column>
-          <el-table-column prop="listVisible" label="显示/隐藏" width="100">
+          <el-table-column prop="listVisible" :label="i18n('dataPreview.showHide')" width="100">
             <template #default="scope">
               <el-switch
                 v-model="scope.row.listVisible"

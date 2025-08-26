@@ -13,10 +13,11 @@ import {
 import { useRoute, useRouter } from "vue-router";
 import { useNavBarListStore } from "@/store/NavBarList";
 import piniaCompInstance from "@/store";
+import { i18n } from "@/lang";
 
 const starHorseTableCompRef = ref();
 const dataUrl = ref<ApiUrls>(apiInstance("", ""));
-const errorMsg = ref("数据加载中");
+const errorMsg = ref(i18n("commonPage.dataLoading"));
 let searchFormData = ref<SearchFields>({});
 const tableFieldList = ref<PageFieldInfo>({
   fieldList: [],
@@ -55,11 +56,11 @@ watch(
   (val) => {
     clear();
     try {
-      load("数据加载中。。。");
+      load(i18n("commonPage.dataLoading") + "。。。");
       loadFormData(val as string);
     } catch (e) {
       closeLoad();
-      console.log("数据类型不匹配");
+      console.log(i18n("commonPage.dataTypeMismatch"));
     }
   },
   { deep: true },

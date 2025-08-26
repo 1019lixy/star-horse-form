@@ -1,7 +1,7 @@
 import { postRequest, getRequest } from "./star_horse_apis";
-import { postRequest, getRequest } from "./star_horse_apis";
 import { ServiceEnums } from "@/components/enums/ServiceEnums";
 import { success, error, warning, uuid } from "star-horse-lowcode";
+import { i18n } from "@/lang";
 
 export interface FlexDesignData {
   id?: string;
@@ -279,3 +279,182 @@ export async function duplicateFlexDesign(id: string, newName: string) {
     throw err;
   }
 }
+
+export const saveDesign = async (data: any) => {
+  try {
+    const response = await postRequest(
+      `${ServiceEnums.SYSTEM_PREFIX}flexDesign/save`,
+      data
+    );
+
+    if (response.data.code === 0) {
+      success(i18n("flex.design.save.success"));
+    } else {
+      error(response.data.cnMessage || i18n("flex.design.save.failure"));
+    }
+
+    return response.data.data;
+  } catch (err) {
+    console.error("保存Flex设计失败:", err);
+    error("保存失败，请检查网络连接");
+    throw err;
+  }
+};
+
+export const loadDesign = async (id: string) => {
+  try {
+    const response = await getRequest(
+      `${ServiceEnums.SYSTEM_PREFIX}flexDesign/load/${id}`
+    );
+
+    if (response.data.code === 0) {
+      return response.data.data;
+    } else {
+      error(response.data.cnMessage || i18n("flex.design.load.failure"));
+    }
+  } catch (err) {
+    console.error("加载Flex设计失败:", err);
+    error("加载失败，请检查网络连接");
+    throw err;
+  }
+};
+
+export const getDesignList = async (params: any) => {
+  try {
+    const response = await getRequest(
+      `${ServiceEnums.SYSTEM_PREFIX}flexDesign/list`,
+      params
+    );
+
+    if (response.data.code === 0) {
+      return response.data.data;
+    } else {
+      error(response.data.cnMessage || i18n("flex.design.list.failure"));
+    }
+  } catch (err) {
+    console.error("获取Flex设计列表失败:", err);
+    error("获取列表失败，请检查网络连接");
+    throw err;
+  }
+};
+
+export const generateShareLink = async (id: string) => {
+  try {
+    const response = await postRequest(
+      `${ServiceEnums.SYSTEM_PREFIX}flexDesign/share`,
+      { id }
+    );
+
+    if (response.data.code === 0) {
+      success(i18n("flex.design.share.generate.success"));
+    } else {
+      error(response.data.cnMessage || i18n("flex.design.share.generate.failure"));
+    }
+
+    return response.data.data;
+  } catch (err) {
+    console.error("生成分享链接失败:", err);
+    error("生成分享链接失败，请检查网络连接");
+    throw err;
+  }
+};
+
+export const loadSharedDesign = async (shareId: string) => {
+  try {
+    const response = await getRequest(
+      `${ServiceEnums.SYSTEM_PREFIX}flexDesign/shared/${shareId}`
+    );
+
+    if (response.data.code === 0) {
+      return response.data.data;
+    } else {
+      error(response.data.cnMessage || i18n("flex.design.share.load.failure"));
+    }
+  } catch (err) {
+    console.error("加载分享的Flex设计失败:", err);
+    error("加载分享内容失败");
+    throw err;
+  }
+};
+
+export const publishDesign = async (id: string) => {
+  try {
+    const response = await postRequest(
+      `${ServiceEnums.SYSTEM_PREFIX}flexDesign/publish`,
+      { id }
+    );
+
+    if (response.data.code === 0) {
+      success(i18n("flex.design.publish.success"));
+    } else {
+      error(response.data.cnMessage || i18n("flex.design.publish.failure"));
+    }
+
+    return response.data.data;
+  } catch (err) {
+    console.error("发布Flex设计失败:", err);
+    error("发布失败，请检查网络连接");
+    throw err;
+  }
+};
+
+export const generatePreview = async (id: string) => {
+  try {
+    const response = await postRequest(
+      `${ServiceEnums.SYSTEM_PREFIX}flexDesign/preview`,
+      { id }
+    );
+
+    if (response.data.code === 0) {
+      return response.data.data;
+    } else {
+      error(response.data.cnMessage || i18n("flex.design.preview.failure"));
+    }
+  } catch (err) {
+    console.error("生成预览失败:", err);
+    error("生成预览失败，请检查网络连接");
+    throw err;
+  }
+};
+
+export const deleteDesign = async (id: string) => {
+  try {
+    const response = await postRequest(
+      `${ServiceEnums.SYSTEM_PREFIX}flexDesign/delete/${id}`,
+      {}
+    );
+
+    if (response.data.code === 0) {
+      success(i18n("flex.design.delete.success"));
+    } else {
+      error(response.data.cnMessage || i18n("flex.design.delete.failure"));
+    }
+
+    return response.data.data;
+  } catch (err) {
+    console.error("删除Flex设计失败:", err);
+    error("删除失败，请检查网络连接");
+    throw err;
+  }
+};
+
+export const copyDesign = async (id: string) => {
+  try {
+    const response = await postRequest(
+      `${ServiceEnums.SYSTEM_PREFIX}flexDesign/duplicate`,
+      { id }
+    );
+
+    if (response.data.code === 0) {
+      success(i18n("flex.design.copy.success"));
+    } else {
+      error(response.data.cnMessage || i18n("flex.design.copy.failure"));
+    }
+
+    return response.data.data;
+  } catch (err) {
+    console.error("复制Flex设计失败:", err);
+    error("复制失败，请检查网络连接");
+    throw err;
+  }
+};

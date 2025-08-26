@@ -225,7 +225,7 @@ const draw = () => {
     0,
     starHorseChartRef.value.width,
     starHorseChartRef.value.height,
-  ); //清空画布
+  ); // i18n("chart.clearCanvas")
   drawGrid(t, i + 0.03); //绘制小格子
   drawGrid(t * 4, 0.21 - i); //绘制大格子
 };

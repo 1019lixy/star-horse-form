@@ -1,6 +1,7 @@
 <script setup lang="ts" name="FieldLayer">
 import { computed, onMounted } from "vue";
 import { piniaInstance, useDesignFormStore } from "star-horse-lowcode";
+import { i18n } from "@/lang";
 
 const designForm = useDesignFormStore(piniaInstance);
 
@@ -24,7 +25,7 @@ onMounted(() => {});
   <star-horse-tree
     ref="starHorseTreeRef"
     :expand="true"
-    treeTitle="表单列表"
+    :treeTitle="i18n('dyform.field.list.title')"
     @selectData="dataChange"
     v-model:treeDatas="compNames"
   />

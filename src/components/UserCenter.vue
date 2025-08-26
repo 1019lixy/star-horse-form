@@ -41,14 +41,14 @@ const baseFieldList = reactive<PageFieldInfo | any>({
 const passwordFieldList = reactive<PageFieldInfo | any>({
   fieldList: [
     {
-      label: "原始密码",
+      label: i18n("userCenter.oldPassword"),
       fieldName: "oldPassword",
       type: "password",
       required: true,
       formVisible: true,
     },
     {
-      label: "新密码",
+      label: i18n("userCenter.newPassword"),
       fieldName: "password",
       type: "password",
       rules: [
@@ -66,7 +66,7 @@ const passwordFieldList = reactive<PageFieldInfo | any>({
             const formData =
               userFormRef.value[activeName.value].getFormData()?.value;
             if (value == formData.oldPassword) {
-              callback(new Error("新密码不能与旧密码相同"));
+              callback(new Error(i18n("userCenter.passwordSameError")));
             } else {
               callback();
             }
@@ -77,7 +77,7 @@ const passwordFieldList = reactive<PageFieldInfo | any>({
       formVisible: true,
     },
     {
-      label: "确认密码",
+      label: i18n("userCenter.confirmPassword"),
       fieldName: "confirmPassword",
       type: "password",
       rules: [
@@ -87,7 +87,7 @@ const passwordFieldList = reactive<PageFieldInfo | any>({
             const formData =
               userFormRef.value[activeName.value].getFormData()?.value;
             if (value !== formData.password) {
-              callback(new Error("两次输入的密码不一致"));
+              callback(new Error(i18n("userCenter.passwordMismatchError")));
             } else {
               callback();
             }
@@ -166,7 +166,7 @@ onMounted(async () => {
         <el-card>
           <template #header>
             <div class="card-header">
-              <span>个人信息</span>
+              <span>{{ i18n("userCenter.personalInfo") }}</span>
             </div>
           </template>
           <div class="avatar">
@@ -182,7 +182,7 @@ onMounted(async () => {
               <li>
                 <div class="li-label">
                   <star-horse-icon icon-class="user-circle" />
-                  用户名/姓名/工号
+                  {{ i18n("userCenter.usernameNameEmployeeNo") }}
                 </div>
                 <div>
                   {{ userInfo.username }}/{{ userInfo.name || "--" }}/{{
@@ -193,7 +193,7 @@ onMounted(async () => {
               <li>
                 <div class="li-label">
                   <star-horse-icon icon-class="phone" />
-                  联系电话
+                  {{ i18n("userCenter.phone") }}
                 </div>
                 <div class="pointer" @click="copy(userInfo.phone)">
                   {{ userInfo.phone || "--" }}
@@ -202,7 +202,7 @@ onMounted(async () => {
               <li>
                 <div class="li-label">
                   <star-horse-icon icon-class="email" />
-                  邮箱
+                  {{ i18n("userCenter.email") }}
                 </div>
                 <div class="pointer" @click="copy(userInfo.email)">
                   {{ userInfo.email || "--" }}
@@ -211,14 +211,14 @@ onMounted(async () => {
               <li>
                 <div class="li-label">
                   <star-horse-icon icon-class="dept" />
-                  所属部门
+                  {{ i18n("userCenter.dept") }}
                 </div>
                 <div>{{ depts }}</div>
               </li>
               <li>
                 <div class="li-label">
                   <star-horse-icon icon-class="role" />
-                  系统角色
+                  {{ i18n("userCenter.role") }}
                 </div>
                 <div>{{ roles }}</div>
               </li>
@@ -230,7 +230,7 @@ onMounted(async () => {
         <el-card style="width: 100%">
           <template #header>
             <div class="card-header">
-              <span>基本信息</span>
+              <span>{{ i18n("userCenter.basicInfo") }}</span>
               <el-button
                 :size="compSize"
                 type="primary"
@@ -240,20 +240,20 @@ onMounted(async () => {
                   icon-class="save"
                   color="var(--star-horse-white)"
                 />
-                保存
+                {{ i18n("userCenter.save") }}
               </el-button>
             </div>
           </template>
           <div class="base-info-form">
             <el-tabs v-model="activeName">
-              <el-tab-pane label="基本资料" name="basic">
+              <el-tab-pane :label="i18n('userCenter.basicData')" name="basic">
                 <star-horse-form
                   :outerFormData="userInfo"
                   :fieldList="baseFieldList"
                   :ref="setRef('basic')"
                 />
               </el-tab-pane>
-              <el-tab-pane label="修改密码" name="password">
+              <el-tab-pane :label="i18n('userCenter.changePassword')" name="password">
                 <star-horse-form
                   :fieldList="passwordFieldList"
                   :ref="setRef('password')"

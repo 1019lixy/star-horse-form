@@ -20,10 +20,11 @@ import {
   useContinusConfigStore,
   warning,
 } from "star-horse-lowcode";
+import { i18n } from "@/lang";
 
 let dataUrl = ref<ApiUrls>(apiInstance("", ""));
 const continuousStore = useContinusConfigStore(piniaInstance);
-const errorMsg = ref("数据加载中");
+const errorMsg = ref(i18n("continuous.dataLoading"));
 let searchFormData = ref<SearchFields>({});
 const tableFieldList = ref<any>({
   fieldList: [],

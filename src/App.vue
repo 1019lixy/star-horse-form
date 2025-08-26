@@ -5,6 +5,7 @@
 <script lang="ts" setup>
 import { computed, ComputedRef, onMounted, unref } from "vue";
 import { piniaInstance, useUserInfoStore } from "star-horse-lowcode";
+import { i18n } from "@/lang";
 
 import LoginDialog from "@/components/LoginDialog.vue";
 import { getToken } from "@/utils/auth.ts";
@@ -14,7 +15,7 @@ const visible: ComputedRef<boolean> = computed(() => {
   return getToken() && unref(userInfoStore.loginDialogVisible);
 });
 const closeAction = () => {
-  //关闭浏览器清空数据
+  // i18n("app.closeBrowserClearData")
   window.onbeforeunload = async (evt) => {
     evt.preventDefault();
     // userInfoStore.logout();

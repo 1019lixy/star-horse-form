@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { ref } from "vue";
+import { i18n } from "@/lang";
 
 const props = defineProps<{
   visible: boolean;
@@ -41,7 +42,7 @@ defineExpose({
 <template>
   <star-horse-dialog 
     :dialogVisible="visible" 
-    title="数据源配置" 
+    :title="i18n('dyform.data.source.dialog.title')" 
     :isBatch="false" 
     @merge="submitValid"
     @closeAction="emit('close')" 

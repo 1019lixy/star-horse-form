@@ -18,6 +18,7 @@ import {
 import { onMounted, provide, reactive, ref } from "vue";
 import { initDbList, tableList } from "@/views/dbsearch/utils/DbSearchUtils";
 import { min } from "rxjs";
+import { i18n } from "@/lang";
 
 const dataUrl: ApiUrls = apiInstance("userdb-manage", "generator/code");
 
@@ -39,7 +40,7 @@ const loadTabInfo = async (val: any) => {
 const searchFormData = reactive<SearchFields>({
   fieldList: [
     {
-      label: "数据库信息",
+      label: i18n("codegen.database.info"),
       fieldName: "datasourceConfigId",
       type: "select",
       defaultVisible: true,
@@ -48,13 +49,13 @@ const searchFormData = reactive<SearchFields>({
       },
     },
     {
-      label: "应用名称",
+      label: i18n("codegen.project.name"),
       fieldName: "projectName",
       matchType: "lk",
       defaultVisible: true,
     },
     {
-      label: "项目名称",
+      label: i18n("codegen.application.name"),
       fieldName: "applicationName",
       matchType: "lk",
       defaultVisible: true,
@@ -64,13 +65,13 @@ const searchFormData = reactive<SearchFields>({
 const tableFieldList = reactive<PageFieldInfo>({
   fieldList: [
     {
-      label: "主键",
+      label: i18n("codegen.primary.key"),
       fieldName: "idCodeGenerator",
       type: "long",
     },
     [
       {
-        label: "数据库信息",
+        label: i18n("codegen.database.info"),
         fieldName: "datasourceConfigId",
         type: "select",
         required: true,
@@ -83,12 +84,12 @@ const tableFieldList = reactive<PageFieldInfo>({
         },
       },
       {
-        label: "后端程序语言",
+        label: i18n("codegen.backend.language"),
         fieldName: "language",
         type: "select",
         formVisible: true,
         defaultValue: "java",
-        helpMsg: "目前只支持Java,选择其它语言会构建失败",
+        helpMsg: i18n("codegen.currently.only.support.java"),
         listVisible: true,
         preps: {
           values: languageList,
@@ -97,7 +98,7 @@ const tableFieldList = reactive<PageFieldInfo>({
     ],
     [
       {
-        label: "后端模版版本",
+        label: i18n("codegen.backend.template.version"),
         fieldName: "backendTemplateVersion",
         type: "select",
         formVisible: true,
@@ -109,7 +110,7 @@ const tableFieldList = reactive<PageFieldInfo>({
         },
       },
       {
-        label: "前端模版版本",
+        label: i18n("codegen.frontend.template.version"),
         fieldName: "frontTemplateVersion",
         type: "select",
         formVisible: true,
@@ -121,12 +122,10 @@ const tableFieldList = reactive<PageFieldInfo>({
       },
     ],
     {
-      label: "需要生成的表名",
+      label: i18n("codegen.tables.to.generate"),
       fieldName: "tablesList",
       type: "select",
-      helpMsg: `该属性为空表示生成所有数据库表的代码,
-如果表数量太多（>100），程序自动转异步执行，
-有构建失败风险.`,
+      helpMsg: `${i18n("codegen.this.property.empty")}`,
       formVisible: true,
       listVisible: true,
       preps: {
@@ -135,7 +134,7 @@ const tableFieldList = reactive<PageFieldInfo>({
       },
     },
     {
-      label: "需要排除的表",
+      label: i18n("codegen.excluded.tables"),
       fieldName: "excludesList",
       type: "select",
       formVisible: true,
@@ -147,17 +146,15 @@ const tableFieldList = reactive<PageFieldInfo>({
     },
     [
       {
-        label: "去除表前缀",
+        label: i18n("codegen.table.prefix"),
         fieldName: "prefixesStr",
         aliasName: "prefixes",
         formVisible: true,
-        helpMsg: `如果该属性为空，所生成的文件会带上表前缀，
-eg: 表：dev_userinfo ,生成的文件是DevUserinfo.java;
-多个前缀请用英文分号（;）隔开。`,
+        helpMsg: `${i18n("codegen.if.this.property.empty")}`,
         listVisible: true,
       },
       {
-        label: "包名",
+        label: i18n("codegen.package.name"),
         fieldName: "packageName",
 
         required: true,
@@ -168,11 +165,11 @@ eg: 表：dev_userinfo ,生成的文件是DevUserinfo.java;
     ],
     [
       {
-        label: "要生成的文件",
+        label: i18n("codegen.file.types"),
         fieldName: "fileTypesList",
         type: "select",
         formVisible: true,
-        helpMsg: "为空生成所有类型文件",
+        helpMsg: i18n("codegen.empty.generate.all.types"),
         listVisible: true,
         preps: {
           colspan: 12,
@@ -181,11 +178,11 @@ eg: 表：dev_userinfo ,生成的文件是DevUserinfo.java;
         },
       },
       {
-        label: "分组条件",
+        label: i18n("codegen.group.condition"),
         fieldName: "visibleColumns",
         type: "number",
         formVisible: true,
-        helpMsg: "字段可见列数大于指定值时触发表单分组,默认不分组",
+        helpMsg: i18n("codegen.field.visible.columns"),
         listVisible: true,
         defaultValue: -1,
         preps: {
@@ -195,11 +192,11 @@ eg: 表：dev_userinfo ,生成的文件是DevUserinfo.java;
         },
       },
       {
-        label: "分组列数",
+        label: i18n("codegen.group.columns"),
         fieldName: "groupColumns",
         type: "number",
         formVisible: true,
-        helpMsg: "表单页面分组列数，默认2",
+        helpMsg: i18n("codegen.form.page.group.columns"),
         listVisible: true,
         defaultValue: 2,
         preps: {
@@ -213,50 +210,50 @@ eg: 表：dev_userinfo ,生成的文件是DevUserinfo.java;
       fieldName: "tab2",
       tabList: [
         {
-          title: "模块相关",
+          title: i18n("codegen.module.related"),
           tabName: "tab2",
           fieldList: [
             {
-              label: "项目名称",
+              label: i18n("codegen.project.name"),
               fieldName: "projectName",
 
               formVisible: true,
-              helpMsg: "生成代码归属项目",
+              helpMsg: i18n("codegen.code.belong.project"),
             },
             {
-              label: "模块名称",
+              label: i18n("codegen.category.name"),
               fieldName: "categoryName",
 
               required: true,
               formVisible: true,
-              helpMsg: "Maven 项目的模块名会追加到包名的后面",
+              helpMsg: i18n("codegen.maven.project.module.name"),
               listVisible: true,
             },
             {
-              label: "应用名称",
+              label: i18n("codegen.application.name"),
               fieldName: "applicationName",
 
               required: true,
               formVisible: true,
-              helpMsg: "在配置文件application.yml中对应spring.application.name",
+              helpMsg: i18n("codegen.config.file.application.name"),
               listVisible: true,
             },
             {
-              label: "应用端口",
+              label: i18n("codegen.application.port"),
               fieldName: "port",
               type: "number",
               formVisible: true,
-              helpMsg: "在配置文件application.yml中对应server.port",
+              helpMsg: i18n("codegen.config.file.server.port"),
             },
             {
-              label: "发布目录",
+              label: i18n("codegen.target.directory"),
               fieldName: "targetDir",
 
               formVisible: true,
-              helpMsg: "文件部署到服务器上的目录",
+              helpMsg: i18n("codegen.files.deploy.server.directory"),
             },
             {
-              label: "RestFul风格接口",
+              label: i18n("codegen.restful.api"),
               fieldName: "restFul",
               type: "switch",
               formVisible: true,
@@ -267,44 +264,44 @@ eg: 表：dev_userinfo ,生成的文件是DevUserinfo.java;
               },
             },
             {
-              label: "包构建类型",
+              label: i18n("codegen.packaging.type"),
               fieldName: "war",
               type: "select",
               formVisible: true,
               defaultValue: "jar",
 
-              helpMsg: "对应pom.xml文件中的packaging",
+              helpMsg: i18n("codegen.pom.xml.packaging"),
               preps: {
                 values: packagingList,
               },
             },
             {
-              label: "代码版本",
+              label: i18n("codegen.code.version"),
               fieldName: "version",
 
-              helpMsg: "对应pom.xml文件中version",
+              helpMsg: i18n("codegen.pom.xml.version"),
               formVisible: true,
             },
           ],
         },
         {
-          title: "注释相关",
+          title: i18n("codegen.comment.related"),
           tabName: "tab1",
           fieldList: [
             {
-              label: "开发人员",
+              label: i18n("codegen.developer"),
               fieldName: "author",
 
               formVisible: true,
             },
             {
-              label: "邮箱地址",
+              label: i18n("codegen.email"),
               fieldName: "email",
 
               formVisible: true,
             },
             {
-              label: "是否需要版权",
+              label: i18n("codegen.need.copyright"),
               fieldName: "needCopyright",
               type: "switch",
               formVisible: true,
@@ -316,11 +313,11 @@ eg: 表：dev_userinfo ,生成的文件是DevUserinfo.java;
           ],
         },
         {
-          title: "UI相关",
+          title: i18n("codegen.ui.related"),
           tabName: "tab3",
           fieldList: [
             {
-              label: "是否生成UI页面",
+              label: i18n("codegen.generate.ui"),
               fieldName: "needUi",
               type: "switch",
               formVisible: true,
@@ -331,11 +328,11 @@ eg: 表：dev_userinfo ,生成的文件是DevUserinfo.java;
               },
             },
             {
-              label: "是否分离UI",
+              label: i18n("codegen.separate.ui"),
               fieldName: "needSplitUI",
               type: "switch",
               formVisible: true,
-              helpMsg: "UI文件和业务文件是否放在同一个module里面",
+              helpMsg: i18n("codegen.ui.files.business.files"),
               defaultValue: "N",
               preps: {
                 activeValue: "Y",
@@ -343,13 +340,13 @@ eg: 表：dev_userinfo ,生成的文件是DevUserinfo.java;
               },
             },
             {
-              label: "Ui 文件后缀",
+              label: i18n("codegen.ui.suffix"),
               fieldName: "uiSuffix",
               formVisible: true,
               defaultValue: ".vue",
             },
             {
-              label: "UI 类型",
+              label: i18n("codegen.ui.type"),
               fieldName: "uiType",
               type: "select",
               formVisible: true,
@@ -361,15 +358,15 @@ eg: 表：dev_userinfo ,生成的文件是DevUserinfo.java;
           ],
         },
         {
-          title: "Dto相关",
+          title: i18n("codegen.dto.related"),
           tabName: "tab4",
           fieldList: [
             {
-              label: "是否分离DTO",
+              label: i18n("codegen.separate.dto"),
               fieldName: "needSplitDto",
               type: "switch",
               formVisible: true,
-              helpMsg: "DTO文件和业务文件是否放在同一个module里面",
+              helpMsg: i18n("codegen.dto.files.business.files"),
               defaultValue: "N",
               preps: {
                 activeValue: "Y",
@@ -381,21 +378,21 @@ eg: 表：dev_userinfo ,生成的文件是DevUserinfo.java;
       ],
     },
     {
-      label: "创建人",
+      label: i18n("codegen.created.by"),
       disabled: true,
       fieldName: "createdBy",
 
       listVisible: true,
     },
     {
-      label: "创建日期",
+      label: i18n("codegen.created.date"),
       disabled: true,
       fieldName: "createdTime",
       type: "date",
       listVisible: true,
     },
     {
-      label: "修改人",
+      label: i18n("codegen.updated.by"),
       disabled: true,
       fieldName: "updatedBy",
 
@@ -403,172 +400,33 @@ eg: 表：dev_userinfo ,生成的文件是DevUserinfo.java;
     },
 
     {
-      label: "修改日期",
+      label: i18n("codegen.updated.date"),
       disabled: true,
       fieldName: "updatedTime",
       type: "date",
       listVisible: true,
     },
     {
-      label: "是否已逻辑",
+      label: i18n("codegen.is.deleted"),
       fieldName: "isDel",
       type: "number",
     },
     {
-      label: "数据编号",
+      label: i18n("codegen.data.number"),
       fieldName: "dataNo",
     },
     {
-      label: "状态码",
+      label: i18n("codegen.status.code"),
       fieldName: "statusCode",
     },
     {
-      label: "状态码名称",
+      label: i18n("codegen.status.name"),
       fieldName: "statusName",
     },
     {
-      label: "国际码",
+      label: i18n("codegen.international.code"),
       fieldName: "local",
     },
   ],
   batchFieldList: [],
 });
-const primaryKey = "idCodeGenerator";
-const codeGeneratorRef = ref();
-const rules = {};
-const dialogProps = dialogPreps();
-provide("dialogProps", dialogProps);
-const orderBy = ref<OrderByInfo[]>([
-  {
-    fieldName: "updatedTime",
-    ascOrDesc: "desc",
-  },
-]);
-
-const selectItemFun = (_data: any) => {};
-const dataFormat = (name: string, cellValue: any): any => {
-  if (name == "datasourceConfigId") {
-    return (
-      dbInfoList.value.find((item: any) => item.value == cellValue)?.name ||
-      cellValue
-    );
-  }
-  if (name == "createdTime" || name == "updatedTime") {
-    return createDatetime(cellValue);
-  }
-  return cellValue;
-};
-const init = async () => {
-  dbInfoList.value = await initDbList();
-  fileTypeList.value = await dictData("program_file_type");
-  templateVersionList.value = await dictData("template_version");
-  languageList.value = await dictData("program_language");
-  uiTypeList.value = await dictData("ui_type");
-  packagingList.value = await dictData("packaging_type");
-};
-onMounted(async () => {
-  await init();
-});
-let extendBtns = ref<UserFuncInfo[]>([
-  {
-    btnName: "重新生成代码",
-    authority: "add",
-    icon: "code",
-    priority: 1,
-    funcName: (row: any) => {
-      load("代码生成中，请稍后");
-      download(
-        `/userdb-manage/generator/code/convertToCodeById/${row[primaryKey]}`,
-      )
-        .catch((err) => {
-          warning(err);
-        })
-        .finally(() => {
-          closeLoad();
-        });
-    },
-  },
-]);
-const generateFormRef = ref();
-const generateMerge = (type: string) => {
-  generateFormRef.value.$refs.starHorseFormRef.validate((res: boolean) => {
-    let dataForm: any = generateFormRef.value.getFormData()?.value;
-    if (res) {
-      load("代码生成中,请稍后...");
-      if (dataForm["prefixesStr"]) {
-        dataForm["prefixesList"] = dataForm["prefixesStr"].split(";");
-      }
-      let isError = false;
-      download("/userdb-manage/generator/code/convertToCode", dataForm)
-        .catch((err) => {
-          isError = true;
-          warning(err);
-        })
-        .finally(() => {
-          closeLoad();
-          if (type != "continue" && !isError) {
-            closeAction();
-          }
-        });
-    }
-  });
-};
-const closeAction = () => {
-  dialogProps.editVisible = false;
-};
-</script>
-<template>
-  <div class="flex flex-col h-full overflow-hidden">
-    <star-horse-dialog
-      :isShowBtnContinue="true"
-      :dialogVisible="dialogProps.editVisible"
-      :dialogProps="dialogProps"
-      :selfFunc="true"
-      @merge="generateMerge"
-      @closeAction="closeAction"
-    >
-      <star-horse-form
-        ref="generateFormRef"
-        @refresh="codeGeneratorRef?.loadByPage()"
-        :compUrl="dataUrl"
-        :fieldList="tableFieldList"
-        :rules="rules"
-      />
-    </star-horse-dialog>
-    <star-horse-dialog
-      :dialog-visible="dialogProps.viewVisible"
-      :dialogProps="dialogProps"
-      :source="3"
-    >
-      <star-horse-data-view
-        :dataFormat="dataFormat"
-        :field-list="tableFieldList"
-        :compUrl="dataUrl"
-      />
-    </star-horse-dialog>
-    <div class="search-content">
-      <div class="search_btn">
-        <star-horse-search-comp
-          @searchData="
-            (data: any) => codeGeneratorRef?.createSearchParams(data)
-          "
-          :formData="searchFormData"
-          :compUrl="dataUrl"
-        />
-      </div>
-    </div>
-    <el-card class="inner_content">
-      <star-horse-table-comp
-        ref="codeGeneratorRef"
-        :fieldList="tableFieldList"
-        :primaryKey="primaryKey"
-        :compUrl="dataUrl"
-        :orderBy="orderBy"
-        :extendBtns="extendBtns"
-        :dataFormat="dataFormat"
-        @selectItem="selectItemFun"
-      />
-    </el-card>
-  </div>
-</template>
-<style lang="scss" scoped></style>

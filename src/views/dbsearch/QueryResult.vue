@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { Config } from "@/api/settings";
+import { commonParseCodeToName } from "@/api/star_horse_utils";
 import {
   apiInstance,
   closeLoad,
-  commonParseCodeToName,
   download,
   error,
   load,
@@ -11,60 +11,62 @@ import {
   warning,
 } from "star-horse-lowcode";
 import { onMounted, ref, watch } from "vue";
+import { i18n } from "@/lang";
 
-defineOptions({
-  name: "QueryResult",
-});
 const props = defineProps({
+  dbIndex: { type: String, required: true },
   reqData: { type: Object, default: {} },
-  dbIndex: { type: String, default: "" },
-  compSize: { type: String, default: Config.compSize },
-  requestSource: { type: String, default: "onlineQuery" },
+  requestSource: { type: String, default: "db" },
 });
-const dataUrl = apiInstance("userdb-manage", "dbsearch/dbinfo");
-const emits = defineEmits(["error", "queryResultChange"]);
-const queryResult = ref<any>({});
-let pageSize = ref<number>(10);
-let activeName = ref<string>("Result1");
-let drawer = ref(false);
-let direction = ref<string>("rtl");
-let pageSizeLimit = ref<Array<number>>([10, 20, 50, 100]);
-let detailData = ref<any>({});
-const handleClose = () => {
-  drawer.value = false;
+const emits = defineEmits(["error"]);
+const dataUrl = apiInstance("db-search", "dbSearch");
+const activeName = ref("Result1");
+const pageSize = ref(20);
+const pageSizeLimit = ref([20, 50, 100, 200, 500]);
+const queryResult = ref<Array<any>>([]);
+const drawer = ref(false);
+const detailData = ref({});
+const direction = ref("rtl");
+const compSize = ref(Config.compSize);
+const handleClose = (done: Function) => {
+  done();
 };
-/**
- * 查看详情
- */
-const viewDataDetail = (row: any, column: any, event: Event) => {
-  drawer.value = true;
+const viewDataDetail = (row: any) => {
   detailData.value = row;
+  drawer.value = true;
 };
-const columnListFun = (datas: any) => {
-  return `<el-popover placement="bottom" :popper-style="{width: 'unset !important'}" trigger="click"><el-checkbox v-for="data in ${datas}" :label="data"/> </el-popover>`;
-};
-
 const querySql = () => {
-  if (!props.reqData.sqls) {
+  if (!props.reqData?.sqls || props.reqData.sqls.length == 0) {
     return;
   }
-  load("数据查询中...");
-  props.reqData.requestSource = props.requestSource;
-  postRequest(`${dataUrl.basePrefix}/search`, props.reqData)
+  let reqData = {
+    sqls: props.reqData.sqls,
+    pageSize: pageSize.value,
+    currentPage: 1,
+    idDbinfo: props.dbIndex,
+    requestSource: props.requestSource,
+  };
+  load(i18n("dbSearch.dataProcessing"));
+  postRequest(`${dataUrl.basePrefix}/search`, reqData)
     .then((res) => {
-      if (res.data.code != 0) {
-        error(res.data.cnMessage);
+      if (res.data.code == 1) {
+        warning(res.data.cnMessage);
         emits("error", res.data.cnMessage);
-      } else {
-        queryResult.value = res.data.data;
+        return;
       }
+      queryResult.value = res.data.data;
+      activeName.value = "Result1";
+    })
+    .catch((err) => {
+      error(i18n("dbSearch.interfaceNotFound") + ":" + err);
+      emits("error", i18n("dbSearch.interfaceNotFound") + ":" + err);
     })
     .finally(() => {
       closeLoad();
     });
 };
 const exportData = (item: any) => {
-  load("数据处理中");
+  load(i18n("dbSearch.dataProcessing"));
   let params = {
     datasourceConfigId: props.dbIndex,
     currentSql: item.currentSql,
@@ -74,8 +76,8 @@ const exportData = (item: any) => {
   };
   download(`${dataUrl.basePrefix}/exportData`, params)
     .catch((err) => {
-      error("接口不存在或网络异常:" + err);
-      emits("error", "接口不存在或网络异常:" + err);
+      error(i18n("dbSearch.interfaceNotFound") + ":" + err);
+      emits("error", i18n("dbSearch.interfaceNotFound") + ":" + err);
     })
     .finally(() => {
       closeLoad();
@@ -113,7 +115,7 @@ const handleCurrentChange = (
     idDbinfo: props.dbIndex,
     requestSource: props.requestSource,
   };
-  load("数据查询中...");
+  load(i18n("dbSearch.dataQuerying"));
   postRequest(`${dataUrl.basePrefix}/search`, reqData)
     .then((res) => {
       if (res.data.code == 1) {
@@ -141,7 +143,6 @@ defineExpose({
   queryResult,
 });
 </script>
-
 <template>
   <el-tabs class="h-full" type="border-card" v-model="activeName">
     <el-tab-pane
@@ -157,7 +158,7 @@ defineExpose({
         >
           <el-option
             :key="sitem"
-            :label="'每页' + sitem + '条'"
+            :label="i18n('dbSearch.itemsPerPage', [sitem])"
             :value="sitem"
             v-for="sitem in pageSizeLimit"
           >
@@ -165,7 +166,7 @@ defineExpose({
         </el-select>
         <el-button :size="compSize" @click="exportData(item)" link title="">
           <star-horse-icon icon-class="excel-export" />
-          导出
+          {{ i18n("dbSearch.export") }}
         </el-button>
       </div>
 
@@ -225,7 +226,7 @@ defineExpose({
   <el-drawer
     :before-close="handleClose"
     :direction="direction"
-    title="数据详情"
+    :title="i18n('dbSearch.dataDetails')"
     v-model="drawer"
   >
     <div class="el-table__header-wrapper">
@@ -233,10 +234,10 @@ defineExpose({
         <thead>
           <tr class="el-table__header">
             <th class="el-table__cell">
-              <div class="cell">字段名</div>
+              <div class="cell">{{ i18n("dbSearch.fieldName") }}</div>
             </th>
             <th class="el-table__cell">
-              <div class="cell">值</div>
+              <div class="cell">{{ i18n("dbSearch.value") }}</div>
             </th>
           </tr>
         </thead>

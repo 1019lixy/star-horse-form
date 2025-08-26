@@ -21,6 +21,7 @@ import { ElLoading } from "element-plus";
 import * as ElementPlusIconsVue from "@element-plus/icons-vue";
 import { pinyin } from "pinyin-pro";
 import { ServiceEnums } from "@/components/enums/ServiceEnums";
+import { i18n } from "@/lang";
 
 let loading: any = null;
 /**
@@ -994,3 +995,32 @@ export function findAppInfo(list: any[], id: string): any {
   }
   return null;
 }
+
+export const formatBoolean = (cellValue: any) => {
+  return cellValue == 1 ? i18n("utils.boolean.yes") : i18n("utils.boolean.no");
+};
+
+export const formatStatus = (cellValue: any) => {
+  return cellValue == 1 ? i18n("utils.status.normal") : i18n("utils.status.abnormal");
+};
+
+export const validateData = (data: any) => {
+  if (!data) {
+    warning(i18n("utils.warning.provideCorrectData"));
+    return false;
+  }
+  return true;
+};
+
+export const findData = (data: any, id: string) => {
+  if (!data) {
+    warning(i18n("utils.warning.dataNotFound"));
+    return null;
+  }
+  for (const item of data) {
+    if (item.id === id) {
+      return item;
+    }
+  }
+  return null;
+};

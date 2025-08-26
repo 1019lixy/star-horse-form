@@ -8,6 +8,7 @@ import {
   SearchFields,
   SelectOption,
 } from "star-horse-lowcode";
+import { i18n } from "@/lang";
 
 const dataUrl: ApiUrls = apiInstance(
   "continuous-manage",
@@ -20,13 +21,13 @@ let projectRoleList = ref<Array<SelectOption>>([]);
 const searchFormData = reactive<SearchFields>({
   fieldList: [
     {
-      label: "项目名称",
+      label: i18n("project.info.project.name"),
       fieldName: "projectName",
       matchType: "lk",
       defaultVisible: true,
     },
     {
-      label: "程序语言",
+      label: i18n("project.info.program.language"),
       fieldName: "programLanguage",
       type: "select",
       matchType: "lk",
@@ -40,12 +41,12 @@ const searchFormData = reactive<SearchFields>({
 const tableFieldList = reactive({
   fieldList: [
     {
-      label: "主键",
+      label: i18n("project.info.primary.key"),
       fieldName: "idProjectInfo",
       type: "long",
     },
     {
-      label: "代码库类型",
+      label: i18n("project.info.repo.type"),
       fieldName: "repoType",
       type: "select",
       required: true,
@@ -57,7 +58,7 @@ const tableFieldList = reactive({
     },
     [
       {
-        label: "代码库地址",
+        label: i18n("project.info.repo.url"),
         fieldName: "repoUrl",
 
         helpMsg: "eg:[http://|https://|ssh://|git@]192.168.0.1/test",
@@ -65,7 +66,7 @@ const tableFieldList = reactive({
         listVisible: true,
       },
       {
-        label: "程序语言",
+        label: i18n("project.info.program.language"),
         fieldName: "programLanguage",
         type: "select",
         required: true,
@@ -78,14 +79,14 @@ const tableFieldList = reactive({
     ],
     [
       {
-        label: "项目名称",
+        label: i18n("project.info.project.name"),
         fieldName: "projectName",
         required: true,
         formVisible: true,
         listVisible: true,
       },
       {
-        label: "项目字符集",
+        label: i18n("project.info.project.charset"),
         fieldName: "projectCharset",
         type: "select",
         defaultValue: "UTF-8",
@@ -99,14 +100,14 @@ const tableFieldList = reactive({
     ],
     [
       {
-        label: "流水线账号",
+        label: i18n("project.info.line.account"),
         fieldName: "lineAccount",
 
         formVisible: true,
         listVisible: true,
       },
       {
-        label: "流水线密码",
+        label: i18n("project.info.line.security"),
         fieldName: "lineSecurity",
 
         formVisible: true,
@@ -114,7 +115,7 @@ const tableFieldList = reactive({
       },
     ],
     {
-      label: "备注",
+      label: i18n("project.info.remark"),
       fieldName: "remark",
       type: "textarea",
       formVisible: true,
@@ -123,10 +124,10 @@ const tableFieldList = reactive({
       batchFieldList: [
         {
           batchName: "memberList",
-          title: "项目成员",
+          title: i18n("project.info.project.members"),
           fieldList: [
             {
-              label: "用户名",
+              label: i18n("project.info.username"),
               fieldName: "username",
               type: "dialog-input",
               formVisible: true,
@@ -142,7 +143,7 @@ const tableFieldList = reactive({
 
                 fieldList: [
                   {
-                    label: "姓名",
+                    label: i18n("project.info.name"),
                     fieldName: "name",
 
                     required: true,
@@ -152,11 +153,11 @@ const tableFieldList = reactive({
                     searchVisible: true,
                   },
                   {
-                    label: "工号",
+                    label: i18n("project.info.employee.no"),
                     fieldName: "employeeNo",
 
                     prefix: "a",
-                    helpMsg: "如不填写系统自动生成",
+                    helpMsg: i18n("project.info.if.not.filled.system.auto.generate"),
                     required: false,
                     formVisible: true,
                     listVisible: true,
@@ -166,7 +167,7 @@ const tableFieldList = reactive({
                     },
                   },
                   {
-                    label: "职级",
+                    label: i18n("project.info.rank"),
                     fieldName: "rank",
                     type: "tselect",
                     required: false,
@@ -177,7 +178,7 @@ const tableFieldList = reactive({
                     },
                   },
                   {
-                    label: "岗位",
+                    label: i18n("project.info.station"),
                     fieldName: "station",
                     type: "tselect",
                     required: false,
@@ -191,13 +192,13 @@ const tableFieldList = reactive({
               },
             },
             {
-              label: "姓名",
+              label: i18n("project.info.name"),
               fieldName: "name",
               type: "tag",
               formVisible: true,
             },
             {
-              label: "角色名称",
+              label: i18n("project.info.role.name"),
               fieldName: "roleName",
               type: "select",
               formVisible: true,
@@ -206,28 +207,28 @@ const tableFieldList = reactive({
               },
             },
             {
-              label: "生效时间",
+              label: i18n("project.info.effective.date"),
               fieldName: "effectiveDate",
               type: "datetime",
               formVisible: true,
             },
             {
-              label: "失效日期",
+              label: i18n("project.info.expiration.date"),
               fieldName: "expirationDate",
               type: "datetime",
               formVisible: true,
             },
             {
-              label: "是否管理员",
+              label: i18n("project.info.is.manager"),
               fieldName: "isManager",
               type: "switch",
               defaultValue: "2",
               formVisible: true,
               preps: {
                 activeValue: "1",
-                activeText: "是",
+                activeText: i18n("project.info.yes"),
                 inactiveValue: "2",
-                inactiveText: "否",
+                inactiveText: i18n("project.info.no"),
               },
             },
           ],
@@ -235,21 +236,21 @@ const tableFieldList = reactive({
       ],
     },
     {
-      label: "创建人",
+      label: i18n("project.info.created.by"),
       disabled: true,
       fieldName: "createdBy",
 
       listVisible: true,
     },
     {
-      label: "创建日期",
+      label: i18n("project.info.created.date"),
       disabled: true,
       fieldName: "createdTime",
       type: "date",
       listVisible: true,
     },
     {
-      label: "修改人",
+      label: i18n("project.info.updated.by"),
       disabled: true,
       fieldName: "updatedBy",
 
@@ -257,133 +258,38 @@ const tableFieldList = reactive({
     },
 
     {
-      label: "修改日期",
+      label: i18n("project.info.updated.date"),
       disabled: true,
       fieldName: "updatedTime",
       type: "date",
       listVisible: true,
     },
     {
-      label: "数据版本号",
+      label: i18n("project.info.data.version"),
       fieldName: "version",
       type: "number",
     },
     {
-      label: "是否已逻辑",
+      label: i18n("project.info.is.deleted"),
       fieldName: "isDel",
       type: "number",
     },
     {
-      label: "数据编号",
+      label: i18n("project.info.data.number"),
       fieldName: "dataNo",
     },
     {
-      label: "状态码",
+      label: i18n("project.info.status.code"),
       fieldName: "statusCode",
     },
     {
-      label: "状态码名称",
+      label: i18n("project.info.status.name"),
       fieldName: "statusName",
     },
     {
-      label: "国际码",
+      label: i18n("project.info.international.code"),
       fieldName: "local",
     },
   ],
   batchFieldList: [],
 });
-const primaryKey = "idProjectInfo";
-const projectInfoRef = ref();
-const rules = {};
-const dialogProps = dialogPreps();
-provide("dialogProps", dialogProps);
-
-const dataFormat = (name: string, cellValue: any, row: any): any => {
-  if (name == "isManager") return cellValue == "1" ? "是" : "否";
-  if (name == "roleName")
-    return (
-      projectRoleList.value.find((item) => item.value == cellValue)?.name ||
-      cellValue
-    );
-
-  return cellValue;
-};
-const init = async () => {
-  dictData("REPO_TYPE").then((res) => {
-    libTypeList.value = res;
-  });
-  dictData("program_language").then((res) => {
-    languageList.value = res;
-  });
-  dictData("CHARSET").then((res) => {
-    charsetList.value = res;
-  });
-  dictData("PROJECT_ROLE").then((res) => {
-    projectRoleList.value = res;
-  });
-};
-let projectId = ref<number>(-1);
-const selectItemFun = (row: any) => {
-  projectId.value = row[primaryKey];
-};
-onMounted(async () => {
-  await init();
-});
-</script>
-<template>
-  <div class="flex flex-col h-full overflow-hidden">
-    <star-horse-dialog
-      :isShowBtnContinue="true"
-      :dialogVisible="dialogProps.editVisible"
-      :dialogProps="dialogProps"
-    >
-      <star-horse-form
-        @refresh="projectInfoRef?.loadByPage()"
-        :compUrl="dataUrl"
-        :fieldList="tableFieldList"
-        :rules="rules"
-      />
-    </star-horse-dialog>
-    <star-horse-dialog
-      :dialog-visible="dialogProps.viewVisible"
-      :dialogProps="dialogProps"
-      :source="3"
-    >
-      <star-horse-data-view
-        :dataFormat="dataFormat"
-        :field-list="tableFieldList"
-        :compUrl="dataUrl"
-      />
-    </star-horse-dialog>
-    <div class="search-content">
-      <div class="search_btn">
-        <star-horse-search-comp
-          @searchData="(data: any) => projectInfoRef?.createSearchParams(data)"
-          :formData="searchFormData"
-          :compUrl="dataUrl"
-        />
-      </div>
-    </div>
-    <el-card class="inner_content">
-      <el-splitter>
-        <el-splitter-panel>
-          <star-horse-table-comp
-            ref="projectInfoRef"
-            :fieldList="tableFieldList"
-            :primaryKey="primaryKey"
-            :compUrl="dataUrl"
-            :dataFormat="dataFormat"
-            @selectItem="selectItemFun"
-          />
-        </el-splitter-panel>
-        <el-splitter-panel collapsible max="50%" size="40%">
-          <project-member-ui
-            :projectId="projectId"
-            :roleList="projectRoleList"
-          />
-        </el-splitter-panel>
-      </el-splitter>
-    </el-card>
-  </div>
-</template>
-<style lang="scss" scoped></style>

@@ -1,45 +1,47 @@
+import { i18n } from "@/lang";
+
 const formActions = [
   /* {
         icon: "left_panel",
         defaultEdit: true,
         key: "leftPanel",
         auth: "none",
-        label: "左侧工具栏"
+        label: i18n("dyform.action.leftPanel")
     },*/
   {
     icon: "return",
     defaultEdit: true,
     key: "goBack",
     auth: "none",
-    label: "返回列表",
+    label: i18n("dyform.action.goBack"),
   },
   {
     icon: "style",
     defaultEdit: true,
     key: "style",
     auth: "none",
-    label: "风格",
+    label: i18n("dyform.action.style"),
     children: [
       {
         icon: "pc",
         defaultEdit: true,
         key: "pc",
         auth: "none",
-        label: "电脑",
+        label: i18n("dyform.action.pc"),
       },
       {
         icon: "pad",
         defaultEdit: true,
         key: "pad",
         auth: "none",
-        label: "平板",
+        label: i18n("dyform.action.pad"),
       },
       {
         icon: "phone",
         defaultEdit: true,
         key: "phone",
         auth: "none",
-        label: "手机",
+        label: i18n("dyform.action.phone"),
       },
     ],
   },
@@ -48,113 +50,109 @@ const formActions = [
     defaultEdit: true,
     key: "new",
     auth: "none",
-    label: "新建",
+    label: i18n("dyform.action.new"),
   },
   {
     icon: "edit",
     key: "eprep",
     auth: "none",
-    label: "修改属性",
+    label: i18n("dyform.action.edit"),
   },
   {
     icon: "dept",
     key: "layer",
     auth: "none",
-    label: "表单层级",
+    label: i18n("dyform.action.layer"),
   },
   {
     icon: "empty_setting",
     key: "empty",
     auth: "none",
-    label: "清空元素",
+    label: i18n("dyform.action.empty"),
   },
   {
     icon: "undo",
     key: "undo",
     auth: "none",
-    label: "后退一步",
+    label: i18n("dyform.action.undo"),
   },
   {
     icon: "redo",
     key: "redo",
     auth: "none",
-    label: "前进一步",
+    label: i18n("dyform.action.redo"),
   },
   {
     icon: "valid",
     key: "valid",
     auth: "none",
-    label: "校验",
+    label: i18n("dyform.action.valid"),
   },
   {
     icon: "preview",
     key: "preview",
     auth: "none",
-    label: "预览",
+    label: i18n("dyform.action.preview"),
   },
   {
     icon: "code",
     key: "code",
     auth: "none",
-    label: "生成代码",
+    label: i18n("dyform.action.code"),
   },
   {
     icon: "save",
     key: "save",
     auth: "add",
-    label: "保存",
+    label: i18n("dyform.action.save"),
   },
   /* {
         icon: "right_panel",
         defaultEdit: true,
         key: "rightPanel",
         auth: "none",
-        label: "右侧属性栏"
+        label: i18n("dyform.action.rightPanel")
     }*/
 ];
 const shortKeyHelpMessage = `
-快捷键：
-  1、Ctrl +Alt+ X 剪切操作；
-  2、Ctrl +Alt+ C 复制操作；
-  3、Ctrl +Alt+ V 粘贴操作；
-  4、Ctrl + Z 后退一步操作；
-  5、Ctrl + Y 前进一步操作；
-  6、Alt + V 校验操作；
-  7、Ctrl + Alt + N 新建操作；
-  8、Ctrl + Alt + S 保存操作；
-  9、Ctrl + D 删除操作；
-  10、Ctrl + A 全选操作（未实现）；
-  11、Ctrl + Alt + D 清空操作；
-  12、Ctrl + F 查找操作（未实现）；
-  13、Alt + 1 打开/关闭左侧面板；
-  14、Alt + 2 打开/关闭右侧面板；
-  15、Ctrl + Alt + M 更换选中组件；
-  16、Alt + P 预览操作；
-  17、Ctrl + R 返回上一个页面；
-  18、PgUp 向上移动选中组件；
-  19、PgDn 向下移动选中组件；
-  其它快捷键待更新
+${i18n("dyform.help.shortcuts")}：
+  1、Ctrl +Alt+ X ${i18n("dyform.help.shortcut.cut")}；
+  2、Ctrl +Alt+ C ${i18n("dyform.help.shortcut.copy")}；
+  3、Ctrl +Alt+ V ${i18n("dyform.help.shortcut.paste")}；
+  4、Ctrl + Z ${i18n("dyform.help.shortcut.undo")}；
+  5、Ctrl + Y ${i18n("dyform.help.shortcut.redo")}；
+  6、Alt + V ${i18n("dyform.help.shortcut.validate")}；
+  7、Ctrl + Alt + N ${i18n("dyform.help.shortcut.new")}；
+  8、Ctrl + Alt + S ${i18n("dyform.help.shortcut.save")}；
+  9、Ctrl + D ${i18n("dyform.help.shortcut.delete")}；
+  10、Ctrl + A ${i18n("dyform.help.shortcut.selectAll")}（${i18n("dyform.help.notImplemented")}）；
+  11、Ctrl + Alt + D ${i18n("dyform.help.shortcut.clear")}；
+  12、Ctrl + F ${i18n("dyform.help.shortcut.find")}（${i18n("dyform.help.notImplemented")}）；
+  13、Alt + 1 ${i18n("dyform.help.shortcut.toggleLeftPanel")}；
+  14、Alt + 2 ${i18n("dyform.help.shortcut.toggleRightPanel")}；
+  15、Ctrl + Alt + M ${i18n("dyform.help.shortcut.changeComponent")}；
+  16、Alt + P ${i18n("dyform.help.shortcut.preview")}；
+  17、Ctrl + R ${i18n("dyform.help.shortcut.goBack")}；
+  18、PgUp ${i18n("dyform.help.shortcut.moveUp")}；
+  19、PgDn ${i18n("dyform.help.shortcut.moveDown")}；
+  ${i18n("dyform.help.moreShortcuts")}
 `;
 const dynamicFormHelpMessage = `
-描述：StarHorse 表单设计器是一款通过拖拽即可实现
-     复杂表单模型，可满足大部分常见业务。
-规则：所有同级组件的名字不能重复，在Tab组件中tabName
-     和objectName不能重复;
-     Table组件中batchFieldName不能重复。
-操作步骤：
-  1、在左边拖动或者双击组件可添加到中间设计舞台；
-  2、在右边属性区域设置选中组件得属性；
-  3、在头部可批量编辑按钮可编辑属性名称；
-  4、在在头部设置按钮可设置表单属性；
-  5、在头部代码按钮可以生产代码（目前只能生产vue3）；
-  6、在头部预览按钮可以预览表单信息；
-  7、在舞台上点击鼠标右键可打开右键菜单
-盲点（数据源生成的表单模型）：
-  1、须注意选择器、单选框、多选框等组件的值类型，
-     系统默认是字符串类型，如果数据库设置是数值类型
-     需要在对应字段的属性面板中修改值类型。
-  2、提交时须注意表的主键生成策略，默认是动态赋值，
-    如果是自增，需要在保存时修改主键策略。
+${i18n("dyform.help.description")}：StarHorse ${i18n("dyform.help.designerDescription")}
+${i18n("dyform.help.rules")}：
+${i18n("dyform.help.rule1")}
+${i18n("dyform.help.rule2")}
+${i18n("dyform.help.steps")}：
+${i18n("dyform.help.step1")}
+${i18n("dyform.help.step2")}
+${i18n("dyform.help.step3")}
+${i18n("dyform.help.step4")}
+${i18n("dyform.help.step5")}
+${i18n("dyform.help.step6")}
+${i18n("dyform.help.step7")}
+${i18n("dyform.help.blindSpots")}：
+${i18n("dyform.help.blindSpot1")}
+${i18n("dyform.help.blindSpot2")}
 ${shortKeyHelpMessage}
 `;
 export { formActions, dynamicFormHelpMessage };

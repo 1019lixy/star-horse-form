@@ -2,6 +2,7 @@
 import { ref, nextTick } from "vue";
 import { warning } from "star-horse-lowcode";
 import { paramsFields } from "@/views/dyform/utils/ItemPreps";
+import { i18n } from "@/lang";
 
 const props = defineProps<{
   visible: boolean;
@@ -31,15 +32,15 @@ const paramsValid = async () => {
   }
   const formData = paramsConfigRef.value.getFormData();
   if (!formData["primaryKey"]) {
-    warning("请选择主键字段");
+    warning(i18n("dyform.params.warning.primaryKey"));
     return;
   }
   if (!formData["needField"]?.length) {
-    warning("请配置回调字段");
+    warning(i18n("dyform.params.warning.callbackFields"));
     return;
   }
   if (!formData["fieldLists"].length) {
-    warning("请至少配置一个显示字段");
+    warning(i18n("dyform.params.warning.displayFields"));
     return;
   }
   for (let key in formData) {
@@ -97,7 +98,7 @@ defineExpose({
 <template>
   <star-horse-dialog 
     :dialogVisible="visible" 
-    title="参数配置" 
+    :title="i18n('dyform.params.dialog.title')" 
     :isBatch="false" 
     @merge="paramsValid"
     @closeAction="emit('close')" 

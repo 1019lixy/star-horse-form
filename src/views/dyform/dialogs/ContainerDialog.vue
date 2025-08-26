@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import { containerField } from "@/views/dyform/utils/ItemPreps";
+import { i18n } from "@/lang";
 
 const props = defineProps<{
   visible: boolean;
@@ -41,7 +42,7 @@ defineExpose({
 <template>
   <star-horse-dialog 
     :dialogVisible="visible" 
-    title="容器设置" 
+    :title="i18n('dyform.container.dialog.title')" 
     :isBatch="false" 
     @merge="containerAction"
     @closeAction="emit('close')" 

@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import FieldLayer from "../FieldLayer.vue";
+import { i18n } from "@/lang";
 
 const emit = defineEmits<{
   (e: "update:visible", visible: boolean): void;
@@ -24,7 +25,7 @@ const updateVisible = (val: boolean) => {
     @update:model-value="updateVisible"
   >
     <template #header>
-      <h4>表单属性层级</h4>
+      <h4>{{ i18n("dyform.field.layer.title") }}</h4>
     </template>
     <template #default>
       <FieldLayer />

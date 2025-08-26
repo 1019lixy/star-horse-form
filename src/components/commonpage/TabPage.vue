@@ -13,11 +13,12 @@ import {
   UserFuncInfo,
 } from "star-horse-lowcode";
 import { TabsPaneContext } from "element-plus";
+import { i18n } from "@/lang";
 
 let designForm = useDesignFormStore(piniaInstance);
 const starHorseTableCompRef = ref();
 let dataUrl = ref<ApiUrls>(apiInstance("", ""));
-const errorMsg = ref("数据加载中");
+const errorMsg = ref(i18n("commonPage.dataLoading"));
 let searchFormData = ref<SearchFields>({});
 const tableFieldList = ref<any>({
   fieldList: [],
@@ -82,7 +83,7 @@ watch(
       loadFormData(<string>val);
     } catch (e) {
       // closeLoad();
-      console.log("数据类型不匹配");
+      console.log(i18n("commonPage.dataTypeMismatch"));
     }
   },
   { deep: true },
@@ -152,7 +153,7 @@ onMounted(async () => {
           type="border-card"
           @tab-click="handleClick"
         >
-          <el-tab-pane label="表单" name="form">
+          <el-tab-pane :label="i18n('commonPage.tab.form')" name="form">
             <star-horse-form
               @refresh="starHorseTableCompRef?.loadByPage()"
               :dynamicForm="true"
@@ -164,7 +165,7 @@ onMounted(async () => {
               :typeModel="'form'"
             />
           </el-tab-pane>
-          <el-tab-pane label="数据列表" name="table">
+          <el-tab-pane :label="i18n('commonPage.tab.dataList')" name="table">
             <div
               class="search-content"
               v-if="searchFormData.fieldList?.length > 0"

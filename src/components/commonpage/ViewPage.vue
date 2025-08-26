@@ -18,6 +18,7 @@ import {
   useGlobalConfigStore,
 } from "star-horse-lowcode";
 import { computed, onMounted, provide, reactive, ref, watch } from "vue";
+import { i18n } from "@/lang";
 
 let designForm = useDesignFormStore(piniaInstance);
 const props = defineProps({
@@ -31,7 +32,7 @@ let compSize = computed(
 
 const dataUrl = apiInstance("userdb-manage", "consumer/api");
 dataUrl.exportAllUrl = `${dataUrl.basePrefix}/exportData/${props.param}`;
-const errorMsg = ref("数据加载中");
+const errorMsg = ref(i18n("commonPage.dataLoading"));
 let searchFormData = ref<SearchFields>({});
 const tableFieldList = ref<any>({
   fieldList: [],
@@ -51,7 +52,7 @@ const clear = () => {
   hasData.value = false;
 };
 const exportData = () => {
-  load("数据处理中");
+  load(i18n("commonPage.dataProcessing"));
   let params = {
     fieldList: viewSearchRef.value.createSearchParams(searchFormData.value),
     pageSize: 100,
@@ -59,7 +60,7 @@ const exportData = () => {
   };
   download(dataUrl.exportAllUrl!, params)
     .catch((err) => {
-      error("接口不存在或网络异常:" + err);
+      error(i18n("commonPage.interfaceNotFound") + ":" + err);
     })
     .finally(() => {
       closeLoad();
@@ -108,7 +109,7 @@ watch(
       }
     } catch (e) {
       // closeLoad();
-      console.log("数据类型不匹配");
+      console.log(i18n("commonPage.dataTypeMismatch"));
     }
   },
   { deep: true },

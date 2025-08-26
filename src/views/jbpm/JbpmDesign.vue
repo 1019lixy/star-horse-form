@@ -12,6 +12,7 @@ import { createBpmnModeler, createNewFlow } from "@/views/jbpm/utils/FlowData";
 import { xmlStrNew } from "./utils/linting-cloud.js";
 import { useFlowDesignStore } from "@/store/FlowDesign";
 import { ElementRegistry } from "bpmn-js/lib/features/auto-place/BpmnAutoPlaceUtil";
+import { i18n } from "@/lang";
 // 模拟流转流程
 
 let bpmnModeler: any = null;
@@ -91,9 +92,9 @@ const createData = () => {
     flowId: processId,
     isUpdate: false,
     processTypeList: [
-      { name: "请假", value: "001" },
-      { name: "报销", value: "002" },
-      { name: "聚餐", value: "003" },
+      { name: i18n("jbpm.leave"), value: "001" },
+      { name: i18n("jbpm.reimbursement"), value: "002" },
+      { name: i18n("jbpm.dinner"), value: "003" },
     ],
   };
 };
@@ -147,11 +148,11 @@ onMounted(() => {
               <el-card>
                 <template #header>
                   <div class="flow-message">
-                    <div class="title">流程校验</div>
+                    <div class="title">{{ i18n("jbpm.flow.validation") }}</div>
                     <div class="message-count">
-                      <el-tag type="danger">错误 {{ errorNums }}</el-tag>
-                      <el-tag type="warning">警告 {{ warningNums }}</el-tag>
-                      <el-tag type="info">提示 {{ infoNums }}</el-tag>
+                      <el-tag type="danger">{{ i18n("jbpm.error") }} {{ errorNums }}</el-tag>
+                      <el-tag type="warning">{{ i18n("jbpm.warning") }} {{ warningNums }}</el-tag>
+                      <el-tag type="info">{{ i18n("jbpm.info") }} {{ infoNums }}</el-tag>
                     </div>
                   </div>
                 </template>
@@ -214,7 +215,7 @@ onMounted(() => {
     .bpmn-content {
       width: 100%;
       height: 100%;
-      background: url("data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGRlZnM+PHBhdHRlcm4gaWQ9ImEiIHdpZHRoPSI0MCIgaGVpZ2h0PSI0MCIgcGF0dGVyblVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+PHBhdGggZD0iTTAgMTBoNDBNMTAgMHY0ME0wIDIwaDQwTTIwIDB2NDBNMCAzMGg0ME0zMCAwdjQwIiBmaWxsPSJub25lIiBzdHJva2U9IiNlMGUwZTAiIG9wYWNpdHk9Ii4yIi8+PHBhdGggZD0iTTQwIDBIMHY0MCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjZTBlMGUwIi8+PC9wYXR0ZXJuPjwvZGVmcz48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSJ1cmwoI2EpIi8+PC9zdmc+")
+      background: url("data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGRlZnM+PHBhdHRlcm4gaWQ9ImEiIHdpZHRoPSI0MCIgaGVpZ2h0PSI0MCIgcGF0dGVyblVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+PHBhdGggZD0iTTAgMTBoNDBNMTAwdHY0ME0wIDIwaDQwTTIwIDB2NDBNMCAzMGg0ME0zMCAwdjQwIiBmaWxsPSJub25lIiBzdHJva2U9IiNlMGUwZTAiIG9wYWNpdHk9Ii4yIi8+PHBhdGggZD0iTTQwIDBIMHY0MCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjZTBlMGUwIi8+PC9wYXR0ZXJuPjwvZGVmcz48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSJ1cmwoI2EpIi8+PC9zdmc+")
         repeat !important;
     }
 

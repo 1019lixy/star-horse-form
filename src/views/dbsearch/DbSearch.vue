@@ -11,6 +11,7 @@ import {
   warning,
 } from "star-horse-lowcode";
 import QueryResult from "@/views/dbsearch/QueryResult.vue";
+import { i18n } from "@/lang";
 
 let editorRef = ref<any>(null);
 let dbList = ref<any>([]);
@@ -62,7 +63,7 @@ const getSql = () => {
 const reqData = ref<any>({});
 const executeSql = () => {
   if (!dbIndex.value) {
-    warning("执行Sql前先连接数据库");
+    warning(i18n("dbsearch.connect.database.first"));
     return;
   }
   let datas = getSql();
@@ -79,7 +80,7 @@ const executeSql = () => {
     }
   });
   if (tempList.length > 5) {
-    warning("一次最多只能执行5条Sql");
+    warning(i18n("dbsearch.max.sql.count"));
     return;
   }
   reqData.value = {
@@ -90,82 +91,24 @@ const executeSql = () => {
   };
 };
 
-const executeStop = () => {};
-
-const tableField = (tableName: string) => {
-  let fdata = tableAndColumnsList.value.find(
-    (item: any) => item.tableName == tableName,
-  );
-  if (fdata?.fields?.length > 0) {
-    //如果已经有值，则不再请求后端
-    return;
-  }
-  getRequest(
-    `/userdb-manage/dbsearch/dbinfo/tableColumns/${dbIndex.value}/${tableName}`,
-  )
-    .then((res) => {
-      if (res.data.code != 0) {
-        warning(res.data.cnMessage);
-        return;
-      }
-      tableList.value[tableName] = [];
-      fdata.fields = res.data.data;
-      fdata.fields.forEach((sitem: any) => {
-        tableList.value[tableName].push(sitem.filedName);
-      });
-    })
-    .finally(() => {
-      closeLoad();
-    });
-};
-const filterTableName = ref("");
-const filterData = () => {
-  if (!filterTableName.value) {
-    assignDataList.value = tableAndColumnsList.value;
-    return;
-  }
-  assignDataList.value = tableAndColumnsList.value.filter((item: any) =>
-    item.tableName.toLowerCase().match(filterTableName.value.toLowerCase()),
-  );
-};
-const dratStart = (item: any, evt: DragEvent) => {
-  let dt = evt.dataTransfer!;
-  dt.effectAllowed = "copy";
-  dt.setData("text/plain", item.tableName);
-};
-let bakeData = ref<string>("");
-const dragOver = (evt: DragEvent) => {
-  evt.preventDefault();
-  bakeData.value = unref(sqlInfo);
-};
-const sqlInfo = ref<string>("");
-const dragDrop = (evt: DragEvent) => {
-  let dt = evt.dataTransfer!;
-  let data = dt.getData("text/plain");
-  if (!unref(bakeData)) {
-    sqlInfo.value = " SELECT * FROM " + data;
-  } else {
-    sqlInfo.value = unref(bakeData) + " " + data;
-  }
-};
 let btnDisabled = ref<boolean>(true);
 const btnList = [
   {
-    label: "执行",
+    label: i18n("dbsearch.execute"),
     icon: "run",
     disabled: btnDisabled,
     type: "primary",
     actions: executeSql,
   },
   {
-    label: "停止",
+    label: i18n("dbsearch.stop"),
     icon: "stop",
     disabled: btnDisabled,
     type: "danger",
     actions: executeStop,
   },
   {
-    label: "格式化",
+    label: i18n("dbsearch.format"),
     icon: "format",
     disabled: btnDisabled,
     type: "warning",
@@ -183,16 +126,16 @@ const btnList = [
   },
 ];
 const operMsg = `
- 使用说明:
-     目前快捷键失效,提示表字段需先单击表名加载字段到本地.
-    1、使用前需先连接数据库;如果在左侧下拉框中,无数据或者无您要连接的DB,请联系管理员配置并授权;
-    2、Sql查询器理论上支持数据库的所有DDL,DML,DCL等操作,但基于合规性,请在配置数据库的时候慎重赋予操作权限;
-    3、建议不要执行耗时的Sql,容易被网关拦截;
-    4、建议每条Sql写完后加上";",以方便多条sql拆分;
-    5、默认每条Sql 一次最多返回10条数据,页面支持最大返回100条配置;
-    6、每次最多执行的Sql数不能超过5条,超过数量取前5条;
-    7、执行器支持选中某条Sql进行执行;
-    8、Ctrl+Enter 执行,Ctrl+Shift+F 格式化,Ctrl+Enter 打开提示.`;
+ ${i18n("dbsearch.usage.instructions")}:
+     ${i18n("dbsearch.currently.shortcuts.disabled")}
+    1、${i18n("dbsearch.connect.database.before.use")}
+    2、${i18n("dbsearch.sql.executor.theoretically.supports")}
+    3、${i18n("dbsearch.recommend.not.execute.time.consuming.sql")}
+    4、${i18n("dbsearch.recommend.add.semicolon")}
+    5、${i18n("dbsearch.default.each.sql.return.ten.records")}
+    6、${i18n("dbsearch.each.time.max.execute.five.sql")}
+    7、${i18n("dbsearch.executor.supports.selected.sql")}
+    8、Ctrl+Enter ${i18n("dbsearch.execute")},Ctrl+Shift+F ${i18n("dbsearch.format")},Ctrl+Enter ${i18n("dbsearch.open.prompt")}.`;
 </script>
 <template>
   <el-card class="inner_content">

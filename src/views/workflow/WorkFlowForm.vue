@@ -4,6 +4,7 @@ import { useFlowDesignStore } from "@/store/FlowDesign";
 import { apiInstance, ApiUrls, piniaInstance } from "star-horse-lowcode";
 import { useRouter } from "vue-router";
 import { doSaveData } from "@/views/workflow/utils/FlowFormUtils";
+import { i18n } from "@/lang";
 
 const dataUrl: ApiUrls = apiInstance("flow-engine", "workflow/flowDefine");
 const props = defineProps({

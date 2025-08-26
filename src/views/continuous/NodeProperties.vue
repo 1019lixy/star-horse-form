@@ -7,6 +7,7 @@ import {
   SearchFields,
 } from "star-horse-lowcode";
 import { Config } from "@antv/x6";
+import { i18n } from "@/lang";
 
 const dataUrl: ApiUrls = apiInstance(
   "continuous-manage",
@@ -15,13 +16,13 @@ const dataUrl: ApiUrls = apiInstance(
 const searchFormData = reactive<SearchFields>({
   fieldList: [
     {
-      label: "节点",
+      label: i18n("continuous.node"),
       fieldName: "idNodeProperty",
       matchType: "lk",
       defaultVisible: true,
     },
     {
-      label: "测试报告类型",
+      label: i18n("continuous.report.type"),
       fieldName: "projectType",
       type: "reportType",
       matchType: "lk",
@@ -32,11 +33,11 @@ const searchFormData = reactive<SearchFields>({
 const tableFieldList = reactive({
   fieldList: [
     {
-      label: "主键",
+      label: i18n("continuous.primary.key"),
       fieldName: "idNodeProperty",
     },
     {
-      label: "实例ID",
+      label: i18n("continuous.instance.id"),
       fieldName: "idContinusInst",
 
       required: true,
@@ -45,13 +46,13 @@ const tableFieldList = reactive({
     },
     [
       {
-        label: "名称",
+        label: i18n("continuous.node.name"),
         fieldName: "nodeName",
         formVisible: true,
         listVisible: true,
       },
       {
-        label: "列索引",
+        label: i18n("continuous.column.index"),
         fieldName: "columnIndex",
         type: "number",
         formVisible: true,
@@ -60,7 +61,7 @@ const tableFieldList = reactive({
     ],
     [
       {
-        label: "执行方式",
+        label: i18n("continuous.execution.type"),
         fieldName: "executionType",
         type: "select",
         required: true,
@@ -68,7 +69,7 @@ const tableFieldList = reactive({
         listVisible: true,
       },
       {
-        label: "程序语言",
+        label: i18n("continuous.program.language"),
         fieldName: "language",
         type: "select",
         required: true,
@@ -78,7 +79,7 @@ const tableFieldList = reactive({
     ],
     [
       {
-        label: "项目编码",
+        label: i18n("continuous.project.code"),
         fieldName: "charset",
         type: "select",
         required: true,
@@ -86,7 +87,7 @@ const tableFieldList = reactive({
         listVisible: true,
       },
       {
-        label: "源码相对目录",
+        label: i18n("continuous.source.code.dir"),
         fieldName: "codeDir",
         type: "number",
         required: true,
@@ -97,7 +98,7 @@ const tableFieldList = reactive({
 
     [
       {
-        label: "执行失败通知",
+        label: i18n("continuous.failure.notification"),
         fieldName: "failurReport",
         type: "select",
         required: true,
@@ -105,7 +106,7 @@ const tableFieldList = reactive({
         listVisible: true,
       },
       {
-        label: "执行成功通知",
+        label: i18n("continuous.success.notification"),
         fieldName: "successReport",
         type: "select",
         required: true,
@@ -115,7 +116,7 @@ const tableFieldList = reactive({
     ],
     [
       {
-        label: "自定义规则",
+        label: i18n("continuous.custom.rules"),
         fieldName: "selfRules",
 
         required: true,
@@ -123,7 +124,7 @@ const tableFieldList = reactive({
         listVisible: true,
       },
       {
-        label: "行索引",
+        label: i18n("continuous.row.index"),
         fieldName: "rowIndex",
         type: "number",
         required: true,
@@ -132,125 +133,59 @@ const tableFieldList = reactive({
       },
     ],
     {
-      label: "备注",
+      label: i18n("continuous.remark"),
       fieldName: "remark",
       type: "textarea",
       formVisible: true,
     },
     {
-      label: "创建人",
+      label: i18n("continuous.created.by"),
       disabled: true,
       fieldName: "createdBy",
     },
     {
-      label: "修改人",
+      label: i18n("continuous.updated.by"),
       disabled: true,
       fieldName: "updatedBy",
     },
     {
-      label: "创建日期",
+      label: i18n("continuous.created.date"),
       disabled: true,
       fieldName: "createdTime",
       type: "date",
     },
     {
-      label: "修改日期",
+      label: i18n("continuous.updated.date"),
       disabled: true,
       fieldName: "updatedTime",
       type: "date",
     },
     {
-      label: "数据版本号",
+      label: i18n("continuous.data.version"),
       fieldName: "version",
       type: "number",
     },
     {
-      label: "是否已逻辑",
+      label: i18n("continuous.is.deleted"),
       fieldName: "isDel",
       type: "number",
     },
     {
-      label: "数据编号",
+      label: i18n("continuous.data.number"),
       fieldName: "dataNo",
     },
     {
-      label: "状态码",
+      label: i18n("continuous.status.code"),
       fieldName: "statusCode",
     },
     {
-      label: "状态码名称",
+      label: i18n("continuous.status.name"),
       fieldName: "statusName",
     },
     {
-      label: "国际码",
+      label: i18n("continuous.international.code"),
       fieldName: "local",
     },
   ],
   batchFieldList: [],
 });
-const primaryKey = "idNodeProperty";
-const nodePropertyRef = ref();
-const rules = {};
-const dialogProps = dialogPreps();
-provide("dialogProps", dialogProps);
-
-const selectItemFun = (data: any) => {};
-const dataFormat = (name: string, cellValue: object): any => {
-  return cellValue;
-};
-const init = async () => {};
-onMounted(async () => {
-  await init();
-});
-</script>
-<template>
-  <div class="flex flex-col h-full overflow-hidden">
-    <star-horse-dialog
-      :isShowBtnContinue="true"
-      :dialogVisible="dialogProps.editVisible"
-      :dialogProps="dialogProps"
-    >
-      <star-horse-form
-        @refresh="nodePropertyRef?.loadByPage()"
-        :compUrl="dataUrl"
-        :fieldList="tableFieldList"
-        :rules="rules"
-      />
-    </star-horse-dialog>
-    <star-horse-dialog
-      :dialog-visible="dialogProps.viewVisible"
-      :dialogProps="dialogProps"
-      :source="3"
-    >
-      <star-horse-data-view
-        :dataFormat="dataFormat"
-        :field-list="tableFieldList"
-        :compUrl="dataUrl"
-      />
-    </star-horse-dialog>
-    <el-card class="inner_content">
-      <div class="search_btn">
-        <star-horse-search-comp
-          @searchData="(data: any) => nodePropertyRef?.createSearchParams(data)"
-          :formData="searchFormData"
-          :compUrl="dataUrl"
-        />
-        <hr />
-        <star-horse-button-list
-          @tableCompFunc="(fun: any) => nodePropertyRef.tableCompFunc(fun)"
-          :compUrl="dataUrl"
-          :dialogProps="dialogProps"
-          :showType="Config.buttonStyle"
-        />
-      </div>
-      <star-horse-table-comp
-        ref="nodePropertyRef"
-        :fieldList="tableFieldList"
-        :primaryKey="primaryKey"
-        :compUrl="dataUrl"
-        :dataFormat="dataFormat"
-        @selectItem="selectItemFun"
-      />
-    </el-card>
-  </div>
-</template>

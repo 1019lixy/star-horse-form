@@ -33,6 +33,7 @@ import {
 import { useDesignGraphStore } from "@/store/DesignGraph";
 import { Config } from "@/api/settings";
 import { dynamicFormContextMenuData } from "@/plugins/AblesPlugin";
+import { i18n } from "@/lang";
 
 const designGraph = useDesignGraphStore(piniaInstance);
 const consumerView = useConsumerViewStore(piniaInstance);
@@ -129,7 +130,7 @@ const transform = (command: string) => {
       normalRightPanel.value = !normalRightPanel.value;
       break;
     case "empty":
-      operationConfirm("清空画布，所有的数据都会丢失，确定要清空吗？").then(
+      operationConfirm(i18n("starHorseDesign.clearCanvasConfirm")).then(
         (res) => {
           if (res) {
             nodeList.value = [];
@@ -177,10 +178,10 @@ const alignOperation = (align: string) => {
   let cells = graph.value.getSelectedCells();
   if (align == "deleteItem" || align == "delete") {
     if (!cells || cells.length == 0) {
-      warning("请先选择要删除的对象");
+      warning(i18n("starHorseDesign.deleteItemWarning"));
       return;
     }
-    operationConfirm("确定要删除所选的元素吗？").then((res) => {
+    operationConfirm(i18n("starHorseDesign.deleteItemConfirm")).then((res) => {
       if (res) {
         deleteNode(cells);
         graph.value.removeCells(cells);

@@ -2,6 +2,7 @@
 import { ref } from "vue";
 import { uuid, itemCheck } from "star-horse-lowcode";
 import { dynamicFormContextMenuData } from "@/plugins/AblesPlugin.ts";
+import { i18n } from "@/lang";
 
 const emit = defineEmits<{
     (e: "dragAdd", event: Event, dataList: Array<any>): void;
@@ -51,12 +52,12 @@ const contentMenuRef = ref();
                     </svg>
                 </div>
                 <div class="empty-message">
-                    <h3>欢迎使用表单设计器</h3>
-                    <p>请从左侧组件库中选择一个组件，然后用鼠标双击或者拖动该组件放置于此处</p>
+                    <h3>{{ i18n("dyform.designer.welcome") }}</h3>
+                    <p>{{ i18n("dyform.designer.instruction") }}</p>
                     <div class="tips">
-                        <span class="tip-item">💡 拖拽组件</span>
-                        <span class="tip-item">⚙️ 配置属性</span>
-                        <span class="tip-item">🚀 快速构建</span>
+                        <span class="tip-item">💡 {{ i18n("dyform.designer.tip.drag") }}</span>
+                        <span class="tip-item">⚙️ {{ i18n("dyform.designer.tip.config") }}</span>
+                        <span class="tip-item">🚀 {{ i18n("dyform.designer.tip.build") }}</span>
                     </div>
                 </div>
             </div>

@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { i18n } from "@/lang";
+
 const emit = defineEmits<{
   (e: "close"): void;
   (e: "save"): void;
@@ -27,7 +29,7 @@ const codeDoSave = () => {
     :full-screen="true"
     :compSize="compSize"
     @merge="codeDoSave"
-    :title="'代码'"
+    :title="i18n('dyform.code.dialog.title')"
   >
     <code-comp />
   </star-horse-dialog>

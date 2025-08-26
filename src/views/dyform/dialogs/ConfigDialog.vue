@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { ref, nextTick } from "vue";
+import { i18n } from "@/lang";
 
 const emit = defineEmits<{
   (e: "close"): void;
@@ -46,7 +47,7 @@ defineExpose({
     :selfFunc="true"
     :compSize="compSize"
     @merge="() => doSave(false)"
-    :title="'表单配置'"
+    :title="i18n('dyform.config.dialog.title')"
   >
     <FormPropertyPanel ref="formPropertyRef" />
     <template #extend>
@@ -63,7 +64,7 @@ defineExpose({
           cursor="pointer"
           style="color: var(--star-horse-white)"
         />
-        暂存
+        {{ i18n("dyform.config.draft.save") }}
       </el-button>
     </template>
   </star-horse-dialog>

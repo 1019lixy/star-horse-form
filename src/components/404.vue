@@ -54,7 +54,7 @@ const backFun = () => {
     "Trebuchet MS",
     Helvetica,
     sans-serif;
-  content: "Star Horse Say :\A\A 404  :( \A\A   Page not Found";
+  content: i18n("notFound.title");
   white-space: pre;
   text-align: center;
   height: 100%;
@@ -192,7 +192,7 @@ const backFun = () => {
   }
 
   &:after {
-    content: "Go Back";
+    content: i18n("notFound.goBack");
   }
 }
 

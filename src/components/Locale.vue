@@ -7,10 +7,10 @@
     <template #dropdown>
       <el-dropdown-menu>
         <el-dropdown-item :disabled="language === 'zh'" command="zh"
-          >中文</el-dropdown-item
+          >{{ i18n("locale.chinese") }}</el-dropdown-item
         >
         <el-dropdown-item :disabled="language === 'en'" command="en"
-          >English</el-dropdown-item
+          >{{ i18n("locale.english") }}</el-dropdown-item
         >
       </el-dropdown-menu>
     </template>
@@ -18,16 +18,17 @@
 </template>
 <script setup lang="ts">
 import { onMounted, ref } from "vue";
+import { i18n } from "@/lang";
 
 const langName = ref("");
 const language = ref("");
 const init = () => {
   let lang = localStorage.getItem("lang");
   if (!lang || lang == "zh") {
-    langName.value = "中文";
+    langName.value = i18n("locale.chinese");
     language.value = "zh";
   } else {
-    langName.value = "English";
+    langName.value = i18n("locale.english");
     language.value = "en";
   }
 };
@@ -36,9 +37,9 @@ onMounted(() => {
 });
 const handleSetLanguage = (lang: string) => {
   if (lang === "zh") {
-    langName.value = "中文";
+    langName.value = i18n("locale.chinese");
   } else {
-    langName.value = "English";
+    langName.value = i18n("locale.english");
   }
   language.value = lang;
   localStorage.setItem("lang", lang);

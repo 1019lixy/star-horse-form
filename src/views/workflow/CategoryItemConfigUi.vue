@@ -18,6 +18,7 @@ import {
   SelectOption,
 } from "star-horse-lowcode";
 import { loadSvgIcons } from "@/api/star_horse_utils.js";
+import { i18n } from "@/lang";
 
 defineOptions({
   name: "CategoryItemConfig",
@@ -38,7 +39,7 @@ let cfgCategoryList = ref<SelectOption[]>([]);
 const searchFormData = reactive<SearchFields>({
   fieldList: [
     {
-      label: "配置类别",
+      label: i18n("workflow.config.category"),
       fieldName: "cfgCategory",
       type: "select",
       matchType: "eq",
@@ -48,7 +49,7 @@ const searchFormData = reactive<SearchFields>({
       },
     },
     {
-      label: "名称",
+      label: i18n("workflow.name"),
       fieldName: "name",
 
       matchType: "lk",
@@ -56,7 +57,7 @@ const searchFormData = reactive<SearchFields>({
       preps: {},
     },
     {
-      label: "编码",
+      label: i18n("workflow.code"),
       fieldName: "code",
 
       matchType: "lk",
@@ -64,15 +65,15 @@ const searchFormData = reactive<SearchFields>({
       preps: {},
     },
     {
-      label: "是否选中",
+      label: i18n("workflow.is.checked"),
       fieldName: "checkedFlag",
       type: "select",
       matchType: "eq",
       defaultVisible: true,
       preps: {
         values: [
-          { name: "是", value: "Y" },
-          { name: "否", value: "N" },
+          { name: i18n("workflow.yes"), value: "Y" },
+          { name: i18n("workflow.no"), value: "N" },
         ],
       },
     },
@@ -81,7 +82,7 @@ const searchFormData = reactive<SearchFields>({
 const tableFieldList = reactive<PageFieldInfo | any>({
   fieldList: [
     {
-      label: "配置类别",
+      label: i18n("workflow.config.category"),
       fieldName: "cfgCategory",
       type: "select",
       required: true,
@@ -92,7 +93,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       },
     },
     {
-      label: "名称",
+      label: i18n("workflow.name"),
       fieldName: "name",
 
       required: true,
@@ -102,7 +103,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
     },
     [
       {
-        label: "编码",
+        label: i18n("workflow.code"),
         fieldName: "code",
 
         required: false,
@@ -111,7 +112,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
         preps: {},
       },
       {
-        label: "是否选中",
+        label: i18n("workflow.is.checked"),
         fieldName: "checkedFlag",
         type: "switch",
         defaultValue: "N",
@@ -126,7 +127,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
     ],
     [
       {
-        label: "图片地址",
+        label: i18n("workflow.image.url"),
         fieldName: "imageUrl",
         type: "image",
         required: false,
@@ -137,7 +138,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
         },
       },
       {
-        label: "图标",
+        label: i18n("workflow.icon"),
         fieldName: "icon",
         type: "icon",
         required: false,
@@ -150,7 +151,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       },
     ],
     {
-      label: "描述",
+      label: i18n("workflow.description"),
       fieldName: "description",
       type: "textarea",
       required: true,
@@ -159,7 +160,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       preps: {},
     },
     {
-      label: "创建人",
+      label: i18n("workflow.created.by"),
       fieldName: "createdBy",
 
       listVisible: true,
@@ -167,14 +168,14 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       commonFlag: "Y",
     },
     {
-      label: "修改人",
+      label: i18n("workflow.updated.by"),
       fieldName: "updatedBy",
 
       preps: {},
       commonFlag: "Y",
     },
     {
-      label: "创建时间",
+      label: i18n("workflow.created.time"),
       fieldName: "createdTime",
       type: "datetime",
 
@@ -183,7 +184,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       commonFlag: "Y",
     },
     {
-      label: "创建日期",
+      label: i18n("workflow.created.date"),
       fieldName: "createdTime",
       type: "datetime",
 
@@ -192,7 +193,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       commonFlag: "N",
     },
     {
-      label: "修改时间",
+      label: i18n("workflow.updated.time"),
       fieldName: "updatedTime",
       type: "datetime",
 
@@ -200,7 +201,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       commonFlag: "Y",
     },
     {
-      label: "版本号",
+      label: i18n("workflow.version.number"),
       fieldName: "version",
       type: "number",
 
@@ -209,7 +210,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       commonFlag: "Y",
     },
     {
-      label: "是否删除",
+      label: i18n("workflow.is.deleted"),
       fieldName: "isDel",
       type: "number",
 
@@ -217,21 +218,21 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       commonFlag: "Y",
     },
     {
-      label: "数据编号",
+      label: i18n("workflow.data.number"),
       fieldName: "dataNo",
 
       preps: {},
       commonFlag: "Y",
     },
     {
-      label: "状态码",
+      label: i18n("workflow.status.code"),
       fieldName: "statusCode",
 
       preps: {},
       commonFlag: "Y",
     },
     {
-      label: "状态名称",
+      label: i18n("workflow.status.name"),
       fieldName: "statusName",
       type: "string",
 
@@ -239,14 +240,14 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       commonFlag: "Y",
     },
     {
-      label: "国际编码",
+      label: i18n("workflow.international.code"),
       fieldName: "local",
 
       preps: {},
       commonFlag: "Y",
     },
     {
-      label: "备注",
+      label: i18n("workflow.remark"),
       fieldName: "remark",
 
       preps: {},
@@ -261,94 +262,3 @@ const tableFieldList = reactive<PageFieldInfo | any>({
   tableCellEditabled: false,
   stopAutoLoad: false,
 });
-//校验
-const rules = {};
-//控制弹窗相关设置
-const dialogProps = dialogPreps();
-provide("dialogProps", dialogProps);
-//初始化方法
-const initData = async () => {
-  cfgCategoryList.value = await dictData("flow_helper_category");
-};
-const activated = async () => {
-  await nextTick(() => {
-    categoryItemConfigRef.value.loadByPage();
-  });
-};
-const deactivated = () => {};
-/**
- * 列表，查看数据时数据转换
- * @param name 名称
- * @param cellValue 值
- * @param row 列表行数据
- */
-const dataFormat = (name: string, cellValue: any, row: any): any => {
-  if (name === "cfgCategory") {
-    return (
-      cfgCategoryList.value.find((item) => item.value == cellValue)?.name ||
-      cellValue
-    );
-  }
-  //转换显示信息
-  return cellValue;
-};
-onMounted(async () => {
-  await initData();
-});
-onActivated(() => {
-  activated();
-});
-onDeactivated(() => {
-  deactivated();
-});
-</script>
-<template>
-  <div class="flex flex-col h-full overflow-hidden">
-    <star-horse-dialog
-      :isShowBtnContinue="true"
-      :dialog-visible="dialogProps.editVisible"
-      :dialogProps="dialogProps"
-    >
-      <star-horse-form
-        @refresh="categoryItemConfigRef?.loadByPage()"
-        :compUrl="dataUrl"
-        :fieldList="tableFieldList"
-        :rules="rules"
-      />
-    </star-horse-dialog>
-    <star-horse-dialog
-      :dialog-visible="dialogProps.viewVisible"
-      :dialogProps="dialogProps"
-      :source="3"
-    >
-      <star-horse-data-view
-        :dataFormat="dataFormat"
-        :field-list="tableFieldList"
-        :compUrl="dataUrl"
-      />
-    </star-horse-dialog>
-    <div class="search-content">
-      <div class="search_btn">
-        <star-horse-search-comp
-          @searchData="
-            (data: any) => categoryItemConfigRef?.createSearchParams(data)
-          "
-          :formData="searchFormData"
-          :compUrl="dataUrl"
-        />
-      </div>
-    </div>
-    <el-card class="inner_content">
-      <star-horse-table-comp
-        ref="categoryItemConfigRef"
-        :fieldList="tableFieldList"
-        :primaryKey="primaryKey"
-        :compUrl="dataUrl"
-        :dataFormat="dataFormat"
-      />
-    </el-card>
-  </div>
-</template>
-<style lang="scss" scoped>
-//todo
-</style>

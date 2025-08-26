@@ -15,6 +15,7 @@ import {
 import websocket from "@/api/websocket";
 import { getUserInfo } from "@/utils/auth";
 import { postRequest } from "@/api/star_horse_apis";
+import { i18n } from "@/lang";
 
 defineProps({
   compSize: { type: String, default: "small" },
@@ -72,10 +73,10 @@ const webSocketOperation = () => {
       // auditList.value.splice(0, 0, reData);
     }
     message(
-      "你有新消息:" + reData.title,
+      i18n("message.newMessage") + reData.title,
       "info",
       2500,
-      "新消息提醒",
+      i18n("message.newMessageNotification"),
       "top-right",
     );
     init();
@@ -210,7 +211,7 @@ const loadByPage = () => {
     });
 };
 const auditMessage = (item: any) => {
-  message("功能开发中...", "info", 2500, "提示", "bottom-right");
+  message(i18n("message.functionDevelopment"), "info", 2500, i18n("message.tip"), "bottom-right");
 };
 onMounted(() => {
   init();
@@ -243,9 +244,9 @@ onMounted(() => {
       </el-badge>
     </template>
     <el-tabs v-model="currentTab" @tab-change="tabChange">
-      <el-tab-pane label="消息" name="notice">
+      <el-tab-pane :label="i18n('message.tab.notice')" name="notice">
         <template #label>
-          <el-badge :value="totalMessages"> 消息 </el-badge>
+          <el-badge :value="totalMessages"> {{ i18n('message.tab.notice') }} </el-badge>
         </template>
         <div class="message-body">
           <el-scrollbar>
@@ -281,9 +282,9 @@ onMounted(() => {
           />
         </div>
       </el-tab-pane>
-      <el-tab-pane label="待办" name="pending">
+      <el-tab-pane :label="i18n('message.tab.pending')" name="pending">
         <template #label>
-          <el-badge :value="totalAudit"> 待办 </el-badge>
+          <el-badge :value="totalAudit"> {{ i18n('message.tab.pending') }} </el-badge>
         </template>
         <div class="message-body">
           <el-scrollbar>

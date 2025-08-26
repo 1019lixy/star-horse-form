@@ -4,6 +4,7 @@ import { filterTree } from "@/api/star_horse_utils";
 import { useLoginStore } from "@/store/Login";
 import { piniaInstance, useGlobalConfigStore } from "star-horse-lowcode";
 import { computed, nextTick, onMounted, ref, watch } from "vue";
+import { i18n } from "@/lang";
 
 defineProps({
   isCollapse: { type: Boolean, default: false },
@@ -68,7 +69,7 @@ watch(
             <el-input
               v-model="search"
               :size="compSize"
-              placeholder="请输入关键字"
+              :placeholder="i18n('leftMenu.searchPlaceholder')"
               clearable
             >
               <template #suffix>

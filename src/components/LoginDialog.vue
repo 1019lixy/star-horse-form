@@ -65,7 +65,7 @@ let loginRules = reactive<FormRules<LoginInfo>>({
   ],
 });
 /**
- * 显示或者隐藏密码
+ * Show or hide password
  */
 const getFlag = () => {
   flag.value = !flag.value;
@@ -133,7 +133,7 @@ watch(
   { immediate: true, deep: true },
 );
 /**
- * 其它方式登录
+ * Other login methods
  * @param typeName
  */
 const handleClose = () => {
@@ -145,7 +145,7 @@ const handleClose = () => {
     :selfFunc="true"
     :source="3"
     :dialogVisible="dialogVisible"
-    title="超时登录"
+    :title="i18n('loginDialog.timeoutLogin')"
     :box-width="'400px'"
     :box-height="'330px'"
     :hideFullScreenIcon="true"

@@ -1,10 +1,10 @@
 <template>
   <el-card class="box-card" style="height: 100%; width: 100%">
     <el-tabs v-model="general" v-if="visible" type="border-card">
-      <el-tab-pane name="a" label="未接收">
+      <el-tab-pane name="a" :label="i18n('home.unreceived')">
         <pre>
-          1. 点击“新建工作流”，进入新建工作流页面。
-          2. 接入催办，撤回。
+          1. {{ i18n("home.instructions1") }}
+          2. {{ i18n("home.instructions2") }}
 
         </pre>
 
@@ -13,12 +13,12 @@
         <a href="https://tsai996.github.io/lowflow-design/">lowflow-design</a><br/>
         <a href="https://gitee.com/noear/liquor">Java 动态编译、表达式、脚本工具</a><br/>-->
       </el-tab-pane>
-      <el-tab-pane name="b" label="办理中"></el-tab-pane>
-      <el-tab-pane name="c" label="已办结"></el-tab-pane>
-      <el-tab-pane name="d" label="关注中"></el-tab-pane>
-      <el-tab-pane name="e" label="已挂起"></el-tab-pane>
-      <el-tab-pane name="f" label="委托中"></el-tab-pane>
-      <el-tab-pane name="g" label="全部工作"></el-tab-pane>
+      <el-tab-pane name="b" :label="i18n('home.processing')"></el-tab-pane>
+      <el-tab-pane name="c" :label="i18n('home.completed')"></el-tab-pane>
+      <el-tab-pane name="d" :label="i18n('home.following')"></el-tab-pane>
+      <el-tab-pane name="e" :label="i18n('home.suspended')"></el-tab-pane>
+      <el-tab-pane name="f" :label="i18n('home.delegated')"></el-tab-pane>
+      <el-tab-pane name="g" :label="i18n('home.allWork')"></el-tab-pane>
     </el-tabs>
   </el-card>
 </template>
@@ -26,6 +26,7 @@
 import piniaCompInstance from "@/store";
 import { useNavBarListStore } from "@/store/NavBarList";
 import { computed, onMounted, ref } from "vue";
+import { i18n } from "@/lang";
 
 const viewListStore = useNavBarListStore(piniaCompInstance);
 const navTagsList = computed(() => viewListStore.navTagsList);

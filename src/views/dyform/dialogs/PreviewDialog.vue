@@ -1,6 +1,7 @@
 <script setup lang="ts">
-import { success, erroror} from "star-horse-lowcode";
+import { success, erroror } from "star-horse-lowcode";
 import { ref, computed } from "vue";
+import { i18n } from "@/lang";
 
 const emit = defineEmits<{
   (e: "close"): vo
@@ -24,10 +25,10 @@ const validateForm = async () => {
   if (previewFormRef.value && previewFormRef.value.$refs && previewFormRef.value.$refs.previewFormRef) {
     try {
       await previewFormRef.value.$refs.previewFormRef.validate();
-      success("表单验证通过");
+      success(i18n("dyform.preview.validate.success"));
       return true;
     } catch (error) {
-      error("表单验证失败，请检查输入");
+      erroror(i18n("dyform.preview.validate.failure"));
       return false;
     }
   }
@@ -48,7 +49,7 @@ const exportToHtml = () => {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>表单预览</title>
+    <title>${i18n("dyform.preview.html.title")}</title>
     <style>
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif;
@@ -84,7 +85,7 @@ const exportToHtml = () => {
 </head>
 <body>
     <div class="form-container">
-        <h1>表单预览</h1>
+        <h1>${i18n("dyform.preview.html.title")}</h1>
         <div class="${props.currentPageClass || 'main-design'}">
             ${formContent}
         </div>
@@ -104,7 +105,7 @@ const exportToHtml = () => {
   document.body.removeChild(link);
   URL.revokeObjectURL(url);
   
-  success("HTML文件导出成功");
+  success(i18n("dyform.preview.html.export.success"));
 };
 
 // Expose methods for parent component to use
@@ -120,16 +121,16 @@ defineExpose({
     @closeAction="closeAction"
     :selfFunc="true"
     :compSize="compSize"
-    :title="'表单预览'"
+    :title="i18n('dyform.preview.dialog.title')"
     :source="3"
   >
     <template #header>
       <div class="dialog-actions">
         <el-button @click="validateForm" type="primary" size="small">
-          校验表单
+          {{ i18n("dyform.preview.button.validate") }}
         </el-button>
         <el-button @click="exportToHtml" type="success" size="small">
-          导出HTML
+          {{ i18n("dyform.preview.button.export") }}
         </el-button>
       </div>
     </template>

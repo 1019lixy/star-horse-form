@@ -6,6 +6,7 @@ import {
   useDesignFormStore,
 } from "star-horse-lowcode";
 import { Config } from "@/api/settings";
+import { i18n } from "@/lang";
 
 defineProps({
   compSize: { type: String, default: Config.compSize },
@@ -27,18 +28,18 @@ const batchOperation = (val: any, fieldName: string) => {
 <template>
   <div class="flex flex-col h-full overflow-hidden">
     <el-row style="font-weight: bold; font-size: 12px; margin: 5px 0">
-      <el-col :span="3">容器名称</el-col>
-      <el-col :span="3">标签名称</el-col>
-      <el-col :span="3">属性名称</el-col>
-      <el-col :span="3">最大长度/精度</el-col>
-      <el-col :span="3">是否必须</el-col>
-      <el-col :span="2">表单显示</el-col>
-      <el-col :span="2">查询显示</el-col>
-      <el-col :span="2">列表显示</el-col>
-      <el-col :span="3">默认值</el-col>
+      <el-col :span="3">{{ i18n("dyform.batch.edit.field.containerName") }}</el-col>
+      <el-col :span="3">{{ i18n("dyform.batch.edit.field.labelName") }}</el-col>
+      <el-col :span="3">{{ i18n("dyform.batch.edit.field.fieldName") }}</el-col>
+      <el-col :span="3">{{ i18n("dyform.batch.edit.field.maxLengthPrecision") }}</el-col>
+      <el-col :span="3">{{ i18n("dyform.batch.edit.field.required") }}</el-col>
+      <el-col :span="2">{{ i18n("dyform.batch.edit.field.formDisplay") }}</el-col>
+      <el-col :span="2">{{ i18n("dyform.batch.edit.field.searchDisplay") }}</el-col>
+      <el-col :span="2">{{ i18n("dyform.batch.edit.field.listDisplay") }}</el-col>
+      <el-col :span="3">{{ i18n("dyform.batch.edit.field.defaultValue") }}</el-col>
     </el-row>
     <el-row style="font-weight: bold; font-size: 12px; margin: 10px 0">
-      <el-col :span="3">批量设置</el-col>
+      <el-col :span="3">{{ i18n("dyform.batch.edit.field.batchSetting") }}</el-col>
       <el-col :span="2">--</el-col>
       <el-col :span="2">--</el-col>
       <el-col :span="5">
@@ -49,7 +50,7 @@ const batchOperation = (val: any, fieldName: string) => {
               controls-position="right"
               :size="compSize"
               @change="(val: any) => batchOperation(val, 'maxLength')"
-              placeholder="字段长度"
+              :placeholder="i18n('dyform.batch.edit.field.placeholder.fieldLength')"
               clearable
             />
           </el-col>
@@ -59,7 +60,7 @@ const batchOperation = (val: any, fieldName: string) => {
               controls-position="right"
               :size="compSize"
               @change="(val: any) => batchOperation(val, 'precision')"
-              placeholder="精度"
+              :placeholder="i18n('dyform.batch.edit.field.placeholder.precision')"
               clearable
             />
           </el-col>
@@ -103,7 +104,7 @@ const batchOperation = (val: any, fieldName: string) => {
       </el-col>
       <el-col :span="3"></el-col>
     </el-row>
-    <el-divider content-position="center">字段信息</el-divider>
+    <el-divider content-position="center">{{ i18n("dyform.batch.edit.field.info") }}</el-divider>
     <div class="flex-1 overflow-hidden">
       <el-scrollbar height="100%">
         <template v-for="(item, index) in list">

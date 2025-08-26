@@ -12,10 +12,11 @@ import {
   useDesignFormStore,
 } from "star-horse-lowcode";
 import { getUserInfo } from "@/utils/auth";
+import { i18n } from "@/lang";
 
 let designForm = useDesignFormStore(piniaInstance);
 let dataUrl = ref<ApiUrls>(apiInstance("", ""));
-const errorMsg = ref("数据加载中");
+const errorMsg = ref(i18n("commonPage.dataLoading"));
 let searchFormData = ref<SearchFields>({});
 const tableFieldList = ref<any>({
   fieldList: [],
@@ -81,7 +82,7 @@ watch(
       loadFormData(<string>val);
     } catch (e) {
       // closeLoad();
-      console.log("数据类型不匹配");
+      console.log(i18n("commonPage.dataTypeMismatch"));
     }
   },
   { deep: true },

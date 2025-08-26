@@ -269,7 +269,7 @@ const dataFormat = (name: string, cellValue: any, row: any): any => {
 };
 let extendBtnList = ref<UserFuncInfo[]>([]);
 let viewBtnList = ref<UserFuncInfo[]>([]);
-let informationsList = ref<UserFuncInfo[]>([]);
+let informationsList = ref<SelectOption[]>([]);
 
 const initData = () => {
   selfBtnFunc.value?.push({

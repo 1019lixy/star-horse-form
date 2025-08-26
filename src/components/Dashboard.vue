@@ -137,7 +137,7 @@ onMounted(async () => {
                     <keep-alive :include="cachedDatas">
                       <Suspense>
                         <component :is="Component" />
-                        <template #fallback> 页面加载中...</template>
+                        <template #fallback> {{ i18n("dashboard.pageLoading") }}</template>
                       </Suspense>
                     </keep-alive>
                   </transition>
@@ -152,7 +152,7 @@ onMounted(async () => {
       </el-container>
       <el-drawer v-model="drawer" :direction="direction">
         <template #header>
-          <h3>操作习惯配置</h3>
+          <h3>{{ i18n("dashboard.operationHabitsConfig") }}</h3>
         </template>
         <template #default>
           <el-card class="inner_content operation-area">

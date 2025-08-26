@@ -1,18 +1,14 @@
-<template>
-  hello
-  <el-input v-model="msg" />
-  <el-button @click="playMsg">播报消息</el-button>
-</template>
 <script setup lang="ts">
 import Speech from "speak-tts";
 import { onMounted, ref, unref } from "vue";
+import { i18n } from "@/lang";
 
 const speech = new Speech();
-const msg = ref("你好");
+const msg = ref(i18n("index.hello"));
 const init = () => {
   speech.setLanguage("zh-CN");
   speech.init().then(() => {
-    console.log("语音播报初始化完成");
+    console.log(i18n("index.speechInitComplete"));
   });
 };
 onMounted(() => {
@@ -22,4 +18,3 @@ const playMsg = () => {
   speech.speak({ text: unref(msg) }).then(() => {});
 };
 </script>
-<style scoped></style>

@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import { relationDataField } from "@/views/dyform/utils/ItemPreps";
+import { i18n } from "@/lang";
 
 const props = defineProps<{
   visible: boolean;
@@ -45,7 +46,7 @@ defineExpose({
 <template>
   <star-horse-dialog 
     :dialogVisible="visible" 
-    title="数据联动策略配置" 
+    :title="i18n('dyform.data.relation.dialog.title')" 
     :isBatch="false"
     @merge="dataRelationMerge" 
     @closeAction="emit('close')" 

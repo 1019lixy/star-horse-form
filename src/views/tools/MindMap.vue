@@ -16,6 +16,7 @@ import SearchPlugin from "simple-mind-map/src/plugins/Search.js";
 import Painter from "simple-mind-map/src/plugins/Painter.js";
 import Formula from "simple-mind-map/src/plugins/Formula.js";
 import Cooperate from "simple-mind-map/src/plugins/Cooperate.js";
+import { i18n } from "@/lang";
 
 let mindMapContainerRef = ref<HTMLElement>();
 MindMap.usePlugin(MiniMap)
@@ -32,13 +33,13 @@ MindMap.usePlugin(MiniMap)
   .usePlugin(SearchPlugin)
   .usePlugin(Painter)
   .usePlugin(Formula)
-  .usePlugin(Cooperate); // 协同插件
+  .usePlugin(Cooperate); // i18n("mindmap.cooperate.plugin")
 const init = () => {
   const mindMap = new MindMap({
     el: mindMapContainerRef.value,
     data: {
       data: {
-        text: "根节点",
+        text: i18n("mindmap.root.node"),
       },
       children: [],
     },

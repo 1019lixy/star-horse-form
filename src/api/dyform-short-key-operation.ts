@@ -14,6 +14,7 @@ import {
   moveUpItem,
   removeItem,
 } from "@/plugins/AblesPlugin";
+import { i18n } from "@/lang";
 
 const designForm = useDesignFormStore(piniaInstance);
 const copyerOperation = useCopyerOperationStore(piniaInstance);
@@ -27,13 +28,14 @@ const copyerData = computed(() => copyerOperation.copyerData);
 /**
  * 复制
  */
-const dyCopy = () => {
-  if (shortKeyDisabled.value) {
+export const copyComponent = () => {
+  if (!selectedComponent.value) {
+    warning(i18n("dyform.shortcut.warning.selectComponentToCopy"));
     return;
   }
   const item: any = currentComp.value;
   if (!item || Object.keys(item).length === 0) {
-    warning("请先选择要复制的组件");
+    warning(i18n("dyform.shortcut.warning.selectComponentToCopy"));
     return;
   }
   const copyItem: any = JSON.parse(JSON.stringify(item));
@@ -47,13 +49,14 @@ const dyCopy = () => {
 /**
  * 剪切
  */
-const dyCut = () => {
-  if (shortKeyDisabled.value) {
+export const cutComponent = () => {
+  if (!selectedComponent.value) {
+    warning(i18n("dyform.shortcut.warning.selectComponentToCut"));
     return;
   }
   const item: any = currentComp.value;
   if (!item || Object.keys(item).length === 0) {
-    warning("请先选择要剪切的组件");
+    warning(i18n("dyform.shortcut.warning.selectComponentToCut"));
     return;
   }
   const copyItem: any = JSON.parse(JSON.stringify(item));
@@ -144,7 +147,7 @@ const dyOpen = () => {
   console.log("open");
 };
 const dyDelete = () => {
-  operationConfirm("确定要删除所选组件吗？").then(() => {
+  operationConfirm(i18n("starHorseDesign.deleteItemConfirm")).then(() => {
     console.log("delete");
   });
 };
@@ -152,7 +155,7 @@ const dySelectAll = () => {
   console.log("selectAll");
 };
 const dyDeleteAll = () => {
-  operationConfirm("确定要删除所有组件吗？").then(() => {
+  operationConfirm(i18n("starHorseDesign.clearCanvasConfirm")).then(() => {
     designForm.clearAll();
   });
   console.log("deleteAll");

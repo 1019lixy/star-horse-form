@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { dynamicFormContextMenuData } from "@/plugins/AblesPlugin.ts";
 import { dynamicFormHelpMessage, formActions } from "@/views/dyform/utils/DynamicForm.ts";
+import { i18n } from "@/lang";
 
 const emit = defineEmits<{
   (e: "action", action: string): void;
@@ -98,7 +99,7 @@ const contextMenu = (evt: MouseEvent) => {
       </template>
     </el-menu>
     <el-tooltip
-      content="恢复缓存数据"
+      :content="i18n('dyform.toolbar.cache.restore')"
       v-if="cacheData?.length > 0"
     >
       <star-horse-icon

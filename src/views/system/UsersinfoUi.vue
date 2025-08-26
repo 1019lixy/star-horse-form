@@ -26,6 +26,7 @@ import {
   sexList,
   userFormat,
 } from "@/views/system/utils/UserFields";
+import { i18n } from "@/lang";
 
 const props = defineProps({
   viewRolesinfoId: { type: String },
@@ -35,15 +36,15 @@ const dataUrl: ApiUrls = apiInstance("system-config", "system/usersinfo");
 const usersinfoTableListRef = ref();
 const searchFormData = reactive<SearchFields>({
   fieldList: [
-    { label: "姓名", fieldName: "name", defaultVisible: true, matchType: "lk" },
+    { label: i18n("system.name"), fieldName: "name", defaultVisible: true, matchType: "lk" },
     {
-      label: "用户名",
+      label: i18n("system.username"),
       fieldName: "username",
       defaultVisible: true,
       matchType: "lk",
     },
     {
-      label: "所属用户组",
+      label: i18n("system.user.group"),
       fieldName: "idRolesinfo",
       type: "select",
       prefix: "b",
@@ -76,15 +77,15 @@ const pwdMerge = () => {
     let pwd = pwdForm.password;
     let rePwd = pwdForm.rePassword;
     if (!trim(pwd)) {
-      warning("不能设置空格密码");
+      warning(i18n("system.cannot.set.empty.password"));
       return;
     }
     if (pwd.length < 6 || pwd.length > 15) {
-      warning("请设置长度为6到15的密码");
+      warning(i18n("system.password.length"));
       return;
     }
     if (pwd !== rePwd) {
-      warning("两次密码不一致，请重新录入");
+      warning(i18n("system.password.mismatch"));
       return;
     }
     postRequest(
@@ -96,7 +97,7 @@ const pwdMerge = () => {
         (pwdForm.oldPassword || "0") +
         "/" +
         pwdForm.phone,
-      {},
+      {}
     ).then((res) => {
       let redata = res.data;
       if (redata.code == 1) {
@@ -121,7 +122,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
   userTableFuncs: [
     {
       authority: "edit",
-      btnName: "修改密码",
+      btnName: i18n("system.change.password"),
       funcName: (row: any) => {
         editPwd(row);
       },
@@ -133,6 +134,38 @@ const rules = {};
 const dialogProps = dialogPreps();
 provide("dialogProps", dialogProps);
 
+const pwdFieldInfo = reactive<PageFieldInfo | any>({
+  fieldList: [
+    [
+      {
+        label: i18n("system.employee.no"),
+        fieldName: "employeeNo",
+        type: "tag",
+        formVisible: true,
+      },
+      {
+        label: i18n("system.username"),
+        fieldName: "username",
+        type: "tag",
+        formVisible: true,
+      },
+    ],
+    [
+      {
+        label: i18n("system.password"),
+        fieldName: "password",
+        type: "password",
+        formVisible: true,
+      },
+      {
+        label: i18n("system.confirm.password"),
+        fieldName: "rePassword",
+        type: "password",
+        formVisible: true,
+      },
+    ],
+  ],
+});
 const dataFormat = (name: string, cellValue: any, row: any): any => {
   if (name == "sex") {
     let fdata = sexList.value.find(
@@ -186,38 +219,7 @@ const initData = async () => {
 onMounted(async () => {
   await initData();
 });
-const pwdFieldInfo = reactive<PageFieldInfo | any>({
-  fieldList: [
-    [
-      {
-        label: "工号",
-        fieldName: "employeeNo",
-        type: "tag",
-        formVisible: true,
-      },
-      {
-        label: "用户名",
-        fieldName: "username",
-        type: "tag",
-        formVisible: true,
-      },
-    ],
-    [
-      {
-        label: "密码",
-        fieldName: "password",
-        type: "password",
-        formVisible: true,
-      },
-      {
-        label: "确认密码",
-        fieldName: "rePassword",
-        type: "password",
-        formVisible: true,
-      },
-    ],
-  ],
-});
+
 </script>
 <template>
   <div class="flex flex-col h-full overflow-hidden">

@@ -13,7 +13,7 @@ import { onMounted, provide, reactive, ref } from "vue";
 import { loadElementPlusIcon, loadSvgIcons } from "@/api/star_horse_utils.js";
 //后端交互接口地址
 const dataUrl: ApiUrls = apiInstance("system-config", "system/customer");
-const buttonPermission = useButtonPermissionStore(piniaInstance);
+// const buttonPermission = useButtonPermissionStore(piniaInstance);
 //查询属性
 const searchFormData = reactive<SearchFields>({
   fieldList: [

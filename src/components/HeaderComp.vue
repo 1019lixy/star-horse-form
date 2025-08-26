@@ -57,7 +57,7 @@ const modifyInfo = () => {
 };
 
 const loginOut = () => {
-  operationConfirm("是否确认退出系统?").then((res: boolean) => {
+  operationConfirm(i18n("header.logoutConfirm")).then((res: boolean) => {
     if (res) {
       userStore.logout();
       userLogout(userInfo || {});
@@ -72,7 +72,7 @@ const addShortcutMenu = async () => {
 };
 const batchMerge = (datas: Array<any>) => {
   if (datas?.length > 10) {
-    warning("快捷菜单最多只能设置10个");
+    warning(i18n("userCenter.shortcutMenuLimit"));
     return;
   }
   let dataList: Array<any> = [];
@@ -83,7 +83,7 @@ const batchMerge = (datas: Array<any>) => {
       menuPath: item.menuPath,
     });
   });
-  load("数据提交中");
+  load(i18n("userCenter.dataSubmitting"));
   postRequest(
       `/system-config/system/shortcutMenu/mergeBatch/${userInfo.idUsersinfo}`,
       dataList,
@@ -99,13 +99,13 @@ const batchMerge = (datas: Array<any>) => {
   });
 
 };
-let curLangName = ref("中文");
+let curLangName = ref("");
 const handleLanguageChanged = (lang: LangType) => {
   changeLang(lang, false);
   window.location.reload();
 };
 const changeLang = (lang: LangType, isInit: boolean) => {
-  curLangName.value = lang == LangType.ZH_CN ? "中文" : "English";
+  curLangName.value = lang == LangType.ZH_CN ? i18n("locale.chinese") : i18n("locale.english");
   setLang(lang);
   emits("changeLang", lang, isInit);
 };
@@ -119,7 +119,7 @@ const selectItem = (item: any) => {
 <template>
   <DataPicker
       ref="dataPickerRef"
-      :title="'配置快捷菜单'"
+      :title="i18n('header.shortcutMenu.title')"
       :data-url="`${menuUrl.basePrefix}/permissionMenus/${getUserInfo()?.idUsersinfo}/-1`"
       :page-size="100"
       :display-name="'menuName'"
@@ -190,8 +190,8 @@ const selectItem = (item: any) => {
         /></span>
         <template #dropdown>
           <el-dropdown-menu>
-            <el-dropdown-item command="zh_cn">中文</el-dropdown-item>
-            <el-dropdown-item command="en_us">English</el-dropdown-item>
+            <el-dropdown-item command="zh_cn">{{ i18n("locale.chinese") }}</el-dropdown-item>
+            <el-dropdown-item command="en_us">{{ i18n("locale.english") }}</el-dropdown-item>
           </el-dropdown-menu>
         </template>
       </el-dropdown>
@@ -282,7 +282,7 @@ const selectItem = (item: any) => {
         >
       </template>
       <span @click="addShortcutMenu">
-        <el-tooltip content="添加快捷菜单">
+        <el-tooltip :content="i18n('header.shortcutMenu.tooltip')">
           <star-horse-icon
               icon-class="add"
               style="color: var(--star-horse-white)"
