@@ -9,13 +9,14 @@ import {
   SearchFields,
   SelectOption,
 } from "star-horse-lowcode";
+import { i18n } from "@/lang";
 
 const dataUrl: ApiUrls = apiInstance("system-config", "system/whiteList");
 let typeList = ref<SelectOption[]>([]);
 const searchFormData = reactive<SearchFields>({
   fieldList: [
     {
-      label: "过滤类型",
+      label: i18n("system.filter.type"),
       fieldName: "whiteType",
       defaultVisible: true,
       type: "select",
@@ -24,7 +25,7 @@ const searchFormData = reactive<SearchFields>({
       },
     },
     {
-      label: "过滤内容",
+      label: i18n("system.filter.content"),
       fieldName: "whiteName",
       defaultVisible: true,
       matchType: "lk",
@@ -34,12 +35,12 @@ const searchFormData = reactive<SearchFields>({
 const tableFieldList = reactive<PageFieldInfo>({
   fieldList: [
     {
-      label: "主键",
+      label: i18n("system.primary.key"),
       fieldName: "idWhiteList",
       type: "long",
     },
     {
-      label: "过滤类型",
+      label: i18n("system.filter.type"),
       fieldName: "whiteType",
       type: "select",
       required: true,
@@ -50,7 +51,7 @@ const tableFieldList = reactive<PageFieldInfo>({
       },
     },
     {
-      label: "过滤内容",
+      label: i18n("system.filter.content"),
       fieldName: "whiteName",
 
       required: true,
@@ -58,61 +59,61 @@ const tableFieldList = reactive<PageFieldInfo>({
       listVisible: true,
     },
     {
-      label: "创建人",
+      label: i18n("system.created.by"),
       disabled: true,
       fieldName: "createdBy",
 
       listVisible: true,
     },
     {
-      label: "创建日期",
+      label: i18n("system.created.date"),
       disabled: true,
       fieldName: "createdTime",
       type: "date",
       listVisible: true,
     },
     {
-      label: "修改人",
+      label: i18n("system.updated.by"),
       disabled: true,
       fieldName: "updatedBy",
 
       listVisible: true,
     },
     {
-      label: "修改日期",
+      label: i18n("system.updated.date"),
       disabled: true,
       fieldName: "updatedTime",
       type: "date",
       listVisible: true,
     },
     {
-      label: "数据版本号",
+      label: i18n("system.data.version"),
       fieldName: "version",
       type: "number",
     },
     {
-      label: "是否已逻辑",
+      label: i18n("system.is.logical.deleted"),
       fieldName: "isDel",
       type: "number",
     },
     {
-      label: "数据编号",
+      label: i18n("system.data.number"),
       fieldName: "dataNo",
     },
     {
-      label: "状态码",
+      label: i18n("system.status.code"),
       fieldName: "statusCode",
     },
     {
-      label: "状态码名称",
+      label: i18n("system.status.name"),
       fieldName: "statusName",
     },
     {
-      label: "国际码",
+      label: i18n("system.international.code"),
       fieldName: "local",
     },
     {
-      label: "备注",
+      label: i18n("system.remark"),
       fieldName: "remark",
       type: "textarea",
       formVisible: true,

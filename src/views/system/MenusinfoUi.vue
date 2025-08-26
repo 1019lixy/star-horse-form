@@ -24,6 +24,7 @@ import { loadSvgIcons, loadSystemInfo } from "@/api/star_horse_utils";
 import { Config } from "@/api/settings";
 import { computed, onMounted, provide, reactive, ref, unref } from "vue";
 import { TreeNodeData } from "element-plus/es/components/tree-v2/src/types";
+import { i18n } from "@/lang";
 
 const dataUrl: ApiUrls = apiInstance("system-config", "system/menusinfo");
 let parentMenus: any = ref<any>([]);
@@ -34,12 +35,12 @@ const defaultCondition = ref<any>([]);
 const searchFormData = reactive<SearchFields>({
   fieldList: [
     {
-      label: "菜单名称",
+      label: i18n("system.menu.name"),
       defaultVisible: true,
       fieldName: "menuName",
       matchType: "lk",
     },
-    { label: "菜单编码", fieldName: "menuCode", matchType: "lk" },
+    { label: i18n("system.menu.code"), fieldName: "menuCode", matchType: "lk" },
   ],
 });
 const primaryKey = "idMenusinfo";
@@ -50,7 +51,7 @@ const menuExchangeFieldList = reactive<PageFieldInfo>({
   fieldList: [
     [
       {
-        label: "原应用",
+        label: i18n("system.original.application"),
         fieldName: "sourceAppId",
         type: "tselect",
         actions: {
@@ -66,7 +67,7 @@ const menuExchangeFieldList = reactive<PageFieldInfo>({
         formVisible: true,
       },
       {
-        label: "新应用",
+        label: i18n("system.new.application"),
         fieldName: "targetAppId",
         type: "tselect",
         preps: {
@@ -85,7 +86,7 @@ const menuExchangeFieldList = reactive<PageFieldInfo>({
     ],
     [
       {
-        label: "新应用的父级菜单",
+        label: i18n("system.new.application.parent.menu"),
         fieldName: "parentNo",
         type: "tselect",
         preps: {
@@ -95,28 +96,28 @@ const menuExchangeFieldList = reactive<PageFieldInfo>({
         formVisible: true,
       },
       {
-        label: "菜单切换方式",
+        label: i18n("system.menu.switch.method"),
         fieldName: "exchangeType",
         type: "switch",
         defaultValue: "move",
         preps: {
           activeValue: "move",
           inactiveValue: "copy",
-          activeText: "移动",
-          inactiveText: "复制",
+          activeText: i18n("system.move"),
+          inactiveText: i18n("system.copy"),
         },
         formVisible: true,
       },
     ],
     {
-      label: "菜单列表",
+      label: i18n("system.menu.list"),
       fieldName: "menusList",
       type: "transfer",
       required: true,
       formVisible: true,
       preps: {
-        titles: ["原应用菜单", "目标应用菜单"],
-        buttonTexts: ["退回左边", "添加到右边"],
+        titles: [i18n("system.original.application.menu"), i18n("system.target.application.menu")],
+        buttonTexts: [i18n("system.return.to.left"), i18n("system.add.to.right")],
         props: {
           key: primaryKey,
           label: "menuName",
@@ -129,12 +130,12 @@ const menuExchangeFieldList = reactive<PageFieldInfo>({
 const tableFieldList = reactive<PageFieldInfo>({
   fieldList: [
     {
-      label: "主键",
+      label: i18n("system.primary.key"),
       fieldName: "idMenusinfo",
     },
     [
       {
-        label: "菜单名称",
+        label: i18n("system.menu.name"),
         fieldName: "menuName",
 
         required: true,
@@ -142,7 +143,7 @@ const tableFieldList = reactive<PageFieldInfo>({
         listVisible: true,
       },
       {
-        label: "菜单路径",
+        label: i18n("system.menu.path"),
         fieldName: "menuPath",
 
         required: true,
@@ -152,7 +153,7 @@ const tableFieldList = reactive<PageFieldInfo>({
     ],
     [
       {
-        label: "归属应用名称",
+        label: i18n("system.belonging.application.name"),
         fieldName: "idInformations",
         type: "tselect",
         required: true,
@@ -174,7 +175,7 @@ const tableFieldList = reactive<PageFieldInfo>({
         },
       },
       {
-        label: "父菜单",
+        label: i18n("system.parent.menu"),
         fieldName: "parentNo",
         type: "tselect",
         formVisible: true,
@@ -185,7 +186,7 @@ const tableFieldList = reactive<PageFieldInfo>({
       },
     ],
     {
-      label: "菜单编码",
+      label: i18n("system.menu.code"),
       fieldName: "menuCode",
 
       required: true,
@@ -194,7 +195,7 @@ const tableFieldList = reactive<PageFieldInfo>({
     },
     [
       {
-        label: "排序",
+        label: i18n("system.sort"),
         fieldName: "dataIndex",
         type: "number",
         required: true,
@@ -202,7 +203,7 @@ const tableFieldList = reactive<PageFieldInfo>({
         listVisible: true,
       },
       {
-        label: "菜单图标",
+        label: i18n("system.menu.icon"),
         fieldName: "menuIcon",
         type: "icon",
         required: false,
@@ -216,7 +217,7 @@ const tableFieldList = reactive<PageFieldInfo>({
     ],
     [
       {
-        label: "是否缓存页面",
+        label: i18n("system.keep.alive"),
         fieldName: "keepAlive",
         type: "switch",
         defaultValue: "Y",
@@ -228,7 +229,7 @@ const tableFieldList = reactive<PageFieldInfo>({
         },
       },
       {
-        label: "页面打开方式",
+        label: i18n("system.open.type"),
         fieldName: "openType",
         type: "select",
         required: true,
@@ -241,58 +242,58 @@ const tableFieldList = reactive<PageFieldInfo>({
       },
     ],
     {
-      label: "菜单描述",
+      label: i18n("system.menu.description"),
       fieldName: "menuDesc",
       type: "textarea",
       formVisible: true,
       listVisible: true,
     },
     {
-      label: "创建人",
+      label: i18n("system.created.by"),
       disabled: true,
       fieldName: "createdBy",
     },
     {
-      label: "修改人",
+      label: i18n("system.updated.by"),
       disabled: true,
       fieldName: "updatedBy",
     },
     {
-      label: "创建日期",
+      label: i18n("system.created.time"),
       disabled: true,
       fieldName: "createdTime",
       type: "date",
     },
     {
-      label: "修改日期",
+      label: i18n("system.updated.time"),
       disabled: true,
       fieldName: "updatedTime",
       type: "date",
     },
     {
-      label: "数据版本号",
+      label: i18n("system.version"),
       fieldName: "version",
       type: "number",
     },
     {
-      label: "是否已逻辑",
+      label: i18n("system.is.del"),
       fieldName: "isDel",
       type: "number",
     },
     {
-      label: "数据编号",
+      label: i18n("system.data.no"),
       fieldName: "dataNo",
     },
     {
-      label: "状态码",
+      label: i18n("system.status.code"),
       fieldName: "statusCode",
     },
     {
-      label: "状态码名称",
+      label: i18n("system.status.name"),
       fieldName: "statusName",
     },
     {
-      label: "国际码",
+      label: i18n("system.local"),
       fieldName: "local",
     },
   ],

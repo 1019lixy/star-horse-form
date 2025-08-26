@@ -10,6 +10,7 @@ import {
   UserFuncInfo,
 } from "star-horse-lowcode";
 import { commonField } from "@/api/system";
+import { i18n } from "@/lang";
 //后端交互接口地址
 const dataUrl: ApiUrls = apiInstance("system-config", "system/companyCategory");
 //主键
@@ -22,13 +23,13 @@ provide("formFields", formFields);
 const searchFormData = reactive<SearchFields>({
   fieldList: [
     {
-      label: "名称",
+      label: i18n("system.name"),
       fieldName: "categoryName",
       defaultVisible: true,
       matchType: "lk",
     },
     {
-      label: "编码",
+      label: i18n("system.code"),
       fieldName: "categoryCode",
       defaultVisible: true,
       matchType: "lk",
@@ -40,7 +41,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
   //属性列表
   fieldList: [
     {
-      label: "名称",
+      label: i18n("system.name"),
       fieldName: "categoryName",
       required: true,
       formVisible: true,
@@ -51,7 +52,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       },
     },
     {
-      label: "编码",
+      label: i18n("system.code"),
       fieldName: "categoryCode",
       required: true,
 
@@ -62,7 +63,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       },
     },
     {
-      label: "序号",
+      label: i18n("system.sequence.number"),
       fieldName: "dataSort",
       type: "number",
       required: false,
@@ -84,7 +85,7 @@ provide("dialogProps", dialogProps);
 let outerForm = ref<any>({});
 let extendBtns = ref<UserFuncInfo[]>([
   {
-    btnName: "添加子节点",
+    btnName: i18n("system.add.child.node"),
     authority: "add",
     icon: "plus",
     priority: 1,

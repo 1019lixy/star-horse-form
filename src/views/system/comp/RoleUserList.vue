@@ -26,6 +26,8 @@ import {
   warning,
 } from "star-horse-lowcode";
 import { analysisField } from "@/api/star_horse_utils";
+import { i18n } from "@/lang";
+
 //后端交互接口地址
 const dataUrl: ApiUrls = apiInstance("system-config", "system/employeeInfo");
 dataUrl.pageListUrl = "/system-config/system/employeeInfo/compRolePageList";
@@ -47,19 +49,19 @@ let stationList = ref<any>([]);
 const searchFormData = reactive<SearchFields>({
   fieldList: [
     {
-      label: "姓名",
+      label: i18n("system.name"),
       fieldName: "name",
       defaultVisible: true,
       matchType: "lk",
     },
     {
-      label: "工号",
+      label: i18n("system.employee.number"),
       fieldName: "employeeNo",
       defaultVisible: true,
       matchType: "lk",
     },
     {
-      label: "职级",
+      label: i18n("system.rank"),
       fieldName: "rank",
       defaultVisible: false,
       type: "tselect",
@@ -68,7 +70,7 @@ const searchFormData = reactive<SearchFields>({
       },
     },
     {
-      label: "岗位",
+      label: i18n("system.station"),
       fieldName: "station",
       defaultVisible: false,
       type: "tselect",
@@ -84,7 +86,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
   //属性列表
   fieldList: [
     {
-      label: "主键",
+      label: i18n("system.primary.key"),
       fieldName: "idEmployeeInfo",
 
       required: true,
@@ -93,7 +95,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       dytableList: [
         [
           {
-            label: "姓名",
+            label: i18n("system.name"),
             fieldName: "name",
 
             required: true,
@@ -101,7 +103,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
             listVisible: true,
           },
           {
-            label: "工号",
+            label: i18n("system.employee.number"),
             fieldName: "employeeNo",
 
             required: true,
@@ -112,7 +114,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
             },
           },
           {
-            label: "头像",
+            label: i18n("system.avatar"),
             fieldName: "photo",
             type: "upload",
             required: false,
@@ -128,7 +130,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
         ],
         [
           {
-            label: "职级",
+            label: i18n("system.rank"),
             fieldName: "rank",
             type: "tselect",
             required: false,
@@ -140,7 +142,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
             },
           },
           {
-            label: "岗位",
+            label: i18n("system.station"),
             fieldName: "station",
             type: "tselect",
             required: false,
@@ -154,7 +156,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
         ],
         [
           {
-            label: "所属公司",
+            label: i18n("system.affiliated.company"),
             fieldName: "idCompanyDefine",
 
             required: true,
@@ -166,7 +168,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
             },
           },
           {
-            label: "所属部门",
+            label: i18n("system.affiliated.department"),
             fieldName: "idDepartmentInfo",
 
             required: true,
@@ -179,7 +181,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
         ],
         [
           {
-            label: "联系电话",
+            label: i18n("system.contact.phone"),
             fieldName: "phone",
 
             required: false,
@@ -193,7 +195,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       ],
     },
     {
-      label: "版本号",
+      label: i18n("system.version"),
       fieldName: "version",
       type: "number",
       required: false,
@@ -201,7 +203,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       listVisible: !true,
     },
     {
-      label: "创建人",
+      label: i18n("system.created.by"),
       fieldName: "createdBy",
 
       required: false,
@@ -209,7 +211,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       listVisible: !true,
     },
     {
-      label: "创建时间",
+      label: i18n("system.created.time"),
       fieldName: "createdTime",
 
       required: false,
@@ -217,7 +219,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       listVisible: !true,
     },
     {
-      label: "修改人",
+      label: i18n("system.updated.by"),
       fieldName: "updatedBy",
 
       required: false,
@@ -225,7 +227,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       listVisible: !true,
     },
     {
-      label: "修改时间",
+      label: i18n("system.updated.time"),
       fieldName: "updatedTime",
 
       required: false,
@@ -233,7 +235,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       listVisible: !true,
     },
     {
-      label: "数据编号",
+      label: i18n("system.data.number"),
       fieldName: "dataNo",
 
       required: false,
@@ -241,7 +243,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       listVisible: !true,
     },
     {
-      label: "状态码",
+      label: i18n("system.status.code"),
       fieldName: "statusCode",
 
       required: false,
@@ -249,7 +251,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       listVisible: !true,
     },
     {
-      label: "状态名称",
+      label: i18n("system.status.name"),
       fieldName: "statusName",
 
       required: false,
@@ -257,7 +259,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       listVisible: !true,
     },
     {
-      label: "是否删除",
+      label: i18n("system.is.logical.deleted"),
       fieldName: "isDel",
       type: "number",
       required: false,
@@ -265,7 +267,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       listVisible: !true,
     },
     {
-      label: "国际编码",
+      label: i18n("system.international.code"),
       fieldName: "local",
 
       required: false,
@@ -273,7 +275,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       listVisible: !true,
     },
     {
-      label: "备注",
+      label: i18n("system.remark"),
       fieldName: "remark",
 
       required: false,
@@ -291,11 +293,11 @@ const dialogProps = dialogPreps();
 provide("dialogProps", dialogProps);
 let extendBtns = ref<UserFuncInfo[]>([
   {
-    btnName: "移出",
+    btnName: i18n("system.remove"),
     authority: "delete",
     icon: "delete",
     funcName: async (row: any) => {
-      let flag = await operationConfirm("确定要移出吗？");
+      let flag = await operationConfirm(i18n("system.confirm.remove"));
       if (flag) {
         let params: Array<any> = [];
         let idCompanyDefine = analysisField(
@@ -311,7 +313,7 @@ let extendBtns = ref<UserFuncInfo[]>([
           idCompanyDefine: idCompanyDefine.value,
           idCompanyRole: idCompanyRole.value,
         });
-        load("数据处理中");
+        load(i18n("system.data.processing"));
         employeeInfoRef.value.loadByPage();
         postRequest(dataUrl.deleteUrl!, params)
           .then((res) => {
@@ -319,7 +321,7 @@ let extendBtns = ref<UserFuncInfo[]>([
               warning(res.data.cnMessage);
               return;
             }
-            success("操作成功");
+            success(i18n("system.operation.success"));
           })
           .finally(() => closeLoad());
       }

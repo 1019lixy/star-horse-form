@@ -23,6 +23,8 @@ import {
 } from "star-horse-lowcode";
 import { getCustomerParam } from "@/utils/auth";
 import { TreeNodeData } from "element-plus/es/components/tree-v2/src/types";
+import { i18n } from "@/lang";
+
 //后端交互接口地址
 const dataUrl: ApiUrls = apiInstance("system-config", "system/employeeInfo");
 const props = defineProps({
@@ -46,19 +48,19 @@ let stationList = ref<any>([]);
 const searchFormData = reactive<SearchFields>({
   fieldList: [
     {
-      label: "姓名",
+      label: i18n("system.name"),
       fieldName: "a.name",
       defaultVisible: true,
       matchType: "lk",
     },
     {
-      label: "工号",
+      label: i18n("system.employee.number"),
       fieldName: "a.employeeNo",
       defaultVisible: true,
       matchType: "lk",
     },
     {
-      label: "职级",
+      label: i18n("system.rank"),
       fieldName: "a.rank",
       defaultVisible: false,
       type: "tselect",
@@ -67,7 +69,7 @@ const searchFormData = reactive<SearchFields>({
       },
     },
     {
-      label: "岗位",
+      label: i18n("system.station"),
       fieldName: "a.station",
       defaultVisible: false,
       type: "tselect",
@@ -83,7 +85,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
   //属性列表
   fieldList: [
     {
-      label: "主键",
+      label: i18n("system.primary.key"),
       fieldName: "idEmployeeInfo",
 
       required: true,
@@ -92,7 +94,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       dytableList: [
         [
           {
-            label: "姓名",
+            label: i18n("system.name"),
             fieldName: "name",
 
             required: true,
@@ -100,9 +102,9 @@ const tableFieldList = reactive<PageFieldInfo | any>({
             listVisible: true,
           },
           {
-            label: "工号",
+            label: i18n("system.employee.number"),
             fieldName: "employeeNo",
-            helpMsg: "如不填写系统自动生成",
+            helpMsg: i18n("system.auto.generate.if.empty"),
             required: false,
             formVisible: true,
             listVisible: true,
@@ -111,7 +113,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
             },
           },
           {
-            label: "头像",
+            label: i18n("system.avatar"),
             fieldName: "photo",
             type: "upload",
             required: false,
@@ -127,7 +129,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
         ],
         [
           {
-            label: "职级",
+            label: i18n("system.rank"),
             fieldName: "rank",
             type: "tselect",
             required: false,
@@ -139,7 +141,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
             },
           },
           {
-            label: "岗位",
+            label: i18n("system.station"),
             fieldName: "station",
             type: "tselect",
             required: false,
@@ -153,7 +155,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
         ],
         [
           {
-            label: "所属公司",
+            label: i18n("system.affiliated.company"),
             fieldName: "idCompanyDefine",
             type: "tselect",
             required: true,
@@ -170,7 +172,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
             },
           },
           {
-            label: "所属部门",
+            label: i18n("system.affiliated.department"),
             fieldName: "idDepartmentInfo",
             type: "tselect",
             required: true,
@@ -184,7 +186,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
         ],
         [
           {
-            label: "联系电话",
+            label: i18n("system.contact.phone"),
             fieldName: "phone",
 
             required: true,
@@ -192,10 +194,10 @@ const tableFieldList = reactive<PageFieldInfo | any>({
             listVisible: true,
           },
           {
-            label: "紧急联系电话",
+            label: i18n("system.emergency.contact.phone"),
             fieldName: "bakePhone",
 
-            helpMsg: "方便特殊情况联系家属",
+            helpMsg: i18n("system.emergency.contact.help"),
             required: true,
             formVisible: true,
             listVisible: true,
@@ -203,7 +205,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
         ],
         [
           {
-            label: "赋予系统登录权限",
+            label: i18n("system.grant.system.login.authority"),
             fieldName: "loginAuthority",
             type: "switch",
             defaultValue: "N",
@@ -220,7 +222,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       ],
     },
     {
-      label: "邮箱",
+      label: i18n("system.email"),
       fieldName: "email",
 
       required: false,
@@ -228,7 +230,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       listVisible: true,
     },
     {
-      label: "版本号",
+      label: i18n("system.version"),
       fieldName: "version",
       type: "number",
       required: false,
@@ -236,7 +238,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       listVisible: !true,
     },
     {
-      label: "创建人",
+      label: i18n("system.created.by"),
       fieldName: "createdBy",
 
       required: false,
@@ -244,7 +246,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       listVisible: !true,
     },
     {
-      label: "创建时间",
+      label: i18n("system.created.time"),
       fieldName: "createdTime",
 
       required: false,
@@ -252,7 +254,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       listVisible: !true,
     },
     {
-      label: "修改人",
+      label: i18n("system.updated.by"),
       fieldName: "updatedBy",
 
       required: false,
@@ -260,7 +262,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       listVisible: !true,
     },
     {
-      label: "修改时间",
+      label: i18n("system.updated.time"),
       fieldName: "updatedTime",
 
       required: false,
@@ -268,7 +270,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       listVisible: !true,
     },
     {
-      label: "数据编号",
+      label: i18n("system.data.number"),
       fieldName: "dataNo",
 
       required: false,
@@ -276,7 +278,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       listVisible: !true,
     },
     {
-      label: "状态码",
+      label: i18n("system.status.code"),
       fieldName: "statusCode",
 
       required: false,
@@ -284,7 +286,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       listVisible: !true,
     },
     {
-      label: "状态名称",
+      label: i18n("system.status.name"),
       fieldName: "statusName",
 
       required: false,
@@ -292,7 +294,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       listVisible: !true,
     },
     {
-      label: "是否删除",
+      label: i18n("system.is.logical.deleted"),
       fieldName: "isDel",
       type: "number",
       required: false,
@@ -300,7 +302,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       listVisible: !true,
     },
     {
-      label: "国际编码",
+      label: i18n("system.international.code"),
       fieldName: "local",
 
       required: false,
@@ -308,7 +310,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       listVisible: !true,
     },
     {
-      label: "备注",
+      label: i18n("system.remark"),
       fieldName: "remark",
 
       required: false,
@@ -475,7 +477,7 @@ const testChange = (val: any) => {
           <star-horse-tree
             v-model:tree-datas="companyList"
             :expand="true"
-            treeTitle="组织机构"
+            :treeTitle="i18n('system.organization')"
             @selectData="companyChange"
           />
         </el-splitter-panel>

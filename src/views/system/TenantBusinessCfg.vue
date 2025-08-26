@@ -28,6 +28,7 @@ import {
 } from "star-horse-lowcode";
 import { loadDict } from "@/api/star_horse_apis";
 import { loadMenusInfo, loadSystemInfo } from "@/api/star_horse_utils";
+import { i18n } from "@/lang";
 
 defineOptions({
   name: "TenantInfo",
@@ -60,7 +61,7 @@ provide("formFields", formFields);
 const searchFormData = reactive<SearchFields>({
   fieldList: [
     {
-      label: "菜单名称",
+      label: i18n("system.menu.name"),
       fieldName: "menuName",
       matchType: "lk",
       defaultVisible: true,
@@ -70,7 +71,7 @@ const searchFormData = reactive<SearchFields>({
 const tableFieldList = reactive<PageFieldInfo | any>({
   fieldList: [
     {
-      label: "菜单名称",
+      label: i18n("system.menu.name"),
       fieldName: "menuName",
 
       required: false,
@@ -79,7 +80,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       preps: {},
     },
     {
-      label: "排序",
+      label: i18n("system.sort"),
       fieldName: "dataIndex",
       type: "number",
       required: false,
@@ -88,23 +89,28 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       preps: {},
     },
     {
-      label: "创建人",
+      label: i18n("system.created.by"),
       fieldName: "createdBy",
       listVisible: true,
       preps: {},
       commonFlag: "Y",
     },
     {
-      label: "创建时间",
+      label: i18n("system.created.time"),
       fieldName: "createdTime",
       type: "datetime",
       listVisible: true,
       preps: {},
       commonFlag: "Y",
     },
-    { label: "修改人", fieldName: "updatedBy", preps: {}, commonFlag: "Y" },
+    { 
+      label: i18n("system.updated.by"), 
+      fieldName: "updatedBy", 
+      preps: {}, 
+      commonFlag: "Y" 
+    },
     {
-      label: "修改时间",
+      label: i18n("system.updated.time"),
       fieldName: "updatedTime",
       type: "datetime",
       preps: {},
@@ -125,13 +131,13 @@ let menusList = ref<any>([]);
 const formFieldList = reactive<PageFieldInfo>({
   fieldList: [
     {
-      label: "应用名称",
+      label: i18n("system.application.name"),
       fieldName: "appList",
       type: "tselect",
       formVisible: true,
       required: true,
       viewVisible: false,
-      helpMsg: "选择子节点时，一定要先选中父节点，否则在头部应用菜单栏无法显示",
+      helpMsg: i18n("system.select.child.node.first"),
       preps: {
         multiple: true,
         data: informationsList,
@@ -144,7 +150,7 @@ let menuRequired = ref<boolean>(false);
 const menuformFieldList = reactive<PageFieldInfo>({
   fieldList: [
     {
-      label: "系统名称",
+      label: i18n("system.system.name"),
       fieldName: "idInformations",
       type: "tselect",
 
@@ -157,7 +163,7 @@ const menuformFieldList = reactive<PageFieldInfo>({
       },
     },
     {
-      label: "分配所有菜单",
+      label: i18n("system.assign.all.menus"),
       fieldName: "allMenu",
       type: "switch",
       defaultValue: "Y",
@@ -175,14 +181,14 @@ const menuformFieldList = reactive<PageFieldInfo>({
       },
     },
     {
-      label: "指定菜单",
+      label: i18n("system.specified.menu"),
       fieldName: "menuList",
       type: "tselect",
       formVisible: true,
       required: menuRequired,
       viewVisible: false,
 
-      helpMsg: "选择子节点时，一定要先选中父节点，否则左侧菜单栏无法显示",
+      helpMsg: i18n("system.select.child.node.first"),
       actions: {
         change: (val: any) => {
           if (val["menuList"]) {
@@ -320,7 +326,7 @@ onDeactivated(() => {
 <template>
   <div class="flex flex-col h-full overflow-hidden">
     <star-horse-dialog
-      title="添加应用"
+      :title="i18n('system.add.application')"
       boxWidth="40%"
       :dialog-visible="dialogProps.editVisible"
       :dialogProps="dialogProps"
@@ -340,7 +346,7 @@ onDeactivated(() => {
       boxWidth="40%"
       :dialog-visible="dialogProps.bakeVisible1"
       :dialogProps="dialogProps"
-      :title="'添加菜单'"
+      :title="i18n('system.add.menu')"
     >
       <star-horse-form
         @refresh="menuAddedRefresh"
@@ -360,10 +366,10 @@ onDeactivated(() => {
             v-model:tree-datas="dynamicFormList"
             ref="starHorseTreeRef"
             :expand="true"
-            treeTitle="租户列表"
+            :treeTitle="i18n('system.tenant.list')"
             @selectData="dataChange"
             @addData="addData"
-            btnTitle="添加应用"
+            :btnTitle="i18n('system.add.application')"
             :btnVisible="true"
             :showDropdown="false"
             :preps="{
@@ -388,13 +394,13 @@ onDeactivated(() => {
                 <star-horse-tree
                   ref="tenantAppTreeRef"
                   :expand="true"
-                  treeTitle="应用列表"
+                  :treeTitle="i18n('system.application.list')"
                   @selectData="appDataChange"
                   @addData="addMenuData"
                   @removeData="removeAppData"
-                  btnTitle="添加菜单"
+                  :btnTitle="i18n('system.add.menu')"
                   :btnVisible="true"
-                  rmvTitle="删除应用"
+                  :rmvTitle="i18n('system.delete.application')"
                   :rmvVisible="true"
                   :showDropdown="false"
                   :preps="{

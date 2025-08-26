@@ -11,6 +11,7 @@ import {
 } from "star-horse-lowcode";
 import { onMounted, provide, reactive, ref } from "vue";
 import { loadElementPlusIcon, loadSvgIcons } from "@/api/star_horse_utils.js";
+import { i18n } from "@/lang";
 //后端交互接口地址
 const dataUrl: ApiUrls = apiInstance("system-config", "system/customer");
 // const buttonPermission = useButtonPermissionStore(piniaInstance);
@@ -18,14 +19,14 @@ const dataUrl: ApiUrls = apiInstance("system-config", "system/customer");
 const searchFormData = reactive<SearchFields>({
   fieldList: [
     {
-      label: "客户名称",
+      label: i18n("system.customer.name"),
       defaultVisible: true,
       fieldName: "customerName",
 
       matchType: "lk",
     },
     {
-      label: "客户编码",
+      label: i18n("system.customer.code"),
       fieldName: "customerCode",
 
       defaultVisible: true,
@@ -38,13 +39,13 @@ let systemIconList = ref<SelectOption[]>([]);
 const tableFieldList = reactive<PageFieldInfo | any>({
   fieldList: [
     {
-      label: "主键",
+      label: i18n("system.primary.key"),
       fieldName: "idCustomer",
       type: "long",
       required: true,
     },
     {
-      label: "客户名称",
+      label: i18n("system.customer.name"),
       fieldName: "customerName",
 
       required: true,
@@ -52,14 +53,14 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       listVisible: true,
     },
     {
-      label: "客户编码",
+      label: i18n("system.customer.code"),
       fieldName: "customerCode",
 
       disabled: true,
       listVisible: true,
     },
     {
-      label: "Logo",
+      label: i18n("system.logo"),
       fieldName: "customerLogo",
       type: "icon",
       formVisible: true,
@@ -72,56 +73,56 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       },
     },
     {
-      label: "描述",
+      label: i18n("system.description"),
       fieldName: "customerDesc",
       type: "textarea",
       formVisible: true,
       listVisible: true,
     },
     {
-      label: "创建人",
+      label: i18n("system.created.by"),
       disabled: true,
       fieldName: "createdBy",
     },
     {
-      label: "修改人",
+      label: i18n("system.updated.by"),
       disabled: true,
       fieldName: "updatedBy",
     },
     {
-      label: "创建时间",
+      label: i18n("system.created.time"),
       fieldName: "createdTime",
       type: "date",
     },
     {
-      label: "修改时间",
+      label: i18n("system.updated.time"),
       fieldName: "updatedTime",
       type: "date",
     },
     {
-      label: "版本号",
+      label: i18n("system.version"),
       fieldName: "version",
       type: "number",
     },
     {
-      label: "是否逻辑删除",
+      label: i18n("system.is.logical.deleted"),
       fieldName: "isDel",
       type: "number",
     },
     {
-      label: "数据编号",
+      label: i18n("system.data.number"),
       fieldName: "dataNo",
     },
     {
-      label: "状态码",
+      label: i18n("system.status.code"),
       fieldName: "statusCode",
     },
     {
-      label: "状态名称",
+      label: i18n("system.status.name"),
       fieldName: "statusName",
     },
     {
-      label: "国际码",
+      label: i18n("system.international.code"),
       fieldName: "local",
     },
   ],

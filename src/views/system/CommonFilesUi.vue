@@ -17,6 +17,7 @@ import {
   ref,
 } from "vue";
 import { getCustomerParam, getToken } from "@/utils/auth";
+import { i18n } from "@/lang";
 //后端交互接口地址
 const dataUrl: ApiUrls = apiInstance("system-config", "system/commonFiles");
 //主键
@@ -29,19 +30,19 @@ provide("formFields", formFields);
 const searchFormData = reactive<SearchFields>({
   fieldList: [
     {
-      label: "唯一标识",
+      label: i18n("system.unique.identifier"),
       fieldName: "keyName",
       defaultVisible: true,
       matchType: "lk",
     },
     {
-      label: "文件名",
+      label: i18n("system.file.name"),
       fieldName: "fileName",
       defaultVisible: true,
       matchType: "lk",
     },
     {
-      label: "文件类型",
+      label: i18n("system.file.type"),
       fieldName: "fileType",
       defaultVisible: true,
       matchType: "lk",
@@ -53,7 +54,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
   //属性列表
   fieldList: [
     {
-      label: "唯一标识",
+      label: i18n("system.unique.identifier"),
       fieldName: "keyName",
 
       required: true,
@@ -61,7 +62,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       listVisible: true,
     },
     {
-      label: "文件名",
+      label: i18n("system.file.name"),
       fieldName: "fileRealName",
 
       required: false,
@@ -69,7 +70,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       listVisible: true,
     },
     {
-      label: "文件大小",
+      label: i18n("system.file.size"),
       fieldName: "size",
       type: "number",
       required: false,
@@ -77,7 +78,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       listVisible: true,
     },
     {
-      label: "文件类型",
+      label: i18n("system.file.type"),
       fieldName: "fileType",
 
       required: false,
@@ -85,7 +86,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       listVisible: true,
     },
     {
-      label: "文件路径",
+      label: i18n("system.file.path"),
       fieldName: "file",
       type: "upload",
       required: false,
@@ -103,7 +104,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       },
     },
     {
-      label: "版本号",
+      label: i18n("system.version"),
       fieldName: "version",
       type: "number",
       required: false,
@@ -111,7 +112,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       listVisible: true,
     },
     {
-      label: "创建人",
+      label: i18n("system.created.by"),
       fieldName: "createdBy",
 
       required: false,
@@ -119,7 +120,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       listVisible: true,
     },
     {
-      label: "创建时间",
+      label: i18n("system.created.time"),
       fieldName: "createdTime",
       type: "datetime",
       required: false,
@@ -127,7 +128,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       listVisible: true,
     },
     {
-      label: "修改人",
+      label: i18n("system.updated.by"),
       fieldName: "updatedBy",
 
       required: false,
@@ -135,7 +136,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       listVisible: true,
     },
     {
-      label: "修改时间",
+      label: i18n("system.updated.time"),
       fieldName: "updatedTime",
       type: "datetime",
       required: false,
@@ -143,7 +144,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       listVisible: true,
     },
     {
-      label: "数据编号",
+      label: i18n("system.data.number"),
       fieldName: "dataNo",
 
       required: false,
@@ -151,7 +152,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       listVisible: !true,
     },
     {
-      label: "状态码",
+      label: i18n("system.status.code"),
       fieldName: "statusCode",
 
       required: false,
@@ -159,7 +160,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       listVisible: !true,
     },
     {
-      label: "状态名称",
+      label: i18n("system.status.name"),
       fieldName: "statusName",
 
       required: false,
@@ -167,7 +168,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       listVisible: !true,
     },
     {
-      label: "是否删除",
+      label: i18n("system.is.logical.deleted"),
       fieldName: "isDel",
       type: "number",
       required: false,
@@ -175,7 +176,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       listVisible: !true,
     },
     {
-      label: "国际编码",
+      label: i18n("system.international.code"),
       fieldName: "local",
 
       required: false,
@@ -183,7 +184,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       listVisible: !true,
     },
     {
-      label: "备注",
+      label: i18n("system.remark"),
       fieldName: "remark",
       type: "textarea",
       required: false,
@@ -225,7 +226,7 @@ onDeactivated(() => {
 const extendBtns: UserFuncInfo[] = [
   {
     icon: "download",
-    btnName: "下载",
+    btnName: i18n("system.download"),
     priority: 1,
     authority: "download",
     funcName: (row: any) => {

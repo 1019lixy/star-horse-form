@@ -7,19 +7,20 @@ import {
   SearchFields,
 } from "star-horse-lowcode";
 import { onMounted, provide, reactive, ref } from "vue";
+import { i18n } from "@/lang";
 //后端交互接口地址
 const dataUrl: ApiUrls = apiInstance("system-config", "system/rolesMenusinfo");
 //查询属性
 const searchFormData = reactive<SearchFields>({
   fieldList: [
     {
-      label: "系统名称",
+      label: i18n("system.system.name"),
       defaultVisible: true,
       fieldName: "idInformations",
       type: "select",
     },
     {
-      label: "菜单名称",
+      label: i18n("system.menu.name"),
       defaultVisible: true,
       fieldName: "idMenusinfo",
     },
@@ -29,85 +30,85 @@ const searchFormData = reactive<SearchFields>({
 const tableFieldList = reactive<PageFieldInfo | any>({
   fieldList: [
     {
-      label: "主键",
+      label: i18n("system.primary.key"),
       fieldName: "idRolesMenusinfo",
       type: "long",
       required: true,
     },
     {
-      label: "角色Id",
+      label: i18n("system.role.id"),
       fieldName: "idRolesinfo",
       type: "long",
       required: true,
     },
     {
-      label: "系统Id",
+      label: i18n("system.system.id"),
       fieldName: "idInformations",
       type: "long",
     },
     {
-      label: "菜单Id",
+      label: i18n("system.menu.id"),
       fieldName: "idMenusinfo",
       type: "long",
       required: true,
     },
     {
-      label: "系统名称",
+      label: i18n("system.system.name"),
       fieldName: "sysName",
 
       listVisible: true,
     },
     {
-      label: "菜单名称",
+      label: i18n("system.menu.name"),
       fieldName: "menuName",
 
       required: true,
       listVisible: true,
     },
     {
-      label: "创建人",
+      label: i18n("system.created.by"),
       disabled: true,
       fieldName: "createdBy",
     },
     {
-      label: "修改人",
+      label: i18n("system.updated.by"),
       disabled: true,
       fieldName: "updatedBy",
     },
     {
-      label: "创建时间",
+      label: i18n("system.created.time"),
       fieldName: "createdTime",
       type: "date",
     },
     {
-      label: "修改时间",
+      label: i18n("system.updated.time"),
       fieldName: "updatedTime",
       type: "date",
     },
     {
-      label: "版本号",
+      label: i18n("system.version"),
       fieldName: "version",
       type: "number",
     },
     {
-      label: "是否逻辑删除",
+      label: i18n("system.is.logical.deleted"),
       fieldName: "isDel",
       type: "number",
     },
     {
-      label: "数据编号",
+      label: i18n("system.data.number"),
       fieldName: "dataNo",
     },
     {
-      label: "数据状态码",
+      label: i18n("system.data.status.code"),
       fieldName: "statusCode",
     },
     {
-      label: "数据状态名称",
+      label: i18n("system.data.status.name"),
       fieldName: "statusName",
     },
     {
-      label: "国际码",
+      label: i18n("system.international.code"),
       fieldName: "local",
     },
   ],

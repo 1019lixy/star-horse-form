@@ -317,6 +317,113 @@ export default {
   "system.password": "密码",
   "system.confirm.password": "确认密码",
   "system.change.password": "修改密码",
+  "system.area.name": "区域名称",
+  "system.area.code": "区域编码",
+  "system.area.key": "区域主键",
+  "system.parent.node.number": "父节点编号",
+  "system.request.method": "请求方法",
+  "system.operator": "操作人",
+  "system.access.interface": "访问接口",
+  "system.access.address": "访问地址",
+  "system.primary.key": "主键",
+  "system.request.parameters": "请求参数",
+  "system.created.by": "创建人",
+  "system.updated.by": "修改人",
+  "system.created.date": "创建日期",
+  "system.updated.date": "修改日期",
+  "system.data.version": "数据版本号",
+  "system.is.deleted": "是否已逻辑",
+  "system.data.number": "数据编号",
+  "system.status.code": "状态码",
+  "system.status.name": "状态码名称",
+  "system.international.code": "国际码",
+  "system.interface.address": "接口地址",
+  "system.remark": "备注",
+  "system.customer.name": "客户名称",
+  "system.customer.code": "客户编码",
+  "system.logo": "Logo",
+  "system.description": "描述",
+  "system.created.time": "创建时间",
+  "system.updated.time": "修改时间",
+  "system.version": "版本号",
+  "system.is.logical.deleted": "是否逻辑删除",
+  "system.status.name": "状态名称",
+  "system.department.name": "部门名称",
+  "system.department.code": "部门编码",
+  "system.parent.department": "上级部门",
+  "system.department.leader": "部门领导",
+  "system.division.leader": "分管领导",
+  "system.affiliated.company": "所属公司",
+  "system.department.phone": "部门电话",
+  "system.department.responsibility": "部门职责",
+  "system.code": "编码",
+  "system.dictionary.type.name": "字典类型名称",
+  "system.dictionary.type.code": "字典类型编码",
+  "system.dictionary.type": "字典类型",
+  "system.dictionary.name": "字典名称",
+  "system.dictionary.code": "字典编码",
+  "system.sort": "排序",
+  "system.status": "状态",
+  "system.dictionary.description": "字典描述",
+  "system.dictionary.info": "字典信息",
+  "system.edit": "编辑",
+  "system.please.select.dictionary.category": "请先选择字典类别",
+  "system.belonging.entity": "归属主体",
+  "system.application.name": "应用名称",
+  "system.add.time": "添加时间",
+  "system.parent.application": "上级应用",
+  "system.system.code": "系统编码",
+  "system.system.logo": "系统Logo",
+  "system.data.sort": "数据排序",
+  "system.system.description": "系统描述",
+  "system.menu.name": "菜单名称",
+  "system.menu.code": "菜单编码",
+  "system.original.application": "原应用",
+  "system.new.application": "新应用",
+  "system.new.application.parent.menu": "新应用的父级菜单",
+  "system.menu.switch.method": "菜单切换方式",
+  "system.move": "移动",
+  "system.copy": "复制",
+  "system.menu.list": "菜单列表",
+  "system.original.application.menu": "原应用菜单",
+  "system.target.application.menu": "目标应用菜单",
+  "system.return.to.left": "退回左边",
+  "system.add.to.right": "添加到右边",
+  "system.menu.path": "菜单路径",
+  "system.belonging.application.name": "归属应用名称",
+  "system.parent.menu": "父菜单",
+  "system.category": "分类",
+  "system.type": "类别",
+  "system.title": "标题",
+  "system.is.broadcast.message": "是否广播消息",
+  "system.recipient": "接收人",
+  "system.redirect.url": "跳转Url",
+  "system.content": "内容",
+  "system.version": "版本号",
+  "system.created.time": "创建时间",
+  "system.updated.time": "修改时间",
+  "system.system.name": "系统名称",
+  "system.role.id": "角色Id",
+  "system.system.id": "系统Id",
+  "system.menu.id": "菜单Id",
+  "system.data.status.code": "数据状态码",
+  "system.data.status.name": "数据状态名称",
+  "system.normal.user.group": "普通用户组",
+  "system.advanced.user.group": "高级用户组",
+  "system.super.user.group": "超级用户组",
+  "system.15.minutes": "15分钟",
+  "system.30.minutes": "30分钟",
+  "system.60.minutes": "60分钟",
+  "system.180.minutes": "180分钟",
+  "system.unlimited": "无限制",
+  "system.user.group.name": "用户组名称",
+  "system.role.code": "角色编码",
+  "system.user.group.type": "用户组类型",
+  "system.user.group.code": "用户组编码",
+  "system.session.timeout": "会话超时时间",
+  "system.system.permissions": "系统权限",
+  "system.menu.permissions": "菜单权限",
+  "system.user.group.responsibility": "用户组职责",
   /**
    * DB Search
    */
@@ -769,6 +876,160 @@ export default {
    * System Components
    */
   "system.dataProcessing": "数据处理中",
+  /**
+   * Common Files
+   */
+  "system.unique.identifier": "唯一标识",
+  "system.file.name": "文件名",
+  "system.file.type": "文件类型",
+  "system.file.size": "文件大小",
+  "system.file.path": "文件路径",
+  "system.download": "下载",
+  /**
+   * System Parameters
+   */
+  "system.param.name": "参数名",
+  "system.param.value": "参数值",
+  /**
+   * Tenant Business Configuration
+   */
+  "system.menu.name": "菜单名称",
+  "system.sort": "排序",
+  "system.application.name": "应用名称",
+  "system.select.child.node.first": "选择子节点时，一定要先选中父节点，否则在头部应用菜单栏无法显示",
+  "system.system.name": "系统名称",
+  "system.assign.all.menus": "分配所有菜单",
+  "system.specified.menu": "指定菜单",
+  "system.add.application": "添加应用",
+  "system.add.menu": "添加菜单",
+  "system.tenant.list": "租户列表",
+  "system.application.list": "应用列表",
+  "system.delete.application": "删除应用",
+  /**
+   * Tenant Info
+   */
+  "system.tenant.name": "租户名称",
+  "system.tenant.code": "租户编码",
+  "system.expiring.tenant": "临期租户",
+  "system.contact.person": "联系人",
+  "system.contact.phone": "联系电话",
+  "system.email": "邮箱",
+  "system.telephone": "座机",
+  "system.industry": "行业",
+  "system.validity.period": "有效期",
+  "system.expiration.policy": "过期策略",
+  "system.data.backup.policy": "数据备份策略",
+  "system.business.notification": "业务提醒方式",
+  "system.inner.message": "站内通知",
+  "system.sms.notification": "短信通知",
+  "system.email.notification": "邮件通知",
+  "system.dingtalk.notification": "钉钉通知",
+  "system.enterprise.wechat": "企业微信",
+  "system.subscribe.interface": "是否订阅接口",
+  "system.message.template": "消息模板",
+  "system.contact.address": "联系人地址",
+  "system.business.description": "业务描述",
+  /**
+   * User Manage
+   */
+  "system.employee.number": "工号",
+  "system.avatar": "头像",
+  "system.auto.generate.if.empty": "如不填写系统自动生成",
+  "system.affiliated.department": "所属部门",
+  "system.emergency.contact.phone": "紧急联系电话",
+  "system.emergency.contact.help": "方便特殊情况联系家属",
+  "system.grant.system.login.authority": "赋予系统登录权限",
+  "system.organization": "组织机构",
+  /**
+   * Users Audit
+   */
+  "system.password": "密码",
+  "system.effective.date": "生效日期",
+  "system.expired.date": "失效日期",
+  "system.data.type": "数据类型",
+  "system.created.date": "创建日期",
+  "system.updated.date": "修改日期",
+  "system.data.version": "数据版本号",
+  /**
+   * White List
+   */
+  "system.filter.type": "过滤类型",
+  "system.filter.content": "过滤内容",
+  /**
+   * Calendar
+   */
+  "system.calendar.category": "日历分类",
+  "system.calendar.name": "日历名称",
+  "system.shared.members": "共享成员",
+  /**
+   * Calendar Manage
+   */
+  "system.schedule.title": "日程标题",
+  "system.start.date": "开始日期",
+  "system.end.date": "结束日期",
+  "system.is.public": "是否公开",
+  "system.allow.subscription": "是否允许订阅",
+  "system.message.reminder": "是否消息提醒",
+  "system.start.time": "开始时间",
+  "system.end.time": "结束时间",
+  "system.invite": "邀请",
+  "system.cc": "抄送",
+  "system.schedule.content": "日程内容",
+  "system.message.reminder.method": "消息提醒方式",
+  /**
+   * Role User List
+   */
+  "system.remove": "移出",
+  "system.confirm.remove": "确定要移出吗？",
+  "system.data.processing": "数据处理中",
+  "system.operation.success": "操作成功",
+  /**
+   * User Transfer
+   */
+  "system.user.list": "用户列表",
+  "system.selected.users": "已选用户",
+  "system.add": "添加",
+  /**
+   * Company Category
+   */
+  "system.sequence.number": "序号",
+  "system.add.child.node": "添加子节点",
+  /**
+   * Company Defined
+   */
+  "system.company.name": "公司名称",
+  "system.company.code": "公司编码",
+  "system.company.category": "公司类别",
+  "system.company.abbreviation": "公司简称",
+  "system.parent.node": "父节点",
+  "system.add.subsidiary": "添加子公司",
+  /**
+   * Job Category
+   */
+  "system.category.name": "分类名称",
+  "system.function.description": "职能描述",
+  /**
+   * Account Permission
+   */
+  "system.account": "账号",
+  "system.name": "姓名",
+  "system.status": "状态",
+  "system.group.name": "分组名称",
+  "system.account.info": "账号信息",
+  "system.username": "用户名",
+  "system.contact.phone": "联系电话",
+  "system.email": "邮箱",
+  "system.group.code": "分组编码",
+  "system.email.address": "邮箱地址",
+  "system.please.select.group": "请先选择分组",
+  "system.user.group": "用户组",
+  /**
+   * Appinfo Permission
+   */
+  "system.system.name": "系统名称",
+  "system.application.name": "应用名称",
+  "system.system.code": "系统编码",
+  "system.please.select.user.group": "请先选择用户分组",
   /**
    * Workflow Components
    */

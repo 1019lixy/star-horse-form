@@ -12,6 +12,7 @@ import {
 import { Config } from "@/api/settings";
 import { loadDict } from "@/api/star_horse_apis";
 import { computed, onMounted, provide, reactive, ref, watch } from "vue";
+import { i18n } from "@/lang";
 
 const dictinfoRef = ref();
 const dictSearchRef = ref();
@@ -24,13 +25,13 @@ let dictType = computed(() => props.dictType);
 const searchFormData = reactive<SearchFields>({
   fieldList: [
     {
-      label: "字典类型",
+      label: i18n("system.dictionary.type"),
       fieldName: "dictType",
       defaultValue: dictType,
       disabled: true,
     },
     {
-      label: "字典名称",
+      label: i18n("system.dictionary.name"),
       defaultVisible: true,
       fieldName: "dictName",
       matchType: "lk",
@@ -40,7 +41,7 @@ const searchFormData = reactive<SearchFields>({
 const editFormField = reactive<PageFieldInfo>({
   fieldList: [
     {
-      label: "字典名称",
+      label: i18n("system.dictionary.name"),
       fieldName: "dictName",
 
       required: true,
@@ -48,7 +49,7 @@ const editFormField = reactive<PageFieldInfo>({
       listVisible: true,
     },
     {
-      label: "字典编码",
+      label: i18n("system.dictionary.code"),
       fieldName: "dictCode",
 
       required: true,
@@ -56,7 +57,7 @@ const editFormField = reactive<PageFieldInfo>({
       listVisible: true,
     },
     {
-      label: "排序",
+      label: i18n("system.sort"),
       fieldName: "dataSort",
       type: "number",
       formVisible: true,
@@ -68,14 +69,14 @@ const editFormField = reactive<PageFieldInfo>({
       },
     },
     {
-      label: "状态",
+      label: i18n("system.status"),
       fieldName: "statusName",
 
       required: false,
       listVisible: true,
     },
     {
-      label: "状态",
+      label: i18n("system.status"),
       fieldName: "statusCode",
       type: "select",
       required: false,
@@ -87,7 +88,7 @@ const editFormField = reactive<PageFieldInfo>({
       },
     },
     {
-      label: "字典描述",
+      label: i18n("system.dictionary.description"),
       fieldName: "dictDesc",
       type: "textarea",
       formVisible: true,
@@ -98,12 +99,12 @@ const editFormField = reactive<PageFieldInfo>({
 const tableFieldList = reactive<PageFieldInfo>({
   fieldList: [
     {
-      label: "主键",
+      label: i18n("system.primary.key"),
       fieldName: "idDictinfo",
       type: "long",
     },
     {
-      label: "字典类型",
+      label: i18n("system.dictionary.type"),
       fieldName: "dictType",
 
       required: true,
@@ -115,7 +116,7 @@ const tableFieldList = reactive<PageFieldInfo>({
     {
       batchFieldList: [
         {
-          title: "字典信息",
+          title: i18n("system.dictionary.info"),
           batchName: "dictList",
           subFormFlag: "N",
           fieldList: editFormField.fieldList,
@@ -123,43 +124,43 @@ const tableFieldList = reactive<PageFieldInfo>({
       ],
     },
     {
-      label: "创建人",
+      label: i18n("system.created.by"),
       disabled: true,
       fieldName: "createdBy",
     },
     {
-      label: "修改人",
+      label: i18n("system.updated.by"),
       disabled: true,
       fieldName: "updatedBy",
     },
     {
-      label: "创建日期",
+      label: i18n("system.created.date"),
       disabled: true,
       fieldName: "createdTime",
       type: "date",
     },
     {
-      label: "修改日期",
+      label: i18n("system.updated.date"),
       disabled: true,
       fieldName: "updatedTime",
       type: "date",
     },
     {
-      label: "数据版本号",
+      label: i18n("system.data.version"),
       fieldName: "version",
       type: "number",
     },
     {
-      label: "是否已逻辑",
+      label: i18n("system.is.deleted"),
       fieldName: "isDel",
       type: "number",
     },
     {
-      label: "数据编号",
+      label: i18n("system.data.number"),
       fieldName: "dataNo",
     },
     {
-      label: "国际码",
+      label: i18n("system.international.code"),
       fieldName: "local",
     },
   ],
@@ -185,7 +186,7 @@ const dialogProps = dialogPreps();
 provide("dialogProps", dialogProps);
 const extendBtns = ref<UserFuncInfo[]>([
   {
-    btnName: "编辑",
+    btnName: i18n("system.edit"),
     authority: "edit",
     icon: "edit",
     priority: 1,
@@ -272,7 +273,7 @@ onMounted(async () => {
             valid: () => {
               return dictType && dictType != '-1';
             },
-            msg: '请先选择字典类别',
+            msg: i18n('system.please.select.dictionary.category'),
           },
         ]"
         :compUrl="dataUrl"

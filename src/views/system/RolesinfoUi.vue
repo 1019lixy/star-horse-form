@@ -11,6 +11,7 @@ import {
 import { loadDepartmentInfo, loadSystemInfo } from "@/api/star_horse_utils";
 import { onMounted, provide, reactive, ref } from "vue";
 import { isSystemManage } from "@/utils/auth";
+import { i18n } from "@/lang";
 
 const dataUrl: ApiUrls = apiInstance("system-config", "system/rolesinfo");
 let departmentList = ref<SelectOption[]>([]);
@@ -20,28 +21,28 @@ let selfBtnFunc = ref<UserFuncInfo[]>([]);
 const starHorseTableCompRef = ref();
 // 0 普通角色 1高级角色 2普通管理员 3 超级管理员 默认 0
 const roleTypes = ref<SelectOption[]>([
-  { name: "普通用户组", value: 0 },
-  { name: "高级用户组", value: 1 },
-  { name: "超级用户组", value: 2 },
+  { name: i18n("system.normal.user.group"), value: 0 },
+  { name: i18n("system.advanced.user.group"), value: 1 },
+  { name: i18n("system.super.user.group"), value: 2 },
 ]);
 const sessionTimeOut = [
-  { name: "15分钟", value: 15 },
-  { name: "30分钟", value: 30 },
-  { name: "60分钟", value: 60 },
-  { name: "180分钟", value: 180 },
-  { name: "无限制", value: 0 },
+  { name: i18n("system.15.minutes"), value: 15 },
+  { name: i18n("system.30.minutes"), value: 30 },
+  { name: i18n("system.60.minutes"), value: 60 },
+  { name: i18n("system.180.minutes"), value: 180 },
+  { name: i18n("system.unlimited"), value: 0 },
 ];
 const searchFormData = reactive<SearchFields>({
   fieldList: [
     {
-      label: "用户组名称",
+      label: i18n("system.user.group.name"),
       fieldName: "roleName",
       defaultVisible: true,
       matchType: "lk",
     },
-    /* {label: "角色编码", fieldName: "roleCode",  matchType: "lk"},*/
+    /* {label: i18n("system.role.code"), fieldName: "roleCode",  matchType: "lk"},*/
     {
-      label: "用户组类型",
+      label: i18n("system.user.group.type"),
       fieldName: "roleType",
       defaultVisible: true,
       type: "select",
@@ -54,12 +55,12 @@ const searchFormData = reactive<SearchFields>({
 const tableFieldList = reactive<PageFieldInfo | any>({
   fieldList: [
     {
-      label: "主键",
+      label: i18n("system.primary.key"),
       fieldName: "idRolesinfo",
       type: "long",
     },
     {
-      label: "用户组名称",
+      label: i18n("system.user.group.name"),
       fieldName: "roleName",
 
       required: true,
@@ -68,7 +69,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
     },
 
     {
-      label: "用户组编码",
+      label: i18n("system.user.group.code"),
       fieldName: "roleCode",
       listVisible: true,
       required: true,
@@ -77,7 +78,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       },
     },
     {
-      label: "用户组类型",
+      label: i18n("system.user.group.type"),
       fieldName: "roleType",
       type: "select",
       required: true,
@@ -89,7 +90,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       },
     },
     {
-      label: "会话超时时间",
+      label: i18n("system.session.timeout"),
       fieldName: "sessionTimeOut",
       type: "select",
       required: true,
@@ -102,7 +103,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
     },
     [
       {
-        label: "系统权限",
+        label: i18n("system.system.permissions"),
         fieldName: "appsList",
         type: "select",
         required: true,
@@ -112,7 +113,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
         },
       },
       {
-        label: "菜单权限",
+        label: i18n("system.menu.permissions"),
         fieldName: "menusList",
         type: "tselect",
         required: true,
@@ -123,61 +124,61 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       },
     ],
     {
-      label: "用户组职责",
+      label: i18n("system.user.group.responsibility"),
       fieldName: "roleDesc",
       type: "textarea",
       formVisible: true,
       listVisible: true,
     },
     {
-      label: "创建人",
+      label: i18n("system.created.by"),
       disabled: true,
       fieldName: "createdBy",
 
       listVisible: true,
     },
     {
-      label: "修改人",
+      label: i18n("system.updated.by"),
       disabled: true,
       fieldName: "updatedBy",
     },
     {
-      label: "创建日期",
+      label: i18n("system.created.date"),
       disabled: true,
       fieldName: "createdTime",
       type: "date",
       listVisible: true,
     },
     {
-      label: "修改日期",
+      label: i18n("system.updated.date"),
       disabled: true,
       fieldName: "updatedTime",
       type: "date",
     },
     {
-      label: "数据版本号",
+      label: i18n("system.data.version"),
       fieldName: "version",
       type: "number",
     },
     {
-      label: "是否已逻辑",
+      label: i18n("system.is.deleted"),
       fieldName: "isDel",
       type: "number",
     },
     {
-      label: "数据编号",
+      label: i18n("system.data.number"),
       fieldName: "dataNo",
     },
     {
-      label: "状态码",
+      label: i18n("system.status.code"),
       fieldName: "statusCode",
     },
     {
-      label: "状态码名称",
+      label: i18n("system.status.name"),
       fieldName: "statusName",
     },
     {
-      label: "国际码",
+      label: i18n("system.international.code"),
       fieldName: "local",
     },
   ],

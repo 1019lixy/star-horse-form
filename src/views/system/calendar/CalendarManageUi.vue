@@ -17,6 +17,8 @@ import {
   dialogPreps,
 } from "star-horse-lowcode";
 import { loadDict } from "@/api/star_horse_apis";
+import { i18n } from "@/lang";
+
 //后端交互接口地址
 const dataUrl: ApiUrls = apiInstance("system-config", "system/calendarManage");
 //主键
@@ -33,13 +35,13 @@ const commonSelectList = ref<SelectOption[]>([
 const searchFormData = reactive<SearchFields>({
   fieldList: [
     {
-      label: "日程标题",
+      label: i18n("system.schedule.title"),
       fieldName: "title",
       defaultVisible: true,
       matchType: "lk",
     },
     {
-      label: "开始日期",
+      label: i18n("system.start.date"),
       fieldName: "startStr",
       defaultVisible: false,
       type: "date",
@@ -48,7 +50,7 @@ const searchFormData = reactive<SearchFields>({
       },
     },
     {
-      label: "结束日期",
+      label: i18n("system.end.date"),
       fieldName: "endStr",
       defaultVisible: false,
       type: "date",
@@ -57,7 +59,7 @@ const searchFormData = reactive<SearchFields>({
       },
     },
     {
-      label: "是否公开",
+      label: i18n("system.is.public"),
       fieldName: "publicFlag",
       defaultVisible: false,
       type: "select",
@@ -66,7 +68,7 @@ const searchFormData = reactive<SearchFields>({
       },
     },
     {
-      label: "是否允许订阅",
+      label: i18n("system.allow.subscription"),
       fieldName: "subscribeFlag",
       defaultVisible: false,
       type: "select",
@@ -75,7 +77,7 @@ const searchFormData = reactive<SearchFields>({
       },
     },
     {
-      label: "是否消息提醒",
+      label: i18n("system.message.reminder"),
       fieldName: "messageFlag",
       defaultVisible: false,
       type: "select",
@@ -91,7 +93,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
   //属性列表
   fieldList: [
     {
-      label: "日程标题",
+      label: i18n("system.schedule.title"),
       fieldName: "title",
 
       required: false,
@@ -99,7 +101,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       listVisible: true,
     },
     {
-      label: "开始日期",
+      label: i18n("system.start.date"),
       fieldName: "startStr",
       type: "date",
       required: false,
@@ -107,7 +109,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       listVisible: true,
       brotherNodes: [
         {
-          label: "开始时间",
+          label: i18n("system.start.time"),
           fieldName: "sTime",
           type: "time",
           required: false,
@@ -118,7 +120,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
     },
 
     {
-      label: "结束日期",
+      label: i18n("system.end.date"),
       fieldName: "endStr",
       type: "date",
       required: false,
@@ -126,7 +128,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       listVisible: true,
       brotherNodes: [
         {
-          label: "结束时间",
+          label: i18n("system.end.time"),
           fieldName: "eTime",
           type: "time",
           required: false,
@@ -136,7 +138,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       ],
     },
     {
-      label: "是否公开",
+      label: i18n("system.is.public"),
       fieldName: "publicFlag",
       type: "switch",
       required: false,
@@ -148,7 +150,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       },
     },
     {
-      label: "是否允许订阅",
+      label: i18n("system.allow.subscription"),
       fieldName: "subscribeFlag",
       type: "switch",
       required: false,
@@ -160,7 +162,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       },
     },
     {
-      label: "邀请",
+      label: i18n("system.invite"),
       fieldName: "invitePersons",
       type: "user",
       required: false,
@@ -168,7 +170,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       listVisible: true,
     },
     {
-      label: "抄送",
+      label: i18n("system.cc"),
       fieldName: "cc",
       type: "user",
       required: false,
@@ -176,7 +178,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       listVisible: true,
     },
     {
-      label: "日程内容",
+      label: i18n("system.schedule.content"),
       fieldName: "content",
       type: "textarea",
       required: false,
@@ -184,7 +186,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       listVisible: true,
     },
     {
-      label: "是否消息提醒",
+      label: i18n("system.message.reminder"),
       fieldName: "messageFlag",
       type: "switch",
       required: false,
@@ -196,7 +198,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       },
     },
     {
-      label: "消息提醒方式",
+      label: i18n("system.message.reminder.method"),
       fieldName: "messageType",
       type: "select",
       required: false,
@@ -207,7 +209,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       },
     },
     {
-      label: "版本号",
+      label: i18n("system.version"),
       fieldName: "version",
       type: "number",
       required: false,
@@ -215,7 +217,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       listVisible: !true,
     },
     {
-      label: "创建人",
+      label: i18n("system.created.by"),
       fieldName: "createdBy",
 
       required: false,
@@ -223,7 +225,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       listVisible: !true,
     },
     {
-      label: "创建时间",
+      label: i18n("system.created.time"),
       fieldName: "createdTime",
       type: "datetime",
       required: false,
@@ -231,7 +233,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       listVisible: !true,
     },
     {
-      label: "修改人",
+      label: i18n("system.updated.by"),
       fieldName: "updatedBy",
 
       required: false,
@@ -239,7 +241,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       listVisible: !true,
     },
     {
-      label: "修改时间",
+      label: i18n("system.updated.time"),
       fieldName: "updatedTime",
       type: "datetime",
       required: false,
@@ -247,7 +249,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       listVisible: !true,
     },
     {
-      label: "数据编号",
+      label: i18n("system.data.number"),
       fieldName: "dataNo",
 
       required: false,
@@ -255,7 +257,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       listVisible: !true,
     },
     {
-      label: "状态码",
+      label: i18n("system.status.code"),
       fieldName: "statusCode",
 
       required: false,
@@ -263,7 +265,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       listVisible: !true,
     },
     {
-      label: "状态名称",
+      label: i18n("system.status.name"),
       fieldName: "statusName",
 
       required: false,
@@ -271,7 +273,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       listVisible: !true,
     },
     {
-      label: "是否删除",
+      label: i18n("system.is.logical.deleted"),
       fieldName: "isDel",
       type: "number",
       required: false,
@@ -279,7 +281,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       listVisible: !true,
     },
     {
-      label: "国际编码",
+      label: i18n("system.international.code"),
       fieldName: "local",
 
       required: false,
@@ -287,7 +289,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       listVisible: !true,
     },
     {
-      label: "备注",
+      label: i18n("system.remark"),
       fieldName: "remark",
 
       required: false,

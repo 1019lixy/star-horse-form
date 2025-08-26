@@ -17,6 +17,7 @@ import { loadRolesInfo } from "@/api/star_horse_utils";
 import { computed, onMounted, provide, reactive, ref } from "vue";
 import { TreeNodeData } from "element-plus/es/components/tree-v2/src/types";
 import { Config } from "@/api/settings";
+import { i18n } from "@/lang";
 
 let rolesList = ref<SelectOption[]>([]);
 let accountPermissionStatus = ref<SelectOption[]>([]);
@@ -39,21 +40,21 @@ const checkChange = (data: TreeNodeData, checked: boolean) => {
 const searchFields = reactive<SearchFields>({
   fieldList: [
     {
-      label: "账号",
+      label: i18n("system.account"),
       fieldName: "c.username",
       defaultVisible: true,
 
       matchType: "lk",
     },
     {
-      label: "姓名",
+      label: i18n("system.name"),
       fieldName: "c.name",
       defaultVisible: true,
 
       matchType: "lk",
     },
     {
-      label: "状态",
+      label: i18n("system.status"),
       fieldName: "a.statusCode",
       type: "select",
       defaultVisible: true,
@@ -66,7 +67,7 @@ const searchFields = reactive<SearchFields>({
 const formFieldList = reactive<PageFieldInfo>({
   fieldList: [
     {
-      label: "分组名称",
+      label: i18n("system.group.name"),
       fieldName: "idRolesinfo",
       type: "select",
       formVisible: true,
@@ -77,7 +78,7 @@ const formFieldList = reactive<PageFieldInfo>({
       },
     },
     {
-      label: "账号信息",
+      label: i18n("system.account.info"),
       fieldName: "userNameList",
       aliasName: "userList",
       type: "page-select",
@@ -93,25 +94,25 @@ const formFieldList = reactive<PageFieldInfo>({
         ],
         fieldList: [
           {
-            label: "用户名",
+            label: i18n("system.username"),
             fieldName: "username",
 
             listVisible: true,
           },
           {
-            label: "姓名",
+            label: i18n("system.name"),
             fieldName: "name",
 
             listVisible: true,
           },
           {
-            label: "联系电话",
+            label: i18n("system.contact.phone"),
             fieldName: "phone",
 
             listVisible: true,
           },
           {
-            label: "邮箱",
+            label: i18n("system.email"),
             fieldName: "email",
 
             listVisible: true,
@@ -123,7 +124,7 @@ const formFieldList = reactive<PageFieldInfo>({
       viewVisible: false,
     },
     {
-      label: "状态",
+      label: i18n("system.status"),
       fieldName: "statusCode",
       type: "select",
       listVisible: true,
@@ -137,43 +138,43 @@ const formFieldList = reactive<PageFieldInfo>({
 const tableFieldList = reactive<PageFieldInfo>({
   fieldList: [
     {
-      label: "分组名称",
+      label: i18n("system.group.name"),
       fieldName: "roleName",
 
       listVisible: true,
     },
     {
-      label: "分组编码",
+      label: i18n("system.group.code"),
       fieldName: "roleCode",
 
       listVisible: true,
     },
     {
-      label: "用户名",
+      label: i18n("system.username"),
       fieldName: "username",
 
       listVisible: true,
     },
     {
-      label: "姓名",
+      label: i18n("system.name"),
       fieldName: "name",
 
       listVisible: true,
     },
     {
-      label: "联系电话",
+      label: i18n("system.contact.phone"),
       fieldName: "phone",
 
       listVisible: true,
     },
     {
-      label: "邮箱地址",
+      label: i18n("system.email.address"),
       fieldName: "email",
 
       listVisible: true,
     },
     {
-      label: "状态",
+      label: i18n("system.status"),
       fieldName: "statusCode",
       type: "select",
       listVisible: true,
@@ -202,7 +203,7 @@ let preValid = ref<Array<PreValid>>([{
   authority:"add",
   valid: () => {
     if (!currentUserGroupId.value) {
-      warning("请先选择分组");
+      warning(i18n("system.please.select.group"));
       return false;
     }
     return true;
@@ -259,7 +260,7 @@ onMounted(async () => {
         <el-splitter-panel collapsible size="240" min="100" max="500">
           <star-horse-tree
             v-model:tree-datas="rolesList"
-            treeTitle="用户组"
+            :treeTitle="i18n('system.user.group')"
             @selectData="checkChange"
             :compSize="compSize"
           />

@@ -14,6 +14,7 @@ import {
   SelectOption,
 } from "star-horse-lowcode";
 import { onActivated, onMounted, provide, reactive, ref } from "vue";
+import { i18n } from "@/lang";
 
 let informationsList = ref<any>([]);
 const dataUrl: ApiUrls = apiInstance(
@@ -26,20 +27,20 @@ let customerList = ref<SelectOption[]>([]);
 const searchFormData = reactive<SearchFields>({
   fieldList: [
     /*  {
-      label: "归属主体", fieldName: "idCustomer", type: "select",
+      label: i18n("system.belonging.entity"), fieldName: "idCustomer", type: "select",
       preps: {
         values: customerList
       }
     }, */
     {
-      label: "应用名称",
+      label: i18n("system.application.name"),
       defaultVisible: true,
       fieldName: "sysName",
 
       matchType: "lk",
     },
     {
-      label: "添加时间",
+      label: i18n("system.add.time"),
       fieldName: "createdTime",
       type: "daterange",
       matchType: "bt",
@@ -60,13 +61,13 @@ const testFun = (formData: any) => {
 const tableFieldList = reactive<PageFieldInfo>({
   fieldList: [
     {
-      label: "主键",
+      label: i18n("system.primary.key"),
       fieldName: "idInformations",
       type: "long",
     },
     [
       {
-        label: "上级应用",
+        label: i18n("system.parent.application"),
         fieldName: "parentId",
         type: "select",
         formVisible: true,
@@ -77,7 +78,7 @@ const tableFieldList = reactive<PageFieldInfo>({
       },
 
       {
-        label: "应用名称",
+        label: i18n("system.application.name"),
         fieldName: "sysName",
 
         required: true,
@@ -85,7 +86,7 @@ const tableFieldList = reactive<PageFieldInfo>({
         listVisible: true,
       },
       /* {
-        label: "归属主体",
+        label: i18n("system.belonging.entity"),
         fieldName: "idCustomer",
         type: "select",
         required: true,
@@ -97,12 +98,12 @@ const tableFieldList = reactive<PageFieldInfo>({
       } */
     ],
     /* {
-     label: "归属主体", fieldName: "customer['customerName']", type: "select",
+     label: i18n("system.belonging.entity"), fieldName: "customer['customerName']", type: "select",
      required: true,
      listVisible: true
    },*/
     {
-      label: "系统编码",
+      label: i18n("system.system.code"),
       fieldName: "sysCode",
 
       required: true,
@@ -111,7 +112,7 @@ const tableFieldList = reactive<PageFieldInfo>({
     },
     [
       {
-        label: "系统Logo",
+        label: i18n("system.system.logo"),
         fieldName: "sysLogo",
         type: "icon",
         formVisible: true,
@@ -122,7 +123,7 @@ const tableFieldList = reactive<PageFieldInfo>({
         },
       },
       {
-        label: "数据排序",
+        label: i18n("system.data.sort"),
         fieldName: "dataSort",
         type: "number",
         formVisible: true,
@@ -130,7 +131,7 @@ const tableFieldList = reactive<PageFieldInfo>({
       },
     ],
     {
-      label: "系统描述",
+      label: i18n("system.system.description"),
       fieldName: "sysDesc",
       type: "textarea",
       formVisible: true,
@@ -138,51 +139,51 @@ const tableFieldList = reactive<PageFieldInfo>({
       actions: { input: testFun },
     },
     {
-      label: "创建人",
+      label: i18n("system.created.by"),
       disabled: true,
       fieldName: "createdBy",
     },
     {
-      label: "修改人",
+      label: i18n("system.updated.by"),
       disabled: true,
       fieldName: "updatedBy",
     },
     {
-      label: "创建日期",
+      label: i18n("system.created.date"),
       disabled: true,
       fieldName: "createdTime",
       type: "date",
     },
     {
-      label: "修改日期",
+      label: i18n("system.updated.date"),
       disabled: true,
       fieldName: "updatedTime",
       type: "date",
     },
     {
-      label: "数据版本号",
+      label: i18n("system.data.version"),
       fieldName: "version",
       type: "number",
     },
     {
-      label: "是否已逻辑",
+      label: i18n("system.is.deleted"),
       fieldName: "isDel",
       type: "number",
     },
     {
-      label: "数据编号",
+      label: i18n("system.data.number"),
       fieldName: "dataNo",
     },
     {
-      label: "状态码",
+      label: i18n("system.status.code"),
       fieldName: "statusCode",
     },
     {
-      label: "状态码名称",
+      label: i18n("system.status.name"),
       fieldName: "statusName",
     },
     {
-      label: "国际码",
+      label: i18n("system.international.code"),
       fieldName: "local",
     },
   ],

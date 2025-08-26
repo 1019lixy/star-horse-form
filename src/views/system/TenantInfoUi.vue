@@ -1,71 +1,8 @@
-<script setup lang="ts">
-import {
-  apiInstance,
-  ApiUrls,
-  createDatetime,
-  dialogPreps,
-  PageFieldInfo,
-  SearchFields,
-  SelectOption,
-} from "star-horse-lowcode";
-import { loadDict } from "@/api/star_horse_apis";
-import {
-  nextTick,
-  onActivated,
-  onDeactivated,
-  onMounted,
-  provide,
-  reactive,
-  ref,
-} from "vue";
-
-defineOptions({
-  name: "TenantInfo",
-});
-//后端交互接口地址
-const dataUrl: ApiUrls = apiInstance("system-config", "system/tenantInfo");
-//主键
-const primaryKey = "idTenantInfo";
-const tenantInfoRef = ref();
-const tenantInfoFormRef = ref();
-let effectiveTimeList = ref<SelectOption[]>([]);
-//定义表单的所有属性
-const formFields = reactive<object>({});
-provide("formFields", formFields);
-//查询属性
-const searchFormData = reactive<SearchFields>({
-  fieldList: [
-    {
-      label: "租户名称",
-      fieldName: "tenantName",
-      matchType: "lk",
-      defaultVisible: true,
-    },
-    {
-      label: "租户编码",
-      fieldName: "tenantCode",
-      matchType: "lk",
-      defaultVisible: true,
-    },
-    {
-      label: "临期租户",
-      fieldName: "effectiveTime",
-      type: "select",
-      actions: {
-        change: (value) => {},
-      },
-      defaultVisible: true,
-      preps: {
-        values: effectiveTimeList,
-      },
-    },
-  ],
-});
 const tableFieldList = reactive<PageFieldInfo | any>({
   fieldList: [
     [
       {
-        label: "租户名称",
+        label: i18n("system.tenant.name"),
         fieldName: "tenantName",
 
         required: true,
@@ -74,7 +11,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
         preps: {},
       },
       {
-        label: "租户编码",
+        label: i18n("system.tenant.code"),
         fieldName: "tenantCode",
         required: true,
         formVisible: true,
@@ -86,7 +23,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
     ],
     [
       {
-        label: "联系人",
+        label: i18n("system.contact.person"),
         fieldName: "linkMan",
 
         required: true,
@@ -95,7 +32,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
         preps: {},
       },
       {
-        label: "联系电话",
+        label: i18n("system.contact.phone"),
         fieldName: "phone",
 
         required: true,
@@ -106,7 +43,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
     ],
     [
       {
-        label: "邮箱",
+        label: i18n("system.email"),
         fieldName: "email",
 
         required: true,
@@ -115,7 +52,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
         preps: {},
       },
       {
-        label: "座机",
+        label: i18n("system.telephone"),
         fieldName: "tel",
 
         required: false,
@@ -126,7 +63,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
     ],
     [
       {
-        label: "行业",
+        label: i18n("system.industry"),
         fieldName: "industry",
         type: "select",
         required: true,
@@ -135,7 +72,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
         preps: { urlOrDictName: "industry_list", dataSource: "dict" },
       },
       {
-        label: "有效期",
+        label: i18n("system.validity.period"),
         fieldName: "effectiveTime",
         type: "daterange",
         required: true,
@@ -146,7 +83,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
     ],
     [
       {
-        label: "过期策略",
+        label: i18n("system.expiration.policy"),
         fieldName: "expirePolicy",
         type: "select",
         required: true,
@@ -155,7 +92,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
         preps: { urlOrDictName: "expire_policy", dataSource: "dict" },
       },
       {
-        label: "数据备份策略",
+        label: i18n("system.data.backup.policy"),
         fieldName: "dataBakePolicy",
         type: "cron",
         required: true,
@@ -166,7 +103,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
     ],
     [
       {
-        label: "业务提醒方式",
+        label: i18n("system.business.notification"),
         fieldName: "businessNotice",
         type: "select",
         required: true,
@@ -175,17 +112,17 @@ const tableFieldList = reactive<PageFieldInfo | any>({
         preps: {
           urlOrDictName: "message_tools",
           values: [
-            { name: "站内通知", value: "innerMsg" },
-            { name: "短信通知", value: "shortMsg" },
-            { name: "邮件通知", value: "email" },
-            { name: "钉钉通知", value: "dingding" },
-            { name: "企业微信", value: "webchat" },
+            { name: i18n("system.inner.message"), value: "innerMsg" },
+            { name: i18n("system.sms.notification"), value: "shortMsg" },
+            { name: i18n("system.email.notification"), value: "email" },
+            { name: i18n("system.dingtalk.notification"), value: "dingding" },
+            { name: i18n("system.enterprise.wechat"), value: "webchat" },
           ],
           dataSource: "dict",
         },
       },
       {
-        label: "是否订阅接口",
+        label: i18n("system.subscribe.interface"),
         fieldName: "orderIntfaceFlag",
         type: "switch",
         required: false,
@@ -199,7 +136,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
     ],
     [
       {
-        label: "消息模板",
+        label: i18n("system.message.template"),
         fieldName: "messageTemplate",
         type: "textarea",
         required: false,
@@ -208,7 +145,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
         preps: {},
       },
       {
-        label: "联系人地址",
+        label: i18n("system.contact.address"),
         fieldName: "address",
         type: "textarea",
         required: false,
@@ -219,7 +156,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
     ],
     [
       {
-        label: "业务描述",
+        label: i18n("system.business.description"),
         fieldName: "businessDesc",
         type: "textarea",
         required: false,
@@ -229,15 +166,20 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       },
     ],
     {
-      label: "创建人",
+      label: i18n("system.created.by"),
       fieldName: "createdBy",
       listVisible: true,
       preps: {},
       commonFlag: "Y",
     },
-    { label: "修改人", fieldName: "updatedBy", preps: {}, commonFlag: "Y" },
+    { 
+      label: i18n("system.updated.by"), 
+      fieldName: "updatedBy", 
+      preps: {}, 
+      commonFlag: "Y" 
+    },
     {
-      label: "创建时间",
+      label: i18n("system.created.time"),
       fieldName: "createdTime",
       type: "datetime",
       listVisible: true,
@@ -245,14 +187,14 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       commonFlag: "Y",
     },
     {
-      label: "修改时间",
+      label: i18n("system.updated.time"),
       fieldName: "updatedTime",
       type: "datetime",
       preps: {},
       commonFlag: "Y",
     },
     {
-      label: "版本号",
+      label: i18n("system.version"),
       fieldName: "version",
       type: "number",
       listVisible: true,
@@ -260,15 +202,20 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       commonFlag: "Y",
     },
     {
-      label: "是否删除",
+      label: i18n("system.is.logical.deleted"),
       fieldName: "isDel",
       type: "number",
       preps: {},
       commonFlag: "Y",
     },
-    { label: "数据编号", fieldName: "dataNo", preps: {}, commonFlag: "Y" },
+    { 
+      label: i18n("system.data.number"), 
+      fieldName: "dataNo", 
+      preps: {}, 
+      commonFlag: "Y" 
+    },
     {
-      label: "状态",
+      label: i18n("system.status"),
       fieldName: "statusCode",
       type: "select",
 
@@ -279,10 +226,20 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       },
       commonFlag: "Y",
     },
-    { label: "状态名称", fieldName: "statusName", preps: {}, commonFlag: "Y" },
-    { label: "国际编码", fieldName: "local", preps: {}, commonFlag: "Y" },
+    { 
+      label: i18n("system.status.name"), 
+      fieldName: "statusName", 
+      preps: {}, 
+      commonFlag: "Y" 
+    },
+    { 
+      label: i18n("system.international.code"), 
+      fieldName: "local", 
+      preps: {}, 
+      commonFlag: "Y" 
+    },
     {
-      label: "备注",
+      label: i18n("system.remark"),
       fieldName: "remark",
       type: "textarea",
       preps: {},
@@ -297,110 +254,3 @@ const tableFieldList = reactive<PageFieldInfo | any>({
   tableCellEditabled: false,
   stopAutoLoad: false,
 });
-//校验
-const rules = {};
-//控制弹窗相关设置
-const dialogProps = dialogPreps();
-provide("dialogProps", dialogProps);
-//初始化方法
-const initData = async () => {
-  effectiveTimeList.value = await loadDict("effective_time");
-};
-const activated = async () => {
-  await nextTick(() => {
-    tenantInfoRef.value.loadByPage();
-  });
-};
-/**
- * 数据加载完成后
- * @param data 数据
- */
-const dataLoaded = (data: any) => {
-  //将数据范围的字段进行处理
-  let temp: any = {};
-  temp["effectiveTime"] = [
-    data["effectiveTimeStart"],
-    data["effectiveTimeEnd"],
-  ];
-  if (Object.keys(temp).length > 0) {
-    tenantInfoFormRef.value.updateFormData(temp);
-  }
-};
-const deactivated = () => {};
-/**
- * 列表，查看数据时数据转换
- * @param name 名称
- * @param cellValue 值
- * @param row 列表行数据
- */
-const dataFormat = (name: string, cellValue: any, row: any): any => {
-  if (name == "effectiveTime") {
-    return (
-      createDatetime(row.effectiveTimeStart) +
-      "-" +
-      createDatetime(row.effectiveTimeEnd)
-    );
-  }
-  //转换显示信息
-  return cellValue;
-};
-onMounted(async () => {
-  await initData();
-});
-onActivated(() => {
-  activated();
-});
-onDeactivated(() => {
-  deactivated();
-});
-</script>
-<template>
-  <div class="flex flex-col h-full overflow-hidden">
-    <star-horse-dialog
-      :isShowBtnContinue="true"
-      :dialog-visible="dialogProps.editVisible"
-      :dialogProps="dialogProps"
-    >
-      <star-horse-form
-        @refresh="tenantInfoRef?.loadByPage()"
-        @dataLoaded="dataLoaded"
-        :compUrl="dataUrl"
-        :fieldList="tableFieldList"
-        ref="tenantInfoFormRef"
-        :rules="rules"
-      />
-    </star-horse-dialog>
-    <star-horse-dialog
-      :dialog-visible="dialogProps.viewVisible"
-      :dialogProps="dialogProps"
-      :source="3"
-    >
-      <star-horse-data-view
-        :dataFormat="dataFormat"
-        :field-list="tableFieldList"
-        :compUrl="dataUrl"
-      />
-    </star-horse-dialog>
-    <div class="search-content">
-      <div class="search_btn">
-        <star-horse-search-comp
-          @searchData="(data: any) => tenantInfoRef?.createSearchParams(data)"
-          :formData="searchFormData"
-          :compUrl="dataUrl"
-        />
-      </div>
-    </div>
-    <el-card class="inner_content">
-      <star-horse-table-comp
-        ref="tenantInfoRef"
-        :fieldList="tableFieldList"
-        :primaryKey="primaryKey"
-        :compUrl="dataUrl"
-        :dataFormat="dataFormat"
-      />
-    </el-card>
-  </div>
-</template>
-<style lang="scss" scoped>
-//todo
-</style>

@@ -8,18 +8,19 @@ import {
 } from "star-horse-lowcode";
 import { commonField } from "@/api/system";
 import { onMounted, provide, reactive, ref } from "vue";
+import { i18n } from "@/lang";
 
 const dataUrl: ApiUrls = apiInstance("system-config", "system/areainfo");
 const searchFormData = reactive<SearchFields>({
   fieldList: [
     {
-      label: "区域名称",
+      label: i18n("system.area.name"),
       defaultVisible: true,
       matchType: "lk",
       fieldName: "areaName",
     },
     {
-      label: "区域编码",
+      label: i18n("system.area.code"),
       defaultVisible: true,
       matchType: "lk",
       fieldName: "areaCode",
@@ -29,26 +30,26 @@ const searchFormData = reactive<SearchFields>({
 const tableFieldList = reactive<PageFieldInfo>({
   fieldList: [
     {
-      label: "区域主键",
+      label: i18n("system.area.key"),
       fieldName: "idAreainfo",
       type: "long",
     },
     {
-      label: "父节点编号",
+      label: i18n("system.parent.node.number"),
       fieldName: "parentNo",
       type: "select",
       formVisible: true,
       listVisible: true,
     },
     {
-      label: "区域名称",
+      label: i18n("system.area.name"),
       fieldName: "areaName",
 
       formVisible: true,
       listVisible: true,
     },
     {
-      label: "区域编码",
+      label: i18n("system.area.code"),
       fieldName: "areaCode",
 
       formVisible: true,

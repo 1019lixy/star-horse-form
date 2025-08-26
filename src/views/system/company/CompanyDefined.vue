@@ -20,6 +20,7 @@ import {
   UserFuncInfo,
   warning,
 } from "star-horse-lowcode";
+import { i18n } from "@/lang";
 
 //后端交互接口地址
 const dataUrl: ApiUrls = apiInstance("system-config", "system/companyDefine");
@@ -35,13 +36,13 @@ let companyList = ref<SelectOption[]>([]);
 const searchFormData = reactive<SearchFields>({
   fieldList: [
     {
-      label: "公司名称",
+      label: i18n("system.company.name"),
       fieldName: "name",
       defaultVisible: true,
       matchType: "lk",
     },
     {
-      label: "公司编码",
+      label: i18n("system.company.code"),
       fieldName: "code",
       defaultVisible: true,
       matchType: "lk",
@@ -55,7 +56,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
   fieldList: [
     [
       {
-        label: "公司名称",
+        label: i18n("system.company.name"),
         fieldName: "name",
 
         required: true,
@@ -63,7 +64,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
         listVisible: true,
       },
       {
-        label: "公司编码",
+        label: i18n("system.company.code"),
         fieldName: "code",
 
         required: true,
@@ -76,7 +77,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
     ],
     [
       {
-        label: "公司类别",
+        label: i18n("system.company.category"),
         fieldName: "category",
         type: "tselect",
         required: true,
@@ -89,7 +90,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
         },
       },
       {
-        label: "排序",
+        label: i18n("system.sort"),
         fieldName: "dataSort",
         type: "number",
         required: true,
@@ -99,7 +100,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
     ],
     [
       {
-        label: "公司简称",
+        label: i18n("system.company.abbreviation"),
         fieldName: "shortName",
 
         required: false,
@@ -107,7 +108,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
         listVisible: true,
       },
       {
-        label: "父节点",
+        label: i18n("system.parent.node"),
         fieldName: "parentId",
         type: "tselect",
         formVisible: true,
@@ -119,7 +120,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       },
     ],
     {
-      label: "备注",
+      label: i18n("system.remark"),
       fieldName: "remark",
       type: "textarea",
       formVisible: true,
@@ -137,7 +138,7 @@ let outerForm = ref<any>({});
 provide("dialogProps", dialogProps);
 let extendBtns = ref<UserFuncInfo[]>([
   {
-    btnName: "添加子公司",
+    btnName: i18n("system.add.subsidiary"),
     authority: "add",
     icon: "plus",
     priority: 1,

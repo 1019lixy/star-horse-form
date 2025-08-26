@@ -15,6 +15,7 @@ import {
   ref,
 } from "vue";
 import { getCustomerParam } from "@/utils/auth";
+import { i18n } from "@/lang";
 //后端交互接口地址
 const dataUrl: ApiUrls = apiInstance("system-config", "system/systemParams");
 //主键
@@ -27,13 +28,13 @@ provide("formFields", formFields);
 const searchFormData = reactive<SearchFields>({
   fieldList: [
     {
-      label: "参数名",
+      label: i18n("system.param.name"),
       fieldName: "paramName",
       defaultVisible: true,
       matchType: "lk",
     },
     {
-      label: "参数值",
+      label: i18n("system.param.value"),
       fieldName: "paramValue",
       defaultVisible: true,
       matchType: "lk",
@@ -45,7 +46,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
   //属性列表
   fieldList: [
     {
-      label: "参数名",
+      label: i18n("system.param.name"),
       fieldName: "paramName",
 
       required: true,
@@ -56,7 +57,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       },
     },
     {
-      label: "参数值",
+      label: i18n("system.param.value"),
       fieldName: "paramValue",
       type: "textarea",
       required: true,
@@ -64,7 +65,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       listVisible: true,
     },
     {
-      label: "版本号",
+      label: i18n("system.version"),
       fieldName: "version",
       type: "number",
       required: false,
@@ -72,7 +73,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       listVisible: !true,
     },
     {
-      label: "创建人",
+      label: i18n("system.created.by"),
       fieldName: "createdBy",
 
       required: false,
@@ -80,7 +81,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       listVisible: !true,
     },
     {
-      label: "创建时间",
+      label: i18n("system.created.time"),
       fieldName: "createdTime",
       type: "datetime",
       required: false,
@@ -88,7 +89,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       listVisible: !true,
     },
     {
-      label: "修改人",
+      label: i18n("system.updated.by"),
       fieldName: "updatedBy",
 
       required: false,
@@ -96,7 +97,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       listVisible: !true,
     },
     {
-      label: "修改时间",
+      label: i18n("system.updated.time"),
       fieldName: "updatedTime",
       type: "datetime",
       required: false,
@@ -104,7 +105,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       listVisible: !true,
     },
     {
-      label: "数据编号",
+      label: i18n("system.data.number"),
       fieldName: "dataNo",
 
       required: false,
@@ -112,7 +113,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       listVisible: !true,
     },
     {
-      label: "状态码",
+      label: i18n("system.status.code"),
       fieldName: "statusCode",
 
       required: false,
@@ -120,7 +121,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       listVisible: !true,
     },
     {
-      label: "状态名称",
+      label: i18n("system.status.name"),
       fieldName: "statusName",
 
       required: false,
@@ -128,7 +129,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       listVisible: !true,
     },
     {
-      label: "是否删除",
+      label: i18n("system.is.logical.deleted"),
       fieldName: "isDel",
       type: "number",
       required: false,
@@ -136,7 +137,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       listVisible: !true,
     },
     {
-      label: "国际编码",
+      label: i18n("system.international.code"),
       fieldName: "local",
 
       required: false,
@@ -144,7 +145,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       listVisible: !true,
     },
     {
-      label: "备注",
+      label: i18n("system.remark"),
       fieldName: "remark",
       type: "textarea",
       required: false,

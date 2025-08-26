@@ -6,116 +6,117 @@ import {
   dialogPreps,
   SearchFields,
 } from "star-horse-lowcode";
+import { i18n } from "@/lang";
 
 const dataUrl: ApiUrls = apiInstance("system-config", "system/usersAudit");
 const searchFormData = reactive<SearchFields>({
   fieldList: [
-    { label: "主键", fieldName: "idUsersAudit", type: "long" },
-    { label: "主键", fieldName: "idUserinfo", type: "long" },
-    { label: "密码", fieldName: "password" },
-    { label: "生效日期", fieldName: "effectiveDate", type: "date" },
-    { label: "失效日期", fieldName: "expiredDate", type: "date" },
-    { label: "备注", fieldName: "remark" },
-    { label: "数据类型", fieldName: "dataType", type: "number" },
+    { label: i18n("system.primary.key"), fieldName: "idUsersAudit", type: "long" },
+    { label: i18n("system.primary.key"), fieldName: "idUserinfo", type: "long" },
+    { label: i18n("system.password"), fieldName: "password" },
+    { label: i18n("system.effective.date"), fieldName: "effectiveDate", type: "date" },
+    { label: i18n("system.expired.date"), fieldName: "expiredDate", type: "date" },
+    { label: i18n("system.remark"), fieldName: "remark" },
+    { label: i18n("system.data.type"), fieldName: "dataType", type: "number" },
   ],
 });
 const tableFieldList = reactive({
   fieldList: [
     {
-      label: "主键",
+      label: i18n("system.primary.key"),
       fieldName: "idUsersAudit",
       type: "long",
       formVisible: true,
       listVisible: true,
     },
     {
-      label: "主键",
+      label: i18n("system.primary.key"),
       fieldName: "idUserinfo",
       type: "long",
       formVisible: true,
       listVisible: true,
     },
     {
-      label: "密码",
+      label: i18n("system.password"),
       fieldName: "password",
 
       formVisible: true,
       listVisible: true,
     },
     {
-      label: "生效日期",
+      label: i18n("system.effective.date"),
       fieldName: "effectiveDate",
       type: "date",
       formVisible: true,
       listVisible: true,
     },
     {
-      label: "失效日期",
+      label: i18n("system.expired.date"),
       fieldName: "expiredDate",
       type: "date",
       formVisible: true,
       listVisible: true,
     },
     {
-      label: "备注",
+      label: i18n("system.remark"),
       fieldName: "remark",
 
       formVisible: true,
       listVisible: true,
     },
     {
-      label: "数据类型",
+      label: i18n("system.data.type"),
       fieldName: "dataType",
       type: "number",
       formVisible: true,
       listVisible: true,
     },
     {
-      label: "创建人",
+      label: i18n("system.created.by"),
       disabled: true,
       fieldName: "createdBy",
     },
     {
-      label: "修改人",
+      label: i18n("system.updated.by"),
       disabled: true,
       fieldName: "updatedBy",
     },
     {
-      label: "创建日期",
+      label: i18n("system.created.date"),
       disabled: true,
       fieldName: "createdTime",
       type: "date",
     },
     {
-      label: "修改日期",
+      label: i18n("system.updated.date"),
       disabled: true,
       fieldName: "updatedTime",
       type: "date",
     },
     {
-      label: "数据版本号",
+      label: i18n("system.data.version"),
       fieldName: "version",
       type: "number",
     },
     {
-      label: "是否已逻辑",
+      label: i18n("system.is.logical.deleted"),
       fieldName: "isDel",
       type: "number",
     },
     {
-      label: "数据编号",
+      label: i18n("system.data.number"),
       fieldName: "dataNo",
     },
     {
-      label: "状态码",
+      label: i18n("system.status.code"),
       fieldName: "statusCode",
     },
     {
-      label: "状态码名称",
+      label: i18n("system.status.name"),
       fieldName: "statusName",
     },
     {
-      label: "国际码",
+      label: i18n("system.international.code"),
       fieldName: "local",
     },
   ],

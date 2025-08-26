@@ -23,6 +23,7 @@ import {
   ref,
 } from "vue";
 import { TreeNodeData } from "element-plus/es/components/tree-v2/src/types";
+import { i18n } from "@/lang";
 
 const dataUrl: ApiUrls = apiInstance(
   "system-config",
@@ -33,23 +34,23 @@ let companyList = ref<Array<any>>([]);
 const searchFormData = reactive<SearchFields>({
   fieldList: [
     {
-      label: "部门名称",
+      label: i18n("system.department.name"),
       defaultVisible: true,
       fieldName: "deptName",
       matchType: "lk",
     },
-    { label: "部门编码", fieldName: "deptCode", matchType: "lk" },
+    { label: i18n("system.department.code"), fieldName: "deptCode", matchType: "lk" },
   ],
 });
 const tableFieldList = reactive<PageFieldInfo>({
   fieldList: [
     {
-      label: "主键",
+      label: i18n("system.primary.key"),
       fieldName: "idDepartment",
       type: "long",
     },
     {
-      label: "上级部门",
+      label: i18n("system.parent.department"),
       fieldName: "parentDept",
       type: "tselect",
       formVisible: true,
@@ -65,7 +66,7 @@ const tableFieldList = reactive<PageFieldInfo>({
     },
     [
       {
-        label: "部门名称",
+        label: i18n("system.department.name"),
         fieldName: "deptName",
 
         required: true,
@@ -73,7 +74,7 @@ const tableFieldList = reactive<PageFieldInfo>({
         listVisible: true,
       },
       {
-        label: "部门编码",
+        label: i18n("system.department.code"),
         fieldName: "deptCode",
 
         required: true,
@@ -87,7 +88,7 @@ const tableFieldList = reactive<PageFieldInfo>({
     ],
     [
       {
-        label: "部门领导",
+        label: i18n("system.department.leader"),
         fieldName: "deptMasterName",
         aliasName: "deptMaster",
         type: "user",
@@ -102,7 +103,7 @@ const tableFieldList = reactive<PageFieldInfo>({
         },
       },
       {
-        label: "分管领导",
+        label: i18n("system.division.leader"),
         fieldName: "manageMasterName",
         aliasName: "manageMaster",
         type: "user",
@@ -118,7 +119,7 @@ const tableFieldList = reactive<PageFieldInfo>({
       },
     ],
     {
-      label: "所属公司",
+      label: i18n("system.affiliated.company"),
       disabled: true,
       fieldName: "companyName",
 
@@ -126,7 +127,7 @@ const tableFieldList = reactive<PageFieldInfo>({
     },
     [
       {
-        label: "所属公司",
+        label: i18n("system.affiliated.company"),
         fieldName: "idCompanyDefine",
         type: "tselect",
         required: true,
@@ -141,7 +142,7 @@ const tableFieldList = reactive<PageFieldInfo>({
         },
       },
       {
-        label: "部门电话",
+        label: i18n("system.department.phone"),
         fieldName: "deptPhone",
 
         formVisible: true,
@@ -149,59 +150,59 @@ const tableFieldList = reactive<PageFieldInfo>({
       },
     ],
     {
-      label: "部门职责",
+      label: i18n("system.department.responsibility"),
       fieldName: "deptDesc",
       type: "textarea",
       formVisible: true,
       listVisible: true,
     },
     {
-      label: "创建人",
+      label: i18n("system.created.by"),
       disabled: true,
       fieldName: "createdBy",
     },
     {
-      label: "修改人",
+      label: i18n("system.updated.by"),
       disabled: true,
       fieldName: "updatedBy",
     },
     {
-      label: "创建日期",
+      label: i18n("system.created.date"),
       disabled: true,
       fieldName: "createdTime",
       type: "date",
       listVisible: true,
     },
     {
-      label: "修改日期",
+      label: i18n("system.updated.date"),
       disabled: true,
       fieldName: "updatedTime",
       type: "date",
     },
     {
-      label: "数据版本号",
+      label: i18n("system.data.version"),
       fieldName: "version",
       type: "number",
     },
     {
-      label: "是否已逻辑",
+      label: i18n("system.is.deleted"),
       fieldName: "isDel",
       type: "number",
     },
     {
-      label: "数据编号",
+      label: i18n("system.data.number"),
       fieldName: "dataNo",
     },
     {
-      label: "状态码",
+      label: i18n("system.status.code"),
       fieldName: "statusCode",
     },
     {
-      label: "状态码名称",
+      label: i18n("system.status.name"),
       fieldName: "statusName",
     },
     {
-      label: "国际码",
+      label: i18n("system.local"),
       fieldName: "local",
     },
   ],

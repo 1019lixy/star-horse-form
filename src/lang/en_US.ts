@@ -314,6 +314,113 @@ export default {
   "system.password": "Password",
   "system.confirm.password": "Confirm Password",
   "system.change.password": "Change Password",
+  "system.area.name": "Area Name",
+  "system.area.code": "Area Code",
+  "system.area.key": "Area Key",
+  "system.parent.node.number": "Parent Node Number",
+  "system.request.method": "Request Method",
+  "system.operator": "Operator",
+  "system.access.interface": "Access Interface",
+  "system.access.address": "Access Address",
+  "system.primary.key": "Primary Key",
+  "system.request.parameters": "Request Parameters",
+  "system.created.by": "Created By",
+  "system.updated.by": "Updated By",
+  "system.created.date": "Created Date",
+  "system.updated.date": "Updated Date",
+  "system.data.version": "Data Version",
+  "system.is.deleted": "Is Deleted",
+  "system.data.number": "Data Number",
+  "system.status.code": "Status Code",
+  "system.status.name": "Status Name",
+  "system.international.code": "International Code",
+  "system.interface.address": "Interface Address",
+  "system.remark": "Remark",
+  "system.customer.name": "Customer Name",
+  "system.customer.code": "Customer Code",
+  "system.logo": "Logo",
+  "system.description": "Description",
+  "system.created.time": "Created Time",
+  "system.updated.time": "Updated Time",
+  "system.version": "Version",
+  "system.is.logical.deleted": "Is Logical Deleted",
+  "system.status.name": "Status Name",
+  "system.department.name": "Department Name",
+  "system.department.code": "Department Code",
+  "system.parent.department": "Parent Department",
+  "system.department.leader": "Department Leader",
+  "system.division.leader": "Division Leader",
+  "system.affiliated.company": "Affiliated Company",
+  "system.department.phone": "Department Phone",
+  "system.department.responsibility": "Department Responsibility",
+  "system.code": "Code",
+  "system.dictionary.type.name": "Dictionary Type Name",
+  "system.dictionary.type.code": "Dictionary Type Code",
+  "system.dictionary.type": "Dictionary Type",
+  "system.dictionary.name": "Dictionary Name",
+  "system.dictionary.code": "Dictionary Code",
+  "system.sort": "Sort",
+  "system.status": "Status",
+  "system.dictionary.description": "Dictionary Description",
+  "system.dictionary.info": "Dictionary Info",
+  "system.edit": "Edit",
+  "system.please.select.dictionary.category": "Please select dictionary category first",
+  "system.belonging.entity": "Belonging Entity",
+  "system.application.name": "Application Name",
+  "system.add.time": "Add Time",
+  "system.parent.application": "Parent Application",
+  "system.system.code": "System Code",
+  "system.system.logo": "System Logo",
+  "system.data.sort": "Data Sort",
+  "system.system.description": "System Description",
+  "system.menu.name": "Menu Name",
+  "system.menu.code": "Menu Code",
+  "system.original.application": "Original Application",
+  "system.new.application": "New Application",
+  "system.new.application.parent.menu": "New Application Parent Menu",
+  "system.menu.switch.method": "Menu Switch Method",
+  "system.move": "Move",
+  "system.copy": "Copy",
+  "system.menu.list": "Menu List",
+  "system.original.application.menu": "Original Application Menu",
+  "system.target.application.menu": "Target Application Menu",
+  "system.return.to.left": "Return to Left",
+  "system.add.to.right": "Add to Right",
+  "system.menu.path": "Menu Path",
+  "system.belonging.application.name": "Belonging Application Name",
+  "system.parent.menu": "Parent Menu",
+  "system.category": "Category",
+  "system.type": "Type",
+  "system.title": "Title",
+  "system.is.broadcast.message": "Is Broadcast Message",
+  "system.recipient": "Recipient",
+  "system.redirect.url": "Redirect Url",
+  "system.content": "Content",
+  "system.version": "Version",
+  "system.created.time": "Created Time",
+  "system.updated.time": "Updated Time",
+  "system.system.name": "System Name",
+  "system.role.id": "Role Id",
+  "system.system.id": "System Id",
+  "system.menu.id": "Menu Id",
+  "system.data.status.code": "Data Status Code",
+  "system.data.status.name": "Data Status Name",
+  "system.normal.user.group": "Normal User Group",
+  "system.advanced.user.group": "Advanced User Group",
+  "system.super.user.group": "Super User Group",
+  "system.15.minutes": "15 Minutes",
+  "system.30.minutes": "30 Minutes",
+  "system.60.minutes": "60 Minutes",
+  "system.180.minutes": "180 Minutes",
+  "system.unlimited": "Unlimited",
+  "system.user.group.name": "User Group Name",
+  "system.role.code": "Role Code",
+  "system.user.group.type": "User Group Type",
+  "system.user.group.code": "User Group Code",
+  "system.session.timeout": "Session Timeout",
+  "system.system.permissions": "System Permissions",
+  "system.menu.permissions": "Menu Permissions",
+  "system.user.group.responsibility": "User Group Responsibility",
   /**
    * DB Search
    */
@@ -766,6 +873,160 @@ export default {
    * System Components
    */
   "system.dataProcessing": "Data processing",
+  /**
+   * Common Files
+   */
+  "system.unique.identifier": "Unique Identifier",
+  "system.file.name": "File Name",
+  "system.file.type": "File Type",
+  "system.file.size": "File Size",
+  "system.file.path": "File Path",
+  "system.download": "Download",
+  /**
+   * System Parameters
+   */
+  "system.param.name": "Parameter Name",
+  "system.param.value": "Parameter Value",
+  /**
+   * Tenant Business Configuration
+   */
+  "system.menu.name": "Menu Name",
+  "system.sort": "Sort",
+  "system.application.name": "Application Name",
+  "system.select.child.node.first": "When selecting child nodes, you must select the parent node first, otherwise it will not be displayed in the header application menu bar",
+  "system.system.name": "System Name",
+  "system.assign.all.menus": "Assign All Menus",
+  "system.specified.menu": "Specified Menu",
+  "system.add.application": "Add Application",
+  "system.add.menu": "Add Menu",
+  "system.tenant.list": "Tenant List",
+  "system.application.list": "Application List",
+  "system.delete.application": "Delete Application",
+  /**
+   * Tenant Info
+   */
+  "system.tenant.name": "Tenant Name",
+  "system.tenant.code": "Tenant Code",
+  "system.expiring.tenant": "Expiring Tenant",
+  "system.contact.person": "Contact Person",
+  "system.contact.phone": "Contact Phone",
+  "system.email": "Email",
+  "system.telephone": "Telephone",
+  "system.industry": "Industry",
+  "system.validity.period": "Validity Period",
+  "system.expiration.policy": "Expiration Policy",
+  "system.data.backup.policy": "Data Backup Policy",
+  "system.business.notification": "Business Notification",
+  "system.inner.message": "Inner Message",
+  "system.sms.notification": "SMS Notification",
+  "system.email.notification": "Email Notification",
+  "system.dingtalk.notification": "DingTalk Notification",
+  "system.enterprise.wechat": "Enterprise WeChat",
+  "system.subscribe.interface": "Subscribe Interface",
+  "system.message.template": "Message Template",
+  "system.contact.address": "Contact Address",
+  "system.business.description": "Business Description",
+  /**
+   * User Manage
+   */
+  "system.employee.number": "Employee Number",
+  "system.avatar": "Avatar",
+  "system.auto.generate.if.empty": "Auto-generated if left empty",
+  "system.affiliated.department": "Affiliated Department",
+  "system.emergency.contact.phone": "Emergency Contact Phone",
+  "system.emergency.contact.help": "For contacting family in special circumstances",
+  "system.grant.system.login.authority": "Grant System Login Authority",
+  "system.organization": "Organization",
+  /**
+   * Users Audit
+   */
+  "system.password": "Password",
+  "system.effective.date": "Effective Date",
+  "system.expired.date": "Expired Date",
+  "system.data.type": "Data Type",
+  "system.created.date": "Created Date",
+  "system.updated.date": "Updated Date",
+  "system.data.version": "Data Version",
+  /**
+   * White List
+   */
+  "system.filter.type": "Filter Type",
+  "system.filter.content": "Filter Content",
+  /**
+   * Calendar
+   */
+  "system.calendar.category": "Calendar Category",
+  "system.calendar.name": "Calendar Name",
+  "system.shared.members": "Shared Members",
+  /**
+   * Calendar Manage
+   */
+  "system.schedule.title": "Schedule Title",
+  "system.start.date": "Start Date",
+  "system.end.date": "End Date",
+  "system.is.public": "Is Public",
+  "system.allow.subscription": "Allow Subscription",
+  "system.message.reminder": "Message Reminder",
+  "system.start.time": "Start Time",
+  "system.end.time": "End Time",
+  "system.invite": "Invite",
+  "system.cc": "CC",
+  "system.schedule.content": "Schedule Content",
+  "system.message.reminder.method": "Message Reminder Method",
+  /**
+   * Role User List
+   */
+  "system.remove": "Remove",
+  "system.confirm.remove": "Are you sure you want to remove?",
+  "system.data.processing": "Data processing",
+  "system.operation.success": "Operation successful",
+  /**
+   * User Transfer
+   */
+  "system.user.list": "User List",
+  "system.selected.users": "Selected Users",
+  "system.add": "Add",
+  /**
+   * Company Category
+   */
+  "system.sequence.number": "Sequence Number",
+  "system.add.child.node": "Add Child Node",
+  /**
+   * Company Defined
+   */
+  "system.company.name": "Company Name",
+  "system.company.code": "Company Code",
+  "system.company.category": "Company Category",
+  "system.company.abbreviation": "Company Abbreviation",
+  "system.parent.node": "Parent Node",
+  "system.add.subsidiary": "Add Subsidiary",
+  /**
+   * Job Category
+   */
+  "system.category.name": "Category Name",
+  "system.function.description": "Function Description",
+  /**
+   * Account Permission
+   */
+  "system.account": "Account",
+  "system.name": "Name",
+  "system.status": "Status",
+  "system.group.name": "Group Name",
+  "system.account.info": "Account Information",
+  "system.username": "Username",
+  "system.contact.phone": "Contact Phone",
+  "system.email": "Email",
+  "system.group.code": "Group Code",
+  "system.email.address": "Email Address",
+  "system.please.select.group": "Please select a group first",
+  "system.user.group": "User Group",
+  /**
+   * Appinfo Permission
+   */
+  "system.system.name": "System Name",
+  "system.application.name": "Application Name",
+  "system.system.code": "System Code",
+  "system.please.select.user.group": "Please select a user group first",
   /**
    * Workflow Components
    */

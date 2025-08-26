@@ -8,18 +8,19 @@ import {
   SearchParams,
 } from "star-horse-lowcode";
 import { onMounted, provide, reactive, ref } from "vue";
+import { i18n } from "@/lang";
 
 const dataUrl: ApiUrls = apiInstance("system-config", "system/dictinfoType");
 const searchFormData = reactive<SearchFields>({
   fieldList: [
     {
-      label: "名称",
+      label: i18n("system.name"),
       defaultVisible: false,
       matchType: "lk",
       fieldName: "dictTypeName",
     },
     {
-      label: "编码",
+      label: i18n("system.code"),
       defaultVisible: true,
       matchType: "eq",
       fieldName: "dictTypeCode",
@@ -29,12 +30,12 @@ const searchFormData = reactive<SearchFields>({
 const tableFieldList = reactive<PageFieldInfo>({
   fieldList: [
     {
-      label: "主键",
+      label: i18n("system.primary.key"),
       fieldName: "idDictinfoType",
       type: "long",
     },
     {
-      label: "字典类型名称",
+      label: i18n("system.dictionary.type.name"),
       fieldName: "dictTypeName",
 
       required: true,
@@ -42,7 +43,7 @@ const tableFieldList = reactive<PageFieldInfo>({
       listVisible: true,
     },
     {
-      label: "字典类型编码",
+      label: i18n("system.dictionary.type.code"),
       fieldName: "dictTypeCode",
 
       required: true,
@@ -50,7 +51,7 @@ const tableFieldList = reactive<PageFieldInfo>({
       listVisible: true,
     },
     {
-      label: "备注",
+      label: i18n("system.remark"),
       fieldName: "remark",
       type: "textarea",
       formVisible: true,

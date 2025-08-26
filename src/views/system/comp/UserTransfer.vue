@@ -2,6 +2,7 @@
 import { onMounted, ref } from "vue";
 import { analysisData } from "@/api/deptment";
 import { closeLoad, postRequest, SelectOption } from "star-horse-lowcode";
+import { i18n } from "@/lang";
 
 const deptUserList = ref<SelectOption>([]);
 const selectUsers = ref<Array<number>>([]);
@@ -96,8 +97,8 @@ defineExpose({
       }"
       v-model="selectUsers"
       :data="deptUserList"
-      :titles="['用户列表', '已选用户']"
-      :button-texts="['移除', '添加']"
+      :titles="[i18n('system.user.list'), i18n('system.selected.users')]"
+      :button-texts="[i18n('system.remove'), i18n('system.add')]"
       :format="{
         noChecked: '${total}',
         hasChecked: '${checked}/${total}',

@@ -16,6 +16,7 @@ import { loadRolesInfo, loadSystemInfo } from "@/api/star_horse_utils";
 import { computed, onMounted, provide, reactive, ref } from "vue";
 import { TreeNodeData } from "element-plus/es/components/tree-v2/src/types";
 import { Config } from "@/api/settings";
+import { i18n } from "@/lang";
 
 let informationsList = ref<any>([]);
 let appPermissionStatus = ref<SelectOption[]>([]);
@@ -41,7 +42,7 @@ const checkChange = (data: TreeNodeData, checked: boolean) => {
 const searchFields = reactive<SearchFields>({
   fieldList: [
     {
-      label: "系统名称",
+      label: i18n("system.system.name"),
       fieldName: "b.idInformations",
       defaultVisible: true,
       type: "tselect",
@@ -51,7 +52,7 @@ const searchFields = reactive<SearchFields>({
       },
     },
     {
-      label: "状态",
+      label: i18n("system.status"),
       fieldName: "b.statusCode",
       type: "select",
       defaultVisible: true,
@@ -64,7 +65,7 @@ const searchFields = reactive<SearchFields>({
 const formFieldList = reactive<PageFieldInfo>({
   fieldList: [
     {
-      label: "分组名称",
+      label: i18n("system.group.name"),
       fieldName: "idRolesinfo",
       type: "select",
       formVisible: true,
@@ -76,7 +77,7 @@ const formFieldList = reactive<PageFieldInfo>({
       },
     },
     {
-      label: "应用名称",
+      label: i18n("system.application.name"),
       fieldName: "appList",
       type: "tselect",
       formVisible: true,
@@ -90,7 +91,7 @@ const formFieldList = reactive<PageFieldInfo>({
       },
     },
     {
-      label: "状态",
+      label: i18n("system.status"),
       fieldName: "statusCode",
       type: "select",
       listVisible: true,
@@ -104,31 +105,31 @@ const formFieldList = reactive<PageFieldInfo>({
 const tableFieldList = reactive<PageFieldInfo>({
   fieldList: [
     {
-      label: "分组名称",
+      label: i18n("system.group.name"),
       fieldName: "roleName",
 
       listVisible: true,
     },
     {
-      label: "分组编码",
+      label: i18n("system.group.code"),
       fieldName: "roleCode",
 
       listVisible: true,
     },
     {
-      label: "系统名称",
+      label: i18n("system.system.name"),
       fieldName: "sysName",
 
       listVisible: true,
     },
     {
-      label: "系统编码",
+      label: i18n("system.system.code"),
       fieldName: "sysCode",
 
       listVisible: true,
     },
     {
-      label: "状态",
+      label: i18n("system.status"),
       fieldName: "statusName",
 
       listVisible: true,
@@ -148,7 +149,7 @@ let preValid = ref<Array<PreValid>>([{
   authority:"add",
   valid: () => {
     if (!currentUserGroupId.value) {
-      warning("请先选择用户分组");
+      warning(i18n("system.please.select.user.group"));
       return false;
     }
     return true;
@@ -206,7 +207,7 @@ onMounted(async () => {
         <el-splitter-panel collapsible size="240" min="100" max="500">
           <star-horse-tree
             v-model:tree-datas="rolesList"
-            treeTitle="用户组"
+            :treeTitle="i18n('system.user.group')"
             @selectData="checkChange"
             :compSize="compSize"
           />

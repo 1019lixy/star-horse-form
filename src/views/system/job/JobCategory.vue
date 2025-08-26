@@ -15,6 +15,8 @@ import {
   PageFieldInfo,
   SearchFields,
 } from "star-horse-lowcode";
+import { i18n } from "@/lang";
+
 //后端交互接口地址
 const dataUrl: ApiUrls = apiInstance("system-config", "system/rankType");
 //主键
@@ -27,13 +29,13 @@ provide("formFields", formFields);
 const searchFormData = reactive<SearchFields>({
   fieldList: [
     {
-      label: "分类名称",
+      label: i18n("system.category.name"),
       fieldName: "rankTypeName",
       defaultVisible: true,
       matchType: "lk",
     },
     {
-      label: "编码",
+      label: i18n("system.code"),
       fieldName: "rankTypeCode",
       defaultVisible: true,
       matchType: "lk",
@@ -45,7 +47,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
   //属性列表
   fieldList: [
     {
-      label: "分类名称",
+      label: i18n("system.category.name"),
       fieldName: "rankTypeName",
 
       required: true,
@@ -53,7 +55,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       listVisible: true,
     },
     {
-      label: "编码",
+      label: i18n("system.code"),
       fieldName: "rankTypeCode",
 
       required: true,
@@ -64,7 +66,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       },
     },
     {
-      label: "排序",
+      label: i18n("system.sort"),
       fieldName: "rankTypeSort",
       type: "number",
       defaultValue: 1,
@@ -73,7 +75,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       listVisible: true,
     },
     {
-      label: "职能描述",
+      label: i18n("system.function.description"),
       fieldName: "remark",
       type: "textarea",
       required: false,
@@ -81,7 +83,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       listVisible: true,
     },
     {
-      label: "版本号",
+      label: i18n("system.version"),
       fieldName: "version",
       type: "number",
       required: false,
@@ -89,7 +91,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       listVisible: !true,
     },
     {
-      label: "创建人",
+      label: i18n("system.created.by"),
       fieldName: "createdBy",
 
       required: false,
@@ -97,7 +99,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       listVisible: !true,
     },
     {
-      label: "创建时间",
+      label: i18n("system.created.time"),
       fieldName: "createdTime",
 
       required: false,
@@ -105,7 +107,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       listVisible: !true,
     },
     {
-      label: "修改人",
+      label: i18n("system.updated.by"),
       fieldName: "updatedBy",
 
       required: false,
@@ -113,7 +115,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       listVisible: !true,
     },
     {
-      label: "修改时间",
+      label: i18n("system.updated.time"),
       fieldName: "updatedTime",
 
       required: false,
@@ -121,7 +123,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       listVisible: !true,
     },
     {
-      label: "数据编号",
+      label: i18n("system.data.number"),
       fieldName: "dataNo",
 
       required: false,
@@ -129,7 +131,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       listVisible: !true,
     },
     {
-      label: "状态码",
+      label: i18n("system.status.code"),
       fieldName: "statusCode",
 
       required: false,
@@ -137,7 +139,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       listVisible: !true,
     },
     {
-      label: "状态名称",
+      label: i18n("system.status.name"),
       fieldName: "statusName",
 
       required: false,
@@ -145,7 +147,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       listVisible: !true,
     },
     {
-      label: "是否删除",
+      label: i18n("system.is.logical.deleted"),
       fieldName: "isDel",
       type: "number",
       required: false,
@@ -153,7 +155,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       listVisible: !true,
     },
     {
-      label: "国际编码",
+      label: i18n("system.international.code"),
       fieldName: "local",
 
       required: false,
