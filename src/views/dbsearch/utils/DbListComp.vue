@@ -402,7 +402,9 @@ const contextOperation = async (evt: Event, data: any, _index: number) => {
   containerTypeOperation(data);
   await nextTick();
   added.value = data["added"];
-  tableFieldInfoRef.value.setFormData(currentData.value);
+  nextTick(() => {
+    tableFieldInfoRef.value?.setFormData(currentData.value);
+  });
 };
 const dataReset = () => {
   //dataForm.value = {...currentData.value};
@@ -729,7 +731,7 @@ const configMsg = `操作指引：
 const dynamicBtn = () => {
   let userBtn: BtnAuth[] = [];
   userBtn.push({
-    btnName: "add",
+    btnName: "添加",
     labelName: "添加",
     icon: "add",
     disabled: added.value,
@@ -835,7 +837,7 @@ onMounted(() => {
   </star-horse-dialog>
   <star-horse-dialog
     :boxWidth="'640px'"
-    :dialogDisible="currentDataVisible"
+    :dialogVisible="currentDataVisible"
     :selfFunc="true"
     :userBtn="dynamicBtn()"
     @resetForm="dataReset"

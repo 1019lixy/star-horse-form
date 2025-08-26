@@ -49,10 +49,11 @@ const contextMenu = (evt: MouseEvent) => {
           "
           :index="'1_' + index"
           @click="actions(item.key)"
+          :title="`${item.label} (${item.shortcut || ''})`"
         >
           <el-tooltip
             class="item"
-            :content="item.label"
+            :content="`${item.label} (${item.shortcut || ''})`"
             effect="dark"
             placement="bottom"
           >
@@ -83,6 +84,7 @@ const contextMenu = (evt: MouseEvent) => {
               v-for="(sitem, sindex) in item.children"
               :index="'2_' + sindex"
               @click="actionsStyle(sitem)"
+              :title="`${sitem.label} (${sitem.shortcut || ''})`"
             >
               <star-horse-icon
                 :icon-class="sitem.icon"

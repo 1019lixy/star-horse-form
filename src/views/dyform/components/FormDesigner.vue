@@ -61,8 +61,8 @@ const contentMenuRef = ref();
                 </div>
             </div>
         </template>
-        <div :class="currentPageClass" style="" @contextmenu="contextMenu">
-            <draggable @add="(evt: Event) => onDragAdd(evt, list)" style="scrollbar-width: thin" tag="div"
+        <div :class="currentPageClass" style="overflow: auto;scrollbar-width: thin" @contextmenu="contextMenu">
+            <draggable @add="(evt: Event) => onDragAdd(evt, list)" style="" tag="div"
                 class="h-full w-full " group="starHorseGroup" ghost-class="ghost" :list="list" :itemKey="uuid()">
                 <template #item="{ element: data, index }">
                     <div :class="{ 'comp-item': data.preps?.headerFlag == 'Y' }" class="overflow-visible"

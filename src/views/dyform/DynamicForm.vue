@@ -28,6 +28,7 @@ import {
   uuid,
   warning,
 } from "star-horse-lowcode";
+import { ElMessage } from "element-plus";
 import { useRoute, useRouter } from "vue-router";
 import { validDynamicFormCompParams } from "@/views/dyform/utils/preview";
 import { delCacheData, getCacheData, setCacheData } from "@/api/cached_utils";
@@ -302,6 +303,13 @@ const doSave = async (isDraft: boolean = false) => {
     errMessage.value = validDynamicFormCompParams(list.value, true);
     if (errMessage.value) {
       warning(errMessage.value);
+      // Show error in a more prominent way
+      ElMessage({
+        message: '表单验证失败，请检查组件配置',
+        type: 'error',
+        duration: 5000,
+        showClose: true
+      });
       return;
     }
   }
@@ -312,6 +320,13 @@ const doSave = async (isDraft: boolean = false) => {
   );
   if (!flag) {
     warning("请先填写表单信息");
+    // Show error in a more prominent way
+    ElMessage({
+      message: '请完善表单基本信息',
+      type: 'error',
+      duration: 5000,
+      showClose: true
+    });
     return;
   }
   load("数据提交中，请等待");
@@ -323,6 +338,13 @@ const doSave = async (isDraft: boolean = false) => {
       if (res.data.code != 0) {
         activeTab.value = "second";
         warning(res.data.cnMessage);
+        // Show error in a more prominent way
+        ElMessage({
+          message: res.data.cnMessage,
+          type: 'error',
+          duration: 5000,
+          showClose: true
+        });
         return;
       }
       closeAction();
@@ -330,10 +352,21 @@ const doSave = async (isDraft: boolean = false) => {
       //添加成功清空缓存
       designForm.clearAll(false);
       success(res.data.cnMessage);
+      ElMessage({
+        message: res.data.cnMessage,
+        type: 'success',
+        duration: 3000
+      });
     })
     .catch((err: any) => {
       closeAction();
       error("操作异常:" + err);
+      ElMessage({
+        message: "操作异常，请稍后重试",
+        type: 'error',
+        duration: 5000,
+        showClose: true
+      });
     })
     .finally(() => {
       closeLoad();
@@ -362,6 +395,10 @@ const onDragAdd = async (_evt: Event, dataList: Array<any>) => {
       "",
     );
   }
+};
+
+const onComponentSelect = (component: any) => {
+  designForm.selectItem(component, component["itemType"], "");
 };
 
 const createCode = () => {
@@ -526,10 +563,26 @@ let prepsModel = ref("one");
 const configDialogRef = ref();
 const contentMenuRef = ref();
 const formListRef = ref();
+const previewDialogRef = ref(); // Add this ref
+
+// Add methods to call PreviewDialog functions
+const validatePreviewForm = async () => {
+  if (previewDialogRef.value) {
+    return await previewDialogRef.value.validateForm();
+  }
+};
+
+const exportPreviewToHtml = () => {
+  if (previewDialogRef.value) {
+    previewDialogRef.value.exportToHtml();
+  }
+};
 
 defineExpose({
   loadFormData,
   loadTemplateData,
+  validatePreviewForm, // Expose validation method
+  exportPreviewToHtml  // Expose export method
 });
 
 // Add dark mode support
@@ -576,7 +629,9 @@ const toggleDarkMode = () => {
       :visible="isPreview"
       :compSize="compSize"
       :list="list"
+      :currentPageClass="currentPageClass"
       @close="closeAction"
+      ref="previewDialogRef"
     />
     
     <FieldLayerDrawer
@@ -607,13 +662,15 @@ const toggleDarkMode = () => {
             
             <FormDesigner
               :list="list"
-              :formData="formData"
-              :formInfo="formInfo"
-              :isDragging="isDragging"
-              :currentPageClass="currentPageClass"
-              @dragAdd="onDragAdd"
-              @contextMenu="contextMenu"
-              @update:formData="(val) => designForm.setFormData(val)"
+              :form-data="formData"
+              :form-info="formInfo"
+              :is-dragging="isDragging"
+              :current-page-class="currentPageClass"
+              @drag-add="onDragAdd"
+              @context-menu="contextMenu"
+              @update:form-data="updateFormData"
+              @select-component="onComponentSelect"
+              ref="dynamicFormRef"
             />
             
             <FormMenuShot
