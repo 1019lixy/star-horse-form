@@ -19,6 +19,8 @@ import {
   SearchFields,
   SearchParams,
 } from "star-horse-lowcode";
+import { i18n } from "@/lang";
+
 //后端交互接口地址
 const dataUrl: ApiUrls = apiInstance("system-config", "system/stationDefine");
 //主键
@@ -32,13 +34,13 @@ let stationSequenceList = ref<Array<any>>([]);
 const searchFormData = reactive<SearchFields>({
   fieldList: [
     {
-      label: "岗位名称",
+      label: i18n("system.station.name"),
       fieldName: "stationName",
       defaultVisible: true,
       matchType: "lk",
     },
     {
-      label: "岗位编码",
+      label: i18n("system.station.code"),
       fieldName: "stationCode",
       defaultVisible: true,
       matchType: "lk",
@@ -50,7 +52,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
   //属性列表
   fieldList: [
     {
-      label: "主键",
+      label: i18n("system.primary.key"),
       fieldName: "idStationDefine",
 
       required: true,
@@ -58,7 +60,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
 
     [
       {
-        label: "岗位名称",
+        label: i18n("system.station.name"),
         fieldName: "stationName",
 
         required: false,
@@ -66,7 +68,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
         listVisible: true,
       },
       {
-        label: "岗位编码",
+        label: i18n("system.station.code"),
         fieldName: "stationCode",
 
         required: false,
@@ -76,7 +78,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
     ],
     [
       {
-        label: "所属序列",
+        label: i18n("system.belonging.sequence"),
         fieldName: "idStationSequence",
         type: "tselect",
         required: false,
@@ -92,7 +94,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
         },
       },
       {
-        label: "岗位排序",
+        label: i18n("system.station.sort"),
         fieldName: "stationSort",
         type: "number",
         defaultValue: 100,
@@ -102,7 +104,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       },
     ],
     {
-      label: "版本号",
+      label: i18n("system.version"),
       fieldName: "version",
       type: "number",
       required: false,
@@ -110,7 +112,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       listVisible: !true,
     },
     {
-      label: "创建人",
+      label: i18n("system.created.by"),
       fieldName: "createdBy",
 
       required: false,
@@ -118,7 +120,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       listVisible: !true,
     },
     {
-      label: "创建时间",
+      label: i18n("system.created.time"),
       fieldName: "createdTime",
 
       required: false,
@@ -126,7 +128,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       listVisible: !true,
     },
     {
-      label: "修改人",
+      label: i18n("system.updated.by"),
       fieldName: "updatedBy",
 
       required: false,
@@ -134,7 +136,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       listVisible: !true,
     },
     {
-      label: "修改时间",
+      label: i18n("system.updated.time"),
       fieldName: "updatedTime",
 
       required: false,
@@ -142,7 +144,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       listVisible: !true,
     },
     {
-      label: "数据编号",
+      label: i18n("system.data.number"),
       fieldName: "dataNo",
 
       required: false,
@@ -150,7 +152,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       listVisible: !true,
     },
     {
-      label: "状态码",
+      label: i18n("system.status.code"),
       fieldName: "statusCode",
 
       required: false,
@@ -158,7 +160,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       listVisible: !true,
     },
     {
-      label: "状态名称",
+      label: i18n("system.status.name"),
       fieldName: "statusName",
 
       required: false,
@@ -166,7 +168,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       listVisible: !true,
     },
     {
-      label: "是否删除",
+      label: i18n("system.is.logical.deleted"),
       fieldName: "isDel",
       type: "number",
       required: false,
@@ -174,7 +176,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       listVisible: !true,
     },
     {
-      label: "国际编码",
+      label: i18n("system.international.code"),
       fieldName: "local",
 
       required: false,
@@ -182,7 +184,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       listVisible: !true,
     },
     {
-      label: "备注",
+      label: i18n("system.remark"),
       fieldName: "remark",
 
       required: false,
@@ -283,7 +285,7 @@ onDeactivated(() => {
           <star-horse-tree
             v-model:tree-datas="stationSequenceList"
             :expand="true"
-            treeTitle="职位序列"
+            :treeTitle="i18n('system.position.sequence')"
             @selectData="sequenceChange"
             :preps="{
               label: 'seqName',

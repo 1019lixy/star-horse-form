@@ -11,6 +11,7 @@ import {
 import { TreeNodeData } from "element-plus/es/components/tree-v2/src/types";
 import { statusList } from "@/views/system/utils/UserFields";
 import { getCustomerParam } from "@/utils/auth";
+import { i18n } from "@/lang";
 import {
   apiInstance,
   ApiUrls,
@@ -62,13 +63,13 @@ const companyChange = (data: TreeNodeData, _checked: boolean) => {
 const searchFormData = reactive<SearchFields>({
   fieldList: [
     {
-      label: "角色名称",
+      label: i18n("system.role.name"),
       fieldName: "roleName",
       defaultVisible: true,
       matchType: "lk",
     },
     {
-      label: "角色编码",
+      label: i18n("system.role.code"),
       fieldName: "roleCode",
       defaultVisible: true,
       matchType: "lk",
@@ -82,7 +83,7 @@ const viewCompField = ref<DyCompField>({
   onMounted: () => {},
   template: `
     <el-descriptions
-        title="人员信息"
+        :title="i18n('system.personnel.info')"
         direction="vertical"
         border
         style="margin-top: 10px"
@@ -90,7 +91,7 @@ const viewCompField = ref<DyCompField>({
       <el-descriptions-item
           :rowspan="2"
           :width="140"
-          label="头像"
+          :label="i18n('system.avatar')"
           align="center"
       >
         <el-image
@@ -98,11 +99,11 @@ const viewCompField = ref<DyCompField>({
             :src="data.name||''"
         />
       </el-descriptions-item>
-      <el-descriptions-item label="姓名/工号">{{ data.name }}/{{ data.employeeNo }}</el-descriptions-item>
-      <el-descriptions-item :width="140" label="联系电话">{{ data.phone || "--" }}</el-descriptions-item>
-      <el-descriptions-item label="职级">{{ data.rank || "--" }}</el-descriptions-item>
-      <el-descriptions-item label="岗位">{{ data.station || "--" }}</el-descriptions-item>
-      <el-descriptions-item label="所属组织">
+      <el-descriptions-item :label="i18n('system.name.employee.number')">{{ data.name }}/{{ data.employeeNo }}</el-descriptions-item>
+      <el-descriptions-item :width="140" :label="i18n('system.contact.phone')">{{ data.phone || "--" }}</el-descriptions-item>
+      <el-descriptions-item :label="i18n('system.rank')">{{ data.rank || "--" }}</el-descriptions-item>
+      <el-descriptions-item :label="i18n('system.position')">{{ data.station || "--" }}</el-descriptions-item>
+      <el-descriptions-item :label="i18n('system.affiliated.organization')">
         {{ data.companyName }}-{{ data.deptName }}
       </el-descriptions-item>
     </el-descriptions>
@@ -114,7 +115,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
   //属性列表
   fieldList: [
     {
-      label: "角色名称",
+      label: i18n("system.role.name"),
       fieldName: "roleName",
 
       required: true,
@@ -122,7 +123,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       listVisible: true,
     },
     {
-      label: "角色编码",
+      label: i18n("system.role.code"),
       fieldName: "roleCode",
 
       required: true,
@@ -131,7 +132,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
     },
 
     {
-      label: "版本号",
+      label: i18n("system.version"),
       fieldName: "version",
       type: "number",
       required: false,
@@ -139,7 +140,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       listVisible: !true,
     },
     {
-      label: "创建人",
+      label: i18n("system.created.by"),
       fieldName: "createdBy",
 
       required: false,
@@ -147,7 +148,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       listVisible: true,
     },
     {
-      label: "创建时间",
+      label: i18n("system.created.time"),
       fieldName: "createdTime",
 
       required: false,
@@ -155,7 +156,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       listVisible: true,
     },
     {
-      label: "修改人",
+      label: i18n("system.updated.by"),
       fieldName: "updatedBy",
 
       required: false,
@@ -163,7 +164,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       listVisible: true,
     },
     {
-      label: "修改时间",
+      label: i18n("system.updated.time"),
       fieldName: "updatedTime",
 
       required: false,
@@ -171,7 +172,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       listVisible: true,
     },
     {
-      label: "数据编号",
+      label: i18n("system.data.number"),
       fieldName: "dataNo",
 
       required: false,
@@ -179,7 +180,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       listVisible: !true,
     },
     {
-      label: "状态码",
+      label: i18n("system.status.code"),
       fieldName: "statusCode",
       type: "select",
       required: false,
@@ -190,7 +191,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       },
     },
     {
-      label: "状态名称",
+      label: i18n("system.status.name"),
       fieldName: "statusName",
 
       required: false,
@@ -198,7 +199,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       listVisible: !true,
     },
     {
-      label: "是否删除",
+      label: i18n("system.is.logical.deleted"),
       fieldName: "isDel",
       type: "number",
       required: false,
@@ -206,7 +207,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       listVisible: !true,
     },
     {
-      label: "国际编码",
+      label: i18n("system.international.code"),
       fieldName: "local",
 
       required: false,
@@ -214,7 +215,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       listVisible: !true,
     },
     {
-      label: "备注",
+      label: i18n("system.remark"),
       fieldName: "remark",
       type: "textarea",
       required: false,
@@ -228,7 +229,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
 
 const expandTable = reactive<ExpandTable>({
   dataField: "employeeList",
-  title: "人员信息",
+  title: i18n("system.personnel.info"),
   primaryKey: [
     "idCompanyDefine",
     "idCompanyRole",
@@ -244,13 +245,13 @@ const expandTable = reactive<ExpandTable>({
   extendFuncs: [
     {
       icon: "delete",
-      btnName: "删除",
+      btnName: i18n("system.delete"),
       authority: "delete",
     },
   ],
   fieldList: [
     {
-      label: "姓名",
+      label: i18n("system.name"),
       fieldName: "name",
       type: "tag",
       required: true,
@@ -264,7 +265,7 @@ const expandTable = reactive<ExpandTable>({
       },
     },
     {
-      label: "所属公司",
+      label: i18n("system.affiliated.company"),
       fieldName: "companyName",
 
       required: true,
@@ -272,7 +273,7 @@ const expandTable = reactive<ExpandTable>({
       listVisible: true,
     },
     {
-      label: "所属部门",
+      label: i18n("system.affiliated.department"),
       fieldName: "deptName",
 
       required: true,
@@ -290,12 +291,12 @@ const userTableRef = ref();
 let currentRow = ref<any>({});
 let extendBtns = ref<UserFuncInfo[]>([
   {
-    btnName: "添加人员",
+    btnName: i18n("system.add.personnel"),
     authority: "add",
     icon: "user-add",
     funcName: async (row: any) => {
       if (!currentUserGroupId.value) {
-        warning("请先在左侧选择公司");
+        warning(i18n("system.please.select.company.first"));
         return;
       }
       currentRow.value = row;
@@ -323,7 +324,7 @@ const assignRoleUser = () => {
     userTableRef.value.$refs.employeeInfoRef.multipleSelection;
   console.log(selectedDatas);
   if (!selectedDatas || selectedDatas.length == 0) {
-    warning("请选择人员信息");
+    warning(i18n("system.please.select.personnel.info"));
     return;
   }
   let datas = [];
@@ -334,7 +335,7 @@ const assignRoleUser = () => {
       idEmployee: selectedDatas[index].idEmployeeInfo,
     });
   }
-  load("数据提交中");
+  load(i18n("system.data.submitting"));
   postRequest("/system-config/system/companyRolePkEmployee/mergeBatch", datas)
     .then((res) => {
       if (res.data.code) {
@@ -375,7 +376,7 @@ onDeactivated(() => {
   <div class="flex flex-col h-full overflow-hidden">
     <star-horse-dialog
       :self-func="true"
-      :title="'添加人员'"
+      :title="i18n('system.add.personnel')"
       :dialog-visible="dialogProps.bakeVisible1"
       :dialogProps="dialogProps"
       @merge="assignRoleUser"
@@ -420,7 +421,7 @@ onDeactivated(() => {
           <star-horse-tree
             v-model:tree-datas="companyList"
             :expand="true"
-            treeTitle="公司列表"
+            :treeTitle="i18n('system.company.list')"
             @selectData="companyChange"
             :preps="{
               label: 'name',

@@ -22,6 +22,7 @@ import { computed, onMounted, provide, reactive, ref } from "vue";
 import { TreeNodeData } from "element-plus/es/components/tree-v2/src/types";
 import { getUserInfo } from "@/utils/auth";
 import { baseUserFields, userFormat } from "@/views/system/utils/UserFields";
+import { i18n } from "@/lang";
 
 const dataUrl: ApiUrls = apiInstance("system-config", "system/dataPermission");
 let systemInfoList = ref<SelectOption[]>([]);
@@ -40,7 +41,7 @@ let defaultCondition = ref<SearchParams[]>([]);
 const searchFormData = reactive<SearchFields>({
   fieldList: [
     {
-      label: "权限类型",
+      label: i18n("system.permission.type"),
       defaultVisible: true,
       fieldName: "permissionType",
       type: "select",
@@ -49,7 +50,7 @@ const searchFormData = reactive<SearchFields>({
       },
     },
     {
-      label: "被授权用户组/人",
+      label: i18n("system.authorized.user.group"),
       defaultVisible: true,
       fieldName: "userGroup",
       matchType: "lk",
@@ -62,7 +63,7 @@ const formFieldList = reactive<PageFieldInfo | any>({
   fieldList: [
     [
       {
-        label: "权限类型",
+        label: i18n("system.permission.type"),
         fieldName: "permissionType",
         type: "select",
         defaultValue: "sharePerson",
@@ -85,7 +86,7 @@ const formFieldList = reactive<PageFieldInfo | any>({
         },
       },
       {
-        label: "授权菜单",
+        label: i18n("system.authorized.menu"),
         fieldName: "menuList",
         type: "tselect",
         required: true,
@@ -103,7 +104,7 @@ const formFieldList = reactive<PageFieldInfo | any>({
       },
     ],
     {
-      label: "用户组",
+      label: i18n("system.user.group"),
       fieldName: "userGroup",
       type: "tselect",
       required: true,
@@ -116,7 +117,7 @@ const formFieldList = reactive<PageFieldInfo | any>({
       },
     },
     {
-      label: "被授权账号",
+      label: i18n("system.authorized.account"),
       fieldName: "userGroupName",
       aliasName: "userGroup",
       type: "page-select",
@@ -132,19 +133,19 @@ const formFieldList = reactive<PageFieldInfo | any>({
         searchFieldList: {
           fieldList: [
             {
-              label: "用户名",
+              label: i18n("system.username"),
               defaultVisible: true,
               fieldName: "username",
               matchType: "lk",
             },
             {
-              label: "姓名",
+              label: i18n("system.name"),
               defaultVisible: true,
               fieldName: "name",
               matchType: "lk",
             },
             {
-              label: "工号",
+              label: i18n("system.employee.number"),
               defaultVisible: true,
               fieldName: "employeeNo",
               matchType: "lk",
@@ -162,7 +163,7 @@ const formFieldList = reactive<PageFieldInfo | any>({
       },
     },
     {
-      label: "权限",
+      label: i18n("system.permission"),
       fieldName: "permissionList",
       type: "select",
       required: true,
@@ -176,7 +177,7 @@ const formFieldList = reactive<PageFieldInfo | any>({
       },
     },
     {
-      label: "有效期",
+      label: i18n("system.validity.period"),
       fieldName: "validTime",
       type: "daterange",
       required: true,
@@ -189,31 +190,31 @@ const formFieldList = reactive<PageFieldInfo | any>({
 const tableFieldList = reactive<PageFieldInfo | any>({
   fieldList: [
     {
-      label: "权限类型",
+      label: i18n("system.permission.type"),
       fieldName: "permissionType",
 
       listVisible: true,
     },
     {
-      label: "被授权用户组/账号",
+      label: i18n("system.authorized.user.group.account"),
       fieldName: "userGroup",
 
       listVisible: true,
     },
     {
-      label: "有效期",
+      label: i18n("system.validity.period"),
       fieldName: "validTime",
 
       listVisible: true,
     },
     {
-      label: "授权菜单",
+      label: i18n("system.authorized.menu"),
       fieldName: "menuList",
 
       listVisible: true,
     },
     {
-      label: "权限",
+      label: i18n("system.permission"),
       fieldName: "permissionList",
       listVisible: true,
     },
@@ -261,7 +262,7 @@ let preValid = ref<Array<PreValid>>([{
   authority:"add",
   valid: () => {
     if (!currentSystemId.value) {
-      warning("请先选择应用");
+      warning(i18n("system.please.select.application"));
       return false;
     }
     return true;
@@ -376,7 +377,7 @@ onMounted(async () => {
         <el-splitter-panel collapsible size="240" min="100" max="500">
           <star-horse-tree
             v-model:tree-datas="systemInfoList"
-            treeTitle="应用系统"
+            :treeTitle="i18n('system.application.system')"
             @selectData="systemChange"
             :compSize="compSize"
           />
@@ -388,7 +389,7 @@ onMounted(async () => {
         >
           <star-horse-tree
             v-model:tree-datas="menusList"
-            treeTitle="系统菜单"
+            :treeTitle="i18n('system.system.menu')"
             :preps="{
               label: 'menuName',
               value: 'idMenusinfo',

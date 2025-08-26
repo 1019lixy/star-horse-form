@@ -1031,6 +1031,114 @@ export default {
   "system.system.code": "系统编码",
   "system.please.select.user.group": "请先选择用户分组",
   /**
+   * Data Permission
+   */
+  "system.permission.type": "权限类型",
+  "system.authorized.user.group": "被授权用户组/人",
+  "system.authorized.menu": "授权菜单",
+  "system.user.group": "用户组",
+  "system.authorized.account": "被授权账号",
+  "system.permission": "权限",
+  "system.validity.period": "有效期",
+  "system.authorized.user.group.account": "被授权用户组/账号",
+  "system.please.select.application": "请先选择应用",
+  "system.application.system": "应用系统",
+  "system.system.menu": "系统菜单",
+  /**
+   * Menuinfo Permission
+   */
+  "system.menu.name": "菜单名称",
+  "system.assign.all.menus": "分配所有菜单",
+  "system.specified.menu": "指定菜单",
+  /**
+   * Page Button Permission
+   */
+  "system.role.name": "角色名称",
+  "system.created.date": "创建日期",
+  "system.owned.system": "所属系统",
+  "system.permission": "权限",
+  "system.btn.names": "按钮名称",
+  /**
+   * Common Role Manage
+   */
+  "system.role.code": "角色编码",
+  "system.version": "版本号",
+  "system.created.by": "创建人",
+  "system.created.time": "创建时间",
+  "system.updated.by": "修改人",
+  "system.updated.time": "修改时间",
+  "system.data.number": "数据编号",
+  "system.status.code": "状态码",
+  "system.status.name": "状态名称",
+  "system.is.logical.deleted": "是否删除",
+  "system.international.code": "国际编码",
+  "system.remark": "备注",
+  "system.personnel.info": "人员信息",
+  "system.name.employee.number": "姓名/工号",
+  "system.rank": "职级",
+  "system.position": "岗位",
+  "system.affiliated.organization": "所属组织",
+  "system.affiliated.company": "所属公司",
+  "system.affiliated.department": "所属部门",
+  "system.delete": "删除",
+  "system.add.personnel": "添加人员",
+  "system.please.select.company.first": "请先在左侧选择公司",
+  "system.please.select.personnel.info": "请选择人员信息",
+  "system.data.submitting": "数据提交中",
+  "system.company.list": "公司列表",
+  /**
+   * Company Role Manage
+   */
+  "system.company.name.code": "公司名称/编码",
+  "system.role.name.code": "角色名称/编码",
+  "system.company.name": "公司名称",
+  "system.load.company.role.info.error": "加载公司角色信息异常",
+  "system.set.personnel": "设置人员",
+  "system.view.all.personnel.info": "查看所有人员信息",
+  /**
+   * Role Config
+   */
+  "system.role.type": "角色类型",
+  "system.set.role.affiliated.company": "设置角色归属公司",
+  "system.please.set.role.affiliated.company": "请设置当前角色的归属公司",
+  /**
+   * Role Defined
+   */
+  "system.affiliated.company.quantity": "归属公司(数量)",
+  "system.configure.affiliated.company": "配置归属公司",
+  "system.affiliated.company": "归属公司",
+  "system.confirm.delete": "确定要删除吗？",
+  "system.data.submitting": "数据提交中",
+  /**
+   * Station Category
+   */
+  "system.sequence.description": "序列描述",
+  /**
+   * Station Defined
+   */
+  "system.station.name": "岗位名称",
+  "system.station.code": "岗位编码",
+  "system.belonging.sequence": "所属序列",
+  "system.station.sort": "岗位排序",
+  "system.position.sequence": "职位序列",
+  /**
+   * User Fields
+   */
+  "system.email.address": "邮箱地址",
+  "system.contact.phone": "联系电话",
+  "system.sex": "性别",
+  "system.emergency.contact.phone": "紧急联系人电话",
+  "system.user.group": "所属用户组",
+  "system.education": "学历",
+  "system.entry.time": "入职时间",
+  "system.leave.time": "离职时间",
+  "system.native.place": "籍贯",
+  "system.political.status": "政治面貌",
+  "system.identity.type": "证件类型",
+  "system.identity.number": "证件编号",
+  "system.mailing.address": "通信地址",
+  "system.id.photo": "证件照",
+  /**
    * Workflow Components
    */
   "workflow.dataLoading": "数据加载中",

@@ -2,6 +2,7 @@ import { dictData, SelectOption } from "star-horse-lowcode";
 import { loadDepartmentInfo, loadRolesInfo } from "@/api/star_horse_utils";
 import { ref } from "vue";
 import { analysisData } from "@/api/deptment";
+import { i18n } from "@/lang";
 
 const deptList = ref<SelectOption[]>([]);
 const rolesList = ref<SelectOption[]>([]);
@@ -14,7 +15,7 @@ const identityTypeList = ref<SelectOption[]>([]);
 const userEditFieldInfo: Array<any> = [
   [
     {
-      label: "邮箱地址",
+      label: i18n("system.email.address"),
       fieldName: "email",
 
       rules: "email",
@@ -27,7 +28,7 @@ const userEditFieldInfo: Array<any> = [
       },
     },
     {
-      label: "联系电话",
+      label: i18n("system.contact.phone"),
       fieldName: "phone",
 
       rules: "phone",
@@ -38,7 +39,7 @@ const userEditFieldInfo: Array<any> = [
   ],
   [
     {
-      label: "姓名",
+      label: i18n("system.name"),
       fieldName: "name",
 
       required: true,
@@ -46,7 +47,7 @@ const userEditFieldInfo: Array<any> = [
       listVisible: true,
     },
     {
-      label: "性别",
+      label: i18n("system.sex"),
       fieldName: "sex",
       type: "radio",
       defaultValue: 3,
@@ -58,7 +59,7 @@ const userEditFieldInfo: Array<any> = [
     },
   ],
   {
-    label: "紧急联系人电话",
+    label: i18n("system.emergency.contact.phone"),
     fieldName: "bakePhone",
     rules: "phone",
 
@@ -82,7 +83,7 @@ const userFormat = (name: string, val: any, row: any) => {
 const baseUserFields: Array<any> = [
   [
     {
-      label: "用户名",
+      label: i18n("system.username"),
       fieldName: "username",
       aliasName: "employeeNo",
       type: "user",
@@ -102,7 +103,7 @@ const baseUserFields: Array<any> = [
       },
     },
     {
-      label: "所属用户组",
+      label: i18n("system.user.group"),
       fieldName: "rolesList",
       type: "select",
       required: true,
@@ -116,7 +117,7 @@ const baseUserFields: Array<any> = [
   ],
   ...userEditFieldInfo,
   {
-    label: "状态",
+    label: i18n("system.status"),
     fieldName: "statusName",
 
     listVisible: true,
@@ -127,7 +128,7 @@ const fullUserField: Array<any> = [
   ...userEditFieldInfo,
 
   {
-    label: "学历",
+    label: i18n("system.education"),
     fieldName: "education",
     type: "select",
     formVisible: true,
@@ -138,18 +139,18 @@ const fullUserField: Array<any> = [
   },
   [
     {
-      label: "入职时间",
+      label: i18n("system.entry.time"),
       fieldName: "entryDate",
       type: "date",
     },
     {
-      label: "离职时间",
+      label: i18n("system.leave.time"),
       fieldName: "leaveDate",
       type: "date",
     },
   ],
   {
-    label: "籍贯",
+    label: i18n("system.native.place"),
     fieldName: "nativePlace",
     type: "select",
     formVisible: true,
@@ -159,7 +160,7 @@ const fullUserField: Array<any> = [
     },
   },
   {
-    label: "政治面貌",
+    label: i18n("system.political.status"),
     fieldName: "politicalStatus",
     type: "select",
     formVisible: true,
@@ -169,7 +170,7 @@ const fullUserField: Array<any> = [
     },
   },
   {
-    label: "证件类型",
+    label: i18n("system.identity.type"),
     fieldName: "identityType",
     type: "select",
     formVisible: true,
@@ -179,7 +180,7 @@ const fullUserField: Array<any> = [
     },
   },
   {
-    label: "证件编号",
+    label: i18n("system.identity.number"),
     fieldName: "identityNo",
 
     formVisible: true,
@@ -187,7 +188,7 @@ const fullUserField: Array<any> = [
   },
   [
     {
-      label: "状态",
+      label: i18n("system.status"),
       fieldName: "statusCode",
       type: "select",
       formVisible: true,
@@ -196,7 +197,7 @@ const fullUserField: Array<any> = [
       },
     },
     {
-      label: "通信地址",
+      label: i18n("system.mailing.address"),
       fieldName: "address",
 
       formVisible: true,
@@ -204,58 +205,58 @@ const fullUserField: Array<any> = [
     },
   ],
   {
-    label: "备注",
+    label: i18n("system.remark"),
     fieldName: "remark",
     type: "textarea",
     formVisible: true,
     listVisible: true,
   },
   {
-    label: "证件照",
+    label: i18n("system.id.photo"),
     fieldName: "imagePath",
   },
   {
-    label: "创建人",
+    label: i18n("system.created.by"),
     disabled: "Y",
     fieldName: "createdBy",
 
     listVisible: true,
   },
   {
-    label: "修改人",
+    label: i18n("system.updated.by"),
     disabled: "Y",
     fieldName: "updatedBy",
   },
   {
-    label: "创建日期",
+    label: i18n("system.created.date"),
     disabled: "Y",
     fieldName: "createdTime",
     type: "date",
     listVisible: true,
   },
   {
-    label: "修改日期",
+    label: i18n("system.updated.date"),
     disabled: "Y",
     fieldName: "updatedTime",
     type: "date",
   },
   {
-    label: "数据版本号",
+    label: i18n("system.data.version"),
     fieldName: "version",
     type: "number",
   },
   {
-    label: "是否已逻辑删除",
+    label: i18n("system.is.logical.deleted"),
     fieldName: "isDel",
     type: "number",
   },
   {
-    label: "数据编号",
+    label: i18n("system.data.number"),
     fieldName: "dataNo",
   },
 
   {
-    label: "国际码",
+    label: i18n("system.international.code"),
     fieldName: "local",
   },
 ];

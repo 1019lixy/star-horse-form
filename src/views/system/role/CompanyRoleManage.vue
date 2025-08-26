@@ -19,6 +19,7 @@ import {
 } from "star-horse-lowcode";
 import { getRowIdentity } from "element-plus/es/components/table/src/util";
 import { Config } from "@/api/settings";
+import { i18n } from "@/lang";
 
 let configStore = useGlobalConfigStore(piniaInstance);
 let compSize = computed(
@@ -30,13 +31,13 @@ dataUrl.pageListUrl = `${dataUrl.basePrefix}/companyRoleUserList`;
 const searchFormData = reactive<SearchFields>({
   fieldList: [
     {
-      label: "公司名称/编码",
+      label: i18n("system.company.name.code"),
       fieldName: "companyName",
       defaultVisible: true,
       matchType: "lk",
     },
     {
-      label: "角色名称/编码",
+      label: i18n("system.role.name.code"),
       fieldName: "roleName",
       defaultVisible: true,
       matchType: "lk",
@@ -46,7 +47,7 @@ const searchFormData = reactive<SearchFields>({
 let pageField = reactive<PageFieldInfo>({
   fieldList: [
     {
-      label: "公司名称",
+      label: i18n("system.company.name"),
       fieldName: "companyName",
 
       listVisible: true,
@@ -76,7 +77,7 @@ const init = async () => {
     },
   );
   if (result.error) {
-    warning("加载公司角色信息异常");
+    warning(i18n("system.load.company.role.info.error"));
     return;
   }
   for (let index in result.data) {
@@ -135,7 +136,7 @@ const assignRoleUser = () => {
     companyRoleManageRef.value.$refs.employeeInfoRef.multipleSelection;
   console.log(selectedDatas);
   if (!selectedDatas || selectedDatas.length == 0) {
-    warning("请选择人员信息");
+    warning(i18n("system.please.select.personnel.info"));
     return;
   }
   let datas = [];
@@ -147,7 +148,7 @@ const assignRoleUser = () => {
     });
   }
   console.log(datas);
-  load("数据提交中");
+  load(i18n("system.data.submitting"));
   postRequest("/system-config/system/companyRolePkEmployee/mergeBatch", datas)
     .then((res) => {
       if (res.data.code) {
@@ -198,7 +199,7 @@ onMounted(() => {
     </star-horse-dialog>
     <star-horse-dialog
       :self-func="true"
-      :title="'添加人员'"
+      :title="i18n('system.add.personnel')"
       :dialog-visible="dialogProps.bakeVisible1"
       :dialogProps="dialogProps"
       @merge="assignRoleUser"
@@ -257,7 +258,7 @@ onMounted(() => {
                 :class="{ 'role-user-operation': true }"
                 @click="cellClick(scope.row, item)"
               >
-                设置人员
+                {{ i18n("system.set.personnel") }}
               </div>
               <div
                 class="role-user-content"
@@ -277,7 +278,7 @@ onMounted(() => {
                     icon-class="more"
                     v-if="scope.row[item.fieldName].length > 10"
                     style="cursor: pointer"
-                    title="查看所有人员信息"
+                    :title="i18n('system.view.all.personnel.info')"
                     @click="showAllUsers(scope.row, item, $event)"
                   />
                 </template>

@@ -18,6 +18,7 @@ import {
 } from "star-horse-lowcode";
 import { loadRolesInfo } from "@/api/star_horse_utils";
 import { Config } from "@/api/settings";
+import { i18n } from "@/lang";
 import { computed, onMounted, provide, reactive, ref } from "vue";
 import { TreeNodeData } from "element-plus/es/components/tree-v2/src/types";
 
@@ -37,7 +38,7 @@ let defaultCondition = ref<SearchParams[]>([]);
 const searchFormData = reactive<SearchFields>({
   fieldList: [
     {
-      label: "角色名称",
+      label: i18n("system.role.name"),
       defaultVisible: true,
       fieldName: "idRolesinfo",
       type: "select",
@@ -46,7 +47,7 @@ const searchFormData = reactive<SearchFields>({
       },
     },
     {
-      label: "创建日期",
+      label: i18n("system.created.date"),
       fieldName: "createdTime",
       type: "date",
       matchType: "bt",
@@ -57,7 +58,7 @@ const formFieldList = reactive<PageFieldInfo | any>({
   fieldList: [
     [
       {
-        label: "角色名称",
+        label: i18n("system.role.name"),
         fieldName: "idRolesinfo",
         type: "select",
         required: true,
@@ -69,7 +70,7 @@ const formFieldList = reactive<PageFieldInfo | any>({
         },
       },
       {
-        label: "所属系统",
+        label: i18n("system.owned.system"),
         fieldName: "idInformations",
         type: "select",
         required: true,
@@ -83,7 +84,7 @@ const formFieldList = reactive<PageFieldInfo | any>({
     ],
     [
       {
-        label: "菜单名称",
+        label: i18n("system.menu.name"),
         fieldName: "menusList",
         type: "tselect",
         required: true,
@@ -97,7 +98,7 @@ const formFieldList = reactive<PageFieldInfo | any>({
         },
       },
       {
-        label: "权限",
+        label: i18n("system.permission"),
         fieldName: "resourcesPos",
         type: "select",
         required: true,
@@ -116,31 +117,31 @@ const formFieldList = reactive<PageFieldInfo | any>({
 const tableFieldList = reactive<PageFieldInfo | any>({
   fieldList: [
     {
-      label: "角色名称",
+      label: i18n("system.role.name"),
       fieldName: "roleName",
 
       formVisible: true,
     },
     {
-      label: "系统名称",
+      label: i18n("system.system.name"),
       fieldName: "sysName",
 
       listVisible: true,
     },
     {
-      label: "系统编码",
+      label: i18n("system.system.code"),
       fieldName: "sysCode",
 
       listVisible: true,
     },
     {
-      label: "菜单名称",
+      label: i18n("system.menu.name"),
       fieldName: "menuName",
 
       listVisible: true,
     },
     {
-      label: "权限",
+      label: i18n("system.permission"),
       fieldName: "btnNames",
       listVisible: true,
     },
@@ -169,11 +170,11 @@ let preValid = ref<Array<PreValid>>([{
   authority:"add",
   valid: () => {
     if (!currentUserGroupId.value) {
-      warning("请先选择分组");
+      warning(i18n("system.please.select.group"));
       return false;
     }
     if (!currentSystemId.value) {
-      warning("请先选择应用");
+      warning(i18n("system.please.select.application"));
       return false;
     }
     return true;
@@ -337,7 +338,7 @@ onMounted(async () => {
         <el-splitter-panel collapsible size="240" min="100" max="500">
           <star-horse-tree
             v-model:tree-datas="rolesList"
-            treeTitle="用户组"
+            :treeTitle="i18n('system.user.group')"
             @selectData="roleChange"
             :compSize="compSize"
           />
@@ -349,7 +350,7 @@ onMounted(async () => {
         >
           <star-horse-tree
             v-model:treeDatas="systemInfoList"
-            treeTitle="应用系统"
+            :treeTitle="i18n('system.application.system')"
             :preps="{
               label: 'sysName',
               value: 'idInformations',
@@ -365,7 +366,7 @@ onMounted(async () => {
         >
           <star-horse-tree
             v-model:treeDatas="menusList"
-            treeTitle="系统菜单"
+            :treeTitle="i18n('system.system.menu')"
             :preps="{
               label: 'menuName',
               value: 'idMenusinfo',

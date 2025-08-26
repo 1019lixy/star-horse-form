@@ -1028,6 +1028,114 @@ export default {
   "system.system.code": "System Code",
   "system.please.select.user.group": "Please select a user group first",
   /**
+   * Data Permission
+   */
+  "system.permission.type": "Permission Type",
+  "system.authorized.user.group": "Authorized User Group/Person",
+  "system.authorized.menu": "Authorized Menu",
+  "system.user.group": "User Group",
+  "system.authorized.account": "Authorized Account",
+  "system.permission": "Permission",
+  "system.validity.period": "Validity Period",
+  "system.authorized.user.group.account": "Authorized User Group/Account",
+  "system.please.select.application": "Please select an application first",
+  "system.application.system": "Application System",
+  "system.system.menu": "System Menu",
+  /**
+   * Menuinfo Permission
+   */
+  "system.menu.name": "Menu Name",
+  "system.assign.all.menus": "Assign All Menus",
+  "system.specified.menu": "Specified Menu",
+  /**
+   * Page Button Permission
+   */
+  "system.role.name": "Role Name",
+  "system.created.date": "Created Date",
+  "system.owned.system": "Owned System",
+  "system.permission": "Permission",
+  "system.btn.names": "Button Names",
+  /**
+   * Common Role Manage
+   */
+  "system.role.code": "Role Code",
+  "system.version": "Version",
+  "system.created.by": "Created By",
+  "system.created.time": "Created Time",
+  "system.updated.by": "Updated By",
+  "system.updated.time": "Updated Time",
+  "system.data.number": "Data Number",
+  "system.status.code": "Status Code",
+  "system.status.name": "Status Name",
+  "system.is.logical.deleted": "Is Logical Deleted",
+  "system.international.code": "International Code",
+  "system.remark": "Remark",
+  "system.personnel.info": "Personnel Info",
+  "system.name.employee.number": "Name/Employee Number",
+  "system.rank": "Rank",
+  "system.position": "Position",
+  "system.affiliated.organization": "Affiliated Organization",
+  "system.affiliated.company": "Affiliated Company",
+  "system.affiliated.department": "Affiliated Department",
+  "system.delete": "Delete",
+  "system.add.personnel": "Add Personnel",
+  "system.please.select.company.first": "Please select a company first on the left",
+  "system.please.select.personnel.info": "Please select personnel information",
+  "system.data.submitting": "Data submitting",
+  "system.company.list": "Company List",
+  /**
+   * Company Role Manage
+   */
+  "system.company.name.code": "Company Name/Code",
+  "system.role.name.code": "Role Name/Code",
+  "system.company.name": "Company Name",
+  "system.load.company.role.info.error": "Error loading company role information",
+  "system.set.personnel": "Set Personnel",
+  "system.view.all.personnel.info": "View All Personnel Information",
+  /**
+   * Role Config
+   */
+  "system.role.type": "Role Type",
+  "system.set.role.affiliated.company": "Set Role Affiliated Company",
+  "system.please.set.role.affiliated.company": "Please set the affiliated company for the current role",
+  /**
+   * Role Defined
+   */
+  "system.affiliated.company.quantity": "Affiliated Company (Quantity)",
+  "system.configure.affiliated.company": "Configure Affiliated Company",
+  "system.affiliated.company": "Affiliated Company",
+  "system.confirm.delete": "Are you sure you want to delete?",
+  "system.data.submitting": "Data submitting",
+  /**
+   * Station Category
+   */
+  "system.sequence.description": "Sequence Description",
+  /**
+   * Station Defined
+   */
+  "system.station.name": "Station Name",
+  "system.station.code": "Station Code",
+  "system.belonging.sequence": "Belonging Sequence",
+  "system.station.sort": "Station Sort",
+  "system.position.sequence": "Position Sequence",
+  /**
+   * User Fields
+   */
+  "system.email.address": "Email Address",
+  "system.contact.phone": "Contact Phone",
+  "system.sex": "Sex",
+  "system.emergency.contact.phone": "Emergency Contact Phone",
+  "system.user.group": "User Group",
+  "system.education": "Education",
+  "system.entry.time": "Entry Time",
+  "system.leave.time": "Leave Time",
+  "system.native.place": "Native Place",
+  "system.political.status": "Political Status",
+  "system.identity.type": "Identity Type",
+  "system.identity.number": "Identity Number",
+  "system.mailing.address": "Mailing Address",
+  "system.id.photo": "ID Photo",
+  /**
    * Workflow Components
    */
   "workflow.dataLoading": "Data loading",

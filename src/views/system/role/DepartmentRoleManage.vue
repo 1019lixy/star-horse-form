@@ -32,6 +32,7 @@ import {
 import { getCustomerParam } from "@/utils/auth";
 import { TreeNodeData } from "element-plus/es/components/tree-v2/src/types";
 import { getRowIdentity } from "element-plus/es/components/table/src/util";
+import { i18n } from "@/lang";
 //后端交互接口地址
 const dataUrl: ApiUrls = apiInstance("system-config", "system/companyRole");
 dataUrl.pageListUrl = "/system-config/system/companyRole/departRoleUserList";
@@ -53,13 +54,13 @@ let defaultCondition = ref<SearchParams[]>([]);
 const searchFormData = reactive<SearchFields>({
   fieldList: [
     {
-      label: "部门名称/编码",
+      label: i18n("system.department.name.code"),
       fieldName: "deptName",
       defaultVisible: true,
       matchType: "lk",
     },
     {
-      label: "角色名称/编码",
+      label: i18n("system.role.name.code"),
       fieldName: "roleName",
       defaultVisible: true,
       matchType: "lk",
@@ -73,7 +74,7 @@ const pageField = reactive<PageFieldInfo | any>({
   //属性列表
   fieldList: [
     {
-      label: "部门名称",
+      label: i18n("system.department.name"),
       fieldName: "deptName",
 
       required: true,
@@ -116,7 +117,7 @@ const initData = async () => {
     },
   );
   if (result.error) {
-    warning("加载公司角色信息异常");
+    warning(i18n("system.load.company.role.info.error"));
     return;
   }
   for (let index in result.data) {
@@ -143,7 +144,7 @@ const assignRoleUser = () => {
     companyRoleManageRef.value.$refs.employeeInfoRef.multipleSelection;
   console.log(selectedDatas);
   if (!selectedDatas || selectedDatas.length == 0) {
-    warning("请选择人员信息");
+    warning(i18n("system.please.select.personnel.info"));
     return;
   }
   let datas = [];
@@ -156,7 +157,7 @@ const assignRoleUser = () => {
     });
   }
   console.log(datas);
-  load("数据提交中");
+  load(i18n("system.data.submitting"));
   postRequest("/system-config/system/companyRolePkEmployee/mergeBatch", datas)
     .then((res) => {
       if (res.data.code) {
@@ -261,7 +262,7 @@ onDeactivated(() => {
     </star-horse-dialog>
     <star-horse-dialog
       :self-func="true"
-      :title="'添加人员'"
+      :title="i18n('system.add.personnel')"
       :dialog-visible="dialogProps.bakeVisible1"
       :dialogProps="dialogProps"
       @merge="assignRoleUser"
@@ -281,7 +282,7 @@ onDeactivated(() => {
           <star-horse-tree
             v-model:tree-datas="companyList"
             :expand="true"
-            treeTitle="公司列表"
+            :treeTitle="i18n('system.company.list')"
             @selectData="companyChange"
             :preps="{
               label: 'name',
@@ -337,7 +338,7 @@ onDeactivated(() => {
                       :class="{ 'role-user-operation': true }"
                       @click="cellClick(scope.row, item)"
                     >
-                      设置人员
+                      {{ i18n("system.set.personnel") }}
                     </div>
                     <div
                       class="role-user-content"
@@ -357,7 +358,7 @@ onDeactivated(() => {
                           icon-class="more"
                           v-if="scope.row[item.fieldName].length > 10"
                           style="cursor: pointer"
-                          title="查看所有人员信息"
+                          :title="i18n('system.view.all.personnel.info')"
                           @click="showAllUsers(scope.row, item, $event)"
                         />
                       </template>

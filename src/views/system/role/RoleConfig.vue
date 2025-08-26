@@ -32,6 +32,8 @@ import {
 import { statusList } from "@/views/system/utils/UserFields";
 import { getCustomerParam } from "@/utils/auth";
 import { TreeNodeData } from "element-plus/es/components/tree-v2/src/types";
+import { i18n } from "@/lang";
+
 //后端交互接口地址
 const dataUrl: ApiUrls = apiInstance("system-config", "system/companyRole");
 dataUrl.condition = [createCondition("a.roleType", "common_role", "neq")];
@@ -63,13 +65,13 @@ const roleTypeChange = (data: TreeNodeData, _checked: boolean) => {
 const searchFormData = reactive<SearchFields>({
   fieldList: [
     {
-      label: "角色名称",
+      label: i18n("system.role.name"),
       fieldName: "roleName",
       defaultVisible: true,
       matchType: "lk",
     },
     {
-      label: "角色编码",
+      label: i18n("system.role.code"),
       fieldName: "roleCode",
       defaultVisible: true,
       matchType: "lk",
@@ -83,7 +85,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
   //属性列表
   fieldList: [
     {
-      label: "角色类型",
+      label: i18n("system.role.type"),
       fieldName: "roleType",
       type: "select",
       required: true,
@@ -94,7 +96,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       },
     },
     {
-      label: "角色名称",
+      label: i18n("system.role.name"),
       fieldName: "roleName",
 
       required: true,
@@ -102,7 +104,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       listVisible: true,
     },
     {
-      label: "角色编码",
+      label: i18n("system.role.code"),
       fieldName: "roleCode",
 
       required: true,
@@ -111,7 +113,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
     },
 
     {
-      label: "版本号",
+      label: i18n("system.version"),
       fieldName: "version",
       type: "number",
       required: false,
@@ -119,7 +121,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       listVisible: !true,
     },
     {
-      label: "创建人",
+      label: i18n("system.created.by"),
       fieldName: "createdBy",
 
       required: false,
@@ -127,7 +129,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       listVisible: true,
     },
     {
-      label: "创建时间",
+      label: i18n("system.created.time"),
       fieldName: "createdTime",
 
       required: false,
@@ -135,7 +137,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       listVisible: true,
     },
     {
-      label: "修改人",
+      label: i18n("system.updated.by"),
       fieldName: "updatedBy",
 
       required: false,
@@ -143,7 +145,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       listVisible: true,
     },
     {
-      label: "修改时间",
+      label: i18n("system.updated.time"),
       fieldName: "updatedTime",
 
       required: false,
@@ -151,7 +153,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       listVisible: true,
     },
     {
-      label: "数据编号",
+      label: i18n("system.data.number"),
       fieldName: "dataNo",
 
       required: false,
@@ -159,7 +161,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       listVisible: !true,
     },
     {
-      label: "状态码",
+      label: i18n("system.status.code"),
       fieldName: "statusCode",
       type: "select",
       required: false,
@@ -170,7 +172,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       },
     },
     {
-      label: "状态名称",
+      label: i18n("system.status.name"),
       fieldName: "statusName",
 
       required: false,
@@ -178,7 +180,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       listVisible: !true,
     },
     {
-      label: "是否删除",
+      label: i18n("system.is.logical.deleted"),
       fieldName: "isDel",
       type: "number",
       required: false,
@@ -186,7 +188,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       listVisible: !true,
     },
     {
-      label: "国际编码",
+      label: i18n("system.international.code"),
       fieldName: "local",
 
       required: false,
@@ -194,7 +196,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       listVisible: !true,
     },
     {
-      label: "备注",
+      label: i18n("system.remark"),
       fieldName: "remark",
       type: "textarea",
       required: false,
@@ -220,7 +222,7 @@ const assignCompany = () => {
   let selectedDatas = assignRoleCompanyRef.value.getSelectData();
   console.log(selectedDatas);
   if (!selectedDatas || selectedDatas.length == 0) {
-    warning("请设置当前角色的归属公司");
+    warning(i18n("system.please.set.role.affiliated.company"));
     return;
   }
   let datas = [];
@@ -277,7 +279,7 @@ onDeactivated(() => {
   <div class="flex flex-col h-full overflow-hidden">
     <star-horse-dialog
       :self-func="true"
-      :title="'设置角色归属公司'"
+      :title="i18n('system.set.role.affiliated.company')"
       :dialog-visible="dialogProps.bakeVisible1"
       :dialogProps="dialogProps"
       @merge="assignCompany"
@@ -286,7 +288,7 @@ onDeactivated(() => {
         v-model:tree-datas="companyList"
         :showCheckBox="true"
         expand="true"
-        treeTitle="公司列表"
+        :treeTitle="i18n('system.company.list')"
         showSelectData="true"
         ref="assignRoleCompanyRef"
         :preps="{
@@ -326,7 +328,7 @@ onDeactivated(() => {
           <star-horse-tree
             v-model:tree-datas="roleTypeList"
             :expand="true"
-            treeTitle="角色类型"
+            :treeTitle="i18n('system.role.type')"
             @selectData="roleTypeChange"
             :showSearch="false"
             :compSize="compSize"

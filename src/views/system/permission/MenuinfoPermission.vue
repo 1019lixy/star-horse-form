@@ -19,6 +19,7 @@ import { loadMenusInfo, loadRolesInfo } from "@/api/star_horse_utils";
 import { computed, onMounted, provide, reactive, ref } from "vue";
 import { TreeNodeData } from "element-plus/es/components/tree-v2/src/types";
 import { Config } from "@/api/settings";
+import { i18n } from "@/lang";
 
 const dataUrl: ApiUrls = apiInstance(
   "system-config",
@@ -86,13 +87,13 @@ let menuPermissionStatus = ref<SelectOption[]>([]);
 const searchFields = reactive<SearchFields>({
   fieldList: [
     {
-      label: "菜单名称",
+      label: i18n("system.menu.name"),
       fieldName: "d.menuName",
       defaultVisible: true,
       matchType: "lk",
     },
     {
-      label: "状态",
+      label: i18n("system.status"),
       fieldName: "b.statusCode",
       type: "select",
       defaultVisible: true,
@@ -106,7 +107,7 @@ const menuRequired = ref<boolean>(false);
 const formFieldList = reactive<PageFieldInfo>({
   fieldList: [
     {
-      label: "系统名称",
+      label: i18n("system.system.name"),
       fieldName: "idInformations",
       type: "tselect",
       formVisible: true,
@@ -118,7 +119,7 @@ const formFieldList = reactive<PageFieldInfo>({
       },
     },
     {
-      label: "分配所有菜单",
+      label: i18n("system.assign.all.menus"),
       fieldName: "allMenu",
       type: "switch",
       defaultValue: "Y",
@@ -136,7 +137,7 @@ const formFieldList = reactive<PageFieldInfo>({
       },
     },
     {
-      label: "指定菜单",
+      label: i18n("system.specified.menu"),
       fieldName: "menuList",
       type: "tselect",
       formVisible: true,
@@ -161,7 +162,7 @@ const formFieldList = reactive<PageFieldInfo>({
       },
     },
     {
-      label: "状态",
+      label: i18n("system.status"),
       fieldName: "statusCode",
       type: "select",
       defaultValue: "1",
@@ -176,25 +177,25 @@ const formFieldList = reactive<PageFieldInfo>({
 const tableFieldList = reactive<PageFieldInfo>({
   fieldList: [
     {
-      label: "系统名称",
+      label: i18n("system.system.name"),
       fieldName: "sysName",
 
       listVisible: true,
     },
     {
-      label: "系统编码",
+      label: i18n("system.system.code"),
       fieldName: "sysCode",
 
       listVisible: true,
     },
     {
-      label: "菜单名称",
+      label: i18n("system.menu.name"),
       fieldName: "menuName",
 
       listVisible: true,
     },
     {
-      label: "状态",
+      label: i18n("system.status"),
       fieldName: "statusName",
 
       listVisible: true,
@@ -214,11 +215,11 @@ let preValid = ref<Array<PreValid>>([{
   authority:"add",
   valid: () => {
     if (!currentUserGroupId.value) {
-      warning("请先选择用户分组");
+      warning(i18n("system.please.select.user.group"));
       return false;
     }
     if (!currentSystemId.value) {
-      warning("请先选择应用");
+      warning(i18n("system.please.select.application"));
       return false;
     }
     return true;
@@ -278,7 +279,7 @@ onMounted(async () => {
         <el-splitter-panel collapsible size="240" min="100" max="500">
           <star-horse-tree
             v-model:treeDatas="rolesList"
-            treeTitle="用户组"
+            :treeTitle="i18n('system.user.group')"
             @selectData="userGroupChange"
             :compSize="compSize"
           />
@@ -291,7 +292,7 @@ onMounted(async () => {
         >
           <star-horse-tree
             v-model:treeDatas="systemInfoList"
-            treeTitle="应用系统"
+            :treeTitle="i18n('system.application.system')"
             @selectData="systemChange"
             :compSize="compSize"
             :preps="{

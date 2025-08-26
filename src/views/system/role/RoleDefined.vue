@@ -36,6 +36,8 @@ import {
 import { getCustomerParam } from "@/utils/auth";
 import { TreeNodeData } from "element-plus/es/components/tree-v2/src/types";
 import { statusList } from "@/views/system/utils/UserFields";
+import { i18n } from "@/lang";
+
 //后端交互接口地址
 const dataUrl: ApiUrls = apiInstance("system-config", "system/companyRole");
 dataUrl.condition = [createCondition("a.roleType", "common_role")];
@@ -67,13 +69,13 @@ const companyChange = (data: TreeNodeData, _checked: boolean) => {
 const searchFormData = reactive<SearchFields>({
   fieldList: [
     {
-      label: "角色名称",
+      label: i18n("system.role.name"),
       fieldName: "roleName",
       defaultVisible: true,
       matchType: "lk",
     },
     {
-      label: "角色编码",
+      label: i18n("system.role.code"),
       fieldName: "roleCode",
       defaultVisible: true,
       matchType: "lk",
@@ -85,7 +87,7 @@ const viewCompField = ref<DyCompField>({
   emits: ["closeAction"],
   methods: {
     closeAction: (role: any, item: any) => {
-      operationConfirm("确定要删除吗？").then((_) => {
+      operationConfirm(i18n('system.confirm.delete')).then((_) => {
         postRequest(
           `/system-config/system/companyRolePkDefine/deleteData/${role.idCompanyRole}/${item.idCompanyDefine}`,
           {},
@@ -102,7 +104,7 @@ const viewCompField = ref<DyCompField>({
   template: `
     <el-card class="inner_content hover_content">
       <template #header>
-        归属公司
+        {{ i18n('system.affiliated.company') }}
       </template>
       <div class="content">
         <el-tag v-for="temp in data.companyList" type="success" closable @close="closeAction(data,temp)">
@@ -117,7 +119,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
   //属性列表
   fieldList: [
     {
-      label: "角色名称",
+      label: i18n("system.role.name"),
       fieldName: "roleName",
 
       required: true,
@@ -125,7 +127,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       listVisible: true,
     },
     {
-      label: "角色编码",
+      label: i18n("system.role.code"),
       fieldName: "roleCode",
 
       required: true,
@@ -133,7 +135,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       listVisible: true,
     },
     {
-      label: "归属公司(数量)",
+      label: i18n("system.affiliated.company.quantity"),
       fieldName: "assignCompanies",
       type: "tag",
       required: false,
@@ -153,7 +155,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       },
     },
     {
-      label: "版本号",
+      label: i18n("system.version"),
       fieldName: "version",
       type: "number",
       required: false,
@@ -161,7 +163,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       listVisible: !true,
     },
     {
-      label: "创建人",
+      label: i18n("system.created.by"),
       fieldName: "createdBy",
 
       required: false,
@@ -169,7 +171,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       listVisible: true,
     },
     {
-      label: "创建时间",
+      label: i18n("system.created.time"),
       fieldName: "createdTime",
 
       required: false,
@@ -177,7 +179,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       listVisible: true,
     },
     {
-      label: "修改人",
+      label: i18n("system.updated.by"),
       fieldName: "updatedBy",
 
       required: false,
@@ -185,7 +187,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       listVisible: true,
     },
     {
-      label: "修改时间",
+      label: i18n("system.updated.time"),
       fieldName: "updatedTime",
 
       required: false,
@@ -193,7 +195,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       listVisible: true,
     },
     {
-      label: "数据编号",
+      label: i18n("system.data.number"),
       fieldName: "dataNo",
 
       required: false,
@@ -201,7 +203,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       listVisible: !true,
     },
     {
-      label: "状态码",
+      label: i18n("system.status.code"),
       fieldName: "statusCode",
       type: "select",
       required: false,
@@ -212,7 +214,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       },
     },
     {
-      label: "状态名称",
+      label: i18n("system.status.name"),
       fieldName: "statusName",
 
       required: false,
@@ -220,7 +222,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       listVisible: !true,
     },
     {
-      label: "是否删除",
+      label: i18n("system.is.logical.deleted"),
       fieldName: "isDel",
       type: "number",
       required: false,
@@ -228,7 +230,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       listVisible: !true,
     },
     {
-      label: "国际编码",
+      label: i18n("system.international.code"),
       fieldName: "local",
 
       required: false,
@@ -236,7 +238,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       listVisible: !true,
     },
     {
-      label: "备注",
+      label: i18n("system.remark"),
       fieldName: "remark",
       type: "textarea",
       required: false,
@@ -255,7 +257,7 @@ const dialogProps = dialogPreps();
 provide("dialogProps", dialogProps);
 let extendBtns = ref<UserFuncInfo[]>([
   {
-    btnName: "配置归属公司",
+    btnName: i18n("system.configure.affiliated.company"),
     authority: "add",
     icon: "setting",
     priority: 1,
@@ -287,7 +289,7 @@ const assignCompany = () => {
   let selectedDatas = assignRoleCompanyRef.value.getSelectData();
   console.log(selectedDatas);
   if (!selectedDatas || selectedDatas.length == 0) {
-    warning("请设置当前角色的归属公司");
+    warning(i18n("system.please.set.role.affiliated.company"));
     return;
   }
   let datas = [];
@@ -297,7 +299,7 @@ const assignCompany = () => {
       idCompanyDefine: selectedDatas[index].idCompanyDefine,
     });
   }
-  load("数据提交中");
+  load(i18n("system.data.submitting"));
   postRequest("/system-config/system/companyRolePkDefine/mergeBatch", datas)
     .then((res) => {
       if (res.data.code) {
@@ -338,7 +340,7 @@ onDeactivated(() => {
   <div class="flex flex-col h-full overflow-hidden">
     <star-horse-dialog
       :self-func="true"
-      :title="'设置角色归属公司'"
+      :title="i18n('system.set.role.affiliated.company')"
       :dialog-visible="dialogProps.bakeVisible1"
       :dialogProps="dialogProps"
       @merge="assignCompany"
@@ -348,7 +350,7 @@ onDeactivated(() => {
         v-model:tree-datas="companyList"
         :showCheckBox="true"
         expand="true"
-        treeTitle="公司列表"
+        :treeTitle="i18n('system.company.list')"
         showSelectData="true"
         ref="assignRoleCompanyRef"
         :preps="{
@@ -388,7 +390,7 @@ onDeactivated(() => {
           <star-horse-tree
             v-model:tree-datas="companyList"
             :expand="true"
-            treeTitle="公司列表"
+            :treeTitle="i18n('system.company.list')"
             @selectData="companyChange"
             :preps="{
               label: 'name',
