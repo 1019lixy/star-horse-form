@@ -1207,4 +1207,16 @@ export default {
    * Help Component
    */
   "help.defaultMessage": "帮助",
+  /**
+   * 标签页相关国际化
+   */
+  "tags.moveToLeft": "向左移动",
+  "tags.moveToRight": "向右移动",
+  "tags.refreshMenu": "刷新菜单",
+  "tags.refreshPage": "刷新页面",
+  "tags.closePage": "关闭页面",
+  "tags.closeLeftPages": "关闭左侧页面",
+  "tags.closeRightPages": "关闭右侧页面",
+  "tags.closeOthers": "关闭其它",
+  "tags.closeAll": "关闭所有",
 };

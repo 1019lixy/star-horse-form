@@ -9,6 +9,7 @@ import { useNavBarListStore } from "@/store/NavBarList";
 import { useScrollTo } from "@/components/tags/useScrollTo";
 import { useTemplateRefsList } from "@vueuse/core";
 import piniaCompInstance from "@/store";
+import { i18n } from "@/lang/index";
 
 const { currentRoute, push, replace } = useRouter();
 const viewListStore = useNavBarListStore(piniaCompInstance);
@@ -228,7 +229,7 @@ watch(
 </script>
 <template>
   <div class="prefixCls">
-    <el-tooltip content="向左移动">
+    <el-tooltip :content="i18n('tags.moveToLeft')">
       <span class="tool" @click="move(-200)">
         <star-horse-icon
           icon-class="arrow-double-left"
@@ -247,7 +248,7 @@ watch(
             :schema="[
               {
                 icon: 'refresh',
-                label: '刷新页面',
+                label: i18n('tags.refreshPage'),
                 disabled: false,
                 command: () => {
                   refreshSelectedTag(item);
@@ -255,7 +256,7 @@ watch(
               },
               {
                 icon: 'close',
-                label: '关闭页面',
+                label: i18n('tags.closePage'),
                 disabled: item.path == '/home',
                 command: () => {
                   closeSelectedTag(item);
@@ -264,7 +265,7 @@ watch(
               {
                 divided: true,
                 icon: 'list-left',
-                label: '关闭左侧页面',
+                label: i18n('tags.closeLeftPages'),
                 disabled: false,
                 command: () => {
                   closeLeftTags();
@@ -272,7 +273,7 @@ watch(
               },
               {
                 icon: 'list-right',
-                label: '关闭右侧页面',
+                label: i18n('tags.closeRightPages'),
                 disabled: false,
                 command: () => {
                   closeRightTags();
@@ -281,7 +282,7 @@ watch(
               {
                 divided: true,
                 icon: 'other',
-                label: '关闭其它',
+                label: i18n('tags.closeOthers'),
                 disabled: false,
                 command: () => {
                   closeOthersTags();
@@ -289,7 +290,7 @@ watch(
               },
               {
                 icon: 'close-all',
-                label: '关闭所有',
+                label: i18n('tags.closeAll'),
                 command: () => {
                   closeAllTags();
                 },
@@ -334,7 +335,7 @@ watch(
         </div>
       </ElScrollbar>
     </div>
-    <el-tooltip content="向右移动">
+    <el-tooltip :content="i18n('tags.moveToRight')">
       <span class="tool" @click="move(200)">
         <star-horse-icon
           icon-class="arrow-double-right"
@@ -344,7 +345,7 @@ watch(
         />
       </span>
     </el-tooltip>
-    <el-tooltip content="刷新菜单">
+    <el-tooltip :content="i18n('tags.refreshMenu')">
       <span class="tool" @click="refreshSelectedTag(selectedTag)">
         <star-horse-icon
           icon-class="refresh"
@@ -359,7 +360,7 @@ watch(
       :schema="[
         {
           icon: 'refresh',
-          label: '刷新页面',
+          label: i18n('tags.refreshPage'),
           disabled: false,
           command: () => {
             refreshSelectedTag(selectedTag);
@@ -367,7 +368,7 @@ watch(
         },
         {
           icon: 'close',
-          label: '关闭页面',
+          label: i18n('tags.closePage'),
           disabled: currentRoute.path == '/home',
           command: () => {
             closeSelectedTag(selectedTag!);
@@ -376,7 +377,7 @@ watch(
         {
           divided: true,
           icon: 'list-left',
-          label: '关闭左侧页面',
+          label: i18n('tags.closeLeftPages'),
           disabled: false,
           command: () => {
             closeLeftTags();
@@ -384,7 +385,7 @@ watch(
         },
         {
           icon: 'list-right',
-          label: '关闭右侧页面',
+          label: i18n('tags.closeRightPages'),
           disabled: false,
           command: () => {
             closeRightTags();
@@ -393,7 +394,7 @@ watch(
         {
           divided: true,
           icon: 'other',
-          label: '关闭其它',
+          label: i18n('tags.closeOthers'),
           disabled: false,
           command: () => {
             closeOthersTags();
@@ -401,7 +402,7 @@ watch(
         },
         {
           icon: 'close-all',
-          label: '关闭所有',
+          label: i18n('tags.closeAll'),
           command: () => {
             closeAllTags();
           },

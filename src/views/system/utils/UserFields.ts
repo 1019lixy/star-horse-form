@@ -3,6 +3,7 @@ import { loadDepartmentInfo, loadRolesInfo } from "@/api/star_horse_utils";
 import { ref } from "vue";
 import { analysisData } from "@/api/deptment";
 import { i18n } from "@/lang";
+import UserManage from "@/views/system/UserManage.vue";
 
 const deptList = ref<SelectOption[]>([]);
 const rolesList = ref<SelectOption[]>([]);
@@ -92,6 +93,9 @@ const baseUserFields: Array<any> = [
       listVisible: true,
       preps: {
         editDisabled: true,
+        showButton:false,
+        dialogInput:true,
+        compName:UserManage,
         needField: [
           { sourceField: "name", distField: "name" },
           { sourceField: "employeeNo", distField: "employeeNo" },

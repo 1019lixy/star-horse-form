@@ -365,6 +365,10 @@ export default {
   "system.created.time": "Created Time",
   "system.updated.time": "Updated Time",
   "system.version": "Version",
+  "system.menu.icon":"Icon",
+  "system.open.type":"Open Type",
+  "system.menu.description":"Description",
+  "system.keep.alive":"Keep Alive",
   "system.is.logical.deleted": "Is Logical Deleted",
   // "system.status.name": "Status Name",
   "system.department.name": "Department Name",
@@ -1237,4 +1241,16 @@ export default {
    * Help Component
    */
   "help.defaultMessage": "Help",
+  /**
+   * Tags related internationalization
+   */
+  "tags.moveToLeft": "Move Left",
+  "tags.moveToRight": "Move Right",
+  "tags.refreshMenu": "Refresh Menu",
+  "tags.refreshPage": "Refresh Page",
+  "tags.closePage": "Close Page",
+  "tags.closeLeftPages": "Close Left Pages",
+  "tags.closeRightPages": "Close Right Pages",
+  "tags.closeOthers": "Close Others",
+  "tags.closeAll": "Close All",
 };
