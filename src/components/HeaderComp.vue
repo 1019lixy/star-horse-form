@@ -102,8 +102,9 @@ const batchMerge = (datas: Array<any>) => {
 };
 let curLangName = ref("");
 const handleLanguageChanged = (lang: LangType) => {
-  changeLang(lang, false);
-  window.location.reload();
+  // Use the language synchronization service to set the language
+  changeLang(lang as LangType, false);
+  location.reload();
 };
 const changeLang = (lang: LangType, isInit: boolean) => {
   curLangName.value =

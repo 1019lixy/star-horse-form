@@ -19,6 +19,7 @@
 <script setup lang="ts">
 import { onMounted, ref } from "vue";
 import { i18n } from "@/lang";
+import { LangType } from "@/theme/theme";
 
 const langName = ref("");
 const language = ref("");
@@ -36,13 +37,16 @@ onMounted(() => {
   init();
 });
 const handleSetLanguage = (lang: string) => {
+  const langType = lang === "zh" ? LangType.ZH_CN : LangType.EN_US;
+
+  // Use the language synchronization service to set the language
+
   if (lang === "zh") {
     langName.value = i18n("locale.chinese");
   } else {
     langName.value = i18n("locale.english");
   }
   language.value = lang;
-  localStorage.setItem("lang", lang);
   location.reload();
 };
 </script>
