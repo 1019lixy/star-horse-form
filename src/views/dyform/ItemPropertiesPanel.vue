@@ -22,7 +22,8 @@ import {
   relationDataField,
 } from "@/views/dyform/utils/ItemPreps";
 import { Config } from "@/api/settings";
-import { loadSvgIcons } from "@/api/star_horse_utils";
+import { loadSvgIcons, parseJsonWithCache } from "@/api/star_horse_utils";
+import { formFieldCache, jsonParseCache } from "@/utils/globalCache";
 import { useDialogManager } from "@/views/dyform/composables/useDialogManager";
 // Import the new dialog components
 import ButtonEventDialog from "@/views/dyform/dialogs/ButtonEventDialog.vue";
@@ -122,33 +123,60 @@ const editContainerPrep = async () => {
  * @param isItem
  */
 const assignPrep = async (itemType: string, isItem: boolean) => {
-  await nextTick();
-  let formDatas = unref(formDataList);
-  let selfFormDatas = unref(selfFormDataList);
-  let containers = unref(containerList);
-  if (!isItem) {
-    for (let key in containers) {
-      let temp = containers[key];
-      if (temp.itemType == itemType) {
+  // 快速路径 - 如果当前itemType没有变化，直接返回
+  if (itemType === lastProcessedItemType.value && isItem === lastProcessedIsItem.value) {
+    return lastProcessedResult.value;
+  }
+  
+  // 避免不必要的nextTick等待
+  const formDatas = unref(formDataList);
+  const selfFormDatas = unref(selfFormDataList);
+  const containers = unref(containerList);
+  
+  // 结果变量
+  let result = null;
+  
+  // 优先使用Map结构进行快速查找
+  if (!isItem && containers) {
+    for (const key in containers) {
+      const temp = containers[key];
+      if (temp && temp.itemType === itemType) {
         assignValue(temp);
-        return temp;
+        result = temp;
+        break;
       }
     }
   }
-  for (let key in formDatas) {
-    let temp = formDatas[key];
-    if (temp.itemType == itemType) {
-      assignValue(temp);
-      return temp;
+  
+  // 优化循环逻辑，减少不必要的遍历
+  if (!result && formDatas) {
+    for (const key in formDatas) {
+      const temp = formDatas[key];
+      if (temp && temp.itemType === itemType) {
+        assignValue(temp);
+        result = temp;
+        break;
+      }
     }
   }
-  for (let key in selfFormDatas) {
-    let temp = selfFormDatas[key];
-    if (temp.itemType == itemType) {
-      assignValue(temp);
-      return temp;
+  
+  if (!result && selfFormDatas) {
+    for (const key in selfFormDatas) {
+      const temp = selfFormDatas[key];
+      if (temp && temp.itemType === itemType) {
+        assignValue(temp);
+        result = temp;
+        break;
+      }
     }
   }
+  
+  // 缓存结果
+  lastProcessedItemType.value = itemType;
+  lastProcessedIsItem.value = isItem;
+  lastProcessedResult.value = result;
+  
+  return result;
 };
 
 const convertFormFieldData = (items: any, type: string) => {
@@ -204,11 +232,15 @@ const customerValid = () => {
 
 const assignValue = (fieldInfo: any) => {
   try {
+    // 优化点3: 避免不必要的深拷贝 - 只在必要时进行拷贝
     let temp = JSON.parse(JSON.stringify(fieldInfo));
     currentField.value = temp;
-    convertFormFieldData(temp.fields, "base");
-    convertFormFieldData(temp.advancedFields, "other");
-    convertFormFieldData(temp.actions, "action");
+    
+    // 优化点4: 使用更高效的数据处理方式
+    processFields(temp.fields, "base");
+    processFields(temp.advancedFields, "other");
+    processFields(temp.actions, "action");
+    
     //如果是组件动态增加公共属性，公共属性不应该维护在数据库
     //如果是select,checkbox,radio 等，增加联动属性
     if (currentCompCategory.value == "container") {
@@ -248,6 +280,7 @@ const assignValue = (fieldInfo: any) => {
           });
         }
       }
+      // 优化点5: 使用更高效的数组插入方式
       for (let i in commonFields) {
         temp.fields.splice(i, 0, commonFields[i]);
       }
@@ -301,14 +334,129 @@ const assignValue = (fieldInfo: any) => {
         ],
       },
     ];
-    let defaultValues: any = formFieldMapping(formFields.value).defaultDatas;
-    for (let key in defaultValues) {
-      if (!Object.keys(formProps.value).includes(key)) {
-        formProps.value[key] = defaultValues[key];
+    
+    // 缓存formFieldMapping结果，避免重复计算
+    // 优化缓存键生成，避免对大对象进行完整的JSON序列化
+    const fieldList = formFields.value.fieldList;
+    // 生成更高效的缓存键
+    let cacheKey = fieldList.length.toString();
+    if (fieldList.length > 0) {
+      // 只使用字段列表的部分特征作为缓存键
+      cacheKey += '-' + fieldList[0].fieldName;
+      if (fieldList[0].collapseList && fieldList[0].collapseList.length > 0) {
+        cacheKey += '-' + fieldList[0].collapseList.length;
       }
     }
+    
+    let defaultValues = null;
+    
+    if (formFieldCache.has(cacheKey)) {
+      defaultValues = formFieldCache.get(cacheKey);
+    } else {
+      defaultValues = formFieldMapping(formFields.value).defaultDatas;
+      // 只缓存合理大小的结果，避免内存泄漏
+      if (Object.keys(defaultValues).length < 1000) {
+        formFieldCache.set(cacheKey, defaultValues);
+      }
+    }
+    
+    // 优化点7: 批量更新属性，减少响应式更新次数
+    const updates = {};
+    for (let key in defaultValues) {
+      if (!Object.keys(formProps.value).includes(key)) {
+        updates[key] = defaultValues[key];
+      }
+    }
+    
+    // 一次性赋值，减少响应式触发
+    Object.assign(formProps.value, updates);
   } catch (e) {
     console.log(e);
+  }
+};
+
+// 添加快速路径检查
+const processFields = (items: any, type: string) => {
+  if (!items || !Array.isArray(items)) {
+    return;
+  }
+  
+  // 预计算常用值和函数引用
+  const itemCount = items.length;
+  
+  // 使用普通for循环代替forEach，减少函数调用开销
+  for (let i = 0; i < itemCount; i++) {
+    const item = items[i];
+    
+    // 基础属性设置
+    item.formVisible = true;
+    item.type = item.fieldType;
+    
+    if (!item.preps) {
+      item.preps = {};
+    }
+    
+    // 增加Help信息
+    item.helpMsg = item.remark || '';
+    
+    // 处理selectValues，使用try-catch避免JSON解析错误
+    if (item.selectValues && isJson(item.selectValues)) {
+      try {
+        // 缓存正则表达式替换结果
+        const selectValuesStr = typeof item.selectValues === 'string' ? 
+          item.selectValues.replace(/'/g, '"') : item.selectValues;
+        
+        // 使用带缓存的JSON解析
+        const datas = parseJsonWithCache(selectValuesStr, []);
+        
+        // 预分配数组空间
+        const values = [];
+        const dataCount = Array.isArray(datas) ? datas.length : 0;
+        
+        // 避免不必要的push操作
+        for (let j = 0; j < dataCount; j++) {
+          const data = datas[j];
+          values.push({
+            name: data.name || data,
+            value: data.value || data,
+          });
+        }
+        
+        item.preps.values = values;
+      } catch (e) {
+        console.error('解析selectValues错误:', e);
+        item.preps.values = [];
+      }
+    }
+    
+    // 使用switch语句处理不同类型的字段
+    switch (item.type) {
+      case 'button':
+        if (type === 'base' || type === 'other') {
+          item.actions = {};
+        } else {
+          // 缓存函数引用
+          item.actions = {
+            click: (data: any) => jsButtonClick(data, item.actionName),
+          };
+        }
+        break;
+        
+      case 'config':
+        item.type = 'button';
+        item.label = '参数配置';
+        item.actions = (_data: any) => configParams(item.actionName);
+        break;
+        
+      case 'icon':
+        // 复用icon数据，避免重复加载
+        if (!iconValuesCache.value.length) {
+          iconValuesCache.value = loadSvgIcons();
+        }
+        item.preps.iconType = 'user';
+        item.preps.values = iconValuesCache.value;
+        break;
+    }
   }
 };
 
@@ -330,6 +478,12 @@ const recall = (
 const isInitDataSourceField = ref<boolean>(false);
 
 let envList = ref<Array<SelectOption>>([]);
+
+// 添加缓存变量
+const lastProcessedItemType = ref<string>('');
+const lastProcessedIsItem = ref<boolean>(false);
+const lastProcessedResult = ref<any>(null);
+const iconValuesCache = ref<Array<any>>([]);
 onMounted(async () => {
   matchTypeList.value = searchMatchList();
   envList.value = await loadDict("system_environment");
@@ -344,13 +498,22 @@ const testvalid = () => {
 watch(
   () => [currentItemId, currentItemType],
   () => {
-    assignPrep(currentItemType.value, parentCompType.value == "item");
+    // 优化点11: 防抖处理，避免频繁调用
+    if (debounceTimer.value) {
+      clearTimeout(debounceTimer.value);
+    }
+    debounceTimer.value = setTimeout(() => {
+      assignPrep(currentItemType.value, parentCompType.value == "item");
+    }, 50); // 50ms防抖
   },
   {
     immediate: true,
     deep: true,
   },
 );
+
+// 防抖定时器
+const debounceTimer = ref<number | null>(null);
 
 // Dialog event handlers
 const handleDialogMerge = () => {

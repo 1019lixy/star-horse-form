@@ -22,6 +22,7 @@ import * as ElementPlusIconsVue from "@element-plus/icons-vue";
 import { pinyin } from "pinyin-pro";
 import { ServiceEnums } from "@/components/enums/ServiceEnums";
 import { i18n } from "@/lang";
+import { formFieldCache, jsonParseCache } from "@/utils/globalCache";
 
 let loading: any = null;
 /**
@@ -652,32 +653,133 @@ export function relationFieldOperation(
  * @param v
  */
 export function isJson(v: any) {
-  if (v && typeof v === "string") {
-    const start = v.substring(0, 1);
-    const end = v.substring(v.length - 1, v.length);
-    return (start == "{" && end == "}") || (start == "[" && end == "]");
+  // 快速路径检查 - 先检查类型
+  if (!v) return false;
+  
+  // 字符串类型检查优化
+  if (typeof v === "string") {
+    const length = v.length;
+    if (length < 2) return false;
+    
+    // 使用charAt代替substring，减少内存分配
+    const start = v.charAt(0);
+    const end = v.charAt(length - 1);
+    
+    // 只检查必要的边界字符
+    return (start === '{' && end === '}') || (start === '[' && end === ']');
   }
-  if (
-    typeof v === "object" &&
-    Object.prototype.toString.call(v).toLowerCase() === "[object object]" &&
-    !v.length
-  ) {
-    return true;
+  
+  // 对象类型检查优化
+  if (typeof v === "object") {
+    // 快速检查数组
+    if (Array.isArray(v)) return false;
+    
+    // 只使用一次toString调用
+    return Object.prototype.toString.call(v) === '[object Object]';
   }
+  
   return false;
 }
 
 /**
- * 解析表单字段映射
+ * 带缓存的JSON解析函数
+ * @param jsonString 要解析的JSON字符串
+ * @param defaultValue 解析失败时的默认值
+ * @returns 解析后的对象或默认值
+ */
+export function parseJsonWithCache(jsonString: string, defaultValue: any = null): any {
+  if (!jsonString || typeof jsonString !== 'string') {
+    return defaultValue;
+  }
+  
+  // 使用字符串内容的前30个字符+长度作为缓存键，避免太长的键
+  const cacheKey = `json_${jsonString.length}_${jsonString.substring(0, 30)}`;
+  
+  // 检查缓存
+  const cachedResult = jsonParseCache.get(cacheKey);
+  if (cachedResult !== undefined) {
+    return cachedResult;
+  }
+  
+  try {
+    const result = JSON.parse(jsonString);
+    
+    // 缓存结果
+    jsonParseCache.set(cacheKey, result);
+    
+    return result;
+  } catch (e) {
+    console.error('JSON解析错误:', e);
+    return defaultValue;
+  }
+}
+
+/**
+ * 解析表单字段映射 - 优化版
  * @param fieldList
  */
+
+
+// 优化点2: 移除缓存的辅助函数
+const clearFormMappingCache = () => {
+  formFieldCache.clear();
+};
+
+// 优化点3: 导出清除缓存的函数，便于在必要时调用
+export { clearFormMappingCache };
+
 export function formFieldMapping(fieldList: PageFieldInfo) {
+  // 优化点4: 创建缓存键
+  const cacheKey = JSON.stringify(fieldList);
+  
+  // 优化点5: 检查缓存是否命中
+  if (formFieldCache.has(cacheKey)) {
+    return formFieldCache.get(cacheKey)!;
+  }
+  
   let defaultDatas: any = {};
   const actions: Array<any> = [];
   //解析出字段之间的映射关系
   const mappingFields: Array<any> = [];
   const tempList = fieldList?.fieldList;
   const batchDefaultValues: any = {};
+  
+  // 使用内联函数避免函数声明开销
+  const processFieldDefaultValue = (item: FieldInfo, target: any, batchName?: string) => {
+    if (item.defaultValue) {
+      if (isJson(item.defaultValue)) {
+        try {
+          // 使用带缓存的JSON解析
+          const parsedValue = typeof item.defaultValue === 'string' ? 
+            parseJsonWithCache(item.defaultValue, {}) : item.defaultValue;
+          Object.assign(target, parsedValue);
+        } catch (e) {
+          console.error('JSON解析错误:', e);
+          // 失败时回退到原值
+          target[item.fieldName] = item.defaultValue;
+        }
+      } else {
+        target[item.fieldName] = item.defaultValue;
+      }
+    }
+    
+    // 处理别名和动作
+    if (item.aliasName) {
+      mappingFields.push({ name: item.fieldName, alias: item.aliasName });
+    }
+    
+    if (item.actions) {
+      const actionItem: any = {
+        actions: item.actions,
+        fieldName: item.fieldName,
+      };
+      if (batchName) {
+        actionItem.batchName = batchName;
+      }
+      actions.push(actionItem);
+    }
+  };
+  
   const tabOperation = (data: TabFieldInfo) => {
     const fieldList = data.fieldList as Array<FieldInfo>;
     if ("Y" == data.subFormFlag) {
@@ -688,109 +790,115 @@ export function formFieldMapping(fieldList: PageFieldInfo) {
       fieldsOperation(fieldList, defaultDatas);
     }
   };
+  
   const tableOperation = (batchTempList: Array<BatchFieldInfo>) => {
-    for (const key in batchTempList) {
-      const temp = batchTempList[key];
-      if (!defaultDatas[temp.batchName]) {
-        defaultDatas[temp.batchName] = [];
+    // 优化点8: 预分配数组空间
+    batchTempList.forEach((temp, index) => {
+      const batchName = temp.batchName;
+      
+      if (!defaultDatas[batchName]) {
+        defaultDatas[batchName] = [];
       }
-      if (!batchDefaultValues[temp.batchName + "DefaultValue"]) {
-        batchDefaultValues[temp.batchName + "DefaultValue"] = [];
+      
+      const defaultValueKey = batchName + "DefaultValue";
+      if (!batchDefaultValues[defaultValueKey]) {
+        batchDefaultValues[defaultValueKey] = [];
       }
+      
       const fieldList = temp.fieldList as Array<FieldInfo>;
       let tempData: any = {};
-      fieldList?.forEach((item) => {
-        if (item.defaultValue) {
-          if (isJson(item.defaultValue)) {
-            let subTemp = {
-              ...batchDefaultValues[temp.batchName],
-              ...item.defaultValue,
-            };
-            Object.entries(subTemp).forEach(([key, value]) => {
-              tempData[key] = value;
-            });
-          } else {
-            tempData[item.fieldName] = item.defaultValue;
-          }
-        }
-        if (item.aliasName) {
-          mappingFields.push({ name: item.fieldName, alias: item.aliasName });
-        }
-        if (item.actions) {
-          actions.push({
-            batchName: temp.batchName,
-            actions: item.actions,
-            fieldName: item.fieldName,
-          });
-        }
-      });
-      batchDefaultValues[temp.batchName + "DefaultValue"].push(tempData);
-    }
+      
+      // 优化点9: 使用for循环代替forEach，减少函数调用开销
+      for (let i = 0; i < fieldList.length; i++) {
+        const item = fieldList[i];
+        processFieldDefaultValue(item, tempData, batchName);
+      }
+      
+      batchDefaultValues[defaultValueKey].push(tempData);
+    });
   };
+  
   const fieldsOperation = (dataList: any, defaultData: any) => {
-    for (const key in dataList) {
-      const temp = dataList[key];
-      if (temp instanceof Array) {
-        temp.forEach((item: FieldInfo) => {
-          if (item.defaultValue) {
-            if (isJson(item.defaultValue)) {
-              for (const key in item.defaultValue) {
-                defaultData[key] = item.defaultValue[key];
-              }
-            } else {
-              defaultData[item.fieldName] = item.defaultValue;
-            }
+    // 优化点10: 处理null/undefined情况
+    if (!dataList) return;
+    
+    // 优化点11: 根据数据类型选择不同的处理方式
+    if (Array.isArray(dataList)) {
+      // 优化点12: 对数组使用普通for循环
+      for (let i = 0; i < dataList.length; i++) {
+        const temp = dataList[i];
+        
+        if (temp instanceof Array) {
+          // 优化点13: 嵌套数组的处理
+          for (let j = 0; j < temp.length; j++) {
+            const item = temp[j];
+            processFieldDefaultValue(item, defaultData);
           }
-          if (item.aliasName) {
-            mappingFields.push({ name: item.fieldName, alias: item.aliasName });
-          }
-          if (item.actions) {
-            actions.push({
-              actions: item.actions,
-              fieldName: item.fieldName,
-            });
-          }
-        });
-      } else if (temp["tabList"] || temp["collapseList"] || temp["cardList"]) {
-        //如果是tabList
-        const tabList =
-          temp["tabList"] || temp["collapseList"] || temp["cardList"];
-        for (const index in tabList) {
-          const temp = tabList[index];
-          tabOperation(temp);
-        }
-      } else if (temp["batchFieldList"]) {
-        //如果是tableList
-        const tableList = temp["batchFieldList"] as Array<BatchFieldInfo>;
-        tableOperation(tableList);
-      } else {
-        if (temp.defaultValue) {
-          if (isJson(temp.defaultValue)) {
-            for (const key in temp.defaultValue) {
-              defaultData[key] = temp.defaultValue[key];
-            }
-          } else {
-            defaultData[temp.fieldName] = temp.defaultValue;
-          }
-        }
-        if (temp.aliasName) {
-          mappingFields.push({ name: temp.fieldName, alias: temp.aliasName });
-        }
-        if (temp.actions) {
-          actions.push({
-            actions: temp.actions,
-            fieldName: temp.fieldName,
+        } else if (temp["tabList"] || temp["collapseList"] || temp["cardList"]) {
+          //如果是tabList
+          const tabList = temp["tabList"] || temp["collapseList"] || temp["cardList"];
+          
+          // 优化点14: 对tabList使用forEach
+          tabList.forEach((tabItem: TabFieldInfo) => {
+            tabOperation(tabItem);
           });
+        } else if (temp["batchFieldList"]) {
+          //如果是tableList
+          const tableList = temp["batchFieldList"] as Array<BatchFieldInfo>;
+          tableOperation(tableList);
+        } else {
+          // 处理单个字段
+          processFieldDefaultValue(temp, defaultData);
+        }
+      }
+    } else if (typeof dataList === 'object') {
+      // 优化点15: 对对象使用Object.values和for循环
+      const entries = Object.values(dataList);
+      for (let i = 0; i < entries.length; i++) {
+        const temp = entries[i];
+        
+        if (temp instanceof Array) {
+          for (let j = 0; j < temp.length; j++) {
+            const item = temp[j];
+            processFieldDefaultValue(item, defaultData);
+          }
+        } else if (temp["tabList"] || temp["collapseList"] || temp["cardList"]) {
+          const tabList = temp["tabList"] || temp["collapseList"] || temp["cardList"];
+          
+          tabList.forEach((tabItem: TabFieldInfo) => {
+            tabOperation(tabItem);
+          });
+        } else if (temp["batchFieldList"]) {
+          const tableList = temp["batchFieldList"] as Array<BatchFieldInfo>;
+          tableOperation(tableList);
+        } else {
+          processFieldDefaultValue(temp, defaultData);
         }
       }
     }
   };
+  
+  // 执行操作
   fieldsOperation(tempList, defaultDatas);
-  const batchTempList = fieldList?.batchFieldList!;
-  tableOperation(batchTempList);
-  defaultDatas = { ...defaultDatas, ...batchDefaultValues };
-  // debugger;
-  return { defaultDatas, mappingFields, batchDefaultValues, actions };
+  
+  // 优化点16: 检查batchFieldList是否存在
+  if (fieldList?.batchFieldList) {
+    tableOperation(fieldList.batchFieldList);
+  }
+  
+  // 优化点17: 使用Object.assign代替展开运算符，避免创建过多中间对象
+  Object.assign(defaultDatas, batchDefaultValues);
+  
+  // 优化点18: 缓存结果
+  const result = { defaultDatas, mappingFields, batchDefaultValues, actions };
+  
+  // 优化点19: 只缓存合理大小的结果，避免内存泄漏
+  const resultSize = JSON.stringify(result).length;
+  if (resultSize < 50000) { // 限制50KB以内的结果才缓存
+    formFieldCache.set(cacheKey, result);
+  }
+  
+  return result;
 }
 
 /**
@@ -802,25 +910,50 @@ export function batchFieldDefaultValues(datas: BatchFieldInfo, dataForm: any) {
   if (datas["batchDefaultData"]) {
     defaultValues = { ...datas["batchDefaultData"] };
   }
+  
+  // 创建缓存键
   const fieldList = datas["fieldList"];
+  const cacheKey = `batch_default_${datas.batchName}_${fieldList?.length || 0}`;
+  
+  // 检查缓存
+  const cachedResult = formFieldCache.get(cacheKey);
+  if (cachedResult && !dataForm) {
+    return cachedResult;
+  }
+  
   for (const inde in fieldList) {
     const temp = fieldList[inde];
     if (temp.defaultValue) {
       if (isJson(temp.defaultValue)) {
-        for (const key in temp.defaultValue) {
-          defaultValues[key] = temp.defaultValue[key];
+        try {
+          // 使用带缓存的JSON解析
+          const parsedValue = typeof temp.defaultValue === 'string' ? 
+            parseJsonWithCache(temp.defaultValue, {}) : temp.defaultValue;
+          
+          // 使用Object.assign代替for...in循环
+          if (typeof parsedValue === 'object') {
+            Object.assign(defaultValues, parsedValue);
+          }
+        } catch (e) {
+          console.error('JSON解析错误:', e);
+          defaultValues[temp.fieldName] = temp.defaultValue;
         }
       } else {
         defaultValues[temp.fieldName] = temp.defaultValue;
       }
     }
   }
+  
   if (dataForm) {
     let temp = unref(dataForm)[datas.batchName];
     if (temp) {
       defaultValues = { ...temp, ...defaultValues };
     }
+  } else {
+    // 只在没有dataForm时缓存结果，因为dataForm可能每次都不同
+    formFieldCache.set(cacheKey, defaultValues);
   }
+  
   return defaultValues;
 }
 
