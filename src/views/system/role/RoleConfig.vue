@@ -110,6 +110,9 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       required: true,
       formVisible: true,
       listVisible: true,
+      preps: {
+        editDisabled: true,
+      },
     },
 
     {
@@ -168,7 +171,8 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       formVisible: true,
       listVisible: !true,
       preps: {
-        values: statusList,
+        dataSource:"dict",
+        urlOrDictName:"public"
       },
     },
     {

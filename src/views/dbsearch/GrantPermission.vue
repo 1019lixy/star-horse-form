@@ -60,7 +60,7 @@ let params = ref<CompParams | any>({
   fieldList: [],
   needField: [],
   primaryKey: "",
-  editdisabled: true,
+  editDisabled: true,
 });
 const tableFieldList = reactive({
   fieldList: [
@@ -98,7 +98,7 @@ const tableFieldList = reactive({
         },
         listVisible: true,
         preps: {
-          editdisabled: true,
+          editDisabled: true,
           values: assignType,
         },
       },

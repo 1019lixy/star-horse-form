@@ -62,7 +62,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       formVisible: true,
       listVisible: true,
       preps: {
-        editdisabled: true,
+        editDisabled: true,
       },
     },
     {
@@ -133,10 +133,13 @@ const tableFieldList = reactive<PageFieldInfo | any>({
     {
       label: i18n("system.status.code"),
       fieldName: "statusCode",
-
       required: false,
       formVisible: !true,
       listVisible: !true,
+      preps: {
+        dataSource:"dict",
+        urlOrDictName:"public"
+      },
     },
     {
       label: i18n("system.status.name"),
@@ -199,7 +202,7 @@ onDeactivated(() => {
   <div class="flex flex-col h-full overflow-hidden">
     <star-horse-dialog
       :dialog-visible="dialogProps.editVisible"
-      :boxWidth="'400px'"
+      :boxWidth="'40%'"
       :dialogProps="dialogProps"
       :isShowBtnContinue="true"
     >

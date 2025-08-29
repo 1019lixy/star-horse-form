@@ -402,9 +402,8 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       type: "select",
       listVisible: false,
       preps: {
-        urlOrDictName: "common",
-        name: "statusCode",
-        dataSource: "dict",
+        dataSource:"dict",
+        urlOrDictName:"public"
       },
       commonFlag: "Y",
     },

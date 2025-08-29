@@ -68,7 +68,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
         formVisible: true,
         listVisible: true,
         preps: {
-          editdisabled: true,
+          editDisabled: true,
         },
       },
     ],
@@ -157,10 +157,13 @@ const tableFieldList = reactive<PageFieldInfo | any>({
     {
       label: i18n("system.status.code"),
       fieldName: "statusCode",
-
       required: false,
       formVisible: !true,
       listVisible: !true,
+      preps: {
+        dataSource:"dict",
+        urlOrDictName:"public"
+      },
     },
     {
       label: i18n("system.status.name"),
@@ -230,6 +233,9 @@ const deactivated = () => {};
  */
 const dataFormat = (name: string, cellValue: any, row: any): any => {
   //转换显示信息
+  if(name=="idRankType"){
+    return rankTypeList.value.find((item: any) => item.idRankType == cellValue)?.rankTypeName??cellValue;
+  }
   return cellValue;
 };
 onMounted(async () => {

@@ -20,12 +20,15 @@ export default {
   "login.rememberMe": "Remember Me",
   "login.forget": "Forget Password？",
   "login.noAccount": "No Account？",
+  "login.remember.password": "Remember Password？",
+  "login.forget.password.tip": "Please enter the email address you used when registering, and we will send a password reset link to that email.",
   "loginButton.register": "Register",
   "loginButton.login": "Login",
   "loginButton.welcome": "Welcome",
   "loginButton.welcomeBack": "Welcome Back",
   "loginButton.description": "  Welcome to StarHorse Devlopse Platform",
   "loginButton.logging": "Logging...",
+  "userCenter.checkEmailReset": "Please check your email and follow the instructions to reset your password.",
   "main.header.authority": "User Center",
   "main.header.calendar": "Calendar",
   "main.header.layoutConfig": "Layout Config",
@@ -350,10 +353,15 @@ export default {
   "system.updated.by": "Updated By",
   "system.created.date": "Created Date",
   "system.updated.date": "Updated Date",
+  "system.completed.date": "Completed Date",
+  "system.suspended.date": "Suspended Date",
+  "system.delegated.date": "Delegated Date",
+  "system.cancel": "Cancel",
+  "system.confirm": "Confirm",
   "system.data.version": "Data Version",
   "system.is.deleted": "Is Deleted",
   "system.data.number": "Data Number",
-  "system.status.code": "Status Code",
+  "system.status.code": "Status",
   "system.status.name": "Status Name",
   "system.international.code": "International Code",
   "system.interface.address": "Interface Address",
@@ -448,6 +456,10 @@ export default {
   "system.system.permissions": "System Permissions",
   "system.menu.permissions": "Menu Permissions",
   "system.user.group.responsibility": "User Group Responsibility",
+  "system.rank.name": "Rank Name",
+  "system.rank.code": "Rank Code",
+  "system.rank.sort": "Rank Sort",
+  "system.belonging.category": "Category",
   /**
    * DB Search
    */
@@ -647,6 +659,18 @@ export default {
    * LoginDev Component
    */
   "loginDev.thirdPartyLogin": "Third Party Login",
+  /**
+   * Register Component
+   */
+  "register.email": "Email",
+  "register.confirmPassword": "Confirm Password",
+  /**
+   * Forgot Password Component
+   */
+  "forgotPassword.title": "Forgot Password",
+  "forgotPassword.tip": "Please enter the email address you used when registering, and we will send a password reset link to that email.",
+  "forgotPassword.success": "Password reset email sent",
+  "forgotPassword.checkEmail": "Please check your email and follow the instructions to reset your password.",
   /**
    * UserCenter Component
    */
@@ -873,6 +897,56 @@ export default {
   "home.allWork": "All Work",
   "home.instructions1": 'Click "New Workflow" to enter the new workflow page.',
   "home.instructions2": "Access催办, recall.",
+  "home.allWorkDescription": "View all workflow tasks in one place.",
+  "home.claimTask": "Claim Task",
+  "home.completeTask": "Complete Task",
+  "home.revokeTask": "Revoke Task",
+  "home.unfollowTask": "Unfollow Task",
+  "home.resumeTask": "Resume Task",
+  "home.recallTask": "Recall Task",
+  "home.task.claimed": "Task claimed",
+  "home.task.completed": "Task completed",
+  "home.task.revoked": "Task revoked",
+  "home.task.unfollowed": "Task unfollowed",
+  "home.task.resumed": "Task resumed",
+  "workflow.suspended.by": "Task suspended by {user}",
+  "home.task.recalled": "Task recalled",
+  "workflow.delegated.to": "Task delegated to {user}",
+  "workflow.in.process": "In process",
+  "system.back": "Back",
+  "system.current": "Current",
+  "system.pending": "Pending",
+  "system.completed": "Completed",
+  "system.error": "Error",
+  "workflow.initiator": "Initiator",
+  "workflow.approval.node": "Approval Node",
+  "workflow.final.approval": "Final Approval",
+  "workflow.submitted.by": "{user} submitted the application",
+  "workflow.pending.approval": "Pending approval",
+  "workflow.approved.by": "Approved by {user}",
+  "workflow.pending.assignee": "Pending assignee",
+  "workflow.current.assignee": "Current assignee",
+  "workflow.not.started": "Not started yet",
+  /**
+   * Task Actions
+   */
+  "home.task.a": "Task approved",
+  "home.task.b": "Task rejected",
+  "home.task.c": "Task returned",
+  "home.task.d": "Task returned to start",
+  "home.task.e": "Task returned to history",
+  "home.task.f": "Task revoked",
+  "home.task.g": "Task transferred",
+  "home.task.h": "Signer added",
+  "home.task.i": "Signer reduced",
+  "home.task.j": "Task saved",
+  "home.task.k": "Task terminated",
+  "home.task.l": "Countersigned",
+  "home.task.m": "Countersign approved",
+  "home.task.n": "Countersign rejected",
+  "home.task.o": "Countersign abstained",
+  "home.task.p": "Approver assigned",
+  "home.task.q": "Jump assigned",
   /**
    * Locale Component
    */
@@ -1197,6 +1271,64 @@ export default {
    * Workflow Components
    */
   "workflow.dataLoading": "Data loading",
+  /**
+   * Workflow Application Details
+   */
+  "workflow.application.id": "Application ID",
+  "workflow.application.name": "Application Name",
+  "workflow.application.category": "Category",
+  "workflow.application.status": "Status",
+  "workflow.application.createdBy": "Created By",
+  "workflow.application.createdDate": "Created Date",
+  "workflow.application.description": "Description",
+  "workflow.application.noDescription": "No description provided",
+  /**
+   * Workflow Buttons
+   */
+  "workflow.btn.agree": "Approve",
+  "workflow.btn.reject": "Reject",
+  "workflow.btn.return": "Return",
+  "workflow.btn.returnToStart": "Return to Start",
+  "workflow.btn.returnToHistory": "Return to History Task",
+  "workflow.btn.revoke": "Revoke",
+  "workflow.btn.transfer": "Transfer",
+  "workflow.btn.addSign": "Add Sign",
+  "workflow.btn.reduceSign": "Reduce Sign",
+  "workflow.btn.save": "Save",
+  "workflow.btn.terminate": "Terminate",
+  "workflow.btn.countersign": "Countersign",
+  "workflow.btn.agreeCountersign": "Approve (Countersign)",
+  "workflow.btn.rejectCountersign": "Reject (Countersign)",
+  "workflow.btn.abstainCountersign": "Abstain (Countersign)",
+  "workflow.btn.assignApprover": "Assign Approver",
+  "workflow.btn.assignJump": "Assign Jump",
+
+  /**
+   * Workflow Actions
+   */
+  "workflow.action.title": "Workflow Action",
+  "workflow.action.rejectReason": "Reject Reason",
+  "workflow.action.rejectReason.placeholder": "Please enter reject reason",
+  "workflow.action.rejectReason.required": "Reject reason is required",
+  "workflow.action.returnReason": "Return Reason",
+  "workflow.action.returnReason.placeholder": "Please enter return reason",
+  "workflow.action.returnReason.required": "Return reason is required",
+  "workflow.action.addSignUsers": "Add Sign Users",
+  "workflow.action.addSignUsers.placeholder": "Please select users to add",
+  "workflow.action.addSignUsers.required": "Please select users to add",
+  "workflow.action.reduceSignUsers": "Reduce Sign Users",
+  "workflow.action.reduceSignUsers.placeholder": "Please select users to reduce",
+  "workflow.action.reduceSignUsers.required": "Please select users to reduce",
+  "workflow.action.transferTo": "Transfer To",
+  "workflow.action.transferTo.placeholder": "Please select user to transfer to",
+  "workflow.action.transferTo.required": "Please select user to transfer to",
+  "workflow.action.assignApprover": "Assign Approver",
+  "workflow.action.assignApprover.placeholder": "Please select approver",
+  "workflow.action.assignApprover.required": "Please select approver",
+  "workflow.action.comments": "Comments",
+  "workflow.action.comments.placeholder": "Please enter comments",
+  "workflow.action.comments.required": "Comments are required",
+
   /**
    * Index Component
    */

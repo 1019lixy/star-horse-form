@@ -165,7 +165,7 @@ const tableFieldList = reactive({
                     listVisible: true,
                     searchVisible: true,
                     preps: {
-                      editdisabled: true,
+                      editDisabled: true,
                     },
                   },
                   {

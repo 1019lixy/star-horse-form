@@ -16,6 +16,7 @@ import websocket from "@/api/websocket";
 import { getUserInfo } from "@/utils/auth";
 import { postRequest } from "@/api/star_horse_apis";
 import { i18n } from "@/lang";
+import WorkflowTimelineView from "./WorkflowTimelineView.vue";
 
 defineProps({
   compSize: { type: String, default: "small" },
@@ -28,6 +29,13 @@ let totalMessages = ref<number>(0);
 let totalAudit = ref<number>(0);
 const url = "/system-config/system/messageRecord/getAllByCondition";
 const pageUrl = "/system-config/system/messageRecord/pageList";
+
+// Drawer related refs
+const drawerVisible = ref(false);
+const drawerTitle = ref("");
+const activeWorkflowType = ref("");
+const selectedWorkflowData = ref<any>(null);
+
 const init = async () => {
   let params = createParams("notice");
   let resultData = await loadData(url, params.fieldList, params.orderBy);
@@ -155,6 +163,51 @@ const tabChange = (tab: string) => {
   currentTab.value = tab;
   loadByPage();
 };
+
+// Function to open workflow drawer based on category
+const openWorkflowDrawer = (item: any) => {
+  // Determine workflow type based on item category or other properties
+  // For now, we'll use a default type, but this should be determined from the item data
+  activeWorkflowType.value = "processing"; // This should be dynamic based on item data
+
+  // Set the selected workflow data
+  selectedWorkflowData.value = item;
+
+  // Set drawer title
+  drawerTitle.value = item.title || i18n('workflow.process.details');
+
+  // Show the drawer
+  drawerVisible.value = true;
+};
+
+const closeDrawer = () => {
+  drawerVisible.value = false;
+  activeWorkflowType.value = "";
+  selectedWorkflowData.value = null;
+};
+
+const handleWorkflowAction = (action: string, workflowData: any) => {
+  // Handle workflow actions (claim, complete, etc.)
+  console.log("Workflow action:", action, workflowData);
+  // In a real implementation, you would call the appropriate API
+
+  // Show success message
+  message(
+    i18n(`home.task.${action}`) || i18n("message.functionDevelopment"),
+    "success",
+    2500,
+    i18n("message.tip"),
+    "bottom-right",
+  );
+
+  // Close the drawer after action
+  closeDrawer();
+};
+
+const handleWorkflowBack = () => {
+  closeDrawer();
+};
+
 const createParams = (type: string) => {
   let fieldList: SearchParams[] = [];
   fieldList.push(createCondition("type", type || currentTab.value));
@@ -211,13 +264,8 @@ const loadByPage = () => {
     });
 };
 const auditMessage = (item: any) => {
-  message(
-    i18n("message.functionDevelopment"),
-    "info",
-    2500,
-    i18n("message.tip"),
-    "bottom-right",
-  );
+  // Open workflow drawer instead of showing function development message
+  openWorkflowDrawer(item);
 };
 onMounted(() => {
   init();
@@ -234,6 +282,26 @@ onMounted(() => {
   >
     <star-horse-data-view :outerData="outerData" :field-list="formField" />
   </star-horse-dialog>
+
+  <!-- Workflow Drawer - Show only timeline view -->
+  <el-drawer
+    v-model="drawerVisible"
+    :title="drawerTitle"
+    direction="rtl"
+    size="80%"
+    @close="closeDrawer"
+  >
+    <div class="workflow-drawer-content">
+      <WorkflowTimelineView
+        :workflow-type="activeWorkflowType"
+        :workflow-data="selectedWorkflowData"
+        @close="closeDrawer"
+        @action="handleWorkflowAction"
+        @back="handleWorkflowBack"
+      />
+    </div>
+  </el-drawer>
+
   <el-popover
     :popper-style="{ width: 'unset !important' }"
     placement="bottom-end"
@@ -370,5 +438,10 @@ onMounted(() => {
   margin-top: 10px;
   display: flex;
   align-items: center;
+}
+
+.workflow-drawer-content {
+  height: 100%;
+  overflow: auto;
 }
 </style>

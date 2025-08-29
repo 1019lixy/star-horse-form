@@ -22,6 +22,8 @@ export default {
   "login.rememberMe": "记住我",
   "login.forget": "忘记密码？",
   "login.noAccount": "没有账号？",
+  "login.remember.password": "记得密码？",
+  "login.forget.password.tip": "请输入您注册时使用的邮箱地址，我们将向该邮箱发送密码重置链接。",
   "loginButton.register": "立即注册",
   "loginButton.login": "登 录",
   "loginButton.welcome": "欢迎光临",
@@ -29,6 +31,7 @@ export default {
   "loginButton.description": `  StarHorse DevOps是一个企业级开发运维和全栈低代码开发平台！潜心打造强大核心技术底座：内置元数据引擎、业务流程引擎、业务触发器、可视化表单。
                                 Sql查询、代码生成、CMDB、数据建模、数据可视化、报表、仪表盘、工作流、权限管理、消息推送、文件管理等功能一应俱全！`,
   "loginButton.logging": "登 录 中...",
+  "userCenter.checkEmailReset": "请检查您的邮箱并按照指示重置密码。",
   "main.header.authority": "用户中心",
   "main.header.calendar": "日程表",
   "main.header.layoutConfig": "布局设置",
@@ -338,11 +341,16 @@ export default {
   "system.updated.by": "修改人",
   "system.created.date": "创建日期",
   "system.updated.date": "修改日期",
+  "system.completed.date": "完成日期",
+  "system.suspended.date": "挂起日期",
+  "system.delegated.date": "委托日期",
+  "system.cancel": "取消",
+  "system.confirm": "确认",
   "system.data.version": "数据版本号",
   "system.is.deleted": "是否已逻辑",
   "system.data.number": "数据编号",
-  "system.status.code": "状态码",
-  "system.status.name": "状态码名称",
+  "system.status.code": "状态",
+  "system.status.name": "状态名",
   "system.international.code": "国际码",
   "system.interface.address": "接口地址",
   "system.remark": "备注",
@@ -354,7 +362,6 @@ export default {
   "system.updated.time": "修改时间",
   "system.version": "版本号",
   "system.is.logical.deleted": "是否逻辑删除",
-  // "system.status.name": "状态名称",
   "system.department.name": "部门名称",
   "system.department.code": "部门编码",
   "system.parent.department": "上级部门",
@@ -410,9 +417,6 @@ export default {
   "system.recipient": "接收人",
   "system.redirect.url": "跳转Url",
   "system.content": "内容",
-  // "system.version": "版本号",
-  // "system.created.time": "创建时间",
-  // "system.updated.time": "修改时间",
   "system.system.name": "系统名称",
   "system.role.id": "角色Id",
   "system.system.id": "系统Id",
@@ -435,6 +439,10 @@ export default {
   "system.system.permissions": "系统权限",
   "system.menu.permissions": "菜单权限",
   "system.user.group.responsibility": "用户组职责",
+  "system.rank.name": "职级名称",
+  "system.rank.code": "职级编码",
+  "system.rank.sort": "职级排序",
+  "system.belonging.category": "归属类别",
   /**
    * DB Search
    */
@@ -626,6 +634,18 @@ export default {
    * LoginDev Component
    */
   "loginDev.thirdPartyLogin": "第三方登录",
+  /**
+   * Register Component
+   */
+  "register.email": "邮箱",
+  "register.confirmPassword": "确认密码",
+  /**
+   * Forgot Password Component
+   */
+  "forgotPassword.title": "忘记密码",
+  "forgotPassword.tip": "请输入您注册时使用的邮箱地址，我们将向该邮箱发送密码重置链接。",
+  "forgotPassword.success": "密码重置邮件已发送",
+  "forgotPassword.checkEmail": "请检查您的邮箱并按照指示重置密码。",
   /**
    * UserCenter Component
    */
@@ -866,6 +886,56 @@ export default {
   "home.allWork": "全部工作",
   "home.instructions1": "点击“新建工作流”，进入新建工作流页面。",
   "home.instructions2": "接入催办，撤回。",
+  "home.allWorkDescription": "在此查看所有工作流任务。",
+  "home.claimTask": "认领任务",
+  "home.completeTask": "完成任务",
+  "home.revokeTask": "撤销任务",
+  "home.unfollowTask": "取消关注",
+  "home.resumeTask": "恢复任务",
+  "home.recallTask": "撤回任务",
+  "home.task.claimed": "任务已认领",
+  "home.task.completed": "任务已完成",
+  "home.task.revoked": "任务已撤销",
+  "home.task.unfollowed": "已取消关注",
+  "home.task.resumed": "任务已恢复",
+  "workflow.suspended.by": "{user} 挂起了任务",
+  "home.task.recalled": "任务已撤回",
+  "workflow.delegated.to": "任务已委托给 {user}",
+  "workflow.in.process": "处理中",
+  "system.back": "返回",
+  "system.current": "当前",
+  "system.pending": "待处理",
+  "system.completed": "已完成",
+  "system.error": "错误",
+  "workflow.initiator": "发起人",
+  "workflow.approval.node": "审批节点",
+  "workflow.final.approval": "最终审批",
+  "workflow.submitted.by": "{user} 提交了申请",
+  "workflow.pending.approval": "等待审批",
+  "workflow.approved.by": "{user} 已审批",
+  "workflow.pending.assignee": "待认领",
+  "workflow.current.assignee": "当前处理人",
+  "workflow.not.started": "尚未开始",
+  /**
+   * Task Actions
+   */
+  "home.task.a": "任务已同意",
+  "home.task.b": "任务已拒绝",
+  "home.task.c": "任务已退回",
+  "home.task.d": "任务已退回至起点",
+  "home.task.e": "任务已退回至历史任务",
+  "home.task.f": "任务已撤销",
+  "home.task.g": "任务已转办",
+  "home.task.h": "已加签",
+  "home.task.i": "已减签",
+  "home.task.j": "任务已保存",
+  "home.task.k": "任务已中止",
+  "home.task.l": "已会签",
+  "home.task.m": "会签已同意",
+  "home.task.n": "会签已拒绝",
+  "home.task.o": "会签已弃权",
+  "home.task.p": "审批人已指定",
+  "home.task.q": "跳转已指定",
   /**
    * Locale Component
    */
@@ -968,13 +1038,9 @@ export default {
   /**
    * Users Audit
    */
-  // "system.password": "密码",
   "system.effective.date": "生效日期",
   "system.expired.date": "失效日期",
   "system.data.type": "数据类型",
-  // "system.created.date": "创建日期",
-  // "system.updated.date": "修改日期",
-  // "system.data.version": "数据版本号",
   /**
    * White List
    */
@@ -1037,23 +1103,14 @@ export default {
    * Account Permission
    */
   "system.account": "账号",
-  // "system.name": "姓名",
-  // "system.status": "状态",
   "system.group.name": "分组名称",
   "system.account.info": "账号信息",
-  // "system.username": "用户名",
-  // "system.contact.phone": "联系电话",
-  // "system.email": "邮箱",
   "system.group.code": "分组编码",
   "system.email.address": "邮箱地址",
   "system.please.select.group": "请先选择分组",
-  // "system.user.group": "用户组",
   /**
    * Appinfo Permission
    */
-  // "system.system.name": "系统名称",
-  // "system.application.name": "应用名称",
-  // "system.system.code": "系统编码",
   "system.please.select.user.group": "请先选择用户分组",
   /**
    * Data Permission
@@ -1061,10 +1118,8 @@ export default {
   "system.permission.type": "权限类型",
   "system.authorized.user.group": "被授权用户组/人",
   "system.authorized.menu": "授权菜单",
-  // "system.user.group": "用户组",
   "system.authorized.account": "被授权账号",
   "system.permission": "权限",
-  // "system.validity.period": "有效期",
   "system.authorized.user.group.account": "被授权用户组/账号",
   "system.please.select.application": "请先选择应用",
   "system.application.system": "应用系统",
@@ -1072,39 +1127,20 @@ export default {
   /**
    * Menuinfo Permission
    */
-  // "system.menu.name": "菜单名称",
-  // "system.assign.all.menus": "分配所有菜单",
-  // "system.specified.menu": "指定菜单",
   /**
    * Page Button Permission
    */
   "system.role.name": "角色名称",
-  // "system.created.date": "创建日期",
   "system.owned.system": "所属系统",
-  // "system.permission": "权限",
   "system.btn.names": "按钮名称",
   /**
    * Common Role Manage
    */
-  // "system.role.code": "角色编码",
-  // "system.version": "版本号",
-  // "system.created.by": "创建人",
-  // "system.created.time": "创建时间",
-  // "system.updated.by": "修改人",
-  // "system.updated.time": "修改时间",
-  // "system.data.number": "数据编号",
-  // "system.status.code": "状态码",
-  // "system.status.name": "状态名称",
-  // "system.is.logical.deleted": "是否删除",
-  // "system.international.code": "国际编码",
-  // "system.remark": "备注",
   "system.personnel.info": "人员信息",
   "system.name.employee.number": "姓名/工号",
   "system.rank": "职级",
   "system.position": "岗位",
   "system.affiliated.organization": "所属组织",
-  // "system.affiliated.company": "所属公司",
-  // "system.affiliated.department": "所属部门",
   "system.delete": "删除",
   "system.add.personnel": "添加人员",
   "system.please.select.company.first": "请先在左侧选择公司",
@@ -1116,7 +1152,6 @@ export default {
    */
   "system.company.name.code": "公司名称/编码",
   "system.role.name.code": "角色名称/编码",
-  // "system.company.name": "公司名称",
   "system.load.company.role.info.error": "加载公司角色信息异常",
   "system.set.personnel": "设置人员",
   "system.view.all.personnel.info": "查看所有人员信息",
@@ -1131,9 +1166,7 @@ export default {
    */
   "system.affiliated.company.quantity": "归属公司(数量)",
   "system.configure.affiliated.company": "配置归属公司",
-  // "system.affiliated.company": "归属公司",
   "system.confirm.delete": "确定要删除吗？",
-  // "system.data.submitting": "数据提交中",
   /**
    * Station Category
    */
@@ -1149,11 +1182,7 @@ export default {
   /**
    * User Fields
    */
-  // "system.email.address": "邮箱地址",
-  // "system.contact.phone": "联系电话",
   "system.sex": "性别",
-  // "system.emergency.contact.phone": "紧急联系人电话",
-  // "system.user.group": "所属用户组",
   "system.education": "学历",
   "system.entry.time": "入职时间",
   "system.leave.time": "离职时间",
@@ -1167,6 +1196,64 @@ export default {
    * Workflow Components
    */
   "workflow.dataLoading": "数据加载中",
+  /**
+   * Workflow Application Details
+   */
+  "workflow.application.id": "申请ID",
+  "workflow.application.name": "申请名称",
+  "workflow.application.category": "分类",
+  "workflow.application.status": "状态",
+  "workflow.application.createdBy": "创建人",
+  "workflow.application.createdDate": "创建日期",
+  "workflow.application.description": "描述",
+  "workflow.application.noDescription": "暂无描述",
+  /**
+   * Workflow Buttons
+   */
+  "workflow.btn.agree": "同意",
+  "workflow.btn.reject": "拒绝",
+  "workflow.btn.return": "退回",
+  "workflow.btn.returnToStart": "退回至起点",
+  "workflow.btn.returnToHistory": "退回至历史任务",
+  "workflow.btn.revoke": "撤销",
+  "workflow.btn.transfer": "转办",
+  "workflow.btn.addSign": "加签",
+  "workflow.btn.reduceSign": "减签",
+  "workflow.btn.save": "保存",
+  "workflow.btn.terminate": "中止",
+  "workflow.btn.countersign": "会签",
+  "workflow.btn.agreeCountersign": "同意（会签）",
+  "workflow.btn.rejectCountersign": "拒绝（会签）",
+  "workflow.btn.abstainCountersign": "弃权（会签）",
+  "workflow.btn.assignApprover": "指定审批人",
+  "workflow.btn.assignJump": "指定跳转",
+
+  /**
+   * Workflow Actions
+   */
+  "workflow.action.title": "工作流操作",
+  "workflow.action.rejectReason": "拒绝原因",
+  "workflow.action.rejectReason.placeholder": "请输入拒绝原因",
+  "workflow.action.rejectReason.required": "拒绝原因是必填的",
+  "workflow.action.returnReason": "退回原因",
+  "workflow.action.returnReason.placeholder": "请输入退回原因",
+  "workflow.action.returnReason.required": "退回原因是必填的",
+  "workflow.action.addSignUsers": "加签用户",
+  "workflow.action.addSignUsers.placeholder": "请选择要加签的用户",
+  "workflow.action.addSignUsers.required": "请选择要加签的用户",
+  "workflow.action.reduceSignUsers": "减签用户",
+  "workflow.action.reduceSignUsers.placeholder": "请选择要减签的用户",
+  "workflow.action.reduceSignUsers.required": "请选择要减签的用户",
+  "workflow.action.transferTo": "转办给",
+  "workflow.action.transferTo.placeholder": "请选择要转办的用户",
+  "workflow.action.transferTo.required": "请选择要转办的用户",
+  "workflow.action.assignApprover": "指定审批人",
+  "workflow.action.assignApprover.placeholder": "请选择审批人",
+  "workflow.action.assignApprover.required": "请选择审批人",
+  "workflow.action.comments": "意见",
+  "workflow.action.comments.placeholder": "请输入意见",
+  "workflow.action.comments.required": "意见是必填的",
+
   /**
    * Index Component
    */

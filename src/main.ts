@@ -44,6 +44,7 @@ app.use(piniaCompInstance);
 // });
 app.component("draggable", draggable);
 for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
+  // @ts-ignore
   app.component(key, component);
 }
 /**

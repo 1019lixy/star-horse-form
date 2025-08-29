@@ -151,6 +151,24 @@ routeDefine.push(
     },
   },
   {
+    path: "/register",
+    component: () => import("@/components/Register.vue"),
+    name: "Register",
+    meta: {
+      keepAlive: "N",
+      title: "用户注册",
+    },
+  },
+  {
+    path: "/forgot-password",
+    component: () => import("@/components/ForgotPassword.vue"),
+    name: "ForgotPassword",
+    meta: {
+      keepAlive: "N",
+      title: "忘记密码",
+    },
+  },
+  {
     path: "/404",
     component: () => import("@/components/404.vue"),
     name: "404",

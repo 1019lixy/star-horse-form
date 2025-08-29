@@ -142,6 +142,18 @@ const handleClick = async (tab: TabsPaneContext, _event: Event) => {
 const otherLogin = (typeName: string) => {
   console.log(typeName);
 };
+/**
+ * 注册
+ */
+const register = () => {
+  router.push("/register");
+};
+/**
+ * 忘记密码
+ */
+const forgetPassword = () => {
+  router.push("/forgot-password");
+};
 watch(
   () => router.currentRoute.value,
   (route: RouteLocationNormalized) => {
@@ -240,7 +252,7 @@ watch(
               </el-checkbox>
             </el-col>
             <el-col :span="6">
-              <el-button link :size="Config.compSize">
+              <el-button link :size="Config.compSize" @click="forgetPassword">
                 {{ i18n("login.forget") }}</el-button
               >
             </el-col>

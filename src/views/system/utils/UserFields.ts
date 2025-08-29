@@ -197,7 +197,8 @@ const fullUserField: Array<any> = [
       type: "select",
       formVisible: true,
       preps: {
-        values: statusList,
+        dataSource:"dict",
+        urlOrDictName:"public"
       },
     },
     {

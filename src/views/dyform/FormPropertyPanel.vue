@@ -156,7 +156,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
                 required: true,
                 formVisible: true,
                 preps: {
-                  editdisabled: true,
+                  editDisabled: true,
                   colspan: 11,
                 },
               },
@@ -197,7 +197,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
                 required: true,
                 formVisible: true,
                 preps: {
-                  editdisabled: true,
+                  editDisabled: true,
                   colspan: 11,
                 },
               },
@@ -207,7 +207,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
                 type: "select",
                 formVisible: true,
                 preps: {
-                  editdisabled: true,
+                  editDisabled: true,
                   values: primaryKeyPolicyList,
                   colspan: 8,
                 },

@@ -40,7 +40,7 @@ const dataUrl: ApiUrls = apiInstance(
 );
 dataUrl.condition = [createCondition("a.roleType", "common_role")];
 //主键
-const primaryKey = "idCompanyRole";
+const primaryKey = "idCompanyDefine";
 const companyRoleRef = ref();
 const assignRoleCompanyRef = ref();
 let companyList = ref<Array<any>>([]);
@@ -79,7 +79,11 @@ const searchFormData = reactive<SearchFields>({
 const viewCompField = ref<DyCompField>({
   name: "UserInfoComp",
   emits: ["closeAction"],
-  methods: {},
+  methods: {
+    i18n:(key:string)=>{
+      return i18n?.(key)??key;
+    }
+  },
   onMounted: () => {},
   template: `
     <el-descriptions
@@ -187,7 +191,8 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       formVisible: true,
       listVisible: !true,
       preps: {
-        values: statusList,
+        dataSource:"dict",
+        urlOrDictName:"public"
       },
     },
     {
@@ -258,10 +263,13 @@ const expandTable = reactive<ExpandTable>({
       formVisible: true,
       listVisible: true,
       preps: {
-        showComp: "Y",
-        popover: "Y",
+        showComp: true,
+        popover: true,
+        styles: {
+          cursor: "pointer",
+        },
         placement: "top",
-        compField: viewCompField,
+        compInfo: viewCompField,
       },
     },
     {

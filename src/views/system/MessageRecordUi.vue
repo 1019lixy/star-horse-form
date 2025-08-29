@@ -123,7 +123,8 @@ const tableFieldList = reactive<PageFieldInfo | any>({
         formVisible: true,
         listVisible: !true,
         preps: {
-          values: statusList,
+          dataSource:"dict",
+          urlOrDictName:"public"
         },
       },
     ],
@@ -214,10 +215,13 @@ const tableFieldList = reactive<PageFieldInfo | any>({
     {
       label: i18n("system.status.code"),
       fieldName: "statusCode",
-
       required: false,
       formVisible: !true,
       listVisible: !true,
+      preps: {
+        dataSource:"dict",
+        urlOrDictName:"public"
+      },
     },
 
     {

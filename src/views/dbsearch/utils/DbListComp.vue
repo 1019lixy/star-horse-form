@@ -264,7 +264,7 @@ const configFieldInfo = ref<PageFieldInfo>({
         defaultValue: "manual",
         formVisible: true,
         preps: {
-          editdisabled: true,
+          editDisabled: true,
           values: primaryKeyPolicyList,
           colspan: 8,
         },

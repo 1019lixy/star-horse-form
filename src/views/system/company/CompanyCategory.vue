@@ -59,7 +59,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       formVisible: true,
       listVisible: true,
       preps: {
-        editdisabled: true,
+        editDisabled: true,
       },
     },
     {

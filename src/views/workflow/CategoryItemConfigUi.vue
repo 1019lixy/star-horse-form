@@ -228,7 +228,10 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       label: i18n("workflow.status.code"),
       fieldName: "statusCode",
 
-      preps: {},
+      preps: {
+        dataSource:"dict",
+        urlOrDictName:"public"
+      },
       commonFlag: "Y",
     },
     {

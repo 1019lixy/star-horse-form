@@ -82,9 +82,9 @@ const editFormField = reactive<PageFieldInfo>({
       required: false,
       formVisible: true,
       defaultValue: "1",
-
       preps: {
-        values: commonDictList,
+        dataSource:"dict",
+        urlOrDictName:"public"
       },
     },
     {

@@ -273,10 +273,13 @@ export function calendarManage(calendarList: Array<any>) {
       {
         label: "状态码",
         fieldName: "statusCode",
-
         required: false,
         formVisible: !true,
         listVisible: !true,
+        preps: {
+          dataSource:"dict",
+          urlOrDictName:"public"
+        },
       },
       {
         label: "状态名称",
