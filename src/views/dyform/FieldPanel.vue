@@ -112,17 +112,15 @@ const addElement = (element: any, type: string) => {
               >
                 <template #item="{ element }">
                   <li
-                    class="field-item"
+                    class="field-item h-[80px]!"
                     @dblclick="addElement(element, 'container')"
                     :title="element.itemName"
                   >
-                    &nbsp;&nbsp;
-                    <span
-                      ><star-horse-icon
+                    <star-horse-icon
                         :icon-class="element.itemIcon"
+                         size="32px"
                         style="color: var(--star-horse-style)"
-                      /><i>{{ element.itemName }}</i></span
-                    >
+                      /><i>{{ element.itemName }}</i>
                   </li>
                 </template>
               </draggable>
@@ -154,17 +152,15 @@ const addElement = (element: any, type: string) => {
               >
                 <template #item="{ element }">
                   <li
-                    class="field-item"
+                    class="field-item h-[80px]!"
                     @dblclick="addElement(element, 'item')"
                     :title="element.itemName"
                   >
-                    &nbsp;&nbsp;
-                    <span
-                      ><star-horse-icon
+                    <star-horse-icon
                         :icon-class="element.itemIcon"
+                           size="32px"
                         style="color: var(--star-horse-style)"
-                      /><i>{{ element.itemName }}</i></span
-                    >
+                      /><i>{{ element.itemName }}</i>
                   </li>
                 </template>
               </draggable>
@@ -196,17 +192,15 @@ const addElement = (element: any, type: string) => {
               >
                 <template #item="{ element }">
                   <li
-                    class="field-item"
+                    class="field-item h-[80px]!"
                     @dblclick="addElement(element, 'item')"
                     :title="element.itemName"
                   >
-                    &nbsp;&nbsp;
-                    <span
-                      ><star-horse-icon
+                    <star-horse-icon
                         :icon-class="element.itemIcon"
+                           size="32px"
                         style="color: var(--star-horse-style)"
-                      /><i>{{ element.itemName }}</i></span
-                    >
+                      /><i>{{ element.itemName }}</i>
                   </li>
                 </template>
               </draggable>
@@ -316,6 +310,139 @@ i {
   height: 250px !important;
   box-shadow: none !important;
   margin-bottom: 10px !important;
+}
+
+// Enhanced styling for the collapse component with grid layout
+:deep(.starhorse-collapse) {
+  border: none;
+  background: transparent;
+
+  .el-collapse-item {
+    margin-bottom: 16px;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+    border: 1px solid #e4e7ed;
+    transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+
+    &:hover {
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
+      transform: translateY(-3px);
+    }
+
+    .el-collapse-item__header {
+      background: linear-gradient(120deg, #f0f2f5, #ffffff);
+      border-bottom: 1px solid #e4e7ed;
+      height: 56px;
+      padding: 0 20px;
+      font-weight: 600;
+      color: #303133;
+      font-size: 16px;
+
+      .collapse-item-title {
+        letter-spacing: 0.5px;
+
+        .star-horse-icon {
+          transition: transform 0.4s ease;
+          font-size: 20px;
+        }
+      }
+
+      &.is-active {
+        .star-horse-icon {
+          transform: rotate(180deg);
+        }
+      }
+    }
+
+    .el-collapse-item__wrap {
+      background: #ffffff;
+      border-radius: 0 0 12px 12px;
+
+      .el-collapse-item__content {
+        padding: 20px;
+      }
+    }
+  }
+}
+
+// Grid layout for field items - exactly two per row as per standards
+.field-area {
+  .el-scrollbar__view {
+    padding: 8px;
+  }
+}
+
+// Optimized styling for individual field items (li elements) with image on top and text below
+:deep(.el-collapse-item__content) {
+  ul {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); // Exactly two items per row as specified
+    gap: 5px; // Proper spacing between items
+    padding: 0;
+    margin: 0;
+
+    li {
+      // Large square cells as requested (大方格)
+      height: 80px; // As per Component Display and Usability Optimization Standards
+      padding: 14px;
+      border-radius: 8px;
+      background: linear-gradient(145deg, #ffffff, #f8f9fa);
+      border: 2px solid #e4e7ed;
+      cursor: pointer;
+      transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start; // Align content to top
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+      position: relative;
+      overflow: hidden;
+
+      // Add a subtle inner glow effect
+      &::after {
+        content: '';
+        position: absolute;
+        top: 4px;
+        left: 4px;
+        right: 4px;
+        bottom: 4px;
+        border: 1px solid rgba(64, 158, 255, 0.1);
+        border-radius: 14px;
+        pointer-events: none;
+      }
+
+      &:hover {
+        background: linear-gradient(145deg, #ffffff, #eef5ff);
+        border-color: #a0cfff;
+        transform: translateY(-6px) scale(1.02);
+        box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
+
+        .star-horse-icon {
+          transform: scale(1.25) rotate(10deg);
+          color: #409eff;
+          text-shadow: 0 2px 4px rgba(64, 158, 255, 0.3);
+        }
+
+        i {
+          color: #303133;
+          transform: translateY(-3px);
+          font-weight: 400;
+        }
+      }
+
+
+
+      i {
+        color: #606266;
+        font-weight: 500;
+        transition: all 0.3s ease;
+        text-align: center;
+        line-height: 1.4;
+        margin-top: auto; // Push text to bottom
+      }
+    }
+  }
 }
 
 :deep(.el-collapse-item) {

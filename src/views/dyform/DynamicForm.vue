@@ -1,20 +1,10 @@
 <script lang="ts" setup name="DynamicForm">
-import {
-  computed,
-  nextTick,
-  onActivated,
-  onBeforeUnmount,
-  onDeactivated,
-  onMounted,
-  ref,
-  watch,
-} from "vue";
+import {computed, nextTick, onActivated, onBeforeUnmount, onDeactivated, onMounted, ref, watch,} from "vue";
 
 import {
   apiInstance,
   closeLoad,
   error,
-  itemCheck,
   load,
   loadData,
   operationConfirm,
@@ -25,21 +15,15 @@ import {
   useDesignFormStore,
   useGlobalConfigStore,
   useSelfOperationStore,
-  uuid,
   warning,
 } from "star-horse-lowcode";
-import { ElMessage } from "element-plus";
-import { useRoute, useRouter } from "vue-router";
-import { validDynamicFormCompParams } from "@/views/dyform/utils/preview";
-import { delCacheData, getCacheData, setCacheData } from "@/api/cached_utils";
-import { i18n } from "@/lang";
-import { Config } from "@/api/settings";
-import { ModuleEnums } from "@/components/enums/ModuleEnums";
-import { compFieldInit } from "@/views/dyform/utils/FieldOperationUtils";
-import {
-  dynamicFormHelpMessage,
-  formActions,
-} from "@/views/dyform/utils/DynamicForm.ts";
+import {ElMessage} from "element-plus";
+import {useRoute, useRouter} from "vue-router";
+import {validDynamicFormCompParams} from "@/views/dyform/utils/preview";
+import {delCacheData, getCacheData, setCacheData} from "@/api/cached_utils";
+import {i18n} from "@/lang";
+import {Config} from "@/api/settings";
+import {compFieldInit} from "@/views/dyform/utils/FieldOperationUtils";
 
 // Import new components
 import CodeDialog from "@/views/dyform/dialogs/CodeDialog.vue";
@@ -51,8 +35,8 @@ import FormToolbar from "@/views/dyform/components/FormToolbar.vue";
 import FormDesigner from "@/views/dyform/components/FormDesigner.vue";
 
 // Import composables
-import { useKeyboardEvents } from "@/views/dyform/composables/useKeyboardEvents";
-import { useDialogManager } from "@/views/dyform/composables/useDialogManager";
+import {useKeyboardEvents} from "@/views/dyform/composables/useKeyboardEvents";
+import {useDialogManager} from "@/views/dyform/composables/useDialogManager";
 
 const dataUrl = apiInstance("userdb-manage", "userdb/dynamicForm");
 let designForm = useDesignFormStore(piniaInstance);
@@ -63,7 +47,7 @@ let userOperation = useSelfOperationStore(piniaInstance);
 let configStore = useGlobalConfigStore(piniaInstance);
 let permissions = ref<any>({});
 let compSize = computed(
-  () => configStore.configFormInfo?.buttonSize || Config.compSize,
+    () => configStore.configFormInfo?.buttonSize || Config.compSize,
 );
 let draggingItem = computed(() => designForm.draggingItem);
 let list = computed(() => designForm.compList);
@@ -80,7 +64,7 @@ const dynamicFormRef = ref();
 const previewDynamicFormRef = ref();
 let reOrUnDoFlag = ref<boolean>(false);
 let initFinish = ref<boolean>(false);
-let currentPageStyle = ref<any>({ label: "电脑", key: "pc" });
+let currentPageStyle = ref<any>({label: "电脑", key: "pc"});
 let currentPageClass = ref<string>("main-design");
 let cacheData = computed(() => {
   return getCacheData(cacheName);
@@ -88,8 +72,9 @@ let cacheData = computed(() => {
 let cacheName = "dynamicFormCache";
 
 // Use composables (will be initialized after actions function)
-let shortKeySwitch: Function = () => {};
-const { dialogStates, openDialog, closeAllDialogs } = useDialogManager();
+let shortKeySwitch: Function = () => {
+};
+const {dialogStates, openDialog, closeAllDialogs} = useDialogManager();
 
 // Define actions function before using it in composables
 const actions = (action: string) => {
@@ -154,9 +139,9 @@ const init = async () => {
     if (list.value.length > 0) {
       let activeItem = list.value[0];
       designForm.selectItem(
-        activeItem,
-        activeItem.itemType,
-        activeItem.compType,
+          activeItem,
+          activeItem.itemType,
+          activeItem.compType,
       );
     }
   });
@@ -165,9 +150,9 @@ const init = async () => {
 
 const propertyRef = ref();
 const loadFormData = async (
-  formId: any,
-  isParent: boolean,
-  isTemplate?: boolean,
+    formId: any,
+    isParent: boolean,
+    isTemplate?: boolean,
 ) => {
   await nextTick();
   designForm.clearAll(false);
@@ -241,12 +226,12 @@ const closeAction = () => {
 const clearData = (flag: boolean = true) => {
   if (list.value?.length > 0) {
     operationConfirm("新建将清空舞台上的所有元素，是否确定要清空？").then(
-      (res: boolean) => {
-        if (res) {
-          designForm.clearAll(flag);
-          delCacheData(cacheName);
-        }
-      },
+        (res: boolean) => {
+          if (res) {
+            designForm.clearAll(flag);
+            delCacheData(cacheName);
+          }
+        },
     );
   } else {
     designForm.clearAll(flag);
@@ -280,9 +265,9 @@ const createFormInfo = () => {
   let dynameForm = JSON.parse(JSON.stringify(formInfo.value));
   //解决多次转换
   dynameForm!["relations"] =
-    dynameForm["relations"] && dynameForm["relations"] instanceof Array
-      ? JSON.stringify(dynameForm["relations"])
-      : dynameForm["relations"];
+      dynameForm["relations"] && dynameForm["relations"] instanceof Array
+          ? JSON.stringify(dynameForm["relations"])
+          : dynameForm["relations"];
   dynameForm!["details"] = {};
   dynameForm!["details"]["content"] = JSON.stringify(list.value);
   dynameForm!["details"]["fieldNames"] = "{}"; //JSON.stringify(formData.value);
@@ -314,9 +299,9 @@ const doSave = async (isDraft: boolean = false) => {
     }
   }
   await formPropertyRef.value.$refs.dynamicFormItemRef.$refs.starHorseFormRef.validate(
-    (evt: boolean) => {
-      flag = evt;
-    },
+      (evt: boolean) => {
+        flag = evt;
+      },
   );
   if (!flag) {
     warning("请先填写表单信息");
@@ -331,46 +316,46 @@ const doSave = async (isDraft: boolean = false) => {
   }
   load("数据提交中，请等待");
   postRequest(
-    `${dataUrl.basePrefix}/${isDraft ? "mergeDraft" : "merge"}`,
-    createFormInfo(),
+      `${dataUrl.basePrefix}/${isDraft ? "mergeDraft" : "merge"}`,
+      createFormInfo(),
   )
-    .then((res: any) => {
-      if (res.data.code != 0) {
-        activeTab.value = "second";
-        warning(res.data.cnMessage);
-        // Show error in a more prominent way
+      .then((res: any) => {
+        if (res.data.code != 0) {
+          activeTab.value = "second";
+          warning(res.data.cnMessage);
+          // Show error in a more prominent way
+          ElMessage({
+            message: res.data.cnMessage,
+            type: "error",
+            duration: 5000,
+            showClose: true,
+          });
+          return;
+        }
+        closeAction();
+        delCacheData(cacheName);
+        //添加成功清空缓存
+        designForm.clearAll(false);
+        success(res.data.cnMessage);
         ElMessage({
           message: res.data.cnMessage,
+          type: "success",
+          duration: 3000,
+        });
+      })
+      .catch((err: any) => {
+        closeAction();
+        error("操作异常:" + err);
+        ElMessage({
+          message: "操作异常，请稍后重试",
           type: "error",
           duration: 5000,
           showClose: true,
         });
-        return;
-      }
-      closeAction();
-      delCacheData(cacheName);
-      //添加成功清空缓存
-      designForm.clearAll(false);
-      success(res.data.cnMessage);
-      ElMessage({
-        message: res.data.cnMessage,
-        type: "success",
-        duration: 3000,
+      })
+      .finally(() => {
+        closeLoad();
       });
-    })
-    .catch((err: any) => {
-      closeAction();
-      error("操作异常:" + err);
-      ElMessage({
-        message: "操作异常，请稍后重试",
-        type: "error",
-        duration: 5000,
-        showClose: true,
-      });
-    })
-    .finally(() => {
-      closeLoad();
-    });
 };
 
 const goBack = () => {
@@ -390,9 +375,9 @@ const onDragAdd = async (_evt: Event, dataList: Array<any>) => {
     designForm.selectItem(temp, temp["itemType"], "");
   } else {
     designForm.selectItem(
-      draggingItem.value,
-      draggingItem.value["itemType"],
-      "",
+        draggingItem.value,
+        draggingItem.value["itemType"],
+        "",
     );
   }
 };
@@ -525,31 +510,31 @@ onBeforeUnmount(() => {
 });
 
 watch(
-  () => route.query,
-  (val) => {
-    if (val) {
-      analysisQueryParams();
-    }
-  },
-  { immediate: true, deep: true },
+    () => route.query,
+    (val) => {
+      if (val) {
+        analysisQueryParams();
+      }
+    },
+    {immediate: true, deep: true},
 );
 
 const listWatcher = watch(
-  () => list.value,
-  (val: any) => {
-    designForm.removePromise();
-    designForm.setRefresh();
-    designForm.addHistoryRecord(reOrUnDoFlag.value);
-    reOrUnDoFlag.value = false;
-    userOperation.setFormInstance(dynamicFormRef);
-    userOperation.setFormData(formData);
-    userOperation.addFormItemList(val);
-    setCacheData(cacheName, val);
-  },
-  {
-    immediate: false,
-    deep: true,
-  },
+    () => list.value,
+    (val: any) => {
+      designForm.removePromise();
+      designForm.setRefresh();
+      designForm.addHistoryRecord(reOrUnDoFlag.value);
+      reOrUnDoFlag.value = false;
+      userOperation.setFormInstance(dynamicFormRef);
+      userOperation.setFormData(formData);
+      userOperation.addFormItemList(val);
+      setCacheData(cacheName, val);
+    },
+    {
+      immediate: false,
+      deep: true,
+    },
 );
 
 onMounted(async () => {
@@ -602,92 +587,91 @@ const toggleDarkMode = () => {
   <div class="flex flex-col h-full overflow-hidden">
     <!-- Dialogs -->
     <CodeDialog
-      :visible="dialogStates.codeDialogVisible"
-      :compSize="compSize"
-      @close="closeAction"
-      @save="codeDoSave"
+        :visible="dialogStates.codeDialogVisible"
+        :compSize="compSize"
+        @close="closeAction"
+        @save="codeDoSave"
     />
 
     <ConfigDialog
-      ref="configDialogRef"
-      :visible="dialogStates.configDialogVisible"
-      :compSize="compSize"
-      @close="closeAction"
-      @save="() => doSave(false)"
-      @saveDraft="() => doSave(true)"
+        ref="configDialogRef"
+        :visible="dialogStates.configDialogVisible"
+        :compSize="compSize"
+        @close="closeAction"
+        @save="() => doSave(false)"
+        @saveDraft="() => doSave(true)"
     />
 
     <BatchEditDialog
-      :visible="dialogStates.batchEditFieldVisible"
-      :compSize="compSize"
-      @close="closeAction"
-      @save="closeAction"
+        :visible="dialogStates.batchEditFieldVisible"
+        :compSize="compSize"
+        @close="closeAction"
+        @save="closeAction"
     />
 
     <PreviewDialog
-      :visible="isPreview"
-      :compSize="compSize"
-      :list="list"
-      :currentPageClass="currentPageClass"
-      @close="closeAction"
-      ref="previewDialogRef"
+        :visible="isPreview"
+        :compSize="compSize"
+        :list="list"
+        :currentPageClass="currentPageClass"
+        @close="closeAction"
+        ref="previewDialogRef"
     />
 
-    <FieldLayerDrawer v-model:visible="dialogStates.formFieldLayer" />
+    <FieldLayerDrawer v-model:visible="dialogStates.formFieldLayer"/>
 
     <el-card class="inner_content my-0 mx-[5px]">
       <el-splitter>
-        <el-splitter-panel collapsible size="280" min="200" max="350">
+        <el-splitter-panel collapsible  size="350" min="200" max="450">
           <field-panel
-            ref="fieldPanelRef"
-            @loadData="loadTemplateData"
-            :batchCreatePage="true"
+              ref="fieldPanelRef"
+              @loadData="loadTemplateData"
+              :batchCreatePage="true"
           />
         </el-splitter-panel>
         <el-splitter-panel>
           <div class="main-design-outer">
             <FormToolbar
-              :list="list"
-              :permissions="permissions"
-              :currentPageStyle="currentPageStyle"
-              :cacheData="cacheData"
-              @action="actions"
-              @styleChange="actionsStyle"
-              @cacheRestore="cacheDataRestore"
-              @contextMenu="contextMenu"
+                :list="list"
+                :permissions="permissions"
+                :currentPageStyle="currentPageStyle"
+                :cacheData="cacheData"
+                @action="actions"
+                @styleChange="actionsStyle"
+                @cacheRestore="cacheDataRestore"
+                @contextMenu="contextMenu"
             />
 
             <FormDesigner
-              :list="list"
-              :form-data="formData"
-              :form-info="formInfo"
-              :is-dragging="isDragging"
-              :current-page-class="currentPageClass"
-              @drag-add="onDragAdd"
-              @context-menu="contextMenu"
-              @update:form-data="updateFormData"
-              @select-component="onComponentSelect"
-              ref="dynamicFormRef"
+                :list="list"
+                :form-data="formData"
+                :form-info="formInfo"
+                :is-dragging="isDragging"
+                :current-page-class="currentPageClass"
+                @drag-add="onDragAdd"
+                @context-menu="contextMenu"
+                @select-component="onComponentSelect"
+                ref="dynamicFormRef"
             />
 
             <FormMenuShot
-              ref="formListRef"
-              @change="changeDataHandle"
-              :dataUrl="dataUrl"
-              primaryKey="idDynamicForm"
+                ref="formListRef"
+                @change="changeDataHandle"
+                :dataUrl="dataUrl"
+                primaryKey="idDynamicForm"
             />
             <div class="main-copyright">{{ i18n("starhorse.copyright") }}</div>
           </div>
         </el-splitter-panel>
         <el-splitter-panel
-          collapsible
-          :size="list.length > 0 ? 280 : 0"
-          min="260"
-          max="500"
-          class="!overflow-hidden"
+            collapsible
+            :size="list.length > 0 ? 280 : 0"
+            min="260"
+            max="500"
+            class="!overflow-hidden"
         >
           <el-scrollbar>
-            <item-properties-panel ref="propertyRef" />
+            <item-properties-panel ref="propertyRef"/>
           </el-scrollbar>
         </el-splitter-panel>
       </el-splitter>
