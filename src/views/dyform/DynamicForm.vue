@@ -641,7 +641,6 @@ const toggleDarkMode = () => {
                 @cacheRestore="cacheDataRestore"
                 @contextMenu="contextMenu"
             />
-
             <FormDesigner
                 :list="list"
                 :form-data="formData"
@@ -665,13 +664,13 @@ const toggleDarkMode = () => {
         </el-splitter-panel>
         <el-splitter-panel
             collapsible
-            :size="list.length > 0 ? 280 : 0"
+            :size="list.length > 0 ? 350 : 0"
             min="260"
             max="500"
             class="!overflow-hidden"
         >
           <el-scrollbar>
-            <item-properties-panel ref="propertyRef"/>
+            <property-panel ref="propertyRef"/>
           </el-scrollbar>
         </el-splitter-panel>
       </el-splitter>

@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { ref } from "vue";
-import { i18n } from "@/lang";
+import {ModelRef, ref} from "vue";
+import {i18n} from "@/lang";
 
 const props = defineProps<{
   visible: boolean;
@@ -14,7 +14,7 @@ const emit = defineEmits<{
 }>();
 
 const dataSourceFormRef = ref<any>(null);
-
+const dataForm: ModelRef<any> = defineModel("dataForm");
 const submitValid = async () => {
   const result = await dataSourceFormRef.value.submitValid();
   if (result) {
@@ -23,11 +23,11 @@ const submitValid = async () => {
 };
 
 const resetDataSourceForm = () => {
-  props.formProps["dataSource"] = "data";
-  props.formProps["httpMethod"] = null;
-  props.formProps["urlOrDictName"] = null;
-  props.formProps["queryParams"] = [];
-  props.formProps["values"] = [];
+  dataForm.value["dataSource"] = "data";
+  dataForm.value["httpMethod"] = null;
+  dataForm.value["urlOrDictName"] = null;
+  dataForm.value["queryParams"] = [];
+  dataForm.value["values"] = [];
 };
 
 defineExpose({
@@ -41,14 +41,14 @@ defineExpose({
 
 <template>
   <star-horse-dialog
-    :dialogVisible="visible"
-    :title="i18n('dyform.data.source.dialog.title')"
-    :isBatch="false"
-    @merge="submitValid"
-    @closeAction="emit('close')"
-    @resetForm="resetDataSourceForm"
-    :selfFunc="true"
+      :dialogVisible="visible"
+      :title="i18n('dyform.data.source.dialog.title')"
+      :isBatch="false"
+      @merge="submitValid"
+      @closeAction="emit('close')"
+      @resetForm="resetDataSourceForm"
+      :selfFunc="true"
   >
-    <data-source-comp ref="dataSourceFormRef" :formProps="formProps" />
+    <data-source-comp ref="dataSourceFormRef" :formProps="formProps"/>
   </star-horse-dialog>
 </template>

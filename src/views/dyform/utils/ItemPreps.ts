@@ -1436,7 +1436,7 @@ export function compCommonFields(
   customerValid: Function,
   isNumber: boolean,
 ): FieldInfo[] {
-  return reactive<FieldInfo[]>([
+  return [
     {
       label: "标签名称",
       fieldName: "label",
@@ -1606,5 +1606,5 @@ export function compCommonFields(
       type: "textarea",
       formVisible: true,
     },
-  ]);
+  ];
 }
