@@ -402,6 +402,7 @@ const cacheDataRestore = (evt: MouseEvent) => {
     }
   }
   setCacheData(cacheName, null);
+  cacheData.value = "";
 };
 
 const viewFieldLayer = () => {

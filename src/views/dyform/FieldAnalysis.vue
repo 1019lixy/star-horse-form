@@ -65,16 +65,14 @@ onMounted(() => {
     </template>
   </template>
   <template v-else-if="field?.preps">
-    <el-row
-      :style="{
-        background: index % 2 == 0 ? '#f1f1f1' : '',
-        'margin-top': '5px',
-      }"
+    <tr
+      class="field-row"
+      :class="{ 'field-row-even': index % 2 == 0 }"
     >
-      <el-col :span="3">
-        <el-tag>{{ container }}</el-tag>
-      </el-col>
-      <el-col :span="3">
+      <td class="field-cell">
+        <el-tag size="small">{{ container }}</el-tag>
+      </td>
+      <td class="field-cell">
         <el-input
           v-model="field.preps['label']"
           @blur="fieldPlaceholder(field.preps, field)"
@@ -82,8 +80,8 @@ onMounted(() => {
           placeholder="标签名称"
           clearable
         />
-      </el-col>
-      <el-col :span="3">
+      </td>
+      <td class="field-cell">
         <el-input
           v-model="field.preps['name']"
           @blur="fieldPlaceholder(field.preps, field)"
@@ -91,9 +89,9 @@ onMounted(() => {
           placeholder="属性名称"
           clearable
         />
-      </el-col>
-      <el-col :span="3">
-        <el-row :align="'middle'">
+      </td>
+      <td class="field-cell">
+        <el-row :gutter="10" :align="'middle'">
           <el-col :span="12">
             <el-input-number
               v-model="field.preps['maxLength']"
@@ -117,50 +115,94 @@ onMounted(() => {
             />
           </el-col>
         </el-row>
-      </el-col>
-      <el-col :span="3">
+      </td>
+      <td class="field-cell">
         <el-switch
           v-model="field.preps['required']"
           :size="size"
           :active-value="true"
           :inactive-value="false"
         />
-      </el-col>
-      <el-col :span="2">
+      </td>
+      <td class="field-cell">
         <el-switch
           v-model="field.preps['formVisible']"
           :size="size"
           :active-value="true"
           :inactive-value="false"
         />
-      </el-col>
-      <el-col :span="2">
+      </td>
+      <td class="field-cell">
         <el-switch
           v-model="field.preps['searchVisible']"
           :size="size"
           :active-value="true"
           :inactive-value="false"
         />
-      </el-col>
-      <el-col :span="2">
+      </td>
+      <td class="field-cell">
         <el-switch
           v-model="field.preps['listVisible']"
           :size="size"
           :active-value="true"
           :inactive-value="false"
         />
-      </el-col>
-      <el-col :span="3">
+      </td>
+      <td class="field-cell">
         <el-input
           v-model="field.preps['defaultValue']"
           :size="size"
           placeholder="默认值"
         />
-      </el-col>
-    </el-row>
+      </td>
+    </tr>
   </template>
 </template>
 <style scoped lang="scss">
+.field-row {
+  background-color: #ffffff;
+  
+  &:hover {
+    background-color: #f5f7fa;
+  }
+  
+  &.field-row-even {
+    background-color: #fafafa;
+    
+    &:hover {
+      background-color: #f5f7fa;
+    }
+  }
+  
+  .field-cell {
+    padding: 10px 8px;
+    border: 1px solid #ebeef5;
+    vertical-align: middle;
+    
+    :deep(.el-input) {
+      width: 100% !important;
+    }
+    
+    :deep(.el-input-number) {
+      width: 100% !important;
+    }
+    
+    :deep(.el-input-number .el-input__inner) {
+      text-align: center;
+    }
+    
+    :deep(.el-switch) {
+      display: flex;
+      justify-content: center;
+    }
+  }
+}
+
+.batch-edit-table {
+  table-layout: fixed;
+  width: 100%;
+}
+
 .el-input-number,
 .el-input-number-small {
   width: unset;

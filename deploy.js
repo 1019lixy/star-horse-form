@@ -1,14 +1,12 @@
 import scp from "scp2";
 import ora from "ora";
 import chalk from "chalk";
-import { i18n } from "@/lang";
-
 const defaultPort = "22";
 const defaultUsername = "root";
 const defaultPassword = "doov-2024";
 const defaultPath = "/opt/lowcode/html";
 const servers = [{ host: "192.168.20.204", isEnd: false }];
-const spinner = ora(chalk.blue(i18n("deploy.deploying")));
+const spinner = ora(chalk.blue("正在部署到服务器..."));
 const debug = false;
 spinner.start();
 for (let i = 0; i < servers.length; i++) {
@@ -29,9 +27,9 @@ for (let i = 0; i < servers.length; i++) {
   scp.scp("./dist/", dest, (err) => {
     servers[i].isEnd = true;
     if (!err) {
-      console.log(chalk.green(i18n("deploy.success", { host })));
+      console.log(chalk.green(`${host}部署完成!`));
     } else {
-      console.log(chalk.red(i18n("deploy.failure", { host, err })));
+      console.log(chalk.red(`${host}部署失败:${err}`));
     }
     let hasNotEnd = servers.find((item) => !item.isEnd);
     if (!hasNotEnd) {

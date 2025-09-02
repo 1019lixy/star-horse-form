@@ -1,6 +1,7 @@
 <script setup lang="ts">
-import { ref } from "vue";
-import { i18n } from "@/lang";
+import {ref} from "vue";
+import {i18n} from "@/lang";
+import {StarHorseDialog} from "star-horse-lowcode";
 
 const emit = defineEmits<{
   (e: "close"): void;
@@ -21,24 +22,15 @@ const prepsModel = ref("one");
 
 <template>
   <star-horse-dialog
-    :dialogVisible="visible"
-    @closeAction="closeAction"
-    :selfFunc="true"
-    :compSize="compSize"
-    @merge="() => emit('save')"
-    :title="i18n('dyform.batch.edit.title')"
+      :dialogVisible="visible"
+      @closeAction="closeAction"
+      :selfFunc="true"
+      :compSize="compSize"
+      @merge="() => emit('save')"
+      :title="i18n('dyform.batch.edit.title')"
+      boxHeight="90%"
+      boxWidth="70%"
   >
-    <el-tabs v-model="prepsModel">
-      <el-tab-pane
-        name="one"
-        :label="i18n('dyform.batch.edit.tab.business')"
-        class="flex overflow-hidden flex-col"
-      >
-        <batch-edit-fields :compSize="compSize" />
-      </el-tab-pane>
-      <el-tab-pane name="two" :label="i18n('dyform.batch.edit.tab.common')">
-        {{ i18n("dyform.batch.edit.commonFieldsMessage") }}
-      </el-tab-pane>
-    </el-tabs>
+    <batch-edit-fields :compSize="compSize"/>
   </star-horse-dialog>
 </template>

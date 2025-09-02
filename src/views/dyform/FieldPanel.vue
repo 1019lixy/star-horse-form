@@ -212,13 +212,12 @@ const addElement = (element: any, type: string) => {
     </el-tab-pane>
     <el-tab-pane name="dbinfo">
       <template #label>
+        <div class="flex flex-row items-center h-[110px]">
         <star-horse-icon
           icon-class="database"
           style="color: var(--star-horse-style)"
-          size="20px"
-          height="20px"
-          width="20px"
         />&nbsp;<span>{{ i18n("dyform.tab.dbinfo") }}</span>
+        </div>
       </template>
       <db-list-comp :batchCreatePage="batchCreatePage" />
     </el-tab-pane>
