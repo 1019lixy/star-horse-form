@@ -1399,7 +1399,10 @@ const selectType = [
  */
 export function fieldPlaceholder(item: any, compInfo?: any) {
   let preps: any = compInfo ?? unref(designForm.currentComp);
-  let itemType: string = preps.itemType;
+  if(!preps) {
+    return "";
+  }
+  let itemType: string = preps?.itemType;
   preps["fieldName"] = item.name;
   if (item["noPlaceholder"]) {
     delete item["placeholder"];

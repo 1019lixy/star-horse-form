@@ -52,7 +52,7 @@ onMounted(async () => {
         :inline-message="false"
         :status-icon="true"
         label-width="auto"
-        label-position="left"
+        label-position="right"
         require-asterisk-position="right"
     >
       <el-tabs v-model="prepActiveName" type="border-card" @tabChange="changeOperation">

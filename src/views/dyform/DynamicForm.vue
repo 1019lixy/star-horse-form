@@ -17,7 +17,6 @@ import {
   useSelfOperationStore,
   warning,
 } from "star-horse-lowcode";
-import {ElMessage} from "element-plus";
 import {useRoute, useRouter} from "vue-router";
 import {validDynamicFormCompParams} from "@/views/dyform/utils/preview";
 import {delCacheData, getCacheData, setCacheData} from "@/api/cached_utils";
@@ -53,7 +52,6 @@ let draggingItem = computed(() => designForm.draggingItem);
 let list = computed(() => designForm.compList);
 let isPreview = computed(() => designForm.previewVisible);
 let isEdit = computed(() => designForm.isEdit);
-let batchEditFieldVisible = computed(() => designForm.batchEditFieldVisible);
 let activeTab = ref<any>("first");
 let errMessage = ref<string>("");
 let formData = computed(() => designForm.formData);
@@ -66,12 +64,9 @@ let reOrUnDoFlag = ref<boolean>(false);
 let initFinish = ref<boolean>(false);
 let currentPageStyle = ref<any>({label: "电脑", key: "pc"});
 let currentPageClass = ref<string>("main-design");
-let cacheData = computed(() => {
-  return getCacheData(cacheName);
-});
 let cacheName = "dynamicFormCache";
+let cacheData = ref<any>([]);
 
-// Use composables (will be initialized after actions function)
 let shortKeySwitch: Function = () => {
 };
 const {dialogStates, openDialog, closeAllDialogs} = useDialogManager();
@@ -131,6 +126,7 @@ shortKeySwitch = keyboardEvents.shortKeySwitch;
 const init = async () => {
   //初始化数据
   designForm.clearAll(true);
+  cacheDataRestore(null);
   //加载组件属性
   compFieldInit().then(() => {
     initFinish.value = true;
@@ -146,6 +142,7 @@ const init = async () => {
     }
   });
   permissions.value = await pagePermission.addRoute(route);
+
 };
 
 const propertyRef = ref();
@@ -288,13 +285,6 @@ const doSave = async (isDraft: boolean = false) => {
     errMessage.value = validDynamicFormCompParams(list.value, true);
     if (errMessage.value) {
       warning(errMessage.value);
-      // Show error in a more prominent way
-      ElMessage({
-        message: "表单验证失败，请检查组件配置",
-        type: "error",
-        duration: 5000,
-        showClose: true,
-      });
       return;
     }
   }
@@ -305,13 +295,6 @@ const doSave = async (isDraft: boolean = false) => {
   );
   if (!flag) {
     warning("请先填写表单信息");
-    // Show error in a more prominent way
-    ElMessage({
-      message: "请完善表单基本信息",
-      type: "error",
-      duration: 5000,
-      showClose: true,
-    });
     return;
   }
   load("数据提交中，请等待");
@@ -323,13 +306,6 @@ const doSave = async (isDraft: boolean = false) => {
         if (res.data.code != 0) {
           activeTab.value = "second";
           warning(res.data.cnMessage);
-          // Show error in a more prominent way
-          ElMessage({
-            message: res.data.cnMessage,
-            type: "error",
-            duration: 5000,
-            showClose: true,
-          });
           return;
         }
         closeAction();
@@ -337,21 +313,10 @@ const doSave = async (isDraft: boolean = false) => {
         //添加成功清空缓存
         designForm.clearAll(false);
         success(res.data.cnMessage);
-        ElMessage({
-          message: res.data.cnMessage,
-          type: "success",
-          duration: 3000,
-        });
       })
       .catch((err: any) => {
         closeAction();
         error("操作异常:" + err);
-        ElMessage({
-          message: "操作异常，请稍后重试",
-          type: "error",
-          duration: 5000,
-          showClose: true,
-        });
       })
       .finally(() => {
         closeLoad();
@@ -426,16 +391,17 @@ const actionsStyle = (item: any) => {
 };
 
 const cacheDataRestore = (evt: MouseEvent) => {
-  evt.stopPropagation();
+  evt?.stopPropagation();
   designForm.clearAll(true);
+  cacheData.value = getCacheData(cacheName);
   if (cacheData.value) {
     try {
       designForm.setFormInfo(JSON.parse(cacheData.value));
     } catch (e) {
       designForm.setCompList(cacheData.value);
     }
-    setCacheData(cacheName, null);
   }
+  setCacheData(cacheName, null);
 };
 
 const viewFieldLayer = () => {
@@ -480,7 +446,6 @@ const contextMenu = async (evt: MouseEvent) => {
  * @param data 选中的数据
  */
 const changeDataHandle = (type: string, data: any) => {
-  console.log(type, data);
   let formId = data["idDynamicForm"];
   if (type == "subAdd") {
     loadFormData(formId, true);
@@ -542,7 +507,6 @@ onMounted(async () => {
   shortKeySwitch(true);
 });
 
-let prepsModel = ref("one");
 
 // Refs for child components
 const configDialogRef = ref();
@@ -570,17 +534,6 @@ defineExpose({
   exportPreviewToHtml, // Expose export method
 });
 
-// Add dark mode support
-const isDarkMode = ref(false);
-
-const toggleDarkMode = () => {
-  isDarkMode.value = !isDarkMode.value;
-  if (isDarkMode.value) {
-    document.documentElement.classList.add("dark");
-  } else {
-    document.documentElement.classList.remove("dark");
-  }
-};
 </script>
 
 <template>
@@ -622,7 +575,7 @@ const toggleDarkMode = () => {
 
     <el-card class="inner_content my-0 mx-[5px]">
       <el-splitter>
-        <el-splitter-panel collapsible  size="350" min="200" max="450">
+        <el-splitter-panel collapsible size="350" min="200" max="450">
           <field-panel
               ref="fieldPanelRef"
               @loadData="loadTemplateData"
@@ -664,10 +617,11 @@ const toggleDarkMode = () => {
         </el-splitter-panel>
         <el-splitter-panel
             collapsible
-            :size="list.length > 0 ? 350 : 0"
+            :size="350"
             min="260"
             max="500"
-            class="!overflow-hidden"
+            class="overflow-hidden!"
+            v-if="list.length > 0"
         >
           <el-scrollbar>
             <property-panel ref="propertyRef"/>

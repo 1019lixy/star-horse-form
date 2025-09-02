@@ -115,33 +115,15 @@ export function compFieldInit() {
       });
     });
   };
-  const initContainer = () => {
+
+  // 合并为一次请求，查询所有分类的数据
+  const queryAllData = () => {
     const params: SearchParams[] = [
-      {
+     /* {
         propertyName: "category",
-        value: 2,
-      },
-      {
-        propertyName: "isDel",
-        value: 0,
-      },
-    ];
-    const query = {
-      fieldList: params,
-      orderBy: [{ fieldName: "dataSort", ascOrDesc: "asc" }],
-    };
-    return new Promise((resolve) => {
-      postRequest(url, query).then((res) => {
-        resolve(res.data?.data); // 解析响应数据
-      });
-    });
-  };
-  const initItems = () => {
-    const params: SearchParams[] = [
-      {
-        propertyName: "category",
-        value: 1,
-      },
+        operation: "in",
+        value: [1, 2, 3] // 一次性获取所有三个分类的数据
+      },*/
       {
         propertyName: "isDel",
         value: 0,
@@ -157,38 +139,21 @@ export function compFieldInit() {
       });
     });
   };
-  const initSelfItems = () => {
-    const params: SearchParams[] = [
-      {
-        propertyName: "category",
-        value: 3,
-      },
-      {
-        propertyName: "isDel",
-        value: 0,
-      },
-    ];
-    const query = {
-      fieldList: params,
-      orderBy: [{ fieldName: "dataSort", ascOrDesc: "asc" }],
-    };
-    return new Promise((resolve) => {
-      postRequest(url, query).then((res) => {
-        resolve(res.data?.data);
-      });
-    });
-  };
-  // 使用 Promise.all 实现并发
-  return Promise.all([initContainer(), initItems(), initSelfItems()]).then(
-    ([containerRes, itemsRes, selfItemsRes]) => {
-      // 所有请求完成后统一处理数据
-      assignData(containerRes);
-      assignData(itemsRes);
-      assignData(selfItemsRes);
-      designForm.setContainerList(containerRes);
-      designForm.setFormDataList(itemsRes);
-      designForm.setSelfFormDataList(selfItemsRes);
-      designForm.setAllFormDataList(allFormDataList);
-    },
-  );
+
+  // 发送一次请求，然后在前端进行数据分类
+  return queryAllData().then((allData: any) => {
+    // 按category字段对数据进行分类
+    const containerRes = allData?.filter((item: any) => item.category === 2) || [];
+    const itemsRes = allData?.filter((item: any) => item.category === 1) || [];
+    const selfItemsRes = allData?.filter((item: any) => item.category === 3) || [];
+
+    // 处理数据，保持原有逻辑
+    assignData(containerRes);
+    assignData(itemsRes);
+    assignData(selfItemsRes);
+    designForm.setContainerList(containerRes);
+    designForm.setFormDataList(itemsRes);
+    designForm.setSelfFormDataList(selfItemsRes);
+    designForm.setAllFormDataList(allFormDataList);
+  });
 }

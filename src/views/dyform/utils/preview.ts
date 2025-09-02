@@ -183,7 +183,7 @@ export function validDynamicFormCompParams(
     errorMsg += `\nTab组件中objectName 名${dupObjectNames.join(";")}重复，请在容器对应属性面板【基础属性->编辑容器属性】中检查所有Tab组件`;
   }
   if (dupBatchNames.length > 0) {
-    errorMsg += `\nTable组件中集合名称${dupBatchNames.join(";")}重复，请在容器对应属性面板【基础属性->集合名称】中检查所有Table组件`;
+    errorMsg += `\nTable组件中集合名称${dupBatchNames.join(";")}重复，请在容器对应属性面板【个性化属性->集合名称】中检查所有Table组件`;
   }
   /**
    * 主要校验 参数是否重名，必须的参数是否赋值，参数数据合法性，此举旨在保证数据提交后可以正常运行，
@@ -199,7 +199,7 @@ export function validDynamicFormCompParams(
     const itemType = temp.itemType;
     if (itemType == "dialog-input" || itemType == "page-select") {
       const temp =
-        "\n【" + name + "】组件必须在【属性面板->基础属性->参数配置】中";
+        "\n【" + name + "】组件必须在【属性面板->个性化属性->参数配置】中";
       if (!preps.dataUrl?.host) {
         msg += ",配置IP地址或服务名";
       }
