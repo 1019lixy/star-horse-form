@@ -475,6 +475,7 @@ export default {
     "每次最多执行的Sql数不能超过5条,超过数量取前5条",
   "dbsearch.executor.supports.selected.sql": "执行器支持选中某条Sql进行执行",
   "dbsearch.open.prompt": "打开提示",
+  "dbsearch.no.tables.found": "未找到相关表",
   /**
    * Code Generator
    */
@@ -967,6 +968,7 @@ export default {
   "dbSearch.fieldName": "字段名",
   "dbSearch.value": "值",
   "dbSearch.itemsPerPage": "每页{0}条",
+  "dbSearch.totalRecords": "共 {0} 条记录",
   /**
    * System Components
    */

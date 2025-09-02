@@ -494,6 +494,7 @@ export default {
   "dbsearch.executor.supports.selected.sql":
     "The executor supports executing selected SQL",
   "dbsearch.open.prompt": "Open prompt",
+  "dbsearch.no.tables.found": "No tables found",
   /**
    * Code Generator
    */
@@ -996,6 +997,7 @@ export default {
   "dbSearch.fieldName": "Field Name",
   "dbSearch.value": "Value",
   "dbSearch.itemsPerPage": "{0} items per page",
+  "dbSearch.totalRecords": "Total {0} records",
   /**
    * System Components
    */

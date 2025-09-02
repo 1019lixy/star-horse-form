@@ -128,7 +128,7 @@ export default defineConfig((mode) => {
     );
   }
   return {
-    base: "./",
+    base: "/",
     publicDir: "public", // 确保指向正确的public目录
     server: {
       port: 8880,

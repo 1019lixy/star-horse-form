@@ -2,6 +2,7 @@
 import "@/assets/css/flow.scss";
 import "star-horse-lowcode/assets/index.css";
 import "@/assets/css/devops.scss";
+import "@/assets/css/table-enhancements.scss";
 import "tailwindcss/index.css";
 // import nodeComponent from "@/views/continuous/nodeInfo/nodecomp";
 import itemsComponent from "@/components/formcomp/items/allitem";

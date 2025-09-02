@@ -195,73 +195,85 @@ const operMsg = `
     8、Ctrl+Enter ${i18n("dbsearch.execute")},Ctrl+Shift+F ${i18n("dbsearch.format")},Ctrl+Enter ${i18n("dbsearch.open.prompt")}.`;
 </script>
 <template>
-  <el-card class="inner_content">
+  <el-card class="inner_content db-search-container">
     <el-splitter>
       <el-splitter-panel collapsible size="260" min="250" max="350">
-        <div class="flex flex-col items-center h-full overflow-hidden" style="width: 98%">
+        <div class="flex flex-col items-center h-full overflow-hidden db-table-panel" style="width: 98%">
           <el-select :size="compSize" @change="openDb" clearable filterable id="dbInfo" placeholder="请选择数据库信息"
-            v-model="dbIndex">
+            v-model="dbIndex" class="db-select">
             <el-option :key="sitem.value" :label="sitem.name" :value="sitem.value" v-for="sitem in dbList" />
           </el-select>
           <div style="margin-top: 5px"></div>
           <template v-if="assignDataList.length > 0">
-            <el-input :size="compSize" placeholder="请输入关键字" v-model="filterTableName" @keydown.enter="filterData">
+            <el-input :size="compSize" placeholder="请输入关键字" v-model="filterTableName" @keydown.enter="filterData" class="table-filter-input">
               <template #suffix>
-                <star-horse-icon @click="filterData" icon-class="search" color="var(--star-horse-style)" />
+                <star-horse-icon @click="filterData" icon-class="search" color="var(--star-horse-style)" class="search-icon" />
               </template>
             </el-input>
-            <div class="flex-1 w-[99%] overflow-hidden" style="margin: 1px auto">
-              <el-scrollbar>
+            <div class="flex-1 w-[99%] overflow-hidden table-list-container" style="margin: 1px auto">
+              <el-scrollbar class="table-scrollbar">
                 <ul class="db_table_list">
-                  <template v-for="(data, index) in assignDataList">
+                  <template v-for="(data, index) in assignDataList" :key="index">
                     <el-popover :popper-style="{ width: 'unset !important' }" placement="right" trigger="click">
                       <template #reference>
                         <li @click="tableField(data.tableName)" @dragstart="(evt) => dratStart(data, evt)"
-                          draggable="true" class="flex items-center cursor-move h-[30px]">
-                          <star-horse-icon icon-class="table" size="16px" height="16px" width="16px" />
-                          <el-tooltip :content="data.comment">
-                            {{ data.tableName }}
+                          draggable="true" class="flex items-center cursor-move h-[30px] table-item">
+                          <star-horse-icon icon-class="table" size="16px" height="16px" width="16px" class="table-icon" />
+                          <el-tooltip :content="data.comment" class="table-name-tooltip">
+                            <span class="table-name">{{ data.tableName }}</span>
                           </el-tooltip>
                         </li>
                       </template>
-                      <table class="el-table field-table" style="min-width: calc(100vh - 50%); overflow: auto">
-                        <thead>
-                          <tr>
-                            <th>名称</th>
-                            <th>类型</th>
-                            <th>空标识</th>
-                            <th>主键</th>
-                            <th>备注</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          <tr v-for="sdata in data.fields">
-                            <td>{{ sdata.fieldName }}</td>
-                            <td>{{ sdata.type }}</td>
-                            <td>{{ sdata.nullFlag }}</td>
-                            <td>{{ sdata.primaryKey }}</td>
-                            <td>{{ sdata.comment }}</td>
-                          </tr>
-                        </tbody>
-                      </table>
+                      <div class="field-table-container">
+                        <div class="el-table__header-wrapper">
+                          <table class="el-table field-table">
+                            <thead>
+                              <tr>
+                                <th>{{ i18n("dbsearch.field.name") }}</th>
+                                <th>{{ i18n("dbsearch.field.type") }}</th>
+                                <th>{{ i18n("dbsearch.null.flag") }}</th>
+                                <th>{{ i18n("dbsearch.primary.key") }}</th>
+                                <th>{{ i18n("dbsearch.comment") }}</th>
+                              </tr>
+                            </thead>
+                          </table>
+                        </div>
+                        <div class="el-table__body-wrapper">
+                          <table class="el-table field-table">
+                            <tbody>
+                              <tr v-for="(sdata, index) in data.fields" :key="sdata.filedName" 
+                                  :class="index % 2 === 0 ? 'el-table__row--striped' : 'el-table__row'">
+                                <td>{{ sdata.fieldName }}</td>
+                                <td>{{ sdata.type }}</td>
+                                <td>{{ sdata.nullFlag }}</td>
+                                <td>{{ sdata.primaryKey }}</td>
+                                <td>{{ sdata.comment }}</td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
                     </el-popover>
                   </template>
                 </ul>
               </el-scrollbar>
             </div>
           </template>
+          <div v-else class="empty-tables">
+            <el-empty :description="i18n('dbsearch.no.tables.found')" />
+          </div>
         </div>
       </el-splitter-panel>
       <el-splitter-panel>
         <el-splitter layout="vertical">
           <el-splitter-panel>
-            <div class="h-full" @dragover.prevent="dragOver" @drop="dragDrop">
+            <div class="h-full sql-editor-container" @dragover.prevent="dragOver" @drop="dragDrop">
               <StarHorseEditor :lang="'sql'" ref="editorRef" :helpMsg="operMsg" :btnList="btnList"
-                v-model:value="sqlInfo" />
+                v-model:value="sqlInfo" class="sql-editor" />
             </div>
           </el-splitter-panel>
-          <el-splitter-panel collapsible size="350">
-            <QueryResult :reqData="reqData" :dbIndex="dbIndex" :compSize="compSize" />
+          <el-splitter-panel collapsible size="200">
+            <QueryResult :reqData="reqData" :dbIndex="dbIndex" :compSize="compSize" class="query-result" />
           </el-splitter-panel>
         </el-splitter>
       </el-splitter-panel>
@@ -269,8 +281,101 @@ const operMsg = `
   </el-card>
 </template>
 <style lang="scss" scoped>
+.db-search-container {
+  height: 100%;
+  :deep(.el-card__body) {
+    height: 100%;
+    padding: 10px;
+  }
+}
+
+.db-table-panel {
+  .db-select {
+    width: 100%;
+    margin-bottom: 8px;
+  }
+  
+  .table-filter-input {
+    width: 100%;
+    margin-bottom: 8px;
+    
+    :deep(.el-input__suffix) {
+      cursor: pointer;
+    }
+  }
+  
+  .table-list-container {
+    .table-scrollbar {
+      :deep(.el-scrollbar__view) {
+        padding-right: 8px;
+      }
+    }
+    
+    .db_table_list {
+      .table-item {
+        padding: 8px 12px;
+        margin-bottom: 4px;
+        border-radius: 4px;
+        transition: all 0.3s ease;
+        background: var(--el-bg-color-overlay);
+        border: 1px solid var(--el-border-color-light);
+        
+        &:hover {
+          background: var(--el-color-primary-light-9);
+          border-color: var(--el-color-primary);
+          transform: translateY(-1px);
+          box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        .table-icon {
+          margin-right: 8px;
+          color: var(--el-color-primary);
+        }
+        
+        .table-name {
+          font-size: 14px;
+          font-weight: 500;
+          color: var(--el-text-color-primary);
+        }
+      }
+    }
+  }
+  
+  .empty-tables {
+    width: 100%;
+    padding: 20px 0;
+  }
+}
+
+.sql-editor-container {
+  .sql-editor {
+    height: 100%;
+    
+    :deep(.star-horse-editor-header) {
+      padding: 8px 12px;
+      background: var(--el-bg-color-page);
+      border-bottom: 1px solid var(--el-border-color-light);
+    }
+  }
+}
+
+.query-result {
+  height: 100%;
+  
+  :deep(.el-tabs) {
+    height: 100%;
+    
+    .el-tab-pane {
+      height: calc(100% - 40px);
+      padding: 10px 0;
+    }
+  }
+}
+
 :deep(.el-popover) {
   overflow-x: hidden;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
 :deep(.el-table__cell) {
@@ -282,29 +387,137 @@ const operMsg = `
 }
 
 .field-table {
-  border: 1px solid var(--star-horse-style);
+  border: 1px solid var(--el-color-primary);
+  border-radius: 4px;
+  overflow: hidden;
+  width: 100%;
 
   tr>th,
   tr>td {
-    border: 1px solid var(--star-horse-style);
+    border: 1px solid var(--el-border-color-light);
     height: 30px;
     font-size: 13px;
     padding-left: 5px;
+    background: var(--el-bg-color-page);
 
-    :nth-child(0) {
+    &:first-child {
       min-width: 180px;
+      font-weight: 600;
     }
 
-    :nth-child(1) {
+    &:nth-child(2) {
       min-width: 120px;
     }
 
-    :nth-child(2) {
+    &:nth-child(3) {
       width: 120px;
     }
 
-    :nth-child(4) {
+    &:nth-child(5) {
       width: 250px;
+    }
+  }
+  
+  :deep(thead tr th) {
+    background: var(--el-color-primary-light-9);
+    color: var(--el-color-primary);
+    font-weight: 600;
+  }
+  
+  :deep(tbody tr:nth-child(even)) {
+    background: var(--el-fill-color-light);
+  }
+  
+  :deep(tbody tr:hover) {
+    background: var(--el-color-primary-light-9);
+  }
+}
+
+.field-table-container {
+  height: 300px;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--el-color-primary);
+  border-radius: 4px;
+  overflow: hidden;
+  
+  .el-table__header-wrapper {
+    flex-shrink: 0;
+    overflow: hidden;
+    
+    .field-table {
+      border: none;
+      
+      thead tr th {
+        background: var(--el-color-primary-light-9);
+        color: var(--el-color-primary);
+        font-weight: 600;
+        height: 30px;
+        padding: 0 5px;
+        border: 1px solid var(--el-border-color-light);
+        
+        &:first-child {
+          min-width: 180px;
+          font-weight: 600;
+        }
+
+        &:nth-child(2) {
+          min-width: 120px;
+        }
+
+        &:nth-child(3) {
+          width: 120px;
+        }
+
+        &:nth-child(5) {
+          width: 250px;
+        }
+      }
+    }
+  }
+  
+  .el-table__body-wrapper {
+    flex: 1;
+    overflow-y: auto;
+    overflow-x: hidden;
+    
+    .field-table {
+      border: none;
+      
+      tbody tr.el-table__row--striped {
+        background: var(--el-fill-color-light) !important;
+      }
+      
+      tbody tr.el-table__row:hover,
+      tbody tr.el-table__row--striped:hover {
+        background: var(--el-color-primary-light-9) !important;
+      }
+      
+      tbody tr {
+        td {
+          height: 30px;
+          padding: 0 5px;
+          border: 1px solid var(--el-border-color-light);
+          font-size: 13px;
+          
+          &:first-child {
+            min-width: 180px;
+            font-weight: 600;
+          }
+
+          &:nth-child(2) {
+            min-width: 120px;
+          }
+
+          &:nth-child(3) {
+            width: 120px;
+          }
+
+          &:nth-child(5) {
+            width: 250px;
+          }
+        }
+      }
     }
   }
 }
