@@ -2,6 +2,7 @@
 import { defineComponent, onMounted, ref } from "vue";
 
 export default defineComponent({
+  name: "line-item",
   setup(_props, context) {
     let shChartRef = ref<HTMLElement>();
     const init = async () => {
@@ -11,25 +12,20 @@ export default defineComponent({
         renderer: "svg",
       });
       let option: EChartsOption;
-      
-      // Generate sample data
-      const data = [];
-      for (let i = 0; i < 50; i++) {
-        data.push([
-          Math.random() * 100,
-          Math.random() * 100,
-          Math.random() * 100
-        ]);
-      }
-      
       option = {
-        xAxis: {},
-        yAxis: {},
-        series: [{
-          symbolSize: 20,
-          data: data,
-          type: 'scatter'
-        }]
+        xAxis: {
+          type: "category",
+          data: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
+        },
+        yAxis: {
+          type: "value",
+        },
+        series: [
+          {
+            data: [150, 230, 224, 218, 135, 147, 260],
+            type: "line",
+          },
+        ],
       };
       option && myChart.setOption(option);
     };
@@ -47,7 +43,6 @@ export default defineComponent({
 
 <template>
   <div ref="shChartRef" style="width: 100%; height: 300px;"></div>
-  散点图
 </template>
 
 <style scoped lang="scss"></style>

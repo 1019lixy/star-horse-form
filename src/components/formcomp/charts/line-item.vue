@@ -1,11 +1,11 @@
 <script lang="ts">
 import { defineComponent, onMounted, ref } from "vue";
-import * as echarts from "echarts";
 
 export default defineComponent({
   setup(_props, context) {
     let shChartRef = ref<HTMLElement>();
-    const init = () => {
+    const init = async () => {
+      const echarts = await import('echarts');
       type EChartsOption = echarts.EChartsOption;
       let myChart = echarts.init(shChartRef.value, null, {
         renderer: "svg",
@@ -44,7 +44,7 @@ export default defineComponent({
 </script>
 
 <template>
-  <div ref="shChartRef"></div>
+  <div ref="shChartRef" style="width: 100%; height: 300px;"></div>
   折线图
 </template>
 

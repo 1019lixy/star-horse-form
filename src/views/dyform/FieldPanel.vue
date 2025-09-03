@@ -221,14 +221,6 @@ const addElement = (element: any, type: string) => {
       </template>
       <db-list-comp :batchCreatePage="batchCreatePage" />
     </el-tab-pane>
-    <el-tab-pane name="charts">
-      <template #label>
-        <star-horse-icon
-          icon-class="charts"
-          style="color: var(--star-horse-style)"
-        />&nbsp;<span>{{ i18n("dyform.tab.charts") }}</span>
-      </template>
-    </el-tab-pane>
     <el-tab-pane name="template">
       <template #label>
         <star-horse-icon

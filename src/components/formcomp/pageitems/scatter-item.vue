@@ -2,6 +2,7 @@
 import { defineComponent, onMounted, ref } from "vue";
 
 export default defineComponent({
+  name: "scatter-item",
   setup(_props, context) {
     let shChartRef = ref<HTMLElement>();
     const init = async () => {
@@ -47,7 +48,6 @@ export default defineComponent({
 
 <template>
   <div ref="shChartRef" style="width: 100%; height: 300px;"></div>
-  散点图
 </template>
 
 <style scoped lang="scss"></style>

@@ -26,6 +26,7 @@ import { flexboxLayouts } from "@/utils/flexbox/layouts";
 import { gridContainerConfig } from "@/utils/grid/containerConfig";
 import { gridItemsConfig } from "@/utils/grid/itemsConfig";
 import { gridLayouts } from "@/utils/grid/layouts";
+
 import {
   error,
   PageFieldInfo,
@@ -42,6 +43,7 @@ import {
   watch,
 } from "vue";
 import StarHorseRuler from "./StarHorseRuler.vue";
+import { i18n } from "@/lang";
 
 defineOptions({
   name: "StarHorseFlexComp",
@@ -322,6 +324,7 @@ watch(
           </template>
           <PageCompPanel />
         </el-tab-pane>
+        
       </el-tabs>
     </el-splitter-panel>
     <el-splitter-panel>

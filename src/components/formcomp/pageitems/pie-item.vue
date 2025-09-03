@@ -2,6 +2,7 @@
 import { defineComponent, onMounted, ref } from "vue";
 
 export default defineComponent({
+  name: "pie-item",
   setup(_props, context) {
     let shChartRef = ref<HTMLElement>();
     const init = async () => {
@@ -13,25 +14,33 @@ export default defineComponent({
       let option: EChartsOption;
       option = {
         tooltip: {
-          trigger: 'axis',
-          axisPointer: {
-            type: 'shadow'
-          }
+          trigger: 'item'
         },
-        xAxis: {
-          type: "category",
-          data: ["周一", "周二", "周三", "周四", "周五", "周六", "周日"],
-        },
-        yAxis: {
-          type: "value",
+        legend: {
+          orient: 'vertical',
+          left: 'left'
         },
         series: [
           {
-            data: [120, 200, 150, 80, 70, 110, 130],
-            type: "bar",
-            name: "销量"
-          },
-        ],
+            name: '访问来源',
+            type: 'pie',
+            radius: '50%',
+            data: [
+              { value: 1048, name: '搜索引擎' },
+              { value: 735, name: '直接访问' },
+              { value: 580, name: '邮件营销' },
+              { value: 484, name: '联盟广告' },
+              { value: 300, name: '视频广告' }
+            ],
+            emphasis: {
+              itemStyle: {
+                shadowBlur: 10,
+                shadowOffsetX: 0,
+                shadowColor: 'rgba(0, 0, 0, 0.5)'
+              }
+            }
+          }
+        ]
       };
       option && myChart.setOption(option);
     };
@@ -49,7 +58,6 @@ export default defineComponent({
 
 <template>
   <div ref="shChartRef" style="width: 100%; height: 300px;"></div>
-  柱状图
 </template>
 
 <style scoped lang="scss"></style>

@@ -2,6 +2,7 @@
 import { defineComponent, onMounted, ref } from "vue";
 
 export default defineComponent({
+  name: "radar-item",
   setup(_props, context) {
     let shChartRef = ref<HTMLElement>();
     const init = async () => {
@@ -12,23 +13,30 @@ export default defineComponent({
       });
       let option: EChartsOption;
       
-      // Generate sample data
-      const data = [];
-      for (let i = 0; i < 50; i++) {
-        data.push([
-          Math.random() * 100,
-          Math.random() * 100,
-          Math.random() * 100
-        ]);
-      }
-      
       option = {
-        xAxis: {},
-        yAxis: {},
+        radar: {
+          indicator: [
+            { name: '销售', max: 6500 },
+            { name: '管理', max: 16000 },
+            { name: '信息技术', max: 30000 },
+            { name: '客服', max: 38000 },
+            { name: '研发', max: 52000 },
+            { name: '市场', max: 25000 }
+          ]
+        },
         series: [{
-          symbolSize: 20,
-          data: data,
-          type: 'scatter'
+          name: '预算 vs 开销',
+          type: 'radar',
+          data: [
+            {
+              value: [4200, 3000, 20000, 35000, 50000, 18000],
+              name: '预算分配'
+            },
+            {
+              value: [5000, 14000, 28000, 26000, 42000, 21000],
+              name: '实际开销'
+            }
+          ]
         }]
       };
       option && myChart.setOption(option);
@@ -47,7 +55,6 @@ export default defineComponent({
 
 <template>
   <div ref="shChartRef" style="width: 100%; height: 300px;"></div>
-  散点图
 </template>
 
 <style scoped lang="scss"></style>
