@@ -188,14 +188,14 @@ defineExpose({
           stripe
           min-height="350px"
           class="result-table enhanced-result-table"
-          :row-style="{ height: '42px' }"
+          :row-style="{ height: '36px' }"
           :cell-style="{ padding: '0 8px', 'font-size': '13px' }"
           :header-cell-style="{
             background: 'linear-gradient(to bottom, #f8f9fa, #e9ecef)',
             color: 'var(--el-color-primary)',
             'font-size': '13px',
             'font-weight': '600',
-            height: '45px',
+            height: '36px',
             'border-bottom': '1px solid var(--el-border-color-light)'
           }"
           border
@@ -342,13 +342,13 @@ defineExpose({
     height: 100%;
     
     :deep(.el-table__body-wrapper) {
-      overflow-x: auto;
+      overflow-x: hidden;
     }
   }
 }
 
 .pagination-container {
-  padding: 8px 0;
+  padding: 6px 0; /* Reduced padding */
   display: flex;
   justify-content: center;
   
@@ -380,14 +380,14 @@ defineExpose({
 
 .detail-drawer {
   :deep(.el-drawer__header) {
-    padding: 16px 20px;
+    padding: 12px 16px; /* Reduced padding */
     margin-bottom: 0;
     border-bottom: 1px solid var(--el-border-color-light);
   }
   
   .drawer-content {
-    padding: 16px;
-    height: calc(100% - 57px);
+    padding: 12px; /* Reduced padding */
+    height: calc(100% - 45px); /* Adjusted height */
     overflow: hidden;
   }
   
@@ -412,8 +412,8 @@ defineExpose({
             background: linear-gradient(to bottom, #f8f9fa, #e9ecef);
             color: var(--el-color-primary);
             font-weight: 600;
-            height: 45px;
-            padding: 0 12px;
+            height: 35px; /* Reduced height */
+            padding: 0 10px; /* Reduced padding */
             border-bottom: 1px solid var(--el-border-color-light);
             
             .cell {
@@ -449,7 +449,7 @@ defineExpose({
           }
           
           .el-table__cell {
-            padding: 10px 12px;
+            padding: 8px 10px; /* Reduced padding */
             border-bottom: 1px solid var(--el-border-color-lighter);
           }
         }

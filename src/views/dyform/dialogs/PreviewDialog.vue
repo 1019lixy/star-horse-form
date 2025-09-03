@@ -1,8 +1,7 @@
 <script setup lang="ts">
-import { i18n } from "@/lang";
-import { er } from "node_modules/@fullcalendar/core/internal-common";
-import { error, success } from "star-horse-lowcode";
-import { ref } from "vue";
+import {i18n} from "@/lang";
+import {error, success} from "star-horse-lowcode";
+import {ref} from "vue";
 
 const emit = defineEmits<{
   (e: "close"): void;
@@ -24,9 +23,9 @@ const previewFormRef = ref();
 // Form validation function
 const validateForm = async () => {
   if (
-    previewFormRef.value &&
-    previewFormRef.value.$refs &&
-    previewFormRef.value.$refs.previewFormRef
+      previewFormRef.value &&
+      previewFormRef.value.$refs &&
+      previewFormRef.value.$refs.previewFormRef
   ) {
     try {
       await previewFormRef.value.$refs.previewFormRef.validate();
@@ -44,10 +43,17 @@ const validateForm = async () => {
 const exportToHtml = () => {
   if (!previewFormRef.value) return;
 
-  // Get the form content
-  const formContent = previewFormRef.value.$el.innerHTML;
+  // Get the form content with safety checks
+  let formContent = "";
+  if (previewFormRef.value.$el && typeof previewFormRef.value.$el.innerHTML === 'string') {
+    formContent = previewFormRef.value.$el.innerHTML;
+  } else {
+    console.error("Unable to access form content for export");
+    error(i18n("dyform.preview.html.export.failure"));
+    return;
+  }
 
-  // Create HTML template
+  // Create HTML template with Element Plus CSS
   const htmlContent = `
 <!DOCTYPE html>
 <html lang="zh-CN">
@@ -55,6 +61,7 @@ const exportToHtml = () => {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>${i18n("dyform.preview.html.title")}</title>
+    <link rel="stylesheet" href="https://unpkg.com/element-plus/dist/index.css">
     <style>
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif;
@@ -100,7 +107,7 @@ const exportToHtml = () => {
   `.trim();
 
   // Create blob and download
-  const blob = new Blob([htmlContent], { type: "text/html;charset=utf-8" });
+  const blob = new Blob([htmlContent], {type: "text/html;charset=utf-8"});
   const url = URL.createObjectURL(blob);
   const link = document.createElement("a");
   link.href = url;
@@ -121,8 +128,10 @@ defineExpose({
 </script>
 
 <template>
-  <star-horse-dialog :dialogVisible="visible" @closeAction="closeAction" :selfFunc="true" :compSize="compSize"
-    :title="i18n('dyform.preview.dialog.title')" :source="3">
+  <star-horse-dialog :dialogVisible="visible" @closeAction="closeAction"
+                     box-height="80%"
+                     :selfFunc="true" :compSize="compSize"
+                     :title="i18n('dyform.preview.dialog.title')" :source="3">
     <template #header>
       <div class="dialog-actions">
         <el-button @click="validateForm" type="primary" size="small">
@@ -133,7 +142,7 @@ defineExpose({
         </el-button>
       </div>
     </template>
-    <form-preview :list="list" ref="previewFormRef" :class="currentPageClass" />
+    <form-preview :list="list" ref="previewFormRef" :class="currentPageClass"/>
   </star-horse-dialog>
 </template>
 

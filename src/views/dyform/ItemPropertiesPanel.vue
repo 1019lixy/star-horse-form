@@ -212,6 +212,7 @@ onMounted(() => {
       @closeAction="closeAction"
       @resetForm="resetDataSourceForm"
       :selfFunc="true"
+      boxHeight="80%"
   >
     <data-source-comp ref="dataSourceFormRef" :formProps="formProps"/>
   </star-horse-dialog>
@@ -234,7 +235,7 @@ onMounted(() => {
   <el-scrollbar>
     <template v-if="currentCompCategory == 'container'">
       <el-form-item label="配置容器属性" prop="rows">
-        <el-button type="primary" @click="editContainerPrep">配置</el-button>
+        <el-button type="primary" plain icon="Setting" @click="editContainerPrep">配置</el-button>
       </el-form-item>
     </template>
     <template v-else>
@@ -251,12 +252,12 @@ onMounted(() => {
       </el-form-item>
       <el-form-item label="数据源" prop="dataSource"
                     v-if="!exclusionDataSource.includes(currentItemType)&&relationComps.includes(currentItemType)">
-        <el-button type="primary" @click="dataSource">配置</el-button>
+        <el-button type="primary" plain icon="Setting" @click="dataSource">配置</el-button>
         <help :message="`配置当前属性的备选数据项`"/>
       </el-form-item>
       <el-form-item label="联动策略" prop="dataRelation"
                     v-if="relationComps.includes(currentItemType)&&currentItemType!='icon'">
-        <el-button type="primary" @click="configRelationPolicy">配置</el-button>
+        <el-button type="primary" plain icon="Setting" @click="configRelationPolicy">配置</el-button>
         <help :message="`当前属性数据改变，控制表单内其他属性的数据范围及操作行为`"/>
       </el-form-item>
       <el-form-item label="事件" prop="cfgClickEvent" v-if="currentItemType=='button'">

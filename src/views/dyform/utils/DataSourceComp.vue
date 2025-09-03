@@ -531,7 +531,6 @@ defineExpose({
 </script>
 
 <template>
-  <el-scrollbar height="100%">
     <star-horse-form
       :fieldList="dataSourceField"
       ref="dataSourceFormRef"
@@ -546,7 +545,6 @@ defineExpose({
       :objectName="'dataSource'"
       v-model:dataForm="dataForm"
     />
-  </el-scrollbar>
 </template>
 
 <style scoped lang="scss"></style>

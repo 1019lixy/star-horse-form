@@ -44,8 +44,7 @@ onMounted(async () => {
 });
 </script>
 <template>
-  <div class="code-container">
-    <el-tabs v-model="tabName">
+    <el-tabs v-model="tabName" type="border-card">
       <el-tab-pane name="vue3" label="Vue3">
         <vue3 :formInfo="formInfo" :compList="pageInfo" :compSize="compSize" />
       </el-tab-pane>
@@ -56,10 +55,10 @@ onMounted(async () => {
         <react :formInfo="formInfo" :compList="pageInfo" :compSize="compSize" />
       </el-tab-pane>
       <el-tab-pane name="json" label="Json代码">
-        <star-horse-json-editor :lang="'json'" v-model:value="compList" />
+        <star-horse-json-editor :lang="'json'" v-model="compList" />
       </el-tab-pane>
     </el-tabs>
-  </div>
+
 </template>
 <style scoped lang="scss">
 .code-container {

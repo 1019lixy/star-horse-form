@@ -12,6 +12,7 @@ const props = defineProps({
 });
 
 const previewFormRef = ref<any>();
+const formPreviewRoot = ref<HTMLDivElement | null>(null);
 
 let commonFields = commonField();
 let fieldList = computed(() => {
@@ -57,12 +58,13 @@ defineExpose({
   formData,
   getFields,
   validate,
-  $el: previewFormRef, // Expose the element for HTML export
+  // Expose the root element for HTML export
+  $el: formPreviewRoot,
 });
 </script>
 
 <template>
-  <div class="form-preview">
+  <div ref="formPreviewRoot" class="form-preview">
     <sh-form
         :label-width="'auto'"
         :label-position="'right'"
@@ -104,6 +106,9 @@ defineExpose({
   .el-tabs__item {
     height: 40px !important;
     writing-mode: horizontal-tb !important;
+  }
+  .edit_col{
+    border:none !important;
   }
 }
 

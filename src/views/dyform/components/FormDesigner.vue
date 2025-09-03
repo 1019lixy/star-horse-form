@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {ref} from "vue";
+import {ref, onMounted, onUnmounted} from "vue";
 import {itemCheck, uuid} from "star-horse-lowcode";
 import {dynamicFormContextMenuData} from "@/plugins/AblesPlugin.ts";
 import {i18n} from "@/lang";
@@ -28,6 +28,48 @@ const contextMenu = (evt: MouseEvent) => {
 
 const dynamicFormRef = ref();
 const contentMenuRef = ref();
+const formContainerRef = ref<HTMLElement | null>(null);
+
+// Handle scroll to field event
+const handleScrollToField = (event: CustomEvent) => {
+  const fieldId = event.detail;
+  scrollToField(fieldId);
+};
+
+// Scroll to the specified field
+const scrollToField = (fieldId: string) => {
+  if (!formContainerRef.value) return;
+  
+  const fieldElement = formContainerRef.value.querySelector(`[data-field-id="${fieldId}"]`);
+  if (fieldElement) {
+    // Get container and element positions
+    const container = formContainerRef.value;
+    const elementRect = fieldElement.getBoundingClientRect();
+    const containerRect = container.getBoundingClientRect();
+    
+    // Check if element is outside the visible area
+    const isAbove = elementRect.top < containerRect.top;
+    const isBelow = elementRect.bottom > containerRect.bottom;
+    
+    if (isAbove || isBelow) {
+      // Use scrollIntoView with options for smooth scrolling
+      fieldElement.scrollIntoView({
+        behavior: 'smooth',
+        block: 'nearest'
+      });
+    }
+  }
+};
+
+onMounted(() => {
+  // Add event listener for scroll-to-field event
+  window.addEventListener('scroll-to-field', handleScrollToField as EventListener);
+});
+
+onUnmounted(() => {
+  // Remove event listener
+  window.removeEventListener('scroll-to-field', handleScrollToField as EventListener);
+});
 </script>
 
 <template>
@@ -82,6 +124,7 @@ const contentMenuRef = ref();
       </div>
     </template>
     <div
+        ref="formContainerRef"
         :class="currentPageClass"
         @contextmenu="contextMenu"
         style="scrollbar-width: thin"

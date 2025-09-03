@@ -237,7 +237,7 @@ watch(() => currentItemId.value, () => {
                        :placeholder="'请选择'+item.label">
               <el-option v-for="temp in item.preps.values" :label="temp.label" :value="temp.value"/>
             </el-select>
-            <el-button v-if="item.type=='button'" type="success" @click="item.actions?.click(formProps)" icon="Setting">
+            <el-button v-if="item.type=='button'" type="primary" plain @click="item.actions?.click(formProps)" icon="Setting">
               配置
             </el-button>
             <el-input-number v-if="item.type=='number'" controls-position="right" min="0"
@@ -260,7 +260,7 @@ watch(() => currentItemId.value, () => {
         </template>
         <template v-for="item in actionPreps">
           <el-form-item :label="item.label" :prop="item.name" label-position="top">
-            <el-button type="success" @click="item.actions.click" icon="Setting">配置</el-button>
+            <el-button type="primary" plain @click="item.actions.click" icon="Setting">配置</el-button>
           </el-form-item>
         </template>
       </el-collapse-item>

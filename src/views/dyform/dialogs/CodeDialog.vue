@@ -29,6 +29,7 @@ const codeDoSave = () => {
     :full-screen="true"
     :compSize="compSize"
     @merge="codeDoSave"
+    boxHeight="80%"
     :title="i18n('dyform.code.dialog.title')"
   >
     <code-comp />
