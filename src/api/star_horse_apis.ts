@@ -276,11 +276,16 @@ export function createRouterAndMenuList(redata: Array<object>): MenusInfo[] {
  * 下载文件,
  * @param url 路径
  * @param param 参数
+ * @param signal - Optional AbortSignal for request cancellation
  */
-export function download(url: string, param: any) {
+export function download(url: string, param: any, signal?: AbortSignal) {
     return new Promise((resolve, reject) => {
+        const config: any = {responseType: "blob"};
+        if (signal) {
+            config.signal = signal;
+        }
         axiosInstance
-            .post(url, param, {responseType: "blob"})
+            .post(url, param, config)
             .then((res) => {
                 downloadData(
                     res.data,
@@ -289,6 +294,11 @@ export function download(url: string, param: any) {
                 resolve(null);
             })
             .catch((err) => {
+                // Check if the error is due to abort
+                if (err.name === 'AbortError') {
+                    console.log("Download request was cancelled");
+                    return;
+                }
                 console.log(err);
                 reject(err);
             });
@@ -347,17 +357,27 @@ export async function loadDict(dictName: string) {
  * Post 请求
  * @param url
  * @param data
+ * @param signal - Optional AbortSignal for request cancellation
  * @returns {Promise<AxiosResponse<any>>}
  */
-export function postRequest(url: string, data: Array<any> | any) {
-    return axiosInstance.post(url, data);
+export function postRequest(url: string, data: Array<any> | any, signal?: AbortSignal) {
+    const config: any = {};
+    if (signal) {
+        config.signal = signal;
+    }
+    return axiosInstance.post(url, data, config);
 }
 
 /**
  * Get请求
  * @param url
+ * @param signal - Optional AbortSignal for request cancellation
  * @returns {Promise<AxiosResponse<any>>}
  */
-export function getRequest(url: string) {
-    return axiosInstance.get(url);
+export function getRequest(url: string, signal?: AbortSignal) {
+    const config: any = {};
+    if (signal) {
+        config.signal = signal;
+    }
+    return axiosInstance.get(url, config);
 }

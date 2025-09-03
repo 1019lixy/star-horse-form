@@ -47,11 +47,13 @@ const customerUrl: string = `${ServiceEnums.SYSTEM_PREFIX}customer/getAllByCondi
  * @param url 接口地址
  * @param params 参数
  * @param orderBy 排序
+ * @param signal - Optional AbortSignal for request cancellation
  */
 export async function loadData(
   url: string,
   params: SearchParams[] | any,
   orderBy: OrderByInfo[] = [],
+  signal?: AbortSignal,
 ) {
   let data: any = null;
   let error = "";
@@ -62,7 +64,7 @@ export async function loadData(
       orderBy: orderBy,
     };
   }
-  await postRequest(url, cond)
+  await postRequest(url, cond, signal)
     .then((res: any) => {
       const redata = res.data;
       if (redata.code) {
@@ -73,6 +75,11 @@ export async function loadData(
       }
     })
     .catch((err) => {
+      // Check if the error is due to abort
+      if (err.name === 'AbortError') {
+        console.log("Request was cancelled");
+        return;
+      }
       error = err;
     });
   return {
@@ -84,12 +91,12 @@ export async function loadData(
 /**
  * 加载Get 数据
  * @param url 接口地址
- * @param params 参数
+ * @param signal - Optional AbortSignal for request cancellation
  */
-export async function loadGetData(url: string) {
+export async function loadGetData(url: string, signal?: AbortSignal) {
   let data = reactive<any>([]);
   let error: string = "";
-  await getRequest(url)
+  await getRequest(url, signal)
     .then((res) => {
       const redata = res.data;
       if (redata.code != 0) {
@@ -99,6 +106,11 @@ export async function loadGetData(url: string) {
       }
     })
     .catch((err) => {
+      // Check if the error is due to abort
+      if (err.name === 'AbortError') {
+        console.log("Request was cancelled");
+        return;
+      }
       error = err;
     });
   return {

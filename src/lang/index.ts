@@ -19,11 +19,25 @@ const langSet: Record<string, string> = language[currentLang];
  */
 export function i18n(key: keyof typeof zh_CN, ...args: any[]) {
   const result = langSet[key];
-  const resultList: Array<string> = [];
+  
   if (result === undefined) {
     return `[${key}]`;
+  }
+  
+  // Check if the translation string contains placeholders like {0}, {1}, etc.
+  if (/\{\d+\}/.test(result)) {
+    // Replace placeholders with corresponding arguments
+    let translated = result;
+    args.forEach((arg, index) => {
+      // If arg is a string and exists as a key in langSet, use its translation
+      // Otherwise, use the arg value directly
+      const value = (typeof arg === 'string' && langSet[arg]) ? langSet[arg] : arg;
+      translated = translated.replace(new RegExp(`\\{${index}\\}`, 'g'), value);
+    });
+    return translated;
   } else {
-    resultList.push(result);
+    // Fall back to concatenation behavior for backward compatibility
+    const resultList: Array<string> = [result];
     args.forEach((arg, i) => {
       const temp = langSet[arg];
       if (temp) {
