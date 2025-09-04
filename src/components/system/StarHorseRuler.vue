@@ -17,6 +17,8 @@ const verticalGuides = ref();
 const vueInfiniteViewerRef = ref();
 const scrollX = ref(0);
 const scrollY = ref(0);
+const componentContainer = ref<HTMLElement | null>(null);
+
 const onChange = () => {};
 const onRestore = () => {
   horizontalGuides.value?.scroll(0);
@@ -31,12 +33,17 @@ const resizeFun = (e: any) => {
   verticalGuides.value?.resize();
 };
 const sheelFun = (e: any) => {
-  scrollX.value += e.deltaX;
-  scrollY.value += e.deltaY;
-  horizontalGuides.value?.scroll(scrollX.value);
-  horizontalGuides.value?.scrollGuides(scrollY.value);
-  verticalGuides.value?.scroll(scrollY.value);
-  verticalGuides.value?.scrollGuides(scrollX.value);
+  // Only handle wheel events when the mouse is over the component
+  if (componentContainer.value && e.target) {
+    if (componentContainer.value.contains(e.target as Node)) {
+      scrollX.value += e.deltaX;
+      scrollY.value += e.deltaY;
+      horizontalGuides.value?.scroll(scrollX.value);
+      horizontalGuides.value?.scrollGuides(scrollY.value);
+      verticalGuides.value?.scroll(scrollY.value);
+      verticalGuides.value?.scrollGuides(scrollX.value);
+    }
+  }
 };
 const initGuides = () => {
   nextTick(() => {
@@ -45,7 +52,7 @@ const initGuides = () => {
       verticalGuides.value?.resize();
     }, 500);
     window.addEventListener("resize", resizeFun);
-    window.addEventListener("wheel", sheelFun);
+    window.addEventListener("wheel", sheelFun, { passive: false });
   });
 };
 const viewScroller = (e: any) => {
@@ -73,7 +80,7 @@ onBeforeUnmount(() => {
 });
 </script>
 <template>
-  <div class="h-full w-full relative">
+  <div class="h-full w-full relative" ref="componentContainer">
     <div
       class="relative h-[30px] w-[30px] box-border flex items-center z-[21]"
       @click="onRestore"

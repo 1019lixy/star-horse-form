@@ -1,31 +1,64 @@
 <script setup lang="ts">
 defineOptions({
-  name: "PageTimeLineItem",
+  name: "PageTimelineItem",
 });
-const activities = [
-  {
-    content: "Event start",
-    timestamp: "2018-04-15",
+
+interface TimelineItem {
+  content: string;
+  timestamp: string;
+  type?: '' | 'primary' | 'success' | 'warning' | 'danger' | 'info';
+  size?: 'normal' | 'large';
+  icon?: string;
+  placement?: 'top' | 'bottom';
+  hideTimestamp?: boolean;
+}
+
+defineProps({
+  items: {
+    type: Array as () => TimelineItem[],
+    default: () => [
+      {
+        content: "事件开始",
+        timestamp: "2018-04-15",
+      },
+      {
+        content: "已批准",
+        timestamp: "2018-04-13",
+      },
+      {
+        content: "成功",
+        timestamp: "2018-04-11",
+      },
+    ]
   },
-  {
-    content: "Approved",
-    timestamp: "2018-04-13",
+  reverse: {
+    type: Boolean,
+    default: false
   },
-  {
-    content: "Success",
-    timestamp: "2018-04-11",
-  },
-];
+  mode: {
+    type: String,
+    default: "left" // left, right, alternate
+  }
+});
 </script>
 
 <template>
-  <el-timeline style="max-width: 600px">
+  <el-timeline 
+    :reverse="reverse"
+    :mode="mode"
+    style="max-width: 600px"
+  >
     <el-timeline-item
-      v-for="(activity, index) in activities"
+      v-for="(item, index) in items"
       :key="index"
-      :timestamp="activity.timestamp"
+      :timestamp="item.timestamp"
+      :type="item.type"
+      :size="item.size"
+      :icon="item.icon"
+      :placement="item.placement"
+      :hide-timestamp="item.hideTimestamp"
     >
-      {{ activity.content }}
+      {{ item.content }}
     </el-timeline-item>
   </el-timeline>
 </template>

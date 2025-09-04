@@ -1,51 +1,25 @@
-<script lang="ts">
-import { defineComponent, onMounted, ref } from "vue";
+<script setup lang="ts">
+import BaseChart from './BaseChart.vue';
 
-export default defineComponent({
-  setup(_props, context) {
-    let shChartRef = ref<HTMLElement>();
-    const init = async () => {
-      const echarts = await import('echarts');
-      type EChartsOption = echarts.EChartsOption;
-      let myChart = echarts.init(shChartRef.value, null, {
-        renderer: "svg",
-      });
-      let option: EChartsOption;
-      option = {
-        xAxis: {
-          type: "category",
-          data: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
-        },
-        yAxis: {
-          type: "value",
-        },
-        series: [
-          {
-            data: [150, 230, 224, 218, 135, 147, 260],
-            type: "line",
-          },
-        ],
-      };
-      option && myChart.setOption(option);
-    };
-
-    onMounted(() => {
-      init();
-      //分静态数据和动态数据
-      //如果静态数据，则需要提供x坐标的数据和线条的数据
-      //如果动态数据，需要提供url
-    });
-
-    return {
-      shChartRef,
-    };
+const option = {
+  xAxis: {
+    type: "category",
+    data: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
   },
-});
+  yAxis: {
+    type: "value",
+  },
+  series: [
+    {
+      data: [150, 230, 224, 218, 135, 147, 260],
+      type: "line",
+    },
+  ],
+};
 </script>
 
 <template>
-  <div ref="shChartRef" style="width: 100%; height: 300px;"></div>
-  折线图
+  <BaseChart :option="option" />
 </template>
 
 <style scoped lang="scss"></style>

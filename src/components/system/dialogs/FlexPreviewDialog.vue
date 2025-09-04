@@ -1,12 +1,13 @@
 <template>
   <star-horse-dialog
-    :dialogVisible="dialogVisible"
-    @closeAction="closeDialog"
-    :selfFunc="true"
-    :boxWidth="'90%'"
-    :full-screen="false"
-    :title="'设计预览'"
-    :source="3"
+      :dialogVisible="dialogVisible"
+      @closeAction="closeDialog"
+      :selfFunc="true"
+      :boxWidth="'90%'"
+      boxHeight="80%"
+      :full-screen="false"
+      :title="'设计预览'"
+      :source="3"
   >
     <div class="preview-container">
       <div class="preview-header">
@@ -15,7 +16,8 @@
           <p v-if="designDescription">{{ designDescription }}</p>
           <div class="design-stats">
             <el-tag size="small" type="info"
-              >元素数量: {{ designSummary.itemCount }}</el-tag
+            >元素数量: {{ designSummary.itemCount }}
+            </el-tag
             >
             <el-tag size="small" type="success" style="margin-left: 8px">
               组件数量: {{ designSummary.compCount }}
@@ -28,20 +30,20 @@
         <div class="preview-actions">
           <el-button size="small" @click="toggleDeviceMode">
             <star-horse-icon
-              :icon-class="deviceMode === 'desktop' ? 'mobile' : 'desktop'"
+                :icon-class="deviceMode === 'desktop' ? 'mobile' : 'desktop'"
             />
             {{ deviceMode === "desktop" ? "移动端预览" : "桌面端预览" }}
           </el-button>
           <el-button size="small" @click="refreshPreview">
-            <star-horse-icon icon-class="refresh" />
+            <star-horse-icon icon-class="refresh"/>
             刷新
           </el-button>
           <el-button size="small" @click="exportHTML" type="primary">
-            <star-horse-icon icon-class="download" />
+            <star-horse-icon icon-class="download"/>
             导出HTML
           </el-button>
           <el-button size="small" @click="showDebugInfo = !showDebugInfo">
-            <star-horse-icon icon-class="info" />
+            <star-horse-icon icon-class="info"/>
             {{ showDebugInfo ? "隐藏调试" : "调试信息" }}
           </el-button>
         </div>
@@ -60,7 +62,7 @@
           <div class="frame-content" ref="previewContentRef">
             <div :style="containerStyles" class="flex-1">
               <template v-for="item in positionList">
-                <FlexItem :itemId="item" :type="flexModel" />
+                <FlexItem :itemId="item" :type="flexModel" :previewMode="true"/>
               </template>
             </div>
           </div>
@@ -90,15 +92,15 @@
           <div class="debug-section">
             <h4>容器信息 (store):</h4>
             <pre>{{
-              JSON.stringify(flexDesign.getContainerInfo(), null, 2)
-            }}</pre>
+                JSON.stringify(flexDesign.getContainerInfo(), null, 2)
+              }}</pre>
           </div>
           <div class="debug-section">
             <h4>元素信息:</h4>
             <div
-              v-for="position in positionList"
-              :key="position"
-              class="debug-item"
+                v-for="position in positionList"
+                :key="position"
+                class="debug-item"
             >
               <strong>{{ position }}:</strong>
               <pre>{{ getItemStyle(position) }}</pre>
@@ -109,14 +111,14 @@
 
       <div class="preview-footer">
         <div
-          class="validation-info"
-          v-if="validationResult && !validationResult.isValid"
+            class="validation-info"
+            v-if="validationResult && !validationResult.isValid"
         >
           <el-alert
-            title="设计验证失败"
-            type="warning"
-            :closable="false"
-            show-icon
+              title="设计验证失败"
+              type="warning"
+              :closable="false"
+              show-icon
           >
             <ul>
               <li v-for="error in validationResult.errors" :key="error">
@@ -131,7 +133,7 @@
               <div class="card-header">
                 <span>生成的HTML代码</span>
                 <el-button size="small" @click="copyCode">
-                  <star-horse-icon icon-class="copy" />
+                  <star-horse-icon icon-class="copy"/>
                   复制
                 </el-button>
               </div>
@@ -153,10 +155,9 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref, watch, nextTick } from "vue";
-import { useFlexDesignStore } from "@/store/FlexDesign";
-import { piniaInstance, success, error } from "star-horse-lowcode";
-import { generatePreview } from "@/api/flexDesign";
+import {computed, nextTick, ref, watch} from "vue";
+import {useFlexDesignStore} from "@/store/FlexDesign";
+import {error, piniaInstance, success} from "star-horse-lowcode";
 import FlexItem from "@/components/system/items/FlexItem.vue";
 
 interface Props {
@@ -192,7 +193,7 @@ const camelToKebab = (key: string): string => {
 const designSummary = computed(() => flexDesign.getDesignSummary());
 const validationResult = computed(() => flexDesign.validateDesign());
 const htmlCode = computed(() =>
-  flexDesign.generatePreviewHTML(props.flexModel, props.containerDataForm),
+    flexDesign.generatePreviewHTML(props.flexModel, props.containerDataForm),
 );
 const positionList = computed(() => flexDesign.getPositionList());
 const currentItem = computed(() => flexDesign.getCurrentItem());
@@ -226,8 +227,8 @@ const getItemStyle = (position: string) => {
   };
 
   return Object.entries(defaultStyles)
-    .map(([key, value]) => `${key}: ${value}`)
-    .join("; ");
+      .map(([key, value]) => `${key}: ${value}`)
+      .join("; ");
 };
 
 const hasComponents = (position: string) => {
@@ -265,7 +266,7 @@ const refreshPreview = () => {
 
 const exportHTML = () => {
   const html = htmlCode.value;
-  const blob = new Blob([html], { type: "text/html" });
+  const blob = new Blob([html], {type: "text/html"});
   const url = URL.createObjectURL(blob);
   const a = document.createElement("a");
   a.href = url;
@@ -297,8 +298,8 @@ const copyCode = async () => {
 
 const saveAsTemplate = () => {
   const designData = flexDesign.serializeDesignData(
-    props.designName || "未命名模板",
-    props.designDescription || "",
+      props.designName || "未命名模板",
+      props.designDescription || "",
   );
   emit("saveTemplate", designData);
 };
@@ -309,15 +310,15 @@ const closeDialog = () => {
 
 // 监听dialog显示状态，重置数据
 watch(
-  () => props.dialogVisible,
-  (visible) => {
-    if (visible) {
-      selectedPreviewItem.value = "";
-      showCode.value = false;
-      showDebugInfo.value = false;
-      deviceMode.value = "desktop";
-    }
-  },
+    () => props.dialogVisible,
+    (visible) => {
+      if (visible) {
+        selectedPreviewItem.value = "";
+        showCode.value = false;
+        showDebugInfo.value = false;
+        deviceMode.value = "desktop";
+      }
+    },
 );
 </script>
 

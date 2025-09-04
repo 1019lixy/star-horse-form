@@ -1,53 +1,29 @@
-<script lang="ts">
-import { defineComponent, onMounted, ref } from "vue";
+<script setup lang="ts">
+import BaseChart from './BaseChart.vue';
 
-export default defineComponent({
-  setup(_props, context) {
-    let shChartRef = ref<HTMLElement>();
-    const init = async () => {
-      const echarts = await import('echarts');
-      type EChartsOption = echarts.EChartsOption;
-      let myChart = echarts.init(shChartRef.value, null, {
-        renderer: "svg",
-      });
-      let option: EChartsOption;
-      
-      // Generate sample data
-      const data = [];
-      for (let i = 0; i < 50; i++) {
-        data.push([
-          Math.random() * 100,
-          Math.random() * 100,
-          Math.random() * 100
-        ]);
-      }
-      
-      option = {
-        xAxis: {},
-        yAxis: {},
-        series: [{
-          symbolSize: 20,
-          data: data,
-          type: 'scatter'
-        }]
-      };
-      option && myChart.setOption(option);
-    };
+// Generate sample data
+const data = [];
+for (let i = 0; i < 50; i++) {
+  data.push([
+    Math.random() * 100,
+    Math.random() * 100,
+    Math.random() * 100
+  ]);
+}
 
-    onMounted(() => {
-      init();
-    });
-
-    return {
-      shChartRef,
-    };
-  },
-});
+const option = {
+  xAxis: {},
+  yAxis: {},
+  series: [{
+    symbolSize: 20,
+    data: data,
+    type: 'scatter'
+  }]
+};
 </script>
 
 <template>
-  <div ref="shChartRef" style="width: 100%; height: 300px;"></div>
-  散点图
+  <BaseChart :option="option" />
 </template>
 
 <style scoped lang="scss"></style>

@@ -1,24 +1,52 @@
 <script setup lang="ts">
 defineOptions({
-  name: "PageNavbarItem",
+  name: "PagePageheaderItem",
+});
+
+interface BreadcrumbItem {
+  path?: string;
+  label: string;
+}
+
+defineProps({
+  title: {
+    type: String,
+    default: "页面标题"
+  },
+  breadcrumbs: {
+    type: Array as () => BreadcrumbItem[],
+    default: () => [
+      { path: "/", label: "首页" },
+      { label: "当前页面" }
+    ]
+  },
+  icon: {
+    type: String,
+    default: ""
+  }
 });
 </script>
 
 <template>
-  <el-page-header>
+  <el-page-header :title="title">
     <template #breadcrumb>
       <el-breadcrumb separator="/">
-        <el-breadcrumb-item :to="{ path: './page-header.html' }">
-          homepage
-        </el-breadcrumb-item>
-        <el-breadcrumb-item
-          ><a href="./page-header.html">route 1</a></el-breadcrumb-item
+        <el-breadcrumb-item 
+          v-for="(item, index) in breadcrumbs" 
+          :key="index"
+          :to="item.path ? { path: item.path } : undefined"
         >
-        <el-breadcrumb-item>route 2</el-breadcrumb-item>
+          {{ item.label }}
+        </el-breadcrumb-item>
       </el-breadcrumb>
     </template>
     <template #content>
-      <span class="text-large font-600 mr-3"> Title </span>
+      <div class="flex items-center">
+        <el-icon v-if="icon">
+          <component :is="icon" />
+        </el-icon>
+        <span class="text-large font-600 mr-3">{{ title }}</span>
+      </div>
     </template>
   </el-page-header>
 </template>

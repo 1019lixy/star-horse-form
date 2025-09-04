@@ -1,15 +1,16 @@
 <script setup lang="ts">
-import { useFlexDesignStore } from "@/store/FlexDesign";
-import { piniaInstance, uuid } from "star-horse-lowcode";
-import { computed, defineOptions, onBeforeUnmount, onMounted, ref } from "vue";
+import {useFlexDesignStore} from "@/store/FlexDesign";
+import {piniaInstance, uuid} from "star-horse-lowcode";
+import {computed, defineOptions, onBeforeUnmount, onMounted, ref} from "vue";
 
 defineOptions({
   name: "FlexItem",
 });
 const props = defineProps({
-  itemId: { type: String, required: true },
-  type: { type: String, default: "flex" },
-  direction: { type: String, default: "row" },
+  itemId: {type: String, required: true},
+  type: {type: String, default: "flex"},
+  direction: {type: String, default: "row"},
+  previewMode: {type: Boolean, default: false}, // Add previewMode prop
 });
 const emit = defineEmits(["selectItem"]);
 const flexDesign = useFlexDesignStore(piniaInstance);
@@ -17,16 +18,28 @@ const itemStyle = computed(() => flexDesign.getItem(props.itemId));
 const compList = computed(() => flexDesign.getComp(props.itemId));
 const currentId = computed(() => flexDesign.getCurrentItem());
 const containerDirection = computed(() => flexDesign.getContainerDirection());
+
+// Only allow selection if not in preview mode
 const selectItem = () => {
-  flexDesign.setCurrentItem(props.itemId);
-  emit("selectItem", props.itemId);
+  if (!props.previewMode) {
+    flexDesign.setCurrentItem(props.itemId);
+    emit("selectItem", props.itemId);
+  }
 };
+
+// Only allow deletion if not in preview mode
 const deleteItem = () => {
-  flexDesign.delItem(props.itemId);
+  if (!props.previewMode) {
+    flexDesign.delItem(props.itemId);
+  }
 };
+
 const onDragAdd = (evt: Event, list: any[]) => {
-  console.log(evt, list);
+  if (!props.previewMode) {
+    console.log(evt, list);
+  }
 };
+
 const resizeContainer = ref<HTMLElement>();
 let startX = 0;
 let startY = 0;
@@ -34,7 +47,10 @@ let startWidth = 0;
 let startHeight = 0;
 let resizeDirection = "";
 
+// Only allow resizing if not in preview mode
 const startResize = (dir: string, e: MouseEvent) => {
+  if (props.previewMode) return;
+
   resizeDirection = dir;
   startX = e.clientX;
   startY = e.clientY;
@@ -47,7 +63,8 @@ const startResize = (dir: string, e: MouseEvent) => {
 };
 
 const handleResize = (e: MouseEvent) => {
-  if (!resizeContainer.value) return;
+  if (props.previewMode || !resizeContainer.value) return;
+
   const deltaX = e.clientX - startX;
   const deltaY = e.clientY - startY;
   if (resizeDirection === "right") {
@@ -58,92 +75,101 @@ const handleResize = (e: MouseEvent) => {
 };
 
 const stopResize = () => {
+  if (props.previewMode) return;
+
   removeListener();
   if (!resizeContainer.value) return;
   // 这里可以添加尺寸变化后的回调逻辑
   itemStyle.value.width = resizeContainer.value?.style?.width;
   itemStyle.value.height = resizeContainer.value?.style?.height;
 };
+
 const removeListener = () => {
   document.removeEventListener("mousemove", handleResize);
   document.removeEventListener("mouseup", stopResize);
 };
+
 onBeforeUnmount(() => {
   removeListener();
 });
-const init = () => {};
+
+const init = () => {
+};
 onMounted(() => {
   init();
 });
 </script>
 <template>
   <div
-    :style="itemStyle"
-    @click.stop="selectItem"
-    class="item-info"
-    ref="resizeContainer"
-    :class="{
+      :style="itemStyle"
+      @click.stop="selectItem"
+      class="item-info"
+      ref="resizeContainer"
+      :class="{
       'w-full': type == 'grid',
       'item-width': containerDirection.includes('column'),
+      'preview-mode': previewMode
     }"
   >
-    <div class="absolute top-0 right-0 z-10" @click.stop="deleteItem">
+    <div class="absolute top-0 right-0 z-10" @click.stop="deleteItem" v-if="!previewMode">
       <star-horse-icon
-        iconClass="delete"
-        :cursor="'pointer'"
-        :color="'var(--star-horse-danger)'"
-        title="删除"
+          iconClass="delete"
+          :cursor="'pointer'"
+          :color="'var(--star-horse-danger)'"
+          title="删除"
       />
     </div>
-    <div v-if="currentId == itemId" class="absolute top-0 left-0">
-      <star-horse-icon
-        iconClass="check"
-        :color="'var(--star-horse-style)'"
-        title="选中"
-      />
-    </div>
-    <!-- 新增右侧拖拽句柄 -->
-    <div
-      class="resize-handle right"
-      @mousedown.prevent="startResize('right', $event)"
-    ></div>
-    <!-- 新增底部拖拽句柄 -->
-    <div
-      class="resize-handle bottom"
-      @mousedown.prevent="startResize('bottom', $event)"
-    ></div>
 
-    <div
-      class="relative flex flex-col h-full w-full overflow-hidden min-w-0 max-w-full"
-    >
-      <draggable
-        @add="(evt: Event) => onDragAdd(evt, compList)"
-        class="w-full h-full min-w-[0]"
-        tag="div"
-        group="starHorseGroup"
-        ghost-class="ghost"
-        :list="compList"
-        :itemKey="uuid()"
-      >
-        <template #item="{ element: data, index }">
-          <div
-            class="overflow-visible flex flex-col flex-wrap w-full"
-            :class="{ 'h-full': compList.length == 1 }"
-            :data-field-id="data.id"
-            :key="data.id"
-          >
-            <component
-              :key="data.id"
-              :field="data"
-              :isDesign="true"
-              :index-of-parent-list="index"
-              :is="data.name + '-item'"
-              v-bind="data.preps"
-              style="min-width: 0; width: 100%"
-            />
-          </div>
-        </template>
-      </draggable>
+
+    <div v-if="!previewMode && currentId == itemId" class="absolute top-0 left-0">
+      <star-horse-icon
+          iconClass="check"
+          :color="'var(--star-horse-style)'"
+          title="选中"
+      />
+
+      <div
+          class="resize-handle right"
+          @mousedown.prevent="startResize('right', $event)"
+          v-if="!previewMode"
+      />
+      <div
+          class="resize-handle bottom"
+          @mousedown.prevent="startResize('bottom', $event)"
+          v-if="!previewMode"
+      />
+
+      <div class="relative flex flex-col h-full w-full overflow-hidden min-w-0 max-w-full">
+        <draggable
+            @add="(evt: Event) => onDragAdd(evt, compList)"
+            class="w-full h-full min-w-[0]"
+            tag="div"
+            group="starHorseGroup"
+            ghost-class="ghost"
+            :list="compList"
+            :itemKey="uuid()"
+            :disabled="previewMode"
+        >
+          <template #item="{ element: data, index }">
+            <div
+                class="overflow-visible flex flex-col flex-wrap w-full"
+                :class="{ 'h-full': compList.length == 1 }"
+                :data-field-id="data.id"
+                :key="data.id"
+            >
+              <component
+                  :key="data.id"
+                  :field="data"
+                  :isDesign="!previewMode"
+                  :index-of-parent-list="index"
+                  :is="data.name + '-item'"
+                  v-bind="data.preps"
+                  style="min-width: 0; width: 100%"
+              />
+            </div>
+          </template>
+        </draggable>
+      </div>
     </div>
   </div>
 </template>
@@ -165,9 +191,19 @@ onMounted(() => {
   border: 3px solid var(--star-horse-style);
   position: relative;
   overflow: hidden;
-  transition:
-    background 0.3s ease,
-    box-shadow 0.3s ease;
+  transition: background 0.3s ease,
+  box-shadow 0.3s ease;
+
+  // In preview mode, remove interactive styles
+  &.preview-mode {
+    cursor: default;
+    border: 1px solid #e4e7ed;
+
+    &:hover {
+      background: #fefefe;
+      box-shadow: none;
+    }
+  }
 
   &:hover .resize-handle {
     opacity: 1; // 悬停时显示
@@ -175,14 +211,12 @@ onMounted(() => {
 
   .resize-handle {
     opacity: 0; // 默认隐藏
-    transition: opacity 0.2s ease;
     position: absolute;
     z-index: 20;
     background: rgba(105, 97, 97, 0.8);
     border-radius: 3px;
-    box-shadow:
-      0 0 4px rgba(0, 0, 0, 0.1),
-      inset 0 0 4px rgba(255, 255, 255, 0.8);
+    box-shadow: 0 0 4px rgba(0, 0, 0, 0.1),
+    inset 0 0 4px rgba(255, 255, 255, 0.8);
     transition: all 0.2s ease;
 
     &:hover {
@@ -202,10 +236,10 @@ onMounted(() => {
 
     &.bottom {
       cursor: row-resize;
-      height: 10px;
       width: 40px;
-      left: 50%;
+      height: 10px;
       bottom: -5px;
+      left: 50%;
       /* 调整到边框中间 */
       transform: translateX(-40%);
     }

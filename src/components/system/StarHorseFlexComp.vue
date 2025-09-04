@@ -57,6 +57,7 @@ const containerCollapse = ref<string>("container");
 const itemCollapse = ref<string>("item");
 const containerDataForm = ref<any>({});
 const itemDataForm = ref<any>({});
+const compDataForm = ref<any>({});
 const containerConfig = ref<PageFieldInfo>({});
 const itemConfig = ref<PageFieldInfo>({});
 const layoutConfig = ref<Layout[]>([]);
@@ -297,7 +298,7 @@ watch(
 </script>
 <template>
   <el-splitter>
-    <el-splitter-panel collapsible size="300" max="50%" class="flex flex-col">
+    <el-splitter-panel collapsible size="320" max="50%" class="flex flex-col">
       <div class="inner_button">
         <el-select v-model="flexModel" class="" @change="flexChange">
           <el-option value="flex" label="Flex" />
@@ -324,56 +325,67 @@ watch(
           </template>
           <PageCompPanel />
         </el-tab-pane>
-        
+
       </el-tabs>
     </el-splitter-panel>
     <el-splitter-panel>
       <div class="flex flex-col w-[99%] h-full relative" style="margin: 0 auto; background: #86909c">
         <div class="flex items-center w-full h-[40px]" style="background: #fefefe">
-          <el-tooltip class="item" content="添加元素" effect="dark" placement="bottom">
-            <star-horse-icon icon-class="add" size="24px" @click="addItem" cursor="pointer"
-              style="color: var(--star-horse-style)" />
-          </el-tooltip>
-          <div class="split-line" />
-          <el-tooltip class="item" content="主轴方向" effect="dark" placement="bottom">
-            <star-horse-icon icon-class="refresh" size="24px" @click="mainAxisDirection" cursor="pointer"
-              style="color: var(--star-horse-style)" />
-          </el-tooltip>
-          <div class="split-line" />
-          <el-tooltip class="item" content="代码" effect="dark" placement="bottom">
-            <star-horse-icon icon-class="code" size="24px" @click="mainAxisDirection" cursor="pointer" />
-          </el-tooltip>
-          <div class="split-line" />
-          <el-tooltip class="item" :content="needInfiniteViewer ? '关闭无限滚动' : '开启无限滚动'" effect="dark" placement="bottom">
-            <star-horse-icon :icon-class="needInfiniteViewer ? 'drag' : 'cancel'" size="24px" @click="autoScroll"
-              cursor="pointer" />
-          </el-tooltip>
-          <div class="split-line" />
-          <el-tooltip class="item" :content="hideRuler ? '开启标尺' : '关闭标尺'" effect="dark" placement="bottom">
-            <star-horse-icon :icon-class="hideRuler ? 'cancel' : 'eye'" size="24px" @click="hideRulerFunc"
-              cursor="pointer" />
-          </el-tooltip>
-          <div class="split-line" />
-          <el-tooltip content="保存">
-            <star-horse-icon icon-class="save" @click="saveData" cursor="pointer" />
-          </el-tooltip>
-          <div class="split-line" />
-          <el-tooltip content="预览">
-            <star-horse-icon icon-class="preview" @click="preview" cursor="pointer" />
-          </el-tooltip>
-          <div class="split-line" />
-          <el-tooltip content="发布">
-            <star-horse-icon icon-class="publish" @click="publishPage" cursor="pointer" />
-          </el-tooltip>
-          <div class="split-line" />
-          <el-tooltip content="分享">
-            <star-horse-icon icon-class="share" @click="sharePage" cursor="pointer" />
-          </el-tooltip>
-          <div class="split-line" />
-          <el-tooltip :content="isFullscreen ? '退出全屏' : '全屏'">
-            <star-horse-icon :icon-class="isFullscreen ? 'fullscreen-shrink' : 'fullscreen-expand'
-              " @click="fullScreen" cursor="pointer" />
-          </el-tooltip>
+          <el-button-group>
+            <el-tooltip class="item" content="添加元素" effect="dark" placement="bottom">
+              <el-button @click="addItem" class="h-full border-0">
+                <star-horse-icon icon-class="add" size="24px" cursor="pointer" style="color: var(--star-horse-style)" />
+              </el-button>
+            </el-tooltip>
+            <el-tooltip class="item" content="主轴方向" effect="dark" placement="bottom">
+              <el-button @click="mainAxisDirection" class="h-full border-0">
+                <star-horse-icon icon-class="refresh" size="24px" cursor="pointer"
+                  style="color: var(--star-horse-style)" />
+              </el-button>
+            </el-tooltip>
+            <el-tooltip class="item" content="代码" effect="dark" placement="bottom">
+              <el-button @click="mainAxisDirection" class="h-full border-0">
+                <star-horse-icon icon-class="code" size="24px" cursor="pointer" />
+              </el-button>
+            </el-tooltip>
+            <el-tooltip class="item" :content="needInfiniteViewer ? '关闭无限滚动' : '开启无限滚动'" effect="dark"
+              placement="bottom">
+              <el-button @click="autoScroll" class="h-full border-0">
+                <star-horse-icon :icon-class="needInfiniteViewer ? 'drag' : 'cancel'" size="24px" cursor="pointer" />
+              </el-button>
+            </el-tooltip>
+            <el-tooltip class="item" :content="hideRuler ? '开启标尺' : '关闭标尺'" effect="dark" placement="bottom">
+              <el-button @click="hideRulerFunc" class="h-full border-0">
+                <star-horse-icon :icon-class="hideRuler ? 'cancel' : 'eye'" size="24px" cursor="pointer" />
+              </el-button>
+            </el-tooltip>
+            <el-tooltip content="保存">
+              <el-button @click="saveData" class="h-full border-0">
+                <star-horse-icon icon-class="save" cursor="pointer" />
+              </el-button>
+            </el-tooltip>
+            <el-tooltip content="预览">
+              <el-button @click="preview" class="h-full border-0">
+                <star-horse-icon icon-class="preview" cursor="pointer" />
+              </el-button>
+            </el-tooltip>
+            <el-tooltip content="发布">
+              <el-button @click="publishPage" class="h-full border-0">
+                <star-horse-icon icon-class="publish" cursor="pointer" />
+              </el-button>
+            </el-tooltip>
+            <el-tooltip content="分享">
+              <el-button @click="sharePage" class="h-full border-0">
+                <star-horse-icon icon-class="share" cursor="pointer" />
+              </el-button>
+            </el-tooltip>
+            <el-tooltip :content="isFullscreen ? '退出全屏' : '全屏'">
+              <el-button @click="fullScreen" class="h-full border-0">
+                <star-horse-icon :icon-class="isFullscreen ? 'fullscreen-shrink' : 'fullscreen-expand'"
+                  cursor="pointer" />
+              </el-button>
+            </el-tooltip>
+          </el-button-group>
         </div>
         <StarHorseRuler :needInfiniteViewer="needInfiniteViewer" :hideHorizontalRuler="hideRuler"
           :hideVerticalRuler="hideRuler">
@@ -385,68 +397,24 @@ watch(
         </StarHorseRuler>
       </div>
     </el-splitter-panel>
-    <el-splitter-panel collapsible size="350" max="40%">
-      <el-scrollbar>
-        <el-tabs v-model="editTabModel" type="border-card" style="height: 100% !important">
-          <el-tab-pane name="container">
-            <template #label>
-              <star-horse-icon icon-class="container" style="color: var(--star-horse-style)" />&nbsp;<span>容器</span>
-            </template>
-            <sh-form v-model:dataForm="containerDataForm" :label-width="'auto'" :label-position="'top'">
-              <el-collapse v-model="containerCollapse" :expand-icon-position="'left'"
-                style="background: #1d2129 !important">
-                <el-collapse-item name="container">
-                  <template #title>
-                    <div class="collapse-item-title title">
-                      <div>布局</div>
-                    </div>
-                  </template>
-                  <div class="h-full">
-                    <StarHorseFormItem :fieldList="containerConfig" v-model:dataForm="containerDataForm" />
-                  </div>
-                </el-collapse-item>
-                <el-collapse-item name="position">
-                  <template #title>
-                    <div class="collapse-item-title title">
-                      <div>位置大小</div>
-                    </div>
-                  </template>
-                  <page-position v-model:dataForm="containerDataForm" />
-                </el-collapse-item>
-                <el-collapse-item name="background">
-                  <template #title>
-                    <div class="collapse-item-title title">
-                      <div>背景</div>
-                    </div>
-                  </template>
-                  <page-background v-model:dataForm="containerDataForm" />
-                </el-collapse-item>
-                <el-collapse-item name="font">
-                  <template #title>
-                    <div class="collapse-item-title title">
-                      <div>文字</div>
-                    </div>
-                  </template>
-                  <page-font v-model:dataForm="containerDataForm" />
-                </el-collapse-item>
-              </el-collapse>
-            </sh-form>
-          </el-tab-pane>
-          <el-tab-pane name="item">
-            <template #label>
-              <star-horse-icon icon-class="list" style="color: var(--star-horse-style)" />&nbsp;<span>节点</span>
-            </template>
-
-            <el-collapse v-model="itemCollapse" :expand-icon-position="'left'" style="background: #1d2129 !important">
-              <el-collapse-item name="item">
+    <el-splitter-panel collapsible size="400" max="40%">
+      <el-tabs v-model="editTabModel" type="border-card" style="height: 100% !important">
+        <el-tab-pane name="container">
+          <template #label>
+            <star-horse-icon icon-class="container" style="color: var(--star-horse-style)" />&nbsp;<span>容器</span>
+          </template>
+          <sh-form v-model:dataForm="containerDataForm" :label-width="'auto'" :label-position="'top'">
+            <el-collapse v-model="containerCollapse" :expand-icon-position="'left'"
+              style="background: #1d2129 !important">
+              <el-collapse-item name="container">
                 <template #title>
                   <div class="collapse-item-title title">
                     <div>布局</div>
                   </div>
                 </template>
-                <sh-form v-model:dataForm="itemDataForm" :label-width="'auto'" :label-position="'top'">
-                  <StarHorseFormItem :fieldList="itemConfig" v-model:dataForm="itemDataForm" />
-                </sh-form>
+                <div class="h-full">
+                  <StarHorseFormItem :fieldList="containerConfig" v-model:dataForm="containerDataForm" />
+                </div>
               </el-collapse-item>
               <el-collapse-item name="position">
                 <template #title>
@@ -454,7 +422,7 @@ watch(
                     <div>位置大小</div>
                   </div>
                 </template>
-                <page-position v-model:dataForm="itemDataForm" />
+                <page-position v-model:dataForm="containerDataForm" />
               </el-collapse-item>
               <el-collapse-item name="background">
                 <template #title>
@@ -462,7 +430,7 @@ watch(
                     <div>背景</div>
                   </div>
                 </template>
-                <page-background v-model:dataForm="itemDataForm" />
+                <page-background v-model:dataForm="containerDataForm" />
               </el-collapse-item>
               <el-collapse-item name="font">
                 <template #title>
@@ -470,12 +438,63 @@ watch(
                     <div>文字</div>
                   </div>
                 </template>
-                <page-font v-model:dataForm="itemDataForm" />
+                <page-font v-model:dataForm="containerDataForm" />
               </el-collapse-item>
             </el-collapse>
-          </el-tab-pane>
-        </el-tabs>
-      </el-scrollbar>
+          </sh-form>
+        </el-tab-pane>
+        <el-tab-pane name="item">
+          <template #label>
+            <star-horse-icon icon-class="list" style="color: var(--star-horse-style)" />&nbsp;<span>节点</span>
+          </template>
+          <sh-form v-model:dataForm="itemDataForm" :label-width="'auto'" :label-position="'top'">
+          <el-collapse v-model="itemCollapse" :expand-icon-position="'left'" style="background: #1d2129 !important">
+            <el-collapse-item name="item">
+              <template #title>
+                <div class="collapse-item-title title">
+                  <div>布局</div>
+                </div>
+              </template>
+
+              <StarHorseFormItem :fieldList="itemConfig" v-model:dataForm="itemDataForm" />
+
+            </el-collapse-item>
+            <el-collapse-item name="position">
+              <template #title>
+                <div class="collapse-item-title title">
+                  <div>位置大小</div>
+                </div>
+              </template>
+              <page-position v-model:dataForm="itemDataForm" />
+            </el-collapse-item>
+            <el-collapse-item name="background">
+              <template #title>
+                <div class="collapse-item-title title">
+                  <div>背景</div>
+                </div>
+              </template>
+              <page-background v-model:dataForm="itemDataForm" />
+            </el-collapse-item>
+            <el-collapse-item name="font">
+              <template #title>
+                <div class="collapse-item-title title">
+                  <div>文字</div>
+                </div>
+              </template>
+              <page-font v-model:dataForm="itemDataForm" />
+            </el-collapse-item>
+          </el-collapse>
+          </sh-form>
+        </el-tab-pane>
+        <el-tab-pane key="compPreps" name="compPreps">
+          <template #label>
+            <star-horse-icon icon-class="preps" style="color: var(--star-horse-style)" />&nbsp;<span>组件属性</span>
+          </template>
+          <sh-form v-model:dataForm="compDataForm" :label-width="'auto'" :label-position="'top'">
+           待实现
+          </sh-form>
+        </el-tab-pane>
+      </el-tabs>
     </el-splitter-panel>
   </el-splitter>
 

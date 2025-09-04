@@ -1,82 +1,58 @@
-<script lang="ts">
-import { defineComponent, onMounted, ref } from "vue";
+<script setup lang="ts">
+import BaseChart from './BaseChart.vue';
 
-export default defineComponent({
-  setup(_props, context) {
-    let shChartRef = ref<HTMLElement>();
-    const init = async () => {
-      const echarts = await import('echarts');
-      type EChartsOption = echarts.EChartsOption;
-      let myChart = echarts.init(shChartRef.value, null, {
-        renderer: "svg",
-      });
-      let option: EChartsOption;
-      
-      option = {
-        series: [{
-          type: 'gauge',
-          progress: {
-            show: true,
-            width: 18
-          },
-          axisLine: {
-            lineStyle: {
-              width: 18
-            }
-          },
-          axisTick: {
-            show: false
-          },
-          splitLine: {
-            length: 15,
-            lineStyle: {
-              width: 2,
-              color: '#999'
-            }
-          },
-          axisLabel: {
-            distance: 25,
-            color: '#999',
-            fontSize: 10
-          },
-          anchor: {
-            show: true,
-            showAbove: true,
-            size: 25,
-            itemStyle: {
-              borderWidth: 10
-            }
-          },
-          title: {
-            show: false
-          },
-          detail: {
-            valueAnimation: true,
-            fontSize: 20,
-            formatter: '{value}%'
-          },
-          data: [{
-            value: 70
-          }]
-        }]
-      };
-      option && myChart.setOption(option);
-    };
-
-    onMounted(() => {
-      init();
-    });
-
-    return {
-      shChartRef,
-    };
-  },
-});
+const option = {
+  series: [{
+    type: 'gauge',
+    progress: {
+      show: true,
+      width: 18
+    },
+    axisLine: {
+      lineStyle: {
+        width: 18
+      }
+    },
+    axisTick: {
+      show: false
+    },
+    splitLine: {
+      length: 15,
+      lineStyle: {
+        width: 2,
+        color: '#999'
+      }
+    },
+    axisLabel: {
+      distance: 25,
+      color: '#999',
+      fontSize: 10
+    },
+    anchor: {
+      show: true,
+      showAbove: true,
+      size: 25,
+      itemStyle: {
+        borderWidth: 10
+      }
+    },
+    title: {
+      show: false
+    },
+    detail: {
+      valueAnimation: true,
+      fontSize: 20,
+      formatter: '{value}%'
+    },
+    data: [{
+      value: 70
+    }]
+  }]
+};
 </script>
 
 <template>
-  <div ref="shChartRef" style="width: 100%; height: 300px;"></div>
-  仪表盘
+  <BaseChart :option="option" />
 </template>
 
 <style scoped lang="scss"></style>

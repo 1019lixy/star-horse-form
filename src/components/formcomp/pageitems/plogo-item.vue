@@ -2,39 +2,60 @@
 defineOptions({
   name: "PageLogoItem",
 });
-interface LinkItem {
-  id: string;
+
+interface LogoItem {
+  imageUrl: string;
   companyName: string;
-  logo: string;
-  width: string;
-  height: string;
-  link: string;
+  link?: string;
+  width?: string;
+  height?: string;
+  alt?: string;
 }
+
 defineProps({
-  logoWidth: {
-    type: String,
-    default: "100px",
-  },
-  logoHeight: {
-    type: String,
-    default: "100px",
-  },
   item: {
-    type: Object as () => LinkItem,
-    default: () => ({}),
+    type: Object as () => LogoItem,
+    default: () => ({
+      imageUrl: "",
+      companyName: "公司名称",
+      link: "",
+      width: "100px",
+      height: "100px",
+      alt: "公司Logo"
+    })
   },
+  fit: {
+    type: String,
+    default: "contain" // fill, contain, cover, none, scale-down
+  }
 });
 </script>
 
 <template>
-  <div :style="{ width: logoWidth, height: logoHeight }">
-    <a :href="item.link" target="_blank" :title="item.companyName">
-      <PimageItem
-        :imageUrl="item.logo"
-        :width="item.width"
-        :height="item.height"
+  <div 
+    class="flex items-center justify-center"
+    :style="{ width: item.width, height: item.height }"
+  >
+    <a 
+      v-if="item.link" 
+      :href="item.link" 
+      target="_blank" 
+      :title="item.companyName"
+    >
+      <el-image
+        :src="item.imageUrl"
+        :alt="item.alt || item.companyName"
+        :fit="fit"
+        class="w-full h-full"
       />
     </a>
+    <el-image
+      v-else
+      :src="item.imageUrl"
+      :alt="item.alt || item.companyName"
+      :fit="fit"
+      class="w-full h-full"
+    />
   </div>
 </template>
 
