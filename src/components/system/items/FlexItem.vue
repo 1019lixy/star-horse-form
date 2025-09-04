@@ -2,6 +2,7 @@
 import {useFlexDesignStore} from "@/store/FlexDesign";
 import {piniaInstance, uuid} from "star-horse-lowcode";
 import {computed, defineOptions, onBeforeUnmount, onMounted, ref} from "vue";
+import { componentConfigs } from "@/components/formcomp/pageitems/componentConfig";
 
 defineOptions({
   name: "FlexItem",
@@ -12,7 +13,7 @@ const props = defineProps({
   direction: {type: String, default: "row"},
   previewMode: {type: Boolean, default: false}, // Add previewMode prop
 });
-const emit = defineEmits(["selectItem"]);
+const emit = defineEmits(["selectItem", "selectComponent"]);
 const flexDesign = useFlexDesignStore(piniaInstance);
 const itemStyle = computed(() => flexDesign.getItem(props.itemId));
 const compList = computed(() => flexDesign.getComp(props.itemId));
@@ -27,6 +28,17 @@ const selectItem = () => {
   }
 };
 
+// Add this new function to handle component selection within the draggable area
+const selectComponent = (componentId: string) => {
+  if (!props.previewMode) {
+    // Find which item this component belongs to
+    flexDesign.setCurrentItem(props.itemId);
+    emit("selectItem", props.itemId);
+    // Also emit a specific event for component selection
+    emit("selectComponent", props.itemId, componentId);
+  }
+};
+
 // Only allow deletion if not in preview mode
 const deleteItem = () => {
   if (!props.previewMode) {
@@ -34,9 +46,71 @@ const deleteItem = () => {
   }
 };
 
-const onDragAdd = (evt: Event, list: any[]) => {
+const onDragAdd = (evt: any, list: any[]) => {
   if (!props.previewMode) {
-    console.log(evt, list);
+    // Access the cloned data from the draggable event
+    // The cloned data is available in evt.added.element when using vuedraggable with clone function
+    const cloneData = evt.added?.element;
+    if (cloneData) {
+      // Create a new component with default values from componentConfig
+      const componentName = `${cloneData.name}-item`;
+      const componentConfig = componentConfigs[componentName];
+      
+      // Initialize properties with default values
+      const preps: Record<string, any> = {};
+      if (componentConfig) {
+        componentConfig.properties.forEach(prop => {
+          // Use default value if defined, otherwise use empty value based on type
+          if (prop.defaultValue !== undefined) {
+            preps[prop.name] = prop.defaultValue;
+          } else {
+            // Set appropriate empty values based on type
+            switch (prop.type) {
+              case 'input':
+              case 'textarea':
+              case 'select':
+              case 'color':
+              case 'date':
+              case 'time':
+              case 'json':
+              case 'code':
+                preps[prop.name] = '';
+                break;
+              case 'number':
+                preps[prop.name] = 0;
+                break;
+              case 'switch':
+              case 'checkbox':
+                preps[prop.name] = false;
+                break;
+              case 'apiConfig':
+                preps[prop.name] = {};
+                break;
+              default:
+                preps[prop.name] = '';
+            }
+          }
+        });
+      } else {
+        // If no component config found, at least set some basic properties
+        preps['content'] = '请输入展示内容'; // Default for content components
+      }
+      
+      // Create the new component object
+      const newComponent = {
+        id: uuid(),
+        name: cloneData.name,
+        label: cloneData.label,
+        preps: preps,
+        itemType: "item"
+      };
+      
+      // Add the component to the list
+      list.push(newComponent);
+      
+      // Add the component to the store
+      flexDesign.addComp(props.itemId, newComponent);
+    }
   }
 };
 
@@ -100,76 +174,33 @@ onMounted(() => {
 });
 </script>
 <template>
-  <div
-      :style="itemStyle"
-      @click.stop="selectItem"
-      class="item-info"
-      ref="resizeContainer"
-      :class="{
-      'w-full': type == 'grid',
-      'item-width': containerDirection.includes('column'),
-      'preview-mode': previewMode
-    }"
-  >
+  <div :style="itemStyle" @click.stop="selectItem" class="item-info" ref="resizeContainer" :class="{
+    'w-full': type == 'grid',
+    'item-width': containerDirection.includes('column'),
+    'preview-mode': previewMode
+  }">
     <div class="absolute top-0 right-0 z-10" @click.stop="deleteItem" v-if="!previewMode">
-      <star-horse-icon
-          iconClass="delete"
-          :cursor="'pointer'"
-          :color="'var(--star-horse-danger)'"
-          title="删除"
-      />
+      <star-horse-icon iconClass="delete" :cursor="'pointer'" :color="'var(--star-horse-danger)'" title="删除"/>
     </div>
 
 
     <div v-if="!previewMode && currentId == itemId" class="absolute top-0 left-0">
-      <star-horse-icon
-          iconClass="check"
-          :color="'var(--star-horse-style)'"
-          title="选中"
-      />
+      <star-horse-icon iconClass="check" :color="'var(--star-horse-style)'" title="选中"/>
+    </div>
+    <div class="resize-handle right" @mousedown.prevent="startResize('right', $event)" v-if="!previewMode"/>
+    <div class="resize-handle bottom" @mousedown.prevent="startResize('bottom', $event)" v-if="!previewMode"/>
 
-      <div
-          class="resize-handle right"
-          @mousedown.prevent="startResize('right', $event)"
-          v-if="!previewMode"
-      />
-      <div
-          class="resize-handle bottom"
-          @mousedown.prevent="startResize('bottom', $event)"
-          v-if="!previewMode"
-      />
-
-      <div class="relative flex flex-col h-full w-full overflow-hidden min-w-0 max-w-full">
-        <draggable
-            @add="(evt: Event) => onDragAdd(evt, compList)"
-            class="w-full h-full min-w-[0]"
-            tag="div"
-            group="starHorseGroup"
-            ghost-class="ghost"
-            :list="compList"
-            :itemKey="uuid()"
-            :disabled="previewMode"
-        >
-          <template #item="{ element: data, index }">
-            <div
-                class="overflow-visible flex flex-col flex-wrap w-full"
-                :class="{ 'h-full': compList.length == 1 }"
-                :data-field-id="data.id"
-                :key="data.id"
-            >
-              <component
-                  :key="data.id"
-                  :field="data"
-                  :isDesign="!previewMode"
-                  :index-of-parent-list="index"
-                  :is="data.name + '-item'"
-                  v-bind="data.preps"
-                  style="min-width: 0; width: 100%"
-              />
-            </div>
-          </template>
-        </draggable>
-      </div>
+    <div class="relative flex flex-col h-full w-full overflow-hidden min-w-0 max-w-full">
+      <draggable @add="(evt: Event) => onDragAdd(evt, compList)" class="w-full h-full min-w-[0]" tag="div"
+                 group="starHorseGroup" ghost-class="ghost" :list="compList" :itemKey="uuid()" :disabled="previewMode">
+        <template #item="{ element: data, index }">
+          <div class="overflow-visible flex flex-col flex-wrap w-full" :class="{ 'h-full': compList.length == 1 }"
+               :data-field-id="data.id" :key="data.id" @click.stop="selectComponent(data.id)">
+            <component :key="data.id" :field="data" :isDesign="!previewMode" :index-of-parent-list="index"
+                       :is="data.name + '-item'" v-bind="data.preps" style="min-width: 0; width: 100%"/>
+          </div>
+        </template>
+      </draggable>
     </div>
   </div>
 </template>
@@ -211,6 +242,7 @@ onMounted(() => {
 
   .resize-handle {
     opacity: 0; // 默认隐藏
+    transition: opacity 0.2s ease;
     position: absolute;
     z-index: 20;
     background: rgba(105, 97, 97, 0.8);

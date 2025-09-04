@@ -28,24 +28,26 @@
           </div>
         </div>
         <div class="preview-actions">
-          <el-button size="small" @click="toggleDeviceMode">
-            <star-horse-icon
-                :icon-class="deviceMode === 'desktop' ? 'mobile' : 'desktop'"
-            />
-            {{ deviceMode === "desktop" ? "移动端预览" : "桌面端预览" }}
-          </el-button>
-          <el-button size="small" @click="refreshPreview">
-            <star-horse-icon icon-class="refresh"/>
-            刷新
-          </el-button>
-          <el-button size="small" @click="exportHTML" type="primary">
-            <star-horse-icon icon-class="download"/>
-            导出HTML
-          </el-button>
-          <el-button size="small" @click="showDebugInfo = !showDebugInfo">
-            <star-horse-icon icon-class="info"/>
-            {{ showDebugInfo ? "隐藏调试" : "调试信息" }}
-          </el-button>
+          <el-button-group>
+            <el-button type="success" plain  @click="toggleDeviceMode">
+              <star-horse-icon color="#fff"
+                  :icon-class="deviceMode === 'desktop' ? 'mobile' : 'desktop'"
+              />
+              {{ deviceMode === "desktop" ? "移动端预览" : "桌面端预览" }}
+            </el-button>
+            <el-button type="info" plain  @click="refreshPreview">
+              <star-horse-icon icon-class="refresh" />
+              刷新
+            </el-button>
+            <el-button type="info" plain  @click="exportHTML" >
+              <star-horse-icon icon-class="download" color="#fff"/>
+              导出HTML
+            </el-button>
+            <el-button type="info" plain  @click="showDebugInfo = !showDebugInfo">
+              <star-horse-icon icon-class="info" color="#fff"/>
+              {{ showDebugInfo ? "隐藏调试" : "调试信息" }}
+            </el-button>
+          </el-button-group>
         </div>
       </div>
 

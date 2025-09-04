@@ -16,6 +16,7 @@ import PageBackground from "@/components/system/items/PageBackground.vue";
 import PageCompPanel from "@/components/system/items/PageCompPanel.vue";
 import PageFont from "@/components/system/items/PageFont.vue";
 import PagePosition from "@/components/system/items/PagePosition.vue";
+import PageItemProperties from "@/components/system/items/PageItemProperties.vue";
 import SvgLoader from "@/components/system/SvgLoader.vue";
 import { Layout } from "@/components/types/dataTypes";
 import { appInstance } from "@/main";
@@ -65,6 +66,8 @@ const flexModel = ref<string>("flex");
 const needInfiniteViewer = ref<boolean>(true);
 const hideRuler = ref<boolean>(false);
 const isFullscreen = ref(false);
+// Add this new ref for tracking selected component
+const selectedComponentId = ref<string>("");
 const directions = ["column", "row-reverse", "column-reverse", "row"];
 
 // Dialog states
@@ -104,7 +107,35 @@ const mainAxisDirection = () => {
 const selectItem = (itemId: string) => {
   itemDataForm.value = flexDesign.getItem(itemId);
   editTabModel.value = "item";
+  // Reset selected component when selecting a different item
+  selectedComponentId.value = "";
 };
+
+// Add this new function to handle component selection within an item
+const selectComponent = (itemId: string, componentId: string) => {
+  // Select the item first
+  selectItem(itemId);
+  // Set the selected component ID
+  selectedComponentId.value = componentId;
+  // Then switch to the component properties tab
+  editTabModel.value = "compPreps";
+};
+
+// Add this new function to handle when no item is selected (container is clicked)
+const selectContainer = () => {
+  // Clear the item data form when container is selected
+  itemDataForm.value = {};
+  editTabModel.value = "container";
+  // Reset selected component when selecting container
+  selectedComponentId.value = "";
+};
+
+// Add this new function
+const handlePropertyUpdate = (propertyName: string, value: any) => {
+  // Property updates are handled directly in the PageItemProperties component
+  console.log(`Property ${propertyName} updated to:`, value);
+};
+
 const addComp = () => {
   flexDesign.addComp(currentId.value, {
     id: uuid(),
@@ -293,8 +324,11 @@ watch(
   () => currentId.value,
   (val: string) => {
     selectItem(val);
-  },
+    // Reset selected component when current item changes
+    selectedComponentId.value = "";
+  }
 );
+
 </script>
 <template>
   <el-splitter>
@@ -387,11 +421,10 @@ watch(
             </el-tooltip>
           </el-button-group>
         </div>
-        <StarHorseRuler :needInfiniteViewer="needInfiniteViewer" :hideHorizontalRuler="hideRuler"
-          :hideVerticalRuler="hideRuler">
-          <div :style="containerDataForm" class="flex-1">
+        <StarHorseRuler :hideRuler="hideRuler" :needInfiniteViewer="needInfiniteViewer" ref="rulerRef">
+          <div :class="`flex-container ${flexModel == 'flex' ? 'flex' : 'grid'}`" @click="selectContainer">
             <template v-for="item in positionList">
-              <FlexItem :itemId="item" @selectItem="selectItem" :type="flexModel" />
+              <FlexItem :itemId="item" @selectItem="selectItem" @selectComponent="selectComponent" :type="flexModel" />
             </template>
           </div>
         </StarHorseRuler>
@@ -490,9 +523,13 @@ watch(
           <template #label>
             <star-horse-icon icon-class="preps" style="color: var(--star-horse-style)" />&nbsp;<span>组件属性</span>
           </template>
-          <sh-form v-model:dataForm="compDataForm" :label-width="'auto'" :label-position="'top'">
-           待实现
-          </sh-form>
+          <div class="properties-container">
+            <PageItemProperties 
+              :selected-item-id="currentId" 
+              :selected-component-id="selectedComponentId"
+              @update:property="handlePropertyUpdate"
+            />
+          </div>
         </el-tab-pane>
       </el-tabs>
     </el-splitter-panel>

@@ -5,7 +5,7 @@ defineOptions({
 defineProps({
   content: {
     type: String,
-    default: "",
+    default: "请输入展示内容",
   },
 });
 </script>

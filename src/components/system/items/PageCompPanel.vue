@@ -3,7 +3,7 @@ import { defineOptions, onMounted, ref } from "vue";
 import { pageCompList } from "@/utils/layoutcomp";
 import { PageCompItem } from "@/components/types/PageLayoutComp";
 import SvgLoader from "../SvgLoader.vue";
-
+import { uuid } from "star-horse-lowcode";
 defineOptions({
   name: "PageCompPanel",
 });
@@ -11,10 +11,12 @@ const props = defineProps({});
 const emit = defineEmits(["selectItem"]);
 const activeNames = ref<string[]>(["a", "b", "c"]);
 const onContainerCopy = (data: PageCompItem) => {
-  return JSON.parse(JSON.stringify(data));
+  let item = JSON.parse(JSON.stringify(data));
+  item.id = uuid();
+  return item;
 };
-const addElement = (item: PageCompItem, type: string) => {};
-const init = () => {};
+const addElement = (item: PageCompItem, type: string) => { };
+const init = () => { };
 onMounted(() => {
   init();
 });
@@ -26,40 +28,20 @@ onMounted(() => {
         <template v-for="(item, index) in pageCompList" :key="index">
           <el-collapse-item :name="item.id">
             <template #title>
-              <div
-                class="collapse-item-title title h-full flex justify-between"
-              >
+              <div class="collapse-item-title title h-full flex justify-between">
                 <div class="flex flex-row items-center h-full">
                   {{ item.label }}
                 </div>
-                <star-horse-icon
-                  :icon-class="item.icon"
-                  size="24px"
-                  style="color: var(--star-horse-style); margin-right: 10px"
-                />
+                <star-horse-icon :icon-class="item.icon" size="24px"
+                  style="color: var(--star-horse-style); margin-right: 10px" />
               </div>
             </template>
-            <draggable
-              :clone="onContainerCopy"
-              :group="{ name: 'starHorseGroup', pull: 'clone', put: false }"
-              :sort="false"
-              animation="300"
-              ghost-class="ghost"
-              item-key="id"
-              tag="ul"
-              :list="item.items"
-            >
+            <draggable :clone="onContainerCopy" :group="{ name: 'starHorseGroup', pull: 'clone', put: false }"
+              :sort="false" animation="300" ghost-class="ghost" item-key="id" tag="ul" :list="item.items">
               <template #item="{ element }">
-                <li
-                  class="field-item h-[70px]!"
-                  @dblclick="addElement(element, item.name)"
-                  :title="element.label"
-                >
-                  <SvgLoader
-                    :path="'comp/' + element.icon"
-                    size="24px"
-                    style="color: var(--star-horse-style)"
-                  /><i>{{ element.label }}</i>
+                <li class="field-item h-[70px]!" @dblclick="addElement(element, item.name)" :title="element.label">
+                  <SvgLoader :path="'comp/' + element.icon" size="24px" style="color: var(--star-horse-style)" /><i>{{
+                    element.label }}</i>
                 </li>
               </template>
             </draggable>

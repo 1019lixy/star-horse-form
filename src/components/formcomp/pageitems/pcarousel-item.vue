@@ -1,14 +1,19 @@
 <script setup lang="ts">
+import { ref, computed, watch, onMounted } from 'vue';
+import { hasValidApiConfig, fetchData } from './composables/useApiData';
+
 defineOptions({
   name: "PageCarouselItem",
 });
+
 interface CarouselInfo {
   name: string;
   url: string;
   imageUrl: string;
   openType: string;
 }
-defineProps({
+
+const props = defineProps({
   interval: {
     type: Number,
     default: 4000,
@@ -25,13 +30,72 @@ defineProps({
     type: Array as () => CarouselInfo[],
     default: () => [],
   },
+  apiConfig: {
+    type: Object,
+    default: () => ({})
+  }
+});
+
+// Reactive data
+const apiData = ref<CarouselInfo[]>([]);
+const loading = ref(false);
+const error = ref<string | null>(null);
+
+// Determine which data to use (API data if available, otherwise static data)
+const carouselData = computed(() => {
+  return apiData.value && apiData.value.length > 0 ? apiData.value : props.items;
+});
+
+// Fetch data from API
+const fetchApiData = async () => {
+  // If no API config, don't fetch and don't set loading state
+  if (!hasValidApiConfig(props.apiConfig)) {
+    return;
+  }
+  
+  loading.value = true;
+  error.value = null;
+  
+  try {
+    const result: any = await fetchData(props.apiConfig);
+    if (!result.error) {
+      // Set the fetched data
+      apiData.value = result.data;
+    } else {
+      error.value = result.error;
+      console.error('API call failed:', result.error);
+    }
+  } catch (err: any) {
+    error.value = err instanceof Error ? err.message : 'Unknown error occurred';
+    console.error('API call failed:', err);
+  } finally {
+    loading.value = false;
+  }
+};
+
+// Watch for API config changes
+watch(() => props.apiConfig, () => {
+  fetchApiData();
+}, { deep: true });
+
+// Fetch initial data
+onMounted(() => {
+  fetchApiData();
 });
 </script>
 
 <template>
   <div class="w-full">
-    <el-carousel :interval="interval" :type="type" :height="height">
-      <el-carousel-item v-for="item in items" :key="item">
+    <div v-if="loading" class="text-center py-4">
+      <el-skeleton :rows="2" animated />
+    </div>
+    
+    <div v-else-if="error" class="text-center py-4 text-red-500">
+      {{ error }}
+    </div>
+    
+    <el-carousel v-else :interval="interval" :type="type" :height="height">
+      <el-carousel-item v-for="(item, index) in carouselData" :key="index">
         <div class="w-[99%] h-full relative" style="margin: 3px auto">
           <el-image :src="item.imageUrl" fit="fill" />
           <div

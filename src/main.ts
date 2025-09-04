@@ -6,7 +6,7 @@ import "@/assets/css/table-enhancements.scss";
 import "tailwindcss/index.css";
 // import nodeComponent from "@/views/continuous/nodeInfo/nodecomp";
 import itemsComponent from "@/components/formcomp/items/allitem";
-import commonComponent from "@/components/common/index";
+import * as commonComponent from "@/components/common/index";
 import systemComponent from "@/components/system/SystemComp";
 import App from "@/App.vue";
 import { createApp } from "vue";

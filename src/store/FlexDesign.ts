@@ -75,6 +75,30 @@ export const useFlexDesignStore = defineStore("flexDesign", () => {
       }
     }
   };
+
+  /**
+   * 更新组件属性
+   * @param name 组件名称
+   * @param id 组件id
+   * @param propertyName 属性名
+   * @param value 属性值
+   */
+  const updateComponentProperty = (name: string, id: string, propertyName: string, value: any) => {
+    if (!Object.keys(compList.value).includes(name)) {
+      return;
+    }
+    
+    const index = compList.value[name].findIndex((item: any) => item.id === id);
+    if (index !== -1) {
+      compList.value[name][index] = {
+        ...compList.value[name][index],
+        preps: {
+          ...(compList.value[name][index].preps || {}),
+          [propertyName]: value
+        }
+      };
+    }
+  };
   /**
    * 设置容器信息
    * @param container 容器信息
@@ -354,6 +378,7 @@ export const useFlexDesignStore = defineStore("flexDesign", () => {
     getComp,
     getCompList,
     removeComp,
+    updateComponentProperty,
     addItem,
     getItem,
     setContainerDirection,
