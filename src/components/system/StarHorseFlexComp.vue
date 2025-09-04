@@ -364,7 +364,7 @@ watch(
     </el-splitter-panel>
     <el-splitter-panel>
       <div class="flex flex-col w-[99%] h-full relative" style="margin: 0 auto; background: #86909c">
-        <div class="flex items-center w-full h-[40px]" style="background: #fefefe">
+        <div class="flex items-center w-full h-[48px]" style="background: #fefefe">
           <el-button-group>
             <el-tooltip class="item" content="添加元素" effect="dark" placement="bottom">
               <el-button @click="addItem" class="h-full border-0">
@@ -421,10 +421,19 @@ watch(
             </el-tooltip>
           </el-button-group>
         </div>
-        <StarHorseRuler :hideRuler="hideRuler" :needInfiniteViewer="needInfiniteViewer" ref="rulerRef">
-          <div :class="`flex-container ${flexModel == 'flex' ? 'flex' : 'grid'}`" @click="selectContainer">
+       
+          <StarHorseRuler
+          :needInfiniteViewer="needInfiniteViewer"
+          :hideHorizontalRuler="hideRuler"
+          :hideVerticalRuler="hideRuler"
+        >
+          <div :style="containerDataForm" class="flex-1">
             <template v-for="item in positionList">
-              <FlexItem :itemId="item" @selectItem="selectItem" @selectComponent="selectComponent" :type="flexModel" />
+              <FlexItem
+                :itemId="item"
+                @selectItem="selectItem"
+                :type="flexModel"
+              />
             </template>
           </div>
         </StarHorseRuler>
