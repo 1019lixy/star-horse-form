@@ -125,6 +125,133 @@ export const defaultChartOptions: Record<string, any> = {
         }
       ]
     }]
+  },
+  scatter: {
+    title: {
+      text: '散点图示例'
+    },
+    xAxis: {},
+    yAxis: {},
+    series: [{
+      symbolSize: 20,
+      data: [
+        [10.0, 8.04],
+        [8.0, 6.95],
+        [13.0, 7.58],
+        [9.0, 8.81],
+        [11.0, 8.33],
+        [14.0, 9.96],
+        [6.0, 7.24],
+        [4.0, 4.26],
+        [12.0, 10.84],
+        [7.0, 4.82],
+        [5.0, 5.68]
+      ],
+      type: 'scatter'
+    }]
+  },
+  funnel: {
+    title: {
+      text: '漏斗图示例'
+    },
+    tooltip: {
+      trigger: 'item',
+      formatter: "{a} <br/>{b} : {c}%"
+    },
+    series: [{
+      name: '漏斗图',
+      type: 'funnel',
+      left: '10%',
+      top: 60,
+      bottom: 60,
+      width: '80%',
+      min: 0,
+      max: 100,
+      minSize: '0%',
+      maxSize: '100%',
+      sort: 'descending',
+      gap: 2,
+      label: {
+        show: true,
+        position: 'inside'
+      },
+      labelLine: {
+        length: 10,
+        lineStyle: {
+          width: 1,
+          type: 'solid'
+        }
+      },
+      itemStyle: {
+        borderColor: '#fff',
+        borderWidth: 1
+      },
+      emphasis: {
+        label: {
+          fontSize: 20
+        }
+      },
+      data: [
+        { value: 60, name: '访问' },
+        { value: 40, name: '咨询' },
+        { value: 20, name: '订单' },
+        { value: 80, name: '点击' },
+        { value: 100, name: '展现' }
+      ]
+    }]
+  },
+  gauge: {
+    title: {
+      text: '仪表盘示例'
+    },
+    series: [{
+      name: '业务指标',
+      type: 'gauge',
+      detail: { formatter: '{value}%' },
+      data: [{ value: 50, name: '完成率' }]
+    }]
+  },
+  map: {
+    title: {
+      text: '热力图示例'
+    },
+    xAxis: {
+      type: 'category',
+      data: ['周一', '周二', '周三', '周四', '周五', '周六', '周日']
+    },
+    yAxis: {
+      type: 'category',
+      data: ['a', 'b', 'c', 'd']
+    },
+    visualMap: {
+      min: 0,
+      max: 10,
+      calculable: true,
+      orient: 'horizontal',
+      left: 'center'
+    },
+    series: [{
+      name: '热度',
+      type: 'heatmap',
+      data: [
+        [0, 0, 5], [0, 1, 7], [0, 2, 3], [0, 3, 5],
+        [1, 0, 1], [1, 1, 2], [1, 2, 4], [1, 3, 8],
+        [2, 0, 2], [2, 1, 3], [2, 2, 8], [2, 3, 6],
+        [3, 0, 7], [3, 1, 5], [3, 2, 3], [3, 3, 9],
+        [4, 0, 9], [4, 1, 2], [4, 2, 6], [4, 3, 1],
+        [5, 0, 4], [5, 1, 6], [5, 2, 5], [5, 3, 3],
+        [6, 0, 8], [6, 1, 7], [6, 2, 4], [6, 3, 2]
+      ],
+      label: {
+        show: true
+      },
+      emphasis: {
+        itemStyle: {
+          shadowBlur: 10,
+          shadowColor: 'rgba(0, 0, 0, 0.5)'
+        }
+      }
+    }]
   }
 };
 
@@ -1158,7 +1285,7 @@ export const componentConfigs: Record<string, ComponentConfig> = {
           { label: '散点图', value: 'scatter' },
           { label: '漏斗图', value: 'funnel' },
           { label: '仪表盘', value: 'gauge' },
-          { label: '地图', value: 'map' }
+          { label: '热力图', value: 'map' }
         ]
       },
       {

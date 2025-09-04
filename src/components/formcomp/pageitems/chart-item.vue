@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref, computed, watch, onMounted } from 'vue';
 import { hasValidApiConfig, fetchData } from './composables/useApiData';
+import { defaultChartOptions } from './componentConfig';
 
 const props = defineProps<{
   option: any;
@@ -20,8 +21,20 @@ const chartOption = computed(() => {
   if (apiData.value && Object.keys(apiData.value).length > 0) {
     return apiData.value;
   }
-  // Otherwise, use the static option
-  return props.option;
+  // If we have a specific chart type and default options for it, use those
+  if (props.type && defaultChartOptions[props.type]) {
+    return defaultChartOptions[props.type];
+  }
+  // If we have static option passed in props and it's not empty, use it
+  if (props.option && typeof props.option === 'object' && Object.keys(props.option).length > 0) {
+    return props.option;
+  }
+  // Fallback to default chart type options
+  if (props.type && defaultChartOptions[props.type]) {
+    return defaultChartOptions[props.type];
+  }
+  // Final fallback to line chart
+  return defaultChartOptions.line;
 });
 
 // Fetch data from API
@@ -64,7 +77,9 @@ const initChart = async () => {
   });
 
   // Use chartOption which will be either API data or static option
-  chartOption.value && myChart.setOption(chartOption.value);
+  if (chartOption.value) {
+    myChart.setOption(chartOption.value);
+  }
 
   // Add resize observer to handle parent container height changes
   const resizeObserver = new ResizeObserver(() => {
@@ -92,6 +107,17 @@ watch(() => props.apiConfig, () => {
 watch(() => props.option, () => {
   if (myChart && props.option) {
     myChart.setOption(props.option, true); // true for notMerge
+  }
+});
+
+// Watch for type changes
+watch(() => props.type, (newType, oldType) => {
+  if (myChart) {
+    // When type changes, update the chart with the appropriate default options
+    const newOption = newType && defaultChartOptions[newType] 
+      ? defaultChartOptions[newType] 
+      : props.option || defaultChartOptions.line;
+    myChart.setOption(newOption, true); // true for notMerge
   }
 });
 

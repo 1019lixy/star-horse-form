@@ -109,7 +109,7 @@ watch(
     (newType) => {
       if (componentType.value === 'chart-item' && newType) {
         // Update the chart options when chart type changes
-        const defaultOption = defaultChartOptions[newType] || {};
+        const defaultOption = defaultChartOptions[newType] || defaultChartOptions.line || {};
         updateProperty('option', defaultOption);
         propertyForm.value.option = defaultOption;
       }

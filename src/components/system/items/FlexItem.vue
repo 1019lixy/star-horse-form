@@ -62,7 +62,12 @@ const onDragAdd = (evt: any, list: any[]) => {
         componentConfig.properties.forEach(prop => {
           // Use default value if defined, otherwise use empty value based on type
           if (prop.defaultValue !== undefined) {
-            preps[prop.name] = prop.defaultValue;
+            // For complex objects like chart options, we need to deep clone them
+            if (prop.type === 'json' && typeof prop.defaultValue === 'object') {
+              preps[prop.name] = JSON.parse(JSON.stringify(prop.defaultValue));
+            } else {
+              preps[prop.name] = prop.defaultValue;
+            }
           } else {
             // Set appropriate empty values based on type
             switch (prop.type) {
