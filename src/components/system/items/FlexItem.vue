@@ -20,6 +20,9 @@ const compList = computed(() => flexDesign.getComp(props.itemId));
 const currentId = computed(() => flexDesign.getCurrentItem());
 const containerDirection = computed(() => flexDesign.getContainerDirection());
 
+// Add reactive variable to track selected component
+const selectedComponentId = ref<string>("");
+
 // Only allow selection if not in preview mode
 const selectItem = () => {
   if (!props.previewMode) {
@@ -36,6 +39,8 @@ const selectComponent = (componentId: string) => {
     emit("selectItem", props.itemId);
     // Also emit a specific event for component selection
     emit("selectComponent", props.itemId, componentId);
+    // Set the selected component ID for highlighting
+    selectedComponentId.value = componentId;
   }
 };
 
@@ -115,6 +120,12 @@ const onDragAdd = (evt: any, list: any[]) => {
       
       // Add the component to the store
       flexDesign.addComp(props.itemId, newComponent);
+      
+      // Automatically select the newly added component after a short delay
+      // This ensures the component is fully rendered before selection
+      setTimeout(() => {
+        selectComponent(newComponent.id);
+      }, 0);
     }
   }
 };
@@ -177,7 +188,23 @@ const init = () => {
 onMounted(() => {
   init();
 });
+
+// Expose variables and functions to template
+defineExpose({
+  itemStyle,
+  compList,
+  currentId,
+  containerDirection,
+  selectedComponentId,
+  selectItem,
+  selectComponent,
+  deleteItem,
+  onDragAdd,
+  startResize,
+  uuid
+});
 </script>
+
 <template>
   <div :style="itemStyle" @click.stop="selectItem" class="item-info" ref="resizeContainer" :class="{
     'w-full': type == 'grid',
@@ -202,7 +229,8 @@ onMounted(() => {
           <div class="overflow-visible flex flex-col flex-wrap w-full" :class="{ 'h-full': compList.length == 1 }"
                :data-field-id="data.id" :key="data.id" @click.stop="selectComponent(data.id)">
             <component :key="data.id" :field="data" :isDesign="!previewMode" :index-of-parent-list="index"
-                       :is="data.name + '-item'" v-bind="data.preps" style="min-width: 0; width: 100%"/>
+                       :is="data.name + '-item'" v-bind="data.preps" style="min-width: 0; width: 100%"
+                       :class="{ 'component-selected': selectedComponentId === data.id }"/>
           </div>
         </template>
       </draggable>
@@ -281,5 +309,12 @@ onMounted(() => {
       transform: translateX(-40%);
     }
   }
+}
+
+// Add styles for selected component
+.component-selected {
+  outline: 2px solid var(--star-horse-style);
+  outline-offset: 2px;
+  border-radius: 4px;
 }
 </style>
