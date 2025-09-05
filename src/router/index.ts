@@ -21,7 +21,7 @@ const router = createRouter({
   routes: routeDefine,
   scrollBehavior: () => ({ left: 0, top: 0 }),
 });
-const whiteList = ["/login", "/404","/register","/forgot-password"]; // N redirect whitelist
+const whiteList = ["/login", "/404", "/register", "/forgot-password"]; // N redirect whitelist
 const assignTitle = (meta: any) => {
   if (meta.title) {
     document.title = meta.title + " - " + Config.title;

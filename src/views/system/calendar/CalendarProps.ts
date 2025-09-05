@@ -277,8 +277,8 @@ export function calendarManage(calendarList: Array<any>) {
         formVisible: !true,
         listVisible: !true,
         preps: {
-          dataSource:"dict",
-          urlOrDictName:"public"
+          dataSource: "dict",
+          urlOrDictName: "public",
         },
       },
       {

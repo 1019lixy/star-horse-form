@@ -531,20 +531,20 @@ defineExpose({
 </script>
 
 <template>
-    <star-horse-form
-      :fieldList="dataSourceField"
-      ref="dataSourceFormRef"
-      v-if="!dataForm"
-    />
-    <star-horse-form-item
-      v-else
-      ref="dataSourceFormRef"
-      :fieldList="dataSourceField"
-      :dataIndex="(props.preps?.params?.totalTab || 1) - 1"
-      :subFormFlag="'Y'"
-      :objectName="'dataSource'"
-      v-model:dataForm="dataForm"
-    />
+  <star-horse-form
+    :fieldList="dataSourceField"
+    ref="dataSourceFormRef"
+    v-if="!dataForm"
+  />
+  <star-horse-form-item
+    v-else
+    ref="dataSourceFormRef"
+    :fieldList="dataSourceField"
+    :dataIndex="(props.preps?.params?.totalTab || 1) - 1"
+    :subFormFlag="'Y'"
+    :objectName="'dataSource'"
+    v-model:dataForm="dataForm"
+  />
 </template>
 
 <style scoped lang="scss"></style>

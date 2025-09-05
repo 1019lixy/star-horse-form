@@ -21,25 +21,25 @@ defineProps({
       link: "",
       width: "100px",
       height: "100px",
-      alt: "公司Logo"
-    })
+      alt: "公司Logo",
+    }),
   },
   fit: {
     type: String,
-    default: "contain" // fill, contain, cover, none, scale-down
-  }
+    default: "contain", // fill, contain, cover, none, scale-down
+  },
 });
 </script>
 
 <template>
-  <div 
+  <div
     class="flex items-center justify-center"
     :style="{ width: item.width, height: item.height }"
   >
-    <a 
-      v-if="item.link" 
-      :href="item.link" 
-      target="_blank" 
+    <a
+      v-if="item.link"
+      :href="item.link"
+      target="_blank"
       :title="item.companyName"
     >
       <el-image

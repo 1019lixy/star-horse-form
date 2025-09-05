@@ -1,48 +1,48 @@
 <script setup lang="ts">
-import { ref } from 'vue';
-import { ElButton } from 'element-plus';
-import ApiConfigDialog from './ApiConfigDialog.vue';
-import type { ApiConfig } from '@/utils/apiConfig';
+import { ref } from "vue";
+import { ElButton } from "element-plus";
+import ApiConfigDialog from "./ApiConfigDialog.vue";
+import type { ApiConfig } from "@/utils/apiConfig";
 
 // 定义组件属性
 const props = defineProps({
   modelValue: {
     type: Object,
     default: () => ({
-      env: '',
-      httpMethod: 'POST',
-      protocol: 'http',
-      host: '',
-      port: '',
-      interfaceUrl: ''
-    })
+      env: "",
+      httpMethod: "POST",
+      protocol: "http",
+      host: "",
+      port: "",
+      interfaceUrl: "",
+    }),
   },
   buttonText: {
     type: String,
-    default: '配置API'
+    default: "配置API",
   },
   buttonType: {
     type: String,
-    default: 'primary'
+    default: "primary",
   },
   buttonSize: {
     type: String,
-    default: 'small'
+    default: "small",
   },
   buttonPlain: {
     type: Boolean,
-    default: false
+    default: false,
   },
   dialogTitle: {
     type: String,
-    default: 'API配置'
-  }
+    default: "API配置",
+  },
 });
 
 // 定义组件事件
 const emit = defineEmits<{
-  'update:modelValue': [value: ApiConfig];
-  'save': [value: ApiConfig];
+  "update:modelValue": [value: ApiConfig];
+  save: [value: ApiConfig];
 }>();
 
 // 响应式数据
@@ -55,8 +55,8 @@ const openDialog = () => {
 
 // 处理保存事件
 const handleSave = (config: ApiConfig) => {
-  emit('update:modelValue', config);
-  emit('save', config);
+  emit("update:modelValue", config);
+  emit("save", config);
 };
 </script>
 
@@ -70,7 +70,7 @@ const handleSave = (config: ApiConfig) => {
     >
       {{ buttonText }}
     </el-button>
-    
+
     <ApiConfigDialog
       v-model:visible="dialogVisible"
       v-model:modelValue="props.modelValue"

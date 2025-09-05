@@ -4,7 +4,7 @@ import {
   loadFlexDesign,
   type PublishResult,
   saveFlexDesign,
-  type ShareResult
+  type ShareResult,
 } from "@/api/flexDesign";
 import pageItemsComponent from "@/components/formcomp/pageitems/allPageItem";
 import FlexPreviewDialog from "@/components/system/dialogs/FlexPreviewDialog.vue";
@@ -18,18 +18,31 @@ import PageFont from "@/components/system/items/PageFont.vue";
 import PagePosition from "@/components/system/items/PagePosition.vue";
 import PageItemProperties from "@/components/system/items/PageItemProperties.vue";
 import SvgLoader from "@/components/system/SvgLoader.vue";
-import {Layout} from "@/components/types/dataTypes";
-import {appInstance} from "@/main";
-import {useFlexDesignStore} from "@/store/FlexDesign";
-import {flexBoxContainerConfig} from "@/utils/flexbox/containerConfig";
-import {flexBoxItemsConfig} from "@/utils/flexbox/itemsConfig";
-import {flexboxLayouts} from "@/utils/flexbox/layouts";
-import {gridContainerConfig} from "@/utils/grid/containerConfig";
-import {gridItemsConfig} from "@/utils/grid/itemsConfig";
-import {gridLayouts} from "@/utils/grid/layouts";
+import { Layout } from "@/components/types/dataTypes";
+import { appInstance } from "@/main";
+import { useFlexDesignStore } from "@/store/FlexDesign";
+import { flexBoxContainerConfig } from "@/utils/flexbox/containerConfig";
+import { flexBoxItemsConfig } from "@/utils/flexbox/itemsConfig";
+import { flexboxLayouts } from "@/utils/flexbox/layouts";
+import { gridContainerConfig } from "@/utils/grid/containerConfig";
+import { gridItemsConfig } from "@/utils/grid/itemsConfig";
+import { gridLayouts } from "@/utils/grid/layouts";
 
-import {error, PageFieldInfo, piniaInstance, success, uuid} from "star-horse-lowcode";
-import {computed, defineOptions, onMounted, onUnmounted, ref, watch} from "vue";
+import {
+  error,
+  PageFieldInfo,
+  piniaInstance,
+  success,
+  uuid,
+} from "star-horse-lowcode";
+import {
+  computed,
+  defineOptions,
+  onMounted,
+  onUnmounted,
+  ref,
+  watch,
+} from "vue";
 import StarHorseRuler from "./StarHorseRuler.vue";
 
 defineOptions({
@@ -68,8 +81,7 @@ const currentDesignName = ref<string>("未命名设计");
 const currentDesignDescription = ref<string>("");
 
 let index = 0;
-const tabChange = (val: string) => {
-};
+const tabChange = (val: string) => {};
 const addItem = () => {
   let itemId = uuid();
   flexDesign.addItem(itemId, {});
@@ -140,7 +152,7 @@ const init = () => {
   appInstance.use(pageItemsComponent);
   flexChange("flex");
   let layout: Layout = flexboxLayouts.find(
-      (item: Layout) => item.icon == "fillRemainingSpace",
+    (item: Layout) => item.icon == "fillRemainingSpace",
   )!;
   layoutOperation(layout);
 };
@@ -170,7 +182,6 @@ const layoutOperation = (item: Layout) => {
     item.styles["overflow"] = "hidden";
   });
   flexDesign.batchAddItems(tempItems);
-
 };
 const autoScroll = () => {
   needInfiniteViewer.value = !needInfiniteViewer.value;
@@ -262,11 +273,11 @@ const autoSave = async () => {
   if (currentDesignId.value) {
     try {
       const designData = flexDesign.serializeDesignData(
-          currentDesignName.value,
-          currentDesignDescription.value,
-          flexModel.value,
+        currentDesignName.value,
+        currentDesignDescription.value,
+        flexModel.value,
       );
-      await saveFlexDesign({...designData, id: currentDesignId.value});
+      await saveFlexDesign({ ...designData, id: currentDesignId.value });
       console.log("自动保存成功");
     } catch (error) {
       console.error("自动保存失败:", error);
@@ -292,10 +303,10 @@ onMounted(() => {
 
   // 设置自动保存，每5分钟保存一次
   const autoSaveInterval = setInterval(
-      () => {
-        autoSave();
-      },
-      5 * 60 * 1000,
+    () => {
+      autoSave();
+    },
+    5 * 60 * 1000,
   ); // 5分钟
 
   // 监听页面卸载，自动保存
@@ -308,33 +319,48 @@ onMounted(() => {
   });
 });
 watch(
-    () => currentId.value,
-    (val: string) => {
-      // selectItem(val);
-      // Reset selected component when current item changes
-      // selectedComponentId.value = "";
-    }
+  () => currentId.value,
+  (val: string) => {
+    // selectItem(val);
+    // Reset selected component when current item changes
+    // selectedComponentId.value = "";
+  },
 );
-
 </script>
 <template>
   <el-splitter>
     <el-splitter-panel collapsible size="320" max="50%" class="flex flex-col">
       <div class="inner_button">
         <el-select v-model="flexModel" class="" @change="flexChange">
-          <el-option value="flex" label="Flex"/>
-          <el-option value="grid" label="FlexGrid"/>
+          <el-option value="flex" label="Flex" />
+          <el-option value="grid" label="FlexGrid" />
         </el-select>
       </div>
-      <el-tabs v-model="tabModel" class="flex-1" tab-position="left" @tabChange="tabChange" type="border-card">
+      <el-tabs
+        v-model="tabModel"
+        class="flex-1"
+        tab-position="left"
+        @tabChange="tabChange"
+        type="border-card"
+      >
         <el-tab-pane name="template">
           <template #label>
-            <star-horse-icon icon-class="template" style="color: var(--star-horse-style)"/>&nbsp;<span>模板</span>
+            <star-horse-icon
+              icon-class="template"
+              style="color: var(--star-horse-style)"
+            />&nbsp;<span>模板</span>
           </template>
           <div class="flex-grid gap-4 w-full flex-wrap">
             <template v-for="item in layoutConfig">
-              <div class="flex flex-col items-center justify-center" @click="layoutOperation(item)">
-                <svg-loader :path="'./flexable/' + item.icon" cursor="pointer" size="80px"/>
+              <div
+                class="flex flex-col items-center justify-center"
+                @click="layoutOperation(item)"
+              >
+                <svg-loader
+                  :path="'./flexable/' + item.icon"
+                  cursor="pointer"
+                  size="80px"
+                />
                 {{ item.name }}
               </div>
             </template>
@@ -342,91 +368,175 @@ watch(
         </el-tab-pane>
         <el-tab-pane name="comp">
           <template #label>
-            <star-horse-icon icon-class="template" style="color: var(--star-horse-style)"/>&nbsp;<span>组件</span>
+            <star-horse-icon
+              icon-class="template"
+              style="color: var(--star-horse-style)"
+            />&nbsp;<span>组件</span>
           </template>
-          <PageCompPanel/>
+          <PageCompPanel />
         </el-tab-pane>
-
       </el-tabs>
     </el-splitter-panel>
     <el-splitter-panel>
-      <div class="flex flex-col w-[99%] h-full relative" style="margin: 0 auto; background: #86909c">
-        <div class="flex items-center w-full h-[40px]" style="background: #fefefe">
+      <div
+        class="flex flex-col w-[99%] h-full relative"
+        style="margin: 0 auto; background: #86909c"
+      >
+        <div
+          class="flex items-center w-full h-[40px]"
+          style="background: #fefefe"
+        >
           <el-button-group>
-            <el-tooltip class="item" content="添加元素" effect="dark" placement="bottom">
+            <el-tooltip
+              class="item"
+              content="添加元素"
+              effect="dark"
+              placement="bottom"
+            >
               <el-button @click="addItem" class="h-full border-0">
-                <star-horse-icon icon-class="add" size="24px" cursor="pointer" style="color: var(--star-horse-style)"/>
+                <star-horse-icon
+                  icon-class="add"
+                  size="24px"
+                  cursor="pointer"
+                  style="color: var(--star-horse-style)"
+                />
               </el-button>
             </el-tooltip>
-            <el-tooltip class="item" content="主轴方向" effect="dark" placement="bottom">
+            <el-tooltip
+              class="item"
+              content="主轴方向"
+              effect="dark"
+              placement="bottom"
+            >
               <el-button @click="mainAxisDirection" class="h-full border-0">
-                <star-horse-icon icon-class="refresh" size="24px" cursor="pointer"
-                                 style="color: var(--star-horse-style)"/>
+                <star-horse-icon
+                  icon-class="refresh"
+                  size="24px"
+                  cursor="pointer"
+                  style="color: var(--star-horse-style)"
+                />
               </el-button>
             </el-tooltip>
-            <el-tooltip class="item" content="代码" effect="dark" placement="bottom">
+            <el-tooltip
+              class="item"
+              content="代码"
+              effect="dark"
+              placement="bottom"
+            >
               <el-button @click="mainAxisDirection" class="h-full border-0">
-                <star-horse-icon icon-class="code" size="24px" cursor="pointer"/>
+                <star-horse-icon
+                  icon-class="code"
+                  size="24px"
+                  cursor="pointer"
+                />
               </el-button>
             </el-tooltip>
-            <el-tooltip class="item" :content="needInfiniteViewer ? '关闭无限滚动' : '开启无限滚动'" effect="dark"
-                        placement="bottom">
+            <el-tooltip
+              class="item"
+              :content="needInfiniteViewer ? '关闭无限滚动' : '开启无限滚动'"
+              effect="dark"
+              placement="bottom"
+            >
               <el-button @click="autoScroll" class="h-full border-0">
-                <star-horse-icon :icon-class="needInfiniteViewer ? 'drag' : 'cancel'" size="24px" cursor="pointer"/>
+                <star-horse-icon
+                  :icon-class="needInfiniteViewer ? 'drag' : 'cancel'"
+                  size="24px"
+                  cursor="pointer"
+                />
               </el-button>
             </el-tooltip>
-            <el-tooltip class="item" :content="hideRuler ? '开启标尺' : '关闭标尺'" effect="dark" placement="bottom">
+            <el-tooltip
+              class="item"
+              :content="hideRuler ? '开启标尺' : '关闭标尺'"
+              effect="dark"
+              placement="bottom"
+            >
               <el-button @click="hideRulerFunc" class="h-full border-0">
-                <star-horse-icon :icon-class="hideRuler ? 'cancel' : 'eye'" size="24px" cursor="pointer"/>
+                <star-horse-icon
+                  :icon-class="hideRuler ? 'cancel' : 'eye'"
+                  size="24px"
+                  cursor="pointer"
+                />
               </el-button>
             </el-tooltip>
             <el-tooltip content="保存">
               <el-button @click="saveData" class="h-full border-0">
-                <star-horse-icon icon-class="save" cursor="pointer"/>
+                <star-horse-icon icon-class="save" cursor="pointer" />
               </el-button>
             </el-tooltip>
             <el-tooltip content="预览">
               <el-button @click="preview" class="h-full border-0">
-                <star-horse-icon icon-class="preview" cursor="pointer"/>
+                <star-horse-icon icon-class="preview" cursor="pointer" />
               </el-button>
             </el-tooltip>
             <el-tooltip content="发布">
               <el-button @click="publishPage" class="h-full border-0">
-                <star-horse-icon icon-class="publish" cursor="pointer"/>
+                <star-horse-icon icon-class="publish" cursor="pointer" />
               </el-button>
             </el-tooltip>
             <el-tooltip content="分享">
               <el-button @click="sharePage" class="h-full border-0">
-                <star-horse-icon icon-class="share" cursor="pointer"/>
+                <star-horse-icon icon-class="share" cursor="pointer" />
               </el-button>
             </el-tooltip>
             <el-tooltip :content="isFullscreen ? '退出全屏' : '全屏'">
               <el-button @click="fullScreen" class="h-full border-0">
-                <star-horse-icon :icon-class="isFullscreen ? 'fullscreen-shrink' : 'fullscreen-expand'"
-                                 cursor="pointer"/>
+                <star-horse-icon
+                  :icon-class="
+                    isFullscreen ? 'fullscreen-shrink' : 'fullscreen-expand'
+                  "
+                  cursor="pointer"
+                />
               </el-button>
             </el-tooltip>
           </el-button-group>
         </div>
-        <StarHorseRuler :needInfiniteViewer="needInfiniteViewer" :hideHorizontalRuler="hideRuler"
-                        :hideVerticalRuler="hideRuler" ref="rulerRef">
-          <div :style="containerDataForm" class="flex-1" @click="selectContainer">
+        <StarHorseRuler
+          :needInfiniteViewer="needInfiniteViewer"
+          :hideHorizontalRuler="hideRuler"
+          :hideVerticalRuler="hideRuler"
+          ref="rulerRef"
+        >
+          <div
+            :style="containerDataForm"
+            class="flex-1"
+            @click="selectContainer"
+          >
             <template v-for="item in positionList">
-              <FlexItem :itemId="item" @selectItem="selectItem" @selectComponent="selectComponent" :type="flexModel"/>
+              <FlexItem
+                :itemId="item"
+                @selectItem="selectItem"
+                @selectComponent="selectComponent"
+                :type="flexModel"
+              />
             </template>
           </div>
         </StarHorseRuler>
       </div>
     </el-splitter-panel>
     <el-splitter-panel collapsible size="400" max="40%">
-      <el-tabs v-model="editTabModel" type="border-card" style="height: 100% !important">
+      <el-tabs
+        v-model="editTabModel"
+        type="border-card"
+        style="height: 100% !important"
+      >
         <el-tab-pane name="container">
           <template #label>
-            <star-horse-icon icon-class="container" style="color: var(--star-horse-style)"/>&nbsp;<span>容器</span>
+            <star-horse-icon
+              icon-class="container"
+              style="color: var(--star-horse-style)"
+            />&nbsp;<span>容器</span>
           </template>
-          <sh-form v-model:dataForm="containerDataForm" :label-width="'auto'" :label-position="'top'">
-            <el-collapse v-model="containerCollapse" :expand-icon-position="'left'"
-                         style="background: #1d2129 !important">
+          <sh-form
+            v-model:dataForm="containerDataForm"
+            :label-width="'auto'"
+            :label-position="'top'"
+          >
+            <el-collapse
+              v-model="containerCollapse"
+              :expand-icon-position="'left'"
+              style="background: #1d2129 !important"
+            >
               <el-collapse-item name="container">
                 <template #title>
                   <div class="collapse-item-title title">
@@ -434,7 +544,10 @@ watch(
                   </div>
                 </template>
                 <div class="h-full">
-                  <StarHorseFormItem :fieldList="containerConfig" v-model:dataForm="containerDataForm"/>
+                  <StarHorseFormItem
+                    :fieldList="containerConfig"
+                    v-model:dataForm="containerDataForm"
+                  />
                 </div>
               </el-collapse-item>
               <el-collapse-item name="position">
@@ -443,7 +556,7 @@ watch(
                     <div>位置大小</div>
                   </div>
                 </template>
-                <page-position v-model:dataForm="containerDataForm"/>
+                <page-position v-model:dataForm="containerDataForm" />
               </el-collapse-item>
               <el-collapse-item name="background">
                 <template #title>
@@ -451,7 +564,7 @@ watch(
                     <div>背景</div>
                   </div>
                 </template>
-                <page-background v-model:dataForm="containerDataForm"/>
+                <page-background v-model:dataForm="containerDataForm" />
               </el-collapse-item>
               <el-collapse-item name="font">
                 <template #title>
@@ -459,17 +572,28 @@ watch(
                     <div>文字</div>
                   </div>
                 </template>
-                <page-font v-model:dataForm="containerDataForm"/>
+                <page-font v-model:dataForm="containerDataForm" />
               </el-collapse-item>
             </el-collapse>
           </sh-form>
         </el-tab-pane>
         <el-tab-pane name="item">
           <template #label>
-            <star-horse-icon icon-class="list" style="color: var(--star-horse-style)"/>&nbsp;<span>节点</span>
+            <star-horse-icon
+              icon-class="list"
+              style="color: var(--star-horse-style)"
+            />&nbsp;<span>节点</span>
           </template>
-          <sh-form v-model:dataForm="itemDataForm" :label-width="'auto'" :label-position="'top'">
-            <el-collapse v-model="itemCollapse" :expand-icon-position="'left'" style="background: #1d2129 !important">
+          <sh-form
+            v-model:dataForm="itemDataForm"
+            :label-width="'auto'"
+            :label-position="'top'"
+          >
+            <el-collapse
+              v-model="itemCollapse"
+              :expand-icon-position="'left'"
+              style="background: #1d2129 !important"
+            >
               <el-collapse-item name="item">
                 <template #title>
                   <div class="collapse-item-title title">
@@ -477,8 +601,10 @@ watch(
                   </div>
                 </template>
 
-                <StarHorseFormItem :fieldList="itemConfig" v-model:dataForm="itemDataForm"/>
-
+                <StarHorseFormItem
+                  :fieldList="itemConfig"
+                  v-model:dataForm="itemDataForm"
+                />
               </el-collapse-item>
               <el-collapse-item name="position">
                 <template #title>
@@ -486,7 +612,7 @@ watch(
                     <div>位置大小</div>
                   </div>
                 </template>
-                <page-position v-model:dataForm="itemDataForm"/>
+                <page-position v-model:dataForm="itemDataForm" />
               </el-collapse-item>
               <el-collapse-item name="background">
                 <template #title>
@@ -494,7 +620,7 @@ watch(
                     <div>背景</div>
                   </div>
                 </template>
-                <page-background v-model:dataForm="itemDataForm"/>
+                <page-background v-model:dataForm="itemDataForm" />
               </el-collapse-item>
               <el-collapse-item name="font">
                 <template #title>
@@ -502,20 +628,23 @@ watch(
                     <div>文字</div>
                   </div>
                 </template>
-                <page-font v-model:dataForm="itemDataForm"/>
+                <page-font v-model:dataForm="itemDataForm" />
               </el-collapse-item>
             </el-collapse>
           </sh-form>
         </el-tab-pane>
         <el-tab-pane key="compPreps" name="compPreps">
           <template #label>
-            <star-horse-icon icon-class="preps" style="color: var(--star-horse-style)"/>&nbsp;<span>组件属性</span>
+            <star-horse-icon
+              icon-class="preps"
+              style="color: var(--star-horse-style)"
+            />&nbsp;<span>组件属性</span>
           </template>
           <div class="properties-container">
             <PageItemProperties
-                :selected-item-id="currentId"
-                :selected-component-id="selectedComponentId"
-                @update:property="handlePropertyUpdate"
+              :selected-item-id="currentId"
+              :selected-component-id="selectedComponentId"
+              @update:property="handlePropertyUpdate"
             />
           </div>
         </el-tab-pane>
@@ -524,24 +653,44 @@ watch(
   </el-splitter>
 
   <!-- Save Dialog -->
-  <FlexSaveDialog :dialogVisible="saveDialogVisible" :designName="currentDesignName"
-                  :designDescription="currentDesignDescription" :designId="currentDesignId" :isEdit="!!currentDesignId"
-                  @closeDialog="saveDialogVisible = false" @saved="handleSaved"/>
+  <FlexSaveDialog
+    :dialogVisible="saveDialogVisible"
+    :designName="currentDesignName"
+    :designDescription="currentDesignDescription"
+    :designId="currentDesignId"
+    :isEdit="!!currentDesignId"
+    @closeDialog="saveDialogVisible = false"
+    @saved="handleSaved"
+  />
 
   <!-- Preview Dialog -->
-  <FlexPreviewDialog :dialogVisible="previewDialogVisible" :designName="currentDesignName" :flexModel="flexModel"
-                     :containerDataForm="containerDataForm" :designDescription="currentDesignDescription"
-                     @closeDialog="previewDialogVisible = false" @saveTemplate="handleSaveTemplate"/>
+  <FlexPreviewDialog
+    :dialogVisible="previewDialogVisible"
+    :designName="currentDesignName"
+    :flexModel="flexModel"
+    :containerDataForm="containerDataForm"
+    :designDescription="currentDesignDescription"
+    @closeDialog="previewDialogVisible = false"
+    @saveTemplate="handleSaveTemplate"
+  />
 
   <!-- Share Dialog -->
-  <FlexShareDialog :dialogVisible="shareDialogVisible" :designName="currentDesignName"
-                   :designDescription="currentDesignDescription" @closeDialog="shareDialogVisible = false"
-                   @shared="handleShared"/>
+  <FlexShareDialog
+    :dialogVisible="shareDialogVisible"
+    :designName="currentDesignName"
+    :designDescription="currentDesignDescription"
+    @closeDialog="shareDialogVisible = false"
+    @shared="handleShared"
+  />
 
   <!-- Publish Dialog -->
-  <FlexPublishDialog :dialogVisible="publishDialogVisible" :designName="currentDesignName"
-                     :designDescription="currentDesignDescription" @closeDialog="publishDialogVisible = false"
-                     @published="handlePublished"/>
+  <FlexPublishDialog
+    :dialogVisible="publishDialogVisible"
+    :designName="currentDesignName"
+    :designDescription="currentDesignDescription"
+    @closeDialog="publishDialogVisible = false"
+    @published="handlePublished"
+  />
 </template>
 <style lang="scss" scoped>
 .flex-grid {

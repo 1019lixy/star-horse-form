@@ -266,7 +266,13 @@
 import { ref, reactive, computed, nextTick, watch } from "vue";
 import { useFlexDesignStore } from "@/store/FlexDesign";
 import { publishFlexDesign, type PublishResult } from "@/api/flexDesign";
-import { piniaInstance, success, error, warning, operationConfirm } from "star-horse-lowcode";
+import {
+  piniaInstance,
+  success,
+  error,
+  warning,
+  operationConfirm,
+} from "star-horse-lowcode";
 
 interface Props {
   dialogVisible: boolean;

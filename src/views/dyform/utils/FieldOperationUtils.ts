@@ -119,7 +119,7 @@ export function compFieldInit() {
   // 合并为一次请求，查询所有分类的数据
   const queryAllData = () => {
     const params: SearchParams[] = [
-     /* {
+      /* {
         propertyName: "category",
         operation: "in",
         value: [1, 2, 3] // 一次性获取所有三个分类的数据
@@ -143,9 +143,11 @@ export function compFieldInit() {
   // 发送一次请求，然后在前端进行数据分类
   return queryAllData().then((allData: any) => {
     // 按category字段对数据进行分类
-    const containerRes = allData?.filter((item: any) => item.category === 2) || [];
+    const containerRes =
+      allData?.filter((item: any) => item.category === 2) || [];
     const itemsRes = allData?.filter((item: any) => item.category === 1) || [];
-    const selfItemsRes = allData?.filter((item: any) => item.category === 3) || [];
+    const selfItemsRes =
+      allData?.filter((item: any) => item.category === 3) || [];
 
     // 处理数据，保持原有逻辑
     assignData(containerRes);

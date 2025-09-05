@@ -1,6 +1,12 @@
 import { ServiceEnums } from "@/components/enums/ServiceEnums";
 import { i18n } from "@/lang";
-import { error, success, uuid, getRequest, postRequest } from "star-horse-lowcode";
+import {
+  error,
+  success,
+  uuid,
+  getRequest,
+  postRequest,
+} from "star-horse-lowcode";
 
 export interface FlexDesignData {
   id?: string;
@@ -405,8 +411,6 @@ export const publishDesign = async (id: string) => {
     throw err;
   }
 };
-
-
 
 export const deleteDesign = async (id: string) => {
   try {

@@ -6,14 +6,14 @@ const mockZhCN = {
   "test.placeholder": "你好 {0}，欢迎来到 {1}",
   "test.no.placeholder": "你好",
   "test.name": "张三",
-  "test.site": "星马低代码平台"
+  "test.site": "星马低代码平台",
 };
 
 const mockEnUS = {
   "test.placeholder": "Hello {0}, welcome to {1}",
   "test.no.placeholder": "Hello",
   "test.name": "John",
-  "test.site": "StarHorse Lowcode Platform"
+  "test.site": "StarHorse Lowcode Platform",
 };
 
 // Mock the language set for testing

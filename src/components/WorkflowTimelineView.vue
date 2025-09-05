@@ -3,7 +3,7 @@
     <div class="timeline-header">
       <h3>{{ workflowTitle }}</h3>
       <el-button @click="goBack" size="small" v-if="showBackButton">
-        {{ i18n('system.back') }}
+        {{ i18n("system.back") }}
       </el-button>
     </div>
 
@@ -11,13 +11,13 @@
     <div class="application-details" v-if="workflowData">
       <el-descriptions :column="2" border>
         <el-descriptions-item :label="i18n('workflow.application.id')">
-          {{ workflowData.id || 'N/A' }}
+          {{ workflowData.id || "N/A" }}
         </el-descriptions-item>
         <el-descriptions-item :label="i18n('workflow.application.name')">
-          {{ workflowData.processName || 'N/A' }}
+          {{ workflowData.processName || "N/A" }}
         </el-descriptions-item>
         <el-descriptions-item :label="i18n('workflow.application.category')">
-          {{ workflowData.category || 'N/A' }}
+          {{ workflowData.category || "N/A" }}
         </el-descriptions-item>
         <el-descriptions-item :label="i18n('workflow.application.status')">
           <el-tag :type="getStatusTagType(workflowData.status)">
@@ -25,13 +25,19 @@
           </el-tag>
         </el-descriptions-item>
         <el-descriptions-item :label="i18n('workflow.application.createdBy')">
-          {{ workflowData.createdBy || 'N/A' }}
+          {{ workflowData.createdBy || "N/A" }}
         </el-descriptions-item>
         <el-descriptions-item :label="i18n('workflow.application.createdDate')">
-          {{ workflowData.createdDate || 'N/A' }}
+          {{ workflowData.createdDate || "N/A" }}
         </el-descriptions-item>
-        <el-descriptions-item :label="i18n('workflow.application.description')" :span="2">
-          {{ workflowData.description || i18n('workflow.application.noDescription') }}
+        <el-descriptions-item
+          :label="i18n('workflow.application.description')"
+          :span="2"
+        >
+          {{
+            workflowData.description ||
+            i18n("workflow.application.noDescription")
+          }}
         </el-descriptions-item>
       </el-descriptions>
     </div>
@@ -40,12 +46,12 @@
     <div v-if="loading" class="loading-container">
       <el-skeleton animated>
         <template #template>
-          <el-skeleton-item variant="text" style="width: 30%"/>
+          <el-skeleton-item variant="text" style="width: 30%" />
           <div style="margin-top: 20px">
-            <el-skeleton-item variant="text" style="width: 50%"/>
+            <el-skeleton-item variant="text" style="width: 50%" />
           </div>
           <div style="margin-top: 20px">
-            <el-skeleton-item variant="text" style="width: 70%"/>
+            <el-skeleton-item variant="text" style="width: 70%" />
           </div>
         </template>
       </el-skeleton>
@@ -54,17 +60,19 @@
     <!-- Timeline view -->
     <el-timeline v-else class="workflow-timeline">
       <el-timeline-item
-          v-for="(node, index) in workflowNodes"
-          :key="index"
-          :timestamp="node.timestamp"
-          :type="getNodeStatusType(node.status)"
-          :hollow="node.status === 'pending'"
-          :color="getNodeStatusColor(node.status)"
+        v-for="(node, index) in workflowNodes"
+        :key="index"
+        :timestamp="node.timestamp"
+        :type="getNodeStatusType(node.status)"
+        :hollow="node.status === 'pending'"
+        :color="getNodeStatusColor(node.status)"
       >
         <div class="node-content">
           <div class="node-title">
             <strong>{{ node.name }}</strong>
-            <span class="node-status">{{ getNodeStatusLabel(node.status) }}</span>
+            <span class="node-status">{{
+              getNodeStatusLabel(node.status)
+            }}</span>
           </div>
           <div class="node-description" v-if="node.description">
             {{ node.description }}
@@ -72,15 +80,18 @@
           <div class="node-assignee" v-if="node.assignee">
             <i class="el-icon-user"></i> {{ node.assignee }}
           </div>
-          <div class="node-actions" v-if="node.action && node.status === 'current'">
+          <div
+            class="node-actions"
+            v-if="node.action && node.status === 'current'"
+          >
             <!-- Render buttons based on btnTypeList -->
             <el-button
-                v-for="btn in getCurrentNodeButtons()"
-                :key="btn.value"
-                size="small"
-                :type="getButtonType(btn.value)"
-                @click="handleAction(btn.value)"
-                class="action-button"
+              v-for="btn in getCurrentNodeButtons()"
+              :key="btn.value"
+              size="small"
+              :type="getButtonType(btn.value)"
+              @click="handleAction(btn.value)"
+              class="action-button"
             >
               {{ btn.name }}
             </el-button>
@@ -91,69 +102,69 @@
 
     <!-- Empty state -->
     <div v-if="!loading && workflowNodes.length === 0" class="empty-state">
-      <el-empty :description="i18n('workflow.no.timeline.data')"/>
+      <el-empty :description="i18n('workflow.no.timeline.data')" />
     </div>
 
     <!-- Workflow Action Dialog -->
     <WorkflowActionDialog
-        v-model="actionDialogVisible"
-        :action-type="currentActionType"
-        :workflow-data="workflowData"
-        @confirm="handleActionConfirm"
-        @close="handleActionClose"
+      v-model="actionDialogVisible"
+      :action-type="currentActionType"
+      :workflow-data="workflowData"
+      @confirm="handleActionConfirm"
+      @close="handleActionClose"
     />
   </div>
 </template>
 
 <script setup lang="ts">
-import {computed, onMounted, ref, watch} from "vue";
-import {i18n} from "@/lang";
+import { computed, onMounted, ref, watch } from "vue";
+import { i18n } from "@/lang";
 import WorkflowActionDialog from "./WorkflowActionDialog.vue";
 
 // Props
 const props = defineProps({
   workflowType: {
     type: String,
-    required: true
+    required: true,
   },
   workflowData: {
     type: Object,
-    default: null
+    default: null,
   },
   showBackButton: {
     type: Boolean,
-    default: true
-  }
+    default: true,
+  },
 });
 
 // Emits
-const emit = defineEmits(['close', 'action', 'back']);
+const emit = defineEmits(["close", "action", "back"]);
 
 // Reactive data
 const loading = ref(false);
 const workflowNodes = ref<any[]>([]);
 const actionDialogVisible = ref(false);
-const currentActionType = ref('');
+const currentActionType = ref("");
 
 // btnTypeList from FlowPropertyPanel.vue
 const btnTypeList = [
-  {name: i18n("workflow.btn.agree"), value: "a"},
-  {name: i18n("workflow.btn.reject"), value: "b"},
-  {name: i18n("workflow.btn.return"), value: "c"},
-  {name: i18n("workflow.btn.returnToStart"), value: "d"},
-  {name: i18n("workflow.btn.returnToHistory"), value: "e"},
-  {name: i18n("workflow.btn.revoke"), value: "f"},
-  {name: i18n("workflow.btn.transfer"), value: "g"},
-  {name: i18n("workflow.btn.addSign"), value: "h"},
-  {name: i18n("workflow.btn.reduceSign"), value: "i"},
-  {name: i18n("workflow.btn.save"), value: "j"},
-  {name: i18n("workflow.btn.terminate"), value: "k"},
-  {name: i18n("workflow.btn.countersign"), value: "l"},
-  {name: i18n("workflow.btn.agreeCountersign"), value: "m"},
-  {name: i18n("workflow.btn.rejectCountersign"), value: "n"},
-  {name: i18n("workflow.btn.abstainCountersign"), value: "o"},
-  {name: i18n("workflow.btn.assignApprover"), value: "p"},
-  {name: i18n("workflow.btn.assignJump"), value: "q"},
+  { name: i18n("workflow.btn.agree"), value: "a" },
+  { name: i18n("workflow.btn.reject"), value: "b" },
+  { name: i18n("workflow.btn.return"), value: "c" },
+  { name: i18n("workflow.btn.returnToStart"), value: "d" },
+  { name: i18n("workflow.btn.returnToHistory"), value: "e" },
+  { name: i18n("workflow.btn.revoke"), value: "f" },
+  { name: i18n("workflow.btn.transfer"), value: "g" },
+  { name: i18n("workflow.btn.addSign"), value: "h" },
+  { name: i18n("workflow.btn.reduceSign"), value: "i" },
+  { name: i18n("workflow.btn.save"), value: "j" },
+  { name: i18n("workflow.btn.terminate"), value: "k" },
+  { name: i18n("workflow.btn.countersign"), value: "l" },
+  { name: i18n("workflow.btn.agreeCountersign"), value: "m" },
+  { name: i18n("workflow.btn.rejectCountersign"), value: "n" },
+  { name: i18n("workflow.btn.abstainCountersign"), value: "o" },
+  { name: i18n("workflow.btn.assignApprover"), value: "p" },
+  { name: i18n("workflow.btn.assignJump"), value: "q" },
 ];
 
 // Computed properties
@@ -163,22 +174,22 @@ const workflowTitle = computed(() => {
   }
 
   switch (props.workflowType) {
-    case 'unreceived':
-      return i18n('home.unreceived');
-    case 'processing':
-      return i18n('home.processing');
-    case 'completed':
-      return i18n('home.completed');
-    case 'following':
-      return i18n('home.following');
-    case 'suspended':
-      return i18n('home.suspended');
-    case 'delegated':
-      return i18n('home.delegated');
-    case 'allWork':
-      return i18n('home.allWork');
+    case "unreceived":
+      return i18n("home.unreceived");
+    case "processing":
+      return i18n("home.processing");
+    case "completed":
+      return i18n("home.completed");
+    case "following":
+      return i18n("home.following");
+    case "suspended":
+      return i18n("home.suspended");
+    case "delegated":
+      return i18n("home.delegated");
+    case "allWork":
+      return i18n("home.allWork");
     default:
-      return i18n('workflow.process.details');
+      return i18n("workflow.process.details");
   }
 });
 
@@ -190,8 +201,10 @@ const mockWorkflowNodes = computed(() => {
       name: i18n("workflow.initiator"),
       status: "completed",
       timestamp: "2023-05-01 09:00",
-      description: i18n("workflow.submitted.by", {user: props.workflowData?.createdBy || "System"}),
-      assignee: props.workflowData?.createdBy || "System"
+      description: i18n("workflow.submitted.by", {
+        user: props.workflowData?.createdBy || "System",
+      }),
+      assignee: props.workflowData?.createdBy || "System",
     },
     {
       name: i18n("workflow.approval.node"),
@@ -199,63 +212,63 @@ const mockWorkflowNodes = computed(() => {
       timestamp: "2023-05-01 10:30",
       description: i18n("workflow.pending.approval"),
       assignee: i18n("workflow.pending.assignee"),
-      action: getActionForCurrentNode()
+      action: getActionForCurrentNode(),
     },
     {
       name: i18n("workflow.final.approval"),
       status: "pending",
       timestamp: "",
       description: i18n("workflow.not.started"),
-      assignee: ""
+      assignee: "",
     },
     {
       name: i18n("workflow.final.approval"),
       status: "pending",
       timestamp: "",
       description: i18n("workflow.not.started"),
-      assignee: ""
+      assignee: "",
     },
     {
       name: i18n("workflow.final.approval"),
       status: "pending",
       timestamp: "",
       description: i18n("workflow.not.started"),
-      assignee: ""
+      assignee: "",
     },
     {
       name: i18n("workflow.final.approval"),
       status: "pending",
       timestamp: "",
       description: i18n("workflow.not.started"),
-      assignee: ""
+      assignee: "",
     },
     {
       name: i18n("workflow.final.approval"),
       status: "pending",
       timestamp: "",
       description: i18n("workflow.not.started"),
-      assignee: ""
-    }
+      assignee: "",
+    },
   ];
 });
 
 // Get appropriate action for current node based on workflow type
 const getActionForCurrentNode = () => {
   switch (props.workflowType) {
-    case 'unreceived':
-      return 'claim';
-    case 'processing':
-      return 'complete';
-    case 'completed':
-      return 'revoke';
-    case 'following':
-      return 'unfollow';
-    case 'suspended':
-      return 'resume';
-    case 'delegated':
-      return 'recall';
+    case "unreceived":
+      return "claim";
+    case "processing":
+      return "complete";
+    case "completed":
+      return "revoke";
+    case "following":
+      return "unfollow";
+    case "suspended":
+      return "resume";
+    case "delegated":
+      return "recall";
     default:
-      return 'claim';
+      return "claim";
   }
 };
 
@@ -264,18 +277,20 @@ const getCurrentNodeButtons = () => {
   // In a real implementation, this would be determined by the actual workflow configuration
   // For now, we'll provide a default set based on the workflow type
   switch (props.workflowType) {
-    case 'unreceived':
-      return btnTypeList.filter(btn => ['g', 'p'].includes(btn.value)); // Transfer, Assign Approver
-    case 'processing':
-      return btnTypeList.filter(btn => ['a', 'b', 'c', 'g', 'h', 'i'].includes(btn.value)); // Agree, Reject, Return, Transfer, Add Sign, Reduce Sign
-    case 'completed':
-      return btnTypeList.filter(btn => ['f'].includes(btn.value)); // Revoke
-    case 'following':
-      return btnTypeList.filter(btn => ['o'].includes(btn.value)); // Unfollow
-    case 'suspended':
-      return btnTypeList.filter(btn => ['k'].includes(btn.value)); // Resume
-    case 'delegated':
-      return btnTypeList.filter(btn => ['g'].includes(btn.value)); // Recall
+    case "unreceived":
+      return btnTypeList.filter((btn) => ["g", "p"].includes(btn.value)); // Transfer, Assign Approver
+    case "processing":
+      return btnTypeList.filter((btn) =>
+        ["a", "b", "c", "g", "h", "i"].includes(btn.value),
+      ); // Agree, Reject, Return, Transfer, Add Sign, Reduce Sign
+    case "completed":
+      return btnTypeList.filter((btn) => ["f"].includes(btn.value)); // Revoke
+    case "following":
+      return btnTypeList.filter((btn) => ["o"].includes(btn.value)); // Unfollow
+    case "suspended":
+      return btnTypeList.filter((btn) => ["k"].includes(btn.value)); // Resume
+    case "delegated":
+      return btnTypeList.filter((btn) => ["g"].includes(btn.value)); // Recall
     default:
       return btnTypeList.slice(0, 3); // Default to first 3 buttons
   }
@@ -284,45 +299,43 @@ const getCurrentNodeButtons = () => {
 // Get button type for styling
 const getButtonType = (btnValue: string) => {
   switch (btnValue) {
-    case 'a': // Agree
-      return 'success';
-    case 'b': // Reject
-    case 'c': // Return
-    case 'd': // Return to start
-    case 'e': // Return to history
-      return 'danger';
-    case 'f': // Revoke
-    case 'k': // Terminate
-      return 'warning';
+    case "a": // Agree
+      return "success";
+    case "b": // Reject
+    case "c": // Return
+    case "d": // Return to start
+    case "e": // Return to history
+      return "danger";
+    case "f": // Revoke
+    case "k": // Terminate
+      return "warning";
     default:
-      return 'primary';
+      return "primary";
   }
 };
 
 // Get status tag type
 const getStatusTagType = (status: string) => {
   switch (status) {
-    case 'completed':
-      return 'success';
-    case 'processing':
-      return 'primary';
-    case 'pending':
-      return 'warning';
-    case 'error':
-      return 'danger';
+    case "completed":
+      return "success";
+    case "processing":
+      return "primary";
+    case "pending":
+      return "warning";
+    case "error":
+      return "danger";
     default:
-      return 'info';
+      return "info";
   }
 };
-
-
 
 // Load workflow timeline data
 const loadWorkflowTimeline = async (data: any) => {
   loading.value = true;
   try {
     // Simulate API call delay
-    await new Promise(resolve => setTimeout(resolve, 500));
+    await new Promise((resolve) => setTimeout(resolve, 500));
 
     // In a real implementation, this would fetch actual timeline data from the API
     workflowNodes.value = mockWorkflowNodes.value;
@@ -381,7 +394,7 @@ const getNodeStatusLabel = (status: string) => {
 // Handle workflow actions
 const handleAction = (action: string) => {
   // Check if the action requires data input
-  const actionsRequiringInput = ['b', 'c', 'd', 'e', 'g', 'h', 'i', 'n', 'p'];
+  const actionsRequiringInput = ["b", "c", "d", "e", "g", "h", "i", "n", "p"];
 
   if (actionsRequiringInput.includes(action)) {
     // Show dialog to collect data
@@ -389,24 +402,24 @@ const handleAction = (action: string) => {
     actionDialogVisible.value = true;
   } else {
     // Direct action without data input
-    emit('action', action, props.workflowData);
+    emit("action", action, props.workflowData);
   }
 };
 
 // Handle action confirm from dialog
 const handleActionConfirm = (data: any) => {
-  emit('action', data.actionType, props.workflowData, data.formData);
+  emit("action", data.actionType, props.workflowData, data.formData);
 };
 
 // Handle action dialog close
 const handleActionClose = () => {
   actionDialogVisible.value = false;
-  currentActionType.value = '';
+  currentActionType.value = "";
 };
 
 // Go back
 const goBack = () => {
-  emit('back');
+  emit("back");
 };
 
 // Initialize component
@@ -416,11 +429,15 @@ onMounted(() => {
   }
 });
 // Watch for workflow data changes
-watch(() => props.workflowData, (newData) => {
-  if (newData) {
-    loadWorkflowTimeline(newData);
-  }
-}, {immediate: false});
+watch(
+  () => props.workflowData,
+  (newData) => {
+    if (newData) {
+      loadWorkflowTimeline(newData);
+    }
+  },
+  { immediate: false },
+);
 </script>
 
 <style scoped>

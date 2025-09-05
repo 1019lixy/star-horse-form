@@ -38,20 +38,20 @@ export class GlobalCache {
       // 计算缓存项大小
       const serialized = JSON.stringify(value);
       const size = new Blob([serialized]).size;
-      
+
       // 检查是否超过最大大小
       if (size > this.maxSize) {
         console.warn(`缓存项超过最大大小限制: ${key}`);
         return;
       }
-      
+
       // 检查总缓存大小
       this.ensureCapacity(size);
-      
+
       this.cache.set(key, {
         value,
         timestamp: Date.now(),
-        size
+        size,
       });
     } catch (e) {
       console.error(`设置缓存失败: ${key}`, e);
@@ -68,13 +68,13 @@ export class GlobalCache {
     if (!entry) {
       return undefined;
     }
-    
+
     // 检查是否过期
     if (Date.now() - entry.timestamp > this.maxAge) {
       this.cache.delete(key);
       return undefined;
     }
-    
+
     return entry.value;
   }
 
@@ -100,17 +100,17 @@ export class GlobalCache {
   private ensureCapacity(requiredSize: number): void {
     let currentSize = 0;
     const entries = Array.from(this.cache.entries());
-    
+
     // 计算当前总大小
     for (const [, entry] of entries) {
       currentSize += entry.size;
     }
-    
+
     // 如果加上新项后超过最大大小，则删除最旧的项
     if (currentSize + requiredSize > this.maxSize) {
       // 按时间戳排序
       entries.sort((a, b) => a[1].timestamp - b[1].timestamp);
-      
+
       // 删除旧项直到有足够空间
       while (entries.length > 0 && currentSize + requiredSize > this.maxSize) {
         const oldest = entries.shift();

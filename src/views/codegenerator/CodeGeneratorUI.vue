@@ -441,7 +441,7 @@ const orderBy = ref<OrderByInfo[]>([
   },
 ]);
 
-const selectItemFun = (_data: any) => { };
+const selectItemFun = (_data: any) => {};
 const dataFormat = (name: string, cellValue: any): any => {
   if (name == "datasourceConfigId") {
     return (
@@ -475,7 +475,8 @@ let extendBtns = ref<UserFuncInfo[]>([
       load("代码生成中，请稍后");
       download(
         `/userdb-manage/generator/code/convertToCodeById/${row[primaryKey]}`,
-      ).catch((err) => {
+      )
+        .catch((err) => {
           warning(err);
         })
         .finally(() => {
@@ -514,25 +515,55 @@ const closeAction = () => {
 </script>
 <template>
   <div class="flex flex-col h-full overflow-hidden">
-    <star-horse-dialog :isShowBtnContinue="true" :dialogVisible="dialogProps.editVisible" :dialogProps="dialogProps"
-      :selfFunc="true" @merge="generateMerge" @closeAction="closeAction">
-      <star-horse-form ref="generateFormRef" @refresh="codeGeneratorRef?.loadByPage()" :compUrl="dataUrl"
-        :fieldList="tableFieldList" :rules="rules" />
+    <star-horse-dialog
+      :isShowBtnContinue="true"
+      :dialogVisible="dialogProps.editVisible"
+      :dialogProps="dialogProps"
+      :selfFunc="true"
+      @merge="generateMerge"
+      @closeAction="closeAction"
+    >
+      <star-horse-form
+        ref="generateFormRef"
+        @refresh="codeGeneratorRef?.loadByPage()"
+        :compUrl="dataUrl"
+        :fieldList="tableFieldList"
+        :rules="rules"
+      />
     </star-horse-dialog>
-    <star-horse-dialog :dialog-visible="dialogProps.viewVisible" :dialogProps="dialogProps" :source="3">
-      <star-horse-data-view :dataFormat="dataFormat" :field-list="tableFieldList" :compUrl="dataUrl" />
+    <star-horse-dialog
+      :dialog-visible="dialogProps.viewVisible"
+      :dialogProps="dialogProps"
+      :source="3"
+    >
+      <star-horse-data-view
+        :dataFormat="dataFormat"
+        :field-list="tableFieldList"
+        :compUrl="dataUrl"
+      />
     </star-horse-dialog>
     <div class="search-content">
       <div class="search_btn">
-        <star-horse-search-comp @searchData="
-          (data: any) => codeGeneratorRef?.createSearchParams(data)
-        " :formData="searchFormData" :compUrl="dataUrl" />
+        <star-horse-search-comp
+          @searchData="
+            (data: any) => codeGeneratorRef?.createSearchParams(data)
+          "
+          :formData="searchFormData"
+          :compUrl="dataUrl"
+        />
       </div>
     </div>
     <el-card class="inner_content">
-      <star-horse-table-comp ref="codeGeneratorRef" :fieldList="tableFieldList" :primaryKey="primaryKey"
-        :compUrl="dataUrl" :orderBy="orderBy" :extendBtns="extendBtns" :dataFormat="dataFormat"
-        @selectItem="selectItemFun" />
+      <star-horse-table-comp
+        ref="codeGeneratorRef"
+        :fieldList="tableFieldList"
+        :primaryKey="primaryKey"
+        :compUrl="dataUrl"
+        :orderBy="orderBy"
+        :extendBtns="extendBtns"
+        :dataFormat="dataFormat"
+        @selectItem="selectItemFun"
+      />
     </el-card>
   </div>
 </template>

@@ -44,7 +44,8 @@ const registerRules = reactive<FormRules<RegisterInfo>>({
     },
     {
       type: "email",
-      message: i18n("system.email") + " " + i18n("utils.warning.provideCorrectData"),
+      message:
+        i18n("system.email") + " " + i18n("utils.warning.provideCorrectData"),
       trigger: ["blur", "change"],
     },
   ],
@@ -70,7 +71,11 @@ const registerRules = reactive<FormRules<RegisterInfo>>({
     {
       validator: (rule, value, callback) => {
         if (value === "") {
-          callback(new Error(i18n("system.confirm.password", ["starhorse.notAllowEmpty"])));
+          callback(
+            new Error(
+              i18n("system.confirm.password", ["starhorse.notAllowEmpty"]),
+            ),
+          );
         } else if (value !== registerForm.password) {
           callback(new Error(i18n("system.password.mismatch")));
         } else {
@@ -194,11 +199,7 @@ refreshValidate();
               </el-input>
             </el-form-item>
 
-            <el-form-item
-              prop="email"
-              :label="i18n('register.email')"
-              required
-            >
+            <el-form-item prop="email" :label="i18n('register.email')" required>
               <el-input
                 auto-complete="off"
                 :placeholder="i18n('starhorse.pleaseInput', 'register.email')"
@@ -230,7 +231,9 @@ refreshValidate();
               required
             >
               <el-input
-                :placeholder="i18n('starhorse.pleaseInput', 'register.confirmPassword')"
+                :placeholder="
+                  i18n('starhorse.pleaseInput', 'register.confirmPassword')
+                "
                 prefix-icon="Lock"
                 auto-complete="off"
                 type="password"

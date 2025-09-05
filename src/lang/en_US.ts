@@ -21,14 +21,16 @@ export default {
   "login.forget": "Forget Password？",
   "login.noAccount": "No Account？",
   "login.remember.password": "Remember Password？",
-  "login.forget.password.tip": "Please enter the email address you used when registering, and we will send a password reset link to that email.",
+  "login.forget.password.tip":
+    "Please enter the email address you used when registering, and we will send a password reset link to that email.",
   "loginButton.register": "Register",
   "loginButton.login": "Login",
   "loginButton.welcome": "Welcome",
   "loginButton.welcomeBack": "Welcome Back",
   "loginButton.description": "  Welcome to StarHorse Devlopse Platform",
   "loginButton.logging": "Logging...",
-  "userCenter.checkEmailReset": "Please check your email and follow the instructions to reset your password.",
+  "userCenter.checkEmailReset":
+    "Please check your email and follow the instructions to reset your password.",
   "main.header.authority": "User Center",
   "main.header.calendar": "Calendar",
   "main.header.layoutConfig": "Layout Config",
@@ -373,10 +375,10 @@ export default {
   "system.created.time": "Created Time",
   "system.updated.time": "Updated Time",
   "system.version": "Version",
-  "system.menu.icon":"Icon",
-  "system.open.type":"Open Type",
-  "system.menu.description":"Description",
-  "system.keep.alive":"Keep Alive",
+  "system.menu.icon": "Icon",
+  "system.open.type": "Open Type",
+  "system.menu.description": "Description",
+  "system.keep.alive": "Keep Alive",
   "system.is.logical.deleted": "Is Logical Deleted",
   // "system.status.name": "Status Name",
   "system.department.name": "Department Name",
@@ -669,9 +671,11 @@ export default {
    * Forgot Password Component
    */
   "forgotPassword.title": "Forgot Password",
-  "forgotPassword.tip": "Please enter the email address you used when registering, and we will send a password reset link to that email.",
+  "forgotPassword.tip":
+    "Please enter the email address you used when registering, and we will send a password reset link to that email.",
   "forgotPassword.success": "Password reset email sent",
-  "forgotPassword.checkEmail": "Please check your email and follow the instructions to reset your password.",
+  "forgotPassword.checkEmail":
+    "Please check your email and follow the instructions to reset your password.",
   /**
    * UserCenter Component
    */
@@ -1319,7 +1323,8 @@ export default {
   "workflow.action.addSignUsers.placeholder": "Please select users to add",
   "workflow.action.addSignUsers.required": "Please select users to add",
   "workflow.action.reduceSignUsers": "Reduce Sign Users",
-  "workflow.action.reduceSignUsers.placeholder": "Please select users to reduce",
+  "workflow.action.reduceSignUsers.placeholder":
+    "Please select users to reduce",
   "workflow.action.reduceSignUsers.required": "Please select users to reduce",
   "workflow.action.transferTo": "Transfer To",
   "workflow.action.transferTo.placeholder": "Please select user to transfer to",

@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import {defineOptions, onMounted, ref} from "vue";
-import {pageCompList} from "@/utils/layoutcomp";
-import {PageCompItem} from "@/components/types/PageLayoutComp";
+import { defineOptions, onMounted, ref } from "vue";
+import { pageCompList } from "@/utils/layoutcomp";
+import { PageCompItem } from "@/components/types/PageLayoutComp";
 import SvgLoader from "../SvgLoader.vue";
-import {piniaInstance, uuid} from "star-horse-lowcode";
-import {useFlexDesignStore} from "@/store/FlexDesign.js";
+import { piniaInstance, uuid } from "star-horse-lowcode";
+import { useFlexDesignStore } from "@/store/FlexDesign.js";
 
 defineOptions({
   name: "PageCompPanel",
@@ -19,10 +19,8 @@ const onContainerCopy = (data: PageCompItem) => {
   flexDesign.setDraggingItem(item);
   return item;
 };
-const addElement = (item: PageCompItem, type: string) => {
-};
-const init = () => {
-};
+const addElement = (item: PageCompItem, type: string) => {};
+const init = () => {};
 onMounted(() => {
   init();
 });
@@ -34,22 +32,41 @@ onMounted(() => {
         <template v-for="(item, index) in pageCompList" :key="index">
           <el-collapse-item :name="item.id">
             <template #title>
-              <div class="collapse-item-title title h-full flex justify-between">
+              <div
+                class="collapse-item-title title h-full flex justify-between"
+              >
                 <div class="flex flex-row items-center h-full">
                   {{ item.label }}
                 </div>
-                <star-horse-icon :icon-class="item.icon" size="24px"
-                                 style="color: var(--star-horse-style); margin-right: 10px"/>
+                <star-horse-icon
+                  :icon-class="item.icon"
+                  size="24px"
+                  style="color: var(--star-horse-style); margin-right: 10px"
+                />
               </div>
             </template>
-            <draggable :clone="onContainerCopy" :group="{ name: 'starHorseGroup', pull: 'clone', put: false }"
-                       :sort="false" animation="300" ghost-class="ghost" item-key="id" tag="ul" :list="item.items">
+            <draggable
+              :clone="onContainerCopy"
+              :group="{ name: 'starHorseGroup', pull: 'clone', put: false }"
+              :sort="false"
+              animation="300"
+              ghost-class="ghost"
+              item-key="id"
+              tag="ul"
+              :list="item.items"
+            >
               <template #item="{ element }">
-                <li class="field-item h-[70px]!" @dblclick="addElement(element, item.name)" :title="element.label">
-                  <SvgLoader :path="'comp/' + element.icon" size="24px" style="color: var(--star-horse-style)"/>
-                  <i>{{
-                      element.label
-                    }}</i>
+                <li
+                  class="field-item h-[70px]!"
+                  @dblclick="addElement(element, item.name)"
+                  :title="element.label"
+                >
+                  <SvgLoader
+                    :path="'comp/' + element.icon"
+                    size="24px"
+                    style="color: var(--star-horse-style)"
+                  />
+                  <i>{{ element.label }}</i>
                 </li>
               </template>
             </draggable>
@@ -130,7 +147,10 @@ i {
 :deep(.el-collapse-item__content) {
   ul {
     display: grid;
-    grid-template-columns: repeat(2, 1fr); // Exactly two items per row as specified
+    grid-template-columns: repeat(
+      2,
+      1fr
+    ); // Exactly two items per row as specified
     gap: 5px; // Proper spacing between items
     padding: 0;
     margin: 0;
@@ -154,7 +174,7 @@ i {
 
       // Add a subtle inner glow effect
       &::after {
-        content: '';
+        content: "";
         position: absolute;
         top: 4px;
         left: 4px;

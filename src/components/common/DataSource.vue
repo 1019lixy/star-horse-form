@@ -48,7 +48,7 @@ const getFormData = async (extendErrorMsg?: string) => {
 
 const setFormData = (data: any) => {
   dataSourceFormRef.value?.setFormData(data);
-  
+
   // Check if periodic refresh is enabled and set up the timer
   setupPeriodicRefresh(data);
 };
@@ -60,7 +60,7 @@ const setupPeriodicRefresh = (data: any) => {
     clearInterval(refreshTimer.value);
     refreshTimer.value = null;
   }
-  
+
   // Set up new timer if auto refresh is enabled
   if (data && data.enableAutoRefresh && data.refreshInterval) {
     const intervalMs = data.refreshInterval * 1000; // Convert seconds to milliseconds
@@ -73,7 +73,7 @@ const setupPeriodicRefresh = (data: any) => {
           props.recall();
         }
       } catch (error) {
-        console.error('Periodic refresh failed:', error);
+        console.error("Periodic refresh failed:", error);
       }
     }, intervalMs);
   }

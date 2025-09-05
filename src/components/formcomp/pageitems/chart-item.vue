@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { ref, computed, watch, onMounted } from 'vue';
-import { hasValidApiConfig, fetchData } from './composables/useApiData';
-import { defaultChartOptions } from './componentConfig';
+import { ref, computed, watch, onMounted } from "vue";
+import { hasValidApiConfig, fetchData } from "./composables/useApiData";
+import { defaultChartOptions } from "./componentConfig";
 
 const props = defineProps<{
   option: any;
@@ -26,7 +26,11 @@ const chartOption = computed(() => {
     return defaultChartOptions[props.type];
   }
   // If we have static option passed in props and it's not empty, use it
-  if (props.option && typeof props.option === 'object' && Object.keys(props.option).length > 0) {
+  if (
+    props.option &&
+    typeof props.option === "object" &&
+    Object.keys(props.option).length > 0
+  ) {
     return props.option;
   }
   // Fallback to default chart type options
@@ -43,10 +47,10 @@ const fetchApiData = async () => {
   if (!hasValidApiConfig(props.apiConfig)) {
     return;
   }
-  
+
   loading.value = true;
   error.value = null;
-  
+
   try {
     const result: any = await fetchData(props.apiConfig);
     if (!result.error) {
@@ -54,11 +58,11 @@ const fetchApiData = async () => {
       apiData.value = result.data;
     } else {
       error.value = result.error;
-      console.error('API call failed:', result.error);
+      console.error("API call failed:", result.error);
     }
   } catch (err: any) {
-    error.value = err instanceof Error ? err.message : 'Unknown error occurred';
-    console.error('API call failed:', err);
+    error.value = err instanceof Error ? err.message : "Unknown error occurred";
+    console.error("API call failed:", err);
   } finally {
     loading.value = false;
   }
@@ -66,7 +70,7 @@ const fetchApiData = async () => {
 
 const initChart = async () => {
   if (!shChartRef.value) return;
-  const echarts = await import('echarts');
+  const echarts = await import("echarts");
 
   if (myChart) {
     myChart.dispose();
@@ -92,34 +96,48 @@ const initChart = async () => {
 };
 
 // Watch for option changes
-watch(() => chartOption.value, () => {
-  if (myChart && chartOption.value) {
-    myChart.setOption(chartOption.value, true); // true for notMerge
-  }
-});
+watch(
+  () => chartOption.value,
+  () => {
+    if (myChart && chartOption.value) {
+      myChart.setOption(chartOption.value, true); // true for notMerge
+    }
+  },
+);
 
 // Watch for API config changes
-watch(() => props.apiConfig, () => {
-  fetchApiData();
-}, { deep: true });
+watch(
+  () => props.apiConfig,
+  () => {
+    fetchApiData();
+  },
+  { deep: true },
+);
 
 // Watch for option changes
-watch(() => props.option, () => {
-  if (myChart && props.option) {
-    myChart.setOption(props.option, true); // true for notMerge
-  }
-});
+watch(
+  () => props.option,
+  () => {
+    if (myChart && props.option) {
+      myChart.setOption(props.option, true); // true for notMerge
+    }
+  },
+);
 
 // Watch for type changes
-watch(() => props.type, (newType, oldType) => {
-  if (myChart) {
-    // When type changes, update the chart with the appropriate default options
-    const newOption = newType && defaultChartOptions[newType] 
-      ? defaultChartOptions[newType] 
-      : props.option || defaultChartOptions.line;
-    myChart.setOption(newOption, true); // true for notMerge
-  }
-});
+watch(
+  () => props.type,
+  (newType, oldType) => {
+    if (myChart) {
+      // When type changes, update the chart with the appropriate default options
+      const newOption =
+        newType && defaultChartOptions[newType]
+          ? defaultChartOptions[newType]
+          : props.option || defaultChartOptions.line;
+      myChart.setOption(newOption, true); // true for notMerge
+    }
+  },
+);
 
 onMounted(() => {
   fetchApiData();
@@ -131,12 +149,16 @@ onMounted(() => {
   <div v-if="loading" class="text-center py-4">
     <el-skeleton animated />
   </div>
-  
+
   <div v-else-if="error" class="text-center py-4 text-red-500">
     {{ error }}
   </div>
-  
-  <div v-else ref="shChartRef" style="width: 100%; height: 100%; min-height: 200px;"></div>
+
+  <div
+    v-else
+    ref="shChartRef"
+    style="width: 100%; height: 100%; min-height: 200px"
+  ></div>
 </template>
 
 <style scoped lang="scss"></style>

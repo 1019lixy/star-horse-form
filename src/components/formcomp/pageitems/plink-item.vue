@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { ref, computed, watch, onMounted } from 'vue';
-import { hasValidApiConfig, fetchData } from './composables/useApiData';
+import { ref, computed, watch, onMounted } from "vue";
+import { hasValidApiConfig, fetchData } from "./composables/useApiData";
 
 defineOptions({
   name: "PageLinkItem",
@@ -17,20 +17,20 @@ interface LinkItem {
 const props = defineProps({
   links: {
     type: Array as () => LinkItem[],
-    default: () => []
+    default: () => [],
   },
   direction: {
     type: String,
-    default: "horizontal" // horizontal, vertical
+    default: "horizontal", // horizontal, vertical
   },
   styleType: {
     type: String,
-    default: "text" // text, button, icon
+    default: "text", // text, button, icon
   },
   apiConfig: {
     type: Object,
-    default: () => ({})
-  }
+    default: () => ({}),
+  },
 });
 
 // Reactive data
@@ -40,7 +40,9 @@ const error = ref<string | null>(null);
 
 // Determine which data to use (API data if available, otherwise static data)
 const linkData = computed(() => {
-  return apiData.value && apiData.value.length > 0 ? apiData.value : props.links;
+  return apiData.value && apiData.value.length > 0
+    ? apiData.value
+    : props.links;
 });
 
 // Fetch data from API
@@ -49,10 +51,10 @@ const fetchApiData = async () => {
   if (!hasValidApiConfig(props.apiConfig)) {
     return;
   }
-  
+
   loading.value = true;
   error.value = null;
-  
+
   try {
     const result: any = await fetchData(props.apiConfig);
     if (!result.error) {
@@ -60,20 +62,24 @@ const fetchApiData = async () => {
       apiData.value = result.data;
     } else {
       error.value = result.error;
-      console.error('API call failed:', result.error);
+      console.error("API call failed:", result.error);
     }
   } catch (err: any) {
-    error.value = err instanceof Error ? err.message : 'Unknown error occurred';
-    console.error('API call failed:', err);
+    error.value = err instanceof Error ? err.message : "Unknown error occurred";
+    console.error("API call failed:", err);
   } finally {
     loading.value = false;
   }
 };
 
 // Watch for API config changes
-watch(() => props.apiConfig, () => {
-  fetchApiData();
-}, { deep: true });
+watch(
+  () => props.apiConfig,
+  () => {
+    fetchApiData();
+  },
+  { deep: true },
+);
 
 // Fetch initial data
 onMounted(() => {
@@ -82,21 +88,21 @@ onMounted(() => {
 </script>
 
 <template>
-  <div 
+  <div
     class="w-full"
     :class="{
       'flex flex-wrap justify-center gap-4': direction === 'horizontal',
-      'flex flex-col gap-2': direction === 'vertical'
+      'flex flex-col gap-2': direction === 'vertical',
     }"
   >
     <div v-if="loading" class="text-center py-4">
       <el-skeleton animated />
     </div>
-    
+
     <div v-else-if="error" class="text-center py-4 text-red-500">
       {{ error }}
     </div>
-    
+
     <template v-else>
       <template v-for="link in linkData" :key="link.id">
         <a
@@ -110,7 +116,7 @@ onMounted(() => {
           </el-icon>
           {{ link.label }}
         </a>
-        
+
         <el-button
           v-else-if="styleType === 'button'"
           :href="link.url"
@@ -123,7 +129,7 @@ onMounted(() => {
           </el-icon>
           {{ link.label }}
         </el-button>
-        
+
         <el-tooltip
           v-else-if="styleType === 'icon'"
           :content="link.label"

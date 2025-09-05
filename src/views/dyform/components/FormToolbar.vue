@@ -5,7 +5,7 @@ import {
   formActions,
 } from "@/views/dyform/utils/DynamicForm.ts";
 import { i18n } from "@/lang";
-import { ref } from 'vue';
+import { ref } from "vue";
 
 const emit = defineEmits<{
   (e: "action", action: string): void;
@@ -87,9 +87,9 @@ const handleDropdownSelect = (item: any) => {
               />
             </el-tooltip>
           </el-button>
-          
+
           <!-- Button with dropdown for children -->
-          <div 
+          <div
             v-else-if="item.children && item.children.length > 0"
             :key="'1_' + index"
             class="dropdown-container"
@@ -115,10 +115,10 @@ const handleDropdownSelect = (item: any) => {
                 <arrow-down />
               </el-icon>
             </el-button>
-            
+
             <!-- Dropdown menu -->
-            <div 
-              v-show="activeDropdown === item.key" 
+            <div
+              v-show="activeDropdown === item.key"
               class="dropdown-menu"
               @click.stop
             >
@@ -141,7 +141,7 @@ const handleDropdownSelect = (item: any) => {
         </template>
       </el-button-group>
     </div>
-    
+
     <div class="toolbar-right">
       <el-tooltip
         :content="i18n('dyform.toolbar.cache.restore')"
@@ -165,15 +165,15 @@ const handleDropdownSelect = (item: any) => {
   background: #f5f7fa;
   border-bottom: 1px solid #e4e7ed;
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
-  
+
   .toolbar-container {
     display: flex;
     align-items: center;
-    
+
     .toolbar-group {
       display: flex;
       align-items: center;
-      
+
       .toolbar-button {
         border: none !important;
         background: transparent;
@@ -185,21 +185,21 @@ const handleDropdownSelect = (item: any) => {
         border-radius: 4px;
         transition: all 0.2s ease;
         margin: 0 2px;
-        
+
         &:hover {
           background-color: #ecf5ff;
           color: #409eff;
         }
-        
+
         &:active {
           background-color: #d9ecff;
         }
-        
+
         &.with-dropdown {
           display: flex;
           align-items: center;
           gap: 4px;
-          
+
           .dropdown-arrow {
             font-size: 12px;
             transition: transform 0.3s;
@@ -208,13 +208,13 @@ const handleDropdownSelect = (item: any) => {
       }
     }
   }
-  
+
   .dropdown-container {
     position: relative;
     display: flex;
     height: 40px;
     margin: 0 2px;
-    
+
     .dropdown-menu {
       position: absolute;
       top: 100%;
@@ -227,7 +227,7 @@ const handleDropdownSelect = (item: any) => {
       min-width: 140px;
       padding: 6px 0;
       margin-top: 6px;
-      
+
       .dropdown-item {
         display: flex;
         align-items: center;
@@ -235,11 +235,11 @@ const handleDropdownSelect = (item: any) => {
         cursor: pointer;
         gap: 8px;
         transition: background-color 0.2s;
-        
+
         &:hover {
           background-color: #f5f7fa;
         }
-        
+
         .dropdown-label {
           font-size: 14px;
           color: #606266;
@@ -247,12 +247,12 @@ const handleDropdownSelect = (item: any) => {
       }
     }
   }
-  
+
   .toolbar-right {
     display: flex;
     align-items: center;
     gap: 12px;
-    
+
     .cache-button {
       display: flex;
       align-items: center;
@@ -260,16 +260,16 @@ const handleDropdownSelect = (item: any) => {
       height: 40px;
       border-radius: 4px;
       transition: background-color 0.2s;
-      
+
       &:hover {
         background-color: #ecf5ff;
       }
-      
+
       :deep(.star-horse-icon) {
         cursor: pointer;
         font-size: 20px;
         color: #606266;
-        
+
         &:hover {
           color: #409eff;
         }

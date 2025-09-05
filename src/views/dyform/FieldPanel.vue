@@ -117,10 +117,10 @@ const addElement = (element: any, type: string) => {
                     :title="element.itemName"
                   >
                     <star-horse-icon
-                        :icon-class="element.itemIcon"
-                         size="32px"
-                        style="color: var(--star-horse-style)"
-                      /><i>{{ element.itemName }}</i>
+                      :icon-class="element.itemIcon"
+                      size="32px"
+                      style="color: var(--star-horse-style)"
+                    /><i>{{ element.itemName }}</i>
                   </li>
                 </template>
               </draggable>
@@ -157,10 +157,10 @@ const addElement = (element: any, type: string) => {
                     :title="element.itemName"
                   >
                     <star-horse-icon
-                        :icon-class="element.itemIcon"
-                           size="32px"
-                        style="color: var(--star-horse-style)"
-                      /><i>{{ element.itemName }}</i>
+                      :icon-class="element.itemIcon"
+                      size="32px"
+                      style="color: var(--star-horse-style)"
+                    /><i>{{ element.itemName }}</i>
                   </li>
                 </template>
               </draggable>
@@ -197,10 +197,10 @@ const addElement = (element: any, type: string) => {
                     :title="element.itemName"
                   >
                     <star-horse-icon
-                        :icon-class="element.itemIcon"
-                           size="32px"
-                        style="color: var(--star-horse-style)"
-                      /><i>{{ element.itemName }}</i>
+                      :icon-class="element.itemIcon"
+                      size="32px"
+                      style="color: var(--star-horse-style)"
+                    /><i>{{ element.itemName }}</i>
                   </li>
                 </template>
               </draggable>
@@ -213,10 +213,10 @@ const addElement = (element: any, type: string) => {
     <el-tab-pane name="dbinfo">
       <template #label>
         <div class="flex flex-row items-center h-[110px]">
-        <star-horse-icon
-          icon-class="database"
-          style="color: var(--star-horse-style)"
-        />&nbsp;<span>{{ i18n("dyform.tab.dbinfo") }}</span>
+          <star-horse-icon
+            icon-class="database"
+            style="color: var(--star-horse-style)"
+          />&nbsp;<span>{{ i18n("dyform.tab.dbinfo") }}</span>
         </div>
       </template>
       <db-list-comp :batchCreatePage="batchCreatePage" />
@@ -368,7 +368,10 @@ i {
 :deep(.el-collapse-item__content) {
   ul {
     display: grid;
-    grid-template-columns: repeat(2, 1fr); // Exactly two items per row as specified
+    grid-template-columns: repeat(
+      2,
+      1fr
+    ); // Exactly two items per row as specified
     gap: 5px; // Proper spacing between items
     padding: 0;
     margin: 0;
@@ -392,7 +395,7 @@ i {
 
       // Add a subtle inner glow effect
       &::after {
-        content: '';
+        content: "";
         position: absolute;
         top: 4px;
         left: 4px;
@@ -421,8 +424,6 @@ i {
           font-weight: 400;
         }
       }
-
-
 
       i {
         color: #606266;

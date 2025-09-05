@@ -93,9 +93,9 @@ const baseUserFields: Array<any> = [
       listVisible: true,
       preps: {
         editDisabled: true,
-        showButton:false,
-        dialogInput:true,
-        compName:UserManage,
+        showButton: false,
+        dialogInput: true,
+        compName: UserManage,
         needField: [
           { sourceField: "name", distField: "name" },
           { sourceField: "employeeNo", distField: "employeeNo" },
@@ -197,8 +197,8 @@ const fullUserField: Array<any> = [
       type: "select",
       formVisible: true,
       preps: {
-        dataSource:"dict",
-        urlOrDictName:"public"
+        dataSource: "dict",
+        urlOrDictName: "public",
       },
     },
     {

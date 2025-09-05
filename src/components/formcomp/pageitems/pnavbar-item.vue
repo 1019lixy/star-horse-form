@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { ref, computed, watch, onMounted } from 'vue';
-import { hasValidApiConfig, fetchData } from './composables/useApiData';
+import { ref, computed, watch, onMounted } from "vue";
+import { hasValidApiConfig, fetchData } from "./composables/useApiData";
 
 defineOptions({
   name: "PageNavbarItem",
@@ -16,20 +16,20 @@ interface NavItem {
 const props = defineProps({
   title: {
     type: String,
-    default: "导航标题"
+    default: "导航标题",
   },
   navItems: {
     type: Array as () => NavItem[],
-    default: () => []
+    default: () => [],
   },
   logoUrl: {
     type: String,
-    default: ""
+    default: "",
   },
   apiConfig: {
     type: Object,
-    default: () => ({})
-  }
+    default: () => ({}),
+  },
 });
 
 // Reactive data
@@ -39,7 +39,9 @@ const error = ref<string | null>(null);
 
 // Determine which data to use (API data if available, otherwise static data)
 const navData = computed(() => {
-  return apiData.value && apiData.value.length > 0 ? apiData.value : props.navItems;
+  return apiData.value && apiData.value.length > 0
+    ? apiData.value
+    : props.navItems;
 });
 
 // Fetch data from API
@@ -48,10 +50,10 @@ const fetchApiData = async () => {
   if (!hasValidApiConfig(props.apiConfig)) {
     return;
   }
-  
+
   loading.value = true;
   error.value = null;
-  
+
   try {
     const result: any = await fetchData(props.apiConfig);
     if (!result.error) {
@@ -59,20 +61,24 @@ const fetchApiData = async () => {
       apiData.value = result.data;
     } else {
       error.value = result.error;
-      console.error('API call failed:', result.error);
+      console.error("API call failed:", result.error);
     }
   } catch (err: any) {
-    error.value = err instanceof Error ? err.message : 'Unknown error occurred';
-    console.error('API call failed:', err);
+    error.value = err instanceof Error ? err.message : "Unknown error occurred";
+    console.error("API call failed:", err);
   } finally {
     loading.value = false;
   }
 };
 
 // Watch for API config changes
-watch(() => props.apiConfig, () => {
-  fetchApiData();
-}, { deep: true });
+watch(
+  () => props.apiConfig,
+  () => {
+    fetchApiData();
+  },
+  { deep: true },
+);
 
 // Fetch initial data
 onMounted(() => {
@@ -84,11 +90,11 @@ onMounted(() => {
   <div v-if="loading" class="text-center py-4">
     <el-skeleton animated />
   </div>
-  
+
   <div v-else-if="error" class="text-center py-4 text-red-500">
     {{ error }}
   </div>
-  
+
   <el-page-header v-else :title="title">
     <template #content>
       <div class="flex items-center">
@@ -104,11 +110,7 @@ onMounted(() => {
     <template #extra>
       <div class="flex items-center">
         <el-menu mode="horizontal" class="border-0">
-          <el-menu-item 
-            v-for="item in navData" 
-            :key="item.id" 
-            :index="item.id"
-          >
+          <el-menu-item v-for="item in navData" :key="item.id" :index="item.id">
             <el-icon v-if="item.icon">
               <component :is="item.icon" />
             </el-icon>

@@ -8,38 +8,38 @@ defineOptions({
 defineProps({
   value: {
     type: Number,
-    default: 0
+    default: 0,
   },
   title: {
     type: String,
-    default: "统计标题"
+    default: "统计标题",
   },
   description: {
     type: String,
-    default: ""
+    default: "",
   },
   prefix: {
     type: String,
-    default: ""
+    default: "",
   },
   suffix: {
     type: String,
-    default: ""
+    default: "",
   },
   precision: {
     type: Number,
-    default: 0
+    default: 0,
   },
   groupSeparator: {
     type: Boolean,
-    default: false
-  }
+    default: false,
+  },
 });
 </script>
 
 <template>
-  <el-statistic 
-    :value="value" 
+  <el-statistic
+    :value="value"
     :precision="precision"
     :group-separator="groupSeparator"
   >

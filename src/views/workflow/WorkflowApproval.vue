@@ -102,9 +102,9 @@ const extendBtns: UserFuncInfo[] = [
     authority: "view",
     funcName: (row: any) => {
       // View workflow details
-      router.push({ 
-        path: "/workflow/approval/detail", 
-        query: { id: row.id, isView: "Y" } 
+      router.push({
+        path: "/workflow/approval/detail",
+        query: { id: row.id, isView: "Y" },
       });
     },
   },
@@ -114,9 +114,9 @@ const extendBtns: UserFuncInfo[] = [
     authority: "edit",
     funcName: (row: any) => {
       // Edit workflow
-      router.push({ 
-        path: "/workflow/approval/edit", 
-        query: { id: row.id } 
+      router.push({
+        path: "/workflow/approval/edit",
+        query: { id: row.id },
       });
     },
   },

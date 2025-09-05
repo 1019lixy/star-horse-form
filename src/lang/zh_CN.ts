@@ -23,7 +23,8 @@ export default {
   "login.forget": "忘记密码？",
   "login.noAccount": "没有账号？",
   "login.remember.password": "记得密码？",
-  "login.forget.password.tip": "请输入您注册时使用的邮箱地址，我们将向该邮箱发送密码重置链接。",
+  "login.forget.password.tip":
+    "请输入您注册时使用的邮箱地址，我们将向该邮箱发送密码重置链接。",
   "loginButton.register": "立即注册",
   "loginButton.login": "登 录",
   "loginButton.welcome": "欢迎光临",
@@ -644,7 +645,8 @@ export default {
    * Forgot Password Component
    */
   "forgotPassword.title": "忘记密码",
-  "forgotPassword.tip": "请输入您注册时使用的邮箱地址，我们将向该邮箱发送密码重置链接。",
+  "forgotPassword.tip":
+    "请输入您注册时使用的邮箱地址，我们将向该邮箱发送密码重置链接。",
   "forgotPassword.success": "密码重置邮件已发送",
   "forgotPassword.checkEmail": "请检查您的邮箱并按照指示重置密码。",
   /**

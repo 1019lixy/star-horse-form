@@ -32,7 +32,8 @@ const forgotPasswordRules = reactive<FormRules<ForgotPasswordInfo>>({
     },
     {
       type: "email",
-      message: i18n("system.email") + " " + i18n("utils.warning.provideCorrectData"),
+      message:
+        i18n("system.email") + " " + i18n("utils.warning.provideCorrectData"),
       trigger: ["blur", "change"],
     },
   ],
@@ -137,8 +138,17 @@ refreshValidate();
           <div v-if="resetSuccess" class="mt-8 p-4 bg-green-50 rounded-lg">
             <div class="flex">
               <div class="flex-shrink-0">
-                <svg class="h-5 w-5 text-green-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                  <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+                <svg
+                  class="h-5 w-5 text-green-400"
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 20 20"
+                  fill="currentColor"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                    clip-rule="evenodd"
+                  />
                 </svg>
               </div>
               <div class="ml-3">
@@ -153,18 +163,10 @@ refreshValidate();
               </div>
             </div>
             <div class="mt-4">
-              <el-button
-                @click="resetForm"
-                type="primary"
-                class="w-full"
-              >
+              <el-button @click="resetForm" type="primary" class="w-full">
                 {{ i18n("login.forget") }} {{ i18n("system.password") }}
               </el-button>
-              <el-button
-                @click="goBackToLogin"
-                link
-                class="w-full mt-2"
-              >
+              <el-button @click="goBackToLogin" link class="w-full mt-2">
                 {{ i18n("loginButton.login") }}
               </el-button>
             </div>
@@ -187,11 +189,7 @@ refreshValidate();
               class="mb-4"
             />
 
-            <el-form-item
-              prop="email"
-              :label="i18n('register.email')"
-              required
-            >
+            <el-form-item prop="email" :label="i18n('register.email')" required>
               <el-input
                 auto-complete="off"
                 :placeholder="i18n('starhorse.pleaseInput', 'register.email')"

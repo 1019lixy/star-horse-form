@@ -174,7 +174,7 @@ const openWorkflowDrawer = (item: any) => {
   selectedWorkflowData.value = item;
 
   // Set drawer title
-  drawerTitle.value = item.title || i18n('workflow.process.details');
+  drawerTitle.value = item.title || i18n("workflow.process.details");
 
   // Show the drawer
   drawerVisible.value = true;

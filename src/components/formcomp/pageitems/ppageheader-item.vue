@@ -11,19 +11,16 @@ interface BreadcrumbItem {
 defineProps({
   title: {
     type: String,
-    default: "页面标题"
+    default: "页面标题",
   },
   breadcrumbs: {
     type: Array as () => BreadcrumbItem[],
-    default: () => [
-      { path: "/", label: "首页" },
-      { label: "当前页面" }
-    ]
+    default: () => [{ path: "/", label: "首页" }, { label: "当前页面" }],
   },
   icon: {
     type: String,
-    default: ""
-  }
+    default: "",
+  },
 });
 </script>
 
@@ -31,8 +28,8 @@ defineProps({
   <el-page-header :title="title">
     <template #breadcrumb>
       <el-breadcrumb separator="/">
-        <el-breadcrumb-item 
-          v-for="(item, index) in breadcrumbs" 
+        <el-breadcrumb-item
+          v-for="(item, index) in breadcrumbs"
           :key="index"
           :to="item.path ? { path: item.path } : undefined"
         >

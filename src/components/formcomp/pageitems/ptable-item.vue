@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { ref, computed, watch, onMounted } from 'vue';
-import { hasValidApiConfig, fetchData } from './composables/useApiData';
+import { ref, computed, watch, onMounted } from "vue";
+import { hasValidApiConfig, fetchData } from "./composables/useApiData";
 
 defineOptions({
   name: "PageTableItem",
@@ -23,29 +23,29 @@ const props = defineProps({
     default: () => [
       { prop: "date", label: "日期", width: "180" },
       { prop: "name", label: "姓名", width: "180" },
-      { prop: "address", label: "地址" }
-    ]
+      { prop: "address", label: "地址" },
+    ],
   },
   data: {
     type: Array as () => TableData[],
-    default: () => []
+    default: () => [],
   },
   apiConfig: {
     type: Object,
-    default: () => ({})
+    default: () => ({}),
   },
   height: {
     type: String,
-    default: ""
+    default: "",
   },
   stripe: {
     type: Boolean,
-    default: false
+    default: false,
   },
   border: {
     type: Boolean,
-    default: true
-  }
+    default: true,
+  },
 });
 
 // Reactive data
@@ -64,10 +64,10 @@ const fetchApiData = async () => {
   if (!hasValidApiConfig(props.apiConfig)) {
     return;
   }
-  
+
   loading.value = true;
   error.value = null;
-  
+
   try {
     const result: any = await fetchData(props.apiConfig);
     if (!result.error) {
@@ -75,20 +75,24 @@ const fetchApiData = async () => {
       apiData.value = result.data;
     } else {
       error.value = result.error;
-      console.error('API call failed:', result.error);
+      console.error("API call failed:", result.error);
     }
   } catch (err: any) {
-    error.value = err instanceof Error ? err.message : 'Unknown error occurred';
-    console.error('API call failed:', err);
+    error.value = err instanceof Error ? err.message : "Unknown error occurred";
+    console.error("API call failed:", err);
   } finally {
     loading.value = false;
   }
 };
 
 // Watch for API config changes
-watch(() => props.apiConfig, () => {
-  fetchApiData();
-}, { deep: true });
+watch(
+  () => props.apiConfig,
+  () => {
+    fetchApiData();
+  },
+  { deep: true },
+);
 
 // Fetch initial data
 onMounted(() => {
@@ -100,11 +104,11 @@ onMounted(() => {
   <div v-if="loading" class="text-center py-4">
     <el-skeleton :rows="3" animated />
   </div>
-  
+
   <div v-else-if="error" class="text-center py-4 text-red-500">
     {{ error }}
   </div>
-  
+
   <el-table
     v-else
     :data="tableData"

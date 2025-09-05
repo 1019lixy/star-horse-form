@@ -6,20 +6,20 @@ defineOptions({
 defineProps({
   title: {
     type: String,
-    default: "卡片标题"
+    default: "卡片标题",
   },
   content: {
     type: String,
-    default: "卡片内容"
+    default: "卡片内容",
   },
   imageUrl: {
     type: String,
-    default: ""
+    default: "",
   },
   shadow: {
     type: String,
-    default: "hover" // always, never, hover
-  }
+    default: "hover", // always, never, hover
+  },
 });
 </script>
 

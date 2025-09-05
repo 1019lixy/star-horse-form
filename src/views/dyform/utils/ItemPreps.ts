@@ -1399,7 +1399,7 @@ const selectType = [
  */
 export function fieldPlaceholder(item: any, compInfo?: any) {
   let preps: any = compInfo ?? unref(designForm.currentComp);
-  if(!preps) {
+  if (!preps) {
     return "";
   }
   let itemType: string = preps?.itemType;

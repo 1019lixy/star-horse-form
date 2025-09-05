@@ -1,6 +1,6 @@
 <script setup lang="ts" name="BatchEditFields">
 import { computed, reactive } from "vue";
-import { piniaInstance, useDesignFormStore, } from "star-horse-lowcode";
+import { piniaInstance, useDesignFormStore } from "star-horse-lowcode";
 import { Config } from "@/api/settings";
 import { i18n } from "@/lang";
 
@@ -17,11 +17,7 @@ let batchModifyData = reactive<any>({
   searchVisible: true,
   listVisible: true,
 });
-const batchModifyAction = (
-  items: Array<any>,
-  val: any,
-  fieldName: string,
-) => {
+const batchModifyAction = (items: Array<any>, val: any, fieldName: string) => {
   for (const index in items) {
     const item = items[index];
     if (item.compType == "container") {
@@ -56,158 +52,163 @@ const batchOperation = (val: any, fieldName: string) => {
       <div class="table-header-wrapper">
         <table class="batch-edit-table batch-edit-table-header">
           <colgroup>
-            <col class="w-[15%]">
-            <col class="w-[15%]">
-            <col class="w-[15%]">
-            <col class="w-[20%]">
-            <col class="w-[7%]">
-            <col class="w-[7%]">
-            <col class="w-[7%]">
-            <col class="w-[7%]">
-            <col class="w-[10%]">
+            <col class="w-[15%]" />
+            <col class="w-[15%]" />
+            <col class="w-[15%]" />
+            <col class="w-[20%]" />
+            <col class="w-[7%]" />
+            <col class="w-[7%]" />
+            <col class="w-[7%]" />
+            <col class="w-[7%]" />
+            <col class="w-[10%]" />
           </colgroup>
           <thead>
-          <tr class="table-header">
-            <th class="header-cell">{{
-                i18n("dyform.batch.edit.field.containerName")
-              }}
-            </th>
-            <th class="header-cell">{{ i18n("dyform.batch.edit.field.labelName") }}</th>
-            <th class="header-cell">{{ i18n("dyform.batch.edit.field.fieldName") }}</th>
-            <th class="header-cell">{{i18n("dyform.batch.edit.field.maxLengthPrecision")}}</th>
-            <th class="header-cell">{{ i18n("dyform.batch.edit.field.required") }}</th>
-            <th class="header-cell">{{
-                i18n("dyform.batch.edit.field.formDisplay")
-              }}
-            </th>
-            <th class="header-cell">{{
-                i18n("dyform.batch.edit.field.searchDisplay")
-              }}
-            </th>
-            <th class="header-cell">{{
-                i18n("dyform.batch.edit.field.listDisplay")
-              }}
-            </th>
-            <th class="header-cell">{{
-                i18n("dyform.batch.edit.field.defaultValue")
-              }}
-            </th>
-          </tr>
-          <tr class="batch-row">
-            <td class="batch-cell">{{ i18n("dyform.batch.edit.field.batchSetting") }}</td>
-            <td class="batch-cell">--</td>
-            <td class="batch-cell">--</td>
-            <td class="batch-cell">
-              <el-row :gutter="10">
-                <el-col :span="12">
-                  <el-input-number
+            <tr class="table-header">
+              <th class="header-cell">
+                {{ i18n("dyform.batch.edit.field.containerName") }}
+              </th>
+              <th class="header-cell">
+                {{ i18n("dyform.batch.edit.field.labelName") }}
+              </th>
+              <th class="header-cell">
+                {{ i18n("dyform.batch.edit.field.fieldName") }}
+              </th>
+              <th class="header-cell">
+                {{ i18n("dyform.batch.edit.field.maxLengthPrecision") }}
+              </th>
+              <th class="header-cell">
+                {{ i18n("dyform.batch.edit.field.required") }}
+              </th>
+              <th class="header-cell">
+                {{ i18n("dyform.batch.edit.field.formDisplay") }}
+              </th>
+              <th class="header-cell">
+                {{ i18n("dyform.batch.edit.field.searchDisplay") }}
+              </th>
+              <th class="header-cell">
+                {{ i18n("dyform.batch.edit.field.listDisplay") }}
+              </th>
+              <th class="header-cell">
+                {{ i18n("dyform.batch.edit.field.defaultValue") }}
+              </th>
+            </tr>
+            <tr class="batch-row">
+              <td class="batch-cell">
+                {{ i18n("dyform.batch.edit.field.batchSetting") }}
+              </td>
+              <td class="batch-cell">--</td>
+              <td class="batch-cell">--</td>
+              <td class="batch-cell">
+                <el-row :gutter="10">
+                  <el-col :span="12">
+                    <el-input-number
                       v-model="batchModifyData.maxLength"
                       controls-position="right"
                       :size="compSize"
                       @change="(val: any) => batchOperation(val, 'maxLength')"
                       :placeholder="
-                    i18n('dyform.batch.edit.field.placeholder.fieldLength')
-                  "
+                        i18n('dyform.batch.edit.field.placeholder.fieldLength')
+                      "
                       clearable
-                  />
-                </el-col>
-                <el-col :span="12">
-                  <el-input-number
+                    />
+                  </el-col>
+                  <el-col :span="12">
+                    <el-input-number
                       v-model="batchModifyData.precision"
                       controls-position="right"
                       :size="compSize"
                       @change="(val: any) => batchOperation(val, 'precision')"
                       :placeholder="
-                    i18n('dyform.batch.edit.field.placeholder.precision')
-                  "
+                        i18n('dyform.batch.edit.field.placeholder.precision')
+                      "
                       clearable
-                  />
-                </el-col>
-              </el-row>
-            </td>
-            <td class="batch-cell">
-              <el-switch
+                    />
+                  </el-col>
+                </el-row>
+              </td>
+              <td class="batch-cell">
+                <el-switch
                   v-model="batchModifyData.required"
                   :size="compSize"
                   @change="(val: any) => batchOperation(val, 'required')"
-              />
-            </td>
-            <td class="batch-cell">
-              <el-switch
+                />
+              </td>
+              <td class="batch-cell">
+                <el-switch
                   v-model="batchModifyData.formVisible"
                   :size="compSize"
                   @change="(val: any) => batchOperation(val, 'formVisible')"
-              />
-            </td>
-            <td class="batch-cell">
-              <el-switch
+                />
+              </td>
+              <td class="batch-cell">
+                <el-switch
                   v-model="batchModifyData.searchVisible"
                   :size="compSize"
                   @change="(val: any) => batchOperation(val, 'searchVisible')"
-              />
-            </td>
-            <td class="batch-cell">
-              <el-switch
+                />
+              </td>
+              <td class="batch-cell">
+                <el-switch
                   v-model="batchModifyData.listVisible"
                   :size="compSize"
                   @change="(val: any) => batchOperation(val, 'listVisible')"
-              />
-            </td>
-            <td class="batch-cell"></td>
-          </tr>
+                />
+              </td>
+              <td class="batch-cell"></td>
+            </tr>
           </thead>
         </table>
       </div>
       <div class="table-body-container">
-        <el-scrollbar> 
-        <table class="batch-edit-table batch-edit-table-body">
-          <colgroup>
-            <col class="w-[15%]">
-            <col class="w-[15%]">
-            <col class="w-[15%]">
-            <col class="w-[20%]">
-            <col class="w-[7%]">
-            <col class="w-[7%]">
-            <col class="w-[7%]">
-            <col class="w-[7%]">
-            <col class="w-[10%]">
-          </colgroup>
-          <tbody>
-            <template v-for="(item, index) in list">
-              <template
+        <el-scrollbar>
+          <table class="batch-edit-table batch-edit-table-body">
+            <colgroup>
+              <col class="w-[15%]" />
+              <col class="w-[15%]" />
+              <col class="w-[15%]" />
+              <col class="w-[20%]" />
+              <col class="w-[7%]" />
+              <col class="w-[7%]" />
+              <col class="w-[7%]" />
+              <col class="w-[7%]" />
+              <col class="w-[10%]" />
+            </colgroup>
+            <tbody>
+              <template v-for="(item, index) in list">
+                <template
                   v-if="item.compType == 'container'"
                   v-for="sitem in item.preps['elements']"
-              >
-                <template v-for="sitem1 in sitem['columns']">
-                  <template v-for="(sitem2, sindex) in sitem1.items">
-                    <FieldAnalysis
+                >
+                  <template v-for="sitem1 in sitem['columns']">
+                    <template v-for="(sitem2, sindex) in sitem1.items">
+                      <FieldAnalysis
                         :index="index + sindex + 1"
                         :size="compSize"
                         :field="sitem2"
                         :container="item.preps.label"
-                    />
+                      />
+                    </template>
                   </template>
-                </template>
-                <template v-for="(sitem2, sindex) in sitem.items">
-                  <FieldAnalysis
+                  <template v-for="(sitem2, sindex) in sitem.items">
+                    <FieldAnalysis
                       :index="index + sindex + 1"
                       :size="compSize"
                       :field="sitem2"
                       :container="sitem.label || item.preps.label"
-                  />
+                    />
+                  </template>
                 </template>
-              </template>
-              <FieldAnalysis
+                <FieldAnalysis
                   :index="index + 1"
                   :field="item"
                   :size="compSize"
                   v-if="item.compType == 'item' || item.compType == 'formItem'"
                   :container="'--'"
-              />
-            </template>
-          </tbody>
-        </table>
-         </el-scrollbar>
+                />
+              </template>
+            </tbody>
+          </table>
+        </el-scrollbar>
       </div>
     </div>
   </div>
@@ -247,7 +248,7 @@ const batchOperation = (val: any, fieldName: string) => {
 
 .table-header {
   background-color: #f5f7fa;
-  
+
   .header-cell {
     padding: 12px 8px;
     font-weight: 600;
@@ -259,7 +260,7 @@ const batchOperation = (val: any, fieldName: string) => {
 
 .batch-row {
   background-color: #f0f9eb;
-  
+
   .batch-cell {
     padding: 10px 8px;
     border: 1px solid #ebeef5;

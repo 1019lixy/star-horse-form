@@ -1,11 +1,18 @@
 <script setup lang="ts" name="DbSearch">
-import {Config} from "@/api/settings";
-import {i18n} from "@/lang";
+import { Config } from "@/api/settings";
+import { i18n } from "@/lang";
 import QueryResult from "@/views/dbsearch/QueryResult.vue";
-import {initDbList} from "@/views/dbsearch/utils/DbSearchUtils";
-import {closeLoad, error, getRequest, piniaInstance, useGlobalConfigStore, warning} from "star-horse-lowcode";
-import {computed, onMounted, onUnmounted, ref, unref} from "vue";
-import {format} from "sql-formatter";
+import { initDbList } from "@/views/dbsearch/utils/DbSearchUtils";
+import {
+  closeLoad,
+  error,
+  getRequest,
+  piniaInstance,
+  useGlobalConfigStore,
+  warning,
+} from "star-horse-lowcode";
+import { computed, onMounted, onUnmounted, ref, unref } from "vue";
+import { format } from "sql-formatter";
 
 let editorRef = ref<any>(null);
 let dbList = ref<any>([]);
@@ -17,7 +24,7 @@ let dbIndex = ref<any>(null);
 let currentIndex = ref<any>(null);
 let configStore = useGlobalConfigStore(piniaInstance);
 let compSize = computed(
-    () => configStore.configFormInfo?.inputSize || Config.compSize,
+  () => configStore.configFormInfo?.inputSize || Config.compSize,
 );
 
 const init = async () => {
@@ -64,8 +71,12 @@ const formatSql = () => {
   } catch (error) {
     console.error("SQL formatting error:", error);
     const currentSql = getSql(); // Use getSql to get selected or all text
-    const lines = currentSql.split(/\s*;\s*/).filter((line: string) => line.trim());
-    const formattedSql = lines.map((line: string) => line.trim() + ";").join("\n\n");
+    const lines = currentSql
+      .split(/\s*;\s*/)
+      .filter((line: string) => line.trim());
+    const formattedSql = lines
+      .map((line: string) => line.trim() + ";")
+      .join("\n\n");
 
     let editor = editorRef.value!.editor;
     let selection = editor.state.selection.main;
@@ -100,25 +111,25 @@ onUnmounted(() => {
 const openDb = () => {
   let editor = editorRef.value!;
   getRequest(`/userdb-manage/dbsearch/dbinfo/openConn/${dbIndex.value}`).then(
-      (res) => {
-        tableList.value = {};
-        if (res.data.code != 0) {
-          error(res.data.cnMessage);
-          return;
-        }
-        tableAndColumnsList.value = res.data.data;
-        assignDataList.value = tableAndColumnsList.value;
-        btnDisabled.value = false;
-        currentIndex.value = dbIndex.value;
-        editor.setAutoCompletion("test", tableAndColumnsList.value);
-      },
+    (res) => {
+      tableList.value = {};
+      if (res.data.code != 0) {
+        error(res.data.cnMessage);
+        return;
+      }
+      tableAndColumnsList.value = res.data.data;
+      assignDataList.value = tableAndColumnsList.value;
+      btnDisabled.value = false;
+      currentIndex.value = dbIndex.value;
+      editor.setAutoCompletion("test", tableAndColumnsList.value);
+    },
   );
 };
 const getSql = () => {
   let editor = editorRef.value!.editor.state;
   let sData = editor.sliceDoc(
-      editor.selection.main.from,
-      editor.selection.main.to,
+    editor.selection.main.from,
+    editor.selection.main.to,
   );
   // If no text is selected, use all text
   if (!sData) {
@@ -153,7 +164,6 @@ const executeSql = () => {
     return;
   }
 
-
   reqData.value = {
     sqls: tempList,
     pageSize: pageSize.value,
@@ -161,35 +171,33 @@ const executeSql = () => {
     idDbinfo: dbIndex.value,
   };
 };
-const executeStop = () => {
-
-};
+const executeStop = () => {};
 
 const tableField = (tableName: string) => {
   let fdata = tableAndColumnsList.value.find(
-      (item: any) => item.tableName == tableName,
+    (item: any) => item.tableName == tableName,
   );
   if (fdata?.fields?.length > 0) {
     //如果已经有值，则不再请求后端
     return;
   }
   getRequest(
-      `/userdb-manage/dbsearch/dbinfo/tableColumns/${dbIndex.value}/${tableName}`,
+    `/userdb-manage/dbsearch/dbinfo/tableColumns/${dbIndex.value}/${tableName}`,
   )
-      .then((res) => {
-        if (res.data.code != 0) {
-          warning(res.data.cnMessage);
-          return;
-        }
-        tableList.value[tableName] = [];
-        fdata.fields = res.data.data;
-        fdata.fields.forEach((sitem: any) => {
-          tableList.value[tableName].push(sitem.filedName);
-        });
-      })
-      .finally(() => {
-        closeLoad();
+    .then((res) => {
+      if (res.data.code != 0) {
+        warning(res.data.cnMessage);
+        return;
+      }
+      tableList.value[tableName] = [];
+      fdata.fields = res.data.data;
+      fdata.fields.forEach((sitem: any) => {
+        tableList.value[tableName].push(sitem.filedName);
       });
+    })
+    .finally(() => {
+      closeLoad();
+    });
 };
 const filterTableName = ref("");
 const filterData = () => {
@@ -198,7 +206,7 @@ const filterData = () => {
     return;
   }
   assignDataList.value = tableAndColumnsList.value.filter((item: any) =>
-      item.tableName.toLowerCase().match(filterTableName.value.toLowerCase()),
+    item.tableName.toLowerCase().match(filterTableName.value.toLowerCase()),
   );
 };
 const dragStart = (item: any, evt: DragEvent) => {
@@ -266,31 +274,78 @@ const operMsg = `
   <el-card class="inner_content db-search-container">
     <el-splitter>
       <el-splitter-panel collapsible size="260" min="250" max="350">
-        <div class="flex flex-col items-center h-full overflow-hidden db-table-panel" style="width: 98%">
-          <el-select :size="compSize" @change="openDb" clearable filterable id="dbInfo" placeholder="请选择数据库信息"
-                     v-model="dbIndex" class="db-select">
-            <el-option :key="sitem.value" :label="sitem.name" :value="sitem.value" v-for="sitem in dbList"/>
+        <div
+          class="flex flex-col items-center h-full overflow-hidden db-table-panel"
+          style="width: 98%"
+        >
+          <el-select
+            :size="compSize"
+            @change="openDb"
+            clearable
+            filterable
+            id="dbInfo"
+            placeholder="请选择数据库信息"
+            v-model="dbIndex"
+            class="db-select"
+          >
+            <el-option
+              :key="sitem.value"
+              :label="sitem.name"
+              :value="sitem.value"
+              v-for="sitem in dbList"
+            />
           </el-select>
           <div style="margin-top: 5px"></div>
           <template v-if="assignDataList.length > 0">
-            <el-input :size="compSize" placeholder="请输入关键字" v-model="filterTableName" @keydown.enter="filterData"
-                      class="table-filter-input">
+            <el-input
+              :size="compSize"
+              placeholder="请输入关键字"
+              v-model="filterTableName"
+              @keydown.enter="filterData"
+              class="table-filter-input"
+            >
               <template #suffix>
-                <star-horse-icon @click="filterData" icon-class="search" color="var(--star-horse-style)"
-                                 class="search-icon"/>
+                <star-horse-icon
+                  @click="filterData"
+                  icon-class="search"
+                  color="var(--star-horse-style)"
+                  class="search-icon"
+                />
               </template>
             </el-input>
-            <div class="flex-1 w-[99%] overflow-hidden table-list-container" style="margin: 1px auto">
+            <div
+              class="flex-1 w-[99%] overflow-hidden table-list-container"
+              style="margin: 1px auto"
+            >
               <el-scrollbar class="table-scrollbar">
                 <ul class="db_table_list">
-                  <template v-for="(data, index) in assignDataList" :key="index">
-                    <el-popover :popper-style="{ width: 'unset !important' }" placement="right" trigger="click">
+                  <template
+                    v-for="(data, index) in assignDataList"
+                    :key="index"
+                  >
+                    <el-popover
+                      :popper-style="{ width: 'unset !important' }"
+                      placement="right"
+                      trigger="click"
+                    >
                       <template #reference>
-                        <li @click="tableField(data.tableName)" @dragstart="(evt) => dragStart(data, evt)"
-                            draggable="true" class="flex items-center cursor-move h-[30px] table-item">
-                          <star-horse-icon icon-class="table" size="16px" height="16px" width="16px"
-                                           class="table-icon"/>
-                          <el-tooltip :content="data.comment" class="table-name-tooltip">
+                        <li
+                          @click="tableField(data.tableName)"
+                          @dragstart="(evt) => dragStart(data, evt)"
+                          draggable="true"
+                          class="flex items-center cursor-move h-[30px] table-item"
+                        >
+                          <star-horse-icon
+                            icon-class="table"
+                            size="16px"
+                            height="16px"
+                            width="16px"
+                            class="table-icon"
+                          />
+                          <el-tooltip
+                            :content="data.comment"
+                            class="table-name-tooltip"
+                          >
                             <span class="table-name">{{ data.tableName }}</span>
                           </el-tooltip>
                         </li>
@@ -299,27 +354,34 @@ const operMsg = `
                         <div class="el-table__header-wrapper">
                           <table class="el-table field-table">
                             <thead>
-                            <tr>
-                              <th>{{ i18n("dbsearch.field.name") }}</th>
-                              <th>{{ i18n("dbsearch.field.type") }}</th>
-                              <th>{{ i18n("dbsearch.null.flag") }}</th>
-                              <th>{{ i18n("dbsearch.primary.key") }}</th>
-                              <th>{{ i18n("dbsearch.comment") }}</th>
-                            </tr>
+                              <tr>
+                                <th>{{ i18n("dbsearch.field.name") }}</th>
+                                <th>{{ i18n("dbsearch.field.type") }}</th>
+                                <th>{{ i18n("dbsearch.null.flag") }}</th>
+                                <th>{{ i18n("dbsearch.primary.key") }}</th>
+                                <th>{{ i18n("dbsearch.comment") }}</th>
+                              </tr>
                             </thead>
                           </table>
                         </div>
                         <div class="el-table__body-wrapper">
                           <table class="el-table field-table">
                             <tbody>
-                            <tr v-for="(sdata, index) in data.fields" :key="sdata.filedName"
-                                :class="index % 2 === 0 ? 'el-table__row--striped' : 'el-table__row'">
-                              <td>{{ sdata.fieldName }}</td>
-                              <td>{{ sdata.type }}</td>
-                              <td>{{ sdata.nullFlag }}</td>
-                              <td>{{ sdata.primaryKey }}</td>
-                              <td>{{ sdata.comment }}</td>
-                            </tr>
+                              <tr
+                                v-for="(sdata, index) in data.fields"
+                                :key="sdata.filedName"
+                                :class="
+                                  index % 2 === 0
+                                    ? 'el-table__row--striped'
+                                    : 'el-table__row'
+                                "
+                              >
+                                <td>{{ sdata.fieldName }}</td>
+                                <td>{{ sdata.type }}</td>
+                                <td>{{ sdata.nullFlag }}</td>
+                                <td>{{ sdata.primaryKey }}</td>
+                                <td>{{ sdata.comment }}</td>
+                              </tr>
                             </tbody>
                           </table>
                         </div>
@@ -331,25 +393,36 @@ const operMsg = `
             </div>
           </template>
           <div v-else class="empty-tables">
-            <el-empty :description="i18n('dbsearch.no.tables.found')"/>
+            <el-empty :description="i18n('dbsearch.no.tables.found')" />
           </div>
         </div>
       </el-splitter-panel>
       <el-splitter-panel>
         <el-splitter layout="vertical">
           <el-splitter-panel>
-            <div class="h-full sql-editor-container" @dragover.prevent="dragOver" @drop="dragDrop">
-              <StarHorseEditor :lang="'sql'" ref="editorRef" :helpMsg="operMsg" :btnList="btnList"
-                               v-model:value="sqlInfo" class="sql-editor"/>
+            <div
+              class="h-full sql-editor-container"
+              @dragover.prevent="dragOver"
+              @drop="dragDrop"
+            >
+              <StarHorseEditor
+                :lang="'sql'"
+                ref="editorRef"
+                :helpMsg="operMsg"
+                :btnList="btnList"
+                v-model:value="sqlInfo"
+                class="sql-editor"
+              />
             </div>
           </el-splitter-panel>
           <el-splitter-panel collapsible size="200">
             <!-- Pass the abortSignal to QueryResult component -->
             <QueryResult
-                :reqData="reqData"
-                :dbIndex="dbIndex"
-                :compSize="compSize"
-                class="query-result"/>
+              :reqData="reqData"
+              :dbIndex="dbIndex"
+              :compSize="compSize"
+              class="query-result"
+            />
           </el-splitter-panel>
         </el-splitter>
       </el-splitter-panel>

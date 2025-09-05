@@ -15,7 +15,7 @@ defineProps({
       imageUrl: "",
       width: "100%",
       height: "200px",
-      alt: "图片"
+      alt: "图片",
     }),
   },
 });
@@ -24,7 +24,9 @@ defineProps({
 <template>
   <div class="w-full">
     <el-image
-      :src="item.imageUrl || 'https://via.placeholder.com/300x200?text=图片占位符'"
+      :src="
+        item.imageUrl || 'https://via.placeholder.com/300x200?text=图片占位符'
+      "
       :width="item.width ?? '100%'"
       :height="item.height ?? '200px'"
       :alt="item.alt"

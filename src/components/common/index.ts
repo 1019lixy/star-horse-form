@@ -1,9 +1,5 @@
-import DataSource from './DataSource.vue';
-import ApiConfigDialog from './ApiConfigDialog.vue';
-import ApiConfigButton from './ApiConfigButton.vue';
+import DataSource from "./DataSource.vue";
+import ApiConfigDialog from "./ApiConfigDialog.vue";
+import ApiConfigButton from "./ApiConfigButton.vue";
 
-export {
-  DataSource,
-  ApiConfigDialog,
-  ApiConfigButton
-}
+export { DataSource, ApiConfigDialog, ApiConfigButton };

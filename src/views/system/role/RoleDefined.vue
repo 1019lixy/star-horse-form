@@ -22,12 +22,21 @@ import {
   UserFuncInfo,
   warning,
 } from "star-horse-lowcode";
-import {Config} from "@/api/settings";
-import {computed, nextTick, onActivated, onDeactivated, onMounted, provide, reactive, ref,} from "vue";
-import {getCustomerParam} from "@/utils/auth";
-import {TreeNodeData} from "element-plus/es/components/tree-v2/src/types";
-import {statusList} from "@/views/system/utils/UserFields";
-import {i18n} from "@/lang";
+import { Config } from "@/api/settings";
+import {
+  computed,
+  nextTick,
+  onActivated,
+  onDeactivated,
+  onMounted,
+  provide,
+  reactive,
+  ref,
+} from "vue";
+import { getCustomerParam } from "@/utils/auth";
+import { TreeNodeData } from "element-plus/es/components/tree-v2/src/types";
+import { statusList } from "@/views/system/utils/UserFields";
+import { i18n } from "@/lang";
 
 //后端交互接口地址
 const dataUrl: ApiUrls = apiInstance("system-config", "system/companyRole");
@@ -45,7 +54,7 @@ const formFields = reactive<object>({});
 provide("formFields", formFields);
 let configStore = useGlobalConfigStore(piniaInstance);
 let compSize = computed(
-    () => configStore.configFormInfo?.inputSize || Config.compSize,
+  () => configStore.configFormInfo?.inputSize || Config.compSize,
 );
 let currentUserGroupId = ref<number>(0);
 let defaultCondition = ref<SearchParams[]>([]);
@@ -77,14 +86,14 @@ const viewCompField = ref<DyCompField>({
   name: "RoleCompanyList",
   emits: ["closeAction"],
   methods: {
-    i18n:(key:string)=>{
-      return i18n?.(key)??key;
+    i18n: (key: string) => {
+      return i18n?.(key) ?? key;
     },
     closeAction: (role: any, item: any) => {
       operationConfirm(i18n("system.confirm.delete")).then((_) => {
         postRequest(
-            `/system-config/system/companyRolePkDefine/deleteData/${role.idCompanyRole}/${item.idCompanyDefine}`,
-            {},
+          `/system-config/system/companyRolePkDefine/deleteData/${role.idCompanyRole}/${item.idCompanyDefine}`,
+          {},
         ).then((res) => {
           if (res.data.code) {
             warning(res.data.cnMessage);
@@ -209,8 +218,8 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       formVisible: true,
       listVisible: !true,
       preps: {
-        dataSource:"dict",
-        urlOrDictName:"public"
+        dataSource: "dict",
+        urlOrDictName: "public",
       },
     },
     {
@@ -267,7 +276,7 @@ let extendBtns = ref<UserFuncInfo[]>([
       await nextTick();
       console.log(row, row.companyList);
       assignRoleCompanyRef.value.setSelectData(
-          JSON.parse(JSON.stringify(row.companyList)),
+        JSON.parse(JSON.stringify(row.companyList)),
       );
     },
   },
@@ -275,8 +284,8 @@ let extendBtns = ref<UserFuncInfo[]>([
 //初始化方法
 const initData = async () => {
   let result = await loadData(
-      "/system-config/system/companyDefine/getAllByCondition",
-      {},
+    "/system-config/system/companyDefine/getAllByCondition",
+    {},
   );
   if (result.error) {
     warning(result.error);
@@ -301,22 +310,21 @@ const assignCompany = () => {
   }
   load(i18n("system.data.submitting"));
   postRequest("/system-config/system/companyRolePkDefine/mergeBatch", datas)
-      .then((res) => {
-        if (res.data.code) {
-          error(res.data.cnMessage);
-          return;
-        }
-        success(res.data.cnMessage);
-        dialogProps.bakeVisible1 = false;
-        companyRoleRef.value.loadByPage();
-      })
-      .finally(() => closeLoad());
+    .then((res) => {
+      if (res.data.code) {
+        error(res.data.cnMessage);
+        return;
+      }
+      success(res.data.cnMessage);
+      dialogProps.bakeVisible1 = false;
+      companyRoleRef.value.loadByPage();
+    })
+    .finally(() => closeLoad());
 };
 const activated = () => {
   initData();
 };
-const deactivated = () => {
-};
+const deactivated = () => {};
 /**
  * 列表，查看数据时数据转换
  * @param name 名称
@@ -340,64 +348,64 @@ onDeactivated(() => {
 <template>
   <div class="flex flex-col h-full overflow-hidden">
     <star-horse-dialog
-        :self-func="true"
-        :title="i18n('system.set.role.affiliated.company')"
-        :dialog-visible="dialogProps.bakeVisible1"
-        :dialogProps="dialogProps"
-        @merge="assignCompany"
-        @closeAction="dialogPreps.bakeVisible1 = false"
+      :self-func="true"
+      :title="i18n('system.set.role.affiliated.company')"
+      :dialog-visible="dialogProps.bakeVisible1"
+      :dialogProps="dialogProps"
+      @merge="assignCompany"
+      @closeAction="dialogPreps.bakeVisible1 = false"
     >
       <star-horse-tree
-          v-model:tree-datas="companyList"
-          :showCheckBox="true"
-          expand="true"
-          :treeTitle="i18n('system.company.list')"
-          showSelectData="true"
-          ref="assignRoleCompanyRef"
-          :preps="{
+        v-model:tree-datas="companyList"
+        :showCheckBox="true"
+        expand="true"
+        :treeTitle="i18n('system.company.list')"
+        showSelectData="true"
+        ref="assignRoleCompanyRef"
+        :preps="{
           label: 'name',
           value: 'idCompanyDefine',
         }"
-          :compSize="compSize"
+        :compSize="compSize"
       />
     </star-horse-dialog>
     <star-horse-dialog
-        :isShowBtnContinue="true"
-        :dialog-visible="dialogProps.editVisible"
-        :dialogProps="dialogProps"
+      :isShowBtnContinue="true"
+      :dialog-visible="dialogProps.editVisible"
+      :dialogProps="dialogProps"
     >
       <star-horse-form
-          @refresh="companyRoleRef?.loadByPage()"
-          :compUrl="dataUrl"
-          :fieldList="tableFieldList"
-          :rules="rules"
-          :outerFormData="outerFormData"
+        @refresh="companyRoleRef?.loadByPage()"
+        :compUrl="dataUrl"
+        :fieldList="tableFieldList"
+        :rules="rules"
+        :outerFormData="outerFormData"
       />
     </star-horse-dialog>
     <star-horse-dialog
-        :dialog-visible="dialogProps.viewVisible"
-        :dialogProps="dialogProps"
-        :source="3"
+      :dialog-visible="dialogProps.viewVisible"
+      :dialogProps="dialogProps"
+      :source="3"
     >
       <star-horse-data-view
-          :dataFormat="dataFormat"
-          :field-list="tableFieldList"
-          :compUrl="dataUrl"
+        :dataFormat="dataFormat"
+        :field-list="tableFieldList"
+        :compUrl="dataUrl"
       />
     </star-horse-dialog>
     <el-card class="inner_content">
       <el-splitter>
         <el-splitter-panel collapsible size="240" min="100" max="500">
           <star-horse-tree
-              v-model:tree-datas="companyList"
-              :expand="true"
-              :treeTitle="i18n('system.company.list')"
-              @selectData="companyChange"
-              :preps="{
+            v-model:tree-datas="companyList"
+            :expand="true"
+            :treeTitle="i18n('system.company.list')"
+            @selectData="companyChange"
+            :preps="{
               label: 'name',
               value: 'idCompanyDefine',
             }"
-              :compSize="compSize"
+            :compSize="compSize"
           />
         </el-splitter-panel>
         <el-splitter-panel>
@@ -405,21 +413,21 @@ onDeactivated(() => {
             <div class="search-content">
               <div class="search_btn">
                 <star-horse-search-comp
-                    @searchData="
+                  @searchData="
                     (data: any) => companyRoleRef?.createSearchParams(data)
                   "
-                    :formData="searchFormData"
-                    :compUrl="dataUrl"
+                  :formData="searchFormData"
+                  :compUrl="dataUrl"
                 />
               </div>
             </div>
             <star-horse-table-comp
-                ref="companyRoleRef"
-                :fieldList="tableFieldList"
-                :primaryKey="primaryKey"
-                :compUrl="dataUrl"
-                :extendBtns="extendBtns"
-                :dataFormat="dataFormat"
+              ref="companyRoleRef"
+              :fieldList="tableFieldList"
+              :primaryKey="primaryKey"
+              :compUrl="dataUrl"
+              :extendBtns="extendBtns"
+              :dataFormat="dataFormat"
             />
           </el-card>
         </el-splitter-panel>

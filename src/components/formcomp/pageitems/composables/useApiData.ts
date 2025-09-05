@@ -1,11 +1,15 @@
-import { ref, computed, watch, onMounted } from 'vue';
+import { ref, computed, watch, onMounted } from "vue";
 import { validInterface } from "@/views/dyform/utils/ItemPreps";
 
 /**
  * Check if API config is valid (not empty)
  */
 export function hasValidApiConfig(apiConfig: any) {
-  return apiConfig && typeof apiConfig === 'object' && Object.keys(apiConfig).length > 0;
+  return (
+    apiConfig &&
+    typeof apiConfig === "object" &&
+    Object.keys(apiConfig).length > 0
+  );
 }
 
 /**
@@ -17,10 +21,10 @@ export async function fetchData(apiConfig: any) {
       // Create a mock form reference for validInterface
       const mockFormRef = {
         value: {
-          getFormData: () => apiConfig
-        }
+          getFormData: () => apiConfig,
+        },
       };
-      
+
       // Use the existing validInterface function to make the API call
       validInterface(
         apiConfig,
@@ -35,10 +39,11 @@ export async function fetchData(apiConfig: any) {
         },
         false, // Don't validate form
         undefined, // No form data
-        false // Not only URL
+        false, // Not only URL
       );
     } catch (err: any) {
-      const errorMessage = err instanceof Error ? err.message : 'Unknown error occurred';
+      const errorMessage =
+        err instanceof Error ? err.message : "Unknown error occurred";
       resolve({ data: null, error: errorMessage });
     }
   });
@@ -53,32 +58,36 @@ export async function fetchData(apiConfig: any) {
 export function useApiData(apiConfig: any, initialData?: any) {
   // Reactive data ref
   const data: any = ref(initialData || []);
-  
+
   // Loading state
   const loading = ref(false);
-  
+
   // Error state
   const error = ref<string | null>(null);
 
   // Watch for API config changes
-  watch(() => apiConfig, () => {
-    fetchData();
-  }, { deep: true });
-  
+  watch(
+    () => apiConfig,
+    () => {
+      fetchData();
+    },
+    { deep: true },
+  );
+
   // Fetch initial data
   onMounted(() => {
     fetchData();
   });
-  
+
   // Return computed data
   const computedData = computed(() => {
     return data.value && data.value.length > 0 ? data.value : initialData;
   });
-  
+
   return {
     data: computedData,
     loading,
     error,
-    fetchData
+    fetchData,
   };
 }

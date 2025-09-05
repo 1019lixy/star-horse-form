@@ -44,21 +44,20 @@ onMounted(async () => {
 });
 </script>
 <template>
-    <el-tabs v-model="tabName" type="border-card">
-      <el-tab-pane name="vue3" label="Vue3">
-        <vue3 :formInfo="formInfo" :compList="pageInfo" :compSize="compSize" />
-      </el-tab-pane>
-      <el-tab-pane name="vue2" label="Vue2">
-        <vue2 :formInfo="formInfo" :compList="pageInfo" :compSize="compSize" />
-      </el-tab-pane>
-      <el-tab-pane name="react" label="React">
-        <react :formInfo="formInfo" :compList="pageInfo" :compSize="compSize" />
-      </el-tab-pane>
-      <el-tab-pane name="json" label="Json代码">
-        <star-horse-json-editor :lang="'json'" v-model="compList" />
-      </el-tab-pane>
-    </el-tabs>
-
+  <el-tabs v-model="tabName" type="border-card">
+    <el-tab-pane name="vue3" label="Vue3">
+      <vue3 :formInfo="formInfo" :compList="pageInfo" :compSize="compSize" />
+    </el-tab-pane>
+    <el-tab-pane name="vue2" label="Vue2">
+      <vue2 :formInfo="formInfo" :compList="pageInfo" :compSize="compSize" />
+    </el-tab-pane>
+    <el-tab-pane name="react" label="React">
+      <react :formInfo="formInfo" :compList="pageInfo" :compSize="compSize" />
+    </el-tab-pane>
+    <el-tab-pane name="json" label="Json代码">
+      <star-horse-json-editor :lang="'json'" v-model="compList" />
+    </el-tab-pane>
+  </el-tabs>
 </template>
 <style scoped lang="scss">
 .code-container {

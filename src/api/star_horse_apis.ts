@@ -1,25 +1,25 @@
-import {Config} from "@/api/settings";
+import { Config } from "@/api/settings";
 import router from "@/router";
-import {delLoginInfo, getToken, getUserInfo} from "@/utils/auth";
-import axios, {AxiosResponse, InternalAxiosRequestConfig} from "axios";
+import { delLoginInfo, getToken, getUserInfo } from "@/utils/auth";
+import axios, { AxiosResponse, InternalAxiosRequestConfig } from "axios";
 import {
-    error,
-    getFingerId,
-    loadData,
-    MenusInfo,
-    piniaInstance,
-    SelectOption,
-    useButtonPermissionStore,
-    useUserInfoStore,
-    warning,
+  error,
+  getFingerId,
+  loadData,
+  MenusInfo,
+  piniaInstance,
+  SelectOption,
+  useButtonPermissionStore,
+  useUserInfoStore,
+  warning,
 } from "star-horse-lowcode";
 
-import {ServiceEnums} from "@/components/enums/ServiceEnums";
-import {useNavBarListStore} from "@/store/NavBarList";
-import {useViewCacheStore} from "@/store/ViewCache";
-import {NavigationGuardNext, RouteLocationNormalized} from "vue-router";
+import { ServiceEnums } from "@/components/enums/ServiceEnums";
+import { useNavBarListStore } from "@/store/NavBarList";
+import { useViewCacheStore } from "@/store/ViewCache";
+import { NavigationGuardNext, RouteLocationNormalized } from "vue-router";
 import piniaCompInstance from "@/store";
-import {getLang} from "@/theme/localStorge.js";
+import { getLang } from "@/theme/localStorge.js";
 
 const navBarListStore = useNavBarListStore(piniaCompInstance);
 const userStore = useUserInfoStore(piniaInstance);
@@ -27,85 +27,85 @@ const pagePermission = useButtonPermissionStore(piniaInstance);
 const viewListStore = useViewCacheStore(piniaCompInstance);
 
 const axiosInstance = axios.create({
-    baseURL: "/",
-    timeout: 10000,
-    headers: {
-        "Content-Type": "application/json; charset=utf-8",
-    },
+  baseURL: "/",
+  timeout: 10000,
+  headers: {
+    "Content-Type": "application/json; charset=utf-8",
+  },
 });
 // 添加请求拦截器
 axiosInstance.interceptors.request.use(
-    (config: InternalAxiosRequestConfig) => {
-        const token = getToken();
-        const fingerToken = getFingerId();
-        // 请求头带上token
-        if (token && config.headers) {
-            config.headers.token = token;
-            config.headers["Finger-Token"] = fingerToken;
-            config.headers["menuPosition"] = getMenuId();
-            config.headers["lang"] = getLang();
-        }
-        return config;
-    },
-    (error: any) => {
-        // 对请求错误做些什么
-        return Promise.reject(error);
-    },
+  (config: InternalAxiosRequestConfig) => {
+    const token = getToken();
+    const fingerToken = getFingerId();
+    // 请求头带上token
+    if (token && config.headers) {
+      config.headers.token = token;
+      config.headers["Finger-Token"] = fingerToken;
+      config.headers["menuPosition"] = getMenuId();
+      config.headers["lang"] = getLang();
+    }
+    return config;
+  },
+  (error: any) => {
+    // 对请求错误做些什么
+    return Promise.reject(error);
+  },
 );
 
 const forceLoginOut = (showDialog?: boolean) => {
-    let menusInfo = sessionStorage.getItem("menusInfo");
-    const token = getToken();
-    if (
-        !token ||
-        token == "undefined" ||
-        !menusInfo ||
-        menusInfo == "undefined" ||
-        menusInfo == "null"
-    ) {
-        router.push({path: "/login"});
-    } else {
-        !showDialog && userStore.showLoginDialog();
-    }
+  let menusInfo = sessionStorage.getItem("menusInfo");
+  const token = getToken();
+  if (
+    !token ||
+    token == "undefined" ||
+    !menusInfo ||
+    menusInfo == "undefined" ||
+    menusInfo == "null"
+  ) {
+    router.push({ path: "/login" });
+  } else {
+    !showDialog && userStore.showLoginDialog();
+  }
 };
 // 添加响应拦截器
 axiosInstance.interceptors.response.use(
-    (response: AxiosResponse) => {
-        const code = response.data?.code;
-        // 401 未登录
-        if (code == 401) {
-            forceLoginOut();
-        } else {
-            return response;
-        }
-    },
-    (err) => {
-        let data = err?.response?.status ?? err.toString().toLowerCase();
-        data = String(data);
-        if (data == "401" || data?.includes("status code 401")) {
-            forceLoginOut();
-        } else if (data == "500" || data?.includes("status code 500")) {
-            forceLoginOut(true);
-            error("服务接口异常，请联系管理员");
-            return Promise.reject(err);
-        } else {
-            // 对响应错误做点什么
-            return Promise.reject(err);
-        }
-    },
+  (response: AxiosResponse) => {
+    const code = response.data?.code;
+    // 401 未登录
+    if (code == 401) {
+      forceLoginOut();
+    } else {
+      return response;
+    }
+  },
+  (err) => {
+    let data = err?.response?.status ?? err.toString().toLowerCase();
+    data = String(data);
+    if (data == "401" || data?.includes("status code 401")) {
+      forceLoginOut();
+    } else if (data == "500" || data?.includes("status code 500")) {
+      forceLoginOut(true);
+      error("服务接口异常，请联系管理员");
+      return Promise.reject(err);
+    } else {
+      // 对响应错误做点什么
+      return Promise.reject(err);
+    }
+  },
 );
-export {axiosInstance};
+export { axiosInstance };
 
 function getUserId() {
-    const userInfo = getUserInfo();
-    return userInfo?.idUsersinfo;
+  const userInfo = getUserInfo();
+  return userInfo?.idUsersinfo;
 }
 
 /**
  * 获取系统验证码
  */
 export function getValidateImg() {
-    return getRequest(`${ServiceEnums.GLOBAL_PREFIX}imageCode`);
+  return getRequest(`${ServiceEnums.GLOBAL_PREFIX}imageCode`);
 }
 
 /**
@@ -113,13 +113,13 @@ export function getValidateImg() {
  * @param content
  */
 export async function rtCode(content: string) {
-    let data = "";
-    await getRequest(`${ServiceEnums.GLOBAL_PREFIX}qrCode/${content}`).then(
-        (res) => {
-            data = res.data.data;
-        },
-    );
-    return data;
+  let data = "";
+  await getRequest(`${ServiceEnums.GLOBAL_PREFIX}qrCode/${content}`).then(
+    (res) => {
+      data = res.data.data;
+    },
+  );
+  return data;
 }
 
 /**
@@ -127,30 +127,30 @@ export async function rtCode(content: string) {
  * @param data 登出参数
  */
 export async function userLogout(data: Array<any>) {
-    const resultDdata = await loadData(
-        `${ServiceEnums.SYSTEM_PREFIX}usersAudit/userLogout`,
-        data,
-    );
-    if (resultDdata.error) {
-        warning(resultDdata.error);
-        return;
-    }
-    delLoginInfo();
-    userStore.logout();
-    navBarListStore.clearAll();
-    viewListStore.clearAll();
-    pagePermission.cleanPermission();
-    router.push({path: "/login"});
+  const resultDdata = await loadData(
+    `${ServiceEnums.SYSTEM_PREFIX}usersAudit/userLogout`,
+    data,
+  );
+  if (resultDdata.error) {
+    warning(resultDdata.error);
+    return;
+  }
+  delLoginInfo();
+  userStore.logout();
+  navBarListStore.clearAll();
+  viewListStore.clearAll();
+  pagePermission.cleanPermission();
+  router.push({ path: "/login" });
 }
 
 export function getMenuId() {
-    const meta = router.currentRoute.value.meta;
-    let menuId = meta?.menuId as string;
-    if (!menuId) {
-        return "";
-    }
-    menuId = menuId.split("_")[1];
-    return menuId;
+  const meta = router.currentRoute.value.meta;
+  let menuId = meta?.menuId as string;
+  if (!menuId) {
+    return "";
+  }
+  menuId = menuId.split("_")[1];
+  return menuId;
 }
 
 /**
@@ -159,32 +159,32 @@ export function getMenuId() {
  * @param sysId
  */
 export async function permissionMenus(data: any, sysId: string) {
-    const userId = data?.userId || getUserId();
-    return await postRequest(
-        `${ServiceEnums.SYSTEM_PREFIX}menusinfo/permissionMenus/${userId}/${sysId}`,
-        {},
-    );
+  const userId = data?.userId || getUserId();
+  return await postRequest(
+    `${ServiceEnums.SYSTEM_PREFIX}menusinfo/permissionMenus/${userId}/${sysId}`,
+    {},
+  );
 }
 
 /**
  * 将Store里的菜单还原
  */
 export async function restoreMenu(
-    to: RouteLocationNormalized,
-    _next: NavigationGuardNext,
+  to: RouteLocationNormalized,
+  _next: NavigationGuardNext,
 ) {
-    const data = sessionStorage.getItem("menusInfo");
-    if (data) {
-        createRouterAndMenuList(JSON.parse(data));
-    }
-    const redata = router
-        .getRoutes()
-        .find((item: any) => item.path == to.fullPath);
-    if (redata) {
-        await router.push(to);
-    } else {
-        await router.push("/");
-    }
+  const data = sessionStorage.getItem("menusInfo");
+  if (data) {
+    createRouterAndMenuList(JSON.parse(data));
+  }
+  const redata = router
+    .getRoutes()
+    .find((item: any) => item.path == to.fullPath);
+  if (redata) {
+    await router.push(to);
+  } else {
+    await router.push("/");
+  }
 }
 
 /**
@@ -193,83 +193,83 @@ export async function restoreMenu(
  * @returns {[]}
  */
 export function createRouterAndMenuList(redata: Array<object>): MenusInfo[] {
-    let leftMenuDatas: MenusInfo[] = [];
-    const pageButtonPermissions: any = {};
-    if (redata?.length == 0) {
-        return leftMenuDatas;
-    }
-    const baseDir = "/src/views";
-    const compPath = import.meta.glob("@/views/**/*.vue");
-
-    /**
-     * 递归组装菜单
-     * @param redata
-     * @param key_index
-     */
-    function loopCreateMenu(redata: any, key_index: number) {
-        let sindex = 1;
-        const menuDatas: MenusInfo[] = [];
-        for (let index = 0; index < redata.length; index++) {
-            const item = redata[index];
-            if (item.menuPath == "#" && item.children?.length == 0) {
-                continue;
-            }
-            const menuId = item.idMenusinfo;
-            // if (menuId) {
-            //   pageButtonPermissions[menuId.toString()] =
-            //     item["pageButtonPermissions"];
-            // }
-            // console.log("createRouterAndMenuList", item);
-            const arr = item.menuPath.split("/");
-            let menuName = arr[arr.length - 1];
-            menuName = menuName.endsWith(Config.fileExt)
-                ? menuName.split(".")[0]
-                : menuName;
-            let path = item.menuPath?.startsWith("/")
-                ? item.menuPath
-                : "/" + item.menuPath;
-            path = path.endsWith(Config.fileExt) ? path : path + Config.fileExt;
-            const prefix = key_index + "_";
-            const data: MenusInfo = {
-                path: item.menuPath,
-                component: compPath[`${baseDir}${path}`],
-                name: menuName,
-                children: [],
-                meta: {
-                    menuIcon: item.menuIcon,
-                    title: item.menuName,
-                    menuId: menuId ? prefix + menuId : prefix + sindex++,
-                    keepAlive: item.keepAlive,
-                },
-            };
-            if (path.indexOf("/page/") == -1) {
-                if (item.openType == "self") {
-                    router.addRoute("Index", data);
-                } else {
-                    router.addRoute(data);
-                }
-            } else {
-                userStore.addDynamicMenus(data);
-            }
-            //如果有子节点
-            if (item.children?.length > 0) {
-                data.children = loopCreateMenu(item.children, key_index + 1);
-            }
-            menuDatas.push(data);
-        }
-        return menuDatas;
-    }
-
-    leftMenuDatas = loopCreateMenu(redata, 1);
-
-    userStore.addPermissionMenus(leftMenuDatas);
-    pagePermission.addAllPermission(pageButtonPermissions);
-    sessionStorage.setItem("menusInfo", JSON.stringify(redata));
-    sessionStorage.setItem(
-        "dynamicMenusLists",
-        JSON.stringify(userStore.dynamicMenus),
-    );
+  let leftMenuDatas: MenusInfo[] = [];
+  const pageButtonPermissions: any = {};
+  if (redata?.length == 0) {
     return leftMenuDatas;
+  }
+  const baseDir = "/src/views";
+  const compPath = import.meta.glob("@/views/**/*.vue");
+
+  /**
+   * 递归组装菜单
+   * @param redata
+   * @param key_index
+   */
+  function loopCreateMenu(redata: any, key_index: number) {
+    let sindex = 1;
+    const menuDatas: MenusInfo[] = [];
+    for (let index = 0; index < redata.length; index++) {
+      const item = redata[index];
+      if (item.menuPath == "#" && item.children?.length == 0) {
+        continue;
+      }
+      const menuId = item.idMenusinfo;
+      // if (menuId) {
+      //   pageButtonPermissions[menuId.toString()] =
+      //     item["pageButtonPermissions"];
+      // }
+      // console.log("createRouterAndMenuList", item);
+      const arr = item.menuPath.split("/");
+      let menuName = arr[arr.length - 1];
+      menuName = menuName.endsWith(Config.fileExt)
+        ? menuName.split(".")[0]
+        : menuName;
+      let path = item.menuPath?.startsWith("/")
+        ? item.menuPath
+        : "/" + item.menuPath;
+      path = path.endsWith(Config.fileExt) ? path : path + Config.fileExt;
+      const prefix = key_index + "_";
+      const data: MenusInfo = {
+        path: item.menuPath,
+        component: compPath[`${baseDir}${path}`],
+        name: menuName,
+        children: [],
+        meta: {
+          menuIcon: item.menuIcon,
+          title: item.menuName,
+          menuId: menuId ? prefix + menuId : prefix + sindex++,
+          keepAlive: item.keepAlive,
+        },
+      };
+      if (path.indexOf("/page/") == -1) {
+        if (item.openType == "self") {
+          router.addRoute("Index", data);
+        } else {
+          router.addRoute(data);
+        }
+      } else {
+        userStore.addDynamicMenus(data);
+      }
+      //如果有子节点
+      if (item.children?.length > 0) {
+        data.children = loopCreateMenu(item.children, key_index + 1);
+      }
+      menuDatas.push(data);
+    }
+    return menuDatas;
+  }
+
+  leftMenuDatas = loopCreateMenu(redata, 1);
+
+  userStore.addPermissionMenus(leftMenuDatas);
+  pagePermission.addAllPermission(pageButtonPermissions);
+  sessionStorage.setItem("menusInfo", JSON.stringify(redata));
+  sessionStorage.setItem(
+    "dynamicMenusLists",
+    JSON.stringify(userStore.dynamicMenus),
+  );
+  return leftMenuDatas;
 }
 
 /**
@@ -279,30 +279,30 @@ export function createRouterAndMenuList(redata: Array<object>): MenusInfo[] {
  * @param signal - Optional AbortSignal for request cancellation
  */
 export function download(url: string, param: any, signal?: AbortSignal) {
-    return new Promise((resolve, reject) => {
-        const config: any = {responseType: "blob"};
-        if (signal) {
-            config.signal = signal;
+  return new Promise((resolve, reject) => {
+    const config: any = { responseType: "blob" };
+    if (signal) {
+      config.signal = signal;
+    }
+    axiosInstance
+      .post(url, param, config)
+      .then((res) => {
+        downloadData(
+          res.data,
+          decodeURI(res.headers["content-disposition"].split("=")[1]),
+        );
+        resolve(null);
+      })
+      .catch((err) => {
+        // Check if the error is due to abort
+        if (err.name === "AbortError") {
+          console.log("Download request was cancelled");
+          return;
         }
-        axiosInstance
-            .post(url, param, config)
-            .then((res) => {
-                downloadData(
-                    res.data,
-                    decodeURI(res.headers["content-disposition"].split("=")[1]),
-                );
-                resolve(null);
-            })
-            .catch((err) => {
-                // Check if the error is due to abort
-                if (err.name === 'AbortError') {
-                    console.log("Download request was cancelled");
-                    return;
-                }
-                console.log(err);
-                reject(err);
-            });
-    });
+        console.log(err);
+        reject(err);
+      });
+  });
 }
 
 /**
@@ -311,15 +311,15 @@ export function download(url: string, param: any, signal?: AbortSignal) {
  * @param name 文件名称
  */
 export function downloadData(data: any, name: string) {
-    const blob = new Blob([data]);
-    const delement = document.createElement("a");
-    const href = window.URL.createObjectURL(blob);
-    delement.href = href;
-    delement.download = name;
-    document.body.appendChild(delement);
-    delement.click();
-    document.body.removeChild(delement);
-    window.URL.revokeObjectURL(href); //释放URL 对象
+  const blob = new Blob([data]);
+  const delement = document.createElement("a");
+  const href = window.URL.createObjectURL(blob);
+  delement.href = href;
+  delement.download = name;
+  document.body.appendChild(delement);
+  delement.click();
+  document.body.removeChild(delement);
+  window.URL.revokeObjectURL(href); //释放URL 对象
 }
 
 /**
@@ -328,29 +328,29 @@ export function downloadData(data: any, name: string) {
  * @returns {Promise<unknown>}
  */
 export async function loadDict(dictName: string) {
-    let redata: Array<SelectOption> = [];
-    const param = {
-        fieldList: [{propertyName: "dictType", value: dictName ?? "public"}],
-    };
-    await postRequest(
-        `${ServiceEnums.SYSTEM_PREFIX}dictinfo/getAllByCondition`,
-        param,
-    )
-        .then((res) => {
-            if (res?.data?.code != 0) {
-                console.log(res.data.cnMessage);
-            } else {
-                const resdata = res?.data?.data;
-                redata = resdata?.map((item: any) => {
-                    return {
-                        name: item.dictName,
-                        value: item.dictCode,
-                    };
-                });
-            }
-        })
-        .catch((err) => console.log(err));
-    return redata;
+  let redata: Array<SelectOption> = [];
+  const param = {
+    fieldList: [{ propertyName: "dictType", value: dictName ?? "public" }],
+  };
+  await postRequest(
+    `${ServiceEnums.SYSTEM_PREFIX}dictinfo/getAllByCondition`,
+    param,
+  )
+    .then((res) => {
+      if (res?.data?.code != 0) {
+        console.log(res.data.cnMessage);
+      } else {
+        const resdata = res?.data?.data;
+        redata = resdata?.map((item: any) => {
+          return {
+            name: item.dictName,
+            value: item.dictCode,
+          };
+        });
+      }
+    })
+    .catch((err) => console.log(err));
+  return redata;
 }
 
 /**
@@ -360,12 +360,16 @@ export async function loadDict(dictName: string) {
  * @param signal - Optional AbortSignal for request cancellation
  * @returns {Promise<AxiosResponse<any>>}
  */
-export function postRequest(url: string, data: Array<any> | any, signal?: AbortSignal) {
-    const config: any = {};
-    if (signal) {
-        config.signal = signal;
-    }
-    return axiosInstance.post(url, data, config);
+export function postRequest(
+  url: string,
+  data: Array<any> | any,
+  signal?: AbortSignal,
+) {
+  const config: any = {};
+  if (signal) {
+    config.signal = signal;
+  }
+  return axiosInstance.post(url, data, config);
 }
 
 /**
@@ -375,9 +379,9 @@ export function postRequest(url: string, data: Array<any> | any, signal?: AbortS
  * @returns {Promise<AxiosResponse<any>>}
  */
 export function getRequest(url: string, signal?: AbortSignal) {
-    const config: any = {};
-    if (signal) {
-        config.signal = signal;
-    }
-    return axiosInstance.get(url, config);
+  const config: any = {};
+  if (signal) {
+    config.signal = signal;
+  }
+  return axiosInstance.get(url, config);
 }

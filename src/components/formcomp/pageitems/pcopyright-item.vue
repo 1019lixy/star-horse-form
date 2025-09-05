@@ -4,38 +4,38 @@ defineOptions({
 });
 
 defineProps({
-  copyright: { 
-    type: String, 
-    default: "" 
+  copyright: {
+    type: String,
+    default: "",
   },
   companyName: {
     type: String,
-    default: "公司名称"
+    default: "公司名称",
   },
   backgroundColor: {
     type: String,
-    default: "#000000"
+    default: "#000000",
   },
   textColor: {
     type: String,
-    default: "#ffffff"
+    default: "#ffffff",
   },
   height: {
     type: String,
-    default: "30px"
-  }
+    default: "30px",
+  },
 });
 
 const year = new Date().getFullYear();
 </script>
 
 <template>
-  <div 
+  <div
     class="w-full flex items-center justify-center"
-    :style="{ 
-      height, 
+    :style="{
+      height,
       backgroundColor,
-      color: textColor
+      color: textColor,
     }"
   >
     <div class="text-center hover-underline">

@@ -80,9 +80,9 @@ const viewCompField = ref<DyCompField>({
   name: "UserInfoComp",
   emits: ["closeAction"],
   methods: {
-    i18n:(key:string)=>{
-      return i18n?.(key)??key;
-    }
+    i18n: (key: string) => {
+      return i18n?.(key) ?? key;
+    },
   },
   onMounted: () => {},
   template: `
@@ -191,8 +191,8 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       formVisible: true,
       listVisible: !true,
       preps: {
-        dataSource:"dict",
-        urlOrDictName:"public"
+        dataSource: "dict",
+        urlOrDictName: "public",
       },
     },
     {

@@ -65,10 +65,7 @@ onMounted(() => {
     </template>
   </template>
   <template v-else-if="field?.preps">
-    <tr
-      class="field-row"
-      :class="{ 'field-row-even': index % 2 == 0 }"
-    >
+    <tr class="field-row" :class="{ 'field-row-even': index % 2 == 0 }">
       <td class="field-cell">
         <el-tag size="small">{{ container }}</el-tag>
       </td>
@@ -161,36 +158,36 @@ onMounted(() => {
 <style scoped lang="scss">
 .field-row {
   background-color: #ffffff;
-  
+
   &:hover {
     background-color: #f5f7fa;
   }
-  
+
   &.field-row-even {
     background-color: #fafafa;
-    
+
     &:hover {
       background-color: #f5f7fa;
     }
   }
-  
+
   .field-cell {
     padding: 10px 8px;
     border: 1px solid #ebeef5;
     vertical-align: middle;
-    
+
     :deep(.el-input) {
       width: 100% !important;
     }
-    
+
     :deep(.el-input-number) {
       width: 100% !important;
     }
-    
+
     :deep(.el-input-number .el-input__inner) {
       text-align: center;
     }
-    
+
     :deep(.el-switch) {
       display: flex;
       justify-content: center;
