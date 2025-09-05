@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref, computed, watch, onMounted } from "vue";
 import { hasValidApiConfig, fetchData } from "./composables/useApiData";
+import {PageCompInfo} from "@/components/types/PageLayoutComp.js";
 
 defineOptions({
   name: "PageMenubarItem",
@@ -14,31 +15,10 @@ interface MenuItem {
   children?: MenuItem[];
 }
 
-const props = defineProps({
-  menuItems: {
-    type: Array as () => MenuItem[],
-    default: () => [],
-  },
-  mode: {
-    type: String,
-    default: "horizontal", // horizontal, vertical
-  },
-  backgroundColor: {
-    type: String,
-    default: "#ffffff",
-  },
-  textColor: {
-    type: String,
-    default: "#303133",
-  },
-  activeTextColor: {
-    type: String,
-    default: "#409eff",
-  },
-  apiConfig: {
-    type: Object,
-    default: () => ({}),
-  },
+const props = withDefaults(defineProps<PageCompInfo>(), {
+  isDesign: () => false,
+  preps: () => ({}),
+  styles: () => ({})
 });
 
 // Reactive data
@@ -50,13 +30,13 @@ const error = ref<string | null>(null);
 const menuData = computed(() => {
   return apiData.value && apiData.value.length > 0
     ? apiData.value
-    : props.menuItems;
+    : props.preps.menuItems;
 });
 
 // Fetch data from API
 const fetchApiData = async () => {
   // If no API config, don't fetch and don't set loading state
-  if (!hasValidApiConfig(props.apiConfig)) {
+  if (!hasValidApiConfig(props.preps.apiConfig)) {
     return;
   }
 
@@ -64,7 +44,7 @@ const fetchApiData = async () => {
   error.value = null;
 
   try {
-    const result: any = await fetchData(props.apiConfig);
+    const result: any = await fetchData(props.preps.apiConfig);
     if (!result.error) {
       // Set the fetched data
       apiData.value = result.data;
@@ -82,7 +62,7 @@ const fetchApiData = async () => {
 
 // Watch for API config changes
 watch(
-  () => props.apiConfig,
+  () => props.preps.apiConfig,
   () => {
     fetchApiData();
   },
@@ -106,10 +86,8 @@ onMounted(() => {
 
   <el-menu
     v-else
-    :mode="mode"
-    :background-color="backgroundColor"
-    :text-color="textColor"
-    :active-text-color="activeTextColor"
+    v-bind="preps"
+    :style="styles"
     class="w-full"
   >
     <template v-for="item in menuData" :key="item.id">

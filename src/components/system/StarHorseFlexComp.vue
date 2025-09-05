@@ -129,11 +129,7 @@ const selectContainer = () => {
   selectedComponentId.value = "";
 };
 
-// Add this new function
-const handlePropertyUpdate = (propertyName: string, value: any) => {
-  // Property updates are handled directly in the PageItemProperties component
-  console.log(`Property ${propertyName} updated to:`, value);
-};
+
 
 const addComp = () => {
   flexDesign.addComp(currentId.value, {
@@ -369,7 +365,7 @@ watch(
         <el-tab-pane name="comp">
           <template #label>
             <star-horse-icon
-              icon-class="template"
+              icon-class="list"
               style="color: var(--star-horse-style)"
             />&nbsp;<span>组件</span>
           </template>
@@ -640,11 +636,10 @@ watch(
               style="color: var(--star-horse-style)"
             />&nbsp;<span>组件属性</span>
           </template>
-          <div class="properties-container">
+          <div class="properties-container w-full h-full">
             <PageItemProperties
-              :selected-item-id="currentId"
-              :selected-component-id="selectedComponentId"
-              @update:property="handlePropertyUpdate"
+              :itemId="currentId"
+              :componentId="selectedComponentId"
             />
           </div>
         </el-tab-pane>
@@ -706,7 +701,7 @@ watch(
     }
 
     .el-tabs__header.is-left {
-      margin-right: 5px !important;
+      margin-right: 0 !important;
     }
 
     .el-tabs__item {

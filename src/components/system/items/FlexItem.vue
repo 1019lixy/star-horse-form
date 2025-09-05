@@ -196,7 +196,8 @@ onMounted(() => {
               :isDesign="!previewMode"
               :index-of-parent-list="index"
               :is="data.name + '-item'"
-              v-bind="data.preps"
+              :preps="data.preps"
+              :styles="data.styles || {}"
               style="min-width: 0; width: 100%"
             />
           </div>

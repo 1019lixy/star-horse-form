@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref, computed, watch, onMounted } from "vue";
 import { hasValidApiConfig, fetchData } from "./composables/useApiData";
+import { PageCompInfo } from "@/components/types/PageLayoutComp";
 
 defineOptions({
   name: "PageCarouselItem",
@@ -13,28 +14,12 @@ interface CarouselInfo {
   openType: string;
 }
 
-const props = defineProps({
-  interval: {
-    type: Number,
-    default: 4000,
-  },
-  type: {
-    type: String,
-    default: "card",
-  },
-  height: {
-    type: String,
-    default: "200px",
-  },
-  items: {
-    type: Array as () => CarouselInfo[],
-    default: () => [],
-  },
-  apiConfig: {
-    type: Object,
-    default: () => ({}),
-  },
+const props = withDefaults(defineProps<PageCompInfo>(),{
+  isDesign: () => false,
+  preps: () => ({}),
+  styles: () => ({})
 });
+
 
 // Reactive data
 const apiData = ref<CarouselInfo[]>([]);
@@ -45,13 +30,13 @@ const error = ref<string | null>(null);
 const carouselData = computed(() => {
   return apiData.value && apiData.value.length > 0
     ? apiData.value
-    : props.items;
+    : props.preps.items;
 });
 
 // Fetch data from API
 const fetchApiData = async () => {
   // If no API config, don't fetch and don't set loading state
-  if (!hasValidApiConfig(props.apiConfig)) {
+  if (!hasValidApiConfig(props.preps.apiConfig)) {
     return;
   }
 
@@ -59,7 +44,7 @@ const fetchApiData = async () => {
   error.value = null;
 
   try {
-    const result: any = await fetchData(props.apiConfig);
+    const result: any = await fetchData(props.preps.apiConfig);
     if (!result.error) {
       // Set the fetched data
       apiData.value = result.data;
@@ -77,7 +62,7 @@ const fetchApiData = async () => {
 
 // Watch for API config changes
 watch(
-  () => props.apiConfig,
+  () => props.preps.apiConfig,
   () => {
     fetchApiData();
   },
@@ -100,7 +85,7 @@ onMounted(() => {
       {{ error }}
     </div>
 
-    <el-carousel v-else :interval="interval" :type="type" :height="height">
+    <el-carousel v-else v-bind="preps" :style="styles">
       <el-carousel-item v-for="(item, index) in carouselData" :key="index">
         <div class="w-[99%] h-full relative" style="margin: 3px auto">
           <el-image :src="item.imageUrl" fit="fill" />

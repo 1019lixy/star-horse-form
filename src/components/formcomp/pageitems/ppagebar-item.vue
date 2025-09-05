@@ -1,13 +1,19 @@
 <script setup lang="ts">
+import {PageCompInfo} from "@/components/types/PageLayoutComp.js";
+
 defineOptions({
   name: "PagePagebarItem",
 });
-defineProps({
-  total: { type: Number, default: 10 },
-  pageSize: { type: Number, default: 10 },
+ withDefaults(defineProps<PageCompInfo>(), {
+  isDesign: () => false,
+  preps: () => ({}),
+  styles: () => ({})
 });
-const emits = defineEmits(["update:pageSize"]);
-const handleCurrentChange = () => {};
+
+const emits = defineEmits(["update:pageSize", "update:currentPage"]);
+const handleCurrentChange = (val: number) => {
+  emits("update:currentPage", val);
+};
 const handleSizeChange = (val: number) => {
   emits("update:pageSize", val);
 };
@@ -15,10 +21,8 @@ const handleSizeChange = (val: number) => {
 
 <template>
   <el-pagination
-    layout="total, sizes, prev, pager, next, jumper"
-    :total="total"
-    :page-sizes="[10, 20, 30, 40]"
-    :page-size="pageSize"
+    v-bind="preps"
+    :style="styles"
     @current-change="handleCurrentChange"
     @size-change="handleSizeChange"
   />

@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref, computed, watch, onMounted } from "vue";
 import { hasValidApiConfig, fetchData } from "./composables/useApiData";
+import {PageCompInfo} from "@/components/types/PageLayoutComp.js";
 
 defineOptions({
   name: "PageNavbarItem",
@@ -13,23 +14,10 @@ interface NavItem {
   icon?: string;
 }
 
-const props = defineProps({
-  title: {
-    type: String,
-    default: "导航标题",
-  },
-  navItems: {
-    type: Array as () => NavItem[],
-    default: () => [],
-  },
-  logoUrl: {
-    type: String,
-    default: "",
-  },
-  apiConfig: {
-    type: Object,
-    default: () => ({}),
-  },
+const props = withDefaults(defineProps<PageCompInfo>(), {
+  isDesign: () => false,
+  preps: () => ({}),
+  styles: () => ({})
 });
 
 // Reactive data
@@ -41,13 +29,13 @@ const error = ref<string | null>(null);
 const navData = computed(() => {
   return apiData.value && apiData.value.length > 0
     ? apiData.value
-    : props.navItems;
+    : props.preps.navItems;
 });
 
 // Fetch data from API
 const fetchApiData = async () => {
   // If no API config, don't fetch and don't set loading state
-  if (!hasValidApiConfig(props.apiConfig)) {
+  if (!hasValidApiConfig(props.preps.apiConfig)) {
     return;
   }
 
@@ -55,7 +43,7 @@ const fetchApiData = async () => {
   error.value = null;
 
   try {
-    const result: any = await fetchData(props.apiConfig);
+    const result: any = await fetchData(props.preps.apiConfig);
     if (!result.error) {
       // Set the fetched data
       apiData.value = result.data;
@@ -73,7 +61,7 @@ const fetchApiData = async () => {
 
 // Watch for API config changes
 watch(
-  () => props.apiConfig,
+  () => props.preps.apiConfig,
   () => {
     fetchApiData();
   },
@@ -95,16 +83,16 @@ onMounted(() => {
     {{ error }}
   </div>
 
-  <el-page-header v-else :title="title">
+  <el-page-header v-else :title="preps.title">
     <template #content>
       <div class="flex items-center">
         <el-image
-          v-if="logoUrl"
-          :src="logoUrl"
+          v-if="preps.logoUrl"
+          :src="preps.logoUrl"
           fit="cover"
           class="w-8 h-8 mr-2"
         />
-        <span class="text-lg font-bold">{{ title }}</span>
+        <span class="text-lg font-bold">{{ preps.title }}</span>
       </div>
     </template>
     <template #extra>

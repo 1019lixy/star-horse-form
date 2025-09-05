@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import {PageCompInfo} from "@/components/types/PageLayoutComp.js";
+
 defineOptions({
   name: "PageLogoItem",
 });
@@ -11,49 +13,36 @@ interface LogoItem {
   height?: string;
   alt?: string;
 }
-
-defineProps({
-  item: {
-    type: Object as () => LogoItem,
-    default: () => ({
-      imageUrl: "",
-      companyName: "公司名称",
-      link: "",
-      width: "100px",
-      height: "100px",
-      alt: "公司Logo",
-    }),
-  },
-  fit: {
-    type: String,
-    default: "contain", // fill, contain, cover, none, scale-down
-  },
+ withDefaults(defineProps<PageCompInfo>(), {
+  isDesign: () => false,
+  preps: () => ({}),
+  styles: () => ({})
 });
 </script>
 
 <template>
   <div
     class="flex items-center justify-center"
-    :style="{ width: item.width, height: item.height }"
+    :style="styles"
   >
     <a
-      v-if="item.link"
-      :href="item.link"
+      v-if="preps.link"
+      :href="preps.link"
       target="_blank"
-      :title="item.companyName"
+      :title="preps.companyName"
     >
       <el-image
-        :src="item.imageUrl"
-        :alt="item.alt || item.companyName"
-        :fit="fit"
+        :src="preps.imageUrl"
+        :alt="preps.alt || preps.companyName"
+        :fit="preps.fit"
         class="w-full h-full"
       />
     </a>
     <el-image
       v-else
-      :src="item.imageUrl"
-      :alt="item.alt || item.companyName"
-      :fit="fit"
+      :src="preps.imageUrl"
+      :alt="preps.alt || preps.companyName"
+      :fit="preps.fit"
       class="w-full h-full"
     />
   </div>

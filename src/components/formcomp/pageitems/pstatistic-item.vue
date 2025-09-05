@@ -1,68 +1,41 @@
 <script setup lang="ts">
-import { Warning } from "@element-plus/icons-vue";
+import {Warning} from "@element-plus/icons-vue";
+import {PageCompInfo} from "@/components/types/PageLayoutComp.js";
 
 defineOptions({
   name: "PageStatisticItem",
 });
-
-defineProps({
-  value: {
-    type: Number,
-    default: 0,
-  },
-  title: {
-    type: String,
-    default: "统计标题",
-  },
-  description: {
-    type: String,
-    default: "",
-  },
-  prefix: {
-    type: String,
-    default: "",
-  },
-  suffix: {
-    type: String,
-    default: "",
-  },
-  precision: {
-    type: Number,
-    default: 0,
-  },
-  groupSeparator: {
-    type: Boolean,
-    default: false,
-  },
+withDefaults(defineProps<PageCompInfo>(), {
+  isDesign: () => false,
+  preps: () => ({}),
+  styles: () => ({})
 });
 </script>
 
 <template>
   <el-statistic
-    :value="value"
-    :precision="precision"
-    :group-separator="groupSeparator"
+      v-bind="preps"
   >
     <template #title>
       <div style="display: inline-flex; align-items: center">
-        {{ title }}
+        {{ preps.title }}
         <el-tooltip
-          v-if="description"
-          effect="dark"
-          :content="description"
-          placement="top"
+            v-if="preps.description"
+            effect="dark"
+            :content="preps.description"
+            placement="top"
         >
           <el-icon style="margin-left: 4px" :size="12">
-            <Warning />
+            <Warning/>
           </el-icon>
         </el-tooltip>
       </div>
     </template>
     <template #prefix>
-      <span v-if="prefix">{{ prefix }}</span>
+      <span v-if="preps.prefix">{{ preps.prefix }}</span>
     </template>
     <template #suffix>
-      <span v-if="suffix">{{ suffix }}</span>
+      <span v-if="preps.suffix">{{ preps.suffix }}</span>
     </template>
   </el-statistic>
 </template>

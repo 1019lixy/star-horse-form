@@ -1,35 +1,22 @@
 <script setup lang="ts">
+import {PageCompInfo} from "@/components/types/PageLayoutComp.js";
+
 defineOptions({
   name: "PagePageheaderItem",
 });
-
-interface BreadcrumbItem {
-  path?: string;
-  label: string;
-}
-
-defineProps({
-  title: {
-    type: String,
-    default: "页面标题",
-  },
-  breadcrumbs: {
-    type: Array as () => BreadcrumbItem[],
-    default: () => [{ path: "/", label: "首页" }, { label: "当前页面" }],
-  },
-  icon: {
-    type: String,
-    default: "",
-  },
+ withDefaults(defineProps<PageCompInfo>(), {
+  isDesign: () => false,
+  preps: () => ({}),
+  styles: () => ({})
 });
 </script>
 
 <template>
-  <el-page-header :title="title">
+  <el-page-header :title="preps.title">
     <template #breadcrumb>
       <el-breadcrumb separator="/">
         <el-breadcrumb-item
-          v-for="(item, index) in breadcrumbs"
+          v-for="(item, index) in preps.breadcrumbs"
           :key="index"
           :to="item.path ? { path: item.path } : undefined"
         >
@@ -39,10 +26,11 @@ defineProps({
     </template>
     <template #content>
       <div class="flex items-center">
-        <el-icon v-if="icon">
-          <component :is="icon" />
+        <el-icon v-if="preps.icon">
+          <component :is="preps.icon" />
         </el-icon>
-        <span class="text-large font-600 mr-3">{{ title }}</span>
+        <span class="text-large font-600 mr-3">{{ preps.title }}</span>
+        <span v-if="preps.content">{{ preps.content }}</span>
       </div>
     </template>
   </el-page-header>

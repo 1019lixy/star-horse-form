@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref, computed, watch, onMounted } from "vue";
 import { hasValidApiConfig, fetchData } from "./composables/useApiData";
+import { PageCompInfo } from "@/components/types/PageLayoutComp";
 
 defineOptions({
   name: "PageBannerItem",
@@ -14,20 +15,17 @@ interface BannerItem {
   linkUrl: string;
 }
 
-const props = defineProps({
-  banners: {
-    type: Array as () => BannerItem[],
-    default: () => [],
-  },
-  apiConfig: {
-    type: Object,
-    default: () => ({}),
-  },
-  height: {
-    type: String,
-    default: "200px",
-  },
+// Package all props into preps and styles objects for easier management
+const props = withDefaults(defineProps<PageCompInfo>(),{
+  isDesign: () => false,
+  preps: () => ({}),
+  styles: () => ({})
 });
+
+// Extract props from preps
+const banners = props.preps?.banners || [];
+const apiConfig = props.preps?.apiConfig || {};
+const height = props.preps?.height || "200px";
 
 // Reactive data
 const apiData = ref<BannerItem[]>([]);
@@ -38,13 +36,13 @@ const error = ref<string | null>(null);
 const bannerData = computed(() => {
   return apiData.value && apiData.value.length > 0
     ? apiData.value
-    : props.banners;
+    : banners;
 });
 
 // Fetch data from API
 const fetchApiData = async () => {
   // If no API config, don't fetch and don't set loading state
-  if (!hasValidApiConfig(props.apiConfig)) {
+  if (!hasValidApiConfig(apiConfig)) {
     return;
   }
 
@@ -52,7 +50,7 @@ const fetchApiData = async () => {
   error.value = null;
 
   try {
-    const result: any = await fetchData(props.apiConfig);
+    const result: any = await fetchData(apiConfig);
     if (!result.error) {
       // Set the fetched data
       apiData.value = result.data;
@@ -70,7 +68,7 @@ const fetchApiData = async () => {
 
 // Watch for API config changes
 watch(
-  () => props.apiConfig,
+  () => apiConfig,
   () => {
     fetchApiData();
   },

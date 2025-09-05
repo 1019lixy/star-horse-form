@@ -1,6 +1,7 @@
 <script setup lang="ts">
-import { ref, computed, watch, onMounted } from "vue";
-import { hasValidApiConfig, fetchData } from "./composables/useApiData";
+import {computed, onMounted, ref, watch} from "vue";
+import {fetchData, hasValidApiConfig} from "./composables/useApiData";
+import {PageCompInfo} from "@/components/types/PageLayoutComp.js";
 
 defineOptions({
   name: "PageTableItem",
@@ -17,35 +18,10 @@ interface TableData {
   [key: string]: any;
 }
 
-const props = defineProps({
-  columns: {
-    type: Array as () => TableColumn[],
-    default: () => [
-      { prop: "date", label: "日期", width: "180" },
-      { prop: "name", label: "姓名", width: "180" },
-      { prop: "address", label: "地址" },
-    ],
-  },
-  data: {
-    type: Array as () => TableData[],
-    default: () => [],
-  },
-  apiConfig: {
-    type: Object,
-    default: () => ({}),
-  },
-  height: {
-    type: String,
-    default: "",
-  },
-  stripe: {
-    type: Boolean,
-    default: false,
-  },
-  border: {
-    type: Boolean,
-    default: true,
-  },
+const props = withDefaults(defineProps<PageCompInfo>(), {
+  isDesign: () => false,
+  preps: () => ({}),
+  styles: () => ({})
 });
 
 // Reactive data
@@ -55,13 +31,13 @@ const error = ref<string | null>(null);
 
 // Determine which data to use (API data if available, otherwise static data)
 const tableData = computed(() => {
-  return apiData.value && apiData.value.length > 0 ? apiData.value : props.data;
+  return apiData.value && apiData.value.length > 0 ? apiData.value : props.preps.data;
 });
 
 // Fetch data from API
 const fetchApiData = async () => {
   // If no API config, don't fetch and don't set loading state
-  if (!hasValidApiConfig(props.apiConfig)) {
+  if (!hasValidApiConfig(props.preps.apiConfig)) {
     return;
   }
 
@@ -69,7 +45,7 @@ const fetchApiData = async () => {
   error.value = null;
 
   try {
-    const result: any = await fetchData(props.apiConfig);
+    const result: any = await fetchData(props.preps.apiConfig);
     if (!result.error) {
       // Set the fetched data
       apiData.value = result.data;
@@ -87,11 +63,11 @@ const fetchApiData = async () => {
 
 // Watch for API config changes
 watch(
-  () => props.apiConfig,
-  () => {
-    fetchApiData();
-  },
-  { deep: true },
+    () => props.preps.apiConfig,
+    () => {
+      fetchApiData();
+    },
+    {deep: true},
 );
 
 // Fetch initial data
@@ -102,7 +78,7 @@ onMounted(() => {
 
 <template>
   <div v-if="loading" class="text-center py-4">
-    <el-skeleton :rows="3" animated />
+    <el-skeleton :rows="3" animated/>
   </div>
 
   <div v-else-if="error" class="text-center py-4 text-red-500">
@@ -110,20 +86,19 @@ onMounted(() => {
   </div>
 
   <el-table
-    v-else
-    :data="tableData"
-    :height="height"
-    :stripe="stripe"
-    :border="border"
-    class="w-full"
+      v-else
+      :data="tableData"
+      v-bind="preps"
+      class="w-full"
+      :style="styles"
   >
     <el-table-column
-      v-for="column in columns"
-      :key="column.prop"
-      :prop="column.prop"
-      :label="column.label"
-      :width="column.width"
-      :sortable="column.sortable"
+        v-for="column in preps.columns"
+        :key="column.prop"
+        :prop="column.prop"
+        :label="column.label"
+        :width="column.width??'120px'"
+        :sortable="column.sortable"
     />
   </el-table>
 </template>

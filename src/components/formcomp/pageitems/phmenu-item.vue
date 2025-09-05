@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref, computed, watch, onMounted } from "vue";
 import { hasValidApiConfig, fetchData } from "./composables/useApiData";
+import {PageCompInfo} from "@/components/types/PageLayoutComp.js";
 
 defineOptions({
   name: "PageHMenuItem",
@@ -13,36 +14,10 @@ interface MenuItem {
   url?: string;
   children?: MenuItem[];
 }
-
-const props = defineProps({
-  items: {
-    type: Array as () => MenuItem[],
-    default: () => [],
-  },
-  ellipsis: {
-    type: Boolean,
-    default: true,
-  },
-  mode: {
-    type: String,
-    default: "horizontal", // horizontal, vertical
-  },
-  backgroundColor: {
-    type: String,
-    default: "#ffffff",
-  },
-  textColor: {
-    type: String,
-    default: "#303133",
-  },
-  activeTextColor: {
-    type: String,
-    default: "#409eff",
-  },
-  apiConfig: {
-    type: Object,
-    default: () => ({}),
-  },
+const props = withDefaults(defineProps<PageCompInfo>(), {
+  isDesign: () => false,
+  preps: () => ({}),
+  styles: () => ({})
 });
 
 // Reactive data
@@ -54,7 +29,7 @@ const error = ref<string | null>(null);
 const menuData = computed(() => {
   return apiData.value && apiData.value.length > 0
     ? apiData.value
-    : props.items;
+    : props.preps.items;
 });
 
 const selectItem = (item: MenuItem) => {
@@ -66,7 +41,7 @@ const selectItem = (item: MenuItem) => {
 // Fetch data from API
 const fetchApiData = async () => {
   // If no API config, don't fetch and don't set loading state
-  if (!hasValidApiConfig(props.apiConfig)) {
+  if (!hasValidApiConfig(props.preps.apiConfig)) {
     return;
   }
 
@@ -74,7 +49,7 @@ const fetchApiData = async () => {
   error.value = null;
 
   try {
-    const result: any = await fetchData(props.apiConfig);
+    const result: any = await fetchData(props.preps.apiConfig);
     if (!result.error) {
       // Set the fetched data
       apiData.value = result.data;
@@ -92,7 +67,7 @@ const fetchApiData = async () => {
 
 // Watch for API config changes
 watch(
-  () => props.apiConfig,
+  () => props.preps.apiConfig,
   () => {
     fetchApiData();
   },
@@ -116,11 +91,8 @@ onMounted(() => {
 
   <el-menu
     v-else
-    :mode="mode"
-    :ellipsis="ellipsis"
-    :background-color="backgroundColor"
-    :text-color="textColor"
-    :active-text-color="activeTextColor"
+    v-bind="preps"
+    :style="styles"
     @select="selectItem"
     class="w-full border-0"
   >

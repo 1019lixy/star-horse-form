@@ -3,28 +3,36 @@ defineOptions({
   name: "PageCardItem",
 });
 
-defineProps({
-  title: {
-    type: String,
-    default: "卡片标题",
-  },
-  content: {
-    type: String,
-    default: "卡片内容",
-  },
-  imageUrl: {
-    type: String,
-    default: "",
-  },
-  shadow: {
-    type: String,
-    default: "hover", // always, never, hover
-  },
+// Package all props into preps object for easier management
+const props = withDefaults(defineProps<PageCompInfo>(),{
+  isDesign: () => false,
+  preps: () => ({}),
+  styles: () => ({})
 });
+
+
+// Extract props from preps or use defaults
+const title = props.preps?.title || "卡片标题";
+const content = props.preps?.content || "卡片内容";
+const imageUrl = props.preps?.imageUrl || "";
+const shadow = props.preps?.shadow || "hover";
+
+// Card style properties
+const bodyStyle = props.preps?.bodyStyle || {};
+const headerClass = props.preps?.headerClass || "";
+const bodyClass = props.preps?.bodyClass || "";
+const footerClass = props.preps?.footerClass || "";
 </script>
 
 <template>
-  <el-card :shadow="shadow" class="w-full">
+  <el-card 
+    :shadow="shadow" 
+    :body-style="bodyStyle"
+    :header-class="headerClass"
+    :body-class="bodyClass"
+    :footer-class="footerClass"
+    class="w-full"
+  >
     <template #header>
       <div class="flex items-center">
         <span class="font-bold">{{ title }}</span>

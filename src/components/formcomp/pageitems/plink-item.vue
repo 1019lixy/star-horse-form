@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref, computed, watch, onMounted } from "vue";
 import { hasValidApiConfig, fetchData } from "./composables/useApiData";
+import {PageCompInfo} from "@/components/types/PageLayoutComp.js";
 
 defineOptions({
   name: "PageLinkItem",
@@ -14,23 +15,10 @@ interface LinkItem {
   target?: string; // _blank, _self, _parent, _top
 }
 
-const props = defineProps({
-  links: {
-    type: Array as () => LinkItem[],
-    default: () => [],
-  },
-  direction: {
-    type: String,
-    default: "horizontal", // horizontal, vertical
-  },
-  styleType: {
-    type: String,
-    default: "text", // text, button, icon
-  },
-  apiConfig: {
-    type: Object,
-    default: () => ({}),
-  },
+const props = withDefaults(defineProps<PageCompInfo>(), {
+  isDesign: () => false,
+  preps: () => ({}),
+  styles: () => ({})
 });
 
 // Reactive data
@@ -42,13 +30,13 @@ const error = ref<string | null>(null);
 const linkData = computed(() => {
   return apiData.value && apiData.value.length > 0
     ? apiData.value
-    : props.links;
+    : props.preps.links;
 });
 
 // Fetch data from API
 const fetchApiData = async () => {
   // If no API config, don't fetch and don't set loading state
-  if (!hasValidApiConfig(props.apiConfig)) {
+  if (!hasValidApiConfig(props.preps.apiConfig)) {
     return;
   }
 
@@ -56,7 +44,7 @@ const fetchApiData = async () => {
   error.value = null;
 
   try {
-    const result: any = await fetchData(props.apiConfig);
+    const result: any = await fetchData(props.preps.apiConfig);
     if (!result.error) {
       // Set the fetched data
       apiData.value = result.data;
@@ -74,7 +62,7 @@ const fetchApiData = async () => {
 
 // Watch for API config changes
 watch(
-  () => props.apiConfig,
+  () => props.preps.apiConfig,
   () => {
     fetchApiData();
   },
@@ -91,8 +79,8 @@ onMounted(() => {
   <div
     class="w-full"
     :class="{
-      'flex flex-wrap justify-center gap-4': direction === 'horizontal',
-      'flex flex-col gap-2': direction === 'vertical',
+      'flex flex-wrap justify-center gap-4': preps.direction === 'horizontal',
+      'flex flex-col gap-2': preps.direction === 'vertical',
     }"
   >
     <div v-if="loading" class="text-center py-4">
@@ -106,7 +94,7 @@ onMounted(() => {
     <template v-else>
       <template v-for="link in linkData" :key="link.id">
         <a
-          v-if="styleType === 'text'"
+          v-if="preps.styleType === 'text'"
           :href="link.url"
           :target="link.target || '_blank'"
           class="text-blue-500 hover:text-blue-700 hover:underline"
@@ -118,7 +106,7 @@ onMounted(() => {
         </a>
 
         <el-button
-          v-else-if="styleType === 'button'"
+          v-else-if="preps.styleType === 'button'"
           :href="link.url"
           :target="link.target || '_blank'"
           type="primary"
@@ -131,7 +119,7 @@ onMounted(() => {
         </el-button>
 
         <el-tooltip
-          v-else-if="styleType === 'icon'"
+          v-else-if="preps.styleType === 'icon'"
           :content="link.label"
           placement="top"
         >

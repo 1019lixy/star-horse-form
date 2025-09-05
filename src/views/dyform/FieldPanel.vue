@@ -462,7 +462,7 @@ i {
   }
 
   .el-tabs__header.is-left {
-    margin-right: 5px !important;
+    margin-right: 0 !important;
   }
 
   .el-tabs__item {

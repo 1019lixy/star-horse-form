@@ -1,13 +1,14 @@
 <script setup lang="ts">
-import { ref, computed, watch, onMounted } from "vue";
-import { hasValidApiConfig, fetchData } from "./composables/useApiData";
-import { defaultChartOptions } from "./componentConfig";
+import {onMounted, ref, watch} from "vue";
+import {fetchData, hasValidApiConfig} from "./composables/useApiData";
+import {PageCompInfo} from "@/components/types/PageLayoutComp";
 
-const props = defineProps<{
-  option: any;
-  type?: string; // Chart type (optional)
-  apiConfig?: any; // API configuration
-}>();
+// Package all props into preps and styles objects for easier management
+const props = withDefaults(defineProps<PageCompInfo>(), {
+  isDesign: () => false,
+  preps: () => ({}),
+  styles: () => ({})
+});
 
 const shChartRef = ref<HTMLElement>();
 let myChart: any = null;
@@ -15,36 +16,16 @@ const loading = ref<boolean>(false); // Start with false since we're not loading
 const apiData = ref<any>(null);
 const error = ref<string | null>(null);
 
-// Determine which data to use (API data if available, otherwise static option)
-const chartOption = computed(() => {
-  // If we have API data, use it
-  if (apiData.value && Object.keys(apiData.value).length > 0) {
-    return apiData.value;
-  }
-  // If we have a specific chart type and default options for it, use those
-  if (props.type && defaultChartOptions[props.type]) {
-    return defaultChartOptions[props.type];
-  }
-  // If we have static option passed in props and it's not empty, use it
-  if (
-    props.option &&
-    typeof props.option === "object" &&
-    Object.keys(props.option).length > 0
-  ) {
-    return props.option;
-  }
-  // Fallback to default chart type options
-  if (props.type && defaultChartOptions[props.type]) {
-    return defaultChartOptions[props.type];
-  }
-  // Final fallback to line chart
-  return defaultChartOptions.line;
-});
+// Extract props from preps
+const apiConfig = props.preps?.apiConfig || {};
+const type = props.preps?.type || "line";
+const option = props.preps?.option || {};
+
 
 // Fetch data from API
 const fetchApiData = async () => {
   // If no API config, don't fetch and don't set loading state
-  if (!hasValidApiConfig(props.apiConfig)) {
+  if (!hasValidApiConfig(apiConfig)) {
     return;
   }
 
@@ -52,10 +33,9 @@ const fetchApiData = async () => {
   error.value = null;
 
   try {
-    const result: any = await fetchData(props.apiConfig);
+    const result: any = await fetchData(apiConfig);
     if (!result.error) {
-      // Set the fetched data
-      apiData.value = result.data;
+      myChart.setOption(result.data);
     } else {
       error.value = result.error;
       console.error("API call failed:", result.error);
@@ -80,9 +60,8 @@ const initChart = async () => {
     renderer: "svg",
   });
 
-  // Use chartOption which will be either API data or static option
-  if (chartOption.value) {
-    myChart.setOption(chartOption.value);
+  if (props.preps?.option) {
+    myChart.setOption(props.preps.option);
   }
 
   // Add resize observer to handle parent container height changes
@@ -95,48 +74,21 @@ const initChart = async () => {
   }
 };
 
-// Watch for option changes
 watch(
-  () => chartOption.value,
-  () => {
-    if (myChart && chartOption.value) {
-      myChart.setOption(chartOption.value, true); // true for notMerge
-    }
-  },
+    () => props.preps.option,
+    () => {
+      if (myChart && props.preps.option) {
+        myChart.setOption(props.preps.option, true); // true for notMerge
+      }
+    },
 );
 
-// Watch for API config changes
 watch(
-  () => props.apiConfig,
-  () => {
-    fetchApiData();
-  },
-  { deep: true },
-);
-
-// Watch for option changes
-watch(
-  () => props.option,
-  () => {
-    if (myChart && props.option) {
-      myChart.setOption(props.option, true); // true for notMerge
-    }
-  },
-);
-
-// Watch for type changes
-watch(
-  () => props.type,
-  (newType, oldType) => {
-    if (myChart) {
-      // When type changes, update the chart with the appropriate default options
-      const newOption =
-        newType && defaultChartOptions[newType]
-          ? defaultChartOptions[newType]
-          : props.option || defaultChartOptions.line;
-      myChart.setOption(newOption, true); // true for notMerge
-    }
-  },
+    () => props.preps.apiConfig,
+    () => {
+      fetchApiData();
+    },
+    {deep: true},
 );
 
 onMounted(() => {
@@ -147,7 +99,7 @@ onMounted(() => {
 
 <template>
   <div v-if="loading" class="text-center py-4">
-    <el-skeleton animated />
+    <el-skeleton animated/>
   </div>
 
   <div v-else-if="error" class="text-center py-4 text-red-500">
@@ -155,9 +107,9 @@ onMounted(() => {
   </div>
 
   <div
-    v-else
-    ref="shChartRef"
-    style="width: 100%; height: 100%; min-height: 200px"
+      v-else
+      ref="shChartRef"
+      style="width: 100%; height: 100%; min-height: 200px"
   ></div>
 </template>
 
