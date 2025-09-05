@@ -2,7 +2,6 @@
 import {useFlexDesignStore} from "@/store/FlexDesign";
 import {piniaInstance, uuid} from "star-horse-lowcode";
 import {computed, defineOptions, onBeforeUnmount, onMounted, ref} from "vue";
-import { componentConfigs } from "@/components/formcomp/pageitems/componentConfig";
 
 defineOptions({
   name: "FlexItem",
@@ -18,6 +17,7 @@ const flexDesign = useFlexDesignStore(piniaInstance);
 const itemStyle = computed(() => flexDesign.getItem(props.itemId));
 const compList = computed(() => flexDesign.getComp(props.itemId));
 const currentId = computed(() => flexDesign.getCurrentItem());
+const draggingItem = computed(() => flexDesign.getDraggingItem());
 const containerDirection = computed(() => flexDesign.getContainerDirection());
 
 // Add reactive variable to track selected component
@@ -36,7 +36,7 @@ const selectComponent = (componentId: string) => {
   if (!props.previewMode) {
     // Find which item this component belongs to
     flexDesign.setCurrentItem(props.itemId);
-    emit("selectItem", props.itemId);
+    // emit("selectItem", props.itemId);
     // Also emit a specific event for component selection
     emit("selectComponent", props.itemId, componentId);
     // Set the selected component ID for highlighting
@@ -53,79 +53,10 @@ const deleteItem = () => {
 
 const onDragAdd = (evt: any, list: any[]) => {
   if (!props.previewMode) {
-    // Access the cloned data from the draggable event
-    // The cloned data is available in evt.added.element when using vuedraggable with clone function
-    const cloneData = evt.added?.element;
-    if (cloneData) {
-      // Create a new component with default values from componentConfig
-      const componentName = `${cloneData.name}-item`;
-      const componentConfig = componentConfigs[componentName];
-      
-      // Initialize properties with default values
-      const preps: Record<string, any> = {};
-      if (componentConfig) {
-        componentConfig.properties.forEach(prop => {
-          // Use default value if defined, otherwise use empty value based on type
-          if (prop.defaultValue !== undefined) {
-            // For complex objects like chart options, we need to deep clone them
-            if (prop.type === 'json' && typeof prop.defaultValue === 'object') {
-              preps[prop.name] = JSON.parse(JSON.stringify(prop.defaultValue));
-            } else {
-              preps[prop.name] = prop.defaultValue;
-            }
-          } else {
-            // Set appropriate empty values based on type
-            switch (prop.type) {
-              case 'input':
-              case 'textarea':
-              case 'select':
-              case 'color':
-              case 'date':
-              case 'time':
-              case 'json':
-              case 'code':
-                preps[prop.name] = '';
-                break;
-              case 'number':
-                preps[prop.name] = 0;
-                break;
-              case 'switch':
-              case 'checkbox':
-                preps[prop.name] = false;
-                break;
-              case 'apiConfig':
-                preps[prop.name] = {};
-                break;
-              default:
-                preps[prop.name] = '';
-            }
-          }
-        });
-      } else {
-        // If no component config found, at least set some basic properties
-        preps['content'] = '请输入展示内容'; // Default for content components
-      }
-      
-      // Create the new component object
-      const newComponent = {
-        id: uuid(),
-        name: cloneData.name,
-        label: cloneData.label,
-        preps: preps,
-        itemType: "item"
-      };
-      
-      // Add the component to the list
-      list.push(newComponent);
-      
-      // Add the component to the store
-      flexDesign.addComp(props.itemId, newComponent);
-      
-      // Automatically select the newly added component after a short delay
-      // This ensures the component is fully rendered before selection
-      setTimeout(() => {
-        selectComponent(newComponent.id);
-      }, 0);
+    //  const cloneData = evt.item.__draggable_context.element;
+    if (draggingItem.value) {
+      selectComponent(draggingItem.value.id);
+      // flexDesign.clearDraggingItem();
     }
   }
 };
@@ -188,21 +119,6 @@ const init = () => {
 onMounted(() => {
   init();
 });
-
-// Expose variables and functions to template
-defineExpose({
-  itemStyle,
-  compList,
-  currentId,
-  containerDirection,
-  selectedComponentId,
-  selectItem,
-  selectComponent,
-  deleteItem,
-  onDragAdd,
-  startResize,
-  uuid
-});
 </script>
 
 <template>
@@ -226,11 +142,14 @@ defineExpose({
       <draggable @add="(evt: Event) => onDragAdd(evt, compList)" class="w-full h-full min-w-[0]" tag="div"
                  group="starHorseGroup" ghost-class="ghost" :list="compList" :itemKey="uuid()" :disabled="previewMode">
         <template #item="{ element: data, index }">
-          <div class="overflow-visible flex flex-col flex-wrap w-full" :class="{ 'h-full': compList.length == 1 }"
+          <div class="overflow-visible flex flex-col flex-wrap w-full" :class="{
+            'h-full': compList.length == 1,
+           'component-selected': selectedComponentId === data.id
+          }"
                :data-field-id="data.id" :key="data.id" @click.stop="selectComponent(data.id)">
             <component :key="data.id" :field="data" :isDesign="!previewMode" :index-of-parent-list="index"
                        :is="data.name + '-item'" v-bind="data.preps" style="min-width: 0; width: 100%"
-                       :class="{ 'component-selected': selectedComponentId === data.id }"/>
+            />
           </div>
         </template>
       </draggable>
@@ -292,8 +211,8 @@ defineExpose({
     &.right {
       cursor: col-resize;
       width: 10px;
-      height: 40px;
-      top: 50%;
+      height: 100px;
+      top: 45%;
       right: -5px;
       /* 调整到边框中间 */
       transform: translateY(-40%);
@@ -301,19 +220,18 @@ defineExpose({
 
     &.bottom {
       cursor: row-resize;
-      width: 40px;
+      width: 100px;
       height: 10px;
       bottom: -5px;
-      left: 50%;
+      left: 45%;
       /* 调整到边框中间 */
       transform: translateX(-40%);
     }
   }
 }
 
-// Add styles for selected component
 .component-selected {
-  outline: 2px solid var(--star-horse-style);
+  border: 2px solid var(--star-horse-style);
   outline-offset: 2px;
   border-radius: 4px;
 }

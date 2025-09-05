@@ -1,22 +1,28 @@
 <script setup lang="ts">
-import { defineOptions, onMounted, ref } from "vue";
-import { pageCompList } from "@/utils/layoutcomp";
-import { PageCompItem } from "@/components/types/PageLayoutComp";
+import {defineOptions, onMounted, ref} from "vue";
+import {pageCompList} from "@/utils/layoutcomp";
+import {PageCompItem} from "@/components/types/PageLayoutComp";
 import SvgLoader from "../SvgLoader.vue";
-import { uuid } from "star-horse-lowcode";
+import {piniaInstance, uuid} from "star-horse-lowcode";
+import {useFlexDesignStore} from "@/store/FlexDesign.js";
+
 defineOptions({
   name: "PageCompPanel",
 });
 const props = defineProps({});
+const flexDesign = useFlexDesignStore(piniaInstance);
 const emit = defineEmits(["selectItem"]);
 const activeNames = ref<string[]>(["a", "b", "c"]);
 const onContainerCopy = (data: PageCompItem) => {
   let item = JSON.parse(JSON.stringify(data));
   item.id = uuid();
+  flexDesign.setDraggingItem(item);
   return item;
 };
-const addElement = (item: PageCompItem, type: string) => { };
-const init = () => { };
+const addElement = (item: PageCompItem, type: string) => {
+};
+const init = () => {
+};
 onMounted(() => {
   init();
 });
@@ -33,15 +39,17 @@ onMounted(() => {
                   {{ item.label }}
                 </div>
                 <star-horse-icon :icon-class="item.icon" size="24px"
-                  style="color: var(--star-horse-style); margin-right: 10px" />
+                                 style="color: var(--star-horse-style); margin-right: 10px"/>
               </div>
             </template>
             <draggable :clone="onContainerCopy" :group="{ name: 'starHorseGroup', pull: 'clone', put: false }"
-              :sort="false" animation="300" ghost-class="ghost" item-key="id" tag="ul" :list="item.items">
+                       :sort="false" animation="300" ghost-class="ghost" item-key="id" tag="ul" :list="item.items">
               <template #item="{ element }">
                 <li class="field-item h-[70px]!" @dblclick="addElement(element, item.name)" :title="element.label">
-                  <SvgLoader :path="'comp/' + element.icon" size="24px" style="color: var(--star-horse-style)" /><i>{{
-                    element.label }}</i>
+                  <SvgLoader :path="'comp/' + element.icon" size="24px" style="color: var(--star-horse-style)"/>
+                  <i>{{
+                      element.label
+                    }}</i>
                 </li>
               </template>
             </draggable>
