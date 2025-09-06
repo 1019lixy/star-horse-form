@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, computed, watch, onMounted } from "vue";
 import { hasValidApiConfig, fetchData } from "./composables/useApiData";
-import {PageCompInfo} from "@/components/types/PageLayoutComp.js";
+import { PageCompInfo } from "@/components/types/PageLayoutComp.js";
 
 defineOptions({
   name: "PageHMenuItem",
@@ -17,7 +17,7 @@ interface MenuItem {
 const props = withDefaults(defineProps<PageCompInfo>(), {
   isDesign: () => false,
   preps: () => ({}),
-  styles: () => ({})
+  styles: () => ({}),
 });
 
 // Reactive data

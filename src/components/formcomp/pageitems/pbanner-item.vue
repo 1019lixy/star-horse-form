@@ -16,10 +16,10 @@ interface BannerItem {
 }
 
 // Package all props into preps and styles objects for easier management
-const props = withDefaults(defineProps<PageCompInfo>(),{
+const props = withDefaults(defineProps<PageCompInfo>(), {
   isDesign: () => false,
   preps: () => ({}),
-  styles: () => ({})
+  styles: () => ({}),
 });
 
 // Extract props from preps
@@ -34,9 +34,7 @@ const error = ref<string | null>(null);
 
 // Determine which data to use (API data if available, otherwise static data)
 const bannerData = computed(() => {
-  return apiData.value && apiData.value.length > 0
-    ? apiData.value
-    : banners;
+  return apiData.value && apiData.value.length > 0 ? apiData.value : banners;
 });
 
 // Fetch data from API

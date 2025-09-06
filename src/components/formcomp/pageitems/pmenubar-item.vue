@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, computed, watch, onMounted } from "vue";
 import { hasValidApiConfig, fetchData } from "./composables/useApiData";
-import {PageCompInfo} from "@/components/types/PageLayoutComp.js";
+import { PageCompInfo } from "@/components/types/PageLayoutComp.js";
 
 defineOptions({
   name: "PageMenubarItem",
@@ -18,7 +18,7 @@ interface MenuItem {
 const props = withDefaults(defineProps<PageCompInfo>(), {
   isDesign: () => false,
   preps: () => ({}),
-  styles: () => ({})
+  styles: () => ({}),
 });
 
 // Reactive data
@@ -84,12 +84,7 @@ onMounted(() => {
     {{ error }}
   </div>
 
-  <el-menu
-    v-else
-    v-bind="preps"
-    :style="styles"
-    class="w-full"
-  >
+  <el-menu v-else v-bind="preps" :style="styles" class="w-full">
     <template v-for="item in menuData" :key="item.id">
       <el-menu-item
         v-if="!item.children || item.children.length === 0"

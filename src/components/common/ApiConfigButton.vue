@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import {ref} from "vue";
-import {ElButton} from "element-plus";
+import { ref } from "vue";
+import { ElButton } from "element-plus";
 import ApiConfigDialog from "./ApiConfigDialog.vue";
-import type {ApiConfig} from "@/utils/apiConfig";
+import type { ApiConfig } from "@/utils/apiConfig";
 
 // 定义组件属性
 const props = defineProps({
@@ -61,18 +61,18 @@ const handleSave = (config: ApiConfig) => {
 <template>
   <div class="api-config-button">
     <el-button
-        :type="buttonType"
-        :size="buttonSize"
-        :plain="buttonPlain"
-        @click="openDialog"
+      :type="buttonType"
+      :size="buttonSize"
+      :plain="buttonPlain"
+      @click="openDialog"
     >
       {{ buttonText }}
     </el-button>
     <ApiConfigDialog
-        v-model:visible="dialogVisible"
-        v-model:dataForm="configForm"
-        :title="dialogTitle"
-        @save="handleSave"
+      v-model:visible="dialogVisible"
+      v-model:dataForm="configForm"
+      :title="dialogTitle"
+      @save="handleSave"
     />
   </div>
 </template>

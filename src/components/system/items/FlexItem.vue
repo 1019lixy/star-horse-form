@@ -2,7 +2,12 @@
 import { useFlexDesignStore } from "@/store/FlexDesign";
 import { piniaInstance, uuid } from "star-horse-lowcode";
 import { computed, defineOptions, onBeforeUnmount, onMounted, ref } from "vue";
-import { dynamicFormContextMenuData, dynamicPageContextMenuData } from "@/plugins/AblesPlugin.ts";
+import {
+  dynamicFormContextMenuData,
+  dynamicPageContextMenuData,
+} from "@/plugins/AblesPlugin.ts";
+import { bringToFront, sendToBack } from "@/utils/ZIndexManager";
+
 defineOptions({
   name: "FlexItem",
 });
@@ -134,53 +139,112 @@ const removeListener = () => {
   document.removeEventListener("mouseup", stopResize);
 };
 
+// Function to bring component to front (z-index management)
+const onBringToFront = (componentId: string) => {
+  if (!props.previewMode) {
+    bringToFront(compList.value, componentId);
+  }
+};
+
+// Function to send component to back (z-index management)
+const onSendToBack = (componentId: string) => {
+  if (!props.previewMode) {
+    sendToBack(compList.value, componentId);
+  }
+};
+
 onBeforeUnmount(() => {
   removeListener();
 });
 
-const init = () => { };
+const init = () => {};
 onMounted(() => {
   init();
 });
 </script>
 
 <template>
-  <div :style="itemStyle" @click.stop="selectItem" @contextmenu.stop="showContextMenu" class="item-info"
-    ref="resizeContainer" :class="{
+  <div
+    :style="itemStyle"
+    @click.stop="selectItem"
+    @contextmenu.stop="showContextMenu"
+    class="item-info"
+    ref="resizeContainer"
+    :class="{
       'w-full': type == 'grid',
       'item-width': containerDirection.includes('column'),
       'preview-mode': previewMode,
       'item-selected': currentId == itemId,
-    }">
+    }"
+  >
     <div class="absolute top-1 right-1 z-10 flex gap-1" v-if="!previewMode">
-     <!--  <div v-if="currentId == itemId"
+      <!--  <div v-if="currentId == itemId"
         class="flex items-center justify-center w-5 h-5 rounded-sm bg-white border border-green-500">
         <star-horse-icon iconClass="check" :color="'var(--star-horse-style)'"
           title="选中" class="text-xs" />
       </div> -->
-      <div
-        class="flex items-center justify-center "
-        @click.stop="deleteItem">
-        <star-horse-icon iconClass="delete" :color="'var(--star-horse-danger)'"
-          title="删除" class="text-xs" />
+      <div class="flex items-center justify-center" @click.stop="deleteItem">
+        <star-horse-icon
+          iconClass="delete"
+          :color="'var(--star-horse-danger)'"
+          title="删除"
+          class="text-xs"
+        />
       </div>
     </div>
 
-    <div class="resize-handle right" @mousedown.prevent="startResize('right', $event)" v-if="!previewMode" />
-    <div class="resize-handle bottom" @mousedown.prevent="startResize('bottom', $event)" v-if="!previewMode" />
+    <div
+      class="resize-handle right"
+      @mousedown.prevent="startResize('right', $event)"
+      v-if="!previewMode"
+    />
+    <div
+      class="resize-handle bottom"
+      @mousedown.prevent="startResize('bottom', $event)"
+      v-if="!previewMode"
+    />
 
-    <div class="relative flex flex-col h-full w-full overflow-hidden min-w-0 max-w-full">
-      <draggable @add="(evt: Event) => onDragAdd(evt, compList)" class="w-full h-full min-w-[0]" tag="div"
-        group="starHorseGroup" ghost-class="ghost" :list="compList" :itemKey="uuid()" :disabled="previewMode">
+    <div
+      class="relative flex flex-col h-full w-full overflow-hidden min-w-0 max-w-full"
+    >
+      <draggable
+        @add="(evt: Event) => onDragAdd(evt, compList)"
+        class="w-full h-full min-w-[0] relative"
+        tag="div"
+        group="starHorseGroup"
+        ghost-class="ghost"
+        :list="compList"
+        :itemKey="uuid()"
+        :disabled="previewMode"
+      >
         <template #item="{ element: data, index }">
-          <div class="overflow-visible flex flex-col flex-wrap w-full" :class="{
-            'component-selected': selectedComponentId === data.id,
-          }" :data-field-id="data.id" :key="data.id" @click.stop="selectComponent(data.id)"
+          <div
+            class="overflow-visible flex flex-col flex-wrap w-full absolute"
+            :class="{
+              'component-selected': selectedComponentId === data.id,
+            }"
+            :data-field-id="data.id"
+            :key="data.id"
+            @click.stop="selectComponent(data.id)"
             @contextmenu.stop="showComponentContextMenu($event, data)"
-            style="width: 100%; flex: 0 0 auto;">
-            <component :key="data.id" :field="data" :isDesign="!previewMode" :index-of-parent-list="index"
-              :is="data.name + '-item'" :preps="data.preps" :styles="data.styles || {}"
-              style="min-width: 0; width: 100%" />
+            :style="{
+              width: '100%',
+              position: 'absolute',
+              left: '0',
+              top: '0',
+              zIndex: data.styles?.zIndex || index,
+            }"
+          >
+            <component
+              :key="data.id"
+              :field="data"
+              :isDesign="!previewMode"
+              :index-of-parent-list="index"
+              :is="data.name + '-item'"
+              :preps="data.preps"
+              :styles="data.styles || {}"
+              style="min-width: 0; width: 100%"
+            />
           </div>
         </template>
       </draggable>
@@ -217,12 +281,32 @@ onMounted(() => {
   // Selection watermark background
   &.item-selected {
     background-image:
-      radial-gradient(circle at 100% 100%, rgba(64, 158, 255, 0.1) 15%, transparent 15.5%),
-      radial-gradient(circle at 0 100%, rgba(64, 158, 255, 0.1) 15%, transparent 15.5%),
-      radial-gradient(circle at 100% 0, rgba(64, 158, 255, 0.1) 15%, transparent 15.5%),
-      radial-gradient(circle at 0 0, rgba(64, 158, 255, 0.1) 15%, transparent 15.5%);
+      radial-gradient(
+        circle at 100% 100%,
+        rgba(64, 158, 255, 0.1) 15%,
+        transparent 15.5%
+      ),
+      radial-gradient(
+        circle at 0 100%,
+        rgba(64, 158, 255, 0.1) 15%,
+        transparent 15.5%
+      ),
+      radial-gradient(
+        circle at 100% 0,
+        rgba(64, 158, 255, 0.1) 15%,
+        transparent 15.5%
+      ),
+      radial-gradient(
+        circle at 0 0,
+        rgba(64, 158, 255, 0.1) 15%,
+        transparent 15.5%
+      );
     background-size: 10px 10px;
-    background-position: 1px 1px, 1px 1px, 1px 1px, 1px 1px;
+    background-position:
+      1px 1px,
+      1px 1px,
+      1px 1px,
+      1px 1px;
   }
 
   // In preview mode, remove interactive styles

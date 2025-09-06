@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import {computed, onMounted, ref, watch} from "vue";
-import {fetchData, hasValidApiConfig} from "./composables/useApiData";
-import {PageCompInfo} from "@/components/types/PageLayoutComp.js";
+import { computed, onMounted, ref, watch } from "vue";
+import { fetchData, hasValidApiConfig } from "./composables/useApiData";
+import { PageCompInfo } from "@/components/types/PageLayoutComp.js";
 
 defineOptions({
   name: "PageTableItem",
@@ -21,7 +21,7 @@ interface TableData {
 const props = withDefaults(defineProps<PageCompInfo>(), {
   isDesign: () => false,
   preps: () => ({}),
-  styles: () => ({})
+  styles: () => ({}),
 });
 
 // Reactive data
@@ -31,7 +31,9 @@ const error = ref<string | null>(null);
 
 // Determine which data to use (API data if available, otherwise static data)
 const tableData = computed(() => {
-  return apiData.value && apiData.value.length > 0 ? apiData.value : props.preps.data;
+  return apiData.value && apiData.value.length > 0
+    ? apiData.value
+    : props.preps.data;
 });
 
 // Fetch data from API
@@ -63,11 +65,11 @@ const fetchApiData = async () => {
 
 // Watch for API config changes
 watch(
-    () => props.preps.apiConfig,
-    () => {
-      fetchApiData();
-    },
-    {deep: true},
+  () => props.preps.apiConfig,
+  () => {
+    fetchApiData();
+  },
+  { deep: true },
 );
 
 // Fetch initial data
@@ -78,7 +80,7 @@ onMounted(() => {
 
 <template>
   <div v-if="loading" class="text-center py-4">
-    <el-skeleton :rows="3" animated/>
+    <el-skeleton :rows="3" animated />
   </div>
 
   <div v-else-if="error" class="text-center py-4 text-red-500">
@@ -86,19 +88,19 @@ onMounted(() => {
   </div>
 
   <el-table
-      v-else
-      :data="tableData"
-      v-bind="preps"
-      class="w-full"
-      :style="styles"
+    v-else
+    :data="tableData"
+    v-bind="preps"
+    class="w-full"
+    :style="styles"
   >
     <el-table-column
-        v-for="column in preps.columns"
-        :key="column.prop"
-        :prop="column.prop"
-        :label="column.label"
-        :width="column.width??'120px'"
-        :sortable="column.sortable"
+      v-for="column in preps.columns"
+      :key="column.prop"
+      :prop="column.prop"
+      :label="column.label"
+      :width="column.width ?? '120px'"
+      :sortable="column.sortable"
     />
   </el-table>
 </template>

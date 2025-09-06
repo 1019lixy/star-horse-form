@@ -19,12 +19,11 @@ export interface PageComp {
   container?: PageCompContainer;
 }
 
-export interface PageCompInfo{
+export interface PageCompInfo {
   //是否设计模式
   isDesign: boolean;
   //组件属性
-  preps:Record<string, any>;
+  preps: Record<string, any>;
   //组件样式
-  styles?:Record<string, any>;
-
+  styles?: Record<string, any>;
 }

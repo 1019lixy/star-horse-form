@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import {computed, onMounted, ref, watch} from "vue";
-import {fetchData, hasValidApiConfig} from "./composables/useApiData";
-import {PageCompInfo} from '@/components/types/PageLayoutComp';
+import { computed, onMounted, ref, watch } from "vue";
+import { fetchData, hasValidApiConfig } from "./composables/useApiData";
+import { PageCompInfo } from "@/components/types/PageLayoutComp";
 
 defineOptions({
   name: "PageFormItem",
@@ -19,7 +19,7 @@ interface FormField {
 const props = withDefaults(defineProps<PageCompInfo>(), {
   isDesign: () => false,
   preps: () => ({}),
-  styles: () => ({})
+  styles: () => ({}),
 });
 
 // Reactive data
@@ -30,8 +30,8 @@ const dataForm = ref<any>({});
 // Determine which data to use (API data if available, otherwise static data)
 const formData = computed(() => {
   return apiData.value && apiData.value.length > 0
-      ? apiData.value
-      : props.preps.fields;
+    ? apiData.value
+    : props.preps.fields;
 });
 
 // Fetch data from API
@@ -63,11 +63,11 @@ const fetchApiData = async () => {
 
 // Watch for API config changes
 watch(
-    () => props.preps.apiConfig,
-    () => {
-      fetchApiData();
-    },
-    {deep: true},
+  () => props.preps.apiConfig,
+  () => {
+    fetchApiData();
+  },
+  { deep: true },
 );
 
 // Fetch initial data
@@ -79,24 +79,20 @@ onMounted(() => {
 <template>
   <div class="relative flex flex-col flex-wrap w-full">
     <div v-if="loading" class="text-center py-4">
-      <el-skeleton :rows="3" animated/>
+      <el-skeleton :rows="3" animated />
     </div>
 
     <div v-else-if="error" class="text-center py-4 text-red-500">
       {{ error }}
     </div>
-    <sh-form
-        v-else
-        v-bind="preps"
-        v-model="dataForm"
-    >
+    <sh-form v-else v-bind="preps" v-model="dataForm">
       <template v-for="field in formData" :key="field.prop">
         <el-form-item
-            :label="field.label"
-            :prop="field.prop"
-            :required="field.required"
+          :label="field.label"
+          :prop="field.prop"
+          :required="field.required"
         >
-          <component :is="`el-${field.type}`" v-bind="field" class="w-full"/>
+          <component :is="`el-${field.type}`" v-bind="field" class="w-full" />
         </el-form-item>
       </template>
     </sh-form>

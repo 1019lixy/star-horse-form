@@ -1,13 +1,13 @@
 <script setup lang="ts">
-import {PageCompInfo} from "@/components/types/PageLayoutComp.js";
+import { PageCompInfo } from "@/components/types/PageLayoutComp.js";
 
 defineOptions({
   name: "PagePagebarItem",
 });
- withDefaults(defineProps<PageCompInfo>(), {
+withDefaults(defineProps<PageCompInfo>(), {
   isDesign: () => false,
   preps: () => ({}),
-  styles: () => ({})
+  styles: () => ({}),
 });
 
 const emits = defineEmits(["update:pageSize", "update:currentPage"]);

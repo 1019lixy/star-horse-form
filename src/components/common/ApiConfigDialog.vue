@@ -1,8 +1,15 @@
 <script setup lang="ts">
-import {onMounted, provide, reactive, ref, shallowRef} from "vue";
-import {type ApiConfig, protocolOptions,} from "@/utils/apiConfig";
-import {loadDict} from "@/api/star_horse_apis";
-import {error, FieldInfo, formFieldMapping, PageFieldInfo, SelectOption, success} from "star-horse-lowcode";
+import { onMounted, provide, reactive, ref, shallowRef } from "vue";
+import { type ApiConfig, protocolOptions } from "@/utils/apiConfig";
+import { loadDict } from "@/api/star_horse_apis";
+import {
+  error,
+  FieldInfo,
+  formFieldMapping,
+  PageFieldInfo,
+  SelectOption,
+  success,
+} from "star-horse-lowcode";
 
 // 定义组件属性
 const props = defineProps({
@@ -27,15 +34,15 @@ const dataForm = defineModel("dataForm", {});
 const apiConfigForm = ref<any>({
   env: "none",
   httpMethod: "POST",
-  protocol: "HTTP"
+  protocol: "HTTP",
 });
 const envOptions = ref<SelectOption[]>([]);
 const httpMethodOptions = ref<SelectOption[]>([
-  {value: "GET", name: "GET"},
-  {value: "POST", name: "POST"},
-  {value: "PUT", name: "PUT"},
-  {value: "DELETE", name: "DELETE"},
-  {value: "PATCH", name: "PATCH"},
+  { value: "GET", name: "GET" },
+  { value: "POST", name: "POST" },
+  { value: "PUT", name: "PUT" },
+  { value: "DELETE", name: "DELETE" },
+  { value: "PATCH", name: "PATCH" },
 ]);
 
 // 加载系统环境字典
@@ -58,8 +65,8 @@ const formFields = reactive<PageFieldInfo>({
       required: true,
       defaultValue: "none",
       preps: {
-        values: envOptions
-      }
+        values: envOptions,
+      },
     },
     {
       label: "请求方式",
@@ -69,9 +76,10 @@ const formFields = reactive<PageFieldInfo>({
       required: true,
       defaultValue: "POST",
       preps: {
-        values: httpMethodOptions
-      }
-    }, {
+        values: httpMethodOptions,
+      },
+    },
+    {
       label: "协议",
       fieldName: "protocol",
       type: "select",
@@ -79,8 +87,8 @@ const formFields = reactive<PageFieldInfo>({
       required: true,
       defaultValue: "HTTP",
       preps: {
-        values: protocolOptions
-      }
+        values: protocolOptions,
+      },
     },
     {
       label: "IP/域名/服务名",
@@ -120,9 +128,10 @@ const formFields = reactive<PageFieldInfo>({
               controlCondition: "eqVisible",
               relationFields: ["refreshInterval"],
               matchFieldValue: ["Y"],
-            }]
-        }
-      }
+            },
+          ],
+        },
+      },
     },
     {
       label: "刷新时间(秒)",
@@ -134,16 +143,16 @@ const formFields = reactive<PageFieldInfo>({
         min: 5,
         max: 3600,
         step: 1,
-      }
-    }
-  ]
+      },
+    },
+  ],
 });
 const formFields2 = shallowRef<Array<FieldInfo>>([]);
 provide("formFields", formFields2);
 
 // 保存API配置
-const handleSave = (type:string) => {
-console.log(type);
+const handleSave = (type: string) => {
+  console.log(type);
   formRef.value?.validate().then((result: boolean) => {
     console.log(result);
     if (!result) {
@@ -171,26 +180,26 @@ onMounted(() => {
 
 <template>
   <star-horse-dialog
-      :dialogVisible="props.visible"
-      :title="props.title"
-      boxWidth="50%"
-      @resetForm="apiConfigForm={}"
-      @closeAction="handleCancel"
-      @merge="handleSave"
-      :selfFunc="true"
+    :dialogVisible="props.visible"
+    :title="props.title"
+    boxWidth="50%"
+    @resetForm="apiConfigForm = {}"
+    @closeAction="handleCancel"
+    @merge="handleSave"
+    :selfFunc="true"
   >
     <sh-form
-        ref="formRef"
-        v-model:dataForm="apiConfigForm"
-        label-width="auto"
-        label-position="left"
-        size="default"
+      ref="formRef"
+      v-model:dataForm="apiConfigForm"
+      label-width="auto"
+      label-position="left"
+      size="default"
     >
       <star-horse-form-item
-          ref="dataSourceFormRef"
-          :fieldList="formFields"
-          compSize="default"
-          v-model:dataForm="apiConfigForm"
+        ref="dataSourceFormRef"
+        :fieldList="formFields"
+        compSize="default"
+        v-model:dataForm="apiConfigForm"
       />
     </sh-form>
   </star-horse-dialog>

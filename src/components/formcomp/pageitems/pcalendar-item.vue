@@ -1,15 +1,16 @@
 <script setup lang="ts">
+import {PageCompInfo} from "@/components/types/PageLayoutComp";
+
 defineOptions({
   name: "PageCalendarItem",
 });
 
 // Package all props into preps object for easier management
-const props = withDefaults(defineProps<PageCompInfo>(),{
+const props = withDefaults(defineProps<PageCompInfo>(), {
   isDesign: () => false,
   preps: () => ({}),
-  styles: () => ({})
+  styles: () => ({}),
 });
-
 
 // Extract props from preps or use defaults
 const width = props.preps?.width || "200px";

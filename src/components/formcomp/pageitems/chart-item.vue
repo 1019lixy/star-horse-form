@@ -1,13 +1,13 @@
 <script setup lang="ts">
-import {onMounted, ref, watch} from "vue";
-import {fetchData, hasValidApiConfig} from "./composables/useApiData";
-import {PageCompInfo} from "@/components/types/PageLayoutComp";
+import { onMounted, ref, watch } from "vue";
+import { fetchData, hasValidApiConfig } from "./composables/useApiData";
+import { PageCompInfo } from "@/components/types/PageLayoutComp";
 
 // Package all props into preps and styles objects for easier management
 const props = withDefaults(defineProps<PageCompInfo>(), {
   isDesign: () => false,
   preps: () => ({}),
-  styles: () => ({})
+  styles: () => ({}),
 });
 
 const shChartRef = ref<HTMLElement>();
@@ -20,7 +20,6 @@ const error = ref<string | null>(null);
 const apiConfig = props.preps?.apiConfig || {};
 const type = props.preps?.type || "line";
 const option = props.preps?.option || {};
-
 
 // Fetch data from API
 const fetchApiData = async () => {
@@ -75,20 +74,20 @@ const initChart = async () => {
 };
 
 watch(
-    () => props.preps.option,
-    () => {
-      if (myChart && props.preps.option) {
-        myChart.setOption(props.preps.option, true); // true for notMerge
-      }
-    },
+  () => props.preps.option,
+  () => {
+    if (myChart && props.preps.option) {
+      myChart.setOption(props.preps.option, true); // true for notMerge
+    }
+  },
 );
 
 watch(
-    () => props.preps.apiConfig,
-    () => {
-      fetchApiData();
-    },
-    {deep: true},
+  () => props.preps.apiConfig,
+  () => {
+    fetchApiData();
+  },
+  { deep: true },
 );
 
 onMounted(() => {
@@ -99,7 +98,7 @@ onMounted(() => {
 
 <template>
   <div v-if="loading" class="text-center py-4">
-    <el-skeleton animated/>
+    <el-skeleton animated />
   </div>
 
   <div v-else-if="error" class="text-center py-4 text-red-500">
@@ -107,9 +106,9 @@ onMounted(() => {
   </div>
 
   <div
-      v-else
-      ref="shChartRef"
-      style="width: 100%; height: 100%; min-height: 200px"
+    v-else
+    ref="shChartRef"
+    style="width: 100%; height: 100%; min-height: 200px"
   ></div>
 </template>
 

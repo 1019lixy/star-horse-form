@@ -93,7 +93,7 @@ export function delNode(node: any, currNode: any) {
     // if (currNode.type == FlowNodeEnums.PARALLEL_NODE) {
     //     childNode = currNode.childNode?.childNode;
     // }
-    if (childNode && childNode.hasOwnProperty("name")) {
+    if (childNode && Object.prototype.hasOwnProperty.call(childNode, "name")) {
       childNode.pid = currNode.pid;
     }
     //  将当前节点的子节点挂载到父节点

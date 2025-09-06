@@ -257,13 +257,7 @@ const escapeHTML = (str: string) => {
   return str.replace(/</g, "&lt;").replace(/>/g, "&gt;");
 };
 const createXml = (str: string) => {
-  if (document.all) {
-    const xmlDom = new ActiveXObject("Microsoft.XMLDOM");
-    xmlDom.loadXML(str);
-    return xmlDom;
-  } else {
-    return new DOMParser().parseFromString(str, "text/xml");
-  }
+  return new DOMParser().parseFromString(str, "text/xml");
 };
 const lintOperation = async (modeler: BpmnModeler) => {
   const eventBus = modeler.get<EventBus>("eventBus");

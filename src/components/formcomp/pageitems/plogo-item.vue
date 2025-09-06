@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {PageCompInfo} from "@/components/types/PageLayoutComp.js";
+import { PageCompInfo } from "@/components/types/PageLayoutComp.js";
 
 defineOptions({
   name: "PageLogoItem",
@@ -13,18 +13,15 @@ interface LogoItem {
   height?: string;
   alt?: string;
 }
- withDefaults(defineProps<PageCompInfo>(), {
+withDefaults(defineProps<PageCompInfo>(), {
   isDesign: () => false,
   preps: () => ({}),
-  styles: () => ({})
+  styles: () => ({}),
 });
 </script>
 
 <template>
-  <div
-    class="flex items-center justify-center"
-    :style="styles"
-  >
+  <div class="flex items-center justify-center" :style="styles">
     <a
       v-if="preps.link"
       :href="preps.link"

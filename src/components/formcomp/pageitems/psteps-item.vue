@@ -1,29 +1,25 @@
 <script setup lang="ts">
-import {PageCompInfo} from "@/components/types/PageLayoutComp.js";
+import { PageCompInfo } from "@/components/types/PageLayoutComp.js";
 
 defineOptions({
   name: "PageStepsItem",
 });
 
-
 withDefaults(defineProps<PageCompInfo>(), {
   isDesign: () => false,
   preps: () => ({}),
-  styles: () => ({})
+  styles: () => ({}),
 });
 </script>
 
 <template>
-  <el-steps
-      v-bind="preps"
-      :style="styles"
-  >
+  <el-steps v-bind="preps" :style="styles">
     <el-step
-        v-for="(step, index) in preps.steps"
-        :key="index"
-        :title="step.title"
-        :description="step.description"
-        :icon="step.icon"
+      v-for="(step, index) in preps.steps"
+      :key="index"
+      :title="step.title"
+      :description="step.description"
+      :icon="step.icon"
     />
   </el-steps>
 </template>

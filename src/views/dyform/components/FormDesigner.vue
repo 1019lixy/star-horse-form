@@ -31,8 +31,9 @@ const contentMenuRef = ref();
 const formContainerRef = ref<HTMLElement | null>(null);
 
 // Handle scroll to field event
-const handleScrollToField = (event: CustomEvent) => {
-  const fieldId = event.detail;
+const handleScrollToField = (event: Event) => {
+  const customEvent = event as CustomEvent;
+  const fieldId = customEvent.detail;
   scrollToField(fieldId);
 };
 
@@ -67,7 +68,7 @@ onMounted(() => {
   // Add event listener for scroll-to-field event
   window.addEventListener(
     "scroll-to-field",
-    handleScrollToField as EventListener,
+    handleScrollToField,
   );
 });
 
@@ -75,7 +76,7 @@ onUnmounted(() => {
   // Remove event listener
   window.removeEventListener(
     "scroll-to-field",
-    handleScrollToField as EventListener,
+    handleScrollToField,
   );
 });
 </script>

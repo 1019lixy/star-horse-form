@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {PageCompInfo} from "@/components/types/PageLayoutComp.js";
+import { PageCompInfo } from "@/components/types/PageLayoutComp.js";
 
 defineOptions({
   name: "PageImageItem",
@@ -14,17 +14,13 @@ interface ImageInfo {
 withDefaults(defineProps<PageCompInfo>(), {
   isDesign: () => false,
   preps: () => ({}),
-  styles: () => ({})
+  styles: () => ({}),
 });
-
 </script>
 
 <template>
-  <div class="w-full">
-    <el-image
-      v-bind="preps"
-      :style="styles"
-    />
+  <div class="w-full" :style="styles">
+    <el-image v-bind="preps" :style="styles" />
   </div>
 </template>
 

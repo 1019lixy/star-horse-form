@@ -10,17 +10,21 @@
  */
 export const getNestedProperty = (obj: any, path: string): any => {
   if (!obj || !path) return undefined;
-  
-  const parts = path.split('.');
+
+  const parts = path.split(".");
   let current = obj;
-  
+
   for (const part of parts) {
-    if (current === null || current === undefined || typeof current !== 'object') {
+    if (
+      current === null ||
+      current === undefined ||
+      typeof current !== "object"
+    ) {
       return undefined;
     }
     current = current[part];
   }
-  
+
   return current;
 };
 
@@ -32,17 +36,17 @@ export const getNestedProperty = (obj: any, path: string): any => {
  */
 export const setNestedProperty = (obj: any, path: string, value: any) => {
   if (!obj || !path) return;
-  
-  const parts = path.split('.');
+
+  const parts = path.split(".");
   let current = obj;
-  
+
   for (let i = 0; i < parts.length - 1; i++) {
     if (!current[parts[i]]) {
       current[parts[i]] = {};
     }
     current = current[parts[i]];
   }
-  
+
   current[parts[parts.length - 1]] = value;
 };
 
@@ -52,7 +56,7 @@ export const setNestedProperty = (obj: any, path: string, value: any) => {
  * @returns The root property name (e.g., "preps")
  */
 export const getRootProperty = (path: string): string => {
-  return path.split('.')[0];
+  return path.split(".")[0];
 };
 
 /**
@@ -61,8 +65,8 @@ export const getRootProperty = (path: string): string => {
  * @returns The nested path (e.g., "content.backgroundColor")
  */
 export const getNestedPath = (path: string): string => {
-  const parts = path.split('.');
-  return parts.slice(1).join('.');
+  const parts = path.split(".");
+  return parts.slice(1).join(".");
 };
 
 /**
@@ -72,14 +76,14 @@ export const getNestedPath = (path: string): string => {
  */
 export const groupPropertiesByRoot = (properties: any[]) => {
   const groups: Record<string, any[]> = {};
-  
-  properties.forEach(prop => {
+
+  properties.forEach((prop) => {
     const root = getRootProperty(prop.name);
     if (!groups[root]) {
       groups[root] = [];
     }
     groups[root].push(prop);
   });
-  
+
   return groups;
 };

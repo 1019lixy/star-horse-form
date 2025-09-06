@@ -1,15 +1,15 @@
 <script setup lang="ts">
+import {PageCompInfo} from "@/components/types/PageLayoutComp";
 defineOptions({
   name: "PageCardItem",
 });
 
 // Package all props into preps object for easier management
-const props = withDefaults(defineProps<PageCompInfo>(),{
+const props = withDefaults(defineProps<PageCompInfo>(), {
   isDesign: () => false,
   preps: () => ({}),
-  styles: () => ({})
+  styles: () => ({}),
 });
-
 
 // Extract props from preps or use defaults
 const title = props.preps?.title || "卡片标题";
@@ -25,13 +25,14 @@ const footerClass = props.preps?.footerClass || "";
 </script>
 
 <template>
-  <el-card 
-    :shadow="shadow" 
+  <el-card
+    :shadow="shadow"
     :body-style="bodyStyle"
     :header-class="headerClass"
     :body-class="bodyClass"
     :footer-class="footerClass"
     class="w-full"
+    :style="styles"
   >
     <template #header>
       <div class="flex items-center">

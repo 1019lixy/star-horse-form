@@ -1,8 +1,11 @@
 <script setup lang="ts">
-import {computed, onMounted, ref, watch} from "vue";
-import {useFlexDesignStore} from "@/store/FlexDesign";
-import {piniaInstance} from "star-horse-lowcode";
-import {componentConfigs, defaultChartOptions} from "@/components/formcomp/pageitems/componentConfig";
+import { computed, onMounted, ref, watch } from "vue";
+import { useFlexDesignStore } from "@/store/FlexDesign";
+import { piniaInstance } from "star-horse-lowcode";
+import {
+  componentConfigs,
+  defaultChartOptions,
+} from "@/components/formcomp/pageitems/componentConfig";
 // Props
 const props = defineProps({
   itemId: {
@@ -13,7 +16,6 @@ const props = defineProps({
     type: String,
     default: "",
   },
-
 });
 
 const jsonEditorVisible = ref(false);
@@ -22,10 +24,11 @@ const currentJsonValue = ref("");
 const flexDesign = useFlexDesignStore(piniaInstance);
 const currentItem = computed(() => {
   const itemList = flexDesign.getComp(props.itemId);
-  const item = itemList?.find((temp: any) => temp.id == props.componentId) || {};
+  const item =
+    itemList?.find((temp: any) => temp.id == props.componentId) || {};
   if (!item.preps) {
     item.preps = {
-      apiConfig: {}
+      apiConfig: {},
     };
   } else if (!item.preps?.apiConfig) {
     item.preps["apiConfig"] = {};
@@ -41,24 +44,36 @@ const openJsonEditor = (field: any) => {
     currentItem.value.preps[field.name] = [];
   }
   jsonEditorVisible.value = true;
-
 };
 const saveJsonEditor = () => {
   jsonEditorVisible.value = false;
 };
-const init = () => {
-
-};
+const init = () => {};
 onMounted(() => {
   init();
 });
-watch(() => currentItem.value.preps.type,
-    (newType) => {
-      if (currentItem.value.name === "chart" && newType) {
-        currentItem.value.preps.option = defaultChartOptions[newType] || defaultChartOptions.line || {};
-      }
-    },
+watch(
+  () => currentItem.value.preps.type,
+  (newType) => {
+    if (currentItem.value.name === "chart" && newType) {
+      currentItem.value.preps.option =
+        defaultChartOptions[newType] || defaultChartOptions.line || {};
+    }
+  },
 );
+
+// Function to update z-index
+const updateZIndex = (value: number) => {
+  if (!currentItem.value.styles) {
+    currentItem.value.styles = {};
+  }
+  currentItem.value.styles.zIndex = value;
+};
+
+// Function to get current z-index
+const getCurrentZIndex = () => {
+  return currentItem.value.styles?.zIndex || 1;
+};
 </script>
 
 <template>
@@ -69,23 +84,71 @@ watch(() => currentItem.value.preps.type,
         <p class="component-type">{{ currentItemPreps.name }}</p>
       </div>
       <div class="properties-form">
-        <el-form v-model="currentItem.preps" :rules="{}" ref="formRef" label-width="auto" label-position="top">
-          <el-form-item v-for="prop in currentItemPreps.properties" :key="prop.name" :label="prop.label"
-                        :prop="prop.name">
-            <el-input v-model="currentItem.preps[prop.name]" v-if="prop.type === 'input'"
-                      :placeholder="prop.placeholder"/>
-            <el-input-number  v-model="currentItem.preps[prop.name]" v-if="prop.type === 'number'"
-                      :placeholder="prop.placeholder" controls-position="right"/>
-            <el-select v-model="currentItem.preps[prop.name]" v-if="prop.type === 'select'" :options="prop.options"/>
-            <el-input v-model="currentItem.preps[prop.name]" v-if="prop.type === 'textarea'" type="textarea" :rows="3"/>
-            <el-radio-group v-model="currentItem.preps[prop.name]" v-if="prop.type === 'radio'"
-                            :options="prop.options"/>
-            <el-checkbox-group v-model="currentItem.preps[prop.name]" v-if="prop.type === 'checkbox'"
-                               :options="prop.options"/>
-            <el-color-picker v-model="currentItem.preps[prop.name]" v-if="prop.type === 'color'"/>
+        <el-form
+          v-model="currentItem.preps"
+          :rules="{}"
+          ref="formRef"
+          label-width="auto"
+          label-position="top"
+        >
+          <el-form-item
+            v-for="prop in currentItemPreps.properties"
+            :key="prop.name"
+            :label="prop.label"
+            :prop="prop.name"
+          >
+            <el-input
+              v-model="currentItem.preps[prop.name]"
+              v-if="prop.type === 'input'"
+              :placeholder="prop.placeholder"
+            />
+            <el-input-number
+              v-model="currentItem.preps[prop.name]"
+              v-if="prop.type === 'number' && prop.name !== 'zIndex'"
+              :placeholder="prop.placeholder"
+              controls-position="right"
+            />
+            <el-input-number
+              v-model="getCurrentZIndex()"
+              v-if="prop.name === 'zIndex'"
+              @change="updateZIndex"
+              controls-position="right"
+              :min="0"
+              :max="9999"
+            />
+            <el-select
+              v-model="currentItem.preps[prop.name]"
+              v-if="prop.type === 'select'"
+              :options="prop.options"
+            />
+            <el-input
+              v-model="currentItem.preps[prop.name]"
+              v-if="prop.type === 'textarea'"
+              type="textarea"
+              :rows="3"
+            />
+            <el-radio-group
+              v-model="currentItem.preps[prop.name]"
+              v-if="prop.type === 'radio'"
+              :options="prop.options"
+            />
+            <el-checkbox-group
+              v-model="currentItem.preps[prop.name]"
+              v-if="prop.type === 'checkbox'"
+              :options="prop.options"
+            />
+            <el-color-picker
+              v-model="currentItem.preps[prop.name]"
+              v-if="prop.type === 'color'"
+            />
             <!-- JSON Editor for other complex properties -->
             <div v-else-if="prop.type === 'json'" class="json-property">
-              <el-button type="primary" plain @click="openJsonEditor(prop)" size="small">
+              <el-button
+                type="primary"
+                plain
+                @click="openJsonEditor(prop)"
+                size="small"
+              >
                 配置 {{ prop.label }}
               </el-button>
               <p v-if="prop.description" class="property-description">
@@ -93,42 +156,52 @@ watch(() => currentItem.value.preps.type,
               </p>
               <div class="json-preview" v-if="currentItem.preps[prop.name]">
                 <pre>{{
-                    JSON.stringify(currentItem.preps[prop.name], null, 2)
-                  }}</pre>
+                  JSON.stringify(currentItem.preps[prop.name], null, 2)
+                }}</pre>
               </div>
             </div>
-            <div v-else-if="prop.type === 'apiConfig'" class="api-config-property">
-              <ApiConfigButton v-model:dataForm="currentItem.preps[prop.name]" :button-text="`配置 ${prop.label}`"
-                               :dialog-title="`${currentItemPreps?.label} - ${prop.label}配置`"
+            <div
+              v-else-if="prop.type === 'apiConfig'"
+              class="api-config-property"
+            >
+              <ApiConfigButton
+                v-model:dataForm="currentItem.preps[prop.name]"
+                :button-text="`配置 ${prop.label}`"
+                :dialog-title="`${currentItemPreps?.label} - ${prop.label}配置`"
               />
               <p v-if="prop.description" class="property-description">
                 {{ prop.description }}
               </p>
-              <div class="api-config-preview" v-if="
-                currentItem.preps[prop.name] &&
-                Object.keys(currentItem.preps[prop.name]).length > 0
-              ">
+              <div
+                class="api-config-preview"
+                v-if="
+                  currentItem.preps[prop.name] &&
+                  Object.keys(currentItem.preps[prop.name]).length > 0
+                "
+              >
                 <div class="preview-item">
                   <span class="preview-label">环境:</span>
                   <span class="preview-value">{{
-                      currentItem.preps[prop.name].env
-                    }}</span>
+                    currentItem.preps[prop.name].env
+                  }}</span>
                 </div>
                 <div class="preview-item">
                   <span class="preview-label">请求方式:</span>
                   <span class="preview-value">{{
-                      currentItem.preps[prop.name].httpMethod
-                    }}</span>
+                    currentItem.preps[prop.name].httpMethod
+                  }}</span>
                 </div>
                 <div class="preview-item">
                   <span class="preview-label">URL:</span>
-                  <span class="preview-value">{{ currentItem.preps[prop.name].protocol }}://{{
+                  <span class="preview-value"
+                    >{{ currentItem.preps[prop.name].protocol }}://{{
                       currentItem.preps[prop.name].host
                     }}{{
                       currentItem.preps[prop.name].port
-                          ? ":" + currentItem.preps[prop.name].port
-                          : ""
-                    }}{{ currentItem.preps[prop.name].interfaceUrl }}</span>
+                        ? ":" + currentItem.preps[prop.name].port
+                        : ""
+                    }}{{ currentItem.preps[prop.name].interfaceUrl }}</span
+                  >
                 </div>
               </div>
             </div>
@@ -140,13 +213,27 @@ watch(() => currentItem.value.preps.type,
       <p>暂无属性</p>
     </div>
   </div>
-  <star-horse-dialog :dialogVisible="jsonEditorVisible"
-                     :title="`${currentItemPreps?.label} - ${currentJsonProperty.label}`"
-                     :boxWidth="'50%'" boxHeight="70%" :selfFunc="true" @closeAction="jsonEditorVisible = false"
-                     @merge="saveJsonEditor">
-    <el-alert title="提示" type="warning" description="请确保输入有效的 JSON 格式" :closable="false" show-icon/>
+  <star-horse-dialog
+    :dialogVisible="jsonEditorVisible"
+    :title="`${currentItemPreps?.label} - ${currentJsonProperty.label}`"
+    :boxWidth="'50%'"
+    boxHeight="70%"
+    :selfFunc="true"
+    @closeAction="jsonEditorVisible = false"
+    @merge="saveJsonEditor"
+  >
+    <el-alert
+      title="提示"
+      type="warning"
+      description="请确保输入有效的 JSON 格式"
+      :closable="false"
+      show-icon
+    />
     <div class="json-editor-container flex-1">
-      <star-horse-json-editor currentMode="text" v-model="currentItem.preps[currentJsonProperty.name]"/>
+      <star-horse-json-editor
+        currentMode="text"
+        v-model="currentItem.preps[currentJsonProperty.name]"
+      />
     </div>
   </star-horse-dialog>
 </template>

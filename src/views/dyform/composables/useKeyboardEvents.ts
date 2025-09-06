@@ -6,11 +6,11 @@ import {
 } from "../../../api/keyboard-event-utils.js";
 
 export function useKeyboardEvents(actions: (action: string) => void) {
-  const keyboardHandlers = ref<{ keydown: Function; keyup: Function } | null>(
+  const keyboardHandlers = ref<{ keydown: (evt: KeyboardEvent) => void; keyup: (evt: KeyboardEvent) => void } | null>(
     null,
   );
 
-  const scrollHandler = (e: CustomEvent) => {
+  const scrollHandler = (e: Event) => {
     const customEvent = e as CustomEvent;
     const target = document.querySelector(
       `[data-field-id="${customEvent.detail}"]`,
@@ -33,7 +33,7 @@ export function useKeyboardEvents(actions: (action: string) => void) {
       );
       window.addEventListener(
         "scroll-to-field",
-        scrollHandler as EventListener,
+        scrollHandler,
       );
     } else {
       if (keyboardHandlers.value) {
@@ -41,7 +41,7 @@ export function useKeyboardEvents(actions: (action: string) => void) {
       }
       window.removeEventListener(
         "scroll-to-field",
-        scrollHandler as EventListener,
+        scrollHandler,
       );
     }
   };

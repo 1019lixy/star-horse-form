@@ -14,12 +14,11 @@ interface CarouselInfo {
   openType: string;
 }
 
-const props = withDefaults(defineProps<PageCompInfo>(),{
+const props = withDefaults(defineProps<PageCompInfo>(), {
   isDesign: () => false,
   preps: () => ({}),
-  styles: () => ({})
+  styles: () => ({}),
 });
-
 
 // Reactive data
 const apiData = ref<CarouselInfo[]>([]);

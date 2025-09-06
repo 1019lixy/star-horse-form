@@ -360,7 +360,7 @@ export const initKeyboardEvent = (
   actions: Function,
   module: ModuleEnums,
   ...params: any
-) => {
+): { keydown: (evt: KeyboardEvent) => void; keyup: (evt: KeyboardEvent) => void } => {
   // removeKeyboardEvent(actions, module, params);
   // 将处理函数保存为变量，用于后续卸载
   const keydownHandler = (evt: KeyboardEvent) =>
@@ -379,14 +379,10 @@ export const initKeyboardEvent = (
 };
 //移除键盘事件
 export const removeKeyboardEvent = (handlers: {
-  keydown: Function;
-  keyup: Function;
+  keydown: (evt: KeyboardEvent) => void;
+  keyup: (evt: KeyboardEvent) => void;
 }) => {
-  window.removeEventListener(
-    "keydown",
-    handlers.keydown as EventListener,
-    true,
-  );
-  window.removeEventListener("keyup", handlers.keyup as EventListener, true);
+  window.removeEventListener("keydown", handlers.keydown, true);
+  window.removeEventListener("keyup", handlers.keyup, true);
   window.removeEventListener("blur", windowBlur, false);
 };
