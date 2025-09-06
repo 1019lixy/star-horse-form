@@ -17,14 +17,18 @@ const props = defineProps({
 });
 
 const jsonEditorVisible = ref(false);
-const currentJsonProperty = ref("");
+const currentJsonProperty = ref<any>({});
 const currentJsonValue = ref("");
 const flexDesign = useFlexDesignStore(piniaInstance);
 const currentItem = computed(() => {
   const itemList = flexDesign.getComp(props.itemId);
   const item = itemList?.find((temp: any) => temp.id == props.componentId) || {};
-  if (!item.preps?.apiConfig) {
-    item.preps.apiConfig = {};
+  if (!item.preps) {
+    item.preps = {
+      apiConfig: {}
+    };
+  } else if (!item.preps?.apiConfig) {
+    item.preps["apiConfig"] = {};
   }
   return item;
 });
@@ -33,13 +37,13 @@ const currentItemPreps = computed(() => {
 });
 const openJsonEditor = (field: any) => {
   currentJsonProperty.value = field;
-  jsonEditorVisible.value = true;
-  if (currentItem.value.preps[field.name]) {
-    currentJsonValue.value = JSON.stringify(currentItem.value.preps[field.name]);
+  if (!currentItem.value.preps[field.name]) {
+    currentItem.value.preps[field.name] = [];
   }
+  jsonEditorVisible.value = true;
+
 };
 const saveJsonEditor = () => {
-  currentItem.value.preps[currentJsonProperty.value.name] = JSON.parse(currentJsonValue.value);
   jsonEditorVisible.value = false;
 };
 const init = () => {
@@ -65,7 +69,6 @@ watch(() => currentItem.value.preps.type,
         <p class="component-type">{{ currentItemPreps.name }}</p>
       </div>
       <div class="properties-form">
-        {{ currentItem }}
         <el-form v-model="currentItem.preps" :rules="{}" ref="formRef" label-width="120px">
           <el-form-item v-for="prop in currentItemPreps.properties" :key="prop.name" :label="prop.label"
                         :prop="prop.name">
@@ -139,12 +142,11 @@ watch(() => currentItem.value.preps.type,
   </div>
   <star-horse-dialog :dialogVisible="jsonEditorVisible"
                      :title="`${currentItemPreps?.label} - ${currentJsonProperty.label}`"
-                     :boxWidth="'600px'" :selfFunc="true" @closeAction="jsonEditorVisible = false"
+                     :boxWidth="'50%'" boxHeight="70%" :selfFunc="true" @closeAction="jsonEditorVisible = false"
                      @merge="saveJsonEditor">
-    <el-alert title="注意" type="warning" description="请确保输入有效的 JSON 格式" :closable="false" show-icon/>
+    <el-alert title="提示" type="warning" description="请确保输入有效的 JSON 格式" :closable="false" show-icon/>
     <div class="json-editor-container">
-      <el-input v-model="currentJsonValue" type="textarea" :rows="15" placeholder="请输入 JSON 配置"
-                class="json-textarea"/>
+      <star-horse-json-editor currentMode="text" v-model="currentItem.preps[currentJsonProperty.name]"/>
     </div>
   </star-horse-dialog>
 </template>

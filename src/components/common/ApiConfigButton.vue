@@ -68,7 +68,6 @@ const handleSave = (config: ApiConfig) => {
     >
       {{ buttonText }}
     </el-button>
-2{{configForm}}
     <ApiConfigDialog
         v-model:visible="dialogVisible"
         v-model:dataForm="configForm"
