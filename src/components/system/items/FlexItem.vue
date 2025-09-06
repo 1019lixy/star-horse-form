@@ -28,14 +28,7 @@ const containerDirection = computed(() => flexDesign.getContainerDirection());
 // Add reactive variable to track selected component
 const selectedComponentId = ref<string>("");
 const currentContentMenu = ref<any>([]);
-// Context menu state for item
-const contextMenuVisible = ref(false);
-const contextMenuPosition = ref({ x: 0, y: 0 });
 
-// Context menu state for components
-const componentContextMenuVisible = ref(false);
-const componentContextMenuPosition = ref({ x: 0, y: 0 });
-const currentComponentId = ref<string>("");
 
 // Only allow selection if not in preview mode
 const selectItem = () => {

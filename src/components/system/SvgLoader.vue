@@ -15,6 +15,7 @@ const props = defineProps({
 const svgContainer = ref(null);
 const loadSvg = async () => {
   const path = props.path.endsWith(".svg") ? props.path : `${props.path}.svg`;
+  console.log(path);
   const response = await fetch(path);
   let svgText = await response.text();
   // svgText = svgText.replace(/fill="[^"]*"/g, 'fill="currentColor"');

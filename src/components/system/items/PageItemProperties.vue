@@ -62,18 +62,18 @@ watch(
   },
 );
 
-// Function to update z-index
-const updateZIndex = (value: number) => {
-  if (!currentItem.value.styles) {
-    currentItem.value.styles = {};
+// Computed property for z-index with getter and setter
+const zIndexValue = computed({
+  get: () => {
+    return currentItem.value.styles?.zIndex || 1;
+  },
+  set: (value: number) => {
+    if (!currentItem.value.styles) {
+      currentItem.value.styles = {};
+    }
+    currentItem.value.styles.zIndex = value;
   }
-  currentItem.value.styles.zIndex = value;
-};
-
-// Function to get current z-index
-const getCurrentZIndex = () => {
-  return currentItem.value.styles?.zIndex || 1;
-};
+});
 </script>
 
 <template>
@@ -109,9 +109,8 @@ const getCurrentZIndex = () => {
               controls-position="right"
             />
             <el-input-number
-              v-model="getCurrentZIndex()"
+              v-model="zIndexValue"
               v-if="prop.name === 'zIndex'"
-              @change="updateZIndex"
               controls-position="right"
               :min="0"
               :max="9999"
