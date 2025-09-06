@@ -2,7 +2,7 @@
 import { useFlexDesignStore } from "@/store/FlexDesign";
 import { piniaInstance, uuid } from "star-horse-lowcode";
 import { computed, defineOptions, onBeforeUnmount, onMounted, ref } from "vue";
-
+import { dynamicFormContextMenuData, dynamicPageContextMenuData } from "@/plugins/AblesPlugin.ts";
 defineOptions({
   name: "FlexItem",
 });
@@ -22,6 +22,15 @@ const containerDirection = computed(() => flexDesign.getContainerDirection());
 
 // Add reactive variable to track selected component
 const selectedComponentId = ref<string>("");
+const currentContentMenu = ref<any>([]);
+// Context menu state for item
+const contextMenuVisible = ref(false);
+const contextMenuPosition = ref({ x: 0, y: 0 });
+
+// Context menu state for components
+const componentContextMenuVisible = ref(false);
+const componentContextMenuPosition = ref({ x: 0, y: 0 });
+const currentComponentId = ref<string>("");
 
 // Only allow selection if not in preview mode
 const selectItem = () => {
@@ -49,6 +58,21 @@ const deleteItem = () => {
   if (!props.previewMode) {
     flexDesign.delItem(props.itemId);
   }
+};
+
+// Show context menu for item
+const showContextMenu = (event: MouseEvent) => {
+  if (props.previewMode) return;
+  event.preventDefault();
+  currentContentMenu.value = dynamicPageContextMenuData(itemStyle.value);
+  contentMenuRef.value?.show(event);
+};
+
+const contentMenuRef = ref();
+const showComponentContextMenu = (event: MouseEvent, compData: any) => {
+  if (props.previewMode) return;
+  currentContentMenu.value = dynamicFormContextMenuData({}, {});
+  contentMenuRef.value?.show(event);
 };
 
 const onDragAdd = (evt: any, list: any[]) => {
@@ -114,97 +138,57 @@ onBeforeUnmount(() => {
   removeListener();
 });
 
-const init = () => {};
+const init = () => { };
 onMounted(() => {
   init();
 });
 </script>
 
 <template>
-  <div
-    :style="itemStyle"
-    @click.stop="selectItem"
-    class="item-info"
-    ref="resizeContainer"
-    :class="{
+  <div :style="itemStyle" @click.stop="selectItem" @contextmenu.stop="showContextMenu" class="item-info"
+    ref="resizeContainer" :class="{
       'w-full': type == 'grid',
       'item-width': containerDirection.includes('column'),
       'preview-mode': previewMode,
-    }"
-  >
-    <div
-      class="absolute top-0 right-0 z-10"
-      @click.stop="deleteItem"
-      v-if="!previewMode"
-    >
-      <star-horse-icon
-        iconClass="delete"
-        :cursor="'pointer'"
-        :color="'var(--star-horse-danger)'"
-        title="删除"
-      />
+      'item-selected': currentId == itemId,
+    }">
+    <div class="absolute top-1 right-1 z-10 flex gap-1" v-if="!previewMode">
+     <!--  <div v-if="currentId == itemId"
+        class="flex items-center justify-center w-5 h-5 rounded-sm bg-white border border-green-500">
+        <star-horse-icon iconClass="check" :color="'var(--star-horse-style)'"
+          title="选中" class="text-xs" />
+      </div> -->
+      <div
+        class="flex items-center justify-center "
+        @click.stop="deleteItem">
+        <star-horse-icon iconClass="delete" :color="'var(--star-horse-danger)'"
+          title="删除" class="text-xs" />
+      </div>
     </div>
 
-    <div
-      v-if="!previewMode && currentId == itemId"
-      class="absolute top-0 left-0"
-    >
-      <star-horse-icon
-        iconClass="check"
-        :color="'var(--star-horse-style)'"
-        title="选中"
-      />
-    </div>
-    <div
-      class="resize-handle right"
-      @mousedown.prevent="startResize('right', $event)"
-      v-if="!previewMode"
-    />
-    <div
-      class="resize-handle bottom"
-      @mousedown.prevent="startResize('bottom', $event)"
-      v-if="!previewMode"
-    />
+    <div class="resize-handle right" @mousedown.prevent="startResize('right', $event)" v-if="!previewMode" />
+    <div class="resize-handle bottom" @mousedown.prevent="startResize('bottom', $event)" v-if="!previewMode" />
 
-    <div
-      class="relative flex flex-col h-full w-full overflow-hidden min-w-0 max-w-full"
-    >
-      <draggable
-        @add="(evt: Event) => onDragAdd(evt, compList)"
-        class="w-full h-full min-w-[0]"
-        tag="div"
-        group="starHorseGroup"
-        ghost-class="ghost"
-        :list="compList"
-        :itemKey="uuid()"
-        :disabled="previewMode"
-      >
+    <div class="relative flex flex-col h-full w-full overflow-hidden min-w-0 max-w-full">
+      <draggable @add="(evt: Event) => onDragAdd(evt, compList)" class="w-full h-full min-w-[0]" tag="div"
+        group="starHorseGroup" ghost-class="ghost" :list="compList" :itemKey="uuid()" :disabled="previewMode">
         <template #item="{ element: data, index }">
-          <div
-            class="overflow-visible flex flex-col flex-wrap w-full"
-            :class="{
-              'h-full': compList.length == 1,
-              'component-selected': selectedComponentId === data.id,
-            }"
-            :data-field-id="data.id"
-            :key="data.id"
-            @click.stop="selectComponent(data.id)"
-          >
-            <component
-              :key="data.id"
-              :field="data"
-              :isDesign="!previewMode"
-              :index-of-parent-list="index"
-              :is="data.name + '-item'"
-              :preps="data.preps"
-              :styles="data.styles || {}"
-              style="min-width: 0; width: 100%"
-            />
+          <div class="overflow-visible flex flex-col flex-wrap w-full" :class="{
+            'component-selected': selectedComponentId === data.id,
+          }" :data-field-id="data.id" :key="data.id" @click.stop="selectComponent(data.id)"
+            @contextmenu.stop="showComponentContextMenu($event, data)"
+            style="width: 100%; flex: 0 0 auto;">
+            <component :key="data.id" :field="data" :isDesign="!previewMode" :index-of-parent-list="index"
+              :is="data.name + '-item'" :preps="data.preps" :styles="data.styles || {}"
+              style="min-width: 0; width: 100%" />
           </div>
         </template>
       </draggable>
     </div>
   </div>
+  <Teleport to="body">
+    <ContentMenu ref="contentMenuRef" :menu-data="currentContentMenu" />
+  </Teleport>
 </template>
 <style lang="scss" scoped>
 .item-width {
@@ -227,6 +211,19 @@ onMounted(() => {
   transition:
     background 0.3s ease,
     box-shadow 0.3s ease;
+  // Fix the width to prevent changes when adding new components
+  box-sizing: border-box;
+
+  // Selection watermark background
+  &.item-selected {
+    background-image:
+      radial-gradient(circle at 100% 100%, rgba(64, 158, 255, 0.1) 15%, transparent 15.5%),
+      radial-gradient(circle at 0 100%, rgba(64, 158, 255, 0.1) 15%, transparent 15.5%),
+      radial-gradient(circle at 100% 0, rgba(64, 158, 255, 0.1) 15%, transparent 15.5%),
+      radial-gradient(circle at 0 0, rgba(64, 158, 255, 0.1) 15%, transparent 15.5%);
+    background-size: 10px 10px;
+    background-position: 1px 1px, 1px 1px, 1px 1px, 1px 1px;
+  }
 
   // In preview mode, remove interactive styles
   &.preview-mode {

@@ -69,11 +69,13 @@ watch(() => currentItem.value.preps.type,
         <p class="component-type">{{ currentItemPreps.name }}</p>
       </div>
       <div class="properties-form">
-        <el-form v-model="currentItem.preps" :rules="{}" ref="formRef" label-width="120px">
+        <el-form v-model="currentItem.preps" :rules="{}" ref="formRef" label-width="auto" label-position="top">
           <el-form-item v-for="prop in currentItemPreps.properties" :key="prop.name" :label="prop.label"
                         :prop="prop.name">
             <el-input v-model="currentItem.preps[prop.name]" v-if="prop.type === 'input'"
                       :placeholder="prop.placeholder"/>
+            <el-input-number  v-model="currentItem.preps[prop.name]" v-if="prop.type === 'number'"
+                      :placeholder="prop.placeholder" controls-position="right"/>
             <el-select v-model="currentItem.preps[prop.name]" v-if="prop.type === 'select'" :options="prop.options"/>
             <el-input v-model="currentItem.preps[prop.name]" v-if="prop.type === 'textarea'" type="textarea" :rows="3"/>
             <el-radio-group v-model="currentItem.preps[prop.name]" v-if="prop.type === 'radio'"
@@ -95,8 +97,6 @@ watch(() => currentItem.value.preps.type,
                   }}</pre>
               </div>
             </div>
-
-            <!-- API Config Button for API configuration -->
             <div v-else-if="prop.type === 'apiConfig'" class="api-config-property">
               <ApiConfigButton v-model:dataForm="currentItem.preps[prop.name]" :button-text="`配置 ${prop.label}`"
                                :dialog-title="`${currentItemPreps?.label} - ${prop.label}配置`"
@@ -145,7 +145,7 @@ watch(() => currentItem.value.preps.type,
                      :boxWidth="'50%'" boxHeight="70%" :selfFunc="true" @closeAction="jsonEditorVisible = false"
                      @merge="saveJsonEditor">
     <el-alert title="提示" type="warning" description="请确保输入有效的 JSON 格式" :closable="false" show-icon/>
-    <div class="json-editor-container">
+    <div class="json-editor-container flex-1">
       <star-horse-json-editor currentMode="text" v-model="currentItem.preps[currentJsonProperty.name]"/>
     </div>
   </star-horse-dialog>

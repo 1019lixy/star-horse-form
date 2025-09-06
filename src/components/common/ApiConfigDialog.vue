@@ -142,11 +142,14 @@ const formFields2 = shallowRef<Array<FieldInfo>>([]);
 provide("formFields", formFields2);
 
 // 保存API配置
-const handleSave = () => {
-  formRef.value.validate((result: boolean) => {
+const handleSave = (type:string) => {
+console.log(type);
+  formRef.value?.validate().then((result: boolean) => {
+    console.log(result);
     if (!result) {
       return;
     }
+
     // 验证API配置
     // 发送更新事件
     dataForm.value = apiConfigForm.value;
