@@ -133,7 +133,7 @@ export const pageCompList: PageComp[] = [
         id: "18",
         label: "链接",
         name: "plink",
-        icon: "link",
+        icon: "links",
         preps: {},
       },
       {
