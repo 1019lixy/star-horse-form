@@ -8,6 +8,7 @@ import {
   ref,
   watch,
 } from "vue";
+import { i18n } from "@/lang";
 import { Cell, Graph, View } from "@antv/x6";
 import {
   ApiUrls,
@@ -27,6 +28,7 @@ import {
   commands,
   configInfo,
   helpMessage,
+  getTranslatedHelpMessage,
   ports,
   tableConfigInfo,
 } from "@/utils/sh_design";
@@ -76,6 +78,7 @@ const props = defineProps({
 const tabModel = computed(() =>
   props.showCompList ? "dynamicTable" : "dbList",
 );
+const translatedHelpMessage = computed(() => getTranslatedHelpMessage());
 const emits = defineEmits([
   "config",
   "lineClick",
@@ -832,13 +835,13 @@ defineExpose({
               <star-horse-icon
                 icon-class="setting"
                 style="color: var(--star-horse-style)"
-              />&nbsp;<span>组件</span>
+              />&nbsp;<span>{{ i18n('system.flex.starHorseDesign.tab.component') }}</span>
             </template>
             <el-input
               v-model="query"
               :size="Config.compSize"
               clearable
-              placeholder="请输入关键字"
+              :placeholder="i18n('system.flex.starHorseDesign.placeholder.keyword')"
               @keydown.enter="onQueryChanged"
             >
               <template #append>
@@ -887,7 +890,7 @@ defineExpose({
               <star-horse-icon
                 icon-class="database"
                 style="color: var(--star-horse-style)"
-              />&nbsp;<span>数据源</span>
+              />&nbsp;<span>{{ i18n('system.flex.starHorseDesign.tab.dataSource') }}</span>
             </template>
             <ConsumerDbListComp />
           </el-tab-pane>
@@ -923,7 +926,7 @@ defineExpose({
                 </el-menu-item>
               </template>
             </el-menu>
-            <help :message="helpMessage" />
+            <help :message="translatedHelpMessage" />
           </div>
           <div
             id="graph-dropdown"
@@ -961,17 +964,17 @@ defineExpose({
         max="400"
       >
         <div class="right-attr-panel" v-show="normalRightPanel">
-          <div class="title">属性面板</div>
+          <div class="title">{{ i18n('system.flex.starHorseDesign.rightPanel.title') }}</div>
           <div class="item" style="border-bottom: none">
             <div class="content" v-if="checkIsNode() == 1">
               <h3>
                 {{ compAttr["label"] || currentComp.label }}({{
-                  compAttr["belongTo"] || "组件"
+                  compAttr["belongTo"] || i18n('system.flex.starHorseDesign.rightPanel.component')
                 }})
               </h3>
             </div>
             <div class="content" v-else-if="checkIsNode() == 2">
-              <h3>连线属性</h3>
+              <h3>{{ i18n('system.flex.starHorseDesign.rightPanel.lineProperty') }}</h3>
             </div>
           </div>
           <hr />
@@ -996,7 +999,7 @@ defineExpose({
             :rules="rules"
           />
           <div v-else class="empty-info">
-            <el-empty description="点击画布中的组件或者连线可设置属性" />
+            <el-empty :description="i18n('system.flex.starHorseDesign.rightPanel.emptyDescription')" />
           </div>
         </div>
       </el-splitter-panel>
@@ -1005,7 +1008,7 @@ defineExpose({
   <el-drawer
     v-if="panelStyle == 'drawer'"
     v-model="rightPanel"
-    title="属性面板"
+    :title="i18n('system.flex.starHorseDesign.drawer.title')"
     direction="rtl"
     :modal="false"
     @close="writeAttrToComp"
@@ -1016,7 +1019,7 @@ defineExpose({
         <h3>{{ compAttr["label"] }}({{ compAttr["belongTo"] }})</h3>
       </div>
       <div class="content" v-else-if="checkIsNode() == 2">
-        <h3>连线属性</h3>
+        <h3>{{ i18n('system.flex.starHorseDesign.rightPanel.lineProperty') }}</h3>
       </div>
     </div>
     <hr />
@@ -1038,7 +1041,7 @@ defineExpose({
       :fieldList="lineFieldList"
       :rules="rules"
     />
-    <div v-else class="empty-info">右侧面板</div>
+    <div v-else class="empty-info">{{ i18n('system.flex.starHorseDesign.drawer.emptyInfo') }}</div>
   </el-drawer>
 </template>
 <style lang="scss" scoped>

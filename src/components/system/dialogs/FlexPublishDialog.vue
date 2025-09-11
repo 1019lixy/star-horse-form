@@ -5,7 +5,7 @@
     :selfFunc="true"
     :boxWidth="'700px'"
     :full-screen="false"
-    :title="'发布设计'"
+    :title="i18n('system.flex.publishDialog.title')"
     @merge="handlePublish"
   >
     <div class="publish-container">
@@ -16,71 +16,71 @@
           ref="publishFormRef"
           label-width="120px"
         >
-          <el-form-item label="发布名称" prop="name">
+          <el-form-item :label="i18n('system.flex.publishDialog.label.name')" prop="name">
             <el-input
               v-model="publishForm.name"
-              placeholder="请输入发布名称"
+              :placeholder="i18n('system.flex.publishDialog.placeholder.name')"
               :disabled="isPublishing"
             />
           </el-form-item>
 
-          <el-form-item label="版本号" prop="version">
+          <el-form-item :label="i18n('system.flex.publishDialog.label.version')" prop="version">
             <el-input
               v-model="publishForm.version"
-              placeholder="例如：v1.0.0"
+              :placeholder="i18n('system.flex.publishDialog.placeholder.version')"
               :disabled="isPublishing"
             >
               <template #prepend>v</template>
             </el-input>
           </el-form-item>
 
-          <el-form-item label="发布描述" prop="description">
+          <el-form-item :label="i18n('system.flex.publishDialog.label.description')" prop="description">
             <el-input
               v-model="publishForm.description"
               type="textarea"
               :rows="4"
-              placeholder="请描述本次发布的主要内容和变更"
+              :placeholder="i18n('system.flex.publishDialog.placeholder.description')"
               :disabled="isPublishing"
             />
           </el-form-item>
 
-          <el-form-item label="发布环境" prop="environment">
+          <el-form-item :label="i18n('system.flex.publishDialog.label.environment')" prop="environment">
             <el-select
               v-model="publishForm.environment"
               :disabled="isPublishing"
               style="width: 100%"
             >
-              <el-option label="开发环境" value="development" />
-              <el-option label="测试环境" value="testing" />
-              <el-option label="预发布环境" value="staging" />
-              <el-option label="生产环境" value="production" />
+              <el-option :label="i18n('system.flex.publishDialog.environment.development')" value="development" />
+              <el-option :label="i18n('system.flex.publishDialog.environment.testing')" value="testing" />
+              <el-option :label="i18n('system.flex.publishDialog.environment.staging')" value="staging" />
+              <el-option :label="i18n('system.flex.publishDialog.environment.production')" value="production" />
             </el-select>
           </el-form-item>
 
-          <el-form-item label="访问权限" prop="accessType">
+          <el-form-item :label="i18n('system.flex.publishDialog.label.accessType')" prop="accessType">
             <el-radio-group
               v-model="publishForm.accessType"
               :disabled="isPublishing"
             >
-              <el-radio value="public">公开访问</el-radio>
-              <el-radio value="private">私有访问</el-radio>
-              <el-radio value="organization">组织内访问</el-radio>
+              <el-radio value="public">{{ i18n('system.flex.publishDialog.accessType.public') }}</el-radio>
+              <el-radio value="private">{{ i18n('system.flex.publishDialog.accessType.private') }}</el-radio>
+              <el-radio value="organization">{{ i18n('system.flex.publishDialog.accessType.organization') }}</el-radio>
             </el-radio-group>
           </el-form-item>
 
-          <el-form-item label="发布设置">
+          <el-form-item :label="i18n('system.flex.publishDialog.label.settings')">
             <el-checkbox-group
               v-model="publishForm.settings"
               :disabled="isPublishing"
             >
-              <el-checkbox value="generateDocs">生成文档</el-checkbox>
-              <el-checkbox value="enableAnalytics">启用访问统计</el-checkbox>
-              <el-checkbox value="enableComments">允许评论</el-checkbox>
-              <el-checkbox value="autoBackup">自动备份</el-checkbox>
+              <el-checkbox value="generateDocs">{{ i18n('system.flex.publishDialog.setting.generateDocs') }}</el-checkbox>
+              <el-checkbox value="enableAnalytics">{{ i18n('system.flex.publishDialog.setting.enableAnalytics') }}</el-checkbox>
+              <el-checkbox value="enableComments">{{ i18n('system.flex.publishDialog.setting.enableComments') }}</el-checkbox>
+              <el-checkbox value="autoBackup">{{ i18n('system.flex.publishDialog.setting.autoBackup') }}</el-checkbox>
             </el-checkbox-group>
           </el-form-item>
 
-          <el-form-item label="标签" prop="tags">
+          <el-form-item :label="i18n('system.flex.publishDialog.label.tags')" prop="tags">
             <el-tag
               v-for="tag in publishForm.tags"
               :key="tag"
@@ -106,7 +106,7 @@
               size="small"
               @click="showInput"
             >
-              + 添加标签
+              {{ i18n('system.flex.publishDialog.button.addTag') }}
             </el-button>
           </el-form-item>
         </el-form>
@@ -114,7 +114,7 @@
 
       <!-- 发布预检查 -->
       <div class="publish-check">
-        <el-divider content-position="center">发布预检查</el-divider>
+        <el-divider content-position="center">{{ i18n('system.flex.publishDialog.title.preCheck') }}</el-divider>
         <div class="check-items">
           <div
             class="check-item"
@@ -125,9 +125,9 @@
                 :icon-class="validationResult.isValid ? 'success' : 'error'"
               />
             </el-icon>
-            <span>设计数据验证</span>
+            <span>{{ i18n('system.flex.publishDialog.check.designValidation') }}</span>
             <span class="check-result">
-              {{ validationResult.isValid ? "通过" : "失败" }}
+              {{ validationResult.isValid ? i18n('system.flex.publishDialog.check.passed') : i18n('system.flex.publishDialog.check.failed') }}
             </span>
           </div>
 
@@ -142,9 +142,9 @@
                 :icon-class="designSummary.itemCount > 0 ? 'success' : 'error'"
               />
             </el-icon>
-            <span>设计内容检查</span>
+            <span>{{ i18n('system.flex.publishDialog.check.designContent') }}</span>
             <span class="check-result">
-              {{ designSummary.itemCount > 0 ? "通过" : "设计为空" }}
+              {{ designSummary.itemCount > 0 ? i18n('system.flex.publishDialog.check.passed') : i18n('system.flex.publishDialog.check.designEmpty') }}
             </span>
           </div>
 
@@ -152,15 +152,15 @@
             <el-icon color="#67c23a">
               <star-horse-icon icon-class="success" />
             </el-icon>
-            <span>权限检查</span>
-            <span class="check-result">通过</span>
+            <span>{{ i18n('system.flex.publishDialog.check.permission') }}</span>
+            <span class="check-result">{{ i18n('system.flex.publishDialog.check.passed') }}</span>
           </div>
         </div>
 
         <!-- 显示验证错误 -->
         <div v-if="!validationResult.isValid" class="validation-errors">
           <el-alert
-            title="发布前需要修复以下问题："
+            :title="i18n('system.flex.publishDialog.title.validationErrors')"
             type="error"
             :closable="false"
             show-icon
@@ -176,27 +176,27 @@
 
       <!-- 发布历史 -->
       <div class="publish-history">
-        <el-divider content-position="center">发布历史</el-divider>
+        <el-divider content-position="center">{{ i18n('system.flex.publishDialog.title.history') }}</el-divider>
         <el-table :data="publishHistory" style="width: 100%" size="small">
-          <el-table-column prop="version" label="版本" width="100" />
-          <el-table-column prop="name" label="名称" />
-          <el-table-column prop="environment" label="环境" width="100" />
-          <el-table-column prop="publishDate" label="发布时间" width="150">
+          <el-table-column prop="version" :label="i18n('system.flex.publishDialog.table.column.version')" width="100" />
+          <el-table-column prop="name" :label="i18n('system.flex.publishDialog.table.column.name')" />
+          <el-table-column prop="environment" :label="i18n('system.flex.publishDialog.table.column.environment')" width="100" />
+          <el-table-column prop="publishDate" :label="i18n('system.flex.publishDialog.table.column.publishDate')" width="150">
             <template #default="scope">
               {{ formatDate(scope.row.publishDate) }}
             </template>
           </el-table-column>
-          <el-table-column prop="status" label="状态" width="80">
+          <el-table-column prop="status" :label="i18n('system.flex.publishDialog.table.column.status')" width="80">
             <template #default="scope">
               <el-tag :type="getStatusType(scope.row.status)" size="small">
                 {{ scope.row.status }}
               </el-tag>
             </template>
           </el-table-column>
-          <el-table-column label="操作" width="120">
+          <el-table-column :label="i18n('system.flex.publishDialog.table.column.actions')" width="120">
             <template #default="scope">
               <el-button size="small" @click="viewVersion(scope.row)" link
-                >查看</el-button
+                >{{ i18n('system.flex.publishDialog.table.button.view') }}</el-button
               >
               <el-button
                 size="small"
@@ -204,7 +204,7 @@
                 link
                 v-if="scope.row.status === '已发布'"
               >
-                回滚
+                {{ i18n('system.flex.publishDialog.table.button.rollback') }}
               </el-button>
             </template>
           </el-table-column>
@@ -214,7 +214,7 @@
       <!-- 发布成功结果 -->
       <div v-if="publishResult" class="publish-result">
         <el-alert
-          title="发布成功！"
+          :title="i18n('system.flex.publishDialog.title.success')"
           type="success"
           :closable="false"
           show-icon
@@ -222,7 +222,7 @@
 
         <div class="result-info">
           <el-descriptions :column="2" size="small" border>
-            <el-descriptions-item label="发布URL">
+            <el-descriptions-item :label="i18n('system.flex.publishDialog.result.label.url')">
               <el-link
                 :href="publishResult.publishUrl"
                 target="_blank"
@@ -231,13 +231,13 @@
                 {{ publishResult.publishUrl }}
               </el-link>
             </el-descriptions-item>
-            <el-descriptions-item label="版本号">
+            <el-descriptions-item :label="i18n('system.flex.publishDialog.result.label.version')">
               v{{ publishResult.version }}
             </el-descriptions-item>
-            <el-descriptions-item label="发布时间">
+            <el-descriptions-item :label="i18n('system.flex.publishDialog.result.label.publishDate')">
               {{ formatDate(publishResult.publishDate) }}
             </el-descriptions-item>
-            <el-descriptions-item label="环境">
+            <el-descriptions-item :label="i18n('system.flex.publishDialog.result.label.environment')">
               {{ publishForm.environment }}
             </el-descriptions-item>
           </el-descriptions>
@@ -246,15 +246,15 @@
         <div class="result-actions">
           <el-button @click="openPublishedPage" type="primary">
             <star-horse-icon icon-class="external-link" />
-            访问发布页面
+            {{ i18n('system.flex.publishDialog.result.button.visit') }}
           </el-button>
           <el-button @click="copyPublishUrl">
             <star-horse-icon icon-class="copy" />
-            复制链接
+            {{ i18n('system.flex.publishDialog.result.button.copyUrl') }}
           </el-button>
           <el-button @click="downloadPackage">
             <star-horse-icon icon-class="download" />
-            下载发布包
+            {{ i18n('system.flex.publishDialog.result.button.download') }}
           </el-button>
         </div>
       </div>
@@ -273,6 +273,7 @@ import {
   warning,
   operationConfirm,
 } from "star-horse-lowcode";
+import { i18n } from "@/lang";
 
 interface Props {
   dialogVisible: boolean;
@@ -306,7 +307,7 @@ const publishForm = reactive({
 
 const publishRules = {
   name: [
-    { required: true, message: "请输入发布名称", trigger: "blur" },
+    { required: true, message: i18n('system.flex.publishDialog.rule.nameRequired'), trigger: "blur" },
     {
       min: 1,
       max: 50,
@@ -315,15 +316,15 @@ const publishRules = {
     },
   ],
   version: [
-    { required: true, message: "请输入版本号", trigger: "blur" },
+    { required: true, message: i18n('system.flex.publishDialog.rule.versionRequired'), trigger: "blur" },
     {
       pattern: /^\d+\.\d+\.\d+$/,
-      message: "版本号格式应为 x.y.z",
+      message: i18n('system.flex.publishDialog.rule.versionFormat'),
       trigger: "blur",
     },
   ],
   description: [
-    { required: true, message: "请输入发布描述", trigger: "blur" },
+    { required: true, message: i18n('system.flex.publishDialog.rule.descriptionRequired'), trigger: "blur" },
     {
       min: 10,
       max: 500,
@@ -332,7 +333,7 @@ const publishRules = {
     },
   ],
   environment: [
-    { required: true, message: "请选择发布环境", trigger: "change" },
+    { required: true, message: i18n('system.flex.publishDialog.rule.environmentRequired'), trigger: "change" },
   ],
 };
 
@@ -376,7 +377,7 @@ const handlePublish = async () => {
     await publishFormRef.value.validate();
 
     if (!validationResult.value.isValid) {
-      error("设计验证失败，无法发布");
+      error(i18n('system.flex.publishDialog.message.validationFailed'));
       return;
     }
 
@@ -409,7 +410,7 @@ const handlePublish = async () => {
 
     emit("published", result);
   } catch (error) {
-    console.error("发布失败:", error);
+    console.error("Publish failed:", error);
   } finally {
     isPublishing.value = false;
   }
@@ -436,10 +437,10 @@ const handleInputConfirm = () => {
 
 const getStatusType = (status: string) => {
   const typeMap: Record<string, string> = {
-    已发布: "success",
-    已回滚: "warning",
-    发布中: "info",
-    失败: "danger",
+    [i18n('system.flex.publishDialog.status.published')]: "success",
+    [i18n('system.flex.publishDialog.status.rolledBack')]: "warning",
+    [i18n('system.flex.publishDialog.status.publishing')]: "info",
+    [i18n('system.flex.publishDialog.status.failed')]: "danger",
   };
   return typeMap[status] || "info";
 };
@@ -450,15 +451,15 @@ const viewVersion = (version: any) => {
 };
 
 const rollbackVersion = (version: any) => {
-  operationConfirm("确定要回滚到此版本吗？")
+  operationConfirm(i18n('system.flex.publishDialog.message.rollbackConfirm'))
     .then(() => {
       console.log("回滚版本:", version);
-      success("回滚成功");
+      success(i18n('system.flex.publishDialog.message.rollbackSuccess'));
       // 更新状态
       version.status = "已回滚";
     })
     .catch(() => {
-      warning("已取消回滚");
+      warning(i18n('system.flex.publishDialog.message.rollbackCancelled'));
     });
 };
 
@@ -473,10 +474,10 @@ const copyPublishUrl = async () => {
 
   try {
     await navigator.clipboard.writeText(publishResult.value.publishUrl);
-    success("发布链接已复制到剪贴板");
+    success(i18n('system.flex.publishDialog.message.urlCopied'));
   } catch (e) {
-    console.error("复制失败:", e);
-    error("复制失败，请手动复制");
+    console.error("Copy failed:", e);
+    error(i18n('system.flex.publishDialog.message.copyFailed'));
   }
 };
 
@@ -499,7 +500,7 @@ const downloadPackage = () => {
   document.body.removeChild(a);
   URL.revokeObjectURL(url);
 
-  success("发布包已下载");
+  success(i18n('system.flex.publishDialog.message.packageDownloaded'));
 };
 
 const formatDate = (dateString: string) => {

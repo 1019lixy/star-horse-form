@@ -1,4 +1,5 @@
 import { Shape } from "@antv/x6";
+import { i18n } from "@/lang";
 
 const commands: any = [
   /* {
@@ -11,25 +12,25 @@ const commands: any = [
     icon: "zoom_in",
     defaultEdit: true,
     key: "zoomIn",
-    label: "放大(0.2)",
+    label: i18n("system.flex.starHorseDesign.command.zoomIn"),
   },
   {
     icon: "zoom_out",
     defaultEdit: true,
     key: "zoomOut",
-    label: "缩小(-0.2)",
+    label: i18n("system.flex.starHorseDesign.command.zoomOut"),
   },
   {
     icon: "auto_fit",
     defaultEdit: true,
     key: "zoomToFit",
-    label: "自适应",
+    label: i18n("system.flex.starHorseDesign.command.zoomToFit"),
   },
   {
     icon: "equal",
     defaultEdit: true,
     key: "zoomTo",
-    label: "1:1大小",
+    label: i18n("system.flex.starHorseDesign.command.zoomTo"),
   },
   /*  {
             icon: "line_arrow",
@@ -44,72 +45,72 @@ const commands: any = [
   {
     icon: "align_top",
     key: "alignTop",
-    label: "向上对齐",
+    label: i18n("system.flex.starHorseDesign.command.alignTop"),
   },
   {
     icon: "align_bottom",
     key: "alignBottom",
-    label: "向下对齐",
+    label: i18n("system.flex.starHorseDesign.command.alignBottom"),
   },
   {
     icon: "align_left",
     key: "alignLeft",
-    label: "向左对齐",
+    label: i18n("system.flex.starHorseDesign.command.alignLeft"),
   },
   {
     icon: "align_right",
     key: "alignRight",
-    label: "向右对齐",
+    label: i18n("system.flex.starHorseDesign.command.alignRight"),
   },
   {
     icon: "center",
     key: "centerContent",
-    label: "居中",
+    label: i18n("system.flex.starHorseDesign.command.centerContent"),
   },
   {
     icon: "dustbin",
     key: "deleteItem",
-    label: "删除元素",
+    label: i18n("system.flex.starHorseDesign.command.deleteItem"),
   },
   {
     icon: "empty_setting",
     key: "empty",
-    label: "清空画布",
+    label: i18n("system.flex.starHorseDesign.command.empty"),
   },
   {
     icon: "undo",
     key: "unDo",
-    label: "后退一步",
+    label: i18n("system.flex.starHorseDesign.command.unDo"),
   },
   {
     icon: "redo",
     key: "reDo",
-    label: "前进一步",
+    label: i18n("system.flex.starHorseDesign.command.reDo"),
   },
   {
     icon: "json_file",
     key: "json",
-    label: "JSON数据",
+    label: i18n("system.flex.starHorseDesign.command.json"),
   },
   {
     icon: "config",
     key: "config",
-    label: "配置",
+    label: i18n("system.flex.starHorseDesign.command.config"),
   },
   {
     icon: "valid",
     key: "valid",
-    label: "校验",
+    label: i18n("system.flex.starHorseDesign.command.valid"),
   },
   {
     icon: "preview",
     key: "preview",
-    label: "预览",
+    label: i18n("system.flex.starHorseDesign.command.preview"),
   },
   {
     icon: "save",
     key: "save",
-    label: "保存",
+    label: i18n("system.flex.starHorseDesign.command.save"),
   },
   /*{
           icon: "right_panel",
@@ -359,4 +360,24 @@ Ctrl+1:放大；
 Ctrl+2:缩小；
 Backspace/Delete:删除组件或者连线。
 `;
-export { commands, ports, configInfo, helpMessage, tableConfigInfo };
+
+const getTranslatedHelpMessage = () => `
+一、${i18n("system.flex.shDesign.help.title.steps")}:
+1、${i18n("system.flex.shDesign.help.step1")}
+2、${i18n("system.flex.shDesign.help.step2")}
+3、${i18n("system.flex.shDesign.help.step3")}
+4、${i18n("system.flex.shDesign.help.step4")}
+5、${i18n("system.flex.shDesign.help.step5")}
+二、${i18n("system.flex.shDesign.help.title.shortcuts")}:
+Alt+鼠标左键：${i18n("system.flex.shDesign.help.shortcut.dragCanvas")}
+Ctrl+C:${i18n("system.flex.shDesign.help.shortcut.copy")}
+Ctrl+X:${i18n("system.flex.shDesign.help.shortcut.cut")}
+Ctrl+V:${i18n("system.flex.shDesign.help.shortcut.paste")}
+Ctrl+Z:${i18n("system.flex.shDesign.help.shortcut.undo")}
+Ctrl+Shift+Z:${i18n("system.flex.shDesign.help.shortcut.redo")}
+Ctrl+A:${i18n("system.flex.shDesign.help.shortcut.selectAll")}
+Ctrl+1:${i18n("system.flex.shDesign.help.shortcut.zoomIn")}
+Ctrl+2:${i18n("system.flex.shDesign.help.shortcut.zoomOut")}
+Backspace/Delete:${i18n("system.flex.shDesign.help.shortcut.delete")}
+`;
+export { commands, ports, configInfo, helpMessage, tableConfigInfo, getTranslatedHelpMessage };

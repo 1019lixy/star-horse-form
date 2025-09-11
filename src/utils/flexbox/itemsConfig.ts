@@ -1,13 +1,13 @@
 import { PageFieldInfo } from "star-horse-lowcode";
-// ... 前面import部分保持不变 ...
+import { i18n } from "@/lang";
 
 export const flexBoxItemsConfig: PageFieldInfo = {
   fieldList: [
     {
       fieldName: "order",
-      label: "排列顺序",
+      label: i18n("system.flexbox.itemsConfig.order.label"),
       formVisible: true,
-      helpMsg: "指定项目在容器中的排列顺序",
+      helpMsg: i18n("system.flexbox.itemsConfig.order.helpMsg"),
       type: "number",
       defaultValue: "",
       preps: {
@@ -16,9 +16,9 @@ export const flexBoxItemsConfig: PageFieldInfo = {
     },
     {
       fieldName: "flexGrow",
-      label: "扩展比例",
+      label: i18n("system.flexbox.itemsConfig.flexGrow.label"),
       formVisible: true,
-      helpMsg: "定义项目相对于其他项目的扩展比例",
+      helpMsg: i18n("system.flexbox.itemsConfig.flexGrow.helpMsg"),
       preps: {
         icon: "",
       },
@@ -27,9 +27,9 @@ export const flexBoxItemsConfig: PageFieldInfo = {
     },
     {
       fieldName: "flexShrink",
-      label: "收缩比例",
+      label: i18n("system.flexbox.itemsConfig.flexShrink.label"),
       formVisible: true,
-      helpMsg: "控制空间不足时项目的收缩比例",
+      helpMsg: i18n("system.flexbox.itemsConfig.flexShrink.helpMsg"),
       preps: {
         icon: "",
       },
@@ -38,15 +38,15 @@ export const flexBoxItemsConfig: PageFieldInfo = {
     },
     {
       fieldName: "flexBasis",
-      label: "初始大小",
+      label: i18n("system.flexbox.itemsConfig.flexBasis.label"),
       formVisible: true,
-      helpMsg: "定义空间分配前项目的初始尺寸",
+      helpMsg: i18n("system.flexbox.itemsConfig.flexBasis.helpMsg"),
       preps: {
         icon: "",
         appendList: [
-          { name: "自动", value: "auto" },
-          { name: "像素", value: "px" },
-          { name: "百分比", value: "%" },
+          { name: i18n("system.flexbox.itemsConfig.flexBasis.auto"), value: "auto" },
+          { name: i18n("system.flexbox.itemsConfig.flexBasis.pixel"), value: "px" },
+          { name: i18n("system.flexbox.itemsConfig.flexBasis.percent"), value: "%" },
         ],
       },
       type: "input",
@@ -54,52 +54,52 @@ export const flexBoxItemsConfig: PageFieldInfo = {
     },
     {
       fieldName: "alignSelf",
-      label: "自身对齐",
+      label: i18n("system.flexbox.itemsConfig.alignSelf.label"),
       formVisible: true,
-      helpMsg: "覆盖容器对齐设置，单独定义项目交叉轴对齐",
+      helpMsg: i18n("system.flexbox.itemsConfig.alignSelf.helpMsg"),
       type: "select",
       defaultValue: "auto",
       preps: {
         icon: "",
         values: [
-          { name: "自动", value: "auto" },
-          { name: "起始对齐", value: "flex-start" },
-          { name: "末尾对齐", value: "flex-end" },
-          { name: "居中", value: "center" },
-          { name: "基线对齐", value: "baseline" },
-          { name: "拉伸", value: "stretch" },
+          { name: i18n("system.flexbox.itemsConfig.alignSelf.auto"), value: "auto" },
+          { name: i18n("system.flexbox.itemsConfig.alignSelf.flexStart"), value: "flex-start" },
+          { name: i18n("system.flexbox.itemsConfig.alignSelf.flexEnd"), value: "flex-end" },
+          { name: i18n("system.flexbox.itemsConfig.alignSelf.center"), value: "center" },
+          { name: i18n("system.flexbox.itemsConfig.alignSelf.baseline"), value: "baseline" },
+          { name: i18n("system.flexbox.itemsConfig.alignSelf.stretch"), value: "stretch" },
         ],
       },
     },
     {
       fieldName: "width",
-      label: "宽度",
+      label: i18n("system.flexbox.itemsConfig.width.label"),
       formVisible: true,
-      helpMsg: "指定项目宽度，覆盖默认尺寸",
+      helpMsg: i18n("system.flexbox.itemsConfig.width.helpMsg"),
       type: "input",
       defaultValue: "auto",
       preps: {
         icon: "",
         appendList: [
-          { name: "自动", value: "auto" },
-          { name: "像素", value: "px" },
-          { name: "百分比", value: "%" },
+          { name: i18n("system.flexbox.itemsConfig.width.auto"), value: "auto" },
+          { name: i18n("system.flexbox.itemsConfig.width.pixel"), value: "px" },
+          { name: i18n("system.flexbox.itemsConfig.width.percent"), value: "%" },
         ],
       },
     },
     {
       fieldName: "height",
-      label: "高度",
+      label: i18n("system.flexbox.itemsConfig.height.label"),
       formVisible: true,
-      helpMsg: "指定项目高度，覆盖默认尺寸",
+      helpMsg: i18n("system.flexbox.itemsConfig.height.helpMsg"),
       type: "input",
       defaultValue: "auto",
       preps: {
         icon: "",
         appendList: [
-          { name: "自动", value: "auto" },
-          { name: "像素", value: "px" },
-          { name: "百分比", value: "%" },
+          { name: i18n("system.flexbox.itemsConfig.height.auto"), value: "auto" },
+          { name: i18n("system.flexbox.itemsConfig.height.pixel"), value: "px" },
+          { name: i18n("system.flexbox.itemsConfig.height.percent"), value: "%" },
         ],
       },
     },

@@ -28,15 +28,29 @@ import {gridContainerConfig} from "@/utils/grid/containerConfig";
 import {gridItemsConfig} from "@/utils/grid/itemsConfig";
 import {gridLayouts} from "@/utils/grid/layouts";
 
-import {error, operationConfirm, PageFieldInfo, piniaInstance, success, uuid,} from "star-horse-lowcode";
+import {
+  error,
+  operationConfirm,
+  PageFieldInfo,
+  piniaInstance,
+  success,
+  useGlobalConfigStore,
+  uuid,
+} from "star-horse-lowcode";
 import {computed, defineOptions, onMounted, onUnmounted, ref, watch,} from "vue";
+import { i18n } from "@/lang";
 import StarHorseRuler from "./StarHorseRuler.vue";
 import {useRouter} from "vue-router";
+import {Config} from "@/api/settings.js";
 
 defineOptions({
   name: "StarHorseFlexComp",
 });
 const flexDesign = useFlexDesignStore(piniaInstance);
+let configStore = useGlobalConfigStore(piniaInstance);
+let compSize = computed(
+    () => configStore.configFormInfo?.inputSize || Config.compSize,
+);
 const positionList = computed(() => flexDesign.getPositionList());
 const currentId = computed(() => flexDesign.getCurrentItem());
 const tabModel = ref<string>("template");
@@ -65,7 +79,7 @@ const publishDialogVisible = ref(false);
 
 // Design metadata
 const currentDesignId = ref<string>("");
-const currentDesignName = ref<string>("未命名设计");
+const currentDesignName = ref<string>(i18n("system.flex.starHorseFlexComp.design.untitled"));
 const currentDesignDescription = ref<string>("");
 
 let index = 0;
@@ -77,7 +91,7 @@ const addItem = () => {
   selectItem(itemId);
 };
 /**
- * 主轴方向
+ * Main axis direction
  */
 const mainAxisDirection = () => {
   if (index > 3) {
@@ -122,14 +136,14 @@ const addComp = () => {
   flexDesign.addComp(currentId.value, {
     id: uuid(),
     type: "input",
-    label: "输入框",
+    label: i18n("system.flex.starHorseFlexComp.inputBox"),
     formVisible: true,
     fieldName: "name",
     itemType: "item",
   });
 };
 /**
- * 初始化
+ * Initialize
  */
 const init = () => {
   appInstance.use(pageItemsComponent);
@@ -183,33 +197,33 @@ const saveData = () => {
 };
 
 const preview = () => {
-  // 验证设计数据
+  // Validate design data
   const validation = flexDesign.validateDesign();
   if (!validation.isValid) {
-    error("设计数据验证失败，请检查设计内容");
-    console.warn("验证错误:", validation.errors);
+    error(i18n("system.flex.starHorseFlexComp.validationFailed"));
+    console.warn(i18n("system.flex.starHorseFlexComp.validationError"), validation.errors);
     return;
   }
   previewDialogVisible.value = true;
 };
 
 const publishPage = () => {
-  // 验证设计数据
+  // Validate design data
   const validation = flexDesign.validateDesign();
   if (!validation.isValid) {
-    error("设计数据验证失败，无法发布");
-    console.warn("验证错误:", validation.errors);
+    error(i18n("system.flex.starHorseFlexComp.publishValidationFailed"));
+    console.warn(i18n("system.flex.starHorseFlexComp.validationError"), validation.errors);
     return;
   }
   publishDialogVisible.value = true;
 };
 
 const sharePage = () => {
-  // 验证设计数据
+  // Validate design data
   const validation = flexDesign.validateDesign();
   if (!validation.isValid) {
-    error("设计数据验证失败，无法分享");
-    console.warn("验证错误:", validation.errors);
+    error(i18n("system.flex.starHorseFlexComp.shareValidationFailed"));
+    console.warn(i18n("system.flex.starHorseFlexComp.validationError"), validation.errors);
     return;
   }
   shareDialogVisible.value = true;
@@ -221,28 +235,28 @@ const handleSaved = (result: FlexDesignData) => {
   currentDesignName.value = result.name;
   currentDesignDescription.value = result.description || "";
   saveDialogVisible.value = false;
-  success("设计保存成功");
+  success(i18n("system.flex.starHorseFlexComp.saveSuccess"));
 };
 
 const handleShared = (result: ShareResult) => {
   shareDialogVisible.value = false;
-  success("分享链接生成成功");
-  console.log("分享结果:", result);
+  success(i18n("system.flex.starHorseFlexComp.shareSuccess"));
+  console.log(i18n("system.flex.starHorseFlexComp.shareResult"), result);
 };
 
 const handlePublished = (result: PublishResult) => {
   publishDialogVisible.value = false;
-  success("设计发布成功");
-  console.log("发布结果:", result);
+  success(i18n("system.flex.starHorseFlexComp.publishSuccess"));
+  console.log(i18n("system.flex.starHorseFlexComp.publishResult"), result);
 };
 
 const handleSaveTemplate = (templateData: any) => {
-  console.log("保存模板:", templateData);
-  success("模板保存成功");
+  console.log(i18n("system.flex.starHorseFlexComp.saveTemplate"), templateData);
+  success(i18n("system.flex.starHorseFlexComp.templateSaveSuccess"));
   previewDialogVisible.value = false;
 };
 const emptyStage = () => {
-  operationConfirm("确认清空舞台吗？").then((b: boolean) => {
+  operationConfirm(i18n("system.flex.starHorseFlexComp.confirmClearStage")).then((b: boolean) => {
     if (b) {
       flexDesign.clearAll();
     }
@@ -256,10 +270,10 @@ const loadDesign = async (designId: string) => {
     currentDesignId.value = designData.id || "";
     currentDesignName.value = designData.name;
     currentDesignDescription.value = designData.description || "";
-    success("设计加载成功");
+    success(i18n("system.flex.starHorseFlexComp.loadSuccess"));
   } catch (err) {
-    console.error("加载设计失败:", err);
-    error("加载设计失败");
+    console.error(i18n("system.flex.starHorseFlexComp.loadError"), err);
+    error(i18n("system.flex.starHorseFlexComp.loadFailed"));
   }
 };
 
@@ -273,9 +287,9 @@ const autoSave = async () => {
           flexModel.value,
       );
       await saveFlexDesign({...designData, id: currentDesignId.value});
-      console.log("自动保存成功");
+      console.log(i18n("system.flex.starHorseFlexComp.autoSaveSuccess"));
     } catch (error) {
-      console.error("自动保存失败:", error);
+      console.error(i18n("system.flex.starHorseFlexComp.autoSaveFailed"), error);
     }
   }
 };
@@ -296,18 +310,18 @@ onMounted(() => {
     isFullscreen.value = !!document.fullscreenElement;
   });
 
-  // 设置自动保存，每5分钟保存一次
+  // Set up auto save, save every 5 minutes
   const autoSaveInterval = setInterval(
       () => {
         autoSave();
       },
       5 * 60 * 1000,
-  ); // 5分钟
+  ); // 5 minutes
 
-  // 监听页面卸载，自动保存
+  // Listen for page unload, auto save
   window.addEventListener("beforeunload", autoSave);
 
-  // 组件销毁时清理资源
+  // Clean up resources when component is destroyed
   onUnmounted(() => {
     clearInterval(autoSaveInterval);
     window.removeEventListener("beforeunload", autoSave);
@@ -332,12 +346,12 @@ watch(
           @tabChange="tabChange"
           type="border-card"
       >
-        <el-tab-pane name="template">
+        <el-tab-pane name="template" class="flex flex-col">
           <template #label>
             <star-horse-icon
                 icon-class="template"
                 style="color: var(--star-horse-style)"
-            />&nbsp;<span>模板</span>
+            />&nbsp;<span>{{ i18n('system.flex.starHorseFlexComp.tab.template') }}</span>
           </template>
           <div class="inner_button my-5 mx-1">
             <el-select v-model="flexModel" class="" @change="flexChange">
@@ -345,10 +359,10 @@ watch(
               <el-option value="grid" label="FlexGrid"/>
             </el-select>
           </div>
-          <div class="flex-grid gap-4 w-full flex-wrap">
+          <div class="flex-grid gap-4 w-full flex-wrap overflow-y-auto mx-3">
             <template v-for="item in layoutConfig">
               <div
-                  class="flex flex-col items-center justify-center"
+                  class="flex flex-col items-center justify-center layout-item"
                   @click="layoutOperation(item)"
               >
                 <svg-loader
@@ -366,7 +380,7 @@ watch(
             <star-horse-icon
                 icon-class="list"
                 style="color: var(--star-horse-style)"
-            />&nbsp;<span>组件</span>
+            />&nbsp;<span>{{ i18n('system.flex.starHorseFlexComp.tab.component') }}</span>
           </template>
           <PageCompPanel/>
         </el-tab-pane>
@@ -384,7 +398,7 @@ watch(
           <el-button-group>
             <el-tooltip
                 class="item"
-                content="返回"
+                :content="i18n('system.flex.starHorseFlexComp.tooltip.return')"
                 effect="dark"
                 placement="bottom"
             >
@@ -399,7 +413,7 @@ watch(
             </el-tooltip>
             <el-tooltip
                 class="item"
-                content="添加元素"
+                :content="i18n('system.flex.starHorseFlexComp.tooltip.addElement')"
                 effect="dark"
                 placement="bottom"
             >
@@ -414,7 +428,7 @@ watch(
             </el-tooltip>
             <el-tooltip
                 class="item"
-                content="清空舞台"
+                :content="i18n('system.flex.starHorseFlexComp.tooltip.clearStage')"
                 effect="dark"
                 placement="bottom"
             >
@@ -429,7 +443,7 @@ watch(
             </el-tooltip>
             <el-tooltip
                 class="item"
-                content="主轴方向"
+                :content="i18n('system.flex.starHorseFlexComp.tooltip.mainAxisDirection')"
                 effect="dark"
                 placement="bottom"
             >
@@ -444,7 +458,7 @@ watch(
             </el-tooltip>
             <el-tooltip
                 class="item"
-                content="代码"
+                :content="i18n('system.flex.starHorseFlexComp.tooltip.code')"
                 effect="dark"
                 placement="bottom"
             >
@@ -458,7 +472,7 @@ watch(
             </el-tooltip>
             <el-tooltip
                 class="item"
-                :content="needInfiniteViewer ? '关闭无限滚动' : '开启无限滚动'"
+                :content="needInfiniteViewer ? i18n('system.flex.starHorseFlexComp.tooltip.infiniteScrollOn') : i18n('system.flex.starHorseFlexComp.tooltip.infiniteScrollOff')"
                 effect="dark"
                 placement="bottom"
             >
@@ -472,7 +486,7 @@ watch(
             </el-tooltip>
             <el-tooltip
                 class="item"
-                :content="hideRuler ? '开启标尺' : '关闭标尺'"
+                :content="hideRuler ? i18n('system.flex.starHorseFlexComp.tooltip.rulerOn') : i18n('system.flex.starHorseFlexComp.tooltip.rulerOff')"
                 effect="dark"
                 placement="bottom"
             >
@@ -484,27 +498,27 @@ watch(
                 />
               </el-button>
             </el-tooltip>
-            <el-tooltip content="保存">
+            <el-tooltip :content="i18n('system.flex.starHorseFlexComp.tooltip.save')">
               <el-button @click="saveData" class="h-full border-0">
                 <star-horse-icon icon-class="save" cursor="pointer"/>
               </el-button>
             </el-tooltip>
-            <el-tooltip content="预览">
+            <el-tooltip :content="i18n('system.flex.starHorseFlexComp.tooltip.preview')">
               <el-button @click="preview" class="h-full border-0">
                 <star-horse-icon icon-class="preview" cursor="pointer"/>
               </el-button>
             </el-tooltip>
-            <el-tooltip content="发布">
+            <el-tooltip :content="i18n('system.flex.starHorseFlexComp.tooltip.publish')">
               <el-button @click="publishPage" class="h-full border-0">
                 <star-horse-icon icon-class="publish" cursor="pointer"/>
               </el-button>
             </el-tooltip>
-            <el-tooltip content="分享">
+            <el-tooltip :content="i18n('system.flex.starHorseFlexComp.tooltip.share')">
               <el-button @click="sharePage" class="h-full border-0">
                 <star-horse-icon icon-class="share" cursor="pointer"/>
               </el-button>
             </el-tooltip>
-            <el-tooltip :content="isFullscreen ? '退出全屏' : '全屏'">
+            <el-tooltip :content="isFullscreen ? i18n('system.flex.starHorseFlexComp.tooltip.fullscreenOn') : i18n('system.flex.starHorseFlexComp.tooltip.fullscreenOff')">
               <el-button @click="fullScreen" class="h-full border-0">
                 <star-horse-icon
                     :icon-class="
@@ -550,11 +564,12 @@ watch(
             <star-horse-icon
                 icon-class="container"
                 style="color: var(--star-horse-style)"
-            />&nbsp;<span>容器</span>
+            />&nbsp;<span>{{ i18n('system.flex.starHorseFlexComp.tab.container') }}</span>
           </template>
           <sh-form
               v-model:dataForm="containerDataForm"
               :label-width="'auto'"
+              :size="compSize"
               :label-position="'top'"
           >
             <el-collapse
@@ -565,12 +580,13 @@ watch(
               <el-collapse-item name="container">
                 <template #title>
                   <div class="collapse-item-title title">
-                    <div>布局</div>
+                    <div>{{ i18n('system.flex.starHorseFlexComp.container.layout') }}</div>
                   </div>
                 </template>
                 <div class="h-full">
                   <StarHorseFormItem
                       :fieldList="containerConfig"
+                      :compSize="compSize"
                       v-model:dataForm="containerDataForm"
                   />
                 </div>
@@ -578,26 +594,26 @@ watch(
               <el-collapse-item name="position">
                 <template #title>
                   <div class="collapse-item-title title">
-                    <div>位置大小</div>
+                    <div>{{ i18n('system.flex.starHorseFlexComp.container.position') }}</div>
                   </div>
                 </template>
-                <page-position v-model:dataForm="containerDataForm"/>
+                <page-position v-model:dataForm="containerDataForm" :compSize="compSize"/>
               </el-collapse-item>
               <el-collapse-item name="background">
                 <template #title>
                   <div class="collapse-item-title title">
-                    <div>背景</div>
+                    <div>{{ i18n('system.flex.starHorseFlexComp.container.background') }}</div>
                   </div>
                 </template>
-                <page-background v-model:dataForm="containerDataForm"/>
+                <page-background v-model:dataForm="containerDataForm" :compSize="compSize"/>
               </el-collapse-item>
               <el-collapse-item name="font">
                 <template #title>
                   <div class="collapse-item-title title">
-                    <div>文字</div>
+                    <div>{{ i18n('system.flex.starHorseFlexComp.container.font') }}</div>
                   </div>
                 </template>
-                <page-font v-model:dataForm="containerDataForm"/>
+                <page-font v-model:dataForm="containerDataForm" :compSize="compSize"/>
               </el-collapse-item>
             </el-collapse>
           </sh-form>
@@ -607,11 +623,12 @@ watch(
             <star-horse-icon
                 icon-class="list"
                 style="color: var(--star-horse-style)"
-            />&nbsp;<span>节点</span>
+            />&nbsp;<span>{{ i18n('system.flex.starHorseFlexComp.tab.item') }}</span>
           </template>
           <sh-form
               v-model:dataForm="itemDataForm"
               :label-width="'auto'"
+              :size="compSize"
               :label-position="'top'"
           >
             <el-collapse
@@ -622,38 +639,39 @@ watch(
               <el-collapse-item name="item">
                 <template #title>
                   <div class="collapse-item-title title">
-                    <div>布局</div>
+                    <div>{{ i18n('system.flex.starHorseFlexComp.item.layout') }}</div>
                   </div>
                 </template>
 
                 <StarHorseFormItem
                     :fieldList="itemConfig"
+                    :compSize="compSize"
                     v-model:dataForm="itemDataForm"
                 />
               </el-collapse-item>
               <el-collapse-item name="position">
                 <template #title>
                   <div class="collapse-item-title title">
-                    <div>位置大小</div>
+                    <div>{{ i18n('system.flex.starHorseFlexComp.item.position') }}</div>
                   </div>
                 </template>
-                <page-position v-model:dataForm="itemDataForm"/>
+                <page-position v-model:dataForm="itemDataForm" :compSize="compSize"/>
               </el-collapse-item>
               <el-collapse-item name="background">
                 <template #title>
                   <div class="collapse-item-title title">
-                    <div>背景</div>
+                    <div>{{ i18n('system.flex.starHorseFlexComp.item.background') }}</div>
                   </div>
                 </template>
-                <page-background v-model:dataForm="itemDataForm"/>
+                <page-background v-model:dataForm="itemDataForm" :compSize="compSize"/>
               </el-collapse-item>
               <el-collapse-item name="font">
                 <template #title>
                   <div class="collapse-item-title title">
-                    <div>文字</div>
+                    <div>{{ i18n('system.flex.starHorseFlexComp.item.font') }}</div>
                   </div>
                 </template>
-                <page-font v-model:dataForm="itemDataForm"/>
+                <page-font v-model:dataForm="itemDataForm" :compSize="compSize"/>
               </el-collapse-item>
             </el-collapse>
           </sh-form>
@@ -663,7 +681,7 @@ watch(
             <star-horse-icon
                 icon-class="preps"
                 style="color: var(--star-horse-style)"
-            />&nbsp;<span>组件属性</span>
+            />&nbsp;<span>{{ i18n('system.flex.starHorseFlexComp.tab.componentProperties') }}</span>
           </template>
           <div class="properties-container w-full h-full">
             <PageItemProperties
@@ -719,8 +737,8 @@ watch(
 <style lang="scss" scoped>
 .flex-grid {
   display: grid;
-  grid-template-columns: repeat(2, 1fr); // 两列布局
-  gap: 8px; // 间隙统一设为8px
+  grid-template-columns: repeat(2, 1fr); /* Two-column layout */
+  gap: 8px; /* Gap uniformly set to 8px */
 }
 
 :deep {
@@ -766,6 +784,76 @@ watch(
         text-align: unset;
       }
     }
+  }
+}
+
+/* Layout item styling with interactive effects */
+.layout-item {
+  padding: 12px;
+  border-radius: 12px;
+  background: linear-gradient(145deg, #ffffff, #f8f9fa);
+  border: 2px solid #e4e7ed;
+  cursor: pointer;
+  transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+  position: relative;
+  overflow: hidden;
+  width: 120px;
+  height: 120px;
+  
+  /* Add a subtle inner glow effect */
+  &::after {
+    content: "";
+    position: absolute;
+    top: 4px;
+    left: 4px;
+    right: 4px;
+    bottom: 4px;
+    border: 1px solid rgba(64, 158, 255, 0.1);
+    border-radius: 10px;
+    pointer-events: none;
+  }
+
+  &:hover {
+    transform: translateY(-4px) scale(1.02);
+    border-color: #409eff;
+    box-shadow: 0 12px 24px rgba(64, 158, 255, 0.2);
+    background: linear-gradient(145deg, #ffffff, #f0f8ff);
+
+    &::after {
+      border-color: rgba(64, 158, 255, 0.3);
+    }
+    
+    /* Enhance the SVG loader on hover */
+    :deep(.svg-loader) {
+      transform: scale(1.1);
+    }
+  }
+
+  &:active {
+    transform: translateY(-2px) scale(1.01);
+    box-shadow: 0 8px 20px rgba(64, 158, 255, 0.25);
+  }
+
+  /* Style for the component label text */
+  &:deep(span) {
+    font-size: 12px;
+    font-weight: 500;
+    color: #606266;
+    text-align: center;
+    line-height: 1.3;
+    margin-top: 8px;
+    width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  
+  /* Ensure SVG loader maintains its size */
+  :deep(.svg-loader) {
+    transition: transform 0.3s ease;
+    width: 80px !important;
+    height: 80px !important;
   }
 }
 </style>

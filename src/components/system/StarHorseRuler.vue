@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { nextTick, onBeforeUnmount, onMounted, ref } from "vue";
+import { i18n } from "@/lang";
 import { default as Guides } from "vue3-guides";
 import { VueInfiniteViewer } from "vue3-infinite-viewer";
 
@@ -66,7 +67,7 @@ const viewScroller = (e: any) => {
   }
 };
 /**
- * 初始化
+ * Initialize
  */
 const init = () => {
   initGuides();

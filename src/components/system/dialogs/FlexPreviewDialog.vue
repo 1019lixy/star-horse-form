@@ -6,23 +6,23 @@
     :boxWidth="'90%'"
     boxHeight="80%"
     :full-screen="false"
-    :title="'设计预览'"
+    :title="i18n('system.flex.previewDialog.title')"
     :source="3"
   >
     <div class="preview-container">
       <div class="preview-header">
         <div class="preview-info">
-          <h3>{{ designName || "未命名设计" }}</h3>
+          <h3>{{ designName || i18n('system.flex.previewDialog.untitled') }}</h3>
           <p v-if="designDescription">{{ designDescription }}</p>
           <div class="design-stats">
             <el-tag size="small" type="info"
-              >元素数量: {{ designSummary.itemCount }}
+              >{{ i18n('system.flex.previewDialog.label.itemCount') }}: {{ designSummary.itemCount }}
             </el-tag>
             <el-tag size="small" type="success" style="margin-left: 8px">
-              组件数量: {{ designSummary.compCount }}
+              {{ i18n('system.flex.previewDialog.label.compCount') }}: {{ designSummary.compCount }}
             </el-tag>
             <el-tag size="small" type="warning" style="margin-left: 8px">
-              方向: {{ designSummary.containerDirection }}
+              {{ i18n('system.flex.previewDialog.label.direction') }}: {{ designSummary.containerDirection }}
             </el-tag>
           </div>
         </div>
@@ -33,15 +33,15 @@
                 color="#fff"
                 :icon-class="deviceMode === 'desktop' ? 'mobile' : 'desktop'"
               />
-              {{ deviceMode === "desktop" ? "移动端预览" : "桌面端预览" }}
+              {{ deviceMode === "desktop" ? i18n('system.flex.previewDialog.button.mobilePreview') : i18n('system.flex.previewDialog.button.desktopPreview') }}
             </el-button>
             <el-button type="info" plain @click="refreshPreview">
               <star-horse-icon icon-class="refresh" />
-              刷新
+              {{ i18n('system.flex.previewDialog.button.refresh') }}
             </el-button>
             <el-button type="info" plain @click="exportHTML">
               <star-horse-icon icon-class="download" color="#fff" />
-              导出HTML
+              {{ i18n('system.flex.previewDialog.button.exportHTML') }}
             </el-button>
             <el-button
               type="info"
@@ -49,7 +49,7 @@
               @click="showDebugInfo = !showDebugInfo"
             >
               <star-horse-icon icon-class="info" color="#fff" />
-              {{ showDebugInfo ? "隐藏调试" : "调试信息" }}
+              {{ showDebugInfo ? i18n('system.flex.previewDialog.button.hideDebug') : i18n('system.flex.previewDialog.button.showDebug') }}
             </el-button>
           </el-button-group>
         </div>
@@ -63,7 +63,7 @@
               <span></span>
               <span></span>
             </div>
-            <div class="frame-title">预览</div>
+            <div class="frame-title">{{ i18n('system.flex.previewDialog.title') }}</div>
           </div>
           <div class="frame-content" ref="previewContentRef">
             <div :style="containerStyles" class="flex-1">
@@ -81,32 +81,32 @@
 
       <!-- Debug Information Panel -->
       <div v-if="showDebugInfo" class="debug-panel">
-        <el-divider content-position="center">调试信息</el-divider>
+        <el-divider content-position="center">{{ i18n('system.flex.previewDialog.title.debugInfo') }}</el-divider>
         <div class="debug-content">
           <div class="debug-section">
-            <h4>布局模式:</h4>
+            <h4>{{ i18n('system.flex.previewDialog.label.layoutMode') }}</h4>
             <pre>{{ props.flexModel }}</pre>
           </div>
           <div class="debug-section">
-            <h4>容器样式:</h4>
+            <h4>{{ i18n('system.flex.previewDialog.label.containerStyles') }}</h4>
             <pre>{{ containerStyles }}</pre>
           </div>
           <div class="debug-section">
-            <h4>containerDataForm (实际表单数据):</h4>
+            <h4>{{ i18n('system.flex.previewDialog.label.containerData') }}</h4>
             <pre>{{ JSON.stringify(props.containerDataForm, null, 2) }}</pre>
           </div>
           <div class="debug-section">
-            <h4>容器方向:</h4>
+            <h4>{{ i18n('system.flex.previewDialog.label.containerDirection') }}</h4>
             <pre>{{ flexDesign.getContainerDirection() }}</pre>
           </div>
           <div class="debug-section">
-            <h4>容器信息 (store):</h4>
+            <h4>{{ i18n('system.flex.previewDialog.label.containerInfo') }}</h4>
             <pre>{{
               JSON.stringify(flexDesign.getContainerInfo(), null, 2)
             }}</pre>
           </div>
           <div class="debug-section">
-            <h4>元素信息:</h4>
+            <h4>{{ i18n('system.flex.previewDialog.label.itemInfo') }}</h4>
             <div
               v-for="position in positionList"
               :key="position"
@@ -125,7 +125,7 @@
           v-if="validationResult && !validationResult.isValid"
         >
           <el-alert
-            title="设计验证失败"
+            :title="i18n('system.flex.previewDialog.title.validationFailed')"
             type="warning"
             :closable="false"
             show-icon
@@ -141,10 +141,10 @@
           <el-card>
             <template #header>
               <div class="card-header">
-                <span>生成的HTML代码</span>
+                <span>{{ i18n('system.flex.previewDialog.title.htmlCode') }}</span>
                 <el-button size="small" @click="copyCode">
                   <star-horse-icon icon-class="copy" />
-                  复制
+                  {{ i18n('system.flex.previewDialog.button.copy') }}
                 </el-button>
               </div>
             </template>
@@ -153,10 +153,10 @@
         </div>
         <div class="footer-actions">
           <el-button @click="toggleCodeView">
-            {{ showCode ? "隐藏代码" : "查看代码" }}
+            {{ showCode ? i18n('system.flex.previewDialog.button.hideCode') : i18n('system.flex.previewDialog.button.showCode') }}
           </el-button>
           <el-button type="primary" @click="saveAsTemplate">
-            保存为模板
+            {{ i18n('system.flex.previewDialog.button.saveTemplate') }}
           </el-button>
         </div>
       </div>
@@ -169,6 +169,7 @@ import { computed, nextTick, ref, watch } from "vue";
 import { useFlexDesignStore } from "@/store/FlexDesign";
 import { error, piniaInstance, success } from "star-horse-lowcode";
 import FlexItem from "@/components/system/items/FlexItem.vue";
+import { i18n } from "@/lang";
 
 interface Props {
   dialogVisible: boolean;
@@ -271,7 +272,7 @@ const refreshPreview = () => {
       previewContentRef.value.scrollTop = 0;
     }
   });
-  success("预览已刷新");
+  success(i18n('system.flex.previewDialog.message.refreshSuccess'));
 };
 
 const exportHTML = () => {
@@ -285,7 +286,7 @@ const exportHTML = () => {
   a.click();
   document.body.removeChild(a);
   URL.revokeObjectURL(url);
-  success("HTML文件已导出");
+  success(i18n('system.flex.previewDialog.message.htmlExported'));
 };
 
 const selectPreviewItem = (position: string) => {
@@ -299,16 +300,16 @@ const toggleCodeView = () => {
 const copyCode = async () => {
   try {
     await navigator.clipboard.writeText(htmlCode.value);
-    success("代码已复制到剪贴板");
+    success(i18n('system.flex.previewDialog.message.codeCopied'));
   } catch (err) {
     console.error("复制失败:", err);
-    error("复制失败，请手动复制");
+    error(i18n('system.flex.previewDialog.message.copyFailed'));
   }
 };
 
 const saveAsTemplate = () => {
   const designData = flexDesign.serializeDesignData(
-    props.designName || "未命名模板",
+    props.designName || i18n('system.flex.previewDialog.message.untitledTemplate'),
     props.designDescription || "",
   );
   emit("saveTemplate", designData);

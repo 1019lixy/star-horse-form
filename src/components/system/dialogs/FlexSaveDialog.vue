@@ -5,7 +5,7 @@
     :selfFunc="true"
     :boxWidth="'500px'"
     :full-screen="false"
-    :title="isEdit ? '保存设计' : '另存为'"
+    :title="isEdit ? i18n('system.flex.saveDialog.title.save') : i18n('system.flex.saveDialog.title.saveAs')"
     @merge="handleSave"
   >
     <div class="save-container">
@@ -15,36 +15,36 @@
         ref="saveFormRef"
         label-width="100px"
       >
-        <el-form-item label="设计名称" prop="name">
+        <el-form-item :label="i18n('system.flex.saveDialog.label.name')" prop="name">
           <el-input
             v-model="saveForm.name"
-            placeholder="请输入设计名称"
+            :placeholder="i18n('system.flex.saveDialog.placeholder.name')"
             :disabled="isSaving"
           />
         </el-form-item>
 
-        <el-form-item label="设计描述" prop="description">
+        <el-form-item :label="i18n('system.flex.saveDialog.label.description')" prop="description">
           <el-input
             v-model="saveForm.description"
             type="textarea"
             :rows="3"
-            placeholder="请描述该设计的用途和特点（可选）"
+            :placeholder="i18n('system.flex.saveDialog.placeholder.description')"
             :disabled="isSaving"
           />
         </el-form-item>
 
-        <el-form-item label="保存类型" prop="saveType" v-if="!isEdit">
+        <el-form-item :label="i18n('system.flex.saveDialog.label.saveType')" prop="saveType" v-if="!isEdit">
           <el-radio-group v-model="saveForm.saveType" :disabled="isSaving">
-            <el-radio value="new">新建设计</el-radio>
-            <el-radio value="template">保存为模板</el-radio>
-            <el-radio value="copy">复制现有设计</el-radio>
+            <el-radio value="new">{{ i18n('system.flex.saveDialog.saveType.new') }}</el-radio>
+            <el-radio value="template">{{ i18n('system.flex.saveDialog.saveType.template') }}</el-radio>
+            <el-radio value="copy">{{ i18n('system.flex.saveDialog.saveType.copy') }}</el-radio>
           </el-radio-group>
         </el-form-item>
 
-        <el-form-item label="分类标签" prop="category">
+        <el-form-item :label="i18n('system.flex.saveDialog.label.category')" prop="category">
           <el-select
             v-model="saveForm.category"
-            placeholder="选择分类"
+            :placeholder="i18n('system.flex.saveDialog.placeholder.category')"
             :disabled="isSaving"
             style="width: 100%"
             allowCreate
@@ -59,7 +59,7 @@
           </el-select>
         </el-form-item>
 
-        <el-form-item label="标签" prop="tags">
+        <el-form-item :label="i18n('system.flex.saveDialog.label.tags')" prop="tags">
           <el-tag
             v-for="tag in saveForm.tags"
             :key="tag"
@@ -85,36 +85,36 @@
             size="small"
             @click="showInput"
           >
-            + 添加标签
+            {{ i18n('system.flex.saveDialog.button.addTag') }}
           </el-button>
         </el-form-item>
 
-        <el-form-item label="权限设置">
+        <el-form-item :label="i18n('system.flex.saveDialog.label.permissions')">
           <el-checkbox-group
             v-model="saveForm.permissions"
             :disabled="isSaving"
           >
-            <el-checkbox value="public">公开访问</el-checkbox>
-            <el-checkbox value="editable">允许编辑</el-checkbox>
-            <el-checkbox value="downloadable">允许下载</el-checkbox>
+            <el-checkbox value="public">{{ i18n('system.flex.saveDialog.permission.public') }}</el-checkbox>
+            <el-checkbox value="editable">{{ i18n('system.flex.saveDialog.permission.editable') }}</el-checkbox>
+            <el-checkbox value="downloadable">{{ i18n('system.flex.saveDialog.permission.downloadable') }}</el-checkbox>
           </el-checkbox-group>
         </el-form-item>
       </el-form>
 
       <!-- 设计预览信息 -->
       <div class="design-summary">
-        <el-divider content-position="center">设计信息</el-divider>
+        <el-divider content-position="center">{{ i18n('system.flex.saveDialog.title.designInfo') }}</el-divider>
         <el-descriptions :column="2" size="small" border>
-          <el-descriptions-item label="元素数量">
+          <el-descriptions-item :label="i18n('system.flex.saveDialog.label.itemCount')">
             {{ designSummary.itemCount }}
           </el-descriptions-item>
-          <el-descriptions-item label="组件数量">
+          <el-descriptions-item :label="i18n('system.flex.saveDialog.label.compCount')">
             {{ designSummary.compCount }}
           </el-descriptions-item>
-          <el-descriptions-item label="容器方向">
+          <el-descriptions-item :label="i18n('system.flex.saveDialog.label.containerDirection')">
             {{ designSummary.containerDirection }}
           </el-descriptions-item>
-          <el-descriptions-item label="创建时间">
+          <el-descriptions-item :label="i18n('system.flex.saveDialog.label.createTime')">
             {{ formatDate(new Date().toISOString()) }}
           </el-descriptions-item>
         </el-descriptions>
@@ -122,7 +122,7 @@
 
       <!-- 快速保存选项 -->
       <div class="quick-save-options" v-if="!isEdit">
-        <el-divider content-position="center">快速保存</el-divider>
+        <el-divider content-position="center">{{ i18n('system.flex.saveDialog.title.quickSave') }}</el-divider>
         <div class="quick-actions">
           <el-button
             size="small"
@@ -130,7 +130,7 @@
             :disabled="isSaving"
           >
             <star-horse-icon icon-class="save" />
-            保存草稿
+            {{ i18n('system.flex.saveDialog.button.saveDraft') }}
           </el-button>
           <el-button
             size="small"
@@ -139,7 +139,7 @@
             type="primary"
           >
             <star-horse-icon icon-class="template" />
-            快速模板
+            {{ i18n('system.flex.saveDialog.button.quickTemplate') }}
           </el-button>
           <el-button
             size="small"
@@ -147,7 +147,7 @@
             :disabled="isSaving"
           >
             <star-horse-icon icon-class="auto" />
-            自动命名
+            {{ i18n('system.flex.saveDialog.button.autoName') }}
           </el-button>
         </div>
       </div>
@@ -155,21 +155,21 @@
       <!-- 保存成功提示 -->
       <div v-if="saveResult" class="save-result">
         <el-alert
-          title="保存成功！"
+          :title="i18n('system.flex.saveDialog.title.saveSuccess')"
           type="success"
           :closable="false"
           show-icon
         />
         <div class="result-info">
-          <p><strong>设计ID：</strong>{{ saveResult.id }}</p>
+          <p><strong>{{ i18n('system.flex.saveDialog.label.designId') }}</strong>{{ saveResult.id }}</p>
           <p>
-            <strong>保存时间：</strong>{{ formatDate(saveResult.updatedAt) }}
+            <strong>{{ i18n('system.flex.saveDialog.label.saveTime') }}</strong>{{ formatDate(saveResult.updatedAt) }}
           </p>
         </div>
         <div class="result-actions">
-          <el-button size="small" @click="continueEdit"> 继续编辑 </el-button>
+          <el-button size="small" @click="continueEdit"> {{ i18n('system.flex.saveDialog.button.continueEdit') }} </el-button>
           <el-button size="small" type="primary" @click="viewSaved">
-            查看保存的设计
+            {{ i18n('system.flex.saveDialog.button.viewSavedDesign') }}
           </el-button>
         </div>
       </div>
@@ -182,6 +182,7 @@ import { ref, reactive, computed, nextTick, watch } from "vue";
 import { useFlexDesignStore } from "@/store/FlexDesign";
 import { saveFlexDesign, type FlexDesignData } from "@/api/flexDesign";
 import { piniaInstance, success, error, uuid } from "star-horse-lowcode";
+import { i18n } from "@/lang";
 
 interface Props {
   dialogVisible: boolean;
@@ -212,7 +213,7 @@ const saveForm = reactive({
 
 const saveRules = {
   name: [
-    { required: true, message: "请输入设计名称", trigger: "blur" },
+    { required: true, message: i18n('system.flex.saveDialog.rule.nameRequired'), trigger: "blur" },
     {
       min: 1,
       max: 50,
@@ -309,7 +310,7 @@ const quickSave = async (type: "draft" | "template" | "auto") => {
     saveResult.value = result;
     emit("saved", result);
   } catch (error) {
-    console.error("快速保存失败:", error);
+    console.error(i18n('system.flex.saveDialog.message.saveError'), error);
   } finally {
     isSaving.value = false;
   }

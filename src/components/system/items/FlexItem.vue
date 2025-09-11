@@ -4,6 +4,7 @@ import {piniaInstance, uuid} from "star-horse-lowcode";
 import {computed, defineOptions, onBeforeUnmount, onMounted, ref} from "vue";
 import {dynamicFormContextMenuData, dynamicPageContextMenuData,} from "@/plugins/AblesPlugin.ts";
 import {bringToFront, sendToBack} from "@/utils/ZIndexManager";
+import { i18n } from "@/lang";
 
 defineOptions({
   name: "FlexItem",
@@ -182,7 +183,7 @@ onMounted(() => {
         <star-horse-icon
             iconClass="delete"
             :color="'var(--star-horse-danger)'"
-            title="删除"
+            :title="i18n('system.delete')"
             class="text-xs"
         />
       </div>

@@ -1,13 +1,14 @@
 // 通用接口调用参数配置
 import { httpMethod } from "@/api/system";
 import { SelectOption } from "star-horse-lowcode";
+import { i18n } from "@/lang";
 
 /**
  * 协议选项
  */
 export const protocolOptions: SelectOption[] = [
-  { name: "HTTP", value: "http" },
-  { name: "HTTPS", value: "https" },
+  { name: i18n("system.apiConfig.protocolOptions.http"), value: "http" },
+  { name: i18n("system.apiConfig.protocolOptions.https"), value: "https" },
 ];
 
 /**
@@ -18,76 +19,76 @@ export function createApiConfigProperties() {
   return [
     {
       name: "env",
-      label: "系统环境",
+      label: i18n("system.apiConfig.createApiConfigProperties.env.label"),
       type: "select" as const,
       required: true,
       defaultValue: "",
       options: [], // 动态从字典加载
-      description: "选择接口调用的系统环境",
+      description: i18n("system.apiConfig.createApiConfigProperties.env.description"),
     },
     {
       name: "httpMethod",
-      label: "请求方式",
+      label: i18n("system.apiConfig.createApiConfigProperties.httpMethod.label"),
       type: "select" as const,
       required: true,
       defaultValue: "POST",
       options: httpMethod(),
-      description: "选择HTTP请求方式",
+      description: i18n("system.apiConfig.createApiConfigProperties.httpMethod.description"),
     },
     {
       name: "protocol",
-      label: "协议",
+      label: i18n("system.apiConfig.createApiConfigProperties.protocol.label"),
       type: "select" as const,
       required: true,
       defaultValue: "http",
       options: protocolOptions,
-      description: "选择通信协议",
+      description: i18n("system.apiConfig.createApiConfigProperties.protocol.description"),
     },
     {
       name: "host",
-      label: "IP/域名/服务名",
+      label: i18n("system.apiConfig.createApiConfigProperties.host.label"),
       type: "input" as const,
       required: true,
       defaultValue: "",
-      placeholder: "请输入IP地址、域名或服务名",
-      description: "接口服务器的IP地址、域名或服务名",
+      placeholder: i18n("system.apiConfig.createApiConfigProperties.host.placeholder"),
+      description: i18n("system.apiConfig.createApiConfigProperties.host.description"),
     },
     {
       name: "port",
-      label: "端口",
+      label: i18n("system.apiConfig.createApiConfigProperties.port.label"),
       type: "number" as const,
       required: false,
       defaultValue: "",
       min: 1,
       max: 65535,
-      description: "接口服务器端口号",
+      description: i18n("system.apiConfig.createApiConfigProperties.port.description"),
     },
     {
       name: "interfaceUrl",
-      label: "接口地址",
+      label: i18n("system.apiConfig.createApiConfigProperties.interfaceUrl.label"),
       type: "input" as const,
       required: true,
       defaultValue: "",
-      placeholder: "请输入接口路径，如：/api/data/list",
-      description: "接口的相对路径",
+      placeholder: i18n("system.apiConfig.createApiConfigProperties.interfaceUrl.placeholder"),
+      description: i18n("system.apiConfig.createApiConfigProperties.interfaceUrl.description"),
     },
     // Add periodic refresh configuration
     {
       name: "enableAutoRefresh",
-      label: "启用定时刷新",
+      label: i18n("system.apiConfig.createApiConfigProperties.enableAutoRefresh.label"),
       type: "switch" as const,
       defaultValue: false,
-      description: "是否启用定时自动刷新数据",
+      description: i18n("system.apiConfig.createApiConfigProperties.enableAutoRefresh.description"),
     },
     {
       name: "refreshInterval",
-      label: "刷新间隔(秒)",
+      label: i18n("system.apiConfig.createApiConfigProperties.refreshInterval.label"),
       type: "number" as const,
       required: false,
       defaultValue: 30,
       min: 5,
       max: 3600,
-      description: "自动刷新数据的时间间隔，单位为秒",
+      description: i18n("system.apiConfig.createApiConfigProperties.refreshInterval.description"),
       // Only show when auto refresh is enabled
       condition: (formData: any) => formData.enableAutoRefresh,
     },
@@ -130,19 +131,19 @@ export function validateApiConfig(apiConfig: Partial<ApiConfig>): {
   error?: string;
 } {
   if (!apiConfig.env) {
-    return { valid: false, error: "请选择系统环境" };
+    return { valid: false, error: i18n("system.apiConfig.validateApiConfig.env.error") };
   }
 
   if (!apiConfig.httpMethod) {
-    return { valid: false, error: "请选择请求方式" };
+    return { valid: false, error: i18n("system.apiConfig.validateApiConfig.httpMethod.error") };
   }
 
   if (!apiConfig.protocol) {
-    return { valid: false, error: "请选择协议" };
+    return { valid: false, error: i18n("system.apiConfig.validateApiConfig.protocol.error") };
   }
 
   if (!apiConfig.host) {
-    return { valid: false, error: "请输入IP/域名/服务名" };
+    return { valid: false, error: i18n("system.apiConfig.validateApiConfig.host.error") };
   }
 
   if (
@@ -151,11 +152,11 @@ export function validateApiConfig(apiConfig: Partial<ApiConfig>): {
       Number(apiConfig.port) < 1 ||
       Number(apiConfig.port) > 65535)
   ) {
-    return { valid: false, error: "端口号必须在1-65535之间" };
+    return { valid: false, error: i18n("system.apiConfig.validateApiConfig.port.error") };
   }
 
   if (!apiConfig.interfaceUrl) {
-    return { valid: false, error: "请输入接口地址" };
+    return { valid: false, error: i18n("system.apiConfig.validateApiConfig.interfaceUrl.error") };
   }
 
   // Validate refresh configuration if enabled
@@ -165,7 +166,7 @@ export function validateApiConfig(apiConfig: Partial<ApiConfig>): {
       apiConfig.refreshInterval < 5 ||
       apiConfig.refreshInterval > 3600
     ) {
-      return { valid: false, error: "刷新间隔必须在5-3600秒之间" };
+      return { valid: false, error: i18n("system.apiConfig.validateApiConfig.refreshInterval.error") };
     }
   }
 

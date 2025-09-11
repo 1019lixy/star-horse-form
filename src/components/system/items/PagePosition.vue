@@ -1,84 +1,99 @@
 <script setup lang="ts">
-import { ModelRef } from "vue";
+import {ModelRef} from "vue";
+import {Config} from "@/api/settings";
+import { i18n } from "@/lang";
+
+defineProps({
+  compSize: {
+    type: String,
+    default: Config.compSize,
+  }
+});
 
 const data: ModelRef<any> = defineModel("dataForm");
 </script>
 
 <template>
   <div class="row">
-    <el-form-item label="X" prop="left">
-      <el-input v-model="data.left" size="small" placeholder="X" />
+    <el-form-item :label="i18n('system.flex.pagePosition.label.x')" prop="left">
+      <el-input v-model="data.left" :size="compSize" clearable :placeholder="i18n('system.flex.pagePosition.label.x')"/>
     </el-form-item>
-    <el-form-item label="Y" prop="top">
-      <el-input v-model="data.top" size="small" placeholder="Y" />
+    <el-form-item :label="i18n('system.flex.pagePosition.label.y')" prop="top">
+      <el-input v-model="data.top" :size="compSize" clearable :placeholder="i18n('system.flex.pagePosition.label.y')"/>
     </el-form-item>
   </div>
   <div class="row">
-    <el-form-item label="宽度" prop="width">
-      <el-input v-model="data.width" size="small" placeholder="宽度" />
+    <el-form-item :label="i18n('system.flex.pagePosition.label.width')" prop="width">
+      <el-input v-model="data.width" :size="compSize" clearable :placeholder="i18n('system.flex.pagePosition.placeholder.width')"/>
     </el-form-item>
 
-    <el-form-item label="高度" prop="height">
-      <el-input v-model="data.height" size="small" placeholder="高度" />
+    <el-form-item :label="i18n('system.flex.pagePosition.label.height')" prop="height">
+      <el-input v-model="data.height" :size="compSize" clearable :placeholder="i18n('system.flex.pagePosition.placeholder.height')"/>
     </el-form-item>
   </div>
   <div class="main-container">
     <!-- 外边框 -->
-    <div class="border">
-      <input
-        type="text"
-        v-model="data.marginTop"
-        class="input-box horizontal-input outer-top"
-        placeholder="margin top"
+    <div class="border" 
+         :data-outer-border="i18n('system.flex.pagePosition.border.outer')"
+         :data-inner-border="i18n('system.flex.pagePosition.border.inner')">
+      <el-input
+          clearable
+          :size="compSize"
+          v-model="data.marginTop"
+          class="input-box horizontal-input outer-top"
+          placeholder="margin top"
       />
-      <input
-        type="text"
-        v-model="data.marginLeft"
-        class="input-box vertical-input outer-left"
-        placeholder="margin left"
+      <el-input
+          :size="compSize"
+          v-model="data.marginLeft"
+          class="input-box vertical-input outer-left"
+          placeholder="margin left"
       />
-      <input
-        type="text"
-        v-model="data.marginRight"
-        class="input-box vertical-input outer-right"
-        placeholder="margin right"
+      <el-input
+          :size="compSize"
+          v-model="data.marginRight"
+          class="input-box vertical-input outer-right"
+          placeholder="margin right"
       />
-      <input
-        type="text"
-        v-model="data.marginBottom"
-        class="input-box horizontal-input outer-bottom"
-        placeholder="margin bottom"
+      <el-input
+          clearable
+          :size="compSize"
+          v-model="data.marginBottom"
+          class="input-box horizontal-input outer-bottom"
+          placeholder="margin bottom"
       />
 
       <!-- 内边框 -->
       <div class="inner-border">
-        <input
-          type="text"
-          v-model="data.paddingTop"
-          class="input-box horizontal-input inner-top"
-          placeholder="padding top"
+        <el-input
+            clearable
+            :size="compSize"
+            v-model="data.paddingTop"
+            class="input-box horizontal-input inner-top"
+            placeholder="padding top"
         />
-        <input
-          type="text"
-          v-model="data.paddingLeft"
-          class="input-box vertical-input inner-left"
-          placeholder="padding left"
+        <el-input
+            :size="compSize"
+            v-model="data.paddingLeft"
+            class="input-box vertical-input inner-left"
+            placeholder="padding left"
         />
-        <input
-          type="text"
-          v-model="data.paddingRight"
-          class="input-box vertical-input inner-right"
-          placeholder="padding right"
+        <el-input
+            :size="compSize"
+            v-model="data.paddingRight"
+            class="input-box vertical-input inner-right"
+            placeholder="padding right"
         />
-        <input
-          type="text"
-          v-model="data.paddingBottom"
-          class="input-box horizontal-input inner-bottom"
-          placeholder="padding bottom"
+        <el-input
+            clearable
+            :size="compSize"
+            v-model="data.paddingBottom"
+            class="input-box horizontal-input inner-bottom"
+            placeholder="padding bottom"
         />
 
         <!-- 中间内容 -->
-        <div class="content">内容</div>
+        <div class="content">{{ i18n('system.flex.pagePosition.content') }}</div>
       </div>
     </div>
   </div>
@@ -120,7 +135,7 @@ const data: ModelRef<any> = defineModel("dataForm");
   display: grid;
   grid-template-columns: 40px 1fr 40px;
   /* 增加左右内边距，确保输入框不溢出 */
-  grid-template-rows: 40px 1fr 40px;
+  grid-template-rows: 45px 1fr 45px;
   /* 增加上下内边距，确保输入框不溢出 */
   gap: 8px;
   background-color: #6b7785;
@@ -131,7 +146,7 @@ const data: ModelRef<any> = defineModel("dataForm");
 
 /* 外边框背景内容 - 移至左上角 */
 .border::before {
-  content: "外边框";
+  content: attr(data-outer-border);
   position: absolute;
   top: 5px;
   left: 5px;
@@ -162,7 +177,7 @@ const data: ModelRef<any> = defineModel("dataForm");
 
 /* 内边框背景内容 - 移至左上角 */
 .inner-border::before {
-  content: "内边框";
+  content: attr(data-inner-border);
   position: absolute;
   top: 5px;
   left: 5px;
@@ -200,7 +215,7 @@ const data: ModelRef<any> = defineModel("dataForm");
 
 /* 左右输入框样式 */
 .vertical-input {
-  min-height: 90px;
+  min-height: 120px;
   /* 左右输入框高度（与上下输入框宽度一致） */
   width: 30px;
   /* 左右输入框宽度 */
@@ -243,7 +258,7 @@ const data: ModelRef<any> = defineModel("dataForm");
   justify-self: center;
   align-self: center;
   /* 垂直居中 */
-  margin-bottom: 15px;
+  margin-bottom: 5px;
 }
 
 /* 内边框输入框位置 */
@@ -253,7 +268,7 @@ const data: ModelRef<any> = defineModel("dataForm");
   justify-self: center;
   align-self: center;
   /* 垂直居中 */
-  margin-top: 5px;
+  margin: 5px auto;
 }
 
 .inner-left {
@@ -263,6 +278,7 @@ const data: ModelRef<any> = defineModel("dataForm");
   /* 水平居中 */
   align-self: center;
   /* 垂直居中 */
+  margin: auto 5px;
 }
 
 .inner-right {
@@ -272,6 +288,7 @@ const data: ModelRef<any> = defineModel("dataForm");
   /* 水平居中 */
   align-self: center;
   /* 垂直居中 */
+  margin: auto 5px;
 }
 
 .inner-bottom {
@@ -280,7 +297,7 @@ const data: ModelRef<any> = defineModel("dataForm");
   justify-self: center;
   align-self: center;
   /* 垂直居中 */
-  margin-bottom: 5px;
+  margin: 5px auto;
 }
 
 /* 中间内容 */

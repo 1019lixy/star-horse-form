@@ -1,11 +1,10 @@
 <script setup lang="ts">
-import { computed, onMounted, ref, watch } from "vue";
-import { useFlexDesignStore } from "@/store/FlexDesign";
-import { piniaInstance } from "star-horse-lowcode";
-import {
-  componentConfigs,
-  defaultChartOptions,
-} from "@/components/formcomp/pageitems/componentConfig";
+import {computed, onMounted, ref, watch} from "vue";
+import {useFlexDesignStore} from "@/store/FlexDesign";
+import {piniaInstance, useGlobalConfigStore} from "star-horse-lowcode";
+import {componentConfigs, defaultChartOptions,} from "@/components/formcomp/pageitems/componentConfig";
+import {Config} from "@/api/settings.js";
+import { i18n } from "@/lang";
 // Props
 const props = defineProps({
   itemId: {
@@ -17,7 +16,10 @@ const props = defineProps({
     default: "",
   },
 });
-
+let configStore = useGlobalConfigStore(piniaInstance);
+let compSize = computed(
+    () => configStore.configFormInfo?.inputSize || Config.compSize,
+);
 const jsonEditorVisible = ref(false);
 const currentJsonProperty = ref<any>({});
 const currentJsonValue = ref("");
@@ -25,7 +27,7 @@ const flexDesign = useFlexDesignStore(piniaInstance);
 const currentItem = computed(() => {
   const itemList = flexDesign.getComp(props.itemId);
   const item =
-    itemList?.find((temp: any) => temp.id == props.componentId) || {};
+      itemList?.find((temp: any) => temp.id == props.componentId) || {};
   if (!item.preps) {
     item.preps = {
       apiConfig: {},
@@ -48,18 +50,19 @@ const openJsonEditor = (field: any) => {
 const saveJsonEditor = () => {
   jsonEditorVisible.value = false;
 };
-const init = () => {};
+const init = () => {
+};
 onMounted(() => {
   init();
 });
 watch(
-  () => currentItem.value.preps.type,
-  (newType) => {
-    if (currentItem.value.name === "chart" && newType) {
-      currentItem.value.preps.option =
-        defaultChartOptions[newType] || defaultChartOptions.line || {};
-    }
-  },
+    () => currentItem.value.preps.type,
+    (newType) => {
+      if (currentItem.value.name === "chart" && newType) {
+        currentItem.value.preps.option =
+            defaultChartOptions[newType] || defaultChartOptions.line || {};
+      }
+    },
 );
 
 // Computed property for z-index with getter and setter
@@ -85,120 +88,121 @@ const zIndexValue = computed({
       </div>
       <div class="properties-form">
         <el-form
-          v-model="currentItem.preps"
-          :rules="{}"
-          ref="formRef"
-          label-width="auto"
-          label-position="top"
+            v-model="currentItem.preps"
+            :rules="{}"
+            :size="compSize"
+            ref="formRef"
+            label-width="auto"
+            label-position="top"
         >
           <el-form-item
-            v-for="prop in currentItemPreps.properties"
-            :key="prop.name"
-            :label="prop.label"
-            :prop="prop.name"
+              v-for="prop in currentItemPreps.properties"
+              :key="prop.name"
+              :label="prop.label"
+              :prop="prop.name"
           >
             <el-input
-              v-model="currentItem.preps[prop.name]"
-              v-if="prop.type === 'input'"
-              :placeholder="prop.placeholder"
+                v-model="currentItem.preps[prop.name]"
+                v-if="prop.type === 'input'"
+                :placeholder="prop.placeholder"
             />
             <el-input-number
-              v-model="currentItem.preps[prop.name]"
-              v-if="prop.type === 'number' && prop.name !== 'zIndex'"
-              :placeholder="prop.placeholder"
-              controls-position="right"
+                v-model="currentItem.preps[prop.name]"
+                v-if="prop.type === 'number' && prop.name !== 'zIndex'"
+                :placeholder="prop.placeholder"
+                controls-position="right"
             />
             <el-input-number
-              v-model="zIndexValue"
-              v-if="prop.name === 'zIndex'"
-              controls-position="right"
-              :min="0"
-              :max="9999"
+                v-model="zIndexValue"
+                v-if="prop.name === 'zIndex'"
+                controls-position="right"
+                :min="0"
+                :max="9999"
             />
             <el-select
-              v-model="currentItem.preps[prop.name]"
-              v-if="prop.type === 'select'"
-              :options="prop.options"
+                v-model="currentItem.preps[prop.name]"
+                v-if="prop.type === 'select'"
+                :options="prop.options"
             />
             <el-input
-              v-model="currentItem.preps[prop.name]"
-              v-if="prop.type === 'textarea'"
-              type="textarea"
-              :rows="3"
+                v-model="currentItem.preps[prop.name]"
+                v-if="prop.type === 'textarea'"
+                type="textarea"
+                :rows="3"
             />
             <el-radio-group
-              v-model="currentItem.preps[prop.name]"
-              v-if="prop.type === 'radio'"
-              :options="prop.options"
+                v-model="currentItem.preps[prop.name]"
+                v-if="prop.type === 'radio'"
+                :options="prop.options"
             />
             <el-checkbox-group
-              v-model="currentItem.preps[prop.name]"
-              v-if="prop.type === 'checkbox'"
-              :options="prop.options"
+                v-model="currentItem.preps[prop.name]"
+                v-if="prop.type === 'checkbox'"
+                :options="prop.options"
             />
             <el-color-picker
-              v-model="currentItem.preps[prop.name]"
-              v-if="prop.type === 'color'"
+                v-model="currentItem.preps[prop.name]"
+                v-if="prop.type === 'color'"
             />
             <!-- JSON Editor for other complex properties -->
             <div v-else-if="prop.type === 'json'" class="json-property">
               <el-button
-                type="primary"
-                plain
-                @click="openJsonEditor(prop)"
-                size="small"
+                  type="primary"
+                  plain
+                  @click="openJsonEditor(prop)"
+                  size="small"
               >
-                配置 {{ prop.label }}
+                {{ i18n('system.flex.pageItemProperties.button.config') }} {{ prop.label }}
               </el-button>
               <p v-if="prop.description" class="property-description">
                 {{ prop.description }}
               </p>
               <div class="json-preview" v-if="currentItem.preps[prop.name]">
                 <pre>{{
-                  JSON.stringify(currentItem.preps[prop.name], null, 2)
-                }}</pre>
+                    JSON.stringify(currentItem.preps[prop.name], null, 2)
+                  }}</pre>
               </div>
             </div>
             <div
-              v-else-if="prop.type === 'apiConfig'"
-              class="api-config-property"
+                v-else-if="prop.type === 'apiConfig'"
+                class="api-config-property"
             >
               <ApiConfigButton
-                v-model:dataForm="currentItem.preps[prop.name]"
-                :button-text="`配置 ${prop.label}`"
-                :dialog-title="`${currentItemPreps?.label} - ${prop.label}配置`"
+                  v-model:dataForm="currentItem.preps[prop.name]"
+                  :button-text="`配置 ${prop.label}`"
+                  :dialog-title="`${currentItemPreps?.label} - ${prop.label}配置`"
               />
               <p v-if="prop.description" class="property-description">
                 {{ prop.description }}
               </p>
               <div
-                class="api-config-preview"
-                v-if="
+                  class="api-config-preview"
+                  v-if="
                   currentItem.preps[prop.name] &&
                   Object.keys(currentItem.preps[prop.name]).length > 0
                 "
               >
                 <div class="preview-item">
-                  <span class="preview-label">环境:</span>
+                  <span class="preview-label">{{ i18n('system.flex.pageItemProperties.preview.label.environment') }}</span>
                   <span class="preview-value">{{
-                    currentItem.preps[prop.name].env
-                  }}</span>
+                      currentItem.preps[prop.name].env
+                    }}</span>
                 </div>
                 <div class="preview-item">
-                  <span class="preview-label">请求方式:</span>
+                  <span class="preview-label">{{ i18n('system.flex.pageItemProperties.preview.label.method') }}</span>
                   <span class="preview-value">{{
-                    currentItem.preps[prop.name].httpMethod
-                  }}</span>
+                      currentItem.preps[prop.name].httpMethod
+                    }}</span>
                 </div>
                 <div class="preview-item">
-                  <span class="preview-label">URL:</span>
+                  <span class="preview-label">{{ i18n('system.flex.pageItemProperties.preview.label.url') }}</span>
                   <span class="preview-value"
-                    >{{ currentItem.preps[prop.name].protocol }}://{{
+                  >{{ currentItem.preps[prop.name].protocol }}://{{
                       currentItem.preps[prop.name].host
                     }}{{
                       currentItem.preps[prop.name].port
-                        ? ":" + currentItem.preps[prop.name].port
-                        : ""
+                          ? ":" + currentItem.preps[prop.name].port
+                          : ""
                     }}{{ currentItem.preps[prop.name].interfaceUrl }}</span
                   >
                 </div>
@@ -209,29 +213,29 @@ const zIndexValue = computed({
       </div>
     </div>
     <div v-else class="empty-state">
-      <p>暂无属性</p>
+      <p>{{ i18n('system.flex.pageItemProperties.emptyState') }}</p>
     </div>
   </div>
   <star-horse-dialog
-    :dialogVisible="jsonEditorVisible"
-    :title="`${currentItemPreps?.label} - ${currentJsonProperty.label}`"
-    :boxWidth="'50%'"
-    boxHeight="70%"
-    :selfFunc="true"
-    @closeAction="jsonEditorVisible = false"
-    @merge="saveJsonEditor"
+      :dialogVisible="jsonEditorVisible"
+      :title="i18n('system.flex.pageItemProperties.dialog.title', currentItemPreps?.label, currentJsonProperty.label)"
+      :boxWidth="'50%'"
+      boxHeight="70%"
+      :selfFunc="true"
+      @closeAction="jsonEditorVisible = false"
+      @merge="saveJsonEditor"
   >
     <el-alert
-      title="提示"
-      type="warning"
-      description="请确保输入有效的 JSON 格式"
-      :closable="false"
-      show-icon
+        :title="i18n('system.flex.pageItemProperties.alert.title')"
+        type="warning"
+        :description="i18n('system.flex.pageItemProperties.alert.description')"
+        :closable="false"
+        show-icon
     />
     <div class="json-editor-container flex-1">
       <star-horse-json-editor
-        currentMode="text"
-        v-model="currentItem.preps[currentJsonProperty.name]"
+          currentMode="text"
+          v-model="currentItem.preps[currentJsonProperty.name]"
       />
     </div>
   </star-horse-dialog>

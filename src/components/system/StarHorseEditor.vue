@@ -1,5 +1,6 @@
 <script setup lang="ts" name="StarHorseEditor">
 import { nextTick, onMounted, ref } from "vue";
+import { i18n } from "@/lang";
 import { basicSetup } from "codemirror";
 import { EditorView, keymap } from "@codemirror/view";
 import { Compartment } from "@codemirror/state";
@@ -126,30 +127,30 @@ const jsHint = (context: CompletionContext) => {
     options: [
       {
         label: "currentField",
-        detail: "当前组件的属性",
+        detail: i18n("system.flex.starHorseEditor.autoCompletion.currentField"),
         apply: "currentField",
       },
-      { label: "formInstance", detail: "表单实例", apply: "formInstance" },
-      { label: "formData", detail: "表单数据", apply: "formData" },
-      { label: "formFields", detail: "表单所有元素", apply: "formFields" },
-      { label: "userInfo", detail: "当前登录用户信息", apply: "userInfo" },
+      { label: "formInstance", detail: i18n("system.flex.starHorseEditor.autoCompletion.formInstance"), apply: "formInstance" },
+      { label: "formData", detail: i18n("system.flex.starHorseEditor.autoCompletion.formData"), apply: "formData" },
+      { label: "formFields", detail: i18n("system.flex.starHorseEditor.autoCompletion.formFields"), apply: "formFields" },
+      { label: "userInfo", detail: i18n("system.flex.starHorseEditor.autoCompletion.userInfo"), apply: "userInfo" },
       {
         label: "postRequest",
-        detail: "Post 请求接口 默认异步返回",
+        detail: i18n("system.flex.starHorseEditor.autoCompletion.postRequest"),
         apply: "postRequest(url,params)",
       },
       {
         label: "getRequest",
-        detail: "Get 请求接口 默认异步返回",
+        detail: i18n("system.flex.starHorseEditor.autoCompletion.getRequest"),
         apply: "getRequest(url)",
       },
-      { label: "download", detail: "下载数据接口", apply: "download(url)" },
-      { label: "upload", detail: "上传数据接口", apply: "upload(url,params)" },
+      { label: "download", detail: i18n("system.flex.starHorseEditor.autoCompletion.download"), apply: "download(url)" },
+      { label: "upload", detail: i18n("system.flex.starHorseEditor.autoCompletion.upload"), apply: "upload(url,params)" },
     ],
   };
 };
 /**
- * 获取语言信息
+ * Get language information
  * @param lang
  */
 const langInfo = (lang: string) => {
@@ -174,7 +175,7 @@ const jsCompletions = javascriptLanguage.data.of({
   autocomplete: jsHint,
 });
 /**
- * 初始化
+ * Initialize
  */
 const init = async () => {
   if (typeof editor.value !== "undefined") {
@@ -229,7 +230,7 @@ onMounted(async () => {
   });
 });
 /**
- * 根据不同数据库生成不同的查询提示
+ * Generate different query tips based on different databases
  * @param dbName
  * @param datas
  */
@@ -322,7 +323,7 @@ defineExpose({
       </el-menu>
       <el-dropdown>
         <span class="el-dropdown-link">
-          主题
+          {{ i18n('system.flex.starHorseEditor.theme') }}
           <el-icon class="el-icon--right">
             <arrow-down />
           </el-icon>
@@ -346,7 +347,7 @@ defineExpose({
       &nbsp;&nbsp;
       <el-dropdown v-if="!lang">
         <span class="el-dropdown-link">
-          语言
+          {{ i18n('system.flex.starHorseEditor.language') }}
           <el-icon class="el-icon--right">
             <arrow-down />
           </el-icon>

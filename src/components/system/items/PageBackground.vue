@@ -1,6 +1,13 @@
 <script setup lang="ts" name="PageBackground">
 import { ModelRef, watch, ref } from "vue";
-
+import {Config} from "@/api/settings.js";
+import { i18n } from "@/lang";
+defineProps({
+  compSize: {
+    type: String,
+    default: Config.compSize,
+  }
+});
 let backgroundData: ModelRef<any> = defineModel("dataForm");
 const currentBackgroundImage = ref("");
 // 新增文件转base64方法
@@ -30,27 +37,28 @@ watch(
 </script>
 
 <template>
-  <el-form-item label="颜色" prop="backgroundColor">
+  <el-form-item :label="i18n('system.flex.pageBackground.label.color')" prop="backgroundColor">
     <div class="row">
       <el-color-picker
         v-model="backgroundData.backgroundColor"
         color-format="rgb"
-        size="small"
+        :size="compSize"
         placeholder="X"
       />
       <el-input
         v-model="backgroundData.backgroundColor"
-        size="small"
+        :size="compSize"
         placeholder=""
         style="margin-left: 5px"
       />
     </div>
   </el-form-item>
-  <el-form-item label="背景图片" prop="backgroundImage">
+  <el-form-item :label="i18n('system.flex.pageBackground.label.backgroundImage')" prop="backgroundImage">
     <el-upload
       :before-upload="beforeUpload"
       list-type="picture-card"
       accept="image/*"
+      :size="compSize"
       :show-file-list="false"
     >
       <img
@@ -63,21 +71,21 @@ watch(
       </el-icon>
     </el-upload>
   </el-form-item>
-  <el-form-item label="背景大小" prop="backgroundSize">
+  <el-form-item :label="i18n('system.flex.pageBackground.label.backgroundSize')" prop="backgroundSize">
     <el-input
       v-model="backgroundData.backgroundSize"
-      size="small"
-      placeholder="背景大小"
+      :size="compSize"
+      :placeholder="i18n('system.flex.pageBackground.placeholder.backgroundSize')"
     ></el-input>
   </el-form-item>
 
-  <el-form-item label="背景重复" prop="repeat">
-    <el-radio-group v-model="backgroundData.backgroundRepeat" size="small">
-      <el-radio value="no-repeat">不重复</el-radio>
-      <el-radio value="repeat">重复</el-radio>
-      <el-radio value="repeat-x">水平方向重复</el-radio>
-      <el-radio value="repeat-y">垂直方向重复</el-radio>
-      <el-radio value="space">重复，空白区域填充</el-radio>
+  <el-form-item :label="i18n('system.flex.pageBackground.label.backgroundRepeat')" prop="repeat">
+    <el-radio-group v-model="backgroundData.backgroundRepeat" :size="compSize">
+      <el-radio value="no-repeat">{{ i18n('system.flex.pageBackground.radio.noRepeat') }}</el-radio>
+      <el-radio value="repeat">{{ i18n('system.flex.pageBackground.radio.repeat') }}</el-radio>
+      <el-radio value="repeat-x">{{ i18n('system.flex.pageBackground.radio.repeatX') }}</el-radio>
+      <el-radio value="repeat-y">{{ i18n('system.flex.pageBackground.radio.repeatY') }}</el-radio>
+      <el-radio value="space">{{ i18n('system.flex.pageBackground.radio.space') }}</el-radio>
     </el-radio-group>
   </el-form-item>
 </template>

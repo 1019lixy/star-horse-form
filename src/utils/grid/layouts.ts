@@ -1,4 +1,5 @@
 import { GridContainer, GridItem } from "@/components/types/GridType";
+import { i18n } from "@/lang";
 
 export interface Layout {
   name: string;
@@ -11,7 +12,7 @@ export interface Layout {
 
 export const gridLayouts: Layout[] = [
   {
-    name: "分层布局",
+    name: i18n("system.grid.layouts.pancakeStack"),
     icon: "pancakeStack",
     layout: {
       items: [
@@ -28,7 +29,7 @@ export const gridLayouts: Layout[] = [
     },
   },
   {
-    name: "侧边栏布局",
+    name: i18n("system.grid.layouts.sidebar"),
     icon: "sidebar",
     layout: {
       items: [
@@ -44,7 +45,7 @@ export const gridLayouts: Layout[] = [
     },
   },
   {
-    name: "HTML5布局",
+    name: i18n("system.grid.layouts.html5"),
     icon: "html5",
     layout: {
       items: [
@@ -62,7 +63,7 @@ export const gridLayouts: Layout[] = [
     },
   },
   {
-    name: "HTML5布局-2",
+    name: i18n("system.grid.layouts.html5-2"),
     icon: "html5-2",
     layout: {
       items: [
@@ -81,7 +82,7 @@ export const gridLayouts: Layout[] = [
     },
   },
   {
-    name: "12列网格系统",
+    name: i18n("system.grid.layouts.columnSystem"),
     icon: "columnSystem",
     layout: {
       items: [
@@ -114,7 +115,7 @@ export const gridLayouts: Layout[] = [
     },
   },
   {
-    name: "拼贴布局",
+    name: i18n("system.grid.layouts.collage"),
     icon: "collage",
     layout: {
       items: [
@@ -173,7 +174,7 @@ export const gridLayouts: Layout[] = [
     },
   },
   {
-    name: "3x3 网格",
+    name: i18n("system.grid.layouts.grid3x3"),
     icon: "grid3x3",
     layout: {
       items: [
@@ -196,7 +197,7 @@ export const gridLayouts: Layout[] = [
     },
   },
   {
-    name: "4x4 网格",
+    name: i18n("system.grid.layouts.grid4x4"),
     icon: "grid4x4",
     layout: {
       items: [
@@ -226,7 +227,7 @@ export const gridLayouts: Layout[] = [
     },
   },
   {
-    name: "无限行布局",
+    name: i18n("system.grid.layouts.infiniteRows"),
     icon: "infiniteRows",
     layout: {
       items: [
@@ -250,7 +251,7 @@ export const gridLayouts: Layout[] = [
     },
   },
   {
-    name: "无限列布局",
+    name: i18n("system.grid.layouts.infiniteColumns"),
     icon: "infiniteColumns",
     layout: {
       items: [
