@@ -1,5 +1,25 @@
 export default {
   "starhorse.copyright": `©Copyright2020-${new Date().getFullYear()} Star Horse Personal Work House`,
+  /**
+   * Home Component Internationalization
+   */
+  "home.addModule": "Add Module",
+  "home.welcome": "Welcome to the System",
+  "home.noModules": "You haven't configured any modules yet. Please add your first module.",
+  "home.selectModule": "Select Module",
+  "home.searchModules": "Search Modules...",
+  "home.addSelectedModules": "Add Selected Modules",
+  "home.category.all": "All",
+  "home.category.system": "System Management",
+  "home.category.business": "Business Modules",
+  "home.category.analytics": "Data Analysis",
+  "home.category.tools": "Tools",
+  "home.module.userManagement": "User Management",
+  "home.module.userManagementDesc": "Manage system users and permissions",
+  "home.module.systemMonitor": "System Monitoring",
+  "home.module.systemMonitorDesc": "View system running status",
+  "home.module.personalCenter": "Personal Center",
+  "home.module.personalCenterDesc": "View and edit personal information",
   "starhorse.pleaseInput": "Please input",
   "starhorse.pleaseSelect": "Please select",
   "starhorse.notAllowEmpty": "required",
@@ -28,6 +48,10 @@ export default {
   "loginButton.welcome": "Welcome",
   "loginButton.welcomeBack": "Welcome Back",
   "loginButton.description": "  Welcome to StarHorse Devlopse Platform",
+  /**
+   * Dialog Operations
+   */
+  "dialog.cancel": "Cancel",
   "loginButton.logging": "Logging...",
   "userCenter.checkEmailReset":
     "Please check your email and follow the instructions to reset your password.",

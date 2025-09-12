@@ -2,6 +2,30 @@ import { Config } from "@/api/settings";
 
 export default {
   "starhorse.copyright": Config.footerTxt,
+  /**
+   * ダイアログ操作
+   */
+  "dialog.cancel": "キャンセル",
+  /**
+   * Homeコンポーネントの国際化
+   */
+  "home.addModule": "モジュールを追加",
+  "home.welcome": "システムへようこそ",
+  "home.noModules": "まだモジュールが設定されていません。最初のモジュールを追加してください。",
+  "home.selectModule": "モジュールを選択",
+  "home.searchModules": "モジュールを検索...",
+  "home.addSelectedModules": "選択したモジュールを追加",
+  "home.category.all": "すべて",
+  "home.category.system": "システム管理",
+  "home.category.business": "業務モジュール",
+  "home.category.analytics": "データ分析",
+  "home.category.tools": "ツール",
+  "home.module.userManagement": "ユーザー管理",
+  "home.module.userManagementDesc": "システムユーザーと権限を管理",
+  "home.module.systemMonitor": "システムモニタリング",
+  "home.module.systemMonitorDesc": "システムの実行状態を表示",
+  "home.module.personalCenter": "個人センター",
+  "home.module.personalCenterDesc": "個人情報を表示・編集",
   "starhorse.pleaseInput": "入力してください",
   "starhorse.pleaseSelect": "選択してください",
   "starhorse.notAllowEmpty": "空にすることはできません",

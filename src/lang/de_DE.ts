@@ -2,6 +2,30 @@ import { Config } from "@/api/settings";
 
 export default {
   "starhorse.copyright": `©Copyright2020-${new Date().getFullYear()} Star Horse Personal Work House`,
+  /**
+   * Dialog Operationen
+   */
+  "dialog.cancel": "Abbrechen",
+  /**
+   * Home-Komponente-Internationalisierung
+   */
+  "home.addModule": "Modul hinzufügen",
+  "home.welcome": "Willkommen im System",
+  "home.noModules": "Sie haben noch keine Module konfiguriert. Bitte fügen Sie Ihr erstes Modul hinzu.",
+  "home.selectModule": "Modul auswählen",
+  "home.searchModules": "Module suchen...",
+  "home.addSelectedModules": "Ausgewählte Module hinzufügen",
+  "home.category.all": "Alle",
+  "home.category.system": "Systemverwaltung",
+  "home.category.business": "Geschäftsmodule",
+  "home.category.analytics": "Datenanalyse",
+  "home.category.tools": "Werkzeuge",
+  "home.module.userManagement": "Benutzerverwaltung",
+  "home.module.userManagementDesc": "Systembenutzer und Berechtigungen verwalten",
+  "home.module.systemMonitor": "Systemüberwachung",
+  "home.module.systemMonitorDesc": "Systemzustand anzeigen",
+  "home.module.personalCenter": "Persönliches Zentrum",
+  "home.module.personalCenterDesc": "Persönliche Informationen anzeigen und bearbeiten",
   "starhorse.pleaseInput": "Bitte eingeben",
   "starhorse.pleaseSelect": "Bitte auswählen",
   "starhorse.notAllowEmpty": "darf nicht leer sein",

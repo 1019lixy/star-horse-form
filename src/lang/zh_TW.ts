@@ -2,6 +2,30 @@ import { Config } from "@/api/settings";
 
 export default {
   "starhorse.copyright": Config.footerTxt,
+  /**
+   * 對話框操作
+   */
+  "dialog.cancel": "取消",
+  /**
+   * Home組件國際化
+   */
+  "home.addModule": "添加模組",
+  "home.welcome": "歡迎使用系統",
+  "home.noModules": "您還沒有配置任何模組，請添加您的第一個模組",
+  "home.selectModule": "選擇模組",
+  "home.searchModules": "搜索模組...",
+  "home.addSelectedModules": "添加選中模組",
+  "home.category.all": "全部",
+  "home.category.system": "系統管理",
+  "home.category.business": "業務模組",
+  "home.category.analytics": "數據分析",
+  "home.category.tools": "工具",
+  "home.module.userManagement": "用戶管理",
+  "home.module.userManagementDesc": "管理系統用戶和權限",
+  "home.module.systemMonitor": "系統監控",
+  "home.module.systemMonitorDesc": "查看系統運行狀態",
+  "home.module.personalCenter": "個人中心",
+  "home.module.personalCenterDesc": "查看和編輯個人信息",
   "starhorse.pleaseInput": "請輸入",
   "starhorse.pleaseSelect": "請選擇",
   "starhorse.notAllowEmpty": "不能為空",

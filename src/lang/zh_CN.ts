@@ -2,6 +2,26 @@ import { Config } from "@/api/settings";
 
 export default {
   "starhorse.copyright": Config.footerTxt,
+  /**
+   * Home组件国际化
+   */
+  "home.addModule": "添加模块",
+  "home.welcome": "欢迎使用系统",
+  "home.noModules": "您还没有配置任何模块，请添加您的第一个模块",
+  "home.selectModule": "选择模块",
+  "home.searchModules": "搜索模块...",
+  "home.addSelectedModules": "添加选中模块",
+  "home.category.all": "全部",
+  "home.category.system": "系统管理",
+  "home.category.business": "业务模块",
+  "home.category.analytics": "数据分析",
+  "home.category.tools": "工具",
+  "home.module.userManagement": "用户管理",
+  "home.module.userManagementDesc": "管理系统用户和权限",
+  "home.module.systemMonitor": "系统监控",
+  "home.module.systemMonitorDesc": "查看系统运行状态",
+  "home.module.personalCenter": "个人中心",
+  "home.module.personalCenterDesc": "查看和编辑个人信息",
   "starhorse.pleaseInput": "请输入",
   "starhorse.pleaseSelect": "请选择",
   "starhorse.notAllowEmpty": "不能为空",
@@ -28,6 +48,10 @@ export default {
   "loginButton.register": "立即注册",
   "loginButton.login": "登 录",
   "loginButton.welcome": "欢迎光临",
+  /**
+   * 对话框操作
+   */
+  "dialog.cancel": "取消",
   "loginButton.welcomeBack": "欢迎回来",
   "loginButton.description": `  StarHorse DevOps是一个企业级开发运维和全栈低代码开发平台！潜心打造强大核心技术底座：内置元数据引擎、业务流程引擎、业务触发器、可视化表单。
                                 Sql查询、代码生成、CMDB、数据建模、数据可视化、报表、仪表盘、工作流、权限管理、消息推送、文件管理等功能一应俱全！`,

@@ -4,7 +4,7 @@
     <div class="dashboard-area h-full relative" v-if="modules.length > 0">
       <!-- Add button in top-right corner -->
       <div class="add-button-container absolute top-5 right-5 z-[1000]">
-        <el-tooltip content="添加模块" placement="top">
+        <el-tooltip :content="i18n('home.addModule')" placement="top">
           <star-horse-icon icon-class="plus" cursor="pointer" class="text-xl" @click="openModuleSelector"/>
         </el-tooltip>
       </div>
@@ -43,19 +43,19 @@
         <div class="empty-illustration mb-5 text-[#c0c4cc]">
           <star-horse-icon icon-class="dashboard" size="64px"/>
         </div>
-        <div class="welcome">欢迎使用系统</div>
-        <p class="m-0 mb-5 text-base text-[#606266]">您还没有配置任何模块，请添加您的第一个模块</p>
+        <div class="welcome">{{ i18n('home.welcome') }}</div>
+        <p class="m-0 mb-5 text-base text-[#606266]">{{ i18n('home.noModules') }}</p>
         <div @click="openModuleSelector" class="field-item flex h-[70px]! home-btn ">
           <star-horse-icon icon-class="plus"/>
-          添加模块
+          {{ i18n('home.addModule') }}
         </div>
       </div>
     </div>
 
     <!-- Module selection drawer -->
-    <el-drawer v-model="moduleSelectorVisible" title="选择模块" direction="rtl" size="40%">
+    <el-drawer v-model="moduleSelectorVisible" :title="i18n('home.selectModule')" direction="rtl" size="40%">
       <div class="module-selector h-full flex flex-col">
-        <el-input v-model="searchKeyword" placeholder="搜索模块..." class="search-input mb-5" clearable>
+        <el-input v-model="searchKeyword" :placeholder="i18n('home.searchModules')" class="search-input mb-5" clearable>
           <template #prefix>
             <star-horse-icon icon-class="search"/>
           </template>
@@ -89,9 +89,9 @@
 
       <template #footer>
         <div class="drawer-footer flex justify-end gap-2.5 p-2.5">
-          <el-button @click="moduleSelectorVisible = false">取消</el-button>
+          <el-button @click="moduleSelectorVisible = false">{{ i18n('dialog.cancel') }}</el-button>
           <el-button type="primary" @click="addSelectedModules" :disabled="selectedModules.length === 0">
-            添加选中模块
+            {{ i18n('home.addSelectedModules') }}
           </el-button>
         </div>
       </template>
@@ -101,6 +101,7 @@
 
 <script setup lang="ts">
 import {computed, onMounted, ref} from "vue";
+import {i18n} from "@/lang";
 import {DynamicNode, piniaInstance, uuid} from "star-horse-lowcode";
 import {useFlexDesignStore} from "@/store/FlexDesign";
 import {getUserInfo} from "@/utils/auth";
@@ -118,11 +119,11 @@ const selectedModuleId = ref<string | null>(null);
 
 // Module categories
 const moduleCategories = ref([
-  {id: "all", name: "全部"},
-  {id: "system", name: "系统管理"},
-  {id: "business", name: "业务模块"},
-  {id: "analytics", name: "数据分析"},
-  {id: "tools", name: "工具"}
+  {id: "all", name: i18n('home.category.all')},
+  {id: "system", name: i18n('home.category.system')},
+  {id: "business", name: i18n('home.category.business')},
+  {id: "analytics", name: i18n('home.category.analytics')},
+  {id: "tools", name: i18n('home.category.tools')}
 ]);
 
 // Default modules based on user roles
@@ -135,9 +136,9 @@ const defaultModules = computed(() => {
     admin: [
       {
         id: uuid(),
-        title: "用户管理",
+        title: i18n('home.module.userManagement'),
         icon: "user",
-        description: "管理系统用户和权限",
+        description: i18n('home.module.userManagementDesc'),
         category: "system",
         width: 300,
         height: 200,
@@ -147,9 +148,9 @@ const defaultModules = computed(() => {
       },
       {
         id: uuid(),
-        title: "系统监控",
+        title: i18n('home.module.systemMonitor'),
         icon: "monitor",
-        description: "查看系统运行状态",
+        description: i18n('home.module.systemMonitorDesc'),
         category: "system",
         width: 300,
         height: 200,
@@ -161,9 +162,9 @@ const defaultModules = computed(() => {
     user: [
       {
         id: uuid(),
-        title: "个人中心",
+        title: i18n('home.module.personalCenter'),
         icon: "user-circle",
-        description: "查看和编辑个人信息",
+        description: i18n('home.module.personalCenterDesc'),
         category: "system",
         width: 300,
         height: 200,
