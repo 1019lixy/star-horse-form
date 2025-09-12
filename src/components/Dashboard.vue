@@ -1,17 +1,22 @@
 <script lang="ts" setup>
 import router from "@/router";
-import { computed, nextTick, onMounted, provide, ref, watch } from "vue";
+import { computed, nextTick, onMounted, onUnmounted, provide, ref, watch } from "vue";
 import { useNavBarListStore } from "@/store/NavBarList";
 import { useViewCacheStore } from "@/store/ViewCache";
 import piniaCompInstance from "@/store";
-import zhCn from "element-plus/dist/locale/zh-cn.mjs";
-import en from "element-plus/dist/locale/en.mjs";
+import zhCn from "element-plus/es/locale/lang/zh-cn";
+import en from "element-plus/es/locale/lang/en";
+import de from "element-plus/es/locale/lang/de";
+import zhTw from "element-plus/es/locale/lang/zh-tw";
+import ja from "element-plus/es/locale/lang/ja";
 import { LangType } from "@/theme/theme";
 import { getLang } from "@/theme/localStorge";
 import { i18n } from "@/lang";
+// @ts-ignore
 import $ from "jquery";
 import { piniaInstance, useGlobalConfigStore } from "star-horse-lowcode";
 import { getUserInfo } from "@/utils/auth.js";
+import type { RouteRecordNormalized } from "vue-router";
 
 let configStore = useGlobalConfigStore(piniaInstance);
 const route = router.getRoutes().find((item) => item.path == "/home");
@@ -26,10 +31,53 @@ let outerIsCollapse = ref<number>(64);
 
 let locale = ref(zhCn);
 let direction = ref();
+
+// Handle language change event
+const handleLanguageChange = (event: CustomEvent) => {
+  const lang = event.detail.lang as LangType;
+  changeLang(lang, false);
+};
+
 const changeLang = (lang: LangType, _isInit: boolean) => {
-  locale.value = lang == LangType.ZH_CN ? zhCn : en;
+  if (lang == LangType.ZH_CN) {
+    locale.value = zhCn;
+  } else if (lang == LangType.ZH_TW) {
+    locale.value = zhTw;
+  } else if (lang == LangType.JA_JP) {
+    locale.value = ja;
+  } else if (lang == LangType.DE_DE) {
+    locale.value = de;
+  } else {
+    locale.value = en;
+  }
   // console.log(isInit);
 };
+
+// Add event listener on mount and remove on unmount
+onMounted(async () => {
+  await nextTick();
+  changeLang(getLang(), true);
+  if (route) {
+    // @ts-ignore
+    navBarListStore.addNavBar(route as any);
+  }
+  configStore.clearAll();
+  $(".star-horse-left").addClass("animate__animated animate__bounceInLeft");
+  setTimeout(() => {
+    $(".star-horse-left").removeClass(
+      "animate__animated animate__bounceInLeft",
+    );
+  }, 1000);
+  
+  // Add event listener for language changes
+  window.addEventListener('starHorseLanguageChange', handleLanguageChange as EventListener);
+});
+
+onUnmounted(() => {
+  // Clean up event listener
+  window.removeEventListener('starHorseLanguageChange', handleLanguageChange as EventListener);
+});
+
 const layoutConfig = () => {
   drawer.value = true;
 };
@@ -85,7 +133,10 @@ const sizeChange = (size: number) => {
 onMounted(async () => {
   await nextTick();
   changeLang(getLang(), true);
-  navBarListStore.addNavBar(route);
+  if (route) {
+    // @ts-ignore
+    navBarListStore.addNavBar(route as any);
+  }
   configStore.clearAll();
   $(".star-horse-left").addClass("animate__animated animate__bounceInLeft");
   setTimeout(() => {
@@ -93,6 +144,9 @@ onMounted(async () => {
       "animate__animated animate__bounceInLeft",
     );
   }, 1000);
+  
+  // Add event listener for language changes
+  window.addEventListener('starHorseLanguageChange', handleLanguageChange as EventListener);
 });
 </script>
 <template>

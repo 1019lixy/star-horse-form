@@ -24,4 +24,7 @@ export enum PrimaryColorType {
 export enum LangType {
   EN_US = "en_us",
   ZH_CN = "zh_cn",
+  ZH_TW = "zh_tw",
+  JA_JP = "ja_jp",
+  DE_DE = "de_de",
 }

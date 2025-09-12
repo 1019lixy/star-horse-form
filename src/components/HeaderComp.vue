@@ -2,6 +2,7 @@
 import { Config } from "@/api/settings";
 import { userLogout } from "@/api/star_horse_apis";
 import Message from "@/components/Message.vue";
+import Locale from "@/components/Locale.vue";
 import { i18n } from "@/lang";
 import { useLoginStore } from "@/store/Login";
 import { getLang, setLang } from "@/theme/localStorge";
@@ -37,8 +38,15 @@ const shortcutMenuList = computed(() => loginStore.getShortcutMenuList());
 let systemName = Config.title;
 let userInfo = getUserInfo();
 
+// Define type for shortcut menu items
+interface ShortcutMenuItem {
+  menuName: string;
+  menuPath: string;
+  menuIcon?: string;
+}
+
 const initData = () => {
-  changeLang(getLang(), true);
+  // Language initialization is now handled by Locale component
 };
 onMounted(() => {
   initData();
@@ -100,18 +108,6 @@ const batchMerge = (datas: Array<any>) => {
       closeLoad();
     });
 };
-let curLangName = ref("");
-const handleLanguageChanged = (lang: LangType) => {
-  // Use the language synchronization service to set the language
-  changeLang(lang as LangType, false);
-  location.reload();
-};
-const changeLang = (lang: LangType, isInit: boolean) => {
-  curLangName.value =
-    lang == LangType.ZH_CN ? i18n("locale.chinese") : i18n("locale.english");
-  setLang(lang);
-  emits("changeLang", lang, isInit);
-};
 
 const selectItem = (item: any) => {
   const userId = getUserInfo()?.idUsersinfo;
@@ -172,36 +168,11 @@ const selectItem = (item: any) => {
       />
     </div>
     <div
-      class="flex h-full w-[180px] mr-[10px] flex-row justify-between flex-no-wrap items-center"
+      class="flex h-full w-[180px] mr-[10px] flex-row justify-end items-center"
     >
-      <Message />
-      <el-dropdown
-        class="flex flex-row"
-        @command="handleLanguageChanged"
-        :show-arrow="false"
-      >
-        <span
-          class="flex items-center flex-row"
-          style="cursor: pointer; color: #fff"
-        >
-          {{ curLangName
-          }}<star-horse-icon
-            icon-class="arrow-down"
-            style="color: var(--star-horse-white)"
-        /></span>
-        <template #dropdown>
-          <el-dropdown-menu>
-            <el-dropdown-item command="zh_cn">{{
-              i18n("locale.chinese")
-            }}</el-dropdown-item>
-            <el-dropdown-item command="en_us">{{
-              i18n("locale.english")
-            }}</el-dropdown-item>
-          </el-dropdown-menu>
-        </template>
-      </el-dropdown>
-
-      <el-dropdown trigger="click" :show-arrow="false">
+      <Message class="header-icon" />
+      <Locale class="header-icon" />
+      <el-dropdown trigger="click" :show-arrow="false" class="header-icon">
         <span class="el-dropdown-link">
           <star-horse-icon
             icon-class="user-circle"
@@ -262,15 +233,15 @@ const selectItem = (item: any) => {
     >
       <template v-for="(item, index) in shortcutMenuList">
         <span>
-          <el-tooltip :content="item.menuName">
-            <router-link :to="{ path: item.menuPath }">
+          <el-tooltip :content="(item as ShortcutMenuItem).menuName">
+            <router-link :to="{ path: (item as ShortcutMenuItem).menuPath }">
               <el-icon
                 class="star-icon"
                 style="color: var(--star-horse-white); font-size: 18px"
               >
-                <component :is="item.menuIcon || 'document'" />
+                <component :is="(item as ShortcutMenuItem).menuIcon || 'document'" />
               </el-icon>
-              &nbsp;{{ item["menuName"] }}</router-link
+              &nbsp;{{ (item as ShortcutMenuItem)["menuName"] }}</router-link
             >
           </el-tooltip>
         </span>
@@ -366,5 +337,12 @@ const selectItem = (item: any) => {
 
 :deep(th.el-table__cell:first-child) {
   padding: 5px 0;
+}
+
+.header-icon {
+  margin-left: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 </style>

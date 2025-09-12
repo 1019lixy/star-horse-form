@@ -1991,4 +1991,7 @@ export default {
   "tags.closeRightPages": "Close Right Pages",
   "tags.closeOthers": "Close Others",
   "tags.closeAll": "Close All",
+  "locale.german": "Deutsch",
+  "locale.japanese": "日本語",
+  "locale.traditionalChinese": "繁體中文",
 };

@@ -1,11 +1,17 @@
 import zh_CN from "@/lang/zh_CN";
 import en_US from "@/lang/en_US";
+import zh_TW from "@/lang/zh_TW";
+import ja_JP from "@/lang/ja_JP";
+import de_DE from "@/lang/de_DE";
 import { LangType } from "@/theme/theme";
 import { getLang } from "@/theme/localStorge";
 
 const language = {
   zh_cn: zh_CN,
   en_us: en_US,
+  zh_tw: zh_TW,
+  ja_jp: ja_JP,
+  de_de: de_DE,
 };
 export const currentLang: LangType = getLang() || LangType.ZH_CN;
 export const isEn = currentLang === LangType.EN_US;

@@ -12,6 +12,7 @@ import {
   useGlobalConfigStore,
   warning,
 } from "star-horse-lowcode";
+import Locale from "@/components/Locale.vue";
 import { onMounted, reactive, ref, watch } from "vue";
 import { RouteLocationNormalized, useRouter } from "vue-router";
 
@@ -175,6 +176,9 @@ watch(
     />-->
     <div class="loginav">
       <div class="loginbox boxall">
+        <div class="absolute top-4 right-4">
+          <Locale />
+        </div>
         <div class="logo">{{ Config.title }}</div>
         <div class="logintit">
           <span>{{ i18n("loginButton.login") }}</span>

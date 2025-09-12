@@ -1,16 +1,24 @@
 <template>
-  <el-dropdown @command="handleSetLanguage" class="languages" trigger="click">
+  <el-dropdown @command="handleSetLanguage" class="languages" trigger="click" :show-arrow="false">
     <div style="font-size: 15px; color: var(--star-horse-white)">
       <span>{{ langName }}</span>
-      <i class="el-icon-arrow-down el-icon--right" />
     </div>
     <template #dropdown>
       <el-dropdown-menu>
-        <el-dropdown-item :disabled="language === 'zh'" command="zh">{{
+        <el-dropdown-item command="zh_cn">{{
           i18n("locale.chinese")
         }}</el-dropdown-item>
-        <el-dropdown-item :disabled="language === 'en'" command="en">{{
+        <el-dropdown-item command="en_us">{{
           i18n("locale.english")
+        }}</el-dropdown-item>
+        <el-dropdown-item command="zh_tw">{{
+          i18n("locale.traditionalChinese")
+        }}</el-dropdown-item>
+        <el-dropdown-item command="ja_jp">{{
+          i18n("locale.japanese")
+        }}</el-dropdown-item>
+        <el-dropdown-item command="de_de">{{
+          i18n("locale.german")
         }}</el-dropdown-item>
       </el-dropdown-menu>
     </template>
@@ -20,42 +28,66 @@
 import { onMounted, ref } from "vue";
 import { i18n } from "@/lang";
 import { LangType } from "@/theme/theme";
+import { getLang, setLang } from "@/theme/localStorge";
 
 const langName = ref("");
-const language = ref("");
 const init = () => {
-  let lang = localStorage.getItem("lang");
-  if (!lang || lang == "zh") {
+  let lang = getLang();
+  if (lang == LangType.ZH_CN) {
     langName.value = i18n("locale.chinese");
-    language.value = "zh";
+  } else if (lang == LangType.ZH_TW) {
+    langName.value = i18n("locale.traditionalChinese");
+  } else if (lang == LangType.JA_JP) {
+    langName.value = i18n("locale.japanese");
+  } else if (lang == LangType.DE_DE) {
+    langName.value = i18n("locale.german");
   } else {
     langName.value = i18n("locale.english");
-    language.value = "en";
   }
 };
 onMounted(() => {
   init();
 });
 const handleSetLanguage = (lang: string) => {
-  const langType = lang === "zh" ? LangType.ZH_CN : LangType.EN_US;
-
-  // Use the language synchronization service to set the language
-
-  if (lang === "zh") {
+  let langType;
+  if (lang === "zh_cn") {
+    langType = LangType.ZH_CN;
     langName.value = i18n("locale.chinese");
+  } else if (lang === "zh_tw") {
+    langType = LangType.ZH_TW;
+    langName.value = i18n("locale.traditionalChinese");
+  } else if (lang === "ja_jp") {
+    langType = LangType.JA_JP;
+    langName.value = i18n("locale.japanese");
+  } else if (lang === "de_de") {
+    langType = LangType.DE_DE;
+    langName.value = i18n("locale.german");
   } else {
+    langType = LangType.EN_US;
     langName.value = i18n("locale.english");
   }
-  language.value = lang;
+
+  // Use the language synchronization service to set the language
+  setLang(langType);
+  
+  // Dispatch a custom event to notify other components of the language change
+  const event = new CustomEvent('starHorseLanguageChange', { 
+    detail: { lang: langType } 
+  });
+  window.dispatchEvent(event);
+  
+  // Reload the page to apply the language change
   location.reload();
 };
 </script>
 <style scoped>
 .languages {
-  width: 76px;
-  float: left;
-  padding-top: 0px;
-  margin-top: -10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  width: auto;
+  min-width: 60px;
   text-align: center;
 }
 </style>

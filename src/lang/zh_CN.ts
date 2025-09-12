@@ -1051,7 +1051,6 @@ export default {
   "system.flexbox.layouts.horizontalBars": "水平条布局",
   "system.flexbox.layouts.verticalBars": "垂直条布局",
   "system.flexbox.layouts.rowWrap": "行换行布局",
-  "system.flexbox.layouts.verticalStack": "垂直堆叠布局",
   // PageFont.vue
   "system.flex.pageFont.label.size": "大小",
   "system.flex.pageFont.label.lineHeight": "行高",
@@ -1959,4 +1958,7 @@ export default {
   "tags.closeRightPages": "关闭右侧页面",
   "tags.closeOthers": "关闭其它",
   "tags.closeAll": "关闭所有",
+  "locale.german": "Deutsch",
+  "locale.japanese": "日本語",
+  "locale.traditionalChinese": "繁體中文",
 };

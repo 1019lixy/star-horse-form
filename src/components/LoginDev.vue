@@ -14,6 +14,7 @@ import {
 } from "star-horse-lowcode";
 import { onMounted, reactive, ref, watch } from "vue";
 import { RouteLocationNormalized, useRouter } from "vue-router";
+import Locale from "@/components/Locale.vue";
 
 interface LoginInfo {
   userName: string;
@@ -189,6 +190,9 @@ watch(
             {{ i18n("loginButton.description") }}
           </div>
         </div>
+        <div class="absolute top-4 right-4">
+          <Locale />
+        </div>
         <ul class="circles">
           <li></li>
           <li></li>
@@ -253,7 +257,9 @@ watch(
             }}</span>
             <span class="h-px w-16 bg-gray-200"></span>
           </div>
-
+          <div class="absolute top-4 right-4">
+            <Locale />
+          </div>
           <el-form
             :model="loginForm"
             :rules="loginRules"
