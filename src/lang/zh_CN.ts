@@ -213,7 +213,6 @@ export default {
   "dyform.js.editor.formData": "表单数据",
   "dyform.js.editor.formElements": "表单的所有元素",
   "dyform.js.editor.formInstance": "表单实例对象",
-  "dyform.js.editor.currentFieldInfo": "当前组件属性信息",
   "dyform.js.editor.parametersMethods": "具体参数或方法切换Tab查看",
   "dyform.js.editor.tab.code": "代码",
   "dyform.js.editor.tab.currentField": "当前组件属性",
