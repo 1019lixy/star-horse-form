@@ -209,6 +209,7 @@ export default {
    */
   "dyform.js.editor.title": "自定義信息",
   "dyform.js.editor.customEvent": "自定義事件,提供了如下系統參數",
+  "dyform.js.editor.currentFieldInfo": "當前組件的信息",
   "dyform.js.editor.formData": "表單數據",
   "dyform.js.editor.formElements": "表單的所有元素",
   "dyform.js.editor.formInstance": "表單實例對象",

@@ -66,7 +66,7 @@
     "@univerjs/sheets-zen-editor": "0.10.7",
     "@vitejs/plugin-vue-jsx": "^5.1.1",
     "animate.css": "^4.1.1",
-    "axios": "^1.11.0",
+    "axios": "^1.12.0",
     "bpmn-js": "^18.6.3",
     "bpmn-js-bpmnlint": "^0.23.0",
     "bpmn-js-token-simulation": "^0.38.1",
@@ -115,15 +115,15 @@
     "simple-mind-map": "^0.14.0",
     "smooth-signature": "^1.1.0",
     "sortablejs": "^1.15.6",
-    "sql-formatter": "^15.6.8",
+    "sql-formatter": "^15.6.9",
     "ssh2": "^1.17.0",
     "ssh2-sftp-client": "^12.0.1",
-    "star-horse-lowcode": "../testcode",
+    "star-horse-lowcode": "^2.8.15",
     "string-width": "^8.1.0",
     "strip-ansi": "^7.1.2",
     "svg2ttf": "^6.0.3",
     "svgicons2svgfont": "^15.0.1",
-    "swiper": "^11.2.10",
+    "swiper": "^12.0.1",
     "tailwindcss": "^4.1.13",
     "thememirror": "^2.0.1",
     "ttf2woff": "^3.0.0",
@@ -158,7 +158,7 @@
     "prettier": "^3.6.2",
     "terser": "^5.44.0",
     "vite": "^7.1.5",
-    "vite-plugin-vue-devtools": "^8.0.1"
+    "vite-plugin-vue-devtools": "^8.0.2"
   },
   "engines": {
     "node": ">=22.17.0"
