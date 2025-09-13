@@ -14,7 +14,11 @@ let designForm = useDesignFormStore(piniaInstance);
 let formDataList = computed(() => designForm.formDataList);
 let containerList = computed(() => designForm.containerList);
 let selfFormDataList = computed(() => designForm.selfFormDataList);
-let currentItemType = computed(() => designForm.currentItemType);
+let currentItemType = computed(() => {
+  let comp = designForm.currentComp;
+  comp.type = comp.itemType;
+  return comp.itemType;
+});
 let currentCompCategory = computed(() => designForm.currentCompCategory);
 let currentItemId = computed(() => designForm.currentItemId);
 let list = computed(() => designForm.compList);
@@ -186,8 +190,9 @@ defineExpose({
   assignPrep,
 });
 watch(
-    () => currentItemId.value,
+    () => [currentItemId.value, currentItemType.value],
     () => {
+      console.log(currentItemId.value, currentItemType.value);
       assignPrep();
     },
     {

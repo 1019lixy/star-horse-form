@@ -18,7 +18,9 @@ const overHandler = (item: any) => {
   currentItem.value = item;
 };
 const outHandler = () => {
-  currentItem.value = {};
+  setTimeout(() => {
+    currentItem.value = {};
+  }, 400);
 };
 </script>
 <template>
