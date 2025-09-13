@@ -380,6 +380,7 @@ onMounted(async () => {
           />
         </el-splitter-panel>
         <el-splitter-panel>
+          <el-card class="inner_content">
           <div class="search-content">
             <div class="search_btn">
               <star-horse-search-comp
@@ -392,7 +393,7 @@ onMounted(async () => {
               />
             </div>
           </div>
-          <el-card class="inner_content">
+
             <star-horse-table-comp
               :fieldList="tableFieldList"
               :primaryKey="primaryKey"

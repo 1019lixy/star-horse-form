@@ -35,9 +35,10 @@ onUnmounted(() => {
 </script>
 <template>
   <star-horse-dialog :dialogVisible="searchVisible"
-                     title="搜索"
+                     title="全局搜索"
                      boxWidth="50%"
                      boxHeight="70%"
+                     :source="3"
                      @closeAction="searchVisible = false" :selfFunc="true">
     <el-input v-model="searchValue" ref="searchAreaRef" :autofocus="true"
               placeholder="请输入内容"

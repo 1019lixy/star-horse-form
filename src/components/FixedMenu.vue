@@ -1,19 +1,19 @@
 <script setup lang="ts">
-import { useLoginStore } from "@/store/Login";
-import { MenusInfo, piniaInstance } from "star-horse-lowcode";
-import { computed, nextTick, onMounted, ref, watch } from "vue";
+import {useLoginStore} from "@/store/Login";
+import {MenusInfo, piniaInstance} from "star-horse-lowcode";
+import {computed, nextTick, onMounted, ref, watch} from "vue";
 
 const loginStore = useLoginStore(piniaInstance);
 let leftMenuDatas = computed(() => loginStore.getMenusList());
 let props = defineProps({
-  sysemId: { type: String },
-  isCollapse: { type: Boolean, default: true },
-  top: { type: String, default: "83px" },
+  sysemId: {type: String},
+  isCollapse: {type: Boolean, default: true},
+  top: {type: String, default: "83px"},
 });
 let defaultOpenMenu = ref<Array<string>>([]);
-let htop = ref<string>(
-  computed(() => props.top).value == "83px" ? "65px" : "35px",
-);
+let htop = computed(() => {
+  return props.top == "83px" ? "65px" : "35px";
+});
 const setOpenMenu = () => {
   let allId = leftMenuDatas.value.map((item: MenusInfo) => item.meta.menuId);
   nextTick(() => {
@@ -26,14 +26,15 @@ const overHandler = (item: any) => {
   currentItem.value = item;
 };
 
-onMounted(() => {});
+onMounted(() => {
+});
 
 watch(
-  () => leftMenuDatas.value,
-  (val: any) => {
-    setOpenMenu();
-  },
-  { immediate: false },
+    () => leftMenuDatas.value,
+    (val: any) => {
+      setOpenMenu();
+    },
+    {immediate: false},
 );
 </script>
 <template>
@@ -41,24 +42,24 @@ watch(
     <div class="menu-base">
       <template v-for="item in leftMenuDatas">
         <div
-          :class="{
+            :class="{
             'menu-item': true,
             'is-active': item.meta.title == currentItem.meta?.title,
           }"
-          @mouseover="overHandler(item)"
+            @mouseover="overHandler(item)"
         >
           <div class="menu-item-icon">
             <el-icon class="star-icon">
-              <component :is="item.meta.menuIcon || 'document'" />
+              <component :is="item.meta.menuIcon || 'document'"/>
             </el-icon>
           </div>
           <div class="menu-item-title">{{ item.meta.title }}</div>
           <div class="menu-item-line"></div>
           <div
-            class="menu-sub-item"
-            v-if="item.children && item.meta.title == currentItem.meta?.title"
+              class="menu-sub-item"
+              v-if="item.children && item.meta.title == currentItem.meta?.title"
           >
-            <FixedSubMenu :top="top" :data-list="item.children" />
+            <FixedSubMenu :top="top" :data-list="item.children"/>
           </div>
         </div>
       </template>
@@ -86,11 +87,10 @@ watch(
       width: 100%;
       height: 80px;
       flex-direction: column;
-      display: inline-flex;
+      display: flex;
       justify-content: center;
       align-items: center;
       vertical-align: middle;
-
       .menu-item-icon {
         width: 100%;
         height: 45px;
@@ -132,7 +132,7 @@ watch(
         display: none;
         opacity: 0;
         position: fixed;
-        top: v-bind(top);
+        top: calc(v-bind(top) - 2px);
         left: 90px;
         transition-delay: 1s;
         flex-direction: column;
@@ -165,9 +165,9 @@ watch(
       content: "";
       top: 40%;
       right: 0;
-      border-right: 10px solid #f9f9f9;
-      border-bottom: 10px solid transparent;
-      border-top: 10px solid transparent;
+      border-right: 15px solid #f9f9f9;
+      border-bottom: 15px solid transparent;
+      border-top: 15px solid transparent;
       z-index: 9991;
       width: 0;
       height: 0;
