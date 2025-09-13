@@ -336,6 +336,7 @@ declare module 'vue' {
     SankeyItem: typeof import('./src/components/formcomp/charts/sankey-item.vue')['default']
     ScatterItem: typeof import('./src/components/formcomp/charts/scatter-item.vue')['default']
     ScriptManage: typeof import('./src/views/ops/ScriptManage.vue')['default']
+    Search: typeof import('./src/components/Search.vue')['default']
     ServiceNode: typeof import('./src/views/workflow/plugin/node/ServiceNode.vue')['default']
     ServicePrep: typeof import('./src/views/workflow/plugin/preps/ServicePrep.vue')['default']
     SqlAudit: typeof import('./src/views/continuous/nodeDetail/SqlAudit.vue')['default']
