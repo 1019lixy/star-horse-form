@@ -1,9 +1,16 @@
+// @ts-ignore
 import zh_CN from "@/lang/zh_CN";
+// @ts-ignore
 import en_US from "@/lang/en_US";
+// @ts-ignore
 import zh_TW from "@/lang/zh_TW";
+// @ts-ignore
 import ja_JP from "@/lang/ja_JP";
+// @ts-ignore
 import de_DE from "@/lang/de_DE";
+// @ts-ignore
 import {LangType} from "@/theme/theme";
+// @ts-ignore
 import {getLang} from "@/theme/localStorge";
 
 const language: Record<LangType, Record<string, string>> = {
