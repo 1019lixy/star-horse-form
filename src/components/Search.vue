@@ -93,16 +93,16 @@ onUnmounted(() => {
     </div>
   </star-horse-dialog>
   <button type="button" @click.stop="searchAction"
-          class="btn-search inline-flex items-center gap-1 rounded-full bg-gray-950/2 px-2 py-1 inset-ring inset-ring-gray-950/8 dark:bg-white/5 dark:inset-ring-white/2 border mr-3">
+          class="btn-search inline-flex items-center gap-1 rounded-full bg-white/5 px-2 py-1 inset-ring inset-ring-white/2 border mr-3">
     <star-horse-icon iconClass="search" color="#fff" size="16px"/>
-    <kbd class="hidden font-sans text-xs/4 text-gray-500 dark:text-gray-400 [.os-macos_&]:block">⌘K</kbd>
-    <kbd class="hidden font-sans text-xs/4 text-gray-500 not-[.os-macos_&]:block dark:text-gray-400">Ctrl&nbsp;K</kbd>
+    <kbd class="hidden font-sans text-xs/4 text-white dark:text-white-400 [.os-macos_&]:block">⌘K</kbd>
+    <kbd class="hidden font-sans text-xs/4 text-white not-[.os-macos_&]:block dark:text-white-400">Ctrl&nbsp;K</kbd>
   </button>
 </template>
 
 <style lang="scss" scoped>
 .btn-search {
-  border: 1px solid gray;
+  border: 1px solid #fff;
   cursor: pointer;
 
   &:hover {

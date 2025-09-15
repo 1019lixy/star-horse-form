@@ -1,35 +1,45 @@
 <template>
   <el-dropdown @command="handleSetLanguage" class="languages" trigger="click" :show-arrow="false">
-    <div style="font-size: 15px; color: var(--star-horse-white)">
+    <div style="font-size: 15px;" :style="{ color: color }">
       <span>{{ langName }}</span>
     </div>
     <template #dropdown>
       <el-dropdown-menu>
         <el-dropdown-item command="zh_CN">{{
-          i18n("locale.chinese")
-        }}</el-dropdown-item>
+            i18n("locale.chinese")
+          }}
+        </el-dropdown-item>
         <el-dropdown-item command="en_US">{{
-          i18n("locale.english")
-        }}</el-dropdown-item>
+            i18n("locale.english")
+          }}
+        </el-dropdown-item>
         <el-dropdown-item command="zh_TW">{{
-          i18n("locale.traditionalChinese")
-        }}</el-dropdown-item>
+            i18n("locale.traditionalChinese")
+          }}
+        </el-dropdown-item>
         <el-dropdown-item command="ja_JP">{{
-          i18n("locale.japanese")
-        }}</el-dropdown-item>
+            i18n("locale.japanese")
+          }}
+        </el-dropdown-item>
         <el-dropdown-item command="de_DE">{{
-          i18n("locale.german")
-        }}</el-dropdown-item>
+            i18n("locale.german")
+          }}
+        </el-dropdown-item>
       </el-dropdown-menu>
     </template>
   </el-dropdown>
 </template>
 <script setup lang="ts">
-import { onMounted, ref } from "vue";
-import { i18n } from "@/lang";
-import { LangType } from "@/theme/theme";
-import { getLang, setLang } from "@/theme/localStorge";
-
+import {onMounted, ref} from "vue";
+import {i18n} from "@/lang";
+import {LangType} from "@/theme/theme";
+import {getLang, setLang} from "@/theme/localStorge";
+ defineProps({
+  color: {
+    type: String,
+    default: "var(--star-horse-white)",
+  }
+});
 const langName = ref("");
 const init = () => {
   let lang = getLang();
@@ -72,7 +82,7 @@ const handleSetLanguage = (lang: string) => {
 
   // Dispatch a custom event to notify other components of the language change
   const event = new CustomEvent('starHorseLanguageChange', {
-    detail: { lang: langType }
+    detail: {lang: langType}
   });
   window.dispatchEvent(event);
 

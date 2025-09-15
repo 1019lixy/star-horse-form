@@ -168,6 +168,9 @@ watch(
 </script>
 <template>
   <div class="login1">
+    <div class="absolute top-4 right-4">
+      <Locale color="#000"/>
+    </div>
     <!--    <vue-particles
       id="tsparticles"
       :particlesInit="particlesInit"
@@ -176,9 +179,7 @@ watch(
     />-->
     <div class="loginav">
       <div class="loginbox boxall">
-        <div class="absolute top-4 right-4">
-          <Locale />
-        </div>
+
         <div class="logo">{{ Config.title }}</div>
         <div class="logintit">
           <span>{{ i18n("loginButton.login") }}</span>
