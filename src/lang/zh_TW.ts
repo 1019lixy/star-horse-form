@@ -1851,6 +1851,7 @@ export default {
   "system.identity.number": "證件編號",
   "system.mailing.address": "通信地址",
   "system.id.photo": "證件照",
+  "system.auditing.opinion":"審批意見",
   /**
    * Workflow Components
    */

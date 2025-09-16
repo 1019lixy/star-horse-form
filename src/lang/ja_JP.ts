@@ -1864,6 +1864,7 @@ export default {
   "system.identity.number": "証明書番号",
   "system.mailing.address": "通信先住所",
   "system.id.photo": "証明書写真",
+  "system.auditing.opinion":"承認意見",
   /**
    * ワークフローコンポーネント
    */

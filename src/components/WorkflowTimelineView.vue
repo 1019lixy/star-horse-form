@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import {computed, onMounted, ref, watch} from "vue";
-import {i18n} from "@/lang";
+import { computed, onMounted, ref, watch } from "vue";
+import { i18n } from "@/lang";
 import WorkflowActionDialog from "./WorkflowActionDialog.vue";
 
 // Props
@@ -30,23 +30,23 @@ const currentActionType = ref("");
 
 // btnTypeList from FlowPropertyPanel.vue
 const btnTypeList = [
-  {name: i18n("workflow.btn.agree"), value: "a"},
-  {name: i18n("workflow.btn.reject"), value: "b"},
-  {name: i18n("workflow.btn.return"), value: "c"},
-  {name: i18n("workflow.btn.returnToStart"), value: "d"},
-  {name: i18n("workflow.btn.returnToHistory"), value: "e"},
-  {name: i18n("workflow.btn.revoke"), value: "f"},
-  {name: i18n("workflow.btn.transfer"), value: "g"},
-  {name: i18n("workflow.btn.addSign"), value: "h"},
-  {name: i18n("workflow.btn.reduceSign"), value: "i"},
-  {name: i18n("workflow.btn.save"), value: "j"},
-  {name: i18n("workflow.btn.terminate"), value: "k"},
-  {name: i18n("workflow.btn.countersign"), value: "l"},
-  {name: i18n("workflow.btn.agreeCountersign"), value: "m"},
-  {name: i18n("workflow.btn.rejectCountersign"), value: "n"},
-  {name: i18n("workflow.btn.abstainCountersign"), value: "o"},
-  {name: i18n("workflow.btn.assignApprover"), value: "p"},
-  {name: i18n("workflow.btn.assignJump"), value: "q"},
+  { name: i18n("workflow.btn.agree"), value: "a" },
+  { name: i18n("workflow.btn.reject"), value: "b" },
+  { name: i18n("workflow.btn.return"), value: "c" },
+  { name: i18n("workflow.btn.returnToStart"), value: "d" },
+  { name: i18n("workflow.btn.returnToHistory"), value: "e" },
+  { name: i18n("workflow.btn.revoke"), value: "f" },
+  { name: i18n("workflow.btn.transfer"), value: "g" },
+  { name: i18n("workflow.btn.addSign"), value: "h" },
+  { name: i18n("workflow.btn.reduceSign"), value: "i" },
+  { name: i18n("workflow.btn.save"), value: "j" },
+  { name: i18n("workflow.btn.terminate"), value: "k" },
+  { name: i18n("workflow.btn.countersign"), value: "l" },
+  { name: i18n("workflow.btn.agreeCountersign"), value: "m" },
+  { name: i18n("workflow.btn.rejectCountersign"), value: "n" },
+  { name: i18n("workflow.btn.abstainCountersign"), value: "o" },
+  { name: i18n("workflow.btn.assignApprover"), value: "p" },
+  { name: i18n("workflow.btn.assignJump"), value: "q" },
 ];
 
 // Computed properties
@@ -85,6 +85,9 @@ const mockWorkflowNodes = computed(() => {
         user: props.workflowData?.createdBy || "System",
       }),
       assignee: props.workflowData?.createdBy || "System",
+      // Add user photo or name for avatar
+      userPhoto: "", // In real implementation, this would come from user data
+      userName: props.workflowData?.createdBy || "System"
     },
     {
       name: i18n("workflow.approval.node"),
@@ -93,6 +96,9 @@ const mockWorkflowNodes = computed(() => {
       description: i18n("workflow.pending.approval"),
       assignee: i18n("workflow.pending.assignee"),
       action: getActionForCurrentNode(),
+      // Add user photo or name for avatar
+      userPhoto: "", // In real implementation, this would come from user data
+      userName: "审批人"
     },
     {
       name: i18n("workflow.final.approval"),
@@ -100,6 +106,9 @@ const mockWorkflowNodes = computed(() => {
       timestamp: "",
       description: i18n("workflow.not.started"),
       assignee: "",
+      // Add user photo or name for avatar
+      userPhoto: "", // In real implementation, this would come from user data
+      userName: "待定"
     },
     {
       name: i18n("workflow.final.approval"),
@@ -107,6 +116,9 @@ const mockWorkflowNodes = computed(() => {
       timestamp: "",
       description: i18n("workflow.not.started"),
       assignee: "",
+      // Add user photo or name for avatar
+      userPhoto: "", // In real implementation, this would come from user data
+      userName: "待定"
     },
     {
       name: i18n("workflow.final.approval"),
@@ -114,6 +126,9 @@ const mockWorkflowNodes = computed(() => {
       timestamp: "",
       description: i18n("workflow.not.started"),
       assignee: "",
+      // Add user photo or name for avatar
+      userPhoto: "", // In real implementation, this would come from user data
+      userName: "待定"
     },
     {
       name: i18n("workflow.final.approval"),
@@ -121,6 +136,9 @@ const mockWorkflowNodes = computed(() => {
       timestamp: "",
       description: i18n("workflow.not.started"),
       assignee: "",
+      // Add user photo or name for avatar
+      userPhoto: "", // In real implementation, this would come from user data
+      userName: "待定"
     },
     {
       name: i18n("workflow.final.approval"),
@@ -128,6 +146,9 @@ const mockWorkflowNodes = computed(() => {
       timestamp: "",
       description: i18n("workflow.not.started"),
       assignee: "",
+      // Add user photo or name for avatar
+      userPhoto: "", // In real implementation, this would come from user data
+      userName: "待定"
     },
   ];
 });
@@ -161,7 +182,7 @@ const getCurrentNodeButtons = () => {
       return btnTypeList.filter((btn) => ["g", "p"].includes(btn.value)); // Transfer, Assign Approver
     case "processing":
       return btnTypeList.filter((btn) =>
-          ["a", "b", "c", "g", "h", "i"].includes(btn.value),
+        ["a", "b", "c", "g", "h", "i"].includes(btn.value),
       ); // Agree, Reject, Return, Transfer, Add Sign, Reduce Sign
     case "completed":
       return btnTypeList.filter((btn) => ["f"].includes(btn.value)); // Revoke
@@ -271,6 +292,24 @@ const getNodeStatusLabel = (status: string) => {
   }
 };
 
+// Get user initials for avatar
+const getUserInitials = (userName: string) => {
+  if (!userName) return "U";
+
+  // If name has more than 2 characters, take last 2
+  // If name has 2 or fewer characters, show full name
+  if (userName.length > 2) {
+    return userName.substring(userName.length - 2);
+  } else {
+    return userName;
+  }
+};
+
+// Check if user photo is valid
+const hasValidUserPhoto = (userPhoto: string) => {
+  return userPhoto && userPhoto.trim() !== "";
+};
+
 // Handle workflow actions
 const handleAction = (action: string) => {
   // Check if the action requires data input
@@ -310,15 +349,16 @@ onMounted(() => {
 });
 // Watch for workflow data changes
 watch(
-    () => props.workflowData,
-    (newData) => {
-      if (newData) {
-        loadWorkflowTimeline(newData);
-      }
-    },
-    {immediate: false},
+  () => props.workflowData,
+  (newData) => {
+    if (newData) {
+      loadWorkflowTimeline(newData);
+    }
+  },
+  { immediate: false },
 );
 </script>
+
 <template>
   <div class="workflow-timeline-view">
     <div class="timeline-header">
@@ -351,10 +391,7 @@ watch(
         <el-descriptions-item :label="i18n('workflow.application.createdDate')">
           {{ workflowData.createdDate || "N/A" }}
         </el-descriptions-item>
-        <el-descriptions-item
-            :label="i18n('workflow.application.description')"
-            :span="2"
-        >
+        <el-descriptions-item :label="i18n('workflow.application.description')" :span="2">
           {{
             workflowData.description ||
             i18n("workflow.application.noDescription")
@@ -362,17 +399,19 @@ watch(
         </el-descriptions-item>
       </el-descriptions>
     </div>
-
+    <div class="font-bold ml-10 text-[16px]"><span>{{ i18n("system.auditing.opinion") }}</span></div>
+  <el-divider />
+   <div class="h-[30px]"/>
     <!-- Loading state -->
     <div v-if="loading" class="loading-container">
       <el-skeleton animated>
         <template #template>
-          <el-skeleton-item variant="text" style="width: 30%"/>
+          <el-skeleton-item variant="text" style="width: 30%" />
           <div style="margin-top: 20px">
-            <el-skeleton-item variant="text" style="width: 50%"/>
+            <el-skeleton-item variant="text" style="width: 50%" />
           </div>
           <div style="margin-top: 20px">
-            <el-skeleton-item variant="text" style="width: 70%"/>
+            <el-skeleton-item variant="text" style="width: 70%" />
           </div>
         </template>
       </el-skeleton>
@@ -380,40 +419,38 @@ watch(
 
     <!-- Timeline view -->
     <el-timeline v-else class="workflow-timeline">
-      <el-timeline-item
-          v-for="(node, index) in workflowNodes"
-          :key="index"
-          :timestamp="node.timestamp"
-          :type="getNodeStatusType(node.status)"
-          :hollow="node.status === 'pending'"
-          :color="getNodeStatusColor(node.status)"
-      >
+      <el-timeline-item v-for="(node, index) in workflowNodes" :key="index" :type="getNodeStatusType(node.status)"
+        :hollow="node.status === 'pending'" :color="getNodeStatusColor(node.status)">
+        <!-- Custom timeline dot with circular icon -->
+        <template #dot>
+          <div class="timeline-node-icon" :class="`status-${node.status}`">
+            <img v-if="hasValidUserPhoto(node.userPhoto)" :src="node.userPhoto" :alt="node.userName"
+              class="user-photo" />
+            <div v-else class="user-initials">
+              {{ getUserInitials(node.userName) }}
+            </div>
+          </div>
+        </template>
+
         <div class="node-content">
-          <div class="node-title">
-            <strong>{{ node.name }}</strong>
-            <span class="node-status">{{
-                getNodeStatusLabel(node.status)
-              }}</span>
+          <div class="node-header">
+            <div class="node-title">{{ node.name }}</div>
+            <div class="node-timestamp" v-if="node.timestamp">
+              {{ node.timestamp }}
+            </div>
           </div>
           <div class="node-description" v-if="node.description">
             {{ node.description }}
           </div>
           <div class="node-assignee" v-if="node.assignee">
-            <i class="el-icon-user"></i> {{ node.assignee }}
+            <el-tag size="small" :type="getNodeStatusType(node.status)">
+              {{ node.assignee }}
+            </el-tag>
           </div>
-          <div
-              class="node-actions"
-              v-if="node.action && node.status === 'current'"
-          >
+          <div class="node-actions" v-if="node.action && node.status === 'current'">
             <!-- Render buttons based on btnTypeList -->
-            <el-button
-                v-for="btn in getCurrentNodeButtons()"
-                :key="btn.value"
-                size="small"
-                :type="getButtonType(btn.value)"
-                @click="handleAction(btn.value)"
-                class="action-button"
-            >
+            <el-button v-for="btn in getCurrentNodeButtons()" :key="btn.value" size="small"
+              :type="getButtonType(btn.value)" @click="handleAction(btn.value)" class="action-button">
               {{ btn.name }}
             </el-button>
           </div>
@@ -423,19 +460,15 @@ watch(
 
     <!-- Empty state -->
     <div v-if="!loading && workflowNodes.length === 0" class="empty-state">
-      <el-empty :description="i18n('workflow.no.timeline.data')"/>
+      <el-empty :description="i18n('workflow.no.timeline.data')" />
     </div>
 
     <!-- Workflow Action Dialog -->
-    <WorkflowActionDialog
-        v-model="actionDialogVisible"
-        :action-type="currentActionType"
-        :workflow-data="workflowData"
-        @confirm="handleActionConfirm"
-        @close="handleActionClose"
-    />
+    <WorkflowActionDialog v-model="actionDialogVisible" :action-type="currentActionType" :workflow-data="workflowData"
+      @confirm="handleActionConfirm" @close="handleActionClose" />
   </div>
 </template>
+
 <style lang="scss" scoped>
 .workflow-timeline-view {
   padding: 20px;
@@ -458,45 +491,141 @@ watch(
 
 .workflow-timeline {
   padding: 0 20px;
+
+  // Adjust the timeline to align with custom icons
+  :deep(.el-timeline-item) {
+    .el-timeline-item__wrapper {
+      position: relative;
+      top: -24px; // Move content up to align with icon center
+      padding-left: 56px; // Make space for the icon
+    }
+
+    .el-timeline-item__tail {
+      left: 24px; // Align tail with icon center
+    }
+
+    .el-timeline-item__node {
+      left: 24px; // Align node with icon center
+      display: none; // Hide default node as we're using custom icons
+    }
+  }
+}
+
+.timeline-node-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  font-weight: bold;
+  color: white;
+  border: 3px solid white;
+  box-shadow: 0 0 0 3px #ebeef5, 0 2px 6px rgba(0, 0, 0, 0.15);
+  overflow: hidden;
+  position: absolute;
+  left: 0px;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 1;
+  transition: all 0.3s ease;
+
+  &.status-completed {
+    background: linear-gradient(135deg, #67C23A, #489c2d);
+  }
+
+  &.status-current {
+    background: linear-gradient(135deg, #409EFF, #1a7be0);
+    box-shadow: 0 0 0 3px #ebeef5, 0 2px 12px rgba(64, 158, 255, 0.4);
+  }
+
+  &.status-pending {
+    background: linear-gradient(135deg, #909399, #6c6f75);
+  }
+
+  &.status-error {
+    background: linear-gradient(135deg, #F56C6C, #e04343);
+  }
+
+  .user-photo {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .user-initials {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+  }
 }
 
 .node-content {
-  padding: 10px 0;
+  padding: 12px 16px;
+  margin-left: 0;
+  background-color: #f5f7fa;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  transition: all 0.3s ease;
 }
 
-.node-title {
+.node-content:hover {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transform: translateY(-2px);
+}
+
+.node-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 5px;
+  margin-bottom: 8px;
 }
 
-.node-status {
+.node-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: #303133;
+}
+
+.node-timestamp {
   font-size: 12px;
-  padding: 2px 6px;
-  border-radius: 4px;
-  background-color: #f0f2f5;
+  color: #909399;
 }
 
 .node-description {
   font-size: 14px;
   color: #606266;
-  margin: 5px 0;
+  margin: 8px 0;
+  line-height: 1.5;
 }
 
 .node-assignee {
-  font-size: 13px;
-  color: #909399;
-  margin: 5px 0;
+  margin: 8px 0;
+}
+
+.node-assignee :deep(.el-tag) {
+  font-size: 12px;
 }
 
 .node-actions {
-  margin-top: 10px;
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid #ebeef5;
 }
 
 .action-button {
   margin-right: 8px;
   margin-bottom: 8px;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+}
+
+.action-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .loading-container {

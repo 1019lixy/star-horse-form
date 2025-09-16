@@ -469,6 +469,7 @@ export default {
   "system.rank.code": "职级编码",
   "system.rank.sort": "职级排序",
   "system.belonging.category": "归属类别",
+  "system.auditing.opinion":"审批意见",
   /**
    * DB Search
    */

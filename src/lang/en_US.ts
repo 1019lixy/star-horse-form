@@ -1896,6 +1896,7 @@ export default {
   "system.identity.number": "Identity Number",
   "system.mailing.address": "Mailing Address",
   "system.id.photo": "ID Photo",
+  "system.auditing.opinion":"Approval Comments",
   /**
    * Workflow Components
    */

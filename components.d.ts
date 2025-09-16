@@ -202,6 +202,7 @@ declare module 'vue' {
     FieldPanel: typeof import('./src/views/dyform/FieldPanel.vue')['default']
     FixedMenu: typeof import('./src/components/FixedMenu.vue')['default']
     FixedSubMenu: typeof import('./src/components/menu/FixedSubMenu.vue')['default']
+    FixedSubMenu_de: typeof import('./src/components/menu/FixedSubMenu_de.vue')['default']
     FlexItem: typeof import('./src/components/system/items/FlexItem.vue')['default']
     FlexItem_fixed: typeof import('./src/components/system/items/FlexItem_fixed.vue')['default']
     FlexPreviewDialog: typeof import('./src/components/system/dialogs/FlexPreviewDialog.vue')['default']
