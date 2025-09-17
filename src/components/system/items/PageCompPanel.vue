@@ -1,9 +1,8 @@
 <script setup lang="ts">
 import { defineOptions, onMounted, ref } from "vue";
 import { pageCompList } from "@/utils/layoutcomp";
-import { PageCompItem } from "@/components/types/PageLayoutComp";
 import SvgLoader from "../SvgLoader.vue";
-import { piniaInstance, uuid } from "star-horse-lowcode";
+import { piniaInstance, uuid ,DynamicNode} from "star-horse-lowcode";
 import { useFlexDesignStore } from "@/store/FlexDesign.js";
 
 import { Config } from "@/api/settings.js";
@@ -20,13 +19,13 @@ defineProps({
 const flexDesign = useFlexDesignStore(piniaInstance);
 const emit = defineEmits(["selectItem"]);
 const activeNames = ref<string[]>(["a", "b", "c"]);
-const onContainerCopy = (data: PageCompItem) => {
+const onContainerCopy = (data: DynamicNode) => {
   let item = JSON.parse(JSON.stringify(data));
   item.id = uuid();
   flexDesign.setDraggingItem(item);
   return item;
 };
-const addElement = (item: PageCompItem, type: string) => {};
+const addElement = (item: DynamicNode, type: string) => {};
 // Map Chinese labels to i18n keys
 const getI18nKeyForCategory = (label: string): string => {
   const categoryMap: Record<string, string> = {

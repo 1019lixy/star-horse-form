@@ -283,6 +283,9 @@ const dataFormat = (name: string, cellValue: any, row: any): any => {
       cellValue
     );
   }
+  if(name=="commonFlag"){
+    return cellValue=="Y"?i18n("project.info.yes"):i18n("project.info.no");
+  }
   if (name == "statusCode") {
     return (
       statusList.value.find((item) => item.value == cellValue)?.name ||

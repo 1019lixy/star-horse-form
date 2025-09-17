@@ -1,5 +1,5 @@
 <script setup lang="ts" name="ItemPropertiesPanel">
-import {computed, nextTick, onMounted, ref} from "vue";
+import {computed, nextTick, onMounted, ref,unref} from "vue";
 import {
   buttonClickDataField,
   containerField,
@@ -24,25 +24,25 @@ let currentItemType = computed(() => {
 let currentCompCategory = computed(() => designForm.currentCompCategory);
 let formInfo = computed(() => designForm.formInfo);
 const formProps = computed(() => {
-  let formProps = designForm.currentFormPreps;
-  if (!formProps.rules) {
-    formProps.rules = [];
+  let preps = unref(designForm.currentFormPreps);
+  if (!preps.rules) {
+    preps.rules = [];
   }
-  fieldPlaceholder(formProps);
-  let keys = Object.keys(formProps);
+  fieldPlaceholder(preps);
+  let keys = Object.keys(preps);
   if (!keys.includes("maxLength")) {
-    formProps.maxLength = currentItemType.value == "number" ? 10 : 255;
+    preps.maxLength = currentItemType.value == "number" ? 10 : 255;
   }
   if (!keys.includes("formVisible")) {
-    formProps.formVisible = true;
+    preps.formVisible = true;
   }
   if (!keys.includes("listVisible")) {
-    formProps.listVisible = true;
+    preps.listVisible = true;
   }
   if (!keys.includes("viewVisible")) {
-    formProps.viewVisible = true;
+    preps.viewVisible = true;
   }
-  return formProps;
+  return preps;
 });
 let relationComps: Array<string> = [
   "select",
@@ -94,7 +94,9 @@ const editContainerPrep = () => {
   containerDialogVisible.value = true;
 };
 const setContainerData = () => {
-  containerPrepRef.value?.setFormData(formProps.value);
+  const temp={};
+  Object.assign(temp,formProps.value);
+  containerPrepRef.value?.setFormData(temp);
 };
 const changeOperation = (val: any) => {
   if (val?.includes("custom")) {
@@ -153,7 +155,7 @@ const dataRelationReset = () => {
 const containerPrepRef = ref<any>(null);
 
 const containerAction = () => {
-  const formData = containerPrepRef.value.getFormData();
+  const formData = containerPrepRef.value.getFormData().value;
   Object.assign(formProps.value, formData);
   closeAction();
 };

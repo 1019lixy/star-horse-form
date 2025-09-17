@@ -28,3 +28,4 @@ dist-ssr
 components.d.ts
 /plugin-dist/
 release
+.scannerwork/*

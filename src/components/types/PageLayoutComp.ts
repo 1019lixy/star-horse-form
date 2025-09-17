@@ -1,29 +1,23 @@
-export interface PageCompContainer {}
+import {DynamicNode} from "star-horse-lowcode";
 
-export interface PageCompItemPreps {}
-
-export interface PageCompItem {
-  id: string;
-  label: string;
-  name: string;
-  icon?: string;
-  preps: PageCompItemPreps;
+export interface PageCompContainer {
 }
 
+
 export interface PageComp {
-  id: string;
-  label: string;
-  name: string;
-  icon?: string;
-  items?: PageCompItem[];
-  container?: PageCompContainer;
+    id: string;
+    label: string;
+    name: string;
+    icon?: string;
+    items?: DynamicNode[];
+    container?: PageCompContainer;
 }
 
 export interface PageCompInfo {
-  //是否设计模式
-  isDesign: boolean;
-  //组件属性
-  preps: Record<string, any>;
-  //组件样式
-  styles?: Record<string, any>;
+    //是否设计模式
+    isDesign: boolean;
+    //组件属性
+    preps: Record<string, any>;
+    //组件样式
+    styles?: Record<string, any>;
 }

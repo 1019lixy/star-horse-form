@@ -13,7 +13,10 @@ export const pageCompList: PageComp[] = [
         label: i18n("system.flex.layoutcomp.table"),
         name: "ptable",
         icon: "table",
-        preps: {},
+        preps: {
+          width:100,
+          height:100,
+        },
       },
       {
         id: "2",

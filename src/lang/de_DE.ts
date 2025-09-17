@@ -2,7 +2,7 @@ export default {
   // Starhorse
   "starhorse.copyright": "© 2023 Starhorse Low-Code Platform. Alle Rechte vorbehalten.",
   "starhorse.version": "Version",
-  
+
   // Home
   "home.title": "Willkommen bei Starhorse",
   "home.subTitle": "Low-Code-Plattform für die schnelle Entwicklung von Unternehmensanwendungen",
@@ -11,7 +11,7 @@ export default {
   "home.newApplication": "Neue Anwendung",
   "home.allApplications": "Alle Anwendungen",
   "home.exploreTemplates": "Vorlagen erkunden",
-  
+
   // Login
   "login.title": "Anmelden",
   "login.username": "Benutzername",
@@ -26,14 +26,14 @@ export default {
   "login.error.captcha": "Bitte geben Sie das Captcha ein",
   "login.error.incorrect": "Falscher Benutzername oder Passwort",
   "login.error.network": "Netzwerkfehler, bitte versuchen Sie es erneut",
-  
+
   // Dialog
   "dialog.confirm": "Bestätigen",
   "dialog.cancel": "Abbrechen",
   "dialog.deleteConfirm": "Möchten Sie dies wirklich löschen?",
   "dialog.saveConfirm": "Möchten Sie die Änderungen speichern?",
   "dialog.closeConfirm": "Möchten Sie das Dialogfenster schließen? Nicht gespeicherte Änderungen gehen verloren.",
-  
+
   // Flow Design
   "flow.design.title": "Flow Designer",
   "flow.design.new": "Neuer Flow",
@@ -82,7 +82,7 @@ export default {
   "flow.design.save.error": "Speichern fehlgeschlagen",
   "flow.design.publish.success": "Erfolgreich veröffentlicht",
   "flow.design.publish.error": "Veröffentlichen fehlgeschlagen",
-  
+
   // Node Types
   "flow.design.node.start": "Start",
   "flow.design.node.end": "Ende",
@@ -95,7 +95,7 @@ export default {
   "flow.design.node.timer": "Timer",
   "flow.design.node.message": "Nachricht",
   "flow.design.node.service": "Service",
-  
+
   // Dyform
   "dyform.title": "Dynamisches Formular",
   "dyform.new": "Neues Formular",
@@ -153,7 +153,7 @@ export default {
   "dyform.advancedComponents": "Erweiterte Komponenten",
   "dyform.containerComponents": "Containerkomponenten",
   "dyform.layoutComponents": "Layoutkomponenten",
-  
+
   // Component Types
   "dyform.component.text": "Textfeld",
   "dyform.component.number": "Zahlenfeld",
@@ -189,7 +189,7 @@ export default {
   "dyform.component.label": "Bezeichnung",
   "dyform.component.button": "Schaltfläche",
   "dyform.component.link": "Link",
-  
+
   // Common Actions
   "common.add": "Hinzufügen",
   "common.edit": "Bearbeiten",
@@ -221,7 +221,6 @@ export default {
   "common.yes": "Ja",
   "common.no": "Nein",
   "common.confirm": "Bestätigen",
-  "common.cancel": "Abbrechen",
   "common.apply": "Anwenden",
   "common.clear": "Leeren",
   "common.copy": "Kopieren",
@@ -234,10 +233,9 @@ export default {
   "common.sort": "Sortieren",
   "common.asc": "Aufsteigend",
   "common.desc": "Absteigend",
-  "common.filter": "Filtern",
   "common.filterClear": "Filter leeren",
   "common.filterApply": "Filter anwenden",
-  
+
   // Common Status
   "common.status.active": "Aktiv",
   "common.status.inactive": "Inaktiv",
@@ -256,7 +254,7 @@ export default {
   "common.status.draft": "Entwurf",
   "common.status.published": "Veröffentlicht",
   "common.status.archived": "Archiviert",
-  
+
   // Common Messages
   "common.message.success": "Operation erfolgreich",
   "common.message.error": "Operation fehlgeschlagen",
@@ -286,7 +284,7 @@ export default {
   "common.message.validationError": "Validierungsfehler",
   "common.message.fieldRequired": "Dieses Feld ist erforderlich",
   "common.message.fieldInvalid": "Ungültiger Wert",
-  
+
   // System
   "system.version": "Version",
   "system.menu.icon": "Icon",
@@ -371,7 +369,7 @@ export default {
   "system.rank.code": "Rangcode",
   "system.rank.sort": "Rangsortierung",
   "system.belonging.category": "Kategorie",
-  
+
   // DB Search
   "dbsearch.select.database": "Bitte wählen Sie die Datenbankinformationen",
   "dbsearch.enter.keyword": "Bitte geben Sie das Stichwort ein",
@@ -397,7 +395,7 @@ export default {
   "dbsearch.executor.supports.selected.sql": "Der Executor unterstützt die Ausführung von ausgewähltem SQL",
   "dbsearch.open.prompt": "Prompt öffnen",
   "dbsearch.no.tables.found": "Keine Tabellen gefunden",
-  
+
   // Code Generator
   "codegen.database.info": "Datenbankinfo",
   "codegen.application.name": "Anwendungsname",
@@ -455,7 +453,7 @@ export default {
   "codegen.status.code": "Statuscode",
   "codegen.status.name": "Statusname",
   "codegen.international.code": "Internationaler Code",
-  
+
   // JBPM
   "jbpm.flow.validation": "Flussvalidierung",
   "jbpm.error": "Fehler",
@@ -464,23 +462,23 @@ export default {
   "jbpm.leave": "Urlaub",
   "jbpm.reimbursement": "Erstattung",
   "jbpm.dinner": "Dinner",
-  
+
   // Dyform
   "dyform.params.warning.displayFields": "Bitte konfigurieren Sie mindestens ein Anzeigefeld",
-  
+
   // Container Settings
   "dyform.container.dialog.title": "Container-Einstellungen",
-  
+
   // Data Relation Strategy Configuration
   "dyform.data.relation.dialog.title": "Datenbeziehungsstrategie-Konfiguration",
-  
+
   // Data Source Configuration
   "dyform.data.source.dialog.title": "Datenquellen-Konfiguration",
-  
+
   // Shortcut Operations
   "dyform.shortcut.warning.selectComponentToCopy": "Bitte wählen Sie zuerst eine Komponente zum Kopieren aus",
   "dyform.shortcut.warning.selectComponentToCut": "Bitte wählen Sie zuerst eine Komponente zum Ausschneiden aus",
-  
+
   // Flexible Design
   "flex.design.save.success": "Erfolgreich gespeichert",
   "flex.design.save.failure": "Speichern fehlgeschlagen",
@@ -496,7 +494,7 @@ export default {
   "flex.design.delete.failure": "Löschen fehlgeschlagen",
   "flex.design.copy.success": "Erfolgreich kopiert",
   "flex.design.copy.failure": "Kopieren fehlgeschlagen",
-  
+
   // System Components
   // FlexSaveDialog.vue
   "system.flex.saveDialog.title.save": "Design speichern",
@@ -533,7 +531,7 @@ export default {
   "system.flex.saveDialog.button.viewSavedDesign": "Gespeichertes Design anzeigen",
   "system.flex.saveDialog.rule.nameRequired": "Bitte geben Sie den Designnamen ein",
   "system.flex.saveDialog.message.saveError": "Schnelles Speichern fehlgeschlagen:",
-  
+
   // FlexPublishDialog.vue
   "system.flex.publishDialog.title": "Design veröffentlichen",
   "system.flex.publishDialog.label.name": "Veröffentlichungsname",
@@ -599,7 +597,7 @@ export default {
   "system.flex.publishDialog.status.rolledBack": "Zurückgerollt",
   "system.flex.publishDialog.status.publishing": "Veröffentlicht wird",
   "system.flex.publishDialog.status.failed": "Fehlgeschlagen",
-  
+
   // FlexShareDialog.vue
   "system.flex.shareDialog.title": "Design freigeben",
   "system.flex.shareDialog.label.name": "Designname",
@@ -650,7 +648,7 @@ export default {
   "system.flex.shareDialog.message.qrCodeFailed": "Generieren des QR-Codes fehlgeschlagen",
   "system.flex.shareDialog.message.qrCodeDownloaded": "QR-Code heruntergeladen",
   "system.flex.shareDialog.message.shareContentCopied": "Freigabeinhalt in die Zwischenablage kopiert",
-  
+
   // FlexPreviewDialog.vue
   "system.flex.previewDialog.title": "Designvorschau",
   "system.flex.previewDialog.untitled": "Unbenanntes Design",
@@ -681,7 +679,7 @@ export default {
   "system.flex.previewDialog.message.codeCopied": "Code in die Zwischenablage kopiert",
   "system.flex.previewDialog.message.copyFailed": "Kopieren fehlgeschlagen, bitte kopieren Sie manuell",
   "system.flex.previewDialog.message.untitledTemplate": "Unbenannte Vorlage",
-  
+
   // PageItemProperties.vue
   "system.flex.pageItemProperties.button.config": "Konfigurieren",
   "system.flex.pageItemProperties.emptyState": "Keine Eigenschaften",
@@ -691,7 +689,7 @@ export default {
   "system.flex.pageItemProperties.preview.label.environment": "Umgebung:",
   "system.flex.pageItemProperties.preview.label.method": "Anfragemethode:",
   "system.flex.pageItemProperties.preview.label.url": "URL:",
-  
+
   // PagePosition.vue
   "system.flex.pagePosition.label.x": "X",
   "system.flex.pagePosition.label.y": "Y",
@@ -702,7 +700,7 @@ export default {
   "system.flex.pagePosition.border.outer": "Äußerer Rand",
   "system.flex.pagePosition.border.inner": "Innerer Rand",
   "system.flex.pagePosition.content": "Inhalt",
-  
+
   // PageBackground.vue
   "system.flex.pageBackground.label.color": "Farbe",
   "system.flex.pageBackground.label.backgroundImage": "Hintergrundbild",
@@ -714,7 +712,7 @@ export default {
   "system.flex.pageBackground.radio.repeatX": "Horizontal wiederholen",
   "system.flex.pageBackground.radio.repeatY": "Vertikal wiederholen",
   "system.flex.pageBackground.radio.space": "Wiederholen, mit Abstand auffüllen",
-  
+
   // PageCompPanel.vue
   "system.flex.pageCompPanel.category.system": "Systemkomponenten",
   "system.flex.pageCompPanel.category.custom": "Benutzerdefinierte Komponenten",
@@ -739,7 +737,7 @@ export default {
   "system.flex.pageCompPanel.component.logo": "Logo",
   "system.flex.pageCompPanel.component.navbar": "Navigationsleiste",
   "system.flex.pageCompPanel.component.chart": "Diagramm",
-  
+
   // layoutcomp.ts
   "system.flex.layoutcomp.system": "Systemkomponenten",
   "system.flex.layoutcomp.custom": "Benutzerdefinierte Komponenten",
@@ -772,7 +770,7 @@ export default {
   "system.flex.layoutcomp.chart.week.friday": "Freitag",
   "system.flex.layoutcomp.chart.week.saturday": "Samstag",
   "system.flex.layoutcomp.chart.week.sunday": "Sonntag",
-  
+
   // apiConfig.ts
   "system.apiConfig.protocolOptions.http": "HTTP",
   "system.apiConfig.protocolOptions.https": "HTTPS",
@@ -801,7 +799,7 @@ export default {
   "system.apiConfig.validateApiConfig.port.error": "Portnummer muss zwischen 1-65535 liegen",
   "system.apiConfig.validateApiConfig.interfaceUrl.error": "Bitte geben Sie die Schnittstellen-URL ein",
   "system.apiConfig.validateApiConfig.refreshInterval.error": "Aktualisierungsintervall muss zwischen 5-3600 Sekunden liegen",
-  
+
   // flexbox/containerConfig.ts
   "system.flexbox.containerConfig.display.label": "Anzeigemodus",
   "system.flexbox.containerConfig.display.helpMsg": "Definiert den Layouttyp, wie flex oder block.",
@@ -847,7 +845,7 @@ export default {
   "system.flexbox.containerConfig.gap.helpMsg": "Gibt den Abstand zwischen den Flex-Elementen im Container an.",
   "system.flexbox.containerConfig.gap.pixel": "Pixel",
   "system.flexbox.containerConfig.gap.percent": "Prozent",
-  
+
   // flexbox/itemsConfig.ts
   "system.flexbox.itemsConfig.order.label": "Anordnungsreihenfolge",
   "system.flexbox.itemsConfig.order.helpMsg": "Gibt die Anordnungsreihenfolge der Elemente im Container an",
@@ -878,7 +876,7 @@ export default {
   "system.flexbox.itemsConfig.height.auto": "Auto",
   "system.flexbox.itemsConfig.height.pixel": "Pixel",
   "system.flexbox.itemsConfig.height.percent": "Prozent",
-  
+
   // flexbox/layouts.ts
   "system.flexbox.layouts.fillSpace": "Platz füllen",
   "system.flexbox.layouts.stretchMiddle": "Mitte stretchen",
@@ -895,7 +893,7 @@ export default {
   "system.flexbox.layouts.verticalBars": "Vertikale Balkenlayout",
   "system.flexbox.layouts.rowWrap": "Zeilenumbruch-Layout",
   "system.flexbox.layouts.verticalStack": "Vertikales Stapellayout",
-  
+
   // grid/containerConfig.ts
   "system.grid.containerConfig.display.label": "Anzeigemodus",
   "system.grid.containerConfig.display.helpMsg": "Definiert den Layouttyp des Containers, wie Grid oder Block.",
@@ -910,8 +908,7 @@ export default {
   /**
    * 404 Component
    */
-  "notFound.title": "Star Horse sagt :\n\n 404  :(
-\n   Seite nicht gefunden",
+  "notFound.title": "Star Horse sagt :\n\n 404  :(\n   Seite nicht gefunden",
   "notFound.goBack": "Zurückgehen",
   /**
    * Dashboard Component
@@ -1493,138 +1490,8 @@ export default {
   "forgotPassword.tip":
     "Bitte geben Sie die E-Mail-Adresse ein, die Sie bei der Registrierung verwendet haben, und wir senden Ihnen einen Link zum Zurücksetzen des Passworts an diese E-Mail.",
   "forgotPassword.success": "Passwortzurücksetzungs-E-Mail gesendet",
-  "forgotPassword.checkEmail":
-  "system.flex.layoutcomp.chart": "Diagramm",
-  "system.flex.layoutcomp.chart.example": "Liniendiagramm Beispiel",
-  "system.flex.layoutcomp.chart.week.monday": "Montag",
-  "system.flex.layoutcomp.chart.week.tuesday": "Dienstag",
-  "system.flex.layoutcomp.chart.week.wednesday": "Mittwoch",
-  "system.flex.layoutcomp.chart.week.thursday": "Donnerstag",
-  "system.flex.layoutcomp.chart.week.friday": "Freitag",
-  "system.flex.layoutcomp.chart.week.saturday": "Samstag",
-  "system.flex.layoutcomp.chart.week.sunday": "Sonntag",
-  // apiConfig.ts
-  "system.apiConfig.protocolOptions.http": "HTTP",
-  "system.apiConfig.protocolOptions.https": "HTTPS",
-  "system.apiConfig.createApiConfigProperties.env.label": "Systemumgebung",
-  "system.apiConfig.createApiConfigProperties.env.description": "Wählen Sie die Systemumgebung für API-Aufrufe aus",
-  "system.apiConfig.createApiConfigProperties.httpMethod.label": "Anfragemethode",
-  "system.apiConfig.createApiConfigProperties.httpMethod.description": "Wählen Sie die HTTP-Anfragemethode aus",
-  "system.apiConfig.createApiConfigProperties.protocol.label": "Protokoll",
-  "system.apiConfig.createApiConfigProperties.protocol.description": "Wählen Sie das Kommunikationsprotokoll aus",
-  "system.apiConfig.createApiConfigProperties.host.label": "IP/Domäne/Dienstname",
-  "system.apiConfig.createApiConfigProperties.host.placeholder": "Bitte geben Sie die IP-Adresse, Domäne oder Dienstnamen ein",
-  "system.apiConfig.createApiConfigProperties.host.description": "IP-Adresse, Domäne oder Dienstname des API-Servers",
-  "system.apiConfig.createApiConfigProperties.port.label": "Port",
-  "system.apiConfig.createApiConfigProperties.port.description": "Portnummer des API-Servers",
-  "system.apiConfig.createApiConfigProperties.interfaceUrl.label": "Schnittstellen-URL",
-  "system.apiConfig.createApiConfigProperties.interfaceUrl.placeholder": "Bitte geben Sie den Schnittstellenpfad ein, z.B.: /api/data/list",
-  "system.apiConfig.createApiConfigProperties.interfaceUrl.description": "Relativer Pfad der Schnittstelle",
-  "system.apiConfig.createApiConfigProperties.enableAutoRefresh.label": "Aktives automatische Aktualisierung",
-  "system.apiConfig.createApiConfigProperties.enableAutoRefresh.description": "Ob automatische Datenaktualisierung aktiviert werden soll",
-  "system.apiConfig.createApiConfigProperties.refreshInterval.label": "Aktualisierungsintervall (Sekunden)",
-  "system.apiConfig.createApiConfigProperties.refreshInterval.description": "Zeitintervall für automatische Datenaktualisierung in Sekunden",
-  "system.apiConfig.validateApiConfig.env.error": "Bitte wählen Sie die Systemumgebung aus",
-  "system.apiConfig.validateApiConfig.httpMethod.error": "Bitte wählen Sie die Anfragemethode aus",
-  "system.apiConfig.validateApiConfig.protocol.error": "Bitte wählen Sie das Protokoll aus",
-  "system.apiConfig.validateApiConfig.host.error": "Bitte geben Sie die IP/Domäne/Dienstnamen ein",
-  "system.apiConfig.validateApiConfig.port.error": "Die Portnummer muss zwischen 1-65535 liegen",
-  "system.apiConfig.validateApiConfig.interfaceUrl.error": "Bitte geben Sie die Schnittstellen-URL ein",
-  "system.apiConfig.validateApiConfig.refreshInterval.error": "Das Aktualisierungsintervall muss zwischen 5-3600 Sekunden liegen",
-  // flexbox/containerConfig.ts
-  "system.flexbox.containerConfig.display.label": "Anzeigemodus",
-  "system.flexbox.containerConfig.display.helpMsg": "Definiert den Layouttyp, wie Flex oder Block.",
-  "system.flexbox.containerConfig.display.flex": "Flex Layout",
-  "system.flexbox.containerConfig.display.block": "Block Layout",
-  "system.flexbox.containerConfig.flexDirection.label": "Anordnungsrichtung",
-  "system.flexbox.containerConfig.flexDirection.helpMsg": "Gibt die Hauptachsenrichtung der Elementanordnung an.",
-  "system.flexbox.containerConfig.flexDirection.row": "Zeilenanordnung",
-  "system.flexbox.containerConfig.flexDirection.column": "Spaltenanordnung",
-  "system.flexbox.containerConfig.flexDirection.rowReverse": "Umgekehrte Zeile",
-  "system.flexbox.containerConfig.flexDirection.columnReverse": "Umgekehrte Spalte",
-  "system.flexbox.containerConfig.flexWrap.label": "Umbrücheinstellung",
-  "system.flexbox.containerConfig.flexWrap.helpMsg": "Bestimmt, ob Elemente umbrochen oder in mehreren Zeilen angeordnet werden.",
-  "system.flexbox.containerConfig.flexWrap.nowrap": "Kein Umbruch",
-  "system.flexbox.containerConfig.flexWrap.wrap": "Automatischer Umbruch",
-  "system.flexbox.containerConfig.flexWrap.wrapReverse": "Umgekehrter Umbruch",
-  "system.flexbox.containerConfig.justifyContent.label": "Hauptachsenausrichtung",
-  "system.flexbox.containerConfig.justifyContent.helpMsg": "Ausrichtung der Elemente entlang der Hauptachse, Steuerung des horizontalen Abstands.",
-  "system.flexbox.containerConfig.justifyContent.start": "Startausrichtung",
-  "system.flexbox.containerConfig.justifyContent.flexStart": "Flex Start",
-  "system.flexbox.containerConfig.justifyContent.center": "Zentriert",
-  "system.flexbox.containerConfig.justifyContent.flexEnd": "Flex Ende",
-  "system.flexbox.containerConfig.justifyContent.end": "Endausrichtung",
-  "system.flexbox.containerConfig.justifyContent.spaceBetween": "Abstand dazwischen",
-  "system.flexbox.containerConfig.justifyContent.spaceAround": "Umgebender Abstand",
-  "system.flexbox.containerConfig.justifyContent.spaceEvenly": "Gleichmäßiger Abstand",
-  "system.flexbox.containerConfig.alignItems.label": "Querachsenausrichtung",
-  "system.flexbox.containerConfig.alignItems.helpMsg": "Ausrichtung der Elemente entlang der Querachse, beeinflusst die vertikale Anordnung.",
-  "system.flexbox.containerConfig.alignItems.stretch": "Strecken",
-  "system.flexbox.containerConfig.alignItems.center": "Zentriert",
-  "system.flexbox.containerConfig.alignItems.end": "Endausrichtung",
-  "system.flexbox.containerConfig.alignItems.baseline": "Basislinienausrichtung",
-  "system.flexbox.containerConfig.alignItems.start": "Startausrichtung",
-  "system.flexbox.containerConfig.alignContent.label": "Mehrzeilenausrichtung",
-  "system.flexbox.containerConfig.alignContent.helpMsg": "Definiert den Abstand zwischen Flexzeilen bei Umbrüchen.",
-  "system.flexbox.containerConfig.alignContent.stretch": "Strecken",
-  "system.flexbox.containerConfig.alignContent.start": "Startausrichtung",
-  "system.flexbox.containerConfig.alignContent.center": "Zentriert",
-  "system.flexbox.containerConfig.alignContent.end": "Endausrichtung",
-  "system.flexbox.containerConfig.alignContent.spaceBetween": "Abstand dazwischen",
-  "system.flexbox.containerConfig.alignContent.spaceAround": "Umgebender Abstand",
-  "system.flexbox.containerConfig.gap.label": "Abstand",
-  "system.flexbox.containerConfig.gap.helpMsg": "Gibt den Abstand zwischen Flex-Elementen im Container an.",
-  "system.flexbox.containerConfig.gap.pixel": "Pixel",
-  "system.flexbox.containerConfig.gap.percent": "Prozent",
-  // flexbox/itemsConfig.ts
-  "system.flexbox.itemsConfig.order.label": "Anordnungsreihenfolge",
-  "system.flexbox.itemsConfig.order.helpMsg": "Gibt die Anordnungsreihenfolge der Elemente im Container an",
-  "system.flexbox.itemsConfig.flexGrow.label": "Wachstumsfaktor",
-  "system.flexbox.itemsConfig.flexGrow.helpMsg": "Definiert den Wachstumsfaktor der Elemente relativ zu anderen Elementen",
-  "system.flexbox.itemsConfig.flexShrink.label": "Schrumpffaktor",
-  "system.flexbox.itemsConfig.flexShrink.helpMsg": "Steuert den Schrumpffaktor der Elemente bei unzureichendem Platz",
-  "system.flexbox.itemsConfig.flexBasis.label": "Anfängliche Größe",
-  "system.flexbox.itemsConfig.flexBasis.helpMsg": "Definiert die anfängliche Größe der Elemente vor der Platzverteilung",
-  "system.flexbox.itemsConfig.flexBasis.auto": "Automatisch",
-  "system.flexbox.itemsConfig.flexBasis.pixel": "Pixel",
-  "system.flexbox.itemsConfig.flexBasis.percent": "Prozent",
-  "system.flexbox.itemsConfig.alignSelf.label": "Selbstausrichtung",
-  "system.flexbox.itemsConfig.alignSelf.helpMsg": "Überschreibt Containerausrichtungs-Einstellungen, definiert die Querachsenausrichtung für einzelne Elemente",
-  "system.flexbox.itemsConfig.alignSelf.auto": "Automatisch",
-  "system.flexbox.itemsConfig.alignSelf.flexStart": "Startausrichtung",
-  "system.flexbox.itemsConfig.alignSelf.flexEnd": "Endausrichtung",
-  "system.flexbox.itemsConfig.alignSelf.center": "Zentriert",
-  "system.flexbox.itemsConfig.alignSelf.baseline": "Basislinienausrichtung",
-  "system.flexbox.itemsConfig.alignSelf.stretch": "Strecken",
-  "system.flexbox.itemsConfig.width.label": "Breite",
-  "system.flexbox.itemsConfig.width.helpMsg": "Gibt die Elementbreite an, überschreibt die Standardgröße",
-  "system.flexbox.itemsConfig.width.auto": "Automatisch",
-  "system.flexbox.itemsConfig.width.pixel": "Pixel",
-  "system.flexbox.itemsConfig.width.percent": "Prozent",
-  "system.flexbox.itemsConfig.height.label": "Höhe",
-  "system.flexbox.itemsConfig.height.helpMsg": "Gibt die Elementhöhe an, überschreibt die Standardgröße",
-  "system.flexbox.itemsConfig.height.auto": "Automatisch",
-  "system.flexbox.itemsConfig.height.pixel": "Pixel",
-  "system.flexbox.itemsConfig.height.percent": "Prozent",
-  // flexbox/layouts.ts
-  "system.flexbox.layouts.fillSpace": "Platz ausfüllen",
-  "system.flexbox.layouts.stretchMiddle": "Mitte dehnen",
-  "system.flexbox.layouts.html5": "HTML5-Layout",
-  "system.flexbox.layouts.alternatingGrid": "Alternierendes Grid",
-  "system.flexbox.layouts.masonryColumn": "Mauerwerksspaltenlayout",
-  "system.flexbox.layouts.masonryRow": "Mauerwerkszeilenlayout",
-  "system.flexbox.layouts.grid3x3": "3x3-Grid",
-  "system.flexbox.layouts.grid4x4": "4x4-Grid",
-  "system.flexbox.layouts.alignCenter": "Zentriert ausrichten",
-  "system.flexbox.layouts.fillRemainingSpace": "Verbleibenden Platz ausfüllen",
-  "system.flexbox.layouts.fillRemainingSpace2": "Verbleibenden Platz ausfüllen 2",
-  "system.flexbox.layouts.horizontalBars": "Horizontale Balkenlayout",
-  "system.flexbox.layouts.verticalBars": "Vertikale Balkenlayout",
-  "system.flexbox.layouts.rowWrap": "Zeilenumbruchlayout",
-  "system.flexbox.layouts.verticalStack": "Vertikales Stapel-Layout",
-  // grid/containerConfig.ts
-  "system.grid.containerConfig.display.label": "Anzeigemodus",
-  "system.grid.containerConfig.display.helpMsg": "Definiert den Layouttyp des Containers, wie Grid oder Block.",
+  "forgotPassword.checkEmail": "Bitte überprüfen Sie Ihre E-Mail-Adresse",
+
 
   /**
    * Workflow Components
