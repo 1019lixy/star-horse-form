@@ -93,7 +93,11 @@ const updateModulePosition = (updatedModule: any) => {
     saveModulesToBackend();
   }
 };
-
+const handleDesignChange = (val: boolean) => {
+  if (!val) {
+    saveModulesToBackend();
+  }
+};
 // Backend integration
 const saveModulesToBackend = () => {
   const user = getUserInfo();
@@ -111,8 +115,8 @@ const saveModulesToBackend = () => {
       idUsersinfo: user.idUsersinfo,
       rowNum: index,
       colNum: 1,
-      height: 300,
-      width: 400
+      styles: typeof module.styles === "object" ? JSON.stringify(module.styles) : module.styles,
+      preps: typeof module.preps === "object" ? JSON.stringify(module.preps) : module.preps ?? "{}",
     });
   });
   postRequest(userConfigUrl.batchMergeUrl!, datas).then(res => {
@@ -141,9 +145,15 @@ const loadModulesFromBackend = () => {
         warning(res.error);
         return;
       }
-      modules.value = allModules.value.filter((module: any) =>
-          res.data.map((item: any) =>
-              item.idIndexModule).includes(module.idIndexModule));
+      res.data?.forEach((module: any) => {
+        let item = allModules.value.find((item: any) => item.idIndexModule === module.idIndexModule);
+        module.title = item?.title;
+        module.moduleType = item?.moduleType;
+        module.moduleIcon = item?.moduleIcon;
+        module.styles = module.styles ? JSON.parse(module.styles) : {};
+        module.preps = module.preps ? JSON.parse(module.preps) : {};
+        modules.value.push(module);
+      });
     });
   });
 
@@ -160,10 +170,7 @@ onMounted(() => {
       <div class="module-grid w-full overflow-y-auto h-full">
         <star-horse-draggable v-for="(module, index) in modules" :key="module.idIndexModule" :node="module"
                               :isActive="selectedModuleId == module.idIndexModule && isDesign" :isDesign="isDesign"
-                              :styles="{
-            height: module.height ? module.height + 'px' : '380px',
-            width: module.width ? module.width + 'px' : '400px'
-          }" @selectNode="selectNode">
+                              @selectNode="selectNode">
           <div class="module-card w-full h-full "
                :style="{cursor: isDesign ? 'grab' : 'default'}"
                :class="{
@@ -251,7 +258,7 @@ onMounted(() => {
         <h4 class="text-md font-semibold mb-3">快捷操作</h4>
         <div class="action-item mb-2">
           <el-form-item>
-            <el-switch v-model="isDesign" active-text="编辑模式" inactive-text="只读模式"/>
+            <el-switch v-model="isDesign" active-text="编辑模式" inactive-text="只读模式" @change="handleDesignChange"/>
           </el-form-item>
           <el-form-item v-if="isDesign">
             <el-button :disabled="!isDesign" type="primary" @click="openModuleSelector">
@@ -277,16 +284,16 @@ onMounted(() => {
   </div>
 </template>
 <style lang="scss" scoped>
-  .module-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(400px, auto));
-    gap: 20px;
-    background: #f5f5f5;
-    align-items: start;
-    padding: 20px;
-    border-radius: 8px;
-    position: relative;
-  }
+.module-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  background: #f5f5f5;
+  align-items: start;
+  padding: 8px;
+  border-radius: 8px;
+  position: relative;
+}
 
 .module-card {
   background: white;
@@ -295,6 +302,7 @@ onMounted(() => {
   min-height: 150px;
   display: flex;
   flex-direction: column;
+  flex-shrink: 0;
   align-items: center;
   justify-content: center;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);

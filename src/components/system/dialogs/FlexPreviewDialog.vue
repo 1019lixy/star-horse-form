@@ -1,13 +1,13 @@
 <template>
   <star-horse-dialog
-    :dialogVisible="dialogVisible"
-    @closeAction="closeDialog"
-    :selfFunc="true"
-    :boxWidth="'90%'"
-    boxHeight="80%"
-    :full-screen="false"
-    :title="i18n('system.flex.previewDialog.title')"
-    :source="3"
+      :dialogVisible="dialogVisible"
+      @closeAction="closeDialog"
+      :selfFunc="true"
+      :boxWidth="'90%'"
+      boxHeight="80%"
+      :full-screen="false"
+      :title="i18n('system.flex.previewDialog.title')"
+      :source="3"
   >
     <div class="preview-container">
       <div class="preview-header">
@@ -16,7 +16,7 @@
           <p v-if="designDescription">{{ designDescription }}</p>
           <div class="design-stats">
             <el-tag size="small" type="info"
-              >{{ i18n('system.flex.previewDialog.label.itemCount') }}: {{ designSummary.itemCount }}
+            >{{ i18n('system.flex.previewDialog.label.itemCount') }}: {{ designSummary.itemCount }}
             </el-tag>
             <el-tag size="small" type="success" style="margin-left: 8px">
               {{ i18n('system.flex.previewDialog.label.compCount') }}: {{ designSummary.compCount }}
@@ -30,26 +30,30 @@
           <el-button-group>
             <el-button type="success" plain @click="toggleDeviceMode">
               <star-horse-icon
-                color="#fff"
-                :icon-class="deviceMode === 'desktop' ? 'mobile' : 'desktop'"
+                  color="#fff"
+                  :icon-class="deviceMode === 'desktop' ? 'mobile' : 'desktop'"
               />
-              {{ deviceMode === "desktop" ? i18n('system.flex.previewDialog.button.mobilePreview') : i18n('system.flex.previewDialog.button.desktopPreview') }}
+              {{
+                deviceMode === "desktop" ? i18n('system.flex.previewDialog.button.mobilePreview') : i18n('system.flex.previewDialog.button.desktopPreview')
+              }}
             </el-button>
             <el-button type="info" plain @click="refreshPreview">
-              <star-horse-icon icon-class="refresh" />
+              <star-horse-icon icon-class="refresh"/>
               {{ i18n('system.flex.previewDialog.button.refresh') }}
             </el-button>
             <el-button type="info" plain @click="exportHTML">
-              <star-horse-icon icon-class="download" color="#fff" />
+              <star-horse-icon icon-class="download" color="#fff"/>
               {{ i18n('system.flex.previewDialog.button.exportHTML') }}
             </el-button>
             <el-button
-              type="info"
-              plain
-              @click="showDebugInfo = !showDebugInfo"
+                type="info"
+                plain
+                @click="showDebugInfo = !showDebugInfo"
             >
-              <star-horse-icon icon-class="info" color="#fff" />
-              {{ showDebugInfo ? i18n('system.flex.previewDialog.button.hideDebug') : i18n('system.flex.previewDialog.button.showDebug') }}
+              <star-horse-icon icon-class="info" color="#fff"/>
+              {{
+                showDebugInfo ? i18n('system.flex.previewDialog.button.hideDebug') : i18n('system.flex.previewDialog.button.showDebug')
+              }}
             </el-button>
           </el-button-group>
         </div>
@@ -69,9 +73,9 @@
             <div :style="containerStyles" class="flex-1">
               <template v-for="item in positionList">
                 <FlexItem
-                  :itemId="item"
-                  :type="flexModel"
-                  :previewMode="true"
+                    :itemId="item"
+                    :type="flexModel"
+                    :previewMode="true"
                 />
               </template>
             </div>
@@ -102,15 +106,15 @@
           <div class="debug-section">
             <h4>{{ i18n('system.flex.previewDialog.label.containerInfo') }}</h4>
             <pre>{{
-              JSON.stringify(flexDesign.getContainerInfo(), null, 2)
-            }}</pre>
+                JSON.stringify(flexDesign.getContainerInfo(), null, 2)
+              }}</pre>
           </div>
           <div class="debug-section">
             <h4>{{ i18n('system.flex.previewDialog.label.itemInfo') }}</h4>
             <div
-              v-for="position in positionList"
-              :key="position"
-              class="debug-item"
+                v-for="position in positionList"
+                :key="position"
+                class="debug-item"
             >
               <strong>{{ position }}:</strong>
               <pre>{{ getItemStyle(position) }}</pre>
@@ -121,14 +125,14 @@
 
       <div class="preview-footer">
         <div
-          class="validation-info"
-          v-if="validationResult && !validationResult.isValid"
+            class="validation-info"
+            v-if="validationResult && !validationResult.isValid"
         >
           <el-alert
-            :title="i18n('system.flex.previewDialog.title.validationFailed')"
-            type="warning"
-            :closable="false"
-            show-icon
+              :title="i18n('system.flex.previewDialog.title.validationFailed')"
+              type="warning"
+              :closable="false"
+              show-icon
           >
             <ul>
               <li v-for="error in validationResult.errors" :key="error">
@@ -143,7 +147,7 @@
               <div class="card-header">
                 <span>{{ i18n('system.flex.previewDialog.title.htmlCode') }}</span>
                 <el-button size="small" @click="copyCode">
-                  <star-horse-icon icon-class="copy" />
+                  <star-horse-icon icon-class="copy"/>
                   {{ i18n('system.flex.previewDialog.button.copy') }}
                 </el-button>
               </div>
@@ -153,7 +157,9 @@
         </div>
         <div class="footer-actions">
           <el-button @click="toggleCodeView">
-            {{ showCode ? i18n('system.flex.previewDialog.button.hideCode') : i18n('system.flex.previewDialog.button.showCode') }}
+            {{
+              showCode ? i18n('system.flex.previewDialog.button.hideCode') : i18n('system.flex.previewDialog.button.showCode')
+            }}
           </el-button>
           <el-button type="primary" @click="saveAsTemplate">
             {{ i18n('system.flex.previewDialog.button.saveTemplate') }}
@@ -165,11 +171,11 @@
 </template>
 
 <script setup lang="ts">
-import { computed, nextTick, ref, watch } from "vue";
-import { useFlexDesignStore } from "@/store/FlexDesign";
-import { error, piniaInstance, success } from "star-horse-lowcode";
+import {computed, nextTick, ref, watch} from "vue";
+import {useFlexDesignStore} from "@/store/FlexDesign";
+import {error, piniaInstance, success} from "star-horse-lowcode";
 import FlexItem from "@/components/system/items/FlexItem.vue";
-import { i18n } from "@/lang";
+import {i18n} from "@/lang";
 
 interface Props {
   dialogVisible: boolean;
@@ -204,7 +210,7 @@ const camelToKebab = (key: string): string => {
 const designSummary = computed(() => flexDesign.getDesignSummary());
 const validationResult = computed(() => flexDesign.validateDesign());
 const htmlCode = computed(() =>
-  flexDesign.generatePreviewHTML(props.flexModel, props.containerDataForm),
+    flexDesign.generatePreviewHTML(props.flexModel, props.containerDataForm),
 );
 const positionList = computed(() => flexDesign.getPositionList());
 const currentItem = computed(() => flexDesign.getCurrentItem());
@@ -238,8 +244,8 @@ const getItemStyle = (position: string) => {
   };
 
   return Object.entries(defaultStyles)
-    .map(([key, value]) => `${key}: ${value}`)
-    .join("; ");
+      .map(([key, value]) => `${key}: ${value}`)
+      .join("; ");
 };
 
 const hasComponents = (position: string) => {
@@ -272,12 +278,12 @@ const refreshPreview = () => {
       previewContentRef.value.scrollTop = 0;
     }
   });
-  success(i18n('system.flex.previewDialog.message.refreshSuccess'));
+  success(i18n("system.flex.previewDialog.message.refreshSuccess"));
 };
 
 const exportHTML = () => {
   const html = htmlCode.value;
-  const blob = new Blob([html], { type: "text/html" });
+  const blob = new Blob([html], {type: "text/html"});
   const url = URL.createObjectURL(blob);
   const a = document.createElement("a");
   a.href = url;
@@ -286,7 +292,7 @@ const exportHTML = () => {
   a.click();
   document.body.removeChild(a);
   URL.revokeObjectURL(url);
-  success(i18n('system.flex.previewDialog.message.htmlExported'));
+  success(i18n("system.flex.previewDialog.message.htmlExported"));
 };
 
 const selectPreviewItem = (position: string) => {
@@ -300,17 +306,17 @@ const toggleCodeView = () => {
 const copyCode = async () => {
   try {
     await navigator.clipboard.writeText(htmlCode.value);
-    success(i18n('system.flex.previewDialog.message.codeCopied'));
+    success(i18n("system.flex.previewDialog.message.codeCopied"));
   } catch (err) {
     console.error("复制失败:", err);
-    error(i18n('system.flex.previewDialog.message.copyFailed'));
+    error(i18n("system.flex.previewDialog.message.copyFailed"));
   }
 };
 
 const saveAsTemplate = () => {
   const designData = flexDesign.serializeDesignData(
-    props.designName || i18n('system.flex.previewDialog.message.untitledTemplate'),
-    props.designDescription || "",
+      props.designName || i18n("system.flex.previewDialog.message.untitledTemplate"),
+      props.designDescription || "",
   );
   emit("saveTemplate", designData);
 };
@@ -321,15 +327,15 @@ const closeDialog = () => {
 
 // 监听dialog显示状态，重置数据
 watch(
-  () => props.dialogVisible,
-  (visible) => {
-    if (visible) {
-      selectedPreviewItem.value = "";
-      showCode.value = false;
-      showDebugInfo.value = false;
-      deviceMode.value = "desktop";
-    }
-  },
+    () => props.dialogVisible,
+    (visible) => {
+      if (visible) {
+        selectedPreviewItem.value = "";
+        showCode.value = false;
+        showDebugInfo.value = false;
+        deviceMode.value = "desktop";
+      }
+    },
 );
 </script>
 
@@ -337,7 +343,7 @@ watch(
 .preview-container {
   display: flex;
   flex-direction: column;
-  height: 70vh;
+  height: 100%;
   min-height: 500px;
 }
 
@@ -404,6 +410,7 @@ watch(
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
   overflow: hidden;
   min-height: 400px;
+  height: 100%;
 
   .frame-header {
     height: 40px;
@@ -443,6 +450,7 @@ watch(
   .frame-content {
     padding: 16px;
     min-height: 300px;
+    flex: 1;
     overflow: auto;
   }
 }

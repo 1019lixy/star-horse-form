@@ -4,7 +4,7 @@ import {useFlexDesignStore} from "@/store/FlexDesign";
 import {piniaInstance, useGlobalConfigStore} from "star-horse-lowcode";
 import {componentConfigs, defaultChartOptions,} from "@/components/formcomp/pageitems/componentConfig";
 import {Config} from "@/api/settings.js";
-import { i18n } from "@/lang";
+import {i18n} from "@/lang";
 // Props
 const props = defineProps({
   itemId: {
@@ -22,7 +22,7 @@ let compSize = computed(
 );
 const jsonEditorVisible = ref(false);
 const currentJsonProperty = ref<any>({});
-const currentJsonValue = ref("");
+const currentJsonValue = ref<any>("");
 const flexDesign = useFlexDesignStore(piniaInstance);
 const currentItem = computed(() => {
   const itemList = flexDesign.getComp(props.itemId);
@@ -43,11 +43,19 @@ const currentItemPreps = computed(() => {
 const openJsonEditor = (field: any) => {
   currentJsonProperty.value = field;
   if (!currentItem.value.preps[field.name]) {
-    currentItem.value.preps[field.name] = [];
+    currentItem.value.preps[field.name] = field.defaultValue ?? [];
   }
+  currentJsonValue.value = currentItem.value.preps[field.name];
   jsonEditorVisible.value = true;
 };
 const saveJsonEditor = () => {
+  try {
+    currentItem.value.preps[currentJsonProperty.value.name] = typeof currentJsonValue.value === 'string' ?
+        JSON.parse(currentJsonValue.value) : currentJsonValue.value;
+  } catch (e) {
+    console.error("JSON parse error:", e);
+  }
+  currentJsonValue.value = null;
   jsonEditorVisible.value = false;
 };
 const init = () => {
@@ -159,7 +167,7 @@ const zIndexValue = computed({
               </p>
               <div class="json-preview" v-if="currentItem.preps[prop.name]">
                 <pre>{{
-                    JSON.stringify(currentItem.preps[prop.name], null, 2)
+                    currentItem.preps[prop.name]
                   }}</pre>
               </div>
             </div>
@@ -183,7 +191,9 @@ const zIndexValue = computed({
                 "
               >
                 <div class="preview-item">
-                  <span class="preview-label">{{ i18n('system.flex.pageItemProperties.preview.label.environment') }}</span>
+                  <span class="preview-label">{{
+                      i18n('system.flex.pageItemProperties.preview.label.environment')
+                    }}</span>
                   <span class="preview-value">{{
                       currentItem.preps[prop.name].env
                     }}</span>
@@ -234,8 +244,8 @@ const zIndexValue = computed({
     />
     <div class="json-editor-container flex-1">
       <star-horse-json-editor
-          currentMode="text"
-          v-model="currentItem.preps[currentJsonProperty.name]"
+          currentMode="json"
+          v-model="currentJsonValue"
       />
     </div>
   </star-horse-dialog>

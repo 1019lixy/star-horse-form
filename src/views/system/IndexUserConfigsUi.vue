@@ -41,16 +41,14 @@ const searchFormData = reactive<SearchFields>({
       type: "number"
     },
     {
-      label: "宽度",
-      fieldName: "width",
-      defaultVisible: true, matchType: "eq",
-      type: "number"
+      label: "样式",
+      fieldName: "styles",
+      defaultVisible: true, matchType: "lk",
     },
     {
-      label: "高度",
-      fieldName: "height",
-      defaultVisible: true, matchType: "eq",
-      type: "number"
+      label: "属性",
+      fieldName: "preps",
+      defaultVisible: true, matchType: "lk",
     },
   ]
 });
@@ -88,15 +86,18 @@ const tableFieldList = reactive<PageFieldInfo | any>({
     ]
     , [
       {
-        label: "宽度",
-        fieldName: "width",
-        type: "number", required: true, formVisible: true,
+        label: "样式",
+        fieldName: "styles",
+        type: "json",
+        required: true, formVisible: true,
         listVisible: true
       }
       , {
-        label: "高度",
-        fieldName: "height",
-        type: "number", required: true, formVisible: true,
+        label: "属性",
+        fieldName: "preps",
+        type: "json",
+        required: true,
+        formVisible: true,
         listVisible: true
       }
     ]

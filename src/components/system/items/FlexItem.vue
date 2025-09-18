@@ -4,7 +4,7 @@ import {piniaInstance, uuid} from "star-horse-lowcode";
 import {computed, defineOptions, onBeforeUnmount, onMounted, ref} from "vue";
 import {dynamicFormContextMenuData, dynamicPageContextMenuData,} from "@/plugins/AblesPlugin.ts";
 import {bringToFront, sendToBack} from "@/utils/ZIndexManager";
-import { i18n } from "@/lang";
+import {i18n} from "@/lang";
 
 defineOptions({
   name: "FlexItem",
@@ -170,7 +170,7 @@ onMounted(() => {
       'w-full': type == 'grid',
       'item-width': containerDirection.includes('column'),
       'preview-mode': previewMode,
-      'item-selected': currentId == itemId,
+      'item-selected': currentId == itemId&&!previewMode,
     }"
   >
     <div class="absolute top-1 right-1 z-10 flex gap-1" v-if="!previewMode">
@@ -216,8 +216,8 @@ onMounted(() => {
         <template #item="{ element: data, index }">
 
           <StarHorseDraggable :key="data.id" :node="data"
-                              :isDesign="true"
-                              :isActive=" selectedComponentId== data.id"
+                              :isDesign="!previewMode"
+                              :isActive="selectedComponentId== data.id&&!previewMode"
                               @selectNode="selectNode">
             <component
                 :key="data.id"
@@ -260,8 +260,8 @@ onMounted(() => {
   transition: background 0.3s ease,
   box-shadow 0.3s ease;
   // Fix the width to prevent changes when adding new components
-  box-sizing: border-box;
-
+  box-sizing: content-box;
+  flex-shrink: 1;
   // Selection watermark background
   &.item-selected {
     background-image: radial-gradient(
@@ -327,7 +327,7 @@ onMounted(() => {
       width: 10px;
       height: 100px;
       top: 45%;
-      right: -5px;
+      right: 0;
       /* 调整到边框中间 */
       transform: translateY(-40%);
     }

@@ -2,7 +2,6 @@
 import {nextTick, onActivated, onDeactivated, onMounted, provide, reactive, ref} from "vue";
 import {apiInstance, ApiUrls, dialogPreps, PageFieldInfo, SearchFields} from "star-horse-lowcode";
 import {getCustomerParam} from "@/utils/auth";
-import {loadSvgIcons} from "@/api/star_horse_utils";
 
 defineOptions({
   name: 'IndexModules',
@@ -27,57 +26,23 @@ const tableFieldList = reactive<PageFieldInfo | any>({
     {
       label: "类别",
       fieldName: "moduleType",
-      type: "select",
-      required: true,
       formVisible: true,
-      listVisible: true,
-      preps: {
-        values: [
-          {
-            name: "系统",
-            value: "system"
-          },
-          {
-            name: "业务模块",
-            value: "business"
-          },
-          {
-            name: "数据分析",
-            value: "analysitics"
-          },
-          {
-            name: "工具",
-            value: "tools"
-          }
-        ]
-      }
+      listVisible: true
     }, {
       label: "图标",
-      required: true,
       fieldName: "moduleIcon",
-      type: "icon",
       formVisible: true,
-      listVisible: true,
-      preps: {
-        iconType: "user",
-        values: loadSvgIcons()
-      }
+      listVisible: true
     }, {
       label: "模块标题",
-      required: true,
       fieldName: "title",
       formVisible: true,
       listVisible: true
     }, {
       label: "模块描述",
-      required: true,
       fieldName: "description",
-      type: "textarea",
       formVisible: true,
-      listVisible: true,
-      preps: {
-        rows: 4
-      }
+      listVisible: true
     }, {
       label: "数据编号",
       fieldName: "dataNo",

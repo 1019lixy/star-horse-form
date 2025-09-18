@@ -538,7 +538,7 @@ watch(
         >
           <div
               :style="containerDataForm"
-              class="flex-1"
+              class="flex-1 flex-shrink-0"
               @click="selectContainer"
           >
             <template v-for="item in positionList">
@@ -800,7 +800,7 @@ watch(
   overflow: hidden;
   width: 120px;
   height: 120px;
-  
+
   /* Add a subtle inner glow effect */
   &::after {
     content: "";
@@ -823,7 +823,7 @@ watch(
     &::after {
       border-color: rgba(64, 158, 255, 0.3);
     }
-    
+
     /* Enhance the SVG loader on hover */
     :deep(.svg-loader) {
       transform: scale(1.1);
@@ -848,7 +848,7 @@ watch(
     text-overflow: ellipsis;
     white-space: nowrap;
   }
-  
+
   /* Ensure SVG loader maintains its size */
   :deep(.svg-loader) {
     transition: transform 0.3s ease;
