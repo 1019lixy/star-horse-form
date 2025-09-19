@@ -68,7 +68,7 @@ onMounted(async () => {
       "animate__animated animate__bounceInLeft",
     );
   }, 1000);
-  
+
   // Add event listener for language changes
   window.addEventListener('starHorseLanguageChange', handleLanguageChange as EventListener);
 });
@@ -144,7 +144,7 @@ onMounted(async () => {
       "animate__animated animate__bounceInLeft",
     );
   }, 1000);
-  
+
   // Add event listener for language changes
   window.addEventListener('starHorseLanguageChange', handleLanguageChange as EventListener);
 });
