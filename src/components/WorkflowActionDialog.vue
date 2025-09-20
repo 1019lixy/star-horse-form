@@ -1,151 +1,7 @@
-<template>
-  <star-horse-dialog
-    :dialogVisible="dialogVisible"
-    :draggable="true"
-    :self-func="true"
-    :title="dialogTitle"
-    boxWidth="500px"
-    @merge="handleSubmit"
-    @closeAction="handleClose"
-  >
-    <el-form
-      ref="formRef"
-      :model="formData"
-      :rules="formRules"
-      label-width="120px"
-    >
-      <!-- Reject Reason -->
-      <el-form-item
-        v-if="actionType === 'b' || actionType === 'n'"
-        :label="i18n('workflow.action.rejectReason')"
-        prop="rejectReason"
-      >
-        <el-input
-          v-model="formData.rejectReason"
-          type="textarea"
-          :placeholder="i18n('workflow.action.rejectReason.placeholder')"
-        />
-      </el-form-item>
-
-      <!-- Return Reason -->
-      <el-form-item
-        v-if="actionType === 'c' || actionType === 'd' || actionType === 'e'"
-        :label="i18n('workflow.action.returnReason')"
-        prop="returnReason"
-      >
-        <el-input
-          v-model="formData.returnReason"
-          type="textarea"
-          :placeholder="i18n('workflow.action.returnReason.placeholder')"
-        />
-      </el-form-item>
-
-      <!-- Add Sign -->
-      <el-form-item
-        v-if="actionType === 'h'"
-        :label="i18n('workflow.action.addSignUsers')"
-        prop="addSignUsers"
-      >
-        <el-select
-          v-model="formData.addSignUsers"
-          multiple
-          filterable
-          :placeholder="i18n('workflow.action.addSignUsers.placeholder')"
-          style="width: 100%"
-        >
-          <el-option
-            v-for="user in userList"
-            :key="user.id"
-            :label="user.name"
-            :value="user.id"
-          />
-        </el-select>
-      </el-form-item>
-
-      <!-- Reduce Sign -->
-      <el-form-item
-        v-if="actionType === 'i'"
-        :label="i18n('workflow.action.reduceSignUsers')"
-        prop="reduceSignUsers"
-      >
-        <el-select
-          v-model="formData.reduceSignUsers"
-          multiple
-          filterable
-          :placeholder="i18n('workflow.action.reduceSignUsers.placeholder')"
-          style="width: 100%"
-        >
-          <el-option
-            v-for="user in signUsers"
-            :key="user.id"
-            :label="user.name"
-            :value="user.id"
-          />
-        </el-select>
-      </el-form-item>
-
-      <!-- Transfer -->
-      <el-form-item
-        v-if="actionType === 'g'"
-        :label="i18n('workflow.action.transferTo')"
-        prop="transferTo"
-      >
-        <el-select
-          v-model="formData.transferTo"
-          filterable
-          :placeholder="i18n('workflow.action.transferTo.placeholder')"
-          style="width: 100%"
-        >
-          <el-option
-            v-for="user in userList"
-            :key="user.id"
-            :label="user.name"
-            :value="user.id"
-          />
-        </el-select>
-      </el-form-item>
-
-      <!-- Assign Approver -->
-      <el-form-item
-        v-if="actionType === 'p'"
-        :label="i18n('workflow.action.assignApprover')"
-        prop="assignApprover"
-      >
-        <el-select
-          v-model="formData.assignApprover"
-          filterable
-          :placeholder="i18n('workflow.action.assignApprover.placeholder')"
-          style="width: 100%"
-        >
-          <el-option
-            v-for="user in userList"
-            :key="user.id"
-            :label="user.name"
-            :value="user.id"
-          />
-        </el-select>
-      </el-form-item>
-
-      <!-- Comments -->
-      <el-form-item
-        v-if="showComments"
-        :label="i18n('workflow.action.comments')"
-        prop="comments"
-      >
-        <el-input
-          v-model="formData.comments"
-          type="textarea"
-          :placeholder="i18n('workflow.action.comments.placeholder')"
-        />
-      </el-form-item>
-    </el-form>
-  </star-horse-dialog>
-</template>
-
 <script setup lang="ts">
-import { computed, ref, watch } from "vue";
-import { i18n } from "@/lang";
-import { StarHorseDialog } from "star-horse-lowcode";
+import {computed, onMounted, reactive, ref, watch} from "vue";
+import {i18n} from "@/lang";
+import {PageFieldInfo, StarHorseDialog} from "star-horse-lowcode";
 
 // Props
 const props = defineProps({
@@ -178,77 +34,11 @@ const formData = ref({
   assignApprover: "",
   comments: "",
 });
-
-// Form rules
-const formRules = computed(() => {
-  const rules: any = {};
-
-  if (props.actionType === "b" || props.actionType === "n") {
-    rules.rejectReason = [
-      {
-        required: true,
-        message: i18n("workflow.action.rejectReason.required"),
-        trigger: "blur",
-      },
-    ];
-  }
-
-  if (
-    props.actionType === "c" ||
-    props.actionType === "d" ||
-    props.actionType === "e"
-  ) {
-    rules.returnReason = [
-      {
-        required: true,
-        message: i18n("workflow.action.returnReason.required"),
-        trigger: "blur",
-      },
-    ];
-  }
-
-  if (props.actionType === "h") {
-    rules.addSignUsers = [
-      {
-        required: true,
-        message: i18n("workflow.action.addSignUsers.required"),
-        trigger: "change",
-      },
-    ];
-  }
-
-  if (props.actionType === "i") {
-    rules.reduceSignUsers = [
-      {
-        required: true,
-        message: i18n("workflow.action.reduceSignUsers.required"),
-        trigger: "change",
-      },
-    ];
-  }
-
-  if (props.actionType === "g") {
-    rules.transferTo = [
-      {
-        required: true,
-        message: i18n("workflow.action.transferTo.required"),
-        trigger: "change",
-      },
-    ];
-  }
-
-  if (props.actionType === "p") {
-    rules.assignApprover = [
-      {
-        required: true,
-        message: i18n("workflow.action.assignApprover.required"),
-        trigger: "change",
-      },
-    ];
-  }
-
-  return rules;
+const formFieldInfo = reactive<PageFieldInfo | any>({
+  fieldList: []
 });
+// Form rules
+
 
 // Computed properties
 const dialogTitle = computed(() => {
@@ -297,24 +87,24 @@ const showComments = computed(() => {
 
 // Mock user data - in a real implementation, this would come from an API
 const userList = ref([
-  { id: "user1", name: "张三" },
-  { id: "user2", name: "李四" },
-  { id: "user3", name: "王五" },
-  { id: "user4", name: "赵六" },
+  {id: "user1", name: "张三"},
+  {id: "user2", name: "李四"},
+  {id: "user3", name: "王五"},
+  {id: "user4", name: "赵六"},
 ]);
 
 // Mock sign users - in a real implementation, this would come from the workflow data
 const signUsers = ref([
-  { id: "user1", name: "张三" },
-  { id: "user2", name: "李四" },
+  {id: "user1", name: "张三"},
+  {id: "user2", name: "李四"},
 ]);
 
 // Watch for model value changes
 watch(
-  () => props.modelValue,
-  (newValue) => {
-    dialogVisible.value = newValue;
-  },
+    () => props.modelValue,
+    (newValue) => {
+      dialogVisible.value = newValue;
+    },
 );
 
 // Handle close
@@ -353,12 +143,149 @@ const handleSubmit = async () => {
     console.error("Form validation failed:", error);
   }
 };
+const init = () => {
+  formFieldInfo.fieldList=[];
+  if (["b", "n"].includes(props.actionType)) {
+    formFieldInfo.fieldList = [
+      {
+        fieldName: "rejectReason",
+        type: "textarea",
+        label: i18n("workflow.action.rejectReason"),
+        required: true,
+        formVisible: true,
+        preps: {
+          placeholder: i18n("workflow.action.rejectReason.placeholder"),
+        }
+      },
+    ];
+  } else if (["c", "d", "e"].includes(props.actionType)) {
+    formFieldInfo.fieldList = [
+      {
+        fieldName: "returnReason",
+        type: "textarea",
+        label: i18n("workflow.action.returnReason"),
+        required: true,
+        formVisible: true,
+        preps: {
+          placeholder: i18n("workflow.action.returnReason.placeholder"),
+        }
+      },
+    ];
+  } else if (["h"].includes(props.actionType)) {
+    formFieldInfo.fieldList = [
+      {
+        fieldName: "addSignUsers",
+        type: "select",
+        label: i18n("workflow.action.returnReason.placeholder"),
+        required: true,
+        formVisible: true,
+        preps: {
+          values: userList,
+          props: {
+            label: "name",
+            value: "id"
+          },
+          placeholder: i18n("workflow.action.addSignUsers.placeholder"),
+        }
+      }
+    ];
+  } else if (["i"].includes(props.actionType)) {
+    formFieldInfo.fieldList = [
+      {
+        fieldName: "reduceSignUsers",
+        type: "select",
+        label: i18n("workflow.action.reduceSignUsers"),
+        required: true,
+        formVisible: true,
+        preps: {
+          values: signUsers,
+          props: {
+            label: "name",
+            value: "id"
+          },
+          placeholder: i18n("workflow.action.reduceSignUsers.placeholder"),
+        }
+      }
+    ];
+  } else if (["g"].includes(props.actionType)) {
+    formFieldInfo.fieldList = [
+      {
+        fieldName: "transferTo",
+        type: "select",
+        label: i18n("workflow.action.transferTo"),
+        required: true,
+        formVisible: true,
+        preps: {
+          values: userList,
+          props: {
+            label: "name",
+            value: "id"
+          },
+          placeholder: i18n("workflow.action.transferTo.placeholder"),
+        }
+      }
+    ];
+  } else if (["p"].includes(props.actionType)) {
+    formFieldInfo.fieldList = [
+      {
+        fieldName: "assignApprover",
+        type: "select",
+        label: i18n("workflow.action.assignApprover"),
+        required: true,
+        formVisible: true,
+        preps: {
+          values: userList,
+          props: {
+            label: "name",
+            value: "id"
+          },
+          placeholder: i18n("workflow.action.assignApprover.placeholder"),
+        }
+      }
+    ];
+  }
+  formFieldInfo.fieldList.push({
+    fieldName: "comments",
+    type: "textarea",
+    formVisible: true,
+    label: i18n("workflow.action.comments"),
+    preps: {
+      placeholder: i18n("workflow.action.comments.placeholder"),
+    }
+  });
+};
+onMounted(() => {
+  // init();
+});
+watch(() => props.actionType, () => {
+  init();
+}, {});
 </script>
-
+<template>
+  <star-horse-dialog
+      :dialogVisible="dialogVisible"
+      :draggable="true"
+      :self-func="true"
+      :title="dialogTitle"
+      boxWidth="500px"
+      @merge="handleSubmit"
+      @closeAction="handleClose"
+  >
+    <sh-form
+        ref="formRef"
+        v-model:dataForm="formData"
+        label-width="auto"
+        label-position="left"
+        size="default"
+    >
+      <star-horse-form-item
+          ref="dataSourceFormRef"
+          :fieldList="formFieldInfo"
+          compSize="default"
+          v-model:dataForm="formData"
+      />
+    </sh-form>
+  </star-horse-dialog>
+</template>
 <style scoped>
-.dialog-footer {
-  display: flex;
-  justify-content: flex-end;
-  gap: 10px;
-}
 </style>

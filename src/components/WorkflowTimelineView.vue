@@ -1,9 +1,10 @@
 <script setup lang="ts">
-import { computed, onMounted, ref, watch } from "vue";
-import { i18n } from "@/lang";
+import {computed, nextTick, onMounted, ref, watch} from "vue";
+import {i18n} from "@/lang";
+import {apiInstance, ApiUrls, loadData} from "star-horse-lowcode";
 import WorkflowActionDialog from "./WorkflowActionDialog.vue";
 
-// Props
+const urlData: ApiUrls = apiInstance("userdb-manage", "userdb/dynamicFormInfo");
 const props = defineProps({
   workflowType: {
     type: String,
@@ -27,26 +28,26 @@ const loading = ref(false);
 const workflowNodes = ref<any[]>([]);
 const actionDialogVisible = ref(false);
 const currentActionType = ref("");
-
-// btnTypeList from FlowPropertyPanel.vue
+const dynamicFormInfo = ref<any>({});
+const flowFormRef = ref();
 const btnTypeList = [
-  { name: i18n("workflow.btn.agree"), value: "a" },
-  { name: i18n("workflow.btn.reject"), value: "b" },
-  { name: i18n("workflow.btn.return"), value: "c" },
-  { name: i18n("workflow.btn.returnToStart"), value: "d" },
-  { name: i18n("workflow.btn.returnToHistory"), value: "e" },
-  { name: i18n("workflow.btn.revoke"), value: "f" },
-  { name: i18n("workflow.btn.transfer"), value: "g" },
-  { name: i18n("workflow.btn.addSign"), value: "h" },
-  { name: i18n("workflow.btn.reduceSign"), value: "i" },
-  { name: i18n("workflow.btn.save"), value: "j" },
-  { name: i18n("workflow.btn.terminate"), value: "k" },
-  { name: i18n("workflow.btn.countersign"), value: "l" },
-  { name: i18n("workflow.btn.agreeCountersign"), value: "m" },
-  { name: i18n("workflow.btn.rejectCountersign"), value: "n" },
-  { name: i18n("workflow.btn.abstainCountersign"), value: "o" },
-  { name: i18n("workflow.btn.assignApprover"), value: "p" },
-  { name: i18n("workflow.btn.assignJump"), value: "q" },
+  {name: i18n("workflow.btn.agree"), value: "a"},
+  {name: i18n("workflow.btn.reject"), value: "b"},
+  {name: i18n("workflow.btn.return"), value: "c"},
+  {name: i18n("workflow.btn.returnToStart"), value: "d"},
+  {name: i18n("workflow.btn.returnToHistory"), value: "e"},
+  {name: i18n("workflow.btn.revoke"), value: "f"},
+  {name: i18n("workflow.btn.transfer"), value: "g"},
+  {name: i18n("workflow.btn.addSign"), value: "h"},
+  {name: i18n("workflow.btn.reduceSign"), value: "i"},
+  {name: i18n("workflow.btn.save"), value: "j"},
+  {name: i18n("workflow.btn.terminate"), value: "k"},
+  {name: i18n("workflow.btn.countersign"), value: "l"},
+  {name: i18n("workflow.btn.agreeCountersign"), value: "m"},
+  {name: i18n("workflow.btn.rejectCountersign"), value: "n"},
+  {name: i18n("workflow.btn.abstainCountersign"), value: "o"},
+  {name: i18n("workflow.btn.assignApprover"), value: "p"},
+  {name: i18n("workflow.btn.assignJump"), value: "q"},
 ];
 
 // Computed properties
@@ -182,7 +183,7 @@ const getCurrentNodeButtons = () => {
       return btnTypeList.filter((btn) => ["g", "p"].includes(btn.value)); // Transfer, Assign Approver
     case "processing":
       return btnTypeList.filter((btn) =>
-        ["a", "b", "c", "g", "h", "i"].includes(btn.value),
+          ["a", "b", "c", "g", "h", "i"].includes(btn.value),
       ); // Agree, Reject, Return, Transfer, Add Sign, Reduce Sign
     case "completed":
       return btnTypeList.filter((btn) => ["f"].includes(btn.value)); // Revoke
@@ -236,8 +237,22 @@ const loadWorkflowTimeline = async (data: any) => {
   loading.value = true;
   try {
     // Simulate API call delay
-    await new Promise((resolve) => setTimeout(resolve, 500));
-
+    // await new Promise((resolve) => setTimeout(resolve, 500));
+    let dataNo = "No1753070176063";
+    //获取表单
+    loadData(`${urlData.basePrefix}/getDynamicForm/${dataNo}`, {}).then(res => {
+      if (res.error) {
+        console.error("Error loading dynamic form:", res.error);
+        return;
+      }
+      dynamicFormInfo.value = res.data;
+      //这里需要获取填报的数据
+      nextTick(() => {
+        flowFormRef.value?.setData({
+          updatedBy: "Lee"
+        });
+      });
+    });
     // In a real implementation, this would fetch actual timeline data from the API
     workflowNodes.value = mockWorkflowNodes.value;
   } catch (error) {
@@ -313,7 +328,7 @@ const hasValidUserPhoto = (userPhoto: string) => {
 // Handle workflow actions
 const handleAction = (action: string) => {
   // Check if the action requires data input
-  const actionsRequiringInput = ["b", "c", "d", "e", "g", "h", "i", "n", "p"];
+  const actionsRequiringInput = ["a", "b", "c", "d", "e", "g", "h", "i", "n", "p"];
 
   if (actionsRequiringInput.includes(action)) {
     // Show dialog to collect data
@@ -349,23 +364,20 @@ onMounted(() => {
 });
 // Watch for workflow data changes
 watch(
-  () => props.workflowData,
-  (newData) => {
-    if (newData) {
-      loadWorkflowTimeline(newData);
-    }
-  },
-  { immediate: false },
+    () => props.workflowData,
+    (newData) => {
+      if (newData) {
+        loadWorkflowTimeline(newData);
+      }
+    },
+    {immediate: false},
 );
 </script>
 
 <template>
   <div class="workflow-timeline-view">
     <div class="timeline-header">
-      <h3>{{ workflowTitle }}</h3>
-      <el-button @click="goBack" size="small" v-if="showBackButton">
-        {{ i18n("system.back") }}
-      </el-button>
+      <div class="font-bold ml-10 text-[16px]"><span>流程信息</span></div>
     </div>
 
     <!-- Application details section -->
@@ -391,27 +403,28 @@ watch(
         <el-descriptions-item :label="i18n('workflow.application.createdDate')">
           {{ workflowData.createdDate || "N/A" }}
         </el-descriptions-item>
-        <el-descriptions-item :label="i18n('workflow.application.description')" :span="2">
-          {{
-            workflowData.description ||
-            i18n("workflow.application.noDescription")
-          }}
-        </el-descriptions-item>
       </el-descriptions>
+      <div class="font-bold ml-10 my-5 text-[16px]"><span>申请内容</span></div>
+      <el-divider/>
+      <star-horse-data-view
+          ref="flowFormRef"
+          :field-list="dynamicFormInfo.tableFieldList"
+          :compUrl="dynamicFormInfo.dataUrl"
+      />
     </div>
     <div class="font-bold ml-10 text-[16px]"><span>{{ i18n("system.auditing.opinion") }}</span></div>
-  <el-divider />
-   <div class="h-[30px]"/>
+    <el-divider/>
+    <div class="h-[30px]"/>
     <!-- Loading state -->
     <div v-if="loading" class="loading-container">
       <el-skeleton animated>
         <template #template>
-          <el-skeleton-item variant="text" style="width: 30%" />
+          <el-skeleton-item variant="text" style="width: 30%"/>
           <div style="margin-top: 20px">
-            <el-skeleton-item variant="text" style="width: 50%" />
+            <el-skeleton-item variant="text" style="width: 50%"/>
           </div>
           <div style="margin-top: 20px">
-            <el-skeleton-item variant="text" style="width: 70%" />
+            <el-skeleton-item variant="text" style="width: 70%"/>
           </div>
         </template>
       </el-skeleton>
@@ -420,12 +433,12 @@ watch(
     <!-- Timeline view -->
     <el-timeline v-else class="workflow-timeline">
       <el-timeline-item v-for="(node, index) in workflowNodes" :key="index" :type="getNodeStatusType(node.status)"
-        :hollow="node.status === 'pending'" :color="getNodeStatusColor(node.status)">
+                        :hollow="node.status === 'pending'" :color="getNodeStatusColor(node.status)">
         <!-- Custom timeline dot with circular icon -->
         <template #dot>
           <div class="timeline-node-icon" :class="`status-${node.status}`">
             <img v-if="hasValidUserPhoto(node.userPhoto)" :src="node.userPhoto" :alt="node.userName"
-              class="user-photo" />
+                 class="user-photo"/>
             <div v-else class="user-initials">
               {{ getUserInitials(node.userName) }}
             </div>
@@ -450,7 +463,7 @@ watch(
           <div class="node-actions" v-if="node.action && node.status === 'current'">
             <!-- Render buttons based on btnTypeList -->
             <el-button v-for="btn in getCurrentNodeButtons()" :key="btn.value" size="small"
-              :type="getButtonType(btn.value)" @click="handleAction(btn.value)" class="action-button">
+                       :type="getButtonType(btn.value)" @click="handleAction(btn.value)" class="action-button">
               {{ btn.name }}
             </el-button>
           </div>
@@ -460,12 +473,12 @@ watch(
 
     <!-- Empty state -->
     <div v-if="!loading && workflowNodes.length === 0" class="empty-state">
-      <el-empty :description="i18n('workflow.no.timeline.data')" />
+      <el-empty :description="i18n('workflow.no.timeline.data')"/>
     </div>
 
     <!-- Workflow Action Dialog -->
     <WorkflowActionDialog v-model="actionDialogVisible" :action-type="currentActionType" :workflow-data="workflowData"
-      @confirm="handleActionConfirm" @close="handleActionClose" />
+                          @confirm="handleActionConfirm" @close="handleActionClose"/>
   </div>
 </template>
 

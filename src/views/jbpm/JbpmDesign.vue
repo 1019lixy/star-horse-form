@@ -140,7 +140,7 @@ onMounted(() => {
           <div class="bpmn-container">
             <div class="bpmn-content" ref="canvas"></div>
             <div class="bpmn-linter open">
-              <div class="toggle-btn" @click="showMessage">
+              <div class="toggle-btn flex justify-center items-center" @click="showMessage">
                 <star-horse-icon
                   :iconClass="isShow ? 'arrow-double-down' : 'arrow-double-up'"
                 />
@@ -166,14 +166,9 @@ onMounted(() => {
                   <el-collapse-item v-for="(data, key) in lintDatas">
                     <template #title>
                       <div
-                        class="title"
-                        style="
-                          justify-content: space-between;
-                          display: flex;
-                          align-items: center;
-                        "
+                        class="title justify-between flex items-center"
                       >
-                        <div style="width: 80%">{{ key }}</div>
+                        <div class="flex-1 ml-2">{{ key }}</div>
                         <star-horse-icon
                           icon-class="position"
                           style="cursor: pointer"
@@ -304,6 +299,7 @@ onMounted(() => {
   z-index: 10;
   top: 0;
   left: 50%;
+  display: flex;
   transform: translate(-50%, -100%);
   cursor: pointer;
   border-radius: 8px 8px 0 0;
