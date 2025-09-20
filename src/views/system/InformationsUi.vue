@@ -102,10 +102,12 @@ const tableFieldList = reactive<PageFieldInfo>({
     {
       label: i18n("system.system.code"),
       fieldName: "sysCode",
-
       required: true,
-      disabled: true,
+
       listVisible: true,
+      preps:{
+        disabled: true,
+      }
     },
     [
       {
@@ -137,23 +139,31 @@ const tableFieldList = reactive<PageFieldInfo>({
     },
     {
       label: i18n("system.created.by"),
-      disabled: true,
+      preps:{
+        disabled: true,
+      },
       fieldName: "createdBy",
     },
     {
       label: i18n("system.updated.by"),
-      disabled: true,
+      preps:{
+        disabled: true,
+      },
       fieldName: "updatedBy",
     },
     {
       label: i18n("system.created.date"),
-      disabled: true,
+      preps:{
+        disabled: true,
+      },
       fieldName: "createdTime",
       type: "date",
     },
     {
       label: i18n("system.updated.date"),
-      disabled: true,
+      preps:{
+        disabled: true,
+      },
       fieldName: "updatedTime",
       type: "date",
     },

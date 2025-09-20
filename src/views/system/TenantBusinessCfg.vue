@@ -157,8 +157,9 @@ const menuformFieldList = reactive<PageFieldInfo>({
       formVisible: true,
       required: true,
       viewVisible: false,
-      disabled: true,
+
       preps: {
+        disabled: true,
         data: informationsList,
       },
     },

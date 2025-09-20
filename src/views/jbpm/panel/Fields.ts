@@ -646,7 +646,9 @@ const generalItem = (node: any) => {
       label: "Id",
       fieldName: "id",
 
-      disabled: "Y",
+      preps:{
+        disabled: true,
+      },
       formVisible: true,
       listVisible: true,
     },
@@ -771,7 +773,9 @@ const userTaskNodeField = reactive<PageFieldInfo | any>({
               label: "ID",
               fieldName: "id",
 
-              disabled: "Y",
+              preps:{
+                disabled: true,
+              },
               formVisible: true,
               listVisible: true,
               brotherNodes: [

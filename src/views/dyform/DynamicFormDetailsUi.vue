@@ -51,23 +51,31 @@ const tableFieldList = reactive({
     },
     {
       label: "创建人",
-      disabled: true,
+      preps:{
+        disabled: true,
+      },
       fieldName: "createdBy",
     },
     {
       label: "修改人",
-      disabled: true,
+      preps:{
+        disabled: true,
+      },
       fieldName: "updatedBy",
     },
     {
       label: "创建日期",
-      disabled: true,
+      preps:{
+        disabled: true,
+      },
       fieldName: "createdTime",
       type: "date",
     },
     {
       label: "修改日期",
-      disabled: true,
+      preps:{
+        disabled: true,
+      },
       fieldName: "updatedTime",
       type: "date",
     },

@@ -93,7 +93,9 @@ const tableFieldList = reactive<PageFieldInfo | any>({
     },
     {
       label: "创建人",
-      disabled: true,
+      preps:{
+        disabled: true,
+      },
       fieldName: "createdBy",
     },
     {

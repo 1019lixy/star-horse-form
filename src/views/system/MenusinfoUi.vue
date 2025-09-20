@@ -196,7 +196,9 @@ const tableFieldList = reactive<PageFieldInfo>({
       fieldName: "menuCode",
 
       required: true,
-      disabled: true,
+      preps:{
+        disabled: true,
+      },
       listVisible: true,
     },
     [
@@ -256,23 +258,31 @@ const tableFieldList = reactive<PageFieldInfo>({
     },
     {
       label: i18n("system.created.by"),
-      disabled: true,
+      preps:{
+        disabled: true,
+      },
       fieldName: "createdBy",
     },
     {
       label: i18n("system.updated.by"),
-      disabled: true,
+      preps:{
+        disabled: true,
+      },
       fieldName: "updatedBy",
     },
     {
       label: i18n("system.created.time"),
-      disabled: true,
+      preps:{
+        disabled: true,
+      },
       fieldName: "createdTime",
       type: "date",
     },
     {
       label: i18n("system.updated.time"),
-      disabled: true,
+      preps:{
+        disabled: true,
+      },
       fieldName: "updatedTime",
       type: "date",
     },

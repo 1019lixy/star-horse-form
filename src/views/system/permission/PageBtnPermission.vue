@@ -64,9 +64,9 @@ const formFieldList = reactive<PageFieldInfo | any>({
         type: "select",
         required: true,
         formVisible: true,
-        disabled: true,
         listVisible: true,
         preps: {
+          disabled: true,
           values: rolesList,
         },
       },
@@ -76,9 +76,10 @@ const formFieldList = reactive<PageFieldInfo | any>({
         type: "select",
         required: true,
         formVisible: true,
-        disabled: true,
+
         listVisible: true,
         preps: {
+          disabled: true,
           values: appinfoList,
         },
       },
