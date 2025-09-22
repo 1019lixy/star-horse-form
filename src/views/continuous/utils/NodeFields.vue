@@ -39,6 +39,7 @@ let outerFormData = ref<any>({});
 const props = defineProps({
   formNo: { type: String },
   staticFieldData: { type: Object as PropType<PageFieldInfo> },
+  compSize:{type:String,default:"default"},
 });
 const clear = () => {
   hasData.value = false;
@@ -148,6 +149,7 @@ defineExpose({
     :formInfo="formInfo"
     :dynamicForm="true"
     ref="nodeFormRef"
+    :formSize="compSize"
     :globalCondition="relationTables"
     :outerFormData="outerFormData"
     :fieldList="tableFieldList"

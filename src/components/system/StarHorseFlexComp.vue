@@ -353,16 +353,16 @@ watch(
                 style="color: var(--star-horse-style)"
             />&nbsp;<span>{{ i18n('system.flex.starHorseFlexComp.tab.template') }}</span>
           </template>
-          <div class="inner_button my-5 mx-1">
-            <el-select v-model="flexModel" class="" @change="flexChange">
-              <el-option value="flex" label="Flex"/>
-              <el-option value="grid" label="FlexGrid"/>
-            </el-select>
+          <div class=" mt-1 mb-3 mx-1 py-5 border-b border-solid border-[#e4e7ed]">
+            <el-radio-group v-model="flexModel" @change="flexChange" fill="var(--star-horse-style)">
+              <el-radio-button label="Flex" value="flex" />
+              <el-radio-button label="Flex Grid" value="grid" />
+            </el-radio-group>
           </div>
           <div class="flex-grid gap-4 w-full flex-wrap overflow-y-auto mx-3 ">
             <template v-for="item in layoutConfig">
               <div
-                  class="flex flex-col items-center justify-center layout-item"
+                  class="flex flex-col items-center justify-center layout-item mt-2"
                   @click="layoutOperation(item)"
               >
                 <svg-loader

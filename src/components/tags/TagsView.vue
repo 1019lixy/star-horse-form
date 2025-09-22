@@ -336,7 +336,7 @@ watch(
       </ElScrollbar>
     </div>
     <el-tooltip :content="i18n('tags.moveToRight')">
-      <span class="tool" @click="move(200)">
+      <span class="tool border-r border-[var(--star-horse-style)]" @click="move(200)">
         <star-horse-icon
           icon-class="arrow-double-right"
           size="16px"
@@ -346,7 +346,7 @@ watch(
       </span>
     </el-tooltip>
     <el-tooltip :content="i18n('tags.refreshMenu')">
-      <span class="tool" @click="refreshSelectedTag(selectedTag)">
+      <span class="tool  border-r border-[var(--star-horse-style)]" @click="refreshSelectedTag(selectedTag)">
         <star-horse-icon
           icon-class="refresh"
           size="16px"
@@ -427,7 +427,7 @@ watch(
   align-items: center;
   background: var(--star-horse-background);
   border: 1px solid #eee;
-
+  padding:3px 0;
   :deep(.scrollbar__view) {
     height: 100%;
   }
@@ -446,10 +446,7 @@ watch(
     align-items: center;
     justify-content: center;
     vertical-align: middle;
-    border-right: 1px solid var(--star-horse-style);
-    border-left: 1px solid var(--star-horse-style);
-
-    &:hover {
+  &:hover {
       :deep(span) {
         color: #000000 !important;
       }

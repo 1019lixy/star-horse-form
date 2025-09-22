@@ -33,7 +33,7 @@ const data: ModelRef<any> = defineModel("dataForm");
   </div>
   <div class="main-container">
     <!-- 外边框 -->
-    <div class="border" 
+    <div class="border"
          :data-outer-border="i18n('system.flex.pagePosition.border.outer')"
          :data-inner-border="i18n('system.flex.pagePosition.border.inner')">
       <el-input
@@ -223,6 +223,38 @@ const data: ModelRef<any> = defineModel("dataForm");
   /* 文字垂直排列 */
   text-align: center;
   /* 文字居中 */
+  /* 为vertical-input的子孙节点input设置完整样式 */
+  input {
+    padding-top: 5px !important;
+    /* 增加更多样式 */
+    width: 100%;
+    height: 100%;
+    border: none !important;
+    outline: none !important;
+    background: transparent !important;
+    font-size: 12px !important;
+    line-height: 1.2 !important;
+    cursor: text;
+  }
+  
+  /* 针对element-plus输入框组件的更深层样式 */
+  :deep(.el-input__wrapper) {
+    background-color: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+  }
+  
+  :deep(.el-input__inner) {
+    background-color: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+    writing-mode: vertical-lr;
+    text-align: center;
+    font-size: 12px;
+    line-height: 1.2;
+  }
 }
 
 /* 外边框输入框位置 */

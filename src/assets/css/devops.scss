@@ -224,32 +224,32 @@
 }
 
 .pipeline-nav {
-  display: block;
+  display: flex;
+  align-items: center;
   position: relative;
+  height: 100%;
 
   .icon {
     font-style: normal;
     text-align: center;
     line-height: 0;
     color: #e8e8e8;
-    display: inline-block;
+    display: flex;
     align-items: center;
-    margin: 0 5px;
-    text-rendering: optimizeLegibility;
-    -webkit-font-smoothing: antialiased;
+
 
     &.node-add,
     &.node-arrow {
-      position: absolute;
+      /*position: absolute;
       top: 50%;
       left: 40%;
-      transform: translate(-50%, -50%);
+      transform: translate(-50%, -50%);*/
       border-radius: 50%;
       display: flex;
       align-items: center;
       justify-content: center;
       border: 1px solid #e8e8e8;
-      padding-left: 3px;
+
     }
   }
 
@@ -299,7 +299,7 @@
     &:hover .pright {
       display: block;
       right: -7px;
-      top: -2px;
+      top: -10px;
       transform: translateX(12px);
       position: absolute;
     }
@@ -324,7 +324,7 @@
       content: "";
       height: 0;
       left: 45%;
-      position: absolute;
+      //position: absolute;
       top: 100%;
       width: 0;
     }
@@ -341,14 +341,16 @@
     .node-add {
       cursor: pointer;
       display: none;
+      padding-left: 2px;
       color: var(--star-horse-style);
-      position: absolute;
+
     }
 
     .node-arrow {
       cursor: pointer;
       align-items: center;
       display: flex;
+      padding-left: 5px;
     }
 
     &:hover .node-arrow {
@@ -371,7 +373,9 @@
   .nav {
     display: flex;
     align-items: center;
-    padding: 10px 0;
+    gap: 5px;
+    height: 100%;
+    width: 100%;
     border-bottom: 2px solid #e8e8e8;
 
     .nav-setting {
@@ -384,7 +388,7 @@
 
     .nav-line {
       background-color: #dadada;
-      height: 52px;
+      height: 100%;
       font-weight: bold;
       margin: 0 5px;
       width: 2px;
@@ -408,7 +412,7 @@
     }
 
     .init-btn {
-      margin-left: 20px;
+      margin:0 5px;
       background: 0 0;
       color: var(--star-horse-style);
       padding-left: 0;
@@ -424,25 +428,98 @@
     .nav-nodes {
       align-items: center;
       display: flex;
-      height: 74px;
-      position: relative;
-      /* &:before {
-        content: '';
-        position: absolute;
-        top: 35px;
-        left: 0;
-        right: 0;
-        height: 2px;
-        background: var(--star-horse-style);
-        z-index: 0;  // 确保线条在节点下方
-        transform: translateY(-50%);
-      }*/
+      height: 100%;
+      overflow-x:auto;
+      //border:  1px solid #e8e8e8;
+      /*  &:before {
+         content: '';
+         position: absolute;
+         top: 35px;
+         left: 0;
+         right: 0;
+         height: 2px;
+         background: var(--star-horse-style);
+         z-index: 0;  // 确保线条在节点下方
+         transform: translateY(-50%);
+       }*/
       .continuous-node-content {
         align-items: center;
         height: 35px;
         display: flex;
-        position: relative; // 添加定位上下文
+        //position: relative; // 添加定位上下文
         z-index: 1; // 节点内容层级高于线条
+      }
+
+      // 节点之间的连线样式
+      .node-connector {
+        width: 20px;
+        height: 2px;
+        background-color: var(--star-horse-style);
+        align-self: center;
+      }
+
+      // 有子节点的节点样式
+      .has-children {
+        border: 1px dashed var(--star-horse-style);
+      }
+
+      // 子节点列表样式
+      .children-nodes {
+        background-color: var(--star-horse-bg-color);
+        border-left: 2px solid var(--star-horse-border-color);
+        padding: 5px 0;
+      }
+
+      // 子节点内容样式
+      .child-node {
+        height: 30px;
+      }
+
+      // 子节点面板样式
+      .child-panel {
+        min-width: 150px;
+        padding: 3px 10px;
+        border-radius: 4px;
+        font-size: 12px;
+        background-color: #f5f7fa;
+      }
+
+      // 子节点激活状态样式
+      .child-panel.is-active {
+        background-color: var(--star-horse-style);
+        color: var(--star-horse-white);
+      }
+
+      // 子节点箭头样式
+      .child-step {
+        transform: scale(0.8);
+      }
+
+      // 添加子节点按钮样式
+      .add-child-btn {
+        opacity: 0.8;
+        transition: opacity 0.3s;
+      }
+
+      .add-child-btn:hover {
+        opacity: 1;
+      }
+
+      // 添加子节点面板样式
+      .add-child-panel {
+        min-width: 150px;
+        padding: 3px 10px;
+        border-radius: 4px;
+        font-size: 12px;
+        background-color: #e6f7ff;
+        border: 1px dashed var(--star-horse-style);
+        cursor: pointer;
+        transition: all 0.3s;
+      }
+
+      .add-child-panel:hover {
+        background-color: #bae7ff;
+        border-style: solid;
       }
     }
   }
@@ -612,7 +689,7 @@
 }
 
 .el-scrollbar {
-  width: 100%;
+  max-width: 100%;
 }
 
 .item {

@@ -474,7 +474,7 @@ let extendBtns = ref<UserFuncInfo[]>([
     funcName: (row: any) => {
       load("代码生成中，请稍后");
       download(
-        `/userdb-manage/generator/code/convertToCodeById/${row[primaryKey]}`,
+        `/userdb-manage/generator/code/convertToCodeById/${row[primaryKey]}`,{}
       )
         .catch((err) => {
           warning(err);
@@ -522,6 +522,7 @@ const closeAction = () => {
       :selfFunc="true"
       @merge="generateMerge"
       @closeAction="closeAction"
+      boxHeight="85%"
     >
       <star-horse-form
         ref="generateFormRef"
