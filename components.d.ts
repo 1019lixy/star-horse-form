@@ -307,7 +307,7 @@ declare module 'vue' {
     StarHorseEditor: typeof import('./src/components/system/StarHorseEditor.vue')['default']
     StarHorseFlexComp: typeof import('./src/components/system/StarHorseFlexComp.vue')['default']
     StarHorseRuler: typeof import('./src/components/system/StarHorseRuler.vue')['default']
-    StarHorseSidebar: typeof import('./src/components/StarHorseSidebar.vue')['default']
+    StarHorseSidebar: typeof import('./src/components/system/StarHorseSidebar.vue')['default']
     StartNode: typeof import('./src/views/workflow/plugin/node/StartNode.vue')['default']
     StationCategory: typeof import('./src/views/system/station/StationCategory.vue')['default']
     StationDefined: typeof import('./src/views/system/station/StationDefined.vue')['default']

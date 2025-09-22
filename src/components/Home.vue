@@ -3,7 +3,7 @@ import {onMounted, ref} from "vue";
 import {i18n} from "@/lang";
 import {apiInstance, ApiUrls, createCondition, loadData, postRequest, warning} from "star-horse-lowcode";
 import {getUserInfo} from "@/utils/auth.js";
-import StarHorseSidebar from "./StarHorseSidebar.vue";
+import StarHorseSidebar from "@/components/system/StarHorseSidebar.vue";
 // Reactive data
 const modules = ref<Array<any>>([]);
 const moduleSelectorVisible = ref<boolean>(false);

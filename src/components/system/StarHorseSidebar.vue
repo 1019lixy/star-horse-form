@@ -56,7 +56,7 @@ const isHovered = ref(false);
   width: 0;
   overflow: hidden;
   transition: width 0.3s ease;
-  border: 1px solid #ebeef5;
+  //border: 1px solid #ebeef5;
   border-right: none;
   border-top-left-radius: 4px;
   border-bottom-left-radius: 4px;
