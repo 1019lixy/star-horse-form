@@ -15,17 +15,16 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref } from "vue";
 
 defineOptions({
-  name: 'StarHorseSidebar'
-})
+  name: "StarHorseSidebar"
+});
 
-const isHovered = ref(false)
+const isHovered = ref(false);
 </script>
 
 <style scoped lang="scss">
-/* Gantt-style sidebar with T-shaped icon */
 .gantt-sidebar {
   position: fixed;
   top: 50%;
@@ -35,7 +34,7 @@ const isHovered = ref(false)
   flex-direction: row-reverse;
   align-items: center;
   z-index: 1000;
-  transition: all 0.3s ease;
+  transition: all 0.3s linear;
 }
 
 .sidebar-icon {
@@ -43,7 +42,7 @@ const isHovered = ref(false)
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: all 0.3s ease;
+  transition: all 0.3s linear;
   opacity: 0.5;
 
   &:hover {

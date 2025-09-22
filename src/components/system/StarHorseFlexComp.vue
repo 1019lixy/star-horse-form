@@ -359,7 +359,7 @@ watch(
               <el-option value="grid" label="FlexGrid"/>
             </el-select>
           </div>
-          <div class="flex-grid gap-4 w-full flex-wrap overflow-y-auto mx-3">
+          <div class="flex-grid gap-4 w-full flex-wrap overflow-y-auto mx-3 ">
             <template v-for="item in layoutConfig">
               <div
                   class="flex flex-col items-center justify-center layout-item"
@@ -737,7 +737,7 @@ watch(
 <style lang="scss" scoped>
 .flex-grid {
   display: grid;
-  grid-template-columns: repeat(2, 1fr); /* Two-column layout */
+  grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
   gap: 8px; /* Gap uniformly set to 8px */
 }
 

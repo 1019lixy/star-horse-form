@@ -14,6 +14,7 @@ import { useRoute, useRouter } from "vue-router";
 import { useNavBarListStore } from "@/store/NavBarList";
 import piniaCompInstance from "@/store";
 import { i18n } from "@/lang";
+import CommonSkeleton from './CommonSkeleton.vue';
 
 const starHorseTableCompRef = ref();
 const dataUrl = ref<ApiUrls>(apiInstance("", ""));
@@ -22,6 +23,8 @@ let searchFormData = ref<SearchFields>({});
 const tableFieldList = ref<PageFieldInfo>({
   fieldList: [],
 });
+// 添加骨架屏加载状态
+const isLoading = ref(true);
 const primaryKey = ref("");
 const rules = ref({});
 const hasData = ref(false);
@@ -32,24 +35,34 @@ const clear = () => {
   hasData.value = false;
 };
 const loadFormData = async (formId: string) => {
-  let { data, error } = await loadGetData(
-    `/userdb-manage/userdb/dynamicForm/dynamicPageInfo/${formId}`,
-  );
-  if (error) {
-    errorMsg.value = error;
+  isLoading.value = true; // 开始加载
+  try {
+    let { data, error } = await loadGetData(
+      `/userdb-manage/userdb/dynamicForm/dynamicPageInfo/${formId}`,
+    );
+    if (error) {
+      errorMsg.value = error;
+      hasData.value = false;
+      closeLoad();
+      return;
+    }
+    hasData.value = data && Object.keys(data).length > 0;
+    dataUrl.value = data["dataUrl"];
+    searchFormData.value = data["searchFormData"] as SearchFields;
+    primaryKey.value = data["primaryKey"];
+    tableFieldList.value = data["tableFieldList"] as PageFieldInfo;
+    rules.value = data["rules"];
+    await nextTick();
+    closeLoad();
+    starHorseTableCompRef.value.init();
+  } catch (e) {
+    errorMsg.value = i18n("commonPage.dataLoadError");
     hasData.value = false;
     closeLoad();
-    return;
+    console.error(e);
+  } finally {
+    isLoading.value = false; // 加载完成
   }
-  hasData.value = data && Object.keys(data).length > 0;
-  dataUrl.value = data["dataUrl"];
-  searchFormData.value = data["searchFormData"] as SearchFields;
-  primaryKey.value = data["primaryKey"];
-  tableFieldList.value = data["tableFieldList"] as PageFieldInfo;
-  rules.value = data["rules"];
-  await nextTick();
-  closeLoad();
-  starHorseTableCompRef.value.init();
 };
 watch(
   () => props.param,
@@ -84,7 +97,16 @@ onMounted(async () => {
 <style scoped></style>
 <template>
   <div class="flex flex-col h-full overflow-hidden">
-    <template v-if="hasData">
+    <!-- 使用通用骨架屏组件 -->
+    <CommonSkeleton 
+      v-if="isLoading" 
+      :showSearch="true" 
+      :showHeader="true" 
+      :showTable="true" 
+      :tableRowCount="5"
+    />
+    
+    <template v-else-if="hasData">
       <star-horse-dialog
         :isShowBtnContinue="true"
         :dialogVisible="dialogProps.editVisible"
@@ -130,5 +152,8 @@ onMounted(async () => {
         />
       </el-card>
     </template>
+    
+    <!-- 错误或空状态 -->
+    <el-empty :content="errorMsg" v-else></el-empty>
   </div>
 </template>

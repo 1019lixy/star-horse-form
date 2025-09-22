@@ -13,6 +13,11 @@ const searchResultList = ref<Array<any>>([
 ]);
 const searchAction = () => {
   searchVisible.value = true;
+  nextTick(() => {
+    searchValue.value = ""; // 清空搜索内容
+    searchAreaRef.value?.focus();
+  });
+
 };
 // 添加键盘事件监听
 const handleKeyPress = (e: KeyboardEvent) => {
@@ -23,11 +28,6 @@ const handleKeyPress = (e: KeyboardEvent) => {
 };
 onMounted(() => {
   window.addEventListener("keydown", handleKeyPress);
-  nextTick(() => {
-    searchValue.value = ""; // 清空搜索内容
-    searchAreaRef.value?.focus();
-  });
-
 });
 onUnmounted(() => {
   window.removeEventListener("keydown", handleKeyPress);
@@ -40,8 +40,9 @@ onUnmounted(() => {
                      boxHeight="70%"
                      :source="3"
                      @closeAction="searchVisible = false" :selfFunc="true">
-    <el-input v-model="searchValue" ref="searchAreaRef" :autofocus="true"
+    <el-input v-model="searchValue" ref="searchAreaRef"
               placeholder="请输入内容"
+              :autofocus="true"
               size="large">
       <template #prefix>
         <el-icon class="search-icon">

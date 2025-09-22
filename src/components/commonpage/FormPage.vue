@@ -13,6 +13,7 @@ import {
 } from "star-horse-lowcode";
 import { getUserInfo } from "@/utils/auth";
 import { i18n } from "@/lang";
+import CommonSkeleton from './CommonSkeleton.vue';
 
 let designForm = useDesignFormStore(piniaInstance);
 let dataUrl = ref<ApiUrls>(apiInstance("", ""));
@@ -21,6 +22,8 @@ let searchFormData = ref<SearchFields>({});
 const tableFieldList = ref<any>({
   fieldList: [],
 });
+// 添加骨架屏加载状态
+const isLoading = ref(true);
 const primaryKey = ref("");
 const rules = ref({});
 const hasData = ref(false);
@@ -34,28 +37,37 @@ const clear = () => {
   hasData.value = false;
 };
 const loadFormData = async (formId: string) => {
-  let { data, error } = await loadData(
-    `/userdb-manage/userdb/dynamicFormInfo/getDynamicForm/${formId}`,
-    {},
-  );
-  if (error) {
-    errorMsg.value = error;
+  isLoading.value = true; // 开始加载
+  try {
+    let { data, error } = await loadData(
+      `/userdb-manage/userdb/dynamicFormInfo/getDynamicForm/${formId}`,
+      {},
+    );
+    if (error) {
+      errorMsg.value = error;
+      hasData.value = false;
+      return;
+    }
+    hasData.value = data && Object.keys(data).length > 0;
+    dataUrl.value = apiInstance(
+      data["dataUrl"]?.appName,
+      data["dataUrl"]?.contextUrl,
+    );
+    searchFormData.value = data["searchFormData"] as SearchFields;
+    primaryKey.value = data["primaryKey"];
+    tableFieldList.value = data["tableFieldList"];
+    rules.value = data["rules"];
+    relationTables.value = data["relationTables"];
+    await nextTick();
+    // closeLoad();
+    loadInstanceData();
+  } catch (e) {
+    errorMsg.value = i18n("commonPage.dataLoadError");
     hasData.value = false;
-    return;
+    console.error(e);
+  } finally {
+    isLoading.value = false; // 加载完成
   }
-  hasData.value = data && Object.keys(data).length > 0;
-  dataUrl.value = apiInstance(
-    data["dataUrl"]?.appName,
-    data["dataUrl"]?.contextUrl,
-  );
-  searchFormData.value = data["searchFormData"] as SearchFields;
-  primaryKey.value = data["primaryKey"];
-  tableFieldList.value = data["tableFieldList"];
-  rules.value = data["rules"];
-  relationTables.value = data["relationTables"];
-  await nextTick();
-  // closeLoad();
-  loadInstanceData();
 };
 const loadInstanceData = () => {
   let field = formInfo.value?.dataLoadField;
@@ -103,7 +115,16 @@ onMounted(async () => {
 </script>
 <template>
   <div class="flex flex-col h-full overflow-hidden">
-    <template v-if="hasData">
+    <!-- 使用通用骨架屏组件 -->
+    <CommonSkeleton 
+      v-if="isLoading" 
+      :showSearch="false" 
+      :showHeader="true" 
+      :showForm="true" 
+      :formRowCount="6"
+    />
+    
+    <template v-else-if="hasData">
       <el-card class="inner_content">
         <star-horse-form
           :compUrl="dataUrl"
@@ -118,6 +139,9 @@ onMounted(async () => {
         />
       </el-card>
     </template>
+    
+    <!-- 错误或空状态 -->
+    <el-empty :content="errorMsg" v-else></el-empty>
   </div>
 </template>
 <style scoped></style>

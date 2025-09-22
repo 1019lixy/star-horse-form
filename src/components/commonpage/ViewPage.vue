@@ -19,6 +19,7 @@ import {
 } from "star-horse-lowcode";
 import { computed, onMounted, provide, reactive, ref, watch } from "vue";
 import { i18n } from "@/lang";
+import CommonSkeleton from './CommonSkeleton.vue';
 
 let designForm = useDesignFormStore(piniaInstance);
 const props = defineProps({
@@ -37,6 +38,8 @@ let searchFormData = ref<SearchFields>({});
 const tableFieldList = ref<any>({
   fieldList: [],
 });
+// 添加骨架屏加载状态
+const isLoading = ref(true);
 /**
  * 表单数据直接取定义的数据preps,
  * 列表数据重新定义，方便排序和位置拖拽
@@ -68,32 +71,49 @@ const exportData = () => {
 };
 const columnList = ref([]);
 const loadColumnFields = async () => {
-  searchFormData.value = {
-    fieldList: [],
-  };
-  columnList.value = [];
-  let { formDatas, columns } = await viewColumns(props.param);
-  searchFormData.value = formDatas;
-  columnList.value = columns;
+  isLoading.value = true; // 开始加载
+  try {
+    searchFormData.value = {
+      fieldList: [],
+    };
+    columnList.value = [];
+    let { formDatas, columns } = await viewColumns(props.param);
+    searchFormData.value = formDatas;
+    columnList.value = columns;
+  } catch (e) {
+    errorMsg.value = i18n("commonPage.dataLoadError");
+    hasData.value = false;
+    console.error(e);
+  }
 };
 const loadFormData = async (currentPage: number, pageSize: number) => {
-  let { viewDatas, error } = await viewDataList(
-    props.param,
-    currentPage,
-    pageSize,
-    analysisSearchData(
-      viewSearchRef.value?.searchForm || {},
-      searchFormData.value,
-    ),
-  );
-  if (error) {
-    errorMsg.value = error;
+  isLoading.value = true; // 开始加载
+  try {
+    let { viewDatas, error } = await viewDataList(
+      props.param,
+      currentPage,
+      pageSize,
+      analysisSearchData(
+        viewSearchRef.value?.searchForm || {},
+        searchFormData.value,
+      ),
+    );
+    if (error) {
+      errorMsg.value = error;
+      hasData.value = false;
+      closeLoad();
+      return;
+    } else {
+      hasData.value = viewDatas && Object.keys(viewDatas).length > 0;
+      previewDatas.value = viewDatas;
+    }
+  } catch (e) {
+    errorMsg.value = i18n("commonPage.dataLoadError");
     hasData.value = false;
     closeLoad();
-    return;
-  } else {
-    hasData.value = viewDatas && Object.keys(viewDatas).length > 0;
-    previewDatas.value = viewDatas;
+    console.error(e);
+  } finally {
+    isLoading.value = false; // 加载完成
   }
 };
 //监听数据变化
@@ -134,7 +154,16 @@ onMounted(async () => {
 </script>
 <template>
   <div class="flex flex-col h-full overflow-hidden">
-    <template v-if="hasData">
+    <!-- 使用通用骨架屏组件 - 预览数据样式 -->
+    <CommonSkeleton 
+      v-if="isLoading" 
+      :showSearch="true" 
+      :showHeader="true" 
+      :showPreview="true" 
+      :previewRowCount="8"
+    />
+    
+    <template v-else-if="hasData">
       <star-horse-dialog
         :isShowBtnContinue="true"
         :dialogVisible="dialogProps.editVisible"
@@ -183,6 +212,9 @@ onMounted(async () => {
         />
       </el-card>
     </template>
+    
+    <!-- 错误或空状态 -->
+    <el-empty :content="errorMsg" v-else></el-empty>
   </div>
 </template>
 <style scoped></style>

@@ -184,15 +184,11 @@ i {
   }
 }
 
-// Optimized styling for individual field items (li elements) with image on top and text below
 :deep(.el-collapse-item__content) {
   ul {
     display: grid;
-    grid-template-columns: repeat(
-      2,
-      1fr
-    ); // Exactly two items per row as specified
-    gap: 5px; // Proper spacing between items
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+    gap: 5px;
     padding: 0;
     margin: 0;
 

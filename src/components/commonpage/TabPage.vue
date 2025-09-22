@@ -14,6 +14,7 @@ import {
 } from "star-horse-lowcode";
 import { TabsPaneContext } from "element-plus";
 import { i18n } from "@/lang";
+import CommonSkeleton from './CommonSkeleton.vue';
 
 let designForm = useDesignFormStore(piniaInstance);
 const starHorseTableCompRef = ref();
@@ -23,6 +24,8 @@ let searchFormData = ref<SearchFields>({});
 const tableFieldList = ref<any>({
   fieldList: [],
 });
+// 添加骨架屏加载状态
+const isLoading = ref(true);
 const primaryKey = ref("");
 const rules = ref({});
 const hasData = ref(false);
@@ -41,38 +44,47 @@ const clear = () => {
   hasData.value = false;
 };
 const loadFormData = async (formId: string) => {
-  let { data, error } = await loadData(
-    `/userdb-manage/userdb/dynamicFormInfo/getDynamicForm/${formId}`,
-    {},
-  );
-  if (error) {
-    errorMsg.value = error;
-    hasData.value = false;
+  isLoading.value = true; // 开始加载
+  try {
+    let { data, error } = await loadData(
+      `/userdb-manage/userdb/dynamicFormInfo/getDynamicForm/${formId}`,
+      {},
+    );
+    if (error) {
+      errorMsg.value = error;
+      hasData.value = false;
+      // closeLoad();
+      return;
+    }
+    hasData.value = data && Object.keys(data).length > 0;
+    dataUrl.value = apiInstance(
+      data["dataUrl"]?.appName,
+      data["dataUrl"]?.contextUrl,
+    );
+    searchFormData.value = data["searchFormData"] as SearchFields;
+    primaryKey.value = data["primaryKey"];
+    tableFieldList.value = data["tableFieldList"];
+    rules.value = data["rules"];
+    dateFields.value = data["dateFields"];
+    fieldMappingList.value = data?.fieldMappingList;
+    relationTables.value = data["relationTables"];
+    dataSource.value = data["dataSource"];
+    extBtns.value = userAction(
+      starHorseTableCompRef,
+      primaryKey.value,
+      tableFieldList.value["userTableFuncs"],
+    );
+    delete tableFieldList.value["userTableFuncs"];
+    await nextTick();
     // closeLoad();
-    return;
+    starHorseTableCompRef.value!.init();
+  } catch (e) {
+    errorMsg.value = i18n("commonPage.dataLoadError");
+    hasData.value = false;
+    console.error(e);
+  } finally {
+    isLoading.value = false; // 加载完成
   }
-  hasData.value = data && Object.keys(data).length > 0;
-  dataUrl.value = apiInstance(
-    data["dataUrl"]?.appName,
-    data["dataUrl"]?.contextUrl,
-  );
-  searchFormData.value = data["searchFormData"] as SearchFields;
-  primaryKey.value = data["primaryKey"];
-  tableFieldList.value = data["tableFieldList"];
-  rules.value = data["rules"];
-  dateFields.value = data["dateFields"];
-  fieldMappingList.value = data?.fieldMappingList;
-  relationTables.value = data["relationTables"];
-  dataSource.value = data["dataSource"];
-  extBtns.value = userAction(
-    starHorseTableCompRef,
-    primaryKey.value,
-    tableFieldList.value["userTableFuncs"],
-  );
-  delete tableFieldList.value["userTableFuncs"];
-  await nextTick();
-  // closeLoad();
-  starHorseTableCompRef.value!.init();
 };
 watch(
   () => props.param,
@@ -133,7 +145,18 @@ onMounted(async () => {
 </script>
 <template>
   <div class="flex flex-col h-full overflow-hidden">
-    <template v-if="hasData">
+    <!-- 使用通用骨架屏组件 - 带标签页样式 -->
+    <CommonSkeleton 
+      v-if="isLoading" 
+      :showSearch="false" 
+      :showHeader="true" 
+      :showTabs="true" 
+      :showForm="true" 
+      :showTable="false" 
+      :formRowCount="6"
+    />
+    
+    <template v-else-if="hasData">
       <star-horse-dialog
         :dialog-visible="dialogProps.viewVisible"
         :dialogProps="dialogProps"
@@ -196,6 +219,9 @@ onMounted(async () => {
         </el-tabs>
       </el-card>
     </template>
+    
+    <!-- 错误或空状态 -->
+    <el-empty :content="errorMsg" v-else></el-empty>
   </div>
 </template>
 <style scoped></style>
