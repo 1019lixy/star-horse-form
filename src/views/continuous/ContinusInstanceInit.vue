@@ -1,8 +1,10 @@
 <script setup lang="ts" name="ContinusInstanceInit">
-import {computed, ComputedRef, nextTick, onMounted, ref} from "vue";
+import {computed, ComputedRef, nextTick, onMounted, provide, ref, shallowRef, unref} from "vue";
 import {
   apiInstance,
   ApiUrls,
+  FieldInfo,
+  formFieldMapping,
   operationConfirm,
   PageFieldInfo,
   piniaInstance,
@@ -10,13 +12,14 @@ import {
   SelectOption,
   StarHorseIcon,
   uuid,
-  warning,
+  warning
 } from "star-horse-lowcode";
 import {loadDict} from "@/api/star_horse_apis";
 import {pipelineFields} from "@/views/continuous/utils/FieldsUtils";
 import {useRouter} from "vue-router";
 import {Config} from "@/api/settings";
 import {useContinusConfigStore} from "@/store/ContinusConfig";
+import {dataInit, extendCommonFields} from "./utils/ToolsParams";
 
 let router = useRouter();
 const dataUrl: ApiUrls = apiInstance(
@@ -50,6 +53,7 @@ const pipelineNode: any = {
 };
 //当前节点属性
 const currentFieldList = ref<PageFieldInfo>({fieldList: []});
+const extendFieldList = ref<PageFieldInfo>({fieldList: extendCommonFields});
 let nodeField = ref<PageFieldInfo>({
   fieldList: [
     [
@@ -172,25 +176,64 @@ const editNode = async (node: any, currentIndex: number) => {
     currentFieldList.value = {};
   }
   currentNodeIndex.value = currentIndex;
+  initDataInfo(node);
+  return "ok";
+};
+const initDataInfo = (node: any) => {
+  formFields.value?.forEach(item => {
+    if (!["successReport", "errorReport"].includes(item.fieldName)) {
+      item.formVisible = false;
+    }
+  });
   const formData = continuousStore.getNodeInfo(node.id);
   if (formData) {
     currentFormNode.value = formData;
   } else {
-    initBaseInfo();
+    currentFormNode.value = {
+      nodeName: node.nodeName,
+      nodeCode: node.nodeCode,
+      nodeExecType: "seq",
+    };
   }
-  return "ok";
 };
-const initBaseInfo = () => {
-  currentFormNode.value = {
-    nodeName: currentNode.value.nodeName,
-    nodeCode: currentNode.value.nodeCode,
-    nodeExecType: "seq",
-  };
-}
 const delNode = (item: any) => {
   let index = processList.value.indexOf(item);
+
+  // 删除节点前先确定下一个要显示的节点
+  let nextNode = null;
+  if (processList.value.length > 1) {
+    // 如果有多个节点，取相邻节点（优先前一个，没有则后一个）
+    nextNode = processList.value[index - 1] ?? processList.value[index + 1];
+  }
+
+  // 清除NodeFields组件中的表单数据
+  nodeCompRef.value?.resetForm();
+
+  // 删除节点
   processList.value.splice(index, 1);
-  formNo.value = "";
+
+  if (processList.value.length === 0) {
+    // 如果没有节点了，设置为配置节点
+    currentFieldList.value = pipelineFields;
+    formNo.value = "";
+    // 重置为初始配置节点
+    currentNode.value = {
+      ...pipelineNode
+    };
+  } else {
+    // 设置为相邻节点或第一个节点
+    if (nextNode) {
+      currentNode.value = nextNode;
+      formNo.value = nextNode.dynamicFormNo || "";
+    } else {
+      // 如果没有相邻节点，取第一个节点
+      currentNode.value = processList.value[0];
+      formNo.value = processList.value[0].dynamicFormNo || "";
+    }
+    currentFieldList.value = {};
+    // 重置表单数据为当前节点的基础信息
+  }
+  initDataInfo(currentNode.value);
   continuousStore.removeNode(item.id);
 };
 const addSubNode = () => {
@@ -199,7 +242,7 @@ const addSubNode = () => {
 const closeAction = () => {
   nodeDialog.value = false;
   tempDialog.value = false;
-  currentFormNode.value = {};
+
 };
 /**
  * 保存选择的节点
@@ -289,11 +332,15 @@ const save = async (type: string) => {
 const reset = () => {
   currentNode.value = {...pipelineNode};
   currentCompName.value = pipelineNode.nodeCode;
-  initBaseInfo();
+  initDataInfo(currentNode.value);
   currentFieldList.value = pipelineFields;
   continuousStore.clear();
   processList.value = [];
 };
+//记录表单的属性
+let formFields = shallowRef<Array<FieldInfo>>([]);
+provide("formFields", formFields);
+
 const init = async () => {
   reset();
   loadDict("CONTINUS_SUBNODE_FINISH_CONDITION").then((res) => {
@@ -303,6 +350,9 @@ const init = async () => {
     execTypeList.value = res;
   });
   continuousStore.clear();
+  dataInit();
+  formFields.value = formFieldMapping(unref(extendFieldList))?.formFields;
+
 };
 onMounted(async () => {
   await init();
@@ -472,6 +522,8 @@ onMounted(async () => {
                   :staticFieldData="currentFieldList"
                   ref="nodeCompRef"
               />
+              <star-horse-form-item ref="extendNodeInfoRef" class="build-cfg" :compSize="Config.compSize"
+                                    v-model:dataForm="currentFormNode" :fieldList="extendFieldList"/>
             </sh-form>
           </div>
         </el-splitter-panel>

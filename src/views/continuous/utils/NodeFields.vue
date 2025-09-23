@@ -39,7 +39,7 @@ const tableFieldList = computed(() => {
   const temp = unref(tabList);
   return {
     fieldList: [{
-      addable: true,
+      addable: props.nodeInfo.nodeCode != "PipelineCfg",
       closable: true,
       fieldName: currentTabName,
       tabList: temp,
@@ -81,7 +81,7 @@ const assignField = (data: any, nodeInfo?: any, subNodeFlag?: boolean) => {
     currentTabName.value = nodeInfo?.nodeCode;
   } else {
     tabList.value.push({
-      title: props.nodeInfo.nodeName,
+      title:  outerFormData.value?.nodeName||props.nodeInfo.nodeName,
       objectName: props.nodeInfo.nodeCode,
       tabName: props.nodeInfo.nodeCode,
       primaryKey: data["primaryKey"],
@@ -100,7 +100,6 @@ const resetField = () => {
   searchFormData.value = {
     fieldList: [],
   };
-
   relationTables.value = {};
   rules.value = {};
   formInfo.value = {};
@@ -133,18 +132,29 @@ const loadFormData = async (formNo: string, nodeInfo?: any, subNodeFlag?: boolea
 watch(
     () => props.nodeInfo.id,
     () => {
+      // 当节点ID变化时，先重置表单再初始化
+      resetForm();
       init();
     },
     {deep: true},
 );
-//记录表单的属性
-const formFields = reactive<Array<any>>([]);
-provide("formFields", formFields);
-const dialogProps = dialogPreps();
-provide("dialogProps", dialogProps);
+
+// 监听formNo变化，如果变为空则重置表单
+watch(
+    () => props.formNo,
+    (newFormNo, oldFormNo) => {
+      if (!newFormNo && oldFormNo) {
+        resetForm();
+      }
+    }
+);
+
 
 const resetForm = () => {
   tabList.value = [];
+  // 清除表单数据，避免显示被删除节点的信息
+  // 重置其他相关数据
+  resetField();
 };
 const init = async () => {
   if (!props.formNo && !props.staticFieldData) {
@@ -153,7 +163,7 @@ const init = async () => {
   }
   if (props.staticFieldData?.fieldList?.length > 0) {
     tabList.value.push({
-      title: props.nodeInfo?.nodeName,
+      title: outerFormData.value?.nodeName||props.nodeInfo?.nodeName,
       objectName: props.nodeInfo.nodeCode,
       tabName: props.nodeInfo.nodeCode,
       primaryKey: props.staticFieldData!.primaryKey,
