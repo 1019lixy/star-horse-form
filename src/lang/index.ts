@@ -23,7 +23,8 @@ const language: Record<LangType, Record<string, string>> = {
 export const currentLang: LangType = getLang() || LangType.ZH_CN;
 export const isEn = currentLang === LangType.EN_US;
 export const isZH = currentLang === LangType.ZH_CN;
-const langSet: Record<string, string> = language[currentLang];
+let langSet: Record<string, any> = language[currentLang] || language[LangType.ZH_CN];
+
 
 /**
  *

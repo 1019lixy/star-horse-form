@@ -40,11 +40,13 @@ for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
 app.use(commonComponent);
 app.use(systemComponent);
 app.use(itemsComponent);
+console.log("当前语言", currentLang);
 app.use(StarHorseLowCode, {
     router,
     axiosInstance,
-    lang: currentLang,
+    lang: currentLang
 });
+
 // app.use(VueParticles, {
 //   init: async (engine) => {
 //     await loadSlim(engine);
