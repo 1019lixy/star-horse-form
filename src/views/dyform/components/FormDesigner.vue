@@ -137,12 +137,12 @@ onUnmounted(() => {
       :class="currentPageClass"
       @contextmenu="contextMenu"
       style="scrollbar-width: thin"
-      class="overflow-auto!"
+      class="overflow-auto! relative"
     >
       <draggable
         @add="(evt: Event) => onDragAdd(evt, list)"
         tag="div"
-        class="h-full w-[99%] mx-auto"
+        class="h-full w-[99%] mx-auto relative"
         group="starHorseGroup"
         :list="list"
         :itemKey="uuid()"
@@ -150,7 +150,7 @@ onUnmounted(() => {
         <template #item="{ element: data, index }">
           <div
             :class="{ 'comp-item': data.preps?.headerFlag == 'Y' }"
-            class="overflow-visible"
+            class="overflow-visible relative"
             :data-field-id="data.id"
             :key="data.id"
           >

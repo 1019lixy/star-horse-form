@@ -224,32 +224,32 @@
 }
 
 .pipeline-nav {
-  display: flex;
-  align-items: center;
+  display: block;
   position: relative;
-  height: 100%;
 
   .icon {
     font-style: normal;
     text-align: center;
     line-height: 0;
     color: #e8e8e8;
-    display: flex;
+    display: inline-block;
     align-items: center;
-
+    margin: 0 5px;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
 
     &.node-add,
     &.node-arrow {
-      /*position: absolute;
+      position: absolute;
       top: 50%;
       left: 40%;
-      transform: translate(-50%, -50%);*/
+      transform: translate(-50%, -50%);
       border-radius: 50%;
       display: flex;
       align-items: center;
       justify-content: center;
       border: 1px solid #e8e8e8;
-
+      padding-left: 3px;
     }
   }
 
@@ -299,7 +299,7 @@
     &:hover .pright {
       display: block;
       right: -7px;
-      top: -10px;
+      top: -2px;
       transform: translateX(12px);
       position: absolute;
     }
@@ -324,7 +324,7 @@
       content: "";
       height: 0;
       left: 45%;
-      //position: absolute;
+      position: absolute;
       top: 100%;
       width: 0;
     }
@@ -341,16 +341,14 @@
     .node-add {
       cursor: pointer;
       display: none;
-      padding-left: 2px;
       color: var(--star-horse-style);
-
+      position: absolute;
     }
 
     .node-arrow {
       cursor: pointer;
       align-items: center;
       display: flex;
-      padding-left: 5px;
     }
 
     &:hover .node-arrow {
@@ -374,8 +372,6 @@
     display: flex;
     align-items: center;
     gap: 5px;
-    height: 100%;
-    width: 100%;
     border-bottom: 2px solid #e8e8e8;
 
     .nav-setting {
@@ -388,7 +384,7 @@
 
     .nav-line {
       background-color: #dadada;
-      height: 100%;
+      height: 52px;
       font-weight: bold;
       margin: 0 5px;
       width: 2px;
@@ -412,7 +408,7 @@
     }
 
     .init-btn {
-      margin:0 5px;
+      margin-left: 20px;
       background: 0 0;
       color: var(--star-horse-style);
       padding-left: 0;
@@ -428,25 +424,24 @@
     .nav-nodes {
       align-items: center;
       display: flex;
-      height: 100%;
-      //overflow-x:auto;
-      //border:  1px solid #e8e8e8;
-      /*  &:before {
-         content: '';
-         position: absolute;
-         top: 35px;
-         left: 0;
-         right: 0;
-         height: 2px;
-         background: var(--star-horse-style);
-         z-index: 0;  // 确保线条在节点下方
-         transform: translateY(-50%);
-       }*/
+      height: 74px;
+      position: relative;
+      /* &:before {
+        content: '';
+        position: absolute;
+        top: 35px;
+        left: 0;
+        right: 0;
+        height: 2px;
+        background: var(--star-horse-style);
+        z-index: 0;  // 确保线条在节点下方
+        transform: translateY(-50%);
+      }*/
       .continuous-node-content {
         align-items: center;
         height: 35px;
         display: flex;
-        //position: relative; // 添加定位上下文
+        position: relative; // 添加定位上下文
         z-index: 1; // 节点内容层级高于线条
       }
 
@@ -702,4 +697,12 @@
     height: 35px;
     line-height: 35px;
   }
+}
+
+.el-scrollbar__view {
+  width: 99% !important;
+  margin: 0 auto;
+}
+.edit_col{
+  position: relative;
 }

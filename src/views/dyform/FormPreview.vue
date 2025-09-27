@@ -108,6 +108,7 @@ defineExpose({
     writing-mode: horizontal-tb !important;
   }
   .edit_col {
+
     border: none !important;
   }
 }

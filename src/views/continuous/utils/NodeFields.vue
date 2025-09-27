@@ -1,10 +1,11 @@
 <script setup lang="ts">
-import {computed, ModelRef, nextTick, onMounted, PropType, provide, reactive, ref, unref, watch} from "vue";
+import {computed, ModelRef, nextTick, onMounted, PropType, provide, ref, unref, watch} from "vue";
 import {
   apiInstance,
   ApiUrls,
   closeLoad,
-  dialogPreps,
+  FieldInfo,
+  formFieldMapping,
   loadGetData,
   PageFieldInfo,
   piniaInstance,
@@ -14,6 +15,7 @@ import {
 } from "star-horse-lowcode";
 import {i18n} from "@/lang";
 import {useContinusConfigStore} from "@/store/ContinusConfig";
+import {advancedFormFields} from "@/views/continuous/utils/ToolsParams.js";
 
 let dataUrl = ref<ApiUrls>(apiInstance("", ""));
 const props = defineProps({
@@ -24,14 +26,16 @@ const props = defineProps({
 });
 const continuousStore = useContinusConfigStore(piniaInstance);
 const errorMsg = ref(i18n("continuous.dataLoading"));
-let searchFormData = ref<SearchFields>({});
-const tabList = ref<TabFieldInfo[]>([]);
+let searchFormData = ref<SearchFields | any>({});
+const tabList = ref<TabFieldInfo[] | any>([]);
 
 const nodeFormRef = ref();
 const rules = ref({});
 const hasData = ref(false);
 let relationTables = ref<any>({});
 const formInfo = ref<any>({});
+let formFields = ref<Array<FieldInfo>>([]);
+provide("formFields", formFields);
 let outerFormData: ModelRef<any> = defineModel("dataForm");
 const subNodeDialog = ref<boolean>(false);
 const currentTabName = ref<string>("");
@@ -47,6 +51,9 @@ const tableFieldList = computed(() => {
         tabAdd: (data: any) => {
           subNodeDialog.value = true;
         },
+        tabChange:(data: any) => {
+          // changeFieldVisible();
+        },
         close: (data: any) => {
           outerFormData.value["subNodeList"] = outerFormData.value["subNodeList"].filter(item => item.id != data.id);
           currentTabName.value = outerFormData.value["subNodeList"][0].nodeCode;
@@ -55,17 +62,55 @@ const tableFieldList = computed(() => {
     }]
   };
 });
+const changeToDefault = (tempFormList: any) => {
+  formFields.value = formFieldMapping({
+    fieldList: [tempFormList],
+  })?.formFields;
+  changeFieldVisible();
+};
+const changeFieldVisible = () => {
+  formFields.value?.forEach(item => {
+    if (!["successReport", "errorReport"].includes(item.fieldName)) {
+      item.formVisible = false;
+    }
+  });
+}
+const advancedFormFieldsList = async (advancedFormNo: string) => {
+  let tempFormList: any = {};
+  if (!advancedFormNo) {
+    tempFormList = advancedFormFields([]);
+  } else {
+    let cacheData = continuousStore.getNodeFields(advancedFormNo);
+    if (cacheData) {
+      tempFormList = advancedFormFields(cacheData["tableFieldList"].fieldList);
+    } else {
+      let newVar = await loadFormFields(advancedFormNo);
+      continuousStore.addNodeFields(advancedFormNo, newVar);
+      tempFormList = advancedFormFields(newVar.data["tableFieldList"].fieldList);
+    }
+  }
+  changeToDefault(tempFormList);
+  return tempFormList;
+};
 /**
  * 数据赋值
  * @param data
  * @param nodeInfo
  * @param subNodeFlag
  */
-const assignField = (data: any, nodeInfo?: any, subNodeFlag?: boolean) => {
+const assignField = async (data: any, nodeInfo?: any, subNodeFlag?: boolean) => {
   dataUrl.value = apiInstance(
       data["dataUrl"].appName,
       data["dataUrl"].contextUrl,
   );
+  const fieldList = data["tableFieldList"].fieldList;
+  if (!fieldList.find(item => item.collapseFlag?.includes("advancedSetting"))) {
+    const tempFormList = await advancedFormFieldsList(nodeInfo?.advancedFormNo);
+    fieldList.push(tempFormList);
+  } else {
+    changeToDefault(fieldList[fieldList.length - 1]);
+  }
+
   if (subNodeFlag) {
     tabList.value.push({
       title: nodeInfo?.nodeName,
@@ -76,12 +121,12 @@ const assignField = (data: any, nodeInfo?: any, subNodeFlag?: boolean) => {
       subFormFlag: "Y",
       tableFlag: "N",
       id: nodeInfo?.id,
-      fieldList: data["tableFieldList"].fieldList,
+      fieldList: fieldList,
     });
     currentTabName.value = nodeInfo?.nodeCode;
   } else {
     tabList.value.push({
-      title:  outerFormData.value?.nodeName||props.nodeInfo.nodeName,
+      title: outerFormData.value?.nodeName || props.nodeInfo.nodeName,
       objectName: props.nodeInfo.nodeCode,
       tabName: props.nodeInfo.nodeCode,
       primaryKey: data["primaryKey"],
@@ -90,7 +135,7 @@ const assignField = (data: any, nodeInfo?: any, subNodeFlag?: boolean) => {
       subFormFlag: "Y",
       tableFlag: "N",
       id: props.nodeInfo?.id,
-      fieldList: data["tableFieldList"].fieldList,
+      fieldList: fieldList,
     });
     currentTabName.value = props.nodeInfo?.nodeCode;
   }
@@ -103,6 +148,10 @@ const resetField = () => {
   relationTables.value = {};
   rules.value = {};
   formInfo.value = {};
+
+};
+const loadFormFields = async (formNo: string) => {
+  return await loadGetData(`/userdb-manage/userdb/dynamicForm/dynamicPageInfo/${formNo}`,);
 };
 const loadFormData = async (formNo: string, nodeInfo?: any, subNodeFlag?: boolean) => {
   if (!formNo) {
@@ -114,9 +163,7 @@ const loadFormData = async (formNo: string, nodeInfo?: any, subNodeFlag?: boolea
     assignField(cacheData, nodeInfo, subNodeFlag);
     return;
   }
-  let {data, error} = await loadGetData(
-      `/userdb-manage/userdb/dynamicForm/dynamicPageInfo/${formNo}`,
-  );
+  let {data, error} = await loadFormFields(formNo);
   if (error) {
     errorMsg.value = error;
     hasData.value = false;
@@ -129,25 +176,6 @@ const loadFormData = async (formNo: string, nodeInfo?: any, subNodeFlag?: boolea
   await nextTick();
   closeLoad();
 };
-watch(
-    () => props.nodeInfo.id,
-    () => {
-      // 当节点ID变化时，先重置表单再初始化
-      resetForm();
-      init();
-    },
-    {deep: true},
-);
-
-// 监听formNo变化，如果变为空则重置表单
-watch(
-    () => props.formNo,
-    (newFormNo, oldFormNo) => {
-      if (!newFormNo && oldFormNo) {
-        resetForm();
-      }
-    }
-);
 
 
 const resetForm = () => {
@@ -162,8 +190,14 @@ const init = async () => {
     return;
   }
   if (props.staticFieldData?.fieldList?.length > 0) {
+    let tempFieldList = props.staticFieldData!.fieldList;
+    if (!tempFieldList.find(item => item.collapseFlag?.includes("advancedSetting"))) {
+      const tempFormData = await advancedFormFieldsList(props.nodeInfo?.advancedFormNo);
+      tempFieldList.push(tempFormData);
+      console.log("init staticFieldData", tempFieldList);
+    }
     tabList.value.push({
-      title: outerFormData.value?.nodeName||props.nodeInfo?.nodeName,
+      title: outerFormData.value?.nodeName || props.nodeInfo?.nodeName,
       objectName: props.nodeInfo.nodeCode,
       tabName: props.nodeInfo.nodeCode,
       primaryKey: props.staticFieldData!.primaryKey,
@@ -172,13 +206,13 @@ const init = async () => {
       subFormFlag: "Y",
       tableFlag: "N",
       id: props.nodeInfo?.id,
-      fieldList: props.staticFieldData!.fieldList,
+      fieldList: tempFieldList,
     });
     currentTabName.value = props.nodeInfo?.nodeCode;
   } else {
     await loadFormData(props.formNo!);
   }
-  outerFormData.value["subNodeList"]?.forEach(node => {
+  outerFormData.value["subNodeList"]?.forEach((node: any) => {
     loadFormData(node.dynamicFormNo, node, true);
   });
 };
@@ -200,7 +234,16 @@ const closeAction = () => {
 };
 onMounted(async () => {
   await init();
+
 });
+watch(
+    () => props.nodeInfo.id,
+    () => {
+      resetForm();
+      init();
+    },
+    {deep: true},
+);
 defineExpose({
   resetForm,
 });

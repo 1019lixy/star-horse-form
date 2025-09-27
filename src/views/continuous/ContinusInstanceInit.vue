@@ -1,10 +1,8 @@
 <script setup lang="ts" name="ContinusInstanceInit">
-import {computed, ComputedRef, nextTick, onMounted, provide, ref, shallowRef, unref} from "vue";
+import {computed, ComputedRef, nextTick, onMounted, ref} from "vue";
 import {
   apiInstance,
   ApiUrls,
-  FieldInfo,
-  formFieldMapping,
   operationConfirm,
   PageFieldInfo,
   piniaInstance,
@@ -19,7 +17,7 @@ import {pipelineFields} from "@/views/continuous/utils/FieldsUtils";
 import {useRouter} from "vue-router";
 import {Config} from "@/api/settings";
 import {useContinusConfigStore} from "@/store/ContinusConfig";
-import {dataInit, extendCommonFields} from "./utils/ToolsParams";
+import {dataInit} from "./utils/ToolsParams";
 
 let router = useRouter();
 const dataUrl: ApiUrls = apiInstance(
@@ -53,7 +51,7 @@ const pipelineNode: any = {
 };
 //当前节点属性
 const currentFieldList = ref<PageFieldInfo>({fieldList: []});
-const extendFieldList = ref<PageFieldInfo>({fieldList: extendCommonFields});
+
 let nodeField = ref<PageFieldInfo>({
   fieldList: [
     [
@@ -176,15 +174,12 @@ const editNode = async (node: any, currentIndex: number) => {
     currentFieldList.value = {};
   }
   currentNodeIndex.value = currentIndex;
+  // nodeCompRef.value?.resetForm();
   initDataInfo(node);
   return "ok";
 };
 const initDataInfo = (node: any) => {
-  formFields.value?.forEach(item => {
-    if (!["successReport", "errorReport"].includes(item.fieldName)) {
-      item.formVisible = false;
-    }
-  });
+
   const formData = continuousStore.getNodeInfo(node.id);
   if (formData) {
     currentFormNode.value = formData;
@@ -338,8 +333,7 @@ const reset = () => {
   processList.value = [];
 };
 //记录表单的属性
-let formFields = shallowRef<Array<FieldInfo>>([]);
-provide("formFields", formFields);
+
 
 const init = async () => {
   reset();
@@ -351,7 +345,7 @@ const init = async () => {
   });
   continuousStore.clear();
   dataInit();
-  formFields.value = formFieldMapping(unref(extendFieldList))?.formFields;
+
 
 };
 onMounted(async () => {
@@ -522,8 +516,6 @@ onMounted(async () => {
                   :staticFieldData="currentFieldList"
                   ref="nodeCompRef"
               />
-              <star-horse-form-item ref="extendNodeInfoRef" class="build-cfg" :compSize="Config.compSize"
-                                    v-model:dataForm="currentFormNode" :fieldList="extendFieldList"/>
             </sh-form>
           </div>
         </el-splitter-panel>
