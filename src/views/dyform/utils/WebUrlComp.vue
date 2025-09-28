@@ -1,27 +1,9 @@
 <script setup lang="ts">
-import { loadDict } from "@/api/star_horse_apis";
-import { httpMethod } from "@/api/system";
-import {
-  createData,
-  urlReturnDataHelpMsg,
-  validInterface,
-  validOperation,
-} from "@/views/dyform/utils/ItemPreps";
-import {
-  error,
-  PageFieldInfo,
-  searchMatchList,
-  SelectOption,
-} from "star-horse-lowcode";
-import {
-  ModelRef,
-  nextTick,
-  onMounted,
-  PropType,
-  reactive,
-  ref,
-  watch,
-} from "vue";
+import {loadDict} from "@/api/star_horse_apis";
+import {httpMethod} from "@/api/system";
+import {createData, urlReturnDataHelpMsg, validInterface, validOperation,} from "@/views/dyform/utils/ItemPreps";
+import {error, loadGetData, PageFieldInfo, searchMatchList, SelectOption,} from "star-horse-lowcode";
+import {ModelRef, nextTick, onMounted, PropType, reactive, ref,} from "vue";
 
 defineOptions({
   name: "WebUrlComp",
@@ -29,17 +11,20 @@ defineOptions({
 const props = defineProps({
   formProps: {
     type: Object as PropType<any>,
-    default: () => {},
+    default: () => {
+    },
   },
 
   preps: {
     type: Object as PropType<any>,
-    default: () => {},
+    default: () => {
+    },
   },
 
   item: {
     type: Object as PropType<PageFieldInfo>,
-    default: () => {},
+    default: () => {
+    },
   },
   source: {
     type: Number,
@@ -62,27 +47,83 @@ const disableUrl = ref<boolean>(false);
 const currentTabName = ref<string>("data");
 const fieldList = ref<SelectOption[]>([]);
 let envList = ref<Array<SelectOption>>([]);
-
+const interfaceDatas = ref<any>({});
+const methodList = ref<SelectOption[]>([]);
+const interfaceList = ref<SelectOption[]>([]);
+const loadInterface = (serviceName: string) => {
+  loadGetData(`/userdb-manage/redirect/api/webApis2/${serviceName}`).then((res: any) => {
+    interfaceDatas.value = res.data.apiList;
+    interfaceList.value = res.data.options;
+    console.log(interfaceDatas.value);
+  });
+};
 const dataSourceField = reactive<PageFieldInfo | any>({
   fieldList: [
     [
       {
-        label: "系统环境",
-        fieldName: "env",
+        label: "应用名称",
+        fieldName: "host",
         type: "select",
-        required: true,
-        defaultValue: "",
         formVisible: true,
         listVisible: true,
+        actions: {
+          change: (val: any) => {
+            loadInterface(val["host"]);
+          },
+        },
         preps: {
-          values: envList,
+          dataSource: "url",
+          redirect: false,
+          httpMethod: "GET",
+          url: "/userdb-manage/redirect/api/service/list",
         },
       },
+      {
+        label: "接口",
+        fieldName: "interfaceName",
+        type: "select",
+        formVisible: true,
+        listVisible: true,
+        actions: {
+          change: (val: any) => {
+            methodList.value = interfaceDatas.value[val["interfaceName"]];
+          }
+        },
+        preps: {
+          values: interfaceList,
+        },
+      },
+      {
+        label: "方法/函数",
+        fieldName: "method",
+        type: "select",
+        formVisible: true,
+        listVisible: true,
+        actions: {
+          change: (val: any) => {
+            let temp = val["method"];
+            let result: any = methodList.value.find((item: any) => item.methodName == temp);
+            if (result) {
+              val["httpMethod"] = result.method;
+              val["url"] = result.serviceUrl;
+            }
+          }
+        },
+        preps: {
+          values: methodList,
+          props: {
+            label: "summary",
+            value: "methodName",
+          },
+        },
+      },
+    ],
+    [
       {
         label: "请求方式",
         fieldName: "httpMethod",
         type: "select",
-        required: false,
+        required: true,
         defaultValue: "POST",
         formVisible: true,
         listVisible: true,
@@ -94,52 +135,34 @@ const dataSourceField = reactive<PageFieldInfo | any>({
         label: "协议",
         fieldName: "protocol",
         type: "select",
-        required: false,
+        required: true,
         defaultValue: "http",
         formVisible: true,
         listVisible: true,
         preps: {
           values: [
-            { name: "HTTP", value: "http" },
-            { name: "HTTPS", value: "https" },
+            {name: "HTTP", value: "http"},
+            {name: "HTTPS", value: "https"},
           ],
         },
       },
-    ],
-    [
       {
-        label: "IP/域名/服务名",
-        fieldName: "host",
-        required: true,
+        label: "接口代理",
+        fieldName: "redirect",
+        type: "switch",
+        defaultValue: true,
         formVisible: true,
         listVisible: true,
-        preps: {
-          colspan: 16,
-        },
-      },
-      {
-        label: "端口",
-        fieldName: "port",
-        type: "number",
-        min: 1,
-        max: 65535,
-        formVisible: true,
-        listVisible: true,
-        preps: {
-          colspan: 8,
-        },
       },
     ],
     [
       {
         label: "接口地址",
-        fieldName: "interfaceUrl",
+        fieldName: "url",
         required: true,
         helpMsg: urlReturnDataHelpMsg,
         formVisible: true,
-        preps: {
-          colspan: 20,
-        },
+        colspan: 20,
       },
       {
         label: "校验",
@@ -148,14 +171,13 @@ const dataSourceField = reactive<PageFieldInfo | any>({
         actions: {
           click: async (val: any) => {
             await validOperation(
-              val,
-              dataSourceFormRef,
-              fieldList,
-              disableUrl,
-              !dataForm.value,
-              dataForm.value[props.batchName],
-
-              true,
+                val,
+                dataSourceFormRef,
+                fieldList,
+                disableUrl,
+                !dataForm.value,
+                dataForm.value[props.batchName],
+                true,
             );
           },
         },
@@ -261,26 +283,26 @@ const dataSourceField = reactive<PageFieldInfo | any>({
 const submitValid = async () => {
   let flag: boolean = false;
   await validInterface(
-    props.formProps,
-    dataSourceFormRef,
-    (dataList: any, _successMsg: string, errorMsg: string) => {
-      if (!errorMsg) {
-        //只保存静态数据,
-        if (props.formProps) {
-          props.formProps["values"] = createData(
-            dataSourceFormRef,
-            dataList,
-          ).reDataList;
+      props.formProps,
+      dataSourceFormRef,
+      (dataList: any, _successMsg: string, errorMsg: string) => {
+        if (!errorMsg) {
+          //只保存静态数据,
+          if (props.formProps) {
+            props.formProps["values"] = createData(
+                dataSourceFormRef,
+                dataList,
+            ).reDataList;
+          }
+          flag = true;
+        } else {
+          error(errorMsg);
+          flag = false;
         }
-        flag = true;
-      } else {
-        error(errorMsg);
-        flag = false;
-      }
-    },
-    !dataForm.value,
-    dataForm,
-    true,
+      },
+      !dataForm.value,
+      dataForm,
+      true,
   );
   return flag;
 };
@@ -326,21 +348,21 @@ defineExpose({
 <template>
   <el-scrollbar height="100%">
     <star-horse-form
-      :fieldList="dataSourceField"
-      ref="dataSourceFormRef"
-      v-if="!dataForm"
+        :fieldList="dataSourceField"
+        ref="dataSourceFormRef"
+        v-if="!dataForm"
     />
     <star-horse-form-item
-      v-else
-      ref="dataSourceFormRef"
-      :fieldList="dataSourceField"
-      :dataIndex="(props.preps?.params?.totalTab || 1) - 1"
-      :subFormFlag="subFormFlag ? 'Y' : 'N'"
-      :propPrefix="batchName"
-      :key="createSubForm()"
-      :batchName="batchName"
-      :source="source"
-      v-model:dataForm="dataForm[batchName]"
+        v-else
+        ref="dataSourceFormRef"
+        :fieldList="dataSourceField"
+        :dataIndex="(props.preps?.params?.totalTab || 1) - 1"
+        :subFormFlag="subFormFlag ? 'Y' : 'N'"
+        :propPrefix="batchName"
+        :key="createSubForm()"
+        :batchName="batchName"
+        :source="source"
+        v-model:dataForm="dataForm[batchName]"
     />
   </el-scrollbar>
 </template>
