@@ -173,9 +173,13 @@ watch(
           @particlesLoaded="particlesLoaded"
           :options="particlesCfg"
         />-->
-        <div
+        <!-- <div
             class="absolute bg-gradient-to-b from-indigo-600 to-blue-500 opacity-75 inset-0 z-0"
-        ></div>
+        ></div> -->
+        <div
+    class="absolute opacity-75 inset-0 z-0"
+    style="background: var(--star-horse-style)"
+></div>
         <div class="w-full max-w-2xl z-10">
           <div class="sm:text-4xl xl:text-5xl font-bold leading-tight mb-6">
             {{ i18n("loginButton.welcome") }}
@@ -389,5 +393,6 @@ watch(
 .login-bg {
   background-image: url("@/assets/css/login1/image/img.jpg");
   position: relative;
+  background-blend-mode: overlay;
 }
 </style>
