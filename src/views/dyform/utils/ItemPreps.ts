@@ -1,4 +1,4 @@
-import {computed, nextTick, reactive, ref, Ref, unref} from "vue";
+import {computed, nextTick, reactive, ref, Ref, unref, watch} from "vue";
 import {
     compDynamicData,
     dictData,
@@ -498,6 +498,18 @@ export function paramsFields(
             console.log(interfaceDatas.value);
         });
     };
+    const loadMethods = (interName: string) => {
+        if (!interfaceDatas.value[interName]) {
+            const dataWatch = watch(() => interfaceDatas.value[interName], (newVal) => {
+                if (newVal) {
+                    methodList.value = newVal;
+                    dataWatch();
+                }
+            });
+        } else {
+            methodList.value = interfaceDatas.value[interName];
+        }
+    };
     const dataUrls: FieldInfo[] | any = [
         [
             {
@@ -526,7 +538,7 @@ export function paramsFields(
                 listVisible: true,
                 actions: {
                     change: (val: any) => {
-                        methodList.value = interfaceDatas.value[val["interfaceName"]];
+                        loadMethods(val["interfaceName"]);
                     }
                 },
                 preps: {
@@ -542,7 +554,7 @@ export function paramsFields(
                 actions: {
                     change: (val: any) => {
                         let temp = val["method"];
-                        let result: any = methodList.value.find((item: any) => item.methodName == temp);
+                        let result: any = methodList.value?.find((item: any) => item.methodName == temp);
                         if (result) {
                             val["httpMethod"] = result.method;
                             val["url"] = result.serviceUrl;
