@@ -5,6 +5,7 @@ import {
     error,
     FieldInfo,
     loadData,
+    loadGetData,
     PageFieldInfo,
     piniaInstance,
     searchMatchList,
@@ -72,9 +73,12 @@ export async function validInterface(
         if (!flag) {
             return flag;
         }
-        // formProps.value={...formProps.value, ...temp};
         for (const key in temp) {
-            formProps[key] = temp[key];
+            try {
+                formProps.value[key] = temp[key];
+            } catch (e) {
+                formProps[key] = temp[key];
+            }
         }
     }
     const dataSource = temp["dataSource"];
@@ -95,28 +99,40 @@ export async function validInterface(
                 operation: item.matchType,
             });
         });
-        let url = temp["preinterfaceUrl"] + temp["interfaceUrl"];
-        const params = {
-            url: temp["interfaceUrl"],
-            protocol: temp["protocol"],
-            host: temp["host"],
-            port: temp["port"],
-            httpMethod: temp.httpMethod || "POST",
-            dataType: temp.dataType || "JSON",
-            env: temp["env"] || "",
-            searchInfo: {
-                fieldList: requestParams,
-            },
-        };
-        const custom = customParams ? JSON.parse(customParams) : {};
-        if (Object.keys(custom).length > 0) {
-            params.searchInfo = {
-                ...params.searchInfo,
-                ...custom,
+        let url = temp["url"];
+        let httpMethod = temp["httpMethod"];
+        let validResult: any = {};
+        if (temp["redirect"]) {
+            const params = {
+                url: temp["url"] ?? temp["interfaceUrl"],
+                protocol: temp["protocol"],
+                host: temp["host"],
+                port: temp["port"],
+                httpMethod: temp.httpMethod || "POST",
+                dataType: temp.dataType || "JSON",
+                env: temp["env"] || "",
+                searchInfo: {
+                    fieldList: requestParams,
+                },
             };
+            const custom = customParams ? JSON.parse(customParams) : {};
+            if (Object.keys(custom).length > 0) {
+                params.searchInfo = {
+                    ...params.searchInfo,
+                    ...custom,
+                };
+            }
+            url = "/system-config/redirect/execute";
+            validResult = await loadData(url, params);
+        } else {
+            if (httpMethod && httpMethod.toUpperCase() === "POST") {
+                validResult = await loadData(url, {
+                    fieldList: requestParams,
+                });
+            } else {
+                validResult = await loadGetData(url);
+            }
         }
-        url = "/system-config/redirect/execute";
-        const validResult = await loadData(url, params);
         if (validResult.error) {
             flag = false;
             validErrorMsg = validResult.error;
@@ -224,10 +240,6 @@ export const validOperation = async (
             if (errorMsg) {
                 error(errorMsg);
             }
-
-            // if (recall) {
-            //     recall(dataList, successMsg, errorMsg);
-            // }
         },
         validForm,
         formData,
@@ -468,6 +480,8 @@ export function paramsFields(
     }
     const disableUrl = ref<boolean>(false);
     let currentData: Array<any> = [];
+    const methodList = ref<SelectOption[]>([]);
+    const interfaceList = ref<SelectOption[]>([]);
     datas?.forEach((item: any) => {
         if (item.fieldName == fieldName) {
             currentData = item.configParams;
@@ -476,21 +490,75 @@ export function paramsFields(
     });
     const fields: Array<any> = [];
     const fieldList = ref<SelectOption[]>([]);
+    const interfaceDatas = ref<any>({});
+    const loadInterface = (serviceName: string) => {
+        loadGetData(`/userdb-manage/redirect/api/webApis2/${serviceName}`).then((res: any) => {
+            interfaceDatas.value = res.data.apiList;
+            interfaceList.value = res.data.options;
+            console.log(interfaceDatas.value);
+        });
+    };
     const dataUrls: FieldInfo[] | any = [
         [
             {
-                label: "系统环境",
-                fieldName: "env",
+                label: "应用名称",
+                fieldName: "host",
                 type: "select",
-                required: true,
-                defaultValue: "",
                 formVisible: true,
                 listVisible: true,
+                actions: {
+                    change: (val: any) => {
+                        loadInterface(val["host"]);
+                    },
+                },
                 preps: {
-                    dataSource: "dict",
-                    urlOrDictName: "system_environment",
+                    dataSource: "url",
+                    redirect: false,
+                    httpMethod: "GET",
+                    url: "/userdb-manage/redirect/api/service/list",
                 },
             },
+            {
+                label: "接口",
+                fieldName: "interfaceName",
+                type: "select",
+                formVisible: true,
+                listVisible: true,
+                actions: {
+                    change: (val: any) => {
+                        methodList.value = interfaceDatas.value[val["interfaceName"]];
+                    }
+                },
+                preps: {
+                    values: interfaceList,
+                },
+            },
+            {
+                label: "方法/函数",
+                fieldName: "method",
+                type: "select",
+                formVisible: true,
+                listVisible: true,
+                actions: {
+                    change: (val: any) => {
+                        let temp = val["method"];
+                        let result: any = methodList.value.find((item: any) => item.methodName == temp);
+                        if (result) {
+                            val["httpMethod"] = result.method;
+                            val["url"] = result.serviceUrl;
+                        }
+                    }
+                },
+                preps: {
+                    values: methodList,
+                    props: {
+                        label: "summary",
+                        value: "methodName",
+                    },
+                },
+            },
+        ],
+        [
             {
                 label: "请求方式",
                 fieldName: "httpMethod",
@@ -518,48 +586,37 @@ export function paramsFields(
                     ],
                 },
             },
-        ],
-        [
             {
-                label: "IP/域名/服务名",
-                fieldName: "host",
+                label: "接口代理",
+                fieldName: "redirect",
+                type: "switch",
+                defaultValue: true,
+                formVisible: true,
+                listVisible: true,
+            },
+        ],
 
-                required: true,
-                formVisible: true,
-                listVisible: true,
-                preps: {
-                    colspan: 16,
-                },
-            },
-            {
-                label: "端口",
-                fieldName: "port",
-                type: "number",
-                min: 1,
-                max: 65535,
-                formVisible: true,
-                listVisible: true,
-                preps: {
-                    colspan: 8,
-                },
-            },
-        ],
+        {
+            label: "接口地址",
+            fieldName: "url",
+            required: true,
+            helpMsg: urlReturnDataHelpMsg,
+            formVisible: true,
+        }
+        ,
         [
             {
-                label: "接口地址",
-                fieldName: "interfaceUrl",
-                required: true,
-                helpMsg: urlReturnDataHelpMsg,
+                label: "验证",
+                fieldName: "valid",
+                type: "button",
                 formVisible: true,
+                actions: async (val: any) => {
+                    unref(val)["dataSource"] = "url";
+                    await validOperation(val, paramsConfigRef, fieldList, disableUrl);
+                },
                 preps: {
-                    appendAction: {
-                        icon: "valid",
-                        actions: async (val: any) => {
-                            val["dataSource"] = "url";
-                            await validOperation(val, paramsConfigRef, fieldList, disableUrl);
-                        },
-                    },
-                    colspan: 16,
+                    icon: "valid",
+                    colspan: 8,
                 },
             },
             {
@@ -570,7 +627,7 @@ export function paramsFields(
                 formVisible: true,
                 preps: {
                     values: fieldList,
-                    colspan: 8,
+                    colspan: 16,
                 },
             },
         ],
