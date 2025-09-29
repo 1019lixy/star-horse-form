@@ -171,6 +171,7 @@ const advancedFormFields = (formField: FieldInfo[]) => {
     if (!reportTypeList.value.length) {
         dataInit();
     }
+    console.log("advancedFormFields", formField);
     return {
         fieldName: "advancedSetting",
         collapseFlag: "advancedSetting",

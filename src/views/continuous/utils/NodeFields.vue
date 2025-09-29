@@ -74,18 +74,18 @@ const changeFieldVisible = () => {
       item.formVisible = false;
     }
   });
-}
-const advancedFormFieldsList = async (advancedFormNo: string) => {
+};
+const advancedFormFieldsList = async (advancedDynamicFormNo: string) => {
   let tempFormList: any = {};
-  if (!advancedFormNo) {
+  if (!advancedDynamicFormNo) {
     tempFormList = advancedFormFields([]);
   } else {
-    let cacheData = continuousStore.getNodeFields(advancedFormNo);
+    let cacheData = continuousStore.getNodeFields(advancedDynamicFormNo);
     if (cacheData) {
       tempFormList = advancedFormFields(cacheData["tableFieldList"].fieldList);
     } else {
-      let newVar = await loadFormFields(advancedFormNo);
-      continuousStore.addNodeFields(advancedFormNo, newVar);
+      let newVar = await loadFormFields(advancedDynamicFormNo);
+      continuousStore.addNodeFields(advancedDynamicFormNo, newVar);
       tempFormList = advancedFormFields(newVar.data["tableFieldList"].fieldList);
     }
   }
@@ -104,8 +104,9 @@ const assignField = async (data: any, nodeInfo?: any, subNodeFlag?: boolean) => 
       data["dataUrl"].contextUrl,
   );
   const fieldList = data["tableFieldList"].fieldList;
-  if (!fieldList.find(item => item.collapseFlag?.includes("advancedSetting"))) {
-    const tempFormList = await advancedFormFieldsList(nodeInfo?.advancedFormNo);
+  console.log(fieldList,nodeInfo);
+  if (!fieldList.find((item:any) => item.collapseFlag?.includes("advancedSetting"))) {
+    const tempFormList = await advancedFormFieldsList(nodeInfo?.advancedDynamicFormNo);
     fieldList.push(tempFormList);
   } else {
     changeToDefault(fieldList[fieldList.length - 1]);
@@ -191,8 +192,8 @@ const init = async () => {
   }
   if (props.staticFieldData?.fieldList?.length > 0) {
     let tempFieldList = props.staticFieldData!.fieldList;
-    if (!tempFieldList.find(item => item.collapseFlag?.includes("advancedSetting"))) {
-      const tempFormData = await advancedFormFieldsList(props.nodeInfo?.advancedFormNo);
+    if (tempFieldList.find(item => item.collapseFlag?.includes("advancedSetting"))) {
+      const tempFormData = await advancedFormFieldsList(props.nodeInfo?.advancedDynamicFormNo);
       tempFieldList.push(tempFormData);
       console.log("init staticFieldData", tempFieldList);
     }
@@ -210,7 +211,7 @@ const init = async () => {
     });
     currentTabName.value = props.nodeInfo?.nodeCode;
   } else {
-    await loadFormData(props.formNo!);
+    await loadFormData(props.formNo!, props.nodeInfo, false);
   }
   outerFormData.value["subNodeList"]?.forEach((node: any) => {
     loadFormData(node.dynamicFormNo, node, true);
