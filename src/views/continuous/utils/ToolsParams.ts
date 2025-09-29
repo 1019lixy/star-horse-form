@@ -171,7 +171,6 @@ const advancedFormFields = (formField: FieldInfo[]) => {
     if (!reportTypeList.value.length) {
         dataInit();
     }
-    console.log("advancedFormFields", formField);
     return {
         fieldName: "advancedSetting",
         collapseFlag: "advancedSetting",
@@ -179,7 +178,7 @@ const advancedFormFields = (formField: FieldInfo[]) => {
             {
                 title: "高级设置",
                 tabName: "advancedSetting",
-                subFormFlag: "N",
+                subFormFlag: "Y",
                 objectName: "advancedSetting",
                 fieldList: formField,
             },
@@ -189,7 +188,6 @@ const advancedFormFields = (formField: FieldInfo[]) => {
 };
 
 const dataInit = () => {
-
     loadDict("message_tools").then((res: any) => {
         reportTypeList.value = res;
     });

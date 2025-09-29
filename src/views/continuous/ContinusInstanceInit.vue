@@ -67,6 +67,7 @@ let nodeField = ref<PageFieldInfo>({
         fieldName: "nodeExecType",
         type: "select",
         required: true,
+        defaultValue: "serial",
         formVisible: true,
         listVisible: true,
         preps: {
@@ -143,6 +144,8 @@ const validate = async () => {
   if (!result) {
     return false;
   }
+  //这里只是处理了当前的节点信息，子节点也需要处理
+
   continuousStore.addNodeInfo(currentNode.value.id, {...currentFormNode.value});
 
   return true;
@@ -174,12 +177,10 @@ const editNode = async (node: any, currentIndex: number) => {
     currentFieldList.value = {};
   }
   currentNodeIndex.value = currentIndex;
-  // nodeCompRef.value?.resetForm();
   initDataInfo(node);
   return "ok";
 };
 const initDataInfo = (node: any) => {
-
   const formData = continuousStore.getNodeInfo(node.id);
   if (formData) {
     currentFormNode.value = formData;
@@ -187,7 +188,8 @@ const initDataInfo = (node: any) => {
     currentFormNode.value = {
       nodeName: node.nodeName,
       nodeCode: node.nodeCode,
-      nodeExecType: "seq",
+      nodeExecType: "serial",
+      nodeSuccessCondition: "any"
     };
   }
 };
@@ -297,14 +299,16 @@ const save = async (type: string) => {
     warning("请先添加节点");
     return;
   }
+  let configData:any[] = [];
   processList.value?.forEach((item: any, num: number) => {
     const params = continuousStore.getNodeInfo(item.id);
-    item["nodeParams"] = Array.isArray(params) ? params : [params];
-    item["dataIndex"] = num + 1;
-    nodeList.push(item);
+    let temp={
+      ...params,
+      dataIndex: num+1
+    };
+    configData.push(temp);
   });
-  pipeLineData.value["nodeList"] = nodeList;
-  pipeLineData.value["execFlag"] = type;
+  pipeLineData.value["nodeList"] = configData;
   pipeLineData.value["isPublished"] = "Y";
   postRequest(dataUrl.mergeUrl, pipeLineData.value).then((res: any) => {
     let result = res?.data;
@@ -401,7 +405,7 @@ onMounted(async () => {
         </div>
       </div>
       <el-splitter layout="vertical">
-        <el-splitter-panel :resizable="false" size="100px" min="100px" max="50%">
+        <el-splitter-panel :resizable="false" size="76">
           <div class="pipeline-nav ">
             <div class="nav">
               <div
@@ -507,7 +511,7 @@ onMounted(async () => {
           >
             <sh-form v-model:dataForm="currentFormNode" ref="nodeFormRef">
               <!--每个节点的基础信息-->
-              <star-horse-form-item ref="nodeInfoRef" class="build-cfg" :compSize="Config.compSize"
+              <star-horse-form-item v-if="currentNode.nodeCode != 'PipelineCfg'" ref="nodeInfoRef" class="build-cfg" :compSize="Config.compSize"
                                     v-model:dataForm="currentFormNode" :fieldList="nodeField"/>
               <node-fields
                   :formNo="formNo"

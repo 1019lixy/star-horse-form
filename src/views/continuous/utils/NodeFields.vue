@@ -51,12 +51,12 @@ const tableFieldList = computed(() => {
         tabAdd: (data: any) => {
           subNodeDialog.value = true;
         },
-        tabChange:(data: any) => {
+        tabChange: (data: any) => {
           // changeFieldVisible();
         },
         close: (data: any) => {
-          outerFormData.value["subNodeList"] = outerFormData.value["subNodeList"].filter(item => item.id != data.id);
-          currentTabName.value = outerFormData.value["subNodeList"][0].nodeCode;
+          props.nodeInfo["subNodeList"] = props.nodeInfo["subNodeList"].filter((item: any) => item.id != data.id);
+          currentTabName.value = props.nodeInfo["subNodeList"].length > 0 ? props.nodeInfo["subNodeList"][0].nodeCode : props.nodeInfo.nodeCode;
         }
       }
     }]
@@ -104,8 +104,7 @@ const assignField = async (data: any, nodeInfo?: any, subNodeFlag?: boolean) => 
       data["dataUrl"].contextUrl,
   );
   const fieldList = data["tableFieldList"].fieldList;
-  console.log(fieldList,nodeInfo);
-  if (!fieldList.find((item:any) => item.collapseFlag?.includes("advancedSetting"))) {
+  if (!fieldList.find((item: any) => item.collapseFlag?.includes("advancedSetting"))) {
     const tempFormList = await advancedFormFieldsList(nodeInfo?.advancedDynamicFormNo);
     fieldList.push(tempFormList);
   } else {
@@ -192,10 +191,9 @@ const init = async () => {
   }
   if (props.staticFieldData?.fieldList?.length > 0) {
     let tempFieldList = props.staticFieldData!.fieldList;
-    if (tempFieldList.find(item => item.collapseFlag?.includes("advancedSetting"))) {
+    if (!tempFieldList.find((item: any) => item.collapseFlag?.includes("advancedSetting"))) {
       const tempFormData = await advancedFormFieldsList(props.nodeInfo?.advancedDynamicFormNo);
       tempFieldList.push(tempFormData);
-      console.log("init staticFieldData", tempFieldList);
     }
     tabList.value.push({
       title: outerFormData.value?.nodeName || props.nodeInfo?.nodeName,
@@ -204,7 +202,7 @@ const init = async () => {
       primaryKey: props.staticFieldData!.primaryKey,
       disabled: false,
       closable: false,
-      subFormFlag: "Y",
+      subFormFlag: "N",
       tableFlag: "N",
       id: props.nodeInfo?.id,
       fieldList: tempFieldList,
@@ -213,7 +211,7 @@ const init = async () => {
   } else {
     await loadFormData(props.formNo!, props.nodeInfo, false);
   }
-  outerFormData.value["subNodeList"]?.forEach((node: any) => {
+  props.nodeInfo["subNodeList"]?.forEach((node: any) => {
     loadFormData(node.dynamicFormNo, node, true);
   });
 };
@@ -224,10 +222,10 @@ const dataSubmit = async (node: any) => {
     return;
   }
   await loadFormData(formNo, node, true);
-  if (!outerFormData.value["subNodeList"]) {
-    outerFormData.value["subNodeList"] = [];
+  if (!props.nodeInfo["subNodeList"]) {
+    props.nodeInfo["subNodeList"] = [];
   }
-  outerFormData.value["subNodeList"].push(node);
+  props.nodeInfo["subNodeList"].push(node);
   closeAction();
 };
 const closeAction = () => {

@@ -75,7 +75,6 @@ const pipelineFields = reactive<PageFieldInfo | any>({
                     {
                       label: "项目名称",
                       fieldName: "projectName",
-
                       required: true,
                       prefix: "a",
                       formVisible: true,
@@ -85,7 +84,6 @@ const pipelineFields = reactive<PageFieldInfo | any>({
                     {
                       label: "程序语言",
                       fieldName: "programLanguage",
-
                       prefix: "a",
                       required: false,
                       formVisible: true,
@@ -129,7 +127,7 @@ const pipelineFields = reactive<PageFieldInfo | any>({
               {
                 label: "代码下载目标目录",
                 fieldName: "targetDir",
-
+                defaultValue: "/temp",
                 required: false,
                 formVisible: true,
                 listVisible: true,
