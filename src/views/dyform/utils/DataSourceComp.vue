@@ -1,77 +1,78 @@
 <script setup lang="ts">
-import { loadDict } from "@/api/star_horse_apis";
-import { loadSvgIconsByPath } from "@/api/star_horse_utils";
-import { httpMethod } from "@/api/system";
+import {loadDict} from "@/api/star_horse_apis";
+import {loadSvgIconsByPath} from "@/api/star_horse_utils";
 import {
   createData,
-  urlReturnDataHelpMsg,
+  getInterfaceUtils,
+  getUrlFieldConfig,
   validInterface,
-  validOperation,
+  validOperation
 } from "@/views/dyform/utils/ItemPreps";
-import {
-  error,
-  PageFieldInfo,
-  searchMatchList,
-  SelectOption,
-} from "star-horse-lowcode";
-import {
-  ModelRef,
-  nextTick,
-  onMounted,
-  PropType,
-  reactive,
-  ref,
-  unref,
-  watch,
-} from "vue";
+import {error, FieldInfo, PageFieldInfo, searchMatchList, SelectOption} from "star-horse-lowcode";
+import {ModelRef, nextTick, onMounted, PropType, reactive, ref, unref, watch,} from "vue";
 
 defineOptions({
   name: "DataSourceComp",
 });
 const props = defineProps({
-  formProps: { type: Object as PropType<any>, default: () => {} },
+  formProps: {
+    type: Object as PropType<any>, default: () => {
+    }
+  },
 
-  preps: { type: Object as PropType<any>, default: () => {} },
+  preps: {
+    type: Object as PropType<any>, default: () => {
+    }
+  },
 
-  item: { type: Object as PropType<PageFieldInfo>, default: () => {} },
+  item: {
+    type: Object as PropType<PageFieldInfo>, default: () => {
+    }
+  },
 });
 const dataSourceList: Array<SelectOption> = [
-  { value: "data", name: "静态数据" },
-  { value: "url", name: "动态接口" },
-  { value: "dict", name: "数据字典" },
+  {value: "data", name: "静态数据"},
+  {value: "url", name: "动态接口"},
+  {value: "dict", name: "数据字典"},
 ];
 const dataSourceFormRef = ref();
 const dataForm: ModelRef<any> = defineModel("dataForm");
 const matchTypeList = searchMatchList();
-const disableData = ref<boolean>(false);
-const disableUrl = ref<boolean>(true);
-const disableDict = ref<boolean>(true);
 const dataRequired = ref<boolean>(true);
 const urlRequired = ref<boolean>(false);
-const dictRequired = ref<boolean>(false);
-const currentTabName = ref<string>("data");
-const fieldList = ref<SelectOption[]>([]);
+const currentTabName = ref<FieldInfo[] | any>([]);
 let envList = ref<Array<SelectOption>>([]);
 
-const innerFunc = (type: string) => {
-  disableData.value = true;
-  disableUrl.value = true;
-  disableDict.value = true;
-  dataRequired.value = false;
-  urlRequired.value = false;
-  dictRequired.value = false;
-  currentTabName.value = type;
-  if (type == "url") {
-    disableUrl.value = false;
-    urlRequired.value = true;
-  } else if (type == "data") {
-    disableData.value = false;
-    dataRequired.value = true;
-  } else if (type == "dict") {
-    disableDict.value = false;
-    dictRequired.value = true;
+// 创建接口工具对象
+// 使用从ItemPreps导入的接口工具函数
+const interfaceUtils = getInterfaceUtils();
+const {fieldList, disableUrl} = interfaceUtils;
+
+// 生成URL配置字段
+const urlFields = getUrlFieldConfig(interfaceUtils, {
+  showValidateButton: true,
+  validateButtonText: "校验",
+  validateButtonIcon: "valid",
+  urlColspan: 20,
+  validateButtonColspan: 4,
+  showLabelFields: true,
+  showPrimaryKey: false,
+  validateCallback: {
+    click: async (val: any) => {
+      await validOperation(
+          val,
+          dataSourceFormRef,
+          fieldList,
+          disableUrl,
+          !dataForm.value,
+          dataForm,
+      );
+      console.log("校验结果", fieldList.value);
+    }
   }
-};
+});
+
+
 const analysisOptionData = (val: any) => {
   const temp = unref(val);
   console.log("开始解析数据", temp);
@@ -108,6 +109,186 @@ const analysisOptionData = (val: any) => {
     });
   }
 };
+const baseDataField: FieldInfo[] | any = [
+  [{
+    label: "解析方式",
+    fieldName: "analysisType",
+    helpMsg:
+        "路径解析：只能解析项目public下的子路径，格式为 test/*.svg，\n函数解析：只能解析src/api/star_horse_utils.ts下的无参函数，格式为: analysisData",
+    type: "radio",
+    formVisible: true,
+    defaultValue: "func",
+    preps: {
+      values: [
+        {name: "路径", value: "path", disabled: true},
+        {name: "函数", value: "func"},
+      ],
+      colspan: 8,
+    },
+  },
+    {
+      label: "值",
+      fieldName: "analysisValue",
+      type: "input",
+      formVisible: true,
+      preps: {
+        colspan: 14,
+      },
+    },
+    {
+      label: "解析",
+      fieldName: "btn",
+      type: "button",
+      formVisible: true,
+      actions: {click: (val: any) => analysisOptionData(val)},
+      preps: {
+        colspan: 2,
+      },
+    },
+  ],
+  {
+    batchFieldList: [
+      {
+        batchName: "values",
+        importInfo: {
+          importDataUrl: "/api/star_horse/dyform/importData",
+          downloadTemplateUrl: "/api/star_horse/dyform/downloadData",
+        },
+        fieldList: [
+          {
+            label: "属性名",
+            fieldName: "name",
+
+            required: dataRequired,
+            formVisible: true,
+            listVisible: true,
+          },
+          {
+            label: "属性值",
+            fieldName: "value",
+
+            required: dataRequired,
+            formVisible: true,
+            listVisible: true,
+          },
+        ],
+      },
+    ],
+  }
+];
+const dynamicUrlField: FieldInfo[] | any = [
+  ...urlFields,
+  {
+    fieldName: "queryParams",
+    tabList: [
+      {
+        title: "标准参数",
+        tabName: "queryParams",
+        objectName: "queryParams",
+        batchFieldList: [
+          {
+            batchName: "queryParams",
+            helpMsg:
+                "标准参数：",
+            fieldList: [
+              {
+                label: "参数名",
+                fieldName: "name",
+                type: "select",
+                required: true,
+                formVisible: true,
+                listVisible: true,
+                preps: {
+                  values: fieldList,
+                  allowCreate: "Y",
+                },
+              },
+              {
+                label: "参数值",
+                fieldName: "value",
+                required: true,
+                formVisible: true,
+                listVisible: true,
+              },
+              {
+                label: "匹配方式",
+                fieldName: "matchType",
+                type: "select",
+                defaultValue: "eq",
+                required: urlRequired,
+                formVisible: true,
+                listVisible: true,
+                preps: {
+                  values: matchTypeList,
+                },
+              },
+            ],
+          },
+        ],
+      },
+      {
+        title: "自定义参数",
+        tabName: "customParams",
+        objectName: "customParams",
+        fieldList: [
+          {
+            fieldName: "customParams",
+            label: "自定义JSON参数",
+            type: "json",
+            formVisible: true,
+            listVisible: true,
+            defaultValue: "",
+            preps: {
+              devType: "Y",
+            },
+          },
+        ],
+      },
+    ],
+  },
+];
+const dictField: FieldInfo[] | any =
+    [
+      {
+        label: "字典名称",
+        fieldName: "urlOrDictName",
+        required: true,
+        type: "datapicker",
+        formVisible: true,
+        listVisible: true,
+        preps: {
+          dataUrl: "/system-config/system/dictinfoType/pageList",
+          displayName: "dictTypeName",
+          displayValue: "dictTypeCode",
+          pageSize: 100,
+          colspan: 16,
+        },
+      },
+      {
+        label: "验证",
+        fieldName: "urlOrDictNameBtn",
+        type: "button",
+        actions: {
+          click: async (val: any) => {
+            await validOperation(
+                val,
+                dataSourceFormRef,
+                fieldList,
+                disableUrl,
+                !dataForm.value,
+                dataForm,
+            );
+          },
+        },
+        formVisible: true,
+        listVisible: true,
+        preps: {
+          colspan: 8,
+          icon: "valid",
+        },
+      },
+    ];
+
 const dataSourceField = reactive<PageFieldInfo | any>({
   fieldList: [
     [
@@ -142,353 +323,46 @@ const dataSourceField = reactive<PageFieldInfo | any>({
         },
       },
     ],
-    {
-      fieldName: currentTabName,
-      tabList: [
-        {
-          title: "静态数据",
-          tabName: "data",
-          disabled: disableData,
-          fieldList: [
-            [
-              {
-                label: "解析方式",
-                fieldName: "analysisType",
-                helpMsg:
-                  "路径解析：只能解析项目public下的子路径，格式为 test/*.svg，\n函数解析：只能解析src/api/star_horse_utils.ts下的无参函数，格式为: analysisData",
-                type: "radio",
-                formVisible: true,
-                defaultValue: "func",
-                preps: {
-                  values: [
-                    { name: "路径", value: "path", disabled: true },
-                    { name: "函数", value: "func" },
-                  ],
-                  colspan: 8,
-                },
-              },
-              {
-                label: "值",
-                fieldName: "analysisValue",
-                type: "input",
-                formVisible: true,
-                preps: {
-                  colspan: 14,
-                },
-              },
-              {
-                label: "解析",
-                fieldName: "btn",
-                type: "button",
-                formVisible: true,
-                actions: { click: (val: any) => analysisOptionData(val) },
-                preps: {
-                  colspan: 2,
-                },
-              },
-            ],
-          ],
-          batchFieldList: [
-            {
-              batchName: "values",
-              importInfo: {
-                importDataUrl: "/api/star_horse/dyform/importData",
-                downloadTemplateUrl: "/api/star_horse/dyform/downloadData",
-              },
-              fieldList: [
-                {
-                  label: "属性名",
-                  fieldName: "name",
-
-                  required: dataRequired,
-                  formVisible: true,
-                  listVisible: true,
-                },
-                {
-                  label: "属性值",
-                  fieldName: "value",
-
-                  required: dataRequired,
-                  formVisible: true,
-                  listVisible: true,
-                },
-              ],
-            },
-          ],
-        },
-        {
-          title: "动态接口参数",
-          tabName: "url",
-          disabled: disableUrl,
-          fieldList: [
-            [
-              {
-                label: "系统环境",
-                fieldName: "env",
-                type: "select",
-                required: urlRequired,
-                defaultValue: "",
-                formVisible: true,
-                listVisible: true,
-                preps: {
-                  values: envList,
-                },
-              },
-              {
-                label: "请求方式",
-                fieldName: "httpMethod",
-                type: "select",
-                required: urlRequired,
-                defaultValue: "POST",
-                formVisible: true,
-                listVisible: true,
-                preps: {
-                  values: httpMethod(),
-                },
-              },
-              {
-                label: "协议",
-                fieldName: "protocol",
-                type: "select",
-                required: urlRequired,
-                defaultValue: "http",
-                formVisible: true,
-                listVisible: true,
-                preps: {
-                  values: [
-                    { name: "HTTP", value: "http" },
-                    { name: "HTTPS", value: "https" },
-                  ],
-                },
-              },
-            ],
-            [
-              {
-                label: "IP/域名/服务名",
-                fieldName: "host",
-                required: urlRequired,
-                formVisible: true,
-                listVisible: true,
-                preps: {
-                  colspan: 16,
-                },
-              },
-              {
-                label: "端口",
-                fieldName: "port",
-                type: "number",
-                min: 1,
-                max: 65535,
-                formVisible: true,
-                listVisible: true,
-                preps: {
-                  colspan: 8,
-                },
-              },
-            ],
-            [
-              {
-                label: "接口地址",
-                fieldName: "interfaceUrl",
-                required: urlRequired,
-                helpMsg: urlReturnDataHelpMsg,
-                formVisible: true,
-                preps: {
-                  colspan: 20,
-                },
-              },
-              {
-                label: "校验",
-                type: "button",
-                formVisible: true,
-                actions: {
-                  click: async (val: any) => {
-                    await validOperation(
-                      val,
-                      dataSourceFormRef,
-                      fieldList,
-                      disableUrl,
-                      !dataForm.value,
-                      dataForm,
-                    );
-                  },
-                },
-                preps: {
-                  icon: "valid",
-                  colspan: 4,
-                },
-              },
-            ],
-            [
-              {
-                label: "标签名字段",
-                fieldName: "selectLabel",
-                type: "select",
-
-                required: urlRequired,
-                formVisible: true,
-                listVisible: true,
-                preps: {
-                  values: fieldList,
-                },
-              },
-              {
-                label: "标签值字段",
-                fieldName: "selectValue",
-                type: "select",
-                preps: {
-                  values: fieldList,
-                },
-                required: urlRequired,
-                formVisible: true,
-                listVisible: true,
-              },
-            ],
-            {
-              fieldName: "queryParams",
-              tabList: [
-                {
-                  title: "标准参数",
-                  tabName: "queryParams",
-                  objectName: "queryParams",
-                  batchFieldList: [
-                    {
-                      batchName: "queryParams",
-                      fieldList: [
-                        {
-                          label: "参数名",
-                          fieldName: "name",
-                          type: "select",
-                          required: urlRequired,
-                          formVisible: true,
-                          listVisible: true,
-                          preps: {
-                            values: fieldList,
-                            allowCreate: "Y",
-                          },
-                        },
-                        {
-                          label: "参数值",
-                          fieldName: "value",
-
-                          required: urlRequired,
-                          formVisible: true,
-                          listVisible: true,
-                        },
-                        {
-                          label: "匹配方式",
-                          fieldName: "matchType",
-                          type: "select",
-                          defaultValue: "eq",
-                          required: urlRequired,
-                          formVisible: true,
-                          listVisible: true,
-                          preps: {
-                            values: matchTypeList,
-                          },
-                        },
-                      ],
-                    },
-                  ],
-                },
-                {
-                  title: "自定义参数",
-                  tabName: "customParams",
-                  objectName: "customParams",
-                  fieldList: [
-                    {
-                      fieldName: "customParams",
-                      label: "自定义JSON参数",
-                      type: "json",
-                      formVisible: true,
-                      listVisible: true,
-                      required: urlRequired,
-                      defaultValue: "",
-                      preps: {
-                        devType: "Y",
-                      },
-                    },
-                  ],
-                },
-              ],
-            },
-          ],
-        },
-        {
-          title: "数据字典",
-          tabName: "dict",
-          disabled: disableDict,
-          fieldList: [
-            [
-              {
-                label: "字典名称",
-                fieldName: "urlOrDictName",
-                required: dictRequired,
-                type: "datapicker",
-                formVisible: true,
-                listVisible: true,
-                preps: {
-                  dataUrl: "/system-config/system/dictinfoType/pageList",
-                  displayName: "dictTypeName",
-                  displayValue: "dictTypeCode",
-                  pageSize: 100,
-                  colspan: 16,
-                },
-              },
-              {
-                label: "验证",
-                fieldName: "urlOrDictNameBtn",
-                type: "button",
-                actions: {
-                  click: async (val: any) => {
-                    console.log(val);
-                    await validOperation(
-                      val,
-                      dataSourceFormRef,
-                      fieldList,
-                      disableUrl,
-                      !dataForm.value,
-                      dataForm,
-                    );
-                  },
-                },
-                required: dictRequired,
-                formVisible: true,
-                listVisible: true,
-                preps: {
-                  colspan: 8,
-                  icon: "valid",
-                },
-              },
-            ],
-          ],
-        },
-      ],
-    },
+    {type: "divider", formVisible: true, listVisible: true,},
   ],
 });
+
+const innerFunc = (type: string) => {
+  // 先清空fieldList中从索引2开始的所有元素
+  dataSourceField.fieldList.splice(2);
+
+  // 根据类型添加对应的数据
+  if (type == "url") {
+    dataSourceField.fieldList.push(...dynamicUrlField);
+  } else if (type == "data") {
+    dataSourceField.fieldList.push(...baseDataField);
+  } else if (type == "dict") {
+    dataSourceField.fieldList.push(...dictField);
+  }
+};
+
 const submitValid = async () => {
   let flag: boolean = false;
   await validInterface(
-    props.formProps,
-    dataSourceFormRef,
-    (dataList: any, _successMsg: string, errorMsg: string) => {
-      if (!errorMsg) {
-        //只保存静态数据,
-        if (props.formProps) {
-          props.formProps["values"] = createData(
-            dataSourceFormRef,
-            dataList,
-          ).reDataList;
+      props.formProps,
+      dataSourceFormRef,
+      (dataList: any, _successMsg: string, errorMsg: string) => {
+        if (!errorMsg) {
+          //只保存静态数据,
+          if (props.formProps) {
+            props.formProps["values"] = createData(
+                dataSourceFormRef,
+                dataList,
+            ).reDataList;
+          }
+          flag = true;
+        } else {
+          error(errorMsg);
+          flag = false;
         }
-        flag = true;
-      } else {
-        error(errorMsg);
-        flag = false;
-      }
-    },
-    !dataForm.value,
-    dataForm,
+      },
+      !dataForm.value,
+      dataForm,
   );
   return flag;
 };
@@ -514,10 +388,10 @@ const getFormData = () => {
   return dataSourceFormRef.value?.getFormData();
 };
 watch(
-  () => dataForm.value?.dataSource,
-  (val) => {
-    currentTabName.value = val || "data";
-  },
+    () => dataForm.value?.dataSource,
+    (val) => {
+      currentTabName.value = val || "data";
+    },
 );
 onMounted(() => {
   init();
@@ -532,18 +406,18 @@ defineExpose({
 
 <template>
   <star-horse-form
-    :fieldList="dataSourceField"
-    ref="dataSourceFormRef"
-    v-if="!dataForm"
+      :fieldList="dataSourceField"
+      ref="dataSourceFormRef"
+      v-if="!dataForm"
   />
   <star-horse-form-item
-    v-else
-    ref="dataSourceFormRef"
-    :fieldList="dataSourceField"
-    :dataIndex="(props.preps?.params?.totalTab || 1) - 1"
-    :subFormFlag="'Y'"
-    :objectName="'dataSource'"
-    v-model:dataForm="dataForm"
+      v-else
+      ref="dataSourceFormRef"
+      :fieldList="dataSourceField"
+      :dataIndex="(props.preps?.params?.totalTab || 1) - 1"
+      :subFormFlag="'Y'"
+      :objectName="'dataSource'"
+      v-model:dataForm="dataForm"
   />
 </template>
 

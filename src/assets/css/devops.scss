@@ -444,7 +444,7 @@
         position: relative; // 添加定位上下文
         z-index: 1; // 节点内容层级高于线条
       }
-
+      
       // 节点之间的连线样式
       .node-connector {
         width: 20px;
@@ -452,24 +452,24 @@
         background-color: var(--star-horse-style);
         align-self: center;
       }
-
+      
       // 有子节点的节点样式
       .has-children {
         border: 1px dashed var(--star-horse-style);
       }
-
+      
       // 子节点列表样式
       .children-nodes {
         background-color: var(--star-horse-bg-color);
         border-left: 2px solid var(--star-horse-border-color);
         padding: 5px 0;
       }
-
+      
       // 子节点内容样式
       .child-node {
         height: 30px;
       }
-
+      
       // 子节点面板样式
       .child-panel {
         min-width: 150px;
@@ -478,43 +478,16 @@
         font-size: 12px;
         background-color: #f5f7fa;
       }
-
+      
       // 子节点激活状态样式
       .child-panel.is-active {
         background-color: var(--star-horse-style);
         color: var(--star-horse-white);
       }
-
+      
       // 子节点箭头样式
       .child-step {
         transform: scale(0.8);
-      }
-
-      // 添加子节点按钮样式
-      .add-child-btn {
-        opacity: 0.8;
-        transition: opacity 0.3s;
-      }
-
-      .add-child-btn:hover {
-        opacity: 1;
-      }
-
-      // 添加子节点面板样式
-      .add-child-panel {
-        min-width: 150px;
-        padding: 3px 10px;
-        border-radius: 4px;
-        font-size: 12px;
-        background-color: #e6f7ff;
-        border: 1px dashed var(--star-horse-style);
-        cursor: pointer;
-        transition: all 0.3s;
-      }
-
-      .add-child-panel:hover {
-        background-color: #bae7ff;
-        border-style: solid;
       }
     }
   }
@@ -697,12 +670,4 @@
     height: 35px;
     line-height: 35px;
   }
-}
-
-.el-scrollbar__view {
-  width: 99% !important;
-  margin: 0 auto;
-}
-.edit_col{
-  position: relative;
 }

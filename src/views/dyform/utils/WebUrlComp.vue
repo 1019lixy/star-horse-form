@@ -1,9 +1,8 @@
 <script setup lang="ts">
 import {loadDict} from "@/api/star_horse_apis";
-import {httpMethod} from "@/api/system";
-import {createData, urlReturnDataHelpMsg, validInterface, validOperation,} from "@/views/dyform/utils/ItemPreps";
-import {error, loadGetData, PageFieldInfo, searchMatchList, SelectOption,} from "star-horse-lowcode";
-import {ModelRef, nextTick, onMounted, PropType, reactive, ref,} from "vue";
+import {getInterfaceUtils, getUrlFieldConfig, validOperation} from "@/views/dyform/utils/ItemPreps";
+import {PageFieldInfo, searchMatchList, SelectOption,} from "star-horse-lowcode";
+import {ModelRef, nextTick, onMounted, PropType, reactive, ref} from "vue";
 
 defineOptions({
   name: "WebUrlComp",
@@ -43,174 +42,35 @@ const props = defineProps({
 const dataSourceFormRef = ref();
 const dataForm: ModelRef<any> = defineModel("dataForm");
 const matchTypeList = searchMatchList();
-const disableUrl = ref<boolean>(false);
-const currentTabName = ref<string>("data");
-const fieldList = ref<SelectOption[]>([]);
 let envList = ref<Array<SelectOption>>([]);
-const interfaceDatas = ref<any>({});
-const methodList = ref<SelectOption[]>([]);
-const interfaceList = ref<SelectOption[]>([]);
-const loadInterface = (serviceName: string) => {
-  loadGetData(`/userdb-manage/redirect/api/webApis2/${serviceName}`).then((res: any) => {
-    interfaceDatas.value = res.data.apiList;
-    interfaceList.value = res.data.options;
-    console.log(interfaceDatas.value);
-  });
-};
+const currentTabName = ref<string>("data");
+
+// 使用从ItemPreps导入的接口工具函数
+const interfaceUtils = getInterfaceUtils();
+const {fieldList, disableUrl} = interfaceUtils;
+// 使用getUrlFieldConfig函数生成URL配置字段列表
+const urlFields = getUrlFieldConfig(interfaceUtils, {
+  urlColspan: 20,
+  validateButtonText: "校验",
+  showLabelFields: true,
+  validateCallback: {
+    click: async (val: any) => {
+      await validOperation(
+          val,
+          dataSourceFormRef,
+          fieldList,
+          disableUrl,
+          !dataForm.value,
+          dataForm.value[props.batchName],
+          true,
+      );
+    }
+  }
+});
+
 const dataSourceField = reactive<PageFieldInfo | any>({
   fieldList: [
-    [
-      {
-        label: "应用名称",
-        fieldName: "host",
-        type: "select",
-        formVisible: true,
-        listVisible: true,
-        actions: {
-          change: (val: any) => {
-            loadInterface(val["host"]);
-          },
-        },
-        preps: {
-          dataSource: "url",
-          redirect: false,
-          httpMethod: "GET",
-          url: "/userdb-manage/redirect/api/service/list",
-        },
-      },
-      {
-        label: "接口",
-        fieldName: "interfaceName",
-        type: "select",
-        formVisible: true,
-        listVisible: true,
-        actions: {
-          change: (val: any) => {
-            methodList.value = interfaceDatas.value[val["interfaceName"]];
-          }
-        },
-        preps: {
-          values: interfaceList,
-        },
-      },
-      {
-        label: "方法/函数",
-        fieldName: "method",
-        type: "select",
-        formVisible: true,
-        listVisible: true,
-        actions: {
-          change: (val: any) => {
-            let temp = val["method"];
-            let result: any = methodList.value.find((item: any) => item.methodName == temp);
-            if (result) {
-              val["httpMethod"] = result.method;
-              val["url"] = result.serviceUrl;
-            }
-          }
-        },
-        preps: {
-          values: methodList,
-          props: {
-            label: "summary",
-            value: "methodName",
-          },
-        },
-      },
-    ],
-    [
-      {
-        label: "请求方式",
-        fieldName: "httpMethod",
-        type: "select",
-        required: true,
-        defaultValue: "POST",
-        formVisible: true,
-        listVisible: true,
-        preps: {
-          values: httpMethod(),
-        },
-      },
-      {
-        label: "协议",
-        fieldName: "protocol",
-        type: "select",
-        required: true,
-        defaultValue: "http",
-        formVisible: true,
-        listVisible: true,
-        preps: {
-          values: [
-            {name: "HTTP", value: "http"},
-            {name: "HTTPS", value: "https"},
-          ],
-        },
-      },
-      {
-        label: "接口代理",
-        fieldName: "redirect",
-        type: "switch",
-        defaultValue: true,
-        formVisible: true,
-        listVisible: true,
-      },
-    ],
-    [
-      {
-        label: "接口地址",
-        fieldName: "url",
-        required: true,
-        helpMsg: urlReturnDataHelpMsg,
-        formVisible: true,
-        colspan: 20,
-      },
-      {
-        label: "校验",
-        type: "button",
-        formVisible: true,
-        actions: {
-          click: async (val: any) => {
-            await validOperation(
-                val,
-                dataSourceFormRef,
-                fieldList,
-                disableUrl,
-                !dataForm.value,
-                dataForm.value[props.batchName],
-                true,
-            );
-          },
-        },
-        preps: {
-          icon: "valid",
-          colspan: 4,
-        },
-      },
-    ],
-    [
-      {
-        label: "标签名字段",
-        fieldName: "selectLabel",
-        type: "select",
-        required: true,
-        formVisible: true,
-        listVisible: true,
-        preps: {
-          values: fieldList,
-        },
-      },
-      {
-        label: "标签值字段",
-        fieldName: "selectValue",
-        type: "select",
-        preps: {
-          values: fieldList,
-        },
-        required: true,
-        formVisible: true,
-        listVisible: true,
-      },
-    ],
+    ...urlFields,
     {
       fieldName: "queryParams",
       tabList: [
@@ -282,28 +142,26 @@ const dataSourceField = reactive<PageFieldInfo | any>({
 });
 const submitValid = async () => {
   let flag: boolean = false;
-  await validInterface(
+  await validOperation(
       props.formProps,
       dataSourceFormRef,
-      (dataList: any, _successMsg: string, errorMsg: string) => {
-        if (!errorMsg) {
-          //只保存静态数据,
-          if (props.formProps) {
-            props.formProps["values"] = createData(
-                dataSourceFormRef,
-                dataList,
-            ).reDataList;
-          }
-          flag = true;
-        } else {
-          error(errorMsg);
-          flag = false;
-        }
-      },
+      fieldList,
+      disableUrl,
       !dataForm.value,
       dataForm,
-      true,
-  );
+      true
+  ).then(() => {
+    // 如果验证成功，需要保存数据
+    if (props.formProps) {
+      const dataSource = unref(dataSourceFormRef)?.getFormData()?.value;
+      if (dataSource) {
+        props.formProps["values"] = dataSource["values"];
+      }
+    }
+    flag = true;
+  }).catch(() => {
+    flag = false;
+  });
   return flag;
 };
 const isInited = ref<boolean>(false);

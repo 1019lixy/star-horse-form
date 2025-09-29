@@ -74,11 +74,7 @@ export async function validInterface(
             return flag;
         }
         for (const key in temp) {
-            try {
-                formProps.value[key] = temp[key];
-            } catch (e) {
-                formProps[key] = temp[key];
-            }
+            unref(formProps)[key] = temp[key];
         }
     }
     const dataSource = temp["dataSource"];
@@ -211,6 +207,211 @@ export function createData(
         reDataList,
         errorMsg,
     };
+}
+
+/**
+ * 获取URL配置字段列表
+ * @param interfaceUtils 接口工具对象，包含interfaceDatas, methodList, interfaceList, fieldList, disableUrl等
+ * @param options 配置选项
+ * @returns URL配置字段列表
+ */
+export function getUrlFieldConfig(interfaceUtils: any, options: any = {}) {
+    const {
+        interfaceDatas,
+        methodList,
+        interfaceList,
+        fieldList,
+        disableUrl,
+        loadInterface,
+        loadMethods
+    } = interfaceUtils;
+
+    const {
+        showValidateButton = true,
+        showPrimaryKey = false,
+        validateButtonText = "验证",
+        validateCallback,
+        urlColspan = undefined,
+        showLabelFields = false
+    } = options;
+
+
+    //很奇怪，此数组 没有加一个隐藏的数据，后面第一个host 会变成radio
+    const urlFields: FieldInfo[] | any = [
+        {},
+        [
+
+            {
+                label: "应用名称",
+                fieldName: "host",
+                type: "select",
+                formVisible: true,
+                listVisible: true,
+                actions: {
+                    change: (val: any) => {
+                        loadInterface(val["host"]);
+                    },
+                },
+                preps: {
+                    dataSource: "url",
+                    redirect: false,
+                    httpMethod: "GET",
+                    url: "/userdb-manage/redirect/api/service/list",
+                },
+            },
+            {
+                label: "接口",
+                fieldName: "interfaceName",
+                type: "select",
+                formVisible: true,
+                listVisible: true,
+                actions: {
+                    change: (val: any) => {
+                        loadMethods(val["interfaceName"]);
+                    }
+                },
+                preps: {
+                    values: interfaceList,
+                },
+            },
+
+        ],
+        [{
+            label: "方法/函数",
+            fieldName: "method",
+            type: "select",
+            formVisible: true,
+            listVisible: true,
+            actions: {
+                change: (val: any) => {
+                    let temp = val["method"];
+                    let result: any = methodList.value?.find((item: any) => item.methodName == temp);
+                    if (result) {
+                        val["httpMethod"] = result.method;
+                        val["url"] = result.serviceUrl;
+                    }
+                }
+            },
+            preps: {
+                values: methodList,
+                props: {
+                    label: "summary",
+                    value: "methodName",
+                },
+            },
+        },{
+            label: "接口代理",
+            fieldName: "redirect",
+            type: "switch",
+            defaultValue: true,
+            formVisible: true,
+            listVisible: true,
+        },],
+        [
+            {
+                label: "请求方式",
+                fieldName: "httpMethod",
+                type: "select",
+                required: true,
+                defaultValue: "POST",
+                formVisible: true,
+                listVisible: true,
+                preps: {
+                    values: httpMethod(),
+                },
+            },
+            {
+                label: "协议",
+                fieldName: "protocol",
+                type: "select",
+                required: true,
+                defaultValue: "http",
+                formVisible: true,
+                listVisible: true,
+                preps: {
+                    values: [
+                        {name: "HTTP", value: "http"},
+                        {name: "HTTPS", value: "https"},
+                    ],
+                },
+            },
+
+        ],
+        {
+            label: "接口地址",
+            fieldName: "url",
+            required: true,
+            helpMsg: urlReturnDataHelpMsg,
+            formVisible: true,
+            ...(urlColspan && {colspan: urlColspan})
+        }
+    ];
+
+    // 添加验证按钮和主键选择
+    if (showValidateButton) {
+        const validateRow: any = [];
+
+        validateRow.push({
+            label: validateButtonText,
+            fieldName: "valid",
+            type: "button",
+            formVisible: true,
+            actions: validateCallback || {
+                click: async (val: any) => {
+                    unref(val)["dataSource"] = "url";
+                    await validOperation(val, interfaceUtils.paramsConfigRef || null, fieldList, disableUrl);
+                }
+            },
+            preps: {
+                icon: "valid",
+                colspan: showPrimaryKey ? 8 : 24,
+            },
+        });
+
+        if (showPrimaryKey) {
+            validateRow.push({
+                label: "主键",
+                fieldName: "primaryKey",
+                type: "select",
+                required: false,
+                formVisible: true,
+                preps: {
+                    values: fieldList,
+                    colspan: 16,
+                },
+            });
+        }
+
+        urlFields.push(validateRow);
+    }
+
+    // 添加标签名字段和标签值字段
+    if (showLabelFields) {
+        urlFields.push([
+            {
+                label: "标签名字段",
+                fieldName: "selectLabel",
+                type: "select",
+                formVisible: true,
+                listVisible: true,
+                preps: {
+                    values: fieldList,
+                },
+            },
+            {
+                label: "标签值字段",
+                fieldName: "selectValue",
+                type: "select",
+                preps: {
+                    values: fieldList,
+                },
+                formVisible: true,
+                listVisible: true,
+            },
+        ]);
+    }
+
+    return urlFields;
 }
 
 export const validOperation = async (
@@ -464,6 +665,53 @@ export function urlFields() {
 }
 
 /**
+ * 获取接口相关的工具函数和响应式数据
+ */
+export function getInterfaceUtils() {
+    const interfaceDatas = ref<any>({});
+    const methodList = ref<SelectOption[]>([]);
+    const interfaceList = ref<SelectOption[]>([]);
+    const fieldList = ref<SelectOption[]>([]);
+    const disableUrl = ref<boolean>(false);
+
+    const loadInterface = (serviceName: string) => {
+        loadGetData(`/userdb-manage/redirect/api/webApis2/${serviceName}`).then((res: any) => {
+            interfaceDatas.value=[];
+            interfaceList.value=[];
+            if (res.error) {
+                warning(res.error);
+                return;
+            }
+            interfaceDatas.value = res.data?.apiList;
+            interfaceList.value = res.data?.options;
+        });
+    };
+
+    const loadMethods = (interName: string) => {
+        if (!interfaceDatas.value[interName]) {
+            const dataWatch = watch(() => interfaceDatas.value[interName], (newVal) => {
+                if (newVal) {
+                    methodList.value = newVal;
+                    dataWatch();
+                }
+            });
+        } else {
+            methodList.value = interfaceDatas.value[interName];
+        }
+    };
+
+    return {
+        interfaceDatas,
+        methodList,
+        interfaceList,
+        fieldList,
+        disableUrl,
+        loadInterface,
+        loadMethods
+    };
+}
+
+/**
  * 组件参数属性配置
  * @param fieldName
  * @param item
@@ -478,172 +726,38 @@ export function paramsFields(
     if (Object.entries(item).length > 0) {
         datas = [...item["advancedFields"], ...item["fields"]];
     }
-    const disableUrl = ref<boolean>(false);
+
     let currentData: Array<any> = [];
-    const methodList = ref<SelectOption[]>([]);
-    const interfaceList = ref<SelectOption[]>([]);
     datas?.forEach((item: any) => {
         if (item.fieldName == fieldName) {
             currentData = item.configParams;
             return false;
         }
     });
-    const fields: Array<any> = [];
-    const fieldList = ref<SelectOption[]>([]);
-    const interfaceDatas = ref<any>({});
-    const loadInterface = (serviceName: string) => {
-        loadGetData(`/userdb-manage/redirect/api/webApis2/${serviceName}`).then((res: any) => {
-            interfaceDatas.value = res.data.apiList;
-            interfaceList.value = res.data.options;
-            console.log(interfaceDatas.value);
-        });
-    };
-    const loadMethods = (interName: string) => {
-        if (!interfaceDatas.value[interName]) {
-            const dataWatch = watch(() => interfaceDatas.value[interName], (newVal) => {
-                if (newVal) {
-                    methodList.value = newVal;
-                    dataWatch();
-                }
-            });
-        } else {
-            methodList.value = interfaceDatas.value[interName];
-        }
-    };
-    const dataUrls: FieldInfo[] | any = [
-        [
-            {
-                label: "应用名称",
-                fieldName: "host",
-                type: "select",
-                formVisible: true,
-                listVisible: true,
-                actions: {
-                    change: (val: any) => {
-                        loadInterface(val["host"]);
-                    },
-                },
-                preps: {
-                    dataSource: "url",
-                    redirect: false,
-                    httpMethod: "GET",
-                    url: "/userdb-manage/redirect/api/service/list",
-                },
-            },
-            {
-                label: "接口",
-                fieldName: "interfaceName",
-                type: "select",
-                formVisible: true,
-                listVisible: true,
-                actions: {
-                    change: (val: any) => {
-                        loadMethods(val["interfaceName"]);
-                    }
-                },
-                preps: {
-                    values: interfaceList,
-                },
-            },
-            {
-                label: "方法/函数",
-                fieldName: "method",
-                type: "select",
-                formVisible: true,
-                listVisible: true,
-                actions: {
-                    change: (val: any) => {
-                        let temp = val["method"];
-                        let result: any = methodList.value?.find((item: any) => item.methodName == temp);
-                        if (result) {
-                            val["httpMethod"] = result.method;
-                            val["url"] = result.serviceUrl;
-                        }
-                    }
-                },
-                preps: {
-                    values: methodList,
-                    props: {
-                        label: "summary",
-                        value: "methodName",
-                    },
-                },
-            },
-        ],
-        [
-            {
-                label: "请求方式",
-                fieldName: "httpMethod",
-                type: "select",
-                required: true,
-                defaultValue: "POST",
-                formVisible: true,
-                listVisible: true,
-                preps: {
-                    values: httpMethod(),
-                },
-            },
-            {
-                label: "协议",
-                fieldName: "protocol",
-                type: "select",
-                required: true,
-                defaultValue: "http",
-                formVisible: true,
-                listVisible: true,
-                preps: {
-                    values: [
-                        {name: "HTTP", value: "http"},
-                        {name: "HTTPS", value: "https"},
-                    ],
-                },
-            },
-            {
-                label: "接口代理",
-                fieldName: "redirect",
-                type: "switch",
-                defaultValue: true,
-                formVisible: true,
-                listVisible: true,
-            },
-        ],
 
-        {
-            label: "接口地址",
-            fieldName: "url",
-            required: true,
-            helpMsg: urlReturnDataHelpMsg,
-            formVisible: true,
+    const fields: Array<any> = [];
+    const interfaceUtils = getInterfaceUtils();
+    const {
+        interfaceDatas,
+        methodList,
+        interfaceList,
+        fieldList,
+        disableUrl,
+        loadInterface,
+        loadMethods
+    } = interfaceUtils;
+
+    // 使用getUrlFieldConfig函数生成URL配置字段列表
+    const dataUrls: FieldInfo[] | any = getUrlFieldConfig({
+        ...interfaceUtils,
+        paramsConfigRef
+    }, {
+        showPrimaryKey: true,
+        validateCallback: async (val: any) => {
+            unref(val)["dataSource"] = "url";
+            await validOperation(val, paramsConfigRef, fieldList, disableUrl);
         }
-        ,
-        [
-            {
-                label: "验证",
-                fieldName: "valid",
-                type: "button",
-                formVisible: true,
-                actions: async (val: any) => {
-                    unref(val)["dataSource"] = "url";
-                    await validOperation(val, paramsConfigRef, fieldList, disableUrl);
-                },
-                preps: {
-                    icon: "valid",
-                    colspan: 8,
-                },
-            },
-            {
-                label: "主键",
-                fieldName: "primaryKey",
-                type: "select",
-                required: false,
-                formVisible: true,
-                preps: {
-                    values: fieldList,
-                    colspan: 16,
-                },
-            },
-        ],
-    ];
+    });
     const orderBys: FieldInfo[] = [
         {
             label: "列名",

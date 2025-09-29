@@ -154,16 +154,7 @@ onMounted(async () => {
 </script>
 <template>
   <div class="flex flex-col h-full overflow-hidden">
-    <!-- 使用通用骨架屏组件 - 预览数据样式 -->
-    <CommonSkeleton 
-      v-if="isLoading" 
-      :showSearch="true" 
-      :showHeader="true" 
-      :showPreview="true" 
-      :previewRowCount="8"
-    />
-    
-    <template v-else-if="hasData">
+    <template v-if="hasData">
       <star-horse-dialog
         :isShowBtnContinue="true"
         :dialogVisible="dialogProps.editVisible"
@@ -212,9 +203,6 @@ onMounted(async () => {
         />
       </el-card>
     </template>
-    
-    <!-- 错误或空状态 -->
-    <el-empty :content="errorMsg" v-else></el-empty>
   </div>
 </template>
 <style scoped></style>
