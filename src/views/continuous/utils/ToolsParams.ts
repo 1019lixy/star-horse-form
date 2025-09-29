@@ -19,12 +19,9 @@ const reportTypeList = ref<SelectOption[]>([]);
 const extendCommonFields = () => {
     return {
         title: "运行结果通知",
-        tabName:
-            "result",
-        subFormFlag:
-            "Y",
-        objectName:
-            "resultReport",
+        tabName: "result",
+        subFormFlag:"Y",
+        objectName:"resultReport",
         fieldList:
             [
                 [
