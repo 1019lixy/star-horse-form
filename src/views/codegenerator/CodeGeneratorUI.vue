@@ -528,6 +528,7 @@ const closeAction = () => {
         ref="generateFormRef"
         @refresh="codeGeneratorRef?.loadByPage()"
         :compUrl="dataUrl"
+        formSize="default"
         :fieldList="tableFieldList"
         :rules="rules"
       />
