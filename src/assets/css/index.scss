@@ -1,5 +1,6 @@
 :root {
-  --el-color-success: #5cb87a;
+  --star-horse-success: #5cb87a;
+  --star-horse-default: #f0f2f5;
   --star-horse-style: #409eff;
   --star-horse-white: #fff;
   --star-horse-background: #fff;
@@ -269,7 +270,7 @@ a {
     .line-node {
       position: absolute;
       min-height: 76px;
-      max-height: 200px;
+
       overflow: hidden;
       width: 180px;
       left: 0;

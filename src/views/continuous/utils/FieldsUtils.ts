@@ -25,8 +25,6 @@ const pipelineFields = reactive<PageFieldInfo | any>({
               {
                 label: "流水线名称",
                 fieldName: "lineName",
-
-                defaultValue: "测试",
                 required: true,
                 formVisible: true,
                 listVisible: true,

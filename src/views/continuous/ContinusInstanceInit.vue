@@ -32,8 +32,13 @@ const nodeDialog = ref<boolean>(false);
 const currentNodeIndex = ref<number>(-1);
 const continuousStore = useContinusConfigStore(piniaInstance);
 const nodeInfo = computed(() => continuousStore.nodeInfo);
-let pipeLineData: ComputedRef = computed(() =>
-    continuousStore.getNodeInfo(pipelineNode.id),
+let pipeLineData: ComputedRef = computed(() => {
+      if(currentNodeIndex.value == -1) {
+        return currentFormNode.value;
+      }else{
+        return  continuousStore.getNodeInfo(pipelineNode.id);
+      }
+    }
 );
 let currentCompName = ref<string>("PipelineCfg");
 let formNo = ref<string>("");
@@ -279,10 +284,7 @@ const selectTemplate = async () => {
   closeAction();
   const result = await validate();
   if (result) {
-    currentNode.value = nodeList[0];
-    currentCompName.value = nodeList[0].nodeCode;
-    currentNodeIndex.value = 0;
-    formNo.value = nodeList[0].dynamicFormNo;
+    editNode(processList.value[0], 0);
   }
 };
 /**
@@ -299,12 +301,12 @@ const save = async (type: string) => {
     warning("请先添加节点");
     return;
   }
-  let configData:any[] = [];
+  let configData: any[] = [];
   processList.value?.forEach((item: any, num: number) => {
     const params = continuousStore.getNodeInfo(item.id);
-    let temp={
+    let temp = {
       ...params,
-      dataIndex: num+1
+      dataIndex: num + 1
     };
     configData.push(temp);
   });
@@ -511,7 +513,8 @@ onMounted(async () => {
           >
             <sh-form v-model:dataForm="currentFormNode" ref="nodeFormRef">
               <!--每个节点的基础信息-->
-              <star-horse-form-item v-if="currentNode.nodeCode != 'PipelineCfg'" ref="nodeInfoRef" class="build-cfg" :compSize="Config.compSize"
+              <star-horse-form-item v-if="currentNode.nodeCode != 'PipelineCfg'" ref="nodeInfoRef" class="build-cfg"
+                                    :compSize="Config.compSize"
                                     v-model:dataForm="currentFormNode" :fieldList="nodeField"/>
               <node-fields
                   :formNo="formNo"
