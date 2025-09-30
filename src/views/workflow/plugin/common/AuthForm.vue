@@ -7,7 +7,7 @@ import { FlowNodeEnums } from "@/views/workflow/plugin/enums/FlowNodeEnums.js";
 const props = defineProps({
   compSize: {
     type: String,
-    default: "small",
+    default: "default",
   },
   readable: {
     type: Boolean,

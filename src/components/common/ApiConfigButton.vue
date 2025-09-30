@@ -27,7 +27,7 @@ const props = defineProps({
   },
   buttonSize: {
     type: String,
-    default: "small",
+    default: "default",
   },
   buttonPlain: {
     type: Boolean,
