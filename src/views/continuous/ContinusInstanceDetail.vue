@@ -5,6 +5,57 @@ const router = useRouter();
 const execLine = () => {
   console.log("执行");
 };
+const nodeInfoData ={
+  projectName: "测试1技术等级佛山街覅三等奖覅手打激发",
+  createdBy: "admin",
+  createdTime: "2023-08-01",
+  dataNo: "123456",
+  nodeList: [{
+    nodeCode: "node1",
+    nodeName: "节点1积分时间哦对附件四范围额金娃IE就",
+    nodeType: "start",
+    subNodeList: [
+
+    ]
+  }, {
+    nodeCode: "node2",
+    nodeName: "节点2",
+    nodeType: "end",
+    subNodeList: []
+  }, {
+    nodeCode: "node3",
+    nodeName: "节点3",
+    nodeType: "process",
+    subNodeList: []
+  }, {
+    nodeCode: "node4",
+    nodeName: "节点4",
+    nodeType: "process",
+    subNodeList: [
+      {
+        nodeCode: "node4-1",
+        nodeName: "节点4-1",
+        nodeType: "process",
+        subNodeList: []
+      }, {
+        nodeCode: "node4-2",
+        nodeName: "节点4-2",
+        nodeType: "process",
+        subNodeList: []
+      }, {
+        nodeCode: "node4-3",
+        nodeName: "节点4-3",
+        nodeType: "process",
+        subNodeList: []
+      }, {
+        nodeCode: "node4-4",
+        nodeName: "节点4-4",
+        nodeType: "process",
+        subNodeList: []
+      }
+    ]
+  }]
+};
 const nodeDetail = (id: number) => {};
 const goBack = () => {
   router.push({
@@ -43,7 +94,7 @@ const goBack = () => {
         </el-button>
       </div>
     </div>
-    <instance-item-detail @nodeDetail="nodeDetail" />
+    <instance-item-detail :nodeInfo="nodeInfoData" @nodeDetail="nodeDetail" />
     <compliance />
   </div>
 </template>

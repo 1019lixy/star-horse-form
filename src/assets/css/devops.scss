@@ -26,6 +26,82 @@
   border: 2px solid var(--star-horse-style);
 }
 
+// 颜色变量
+$primary-color: #409eff;
+$success-color: #67c23a;
+$warning-color: #e6a23c;
+$danger-color: #f56c6c;
+$info-color: #909399;
+$text-primary: #303133;
+$text-regular: #606266;
+$text-secondary: #909399;
+$border-color: #dcdfe6;
+$bg-color: #f5f7fa;
+$white: #ffffff;
+
+.item-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+  padding: 0;
+}
+
+.item-bar-left {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  flex: 1;
+}
+
+.item-bar-left>span:first-child {
+  font-size: 14px;
+  font-weight: 500;
+  color: $text-primary;
+  cursor: pointer;
+  margin-right: 8px;
+
+  &:hover {
+    color: $primary-color;
+  }
+}
+
+.item-bar-left>span:not(:first-child) {
+  font-size: 12px;
+  color: $text-secondary;
+}
+
+.nav_ul {
+  display: flex;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.nav_ul li {
+  margin-left: 6px;
+}
+
+.nav_ul el-button {
+  font-size: 12px;
+  padding: 0 6px;
+  background: transparent;
+  color: $text-regular !important;
+  border: none;
+}
+
+.nav_ul el-button:hover {
+  color: $primary-color !important;
+  background: transparent;
+}
+
+:deep(.el-divider--vertical) {
+  background-color: #e4e7ed;
+  width: 1px;
+  height: 12px;
+  margin: 0 6px;
+}
+
 .instance-item {
   width: calc(100% - 10px);
   position: relative;
@@ -34,110 +110,169 @@
   background: var(--star-horse-white);
   transition: all 0.5s linear 0s;
   border: 1px solid #eee;
+  overflow: hidden;
 
+  // 节点样式优化
   .item-line {
     position: relative;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    overflow: hidden;
-    margin: 5px auto;
-
-    .multi-node {
-      height: 100%;
-      min-height: unset !important;
-      max-height: unset !important;
-      overflow: hidden !important;
-    }
-
+    width: 100%;
+    overflow-y: hidden;
+    overflow-x: auto;
+    margin:5px auto;
     .line-node {
       position: absolute;
+      width: 210px;
+      background: $white;
+      border-radius: 6px;
+      max-height: 140px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+      border: 1px solid $border-color;
       display: flex;
       flex-direction: column;
-      align-items: center;
-      min-height: 76px;
-      max-height: 200px;
-      overflow: hidden;
-      width: 180px;
-      left: 0;
-      top: 0;
-      border: var(--star-horse-style) 1px solid;
-      border-radius: 5px;
+      z-index: 5;
+      margin-bottom: 5px;
+
+      &:hover {
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        border-color: $primary-color;
+      }
 
       .node-title {
-        height: 30px;
-        position: relative;
-        width: 100%;
-        background: var(--star-horse-background);
-        font-size: 13px;
-        align-items: center;
-        justify-items: center;
-        vertical-align: middle;
+        padding: 5px 10px;
         display: flex;
         justify-content: space-between;
+        align-items: center;
+        border-bottom: 1px solid #f0f0f0;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        flex-shrink: 0;
+        /* 防止标题区域被压缩 */
+        position: relative;
+        max-width: 100%;
+        /* 确保不超过父元素line-node */
+      }
 
-        div {
-          margin: 0 10px;
-        }
+
+      .node-title>div:first-child {
+        display: flex;
+        align-items: center;
+        font-size: 13px;
+        font-weight: 500;
+        color: $text-primary;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        flex: 1;
+        max-width: calc(100% - 30px);
+        /* 为右侧时间留出空间 */
+      }
+
+      .node-title>div:last-child {
+        font-size: 11px;
+        color: $text-secondary;
+        font-weight: 500;
+        white-space: nowrap;
+        margin-left: 8px;
+        min-width: 25px;
       }
 
       .node-content {
-        flex: 1;
-        display: flex;
-        position: relative;
-        width: 100%;
-        height: 100%;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
+        width: 97%;
+        margin: 1px auto;
 
+        /* 子节点样式 - 整合定义，确保进度条显示在文字下方 */
         .line-node-item {
-          position: relative;
-          display: flex;
-          width: calc(100% - 10px);
-          height: 100%;
-          flex-direction: column;
-          align-items: center;
-          background: var(--star-horse-background);
-          cursor: pointer;
-          margin: 2px auto;
-
-          .title {
-            display: flex;
-            justify-content: center;
-            width: 100%;
-          }
-
-          .el-button {
-            padding-right: 10px;
-          }
-        }
-
-        .inst-node-item {
-          position: relative;
-          display: flex;
-          width: calc(100% - 10px);
-          height: 35px;
-          flex-direction: column;
-          align-items: center;
-          overflow: hidden;
-        }
-      }
-
-      .multi-node-content {
-        overflow-y: auto !important;
-        justify-content: start;
-
-        .line-node-item {
-          position: relative;
           width: 100%;
+          background: $white;
+          border-radius: 3px;
+          border: 1px solid #f0f0f0;
+          cursor: pointer;
+          position: relative;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          clear: both;
+          gap: 8px;
           line-height: 25px;
           margin: 2px auto;
           flex-direction: row;
+
+          &:hover {
+            border-color: $primary-color;
+          }
+
+          /* 节点头部布局 - 简化布局，优化间距 */
+          .node-item-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 4px 6px;
+            position: relative;
+            z-index: 10;
+
+            /* 确保头部在进度条上方 */
+            /* 节点文字样式 - 增加文字显示空间 */
+            .node-item-name {
+              flex: 1;
+              font-size: 12px;
+              font-weight: 500;
+              color: $text-primary;
+              white-space: nowrap;
+              overflow: hidden;
+              text-overflow: ellipsis;
+              margin-right: 4px;
+            }
+
+          }
         }
+
+        /* 进度条样式 - 增强可见性并确保在文字下方 */
+        .custom-progress {
+          height: 100%;
+          background-color: #f0f2f5;
+          border-radius: 3px;
+          overflow: hidden;
+          width: 100%;
+          display: block;
+          clear: both;
+          border: 1px solid #ebeef5;
+          position: absolute;
+          z-index: 1;
+
+          /* 确保进度条在文字的下一层 */
+          .custom-progress-bar {
+            height: 100%;
+            background-color: #dcdfe6;
+            border-radius: 4px;
+            transition: width 0.3s ease;
+
+            .running {
+              background-color: $primary-color;
+            }
+          }
+        }
+      }
+
+      // 多子节点样式优化 - 优先考虑实用性
+      .multi-node-content {
+        border-radius: 4px;
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+        max-height: 200px;
+        /* 调整最大高度，确保不会超出父节点 */
+        overflow: hidden;
+        flex: 1;
+        /* 轻微上移，减少不必要的空间浪费 */
+        width: 98% !important;
       }
     }
   }
+
+
 
   .item-bar {
     height: 30px;
@@ -148,6 +283,7 @@
     flex-direction: row;
     align-items: center;
     background: #e1e1e1;
+    padding: 5px 0;
 
     .item-bar-left {
       display: flex;
@@ -168,6 +304,42 @@
     }
   }
 }
+
+
+
+
+/* 图标按钮样式 */
+.button-icon {
+  padding: 0 !important;
+  width: 24px !important;
+  height: 24px !important;
+  min-width: auto !important;
+}
+
+
+
+
+// 连接线样式
+.svg-path {
+  fill: none;
+  stroke-width: 8px;
+  stroke-linecap: round;
+}
+
+// 响应式设计
+@media (max-width: 1200px) {
+  .item-bar {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .nav_ul {
+    width: 100%;
+    justify-content: flex-start;
+  }
+}
+
 
 .config-nav-bar {
   width: 100%;
@@ -425,6 +597,7 @@
       display: flex;
       height: 74px;
       position: relative;
+
       /* &:before {
         content: '';
         position: absolute;

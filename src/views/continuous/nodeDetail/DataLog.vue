@@ -148,7 +148,7 @@ const value = ref(
   text-align: left;
   display: flex;
   font-size: 13px;
-  height: calc(100% - 250px);
+  height: 100%;
   flex-direction: column;
   z-index: 9999;
   flex: 1;

@@ -204,5 +204,14 @@ routeDefine.push(
       title: "流程表单",
     },
   },
+   {
+    path: "/execRecord",
+    component: () => import("@/views/continuous/ContinusInstanceExecRecord.vue"),
+    name: "ExecRecord",
+    meta: {
+      keepAlive: "N",
+      title: "执行记录",
+    },
+  },
 );
 export default routeDefine;
