@@ -140,7 +140,7 @@ onMounted(async () => {
             />
           </el-card>
         </el-splitter-panel>
-        <el-splitter-panel collapsible>
+        <el-splitter-panel :size="!dictTypeCode ? '0' : '50%'" collapsible>
           <div class="h-full overflow-hidden">
             <dictinfo-u-i :dictType="dictTypeCode" />
           </div>
