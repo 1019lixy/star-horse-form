@@ -57,7 +57,10 @@ const tabModel = ref<string>("template");
 const editTabModel = ref<string>("container");
 const containerCollapse = ref<string>("container");
 const itemCollapse = ref<string>("item");
-const containerDataForm = ref<any>({});
+const containerDataForm = ref<any>({
+  backgroundColor:'rgb(255,255,255)',
+  fontColor:'rgb(0,0,0)'
+});
 const itemDataForm = ref<any>({});
 const compDataForm = ref<any>({});
 const containerConfig = ref<PageFieldInfo>({});
@@ -176,6 +179,9 @@ const layoutOperation = (item: Layout) => {
   const container = item.layout.container;
   const tempContainerInfo = JSON.parse(JSON.stringify(container));
   tempContainerInfo["minWidth"] = "auto";
+  tempContainerInfo["backgroundColor"] = "rgb(255,255,255)";
+  tempContainerInfo["color"] = "rgb(0,0,0)";
+
   flexDesign.setContainerInfo(tempContainerInfo);
   containerDataForm.value = tempContainerInfo;
   const items = item.layout.items;

@@ -12,7 +12,6 @@ let backgroundData: ModelRef<any> = defineModel("dataForm");
 const currentBackgroundImage = ref("");
 // 新增文件转base64方法
 const beforeUpload = (file: File) => {
-  console.log(file);
   return new Promise((resolve) => {
     const reader = new FileReader();
     reader.readAsDataURL(file);
@@ -44,6 +43,7 @@ watch(
         color-format="rgb"
         :size="compSize"
         placeholder="X"
+        show-alpha
       />
       <el-input
         v-model="backgroundData.backgroundColor"

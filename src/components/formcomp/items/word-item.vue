@@ -27,35 +27,13 @@ import "@univerjs/presets/lib/styles/preset-docs-core.css";
 import "@univerjs/presets/lib/styles/preset-docs-drawing.css";
 import "@univerjs/presets/lib/styles/preset-docs-hyper-link.css";
 
-const props = defineProps({
-  isDesign: {
-    type: Boolean,
-    default: false,
-  },
-  disabled: {
-    type: Boolean,
-    default: false,
-  },
-  bareFlag: {
-    type: Boolean,
-    default: false,
-  },
-  isSearch: {
-    type: Boolean,
-    default: false,
-  },
-  field: {
-    type: Object,
-    default: {},
-  },
-  parentField: {
-    type: Object,
-    default: {},
-  },
-  formInfo: {
-    type: Object,
-    default: {},
-  },
+import {ItemPreps} from "star-horse-lowcode";
+const props = withDefaults(defineProps<ItemPreps>(), {
+  isDesign: false,
+  disabled: false,
+  showFormItem: false,
+  bareFlag: false,
+  isSearch: false,
 });
 const emits = defineEmits(["selfFunc", "selectItem"]);
 const formData = defineModel("formData");

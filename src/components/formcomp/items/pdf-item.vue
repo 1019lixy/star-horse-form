@@ -1,4 +1,5 @@
 <template>
+  2 {{field}}
   <starhorse-form-item
     :isDesign="isDesign"
     :disabled="disabled"
@@ -6,6 +7,7 @@
     :formItem="field"
     :parentField="parentField"
   >
+
     <iframe
       v-if="field.preps?.viewType == 'view'"
       :src="filePath"
@@ -20,37 +22,16 @@
 </template>
 <script setup lang="ts" name="pdfItem">
 import { computed, onMounted, ref } from "vue";
-import { warning } from "star-horse-lowcode";
-
-const props = defineProps({
-  isDesign: {
-    type: Boolean,
-    default: false,
-  },
-  disabled: {
-    type: Boolean,
-    default: false,
-  },
-  bareFlag: {
-    type: Boolean,
-    default: false,
-  },
-  isSearch: {
-    type: Boolean,
-    default: false,
-  },
-  field: {
-    type: Object,
-    default: {},
-  },
-  parentField: {
-    type: Object,
-    default: {},
-  },
-  formInfo: {
-    type: Object,
-    default: {},
-  },
+import { warning,ItemPreps} from "star-horse-lowcode";
+const props = withDefaults(defineProps<ItemPreps>(), {
+  isDesign: false,
+  disabled: false,
+  showFormItem: false,
+  bareFlag: false,
+  isSearch: false,
+  field:{
+    preps:{}
+  }
 });
 const emits = defineEmits(["selfFunc", "selectItem"]);
 const formData = defineModel("formData");

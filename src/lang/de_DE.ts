@@ -98,6 +98,23 @@ export default {
 
   // Dyform
   "dyform.title": "Dynamisches Formular",
+  // Formular Präfix/Suffix Konfiguration
+  "dyform.preOrPend.dialog.title": "Präfix/Suffix Konfiguration",
+  "dyform.preOrPend.prependText": "Präfix Text",
+  "dyform.preOrPend.prependText.helpMsg": "Fester Text, der vor dem Eingabefeld angezeigt wird",
+  "dyform.preOrPend.prependList": "Präfix Dropdown-Liste",
+  "dyform.preOrPend.prependList.helpMsg": "Konfigurieren Sie Dropdown-Optionen vor dem Eingabefeld",
+  "dyform.preOrPend.prependList.title": "Präfix Dropdown-Liste Konfiguration",
+  "dyform.preOrPend.appendText": "Suffix Text",
+  "dyform.preOrPend.appendText.helpMsg": "Fester Text, der nach dem Eingabefeld angezeigt wird",
+  "dyform.preOrPend.appendAction": "Suffix Aktion Button",
+  "dyform.preOrPend.appendAction.helpMsg": "Konfigurieren Sie Aktionen-Buttons nach dem Eingabefeld",
+  "dyform.preOrPend.appendAction.title": "Suffix Aktion Button Konfiguration",
+  "dyform.preOrPend.appendList": "Suffix Dropdown-Liste",
+  "dyform.preOrPend.appendList.helpMsg": "Konfigurieren Sie Dropdown-Optionen nach dem Eingabefeld",
+  "dyform.preOrPend.appendList.title": "Suffix Dropdown-Liste Konfiguration",
+  "dyform.preOrPend.warning.prependConflict": "Präfixtext und Präfix-Dropdown-Liste können nicht gleichzeitig konfiguriert werden",
+  "dyform.preOrPend.warning.appendConflict": "Suffixtext, Suffix-Aktionsknopf und Suffix-Dropdown-Liste können nicht gleichzeitig konfiguriert werden",
   "dyform.new": "Neues Formular",
   "dyform.open": "Formular öffnen",
   "dyform.save": "Speichern",

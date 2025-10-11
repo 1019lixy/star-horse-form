@@ -183,6 +183,9 @@ const handleDialogClose = () => {
 const init = () => {
   recordPreps.value = {};
 };
+const prependOrAppend=()=>{
+  openDialog("preOrPendDialog");
+};
 onMounted(() => {
   init();
 });
@@ -230,6 +233,16 @@ watch(
       :list="list"
       @close="handleDialogClose"
   />
+  <PreOrPendDialog
+      :visible="dialogStates.preOrPendDialog"
+      :formProps="formProps"
+      :formInfo="formInfo"
+      :fieldName="fieldName"
+      :currentField="currentField"
+      @merge="handleDialogMerge"
+      @close="handleDialogClose"
+      @reset="handleDialogClose"
+  />
   <el-scrollbar>
     <el-collapse v-model="activeNames">
       <el-collapse-item name="base">
@@ -239,6 +252,13 @@ watch(
             <span>组件属性</span>
           </div>
         </template>
+        <el-form-item
+            label="前置/后置"
+            prop="cfg"
+            v-if="['input','autocomplete','password','number','number-range'].includes(currentItemType)"
+        >
+          <el-button @click="prependOrAppend" icon="setting"> 配置</el-button>
+        </el-form-item>
         <template v-for="item in basePreps">
           <el-form-item
               :label="item.label"
@@ -252,6 +272,7 @@ watch(
             />
             <el-select
                 v-if="item.type == 'select'"
+                clearable filterable
                 v-model="formProps[item.fieldName]"
                 :placeholder="'请选择' + item.label"
             >

@@ -34,6 +34,7 @@ let fontInfo: ModelRef<any> = defineModel("dataForm");
         v-model="fontInfo.color"
         color-format="rgb"
         :size="compSize"
+        show-alpha
       />
       <el-input
         v-model="fontInfo.color"
