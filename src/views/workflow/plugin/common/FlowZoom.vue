@@ -91,7 +91,7 @@
         class="editor"
         ref="jsonEditorRef"
         language="zh-CN"
-        current-mode="view"
+        current-mode="json"
         v-model:modelValue="nodeData"
       />
     </div>
@@ -234,7 +234,7 @@ const copyJson = async () => {
 const viewCode = async () => {
   drawer.value = true;
   await nextTick(() => {
-    jsonEditorRef.value.setEditorContent(nodeData.value);
+    jsonEditorRef.value?.setEditorContent(nodeData.value);
   });
 };
 const exportCode = async () => {
