@@ -1,18 +1,11 @@
 <script setup lang="ts">
-import { onMounted, ref } from "vue";
-import {
-  apiInstance,
-  ApiUrls,
-  dictData,
-  postRequest,
-  SelectOption,
-  warning,
-} from "star-horse-lowcode";
+import {onMounted, ref} from "vue";
+import {apiInstance, ApiUrls, dictData, postRequest, SelectOption, warning,} from "star-horse-lowcode";
 
 const emits = defineEmits(["selectNode"]);
 const apiUrl: ApiUrls = apiInstance(
-  "userdb-manage",
-  "userdb/formInstance/conNodeConfigures/idNodeConfigure/136",
+    "userdb-manage",
+    "userdb/formInstance/conNodeConfigures/idNodeConfigure/136",
 );
 const currentItem = ref<string>("all");
 const currentNode = ref<any>({});
@@ -26,11 +19,11 @@ const changeNode = (nodeType: string) => {
     categoryNodeList.value = nodeList.value;
   } else {
     categoryNodeList.value = nodeList.value.filter(
-      (item) => item.nodeType == nodeType,
+        (item) => item.nodeType == nodeType,
     );
   }
   currentNode.value = categoryNodeList.value.find(
-    (item) => item.defaultFlag == "Y",
+      (item) => item.defaultFlag == "Y",
   );
 };
 const selectNode = (item: any, action: string) => {
@@ -49,7 +42,7 @@ const init = async () => {
   nodeList.value = [];
   nodeTypeList.value = await dictData("CONTINUS_NODE_TYPE");
   postRequest(apiUrl.listConditionUrl!, {
-    orderBy: [{ fieldName: "dataSort", ascOrDesc: "asc" }],
+    orderBy: [{fieldName: "dataSort", ascOrDesc: "asc"}],
   }).then((res) => {
     let resData = res.data;
     if (resData?.code) {
@@ -73,10 +66,10 @@ defineExpose({
   <div class="content-tools">
     <div class="node-menu">
       <div
-        v-for="item in nodeTypeList"
-        :class="{ active: currentItem == item.value }"
-        @click="changeNode(item.value)"
-        class="node-item"
+          v-for="item in nodeTypeList"
+          :class="{ active: currentItem == item.value }"
+          @click="changeNode(item.value)"
+          class="node-item"
       >
         {{ item.name }}
       </div>
@@ -88,20 +81,20 @@ defineExpose({
           <div class="node">
             <div class="item-box" v-for="(item, index) in categoryNodeList">
               <div
-                class="node-info"
-                @dblclick="selectNode(item, 'dblClick')"
-                @click="selectNode(item, 'click')"
-                :class="{
+                  class="node-info"
+                  @dblclick="selectNode(item, 'dblClick')"
+                  @click="selectNode(item, 'click')"
+                  :class="{
                   'item-active': item.nodeCode == currentNode?.nodeCode,
                 }"
               >
                 <div class="item-logo">
                   <div class="node-icon">
                     <star-horse-icon
-                      :icon-class="item.icon"
-                      size="40px"
-                      width="44px"
-                      height="42px"
+                        :icon-class="item.icon"
+                        size="40px"
+                        width="44px"
+                        height="42px"
                     />
                   </div>
                   <span class="text text-overflow">{{ item.nodeName }}</span>
@@ -166,20 +159,23 @@ defineExpose({
   .node-list {
     display: flex;
     flex-direction: column;
-    padding: 20px 0 72px;
     position: relative;
-    width: calc(100% - 110px);
+    width: 100%;
     height: 100%;
     overflow: hidden;
 
     .content-node {
       height: 100%;
+      width: 100%;
       overflow: hidden;
 
       .node {
-        display: flex;
+        grid-template-columns: 35px 1fr 35px;
+        /* 左右内边距 + 中间内容 */
+        grid-template-rows: 40px 1fr 50px;
+        /* 上下内边距 + 中间内容 */
+        gap: 5px;
         flex-wrap: wrap;
-        padding: 0 20px 8px 0;
         overflow: auto;
         height: 100%;
 
