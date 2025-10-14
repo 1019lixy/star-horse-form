@@ -516,6 +516,7 @@ defineExpose({
                 @cacheRestore="cacheDataRestore"
                 @contextMenu="contextMenu"
             />
+            {{list}}
             <FormDesigner
                 :list="list"
                 :form-data="formData"

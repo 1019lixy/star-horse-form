@@ -188,8 +188,7 @@ const dynamicUrlField: FieldInfo[] | any = [
         batchFieldList: [
           {
             batchName: "queryParams",
-            helpMsg:
-                "标准参数：",
+            helpMsg: "标准参数：",
             fieldList: [
               {
                 label: "参数名",
@@ -353,7 +352,7 @@ const submitValid = async () => {
             props.formProps["values"] = createData(
                 dataSourceFormRef,
                 dataList,
-            ).reDataList;
+            )?.reDataList;
           }
           flag = true;
         } else {
@@ -405,6 +404,7 @@ defineExpose({
 </script>
 
 <template>
+  {{dataSourceFormRef?.getFormData()}}
   <star-horse-form
       :fieldList="dataSourceField"
       ref="dataSourceFormRef"

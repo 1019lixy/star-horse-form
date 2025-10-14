@@ -1,11 +1,7 @@
 <script setup lang="ts">
-import { dynamicFormContextMenuData } from "@/plugins/AblesPlugin.ts";
-import {
-  dynamicFormHelpMessage,
-  formActions,
-} from "@/views/dyform/utils/DynamicForm.ts";
-import { i18n } from "@/lang";
-import { ref } from "vue";
+import {dynamicFormHelpMessage, formActions,} from "@/views/dyform/utils/DynamicForm.ts";
+import {i18n} from "@/lang";
+import {ref} from "vue";
 
 const emit = defineEmits<{
   (e: "action", action: string): void;
@@ -64,75 +60,75 @@ const handleDropdownSelect = (item: any) => {
         <template v-for="(item, index) in formActions">
           <!-- Regular button without children -->
           <el-button
-            v-if="
+              v-if="
               (list.length > 0 || item.defaultEdit) &&
               (item.auth == 'none' || permissions[item.auth]) &&
               !item.children
             "
-            :key="'1_' + index"
-            @click="actions(item.key)"
-            :title="`${item.label} (${item.shortcut || ''})`"
-            class="toolbar-button"
+              :key="'1_' + index"
+              @click="actions(item.key)"
+              :title="`${item.label} (${item.shortcut || ''})`"
+              class="toolbar-button"
           >
             <el-tooltip
-              class="item"
-              :content="`${item.label} (${item.shortcut || ''})`"
-              effect="dark"
-              placement="bottom"
+                class="item"
+                :content="`${item.label} (${item.shortcut || ''})`"
+                effect="dark"
+                placement="bottom"
             >
               <star-horse-icon
-                :icon-class="item.icon"
-                size="24px"
-                style="color: var(--star-horse-style)"
+                  :icon-class="item.icon"
+                  size="24px"
+                  style="color: var(--star-horse-style)"
               />
             </el-tooltip>
           </el-button>
 
           <!-- Button with dropdown for children -->
           <div
-            v-else-if="item.children && item.children.length > 0"
-            :key="'1_' + index"
-            class="dropdown-container"
+              v-else-if="item.children && item.children.length > 0"
+              :key="'1_' + index"
+              class="dropdown-container"
           >
             <el-button
-              @click.stop="toggleDropdown(item.key)"
-              :title="item.label"
-              class="toolbar-button with-dropdown"
+                @click.stop="toggleDropdown(item.key)"
+                :title="item.label"
+                class="toolbar-button with-dropdown"
             >
               <el-tooltip
-                class="item"
-                :content="item.label"
-                effect="dark"
-                placement="bottom"
+                  class="item"
+                  :content="item.label"
+                  effect="dark"
+                  placement="bottom"
               >
                 <star-horse-icon
-                  :icon-class="item.icon"
-                  size="24px"
-                  style="color: var(--star-horse-style)"
+                    :icon-class="item.icon"
+                    size="24px"
+                    style="color: var(--star-horse-style)"
                 />
               </el-tooltip>
               <el-icon class="dropdown-arrow">
-                <arrow-down />
+                <arrow-down/>
               </el-icon>
             </el-button>
 
             <!-- Dropdown menu -->
             <div
-              v-show="activeDropdown === item.key"
-              class="dropdown-menu"
-              @click.stop
+                v-show="activeDropdown === item.key"
+                class="dropdown-menu"
+                @click.stop
             >
               <div
-                v-for="(sitem, sindex) in item.children"
-                :key="'2_' + sindex"
-                class="dropdown-item"
-                @click="handleDropdownSelect(sitem)"
-                :title="`${sitem.label} (${sitem.shortcut || ''})`"
+                  v-for="(sitem, sindex) in item.children"
+                  :key="'2_' + sindex"
+                  class="dropdown-item"
+                  @click="handleDropdownSelect(sitem)"
+                  :title="`${sitem.label} (${sitem.shortcut || ''})`"
               >
                 <star-horse-icon
-                  :icon-class="sitem.icon"
-                  size="24px"
-                  style="color: var(--star-horse-style)"
+                    :icon-class="sitem.icon"
+                    size="24px"
+                    style="color: var(--star-horse-style)"
                 />
                 <span class="dropdown-label">{{ sitem.label }}</span>
               </div>
@@ -144,13 +140,13 @@ const handleDropdownSelect = (item: any) => {
 
     <div class="toolbar-right">
       <el-tooltip
-        :content="i18n('dyform.toolbar.cache.restore')"
-        v-if="cacheData?.length > 0"
-        class="cache-button"
+          :content="i18n('dyform.toolbar.cache.restore')"
+          v-if="cacheData?.length > 0"
+          class="cache-button"
       >
-        <star-horse-icon icon-class="reset" @click="cacheDataRestore($event)" />
+        <star-horse-icon icon-class="reset" @click="cacheDataRestore($event)"/>
       </el-tooltip>
-      <help :message="dynamicFormHelpMessage" />
+      <help :message="dynamicFormHelpMessage"/>
     </div>
   </div>
 </template>

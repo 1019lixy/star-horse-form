@@ -181,7 +181,7 @@ export function createData(
     if (dataSource == "data") {
         reDataList = dataList;
     } else {
-        if (dataSource == "url") {
+        if (dataSource == "url" && needDynamicData && dataList.length > 0) {
             const element = dataList[0];
             const keys = Object.keys(element);
             if (!keys.find((item) => item == temp["selectLabel"])) {
@@ -299,7 +299,7 @@ export function getUrlFieldConfig(interfaceUtils: any, options: any = {}) {
                     value: "methodName",
                 },
             },
-        },{
+        }, {
             label: "接口代理",
             fieldName: "redirect",
             type: "switch",
@@ -676,8 +676,8 @@ export function getInterfaceUtils() {
 
     const loadInterface = (serviceName: string) => {
         loadGetData(`/userdb-manage/redirect/api/webApis2/${serviceName}`).then((res: any) => {
-            interfaceDatas.value=[];
-            interfaceList.value=[];
+            interfaceDatas.value = [];
+            interfaceList.value = [];
             if (res.error) {
                 warning(res.error);
                 return;

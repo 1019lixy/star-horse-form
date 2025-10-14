@@ -213,7 +213,8 @@ export function validDynamicFormCompParams(
             if (
                 (!preps.values || preps.values?.length <= 0) &&
                 !preps.interfaceUrl &&
-                !preps.urlOrDictName
+                !preps.urlOrDictName &&
+                !preps.url
             ) {
                 msg =
                     "\n【" +
