@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import {loadDict} from "@/api/star_horse_apis";
-import {loadSvgIconsByPath} from "@/api/star_horse_utils";
+import { loadDict } from "@/api/star_horse_apis";
+import { loadSvgIconsByPath } from "@/api/star_horse_utils";
 import {
   createData,
   getInterfaceUtils,
@@ -8,8 +8,8 @@ import {
   validInterface,
   validOperation
 } from "@/views/dyform/utils/ItemPreps";
-import {error, FieldInfo, PageFieldInfo, searchMatchList, SelectOption} from "star-horse-lowcode";
-import {ModelRef, nextTick, onMounted, PropType, reactive, ref, unref, watch,} from "vue";
+import { error, FieldInfo, PageFieldInfo, searchMatchList, SelectOption } from "star-horse-lowcode";
+import { ModelRef, nextTick, onMounted, PropType, reactive, ref, unref, watch, } from "vue";
 
 defineOptions({
   name: "DataSourceComp",
@@ -31,9 +31,9 @@ const props = defineProps({
   },
 });
 const dataSourceList: Array<SelectOption> = [
-  {value: "data", name: "静态数据"},
-  {value: "url", name: "动态接口"},
-  {value: "dict", name: "数据字典"},
+  { value: "data", name: "静态数据" },
+  { value: "url", name: "动态接口" },
+  { value: "dict", name: "数据字典" },
 ];
 const dataSourceFormRef = ref();
 const dataForm: ModelRef<any> = defineModel("dataForm");
@@ -46,7 +46,7 @@ let envList = ref<Array<SelectOption>>([]);
 // 创建接口工具对象
 // 使用从ItemPreps导入的接口工具函数
 const interfaceUtils = getInterfaceUtils();
-const {fieldList, disableUrl} = interfaceUtils;
+const { fieldList, disableUrl } = interfaceUtils;
 
 // 生成URL配置字段
 const urlFields = getUrlFieldConfig(interfaceUtils, {
@@ -60,12 +60,12 @@ const urlFields = getUrlFieldConfig(interfaceUtils, {
   validateCallback: {
     click: async (val: any) => {
       await validOperation(
-          val,
-          dataSourceFormRef,
-          fieldList,
-          disableUrl,
-          !dataForm.value,
-          dataForm,
+        val,
+        dataSourceFormRef,
+        fieldList,
+        disableUrl,
+        !dataForm.value,
+        dataForm,
       );
       console.log("校验结果", fieldList.value);
     }
@@ -114,37 +114,37 @@ const baseDataField: FieldInfo[] | any = [
     label: "解析方式",
     fieldName: "analysisType",
     helpMsg:
-        "路径解析：只能解析项目public下的子路径，格式为 test/*.svg，\n函数解析：只能解析src/api/star_horse_utils.ts下的无参函数，格式为: analysisData",
+      "路径解析：只能解析项目public下的子路径，格式为 test/*.svg，\n函数解析：只能解析src/api/star_horse_utils.ts下的无参函数，格式为: analysisData",
     type: "radio",
     formVisible: true,
     defaultValue: "func",
     preps: {
       values: [
-        {name: "路径", value: "path", disabled: true},
-        {name: "函数", value: "func"},
+        { name: "路径", value: "path", disabled: true },
+        { name: "函数", value: "func" },
       ],
       colspan: 8,
     },
   },
-    {
-      label: "值",
-      fieldName: "analysisValue",
-      type: "input",
-      formVisible: true,
-      preps: {
-        colspan: 14,
-      },
+  {
+    label: "值",
+    fieldName: "analysisValue",
+    type: "input",
+    formVisible: true,
+    preps: {
+      colspan: 14,
     },
-    {
-      label: "解析",
-      fieldName: "btn",
-      type: "button",
-      formVisible: true,
-      actions: {click: (val: any) => analysisOptionData(val)},
-      preps: {
-        colspan: 2,
-      },
+  },
+  {
+    label: "解析",
+    fieldName: "btn",
+    type: "button",
+    formVisible: true,
+    actions: { click: (val: any) => analysisOptionData(val) },
+    preps: {
+      colspan: 2,
     },
+  },
   ],
   {
     batchFieldList: [
@@ -203,13 +203,6 @@ const dynamicUrlField: FieldInfo[] | any = [
                 },
               },
               {
-                label: "参数值",
-                fieldName: "value",
-                required: true,
-                formVisible: true,
-                listVisible: true,
-              },
-              {
                 label: "匹配方式",
                 fieldName: "matchType",
                 type: "select",
@@ -219,8 +212,26 @@ const dynamicUrlField: FieldInfo[] | any = [
                 listVisible: true,
                 preps: {
                   values: matchTypeList,
+                  dataRelation: {
+                    actionName: "change",
+                    relationDetails: [
+                      {
+                        matchType: "eq",
+                        controlCondition: "eqUnRequired",
+                        relationFields: "value",
+                        matchFieldValue: ["isnull","notnull","neq"],
+                      },]
+                  }
                 },
               },
+              {
+                label: "参数值",
+                fieldName: "value",
+                required: true,
+                formVisible: true,
+                listVisible: true,
+              },
+
             ],
           },
         ],
@@ -247,46 +258,46 @@ const dynamicUrlField: FieldInfo[] | any = [
   },
 ];
 const dictField: FieldInfo[] | any =
-    [
-      {
-        label: "字典名称",
-        fieldName: "urlOrDictName",
-        required: true,
-        type: "datapicker",
-        formVisible: true,
-        listVisible: true,
-        preps: {
-          dataUrl: "/system-config/system/dictinfoType/pageList",
-          displayName: "dictTypeName",
-          displayValue: "dictTypeCode",
-          pageSize: 100,
-          colspan: 16,
+  [
+    {
+      label: "字典名称",
+      fieldName: "urlOrDictName",
+      required: true,
+      type: "datapicker",
+      formVisible: true,
+      listVisible: true,
+      preps: {
+        dataUrl: "/system-config/system/dictinfoType/pageList",
+        displayName: "dictTypeName",
+        displayValue: "dictTypeCode",
+        pageSize: 100,
+        colspan: 16,
+      },
+    },
+    {
+      label: "验证",
+      fieldName: "urlOrDictNameBtn",
+      type: "button",
+      actions: {
+        click: async (val: any) => {
+          await validOperation(
+            val,
+            dataSourceFormRef,
+            fieldList,
+            disableUrl,
+            !dataForm.value,
+            dataForm,
+          );
         },
       },
-      {
-        label: "验证",
-        fieldName: "urlOrDictNameBtn",
-        type: "button",
-        actions: {
-          click: async (val: any) => {
-            await validOperation(
-                val,
-                dataSourceFormRef,
-                fieldList,
-                disableUrl,
-                !dataForm.value,
-                dataForm,
-            );
-          },
-        },
-        formVisible: true,
-        listVisible: true,
-        preps: {
-          colspan: 8,
-          icon: "valid",
-        },
+      formVisible: true,
+      listVisible: true,
+      preps: {
+        colspan: 8,
+        icon: "valid",
       },
-    ];
+    },
+  ];
 
 const dataSourceField = reactive<PageFieldInfo | any>({
   fieldList: [
@@ -322,7 +333,7 @@ const dataSourceField = reactive<PageFieldInfo | any>({
         },
       },
     ],
-    {type: "divider", formVisible: true, listVisible: true,},
+    { type: "divider", formVisible: true, listVisible: true, },
   ],
 });
 
@@ -343,25 +354,25 @@ const innerFunc = (type: string) => {
 const submitValid = async () => {
   let flag: boolean = false;
   await validInterface(
-      props.formProps,
-      dataSourceFormRef,
-      (dataList: any, _successMsg: string, errorMsg: string) => {
-        if (!errorMsg) {
-          //只保存静态数据,
-          if (props.formProps) {
-            props.formProps["values"] = createData(
-                dataSourceFormRef,
-                dataList,
-            )?.reDataList;
-          }
-          flag = true;
-        } else {
-          error(errorMsg);
-          flag = false;
+    props.formProps,
+    dataSourceFormRef,
+    (dataList: any, _successMsg: string, errorMsg: string) => {
+      if (!errorMsg) {
+        //只保存静态数据,
+        if (props.formProps) {
+          props.formProps["values"] = createData(
+            dataSourceFormRef,
+            dataList,
+          )?.reDataList;
         }
-      },
-      !dataForm.value,
-      dataForm,
+        flag = true;
+      } else {
+        error(errorMsg);
+        flag = false;
+      }
+    },
+    !dataForm.value,
+    dataForm,
   );
   return flag;
 };
@@ -387,10 +398,10 @@ const getFormData = () => {
   return dataSourceFormRef.value?.getFormData();
 };
 watch(
-    () => dataForm.value?.dataSource,
-    (val) => {
-      currentTabName.value = val || "data";
-    },
+  () => dataForm.value?.dataSource,
+  (val) => {
+    currentTabName.value = val || "data";
+  },
 );
 onMounted(() => {
   init();
@@ -404,21 +415,10 @@ defineExpose({
 </script>
 
 <template>
-  {{dataSourceFormRef?.getFormData()}}
-  <star-horse-form
-      :fieldList="dataSourceField"
-      ref="dataSourceFormRef"
-      v-if="!dataForm"
-  />
-  <star-horse-form-item
-      v-else
-      ref="dataSourceFormRef"
-      :fieldList="dataSourceField"
-      :dataIndex="(props.preps?.params?.totalTab || 1) - 1"
-      :subFormFlag="'Y'"
-      :objectName="'dataSource'"
-      v-model:dataForm="dataForm"
-  />
+  <star-horse-form :fieldList="dataSourceField" ref="dataSourceFormRef" v-if="!dataForm" />
+  <star-horse-form-item v-else ref="dataSourceFormRef" :fieldList="dataSourceField"
+    :dataIndex="(props.preps?.params?.totalTab || 1) - 1" :subFormFlag="'Y'" :objectName="'dataSource'"
+    v-model:dataForm="dataForm" />
 </template>
 
 <style scoped lang="scss"></style>
