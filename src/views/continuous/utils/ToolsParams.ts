@@ -38,7 +38,7 @@ const extendCommonFields = () => {
                                     {
                                         matchType: "eq",
                                         controlCondition: "eqVisible",
-                                        relationFields: ["errorReportPerson", "errorReportType"],
+                                        relationFields: ["errorReportPersonList", "errorReportTypeList"],
                                         matchFieldValue: "Y",
                                     },
                                 ]
@@ -53,7 +53,7 @@ const extendCommonFields = () => {
                     label: "通知人",
                     type: "checkbox",
                     formVisible: false,
-                    fieldName: "errorReportPerson",
+                    fieldName: "errorReportPersonList",
                     preps: {
                         dataRelation: {
                             actionName: "change",
@@ -61,7 +61,7 @@ const extendCommonFields = () => {
                                 {
                                     matchType: "eq",
                                     controlCondition: "eqVisible",
-                                    relationFields: ["errorCodeCommitor"],
+                                    relationFields: ["errorCodeCommitorList"],
                                     matchFieldValue: "coder",
                                 },
                             ]
@@ -73,9 +73,10 @@ const extendCommonFields = () => {
                         {
                             type: "select",
                             label: "  ",
-                            fieldName: "errorCodeCommitor",
+                            fieldName: "errorCodeCommitorList",
                             preps: {
                                 values: codeCommitorList,
+                                allowCreate: true,
                                 multiple: true,
                             },
                         },
@@ -85,7 +86,7 @@ const extendCommonFields = () => {
                     label: "通知方式",
                     type: "checkbox",
                     formVisible: false,
-                    fieldName: "errorReportType",
+                    fieldName: "errorReportTypeList",
                     preps: {
                         values: reportTypeList,
                         border: "Y",
@@ -104,7 +105,7 @@ const extendCommonFields = () => {
                                     {
                                         matchType: "eq",
                                         controlCondition: "eqVisible",
-                                        relationFields: ["successReportPerson", "successReportType"],
+                                        relationFields: ["successReportPersonList", "successReportTypeList"],
                                         matchFieldValue: "Y",
                                     },
                                 ]
@@ -119,7 +120,7 @@ const extendCommonFields = () => {
                     label: "通知人",
                     type: "checkbox",
                     formVisible: false,
-                    fieldName: "successReportPerson",
+                    fieldName: "successReportPersonList",
                     preps: {
                         dataRelation: {
                             actionName: "change",
@@ -127,7 +128,7 @@ const extendCommonFields = () => {
                                 {
                                     matchType: "eq",
                                     controlCondition: "eqVisible",
-                                    relationFields: ["successCodeCommitor"],
+                                    relationFields: ["successCodeCommitorList"],
                                     matchFieldValue: "coder",
                                 },
                             ]
@@ -139,9 +140,10 @@ const extendCommonFields = () => {
                         {
                             type: "select",
                             label: "  ",
-                            fieldName: "successCodeCommitor",
+                            fieldName: "successCodeCommitorList",
                             preps: {
                                 values: codeCommitorList,
+                                allowCreate: true,
                                 multiple: true,
                             },
                         },
@@ -151,7 +153,7 @@ const extendCommonFields = () => {
                     label: "通知方式",
                     type: "checkbox",
                     formVisible: false,
-                    fieldName: "successReportType",
+                    fieldName: "successReportTypeList",
                     preps: {
                         values: reportTypeList,
                     },

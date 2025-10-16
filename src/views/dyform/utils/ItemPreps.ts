@@ -91,7 +91,7 @@ export async function validInterface(
             }
             requestParams.push({
                 propertyName: item.name,
-                value: item.value,
+                value: item.value||"",
                 operation: item.matchType,
             });
         });

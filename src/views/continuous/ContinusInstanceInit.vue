@@ -33,10 +33,10 @@ const currentNodeIndex = ref<number>(-1);
 const continuousStore = useContinusConfigStore(piniaInstance);
 const nodeInfo = computed(() => continuousStore.nodeInfo);
 let pipeLineData: ComputedRef = computed(() => {
-      if(currentNodeIndex.value == -1) {
+      if (currentNodeIndex.value == -1) {
         return currentFormNode.value;
-      }else{
-        return  continuousStore.getNodeInfo(pipelineNode.id);
+      } else {
+        return continuousStore.getNodeInfo(pipelineNode.idNodeInfo);
       }
     }
 );
@@ -52,7 +52,7 @@ let assignSelect = ref<boolean>(false);
 const pipelineNode: any = {
   nodeCode: "PipelineCfg",
   nodeName: "流水线配置",
-  id: uuid(),
+  idNodeInfo: uuid(),
 };
 //当前节点属性
 const currentFieldList = ref<PageFieldInfo>({fieldList: []});
@@ -151,7 +151,7 @@ const validate = async () => {
   }
   //这里只是处理了当前的节点信息，子节点也需要处理
 
-  continuousStore.addNodeInfo(currentNode.value.id, {...currentFormNode.value});
+  continuousStore.addNodeInfo(currentNode.value.idNodeInfo, {...currentFormNode.value});
 
   return true;
 };
@@ -167,7 +167,7 @@ const editNode = async (node: any, currentIndex: number) => {
     return "error";
   }
   //如果点击的是当前节点，则不做任何操作
-  if (currentNode.value.id == node.id) {
+  if (currentNode.value.idNodeInfo == node.idNodeInfo) {
     return "same";
   }
   nodeCompRef.value?.resetForm();
@@ -186,7 +186,7 @@ const editNode = async (node: any, currentIndex: number) => {
   return "ok";
 };
 const initDataInfo = (node: any) => {
-  const formData = continuousStore.getNodeInfo(node.id);
+  const formData = continuousStore.getNodeInfo(node.idNodeInfo);
   if (formData) {
     currentFormNode.value = formData;
   } else {
@@ -236,7 +236,7 @@ const delNode = (item: any) => {
     // 重置表单数据为当前节点的基础信息
   }
   initDataInfo(currentNode.value);
-  continuousStore.removeNode(item.id);
+  continuousStore.removeNode(item.idNodeInfo);
 };
 const addSubNode = () => {
   nodeDialog.value = true;
@@ -249,13 +249,13 @@ const closeAction = () => {
 /**
  * 保存选择的节点
  */
-const dataSubmit = async (node: any) => {
-  if (!node) {
+const dataSubmit = async (pnode: any) => {
+  if (!pnode) {
     warning("请先选择要配置的节点");
     return;
   }
-  node = JSON.parse(JSON.stringify(node));
-  node["id"] = uuid();
+  let node = JSON.parse(JSON.stringify(pnode));
+  node["idNodeInfo"] = uuid();
   let index =
       preCurrentNodeIndex.value == -1
           ? processList.value.length
@@ -278,7 +278,7 @@ const selectTemplate = async () => {
   pipelineNode.idTemplate = template.idTemplate;
   let nodeList = JSON.parse(JSON.stringify(template.nodeList));
   nodeList.forEach((item: any) => {
-    item["id"] = uuid();
+    item["idNodeInfo"] = uuid();
   });
   processList.value = nodeList;
   closeAction();
@@ -296,22 +296,25 @@ const save = async (type: string) => {
   if (!result) {
     return;
   }
-  let nodeList: any = [];
   if (!processList.value || processList.value.length == 0) {
     warning("请先添加节点");
     return;
   }
   let configData: any[] = [];
   processList.value?.forEach((item: any, num: number) => {
-    const params = continuousStore.getNodeInfo(item.id);
+    const params = continuousStore.getNodeInfo(item.idNodeInfo);
     let temp = {
       ...params,
+      subNodeInfoList: item.subNodeList,
+      dynamicFormNo: item.dynamicFormNo,
+      advancedDynamicFormNo: item.advancedDynamicFormNo,
       dataIndex: num + 1
     };
     configData.push(temp);
   });
   pipeLineData.value["nodeList"] = configData;
   pipeLineData.value["isPublished"] = "Y";
+  pipeLineData.value["configList"] = processList.value;
   postRequest(dataUrl.mergeUrl, pipeLineData.value).then((res: any) => {
     let result = res?.data;
     if (result?.code) {

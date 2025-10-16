@@ -11,6 +11,7 @@ import {
   piniaInstance,
   SearchFields,
   TabFieldInfo,
+  uuid,
   warning
 } from "star-horse-lowcode";
 import {i18n} from "@/lang";
@@ -46,6 +47,7 @@ const tableFieldList = computed(() => {
       addable: props.nodeInfo.nodeCode != "PipelineCfg",
       closable: true,
       fieldName: currentTabName,
+      groupData: true,
       tabList: temp,
       actions: {
         tabAdd: (data: any) => {
@@ -55,7 +57,7 @@ const tableFieldList = computed(() => {
           // changeFieldVisible();
         },
         close: (data: any) => {
-          props.nodeInfo["subNodeList"] = props.nodeInfo["subNodeList"].filter((item: any) => item.id != data.id);
+          props.nodeInfo["subNodeList"] = props.nodeInfo["subNodeList"].filter((item: any) => item.idNodeInfo != data.idNodeInfo);
           currentTabName.value = props.nodeInfo["subNodeList"].length > 0 ? props.nodeInfo["subNodeList"][0].nodeCode : props.nodeInfo.nodeCode;
         }
       }
@@ -114,27 +116,27 @@ const assignField = async (data: any, nodeInfo?: any, subNodeFlag?: boolean) => 
   if (subNodeFlag) {
     tabList.value.push({
       title: nodeInfo?.nodeName,
-      objectName: nodeInfo?.nodeCode,
+      objectName: "nodeParams",
       tabName: nodeInfo?.nodeCode,
       primaryKey: data["primaryKey"],
       disabled: false,
       subFormFlag: "Y",
       tableFlag: "N",
-      id: nodeInfo?.id,
+      id: nodeInfo?.idNodeInfo,
       fieldList: fieldList,
     });
     currentTabName.value = nodeInfo?.nodeCode;
   } else {
     tabList.value.push({
       title: outerFormData.value?.nodeName || props.nodeInfo.nodeName,
-      objectName: props.nodeInfo.nodeCode,
+      objectName: "nodeParams",
       tabName: props.nodeInfo.nodeCode,
       primaryKey: data["primaryKey"],
       disabled: false,
       closable: false,
       subFormFlag: "Y",
       tableFlag: "N",
-      id: props.nodeInfo?.id,
+      id: props.nodeInfo?.idNodeInfo,
       fieldList: fieldList,
     });
     currentTabName.value = props.nodeInfo?.nodeCode;
@@ -204,7 +206,7 @@ const init = async () => {
       closable: false,
       subFormFlag: "N",
       tableFlag: "N",
-      id: props.nodeInfo?.id,
+      id: props.nodeInfo?.idNodeInfo,
       fieldList: tempFieldList,
     });
     currentTabName.value = props.nodeInfo?.nodeCode;
@@ -215,7 +217,9 @@ const init = async () => {
     loadFormData(node.dynamicFormNo, node, true);
   });
 };
-const dataSubmit = async (node: any) => {
+const dataSubmit = async (pnode: any) => {
+  let node = JSON.parse(JSON.stringify(pnode));
+  node["idNodeInfo"] = uuid();
   const formNo = node.dynamicFormNo;
   if (!formNo) {
     warning("该节点没有配置表单信息");
@@ -236,7 +240,7 @@ onMounted(async () => {
 
 });
 watch(
-    () => props.nodeInfo.id,
+    () => props.nodeInfo.idNodeInfo,
     () => {
       resetForm();
       init();
@@ -253,6 +257,7 @@ defineExpose({
       :compUrl="dataUrl"
       :dynamicForm="true"
       ref="nodeFormRef"
+      :key="nodeInfo.idNodeInfo"
       :compSize="compSize"
       :globalCondition="relationTables"
       v-model:dataForm="outerFormData"
