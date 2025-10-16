@@ -67,7 +67,7 @@ const init = async () => {
       //如果不是分页之间显示返回的所有数据
       pageInfo.dataList = [
         ...pageInfo.dataList,
-        ...(redata?.dataList || redata),
+        ...redata?.dataList ,
       ];
       pageInfo.totalPage = redata?.totalPages;
       pageInfo.totalData = redata?.totalDatas;
@@ -91,115 +91,6 @@ onBeforeUnmount(() => {
 onActivated(() => {
   init();
 });
-
-const configList = [{
-  projectName: "测试1技术等级佛山街覅三等奖覅手打激发",
-  createdBy: "admin",
-  createdTime: "2023-08-01",
-  dataNo: "123456",
-  nodeList: [{
-    nodeCode: "node1",
-    nodeName: "节点1积分时间哦对附件四范围额金娃IE就",
-    nodeType: "start",
-    subNodeList: [
-
-    ]
-  }, {
-    nodeCode: "node2",
-    nodeName: "节点2",
-    nodeType: "end",
-    subNodeList: []
-  }, {
-    nodeCode: "node3",
-    nodeName: "节点3",
-    nodeType: "process",
-    subNodeList: []
-  }, {
-    nodeCode: "node4",
-    nodeName: "节点4",
-    nodeType: "process",
-    subNodeList: [
-      {
-        nodeCode: "node4-1",
-        nodeName: "节点4-1",
-        nodeType: "process",
-        subNodeList: []
-      }, {
-        nodeCode: "node4-2",
-        nodeName: "节点4-2",
-        nodeType: "process",
-        subNodeList: []
-      }, {
-        nodeCode: "node4-3",
-        nodeName: "节点4-3",
-        nodeType: "process",
-        subNodeList: []
-      }, {
-        nodeCode: "node4-4",
-        nodeName: "节点4-4",
-        nodeType: "process",
-        subNodeList: []
-      }
-    ]
-  }]
-},{
-  projectName: "测试2",
-  createdBy: "admin",
-  createdTime: "2023-08-02",
-  dataNo: "123457",
-  nodeList: [{
-    nodeCode: "node5",
-    nodeName: "节点5",
-    nodeType: "start",
-    subNodeList: []
-  }, {
-    nodeCode: "node6",
-    nodeName: "节点6",
-    nodeType: "end",
-    subNodeList: []
-  }, {
-    nodeCode: "node7",
-    nodeName: "节点7",
-    nodeType: "process",
-    subNodeList: []
-  }]
-},{
-  projectName: "测试3",
-  createdBy: "admin",
-  createdTime: "2023-08-03",
-  dataNo: "123458",
-  nodeList: [{
-    nodeCode: "node8",
-    nodeName: "节点8",
-    nodeType: "start",
-    subNodeList: [{
-      nodeCode: "node8-1",
-      nodeName: "节点8-1",
-      nodeType: "process",
-      subNodeList: []
-    }, {
-      nodeCode: "node8-2",
-      nodeName: "节点8-2",
-      nodeType: "process",
-      subNodeList: []
-    }]
-  }, {
-    nodeCode: "node9",
-    nodeName: "节点9",
-    nodeType: "end",
-    subNodeList: [{
-      nodeCode: "node9-1",
-      nodeName: "节点9-1",
-      nodeType: "process",
-      subNodeList: []
-    }]
-  }, {
-    nodeCode: "node10",
-    nodeName: "节点10",
-    nodeType: "process",
-    subNodeList: []
-  }]
-}];
 
 onMounted(() => {
   const scrollbar = document.querySelector(".el-scrollbar__wrap");
@@ -252,7 +143,7 @@ onMounted(() => {
     <div class="relative overflow-hidden">
       <el-scrollbar height="100%" @scroll="handleScroll">
         <!--pageInfo.dataList-->
-        <template v-for="(item, index) in configList" :key="index">
+        <template v-for="(item, index) in pageInfo.dataList" :key="index">
           <instance-item :nodeInfo="item"/>
         </template>
         <div v-if="loading" class="flex items-center justify-center p-10">

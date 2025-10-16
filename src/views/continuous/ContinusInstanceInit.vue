@@ -1,8 +1,9 @@
 <script setup lang="ts" name="ContinusInstanceInit">
-import {computed, ComputedRef, nextTick, onMounted, ref} from "vue";
+import {computed, ComputedRef, nextTick, onMounted, ref, watch} from "vue";
 import {
   apiInstance,
   ApiUrls,
+  loadData,
   operationConfirm,
   PageFieldInfo,
   piniaInstance,
@@ -88,7 +89,6 @@ let nodeField = ref<PageFieldInfo>({
         defaultValue: "any",
         actions: {
           change: (val: any) => {
-            console.log(val);
             assignSelect.value = val["nodeSuccessCondition"] == "assign";
           },
         },
@@ -305,7 +305,7 @@ const save = async (type: string) => {
     const params = continuousStore.getNodeInfo(item.idNodeInfo);
     let temp = {
       ...params,
-      subNodeInfoList: item.subNodeList,
+      subNodeInfoList: item.subNodeInfoList,
       dynamicFormNo: item.dynamicFormNo,
       advancedDynamicFormNo: item.advancedDynamicFormNo,
       dataIndex: num + 1
@@ -342,7 +342,29 @@ const reset = () => {
   processList.value = [];
 };
 //记录表单的属性
-
+const loadCfgData = (query: any) => {
+  if (!query || !query.configId) {
+    return;
+  }
+  reset();
+  loadData(dataUrl.loadByIdUrl + "/" + query.configId, {}).then((res: any) => {
+    if (res?.error) {
+      warning(res.error);
+      return;
+    }
+    let result = res?.data;
+    processList.value = result.nodeList;
+    delete result.nodeList;
+    let params = result.params;
+    delete result.params;
+    currentNode.value = {...pipelineNode};
+    currentFormNode.value = result;
+    continuousStore.addNodeInfo(currentNode.value.idNodeInfo, result);
+    for (let key in params) {
+      continuousStore.addNodeInfo(key, params[key]);
+    }
+  });
+};
 
 const init = async () => {
   reset();
@@ -354,11 +376,14 @@ const init = async () => {
   });
   continuousStore.clear();
   dataInit();
-
-
 };
 onMounted(async () => {
   await init();
+});
+watch(() => router.currentRoute.value, (newVal, oldVal) => {
+  loadCfgData(newVal.query);
+}, {
+  immediate: true
 });
 </script>
 <template>

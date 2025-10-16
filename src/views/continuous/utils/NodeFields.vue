@@ -57,8 +57,8 @@ const tableFieldList = computed(() => {
           // changeFieldVisible();
         },
         close: (data: any) => {
-          props.nodeInfo["subNodeList"] = props.nodeInfo["subNodeList"].filter((item: any) => item.idNodeInfo != data.idNodeInfo);
-          currentTabName.value = props.nodeInfo["subNodeList"].length > 0 ? props.nodeInfo["subNodeList"][0].nodeCode : props.nodeInfo.nodeCode;
+          props.nodeInfo["subNodeInfoList"] = props.nodeInfo["subNodeInfoList"].filter((item: any) => item.idNodeInfo != data.idNodeInfo);
+          currentTabName.value = props.nodeInfo["subNodeInfoList"].length > 0 ? props.nodeInfo["subNodeInfoList"][0].nodeCode : props.nodeInfo.nodeCode;
         }
       }
     }]
@@ -66,17 +66,10 @@ const tableFieldList = computed(() => {
 });
 const changeToDefault = (tempFormList: any) => {
   formFields.value = formFieldMapping({
-    fieldList: [tempFormList],
+    fieldList: Array.isArray(tempFormList) ? tempFormList : [tempFormList],
   })?.formFields;
-  changeFieldVisible();
 };
-const changeFieldVisible = () => {
-  formFields.value?.forEach(item => {
-    if (!["successReport", "errorReport"].includes(item.fieldName)) {
-      item.formVisible = false;
-    }
-  });
-};
+
 const advancedFormFieldsList = async (advancedDynamicFormNo: string) => {
   let tempFormList: any = {};
   if (!advancedDynamicFormNo) {
@@ -112,7 +105,6 @@ const assignField = async (data: any, nodeInfo?: any, subNodeFlag?: boolean) => 
   } else {
     changeToDefault(fieldList[fieldList.length - 1]);
   }
-
   if (subNodeFlag) {
     tabList.value.push({
       title: nodeInfo?.nodeName,
@@ -125,7 +117,6 @@ const assignField = async (data: any, nodeInfo?: any, subNodeFlag?: boolean) => 
       id: nodeInfo?.idNodeInfo,
       fieldList: fieldList,
     });
-    currentTabName.value = nodeInfo?.nodeCode;
   } else {
     tabList.value.push({
       title: outerFormData.value?.nodeName || props.nodeInfo.nodeName,
@@ -162,7 +153,7 @@ const loadFormData = async (formNo: string, nodeInfo?: any, subNodeFlag?: boolea
   }
   let cacheData = continuousStore.getNodeFields(formNo);
   if (cacheData) {
-    assignField(cacheData, nodeInfo, subNodeFlag);
+    await assignField(cacheData, nodeInfo, subNodeFlag);
     return;
   }
   let {data, error} = await loadFormFields(formNo);
@@ -173,7 +164,7 @@ const loadFormData = async (formNo: string, nodeInfo?: any, subNodeFlag?: boolea
     closeLoad();
     return;
   }
-  assignField(data, nodeInfo, subNodeFlag);
+  await assignField(data, nodeInfo, subNodeFlag);
   continuousStore.addNodeFields(formNo, data);
   await nextTick();
   closeLoad();
@@ -210,10 +201,11 @@ const init = async () => {
       fieldList: tempFieldList,
     });
     currentTabName.value = props.nodeInfo?.nodeCode;
+    changeToDefault(tempFieldList);
   } else {
     await loadFormData(props.formNo!, props.nodeInfo, false);
   }
-  props.nodeInfo["subNodeList"]?.forEach((node: any) => {
+  props.nodeInfo["subNodeInfoList"]?.forEach((node: any) => {
     loadFormData(node.dynamicFormNo, node, true);
   });
 };
@@ -226,10 +218,10 @@ const dataSubmit = async (pnode: any) => {
     return;
   }
   await loadFormData(formNo, node, true);
-  if (!props.nodeInfo["subNodeList"]) {
-    props.nodeInfo["subNodeList"] = [];
+  if (!props.nodeInfo["subNodeInfoList"]) {
+    props.nodeInfo["subNodeInfoList"] = [];
   }
-  props.nodeInfo["subNodeList"].push(node);
+  props.nodeInfo["subNodeInfoList"].push(node);
   closeAction();
 };
 const closeAction = () => {
@@ -260,7 +252,7 @@ defineExpose({
       :key="nodeInfo.idNodeInfo"
       :compSize="compSize"
       :globalCondition="relationTables"
-      v-model:dataForm="outerFormData"
+      :dataForm="outerFormData"
       :fieldList="tableFieldList"
       :rules="rules"
   />

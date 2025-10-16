@@ -30,7 +30,6 @@ const extendCommonFields = () => {
                         type: "switch",
                         fieldName: "errorReport",
                         formVisible: true,
-
                         preps: {
                             dataRelation: {
                                 actionName: "change",
@@ -206,9 +205,9 @@ const dynamicStyle = (item: any, index: number) => {
     "border-color": loadColor(item),
   };
   styles["transform"] = `translate(${index * 280 + 15}px, 0)`;
-  if(item?.subNodeList?.length>1){
+  if(item?.subNodeInfoList?.length>0){
     styles["height"] = "100%";
-  }else if(item?.subNodeList?.length==1){
+  }else if(item?.subNodeInfoList?.length==0){
     styles["height"] = "80px";
   }
   return styles;
@@ -226,13 +225,13 @@ const countHeight = (nodeInfo:any) => {
   // 获取所有节点的子节点数量，找出最大值
   let maxSubNodeCount = 0;
   nodeInfo?.nodeList?.forEach((item:any) => {
-    const subNodeCount = item.subNodeList?.length || 0;
+    const subNodeCount = item.subNodeInfoList?.length || 0;
     if (subNodeCount > maxSubNodeCount) {
       maxSubNodeCount = subNodeCount;
     }
   });
   // 如果子节点数量超过一个，高度取150px；否则取80px
-  return {height: maxSubNodeCount > 3 ? "150px" :maxSubNodeCount > 1?"115px": "80px"};
+  return {height: maxSubNodeCount > 2 ? "150px" :maxSubNodeCount > 0?"115px": "80px"};
 };
 
 export {
