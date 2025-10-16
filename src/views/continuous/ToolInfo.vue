@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import {onMounted, ref} from "vue";
-import {apiInstance, ApiUrls, dictData, postRequest, SelectOption, warning,} from "star-horse-lowcode";
+import {apiInstance, ApiUrls, createCondition, dictData, postRequest, SelectOption, warning,} from "star-horse-lowcode";
 
 const emits = defineEmits(["selectNode"]);
 const apiUrl: ApiUrls = apiInstance(
@@ -42,6 +42,7 @@ const init = async () => {
   nodeList.value = [];
   nodeTypeList.value = await dictData("CONTINUS_NODE_TYPE");
   postRequest(apiUrl.listConditionUrl!, {
+    fieldList: [createCondition("dynamicFormNo", "", "notnull"),createCondition("dynamicFormNo", "", "neq")],
     orderBy: [{fieldName: "dataSort", ascOrDesc: "asc"}],
   }).then((res) => {
     let resData = res.data;
