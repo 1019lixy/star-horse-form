@@ -1,7 +1,7 @@
 /**
  * 工具参数
  */
-import {ref} from "vue";
+import {reactive, ref} from "vue";
 import {FieldInfo, SelectOption,} from "star-horse-lowcode";
 // @ts-ignore
 import {loadDict} from "@/api/star_horse_apis";
@@ -20,8 +20,8 @@ const extendCommonFields = () => {
     return {
         title: "运行结果通知",
         tabName: "result",
-        subFormFlag:"Y",
-        objectName:"resultReport",
+        subFormFlag: "Y",
+        objectName: "resultReport",
         fieldList:
             [
                 [
@@ -30,7 +30,6 @@ const extendCommonFields = () => {
                         type: "switch",
                         fieldName: "errorReport",
                         formVisible: true,
-
                         preps: {
                             dataRelation: {
                                 actionName: "change",
@@ -38,7 +37,7 @@ const extendCommonFields = () => {
                                     {
                                         matchType: "eq",
                                         controlCondition: "eqVisible",
-                                        relationFields: ["errorReportPerson", "errorReportType"],
+                                        relationFields: ["errorReportPersonList", "errorReportTypeList"],
                                         matchFieldValue: "Y",
                                     },
                                 ]
@@ -53,7 +52,7 @@ const extendCommonFields = () => {
                     label: "通知人",
                     type: "checkbox",
                     formVisible: false,
-                    fieldName: "errorReportPerson",
+                    fieldName: "errorReportPersonList",
                     preps: {
                         dataRelation: {
                             actionName: "change",
@@ -61,7 +60,7 @@ const extendCommonFields = () => {
                                 {
                                     matchType: "eq",
                                     controlCondition: "eqVisible",
-                                    relationFields: ["errorCodeCommitor"],
+                                    relationFields: ["errorCodeCommitorList"],
                                     matchFieldValue: "coder",
                                 },
                             ]
@@ -73,9 +72,10 @@ const extendCommonFields = () => {
                         {
                             type: "select",
                             label: "  ",
-                            fieldName: "errorCodeCommitor",
+                            fieldName: "errorCodeCommitorList",
                             preps: {
                                 values: codeCommitorList,
+                                allowCreate: true,
                                 multiple: true,
                             },
                         },
@@ -85,7 +85,7 @@ const extendCommonFields = () => {
                     label: "通知方式",
                     type: "checkbox",
                     formVisible: false,
-                    fieldName: "errorReportType",
+                    fieldName: "errorReportTypeList",
                     preps: {
                         values: reportTypeList,
                         border: "Y",
@@ -104,7 +104,7 @@ const extendCommonFields = () => {
                                     {
                                         matchType: "eq",
                                         controlCondition: "eqVisible",
-                                        relationFields: ["successReportPerson", "successReportType"],
+                                        relationFields: ["successReportPersonList", "successReportTypeList"],
                                         matchFieldValue: "Y",
                                     },
                                 ]
@@ -119,7 +119,7 @@ const extendCommonFields = () => {
                     label: "通知人",
                     type: "checkbox",
                     formVisible: false,
-                    fieldName: "successReportPerson",
+                    fieldName: "successReportPersonList",
                     preps: {
                         dataRelation: {
                             actionName: "change",
@@ -127,7 +127,7 @@ const extendCommonFields = () => {
                                 {
                                     matchType: "eq",
                                     controlCondition: "eqVisible",
-                                    relationFields: ["successCodeCommitor"],
+                                    relationFields: ["successCodeCommitorList"],
                                     matchFieldValue: "coder",
                                 },
                             ]
@@ -139,9 +139,10 @@ const extendCommonFields = () => {
                         {
                             type: "select",
                             label: "  ",
-                            fieldName: "successCodeCommitor",
+                            fieldName: "successCodeCommitorList",
                             preps: {
                                 values: codeCommitorList,
+                                allowCreate: true,
                                 multiple: true,
                             },
                         },
@@ -151,7 +152,7 @@ const extendCommonFields = () => {
                     label: "通知方式",
                     type: "checkbox",
                     formVisible: false,
-                    fieldName: "successReportType",
+                    fieldName: "successReportTypeList",
                     preps: {
                         values: reportTypeList,
                     },
@@ -168,20 +169,26 @@ const advancedFormFields = (formField: FieldInfo[]) => {
     if (!reportTypeList.value.length) {
         dataInit();
     }
-    return {
-        fieldName: "advancedSetting",
+    const collapseList = [];
+    let tabName = "";
+    if (formField?.length > 0) {
+        tabName = "advancedSetting";
+        collapseList.push({
+            title: "扩展设置",
+            tabName: "advancedSetting",
+            subFormFlag: "Y",
+            objectName: "advancedSetting",
+            fieldList: formField,
+        });
+    } else {
+        tabName = "result";
+    }
+    collapseList.push(extendCommonFields());
+    return reactive<any>({
+        fieldName: tabName,
         collapseFlag: "advancedSetting",
-        collapseList: [
-            {
-                title: "高级设置",
-                tabName: "advancedSetting",
-                subFormFlag: "Y",
-                objectName: "advancedSetting",
-                fieldList: formField,
-            },
-            extendCommonFields()
-        ],
-    };
+        collapseList: collapseList
+    });
 };
 
 const dataInit = () => {
@@ -194,43 +201,43 @@ const dataInit = () => {
     });
 };
 const loadColor = (item: any) => {
-  return item.status == "SUCCESS" ?
-      "var(--star-horse-success)" :
-      item.status == "RUNNING" ? "var(--star-horse-warning)" :
-          "var(--star-horse-default)";
+    return item.status == "SUCCESS" ?
+        "var(--star-horse-success)" :
+        item.status == "RUNNING" ? "var(--star-horse-warning)" :
+            "var(--star-horse-default)";
 };
 const dynamicStyle = (item: any, index: number) => {
-  let styles: any = {
-    "border-color": loadColor(item),
-  };
-  styles["transform"] = `translate(${index * 280 + 15}px, 0)`;
-  if(item?.subNodeList?.length>1){
-    styles["height"] = "100%";
-  }else if(item?.subNodeList?.length==1){
-    styles["height"] = "80px";
-  }
-  return styles;
+    let styles: any = {
+        "border-color": loadColor(item),
+    };
+    styles["transform"] = `translate(${index * 280 + 15}px, 0)`;
+    if (item?.subNodeInfoList?.length > 0) {
+        styles["height"] = "100%";
+    } else if (item?.subNodeInfoList?.length == 0) {
+        styles["height"] = "80px";
+    }
+    return styles;
 };
 const currentNodeProcess = (item: any) => {
-  return {
-    "background-color": !item?.width ? "var(--star-horse-success)" : loadColor(item),
-    width: item?.width ?? "1%"
-  };
+    return {
+        "background-color": !item?.width ? "var(--star-horse-success)" : loadColor(item),
+        width: item?.width ?? "1%"
+    };
 };
 /** 计算节点高度
  * @param nodeInfo 节点信息
  */
-const countHeight = (nodeInfo:any) => {
-  // 获取所有节点的子节点数量，找出最大值
-  let maxSubNodeCount = 0;
-  nodeInfo?.nodeList?.forEach((item:any) => {
-    const subNodeCount = item.subNodeList?.length || 0;
-    if (subNodeCount > maxSubNodeCount) {
-      maxSubNodeCount = subNodeCount;
-    }
-  });
-  // 如果子节点数量超过一个，高度取150px；否则取80px
-  return {height: maxSubNodeCount > 3 ? "150px" :maxSubNodeCount > 1?"115px": "80px"};
+const countHeight = (nodeInfo: any) => {
+    // 获取所有节点的子节点数量，找出最大值
+    let maxSubNodeCount = 0;
+    nodeInfo?.nodeList?.forEach((item: any) => {
+        const subNodeCount = item.subNodeInfoList?.length || 0;
+        if (subNodeCount > maxSubNodeCount) {
+            maxSubNodeCount = subNodeCount;
+        }
+    });
+    // 如果子节点数量超过一个，高度取150px；否则取80px
+    return {height: maxSubNodeCount > 2 ? "150px" : maxSubNodeCount > 0 ? "115px" : "80px"};
 };
 
 export {

@@ -24,16 +24,16 @@ const props = defineProps({
     default: true,
   },
 });
-const execRecord = (instanceId: string) => {
+const execRecord = () => {
   router.push({
-    path: `/execRecord/${instanceId}`,
-    query: { instanceId: instanceId, isEdit: props.isEdit },
+    path: `/execRecord`,
+    query: { configId: props.nodeInfo.idPipelineConfig, isEdit: props.isEdit },
   });
 };
-const lineDetail = (instanceId: string) => {
+const lineDetail = () => {
   router.push({
     path: "/continuous/ContinusInstanceDetail",
-    query: { instanceId: instanceId, isEdit: props.isEdit },
+    query: { configId: props.nodeInfo.idPipelineConfig,isEdit: props.isEdit },
   });
 };
 const execLine = () => {
@@ -42,15 +42,14 @@ const execLine = () => {
 const execNode = () => {
   warning("执行节点功能开发中");
 };
-const configLine = (instanceId: string) => {
+const configLine = () => {
   router.push({
     path: "/continuous/ContinusInstanceInit",
-    query: { instanceId: instanceId, isEdit: props.isEdit },
+    query: { configId: props.nodeInfo.idPipelineConfig, isEdit: props.isEdit },
   });
 };
 const publishLine = () => {
-  configUrl
-    .modifyColumnsAction({
+  configUrl?.modifyColumnsAction({
       columnsInfo: { isPublished: "Y" },
       conditions: [
         createCondition(
@@ -93,7 +92,7 @@ const publishLine = () => {
               执行
             </el-button>
           </li>
-          <li v-if="'N' == nodeInfo?.isPublished">
+          <li >
             <el-button @click="configLine" link>
               <star-horse-icon icon-class="setting" size="16px" />
               配置
@@ -108,7 +107,6 @@ const publishLine = () => {
         </ul>
       </div>
     </div>
-
     <div class="item-line" :style="countHeight(nodeInfo)">
         <template v-for="(item, index) in nodeInfo?.nodeList" :key="index">
           <div @click="lineDetail" class="line-node" :style="dynamicStyle(item, index)">
@@ -121,9 +119,25 @@ const publishLine = () => {
               </div>
               <div>{{ item.times ?? "0" }}s|未执行</div>
             </div>
-            <div class="node-content" :class="{ 'multi-node-content': item.subNodeList?.length > 0 }">
-              <el-scrollbar style="height: 100px;width: 100%;" v-if="item.subNodeList?.length > 0">
-                <template v-for="(subItem, subIndex) in item.subNodeList" :key="subIndex">
+            <div class="node-content" :class="{ 'multi-node-content': item.subNodeInfoList?.length > 0 }">
+              <el-scrollbar style="height: 100px;width: 100%;" >
+                <div class="line-node-item">
+                  <div class="node-item-header flex justify-between items-center absolute z-10 w-full ">
+                    <el-tooltip class="item" :content="item.nodeName" placement="top">
+                      <span class="node-item-name cursor-help">{{ item.nodeName }}</span>
+                    </el-tooltip>
+                    <!-- 使用run图标按钮 -->
+                    <el-tooltip class="item" content="执行" placement="top">
+                      <star-horse-icon icon-class="run" size="16px" cursor="pointer" @click="execNode(item)" />
+                    </el-tooltip>
+                  </div>
+                  <!-- 自定义进度条，显示在文字下方 -->
+                  <div class="custom-progress absolute">
+                    <div class="custom-progress-bar" :style="currentNodeProcess(item)">
+                    </div>
+                  </div>
+                </div>
+                <template v-for="(subItem, subIndex) in item.subNodeInfoList" :key="subIndex" >
                   <div class="line-node-item">
                     <div class="node-item-header flex justify-between items-center absolute z-10 w-full ">
                       <el-tooltip class="item" :content="subItem.nodeName" placement="top">
@@ -142,29 +156,14 @@ const publishLine = () => {
                   </div>
                 </template>
               </el-scrollbar>
-              <div class="line-node-item" v-else>
-                <div class="node-item-header flex justify-between items-center absolute z-10 w-full ">
-                  <el-tooltip class="item" :content="item.nodeName" placement="top">
-                    <span class="node-item-name cursor-help">{{ item.nodeName }}</span>
-                  </el-tooltip>
-                  <!-- 使用run图标按钮 -->
-                  <el-tooltip class="item" content="执行" placement="top">
-                    <star-horse-icon icon-class="run" size="16px" cursor="pointer" @click="execNode(item)" />
-                  </el-tooltip>
-                </div>
-                <!-- 自定义进度条，显示在文字下方 -->
-                <div class="custom-progress absolute">
-                  <div class="custom-progress-bar" :style="currentNodeProcess(item)">
-                  </div>
-                </div>
-              </div>
+
             </div>
           </div>
         </template>
         <!-- 调整SVG位置和层级，确保连线回到正确的位置并显示在节点下层 -->
         <svg height="40px" width="100%" style="position: absolute; top: 10px; z-index: 0;">
           <defs></defs>
-          <template v-for="(item, index) in nodeInfo?.nodeList.splice(0, nodeInfo?.nodeList.length - 1)" :key="index">
+          <template v-for="(item, index) in nodeInfo?.nodeList.slice(0, nodeInfo?.nodeList.length - 1)" :key="index">
             <path class="svg-path" :d="'M' + (index * 280 + 230) + ',0 H' + (index * 280 + 300)"
               :style="{ 'stroke': loadColor(item) }"></path>
           </template>

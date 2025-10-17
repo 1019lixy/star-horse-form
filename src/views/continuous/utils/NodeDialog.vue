@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import {i18n} from "@/lang";
 import {ref} from "vue";
 
 const emit = defineEmits(["close", "save"]);
