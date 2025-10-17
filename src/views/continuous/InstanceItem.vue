@@ -1,12 +1,16 @@
 <script setup lang="ts" name="InstanceItem">
 import { useRouter } from "vue-router";
-import { apiInstance, ApiUrls, createCondition, createDatetime, success, warning, } from "star-horse-lowcode";
+import { apiInstance, ApiUrls, createCondition, createDatetime, postRequest, success, warning, } from "star-horse-lowcode";
 import { countHeight, currentNodeProcess, dynamicStyle, loadColor } from "@/views/continuous/utils/ToolsParams";
 import { PropType } from "vue";
 
 const configUrl: ApiUrls = apiInstance(
   "continuous-manage",
   "continuous/pipelineConfig",
+);
+const execUrl: ApiUrls = apiInstance(
+  "continuous-manage",
+  "continuous/nodeExecRecords",
 );
 const router = useRouter();
 const props = defineProps({
@@ -36,11 +40,25 @@ const lineDetail = () => {
     query: { configId: props.nodeInfo.idPipelineConfig,isEdit: props.isEdit },
   });
 };
-const execLine = () => {
-  warning("执行流水线功能开发中");
+const execLine = (methodName:string) => {
+ postRequest(execUrl.basePrefix+`/${methodName}/`+props.nodeInfo.idPipelineConfig,{
+  }).then((res)=>{
+    if(res?.data?.code==0){
+      success("执行成功");
+    }else{
+      warning(res?.data?.cnMessage);
+    }
+  })
 };
-const execNode = () => {
-  warning("执行节点功能开发中");
+const execNode = (item:any,methodName:string) => {
+ postRequest(execUrl.basePrefix+`/${methodName}/`+item.idNodeInfo,{
+  }).then((res)=>{
+    if(res?.data?.code==0){
+      success("执行成功");
+    }else{
+      warning(res?.data?.cnMessage);
+    }
+  })
 };
 const configLine = () => {
   router.push({
@@ -87,7 +105,7 @@ const publishLine = () => {
       <div class="item-bar-right">
         <ul class="nav_ul">
           <li>
-            <el-button @click="execLine" link>
+            <el-button @click="execLine('execPipeline')" link>
               <star-horse-icon icon-class="run" size="16px" />
               执行
             </el-button>
@@ -128,7 +146,7 @@ const publishLine = () => {
                     </el-tooltip>
                     <!-- 使用run图标按钮 -->
                     <el-tooltip class="item" content="执行" placement="top">
-                      <star-horse-icon icon-class="run" size="16px" cursor="pointer" @click="execNode(item)" />
+                      <star-horse-icon icon-class="run" size="16px" cursor="pointer" @click="execNode(item,'execNode')" />
                     </el-tooltip>
                   </div>
                   <!-- 自定义进度条，显示在文字下方 -->
@@ -145,7 +163,7 @@ const publishLine = () => {
                       </el-tooltip>
                       <!-- 使用run图标按钮 -->
                       <el-tooltip class="item" content="执行" placement="top">
-                        <star-horse-icon icon-class="run" size="16px" cursor="pointer" @click="execNode(subItem)" />
+                        <star-horse-icon icon-class="run" size="16px" cursor="pointer" @click="execNode(subItem,'execNode')" />
                       </el-tooltip>
                     </div>
                     <!-- 自定义进度条，显示在文字下方 -->
