@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {computed, ModelRef, nextTick, onMounted, PropType, provide, ref, unref, watch} from "vue";
+import {computed, ModelRef, nextTick, onMounted, PropType, provide, ref, shallowRef, unref, watch} from "vue";
 import {
   apiInstance,
   ApiUrls,
@@ -35,13 +35,16 @@ const rules = ref({});
 const hasData = ref(false);
 let relationTables = ref<any>({});
 const formInfo = ref<any>({});
-let formFields = ref<Array<FieldInfo>>([]);
+let formFields = shallowRef<Array<FieldInfo>>([]);
 provide("formFields", formFields);
 let outerFormData: ModelRef<any> = defineModel("dataForm");
 const subNodeDialog = ref<boolean>(false);
 const currentTabName = ref<string>("");
 const tableFieldList = computed(() => {
   const temp = unref(tabList);
+  if (Object.keys(temp).length > 0) {
+    changeToDefault(temp[0].fieldList[temp[0].fieldList.length - 1]);
+  }
   return {
     fieldList: [{
       addable: props.nodeInfo.nodeCode != "PipelineCfg",
@@ -54,7 +57,8 @@ const tableFieldList = computed(() => {
           subNodeDialog.value = true;
         },
         tabChange: (data: any) => {
-          // changeFieldVisible();
+          let fieldList = temp.find((item: any) => item.tabName == data)?.fieldList;
+          changeToDefault(fieldList[fieldList.length - 1]);
         },
         close: (data: any) => {
           props.nodeInfo["subNodeInfoList"] = props.nodeInfo["subNodeInfoList"].filter((item: any) => item.idNodeInfo != data.idNodeInfo);
@@ -84,7 +88,6 @@ const advancedFormFieldsList = async (advancedDynamicFormNo: string) => {
       tempFormList = advancedFormFields(newVar.data["tableFieldList"].fieldList);
     }
   }
-  changeToDefault(tempFormList);
   return tempFormList;
 };
 /**
@@ -102,9 +105,8 @@ const assignField = async (data: any, nodeInfo?: any, subNodeFlag?: boolean) => 
   if (!fieldList.find((item: any) => item.collapseFlag?.includes("advancedSetting"))) {
     const tempFormList = await advancedFormFieldsList(nodeInfo?.advancedDynamicFormNo);
     fieldList.push(tempFormList);
-  } else {
-    changeToDefault(fieldList[fieldList.length - 1]);
   }
+
   if (subNodeFlag) {
     tabList.value.push({
       title: nodeInfo?.nodeName,
@@ -118,6 +120,7 @@ const assignField = async (data: any, nodeInfo?: any, subNodeFlag?: boolean) => 
       fieldList: fieldList,
     });
   } else {
+    // changeToDefault(fieldList[fieldList.length - 1]);
     tabList.value.push({
       title: outerFormData.value?.nodeName || props.nodeInfo.nodeName,
       objectName: "nodeParams",
@@ -130,6 +133,7 @@ const assignField = async (data: any, nodeInfo?: any, subNodeFlag?: boolean) => 
       id: props.nodeInfo?.idNodeInfo,
       fieldList: fieldList,
     });
+
     currentTabName.value = props.nodeInfo?.nodeCode;
   }
 };
@@ -172,6 +176,7 @@ const loadFormData = async (formNo: string, nodeInfo?: any, subNodeFlag?: boolea
 
 
 const resetForm = () => {
+  formFields.value = [];
   tabList.value = [];
   // 清除表单数据，避免显示被删除节点的信息
   // 重置其他相关数据
@@ -201,7 +206,6 @@ const init = async () => {
       fieldList: tempFieldList,
     });
     currentTabName.value = props.nodeInfo?.nodeCode;
-    changeToDefault(tempFieldList);
   } else {
     await loadFormData(props.formNo!, props.nodeInfo, false);
   }
