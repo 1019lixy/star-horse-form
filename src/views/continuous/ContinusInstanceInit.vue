@@ -308,6 +308,7 @@ const save = async (type: string) => {
       subNodeInfoList: item.subNodeInfoList,
       dynamicFormNo: item.dynamicFormNo,
       advancedDynamicFormNo: item.advancedDynamicFormNo,
+      resultFormNo: item.resultFormNo,
       dataIndex: num + 1
     };
     configData.push(temp);

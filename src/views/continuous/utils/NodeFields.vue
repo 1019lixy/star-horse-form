@@ -6,7 +6,6 @@ import {
   closeLoad,
   FieldInfo,
   formFieldMapping,
-  loadGetData,
   PageFieldInfo,
   piniaInstance,
   SearchFields,
@@ -16,7 +15,8 @@ import {
 } from "star-horse-lowcode";
 import {i18n} from "@/lang";
 import {useContinusConfigStore} from "@/store/ContinusConfig";
-import {advancedFormFields} from "@/views/continuous/utils/ToolsParams.js";
+import {advancedFormFields} from "@/views/continuous/utils/ToolsParams";
+import {loadFormFields} from "@/views/continuous/utils/PipelinetCfg";
 
 let dataUrl = ref<ApiUrls>(apiInstance("", ""));
 const props = defineProps({
@@ -147,9 +147,7 @@ const resetField = () => {
   formInfo.value = {};
 
 };
-const loadFormFields = async (formNo: string) => {
-  return await loadGetData(`/userdb-manage/userdb/dynamicForm/dynamicPageInfo/${formNo}`,);
-};
+
 const loadFormData = async (formNo: string, nodeInfo?: any, subNodeFlag?: boolean) => {
   if (!formNo) {
     resetField();
