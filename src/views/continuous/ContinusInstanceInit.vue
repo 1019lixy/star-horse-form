@@ -244,7 +244,6 @@ const addSubNode = () => {
 const closeAction = () => {
   nodeDialog.value = false;
   tempDialog.value = false;
-
 };
 /**
  * 保存选择的节点

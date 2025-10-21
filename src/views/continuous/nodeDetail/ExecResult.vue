@@ -16,16 +16,20 @@ const props = defineProps({
     default: "",
   },
 });
-const tabCurrent = ref("second");
+const tabCurrent = ref<string>("second");
 const cfgFieldList = reactive<PageFieldInfo>({});
 const resultFieldList = reactive<PageFieldInfo>({});
 const cfgDataForm = ref<any>({});
 const resultDataForm = ref<any>({});
 const loadFormInfo = async () => {
-  loadFormFields(props.nodeItem.resultFormNo).then(res => {
-    let data = res.data;
-    resultFieldList.fieldList = data["tableFieldList"]?.fieldList || [];
-  });
+  tabCurrent.value = "second";
+  if (props.nodeItem.resultFormNo) {
+    tabCurrent.value = "first";
+    loadFormFields(props.nodeItem.resultFormNo).then(res => {
+      let data = res.data;
+      resultFieldList.fieldList = data["tableFieldList"]?.fieldList || [];
+    });
+  }
   loadFormFields(props.nodeItem.dynamicFormNo).then(res => {
     let data = res.data;
     cfgFieldList.fieldList = data["tableFieldList"]?.fieldList || [];
@@ -42,7 +46,7 @@ const loadFormInfo = async () => {
             fieldList: tempFormList.data["tableFieldList"]?.fieldList || [],
           }]
         });
-      })
+      });
     }
   });
 
@@ -61,7 +65,7 @@ watch(() => props.nodeItem, (newVal) => {
 <template>
   <el-card>
     <el-tabs type="card" v-model="tabCurrent">
-      <el-tab-pane label="输出结果" name="first">
+      <el-tab-pane label="输出结果" name="first" v-if="nodeItem.resultFormNo">
         <el-scrollbar>
           <star-horse-data-view-items
               :commonFormat="dataFormat"

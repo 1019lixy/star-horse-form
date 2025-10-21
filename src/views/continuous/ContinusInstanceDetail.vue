@@ -59,11 +59,11 @@ watch(() => router.currentRoute.value, (newVal, oldVal) => {
           返回
         </el-button>
         <span>{{ nodeInfo.projectName }}</span>
-        <el-divider direction="vertical"/>
+        <el-divider direction="vertical" style="border:1px solid var(--star-horse-style)"/>
         <span>操作人:{{ instanceInfo.createdBy || nodeInfo.createdBy }}</span>
-        <el-divider direction="vertical"/>
+        <el-divider direction="vertical" style="border:1px solid var(--star-horse-style)"/>
         <span>执行于: {{ createDatetime(instanceInfo.createdTime || nodeInfo.createdTime) }}</span>
-        <el-divider direction="vertical"/>
+        <el-divider direction="vertical" style="border:1px solid var(--star-horse-style)"/>
         <span>#{{ instanceInfo.dataIndex }}</span>
       </div>
       <div class="nav-bar-right">

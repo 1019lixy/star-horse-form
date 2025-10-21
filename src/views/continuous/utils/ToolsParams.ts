@@ -201,9 +201,9 @@ const dataInit = () => {
     });
 };
 const loadColor = (item: any) => {
-    return item.status == "SUCCESS" ?
+    return item?.execStatus == "SUCCESS" ?
         "var(--star-horse-success)" :
-        item.status == "RUNNING" ? "var(--star-horse-warning)" :
+        item?.execStatus == "RUNNING" ? "var(--star-horse-warning)" :
             "var(--star-horse-default)";
 };
 const dynamicStyle = (item: any, index: number) => {
@@ -219,9 +219,10 @@ const dynamicStyle = (item: any, index: number) => {
     return styles;
 };
 const currentNodeProcess = (item: any) => {
+    let process = item?.process ? item.process + "%" : "";
     return {
-        "background-color": !item?.width ? "var(--star-horse-success)" : loadColor(item),
-        width: item?.width ?? "1%"
+        "background-color": process ? "var(--star-horse-success)" : loadColor(item),
+        width: process ?? "0%"
     };
 };
 /** 计算节点高度

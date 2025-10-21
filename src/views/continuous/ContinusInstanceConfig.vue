@@ -54,7 +54,7 @@ const init = async () => {
       currentPage: pageInfo.currentPage,
       pageSize: pageInfo.pageSize,
       fieldList: params,
-      orderBy: [{fieldName: "createdTime", orderType: "desc"}],
+      orderBy: [{fieldName: "createdTime", ascOrDesc: "desc"}],
     }).then((res: any) => {
       if (res?.data?.code != 0) {
         res && console.error(res?.data?.cnMessage);
@@ -67,7 +67,7 @@ const init = async () => {
       //如果不是分页之间显示返回的所有数据
       pageInfo.dataList = [
         ...pageInfo.dataList,
-        ...redata?.dataList ,
+        ...redata?.dataList,
       ];
       pageInfo.totalPage = redata?.totalPages;
       pageInfo.totalData = redata?.totalDatas;
@@ -104,7 +104,10 @@ onMounted(() => {
   <el-card class="inner_content relative">
     <div class="config-nav-bar relative">
       <div class="nav-bar-left items-center">
-        <span><star-horse-icon icon-class="flow"/>流水线</span>
+        <div class="flex items-center font-[600] text-[14px]">
+          <star-horse-icon icon-class="flow"/>
+          流水线
+        </div>
         <el-button @click="goBack" link class="flex items-center">
           <star-horse-icon icon-class="return"/>
           返回主页
@@ -142,9 +145,8 @@ onMounted(() => {
     </div>
     <div class="relative overflow-hidden">
       <el-scrollbar height="100%" @scroll="handleScroll">
-        <!--pageInfo.dataList-->
         <template v-for="(item, index) in pageInfo.dataList" :key="index">
-          <instance-item :nodeInfo="item"/>
+          <instance-item :nodeInfo="item" :instanceInfo="item.lastInstance"/>
         </template>
         <div v-if="loading" class="flex items-center justify-center p-10">
           加载中...

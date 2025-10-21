@@ -106,7 +106,21 @@ const assignField = async (data: any, nodeInfo?: any, subNodeFlag?: boolean) => 
     const tempFormList = await advancedFormFieldsList(nodeInfo?.advancedDynamicFormNo);
     fieldList.push(tempFormList);
   }
-
+  //节点的执行触发条件
+  if (!fieldList.find((item: any) => item.fieldName == "nodeTriggerCondition")) {
+    fieldList.splice(0, 0, {
+      fieldName: "nodeTriggerCondition",
+      fieldType: "select",
+      label: "执行条件",
+      required: true,
+      formVisible: true,
+      defaultValue: nodeInfo?.nodeTriggerCondition || "auto",
+      preps: {
+        dataSource: "dict",
+        urlOrDictName: "nodeTriggerCondition"
+      }
+    });
+  }
   if (subNodeFlag) {
     tabList.value.push({
       title: nodeInfo?.nodeName,
@@ -120,7 +134,6 @@ const assignField = async (data: any, nodeInfo?: any, subNodeFlag?: boolean) => 
       fieldList: fieldList,
     });
   } else {
-    // changeToDefault(fieldList[fieldList.length - 1]);
     tabList.value.push({
       title: outerFormData.value?.nodeName || props.nodeInfo.nodeName,
       objectName: "nodeParams",
@@ -133,7 +146,6 @@ const assignField = async (data: any, nodeInfo?: any, subNodeFlag?: boolean) => 
       id: props.nodeInfo?.idNodeInfo,
       fieldList: fieldList,
     });
-
     currentTabName.value = props.nodeInfo?.nodeCode;
   }
 };
