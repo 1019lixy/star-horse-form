@@ -107,8 +107,8 @@ const assignField = async (data: any, nodeInfo?: any, subNodeFlag?: boolean) => 
     fieldList.push(tempFormList);
   }
   //节点的执行触发条件
-  if (!fieldList.find((item: any) => item.fieldName == "nodeTriggerCondition")) {
-    fieldList.splice(0, 0, {
+  if (!fieldList[0].find((item: any) => item.fieldName == "nodeTriggerCondition")) {
+    let data = [[{
       fieldName: "nodeTriggerCondition",
       fieldType: "select",
       label: "执行条件",
@@ -119,7 +119,33 @@ const assignField = async (data: any, nodeInfo?: any, subNodeFlag?: boolean) => 
         dataSource: "dict",
         urlOrDictName: "nodeTriggerCondition"
       }
-    });
+    }, {
+      fieldName: "repeatExec",
+      type: "switch",
+      formVisible: true,
+      label: "是否可重复执行",
+      defaultValue: nodeInfo?.repeatExec || "N",
+      preps: {
+        disabled: nodeInfo?.repeatExec == "N",
+        activeValue: "Y",
+        inactiveValue: "N",
+      }
+    }, {
+      fieldName: "failRetry",
+      type: "select",
+      label: "失败重试次数",
+      formVisible: true,
+      defaultValue: nodeInfo?.failRetry || "forbidden",
+      preps: {
+        disabled: nodeInfo?.failRetry == "forbidden",
+        dataSource: "dict",
+        urlOrDictName: "FailRetryTimes"
+      }
+    }], {
+      type: "divider",
+      formVisible: true,
+    }];
+    fieldList.splice(0, 0, ...data);
   }
   if (subNodeFlag) {
     tabList.value.push({

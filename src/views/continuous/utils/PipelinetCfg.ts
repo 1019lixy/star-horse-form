@@ -41,8 +41,9 @@ export const execLine = (idPipelineConfig: string, methodName: string) => {
  * @param item
  * @param methodName
  */
-export const execNode = (item: any, methodName: string) => {
-    postRequest(execUrl.basePrefix + `/${methodName}/` + item.idNodeInfo, {}).then((res) => {
+export const execNode = (item: any,instance:any, methodName: string) => {
+    console.log(item);
+    postRequest(execUrl.basePrefix + `/${methodName}/${instance.idPipelineInstance}/` + item.idNodeInfo, {}).then((res) => {
         if (res?.data?.code == 0) {
             success("执行成功");
         } else {

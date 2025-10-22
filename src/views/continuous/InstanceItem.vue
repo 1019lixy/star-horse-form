@@ -105,7 +105,7 @@ const getExecNode = (item: any) => {
       <div class="item-bar-left items-center">
         <div class="flex items-center cursor-pointer" @click="execRecord(1)">
           <star-horse-icon icon-class="document" size="16px"/>
-          {{ nodeInfo.projectName }}
+          {{ nodeInfo.lineName||nodeInfo.projectName }}
         </div>
         <el-divider direction="vertical" style="border:1px solid var(--star-horse-style)"/>
         <div class="flex items-center cursor-pointer">操作人:{{ instanceInfo?.createdBy || nodeInfo.createdBy }}</div>
@@ -167,7 +167,7 @@ const getExecNode = (item: any) => {
                   <el-tooltip class="item" content="执行" placement="top"
                               v-if="item.nodeTriggerCondition == 'manual'||getExecNode(item)?.execStatus == 'FAILURE'">
                     <star-horse-icon icon-class="run" size="16px" cursor="pointer"
-                                     @click.stop="execNode(item,'execNode')"/>
+                                     @click.stop="execNode(item,instanceInfo,'execNode')"/>
                   </el-tooltip>
                 </div>
                 <!-- 自定义进度条，显示在文字下方 -->
@@ -187,7 +187,7 @@ const getExecNode = (item: any) => {
                     <el-tooltip class="item" content="执行" placement="top"
                                 v-if="subItem.nodeTriggerCondition == 'manual'||getExecNode(subItem)?.execStatus == 'FAILURE'">
                       <star-horse-icon icon-class="run" size="16px" cursor="pointer"
-                                       @click.stop="execNode(subItem,'execNode')"/>
+                                       @click.stop="execNode(subItem,instanceInfo,'execNode')"/>
                     </el-tooltip>
                   </div>
                   <!-- 自定义进度条，显示在文字下方 -->
