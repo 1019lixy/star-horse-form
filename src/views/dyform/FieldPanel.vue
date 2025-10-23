@@ -367,7 +367,7 @@ i {
   ul {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
-    gap: 5px; 
+    gap: 5px;
     padding: 0;
     margin: 0;
 
@@ -471,7 +471,7 @@ i {
     text-align: center;
   }
 }
-.field-item{
+.field-item {
   width: 100% !important;
 }
 </style>

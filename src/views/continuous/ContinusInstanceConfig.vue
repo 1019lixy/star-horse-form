@@ -1,11 +1,17 @@
 <script setup lang="ts" name="ContinusInstanceConfig">
-import {onActivated, onBeforeUnmount, onMounted, reactive, ref,} from "vue";
-import {useRouter} from "vue-router";
-import {apiInstance, ApiUrls, createCondition, PageProps, postRequest,} from "star-horse-lowcode";
-
+import { onActivated, onBeforeUnmount, onMounted, reactive, ref } from "vue";
+import { useRouter } from "vue-router";
+import {
+  apiInstance,
+  ApiUrls,
+  createCondition,
+  PageProps,
+  postRequest,
+} from "star-horse-lowcode";
+import InstanceItem from "@/views/continuous/InstanceItem.vue";
 const dataUrl: ApiUrls = apiInstance(
-    "continuous-manage",
-    "continuous/pipelineConfig",
+  "continuous-manage",
+  "continuous/pipelineConfig",
 );
 const router = useRouter();
 const keyWords = ref<string>("");
@@ -30,7 +36,7 @@ const newPipeline = () => {
 // 滚动事件处理
 const handleScroll = (e: Event) => {
   const scrollbar = e.currentTarget as HTMLElement;
-  const {scrollTop, scrollHeight, clientHeight} = scrollbar;
+  const { scrollTop, scrollHeight, clientHeight } = scrollbar;
   if (scrollHeight - (scrollTop + clientHeight) < 50) {
     init();
   }
@@ -38,10 +44,10 @@ const handleScroll = (e: Event) => {
 // 初始化加载数据
 const init = async () => {
   if (
-      loading.value ||
-      (pageInfo.totalData &&
-          pageInfo.dataList.length >= pageInfo.totalData &&
-          !isSearch.value)
+    loading.value ||
+    (pageInfo.totalData &&
+      pageInfo.dataList.length >= pageInfo.totalData &&
+      !isSearch.value)
   )
     return;
   loading.value = true;
@@ -54,7 +60,7 @@ const init = async () => {
       currentPage: pageInfo.currentPage,
       pageSize: pageInfo.pageSize,
       fieldList: params,
-      orderBy: [{fieldName: "createdTime", ascOrDesc: "desc"}],
+      orderBy: [{ fieldName: "createdTime", ascOrDesc: "desc" }],
     }).then((res: any) => {
       if (res?.data?.code != 0) {
         res && console.error(res?.data?.cnMessage);
@@ -65,10 +71,7 @@ const init = async () => {
         pageInfo.dataList = [];
       }
       //如果不是分页之间显示返回的所有数据
-      pageInfo.dataList = [
-        ...pageInfo.dataList,
-        ...redata?.dataList,
-      ];
+      pageInfo.dataList = [...pageInfo.dataList, ...redata?.dataList];
       pageInfo.totalPage = redata?.totalPages;
       pageInfo.totalData = redata?.totalDatas;
       pageInfo.currentPage += 1;
@@ -105,11 +108,11 @@ onMounted(() => {
     <div class="config-nav-bar relative">
       <div class="nav-bar-left items-center">
         <div class="flex items-center font-[600] text-[14px]">
-          <star-horse-icon icon-class="flow"/>
+          <star-horse-icon icon-class="flow" />
           流水线
         </div>
         <el-button @click="goBack" link class="flex items-center">
-          <star-horse-icon icon-class="return"/>
+          <star-horse-icon icon-class="return" />
           返回主页
         </el-button>
       </div>
@@ -117,26 +120,26 @@ onMounted(() => {
         <ul class="nav_ul">
           <li>
             <el-popover
-                :popper-style="{ width: '300px !important' }"
-                trigger="hover"
+              :popper-style="{ width: '300px !important' }"
+              trigger="hover"
             >
               <el-input
-                  placeholder="请输入要查询的关键字"
-                  v-model="keyWords"
-                  @keydown.enter="dataFilter"
+                placeholder="请输入要查询的关键字"
+                v-model="keyWords"
+                @keydown.enter="dataFilter"
               />
               <template #reference>
                 <star-horse-icon
-                    cursor="pointer"
-                    icon-class="search"
-                    title="搜索"
+                  cursor="pointer"
+                  icon-class="search"
+                  title="搜索"
                 />
               </template>
             </el-popover>
           </li>
           <li>
             <el-button @click="newPipeline" link>
-              <star-horse-icon cursor="pointer" icon-class="add"/>
+              <star-horse-icon cursor="pointer" icon-class="add" />
               新建流水线
             </el-button>
           </li>
@@ -146,7 +149,7 @@ onMounted(() => {
     <div class="relative overflow-hidden">
       <el-scrollbar height="100%" @scroll="handleScroll">
         <template v-for="(item, index) in pageInfo.dataList" :key="index">
-          <instance-item :nodeInfo="item" :instanceInfo="item.lastInstance"/>
+          <instance-item :nodeInfo="item" :instanceInfo="item.lastInstance" />
         </template>
         <div v-if="loading" class="flex items-center justify-center p-10">
           加载中...

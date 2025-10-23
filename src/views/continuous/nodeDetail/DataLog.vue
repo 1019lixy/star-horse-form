@@ -1,9 +1,7 @@
 <script setup lang="ts" name="DataLog">
 import { ref } from "vue";
 
-const value = ref(
-  "",
-);
+const value = ref("");
 </script>
 <style lang="scss" scoped>
 .query-area {

@@ -13,8 +13,14 @@ export const gridContainerConfig: PageFieldInfo = {
       preps: {
         icon: "",
         values: [
-          { name: i18n("system.grid.containerConfig.display.grid"), value: "grid" },
-          { name: i18n("system.grid.containerConfig.display.block"), value: "block" },
+          {
+            name: i18n("system.grid.containerConfig.display.grid"),
+            value: "grid",
+          },
+          {
+            name: i18n("system.grid.containerConfig.display.block"),
+            value: "block",
+          },
         ],
       },
     },
@@ -102,7 +108,10 @@ export const gridContainerConfig: PageFieldInfo = {
       preps: {
         icon: "",
         values: [
-          { name: i18n("system.grid.containerConfig.stretch"), value: "stretch" },
+          {
+            name: i18n("system.grid.containerConfig.stretch"),
+            value: "stretch",
+          },
           { name: i18n("system.grid.containerConfig.start"), value: "start" },
           { name: i18n("system.grid.containerConfig.center"), value: "center" },
           { name: i18n("system.grid.containerConfig.end"), value: "end" },
@@ -119,7 +128,10 @@ export const gridContainerConfig: PageFieldInfo = {
       preps: {
         icon: "",
         values: [
-          { name: i18n("system.grid.containerConfig.stretch"), value: "stretch" },
+          {
+            name: i18n("system.grid.containerConfig.stretch"),
+            value: "stretch",
+          },
           { name: i18n("system.grid.containerConfig.start"), value: "start" },
           { name: i18n("system.grid.containerConfig.center"), value: "center" },
           { name: i18n("system.grid.containerConfig.end"), value: "end" },
@@ -139,9 +151,18 @@ export const gridContainerConfig: PageFieldInfo = {
           { name: i18n("system.grid.containerConfig.start"), value: "start" },
           { name: i18n("system.grid.containerConfig.center"), value: "center" },
           { name: i18n("system.grid.containerConfig.end"), value: "end" },
-          { name: i18n("system.grid.containerConfig.spaceAround"), value: "space-around" },
-          { name: i18n("system.grid.containerConfig.spaceBetween"), value: "space-between" },
-          { name: i18n("system.grid.containerConfig.spaceEvenly"), value: "space-evenly" },
+          {
+            name: i18n("system.grid.containerConfig.spaceAround"),
+            value: "space-around",
+          },
+          {
+            name: i18n("system.grid.containerConfig.spaceBetween"),
+            value: "space-between",
+          },
+          {
+            name: i18n("system.grid.containerConfig.spaceEvenly"),
+            value: "space-evenly",
+          },
         ],
       },
     },
@@ -158,9 +179,18 @@ export const gridContainerConfig: PageFieldInfo = {
           { name: i18n("system.grid.containerConfig.start"), value: "start" },
           { name: i18n("system.grid.containerConfig.center"), value: "center" },
           { name: i18n("system.grid.containerConfig.end"), value: "end" },
-          { name: i18n("system.grid.containerConfig.spaceAround"), value: "space-around" },
-          { name: i18n("system.grid.containerConfig.spaceBetween"), value: "space-between" },
-          { name: i18n("system.grid.containerConfig.spaceEvenly"), value: "space-evenly" },
+          {
+            name: i18n("system.grid.containerConfig.spaceAround"),
+            value: "space-around",
+          },
+          {
+            name: i18n("system.grid.containerConfig.spaceBetween"),
+            value: "space-between",
+          },
+          {
+            name: i18n("system.grid.containerConfig.spaceEvenly"),
+            value: "space-evenly",
+          },
         ],
       },
     },
@@ -210,8 +240,14 @@ export const gridContainerConfig: PageFieldInfo = {
         values: [
           { name: i18n("system.grid.containerConfig.row"), value: "row" },
           { name: i18n("system.grid.containerConfig.column"), value: "column" },
-          { name: i18n("system.grid.containerConfig.rowDense"), value: "row dense" },
-          { name: i18n("system.grid.containerConfig.columnDense"), value: "column dense" },
+          {
+            name: i18n("system.grid.containerConfig.rowDense"),
+            value: "row dense",
+          },
+          {
+            name: i18n("system.grid.containerConfig.columnDense"),
+            value: "column dense",
+          },
         ],
       },
     },

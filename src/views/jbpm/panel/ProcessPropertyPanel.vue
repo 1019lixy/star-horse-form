@@ -33,7 +33,7 @@ const processField = reactive<PageFieldInfo | any>({
               label: "ID",
               fieldName: "processId",
 
-              preps:{
+              preps: {
                 disabled: true,
               },
               formVisible: true,

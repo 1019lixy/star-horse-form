@@ -1,16 +1,23 @@
 <script setup lang="ts" name="ContinusInstanceExecRecord">
-import {onMounted, reactive, ref, watch} from "vue";
-import {apiInstance, ApiUrls, createCondition, PageProps, postRequest, warning} from "star-horse-lowcode";
-import {useRouter} from "vue-router";
-import {loadPipelineCfg} from "@/views/continuous/utils/PipelinetCfg.js";
-
+import { onMounted, reactive, ref, watch } from "vue";
+import {
+  apiInstance,
+  ApiUrls,
+  createCondition,
+  PageProps,
+  postRequest,
+  warning,
+} from "star-horse-lowcode";
+import { useRouter } from "vue-router";
+import { loadPipelineCfg } from "@/views/continuous/utils/PipelinetCfg.js";
+import InstanceItem from "@/views/continuous/InstanceItem.vue";
 const apiUrl: ApiUrls = apiInstance(
-    "continuous-manage",
-    "continuous/continuousInstance",
+  "continuous-manage",
+  "continuous/continuousInstance",
 );
 const execRecordApi: ApiUrls = apiInstance(
-    "continuous-manage",
-    "continuous/pipelineInstance",
+  "continuous-manage",
+  "continuous/pipelineInstance",
 );
 defineProps({
   param: {
@@ -36,8 +43,7 @@ const nodeInfo = ref<any>({});
 const execLine = () => {
   console.log("执行");
 };
-const handleClick = (tab: string, event: Event) => {
-};
+const handleClick = (tab: string, event: Event) => {};
 const loadCfgData = async (newVal: any) => {
   isEdit.value = newVal.isEdit;
   piplineConfigId.value = newVal.configId;
@@ -49,12 +55,11 @@ const loadCfgData = async (newVal: any) => {
     nodeInfo.value = data.data;
     init();
   });
-
 };
 // 滚动事件处理
 const handleScroll = (e: Event) => {
   const scrollbar = e.currentTarget as HTMLElement;
-  const {scrollTop, scrollHeight, clientHeight} = scrollbar;
+  const { scrollTop, scrollHeight, clientHeight } = scrollbar;
   if (scrollHeight - (scrollTop + clientHeight) < 50) {
     init();
   }
@@ -62,9 +67,8 @@ const handleScroll = (e: Event) => {
 // 初始化加载数据
 const init = async () => {
   if (
-      loading.value ||
-      (pageInfo.totalData &&
-          pageInfo.dataList.length >= pageInfo.totalData)
+    loading.value ||
+    (pageInfo.totalData && pageInfo.dataList.length >= pageInfo.totalData)
   )
     return;
   loading.value = true;
@@ -72,8 +76,10 @@ const init = async () => {
     postRequest(execRecordApi.pageListUrl, {
       currentPage: pageInfo.currentPage,
       pageSize: pageInfo.pageSize,
-      fieldList: [createCondition("idPipelineConfig", piplineConfigId.value, "eq")],
-      orderBy: [{fieldName: "createdTime", ascOrDesc: "desc"}],
+      fieldList: [
+        createCondition("idPipelineConfig", piplineConfigId.value, "eq"),
+      ],
+      orderBy: [{ fieldName: "createdTime", ascOrDesc: "desc" }],
     }).then((res: any) => {
       if (res?.data?.code != 0) {
         res && console.error(res?.data?.cnMessage);
@@ -84,10 +90,7 @@ const init = async () => {
         pageInfo.dataList = [];
       }
       //如果不是分页之间显示返回的所有数据
-      pageInfo.dataList = [
-        ...pageInfo.dataList,
-        ...redata?.dataList,
-      ];
+      pageInfo.dataList = [...pageInfo.dataList, ...redata?.dataList];
       pageInfo.totalPage = redata?.totalPages;
       pageInfo.totalData = redata?.totalDatas;
       pageInfo.currentPage += 1;
@@ -98,38 +101,52 @@ const init = async () => {
   }
 };
 //获取配置信息，然后获取执行记录
-const getExecRecords = async () => {
-
-};
+const getExecRecords = async () => {};
 onMounted(() => {
   getExecRecords();
 });
-watch(() => router.currentRoute.value, (newVal, oldVal) => {
-  loadCfgData(newVal.query);
-}, {
-  immediate: true
-});
+watch(
+  () => router.currentRoute.value,
+  (newVal, oldVal) => {
+    loadCfgData(newVal.query);
+  },
+  {
+    immediate: true,
+  },
+);
 </script>
 
 <template>
   <div class="flex flex-col h-full overflow-hidden">
     <div class="config-nav-bar">
       <div class="nav-bar-left">
-        <span><star-horse-icon icon-class="flow"/>{{ nodeInfo.projectName }}</span>
+        <span
+          ><star-horse-icon icon-class="flow" />{{ nodeInfo.projectName }}</span
+        >
       </div>
       <div class="nav-bar-right">
         <el-button @click="execLine('execPipeline')" link>
-          <star-horse-icon icon-class="run" size="16px"/>
+          <star-horse-icon icon-class="run" size="16px" />
           执行
         </el-button>
       </div>
     </div>
-    <el-tabs @tabClick="handleClick(tab, event)" type="card" v-model="activeName">
+    <el-tabs
+      @tabClick="handleClick(tab, event)"
+      type="card"
+      v-model="activeName"
+    >
       <el-tab-pane label="执行记录" name="first">
         <div class="relative overflow-hidden h-full">
           <el-scrollbar height="100%" @scroll="handleScroll">
-            <instance-item :nodeInfo="nodeInfo" :instanceInfo="item" :showHeaderBar="true" type="record"
-                           v-for="item in pageInfo.dataList" :key="item.idPipelineInstance"/>
+            <instance-item
+              :nodeInfo="nodeInfo"
+              :instanceInfo="item"
+              :showHeaderBar="true"
+              type="record"
+              v-for="item in pageInfo.dataList"
+              :key="item.idPipelineInstance"
+            />
           </el-scrollbar>
         </div>
       </el-tab-pane>

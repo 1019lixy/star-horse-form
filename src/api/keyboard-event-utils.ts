@@ -360,7 +360,10 @@ export const initKeyboardEvent = (
   actions: Function,
   module: ModuleEnums,
   ...params: any
-): { keydown: (evt: KeyboardEvent) => void; keyup: (evt: KeyboardEvent) => void } => {
+): {
+  keydown: (evt: KeyboardEvent) => void;
+  keyup: (evt: KeyboardEvent) => void;
+} => {
   // removeKeyboardEvent(actions, module, params);
   // 将处理函数保存为变量，用于后续卸载
   const keydownHandler = (evt: KeyboardEvent) =>

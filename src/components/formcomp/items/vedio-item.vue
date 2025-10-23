@@ -36,7 +36,7 @@
 import { onMounted, ref } from "vue";
 import flvjs from "flv.js";
 
-import {ItemPreps} from "star-horse-lowcode";
+import { ItemPreps } from "star-horse-lowcode";
 const props = withDefaults(defineProps<ItemPreps>(), {
   isDesign: false,
   disabled: false,

@@ -6,28 +6,43 @@ import {
   getInterfaceUtils,
   getUrlFieldConfig,
   validInterface,
-  validOperation
+  validOperation,
 } from "@/views/dyform/utils/ItemPreps";
-import { error, FieldInfo, PageFieldInfo, searchMatchList, SelectOption } from "star-horse-lowcode";
-import { ModelRef, nextTick, onMounted, PropType, reactive, ref, unref, watch, } from "vue";
+import {
+  error,
+  FieldInfo,
+  PageFieldInfo,
+  searchMatchList,
+  SelectOption,
+} from "star-horse-lowcode";
+import {
+  ModelRef,
+  nextTick,
+  onMounted,
+  PropType,
+  reactive,
+  ref,
+  unref,
+  watch,
+} from "vue";
 
 defineOptions({
   name: "DataSourceComp",
 });
 const props = defineProps({
   formProps: {
-    type: Object as PropType<any>, default: () => {
-    }
+    type: Object as PropType<any>,
+    default: () => {},
   },
 
   preps: {
-    type: Object as PropType<any>, default: () => {
-    }
+    type: Object as PropType<any>,
+    default: () => {},
   },
 
   item: {
-    type: Object as PropType<PageFieldInfo>, default: () => {
-    }
+    type: Object as PropType<PageFieldInfo>,
+    default: () => {},
   },
 });
 const dataSourceList: Array<SelectOption> = [
@@ -68,10 +83,9 @@ const urlFields = getUrlFieldConfig(interfaceUtils, {
         dataForm,
       );
       console.log("校验结果", fieldList.value);
-    }
-  }
+    },
+  },
 });
-
 
 const analysisOptionData = (val: any) => {
   const temp = unref(val);
@@ -110,41 +124,42 @@ const analysisOptionData = (val: any) => {
   }
 };
 const baseDataField: FieldInfo[] | any = [
-  [{
-    label: "解析方式",
-    fieldName: "analysisType",
-    helpMsg:
-      "路径解析：只能解析项目public下的子路径，格式为 test/*.svg，\n函数解析：只能解析src/api/star_horse_utils.ts下的无参函数，格式为: analysisData",
-    type: "radio",
-    formVisible: true,
-    defaultValue: "func",
-    preps: {
-      values: [
-        { name: "路径", value: "path", disabled: true },
-        { name: "函数", value: "func" },
-      ],
-      colspan: 8,
+  [
+    {
+      label: "解析方式",
+      fieldName: "analysisType",
+      helpMsg:
+        "路径解析：只能解析项目public下的子路径，格式为 test/*.svg，\n函数解析：只能解析src/api/star_horse_utils.ts下的无参函数，格式为: analysisData",
+      type: "radio",
+      formVisible: true,
+      defaultValue: "func",
+      preps: {
+        values: [
+          { name: "路径", value: "path", disabled: true },
+          { name: "函数", value: "func" },
+        ],
+        colspan: 8,
+      },
     },
-  },
-  {
-    label: "值",
-    fieldName: "analysisValue",
-    type: "input",
-    formVisible: true,
-    preps: {
-      colspan: 14,
+    {
+      label: "值",
+      fieldName: "analysisValue",
+      type: "input",
+      formVisible: true,
+      preps: {
+        colspan: 14,
+      },
     },
-  },
-  {
-    label: "解析",
-    fieldName: "btn",
-    type: "button",
-    formVisible: true,
-    actions: { click: (val: any) => analysisOptionData(val) },
-    preps: {
-      colspan: 2,
+    {
+      label: "解析",
+      fieldName: "btn",
+      type: "button",
+      formVisible: true,
+      actions: { click: (val: any) => analysisOptionData(val) },
+      preps: {
+        colspan: 2,
+      },
     },
-  },
   ],
   {
     batchFieldList: [
@@ -174,7 +189,7 @@ const baseDataField: FieldInfo[] | any = [
         ],
       },
     ],
-  }
+  },
 ];
 const dynamicUrlField: FieldInfo[] | any = [
   ...urlFields,
@@ -219,9 +234,10 @@ const dynamicUrlField: FieldInfo[] | any = [
                         matchType: "eq",
                         controlCondition: "eqUnRequired",
                         relationFields: "value",
-                        matchFieldValue: ["isnull","notnull","neq"],
-                      },]
-                  }
+                        matchFieldValue: ["isnull", "notnull", "neq"],
+                      },
+                    ],
+                  },
                 },
               },
               {
@@ -231,7 +247,6 @@ const dynamicUrlField: FieldInfo[] | any = [
                 formVisible: true,
                 listVisible: true,
               },
-
             ],
           },
         ],
@@ -257,47 +272,46 @@ const dynamicUrlField: FieldInfo[] | any = [
     ],
   },
 ];
-const dictField: FieldInfo[] | any =
-  [
-    {
-      label: "字典名称",
-      fieldName: "urlOrDictName",
-      required: true,
-      type: "datapicker",
-      formVisible: true,
-      listVisible: true,
-      preps: {
-        dataUrl: "/system-config/system/dictinfoType/pageList",
-        displayName: "dictTypeName",
-        displayValue: "dictTypeCode",
-        pageSize: 100,
-        colspan: 16,
+const dictField: FieldInfo[] | any = [
+  {
+    label: "字典名称",
+    fieldName: "urlOrDictName",
+    required: true,
+    type: "datapicker",
+    formVisible: true,
+    listVisible: true,
+    preps: {
+      dataUrl: "/system-config/system/dictinfoType/pageList",
+      displayName: "dictTypeName",
+      displayValue: "dictTypeCode",
+      pageSize: 100,
+      colspan: 16,
+    },
+  },
+  {
+    label: "验证",
+    fieldName: "urlOrDictNameBtn",
+    type: "button",
+    actions: {
+      click: async (val: any) => {
+        await validOperation(
+          val,
+          dataSourceFormRef,
+          fieldList,
+          disableUrl,
+          !dataForm.value,
+          dataForm,
+        );
       },
     },
-    {
-      label: "验证",
-      fieldName: "urlOrDictNameBtn",
-      type: "button",
-      actions: {
-        click: async (val: any) => {
-          await validOperation(
-            val,
-            dataSourceFormRef,
-            fieldList,
-            disableUrl,
-            !dataForm.value,
-            dataForm,
-          );
-        },
-      },
-      formVisible: true,
-      listVisible: true,
-      preps: {
-        colspan: 8,
-        icon: "valid",
-      },
+    formVisible: true,
+    listVisible: true,
+    preps: {
+      colspan: 8,
+      icon: "valid",
     },
-  ];
+  },
+];
 
 const dataSourceField = reactive<PageFieldInfo | any>({
   fieldList: [
@@ -333,7 +347,7 @@ const dataSourceField = reactive<PageFieldInfo | any>({
         },
       },
     ],
-    { type: "divider", formVisible: true, listVisible: true, },
+    { type: "divider", formVisible: true, listVisible: true },
   ],
 });
 
@@ -415,10 +429,20 @@ defineExpose({
 </script>
 
 <template>
-  <star-horse-form :fieldList="dataSourceField" ref="dataSourceFormRef" v-if="!dataForm" />
-  <star-horse-form-item v-else ref="dataSourceFormRef" :fieldList="dataSourceField"
-    :dataIndex="(props.preps?.params?.totalTab || 1) - 1" :subFormFlag="'Y'" :objectName="'dataSource'"
-    v-model:dataForm="dataForm" />
+  <star-horse-form
+    :fieldList="dataSourceField"
+    ref="dataSourceFormRef"
+    v-if="!dataForm"
+  />
+  <star-horse-form-item
+    v-else
+    ref="dataSourceFormRef"
+    :fieldList="dataSourceField"
+    :dataIndex="(props.preps?.params?.totalTab || 1) - 1"
+    :subFormFlag="'Y'"
+    :objectName="'dataSource'"
+    v-model:dataForm="dataForm"
+  />
 </template>
 
 <style scoped lang="scss"></style>

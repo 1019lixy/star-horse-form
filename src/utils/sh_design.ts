@@ -380,4 +380,11 @@ Ctrl+1:${i18n("system.flex.shDesign.help.shortcut.zoomIn")}
 Ctrl+2:${i18n("system.flex.shDesign.help.shortcut.zoomOut")}
 Backspace/Delete:${i18n("system.flex.shDesign.help.shortcut.delete")}
 `;
-export { commands, ports, configInfo, helpMessage, tableConfigInfo, getTranslatedHelpMessage };
+export {
+  commands,
+  ports,
+  configInfo,
+  helpMessage,
+  tableConfigInfo,
+  getTranslatedHelpMessage,
+};

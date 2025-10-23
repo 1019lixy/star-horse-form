@@ -66,18 +66,12 @@ const scrollToField = (fieldId: string) => {
 
 onMounted(() => {
   // Add event listener for scroll-to-field event
-  window.addEventListener(
-    "scroll-to-field",
-    handleScrollToField,
-  );
+  window.addEventListener("scroll-to-field", handleScrollToField);
 });
 
 onUnmounted(() => {
   // Remove event listener
-  window.removeEventListener(
-    "scroll-to-field",
-    handleScrollToField,
-  );
+  window.removeEventListener("scroll-to-field", handleScrollToField);
 });
 </script>
 

@@ -1,5 +1,5 @@
 <script setup lang="ts" name="StarHorseEditor">
-import {nextTick, onMounted, ref} from "vue";
+import {nextTick, onMounted, ref, PropType} from "vue";
 import {i18n} from "@/lang";
 import {basicSetup} from "codemirror";
 import {EditorView, keymap} from "@codemirror/view";
@@ -33,7 +33,7 @@ const props = defineProps({
   lang: {type: String, default: null},
   theme: {type: String, default: "dracula"},
   boxHeight: {type: String, default: "95%"},
-  btnList: {type: Array<any>, default: () => []},
+  btnList: {type: Array as PropType<Array<any>>, default: () => []},
   helpMsg: {type: String},
 });
 const languageConf = new Compartment();
@@ -121,11 +121,23 @@ const jsHint = (context: CompletionContext) => {
       {
         label: "formInstance",
         detail: i18n("system.flex.starHorseEditor.autoCompletion.formInstance"),
-        apply: "formInstance"
+        apply: "formInstance",
       },
-      {label: "formData", detail: i18n("system.flex.starHorseEditor.autoCompletion.formData"), apply: "formData"},
-      {label: "formFields", detail: i18n("system.flex.starHorseEditor.autoCompletion.formFields"), apply: "formFields"},
-      {label: "userInfo", detail: i18n("system.flex.starHorseEditor.autoCompletion.userInfo"), apply: "userInfo"},
+      {
+        label: "formData",
+        detail: i18n("system.flex.starHorseEditor.autoCompletion.formData"),
+        apply: "formData",
+      },
+      {
+        label: "formFields",
+        detail: i18n("system.flex.starHorseEditor.autoCompletion.formFields"),
+        apply: "formFields",
+      },
+      {
+        label: "userInfo",
+        detail: i18n("system.flex.starHorseEditor.autoCompletion.userInfo"),
+        apply: "userInfo",
+      },
       {
         label: "postRequest",
         detail: i18n("system.flex.starHorseEditor.autoCompletion.postRequest"),
@@ -136,8 +148,16 @@ const jsHint = (context: CompletionContext) => {
         detail: i18n("system.flex.starHorseEditor.autoCompletion.getRequest"),
         apply: "getRequest(url)",
       },
-      {label: "download", detail: i18n("system.flex.starHorseEditor.autoCompletion.download"), apply: "download(url)"},
-      {label: "upload", detail: i18n("system.flex.starHorseEditor.autoCompletion.upload"), apply: "upload(url,params)"},
+      {
+        label: "download",
+        detail: i18n("system.flex.starHorseEditor.autoCompletion.download"),
+        apply: "download(url)",
+      },
+      {
+        label: "upload",
+        detail: i18n("system.flex.starHorseEditor.autoCompletion.upload"),
+        apply: "upload(url,params)",
+      },
     ],
   };
 };
@@ -256,11 +276,11 @@ defineExpose({
   <div class="flex flex-col h-full">
     <div ref="codemirror" class="coder flex-1"></div>
     <StarHorseSidebar>
-      <div class="flex flex-row items-center h-[40px] w-full ">
+      <div class="flex flex-row items-center h-[40px] w-full">
         <el-menu
             mode="horizontal"
             :ellipsis="false"
-            v-if="btnList?.length>0"
+            v-if="btnList?.length > 0"
             style="height: 100%; flex: 1"
         >
           <template v-for="(item, index) in btnList">
@@ -318,12 +338,12 @@ defineExpose({
         </el-menu>
         <div class="w-[20%] h-full items-center">
           <el-dropdown>
-        <span class="el-dropdown-link">
-          {{ i18n('system.flex.starHorseEditor.theme') }}
-          <el-icon class="el-icon--right">
-            <arrow-down/>
-          </el-icon>
-        </span>
+            <span class="el-dropdown-link">
+              {{ i18n("system.flex.starHorseEditor.theme") }}
+              <el-icon class="el-icon--right">
+                <arrow-down/>
+              </el-icon>
+            </span>
             <template #dropdown>
               <el-dropdown-menu>
                 <el-dropdown-item
@@ -344,12 +364,12 @@ defineExpose({
         </div>
         <div class="w-[20%] h-full items-center">
           <el-dropdown v-if="!lang">
-        <span class="el-dropdown-link">
-          {{ i18n('system.flex.starHorseEditor.language') }}
-          <el-icon class="el-icon--right">
-            <arrow-down/>
-          </el-icon>
-        </span>
+            <span class="el-dropdown-link">
+              {{ i18n("system.flex.starHorseEditor.language") }}
+              <el-icon class="el-icon--right">
+                <arrow-down/>
+              </el-icon>
+            </span>
             <template #dropdown>
               <el-dropdown-menu>
                 <el-dropdown-item

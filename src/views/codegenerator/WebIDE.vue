@@ -1,23 +1,25 @@
 <script setup lang="ts">
-import {onMounted, ref} from "vue";
-import {loadTemplate, templateList,} from "@/views/codegenerator/utils/IdeOperation";
-import {SelectOption} from "star-horse-lowcode";
-import {commands} from "@/utils/sh_design";
+import { onMounted, ref } from "vue";
+import {
+  loadTemplate,
+  templateList,
+} from "@/views/codegenerator/utils/IdeOperation";
+import { SelectOption } from "star-horse-lowcode";
+import { commands } from "@/utils/sh_design";
 
 const editor = ref();
 let tempList = ref<SelectOption[]>([]);
 let sourceCode = ref<string>("");
 let templateCode = ref<string>("");
-const transform = (_val: string) => {
-};
+const transform = (_val: string) => {};
 const init = async () => {
   tempList.value = await templateList();
 };
 const changeTemplate = async (val: string) => {
   let value = await loadTemplate(
-      val,
-      "com.starhorse.devops.customer",
-      "Customer",
+    val,
+    "com.starhorse.devops.customer",
+    "Customer",
   );
   editor.value.setValue(value);
 };
@@ -33,10 +35,10 @@ onMounted(() => {
         <div class="comp-list">
           <el-select v-model="templateCode" @change="changeTemplate">
             <el-option
-                v-for="item in tempList"
-                :value="item.value"
-                :label="item.name"
-                :key="item.value"
+              v-for="item in tempList"
+              :value="item.value"
+              :label="item.name"
+              :key="item.value"
             />
           </el-select>
         </div>
@@ -48,36 +50,34 @@ onMounted(() => {
               <template v-for="(item, index) in commands">
                 <el-menu-item v-if="item.defaultEdit">
                   <el-tooltip
-                      class="item"
-                      :content="item.label"
-                      :index="index"
-                      effect="dark"
-                      placement="bottom"
+                    class="item"
+                    :content="item.label"
+                    :index="index"
+                    effect="dark"
+                    placement="bottom"
                   >
                     <star-horse-icon
-                        @click="transform(item.key)"
-                        :icon-class="item.icon"
-                        size="24px"
-                        style="color: var(--star-horse-style)"
+                      @click="transform(item.key)"
+                      :icon-class="item.icon"
+                      size="24px"
+                      style="color: var(--star-horse-style)"
                     />
                   </el-tooltip>
                 </el-menu-item>
               </template>
             </el-menu>
-            <help :message="helpMessage" v-if="helpMessage?.length>0"/>
+            <help :message="helpMessage" v-if="helpMessage?.length > 0" />
           </div>
           <div class="background-grid-app">
             <StarHorseEditor
-                v-model:value="sourceCode"
-                :lang="'java'"
-                ref="editor"
+              v-model:value="sourceCode"
+              :lang="'java'"
+              ref="editor"
             />
           </div>
         </div>
       </el-splitter-panel>
     </el-splitter>
-
-
   </div>
 </template>
 <style lang="scss" scoped>

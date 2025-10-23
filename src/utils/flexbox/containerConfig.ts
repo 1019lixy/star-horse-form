@@ -13,8 +13,14 @@ export const flexBoxContainerConfig: PageFieldInfo = {
       preps: {
         icon: "",
         values: [
-          { name: i18n("system.flexbox.containerConfig.display.flex"), value: "flex" },
-          { name: i18n("system.flexbox.containerConfig.display.block"), value: "block" },
+          {
+            name: i18n("system.flexbox.containerConfig.display.flex"),
+            value: "flex",
+          },
+          {
+            name: i18n("system.flexbox.containerConfig.display.block"),
+            value: "block",
+          },
         ],
       },
     },
@@ -28,10 +34,26 @@ export const flexBoxContainerConfig: PageFieldInfo = {
       preps: {
         icon: "",
         values: [
-          { name: i18n("system.flexbox.containerConfig.flexDirection.row"), value: "row" },
-          { name: i18n("system.flexbox.containerConfig.flexDirection.column"), value: "column" },
-          { name: i18n("system.flexbox.containerConfig.flexDirection.rowReverse"), value: "row-reverse" },
-          { name: i18n("system.flexbox.containerConfig.flexDirection.columnReverse"), value: "column-reverse" },
+          {
+            name: i18n("system.flexbox.containerConfig.flexDirection.row"),
+            value: "row",
+          },
+          {
+            name: i18n("system.flexbox.containerConfig.flexDirection.column"),
+            value: "column",
+          },
+          {
+            name: i18n(
+              "system.flexbox.containerConfig.flexDirection.rowReverse",
+            ),
+            value: "row-reverse",
+          },
+          {
+            name: i18n(
+              "system.flexbox.containerConfig.flexDirection.columnReverse",
+            ),
+            value: "column-reverse",
+          },
         ],
       },
     },
@@ -45,9 +67,18 @@ export const flexBoxContainerConfig: PageFieldInfo = {
       preps: {
         icon: "",
         values: [
-          { name: i18n("system.flexbox.containerConfig.flexWrap.nowrap"), value: "nowrap" },
-          { name: i18n("system.flexbox.containerConfig.flexWrap.wrap"), value: "wrap" }, // 修正原值错误：flex-wrap改为wrap
-          { name: i18n("system.flexbox.containerConfig.flexWrap.wrapReverse"), value: "wrap-reverse" },
+          {
+            name: i18n("system.flexbox.containerConfig.flexWrap.nowrap"),
+            value: "nowrap",
+          },
+          {
+            name: i18n("system.flexbox.containerConfig.flexWrap.wrap"),
+            value: "wrap",
+          }, // 修正原值错误：flex-wrap改为wrap
+          {
+            name: i18n("system.flexbox.containerConfig.flexWrap.wrapReverse"),
+            value: "wrap-reverse",
+          },
         ],
       },
     },
@@ -61,14 +92,46 @@ export const flexBoxContainerConfig: PageFieldInfo = {
       preps: {
         icon: "",
         values: [
-          { name: i18n("system.flexbox.containerConfig.justifyContent.start"), value: "start" },
-          { name: i18n("system.flexbox.containerConfig.justifyContent.flexStart"), value: "flex-start" },
-          { name: i18n("system.flexbox.containerConfig.justifyContent.center"), value: "center" },
-          { name: i18n("system.flexbox.containerConfig.justifyContent.flexEnd"), value: "flex-end" },
-          { name: i18n("system.flexbox.containerConfig.justifyContent.end"), value: "end" },
-          { name: i18n("system.flexbox.containerConfig.justifyContent.spaceBetween"), value: "space-between" },
-          { name: i18n("system.flexbox.containerConfig.justifyContent.spaceAround"), value: "space-around" },
-          { name: i18n("system.flexbox.containerConfig.justifyContent.spaceEvenly"), value: "space-evenly" },
+          {
+            name: i18n("system.flexbox.containerConfig.justifyContent.start"),
+            value: "start",
+          },
+          {
+            name: i18n(
+              "system.flexbox.containerConfig.justifyContent.flexStart",
+            ),
+            value: "flex-start",
+          },
+          {
+            name: i18n("system.flexbox.containerConfig.justifyContent.center"),
+            value: "center",
+          },
+          {
+            name: i18n("system.flexbox.containerConfig.justifyContent.flexEnd"),
+            value: "flex-end",
+          },
+          {
+            name: i18n("system.flexbox.containerConfig.justifyContent.end"),
+            value: "end",
+          },
+          {
+            name: i18n(
+              "system.flexbox.containerConfig.justifyContent.spaceBetween",
+            ),
+            value: "space-between",
+          },
+          {
+            name: i18n(
+              "system.flexbox.containerConfig.justifyContent.spaceAround",
+            ),
+            value: "space-around",
+          },
+          {
+            name: i18n(
+              "system.flexbox.containerConfig.justifyContent.spaceEvenly",
+            ),
+            value: "space-evenly",
+          },
         ],
       },
     },
@@ -82,11 +145,26 @@ export const flexBoxContainerConfig: PageFieldInfo = {
       preps: {
         icon: "",
         values: [
-          { name: i18n("system.flexbox.containerConfig.alignItems.stretch"), value: "stretch" },
-          { name: i18n("system.flexbox.containerConfig.alignItems.center"), value: "center" },
-          { name: i18n("system.flexbox.containerConfig.alignItems.end"), value: "end" },
-          { name: i18n("system.flexbox.containerConfig.alignItems.baseline"), value: "baseline" },
-          { name: i18n("system.flexbox.containerConfig.alignItems.start"), value: "start" },
+          {
+            name: i18n("system.flexbox.containerConfig.alignItems.stretch"),
+            value: "stretch",
+          },
+          {
+            name: i18n("system.flexbox.containerConfig.alignItems.center"),
+            value: "center",
+          },
+          {
+            name: i18n("system.flexbox.containerConfig.alignItems.end"),
+            value: "end",
+          },
+          {
+            name: i18n("system.flexbox.containerConfig.alignItems.baseline"),
+            value: "baseline",
+          },
+          {
+            name: i18n("system.flexbox.containerConfig.alignItems.start"),
+            value: "start",
+          },
         ],
       },
     },
@@ -100,12 +178,34 @@ export const flexBoxContainerConfig: PageFieldInfo = {
       preps: {
         icon: "",
         values: [
-          { name: i18n("system.flexbox.containerConfig.alignContent.stretch"), value: "stretch" },
-          { name: i18n("system.flexbox.containerConfig.alignContent.start"), value: "start" },
-          { name: i18n("system.flexbox.containerConfig.alignContent.center"), value: "center" },
-          { name: i18n("system.flexbox.containerConfig.alignContent.end"), value: "end" },
-          { name: i18n("system.flexbox.containerConfig.alignContent.spaceBetween"), value: "space-between" },
-          { name: i18n("system.flexbox.containerConfig.alignContent.spaceAround"), value: "space-around" },
+          {
+            name: i18n("system.flexbox.containerConfig.alignContent.stretch"),
+            value: "stretch",
+          },
+          {
+            name: i18n("system.flexbox.containerConfig.alignContent.start"),
+            value: "start",
+          },
+          {
+            name: i18n("system.flexbox.containerConfig.alignContent.center"),
+            value: "center",
+          },
+          {
+            name: i18n("system.flexbox.containerConfig.alignContent.end"),
+            value: "end",
+          },
+          {
+            name: i18n(
+              "system.flexbox.containerConfig.alignContent.spaceBetween",
+            ),
+            value: "space-between",
+          },
+          {
+            name: i18n(
+              "system.flexbox.containerConfig.alignContent.spaceAround",
+            ),
+            value: "space-around",
+          },
         ],
       },
     },

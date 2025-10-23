@@ -169,7 +169,7 @@ watch(
 <template>
   <div class="login1">
     <div class="absolute top-4 right-4">
-      <Locale color="#000"/>
+      <Locale color="#000" />
     </div>
     <!--    <vue-particles
       id="tsparticles"
@@ -179,7 +179,6 @@ watch(
     />-->
     <div class="loginav">
       <div class="loginbox boxall">
-
         <div class="logo">{{ Config.title }}</div>
         <div class="logintit">
           <span>{{ i18n("loginButton.login") }}</span>

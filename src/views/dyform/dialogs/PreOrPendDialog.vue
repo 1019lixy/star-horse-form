@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import {nextTick, ref, unref, watch} from "vue";
-import {i18n} from "@/lang";
-import {loadSvgIcons} from "@/api/star_horse_utils.js";
+import { nextTick, ref, unref, watch } from "vue";
+import { i18n } from "@/lang";
+import { loadSvgIcons } from "@/api/star_horse_utils.js";
 
 const props = defineProps<{
   visible: boolean;
@@ -34,8 +34,8 @@ const preOrPendFields = () => {
         listVisible: false,
         preps: {
           iconType: "user",
-          values: loadSvgIcons()
-        }
+          values: loadSvgIcons(),
+        },
       },
       {
         label: "头部文本",
@@ -49,7 +49,7 @@ const preOrPendFields = () => {
         type: "input",
         formVisible: true,
         listVisible: false,
-        helpMsg: i18n("dyform.preOrPend.prependText.helpMsg")
+        helpMsg: i18n("dyform.preOrPend.prependText.helpMsg"),
       },
       {
         label: "前置下拉列表",
@@ -62,11 +62,11 @@ const preOrPendFields = () => {
           jsonConfig: {
             dialogTitle: i18n("dyform.preOrPend.prependList.title"),
             columns: [
-              {title: "名称", fieldName: "name", required: true},
-              {title: "值", fieldName: "value", required: true}
-            ]
-          }
-        }
+              { title: "名称", fieldName: "name", required: true },
+              { title: "值", fieldName: "value", required: true },
+            ],
+          },
+        },
       },
       // Append配置
       {
@@ -77,8 +77,8 @@ const preOrPendFields = () => {
         listVisible: false,
         preps: {
           iconType: "user",
-          values: loadSvgIcons()
-        }
+          values: loadSvgIcons(),
+        },
       },
       {
         label: "尾部文本",
@@ -92,7 +92,7 @@ const preOrPendFields = () => {
         type: "input",
         formVisible: true,
         listVisible: false,
-        helpMsg: i18n("dyform.preOrPend.appendText.helpMsg")
+        helpMsg: i18n("dyform.preOrPend.appendText.helpMsg"),
       },
       {
         label: "后置按钮",
@@ -105,12 +105,17 @@ const preOrPendFields = () => {
           jsonConfig: {
             dialogTitle: i18n("dyform.preOrPend.appendAction.title"),
             columns: [
-              {title: "操作标题", fieldName: "actionTitle", required: true},
-              {title: "图标", fieldName: "icon", required: true},
-              {title: "动作函数", fieldName: "actions", required: false, type: "textarea"}
-            ]
-          }
-        }
+              { title: "操作标题", fieldName: "actionTitle", required: true },
+              { title: "图标", fieldName: "icon", required: true },
+              {
+                title: "动作函数",
+                fieldName: "actions",
+                required: false,
+                type: "textarea",
+              },
+            ],
+          },
+        },
       },
       {
         label: "后置下拉列表",
@@ -123,13 +128,13 @@ const preOrPendFields = () => {
           jsonConfig: {
             dialogTitle: i18n("dyform.preOrPend.appendList.title"),
             columns: [
-              {title: "名称", fieldName: "name", required: true},
-              {title: "值", fieldName: "value", required: true}
-            ]
-          }
-        }
-      }
-    ]
+              { title: "名称", fieldName: "name", required: true },
+              { title: "值", fieldName: "value", required: true },
+            ],
+          },
+        },
+      },
+    ],
   };
 };
 
@@ -172,18 +177,22 @@ const setFormData = async (data: any) => {
         prependList: data.prependList || [],
         appendText: data.appendText || "",
         appendAction: data.appendAction,
-        appendList: data.appendList || []
+        appendList: data.appendList || [],
       };
       preOrPendRef.value?.setFormData(formData);
     }, 200);
   }
 };
 
-watch(() => props.visible, (newVal) => {
-  if (newVal) {
-    setFormData(props.formProps);
-  }
-}, {immediate: true});
+watch(
+  () => props.visible,
+  (newVal) => {
+    if (newVal) {
+      setFormData(props.formProps);
+    }
+  },
+  { immediate: true },
+);
 
 defineExpose({
   setFormData,
@@ -192,17 +201,14 @@ defineExpose({
 
 <template>
   <star-horse-dialog
-      :dialogVisible="visible"
-      :title="i18n('dyform.preOrPend.dialog.title')"
-      :isBatch="false"
-      @merge="preOrPendValid"
-      @closeAction="emit('close')"
-      @resetForm="resetDataSourceForm"
-      :selfFunc="true"
+    :dialogVisible="visible"
+    :title="i18n('dyform.preOrPend.dialog.title')"
+    :isBatch="false"
+    @merge="preOrPendValid"
+    @closeAction="emit('close')"
+    @resetForm="resetDataSourceForm"
+    :selfFunc="true"
   >
-    <star-horse-form
-        ref="preOrPendRef"
-        :fieldList="preOrPendFields()"
-    />
+    <star-horse-form ref="preOrPendRef" :fieldList="preOrPendFields()" />
   </star-horse-dialog>
 </template>

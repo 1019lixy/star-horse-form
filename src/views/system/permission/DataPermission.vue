@@ -17,21 +17,21 @@ import {
   useGlobalConfigStore,
   warning,
 } from "star-horse-lowcode";
-import {loadRolesInfo, loadSystemInfo} from "@/api/star_horse_utils";
-import {Config} from "@/api/settings";
-import {computed, onMounted, provide, reactive, ref} from "vue";
-import {TreeNodeData} from "element-plus/es/components/tree-v2/src/types";
-import {getUserInfo} from "@/utils/auth";
-import {baseUserFields, userFormat} from "@/views/system/utils/UserFields";
-import {i18n} from "@/lang";
+import { loadRolesInfo, loadSystemInfo } from "@/api/star_horse_utils";
+import { Config } from "@/api/settings";
+import { computed, onMounted, provide, reactive, ref } from "vue";
+import { TreeNodeData } from "element-plus/es/components/tree-v2/src/types";
+import { getUserInfo } from "@/utils/auth";
+import { baseUserFields, userFormat } from "@/views/system/utils/UserFields";
+import { i18n } from "@/lang";
 
 const dataUrl: ApiUrls = apiInstance("system-config", "system/dataPermission");
 let systemInfoList = ref<SelectOption[]>([]);
 let appinfoList = ref<SelectOption[]>([]);
 let permissionType = ref<SelectOption[]>([
-  {name: "数据共享到个人", value: "sharePerson"},
-  {name: "数据共享到用户组", value: "shareGroup"},
-  {name: "临时赋权", value: "empowerment"},
+  { name: "数据共享到个人", value: "sharePerson" },
+  { name: "数据共享到用户组", value: "shareGroup" },
+  { name: "临时赋权", value: "empowerment" },
 ]);
 let rolesList = ref<SelectOption[]>([]);
 let menusList = ref<SelectOption[]>([]);
@@ -69,14 +69,14 @@ const formFieldList = reactive<PageFieldInfo | any>({
         type: "select",
         defaultValue: "sharePerson",
         helpMsg:
-            "数据共享：被授权人如果能访问对应模块，则可看到被共享的数据；\n 临时赋权：被授权人可以访问被赋权的模块及数据。",
+          "数据共享：被授权人如果能访问对应模块，则可看到被共享的数据；\n 临时赋权：被授权人可以访问被赋权的模块及数据。",
         actions: {
           change: (val: any) => {
             groupVisible.value = val["permissionType"] == "shareGroup";
             val["userGroup"] = "";
             userVisible.value =
-                val["permissionType"] == "sharePerson" ||
-                val["permissionType"] == "empowerment";
+              val["permissionType"] == "sharePerson" ||
+              val["permissionType"] == "empowerment";
           },
         },
         required: true,
@@ -157,8 +157,8 @@ const formFieldList = reactive<PageFieldInfo | any>({
           return userFormat(name, val, row);
         },
         needField: [
-          {sourceField: "idUsersinfo", distField: "userGroup"},
-          {sourceField: "name", distField: "userGroupName"},
+          { sourceField: "idUsersinfo", distField: "userGroup" },
+          { sourceField: "name", distField: "userGroupName" },
         ],
         fieldList: baseUserFields,
       },
@@ -224,7 +224,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
 });
 let configStore = useGlobalConfigStore(piniaInstance);
 let compSize = computed(
-    () => configStore.configFormInfo?.inputSize || Config.compSize,
+  () => configStore.configFormInfo?.inputSize || Config.compSize,
 );
 //主键
 const primaryKey = "idDataPermission";
@@ -239,9 +239,9 @@ provide("dialogProps", dialogProps);
 const dataFormat = (name: string, cellValue: any, row: any): any => {
   if (name == "validTime") {
     return (
-        createDatetime(row["validTimeStart"]) +
-        " 到 " +
-        createDatetime(row["validTimeEnd"])
+      createDatetime(row["validTimeStart"]) +
+      " 到 " +
+      createDatetime(row["validTimeEnd"])
     );
   } else if (name == "menuList") {
     return cellValue.map((item) => item.menuName).toString();
@@ -249,8 +249,8 @@ const dataFormat = (name: string, cellValue: any, row: any): any => {
     return cellValue.map((item) => item.resName).join(";");
   } else if (name == "permissionType") {
     return (
-        permissionType.value.find((item) => item.value == cellValue)?.name ||
-        cellValue
+      permissionType.value.find((item) => item.value == cellValue)?.name ||
+      cellValue
     );
   }
   return cellValue;
@@ -281,24 +281,24 @@ const loadMenus = async () => {
   }
   menusList.value = [];
   let menusDatas = await loadData(
-      "/system-config/system/menusinfo/rolesAppMenus",
-      {
-        fieldList: fieldList,
-        orderBy: [
-          {
-            fieldName: "a.idRolesinfo",
-            ascOrDesc: "asc",
-          },
-          {
-            fieldName: "a.idInformations",
-            ascOrDesc: "asc",
-          },
-          {
-            fieldName: "b.dataIndex",
-            ascOrDesc: "asc",
-          },
-        ],
-      },
+    "/system-config/system/menusinfo/rolesAppMenus",
+    {
+      fieldList: fieldList,
+      orderBy: [
+        {
+          fieldName: "a.idRolesinfo",
+          ascOrDesc: "asc",
+        },
+        {
+          fieldName: "a.idInformations",
+          ascOrDesc: "asc",
+        },
+        {
+          fieldName: "b.dataIndex",
+          ascOrDesc: "asc",
+        },
+      ],
+    },
   );
   if (menusDatas.error) {
     warning(menusDatas.error);
@@ -306,10 +306,10 @@ const loadMenus = async () => {
   }
   menusList.value = menusDatas.data;
   menusSelectList.value = createTree(
-      menusDatas.data,
-      "idMenusinfo",
-      "menuName",
-      "",
+    menusDatas.data,
+    "idMenusinfo",
+    "menuName",
+    "",
   );
 };
 const systemChange = async (data: TreeNodeData, _checked: boolean) => {
@@ -352,54 +352,54 @@ onMounted(async () => {
 <template>
   <div class="flex flex-col h-full overflow-hidden">
     <star-horse-dialog
-        :isShowBtnContinue="true"
-        :dialogVisible="dialogProps.editVisible"
-        :dialogProps="dialogProps"
+      :isShowBtnContinue="true"
+      :dialogVisible="dialogProps.editVisible"
+      :dialogProps="dialogProps"
     >
       <star-horse-form
-          :outerFormData="dataForm"
-          @refresh="dataPermissionRef?.loadByPage()"
-          :compUrl="dataUrl"
-          :fieldList="formFieldList"
-          :rules="rules"
+        :outerFormData="dataForm"
+        @refresh="dataPermissionRef?.loadByPage()"
+        :compUrl="dataUrl"
+        :fieldList="formFieldList"
+        :rules="rules"
       />
     </star-horse-dialog>
     <star-horse-dialog
-        :dialog-visible="dialogProps.viewVisible"
-        :dialogProps="dialogProps"
-        :source="3"
+      :dialog-visible="dialogProps.viewVisible"
+      :dialogProps="dialogProps"
+      :source="3"
     >
       <star-horse-data-view
-          :dataFormat="dataFormat"
-          :field-list="tableFieldList"
-          :compUrl="dataUrl"
+        :dataFormat="dataFormat"
+        :field-list="tableFieldList"
+        :compUrl="dataUrl"
       />
     </star-horse-dialog>
     <el-card class="inner_content">
       <el-splitter>
         <el-splitter-panel collapsible size="240" min="100" max="500">
           <star-horse-tree
-              v-model:tree-datas="systemInfoList"
-              :treeTitle="i18n('system.application.system')"
-              @selectData="systemChange"
-              :compSize="compSize"
+            v-model:tree-datas="systemInfoList"
+            :treeTitle="i18n('system.application.system')"
+            @selectData="systemChange"
+            :compSize="compSize"
           />
         </el-splitter-panel>
         <el-splitter-panel
-            :size="menusList?.length > 0 ? 220 : 0"
-            min="0"
-            max="300"
+          :size="menusList?.length > 0 ? 220 : 0"
+          min="0"
+          max="300"
         >
           <star-horse-tree
-              v-model:tree-datas="menusList"
-              :treeTitle="i18n('system.system.menu')"
-              :preps="{
+            v-model:tree-datas="menusList"
+            :treeTitle="i18n('system.system.menu')"
+            :preps="{
               label: 'menuName',
               value: 'idMenusinfo',
               children: 'children',
             }"
-              @selectData="menuChange"
-              :compSize="compSize"
+            @selectData="menuChange"
+            :compSize="compSize"
           />
         </el-splitter-panel>
         <el-splitter-panel>
@@ -407,22 +407,22 @@ onMounted(async () => {
             <div class="search-content">
               <div class="search_btn">
                 <star-horse-search-comp
-                    @searchData="
-                  (data: any) => dataPermissionRef?.createSearchParams(data)
-                "
-                    :formData="searchFormData"
-                    :defaultCondition="defaultCondition"
-                    :compUrl="dataUrl"
+                  @searchData="
+                    (data: any) => dataPermissionRef?.createSearchParams(data)
+                  "
+                  :formData="searchFormData"
+                  :defaultCondition="defaultCondition"
+                  :compUrl="dataUrl"
                 />
               </div>
             </div>
             <star-horse-table-comp
-                :fieldList="tableFieldList"
-                :primaryKey="primaryKey"
-                :compUrl="dataUrl"
-                :preValidFunc="preValid"
-                :dataFormat="dataFormat"
-                ref="dataPermissionRef"
+              :fieldList="tableFieldList"
+              :primaryKey="primaryKey"
+              :compUrl="dataUrl"
+              :preValidFunc="preValid"
+              :dataFormat="dataFormat"
+              ref="dataPermissionRef"
             />
           </el-card>
         </el-splitter-panel>

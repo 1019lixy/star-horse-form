@@ -5,7 +5,11 @@
     :selfFunc="true"
     :boxWidth="'500px'"
     :full-screen="false"
-    :title="isEdit ? i18n('system.flex.saveDialog.title.save') : i18n('system.flex.saveDialog.title.saveAs')"
+    :title="
+      isEdit
+        ? i18n('system.flex.saveDialog.title.save')
+        : i18n('system.flex.saveDialog.title.saveAs')
+    "
     @merge="handleSave"
   >
     <div class="save-container">
@@ -15,7 +19,10 @@
         ref="saveFormRef"
         label-width="100px"
       >
-        <el-form-item :label="i18n('system.flex.saveDialog.label.name')" prop="name">
+        <el-form-item
+          :label="i18n('system.flex.saveDialog.label.name')"
+          prop="name"
+        >
           <el-input
             v-model="saveForm.name"
             :placeholder="i18n('system.flex.saveDialog.placeholder.name')"
@@ -23,25 +30,43 @@
           />
         </el-form-item>
 
-        <el-form-item :label="i18n('system.flex.saveDialog.label.description')" prop="description">
+        <el-form-item
+          :label="i18n('system.flex.saveDialog.label.description')"
+          prop="description"
+        >
           <el-input
             v-model="saveForm.description"
             type="textarea"
             :rows="3"
-            :placeholder="i18n('system.flex.saveDialog.placeholder.description')"
+            :placeholder="
+              i18n('system.flex.saveDialog.placeholder.description')
+            "
             :disabled="isSaving"
           />
         </el-form-item>
 
-        <el-form-item :label="i18n('system.flex.saveDialog.label.saveType')" prop="saveType" v-if="!isEdit">
+        <el-form-item
+          :label="i18n('system.flex.saveDialog.label.saveType')"
+          prop="saveType"
+          v-if="!isEdit"
+        >
           <el-radio-group v-model="saveForm.saveType" :disabled="isSaving">
-            <el-radio value="new">{{ i18n('system.flex.saveDialog.saveType.new') }}</el-radio>
-            <el-radio value="template">{{ i18n('system.flex.saveDialog.saveType.template') }}</el-radio>
-            <el-radio value="copy">{{ i18n('system.flex.saveDialog.saveType.copy') }}</el-radio>
+            <el-radio value="new">{{
+              i18n("system.flex.saveDialog.saveType.new")
+            }}</el-radio>
+            <el-radio value="template">{{
+              i18n("system.flex.saveDialog.saveType.template")
+            }}</el-radio>
+            <el-radio value="copy">{{
+              i18n("system.flex.saveDialog.saveType.copy")
+            }}</el-radio>
           </el-radio-group>
         </el-form-item>
 
-        <el-form-item :label="i18n('system.flex.saveDialog.label.category')" prop="category">
+        <el-form-item
+          :label="i18n('system.flex.saveDialog.label.category')"
+          prop="category"
+        >
           <el-select
             v-model="saveForm.category"
             :placeholder="i18n('system.flex.saveDialog.placeholder.category')"
@@ -59,7 +84,10 @@
           </el-select>
         </el-form-item>
 
-        <el-form-item :label="i18n('system.flex.saveDialog.label.tags')" prop="tags">
+        <el-form-item
+          :label="i18n('system.flex.saveDialog.label.tags')"
+          prop="tags"
+        >
           <el-tag
             v-for="tag in saveForm.tags"
             :key="tag"
@@ -85,7 +113,7 @@
             size="small"
             @click="showInput"
           >
-            {{ i18n('system.flex.saveDialog.button.addTag') }}
+            {{ i18n("system.flex.saveDialog.button.addTag") }}
           </el-button>
         </el-form-item>
 
@@ -94,27 +122,43 @@
             v-model="saveForm.permissions"
             :disabled="isSaving"
           >
-            <el-checkbox value="public">{{ i18n('system.flex.saveDialog.permission.public') }}</el-checkbox>
-            <el-checkbox value="editable">{{ i18n('system.flex.saveDialog.permission.editable') }}</el-checkbox>
-            <el-checkbox value="downloadable">{{ i18n('system.flex.saveDialog.permission.downloadable') }}</el-checkbox>
+            <el-checkbox value="public">{{
+              i18n("system.flex.saveDialog.permission.public")
+            }}</el-checkbox>
+            <el-checkbox value="editable">{{
+              i18n("system.flex.saveDialog.permission.editable")
+            }}</el-checkbox>
+            <el-checkbox value="downloadable">{{
+              i18n("system.flex.saveDialog.permission.downloadable")
+            }}</el-checkbox>
           </el-checkbox-group>
         </el-form-item>
       </el-form>
 
       <!-- 设计预览信息 -->
       <div class="design-summary">
-        <el-divider content-position="center">{{ i18n('system.flex.saveDialog.title.designInfo') }}</el-divider>
+        <el-divider content-position="center">{{
+          i18n("system.flex.saveDialog.title.designInfo")
+        }}</el-divider>
         <el-descriptions :column="2" size="small" border>
-          <el-descriptions-item :label="i18n('system.flex.saveDialog.label.itemCount')">
+          <el-descriptions-item
+            :label="i18n('system.flex.saveDialog.label.itemCount')"
+          >
             {{ designSummary.itemCount }}
           </el-descriptions-item>
-          <el-descriptions-item :label="i18n('system.flex.saveDialog.label.compCount')">
+          <el-descriptions-item
+            :label="i18n('system.flex.saveDialog.label.compCount')"
+          >
             {{ designSummary.compCount }}
           </el-descriptions-item>
-          <el-descriptions-item :label="i18n('system.flex.saveDialog.label.containerDirection')">
+          <el-descriptions-item
+            :label="i18n('system.flex.saveDialog.label.containerDirection')"
+          >
             {{ designSummary.containerDirection }}
           </el-descriptions-item>
-          <el-descriptions-item :label="i18n('system.flex.saveDialog.label.createTime')">
+          <el-descriptions-item
+            :label="i18n('system.flex.saveDialog.label.createTime')"
+          >
             {{ formatDate(new Date().toISOString()) }}
           </el-descriptions-item>
         </el-descriptions>
@@ -122,7 +166,9 @@
 
       <!-- 快速保存选项 -->
       <div class="quick-save-options" v-if="!isEdit">
-        <el-divider content-position="center">{{ i18n('system.flex.saveDialog.title.quickSave') }}</el-divider>
+        <el-divider content-position="center">{{
+          i18n("system.flex.saveDialog.title.quickSave")
+        }}</el-divider>
         <div class="quick-actions">
           <el-button
             size="small"
@@ -130,7 +176,7 @@
             :disabled="isSaving"
           >
             <star-horse-icon icon-class="save" />
-            {{ i18n('system.flex.saveDialog.button.saveDraft') }}
+            {{ i18n("system.flex.saveDialog.button.saveDraft") }}
           </el-button>
           <el-button
             size="small"
@@ -139,7 +185,7 @@
             type="primary"
           >
             <star-horse-icon icon-class="template" />
-            {{ i18n('system.flex.saveDialog.button.quickTemplate') }}
+            {{ i18n("system.flex.saveDialog.button.quickTemplate") }}
           </el-button>
           <el-button
             size="small"
@@ -147,7 +193,7 @@
             :disabled="isSaving"
           >
             <star-horse-icon icon-class="auto" />
-            {{ i18n('system.flex.saveDialog.button.autoName') }}
+            {{ i18n("system.flex.saveDialog.button.autoName") }}
           </el-button>
         </div>
       </div>
@@ -161,15 +207,21 @@
           show-icon
         />
         <div class="result-info">
-          <p><strong>{{ i18n('system.flex.saveDialog.label.designId') }}</strong>{{ saveResult.id }}</p>
           <p>
-            <strong>{{ i18n('system.flex.saveDialog.label.saveTime') }}</strong>{{ formatDate(saveResult.updatedAt) }}
+            <strong>{{ i18n("system.flex.saveDialog.label.designId") }}</strong
+            >{{ saveResult.id }}
+          </p>
+          <p>
+            <strong>{{ i18n("system.flex.saveDialog.label.saveTime") }}</strong
+            >{{ formatDate(saveResult.updatedAt) }}
           </p>
         </div>
         <div class="result-actions">
-          <el-button size="small" @click="continueEdit"> {{ i18n('system.flex.saveDialog.button.continueEdit') }} </el-button>
+          <el-button size="small" @click="continueEdit">
+            {{ i18n("system.flex.saveDialog.button.continueEdit") }}
+          </el-button>
           <el-button size="small" type="primary" @click="viewSaved">
-            {{ i18n('system.flex.saveDialog.button.viewSavedDesign') }}
+            {{ i18n("system.flex.saveDialog.button.viewSavedDesign") }}
           </el-button>
         </div>
       </div>
@@ -213,7 +265,11 @@ const saveForm = reactive({
 
 const saveRules = {
   name: [
-    { required: true, message: i18n('system.flex.saveDialog.rule.nameRequired'), trigger: "blur" },
+    {
+      required: true,
+      message: i18n("system.flex.saveDialog.rule.nameRequired"),
+      trigger: "blur",
+    },
     {
       min: 1,
       max: 50,
@@ -310,7 +366,7 @@ const quickSave = async (type: "draft" | "template" | "auto") => {
     saveResult.value = result;
     emit("saved", result);
   } catch (error) {
-    console.error(i18n('system.flex.saveDialog.message.saveError'), error);
+    console.error(i18n("system.flex.saveDialog.message.saveError"), error);
   } finally {
     isSaving.value = false;
   }

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import {dynamicFormHelpMessage, formActions,} from "@/views/dyform/utils/DynamicForm.ts";
 import {i18n} from "@/lang";
-import {ref} from "vue";
+import {onMounted, ref} from "vue";
 
 const emit = defineEmits<{
   (e: "action", action: string): void;
@@ -10,7 +10,7 @@ const emit = defineEmits<{
   (e: "contextMenu", event: MouseEvent): void;
 }>();
 
-const props = defineProps<{
+defineProps<{
   list: any[];
   permissions: any;
   currentPageStyle: any;
@@ -32,10 +32,6 @@ const cacheDataRestore = (evt: MouseEvent) => {
   emit("cacheRestore", evt);
 };
 
-const contextMenu = (evt: MouseEvent) => {
-  emit("contextMenu", evt);
-};
-
 // Toggle dropdown visibility
 const toggleDropdown = (key: string) => {
   activeDropdown.value = activeDropdown.value === key ? null : key;
@@ -51,6 +47,9 @@ const handleDropdownSelect = (item: any) => {
   actionsStyle(item);
   closeDropdown();
 };
+onMounted(() => {
+
+});
 </script>
 
 <template>
@@ -87,7 +86,6 @@ const handleDropdownSelect = (item: any) => {
           <!-- Button with dropdown for children -->
           <div
               v-else-if="item.children && item.children.length > 0"
-              :key="'1_' + index"
               class="dropdown-container"
           >
             <el-button

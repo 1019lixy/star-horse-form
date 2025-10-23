@@ -310,7 +310,7 @@ onMounted(() => {
     :show-arrow="false"
   >
     <template #reference>
-      <el-badge :value="totals" >
+      <el-badge :value="totals">
         <star-horse-icon
           icon-class="messages"
           cursor="pointer"

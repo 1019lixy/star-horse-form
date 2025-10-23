@@ -1,6 +1,6 @@
 import { i18n } from "@/lang";
 
-const formActions = [
+const formActions: Array<any> = [
   /* {
         icon: "left_panel",
         defaultEdit: true,

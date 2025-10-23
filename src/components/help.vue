@@ -13,7 +13,7 @@ defineProps({
 <template>
   <el-popover
     trigger="hover"
-    :popper-style="{ width: 'unset !important','z-index':10000 }"
+    :popper-style="{ width: 'unset !important', 'z-index': 10000 }"
     placement="bottom-start"
   >
     <template #reference>

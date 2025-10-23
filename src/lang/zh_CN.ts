@@ -54,8 +54,10 @@ export default {
   "dyform.preOrPend.appendList": "后缀下拉列表",
   "dyform.preOrPend.appendList.helpMsg": "配置输入框后面的下拉选项",
   "dyform.preOrPend.appendList.title": "后缀下拉列表配置",
-  "dyform.preOrPend.warning.prependConflict": "前缀文本和前缀下拉列表不能同时配置",
-  "dyform.preOrPend.warning.appendConflict": "后缀文本、后缀操作按钮和后缀下拉列表不能同时配置",
+  "dyform.preOrPend.warning.prependConflict":
+    "前缀文本和前缀下拉列表不能同时配置",
+  "dyform.preOrPend.warning.appendConflict":
+    "后缀文本、后缀操作按钮和后缀下拉列表不能同时配置",
   "login.userName": "账  号",
   "login.password": "密  码",
   "login.validCode": "验证码",
@@ -488,7 +490,7 @@ export default {
   "system.rank.code": "职级编码",
   "system.rank.sort": "职级排序",
   "system.belonging.category": "归属类别",
-  "system.auditing.opinion":"审批意见",
+  "system.auditing.opinion": "审批意见",
   /**
    * DB Search
    */
@@ -642,7 +644,8 @@ export default {
   "system.flex.saveDialog.label.name": "设计名称",
   "system.flex.saveDialog.placeholder.name": "请输入设计名称",
   "system.flex.saveDialog.label.description": "设计描述",
-  "system.flex.saveDialog.placeholder.description": "请描述该设计的用途和特点（可选）",
+  "system.flex.saveDialog.placeholder.description":
+    "请描述该设计的用途和特点（可选）",
   "system.flex.saveDialog.label.saveType": "保存类型",
   "system.flex.saveDialog.saveType.new": "新建设计",
   "system.flex.saveDialog.saveType.template": "保存为模板",
@@ -678,7 +681,8 @@ export default {
   "system.flex.publishDialog.label.version": "版本号",
   "system.flex.publishDialog.placeholder.version": "例如：v1.0.0",
   "system.flex.publishDialog.label.description": "发布描述",
-  "system.flex.publishDialog.placeholder.description": "请描述本次发布的主要内容和变更",
+  "system.flex.publishDialog.placeholder.description":
+    "请描述本次发布的主要内容和变更",
   "system.flex.publishDialog.label.environment": "发布环境",
   "system.flex.publishDialog.environment.development": "开发环境",
   "system.flex.publishDialog.environment.testing": "测试环境",
@@ -702,7 +706,8 @@ export default {
   "system.flex.publishDialog.check.designContent": "设计内容检查",
   "system.flex.publishDialog.check.designEmpty": "设计为空",
   "system.flex.publishDialog.check.permission": "权限检查",
-  "system.flex.publishDialog.title.validationErrors": "发布前需要修复以下问题：",
+  "system.flex.publishDialog.title.validationErrors":
+    "发布前需要修复以下问题：",
   "system.flex.publishDialog.title.history": "发布历史",
   "system.flex.publishDialog.table.column.version": "版本",
   "system.flex.publishDialog.table.column.name": "名称",
@@ -725,7 +730,8 @@ export default {
   "system.flex.publishDialog.rule.versionFormat": "版本号格式应为 x.y.z",
   "system.flex.publishDialog.rule.descriptionRequired": "请输入发布描述",
   "system.flex.publishDialog.rule.environmentRequired": "请选择发布环境",
-  "system.flex.publishDialog.message.validationFailed": "设计验证失败，无法发布",
+  "system.flex.publishDialog.message.validationFailed":
+    "设计验证失败，无法发布",
   "system.flex.publishDialog.message.rollbackConfirm": "确定要回滚到此版本吗？",
   "system.flex.publishDialog.message.rollbackSuccess": "回滚成功",
   "system.flex.publishDialog.message.rollbackCancelled": "已取消回滚",
@@ -785,7 +791,8 @@ export default {
   "system.flex.shareDialog.message.qrCodeSuccess": "二维码生成成功",
   "system.flex.shareDialog.message.qrCodeFailed": "生成二维码失败",
   "system.flex.shareDialog.message.qrCodeDownloaded": "二维码已下载",
-  "system.flex.shareDialog.message.shareContentCopied": "分享内容已复制到剪贴板",
+  "system.flex.shareDialog.message.shareContentCopied":
+    "分享内容已复制到剪贴板",
   // FlexPreviewDialog.vue
   "system.flex.previewDialog.title": "设计预览",
   "system.flex.previewDialog.untitled": "未命名设计",
@@ -801,7 +808,8 @@ export default {
   "system.flex.previewDialog.title.debugInfo": "调试信息",
   "system.flex.previewDialog.label.layoutMode": "布局模式:",
   "system.flex.previewDialog.label.containerStyles": "容器样式:",
-  "system.flex.previewDialog.label.containerData": "containerDataForm (实际表单数据):",
+  "system.flex.previewDialog.label.containerData":
+    "containerDataForm (实际表单数据):",
   "system.flex.previewDialog.label.containerDirection": "容器方向:",
   "system.flex.previewDialog.label.containerInfo": "容器信息 (store):",
   "system.flex.previewDialog.label.itemInfo": "元素信息:",
@@ -819,9 +827,11 @@ export default {
   // PageItemProperties.vue
   "system.flex.pageItemProperties.button.config": "配置",
   "system.flex.pageItemProperties.emptyState": "暂无属性",
-  "system.flex.pageItemProperties.dialog.title": "{componentLabel} - {propLabel}",
+  "system.flex.pageItemProperties.dialog.title":
+    "{componentLabel} - {propLabel}",
   "system.flex.pageItemProperties.alert.title": "提示",
-  "system.flex.pageItemProperties.alert.description": "请确保输入有效的 JSON 格式",
+  "system.flex.pageItemProperties.alert.description":
+    "请确保输入有效的 JSON 格式",
   "system.flex.pageItemProperties.preview.label.environment": "环境:",
   "system.flex.pageItemProperties.preview.label.method": "请求方式:",
   "system.flex.pageItemProperties.preview.label.url": "URL:",
@@ -906,48 +916,65 @@ export default {
   "system.apiConfig.protocolOptions.http": "HTTP",
   "system.apiConfig.protocolOptions.https": "HTTPS",
   "system.apiConfig.createApiConfigProperties.env.label": "系统环境",
-  "system.apiConfig.createApiConfigProperties.env.description": "选择接口调用的系统环境",
+  "system.apiConfig.createApiConfigProperties.env.description":
+    "选择接口调用的系统环境",
   "system.apiConfig.createApiConfigProperties.httpMethod.label": "请求方式",
-  "system.apiConfig.createApiConfigProperties.httpMethod.description": "选择HTTP请求方式",
+  "system.apiConfig.createApiConfigProperties.httpMethod.description":
+    "选择HTTP请求方式",
   "system.apiConfig.createApiConfigProperties.protocol.label": "协议",
-  "system.apiConfig.createApiConfigProperties.protocol.description": "选择通信协议",
+  "system.apiConfig.createApiConfigProperties.protocol.description":
+    "选择通信协议",
   "system.apiConfig.createApiConfigProperties.host.label": "IP/域名/服务名",
-  "system.apiConfig.createApiConfigProperties.host.placeholder": "请输入IP地址、域名或服务名",
-  "system.apiConfig.createApiConfigProperties.host.description": "接口服务器的IP地址、域名或服务名",
+  "system.apiConfig.createApiConfigProperties.host.placeholder":
+    "请输入IP地址、域名或服务名",
+  "system.apiConfig.createApiConfigProperties.host.description":
+    "接口服务器的IP地址、域名或服务名",
   "system.apiConfig.createApiConfigProperties.port.label": "端口",
-  "system.apiConfig.createApiConfigProperties.port.description": "接口服务器端口号",
+  "system.apiConfig.createApiConfigProperties.port.description":
+    "接口服务器端口号",
   "system.apiConfig.createApiConfigProperties.interfaceUrl.label": "接口地址",
-  "system.apiConfig.createApiConfigProperties.interfaceUrl.placeholder": "请输入接口路径，如：/api/data/list",
-  "system.apiConfig.createApiConfigProperties.interfaceUrl.description": "接口的相对路径",
-  "system.apiConfig.createApiConfigProperties.enableAutoRefresh.label": "启用定时刷新",
-  "system.apiConfig.createApiConfigProperties.enableAutoRefresh.description": "是否启用定时自动刷新数据",
-  "system.apiConfig.createApiConfigProperties.refreshInterval.label": "刷新间隔(秒)",
-  "system.apiConfig.createApiConfigProperties.refreshInterval.description": "自动刷新数据的时间间隔，单位为秒",
+  "system.apiConfig.createApiConfigProperties.interfaceUrl.placeholder":
+    "请输入接口路径，如：/api/data/list",
+  "system.apiConfig.createApiConfigProperties.interfaceUrl.description":
+    "接口的相对路径",
+  "system.apiConfig.createApiConfigProperties.enableAutoRefresh.label":
+    "启用定时刷新",
+  "system.apiConfig.createApiConfigProperties.enableAutoRefresh.description":
+    "是否启用定时自动刷新数据",
+  "system.apiConfig.createApiConfigProperties.refreshInterval.label":
+    "刷新间隔(秒)",
+  "system.apiConfig.createApiConfigProperties.refreshInterval.description":
+    "自动刷新数据的时间间隔，单位为秒",
   "system.apiConfig.validateApiConfig.env.error": "请选择系统环境",
   "system.apiConfig.validateApiConfig.httpMethod.error": "请选择请求方式",
   "system.apiConfig.validateApiConfig.protocol.error": "请选择协议",
   "system.apiConfig.validateApiConfig.host.error": "请输入IP/域名/服务名",
   "system.apiConfig.validateApiConfig.port.error": "端口号必须在1-65535之间",
   "system.apiConfig.validateApiConfig.interfaceUrl.error": "请输入接口地址",
-  "system.apiConfig.validateApiConfig.refreshInterval.error": "刷新间隔必须在5-3600秒之间",
+  "system.apiConfig.validateApiConfig.refreshInterval.error":
+    "刷新间隔必须在5-3600秒之间",
   // flexbox/containerConfig.ts
   "system.flexbox.containerConfig.display.label": "显示模式",
-  "system.flexbox.containerConfig.display.helpMsg": "定义布局类型，例如 flex 或 block。",
+  "system.flexbox.containerConfig.display.helpMsg":
+    "定义布局类型，例如 flex 或 block。",
   "system.flexbox.containerConfig.display.flex": "弹性布局",
   "system.flexbox.containerConfig.display.block": "块布局",
   "system.flexbox.containerConfig.flexDirection.label": "排列方向",
-  "system.flexbox.containerConfig.flexDirection.helpMsg": "指定项目布局的主轴方向。",
+  "system.flexbox.containerConfig.flexDirection.helpMsg":
+    "指定项目布局的主轴方向。",
   "system.flexbox.containerConfig.flexDirection.row": "行排列",
   "system.flexbox.containerConfig.flexDirection.column": "列排列",
   "system.flexbox.containerConfig.flexDirection.rowReverse": "反向行",
   "system.flexbox.containerConfig.flexDirection.columnReverse": "反向列",
   "system.flexbox.containerConfig.flexWrap.label": "换行方式",
-  "system.flexbox.containerConfig.flexWrap.helpMsg": "决定项目是否换行或多行排列。",
+  "system.flexbox.containerConfig.flexWrap.helpMsg":
+    "决定项目是否换行或多行排列。",
   "system.flexbox.containerConfig.flexWrap.nowrap": "不换行",
   "system.flexbox.containerConfig.flexWrap.wrap": "自动换行",
   "system.flexbox.containerConfig.flexWrap.wrapReverse": "反向换行",
   "system.flexbox.containerConfig.justifyContent.label": "主轴对齐",
-  "system.flexbox.containerConfig.justifyContent.helpMsg": "沿主轴对齐项目，控制水平间距。",
+  "system.flexbox.containerConfig.justifyContent.helpMsg":
+    "沿主轴对齐项目，控制水平间距。",
   "system.flexbox.containerConfig.justifyContent.start": "起始对齐",
   "system.flexbox.containerConfig.justifyContent.flexStart": "弹性起始",
   "system.flexbox.containerConfig.justifyContent.center": "居中",
@@ -957,14 +984,16 @@ export default {
   "system.flexbox.containerConfig.justifyContent.spaceAround": "环绕间隔",
   "system.flexbox.containerConfig.justifyContent.spaceEvenly": "均匀间隔",
   "system.flexbox.containerConfig.alignItems.label": "交叉轴对齐",
-  "system.flexbox.containerConfig.alignItems.helpMsg": "沿交叉轴对齐项目，影响垂直排列。",
+  "system.flexbox.containerConfig.alignItems.helpMsg":
+    "沿交叉轴对齐项目，影响垂直排列。",
   "system.flexbox.containerConfig.alignItems.stretch": "拉伸",
   "system.flexbox.containerConfig.alignItems.center": "居中",
   "system.flexbox.containerConfig.alignItems.end": "末尾对齐",
   "system.flexbox.containerConfig.alignItems.baseline": "基线对齐",
   "system.flexbox.containerConfig.alignItems.start": "起始对齐",
   "system.flexbox.containerConfig.alignContent.label": "多行对齐",
-  "system.flexbox.containerConfig.alignContent.helpMsg": "定义换行时弹性线之间的间距。",
+  "system.flexbox.containerConfig.alignContent.helpMsg":
+    "定义换行时弹性线之间的间距。",
   "system.flexbox.containerConfig.alignContent.stretch": "拉伸",
   "system.flexbox.containerConfig.alignContent.start": "起始对齐",
   "system.flexbox.containerConfig.alignContent.center": "居中",
@@ -972,23 +1001,28 @@ export default {
   "system.flexbox.containerConfig.alignContent.spaceBetween": "两端对齐",
   "system.flexbox.containerConfig.alignContent.spaceAround": "环绕间隔",
   "system.flexbox.containerConfig.gap.label": "间距",
-  "system.flexbox.containerConfig.gap.helpMsg": "指定容器内弹性项目之间的间距。",
+  "system.flexbox.containerConfig.gap.helpMsg":
+    "指定容器内弹性项目之间的间距。",
   "system.flexbox.containerConfig.gap.pixel": "像素",
   "system.flexbox.containerConfig.gap.percent": "百分比",
   // flexbox/itemsConfig.ts
   "system.flexbox.itemsConfig.order.label": "排列顺序",
   "system.flexbox.itemsConfig.order.helpMsg": "指定项目在容器中的排列顺序",
   "system.flexbox.itemsConfig.flexGrow.label": "扩展比例",
-  "system.flexbox.itemsConfig.flexGrow.helpMsg": "定义项目相对于其他项目的扩展比例",
+  "system.flexbox.itemsConfig.flexGrow.helpMsg":
+    "定义项目相对于其他项目的扩展比例",
   "system.flexbox.itemsConfig.flexShrink.label": "收缩比例",
-  "system.flexbox.itemsConfig.flexShrink.helpMsg": "控制空间不足时项目的收缩比例",
+  "system.flexbox.itemsConfig.flexShrink.helpMsg":
+    "控制空间不足时项目的收缩比例",
   "system.flexbox.itemsConfig.flexBasis.label": "初始大小",
-  "system.flexbox.itemsConfig.flexBasis.helpMsg": "定义空间分配前项目的初始尺寸",
+  "system.flexbox.itemsConfig.flexBasis.helpMsg":
+    "定义空间分配前项目的初始尺寸",
   "system.flexbox.itemsConfig.flexBasis.auto": "自动",
   "system.flexbox.itemsConfig.flexBasis.pixel": "像素",
   "system.flexbox.itemsConfig.flexBasis.percent": "百分比",
   "system.flexbox.itemsConfig.alignSelf.label": "自身对齐",
-  "system.flexbox.itemsConfig.alignSelf.helpMsg": "覆盖容器对齐设置，单独定义项目交叉轴对齐",
+  "system.flexbox.itemsConfig.alignSelf.helpMsg":
+    "覆盖容器对齐设置，单独定义项目交叉轴对齐",
   "system.flexbox.itemsConfig.alignSelf.auto": "自动",
   "system.flexbox.itemsConfig.alignSelf.flexStart": "起始对齐",
   "system.flexbox.itemsConfig.alignSelf.flexEnd": "末尾对齐",
@@ -1013,31 +1047,41 @@ export default {
   "system.flexbox.layouts.verticalStack": "垂直堆叠布局",
   // grid/containerConfig.ts
   "system.grid.containerConfig.display.label": "显示模式",
-  "system.grid.containerConfig.display.helpMsg": "定义容器的布局类型，例如 grid 或 block。",
+  "system.grid.containerConfig.display.helpMsg":
+    "定义容器的布局类型，例如 grid 或 block。",
   "system.grid.containerConfig.display.grid": "网格布局",
   "system.grid.containerConfig.display.block": "块布局",
   "system.grid.containerConfig.gridTemplateColumns.label": "网格列定义",
-  "system.grid.containerConfig.gridTemplateColumns.helpMsg": "指定网格的列结构，包含尺寸和单位",
+  "system.grid.containerConfig.gridTemplateColumns.helpMsg":
+    "指定网格的列结构，包含尺寸和单位",
   "system.grid.containerConfig.gridTemplateRows.label": "网格行定义",
-  "system.grid.containerConfig.gridTemplateRows.helpMsg": "指定网格的行结构，包含尺寸和单位",
+  "system.grid.containerConfig.gridTemplateRows.helpMsg":
+    "指定网格的行结构，包含尺寸和单位",
   "system.grid.containerConfig.gap.label": "间距",
   "system.grid.containerConfig.gap.helpMsg": "定义网格行与列之间的间距",
   "system.grid.containerConfig.rowGap.label": "行间距",
   "system.grid.containerConfig.columnGap.label": "列间距",
   "system.grid.containerConfig.justifyItems.label": "单元格水平对齐",
-  "system.grid.containerConfig.justifyItems.helpMsg": "控制网格单元格内项目的水平对齐方式",
+  "system.grid.containerConfig.justifyItems.helpMsg":
+    "控制网格单元格内项目的水平对齐方式",
   "system.grid.containerConfig.alignItems.label": "单元格垂直对齐",
-  "system.grid.containerConfig.alignItems.helpMsg": "控制网格单元格内项目的垂直对齐方式",
+  "system.grid.containerConfig.alignItems.helpMsg":
+    "控制网格单元格内项目的垂直对齐方式",
   "system.grid.containerConfig.justifyContent.label": "主轴分布",
-  "system.grid.containerConfig.justifyContent.helpMsg": "控制项目在容器内的水平分布方式",
+  "system.grid.containerConfig.justifyContent.helpMsg":
+    "控制项目在容器内的水平分布方式",
   "system.grid.containerConfig.alignContent.label": "交叉轴分布",
-  "system.grid.containerConfig.alignContent.helpMsg": "控制项目在容器内的垂直分布方式",
+  "system.grid.containerConfig.alignContent.helpMsg":
+    "控制项目在容器内的垂直分布方式",
   "system.grid.containerConfig.gridAutoColumns.label": "自动列宽",
-  "system.grid.containerConfig.gridAutoColumns.helpMsg": "定义网格自动生成列的默认宽度",
+  "system.grid.containerConfig.gridAutoColumns.helpMsg":
+    "定义网格自动生成列的默认宽度",
   "system.grid.containerConfig.gridAutoRows.label": "自动行高",
-  "system.grid.containerConfig.gridAutoRows.helpMsg": "定义网格自动生成行的默认高度",
+  "system.grid.containerConfig.gridAutoRows.helpMsg":
+    "定义网格自动生成行的默认高度",
   "system.grid.containerConfig.gridAutoFlow.label": "自动排列",
-  "system.grid.containerConfig.gridAutoFlow.helpMsg": "控制项目在网格中的自动排列方式",
+  "system.grid.containerConfig.gridAutoFlow.helpMsg":
+    "控制项目在网格中的自动排列方式",
   "system.grid.containerConfig.fr": "FR",
   "system.grid.containerConfig.pixel": "像素",
   "system.grid.containerConfig.percent": "百分百",
@@ -1055,13 +1099,16 @@ export default {
   "system.grid.containerConfig.columnDense": "列紧凑",
   // grid/itemsConfig.ts
   "system.grid.itemsConfig.gridColumn.label": "网格列",
-  "system.grid.itemsConfig.gridColumn.helpMsg": "定义元素在网格中的起始和结束列",
+  "system.grid.itemsConfig.gridColumn.helpMsg":
+    "定义元素在网格中的起始和结束列",
   "system.grid.itemsConfig.gridRow.label": "网格行",
   "system.grid.itemsConfig.gridRow.helpMsg": "定义元素在网格中的起始和结束行",
   "system.grid.itemsConfig.justifySelf.label": "水平自对齐",
-  "system.grid.itemsConfig.justifySelf.helpMsg": "控制元素在网格容器内的水平对齐方式",
+  "system.grid.itemsConfig.justifySelf.helpMsg":
+    "控制元素在网格容器内的水平对齐方式",
   "system.grid.itemsConfig.alignSelf.label": "垂直自对齐",
-  "system.grid.itemsConfig.alignSelf.helpMsg": "控制元素在网格容器内的垂直对齐方式",
+  "system.grid.itemsConfig.alignSelf.helpMsg":
+    "控制元素在网格容器内的垂直对齐方式",
   "system.grid.itemsConfig.width.label": "宽度",
   "system.grid.itemsConfig.width.helpMsg": "指定元素宽度，包含单位选项",
   "system.grid.itemsConfig.height.label": "高度",
@@ -1134,10 +1181,13 @@ export default {
   "system.flex.starHorseFlexComp.mainAxisDirection": "主轴方向",
   "system.flex.starHorseFlexComp.inputBox": "输入框",
   "system.flex.starHorseFlexComp.init": "初始化",
-  "system.flex.starHorseFlexComp.validationFailed": "设计数据验证失败，请检查设计内容",
+  "system.flex.starHorseFlexComp.validationFailed":
+    "设计数据验证失败，请检查设计内容",
   "system.flex.starHorseFlexComp.validationError": "验证错误:",
-  "system.flex.starHorseFlexComp.publishValidationFailed": "设计数据验证失败，无法发布",
-  "system.flex.starHorseFlexComp.shareValidationFailed": "设计数据验证失败，无法分享",
+  "system.flex.starHorseFlexComp.publishValidationFailed":
+    "设计数据验证失败，无法发布",
+  "system.flex.starHorseFlexComp.shareValidationFailed":
+    "设计数据验证失败，无法分享",
   "system.flex.starHorseFlexComp.saveSuccess": "设计保存成功",
   "system.flex.starHorseFlexComp.shareSuccess": "分享链接生成成功",
   "system.flex.starHorseFlexComp.shareResult": "分享结果:",
@@ -1151,7 +1201,8 @@ export default {
   "system.flex.starHorseFlexComp.loadFailed": "加载设计失败",
   "system.flex.starHorseFlexComp.autoSaveSuccess": "自动保存成功",
   "system.flex.starHorseFlexComp.autoSaveFailed": "自动保存失败:",
-  "system.flex.starHorseFlexComp.autoSaveSetup": "设置自动保存，每5分钟保存一次",
+  "system.flex.starHorseFlexComp.autoSaveSetup":
+    "设置自动保存，每5分钟保存一次",
   "system.flex.starHorseFlexComp.autoSaveInterval": "5分钟",
   "system.flex.starHorseFlexComp.beforeUnload": "监听页面卸载，自动保存",
   "system.flex.starHorseFlexComp.cleanup": "组件销毁时清理资源",
@@ -1194,7 +1245,8 @@ export default {
   "system.flex.starHorseDesign.rightPanel.title": "属性面板",
   "system.flex.starHorseDesign.rightPanel.component": "组件",
   "system.flex.starHorseDesign.rightPanel.lineProperty": "连线属性",
-  "system.flex.starHorseDesign.rightPanel.emptyDescription": "点击画布中的组件或者连线可设置属性",
+  "system.flex.starHorseDesign.rightPanel.emptyDescription":
+    "点击画布中的组件或者连线可设置属性",
   "system.flex.starHorseDesign.drawer.title": "属性面板",
   "system.flex.starHorseDesign.drawer.emptyInfo": "右侧面板",
   /**
@@ -1205,21 +1257,26 @@ export default {
   "system.flex.starHorseEditor.autoCompletion.formData": "表单数据",
   "system.flex.starHorseEditor.autoCompletion.formFields": "表单所有元素",
   "system.flex.starHorseEditor.autoCompletion.userInfo": "当前登录用户信息",
-  "system.flex.starHorseEditor.autoCompletion.postRequest": "Post 请求接口 默认异步返回",
-  "system.flex.starHorseEditor.autoCompletion.getRequest": "Get 请求接口 默认异步返回",
+  "system.flex.starHorseEditor.autoCompletion.postRequest":
+    "Post 请求接口 默认异步返回",
+  "system.flex.starHorseEditor.autoCompletion.getRequest":
+    "Get 请求接口 默认异步返回",
   "system.flex.starHorseEditor.autoCompletion.download": "下载数据接口",
   "system.flex.starHorseEditor.autoCompletion.upload": "上传数据接口",
   "system.flex.starHorseEditor.getLanguageInfo": "获取语言信息",
   "system.flex.starHorseEditor.init": "初始化",
-  "system.flex.starHorseEditor.generateQueryTips": "根据不同数据库生成不同的查询提示",
+  "system.flex.starHorseEditor.generateQueryTips":
+    "根据不同数据库生成不同的查询提示",
   "system.flex.starHorseEditor.theme": "主题",
   "system.flex.starHorseEditor.language": "语言",
   /**
    * sh_design.ts
    */
   "system.flex.shDesign.help.title.steps": "操作步骤",
-  "system.flex.shDesign.help.step1": "编辑其打开后可将左边的组件拖到中间网格画布区域；",
-  "system.flex.shDesign.help.step2": "鼠标移动组件上会出现四个圆圈，移动到圆圈上鼠标会变成实心的十字，按下鼠标左键拖动会出现连线，连线可链接到其他组件的圆圈上；",
+  "system.flex.shDesign.help.step1":
+    "编辑其打开后可将左边的组件拖到中间网格画布区域；",
+  "system.flex.shDesign.help.step2":
+    "鼠标移动组件上会出现四个圆圈，移动到圆圈上鼠标会变成实心的十字，按下鼠标左键拖动会出现连线，连线可链接到其他组件的圆圈上；",
   "system.flex.shDesign.help.step3": "单击组件或者连线选中该都组件或者连线；",
   "system.flex.shDesign.help.step4": "在空白区域按下鼠标左键并拖动可框选组件；",
   "system.flex.shDesign.help.step5": "双击组件或者连线可编辑属性。",

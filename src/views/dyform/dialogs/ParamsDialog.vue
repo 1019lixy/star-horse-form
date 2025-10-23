@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import {nextTick, ref, unref, watch} from "vue";
-import {warning} from "star-horse-lowcode";
-import {paramsFields} from "@/views/dyform/utils/ItemPreps";
-import {i18n} from "@/lang";
+import { nextTick, ref, unref, watch } from "vue";
+import { warning } from "star-horse-lowcode";
+import { paramsFields } from "@/views/dyform/utils/ItemPreps";
+import { i18n } from "@/lang";
 
 const props = defineProps<{
   visible: boolean;
@@ -23,9 +23,9 @@ const paramsConfigRef = ref<any>(null);
 const paramsValid = async () => {
   let flag = false;
   await paramsConfigRef.value.$refs.starHorseFormRef.validate(
-      (res: boolean) => {
-        flag = res;
-      },
+    (res: boolean) => {
+      flag = res;
+    },
   );
   if (!flag) {
     return;
@@ -63,7 +63,7 @@ const paramsValid = async () => {
     item["type"] = "input";
     item["formVisible"] = true;
     if (item.searchFlag) {
-      searchFieldList.push({...item, matchType: "lk", defaultVisible: true});
+      searchFieldList.push({ ...item, matchType: "lk", defaultVisible: true });
     }
   });
   props.formProps["searchFieldList"] = {
@@ -88,11 +88,15 @@ const setFormData = async (data: any) => {
     }, 200);
   }
 };
-watch(() => props.visible, (newVal) => {
-  if (newVal) {
-    setFormData(props.formProps);
-  }
-},{immediate: true});
+watch(
+  () => props.visible,
+  (newVal) => {
+    if (newVal) {
+      setFormData(props.formProps);
+    }
+  },
+  { immediate: true },
+);
 defineExpose({
   setFormData,
 });
@@ -100,17 +104,17 @@ defineExpose({
 
 <template>
   <star-horse-dialog
-      :dialogVisible="visible"
-      :title="i18n('dyform.params.dialog.title')"
-      :isBatch="false"
-      @merge="paramsValid"
-      @closeAction="emit('close')"
-      @resetForm="resetDataSourceForm"
-      :selfFunc="true"
+    :dialogVisible="visible"
+    :title="i18n('dyform.params.dialog.title')"
+    :isBatch="false"
+    @merge="paramsValid"
+    @closeAction="emit('close')"
+    @resetForm="resetDataSourceForm"
+    :selfFunc="true"
   >
     <star-horse-form
-        ref="paramsConfigRef"
-        :fieldList="paramsFields(paramsConfigRef, fieldName, currentField)"
+      ref="paramsConfigRef"
+      :fieldList="paramsFields(paramsConfigRef, fieldName, currentField)"
     />
   </star-horse-dialog>
 </template>

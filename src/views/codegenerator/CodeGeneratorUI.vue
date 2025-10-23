@@ -474,7 +474,8 @@ let extendBtns = ref<UserFuncInfo[]>([
     funcName: (row: any) => {
       load("代码生成中，请稍后");
       download(
-        `/userdb-manage/generator/code/convertToCodeById/${row[primaryKey]}`,{}
+        `/userdb-manage/generator/code/convertToCodeById/${row[primaryKey]}`,
+        {},
       )
         .catch((err) => {
           warning(err);

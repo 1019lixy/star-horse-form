@@ -5,7 +5,8 @@ export default {
    */
   "home.addModule": "Add Module",
   "home.welcome": "Welcome to the System",
-  "home.noModules": "You haven't configured any modules yet. Please add your first module.",
+  "home.noModules":
+    "You haven't configured any modules yet. Please add your first module.",
   "home.selectModule": "Select Module",
   "home.searchModules": "Search Modules...",
   "home.addSelectedModules": "Add Selected Modules",
@@ -39,20 +40,27 @@ export default {
    */
   "dyform.preOrPend.dialog.title": "Prefix/Suffix Configuration",
   "dyform.preOrPend.prependText": "Prefix Text",
-  "dyform.preOrPend.prependText.helpMsg": "Fixed text displayed in front of the input box",
+  "dyform.preOrPend.prependText.helpMsg":
+    "Fixed text displayed in front of the input box",
   "dyform.preOrPend.prependList": "Prefix Dropdown List",
-  "dyform.preOrPend.prependList.helpMsg": "Configure dropdown options in front of the input box",
+  "dyform.preOrPend.prependList.helpMsg":
+    "Configure dropdown options in front of the input box",
   "dyform.preOrPend.prependList.title": "Prefix Dropdown List Configuration",
   "dyform.preOrPend.appendText": "Suffix Text",
-  "dyform.preOrPend.appendText.helpMsg": "Fixed text displayed after the input box",
+  "dyform.preOrPend.appendText.helpMsg":
+    "Fixed text displayed after the input box",
   "dyform.preOrPend.appendAction": "Suffix Action Button",
-  "dyform.preOrPend.appendAction.helpMsg": "Configure action buttons after the input box",
+  "dyform.preOrPend.appendAction.helpMsg":
+    "Configure action buttons after the input box",
   "dyform.preOrPend.appendAction.title": "Suffix Action Button Configuration",
   "dyform.preOrPend.appendList": "Suffix Dropdown List",
-  "dyform.preOrPend.appendList.helpMsg": "Configure dropdown options after the input box",
+  "dyform.preOrPend.appendList.helpMsg":
+    "Configure dropdown options after the input box",
   "dyform.preOrPend.appendList.title": "Suffix Dropdown List Configuration",
-  "dyform.preOrPend.warning.prependConflict": "Prefix text and prefix dropdown list cannot be configured simultaneously",
-  "dyform.preOrPend.warning.appendConflict": "Suffix text, suffix action button and suffix dropdown list cannot be configured simultaneously",
+  "dyform.preOrPend.warning.prependConflict":
+    "Prefix text and prefix dropdown list cannot be configured simultaneously",
+  "dyform.preOrPend.warning.appendConflict":
+    "Suffix text, suffix action button and suffix dropdown list cannot be configured simultaneously",
   "login.userName": "UserName",
   "login.password": "Password",
   "login.validCode": "Code",
@@ -666,7 +674,8 @@ export default {
   "system.flex.saveDialog.label.name": "Design Name",
   "system.flex.saveDialog.placeholder.name": "Please enter design name",
   "system.flex.saveDialog.label.description": "Design Description",
-  "system.flex.saveDialog.placeholder.description": "Please describe the purpose and features of this design (optional)",
+  "system.flex.saveDialog.placeholder.description":
+    "Please describe the purpose and features of this design (optional)",
   "system.flex.saveDialog.label.saveType": "Save Type",
   "system.flex.saveDialog.saveType.new": "New Design",
   "system.flex.saveDialog.saveType.template": "Save as Template",
@@ -702,7 +711,8 @@ export default {
   "system.flex.publishDialog.label.version": "Version",
   "system.flex.publishDialog.placeholder.version": "e.g.: v1.0.0",
   "system.flex.publishDialog.label.description": "Publish Description",
-  "system.flex.publishDialog.placeholder.description": "Please describe the main content and changes of this release",
+  "system.flex.publishDialog.placeholder.description":
+    "Please describe the main content and changes of this release",
   "system.flex.publishDialog.label.environment": "Publish Environment",
   "system.flex.publishDialog.environment.development": "Development",
   "system.flex.publishDialog.environment.testing": "Testing",
@@ -726,7 +736,8 @@ export default {
   "system.flex.publishDialog.check.designContent": "Design Content Check",
   "system.flex.publishDialog.check.designEmpty": "Design is Empty",
   "system.flex.publishDialog.check.permission": "Permission Check",
-  "system.flex.publishDialog.title.validationErrors": "The following issues need to be fixed before publishing:",
+  "system.flex.publishDialog.title.validationErrors":
+    "The following issues need to be fixed before publishing:",
   "system.flex.publishDialog.title.history": "Publish History",
   "system.flex.publishDialog.table.column.version": "Version",
   "system.flex.publishDialog.table.column.name": "Name",
@@ -746,15 +757,22 @@ export default {
   "system.flex.publishDialog.result.button.download": "Download Package",
   "system.flex.publishDialog.rule.nameRequired": "Please enter publish name",
   "system.flex.publishDialog.rule.versionRequired": "Please enter version",
-  "system.flex.publishDialog.rule.versionFormat": "Version format should be x.y.z",
-  "system.flex.publishDialog.rule.descriptionRequired": "Please enter publish description",
-  "system.flex.publishDialog.rule.environmentRequired": "Please select publish environment",
-  "system.flex.publishDialog.message.validationFailed": "Design validation failed, cannot publish",
-  "system.flex.publishDialog.message.rollbackConfirm": "Are you sure you want to rollback to this version?",
+  "system.flex.publishDialog.rule.versionFormat":
+    "Version format should be x.y.z",
+  "system.flex.publishDialog.rule.descriptionRequired":
+    "Please enter publish description",
+  "system.flex.publishDialog.rule.environmentRequired":
+    "Please select publish environment",
+  "system.flex.publishDialog.message.validationFailed":
+    "Design validation failed, cannot publish",
+  "system.flex.publishDialog.message.rollbackConfirm":
+    "Are you sure you want to rollback to this version?",
   "system.flex.publishDialog.message.rollbackSuccess": "Rollback successful",
   "system.flex.publishDialog.message.rollbackCancelled": "Rollback cancelled",
-  "system.flex.publishDialog.message.urlCopied": "Publish URL copied to clipboard",
-  "system.flex.publishDialog.message.copyFailed": "Copy failed, please copy manually",
+  "system.flex.publishDialog.message.urlCopied":
+    "Publish URL copied to clipboard",
+  "system.flex.publishDialog.message.copyFailed":
+    "Copy failed, please copy manually",
   "system.flex.publishDialog.message.packageDownloaded": "Package downloaded",
   "system.flex.publishDialog.status.published": "Published",
   "system.flex.publishDialog.status.rolledBack": "Rolled Back",
@@ -765,7 +783,8 @@ export default {
   "system.flex.shareDialog.label.name": "Design Name",
   "system.flex.shareDialog.placeholder.name": "Please enter design name",
   "system.flex.shareDialog.label.description": "Design Description",
-  "system.flex.shareDialog.placeholder.description": "Please enter design description (optional)",
+  "system.flex.shareDialog.placeholder.description":
+    "Please enter design description (optional)",
   "system.flex.shareDialog.label.expiryDays": "Expiry Period",
   "system.flex.shareDialog.expiryDays.1": "1 Day",
   "system.flex.shareDialog.expiryDays.3": "3 Days",
@@ -801,15 +820,22 @@ export default {
   "system.flex.shareDialog.label.createTime": "Create Time",
   "system.flex.shareDialog.rule.nameRequired": "Please enter design name",
   "system.flex.shareDialog.rule.passwordRequired": "Please set access password",
-  "system.flex.shareDialog.rule.passwordProtected": "Password must be set in protected mode",
-  "system.flex.shareDialog.rule.passwordLength": "Password must be at least 4 characters",
-  "system.flex.shareDialog.message.shareSuccess": "Share link copied to clipboard",
-  "system.flex.shareDialog.message.codeSuccess": "Share code copied to clipboard",
-  "system.flex.shareDialog.message.copyFailed": "Copy failed, please copy manually",
-  "system.flex.shareDialog.message.qrCodeSuccess": "QR code generated successfully",
+  "system.flex.shareDialog.rule.passwordProtected":
+    "Password must be set in protected mode",
+  "system.flex.shareDialog.rule.passwordLength":
+    "Password must be at least 4 characters",
+  "system.flex.shareDialog.message.shareSuccess":
+    "Share link copied to clipboard",
+  "system.flex.shareDialog.message.codeSuccess":
+    "Share code copied to clipboard",
+  "system.flex.shareDialog.message.copyFailed":
+    "Copy failed, please copy manually",
+  "system.flex.shareDialog.message.qrCodeSuccess":
+    "QR code generated successfully",
   "system.flex.shareDialog.message.qrCodeFailed": "Failed to generate QR code",
   "system.flex.shareDialog.message.qrCodeDownloaded": "QR code downloaded",
-  "system.flex.shareDialog.message.shareContentCopied": "Share content copied to clipboard",
+  "system.flex.shareDialog.message.shareContentCopied":
+    "Share content copied to clipboard",
   // FlexPreviewDialog.vue
   "system.flex.previewDialog.title": "Design Preview",
   "system.flex.previewDialog.untitled": "Untitled Design",
@@ -825,11 +851,13 @@ export default {
   "system.flex.previewDialog.title.debugInfo": "Debug Information",
   "system.flex.previewDialog.label.layoutMode": "Layout Mode:",
   "system.flex.previewDialog.label.containerStyles": "Container Styles:",
-  "system.flex.previewDialog.label.containerData": "containerDataForm (Actual Form Data):",
+  "system.flex.previewDialog.label.containerData":
+    "containerDataForm (Actual Form Data):",
   "system.flex.previewDialog.label.containerDirection": "Container Direction:",
   "system.flex.previewDialog.label.containerInfo": "Container Info (store):",
   "system.flex.previewDialog.label.itemInfo": "Item Info:",
-  "system.flex.previewDialog.title.validationFailed": "Design Validation Failed",
+  "system.flex.previewDialog.title.validationFailed":
+    "Design Validation Failed",
   "system.flex.previewDialog.title.htmlCode": "Generated HTML Code",
   "system.flex.previewDialog.button.copy": "Copy",
   "system.flex.previewDialog.button.hideCode": "Hide Code",
@@ -838,14 +866,17 @@ export default {
   "system.flex.previewDialog.message.refreshSuccess": "Preview refreshed",
   "system.flex.previewDialog.message.htmlExported": "HTML file exported",
   "system.flex.previewDialog.message.codeCopied": "Code copied to clipboard",
-  "system.flex.previewDialog.message.copyFailed": "Copy failed, please copy manually",
+  "system.flex.previewDialog.message.copyFailed":
+    "Copy failed, please copy manually",
   "system.flex.previewDialog.message.untitledTemplate": "Untitled Template",
   // PageItemProperties.vue
   "system.flex.pageItemProperties.button.config": "Configure",
   "system.flex.pageItemProperties.emptyState": "No properties",
-  "system.flex.pageItemProperties.dialog.title": "{componentLabel} - {propLabel}",
+  "system.flex.pageItemProperties.dialog.title":
+    "{componentLabel} - {propLabel}",
   "system.flex.pageItemProperties.alert.title": "Tip",
-  "system.flex.pageItemProperties.alert.description": "Please ensure valid JSON format",
+  "system.flex.pageItemProperties.alert.description":
+    "Please ensure valid JSON format",
   "system.flex.pageItemProperties.preview.label.environment": "Environment:",
   "system.flex.pageItemProperties.preview.label.method": "Request Method:",
   "system.flex.pageItemProperties.preview.label.url": "URL:",
@@ -930,48 +961,74 @@ export default {
   "system.apiConfig.protocolOptions.http": "HTTP",
   "system.apiConfig.protocolOptions.https": "HTTPS",
   "system.apiConfig.createApiConfigProperties.env.label": "System Environment",
-  "system.apiConfig.createApiConfigProperties.env.description": "Select the system environment for API calls",
-  "system.apiConfig.createApiConfigProperties.httpMethod.label": "Request Method",
-  "system.apiConfig.createApiConfigProperties.httpMethod.description": "Select HTTP request method",
+  "system.apiConfig.createApiConfigProperties.env.description":
+    "Select the system environment for API calls",
+  "system.apiConfig.createApiConfigProperties.httpMethod.label":
+    "Request Method",
+  "system.apiConfig.createApiConfigProperties.httpMethod.description":
+    "Select HTTP request method",
   "system.apiConfig.createApiConfigProperties.protocol.label": "Protocol",
-  "system.apiConfig.createApiConfigProperties.protocol.description": "Select communication protocol",
-  "system.apiConfig.createApiConfigProperties.host.label": "IP/Domain/Service Name",
-  "system.apiConfig.createApiConfigProperties.host.placeholder": "Please enter IP address, domain, or service name",
-  "system.apiConfig.createApiConfigProperties.host.description": "IP address, domain, or service name of the API server",
+  "system.apiConfig.createApiConfigProperties.protocol.description":
+    "Select communication protocol",
+  "system.apiConfig.createApiConfigProperties.host.label":
+    "IP/Domain/Service Name",
+  "system.apiConfig.createApiConfigProperties.host.placeholder":
+    "Please enter IP address, domain, or service name",
+  "system.apiConfig.createApiConfigProperties.host.description":
+    "IP address, domain, or service name of the API server",
   "system.apiConfig.createApiConfigProperties.port.label": "Port",
-  "system.apiConfig.createApiConfigProperties.port.description": "API server port number",
-  "system.apiConfig.createApiConfigProperties.interfaceUrl.label": "Interface URL",
-  "system.apiConfig.createApiConfigProperties.interfaceUrl.placeholder": "Please enter interface path, e.g.: /api/data/list",
-  "system.apiConfig.createApiConfigProperties.interfaceUrl.description": "Relative path of the interface",
-  "system.apiConfig.createApiConfigProperties.enableAutoRefresh.label": "Enable Auto Refresh",
-  "system.apiConfig.createApiConfigProperties.enableAutoRefresh.description": "Whether to enable automatic data refresh",
-  "system.apiConfig.createApiConfigProperties.refreshInterval.label": "Refresh Interval (seconds)",
-  "system.apiConfig.createApiConfigProperties.refreshInterval.description": "Time interval for automatic data refresh, in seconds",
-  "system.apiConfig.validateApiConfig.env.error": "Please select system environment",
-  "system.apiConfig.validateApiConfig.httpMethod.error": "Please select request method",
+  "system.apiConfig.createApiConfigProperties.port.description":
+    "API server port number",
+  "system.apiConfig.createApiConfigProperties.interfaceUrl.label":
+    "Interface URL",
+  "system.apiConfig.createApiConfigProperties.interfaceUrl.placeholder":
+    "Please enter interface path, e.g.: /api/data/list",
+  "system.apiConfig.createApiConfigProperties.interfaceUrl.description":
+    "Relative path of the interface",
+  "system.apiConfig.createApiConfigProperties.enableAutoRefresh.label":
+    "Enable Auto Refresh",
+  "system.apiConfig.createApiConfigProperties.enableAutoRefresh.description":
+    "Whether to enable automatic data refresh",
+  "system.apiConfig.createApiConfigProperties.refreshInterval.label":
+    "Refresh Interval (seconds)",
+  "system.apiConfig.createApiConfigProperties.refreshInterval.description":
+    "Time interval for automatic data refresh, in seconds",
+  "system.apiConfig.validateApiConfig.env.error":
+    "Please select system environment",
+  "system.apiConfig.validateApiConfig.httpMethod.error":
+    "Please select request method",
   "system.apiConfig.validateApiConfig.protocol.error": "Please select protocol",
-  "system.apiConfig.validateApiConfig.host.error": "Please enter IP/domain/service name",
-  "system.apiConfig.validateApiConfig.port.error": "Port number must be between 1-65535",
-  "system.apiConfig.validateApiConfig.interfaceUrl.error": "Please enter interface URL",
-  "system.apiConfig.validateApiConfig.refreshInterval.error": "Refresh interval must be between 5-3600 seconds",
+  "system.apiConfig.validateApiConfig.host.error":
+    "Please enter IP/domain/service name",
+  "system.apiConfig.validateApiConfig.port.error":
+    "Port number must be between 1-65535",
+  "system.apiConfig.validateApiConfig.interfaceUrl.error":
+    "Please enter interface URL",
+  "system.apiConfig.validateApiConfig.refreshInterval.error":
+    "Refresh interval must be between 5-3600 seconds",
   // flexbox/containerConfig.ts
   "system.flexbox.containerConfig.display.label": "Display Mode",
-  "system.flexbox.containerConfig.display.helpMsg": "Defines the layout type, such as flex or block.",
+  "system.flexbox.containerConfig.display.helpMsg":
+    "Defines the layout type, such as flex or block.",
   "system.flexbox.containerConfig.display.flex": "Flex Layout",
   "system.flexbox.containerConfig.display.block": "Block Layout",
   "system.flexbox.containerConfig.flexDirection.label": "Arrangement Direction",
-  "system.flexbox.containerConfig.flexDirection.helpMsg": "Specifies the main axis direction of item layout.",
+  "system.flexbox.containerConfig.flexDirection.helpMsg":
+    "Specifies the main axis direction of item layout.",
   "system.flexbox.containerConfig.flexDirection.row": "Row Arrangement",
   "system.flexbox.containerConfig.flexDirection.column": "Column Arrangement",
   "system.flexbox.containerConfig.flexDirection.rowReverse": "Reverse Row",
-  "system.flexbox.containerConfig.flexDirection.columnReverse": "Reverse Column",
+  "system.flexbox.containerConfig.flexDirection.columnReverse":
+    "Reverse Column",
   "system.flexbox.containerConfig.flexWrap.label": "Wrap Mode",
-  "system.flexbox.containerConfig.flexWrap.helpMsg": "Determines whether items wrap or arrange in multiple lines.",
+  "system.flexbox.containerConfig.flexWrap.helpMsg":
+    "Determines whether items wrap or arrange in multiple lines.",
   "system.flexbox.containerConfig.flexWrap.nowrap": "No Wrap",
   "system.flexbox.containerConfig.flexWrap.wrap": "Auto Wrap",
   "system.flexbox.containerConfig.flexWrap.wrapReverse": "Reverse Wrap",
   "system.flexbox.containerConfig.justifyContent.label": "Main Axis Alignment",
-  "system.flexbox.containerConfig.justifyContent.helpMsg": "Align items along the main axis, controlling horizontal spacing.",
+  "system.flexbox.containerConfig.justifyContent.helpMsg":
+    "Align items along the main axis, controlling horizontal spacing.",
   "system.flexbox.containerConfig.justifyContent.start": "Start Alignment",
   "system.flexbox.containerConfig.justifyContent.flexStart": "Flex Start",
   "system.flexbox.containerConfig.justifyContent.center": "Center",
@@ -981,14 +1038,16 @@ export default {
   "system.flexbox.containerConfig.justifyContent.spaceAround": "Space Around",
   "system.flexbox.containerConfig.justifyContent.spaceEvenly": "Space Evenly",
   "system.flexbox.containerConfig.alignItems.label": "Cross Axis Alignment",
-  "system.flexbox.containerConfig.alignItems.helpMsg": "Align items along the cross axis, affecting vertical arrangement.",
+  "system.flexbox.containerConfig.alignItems.helpMsg":
+    "Align items along the cross axis, affecting vertical arrangement.",
   "system.flexbox.containerConfig.alignItems.stretch": "Stretch",
   "system.flexbox.containerConfig.alignItems.center": "Center",
   "system.flexbox.containerConfig.alignItems.end": "End Alignment",
   "system.flexbox.containerConfig.alignItems.baseline": "Baseline Alignment",
   "system.flexbox.containerConfig.alignItems.start": "Start Alignment",
   "system.flexbox.containerConfig.alignContent.label": "Multi-line Alignment",
-  "system.flexbox.containerConfig.alignContent.helpMsg": "Defines spacing between flex lines when wrapping.",
+  "system.flexbox.containerConfig.alignContent.helpMsg":
+    "Defines spacing between flex lines when wrapping.",
   "system.flexbox.containerConfig.alignContent.stretch": "Stretch",
   "system.flexbox.containerConfig.alignContent.start": "Start Alignment",
   "system.flexbox.containerConfig.alignContent.center": "Center",
@@ -996,23 +1055,29 @@ export default {
   "system.flexbox.containerConfig.alignContent.spaceBetween": "Space Between",
   "system.flexbox.containerConfig.alignContent.spaceAround": "Space Around",
   "system.flexbox.containerConfig.gap.label": "Spacing",
-  "system.flexbox.containerConfig.gap.helpMsg": "Specifies spacing between flex items in the container.",
+  "system.flexbox.containerConfig.gap.helpMsg":
+    "Specifies spacing between flex items in the container.",
   "system.flexbox.containerConfig.gap.pixel": "Pixel",
   "system.flexbox.containerConfig.gap.percent": "Percent",
   // flexbox/itemsConfig.ts
   "system.flexbox.itemsConfig.order.label": "Arrangement Order",
-  "system.flexbox.itemsConfig.order.helpMsg": "Specifies the arrangement order of items in the container",
+  "system.flexbox.itemsConfig.order.helpMsg":
+    "Specifies the arrangement order of items in the container",
   "system.flexbox.itemsConfig.flexGrow.label": "Growth Ratio",
-  "system.flexbox.itemsConfig.flexGrow.helpMsg": "Defines the growth ratio of items relative to other items",
+  "system.flexbox.itemsConfig.flexGrow.helpMsg":
+    "Defines the growth ratio of items relative to other items",
   "system.flexbox.itemsConfig.flexShrink.label": "Shrink Ratio",
-  "system.flexbox.itemsConfig.flexShrink.helpMsg": "Controls the shrink ratio of items when space is insufficient",
+  "system.flexbox.itemsConfig.flexShrink.helpMsg":
+    "Controls the shrink ratio of items when space is insufficient",
   "system.flexbox.itemsConfig.flexBasis.label": "Initial Size",
-  "system.flexbox.itemsConfig.flexBasis.helpMsg": "Defines the initial size of items before space allocation",
+  "system.flexbox.itemsConfig.flexBasis.helpMsg":
+    "Defines the initial size of items before space allocation",
   "system.flexbox.itemsConfig.flexBasis.auto": "Auto",
   "system.flexbox.itemsConfig.flexBasis.pixel": "Pixel",
   "system.flexbox.itemsConfig.flexBasis.percent": "Percent",
   "system.flexbox.itemsConfig.alignSelf.label": "Self Alignment",
-  "system.flexbox.itemsConfig.alignSelf.helpMsg": "Override container alignment settings, define cross-axis alignment for individual items",
+  "system.flexbox.itemsConfig.alignSelf.helpMsg":
+    "Override container alignment settings, define cross-axis alignment for individual items",
   "system.flexbox.itemsConfig.alignSelf.auto": "Auto",
   "system.flexbox.itemsConfig.alignSelf.flexStart": "Start Alignment",
   "system.flexbox.itemsConfig.alignSelf.flexEnd": "End Alignment",
@@ -1020,12 +1085,14 @@ export default {
   "system.flexbox.itemsConfig.alignSelf.baseline": "Baseline Alignment",
   "system.flexbox.itemsConfig.alignSelf.stretch": "Stretch",
   "system.flexbox.itemsConfig.width.label": "Width",
-  "system.flexbox.itemsConfig.width.helpMsg": "Specify item width, overriding default size",
+  "system.flexbox.itemsConfig.width.helpMsg":
+    "Specify item width, overriding default size",
   "system.flexbox.itemsConfig.width.auto": "Auto",
   "system.flexbox.itemsConfig.width.pixel": "Pixel",
   "system.flexbox.itemsConfig.width.percent": "Percent",
   "system.flexbox.itemsConfig.height.label": "Height",
-  "system.flexbox.itemsConfig.height.helpMsg": "Specify item height, overriding default size",
+  "system.flexbox.itemsConfig.height.helpMsg":
+    "Specify item height, overriding default size",
   "system.flexbox.itemsConfig.height.auto": "Auto",
   "system.flexbox.itemsConfig.height.pixel": "Pixel",
   "system.flexbox.itemsConfig.height.percent": "Percent",
@@ -1047,31 +1114,43 @@ export default {
   "system.flexbox.layouts.verticalStack": "Vertical Stack Layout",
   // grid/containerConfig.ts
   "system.grid.containerConfig.display.label": "Display Mode",
-  "system.grid.containerConfig.display.helpMsg": "Defines the layout type of the container, such as grid or block.",
+  "system.grid.containerConfig.display.helpMsg":
+    "Defines the layout type of the container, such as grid or block.",
   "system.grid.containerConfig.display.grid": "Grid Layout",
   "system.grid.containerConfig.display.block": "Block Layout",
-  "system.grid.containerConfig.gridTemplateColumns.label": "Grid Column Definition",
-  "system.grid.containerConfig.gridTemplateColumns.helpMsg": "Specifies the column structure of the grid, including size and units",
+  "system.grid.containerConfig.gridTemplateColumns.label":
+    "Grid Column Definition",
+  "system.grid.containerConfig.gridTemplateColumns.helpMsg":
+    "Specifies the column structure of the grid, including size and units",
   "system.grid.containerConfig.gridTemplateRows.label": "Grid Row Definition",
-  "system.grid.containerConfig.gridTemplateRows.helpMsg": "Specifies the row structure of the grid, including size and units",
+  "system.grid.containerConfig.gridTemplateRows.helpMsg":
+    "Specifies the row structure of the grid, including size and units",
   "system.grid.containerConfig.gap.label": "Spacing",
-  "system.grid.containerConfig.gap.helpMsg": "Defines the spacing between grid rows and columns",
+  "system.grid.containerConfig.gap.helpMsg":
+    "Defines the spacing between grid rows and columns",
   "system.grid.containerConfig.rowGap.label": "Row Spacing",
   "system.grid.containerConfig.columnGap.label": "Column Spacing",
   "system.grid.containerConfig.justifyItems.label": "Cell Horizontal Alignment",
-  "system.grid.containerConfig.justifyItems.helpMsg": "Controls the horizontal alignment of items within grid cells",
+  "system.grid.containerConfig.justifyItems.helpMsg":
+    "Controls the horizontal alignment of items within grid cells",
   "system.grid.containerConfig.alignItems.label": "Cell Vertical Alignment",
-  "system.grid.containerConfig.alignItems.helpMsg": "Controls the vertical alignment of items within grid cells",
+  "system.grid.containerConfig.alignItems.helpMsg":
+    "Controls the vertical alignment of items within grid cells",
   "system.grid.containerConfig.justifyContent.label": "Main Axis Distribution",
-  "system.grid.containerConfig.justifyContent.helpMsg": "Controls the horizontal distribution of items within the container",
+  "system.grid.containerConfig.justifyContent.helpMsg":
+    "Controls the horizontal distribution of items within the container",
   "system.grid.containerConfig.alignContent.label": "Cross Axis Distribution",
-  "system.grid.containerConfig.alignContent.helpMsg": "Controls the vertical distribution of items within the container",
+  "system.grid.containerConfig.alignContent.helpMsg":
+    "Controls the vertical distribution of items within the container",
   "system.grid.containerConfig.gridAutoColumns.label": "Auto Column Width",
-  "system.grid.containerConfig.gridAutoColumns.helpMsg": "Defines the default width of automatically generated columns in the grid",
+  "system.grid.containerConfig.gridAutoColumns.helpMsg":
+    "Defines the default width of automatically generated columns in the grid",
   "system.grid.containerConfig.gridAutoRows.label": "Auto Row Height",
-  "system.grid.containerConfig.gridAutoRows.helpMsg": "Defines the default height of automatically generated rows in the grid",
+  "system.grid.containerConfig.gridAutoRows.helpMsg":
+    "Defines the default height of automatically generated rows in the grid",
   "system.grid.containerConfig.gridAutoFlow.label": "Auto Arrangement",
-  "system.grid.containerConfig.gridAutoFlow.helpMsg": "Controls the automatic arrangement of items in the grid",
+  "system.grid.containerConfig.gridAutoFlow.helpMsg":
+    "Controls the automatic arrangement of items in the grid",
   "system.grid.containerConfig.fr": "FR",
   "system.grid.containerConfig.pixel": "Pixel",
   "system.grid.containerConfig.percent": "Percent",
@@ -1089,17 +1168,23 @@ export default {
   "system.grid.containerConfig.columnDense": "Column Dense",
   // grid/itemsConfig.ts
   "system.grid.itemsConfig.gridColumn.label": "Grid Column",
-  "system.grid.itemsConfig.gridColumn.helpMsg": "Defines the start and end columns of an element in the grid",
+  "system.grid.itemsConfig.gridColumn.helpMsg":
+    "Defines the start and end columns of an element in the grid",
   "system.grid.itemsConfig.gridRow.label": "Grid Row",
-  "system.grid.itemsConfig.gridRow.helpMsg": "Defines the start and end rows of an element in the grid",
+  "system.grid.itemsConfig.gridRow.helpMsg":
+    "Defines the start and end rows of an element in the grid",
   "system.grid.itemsConfig.justifySelf.label": "Horizontal Self Alignment",
-  "system.grid.itemsConfig.justifySelf.helpMsg": "Controls the horizontal alignment of an element within the grid container",
+  "system.grid.itemsConfig.justifySelf.helpMsg":
+    "Controls the horizontal alignment of an element within the grid container",
   "system.grid.itemsConfig.alignSelf.label": "Vertical Self Alignment",
-  "system.grid.itemsConfig.alignSelf.helpMsg": "Controls the vertical alignment of an element within the grid container",
+  "system.grid.itemsConfig.alignSelf.helpMsg":
+    "Controls the vertical alignment of an element within the grid container",
   "system.grid.itemsConfig.width.label": "Width",
-  "system.grid.itemsConfig.width.helpMsg": "Specifies the width of the element, including unit options",
+  "system.grid.itemsConfig.width.helpMsg":
+    "Specifies the width of the element, including unit options",
   "system.grid.itemsConfig.height.label": "Height",
-  "system.grid.itemsConfig.height.helpMsg": "Specifies the height of the element, including unit options",
+  "system.grid.itemsConfig.height.helpMsg":
+    "Specifies the height of the element, including unit options",
   "system.grid.itemsConfig.stretch": "Stretch",
   "system.grid.itemsConfig.start": "Start Alignment",
   "system.grid.itemsConfig.center": "Center",
@@ -1156,36 +1241,48 @@ export default {
   "system.flex.starHorseFlexComp.mainAxisDirection": "Main Axis Direction",
   "system.flex.starHorseFlexComp.inputBox": "Input Box",
   "system.flex.starHorseFlexComp.init": "Initialize",
-  "system.flex.starHorseFlexComp.validationFailed": "Design data validation failed, please check the design content",
+  "system.flex.starHorseFlexComp.validationFailed":
+    "Design data validation failed, please check the design content",
   "system.flex.starHorseFlexComp.validationError": "Validation error:",
-  "system.flex.starHorseFlexComp.publishValidationFailed": "Design data validation failed, cannot publish",
-  "system.flex.starHorseFlexComp.shareValidationFailed": "Design data validation failed, cannot share",
+  "system.flex.starHorseFlexComp.publishValidationFailed":
+    "Design data validation failed, cannot publish",
+  "system.flex.starHorseFlexComp.shareValidationFailed":
+    "Design data validation failed, cannot share",
   "system.flex.starHorseFlexComp.saveSuccess": "Design saved successfully",
-  "system.flex.starHorseFlexComp.shareSuccess": "Share link generated successfully",
+  "system.flex.starHorseFlexComp.shareSuccess":
+    "Share link generated successfully",
   "system.flex.starHorseFlexComp.shareResult": "Share result:",
-  "system.flex.starHorseFlexComp.publishSuccess": "Design published successfully",
+  "system.flex.starHorseFlexComp.publishSuccess":
+    "Design published successfully",
   "system.flex.starHorseFlexComp.publishResult": "Publish result:",
   "system.flex.starHorseFlexComp.saveTemplate": "Save template:",
-  "system.flex.starHorseFlexComp.templateSaveSuccess": "Template saved successfully",
+  "system.flex.starHorseFlexComp.templateSaveSuccess":
+    "Template saved successfully",
   "system.flex.starHorseFlexComp.confirmClearStage": "Confirm clear stage?",
   "system.flex.starHorseFlexComp.loadSuccess": "Design loaded successfully",
   "system.flex.starHorseFlexComp.loadError": "Load design failed:",
   "system.flex.starHorseFlexComp.loadFailed": "Load design failed",
   "system.flex.starHorseFlexComp.autoSaveSuccess": "Auto save successful",
   "system.flex.starHorseFlexComp.autoSaveFailed": "Auto save failed:",
-  "system.flex.starHorseFlexComp.autoSaveSetup": "Set up auto save, save every 5 minutes",
+  "system.flex.starHorseFlexComp.autoSaveSetup":
+    "Set up auto save, save every 5 minutes",
   "system.flex.starHorseFlexComp.autoSaveInterval": "5 minutes",
-  "system.flex.starHorseFlexComp.beforeUnload": "Listen for page unload, auto save",
-  "system.flex.starHorseFlexComp.cleanup": "Clean up resources when component is destroyed",
+  "system.flex.starHorseFlexComp.beforeUnload":
+    "Listen for page unload, auto save",
+  "system.flex.starHorseFlexComp.cleanup":
+    "Clean up resources when component is destroyed",
   "system.flex.starHorseFlexComp.tab.template": "Template",
   "system.flex.starHorseFlexComp.tab.component": "Components",
   "system.flex.starHorseFlexComp.tooltip.return": "Return",
   "system.flex.starHorseFlexComp.tooltip.addElement": "Add Element",
   "system.flex.starHorseFlexComp.tooltip.clearStage": "Clear Stage",
-  "system.flex.starHorseFlexComp.tooltip.mainAxisDirection": "Main Axis Direction",
+  "system.flex.starHorseFlexComp.tooltip.mainAxisDirection":
+    "Main Axis Direction",
   "system.flex.starHorseFlexComp.tooltip.code": "Code",
-  "system.flex.starHorseFlexComp.tooltip.infiniteScrollOn": "Turn off infinite scroll",
-  "system.flex.starHorseFlexComp.tooltip.infiniteScrollOff": "Turn on infinite scroll",
+  "system.flex.starHorseFlexComp.tooltip.infiniteScrollOn":
+    "Turn off infinite scroll",
+  "system.flex.starHorseFlexComp.tooltip.infiniteScrollOff":
+    "Turn on infinite scroll",
   "system.flex.starHorseFlexComp.tooltip.rulerOn": "Turn on ruler",
   "system.flex.starHorseFlexComp.tooltip.rulerOff": "Turn off ruler",
   "system.flex.starHorseFlexComp.tooltip.save": "Save",
@@ -1204,7 +1301,8 @@ export default {
   "system.flex.starHorseFlexComp.item.position": "Position Size",
   "system.flex.starHorseFlexComp.item.background": "Background",
   "system.flex.starHorseFlexComp.item.font": "Font",
-  "system.flex.starHorseFlexComp.tab.componentProperties": "Component Properties",
+  "system.flex.starHorseFlexComp.tab.componentProperties":
+    "Component Properties",
   "system.flex.starHorseFlexComp.grid.layout": "Two-column layout",
   "system.flex.starHorseFlexComp.grid.gap": "Gap uniformly set to 8px",
   /**
@@ -1216,35 +1314,47 @@ export default {
   "system.flex.starHorseDesign.rightPanel.title": "Properties Panel",
   "system.flex.starHorseDesign.rightPanel.component": "Component",
   "system.flex.starHorseDesign.rightPanel.lineProperty": "Line Properties",
-  "system.flex.starHorseDesign.rightPanel.emptyDescription": "Click on components or lines in the canvas to set properties",
+  "system.flex.starHorseDesign.rightPanel.emptyDescription":
+    "Click on components or lines in the canvas to set properties",
   "system.flex.starHorseDesign.drawer.title": "Properties Panel",
   "system.flex.starHorseDesign.drawer.emptyInfo": "Right Panel",
   /**
    * StarHorseEditor.vue
    */
-  "system.flex.starHorseEditor.autoCompletion.currentField": "Current component property",
+  "system.flex.starHorseEditor.autoCompletion.currentField":
+    "Current component property",
   "system.flex.starHorseEditor.autoCompletion.formInstance": "Form instance",
   "system.flex.starHorseEditor.autoCompletion.formData": "Form data",
   "system.flex.starHorseEditor.autoCompletion.formFields": "All form elements",
-  "system.flex.starHorseEditor.autoCompletion.userInfo": "Current logged-in user information",
-  "system.flex.starHorseEditor.autoCompletion.postRequest": "Post request interface, returns asynchronously by default",
-  "system.flex.starHorseEditor.autoCompletion.getRequest": "Get request interface, returns asynchronously by default",
-  "system.flex.starHorseEditor.autoCompletion.download": "Download data interface",
+  "system.flex.starHorseEditor.autoCompletion.userInfo":
+    "Current logged-in user information",
+  "system.flex.starHorseEditor.autoCompletion.postRequest":
+    "Post request interface, returns asynchronously by default",
+  "system.flex.starHorseEditor.autoCompletion.getRequest":
+    "Get request interface, returns asynchronously by default",
+  "system.flex.starHorseEditor.autoCompletion.download":
+    "Download data interface",
   "system.flex.starHorseEditor.autoCompletion.upload": "Upload data interface",
   "system.flex.starHorseEditor.getLanguageInfo": "Get language information",
   "system.flex.starHorseEditor.init": "Initialize",
-  "system.flex.starHorseEditor.generateQueryTips": "Generate different query tips based on different databases",
+  "system.flex.starHorseEditor.generateQueryTips":
+    "Generate different query tips based on different databases",
   "system.flex.starHorseEditor.theme": "Theme",
   "system.flex.starHorseEditor.language": "Language",
   /**
    * sh_design.ts
    */
   "system.flex.shDesign.help.title.steps": "Steps",
-  "system.flex.shDesign.help.step1": "After opening the editor, you can drag components from the left to the middle grid canvas area;",
-  "system.flex.shDesign.help.step2": "When you move the mouse over a component, four circles will appear. When you move the mouse over a circle, it will turn into a solid cross. Pressing the left mouse button and dragging will create a connection line that can be linked to circles on other components;",
-  "system.flex.shDesign.help.step3": "Click on a component or connection line to select it;",
-  "system.flex.shDesign.help.step4": "Press the left mouse button in a blank area and drag to select components;",
-  "system.flex.shDesign.help.step5": "Double-click on a component or connection line to edit its properties.",
+  "system.flex.shDesign.help.step1":
+    "After opening the editor, you can drag components from the left to the middle grid canvas area;",
+  "system.flex.shDesign.help.step2":
+    "When you move the mouse over a component, four circles will appear. When you move the mouse over a circle, it will turn into a solid cross. Pressing the left mouse button and dragging will create a connection line that can be linked to circles on other components;",
+  "system.flex.shDesign.help.step3":
+    "Click on a component or connection line to select it;",
+  "system.flex.shDesign.help.step4":
+    "Press the left mouse button in a blank area and drag to select components;",
+  "system.flex.shDesign.help.step5":
+    "Double-click on a component or connection line to edit its properties.",
   "system.flex.shDesign.help.title.shortcuts": "Shortcuts",
   "system.flex.shDesign.help.shortcut.dragCanvas": "Drag canvas;",
   "system.flex.shDesign.help.shortcut.copy": "Copy;",
@@ -1255,7 +1365,8 @@ export default {
   "system.flex.shDesign.help.shortcut.selectAll": "Select all;",
   "system.flex.shDesign.help.shortcut.zoomIn": "Zoom in;",
   "system.flex.shDesign.help.shortcut.zoomOut": "Zoom out;",
-  "system.flex.shDesign.help.shortcut.delete": "Delete component or connection line.",
+  "system.flex.shDesign.help.shortcut.delete":
+    "Delete component or connection line.",
   /**
    * Utilities
    */
@@ -1915,7 +2026,7 @@ export default {
   "system.identity.number": "Identity Number",
   "system.mailing.address": "Mailing Address",
   "system.id.photo": "ID Photo",
-  "system.auditing.opinion":"Approval Comments",
+  "system.auditing.opinion": "Approval Comments",
   /**
    * Workflow Components
    */

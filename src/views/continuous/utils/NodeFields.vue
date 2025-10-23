@@ -1,5 +1,16 @@
 <script setup lang="ts">
-import {computed, ModelRef, nextTick, onMounted, PropType, provide, ref, shallowRef, unref, watch} from "vue";
+import {
+  computed,
+  ModelRef,
+  nextTick,
+  onMounted,
+  PropType,
+  provide,
+  ref,
+  shallowRef,
+  unref,
+  watch,
+} from "vue";
 import {
   apiInstance,
   ApiUrls,
@@ -11,19 +22,19 @@ import {
   SearchFields,
   TabFieldInfo,
   uuid,
-  warning
+  warning,
 } from "star-horse-lowcode";
-import {i18n} from "@/lang";
-import {useContinusConfigStore} from "@/store/ContinusConfig";
-import {advancedFormFields} from "@/views/continuous/utils/ToolsParams";
-import {loadFormFields} from "@/views/continuous/utils/PipelinetCfg";
+import { i18n } from "@/lang";
+import { useContinusConfigStore } from "@/store/ContinusConfig";
+import { advancedFormFields } from "@/views/continuous/utils/ToolsParams";
+import { loadFormFields } from "@/views/continuous/utils/PipelinetCfg";
 
 let dataUrl = ref<ApiUrls>(apiInstance("", ""));
 const props = defineProps({
-  formNo: {type: String},
-  nodeInfo: {type: Object as PropType<any>, required: true},
-  staticFieldData: {type: Object as PropType<PageFieldInfo>},
-  compSize: {type: String, default: "default"},
+  formNo: { type: String },
+  nodeInfo: { type: Object as PropType<any>, required: true },
+  staticFieldData: { type: Object as PropType<PageFieldInfo> },
+  compSize: { type: String, default: "default" },
 });
 const continuousStore = useContinusConfigStore(piniaInstance);
 const errorMsg = ref(i18n("continuous.dataLoading"));
@@ -46,26 +57,35 @@ const tableFieldList = computed(() => {
     changeToDefault(temp[0].fieldList[temp[0].fieldList.length - 1]);
   }
   return {
-    fieldList: [{
-      addable: props.nodeInfo.nodeCode != "PipelineCfg",
-      closable: true,
-      fieldName: currentTabName,
-      groupData: true,
-      tabList: temp,
-      actions: {
-        tabAdd: (data: any) => {
-          subNodeDialog.value = true;
+    fieldList: [
+      {
+        addable: props.nodeInfo.nodeCode != "PipelineCfg",
+        closable: true,
+        fieldName: currentTabName,
+        groupData: true,
+        tabList: temp,
+        actions: {
+          tabAdd: (data: any) => {
+            subNodeDialog.value = true;
+          },
+          tabChange: (data: any) => {
+            let fieldList = temp.find(
+              (item: any) => item.tabName == data,
+            )?.fieldList;
+            changeToDefault(fieldList[fieldList.length - 1]);
+          },
+          close: (data: any) => {
+            props.nodeInfo["subNodeInfoList"] = props.nodeInfo[
+              "subNodeInfoList"
+            ].filter((item: any) => item.idNodeInfo != data.idNodeInfo);
+            currentTabName.value =
+              props.nodeInfo["subNodeInfoList"].length > 0
+                ? props.nodeInfo["subNodeInfoList"][0].nodeCode
+                : props.nodeInfo.nodeCode;
+          },
         },
-        tabChange: (data: any) => {
-          let fieldList = temp.find((item: any) => item.tabName == data)?.fieldList;
-          changeToDefault(fieldList[fieldList.length - 1]);
-        },
-        close: (data: any) => {
-          props.nodeInfo["subNodeInfoList"] = props.nodeInfo["subNodeInfoList"].filter((item: any) => item.idNodeInfo != data.idNodeInfo);
-          currentTabName.value = props.nodeInfo["subNodeInfoList"].length > 0 ? props.nodeInfo["subNodeInfoList"][0].nodeCode : props.nodeInfo.nodeCode;
-        }
-      }
-    }]
+      },
+    ],
   };
 });
 const changeToDefault = (tempFormList: any) => {
@@ -85,7 +105,9 @@ const advancedFormFieldsList = async (advancedDynamicFormNo: string) => {
     } else {
       let newVar = await loadFormFields(advancedDynamicFormNo);
       continuousStore.addNodeFields(advancedDynamicFormNo, newVar);
-      tempFormList = advancedFormFields(newVar.data["tableFieldList"].fieldList);
+      tempFormList = advancedFormFields(
+        newVar.data["tableFieldList"].fieldList,
+      );
     }
   }
   return tempFormList;
@@ -96,55 +118,74 @@ const advancedFormFieldsList = async (advancedDynamicFormNo: string) => {
  * @param nodeInfo
  * @param subNodeFlag
  */
-const assignField = async (data: any, nodeInfo?: any, subNodeFlag?: boolean) => {
+const assignField = async (
+  data: any,
+  nodeInfo?: any,
+  subNodeFlag?: boolean,
+) => {
   dataUrl.value = apiInstance(
-      data["dataUrl"].appName,
-      data["dataUrl"].contextUrl,
+    data["dataUrl"].appName,
+    data["dataUrl"].contextUrl,
   );
   const fieldList = data["tableFieldList"].fieldList;
-  if (!fieldList.find((item: any) => item.collapseFlag?.includes("advancedSetting"))) {
-    const tempFormList = await advancedFormFieldsList(nodeInfo?.advancedDynamicFormNo);
+  if (
+    !fieldList.find((item: any) =>
+      item.collapseFlag?.includes("advancedSetting"),
+    )
+  ) {
+    const tempFormList = await advancedFormFieldsList(
+      nodeInfo?.advancedDynamicFormNo,
+    );
     fieldList.push(tempFormList);
   }
   //节点的执行触发条件
-  if (!fieldList[0].find((item: any) => item.fieldName == "nodeTriggerCondition")) {
-    let data = [[{
-      fieldName: "nodeTriggerCondition",
-      fieldType: "select",
-      label: "执行条件",
-      required: true,
-      formVisible: true,
-      defaultValue: nodeInfo?.nodeTriggerCondition || "auto",
-      preps: {
-        dataSource: "dict",
-        urlOrDictName: "nodeTriggerCondition"
-      }
-    }, {
-      fieldName: "repeatExec",
-      type: "switch",
-      formVisible: true,
-      label: "是否可重复执行",
-      defaultValue: nodeInfo?.repeatExec || "N",
-      preps: {
-        disabled: nodeInfo?.repeatExec == "N",
-        activeValue: "Y",
-        inactiveValue: "N",
-      }
-    }, {
-      fieldName: "failRetry",
-      type: "select",
-      label: "失败重试次数",
-      formVisible: true,
-      defaultValue: nodeInfo?.failRetry || "forbidden",
-      preps: {
-        disabled: nodeInfo?.failRetry == "forbidden",
-        dataSource: "dict",
-        urlOrDictName: "FailRetryTimes"
-      }
-    }], {
-      type: "divider",
-      formVisible: true,
-    }];
+  if (
+    !fieldList[0].find((item: any) => item.fieldName == "nodeTriggerCondition")
+  ) {
+    let data = [
+      [
+        {
+          fieldName: "nodeTriggerCondition",
+          fieldType: "select",
+          label: "执行条件",
+          required: true,
+          formVisible: true,
+          defaultValue: nodeInfo?.nodeTriggerCondition || "auto",
+          preps: {
+            dataSource: "dict",
+            urlOrDictName: "nodeTriggerCondition",
+          },
+        },
+        {
+          fieldName: "repeatExec",
+          type: "switch",
+          formVisible: true,
+          label: "是否可重复执行",
+          defaultValue: nodeInfo?.repeatExec || "N",
+          preps: {
+            disabled: nodeInfo?.repeatExec == "N",
+            activeValue: "Y",
+            inactiveValue: "N",
+          },
+        },
+        {
+          fieldName: "failRetry",
+          type: "select",
+          label: "失败重试次数",
+          formVisible: true,
+          defaultValue: nodeInfo?.failRetry || "forbidden",
+          preps: {
+            disabled: nodeInfo?.failRetry == "forbidden",
+            dataSource: "dict",
+            urlOrDictName: "FailRetryTimes",
+          },
+        },
+      ],
+      {
+        type: "divider",
+        formVisible: true,
+      },
+    ];
     fieldList.splice(0, 0, ...data);
   }
   if (subNodeFlag) {
@@ -183,10 +224,13 @@ const resetField = () => {
   relationTables.value = {};
   rules.value = {};
   formInfo.value = {};
-
 };
 
-const loadFormData = async (formNo: string, nodeInfo?: any, subNodeFlag?: boolean) => {
+const loadFormData = async (
+  formNo: string,
+  nodeInfo?: any,
+  subNodeFlag?: boolean,
+) => {
   if (!formNo) {
     resetField();
     return;
@@ -196,7 +240,7 @@ const loadFormData = async (formNo: string, nodeInfo?: any, subNodeFlag?: boolea
     await assignField(cacheData, nodeInfo, subNodeFlag);
     return;
   }
-  let {data, error} = await loadFormFields(formNo);
+  let { data, error } = await loadFormFields(formNo);
   if (error) {
     errorMsg.value = error;
     hasData.value = false;
@@ -209,7 +253,6 @@ const loadFormData = async (formNo: string, nodeInfo?: any, subNodeFlag?: boolea
   await nextTick();
   closeLoad();
 };
-
 
 const resetForm = () => {
   formFields.value = [];
@@ -225,8 +268,14 @@ const init = async () => {
   }
   if (props.staticFieldData?.fieldList?.length > 0) {
     let tempFieldList = props.staticFieldData!.fieldList;
-    if (!tempFieldList.find((item: any) => item.collapseFlag?.includes("advancedSetting"))) {
-      const tempFormData = await advancedFormFieldsList(props.nodeInfo?.advancedDynamicFormNo);
+    if (
+      !tempFieldList.find((item: any) =>
+        item.collapseFlag?.includes("advancedSetting"),
+      )
+    ) {
+      const tempFormData = await advancedFormFieldsList(
+        props.nodeInfo?.advancedDynamicFormNo,
+      );
       tempFieldList.push(tempFormData);
     }
     tabList.value.push({
@@ -269,32 +318,42 @@ const closeAction = () => {
 };
 onMounted(async () => {
   await init();
-
 });
 watch(
-    () => props.nodeInfo.idNodeInfo,
-    () => {
-      resetForm();
-      init();
-    },
-    {deep: true},
+  () => props.nodeInfo.idNodeInfo,
+  () => {
+    resetForm();
+    init();
+  },
+  { deep: true },
+);
+watch(
+  () => outerFormData.value["nodeName"],
+  (val) => {
+    props.nodeInfo.nodeName = val;
+  },
+  {},
 );
 defineExpose({
   resetForm,
 });
 </script>
 <template>
-  <NodeDialog :visible="subNodeDialog" @save="dataSubmit" @close="closeAction"/>
+  <NodeDialog
+    :visible="subNodeDialog"
+    @save="dataSubmit"
+    @close="closeAction"
+  />
   <star-horse-form-item
-      :compUrl="dataUrl"
-      :dynamicForm="true"
-      ref="nodeFormRef"
-      :key="nodeInfo.idNodeInfo"
-      :compSize="compSize"
-      :globalCondition="relationTables"
-      :dataForm="outerFormData"
-      :fieldList="tableFieldList"
-      :rules="rules"
+    :compUrl="dataUrl"
+    :dynamicForm="true"
+    ref="nodeFormRef"
+    :key="nodeInfo.idNodeInfo"
+    :compSize="compSize"
+    :globalCondition="relationTables"
+    :dataForm="outerFormData"
+    :fieldList="tableFieldList"
+    :rules="rules"
   />
 </template>
 <style scoped></style>

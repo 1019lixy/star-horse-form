@@ -27,7 +27,7 @@ import "@univerjs/presets/lib/styles/preset-docs-core.css";
 import "@univerjs/presets/lib/styles/preset-docs-drawing.css";
 import "@univerjs/presets/lib/styles/preset-docs-hyper-link.css";
 
-import {ItemPreps} from "star-horse-lowcode";
+import { ItemPreps } from "star-horse-lowcode";
 const props = withDefaults(defineProps<ItemPreps>(), {
   isDesign: false,
   disabled: false,

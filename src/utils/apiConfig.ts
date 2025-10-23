@@ -24,16 +24,22 @@ export function createApiConfigProperties() {
       required: true,
       defaultValue: "",
       options: [], // 动态从字典加载
-      description: i18n("system.apiConfig.createApiConfigProperties.env.description"),
+      description: i18n(
+        "system.apiConfig.createApiConfigProperties.env.description",
+      ),
     },
     {
       name: "httpMethod",
-      label: i18n("system.apiConfig.createApiConfigProperties.httpMethod.label"),
+      label: i18n(
+        "system.apiConfig.createApiConfigProperties.httpMethod.label",
+      ),
       type: "select" as const,
       required: true,
       defaultValue: "POST",
       options: httpMethod(),
-      description: i18n("system.apiConfig.createApiConfigProperties.httpMethod.description"),
+      description: i18n(
+        "system.apiConfig.createApiConfigProperties.httpMethod.description",
+      ),
     },
     {
       name: "protocol",
@@ -42,7 +48,9 @@ export function createApiConfigProperties() {
       required: true,
       defaultValue: "http",
       options: protocolOptions,
-      description: i18n("system.apiConfig.createApiConfigProperties.protocol.description"),
+      description: i18n(
+        "system.apiConfig.createApiConfigProperties.protocol.description",
+      ),
     },
     {
       name: "host",
@@ -50,8 +58,12 @@ export function createApiConfigProperties() {
       type: "input" as const,
       required: true,
       defaultValue: "",
-      placeholder: i18n("system.apiConfig.createApiConfigProperties.host.placeholder"),
-      description: i18n("system.apiConfig.createApiConfigProperties.host.description"),
+      placeholder: i18n(
+        "system.apiConfig.createApiConfigProperties.host.placeholder",
+      ),
+      description: i18n(
+        "system.apiConfig.createApiConfigProperties.host.description",
+      ),
     },
     {
       name: "port",
@@ -61,34 +73,50 @@ export function createApiConfigProperties() {
       defaultValue: "",
       min: 1,
       max: 65535,
-      description: i18n("system.apiConfig.createApiConfigProperties.port.description"),
+      description: i18n(
+        "system.apiConfig.createApiConfigProperties.port.description",
+      ),
     },
     {
       name: "interfaceUrl",
-      label: i18n("system.apiConfig.createApiConfigProperties.interfaceUrl.label"),
+      label: i18n(
+        "system.apiConfig.createApiConfigProperties.interfaceUrl.label",
+      ),
       type: "input" as const,
       required: true,
       defaultValue: "",
-      placeholder: i18n("system.apiConfig.createApiConfigProperties.interfaceUrl.placeholder"),
-      description: i18n("system.apiConfig.createApiConfigProperties.interfaceUrl.description"),
+      placeholder: i18n(
+        "system.apiConfig.createApiConfigProperties.interfaceUrl.placeholder",
+      ),
+      description: i18n(
+        "system.apiConfig.createApiConfigProperties.interfaceUrl.description",
+      ),
     },
     // Add periodic refresh configuration
     {
       name: "enableAutoRefresh",
-      label: i18n("system.apiConfig.createApiConfigProperties.enableAutoRefresh.label"),
+      label: i18n(
+        "system.apiConfig.createApiConfigProperties.enableAutoRefresh.label",
+      ),
       type: "switch" as const,
       defaultValue: false,
-      description: i18n("system.apiConfig.createApiConfigProperties.enableAutoRefresh.description"),
+      description: i18n(
+        "system.apiConfig.createApiConfigProperties.enableAutoRefresh.description",
+      ),
     },
     {
       name: "refreshInterval",
-      label: i18n("system.apiConfig.createApiConfigProperties.refreshInterval.label"),
+      label: i18n(
+        "system.apiConfig.createApiConfigProperties.refreshInterval.label",
+      ),
       type: "number" as const,
       required: false,
       defaultValue: 30,
       min: 5,
       max: 3600,
-      description: i18n("system.apiConfig.createApiConfigProperties.refreshInterval.description"),
+      description: i18n(
+        "system.apiConfig.createApiConfigProperties.refreshInterval.description",
+      ),
       // Only show when auto refresh is enabled
       condition: (formData: any) => formData.enableAutoRefresh,
     },
@@ -131,19 +159,31 @@ export function validateApiConfig(apiConfig: Partial<ApiConfig>): {
   error?: string;
 } {
   if (!apiConfig.env) {
-    return { valid: false, error: i18n("system.apiConfig.validateApiConfig.env.error") };
+    return {
+      valid: false,
+      error: i18n("system.apiConfig.validateApiConfig.env.error"),
+    };
   }
 
   if (!apiConfig.httpMethod) {
-    return { valid: false, error: i18n("system.apiConfig.validateApiConfig.httpMethod.error") };
+    return {
+      valid: false,
+      error: i18n("system.apiConfig.validateApiConfig.httpMethod.error"),
+    };
   }
 
   if (!apiConfig.protocol) {
-    return { valid: false, error: i18n("system.apiConfig.validateApiConfig.protocol.error") };
+    return {
+      valid: false,
+      error: i18n("system.apiConfig.validateApiConfig.protocol.error"),
+    };
   }
 
   if (!apiConfig.host) {
-    return { valid: false, error: i18n("system.apiConfig.validateApiConfig.host.error") };
+    return {
+      valid: false,
+      error: i18n("system.apiConfig.validateApiConfig.host.error"),
+    };
   }
 
   if (
@@ -152,11 +192,17 @@ export function validateApiConfig(apiConfig: Partial<ApiConfig>): {
       Number(apiConfig.port) < 1 ||
       Number(apiConfig.port) > 65535)
   ) {
-    return { valid: false, error: i18n("system.apiConfig.validateApiConfig.port.error") };
+    return {
+      valid: false,
+      error: i18n("system.apiConfig.validateApiConfig.port.error"),
+    };
   }
 
   if (!apiConfig.interfaceUrl) {
-    return { valid: false, error: i18n("system.apiConfig.validateApiConfig.interfaceUrl.error") };
+    return {
+      valid: false,
+      error: i18n("system.apiConfig.validateApiConfig.interfaceUrl.error"),
+    };
   }
 
   // Validate refresh configuration if enabled
@@ -166,7 +212,10 @@ export function validateApiConfig(apiConfig: Partial<ApiConfig>): {
       apiConfig.refreshInterval < 5 ||
       apiConfig.refreshInterval > 3600
     ) {
-      return { valid: false, error: i18n("system.apiConfig.validateApiConfig.refreshInterval.error") };
+      return {
+        valid: false,
+        error: i18n("system.apiConfig.validateApiConfig.refreshInterval.error"),
+      };
     }
   }
 

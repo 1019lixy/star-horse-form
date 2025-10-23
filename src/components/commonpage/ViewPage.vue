@@ -19,7 +19,7 @@ import {
 } from "star-horse-lowcode";
 import { computed, onMounted, provide, reactive, ref, watch } from "vue";
 import { i18n } from "@/lang";
-import CommonSkeleton from './CommonSkeleton.vue';
+import CommonSkeleton from "./CommonSkeleton.vue";
 
 let designForm = useDesignFormStore(piniaInstance);
 const props = defineProps({

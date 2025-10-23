@@ -382,18 +382,18 @@ onMounted(async () => {
         </el-splitter-panel>
         <el-splitter-panel>
           <el-card class="inner_content">
-          <div class="search-content">
-            <div class="search_btn">
-              <star-horse-search-comp
-                @searchData="
-                  (data: any) => menuBtnTableRef?.createSearchParams(data)
-                "
-                :formData="searchFormData"
-                :defaultCondition="defaultCondition"
-                :compUrl="dataUrl"
-              />
+            <div class="search-content">
+              <div class="search_btn">
+                <star-horse-search-comp
+                  @searchData="
+                    (data: any) => menuBtnTableRef?.createSearchParams(data)
+                  "
+                  :formData="searchFormData"
+                  :defaultCondition="defaultCondition"
+                  :compUrl="dataUrl"
+                />
+              </div>
             </div>
-          </div>
 
             <star-horse-table-comp
               :fieldList="tableFieldList"

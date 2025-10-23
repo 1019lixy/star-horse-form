@@ -2,7 +2,7 @@
 import { defineOptions, onMounted, ref } from "vue";
 import { pageCompList } from "@/utils/layoutcomp";
 import SvgLoader from "../SvgLoader.vue";
-import { piniaInstance, uuid ,DynamicNode} from "star-horse-lowcode";
+import { piniaInstance, uuid, DynamicNode } from "star-horse-lowcode";
 import { useFlexDesignStore } from "@/store/FlexDesign.js";
 
 import { Config } from "@/api/settings.js";
@@ -14,7 +14,7 @@ defineProps({
   compSize: {
     type: String,
     default: Config.compSize,
-  }
+  },
 });
 const flexDesign = useFlexDesignStore(piniaInstance);
 const emit = defineEmits(["selectItem"]);
@@ -29,35 +29,35 @@ const addElement = (item: DynamicNode, type: string) => {};
 // Map Chinese labels to i18n keys
 const getI18nKeyForCategory = (label: string): string => {
   const categoryMap: Record<string, string> = {
-    "系统组件": "system.flex.pageCompPanel.category.system",
-    "自定义组件": "system.flex.pageCompPanel.category.custom"
+    系统组件: "system.flex.pageCompPanel.category.system",
+    自定义组件: "system.flex.pageCompPanel.category.custom",
   };
   return categoryMap[label] || label;
 };
 // Map Chinese component labels to i18n keys
 const getI18nKeyForComponent = (label: string): string => {
   const componentMap: Record<string, string> = {
-    "表格": "system.flex.pageCompPanel.component.table",
-    "分页条": "system.flex.pageCompPanel.component.pagebar",
-    "图片": "system.flex.pageCompPanel.component.image",
-    "走马灯": "system.flex.pageCompPanel.component.carousel",
-    "日历": "system.flex.pageCompPanel.component.calendar",
-    "分割面板": "system.flex.pageCompPanel.component.splitter",
-    "统计": "system.flex.pageCompPanel.component.statistic",
-    "页头": "system.flex.pageCompPanel.component.pageheader",
-    "菜单": "system.flex.pageCompPanel.component.menubar",
-    "步骤条": "system.flex.pageCompPanel.component.steps",
-    "时间线": "system.flex.pageCompPanel.component.timeline",
-    "表单": "system.flex.pageCompPanel.component.form",
-    "轮播图": "system.flex.pageCompPanel.component.banner",
-    "卡片": "system.flex.pageCompPanel.component.card",
-    "内容展示": "system.flex.pageCompPanel.component.content",
-    "版权信息": "system.flex.pageCompPanel.component.copyright",
-    "横向菜单": "system.flex.pageCompPanel.component.hmenu",
-    "链接": "system.flex.pageCompPanel.component.link",
-    "Logo": "system.flex.pageCompPanel.component.logo",
-    "导航栏": "system.flex.pageCompPanel.component.navbar",
-    "图表": "system.flex.pageCompPanel.component.chart"
+    表格: "system.flex.pageCompPanel.component.table",
+    分页条: "system.flex.pageCompPanel.component.pagebar",
+    图片: "system.flex.pageCompPanel.component.image",
+    走马灯: "system.flex.pageCompPanel.component.carousel",
+    日历: "system.flex.pageCompPanel.component.calendar",
+    分割面板: "system.flex.pageCompPanel.component.splitter",
+    统计: "system.flex.pageCompPanel.component.statistic",
+    页头: "system.flex.pageCompPanel.component.pageheader",
+    菜单: "system.flex.pageCompPanel.component.menubar",
+    步骤条: "system.flex.pageCompPanel.component.steps",
+    时间线: "system.flex.pageCompPanel.component.timeline",
+    表单: "system.flex.pageCompPanel.component.form",
+    轮播图: "system.flex.pageCompPanel.component.banner",
+    卡片: "system.flex.pageCompPanel.component.card",
+    内容展示: "system.flex.pageCompPanel.component.content",
+    版权信息: "system.flex.pageCompPanel.component.copyright",
+    横向菜单: "system.flex.pageCompPanel.component.hmenu",
+    链接: "system.flex.pageCompPanel.component.link",
+    Logo: "system.flex.pageCompPanel.component.logo",
+    导航栏: "system.flex.pageCompPanel.component.navbar",
+    图表: "system.flex.pageCompPanel.component.chart",
   };
   return componentMap[label] || label;
 };
@@ -69,7 +69,11 @@ onMounted(() => {
 <template>
   <div class="field-area">
     <el-scrollbar height="100%">
-      <el-collapse class="starhorse-collapse" :size="compSize" v-model="activeNames">
+      <el-collapse
+        class="starhorse-collapse"
+        :size="compSize"
+        v-model="activeNames"
+      >
         <template v-for="(item, index) in pageCompList" :key="index">
           <el-collapse-item :name="item.id">
             <template #title>

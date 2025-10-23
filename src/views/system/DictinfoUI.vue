@@ -28,7 +28,7 @@ const searchFormData = reactive<SearchFields>({
       label: i18n("system.dictionary.type"),
       fieldName: "dictType",
       defaultValue: dictType,
-      preps:{
+      preps: {
         disabled: true,
       },
     },

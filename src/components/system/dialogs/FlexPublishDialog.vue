@@ -16,7 +16,10 @@
           ref="publishFormRef"
           label-width="120px"
         >
-          <el-form-item :label="i18n('system.flex.publishDialog.label.name')" prop="name">
+          <el-form-item
+            :label="i18n('system.flex.publishDialog.label.name')"
+            prop="name"
+          >
             <el-input
               v-model="publishForm.name"
               :placeholder="i18n('system.flex.publishDialog.placeholder.name')"
@@ -24,63 +27,114 @@
             />
           </el-form-item>
 
-          <el-form-item :label="i18n('system.flex.publishDialog.label.version')" prop="version">
+          <el-form-item
+            :label="i18n('system.flex.publishDialog.label.version')"
+            prop="version"
+          >
             <el-input
               v-model="publishForm.version"
-              :placeholder="i18n('system.flex.publishDialog.placeholder.version')"
+              :placeholder="
+                i18n('system.flex.publishDialog.placeholder.version')
+              "
               :disabled="isPublishing"
             >
               <template #prepend>v</template>
             </el-input>
           </el-form-item>
 
-          <el-form-item :label="i18n('system.flex.publishDialog.label.description')" prop="description">
+          <el-form-item
+            :label="i18n('system.flex.publishDialog.label.description')"
+            prop="description"
+          >
             <el-input
               v-model="publishForm.description"
               type="textarea"
               :rows="4"
-              :placeholder="i18n('system.flex.publishDialog.placeholder.description')"
+              :placeholder="
+                i18n('system.flex.publishDialog.placeholder.description')
+              "
               :disabled="isPublishing"
             />
           </el-form-item>
 
-          <el-form-item :label="i18n('system.flex.publishDialog.label.environment')" prop="environment">
+          <el-form-item
+            :label="i18n('system.flex.publishDialog.label.environment')"
+            prop="environment"
+          >
             <el-select
               v-model="publishForm.environment"
               :disabled="isPublishing"
               style="width: 100%"
             >
-              <el-option :label="i18n('system.flex.publishDialog.environment.development')" value="development" />
-              <el-option :label="i18n('system.flex.publishDialog.environment.testing')" value="testing" />
-              <el-option :label="i18n('system.flex.publishDialog.environment.staging')" value="staging" />
-              <el-option :label="i18n('system.flex.publishDialog.environment.production')" value="production" />
+              <el-option
+                :label="
+                  i18n('system.flex.publishDialog.environment.development')
+                "
+                value="development"
+              />
+              <el-option
+                :label="i18n('system.flex.publishDialog.environment.testing')"
+                value="testing"
+              />
+              <el-option
+                :label="i18n('system.flex.publishDialog.environment.staging')"
+                value="staging"
+              />
+              <el-option
+                :label="
+                  i18n('system.flex.publishDialog.environment.production')
+                "
+                value="production"
+              />
             </el-select>
           </el-form-item>
 
-          <el-form-item :label="i18n('system.flex.publishDialog.label.accessType')" prop="accessType">
+          <el-form-item
+            :label="i18n('system.flex.publishDialog.label.accessType')"
+            prop="accessType"
+          >
             <el-radio-group
               v-model="publishForm.accessType"
               :disabled="isPublishing"
             >
-              <el-radio value="public">{{ i18n('system.flex.publishDialog.accessType.public') }}</el-radio>
-              <el-radio value="private">{{ i18n('system.flex.publishDialog.accessType.private') }}</el-radio>
-              <el-radio value="organization">{{ i18n('system.flex.publishDialog.accessType.organization') }}</el-radio>
+              <el-radio value="public">{{
+                i18n("system.flex.publishDialog.accessType.public")
+              }}</el-radio>
+              <el-radio value="private">{{
+                i18n("system.flex.publishDialog.accessType.private")
+              }}</el-radio>
+              <el-radio value="organization">{{
+                i18n("system.flex.publishDialog.accessType.organization")
+              }}</el-radio>
             </el-radio-group>
           </el-form-item>
 
-          <el-form-item :label="i18n('system.flex.publishDialog.label.settings')">
+          <el-form-item
+            :label="i18n('system.flex.publishDialog.label.settings')"
+          >
             <el-checkbox-group
               v-model="publishForm.settings"
               :disabled="isPublishing"
             >
-              <el-checkbox value="generateDocs">{{ i18n('system.flex.publishDialog.setting.generateDocs') }}</el-checkbox>
-              <el-checkbox value="enableAnalytics">{{ i18n('system.flex.publishDialog.setting.enableAnalytics') }}</el-checkbox>
-              <el-checkbox value="enableComments">{{ i18n('system.flex.publishDialog.setting.enableComments') }}</el-checkbox>
-              <el-checkbox value="autoBackup">{{ i18n('system.flex.publishDialog.setting.autoBackup') }}</el-checkbox>
+              <el-checkbox value="generateDocs">{{
+                i18n("system.flex.publishDialog.setting.generateDocs")
+              }}</el-checkbox>
+              <el-checkbox value="enableAnalytics">{{
+                i18n("system.flex.publishDialog.setting.enableAnalytics")
+              }}</el-checkbox>
+              <el-checkbox value="enableComments">{{
+                i18n("system.flex.publishDialog.setting.enableComments")
+              }}</el-checkbox>
+              <el-checkbox value="autoBackup">{{
+                i18n("system.flex.publishDialog.setting.autoBackup")
+              }}</el-checkbox>
             </el-checkbox-group>
           </el-form-item>
 
-          <el-form-item :label="i18n('system.flex.publishDialog.label.tags')" prop="tags">
+          <el-form-item
+            :label="i18n('system.flex.publishDialog.label.tags')"
+            prop="tags"
+          >
             <el-tag
               v-for="tag in publishForm.tags"
               :key="tag"
@@ -106,7 +160,7 @@
               size="small"
               @click="showInput"
             >
-              {{ i18n('system.flex.publishDialog.button.addTag') }}
+              {{ i18n("system.flex.publishDialog.button.addTag") }}
             </el-button>
           </el-form-item>
         </el-form>
@@ -114,20 +168,26 @@
 
       <!-- 发布预检查 -->
       <div class="publish-check">
-        <el-divider content-position="center">{{ i18n('system.flex.publishDialog.title.preCheck') }}</el-divider>
+        <el-divider content-position="center">{{
+          i18n("system.flex.publishDialog.title.preCheck")
+        }}</el-divider>
         <div class="check-items">
           <div
             class="check-item"
             :class="{ 'check-passed': validationResult.isValid }"
           >
-            <el-icon :color="validationResult.isValid ? '#67c23a' : '#f56c6c'">
-              <star-horse-icon
+            <star-horse-icon
                 :icon-class="validationResult.isValid ? 'success' : 'error'"
-              />
-            </el-icon>
-            <span>{{ i18n('system.flex.publishDialog.check.designValidation') }}</span>
+            />
+            <span>{{
+              i18n("system.flex.publishDialog.check.designValidation")
+            }}</span>
             <span class="check-result">
-              {{ validationResult.isValid ? i18n('system.flex.publishDialog.check.passed') : i18n('system.flex.publishDialog.check.failed') }}
+              {{
+                validationResult.isValid
+                  ? i18n("system.flex.publishDialog.check.passed")
+                  : i18n("system.flex.publishDialog.check.failed")
+              }}
             </span>
           </div>
 
@@ -135,16 +195,18 @@
             class="check-item"
             :class="{ 'check-passed': designSummary.itemCount > 0 }"
           >
-            <el-icon
-              :color="designSummary.itemCount > 0 ? '#67c23a' : '#f56c6c'"
-            >
-              <star-horse-icon
+            <star-horse-icon
                 :icon-class="designSummary.itemCount > 0 ? 'success' : 'error'"
-              />
-            </el-icon>
-            <span>{{ i18n('system.flex.publishDialog.check.designContent') }}</span>
+            />
+            <span>{{
+              i18n("system.flex.publishDialog.check.designContent")
+            }}</span>
             <span class="check-result">
-              {{ designSummary.itemCount > 0 ? i18n('system.flex.publishDialog.check.passed') : i18n('system.flex.publishDialog.check.designEmpty') }}
+              {{
+                designSummary.itemCount > 0
+                  ? i18n("system.flex.publishDialog.check.passed")
+                  : i18n("system.flex.publishDialog.check.designEmpty")
+              }}
             </span>
           </div>
 
@@ -152,8 +214,12 @@
             <el-icon color="#67c23a">
               <star-horse-icon icon-class="success" />
             </el-icon>
-            <span>{{ i18n('system.flex.publishDialog.check.permission') }}</span>
-            <span class="check-result">{{ i18n('system.flex.publishDialog.check.passed') }}</span>
+            <span>{{
+              i18n("system.flex.publishDialog.check.permission")
+            }}</span>
+            <span class="check-result">{{
+              i18n("system.flex.publishDialog.check.passed")
+            }}</span>
           </div>
         </div>
 
@@ -176,35 +242,59 @@
 
       <!-- 发布历史 -->
       <div class="publish-history">
-        <el-divider content-position="center">{{ i18n('system.flex.publishDialog.title.history') }}</el-divider>
+        <el-divider content-position="center">{{
+          i18n("system.flex.publishDialog.title.history")
+        }}</el-divider>
         <el-table :data="publishHistory" style="width: 100%" size="small">
-          <el-table-column prop="version" :label="i18n('system.flex.publishDialog.table.column.version')" width="100" />
-          <el-table-column prop="name" :label="i18n('system.flex.publishDialog.table.column.name')" />
-          <el-table-column prop="environment" :label="i18n('system.flex.publishDialog.table.column.environment')" width="100" />
-          <el-table-column prop="publishDate" :label="i18n('system.flex.publishDialog.table.column.publishDate')" width="150">
+          <el-table-column
+            prop="version"
+            :label="i18n('system.flex.publishDialog.table.column.version')"
+            width="100"
+          />
+          <el-table-column
+            prop="name"
+            :label="i18n('system.flex.publishDialog.table.column.name')"
+          />
+          <el-table-column
+            prop="environment"
+            :label="i18n('system.flex.publishDialog.table.column.environment')"
+            width="100"
+          />
+          <el-table-column
+            prop="publishDate"
+            :label="i18n('system.flex.publishDialog.table.column.publishDate')"
+            width="150"
+          >
             <template #default="scope">
               {{ formatDate(scope.row.publishDate) }}
             </template>
           </el-table-column>
-          <el-table-column prop="status" :label="i18n('system.flex.publishDialog.table.column.status')" width="80">
+          <el-table-column
+            prop="status"
+            :label="i18n('system.flex.publishDialog.table.column.status')"
+            width="80"
+          >
             <template #default="scope">
               <el-tag :type="getStatusType(scope.row.status)" size="small">
                 {{ scope.row.status }}
               </el-tag>
             </template>
           </el-table-column>
-          <el-table-column :label="i18n('system.flex.publishDialog.table.column.actions')" width="120">
+          <el-table-column
+            :label="i18n('system.flex.publishDialog.table.column.actions')"
+            width="120"
+          >
             <template #default="scope">
-              <el-button size="small" @click="viewVersion(scope.row)" link
-                >{{ i18n('system.flex.publishDialog.table.button.view') }}</el-button
-              >
+              <el-button size="small" @click="viewVersion(scope.row)" link>{{
+                i18n("system.flex.publishDialog.table.button.view")
+              }}</el-button>
               <el-button
                 size="small"
                 @click="rollbackVersion(scope.row)"
                 link
                 v-if="scope.row.status === '已发布'"
               >
-                {{ i18n('system.flex.publishDialog.table.button.rollback') }}
+                {{ i18n("system.flex.publishDialog.table.button.rollback") }}
               </el-button>
             </template>
           </el-table-column>
@@ -222,7 +312,9 @@
 
         <div class="result-info">
           <el-descriptions :column="2" size="small" border>
-            <el-descriptions-item :label="i18n('system.flex.publishDialog.result.label.url')">
+            <el-descriptions-item
+              :label="i18n('system.flex.publishDialog.result.label.url')"
+            >
               <el-link
                 :href="publishResult.publishUrl"
                 target="_blank"
@@ -231,13 +323,23 @@
                 {{ publishResult.publishUrl }}
               </el-link>
             </el-descriptions-item>
-            <el-descriptions-item :label="i18n('system.flex.publishDialog.result.label.version')">
+            <el-descriptions-item
+              :label="i18n('system.flex.publishDialog.result.label.version')"
+            >
               v{{ publishResult.version }}
             </el-descriptions-item>
-            <el-descriptions-item :label="i18n('system.flex.publishDialog.result.label.publishDate')">
+            <el-descriptions-item
+              :label="
+                i18n('system.flex.publishDialog.result.label.publishDate')
+              "
+            >
               {{ formatDate(publishResult.publishDate) }}
             </el-descriptions-item>
-            <el-descriptions-item :label="i18n('system.flex.publishDialog.result.label.environment')">
+            <el-descriptions-item
+              :label="
+                i18n('system.flex.publishDialog.result.label.environment')
+              "
+            >
               {{ publishForm.environment }}
             </el-descriptions-item>
           </el-descriptions>
@@ -246,15 +348,15 @@
         <div class="result-actions">
           <el-button @click="openPublishedPage" type="primary">
             <star-horse-icon icon-class="external-link" />
-            {{ i18n('system.flex.publishDialog.result.button.visit') }}
+            {{ i18n("system.flex.publishDialog.result.button.visit") }}
           </el-button>
           <el-button @click="copyPublishUrl">
             <star-horse-icon icon-class="copy" />
-            {{ i18n('system.flex.publishDialog.result.button.copyUrl') }}
+            {{ i18n("system.flex.publishDialog.result.button.copyUrl") }}
           </el-button>
           <el-button @click="downloadPackage">
             <star-horse-icon icon-class="download" />
-            {{ i18n('system.flex.publishDialog.result.button.download') }}
+            {{ i18n("system.flex.publishDialog.result.button.download") }}
           </el-button>
         </div>
       </div>
@@ -307,7 +409,11 @@ const publishForm = reactive({
 
 const publishRules = {
   name: [
-    { required: true, message: i18n('system.flex.publishDialog.rule.nameRequired'), trigger: "blur" },
+    {
+      required: true,
+      message: i18n("system.flex.publishDialog.rule.nameRequired"),
+      trigger: "blur",
+    },
     {
       min: 1,
       max: 50,
@@ -316,15 +422,23 @@ const publishRules = {
     },
   ],
   version: [
-    { required: true, message: i18n('system.flex.publishDialog.rule.versionRequired'), trigger: "blur" },
+    {
+      required: true,
+      message: i18n("system.flex.publishDialog.rule.versionRequired"),
+      trigger: "blur",
+    },
     {
       pattern: /^\d+\.\d+\.\d+$/,
-      message: i18n('system.flex.publishDialog.rule.versionFormat'),
+      message: i18n("system.flex.publishDialog.rule.versionFormat"),
       trigger: "blur",
     },
   ],
   description: [
-    { required: true, message: i18n('system.flex.publishDialog.rule.descriptionRequired'), trigger: "blur" },
+    {
+      required: true,
+      message: i18n("system.flex.publishDialog.rule.descriptionRequired"),
+      trigger: "blur",
+    },
     {
       min: 10,
       max: 500,
@@ -333,7 +447,11 @@ const publishRules = {
     },
   ],
   environment: [
-    { required: true, message: i18n('system.flex.publishDialog.rule.environmentRequired'), trigger: "change" },
+    {
+      required: true,
+      message: i18n("system.flex.publishDialog.rule.environmentRequired"),
+      trigger: "change",
+    },
   ],
 };
 
@@ -377,7 +495,7 @@ const handlePublish = async () => {
     await publishFormRef.value.validate();
 
     if (!validationResult.value.isValid) {
-      error(i18n('system.flex.publishDialog.message.validationFailed'));
+      error(i18n("system.flex.publishDialog.message.validationFailed"));
       return;
     }
 
@@ -437,10 +555,10 @@ const handleInputConfirm = () => {
 
 const getStatusType = (status: string) => {
   const typeMap: Record<string, string> = {
-    [i18n('system.flex.publishDialog.status.published')]: "success",
-    [i18n('system.flex.publishDialog.status.rolledBack')]: "warning",
-    [i18n('system.flex.publishDialog.status.publishing')]: "info",
-    [i18n('system.flex.publishDialog.status.failed')]: "danger",
+    [i18n("system.flex.publishDialog.status.published")]: "success",
+    [i18n("system.flex.publishDialog.status.rolledBack")]: "warning",
+    [i18n("system.flex.publishDialog.status.publishing")]: "info",
+    [i18n("system.flex.publishDialog.status.failed")]: "danger",
   };
   return typeMap[status] || "info";
 };
@@ -451,15 +569,15 @@ const viewVersion = (version: any) => {
 };
 
 const rollbackVersion = (version: any) => {
-  operationConfirm(i18n('system.flex.publishDialog.message.rollbackConfirm'))
+  operationConfirm(i18n("system.flex.publishDialog.message.rollbackConfirm"))
     .then(() => {
       console.log("回滚版本:", version);
-      success(i18n('system.flex.publishDialog.message.rollbackSuccess'));
+      success(i18n("system.flex.publishDialog.message.rollbackSuccess"));
       // 更新状态
       version.status = "已回滚";
     })
     .catch(() => {
-      warning(i18n('system.flex.publishDialog.message.rollbackCancelled'));
+      warning(i18n("system.flex.publishDialog.message.rollbackCancelled"));
     });
 };
 
@@ -474,10 +592,10 @@ const copyPublishUrl = async () => {
 
   try {
     await navigator.clipboard.writeText(publishResult.value.publishUrl);
-    success(i18n('system.flex.publishDialog.message.urlCopied'));
+    success(i18n("system.flex.publishDialog.message.urlCopied"));
   } catch (e) {
     console.error("Copy failed:", e);
-    error(i18n('system.flex.publishDialog.message.copyFailed'));
+    error(i18n("system.flex.publishDialog.message.copyFailed"));
   }
 };
 
@@ -500,7 +618,7 @@ const downloadPackage = () => {
   document.body.removeChild(a);
   URL.revokeObjectURL(url);
 
-  success(i18n('system.flex.publishDialog.message.packageDownloaded'));
+  success(i18n("system.flex.publishDialog.message.packageDownloaded"));
 };
 
 const formatDate = (dateString: string) => {

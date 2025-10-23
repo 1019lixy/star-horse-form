@@ -111,9 +111,9 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       label: "创建人",
 
       fieldName: "createdBy",
-      preps:{
+      preps: {
         disabled: true,
-      }
+      },
     },
     {
       label: "创建时间",
@@ -122,7 +122,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
     },
     {
       label: "修改人",
-      preps:{
+      preps: {
         disabled: true,
       },
       fieldName: "updatedBy",

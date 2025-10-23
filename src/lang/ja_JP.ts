@@ -11,7 +11,8 @@ export default {
    */
   "home.addModule": "モジュールを追加",
   "home.welcome": "システムへようこそ",
-  "home.noModules": "まだモジュールが設定されていません。最初のモジュールを追加してください。",
+  "home.noModules":
+    "まだモジュールが設定されていません。最初のモジュールを追加してください。",
   "home.selectModule": "モジュールを選択",
   "home.searchModules": "モジュールを検索...",
   "home.addSelectedModules": "選択したモジュールを追加",
@@ -45,20 +46,27 @@ export default {
    */
   "dyform.preOrPend.dialog.title": "接頭辞/接尾辞設定",
   "dyform.preOrPend.prependText": "接頭辞テキスト",
-  "dyform.preOrPend.prependText.helpMsg": "入力ボックスの前に表示される固定テキスト",
+  "dyform.preOrPend.prependText.helpMsg":
+    "入力ボックスの前に表示される固定テキスト",
   "dyform.preOrPend.prependList": "接頭辞ドロップダウンリスト",
-  "dyform.preOrPend.prependList.helpMsg": "入力ボックスの前のドロップダウンオプションを設定",
+  "dyform.preOrPend.prependList.helpMsg":
+    "入力ボックスの前のドロップダウンオプションを設定",
   "dyform.preOrPend.prependList.title": "接頭辞ドロップダウンリスト設定",
   "dyform.preOrPend.appendText": "接尾辞テキスト",
-  "dyform.preOrPend.appendText.helpMsg": "入力ボックスの後に表示される固定テキスト",
+  "dyform.preOrPend.appendText.helpMsg":
+    "入力ボックスの後に表示される固定テキスト",
   "dyform.preOrPend.appendAction": "接尾辞アクションボタン",
-  "dyform.preOrPend.appendAction.helpMsg": "入力ボックスの後のアクションボタンを設定",
+  "dyform.preOrPend.appendAction.helpMsg":
+    "入力ボックスの後のアクションボタンを設定",
   "dyform.preOrPend.appendAction.title": "接尾辞アクションボタン設定",
   "dyform.preOrPend.appendList": "接尾辞ドロップダウンリスト",
-  "dyform.preOrPend.appendList.helpMsg": "入力ボックスの後のドロップダウンオプションを設定",
+  "dyform.preOrPend.appendList.helpMsg":
+    "入力ボックスの後のドロップダウンオプションを設定",
   "dyform.preOrPend.appendList.title": "接尾辞ドロップダウンリスト設定",
-  "dyform.preOrPend.warning.prependConflict": "接頭辞テキストと接頭辞ドロップダウンリストを同時に設定することはできません",
-  "dyform.preOrPend.warning.appendConflict": "接尾辞テキスト、接尾辞アクションボタン、接尾辞ドロップダウンリストを同時に設定することはできません",
+  "dyform.preOrPend.warning.prependConflict":
+    "接頭辞テキストと接頭辞ドロップダウンリストを同時に設定することはできません",
+  "dyform.preOrPend.warning.appendConflict":
+    "接尾辞テキスト、接尾辞アクションボタン、接尾辞ドロップダウンリストを同時に設定することはできません",
   "login.userName": "アカウント",
   "login.password": "パスワード",
   "login.validCode": "認証コード",
@@ -75,7 +83,8 @@ export default {
   "loginButton.description": `  StarHorse DevOpsはエンタープライズレベルの開発・運用およびフルスタック低コード開発プラットフォームです！強力なコアテクノロジー基盤を作り上げました：組み込みメタデータエンジン、業務プロセスエンジン、業務トリガー、視覚化フォーム。
                                 SQLクエリ、コード生成、CMDB、データモデリング、データ可視化、レポート、ダッシュボード、ワークフロー、権限管理、メッセージ配信、ファイル管理などの機能がすべて揃っています！`,
   "loginButton.logging": "ログイン中...",
-  "userCenter.checkEmailReset": "メールを確認し、指示に従ってパスワードをリセットしてください。",
+  "userCenter.checkEmailReset":
+    "メールを確認し、指示に従ってパスワードをリセットしてください。",
   "main.header.authority": "ユーザーセンター",
   "main.header.calendar": "スケジュール表",
   "main.header.layoutConfig": "レイアウト設定",
@@ -138,7 +147,8 @@ export default {
   "dyform.collapse.form": "フォームコンポーネント",
   "dyform.collapse.custom": "カスタムコンポーネント",
   "dyform.preview.validate.success": "フォーム検証に合格",
-  "dyform.preview.validate.failure": "フォーム検証に失敗しました。入力内容を確認してください",
+  "dyform.preview.validate.failure":
+    "フォーム検証に失敗しました。入力内容を確認してください",
   "dyform.preview.html.title": "フォームプレビュー",
   "dyform.preview.html.export.success": "HTMLファイルのエクスポートに成功",
   "dyform.preview.button.validate": "フォームを検証",
@@ -206,13 +216,20 @@ export default {
     "同じ階層のコンポーネントの名前は重複できません。TabコンポーネントではtabNameとobjectNameが重複できません",
   "dyform.help.rule2": "TableコンポーネントではbatchFieldNameが重複できません",
   "dyform.help.steps": "操作手順",
-  "dyform.help.step1": "左側からコンポーネントをドラッグするかダブルクリックして中央のデザインステージに追加します",
-  "dyform.help.step2": "右側のプロパティエリアで選択したコンポーネントのプロパティを設定します",
-  "dyform.help.step3": "上部の一括編集ボタンを使用してプロパティ名を編集できます",
-  "dyform.help.step4": "上部の設定ボタンを使用してフォームプロパティを設定します",
-  "dyform.help.step5": "上部のコードボタンでコードを生成できます（現在はvue3のみ対応）",
-  "dyform.help.step6": "上部のプレビューボタンでフォーム情報をプレビューできます",
-  "dyform.help.step7": "ステージ上で右クリックするとコンテキストメニューが表示されます",
+  "dyform.help.step1":
+    "左側からコンポーネントをドラッグするかダブルクリックして中央のデザインステージに追加します",
+  "dyform.help.step2":
+    "右側のプロパティエリアで選択したコンポーネントのプロパティを設定します",
+  "dyform.help.step3":
+    "上部の一括編集ボタンを使用してプロパティ名を編集できます",
+  "dyform.help.step4":
+    "上部の設定ボタンを使用してフォームプロパティを設定します",
+  "dyform.help.step5":
+    "上部のコードボタンでコードを生成できます（現在はvue3のみ対応）",
+  "dyform.help.step6":
+    "上部のプレビューボタンでフォーム情報をプレビューできます",
+  "dyform.help.step7":
+    "ステージ上で右クリックするとコンテキストメニューが表示されます",
   "dyform.help.blindSpots": "盲点（データソースから生成されたフォームモデル）",
   "dyform.help.blindSpot1":
     "セレクタ、ラジオボタン、チェックボックスなどのコンポーネントの値のタイプに注意してください。システムのデフォルトは文字列タイプです。データベースの設定が数値タイプの場合は、対応するフィールドのプロパティパネルで値のタイプを変更する必要があります",
@@ -227,12 +244,14 @@ export default {
    * JSエディタ
    */
   "dyform.js.editor.title": "カスタム情報",
-  "dyform.js.editor.customEvent": "カスタムイベント、以下のシステムパラメータが提供されています",
+  "dyform.js.editor.customEvent":
+    "カスタムイベント、以下のシステムパラメータが提供されています",
   "dyform.js.editor.currentFieldInfo": "現在のコンポーネントの情報",
   "dyform.js.editor.formData": "フォームデータ",
   "dyform.js.editor.formElements": "フォームのすべての要素",
   "dyform.js.editor.formInstance": "フォームインスタンスオブジェクト",
-  "dyform.js.editor.parametersMethods": "具体的なパラメータやメソッドはタブを切り替えて確認してください",
+  "dyform.js.editor.parametersMethods":
+    "具体的なパラメータやメソッドはタブを切り替えて確認してください",
   "dyform.js.editor.tab.code": "コード",
   "dyform.js.editor.tab.currentField": "現在のコンポーネントプロパティ",
   "dyform.js.editor.tab.formInstance": "フォームインスタンス",
@@ -243,18 +262,23 @@ export default {
   "dyform.js.editor.table.type": "タイプ",
   "dyform.js.editor.formInstance.validate":
     "フォーム全体の内容を検証します。コールバック関数を受け取ります",
-  "dyform.js.editor.formInstance.validateField": "特定のフィールドを検証します。",
+  "dyform.js.editor.formInstance.validateField":
+    "特定のフィールドを検証します。",
   "dyform.js.editor.formInstance.resetFields":
     "このフォームアイテムをリセットし、その値を初期値に戻し、検証結果を削除します",
-  "dyform.js.editor.formInstance.scrollToField": "指定されたフィールドにスクロールします",
-  "dyform.js.editor.formInstance.clearValidate": "特定のフィールドのフォーム検証情報をクリアします。",
-  "dyform.js.editor.formInstance.fields": "すべてのフィールドのcontextを取得します",
+  "dyform.js.editor.formInstance.scrollToField":
+    "指定されたフィールドにスクロールします",
+  "dyform.js.editor.formInstance.clearValidate":
+    "特定のフィールドのフォーム検証情報をクリアします。",
+  "dyform.js.editor.formInstance.fields":
+    "すべてのフィールドのcontextを取得します",
   /**
    * パラメータ設定
    */
   "dyform.params.dialog.title": "パラメータ設定",
   "dyform.params.warning.primaryKey": "主キーフィールドを選択してください",
-  "dyform.params.warning.callbackFields": "コールバックフィールドを設定してください",
+  "dyform.params.warning.callbackFields":
+    "コールバックフィールドを設定してください",
   /**
    * マインドマップ
    */
@@ -323,7 +347,8 @@ export default {
   "continuous.link.data.plan": "関連計画",
   "continuous.cron": "Cronタイミングトリガー実行",
   "continuous.target.dir": "コードダウンロード後の保存ディレクトリ",
-  "continuous.auto.build": "自動的にビルドをトリガーするかどうか 1はい 2いいえ デフォルト2",
+  "continuous.auto.build":
+    "自動的にビルドをトリガーするかどうか 1はい 2いいえ デフォルト2",
   "continuous.remark": "備考",
   "continuous.created.by": "作成者",
   "continuous.updated.by": "更新者",
@@ -366,7 +391,8 @@ export default {
   "system.user.group": "所属ユーザーグループ",
   "system.cannot.set.empty.password": "空白パスワードは設定できません",
   "system.password.length": "6～15文字のパスワードを設定してください",
-  "system.password.mismatch": "パスワードが一致しません。もう一度入力してください",
+  "system.password.mismatch":
+    "パスワードが一致しません。もう一度入力してください",
   "system.employee.no": "社員番号",
   "system.password": "パスワード",
   "system.confirm.password": "パスワード確認",
@@ -425,7 +451,8 @@ export default {
   "system.dictionary.description": "辞書の説明",
   "system.dictionary.info": "辞書情報",
   "system.edit": "編集",
-  "system.please.select.dictionary.category": "まず辞書カテゴリーを選択してください",
+  "system.please.select.dictionary.category":
+    "まず辞書カテゴリーを選択してください",
   "system.belonging.entity": "所属エンティティ",
   "system.application.name": "アプリケーション名",
   "system.add.time": "追加時間",
@@ -495,7 +522,8 @@ export default {
   "dbsearch.execute": "実行",
   "dbsearch.stop": "停止",
   "dbsearch.format": "フォーマット",
-  "dbsearch.connect.database.first": "SQLを実行する前にデータベースに接続してください",
+  "dbsearch.connect.database.first":
+    "SQLを実行する前にデータベースに接続してください",
   "dbsearch.max.sql.count": "一度に実行できるのは最大5つのSQLのみ",
   "dbsearch.table.name": "テーブル名",
   "dbsearch.field.name": "名前",
@@ -512,12 +540,14 @@ export default {
     "SQLクエリ実行器は理論的にはデータベースのすべてのDDL、DML、DCLなどの操作をサポートしていますが、コンプライアンスの観点から、データベースを設定する際は慎重に操作権限を与えてください",
   "dbsearch.recommend.not.execute.time.consuming.sql":
     "時間のかかるSQLの実行は避けることを推奨します。ゲートウェイによってブロックされやすくなります",
-  "dbsearch.recommend.add.semicolon": "複数のSQLを分割しやすくするため、各SQLの末尾にセミコロンを追加することを推奨します",
+  "dbsearch.recommend.add.semicolon":
+    "複数のSQLを分割しやすくするため、各SQLの末尾にセミコロンを追加することを推奨します",
   "dbsearch.default.each.sql.return.ten.records":
     "デフォルトでは、各SQLは最大10件のデータを返します。ページは最大100件の設定をサポートしています",
   "dbsearch.each.time.max.execute.five.sql":
     "一度に実行できるSQLの数は5つを超えることはできません。超える場合は最初の5つのみが実行されます",
-  "dbsearch.executor.supports.selected.sql": "実行器は特定のSQLを選択して実行することをサポートしています",
+  "dbsearch.executor.supports.selected.sql":
+    "実行器は特定のSQLを選択して実行することをサポートしています",
   "dbsearch.open.prompt": "プロンプトを開く",
   "dbsearch.no.tables.found": "関連テーブルが見つかりません",
   /**
@@ -560,21 +590,26 @@ export default {
     "このプロパティが空の場合、すべてのデータベーステーブルのコードが生成されます。テーブルの数が多すぎる場合（>100）、プログラムは自動的に非同期実行に切り替わり、ビルドに失敗するリスクがあります。",
   "codegen.if.this.property.empty":
     "このプロパティが空の場合、生成されたファイルにはテーブルプレフィックスが付きます。例：テーブル：dev_userinfo、生成されたファイルはDevUserinfo.javaです。複数のプレフィックスは英語のセミコロン（;）で区切ってください。",
-  "codegen.empty.generate.all.types": "空の場合、すべてのタイプのファイルを生成",
+  "codegen.empty.generate.all.types":
+    "空の場合、すべてのタイプのファイルを生成",
   "codegen.field.visible.columns":
     "フィールドの表示列数が指定された値より大きい場合、フォームのグループ化がトリガーされます。デフォルトではグループ化されません",
-  "codegen.form.page.group.columns": "フォームページのグループ列数、デフォルトは2",
+  "codegen.form.page.group.columns":
+    "フォームページのグループ列数、デフォルトは2",
   "codegen.code.belong.project": "生成コードの所属プロジェクト",
-  "codegen.maven.project.module.name": "Mavenプロジェクトのモジュール名がパッケージ名の後に追加されます",
+  "codegen.maven.project.module.name":
+    "Mavenプロジェクトのモジュール名がパッケージ名の後に追加されます",
   "codegen.config.file.application.name":
     "設定ファイルapplication.ymlのspring.application.nameに対応",
   "codegen.config.file.server.port":
     "設定ファイルapplication.ymlのserver.portに対応",
   "codegen.target.directory": "リリースディレクトリ",
-  "codegen.files.deploy.server.directory": "ファイルがサーバーにデプロイされるディレクトリ",
+  "codegen.files.deploy.server.directory":
+    "ファイルがサーバーにデプロイされるディレクトリ",
   "codegen.pom.xml.packaging": "pom.xmlファイルのpackagingに対応",
   "codegen.pom.xml.version": "pom.xmlファイルのversionに対応",
-  "codegen.ui.files.business.files": "UIファイルとビジネスファイルを同じモジュールに配置するかどうか",
+  "codegen.ui.files.business.files":
+    "UIファイルとビジネスファイルを同じモジュールに配置するかどうか",
   "codegen.dto.files.business.files":
     "DTOファイルとビジネスファイルを同じモジュールに配置するかどうか",
   "codegen.created.by": "作成者",
@@ -596,7 +631,8 @@ export default {
   "jbpm.leave": "休暇申請",
   "jbpm.reimbursement": "経費精算",
   "jbpm.dinner": "食事会",
-  "dyform.params.warning.displayFields": "少なくとも1つの表示フィールドを設定してください",
+  "dyform.params.warning.displayFields":
+    "少なくとも1つの表示フィールドを設定してください",
   /**
    * コンテナ設定
    */
@@ -612,8 +648,10 @@ export default {
   /**
    * ショートカット操作
    */
-  "dyform.shortcut.warning.selectComponentToCopy": "コピーするコンポーネントを選択してください",
-  "dyform.shortcut.warning.selectComponentToCut": "切り取るコンポーネントを選択してください",
+  "dyform.shortcut.warning.selectComponentToCopy":
+    "コピーするコンポーネントを選択してください",
+  "dyform.shortcut.warning.selectComponentToCut":
+    "切り取るコンポーネントを選択してください",
   /**
    * フレキシブルデザイン
    */
@@ -623,7 +661,8 @@ export default {
   "flex.design.list.failure": "リストの取得失敗",
   "flex.design.share.generate.success": "共有リンクの生成成功",
   "flex.design.share.generate.failure": "共有失敗",
-  "flex.design.share.load.failure": "共有リンクは無効になっているか存在しません",
+  "flex.design.share.load.failure":
+    "共有リンクは無効になっているか存在しません",
   "flex.design.publish.success": "公開成功",
   "flex.design.publish.failure": "公開失敗",
   "flex.design.preview.failure": "プレビューの生成失敗",
@@ -640,7 +679,8 @@ export default {
   "system.flex.saveDialog.label.name": "デザイン名",
   "system.flex.saveDialog.placeholder.name": "デザイン名を入力してください",
   "system.flex.saveDialog.label.description": "デザインの説明",
-  "system.flex.saveDialog.placeholder.description": "このデザインの用途と特徴を説明してください（オプション）",
+  "system.flex.saveDialog.placeholder.description":
+    "このデザインの用途と特徴を説明してください（オプション）",
   "system.flex.saveDialog.label.saveType": "保存タイプ",
   "system.flex.saveDialog.saveType.new": "新規デザイン",
   "system.flex.saveDialog.saveType.template": "テンプレートとして保存",
@@ -676,7 +716,8 @@ export default {
   "system.flex.publishDialog.label.version": "バージョン番号",
   "system.flex.publishDialog.placeholder.version": "例：v1.0.0",
   "system.flex.publishDialog.label.description": "公開説明",
-  "system.flex.publishDialog.placeholder.description": "この公開の主な内容と変更点を説明してください",
+  "system.flex.publishDialog.placeholder.description":
+    "この公開の主な内容と変更点を説明してください",
   "system.flex.publishDialog.label.environment": "公開環境",
   "system.flex.publishDialog.environment.development": "開発環境",
   "system.flex.publishDialog.environment.testing": "テスト環境",
@@ -697,10 +738,12 @@ export default {
   "system.flex.publishDialog.check.designValidation": "デザインデータの検証",
   "system.flex.publishDialog.check.passed": "合格",
   "system.flex.publishDialog.check.failed": "不合格",
-  "system.flex.publishDialog.check.designContent": "デザインコンテンツのチェック",
+  "system.flex.publishDialog.check.designContent":
+    "デザインコンテンツのチェック",
   "system.flex.publishDialog.check.designEmpty": "デザインが空です",
   "system.flex.publishDialog.check.permission": "権限チェック",
-  "system.flex.publishDialog.title.validationErrors": "公開前に以下の問題を修正する必要があります：",
+  "system.flex.publishDialog.title.validationErrors":
+    "公開前に以下の問題を修正する必要があります：",
   "system.flex.publishDialog.title.history": "公開履歴",
   "system.flex.publishDialog.table.column.version": "バージョン",
   "system.flex.publishDialog.table.column.name": "名前",
@@ -717,19 +760,30 @@ export default {
   "system.flex.publishDialog.result.label.environment": "環境",
   "system.flex.publishDialog.result.button.visit": "公開ページにアクセス",
   "system.flex.publishDialog.result.button.copyUrl": "リンクをコピー",
-  "system.flex.publishDialog.result.button.download": "公開パッケージをダウンロード",
+  "system.flex.publishDialog.result.button.download":
+    "公開パッケージをダウンロード",
   "system.flex.publishDialog.rule.nameRequired": "公開名を入力してください",
-  "system.flex.publishDialog.rule.versionRequired": "バージョン番号を入力してください",
-  "system.flex.publishDialog.rule.versionFormat": "バージョン番号の形式は x.y.z である必要があります",
-  "system.flex.publishDialog.rule.descriptionRequired": "公開説明を入力してください",
-  "system.flex.publishDialog.rule.environmentRequired": "公開環境を選択してください",
-  "system.flex.publishDialog.message.validationFailed": "デザインの検証に失敗しました、公開できません",
-  "system.flex.publishDialog.message.rollbackConfirm": "このバージョンにロールバックしますか？",
+  "system.flex.publishDialog.rule.versionRequired":
+    "バージョン番号を入力してください",
+  "system.flex.publishDialog.rule.versionFormat":
+    "バージョン番号の形式は x.y.z である必要があります",
+  "system.flex.publishDialog.rule.descriptionRequired":
+    "公開説明を入力してください",
+  "system.flex.publishDialog.rule.environmentRequired":
+    "公開環境を選択してください",
+  "system.flex.publishDialog.message.validationFailed":
+    "デザインの検証に失敗しました、公開できません",
+  "system.flex.publishDialog.message.rollbackConfirm":
+    "このバージョンにロールバックしますか？",
   "system.flex.publishDialog.message.rollbackSuccess": "ロールバック成功",
-  "system.flex.publishDialog.message.rollbackCancelled": "ロールバックをキャンセルしました",
-  "system.flex.publishDialog.message.urlCopied": "公開リンクがクリップボードにコピーされました",
-  "system.flex.publishDialog.message.copyFailed": "コピーに失敗しました、手動でコピーしてください",
-  "system.flex.publishDialog.message.packageDownloaded": "公開パッケージがダウンロードされました",
+  "system.flex.publishDialog.message.rollbackCancelled":
+    "ロールバックをキャンセルしました",
+  "system.flex.publishDialog.message.urlCopied":
+    "公開リンクがクリップボードにコピーされました",
+  "system.flex.publishDialog.message.copyFailed":
+    "コピーに失敗しました、手動でコピーしてください",
+  "system.flex.publishDialog.message.packageDownloaded":
+    "公開パッケージがダウンロードされました",
   "system.flex.publishDialog.status.published": "公開済み",
   "system.flex.publishDialog.status.rolledBack": "ロールバック済み",
   "system.flex.publishDialog.status.publishing": "公開中",
@@ -739,7 +793,8 @@ export default {
   "system.flex.shareDialog.label.name": "デザイン名",
   "system.flex.shareDialog.placeholder.name": "デザイン名を入力してください",
   "system.flex.shareDialog.label.description": "デザイン説明",
-  "system.flex.shareDialog.placeholder.description": "デザインの説明を入力してください（オプション）",
+  "system.flex.shareDialog.placeholder.description":
+    "デザインの説明を入力してください（オプション）",
   "system.flex.shareDialog.label.expiryDays": "有効期限",
   "system.flex.shareDialog.expiryDays.1": "1日",
   "system.flex.shareDialog.expiryDays.3": "3日",
@@ -751,7 +806,8 @@ export default {
   "system.flex.shareDialog.accessLevel.public": "公開アクセス",
   "system.flex.shareDialog.accessLevel.protected": "パスワードが必要",
   "system.flex.shareDialog.label.password": "アクセスパスワード",
-  "system.flex.shareDialog.placeholder.password": "アクセスパスワードを設定してください",
+  "system.flex.shareDialog.placeholder.password":
+    "アクセスパスワードを設定してください",
   "system.flex.shareDialog.label.permissions": "共有権限",
   "system.flex.shareDialog.permission.view": "表示",
   "system.flex.shareDialog.permission.copy": "コピー",
@@ -766,7 +822,8 @@ export default {
   "system.flex.shareDialog.button.generateQRCode": "QRコードを生成",
   "system.flex.shareDialog.button.share": "ソーシャルシェア",
   "system.flex.shareDialog.title.qrCode": "共有QRコード",
-  "system.flex.shareDialog.qrCode.message": "QRコードをスキャンして共有ページにアクセス",
+  "system.flex.shareDialog.qrCode.message":
+    "QRコードをスキャンして共有ページにアクセス",
   "system.flex.shareDialog.button.downloadQRCode": "QRコードをダウンロード",
   "system.flex.shareDialog.title.preview": "デザインプレビュー",
   "system.flex.shareDialog.label.itemCount": "要素数",
@@ -774,16 +831,26 @@ export default {
   "system.flex.shareDialog.label.containerDirection": "コンテナ方向",
   "system.flex.shareDialog.label.createTime": "作成時間",
   "system.flex.shareDialog.rule.nameRequired": "デザイン名を入力してください",
-  "system.flex.shareDialog.rule.passwordRequired": "アクセスパスワードを設定してください",
-  "system.flex.shareDialog.rule.passwordProtected": "保護モードではパスワードを設定する必要があります",
-  "system.flex.shareDialog.rule.passwordLength": "パスワードの長さは少なくとも4文字",
-  "system.flex.shareDialog.message.shareSuccess": "共有リンクがクリップボードにコピーされました",
-  "system.flex.shareDialog.message.codeSuccess": "共有コードがクリップボードにコピーされました",
-  "system.flex.shareDialog.message.copyFailed": "コピーに失敗しました、手動でコピーしてください",
-  "system.flex.shareDialog.message.qrCodeSuccess": "QRコードの生成に成功しました",
-  "system.flex.shareDialog.message.qrCodeFailed": "QRコードの生成に失敗しました",
-  "system.flex.shareDialog.message.qrCodeDownloaded": "QRコードがダウンロードされました",
-  "system.flex.shareDialog.message.shareContentCopied": "共有コンテンツがクリップボードにコピーされました",
+  "system.flex.shareDialog.rule.passwordRequired":
+    "アクセスパスワードを設定してください",
+  "system.flex.shareDialog.rule.passwordProtected":
+    "保護モードではパスワードを設定する必要があります",
+  "system.flex.shareDialog.rule.passwordLength":
+    "パスワードの長さは少なくとも4文字",
+  "system.flex.shareDialog.message.shareSuccess":
+    "共有リンクがクリップボードにコピーされました",
+  "system.flex.shareDialog.message.codeSuccess":
+    "共有コードがクリップボードにコピーされました",
+  "system.flex.shareDialog.message.copyFailed":
+    "コピーに失敗しました、手動でコピーしてください",
+  "system.flex.shareDialog.message.qrCodeSuccess":
+    "QRコードの生成に成功しました",
+  "system.flex.shareDialog.message.qrCodeFailed":
+    "QRコードの生成に失敗しました",
+  "system.flex.shareDialog.message.qrCodeDownloaded":
+    "QRコードがダウンロードされました",
+  "system.flex.shareDialog.message.shareContentCopied":
+    "共有コンテンツがクリップボードにコピーされました",
   // FlexPreviewDialog.vue
   "system.flex.previewDialog.title": "デザインプレビュー",
   "system.flex.previewDialog.untitled": "名前なしデザイン",
@@ -799,27 +866,35 @@ export default {
   "system.flex.previewDialog.title.debugInfo": "デバッグ情報",
   "system.flex.previewDialog.label.layoutMode": "レイアウトモード:",
   "system.flex.previewDialog.label.containerStyles": "コンテナスタイル:",
-  "system.flex.previewDialog.label.containerData": "containerDataForm (実際のフォームデータ):",
+  "system.flex.previewDialog.label.containerData":
+    "containerDataForm (実際のフォームデータ):",
   "system.flex.previewDialog.label.containerDirection": "コンテナ方向:",
   "system.flex.previewDialog.label.containerInfo": "コンテナ情報 (store):",
   "system.flex.previewDialog.label.itemInfo": "要素情報:",
-  "system.flex.previewDialog.title.validationFailed": "デザインの検証に失敗しました",
+  "system.flex.previewDialog.title.validationFailed":
+    "デザインの検証に失敗しました",
   "system.flex.previewDialog.title.htmlCode": "生成されたHTMLコード",
   "system.flex.previewDialog.button.copy": "コピー",
   "system.flex.previewDialog.button.hideCode": "コードを非表示",
   "system.flex.previewDialog.button.showCode": "コードを表示",
   "system.flex.previewDialog.button.saveTemplate": "テンプレートとして保存",
-  "system.flex.previewDialog.message.refreshSuccess": "プレビューが更新されました",
-  "system.flex.previewDialog.message.htmlExported": "HTMLファイルがエクスポートされました",
-  "system.flex.previewDialog.message.codeCopied": "コードがクリップボードにコピーされました",
-  "system.flex.previewDialog.message.copyFailed": "コピーに失敗しました、手動でコピーしてください",
+  "system.flex.previewDialog.message.refreshSuccess":
+    "プレビューが更新されました",
+  "system.flex.previewDialog.message.htmlExported":
+    "HTMLファイルがエクスポートされました",
+  "system.flex.previewDialog.message.codeCopied":
+    "コードがクリップボードにコピーされました",
+  "system.flex.previewDialog.message.copyFailed":
+    "コピーに失敗しました、手動でコピーしてください",
   "system.flex.previewDialog.message.untitledTemplate": "名前なしテンプレート",
   // PageItemProperties.vue
   "system.flex.pageItemProperties.button.config": "設定",
   "system.flex.pageItemProperties.emptyState": "プロパティはありません",
-  "system.flex.pageItemProperties.dialog.title": "{componentLabel} - {propLabel}",
+  "system.flex.pageItemProperties.dialog.title":
+    "{componentLabel} - {propLabel}",
   "system.flex.pageItemProperties.alert.title": "ヒント",
-  "system.flex.pageItemProperties.alert.description": "有効なJSON形式を入力してください",
+  "system.flex.pageItemProperties.alert.description":
+    "有効なJSON形式を入力してください",
   "system.flex.pageItemProperties.preview.label.environment": "環境:",
   "system.flex.pageItemProperties.preview.label.method": "リクエストメソッド:",
   "system.flex.pageItemProperties.preview.label.url": "URL:",
@@ -904,89 +979,126 @@ export default {
   "system.apiConfig.protocolOptions.http": "HTTP",
   "system.apiConfig.protocolOptions.https": "HTTPS",
   "system.apiConfig.createApiConfigProperties.env.label": "システム環境",
-  "system.apiConfig.createApiConfigProperties.env.description": "インターフェース呼び出しのシステム環境を選択",
-  "system.apiConfig.createApiConfigProperties.httpMethod.label": "リクエストメソッド",
-  "system.apiConfig.createApiConfigProperties.httpMethod.description": "HTTPリクエストメソッドを選択",
+  "system.apiConfig.createApiConfigProperties.env.description":
+    "インターフェース呼び出しのシステム環境を選択",
+  "system.apiConfig.createApiConfigProperties.httpMethod.label":
+    "リクエストメソッド",
+  "system.apiConfig.createApiConfigProperties.httpMethod.description":
+    "HTTPリクエストメソッドを選択",
   "system.apiConfig.createApiConfigProperties.protocol.label": "プロトコル",
-  "system.apiConfig.createApiConfigProperties.protocol.description": "通信プロトコルを選択",
-  "system.apiConfig.createApiConfigProperties.host.label": "IP/ドメイン/サービス名",
-  "system.apiConfig.createApiConfigProperties.host.placeholder": "IPアドレス、ドメインまたはサービス名を入力してください",
-  "system.apiConfig.createApiConfigProperties.host.description": "インターフェースサーバーのIPアドレス、ドメインまたはサービス名",
+  "system.apiConfig.createApiConfigProperties.protocol.description":
+    "通信プロトコルを選択",
+  "system.apiConfig.createApiConfigProperties.host.label":
+    "IP/ドメイン/サービス名",
+  "system.apiConfig.createApiConfigProperties.host.placeholder":
+    "IPアドレス、ドメインまたはサービス名を入力してください",
+  "system.apiConfig.createApiConfigProperties.host.description":
+    "インターフェースサーバーのIPアドレス、ドメインまたはサービス名",
   "system.apiConfig.createApiConfigProperties.port.label": "ポート",
-  "system.apiConfig.createApiConfigProperties.port.description": "インターフェースサーバーのポート番号",
-  "system.apiConfig.createApiConfigProperties.interfaceUrl.label": "インターフェースアドレス",
-  "system.apiConfig.createApiConfigProperties.interfaceUrl.placeholder": "インターフェースパスを入力してください、例：/api/data/list",
-  "system.apiConfig.createApiConfigProperties.interfaceUrl.description": "インターフェースの相対パス",
-  "system.apiConfig.createApiConfigProperties.enableAutoRefresh.label": "定期的な更新を有効化",
-  "system.apiConfig.createApiConfigProperties.enableAutoRefresh.description": "定期的な自動データ更新を有効にするかどうか",
-  "system.apiConfig.createApiConfigProperties.refreshInterval.label": "更新間隔(秒)",
-  "system.apiConfig.createApiConfigProperties.refreshInterval.description": "データを自動的に更新する時間間隔（秒単位）",
-  "system.apiConfig.validateApiConfig.env.error": "システム環境を選択してください",
-  "system.apiConfig.validateApiConfig.httpMethod.error": "リクエストメソッドを選択してください",
-  "system.apiConfig.validateApiConfig.protocol.error": "プロトコルを選択してください",
-  "system.apiConfig.validateApiConfig.host.error": "IP/ドメイン/サービス名を入力してください",
-  "system.apiConfig.validateApiConfig.port.error": "ポート番号は1-65535の間である必要があります",
-  "system.apiConfig.validateApiConfig.interfaceUrl.error": "インターフェースアドレスを入力してください",
-  "system.apiConfig.validateApiConfig.refreshInterval.error": "更新間隔は5-3600秒の間である必要があります",
+  "system.apiConfig.createApiConfigProperties.port.description":
+    "インターフェースサーバーのポート番号",
+  "system.apiConfig.createApiConfigProperties.interfaceUrl.label":
+    "インターフェースアドレス",
+  "system.apiConfig.createApiConfigProperties.interfaceUrl.placeholder":
+    "インターフェースパスを入力してください、例：/api/data/list",
+  "system.apiConfig.createApiConfigProperties.interfaceUrl.description":
+    "インターフェースの相対パス",
+  "system.apiConfig.createApiConfigProperties.enableAutoRefresh.label":
+    "定期的な更新を有効化",
+  "system.apiConfig.createApiConfigProperties.enableAutoRefresh.description":
+    "定期的な自動データ更新を有効にするかどうか",
+  "system.apiConfig.createApiConfigProperties.refreshInterval.label":
+    "更新間隔(秒)",
+  "system.apiConfig.createApiConfigProperties.refreshInterval.description":
+    "データを自動的に更新する時間間隔（秒単位）",
+  "system.apiConfig.validateApiConfig.env.error":
+    "システム環境を選択してください",
+  "system.apiConfig.validateApiConfig.httpMethod.error":
+    "リクエストメソッドを選択してください",
+  "system.apiConfig.validateApiConfig.protocol.error":
+    "プロトコルを選択してください",
+  "system.apiConfig.validateApiConfig.host.error":
+    "IP/ドメイン/サービス名を入力してください",
+  "system.apiConfig.validateApiConfig.port.error":
+    "ポート番号は1-65535の間である必要があります",
+  "system.apiConfig.validateApiConfig.interfaceUrl.error":
+    "インターフェースアドレスを入力してください",
+  "system.apiConfig.validateApiConfig.refreshInterval.error":
+    "更新間隔は5-3600秒の間である必要があります",
   // flexbox/containerConfig.ts
   "system.flexbox.containerConfig.display.label": "表示モード",
-  "system.flexbox.containerConfig.display.helpMsg": "レイアウトのタイプを定義します、たとえば flex や block など。",
+  "system.flexbox.containerConfig.display.helpMsg":
+    "レイアウトのタイプを定義します、たとえば flex や block など。",
   "system.flexbox.containerConfig.display.flex": "フレックスレイアウト",
   "system.flexbox.containerConfig.display.block": "ブロックレイアウト",
   "system.flexbox.containerConfig.flexDirection.label": "配置方向",
-  "system.flexbox.containerConfig.flexDirection.helpMsg": "アイテムのレイアウトの主軸方向を指定します。",
+  "system.flexbox.containerConfig.flexDirection.helpMsg":
+    "アイテムのレイアウトの主軸方向を指定します。",
   "system.flexbox.containerConfig.flexDirection.row": "行方向",
   "system.flexbox.containerConfig.flexDirection.column": "列方向",
   "system.flexbox.containerConfig.flexDirection.rowReverse": "逆方向行",
   "system.flexbox.containerConfig.flexDirection.columnReverse": "逆方向列",
   "system.flexbox.containerConfig.flexWrap.label": "折り返し方法",
-  "system.flexbox.containerConfig.flexWrap.helpMsg": "アイテムを折り返すか複数行に配置するかを決定します。",
+  "system.flexbox.containerConfig.flexWrap.helpMsg":
+    "アイテムを折り返すか複数行に配置するかを決定します。",
   "system.flexbox.containerConfig.flexWrap.nowrap": "折り返しなし",
   "system.flexbox.containerConfig.flexWrap.wrap": "自動折り返し",
   "system.flexbox.containerConfig.flexWrap.wrapReverse": "逆方向折り返し",
   "system.flexbox.containerConfig.justifyContent.label": "主軸の配置",
-  "system.flexbox.containerConfig.justifyContent.helpMsg": "主軸に沿ってアイテムを配置し、水平方向の間隔を制御します。",
+  "system.flexbox.containerConfig.justifyContent.helpMsg":
+    "主軸に沿ってアイテムを配置し、水平方向の間隔を制御します。",
   "system.flexbox.containerConfig.justifyContent.start": "開始位置に配置",
-  "system.flexbox.containerConfig.justifyContent.flexStart": "フレックス開始位置",
+  "system.flexbox.containerConfig.justifyContent.flexStart":
+    "フレックス開始位置",
   "system.flexbox.containerConfig.justifyContent.center": "中央揃え",
   "system.flexbox.containerConfig.justifyContent.flexEnd": "フレックス終了位置",
   "system.flexbox.containerConfig.justifyContent.end": "終了位置に配置",
   "system.flexbox.containerConfig.justifyContent.spaceBetween": "両端揃え",
-  "system.flexbox.containerConfig.justifyContent.spaceAround": "均等な周囲スペース",
+  "system.flexbox.containerConfig.justifyContent.spaceAround":
+    "均等な周囲スペース",
   "system.flexbox.containerConfig.justifyContent.spaceEvenly": "均等配置",
   "system.flexbox.containerConfig.alignItems.label": "交差軸の配置",
-  "system.flexbox.containerConfig.alignItems.helpMsg": "交差軸に沿ってアイテムを配置し、垂直方向の並びに影響します。",
+  "system.flexbox.containerConfig.alignItems.helpMsg":
+    "交差軸に沿ってアイテムを配置し、垂直方向の並びに影響します。",
   "system.flexbox.containerConfig.alignItems.stretch": "引き伸ばし",
   "system.flexbox.containerConfig.alignItems.center": "中央揃え",
   "system.flexbox.containerConfig.alignItems.end": "終了位置に配置",
   "system.flexbox.containerConfig.alignItems.baseline": "ベースライン揃え",
   "system.flexbox.containerConfig.alignItems.start": "開始位置に配置",
   "system.flexbox.containerConfig.alignContent.label": "複数行の配置",
-  "system.flexbox.containerConfig.alignContent.helpMsg": "折り返し時のフレックスライン間の間隔を定義します。",
+  "system.flexbox.containerConfig.alignContent.helpMsg":
+    "折り返し時のフレックスライン間の間隔を定義します。",
   "system.flexbox.containerConfig.alignContent.stretch": "引き伸ばし",
   "system.flexbox.containerConfig.alignContent.start": "開始位置に配置",
   "system.flexbox.containerConfig.alignContent.center": "中央揃え",
   "system.flexbox.containerConfig.alignContent.end": "終了位置に配置",
   "system.flexbox.containerConfig.alignContent.spaceBetween": "両端揃え",
-  "system.flexbox.containerConfig.alignContent.spaceAround": "均等な周囲スペース",
+  "system.flexbox.containerConfig.alignContent.spaceAround":
+    "均等な周囲スペース",
   "system.flexbox.containerConfig.gap.label": "間隔",
-  "system.flexbox.containerConfig.gap.helpMsg": "コンテナ内のフレックスアイテム間の間隔を指定します。",
+  "system.flexbox.containerConfig.gap.helpMsg":
+    "コンテナ内のフレックスアイテム間の間隔を指定します。",
   "system.flexbox.containerConfig.gap.pixel": "ピクセル",
   "system.flexbox.containerConfig.gap.percent": "パーセント",
   // flexbox/itemsConfig.ts
   "system.flexbox.itemsConfig.order.label": "配置順序",
-  "system.flexbox.itemsConfig.order.helpMsg": "コンテナ内でのアイテムの配置順序を指定します",
+  "system.flexbox.itemsConfig.order.helpMsg":
+    "コンテナ内でのアイテムの配置順序を指定します",
   "system.flexbox.itemsConfig.flexGrow.label": "伸長比率",
-  "system.flexbox.itemsConfig.flexGrow.helpMsg": "他のアイテムとの比較でアイテムの伸長比率を定義します",
+  "system.flexbox.itemsConfig.flexGrow.helpMsg":
+    "他のアイテムとの比較でアイテムの伸長比率を定義します",
   "system.flexbox.itemsConfig.flexShrink.label": "収縮比率",
-  "system.flexbox.itemsConfig.flexShrink.helpMsg": "スペースが不足する場合のアイテムの収縮比率を制御します",
+  "system.flexbox.itemsConfig.flexShrink.helpMsg":
+    "スペースが不足する場合のアイテムの収縮比率を制御します",
   "system.flexbox.itemsConfig.flexBasis.label": "初期サイズ",
-  "system.flexbox.itemsConfig.flexBasis.helpMsg": "スペースの割り当て前のアイテムの初期サイズを定義します",
+  "system.flexbox.itemsConfig.flexBasis.helpMsg":
+    "スペースの割り当て前のアイテムの初期サイズを定義します",
   "system.flexbox.itemsConfig.flexBasis.auto": "自動",
   "system.flexbox.itemsConfig.flexBasis.pixel": "ピクセル",
   "system.flexbox.itemsConfig.flexBasis.percent": "パーセント",
   "system.flexbox.itemsConfig.alignSelf.label": "個別の配置",
-  "system.flexbox.itemsConfig.alignSelf.helpMsg": "コンテナの配置設定を上書きし、アイテムの交差軸配置を個別に定義します",
+  "system.flexbox.itemsConfig.alignSelf.helpMsg":
+    "コンテナの配置設定を上書きし、アイテムの交差軸配置を個別に定義します",
   "system.flexbox.itemsConfig.alignSelf.auto": "自動",
   "system.flexbox.itemsConfig.alignSelf.flexStart": "開始位置に配置",
   "system.flexbox.itemsConfig.alignSelf.flexEnd": "終了位置に配置",
@@ -994,12 +1106,14 @@ export default {
   "system.flexbox.itemsConfig.alignSelf.baseline": "ベースライン揃え",
   "system.flexbox.itemsConfig.alignSelf.stretch": "引き伸ばし",
   "system.flexbox.itemsConfig.width.label": "幅",
-  "system.flexbox.itemsConfig.width.helpMsg": "アイテムの幅を指定し、デフォルトのサイズを上書きします",
+  "system.flexbox.itemsConfig.width.helpMsg":
+    "アイテムの幅を指定し、デフォルトのサイズを上書きします",
   "system.flexbox.itemsConfig.width.auto": "自動",
   "system.flexbox.itemsConfig.width.pixel": "ピクセル",
   "system.flexbox.itemsConfig.width.percent": "パーセント",
   "system.flexbox.itemsConfig.height.label": "高さ",
-  "system.flexbox.itemsConfig.height.helpMsg": "アイテムの高さを指定し、デフォルトのサイズを上書きします",
+  "system.flexbox.itemsConfig.height.helpMsg":
+    "アイテムの高さを指定し、デフォルトのサイズを上書きします",
   "system.flexbox.itemsConfig.height.auto": "自動",
   "system.flexbox.itemsConfig.height.pixel": "ピクセル",
   "system.flexbox.itemsConfig.height.percent": "パーセント",
@@ -1011,31 +1125,42 @@ export default {
   "system.flexbox.layouts.verticalStack": "垂直スタックレイアウト",
   // grid/containerConfig.ts
   "system.grid.containerConfig.display.label": "表示モード",
-  "system.grid.containerConfig.display.helpMsg": "コンテナのレイアウトタイプを定義します、たとえば grid や block など。",
+  "system.grid.containerConfig.display.helpMsg":
+    "コンテナのレイアウトタイプを定義します、たとえば grid や block など。",
   "system.grid.containerConfig.display.grid": "グリッドレイアウト",
   "system.grid.containerConfig.display.block": "ブロックレイアウト",
   "system.grid.containerConfig.gridTemplateColumns.label": "グリッド列定義",
-  "system.grid.containerConfig.gridTemplateColumns.helpMsg": "グリッドの列構造を指定します（サイズと単位を含む）",
+  "system.grid.containerConfig.gridTemplateColumns.helpMsg":
+    "グリッドの列構造を指定します（サイズと単位を含む）",
   "system.grid.containerConfig.gridTemplateRows.label": "グリッド行定義",
-  "system.grid.containerConfig.gridTemplateRows.helpMsg": "グリッドの行構造を指定します（サイズと単位を含む）",
+  "system.grid.containerConfig.gridTemplateRows.helpMsg":
+    "グリッドの行構造を指定します（サイズと単位を含む）",
   "system.grid.containerConfig.gap.label": "間隔",
-  "system.grid.containerConfig.gap.helpMsg": "グリッドの行と列の間の間隔を定義します",
+  "system.grid.containerConfig.gap.helpMsg":
+    "グリッドの行と列の間の間隔を定義します",
   "system.grid.containerConfig.rowGap.label": "行間隔",
   "system.grid.containerConfig.columnGap.label": "列間隔",
   "system.grid.containerConfig.justifyItems.label": "セルの水平方向配置",
-  "system.grid.containerConfig.justifyItems.helpMsg": "グリッドセル内のアイテムの水平方向の配置方法を制御します",
+  "system.grid.containerConfig.justifyItems.helpMsg":
+    "グリッドセル内のアイテムの水平方向の配置方法を制御します",
   "system.grid.containerConfig.alignItems.label": "セルの垂直方向配置",
-  "system.grid.containerConfig.alignItems.helpMsg": "グリッドセル内のアイテムの垂直方向の配置方法を制御します",
+  "system.grid.containerConfig.alignItems.helpMsg":
+    "グリッドセル内のアイテムの垂直方向の配置方法を制御します",
   "system.grid.containerConfig.justifyContent.label": "主軸の分布",
-  "system.grid.containerConfig.justifyContent.helpMsg": "コンテナ内でのアイテムの水平方向の分布方法を制御します",
+  "system.grid.containerConfig.justifyContent.helpMsg":
+    "コンテナ内でのアイテムの水平方向の分布方法を制御します",
   "system.grid.containerConfig.alignContent.label": "交差軸の分布",
-  "system.grid.containerConfig.alignContent.helpMsg": "コンテナ内でのアイテムの垂直方向の分布方法を制御します",
+  "system.grid.containerConfig.alignContent.helpMsg":
+    "コンテナ内でのアイテムの垂直方向の分布方法を制御します",
   "system.grid.containerConfig.gridAutoColumns.label": "自動列幅",
-  "system.grid.containerConfig.gridAutoColumns.helpMsg": "グリッドで自動生成される列のデフォルト幅を定義します",
+  "system.grid.containerConfig.gridAutoColumns.helpMsg":
+    "グリッドで自動生成される列のデフォルト幅を定義します",
   "system.grid.containerConfig.gridAutoRows.label": "自動行高",
-  "system.grid.containerConfig.gridAutoRows.helpMsg": "グリッドで自動生成される行のデフォルト高さを定義します",
+  "system.grid.containerConfig.gridAutoRows.helpMsg":
+    "グリッドで自動生成される行のデフォルト高さを定義します",
   "system.grid.containerConfig.gridAutoFlow.label": "自動配置",
-  "system.grid.containerConfig.gridAutoFlow.helpMsg": "グリッド内でのアイテムの自動配置方法を制御します",
+  "system.grid.containerConfig.gridAutoFlow.helpMsg":
+    "グリッド内でのアイテムの自動配置方法を制御します",
   "system.grid.containerConfig.fr": "FR",
   "system.grid.containerConfig.pixel": "ピクセル",
   "system.grid.containerConfig.percent": "パーセント",
@@ -1053,17 +1178,23 @@ export default {
   "system.grid.containerConfig.columnDense": "列詰め",
   // grid/itemsConfig.ts
   "system.grid.itemsConfig.gridColumn.label": "グリッド列",
-  "system.grid.itemsConfig.gridColumn.helpMsg": "グリッド内の要素の開始列と終了列を定義します",
+  "system.grid.itemsConfig.gridColumn.helpMsg":
+    "グリッド内の要素の開始列と終了列を定義します",
   "system.grid.itemsConfig.gridRow.label": "グリッド行",
-  "system.grid.itemsConfig.gridRow.helpMsg": "グリッド内の要素の開始行と終了行を定義します",
+  "system.grid.itemsConfig.gridRow.helpMsg":
+    "グリッド内の要素の開始行と終了行を定義します",
   "system.grid.itemsConfig.justifySelf.label": "水平方向の個別配置",
-  "system.grid.itemsConfig.justifySelf.helpMsg": "グリッドコンテナ内での要素の水平方向の配置方法を制御します",
+  "system.grid.itemsConfig.justifySelf.helpMsg":
+    "グリッドコンテナ内での要素の水平方向の配置方法を制御します",
   "system.grid.itemsConfig.alignSelf.label": "垂直方向の個別配置",
-  "system.grid.itemsConfig.alignSelf.helpMsg": "グリッドコンテナ内での要素の垂直方向の配置方法を制御します",
+  "system.grid.itemsConfig.alignSelf.helpMsg":
+    "グリッドコンテナ内での要素の垂直方向の配置方法を制御します",
   "system.grid.itemsConfig.width.label": "幅",
-  "system.grid.itemsConfig.width.helpMsg": "要素の幅を指定します（単位オプションを含む）",
+  "system.grid.itemsConfig.width.helpMsg":
+    "要素の幅を指定します（単位オプションを含む）",
   "system.grid.itemsConfig.height.label": "高さ",
-  "system.grid.itemsConfig.height.helpMsg": "要素の高さを指定します（単位オプションを含む）",
+  "system.grid.itemsConfig.height.helpMsg":
+    "要素の高さを指定します（単位オプションを含む）",
   "system.grid.itemsConfig.stretch": "引き伸ばし",
   "system.grid.itemsConfig.start": "開始位置に配置",
   "system.grid.itemsConfig.center": "中央揃え",
@@ -1132,27 +1263,40 @@ export default {
   "system.flex.starHorseFlexComp.mainAxisDirection": "主軸方向",
   "system.flex.starHorseFlexComp.inputBox": "入力ボックス",
   "system.flex.starHorseFlexComp.init": "初期化",
-  "system.flex.starHorseFlexComp.validationFailed": "デザインデータの検証に失敗しました、デザインコンテンツを確認してください",
+  "system.flex.starHorseFlexComp.validationFailed":
+    "デザインデータの検証に失敗しました、デザインコンテンツを確認してください",
   "system.flex.starHorseFlexComp.validationError": "検証エラー:",
-  "system.flex.starHorseFlexComp.publishValidationFailed": "デザインデータの検証に失敗しました、公開できません",
-  "system.flex.starHorseFlexComp.shareValidationFailed": "デザインデータの検証に失敗しました、共有できません",
+  "system.flex.starHorseFlexComp.publishValidationFailed":
+    "デザインデータの検証に失敗しました、公開できません",
+  "system.flex.starHorseFlexComp.shareValidationFailed":
+    "デザインデータの検証に失敗しました、共有できません",
   "system.flex.starHorseFlexComp.saveSuccess": "デザインの保存に成功しました",
-  "system.flex.starHorseFlexComp.shareSuccess": "共有リンクの生成に成功しました",
+  "system.flex.starHorseFlexComp.shareSuccess":
+    "共有リンクの生成に成功しました",
   "system.flex.starHorseFlexComp.shareResult": "共有結果:",
-  "system.flex.starHorseFlexComp.publishSuccess": "デザインの公開に成功しました",
+  "system.flex.starHorseFlexComp.publishSuccess":
+    "デザインの公開に成功しました",
   "system.flex.starHorseFlexComp.publishResult": "公開結果:",
   "system.flex.starHorseFlexComp.saveTemplate": "テンプレートを保存:",
-  "system.flex.starHorseFlexComp.templateSaveSuccess": "テンプレートの保存に成功しました",
-  "system.flex.starHorseFlexComp.confirmClearStage": "ステージをクリアしてもよろしいですか？",
-  "system.flex.starHorseFlexComp.loadSuccess": "デザインの読み込みに成功しました",
-  "system.flex.starHorseFlexComp.loadError": "デザインの読み込みに失敗しました:",
-  "system.flex.starHorseFlexComp.loadFailed": "デザインの読み込みに失敗しました",
+  "system.flex.starHorseFlexComp.templateSaveSuccess":
+    "テンプレートの保存に成功しました",
+  "system.flex.starHorseFlexComp.confirmClearStage":
+    "ステージをクリアしてもよろしいですか？",
+  "system.flex.starHorseFlexComp.loadSuccess":
+    "デザインの読み込みに成功しました",
+  "system.flex.starHorseFlexComp.loadError":
+    "デザインの読み込みに失敗しました:",
+  "system.flex.starHorseFlexComp.loadFailed":
+    "デザインの読み込みに失敗しました",
   "system.flex.starHorseFlexComp.autoSaveSuccess": "自動保存に成功しました",
   "system.flex.starHorseFlexComp.autoSaveFailed": "自動保存に失敗しました:",
-  "system.flex.starHorseFlexComp.autoSaveSetup": "自動保存を設定します、5分ごとに保存します",
+  "system.flex.starHorseFlexComp.autoSaveSetup":
+    "自動保存を設定します、5分ごとに保存します",
   "system.flex.starHorseFlexComp.autoSaveInterval": "5分",
-  "system.flex.starHorseFlexComp.beforeUnload": "ページのアンロードを監視し、自動保存します",
-  "system.flex.starHorseFlexComp.cleanup": "コンポーネントが破棄されるときにリソースをクリーンアップします",
+  "system.flex.starHorseFlexComp.beforeUnload":
+    "ページのアンロードを監視し、自動保存します",
+  "system.flex.starHorseFlexComp.cleanup":
+    "コンポーネントが破棄されるときにリソースをクリーンアップします",
   "system.flex.starHorseFlexComp.tab.template": "テンプレート",
   "system.flex.starHorseFlexComp.tab.component": "コンポーネント",
   "system.flex.starHorseFlexComp.tooltip.return": "戻る",
@@ -1160,8 +1304,10 @@ export default {
   "system.flex.starHorseFlexComp.tooltip.clearStage": "ステージをクリア",
   "system.flex.starHorseFlexComp.tooltip.mainAxisDirection": "主軸方向",
   "system.flex.starHorseFlexComp.tooltip.code": "コード",
-  "system.flex.starHorseFlexComp.tooltip.infiniteScrollOn": "無限スクロールを無効にする",
-  "system.flex.starHorseFlexComp.tooltip.infiniteScrollOff": "無限スクロールを有効にする",
+  "system.flex.starHorseFlexComp.tooltip.infiniteScrollOn":
+    "無限スクロールを無効にする",
+  "system.flex.starHorseFlexComp.tooltip.infiniteScrollOff":
+    "無限スクロールを有効にする",
   "system.flex.starHorseFlexComp.tooltip.rulerOn": "定規を表示",
   "system.flex.starHorseFlexComp.tooltip.rulerOff": "定規を非表示",
   "system.flex.starHorseFlexComp.tooltip.save": "保存",
@@ -1180,47 +1326,64 @@ export default {
   "system.flex.starHorseFlexComp.item.position": "位置とサイズ",
   "system.flex.starHorseFlexComp.item.background": "背景",
   "system.flex.starHorseFlexComp.item.font": "テキスト",
-  "system.flex.starHorseFlexComp.tab.componentProperties": "コンポーネントプロパティ",
+  "system.flex.starHorseFlexComp.tab.componentProperties":
+    "コンポーネントプロパティ",
   "system.flex.starHorseFlexComp.grid.layout": "2列レイアウト",
   "system.flex.starHorseFlexComp.grid.gap": "ギャップを8pxに統一設定",
   /**
    * StarHorseDesign.vue
    */
   "system.flex.starHorseDesign.tab.component": "コンポーネント",
-  "system.flex.starHorseDesign.placeholder.keyword": "キーワードを入力してください",
+  "system.flex.starHorseDesign.placeholder.keyword":
+    "キーワードを入力してください",
   "system.flex.starHorseDesign.tab.dataSource": "データソース",
   "system.flex.starHorseDesign.rightPanel.title": "プロパティパネル",
   "system.flex.starHorseDesign.rightPanel.component": "コンポーネント",
   "system.flex.starHorseDesign.rightPanel.lineProperty": "接続線のプロパティ",
-  "system.flex.starHorseDesign.rightPanel.emptyDescription": "キャンバス上のコンポーネントまたは接続線をクリックしてプロパティを設定できます",
+  "system.flex.starHorseDesign.rightPanel.emptyDescription":
+    "キャンバス上のコンポーネントまたは接続線をクリックしてプロパティを設定できます",
   "system.flex.starHorseDesign.drawer.title": "プロパティパネル",
   "system.flex.starHorseDesign.drawer.emptyInfo": "右側パネル",
   /**
    * StarHorseEditor.vue
    */
-  "system.flex.starHorseEditor.autoCompletion.currentField": "現在のコンポーネントのプロパティ",
-  "system.flex.starHorseEditor.autoCompletion.formInstance": "フォームインスタンス",
+  "system.flex.starHorseEditor.autoCompletion.currentField":
+    "現在のコンポーネントのプロパティ",
+  "system.flex.starHorseEditor.autoCompletion.formInstance":
+    "フォームインスタンス",
   "system.flex.starHorseEditor.autoCompletion.formData": "フォームデータ",
-  "system.flex.starHorseEditor.autoCompletion.formFields": "フォームのすべての要素",
-  "system.flex.starHorseEditor.autoCompletion.userInfo": "現在ログイン中のユーザー情報",
-  "system.flex.starHorseEditor.autoCompletion.postRequest": "Postリクエストインターフェース デフォルトは非同期返却",
-  "system.flex.starHorseEditor.autoCompletion.getRequest": "Getリクエストインターフェース デフォルトは非同期返却",
-  "system.flex.starHorseEditor.autoCompletion.download": "データダウンロードインターフェース",
-  "system.flex.starHorseEditor.autoCompletion.upload": "データアップロードインターフェース",
+  "system.flex.starHorseEditor.autoCompletion.formFields":
+    "フォームのすべての要素",
+  "system.flex.starHorseEditor.autoCompletion.userInfo":
+    "現在ログイン中のユーザー情報",
+  "system.flex.starHorseEditor.autoCompletion.postRequest":
+    "Postリクエストインターフェース デフォルトは非同期返却",
+  "system.flex.starHorseEditor.autoCompletion.getRequest":
+    "Getリクエストインターフェース デフォルトは非同期返却",
+  "system.flex.starHorseEditor.autoCompletion.download":
+    "データダウンロードインターフェース",
+  "system.flex.starHorseEditor.autoCompletion.upload":
+    "データアップロードインターフェース",
   "system.flex.starHorseEditor.getLanguageInfo": "言語情報を取得",
   "system.flex.starHorseEditor.init": "初期化",
-  "system.flex.starHorseEditor.generateQueryTips": "データベースによって異なるクエリヒントを生成",
+  "system.flex.starHorseEditor.generateQueryTips":
+    "データベースによって異なるクエリヒントを生成",
   "system.flex.starHorseEditor.theme": "テーマ",
   "system.flex.starHorseEditor.language": "言語",
   /**
    * sh_design.ts
    */
   "system.flex.shDesign.help.title.steps": "操作手順",
-  "system.flex.shDesign.help.step1": "エディタを開くと、左側のコンポーネントを中央のグリッドキャンバス領域にドラッグできます；",
-  "system.flex.shDesign.help.step2": "マウスをコンポーネントに合わせると4つの円が表示され、円の上に移動するとマウスが中実の十字になります。マウスの左ボタンを押してドラッグすると接続線が表示され、接続線は他のコンポーネントの円に接続できます；",
-  "system.flex.shDesign.help.step3": "コンポーネントまたは接続線をクリックして、そのコンポーネントまたは接続線を選択します；",
-  "system.flex.shDesign.help.step4": "空白の領域でマウスの左ボタンを押してドラッグすると、コンポーネントを枠で選択できます；",
-  "system.flex.shDesign.help.step5": "コンポーネントまたは接続線をダブルクリックするとプロパティを編集できます。",
+  "system.flex.shDesign.help.step1":
+    "エディタを開くと、左側のコンポーネントを中央のグリッドキャンバス領域にドラッグできます；",
+  "system.flex.shDesign.help.step2":
+    "マウスをコンポーネントに合わせると4つの円が表示され、円の上に移動するとマウスが中実の十字になります。マウスの左ボタンを押してドラッグすると接続線が表示され、接続線は他のコンポーネントの円に接続できます；",
+  "system.flex.shDesign.help.step3":
+    "コンポーネントまたは接続線をクリックして、そのコンポーネントまたは接続線を選択します；",
+  "system.flex.shDesign.help.step4":
+    "空白の領域でマウスの左ボタンを押してドラッグすると、コンポーネントを枠で選択できます；",
+  "system.flex.shDesign.help.step5":
+    "コンポーネントまたは接続線をダブルクリックするとプロパティを編集できます。",
   "system.flex.shDesign.help.title.shortcuts": "ショートカットキー",
   "system.flex.shDesign.help.shortcut.dragCanvas": "キャンバスをドラッグ；",
   "system.flex.shDesign.help.shortcut.copy": "コピー；",
@@ -1231,7 +1394,8 @@ export default {
   "system.flex.shDesign.help.shortcut.selectAll": "すべて選択；",
   "system.flex.shDesign.help.shortcut.zoomIn": "拡大；",
   "system.flex.shDesign.help.shortcut.zoomOut": "縮小；",
-  "system.flex.shDesign.help.shortcut.delete": "コンポーネントまたは接続線を削除。",
+  "system.flex.shDesign.help.shortcut.delete":
+    "コンポーネントまたは接続線を削除。",
   /**
    * ユーティリティクラス
    */
@@ -1292,7 +1456,8 @@ export default {
   "forgotPassword.tip":
     "登録時に使用したメールアドレスを入力してください。そのメールアドレスにパスワードリセットリンクを送信します。",
   "forgotPassword.success": "パスワードリセットメールを送信しました",
-  "forgotPassword.checkEmail": "メールを確認し、指示に従ってパスワードをリセットしてください。",
+  "forgotPassword.checkEmail":
+    "メールを確認し、指示に従ってパスワードをリセットしてください。",
   /**
    * ユーザーセンターコンポーネント
    */
@@ -1309,9 +1474,11 @@ export default {
   "userCenter.oldPassword": "元のパスワード",
   "userCenter.newPassword": "新しいパスワード",
   "userCenter.confirmPassword": "パスワードの確認",
-  "userCenter.passwordSameError": "新しいパスワードは元のパスワードと同じにできません",
+  "userCenter.passwordSameError":
+    "新しいパスワードは元のパスワードと同じにできません",
   "userCenter.passwordMismatchError": "入力されたパスワードが一致しません",
-  "userCenter.shortcutMenuLimit": "ショートカットメニューは最大10個まで設定できます",
+  "userCenter.shortcutMenuLimit":
+    "ショートカットメニューは最大10個まで設定できます",
   "userCenter.dataSubmitting": "データ送信中",
   /**
    * ログインダイアログコンポーネント
@@ -1345,7 +1512,8 @@ export default {
   "commonPage.dataLoading": "データ読み込み中",
   "commonPage.dataTypeMismatch": "データ型が一致しません",
   "commonPage.dataProcessing": "データ処理中",
-  "commonPage.interfaceNotFound": "インターフェースが存在しないかネットワークエラー",
+  "commonPage.interfaceNotFound":
+    "インターフェースが存在しないかネットワークエラー",
   "commonPage.tab.form": "フォーム",
   "commonPage.tab.dataList": "データリスト",
   /**
@@ -1531,7 +1699,8 @@ export default {
   "home.suspended": "中断済み",
   "home.delegated": "委任中",
   "home.allWork": "すべての作業",
-  "home.instructions1": "「新しいワークフロー」をクリックして、新しいワークフローページに入ります。",
+  "home.instructions1":
+    "「新しいワークフロー」をクリックして、新しいワークフローページに入ります。",
   "home.instructions2": "督促、撤回にアクセスします。",
   "home.allWorkDescription": "ここですべてのワークフロータスクを確認します。",
   "home.claimTask": "タスクを引き受ける",
@@ -1607,7 +1776,8 @@ export default {
    * データベース検索コンポーネント
    */
   "dbSearch.dataProcessing": "データ処理中",
-  "dbSearch.interfaceNotFound": "インターフェースが存在しないかネットワークエラー",
+  "dbSearch.interfaceNotFound":
+    "インターフェースが存在しないかネットワークエラー",
   "dbSearch.dataQuerying": "データ検索中",
   "dbSearch.export": "エクスポート",
   "dbSearch.dataDetails": "データの詳細",
@@ -1675,7 +1845,8 @@ export default {
   "system.component.font": "文字",
   "system.component.item": "ノード",
   "system.component.compProps": "コンポーネントプロパティ",
-  "system.component.confirmClearStage": "ステージをクリアしてもよろしいですか？",
+  "system.component.confirmClearStage":
+    "ステージをクリアしてもよろしいですか？",
   "system.component.untitledDesign": "タイトルなしのデザイン",
   "system.component.flex": "Flex",
   "system.component.flexGrid": "FlexGrid",
@@ -1686,9 +1857,12 @@ export default {
   "system.component.templateSaveSuccess": "テンプレートの保存に成功しました",
   "system.component.loadSuccess": "デザインの読み込みに成功しました",
   "system.component.loadFailed": "デザインの読み込みに失敗しました",
-  "system.component.validationFailed": "デザインデータの検証に失敗しました。デザインコンテンツを確認してください",
-  "system.component.publishValidationFailed": "デザインデータの検証に失敗しました。公開できません",
-  "system.component.shareValidationFailed": "デザインデータの検証に失敗しました。共有できません",
+  "system.component.validationFailed":
+    "デザインデータの検証に失敗しました。デザインコンテンツを確認してください",
+  "system.component.publishValidationFailed":
+    "デザインデータの検証に失敗しました。公開できません",
+  "system.component.shareValidationFailed":
+    "デザインデータの検証に失敗しました。共有できません",
   "system.component.autoSaveFailed": "自動保存に失敗しました",
   "system.component.autoSaveSuccess": "自動保存に成功しました",
   /**
@@ -1720,7 +1894,8 @@ export default {
    */
   "system.employee.number": "社員番号",
   "system.avatar": "アバター",
-  "system.auto.generate.if.empty": "入力しない場合はシステムが自動的に生成します",
+  "system.auto.generate.if.empty":
+    "入力しない場合はシステムが自動的に生成します",
   "system.affiliated.department": "所属部署",
   "system.emergency.contact.phone": "緊急連絡先電話",
   "system.emergency.contact.help": "特別な状況で家族に連絡するために便利",
@@ -1811,7 +1986,8 @@ export default {
   "system.authorized.menu": "権限が付与されたメニュー",
   "system.authorized.account": "権限が付与されたアカウント",
   "system.permission": "権限",
-  "system.authorized.user.group.account": "権限が付与されたユーザーグループ/アカウント",
+  "system.authorized.user.group.account":
+    "権限が付与されたユーザーグループ/アカウント",
   "system.please.select.application": "アプリケーションを選択してください",
   "system.application.system": "アプリケーションシステム",
   "system.system.menu": "システムメニュー",
@@ -1851,7 +2027,8 @@ export default {
    */
   "system.role.type": "ロールタイプ",
   "system.set.role.affiliated.company": "ロールの所属会社を設定",
-  "system.please.set.role.affiliated.company": "現在のロールの所属会社を設定してください",
+  "system.please.set.role.affiliated.company":
+    "現在のロールの所属会社を設定してください",
   /**
    * ロール定義
    */
@@ -1883,7 +2060,7 @@ export default {
   "system.identity.number": "証明書番号",
   "system.mailing.address": "通信先住所",
   "system.id.photo": "証明書写真",
-  "system.auditing.opinion":"承認意見",
+  "system.auditing.opinion": "承認意見",
   /**
    * ワークフローコンポーネント
    */
@@ -1931,13 +2108,18 @@ export default {
   "workflow.action.returnReason.placeholder": "差し戻し理由を入力してください",
   "workflow.action.returnReason.required": "差し戻し理由は必須です",
   "workflow.action.addSignUsers": "追加承認ユーザー",
-  "workflow.action.addSignUsers.placeholder": "追加承認するユーザーを選択してください",
-  "workflow.action.addSignUsers.required": "追加承認するユーザーを選択してください",
+  "workflow.action.addSignUsers.placeholder":
+    "追加承認するユーザーを選択してください",
+  "workflow.action.addSignUsers.required":
+    "追加承認するユーザーを選択してください",
   "workflow.action.reduceSignUsers": "承認減少ユーザー",
-  "workflow.action.reduceSignUsers.placeholder": "承認を減らすユーザーを選択してください",
-  "workflow.action.reduceSignUsers.required": "承認を減らすユーザーを選択してください",
+  "workflow.action.reduceSignUsers.placeholder":
+    "承認を減らすユーザーを選択してください",
+  "workflow.action.reduceSignUsers.required":
+    "承認を減らすユーザーを選択してください",
   "workflow.action.transferTo": "転送先",
-  "workflow.action.transferTo.placeholder": "転送するユーザーを選択してください",
+  "workflow.action.transferTo.placeholder":
+    "転送するユーザーを選択してください",
   "workflow.action.transferTo.required": "転送するユーザーを選択してください",
   "workflow.action.assignApprover": "承認者を指定",
   "workflow.action.assignApprover.placeholder": "承認者を選択してください",

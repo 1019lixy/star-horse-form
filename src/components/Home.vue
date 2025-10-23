@@ -1,8 +1,15 @@
 <script setup lang="ts">
-import {onMounted, ref} from "vue";
-import {i18n} from "@/lang";
-import {apiInstance, ApiUrls, createCondition, loadData, postRequest, warning} from "star-horse-lowcode";
-import {getUserInfo} from "@/utils/auth.js";
+import { onMounted, ref } from "vue";
+import { i18n } from "@/lang";
+import {
+  apiInstance,
+  ApiUrls,
+  createCondition,
+  loadData,
+  postRequest,
+  warning,
+} from "star-horse-lowcode";
+import { getUserInfo } from "@/utils/auth.js";
 import StarHorseSidebar from "@/components/system/StarHorseSidebar.vue";
 // Reactive data
 const modules = ref<Array<any>>([]);
@@ -13,17 +20,19 @@ const activeCategory = ref("all");
 const selectedModules = ref<Array<string>>([]);
 const selectedModuleId = ref<string | null>(null);
 const dataUrl: ApiUrls = apiInstance("system-config", "system/indexModules");
-const userConfigUrl: ApiUrls = apiInstance("system-config", "system/indexUserConfigs");
+const userConfigUrl: ApiUrls = apiInstance(
+  "system-config",
+  "system/indexUserConfigs",
+);
 // Module categories
 const moduleCategories = ref([
-  {id: "all", name: i18n("home.category.all")},
-  {id: "system", name: i18n("home.category.system")},
-  {id: "business", name: i18n("home.category.business")},
-  {id: "analytics", name: i18n("home.category.analytics")},
-  {id: "tools", name: i18n("home.category.tools")}
+  { id: "all", name: i18n("home.category.all") },
+  { id: "system", name: i18n("home.category.system") },
+  { id: "business", name: i18n("home.category.business") },
+  { id: "analytics", name: i18n("home.category.analytics") },
+  { id: "tools", name: i18n("home.category.tools") },
 ]);
 const allModules = ref<Array<any>>([]);
-
 
 // Filtered modules based on search keyword
 const filteredModulesByCategory = (category: string) => {
@@ -31,15 +40,16 @@ const filteredModulesByCategory = (category: string) => {
 
   // Filter by category if not "all"
   if (category !== "all") {
-    result = result.filter(module => module.moduleType === category);
+    result = result.filter((module) => module.moduleType === category);
   }
 
   // Filter by search keyword
   if (searchKeyword.value) {
     const keyword = searchKeyword.value.toLowerCase();
-    result = result.filter((module: any) =>
+    result = result.filter(
+      (module: any) =>
         module.title.toLowerCase().includes(keyword) ||
-        module.description.toLowerCase().includes(keyword)
+        module.description.toLowerCase().includes(keyword),
     );
   }
 
@@ -50,7 +60,9 @@ const filteredModulesByCategory = (category: string) => {
 const openModuleSelector = () => {
   moduleSelectorVisible.value = true;
   // Pre-select modules that are already added to the dashboard
-  selectedModules.value = modules.value.map((module: any) => module.idIndexModule);
+  selectedModules.value = modules.value.map(
+    (module: any) => module.idIndexModule,
+  );
 };
 const selectNode = (item: any) => {
   selectedModuleId.value = item.idIndexModule;
@@ -66,8 +78,8 @@ const toggleModuleSelection = (moduleId: string) => {
 
 const addSelectedModules = () => {
   // Add selected modules to the dashboard
-  const selectedModuleData = allModules.value.filter(
-      (module: any) => selectedModules.value.includes(module.idIndexModule)
+  const selectedModuleData = allModules.value.filter((module: any) =>
+    selectedModules.value.includes(module.idIndexModule),
   );
 
   // Add to existing modules
@@ -86,7 +98,9 @@ const selectModule = (moduleId: string) => {
 };
 
 const updateModulePosition = (updatedModule: any) => {
-  const index = modules.value.findIndex((m: any) => m.idIndexModule === updatedModule.idIndexModule);
+  const index = modules.value.findIndex(
+    (m: any) => m.idIndexModule === updatedModule.idIndexModule,
+  );
   if (index > -1) {
     modules.value[index] = updatedModule;
     // Save to backend
@@ -115,11 +129,17 @@ const saveModulesToBackend = () => {
       idUsersinfo: user.idUsersinfo,
       rowNum: index,
       colNum: 1,
-      styles: typeof module.styles === "object" ? JSON.stringify(module.styles) : module.styles,
-      preps: typeof module.preps === "object" ? JSON.stringify(module.preps) : module.preps ?? "{}",
+      styles:
+        typeof module.styles === "object"
+          ? JSON.stringify(module.styles)
+          : module.styles,
+      preps:
+        typeof module.preps === "object"
+          ? JSON.stringify(module.preps)
+          : (module.preps ?? "{}"),
     });
   });
-  postRequest(userConfigUrl.batchMergeUrl!, datas).then(res => {
+  postRequest(userConfigUrl.batchMergeUrl!, datas).then((res) => {
     if (res.data.code != 0) {
       warning(res.data.cnMessage);
       return;
@@ -129,8 +149,8 @@ const saveModulesToBackend = () => {
 
 const loadModulesFromBackend = () => {
   loadData(dataUrl.listConditionUrl!, {
-    fieldList: [createCondition("isDel", 0)]
-  }).then(response => {
+    fieldList: [createCondition("isDel", 0)],
+  }).then((response) => {
     if (response.error) {
       warning(response.error);
       return;
@@ -139,14 +159,16 @@ const loadModulesFromBackend = () => {
     const user = getUserInfo();
     modules.value = [];
     loadData(userConfigUrl.listConditionUrl!, {
-      fieldList: [createCondition("idUsersinfo", user.idUsersinfo)]
-    }).then(res => {
+      fieldList: [createCondition("idUsersinfo", user.idUsersinfo)],
+    }).then((res) => {
       if (res.error) {
         warning(res.error);
         return;
       }
       res.data?.forEach((module: any) => {
-        let item = allModules.value.find((item: any) => item.idIndexModule === module.idIndexModule);
+        let item = allModules.value.find(
+          (item: any) => item.idIndexModule === module.idIndexModule,
+        );
         module.title = item?.title;
         module.moduleType = item?.moduleType;
         module.moduleIcon = item?.moduleIcon;
@@ -156,7 +178,6 @@ const loadModulesFromBackend = () => {
       });
     });
   });
-
 };
 
 // Lifecycle
@@ -168,22 +189,37 @@ onMounted(() => {
   <div class="home-container h-full w-full relative box-border overflow-hidden">
     <div class="dashboard-area h-full relative" v-if="modules.length > 0">
       <div class="module-grid w-full overflow-y-auto h-full">
-        <star-horse-draggable v-for="(module, index) in modules" :key="module.idIndexModule" :node="module"
-                              :isActive="selectedModuleId == module.idIndexModule && isDesign" :isDesign="isDesign"
-                              @selectNode="selectNode">
-          <div class="module-card w-full h-full "
-               :style="{cursor: isDesign ? 'grab' : 'default'}"
-               :class="{
-                 'border-2 border-[var(--star-horse-style)]': selectedModuleId === module.idIndexModule && isDesign,
-                 'not-in-design': !isDesign
-               }">
+        <star-horse-draggable
+          v-for="(module, index) in modules"
+          :key="module.idIndexModule"
+          :node="module"
+          :isActive="selectedModuleId == module.idIndexModule && isDesign"
+          :isDesign="isDesign"
+          @selectNode="selectNode"
+        >
+          <div
+            class="module-card w-full h-full"
+            :style="{ cursor: isDesign ? 'grab' : 'default' }"
+            :class="{
+              'border-2 border-[var(--star-horse-style)]':
+                selectedModuleId === module.idIndexModule && isDesign,
+              'not-in-design': !isDesign,
+            }"
+          >
             <div class="module-header flex items-center mb-4">
-              <star-horse-icon :icon-class="module.moduleIcon"
-                               class="module-icon text-2xl text-[var(--star-horse-style)] mr-2.5"/>
-              <h3 class="module-title m-0 text-lg font-semibold text-[#303133]">{{ module.title }}</h3>
+              <star-horse-icon
+                :icon-class="module.moduleIcon"
+                class="module-icon text-2xl text-[var(--star-horse-style)] mr-2.5"
+              />
+              <h3 class="module-title m-0 text-lg font-semibold text-[#303133]">
+                {{ module.title }}
+              </h3>
             </div>
             <div class="module-content flex-1 flex flex-col justify-between">
-              <p class="module-description m-0 mb-4 text-sm text-[#606266] leading-normal">{{ module.description }}
+              <p
+                class="module-description m-0 mb-4 text-sm text-[#606266] leading-normal"
+              >
+                {{ module.description }}
               </p>
             </div>
           </div>
@@ -193,48 +229,90 @@ onMounted(() => {
       </div>
     </div>
 
-    <div class="empty-state flex justify-center items-center h-full w-full" v-else>
+    <div
+      class="empty-state flex justify-center items-center h-full w-full"
+      v-else
+    >
       <div class="empty-content text-center max-w-[500px]">
         <div class="empty-illustration mb-5 text-[#c0c4cc]">
-          <star-horse-icon icon-class="dashboard" size="64px"/>
+          <star-horse-icon icon-class="dashboard" size="64px" />
         </div>
-        <div class="welcome">{{ i18n('home.welcome') }}</div>
-        <p class="m-0 mb-5 text-base text-[#606266]">{{ i18n('home.noModules') }}</p>
-        <div @click="openModuleSelector" class="field-item flex h-[70px]! home-btn ">
-          <star-horse-icon icon-class="plus"/>
-          {{ i18n('home.addModule') }}
+        <div class="welcome">{{ i18n("home.welcome") }}</div>
+        <p class="m-0 mb-5 text-base text-[#606266]">
+          {{ i18n("home.noModules") }}
+        </p>
+        <div
+          @click="openModuleSelector"
+          class="field-item flex h-[70px]! home-btn"
+        >
+          <star-horse-icon icon-class="plus" />
+          {{ i18n("home.addModule") }}
         </div>
       </div>
     </div>
-    <el-drawer v-model="moduleSelectorVisible" :title="i18n('home.selectModule')" direction="rtl" size="40%">
+    <el-drawer
+      v-model="moduleSelectorVisible"
+      :title="i18n('home.selectModule')"
+      direction="rtl"
+      size="40%"
+    >
       <div class="module-selector h-full flex flex-col">
-        <el-input v-model="searchKeyword" :placeholder="i18n('home.searchModules')" class="search-input mb-5" clearable>
+        <el-input
+          v-model="searchKeyword"
+          :placeholder="i18n('home.searchModules')"
+          class="search-input mb-5"
+          clearable
+        >
           <template #prefix>
-            <star-horse-icon icon-class="search"/>
+            <star-horse-icon icon-class="search" />
           </template>
         </el-input>
         <div class="module-categories flex-1 overflow-y-auto">
           <el-tabs v-model="activeCategory">
-            <el-tab-pane v-for="category in moduleCategories" :key="category.id" :label="category.name"
-                         :name="category.id">
+            <el-tab-pane
+              v-for="category in moduleCategories"
+              :key="category.id"
+              :label="category.name"
+              :name="category.id"
+            >
               <div class="module-list flex flex-col gap-2.5">
-                <div v-for="module in filteredModulesByCategory(category.id)" :key="module.idIndexModule"
-                     class="module-item flex items-center justify-between p-4 border border-[#ebeef5] rounded cursor-pointer transition-all duration-300 ease-in-out"
-                     :class="{
-                    'border-[var(--star-horse-style)] bg-[#f5f7fa]': selectedModules.includes(module.idIndexModule),
-                    'border-[var(--star-horse-style)] bg-[#ecf5ff]': selectedModules.includes(module.idIndexModule)
-                  }" @click="toggleModuleSelection(module.idIndexModule)">
-                  <div class="module-item-content flex items-center flex-1 h-full">
-                    <star-horse-icon :icon-class="module.moduleIcon"
-                                     class="module-item-icon text-2xl text-[var(--star-horse-style)] mr-4"/>
-                    <div class="border-[var(--star-horse-style)] border-1 border-solid w-[1px] h-[36px] mx-2"></div>
+                <div
+                  v-for="module in filteredModulesByCategory(category.id)"
+                  :key="module.idIndexModule"
+                  class="module-item flex items-center justify-between p-4 border border-[#ebeef5] rounded cursor-pointer transition-all duration-300 ease-in-out"
+                  :class="{
+                    'border-[var(--star-horse-style)] bg-[#f5f7fa]':
+                      selectedModules.includes(module.idIndexModule),
+                    'border-[var(--star-horse-style)] bg-[#ecf5ff]':
+                      selectedModules.includes(module.idIndexModule),
+                  }"
+                  @click="toggleModuleSelection(module.idIndexModule)"
+                >
+                  <div
+                    class="module-item-content flex items-center flex-1 h-full"
+                  >
+                    <star-horse-icon
+                      :icon-class="module.moduleIcon"
+                      class="module-item-icon text-2xl text-[var(--star-horse-style)] mr-4"
+                    />
+                    <div
+                      class="border-[var(--star-horse-style)] border-1 border-solid w-[1px] h-[36px] mx-2"
+                    ></div>
                     <div class="module-item-info">
-                      <h4 class="m-0 ml-1 mb-1 text-base text-[#303133]">{{ module.title }}</h4>
-                      <p class="m-0 ml-5 text-sm text-[#606266]">{{ module.description }}</p>
+                      <h4 class="m-0 ml-1 mb-1 text-base text-[#303133]">
+                        {{ module.title }}
+                      </h4>
+                      <p class="m-0 ml-5 text-sm text-[#606266]">
+                        {{ module.description }}
+                      </p>
                     </div>
                   </div>
-                  <el-checkbox :model-value="selectedModules.includes(module.idIndexModule)"
-                               @change="toggleModuleSelection(module.idIndexModule)"/>
+                  <el-checkbox
+                    :model-value="
+                      selectedModules.includes(module.idIndexModule)
+                    "
+                    @change="toggleModuleSelection(module.idIndexModule)"
+                  />
                 </div>
               </div>
             </el-tab-pane>
@@ -244,26 +322,44 @@ onMounted(() => {
 
       <template #footer>
         <div class="drawer-footer flex justify-end gap-2.5 p-2.5">
-          <el-button @click="moduleSelectorVisible = false">{{ i18n('dialog.cancel') }}</el-button>
-          <el-button type="primary" @click="addSelectedModules" :disabled="selectedModules.length === 0">
-            {{ i18n('home.addSelectedModules') }}
+          <el-button @click="moduleSelectorVisible = false">{{
+            i18n("dialog.cancel")
+          }}</el-button>
+          <el-button
+            type="primary"
+            @click="addSelectedModules"
+            :disabled="selectedModules.length === 0"
+          >
+            {{ i18n("home.addSelectedModules") }}
           </el-button>
         </div>
       </template>
     </el-drawer>
-
 
     <StarHorseSidebar>
       <div class="quick-actions">
         <h4 class="text-md font-semibold mb-3">快捷操作</h4>
         <div class="action-item mb-2">
           <el-form-item>
-            <el-switch v-model="isDesign" active-text="编辑模式" inactive-text="只读模式" @change="handleDesignChange"/>
+            <el-switch
+              v-model="isDesign"
+              active-text="编辑模式"
+              inactive-text="只读模式"
+              @change="handleDesignChange"
+            />
           </el-form-item>
           <el-form-item v-if="isDesign">
-            <el-button :disabled="!isDesign" type="primary" @click="openModuleSelector">
-              <star-horse-icon icon-class="plus" cursor="pointer" color="var(--star-horse-white)"/>
-              {{ i18n('home.addModule') }}
+            <el-button
+              :disabled="!isDesign"
+              type="primary"
+              @click="openModuleSelector"
+            >
+              <star-horse-icon
+                icon-class="plus"
+                cursor="pointer"
+                color="var(--star-horse-white)"
+              />
+              {{ i18n("home.addModule") }}
             </el-button>
           </el-form-item>
         </div>
@@ -272,10 +368,16 @@ onMounted(() => {
       <div class="recent-modules mt-4">
         <h4 class="text-md font-semibold mb-3">最近使用</h4>
         <div class="module-list">
-          <div v-for="module in modules.slice(0, 3)" :key="module.idIndexModule"
-               class="module-item flex items-center p-2 mb-2 rounded cursor-pointer hover:bg-gray-100"
-               @click="selectModule(module.idIndexModule)">
-            <star-horse-icon :icon-class="module.moduleIcon" class="text-lg mr-2"/>
+          <div
+            v-for="module in modules.slice(0, 3)"
+            :key="module.idIndexModule"
+            class="module-item flex items-center p-2 mb-2 rounded cursor-pointer hover:bg-gray-100"
+            @click="selectModule(module.idIndexModule)"
+          >
+            <star-horse-icon
+              :icon-class="module.moduleIcon"
+              class="text-lg mr-2"
+            />
             <span class="text-sm">{{ module.title }}</span>
           </div>
         </div>

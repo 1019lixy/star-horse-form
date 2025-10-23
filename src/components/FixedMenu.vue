@@ -1,14 +1,14 @@
 <script setup lang="ts">
-import {useLoginStore} from "@/store/Login";
-import {MenusInfo, piniaInstance} from "star-horse-lowcode";
-import {computed, nextTick, onMounted, ref, watch} from "vue";
+import { useLoginStore } from "@/store/Login";
+import { MenusInfo, piniaInstance } from "star-horse-lowcode";
+import { computed, nextTick, onMounted, ref, watch } from "vue";
 
 const loginStore = useLoginStore(piniaInstance);
 let leftMenuDatas = computed(() => loginStore.getMenusList());
 let props = defineProps({
-  sysemId: {type: String},
-  isCollapse: {type: Boolean, default: true},
-  top: {type: String, default: "83px"},
+  sysemId: { type: String },
+  isCollapse: { type: Boolean, default: true },
+  top: { type: String, default: "83px" },
 });
 let defaultOpenMenu = ref<Array<string>>([]);
 let htop = computed(() => {
@@ -26,15 +26,14 @@ const overHandler = (item: any) => {
   currentItem.value = item;
 };
 
-onMounted(() => {
-});
+onMounted(() => {});
 
 watch(
-    () => leftMenuDatas.value,
-    (val: any) => {
-      setOpenMenu();
-    },
-    {immediate: false},
+  () => leftMenuDatas.value,
+  (val: any) => {
+    setOpenMenu();
+  },
+  { immediate: false },
 );
 </script>
 <template>
@@ -42,24 +41,24 @@ watch(
     <div class="menu-base">
       <template v-for="item in leftMenuDatas">
         <div
-            :class="{
+          :class="{
             'menu-item': true,
             'is-active': item.meta.title == currentItem.meta?.title,
           }"
-            @mouseover="overHandler(item)"
+          @mouseover="overHandler(item)"
         >
           <div class="menu-item-icon">
             <el-icon class="star-icon">
-              <component :is="item.meta.menuIcon || 'document'"/>
+              <component :is="item.meta.menuIcon || 'document'" />
             </el-icon>
           </div>
           <div class="menu-item-title">{{ item.meta.title }}</div>
           <div class="menu-item-line"></div>
           <div
-              class="menu-sub-item"
-              v-if="item.children && item.meta.title == currentItem.meta?.title"
+            class="menu-sub-item"
+            v-if="item.children && item.meta.title == currentItem.meta?.title"
           >
-            <FixedSubMenu :top="top" :data-list="item.children"/>
+            <FixedSubMenu :top="top" :data-list="item.children" />
           </div>
         </div>
       </template>

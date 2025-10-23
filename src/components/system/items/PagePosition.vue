@@ -1,13 +1,13 @@
 <script setup lang="ts">
-import {ModelRef} from "vue";
-import {Config} from "@/api/settings";
+import { ModelRef } from "vue";
+import { Config } from "@/api/settings";
 import { i18n } from "@/lang";
 
 defineProps({
   compSize: {
     type: String,
     default: Config.compSize,
-  }
+  },
 });
 
 const data: ModelRef<any> = defineModel("dataForm");
@@ -16,84 +16,114 @@ const data: ModelRef<any> = defineModel("dataForm");
 <template>
   <div class="row">
     <el-form-item :label="i18n('system.flex.pagePosition.label.x')" prop="left">
-      <el-input v-model="data.left" :size="compSize" clearable :placeholder="i18n('system.flex.pagePosition.label.x')"/>
+      <el-input
+        v-model="data.left"
+        :size="compSize"
+        clearable
+        :placeholder="i18n('system.flex.pagePosition.label.x')"
+      />
     </el-form-item>
     <el-form-item :label="i18n('system.flex.pagePosition.label.y')" prop="top">
-      <el-input v-model="data.top" :size="compSize" clearable :placeholder="i18n('system.flex.pagePosition.label.y')"/>
+      <el-input
+        v-model="data.top"
+        :size="compSize"
+        clearable
+        :placeholder="i18n('system.flex.pagePosition.label.y')"
+      />
     </el-form-item>
   </div>
   <div class="row">
-    <el-form-item :label="i18n('system.flex.pagePosition.label.width')" prop="width">
-      <el-input v-model="data.width" :size="compSize" clearable :placeholder="i18n('system.flex.pagePosition.placeholder.width')"/>
+    <el-form-item
+      :label="i18n('system.flex.pagePosition.label.width')"
+      prop="width"
+    >
+      <el-input
+        v-model="data.width"
+        :size="compSize"
+        clearable
+        :placeholder="i18n('system.flex.pagePosition.placeholder.width')"
+      />
     </el-form-item>
 
-    <el-form-item :label="i18n('system.flex.pagePosition.label.height')" prop="height">
-      <el-input v-model="data.height" :size="compSize" clearable :placeholder="i18n('system.flex.pagePosition.placeholder.height')"/>
+    <el-form-item
+      :label="i18n('system.flex.pagePosition.label.height')"
+      prop="height"
+    >
+      <el-input
+        v-model="data.height"
+        :size="compSize"
+        clearable
+        :placeholder="i18n('system.flex.pagePosition.placeholder.height')"
+      />
     </el-form-item>
   </div>
   <div class="main-container">
     <!-- 外边框 -->
-    <div class="border"
-         :data-outer-border="i18n('system.flex.pagePosition.border.outer')"
-         :data-inner-border="i18n('system.flex.pagePosition.border.inner')">
+    <div
+      class="border"
+      :data-outer-border="i18n('system.flex.pagePosition.border.outer')"
+      :data-inner-border="i18n('system.flex.pagePosition.border.inner')"
+    >
       <el-input
-          clearable
-          :size="compSize"
-          v-model="data.marginTop"
-          class="input-box horizontal-input outer-top"
-          placeholder="margin top"
+        clearable
+        :size="compSize"
+        v-model="data.marginTop"
+        class="input-box horizontal-input outer-top"
+        placeholder="margin top"
       />
       <el-input
-          :size="compSize"
-          v-model="data.marginLeft"
-          class="input-box vertical-input outer-left"
-          placeholder="margin left"
+        :size="compSize"
+        v-model="data.marginLeft"
+        class="input-box vertical-input outer-left"
+        placeholder="margin left"
       />
       <el-input
-          :size="compSize"
-          v-model="data.marginRight"
-          class="input-box vertical-input outer-right"
-          placeholder="margin right"
+        :size="compSize"
+        v-model="data.marginRight"
+        class="input-box vertical-input outer-right"
+        placeholder="margin right"
       />
       <el-input
-          clearable
-          :size="compSize"
-          v-model="data.marginBottom"
-          class="input-box horizontal-input outer-bottom"
-          placeholder="margin bottom"
+        clearable
+        :size="compSize"
+        v-model="data.marginBottom"
+        class="input-box horizontal-input outer-bottom"
+        placeholder="margin bottom"
       />
 
       <!-- 内边框 -->
       <div class="inner-border">
         <el-input
-            clearable
-            :size="compSize"
-            v-model="data.paddingTop"
-            class="input-box horizontal-input inner-top"
-            placeholder="padding top"
+          clearable
+          :size="compSize"
+          v-model="data.paddingTop"
+          class="input-box horizontal-input inner-top"
+          placeholder="padding top"
         />
         <el-input
-            :size="compSize"
-            v-model="data.paddingLeft"
-            class="input-box vertical-input inner-left"
-            placeholder="padding left"
+          :size="compSize"
+          v-model="data.paddingLeft"
+          class="input-box vertical-input inner-left"
+          placeholder="padding left"
         />
         <el-input
-            :size="compSize"
-            v-model="data.paddingRight"
-            class="input-box vertical-input inner-right"
-            placeholder="padding right"
+          :size="compSize"
+          v-model="data.paddingRight"
+          class="input-box vertical-input inner-right"
+          placeholder="padding right"
         />
         <el-input
-            clearable
-            :size="compSize"
-            v-model="data.paddingBottom"
-            class="input-box horizontal-input inner-bottom"
-            placeholder="padding bottom"
+          clearable
+          :size="compSize"
+          v-model="data.paddingBottom"
+          class="input-box horizontal-input inner-bottom"
+          placeholder="padding bottom"
         />
 
         <!-- 中间内容 -->
-        <div class="content">{{ i18n('system.flex.pagePosition.content') }}</div>
+        <div class="content">
+          {{ i18n("system.flex.pagePosition.content") }}
+        </div>
       </div>
     </div>
   </div>
@@ -236,7 +266,7 @@ const data: ModelRef<any> = defineModel("dataForm");
     line-height: 1.2 !important;
     cursor: text;
   }
-  
+
   /* 针对element-plus输入框组件的更深层样式 */
   :deep(.el-input__wrapper) {
     background-color: transparent !important;
@@ -244,7 +274,7 @@ const data: ModelRef<any> = defineModel("dataForm");
     box-shadow: none !important;
     padding: 0 !important;
   }
-  
+
   :deep(.el-input__inner) {
     background-color: transparent !important;
     border: none !important;

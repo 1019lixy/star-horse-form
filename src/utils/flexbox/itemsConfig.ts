@@ -44,9 +44,18 @@ export const flexBoxItemsConfig: PageFieldInfo = {
       preps: {
         icon: "",
         appendList: [
-          { name: i18n("system.flexbox.itemsConfig.flexBasis.auto"), value: "auto" },
-          { name: i18n("system.flexbox.itemsConfig.flexBasis.pixel"), value: "px" },
-          { name: i18n("system.flexbox.itemsConfig.flexBasis.percent"), value: "%" },
+          {
+            name: i18n("system.flexbox.itemsConfig.flexBasis.auto"),
+            value: "auto",
+          },
+          {
+            name: i18n("system.flexbox.itemsConfig.flexBasis.pixel"),
+            value: "px",
+          },
+          {
+            name: i18n("system.flexbox.itemsConfig.flexBasis.percent"),
+            value: "%",
+          },
         ],
       },
       type: "input",
@@ -62,12 +71,30 @@ export const flexBoxItemsConfig: PageFieldInfo = {
       preps: {
         icon: "",
         values: [
-          { name: i18n("system.flexbox.itemsConfig.alignSelf.auto"), value: "auto" },
-          { name: i18n("system.flexbox.itemsConfig.alignSelf.flexStart"), value: "flex-start" },
-          { name: i18n("system.flexbox.itemsConfig.alignSelf.flexEnd"), value: "flex-end" },
-          { name: i18n("system.flexbox.itemsConfig.alignSelf.center"), value: "center" },
-          { name: i18n("system.flexbox.itemsConfig.alignSelf.baseline"), value: "baseline" },
-          { name: i18n("system.flexbox.itemsConfig.alignSelf.stretch"), value: "stretch" },
+          {
+            name: i18n("system.flexbox.itemsConfig.alignSelf.auto"),
+            value: "auto",
+          },
+          {
+            name: i18n("system.flexbox.itemsConfig.alignSelf.flexStart"),
+            value: "flex-start",
+          },
+          {
+            name: i18n("system.flexbox.itemsConfig.alignSelf.flexEnd"),
+            value: "flex-end",
+          },
+          {
+            name: i18n("system.flexbox.itemsConfig.alignSelf.center"),
+            value: "center",
+          },
+          {
+            name: i18n("system.flexbox.itemsConfig.alignSelf.baseline"),
+            value: "baseline",
+          },
+          {
+            name: i18n("system.flexbox.itemsConfig.alignSelf.stretch"),
+            value: "stretch",
+          },
         ],
       },
     },
@@ -81,9 +108,15 @@ export const flexBoxItemsConfig: PageFieldInfo = {
       preps: {
         icon: "",
         appendList: [
-          { name: i18n("system.flexbox.itemsConfig.width.auto"), value: "auto" },
+          {
+            name: i18n("system.flexbox.itemsConfig.width.auto"),
+            value: "auto",
+          },
           { name: i18n("system.flexbox.itemsConfig.width.pixel"), value: "px" },
-          { name: i18n("system.flexbox.itemsConfig.width.percent"), value: "%" },
+          {
+            name: i18n("system.flexbox.itemsConfig.width.percent"),
+            value: "%",
+          },
         ],
       },
     },
@@ -97,9 +130,18 @@ export const flexBoxItemsConfig: PageFieldInfo = {
       preps: {
         icon: "",
         appendList: [
-          { name: i18n("system.flexbox.itemsConfig.height.auto"), value: "auto" },
-          { name: i18n("system.flexbox.itemsConfig.height.pixel"), value: "px" },
-          { name: i18n("system.flexbox.itemsConfig.height.percent"), value: "%" },
+          {
+            name: i18n("system.flexbox.itemsConfig.height.auto"),
+            value: "auto",
+          },
+          {
+            name: i18n("system.flexbox.itemsConfig.height.pixel"),
+            value: "px",
+          },
+          {
+            name: i18n("system.flexbox.itemsConfig.height.percent"),
+            value: "%",
+          },
         ],
       },
     },

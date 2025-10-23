@@ -6,9 +6,10 @@ import {
 } from "../../../api/keyboard-event-utils.js";
 
 export function useKeyboardEvents(actions: (action: string) => void) {
-  const keyboardHandlers = ref<{ keydown: (evt: KeyboardEvent) => void; keyup: (evt: KeyboardEvent) => void } | null>(
-    null,
-  );
+  const keyboardHandlers = ref<{
+    keydown: (evt: KeyboardEvent) => void;
+    keyup: (evt: KeyboardEvent) => void;
+  } | null>(null);
 
   const scrollHandler = (e: Event) => {
     const customEvent = e as CustomEvent;
@@ -31,18 +32,12 @@ export function useKeyboardEvents(actions: (action: string) => void) {
         actions,
         ModuleEnums.DYNAMIC_FORM,
       );
-      window.addEventListener(
-        "scroll-to-field",
-        scrollHandler,
-      );
+      window.addEventListener("scroll-to-field", scrollHandler);
     } else {
       if (keyboardHandlers.value) {
         removeKeyboardEvent(keyboardHandlers.value);
       }
-      window.removeEventListener(
-        "scroll-to-field",
-        scrollHandler,
-      );
+      window.removeEventListener("scroll-to-field", scrollHandler);
     }
   };
 

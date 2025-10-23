@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {PageCompInfo} from "@/components/types/PageLayoutComp";
+import { PageCompInfo } from "@/components/types/PageLayoutComp";
 defineOptions({
   name: "PageCardItem",
 });

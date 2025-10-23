@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {ref} from "vue";
+import { ref } from "vue";
 
 const emit = defineEmits(["close", "save"]);
 const props = defineProps<{
@@ -18,15 +18,15 @@ const dataSubmit = () => {
 
 <template>
   <star-horse-dialog
-      :title="'节点列表'"
-      :dialogVisible="visible"
-      :self-func="true"
-      @closeAction="closeAction"
-      @merge="dataSubmit"
-      :is-batch="false"
-      boxHeight="80%"
-      :is-show-btn-continue="false"
+    :title="'节点列表'"
+    :dialogVisible="visible"
+    :self-func="true"
+    @closeAction="closeAction"
+    @merge="dataSubmit"
+    :is-batch="false"
+    boxHeight="80%"
+    :is-show-btn-continue="false"
   >
-    <ToolInfo ref="toolInfoRef" @selectNode="dataSubmit"/>
+    <ToolInfo ref="toolInfoRef" @selectNode="dataSubmit" />
   </star-horse-dialog>
 </template>

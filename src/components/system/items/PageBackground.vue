@@ -1,12 +1,12 @@
 <script setup lang="ts" name="PageBackground">
 import { ModelRef, watch, ref } from "vue";
-import {Config} from "@/api/settings.js";
+import { Config } from "@/api/settings.js";
 import { i18n } from "@/lang";
 defineProps({
   compSize: {
     type: String,
     default: Config.compSize,
-  }
+  },
 });
 let backgroundData: ModelRef<any> = defineModel("dataForm");
 const currentBackgroundImage = ref("");
@@ -36,7 +36,10 @@ watch(
 </script>
 
 <template>
-  <el-form-item :label="i18n('system.flex.pageBackground.label.color')" prop="backgroundColor">
+  <el-form-item
+    :label="i18n('system.flex.pageBackground.label.color')"
+    prop="backgroundColor"
+  >
     <div class="row">
       <el-color-picker
         v-model="backgroundData.backgroundColor"
@@ -53,7 +56,10 @@ watch(
       />
     </div>
   </el-form-item>
-  <el-form-item :label="i18n('system.flex.pageBackground.label.backgroundImage')" prop="backgroundImage">
+  <el-form-item
+    :label="i18n('system.flex.pageBackground.label.backgroundImage')"
+    prop="backgroundImage"
+  >
     <el-upload
       :before-upload="beforeUpload"
       list-type="picture-card"
@@ -71,21 +77,39 @@ watch(
       </el-icon>
     </el-upload>
   </el-form-item>
-  <el-form-item :label="i18n('system.flex.pageBackground.label.backgroundSize')" prop="backgroundSize">
+  <el-form-item
+    :label="i18n('system.flex.pageBackground.label.backgroundSize')"
+    prop="backgroundSize"
+  >
     <el-input
       v-model="backgroundData.backgroundSize"
       :size="compSize"
-      :placeholder="i18n('system.flex.pageBackground.placeholder.backgroundSize')"
+      :placeholder="
+        i18n('system.flex.pageBackground.placeholder.backgroundSize')
+      "
     ></el-input>
   </el-form-item>
 
-  <el-form-item :label="i18n('system.flex.pageBackground.label.backgroundRepeat')" prop="repeat">
+  <el-form-item
+    :label="i18n('system.flex.pageBackground.label.backgroundRepeat')"
+    prop="repeat"
+  >
     <el-radio-group v-model="backgroundData.backgroundRepeat" :size="compSize">
-      <el-radio value="no-repeat">{{ i18n('system.flex.pageBackground.radio.noRepeat') }}</el-radio>
-      <el-radio value="repeat">{{ i18n('system.flex.pageBackground.radio.repeat') }}</el-radio>
-      <el-radio value="repeat-x">{{ i18n('system.flex.pageBackground.radio.repeatX') }}</el-radio>
-      <el-radio value="repeat-y">{{ i18n('system.flex.pageBackground.radio.repeatY') }}</el-radio>
-      <el-radio value="space">{{ i18n('system.flex.pageBackground.radio.space') }}</el-radio>
+      <el-radio value="no-repeat">{{
+        i18n("system.flex.pageBackground.radio.noRepeat")
+      }}</el-radio>
+      <el-radio value="repeat">{{
+        i18n("system.flex.pageBackground.radio.repeat")
+      }}</el-radio>
+      <el-radio value="repeat-x">{{
+        i18n("system.flex.pageBackground.radio.repeatX")
+      }}</el-radio>
+      <el-radio value="repeat-y">{{
+        i18n("system.flex.pageBackground.radio.repeatY")
+      }}</el-radio>
+      <el-radio value="space">{{
+        i18n("system.flex.pageBackground.radio.space")
+      }}</el-radio>
     </el-radio-group>
   </el-form-item>
 </template>

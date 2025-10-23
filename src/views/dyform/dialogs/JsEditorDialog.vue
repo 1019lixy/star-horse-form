@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import { i18n } from "@/lang";
-import JSON5 from 'json5';
+import JSON5 from "json5";
 
 const props = defineProps<{
   visible: boolean;
@@ -59,7 +59,7 @@ const hmsg: string = `
         :label="i18n('dyform.js.editor.tab.formInstance')"
         name="formInstance"
       >
-        {{i18n("dyform.js.editor.objectName")}}：formInstance
+        {{ i18n("dyform.js.editor.objectName") }}：formInstance
         <table
           border="1"
           cellpadding="0"
@@ -68,43 +68,43 @@ const hmsg: string = `
         >
           <thead style="border: 1px dashed var(--star-horse-style)">
             <tr>
-              <th>{{i18n("dyform.js.editor.table.name")}}</th>
-              <th>{{i18n("dyform.js.editor.table.description")}}</th>
-              <th>{{i18n("dyform.js.editor.table.type")}}</th>
+              <th>{{ i18n("dyform.js.editor.table.name") }}</th>
+              <th>{{ i18n("dyform.js.editor.table.description") }}</th>
+              <th>{{ i18n("dyform.js.editor.table.type") }}</th>
             </tr>
           </thead>
           <tbody style="border: 1px dashed var(--star-horse-style)">
             <tr>
               <td>validate</td>
               <td>
-                {{i18n("dyform.js.editor.formInstance.validate")}}
+                {{ i18n("dyform.js.editor.formInstance.validate") }}
                 <code>Promise</code>。
               </td>
               <td><span class="inline-flex items-center">Function</span></td>
             </tr>
             <tr>
               <td>validateField</td>
-              <td>{{i18n("dyform.js.editor.formInstance.validateField")}}</td>
+              <td>{{ i18n("dyform.js.editor.formInstance.validateField") }}</td>
               <td><span class="inline-flex items-center">Function</span></td>
             </tr>
             <tr>
               <td>resetFields</td>
-              <td>{{i18n("dyform.js.editor.formInstance.resetFields")}}</td>
+              <td>{{ i18n("dyform.js.editor.formInstance.resetFields") }}</td>
               <td><span class="inline-flex items-center">Function</span></td>
             </tr>
             <tr>
               <td>scrollToField</td>
-              <td>{{i18n("dyform.js.editor.formInstance.scrollToField")}}</td>
+              <td>{{ i18n("dyform.js.editor.formInstance.scrollToField") }}</td>
               <td><span class="inline-flex items-center">Function</span></td>
             </tr>
             <tr>
               <td>clearValidate</td>
-              <td>{{i18n("dyform.js.editor.formInstance.clearValidate")}}</td>
+              <td>{{ i18n("dyform.js.editor.formInstance.clearValidate") }}</td>
               <td><span class="inline-flex items-center">Function</span></td>
             </tr>
             <tr>
               <td>fields</td>
-              <td>{{i18n("dyform.js.editor.formInstance.fields")}}</td>
+              <td>{{ i18n("dyform.js.editor.formInstance.fields") }}</td>
               <td><span class="inline-flex items-center">Array</span></td>
             </tr>
           </tbody>
@@ -121,7 +121,7 @@ const hmsg: string = `
   </star-horse-dialog>
 </template>
 <style lang="scss" scoped>
-pre{
+pre {
   height: 100%;
   width: 100%;
   overflow-y: auto;

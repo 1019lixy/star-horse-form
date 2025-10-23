@@ -14,7 +14,7 @@ import {
 } from "star-horse-lowcode";
 import { TabsPaneContext } from "element-plus";
 import { i18n } from "@/lang";
-import CommonSkeleton from './CommonSkeleton.vue';
+import CommonSkeleton from "./CommonSkeleton.vue";
 
 let designForm = useDesignFormStore(piniaInstance);
 const starHorseTableCompRef = ref();
@@ -146,16 +146,16 @@ onMounted(async () => {
 <template>
   <div class="flex flex-col h-full overflow-hidden">
     <!-- 使用通用骨架屏组件 - 带标签页样式 -->
-    <CommonSkeleton 
-      v-if="isLoading" 
-      :showSearch="false" 
-      :showHeader="true" 
-      :showTabs="true" 
-      :showForm="true" 
-      :showTable="false" 
+    <CommonSkeleton
+      v-if="isLoading"
+      :showSearch="false"
+      :showHeader="true"
+      :showTabs="true"
+      :showForm="true"
+      :showTable="false"
       :formRowCount="6"
     />
-    
+
     <template v-else-if="hasData">
       <star-horse-dialog
         :dialog-visible="dialogProps.viewVisible"
@@ -219,7 +219,7 @@ onMounted(async () => {
         </el-tabs>
       </el-card>
     </template>
-    
+
     <!-- 错误或空状态 -->
     <el-empty :content="errorMsg" v-else></el-empty>
   </div>

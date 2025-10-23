@@ -1,8 +1,12 @@
 <script setup lang="ts">
-import {loadDict, permissionMenus} from "@/api/star_horse_apis";
-import {loadRolesInfo} from "@/api/star_horse_utils";
-import {useLoginStore} from "@/store/Login";
-import {initDbList, openDatabase, tableColumns,} from "@/views/dbsearch/utils/DbSearchUtils";
+import { loadDict, permissionMenus } from "@/api/star_horse_apis";
+import { loadRolesInfo } from "@/api/star_horse_utils";
+import { useLoginStore } from "@/store/Login";
+import {
+  initDbList,
+  openDatabase,
+  tableColumns,
+} from "@/views/dbsearch/utils/DbSearchUtils";
 import {
   apiInstance,
   BtnAuth,
@@ -19,10 +23,10 @@ import {
   useGlobalConfigStore,
   warning,
 } from "star-horse-lowcode";
-import {computed, ComputedRef, nextTick, onMounted, ref, unref} from "vue";
+import { computed, ComputedRef, nextTick, onMounted, ref, unref } from "vue";
 
 const props = defineProps({
-  batchCreatePage: {type: Boolean, default: false},
+  batchCreatePage: { type: Boolean, default: false },
 });
 const dataUrl = apiInstance("userdb-manage", "userdb/dynamicForm");
 let configStore = useGlobalConfigStore(piniaInstance);
@@ -31,7 +35,7 @@ const loginStore = useLoginStore(piniaInstance);
 const appinfoList = computed(() => loginStore.getAppInfoList());
 let allFormDataList = computed(() => designForm.allFormDataList);
 let compSize = computed(
-    () => configStore.configFormInfo?.buttonSize || "default",
+  () => configStore.configFormInfo?.buttonSize || "default",
 );
 let dbIndex = ref<any>(null);
 let formData: ComputedRef<any> = computed(() => designForm.formData);
@@ -319,7 +323,7 @@ let dataFieldInfo = ref<PageFieldInfo>({
         type: "select",
         formVisible: true,
         listVisible: true,
-        actions: {change: (val: any) => containerTypeOperation(val)},
+        actions: { change: (val: any) => containerTypeOperation(val) },
         preps: {
           values: containerTypeList,
         },
@@ -458,7 +462,7 @@ const selectFieldsOperation = (datas: any) => {
 };
 const tableField = async (tableName: string) => {
   let fdata = tableAndColumnsList.value.find(
-      (item: any) => item.tableName == tableName,
+    (item: any) => item.tableName == tableName,
   );
   if (fdata?.fields?.length > 0) {
     //如果已经有值，则不再请求后端
@@ -475,7 +479,7 @@ const filterData = () => {
     return;
   }
   assignDataList.value = tableAndColumnsList.value.filter((item: any) =>
-      item.tableName.toLowerCase().match(filterTableName.value.toLowerCase()),
+    item.tableName.toLowerCase().match(filterTableName.value.toLowerCase()),
   );
 };
 const loadMenuBySystemId = (systemId: string) => {
@@ -513,7 +517,7 @@ const getDefaultVal = (type: string) => {
 const getFieldType = (item: any, fieldCompTypes: Array<any>) => {
   if (fieldCompTypes && fieldCompTypes.length > 0) {
     let result = fieldCompTypes.find(
-        (temp: any) => temp.fieldName == item.fieldName,
+      (temp: any) => temp.fieldName == item.fieldName,
     );
     if (result && result.fieldType) {
       return result.fieldType;
@@ -523,16 +527,16 @@ const getFieldType = (item: any, fieldCompTypes: Array<any>) => {
   if (type.includes("varchar") || type.includes("character")) {
     return "input";
   } else if (
-      type.includes("number") ||
-      type.includes("int") ||
-      type.includes("bigint") ||
-      type.includes("serial")
+    type.includes("number") ||
+    type.includes("int") ||
+    type.includes("bigint") ||
+    type.includes("serial")
   ) {
     return "number";
   } else if (
-      type.includes("date") ||
-      type.includes("datetime") ||
-      type.includes("timestamp")
+    type.includes("date") ||
+    type.includes("datetime") ||
+    type.includes("timestamp")
   ) {
     return "datetime";
   }
@@ -554,11 +558,11 @@ const onDataCopy = async (data: any) => {
     tbName: tableName,
     formName: data.comment || "",
     needCommonFields:
-        data.commonFieldFlag == "Y"
-            ? "Y"
-            : configData.value.commonFieldFlag == "Y"
-                ? "Y"
-                : "N",
+      data.commonFieldFlag == "Y"
+        ? "Y"
+        : configData.value.commonFieldFlag == "Y"
+          ? "Y"
+          : "N",
   };
   data["added"] = "Y";
   for (let i in fieldList) {
@@ -566,8 +570,8 @@ const onDataCopy = async (data: any) => {
     let fieldName: string = convertToCamelCase(reData.fieldName.toLowerCase())!;
     let ms = formData.value["index"]++;
     if (
-        reData.commonFieldFlag?.toLowerCase() == "y" &&
-        config.commonFieldFlag?.toLowerCase() == "n"
+      reData.commonFieldFlag?.toLowerCase() == "y" &&
+      config.commonFieldFlag?.toLowerCase() == "n"
     ) {
       continue;
     }
@@ -577,7 +581,7 @@ const onDataCopy = async (data: any) => {
     }
     //如果有过滤的字段，则跳过
     let fResult = data.exclusionFields?.find(
-        (item: string) => item == reData.fieldName,
+      (item: string) => item == reData.fieldName,
     );
     if (fResult) {
       continue;
@@ -645,9 +649,9 @@ const onDataCopy = async (data: any) => {
     };
     let col = parseInt(boxColumns);
     let rows =
-        mvDataList.length % col == 0
-            ? mvDataList.length / col
-            : mvDataList.length / col + 1;
+      mvDataList.length % col == 0
+        ? mvDataList.length / col
+        : mvDataList.length / col + 1;
     let index = 0;
     for (let r = 1; r <= rows; r++) {
       let columns = [];
@@ -747,12 +751,12 @@ const configDataSubmit = (type: string) => {
     }
     parentDialogType.value = type;
     let tempFormData = configFormRef.value.getFormData().value;
-    configData.value = {...tempFormData};
+    configData.value = { ...tempFormData };
     if (props.batchCreatePage) {
       let tableInfoList: any = [];
       tempFormData["tableNameList"]?.forEach((item: string) => {
         let findData = assignDataList.value?.find(
-            (temp: any) => temp.tableName == item,
+          (temp: any) => temp.tableName == item,
         );
         if (findData) {
           let comment = "";
@@ -791,22 +795,22 @@ const doCreateData = (type: string) => {
   //创建页面
   load("页面创建中");
   postRequest(`${dataUrl.basePrefix}/batchCreateForm`, configData.value)
-      .then((res: any) => {
-        if (res.data.code) {
-          warning(res.data.cnMessage);
-          return;
-        } else {
-          success(res.data.cnMessage);
-          configData.value = {column: 1};
-          configFormRef.value.resetForm();
-          if (type == "close") {
-            closeAction();
-          }
+    .then((res: any) => {
+      if (res.data.code) {
+        warning(res.data.cnMessage);
+        return;
+      } else {
+        success(res.data.cnMessage);
+        configData.value = { column: 1 };
+        configFormRef.value.resetForm();
+        if (type == "close") {
+          closeAction();
         }
-      })
-      .finally(() => {
-        closeLoad();
-      });
+      }
+    })
+    .finally(() => {
+      closeLoad();
+    });
 };
 onMounted(() => {
   init();
@@ -814,67 +818,67 @@ onMounted(() => {
 </script>
 <template>
   <star-horse-dialog
-      :dialogVisible="tableDialogVisible"
-      @closeAction="tableDialogVisible = false"
-      :selfFunc="true"
-      :isShowBtnContinue="false"
-      @resetForm="configData = { columns: 1 }"
-      @merge="execCreateData"
-      :title="'列表信息'"
-      :box-width="'40%'"
+    :dialogVisible="tableDialogVisible"
+    @closeAction="tableDialogVisible = false"
+    :selfFunc="true"
+    :isShowBtnContinue="false"
+    @resetForm="configData = { columns: 1 }"
+    @merge="execCreateData"
+    :title="'列表信息'"
+    :box-width="'40%'"
   >
     <star-horse-form
-        :size="compSize"
-        :outerFormData="configData"
-        :fieldList="tableFieldInfo"
-        ref="tableFormRef"
+      :size="compSize"
+      :outerFormData="configData"
+      :fieldList="tableFieldInfo"
+      ref="tableFormRef"
     >
     </star-horse-form>
   </star-horse-dialog>
   <star-horse-dialog
-      :boxWidth="'40%'"
-      :boxHeight="'60%'"
-      :dialogVisible="currentDataVisible"
-      :selfFunc="true"
-      :userBtn="dynamicBtn()"
-      @resetForm="dataReset"
-      @closeAction="tableOperClose"
-      @merge="() => tableSubmit(false)"
+    :boxWidth="'40%'"
+    :boxHeight="'60%'"
+    :dialogVisible="currentDataVisible"
+    :selfFunc="true"
+    :userBtn="dynamicBtn()"
+    @resetForm="dataReset"
+    @closeAction="tableOperClose"
+    @merge="() => tableSubmit(false)"
   >
     <el-tabs v-model="tbTab">
       <el-tab-pane name="tb1">
         <template #label>
           <div class="flex items-center">
             <star-horse-icon
-                icon-class="config"
-                color="var(--star-horse-style)"
+              icon-class="config"
+              color="var(--star-horse-style)"
             />
             风格设置
-            <help :width="400" :message="configMsg"/>
+            <help :width="400" :message="configMsg" />
           </div>
         </template>
-        <star-horse-form ref="tableFieldInfoRef" :field-list="dataFieldInfo"/>
+        <star-horse-form ref="tableFieldInfoRef" :field-list="dataFieldInfo" />
       </el-tab-pane>
       <el-tab-pane name="tb2" label="表格属性" class="h-full overflow-hidden">
         <el-scrollbar height="100%">
           <table class="el-table field-table" style="width: 100%">
             <thead>
-            <tr class="font-bold size9">
-              <th>名称</th>
-              <th>类型</th>
-              <th class="w-[60px]">空标识</th>
-              <th class="w-[40px]">主键</th>
-              <th>备注</th>
-            </tr>
+              <tr class="font-bold size9">
+                <th>名称</th>
+                <th>类型</th>
+                <th class="w-[60px]">空标识</th>
+                <th class="w-[40px]">主键</th>
+                <th>备注</th>
+              </tr>
             </thead>
             <tbody>
-            <tr v-for="sdata in currentData.fields">
-              <td>{{ sdata.fieldName }}</td>
-              <td>{{ sdata.type }}</td>
-              <td>{{ sdata.nullFlag }}</td>
-              <td>{{ sdata.primaryKey }}</td>
-              <td>{{ sdata.comment }}</td>
-            </tr>
+              <tr v-for="sdata in currentData.fields">
+                <td>{{ sdata.fieldName }}</td>
+                <td>{{ sdata.type }}</td>
+                <td>{{ sdata.nullFlag }}</td>
+                <td>{{ sdata.primaryKey }}</td>
+                <td>{{ sdata.comment }}</td>
+              </tr>
             </tbody>
           </table>
         </el-scrollbar>
@@ -882,94 +886,96 @@ onMounted(() => {
     </el-tabs>
   </star-horse-dialog>
   <star-horse-dialog
-      :dialogVisible="configDialogVisible"
-      @closeAction="closeAction"
-      :selfFunc="true"
-      :isShowBtnContinue="true"
-      @resetForm="configData = { columns: 1 }"
-      @merge="configDataSubmit"
-      :title="'批量生成动态表单'"
-      :box-width="'50%'"
+    :dialogVisible="configDialogVisible"
+    @closeAction="closeAction"
+    :selfFunc="true"
+    :isShowBtnContinue="true"
+    @resetForm="configData = { columns: 1 }"
+    @merge="configDataSubmit"
+    :title="'批量生成动态表单'"
+    :box-width="'50%'"
   >
     <star-horse-form
-        :size="compSize"
-        :outerFormData="configData"
-        :fieldList="configFieldInfo"
-        ref="configFormRef"
+      :size="compSize"
+      :outerFormData="configData"
+      :fieldList="configFieldInfo"
+      ref="configFormRef"
     >
     </star-horse-form>
   </star-horse-dialog>
-  <div class="flex flex-col justify-between mt-5 w-[98%] mx-auto h-full overflow-hidden">
+  <div
+    class="flex flex-col justify-between mt-5 w-[98%] mx-auto h-full overflow-hidden"
+  >
     <div class="flex justify-between items-center">
       <el-select
-          :size="compSize"
-          @change="openDb"
-          clearable
-          filterable
-          id="dbInfo"
-          placeholder="请选择数据库信息"
-          v-model="dbIndex"
+        :size="compSize"
+        @change="openDb"
+        clearable
+        filterable
+        id="dbInfo"
+        placeholder="请选择数据库信息"
+        v-model="dbIndex"
       >
         <el-option
-            :key="sitem.value"
-            :label="sitem.name"
-            :value="sitem.value"
-            v-for="sitem in dbList"
+          :key="sitem.value"
+          :label="sitem.name"
+          :value="sitem.value"
+          v-for="sitem in dbList"
         ></el-option>
       </el-select>
       <el-button link @click="viewConfig" :size="compSize">
-        <star-horse-icon icon-class="setting" color="var(--star-horse-style)"/>
+        <star-horse-icon icon-class="setting" color="var(--star-horse-style)" />
         <span>配置</span>
       </el-button>
     </div>
 
     <div style="margin-top: 5px"></div>
     <el-input
-        :size="compSize"
-        placeholder="请输入关键字"
-        v-model="filterTableName"
-        @keydown.enter="filterData"
+      :size="compSize"
+      placeholder="请输入关键字"
+      v-model="filterTableName"
+      @keydown.enter="filterData"
     >
       <template #append>
         <star-horse-icon
-            @click="filterData"
-            icon-class="search"
-            color="var(--star-horse-style)"
+          @click="filterData"
+          icon-class="search"
+          color="var(--star-horse-style)"
         />
       </template>
     </el-input>
     <div class="flex flex-1 overflow-hidden">
       <el-scrollbar>
         <draggable
-            :clone="onDataCopy"
-            :group="{ name: 'starHorseGroup', pull: 'clone', put: false }"
-            :sort="false"
-            animation="300"
-            ghost-class="ghost"
-            item-key="id"
-            tag="ul"
-            :list="assignDataList"
+          :clone="onDataCopy"
+          :group="{ name: 'starHorseGroup', pull: 'clone', put: false }"
+          :sort="false"
+          animation="300"
+          ghost-class="ghost"
+          item-key="id"
+          tag="ul"
+          :list="assignDataList"
         >
           <template #item="{ element: data, index: idx }">
             <li
-                :style="{
-            border:
-              currentData.tableName == data.tableName
-                ? '2px dashed var(--star-horse-style)'
-                : 'none',
-            'align-items': 'center',
-            cursor: 'move',
-          }"
+              :style="{
+                border:
+                  currentData.tableName == data.tableName
+                    ? '2px dashed var(--star-horse-style)'
+                    : 'none',
+                'align-items': 'center',
+                cursor: 'move',
+              }"
             >
-              <star-horse-icon icon-class="table" size="18px"/>
+              <star-horse-icon icon-class="table" size="18px" />
               <el-tooltip :content="data.comment">
                 {{ data.tableName }}
               </el-tooltip>
               <star-horse-icon
-                  title="查看&配置"
-                  icon-class="setting"
-                  style="color: var(--star-horse-style); cursor: pointer"
-                  @click="(evt: Event) => contextOperation(evt, data, idx)"
+                title="查看&配置"
+                icon-class="setting"
+                style="color: var(--star-horse-style); cursor: pointer"
+                @click="(evt: Event) => contextOperation(evt, data, idx)"
               />
             </li>
           </template>

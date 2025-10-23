@@ -1,19 +1,22 @@
 <script setup lang="ts">
-import {useFlexDesignStore} from "@/store/FlexDesign";
-import {piniaInstance, uuid} from "star-horse-lowcode";
-import {computed, defineOptions, onBeforeUnmount, onMounted, ref} from "vue";
-import {dynamicFormContextMenuData, dynamicPageContextMenuData,} from "@/plugins/AblesPlugin.ts";
-import {bringToFront, sendToBack} from "@/utils/ZIndexManager";
-import {i18n} from "@/lang";
+import { useFlexDesignStore } from "@/store/FlexDesign";
+import { piniaInstance, uuid } from "star-horse-lowcode";
+import { computed, defineOptions, onBeforeUnmount, onMounted, ref } from "vue";
+import {
+  dynamicFormContextMenuData,
+  dynamicPageContextMenuData,
+} from "@/plugins/AblesPlugin.ts";
+import { bringToFront, sendToBack } from "@/utils/ZIndexManager";
+import { i18n } from "@/lang";
 
 defineOptions({
   name: "FlexItem",
 });
 const props = defineProps({
-  itemId: {type: String, required: true},
-  type: {type: String, default: "flex"},
-  direction: {type: String, default: "row"},
-  previewMode: {type: Boolean, default: false}, // Add previewMode prop
+  itemId: { type: String, required: true },
+  type: { type: String, default: "flex" },
+  direction: { type: String, default: "row" },
+  previewMode: { type: Boolean, default: false }, // Add previewMode prop
 });
 const emit = defineEmits(["selectItem", "selectComponent"]);
 const flexDesign = useFlexDesignStore(piniaInstance);
@@ -26,7 +29,6 @@ const containerDirection = computed(() => flexDesign.getContainerDirection());
 // Add reactive variable to track selected component
 const selectedComponentId = ref<string>("");
 const currentContentMenu = ref<any>([]);
-
 
 // Only allow selection if not in preview mode
 const selectItem = () => {
@@ -152,8 +154,7 @@ onBeforeUnmount(() => {
   removeListener();
 });
 
-const init = () => {
-};
+const init = () => {};
 onMounted(() => {
   init();
 });
@@ -161,16 +162,16 @@ onMounted(() => {
 
 <template>
   <div
-      :style="itemStyle"
-      @click.stop="selectItem"
-      @contextmenu.stop="showContextMenu"
-      class="item-info"
-      ref="resizeContainer"
-      :class="{
+    :style="itemStyle"
+    @click.stop="selectItem"
+    @contextmenu.stop="showContextMenu"
+    class="item-info"
+    ref="resizeContainer"
+    :class="{
       'w-full': type == 'grid',
       'item-width': containerDirection.includes('column'),
       'preview-mode': previewMode,
-      'item-selected': currentId == itemId&&!previewMode,
+      'item-selected': currentId == itemId && !previewMode,
     }"
   >
     <div class="absolute top-1 right-1 z-10 flex gap-1" v-if="!previewMode">
@@ -181,62 +182,63 @@ onMounted(() => {
       </div> -->
       <div class="flex items-center justify-center" @click.stop="deleteItem">
         <star-horse-icon
-            iconClass="delete"
-            :color="'var(--star-horse-danger)'"
-            :title="i18n('system.delete')"
-            class="text-xs"
+          iconClass="delete"
+          :color="'var(--star-horse-danger)'"
+          :title="i18n('system.delete')"
+          class="text-xs"
         />
       </div>
     </div>
 
     <div
-        class="resize-handle right"
-        @mousedown.prevent="startResize('right', $event)"
-        v-if="!previewMode"
+      class="resize-handle right"
+      @mousedown.prevent="startResize('right', $event)"
+      v-if="!previewMode"
     />
     <div
-        class="resize-handle bottom"
-        @mousedown.prevent="startResize('bottom', $event)"
-        v-if="!previewMode"
+      class="resize-handle bottom"
+      @mousedown.prevent="startResize('bottom', $event)"
+      v-if="!previewMode"
     />
 
     <div
-        class="relative flex flex-col h-full w-full overflow-hidden min-w-0 max-w-full"
+      class="relative flex flex-col h-full w-full overflow-hidden min-w-0 max-w-full"
     >
       <draggable
-          @add="(evt: Event) => onDragAdd(evt, compList)"
-          class="w-full h-full min-w-[0] relative"
-          tag="div"
-          group="starHorseGroup"
-          ghost-class="ghost"
-          :list="compList"
-          :itemKey="uuid()"
-          :disabled="previewMode"
+        @add="(evt: Event) => onDragAdd(evt, compList)"
+        class="w-full h-full min-w-[0] relative"
+        tag="div"
+        group="starHorseGroup"
+        ghost-class="ghost"
+        :list="compList"
+        :itemKey="uuid()"
+        :disabled="previewMode"
       >
         <template #item="{ element: data, index }">
-
-          <StarHorseDraggable :key="data.id" :node="data"
-                              :isDesign="!previewMode"
-                              :isActive="selectedComponentId== data.id&&!previewMode"
-                              @selectNode="selectNode">
+          <StarHorseDraggable
+            :key="data.id"
+            :node="data"
+            :isDesign="!previewMode"
+            :isActive="selectedComponentId == data.id && !previewMode"
+            @selectNode="selectNode"
+          >
             <component
-                :key="data.id"
-                :field="data"
-                :isDesign="!previewMode"
-                :index-of-parent-list="index"
-                :is="data.name + '-item'"
-                :preps="data.preps"
-                :styles="data.styles || {}"
-                style="min-width: 0; width: 100%"
+              :key="data.id"
+              :field="data"
+              :isDesign="!previewMode"
+              :index-of-parent-list="index"
+              :is="data.name + '-item'"
+              :preps="data.preps"
+              :styles="data.styles || {}"
+              style="min-width: 0; width: 100%"
             />
           </StarHorseDraggable>
-
         </template>
       </draggable>
     </div>
   </div>
   <Teleport to="body">
-    <ContentMenu ref="contentMenuRef" :menu-data="currentContentMenu"/>
+    <ContentMenu ref="contentMenuRef" :menu-data="currentContentMenu" />
   </Teleport>
 </template>
 <style lang="scss" scoped>
@@ -257,38 +259,41 @@ onMounted(() => {
   border: 3px solid var(--star-horse-style);
   position: relative;
   overflow: hidden;
-  transition: background 0.3s ease,
-  box-shadow 0.3s ease;
+  transition:
+    background 0.3s ease,
+    box-shadow 0.3s ease;
   // Fix the width to prevent changes when adding new components
   box-sizing: content-box;
   flex-shrink: 1;
   // Selection watermark background
   &.item-selected {
-    background-image: radial-gradient(
-            circle at 100% 100%,
-            rgba(64, 158, 255, 0.1) 15%,
-            transparent 15.5%
-    ),
-    radial-gradient(
-            circle at 0 100%,
-            rgba(64, 158, 255, 0.1) 15%,
-            transparent 15.5%
-    ),
-    radial-gradient(
-            circle at 100% 0,
-            rgba(64, 158, 255, 0.1) 15%,
-            transparent 15.5%
-    ),
-    radial-gradient(
-            circle at 0 0,
-            rgba(64, 158, 255, 0.1) 15%,
-            transparent 15.5%
-    );
+    background-image:
+      radial-gradient(
+        circle at 100% 100%,
+        rgba(64, 158, 255, 0.1) 15%,
+        transparent 15.5%
+      ),
+      radial-gradient(
+        circle at 0 100%,
+        rgba(64, 158, 255, 0.1) 15%,
+        transparent 15.5%
+      ),
+      radial-gradient(
+        circle at 100% 0,
+        rgba(64, 158, 255, 0.1) 15%,
+        transparent 15.5%
+      ),
+      radial-gradient(
+        circle at 0 0,
+        rgba(64, 158, 255, 0.1) 15%,
+        transparent 15.5%
+      );
     background-size: 10px 10px;
-    background-position: 1px 1px,
-    1px 1px,
-    1px 1px,
-    1px 1px;
+    background-position:
+      1px 1px,
+      1px 1px,
+      1px 1px,
+      1px 1px;
   }
 
   // In preview mode, remove interactive styles
@@ -313,8 +318,9 @@ onMounted(() => {
     z-index: 20;
     background: rgba(105, 97, 97, 0.8);
     border-radius: 3px;
-    box-shadow: 0 0 4px rgba(0, 0, 0, 0.1),
-    inset 0 0 4px rgba(255, 255, 255, 0.8);
+    box-shadow:
+      0 0 4px rgba(0, 0, 0, 0.1),
+      inset 0 0 4px rgba(255, 255, 255, 0.8);
     transition: all 0.2s ease;
 
     &:hover {

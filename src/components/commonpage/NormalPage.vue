@@ -13,7 +13,7 @@ import {
 } from "star-horse-lowcode";
 import { nextTick, onMounted, provide, watch, reactive, ref } from "vue";
 import { i18n } from "@/lang";
-import CommonSkeleton from './CommonSkeleton.vue';
+import CommonSkeleton from "./CommonSkeleton.vue";
 
 let designForm = useDesignFormStore(piniaInstance);
 const normalPageRef = ref();
@@ -140,15 +140,14 @@ onMounted(async () => {
 <template>
   <div class="flex flex-col h-full overflow-hidden" :key="param">
     <!-- 使用通用骨架屏组件 -->
-    <CommonSkeleton 
-      v-if="isLoading" 
-      :showSearch="true" 
-      :showHeader="true" 
-      :showTable="true" 
+    <CommonSkeleton
+      v-if="isLoading"
+      :showSearch="true"
+      :showHeader="true"
+      :showTable="true"
       :tableRowCount="5"
     />
-    
-    
+
     <!-- 正常内容 -->
     <template v-else-if="hasData">
       <star-horse-dialog

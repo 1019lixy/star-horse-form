@@ -14,8 +14,8 @@ export const pageCompList: PageComp[] = [
         name: "ptable",
         icon: "table",
         preps: {
-          width:100,
-          height:100,
+          width: 100,
+          height: 100,
         },
       },
       {
@@ -173,7 +173,7 @@ export const pageCompList: PageComp[] = [
                 i18n("system.flex.layoutcomp.chart.week.thursday"),
                 i18n("system.flex.layoutcomp.chart.week.friday"),
                 i18n("system.flex.layoutcomp.chart.week.saturday"),
-                i18n("system.flex.layoutcomp.chart.week.sunday")
+                i18n("system.flex.layoutcomp.chart.week.sunday"),
               ],
             },
             yAxis: { type: "value" },

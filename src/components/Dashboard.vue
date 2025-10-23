@@ -1,6 +1,14 @@
 <script lang="ts" setup>
 import router from "@/router";
-import { computed, nextTick, onMounted, onUnmounted, provide, ref, watch } from "vue";
+import {
+  computed,
+  nextTick,
+  onMounted,
+  onUnmounted,
+  provide,
+  ref,
+  watch,
+} from "vue";
 import { useNavBarListStore } from "@/store/NavBarList";
 import { useViewCacheStore } from "@/store/ViewCache";
 import piniaCompInstance from "@/store";
@@ -70,12 +78,18 @@ onMounted(async () => {
   }, 1000);
 
   // Add event listener for language changes
-  window.addEventListener('starHorseLanguageChange', handleLanguageChange as EventListener);
+  window.addEventListener(
+    "starHorseLanguageChange",
+    handleLanguageChange as EventListener,
+  );
 });
 
 onUnmounted(() => {
   // Clean up event listener
-  window.removeEventListener('starHorseLanguageChange', handleLanguageChange as EventListener);
+  window.removeEventListener(
+    "starHorseLanguageChange",
+    handleLanguageChange as EventListener,
+  );
 });
 
 const layoutConfig = () => {
@@ -146,7 +160,10 @@ onMounted(async () => {
   }, 1000);
 
   // Add event listener for language changes
-  window.addEventListener('starHorseLanguageChange', handleLanguageChange as EventListener);
+  window.addEventListener(
+    "starHorseLanguageChange",
+    handleLanguageChange as EventListener,
+  );
 });
 </script>
 <template>

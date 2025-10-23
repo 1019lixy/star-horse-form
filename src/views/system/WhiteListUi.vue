@@ -62,7 +62,7 @@ const tableFieldList = reactive<PageFieldInfo>({
       label: i18n("system.created.by"),
 
       fieldName: "createdBy",
-      preps:{
+      preps: {
         disabled: true,
       },
       listVisible: true,

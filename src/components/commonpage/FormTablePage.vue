@@ -14,7 +14,7 @@ import { useRoute, useRouter } from "vue-router";
 import { useNavBarListStore } from "@/store/NavBarList";
 import piniaCompInstance from "@/store";
 import { i18n } from "@/lang";
-import CommonSkeleton from './CommonSkeleton.vue';
+import CommonSkeleton from "./CommonSkeleton.vue";
 
 const starHorseTableCompRef = ref();
 const dataUrl = ref<ApiUrls>(apiInstance("", ""));
@@ -98,14 +98,14 @@ onMounted(async () => {
 <template>
   <div class="flex flex-col h-full overflow-hidden">
     <!-- 使用通用骨架屏组件 -->
-    <CommonSkeleton 
-      v-if="isLoading" 
-      :showSearch="true" 
-      :showHeader="true" 
-      :showTable="true" 
+    <CommonSkeleton
+      v-if="isLoading"
+      :showSearch="true"
+      :showHeader="true"
+      :showTable="true"
       :tableRowCount="5"
     />
-    
+
     <template v-else-if="hasData">
       <star-horse-dialog
         :isShowBtnContinue="true"
@@ -152,7 +152,7 @@ onMounted(async () => {
         />
       </el-card>
     </template>
-    
+
     <!-- 错误或空状态 -->
     <el-empty :content="errorMsg" v-else></el-empty>
   </div>

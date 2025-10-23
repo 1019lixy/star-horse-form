@@ -27,7 +27,7 @@ import PreviewDialog from "@/views/dyform/dialogs/PreviewDialog.vue";
 import FieldLayerDrawer from "@/views/dyform/dialogs/FieldLayerDrawer.vue";
 import FormToolbar from "@/views/dyform/components/FormToolbar.vue";
 import FormDesigner from "@/views/dyform/components/FormDesigner.vue";
-
+import FieldPanel from "@/views/dyform/FieldPanel.vue";
 // Import composables
 import {useKeyboardEvents} from "@/views/dyform/composables/useKeyboardEvents";
 import {useDialogManager} from "@/views/dyform/composables/useDialogManager";
@@ -246,7 +246,6 @@ const preview = async () => {
 const codeDoSave = () => {
   // Implementation here
 };
-
 
 const goBack = () => {
   let sdata = {

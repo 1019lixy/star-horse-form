@@ -54,7 +54,7 @@ $white: #ffffff;
   flex: 1;
 }
 
-.item-bar-left>span:first-child {
+.item-bar-left > span:first-child {
   font-size: 14px;
   font-weight: 500;
   color: $text-primary;
@@ -66,7 +66,7 @@ $white: #ffffff;
   }
 }
 
-.item-bar-left>span:not(:first-child) {
+.item-bar-left > span:not(:first-child) {
   font-size: 12px;
   color: $text-secondary;
 }
@@ -118,7 +118,7 @@ $white: #ffffff;
     width: 100%;
     overflow-y: hidden;
     overflow-x: auto;
-    margin:5px auto;
+    margin: 5px auto;
     .line-node {
       position: absolute;
       width: 210px;
@@ -155,8 +155,7 @@ $white: #ffffff;
         /* 确保不超过父元素line-node */
       }
 
-
-      .node-title>div:first-child {
+      .node-title > div:first-child {
         display: flex;
         align-items: center;
         font-size: 13px;
@@ -170,7 +169,7 @@ $white: #ffffff;
         /* 为右侧时间留出空间 */
       }
 
-      .node-title>div:last-child {
+      .node-title > div:last-child {
         font-size: 11px;
         color: $text-secondary;
         font-weight: 500;
@@ -225,7 +224,6 @@ $white: #ffffff;
               text-overflow: ellipsis;
               margin-right: 4px;
             }
-
           }
         }
 
@@ -272,8 +270,6 @@ $white: #ffffff;
     }
   }
 
-
-
   .item-bar {
     height: 30px;
     width: 100%;
@@ -305,9 +301,6 @@ $white: #ffffff;
   }
 }
 
-
-
-
 /* 图标按钮样式 */
 .button-icon {
   padding: 0 !important;
@@ -315,9 +308,6 @@ $white: #ffffff;
   height: 24px !important;
   min-width: auto !important;
 }
-
-
-
 
 // 连接线样式
 .svg-path {
@@ -339,7 +329,6 @@ $white: #ffffff;
     justify-content: flex-start;
   }
 }
-
 
 .config-nav-bar {
   width: 100%;

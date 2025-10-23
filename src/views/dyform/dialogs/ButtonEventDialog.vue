@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import {ref} from "vue";
-import {buttonClickDataField} from "@/views/dyform/utils/ItemPreps";
-import {i18n} from "@/lang";
+import { ref } from "vue";
+import { buttonClickDataField } from "@/views/dyform/utils/ItemPreps";
+import { i18n } from "@/lang";
 
 const props = defineProps<{
   visible: boolean;
@@ -40,20 +40,19 @@ defineExpose({
 
 <template>
   <star-horse-dialog
-      :dialogVisible="visible"
-      :title="i18n('dyform.button.event.title')"
-      :isBatch="false"
-      @merge="buttonEventMerge"
-      @closeAction="emit('close')"
-      @resetForm="buttonEventReset"
-      :selfFunc="true"
+    :dialogVisible="visible"
+    :title="i18n('dyform.button.event.title')"
+    :isBatch="false"
+    @merge="buttonEventMerge"
+    @closeAction="emit('close')"
+    @resetForm="buttonEventReset"
+    :selfFunc="true"
   >
     <star-horse-form
-        :outerFormData="formProps"
-        primary-key=""
-        ref="buttonClickFormRef"
-        :fieldList="buttonClickDataField()"
+      :outerFormData="formProps"
+      primary-key=""
+      ref="buttonClickFormRef"
+      :fieldList="buttonClickDataField()"
     />
   </star-horse-dialog>
 </template>
-

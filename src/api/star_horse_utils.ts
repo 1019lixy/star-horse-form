@@ -18,7 +18,7 @@ import {
 } from "star-horse-lowcode";
 import { reactive, ShallowRef, unref } from "vue";
 import { ElLoading } from "element-plus";
-import * as ElementPlusIconsVue from "@element-plus/icons-vue";
+// import * as ElementPlusIconsVue from "@element-plus/icons-vue";
 import { pinyin } from "pinyin-pro";
 import { ServiceEnums } from "@/components/enums/ServiceEnums";
 import { i18n } from "@/lang";
@@ -491,9 +491,9 @@ export async function dictData(
  */
 export function loadElementPlusIcon() {
   const menuIconList = [];
-  for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
-    menuIconList.push({ name: key, value: component.name });
-  }
+  // for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
+  //   menuIconList.push({ name: key, value: component.name });
+  // }
   return menuIconList;
 }
 

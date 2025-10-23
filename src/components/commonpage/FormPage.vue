@@ -13,7 +13,7 @@ import {
 } from "star-horse-lowcode";
 import { getUserInfo } from "@/utils/auth";
 import { i18n } from "@/lang";
-import CommonSkeleton from './CommonSkeleton.vue';
+import CommonSkeleton from "./CommonSkeleton.vue";
 
 let designForm = useDesignFormStore(piniaInstance);
 let dataUrl = ref<ApiUrls>(apiInstance("", ""));
@@ -116,14 +116,14 @@ onMounted(async () => {
 <template>
   <div class="flex flex-col h-full overflow-hidden">
     <!-- 使用通用骨架屏组件 -->
-    <CommonSkeleton 
-      v-if="isLoading" 
-      :showSearch="false" 
-      :showHeader="true" 
-      :showForm="true" 
+    <CommonSkeleton
+      v-if="isLoading"
+      :showSearch="false"
+      :showHeader="true"
+      :showForm="true"
       :formRowCount="6"
     />
-    
+
     <template v-else-if="hasData">
       <el-card class="inner_content">
         <star-horse-form
@@ -139,7 +139,7 @@ onMounted(async () => {
         />
       </el-card>
     </template>
-    
+
     <!-- 错误或空状态 -->
     <el-empty :content="errorMsg" v-else></el-empty>
   </div>

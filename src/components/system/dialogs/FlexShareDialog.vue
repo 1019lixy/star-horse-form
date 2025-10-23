@@ -16,7 +16,10 @@
           ref="shareFormRef"
           label-width="100px"
         >
-          <el-form-item :label="i18n('system.flex.shareDialog.label.name')" prop="name">
+          <el-form-item
+            :label="i18n('system.flex.shareDialog.label.name')"
+            prop="name"
+          >
             <el-input
               v-model="shareForm.name"
               :placeholder="i18n('system.flex.shareDialog.placeholder.name')"
@@ -24,38 +27,70 @@
             />
           </el-form-item>
 
-          <el-form-item :label="i18n('system.flex.shareDialog.label.description')" prop="description">
+          <el-form-item
+            :label="i18n('system.flex.shareDialog.label.description')"
+            prop="description"
+          >
             <el-input
               v-model="shareForm.description"
               type="textarea"
               :rows="3"
-              :placeholder="i18n('system.flex.shareDialog.placeholder.description')"
+              :placeholder="
+                i18n('system.flex.shareDialog.placeholder.description')
+              "
               :disabled="isSharing"
             />
           </el-form-item>
 
-          <el-form-item :label="i18n('system.flex.shareDialog.label.expiryDays')" prop="expiryDays">
+          <el-form-item
+            :label="i18n('system.flex.shareDialog.label.expiryDays')"
+            prop="expiryDays"
+          >
             <el-select
               v-model="shareForm.expiryDays"
               :disabled="isSharing"
               style="width: 100%"
             >
-              <el-option :label="i18n('system.flex.shareDialog.expiryDays.1')" :value="1" />
-              <el-option :label="i18n('system.flex.shareDialog.expiryDays.3')" :value="3" />
-              <el-option :label="i18n('system.flex.shareDialog.expiryDays.7')" :value="7" />
-              <el-option :label="i18n('system.flex.shareDialog.expiryDays.15')" :value="15" />
-              <el-option :label="i18n('system.flex.shareDialog.expiryDays.30')" :value="30" />
-              <el-option :label="i18n('system.flex.shareDialog.expiryDays.0')" :value="0" />
+              <el-option
+                :label="i18n('system.flex.shareDialog.expiryDays.1')"
+                :value="1"
+              />
+              <el-option
+                :label="i18n('system.flex.shareDialog.expiryDays.3')"
+                :value="3"
+              />
+              <el-option
+                :label="i18n('system.flex.shareDialog.expiryDays.7')"
+                :value="7"
+              />
+              <el-option
+                :label="i18n('system.flex.shareDialog.expiryDays.15')"
+                :value="15"
+              />
+              <el-option
+                :label="i18n('system.flex.shareDialog.expiryDays.30')"
+                :value="30"
+              />
+              <el-option
+                :label="i18n('system.flex.shareDialog.expiryDays.0')"
+                :value="0"
+              />
             </el-select>
           </el-form-item>
 
-          <el-form-item :label="i18n('system.flex.shareDialog.label.accessLevel')">
+          <el-form-item
+            :label="i18n('system.flex.shareDialog.label.accessLevel')"
+          >
             <el-radio-group
               v-model="shareForm.accessLevel"
               :disabled="isSharing"
             >
-              <el-radio value="public">{{ i18n('system.flex.shareDialog.accessLevel.public') }}</el-radio>
-              <el-radio value="protected">{{ i18n('system.flex.shareDialog.accessLevel.protected') }}</el-radio>
+              <el-radio value="public">{{
+                i18n("system.flex.shareDialog.accessLevel.public")
+              }}</el-radio>
+              <el-radio value="protected">{{
+                i18n("system.flex.shareDialog.accessLevel.protected")
+              }}</el-radio>
             </el-radio-group>
           </el-form-item>
 
@@ -67,20 +102,30 @@
             <el-input
               v-model="shareForm.password"
               type="password"
-              :placeholder="i18n('system.flex.shareDialog.placeholder.password')"
+              :placeholder="
+                i18n('system.flex.shareDialog.placeholder.password')
+              "
               :disabled="isSharing"
               show-password
             />
           </el-form-item>
 
-          <el-form-item :label="i18n('system.flex.shareDialog.label.permissions')">
+          <el-form-item
+            :label="i18n('system.flex.shareDialog.label.permissions')"
+          >
             <el-checkbox-group
               v-model="shareForm.permissions"
               :disabled="isSharing"
             >
-              <el-checkbox value="view">{{ i18n('system.flex.shareDialog.permission.view') }}</el-checkbox>
-              <el-checkbox value="copy">{{ i18n('system.flex.shareDialog.permission.copy') }}</el-checkbox>
-              <el-checkbox value="download">{{ i18n('system.flex.shareDialog.permission.download') }}</el-checkbox>
+              <el-checkbox value="view">{{
+                i18n("system.flex.shareDialog.permission.view")
+              }}</el-checkbox>
+              <el-checkbox value="copy">{{
+                i18n("system.flex.shareDialog.permission.copy")
+              }}</el-checkbox>
+              <el-checkbox value="download">{{
+                i18n("system.flex.shareDialog.permission.download")
+              }}</el-checkbox>
             </el-checkbox-group>
           </el-form-item>
         </el-form>
@@ -97,7 +142,7 @@
 
         <div class="share-info">
           <div class="info-item">
-            <label>{{ i18n('system.flex.shareDialog.label.shareUrl') }}</label>
+            <label>{{ i18n("system.flex.shareDialog.label.shareUrl") }}</label>
             <div class="link-container">
               <el-input
                 v-model="shareResult.shareUrl"
@@ -106,26 +151,28 @@
               />
               <el-button @click="copyLink" type="primary" size="small">
                 <star-horse-icon icon-class="copy" />
-                {{ i18n('system.flex.shareDialog.button.copyLink') }}
+                {{ i18n("system.flex.shareDialog.button.copyLink") }}
               </el-button>
             </div>
           </div>
 
           <div class="info-item">
-            <label>{{ i18n('system.flex.shareDialog.label.shareCode') }}</label>
+            <label>{{ i18n("system.flex.shareDialog.label.shareCode") }}</label>
             <div class="code-container">
               <el-tag size="large" type="success">{{
                 shareResult.shareCode
               }}</el-tag>
               <el-button @click="copyCode" size="small" link>
                 <star-horse-icon icon-class="copy" />
-                {{ i18n('system.flex.shareDialog.button.copy') }}
+                {{ i18n("system.flex.shareDialog.button.copy") }}
               </el-button>
             </div>
           </div>
 
           <div class="info-item" v-if="shareResult.expiryDate">
-            <label>{{ i18n('system.flex.shareDialog.label.expiryDate') }}</label>
+            <label>{{
+              i18n("system.flex.shareDialog.label.expiryDate")
+            }}</label>
             <span>{{ formatDate(shareResult.expiryDate) }}</span>
           </div>
         </div>
@@ -133,47 +180,59 @@
         <div class="share-actions">
           <el-button @click="openPreview" type="primary">
             <star-horse-icon icon-class="preview" />
-            {{ i18n('system.flex.shareDialog.button.preview') }}
+            {{ i18n("system.flex.shareDialog.button.preview") }}
           </el-button>
           <el-button @click="generateQRCode">
             <star-horse-icon icon-class="qrcode" />
-            {{ i18n('system.flex.shareDialog.button.generateQRCode') }}
+            {{ i18n("system.flex.shareDialog.button.generateQRCode") }}
           </el-button>
           <el-button @click="shareToSocial">
             <star-horse-icon icon-class="share" />
-            {{ i18n('system.flex.shareDialog.button.share') }}
+            {{ i18n("system.flex.shareDialog.button.share") }}
           </el-button>
         </div>
       </div>
 
       <!-- 二维码显示 -->
       <div v-if="showQRCode" class="qr-code-section">
-        <el-divider content-position="center">{{ i18n('system.flex.shareDialog.title.qrCode') }}</el-divider>
+        <el-divider content-position="center">{{
+          i18n("system.flex.shareDialog.title.qrCode")
+        }}</el-divider>
         <div class="qr-code-container">
           <div ref="qrCodeRef" class="qr-code"></div>
-          <p>{{ i18n('system.flex.shareDialog.qrCode.message') }}</p>
+          <p>{{ i18n("system.flex.shareDialog.qrCode.message") }}</p>
           <el-button @click="downloadQRCode" size="small">
             <star-horse-icon icon-class="download" />
-            {{ i18n('system.flex.shareDialog.button.downloadQRCode') }}
+            {{ i18n("system.flex.shareDialog.button.downloadQRCode") }}
           </el-button>
         </div>
       </div>
 
       <!-- 设计预览 -->
       <div class="design-preview">
-        <el-divider content-position="center">{{ i18n('system.flex.shareDialog.title.preview') }}</el-divider>
+        <el-divider content-position="center">{{
+          i18n("system.flex.shareDialog.title.preview")
+        }}</el-divider>
         <div class="preview-summary">
           <el-descriptions :column="2" size="small" border>
-            <el-descriptions-item :label="i18n('system.flex.shareDialog.label.itemCount')">
+            <el-descriptions-item
+              :label="i18n('system.flex.shareDialog.label.itemCount')"
+            >
               {{ designSummary.itemCount }}
             </el-descriptions-item>
-            <el-descriptions-item :label="i18n('system.flex.shareDialog.label.compCount')">
+            <el-descriptions-item
+              :label="i18n('system.flex.shareDialog.label.compCount')"
+            >
               {{ designSummary.compCount }}
             </el-descriptions-item>
-            <el-descriptions-item :label="i18n('system.flex.shareDialog.label.containerDirection')">
+            <el-descriptions-item
+              :label="i18n('system.flex.shareDialog.label.containerDirection')"
+            >
               {{ designSummary.containerDirection }}
             </el-descriptions-item>
-            <el-descriptions-item :label="i18n('system.flex.shareDialog.label.createTime')">
+            <el-descriptions-item
+              :label="i18n('system.flex.shareDialog.label.createTime')"
+            >
               {{ formatDate(new Date().toISOString()) }}
             </el-descriptions-item>
           </el-descriptions>
@@ -218,7 +277,11 @@ const shareForm = reactive({
 
 const shareRules = {
   name: [
-    { required: true, message: i18n('system.flex.shareDialog.rule.nameRequired'), trigger: "blur" },
+    {
+      required: true,
+      message: i18n("system.flex.shareDialog.rule.nameRequired"),
+      trigger: "blur",
+    },
     {
       min: 1,
       max: 50,
@@ -229,13 +292,17 @@ const shareRules = {
   password: [
     {
       required: true,
-      message: i18n('system.flex.shareDialog.rule.passwordRequired'),
+      message: i18n("system.flex.shareDialog.rule.passwordRequired"),
       trigger: "blur",
       validator: (_rule: any, value: string, callback: Function) => {
         if (shareForm.accessLevel === "protected" && !value) {
-          callback(new Error(i18n('system.flex.shareDialog.rule.passwordProtected')));
+          callback(
+            new Error(i18n("system.flex.shareDialog.rule.passwordProtected")),
+          );
         } else if (value && value.length < 4) {
-          callback(new Error(i18n('system.flex.shareDialog.rule.passwordLength')));
+          callback(
+            new Error(i18n("system.flex.shareDialog.rule.passwordLength")),
+          );
         } else {
           callback();
         }
@@ -290,10 +357,10 @@ const copyLink = async () => {
 
   try {
     await navigator.clipboard.writeText(shareResult.value.shareUrl);
-    success(i18n('system.flex.shareDialog.message.shareSuccess'));
+    success(i18n("system.flex.shareDialog.message.shareSuccess"));
   } catch (e) {
     console.error("Copy failed:", e);
-    error(i18n('system.flex.shareDialog.message.copyFailed'));
+    error(i18n("system.flex.shareDialog.message.copyFailed"));
   }
 };
 
@@ -302,10 +369,10 @@ const copyCode = async () => {
 
   try {
     await navigator.clipboard.writeText(shareResult.value.shareCode);
-    success(i18n('system.flex.shareDialog.message.codeSuccess'));
+    success(i18n("system.flex.shareDialog.message.codeSuccess"));
   } catch (e) {
     console.error("Copy failed:", e);
-    error(i18n('system.flex.shareDialog.message.copyFailed'));
+    error(i18n("system.flex.shareDialog.message.copyFailed"));
   }
 };
 
@@ -335,10 +402,10 @@ const generateQRCode = async () => {
       },
     );
 
-    success(i18n('system.flex.shareDialog.message.qrCodeSuccess'));
+    success(i18n("system.flex.shareDialog.message.qrCodeSuccess"));
   } catch (e) {
     console.error("Failed to generate QR code:", e);
-    error(i18n('system.flex.shareDialog.message.qrCodeFailed'));
+    error(i18n("system.flex.shareDialog.message.qrCodeFailed"));
   }
 };
 
@@ -350,7 +417,7 @@ const downloadQRCode = () => {
   link.download = `${shareForm.name}-qrcode.png`;
   link.href = canvas.toDataURL();
   link.click();
-  success(i18n('system.flex.shareDialog.message.qrCodeDownloaded'));
+  success(i18n("system.flex.shareDialog.message.qrCodeDownloaded"));
 };
 
 const shareToSocial = () => {
@@ -372,7 +439,7 @@ const shareToSocial = () => {
     // 降级处理，复制到剪贴板
     const shareText = `${text}\n${url}`;
     navigator.clipboard.writeText(shareText).then(() => {
-      success(i18n('system.flex.shareDialog.message.shareContentCopied'));
+      success(i18n("system.flex.shareDialog.message.shareContentCopied"));
     });
   }
 };
