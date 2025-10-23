@@ -204,7 +204,12 @@ defineExpose({
             display: flex;
             width: 100%;
             align-items: center;
-
+            &:hover {
+              background: linear-gradient(145deg, #ffffff, #eef5ff);
+              border-color: var(--star-horse-style);
+              transform: translateY(0px) scale(1.02);
+              box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+            }
             .item-logo {
               display: flex;
               width: 100%;

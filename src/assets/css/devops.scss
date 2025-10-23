@@ -119,6 +119,7 @@ $white: #ffffff;
     overflow-y: hidden;
     overflow-x: auto;
     margin: 5px auto;
+
     .line-node {
       position: absolute;
       width: 210px;
@@ -386,6 +387,7 @@ $white: #ffffff;
 .pipeline-nav {
   display: block;
   position: relative;
+  height: 100%;
 
   .icon {
     font-style: normal;
@@ -532,6 +534,7 @@ $white: #ffffff;
     display: flex;
     align-items: center;
     gap: 5px;
+    height: 100%;
     border-bottom: 2px solid #e8e8e8;
 
     .nav-setting {

@@ -28,8 +28,8 @@ const dataUrl: ApiUrls = apiInstance(
 const nodeFormRef = ref<any>();
 const nodeCompRef = ref<any>();
 const deployTemplateRef = ref<any>();
-const tempDialog = ref<boolean>(false);
-const nodeDialog = ref<boolean>(false);
+const tempDialogVisible = ref<boolean>(false);
+const nodeDialogVisible = ref<boolean>(false);
 const currentNodeIndex = ref<number>(-1);
 const continuousStore = useContinusConfigStore(piniaInstance);
 const nodeInfo = computed(() => continuousStore.nodeInfo);
@@ -116,7 +116,7 @@ let nodeField = ref<PageFieldInfo>({
   ],
 });
 const changeTemplate = () => {
-  tempDialog.value = !tempDialog.value;
+  tempDialogVisible.value = !tempDialogVisible.value;
   nextTick(() => {
     deployTemplateRef.value.setTemplate(nodeInfo.value.pipelineCfg);
   });
@@ -240,11 +240,11 @@ const delNode = (item: any) => {
   continuousStore.removeNode(item.idNodeInfo);
 };
 const addSubNode = () => {
-  nodeDialog.value = true;
+  nodeDialogVisible.value = true;
 };
 const closeAction = () => {
-  nodeDialog.value = false;
-  tempDialog.value = false;
+  nodeDialogVisible.value = false;
+  tempDialogVisible.value = false;
 };
 /**
  * 保存选择的节点
@@ -393,11 +393,11 @@ watch(
 </script>
 <template>
   <div class="flex flex-col h-full overflow-hidden">
-    <NodeDialog :visible="nodeDialog" @save="dataSubmit" @close="closeAction" />
+    <NodeDialog :visible="nodeDialogVisible" @save="dataSubmit" @close="closeAction" />
     <star-horse-dialog
       :title="'更换模板'"
       @merge="selectTemplate"
-      :dialogVisible="tempDialog"
+      :dialogVisible="tempDialogVisible"
       :self-func="true"
       @closeAction="closeAction"
     >

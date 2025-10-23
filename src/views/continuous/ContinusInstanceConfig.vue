@@ -34,9 +34,26 @@ const newPipeline = () => {
   router.push("/continuous/ContinusInstanceInit");
 };
 // 滚动事件处理
-const handleScroll = (e: Event) => {
-  const scrollbar = e.currentTarget as HTMLElement;
-  const { scrollTop, scrollHeight, clientHeight } = scrollbar;
+const handleScroll = (payload: any) => {
+  let scrollTop = 0;
+  let scrollHeight = 0;
+  let clientHeight = 0;
+
+  // 兼容 ElScrollbar 的 @scroll 事件（传入 { scrollTop, scrollLeft }）
+  if (payload && typeof payload.scrollTop === "number") {
+    scrollTop = payload.scrollTop;
+    const wrap = document.querySelector(".el-scrollbar__wrap") as HTMLElement | null;
+    if (!wrap) return;
+    scrollHeight = wrap.scrollHeight;
+    clientHeight = wrap.clientHeight;
+  } else {
+    // 兼容原生滚动事件（传入 Event）
+    const target = (payload?.currentTarget || payload?.target) as HTMLElement | null;
+    if (!target) return;
+    scrollTop = target.scrollTop;
+    scrollHeight = target.scrollHeight;
+    clientHeight = target.clientHeight;
+  }
   if (scrollHeight - (scrollTop + clientHeight) < 50) {
     init();
   }
@@ -53,7 +70,7 @@ const init = async () => {
   loading.value = true;
   const params = [];
   if (keyWords.value) {
-    params.push(createCondition("projectName", keyWords.value, "lk"));
+    params.push(createCondition("lineName", keyWords.value, "lk"));
   }
   try {
     postRequest(dataUrl.pageListUrl, {
@@ -108,7 +125,7 @@ onMounted(() => {
     <div class="config-nav-bar relative">
       <div class="nav-bar-left items-center">
         <div class="flex items-center font-[600] text-[14px]">
-          <star-horse-icon icon-class="flow" />
+          <star-horse-icon icon-class="workstation_setting" />
           流水线
         </div>
         <el-button @click="goBack" link class="flex items-center">

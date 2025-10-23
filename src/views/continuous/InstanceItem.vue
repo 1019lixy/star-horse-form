@@ -121,8 +121,8 @@ const getExecNode = (item: any) => {
     }"
   >
     <div class="item-bar" v-if="showHeaderBar">
-      <div class="item-bar-left items-center">
-        <div class="flex items-center cursor-pointer" @click="execRecord(1)">
+      <div class="item-bar-left items-center" @click="execRecord(1)">
+        <div class="flex items-center cursor-pointer" >
           <star-horse-icon icon-class="document" size="16px" />
           {{ nodeInfo.lineName || nodeInfo.projectName }}
         </div>
@@ -197,7 +197,7 @@ const getExecNode = (item: any) => {
         <div
           @click="lineDetail"
           class="line-node"
-          :style="dynamicStyle(item, index)"
+          :style="dynamicStyle(item,getExecNode(item), index)"
         >
           <div
             class="node-title"

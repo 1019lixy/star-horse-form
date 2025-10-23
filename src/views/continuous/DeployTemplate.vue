@@ -1,22 +1,16 @@
 <script setup lang="ts">
-import { onMounted, ref } from "vue";
-import {
-  apiInstance,
-  ApiUrls,
-  loadData,
-  postRequest,
-  warning,
-} from "star-horse-lowcode";
-import { createJoinCondition } from "@/api/star_horse_utils";
+import {onMounted, ref} from "vue";
+import {apiInstance, ApiUrls, loadData, postRequest, warning,} from "star-horse-lowcode";
+import {createJoinCondition} from "@/api/star_horse_utils";
 
 const emits = defineEmits(["selectTemplate"]);
 const apiUrl: ApiUrls = apiInstance(
-  "userdb-manage",
-  "userdb/formInstance/conTemplate/idTemplate/136",
+    "userdb-manage",
+    "userdb/formInstance/conTemplate/idTemplate/136",
 );
 const nodeCfgUrl: ApiUrls = apiInstance(
-  "userdb-manage",
-  "userdb/formInstance/conNodeConfigures/idNodeConfigure/136",
+    "userdb-manage",
+    "userdb/formInstance/conNodeConfigures/idNodeConfigure/136",
 );
 const nodeList = ref<any>([]);
 const templateList = ref<any>([]);
@@ -48,12 +42,12 @@ const loadTemplate = async () => {
     let reData = res.data?.data;
     reData?.forEach((item: any) => {
       item.nodeList = item.nodeList
-        .map((node: any) => {
-          return nodeList.value.find(
-            (nodeItem: any) => nodeItem.nodeCode == node.nodeName,
-          );
-        })
-        .filter((item: any) => item);
+          .map((node: any) => {
+            return nodeList.value.find(
+                (nodeItem: any) => nodeItem.nodeCode == node.nodeName,
+            );
+          })
+          .filter((item: any) => item);
     });
     templateList.value = reData;
     console.log(templateList.value);
@@ -85,10 +79,10 @@ defineExpose({
   <div class="template-list">
     <template v-for="item in templateList">
       <div
-        class="template-item"
-        :class="{ 'is-active': currentTemplate?.idTemplate == item.idTemplate }"
-        @click="selectItem(item, 'click')"
-        @dblclick="selectItem(item, 'dblClick')"
+          class="template-item"
+          :class="{ 'is-active': currentTemplate?.idTemplate == item.idTemplate }"
+          @click="selectItem(item, 'click')"
+          @dblclick="selectItem(item, 'dblClick')"
       >
         <div class="title">
           <el-tag type="info">{{ item.templateName }}</el-tag>
@@ -98,14 +92,14 @@ defineExpose({
           <div class="content" v-for="(sitem, index) in item.nodeList">
             <div class="relative flex flex-row items-center justify-center">
               <star-horse-icon
-                :icon-class="sitem.icon || 'document'"
-                size="30px"
+                  :icon-class="sitem.icon || 'document'"
+                  size="30px"
               />
               <span>{{ sitem.nodeName }}</span>
             </div>
             <star-horse-icon
-              icon-class="arrow-double-right"
-              v-if="index < item.nodeList.length - 1"
+                icon-class="arrow-double-right"
+                v-if="index < item.nodeList.length - 1"
             />
           </div>
         </div>
@@ -120,6 +114,7 @@ defineExpose({
   width: 100%;
   padding: 0 24px;
 
+
   .is-active {
     border: 2px dotted var(--star-horse-style) !important;
   }
@@ -131,6 +126,13 @@ defineExpose({
     margin: 5px auto;
     position: relative;
     width: 99%;
+
+    &:hover {
+      background: linear-gradient(145deg, #ffffff, #eef5ff);
+      border-color: var(--star-horse-style);
+      transform: translateY(0px) scale(1.02);
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+    }
 
     .title {
       color: #383838;

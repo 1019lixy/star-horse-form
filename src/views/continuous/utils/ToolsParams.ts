@@ -207,13 +207,13 @@ const dataInit = () => {
 const loadColor = (item: any) => {
   return item?.execStatus == "SUCCESS"
     ? "var(--star-horse-success)"
-    : item?.execStatus == "RUNNING"
+    : item?.execStatus == "FAILED"
       ? "var(--star-horse-warning)"
       : "var(--star-horse-default)";
 };
-const dynamicStyle = (item: any, index: number) => {
+const dynamicStyle = (item: any,instance:any, index: number) => {
   let styles: any = {
-    "border-color": loadColor(item),
+    "border-color": loadColor(instance),
   };
   styles["transform"] = `translate(${index * 280 + 15}px, 0)`;
   if (item?.subNodeInfoList?.length > 0) {
