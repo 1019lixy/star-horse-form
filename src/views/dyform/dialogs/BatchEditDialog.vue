@@ -2,7 +2,7 @@
 import { ref } from "vue";
 import { i18n } from "@/lang";
 import { StarHorseDialog } from "star-horse-lowcode";
-
+import BatchEditFields from "@/views/dyform/BatchEditFields.vue";
 const emit = defineEmits<{
   (e: "close"): void;
   (e: "save"): void;

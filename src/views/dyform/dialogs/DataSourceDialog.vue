@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ModelRef, ref } from "vue";
 import { i18n } from "@/lang";
-
+import DataSourceComp from "@/views/dyform/utils/DataSourceComp.vue";
 const props = defineProps<{
   visible: boolean;
   formProps: any;

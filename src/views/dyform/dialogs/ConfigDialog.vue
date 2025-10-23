@@ -14,7 +14,7 @@ import {
   warning,
 } from "star-horse-lowcode";
 import { delCacheData } from "@/api/cached_utils.js";
-
+import FormPropertyPanel from "@/views/dyform/FormPropertyPanel.vue";
 const dataUrl = apiInstance("userdb-manage", "userdb/dynamicForm");
 const designForm = useDesignFormStore(piniaInstance);
 const list = computed(() => designForm.compList);

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { i18n } from "@/lang";
-
+import CodeComp from "@/views/dyform/code/CodeComp.vue";
 const emit = defineEmits<{
   (e: "close"): void;
   (e: "save"): void;

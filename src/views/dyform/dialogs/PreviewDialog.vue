@@ -2,7 +2,7 @@
 import { i18n } from "@/lang";
 import { error, success } from "star-horse-lowcode";
 import { ref } from "vue";
-
+import FormPreview from "@/views/dyform/FormPreview.vue";
 const emit = defineEmits<{
   (e: "close"): void;
 }>();

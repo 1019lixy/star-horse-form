@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import FieldLayer from "../FieldLayer.vue";
+import FieldLayer from "@/views/dyform/FieldLayer.vue";
 import { i18n } from "@/lang";
 
 const emit = defineEmits<{

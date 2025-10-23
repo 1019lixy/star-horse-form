@@ -12,7 +12,7 @@ import { useDialogManager } from "@/views/dyform/composables/useDialogManager.js
 import ButtonEventDialog from "@/views/dyform/dialogs/ButtonEventDialog.vue";
 import JsEditorDialog from "@/views/dyform/dialogs/JsEditorDialog.vue";
 import ParamsDialog from "@/views/dyform/dialogs/ParamsDialog.vue";
-
+import PreOrPendDialog from "@/views/dyform/dialogs/PreOrPendDialog.vue";
 defineProps({
   compSize: { type: String, default: "default" },
 });

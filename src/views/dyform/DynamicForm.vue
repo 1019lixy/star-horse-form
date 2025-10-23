@@ -28,6 +28,7 @@ import FieldLayerDrawer from "@/views/dyform/dialogs/FieldLayerDrawer.vue";
 import FormToolbar from "@/views/dyform/components/FormToolbar.vue";
 import FormDesigner from "@/views/dyform/components/FormDesigner.vue";
 import FieldPanel from "@/views/dyform/FieldPanel.vue";
+import PropertyPanel from "@/views/dyform/PropertyPanel.vue";
 // Import composables
 import {useKeyboardEvents} from "@/views/dyform/composables/useKeyboardEvents";
 import {useDialogManager} from "@/views/dyform/composables/useDialogManager";

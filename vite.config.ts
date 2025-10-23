@@ -143,13 +143,6 @@ export default defineConfig((mode) => {
             path.replace(/^\/system-config/, "/system-config-dev"),
           ws: true,
         },
-        /*  "/code-generator": {
-          target: codeHost,
-          changeOrigin: true,
-          rewrite: (path: string) =>
-            path.replace(/^\/code-generator/, "/code-generator-dev"),
-          ws: true,
-        },*/
         "/flow-engine": {
           target: workflowHost,
           changeOrigin: true,
@@ -191,12 +184,12 @@ export default defineConfig((mode) => {
         },
       }),
       AutoImport({
-        // imports: ["vue"],
+        imports: ["vue"],
         resolvers: [ElementPlusResolver()],
         dts: "src/auto-imports.d.ts",
       }),
       Components({
-        // dirs: ["src/components", "src/views"],
+        dirs: ["src/components", "src/views"],
         // 这里就是相关ui库的解析工具, 里面的选项有是否使用自动导入样式 如果需要通过 var 变量改变主题 需要注意一下
         resolvers: [
           ElementPlusResolver({
@@ -317,7 +310,7 @@ export default defineConfig((mode) => {
       // 设置为 false 可以禁用最小化混淆，
       // 或是用来指定使用哪种混淆器
       // boolean | 'terser' | 'esbuild'
-      minify: false, //"terser", //terser 构建后文件体积更小
+      minify: "terser", //terser 构建后文件体积更小
       //传递给 Terser 的更多 minify 选项。
       //设置为 false 来禁用将构建后的文件写入磁盘
       write: true,

@@ -10,7 +10,7 @@ import { piniaInstance, useDesignFormStore, warning } from "star-horse-lowcode";
 import { validRulesList } from "@/api/valid_utils.js";
 import Help from "@/components/help.vue";
 import { i18n } from "@/lang/index.js";
-
+import DataSourceComp from "@/views/dyform/utils/DataSourceComp.vue";
 defineProps({
   compSize: { type: String, default: "default" },
 });
