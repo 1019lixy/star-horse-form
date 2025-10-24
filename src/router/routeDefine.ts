@@ -113,16 +113,8 @@ routeDefine.push({
     keepAlive: "N",
   },
 });
+// @ts-ignore
 routeDefine.push(
-  {
-    path: "/flex",
-    component: () => import("@/components/system/StarHorseFlexComp.vue"),
-    name: "弹性布局",
-    meta: {
-      keepAlive: "N",
-      title: "弹性布局",
-    },
-  },
   {
     path: "/test",
     component: () => import("@/components/Test.vue"),
@@ -214,5 +206,23 @@ routeDefine.push(
       title: "执行记录",
     },
   },
+    {
+      path: "/continuous/ContinusInstanceInit",
+      component: () => import("@/views/continuous/ContinusInstanceInit.vue"),
+      name: "ContinusInstanceInit",
+      meta: {
+        keepAlive: "N",
+        title: "流水线配置",
+      },
+    },
+    {
+      path: "/continuous/ContinusInstanceDetail",
+      component: () => import("@/views/continuous/ContinusInstanceDetail.vue"),
+      name: "ContinusInstanceDetail",
+      meta: {
+        keepAlive: "N",
+        title: "流水线详情",
+      },
+    },
 );
 export default routeDefine;
