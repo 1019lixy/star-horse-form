@@ -108,10 +108,10 @@ const addLine = (
   const filterPort = (ports: Array<any>, column: string) => {
     return ports?.find((item) => item.attrs?.fieldName?.text == column).id;
   };
-  let fromNode = filterNode(fromTable);
+  let fromNode:any = filterNode(fromTable);
   let fromPorts = fromNode?.getPorts();
   let fromId = filterPort(fromPorts, fromKey);
-  let toNode = filterNode(toTable);
+  let toNode :any= filterNode(toTable);
   let toPorts = toNode?.getPorts();
   let toId = filterPort(toPorts, toKey);
   let edge = containerDiagramRef.value.graph.addEdge({
@@ -205,8 +205,8 @@ const conditionClose = () => {
 };
 const getRelationTable = (datas: any, tableName: string): any => {
   let tempDatas = JSON.parse(JSON.stringify(datas));
-  for (let index = 0; index < tempDatas.length; index++) {
-    let temp = tempDatas[index];
+  for (const element of tempDatas) {
+    let temp = element;
     if (temp.key == tableName) {
       delete temp["children"];
       return temp;

@@ -43,9 +43,9 @@ defineExpose({
 });
 </script>
 <template>
-  <div class="w-full h-full overflow-hidden" v-if="!dialogFlag">
-    <div class="h-full mx-auto my-0 overflow-y-auto bg-[#f2f3f5]">
-      <div class="w-[70%] my-[24px] py-[10px] mx-auto flex flex-col bg-[#fff]">
+  <el-card class="inner_content w-full h-full overflow-hidden" v-if="!dialogFlag">
+    <div class="h-full w-full mx-auto my-0 overflow-y-auto bg-[#f2f3f5] border-radius-[4px]" >
+      <div class="w-[70%] my-[24px] py-[10px] mx-auto flex flex-col bg-[#fff]" style="border-radius:4px">
         <star-horse-form
           formSize="large"
           label-position="top"
@@ -55,7 +55,7 @@ defineExpose({
         />
       </div>
     </div>
-  </div>
+  </el-card>
   <star-horse-form
     v-else
     :field-list="flowFormFields"

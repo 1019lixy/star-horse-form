@@ -9,6 +9,8 @@ let ws: WebSocket;
 let reconnectTimer: any = null;
 // WebSocket重连开关
 let isReconnecting = false;
+// 监听器集合
+const listeners = new Set<Function>();
 // WebSocket对象
 const websocket = {
   // WebSocket建立连接
@@ -43,10 +45,22 @@ const websocket = {
       if (e.data === "ok") {
         return;
       }
-      // 调用回调函数处理接收到的消息
+      // 调用主回调函数处理接收到的消息（兼容旧用法）
       if (websocket.onMessageCallback) {
-        websocket.onMessageCallback(e.data);
+        try {
+          websocket.onMessageCallback(e.data);
+        } catch (err) {
+          console.warn("主回调处理消息异常", err);
+        }
       }
+      // 调用所有注册的监听器
+      listeners.forEach((fn) => {
+        try {
+          fn(e.data);
+        } catch (err) {
+          console.warn("监听器处理消息异常", err);
+        }
+      });
     };
   },
   // WebSocket连接关闭方法
@@ -67,11 +81,20 @@ const websocket = {
   getWebSocket() {
     return ws;
   },
-  // 新增回调函数用于处理收到的消息
-  onMessageCallback: null,
-  // 设置消息处理回调函数
+  // 新增回调函数用于处理收到的消息（兼容旧用法，仅支持一个）
+  onMessageCallback: null as unknown as Function | null,
+  // 设置消息处理回调函数（旧用法）
   setMessageCallback(callback: Function) {
     this.onMessageCallback = callback;
+  },
+  // 新增：添加消息监听器（支持多个）
+  addMessageListener(callback: Function) {
+    listeners.add(callback);
+    return () => listeners.delete(callback);
+  },
+  // 新增：移除消息监听器
+  removeMessageListener(callback: Function) {
+    listeners.delete(callback);
   },
 };
 

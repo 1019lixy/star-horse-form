@@ -47,6 +47,7 @@ const change = async (item: any) => {
       return;
     }
     let formData = basicInfoRef.value.getFormData();
+    console.log(formData);
     flowDesign.flowSetFormInfo(formData.value);
   }
   currentData.value = item.type;

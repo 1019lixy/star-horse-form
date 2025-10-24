@@ -1,33 +1,3 @@
-<template>
-  <div class="designer-wrap">
-    <div class="designer-content-box h-full">
-      <div class="sh-flow-editor-wrap">
-        <div
-          id="sh-flow-editor"
-          class="sh-flow-editor-container"
-          :style="zoomStyle"
-        >
-          <div id="sh-flow-editor-content" class="sh-flow-editor-content">
-            <!--            <FlowStartNode :node="nodeData"/>-->
-            <FlowNode :node="nodeData" :readable="readable" />
-            <!--            <FlowEndNode :node="nodeData" :readable="readable"/>-->
-          </div>
-        </div>
-        <FlowHelper v-if="!readable" />
-        <FlowTips v-if="readable" />
-        <FlowZoom
-          v-model:zoomValue="zoomValue"
-          @saveImage="saveAsPng"
-          :saveBtnVisible="saveBtnVisible"
-          :mapBtnVisible="mapBtnVisible"
-          :zoomBtnVisible="zoomBtnVisible"
-        />
-        <FlowMap v-if="mapVisible && !scale.isMobile()" />
-        <PrepIndex v-if="!readable" />
-      </div>
-    </div>
-  </div>
-</template>
 <script setup lang="ts">
 import { computed, onMounted, ref, watch } from "vue";
 import { useFlowDesignStore } from "@/store/FlowDesign";
@@ -108,9 +78,6 @@ const loadData = async () => {
 onMounted(() => {
   init();
 });
-defineExpose({
-  nodeData,
-});
 watch(
   () => router.currentRoute.value.query,
   () => {
@@ -118,7 +85,40 @@ watch(
   },
   { immediate: true, deep: true },
 );
+defineExpose({
+  nodeData,
+});
 </script>
+<template>
+  <div class="designer-wrap">
+    <div class="designer-content-box h-full">
+      <div class="sh-flow-editor-wrap">
+        <div
+            id="sh-flow-editor"
+            class="sh-flow-editor-container"
+            :style="zoomStyle"
+        >
+          <div id="sh-flow-editor-content" class="sh-flow-editor-content">
+            <!--            <FlowStartNode :node="nodeData"/>-->
+            <FlowNode :node="nodeData" :readable="readable" />
+            <!--            <FlowEndNode :node="nodeData" :readable="readable"/>-->
+          </div>
+        </div>
+        <FlowHelper v-if="!readable" />
+        <FlowTips v-if="readable" />
+        <FlowZoom
+            v-model:zoomValue="zoomValue"
+            @saveImage="saveAsPng"
+            :saveBtnVisible="saveBtnVisible"
+            :mapBtnVisible="mapBtnVisible"
+            :zoomBtnVisible="zoomBtnVisible"
+        />
+        <FlowMap v-if="mapVisible && !scale.isMobile()" />
+        <PrepIndex v-if="!readable" />
+      </div>
+    </div>
+  </div>
+</template>
 <style lang="scss" scoped>
 .sh-plus_circle {
   &:before {

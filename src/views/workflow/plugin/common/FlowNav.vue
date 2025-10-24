@@ -64,11 +64,15 @@ const changeFlow = () => {
     <div class="designer-nav-return">
       <router-link
         :to="{ path: '/workflow/FlowDefineUi' }"
-        style="display: flex; width: 100px; margin-right: 10px"
+        style="display: flex; width: 100px; "
       >
         <star-horse-icon icon-class="back" />
         返回
       </router-link>
+      <el-divider
+          direction="vertical"
+          style="border: 1px solid var(--star-horse-style)"
+      />
       <div v-if="!scale.isMobile()" class="select-version-box">
         <span class="title">流程设计器</span>
       </div>
@@ -81,7 +85,7 @@ const changeFlow = () => {
       >
         <template v-if="item.type == 2">
           <div
-            v-if="!formInfo.bindForm || !formInfo.bindForm.length"
+            v-if="!formInfo.formId || !formInfo.formId.length"
             class="designer-nav-center-wrap-item"
             @click="onChange(item)"
           >

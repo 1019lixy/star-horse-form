@@ -53,7 +53,7 @@ const flowFormFields = reactive<PageFieldInfo>({
     {
       label: "绑定表单",
       fieldName: "bindFormName",
-      aliasName: "bindForm",
+      aliasName: "formId",
       type: "page-select",
       preps: {
         multiple: false,
@@ -63,7 +63,7 @@ const flowFormFields = reactive<PageFieldInfo>({
         },
         needField: [
           { sourceField: "formName", distField: "bindFormName" },
-          { sourceField: "idDynamicForm", distField: "bindForm" },
+          { sourceField: "idDynamicForm", distField: "formId" },
         ],
         fieldList: [
           {

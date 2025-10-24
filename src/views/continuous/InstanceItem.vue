@@ -1,9 +1,12 @@
 <script setup lang="ts" name="InstanceItem">
 import {useRouter} from "vue-router";
-import {apiInstance, ApiUrls, createCondition, createDatetime, success, warning} from "star-horse-lowcode";
+import {apiInstance, ApiUrls, createCondition, createDatetime, success, warning,} from "star-horse-lowcode";
 import {countHeight, currentNodeProcess, dynamicStyle, loadColor,} from "@/views/continuous/utils/ToolsParams";
-import {PropType,computed,ref} from "vue";
+import {computed, onMounted, onUnmounted, PropType, ref} from "vue";
 import {execLine, execNode} from "@/views/continuous/utils/PipelinetCfg.js";
+import websocket from "@/api/websocket";
+import {isJson} from "@/api/star_horse_utils";
+import JSON5 from "json5";
 
 const configUrl: ApiUrls = apiInstance(
     "continuous-manage",
@@ -41,7 +44,7 @@ const props = defineProps({
 });
 const emits = defineEmits(["selectNode"]);
 let currentSelectNode = ref<any>({});
-const currentNodeId=computed(()=>currentSelectNode.value.idNodeInfo||props.selectedNodeId);
+const currentNodeId = computed(() => currentSelectNode.value.idNodeInfo || props.selectedNodeId);
 const execRecord = () => {
   if (props.type == "record") {
     lineDetail();
@@ -113,6 +116,63 @@ const getExecNode = (item: any) => {
       (node: any) => node.nodeId == item.idNodeInfo,
   );
 };
+
+
+// 推送消息处理：更新节点执行状态与流水线状态
+let unsubscribe: Function | null = null;
+const handlePushMessage = (raw: any) => {
+  let msg: any = raw;
+  try {
+    msg = typeof raw === "string" ? JSON5.parse(raw) : raw;
+  } catch (e) {
+    warning("推送消息解析 JSON 失败: " + e);
+    return;
+  }
+  if (msg?.data && isJson(msg.data)) {
+    try {
+      msg = JSON5.parse(msg.data);
+    } catch (e) {
+      warning("推送消息解析 JSON 失败: " + e);
+      return;
+    }
+  }
+  if (!msg || typeof msg !== "object") return;
+
+  const instanceId = props.instanceInfo?.idPipelineInstance;
+  const configId = props.nodeInfo?.idPipelineConfig;
+  const msgInstanceId = msg.instanceId;
+  const msgConfigId = msg.configId;
+
+  // 节点状态更新（需要实例维度）
+  if (msg.nodeId && (msgInstanceId && instanceId && msgInstanceId === instanceId)) {
+    const record = props.instanceInfo?.nodeExecRecords?.find((r: any) => r.nodeId == msg.nodeId);
+    if (record) {
+      if (msg.execStatus) record.execStatus = msg.execStatus;
+      if (typeof msg.totalTimes !== "undefined") record.totalTimes = msg.totalTimes;
+      if (typeof msg.process !== "undefined") record.process = msg.process;
+    }
+  }
+
+  // 流水线状态更新（实例或配置维度）
+  const newStatus = msg.execStatus;
+  if (newStatus) {
+    if (msgInstanceId && instanceId && msgInstanceId === instanceId) {
+      props.instanceInfo.execStatus = newStatus;
+    } else if (msgConfigId && configId && msgConfigId === configId) {
+      // 如果父组件希望在配置列表中展示状态颜色，可更新 nodeInfo.execStatus
+      if (props.nodeInfo) {
+        (props.nodeInfo as any).execStatus = newStatus;
+      }
+    }
+  }
+};
+
+onMounted(() => {
+  unsubscribe = websocket.addMessageListener(handlePushMessage);
+});
+onUnmounted(() => {
+  if (unsubscribe) unsubscribe();
+});
 </script>
 
 <template>
@@ -227,7 +287,8 @@ const getExecNode = (item: any) => {
               :class="{ 'multi-node-content': item.subNodeInfoList?.length > 0 }"
           >
             <el-scrollbar style="height: 100px; width: 100%">
-              <div @click.stop="selectNode(item)" class="line-node-item" :class="{'is-active': item.idNodeInfo == currentNodeId}">
+              <div @click.stop="selectNode(item)" class="line-node-item"
+                   :class="{'is-active': item.idNodeInfo == currentNodeId}">
                 <div
                     class="node-item-header flex justify-between items-center absolute z-10 w-full"
                 >
@@ -343,8 +404,8 @@ const getExecNode = (item: any) => {
   </div>
 </template>
 <style lang="scss" scoped>
-.is-active{
-  border:2px dotted var(--star-horse-style) !important;
+.is-active {
+  border: 2px dotted var(--star-horse-style) !important;
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
 }
 </style>
