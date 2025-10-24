@@ -39,19 +39,25 @@ $border-color: #dcdfe6;
 $bg-color: #f5f7fa;
 $white: #ffffff;
 
-
 .nav_ul {
   display: flex;
   list-style: none;
   margin: 0;
   padding: 0;
+  flex-direction: row;
+  align-items: center;
+  height: 100%;
+  li {
+    min-width: 40px;
+    border-radius: 3px;
+    margin-left: 6px;
+    border: 1px solid var(--star-horse-style);
+    margin-right: 10px;
+  }
 }
 
-.nav_ul li {
-  margin-left: 6px;
-}
 
-.nav_ul el-button {
+.nav_ul .el-button {
   font-size: 12px;
   padding: 0 6px;
   background: transparent;
@@ -59,7 +65,7 @@ $white: #ffffff;
   border: none;
 }
 
-.nav_ul el-button:hover {
+.nav_ul .el-button:hover {
   color: $primary-color !important;
   background: transparent;
 }
@@ -161,7 +167,7 @@ $white: #ffffff;
           cursor: pointer;
           position: relative;
           display: flex;
-          flex-direction: column;
+
           align-items: center;
           clear: both;
           gap: 8px;
@@ -333,18 +339,7 @@ $white: #ffffff;
   }
 }
 
-.nav_ul {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  height: 100%;
-  li {
-    min-width: 40px;
-    border-radius: 3px;
-    border: 1px solid var(--star-horse-style);
-    margin-right: 10px;
-  }
-}
+
 
 .config-content {
   flex: 1;
@@ -676,9 +671,6 @@ $white: #ffffff;
   border-top-width: 0;
   display: flex;
   flex-direction: column;
-  /*  height: 100%;
-  overflow: hidden;*/
-
   .el-collapse-item__header {
     padding-left: 10px;
     font-weight: bold;
@@ -693,14 +685,9 @@ $white: #ffffff;
     margin-left: 5px;
 
     ul {
-      // padding-left: 10px;
-      /* 重置IE11默认样式 */
       margin: 0;
-      /* 重置IE11默认样式 */
       margin-block-start: 0;
       margin-block-end: 0.25em;
-      // padding-inline-start: 10px;
-
       &:after {
         content: "";
         display: block;
