@@ -1,17 +1,12 @@
 <script setup lang="ts" name="ContinusInstanceConfig">
-import { onActivated, onBeforeUnmount, onMounted, reactive, ref } from "vue";
-import { useRouter } from "vue-router";
-import {
-  apiInstance,
-  ApiUrls,
-  createCondition,
-  PageProps,
-  postRequest,
-} from "star-horse-lowcode";
+import {onActivated, onBeforeUnmount, onMounted, reactive, ref} from "vue";
+import {useRouter} from "vue-router";
+import {apiInstance, ApiUrls, createCondition, PageProps, postRequest,} from "star-horse-lowcode";
 import InstanceItem from "@/views/continuous/InstanceItem.vue";
+
 const dataUrl: ApiUrls = apiInstance(
-  "continuous-manage",
-  "continuous/pipelineConfig",
+    "continuous-manage",
+    "continuous/pipelineConfig",
 );
 const router = useRouter();
 const keyWords = ref<string>("");
@@ -61,10 +56,10 @@ const handleScroll = (payload: any) => {
 // 初始化加载数据
 const init = async () => {
   if (
-    loading.value ||
-    (pageInfo.totalData &&
-      pageInfo.dataList.length >= pageInfo.totalData &&
-      !isSearch.value)
+      loading.value ||
+      (pageInfo.totalData &&
+          pageInfo.dataList.length >= pageInfo.totalData &&
+          !isSearch.value)
   )
     return;
   loading.value = true;
@@ -77,7 +72,7 @@ const init = async () => {
       currentPage: pageInfo.currentPage,
       pageSize: pageInfo.pageSize,
       fieldList: params,
-      orderBy: [{ fieldName: "createdTime", ascOrDesc: "desc" }],
+      orderBy: [{fieldName: "createdTime", ascOrDesc: "desc"}],
     }).then((res: any) => {
       if (res?.data?.code != 0) {
         res && console.error(res?.data?.cnMessage);
@@ -125,40 +120,49 @@ onMounted(() => {
     <div class="config-nav-bar relative">
       <div class="nav-bar-left items-center">
         <div class="flex items-center font-[600] text-[14px]">
-          <star-horse-icon icon-class="workstation_setting" />
+          <star-horse-icon icon-class="workstation_setting"/>
           流水线
         </div>
-        <el-button @click="goBack" link class="flex items-center">
-          <star-horse-icon icon-class="return" />
+        <el-divider
+            direction="vertical"
+            style="border: 1px solid var(--star-horse-style)"
+        />
+        <div @click="goBack" link class="flex items-center cursor-pointer">
+          <star-horse-icon icon-class="return"/>
           返回主页
-        </el-button>
+        </div>
       </div>
       <div class="nav-bar-right">
         <ul class="nav_ul">
           <li>
             <el-popover
-              :popper-style="{ width: '300px !important' }"
-              trigger="hover"
+                :popper-style="{ width: '300px !important' }"
+                trigger="hover"
             >
               <el-input
-                placeholder="请输入要查询的关键字"
-                v-model="keyWords"
-                @keydown.enter="dataFilter"
+                  placeholder="请输入要查询的关键字"
+                  v-model="keyWords"
+                  @keydown.enter="dataFilter"
               />
               <template #reference>
-                <star-horse-icon
-                  cursor="pointer"
-                  icon-class="search"
-                  title="搜索"
-                />
+                <div class="flex items-center cursor-pointer px-2 py-1"
+                     style="border:0px solid var(--star-horse-style);border-radius:4px;">
+                  <star-horse-icon
+                      cursor="pointer"
+                      icon-class="search"
+                      size="16px"
+                      title="搜索"
+                  />
+                </div>
               </template>
             </el-popover>
           </li>
           <li>
-            <el-button @click="newPipeline" link>
-              <star-horse-icon cursor="pointer" icon-class="add" />
+            <div class="flex items-center cursor-pointer px-2 py-1"
+                 style="border:0px solid var(--star-horse-style);border-radius:4px;" @click="newPipeline" link>
+              <star-horse-icon cursor="pointer" icon-class="add"/>
               新建流水线
-            </el-button>
+            </div>
           </li>
         </ul>
       </div>
@@ -166,7 +170,7 @@ onMounted(() => {
     <div class="relative overflow-hidden">
       <el-scrollbar height="100%" @scroll="handleScroll">
         <template v-for="(item, index) in pageInfo.dataList" :key="index">
-          <instance-item :nodeInfo="item" :instanceInfo="item.lastInstance" />
+          <instance-item :nodeInfo="item" :instanceInfo="item.lastInstance"/>
         </template>
         <div v-if="loading" class="flex items-center justify-center p-10">
           加载中...

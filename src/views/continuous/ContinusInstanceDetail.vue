@@ -15,7 +15,7 @@ const nodeDetail = (item: any) => {
 };
 const goBack = () => {
   router.push({
-    path: `/execRecord`,
+    path: "/execRecord",
     query: {
       configId: pipelineConfigId.value,
       isEdit: isEdit.value,
@@ -25,10 +25,12 @@ const goBack = () => {
 const isEdit = ref<number>(1);
 const pipelineConfigId = ref<string>("");
 const pipelineInstanceId = ref<string>("");
+const nodeId = ref<string>("");
 const loadCfgData = async (query: any) => {
   isEdit.value = query.isEdit;
   pipelineConfigId.value = query.configId;
   pipelineInstanceId.value = query.instanceId;
+  nodeId.value = query.nodeId;
   if (query.instanceId) {
     await loadPipelineInstance(query.instanceId).then((data) => {
       if (data.error) {
@@ -47,6 +49,19 @@ const loadCfgData = async (query: any) => {
       nodeInfo.value = data.data;
     });
   }
+  if (query.nodeId) {
+    // 在 nodeList 及其 subNodeInfoList 中查找匹配的节点
+    let found: any = nodeInfo.value.nodeList?.find((n: any) => n.idNodeInfo === query.nodeId);
+    if (!found) {
+      for (const n of nodeInfo.value.nodeList || []) {
+        const sub = n.subNodeInfoList?.find((sn: any) => sn.idNodeInfo === query.nodeId);
+        if (sub) { found = sub; break; }
+      }
+    }
+    if (found) {
+      nodeItem.value = found;
+    }
+  }
 };
 watch(
     () => router.currentRoute.value,
@@ -61,11 +76,11 @@ watch(
 
 <template>
   <div class="flex flex-col h-full overflow-hidden">
-    <div class="config-nav-bar">
+    <div class="config-nav-bar h-[50px]!">
       <div class="nav-bar-left">
         <div class="flex items-center font-[600] text-[14px]">
-          <star-horse-icon icon-class="config" />
-          流水线:{{nodeInfo.lineName}}
+          <star-horse-icon icon-class="config"/>
+          流水线:{{ nodeInfo.lineName }}
         </div>
         <el-divider
             direction="vertical"
@@ -98,17 +113,17 @@ watch(
         <span>#{{ instanceInfo.dataIndex }}</span>
       </div>
       <div class="nav-bar-right">
-        <el-button
+        <div
             @click="execLine(nodeInfo.idPipelineConfig, 'execPipeline')"
-            title=""
+            class="flex items-center px-2 py-1"
             style="
-            background: var(--star-horse-style);
-            color: var(--star-horse-white);
+            border-radius: 4px;
+            border: 1px solid var(--star-horse-style);
           "
         >
-          <star-horse-icon icon-class="run" color="var(--star-horse-white)"/>
+          <star-horse-icon icon-class="run"/>
           <el-tooltip content="执行">执行</el-tooltip>
-        </el-button>
+        </div>
       </div>
     </div>
     <div class="w-full mt-5">
@@ -117,6 +132,7 @@ watch(
           :instanceInfo="instanceInfo"
           type="detail"
           @selectNode="nodeDetail"
+          :selectedNodeId="nodeId"
           :showHeaderBar="false"
       />
     </div>

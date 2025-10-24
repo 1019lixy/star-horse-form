@@ -134,7 +134,7 @@ watch(
 
 <template>
   <div class="flex flex-col h-full overflow-hidden">
-    <div class="config-nav-bar">
+    <div class="config-nav-bar h-[50px]!">
       <div class="nav-bar-left items-center">
         <div class="flex items-center font-[600] text-[14px]">
           <star-horse-icon icon-class="config"/>
@@ -152,13 +152,15 @@ watch(
       <div class="nav-bar-right">
         <ul class="nav_ul">
           <li class="cursor-pointer" @click="execLine(nodeInfo.idPipelineConfig, 'execPipeline')">
-            <el-button
-
-                link
+            <div class="flex items-center px-2 py-1"
+                 style="
+            border-radius: 4px;
+            border: 1px solid var(--star-horse-style);
+          "
             >
               <star-horse-icon icon-class="run" size="16px"/>
               执行
-            </el-button>
+            </div>
           </li>
         </ul>
       </div>
