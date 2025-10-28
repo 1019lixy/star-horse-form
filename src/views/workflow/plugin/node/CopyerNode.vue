@@ -24,7 +24,7 @@ const props = defineProps({
 });
 
 const emits = defineEmits(["selectNode"]);
-props.node.error = computed(() => {
+const copyerError = computed(() => {
   let flag = false;
   let msg = "";
   if (
@@ -37,12 +37,10 @@ props.node.error = computed(() => {
     msg += "未配置抄送人";
   }
   props.node.errorMsg = msg;
+  props.node.error = flag;
   return flag;
 });
-const selectNode = () => {
-  emits("selectNode", props.node);
-};
-let nameClass = computed(() => {
+const nameClass = computed(() => {
   return (node: any, defaultStyle: string) => {
     if (node.statusCode == -1) {
       return defaultStyle;
@@ -54,6 +52,10 @@ let nameClass = computed(() => {
     };
   };
 });
+const selectNode = () => {
+  emits("selectNode", props.node);
+};
+
 const init = () => {
   closeLoad();
   flowDesign.refreshMap();
@@ -70,7 +72,7 @@ onMounted(() => {
         :class="{ 'flow-item-active': currentNode.id == node.id }"
         @click.stop="selectNode"
       >
-        <div class="flow-node-box" :class="{ 'has-error': node.error }">
+        <div class="flow-node-box" :class="{ 'has-error': copyerError }">
           <div class="node-name" :class="nameClass(node, 'node-cc')">
             <EditName :node="node" />
             <star-horse-icon icon-class="copy_node" style="margin-left: 10px" />
@@ -88,7 +90,7 @@ onMounted(() => {
           <el-tooltip
             :content="node.errorMsg"
             placement="top"
-            v-if="node.error"
+            v-if="copyerError"
           >
             <star-horse-icon
               icon-class="exclamation-circle"

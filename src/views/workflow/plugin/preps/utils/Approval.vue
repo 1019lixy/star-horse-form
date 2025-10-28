@@ -175,11 +175,11 @@ onMounted(() => {
       <star-horse-data-selector
         :multiple="multiple"
         v-model="group.approverIds"
-        :dataUrl="group.dataList.interOrDict"
-        :displayName="group.dataList.displayName"
-        :displayValue="group.dataList.displayValue"
-        :params="group.dataList.params"
-        :proxy="group.dataList.proxy"
+        :dataUrl="group.dataList?.interOrDict"
+        :displayName="group.dataList?.displayName"
+        :displayValue="group.dataList?.displayValue"
+        :params="group.dataList?.params"
+        :proxy="group.dataList?.proxy"
         :placeholder="'请选择' + (group.currentApproveType?.approvalType || '')"
       />
     </el-form-item>

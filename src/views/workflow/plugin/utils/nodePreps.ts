@@ -270,6 +270,8 @@ const serviceNodePreps = () => {
         implementationType: "class",
       },
     ],
+    // 服务节点参数
+    params:{},
     // 子节点
     childNode: null,
     // 显示添加按钮

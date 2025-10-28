@@ -22,9 +22,11 @@ const props = defineProps({
     default: false,
   },
 });
-props.node.formId = computed(() => flowDesign.flowFormInfo?.formId);
-props.node.error = computed(() => {
+const formId = computed(() => flowDesign.flowFormInfo?.formId);
+const applyError = computed(() => {
+  props.node.formId = props.node.formId || formId.value;
   let flag = !props.node.formId;
+  props.node.error = flag;
   props.node.errorMsg = flag ? "未配置表单" : "";
   return flag;
 });
@@ -63,7 +65,7 @@ onMounted(() => {
           :class="{ 'flow-item-active': currentNode.id == node.id }"
           @click.stop="selectNode"
       >
-        <div class="flow-node-box" :class="{ 'has-error': node.error }">
+        <div class="flow-node-box" :class="{ 'has-error': applyError }">
           <div class="node-name" :class="nameClass(node, 'node-fill')">
             <EditName :node="node"/>
             <star-horse-icon icon-class="edit_node" style="margin-left: 10px"/>
@@ -80,7 +82,7 @@ onMounted(() => {
           <el-tooltip
               :content="node.errorMsg"
               placement="top"
-              v-if="node.error"
+              v-if="applyError"
           >
             <star-horse-icon
                 icon-class="exclamation-circle"

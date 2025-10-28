@@ -69,6 +69,9 @@ export const useFlowDesignStore = defineStore("flowDesign", () => {
         return formId.value;
     };
     const getFormColumns = () => {
+        if (!formColumns.value.length) {
+            loadDynamicForm(formId.value);
+        }
         return formColumns.value;
     };
     const setNavable = (flag: boolean) => {
@@ -116,7 +119,7 @@ export const useFlowDesignStore = defineStore("flowDesign", () => {
      */
     const flowSetFormInfo = (formInfo: any) => {
         flowFormInfo.value = formInfo;
-
+        formId.value = formInfo.formId;
     };
     /**
      * 添加表单属性

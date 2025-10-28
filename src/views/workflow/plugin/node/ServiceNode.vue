@@ -2,14 +2,14 @@
   <div class="flow-row">
     <div class="flow-box">
       <div
-        class="flow-item"
-        :class="{ 'flow-item-active': currentNode.id == node.id }"
-        @click.stop="selectNode"
+          class="flow-item"
+          :class="{ 'flow-item-active': currentNode.id == node.id }"
+          @click.stop="selectNode"
       >
         <div class="flow-node-box" :class="{ 'has-error': node.error }">
           <div class="node-name" :class="nameClass(node, 'node-task')">
-            <EditName :node="node" />
-            <star-horse-icon icon-class="task" style="margin-left: 10px" />
+            <EditName :node="node"/>
+            <star-horse-icon icon-class="task" style="margin-left: 10px"/>
           </div>
           <div class="node-main">
             <span v-if="node.content">
@@ -22,35 +22,35 @@
           </div>
           <!-- 错误提示 -->
           <el-tooltip
-            :content="node.errorMsg"
-            placement="top"
-            v-if="node.error"
+              :content="node.errorMsg"
+              placement="top"
+              v-if="node.error"
           >
             <star-horse-icon
-              icon-class="exclamation-circle"
-              theme="filled"
-              class="node-error"
+                icon-class="exclamation-circle"
+                theme="filled"
+                class="node-error"
             />
           </el-tooltip>
           <!-- 只有是填写节点才能删除，发起节点不能删除 -->
           <div v-if="!readable && !node.deletable" class="close-icon">
             <star-horse-icon
-              icon-class="close"
-              @click.stop="node.deletable = true"
+                icon-class="close"
+                @click.stop="node.deletable = true"
             />
           </div>
           <!-- 删除提示 -->
-          <DeleteConfirm :node="node" />
+          <DeleteConfirm :node="node"/>
         </div>
       </div>
-      <AddNode :node="node" :nodeType="node.type" :readable="readable" />
+      <AddNode :node="node" :nodeType="node.type" :readable="readable"/>
     </div>
   </div>
 </template>
 <script setup lang="ts">
-import { computed, onMounted } from "vue";
-import { useFlowDesignStore } from "@/store/FlowDesign";
-import { closeLoad, piniaInstance } from "star-horse-lowcode";
+import {computed, onMounted} from "vue";
+import {useFlowDesignStore} from "@/store/FlowDesign";
+import {closeLoad, piniaInstance} from "star-horse-lowcode";
 
 defineOptions({
   name: "ServiceNode",
@@ -74,20 +74,10 @@ props.node.error = computed(() => {
   let flag = false;
   let msg = "";
 
-  if (!props.node.executionListeners) {
+  if (Object.keys(props.node.params || {}).length == 0) {
     flag = true;
     msg += "未配置执行器\n";
   }
-  props.node.executionListeners?.forEach((item: any) => {
-    if (!item.implementationType) {
-      flag = true;
-      msg += "未配置执行器类型\n";
-    }
-    if (!item.implementation) {
-      flag = true;
-      msg += "执行器未配置参数\n";
-    }
-  });
   props.node.errorMsg = msg;
   return flag;
 });

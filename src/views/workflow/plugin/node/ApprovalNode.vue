@@ -6,7 +6,7 @@
         :class="{ 'flow-item-active': currentNode.id == node.id }"
         @click.stop="selectNode"
       >
-        <div class="flow-node-box" :class="{ 'has-error': node.error }">
+        <div class="flow-node-box" :class="{ 'has-error': approvalError }">
           <div
             class="node-name"
             :class="
@@ -39,7 +39,7 @@
           <el-tooltip
             :content="node.errorMsg"
             placement="top"
-            v-if="node.error"
+            v-if="approvalError"
           >
             <star-horse-icon
               icon-class="exclamation-circle"
@@ -90,7 +90,7 @@ const props = defineProps({
 });
 
 const emits = defineEmits(["selectNode"]);
-props.node.error = computed(() => {
+const approvalError= computed(() => {
   let flag = false;
   let msg = "";
   if (
@@ -102,6 +102,7 @@ props.node.error = computed(() => {
     flag = true;
     msg += "未配置审批人";
   }
+  props.node.error = flag;
   props.node.errorMsg = msg;
   return flag;
 });

@@ -251,6 +251,7 @@ watch(
                           placeholder="字段"
                           filterable
                           clearable
+                          allow-create
                           @change="handleChange"
                         >
                           <el-option-group label="基础字段">

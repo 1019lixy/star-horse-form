@@ -20,9 +20,9 @@ const props = defineProps({
     default: false,
   },
 });
-props.node.error = computed(() => !props.node.formId);
+const formId = computed(() => !props.node.formId);
 const emits = defineEmits(["selectNode"]);
-props.node.error = computed(() => {
+const handleError = computed(() => {
   let flag = false;
   let msg = "";
   if (
@@ -35,6 +35,7 @@ props.node.error = computed(() => {
     msg += "未配置办理人";
   }
   props.node.errorMsg = msg;
+  props.node.error = flag;
   return flag;
 });
 const selectNode = () => {
@@ -68,7 +69,7 @@ onMounted(() => {
         :class="{ 'flow-item-active': currentNode.id == node.id }"
         @click.stop="selectNode"
       >
-        <div class="flow-node-box" :class="{ 'has-error': node.error }">
+        <div class="flow-node-box" :class="{ 'has-error': handleError }">
           <div class="node-name" :class="nameClass(node, 'node-handle')">
             <EditName :node="node" />
             <star-horse-icon icon-class="edit_node" style="margin-left: 10px" />
@@ -85,7 +86,7 @@ onMounted(() => {
           <el-tooltip
             :content="node.errorMsg"
             placement="top"
-            v-if="node.error"
+            v-if="handleError"
           >
             <star-horse-icon
               icon-class="exclamation-circle"
