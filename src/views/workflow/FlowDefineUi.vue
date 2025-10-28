@@ -330,6 +330,9 @@ const dataFormat = (name: string, cellValue: any, row: any): any => {
   if (name == "statusCode") {
     return !row.flowDeploymentId ? "未部署" : "已部署";
   }
+  if(name=="flowGroup"){
+    return flowGroupList.value.find((item: SelectOption) => item.value == cellValue)?.name || cellValue;
+  }
   //转换显示信息
   return cellValue;
 };
