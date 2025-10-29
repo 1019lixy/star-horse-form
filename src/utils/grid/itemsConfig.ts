@@ -1,5 +1,6 @@
 import { PageFieldInfo } from "star-horse-lowcode";
 import { i18n } from "@/lang";
+import {unitList} from "@/utils/sh_design.js";
 
 export const gridItemsConfig: PageFieldInfo = {
   fieldList: [
@@ -74,17 +75,7 @@ export const gridItemsConfig: PageFieldInfo = {
       defaultValue: "auto",
       preps: {
         icon: "",
-        appendList: [
-          {
-            name: i18n("system.grid.itemsConfig.pixel"),
-            value: "px",
-          },
-          {
-            name: i18n("system.grid.itemsConfig.percent"),
-            value: "%",
-          },
-          { name: i18n("system.grid.itemsConfig.auto"), value: "auto" },
-        ],
+        appendList: unitList,
       },
     },
     {
@@ -96,17 +87,7 @@ export const gridItemsConfig: PageFieldInfo = {
       defaultValue: "auto",
       preps: {
         icon: "",
-        appendList: [
-          {
-            name: i18n("system.grid.itemsConfig.pixel"),
-            value: "px",
-          },
-          {
-            name: i18n("system.grid.itemsConfig.percent"),
-            value: "%",
-          },
-          { name: i18n("system.grid.itemsConfig.auto"), value: "auto" },
-        ],
+        appendList: unitList,
       },
     },
   ],

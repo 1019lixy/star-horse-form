@@ -18,15 +18,15 @@ import PageFont from "@/components/system/items/PageFont.vue";
 import PagePosition from "@/components/system/items/PagePosition.vue";
 import PageItemProperties from "@/components/system/items/PageItemProperties.vue";
 import SvgLoader from "@/components/system/SvgLoader.vue";
-import { Layout } from "@/components/types/dataTypes";
-import { appInstance } from "@/main";
-import { useFlexDesignStore } from "@/store/FlexDesign";
-import { flexBoxContainerConfig } from "@/utils/flexbox/containerConfig";
-import { flexBoxItemsConfig } from "@/utils/flexbox/itemsConfig";
-import { flexboxLayouts } from "@/utils/flexbox/layouts";
-import { gridContainerConfig } from "@/utils/grid/containerConfig";
-import { gridItemsConfig } from "@/utils/grid/itemsConfig";
-import { gridLayouts } from "@/utils/grid/layouts";
+import {Layout} from "@/components/types/dataTypes";
+import {appInstance} from "@/main";
+import {useFlexDesignStore} from "@/store/FlexDesign";
+import {flexBoxContainerConfig} from "@/utils/flexbox/containerConfig";
+import {flexBoxItemsConfig} from "@/utils/flexbox/itemsConfig";
+import {flexboxLayouts} from "@/utils/flexbox/layouts";
+import {gridContainerConfig} from "@/utils/grid/containerConfig";
+import {gridItemsConfig} from "@/utils/grid/itemsConfig";
+import {gridLayouts} from "@/utils/grid/layouts";
 
 import {
   error,
@@ -37,18 +37,11 @@ import {
   useGlobalConfigStore,
   uuid,
 } from "star-horse-lowcode";
-import {
-  computed,
-  defineOptions,
-  onMounted,
-  onUnmounted,
-  ref,
-  watch,
-} from "vue";
-import { i18n } from "@/lang";
+import {computed, defineOptions, onMounted, onUnmounted, ref, watch,} from "vue";
+import {i18n} from "@/lang";
 import StarHorseRuler from "./StarHorseRuler.vue";
-import { useRouter } from "vue-router";
-import { Config } from "@/api/settings.js";
+import {useRouter} from "vue-router";
+import {Config} from "@/api/settings.js";
 
 defineOptions({
   name: "StarHorseFlexComp",
@@ -56,7 +49,7 @@ defineOptions({
 const flexDesign = useFlexDesignStore(piniaInstance);
 let configStore = useGlobalConfigStore(piniaInstance);
 let compSize = computed(
-  () => configStore.configFormInfo?.inputSize || Config.compSize,
+    () => configStore.configFormInfo?.inputSize || Config.compSize,
 );
 const positionList = computed(() => flexDesign.getPositionList());
 const currentId = computed(() => flexDesign.getCurrentItem());
@@ -90,12 +83,13 @@ const publishDialogVisible = ref(false);
 // Design metadata
 const currentDesignId = ref<string>("");
 const currentDesignName = ref<string>(
-  i18n("system.flex.starHorseFlexComp.design.untitled"),
+    i18n("system.flex.starHorseFlexComp.design.untitled"),
 );
 const currentDesignDescription = ref<string>("");
 
 let index = 0;
-const tabChange = (val: string) => {};
+const tabChange = (val: string) => {
+};
 const addItem = () => {
   let itemId = uuid();
   flexDesign.addItem(itemId, {});
@@ -160,21 +154,27 @@ const init = () => {
   appInstance.use(pageItemsComponent);
   flexChange("flex");
   let layout: Layout = flexboxLayouts.find(
-    (item: Layout) => item.icon == "fillRemainingSpace",
+      (item: Layout) => item.icon == "fillRemainingSpace",
   )!;
   layoutOperation(layout);
 };
 const flexChange = (val: string) => {
   flexDesign.init();
-  if (val == "flex") {
-    containerConfig.value = flexBoxContainerConfig;
-    itemConfig.value = flexBoxItemsConfig;
-    layoutConfig.value = flexboxLayouts;
-  } else {
-    containerConfig.value = gridContainerConfig;
-    itemConfig.value = gridItemsConfig;
-    layoutConfig.value = gridLayouts;
-  }
+  containerConfig.value = {};
+  itemConfig.value = {};
+  layoutConfig.value = [];
+  //解决切换后的组件显示异常问题
+  nextTick(() => {
+    if (val == "flex") {
+      containerConfig.value = flexBoxContainerConfig;
+      itemConfig.value = flexBoxItemsConfig;
+      layoutConfig.value = flexboxLayouts;
+    } else {
+      containerConfig.value = gridContainerConfig;
+      itemConfig.value = gridItemsConfig;
+      layoutConfig.value = gridLayouts;
+    }
+  });
 };
 let router = useRouter();
 const returnRouter = () => {
@@ -216,8 +216,8 @@ const preview = () => {
   if (!validation.isValid) {
     error(i18n("system.flex.starHorseFlexComp.validationFailed"));
     console.warn(
-      i18n("system.flex.starHorseFlexComp.validationError"),
-      validation.errors,
+        i18n("system.flex.starHorseFlexComp.validationError"),
+        validation.errors,
     );
     return;
   }
@@ -230,8 +230,8 @@ const publishPage = () => {
   if (!validation.isValid) {
     error(i18n("system.flex.starHorseFlexComp.publishValidationFailed"));
     console.warn(
-      i18n("system.flex.starHorseFlexComp.validationError"),
-      validation.errors,
+        i18n("system.flex.starHorseFlexComp.validationError"),
+        validation.errors,
     );
     return;
   }
@@ -244,8 +244,8 @@ const sharePage = () => {
   if (!validation.isValid) {
     error(i18n("system.flex.starHorseFlexComp.shareValidationFailed"));
     console.warn(
-      i18n("system.flex.starHorseFlexComp.validationError"),
-      validation.errors,
+        i18n("system.flex.starHorseFlexComp.validationError"),
+        validation.errors,
     );
     return;
   }
@@ -280,7 +280,7 @@ const handleSaveTemplate = (templateData: any) => {
 };
 const emptyStage = () => {
   operationConfirm(
-    i18n("system.flex.starHorseFlexComp.confirmClearStage"),
+      i18n("system.flex.starHorseFlexComp.confirmClearStage"),
   ).then((b: boolean) => {
     if (b) {
       flexDesign.clearAll();
@@ -307,16 +307,16 @@ const autoSave = async () => {
   if (currentDesignId.value) {
     try {
       const designData = flexDesign.serializeDesignData(
-        currentDesignName.value,
-        currentDesignDescription.value,
-        flexModel.value,
+          currentDesignName.value,
+          currentDesignDescription.value,
+          flexModel.value,
       );
-      await saveFlexDesign({ ...designData, id: currentDesignId.value });
+      await saveFlexDesign({...designData, id: currentDesignId.value});
       console.log(i18n("system.flex.starHorseFlexComp.autoSaveSuccess"));
     } catch (error) {
       console.error(
-        i18n("system.flex.starHorseFlexComp.autoSaveFailed"),
-        error,
+          i18n("system.flex.starHorseFlexComp.autoSaveFailed"),
+          error,
       );
     }
   }
@@ -340,10 +340,10 @@ onMounted(() => {
 
   // Set up auto save, save every 5 minutes
   const autoSaveInterval = setInterval(
-    () => {
-      autoSave();
-    },
-    5 * 60 * 1000,
+      () => {
+        autoSave();
+      },
+      5 * 60 * 1000,
   ); // 5 minutes
 
   // Listen for page unload, auto save
@@ -356,55 +356,55 @@ onMounted(() => {
   });
 });
 watch(
-  () => currentId.value,
-  (val: string) => {
-    // selectItem(val);
-    // Reset selected component when current item changes
-    // selectedComponentId.value = "";
-  },
+    () => currentId.value,
+    (val: string) => {
+      // selectItem(val);
+      // Reset selected component when current item changes
+      // selectedComponentId.value = "";
+    },
 );
 </script>
 <template>
   <el-splitter>
     <el-splitter-panel collapsible size="320" max="50%" class="flex flex-col">
       <el-tabs
-        v-model="tabModel"
-        class="flex-1"
-        tab-position="left"
-        @tabChange="tabChange"
-        type="border-card"
+          v-model="tabModel"
+          class="flex-1"
+          tab-position="left"
+          @tabChange="tabChange"
+          type="border-card"
       >
         <el-tab-pane name="template" class="flex flex-col">
           <template #label>
             <star-horse-icon
-              icon-class="template"
-              style="color: var(--star-horse-style)"
+                icon-class="template"
+                style="color: var(--star-horse-style)"
             />&nbsp;<span>{{
               i18n("system.flex.starHorseFlexComp.tab.template")
             }}</span>
           </template>
           <div
-            class="mt-1 mb-3 mx-1 py-5 border-b border-solid border-[#e4e7ed]"
+              class="mt-1 mb-3 mx-1 py-5 border-b border-solid border-[#e4e7ed]"
           >
             <el-radio-group
-              v-model="flexModel"
-              @change="flexChange"
-              fill="var(--star-horse-style)"
+                v-model="flexModel"
+                @change="flexChange"
+                fill="var(--star-horse-style)"
             >
-              <el-radio-button label="Flex" value="flex" />
-              <el-radio-button label="Flex Grid" value="grid" />
+              <el-radio-button label="Flex" value="flex"/>
+              <el-radio-button label="Flex Grid" value="grid"/>
             </el-radio-group>
           </div>
           <div class="flex-grid gap-4 w-full flex-wrap overflow-y-auto mx-3">
             <template v-for="item in layoutConfig">
               <div
-                class="flex flex-col items-center justify-center layout-item mt-2"
-                @click="layoutOperation(item)"
+                  class="flex flex-col items-center justify-center layout-item mt-2"
+                  @click="layoutOperation(item)"
               >
                 <svg-loader
-                  :path="'./flexable/' + item.icon"
-                  cursor="pointer"
-                  size="80px"
+                    :path="'./flexable/' + item.icon"
+                    cursor="pointer"
+                    size="80px"
                 />
                 {{ item.name }}
               </div>
@@ -414,109 +414,109 @@ watch(
         <el-tab-pane name="comp">
           <template #label>
             <star-horse-icon
-              icon-class="list"
-              style="color: var(--star-horse-style)"
+                icon-class="list"
+                style="color: var(--star-horse-style)"
             />&nbsp;<span>{{
               i18n("system.flex.starHorseFlexComp.tab.component")
             }}</span>
           </template>
-          <PageCompPanel />
+          <PageCompPanel/>
         </el-tab-pane>
       </el-tabs>
     </el-splitter-panel>
     <el-splitter-panel>
       <div
-        class="flex flex-col w-[99%] h-full relative"
-        style="margin: 0 auto; background: #86909c"
+          class="flex flex-col w-[99%] h-full relative"
+          style="margin: 0 auto; background: #86909c"
       >
         <div
-          class="flex items-center w-full h-[40px]"
-          style="background: #fefefe"
+            class="flex items-center w-full h-[40px]"
+            style="background: #fefefe"
         >
           <el-button-group>
             <el-tooltip
-              class="item"
-              :content="i18n('system.flex.starHorseFlexComp.tooltip.return')"
-              effect="dark"
-              placement="bottom"
+                class="item"
+                :content="i18n('system.flex.starHorseFlexComp.tooltip.return')"
+                effect="dark"
+                placement="bottom"
             >
               <el-button @click="returnRouter" class="h-full border-0">
                 <star-horse-icon
-                  icon-class="return"
-                  size="24px"
-                  cursor="pointer"
-                  style="color: var(--star-horse-style)"
+                    icon-class="return"
+                    size="24px"
+                    cursor="pointer"
+                    style="color: var(--star-horse-style)"
                 />
               </el-button>
             </el-tooltip>
             <el-tooltip
-              class="item"
-              :content="
+                class="item"
+                :content="
                 i18n('system.flex.starHorseFlexComp.tooltip.addElement')
               "
-              effect="dark"
-              placement="bottom"
+                effect="dark"
+                placement="bottom"
             >
               <el-button @click="addItem" class="h-full border-0">
                 <star-horse-icon
-                  icon-class="add"
-                  size="24px"
-                  cursor="pointer"
-                  style="color: var(--star-horse-style)"
+                    icon-class="add"
+                    size="24px"
+                    cursor="pointer"
+                    style="color: var(--star-horse-style)"
                 />
               </el-button>
             </el-tooltip>
             <el-tooltip
-              class="item"
-              :content="
+                class="item"
+                :content="
                 i18n('system.flex.starHorseFlexComp.tooltip.clearStage')
               "
-              effect="dark"
-              placement="bottom"
+                effect="dark"
+                placement="bottom"
             >
               <el-button @click="emptyStage" class="h-full border-0">
                 <star-horse-icon
-                  icon-class="empty_setting"
-                  size="24px"
-                  cursor="pointer"
-                  style="color: var(--star-horse-style)"
+                    icon-class="empty_setting"
+                    size="24px"
+                    cursor="pointer"
+                    style="color: var(--star-horse-style)"
                 />
               </el-button>
             </el-tooltip>
             <el-tooltip
-              class="item"
-              :content="
+                class="item"
+                :content="
                 i18n('system.flex.starHorseFlexComp.tooltip.mainAxisDirection')
               "
-              effect="dark"
-              placement="bottom"
+                effect="dark"
+                placement="bottom"
             >
               <el-button @click="mainAxisDirection" class="h-full border-0">
                 <star-horse-icon
-                  icon-class="refresh"
-                  size="24px"
-                  cursor="pointer"
-                  style="color: var(--star-horse-style)"
+                    icon-class="refresh"
+                    size="24px"
+                    cursor="pointer"
+                    style="color: var(--star-horse-style)"
                 />
               </el-button>
             </el-tooltip>
             <el-tooltip
-              class="item"
-              :content="i18n('system.flex.starHorseFlexComp.tooltip.code')"
-              effect="dark"
-              placement="bottom"
+                class="item"
+                :content="i18n('system.flex.starHorseFlexComp.tooltip.code')"
+                effect="dark"
+                placement="bottom"
             >
               <el-button @click="mainAxisDirection" class="h-full border-0">
                 <star-horse-icon
-                  icon-class="code"
-                  size="24px"
-                  cursor="pointer"
+                    icon-class="code"
+                    size="24px"
+                    cursor="pointer"
                 />
               </el-button>
             </el-tooltip>
             <el-tooltip
-              class="item"
-              :content="
+                class="item"
+                :content="
                 needInfiniteViewer
                   ? i18n(
                       'system.flex.starHorseFlexComp.tooltip.infiniteScrollOn',
@@ -525,65 +525,65 @@ watch(
                       'system.flex.starHorseFlexComp.tooltip.infiniteScrollOff',
                     )
               "
-              effect="dark"
-              placement="bottom"
+                effect="dark"
+                placement="bottom"
             >
               <el-button @click="autoScroll" class="h-full border-0">
                 <star-horse-icon
-                  :icon-class="needInfiniteViewer ? 'drag' : 'cancel'"
-                  size="24px"
-                  cursor="pointer"
+                    :icon-class="needInfiniteViewer ? 'drag' : 'cancel'"
+                    size="24px"
+                    cursor="pointer"
                 />
               </el-button>
             </el-tooltip>
             <el-tooltip
-              class="item"
-              :content="
+                class="item"
+                :content="
                 hideRuler
                   ? i18n('system.flex.starHorseFlexComp.tooltip.rulerOn')
                   : i18n('system.flex.starHorseFlexComp.tooltip.rulerOff')
               "
-              effect="dark"
-              placement="bottom"
+                effect="dark"
+                placement="bottom"
             >
               <el-button @click="hideRulerFunc" class="h-full border-0">
                 <star-horse-icon
-                  :icon-class="hideRuler ? 'cancel' : 'eye'"
-                  size="24px"
-                  cursor="pointer"
+                    :icon-class="hideRuler ? 'cancel' : 'eye'"
+                    size="24px"
+                    cursor="pointer"
                 />
               </el-button>
             </el-tooltip>
             <el-tooltip
-              :content="i18n('system.flex.starHorseFlexComp.tooltip.save')"
+                :content="i18n('system.flex.starHorseFlexComp.tooltip.save')"
             >
               <el-button @click="saveData" class="h-full border-0">
-                <star-horse-icon icon-class="save" cursor="pointer" />
+                <star-horse-icon icon-class="save" cursor="pointer"/>
               </el-button>
             </el-tooltip>
             <el-tooltip
-              :content="i18n('system.flex.starHorseFlexComp.tooltip.preview')"
+                :content="i18n('system.flex.starHorseFlexComp.tooltip.preview')"
             >
               <el-button @click="preview" class="h-full border-0">
-                <star-horse-icon icon-class="preview" cursor="pointer" />
+                <star-horse-icon icon-class="preview" cursor="pointer"/>
               </el-button>
             </el-tooltip>
             <el-tooltip
-              :content="i18n('system.flex.starHorseFlexComp.tooltip.publish')"
+                :content="i18n('system.flex.starHorseFlexComp.tooltip.publish')"
             >
               <el-button @click="publishPage" class="h-full border-0">
-                <star-horse-icon icon-class="publish" cursor="pointer" />
+                <star-horse-icon icon-class="publish" cursor="pointer"/>
               </el-button>
             </el-tooltip>
             <el-tooltip
-              :content="i18n('system.flex.starHorseFlexComp.tooltip.share')"
+                :content="i18n('system.flex.starHorseFlexComp.tooltip.share')"
             >
               <el-button @click="sharePage" class="h-full border-0">
-                <star-horse-icon icon-class="share" cursor="pointer" />
+                <star-horse-icon icon-class="share" cursor="pointer"/>
               </el-button>
             </el-tooltip>
             <el-tooltip
-              :content="
+                :content="
                 isFullscreen
                   ? i18n('system.flex.starHorseFlexComp.tooltip.fullscreenOn')
                   : i18n('system.flex.starHorseFlexComp.tooltip.fullscreenOff')
@@ -591,32 +591,32 @@ watch(
             >
               <el-button @click="fullScreen" class="h-full border-0">
                 <star-horse-icon
-                  :icon-class="
+                    :icon-class="
                     isFullscreen ? 'fullscreen-shrink' : 'fullscreen-expand'
                   "
-                  cursor="pointer"
+                    cursor="pointer"
                 />
               </el-button>
             </el-tooltip>
           </el-button-group>
         </div>
         <StarHorseRuler
-          :needInfiniteViewer="needInfiniteViewer"
-          :hideHorizontalRuler="hideRuler"
-          :hideVerticalRuler="hideRuler"
-          ref="rulerRef"
+            :needInfiniteViewer="needInfiniteViewer"
+            :hideHorizontalRuler="hideRuler"
+            :hideVerticalRuler="hideRuler"
+            ref="rulerRef"
         >
           <div
-            :style="containerDataForm"
-            class="flex-1 flex-shrink-0"
-            @click="selectContainer"
+              :style="containerDataForm"
+              class="flex-1 flex-shrink-0"
+              @click="selectContainer"
           >
             <template v-for="item in positionList">
               <FlexItem
-                :itemId="item"
-                @selectItem="selectItem"
-                @selectComponent="selectComponent"
-                :type="flexModel"
+                  :itemId="item"
+                  @selectItem="selectItem"
+                  @selectComponent="selectComponent"
+                  :type="flexModel"
               />
             </template>
           </div>
@@ -625,29 +625,29 @@ watch(
     </el-splitter-panel>
     <el-splitter-panel collapsible size="400" max="40%">
       <el-tabs
-        v-model="editTabModel"
-        type="border-card"
-        style="height: 100% !important"
+          v-model="editTabModel"
+          type="border-card"
+          style="height: 100% !important"
       >
         <el-tab-pane name="container">
           <template #label>
             <star-horse-icon
-              icon-class="container"
-              style="color: var(--star-horse-style)"
+                icon-class="container"
+                style="color: var(--star-horse-style)"
             />&nbsp;<span>{{
               i18n("system.flex.starHorseFlexComp.tab.container")
             }}</span>
           </template>
           <sh-form
-            v-model:dataForm="containerDataForm"
-            :label-width="'auto'"
-            :size="compSize"
-            :label-position="'top'"
+              v-model:dataForm="containerDataForm"
+              :label-width="'auto'"
+              :size="compSize"
+              :label-position="'top'"
           >
             <el-collapse
-              v-model="containerCollapse"
-              :expand-icon-position="'left'"
-              style="background: #1d2129 !important"
+                v-model="containerCollapse"
+                :expand-icon-position="'left'"
+                style="background: #1d2129 !important"
             >
               <el-collapse-item name="container">
                 <template #title>
@@ -661,9 +661,9 @@ watch(
                 </template>
                 <div class="h-full">
                   <StarHorseFormItem
-                    :fieldList="containerConfig"
-                    :compSize="compSize"
-                    v-model:dataForm="containerDataForm"
+                      :fieldList="containerConfig"
+                      :compSize="compSize"
+                      v-model:dataForm="containerDataForm"
                   />
                 </div>
               </el-collapse-item>
@@ -678,8 +678,8 @@ watch(
                   </div>
                 </template>
                 <page-position
-                  v-model:dataForm="containerDataForm"
-                  :compSize="compSize"
+                    v-model:dataForm="containerDataForm"
+                    :compSize="compSize"
                 />
               </el-collapse-item>
               <el-collapse-item name="background">
@@ -688,15 +688,15 @@ watch(
                     <div>
                       {{
                         i18n(
-                          "system.flex.starHorseFlexComp.container.background",
+                            "system.flex.starHorseFlexComp.container.background",
                         )
                       }}
                     </div>
                   </div>
                 </template>
                 <page-background
-                  v-model:dataForm="containerDataForm"
-                  :compSize="compSize"
+                    v-model:dataForm="containerDataForm"
+                    :compSize="compSize"
                 />
               </el-collapse-item>
               <el-collapse-item name="font">
@@ -708,8 +708,8 @@ watch(
                   </div>
                 </template>
                 <page-font
-                  v-model:dataForm="containerDataForm"
-                  :compSize="compSize"
+                    v-model:dataForm="containerDataForm"
+                    :compSize="compSize"
                 />
               </el-collapse-item>
             </el-collapse>
@@ -718,22 +718,22 @@ watch(
         <el-tab-pane name="item">
           <template #label>
             <star-horse-icon
-              icon-class="list"
-              style="color: var(--star-horse-style)"
+                icon-class="list"
+                style="color: var(--star-horse-style)"
             />&nbsp;<span>{{
               i18n("system.flex.starHorseFlexComp.tab.item")
             }}</span>
           </template>
           <sh-form
-            v-model:dataForm="itemDataForm"
-            :label-width="'auto'"
-            :size="compSize"
-            :label-position="'top'"
+              v-model:dataForm="itemDataForm"
+              :label-width="'auto'"
+              :size="compSize"
+              :label-position="'top'"
           >
             <el-collapse
-              v-model="itemCollapse"
-              :expand-icon-position="'left'"
-              style="background: #1d2129 !important"
+                v-model="itemCollapse"
+                :expand-icon-position="'left'"
+                style="background: #1d2129 !important"
             >
               <el-collapse-item name="item">
                 <template #title>
@@ -745,9 +745,9 @@ watch(
                 </template>
 
                 <StarHorseFormItem
-                  :fieldList="itemConfig"
-                  :compSize="compSize"
-                  v-model:dataForm="itemDataForm"
+                    :fieldList="itemConfig"
+                    :compSize="compSize"
+                    v-model:dataForm="itemDataForm"
                 />
               </el-collapse-item>
               <el-collapse-item name="position">
@@ -759,8 +759,8 @@ watch(
                   </div>
                 </template>
                 <page-position
-                  v-model:dataForm="itemDataForm"
-                  :compSize="compSize"
+                    v-model:dataForm="itemDataForm"
+                    :compSize="compSize"
                 />
               </el-collapse-item>
               <el-collapse-item name="background">
@@ -774,8 +774,8 @@ watch(
                   </div>
                 </template>
                 <page-background
-                  v-model:dataForm="itemDataForm"
-                  :compSize="compSize"
+                    v-model:dataForm="itemDataForm"
+                    :compSize="compSize"
                 />
               </el-collapse-item>
               <el-collapse-item name="font">
@@ -787,8 +787,8 @@ watch(
                   </div>
                 </template>
                 <page-font
-                  v-model:dataForm="itemDataForm"
-                  :compSize="compSize"
+                    v-model:dataForm="itemDataForm"
+                    :compSize="compSize"
                 />
               </el-collapse-item>
             </el-collapse>
@@ -797,16 +797,16 @@ watch(
         <el-tab-pane key="compPreps" name="compPreps">
           <template #label>
             <star-horse-icon
-              icon-class="preps"
-              style="color: var(--star-horse-style)"
+                icon-class="preps"
+                style="color: var(--star-horse-style)"
             />&nbsp;<span>{{
               i18n("system.flex.starHorseFlexComp.tab.componentProperties")
             }}</span>
           </template>
           <div class="properties-container w-full h-full">
             <PageItemProperties
-              :itemId="currentId"
-              :componentId="selectedComponentId"
+                :itemId="currentId"
+                :componentId="selectedComponentId"
             />
           </div>
         </el-tab-pane>
@@ -816,42 +816,42 @@ watch(
 
   <!-- Save Dialog -->
   <FlexSaveDialog
-    :dialogVisible="saveDialogVisible"
-    :designName="currentDesignName"
-    :designDescription="currentDesignDescription"
-    :designId="currentDesignId"
-    :isEdit="!!currentDesignId"
-    @closeDialog="saveDialogVisible = false"
-    @saved="handleSaved"
+      :dialogVisible="saveDialogVisible"
+      :designName="currentDesignName"
+      :designDescription="currentDesignDescription"
+      :designId="currentDesignId"
+      :isEdit="!!currentDesignId"
+      @closeDialog="saveDialogVisible = false"
+      @saved="handleSaved"
   />
 
   <!-- Preview Dialog -->
   <FlexPreviewDialog
-    :dialogVisible="previewDialogVisible"
-    :designName="currentDesignName"
-    :flexModel="flexModel"
-    :containerDataForm="containerDataForm"
-    :designDescription="currentDesignDescription"
-    @closeDialog="previewDialogVisible = false"
-    @saveTemplate="handleSaveTemplate"
+      :dialogVisible="previewDialogVisible"
+      :designName="currentDesignName"
+      :flexModel="flexModel"
+      :containerDataForm="containerDataForm"
+      :designDescription="currentDesignDescription"
+      @closeDialog="previewDialogVisible = false"
+      @saveTemplate="handleSaveTemplate"
   />
 
   <!-- Share Dialog -->
   <FlexShareDialog
-    :dialogVisible="shareDialogVisible"
-    :designName="currentDesignName"
-    :designDescription="currentDesignDescription"
-    @closeDialog="shareDialogVisible = false"
-    @shared="handleShared"
+      :dialogVisible="shareDialogVisible"
+      :designName="currentDesignName"
+      :designDescription="currentDesignDescription"
+      @closeDialog="shareDialogVisible = false"
+      @shared="handleShared"
   />
 
   <!-- Publish Dialog -->
   <FlexPublishDialog
-    :dialogVisible="publishDialogVisible"
-    :designName="currentDesignName"
-    :designDescription="currentDesignDescription"
-    @closeDialog="publishDialogVisible = false"
-    @published="handlePublished"
+      :dialogVisible="publishDialogVisible"
+      :designName="currentDesignName"
+      :designDescription="currentDesignDescription"
+      @closeDialog="publishDialogVisible = false"
+      @published="handlePublished"
   />
 </template>
 <style lang="scss" scoped>

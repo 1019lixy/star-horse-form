@@ -1,5 +1,6 @@
 import { PageFieldInfo } from "star-horse-lowcode";
 import { i18n } from "@/lang";
+import {unitList} from "@/utils/sh_design.js";
 
 export const flexBoxItemsConfig: PageFieldInfo = {
   fieldList: [
@@ -43,20 +44,7 @@ export const flexBoxItemsConfig: PageFieldInfo = {
       helpMsg: i18n("system.flexbox.itemsConfig.flexBasis.helpMsg"),
       preps: {
         icon: "",
-        appendList: [
-          {
-            name: i18n("system.flexbox.itemsConfig.flexBasis.auto"),
-            value: "auto",
-          },
-          {
-            name: i18n("system.flexbox.itemsConfig.flexBasis.pixel"),
-            value: "px",
-          },
-          {
-            name: i18n("system.flexbox.itemsConfig.flexBasis.percent"),
-            value: "%",
-          },
-        ],
+        appendList:unitList,
       },
       type: "input",
       defaultValue: "auto",
@@ -107,17 +95,7 @@ export const flexBoxItemsConfig: PageFieldInfo = {
       defaultValue: "auto",
       preps: {
         icon: "",
-        appendList: [
-          {
-            name: i18n("system.flexbox.itemsConfig.width.auto"),
-            value: "auto",
-          },
-          { name: i18n("system.flexbox.itemsConfig.width.pixel"), value: "px" },
-          {
-            name: i18n("system.flexbox.itemsConfig.width.percent"),
-            value: "%",
-          },
-        ],
+        appendList: unitList,
       },
     },
     {
@@ -129,20 +107,7 @@ export const flexBoxItemsConfig: PageFieldInfo = {
       defaultValue: "auto",
       preps: {
         icon: "",
-        appendList: [
-          {
-            name: i18n("system.flexbox.itemsConfig.height.auto"),
-            value: "auto",
-          },
-          {
-            name: i18n("system.flexbox.itemsConfig.height.pixel"),
-            value: "px",
-          },
-          {
-            name: i18n("system.flexbox.itemsConfig.height.percent"),
-            value: "%",
-          },
-        ],
+        appendList: unitList,
       },
     },
   ],
