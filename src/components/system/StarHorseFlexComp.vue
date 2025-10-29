@@ -37,7 +37,7 @@ import {
   useGlobalConfigStore,
   uuid,
 } from "star-horse-lowcode";
-import {computed, defineOptions, onMounted, onUnmounted, ref, watch,} from "vue";
+import {computed, defineOptions, nextTick, onMounted, onUnmounted, ref, watch} from "vue";
 import {i18n} from "@/lang";
 import StarHorseRuler from "./StarHorseRuler.vue";
 import {useRouter} from "vue-router";
@@ -60,6 +60,7 @@ const itemCollapse = ref<string>("item");
 const containerDataForm = ref<any>({
   backgroundColor: "rgb(255,255,255)",
   fontColor: "rgb(0,0,0)",
+  width: "100%"
 });
 const itemDataForm = ref<any>({});
 const compDataForm = ref<any>({});
@@ -187,6 +188,7 @@ const layoutOperation = (item: Layout) => {
   const container = item.layout.container;
   const tempContainerInfo = JSON.parse(JSON.stringify(container));
   tempContainerInfo["minWidth"] = "auto";
+  tempContainerInfo["height"] = "100%";
   tempContainerInfo["backgroundColor"] = "rgb(255,255,255)";
   tempContainerInfo["color"] = "rgb(0,0,0)";
 
@@ -426,7 +428,7 @@ watch(
     </el-splitter-panel>
     <el-splitter-panel>
       <div
-          class="flex flex-col w-[99%] h-full relative"
+          class="flex flex-col w-full h-full relative"
           style="margin: 0 auto; background: #86909c"
       >
         <div

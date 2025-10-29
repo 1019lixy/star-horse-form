@@ -244,6 +244,7 @@ onMounted(() => {
 <style lang="scss" scoped>
 .item-width {
   width: 100% !important;
+  max-width: 100%;
 }
 
 .item-info {
@@ -252,20 +253,15 @@ onMounted(() => {
   cursor: pointer;
   min-width: 7rem;
   min-height: 5.5rem;
-  max-width: 100%;
-  width: inherit;
+  box-sizing: border-box;
   background: #fefefe;
-  /*   margin: 0 auto; */
   border: 3px solid var(--star-horse-style);
   position: relative;
   overflow: hidden;
   transition:
     background 0.3s ease,
     box-shadow 0.3s ease;
-  // Fix the width to prevent changes when adding new components
-  box-sizing: content-box;
   flex-shrink: 1;
-  // Selection watermark background
   &.item-selected {
     background-image:
       radial-gradient(

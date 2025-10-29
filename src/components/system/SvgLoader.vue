@@ -15,9 +15,15 @@ const props = defineProps({
 const svgContainer = ref(null);
 const loadSvg = async () => {
   const path = props.path.endsWith(".svg") ? props.path : `${props.path}.svg`;
-  console.log(path);
-  const response = await fetch(path);
+  let svgPath = path;
+  // 修复路径：如果是public目录下的文件，需要正确构建URL
+  if (!path.startsWith("http") && !path.startsWith("/")) {
+    // 如果是相对路径，假设是public目录下的文件
+    svgPath = `/${path}`;
+  }
+  const response = await fetch(svgPath);
   let svgText = await response.text();
+  console.log(svgText);
   // svgText = svgText.replace(/fill="[^"]*"/g, 'fill="currentColor"');
   svgContainer.value.innerHTML = svgText;
 };
