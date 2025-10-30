@@ -1,13 +1,5 @@
 <script setup lang="ts" name="FormPropertyPanel">
-import {
-  computed,
-  onActivated,
-  onMounted,
-  onUpdated,
-  reactive,
-  ref,
-  watch,
-} from "vue";
+import {computed, onActivated, onMounted, reactive, ref, watch,} from "vue";
 import {
   apiInstance,
   ApiUrls,
@@ -21,18 +13,12 @@ import {
   useDesignFormStore,
   warning,
 } from "star-horse-lowcode";
-import { Config } from "@/api/settings";
-import { loadDict, permissionMenus } from "@/api/star_horse_apis";
-import {
-  dbConfigList,
-  loadElementPlusIcon,
-  loadRolesInfo,
-  loadSvgIcons,
-  loadSystemInfo,
-} from "@/api/star_horse_utils";
-import { ascOrDesc, commonField, httpMethod } from "@/api/system";
-import { ServiceEnums } from "@/components/enums/ServiceEnums.js";
-import { getUserInfo } from "@/utils/auth.js";
+import {Config} from "@/api/settings";
+import {loadDict, permissionMenus} from "@/api/star_horse_apis";
+import {dbConfigList, loadElementPlusIcon, loadRolesInfo, loadSvgIcons, loadSystemInfo,} from "@/api/star_horse_utils";
+import {ascOrDesc, commonField, httpMethod} from "@/api/system";
+import {ServiceEnums} from "@/components/enums/ServiceEnums.js";
+import {getUserInfo} from "@/utils/auth.js";
 
 const apiUrl: ApiUrls = apiInstance("userdb-manage", "userdb/dynamicForm");
 let designForm = useDesignFormStore(piniaInstance);
@@ -42,27 +28,27 @@ let dbList = ref<any>([]);
 let systemIconList = ref<SelectOption[]>([]);
 let relationDataList = ref<Array<SelectOption>>([]);
 let relationTypeList = ref<Array<SelectOption>>([
-  { name: "一对一", value: "11" },
-  { name: "一对多", value: "1n" },
-  { name: "多对一", value: "n1" },
-  { name: "多对多", value: "mn" },
+  {name: "一对一", value: "11"},
+  {name: "一对多", value: "1n"},
+  {name: "多对一", value: "n1"},
+  {name: "多对多", value: "mn"},
 ]);
 let dataSourceData = ref<any>();
 let primaryKeyPolicyList = ref<SelectOption[]>([]);
 let pageStyleList = ref<SelectOption[]>([]);
 let requireAsteriskPositionList = ref<SelectOption[]>([
-  { name: "左", value: "left" },
-  { name: "右", value: "right" },
+  {name: "左", value: "left"},
+  {name: "右", value: "right"},
 ]);
 let labelPositionList = ref<SelectOption[]>([
-  { name: "左", value: "left" },
-  { name: "右", value: "right" },
-  { name: "顶部", value: "top" },
+  {name: "左", value: "left"},
+  {name: "右", value: "right"},
+  {name: "顶部", value: "top"},
 ]);
 let formSizeList = ref<SelectOption[]>([
-  { name: "大", value: "large" },
-  { name: "中", value: "default" },
-  { name: "小", value: "small" },
+  {name: "大", value: "large"},
+  {name: "中", value: "default"},
+  {name: "小", value: "small"},
 ]);
 let dataLoadConditionList = ref<SelectOption[]>([]);
 let dynamicFieldList = ref<SelectOption[]>([]);
@@ -654,7 +640,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
                   fieldName: "displayAliasField",
 
                   helpMsg:
-                    "关联字段与主表字段冲突时配置,\n必须以字母开头不能有特殊符号",
+                      "关联字段与主表字段冲突时配置,\n必须以字母开头不能有特殊符号",
                   formVisible: true,
                   rules: [
                     {
@@ -718,9 +704,9 @@ const tableFieldList = reactive<PageFieldInfo | any>({
                     actions: {
                       change: (val: any) => {
                         urlFieldVisible.value =
-                          val["eventType"] && val["eventType"] != "dialog";
+                            val["eventType"] && val["eventType"] != "dialog";
                         httpMethodVisible.value =
-                          val["eventType"] && val["eventType"] == "interface";
+                            val["eventType"] && val["eventType"] == "interface";
                       },
                     },
                     preps: {
@@ -733,7 +719,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
                     label: "请求地址",
                     fieldName: "content",
                     helpMsg:
-                      "请求接口：填写接口地址， 例如：/userdb-manage/xx/xx/xx;\n页面跳转：填写前端路由，例如：/test/UserInfo;\n弹窗：填写弹窗组件名称，例如：UserInfo。",
+                        "请求接口：填写接口地址， 例如：/userdb-manage/xx/xx/xx;\n页面跳转：填写前端路由，例如：/test/UserInfo;\n弹窗：填写弹窗组件名称，例如：UserInfo。",
                     required: true,
                     formVisible: true,
                     preps: {
@@ -812,10 +798,10 @@ const initDbList = async () => {
   dbList.value = await dbConfigList();
 };
 const initData = async () => {
-  let params = [{ propertyName: "statusCode", value: "1" }];
+  let params = [{propertyName: "statusCode", value: "1"}];
   informationsList.value = await loadSystemInfo(
-    params,
-    `${ServiceEnums.SYSTEM_PREFIX}informations/getUserSystem/${getUserInfo()?.idUsersinfo}`,
+      params,
+      `${ServiceEnums.SYSTEM_PREFIX}informations/getUserSystem/${getUserInfo()?.idUsersinfo}`,
   );
   systemIconList.value = loadElementPlusIcon();
   loadDict("page_style").then((res: any) => {
@@ -836,8 +822,8 @@ const initData = async () => {
 };
 const analysisDynamicFields = async (formInfo: any) => {
   let reData = await loadData(
-    apiUrl.basePrefix + "/analysisDynamicDatasourceFields",
-    formInfo,
+      apiUrl.basePrefix + "/analysisDynamicDatasourceFields",
+      formInfo,
   );
   if (reData.error) {
     // warning(reData.error);
@@ -859,7 +845,7 @@ const analysisMainFields = async () => {
   allTableFieldList.value = [
     ...mainTableFieldList.value,
     ...commonField().map((item: any) => {
-      return { name: item.label, value: item.fieldName };
+      return {name: item.label, value: item.fieldName};
     }),
   ];
   if (formInfo.value?.needCommonFields == "Y") {
@@ -873,11 +859,11 @@ const loadSameDataSourceTables = (formInfo: any) => {
   formInfo["relations"] = [];
   currentDataSourceId.value = formInfo["datasourceConfigId"];
   params.push(
-    createCondition(
-      "datasourceConfigId",
-      formInfo["datasourceConfigId"] || null,
-      formInfo["datasourceConfigId"] ? "eq" : "is",
-    ),
+      createCondition(
+          "datasourceConfigId",
+          formInfo["datasourceConfigId"] || null,
+          formInfo["datasourceConfigId"] ? "eq" : "is",
+      ),
   );
   postRequest(apiUrl.listConditionUrl!, {
     fieldList: params,
@@ -909,7 +895,7 @@ const loadTableColumns = (tbName: any) => {
   }
   tableColumnsList.value = [];
   getRequest(
-    `/userdb-manage/dbsearch/dbinfo/tableColumns/${currentDataSourceId.value}/${tbName}`,
+      `/userdb-manage/dbsearch/dbinfo/tableColumns/${currentDataSourceId.value}/${tbName}`,
   ).then((res: any) => {
     if (res.data.code != 0) {
       return;
@@ -926,7 +912,8 @@ const loadTableColumns = (tbName: any) => {
 /**
  * 表单更新的时候，更新表单的属性
  */
-const updateCompInfo = () => {};
+const updateCompInfo = () => {
+};
 const getFormData = () => {
   return dynamicFormItemRef.value.getFormData();
 };
@@ -941,14 +928,14 @@ onActivated(() => {
 });
 
 watch(
-  () => formInfo.value,
-  () => {
-    updateCompInfo();
-  },
-  {
-    immediate: true,
-    deep: true,
-  },
+    () => formInfo.value,
+    () => {
+      updateCompInfo();
+    },
+    {
+      immediate: true,
+      deep: true,
+    },
 );
 defineExpose({
   loadMenus,
@@ -963,9 +950,9 @@ defineExpose({
 </style>
 <template>
   <star-horse-form
-    label-position="right"
-    :outerFormData="formInfo"
-    :fieldList="tableFieldList"
-    ref="dynamicFormItemRef"
+      label-position="right"
+      :outerFormData="formInfo"
+      :fieldList="tableFieldList"
+      ref="dynamicFormItemRef"
   />
 </template>

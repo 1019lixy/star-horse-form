@@ -13,16 +13,23 @@ export const pageCompList: PageComp[] = [
         label: i18n("system.flex.layoutcomp.table"),
         name: "ptable",
         icon: "table",
-        preps: {
+        styles: {
           width: 100,
           height: 100,
         },
+        preps:{
+
+        }
       },
       {
         id: "2",
         label: i18n("system.flex.layoutcomp.pagination"),
         name: "ppagebar",
         icon: "pagebar",
+        styles: {
+          width: 100,
+          height: 40,
+        },
         preps: {
           layout: "prev,pager,next",
           total: 1000,
@@ -33,6 +40,10 @@ export const pageCompList: PageComp[] = [
         label: i18n("system.flex.layoutcomp.image"),
         name: "pimage",
         icon: "image",
+        styles: {
+          width: 100,
+          height: 100,
+        },
         preps: {},
       },
       {
@@ -40,6 +51,10 @@ export const pageCompList: PageComp[] = [
         label: i18n("system.flex.layoutcomp.carousel"),
         name: "pcarousel",
         icon: "carousel",
+        styles: {
+          width: 100,
+          height: 100,
+        },
         preps: {},
       },
       {
@@ -47,6 +62,10 @@ export const pageCompList: PageComp[] = [
         label: i18n("system.flex.layoutcomp.calendar"),
         name: "pcalendar",
         icon: "calendar",
+        styles: {
+          width: 100,
+          height: 100,
+        },
         preps: {},
       },
       {
@@ -54,6 +73,10 @@ export const pageCompList: PageComp[] = [
         label: i18n("system.flex.layoutcomp.splitter"),
         name: "psplitter",
         icon: "splitter",
+        styles: {
+          width: 100,
+          height: 100,
+        },
         preps: {},
       },
       {
@@ -61,6 +84,10 @@ export const pageCompList: PageComp[] = [
         label: i18n("system.flex.layoutcomp.statistic"),
         name: "pstatistic",
         icon: "statistic",
+        styles: {
+          width: 100,
+          height: 100,
+        },
         preps: {},
       },
       {
@@ -75,6 +102,10 @@ export const pageCompList: PageComp[] = [
         label: i18n("system.flex.layoutcomp.menu"),
         name: "pmenubar",
         icon: "menu",
+        styles: {
+          width: 100,
+          height: 50,
+        },
         preps: {},
       },
       {
@@ -82,6 +113,10 @@ export const pageCompList: PageComp[] = [
         label: i18n("system.flex.layoutcomp.steps"),
         name: "psteps",
         icon: "steps",
+        styles: {
+          width: 100,
+          height: 100,
+        },
         preps: {},
       },
       {
@@ -89,6 +124,10 @@ export const pageCompList: PageComp[] = [
         label: i18n("system.flex.layoutcomp.timeline"),
         name: "ptimeline",
         icon: "timeline",
+        styles: {
+          width: 100,
+          height: 100,
+        },
         preps: {},
       },
       {
@@ -96,6 +135,10 @@ export const pageCompList: PageComp[] = [
         label: i18n("system.flex.layoutcomp.form"),
         name: "pform",
         icon: "form",
+        styles: {
+          width: 100,
+          height: 100,
+        },
         preps: {},
       },
       {
@@ -103,6 +146,10 @@ export const pageCompList: PageComp[] = [
         label: i18n("system.flex.layoutcomp.banner"),
         name: "pbanner",
         icon: "banner",
+        styles: {
+          width: 100,
+          height: 100,
+        },
         preps: {},
       },
       {
@@ -110,6 +157,10 @@ export const pageCompList: PageComp[] = [
         label: i18n("system.flex.layoutcomp.card"),
         name: "pcard",
         icon: "card",
+        styles: {
+          width: 100,
+          height: 100,
+        },
         preps: {},
       },
       {
@@ -117,6 +168,10 @@ export const pageCompList: PageComp[] = [
         label: i18n("system.flex.layoutcomp.content"),
         name: "pcontent",
         icon: "content",
+        styles: {
+          width: 100,
+          height: 100,
+        },
         preps: {},
       },
       {
@@ -124,6 +179,10 @@ export const pageCompList: PageComp[] = [
         label: i18n("system.flex.layoutcomp.copyright"),
         name: "pcopyright",
         icon: "copyright",
+        styles: {
+          width: 100,
+          height: 40,
+        },
         preps: {},
       },
       {
@@ -131,6 +190,10 @@ export const pageCompList: PageComp[] = [
         label: i18n("system.flex.layoutcomp.hmenu"),
         name: "phmenu",
         icon: "hmenu",
+        styles: {
+          width: 100,
+          height: 100,
+        },
         preps: {},
       },
       {
@@ -138,6 +201,10 @@ export const pageCompList: PageComp[] = [
         label: i18n("system.flex.layoutcomp.link"),
         name: "plink",
         icon: "links",
+        styles: {
+          width: 100,
+          height: 40,
+        },
         preps: {},
       },
       {
@@ -145,6 +212,10 @@ export const pageCompList: PageComp[] = [
         label: i18n("system.flex.layoutcomp.logo"),
         name: "plogo",
         icon: "logo",
+        styles: {
+          width: 100,
+          height: 100,
+        },
         preps: {},
       },
       {
@@ -152,6 +223,10 @@ export const pageCompList: PageComp[] = [
         label: i18n("system.flex.layoutcomp.navbar"),
         name: "pnavbar",
         icon: "navbar",
+        styles: {
+          width: 100,
+          height: 100,
+        },
         preps: {},
       },
       {

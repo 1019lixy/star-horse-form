@@ -1,24 +1,19 @@
 <script setup lang="ts">
-import { useFlexDesignStore } from "@/store/FlexDesign";
-import { piniaInstance, uuid } from "star-horse-lowcode";
-import { computed, defineOptions, onBeforeUnmount, onMounted, ref } from "vue";
-import {
-  dynamicFormContextMenuData,
-  dynamicPageContextMenuData,
-} from "@/plugins/AblesPlugin.ts";
-import { bringToFront, sendToBack } from "@/utils/ZIndexManager";
-import { i18n } from "@/lang";
+import {useFlexDesignStore} from "@/store/FlexDesign";
+import {DynamicNode, piniaInstance, uuid} from "star-horse-lowcode";
+import {computed, defineOptions, onBeforeUnmount, onMounted, ref} from "vue";
+import {i18n} from "@/lang";
 
 defineOptions({
   name: "FlexItem",
 });
 const props = defineProps({
-  itemId: { type: String, required: true },
-  type: { type: String, default: "flex" },
-  direction: { type: String, default: "row" },
-  previewMode: { type: Boolean, default: false }, // Add previewMode prop
+  itemId: {type: String, required: true},
+  type: {type: String, default: "flex"},
+  direction: {type: String, default: "row"},
+  previewMode: {type: Boolean, default: false}, // Add previewMode prop
 });
-const emit = defineEmits(["selectItem", "selectComponent"]);
+const emits = defineEmits(["contextAction", "selectItem", "selectComponent"]);
 const flexDesign = useFlexDesignStore(piniaInstance);
 const itemStyle = computed(() => flexDesign.getItem(props.itemId));
 const compList = computed(() => flexDesign.getComp(props.itemId));
@@ -28,13 +23,12 @@ const containerDirection = computed(() => flexDesign.getContainerDirection());
 
 // Add reactive variable to track selected component
 const selectedComponentId = ref<string>("");
-const currentContentMenu = ref<any>([]);
 
 // Only allow selection if not in preview mode
 const selectItem = () => {
   if (!props.previewMode) {
     flexDesign.setCurrentItem(props.itemId);
-    emit("selectItem", props.itemId);
+    emits("selectItem", props.itemId);
   }
 };
 
@@ -45,7 +39,7 @@ const selectComponent = (componentId: string) => {
     flexDesign.setCurrentItem(props.itemId);
     // emit("selectItem", props.itemId);
     // Also emit a specific event for component selection
-    emit("selectComponent", props.itemId, componentId);
+    emits("selectComponent", props.itemId, componentId);
     // Set the selected component ID for highlighting
     selectedComponentId.value = componentId;
   }
@@ -62,20 +56,6 @@ const deleteItem = () => {
   }
 };
 
-// Show context menu for item
-const showContextMenu = (event: MouseEvent) => {
-  if (props.previewMode) return;
-  event.preventDefault();
-  currentContentMenu.value = dynamicPageContextMenuData(itemStyle.value);
-  contentMenuRef.value?.show(event);
-};
-
-const contentMenuRef = ref();
-const showComponentContextMenu = (event: MouseEvent, compData: any) => {
-  if (props.previewMode) return;
-  currentContentMenu.value = dynamicFormContextMenuData({}, {});
-  contentMenuRef.value?.show(event);
-};
 
 const onDragAdd = (evt: any, list: any[]) => {
   if (!props.previewMode) {
@@ -136,25 +116,25 @@ const removeListener = () => {
   document.removeEventListener("mouseup", stopResize);
 };
 
-// Function to bring component to front (z-index management)
-const onBringToFront = (componentId: string) => {
-  if (!props.previewMode) {
-    bringToFront(compList.value, componentId);
+const contextAction = (actionName: string, item: DynamicNode) => {
+  if (actionName == "toTop") {
+    if (!item.styles) {
+      item.styles = {};
+    }
+    //获取compList.value中 zIndex 最大的值
+    const maxZIndex = Math.max(...compList.value.map((comp: DynamicNode) => comp.styles?.zIndex || 0));
+    item.styles.zIndex = maxZIndex + 1;
+  } else if (actionName == "delete") {
+    compList.value.splice(compList.value.findIndex((comp: DynamicNode) => comp.id == item.id), 1);
   }
+  emits("contextAction", actionName, item);
 };
-
-// Function to send component to back (z-index management)
-const onSendToBack = (componentId: string) => {
-  if (!props.previewMode) {
-    sendToBack(compList.value, componentId);
-  }
-};
-
 onBeforeUnmount(() => {
   removeListener();
 });
 
-const init = () => {};
+const init = () => {
+};
 onMounted(() => {
   init();
 });
@@ -162,12 +142,11 @@ onMounted(() => {
 
 <template>
   <div
-    :style="itemStyle"
-    @click.stop="selectItem"
-    @contextmenu.stop="showContextMenu"
-    class="item-info"
-    ref="resizeContainer"
-    :class="{
+      :style="itemStyle"
+      @click.stop="selectItem"
+      class="item-info"
+      ref="resizeContainer"
+      :class="{
       'w-full': type == 'grid',
       'item-width': containerDirection.includes('column'),
       'preview-mode': previewMode,
@@ -175,71 +154,63 @@ onMounted(() => {
     }"
   >
     <div class="absolute top-1 right-1 z-10 flex gap-1" v-if="!previewMode">
-      <!--  <div v-if="currentId == itemId"
-        class="flex items-center justify-center w-5 h-5 rounded-sm bg-white border border-green-500">
-        <star-horse-icon iconClass="check" :color="'var(--star-horse-style)'"
-          title="选中" class="text-xs" />
-      </div> -->
+
       <div class="flex items-center justify-center" @click.stop="deleteItem">
         <star-horse-icon
-          iconClass="delete"
-          :color="'var(--star-horse-danger)'"
-          :title="i18n('system.delete')"
-          class="text-xs"
+            iconClass="delete"
+            :color="'var(--star-horse-danger)'"
+            :title="i18n('system.delete')"
+            class="text-xs"
         />
       </div>
     </div>
 
     <div
-      class="resize-handle right"
-      @mousedown.prevent="startResize('right', $event)"
-      v-if="!previewMode"
+        class="resize-handle right"
+        @mousedown.prevent="startResize('right', $event)"
+        v-if="!previewMode"
     />
     <div
-      class="resize-handle bottom"
-      @mousedown.prevent="startResize('bottom', $event)"
-      v-if="!previewMode"
+        class="resize-handle bottom"
+        @mousedown.prevent="startResize('bottom', $event)"
+        v-if="!previewMode"
     />
 
-    <div
-      class="relative flex flex-col h-full w-full overflow-hidden min-w-0 max-w-full"
-    >
+    <div class="relative flex flex-col h-full w-full overflow-hidden min-w-0 max-w-full">
       <draggable
-        @add="(evt: Event) => onDragAdd(evt, compList)"
-        class="w-full h-full min-w-[0] relative"
-        tag="div"
-        group="starHorseGroup"
-        ghost-class="ghost"
-        :list="compList"
-        :itemKey="uuid()"
-        :disabled="previewMode"
+          @add="(evt: Event) => onDragAdd(evt, compList)"
+          class="w-full h-full min-w-[0] relative"
+          tag="div"
+          group="starHorseGroup"
+          ghost-class="ghost"
+          :list="compList"
+          :itemKey="uuid()"
+          :disabled="previewMode"
       >
         <template #item="{ element: data, index }">
           <StarHorseDraggable
-            :key="data.id"
-            :node="data"
-            :isDesign="!previewMode"
-            :isActive="selectedComponentId == data.id && !previewMode"
-            @selectNode="selectNode"
+              :key="data.id"
+              :node="data"
+              :isDesign="!previewMode"
+              :isActive="selectedComponentId == data.id && !previewMode"
+              @contextAction="contextAction"
+              @selectNode="selectNode"
           >
             <component
-              :key="data.id"
-              :field="data"
-              :isDesign="!previewMode"
-              :index-of-parent-list="index"
-              :is="data.name + '-item'"
-              :preps="data.preps"
-              :styles="data.styles || {}"
-              style="min-width: 0; width: 100%"
+                :key="data.id"
+                :field="data"
+                :isDesign="!previewMode"
+                :index-of-parent-list="index"
+                :is="data.name + '-item'"
+                :preps="data.preps"
+                :styles="data.styles || {}"
+                style="min-width: 0; width: 100%"
             />
           </StarHorseDraggable>
         </template>
       </draggable>
     </div>
   </div>
-  <Teleport to="body">
-    <ContentMenu ref="contentMenuRef" :menu-data="currentContentMenu" />
-  </Teleport>
 </template>
 <style lang="scss" scoped>
 .item-width {
@@ -258,38 +229,36 @@ onMounted(() => {
   border: 3px solid var(--star-horse-style);
   position: relative;
   overflow: hidden;
-  transition:
-    background 0.3s ease,
-    box-shadow 0.3s ease;
+  transition: background 0.3s ease,
+  box-shadow 0.3s ease;
   flex-shrink: 1;
+
   &.item-selected {
-    background-image:
-      radial-gradient(
-        circle at 100% 100%,
-        rgba(64, 158, 255, 0.1) 15%,
-        transparent 15.5%
-      ),
-      radial-gradient(
-        circle at 0 100%,
-        rgba(64, 158, 255, 0.1) 15%,
-        transparent 15.5%
-      ),
-      radial-gradient(
-        circle at 100% 0,
-        rgba(64, 158, 255, 0.1) 15%,
-        transparent 15.5%
-      ),
-      radial-gradient(
-        circle at 0 0,
-        rgba(64, 158, 255, 0.1) 15%,
-        transparent 15.5%
-      );
+    background-image: radial-gradient(
+            circle at 100% 100%,
+            rgba(64, 158, 255, 0.1) 15%,
+            transparent 15.5%
+    ),
+    radial-gradient(
+            circle at 0 100%,
+            rgba(64, 158, 255, 0.1) 15%,
+            transparent 15.5%
+    ),
+    radial-gradient(
+            circle at 100% 0,
+            rgba(64, 158, 255, 0.1) 15%,
+            transparent 15.5%
+    ),
+    radial-gradient(
+            circle at 0 0,
+            rgba(64, 158, 255, 0.1) 15%,
+            transparent 15.5%
+    );
     background-size: 10px 10px;
-    background-position:
-      1px 1px,
-      1px 1px,
-      1px 1px,
-      1px 1px;
+    background-position: 1px 1px,
+    1px 1px,
+    1px 1px,
+    1px 1px;
   }
 
   // In preview mode, remove interactive styles
@@ -314,9 +283,8 @@ onMounted(() => {
     z-index: 20;
     background: rgba(105, 97, 97, 0.8);
     border-radius: 3px;
-    box-shadow:
-      0 0 4px rgba(0, 0, 0, 0.1),
-      inset 0 0 4px rgba(255, 255, 255, 0.8);
+    box-shadow: 0 0 4px rgba(0, 0, 0, 0.1),
+    inset 0 0 4px rgba(255, 255, 255, 0.8);
     transition: all 0.2s ease;
 
     &:hover {

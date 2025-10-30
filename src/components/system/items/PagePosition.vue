@@ -14,6 +14,7 @@ const data: ModelRef<any> = defineModel("dataForm");
 </script>
 
 <template>
+
   <div class="row">
     <el-form-item :label="i18n('system.flex.pagePosition.label.x')" prop="left">
       <el-input

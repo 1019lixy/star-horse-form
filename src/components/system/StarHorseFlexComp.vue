@@ -1,11 +1,5 @@
 <script setup lang="ts">
-import {
-  type FlexDesignData,
-  loadFlexDesign,
-  type PublishResult,
-  saveFlexDesign,
-  type ShareResult,
-} from "@/api/flexDesign";
+import {type FlexDesignData, type PublishResult, saveFlexDesign, type ShareResult,} from "@/api/flexDesign";
 import pageItemsComponent from "@/components/formcomp/pageitems/allPageItem";
 import FlexPreviewDialog from "@/components/system/dialogs/FlexPreviewDialog.vue";
 import FlexPublishDialog from "@/components/system/dialogs/FlexPublishDialog.vue";
@@ -53,6 +47,7 @@ let compSize = computed(
 );
 const positionList = computed(() => flexDesign.getPositionList());
 const currentId = computed(() => flexDesign.getCurrentItem());
+const containerInfo = computed(() => flexDesign.getContainerInfo());
 const tabModel = ref<string>("template");
 const editTabModel = ref<string>("container");
 const containerCollapse = ref<string>("container");
@@ -63,7 +58,6 @@ const containerDataForm = ref<any>({
   width: "100%"
 });
 const itemDataForm = ref<any>({});
-const compDataForm = ref<any>({});
 const containerConfig = ref<PageFieldInfo>({});
 const itemConfig = ref<PageFieldInfo>({});
 const layoutConfig = ref<Layout[]>([]);
@@ -71,7 +65,6 @@ const flexModel = ref<string>("flex");
 const needInfiniteViewer = ref<boolean>(true);
 const hideRuler = ref<boolean>(false);
 const isFullscreen = ref(false);
-// Add this new ref for tracking selected component
 const selectedComponentId = ref<string>("");
 const directions = ["column", "row-reverse", "column-reverse", "row"];
 
@@ -115,39 +108,21 @@ const mainAxisDirection = () => {
 const selectItem = (itemId: string) => {
   itemDataForm.value = flexDesign.getItem(itemId);
   editTabModel.value = "item";
-  // Reset selected component when selecting a different item
   selectedComponentId.value = "";
 };
 
-// Add this new function to handle component selection within an item
 const selectComponent = (itemId: string, componentId: string) => {
-  // Select the item first
   selectItem(itemId);
-  // Set the selected component ID
   selectedComponentId.value = componentId;
-  // Then switch to the component properties tab
   editTabModel.value = "compPreps";
 };
 
-// Add this new function to handle when no item is selected (container is clicked)
 const selectContainer = () => {
-  // Clear the item data form when container is selected
   itemDataForm.value = {};
   editTabModel.value = "container";
-  // Reset selected component when selecting container
   selectedComponentId.value = "";
 };
 
-const addComp = () => {
-  flexDesign.addComp(currentId.value, {
-    id: uuid(),
-    type: "input",
-    label: i18n("system.flex.starHorseFlexComp.inputBox"),
-    formVisible: true,
-    fieldName: "name",
-    itemType: "item",
-  });
-};
 /**
  * Initialize
  */
@@ -164,6 +139,7 @@ const flexChange = (val: string) => {
   containerConfig.value = {};
   itemConfig.value = {};
   layoutConfig.value = [];
+  containerInfo.value.containerType = val;
   //解决切换后的组件显示异常问题
   nextTick(() => {
     if (val == "flex") {
@@ -191,13 +167,13 @@ const layoutOperation = (item: Layout) => {
   tempContainerInfo["height"] = "100%";
   tempContainerInfo["backgroundColor"] = "rgb(255,255,255)";
   tempContainerInfo["color"] = "rgb(0,0,0)";
-
-  flexDesign.setContainerInfo(tempContainerInfo);
+  containerInfo.value.containerContent = tempContainerInfo;
+  containerInfo.value.containerName = item.name;
+  // flexDesign.setContainerContent(tempContainerInfo);
   containerDataForm.value = tempContainerInfo;
   const items = item.layout.items;
   const tempItems = JSON.parse(JSON.stringify(items));
   tempItems.forEach((item: any) => {
-    // item.styles["minWidth"] = "auto";
     item.styles["overflow"] = "hidden";
   });
   flexDesign.batchAddItems(tempItems);
@@ -213,7 +189,6 @@ const saveData = () => {
 };
 
 const preview = () => {
-  // Validate design data
   const validation = flexDesign.validateDesign();
   if (!validation.isValid) {
     error(i18n("system.flex.starHorseFlexComp.validationFailed"));
@@ -227,7 +202,6 @@ const preview = () => {
 };
 
 const publishPage = () => {
-  // Validate design data
   const validation = flexDesign.validateDesign();
   if (!validation.isValid) {
     error(i18n("system.flex.starHorseFlexComp.publishValidationFailed"));
@@ -241,7 +215,6 @@ const publishPage = () => {
 };
 
 const sharePage = () => {
-  // Validate design data
   const validation = flexDesign.validateDesign();
   if (!validation.isValid) {
     error(i18n("system.flex.starHorseFlexComp.shareValidationFailed"));
@@ -254,7 +227,6 @@ const sharePage = () => {
   shareDialogVisible.value = true;
 };
 
-// Dialog event handlers
 const handleSaved = (result: FlexDesignData) => {
   currentDesignId.value = result.id || "";
   currentDesignName.value = result.name;
@@ -289,31 +261,13 @@ const emptyStage = () => {
     }
   });
 };
-// Load design data
-const loadDesign = async (designId: string) => {
-  try {
-    const designData = await loadFlexDesign(designId);
-    flexDesign.loadDesignData(designData);
-    currentDesignId.value = designData.id || "";
-    currentDesignName.value = designData.name;
-    currentDesignDescription.value = designData.description || "";
-    success(i18n("system.flex.starHorseFlexComp.loadSuccess"));
-  } catch (err) {
-    console.error(i18n("system.flex.starHorseFlexComp.loadError"), err);
-    error(i18n("system.flex.starHorseFlexComp.loadFailed"));
-  }
-};
+
 
 // Auto-save functionality
 const autoSave = async () => {
   if (currentDesignId.value) {
     try {
-      const designData = flexDesign.serializeDesignData(
-          currentDesignName.value,
-          currentDesignDescription.value,
-          flexModel.value,
-      );
-      await saveFlexDesign({...designData, id: currentDesignId.value});
+      await saveFlexDesign(containerInfo.value);
       console.log(i18n("system.flex.starHorseFlexComp.autoSaveSuccess"));
     } catch (error) {
       console.error(
@@ -348,10 +302,8 @@ onMounted(() => {
       5 * 60 * 1000,
   ); // 5 minutes
 
-  // Listen for page unload, auto save
   window.addEventListener("beforeunload", autoSave);
 
-  // Clean up resources when component is destroyed
   onUnmounted(() => {
     clearInterval(autoSaveInterval);
     window.removeEventListener("beforeunload", autoSave);
@@ -360,9 +312,6 @@ onMounted(() => {
 watch(
     () => currentId.value,
     (val: string) => {
-      // selectItem(val);
-      // Reset selected component when current item changes
-      // selectedComponentId.value = "";
     },
 );
 </script>
@@ -389,7 +338,7 @@ watch(
               class="mt-1 mb-3 mx-1 py-5 border-b border-solid border-[#e4e7ed]"
           >
             <el-radio-group
-                v-model="flexModel"
+                v-model="containerInfo.containerType"
                 @change="flexChange"
                 fill="var(--star-horse-style)"
             >
@@ -745,7 +694,6 @@ watch(
                     </div>
                   </div>
                 </template>
-
                 <StarHorseFormItem
                     :fieldList="itemConfig"
                     :compSize="compSize"

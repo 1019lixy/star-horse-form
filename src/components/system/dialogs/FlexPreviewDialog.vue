@@ -4,7 +4,7 @@
     @closeAction="closeDialog"
     :selfFunc="true"
     :boxWidth="'90%'"
-    boxHeight="80%"
+     boxHeight="80%"
     :full-screen="false"
     :title="i18n('system.flex.previewDialog.title')"
     :source="3"
@@ -373,7 +373,7 @@ watch(
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  padding: 16px;
+  padding: 5px;
   border-bottom: 1px solid #e8e8e8;
   background: #fafafa;
 
@@ -407,7 +407,7 @@ watch(
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 20px;
+  padding: 5px;
   background: #f5f5f5;
   overflow: auto;
 
@@ -421,7 +421,6 @@ watch(
   &.preview-desktop {
     .preview-frame {
       width: 100%;
-      max-width: 1200px;
     }
   }
 }
@@ -470,9 +469,11 @@ watch(
   }
 
   .frame-content {
-    padding: 16px;
+    padding: 5px;
     min-height: 300px;
     flex: 1;
+    height: 100%;
+    display: flex;
     overflow: auto;
   }
 }
@@ -530,7 +531,7 @@ watch(
   background: #fafafa;
 
   .validation-info {
-    padding: 16px;
+    padding: 5px;
     border-bottom: 1px solid #e8e8e8;
 
     ul {
@@ -545,7 +546,7 @@ watch(
   }
 
   .code-preview {
-    padding: 16px;
+    padding: 5px;
     border-bottom: 1px solid #e8e8e8;
 
     .card-header {
@@ -558,7 +559,7 @@ watch(
       max-height: 200px;
       overflow: auto;
       background: #f5f5f5;
-      padding: 12px;
+      padding: 5px;
       border-radius: 4px;
       margin: 0;
 
@@ -571,7 +572,7 @@ watch(
   }
 
   .footer-actions {
-    padding: 16px;
+    padding: 5px;
     display: flex;
     justify-content: flex-end;
     gap: 8px;
