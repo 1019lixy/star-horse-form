@@ -23,7 +23,7 @@ const loadSvg = async () => {
   }
   const response = await fetch(svgPath);
   let svgText = await response.text();
-  console.log(svgText);
+  // console.log(svgText);
   // svgText = svgText.replace(/fill="[^"]*"/g, 'fill="currentColor"');
   svgContainer.value.innerHTML = svgText;
 };
