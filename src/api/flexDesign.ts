@@ -171,8 +171,8 @@ export async function getSharedFlexDesign(
             error(response.data.cnMessage || "分享链接已失效或不存在");
             throw new Error(response.data.cnMessage);
         }
-    } catch (error) {
-        console.error("获取分享的Flex设计失败:", error);
+    } catch (err) {
+        console.error("获取分享的Flex设计失败:", err);
         error("获取分享内容失败");
         throw error;
     }

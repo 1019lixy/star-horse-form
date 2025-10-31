@@ -57,7 +57,6 @@ onMounted(() => {
     <div class="toolbar-container">
       <el-button-group class="toolbar-group">
         <template v-for="(item, index) in formActions">
-          <!-- Regular button without children -->
           <el-button
               v-if="
               (list.length > 0 || item.defaultEdit) &&

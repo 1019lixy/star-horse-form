@@ -186,7 +186,17 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       iconType: "user",
       values: loadSvgIcons()
     }
-  }], ],
+  }], {
+    "label": "描述",
+    "fieldName": "remark",
+    "type": "textarea",
+    "required": false,
+    "formVisible": true,
+    "listVisible": true,
+    "preps": {
+      rows: 3,
+    }
+  }],
   "batchFieldList": [],
   "userTableFuncs": [],
   "dynamicFormas": [],

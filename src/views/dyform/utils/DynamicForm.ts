@@ -1,13 +1,6 @@
 import { i18n } from "@/lang";
 
 const formActions: Array<any> = [
-  /* {
-        icon: "left_panel",
-        defaultEdit: true,
-        key: "leftPanel",
-        auth: "none",
-        label: i18n("dyform.action.leftPanel")
-    },*/
   {
     icon: "return",
     defaultEdit: true,

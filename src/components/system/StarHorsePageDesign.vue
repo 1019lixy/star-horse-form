@@ -1,10 +1,6 @@
 <script setup lang="ts">
-import {type FlexDesignData, type PublishResult, saveFlexDesign, type ShareResult,} from "@/api/flexDesign";
+import {saveFlexDesign,} from "@/api/flexDesign";
 import pageItemsComponent from "@/components/formcomp/pageitems/allPageItem";
-import FlexPreviewDialog from "@/components/system/dialogs/FlexPreviewDialog.vue";
-import FlexPublishDialog from "@/components/system/dialogs/FlexPublishDialog.vue";
-import FlexSaveDialog from "@/components/system/dialogs/FlexSaveDialog.vue";
-import FlexShareDialog from "@/components/system/dialogs/FlexShareDialog.vue";
 import FlexItem from "@/components/system/items/FlexItem.vue";
 import PageBackground from "@/components/system/items/PageBackground.vue";
 import PageCompPanel from "@/components/system/items/PageCompPanel.vue";
@@ -34,12 +30,22 @@ import {
 import {computed, defineOptions, nextTick, onMounted, onUnmounted, ref, watch} from "vue";
 import {i18n} from "@/lang";
 import StarHorseRuler from "./StarHorseRuler.vue";
-import {useRouter} from "vue-router";
 import {Config} from "@/api/settings.js";
+import FlexPreviewDialog from "@/components/system/dialogs/FlexPreviewDialog.vue";
 
 defineOptions({
-  name: "StarHorseFlexComp",
+  name: "StarHorsePageDesign",
 });
+const props = defineProps({
+  previewMode: {
+    type: Boolean,
+    default: false
+  },
+  autoSave: {
+    type: Boolean,
+    default: true
+  }
+})
 const flexDesign = useFlexDesignStore(piniaInstance);
 let configStore = useGlobalConfigStore(piniaInstance);
 let compSize = computed(
@@ -67,23 +73,28 @@ const hideRuler = ref<boolean>(false);
 const isFullscreen = ref(false);
 const selectedComponentId = ref<string>("");
 const directions = ["column", "row-reverse", "column-reverse", "row"];
-
-// Dialog states
-const saveDialogVisible = ref(false);
 const previewDialogVisible = ref(false);
-const shareDialogVisible = ref(false);
-const publishDialogVisible = ref(false);
 
-// Design metadata
-const currentDesignId = ref<string>("");
-const currentDesignName = ref<string>(
-    i18n("system.flex.starHorseFlexComp.design.untitled"),
-);
-const currentDesignDescription = ref<string>("");
 
-let index = 0;
-const tabChange = (val: string) => {
+const preview = () => {
+  const validation = flexDesign.validateDesign();
+  if (!validation.isValid) {
+    error(i18n("system.flex.starHorseFlexComp.validationFailed"));
+    console.warn(
+        i18n("system.flex.starHorseFlexComp.validationError"),
+        validation.errors,
+    );
+    return;
+  }
+  previewDialogVisible.value = true;
 };
+const handleSaveTemplate = (templateData: any) => {
+  console.log(i18n("system.flex.starHorseFlexComp.saveTemplate"), templateData);
+  success(i18n("system.flex.starHorseFlexComp.templateSaveSuccess"));
+  previewDialogVisible.value = false;
+};
+let index = 0;
+
 const addItem = () => {
   let itemId = uuid();
   flexDesign.addItem(itemId, {});
@@ -153,12 +164,7 @@ const flexChange = (val: string) => {
     }
   });
 };
-let router = useRouter();
-const returnRouter = () => {
-  router.push({
-    path: "/",
-  });
-};
+
 const layoutOperation = (item: Layout) => {
   flexDesign.init();
   const container = item.layout.container;
@@ -169,7 +175,6 @@ const layoutOperation = (item: Layout) => {
   tempContainerInfo["color"] = "rgb(0,0,0)";
   containerInfo.value.containerContent = tempContainerInfo;
   containerInfo.value.containerName = item.name;
-  // flexDesign.setContainerContent(tempContainerInfo);
   containerDataForm.value = tempContainerInfo;
   const items = item.layout.items;
   const tempItems = JSON.parse(JSON.stringify(items));
@@ -184,74 +189,7 @@ const autoScroll = () => {
 const hideRulerFunc = () => {
   hideRuler.value = !hideRuler.value;
 };
-const saveData = () => {
-  saveDialogVisible.value = true;
-};
 
-const preview = () => {
-  const validation = flexDesign.validateDesign();
-  if (!validation.isValid) {
-    error(i18n("system.flex.starHorseFlexComp.validationFailed"));
-    console.warn(
-        i18n("system.flex.starHorseFlexComp.validationError"),
-        validation.errors,
-    );
-    return;
-  }
-  previewDialogVisible.value = true;
-};
-
-const publishPage = () => {
-  const validation = flexDesign.validateDesign();
-  if (!validation.isValid) {
-    error(i18n("system.flex.starHorseFlexComp.publishValidationFailed"));
-    console.warn(
-        i18n("system.flex.starHorseFlexComp.validationError"),
-        validation.errors,
-    );
-    return;
-  }
-  publishDialogVisible.value = true;
-};
-
-const sharePage = () => {
-  const validation = flexDesign.validateDesign();
-  if (!validation.isValid) {
-    error(i18n("system.flex.starHorseFlexComp.shareValidationFailed"));
-    console.warn(
-        i18n("system.flex.starHorseFlexComp.validationError"),
-        validation.errors,
-    );
-    return;
-  }
-  shareDialogVisible.value = true;
-};
-
-const handleSaved = (result: FlexDesignData) => {
-  currentDesignId.value = result.id || "";
-  currentDesignName.value = result.name;
-  currentDesignDescription.value = result.description || "";
-  saveDialogVisible.value = false;
-  success(i18n("system.flex.starHorseFlexComp.saveSuccess"));
-};
-
-const handleShared = (result: ShareResult) => {
-  shareDialogVisible.value = false;
-  success(i18n("system.flex.starHorseFlexComp.shareSuccess"));
-  console.log(i18n("system.flex.starHorseFlexComp.shareResult"), result);
-};
-
-const handlePublished = (result: PublishResult) => {
-  publishDialogVisible.value = false;
-  success(i18n("system.flex.starHorseFlexComp.publishSuccess"));
-  console.log(i18n("system.flex.starHorseFlexComp.publishResult"), result);
-};
-
-const handleSaveTemplate = (templateData: any) => {
-  console.log(i18n("system.flex.starHorseFlexComp.saveTemplate"), templateData);
-  success(i18n("system.flex.starHorseFlexComp.templateSaveSuccess"));
-  previewDialogVisible.value = false;
-};
 const emptyStage = () => {
   operationConfirm(
       i18n("system.flex.starHorseFlexComp.confirmClearStage"),
@@ -265,7 +203,7 @@ const emptyStage = () => {
 
 // Auto-save functionality
 const autoSave = async () => {
-  if (currentDesignId.value) {
+  if (props.autoSave) {
     try {
       await saveFlexDesign(containerInfo.value);
       console.log(i18n("system.flex.starHorseFlexComp.autoSaveSuccess"));
@@ -322,7 +260,6 @@ watch(
           v-model="tabModel"
           class="flex-1"
           tab-position="left"
-          @tabChange="tabChange"
           type="border-card"
       >
         <el-tab-pane name="template" class="flex flex-col">
@@ -339,7 +276,7 @@ watch(
           >
             <el-radio-group
                 v-model="containerInfo.containerType"
-                @change="flexChange"
+                @change="(val:string) => flexChange(val)"
                 fill="var(--star-horse-style)"
             >
               <el-radio-button label="Flex" value="flex"/>
@@ -385,21 +322,7 @@ watch(
             style="background: #fefefe"
         >
           <el-button-group>
-            <el-tooltip
-                class="item"
-                :content="i18n('system.flex.starHorseFlexComp.tooltip.return')"
-                effect="dark"
-                placement="bottom"
-            >
-              <el-button @click="returnRouter" class="h-full border-0">
-                <star-horse-icon
-                    icon-class="return"
-                    size="24px"
-                    cursor="pointer"
-                    style="color: var(--star-horse-style)"
-                />
-              </el-button>
-            </el-tooltip>
+
             <el-tooltip
                 class="item"
                 :content="
@@ -506,31 +429,10 @@ watch(
               </el-button>
             </el-tooltip>
             <el-tooltip
-                :content="i18n('system.flex.starHorseFlexComp.tooltip.save')"
-            >
-              <el-button @click="saveData" class="h-full border-0">
-                <star-horse-icon icon-class="save" cursor="pointer"/>
-              </el-button>
-            </el-tooltip>
-            <el-tooltip
                 :content="i18n('system.flex.starHorseFlexComp.tooltip.preview')"
             >
               <el-button @click="preview" class="h-full border-0">
                 <star-horse-icon icon-class="preview" cursor="pointer"/>
-              </el-button>
-            </el-tooltip>
-            <el-tooltip
-                :content="i18n('system.flex.starHorseFlexComp.tooltip.publish')"
-            >
-              <el-button @click="publishPage" class="h-full border-0">
-                <star-horse-icon icon-class="publish" cursor="pointer"/>
-              </el-button>
-            </el-tooltip>
-            <el-tooltip
-                :content="i18n('system.flex.starHorseFlexComp.tooltip.share')"
-            >
-              <el-button @click="sharePage" class="h-full border-0">
-                <star-horse-icon icon-class="share" cursor="pointer"/>
               </el-button>
             </el-tooltip>
             <el-tooltip
@@ -549,6 +451,7 @@ watch(
                 />
               </el-button>
             </el-tooltip>
+            <slot name="header"></slot>
           </el-button-group>
         </div>
         <StarHorseRuler
@@ -763,46 +666,17 @@ watch(
       </el-tabs>
     </el-splitter-panel>
   </el-splitter>
-
-  <!-- Save Dialog -->
-  <FlexSaveDialog
-      :dialogVisible="saveDialogVisible"
-      :designName="currentDesignName"
-      :designDescription="currentDesignDescription"
-      :designId="currentDesignId"
-      :isEdit="!!currentDesignId"
-      @closeDialog="saveDialogVisible = false"
-      @saved="handleSaved"
-  />
-
   <!-- Preview Dialog -->
   <FlexPreviewDialog
       :dialogVisible="previewDialogVisible"
-      :designName="currentDesignName"
+      :designName="containerInfo.pageName"
       :flexModel="flexModel"
       :containerDataForm="containerDataForm"
-      :designDescription="currentDesignDescription"
+      :designDescription="containerInfo.remark"
       @closeDialog="previewDialogVisible = false"
       @saveTemplate="handleSaveTemplate"
   />
 
-  <!-- Share Dialog -->
-  <FlexShareDialog
-      :dialogVisible="shareDialogVisible"
-      :designName="currentDesignName"
-      :designDescription="currentDesignDescription"
-      @closeDialog="shareDialogVisible = false"
-      @shared="handleShared"
-  />
-
-  <!-- Publish Dialog -->
-  <FlexPublishDialog
-      :dialogVisible="publishDialogVisible"
-      :designName="currentDesignName"
-      :designDescription="currentDesignDescription"
-      @closeDialog="publishDialogVisible = false"
-      @published="handlePublished"
-  />
 </template>
 <style lang="scss" scoped>
 .flex-grid {

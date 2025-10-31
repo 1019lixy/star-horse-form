@@ -1,8 +1,10 @@
+// @ts-ignore
 import {
   FlexboxContainer,
   FlexboxItem,
   FlexboxItemStyle,
 } from "@/components/types/FlexType";
+// @ts-ignore
 import {
   GridContainer,
   GridItem,

@@ -463,7 +463,7 @@ watch(
       shareForm.accessLevel = "public";
       shareForm.password = "";
       shareForm.permissions = ["view", "copy"];
-      shareResult.value = null;
+      // shareResult.value = {};
       showQRCode.value = false;
       isSharing.value = false;
     }
