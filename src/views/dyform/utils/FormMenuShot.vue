@@ -1,12 +1,6 @@
 <script setup lang="ts">
-import { nextTick, onMounted, PropType, ref } from "vue";
-import {
-  ApiUrls,
-  operationConfirm,
-  postRequest,
-  success,
-  warning,
-} from "star-horse-lowcode";
+import {nextTick, onMounted, PropType, ref} from "vue";
+import {ApiUrls, operationConfirm, postRequest, success, warning,} from "star-horse-lowcode";
 
 const props = defineProps({
   dynamicFormList: {
@@ -24,6 +18,10 @@ const props = defineProps({
     type: String,
     default: "id",
   },
+  treeTitle: {
+    type: String,
+    default: "表单列表"
+  }
 });
 const emits = defineEmits(["change"]);
 const starHorseTreeRef = ref();
@@ -151,14 +149,14 @@ const dataChange = (menu: any) => {
 const rmvData = (menu: any) => {
   operationConfirm("确认删除吗？").then(() => {
     postRequest(props.dataUrl?.deleteUrl!, [menu[props.primaryKey]]).then(
-      (res) => {
-        if (res.data.code) {
-          warning(res.data.cnMessage);
-          return;
-        }
-        success("操作成功");
-        starHorseTreeRef.value.createSearchParams();
-      },
+        (res) => {
+          if (res.data.code) {
+            warning(res.data.cnMessage);
+            return;
+          }
+          success("操作成功");
+          starHorseTreeRef.value.createSearchParams();
+        },
     );
   });
 };
@@ -179,53 +177,53 @@ defineExpose({
 </script>
 <template>
   <div
-    v-show="show"
-    ref="screenshot"
-    id="screenshot"
-    class="absolute left-[20px] bottom-[20px] z-9999999"
+      v-show="show"
+      ref="screenshot"
+      id="screenshot"
+      class="absolute left-[20px] bottom-[20px] z-99"
   >
     <div
-      ref="screenshotDropdown"
-      v-show="dropDownVisible"
-      class="form-list"
-      @click.stop.prevent
+        ref="screenshotDropdown"
+        v-show="dropDownVisible"
+        class="form-list"
+        @click.stop.prevent
     >
       <star-horse-tree
-        ref="starHorseTreeRef"
-        :expand="true"
-        treeTitle="表单列表"
-        @selectData="dataChange"
-        @removeData="rmvData"
-        @addData="addData"
-        :orderBy="[
+          ref="starHorseTreeRef"
+          :expand="true"
+          :treeTitle="treeTitle"
+          @selectData="dataChange"
+          @removeData="rmvData"
+          @addData="addData"
+          :orderBy="[
           {
             fieldName: 'a.createdTime',
             ascOrDesc: 'desc',
           },
         ]"
-        :preps="{
+          :preps="{
           label: 'formName',
           value: primaryKey,
         }"
-        :helpMsg="`点击节点进行编辑，点击按钮进行添加或删除`"
-        :showPageBar="true"
-        :isDynamicData="true"
-        :btnVisible="true"
-        :rmvVisible="true"
-        rmv-title="删除子表单"
-        btnTitle="添加子表单"
-        :autoLoad="true"
-        :compUrl="dataUrl"
-        :compSize="compSize"
+          :helpMsg="`点击节点进行编辑，点击按钮进行添加或删除`"
+          :showPageBar="true"
+          :isDynamicData="true"
+          :btnVisible="true"
+          :rmvVisible="true"
+          rmv-title="删除子表单"
+          btnTitle="添加子表单"
+          :autoLoad="true"
+          :compUrl="dataUrl"
+          :compSize="compSize"
       />
     </div>
     <el-button
-      ref="screenshotBtnRef"
-      id="screenshotBtn"
-      @click.native.prevent.stop="showDropDown"
-      class="fixed-position-btn"
-      type="warning"
-      icon="menu"
+        ref="screenshotBtnRef"
+        id="screenshotBtn"
+        @click.native.prevent.stop="showDropDown"
+        class="fixed-position-btn"
+        type="warning"
+        icon="menu"
     />
   </div>
 </template>

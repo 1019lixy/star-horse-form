@@ -7,7 +7,7 @@ import {useFlexDesignStore} from "@/store/FlexDesign";
 import FlexSaveDialog from "@/components/system/dialogs/FlexSaveDialog.vue";
 import FlexPublishDialog from "@/components/system/dialogs/FlexPublishDialog.vue";
 import FlexShareDialog from "@/components/system/dialogs/FlexShareDialog.vue";
-
+import {FlexDesignData, ShareResult,PublishResult} from "@/api/flexDesign";
 let route = useRoute();
 const router = useRouter();
 const flexCompRef = ref();
@@ -129,7 +129,7 @@ watch(() => route.query, (query) => {
       @closeDialog="publishDialogVisible = false"
       @published="handlePublished"
   />
-  <StarHorseFlexComp ref="flexCompRef" :autoSave="false">
+  <StarHorsePageDesign ref="flexCompRef" :autoSave="false">
     <template #header>
       <el-tooltip
           :content="i18n('system.flex.starHorseFlexComp.tooltip.save')"
@@ -169,7 +169,7 @@ watch(() => route.query, (query) => {
         </el-button>
       </el-tooltip>
     </template>
-  </StarHorseFlexComp>
+  </StarHorsePageDesign>
 </template>
 
 <style lang="scss" scoped>

@@ -44,6 +44,9 @@ const props = defineProps({
   autoSave: {
     type: Boolean,
     default: true
+  },
+  dataUrl: {
+    type: Object as PropType<ApiUrls>,
   }
 })
 const flexDesign = useFlexDesignStore(piniaInstance);
@@ -133,7 +136,9 @@ const selectContainer = () => {
   editTabModel.value = "container";
   selectedComponentId.value = "";
 };
-
+const changeDataHandle = (item: any) => {
+  console.log(item);
+}
 /**
  * Initialize
  */
@@ -475,6 +480,13 @@ watch(
             </template>
           </div>
         </StarHorseRuler>
+        <FormMenuShot
+            ref="formListRef"
+            @change="changeDataHandle"
+            :dataUrl="dataUrl"
+            treeTitle="动态页面列表"
+            primaryKey="idDynamicForm"
+        />
       </div>
     </el-splitter-panel>
     <el-splitter-panel collapsible size="400" max="40%">
@@ -709,7 +721,7 @@ watch(
 
     .el-tabs--top {
       .el-tabs__content {
-        padding: auto !important;
+        padding: unset !important;
       }
 
       .el-tabs__header.is-left {
