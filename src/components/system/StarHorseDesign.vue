@@ -712,7 +712,7 @@ const dragOver = (evt: DragEvent) => {
   evt.preventDefault();
 };
 const query = ref<string>("");
-const filterDatas = ref<Array<CustomerItem|any>>([]);
+const filterDatas = ref<Array<CustomerItem | any>>([]);
 const onQueryChanged = () => {
   let dataList = JSON.parse(JSON.stringify(props.customerItems));
   filterDatas.value = [];

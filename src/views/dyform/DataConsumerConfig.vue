@@ -25,7 +25,7 @@ import {
   relationFieldInfo,
   table_width,
   viewFieldInfo,
-} from "@/views/dyform/utils/DataConsumer";
+} from "@/components/system/items/utils/DataConsumer";
 import { tableColumns } from "@/views/dbsearch/utils/DbSearchUtils";
 import { Config } from "@/api/settings";
 

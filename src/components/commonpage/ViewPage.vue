@@ -4,7 +4,7 @@ import {
   analysisSearchData,
   viewColumns,
   viewDataList,
-} from "@/views/dyform/utils/preview";
+} from "@/components/system/items/utils/preview";
 import {
   apiInstance,
   closeLoad,

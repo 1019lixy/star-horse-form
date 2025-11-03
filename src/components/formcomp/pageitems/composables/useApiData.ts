@@ -1,5 +1,5 @@
 import { ref, computed, watch, onMounted } from "vue";
-import { validInterface } from "@/views/dyform/utils/ItemPreps";
+import { validInterface } from "@/components/system/items/utils/ItemPreps";
 
 /**
  * Check if API config is valid (not empty)

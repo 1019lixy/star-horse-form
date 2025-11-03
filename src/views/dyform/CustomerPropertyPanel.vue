@@ -8,11 +8,11 @@ import {
   useDesignFormStore,
 } from "star-horse-lowcode";
 import { loadSvgIcons } from "@/api/star_horse_utils.js";
-import { useDialogManager } from "@/views/dyform/composables/useDialogManager.js";
-import ButtonEventDialog from "@/views/dyform/dialogs/ButtonEventDialog.vue";
-import JsEditorDialog from "@/views/dyform/dialogs/JsEditorDialog.vue";
-import ParamsDialog from "@/views/dyform/dialogs/ParamsDialog.vue";
-import PreOrPendDialog from "@/views/dyform/dialogs/PreOrPendDialog.vue";
+import { useDialogManager } from "@/components/system/items/form/composables/useDialogManager.js";
+import ButtonEventDialog from "@/components/system/items/form/dialogs/ButtonEventDialog.vue";
+import JsEditorDialog from "@/components/system/items/form/dialogs/JsEditorDialog.vue";
+import ParamsDialog from "@/components/system/items/form/dialogs/ParamsDialog.vue";
+import PreOrPendDialog from "@/components/system/items/form/dialogs/PreOrPendDialog.vue";
 defineProps({
   compSize: { type: String, default: "default" },
 });

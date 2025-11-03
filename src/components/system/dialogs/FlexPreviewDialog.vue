@@ -198,7 +198,7 @@
 import {computed, nextTick, ref, watch} from "vue";
 import {useFlexDesignStore} from "@/store/FlexDesign";
 import {error, piniaInstance, success} from "star-horse-lowcode";
-import FlexItem from "@/components/system/items/FlexItem.vue";
+import FlexItem from "@/components/system/items/page/FlexItem.vue";
 import {i18n} from "@/lang";
 
 interface Props {
@@ -238,10 +238,10 @@ const htmlCode = computed(() =>
 );
 const positionList = computed(() => flexDesign.getPositionList());
 const containerStyles = computed(() => {
-  const containerInfo = flexDesign.getContainerInfo();
+  const containerInfo = flexDesign.getContainerInfo().containerContent || {};
   //将容器信息转换成样式Css格式的属性
   let style: any = {};
-  Object.keys(containerInfo).forEach((key) => {
+  Object.keys(containerInfo || {}).forEach((key) => {
     style[camelToKebab(key)] = containerInfo[key];
   });
   return style;

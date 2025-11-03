@@ -1,12 +1,12 @@
 <script setup lang="ts">
 import {saveFlexDesign,} from "@/api/flexDesign";
 import pageItemsComponent from "@/components/formcomp/pageitems/allPageItem";
-import FlexItem from "@/components/system/items/FlexItem.vue";
-import PageBackground from "@/components/system/items/PageBackground.vue";
-import PageCompPanel from "@/components/system/items/PageCompPanel.vue";
-import PageFont from "@/components/system/items/PageFont.vue";
-import PagePosition from "@/components/system/items/PagePosition.vue";
-import PageItemProperties from "@/components/system/items/PageItemProperties.vue";
+import FlexItem from "@/components/system/items/page/FlexItem.vue";
+import PageBackground from "@/components/system/items/page/PageBackground.vue";
+import PageCompPanel from "@/components/system/items/page/PageCompPanel.vue";
+import PageFont from "@/components/system/items/page/PageFont.vue";
+import PagePosition from "@/components/system/items/page/PagePosition.vue";
+import PageItemProperties from "@/components/system/items/page/PageItemProperties.vue";
 import SvgLoader from "@/components/system/SvgLoader.vue";
 import {Layout} from "@/components/types/dataTypes";
 import {appInstance} from "@/main";
@@ -26,6 +26,7 @@ import {
   success,
   useGlobalConfigStore,
   uuid,
+  ApiUrls
 } from "star-horse-lowcode";
 import {computed, defineOptions, nextTick, onMounted, onUnmounted, ref, watch} from "vue";
 import {i18n} from "@/lang";
@@ -231,6 +232,20 @@ const fullScreen = () => {
     });
   }
 };
+/**
+ *扩展第三方容器组件
+ * @param containerData 容器组件
+ */
+const setContainersData = (containers: any) => {
+
+}
+/**
+ * 扩展第三方组件
+ * @param items 组件列表
+ */
+const setItemsData = (items: any) => {
+
+}
 onMounted(() => {
   init();
   document.addEventListener("fullscreenchange", () => {
@@ -257,6 +272,11 @@ watch(
     (val: string) => {
     },
 );
+defineExpose({
+  saveData,
+  setContainersData,
+  setItemsData,
+});
 </script>
 <template>
   <el-splitter>
