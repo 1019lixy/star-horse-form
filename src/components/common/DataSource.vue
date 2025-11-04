@@ -4,7 +4,7 @@ import {
   createData,
   dataSourceFields,
   validInterface,
-} from "@/views/dyform/utils/ItemPreps";
+} from "@/components/system/items/utils/ItemPreps";
 import { searchMatchList, SelectOption, warning } from "star-horse-lowcode";
 import { loadDict } from "@/api/star_horse_apis";
 
