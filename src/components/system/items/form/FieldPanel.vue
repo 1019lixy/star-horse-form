@@ -223,7 +223,7 @@ const addElement = (element: any, type: string) => {
       </template>
       <db-list-comp :batchCreatePage="batchCreatePage"/>
     </el-tab-pane>
-    <el-tab-pane name="template" v-if="Object.keys(templateList).length > 0">
+    <el-tab-pane name="template">
       <template #label>
         <star-horse-icon
             icon-class="template"

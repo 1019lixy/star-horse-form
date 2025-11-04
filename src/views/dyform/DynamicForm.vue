@@ -191,13 +191,12 @@ defineExpose({
 
 <template>
   <div class="flex flex-col h-full overflow-hidden">
-    <el-card class="inner_content my-0 mx-[5px]">
       <StarHorseFormDesign ref="starHorseFormDesignRef" @saveData="saveData"
                            :extendBtns="extendBtns"
                            :api="api"
+                           @loadData="loadTemplateData"
                            @changeDataHandle="changeDataHandle"
                            :permissions="permissions"/>
-    </el-card>
   </div>
 </template>
 
