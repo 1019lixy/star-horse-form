@@ -14,21 +14,15 @@ import {
   warning,
 } from "star-horse-lowcode";
 import {useRoute, useRouter} from "vue-router";
-import {compFieldInit} from "@/components/system/items/utils/FieldOperationUtils";
-
-// Import new components
-// Import composables
 import {i18n} from "@/lang/index";
 import {ToolBtnType} from "@/components/types/ToolBtnType";
 
-const dataUrl = apiInstance("userdb-manage", "userdb/dynamicForm");
+const api = apiInstance("userdb-manage", "userdb/dynamicForm");
 let route = useRoute();
 let router = useRouter();
 let pagePermission = useButtonPermissionStore(piniaInstance);
 let permissions = ref<any>({});
 const starHorseFormDesignRef = ref();
-
-let initFinish = ref<boolean>(false);
 
 const goBack = () => {
   let sdata = {
@@ -50,12 +44,7 @@ const extendBtns = ref<ToolBtnType[]>([
 const init = async () => {
   //初始化数据
   starHorseFormDesignRef.value?.initStoreData();
-  //加载组件属性
-  compFieldInit().then(() => {
-    initFinish.value = true;
-    console.log("初始化完成");
-
-  });
+  //加载权限
   permissions.value = await pagePermission.addRoute(route);
 };
 
@@ -65,7 +54,7 @@ const loadFormData = async (
     isTemplate?: boolean,
 ) => {
   await nextTick();
-  let resultData: any = await loadData(dataUrl.loadByIdUrl! + "/" + formId, {});
+  let resultData: any = await loadData(api.loadByIdUrl! + "/" + formId, {});
   if (resultData.error) {
     warning(resultData.error);
     return;
@@ -142,7 +131,7 @@ const closeAction = () => {
 const saveData = (isDraft: boolean, data: any) => {
   load("数据提交中，请等待");
   postRequest(
-      `${dataUrl.basePrefix}/${isDraft ? "mergeDraft" : "merge"}`,
+      `${api.basePrefix}/${isDraft ? "mergeDraft" : "merge"}`,
       data,
   )
       .then((res: any) => {
@@ -172,6 +161,22 @@ watch(
     {immediate: true, deep: true},
 );
 
+/**
+ * 数据操作
+ * @param type 类别
+ * @param data 选中的数据
+ */
+const changeDataHandle = (type: string, data: any) => {
+  let formId = data["idDynamicForm"];
+  if (type == "subAdd") {
+    loadFormData(formId, true);
+  } else if (type == "remove") {
+  } else if (type == "edit") {
+    loadFormData(formId, false);
+  } else {
+    console.log(type, data);
+  }
+};
 
 onMounted(async () => {
   await init();
@@ -189,6 +194,8 @@ defineExpose({
     <el-card class="inner_content my-0 mx-[5px]">
       <StarHorseFormDesign ref="starHorseFormDesignRef" @saveData="saveData"
                            :extendBtns="extendBtns"
+                           :api="api"
+                           @changeDataHandle="changeDataHandle"
                            :permissions="permissions"/>
     </el-card>
   </div>

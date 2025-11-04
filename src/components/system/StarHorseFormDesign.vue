@@ -3,6 +3,7 @@ import {computed, nextTick, onActivated, onBeforeUnmount, onDeactivated, onMount
 
 import {
   ApiUrls,
+  CompType,
   operationConfirm,
   piniaInstance,
   useDesignFormStore,
@@ -29,6 +30,9 @@ import {useKeyboardEvents} from "@/components/system/items/form/composables/useK
 import {useDialogManager} from "@/components/system/items/form/composables/useDialogManager";
 import {ToolBtnType} from "@/components/types/ToolBtnType.js";
 import ConfigDialog from "@/components/system/items/form/dialogs/ConfigDialog.vue";
+import {formContainer} from "@/components/system/items/form/composables/formContainer.js";
+import {formExtendItems} from "@/components/system/items/form/composables/formExtendItems.js";
+import {formItems} from "@/components/system/items/form/composables/formItems.js";
 
 defineOptions({
   name: "StarHorseFormDesign",
@@ -42,12 +46,19 @@ const props = defineProps({
     type: String,
     default: "idDynamicForm",
   },
-  dataUrl: {
+  /**
+   * 接口地址
+   */
+  api: {
     type: Object as PropType<ApiUrls>,
   },
   extendBtns: {
     type: Array as PropType<ToolBtnType[]>,
     default: () => [],
+  },
+  forbiddenSystemItems: {
+    type: Boolean,
+    default: false,
   },
 });
 const emits = defineEmits(["changeDataHandle", "loadData", "action", "saveData"]);
@@ -137,7 +148,27 @@ shortKeySwitch = keyboardEvents.shortKeySwitch;
 const init = async () => {
   //初始化数据
   designForm.clearAll(true);
-  cacheDataRestore(null);
+  const allFormDataList: Array<any> = [];
+  const assignData = (datas: any) => {
+    datas?.forEach((item: any) => {
+      allFormDataList.push({
+        name: item.itemName,
+        value: item.itemType,
+      });
+    });
+  };
+  //如果禁用系统组件，不加载系统组件
+  if (!props.forbiddenSystemItems) {
+    assignData(formContainer);
+    assignData(formItems);
+    assignData(formExtendItems);
+    designForm.setContainerList(formContainer);
+    designForm.setFormDataList(formItems);
+    designForm.setSelfFormDataList(formExtendItems);
+    designForm.setAllFormDataList(allFormDataList);
+  }
+  cacheDataRestore(null as MouseEvent);
+
   //解决数据已经加载完成，但是组件属性没有加载完成的问题
   if (list.value.length > 0) {
     let activeItem = list.value[0];
@@ -204,7 +235,7 @@ const codeDoSave = () => {
 };
 
 
-const onDragAdd = async (_evt: Event, dataList: Array<any>) => {
+const onDragAdd = async (_evt: Event, dataList?: Array<any>) => {
   if (!draggingItem.value) {
     return;
   }
@@ -295,7 +326,7 @@ const loadData = (data: any) => {
 };
 const saveData = (isDraft: boolean, formData: any) => {
   emits("saveData", isDraft, formData);
-}
+};
 onActivated(() => {
   designForm.setIsEdit(true);
   shortKeySwitch(true);
@@ -384,15 +415,22 @@ const formShortKeySwitch = (disabled: boolean) => {
  *扩展第三方容器组件
  * @param containerData 容器组件
  */
-const setContainersData = (containers: any) => {
-
-}
+const setContainerDatas = (containers: CompType[]) => {
+  designForm.addContainerList(containers);
+};
+/**
+ * 系统组件
+ * @param items 组件列表
+ */
+const setItemDatas = (items: CompType[]) => {
+  designForm.addFormDataList(items);
+};
 /**
  * 扩展第三方组件
  * @param items 组件列表
  */
-const setItemsData = (items: any) => {
-
+const addExtendItemDatas = (items: CompType[]) => {
+  designForm.addSelfFormDataList(items);
 }
 defineExpose({
   validatePreviewForm,
@@ -402,8 +440,9 @@ defineExpose({
   closeAction,
   initStoreData,
   formShortKeySwitch,
-  setContainersData,
-  setItemsData
+  setContainerDatas,
+  setItemDatas,
+  addExtendItemDatas
 });
 </script>
 
@@ -440,6 +479,7 @@ defineExpose({
     <el-splitter-panel collapsible size="350" min="200" max="450">
       <field-panel
           ref="fieldPanelRef"
+          :api="api"
           @loadData="loadData"
           :batchCreatePage="true"
       />
@@ -469,8 +509,9 @@ defineExpose({
 
         <FormMenuShot
             ref="formListRef"
+            v-if="Object.keys(api||{}).length > 0"
             @change="changeDataHandle"
-            :dataUrl="dataUrl"
+            :dataUrl="api"
             :primaryKey="primaryKey"
         />
         <div class="main-copyright">{{ i18n("starhorse.copyright") }}</div>

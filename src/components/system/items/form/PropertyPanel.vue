@@ -11,7 +11,7 @@ import {
 import { loadDict } from "@/api/star_horse_apis.js";
 import { Config } from "@/api/settings.js";
 import ItemPropertiesPanel from "@/components/system/items/form/ItemPropertiesPanel.vue";
-import CustomerPropertyPanel from "@/views/dyform/CustomerPropertyPanel.vue";
+import CustomerPropertyPanel from "@/components/system/items/form/CustomerPropertyPanel.vue";
 
 let designForm = useDesignFormStore(piniaInstance);
 const formProps = computed(() => designForm.currentFormPreps);
