@@ -1,9 +1,9 @@
 <script setup lang="ts">
-  const props = defineProps({
-    formInfo: { type: Object, required: true },
-    compList: { type: Array, required: true }
-  });
-  let code = "";
+const props = defineProps({
+  formInfo: { type: Object, required: true },
+  compList: { type: Array, required: true },
+});
+let code = "";
 </script>
 <template>
   <StarHorseEditor :lang="'vue'" v-model:value="code" />

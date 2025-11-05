@@ -25,8 +25,9 @@ html {
   position: relative;
   background: #000a13 url(bg.jpg) no-repeat top center;
   font-family:
-    "PingFang SC", "Lantinghei SC", "Microsoft YaHei", "HanHei SC", "Helvetica Neue", "Open Sans", Arial,
-    "Hiragino Sans GB", "微软雅黑", STHeiti, "WenQuanYi Micro Hei", SimSun, sans-serif;
+    "PingFang SC", "Lantinghei SC", "Microsoft YaHei", "HanHei SC",
+    "Helvetica Neue", "Open Sans", Arial, "Hiragino Sans GB", "微软雅黑",
+    STHeiti, "WenQuanYi Micro Hei", SimSun, sans-serif;
 }
 
 .loginbg {
@@ -71,8 +72,9 @@ html {
   border: 1px solid #9ce7ff;
   border-radius: 5px;
   font-family:
-    "PingFang SC", "Lantinghei SC", "Microsoft YaHei", "HanHei SC", "Helvetica Neue", "Open Sans", Arial,
-    "Hiragino Sans GB", "微软雅黑", STHeiti, "WenQuanYi Micro Hei", SimSun, sans-serif;
+    "PingFang SC", "Lantinghei SC", "Microsoft YaHei", "HanHei SC",
+    "Helvetica Neue", "Open Sans", Arial, "Hiragino Sans GB", "微软雅黑",
+    STHeiti, "WenQuanYi Micro Hei", SimSun, sans-serif;
   display: block;
   padding-left: 50px;
   font-size: 18px;
@@ -184,15 +186,27 @@ input::input-placeholder {
   margin-top: -60px;
   font-weight: bold;
   letter-spacing: 2px;
-  background: linear-gradient(90deg, #04a8f0, #46daff, #4177ed, #04a8f0, #46daff, #4177ed, #04a8f0, #46daff, #4177ed);
+  background: linear-gradient(
+    90deg,
+    #04a8f0,
+    #46daff,
+    #4177ed,
+    #04a8f0,
+    #46daff,
+    #4177ed,
+    #04a8f0,
+    #46daff,
+    #4177ed
+  );
   background-size: cover;
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
   text-fill-color: transparent;
   font-family:
-    "Microsoft YaHei", "HanHei SC", "Helvetica Neue", "Open Sans", Arial, "Hiragino Sans GB", "微软雅黑", STHeiti,
-    "WenQuanYi Micro Hei", SimSun, sans-serif;
+    "Microsoft YaHei", "HanHei SC", "Helvetica Neue", "Open Sans", Arial,
+    "Hiragino Sans GB", "微软雅黑", STHeiti, "WenQuanYi Micro Hei", SimSun,
+    sans-serif;
 }
 
 .boxall {

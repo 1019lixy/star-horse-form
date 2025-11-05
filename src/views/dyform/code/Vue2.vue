@@ -1,9 +1,9 @@
 <script setup lang="ts">
-  const props = defineProps({
-    formInfo: { type: Object, required: true },
-    compList: { type: Array, required: true }
-  });
-  let code = `<script setup lang='ts'>
+const props = defineProps({
+  formInfo: { type: Object, required: true },
+  compList: { type: Array, required: true },
+});
+let code = `<script setup lang='ts'>
 <\/script>`;
 </script>
 <template>

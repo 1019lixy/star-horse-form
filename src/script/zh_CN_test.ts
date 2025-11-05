@@ -2529,7 +2529,7 @@ const zh_CN = {
   text_2528: "实现",
   text_2529: "委托表达式",
   text_2530: "请输入监听器",
-  text_2531: "添加监听器"
+  text_2531: "添加监听器",
 };
 
 export default zh_CN;

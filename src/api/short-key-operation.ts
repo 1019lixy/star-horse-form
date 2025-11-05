@@ -1,4 +1,4 @@
-import { ModuleEnums } from "@/components/enums/ModuleEnums.ts";
+import { ModuleEnums } from "@/components/enums/ModuleEnums";
 import {
   dyAltDown,
   dyAltLeft,
@@ -33,8 +33,8 @@ import {
   dyTab,
   dyUndo,
   dyUnGroup,
-  dyUp
-} from "@/api/dyform-short-key-operation.ts";
+  dyUp,
+} from "@/api/dyform-short-key-operation";
 
 /**
  * 复制
@@ -415,5 +415,5 @@ export {
   ctrlUpFun,
   ctrlDownFun,
   ctrlLeftFun,
-  ctrlRightFun
+  ctrlRightFun,
 };

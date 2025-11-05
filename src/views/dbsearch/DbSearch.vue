@@ -1,88 +1,155 @@
 <script setup lang="ts" name="DbSearch">
-import {onMounted, ref, unref, computed} from "vue";
-import {Config} from "@/api/settings.ts";
-import Help from "@/components/help.vue";
-import {initDbList} from "@/views/dbsearch/utils/DbSearchUtils.ts";
+import { Config } from "@/api/settings";
+import { i18n } from "@/lang";
+import QueryResult from "@/views/dbsearch/QueryResult.vue";
+import { initDbList } from "@/views/dbsearch/utils/DbSearchUtils";
 import {
   closeLoad,
-  commonParseCodeToName,
-  load,
   error,
-  warning,
-  download,
   getRequest,
-  postRequest,
+  piniaInstance,
   useGlobalConfigStore,
-  piniaInstance
+  warning,
 } from "star-horse-lowcode";
+import { computed, onMounted, onUnmounted, ref, unref } from "vue";
+import { format } from "sql-formatter";
 
-let editorRef = ref(null);
-let cacheValue = ref({});
+let editorRef = ref<any>(null);
 let dbList = ref<any>([]);
-let drawer = ref(false);
-let direction = ref<string>("rtl"); //ltr:left to right,rtl:right to left ,ttb:top to bottom,btt:bottom to top
-let queryResult = ref<any>([]);
-let detailData = ref<any>({});
 let pageSize = ref<number>(10);
-let activeName = ref<string>("Result1");
-let pageSizeLimit = ref<Array<number>>([10, 20, 50, 100]); //每条Sql允许一次查询数据量
 let tableAndColumnsList = ref<any>([]);
 let tableList = ref<any>({});
 let assignDataList = ref<any>([]);
-let value = ref<string>("");
 let dbIndex = ref<any>(null);
 let currentIndex = ref<any>(null);
-let readOnly = ref<boolean>(true);
 let configStore = useGlobalConfigStore(piniaInstance);
-let compSize = computed(() => configStore.configFormInfo?.inputSize || Config.compSize);
+let compSize = computed(
+  () => configStore.configFormInfo?.inputSize || Config.compSize,
+);
+
 const init = async () => {
   dbList.value = await initDbList();
 };
+
+// Add keyboard shortcut handlers
+const handleKeyDown = (event: KeyboardEvent) => {
+  // Ctrl+Enter for execute
+  if (event.ctrlKey && event.key === "Enter") {
+    event.preventDefault();
+    executeSql();
+  }
+  // Ctrl+Shift+F for format
+  else if (event.ctrlKey && event.shiftKey && event.key === "F") {
+    event.preventDefault();
+    formatSql();
+  }
+};
+
+// Format SQL function
+const formatSql = () => {
+  try {
+    const currentSql = getSql(); // Use getSql to get selected or all text
+    const formattedSql = format(currentSql);
+    let editor = editorRef.value!.editor;
+    let selection = editor.state.selection.main;
+    let from = selection.from;
+    let to = selection.to;
+
+    // If no text is selected, format the entire document
+    if (from === to) {
+      from = 0;
+      to = editor.state.doc.length;
+    }
+
+    editor.dispatch({
+      changes: {
+        from: from,
+        to: to,
+        insert: formattedSql,
+      },
+    });
+  } catch (error) {
+    console.error("SQL formatting error:", error);
+    const currentSql = getSql(); // Use getSql to get selected or all text
+    const lines = currentSql
+      .split(/\s*;\s*/)
+      .filter((line: string) => line.trim());
+    const formattedSql = lines
+      .map((line: string) => line.trim() + ";")
+      .join("\n\n");
+
+    let editor = editorRef.value!.editor;
+    let selection = editor.state.selection.main;
+    let from = selection.from;
+    let to = selection.to;
+
+    // If no text is selected, format the entire document
+    if (from === to) {
+      from = 0;
+      to = editor.state.doc.length;
+    }
+
+    editor.dispatch({
+      changes: {
+        from: from,
+        to: to,
+        insert: formattedSql,
+      },
+    });
+  }
+};
+
 onMounted(() => {
   init();
+  document.addEventListener("keydown", handleKeyDown);
 });
-const handleClose = () => {
-  drawer.value = !drawer.value;
-};
-/**
- * 查看详情
- */
-const viewDataDetail = (row: any, column: any, event: Event) => {
-  drawer.value = !drawer.value;
-  detailData.value = row;
-};
+
+onUnmounted(() => {
+  document.removeEventListener("keydown", handleKeyDown);
+});
+
 const openDb = () => {
   let editor = editorRef.value!;
-  getRequest(`/userdb-manage/dbsearch/dbinfoEntity/openConn/${dbIndex.value}`).then((res) => {
-    tableList.value = {};
-    if (res.data.code != 0) {
-      error(res.data.cnMessage);
-      return;
-    }
-    tableAndColumnsList.value = res.data.data;
-    assignDataList.value = tableAndColumnsList.value;
-    btnDisabled.value = false;
-    currentIndex.value = dbIndex.value;
-    editor.setAutoCompletion("test", tableAndColumnsList.value);
-  });
+  getRequest(`/userdb-manage/dbsearch/dbinfo/openConn/${dbIndex.value}`).then(
+    (res) => {
+      tableList.value = {};
+      if (res.data.code != 0) {
+        error(res.data.cnMessage);
+        return;
+      }
+      tableAndColumnsList.value = res.data.data;
+      assignDataList.value = tableAndColumnsList.value;
+      btnDisabled.value = false;
+      currentIndex.value = dbIndex.value;
+      editor.setAutoCompletion("test", tableAndColumnsList.value);
+    },
+  );
 };
 const getSql = () => {
   let editor = editorRef.value!.editor.state;
-  let sData = editor.sliceDoc(editor.selection.main.from, editor.selection.main.to);
+  let sData = editor.sliceDoc(
+    editor.selection.main.from,
+    editor.selection.main.to,
+  );
+  // If no text is selected, use all text
   if (!sData) {
     sData = editor.doc.toString();
   }
   return sData;
 };
+const reqData = ref<any>({});
 const executeSql = () => {
   if (!dbIndex.value) {
-    warning("执行Sql前先连接数据库");
+    warning(i18n("dbsearch.connect.database.first"));
     return;
   }
+
+  // Use getSql to get either selected text or all text
   let datas = getSql();
   if (!datas) {
     return;
   }
+
   datas = datas.split(";");
   let tempList: any = [];
   datas.forEach((item: any) => {
@@ -93,98 +160,44 @@ const executeSql = () => {
     }
   });
   if (tempList.length > 5) {
-    warning("一次最多只能执行5条Sql");
+    warning(i18n("dbsearch.max.sql.count"));
     return;
   }
-  let reqData = {
+
+  reqData.value = {
     sqls: tempList,
     pageSize: pageSize.value,
     currentPage: 1,
-    idDbinfo: dbIndex.value
+    idDbinfo: dbIndex.value,
   };
-  load("数据查询中...");
-  postRequest("/userdb-manage/dbsearch/dbinfoEntity/search", reqData)
-      .then((res) => {
-        if (res.data.code != 0) {
-          error(res.data.cnMessage);
-        } else {
-          queryResult.value = res.data.data;
-        }
-      })
-      .finally(() => {
-        closeLoad();
-      });
 };
-const resultDataFormat = (row: any, column: any, cellValue: any, index: number) => {
-  if (!cellValue) {
-    return "-";
-  }
-  cellValue = commonParseCodeToName(column.property, cellValue);
-  return cellValue;
-};
-const columnListFun = (datas: any) => {
-  return `<el-popover placement="bottom" :popper-style="{width: 'unset !important'}" trigger="click"><el-checkbox v-for="data in ${datas}" :label="data"/> </el-popover>`;
-};
-const handleCurrentChange = (index: number, sql: string, currentPage: number, pageSize: number) => {
-  let reqData = {
-    sqls: [sql],
-    pageSize: pageSize,
-    currentPage: currentPage,
-    idDbinfo: dbIndex.value
-  };
-  load("数据查询中...");
-  postRequest("/userdb-manage/dbsearch/dbinfoEntity/search", reqData)
-      .then((res) => {
-        if (res.data.code == 1) {
-          warning(res.data.cnMessage);
-          return;
-        }
-        queryResult.value[index] = res.data.data[0];
-      })
-      .finally(() => {
-        closeLoad();
-      });
-};
-const executeStop = () => {
-};
+const executeStop = () => {};
 
-const exportData = (item: any) => {
-  load("数据处理中");
-  let params = {
-    datasourceConfigId: dbIndex.value,
-    currentSql: item.currentSql,
-    pageSize: pageSize.value,
-    currentPage: item.currentPage
-  };
-  download("/userdb-manage/dbsearch/dbinfoEntity/exportData", params)
-      .catch((err) => {
-        error("接口不存在或网络异常:" + err);
-      })
-      .finally(() => {
-        closeLoad();
-      });
-};
 const tableField = (tableName: string) => {
-  let fdata = tableAndColumnsList.value.find((item: any) => item.tableName == tableName);
+  let fdata = tableAndColumnsList.value.find(
+    (item: any) => item.tableName == tableName,
+  );
   if (fdata?.fields?.length > 0) {
     //如果已经有值，则不再请求后端
     return;
   }
-  getRequest(`/userdb-manage/dbsearch/dbinfoEntity/tableColumns/${dbIndex.value}/${tableName}`)
-      .then((res) => {
-        if (res.data.code != 0) {
-          warning(res.data.cnMessage);
-          return;
-        }
-        tableList.value[tableName] = [];
-        fdata.fields = res.data.data;
-        fdata.fields.forEach((sitem: any) => {
-          tableList.value[tableName].push(sitem.filedName);
-        });
-      })
-      .finally(() => {
-        closeLoad();
+  getRequest(
+    `/userdb-manage/dbsearch/dbinfo/tableColumns/${dbIndex.value}/${tableName}`,
+  )
+    .then((res) => {
+      if (res.data.code != 0) {
+        warning(res.data.cnMessage);
+        return;
+      }
+      tableList.value[tableName] = [];
+      fdata.fields = res.data.data;
+      fdata.fields.forEach((sitem: any) => {
+        tableList.value[tableName].push(sitem.filedName);
       });
+    })
+    .finally(() => {
+      closeLoad();
+    });
 };
 const filterTableName = ref("");
 const filterData = () => {
@@ -193,10 +206,10 @@ const filterData = () => {
     return;
   }
   assignDataList.value = tableAndColumnsList.value.filter((item: any) =>
-      item.tableName.toLowerCase().match(filterTableName.value.toLowerCase())
+    item.tableName.toLowerCase().match(filterTableName.value.toLowerCase()),
   );
 };
-const dratStart = (item: any, evt: DragEvent) => {
+const dragStart = (item: any, evt: DragEvent) => {
   let dt = evt.dataTransfer!;
   dt.effectAllowed = "copy";
   dt.setData("text/plain", item.tableName);
@@ -211,315 +224,308 @@ const dragDrop = (evt: DragEvent) => {
   let dt = evt.dataTransfer!;
   let data = dt.getData("text/plain");
   if (!unref(bakeData)) {
-    sqlInfo.value = " SELECT * FROM " + data;
+    sqlInfo.value = "SELECT * FROM " + data + ";";
   } else {
-    sqlInfo.value = unref(bakeData) + " " + data;
+    // Check if the existing SQL ends with a semicolon
+    let existingSql = unref(bakeData).trim();
+    if (existingSql.endsWith(";")) {
+      sqlInfo.value = existingSql + "\nSELECT * FROM " + data + ";";
+    } else {
+      sqlInfo.value = existingSql + " SELECT * FROM " + data + ";";
+    }
   }
 };
 let btnDisabled = ref<boolean>(true);
 const btnList = [
   {
-    label: "执行",
+    label: i18n("dbsearch.execute"),
     icon: "run",
-    disabled: btnDisabled,
+    disabled: () => btnDisabled.value,
     type: "primary",
-    actions: executeSql
+    actions: executeSql,
   },
   {
-    label: "停止",
+    label: i18n("dbsearch.stop"),
     icon: "stop",
-    disabled: btnDisabled,
+    disabled: () => btnDisabled.value,
     type: "danger",
-    actions: executeStop
+    actions: executeStop,
   },
   {
-    label: "格式化",
+    label: i18n("dbsearch.format"),
     icon: "format",
     disabled: btnDisabled,
     type: "warning",
-    actions: () => {
-      editorRef.value?.editor.dispatch({
-        changes: {
-          from: 0,
-          to: editorRef.value?.editor.state.doc.length,
-          insert: editorRef.value?.editor.state.doc.toString().replaceAll("\n", "") + "\n"
-        }
-      });
-    }
-  }
+    actions: formatSql, // Use the new formatSql function
+  },
 ];
 const operMsg = `
- 使用说明:
-     目前快捷键失效,提示表字段需先单击表名加载字段到本地.
-    1、使用前需先连接数据库;如果在左侧下拉框中,无数据或者无您要连接的DB,请联系管理员配置并授权;
-    2、Sql查询器理论上支持数据库的所有DDL,DML,DCL等操作,但基于合规性,请在配置数据库的时候慎重赋予操作权限;
-    3、建议不要执行耗时的Sql,容易被网关拦截;
-    4、建议每条Sql写完后加上";",以方便多条sql拆分;
-    5、默认每条Sql 一次最多返回10条数据,页面支持最大返回100条配置;
-    6、每次最多执行的Sql数不能超过5条,超过数量取前5条;
-    7、执行器支持选中某条Sql进行执行;
-    8、Ctrl+Enter 执行,Ctrl+Shift+F 格式化,Ctrl+Enter 打开提示.`;
+ ${i18n("dbsearch.usage.instructions")}:
+    1、${i18n("dbsearch.connect.database.before.use")}
+    2、${i18n("dbsearch.sql.executor.theoretically.supports")}
+    3、${i18n("dbsearch.recommend.not.execute.time.consuming.sql")}
+    4、${i18n("dbsearch.recommend.add.semicolon")}
+    5、${i18n("dbsearch.default.each.sql.return.ten.records")}
+    6、${i18n("dbsearch.each.time.max.execute.five.sql")}
+    7、${i18n("dbsearch.executor.supports.selected.sql")}
+    8、Ctrl+Enter ${i18n("dbsearch.execute")}, Ctrl+Shift+F ${i18n("dbsearch.format")}.`;
 </script>
 <template>
-  <el-card class="inner_content">
-    <div class="search-area">
-      <div class="table-list">
-        <div class="mb-3 mt-4">
+  <el-card class="inner_content db-search-container">
+    <el-splitter>
+      <el-splitter-panel collapsible size="260" min="250" max="350">
+        <div
+          class="flex flex-col items-center h-full overflow-hidden db-table-panel"
+          style="width: 98%"
+        >
           <el-select
-              :size="compSize"
-              @change="openDb"
-              clearable
-              filterable
-              id="dbInfo"
-              placeholder="请选择数据库信息"
-              v-model="dbIndex"
+            :size="compSize"
+            @change="openDb"
+            clearable
+            filterable
+            id="dbInfo"
+            placeholder="请选择数据库信息"
+            v-model="dbIndex"
+            class="db-select"
           >
-            <el-option :key="sitem.value" :label="sitem.name" :value="sitem.value" v-for="sitem in dbList"></el-option>
+            <el-option
+              :key="sitem.value"
+              :label="sitem.name"
+              :value="sitem.value"
+              v-for="sitem in dbList"
+            />
           </el-select>
-        </div>
-        <template v-if="assignDataList.length > 0">
-          <el-input :size="compSize" placeholder="请输入关键字" v-model="filterTableName" @keydown.enter="filterData">
-            <template #suffix>
-              <star-horse-icon @click="filterData" icon-class="search" color="var(--star-horse-style)"/>
-            </template>
-          </el-input>
-          <el-scrollbar height="90%">
-            <ul>
-              <template v-for="(data, index) in assignDataList">
-                <el-popover :popper-style="{ width: 'unset !important' }" placement="right" trigger="click">
-                  <template #reference>
-                    <li @click="tableField(data.tableName)" @dragstart="(evt) => dratStart(data, evt)" draggable="true">
-                      <star-horse-icon icon-class="table" style="margin-top: 5px; height: 18px"/>
-                      <el-tooltip :content="data.comment">
-                        {{ data.tableName }}
-                      </el-tooltip>
-                    </li>
-                  </template>
-                  <table class="el-table field-table" style="width: 100%; overflow: auto">
-                    <thead>
-                    <tr>
-                      <th>名称</th>
-                      <th>类型</th>
-                      <th>空标识</th>
-                      <th>主键</th>
-                      <th>备注</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr v-for="sdata in data.fields">
-                      <td>{{ sdata.fieldName }}</td>
-                      <td>{{ sdata.type }}</td>
-                      <td>{{ sdata.nullFlag }}</td>
-                      <td>{{ sdata.primaryKey }}</td>
-                      <td>{{ sdata.comment }}</td>
-                    </tr>
-                    </tbody>
-                  </table>
-                </el-popover>
-              </template>
-            </ul>
-          </el-scrollbar>
-        </template>
-      </div>
-      <div class="search-editor-result">
-        <!--        <div class="inner_button border-b border-solid border-b-gray-300">
-                  <el-menu mode="horizontal" :ellipsis="false" style="height: inherit;width: 100%;">
-                    <el-menu-item @click="executeSql" index="1" v-if="!!dbIndex">
-                      <el-tooltip class="item" content="执行" index="1"
-                                  effect="dark"
-                                  placement="bottom">
-                        <star-horse-icon icon-class="run" color="#303133"/>
-                      </el-tooltip>
-                    </el-menu-item>
-                    <el-menu-item @click="executeStop" index="2" v-if="!!dbIndex">
-                      <el-tooltip class="item" content="停止"
-                                  effect="dark"
-                                  placement="bottom">
-                        <star-horse-icon icon-class="stop" color="red"/>
-                        停止
-                      </el-tooltip>
-                    </el-menu-item>
-                    <el-menu-item @click="executeStop" index="2" v-if="!!dbIndex">
-                      <el-tooltip class="item" content="格式化"
-                                  effect="dark"
-                                  placement="bottom">
-                        <star-horse-icon icon-class="format" color="darkorange"/>
-                        格式化
-                      </el-tooltip>
-                    </el-menu-item>
-                  </el-menu>
-                  <help :message="operMsg" :width="650"/>
-                </div>-->
-        <div class="search-editor" @dragover.prevent="dragOver" @drop="dragDrop">
-          <StarHorseEditor :lang="'sql'" ref="editorRef" :btnList="btnList" v-model:value="sqlInfo"/>
-        </div>
-        <div class="search-result" v-if="queryResult?.length > 0">
-          <el-tabs class="demo-tabs" type="border-card" v-model="activeName">
-            <el-tab-pane
-                :label="'Result' + (indexa + 1)"
-                :name="'Result' + (indexa + 1)"
-                v-for="(item, indexa) in queryResult"
+          <div style="margin-top: 5px"></div>
+          <template v-if="assignDataList.length > 0">
+            <el-input
+              :size="compSize"
+              placeholder="请输入关键字"
+              v-model="filterTableName"
+              @keydown.enter="filterData"
+              class="table-filter-input"
             >
-              <el-select style="width: 130px; margin-right: 5px" v-model="pageSize" :size="compSize">
-                <el-option :key="sitem" :label="'每页' + sitem + '条'" :value="sitem" v-for="sitem in pageSizeLimit">
-                </el-option>
-              </el-select>
-              <el-button :size="compSize" @click="exportData(item)" link title="">
-                <star-horse-icon icon-class="excel-export"/>
-                导出
-              </el-button>
-
-              <hr/>
-              <el-table
-                  :size="compSize"
-                  :data="item.dataList"
-                  :id="'queryResultId' + (indexa + 1)"
-                  @row-dblclick="viewDataDetail"
-                  highlight-current-row
-                  ref="multipleTable"
-                  stripe
-                  style="width: 2500px"
-                  :row-style="{ height: '30px' }"
-                  :cell-style="{ height: '30px', 'font-size': '12px' }"
-                  :header-cell-style="{
-                  background: '#f2f2f2',
-                  color: '#707070',
-                  'font-size': '13px',
-                  'background-image': '-webkit-gradient(linear,left 0,left 100%,from(#f8f8f8),to(#ececec))'
-                }"
-                  border
-              >
-                <!--  <el-table-column label="显示/隐藏" :render-header="columnListFun(item.columnNames)"/>-->
-                <el-table-column
-                    :formatter="resultDataFormat"
-                    :index="index"
-                    :label="pp"
-                    :prop="pp"
-                    :show-overflow-tooltip="true"
-                    min-width="200px"
-                    sortable
-                    v-for="(pp, index) in item.columnNames"
-                >
-                </el-table-column>
-              </el-table>
-              <hr/>
-              <el-pagination
-                  :size="compSize"
-                  :total="item.totalDatas"
-                  @current-change="handleCurrentChange(indexa, item.currentSql, item.currentPage, item.pageSize)"
-                  layout="total,  prev, pager, next,jumper"
-                  v-model:currentPage="item.currentPage"
-                  v-model:page-size="item.pageSize"
-              />
-            </el-tab-pane>
-          </el-tabs>
+              <template #suffix>
+                <star-horse-icon
+                  @click="filterData"
+                  icon-class="search"
+                  color="var(--star-horse-style)"
+                  class="search-icon"
+                />
+              </template>
+            </el-input>
+            <div
+              class="flex-1 w-[99%] overflow-hidden table-list-container"
+              style="margin: 1px auto"
+            >
+              <el-scrollbar class="table-scrollbar">
+                <ul class="db_table_list">
+                  <template
+                    v-for="(data, index) in assignDataList"
+                    :key="index"
+                  >
+                    <el-popover
+                      :popper-style="{ width: 'unset !important' }"
+                      placement="right"
+                      trigger="click"
+                    >
+                      <template #reference>
+                        <li
+                          @click="tableField(data.tableName)"
+                          @dragstart="(evt) => dragStart(data, evt)"
+                          draggable="true"
+                          class="flex items-center cursor-move h-[30px] table-item"
+                        >
+                          <star-horse-icon
+                            icon-class="table"
+                            size="16px"
+                            height="16px"
+                            width="16px"
+                            class="table-icon"
+                          />
+                          <el-tooltip
+                            :content="data.comment"
+                            class="table-name-tooltip"
+                          >
+                            <span class="table-name">{{ data.tableName }}</span>
+                          </el-tooltip>
+                        </li>
+                      </template>
+                      <div class="field-table-container">
+                        <div class="el-table__header-wrapper">
+                          <table class="el-table field-table">
+                            <thead>
+                              <tr>
+                                <th>{{ i18n("dbsearch.field.name") }}</th>
+                                <th>{{ i18n("dbsearch.field.type") }}</th>
+                                <th>{{ i18n("dbsearch.null.flag") }}</th>
+                                <th>{{ i18n("dbsearch.primary.key") }}</th>
+                                <th>{{ i18n("dbsearch.comment") }}</th>
+                              </tr>
+                            </thead>
+                          </table>
+                        </div>
+                        <div class="el-table__body-wrapper">
+                          <table class="el-table field-table">
+                            <tbody>
+                              <tr
+                                v-for="(sdata, index) in data.fields"
+                                :key="sdata.filedName"
+                                :class="
+                                  index % 2 === 0
+                                    ? 'el-table__row--striped'
+                                    : 'el-table__row'
+                                "
+                              >
+                                <td>{{ sdata.fieldName }}</td>
+                                <td>{{ sdata.type }}</td>
+                                <td>{{ sdata.nullFlag }}</td>
+                                <td>{{ sdata.primaryKey }}</td>
+                                <td>{{ sdata.comment }}</td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
+                    </el-popover>
+                  </template>
+                </ul>
+              </el-scrollbar>
+            </div>
+          </template>
+          <div v-else class="empty-tables">
+            <el-empty :description="i18n('dbsearch.no.tables.found')" />
+          </div>
         </div>
-      </div>
-    </div>
-    <el-drawer :before-close="handleClose" :direction="direction" title="数据详情" v-model="drawer">
-      <div class="el-table__header-wrapper">
-        <table class="el-table">
-          <thead>
-          <tr class="el-table__header">
-            <th class="el-table__cell">
-              <div class="cell">字段名</div>
-            </th>
-            <th class="el-table__cell">
-              <div class="cell">值</div>
-            </th>
-          </tr>
-          </thead>
-          <tbody>
-          <tr
-              :class="['el-table__row', index % 2 == 0 ? 'el-table__row--striped' : '']"
-              v-for="(val, key, index) in detailData"
-          >
-            <td class="el-table__cell">
-              <div class="cell">{{ key }}</div>
-            </td>
-            <td class="el-table__cell">
-              <div class="cell">{{ commonParseCodeToName(key, val) }}</div>
-            </td>
-          </tr>
-          </tbody>
-        </table>
-      </div>
-    </el-drawer>
+      </el-splitter-panel>
+      <el-splitter-panel>
+        <el-splitter layout="vertical">
+          <el-splitter-panel>
+            <div
+              class="h-full sql-editor-container"
+              @dragover.prevent="dragOver"
+              @drop="dragDrop"
+            >
+              <StarHorseEditor
+                :lang="'sql'"
+                ref="editorRef"
+                :helpMsg="operMsg"
+                :btnList="btnList"
+                v-model:value="sqlInfo"
+                class="sql-editor"
+              />
+            </div>
+          </el-splitter-panel>
+          <el-splitter-panel collapsible size="200">
+            <!-- Pass the abortSignal to QueryResult component -->
+            <QueryResult
+              :reqData="reqData"
+              :dbIndex="dbIndex"
+              :compSize="compSize"
+              class="query-result"
+            />
+          </el-splitter-panel>
+        </el-splitter>
+      </el-splitter-panel>
+    </el-splitter>
   </el-card>
 </template>
 <style lang="scss" scoped>
-:deep(.el-popover) {
-  overflow-x: hidden;
+.db-search-container {
+  height: 100%;
+
+  :deep(.el-card__body) {
+    height: 100%;
+    padding: 10px;
+  }
 }
 
-.search-area {
-  display: flex;
-  height: inherit;
-  flex-direction: row;
+.db-table-panel {
+  .db-select {
+    width: 100%;
+    margin-bottom: 8px;
+  }
 
-  .table-list {
-    min-width: 200px;
-    height: inherit;
-    overflow: hidden;
-    text-overflow: ellipsis;
+  .table-filter-input {
+    width: 100%;
+    margin-bottom: 8px;
 
-    ul {
-      margin: 5px;
-      display: flex;
-      flex-direction: column;
+    :deep(.el-input__suffix) {
+      cursor: pointer;
+    }
+  }
 
-      li {
-        height: 25px;
-        border-radius: 2px;
-        cursor: pointer;
-        margin: 1px;
-        display: flex;
+  .table-list-container {
+    .table-scrollbar {
+      :deep(.el-scrollbar__view) {
+        padding-right: 8px;
+      }
+    }
 
-        :deep(.el-tooltip__trigger) {
-          display: inline-flex;
-          align-items: center;
-          margin-top: 0;
-          overflow: hidden;
-          vertical-align: middle;
-          text-overflow: ellipsis;
-          white-space: nowrap;
-          text-align: left;
-          height: inherit;
-          flex: 1;
+    .db_table_list {
+      .table-item {
+        padding: 8px 12px;
+        margin-bottom: 4px;
+        border-radius: 4px;
+        transition: all 0.3s ease;
+        background: var(--el-bg-color-overlay);
+        border: 1px solid var(--el-border-color-light);
+
+        &:hover {
+          background: var(--el-color-primary-light-9);
+          border-color: var(--el-color-primary);
+          transform: translateY(-1px);
+          box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
         }
 
-        .svg-icon {
-          width: 18px;
-          height: 18px;
+        .table-icon {
+          margin-right: 8px;
+          color: var(--el-color-primary);
         }
-      }
 
-      li:nth-child(even) {
-        background: #e5e5e5;
-      }
-
-      li:nth-child(odd) {
-        background: #f1f2f3;
+        .table-name {
+          font-size: 14px;
+          font-weight: 500;
+          color: var(--el-text-color-primary);
+        }
       }
     }
   }
 
-  .search-editor-result {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    margin-left: 10px;
+  .empty-tables {
+    width: 100%;
+    padding: 20px 0;
+  }
+}
 
-    .search-editor {
-      flex: 1;
-    }
+.sql-editor-container {
+  .sql-editor {
+    height: 100%;
 
-    .search-result {
-      resize: both;
-      overflow: auto;
-      height: 350px;
+    :deep(.star-horse-editor-header) {
+      padding: 8px 12px;
+      background: var(--el-bg-color-page);
+      border-bottom: 1px solid var(--el-border-color-light);
     }
   }
+}
+
+.query-result {
+  height: 100%;
+
+  :deep(.el-tabs) {
+    height: 100%;
+
+    .el-tab-pane {
+      height: calc(100% - 40px);
+      padding: 10px 0;
+    }
+  }
+}
+
+:deep(.el-popover) {
+  overflow-x: hidden;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
 :deep(.el-table__cell) {
@@ -531,17 +537,169 @@ const operMsg = `
 }
 
 .field-table {
-  border: 1px solid var(--star-horse-style);
+  border: 1px solid var(--el-color-primary);
+  border-radius: 4px;
+  overflow: hidden;
+  width: 100%;
+  table-layout: fixed;
 
   tr > th,
   tr > td {
-    border: 1px solid var(--star-horse-style);
+    border: 1px solid var(--el-border-color-light);
     height: 30px;
     font-size: 13px;
     padding-left: 5px;
+    background: var(--el-bg-color-page);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 
-    :nth-child(2) {
+    &:first-child {
+      width: 180px;
+      font-weight: 600;
+    }
+
+    &:nth-child(2) {
       width: 120px;
+    }
+
+    &:nth-child(3) {
+      width: 100px;
+    }
+
+    &:nth-child(4) {
+      width: 80px;
+    }
+
+    &:nth-child(5) {
+      width: auto;
+      flex: 1;
+    }
+  }
+
+  :deep(thead tr th) {
+    background: var(--el-color-primary-light-9);
+    color: var(--el-color-primary);
+    font-weight: 600;
+  }
+
+  :deep(tbody tr:nth-child(even)) {
+    background: var(--el-fill-color-light);
+  }
+
+  :deep(tbody tr:hover) {
+    background: var(--el-color-primary-light-9);
+  }
+}
+
+.field-table-container {
+  height: 300px;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--el-color-primary);
+  border-radius: 4px;
+  overflow: hidden;
+  width: 100%;
+
+  .el-table__header-wrapper {
+    flex-shrink: 0;
+    overflow: hidden;
+    width: 100%;
+
+    .field-table {
+      border: none;
+      width: 100%;
+      table-layout: fixed;
+
+      thead tr th {
+        background: var(--el-color-primary-light-9);
+        color: var(--el-color-primary);
+        font-weight: 600;
+        height: 28px; /* Reduced height */
+        padding: 4px 5px; /* Reduced padding */
+        border: 1px solid var(--el-border-color-light);
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+
+        &:first-child {
+          width: 180px;
+          font-weight: 600;
+        }
+
+        &:nth-child(2) {
+          width: 120px;
+        }
+
+        &:nth-child(3) {
+          width: 100px;
+        }
+
+        &:nth-child(4) {
+          width: 80px;
+        }
+
+        &:nth-child(5) {
+          width: auto;
+          flex: 1;
+        }
+      }
+    }
+  }
+
+  .el-table__body-wrapper {
+    flex: 1;
+    overflow-y: auto;
+    overflow-x: hidden;
+    width: 100%;
+
+    .field-table {
+      border: none;
+      width: 100%;
+      table-layout: fixed;
+
+      tbody tr.el-table__row--striped {
+        background: var(--el-fill-color-light) !important;
+      }
+
+      tbody tr.el-table__row:hover,
+      tbody tr.el-table__row--striped:hover {
+        background: var(--el-color-primary-light-9) !important;
+      }
+
+      tbody tr {
+        td {
+          height: 28px; /* Reduced height */
+          padding: 4px 5px; /* Reduced padding */
+          border: 1px solid var(--el-border-color-light);
+          font-size: 13px;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+
+          &:first-child {
+            width: 180px;
+            font-weight: 600;
+          }
+
+          &:nth-child(2) {
+            width: 120px;
+          }
+
+          &:nth-child(3) {
+            width: 100px;
+          }
+
+          &:nth-child(4) {
+            width: 80px;
+          }
+
+          &:nth-child(5) {
+            width: auto;
+            flex: 1;
+          }
+        }
+      }
     }
   }
 }

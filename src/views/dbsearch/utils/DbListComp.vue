@@ -1,23 +1,42 @@
 <script setup lang="ts">
-import {computed, ComputedRef, nextTick, onMounted, ref, unref} from "vue";
-import {initDbList, openDatabase, tableColumns} from "@/views/dbsearch/utils/DbSearchUtils.ts";
-import Help from "@/components/help.vue";
+import { loadDict, permissionMenus } from "@/api/star_horse_apis";
+import { loadRolesInfo } from "@/api/star_horse_utils";
+import { useLoginStore } from "@/store/Login";
 import {
-  warning,
+  initDbList,
+  openDatabase,
+  tableColumns,
+} from "@/views/dbsearch/utils/DbSearchUtils";
+import {
+  apiInstance,
+  BtnAuth,
+  closeLoad,
   convertToCamelCase,
   isJson,
+  load,
+  PageFieldInfo,
   piniaInstance,
+  postRequest,
+  SelectOption,
+  success,
   useDesignFormStore,
   useGlobalConfigStore,
-  PageFieldInfo,
-  SelectOption,
-  BtnAuth
+  warning,
 } from "star-horse-lowcode";
+import { computed, ComputedRef, nextTick, onMounted, ref, unref } from "vue";
 
+const props = defineProps({
+  batchCreatePage: { type: Boolean, default: false },
+});
+const dataUrl = apiInstance("userdb-manage", "userdb/dynamicForm");
 let configStore = useGlobalConfigStore(piniaInstance);
 let designForm = useDesignFormStore(piniaInstance);
+const loginStore = useLoginStore(piniaInstance);
+const appinfoList = computed(() => loginStore.getAppInfoList());
 let allFormDataList = computed(() => designForm.allFormDataList);
-let compSize = computed(() => configStore.configFormInfo?.buttonSize || "small");
+let compSize = computed(
+  () => configStore.configFormInfo?.buttonSize || "default",
+);
 let dbIndex = ref<any>(null);
 let formData: ComputedRef<any> = computed(() => designForm.formData);
 let compList = computed(() => designForm.compList);
@@ -34,14 +53,14 @@ let containerTypeList = computed(() => {
   designForm.containerList.forEach((item: any) => {
     temp.push({
       name: item.itemName,
-      value: item.itemType
+      value: item.itemType,
     });
   });
   return temp;
 });
 let configData = ref<any>({
   columns: 1,
-  commonFieldFlag: "N"
+  commonFieldFlag: "N",
 });
 let currentData = ref<any>({});
 const fieldCompTypesMsg = `类型操作提示：
@@ -58,6 +77,243 @@ let added = ref<string>("N");
 const containerTypeOperation = (val: any) => {
   columnsContr.value = val["containerType"] == "box" ? "N" : "Y";
 };
+const configFormRef = ref<any>();
+const tableFormRef = ref<any>();
+const createMenuFlag = ref<boolean>(false);
+const conditionFlag = ref<boolean>(false);
+const rolesList = ref<Array<SelectOption>>([]);
+const menuList = ref<Array<SelectOption>>([]);
+const pageStyleList = ref<Array<SelectOption>>([]);
+const dataLoadConditionList = ref<Array<SelectOption>>([]);
+const primaryKeyPolicyList = ref<Array<SelectOption>>([]);
+const tableFieldInfo = ref<PageFieldInfo>({
+  batchFieldList: [
+    {
+      batchName: "tableNameList",
+      staticData: "N",
+      fieldList: [
+        {
+          label: "表名",
+          fieldName: "tableName",
+          type: "input",
+          formVisible: true,
+          listVisible: true,
+          required: true,
+        },
+        {
+          label: "菜单名称",
+          fieldName: "comment",
+          type: "input",
+          formVisible: true,
+          listVisible: true,
+          required: true,
+        },
+      ],
+    },
+  ],
+});
+const configFieldInfo = ref<PageFieldInfo>({
+  fieldList: [
+    [
+      {
+        label: "数据库信息",
+        fieldName: "idDbConfigInfo",
+        type: "select",
+        formVisible: true,
+        listVisible: true,
+        required: true,
+        actions: {
+          change: (val: any) => {
+            dbIndex.value = val["idDbConfigInfo"];
+            openDb(true);
+          },
+        },
+        preps: {
+          values: dbList,
+        },
+      },
+      {
+        label: "组件类型",
+        fieldName: "containerType",
+        type: "select",
+        defaultValue: "box",
+        formVisible: true,
+        listVisible: true,
+        preps: {
+          values: containerTypeList,
+        },
+      },
+      {
+        label: "每行显示列数",
+        fieldName: "columns",
+        type: "number",
+        formVisible: true,
+        listVisible: true,
+        preps: {
+          min: 1,
+          max: 12,
+          step: 1,
+        },
+      },
+      /*{
+        label: '是否子表',
+        fieldName: 'subFormFlag',
+        type: 'switch',
+        helpMsg: '多表联合创建表单时适用',
+        formVisible: true,
+        listVisible: true,
+        preps: {
+          disable: true,
+        },
+      },*/
+    ],
+    [
+      {
+        label: "显示公共属性",
+        fieldName: "commonFieldFlag",
+        type: "switch",
+        formVisible: true,
+        listVisible: true,
+        preps: {
+          activeValue: "Y",
+          inactiveValue: "N",
+        },
+      },
+      {
+        label: "是否创建菜单",
+        fieldName: "isCreateMenu",
+        type: "switch",
+        formVisible: true,
+        defaultValue: false,
+        actions: {
+          change: (val: any) => {
+            createMenuFlag.value = val["isCreateMenu"];
+          },
+        },
+      },
+    ],
+    [
+      {
+        label: "归属应用",
+        fieldName: "idInformations",
+        type: "tselect",
+        required: true,
+        formVisible: createMenuFlag,
+        actions: {
+          change: (val: any) => {
+            loadMenuBySystemId(val["idInformations"]);
+          },
+        },
+        preps: {
+          props: {
+            label: "sysName",
+            value: "idInformations",
+          },
+          checkStrictly: true,
+          data: appinfoList,
+        },
+      },
+      {
+        label: "父菜单",
+        fieldName: "parentNo",
+        type: "tselect",
+        formVisible: createMenuFlag,
+        listVisible: true,
+        preps: {
+          checkStrictly: true,
+          data: menuList,
+          props: {
+            label: "menuName",
+            value: "dataNo",
+          },
+        },
+      },
+    ],
+    [
+      {
+        label: "授权用户组",
+        fieldName: "userGroupList",
+        type: "select",
+        formVisible: createMenuFlag,
+        listVisible: true,
+        preps: {
+          multiple: true,
+          values: rolesList,
+        },
+      },
+      {
+        label: "按钮权限",
+        fieldName: "buttonPermissionsList",
+        type: "select",
+        required: false,
+        formVisible: createMenuFlag,
+        listVisible: true,
+        preps: {
+          multiple: true,
+          urlOrDictName: "button_authority",
+          dataSource: "dict",
+        },
+      },
+    ],
+
+    [
+      {
+        label: "主键策略",
+        fieldName: "primaryKeyPolicy",
+        type: "select",
+        defaultValue: "manual",
+        formVisible: true,
+        preps: {
+          editDisabled: true,
+          values: primaryKeyPolicyList,
+          colspan: 8,
+        },
+      },
+      {
+        label: "页面风格",
+        fieldName: "pageStyle",
+        type: "select",
+        defaultValue: "general",
+        formVisible: true,
+        actions: {
+          change: (val: any) => {
+            conditionFlag.value = val["pageStyle"] == "form";
+          },
+        },
+        preps: {
+          colspan: 8,
+          values: pageStyleList,
+        },
+      },
+      {
+        label: "数据加载条件",
+        fieldName: "dataLoadField",
+        type: "select",
+        formVisible: conditionFlag,
+        preps: {
+          colspan: 8,
+          values: dataLoadConditionList,
+        },
+      },
+    ],
+
+    {
+      label: "数据库表",
+      fieldName: "tableNameList",
+      type: "transfer",
+      formVisible: true,
+      required: true,
+      listVisible: true,
+      preps: {
+        props: {
+          label: "label",
+          key: "tableName",
+        },
+        data: assignDataList,
+      },
+    },
+  ],
+});
 let dataFieldInfo = ref<PageFieldInfo>({
   fieldList: [
     [
@@ -65,11 +321,12 @@ let dataFieldInfo = ref<PageFieldInfo>({
         label: "展示方式",
         fieldName: "containerType",
         type: "select",
-        optionList: containerTypeList,
         formVisible: true,
         listVisible: true,
-        actionNames: "change",
-        actions: (val: any) => containerTypeOperation(val)
+        actions: { change: (val: any) => containerTypeOperation(val) },
+        preps: {
+          values: containerTypeList,
+        },
       },
       {
         label: "列数",
@@ -83,18 +340,20 @@ let dataFieldInfo = ref<PageFieldInfo>({
         preps: {
           min: 1,
           max: 12,
-          step: 1
-        }
-      }
+          step: 1,
+        },
+      },
     ],
     {
       label: "排除字段",
       fieldName: "exclusionFields",
       type: "select",
-      multiple: "Y",
-      optionList: selectFields,
       formVisible: true,
-      listVisible: true
+      listVisible: true,
+      preps: {
+        multiple: true,
+        values: selectFields,
+      },
     },
     {
       batchFieldList: [
@@ -107,25 +366,30 @@ let dataFieldInfo = ref<PageFieldInfo>({
               label: "字段",
               fieldName: "fieldName",
               type: "select",
-              optionList: selectFields,
               formVisible: true,
-              listVisible: true
+              listVisible: true,
+              preps: {
+                values: selectFields,
+              },
             },
             {
               label: "组件类型",
               fieldName: "fieldType",
               type: "select",
-              optionList: allFormDataList,
               formVisible: true,
-              listVisible: true
-            }
-          ]
-        }
-      ]
-    }
-  ]
+              listVisible: true,
+              preps: {
+                values: allFormDataList,
+              },
+            },
+          ],
+        },
+      ],
+    },
+  ],
 });
 let currentDataVisible = ref<boolean>(false);
+let tableDialogVisible = ref<boolean>(false);
 const contextOperation = async (evt: Event, data: any, _index: number) => {
   evt.preventDefault();
   evt.stopPropagation();
@@ -138,7 +402,9 @@ const contextOperation = async (evt: Event, data: any, _index: number) => {
   containerTypeOperation(data);
   await nextTick();
   added.value = data["added"];
-  tableFieldInfoRef.value.setFormData(currentData.value);
+  nextTick(() => {
+    tableFieldInfoRef.value?.setFormData(currentData.value);
+  });
 };
 const dataReset = () => {
   //dataForm.value = {...currentData.value};
@@ -167,7 +433,7 @@ const tableOperClose = () => {
   // dataForm.value = {};
   currentDataVisible.value = false;
 };
-const openDb = () => {
+const openDb = (commentAndTableVisible: boolean = false) => {
   if (!dbIndex.value || dbIndex.value == "undefined") {
     return;
   }
@@ -177,6 +443,9 @@ const openDb = () => {
       item["visible"] = false;
       item["containerType"] = "box";
       item["columns"] = configData.value.columns;
+      if (commentAndTableVisible) {
+        item["label"] = item["tableName"] + "(" + item["comment"] + ")";
+      }
     });
     assignDataList.value = tableAndColumnsList.value;
   });
@@ -187,12 +456,14 @@ const selectFieldsOperation = (datas: any) => {
   datas?.forEach((item: any) => {
     selectFields.value.push({
       name: item.fieldName + "(" + item.comment + ")",
-      value: item.fieldName
+      value: item.fieldName,
     });
   });
 };
 const tableField = async (tableName: string) => {
-  let fdata = tableAndColumnsList.value.find((item: any) => item.tableName == tableName);
+  let fdata = tableAndColumnsList.value.find(
+    (item: any) => item.tableName == tableName,
+  );
   if (fdata?.fields?.length > 0) {
     //如果已经有值，则不再请求后端
     return fdata;
@@ -208,11 +479,31 @@ const filterData = () => {
     return;
   }
   assignDataList.value = tableAndColumnsList.value.filter((item: any) =>
-      item.tableName.toLowerCase().match(filterTableName.value.toLowerCase())
+    item.tableName.toLowerCase().match(filterTableName.value.toLowerCase()),
   );
 };
+const loadMenuBySystemId = (systemId: string) => {
+  menuList.value = [];
+  permissionMenus({}, systemId).then((res: any) => {
+    menuList.value = res.data?.data;
+  });
+};
 const init = async () => {
-  dbList.value = await initDbList();
+  initDbList().then((res) => {
+    dbList.value = res;
+  });
+  loadRolesInfo([]).then((res) => {
+    rolesList.value = res;
+  });
+  loadDict("page_style").then((res: any) => {
+    pageStyleList.value = res;
+  });
+  loadDict("DATA_LOAD_CONDITION").then((res: any) => {
+    dataLoadConditionList.value = res;
+  });
+  loadDict("PRIMARY_KEY_POLICY").then((res: any) => {
+    primaryKeyPolicyList.value = res;
+  });
 };
 const getDefaultVal = (type: string) => {
   if (type == "number" || type == "slider" || type == "rate") {
@@ -225,7 +516,9 @@ const getDefaultVal = (type: string) => {
 };
 const getFieldType = (item: any, fieldCompTypes: Array<any>) => {
   if (fieldCompTypes && fieldCompTypes.length > 0) {
-    let result = fieldCompTypes.find((temp: any) => temp.fieldName == item.fieldName);
+    let result = fieldCompTypes.find(
+      (temp: any) => temp.fieldName == item.fieldName,
+    );
     if (result && result.fieldType) {
       return result.fieldType;
     }
@@ -233,9 +526,18 @@ const getFieldType = (item: any, fieldCompTypes: Array<any>) => {
   let type = item.type.toLowerCase();
   if (type.includes("varchar") || type.includes("character")) {
     return "input";
-  } else if (type.includes("number") || type.includes("int") || type.includes("bigint") || type.includes("serial")) {
+  } else if (
+    type.includes("number") ||
+    type.includes("int") ||
+    type.includes("bigint") ||
+    type.includes("serial")
+  ) {
     return "number";
-  } else if (type.includes("date") || type.includes("datetime") || type.includes("timestamp")) {
+  } else if (
+    type.includes("date") ||
+    type.includes("datetime") ||
+    type.includes("timestamp")
+  ) {
     return "datetime";
   }
   return "input";
@@ -255,14 +557,22 @@ const onDataCopy = async (data: any) => {
   let formInfo: any = {
     tbName: tableName,
     formName: data.comment || "",
-    needCommonFields: data.commonFieldFlag == "Y" ? "Y" : configData.value.commonFieldFlag == "Y" ? "Y" : "N"
+    needCommonFields:
+      data.commonFieldFlag == "Y"
+        ? "Y"
+        : configData.value.commonFieldFlag == "Y"
+          ? "Y"
+          : "N",
   };
   data["added"] = "Y";
   for (let i in fieldList) {
     let reData = fieldList[i];
     let fieldName: string = convertToCamelCase(reData.fieldName.toLowerCase())!;
     let ms = formData.value["index"]++;
-    if (reData.commonFieldFlag?.toLowerCase() == "y" && config.commonFieldFlag?.toLowerCase() == "n") {
+    if (
+      reData.commonFieldFlag?.toLowerCase() == "y" &&
+      config.commonFieldFlag?.toLowerCase() == "n"
+    ) {
       continue;
     }
     if (reData.primaryKey?.toLowerCase() == "y") {
@@ -270,7 +580,9 @@ const onDataCopy = async (data: any) => {
       continue;
     }
     //如果有过滤的字段，则跳过
-    let fResult = data.exclusionFields?.find((item: string) => item == reData.fieldName);
+    let fResult = data.exclusionFields?.find(
+      (item: string) => item == reData.fieldName,
+    );
     if (fResult) {
       continue;
     }
@@ -280,14 +592,14 @@ const onDataCopy = async (data: any) => {
      * 处理preps
      */
     mvData["preps"] = {
-      clearable: "N",
+      clearable: true,
       comment: "",
-      controls: "Y",
-      required: reData["nullFlag"] == "n" ? "Y" : "N",
+      controls: true,
+      required: reData["nullFlag"] == "N" ? true : false,
       controlsPosition: "",
-      disabled: "N",
-      formVisible: "Y",
-      placeholder: ""
+      disabled: false,
+      formVisible: true,
+      placeholder: "",
     };
     mvData["itemType"] = getFieldType(reData, data.fieldCompTypes);
     mvData.preps["id"] = mvData["id"];
@@ -306,7 +618,7 @@ const onDataCopy = async (data: any) => {
     mvData.preps["itemNameLabel"] = labelName;
     mvData.preps["name"] = fieldName;
     formData.value[fieldName] = getDefaultVal(mvData["itemType"]);
-    mvData["compType"] = "formItem";
+    mvData["compType"] = "item";
     mvDataList.push(mvData);
   }
   if (compLength == 0 || compLength == 1) {
@@ -322,34 +634,42 @@ const onDataCopy = async (data: any) => {
       itemType: "box",
       preps: {
         id: boxId,
-        formVisible: "N",
+        formVisible: false,
         gutter: 0,
         justify: "start",
-        readonly: "N",
-        required: "N",
-        searchVisible: "N",
-        size: "small",
-        listVisible: "N",
+        readonly: false,
+        required: false,
+        searchVisible: false,
+        size: "default",
+        listVisible: false,
         tag: "div",
         label: "栅格",
-        name: "box"
-      }
+        name: "box",
+      },
     };
     let col = parseInt(boxColumns);
-    let rows = mvDataList.length % col == 0 ? mvDataList.length / col : mvDataList.length / col + 1;
+    let rows =
+      mvDataList.length % col == 0
+        ? mvDataList.length / col
+        : mvDataList.length / col + 1;
     let index = 0;
     for (let r = 1; r <= rows; r++) {
       let columns = [];
       for (let i = 1; i <= col; i++) {
         let temp = mvDataList[index++];
         if (temp) {
-          columns.push({colIndex: i, colspan: 24 / col, items: [temp], xh: i});
+          columns.push({
+            colIndex: i,
+            colspan: 24 / col,
+            items: [temp],
+            xh: i,
+          });
         }
       }
       elements.push({
         rowIndex: r,
         columns: columns,
-        xh: r
+        xh: r,
       });
     }
     box.preps["elements"] = elements;
@@ -368,23 +688,23 @@ const onDataCopy = async (data: any) => {
         primaryKeyName: formInfo.formId,
         columns: mvDataList.length,
         comment: "",
-        formVisible: "N",
-        readonly: "N",
-        required: "N",
-        searchVisible: "N",
-        size: "small",
-        listVisible: "N",
+
+        readonly: false,
+        required: false,
+        searchVisible: false,
+        size: compSize.value,
+
         label: "动态列表",
-        templateDownFlag: "N",
-        importFlag: "N",
-        name: "table"
-      }
+        templateDownFlag: false,
+        importFlag: false,
+        name: "table",
+      },
     };
     for (let index in mvDataList) {
       let temp = mvDataList[index];
       elements.push({
         colIndex: parseInt(index) + 1,
-        items: [temp]
+        items: [temp],
       });
     }
     table.preps["elements"] = elements;
@@ -398,6 +718,7 @@ const onDataCopy = async (data: any) => {
 const configDialogVisible = ref<boolean>(false);
 const closeAction = () => {
   configDialogVisible.value = false;
+  tableDialogVisible.value = false;
 };
 const viewConfig = () => {
   configDialogVisible.value = true;
@@ -410,15 +731,86 @@ const configMsg = `操作指引：
 const dynamicBtn = () => {
   let userBtn: BtnAuth[] = [];
   userBtn.push({
-    btnName: "add",
+    btnName: "添加",
     labelName: "添加",
     icon: "add",
     disabled: added.value,
     exec: () => {
       tableSubmit(true);
-    }
+    },
   });
   return userBtn;
+};
+const parentDialogType = ref<string>("");
+const configDataSubmit = (type: string) => {
+  // closeAction();
+  configFormRef.value.$refs.starHorseFormRef.validate((res: boolean) => {
+    // 提交配置数据
+    if (!res) {
+      return;
+    }
+    parentDialogType.value = type;
+    let tempFormData = configFormRef.value.getFormData().value;
+    configData.value = { ...tempFormData };
+    if (props.batchCreatePage) {
+      let tableInfoList: any = [];
+      tempFormData["tableNameList"]?.forEach((item: string) => {
+        let findData = assignDataList.value?.find(
+          (temp: any) => temp.tableName == item,
+        );
+        if (findData) {
+          let comment = "";
+          if (isJson(findData.comment)) {
+            comment = JSON.parse(findData.comment)["desc"];
+          } else {
+            comment = findData.comment;
+          }
+          tableInfoList.push({
+            tableName: findData.tableName,
+            comment: comment,
+          });
+        }
+      });
+      configData.value["tableNameList"] = tableInfoList;
+      if (createMenuFlag.value) {
+        tableDialogVisible.value = true;
+        return;
+      } else {
+        execCreateData(type);
+      }
+    }
+  });
+};
+const execCreateData = (type: string) => {
+  tableFormRef.value.$refs.starHorseFormRef.validate((res: boolean) => {
+    // 提交配置数据
+    if (!res) {
+      return;
+    }
+    doCreateData(parentDialogType.value);
+    tableDialogVisible.value = false;
+  });
+};
+const doCreateData = (type: string) => {
+  //创建页面
+  load("页面创建中");
+  postRequest(`${dataUrl.basePrefix}/batchCreateForm`, configData.value)
+    .then((res: any) => {
+      if (res.data.code) {
+        warning(res.data.cnMessage);
+        return;
+      } else {
+        success(res.data.cnMessage);
+        configData.value = { column: 1 };
+        configFormRef.value.resetForm();
+        if (type == "close") {
+          closeAction();
+        }
+      }
+    })
+    .finally(() => {
+      closeLoad();
+    });
 };
 onMounted(() => {
   init();
@@ -426,46 +818,67 @@ onMounted(() => {
 </script>
 <template>
   <star-horse-dialog
-      :boxWidth="'640px'"
-      :dialog-visible="currentDataVisible"
-      :selfFunc="true"
-      :userBtn="dynamicBtn()"
-      @reset="dataReset"
-      @closeAction="tableOperClose"
-      @merge="() => tableSubmit(false)"
+    :dialogVisible="tableDialogVisible"
+    @closeAction="tableDialogVisible = false"
+    :selfFunc="true"
+    :isShowBtnContinue="false"
+    @resetForm="configData = { columns: 1 }"
+    @merge="execCreateData"
+    :title="'列表信息'"
+    :box-width="'40%'"
+  >
+    <star-horse-form
+      :size="compSize"
+      :outerFormData="configData"
+      :fieldList="tableFieldInfo"
+      ref="tableFormRef"
+    >
+    </star-horse-form>
+  </star-horse-dialog>
+  <star-horse-dialog
+    :boxWidth="'40%'"
+    :boxHeight="'60%'"
+    :dialogVisible="currentDataVisible"
+    :selfFunc="true"
+    :userBtn="dynamicBtn()"
+    @resetForm="dataReset"
+    @closeAction="tableOperClose"
+    @merge="() => tableSubmit(false)"
   >
     <el-tabs v-model="tbTab">
       <el-tab-pane name="tb1">
         <template #label>
           <div class="flex items-center">
-            <star-horse-icon icon-class="config" color="var(--star-horse-style)"/>
-            风格设置
-            <help :width="400" :message="configMsg"
+            <star-horse-icon
+              icon-class="config"
+              color="var(--star-horse-style)"
             />
+            风格设置
+            <help :width="400" :message="configMsg" />
           </div>
         </template>
-        <star-horse-form ref="tableFieldInfoRef" :field-list="dataFieldInfo"/>
+        <star-horse-form ref="tableFieldInfoRef" :field-list="dataFieldInfo" />
       </el-tab-pane>
       <el-tab-pane name="tb2" label="表格属性" class="h-full overflow-hidden">
         <el-scrollbar height="100%">
-          <table class="el-table field-table" style="width: 100%; ">
+          <table class="el-table field-table" style="width: 100%">
             <thead>
-            <tr class="font-bold size9">
-              <th>名称</th>
-              <th>类型</th>
-              <th class="w-[60px]">空标识</th>
-              <th class="w-[40px]">主键</th>
-              <th>备注</th>
-            </tr>
+              <tr class="font-bold size9">
+                <th>名称</th>
+                <th>类型</th>
+                <th class="w-[60px]">空标识</th>
+                <th class="w-[40px]">主键</th>
+                <th>备注</th>
+              </tr>
             </thead>
             <tbody>
-            <tr v-for="sdata in currentData.fields">
-              <td>{{ sdata.fieldName }}</td>
-              <td>{{ sdata.type }}</td>
-              <td>{{ sdata.nullFlag }}</td>
-              <td>{{ sdata.primaryKey }}</td>
-              <td>{{ sdata.comment }}</td>
-            </tr>
+              <tr v-for="sdata in currentData.fields">
+                <td>{{ sdata.fieldName }}</td>
+                <td>{{ sdata.type }}</td>
+                <td>{{ sdata.nullFlag }}</td>
+                <td>{{ sdata.primaryKey }}</td>
+                <td>{{ sdata.comment }}</td>
+              </tr>
             </tbody>
           </table>
         </el-scrollbar>
@@ -473,84 +886,104 @@ onMounted(() => {
     </el-tabs>
   </star-horse-dialog>
   <star-horse-dialog
-      :dialogVisible="configDialogVisible"
-      @closeAction="closeAction"
-      :selfFunc="true"
-      :hideFullScreenIcon="true"
-      @resetForm="configData={columns:1}"
-      @merge="closeAction"
-      :title="'属性配置'"
-      :box-width="'20%'"
+    :dialogVisible="configDialogVisible"
+    @closeAction="closeAction"
+    :selfFunc="true"
+    :isShowBtnContinue="true"
+    @resetForm="configData = { columns: 1 }"
+    @merge="configDataSubmit"
+    :title="'批量生成动态表单'"
+    :box-width="'50%'"
   >
-    <el-form :model="configData" :size="compSize">
-      <el-form-item label="每行显示列数">
-        <el-input-number min="1" max="12" step="1" v-model="configData.columns" placeholder="请设置每行列数"/>
-      </el-form-item>
-      <el-form-item label="显示公共属性">
-        <el-switch v-model="configData.commonFieldFlag" active-value="Y" inactive-value="N"/>
-      </el-form-item>
-    </el-form>
+    <star-horse-form
+      :size="compSize"
+      :outerFormData="configData"
+      :fieldList="configFieldInfo"
+      ref="configFormRef"
+    >
+    </star-horse-form>
   </star-horse-dialog>
-  <el-row>
-    <el-col :span="18">
+  <div
+    class="flex flex-col justify-between mt-5 w-[98%] mx-auto h-full overflow-hidden"
+  >
+    <div class="flex justify-between items-center">
       <el-select
-          :size="compSize"
-          @change="openDb"
-          clearable
-          filterable
-          id="dbInfo"
-          placeholder="请选择数据库信息"
-          v-model="dbIndex"
+        :size="compSize"
+        @change="openDb"
+        clearable
+        filterable
+        id="dbInfo"
+        placeholder="请选择数据库信息"
+        v-model="dbIndex"
       >
-        <el-option :key="sitem.value" :label="sitem.name" :value="sitem.value" v-for="sitem in dbList"></el-option>
+        <el-option
+          :key="sitem.value"
+          :label="sitem.name"
+          :value="sitem.value"
+          v-for="sitem in dbList"
+        ></el-option>
       </el-select>
-    </el-col>
-    <el-col :span="6">
       <el-button link @click="viewConfig" :size="compSize">
-        <star-horse-icon icon-class="setting" color="var(--star-horse-style)"/>
+        <star-horse-icon icon-class="setting" color="var(--star-horse-style)" />
         <span>配置</span>
       </el-button>
-    </el-col>
-  </el-row>
-  <div style="margin-top: 5px"></div>
-  <el-input :size="compSize" placeholder="请输入关键字" v-model="filterTableName" @keydown.enter="filterData">
-    <template #append>
-      <star-horse-icon @click="filterData" icon-class="search" color="var(--star-horse-style)"/>
-    </template>
-  </el-input>
-  <el-scrollbar height="90%">
-    <draggable
-        :clone="onDataCopy"
-        :group="{ name: 'starHorseGroup', pull: 'clone', put: false }"
-        :sort="false"
-        animation="300"
-        ghost-class="ghost"
-        item-key="id"
-        tag="ul"
-        :list="assignDataList"
+    </div>
+
+    <div style="margin-top: 5px"></div>
+    <el-input
+      :size="compSize"
+      placeholder="请输入关键字"
+      v-model="filterTableName"
+      @keydown.enter="filterData"
     >
-      <template #item="{ element: data, index: idx }">
-        <li
-            :style="{
-            border: currentData.tableName == data.tableName ? '2px dashed var(--star-horse-style)' : 'none',
-            'align-items': 'center',
-            cursor: 'move'
-          }"
-        >
-          <star-horse-icon icon-class="table" style="height: 18px"/>
-          <el-tooltip :content="data.comment">
-            {{ data.tableName }}
-          </el-tooltip>
-          <star-horse-icon
-              title="查看&配置"
-              icon-class="setting"
-              style="color: var(--star-horse-style); cursor: pointer"
-              @click="(evt: Event) => contextOperation(evt, data, idx)"
-          />
-        </li>
+      <template #append>
+        <star-horse-icon
+          @click="filterData"
+          icon-class="search"
+          color="var(--star-horse-style)"
+        />
       </template>
-    </draggable>
-  </el-scrollbar>
+    </el-input>
+    <div class="flex flex-1 overflow-hidden">
+      <el-scrollbar>
+        <draggable
+          :clone="onDataCopy"
+          :group="{ name: 'starHorseGroup', pull: 'clone', put: false }"
+          :sort="false"
+          animation="300"
+          ghost-class="ghost"
+          item-key="id"
+          tag="ul"
+          :list="assignDataList"
+        >
+          <template #item="{ element: data, index: idx }">
+            <li
+              :style="{
+                border:
+                  currentData.tableName == data.tableName
+                    ? '2px dashed var(--star-horse-style)'
+                    : 'none',
+                'align-items': 'center',
+                cursor: 'move',
+              }"
+            >
+              <star-horse-icon icon-class="table" size="18px" />
+              <el-tooltip :content="data.comment">
+                {{ data.tableName }}
+              </el-tooltip>
+              <star-horse-icon
+                title="查看&配置"
+                icon-class="setting"
+                style="color: var(--star-horse-style); cursor: pointer"
+                @click="(evt: Event) => contextOperation(evt, data, idx)"
+              />
+            </li>
+          </template>
+        </draggable>
+      </el-scrollbar>
+    </div>
+    <div class="h-[25px]"></div>
+  </div>
 </template>
 <style scoped lang="scss">
 :deep(.el-popover) {
@@ -570,7 +1003,7 @@ ul {
   flex-direction: column;
 
   li {
-    height: 25px;
+    height: 30px;
     border-radius: 2px;
     cursor: pointer;
     margin: 1px;

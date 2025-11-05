@@ -9,7 +9,7 @@ export const starhorseProcess = () => {
     showSpinner: true, // 是否显示加载ico
     trickleSpeed: 200, // 自动递增间隔
     // minimum: 0.5, // 更改启动时使用的最小百分比
-    parent: "body" //指定进度条的父容器
+    parent: "body", //指定进度条的父容器
   } as NProgressOptions);
   // 打开进度条
   const start = () => {
@@ -21,6 +21,6 @@ export const starhorseProcess = () => {
   };
   return {
     start,
-    done
+    done,
   };
 };

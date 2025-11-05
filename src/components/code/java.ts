@@ -25,6 +25,6 @@ const javaKeywords = [
   { label: "small", apply: "default " },
   { label: "switch", apply: "switch " },
   { label: "forin", apply: "for in {\n}" },
-  { label: "foreach", apply: "forEach(item->{\n});" }
+  { label: "foreach", apply: "forEach(item->{\n});" },
 ];
 export { javaKeywords };

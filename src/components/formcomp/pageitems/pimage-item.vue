@@ -1,9 +1,27 @@
 <script setup lang="ts">
-  defineOptions({
-    name: "PageImageItem"
-  });
+import { PageCompInfo } from "@/components/types/PageLayoutComp.js";
+
+defineOptions({
+  name: "PageImageItem",
+});
+
+interface ImageInfo {
+  imageUrl: string;
+  width: string;
+  height: string;
+  alt: string;
+}
+withDefaults(defineProps<PageCompInfo>(), {
+  isDesign: () => false,
+  preps: () => ({}),
+  styles: () => ({}),
+});
 </script>
 
-<template>图片内容</template>
+<template>
+  <div class="w-full" :style="styles">
+    <el-image v-bind="preps" :style="styles" />
+  </div>
+</template>
 
 <style scoped lang="scss"></style>

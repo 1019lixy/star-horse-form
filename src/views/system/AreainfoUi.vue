@@ -1,0 +1,122 @@
+<script setup lang="ts" name="Areainfo">
+import {
+  apiInstance,
+  ApiUrls,
+  dialogPreps,
+  PageFieldInfo,
+  SearchFields,
+} from "star-horse-lowcode";
+import { commonField } from "@/api/system";
+import { onMounted, provide, reactive, ref } from "vue";
+import { i18n } from "@/lang";
+
+const dataUrl: ApiUrls = apiInstance("system-config", "system/areainfo");
+const searchFormData = reactive<SearchFields>({
+  fieldList: [
+    {
+      label: i18n("system.area.name"),
+      defaultVisible: true,
+      matchType: "lk",
+      fieldName: "areaName",
+    },
+    {
+      label: i18n("system.area.code"),
+      defaultVisible: true,
+      matchType: "lk",
+      fieldName: "areaCode",
+    },
+  ],
+});
+const tableFieldList = reactive<PageFieldInfo>({
+  fieldList: [
+    {
+      label: i18n("system.area.key"),
+      fieldName: "idAreainfo",
+      type: "long",
+    },
+    {
+      label: i18n("system.parent.node.number"),
+      fieldName: "parentNo",
+      type: "select",
+      formVisible: true,
+      listVisible: true,
+    },
+    {
+      label: i18n("system.area.name"),
+      fieldName: "areaName",
+
+      formVisible: true,
+      listVisible: true,
+    },
+    {
+      label: i18n("system.area.code"),
+      fieldName: "areaCode",
+
+      formVisible: true,
+      listVisible: true,
+    },
+    ...commonField(),
+  ],
+  batchFieldList: [],
+});
+const primaryKey = "idAreainfo";
+const areainfoRef = ref();
+const rules = {};
+const dialogProps = dialogPreps();
+provide("dialogProps", dialogProps);
+
+const dataFormat = (_name: string, cellValue: object): any => {
+  return cellValue;
+};
+const initData = async () => {};
+onMounted(() => {
+  initData();
+});
+</script>
+<template>
+  <div class="flex flex-col h-full overflow-hidden">
+    <star-horse-dialog
+      :isShowBtnContinue="true"
+      :dialogVisible="dialogProps.editVisible"
+      :dialogProps="dialogProps"
+    >
+      <star-horse-form
+        @refresh="areainfoRef?.loadByPage()"
+        :compUrl="dataUrl"
+        :fieldList="tableFieldList"
+        :rules="rules"
+      />
+    </star-horse-dialog>
+    <star-horse-dialog
+      :dialog-visible="dialogProps.viewVisible"
+      :dialogProps="dialogProps"
+      :source="3"
+    >
+      <star-horse-data-view
+        :dataFormat="dataFormat"
+        :field-list="tableFieldList"
+        :compUrl="dataUrl"
+      />
+    </star-horse-dialog>
+    <div class="search-content">
+      <div class="search_btn">
+        <star-horse-search-comp
+          @searchData="(data: any) => areainfoRef?.createSearchParams(data)"
+          :formData="searchFormData"
+          :compUrl="dataUrl"
+        />
+      </div>
+    </div>
+    <el-card class="inner_content">
+      <star-horse-table-comp
+        ref="areainfoRef"
+        :fieldList="tableFieldList"
+        :primaryKey="primaryKey"
+        :compUrl="dataUrl"
+        :dataFormat="dataFormat"
+        :showPageBar="false"
+      />
+    </el-card>
+  </div>
+</template>
+<style lang="scss" scoped></style>

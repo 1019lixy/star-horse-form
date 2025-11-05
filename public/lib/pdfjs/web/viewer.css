@@ -240,31 +240,41 @@
   height: 32px;
 }
 
-:is(:is(.dialog .mainContainer) button:not(:is(.toggle-button, .closeButton))):hover {
+:is(
+  :is(.dialog .mainContainer) button:not(:is(.toggle-button, .closeButton))
+):hover {
   cursor: pointer;
   filter: var(--hover-filter);
 }
 
-.secondaryButton:is(:is(.dialog .mainContainer) button:not(:is(.toggle-button, .closeButton))) {
+.secondaryButton:is(
+  :is(.dialog .mainContainer) button:not(:is(.toggle-button, .closeButton))
+) {
   color: var(--button-secondary-fg-color);
   background-color: var(--button-secondary-bg-color);
   border-color: var(--button-secondary-border-color);
 }
 
-.secondaryButton:is(:is(.dialog .mainContainer) button:not(:is(.toggle-button, .closeButton))):hover {
+.secondaryButton:is(
+    :is(.dialog .mainContainer) button:not(:is(.toggle-button, .closeButton))
+  ):hover {
   color: var(--button-secondary-hover-fg-color);
   background-color: var(--button-secondary-hover-bg-color);
   border-color: var(--button-secondary-hover-border-color);
 }
 
-.primaryButton:is(:is(.dialog .mainContainer) button:not(:is(.toggle-button, .closeButton))) {
+.primaryButton:is(
+  :is(.dialog .mainContainer) button:not(:is(.toggle-button, .closeButton))
+) {
   color: var(--button-primary-fg-color);
   background-color: var(--button-primary-bg-color);
   border-color: var(--button-primary-border-color);
   opacity: 1;
 }
 
-.primaryButton:is(:is(.dialog .mainContainer) button:not(:is(.toggle-button, .closeButton))):hover {
+.primaryButton:is(
+    :is(.dialog .mainContainer) button:not(:is(.toggle-button, .closeButton))
+  ):hover {
   color: var(--button-primary-hover-fg-color);
   background-color: var(--button-primary-hover-bg-color);
   border-color: var(--button-primary-hover-border-color);
@@ -403,7 +413,8 @@
   font-weight: 590;
 }
 
-:is(:is(:is(:is(.dialog .mainContainer) .messageBar) > div) > div) .description {
+:is(:is(:is(:is(.dialog .mainContainer) .messageBar) > div) > div)
+  .description {
   font-size: 13px;
 }
 
@@ -430,7 +441,11 @@
   background-color: var(--message-bar-close-button-color);
 }
 
-:is(:is(:is(.dialog .mainContainer) .messageBar) .closeButton):is(:hover, :active, :focus)::before {
+:is(:is(:is(.dialog .mainContainer) .messageBar) .closeButton):is(
+    :hover,
+    :active,
+    :focus
+  )::before {
   background-color: var(--message-bar-close-button-color-hover);
 }
 
@@ -612,7 +627,9 @@
 
   .annotationLayer .textWidgetAnnotation :is(input, textarea):required,
   .annotationLayer .choiceWidgetAnnotation select:required,
-  .annotationLayer .buttonWidgetAnnotation:is(.checkBox, .radioButton) input:required {
+  .annotationLayer
+    .buttonWidgetAnnotation:is(.checkBox, .radioButton)
+    input:required {
     outline: 1.5px solid selectedItem;
   }
 
@@ -707,7 +724,8 @@
   transform-origin: 0 0;
 }
 
-:is(.annotationLayer section):has(div.annotationContent) canvas.annotationContent {
+:is(.annotationLayer section):has(div.annotationContent)
+  canvas.annotationContent {
   display: none;
 }
 
@@ -724,7 +742,9 @@
   height: 100%;
 }
 
-.annotationLayer :is(.linkAnnotation, .buttonWidgetAnnotation.pushButton):not(.hasBorder) > a:hover {
+.annotationLayer
+  :is(.linkAnnotation, .buttonWidgetAnnotation.pushButton):not(.hasBorder)
+  > a:hover {
   opacity: 0.2;
   background-color: rgb(255 255 0);
   box-shadow: 0 2px 10px rgb(255 255 0);
@@ -762,7 +782,9 @@
 
 .annotationLayer .textWidgetAnnotation :is(input, textarea):required,
 .annotationLayer .choiceWidgetAnnotation select:required,
-.annotationLayer .buttonWidgetAnnotation:is(.checkBox, .radioButton) input:required {
+.annotationLayer
+  .buttonWidgetAnnotation:is(.checkBox, .radioButton)
+  input:required {
   outline: 1.5px solid red;
 }
 
@@ -780,7 +802,9 @@
 
 .annotationLayer .textWidgetAnnotation [disabled]:is(input, textarea),
 .annotationLayer .choiceWidgetAnnotation select[disabled],
-.annotationLayer .buttonWidgetAnnotation:is(.checkBox, .radioButton) input[disabled] {
+.annotationLayer
+  .buttonWidgetAnnotation:is(.checkBox, .radioButton)
+  input[disabled] {
   background: none;
   border: 2px solid var(--input-disabled-border-color);
   cursor: not-allowed;
@@ -788,7 +812,9 @@
 
 .annotationLayer .textWidgetAnnotation :is(input, textarea):hover,
 .annotationLayer .choiceWidgetAnnotation select:hover,
-.annotationLayer .buttonWidgetAnnotation:is(.checkBox, .radioButton) input:hover {
+.annotationLayer
+  .buttonWidgetAnnotation:is(.checkBox, .radioButton)
+  input:hover {
   border: 2px solid var(--input-hover-border-color);
 }
 
@@ -887,7 +913,8 @@
 
 .annotationLayer .popup {
   background-color: rgb(255 255 153);
-  box-shadow: 0 calc(2px * var(--scale-factor)) calc(5px * var(--scale-factor)) rgb(136 136 136);
+  box-shadow: 0 calc(2px * var(--scale-factor)) calc(5px * var(--scale-factor))
+    rgb(136 136 136);
   border-radius: calc(2px * var(--scale-factor));
   outline: 1.5px solid rgb(255 255 74);
   padding: calc(6px * var(--scale-factor));
@@ -1382,8 +1409,16 @@
 @media (prefers-color-scheme: dark) {
   :where(html:not(.is-light)) .toggle-button {
     --button-background-color: color-mix(in srgb, currentColor 7%, transparent);
-    --button-background-color-hover: color-mix(in srgb, currentColor 14%, transparent);
-    --button-background-color-active: color-mix(in srgb, currentColor 21%, transparent);
+    --button-background-color-hover: color-mix(
+      in srgb,
+      currentColor 14%,
+      transparent
+    );
+    --button-background-color-active: color-mix(
+      in srgb,
+      currentColor 21%,
+      transparent
+    );
     --color-accent-primary: #0df;
     --color-accent-primary-hover: #80ebff;
     --color-accent-primary-active: #aaf2ff;
@@ -1394,8 +1429,16 @@
 
 :where(html.is-dark) .toggle-button {
   --button-background-color: color-mix(in srgb, currentColor 7%, transparent);
-  --button-background-color-hover: color-mix(in srgb, currentColor 14%, transparent);
-  --button-background-color-active: color-mix(in srgb, currentColor 21%, transparent);
+  --button-background-color-hover: color-mix(
+    in srgb,
+    currentColor 14%,
+    transparent
+  );
+  --button-background-color-active: color-mix(
+    in srgb,
+    currentColor 21%,
+    transparent
+  );
   --color-accent-primary: #0df;
   --color-accent-primary-hover: #80ebff;
   --color-accent-primary-active: #aaf2ff;
@@ -1436,9 +1479,14 @@
   --toggle-dot-background-color-active: var(--toggle-dot-background-color);
   --toggle-dot-background-color-on-pressed: var(--color-canvas);
   --toggle-dot-margin: 1px;
-  --toggle-dot-height: calc(var(--toggle-height) - 2 * var(--toggle-dot-margin) - 2 * var(--toggle-border-width));
+  --toggle-dot-height: calc(
+    var(--toggle-height) - 2 * var(--toggle-dot-margin) - 2 *
+      var(--toggle-border-width)
+  );
   --toggle-dot-width: var(--toggle-dot-height);
-  --toggle-dot-transform-x: calc(var(--toggle-width) - 4 * var(--toggle-dot-margin) - var(--toggle-dot-width));
+  --toggle-dot-transform-x: calc(
+    var(--toggle-width) - 4 * var(--toggle-dot-margin) - var(--toggle-dot-width)
+  );
 
   -webkit-appearance: none;
 
@@ -1583,19 +1631,26 @@
   --hover-outline-around-color: var(--outline-around-color);
   --focus-outline: solid var(--outline-width) var(--outline-color);
   --unfocus-outline: solid var(--outline-width) transparent;
-  --focus-outline-around: solid var(--outline-around-width) var(--outline-around-color);
+  --focus-outline-around: solid var(--outline-around-width)
+    var(--outline-around-color);
   --hover-outline-color: #8f8f9d;
   --hover-outline: solid var(--outline-width) var(--hover-outline-color);
-  --hover-outline-around: solid var(--outline-around-width) var(--hover-outline-around-color);
+  --hover-outline-around: solid var(--outline-around-width)
+    var(--hover-outline-around-color);
   --freetext-line-height: 1.35;
   --freetext-padding: 2px;
   --resizer-bg-color: var(--outline-color);
   --resizer-size: 6px;
-  --resizer-shift: calc(0px - (var(--outline-width) + var(--resizer-size)) / 2 - var(--outline-around-width));
+  --resizer-shift: calc(
+    0px - (var(--outline-width) + var(--resizer-size)) / 2 -
+      var(--outline-around-width)
+  );
   --editorFreeText-editing-cursor: text;
   --editorInk-editing-cursor: url(images/cursor-editorInk.svg) 0 16, pointer;
-  --editorHighlight-editing-cursor: url(images/cursor-editorTextHighlight.svg) 24 24, text;
-  --editorFreeHighlight-editing-cursor: url(images/cursor-editorFreeHighlight.svg) 1 18, pointer;
+  --editorHighlight-editing-cursor:
+    url(images/cursor-editorTextHighlight.svg) 24 24, text;
+  --editorFreeHighlight-editing-cursor:
+    url(images/cursor-editorFreeHighlight.svg) 1 18, pointer;
 
   --new-alt-text-warning-image: url(images/altText_warning.svg);
 }
@@ -1629,13 +1684,18 @@
   cursor: var(--editorFreeHighlight-editing-cursor);
 }
 
-:is(#viewerContainer.pdfPresentationMode:fullscreen, .annotationEditorLayer.disabled) .noAltTextBadge {
+:is(
+    #viewerContainer.pdfPresentationMode:fullscreen,
+    .annotationEditorLayer.disabled
+  )
+  .noAltTextBadge {
   display: none !important;
 }
 
 @media (min-resolution: 1.1dppx) {
   :root {
-    --editorFreeText-editing-cursor: url(images/cursor-editorFreeText.svg) 0 16, text;
+    --editorFreeText-editing-cursor:
+      url(images/cursor-editorFreeText.svg) 0 16, text;
   }
 }
 
@@ -1710,20 +1770,28 @@
   border: var(--unfocus-outline);
 }
 
-.draggable.selectedEditor:is(.annotationEditorLayer :is(.freeTextEditor, .inkEditor, .stampEditor)) {
+.draggable.selectedEditor:is(
+    .annotationEditorLayer :is(.freeTextEditor, .inkEditor, .stampEditor)
+  ) {
   cursor: move;
 }
 
-.moving:is(.annotationEditorLayer :is(.freeTextEditor, .inkEditor, .stampEditor)) {
+.moving:is(
+  .annotationEditorLayer :is(.freeTextEditor, .inkEditor, .stampEditor)
+) {
   touch-action: none;
 }
 
-.selectedEditor:is(.annotationEditorLayer :is(.freeTextEditor, .inkEditor, .stampEditor)) {
+.selectedEditor:is(
+  .annotationEditorLayer :is(.freeTextEditor, .inkEditor, .stampEditor)
+) {
   border: var(--focus-outline);
   outline: var(--focus-outline-around);
 }
 
-.selectedEditor:is(.annotationEditorLayer :is(.freeTextEditor, .inkEditor, .stampEditor))::before {
+.selectedEditor:is(
+    .annotationEditorLayer :is(.freeTextEditor, .inkEditor, .stampEditor)
+  )::before {
   content: "";
   position: absolute;
   inset: 0;
@@ -1731,19 +1799,28 @@
   pointer-events: none;
 }
 
-:is(.annotationEditorLayer :is(.freeTextEditor, .inkEditor, .stampEditor)):hover:not(.selectedEditor) {
+:is(
+    .annotationEditorLayer :is(.freeTextEditor, .inkEditor, .stampEditor)
+  ):hover:not(.selectedEditor) {
   border: var(--hover-outline);
   outline: var(--hover-outline-around);
 }
 
-:is(.annotationEditorLayer :is(.freeTextEditor, .inkEditor, .stampEditor)):hover:not(.selectedEditor)::before {
+:is(
+    .annotationEditorLayer :is(.freeTextEditor, .inkEditor, .stampEditor)
+  ):hover:not(.selectedEditor)::before {
   content: "";
   position: absolute;
   inset: 0;
   border: var(--focus-outline-around);
 }
 
-:is(.annotationEditorLayer :is(.freeTextEditor, .inkEditor, .stampEditor, .highlightEditor), .textLayer) .editToolbar {
+:is(
+    .annotationEditorLayer
+      :is(.freeTextEditor, .inkEditor, .stampEditor, .highlightEditor),
+    .textLayer
+  )
+  .editToolbar {
   --editor-toolbar-delete-image: url(images/editor-toolbar-delete.svg);
   --editor-toolbar-bg-color: #f0f0f4;
   --editor-toolbar-highlight-image: url(images/toolbarButton-editorHighlight.svg);
@@ -1766,7 +1843,11 @@
 
 @media (prefers-color-scheme: dark) {
   :where(html:not(.is-light))
-    :is(.annotationEditorLayer :is(.freeTextEditor, .inkEditor, .stampEditor, .highlightEditor), .textLayer)
+    :is(
+      .annotationEditorLayer
+        :is(.freeTextEditor, .inkEditor, .stampEditor, .highlightEditor),
+      .textLayer
+    )
     .editToolbar {
     --editor-toolbar-bg-color: #2b2a33;
     --editor-toolbar-fg-color: #fbfbfe;
@@ -1778,7 +1859,11 @@
 }
 
 :where(html.is-dark)
-  :is(.annotationEditorLayer :is(.freeTextEditor, .inkEditor, .stampEditor, .highlightEditor), .textLayer)
+  :is(
+    .annotationEditorLayer
+      :is(.freeTextEditor, .inkEditor, .stampEditor, .highlightEditor),
+    .textLayer
+  )
   .editToolbar {
   --editor-toolbar-bg-color: #2b2a33;
   --editor-toolbar-fg-color: #fbfbfe;
@@ -1789,7 +1874,11 @@
 }
 
 @media screen and (forced-colors: active) {
-  :is(.annotationEditorLayer :is(.freeTextEditor, .inkEditor, .stampEditor, .highlightEditor), .textLayer)
+  :is(
+      .annotationEditorLayer
+        :is(.freeTextEditor, .inkEditor, .stampEditor, .highlightEditor),
+      .textLayer
+    )
     .editToolbar {
     --editor-toolbar-bg-color: ButtonFace;
     --editor-toolbar-fg-color: ButtonText;
@@ -1797,7 +1886,8 @@
     --editor-toolbar-hover-border-color: AccentColor;
     --editor-toolbar-hover-bg-color: ButtonFace;
     --editor-toolbar-hover-fg-color: AccentColor;
-    --editor-toolbar-hover-outline: 2px solid var(--editor-toolbar-hover-border-color);
+    --editor-toolbar-hover-outline: 2px solid
+      var(--editor-toolbar-hover-border-color);
     --editor-toolbar-focus-outline-color: ButtonBorder;
     --editor-toolbar-shadow: none;
     --alt-text-done-color: var(--editor-toolbar-fg-color);
@@ -1807,7 +1897,12 @@
   }
 }
 
-:is(.annotationEditorLayer :is(.freeTextEditor, .inkEditor, .stampEditor, .highlightEditor), .textLayer) .editToolbar {
+:is(
+    .annotationEditorLayer
+      :is(.freeTextEditor, .inkEditor, .stampEditor, .highlightEditor),
+    .textLayer
+  )
+  .editToolbar {
   display: flex;
   width: -moz-fit-content;
   width: fit-content;
@@ -1831,22 +1926,34 @@
 }
 
 .hidden:is(
-    :is(.annotationEditorLayer :is(.freeTextEditor, .inkEditor, .stampEditor, .highlightEditor), .textLayer)
-      .editToolbar
-  ) {
+  :is(
+      .annotationEditorLayer
+        :is(.freeTextEditor, .inkEditor, .stampEditor, .highlightEditor),
+      .textLayer
+    )
+    .editToolbar
+) {
   display: none;
 }
 
 :is(
-    :is(.annotationEditorLayer :is(.freeTextEditor, .inkEditor, .stampEditor, .highlightEditor), .textLayer)
-      .editToolbar
-  ):has(:focus-visible) {
+  :is(
+      .annotationEditorLayer
+        :is(.freeTextEditor, .inkEditor, .stampEditor, .highlightEditor),
+      .textLayer
+    )
+    .editToolbar
+):has(:focus-visible) {
   border-color: transparent;
 }
 
 [dir="ltr"]
   :is(
-    :is(.annotationEditorLayer :is(.freeTextEditor, .inkEditor, .stampEditor, .highlightEditor), .textLayer)
+    :is(
+        .annotationEditorLayer
+          :is(.freeTextEditor, .inkEditor, .stampEditor, .highlightEditor),
+        .textLayer
+      )
       .editToolbar
   ) {
   transform-origin: 100% 0;
@@ -1854,14 +1961,22 @@
 
 [dir="rtl"]
   :is(
-    :is(.annotationEditorLayer :is(.freeTextEditor, .inkEditor, .stampEditor, .highlightEditor), .textLayer)
+    :is(
+        .annotationEditorLayer
+          :is(.freeTextEditor, .inkEditor, .stampEditor, .highlightEditor),
+        .textLayer
+      )
       .editToolbar
   ) {
   transform-origin: 0 0;
 }
 
 :is(
-    :is(.annotationEditorLayer :is(.freeTextEditor, .inkEditor, .stampEditor, .highlightEditor), .textLayer)
+    :is(
+        .annotationEditorLayer
+          :is(.freeTextEditor, .inkEditor, .stampEditor, .highlightEditor),
+        .textLayer
+      )
       .editToolbar
   )
   .buttons {
@@ -1874,14 +1989,20 @@
 
 :is(
     :is(
-        :is(.annotationEditorLayer :is(.freeTextEditor, .inkEditor, .stampEditor, .highlightEditor), .textLayer)
+        :is(
+            .annotationEditorLayer
+              :is(.freeTextEditor, .inkEditor, .stampEditor, .highlightEditor),
+            .textLayer
+          )
           .editToolbar
       )
       .buttons
   )
   .divider {
   width: 0;
-  height: calc(2 * var(--editor-toolbar-padding) + var(--editor-toolbar-height));
+  height: calc(
+    2 * var(--editor-toolbar-padding) + var(--editor-toolbar-height)
+  );
   border-left: 1px solid var(--editor-toolbar-border-color);
   border-right: none;
   display: inline-block;
@@ -1890,7 +2011,11 @@
 
 :is(
     :is(
-        :is(.annotationEditorLayer :is(.freeTextEditor, .inkEditor, .stampEditor, .highlightEditor), .textLayer)
+        :is(
+            .annotationEditorLayer
+              :is(.freeTextEditor, .inkEditor, .stampEditor, .highlightEditor),
+            .textLayer
+          )
           .editToolbar
       )
       .buttons
@@ -1900,15 +2025,24 @@
 }
 
 :is(
-    :is(
-        :is(
-            :is(.annotationEditorLayer :is(.freeTextEditor, .inkEditor, .stampEditor, .highlightEditor), .textLayer)
-              .editToolbar
-          )
-          .buttons
-      )
-      .highlightButton
-  )::before {
+  :is(
+      :is(
+          :is(
+              .annotationEditorLayer
+                :is(
+                  .freeTextEditor,
+                  .inkEditor,
+                  .stampEditor,
+                  .highlightEditor
+                ),
+              .textLayer
+            )
+            .editToolbar
+        )
+        .buttons
+    )
+    .highlightButton
+)::before {
   content: "";
   -webkit-mask-image: var(--editor-toolbar-highlight-image);
   mask-image: var(--editor-toolbar-highlight-image);
@@ -1925,7 +2059,16 @@
 :is(
     :is(
         :is(
-            :is(.annotationEditorLayer :is(.freeTextEditor, .inkEditor, .stampEditor, .highlightEditor), .textLayer)
+            :is(
+                .annotationEditorLayer
+                  :is(
+                    .freeTextEditor,
+                    .inkEditor,
+                    .stampEditor,
+                    .highlightEditor
+                  ),
+                .textLayer
+              )
               .editToolbar
           )
           .buttons
@@ -1937,7 +2080,11 @@
 
 :is(
     :is(
-        :is(.annotationEditorLayer :is(.freeTextEditor, .inkEditor, .stampEditor, .highlightEditor), .textLayer)
+        :is(
+            .annotationEditorLayer
+              :is(.freeTextEditor, .inkEditor, .stampEditor, .highlightEditor),
+            .textLayer
+          )
           .editToolbar
       )
       .buttons
@@ -1947,15 +2094,24 @@
 }
 
 :is(
-    :is(
-        :is(
-            :is(.annotationEditorLayer :is(.freeTextEditor, .inkEditor, .stampEditor, .highlightEditor), .textLayer)
-              .editToolbar
-          )
-          .buttons
-      )
-      .delete
-  )::before {
+  :is(
+      :is(
+          :is(
+              .annotationEditorLayer
+                :is(
+                  .freeTextEditor,
+                  .inkEditor,
+                  .stampEditor,
+                  .highlightEditor
+                ),
+              .textLayer
+            )
+            .editToolbar
+        )
+        .buttons
+    )
+    .delete
+)::before {
   content: "";
   -webkit-mask-image: var(--editor-toolbar-delete-image);
   mask-image: var(--editor-toolbar-delete-image);
@@ -1972,7 +2128,16 @@
 :is(
     :is(
         :is(
-            :is(.annotationEditorLayer :is(.freeTextEditor, .inkEditor, .stampEditor, .highlightEditor), .textLayer)
+            :is(
+                .annotationEditorLayer
+                  :is(
+                    .freeTextEditor,
+                    .inkEditor,
+                    .stampEditor,
+                    .highlightEditor
+                  ),
+                .textLayer
+              )
               .editToolbar
           )
           .buttons
@@ -1984,7 +2149,11 @@
 
 :is(
     :is(
-        :is(.annotationEditorLayer :is(.freeTextEditor, .inkEditor, .stampEditor, .highlightEditor), .textLayer)
+        :is(
+            .annotationEditorLayer
+              :is(.freeTextEditor, .inkEditor, .stampEditor, .highlightEditor),
+            .textLayer
+          )
           .editToolbar
       )
       .buttons
@@ -1995,7 +2164,11 @@
 
 :is(
     :is(
-        :is(.annotationEditorLayer :is(.freeTextEditor, .inkEditor, .stampEditor, .highlightEditor), .textLayer)
+        :is(
+            .annotationEditorLayer
+              :is(.freeTextEditor, .inkEditor, .stampEditor, .highlightEditor),
+            .textLayer
+          )
           .editToolbar
       )
       .buttons
@@ -2007,15 +2180,24 @@
 }
 
 :is(
-    :is(
-        :is(
-            :is(.annotationEditorLayer :is(.freeTextEditor, .inkEditor, .stampEditor, .highlightEditor), .textLayer)
-              .editToolbar
-          )
-          .buttons
-      )
-      > :not(.divider)
-  ):hover {
+  :is(
+      :is(
+          :is(
+              .annotationEditorLayer
+                :is(
+                  .freeTextEditor,
+                  .inkEditor,
+                  .stampEditor,
+                  .highlightEditor
+                ),
+              .textLayer
+            )
+            .editToolbar
+        )
+        .buttons
+    )
+    > :not(.divider)
+):hover {
   border-radius: 2px;
   background-color: var(--editor-toolbar-hover-bg-color);
   color: var(--editor-toolbar-hover-fg-color);
@@ -2026,7 +2208,16 @@
 :is(
     :is(
         :is(
-            :is(.annotationEditorLayer :is(.freeTextEditor, .inkEditor, .stampEditor, .highlightEditor), .textLayer)
+            :is(
+                .annotationEditorLayer
+                  :is(
+                    .freeTextEditor,
+                    .inkEditor,
+                    .stampEditor,
+                    .highlightEditor
+                  ),
+                .textLayer
+              )
               .editToolbar
           )
           .buttons
@@ -2037,22 +2228,35 @@
 }
 
 :is(
-    :is(
-        :is(
-            :is(.annotationEditorLayer :is(.freeTextEditor, .inkEditor, .stampEditor, .highlightEditor), .textLayer)
-              .editToolbar
-          )
-          .buttons
-      )
-      > :not(.divider)
-  ):focus-visible {
+  :is(
+      :is(
+          :is(
+              .annotationEditorLayer
+                :is(
+                  .freeTextEditor,
+                  .inkEditor,
+                  .stampEditor,
+                  .highlightEditor
+                ),
+              .textLayer
+            )
+            .editToolbar
+        )
+        .buttons
+    )
+    > :not(.divider)
+):focus-visible {
   border-radius: 2px;
   outline: 2px solid var(--editor-toolbar-focus-outline-color);
 }
 
 :is(
     :is(
-        :is(.annotationEditorLayer :is(.freeTextEditor, .inkEditor, .stampEditor, .highlightEditor), .textLayer)
+        :is(
+            .annotationEditorLayer
+              :is(.freeTextEditor, .inkEditor, .stampEditor, .highlightEditor),
+            .textLayer
+          )
           .editToolbar
       )
       .buttons
@@ -2075,28 +2279,46 @@
 }
 
 :is(
-    :is(
-        :is(
-            :is(.annotationEditorLayer :is(.freeTextEditor, .inkEditor, .stampEditor, .highlightEditor), .textLayer)
-              .editToolbar
-          )
-          .buttons
-      )
-      .altText
-  ):disabled {
+  :is(
+      :is(
+          :is(
+              .annotationEditorLayer
+                :is(
+                  .freeTextEditor,
+                  .inkEditor,
+                  .stampEditor,
+                  .highlightEditor
+                ),
+              .textLayer
+            )
+            .editToolbar
+        )
+        .buttons
+    )
+    .altText
+):disabled {
   pointer-events: none;
 }
 
 :is(
-    :is(
-        :is(
-            :is(.annotationEditorLayer :is(.freeTextEditor, .inkEditor, .stampEditor, .highlightEditor), .textLayer)
-              .editToolbar
-          )
-          .buttons
-      )
-      .altText
-  )::before {
+  :is(
+      :is(
+          :is(
+              .annotationEditorLayer
+                :is(
+                  .freeTextEditor,
+                  .inkEditor,
+                  .stampEditor,
+                  .highlightEditor
+                ),
+              .textLayer
+            )
+            .editToolbar
+        )
+        .buttons
+    )
+    .altText
+)::before {
   content: "";
   -webkit-mask-image: var(--alt-text-add-image);
   mask-image: var(--alt-text-add-image);
@@ -2114,7 +2336,16 @@
 :is(
     :is(
         :is(
-            :is(.annotationEditorLayer :is(.freeTextEditor, .inkEditor, .stampEditor, .highlightEditor), .textLayer)
+            :is(
+                .annotationEditorLayer
+                  :is(
+                    .freeTextEditor,
+                    .inkEditor,
+                    .stampEditor,
+                    .highlightEditor
+                  ),
+                .textLayer
+              )
               .editToolbar
           )
           .buttons
@@ -2127,7 +2358,16 @@
 .done:is(
     :is(
         :is(
-            :is(.annotationEditorLayer :is(.freeTextEditor, .inkEditor, .stampEditor, .highlightEditor), .textLayer)
+            :is(
+                .annotationEditorLayer
+                  :is(
+                    .freeTextEditor,
+                    .inkEditor,
+                    .stampEditor,
+                    .highlightEditor
+                  ),
+                .textLayer
+              )
               .editToolbar
           )
           .buttons
@@ -2141,7 +2381,16 @@
 .new:is(
     :is(
         :is(
-            :is(.annotationEditorLayer :is(.freeTextEditor, .inkEditor, .stampEditor, .highlightEditor), .textLayer)
+            :is(
+                .annotationEditorLayer
+                  :is(
+                    .freeTextEditor,
+                    .inkEditor,
+                    .stampEditor,
+                    .highlightEditor
+                  ),
+                .textLayer
+              )
               .editToolbar
           )
           .buttons
@@ -2160,7 +2409,16 @@
 .new:is(
     :is(
         :is(
-            :is(.annotationEditorLayer :is(.freeTextEditor, .inkEditor, .stampEditor, .highlightEditor), .textLayer)
+            :is(
+                .annotationEditorLayer
+                  :is(
+                    .freeTextEditor,
+                    .inkEditor,
+                    .stampEditor,
+                    .highlightEditor
+                  ),
+                .textLayer
+              )
               .editToolbar
           )
           .buttons
@@ -2173,7 +2431,16 @@
 .new.done:is(
     :is(
         :is(
-            :is(.annotationEditorLayer :is(.freeTextEditor, .inkEditor, .stampEditor, .highlightEditor), .textLayer)
+            :is(
+                .annotationEditorLayer
+                  :is(
+                    .freeTextEditor,
+                    .inkEditor,
+                    .stampEditor,
+                    .highlightEditor
+                  ),
+                .textLayer
+              )
               .editToolbar
           )
           .buttons
@@ -2188,7 +2455,16 @@
 .new.done:is(
     :is(
         :is(
-            :is(.annotationEditorLayer :is(.freeTextEditor, .inkEditor, .stampEditor, .highlightEditor), .textLayer)
+            :is(
+                .annotationEditorLayer
+                  :is(
+                    .freeTextEditor,
+                    .inkEditor,
+                    .stampEditor,
+                    .highlightEditor
+                  ),
+                .textLayer
+              )
               .editToolbar
           )
           .buttons
@@ -2201,7 +2477,16 @@
 :is(
     :is(
         :is(
-            :is(.annotationEditorLayer :is(.freeTextEditor, .inkEditor, .stampEditor, .highlightEditor), .textLayer)
+            :is(
+                .annotationEditorLayer
+                  :is(
+                    .freeTextEditor,
+                    .inkEditor,
+                    .stampEditor,
+                    .highlightEditor
+                  ),
+                .textLayer
+              )
               .editToolbar
           )
           .buttons
@@ -2214,18 +2499,27 @@
 }
 
 .show:is(
-    :is(
-        :is(
-            :is(
-                :is(.annotationEditorLayer :is(.freeTextEditor, .inkEditor, .stampEditor, .highlightEditor), .textLayer)
-                  .editToolbar
-              )
-              .buttons
-          )
-          .altText
-      )
-      .tooltip
-  ) {
+  :is(
+      :is(
+          :is(
+              :is(
+                  .annotationEditorLayer
+                    :is(
+                      .freeTextEditor,
+                      .inkEditor,
+                      .stampEditor,
+                      .highlightEditor
+                    ),
+                  .textLayer
+                )
+                .editToolbar
+            )
+            .buttons
+        )
+        .altText
+    )
+    .tooltip
+) {
   --alt-text-tooltip-bg: #f0f0f4;
   --alt-text-tooltip-fg: #15141a;
   --alt-text-tooltip-border: #8f8f9d;
@@ -2239,7 +2533,13 @@
           :is(
               :is(
                   :is(
-                      .annotationEditorLayer :is(.freeTextEditor, .inkEditor, .stampEditor, .highlightEditor),
+                      .annotationEditorLayer
+                        :is(
+                          .freeTextEditor,
+                          .inkEditor,
+                          .stampEditor,
+                          .highlightEditor
+                        ),
                       .textLayer
                     )
                     .editToolbar
@@ -2261,7 +2561,16 @@
     :is(
         :is(
             :is(
-                :is(.annotationEditorLayer :is(.freeTextEditor, .inkEditor, .stampEditor, .highlightEditor), .textLayer)
+                :is(
+                    .annotationEditorLayer
+                      :is(
+                        .freeTextEditor,
+                        .inkEditor,
+                        .stampEditor,
+                        .highlightEditor
+                      ),
+                    .textLayer
+                  )
                   .editToolbar
               )
               .buttons
@@ -2277,33 +2586,19 @@
 
 @media screen and (forced-colors: active) {
   .show:is(
-      :is(
-          :is(
-              :is(
-                  :is(
-                      .annotationEditorLayer :is(.freeTextEditor, .inkEditor, .stampEditor, .highlightEditor),
-                      .textLayer
-                    )
-                    .editToolbar
-                )
-                .buttons
-            )
-            .altText
-        )
-        .tooltip
-    ) {
-    --alt-text-tooltip-bg: Canvas;
-    --alt-text-tooltip-fg: CanvasText;
-    --alt-text-tooltip-border: CanvasText;
-    --alt-text-tooltip-shadow: none;
-  }
-}
-
-.show:is(
     :is(
         :is(
             :is(
-                :is(.annotationEditorLayer :is(.freeTextEditor, .inkEditor, .stampEditor, .highlightEditor), .textLayer)
+                :is(
+                    .annotationEditorLayer
+                      :is(
+                        .freeTextEditor,
+                        .inkEditor,
+                        .stampEditor,
+                        .highlightEditor
+                      ),
+                    .textLayer
+                  )
                   .editToolbar
               )
               .buttons
@@ -2312,6 +2607,35 @@
       )
       .tooltip
   ) {
+    --alt-text-tooltip-bg: Canvas;
+    --alt-text-tooltip-fg: CanvasText;
+    --alt-text-tooltip-border: CanvasText;
+    --alt-text-tooltip-shadow: none;
+  }
+}
+
+.show:is(
+  :is(
+      :is(
+          :is(
+              :is(
+                  .annotationEditorLayer
+                    :is(
+                      .freeTextEditor,
+                      .inkEditor,
+                      .stampEditor,
+                      .highlightEditor
+                    ),
+                  .textLayer
+                )
+                .editToolbar
+            )
+            .buttons
+        )
+        .altText
+    )
+    .tooltip
+) {
   display: inline-flex;
   flex-direction: column;
   align-items: center;
@@ -2418,7 +2742,9 @@
 }
 
 @media (prefers-color-scheme: dark) {
-  :where(html:not(.is-light)) :is(.annotationEditorLayer .stampEditor) .noAltTextBadge {
+  :where(html:not(.is-light))
+    :is(.annotationEditorLayer .stampEditor)
+    .noAltTextBadge {
     --no-alt-text-badge-border-color: #52525e;
     --no-alt-text-badge-bg-color: #fbfbfe;
     --no-alt-text-badge-fg-color: #15141a;
@@ -2469,16 +2795,24 @@
   background-color: var(--no-alt-text-badge-fg-color);
 }
 
-:is(.annotationEditorLayer :is(.freeTextEditor, .inkEditor, .stampEditor)) > .resizers {
+:is(.annotationEditorLayer :is(.freeTextEditor, .inkEditor, .stampEditor))
+  > .resizers {
   position: absolute;
   inset: 0;
 }
 
-.hidden:is(:is(.annotationEditorLayer :is(.freeTextEditor, .inkEditor, .stampEditor)) > .resizers) {
+.hidden:is(
+  :is(.annotationEditorLayer :is(.freeTextEditor, .inkEditor, .stampEditor))
+    > .resizers
+) {
   display: none;
 }
 
-:is(:is(.annotationEditorLayer :is(.freeTextEditor, .inkEditor, .stampEditor)) > .resizers) > .resizer {
+:is(
+    :is(.annotationEditorLayer :is(.freeTextEditor, .inkEditor, .stampEditor))
+      > .resizers
+  )
+  > .resizer {
   width: var(--resizer-size);
   height: var(--resizer-size);
   background: content-box var(--resizer-bg-color);
@@ -2487,233 +2821,339 @@
   position: absolute;
 }
 
-.topLeft:is(:is(:is(.annotationEditorLayer :is(.freeTextEditor, .inkEditor, .stampEditor)) > .resizers) > .resizer) {
+.topLeft:is(
+  :is(
+      :is(.annotationEditorLayer :is(.freeTextEditor, .inkEditor, .stampEditor))
+        > .resizers
+    )
+    > .resizer
+) {
   top: var(--resizer-shift);
   left: var(--resizer-shift);
 }
 
-.topMiddle:is(:is(:is(.annotationEditorLayer :is(.freeTextEditor, .inkEditor, .stampEditor)) > .resizers) > .resizer) {
+.topMiddle:is(
+  :is(
+      :is(.annotationEditorLayer :is(.freeTextEditor, .inkEditor, .stampEditor))
+        > .resizers
+    )
+    > .resizer
+) {
   top: var(--resizer-shift);
   left: calc(50% + var(--resizer-shift));
 }
 
-.topRight:is(:is(:is(.annotationEditorLayer :is(.freeTextEditor, .inkEditor, .stampEditor)) > .resizers) > .resizer) {
+.topRight:is(
+  :is(
+      :is(.annotationEditorLayer :is(.freeTextEditor, .inkEditor, .stampEditor))
+        > .resizers
+    )
+    > .resizer
+) {
   top: var(--resizer-shift);
   right: var(--resizer-shift);
 }
 
 .middleRight:is(
-    :is(:is(.annotationEditorLayer :is(.freeTextEditor, .inkEditor, .stampEditor)) > .resizers) > .resizer
-  ) {
+  :is(
+      :is(.annotationEditorLayer :is(.freeTextEditor, .inkEditor, .stampEditor))
+        > .resizers
+    )
+    > .resizer
+) {
   top: calc(50% + var(--resizer-shift));
   right: var(--resizer-shift);
 }
 
 .bottomRight:is(
-    :is(:is(.annotationEditorLayer :is(.freeTextEditor, .inkEditor, .stampEditor)) > .resizers) > .resizer
-  ) {
+  :is(
+      :is(.annotationEditorLayer :is(.freeTextEditor, .inkEditor, .stampEditor))
+        > .resizers
+    )
+    > .resizer
+) {
   bottom: var(--resizer-shift);
   right: var(--resizer-shift);
 }
 
 .bottomMiddle:is(
-    :is(:is(.annotationEditorLayer :is(.freeTextEditor, .inkEditor, .stampEditor)) > .resizers) > .resizer
-  ) {
+  :is(
+      :is(.annotationEditorLayer :is(.freeTextEditor, .inkEditor, .stampEditor))
+        > .resizers
+    )
+    > .resizer
+) {
   bottom: var(--resizer-shift);
   left: calc(50% + var(--resizer-shift));
 }
 
-.bottomLeft:is(:is(:is(.annotationEditorLayer :is(.freeTextEditor, .inkEditor, .stampEditor)) > .resizers) > .resizer) {
+.bottomLeft:is(
+  :is(
+      :is(.annotationEditorLayer :is(.freeTextEditor, .inkEditor, .stampEditor))
+        > .resizers
+    )
+    > .resizer
+) {
   bottom: var(--resizer-shift);
   left: var(--resizer-shift);
 }
 
-.middleLeft:is(:is(:is(.annotationEditorLayer :is(.freeTextEditor, .inkEditor, .stampEditor)) > .resizers) > .resizer) {
+.middleLeft:is(
+  :is(
+      :is(.annotationEditorLayer :is(.freeTextEditor, .inkEditor, .stampEditor))
+        > .resizers
+    )
+    > .resizer
+) {
   top: calc(50% + var(--resizer-shift));
   left: var(--resizer-shift);
 }
 
 .topLeft:is(
-    :is(
-        .annotationEditorLayer[data-main-rotation="0"] :is([data-editor-rotation="0"], [data-editor-rotation="180"]),
-        .annotationEditorLayer[data-main-rotation="90"] :is([data-editor-rotation="270"], [data-editor-rotation="90"]),
-        .annotationEditorLayer[data-main-rotation="180"] :is([data-editor-rotation="180"], [data-editor-rotation="0"]),
-        .annotationEditorLayer[data-main-rotation="270"] :is([data-editor-rotation="90"], [data-editor-rotation="270"])
-      )
-      > .resizers
-      > .resizer
-  ),
+  :is(
+      .annotationEditorLayer[data-main-rotation="0"]
+        :is([data-editor-rotation="0"], [data-editor-rotation="180"]),
+      .annotationEditorLayer[data-main-rotation="90"]
+        :is([data-editor-rotation="270"], [data-editor-rotation="90"]),
+      .annotationEditorLayer[data-main-rotation="180"]
+        :is([data-editor-rotation="180"], [data-editor-rotation="0"]),
+      .annotationEditorLayer[data-main-rotation="270"]
+        :is([data-editor-rotation="90"], [data-editor-rotation="270"])
+    )
+    > .resizers
+    > .resizer
+),
 .bottomRight:is(
-    :is(
-        .annotationEditorLayer[data-main-rotation="0"] :is([data-editor-rotation="0"], [data-editor-rotation="180"]),
-        .annotationEditorLayer[data-main-rotation="90"] :is([data-editor-rotation="270"], [data-editor-rotation="90"]),
-        .annotationEditorLayer[data-main-rotation="180"] :is([data-editor-rotation="180"], [data-editor-rotation="0"]),
-        .annotationEditorLayer[data-main-rotation="270"] :is([data-editor-rotation="90"], [data-editor-rotation="270"])
-      )
-      > .resizers
-      > .resizer
-  ) {
+  :is(
+      .annotationEditorLayer[data-main-rotation="0"]
+        :is([data-editor-rotation="0"], [data-editor-rotation="180"]),
+      .annotationEditorLayer[data-main-rotation="90"]
+        :is([data-editor-rotation="270"], [data-editor-rotation="90"]),
+      .annotationEditorLayer[data-main-rotation="180"]
+        :is([data-editor-rotation="180"], [data-editor-rotation="0"]),
+      .annotationEditorLayer[data-main-rotation="270"]
+        :is([data-editor-rotation="90"], [data-editor-rotation="270"])
+    )
+    > .resizers
+    > .resizer
+) {
   cursor: nwse-resize;
 }
 
 .topMiddle:is(
-    :is(
-        .annotationEditorLayer[data-main-rotation="0"] :is([data-editor-rotation="0"], [data-editor-rotation="180"]),
-        .annotationEditorLayer[data-main-rotation="90"] :is([data-editor-rotation="270"], [data-editor-rotation="90"]),
-        .annotationEditorLayer[data-main-rotation="180"] :is([data-editor-rotation="180"], [data-editor-rotation="0"]),
-        .annotationEditorLayer[data-main-rotation="270"] :is([data-editor-rotation="90"], [data-editor-rotation="270"])
-      )
-      > .resizers
-      > .resizer
-  ),
+  :is(
+      .annotationEditorLayer[data-main-rotation="0"]
+        :is([data-editor-rotation="0"], [data-editor-rotation="180"]),
+      .annotationEditorLayer[data-main-rotation="90"]
+        :is([data-editor-rotation="270"], [data-editor-rotation="90"]),
+      .annotationEditorLayer[data-main-rotation="180"]
+        :is([data-editor-rotation="180"], [data-editor-rotation="0"]),
+      .annotationEditorLayer[data-main-rotation="270"]
+        :is([data-editor-rotation="90"], [data-editor-rotation="270"])
+    )
+    > .resizers
+    > .resizer
+),
 .bottomMiddle:is(
-    :is(
-        .annotationEditorLayer[data-main-rotation="0"] :is([data-editor-rotation="0"], [data-editor-rotation="180"]),
-        .annotationEditorLayer[data-main-rotation="90"] :is([data-editor-rotation="270"], [data-editor-rotation="90"]),
-        .annotationEditorLayer[data-main-rotation="180"] :is([data-editor-rotation="180"], [data-editor-rotation="0"]),
-        .annotationEditorLayer[data-main-rotation="270"] :is([data-editor-rotation="90"], [data-editor-rotation="270"])
-      )
-      > .resizers
-      > .resizer
-  ) {
+  :is(
+      .annotationEditorLayer[data-main-rotation="0"]
+        :is([data-editor-rotation="0"], [data-editor-rotation="180"]),
+      .annotationEditorLayer[data-main-rotation="90"]
+        :is([data-editor-rotation="270"], [data-editor-rotation="90"]),
+      .annotationEditorLayer[data-main-rotation="180"]
+        :is([data-editor-rotation="180"], [data-editor-rotation="0"]),
+      .annotationEditorLayer[data-main-rotation="270"]
+        :is([data-editor-rotation="90"], [data-editor-rotation="270"])
+    )
+    > .resizers
+    > .resizer
+) {
   cursor: ns-resize;
 }
 
 .topRight:is(
-    :is(
-        .annotationEditorLayer[data-main-rotation="0"] :is([data-editor-rotation="0"], [data-editor-rotation="180"]),
-        .annotationEditorLayer[data-main-rotation="90"] :is([data-editor-rotation="270"], [data-editor-rotation="90"]),
-        .annotationEditorLayer[data-main-rotation="180"] :is([data-editor-rotation="180"], [data-editor-rotation="0"]),
-        .annotationEditorLayer[data-main-rotation="270"] :is([data-editor-rotation="90"], [data-editor-rotation="270"])
-      )
-      > .resizers
-      > .resizer
-  ),
+  :is(
+      .annotationEditorLayer[data-main-rotation="0"]
+        :is([data-editor-rotation="0"], [data-editor-rotation="180"]),
+      .annotationEditorLayer[data-main-rotation="90"]
+        :is([data-editor-rotation="270"], [data-editor-rotation="90"]),
+      .annotationEditorLayer[data-main-rotation="180"]
+        :is([data-editor-rotation="180"], [data-editor-rotation="0"]),
+      .annotationEditorLayer[data-main-rotation="270"]
+        :is([data-editor-rotation="90"], [data-editor-rotation="270"])
+    )
+    > .resizers
+    > .resizer
+),
 .bottomLeft:is(
-    :is(
-        .annotationEditorLayer[data-main-rotation="0"] :is([data-editor-rotation="0"], [data-editor-rotation="180"]),
-        .annotationEditorLayer[data-main-rotation="90"] :is([data-editor-rotation="270"], [data-editor-rotation="90"]),
-        .annotationEditorLayer[data-main-rotation="180"] :is([data-editor-rotation="180"], [data-editor-rotation="0"]),
-        .annotationEditorLayer[data-main-rotation="270"] :is([data-editor-rotation="90"], [data-editor-rotation="270"])
-      )
-      > .resizers
-      > .resizer
-  ) {
+  :is(
+      .annotationEditorLayer[data-main-rotation="0"]
+        :is([data-editor-rotation="0"], [data-editor-rotation="180"]),
+      .annotationEditorLayer[data-main-rotation="90"]
+        :is([data-editor-rotation="270"], [data-editor-rotation="90"]),
+      .annotationEditorLayer[data-main-rotation="180"]
+        :is([data-editor-rotation="180"], [data-editor-rotation="0"]),
+      .annotationEditorLayer[data-main-rotation="270"]
+        :is([data-editor-rotation="90"], [data-editor-rotation="270"])
+    )
+    > .resizers
+    > .resizer
+) {
   cursor: nesw-resize;
 }
 
 .middleRight:is(
-    :is(
-        .annotationEditorLayer[data-main-rotation="0"] :is([data-editor-rotation="0"], [data-editor-rotation="180"]),
-        .annotationEditorLayer[data-main-rotation="90"] :is([data-editor-rotation="270"], [data-editor-rotation="90"]),
-        .annotationEditorLayer[data-main-rotation="180"] :is([data-editor-rotation="180"], [data-editor-rotation="0"]),
-        .annotationEditorLayer[data-main-rotation="270"] :is([data-editor-rotation="90"], [data-editor-rotation="270"])
-      )
-      > .resizers
-      > .resizer
-  ),
+  :is(
+      .annotationEditorLayer[data-main-rotation="0"]
+        :is([data-editor-rotation="0"], [data-editor-rotation="180"]),
+      .annotationEditorLayer[data-main-rotation="90"]
+        :is([data-editor-rotation="270"], [data-editor-rotation="90"]),
+      .annotationEditorLayer[data-main-rotation="180"]
+        :is([data-editor-rotation="180"], [data-editor-rotation="0"]),
+      .annotationEditorLayer[data-main-rotation="270"]
+        :is([data-editor-rotation="90"], [data-editor-rotation="270"])
+    )
+    > .resizers
+    > .resizer
+),
 .middleLeft:is(
-    :is(
-        .annotationEditorLayer[data-main-rotation="0"] :is([data-editor-rotation="0"], [data-editor-rotation="180"]),
-        .annotationEditorLayer[data-main-rotation="90"] :is([data-editor-rotation="270"], [data-editor-rotation="90"]),
-        .annotationEditorLayer[data-main-rotation="180"] :is([data-editor-rotation="180"], [data-editor-rotation="0"]),
-        .annotationEditorLayer[data-main-rotation="270"] :is([data-editor-rotation="90"], [data-editor-rotation="270"])
-      )
-      > .resizers
-      > .resizer
-  ) {
+  :is(
+      .annotationEditorLayer[data-main-rotation="0"]
+        :is([data-editor-rotation="0"], [data-editor-rotation="180"]),
+      .annotationEditorLayer[data-main-rotation="90"]
+        :is([data-editor-rotation="270"], [data-editor-rotation="90"]),
+      .annotationEditorLayer[data-main-rotation="180"]
+        :is([data-editor-rotation="180"], [data-editor-rotation="0"]),
+      .annotationEditorLayer[data-main-rotation="270"]
+        :is([data-editor-rotation="90"], [data-editor-rotation="270"])
+    )
+    > .resizers
+    > .resizer
+) {
   cursor: ew-resize;
 }
 
 .topLeft:is(
-    :is(
-        .annotationEditorLayer[data-main-rotation="0"] :is([data-editor-rotation="90"], [data-editor-rotation="270"]),
-        .annotationEditorLayer[data-main-rotation="90"] :is([data-editor-rotation="0"], [data-editor-rotation="180"]),
-        .annotationEditorLayer[data-main-rotation="180"] :is([data-editor-rotation="270"], [data-editor-rotation="90"]),
-        .annotationEditorLayer[data-main-rotation="270"] :is([data-editor-rotation="180"], [data-editor-rotation="0"])
-      )
-      > .resizers
-      > .resizer
-  ),
+  :is(
+      .annotationEditorLayer[data-main-rotation="0"]
+        :is([data-editor-rotation="90"], [data-editor-rotation="270"]),
+      .annotationEditorLayer[data-main-rotation="90"]
+        :is([data-editor-rotation="0"], [data-editor-rotation="180"]),
+      .annotationEditorLayer[data-main-rotation="180"]
+        :is([data-editor-rotation="270"], [data-editor-rotation="90"]),
+      .annotationEditorLayer[data-main-rotation="270"]
+        :is([data-editor-rotation="180"], [data-editor-rotation="0"])
+    )
+    > .resizers
+    > .resizer
+),
 .bottomRight:is(
-    :is(
-        .annotationEditorLayer[data-main-rotation="0"] :is([data-editor-rotation="90"], [data-editor-rotation="270"]),
-        .annotationEditorLayer[data-main-rotation="90"] :is([data-editor-rotation="0"], [data-editor-rotation="180"]),
-        .annotationEditorLayer[data-main-rotation="180"] :is([data-editor-rotation="270"], [data-editor-rotation="90"]),
-        .annotationEditorLayer[data-main-rotation="270"] :is([data-editor-rotation="180"], [data-editor-rotation="0"])
-      )
-      > .resizers
-      > .resizer
-  ) {
+  :is(
+      .annotationEditorLayer[data-main-rotation="0"]
+        :is([data-editor-rotation="90"], [data-editor-rotation="270"]),
+      .annotationEditorLayer[data-main-rotation="90"]
+        :is([data-editor-rotation="0"], [data-editor-rotation="180"]),
+      .annotationEditorLayer[data-main-rotation="180"]
+        :is([data-editor-rotation="270"], [data-editor-rotation="90"]),
+      .annotationEditorLayer[data-main-rotation="270"]
+        :is([data-editor-rotation="180"], [data-editor-rotation="0"])
+    )
+    > .resizers
+    > .resizer
+) {
   cursor: nesw-resize;
 }
 
 .topMiddle:is(
-    :is(
-        .annotationEditorLayer[data-main-rotation="0"] :is([data-editor-rotation="90"], [data-editor-rotation="270"]),
-        .annotationEditorLayer[data-main-rotation="90"] :is([data-editor-rotation="0"], [data-editor-rotation="180"]),
-        .annotationEditorLayer[data-main-rotation="180"] :is([data-editor-rotation="270"], [data-editor-rotation="90"]),
-        .annotationEditorLayer[data-main-rotation="270"] :is([data-editor-rotation="180"], [data-editor-rotation="0"])
-      )
-      > .resizers
-      > .resizer
-  ),
+  :is(
+      .annotationEditorLayer[data-main-rotation="0"]
+        :is([data-editor-rotation="90"], [data-editor-rotation="270"]),
+      .annotationEditorLayer[data-main-rotation="90"]
+        :is([data-editor-rotation="0"], [data-editor-rotation="180"]),
+      .annotationEditorLayer[data-main-rotation="180"]
+        :is([data-editor-rotation="270"], [data-editor-rotation="90"]),
+      .annotationEditorLayer[data-main-rotation="270"]
+        :is([data-editor-rotation="180"], [data-editor-rotation="0"])
+    )
+    > .resizers
+    > .resizer
+),
 .bottomMiddle:is(
-    :is(
-        .annotationEditorLayer[data-main-rotation="0"] :is([data-editor-rotation="90"], [data-editor-rotation="270"]),
-        .annotationEditorLayer[data-main-rotation="90"] :is([data-editor-rotation="0"], [data-editor-rotation="180"]),
-        .annotationEditorLayer[data-main-rotation="180"] :is([data-editor-rotation="270"], [data-editor-rotation="90"]),
-        .annotationEditorLayer[data-main-rotation="270"] :is([data-editor-rotation="180"], [data-editor-rotation="0"])
-      )
-      > .resizers
-      > .resizer
-  ) {
+  :is(
+      .annotationEditorLayer[data-main-rotation="0"]
+        :is([data-editor-rotation="90"], [data-editor-rotation="270"]),
+      .annotationEditorLayer[data-main-rotation="90"]
+        :is([data-editor-rotation="0"], [data-editor-rotation="180"]),
+      .annotationEditorLayer[data-main-rotation="180"]
+        :is([data-editor-rotation="270"], [data-editor-rotation="90"]),
+      .annotationEditorLayer[data-main-rotation="270"]
+        :is([data-editor-rotation="180"], [data-editor-rotation="0"])
+    )
+    > .resizers
+    > .resizer
+) {
   cursor: ew-resize;
 }
 
 .topRight:is(
-    :is(
-        .annotationEditorLayer[data-main-rotation="0"] :is([data-editor-rotation="90"], [data-editor-rotation="270"]),
-        .annotationEditorLayer[data-main-rotation="90"] :is([data-editor-rotation="0"], [data-editor-rotation="180"]),
-        .annotationEditorLayer[data-main-rotation="180"] :is([data-editor-rotation="270"], [data-editor-rotation="90"]),
-        .annotationEditorLayer[data-main-rotation="270"] :is([data-editor-rotation="180"], [data-editor-rotation="0"])
-      )
-      > .resizers
-      > .resizer
-  ),
+  :is(
+      .annotationEditorLayer[data-main-rotation="0"]
+        :is([data-editor-rotation="90"], [data-editor-rotation="270"]),
+      .annotationEditorLayer[data-main-rotation="90"]
+        :is([data-editor-rotation="0"], [data-editor-rotation="180"]),
+      .annotationEditorLayer[data-main-rotation="180"]
+        :is([data-editor-rotation="270"], [data-editor-rotation="90"]),
+      .annotationEditorLayer[data-main-rotation="270"]
+        :is([data-editor-rotation="180"], [data-editor-rotation="0"])
+    )
+    > .resizers
+    > .resizer
+),
 .bottomLeft:is(
-    :is(
-        .annotationEditorLayer[data-main-rotation="0"] :is([data-editor-rotation="90"], [data-editor-rotation="270"]),
-        .annotationEditorLayer[data-main-rotation="90"] :is([data-editor-rotation="0"], [data-editor-rotation="180"]),
-        .annotationEditorLayer[data-main-rotation="180"] :is([data-editor-rotation="270"], [data-editor-rotation="90"]),
-        .annotationEditorLayer[data-main-rotation="270"] :is([data-editor-rotation="180"], [data-editor-rotation="0"])
-      )
-      > .resizers
-      > .resizer
-  ) {
+  :is(
+      .annotationEditorLayer[data-main-rotation="0"]
+        :is([data-editor-rotation="90"], [data-editor-rotation="270"]),
+      .annotationEditorLayer[data-main-rotation="90"]
+        :is([data-editor-rotation="0"], [data-editor-rotation="180"]),
+      .annotationEditorLayer[data-main-rotation="180"]
+        :is([data-editor-rotation="270"], [data-editor-rotation="90"]),
+      .annotationEditorLayer[data-main-rotation="270"]
+        :is([data-editor-rotation="180"], [data-editor-rotation="0"])
+    )
+    > .resizers
+    > .resizer
+) {
   cursor: nwse-resize;
 }
 
 .middleRight:is(
-    :is(
-        .annotationEditorLayer[data-main-rotation="0"] :is([data-editor-rotation="90"], [data-editor-rotation="270"]),
-        .annotationEditorLayer[data-main-rotation="90"] :is([data-editor-rotation="0"], [data-editor-rotation="180"]),
-        .annotationEditorLayer[data-main-rotation="180"] :is([data-editor-rotation="270"], [data-editor-rotation="90"]),
-        .annotationEditorLayer[data-main-rotation="270"] :is([data-editor-rotation="180"], [data-editor-rotation="0"])
-      )
-      > .resizers
-      > .resizer
-  ),
+  :is(
+      .annotationEditorLayer[data-main-rotation="0"]
+        :is([data-editor-rotation="90"], [data-editor-rotation="270"]),
+      .annotationEditorLayer[data-main-rotation="90"]
+        :is([data-editor-rotation="0"], [data-editor-rotation="180"]),
+      .annotationEditorLayer[data-main-rotation="180"]
+        :is([data-editor-rotation="270"], [data-editor-rotation="90"]),
+      .annotationEditorLayer[data-main-rotation="270"]
+        :is([data-editor-rotation="180"], [data-editor-rotation="0"])
+    )
+    > .resizers
+    > .resizer
+),
 .middleLeft:is(
-    :is(
-        .annotationEditorLayer[data-main-rotation="0"] :is([data-editor-rotation="90"], [data-editor-rotation="270"]),
-        .annotationEditorLayer[data-main-rotation="90"] :is([data-editor-rotation="0"], [data-editor-rotation="180"]),
-        .annotationEditorLayer[data-main-rotation="180"] :is([data-editor-rotation="270"], [data-editor-rotation="90"]),
-        .annotationEditorLayer[data-main-rotation="270"] :is([data-editor-rotation="180"], [data-editor-rotation="0"])
-      )
-      > .resizers
-      > .resizer
-  ) {
+  :is(
+      .annotationEditorLayer[data-main-rotation="0"]
+        :is([data-editor-rotation="90"], [data-editor-rotation="270"]),
+      .annotationEditorLayer[data-main-rotation="90"]
+        :is([data-editor-rotation="0"], [data-editor-rotation="180"]),
+      .annotationEditorLayer[data-main-rotation="180"]
+        :is([data-editor-rotation="270"], [data-editor-rotation="90"]),
+      .annotationEditorLayer[data-main-rotation="270"]
+        :is([data-editor-rotation="180"], [data-editor-rotation="0"])
+    )
+    > .resizers
+    > .resizer
+) {
   cursor: ns-resize;
 }
 
@@ -2875,7 +3315,10 @@
   padding-inline: 24px 10px;
 }
 
-:is(:is(:is(.dialog.altText #altTextContainer) #addDescription) .descriptionArea) textarea {
+:is(
+    :is(:is(.dialog.altText #altTextContainer) #addDescription) .descriptionArea
+  )
+  textarea {
   width: 100%;
   min-height: 75px;
 }
@@ -2965,7 +3408,8 @@
   flex: 1 1 auto;
 }
 
-:is(:is(.dialog.newAltText #newAltTextContainer) #mainContent) #descriptionAndSettings {
+:is(:is(.dialog.newAltText #newAltTextContainer) #mainContent)
+  #descriptionAndSettings {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -2974,7 +3418,8 @@
   align-self: stretch;
 }
 
-:is(:is(.dialog.newAltText #newAltTextContainer) #mainContent) #descriptionInstruction {
+:is(:is(.dialog.newAltText #newAltTextContainer) #mainContent)
+  #descriptionInstruction {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -2983,7 +3428,10 @@
   flex: 1 1 auto;
 }
 
-:is(:is(:is(.dialog.newAltText #newAltTextContainer) #mainContent) #descriptionInstruction)
+:is(
+    :is(:is(.dialog.newAltText #newAltTextContainer) #mainContent)
+      #descriptionInstruction
+  )
   #newAltTextDescriptionContainer {
   width: 100%;
   height: 70px;
@@ -2991,7 +3439,10 @@
 }
 
 :is(
-    :is(:is(:is(.dialog.newAltText #newAltTextContainer) #mainContent) #descriptionInstruction)
+    :is(
+        :is(:is(.dialog.newAltText #newAltTextContainer) #mainContent)
+          #descriptionInstruction
+      )
       #newAltTextDescriptionContainer
   )
   textarea {
@@ -3001,27 +3452,36 @@
 }
 
 :is(
-    :is(
-        :is(:is(:is(.dialog.newAltText #newAltTextContainer) #mainContent) #descriptionInstruction)
-          #newAltTextDescriptionContainer
-      )
-      textarea
-  )::-moz-placeholder {
+  :is(
+      :is(
+          :is(:is(.dialog.newAltText #newAltTextContainer) #mainContent)
+            #descriptionInstruction
+        )
+        #newAltTextDescriptionContainer
+    )
+    textarea
+)::-moz-placeholder {
+  color: var(--text-secondary-color);
+}
+
+:is(
+  :is(
+      :is(
+          :is(:is(.dialog.newAltText #newAltTextContainer) #mainContent)
+            #descriptionInstruction
+        )
+        #newAltTextDescriptionContainer
+    )
+    textarea
+)::placeholder {
   color: var(--text-secondary-color);
 }
 
 :is(
     :is(
-        :is(:is(:is(.dialog.newAltText #newAltTextContainer) #mainContent) #descriptionInstruction)
-          #newAltTextDescriptionContainer
+        :is(:is(.dialog.newAltText #newAltTextContainer) #mainContent)
+          #descriptionInstruction
       )
-      textarea
-  )::placeholder {
-  color: var(--text-secondary-color);
-}
-
-:is(
-    :is(:is(:is(.dialog.newAltText #newAltTextContainer) #mainContent) #descriptionInstruction)
       #newAltTextDescriptionContainer
   )
   .altTextSpinner {
@@ -3038,7 +3498,10 @@
 }
 
 .loading:is(
-    :is(:is(:is(.dialog.newAltText #newAltTextContainer) #mainContent) #descriptionInstruction)
+    :is(
+        :is(:is(.dialog.newAltText #newAltTextContainer) #mainContent)
+          #descriptionInstruction
+      )
       #newAltTextDescriptionContainer
   )
   textarea::-moz-placeholder {
@@ -3046,7 +3509,10 @@
 }
 
 .loading:is(
-    :is(:is(:is(.dialog.newAltText #newAltTextContainer) #mainContent) #descriptionInstruction)
+    :is(
+        :is(:is(.dialog.newAltText #newAltTextContainer) #mainContent)
+          #descriptionInstruction
+      )
       #newAltTextDescriptionContainer
   )
   textarea::placeholder {
@@ -3054,7 +3520,10 @@
 }
 
 .loading:is(
-    :is(:is(:is(.dialog.newAltText #newAltTextContainer) #mainContent) #descriptionInstruction)
+    :is(
+        :is(:is(.dialog.newAltText #newAltTextContainer) #mainContent)
+          #descriptionInstruction
+      )
       #newAltTextDescriptionContainer
   )
   .altTextSpinner {
@@ -3063,11 +3532,19 @@
   mask-image: var(--new-alt-text-spinner-icon);
 }
 
-:is(:is(:is(.dialog.newAltText #newAltTextContainer) #mainContent) #descriptionInstruction) #newAltTextDescription {
+:is(
+    :is(:is(.dialog.newAltText #newAltTextContainer) #mainContent)
+      #descriptionInstruction
+  )
+  #newAltTextDescription {
   font-size: 11px;
 }
 
-:is(:is(:is(.dialog.newAltText #newAltTextContainer) #mainContent) #descriptionInstruction) #newAltTextDisclaimer {
+:is(
+    :is(:is(.dialog.newAltText #newAltTextContainer) #mainContent)
+      #descriptionInstruction
+  )
+  #newAltTextDisclaimer {
   display: flex;
   flex-direction: row;
   align-items: flex-start;
@@ -3076,8 +3553,12 @@
 }
 
 :is(
-    :is(:is(:is(.dialog.newAltText #newAltTextContainer) #mainContent) #descriptionInstruction) #newAltTextDisclaimer
-  )::before {
+  :is(
+      :is(:is(.dialog.newAltText #newAltTextContainer) #mainContent)
+        #descriptionInstruction
+    )
+    #newAltTextDisclaimer
+)::before {
   content: "";
   display: inline-block;
   width: 17px;
@@ -3090,14 +3571,18 @@
   flex: 1 0 auto;
 }
 
-:is(:is(.dialog.newAltText #newAltTextContainer) #mainContent) #newAltTextDownloadModel {
+:is(:is(.dialog.newAltText #newAltTextContainer) #mainContent)
+  #newAltTextDownloadModel {
   display: flex;
   align-items: center;
   gap: 4px;
   align-self: stretch;
 }
 
-:is(:is(:is(.dialog.newAltText #newAltTextContainer) #mainContent) #newAltTextDownloadModel)::before {
+:is(
+  :is(:is(.dialog.newAltText #newAltTextContainer) #mainContent)
+    #newAltTextDownloadModel
+)::before {
   content: "";
   display: inline-block;
   width: 16px;
@@ -3109,7 +3594,8 @@
   background-color: var(--text-secondary-color);
 }
 
-:is(:is(.dialog.newAltText #newAltTextContainer) #mainContent) #newAltTextImagePreview {
+:is(:is(.dialog.newAltText #newAltTextContainer) #mainContent)
+  #newAltTextImagePreview {
   width: 180px;
   aspect-ratio: 1;
   display: flex;
@@ -3120,7 +3606,11 @@
   border: var(--preview-image-border);
 }
 
-:is(:is(:is(.dialog.newAltText #newAltTextContainer) #mainContent) #newAltTextImagePreview) > canvas {
+:is(
+    :is(:is(.dialog.newAltText #newAltTextContainer) #mainContent)
+      #newAltTextImagePreview
+  )
+  > canvas {
   max-width: 100%;
   max-height: 100%;
 }
@@ -3167,19 +3657,27 @@
   border: none;
 }
 
-.annotationEditorLayer[data-main-rotation="0"] .highlightEditor:not(.free) > .editToolbar {
+.annotationEditorLayer[data-main-rotation="0"]
+  .highlightEditor:not(.free)
+  > .editToolbar {
   rotate: 0deg;
 }
 
-.annotationEditorLayer[data-main-rotation="90"] .highlightEditor:not(.free) > .editToolbar {
+.annotationEditorLayer[data-main-rotation="90"]
+  .highlightEditor:not(.free)
+  > .editToolbar {
   rotate: 270deg;
 }
 
-.annotationEditorLayer[data-main-rotation="180"] .highlightEditor:not(.free) > .editToolbar {
+.annotationEditorLayer[data-main-rotation="180"]
+  .highlightEditor:not(.free)
+  > .editToolbar {
   rotate: 180deg;
 }
 
-.annotationEditorLayer[data-main-rotation="270"] .highlightEditor:not(.free) > .editToolbar {
+.annotationEditorLayer[data-main-rotation="270"]
+  .highlightEditor:not(.free)
+  > .editToolbar {
   rotate: 90deg;
 }
 
@@ -3223,7 +3721,8 @@
   transform-origin: center !important;
 }
 
-:is(:is(:is(.annotationEditorLayer .highlightEditor) .editToolbar) .buttons) .colorPicker {
+:is(:is(:is(.annotationEditorLayer .highlightEditor) .editToolbar) .buttons)
+  .colorPicker {
   position: relative;
   width: auto;
   display: flex;
@@ -3233,7 +3732,10 @@
   padding: 4px;
 }
 
-:is(:is(:is(:is(.annotationEditorLayer .highlightEditor) .editToolbar) .buttons) .colorPicker)::after {
+:is(
+  :is(:is(:is(.annotationEditorLayer .highlightEditor) .editToolbar) .buttons)
+    .colorPicker
+)::after {
   content: "";
   -webkit-mask-image: var(--editor-toolbar-colorpicker-arrow-image);
   mask-image: var(--editor-toolbar-colorpicker-arrow-image);
@@ -3247,23 +3749,32 @@
   height: 12px;
 }
 
-:is(:is(:is(:is(.annotationEditorLayer .highlightEditor) .editToolbar) .buttons) .colorPicker):hover::after {
+:is(
+    :is(:is(:is(.annotationEditorLayer .highlightEditor) .editToolbar) .buttons)
+      .colorPicker
+  ):hover::after {
   background-color: var(--editor-toolbar-hover-fg-color);
 }
 
-:is(:is(:is(:is(.annotationEditorLayer .highlightEditor) .editToolbar) .buttons) .colorPicker):has(
-    .dropdown:not(.hidden)
-  ) {
+:is(
+  :is(:is(:is(.annotationEditorLayer .highlightEditor) .editToolbar) .buttons)
+    .colorPicker
+):has(.dropdown:not(.hidden)) {
   background-color: var(--editor-toolbar-hover-bg-color);
 }
 
-:is(:is(:is(:is(.annotationEditorLayer .highlightEditor) .editToolbar) .buttons) .colorPicker):has(
-    .dropdown:not(.hidden)
-  )::after {
+:is(
+    :is(:is(:is(.annotationEditorLayer .highlightEditor) .editToolbar) .buttons)
+      .colorPicker
+  ):has(.dropdown:not(.hidden))::after {
   scale: -1;
 }
 
-:is(:is(:is(:is(.annotationEditorLayer .highlightEditor) .editToolbar) .buttons) .colorPicker) .dropdown {
+:is(
+    :is(:is(:is(.annotationEditorLayer .highlightEditor) .editToolbar) .buttons)
+      .colorPicker
+  )
+  .dropdown {
   position: absolute;
   display: flex;
   justify-content: center;
@@ -3279,7 +3790,17 @@
   width: calc(100% + 2 * var(--editor-toolbar-padding));
 }
 
-:is(:is(:is(:is(:is(.annotationEditorLayer .highlightEditor) .editToolbar) .buttons) .colorPicker) .dropdown) button {
+:is(
+    :is(
+        :is(
+            :is(:is(.annotationEditorLayer .highlightEditor) .editToolbar)
+              .buttons
+          )
+          .colorPicker
+      )
+      .dropdown
+  )
+  button {
   width: 100%;
   height: auto;
   border: none;
@@ -3291,27 +3812,67 @@
 }
 
 :is(
-    :is(:is(:is(:is(:is(.annotationEditorLayer .highlightEditor) .editToolbar) .buttons) .colorPicker) .dropdown) button
-  ):is(:active, :focus-visible) {
+  :is(
+      :is(
+          :is(
+              :is(:is(.annotationEditorLayer .highlightEditor) .editToolbar)
+                .buttons
+            )
+            .colorPicker
+        )
+        .dropdown
+    )
+    button
+):is(:active, :focus-visible) {
   outline: none;
 }
 
 :is(
-    :is(:is(:is(:is(:is(.annotationEditorLayer .highlightEditor) .editToolbar) .buttons) .colorPicker) .dropdown) button
+    :is(
+        :is(
+            :is(
+                :is(:is(.annotationEditorLayer .highlightEditor) .editToolbar)
+                  .buttons
+              )
+              .colorPicker
+          )
+          .dropdown
+      )
+      button
   )
   > .swatch {
   outline-offset: 2px;
 }
 
 [aria-selected="true"]:is(
-    :is(:is(:is(:is(:is(.annotationEditorLayer .highlightEditor) .editToolbar) .buttons) .colorPicker) .dropdown) button
+    :is(
+        :is(
+            :is(
+                :is(:is(.annotationEditorLayer .highlightEditor) .editToolbar)
+                  .buttons
+              )
+              .colorPicker
+          )
+          .dropdown
+      )
+      button
   )
   > .swatch {
   outline: 2px solid var(--selected-outline-color);
 }
 
 :is(
-    :is(:is(:is(:is(:is(.annotationEditorLayer .highlightEditor) .editToolbar) .buttons) .colorPicker) .dropdown) button
+    :is(
+        :is(
+            :is(
+                :is(:is(.annotationEditorLayer .highlightEditor) .editToolbar)
+                  .buttons
+              )
+              .colorPicker
+          )
+          .dropdown
+      )
+      button
   ):is(:hover, :active, :focus-visible)
   > .swatch {
   outline: 2px solid var(--hover-outline-color);
@@ -3354,20 +3915,28 @@
   padding: 0;
 }
 
-:is(:is(:is(#highlightParamsToolbarContainer .colorPicker) .dropdown) button) .swatch {
+:is(:is(:is(#highlightParamsToolbarContainer .colorPicker) .dropdown) button)
+  .swatch {
   width: 24px;
   height: 24px;
 }
 
-:is(:is(:is(#highlightParamsToolbarContainer .colorPicker) .dropdown) button):is(:active, :focus-visible) {
+:is(
+  :is(:is(#highlightParamsToolbarContainer .colorPicker) .dropdown) button
+):is(:active, :focus-visible) {
   outline: none;
 }
 
-[aria-selected="true"]:is(:is(:is(#highlightParamsToolbarContainer .colorPicker) .dropdown) button) > .swatch {
+[aria-selected="true"]:is(
+    :is(:is(#highlightParamsToolbarContainer .colorPicker) .dropdown) button
+  )
+  > .swatch {
   outline: 2px solid var(--selected-outline-color);
 }
 
-:is(:is(:is(#highlightParamsToolbarContainer .colorPicker) .dropdown) button):is(:hover, :active, :focus-visible)
+:is(
+    :is(:is(#highlightParamsToolbarContainer .colorPicker) .dropdown) button
+  ):is(:hover, :active, :focus-visible)
   > .swatch {
   outline: 2px solid var(--hover-outline-color);
 }
@@ -3380,12 +3949,14 @@
   align-self: stretch;
 }
 
-:is(#highlightParamsToolbarContainer #editorHighlightThickness) .editorParamsLabel {
+:is(#highlightParamsToolbarContainer #editorHighlightThickness)
+  .editorParamsLabel {
   height: auto;
   align-self: stretch;
 }
 
-:is(#highlightParamsToolbarContainer #editorHighlightThickness) .thicknessPicker {
+:is(#highlightParamsToolbarContainer #editorHighlightThickness)
+  .thicknessPicker {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -3395,29 +3966,44 @@
 }
 
 @media (prefers-color-scheme: dark) {
-  :where(html:not(.is-light)) :is(#highlightParamsToolbarContainer #editorHighlightThickness) .thicknessPicker {
+  :where(html:not(.is-light))
+    :is(#highlightParamsToolbarContainer #editorHighlightThickness)
+    .thicknessPicker {
     --example-color: #80808e;
   }
 }
 
-:where(html.is-dark) :is(#highlightParamsToolbarContainer #editorHighlightThickness) .thicknessPicker {
+:where(html.is-dark)
+  :is(#highlightParamsToolbarContainer #editorHighlightThickness)
+  .thicknessPicker {
   --example-color: #80808e;
 }
 
 @media screen and (forced-colors: active) {
-  :is(#highlightParamsToolbarContainer #editorHighlightThickness) .thicknessPicker {
+  :is(#highlightParamsToolbarContainer #editorHighlightThickness)
+    .thicknessPicker {
     --example-color: CanvasText;
   }
 }
 
 :is(
-  :is(:is(#highlightParamsToolbarContainer #editorHighlightThickness) .thicknessPicker) > .editorParamsSlider[disabled]
+  :is(
+      :is(#highlightParamsToolbarContainer #editorHighlightThickness)
+        .thicknessPicker
+    )
+    > .editorParamsSlider[disabled]
 ) {
   opacity: 0.4;
 }
 
-:is(:is(#highlightParamsToolbarContainer #editorHighlightThickness) .thicknessPicker)::before,
-:is(:is(#highlightParamsToolbarContainer #editorHighlightThickness) .thicknessPicker)::after {
+:is(
+  :is(#highlightParamsToolbarContainer #editorHighlightThickness)
+    .thicknessPicker
+)::before,
+:is(
+  :is(#highlightParamsToolbarContainer #editorHighlightThickness)
+    .thicknessPicker
+)::after {
   content: "";
   width: 8px;
   aspect-ratio: 1;
@@ -3426,11 +4012,18 @@
   background-color: var(--example-color);
 }
 
-:is(:is(#highlightParamsToolbarContainer #editorHighlightThickness) .thicknessPicker)::after {
+:is(
+  :is(#highlightParamsToolbarContainer #editorHighlightThickness)
+    .thicknessPicker
+)::after {
   width: 24px;
 }
 
-:is(:is(#highlightParamsToolbarContainer #editorHighlightThickness) .thicknessPicker) .editorParamsSlider {
+:is(
+    :is(#highlightParamsToolbarContainer #editorHighlightThickness)
+      .thicknessPicker
+  )
+  .editorParamsSlider {
   width: unset;
   height: 14px;
 }
@@ -3448,12 +4041,16 @@
 }
 
 @media (prefers-color-scheme: dark) {
-  :where(html:not(.is-light)) :is(#highlightParamsToolbarContainer #editorHighlightVisibility) .divider {
+  :where(html:not(.is-light))
+    :is(#highlightParamsToolbarContainer #editorHighlightVisibility)
+    .divider {
     --divider-color: #8f8f9d;
   }
 }
 
-:where(html.is-dark) :is(#highlightParamsToolbarContainer #editorHighlightVisibility) .divider {
+:where(html.is-dark)
+  :is(#highlightParamsToolbarContainer #editorHighlightVisibility)
+  .divider {
   --divider-color: #8f8f9d;
 }
 
@@ -3502,16 +4099,23 @@
   gap: 12px;
 }
 
-:is(:is(#altTextSettingsDialog #altTextSettingsContainer) #aiModelSettings) button {
+:is(:is(#altTextSettingsDialog #altTextSettingsContainer) #aiModelSettings)
+  button {
   width: -moz-fit-content;
   width: fit-content;
 }
 
-.download:is(:is(#altTextSettingsDialog #altTextSettingsContainer) #aiModelSettings) #deleteModelButton {
+.download:is(
+    :is(#altTextSettingsDialog #altTextSettingsContainer) #aiModelSettings
+  )
+  #deleteModelButton {
   display: none;
 }
 
-:is(:is(#altTextSettingsDialog #altTextSettingsContainer) #aiModelSettings):not(.download) #downloadModelButton {
+:is(:is(#altTextSettingsDialog #altTextSettingsContainer) #aiModelSettings):not(
+    .download
+  )
+  #downloadModelButton {
   display: none;
 }
 
@@ -3524,7 +4128,8 @@
 
 :is(#altTextSettingsDialog #altTextSettingsContainer) #createModelDescription,
 :is(#altTextSettingsDialog #altTextSettingsContainer) #aiModelSettings,
-:is(#altTextSettingsDialog #altTextSettingsContainer) #showAltTextDialogDescription {
+:is(#altTextSettingsDialog #altTextSettingsContainer)
+  #showAltTextDialogDescription {
   padding-inline-start: 40px;
 }
 
@@ -3754,7 +4359,8 @@
   --toolbar-box-shadow: 0 1px 0 var(--toolbar-border-color);
   --toolbar-border-bottom: none;
   --toolbarSidebar-box-shadow:
-    inset calc(-1px * var(--dir-factor)) 0 0 rgb(0 0 0 / 0.25), 0 1px 0 rgb(0 0 0 / 0.15), 0 0 1px rgb(0 0 0 / 0.1);
+    inset calc(-1px * var(--dir-factor)) 0 0 rgb(0 0 0 / 0.25),
+    0 1px 0 rgb(0 0 0 / 0.15), 0 0 1px rgb(0 0 0 / 0.1);
   --toolbarSidebar-border-bottom: none;
   --button-hover-color: rgb(221 222 223);
   --toggled-btn-color: rgb(0 0 0);
@@ -3823,7 +4429,9 @@
   --secondaryToolbarButton-spreadNone-icon: url(images/secondaryToolbarButton-spreadNone.svg);
   --secondaryToolbarButton-spreadOdd-icon: url(images/secondaryToolbarButton-spreadOdd.svg);
   --secondaryToolbarButton-spreadEven-icon: url(images/secondaryToolbarButton-spreadEven.svg);
-  --secondaryToolbarButton-imageAltTextSettings-icon: var(--toolbarButton-editorStamp-icon);
+  --secondaryToolbarButton-imageAltTextSettings-icon: var(
+    --toolbarButton-editorStamp-icon
+  );
   --secondaryToolbarButton-documentProperties-icon: url(images/secondaryToolbarButton-documentProperties.svg);
   --editorParams-stampAddImage-icon: url(images/toolbarButton-zoomIn.svg);
 }
@@ -4150,7 +4758,8 @@ body.wait::before {
   inset-inline-start: var(--sidebar-width);
 }
 
-#outerContainer.sidebarResizing :is(#sidebarContainer, #viewerContainer, #loadingBar) {
+#outerContainer.sidebarResizing
+  :is(#sidebarContainer, #viewerContainer, #loadingBar) {
   transition-duration: 0s;
 }
 
@@ -4718,7 +5327,8 @@ dialog :link {
   cursor: grab !important;
 }
 
-.grab-to-pan-grab *:not(input):not(textarea):not(button):not(select):not(:link) {
+.grab-to-pan-grab
+  *:not(input):not(textarea):not(button):not(select):not(:link) {
   cursor: inherit !important;
 }
 
@@ -4860,7 +5470,10 @@ dialog :link {
 .toolbarButtonWithContainer .menuContainer {
   width: 100%;
   height: auto;
-  max-height: calc(var(--viewer-container-height) - var(--toolbar-height) - var(--doorhanger-height));
+  max-height: calc(
+    var(--viewer-container-height) - var(--toolbar-height) -
+      var(--doorhanger-height)
+  );
   display: flex;
   flex-direction: column;
   box-sizing: border-box;
@@ -4875,7 +5488,8 @@ dialog :link {
   cursor: default;
 }
 
-:is(.toolbarButtonWithContainer .editorParamsToolbar) #editorStampAddImage::before {
+:is(.toolbarButtonWithContainer .editorParamsToolbar)
+  #editorStampAddImage::before {
   -webkit-mask-image: var(--editorParams-stampAddImage-icon);
   mask-image: var(--editorParams-stampAddImage-icon);
 }
@@ -4893,7 +5507,8 @@ dialog :link {
   inset-inline-start: 0;
 }
 
-:is(.toolbarButtonWithContainer .editorParamsToolbar) .editorParamsToolbarContainer {
+:is(.toolbarButtonWithContainer .editorParamsToolbar)
+  .editorParamsToolbarContainer {
   width: 100%;
   height: auto;
   display: flex;
@@ -4903,21 +5518,33 @@ dialog :link {
   padding-block: 10px;
 }
 
-:is(:is(.toolbarButtonWithContainer .editorParamsToolbar) .editorParamsToolbarContainer) > .editorParamsSetter {
+:is(
+    :is(.toolbarButtonWithContainer .editorParamsToolbar)
+      .editorParamsToolbarContainer
+  )
+  > .editorParamsSetter {
   min-height: 26px;
   display: flex;
   align-items: center;
   justify-content: space-between;
 }
 
-:is(:is(.toolbarButtonWithContainer .editorParamsToolbar) .editorParamsToolbarContainer) .editorParamsColor {
+:is(
+    :is(.toolbarButtonWithContainer .editorParamsToolbar)
+      .editorParamsToolbarContainer
+  )
+  .editorParamsColor {
   width: 32px;
   height: 32px;
   flex: none;
   padding: 0;
 }
 
-:is(:is(.toolbarButtonWithContainer .editorParamsToolbar) .editorParamsToolbarContainer) .editorParamsSlider {
+:is(
+    :is(.toolbarButtonWithContainer .editorParamsToolbar)
+      .editorParamsToolbarContainer
+  )
+  .editorParamsSlider {
   background-color: transparent;
   width: 90px;
   flex: 0 1 0;
@@ -4925,26 +5552,46 @@ dialog :link {
 }
 
 :is(
-    :is(:is(.toolbarButtonWithContainer .editorParamsToolbar) .editorParamsToolbarContainer) .editorParamsSlider
-  )::-moz-range-progress {
+  :is(
+      :is(.toolbarButtonWithContainer .editorParamsToolbar)
+        .editorParamsToolbarContainer
+    )
+    .editorParamsSlider
+)::-moz-range-progress {
   background-color: black;
 }
 
 :is(
-    :is(:is(.toolbarButtonWithContainer .editorParamsToolbar) .editorParamsToolbarContainer) .editorParamsSlider
-  )::-webkit-slider-runnable-track,
+  :is(
+      :is(.toolbarButtonWithContainer .editorParamsToolbar)
+        .editorParamsToolbarContainer
+    )
+    .editorParamsSlider
+)::-webkit-slider-runnable-track,
 :is(
-    :is(:is(.toolbarButtonWithContainer .editorParamsToolbar) .editorParamsToolbarContainer) .editorParamsSlider
-  )::-moz-range-track {
+  :is(
+      :is(.toolbarButtonWithContainer .editorParamsToolbar)
+        .editorParamsToolbarContainer
+    )
+    .editorParamsSlider
+)::-moz-range-track {
   background-color: black;
 }
 
 :is(
-    :is(:is(.toolbarButtonWithContainer .editorParamsToolbar) .editorParamsToolbarContainer) .editorParamsSlider
-  )::-webkit-slider-thumb,
+  :is(
+      :is(.toolbarButtonWithContainer .editorParamsToolbar)
+        .editorParamsToolbarContainer
+    )
+    .editorParamsSlider
+)::-webkit-slider-thumb,
 :is(
-    :is(:is(.toolbarButtonWithContainer .editorParamsToolbar) .editorParamsToolbarContainer) .editorParamsSlider
-  )::-moz-range-thumb {
+  :is(
+      :is(.toolbarButtonWithContainer .editorParamsToolbar)
+        .editorParamsToolbarContainer
+    )
+    .editorParamsSlider
+)::-moz-range-thumb {
   background-color: white;
 }
 
@@ -4958,22 +5605,26 @@ dialog :link {
   max-height: calc(var(--viewer-container-height) - 40px);
 }
 
-:is(#secondaryToolbar #secondaryToolbarButtonContainer) #secondaryOpenFile::before {
+:is(#secondaryToolbar #secondaryToolbarButtonContainer)
+  #secondaryOpenFile::before {
   -webkit-mask-image: var(--toolbarButton-openFile-icon);
   mask-image: var(--toolbarButton-openFile-icon);
 }
 
-:is(#secondaryToolbar #secondaryToolbarButtonContainer) #secondaryPrint::before {
+:is(#secondaryToolbar #secondaryToolbarButtonContainer)
+  #secondaryPrint::before {
   -webkit-mask-image: var(--toolbarButton-print-icon);
   mask-image: var(--toolbarButton-print-icon);
 }
 
-:is(#secondaryToolbar #secondaryToolbarButtonContainer) #secondaryDownload::before {
+:is(#secondaryToolbar #secondaryToolbarButtonContainer)
+  #secondaryDownload::before {
   -webkit-mask-image: var(--toolbarButton-download-icon);
   mask-image: var(--toolbarButton-download-icon);
 }
 
-:is(#secondaryToolbar #secondaryToolbarButtonContainer) #presentationMode::before {
+:is(#secondaryToolbar #secondaryToolbarButtonContainer)
+  #presentationMode::before {
   -webkit-mask-image: var(--toolbarButton-presentationMode-icon);
   mask-image: var(--toolbarButton-presentationMode-icon);
 }
@@ -5003,12 +5654,14 @@ dialog :link {
   mask-image: var(--secondaryToolbarButton-rotateCw-icon);
 }
 
-:is(#secondaryToolbar #secondaryToolbarButtonContainer) #cursorSelectTool::before {
+:is(#secondaryToolbar #secondaryToolbarButtonContainer)
+  #cursorSelectTool::before {
   -webkit-mask-image: var(--secondaryToolbarButton-selectTool-icon);
   mask-image: var(--secondaryToolbarButton-selectTool-icon);
 }
 
-:is(#secondaryToolbar #secondaryToolbarButtonContainer) #cursorHandTool::before {
+:is(#secondaryToolbar #secondaryToolbarButtonContainer)
+  #cursorHandTool::before {
   -webkit-mask-image: var(--secondaryToolbarButton-handTool-icon);
   mask-image: var(--secondaryToolbarButton-handTool-icon);
 }
@@ -5018,12 +5671,14 @@ dialog :link {
   mask-image: var(--secondaryToolbarButton-scrollPage-icon);
 }
 
-:is(#secondaryToolbar #secondaryToolbarButtonContainer) #scrollVertical::before {
+:is(#secondaryToolbar #secondaryToolbarButtonContainer)
+  #scrollVertical::before {
   -webkit-mask-image: var(--secondaryToolbarButton-scrollVertical-icon);
   mask-image: var(--secondaryToolbarButton-scrollVertical-icon);
 }
 
-:is(#secondaryToolbar #secondaryToolbarButtonContainer) #scrollHorizontal::before {
+:is(#secondaryToolbar #secondaryToolbarButtonContainer)
+  #scrollHorizontal::before {
   -webkit-mask-image: var(--secondaryToolbarButton-scrollHorizontal-icon);
   mask-image: var(--secondaryToolbarButton-scrollHorizontal-icon);
 }
@@ -5048,12 +5703,14 @@ dialog :link {
   mask-image: var(--secondaryToolbarButton-spreadEven-icon);
 }
 
-:is(#secondaryToolbar #secondaryToolbarButtonContainer) #imageAltTextSettings::before {
+:is(#secondaryToolbar #secondaryToolbarButtonContainer)
+  #imageAltTextSettings::before {
   -webkit-mask-image: var(--secondaryToolbarButton-imageAltTextSettings-icon);
   mask-image: var(--secondaryToolbarButton-imageAltTextSettings-icon);
 }
 
-:is(#secondaryToolbar #secondaryToolbarButtonContainer) #documentProperties::before {
+:is(#secondaryToolbar #secondaryToolbarButtonContainer)
+  #documentProperties::before {
   -webkit-mask-image: var(--secondaryToolbarButton-documentProperties-icon);
   mask-image: var(--secondaryToolbarButton-documentProperties-icon);
 }
@@ -5111,7 +5768,9 @@ dialog :link {
   font-style: normal;
 }
 
-.loadingInput:has(> [data-status="pending"]:is(:is(#findbar #findInputContainer) #findInput))::after {
+.loadingInput:has(
+    > [data-status="pending"]:is(:is(#findbar #findInputContainer) #findInput)
+  )::after {
   display: inline;
   visibility: visible;
   inset-inline-end: calc(var(--input-horizontal-padding) + 1px);
@@ -5126,7 +5785,9 @@ dialog :link {
   gap: 4px;
 }
 
-:is(#findbar #findbarMessageContainer):has(> :is(#findResultsCount, #findMsg):not(:empty)) {
+:is(#findbar #findbarMessageContainer):has(
+  > :is(#findResultsCount, #findMsg):not(:empty)
+) {
   display: inline flex;
 }
 
@@ -5387,7 +6048,9 @@ dialog :link {
   height: 1px;
 }
 
-:is(#toolbarContainer #toolbarViewer) #toolbarViewerLeft #numPages.toolbarLabel {
+:is(#toolbarContainer #toolbarViewer)
+  #toolbarViewerLeft
+  #numPages.toolbarLabel {
   padding-inline-start: 3px;
   flex: none;
 }

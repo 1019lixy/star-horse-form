@@ -1,43 +1,43 @@
 <script setup lang="ts">
-  import { ref } from "vue";
+import { ref } from "vue";
 
-  defineProps({
-    dataList: { type: Array, required: true },
-    preps: {
-      type: Object,
-      default: () => {
-        return {
-          value: "value",
-          label: "name",
-          children: "children"
-        };
-      }
+defineProps({
+  dataList: { type: Array, required: true },
+  preps: {
+    type: Object,
+    default: () => {
+      return {
+        value: "value",
+        label: "name",
+        children: "children",
+      };
     },
-    btnTitle: { type: String, default: "添加数据" },
-    rmvTitle: { type: String, default: "删除数据" },
-    btnVisible: { type: Boolean, default: false },
-    rmvVisible: { type: Boolean, default: false }
-  });
-  const emits = defineEmits(["selectData", "addData", "removeData"]);
-  let currentItem = ref<any>({});
-  const selectData = (item: any, event: MouseEvent) => {
-    currentItem.value = item;
-    if (event) {
-      event.stopPropagation();
-      event.preventDefault();
-    }
-    emits("selectData", item);
-  };
-  /**
-   * 添加数据
-   * @param item
-   */
-  const addData = (item: any) => {
-    emits("addData", item);
-  };
-  const removeData = (item: any) => {
-    emits("removeData", item);
-  };
+  },
+  btnTitle: { type: String, default: "添加数据" },
+  rmvTitle: { type: String, default: "删除数据" },
+  btnVisible: { type: Boolean, default: false },
+  rmvVisible: { type: Boolean, default: false },
+});
+const emits = defineEmits(["selectData", "addData", "removeData"]);
+let currentItem = ref<any>({});
+const selectData = (item: any, event: MouseEvent) => {
+  currentItem.value = item;
+  if (event) {
+    event.stopPropagation();
+    event.preventDefault();
+  }
+  emits("selectData", item);
+};
+/**
+ * 添加数据
+ * @param item
+ */
+const addData = (item: any) => {
+  emits("addData", item);
+};
+const removeData = (item: any) => {
+  emits("removeData", item);
+};
 </script>
 <template>
   <template v-for="item in dataList">
@@ -54,7 +54,12 @@
           <div class="name">{{ item[preps.label] }}</div>
           <div v-if="btnVisible || rmvVisible" class="btn">
             <el-tooltip :content="btnTitle">
-              <star-horse-icon cursor="pointer" v-if="btnVisible" @click.stop="addData(item)" icon-class="plus" />
+              <star-horse-icon
+                cursor="pointer"
+                v-if="btnVisible"
+                @click.stop="addData(item)"
+                icon-class="plus"
+              />
             </el-tooltip>
             <el-tooltip :content="rmvTitle">
               <star-horse-icon
@@ -92,7 +97,12 @@
           <div class="name">{{ item[preps.label] }}</div>
           <div v-if="btnVisible || rmvVisible" class="btn">
             <el-tooltip :content="btnTitle">
-              <star-horse-icon cursor="pointer" v-if="btnVisible" @click.stop="addData(item)" icon-class="plus" />
+              <star-horse-icon
+                cursor="pointer"
+                v-if="btnVisible"
+                @click.stop="addData(item)"
+                icon-class="plus"
+              />
             </el-tooltip>
             <el-tooltip :content="rmvTitle">
               <star-horse-icon
@@ -110,21 +120,21 @@
   </template>
 </template>
 <style scoped lang="scss">
-  .star-icon {
-    font-size: 22px;
-  }
+.star-icon {
+  font-size: 22px;
+}
 
-  .el-sub-menu {
-    justify-content: space-between;
-  }
+.el-sub-menu {
+  justify-content: space-between;
+}
 
-  :deep(.el-sub-menu__title) {
-    height: 35px !important;
-    line-height: 35px !important;
-    width: 100%;
-  }
+:deep(.el-sub-menu__title) {
+  height: 35px !important;
+  line-height: 35px !important;
+  width: 100%;
+}
 
-  :deep(.el-scrollbar__view) {
-    height: 100%;
-  }
+:deep(.el-scrollbar__view) {
+  height: 100%;
+}
 </style>

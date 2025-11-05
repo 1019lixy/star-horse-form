@@ -1,4 +1,4 @@
-import { LangType } from "./theme.ts";
+import { LangType } from "./theme.js";
 
 /**
  * 获取系统语言
@@ -12,5 +12,7 @@ export function getLang(): LangType {
  * @param lang
  */
 export function setLang(lang: LangType) {
+  // Use the language synchronization service to set the language
+  // languageSyncService.setLanguage(lang);
   return localStorage.setItem("lang", lang);
 }

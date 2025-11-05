@@ -1,13 +1,14 @@
 import { ElMessageBox } from "element-plus";
 import Message from "vue-m-message";
 import "vue-m-message/dist/style.css";
+import { i18n } from "@/lang";
 
 export const operationConfirm = (msg: string): Promise<boolean> => {
   return new Promise((resolve, reject) => {
-    ElMessageBox.confirm(msg, "警告", {
-      confirmButtonText: "确认",
-      cancelButtonText: "取消",
-      type: "warning"
+    ElMessageBox.confirm(msg, i18n("utils.boolean.yes"), {
+      confirmButtonText: i18n("dialog.submit"),
+      cancelButtonText: i18n("dialog.close"),
+      type: "warning",
     })
       .then(() => {
         resolve(true);
@@ -29,8 +30,8 @@ export const message = (
   msg: string,
   type: string = "info",
   duration: number = 2000,
-  title: string = "提示",
-  position: string = "top-right"
+  title: string = i18n("message.tip"),
+  position: string = "top-right",
 ) => {
   Message({
     message: msg,
@@ -43,7 +44,7 @@ export const message = (
     isCollapsed: false,
     supportHTML: true,
     width: "350px",
-    stopTimerOnHover: true
+    stopTimerOnHover: true,
   });
 };
 /**
@@ -51,19 +52,19 @@ export const message = (
  * @param msg 消息内容
  */
 export const success = (msg: string) => {
-  message(msg, "success", 3000, "成功", "bottom-right");
+  message(msg, "success", 3000, i18n("utils.status.normal"), "bottom-right");
 };
 /**
  * 警告提示
  * @param msg 消息内容
  */
 export const warning = (msg: string) => {
-  message(msg, "warning", 3000, "警告", "bottom-right");
+  message(msg, "warning", 3000, i18n("utils.status.abnormal"), "bottom-right");
 };
 /**
  * 错误提示
  * @param msg 消息内容
  */
 export const error = (msg: string) => {
-  message(msg, "error", 3000, "错误", "bottom-right");
+  message(msg, "error", 3000, i18n("utils.status.abnormal"), "bottom-right");
 };

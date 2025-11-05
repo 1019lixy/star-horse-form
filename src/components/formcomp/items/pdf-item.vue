@@ -1,8 +1,10 @@
 <template>
+  2 {{ field }}
   <starhorse-form-item
-    :isDesign="context.attrs['isDesign']"
-    :bareFlag="context.attrs['bareFlag']"
-    :form-item="field"
+    :isDesign="isDesign"
+    :disabled="disabled"
+    :bareFlag="bareFlag"
+    :formItem="field"
     :parentField="parentField"
   >
     <iframe
@@ -17,54 +19,47 @@
     </el-button>
   </starhorse-form-item>
 </template>
-<script lang="ts" name="pdfItem">
-  import { computed, defineComponent, onMounted, ref, shallowRef } from "vue";
-  import { warning } from "star-horse-lowcode";
+<script setup lang="ts" name="pdfItem">
+import { computed, onMounted, ref } from "vue";
+import { warning, ItemPreps } from "star-horse-lowcode";
+const props = withDefaults(defineProps<ItemPreps>(), {
+  isDesign: false,
+  disabled: false,
+  showFormItem: false,
+  bareFlag: false,
+  isSearch: false,
+  field: {
+    preps: {},
+  },
+});
+const emits = defineEmits(["selfFunc", "selectItem"]);
+const formData = defineModel("formData");
+const itemAction = () => {
+  emits("selfFunc", formData);
+};
+let filePath = computed(() => {
+  let path = formData[props.field.preps["name"]];
+  if (path) {
+    path = `?file=${path}`;
+  } else {
+    path = "";
+  }
+  return `/lib/pdfjs/web/viewer.html${encodeURIComponent(path)}`;
+});
+let pdfPages = ref(0); // pdf文件的页数
 
-  export default defineComponent({
-    setup(_props, context) {
-      const parentField = context.attrs["parentField"];
-      const field = context.attrs["field"] as any;
-      let formItem = shallowRef({ label: "input", required: false });
-      let dataField = shallowRef("");
-      let filePath = computed(() => {
-        let path = context.attrs["formData"][field.preps["name"]];
-        if (path) {
-          path = `?file=${path}`;
-        } else {
-          path = "";
-        }
-        return `/lib/pdfjs/web/viewer.html${encodeURIComponent(path)}`;
-      });
-      let pdfPages = ref(0); // pdf文件的页数
-      const itemAction = () => {
-        context.emit("selfFunc");
-      };
-      const pdfView = () => {
-        if (!filePath.value.includes("file=")) {
-          warning("请先上传文件");
-          return;
-        }
-        window.open(`${filePath.value}`, "_blank");
-      };
-      onMounted(() => {});
-      return {
-        parentField,
-        context,
-        field,
-        formItem,
-        dataField,
-        itemAction,
-        pdfPages,
-        filePath,
-        pdfView
-      };
-    }
-  });
+const pdfView = () => {
+  if (!filePath.value.includes("file=")) {
+    warning("请先上传文件");
+    return;
+  }
+  window.open(`${filePath.value}`, "_blank");
+};
+onMounted(() => {});
 </script>
 <style lang="scss" scoped>
-  .interviewVideo_main {
-    height: 100%;
-    width: 100%;
-  }
+.interviewVideo_main {
+  height: 100%;
+  width: 100%;
+}
 </style>

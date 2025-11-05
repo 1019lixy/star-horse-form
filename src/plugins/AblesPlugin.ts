@@ -1,7 +1,12 @@
-import {piniaInstance} from "star-horse-lowcode";
+import {
+  DynamicNode,
+  piniaInstance,
+  useCopyerOperationStore,
+  useDesignFormStore,
+  useDesignPageStore,
+  uuid,
+} from "star-horse-lowcode";
 import { computed, reactive, ref } from "vue";
-import { uuid } from "star-horse-lowcode";
-import { useDesignFormStore, useCopyerOperationStore,useDesignPageStore,DynamicNode } from "star-horse-lowcode";
 
 const copyerAction = useCopyerOperationStore(piniaInstance);
 const designForm = useDesignFormStore(piniaInstance);
@@ -30,7 +35,12 @@ export function getParentComp(parentField: any) {
  * @param elements
  * @param parentType
  */
-const selectItem = (index: number, currentItems: Array<any>, elements: Array<any>, parentType: string) => {
+const selectItem = (
+  index: number,
+  currentItems: Array<any>,
+  elements: Array<any>,
+  parentType: string,
+) => {
   let item: any = {};
   if (currentItems.length > 0) {
     item = currentItems[currentItems.length - 1];
@@ -249,7 +259,11 @@ const complexFields = (items: Array<any>, isCut: boolean = false) => {
  * @param currentContainer
  * @param isCut
  */
-export const copyContainer = (parentComp: Array<any>, currentContainer: any, isCut: boolean = false) => {
+export const copyContainer = (
+  parentComp: Array<any>,
+  currentContainer: any,
+  isCut: boolean = false,
+) => {
   if (!currentContainer) {
     return;
   }
@@ -308,7 +322,10 @@ export function paste(parentItem: any) {
     //拷贝容器
     if (getParentComp(copyerData) == "container") {
       const parentContainer = copyerAction.parentContainer;
-      copyContainer(parentContainer ? parentContainer!.preps?.elements : compList.value, copyerData);
+      copyContainer(
+        parentContainer ? parentContainer!.preps?.elements : compList.value,
+        copyerData,
+      );
     } else {
       copyerData = JSON.parse(JSON.stringify(copyerData));
       copyerData.id = uuid();
@@ -325,7 +342,12 @@ export function paste(parentItem: any) {
  * @param flag scene 场景 container 容器 item 组件
  * @param recall
  */
-export function dynamicFormContextMenuData(item: any, parentItem: any, flag: string = "scene", recall?: Function) {
+export function dynamicFormContextMenuData(
+  item: any,
+  parentItem: any,
+  flag: string = "scene",
+  recall?: Function,
+) {
   const menus = reactive<Array<any>>([]);
   if (flag == "scene") {
     menus.push({
@@ -338,7 +360,7 @@ export function dynamicFormContextMenuData(item: any, parentItem: any, flag: str
           recall("new");
         } else {
         }
-      }
+      },
     });
   }
   menus.push(
@@ -353,7 +375,7 @@ export function dynamicFormContextMenuData(item: any, parentItem: any, flag: str
         } else {
           cut(item, parentItem);
         }
-      }
+      },
     },
     {
       type: "button",
@@ -366,7 +388,7 @@ export function dynamicFormContextMenuData(item: any, parentItem: any, flag: str
         } else {
           copy(item, parentItem);
         }
-      }
+      },
     },
     {
       type: "button",
@@ -379,13 +401,13 @@ export function dynamicFormContextMenuData(item: any, parentItem: any, flag: str
         } else {
           paste(parentItem);
         }
-      }
+      },
     },
     {
       type: "divider",
       direction: "horizontal",
-      display: () => true
-    }
+      display: () => true,
+    },
   );
   if (flag == "scene") {
     menus.push(
@@ -399,7 +421,7 @@ export function dynamicFormContextMenuData(item: any, parentItem: any, flag: str
             recall("select-all");
           } else {
           }
-        }
+        },
       },
       {
         type: "button",
@@ -411,12 +433,12 @@ export function dynamicFormContextMenuData(item: any, parentItem: any, flag: str
             recall("dustbin");
           } else {
           }
-        }
+        },
       },
       {
         type: "divider",
         direction: "horizontal",
-        display: true
+        display: true,
       },
       {
         type: "button",
@@ -428,8 +450,8 @@ export function dynamicFormContextMenuData(item: any, parentItem: any, flag: str
             recall("preview");
           } else {
           }
-        }
-      }
+        },
+      },
     );
   }
   if (flag == "container") {
@@ -440,7 +462,7 @@ export function dynamicFormContextMenuData(item: any, parentItem: any, flag: str
       display: true,
       handler: () => {
         designForm.setComponentVisible(true);
-      }
+      },
     });
     menus.push({
       type: "button",
@@ -449,7 +471,7 @@ export function dynamicFormContextMenuData(item: any, parentItem: any, flag: str
       display: currentItemId.value != item.id,
       handler: () => {
         designForm.selectItem(item, item?.itemType, "");
-      }
+      },
     });
   }
   menus.push(
@@ -463,12 +485,12 @@ export function dynamicFormContextMenuData(item: any, parentItem: any, flag: str
           recall("undo");
         } else {
         }
-      }
+      },
     },
     {
       type: "divider",
       direction: "horizontal",
-      display: true
+      display: true,
     },
     {
       type: "button",
@@ -480,12 +502,12 @@ export function dynamicFormContextMenuData(item: any, parentItem: any, flag: str
           recall("delete");
         } else {
         }
-      }
+      },
     },
     {
       type: "divider",
       direction: "horizontal",
-      display: true
+      display: true,
     },
     {
       type: "button",
@@ -497,8 +519,8 @@ export function dynamicFormContextMenuData(item: any, parentItem: any, flag: str
           recall("prep");
         } else {
         }
-      }
-    }
+      },
+    },
   );
 
   return menus;
@@ -512,7 +534,7 @@ export function dynamicPageContextMenuData(node: DynamicNode) {
       text: "水平居中",
       icon: "center",
       display: true,
-      handler: () => {}
+      handler: () => {},
     },
     {
       type: "button",
@@ -524,12 +546,12 @@ export function dynamicPageContextMenuData(node: DynamicNode) {
         temp.id = uuid();
         temp.name = temp.name + "复制";
         designPage.addNode(temp);
-      }
+      },
     },
     {
       type: "divider",
       direction: "horizontal",
-      display: true
+      display: true,
     },
     {
       type: "button",
@@ -538,7 +560,7 @@ export function dynamicPageContextMenuData(node: DynamicNode) {
       display: true,
       handler: () => {
         node.zIndex = (node.zIndex || 100) + 1;
-      }
+      },
     },
     {
       type: "button",
@@ -547,7 +569,7 @@ export function dynamicPageContextMenuData(node: DynamicNode) {
       display: node.zIndex && node.zIndex > 100,
       handler: () => {
         node.zIndex = node.zIndex && node.zIndex > 100 ? node.zIndex - 1 : 100;
-      }
+      },
     },
     {
       type: "button",
@@ -556,7 +578,7 @@ export function dynamicPageContextMenuData(node: DynamicNode) {
       display: true,
       handler: () => {
         node.zIndex = designPage.maxZIndex() + 1;
-      }
+      },
     },
     {
       type: "button",
@@ -565,13 +587,13 @@ export function dynamicPageContextMenuData(node: DynamicNode) {
       display: node.zIndex && node.zIndex > 100,
       handler: () => {
         node.zIndex = 100;
-      }
+      },
     },
 
     {
       type: "divider",
       direction: "horizontal",
-      display: true
+      display: true,
     },
     {
       type: "button",
@@ -580,20 +602,20 @@ export function dynamicPageContextMenuData(node: DynamicNode) {
       display: true,
       handler: () => {
         designPage.removeNode(node.id);
-      }
+      },
     },
     {
       type: "divider",
       direction: "horizontal",
-      display: true
+      display: true,
     },
     {
       type: "button",
       icon: "empty_setting",
       text: "清空参考线",
       display: true,
-      handler: () => {}
-    }
+      handler: () => {},
+    },
   ];
   return contentMenuData;
 }

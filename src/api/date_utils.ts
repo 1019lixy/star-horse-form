@@ -46,7 +46,7 @@ export function monthRange(date: Date) {
     startDate: firstDay,
     starDateStr: year + "-" + month + "-01",
     lastDate: lastDay,
-    lastDateStr: year + "-" + month + "-" + lastDay.getDate()
+    lastDateStr: year + "-" + month + "-" + lastDay.getDate(),
   };
 }
 
@@ -57,7 +57,12 @@ export function monthRange(date: Date) {
  * @param split
  * @param needSecond
  */
-export function dateParse(date: Date, needTime: boolean = true, split: string = "-", needSecond: boolean = false) {
+export function dateParse(
+  date: Date,
+  needTime: boolean = true,
+  split: string = "-",
+  needSecond: boolean = false,
+) {
   if (!date) {
     return "";
   }
@@ -65,8 +70,10 @@ export function dateParse(date: Date, needTime: boolean = true, split: string = 
   const m1 = m < 10 ? "0" + m : m;
   const day = date.getDate() < 10 ? "0" + date.getDate() : date.getDate();
   const hour = date.getHours() < 10 ? "0" + date.getHours() : date.getHours();
-  const minute = date.getMinutes() < 10 ? "0" + date.getMinutes() : date.getMinutes();
-  const second = date.getSeconds() < 10 ? "0" + date.getSeconds() : date.getSeconds();
+  const minute =
+    date.getMinutes() < 10 ? "0" + date.getMinutes() : date.getMinutes();
+  const second =
+    date.getSeconds() < 10 ? "0" + date.getSeconds() : date.getSeconds();
   let restr = date.getFullYear() + split + m1 + split + day;
   const tm = hour + ":" + minute;
   if (needTime) {

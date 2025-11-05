@@ -6,5 +6,5 @@ export enum ModuleEnums {
   /**
    * 动态页面
    */
-  DYNAMIC_PAGE = "dynamic-page"
+  DYNAMIC_PAGE = "dynamic-page",
 }

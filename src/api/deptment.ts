@@ -1,6 +1,7 @@
-import { postRequest,SelectOption } from "star-horse-lowcode";
+import { postRequest, SelectOption } from "star-horse-lowcode";
 
-const deptAndUserTree: string = "/system-config/system/departmentEntity/deptAndUserTree";
+const deptAndUserTree: string =
+  "/system-config/system/department/deptAndUserTree";
 
 /**
  * 获取部门用户
@@ -11,7 +12,7 @@ const deptAndUserTree: string = "/system-config/system/departmentEntity/deptAndU
 export async function loadDeptUser(direct: boolean, params: any) {
   let menuDatas: Array<SelectOption> = [];
   await postRequest(deptAndUserTree, {
-    fieldList: params
+    fieldList: params,
   })
     .then((res) => {
       const redata = res.data;
@@ -22,7 +23,12 @@ export async function loadDeptUser(direct: boolean, params: any) {
           menuDatas = redata.data;
         } else {
           //构建用户部门树
-          menuDatas = createDeptUserTree(redata.data, "", "deptName", "idDepartment");
+          menuDatas = createDeptUserTree(
+            redata.data,
+            "",
+            "deptName",
+            "idDepartment",
+          );
         }
       }
     })
@@ -39,7 +45,12 @@ export async function loadDeptUser(direct: boolean, params: any) {
  * @param name
  * @param val
  */
-export function createDeptUserTree(datas: any, valField: string, name: string, val: string) {
+export function createDeptUserTree(
+  datas: any,
+  valField: string,
+  name: string,
+  val: string,
+) {
   const deptUserList: Array<SelectOption> = [];
   datas.forEach((item: any) => {
     const temp: any = {};
@@ -53,7 +64,7 @@ export function createDeptUserTree(datas: any, valField: string, name: string, v
     userList.forEach((item: any) => {
       temp["children"].push({
         name: item.userName + "(" + item.name + ")",
-        value: item.idUsersinfo
+        value: item.idUsersinfo,
       });
     });
     deptUserList.push(temp);
@@ -68,7 +79,12 @@ export function createDeptUserTree(datas: any, valField: string, name: string, v
  * @param name
  * @param val
  */
-export function analysisData(datas: any, valField: string, name: string, val: string) {
+export function analysisData(
+  datas: any,
+  valField: string,
+  name: string,
+  val: string,
+) {
   const listNames: Array<string> = [],
     listValues: Array<number> = [];
   datas.forEach((item: any) => {
@@ -85,6 +101,6 @@ export function analysisData(datas: any, valField: string, name: string, val: st
   });
   return {
     listNames,
-    listValues
+    listValues,
   };
 }

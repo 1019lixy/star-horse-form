@@ -1,0 +1,414 @@
+<script setup lang="ts" name="CompanyRole">
+import {
+  apiInstance,
+  ApiUrls,
+  closeLoad,
+  createCondition,
+  dialogPreps,
+  dictData,
+  error,
+  load,
+  loadData,
+  PageFieldInfo,
+  piniaInstance,
+  postRequest,
+  SearchFields,
+  SearchParams,
+  SelectOption,
+  success,
+  useGlobalConfigStore,
+  warning,
+} from "star-horse-lowcode";
+import { Config } from "@/api/settings";
+import {
+  computed,
+  onActivated,
+  onDeactivated,
+  onMounted,
+  provide,
+  reactive,
+  ref,
+} from "vue";
+import { getCustomerParam } from "@/utils/auth";
+import { TreeNodeData } from "element-plus/es/components/tree-v2/src/types";
+import { getRowIdentity } from "element-plus/es/components/table/src/util";
+import { i18n } from "@/lang";
+//后端交互接口地址
+const dataUrl: ApiUrls = apiInstance("system-config", "system/companyRole");
+dataUrl.pageListUrl = "/system-config/system/companyRole/departRoleUserList";
+//主键
+const companyRoleRef = ref();
+const companyRoleManageRef = ref();
+let companyList = ref<Array<any>>([]);
+//定义表单的所有属性
+const formFields = reactive<object>({});
+provide("formFields", formFields);
+let configStore = useGlobalConfigStore(piniaInstance);
+let compSize = computed(
+  () => configStore.configFormInfo?.inputSize || Config.compSize,
+);
+let currentUserGroupId = ref<number>(0);
+let defaultCondition = ref<SearchParams[]>([]);
+
+//查询属性
+const searchFormData = reactive<SearchFields>({
+  fieldList: [
+    {
+      label: i18n("system.department.name.code"),
+      fieldName: "deptName",
+      defaultVisible: true,
+      matchType: "lk",
+    },
+    {
+      label: i18n("system.role.name.code"),
+      fieldName: "roleName",
+      defaultVisible: true,
+      matchType: "lk",
+    },
+  ],
+});
+
+let roleTypeList = ref<SelectOption[]>([]);
+//页面属性
+const pageField = reactive<PageFieldInfo | any>({
+  //属性列表
+  fieldList: [
+    {
+      label: i18n("system.department.name"),
+      fieldName: "deptName",
+
+      required: true,
+      listVisible: true,
+    },
+  ],
+  //默认查询条件
+  condition: [getCustomerParam()],
+});
+//校验
+let dataList = ref<Array<any>>([]);
+//控制弹窗相关设置
+const dialogProps = dialogPreps();
+provide("dialogProps", dialogProps);
+const companyChange = (data: TreeNodeData, _checked: boolean) => {
+  currentUserGroupId.value = data["idCompanyDefine"];
+  defaultCondition.value = [
+    createCondition("b.idCompanyDefine", currentUserGroupId.value),
+  ];
+  loadInstanceData([]);
+};
+
+//初始化方法
+const initData = async () => {
+  let result = await loadData(
+    "/system-config/system/companyDefine/getAllByCondition",
+    {},
+  );
+  if (result.error) {
+    warning(result.error);
+    return;
+  }
+  companyList.value = result.data;
+  roleTypeList.value = await dictData("company_role_type");
+  result = await loadData(
+    "/system-config/system/companyRole/getAllByCondition",
+    {
+      fieldList: [createCondition("a.roleType", "department_role")],
+      orderBy: [{ fieldName: "a.createdTime", ascOrDesc: "asc" }],
+    },
+  );
+  if (result.error) {
+    warning(i18n("system.load.company.role.info.error"));
+    return;
+  }
+  for (let index in result.data) {
+    let temp = result.data[index];
+    pageField.fieldList.push({
+      label: temp.roleName,
+      fieldName: temp.idCompanyRole,
+      type: "button",
+      listVisible: true,
+      preps: {
+        showComp: "Y",
+        styles: {
+          height: "100%",
+          width: "100%",
+          display: "block",
+        },
+      },
+    });
+  }
+  await loadInstanceData([]);
+};
+const assignRoleUser = () => {
+  let selectedDatas =
+    companyRoleManageRef.value.$refs.employeeInfoRef.multipleSelection;
+  console.log(selectedDatas);
+  if (!selectedDatas || selectedDatas.length == 0) {
+    warning(i18n("system.please.select.personnel.info"));
+    return;
+  }
+  let datas = [];
+  for (let index in selectedDatas) {
+    datas.push({
+      idCompanyDefine: currentRow.value["idCompanyDefine"],
+      idCompanyRole: currentItem.value.fieldName,
+      idDepartment: currentRow.value["idDepartment"],
+      idEmployee: selectedDatas[index].idEmployeeInfo,
+    });
+  }
+  console.log(datas);
+  load(i18n("system.data.submitting"));
+  postRequest("/system-config/system/companyRolePkEmployee/mergeBatch", datas)
+    .then((res) => {
+      if (res.data.code) {
+        error(res.data.cnMessage);
+        return;
+      }
+      success(res.data.cnMessage);
+      dialogProps.bakeVisible1 = false;
+      loadInstanceData([]);
+    })
+    .finally(() => closeLoad());
+};
+const activated = () => {
+  // initData();
+};
+const deactivated = () => {};
+let currentRow = ref<any>({});
+let currentItem = ref<any>({});
+const cellClick = (row: any, item: any) => {
+  if (item.fieldName == "deptName") {
+    return;
+  }
+  currentRow.value = row;
+  currentItem.value = item;
+  dialogProps.bakeVisible1 = true;
+};
+const loadInstanceData = async (data: SearchParams[]) => {
+  let conditions: SearchParams[] = [];
+  if (!currentUserGroupId.value) {
+    return;
+  }
+  conditions.push(createCondition("a.roleType", "department_role"));
+  conditions.push(
+    createCondition("a.idCompanyDefine", currentUserGroupId.value),
+  );
+  if (data) {
+    conditions.push(...data);
+  }
+  let result = await loadData(dataUrl.pageListUrl!, {
+    fieldList: conditions,
+  });
+  if (result.error) {
+    warning(result.error);
+    return;
+  }
+  dataList.value = result.data;
+  dialogProps.bakeVisible2 = false;
+};
+/**
+ * 列表，查看数据时数据转换
+ * @param name 名称
+ * @param cellValue 值
+ * @param row 列表行数据
+ */
+const dataFormat = (name: string, cellValue: any, row: any): any => {
+  //转换显示信息
+  return cellValue;
+};
+let viewUserTitle = ref<string>("");
+let queryCondition = ref<SearchParams[]>([]);
+const showAllUsers = (row: any, item: any, event: MouseEvent) => {
+  event.stopPropagation();
+  viewUserTitle.value = `${row.companyName}--${item.label}人员列表`;
+  queryCondition.value = [];
+  dialogProps.bakeVisible2 = true;
+  queryCondition.value.push(
+    createCondition("b.idCompanyDefine", row["idCompanyDefine"]),
+  );
+  queryCondition.value.push(createCondition("b.idCompanyRole", item.fieldName));
+  queryCondition.value.push(
+    createCondition("b.idDepartment", row["idDepartment"]),
+  );
+  console.log(row, item);
+};
+onMounted(async () => {
+  await initData();
+});
+onActivated(() => {
+  activated();
+});
+onDeactivated(() => {
+  deactivated();
+});
+</script>
+<template>
+  <div class="flex flex-col h-full overflow-hidden">
+    <star-horse-dialog
+      :self-func="true"
+      :title="viewUserTitle"
+      :dialog-visible="dialogProps.bakeVisible2"
+      :dialogProps="dialogProps"
+      @merge="(data) => loadInstanceData([])"
+      @closeAction="(data) => loadInstanceData([])"
+    >
+      <role-user-list
+        :queryCondition="queryCondition"
+        :showButton="false"
+        :dialogInput="true"
+        :multipleSelect="true"
+        ref="companyRoleManageRef"
+      />
+    </star-horse-dialog>
+    <star-horse-dialog
+      :self-func="true"
+      :title="i18n('system.add.personnel')"
+      :dialog-visible="dialogProps.bakeVisible1"
+      :dialogProps="dialogProps"
+      @merge="assignRoleUser"
+    >
+      <user-manage
+        :cellEditable="false"
+        :showButton="false"
+        :dialogInput="true"
+        :multipleSelect="true"
+        ref="companyRoleManageRef"
+      />
+    </star-horse-dialog>
+
+    <el-card class="inner_content">
+      <el-splitter>
+        <el-splitter-panel collapsible size="240" min="100" max="500">
+          <star-horse-tree
+            v-model:tree-datas="companyList"
+            :expand="true"
+            :treeTitle="i18n('system.company.list')"
+            @selectData="companyChange"
+            :preps="{
+              label: 'name',
+              value: 'idCompanyDefine',
+            }"
+            :compSize="compSize"
+          />
+        </el-splitter-panel>
+        <el-splitter-panel>
+          <el-card class="inner_content">
+            <div class="search-content">
+              <div class="search_btn">
+                <star-horse-search-comp
+                  @searchData="loadInstanceData"
+                  :formData="searchFormData"
+                  :compUrl="dataUrl"
+                />
+              </div>
+            </div>
+            <el-table
+              ref="starHorseTableCompRef"
+              :data="dataList"
+              :row-key="getRowIdentity"
+              :stripe="false"
+              :fit="true"
+              :size="compSize"
+              :min-height="400"
+              :highlight-current-row="false"
+              :row-style="{ height: '80px' }"
+              :cell-style="{ height: '80px', 'font-size': '12px' }"
+              :header-cell-style="{
+                background: '#f2f2f2',
+                color: '#707070',
+                'font-size': '13px',
+                'background-image':
+                  '-webkit-gradient(linear,left 0,left 100%,from(#f8f8f8),to(#ececec))',
+              }"
+              border
+            >
+              <template v-for="item in pageField.fieldList">
+                <el-table-column
+                  :prop="item.fieldName"
+                  :label="item.label"
+                  :min-width="200"
+                  :fixed="item.fieldName == 'deptName' ? 'left' : false"
+                >
+                  <template #default="scope">
+                    <div
+                      v-if="
+                        !scope.row[item.fieldName] ||
+                        scope.row[item.fieldName].length == 0
+                      "
+                      :class="{ 'role-user-operation': true }"
+                      @click="cellClick(scope.row, item)"
+                    >
+                      {{ i18n("system.set.personnel") }}
+                    </div>
+                    <div
+                      class="role-user-content"
+                      v-else
+                      @click="cellClick(scope.row, item)"
+                    >
+                      <template v-if="item.fieldName == 'deptName'">
+                        {{ scope.row[item.fieldName] }}
+                      </template>
+                      <template v-else>
+                        <el-tag
+                          type="success"
+                          v-for="temp in scope.row[item.fieldName]"
+                          >{{ temp.name }}</el-tag
+                        >
+                        <star-horse-icon
+                          icon-class="more"
+                          v-if="scope.row[item.fieldName].length > 10"
+                          style="cursor: pointer"
+                          :title="i18n('system.view.all.personnel.info')"
+                          @click="showAllUsers(scope.row, item, $event)"
+                        />
+                      </template>
+                    </div>
+                  </template>
+                </el-table-column>
+              </template>
+            </el-table>
+          </el-card>
+        </el-splitter-panel>
+      </el-splitter>
+    </el-card>
+  </div>
+</template>
+<style lang="scss">
+:deep(.cell) {
+  height: 100%;
+  display: flex;
+}
+
+.role-user-operation {
+  display: flex;
+  opacity: 0;
+  width: 100%;
+  height: 100%;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
+  font-size: 13px;
+  font-weight: bold;
+  cursor: pointer;
+  flex-wrap: wrap;
+
+  &:hover {
+    opacity: 1;
+    background: var(--star-horse-shadow);
+  }
+}
+
+.role-user-content {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  align-items: center;
+  justify-content: left;
+  margin: 0 auto;
+  flex-wrap: wrap;
+
+  :deep(.el-tag) {
+    margin-left: 8px;
+  }
+}
+</style>

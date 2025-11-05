@@ -28,7 +28,7 @@ export const Config: any = {
   /**
    * @description token key
    */
-  TokenKey: "STAR-HORSE-TOEKN",
+  TokenKey: "STAR-HORSE-TOKEN",
   /**
    * 用户登录信息
    */
@@ -77,5 +77,5 @@ export const Config: any = {
   /**
    * 组件大小
    */
-  compSize: "small"
+  compSize: "default",
 };

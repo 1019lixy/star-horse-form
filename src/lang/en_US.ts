@@ -1,5 +1,26 @@
 export default {
   "starhorse.copyright": `©Copyright2020-${new Date().getFullYear()} Star Horse Personal Work House`,
+  /**
+   * Home Component Internationalization
+   */
+  "home.addModule": "Add Module",
+  "home.welcome": "Welcome to the System",
+  "home.noModules":
+    "You haven't configured any modules yet. Please add your first module.",
+  "home.selectModule": "Select Module",
+  "home.searchModules": "Search Modules...",
+  "home.addSelectedModules": "Add Selected Modules",
+  "home.category.all": "All",
+  "home.category.system": "System Management",
+  "home.category.business": "Business Modules",
+  "home.category.analytics": "Data Analysis",
+  "home.category.tools": "Tools",
+  "home.module.userManagement": "User Management",
+  "home.module.userManagementDesc": "Manage system users and permissions",
+  "home.module.systemMonitor": "System Monitoring",
+  "home.module.systemMonitorDesc": "View system running status",
+  "home.module.personalCenter": "Personal Center",
+  "home.module.personalCenterDesc": "View and edit personal information",
   "starhorse.pleaseInput": "Please input",
   "starhorse.pleaseSelect": "Please select",
   "starhorse.notAllowEmpty": "required",
@@ -14,18 +35,53 @@ export default {
   "loginType.alipay": "Alipay",
   "loginType.weibo": "Webo",
   "loginType.validCode": "Valid Code",
+  /**
+   * Form Prefix/Suffix Configuration
+   */
+  "dyform.preOrPend.dialog.title": "Prefix/Suffix Configuration",
+  "dyform.preOrPend.prependText": "Prefix Text",
+  "dyform.preOrPend.prependText.helpMsg":
+    "Fixed text displayed in front of the input box",
+  "dyform.preOrPend.prependList": "Prefix Dropdown List",
+  "dyform.preOrPend.prependList.helpMsg":
+    "Configure dropdown options in front of the input box",
+  "dyform.preOrPend.prependList.title": "Prefix Dropdown List Configuration",
+  "dyform.preOrPend.appendText": "Suffix Text",
+  "dyform.preOrPend.appendText.helpMsg":
+    "Fixed text displayed after the input box",
+  "dyform.preOrPend.appendAction": "Suffix Action Button",
+  "dyform.preOrPend.appendAction.helpMsg":
+    "Configure action buttons after the input box",
+  "dyform.preOrPend.appendAction.title": "Suffix Action Button Configuration",
+  "dyform.preOrPend.appendList": "Suffix Dropdown List",
+  "dyform.preOrPend.appendList.helpMsg":
+    "Configure dropdown options after the input box",
+  "dyform.preOrPend.appendList.title": "Suffix Dropdown List Configuration",
+  "dyform.preOrPend.warning.prependConflict":
+    "Prefix text and prefix dropdown list cannot be configured simultaneously",
+  "dyform.preOrPend.warning.appendConflict":
+    "Suffix text, suffix action button and suffix dropdown list cannot be configured simultaneously",
   "login.userName": "UserName",
   "login.password": "Password",
   "login.validCode": "Code",
   "login.rememberMe": "Remember Me",
   "login.forget": "Forget Password？",
   "login.noAccount": "No Account？",
+  "login.remember.password": "Remember Password？",
+  "login.forget.password.tip":
+    "Please enter the email address you used when registering, and we will send a password reset link to that email.",
   "loginButton.register": "Register",
   "loginButton.login": "Login",
   "loginButton.welcome": "Welcome",
   "loginButton.welcomeBack": "Welcome Back",
   "loginButton.description": "  Welcome to StarHorse Devlopse Platform",
+  /**
+   * Dialog Operations
+   */
+  "dialog.cancel": "Cancel",
   "loginButton.logging": "Logging...",
+  "userCenter.checkEmailReset":
+    "Please check your email and follow the instructions to reset your password.",
   "main.header.authority": "User Center",
   "main.header.calendar": "Calendar",
   "main.header.layoutConfig": "Layout Config",
@@ -74,5 +130,2023 @@ export default {
   "flow.designer.addNode.manualSubProcess": "Manual Sub Process",
   "flow.designer.delNode": "Delete Node",
   "flow.designer.delNode.confirm": "Are you sure to delete?",
-  "flow.designer.delNode.confirm.tips": "Delete this node will delete all the child nodes"
+  "flow.designer.delNode.confirm.tips":
+    "Delete this node will delete all the child nodes",
+  /**
+   * Dynamic Form Designer
+   */
+  "dyform.tab.component": "Components",
+  "dyform.tab.dbinfo": "Data Source",
+  "dyform.tab.charts": "Charts",
+  "dyform.tab.template": "Templates",
+  "dyform.tab.help": "Help",
+  "dyform.collapse.layout": "Layout Components",
+  "dyform.collapse.form": "Form Components",
+  "dyform.collapse.custom": "Custom Components",
+  "dyform.preview.validate.success": "Form validation passed",
+  "dyform.preview.validate.failure":
+    "Form validation failed, please check your input",
+  "dyform.preview.html.title": "Form Preview",
+  "dyform.preview.html.export.success": "HTML file exported successfully",
+  "dyform.preview.button.validate": "Validate Form",
+  "dyform.preview.button.export": "Export HTML",
+  "dyform.preview.dialog.title": "Form Preview",
+  "dyform.field.layer.title": "Form Property Layer",
+  "dyform.field.list.title": "Form List",
+  "dyform.designer.welcome": "Welcome to Form Designer",
+  "dyform.designer.instruction":
+    "Please select a component from the left component library, then double-click or drag the component to place it here",
+  "dyform.designer.tip.drag": "Drag Components",
+  "dyform.designer.tip.config": "Configure Properties",
+  "dyform.designer.tip.build": "Quick Build",
+  "dyform.toolbar.cache.restore": "Restore Cached Data",
+  "dyform.action.goBack": "Back to List",
+  "dyform.action.style": "Style",
+  "dyform.action.pc": "PC",
+  "dyform.action.pad": "Tablet",
+  "dyform.action.phone": "Mobile",
+  "dyform.action.new": "New",
+  "dyform.action.edit": "Edit Properties",
+  "dyform.action.layer": "Form Layer",
+  "dyform.action.empty": "Clear Elements",
+  "dyform.action.undo": "Undo",
+  "dyform.action.redo": "Redo",
+  "dyform.action.valid": "Validate",
+  "dyform.action.preview": "Preview",
+  "dyform.action.code": "Generate Code",
+  "dyform.action.save": "Save",
+  "dyform.help.title": "Help",
+  "dyform.batch.edit.title": "Batch Edit Properties",
+  "dyform.batch.edit.tab.business": "Business Fields",
+  "dyform.batch.edit.tab.common": "Common Fields",
+  "dyform.button.event.title": "Button Click Event",
+  "dyform.template.load": "Load This Template",
+  /**
+   * Dynamic Form Designer Help Information
+   */
+  "dyform.help.shortcuts": "Shortcuts",
+  "dyform.help.shortcut.cut": "Cut operation",
+  "dyform.help.shortcut.copy": "Copy operation",
+  "dyform.help.shortcut.paste": "Paste operation",
+  "dyform.help.shortcut.undo": "Undo operation",
+  "dyform.help.shortcut.redo": "Redo operation",
+  "dyform.help.shortcut.validate": "Validate operation",
+  "dyform.help.shortcut.new": "New operation",
+  "dyform.help.shortcut.save": "Save operation",
+  "dyform.help.shortcut.delete": "Delete operation",
+  "dyform.help.shortcut.selectAll": "Select all operation",
+  "dyform.help.shortcut.clear": "Clear operation",
+  "dyform.help.shortcut.find": "Find operation",
+  "dyform.help.shortcut.toggleLeftPanel": "Open/close left panel",
+  "dyform.help.shortcut.toggleRightPanel": "Open/close right panel",
+  "dyform.help.shortcut.changeComponent": "Change selected component",
+  "dyform.help.shortcut.preview": "Preview operation",
+  "dyform.help.shortcut.goBack": "Go back to previous page",
+  "dyform.help.shortcut.moveUp": "Move selected component up",
+  "dyform.help.shortcut.moveDown": "Move selected component down",
+  "dyform.help.moreShortcuts": "More shortcuts to be updated",
+  "dyform.help.description": "Description",
+  "dyform.help.designerDescription":
+    "Form Designer is a tool that can implement complex form models through drag and drop, which can meet most common business needs",
+  "dyform.help.rules": "Rules",
+  "dyform.help.rule1":
+    "All sibling component names cannot be duplicated. In Tab components, tabName and objectName cannot be duplicated",
+  "dyform.help.rule2":
+    "In Table components, batchFieldName cannot be duplicated",
+  "dyform.help.steps": "Steps",
+  "dyform.help.step1":
+    "Drag or double-click components on the left to add them to the middle design stage",
+  "dyform.help.step2":
+    "Set properties of selected components in the right property area",
+  "dyform.help.step3":
+    "Use the batch edit button in the header to edit property names",
+  "dyform.help.step4":
+    "Use the settings button in the header to set form properties",
+  "dyform.help.step5":
+    "Use the code button in the header to generate code (currently only Vue3)",
+  "dyform.help.step6":
+    "Use the preview button in the header to preview form information",
+  "dyform.help.step7": "Right-click on the stage to open the context menu",
+  "dyform.help.blindSpots":
+    "Blind spots (form models generated by data sources)",
+  "dyform.help.blindSpot1":
+    "Note the value types of selector, radio box, checkbox and other components. The system default is string type. If the database setting is numeric type, you need to modify the value type in the corresponding field's property panel",
+  "dyform.help.blindSpot2":
+    "When submitting, pay attention to the primary key generation strategy of the table. The default is dynamic assignment. If it is auto-increment, you need to modify the primary key strategy when saving",
+  "dyform.help.notImplemented": "Not implemented",
+  "dyform.batch.edit.commonFieldsMessage":
+    "Set in configuration or submission function",
+  "dyform.config.dialog.title": "Form Configuration",
+  "dyform.config.draft.save": "Save Draft",
+  "dyform.code.dialog.title": "Code",
+  /**
+   * JS Editor
+   */
+  "dyform.js.editor.title": "Custom Information",
+  "dyform.js.editor.customEvent":
+    "Custom events provide the following system parameters",
+  "dyform.js.editor.currentFieldInfo": "Current component information",
+  "dyform.js.editor.formData": "Form data",
+  "dyform.js.editor.formElements": "All elements of the form",
+  "dyform.js.editor.formInstance": "Form instance object",
+  "dyform.js.editor.parametersMethods":
+    "Specific parameters or methods, switch tabs to view",
+  "dyform.js.editor.tab.code": "Code",
+  "dyform.js.editor.tab.currentField": "Current Component Properties",
+  "dyform.js.editor.tab.formInstance": "Form Instance",
+  "dyform.js.editor.tab.formProperties": "Form Properties",
+  "dyform.js.editor.objectName": "Object name",
+  "dyform.js.editor.table.name": "Name",
+  "dyform.js.editor.table.description": "Description",
+  "dyform.js.editor.table.type": "Type",
+  "dyform.js.editor.formInstance.validate":
+    "Validate the contents of the entire form. Receives a callback function, or returns",
+  "dyform.js.editor.formInstance.validateField": "Validate a specific field.",
+  "dyform.js.editor.formInstance.resetFields":
+    "Reset the form item, reset its value to the initial value, and remove the validation result",
+  "dyform.js.editor.formInstance.scrollToField":
+    "Scroll to the specified field",
+  "dyform.js.editor.formInstance.clearValidate":
+    "Clear form validation information for a field.",
+  "dyform.js.editor.formInstance.fields": "Get context of all fields",
+  /**
+   * Parameter Configuration
+   */
+  "dyform.params.dialog.title": "Parameter Configuration",
+  "dyform.params.warning.primaryKey": "Please select the primary key field",
+  "dyform.params.warning.callbackFields": "Please configure callback fields",
+  /**
+   * Mind Map
+   */
+  "mindmap.root.node": "Root Node",
+  "mindmap.cooperate.plugin": "Cooperate Plugin",
+  /**
+   * Workflow
+   */
+  "workflow.process.name": "Process Name",
+  "workflow.process.category": "Process Category",
+  "workflow.is.deployed": "Is Deployed",
+  "workflow.deployed": "Deployed",
+  "workflow.not.deployed": "Not Deployed",
+  "workflow.flow.deployment.id": "Flow Deployment ID",
+  "workflow.bind.form.info": "Bind Form Info",
+  "workflow.flow.icon": "Flow Icon",
+  "workflow.flow.type": "Flow Type",
+  "workflow.status": "Status",
+  "workflow.flow.version": "Flow Version",
+  "workflow.form.visible.type": "Form Visible Type",
+  "workflow.flow.manager": "Flow Manager",
+  "workflow.flow.xml.file": "Flow Xml File",
+  "workflow.flow.json.file": "Flow Json File",
+  "workflow.version.number": "Version Number",
+  "workflow.is.deleted": "Is Deleted",
+  "workflow.data.number": "Data Number",
+  "workflow.status.name": "Status Name",
+  "workflow.international.code": "International Code",
+  "workflow.remark": "Remark",
+  "workflow.edit": "Edit",
+  "workflow.view": "View",
+  "workflow.add": "Add",
+  "workflow.config.category": "Config Category",
+  "workflow.name": "Name",
+  "workflow.code": "Code",
+  "workflow.is.checked": "Is Checked",
+  "workflow.yes": "Yes",
+  "workflow.no": "No",
+  "workflow.image.url": "Image URL",
+  "workflow.description": "Description",
+  /**
+   * Continuous
+   */
+  "continuous.node": "Node",
+  "continuous.report.type": "Report Type",
+  "continuous.primary.key": "Primary Key",
+  "continuous.instance.id": "Instance ID",
+  "continuous.node.name": "Node Name",
+  "continuous.column.index": "Column Index",
+  "continuous.execution.type": "Execution Type",
+  "continuous.program.language": "Program Language",
+  "continuous.project.code": "Project Code",
+  "continuous.source.code.dir": "Source Code Directory",
+  "continuous.failure.notification": "Failure Notification",
+  "continuous.success.notification": "Success Notification",
+  "continuous.custom.rules": "Custom Rules",
+  "continuous.row.index": "Row Index",
+  /**
+   * Continuous Instance
+   */
+  "continuous.project.name": "Project Name",
+  "continuous.project.type": "Project Type",
+  "continuous.instance.name": "Instance Name",
+  "continuous.template": "Template",
+  "continuous.is.alone": "Is Alone 1Yes 2No Default2",
+  "continuous.link.data.plan": "Link Data Plan",
+  "continuous.cron": "Cron Scheduled Execution",
+  "continuous.target.dir": "Target Directory After Code Download",
+  "continuous.auto.build": "Auto Build 1Yes 2No Default2",
+  "continuous.remark": "Remark",
+  "continuous.created.by": "Created By",
+  "continuous.updated.by": "Updated By",
+  "continuous.created.date": "Created Date",
+  "continuous.updated.date": "Updated Date",
+  "continuous.data.version": "Data Version",
+  "continuous.is.deleted": "Is Deleted",
+  "continuous.data.number": "Data Number",
+  "continuous.status.code": "Status Code",
+  "continuous.status.name": "Status Name",
+  "continuous.international.code": "International Code",
+  /**
+   * Project Info
+   */
+  "project.info.repo.type": "Repository Type",
+  "project.info.repo.url": "Repository URL",
+  "project.info.program.language": "Program Language",
+  "project.info.project.name": "Project Name",
+  "project.info.project.charset": "Project Charset",
+  "project.info.line.account": "Pipeline Account",
+  "project.info.line.security": "Pipeline Password",
+  "project.info.remark": "Remark",
+  "project.info.project.members": "Project Members",
+  "project.info.username": "Username",
+  "project.info.name": "Name",
+  "project.info.employee.no": "Employee No",
+  "project.info.rank": "Rank",
+  "project.info.station": "Station",
+  "project.info.role.name": "Role Name",
+  "project.info.effective.date": "Effective Date",
+  "project.info.expiration.date": "Expiration Date",
+  "project.info.is.manager": "Is Manager",
+  "project.info.yes": "Yes",
+  "project.info.no": "No",
+  /**
+   * System
+   */
+  "system.name": "Name",
+  "system.username": "Username",
+  "system.user.group": "User Group",
+  "system.cannot.set.empty.password": "Cannot set empty password",
+  "system.password.length":
+    "Please set a password with length between 6 and 15",
+  "system.password.mismatch": "Passwords do not match, please re-enter",
+  "system.employee.no": "Employee No",
+  "system.password": "Password",
+  "system.confirm.password": "Confirm Password",
+  "system.change.password": "Change Password",
+  "system.area.name": "Area Name",
+  "system.area.code": "Area Code",
+  "system.area.key": "Area Key",
+  "system.parent.node.number": "Parent Node Number",
+  "system.request.method": "Request Method",
+  "system.operator": "Operator",
+  "system.access.interface": "Access Interface",
+  "system.access.address": "Access Address",
+  "system.primary.key": "Primary Key",
+  "system.request.parameters": "Request Parameters",
+  "system.created.by": "Created By",
+  "system.updated.by": "Updated By",
+  "system.created.date": "Created Date",
+  "system.updated.date": "Updated Date",
+  "system.completed.date": "Completed Date",
+  "system.suspended.date": "Suspended Date",
+  "system.delegated.date": "Delegated Date",
+  "system.cancel": "Cancel",
+  "system.confirm": "Confirm",
+  "system.data.version": "Data Version",
+  "system.is.deleted": "Is Deleted",
+  "system.data.number": "Data Number",
+  "system.status.code": "Status",
+  "system.status.name": "Status Name",
+  "system.international.code": "International Code",
+  "system.interface.address": "Interface Address",
+  "system.remark": "Remark",
+  "system.customer.name": "Customer Name",
+  "system.customer.code": "Customer Code",
+  "system.logo": "Logo",
+  "system.description": "Description",
+  "system.created.time": "Created Time",
+  "system.updated.time": "Updated Time",
+  "system.version": "Version",
+  "system.menu.icon": "Icon",
+  "system.open.type": "Open Type",
+  "system.menu.description": "Description",
+  "system.keep.alive": "Keep Alive",
+  "system.is.logical.deleted": "Is Logical Deleted",
+  // "system.status.name": "Status Name",
+  "system.department.name": "Department Name",
+  "system.department.code": "Department Code",
+  "system.parent.department": "Parent Department",
+  "system.department.leader": "Department Leader",
+  "system.division.leader": "Division Leader",
+  "system.affiliated.company": "Affiliated Company",
+  "system.department.phone": "Department Phone",
+  "system.department.responsibility": "Department Responsibility",
+  "system.code": "Code",
+  "system.dictionary.type.name": "Dictionary Type Name",
+  "system.dictionary.type.code": "Dictionary Type Code",
+  "system.dictionary.type": "Dictionary Type",
+  "system.dictionary.name": "Dictionary Name",
+  "system.dictionary.code": "Dictionary Code",
+  "system.sort": "Sort",
+  "system.status": "Status",
+  "system.dictionary.description": "Dictionary Description",
+  "system.dictionary.info": "Dictionary Info",
+  "system.edit": "Edit",
+  "system.please.select.dictionary.category":
+    "Please select dictionary category first",
+  "system.belonging.entity": "Belonging Entity",
+  "system.application.name": "Application Name",
+  "system.add.time": "Add Time",
+  "system.parent.application": "Parent Application",
+  "system.system.code": "System Code",
+  "system.system.logo": "System Logo",
+  "system.data.sort": "Data Sort",
+  "system.system.description": "System Description",
+  "system.menu.name": "Menu Name",
+  "system.menu.code": "Menu Code",
+  "system.original.application": "Original Application",
+  "system.new.application": "New Application",
+  "system.new.application.parent.menu": "New Application Parent Menu",
+  "system.menu.switch.method": "Menu Switch Method",
+  "system.move": "Move",
+  "system.copy": "Copy",
+  "system.menu.list": "Menu List",
+  "system.original.application.menu": "Original Application Menu",
+  "system.target.application.menu": "Target Application Menu",
+  "system.return.to.left": "Return to Left",
+  "system.add.to.right": "Add to Right",
+  "system.menu.path": "Menu Path",
+  "system.belonging.application.name": "Belonging Application Name",
+  "system.parent.menu": "Parent Menu",
+  "system.category": "Category",
+  "system.type": "Type",
+  "system.title": "Title",
+  "system.is.broadcast.message": "Is Broadcast Message",
+  "system.recipient": "Recipient",
+  "system.redirect.url": "Redirect Url",
+  "system.content": "Content",
+  // "system.version": "Version",
+  // "system.created.time": "Created Time",
+  // "system.updated.time": "Updated Time",
+  "system.system.name": "System Name",
+  "system.role.id": "Role Id",
+  "system.system.id": "System Id",
+  "system.menu.id": "Menu Id",
+  "system.data.status.code": "Data Status Code",
+  "system.data.status.name": "Data Status Name",
+  "system.normal.user.group": "Normal User Group",
+  "system.advanced.user.group": "Advanced User Group",
+  "system.super.user.group": "Super User Group",
+  "system.15.minutes": "15 Minutes",
+  "system.30.minutes": "30 Minutes",
+  "system.60.minutes": "60 Minutes",
+  "system.180.minutes": "180 Minutes",
+  "system.unlimited": "Unlimited",
+  "system.user.group.name": "User Group Name",
+  "system.role.code": "Role Code",
+  "system.user.group.type": "User Group Type",
+  "system.user.group.code": "User Group Code",
+  "system.session.timeout": "Session Timeout",
+  "system.system.permissions": "System Permissions",
+  "system.menu.permissions": "Menu Permissions",
+  "system.user.group.responsibility": "User Group Responsibility",
+  "system.rank.name": "Rank Name",
+  "system.rank.code": "Rank Code",
+  "system.rank.sort": "Rank Sort",
+  "system.belonging.category": "Category",
+  /**
+   * DB Search
+   */
+  "dbsearch.select.database": "Please select database information",
+  "dbsearch.enter.keyword": "Please enter keyword",
+  "dbsearch.execute": "Execute",
+  "dbsearch.stop": "Stop",
+  "dbsearch.format": "Format",
+  "dbsearch.connect.database.first": "Connect to database before executing SQL",
+  "dbsearch.max.sql.count": "Maximum 5 SQL statements can be executed at once",
+  "dbsearch.table.name": "Table Name",
+  "dbsearch.field.name": "Name",
+  "dbsearch.field.type": "Type",
+  "dbsearch.null.flag": "Null Flag",
+  "dbsearch.primary.key": "Primary Key",
+  "dbsearch.comment": "Comment",
+  "dbsearch.usage.instructions": "Usage Instructions",
+  "dbsearch.currently.shortcuts.disabled":
+    "Currently shortcuts are disabled, table fields need to be loaded by clicking table name first",
+  "dbsearch.connect.database.before.use":
+    "Connect to database before use; if there is no data or your DB in the left dropdown, please contact admin to configure and authorize",
+  "dbsearch.sql.executor.theoretically.supports":
+    "SQL executor theoretically supports all DDL, DML, DCL operations of the database, but based on compliance, please be careful when granting operation permissions when configuring the database",
+  "dbsearch.recommend.not.execute.time.consuming.sql":
+    "It is recommended not to execute time-consuming SQL, which is easy to be intercepted by the gateway",
+  "dbsearch.recommend.add.semicolon":
+    "It is recommended to add, after each SQL is written to facilitate multi-SQL splitting",
+  "dbsearch.default.each.sql.return.ten.records":
+    "By default, each SQL returns a maximum of 10 records at a time, and the page supports a maximum return of 100 records configuration",
+  "dbsearch.each.time.max.execute.five.sql":
+    "The maximum number of SQL that can be executed each time cannot exceed 5, and the first 5 will be taken if exceeded",
+  "dbsearch.executor.supports.selected.sql":
+    "The executor supports executing selected SQL",
+  "dbsearch.open.prompt": "Open prompt",
+  "dbsearch.no.tables.found": "No tables found",
+  /**
+   * Code Generator
+   */
+  "codegen.database.info": "Database Info",
+  "codegen.application.name": "Application Name",
+  "codegen.project.name": "Project Name",
+  "codegen.backend.language": "Backend Language",
+  "codegen.backend.template.version": "Backend Template Version",
+  "codegen.frontend.template.version": "Frontend Template Version",
+  "codegen.tables.to.generate": "Tables to Generate",
+  "codegen.excluded.tables": "Excluded Tables",
+  "codegen.table.prefix": "Table Prefix",
+  "codegen.package.name": "Package Name",
+  "codegen.file.types": "File Types",
+  "codegen.group.condition": "Group Condition",
+  "codegen.group.columns": "Group Columns",
+  "codegen.module.related": "Module Related",
+  "codegen.category.name": "Category Name",
+  "codegen.application.port": "Application Port",
+  "codegen.restful.api": "RestFul API",
+  "codegen.packaging.type": "Packaging Type",
+  "codegen.code.version": "Code Version",
+  "codegen.comment.related": "Comment Related",
+  "codegen.developer": "Developer",
+  "codegen.email": "Email",
+  "codegen.need.copyright": "Need Copyright",
+  "codegen.ui.related": "UI Related",
+  "codegen.generate.ui": "Generate UI",
+  "codegen.separate.ui": "Separate UI",
+  "codegen.ui.suffix": "UI Suffix",
+  "codegen.ui.type": "UI Type",
+  "codegen.dto.related": "DTO Related",
+  "codegen.separate.dto": "Separate DTO",
+  "codegen.primary.key": "Primary Key",
+  "codegen.currently.only.support.java":
+    "Currently only supports Java, choosing other languages will cause build failure",
+  "codegen.this.property.empty":
+    "If this property is empty, code will be generated for all database tables. If there are too many tables (>100), the program will automatically switch to asynchronous execution with build failure risk.",
+  "codegen.if.this.property.empty":
+    "If this property is empty, the generated files will include table prefixes. eg: Table: dev_userinfo, generated file: DevUserinfo.java; Multiple prefixes should be separated by semicolons (;).",
+  "codegen.empty.generate.all.types": "Empty generates all file types",
+  "codegen.field.visible.columns":
+    "Form grouping is triggered when visible columns exceed the specified value, no grouping by default",
+  "codegen.form.page.group.columns": "Form page grouping columns, default is 2",
+  "codegen.code.belong.project": "Code belongs to project",
+  "codegen.maven.project.module.name":
+    "Maven project module name will be appended to package name",
+  "codegen.config.file.application.name":
+    "Corresponds to spring.application.name in application.yml config file",
+  "codegen.config.file.server.port":
+    "Corresponds to server.port in application.yml config file",
+  "codegen.target.directory": "Target Directory",
+  "codegen.files.deploy.server.directory":
+    "Directory where files are deployed on server",
+  "codegen.pom.xml.packaging": "Corresponds to packaging in pom.xml file",
+  "codegen.pom.xml.version": "Corresponds to version in pom.xml file",
+  "codegen.ui.files.business.files":
+    "Whether UI files and business files are placed in the same module",
+  "codegen.dto.files.business.files":
+    "Whether DTO files and business files are placed in the same module",
+  "codegen.created.by": "Created By",
+  "codegen.created.date": "Created Date",
+  "codegen.updated.by": "Updated By",
+  "codegen.updated.date": "Updated Date",
+  "codegen.is.deleted": "Is Deleted",
+  "codegen.data.number": "Data Number",
+  "codegen.status.code": "Status Code",
+  "codegen.status.name": "Status Name",
+  "codegen.international.code": "International Code",
+  /**
+   * JBPM
+   */
+  "jbpm.flow.validation": "Flow Validation",
+  "jbpm.error": "Error",
+  "jbpm.warning": "Warning",
+  "jbpm.info": "Info",
+  "jbpm.leave": "Leave",
+  "jbpm.reimbursement": "Reimbursement",
+  "jbpm.dinner": "Dinner",
+  "dyform.params.warning.displayFields":
+    "Please configure at least one display field",
+  /**
+   * Container Settings
+   */
+  "dyform.container.dialog.title": "Container Settings",
+  /**
+   * Data Relation Strategy Configuration
+   */
+  "dyform.data.relation.dialog.title": "Data Relation Strategy Configuration",
+  /**
+   * Data Source Configuration
+   */
+  "dyform.data.source.dialog.title": "Data Source Configuration",
+  /**
+   * Shortcut Operations
+   */
+  "dyform.shortcut.warning.selectComponentToCopy":
+    "Please select a component to copy first",
+  "dyform.shortcut.warning.selectComponentToCut":
+    "Please select a component to cut first",
+  /**
+   * Flexible Design
+   */
+  "flex.design.save.success": "Saved successfully",
+  "flex.design.save.failure": "Save failed",
+  "flex.design.load.failure": "Load failed",
+  "flex.design.list.failure": "Failed to get list",
+  "flex.design.share.generate.success": "Share link generated successfully",
+  "flex.design.share.generate.failure": "Share failed",
+  "flex.design.share.load.failure": "Share link has expired or does not exist",
+  "flex.design.publish.success": "Published successfully",
+  "flex.design.publish.failure": "Publish failed",
+  "flex.design.preview.failure": "Failed to generate preview",
+  "flex.design.delete.success": "Deleted successfully",
+  "flex.design.delete.failure": "Delete failed",
+  "flex.design.copy.success": "Copied successfully",
+  "flex.design.copy.failure": "Copy failed",
+  /**
+   * System Components
+   */
+  // FlexSaveDialog.vue
+  "system.flex.saveDialog.title.save": "Save Design",
+  "system.flex.saveDialog.title.saveAs": "Save As",
+  "system.flex.saveDialog.label.name": "Design Name",
+  "system.flex.saveDialog.placeholder.name": "Please enter design name",
+  "system.flex.saveDialog.label.description": "Design Description",
+  "system.flex.saveDialog.placeholder.description":
+    "Please describe the purpose and features of this design (optional)",
+  "system.flex.saveDialog.label.saveType": "Save Type",
+  "system.flex.saveDialog.saveType.new": "New Design",
+  "system.flex.saveDialog.saveType.template": "Save as Template",
+  "system.flex.saveDialog.saveType.copy": "Copy Existing Design",
+  "system.flex.saveDialog.label.category": "Category Tag",
+  "system.flex.saveDialog.placeholder.category": "Select Category",
+  "system.flex.saveDialog.label.tags": "Tags",
+  "system.flex.saveDialog.button.addTag": "+ Add Tag",
+  "system.flex.saveDialog.label.permissions": "Permission Settings",
+  "system.flex.saveDialog.permission.public": "Public Access",
+  "system.flex.saveDialog.permission.editable": "Allow Editing",
+  "system.flex.saveDialog.permission.downloadable": "Allow Download",
+  "system.flex.saveDialog.title.designInfo": "Design Information",
+  "system.flex.saveDialog.label.itemCount": "Item Count",
+  "system.flex.saveDialog.label.compCount": "Component Count",
+  "system.flex.saveDialog.label.containerDirection": "Container Direction",
+  "system.flex.saveDialog.label.createTime": "Create Time",
+  "system.flex.saveDialog.title.quickSave": "Quick Save",
+  "system.flex.saveDialog.button.saveDraft": "Save Draft",
+  "system.flex.saveDialog.button.quickTemplate": "Quick Template",
+  "system.flex.saveDialog.button.autoName": "Auto Name",
+  "system.flex.saveDialog.title.saveSuccess": "Save Successful!",
+  "system.flex.saveDialog.label.designId": "Design ID:",
+  "system.flex.saveDialog.label.saveTime": "Save Time:",
+  "system.flex.saveDialog.button.continueEdit": "Continue Editing",
+  "system.flex.saveDialog.button.viewSavedDesign": "View Saved Design",
+  "system.flex.saveDialog.rule.nameRequired": "Please enter design name",
+  "system.flex.saveDialog.message.saveError": "Quick save failed:",
+  // FlexPublishDialog.vue
+  "system.flex.publishDialog.title": "Publish Design",
+  "system.flex.publishDialog.label.name": "Publish Name",
+  "system.flex.publishDialog.placeholder.name": "Please enter publish name",
+  "system.flex.publishDialog.label.version": "Version",
+  "system.flex.publishDialog.placeholder.version": "e.g.: v1.0.0",
+  "system.flex.publishDialog.label.description": "Publish Description",
+  "system.flex.publishDialog.placeholder.description":
+    "Please describe the main content and changes of this release",
+  "system.flex.publishDialog.label.environment": "Publish Environment",
+  "system.flex.publishDialog.environment.development": "Development",
+  "system.flex.publishDialog.environment.testing": "Testing",
+  "system.flex.publishDialog.environment.staging": "Staging",
+  "system.flex.publishDialog.environment.production": "Production",
+  "system.flex.publishDialog.label.accessType": "Access Permission",
+  "system.flex.publishDialog.accessType.public": "Public Access",
+  "system.flex.publishDialog.accessType.private": "Private Access",
+  "system.flex.publishDialog.accessType.organization": "Organization Access",
+  "system.flex.publishDialog.label.settings": "Publish Settings",
+  "system.flex.publishDialog.setting.generateDocs": "Generate Documentation",
+  "system.flex.publishDialog.setting.enableAnalytics": "Enable Analytics",
+  "system.flex.publishDialog.setting.enableComments": "Enable Comments",
+  "system.flex.publishDialog.setting.autoBackup": "Auto Backup",
+  "system.flex.publishDialog.label.tags": "Tags",
+  "system.flex.publishDialog.button.addTag": "+ Add Tag",
+  "system.flex.publishDialog.title.preCheck": "Publish Pre-check",
+  "system.flex.publishDialog.check.designValidation": "Design Data Validation",
+  "system.flex.publishDialog.check.passed": "Passed",
+  "system.flex.publishDialog.check.failed": "Failed",
+  "system.flex.publishDialog.check.designContent": "Design Content Check",
+  "system.flex.publishDialog.check.designEmpty": "Design is Empty",
+  "system.flex.publishDialog.check.permission": "Permission Check",
+  "system.flex.publishDialog.title.validationErrors":
+    "The following issues need to be fixed before publishing:",
+  "system.flex.publishDialog.title.history": "Publish History",
+  "system.flex.publishDialog.table.column.version": "Version",
+  "system.flex.publishDialog.table.column.name": "Name",
+  "system.flex.publishDialog.table.column.environment": "Environment",
+  "system.flex.publishDialog.table.column.publishDate": "Publish Date",
+  "system.flex.publishDialog.table.column.status": "Status",
+  "system.flex.publishDialog.table.column.actions": "Actions",
+  "system.flex.publishDialog.table.button.view": "View",
+  "system.flex.publishDialog.table.button.rollback": "Rollback",
+  "system.flex.publishDialog.title.success": "Publish Successful!",
+  "system.flex.publishDialog.result.label.url": "Publish URL",
+  "system.flex.publishDialog.result.label.version": "Version",
+  "system.flex.publishDialog.result.label.publishDate": "Publish Date",
+  "system.flex.publishDialog.result.label.environment": "Environment",
+  "system.flex.publishDialog.result.button.visit": "Visit Published Page",
+  "system.flex.publishDialog.result.button.copyUrl": "Copy URL",
+  "system.flex.publishDialog.result.button.download": "Download Package",
+  "system.flex.publishDialog.rule.nameRequired": "Please enter publish name",
+  "system.flex.publishDialog.rule.versionRequired": "Please enter version",
+  "system.flex.publishDialog.rule.versionFormat":
+    "Version format should be x.y.z",
+  "system.flex.publishDialog.rule.descriptionRequired":
+    "Please enter publish description",
+  "system.flex.publishDialog.rule.environmentRequired":
+    "Please select publish environment",
+  "system.flex.publishDialog.message.validationFailed":
+    "Design validation failed, cannot publish",
+  "system.flex.publishDialog.message.rollbackConfirm":
+    "Are you sure you want to rollback to this version?",
+  "system.flex.publishDialog.message.rollbackSuccess": "Rollback successful",
+  "system.flex.publishDialog.message.rollbackCancelled": "Rollback cancelled",
+  "system.flex.publishDialog.message.urlCopied":
+    "Publish URL copied to clipboard",
+  "system.flex.publishDialog.message.copyFailed":
+    "Copy failed, please copy manually",
+  "system.flex.publishDialog.message.packageDownloaded": "Package downloaded",
+  "system.flex.publishDialog.status.published": "Published",
+  "system.flex.publishDialog.status.rolledBack": "Rolled Back",
+  "system.flex.publishDialog.status.publishing": "Publishing",
+  "system.flex.publishDialog.status.failed": "Failed",
+  // FlexShareDialog.vue
+  "system.flex.shareDialog.title": "Share Design",
+  "system.flex.shareDialog.label.name": "Design Name",
+  "system.flex.shareDialog.placeholder.name": "Please enter design name",
+  "system.flex.shareDialog.label.description": "Design Description",
+  "system.flex.shareDialog.placeholder.description":
+    "Please enter design description (optional)",
+  "system.flex.shareDialog.label.expiryDays": "Expiry Period",
+  "system.flex.shareDialog.expiryDays.1": "1 Day",
+  "system.flex.shareDialog.expiryDays.3": "3 Days",
+  "system.flex.shareDialog.expiryDays.7": "7 Days",
+  "system.flex.shareDialog.expiryDays.15": "15 Days",
+  "system.flex.shareDialog.expiryDays.30": "30 Days",
+  "system.flex.shareDialog.expiryDays.0": "Permanent",
+  "system.flex.shareDialog.label.accessLevel": "Access Permission",
+  "system.flex.shareDialog.accessLevel.public": "Public Access",
+  "system.flex.shareDialog.accessLevel.protected": "Password Required",
+  "system.flex.shareDialog.label.password": "Access Password",
+  "system.flex.shareDialog.placeholder.password": "Please set access password",
+  "system.flex.shareDialog.label.permissions": "Share Permissions",
+  "system.flex.shareDialog.permission.view": "View",
+  "system.flex.shareDialog.permission.copy": "Copy",
+  "system.flex.shareDialog.permission.download": "Download",
+  "system.flex.shareDialog.title.success": "Share Successful!",
+  "system.flex.shareDialog.label.shareUrl": "Share URL:",
+  "system.flex.shareDialog.button.copyLink": "Copy Link",
+  "system.flex.shareDialog.label.shareCode": "Share Code:",
+  "system.flex.shareDialog.button.copy": "Copy",
+  "system.flex.shareDialog.label.expiryDate": "Expiry Date:",
+  "system.flex.shareDialog.button.preview": "Preview Share Page",
+  "system.flex.shareDialog.button.generateQRCode": "Generate QR Code",
+  "system.flex.shareDialog.button.share": "Social Share",
+  "system.flex.shareDialog.title.qrCode": "Share QR Code",
+  "system.flex.shareDialog.qrCode.message": "Scan to access share page",
+  "system.flex.shareDialog.button.downloadQRCode": "Download QR Code",
+  "system.flex.shareDialog.title.preview": "Design Preview",
+  "system.flex.shareDialog.label.itemCount": "Item Count",
+  "system.flex.shareDialog.label.compCount": "Component Count",
+  "system.flex.shareDialog.label.containerDirection": "Container Direction",
+  "system.flex.shareDialog.label.createTime": "Create Time",
+  "system.flex.shareDialog.rule.nameRequired": "Please enter design name",
+  "system.flex.shareDialog.rule.passwordRequired": "Please set access password",
+  "system.flex.shareDialog.rule.passwordProtected":
+    "Password must be set in protected mode",
+  "system.flex.shareDialog.rule.passwordLength":
+    "Password must be at least 4 characters",
+  "system.flex.shareDialog.message.shareSuccess":
+    "Share link copied to clipboard",
+  "system.flex.shareDialog.message.codeSuccess":
+    "Share code copied to clipboard",
+  "system.flex.shareDialog.message.copyFailed":
+    "Copy failed, please copy manually",
+  "system.flex.shareDialog.message.qrCodeSuccess":
+    "QR code generated successfully",
+  "system.flex.shareDialog.message.qrCodeFailed": "Failed to generate QR code",
+  "system.flex.shareDialog.message.qrCodeDownloaded": "QR code downloaded",
+  "system.flex.shareDialog.message.shareContentCopied":
+    "Share content copied to clipboard",
+  // FlexPreviewDialog.vue
+  "system.flex.previewDialog.title": "Design Preview",
+  "system.flex.previewDialog.untitled": "Untitled Design",
+  "system.flex.previewDialog.label.itemCount": "Item Count",
+  "system.flex.previewDialog.label.compCount": "Component Count",
+  "system.flex.previewDialog.label.direction": "Direction",
+  "system.flex.previewDialog.button.mobilePreview": "Mobile Preview",
+  "system.flex.previewDialog.button.desktopPreview": "Desktop Preview",
+  "system.flex.previewDialog.button.refresh": "Refresh",
+  "system.flex.previewDialog.button.exportHTML": "Export HTML",
+  "system.flex.previewDialog.button.hideDebug": "Hide Debug",
+  "system.flex.previewDialog.button.showDebug": "Debug Info",
+  "system.flex.previewDialog.title.debugInfo": "Debug Information",
+  "system.flex.previewDialog.label.layoutMode": "Layout Mode:",
+  "system.flex.previewDialog.label.containerStyles": "Container Styles:",
+  "system.flex.previewDialog.label.containerData":
+    "containerDataForm (Actual Form Data):",
+  "system.flex.previewDialog.label.containerDirection": "Container Direction:",
+  "system.flex.previewDialog.label.containerInfo": "Container Info (store):",
+  "system.flex.previewDialog.label.itemInfo": "Item Info:",
+  "system.flex.previewDialog.title.validationFailed":
+    "Design Validation Failed",
+  "system.flex.previewDialog.title.htmlCode": "Generated HTML Code",
+  "system.flex.previewDialog.button.copy": "Copy",
+  "system.flex.previewDialog.button.hideCode": "Hide Code",
+  "system.flex.previewDialog.button.showCode": "View Code",
+  "system.flex.previewDialog.button.saveTemplate": "Save as Template",
+  "system.flex.previewDialog.message.refreshSuccess": "Preview refreshed",
+  "system.flex.previewDialog.message.htmlExported": "HTML file exported",
+  "system.flex.previewDialog.message.codeCopied": "Code copied to clipboard",
+  "system.flex.previewDialog.message.copyFailed":
+    "Copy failed, please copy manually",
+  "system.flex.previewDialog.message.untitledTemplate": "Untitled Template",
+  // PageItemProperties.vue
+  "system.flex.pageItemProperties.button.config": "Configure",
+  "system.flex.pageItemProperties.emptyState": "No properties",
+  "system.flex.pageItemProperties.dialog.title":
+    "{componentLabel} - {propLabel}",
+  "system.flex.pageItemProperties.alert.title": "Tip",
+  "system.flex.pageItemProperties.alert.description":
+    "Please ensure valid JSON format",
+  "system.flex.pageItemProperties.preview.label.environment": "Environment:",
+  "system.flex.pageItemProperties.preview.label.method": "Request Method:",
+  "system.flex.pageItemProperties.preview.label.url": "URL:",
+  // PagePosition.vue
+  "system.flex.pagePosition.label.x": "X",
+  "system.flex.pagePosition.label.y": "Y",
+  "system.flex.pagePosition.label.width": "Width",
+  "system.flex.pagePosition.label.height": "Height",
+  "system.flex.pagePosition.placeholder.width": "Width",
+  "system.flex.pagePosition.placeholder.height": "Height",
+  "system.flex.pagePosition.border.outer": "Outer Border",
+  "system.flex.pagePosition.border.inner": "Inner Border",
+  "system.flex.pagePosition.content": "Content",
+  // PageBackground.vue
+  "system.flex.pageBackground.label.color": "Color",
+  "system.flex.pageBackground.label.backgroundImage": "Background Image",
+  "system.flex.pageBackground.label.backgroundSize": "Background Size",
+  "system.flex.pageBackground.label.backgroundRepeat": "Background Repeat",
+  "system.flex.pageBackground.placeholder.backgroundSize": "Background Size",
+  "system.flex.pageBackground.radio.noRepeat": "No Repeat",
+  "system.flex.pageBackground.radio.repeat": "Repeat",
+  "system.flex.pageBackground.radio.repeatX": "Repeat Horizontally",
+  "system.flex.pageBackground.radio.repeatY": "Repeat Vertically",
+  "system.flex.pageBackground.radio.space": "Repeat, Fill with Space",
+  // PageCompPanel.vue
+  "system.flex.pageCompPanel.category.system": "System Components",
+  "system.flex.pageCompPanel.category.custom": "Custom Components",
+  "system.flex.pageCompPanel.component.table": "Table",
+  "system.flex.pageCompPanel.component.pagebar": "Pagination",
+  "system.flex.pageCompPanel.component.image": "Image",
+  "system.flex.pageCompPanel.component.carousel": "Carousel",
+  "system.flex.pageCompPanel.component.calendar": "Calendar",
+  "system.flex.pageCompPanel.component.splitter": "Split Panel",
+  "system.flex.pageCompPanel.component.statistic": "Statistics",
+  "system.flex.pageCompPanel.component.pageheader": "Page Header",
+  "system.flex.pageCompPanel.component.menubar": "Menu",
+  "system.flex.pageCompPanel.component.steps": "Steps",
+  "system.flex.pageCompPanel.component.timeline": "Timeline",
+  "system.flex.pageCompPanel.component.form": "Form",
+  "system.flex.pageCompPanel.component.banner": "Banner",
+  "system.flex.pageCompPanel.component.card": "Card",
+  "system.flex.pageCompPanel.component.content": "Content Display",
+  "system.flex.pageCompPanel.component.copyright": "Copyright",
+  "system.flex.pageCompPanel.component.hmenu": "Horizontal Menu",
+  "system.flex.pageCompPanel.component.link": "Link",
+  "system.flex.pageCompPanel.component.logo": "Logo",
+  "system.flex.pageCompPanel.component.navbar": "Navigation Bar",
+  "system.flex.pageCompPanel.component.chart": "Chart",
+  // layoutcomp.ts
+  "system.flex.layoutcomp.system": "System Components",
+  "system.flex.layoutcomp.custom": "Custom Components",
+  "system.flex.layoutcomp.table": "Table",
+  "system.flex.layoutcomp.pagination": "Pagination",
+  "system.flex.layoutcomp.image": "Image",
+  "system.flex.layoutcomp.carousel": "Carousel",
+  "system.flex.layoutcomp.calendar": "Calendar",
+  "system.flex.layoutcomp.splitter": "Split Panel",
+  "system.flex.layoutcomp.statistic": "Statistics",
+  "system.flex.layoutcomp.pageheader": "Page Header",
+  "system.flex.layoutcomp.menu": "Menu",
+  "system.flex.layoutcomp.steps": "Steps",
+  "system.flex.layoutcomp.timeline": "Timeline",
+  "system.flex.layoutcomp.form": "Form",
+  "system.flex.layoutcomp.banner": "Banner",
+  "system.flex.layoutcomp.card": "Card",
+  "system.flex.layoutcomp.content": "Content Display",
+  "system.flex.layoutcomp.copyright": "Copyright",
+  "system.flex.layoutcomp.hmenu": "Horizontal Menu",
+  "system.flex.layoutcomp.link": "Link",
+  "system.flex.layoutcomp.logo": "Logo",
+  "system.flex.layoutcomp.navbar": "Navigation Bar",
+  "system.flex.layoutcomp.chart": "Chart",
+  "system.flex.layoutcomp.chart.example": "Line Chart Example",
+  "system.flex.layoutcomp.chart.week.monday": "Monday",
+  "system.flex.layoutcomp.chart.week.tuesday": "Tuesday",
+  "system.flex.layoutcomp.chart.week.wednesday": "Wednesday",
+  "system.flex.layoutcomp.chart.week.thursday": "Thursday",
+  "system.flex.layoutcomp.chart.week.friday": "Friday",
+  "system.flex.layoutcomp.chart.week.saturday": "Saturday",
+  "system.flex.layoutcomp.chart.week.sunday": "Sunday",
+  // apiConfig.ts
+  "system.apiConfig.protocolOptions.http": "HTTP",
+  "system.apiConfig.protocolOptions.https": "HTTPS",
+  "system.apiConfig.createApiConfigProperties.env.label": "System Environment",
+  "system.apiConfig.createApiConfigProperties.env.description":
+    "Select the system environment for API calls",
+  "system.apiConfig.createApiConfigProperties.httpMethod.label":
+    "Request Method",
+  "system.apiConfig.createApiConfigProperties.httpMethod.description":
+    "Select HTTP request method",
+  "system.apiConfig.createApiConfigProperties.protocol.label": "Protocol",
+  "system.apiConfig.createApiConfigProperties.protocol.description":
+    "Select communication protocol",
+  "system.apiConfig.createApiConfigProperties.host.label":
+    "IP/Domain/Service Name",
+  "system.apiConfig.createApiConfigProperties.host.placeholder":
+    "Please enter IP address, domain, or service name",
+  "system.apiConfig.createApiConfigProperties.host.description":
+    "IP address, domain, or service name of the API server",
+  "system.apiConfig.createApiConfigProperties.port.label": "Port",
+  "system.apiConfig.createApiConfigProperties.port.description":
+    "API server port number",
+  "system.apiConfig.createApiConfigProperties.interfaceUrl.label":
+    "Interface URL",
+  "system.apiConfig.createApiConfigProperties.interfaceUrl.placeholder":
+    "Please enter interface path, e.g.: /api/data/list",
+  "system.apiConfig.createApiConfigProperties.interfaceUrl.description":
+    "Relative path of the interface",
+  "system.apiConfig.createApiConfigProperties.enableAutoRefresh.label":
+    "Enable Auto Refresh",
+  "system.apiConfig.createApiConfigProperties.enableAutoRefresh.description":
+    "Whether to enable automatic data refresh",
+  "system.apiConfig.createApiConfigProperties.refreshInterval.label":
+    "Refresh Interval (seconds)",
+  "system.apiConfig.createApiConfigProperties.refreshInterval.description":
+    "Time interval for automatic data refresh, in seconds",
+  "system.apiConfig.validateApiConfig.env.error":
+    "Please select system environment",
+  "system.apiConfig.validateApiConfig.httpMethod.error":
+    "Please select request method",
+  "system.apiConfig.validateApiConfig.protocol.error": "Please select protocol",
+  "system.apiConfig.validateApiConfig.host.error":
+    "Please enter IP/domain/service name",
+  "system.apiConfig.validateApiConfig.port.error":
+    "Port number must be between 1-65535",
+  "system.apiConfig.validateApiConfig.interfaceUrl.error":
+    "Please enter interface URL",
+  "system.apiConfig.validateApiConfig.refreshInterval.error":
+    "Refresh interval must be between 5-3600 seconds",
+  // flexbox/containerConfig.ts
+  "system.flexbox.containerConfig.display.label": "Display Mode",
+  "system.flexbox.containerConfig.display.helpMsg":
+    "Defines the layout type, such as flex or block.",
+  "system.flexbox.containerConfig.display.flex": "Flex Layout",
+  "system.flexbox.containerConfig.display.block": "Block Layout",
+  "system.flexbox.containerConfig.flexDirection.label": "Arrangement Direction",
+  "system.flexbox.containerConfig.flexDirection.helpMsg":
+    "Specifies the main axis direction of item layout.",
+  "system.flexbox.containerConfig.flexDirection.row": "Row Arrangement",
+  "system.flexbox.containerConfig.flexDirection.column": "Column Arrangement",
+  "system.flexbox.containerConfig.flexDirection.rowReverse": "Reverse Row",
+  "system.flexbox.containerConfig.flexDirection.columnReverse":
+    "Reverse Column",
+  "system.flexbox.containerConfig.flexWrap.label": "Wrap Mode",
+  "system.flexbox.containerConfig.flexWrap.helpMsg":
+    "Determines whether items wrap or arrange in multiple lines.",
+  "system.flexbox.containerConfig.flexWrap.nowrap": "No Wrap",
+  "system.flexbox.containerConfig.flexWrap.wrap": "Auto Wrap",
+  "system.flexbox.containerConfig.flexWrap.wrapReverse": "Reverse Wrap",
+  "system.flexbox.containerConfig.justifyContent.label": "Main Axis Alignment",
+  "system.flexbox.containerConfig.justifyContent.helpMsg":
+    "Align items along the main axis, controlling horizontal spacing.",
+  "system.flexbox.containerConfig.justifyContent.start": "Start Alignment",
+  "system.flexbox.containerConfig.justifyContent.flexStart": "Flex Start",
+  "system.flexbox.containerConfig.justifyContent.center": "Center",
+  "system.flexbox.containerConfig.justifyContent.flexEnd": "Flex End",
+  "system.flexbox.containerConfig.justifyContent.end": "End Alignment",
+  "system.flexbox.containerConfig.justifyContent.spaceBetween": "Space Between",
+  "system.flexbox.containerConfig.justifyContent.spaceAround": "Space Around",
+  "system.flexbox.containerConfig.justifyContent.spaceEvenly": "Space Evenly",
+  "system.flexbox.containerConfig.alignItems.label": "Cross Axis Alignment",
+  "system.flexbox.containerConfig.alignItems.helpMsg":
+    "Align items along the cross axis, affecting vertical arrangement.",
+  "system.flexbox.containerConfig.alignItems.stretch": "Stretch",
+  "system.flexbox.containerConfig.alignItems.center": "Center",
+  "system.flexbox.containerConfig.alignItems.end": "End Alignment",
+  "system.flexbox.containerConfig.alignItems.baseline": "Baseline Alignment",
+  "system.flexbox.containerConfig.alignItems.start": "Start Alignment",
+  "system.flexbox.containerConfig.alignContent.label": "Multi-line Alignment",
+  "system.flexbox.containerConfig.alignContent.helpMsg":
+    "Defines spacing between flex lines when wrapping.",
+  "system.flexbox.containerConfig.alignContent.stretch": "Stretch",
+  "system.flexbox.containerConfig.alignContent.start": "Start Alignment",
+  "system.flexbox.containerConfig.alignContent.center": "Center",
+  "system.flexbox.containerConfig.alignContent.end": "End Alignment",
+  "system.flexbox.containerConfig.alignContent.spaceBetween": "Space Between",
+  "system.flexbox.containerConfig.alignContent.spaceAround": "Space Around",
+  "system.flexbox.containerConfig.gap.label": "Spacing",
+  "system.flexbox.containerConfig.gap.helpMsg":
+    "Specifies spacing between flex items in the container.",
+  "system.flexbox.containerConfig.gap.pixel": "Pixel",
+  "system.flexbox.containerConfig.gap.percent": "Percent",
+  // flexbox/itemsConfig.ts
+  "system.flexbox.itemsConfig.order.label": "Arrangement Order",
+  "system.flexbox.itemsConfig.order.helpMsg":
+    "Specifies the arrangement order of items in the container",
+  "system.flexbox.itemsConfig.flexGrow.label": "Growth Ratio",
+  "system.flexbox.itemsConfig.flexGrow.helpMsg":
+    "Defines the growth ratio of items relative to other items",
+  "system.flexbox.itemsConfig.flexShrink.label": "Shrink Ratio",
+  "system.flexbox.itemsConfig.flexShrink.helpMsg":
+    "Controls the shrink ratio of items when space is insufficient",
+  "system.flexbox.itemsConfig.flexBasis.label": "Initial Size",
+  "system.flexbox.itemsConfig.flexBasis.helpMsg":
+    "Defines the initial size of items before space allocation",
+  "system.flexbox.itemsConfig.flexBasis.auto": "Auto",
+  "system.flexbox.itemsConfig.flexBasis.pixel": "Pixel",
+  "system.flexbox.itemsConfig.flexBasis.percent": "Percent",
+  "system.flexbox.itemsConfig.alignSelf.label": "Self Alignment",
+  "system.flexbox.itemsConfig.alignSelf.helpMsg":
+    "Override container alignment settings, define cross-axis alignment for individual items",
+  "system.flexbox.itemsConfig.alignSelf.auto": "Auto",
+  "system.flexbox.itemsConfig.alignSelf.flexStart": "Start Alignment",
+  "system.flexbox.itemsConfig.alignSelf.flexEnd": "End Alignment",
+  "system.flexbox.itemsConfig.alignSelf.center": "Center",
+  "system.flexbox.itemsConfig.alignSelf.baseline": "Baseline Alignment",
+  "system.flexbox.itemsConfig.alignSelf.stretch": "Stretch",
+  "system.flexbox.itemsConfig.width.label": "Width",
+  "system.flexbox.itemsConfig.width.helpMsg":
+    "Specify item width, overriding default size",
+  "system.flexbox.itemsConfig.width.auto": "Auto",
+  "system.flexbox.itemsConfig.width.pixel": "Pixel",
+  "system.flexbox.itemsConfig.width.percent": "Percent",
+  "system.flexbox.itemsConfig.height.label": "Height",
+  "system.flexbox.itemsConfig.height.helpMsg":
+    "Specify item height, overriding default size",
+  "system.flexbox.itemsConfig.height.auto": "Auto",
+  "system.flexbox.itemsConfig.height.pixel": "Pixel",
+  "system.flexbox.itemsConfig.height.percent": "Percent",
+  // flexbox/layouts.ts
+  "system.flexbox.layouts.fillSpace": "Fill Space",
+  "system.flexbox.layouts.stretchMiddle": "Stretch Middle",
+  "system.flexbox.layouts.html5": "HTML5 Layout",
+  "system.flexbox.layouts.alternatingGrid": "Alternating Grid",
+  "system.flexbox.layouts.masonryColumn": "Masonry Column Layout",
+  "system.flexbox.layouts.masonryRow": "Masonry Row Layout",
+  "system.flexbox.layouts.grid3x3": "3x3 Grid",
+  "system.flexbox.layouts.grid4x4": "4x4 Grid",
+  "system.flexbox.layouts.alignCenter": "Align Center",
+  "system.flexbox.layouts.fillRemainingSpace": "Fill Remaining Space",
+  "system.flexbox.layouts.fillRemainingSpace2": "Fill Remaining Space 2",
+  "system.flexbox.layouts.horizontalBars": "Horizontal Bars Layout",
+  "system.flexbox.layouts.verticalBars": "Vertical Bars Layout",
+  "system.flexbox.layouts.rowWrap": "Row Wrap Layout",
+  "system.flexbox.layouts.verticalStack": "Vertical Stack Layout",
+  // grid/containerConfig.ts
+  "system.grid.containerConfig.display.label": "Display Mode",
+  "system.grid.containerConfig.display.helpMsg":
+    "Defines the layout type of the container, such as grid or block.",
+  "system.grid.containerConfig.display.grid": "Grid Layout",
+  "system.grid.containerConfig.display.block": "Block Layout",
+  "system.grid.containerConfig.gridTemplateColumns.label":
+    "Grid Column Definition",
+  "system.grid.containerConfig.gridTemplateColumns.helpMsg":
+    "Specifies the column structure of the grid, including size and units",
+  "system.grid.containerConfig.gridTemplateRows.label": "Grid Row Definition",
+  "system.grid.containerConfig.gridTemplateRows.helpMsg":
+    "Specifies the row structure of the grid, including size and units",
+  "system.grid.containerConfig.gap.label": "Spacing",
+  "system.grid.containerConfig.gap.helpMsg":
+    "Defines the spacing between grid rows and columns",
+  "system.grid.containerConfig.rowGap.label": "Row Spacing",
+  "system.grid.containerConfig.columnGap.label": "Column Spacing",
+  "system.grid.containerConfig.justifyItems.label": "Cell Horizontal Alignment",
+  "system.grid.containerConfig.justifyItems.helpMsg":
+    "Controls the horizontal alignment of items within grid cells",
+  "system.grid.containerConfig.alignItems.label": "Cell Vertical Alignment",
+  "system.grid.containerConfig.alignItems.helpMsg":
+    "Controls the vertical alignment of items within grid cells",
+  "system.grid.containerConfig.justifyContent.label": "Main Axis Distribution",
+  "system.grid.containerConfig.justifyContent.helpMsg":
+    "Controls the horizontal distribution of items within the container",
+  "system.grid.containerConfig.alignContent.label": "Cross Axis Distribution",
+  "system.grid.containerConfig.alignContent.helpMsg":
+    "Controls the vertical distribution of items within the container",
+  "system.grid.containerConfig.gridAutoColumns.label": "Auto Column Width",
+  "system.grid.containerConfig.gridAutoColumns.helpMsg":
+    "Defines the default width of automatically generated columns in the grid",
+  "system.grid.containerConfig.gridAutoRows.label": "Auto Row Height",
+  "system.grid.containerConfig.gridAutoRows.helpMsg":
+    "Defines the default height of automatically generated rows in the grid",
+  "system.grid.containerConfig.gridAutoFlow.label": "Auto Arrangement",
+  "system.grid.containerConfig.gridAutoFlow.helpMsg":
+    "Controls the automatic arrangement of items in the grid",
+  "system.grid.containerConfig.fr": "FR",
+  "system.grid.containerConfig.pixel": "Pixel",
+  "system.grid.containerConfig.percent": "Percent",
+  "system.grid.containerConfig.stretch": "Stretch",
+  "system.grid.containerConfig.start": "Start Alignment",
+  "system.grid.containerConfig.center": "Center",
+  "system.grid.containerConfig.end": "End Alignment",
+  "system.grid.containerConfig.spaceAround": "Space Around",
+  "system.grid.containerConfig.spaceBetween": "Space Between",
+  "system.grid.containerConfig.spaceEvenly": "Space Evenly",
+  "system.grid.containerConfig.auto": "Auto",
+  "system.grid.containerConfig.row": "Row Priority",
+  "system.grid.containerConfig.column": "Column Priority",
+  "system.grid.containerConfig.rowDense": "Row Dense",
+  "system.grid.containerConfig.columnDense": "Column Dense",
+  // grid/itemsConfig.ts
+  "system.grid.itemsConfig.gridColumn.label": "Grid Column",
+  "system.grid.itemsConfig.gridColumn.helpMsg":
+    "Defines the start and end columns of an element in the grid",
+  "system.grid.itemsConfig.gridRow.label": "Grid Row",
+  "system.grid.itemsConfig.gridRow.helpMsg":
+    "Defines the start and end rows of an element in the grid",
+  "system.grid.itemsConfig.justifySelf.label": "Horizontal Self Alignment",
+  "system.grid.itemsConfig.justifySelf.helpMsg":
+    "Controls the horizontal alignment of an element within the grid container",
+  "system.grid.itemsConfig.alignSelf.label": "Vertical Self Alignment",
+  "system.grid.itemsConfig.alignSelf.helpMsg":
+    "Controls the vertical alignment of an element within the grid container",
+  "system.grid.itemsConfig.width.label": "Width",
+  "system.grid.itemsConfig.width.helpMsg":
+    "Specifies the width of the element, including unit options",
+  "system.grid.itemsConfig.height.label": "Height",
+  "system.grid.itemsConfig.height.helpMsg":
+    "Specifies the height of the element, including unit options",
+  "system.grid.itemsConfig.stretch": "Stretch",
+  "system.grid.itemsConfig.start": "Start Alignment",
+  "system.grid.itemsConfig.center": "Center",
+  "system.grid.itemsConfig.end": "End Alignment",
+  "system.grid.itemsConfig.pixel": "px",
+  "system.grid.itemsConfig.percent": "%",
+  "system.grid.itemsConfig.auto": "auto",
+  // grid/layouts.ts
+  "system.grid.layouts.pancakeStack": "Pancake Stack Layout",
+  "system.grid.layouts.sidebar": "Sidebar Layout",
+  "system.grid.layouts.html5": "HTML5 Layout",
+  "system.grid.layouts.html5-2": "HTML5 Layout-2",
+  "system.grid.layouts.columnSystem": "12 Column Grid System",
+  "system.grid.layouts.collage": "Collage Layout",
+  "system.grid.layouts.grid3x3": "3x3 Grid",
+  "system.grid.layouts.grid4x4": "4x4 Grid",
+  "system.grid.layouts.infiniteRows": "Infinite Rows Layout",
+  "system.grid.layouts.infiniteColumns": "Infinite Columns Layout",
+  // PageFont.vue
+  "system.flex.pageFont.label.size": "Size",
+  "system.flex.pageFont.label.lineHeight": "Line Height",
+  "system.flex.pageFont.label.color": "Color",
+  "system.flex.pageFont.label.style": "Style",
+  "system.flex.pageFont.label.position": "Position",
+  "system.flex.pageFont.style.bold": "B",
+  "system.flex.pageFont.style.italic": "I",
+  "system.flex.pageFont.style.underline": "U",
+  "system.flex.pageFont.position.left": "Left",
+  "system.flex.pageFont.position.center": "Center",
+  "system.flex.pageFont.position.right": "Right",
+  // StarHorseDesign.vue
+  "system.flex.starHorseDesign.command.zoomIn": "Zoom In (0.2)",
+  "system.flex.starHorseDesign.command.zoomOut": "Zoom Out (-0.2)",
+  "system.flex.starHorseDesign.command.zoomToFit": "Fit to Screen",
+  "system.flex.starHorseDesign.command.zoomTo": "1:1 Size",
+  "system.flex.starHorseDesign.command.alignTop": "Align Top",
+  "system.flex.starHorseDesign.command.alignBottom": "Align Bottom",
+  "system.flex.starHorseDesign.command.alignLeft": "Align Left",
+  "system.flex.starHorseDesign.command.alignRight": "Align Right",
+  "system.flex.starHorseDesign.command.centerContent": "Center",
+  "system.flex.starHorseDesign.command.deleteItem": "Delete Element",
+  "system.flex.starHorseDesign.command.empty": "Clear Canvas",
+  "system.flex.starHorseDesign.command.unDo": "Undo",
+  "system.flex.starHorseDesign.command.reDo": "Redo",
+  "system.flex.starHorseDesign.command.json": "JSON Data",
+  "system.flex.starHorseDesign.command.config": "Configuration",
+  "system.flex.starHorseDesign.command.valid": "Validate",
+  "system.flex.starHorseDesign.command.preview": "Preview",
+  "system.flex.starHorseDesign.command.save": "Save",
+  /**
+   * StarHorseFlexComp.vue
+   */
+  "system.flex.starHorseFlexComp.design.untitled": "Untitled Design",
+  "system.flex.starHorseFlexComp.mainAxisDirection": "Main Axis Direction",
+  "system.flex.starHorseFlexComp.inputBox": "Input Box",
+  "system.flex.starHorseFlexComp.init": "Initialize",
+  "system.flex.starHorseFlexComp.validationFailed":
+    "Design data validation failed, please check the design content",
+  "system.flex.starHorseFlexComp.validationError": "Validation error:",
+  "system.flex.starHorseFlexComp.publishValidationFailed":
+    "Design data validation failed, cannot publish",
+  "system.flex.starHorseFlexComp.shareValidationFailed":
+    "Design data validation failed, cannot share",
+  "system.flex.starHorseFlexComp.saveSuccess": "Design saved successfully",
+  "system.flex.starHorseFlexComp.shareSuccess":
+    "Share link generated successfully",
+  "system.flex.starHorseFlexComp.shareResult": "Share result:",
+  "system.flex.starHorseFlexComp.publishSuccess":
+    "Design published successfully",
+  "system.flex.starHorseFlexComp.publishResult": "Publish result:",
+  "system.flex.starHorseFlexComp.saveTemplate": "Save template:",
+  "system.flex.starHorseFlexComp.templateSaveSuccess":
+    "Template saved successfully",
+  "system.flex.starHorseFlexComp.confirmClearStage": "Confirm clear stage?",
+  "system.flex.starHorseFlexComp.loadSuccess": "Design loaded successfully",
+  "system.flex.starHorseFlexComp.loadError": "Load design failed:",
+  "system.flex.starHorseFlexComp.loadFailed": "Load design failed",
+  "system.flex.starHorseFlexComp.autoSaveSuccess": "Auto save successful",
+  "system.flex.starHorseFlexComp.autoSaveFailed": "Auto save failed:",
+  "system.flex.starHorseFlexComp.autoSaveSetup":
+    "Set up auto save, save every 5 minutes",
+  "system.flex.starHorseFlexComp.autoSaveInterval": "5 minutes",
+  "system.flex.starHorseFlexComp.beforeUnload":
+    "Listen for page unload, auto save",
+  "system.flex.starHorseFlexComp.cleanup":
+    "Clean up resources when component is destroyed",
+  "system.flex.starHorseFlexComp.tab.template": "Template",
+  "system.flex.starHorseFlexComp.tab.component": "Components",
+  "system.flex.starHorseFlexComp.tooltip.return": "Return",
+  "system.flex.starHorseFlexComp.tooltip.addElement": "Add Element",
+  "system.flex.starHorseFlexComp.tooltip.clearStage": "Clear Stage",
+  "system.flex.starHorseFlexComp.tooltip.mainAxisDirection":
+    "Main Axis Direction",
+  "system.flex.starHorseFlexComp.tooltip.code": "Code",
+  "system.flex.starHorseFlexComp.tooltip.infiniteScrollOn":
+    "Turn off infinite scroll",
+  "system.flex.starHorseFlexComp.tooltip.infiniteScrollOff":
+    "Turn on infinite scroll",
+  "system.flex.starHorseFlexComp.tooltip.rulerOn": "Turn on ruler",
+  "system.flex.starHorseFlexComp.tooltip.rulerOff": "Turn off ruler",
+  "system.flex.starHorseFlexComp.tooltip.save": "Save",
+  "system.flex.starHorseFlexComp.tooltip.preview": "Preview",
+  "system.flex.starHorseFlexComp.tooltip.publish": "Publish",
+  "system.flex.starHorseFlexComp.tooltip.share": "Share",
+  "system.flex.starHorseFlexComp.tooltip.fullscreenOn": "Exit Fullscreen",
+  "system.flex.starHorseFlexComp.tooltip.fullscreenOff": "Fullscreen",
+  "system.flex.starHorseFlexComp.tab.container": "Container",
+  "system.flex.starHorseFlexComp.container.layout": "Layout",
+  "system.flex.starHorseFlexComp.container.position": "Position Size",
+  "system.flex.starHorseFlexComp.container.background": "Background",
+  "system.flex.starHorseFlexComp.container.font": "Font",
+  "system.flex.starHorseFlexComp.tab.item": "Node",
+  "system.flex.starHorseFlexComp.item.layout": "Layout",
+  "system.flex.starHorseFlexComp.item.position": "Position Size",
+  "system.flex.starHorseFlexComp.item.background": "Background",
+  "system.flex.starHorseFlexComp.item.font": "Font",
+  "system.flex.starHorseFlexComp.tab.componentProperties":
+    "Component Properties",
+  "system.flex.starHorseFlexComp.grid.layout": "Two-column layout",
+  "system.flex.starHorseFlexComp.grid.gap": "Gap uniformly set to 8px",
+  /**
+   * StarHorseDesign.vue
+   */
+  "system.flex.starHorseDesign.tab.component": "Components",
+  "system.flex.starHorseDesign.placeholder.keyword": "Please enter keyword",
+  "system.flex.starHorseDesign.tab.dataSource": "Data Source",
+  "system.flex.starHorseDesign.rightPanel.title": "Properties Panel",
+  "system.flex.starHorseDesign.rightPanel.component": "Component",
+  "system.flex.starHorseDesign.rightPanel.lineProperty": "Line Properties",
+  "system.flex.starHorseDesign.rightPanel.emptyDescription":
+    "Click on components or lines in the canvas to set properties",
+  "system.flex.starHorseDesign.drawer.title": "Properties Panel",
+  "system.flex.starHorseDesign.drawer.emptyInfo": "Right Panel",
+  /**
+   * StarHorseEditor.vue
+   */
+  "system.flex.starHorseEditor.autoCompletion.currentField":
+    "Current component property",
+  "system.flex.starHorseEditor.autoCompletion.formInstance": "Form instance",
+  "system.flex.starHorseEditor.autoCompletion.formData": "Form data",
+  "system.flex.starHorseEditor.autoCompletion.formFields": "All form elements",
+  "system.flex.starHorseEditor.autoCompletion.userInfo":
+    "Current logged-in user information",
+  "system.flex.starHorseEditor.autoCompletion.postRequest":
+    "Post request interface, returns asynchronously by default",
+  "system.flex.starHorseEditor.autoCompletion.getRequest":
+    "Get request interface, returns asynchronously by default",
+  "system.flex.starHorseEditor.autoCompletion.download":
+    "Download data interface",
+  "system.flex.starHorseEditor.autoCompletion.upload": "Upload data interface",
+  "system.flex.starHorseEditor.getLanguageInfo": "Get language information",
+  "system.flex.starHorseEditor.init": "Initialize",
+  "system.flex.starHorseEditor.generateQueryTips":
+    "Generate different query tips based on different databases",
+  "system.flex.starHorseEditor.theme": "Theme",
+  "system.flex.starHorseEditor.language": "Language",
+  /**
+   * sh_design.ts
+   */
+  "system.flex.shDesign.help.title.steps": "Steps",
+  "system.flex.shDesign.help.step1":
+    "After opening the editor, you can drag components from the left to the middle grid canvas area;",
+  "system.flex.shDesign.help.step2":
+    "When you move the mouse over a component, four circles will appear. When you move the mouse over a circle, it will turn into a solid cross. Pressing the left mouse button and dragging will create a connection line that can be linked to circles on other components;",
+  "system.flex.shDesign.help.step3":
+    "Click on a component or connection line to select it;",
+  "system.flex.shDesign.help.step4":
+    "Press the left mouse button in a blank area and drag to select components;",
+  "system.flex.shDesign.help.step5":
+    "Double-click on a component or connection line to edit its properties.",
+  "system.flex.shDesign.help.title.shortcuts": "Shortcuts",
+  "system.flex.shDesign.help.shortcut.dragCanvas": "Drag canvas;",
+  "system.flex.shDesign.help.shortcut.copy": "Copy;",
+  "system.flex.shDesign.help.shortcut.cut": "Cut;",
+  "system.flex.shDesign.help.shortcut.paste": "Paste;",
+  "system.flex.shDesign.help.shortcut.undo": "Undo;",
+  "system.flex.shDesign.help.shortcut.redo": "Redo;",
+  "system.flex.shDesign.help.shortcut.selectAll": "Select all;",
+  "system.flex.shDesign.help.shortcut.zoomIn": "Zoom in;",
+  "system.flex.shDesign.help.shortcut.zoomOut": "Zoom out;",
+  "system.flex.shDesign.help.shortcut.delete":
+    "Delete component or connection line.",
+  /**
+   * Utilities
+   */
+  "utils.boolean.yes": "Yes",
+  "utils.boolean.no": "No",
+  "utils.status.normal": "Normal",
+  "utils.status.abnormal": "Abnormal",
+  "utils.warning.provideCorrectData": "Please provide correct data",
+  "utils.warning.dataNotFound": "Data not found",
+  /**
+   * Batch Edit Fields
+   */
+  "dyform.batch.edit.field.containerName": "Container Name",
+  "dyform.batch.edit.field.labelName": "Label Name",
+  "dyform.batch.edit.field.fieldName": "Field Name",
+  "dyform.batch.edit.field.maxLengthPrecision": "Max Length/Precision",
+  "dyform.batch.edit.field.required": "Required",
+  "dyform.batch.edit.field.formDisplay": "Form Display",
+  "dyform.batch.edit.field.searchDisplay": "Search Display",
+  "dyform.batch.edit.field.listDisplay": "List Display",
+  "dyform.batch.edit.field.defaultValue": "Default Value",
+  "dyform.batch.edit.field.batchSetting": "Batch Setting",
+  "dyform.batch.edit.field.placeholder.fieldLength": "Field Length",
+  "dyform.batch.edit.field.placeholder.precision": "Precision",
+  "dyform.batch.edit.field.info": "Field Information",
+  /**
+   * App Component
+   */
+  "app.closeBrowserClearData": "Clear data when closing browser",
+  /**
+   * Header Component
+   */
+  "header.logoutConfirm": "Are you sure you want to logout?",
+  "header.shortcutMenu.title": "Configure Shortcut Menu",
+  "header.shortcutMenu.tooltip": "Add Shortcut Menu",
+  /**
+   * Message Component
+   */
+  "message.tab.notice": "Messages",
+  "message.tab.pending": "Pending",
+  "message.newMessage": "You have a new message:",
+  "message.newMessageNotification": "New Message Notification",
+  "message.functionDevelopment": "Function under development...",
+  "message.tip": "Tip",
+  /**
+   * LoginDev Component
+   */
+  "loginDev.thirdPartyLogin": "Third Party Login",
+  /**
+   * Register Component
+   */
+  "register.email": "Email",
+  "register.confirmPassword": "Confirm Password",
+  /**
+   * Forgot Password Component
+   */
+  "forgotPassword.title": "Forgot Password",
+  "forgotPassword.tip":
+    "Please enter the email address you used when registering, and we will send a password reset link to that email.",
+  "forgotPassword.success": "Password reset email sent",
+  "forgotPassword.checkEmail":
+    "Please check your email and follow the instructions to reset your password.",
+  /**
+   * UserCenter Component
+   */
+  "userCenter.personalInfo": "Personal Information",
+  "userCenter.usernameNameEmployeeNo": "Username/Name/Employee No",
+  "userCenter.phone": "Phone",
+  "userCenter.email": "Email",
+  "userCenter.dept": "Department",
+  "userCenter.role": "System Role",
+  "userCenter.basicInfo": "Basic Information",
+  "userCenter.save": "Save",
+  "userCenter.basicData": "Basic Data",
+  "userCenter.changePassword": "Change Password",
+  "userCenter.oldPassword": "Old Password",
+  "userCenter.newPassword": "New Password",
+  "userCenter.confirmPassword": "Confirm Password",
+  "userCenter.passwordSameError":
+    "New password cannot be the same as old password",
+  "userCenter.passwordMismatchError": "The two passwords entered do not match",
+  "userCenter.shortcutMenuLimit":
+    "Shortcut menu can only be set up to 10 items",
+  "userCenter.dataSubmitting": "Data submitting",
+  /**
+   * LoginDialog Component
+   */
+  "loginDialog.timeoutLogin": "Login Timeout",
+  /**
+   * PageConfig Component
+   */
+  "pageConfig.color": "Color",
+  "pageConfig.themeColor": "Theme Color",
+  "pageConfig.sizeAndList": "Size and List",
+  "pageConfig.componentSize": "Component Size",
+  "pageConfig.buttonSize": "Button Size",
+  "pageConfig.dataDisplay": "Data Display",
+  "pageConfig.menu": "Menu",
+  "pageConfig.menuPosition": "Menu Position",
+  "pageConfig.menuStyle": "Menu Style",
+  "pageConfig.top": "Top",
+  "pageConfig.left": "Left",
+  "pageConfig.right": "Right",
+  "pageConfig.traditionalStyle": "Traditional Style",
+  "pageConfig.fixedWidth": "Fixed Width",
+  "pageConfig.otherConfig": "Other Configuration",
+  "pageConfig.tagsView": "Enable/Disable TagsView",
+  "pageConfig.shortcutMenu": "Enable/Disable Shortcut Menu",
+  "pageConfig.buttonDisplayStyle": "Page Button Display Style",
+  "pageConfig.resetDefaultConfig": "Reset to Default Configuration",
+  /**
+   * Color Names
+   */
+  "color.white": "White",
+  "color.snow": "Snow",
+  "color.whitesmoke": "White Smoke",
+  "color.floralwhite": "Floral White",
+  "color.antiquewhite": "Antique White",
+  "color.ghostwhite": "Ghost White",
+  "color.mintcream": "Mint Cream",
+  "color.ivory": "Ivory",
+  "color.oldlace": "Old Lace",
+  "color.linen": "Linen",
+  "color.beige": "Beige",
+  "color.azure": "Azure",
+  "color.honeydew": "Honeydew",
+  "color.aliceblue": "Alice Blue",
+  "color.lightgoldenrodyellow": "Light Goldenrod Yellow",
+  "color.lightyellow": "Light Yellow",
+  "color.lemonchiffon": "Lemon Chiffon",
+  "color.cornsilk": "Cornsilk",
+  "color.seaShell": "Seashell",
+  "color.lavenderblush": "Lavender Blush",
+  "color.papayawhip": "Papaya Whip",
+  "color.blanchedalmond": "Blanched Almond",
+  "color.mistyrose": "Misty Rose",
+  "color.bisque": "Bisque",
+  "color.moccasin": "Moccasin",
+  "color.navajowhite": "Navajo White",
+  "color.peachpuff": "Peach Puff",
+  "color.yellow": "Yellow",
+  "color.gold": "Gold",
+  "color.orange": "Orange",
+  "color.darkorange": "Dark Orange",
+  "color.coral": "Coral",
+  "color.pink": "Pink",
+  "color.lightpink": "Light Pink",
+  "color.lightsalmon": "Light Salmon",
+  "color.hotpink": "Hot Pink",
+  "color.tomato": "Tomato",
+  "color.orangered": "Orange Red",
+  "color.deeppink": "Deep Pink",
+  "color.fuchsia": "Fuchsia",
+  "color.magenta": "Magenta",
+  "color.red": "Red",
+  "color.salmon": "Salmon",
+  "color.wheat": "Wheat",
+  "color.sandybrown": "Sandy Brown",
+  "color.khaki": "Khaki",
+  "color.lightcoral": "Light Coral",
+  "color.palegoldenrod": "Pale Goldenrod",
+  "color.violet": "Violet",
+  "color.darksalmon": "Dark Salmon",
+  "color.lavender": "Lavender",
+  "color.lightcyan": "Light Cyan",
+  "color.burlywood": "Burlywood",
+  "color.plum": "Plum",
+  "color.gainsboro": "Gainsboro",
+  "color.crimson": "Crimson",
+  "color.palevioletred": "Pale Violet Red",
+  "color.goldenrod": "Goldenrod",
+  "color.orchid": "Orchid",
+  "color.thistle": "Thistle",
+  "color.lightgrey": "Light Grey",
+  "color.tan": "Tan",
+  "color.chocolate": "Chocolate",
+  "color.peru": "Peru",
+  "color.indianred": "Indian Red",
+  "color.mediumvioletred": "Medium Violet Red",
+  "color.silver": "Silver",
+  "color.darkkhaki": "Dark Khaki",
+  "color.rosybrown": "Rosy Brown",
+  "color.mediumorchid": "Medium Orchid",
+  "color.darkgoldenrod": "Dark Goldenrod",
+  "color.firebrick": "Firebrick",
+  "color.powderblue": "Powder Blue",
+  "color.lightsteelblue": "Light Steel Blue",
+  "color.paleturquoise": "Pale Turquoise",
+  "color.greenyellow": "Green Yellow",
+  "color.lightblue": "Light Blue",
+  "color.darkgrey": "Dark Grey",
+  "color.brown": "Brown",
+  "color.sienna": "Sienna",
+  "color.darkorchid": "Dark Orchid",
+  "color.palegreen": "Pale Green",
+  "color.darkviolet": "Dark Violet",
+  "color.mediumpurple": "Medium Purple",
+  "color.lightgreen": "Light Green",
+  "color.darkseagreen": "Dark Sea Green",
+  "color.saddlebrown": "Saddle Brown",
+  "color.darkmagenta": "Dark Magenta",
+  "color.darkred": "Dark Red",
+  "color.blueviolet": "Blue Violet",
+  "color.lightskyblue": "Light Sky Blue",
+  "color.skyblue": "Sky Blue",
+  "color.olive": "Olive",
+  "color.purple": "Purple",
+  "color.maroon": "Maroon",
+  "color.aquamarine": "Aquamarine",
+  "color.chartreuse": "Chartreuse",
+  "color.lawngreen": "Lawn Green",
+  "color.mediumslateblue": "Medium Slate Blue",
+  "color.lightslategrey": "Light Slate Grey",
+  "color.slategrey": "Slate Grey",
+  "color.olivedrab": "Olive Drab",
+  "color.slateblue": "Slate Blue",
+  "color.grey": "Grey",
+  "color.dimgray": "Dim Gray",
+  "color.mediumaquamarine": "Medium Aquamarine",
+  "color.cornflowerblue": "Cornflower Blue",
+  "color.cadetblue": "Cadet Blue",
+  "color.darkolivegreen": "Dark Olive Green",
+  "color.indigo": "Indigo",
+  "color.mediumturquoise": "Medium Turquoise",
+  "color.darkslateblue": "Dark Slate Blue",
+  "color.steelblue": "Steel Blue",
+  "color.royalblue": "Royal Blue",
+  "color.turquoise": "Turquoise",
+  "color.mediumseagreen": "Medium Sea Green",
+  "color.limegreen": "Lime Green",
+  "color.darkslategrey": "Dark Slate Grey",
+  "color.seagreen": "Sea Green",
+  "color.forestgreen": "Forest Green",
+  "color.lightseagreen": "Light Sea Green",
+  "color.dodgerblue": "Dodger Blue",
+  "color.midnightblue": "Midnight Blue",
+  "color.aqua": "Aqua",
+  "color.cyan": "Cyan",
+  "color.springgreen": "Spring Green",
+  "color.lime": "Lime",
+  "color.mediumspringgreen": "Medium Spring Green",
+  "color.darkturquoise": "Dark Turquoise",
+  "color.darkturquoise1": "Dark Green",
+  "color.deepskyblue": "Deep Sky Blue",
+  "color.darkcyan": "Dark Cyan",
+  "color.teal": "Teal",
+  "color.green": "Green",
+  "color.darkgreen": "Dark Green",
+  "color.blue": "Blue",
+  "color.mediumblue": "Medium Blue",
+  "color.darkblue": "Dark Blue",
+  "color.navy": "Navy",
+  "color.black": "Black",
+  /**
+   * Size Names
+   */
+  "size.large": "Large",
+  "size.medium": "Medium",
+  "size.small": "Small",
+  /**
+   * Display Style Names
+   */
+  "displayStyle.arrangement": "Arrangement Display",
+  "displayStyle.dropdown": "Dropdown Display",
+  "displayStyle.list": "List Display",
+  "displayStyle.card": "Card Display",
+  /**
+   * 404 Component
+   */
+  "notFound.title": "Star Horse Say :\n\n 404  :( \n\n   Page not Found",
+  "notFound.goBack": "Go Back",
+  /**
+   * Dashboard Component
+   */
+  "dashboard.operationHabitsConfig": "Operation Habits Configuration",
+  "dashboard.pageLoading": "Page loading...",
+  /**
+   * Home Component
+   */
+  "home.unreceived": "Unreceived",
+  "home.processing": "Processing",
+  "home.completed": "Completed",
+  "home.following": "Following",
+  "home.suspended": "Suspended",
+  "home.delegated": "Delegated",
+  "home.allWork": "All Work",
+  "home.instructions1": 'Click "New Workflow" to enter the new workflow page.',
+  "home.instructions2": "Access催办, recall.",
+  "home.allWorkDescription": "View all workflow tasks in one place.",
+  "home.claimTask": "Claim Task",
+  "home.completeTask": "Complete Task",
+  "home.revokeTask": "Revoke Task",
+  "home.unfollowTask": "Unfollow Task",
+  "home.resumeTask": "Resume Task",
+  "home.recallTask": "Recall Task",
+  "home.task.claimed": "Task claimed",
+  "home.task.completed": "Task completed",
+  "home.task.revoked": "Task revoked",
+  "home.task.unfollowed": "Task unfollowed",
+  "home.task.resumed": "Task resumed",
+  "workflow.suspended.by": "Task suspended by {user}",
+  "home.task.recalled": "Task recalled",
+  "workflow.delegated.to": "Task delegated to {user}",
+  "workflow.in.process": "In process",
+  "system.back": "Back",
+  "system.current": "Current",
+  "system.pending": "Pending",
+  "system.completed": "Completed",
+  "system.error": "Error",
+  "workflow.initiator": "Initiator",
+  "workflow.approval.node": "Approval Node",
+  "workflow.final.approval": "Final Approval",
+  "workflow.submitted.by": "{user} submitted the application",
+  "workflow.pending.approval": "Pending approval",
+  "workflow.approved.by": "Approved by {user}",
+  "workflow.pending.assignee": "Pending assignee",
+  "workflow.current.assignee": "Current assignee",
+  "workflow.not.started": "Not started yet",
+  /**
+   * Task Actions
+   */
+  "home.task.a": "Task approved",
+  "home.task.b": "Task rejected",
+  "home.task.c": "Task returned",
+  "home.task.d": "Task returned to start",
+  "home.task.e": "Task returned to history",
+  "home.task.f": "Task revoked",
+  "home.task.g": "Task transferred",
+  "home.task.h": "Signer added",
+  "home.task.i": "Signer reduced",
+  "home.task.j": "Task saved",
+  "home.task.k": "Task terminated",
+  "home.task.l": "Countersigned",
+  "home.task.m": "Countersign approved",
+  "home.task.n": "Countersign rejected",
+  "home.task.o": "Countersign abstained",
+  "home.task.p": "Approver assigned",
+  "home.task.q": "Jump assigned",
+  /**
+   * Locale Component
+   */
+  "locale.chinese": "Chinese",
+  "locale.english": "English",
+  /**
+   * CommonPage Components
+   */
+  "commonPage.dataLoading": "Data loading",
+  "commonPage.dataTypeMismatch": "Data type mismatch",
+  "commonPage.dataProcessing": "Data processing",
+  "commonPage.interfaceNotFound": "Interface not found or network exception",
+  "commonPage.tab.form": "Form",
+  "commonPage.tab.dataList": "Data List",
+  /**
+   * DataPreview Component
+   */
+  "dataPreview.showHideColumns": "Show/Hide Columns",
+  "dataPreview.sort": "Sort",
+  "dataPreview.columnName": "Column Name",
+  "dataPreview.showHide": "Show/Hide",
+  /**
+   * StarHorseDesign Component
+   */
+  "starHorseDesign.clearCanvasConfirm":
+    "Clear the canvas, all data will be lost, are you sure you want to clear it?",
+  "starHorseDesign.deleteItemWarning":
+    "Please select the object to delete first",
+  "starHorseDesign.deleteItemConfirm":
+    "Are you sure you want to delete the selected elements?",
+  /**
+   * Chart Component
+   */
+  "chart.clearCanvas": "Clear canvas",
+  /**
+   * Continuous Components
+   */
+  "continuous.dataLoading": "Data loading",
+  /**
+   * DB Search Components
+   */
+  "dbSearch.dataProcessing": "Data processing",
+  "dbSearch.interfaceNotFound": "Interface not found or network exception",
+  "dbSearch.dataQuerying": "Data querying",
+  "dbSearch.export": "Export",
+  "dbSearch.dataDetails": "Data Details",
+  "dbSearch.fieldName": "Field Name",
+  "dbSearch.value": "Value",
+  "dbSearch.itemsPerPage": "{0} items per page",
+  "dbSearch.totalRecords": "Total {0} records",
+  /**
+   * System Components
+   */
+  "system.dataProcessing": "Data processing",
+  /**
+   * Common Files
+   */
+  "system.unique.identifier": "Unique Identifier",
+  "system.file.name": "File Name",
+  "system.file.type": "File Type",
+  "system.file.size": "File Size",
+  "system.file.path": "File Path",
+  "system.download": "Download",
+  /**
+   * System Parameters
+   */
+  "system.param.name": "Parameter Name",
+  "system.param.value": "Parameter Value",
+  /**
+   * Tenant Business Configuration
+   */
+  // "system.menu.name": "Menu Name",
+  // "system.sort": "Sort",
+  // "system.application.name": "Application Name",
+  "system.select.child.node.first":
+    "When selecting child nodes, you must select the parent node first, otherwise it will not be displayed in the header application menu bar",
+  // "system.system.name": "System Name",
+  "system.assign.all.menus": "Assign All Menus",
+  "system.specified.menu": "Specified Menu",
+  "system.add.application": "Add Application",
+  "system.add.menu": "Add Menu",
+  "system.tenant.list": "Tenant List",
+  "system.application.list": "Application List",
+  "system.delete.application": "Delete Application",
+  /**
+   * Tenant Info
+   */
+  "system.tenant.name": "Tenant Name",
+  "system.tenant.code": "Tenant Code",
+  "system.expiring.tenant": "Expiring Tenant",
+  "system.contact.person": "Contact Person",
+  "system.contact.phone": "Contact Phone",
+  "system.email": "Email",
+  "system.telephone": "Telephone",
+  "system.industry": "Industry",
+  "system.validity.period": "Validity Period",
+  "system.expiration.policy": "Expiration Policy",
+  "system.data.backup.policy": "Data Backup Policy",
+  "system.business.notification": "Business Notification",
+  "system.inner.message": "Inner Message",
+  "system.sms.notification": "SMS Notification",
+  "system.email.notification": "Email Notification",
+  "system.dingtalk.notification": "DingTalk Notification",
+  "system.enterprise.wechat": "Enterprise WeChat",
+  "system.subscribe.interface": "Subscribe Interface",
+  "system.message.template": "Message Template",
+  "system.contact.address": "Contact Address",
+  "system.business.description": "Business Description",
+  /**
+   * User Manage
+   */
+  "system.employee.number": "Employee Number",
+  "system.avatar": "Avatar",
+  "system.auto.generate.if.empty": "Auto-generated if left empty",
+  "system.affiliated.department": "Affiliated Department",
+  "system.emergency.contact.phone": "Emergency Contact Phone",
+  "system.emergency.contact.help":
+    "For contacting family in special circumstances",
+  "system.grant.system.login.authority": "Grant System Login Authority",
+  "system.organization": "Organization",
+  /**
+   * Users Audit
+   */
+  // "system.password": "Password",
+  "system.effective.date": "Effective Date",
+  "system.expired.date": "Expired Date",
+  "system.data.type": "Data Type",
+  // "system.created.date": "Created Date",
+  // "system.updated.date": "Updated Date",
+  // "system.data.version": "Data Version",
+  /**
+   * White List
+   */
+  "system.filter.type": "Filter Type",
+  "system.filter.content": "Filter Content",
+  /**
+   * Calendar
+   */
+  "system.calendar.category": "Calendar Category",
+  "system.calendar.name": "Calendar Name",
+  "system.shared.members": "Shared Members",
+  /**
+   * Calendar Manage
+   */
+  "system.schedule.title": "Schedule Title",
+  "system.start.date": "Start Date",
+  "system.end.date": "End Date",
+  "system.is.public": "Is Public",
+  "system.allow.subscription": "Allow Subscription",
+  "system.message.reminder": "Message Reminder",
+  "system.start.time": "Start Time",
+  "system.end.time": "End Time",
+  "system.invite": "Invite",
+  "system.cc": "CC",
+  "system.schedule.content": "Schedule Content",
+  "system.message.reminder.method": "Message Reminder Method",
+  /**
+   * Role User List
+   */
+  "system.remove": "Remove",
+  "system.confirm.remove": "Are you sure you want to remove?",
+  "system.data.processing": "Data processing",
+  "system.operation.success": "Operation successful",
+  /**
+   * User Transfer
+   */
+  "system.user.list": "User List",
+  "system.selected.users": "Selected Users",
+  "system.add": "Add",
+  /**
+   * Company Category
+   */
+  "system.sequence.number": "Sequence Number",
+  "system.add.child.node": "Add Child Node",
+  /**
+   * Company Defined
+   */
+  "system.company.name": "Company Name",
+  "system.company.code": "Company Code",
+  "system.company.category": "Company Category",
+  "system.company.abbreviation": "Company Abbreviation",
+  "system.parent.node": "Parent Node",
+  "system.add.subsidiary": "Add Subsidiary",
+  /**
+   * Job Category
+   */
+  "system.category.name": "Category Name",
+  "system.function.description": "Function Description",
+  /**
+   * Account Permission
+   */
+  "system.account": "Account",
+  // "system.name": "Name",
+  // "system.status": "Status",
+  "system.group.name": "Group Name",
+  "system.account.info": "Account Information",
+  // "system.username": "Username",
+  // "system.contact.phone": "Contact Phone",
+  // "system.email": "Email",
+  "system.group.code": "Group Code",
+  "system.email.address": "Email Address",
+  "system.please.select.group": "Please select a group first",
+  // "system.user.group": "User Group",
+  /**
+   * Appinfo Permission
+   */
+  // "system.system.name": "System Name",
+  // "system.application.name": "Application Name",
+  // "system.system.code": "System Code",
+  "system.please.select.user.group": "Please select a user group first",
+  /**
+   * Data Permission
+   */
+  "system.permission.type": "Permission Type",
+  "system.authorized.user.group": "Authorized User Group/Person",
+  "system.authorized.menu": "Authorized Menu",
+  // "system.user.group": "User Group",
+  "system.authorized.account": "Authorized Account",
+  "system.permission": "Permission",
+  // "system.validity.period": "Validity Period",
+  "system.authorized.user.group.account": "Authorized User Group/Account",
+  "system.please.select.application": "Please select an application first",
+  "system.application.system": "Application System",
+  "system.system.menu": "System Menu",
+  /**
+   * Menuinfo Permission
+   */
+  // "system.menu.name": "Menu Name",
+  // "system.assign.all.menus": "Assign All Menus",
+  // "system.specified.menu": "Specified Menu",
+  /**
+   * Page Button Permission
+   */
+  "system.role.name": "Role Name",
+  // "system.created.date": "Created Date",
+  "system.owned.system": "Owned System",
+  // "system.permission": "Permission",
+  "system.btn.names": "Button Names",
+  /**
+   * Common Role Manage
+   */
+  // "system.role.code": "Role Code",
+  // "system.version": "Version",
+  // "system.created.by": "Created By",
+  // "system.created.time": "Created Time",
+  // "system.updated.by": "Updated By",
+  // "system.updated.time": "Updated Time",
+  // "system.data.number": "Data Number",
+  // "system.status.code": "Status Code",
+  // "system.status.name": "Status Name",
+  // "system.is.logical.deleted": "Is Logical Deleted",
+  // "system.international.code": "International Code",
+  // "system.remark": "Remark",
+  "system.personnel.info": "Personnel Info",
+  "system.name.employee.number": "Name/Employee Number",
+  "system.rank": "Rank",
+  "system.position": "Position",
+  "system.affiliated.organization": "Affiliated Organization",
+  // "system.affiliated.company": "Affiliated Company",
+  // "system.affiliated.department": "Affiliated Department",
+  "system.delete": "Delete",
+  "system.add.personnel": "Add Personnel",
+  "system.please.select.company.first":
+    "Please select a company first on the left",
+  "system.please.select.personnel.info": "Please select personnel information",
+  "system.data.submitting": "Data submitting",
+  "system.company.list": "Company List",
+  /**
+   * Company Role Manage
+   */
+  "system.company.name.code": "Company Name/Code",
+  "system.role.name.code": "Role Name/Code",
+  // "system.company.name": "Company Name",
+  "system.load.company.role.info.error":
+    "Error loading company role information",
+  "system.set.personnel": "Set Personnel",
+  "system.view.all.personnel.info": "View All Personnel Information",
+  /**
+   * Role Config
+   */
+  "system.role.type": "Role Type",
+  "system.set.role.affiliated.company": "Set Role Affiliated Company",
+  "system.please.set.role.affiliated.company":
+    "Please set the affiliated company for the current role",
+  /**
+   * Role Defined
+   */
+  "system.affiliated.company.quantity": "Affiliated Company (Quantity)",
+  "system.configure.affiliated.company": "Configure Affiliated Company",
+  // "system.affiliated.company": "Affiliated Company",
+  "system.confirm.delete": "Are you sure you want to delete?",
+  // "system.data.submitting": "Data submitting",
+  /**
+   * Station Category
+   */
+  "system.sequence.description": "Sequence Description",
+  /**
+   * Station Defined
+   */
+  "system.station.name": "Station Name",
+  "system.station.code": "Station Code",
+  "system.belonging.sequence": "Belonging Sequence",
+  "system.station.sort": "Station Sort",
+  "system.position.sequence": "Position Sequence",
+  /**
+   * User Fields
+   */
+  // "system.email.address": "Email Address",
+  // "system.contact.phone": "Contact Phone",
+  "system.sex": "Sex",
+  // "system.emergency.contact.phone": "Emergency Contact Phone",
+  // "system.user.group": "User Group",
+  "system.education": "Education",
+  "system.entry.time": "Entry Time",
+  "system.leave.time": "Leave Time",
+  "system.native.place": "Native Place",
+  "system.political.status": "Political Status",
+  "system.identity.type": "Identity Type",
+  "system.identity.number": "Identity Number",
+  "system.mailing.address": "Mailing Address",
+  "system.id.photo": "ID Photo",
+  "system.auditing.opinion": "Approval Comments",
+  /**
+   * Workflow Components
+   */
+  "workflow.dataLoading": "Data loading",
+  /**
+   * Workflow Application Details
+   */
+  "workflow.application.id": "Application ID",
+  "workflow.application.name": "Application Name",
+  "workflow.application.category": "Category",
+  "workflow.application.status": "Status",
+  "workflow.application.createdBy": "Created By",
+  "workflow.application.createdDate": "Created Date",
+  "workflow.application.description": "Description",
+  "workflow.application.noDescription": "No description provided",
+  /**
+   * Workflow Buttons
+   */
+  "workflow.btn.agree": "Approve",
+  "workflow.btn.reject": "Reject",
+  "workflow.btn.return": "Return",
+  "workflow.btn.returnToStart": "Return to Start",
+  "workflow.btn.returnToHistory": "Return to History Task",
+  "workflow.btn.revoke": "Revoke",
+  "workflow.btn.transfer": "Transfer",
+  "workflow.btn.addSign": "Add Sign",
+  "workflow.btn.reduceSign": "Reduce Sign",
+  "workflow.btn.save": "Save",
+  "workflow.btn.terminate": "Terminate",
+  "workflow.btn.countersign": "Countersign",
+  "workflow.btn.agreeCountersign": "Approve (Countersign)",
+  "workflow.btn.rejectCountersign": "Reject (Countersign)",
+  "workflow.btn.abstainCountersign": "Abstain (Countersign)",
+  "workflow.btn.assignApprover": "Assign Approver",
+  "workflow.btn.assignJump": "Assign Jump",
+
+  /**
+   * Workflow Actions
+   */
+  "workflow.action.title": "Workflow Action",
+  "workflow.action.rejectReason": "Reject Reason",
+  "workflow.action.rejectReason.placeholder": "Please enter reject reason",
+  "workflow.action.rejectReason.required": "Reject reason is required",
+  "workflow.action.returnReason": "Return Reason",
+  "workflow.action.returnReason.placeholder": "Please enter return reason",
+  "workflow.action.returnReason.required": "Return reason is required",
+  "workflow.action.addSignUsers": "Add Sign Users",
+  "workflow.action.addSignUsers.placeholder": "Please select users to add",
+  "workflow.action.addSignUsers.required": "Please select users to add",
+  "workflow.action.reduceSignUsers": "Reduce Sign Users",
+  "workflow.action.reduceSignUsers.placeholder":
+    "Please select users to reduce",
+  "workflow.action.reduceSignUsers.required": "Please select users to reduce",
+  "workflow.action.transferTo": "Transfer To",
+  "workflow.action.transferTo.placeholder": "Please select user to transfer to",
+  "workflow.action.transferTo.required": "Please select user to transfer to",
+  "workflow.action.assignApprover": "Assign Approver",
+  "workflow.action.assignApprover.placeholder": "Please select approver",
+  "workflow.action.assignApprover.required": "Please select approver",
+  "workflow.action.comments": "Comments",
+  "workflow.action.comments.placeholder": "Please enter comments",
+  "workflow.action.comments.required": "Comments are required",
+
+  /**
+   * Index Component
+   */
+  "index.hello": "Hello",
+  "index.speechInitComplete": "Speech initialization complete",
+  /**
+   * Icon Labels
+   */
+  "icon.add": "Add",
+  "icon.alert": "Alert",
+  "icon.home": "Home",
+  "icon.redo": "Redo",
+  "icon.refresh": "Refresh",
+  "icon.richEditor": "Rich Editor",
+  "icon.run": "Run",
+  "icon.runIn": "Run In",
+  "icon.runUp": "Run Up",
+  "icon.runing": "Running",
+  "icon.save": "Save",
+  "icon.search": "Search",
+  "icon.select": "Select",
+  "icon.setUp": "Set Up",
+  "icon.setting": "Setting",
+  "icon.slider": "Slider",
+  "icon.slotComponent": "Slot",
+  "icon.slotField": "Slot",
+  "icon.staticText": "Static Text",
+  "icon.subForm": "Sub Form",
+  "icon.systemManage": "System Manage",
+  "icon.table": "Table",
+  /**
+   * Deploy Script
+   */
+  "deploy.deploying": "Deploying to server...",
+  "deploy.success": "{host} deployment completed!",
+  "deploy.failure": "{host} deployment failed: {err}",
+  /**
+   * Left Menu Component
+   */
+  "leftMenu.searchPlaceholder": "Please enter keywords",
+  /**
+   * Help Component
+   */
+  "help.defaultMessage": "Help",
+  /**
+   * Tags related internationalization
+   */
+  "tags.moveToLeft": "Move Left",
+  "tags.moveToRight": "Move Right",
+  "tags.refreshMenu": "Refresh Menu",
+  "tags.refreshPage": "Refresh Page",
+  "tags.closePage": "Close Page",
+  "tags.closeLeftPages": "Close Left Pages",
+  "tags.closeRightPages": "Close Right Pages",
+  "tags.closeOthers": "Close Others",
+  "tags.closeAll": "Close All",
+  "locale.german": "Deutsch",
+  "locale.japanese": "日本語",
+  "locale.traditionalChinese": "繁體中文",
 };

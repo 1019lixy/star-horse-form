@@ -618,8 +618,9 @@
   border-radius: 3px;
   box-sizing: border-box;
   font-family:
-    "Helvetica Neue", "Luxi Sans", "DejaVu Sans", "Hiragino Sans GB", "Microsoft Yahei", sans-serif,
-    "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", "Segoe UI Symbol", "Android Emoji", "EmojiSymbols";
+    "Helvetica Neue", "Luxi Sans", "DejaVu Sans", "Hiragino Sans GB",
+    "Microsoft Yahei", sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
+    "Noto Color Emoji", "Segoe UI Symbol", "Android Emoji", "EmojiSymbols";
 }
 
 .vditor--fullscreen {
@@ -966,8 +967,9 @@
   color: #24292e;
   font-variant-ligatures: no-common-ligatures;
   font-family:
-    "Helvetica Neue", "Luxi Sans", "DejaVu Sans", "Hiragino Sans GB", "Microsoft Yahei", sans-serif,
-    "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", "Segoe UI Symbol", "Android Emoji", "EmojiSymbols";
+    "Helvetica Neue", "Luxi Sans", "DejaVu Sans", "Hiragino Sans GB",
+    "Microsoft Yahei", sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
+    "Noto Color Emoji", "Segoe UI Symbol", "Android Emoji", "EmojiSymbols";
   word-wrap: break-word;
   overflow: auto;
   line-height: 1.5;
@@ -1170,8 +1172,9 @@
   font-size: 85%;
   border-radius: 3px;
   font-family:
-    mononoki, Consolas, "Liberation Mono", Menlo, Courier, monospace, "Apple Color Emoji", "Segoe UI Emoji",
-    "Noto Color Emoji", "Segoe UI Symbol", "Android Emoji", "EmojiSymbols";
+    mononoki, Consolas, "Liberation Mono", Menlo, Courier, monospace,
+    "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji",
+    "Segoe UI Symbol", "Android Emoji", "EmojiSymbols";
   word-break: break-word;
   background-size: 20px 20px;
   white-space: pre-wrap;
@@ -1190,8 +1193,9 @@
   overflow: auto;
   white-space: pre;
   font-family:
-    mononoki, Consolas, "Liberation Mono", Menlo, Courier, monospace, "Apple Color Emoji", "Segoe UI Emoji",
-    "Noto Color Emoji", "Segoe UI Symbol", "Android Emoji", "EmojiSymbols";
+    mononoki, Consolas, "Liberation Mono", Menlo, Courier, monospace,
+    "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji",
+    "Segoe UI Symbol", "Android Emoji", "EmojiSymbols";
   background-size: 20px 20px;
   background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADwAAAA8AgMAAABHkjHhAAAACVBMVEWAgIBaWlo+Pj7rTFvWAAAAA3RSTlMHCAw+VhR4AAAA+klEQVQoz4WSMW7EQAhFPxKWNh2FCx+HkaZI6RRb5DYbyVfIJXLKDCFoMbaTKSw/8ZnPAPjaH2xgZcUNUDADD7D9LtDBCLZ45fbkvo/30K8yeI64pPwl6znd/3n/Oe93P3ho9qeh72btTFzqkz0rsJle8Zr81OLEwZ1dv/713uWqvu2pl+k0fy7MWtj9r/tN5q/02z89qa/L4Dc2LvM93kezPfXlME/O86EbY/V9GB9ePX8G1/6W+/9h1dq/HGfTfzT3j/xNo7522Bfnqe5jO/fvhVthlfk434v3iO9zG/UOphyPeinPl1J8Gtaa7xPTa/Dk+RIs4deMvwGvcGsmsCvJ0AAAAABJRU5ErkJggg==);
   word-break: initial;
@@ -1721,7 +1725,8 @@
   content: "</>";
 }
 
-.vditor-wysiwyg div.vditor-wysiwyg__block[data-type="yaml-front-matter"]:before {
+.vditor-wysiwyg
+  div.vditor-wysiwyg__block[data-type="yaml-front-matter"]:before {
   content: "F";
 }
 
@@ -2022,13 +2027,34 @@
   content: "^F";
 }
 
-.vditor-ir div[data-type="footnotes-block"] > div[data-type="footnotes-def"] > ul,
-.vditor-ir div[data-type="footnotes-block"] > div[data-type="footnotes-def"] > ol,
-.vditor-ir div[data-type="footnotes-block"] > div[data-type="footnotes-def"] > p,
-.vditor-ir div[data-type="footnotes-block"] > div[data-type="footnotes-def"] > blockquote,
-.vditor-ir div[data-type="footnotes-block"] > div[data-type="footnotes-def"] > pre,
-.vditor-ir div[data-type="footnotes-block"] > div[data-type="footnotes-def"] > table,
-.vditor-ir div[data-type="footnotes-block"] > div[data-type="footnotes-def"] > hr {
+.vditor-ir
+  div[data-type="footnotes-block"]
+  > div[data-type="footnotes-def"]
+  > ul,
+.vditor-ir
+  div[data-type="footnotes-block"]
+  > div[data-type="footnotes-def"]
+  > ol,
+.vditor-ir
+  div[data-type="footnotes-block"]
+  > div[data-type="footnotes-def"]
+  > p,
+.vditor-ir
+  div[data-type="footnotes-block"]
+  > div[data-type="footnotes-def"]
+  > blockquote,
+.vditor-ir
+  div[data-type="footnotes-block"]
+  > div[data-type="footnotes-def"]
+  > pre,
+.vditor-ir
+  div[data-type="footnotes-block"]
+  > div[data-type="footnotes-def"]
+  > table,
+.vditor-ir
+  div[data-type="footnotes-block"]
+  > div[data-type="footnotes-def"]
+  > hr {
   margin-left: 8px;
 }
 
@@ -2057,8 +2083,9 @@
 
 .vditor-sv {
   font-family:
-    "Helvetica Neue", "Luxi Sans", "DejaVu Sans", "Hiragino Sans GB", "Microsoft Yahei", sans-serif,
-    "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", "Segoe UI Symbol", "Android Emoji", "EmojiSymbols";
+    "Helvetica Neue", "Luxi Sans", "DejaVu Sans", "Hiragino Sans GB",
+    "Microsoft Yahei", sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
+    "Noto Color Emoji", "Segoe UI Symbol", "Android Emoji", "EmojiSymbols";
   margin: 0 1px 0 0;
   overflow: auto;
   width: 100%;

@@ -1,13 +1,23 @@
 <script setup lang="ts">
-import {computed, onMounted, ref, watch} from "vue";
-import {initDbList, openDatabase, tableColumns} from "@/views/dbsearch/utils/DbSearchUtils.ts";
-import {piniaInstance} from "star-horse-lowcode";
-import {useGlobalConfigStore, useConsumerViewStore, SelectOption} from "star-horse-lowcode";
-import {Config} from "@/api/settings.ts";
+import { computed, onMounted, ref, watch } from "vue";
+import {
+  initDbList,
+  openDatabase,
+  tableColumns,
+} from "@/views/dbsearch/utils/DbSearchUtils";
+import {
+  piniaInstance,
+  SelectOption,
+  useConsumerViewStore,
+  useGlobalConfigStore,
+} from "star-horse-lowcode";
+import { Config } from "@/api/settings";
 
 let configStore = useGlobalConfigStore(piniaInstance);
 const consumerView = useConsumerViewStore(piniaInstance);
-let compSize = computed(() => configStore.configFormInfo?.buttonSize || Config.compSize);
+let compSize = computed(
+  () => configStore.configFormInfo?.buttonSize || Config.compSize,
+);
 let dataForm = ref<any>({});
 const filterTableName = ref<string>("");
 const tbTab = ref<string>("tb1");
@@ -39,7 +49,7 @@ const contextOperation = async (evt: Event, data: any, index: number) => {
   await tableField(data.tableName);
   currentDataVisible.value = true;
   selectFieldsOperation(data.fields);
-  dataForm.value = {...data};
+  dataForm.value = { ...data };
   containerTypeOperation(dataForm.value);
 };
 const tableOperClose = () => {
@@ -62,12 +72,14 @@ const selectFieldsOperation = (datas: any) => {
   datas?.forEach((item: any) => {
     selectFields.value.push({
       name: item.fieldName + "(" + item.comment + ")",
-      value: item.fieldName
+      value: item.fieldName,
     });
   });
 };
 const tableField = async (tableName: string) => {
-  let fdata = tableAndColumnsList.value.find((item: any) => item.tableName == tableName);
+  let fdata = tableAndColumnsList.value.find(
+    (item: any) => item.tableName == tableName,
+  );
   if (fdata?.fields?.length > 0) {
     //如果已经有值，则不再请求后端
     consumerView.addTableInfo(tableName, fdata.fields);
@@ -84,7 +96,7 @@ const filterData = () => {
     return;
   }
   assignDataList.value = tableAndColumnsList.value.filter((item: any) =>
-      item.tableName.toLowerCase().match(filterTableName.value.toLowerCase())
+    item.tableName.toLowerCase().match(filterTableName.value.toLowerCase()),
   );
 };
 const init = async () => {
@@ -110,7 +122,7 @@ const dratStart = (item: any, evt: DragEvent) => {
       name: temp.fieldName,
       type: temp.type,
       comment: temp.comment,
-      primaryFlag: temp.primaryKey
+      primaryFlag: temp.primaryKey,
     });
   }
   item["items"] = items;
@@ -120,17 +132,17 @@ const dratStart = (item: any, evt: DragEvent) => {
 let dbIndex = ref<string>("");
 let dbConfigId = computed(() => consumerView.dbConfigId);
 watch(
-    () => dbConfigId.value,
-    (val: string) => {
-      if (val != dbIndex.value) {
-        dbIndex.value = val;
-        openDb();
-      }
-    },
-    {
-      immediate: true,
-      deep: true
+  () => dbConfigId.value,
+  (val: string) => {
+    if (val != dbIndex.value) {
+      dbIndex.value = val;
+      openDb();
     }
+  },
+  {
+    immediate: true,
+    deep: true,
+  },
 );
 const configMsg = `操作指引：
 1、此处配置主要是对字段展示方式,排除字段和组件类型做配置；
@@ -142,48 +154,72 @@ onMounted(() => {
 });
 </script>
 <template>
-  <el-row>
-    <el-col :span="24">
-      <el-select
-          :size="compSize"
-          @change="openDb"
-          clearable
-          filterable
-          id="dbInfo"
-          placeholder="请选择数据库信息"
-          v-model="dbIndex"
-      >
-        <el-option :key="sitem.value" :label="sitem.name" :value="sitem.value" v-for="sitem in dbList"></el-option>
-      </el-select>
-    </el-col>
-  </el-row>
-  <div style="margin-top: 5px"></div>
-  <el-input :size="compSize" placeholder="请输入关键字" v-model="filterTableName" @keydown.enter="filterData">
-    <template #append>
-      <star-horse-icon @click="filterData" icon-class="search" color="var(--star-horse-style)"/>
-    </template>
-  </el-input>
-  <el-scrollbar height="90%">
-    <ul class="ghost">
-      <template v-for="(data, idx) in assignDataList">
-        <li
-            draggable="true"
-            @dragstart="async (evt) => await dratStart(data, evt)"
-            :style="{
-            border: currentData.tableName == data.tableName ? '2px dashed var(--star-horse-style)' : 'none',
-            'align-items': 'center',
-            cursor: 'move'
-          }"
-            @click="(evt) => contextOperation(evt, data, idx)"
-        >
-          <star-horse-icon icon-class="table" style="height: 18px"/>
-          <el-tooltip :content="data.comment">
-            {{ data.tableName }}
-          </el-tooltip>
-        </li>
+  <div
+    class="flex flex-col items-start h-full overflow-hidden"
+    style="margin: 1px auto; width: 95%"
+  >
+    <el-select
+      :size="compSize"
+      @change="openDb"
+      clearable
+      filterable
+      id="dbInfo"
+      placeholder="请选择数据库信息"
+      v-model="dbIndex"
+    >
+      <el-option
+        :key="sitem.value"
+        :label="sitem.name"
+        :value="sitem.value"
+        v-for="sitem in dbList"
+      ></el-option>
+    </el-select>
+    <div style="margin-top: 5px"></div>
+    <el-input
+      :size="compSize"
+      placeholder="请输入关键字"
+      v-model="filterTableName"
+      @keydown.enter="filterData"
+    >
+      <template #append>
+        <star-horse-icon
+          @click="filterData"
+          icon-class="search"
+          color="var(--star-horse-style)"
+        />
       </template>
-    </ul>
-  </el-scrollbar>
+    </el-input>
+    <div class="flex-1 w-full overflow-hidden">
+      <el-scrollbar>
+        <ul class="db_table_list">
+          <template v-for="(data, idx) in assignDataList">
+            <li
+              draggable="true"
+              @dragstart="async (evt) => await dratStart(data, evt)"
+              class="flex items-center cursor-move h-[30px]"
+              :style="{
+                border:
+                  currentData.tableName == data.tableName
+                    ? '2px dashed var(--star-horse-style)'
+                    : 'none',
+              }"
+              @click="(evt) => contextOperation(evt, data, idx)"
+            >
+              <star-horse-icon
+                icon-class="table"
+                size="16px"
+                height="16px"
+                width="16px"
+              />
+              <el-tooltip :content="data.comment">
+                {{ data.tableName }}
+              </el-tooltip>
+            </li>
+          </template>
+        </ul>
+      </el-scrollbar>
+    </div>
+  </div>
 </template>
 <style scoped lang="scss">
 :deep(.el-popover) {
@@ -195,46 +231,6 @@ onMounted(() => {
   background: var(--star-horse-style);
   height: 30px;
   justify-content: end;
-}
-
-ul {
-  margin: 5px;
-  display: flex;
-  flex-direction: column;
-
-  li {
-    height: 25px;
-    border-radius: 2px;
-    cursor: pointer;
-    margin: 1px;
-    display: flex;
-
-    :deep(.el-tooltip__trigger) {
-      display: inline-flex;
-      align-items: center;
-      margin-top: 0;
-      overflow: hidden;
-      vertical-align: middle;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-      text-align: left;
-      height: inherit;
-      flex: 1;
-    }
-
-    .svg-icon {
-      width: 18px;
-      height: 18px;
-    }
-  }
-
-  li:nth-child(even) {
-    background: #e5e5e5;
-  }
-
-  li:nth-child(odd) {
-    background: #f1f2f3;
-  }
 }
 
 .field-table {

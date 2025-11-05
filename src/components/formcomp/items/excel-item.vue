@@ -1,59 +1,59 @@
 <template>
   <starhorse-form-item
-      :isDesign="context.attrs['isDesign']"
-      :bareFlag="context.attrs['bareFlag']"
-      :formItem="field"
-      :parentField="parentField"
+    :isDesign="isDesign"
+    :disabled="disabled"
+    :bareFlag="bareFlag"
+    :formItem="field"
+    :parentField="parentField"
   >
-    <div ref="container" style="height: 600px;width: 100%;position: relative"></div>
+    <div
+      ref="container"
+      style="height: 600px; width: 100%; position: relative"
+    ></div>
   </starhorse-form-item>
 </template>
 
-<script lang="ts">
-import {onMounted, onBeforeUnmount, ref, toRaw, defineComponent, shallowRef, nextTick} from 'vue'
-import {createUniver, defaultTheme, LocaleType, merge, Univer} from '@univerjs/presets';
-import {UniverSheetsCorePreset} from '@univerjs/presets/preset-sheets-core';
-import UniverPresetSheetsCoreZhCN from '@univerjs/presets/preset-sheets-core/locales/zh-CN';
-import '@univerjs/presets/lib/styles/preset-sheets-core.css';
+<script setup lang="ts">
+import { onBeforeUnmount, onMounted, ref } from "vue";
+import { UniverSheetsCorePreset } from "@univerjs/preset-sheets-core";
+import sheetsCoreZhCN from "@univerjs/preset-sheets-core/locales/zh-CN";
+import { createUniver, LocaleType, mergeLocales } from "@univerjs/presets";
+import "@univerjs/preset-sheets-core/lib/index.css";
+import { ItemPreps } from "star-horse-lowcode";
+const props = withDefaults(defineProps<ItemPreps>(), {
+  isDesign: false,
+  disabled: false,
+  showFormItem: false,
+  bareFlag: false,
+  isSearch: false,
+});
+const emits = defineEmits(["selfFunc", "selectItem"]);
+const formData = defineModel("formData");
+const itemAction = () => {
+  emits("selfFunc", formData);
+};
+const container = ref<HTMLElement | null>(null);
+const univerAPIRef = ref<any>(null);
 
-export default defineComponent({
-  setup(_props, context) {
-    const parentField = context.attrs["parentField"];
-    const field = context.attrs["field"] as any;
-    let formItem = shallowRef({label: "input", required: false});
-    let dataField = shallowRef("");
-    const container = ref<HTMLElement | null>(null);
-    const univerAPIRef = ref<Univer | null>(null);
+onMounted(() => {
+  const { univerAPI } = createUniver({
+    locale: LocaleType.ZH_CN,
+    locales: {
+      [LocaleType.ZH_CN]: mergeLocales(sheetsCoreZhCN),
+    },
+    presets: [
+      UniverSheetsCorePreset({
+        container: container.value,
+      }),
+    ],
+  });
 
-    onMounted(() => {
-      const {univerAPI} = createUniver({
-        locale: LocaleType.ZH_CN,
-        locales: {
-          [LocaleType.ZH_CN]: merge(
-              {},
-              UniverPresetSheetsCoreZhCN,
-          ),
-        },
-        theme: defaultTheme,
-        presets: [
-          UniverSheetsCorePreset({
-            container: container.value,
-          }),
-        ],
-      });
+  univerAPI.createWorkbook({ name: "Test Sheet" });
+  univerAPIRef.value = univerAPI;
+});
 
-       univerAPI.createWorkbook({name: 'Test Sheet'});
-
-      univerAPIRef.value = univerAPI;
-
-
-    });
-
-    onBeforeUnmount(() => {
-      toRaw(container.value)?.dispose();
-      univerAPIRef.value = null;
-    });
-    return {parentField, context, field, formItem, dataField, container};
-  }
-})
+onBeforeUnmount(() => {
+  container.value?.dispose();
+  univerAPIRef.value = null;
+});
 </script>

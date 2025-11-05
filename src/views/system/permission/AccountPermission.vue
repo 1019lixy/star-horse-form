@@ -1,0 +1,301 @@
+<script setup lang="ts">
+import {
+  apiInstance,
+  ApiUrls,
+  createCondition,
+  dialogPreps,
+  dictData,
+  PageFieldInfo,
+  piniaInstance,
+  PreValid,
+  SearchFields,
+  SearchParams,
+  SelectOption,
+  useGlobalConfigStore,
+  warning,
+} from "star-horse-lowcode";
+import { loadRolesInfo } from "@/api/star_horse_utils";
+import { computed, onMounted, provide, reactive, ref } from "vue";
+import { TreeNodeData } from "element-plus/es/components/tree-v2/src/types";
+import { Config } from "@/api/settings";
+import { i18n } from "@/lang";
+
+let rolesList = ref<SelectOption[]>([]);
+let accountPermissionStatus = ref<SelectOption[]>([]);
+let accountPermission = ref();
+let accountPermissionFormRef = ref();
+let configStore = useGlobalConfigStore(piniaInstance);
+let compSize = computed(
+  () => configStore.configFormInfo?.inputSize || Config.compSize,
+);
+const dataUrl: ApiUrls = apiInstance("system-config", "system/rolesPkUsers");
+let currentUserGroupId = ref<number>(0);
+let defaultCondition = ref<SearchParams[]>([]);
+const checkChange = (data: TreeNodeData, checked: boolean) => {
+  let queryCond = [];
+  currentUserGroupId.value = data.value;
+  queryCond.push(createCondition("a.idRolesinfo", data.value));
+  defaultCondition.value = queryCond;
+  accountPermission.value.createSearchParams(queryCond);
+};
+const searchFields = reactive<SearchFields>({
+  fieldList: [
+    {
+      label: i18n("system.account"),
+      fieldName: "c.username",
+      defaultVisible: true,
+
+      matchType: "lk",
+    },
+    {
+      label: i18n("system.name"),
+      fieldName: "c.name",
+      defaultVisible: true,
+
+      matchType: "lk",
+    },
+    {
+      label: i18n("system.status"),
+      fieldName: "a.statusCode",
+      type: "select",
+      defaultVisible: true,
+      preps: {
+        values: accountPermissionStatus,
+      },
+    },
+  ],
+});
+const formFieldList = reactive<PageFieldInfo>({
+  fieldList: [
+    {
+      label: i18n("system.group.name"),
+      fieldName: "idRolesinfo",
+      type: "select",
+      formVisible: true,
+      required: true,
+      disabled: true,
+      preps: {
+        values: rolesList,
+      },
+    },
+    {
+      label: i18n("system.account.info"),
+      fieldName: "userNameList",
+      aliasName: "userList",
+      type: "page-select",
+      preps: {
+        primaryKey: "idUsersinfo",
+        multiple: true,
+        dataUrl: {
+          pageListUrl: "/system-config/system/usersinfo/pageList",
+        },
+        needField: [
+          { sourceField: "username", distField: "userNameList" },
+          { sourceField: "idUsersinfo", distField: "userList" },
+        ],
+        fieldList: [
+          {
+            label: i18n("system.username"),
+            fieldName: "username",
+
+            listVisible: true,
+          },
+          {
+            label: i18n("system.name"),
+            fieldName: "name",
+
+            listVisible: true,
+          },
+          {
+            label: i18n("system.contact.phone"),
+            fieldName: "phone",
+
+            listVisible: true,
+          },
+          {
+            label: i18n("system.email"),
+            fieldName: "email",
+
+            listVisible: true,
+          },
+        ],
+      },
+      formVisible: true,
+      required: true,
+      viewVisible: false,
+    },
+    {
+      label: i18n("system.status"),
+      fieldName: "statusCode",
+      type: "select",
+      listVisible: true,
+      formVisible: true,
+      preps: {
+        values: accountPermissionStatus,
+      },
+    },
+  ],
+});
+const tableFieldList = reactive<PageFieldInfo>({
+  fieldList: [
+    {
+      label: i18n("system.group.name"),
+      fieldName: "roleName",
+
+      listVisible: true,
+    },
+    {
+      label: i18n("system.group.code"),
+      fieldName: "roleCode",
+
+      listVisible: true,
+    },
+    {
+      label: i18n("system.username"),
+      fieldName: "username",
+
+      listVisible: true,
+    },
+    {
+      label: i18n("system.name"),
+      fieldName: "name",
+
+      listVisible: true,
+    },
+    {
+      label: i18n("system.contact.phone"),
+      fieldName: "phone",
+
+      listVisible: true,
+    },
+    {
+      label: i18n("system.email.address"),
+      fieldName: "email",
+
+      listVisible: true,
+    },
+    {
+      label: i18n("system.status"),
+      fieldName: "statusCode",
+      type: "select",
+      listVisible: true,
+      formVisible: true,
+      preps: {
+        values: accountPermissionStatus,
+      },
+    },
+  ],
+  orderBy: [
+    {
+      fieldName: "a.idRolesinfo",
+      ascOrDesc: "asc",
+    },
+    {
+      fieldName: "a.idUsersinfo",
+      ascOrDesc: "asc",
+    },
+  ],
+});
+const primaryKey = ["idUsersinfo", "idRolesinfo"];
+const dialogProps = dialogPreps();
+provide("dialogProps", dialogProps);
+
+let preValid = ref<Array<PreValid>>([
+  {
+    authority: "add",
+    valid: () => {
+      if (!currentUserGroupId.value) {
+        warning(i18n("system.please.select.group"));
+        return false;
+      }
+      return true;
+    },
+  },
+]);
+const dataFormat = (name: string, cellValue: object): any => {
+  if (name == "statusCode") {
+    return (
+      accountPermissionStatus.value.find((item: any) => item.value == cellValue)
+        ?.name || cellValue
+    );
+  }
+  return cellValue;
+};
+const initData = async () => {
+  rolesList.value = await loadRolesInfo([]);
+  accountPermissionStatus.value = await dictData("account_permission_status");
+};
+onMounted(async () => {
+  await initData();
+});
+</script>
+
+<template>
+  <div class="flex flex-col h-full overflow-hidden">
+    <star-horse-dialog
+      :isShowBtnContinue="true"
+      :dialogVisible="dialogProps.editVisible"
+      :dialogProps="dialogProps"
+    >
+      <star-horse-form
+        ref="accountPermissionFormRef"
+        :outerFormData="{
+          idRolesinfo: currentUserGroupId,
+        }"
+        @refresh="accountPermission.loadByPage()"
+        :compUrl="dataUrl"
+        :fieldList="formFieldList"
+      />
+    </star-horse-dialog>
+    <star-horse-dialog
+      :dialog-visible="dialogProps.viewVisible"
+      :dialogProps="dialogProps"
+      :source="3"
+    >
+      <star-horse-data-view
+        :data-format="dataFormat"
+        :field-list="tableFieldList"
+        :compUrl="dataUrl"
+      />
+    </star-horse-dialog>
+    <el-card class="inner_content">
+      <el-splitter>
+        <el-splitter-panel collapsible size="240" min="100" max="500">
+          <star-horse-tree
+            v-model:tree-datas="rolesList"
+            :treeTitle="i18n('system.user.group')"
+            @selectData="checkChange"
+            :compSize="compSize"
+          />
+        </el-splitter-panel>
+        <el-splitter-panel>
+          <el-card class="inner_content">
+            <div class="search-content">
+              <div class="search_btn">
+                <star-horse-search-comp
+                  @searchData="
+                    (data: any) => accountPermission.createSearchParams(data)
+                  "
+                  :formData="searchFields"
+                  :defaultCondition="defaultCondition"
+                  :compUrl="dataUrl"
+                />
+              </div>
+            </div>
+            <star-horse-table-comp
+              ref="accountPermission"
+              :fieldList="tableFieldList"
+              :primaryKey="primaryKey"
+              :compUrl="dataUrl"
+              :preValidFunc="preValid"
+              :orderBy="tableFieldList.orderBy"
+              :dataFormat="dataFormat"
+            />
+          </el-card>
+        </el-splitter-panel>
+      </el-splitter>
+    </el-card>
+  </div>
+</template>
+
+<style scoped lang="scss"></style>

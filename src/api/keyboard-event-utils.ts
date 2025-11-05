@@ -1,6 +1,6 @@
 import { ref } from "vue";
 import { ShortKey } from "star-horse-lowcode";
-import { ModuleEnums } from "@/components/enums/ModuleEnums.ts";
+import { ModuleEnums } from "@/components/enums/ModuleEnums";
 import {
   altDownFun,
   altLeftFun,
@@ -35,8 +35,8 @@ import {
   tabFun,
   undoFun,
   unGroupFun,
-  upFun
-} from "@/api/short-key-operation.ts";
+  upFun,
+} from "@/api/short-key-operation";
 
 const ctrlKey = ref<boolean>(false);
 const altKey = ref<boolean>(false);
@@ -60,225 +60,228 @@ const shortKeyList = (model: ModuleEnums) => {
     {
       key: "Enter",
       action: "enter",
-      handler: () => enterFun(model)
+      handler: () => enterFun(model),
     },
     {
       key: "Escape",
       action: "escape",
-      handler: () => escapeFun(model)
+      handler: () => escapeFun(model),
     },
     {
       key: "Tab",
       action: "tab",
-      handler: () => tabFun(model)
+      handler: () => tabFun(model),
     },
     {
       key: "Backspace",
       action: "backspace",
-      handler: () => backspaceFun(model)
+      handler: () => backspaceFun(model),
     },
     {
       key: "Delete",
       action: "delete",
-      handler: () => deleteFun(model)
+      handler: () => deleteFun(model),
     },
 
     {
       key: "1",
       alt: true,
-      action: "leftPanel"
+      action: "leftPanel",
     },
     {
       key: "2",
       alt: true,
-      action: "rightPanel"
+      action: "rightPanel",
     },
     {
       key: "z",
       action: "undo",
       ctrl: true,
-      handler: () => undoFun(model)
+      handler: () => undoFun(model),
     },
     {
       key: "y",
       action: "redo",
       ctrl: true,
-      handler: () => redoFun(model)
+      handler: () => redoFun(model),
     },
     {
       key: "c",
       action: "copy",
       ctrl: true,
-      handler: () => copyFun(model)
+      alt: true,
+      handler: () => copyFun(model),
     },
     {
       key: "x",
       action: "cut",
       ctrl: true,
-      handler: () => cutFun(model)
+      alt: true,
+      handler: () => cutFun(model),
     },
     {
       key: "v",
       action: "paste",
       ctrl: true,
-      handler: () => pasteFun(model)
+      alt: true,
+      handler: () => pasteFun(model),
     },
     {
       key: "v",
       action: "valid",
-      alt: true
+      alt: true,
     },
     {
       key: "n",
       action: "new",
       ctrl: true,
       alt: true,
-      handler: () => newFun(model)
+      handler: () => newFun(model),
     },
     {
       key: "s",
       action: "save",
       ctrl: true,
       alt: true,
-      handler: () => saveFun(model)
+      handler: () => saveFun(model),
     },
     {
       key: "o",
       action: "open",
       ctrl: true,
-      handler: () => openFun(model)
+      handler: () => openFun(model),
     },
     {
       key: "d",
       action: "delete",
       ctrl: true,
-      handler: () => deleteFun(model)
+      handler: () => deleteFun(model),
     },
     {
       key: "a",
       action: "selectAll",
       ctrl: true,
-      handler: () => selectAllFun(model)
+      handler: () => selectAllFun(model),
     },
     {
       key: "d",
       action: "deleteAll",
       ctrl: true,
       alt: true,
-      handler: () => deleteAllFun(model)
+      handler: () => deleteAllFun(model),
     },
     {
       key: "f",
       action: "find",
       ctrl: true,
-      handler: () => findFun(model)
+      handler: () => findFun(model),
     },
     {
       key: "m",
       action: "exchange",
       ctrl: true,
       alt: true,
-      handler: () => exchangeFun(model)
+      handler: () => exchangeFun(model),
     },
     {
       key: "g",
       action: "group",
       ctrl: true,
-      handler: () => groupFun(model)
+      handler: () => groupFun(model),
     },
     {
       key: "g",
       action: "unGroup",
       ctrl: true,
       alt: true,
-      handler: () => unGroupFun(model)
+      handler: () => unGroupFun(model),
     },
     {
       key: "p",
       action: "print",
       ctrl: true,
-      handler: () => printFun(model)
+      handler: () => printFun(model),
     },
     {
       key: "p",
       action: "preview",
       alt: true,
-      handler: () => previewFun(model)
+      handler: () => previewFun(model),
     },
     {
       key: "r",
       action: "goBack",
       ctrl: true,
-      handler: () => returnFun(model)
+      handler: () => returnFun(model),
     },
     {
       key: "ArrowUp",
       action: "up",
-      handler: () => upFun(model)
+      handler: () => upFun(model),
     },
     {
       key: "ArrowDown",
       action: "down",
-      handler: () => downFun(model)
+      handler: () => downFun(model),
     },
     {
       key: "ArrowLeft",
       action: "left",
-      handler: () => leftFun(model)
+      handler: () => leftFun(model),
     },
     {
       key: "ArrowRight",
       action: "right",
-      handler: () => rightFun(model)
+      handler: () => rightFun(model),
     },
     {
       key: "ArrowUp",
       action: "altUp",
       alt: true,
-      handler: () => altUpFun(model)
+      handler: () => altUpFun(model),
     },
     {
       key: "ArrowDown",
       action: "altDown",
       alt: true,
-      handler: () => altDownFun(model)
+      handler: () => altDownFun(model),
     },
     {
       key: "ArrowLeft",
       action: "altLeft",
       alt: true,
-      handler: () => altLeftFun(model)
+      handler: () => altLeftFun(model),
     },
     {
       key: "ArrowRight",
       action: "altRight",
       alt: true,
-      handler: () => altRightFun(model)
+      handler: () => altRightFun(model),
     },
     {
       key: "ArrowUp",
       action: "ctrlUp",
       ctrl: true,
-      handler: () => ctrlUpFun(model)
+      handler: () => ctrlUpFun(model),
     },
     {
       key: "ArrowDown",
       action: "ctrlDown",
       ctrl: true,
-      handler: () => ctrlDownFun(model)
+      handler: () => ctrlDownFun(model),
     },
     {
       key: "ArrowLeft",
       action: "ctrlLeft",
       ctrl: true,
-      handler: () => ctrlLeftFun(model)
+      handler: () => ctrlLeftFun(model),
     },
     {
       key: "ArrowRight",
       action: "ctrlRight",
       ctrl: true,
-      handler: () => ctrlRightFun(model)
-    }
+      handler: () => ctrlRightFun(model),
+    },
   ];
   return keyboardEventMap;
 };
@@ -289,7 +292,12 @@ const shortKeyList = (model: ModuleEnums) => {
  * @param actions 回调函数
  * @param params 参数
  */
-export const keyboardEvent = (evt: KeyboardEvent, actions: Function, module: ModuleEnums, ...params: any) => {
+export const keyboardEvent = (
+  evt: KeyboardEvent,
+  actions: Function,
+  module: ModuleEnums,
+  ...params: any
+) => {
   //ctrlKey
   if (evt.key == "Control") {
     ctrlKey.value = true;
@@ -304,21 +312,37 @@ export const keyboardEvent = (evt: KeyboardEvent, actions: Function, module: Mod
   }
   let keyInfo;
   if (ctrlKey.value && altKey.value && shiftKey.value) {
-    keyInfo = shortKeyList(module).find((item) => item.key == evt.key && item.ctrl && item.alt && item.shift);
+    keyInfo = shortKeyList(module).find(
+      (item) => item.key == evt.key && item.ctrl && item.alt && item.shift,
+    );
   } else if (ctrlKey.value && altKey.value) {
-    keyInfo = shortKeyList(module).find((item) => item.key == evt.key && item.ctrl && item.alt);
+    keyInfo = shortKeyList(module).find(
+      (item) => item.key == evt.key && item.ctrl && item.alt,
+    );
   } else if (ctrlKey.value && shiftKey.value) {
-    keyInfo = shortKeyList(module).find((item) => item.key == evt.key && item.ctrl && item.shift);
+    keyInfo = shortKeyList(module).find(
+      (item) => item.key == evt.key && item.ctrl && item.shift,
+    );
   } else if (altKey.value && shiftKey.value) {
-    keyInfo = shortKeyList(module).find((item) => item.key == evt.key && item.alt && item.shift);
+    keyInfo = shortKeyList(module).find(
+      (item) => item.key == evt.key && item.alt && item.shift,
+    );
   } else if (ctrlKey.value) {
-    keyInfo = shortKeyList(module).find((item) => item.key == evt.key && item.ctrl);
+    keyInfo = shortKeyList(module).find(
+      (item) => item.key == evt.key && item.ctrl && !item.alt && !item.shift,
+    );
   } else if (altKey.value) {
-    keyInfo = shortKeyList(module).find((item) => item.key == evt.key && item.alt);
+    keyInfo = shortKeyList(module).find(
+      (item) => item.key == evt.key && item.alt && !item.ctrl && !item.shift,
+    );
   } else if (shiftKey.value) {
-    keyInfo = shortKeyList(module).find((item) => item.key == evt.key && item.shift);
+    keyInfo = shortKeyList(module).find(
+      (item) => item.key == evt.key && item.shift && !item.ctrl && !item.alt,
+    );
   } else {
-    keyInfo = shortKeyList(module).find((item) => item.key == evt.key && !item.ctrl && !item.alt && !item.shift);
+    keyInfo = shortKeyList(module).find(
+      (item) => item.key == evt.key && !item.ctrl && !item.alt && !item.shift,
+    );
   }
   if (keyInfo) {
     //执行方法
@@ -332,15 +356,36 @@ const windowBlur = () => {
   ctrlKey.value = false;
 };
 //初始化键盘事件
-export const initKeyboardEvent = (actions: Function, module: ModuleEnums, ...params: any) => {
-  removeKeyboardEvent(actions, module, params);
-  window.addEventListener("keydown", (evt: KeyboardEvent) => keyboardEvent(evt, actions, module, params), true);
-  window.addEventListener("keyup", (evt: KeyboardEvent) => resetCtrlKey(evt), true);
+export const initKeyboardEvent = (
+  actions: Function,
+  module: ModuleEnums,
+  ...params: any
+): {
+  keydown: (evt: KeyboardEvent) => void;
+  keyup: (evt: KeyboardEvent) => void;
+} => {
+  // removeKeyboardEvent(actions, module, params);
+  // 将处理函数保存为变量，用于后续卸载
+  const keydownHandler = (evt: KeyboardEvent) =>
+    keyboardEvent(evt, actions, module, ...params);
+  const keyupHandler = (evt: KeyboardEvent) => resetCtrlKey(evt);
+
+  window.addEventListener("keydown", keydownHandler, true);
+  window.addEventListener("keyup", keyupHandler, true);
   window.addEventListener("blur", windowBlur, false);
+
+  // 返回包含处理函数的对象用于卸载
+  return {
+    keydown: keydownHandler,
+    keyup: keyupHandler,
+  };
 };
 //移除键盘事件
-export const removeKeyboardEvent = (actions: Function, module: ModuleEnums, ...params: any) => {
-  window.removeEventListener("keydown", (evt: KeyboardEvent) => keyboardEvent(evt, actions, module, params), true);
-  window.removeEventListener("keyup", (evt: KeyboardEvent) => resetCtrlKey(evt), true);
+export const removeKeyboardEvent = (handlers: {
+  keydown: (evt: KeyboardEvent) => void;
+  keyup: (evt: KeyboardEvent) => void;
+}) => {
+  window.removeEventListener("keydown", handlers.keydown, true);
+  window.removeEventListener("keyup", handlers.keyup, true);
   window.removeEventListener("blur", windowBlur, false);
 };

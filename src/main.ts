@@ -1,39 +1,38 @@
-import "element-plus/theme-chalk/index.css";
-import "star-horse-lowcode/dist/assets/index.css";
+// import 'element-plus/theme-chalk/index.css';
 import "@/assets/css/flow.scss";
+import "star-horse-lowcode/assets/index.css";
+import "@/assets/css/devops.scss";
+import "@/assets/css/table-enhancements.scss";
 import "tailwindcss/index.css";
-import itemsComponent from "@/components/formcomp/items/allitem.ts";
-import commonComponent from "@/components/common/index";
-import systemComponent from "@/components/system/SystemComp.ts";
+// import nodeComponent from "@/views/continuous/nodeInfo/nodecomp";
+import itemsComponent from "@/components/formcomp/items/allitem";
+import * as commonComponent from "@/components/common/index";
+import systemComponent from "@/components/system/SystemComp";
 import App from "@/App.vue";
-import {createApp} from "vue";
+import { createApp } from "vue";
 // 导入svg图标
-import "virtual:svg-icons-register";
-
 import "animate.css";
-import router from "@/router/index.ts";
+import router from "@/router/index";
 import draggable from "vuedraggable";
 import piniaCompInstance from "@/store";
-
-import ElementPlus from "element-plus";
-import ZhLocale from "element-plus/dist/locale/zh-cn.mjs"; // 中文
+import { axiosInstance } from "@/api/star_horse_apis";
 import "element-plus/dist/index.css";
 import * as ElementPlusIconsVue from "@element-plus/icons-vue";
+// import VueParticles from '@tsparticles/vue3';
+// import { loadSlim } from '@tsparticles/slim';
 import StarHorseLowCode from "star-horse-lowcode";
+import { getLang } from "@/theme/localStorge";
+import { LangType } from "@/theme/theme";
 
 const app = createApp(App);
-// window.app = app;
+export const appInstance = app;
 app.use(router);
-app.use(StarHorseLowCode, {
-    router,
-});
+const currentLang = getLang() || LangType.ZH_CN;
 app.use(piniaCompInstance);
-app.use(ElementPlus, {
-    locale: ZhLocale,
-});
 app.component("draggable", draggable);
 for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
-    app.component(key, component);
+  // @ts-ignore
+  app.component(key, component);
 }
 /**
  * 加载elementplus 自己提供的图标
@@ -41,9 +40,20 @@ for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
 app.use(commonComponent);
 app.use(systemComponent);
 app.use(itemsComponent);
+console.log("当前语言", currentLang);
+app.use(StarHorseLowCode, {
+  router,
+  axiosInstance,
+  lang: currentLang,
+});
 
+// app.use(VueParticles, {
+//   init: async (engine) => {
+//     await loadSlim(engine);
+//   },
+// });
 
-app.config.performance = true;
+app.config.performance = false;
 /**
  * 处理未捕获异常
  * @param err
@@ -51,9 +61,7 @@ app.config.performance = true;
  * @param info
  */
 app.config.errorHandler = (err, instance, info) => {
-    console.log(err);
-    console.log(instance);
-    console.log(info);
+  console.error("未捕获异常", err, instance, info);
 };
 /**
  * 处理警告
@@ -67,4 +75,5 @@ app.config.warnHandler = () => null;
 //     console.log(instance);
 //     console.log(trace);
 // }
+
 app.mount("#app");

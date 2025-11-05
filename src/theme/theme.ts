@@ -2,12 +2,12 @@ export enum ThemeType {
   Light = "light",
   Dark = "dark",
   DarkDimmed = "darkDimmed",
-  FollowOs = "followOs"
+  FollowOs = "followOs",
 }
 
 export enum EditorThemeType {
   DashboardLightTheme = "DashboardLightTheme",
-  DashboardBlackTheme = "DashboardBlackTheme"
+  DashboardBlackTheme = "DashboardBlackTheme",
 }
 
 export enum PrimaryColorType {
@@ -18,10 +18,13 @@ export enum PrimaryColorType {
   Red = "red",
   Orange = "orange",
   Blue2 = "blue2",
-  Gold = "gold"
+  Gold = "gold",
 }
 
 export enum LangType {
-  EN_US = "en_us",
-  ZH_CN = "zh_cn"
+  EN_US = "en_US",
+  ZH_CN = "zh_CN",
+  ZH_TW = "zh_TW",
+  JA_JP = "ja_JP",
+  DE_DE = "de_DE",
 }
