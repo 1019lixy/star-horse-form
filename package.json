@@ -2,9 +2,10 @@
   "name": "star-horse-form",
   "private": false,
   "author": "l_1019@163.com",
-  "version": "2.7",
+  "version": "0.0.1",
   "type": "module",
-  "description": "星马低代码平台",
+  "description": "星马动态表单组件",
+  "keywords": ["动态表单", "低代码平台","lowcode","dynamic-form"],
   "license": "MIT",
   "homepage": "https://gitee.com/lixingyu/knowledge_demo",
   "repository": {
