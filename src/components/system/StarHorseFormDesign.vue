@@ -302,15 +302,16 @@ const viewFieldLayer = () => {
   openDialog("formFieldLayer");
 };
 
-const contextMenu = async (evt: MouseEvent) => {
+const contextMenu =  (evt: MouseEvent) => {
   if (!isEdit.value) {
     console.log("当前处于预览状态，不能右键操作");
     return;
   }
   evt.preventDefault();
   evt.stopPropagation();
-  await nextTick();
-  contentMenuRef.value.show(evt);
+  nextTick(() => {
+    contentMenuRef.value?.show(evt);
+  });
 };
 
 /**
@@ -431,7 +432,7 @@ const setItemDatas = (items: CompType[]) => {
  */
 const addExtendItemDatas = (items: CompType[]) => {
   designForm.addSelfFormDataList(items);
-}
+};
 defineExpose({
   validatePreviewForm,
   exportPreviewToHtml,

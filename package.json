@@ -67,7 +67,7 @@
     "@univerjs/sheets-zen-editor": "0.10.14",
     "@vitejs/plugin-vue-jsx": "^5.1.1",
     "animate.css": "^4.1.1",
-    "axios": "^1.13.1",
+    "axios": "^1.13.2",
     "bpmn-js": "^18.8.0",
     "bpmn-js-bpmnlint": "^0.23.0",
     "bpmn-js-token-simulation": "^0.38.1",
