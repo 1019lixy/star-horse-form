@@ -1,6 +1,6 @@
 <script setup lang="ts" name="FieldPanel">
-import {computed, ref} from "vue";
-import {apiInstance, ApiUrls, loadData, piniaInstance, useDesignFormStore,} from "star-horse-lowcode";
+import {computed, PropType, ref} from "vue";
+import {ApiUrls, loadData, piniaInstance, useDesignFormStore,} from "star-horse-lowcode";
 import {fieldCopy} from "@/components/system/items/utils/FieldOperationUtils.js";
 import {i18n} from "@/lang/index.js";
 

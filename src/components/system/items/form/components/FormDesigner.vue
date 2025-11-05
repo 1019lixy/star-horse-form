@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted } from "vue";
 import { itemCheck, uuid } from "star-horse-lowcode";
-import { dynamicFormContextMenuData } from "@/plugins/AblesPlugin.ts";
-import { i18n } from "@/lang/index.js";
+import { dynamicFormContextMenuData } from "@/plugins/AblesPlugin";
+import { i18n } from "@/lang/index";
 
 const emit = defineEmits<{
   (e: "dragAdd", event: Event, dataList: Array<any>): void;

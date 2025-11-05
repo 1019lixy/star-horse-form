@@ -1,5 +1,9 @@
-import DataSource from "./DataSource.vue";
-import ApiConfigDialog from "./ApiConfigDialog.vue";
-import ApiConfigButton from "./ApiConfigButton.vue";
 
-export { DataSource, ApiConfigDialog, ApiConfigButton };
+import { App, defineAsyncComponent } from "vue";
+const items = import.meta.glob("@/components/commons/*.vue");
+export default function install(app: App<Element>) {
+    for (const [key, value] of Object.entries(items)) {
+        const name = key.slice(key.lastIndexOf("/") + 1, key.lastIndexOf("."));
+        app.component(name, defineAsyncComponent(value as any));
+    }
+}

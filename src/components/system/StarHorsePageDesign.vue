@@ -17,22 +17,23 @@ import {flexboxLayouts} from "@/utils/flexbox/layouts";
 import {gridContainerConfig} from "@/utils/grid/containerConfig";
 import {gridItemsConfig} from "@/utils/grid/itemsConfig";
 import {gridLayouts} from "@/utils/grid/layouts";
-
+import {setLang} from "@/theme/localStorge";
 import {
+  ApiUrls,
   error,
   operationConfirm,
   PageFieldInfo,
   piniaInstance,
   success,
   useGlobalConfigStore,
-  uuid,
-  ApiUrls
+  uuid
 } from "star-horse-lowcode";
-import {computed, defineOptions, nextTick, onMounted, onUnmounted, ref, watch} from "vue";
+import {computed, defineOptions, nextTick, onMounted, onUnmounted, PropType, ref, watch} from "vue";
 import {i18n} from "@/lang";
 import StarHorseRuler from "./StarHorseRuler.vue";
 import {Config} from "@/api/settings.js";
 import FlexPreviewDialog from "@/components/system/dialogs/FlexPreviewDialog.vue";
+import {LangType} from "@/theme/theme";
 
 defineOptions({
   name: "StarHorsePageDesign",
@@ -49,7 +50,7 @@ const props = defineProps({
   dataUrl: {
     type: Object as PropType<ApiUrls>,
   }
-})
+});
 const flexDesign = useFlexDesignStore(piniaInstance);
 let configStore = useGlobalConfigStore(piniaInstance);
 let compSize = computed(
@@ -139,11 +140,12 @@ const selectContainer = () => {
 };
 const changeDataHandle = (item: any) => {
   console.log(item);
-}
+};
 /**
  * Initialize
  */
 const init = () => {
+  setLang(LangType.ZH_CN);
   appInstance.use(pageItemsComponent);
   flexChange("flex");
   let layout: Layout = flexboxLayouts.find(
@@ -232,20 +234,24 @@ const fullScreen = () => {
     });
   }
 };
+const saveData = () => {
+
+};
 /**
  *扩展第三方容器组件
  * @param containerData 容器组件
  */
 const setContainersData = (containers: any) => {
 
-}
+};
+
 /**
  * 扩展第三方组件
  * @param items 组件列表
  */
 const setItemsData = (items: any) => {
 
-}
+};
 onMounted(() => {
   init();
   document.addEventListener("fullscreenchange", () => {
@@ -701,10 +707,10 @@ defineExpose({
   <!-- Preview Dialog -->
   <FlexPreviewDialog
       :dialogVisible="previewDialogVisible"
-      :designName="containerInfo.pageName"
+      :designName="containerInfo?.pageName"
       :flexModel="flexModel"
       :containerDataForm="containerDataForm"
-      :designDescription="containerInfo.remark"
+      :designDescription="containerInfo?.remark"
       @closeDialog="previewDialogVisible = false"
       @saveTemplate="handleSaveTemplate"
   />

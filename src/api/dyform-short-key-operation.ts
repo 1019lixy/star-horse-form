@@ -19,6 +19,7 @@ const designForm = useDesignFormStore(piniaInstance);
 const copyerOperation = useCopyerOperationStore(piniaInstance);
 
 const list = computed(() => designForm.compList);
+const isEdit = computed(() => designForm.isEdit);
 const currentComp = computed(() => designForm.currentComp);
 const action = computed(() => copyerOperation.action);
 const shortKeyDisabled = computed(() => designForm.shortKeyDisabled);
@@ -78,7 +79,7 @@ const dyPaste = () => {
   const compType = copyItem.compType;
   const itemType = copyItem.itemType;
   if (action.value === "cut") {
-    removeItem(list.value, currentComp.value, parentContainer.value);
+    removeItem(isEdit.value, currentComp.value, parentContainer.value);
   }
   if (compType == "container") {
     copyContainer(list.value, copyItem, action.value === "cut");

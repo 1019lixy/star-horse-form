@@ -7,7 +7,7 @@ import {
   SelectOption,
   useGlobalConfigStore,
 } from "star-horse-lowcode";
-import { createCondition, isJson, loadData } from "@/api/star_horse_utils.ts";
+import { createCondition, isJson, loadData } from "@/api/star_horse_utils";
 import { useDark, useToggle } from "@vueuse/core";
 import piniaInstance from "@/store";
 import { v4 as uuidv4 } from "uuid";

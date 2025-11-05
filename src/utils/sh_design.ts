@@ -1,4 +1,3 @@
-import {Shape} from "@antv/x6";
 import {i18n} from "@/lang";
 import {SelectOption} from "star-horse-lowcode";
 
@@ -244,144 +243,7 @@ const ports = {
         },
     ],
 };
-/**
- * 画布配置参数
- * @type {{rotating: boolean, keyboard: boolean, grid: {args: [{color: string, thickness: number},{color: string, thickness: number, factor: number}], visible: boolean, type: string}, mousewheel: {zoomAtMousePosition: boolean, maxScale: number, minScale: number, modifiers: string, enabled: boolean}, snapline: boolean, highlighting: {magnetAdsorbed: {args: {attrs: {fill: string, stroke: string}}, name: string}}, connecting: {allowBlank: boolean, router: {args: {padding: number}, name: string}, connector: {args: {radius: number}, name: string}, anchor: string, connectionPoint: string, createEdge(): Edge<Properties>, snap: {radius: number}, validateConnection({targetMagnet: *}): *}, clipboard: boolean, selecting: {showNodeSelectionBox: boolean, rubberband: boolean, enabled: boolean}}}
- */
-const commonConfig = {
-    rotating: true,
-    snapline: true,
-    keyboard: true,
-    clipboard: true,
-    minimap: true,
-    resizing: true,
-    panning: {
-        enabled: true,
-        modifiers: ["alt"],
-    },
-    grid: {
-        visible: true,
-        type: "doubleMesh",
-        args: [
-            {
-                color: "#eee", // 主网格线颜色
-                thickness: 1, // 主网格线宽度
-            },
-            {
-                color: "#ddd", // 次网格线颜色
-                thickness: 1, // 次网格线宽度
-                factor: 4, // 主次网格线间隔
-            },
-        ],
-    },
-    scroller: {
-        enabled: true,
-        pannable: true,
-        pageVisible: true,
-        pageBreak: false,
-    },
-    mousewheel: {
-        enabled: true,
-        zoomAtMousePosition: true,
-        modifiers: "ctrl",
-        maxScale: 4,
-        minScale: 0.2,
-    },
-};
-const configInfo: any = {
-    ...commonConfig,
-    selecting: {
-        enabled: true,
-        rubberband: true,
-        showNodeSelectionBox: true,
-    },
-    highlighting: {
-        // 当连接桩可以被链接时，在连接桩外围渲染一个 2px 宽的红色矩形框
-        magnetAdsorbed: {
-            name: "stroke",
-            args: {
-                attrs: {
-                    stroke: "#5F95FF",
-                },
-            },
-        },
-    },
-    connecting: {
-        router: {
-            name: "er",
-            args: {
-                offset: 25,
-                direction: "H",
-            },
-        },
-        connector: {
-            name: "rounded",
-            args: {
-                radius: 8,
-            },
-        },
-        // anchor: 'center',
-        // connectionPoint: 'anchor',
-        allowBlank: false,
-        highlight: true,
-        snap: {
-            //距离20px 自动吸附
-            radius: 20,
-        },
-        createEdge: () => {
-            return new Shape.Edge({
-                // defaultLabel: "OK", //添加此属性再动态设置Label 报错
-                tools: [
-                    {
-                        name: "edge-editor",
-                        args: {
-                            attrs: {
-                                backgroundColor: "var(--star-horse-front-color)",
-                            },
-                        },
-                    },
-                ],
-                attrs: {
-                    line: {
-                        stroke: "var(--star-horse-style)",
-                        strokeWidth: 2,
-                        targetMarker: {
-                            name: "block",
-                            width: 12,
-                            height: 8,
-                        },
-                    },
-                },
-                zIndex: 0,
-            });
-        },
-    },
-};
-const tableConfigInfo = {
-    ...commonConfig,
-    connecting: {
-        router: {
-            name: "er",
-            args: {
-                offset: 25,
-                direction: "H",
-            },
-        },
-        allowBlank: false,
-        highlight: true,
-        createEdge: () => {
-            return new Shape.Edge({
-                attrs: {
-                    line: {
-                        stroke: "#A2B1C3",
-                        strokeWidth: 2,
-                    },
-                },
-                zIndex: 0,
-            });
-        },
-    },
-};
+
 const helpMessage = `
 一、操作步骤:
 1、编辑其打开后可将左边的组件拖到中间网格画布区域；
@@ -426,9 +288,7 @@ Backspace/Delete:${i18n("system.flex.shDesign.help.shortcut.delete")}
 export {
     commands,
     ports,
-    configInfo,
     helpMessage,
-    tableConfigInfo,
     unitList,
     getTranslatedHelpMessage,
 };

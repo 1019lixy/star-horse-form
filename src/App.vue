@@ -1,40 +1,21 @@
-<template>
-  <RouterView />
-  <LoginDialog v-model:loginDialogVisible="visible" />
-</template>
 <script lang="ts" setup>
-import { computed, ComputedRef, onMounted, unref } from "vue";
-import { piniaInstance, useUserInfoStore } from "star-horse-lowcode";
-import { i18n } from "@/lang";
+import {onMounted} from "vue";
+import FormTestValid from "@/sample/FormTestValid.vue";
+import PageTestValid from "@/sample/PageTestValid.vue";
 
-import LoginDialog from "@/components/LoginDialog.vue";
-import { getToken } from "@/utils/auth.ts";
+const init = () => {
 
-const userInfoStore = useUserInfoStore(piniaInstance);
-const visible: ComputedRef<boolean> = computed(() => {
-  return getToken() && unref(userInfoStore.loginDialogVisible);
-});
-const closeAction = () => {
-  // i18n("app.closeBrowserClearData")
-  window.onbeforeunload = async (evt) => {
-    evt.preventDefault();
-    // userInfoStore.logout();
-    // await userLogout(userInfo || {});
-  };
 };
+
 onMounted(() => {
-  closeAction();
+  init();
 });
-// const particlesInit = async engine => {
-//   //await loadFull(engine);
-//   await loadSlim(engine);
-// };
-// const particlesLoaded = async container => {
-//   console.log("Particles container loaded", container);
-// };
+
 </script>
+<template>
+<!--  <FormTestValid/>-->
+  <PageTestValid/>
+</template>
 <style lang="scss">
-#app {
-  height: 100%;
-}
+
 </style>

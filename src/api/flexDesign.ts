@@ -330,7 +330,7 @@ export const loadDesign = async (id: string) => {
 
 export const getDesignList = async (params: any) => {
     try {
-        const response = await getRequest(
+        const response = await postRequest(
             `${ServiceEnums.SYSTEM_PREFIX}flexDesign/list`,
             params,
         );

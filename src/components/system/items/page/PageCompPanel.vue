@@ -6,7 +6,7 @@ import { piniaInstance, uuid, DynamicNode } from "star-horse-lowcode";
 import { useFlexDesignStore } from "@/store/FlexDesign.js";
 
 import { Config } from "@/api/settings.js";
-import { i18n } from "@/lang/index.js";
+import { i18n } from "@/lang/index";
 defineOptions({
   name: "PageCompPanel",
 });

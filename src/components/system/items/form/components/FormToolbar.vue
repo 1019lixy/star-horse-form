@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import {dynamicFormHelpMessage, formActions,} from "@/components/system/items/utils/DynamicForm.ts";
-import {i18n} from "@/lang/index.js";
+import {dynamicFormHelpMessage, formActions,} from "@/components/system/items/utils/DynamicForm";
+import {i18n} from "@/lang";
 import {computed, onMounted, ref} from "vue";
-import {ToolBtnType} from "@/components/types/ToolBtnType.js";
+import {ToolBtnType} from "@/components/types/ToolBtnType";
 
 const emit = defineEmits<{
   (e: "action", action: ToolBtnType): void;

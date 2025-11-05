@@ -15,7 +15,7 @@ import {
 } from "star-horse-lowcode";
 import {Config} from "@/api/settings.js";
 import {loadDict, permissionMenus} from "@/api/star_horse_apis.js";
-import {dbConfigList, loadElementPlusIcon, loadRolesInfo, loadSvgIcons, loadSystemInfo,} from "@/api/star_horse_utils.js";
+import {dbConfigList, loadElementPlusIcon,  loadSvgIcons, loadSystemInfo,} from "@/api/star_horse_utils.js";
 import {ascOrDesc, commonField, httpMethod} from "@/api/system.js";
 import {ServiceEnums} from "@/components/enums/ServiceEnums.js";
 import {getUserInfo} from "@/utils/auth.js";
@@ -87,9 +87,9 @@ const loadMenus = (val: any) => {
   permissionMenus({}, val).then((res: any) => {
     menusInfoList.value = res.data.data;
   });
-  loadRolesInfo([]).then((res: any) => {
-    rolesList.value = res;
-  });
+  // loadRolesInfo([]).then((res: any) => {
+  //   rolesList.value = res;
+  // });
 };
 let urlFieldVisible = ref<boolean>(false);
 let httpMethodVisible = ref<boolean>(false);

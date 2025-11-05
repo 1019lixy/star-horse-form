@@ -1,31 +1,35 @@
 {
   "compilerOptions": {
-    "target": "ESNext",
+    "target": "ES2020",
     "useDefineForClassFields": true,
-    "module": "NodeNext",
+    "module": "ESNext",
     "lib": ["ES2020", "DOM", "DOM.Iterable"],
     "skipLibCheck": true,
     "baseUrl": "./",
     "paths": {
       "@/*": ["./src/*"]
     },
-    /** univer plugin */
-    "experimentalDecorators": true,
+    "types": ["node", "vite/client"],
     /* Bundler mode */
-    "moduleResolution": "nodenext",
-    "allowImportingTsExtensions": true,
+    "moduleResolution": "node",
     "resolveJsonModule": true,
     "isolatedModules": true,
-    "noEmit": true,
+    "noEmit": false, // 必须改为 false 才能生成声明文件
     "jsx": "preserve",
-    /* Linting */
-    "strict": true,
+    // 关闭严格模式
+    "strict": false,
     "noUnusedLocals": true,
-    "noUnusedParameters": true,
+    "noUnusedParameters": false,
+    "noImplicitAny": false,
+    "noEmitOnError": false,
     "noFallthroughCasesInSwitch": true,
-    "allowSyntheticDefaultImports": true
+    "allowSyntheticDefaultImports": true,
+    "declaration": true,
+    "declarationDir": "dist/types",
+    "emitDeclarationOnly": true,
   },
-  "include": ["src/**/*", "types/**/*.d.ts", "node_modules/unplugin-auto-import/auto-imports.d.ts"],
+  "outDir": "dist",  // 明确指定输出目录
+  "include": ["src/**/*", "types/**/*.ts", "node_modules/unplugin-auto-import/auto-imports.d.ts"],
   "exclude": ["dist", "node_modules"],
   "references": [
     {

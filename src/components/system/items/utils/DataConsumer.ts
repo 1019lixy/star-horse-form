@@ -4,7 +4,7 @@ import {
   searchMatchList,
   SelectOption,
 } from "star-horse-lowcode";
-import { ascOrDesc } from "@/api/system.ts";
+import { ascOrDesc } from "@/api/system";
 
 const tableVisible = ref<boolean>(true);
 const relationRequired = ref<boolean>(false);
