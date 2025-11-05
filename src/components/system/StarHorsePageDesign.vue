@@ -29,11 +29,11 @@ import {
   uuid
 } from "star-horse-lowcode";
 import {computed, defineOptions, nextTick, onMounted, onUnmounted, PropType, ref, watch} from "vue";
-import {i18n} from "@/lang";
 import StarHorseRuler from "./StarHorseRuler.vue";
 import {Config} from "@/api/settings.js";
 import FlexPreviewDialog from "@/components/system/dialogs/FlexPreviewDialog.vue";
 import {LangType} from "@/theme/theme";
+import {currentLang, i18n, loadLanguage} from "@/lang";
 
 defineOptions({
   name: "StarHorsePageDesign",
@@ -160,15 +160,16 @@ const flexChange = (val: string) => {
   layoutConfig.value = [];
   containerInfo.value.containerType = val;
   //解决切换后的组件显示异常问题
-  nextTick(() => {
+  nextTick( () => {
     if (val == "flex") {
-      containerConfig.value = flexBoxContainerConfig;
-      itemConfig.value = flexBoxItemsConfig;
-      layoutConfig.value = flexboxLayouts;
+      // 使用函数形式获取配置，确保在国际化加载完成后再计算国际化内容
+      containerConfig.value = flexBoxContainerConfig();
+      itemConfig.value = flexBoxItemsConfig();
+      layoutConfig.value = flexboxLayouts();
     } else {
-      containerConfig.value = gridContainerConfig;
-      itemConfig.value = gridItemsConfig;
-      layoutConfig.value = gridLayouts;
+      containerConfig.value = gridContainerConfig();
+      itemConfig.value = gridItemsConfig();
+      layoutConfig.value = gridLayouts();
     }
   });
 };

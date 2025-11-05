@@ -10,7 +10,8 @@ export interface Layout {
   };
 }
 
-export const flexboxLayouts: Layout[] = [
+// 返回一个函数而不是直接的配置对象，实现延迟计算国际化内容
+export const flexboxLayouts = (): Layout[] => [
   {
     name: i18n("system.flexbox.layouts.fillSpace"),
     icon: "fillSpace",
@@ -277,3 +278,5 @@ export const flexboxLayouts: Layout[] = [
     },
   },
 ];
+
+

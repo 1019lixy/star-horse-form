@@ -105,13 +105,20 @@ export const isZH = () => currentLang === LangType.ZH_CN;
  * @param key
  * @param args
  */
-export  function i18n(key: keyof typeof zh_CN, ...args: any[]) {
+export  function i18n(key: string, ...args: any[]) {
+    // 优先从当前语言包获取
     let result = langSet[key];
-
-    console.log("-------------",result);
+    // 如果当前语言包中找不到或语言包未初始化，优先使用中文语言包
     if (!result) {
-        return key;
+        langSet = zh_CN;
+        // 直接使用导入的中文语言包作为默认值
+        result = langSet[key];
+        // 如果中文语言包中也找不到，才返回键名
+        if (!result) {
+            return key;
+        }
     }
+    
     // 处理函数类型的翻译项
     if (typeof result === "function") {
         // 如果提供了参数，执行函数并返回结果
@@ -125,11 +132,15 @@ export  function i18n(key: keyof typeof zh_CN, ...args: any[]) {
     // 处理普通字符串类型的翻译项
     const resultList: Array<string> = [result];
     args.forEach((arg: any) => {
-        const temp = langSet[arg];
+        // 首先尝试从当前语言包获取
+        let temp = langSet[arg];
+        // 如果当前语言包中找不到，尝试从中文语言包获取
+        if (!temp && zh_CN[arg as keyof typeof zh_CN]) {
+            temp = zh_CN[arg as keyof typeof zh_CN];
+        }
         if (temp) {
             resultList.push(temp);
         }
     });
     return resultList.join("en_US" === LangType.EN_US ? " " : "");
-
 }

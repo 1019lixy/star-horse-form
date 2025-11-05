@@ -2,7 +2,7 @@ import { PageFieldInfo } from "star-horse-lowcode";
 import { i18n } from "@/lang";
 import {unitList} from "@/utils/sh_design.js";
 
-export const gridContainerConfig: PageFieldInfo = {
+export const gridContainerConfig = (): PageFieldInfo => ({
   fieldList: [
     {
       fieldName: "display",
@@ -226,4 +226,4 @@ export const gridContainerConfig: PageFieldInfo = {
       },
     },
   ],
-};
+});

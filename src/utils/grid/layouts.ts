@@ -10,7 +10,7 @@ export interface Layout {
   };
 }
 
-export const gridLayouts: Layout[] = [
+export const gridLayouts = (): Layout[] => [
   {
     name: i18n("system.grid.layouts.pancakeStack"),
     icon: "pancakeStack",

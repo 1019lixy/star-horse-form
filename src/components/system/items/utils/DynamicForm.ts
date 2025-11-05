@@ -1,8 +1,7 @@
 import {i18n} from "@/lang/index.js";
 import {ToolBtnType} from "@/components/types/ToolBtnType.js";
 
-const formActions: Array<ToolBtnType> = [
-
+const formActions=(): Array<ToolBtnType>=> [
     {
         icon: "style",
         defaultEdit: true,
@@ -102,7 +101,7 @@ const formActions: Array<ToolBtnType> = [
           label: i18n("dyform.action.rightPanel")
       }*/
 ];
-const shortKeyHelpMessage = `
+const shortKeyHelpMessage =():string=> `
 ${i18n("dyform.help.shortcuts")}：
   1、Ctrl +Alt+ X ${i18n("dyform.help.shortcut.cut")}；
   2、Ctrl +Alt+ C ${i18n("dyform.help.shortcut.copy")}；
@@ -125,7 +124,7 @@ ${i18n("dyform.help.shortcuts")}：
   19、PgDn ${i18n("dyform.help.shortcut.moveDown")}；
   ${i18n("dyform.help.moreShortcuts")}
 `;
-const dynamicFormHelpMessage = `
+const dynamicFormHelpMessage =():string=> `
 ${i18n("dyform.help.description")}：StarHorse ${i18n("dyform.help.designerDescription")}
 ${i18n("dyform.help.rules")}：
 ${i18n("dyform.help.rule1")}
@@ -141,6 +140,6 @@ ${i18n("dyform.help.step7")}
 ${i18n("dyform.help.blindSpots")}：
 ${i18n("dyform.help.blindSpot1")}
 ${i18n("dyform.help.blindSpot2")}
-${shortKeyHelpMessage}
+${shortKeyHelpMessage()}
 `;
 export {formActions, dynamicFormHelpMessage};

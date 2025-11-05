@@ -2,7 +2,8 @@ import { PageFieldInfo } from "star-horse-lowcode";
 import { i18n } from "@/lang";
 import {unitList} from "@/utils/sh_design.js";
 
-export const flexBoxItemsConfig: PageFieldInfo = {
+// 返回一个函数而不是直接的配置对象，实现延迟计算国际化内容
+export const flexBoxItemsConfig = (): PageFieldInfo => ({
   fieldList: [
     {
       fieldName: "order",
@@ -111,4 +112,5 @@ export const flexBoxItemsConfig: PageFieldInfo = {
       },
     },
   ],
-};
+});
+

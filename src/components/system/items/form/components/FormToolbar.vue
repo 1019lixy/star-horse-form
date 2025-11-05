@@ -19,7 +19,7 @@ const props = defineProps<{
 
 const activeDropdown = ref<string | null>(null);
 const allActions = computed(() => {
-  return formActions.concat(props.extendBtns);
+  return formActions().concat(props.extendBtns);
 });
 const actions = (item: ToolBtnType) => {
   if (item.action) {
@@ -135,7 +135,7 @@ onMounted(() => {
       >
         <star-horse-icon icon-class="reset" @click="cacheDataRestore($event)"/>
       </el-tooltip>
-      <help :message="dynamicFormHelpMessage"/>
+      <help :message="dynamicFormHelpMessage()"/>
     </div>
   </div>
 </template>

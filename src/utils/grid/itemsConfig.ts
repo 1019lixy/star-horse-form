@@ -2,7 +2,7 @@ import { PageFieldInfo } from "star-horse-lowcode";
 import { i18n } from "@/lang";
 import {unitList} from "@/utils/sh_design.js";
 
-export const gridItemsConfig: PageFieldInfo = {
+export const gridItemsConfig = (): PageFieldInfo => ({
   fieldList: [
     {
       fieldName: "gridColumn",
@@ -91,4 +91,4 @@ export const gridItemsConfig: PageFieldInfo = {
       },
     },
   ],
-};
+});
