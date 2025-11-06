@@ -2,7 +2,7 @@
   "name": "star-horse-form",
   "private": false,
   "author": "l_1019@163.com",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "type": "module",
   "description": "星马动态表单组件",
   "keywords": [
@@ -12,10 +12,10 @@
     "dynamic-form"
   ],
   "license": "MIT",
-  "homepage": "https://gitee.com/lixingyu/knowledge_demo",
+  "homepage": "https://gitee.com/lixingyu/star-horse-form-demo.git",
   "repository": {
     "type": "git",
-    "url": "https://gitee.com/lixingyu/knowledge_demo"
+    "url": "https://gitee.com/lixingyu/star-horse-form-demo.git"
   },
   "main": "dist/index.es.js",
   "module": "dist/index.es.js",
