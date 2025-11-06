@@ -1,7 +1,6 @@
+import {fileURLToPath, URL} from "node:url";
 import {defineConfig} from "vite";
 import vue from "@vitejs/plugin-vue";
-import inject from "@rollup/plugin-inject";
-import {fileURLToPath} from "url";
 import {dirname, resolve} from "path";
 import Components from "unplugin-vue-components/vite";
 import {ElementPlusResolver} from "unplugin-vue-components/resolvers";
@@ -55,6 +54,7 @@ export default defineConfig((mode) => {
                     defineModel: true,
                 },
             }),
+
             ElementPlus({
                 // 自动导入样式（无需手动 import 全量 CSS）
                 useSource: true,
@@ -93,12 +93,8 @@ export default defineConfig((mode) => {
                 resolvers: [ElementPlusResolver({importStyle: "sass"})],
             }),
             // viteCommonjs(),
-            inject({
-                $: "jquery", // 这里会自动载入 node_modules 中的 jquery
-                jQuery: "jquery",
-                "windows.jQuery": "jquery",
-                "windows.$": "jquery",
-            }),
+            // 删除inject插件，避免ESM和CommonJS混合导致的import require$$0问题
+            // 如果确实需要jQuery，应通过正常的import语句导入
         ],
         css: {
             //解决 Deprecation Warning: The legacy JS API is deprecated and will be removed in Dart Sass 2.0.0.
@@ -110,7 +106,8 @@ export default defineConfig((mode) => {
         },
         resolve: {
             alias: {
-                "@": resolve(dirname(fileURLToPath(import.meta.url)), "./src")
+                "@": resolve(dirname(fileURLToPath(import.meta.url)), "./src"),
+                "jquery": fileURLToPath(new URL("./src/jquery-shim.js", import.meta.url))
             },
             extensions: [".js", ".vue", ".json", ".ts", ".jsx"],
         },
@@ -131,20 +128,42 @@ export default defineConfig((mode) => {
                     "vue3-ts-jsoneditor",
                     "@vueup/vue-quill",
                     "jquery",
+                    "react-dom",
                     "star-horse-lowcode",
                     "codemirror",
+                    "echarts",
+                    "react",
                     "@codemirror/*",
                     "@univerjs/*",
                     "sample/**/*",
                 ],
                 output: {
                     exports: "named",
-                    assetFileNames: "assets/[name][extname]", // 修正资源输出路径
+                    assetFileNames: "assets/[name][extname]",
+                    // 保留模块结构，避免扁平化
+                    preserveModules: false,
                     // 禁用代码分割
                     inlineDynamicImports: true,
                     // 合并所有chunk到单个文件
-                    manualChunks: undefined,
-                    // 在 UMD 构建模式下为这些外部化的依赖提供一个全局变量
+                   /* manualChunks: (id) => {
+                        // 按目录拆分：将 src/components 下的组件拆分为单独的 chunk
+                        if (id.includes("src/components/")) {
+                            // 例如：将 src/components/StarHorseFormDesign.vue 拆到 form-design chunk
+                            const match = id.match(/src\/components\/([^/]+)/);
+                            if (match) return `components/${match[1]}`;
+                        }
+                        // 按依赖拆分（如果有内部工具库，可单独拆出）
+                        if (id.includes("src/utils/")) {
+                            return "utils";
+                        }
+                        console.log(id);
+                        // 其他代码合并到 main chunk
+                        return "main";
+                    },
+                    dir: "dist", // 所有产物放在 dist 目录
+                    entryFileNames: "[name].js", // 入口文件命名（如 index.es.js）
+                    chunkFileNames: "chunks/[name]-[hash].js", // 拆分的 chunk 存放路径*/
+                    // 正确处理外部依赖的导入
                     globals: {
                         vue: "Vue",
                         pinia: "Pinia",

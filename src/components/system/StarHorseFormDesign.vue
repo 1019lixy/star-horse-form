@@ -1,6 +1,5 @@
-<script lang="ts" setup name="DynamicForm">
+<script lang="ts" setup>
 import {computed, nextTick, onActivated, onBeforeUnmount, onDeactivated, onMounted, PropType, ref, watch} from "vue";
-
 import {
   ApiUrls,
   CompType,
@@ -15,8 +14,6 @@ import {validDynamicFormCompParams} from "@/components/system/items/utils/previe
 import {delCacheData, getCacheData, setCacheData} from "@/api/cached_utils";
 import {i18n} from "@/lang";
 import {Config} from "@/api/settings";
-
-// Import new components
 import CodeDialog from "@/components/system/items/form/dialogs/CodeDialog.vue";
 import BatchEditDialog from "@/components/system/items/form/dialogs/BatchEditDialog.vue";
 import PreviewDialog from "@/components/system/items/form/dialogs/PreviewDialog.vue";
@@ -25,14 +22,13 @@ import FormToolbar from "@/components/system/items/form/components/FormToolbar.v
 import FormDesigner from "@/components/system/items/form/components/FormDesigner.vue";
 import FieldPanel from "@/components/system/items/form/FieldPanel.vue";
 import PropertyPanel from "@/components/system/items/form/PropertyPanel.vue";
-// Import composables
 import {useKeyboardEvents} from "@/components/system/items/form/composables/useKeyboardEvents";
 import {useDialogManager} from "@/components/system/items/form/composables/useDialogManager";
-import {ToolBtnType} from "@/components/types/ToolBtnType.js";
+import {ToolBtnType} from "@/components/types/ToolBtnType";
 import ConfigDialog from "@/components/system/items/form/dialogs/ConfigDialog.vue";
-import {formContainer} from "@/components/system/items/form/composables/formContainer.js";
-import {formExtendItems} from "@/components/system/items/form/composables/formExtendItems.js";
-import {formItems} from "@/components/system/items/form/composables/formItems.js";
+import {formContainer} from "@/components/system/items/form/composables/formContainer";
+import {formExtendItems} from "@/components/system/items/form/composables/formExtendItems";
+import {formItems} from "@/components/system/items/form/composables/formItems";
 
 defineOptions({
   name: "StarHorseFormDesign",
@@ -302,7 +298,7 @@ const viewFieldLayer = () => {
   openDialog("formFieldLayer");
 };
 
-const contextMenu =  (evt: MouseEvent) => {
+const contextMenu = (evt: MouseEvent) => {
   if (!isEdit.value) {
     console.log("当前处于预览状态，不能右键操作");
     return;

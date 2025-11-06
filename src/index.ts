@@ -1,65 +1,54 @@
 // 在文件最顶部添加以下代码
-import {App} from "vue";
+import {defineAsyncComponent} from "vue";
+import "star-horse-lowcode/assets/index.css";
 import "tailwindcss/index.css";
 import "@/assets/css/devops.scss";
 import "element-plus/theme-chalk/index.css";
 import "@/assets/icons.css";
-import {AxiosInstance} from "axios";
-import type {Router} from "vue-router";
-import ElementPlus from "element-plus";
-import StarHorseFormDesign from "@/components/system/StarHorseFormDesign.vue";
-import StarHorsePageDesign from "@/components/system/StarHorsePageDesign.vue";
 import {LangType} from "@/theme/theme";
+import StarHorseLowcode from "star-horse-lowcode";
+import piniaCompInstance from "@/store/index";
+import draggable from "vuedraggable-es";
 
-
-// 声明全局变量存储宿主应用的 router
-declare global {
-    var __hostRouter__: Router | undefined;
-    var __hostAxios__: AxiosInstance | undefined;
-    var __starHorseHostApp__: App<Element> | undefined;
-    var __starHorseHostLang__: LangType | undefined;
-}
+const items = import.meta.glob([
+    // "@/components/common/*.vue",
+    // "@/components/commonpage/*.vue",
+    "@/components/system/*.vue",
+    // "@/components/formcomp/items/*.vue",
+    // "@/components/formcomp/pageitems/*.vue"
+]);
 // 插件安装方法
 const install = (
-    app: App<Element>,
+    app: any,
     options?: {
-        router?: Router,
-        axiosInstance?: AxiosInstance,//如果外部传入axios实例，就使用外部传入的，否则使用默认的
+        router?: any,
+        axiosInstance?: any,//如果外部传入axios实例，就使用外部传入的，否则使用默认的
         elementPlusOptions?: any,// 添加Element Plus配置选项
         lang?: LangType, //国际化语音
         initElementPlus?: boolean   // 是否初始化element-plus
     },
 ) => {
-    // 注入宿主应用的 router 实例
-    if (options?.router) {
-        window.__hostRouter__ = options.router;
-    }
-    // 注入axios实例
-    if (options?.axiosInstance) {
-        window.__hostAxios__ = options.axiosInstance;
-    }
-    if (options?.lang) {
-        window.__starHorseHostLang__ = options.lang;
-    }
-    if (options?.initElementPlus ?? true) {
-        // 只在没有配置时才设置中文
-        app.use(ElementPlus, options?.elementPlusOptions);
-    }
-    window.__starHorseHostApp__ = app;
+    console.log("StarHorseForm init...");
+    app.component("draggable", draggable);
+    // 1. 首先初始化当前项目的pinia store
+    app.use(piniaCompInstance);
+    // 3. 最后使用StarHorseLowcode组件
+    app.use(StarHorseLowcode, options);
+    Object.entries(items).forEach(([path, component]) => {
+        const name = path
+            .split("/")
+            .pop() // 获取文件名
+            ?.replace(/\.vue$/, ""); // 移除扩展名
 
+        if (name) {
+            app.component(name, defineAsyncComponent(component as any));
+        }
+    });
 };
-//表单组件增加调用参数source: { type: Number, default: 1 },//调用来源1 表单新增 2 表单编辑 3 查看视图 4 查询 5 列表 6 表单设计 7 页面设计
-// 导出所有组件用于按需引入
-
-
-// 导出所有store
-// export * from "@/store/ButtonPermission";
-
-
-const StarHorseForm = StarHorseFormDesign;
-const StarHorsePage = StarHorsePageDesign;
+// export * from "@/components/formcomp/items";
+// export * from "@/components/formcomp/pageitems";
+export * from "@/components/types";
+export * from "@/components/system";
 export default {
-    install,
-    StarHorseForm,
-    StarHorsePage,
+    install
 };

@@ -6,6 +6,7 @@ export interface FlexboxContainer {
   justifyContent?: string;
   alignItems?: string;
   alignContent?: string;
+  flexDirection?: string;
 }
 
 export interface FlexboxItemStyle {

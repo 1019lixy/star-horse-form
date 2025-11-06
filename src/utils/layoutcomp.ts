@@ -1,4 +1,4 @@
-import { PageComp } from "@/components/types/PageLayoutComp.ts";
+import { PageComp } from "@/components/types/PageLayoutComp";
 import { i18n } from "@/lang";
 
 export const pageCompList: PageComp[] = [

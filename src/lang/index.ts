@@ -105,8 +105,11 @@ export const isZH = () => currentLang === LangType.ZH_CN;
  * @param key
  * @param args
  */
-export  function i18n(key: string, ...args: any[]) {
+export function i18n(key: string, ...args: any[]) {
     // 优先从当前语言包获取
+    if (!langSet) {
+        langSet = zh_CN;
+    }
     let result = langSet[key];
     // 如果当前语言包中找不到或语言包未初始化，优先使用中文语言包
     if (!result) {
@@ -118,7 +121,7 @@ export  function i18n(key: string, ...args: any[]) {
             return key;
         }
     }
-    
+
     // 处理函数类型的翻译项
     if (typeof result === "function") {
         // 如果提供了参数，执行函数并返回结果

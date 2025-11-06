@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 
-import StarHorsePageDesign from "@/components/system/StarHorsePageDesign.vue";
+// import StarHorsePageDesign from "@/components/system/StarHorsePageDesign.vue";
 </script>
 
 <template>

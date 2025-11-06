@@ -1,5 +1,5 @@
 <script setup lang="ts" name="StarHorseEditor">
-import {nextTick, onMounted, ref, PropType} from "vue";
+import {nextTick, onMounted, ref} from "vue";
 import {i18n} from "@/lang";
 import {basicSetup} from "codemirror";
 import {EditorView, keymap} from "@codemirror/view";
@@ -20,7 +20,7 @@ import {markdown} from "@codemirror/lang-markdown";
 import {go} from "@codemirror/lang-go";
 import {sql} from "@codemirror/lang-sql";
 import {showMinimap} from "@replit/codemirror-minimap";
-import {javaKeywords} from "../code/java";
+// import {javaKeywords} from "../code/java";
 import {amy, ayuLight, barf, bespin, birdsOfParadise, boysAndGirls, clouds, dracula,} from "thememirror";
 import StarHorseSidebar from "@/components/system/StarHorseSidebar.vue";
 
@@ -33,7 +33,7 @@ const props = defineProps({
   lang: {type: String, default: null},
   theme: {type: String, default: "dracula"},
   boxHeight: {type: String, default: "95%"},
-  btnList: {type: Array as PropType<Array<any>>, default: () => []},
+  btnList: {type: Array, default: () => []},
   helpMsg: {type: String},
 });
 const languageConf = new Compartment();
@@ -102,7 +102,7 @@ const javaHint = (context: CompletionContext) => {
   if (word.from == word.to && !context.explicit) return null;
   return {
     from: word.from,
-    options: [...javaKeywords],
+    // options: [...javaKeywords],
   };
 };
 // 自定义自动完成函数
