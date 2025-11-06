@@ -6,7 +6,7 @@ const emit = defineEmits<{
   (e: "save"): void;
 }>();
 
-const props = defineProps<{
+defineProps<{
   visible: boolean;
   compSize: string;
 }>();

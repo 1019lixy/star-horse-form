@@ -1,21 +1,11 @@
 <script lang="ts" setup>
-import {onMounted, ref} from "vue";
+import {onMounted} from "vue";
 import PageTestValid from "@/sample/PageTestValid.vue";
 
 // 国际化加载状态
-const isLangLoaded = ref(false);
 
 const init = async () => {
-  /*try {
-    // 等待国际化加载完成
-    await loadLanguage(currentLang);
-    // 标记国际化加载完成
-    isLangLoaded.value = true;
-  } catch (error) {
-    console.error("国际化加载失败:", error);
-    // 即使失败也继续加载应用，只是国际化可能无法正常工作
-    isLangLoaded.value = true;
-  }*/
+
 };
 
 onMounted(() => {

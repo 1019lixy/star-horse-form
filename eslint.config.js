@@ -5,7 +5,7 @@ import vuePlugin from "eslint-plugin-vue";
 
 export default [
     {
-        ignores: ["**/dist/**", "**/node_modules/**","*.svg"],
+        ignores: ["**/dist/**", "**/node_modules/**","*.svg","components.d.ts","auto-import.d.ts"],
     },
     {
         files: ["**/*.vue", "**/*.ts"],

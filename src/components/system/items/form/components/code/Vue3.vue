@@ -7,8 +7,6 @@ const props = defineProps({
   compList: { type: Object as PropType<any>, required: true },
   compSize: { type: String, required: true },
 });
-let searchFieldList: Array<any> = [];
-let formData: Array<any> = [];
 let code = ref<string>("");
 const starHorseEditorRef = ref();
 const asssignVal = (searchFields: string, formFields: string) => {

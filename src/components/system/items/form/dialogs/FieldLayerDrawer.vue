@@ -6,7 +6,7 @@ const emit = defineEmits<{
   (e: "update:visible", visible: boolean): void;
 }>();
 
-const props = defineProps<{
+defineProps<{
   visible: boolean;
 }>();
 

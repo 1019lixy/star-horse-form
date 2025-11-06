@@ -3,7 +3,7 @@ import { ref } from "vue";
 import { i18n } from "@/lang/index.js";
 import JSON5 from "json5";
 
-const props = defineProps<{
+defineProps<{
   visible: boolean;
   formProps: any;
   fieldName: string;

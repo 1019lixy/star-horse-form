@@ -91,6 +91,7 @@ export default defineConfig((mode) => {
                 dirs: ["src/components", "src/views"],
                 // 这里就是相关ui库的解析工具, 里面的选项有是否使用自动导入样式 如果需要通过 var 变量改变主题 需要注意一下
                 resolvers: [ElementPlusResolver({importStyle: "sass"})],
+                dts: "./components.d.ts",
             }),
             // viteCommonjs(),
             // 删除inject插件，避免ESM和CommonJS混合导致的import require$$0问题

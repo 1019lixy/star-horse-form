@@ -1,5 +1,5 @@
 <script setup lang="ts">
-const props = defineProps({
+defineProps({
   formInfo: { type: Object, required: true },
   compList: { type: Array, required: true },
 });

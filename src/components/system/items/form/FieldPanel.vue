@@ -34,7 +34,6 @@ const onDataCopy = (data: any, type: string) => {
   return mvData;
 };
 const templateList = ref<any[]>([]);
-const previewImages = ref<Record<string, string>>({}); // 新增：存储生成的图片
 
 const tabChange = (name: string) => {
   if (name == "template" && props.api.basePrefix) {

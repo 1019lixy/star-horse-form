@@ -1,5 +1,5 @@
 <script setup lang="ts" name="StarHorseEditor">
-import {nextTick, onMounted, ref} from "vue";
+import {nextTick, onMounted, PropType, ref} from "vue";
 import {i18n} from "@/lang";
 import {basicSetup} from "codemirror";
 import {EditorView, keymap} from "@codemirror/view";
@@ -8,7 +8,7 @@ import {historyKeymap, insertTab, standardKeymap} from "@codemirror/commands";
 import {autocompletion, CompletionContext} from "@codemirror/autocomplete";
 import {python} from "@codemirror/lang-python";
 import {javascript, javascriptLanguage, scopeCompletionSource,} from "@codemirror/lang-javascript";
-import {java, javaLanguage} from "@codemirror/lang-java";
+import {java} from "@codemirror/lang-java";
 import {json} from "@codemirror/lang-json";
 import {yaml} from "@codemirror/lang-yaml";
 import {css} from "@codemirror/lang-css";
@@ -33,7 +33,7 @@ const props = defineProps({
   lang: {type: String, default: null},
   theme: {type: String, default: "dracula"},
   boxHeight: {type: String, default: "95%"},
-  btnList: {type: Array, default: () => []},
+  btnList: {type: Object as PropType<Array<any>>, default: () => []},
   helpMsg: {type: String},
 });
 const languageConf = new Compartment();
@@ -97,14 +97,14 @@ const currentValFun = (_val: string) => {
   // console.log(val);
 };
 // 自定义自动完成函数
-const javaHint = (context: CompletionContext) => {
-  let word: any = context.matchBefore(/\w*/);
+/*const javaHint = (context: CompletionContext) => {
+  let word: any = context.matchBefore(/\w*!/);
   if (word.from == word.to && !context.explicit) return null;
   return {
     from: word.from,
-    // options: [...javaKeywords],
+    options: [...javaKeywords],
   };
-};
+};*/
 // 自定义自动完成函数
 const jsHint = (context: CompletionContext) => {
   let word: any = context.matchBefore(/\w*/);
@@ -177,9 +177,9 @@ const langInfo = (lang: string) => {
   };
   editor.value?.dispatch(disData);
 };
-const javaCompletions = javaLanguage.data.of({
-  autocomplete: javaHint,
-});
+// const javaCompletions = javaLanguage.data.of({
+//   autocomplete: javaHint,
+// });
 const windowCompletions = javascriptLanguage.data.of({
   autocomplete: scopeCompletionSource(window),
 });
@@ -208,7 +208,8 @@ const init = async () => {
       extensions: [
         basicSetup,
         themesConf.of(editorTheme.value),
-        ...[windowCompletions, javaCompletions, jsCompletions],
+        //javaCompletions
+        ...[windowCompletions, jsCompletions],
         keymap.of([
           ...standardKeymap,
           ...historyKeymap,

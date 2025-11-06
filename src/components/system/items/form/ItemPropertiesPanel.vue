@@ -22,7 +22,6 @@ let currentItemType = computed(() => {
   return comp.itemType;
 });
 let currentCompCategory = computed(() => designForm.currentCompCategory);
-let formInfo = computed(() => designForm.formInfo);
 const formProps = computed(() => {
   let preps = unref(designForm.currentFormPreps);
   if (!preps.rules) {

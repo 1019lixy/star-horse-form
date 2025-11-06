@@ -2,7 +2,7 @@
 import { ModelRef, ref } from "vue";
 import { i18n } from "@/lang/index.js";
 import DataSourceComp from "@/components/system/items/utils/DataSourceComp.vue";
-const props = defineProps<{
+ defineProps<{
   visible: boolean;
   formProps: any;
 }>();

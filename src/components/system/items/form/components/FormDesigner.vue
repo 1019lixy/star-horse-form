@@ -9,7 +9,7 @@ const emit = defineEmits<{
   (e: "update:formData", value: any): void;
 }>();
 
-const props = defineProps<{
+ defineProps<{
   list: any[];
   formData: any;
   formInfo: any;
