@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import {onMounted} from "vue";
-import PageTestValid from "@/sample/PageTestValid.vue";
+import FormTestValid from "@/sample/FormTestValid.vue";
 
 // 国际化加载状态
 
@@ -14,7 +14,7 @@ onMounted(() => {
 </script>
 <template>
   <!-- 只有在国际化加载完成后才渲染PageTestValid组件 -->
-  <PageTestValid/>
+  <FormTestValid/>
   <!--  <FormTestValid />-->
   <!-- 可以添加一个加载指示器 -->
   <!--  <div v-else style="display: flex; justify-content: center; align-items: center; height: 100vh;">

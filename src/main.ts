@@ -3,13 +3,12 @@ import "star-horse-lowcode/assets/index.css";
 import "@/assets/css/devops.scss";
 import "@/assets/css/table-enhancements.scss";
 import "tailwindcss/index.css";
-import itemsComponent from "@/components/formcomp/items/allitem";
-import commonComponent from "@/components/common/index";
+// import itemsComponent from "@/components/formcomp/items/allitem";
 import systemComponent from "@/components/system/SystemComp";
 import App from "@/App.vue";
 import {createApp} from "vue";
 // 导入svg图标
-import draggable from "vuedraggable";
+import draggable from "vuedraggable-es";
 import piniaCompInstance from "@/store";
 import * as ElementPlusIconsVue from "@element-plus/icons-vue";
 import StarHorseLowCode from "star-horse-lowcode";
@@ -28,9 +27,9 @@ for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
 /**
  * 加载elementplus 自己提供的图标
  */
-app.use(commonComponent);
+// app.use(commonComponent);
 app.use(systemComponent);
-app.use(itemsComponent);
+// app.use(itemsComponent);
 
 console.log("当前语言", currentLang);
 app.use(StarHorseLowCode, {
