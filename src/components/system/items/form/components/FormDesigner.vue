@@ -9,7 +9,7 @@ const emit = defineEmits<{
   (e: "update:formData", value: any): void;
 }>();
 
- defineProps<{
+defineProps<{
   list: any[];
   formData: any;
   formInfo: any;
@@ -99,10 +99,18 @@ onUnmounted(() => {
     style="width: 100% !important; position: relative"
   >
     <template v-if="list.length === 0">
-      <div class="empty-canvas" :style="{
-        margin:'0 auto',
-        width:currentPageClass == 'main-design-phone' ? '420px' : currentPageClass == 'main-design-pad' ? '600px' : '100%'
-      }">
+      <div
+        class="empty-canvas"
+        :style="{
+          margin: '0 auto',
+          width:
+            currentPageClass == 'main-design-phone'
+              ? '420px'
+              : currentPageClass == 'main-design-pad'
+                ? '600px'
+                : '100%',
+        }"
+      >
         <div class="empty-illustration">
           <svg width="120" height="120" viewBox="0 0 120 120" fill="none">
             <rect x="20" y="30" width="80" height="60" rx="4" fill="#E1E8ED" />

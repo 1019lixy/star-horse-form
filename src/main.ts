@@ -6,14 +6,14 @@ import "tailwindcss/index.css";
 // import itemsComponent from "@/components/formcomp/items/allitem";
 import systemComponent from "@/components/system/SystemComp";
 import App from "@/App.vue";
-import {createApp} from "vue";
+import { createApp } from "vue";
 // 导入svg图标
 import draggable from "vuedraggable-es";
 import piniaCompInstance from "@/store";
 import * as ElementPlusIconsVue from "@element-plus/icons-vue";
 import StarHorseLowCode from "star-horse-lowcode";
-import {getLang} from "@/theme/localStorge";
-import {LangType} from "@/theme/theme";
+import { getLang } from "@/theme/localStorge";
+import { LangType } from "@/theme/theme";
 
 const app = createApp(App);
 export const appInstance = app;
@@ -21,8 +21,8 @@ const currentLang = getLang() || LangType.ZH_CN;
 app.use(piniaCompInstance);
 app.component("draggable", draggable);
 for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
-    // @ts-ignore
-    app.component(key, component);
+  // @ts-ignore
+  app.component(key, component);
 }
 /**
  * 加载elementplus 自己提供的图标
@@ -33,7 +33,7 @@ app.use(systemComponent);
 
 console.log("当前语言", currentLang);
 app.use(StarHorseLowCode, {
-    lang: currentLang,
+  lang: currentLang,
 });
 
 app.config.performance = false;
@@ -44,7 +44,7 @@ app.config.performance = false;
  * @param info
  */
 app.config.errorHandler = (err, instance, info) => {
-    console.error("未捕获异常", err, instance, info);
+  console.error("未捕获异常", err, instance, info);
 };
 /**
  * 处理警告

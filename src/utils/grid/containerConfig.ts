@@ -1,6 +1,6 @@
 import { PageFieldInfo } from "star-horse-lowcode";
 import { i18n } from "@/lang";
-import {unitList} from "@/utils/sh_design.js";
+import { unitList } from "@/utils/sh_design.js";
 
 export const gridContainerConfig = (): PageFieldInfo => ({
   fieldList: [
@@ -34,7 +34,7 @@ export const gridContainerConfig = (): PageFieldInfo => ({
       defaultValue: "1fr 1fr",
       preps: {
         icon: "",
-        appendList: unitList
+        appendList: unitList,
       },
     },
     {
@@ -46,7 +46,7 @@ export const gridContainerConfig = (): PageFieldInfo => ({
       defaultValue: "1fr 1fr",
       preps: {
         icon: "",
-        appendList: unitList
+        appendList: unitList,
       },
     },
     {
@@ -58,7 +58,7 @@ export const gridContainerConfig = (): PageFieldInfo => ({
       defaultValue: "10px 10px",
       preps: {
         icon: "",
-        appendList:unitList
+        appendList: unitList,
       },
     },
     {
@@ -68,7 +68,7 @@ export const gridContainerConfig = (): PageFieldInfo => ({
       formVisible: true,
       preps: {
         icon: "",
-        appendList:unitList
+        appendList: unitList,
       },
     },
     {
@@ -78,7 +78,7 @@ export const gridContainerConfig = (): PageFieldInfo => ({
       formVisible: true,
       preps: {
         icon: "",
-        appendList:unitList
+        appendList: unitList,
       },
     },
 
@@ -187,7 +187,7 @@ export const gridContainerConfig = (): PageFieldInfo => ({
       defaultValue: "auto",
       preps: {
         icon: "",
-        appendList:unitList
+        appendList: unitList,
       },
     },
     {
@@ -199,7 +199,7 @@ export const gridContainerConfig = (): PageFieldInfo => ({
       defaultValue: "auto",
       preps: {
         icon: "",
-        appendList:unitList
+        appendList: unitList,
       },
     },
     {

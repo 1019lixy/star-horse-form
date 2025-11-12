@@ -4,7 +4,7 @@ import {
   initKeyboardEvent,
   removeKeyboardEvent,
 } from "@/api/keyboard-event-utils";
-import {ToolBtnType} from "@/components/types/ToolBtnType";
+import { ToolBtnType } from "@/components/types/ToolBtnType";
 
 export function useKeyboardEvents(actions: (action: ToolBtnType) => void) {
   const keyboardHandlers = ref<{

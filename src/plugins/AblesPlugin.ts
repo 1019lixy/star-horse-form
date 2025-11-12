@@ -568,7 +568,10 @@ export function dynamicPageContextMenuData(node: DynamicNode) {
       icon: "down-layer",
       display: node.styles.zIndex && node.styles.zIndex > 100,
       handler: () => {
-        node.styles.zIndex = node.styles.zIndex && node.styles.zIndex > 100 ? node.styles.zIndex - 1 : 100;
+        node.styles.zIndex =
+          node.styles.zIndex && node.styles.zIndex > 100
+            ? node.styles.zIndex - 1
+            : 100;
       },
     },
     {

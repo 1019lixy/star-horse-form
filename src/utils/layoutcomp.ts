@@ -17,9 +17,7 @@ export const pageCompList: PageComp[] = [
           width: 100,
           height: 100,
         },
-        preps:{
-
-        }
+        preps: {},
       },
       {
         id: "2",

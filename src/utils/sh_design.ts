@@ -1,80 +1,80 @@
-import {i18n} from "@/lang";
-import {SelectOption} from "star-horse-lowcode";
+import { i18n } from "@/lang";
+import { SelectOption } from "star-horse-lowcode";
 
 const unitList: SelectOption[] = [
-    {
-        name: "px",
-        value: "px",
-    },
-    {
-        name: "fr",
-        value: "fr",
-    },
-    {
-        name: "%",
-        value: "%",
-    },
-    {
-        name: "vw",
-        value: "vw"
-    },
-    {
-        name: "vh",
-        value: "vh"
-    },
-    {
-        name: "em",
-        value: "em"
-    },
-    {
-        name: "rem",
-        value: "rem"
-    },
-    {
-        name: "pt",
-        value: "pt"
-    },
-    {
-        name: "cm",
-        value: "cm"
-    },
-    {
-        name: "auto",
-        value: "auto"
-    },
+  {
+    name: "px",
+    value: "px",
+  },
+  {
+    name: "fr",
+    value: "fr",
+  },
+  {
+    name: "%",
+    value: "%",
+  },
+  {
+    name: "vw",
+    value: "vw",
+  },
+  {
+    name: "vh",
+    value: "vh",
+  },
+  {
+    name: "em",
+    value: "em",
+  },
+  {
+    name: "rem",
+    value: "rem",
+  },
+  {
+    name: "pt",
+    value: "pt",
+  },
+  {
+    name: "cm",
+    value: "cm",
+  },
+  {
+    name: "auto",
+    value: "auto",
+  },
 ];
 const commands: any = [
-    /* {
+  /* {
           icon: "left_panel",
           defaultEdit: true,
           key: "leftPanel",
           label: "左侧工具栏"
       },*/
-    {
-        icon: "zoom_in",
-        defaultEdit: true,
-        key: "zoomIn",
-        label: i18n("system.flex.starHorseDesign.command.zoomIn"),
-    },
-    {
-        icon: "zoom_out",
-        defaultEdit: true,
-        key: "zoomOut",
-        label: i18n("system.flex.starHorseDesign.command.zoomOut"),
-    },
-    {
-        icon: "auto_fit",
-        defaultEdit: true,
-        key: "zoomToFit",
-        label: i18n("system.flex.starHorseDesign.command.zoomToFit"),
-    },
-    {
-        icon: "equal",
-        defaultEdit: true,
-        key: "zoomTo",
-        label: i18n("system.flex.starHorseDesign.command.zoomTo"),
-    },
-    /*  {
+  {
+    icon: "zoom_in",
+    defaultEdit: true,
+    key: "zoomIn",
+    label: i18n("system.flex.starHorseDesign.command.zoomIn"),
+  },
+  {
+    icon: "zoom_out",
+    defaultEdit: true,
+    key: "zoomOut",
+    label: i18n("system.flex.starHorseDesign.command.zoomOut"),
+  },
+  {
+    icon: "auto_fit",
+    defaultEdit: true,
+    key: "zoomToFit",
+    label: i18n("system.flex.starHorseDesign.command.zoomToFit"),
+  },
+  {
+    icon: "equal",
+    defaultEdit: true,
+    key: "zoomTo",
+    label: i18n("system.flex.starHorseDesign.command.zoomTo"),
+  },
+  /*  {
               icon: "line_arrow",
               key: 'lineMode',
               label: '直线连接模式',
@@ -84,77 +84,77 @@ const commands: any = [
               key: 'verticalMode',
               label: '直角连接模式',
           },*/
-    {
-        icon: "align_top",
-        key: "alignTop",
-        label: i18n("system.flex.starHorseDesign.command.alignTop"),
-    },
-    {
-        icon: "align_bottom",
-        key: "alignBottom",
-        label: i18n("system.flex.starHorseDesign.command.alignBottom"),
-    },
-    {
-        icon: "align_left",
-        key: "alignLeft",
-        label: i18n("system.flex.starHorseDesign.command.alignLeft"),
-    },
-    {
-        icon: "align_right",
-        key: "alignRight",
-        label: i18n("system.flex.starHorseDesign.command.alignRight"),
-    },
-    {
-        icon: "center",
-        key: "centerContent",
-        label: i18n("system.flex.starHorseDesign.command.centerContent"),
-    },
-    {
-        icon: "dustbin",
-        key: "deleteItem",
-        label: i18n("system.flex.starHorseDesign.command.deleteItem"),
-    },
-    {
-        icon: "empty_setting",
-        key: "empty",
-        label: i18n("system.flex.starHorseDesign.command.empty"),
-    },
-    {
-        icon: "undo",
-        key: "unDo",
-        label: i18n("system.flex.starHorseDesign.command.unDo"),
-    },
-    {
-        icon: "redo",
-        key: "reDo",
-        label: i18n("system.flex.starHorseDesign.command.reDo"),
-    },
-    {
-        icon: "json_file",
-        key: "json",
-        label: i18n("system.flex.starHorseDesign.command.json"),
-    },
-    {
-        icon: "config",
-        key: "config",
-        label: i18n("system.flex.starHorseDesign.command.config"),
-    },
-    {
-        icon: "valid",
-        key: "valid",
-        label: i18n("system.flex.starHorseDesign.command.valid"),
-    },
-    {
-        icon: "preview",
-        key: "preview",
-        label: i18n("system.flex.starHorseDesign.command.preview"),
-    },
-    {
-        icon: "save",
-        key: "save",
-        label: i18n("system.flex.starHorseDesign.command.save"),
-    },
-    /*{
+  {
+    icon: "align_top",
+    key: "alignTop",
+    label: i18n("system.flex.starHorseDesign.command.alignTop"),
+  },
+  {
+    icon: "align_bottom",
+    key: "alignBottom",
+    label: i18n("system.flex.starHorseDesign.command.alignBottom"),
+  },
+  {
+    icon: "align_left",
+    key: "alignLeft",
+    label: i18n("system.flex.starHorseDesign.command.alignLeft"),
+  },
+  {
+    icon: "align_right",
+    key: "alignRight",
+    label: i18n("system.flex.starHorseDesign.command.alignRight"),
+  },
+  {
+    icon: "center",
+    key: "centerContent",
+    label: i18n("system.flex.starHorseDesign.command.centerContent"),
+  },
+  {
+    icon: "dustbin",
+    key: "deleteItem",
+    label: i18n("system.flex.starHorseDesign.command.deleteItem"),
+  },
+  {
+    icon: "empty_setting",
+    key: "empty",
+    label: i18n("system.flex.starHorseDesign.command.empty"),
+  },
+  {
+    icon: "undo",
+    key: "unDo",
+    label: i18n("system.flex.starHorseDesign.command.unDo"),
+  },
+  {
+    icon: "redo",
+    key: "reDo",
+    label: i18n("system.flex.starHorseDesign.command.reDo"),
+  },
+  {
+    icon: "json_file",
+    key: "json",
+    label: i18n("system.flex.starHorseDesign.command.json"),
+  },
+  {
+    icon: "config",
+    key: "config",
+    label: i18n("system.flex.starHorseDesign.command.config"),
+  },
+  {
+    icon: "valid",
+    key: "valid",
+    label: i18n("system.flex.starHorseDesign.command.valid"),
+  },
+  {
+    icon: "preview",
+    key: "preview",
+    label: i18n("system.flex.starHorseDesign.command.preview"),
+  },
+  {
+    icon: "save",
+    key: "save",
+    label: i18n("system.flex.starHorseDesign.command.save"),
+  },
+  /*{
             icon: "right_panel",
             defaultEdit: true,
             key: 'rightPanel',
@@ -166,82 +166,82 @@ const commands: any = [
  * @type {{groups: {top: {position: string, attrs: {circle: {strokeWidth: number, r: number, style: {visibility: string}, fill: string, magnet: boolean, stroke: string}}}, left: {position: string, attrs: {circle: {strokeWidth: number, r: number, style: {visibility: string}, fill: string, magnet: boolean, stroke: string}}}, bottom: {position: string, attrs: {circle: {strokeWidth: number, r: number, style: {visibility: string}, fill: string, magnet: boolean, stroke: string}}}, right: {position: string, attrs: {circle: {strokeWidth: number, r: number, style: {visibility: string}, fill: string, magnet: boolean, stroke: string}}}}, items: [{group: string},{group: string},{group: string},{group: string}]}}
  */
 const ports = {
-    groups: {
-        top: {
-            position: "top",
-            attrs: {
-                circle: {
-                    r: 4,
-                    magnet: true,
-                    stroke: "var(--star-horse-style)",
-                    strokeWidth: 1,
-                    fill: "#fff",
-                    style: {
-                        visibility: "hidden",
-                    },
-                },
-            },
+  groups: {
+    top: {
+      position: "top",
+      attrs: {
+        circle: {
+          r: 4,
+          magnet: true,
+          stroke: "var(--star-horse-style)",
+          strokeWidth: 1,
+          fill: "#fff",
+          style: {
+            visibility: "hidden",
+          },
         },
-        right: {
-            position: "right",
-            attrs: {
-                circle: {
-                    r: 4,
-                    magnet: true,
-                    stroke: "var(--star-horse-style)",
-                    strokeWidth: 1,
-                    fill: "#fff",
-                    style: {
-                        visibility: "hidden",
-                    },
-                },
-            },
-        },
-        bottom: {
-            position: "bottom",
-            attrs: {
-                circle: {
-                    r: 4,
-                    magnet: true,
-                    stroke: "var(--star-horse-style)",
-                    strokeWidth: 1,
-                    fill: "#fff",
-                    style: {
-                        visibility: "hidden",
-                    },
-                },
-            },
-        },
-        left: {
-            position: "left",
-            attrs: {
-                circle: {
-                    r: 4,
-                    magnet: true,
-                    stroke: "var(--star-horse-style)",
-                    strokeWidth: 1,
-                    fill: "#fff",
-                    style: {
-                        visibility: "hidden",
-                    },
-                },
-            },
-        },
+      },
     },
-    items: [
-        {
-            group: "top",
+    right: {
+      position: "right",
+      attrs: {
+        circle: {
+          r: 4,
+          magnet: true,
+          stroke: "var(--star-horse-style)",
+          strokeWidth: 1,
+          fill: "#fff",
+          style: {
+            visibility: "hidden",
+          },
         },
-        {
-            group: "right",
+      },
+    },
+    bottom: {
+      position: "bottom",
+      attrs: {
+        circle: {
+          r: 4,
+          magnet: true,
+          stroke: "var(--star-horse-style)",
+          strokeWidth: 1,
+          fill: "#fff",
+          style: {
+            visibility: "hidden",
+          },
         },
-        {
-            group: "bottom",
+      },
+    },
+    left: {
+      position: "left",
+      attrs: {
+        circle: {
+          r: 4,
+          magnet: true,
+          stroke: "var(--star-horse-style)",
+          strokeWidth: 1,
+          fill: "#fff",
+          style: {
+            visibility: "hidden",
+          },
         },
-        {
-            group: "left",
-        },
-    ],
+      },
+    },
+  },
+  items: [
+    {
+      group: "top",
+    },
+    {
+      group: "right",
+    },
+    {
+      group: "bottom",
+    },
+    {
+      group: "left",
+    },
+  ],
 };
 
 const helpMessage = `
@@ -285,10 +285,4 @@ Ctrl+1:${i18n("system.flex.shDesign.help.shortcut.zoomIn")}
 Ctrl+2:${i18n("system.flex.shDesign.help.shortcut.zoomOut")}
 Backspace/Delete:${i18n("system.flex.shDesign.help.shortcut.delete")}
 `;
-export {
-    commands,
-    ports,
-    helpMessage,
-    unitList,
-    getTranslatedHelpMessage,
-};
+export { commands, ports, helpMessage, unitList, getTranslatedHelpMessage };

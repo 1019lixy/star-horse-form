@@ -1,6 +1,6 @@
 import { PageFieldInfo } from "star-horse-lowcode";
 import { i18n } from "@/lang";
-import {unitList} from "@/utils/sh_design.js";
+import { unitList } from "@/utils/sh_design.js";
 
 // 返回一个函数而不是直接的配置对象，实现延迟计算国际化内容
 export const flexBoxItemsConfig = (): PageFieldInfo => ({
@@ -45,7 +45,7 @@ export const flexBoxItemsConfig = (): PageFieldInfo => ({
       helpMsg: i18n("system.flexbox.itemsConfig.flexBasis.helpMsg"),
       preps: {
         icon: "",
-        appendList:unitList,
+        appendList: unitList,
       },
       type: "input",
       defaultValue: "auto",
@@ -113,4 +113,3 @@ export const flexBoxItemsConfig = (): PageFieldInfo => ({
     },
   ],
 });
-

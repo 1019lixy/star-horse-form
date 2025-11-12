@@ -15,22 +15,22 @@ let compList = computed(() => designForm.compList);
 let formInfo = computed(() => designForm.formInfo);
 let formData = computed(() => designForm.formData);
 let compSize = computed(
-    () => configStore.configFormInfo?.buttonSize || Config.compSize,
+  () => configStore.configFormInfo?.buttonSize || Config.compSize,
 );
 let tabName = ref<string>("vue3");
 let pageInfo = ref<any>({});
 const init = async () => {
   let dynameForm = formInfo.value;
   dynameForm!["relations"] =
-      dynameForm["relations"] instanceof Array
-          ? JSON.stringify(dynameForm["relations"])
-          : dynameForm["relations"];
+    dynameForm["relations"] instanceof Array
+      ? JSON.stringify(dynameForm["relations"])
+      : dynameForm["relations"];
   dynameForm!["details"] = {};
   dynameForm!["details"]["content"] = JSON.stringify(compList.value);
   dynameForm!["details"]["fieldNames"] = JSON.stringify(formData.value);
   await postRequest(
-      "/userdb-manage/userdb/dynamicForm/analysisFields",
-      dynameForm,
+    "/userdb-manage/userdb/dynamicForm/analysisFields",
+    dynameForm,
   ).then((res: any) => {
     if (res.data.code != 0) {
       warning(res.data.cnMessage);
