@@ -153,10 +153,6 @@ export function compFieldInit() {
     assignData(containerRes);
     assignData(itemsRes);
     assignData(selfItemsRes);
-    console.log(JSON.stringify(containerRes));
-    console.log(JSON.stringify(itemsRes));
-    console.log(JSON.stringify(selfItemsRes));
-    console.log(JSON.stringify(allFormDataList));
 
     designForm.setContainerList(containerRes);
     designForm.setFormDataList(itemsRes);

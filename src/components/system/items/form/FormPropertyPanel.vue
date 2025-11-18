@@ -1,10 +1,7 @@
 <script setup lang="ts" name="FormPropertyPanel">
-import { computed, onActivated, onMounted, reactive, ref, watch } from "vue";
+import {computed, onActivated, onMounted, reactive, ref, watch} from "vue";
 import {
-  apiInstance,
-  ApiUrls,
   createCondition,
-  getRequest,
   loadData,
   PageFieldInfo,
   piniaInstance,
@@ -13,19 +10,15 @@ import {
   useDesignFormStore,
   warning,
 } from "star-horse-lowcode";
-import { Config } from "@/api/settings.js";
-import { loadDict, permissionMenus } from "@/api/star_horse_apis.js";
-import {
-  dbConfigList,
-  loadElementPlusIcon,
-  loadSvgIcons,
-  loadSystemInfo,
-} from "@/api/star_horse_utils.js";
-import { ascOrDesc, commonField, httpMethod } from "@/api/system.js";
-import { ServiceEnums } from "@/components/enums/ServiceEnums.js";
-import { getUserInfo } from "@/utils/auth.js";
+import {Config} from "@/api/settings.js";
+import {loadElementPlusIcon, loadSvgIcons,} from "@/api/star_horse_utils.js";
+import {ascOrDesc, commonField, httpMethod} from "@/api/system.js";
+import {FormConfig} from "@/components/types";
 
-const apiUrl: ApiUrls = apiInstance("userdb-manage", "userdb/dynamicForm");
+const props = defineProps<{
+  optional: FormConfig
+}>();
+const emits = defineEmits(["loadMenu", "loadTableColumns"]);
 let designForm = useDesignFormStore(piniaInstance);
 let formInfo = computed(() => designForm.formInfo);
 let dynamicFormItemRef = ref();
@@ -33,27 +26,24 @@ let dbList = ref<any>([]);
 let systemIconList = ref<SelectOption[]>([]);
 let relationDataList = ref<Array<SelectOption>>([]);
 let relationTypeList = ref<Array<SelectOption>>([
-  { name: "一对一", value: "11" },
-  { name: "一对多", value: "1n" },
-  { name: "多对一", value: "n1" },
-  { name: "多对多", value: "mn" },
+  {name: "一对一", value: "11"},
+  {name: "一对多", value: "1n"},
+  {name: "多对一", value: "n1"},
+  {name: "多对多", value: "mn"},
 ]);
 let dataSourceData = ref<any>();
-let primaryKeyPolicyList = ref<SelectOption[]>([]);
-let pageStyleList = ref<SelectOption[]>([]);
 let requireAsteriskPositionList = ref<SelectOption[]>([
-  { name: "左", value: "left" },
-  { name: "右", value: "right" },
+  {name: "左", value: "left"},
+  {name: "右", value: "right"},
 ]);
 let labelPositionList = ref<SelectOption[]>([
-  { name: "左", value: "left" },
-  { name: "右", value: "right" },
-  { name: "顶部", value: "top" },
+  ...requireAsteriskPositionList.value,
+  {name: "顶部", value: "top"},
 ]);
 let formSizeList = ref<SelectOption[]>([
-  { name: "大", value: "large" },
-  { name: "中", value: "default" },
-  { name: "小", value: "small" },
+  {name: "大", value: "large"},
+  {name: "中", value: "default"},
+  {name: "小", value: "small"},
 ]);
 let dataLoadConditionList = ref<SelectOption[]>([]);
 let dynamicFieldList = ref<SelectOption[]>([]);
@@ -63,11 +53,11 @@ let orderByFieldList = ref<SelectOption[]>([]);
 let tableColumnsList = ref<SelectOption[]>([]);
 let authorityList = ref<SelectOption[]>([]);
 let eventTypeList = ref<SelectOption[]>([]);
+let primaryKeyPolicyList = ref<SelectOption[]>([]);
+let pageStyleList = ref<SelectOption[]>([]);
 let informationsList = ref<any>([]);
 let menusInfoList = ref<any>([]);
 let rolesList = ref<any>([]);
-let menuFlag = ref<boolean>(false);
-let conditionFlag = ref<boolean>(false);
 const relationMsg = `
 映射关系表示当前表与所选择的表之间的关系:
  一对一: 表示当前表和被选择表数据是一一对应关系;
@@ -85,19 +75,13 @@ const dbPositionMsg = `
 const tableListMsg = `
 对于关联字段的处理，
 将编码或者ID 映射为对应的名称显示。`;
-const loadMenus = (val: any) => {
-  if (!val) {
-    return;
-  }
-  permissionMenus({}, val).then((res: any) => {
-    menusInfoList.value = res.data.data;
+
+const loadMenus = (sysId: string) => {
+  props.optional?.loadMenuList(sysId).then((res: SelectOption[]) => {
+    menusInfoList.value = res;
   });
-  // loadRolesInfo([]).then((res: any) => {
-  //   rolesList.value = res;
-  // });
 };
 let urlFieldVisible = ref<boolean>(false);
-let httpMethodVisible = ref<boolean>(false);
 const tableFieldList = reactive<PageFieldInfo | any>({
   fieldList: [
     [
@@ -221,16 +205,21 @@ const tableFieldList = reactive<PageFieldInfo | any>({
                 label: "是否创建菜单",
                 fieldName: "createMenu",
                 type: "switch",
-                actions: {
-                  change: (val: any) => {
-                    loadMenus(val["sysId"]);
-                    menuFlag.value = val["createMenu"] == "Y";
-                  },
-                },
                 defaultValue: "N",
                 formVisible: true,
                 preps: {
                   colspan: 12,
+                  dataRelation: {
+                    actionName: "change",
+                    relationDetails: [
+                      {
+                        matchType: "eq",
+                        controlCondition: "eqVisible",
+                        relationFields: ["userGroupList", "parentMenuId", "buttonPermissionsList"],
+                        matchFieldValue: "Y",
+                      },
+                    ]
+                  },
                   activeValue: "Y",
                   inactiveValue: "N",
                 },
@@ -239,7 +228,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
                 label: "授权用户组",
                 fieldName: "userGroupList",
                 type: "select",
-                formVisible: menuFlag,
+                formVisible: false,
                 listVisible: true,
                 preps: {
                   colspan: 12,
@@ -253,7 +242,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
                 label: "父级菜单",
                 fieldName: "parentMenuId",
                 type: "tselect",
-                formVisible: menuFlag,
+                formVisible: false,
                 preps: {
                   checkStrictly: true,
                   colspan: 12,
@@ -269,13 +258,12 @@ const tableFieldList = reactive<PageFieldInfo | any>({
                 fieldName: "buttonPermissionsList",
                 type: "select",
                 required: false,
-                formVisible: menuFlag,
+                formVisible: false,
                 listVisible: true,
                 preps: {
                   multiple: true,
                   colspan: 12,
-                  urlOrDictName: "button_authority",
-                  dataSource: "dict",
+                  valuses: authorityList
                 },
               },
             ],
@@ -313,24 +301,30 @@ const tableFieldList = reactive<PageFieldInfo | any>({
                 fieldName: "pageStyle",
                 type: "select",
                 formVisible: true,
-                actions: {
-                  change: (val: any) => {
-                    conditionFlag.value = val["pageStyle"] == "form";
-                  },
-                },
                 preps: {
                   colspan: 8,
-                  values: pageStyleList,
+                  dataRelation: {
+                    actionName: "change",
+                    relationDetails: [
+                      {
+                        matchType: "eq",
+                        controlCondition: "eqVisible",
+                        relationFields: ["dataLoadField"],
+                        matchFieldValue: "form",
+                      },
+                    ]
+                  },
+                  values: pageStyleList
                 },
               },
               {
                 label: "数据加载条件",
                 fieldName: "dataLoadField",
                 type: "select",
-                formVisible: conditionFlag,
+                formVisible: false,
                 preps: {
                   colspan: 8,
-                  values: dataLoadConditionList,
+                  values: dataLoadConditionList
                 },
               },
             ],
@@ -400,7 +394,6 @@ const tableFieldList = reactive<PageFieldInfo | any>({
                 label: "表单验证规则名称",
                 fieldName: "rules",
                 defaultValue: "rules",
-
                 formVisible: true,
               },
             ],
@@ -645,7 +638,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
                   fieldName: "displayAliasField",
 
                   helpMsg:
-                    "关联字段与主表字段冲突时配置,\n必须以字母开头不能有特殊符号",
+                      "关联字段与主表字段冲突时配置,\n必须以字母开头不能有特殊符号",
                   formVisible: true,
                   rules: [
                     {
@@ -697,7 +690,8 @@ const tableFieldList = reactive<PageFieldInfo | any>({
                     required: true,
                     formVisible: true,
                     preps: {
-                      values: authorityList,
+                      dataSource: "dict",
+                      urlOrDictName: "button_authority",
                     },
                   },
                   {
@@ -709,13 +703,22 @@ const tableFieldList = reactive<PageFieldInfo | any>({
                     actions: {
                       change: (val: any) => {
                         urlFieldVisible.value =
-                          val["eventType"] && val["eventType"] != "dialog";
-                        httpMethodVisible.value =
-                          val["eventType"] && val["eventType"] == "interface";
+                            val["eventType"] && val["eventType"] != "dialog";
                       },
                     },
                     preps: {
-                      values: eventTypeList,
+                      dataRelation: {
+                        actionName: "change",
+                        relationDetails: [
+                          {
+                            matchType: "eq",
+                            controlCondition: "eqVisible",
+                            relationFields: ["httpMethod"],
+                            matchFieldValue: "interface",
+                          },
+                        ]
+                      },
+                      values: eventTypeList
                     },
                   },
                 ],
@@ -724,7 +727,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
                     label: "请求地址",
                     fieldName: "content",
                     helpMsg:
-                      "请求接口：填写接口地址， 例如：/userdb-manage/xx/xx/xx;\n页面跳转：填写前端路由，例如：/test/UserInfo;\n弹窗：填写弹窗组件名称，例如：UserInfo。",
+                        "请求接口：填写接口地址， 例如：/userdb-manage/xx/xx/xx;\n页面跳转：填写前端路由，例如：/test/UserInfo;\n弹窗：填写弹窗组件名称，例如：UserInfo。",
                     required: true,
                     formVisible: true,
                     preps: {
@@ -737,7 +740,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
                     defaultValue: "POST",
                     type: "select",
 
-                    formVisible: httpMethodVisible,
+                    formVisible: false,
                     preps: {
                       values: httpMethod(),
                       colspan: 5,
@@ -799,36 +802,36 @@ const tableFieldList = reactive<PageFieldInfo | any>({
     },
   ],
 });
-const initDbList = async () => {
-  dbList.value = await dbConfigList();
-};
+
 const initData = async () => {
-  let params = [{ propertyName: "statusCode", value: "1" }];
-  informationsList.value = await loadSystemInfo(
-    params,
-    `${ServiceEnums.SYSTEM_PREFIX}informations/getUserSystem/${getUserInfo()?.idUsersinfo}`,
-  );
   systemIconList.value = loadElementPlusIcon();
-  loadDict("page_style").then((res: any) => {
+  props.optional?.loadAppList().then((res: SelectOption[]) => {
+    informationsList.value = res;
+  });
+  props.optional?.loadRolesList().then((res: SelectOption[]) => {
+    rolesList.value = res;
+  });
+  props.optional?.loadDicts("page_style").then((res: SelectOption[]) => {
     pageStyleList.value = res;
   });
-  loadDict("button_authority").then((res: any) => {
+  props.optional?.loadDicts("button_authority").then((res: SelectOption[]) => {
     authorityList.value = res;
   });
-  loadDict("event_type").then((res: any) => {
-    eventTypeList.value = res;
+  props.optional?.loadDicts("event_type").then((res: SelectOption[]) => {
+    authorityList.value = res;
   });
-  loadDict("DATA_LOAD_CONDITION").then((res: any) => {
+  props.optional?.loadDicts("DATA_LOAD_CONDITION").then((res: SelectOption[]) => {
     dataLoadConditionList.value = res;
   });
-  loadDict("PRIMARY_KEY_POLICY").then((res: any) => {
+  props.optional?.loadDicts("PRIMARY_KEY_POLICY").then((res: SelectOption[]) => {
     primaryKeyPolicyList.value = res;
   });
 };
+
 const analysisDynamicFields = async (formInfo: any) => {
   let reData = await loadData(
-    apiUrl.basePrefix + "/analysisDynamicDatasourceFields",
-    formInfo,
+      props.optional?.api?.basePrefix + "/analysisDynamicDatasourceFields",
+      formInfo,
   );
   if (reData.error) {
     // warning(reData.error);
@@ -837,7 +840,7 @@ const analysisDynamicFields = async (formInfo: any) => {
   dynamicFieldList.value = reData.data;
 };
 const analysisMainFields = async () => {
-  let reData = await loadData(apiUrl.basePrefix + "/analysisMainTableFields", {
+  let reData = await loadData(props.optional?.api?.basePrefix + "/analysisMainTableFields", {
     details: {
       content: JSON.stringify(designForm.compList),
     },
@@ -850,7 +853,7 @@ const analysisMainFields = async () => {
   allTableFieldList.value = [
     ...mainTableFieldList.value,
     ...commonField().map((item: any) => {
-      return { name: item.label, value: item.fieldName };
+      return {name: item.label, value: item.fieldName};
     }),
   ];
   if (formInfo.value?.needCommonFields == "Y") {
@@ -864,13 +867,13 @@ const loadSameDataSourceTables = (formInfo: any) => {
   formInfo["relations"] = [];
   currentDataSourceId.value = formInfo["datasourceConfigId"];
   params.push(
-    createCondition(
-      "datasourceConfigId",
-      formInfo["datasourceConfigId"] || null,
-      formInfo["datasourceConfigId"] ? "eq" : "is",
-    ),
+      createCondition(
+          "datasourceConfigId",
+          formInfo["datasourceConfigId"] || null,
+          formInfo["datasourceConfigId"] ? "eq" : "is",
+      ),
   );
-  postRequest(apiUrl.listConditionUrl!, {
+  postRequest(props.optional?.api?.listConditionUrl!, {
     fieldList: params,
   }).then((res: any) => {
     relationDataList.value = [];
@@ -898,33 +901,22 @@ const loadTableColumns = (tbName: any) => {
   if (!tbName) {
     return;
   }
-  tableColumnsList.value = [];
-  getRequest(
-    `/userdb-manage/dbsearch/dbinfo/tableColumns/${currentDataSourceId.value}/${tbName}`,
-  ).then((res: any) => {
-    if (res.data.code != 0) {
-      return;
-    }
-    let resData = res.data.data;
-    resData.forEach((item: any) => {
-      tableColumnsList.value.push({
-        name: item.comment,
-        value: item.fieldName,
-      });
-    });
+  props.optional?.loadTableColumns(currentDataSourceId.value, tbName).then((columns: SelectOption[]) => {
+    tableColumnsList.value = columns;
   });
 };
+
+
 /**
  * 表单更新的时候，更新表单的属性
  */
-const updateCompInfo = () => {};
+const updateCompInfo = () => {
+};
 const getFormData = () => {
   return dynamicFormItemRef.value.getFormData();
 };
 onMounted(() => {
   initData();
-  initDbList();
-  loadMenus(formInfo.value["sysId"]);
   analysisMainFields();
 });
 onActivated(() => {
@@ -932,17 +924,16 @@ onActivated(() => {
 });
 
 watch(
-  () => formInfo.value,
-  () => {
-    updateCompInfo();
-  },
-  {
-    immediate: true,
-    deep: true,
-  },
+    () => formInfo.value,
+    () => {
+      updateCompInfo();
+    },
+    {
+      immediate: true,
+      deep: true,
+    },
 );
 defineExpose({
-  loadMenus,
   getFormData,
   analysisDynamicFields,
 });
@@ -954,9 +945,9 @@ defineExpose({
 </style>
 <template>
   <star-horse-form
-    label-position="right"
-    :outerFormData="formInfo"
-    :fieldList="tableFieldList"
-    ref="dynamicFormItemRef"
+      label-position="right"
+      :outerFormData="formInfo"
+      :fieldList="tableFieldList"
+      ref="dynamicFormItemRef"
   />
 </template>

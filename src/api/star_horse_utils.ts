@@ -100,30 +100,7 @@ export async function loadGetData(url: string, signal?: AbortSignal) {
   };
 }
 
-/**
- * 加载所有系统信息
- * @param params 查询参数
- * @param newUrl 新的接口地址
- */
-export async function loadSystemInfo(params: any, newUrl?: string) {
-  let systemList: SelectOption[] = [];
-  await postRequest(newUrl, {
-    fieldList: params,
-  })
-    .then((res) => {
-      const redata = res.data;
-      if (redata.code == 0) {
-        const data = redata.data;
-        if (redata.data) {
-          systemList = createTree(data, "idInformations", "sysName", "");
-        }
-      }
-    })
-    .catch((err) => {
-      console.error(err);
-    });
-  return systemList;
-}
+
 
 /**
  * 构建菜单树
@@ -872,21 +849,7 @@ export async function createFilter(queryString: string) {
   };
 }
 
-export async function dbConfigList(): Promise<SelectOption[]> {
-  const { data, error } = await loadGetData(
-    "/userdb-manage/dbsearch/dbinfo/getDbInfoByUser",
-  );
-  if (error) {
-    warning(error);
-    return [];
-  }
-  return data?.map((item: any) => {
-    return {
-      name: item.name,
-      value: item.configId + "",
-    };
-  });
-}
+
 
 /**
  * 查找应用信息

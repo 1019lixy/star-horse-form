@@ -1,105 +1,105 @@
-import { i18n } from "@/lang/index.js";
-import { ToolBtnType } from "@/components/types/ToolBtnType.js";
+import {i18n} from "@/lang/index.js";
+import {ToolBtnType} from "@/components/types/ToolBtnType.js";
 
 const formActions = (): Array<ToolBtnType> => [
-  {
-    icon: "style",
-    defaultEdit: true,
-    key: "style",
-    auth: "none",
-    label: i18n("dyform.action.style"),
-    children: [
-      {
-        icon: "pc",
+    {
+        icon: "style",
         defaultEdit: true,
-        key: "pc",
+        key: "style",
         auth: "none",
-        label: i18n("dyform.action.pc"),
-      },
-      {
-        icon: "pad",
+        label: i18n("dyform.action.style"),
+        children: [
+            {
+                icon: "pc",
+                defaultEdit: true,
+                key: "pc",
+                auth: "none",
+                label: i18n("dyform.action.pc"),
+            },
+            {
+                icon: "pad",
+                defaultEdit: true,
+                key: "pad",
+                auth: "none",
+                label: i18n("dyform.action.pad"),
+            },
+            {
+                icon: "phone",
+                defaultEdit: true,
+                key: "phone",
+                auth: "none",
+                label: i18n("dyform.action.phone"),
+            },
+        ],
+    },
+    {
+        icon: "add",
         defaultEdit: true,
-        key: "pad",
+        key: "new",
         auth: "none",
-        label: i18n("dyform.action.pad"),
-      },
-      {
-        icon: "phone",
+        label: i18n("dyform.action.new"),
+    },
+    {
+        icon: "edit",
+        key: "eprep",
+        auth: "none",
+        label: i18n("dyform.action.edit"),
+    },
+    {
+        icon: "dept",
+        key: "layer",
+        auth: "none",
+        label: i18n("dyform.action.layer"),
+    },
+    {
+        icon: "empty_setting",
+        key: "empty",
+        auth: "none",
+        label: i18n("dyform.action.empty"),
+    },
+    {
+        icon: "undo",
+        key: "undo",
+        auth: "none",
+        label: i18n("dyform.action.undo"),
+    },
+    {
+        icon: "redo",
+        key: "redo",
+        auth: "none",
+        label: i18n("dyform.action.redo"),
+    },
+    {
+        icon: "valid",
+        key: "valid",
+        auth: "none",
+        label: i18n("dyform.action.valid"),
+    },
+    {
+        icon: "preview",
+        key: "preview",
+        auth: "none",
+        label: i18n("dyform.action.preview"),
+    },
+    {
+        icon: "code",
+        key: "code",
+        auth: "none",
+        label: i18n("dyform.action.code"),
+    },
+    {
+        icon: "save",
+        key: "save",
+        auth: "none",
+        label: i18n("dyform.action.save"),
+    },
+    /*{
+        icon: "right_panel",
         defaultEdit: true,
-        key: "phone",
+        key: "rightPanel",
         auth: "none",
-        label: i18n("dyform.action.phone"),
-      },
-    ],
-  },
-  {
-    icon: "add",
-    defaultEdit: true,
-    key: "new",
-    auth: "none",
-    label: i18n("dyform.action.new"),
-  },
-  {
-    icon: "edit",
-    key: "eprep",
-    auth: "none",
-    label: i18n("dyform.action.edit"),
-  },
-  {
-    icon: "dept",
-    key: "layer",
-    auth: "none",
-    label: i18n("dyform.action.layer"),
-  },
-  {
-    icon: "empty_setting",
-    key: "empty",
-    auth: "none",
-    label: i18n("dyform.action.empty"),
-  },
-  {
-    icon: "undo",
-    key: "undo",
-    auth: "none",
-    label: i18n("dyform.action.undo"),
-  },
-  {
-    icon: "redo",
-    key: "redo",
-    auth: "none",
-    label: i18n("dyform.action.redo"),
-  },
-  {
-    icon: "valid",
-    key: "valid",
-    auth: "none",
-    label: i18n("dyform.action.valid"),
-  },
-  {
-    icon: "preview",
-    key: "preview",
-    auth: "none",
-    label: i18n("dyform.action.preview"),
-  },
-  {
-    icon: "code",
-    key: "code",
-    auth: "none",
-    label: i18n("dyform.action.code"),
-  },
-  {
-    icon: "save",
-    key: "save",
-    auth: "add",
-    label: i18n("dyform.action.save"),
-  },
-  /*{
-          icon: "right_panel",
-          defaultEdit: true,
-          key: "rightPanel",
-          auth: "none",
-          label: i18n("dyform.action.rightPanel")
-      }*/
+        label: i18n("dyform.action.rightPanel")
+    }*/
 ];
 const shortKeyHelpMessage = (): string => `
 ${i18n("dyform.help.shortcuts")}：
@@ -142,4 +142,4 @@ ${i18n("dyform.help.blindSpot1")}
 ${i18n("dyform.help.blindSpot2")}
 ${shortKeyHelpMessage()}
 `;
-export { formActions, dynamicFormHelpMessage };
+export {formActions, dynamicFormHelpMessage};

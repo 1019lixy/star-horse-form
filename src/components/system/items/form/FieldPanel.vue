@@ -1,22 +1,14 @@
 <script setup lang="ts" name="FieldPanel">
-import { computed, PropType, ref } from "vue";
-import {
-  ApiUrls,
-  loadData,
-  piniaInstance,
-  useDesignFormStore,
-} from "star-horse-lowcode";
-import { fieldCopy } from "@/components/system/items/utils/FieldOperationUtils.js";
-import { i18n } from "@/lang/index.js";
+import {computed, PropType, ref} from "vue";
+import {ApiUrls, loadData, piniaInstance, useDesignFormStore,} from "star-horse-lowcode";
+import {fieldCopy} from "@/components/system/items/utils/FieldOperationUtils.js";
+import {i18n} from "@/lang/index.js";
+import {FormConfig} from "@/components/types";
+
 const props = defineProps({
-  batchCreatePage: { type: Boolean, default: false },
-  api: {
-    type: Object as PropType<ApiUrls>,
-    default: () => {},
-  },
+  optional: {type: Object as PropType<FormConfig>}
 });
-const emits = defineEmits(["loadData"]);
-// const dataUrl: ApiUrls = apiInstance("userdb-manage", "userdb/dynamicForm");
+const emits = defineEmits(["loadData", "loadMenu"]);
 let designForm = useDesignFormStore(piniaInstance);
 let formDataList = computed(() => designForm.formDataList);
 let containerList = computed(() => designForm.containerList);
@@ -42,14 +34,18 @@ const templateList = ref<any[]>([]);
 const tabChange = (name: string) => {
   if (name == "template" && props.api.basePrefix) {
     loadData(props.api.basePrefix + "/loadTemplate", {}).then(
-      async (res: any) => {
-        templateList.value = res.data || [];
-      },
+        async (res: any) => {
+          templateList.value = res.data || [];
+        },
     );
   }
 };
 const loadFormData = (formId: any) => {
   emits("loadData", formId);
+};
+const dbCompListRef = ref();
+const loadMenu = (sysId: string) => {
+  emits("loadMenu", "db", sysId);
 };
 const previewRefs = ref<any[]>([]); // 新增ref数组
 // 新增：生成所有预览图片的方法
@@ -65,22 +61,28 @@ const addElement = (element: any, type: string) => {
   } else {
     designForm.selectItem(mvData, mvData["itemType"], "");
   }
-  // designForm.addElement(element,type)
 };
+const setMenuList = (list: any) => {
+  dbCompListRef.value?.setMenusList(list);
+
+};
+defineExpose({
+  setMenuList
+});
 </script>
 <template>
   <el-tabs
-    v-model="tabModel"
-    class="h-full w-full"
-    tab-position="left"
-    @tabChange="tabChange"
-    type="border-card"
+      v-model="tabModel"
+      class="h-full w-full"
+      tab-position="left"
+      @tabChange="tabChange"
+      type="border-card"
   >
     <el-tab-pane name="component">
       <template #label>
         <star-horse-icon
-          icon-class="component"
-          style="color: var(--star-horse-style)"
+            icon-class="component"
+            style="color: var(--star-horse-style)"
         />&nbsp;<span>{{ i18n("dyform.tab.component") }}</span>
       </template>
       <div class="field-area">
@@ -89,38 +91,38 @@ const addElement = (element: any, type: string) => {
             <el-collapse-item name="a">
               <template #title>
                 <div
-                  class="collapse-item-title title h-full flex justify-between"
+                    class="collapse-item-title title h-full flex justify-between"
                 >
                   <div class="flex flex-row items-center h-full">
                     {{ i18n("dyform.collapse.layout") }}
                   </div>
                   <star-horse-icon
-                    icon-class="container"
-                    size="20px"
-                    style="color: var(--star-horse-style); margin-right: 10px"
+                      icon-class="container"
+                      size="20px"
+                      style="color: var(--star-horse-style); margin-right: 10px"
                   />
                 </div>
               </template>
               <draggable
-                :clone="onContainerCopy"
-                :group="{ name: 'starHorseGroup', pull: 'clone', put: false }"
-                :sort="false"
-                animation="300"
-                ghost-class="ghost"
-                item-key="id"
-                tag="ul"
-                :list="containerList"
+                  :clone="onContainerCopy"
+                  :group="{ name: 'starHorseGroup', pull: 'clone', put: false }"
+                  :sort="false"
+                  animation="300"
+                  ghost-class="ghost"
+                  item-key="id"
+                  tag="ul"
+                  :list="containerList"
               >
                 <template #item="{ element }">
                   <li
-                    class="field-item h-[80px]!"
-                    @dblclick="addElement(element, 'container')"
-                    :title="element.itemName"
+                      class="field-item h-[80px]!"
+                      @dblclick="addElement(element, 'container')"
+                      :title="element.itemName"
                   >
                     <star-horse-icon
-                      :icon-class="element.itemIcon"
-                      size="32px"
-                      style="color: var(--star-horse-style)"
+                        :icon-class="element.itemIcon"
+                        size="32px"
+                        style="color: var(--star-horse-style)"
                     />
                     <i>{{ element.itemName }}</i>
                   </li>
@@ -130,7 +132,7 @@ const addElement = (element: any, type: string) => {
             <el-collapse-item name="b">
               <template #title>
                 <div
-                  class="collapse-item-title title h-full flex justify-between"
+                    class="collapse-item-title title h-full flex justify-between"
                 >
                   <div class="flex flex-row items-center h-full">
                     {{ i18n("dyform.collapse.form") }}
@@ -139,29 +141,29 @@ const addElement = (element: any, type: string) => {
                     icon-class="form"
                     size="20px"
                     style="color: var(--star-horse-style); margin-right: 10px"
-                  />
+                />
                 </div>
               </template>
               <draggable
-                :clone="onFormItemCopy"
-                :group="{ name: 'starHorseGroup', pull: 'clone', put: false }"
-                :sort="false"
-                animation="300"
-                ghost-class="ghost"
-                item-key="key"
-                tag="ul"
-                :list="formDataList"
+                  :clone="onFormItemCopy"
+                  :group="{ name: 'starHorseGroup', pull: 'clone', put: false }"
+                  :sort="false"
+                  animation="300"
+                  ghost-class="ghost"
+                  item-key="key"
+                  tag="ul"
+                  :list="formDataList"
               >
                 <template #item="{ element }">
                   <li
-                    class="field-item h-[80px]!"
-                    @dblclick="addElement(element, 'item')"
-                    :title="element.itemName"
+                      class="field-item h-[80px]!"
+                      @dblclick="addElement(element, 'item')"
+                      :title="element.itemName"
                   >
                     <star-horse-icon
-                      :icon-class="element.itemIcon"
-                      size="32px"
-                      style="color: var(--star-horse-style)"
+                        :icon-class="element.itemIcon"
+                        size="32px"
+                        style="color: var(--star-horse-style)"
                     />
                     <i>{{ element.itemName }}</i>
                   </li>
@@ -171,7 +173,7 @@ const addElement = (element: any, type: string) => {
             <el-collapse-item name="c">
               <template #title>
                 <div
-                  class="collapse-item-title title h-full flex justify-between"
+                    class="collapse-item-title title h-full flex justify-between"
                 >
                   <div class="flex flex-row items-center h-full">
                     {{ i18n("dyform.collapse.custom") }}
@@ -180,29 +182,29 @@ const addElement = (element: any, type: string) => {
                     icon-class="other"
                     size="24px"
                     style="color: var(--star-horse-style); margin-right: 10px"
-                  />
+                />
                 </div>
               </template>
               <draggable
-                :clone="onFormItemCopy"
-                :group="{ name: 'starHorseGroup', pull: 'clone', put: false }"
-                :sort="false"
-                animation="300"
-                ghost-class="ghost"
-                item-key="key"
-                tag="ul"
-                :list="selfFormDataList"
+                  :clone="onFormItemCopy"
+                  :group="{ name: 'starHorseGroup', pull: 'clone', put: false }"
+                  :sort="false"
+                  animation="300"
+                  ghost-class="ghost"
+                  item-key="key"
+                  tag="ul"
+                  :list="selfFormDataList"
               >
                 <template #item="{ element }">
                   <li
-                    class="field-item h-[80px]!"
-                    @dblclick="addElement(element, 'item')"
-                    :title="element.itemName"
+                      class="field-item h-[80px]!"
+                      @dblclick="addElement(element, 'item')"
+                      :title="element.itemName"
                   >
                     <star-horse-icon
-                      :icon-class="element.itemIcon"
-                      size="32px"
-                      style="color: var(--star-horse-style)"
+                        :icon-class="element.itemIcon"
+                        size="32px"
+                        style="color: var(--star-horse-style)"
                     />
                     <i>{{ element.itemName }}</i>
                   </li>
@@ -218,44 +220,45 @@ const addElement = (element: any, type: string) => {
       <template #label>
         <div class="flex flex-row items-center h-[110px]">
           <star-horse-icon
-            icon-class="database"
-            style="color: var(--star-horse-style)"
+              icon-class="database"
+              style="color: var(--star-horse-style)"
           />&nbsp;<span>{{ i18n("dyform.tab.dbinfo") }}</span>
         </div>
       </template>
-      <db-list-comp :batchCreatePage="batchCreatePage" />
+      <db-list-comp  :optional="optional"/>
     </el-tab-pane>
     <el-tab-pane name="template">
       <template #label>
         <star-horse-icon
-          icon-class="template"
-          style="color: var(--star-horse-style)"
+            icon-class="template"
+            style="color: var(--star-horse-style)"
         />&nbsp;<span>{{ i18n("dyform.tab.template") }}</span>
       </template>
       <div class="field-area m-t-8">
+        <el-empty v-if="!templateList||templateList?.length==0"/>
         <el-scrollbar height="100%">
           <el-card
-            class="temp-card"
-            style="margin-bottom: 10px !important"
-            v-for="item in templateList"
+              class="temp-card"
+              style="margin-bottom: 10px !important"
+              v-for="item in templateList"
           >
             <div class="flex w-full flex-1 justify-center items-center">
               <el-popover placement="right" :width="500">
                 <template #reference>
                   <el-image :src="item.shortImages">
                     <template #error>
-                      <star-horse-icon iconClass="empty_image" size="100px" />
+                      <star-horse-icon iconClass="empty_image" size="100px"/>
                     </template>
                   </el-image>
                 </template>
                 <template #default>
                   <form-preview
-                    :compSize="'small'"
-                    :formDisabled="true"
-                    :list="JSON.parse(item['details'].content || [])"
-                    :ref="createRef"
-                    class="flex w-full flex-1 justify-center items-center"
-                    v-if="item['details'].content"
+                      :compSize="'small'"
+                      :formDisabled="true"
+                      :list="JSON.parse(item['details'].content || [])"
+                      :ref="createRef"
+                      class="flex w-full flex-1 justify-center items-center"
+                      v-if="item['details'].content"
                   />
                 </template>
               </el-popover>
@@ -263,17 +266,17 @@ const addElement = (element: any, type: string) => {
             <template #footer>
               <div class="flex items-center">
                 <div
-                  class="w-[60%] overflow-hidden text-ellipsis whitespace-nowrap"
+                    class="w-[60%] overflow-hidden text-ellipsis whitespace-nowrap"
                 >
                   #{{ item.formName }}
                 </div>
                 <div class="flex-1 justify-end">
                   <el-button
-                    size="small"
-                    link
-                    @click="loadFormData(item.idDynamicForm)"
-                    icon="plus"
-                    >{{ i18n("dyform.template.load") }}
+                      size="small"
+                      link
+                      @click="loadFormData(item.idDynamicForm)"
+                      icon="plus"
+                  >{{ i18n("dyform.template.load") }}
                   </el-button>
                 </div>
               </div>
@@ -285,8 +288,8 @@ const addElement = (element: any, type: string) => {
     <el-tab-pane name="help">
       <template #label>
         <star-horse-icon
-          icon-class="help"
-          style="color: var(--star-horse-style)"
+            icon-class="help"
+            style="color: var(--star-horse-style)"
         />&nbsp;<span>{{ i18n("dyform.tab.help") }}</span>
       </template>
     </el-tab-pane>

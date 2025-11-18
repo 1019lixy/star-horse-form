@@ -366,12 +366,4 @@ watch(
 .title-wrapper.is-active {
   color: var(--el-color-primary);
 }
-
-:deep {
-  .el-icon {
-    svg {
-      //color: #fff !important
-    }
-  }
-}
 </style>

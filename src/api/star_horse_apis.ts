@@ -7,18 +7,7 @@ function getUserId() {
   return userInfo?.idUsersinfo;
 }
 
-/**
- * 一次性加载用户权限菜单
- * @param data
- * @param sysId
- */
-export async function permissionMenus(data: any, sysId: string) {
-  const userId = data?.userId || getUserId();
-  return await postRequest(
-    `${ServiceEnums.SYSTEM_PREFIX}menusinfo/permissionMenus/${userId}/${sysId}`,
-    {},
-  );
-}
+
 
 /**
  * 下载文件,
