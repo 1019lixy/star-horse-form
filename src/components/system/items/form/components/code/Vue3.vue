@@ -12,8 +12,8 @@ const starHorseEditorRef = ref();
 const asssignVal = (searchFields: string, formFields: string) => {
   return `<script setup lang='ts'>
 import {onMounted, provide, reactive, ref} from "vue";
-import {ApiUrls,apiInstance,dialogPreps,DialogProps,SearchProps,PageFieldInfo} from "star-horse-lowcode";
-const searchFormData = reactive<Array<SearchProps>>(${searchFields});
+import {ApiUrls,apiInstance,dialogPreps,DialogProps,SearchFields,PageFieldInfo} from "star-horse-lowcode";
+const searchFormData = reactive<SearchFields>(${searchFields});
 const tableFieldList = reactive<PageFieldInfo>({
     fieldList:${formFields}
 });
