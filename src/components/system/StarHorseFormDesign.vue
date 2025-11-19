@@ -1,11 +1,9 @@
 <script lang="ts" setup>
 import {computed, nextTick, onActivated, onBeforeUnmount, onDeactivated, onMounted, PropType, ref, watch,} from "vue";
 import {
-  ApiUrls,
   CompType,
   operationConfirm,
   piniaInstance,
-  SelectOption,
   useDesignFormStore,
   useGlobalConfigStore,
   useSelfOperationStore,
@@ -36,29 +34,11 @@ defineOptions({
   name: "StarHorseFormDesign",
 });
 const props = defineProps({
-  permissions: {
-    type: Object as PropType<any>,
-    default: {},
-  },
   primaryKey: {
     type: String,
     default: "idDynamicForm",
   },
-  /**
-   * 接口地址
-   */
-  api: {
-    type: Object as PropType<ApiUrls>,
-  },
-  extendBtns: {
-    type: Array as PropType<ToolBtnType[]>,
-    default: () => [],
-  },
-  forbiddenSystemItems: {
-    type: Boolean,
-    default: false,
-  },
-  options: {type: Object as PropType<FormConfig>},
+  optional: {type: Object as PropType<FormConfig>},
 });
 const emits = defineEmits([
   "changeDataHandle",
@@ -164,7 +144,7 @@ const init = async () => {
     });
   };
   //如果禁用系统组件，不加载系统组件
-  if (!props.forbiddenSystemItems) {
+  if (!props.optional?.forbiddenSystemItems) {
     assignData(formContainer);
     assignData(formItems);
     assignData(formExtendItems);
@@ -459,14 +439,13 @@ defineExpose({
   <ConfigDialog
       ref="configDialogRef"
       :visible="dialogStates.configDialogVisible"
-      :compSize="compSize"
-
+      :optional="optional"
       @save="saveData"
       @close="closeAction"
   />
   <CodeDialog
       :visible="dialogStates.codeDialogVisible"
-      :compSize="compSize"
+      :optional="optional"
       @close="closeAction"
       @save="codeDoSave"
   />
@@ -489,23 +468,19 @@ defineExpose({
     <el-splitter-panel collapsible size="350" min="200" max="450">
       <field-panel
           ref="fieldPanelRef"
-          :api="api"
-          @loadMenu="loadMenu"
-          @loadTableColumns="loadTableColumns"
+          :optional="optional"
           @loadData="loadData"
-          :batchCreatePage="true"
       />
     </el-splitter-panel>
     <el-splitter-panel>
       <div class="main-design-outer">
         <FormToolbar
             :list="list"
-            :permissions="permissions"
             :currentPageStyle="currentPageStyle"
             :cacheData="cacheData"
             @action="actions"
             @cacheRestore="cacheDataRestore"
-            :extendBtns="extendBtns"
+            :optional="optional"
         />
         <FormDesigner
             :list="list"
@@ -521,9 +496,9 @@ defineExpose({
 
         <FormMenuShot
             ref="formListRef"
-            v-if="Object.keys(api || {}).length > 0"
+            v-if="Object.keys(optional?.api || {}).length > 0"
             @change="changeDataHandle"
-            :dataUrl="api"
+            :dataUrl="optional?.api"
             :primaryKey="primaryKey"
         />
         <div class="main-copyright">{{ i18n("starhorse.copyright") }}</div>
@@ -538,7 +513,7 @@ defineExpose({
         v-if="list.length > 0"
     >
       <el-scrollbar>
-        <property-panel ref="propertyRef"/>
+        <property-panel ref="propertyRef" :optional="optional"/>
       </el-scrollbar>
     </el-splitter-panel>
   </el-splitter>

@@ -13,7 +13,6 @@ import {
   SelectOption,
   success,
   useDesignFormStore,
-  useGlobalConfigStore,
   warning
 } from "star-horse-lowcode";
 import {computed, ComputedRef, nextTick, onMounted, PropType, ref, unref} from "vue";
@@ -22,12 +21,10 @@ import {FormConfig} from "@/components/types";
 const props = defineProps({
   optional: {type: Object as PropType<FormConfig>}
 });
-const emits = defineEmits(["loadMenu"]);
-let configStore = useGlobalConfigStore(piniaInstance);
 let designForm = useDesignFormStore(piniaInstance);
 let allFormDataList = computed(() => designForm.allFormDataList);
 let compSize = computed(
-    () => configStore.configFormInfo?.buttonSize || "default",
+    () => props.optional?.compSize || "default",
 );
 let dbIndex = ref<any>(null);
 let formData: ComputedRef<any> = computed(() => designForm.formData);
@@ -173,6 +170,19 @@ const configFieldInfo = ref<PageFieldInfo>({
             createMenuFlag.value = val["isCreateMenu"];
           },
         },
+        preps: {
+          dataRelation: {
+            actionName: "change",
+            relationDetails: [
+              {
+                matchType: "eq",
+                controlCondition: "eqVisible",
+                relationFields: ["idInformations", "parentNo", "userGroupList", "buttonPermissionsList"],
+                matchFieldValue: true,
+              },
+            ]
+          },
+        }
       },
     ],
     [
@@ -181,7 +191,7 @@ const configFieldInfo = ref<PageFieldInfo>({
         fieldName: "idInformations",
         type: "tselect",
         required: true,
-        formVisible: createMenuFlag,
+        formVisible: false,
         actions: {
           change: (val: any) => {
             loadMenuBySystemId(val["idInformations"]);
@@ -200,7 +210,7 @@ const configFieldInfo = ref<PageFieldInfo>({
         label: "父菜单",
         fieldName: "parentNo",
         type: "tselect",
-        formVisible: createMenuFlag,
+        formVisible: false,
         listVisible: true,
         preps: {
           checkStrictly: true,
@@ -217,7 +227,7 @@ const configFieldInfo = ref<PageFieldInfo>({
         label: "授权用户组",
         fieldName: "userGroupList",
         type: "select",
-        formVisible: createMenuFlag,
+        formVisible: false,
         listVisible: true,
         preps: {
           multiple: true,
@@ -229,7 +239,7 @@ const configFieldInfo = ref<PageFieldInfo>({
         fieldName: "buttonPermissionsList",
         type: "select",
         required: false,
-        formVisible: createMenuFlag,
+        formVisible: false,
         listVisible: true,
         preps: {
           multiple: true,
@@ -257,21 +267,27 @@ const configFieldInfo = ref<PageFieldInfo>({
         type: "select",
         defaultValue: "general",
         formVisible: true,
-        actions: {
-          change: (val: any) => {
-            conditionFlag.value = val["pageStyle"] == "form";
-          },
-        },
         preps: {
           colspan: 8,
           values: pageStyleList,
+          dataRelation: {
+            actionName: "change",
+            relationDetails: [
+              {
+                matchType: "eq",
+                controlCondition: "eqVisible",
+                relationFields: ["dataLoadField"],
+                matchFieldValue: "form",
+              },
+            ]
+          },
         },
       },
       {
         label: "数据加载条件",
         fieldName: "dataLoadField",
         type: "select",
-        formVisible: conditionFlag,
+        formVisible: false,
         preps: {
           colspan: 8,
           values: dataLoadConditionList,

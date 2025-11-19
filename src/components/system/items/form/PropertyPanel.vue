@@ -1,32 +1,22 @@
 <script setup lang="ts" name="ItemPropertiesPanel">
-import { computed, onMounted, ref } from "vue";
-import {
-  piniaInstance,
-  searchMatchList,
-  SelectOption,
-  StarHorseIcon,
-  useDesignFormStore,
-  useGlobalConfigStore,
-} from "star-horse-lowcode";
-import { loadDict } from "@/api/star_horse_apis.js";
-import { Config } from "@/api/settings.js";
+import {computed, onMounted, PropType, ref} from "vue";
+import {piniaInstance, searchMatchList, SelectOption, StarHorseIcon, useDesignFormStore,} from "star-horse-lowcode";
 import ItemPropertiesPanel from "@/components/system/items/form/ItemPropertiesPanel.vue";
 import CustomerPropertyPanel from "@/components/system/items/form/CustomerPropertyPanel.vue";
+import {FormConfig} from "@/components/types";
 
+const props = defineProps({
+  optional: {type: Object as PropType<FormConfig>}
+});
 let designForm = useDesignFormStore(piniaInstance);
 const formProps = computed(() => designForm.currentFormPreps);
-
-let configStore = useGlobalConfigStore(piniaInstance);
 let prepActiveName = ref<string>("base");
-let compSize = computed(
-  () => configStore.configFormInfo?.inputSize || Config.compSize,
-);
+let compSize = computed(() => props.optional?.compSize ?? "default");
 const itemPropertiesRef = ref();
 const customerPropertyPanelRef = ref();
 
 //-----------------------数据源相关属性---------------------
 let matchTypeList = ref<SelectOption[]>();
-let envList = ref<Array<SelectOption>>([]);
 const changeOperation = (val: string) => {
   if (val === "customer") {
     customerPropertyPanelRef.value.assignPrep();
@@ -34,49 +24,48 @@ const changeOperation = (val: string) => {
 };
 onMounted(async () => {
   matchTypeList.value = searchMatchList();
-  envList.value = await loadDict("system_environment");
 });
 </script>
 
 <template>
   <div class="flex flex-col h-full overflow-hidden">
     <el-form
-      :model="formProps"
-      class="dynamic-form"
-      ref="itemPropertiesRef"
-      :size="compSize"
-      :scroll-to-error="true"
-      :scroll-into-view-options="true"
-      :inline-message="false"
-      :status-icon="true"
-      label-width="auto"
-      label-position="right"
-      require-asterisk-position="right"
+        :model="formProps"
+        class="dynamic-form"
+        ref="itemPropertiesRef"
+        :size="compSize"
+        :scroll-to-error="true"
+        :scroll-into-view-options="true"
+        :inline-message="false"
+        :status-icon="true"
+        label-width="auto"
+        label-position="right"
+        require-asterisk-position="right"
     >
       <el-tabs
-        v-model="prepActiveName"
-        type="border-card"
-        @tabChange="changeOperation"
+          v-model="prepActiveName"
+          type="border-card"
+          @tabChange="changeOperation"
       >
         <el-tab-pane label="基础属性" name="base">
           <template #label>
             <div class="flex items-center">
-              <star-horse-icon iconClass="base_preps" />
+              <star-horse-icon iconClass="base_preps"/>
               基础属性
             </div>
           </template>
-          <item-properties-panel :compSize="compSize" />
+          <item-properties-panel :optional="optional"/>
         </el-tab-pane>
         <el-tab-pane name="customer">
           <template #label>
             <div class="flex items-center">
-              <star-horse-icon iconClass="data_db" />
+              <star-horse-icon iconClass="data_db"/>
               个性化属性
             </div>
           </template>
           <customer-property-panel
-            ref="customerPropertyPanelRef"
-            :compSize="compSize"
+              ref="customerPropertyPanelRef"
+              :optional="optional"
           />
         </el-tab-pane>
       </el-tabs>

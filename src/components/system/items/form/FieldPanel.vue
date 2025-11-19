@@ -1,6 +1,6 @@
 <script setup lang="ts" name="FieldPanel">
 import {computed, PropType, ref} from "vue";
-import {ApiUrls, loadData, piniaInstance, useDesignFormStore,} from "star-horse-lowcode";
+import {loadData, piniaInstance, useDesignFormStore,} from "star-horse-lowcode";
 import {fieldCopy} from "@/components/system/items/utils/FieldOperationUtils.js";
 import {i18n} from "@/lang/index.js";
 import {FormConfig} from "@/components/types";
@@ -8,7 +8,7 @@ import {FormConfig} from "@/components/types";
 const props = defineProps({
   optional: {type: Object as PropType<FormConfig>}
 });
-const emits = defineEmits(["loadData", "loadMenu"]);
+const emits = defineEmits(["loadData"]);
 let designForm = useDesignFormStore(piniaInstance);
 let formDataList = computed(() => designForm.formDataList);
 let containerList = computed(() => designForm.containerList);
@@ -16,24 +16,22 @@ let selfFormDataList = computed(() => designForm.selfFormDataList);
 let list = computed(() => designForm.compList);
 let tabModel = ref<string>("component");
 let activeNames = ref(["a", "b", "c", "d"]);
-
+const model = computed(() => props.optional?.model ?? "simple");
 const onContainerCopy = (data: any) => {
   return onDataCopy(data, "container");
 };
 const onFormItemCopy = (data: any) => {
   return onDataCopy(data, "formItem");
 };
-
 const onDataCopy = (data: any, type: string) => {
   let mvData = fieldCopy(data, type);
   designForm.setDraggingItem(mvData);
   return mvData;
 };
 const templateList = ref<any[]>([]);
-
 const tabChange = (name: string) => {
-  if (name == "template" && props.api.basePrefix) {
-    loadData(props.api.basePrefix + "/loadTemplate", {}).then(
+  if (name == "template" && props.optional?.api.basePrefix) {
+    loadData(props.optional.api.basePrefix + "/loadTemplate", {}).then(
         async (res: any) => {
           templateList.value = res.data || [];
         },
@@ -43,10 +41,7 @@ const tabChange = (name: string) => {
 const loadFormData = (formId: any) => {
   emits("loadData", formId);
 };
-const dbCompListRef = ref();
-const loadMenu = (sysId: string) => {
-  emits("loadMenu", "db", sysId);
-};
+
 const previewRefs = ref<any[]>([]); // 新增ref数组
 // 新增：生成所有预览图片的方法
 const createRef = (el: any) => {
@@ -62,13 +57,7 @@ const addElement = (element: any, type: string) => {
     designForm.selectItem(mvData, mvData["itemType"], "");
   }
 };
-const setMenuList = (list: any) => {
-  dbCompListRef.value?.setMenusList(list);
-
-};
-defineExpose({
-  setMenuList
-});
+defineExpose({});
 </script>
 <template>
   <el-tabs
@@ -216,7 +205,7 @@ defineExpose({
         </el-scrollbar>
       </div>
     </el-tab-pane>
-    <el-tab-pane name="dbinfo">
+    <el-tab-pane name="dbinfo" v-if="model=='full'">
       <template #label>
         <div class="flex flex-row items-center h-[110px]">
           <star-horse-icon
@@ -225,9 +214,9 @@ defineExpose({
           />&nbsp;<span>{{ i18n("dyform.tab.dbinfo") }}</span>
         </div>
       </template>
-      <db-list-comp  :optional="optional"/>
+      <db-list-comp :optional="optional"/>
     </el-tab-pane>
-    <el-tab-pane name="template">
+    <el-tab-pane name="template" v-if="model=='full'">
       <template #label>
         <star-horse-icon
             icon-class="template"

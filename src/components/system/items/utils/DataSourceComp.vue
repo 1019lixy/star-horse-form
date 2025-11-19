@@ -1,6 +1,5 @@
 <script setup lang="ts">
-import { loadDict } from "@/api/star_horse_apis.js";
-import { loadSvgIconsByPath } from "@/api/star_horse_utils.js";
+import {loadSvgIconsByPath} from "@/api/star_horse_utils.js";
 import {
   createData,
   getInterfaceUtils,
@@ -8,23 +7,8 @@ import {
   validInterface,
   validOperation,
 } from "@/components/system/items/utils/ItemPreps.js";
-import {
-  error,
-  FieldInfo,
-  PageFieldInfo,
-  searchMatchList,
-  SelectOption,
-} from "star-horse-lowcode";
-import {
-  ModelRef,
-  nextTick,
-  onMounted,
-  PropType,
-  reactive,
-  ref,
-  unref,
-  watch,
-} from "vue";
+import {error, FieldInfo, PageFieldInfo, searchMatchList, SelectOption,} from "star-horse-lowcode";
+import {computed, ModelRef, nextTick, onMounted, PropType, reactive, ref, unref, watch} from "vue";
 
 defineOptions({
   name: "DataSourceComp",
@@ -32,36 +16,44 @@ defineOptions({
 const props = defineProps({
   formProps: {
     type: Object as PropType<any>,
-    default: () => {},
+    default: () => {
+    },
   },
 
   preps: {
     type: Object as PropType<any>,
-    default: () => {},
+    default: () => {
+    },
   },
 
   item: {
     type: Object as PropType<PageFieldInfo>,
-    default: () => {},
+    default: () => {
+    },
   },
+  model: {
+    type: String, default: "simple"
+  }
 });
-const dataSourceList: Array<SelectOption> = [
-  { value: "data", name: "静态数据" },
-  { value: "url", name: "动态接口" },
-  { value: "dict", name: "数据字典" },
-];
+const dataSourceList = computed(() => {
+  const arr: SelectOption[] = [{value: "data", name: "静态数据"}];
+  if (props.model == "full") {
+    arr.push({value: "url", name: "动态接口"},
+        {value: "dict", name: "数据字典"});
+  }
+  return arr;
+});
 const dataSourceFormRef = ref();
 const dataForm: ModelRef<any> = defineModel("dataForm");
 const matchTypeList = searchMatchList();
 const dataRequired = ref<boolean>(true);
 const urlRequired = ref<boolean>(false);
 const currentTabName = ref<FieldInfo[] | any>([]);
-let envList = ref<Array<SelectOption>>([]);
 
 // 创建接口工具对象
 // 使用从ItemPreps导入的接口工具函数
 const interfaceUtils = getInterfaceUtils();
-const { fieldList, disableUrl } = interfaceUtils;
+const {fieldList, disableUrl} = interfaceUtils;
 
 // 生成URL配置字段
 const urlFields = getUrlFieldConfig(interfaceUtils, {
@@ -75,12 +67,12 @@ const urlFields = getUrlFieldConfig(interfaceUtils, {
   validateCallback: {
     click: async (val: any) => {
       await validOperation(
-        val,
-        dataSourceFormRef,
-        fieldList,
-        disableUrl,
-        !dataForm.value,
-        dataForm,
+          val,
+          dataSourceFormRef,
+          fieldList,
+          disableUrl,
+          !dataForm.value,
+          dataForm,
       );
       console.log("校验结果", fieldList.value);
     },
@@ -129,14 +121,14 @@ const baseDataField: FieldInfo[] | any = [
       label: "解析方式",
       fieldName: "analysisType",
       helpMsg:
-        "路径解析：只能解析项目public下的子路径，格式为 test/*.svg，\n函数解析：只能解析src/api/star_horse_utils.ts下的无参函数，格式为: analysisData",
+          "路径解析：只能解析项目public下的子路径，格式为 test/*.svg，\n函数解析：只能解析src/api/star_horse_utils.ts下的无参函数，格式为: analysisData",
       type: "radio",
       formVisible: true,
       defaultValue: "func",
       preps: {
         values: [
-          { name: "路径", value: "path", disabled: true },
-          { name: "函数", value: "func" },
+          {name: "路径", value: "path", disabled: true},
+          {name: "函数", value: "func"},
         ],
         colspan: 8,
       },
@@ -155,7 +147,7 @@ const baseDataField: FieldInfo[] | any = [
       fieldName: "btn",
       type: "button",
       formVisible: true,
-      actions: { click: (val: any) => analysisOptionData(val) },
+      actions: {click: (val: any) => analysisOptionData(val)},
       preps: {
         colspan: 2,
       },
@@ -295,12 +287,12 @@ const dictField: FieldInfo[] | any = [
     actions: {
       click: async (val: any) => {
         await validOperation(
-          val,
-          dataSourceFormRef,
-          fieldList,
-          disableUrl,
-          !dataForm.value,
-          dataForm,
+            val,
+            dataSourceFormRef,
+            fieldList,
+            disableUrl,
+            !dataForm.value,
+            dataForm,
         );
       },
     },
@@ -337,7 +329,6 @@ const dataSourceField = reactive<PageFieldInfo | any>({
         actions: {
           change: (val: any) => {
             const type = val["dataSource"];
-            console.log("type", type);
             innerFunc(type);
           },
         },
@@ -347,14 +338,13 @@ const dataSourceField = reactive<PageFieldInfo | any>({
         },
       },
     ],
-    { type: "divider", formVisible: true, listVisible: true },
+    {type: "divider", formVisible: true, listVisible: true},
   ],
 });
 
 const innerFunc = (type: string) => {
   // 先清空fieldList中从索引2开始的所有元素
   dataSourceField.fieldList.splice(2);
-
   // 根据类型添加对应的数据
   if (type == "url") {
     dataSourceField.fieldList.push(...dynamicUrlField);
@@ -368,33 +358,31 @@ const innerFunc = (type: string) => {
 const submitValid = async () => {
   let flag: boolean = false;
   await validInterface(
-    props.formProps,
-    dataSourceFormRef,
-    (dataList: any, _successMsg: string, errorMsg: string) => {
-      if (!errorMsg) {
-        //只保存静态数据,
-        if (props.formProps) {
-          props.formProps["values"] = createData(
-            dataSourceFormRef,
-            dataList,
-          )?.reDataList;
+      props.formProps,
+      dataSourceFormRef,
+      (dataList: any, _successMsg: string, errorMsg: string) => {
+        if (!errorMsg) {
+          //只保存静态数据,
+          if (props.formProps) {
+            props.formProps["values"] = createData(
+                dataSourceFormRef,
+                dataList,
+            )?.reDataList;
+          }
+          flag = true;
+        } else {
+          error(errorMsg);
+          flag = false;
         }
-        flag = true;
-      } else {
-        error(errorMsg);
-        flag = false;
-      }
-    },
-    !dataForm.value,
-    dataForm,
+      },
+      !dataForm.value,
+      dataForm,
   );
   return flag;
 };
 const isInited = ref<boolean>(false);
 const init = () => {
-  loadDict("system_environment").then((res) => {
-    envList.value = res;
-  });
+
   nextTick(() => {
     if (props.preps?.objectName && dataForm.value) {
       let temp = dataForm.value;
@@ -412,10 +400,10 @@ const getFormData = () => {
   return dataSourceFormRef.value?.getFormData();
 };
 watch(
-  () => dataForm.value?.dataSource,
-  (val) => {
-    currentTabName.value = val || "data";
-  },
+    () => dataForm.value?.dataSource,
+    (val) => {
+      currentTabName.value = val || "data";
+    },
 );
 onMounted(() => {
   init();
@@ -430,18 +418,18 @@ defineExpose({
 
 <template>
   <star-horse-form
-    :fieldList="dataSourceField"
-    ref="dataSourceFormRef"
-    v-if="!dataForm"
+      :fieldList="dataSourceField"
+      ref="dataSourceFormRef"
+      v-if="!dataForm"
   />
   <star-horse-form-item
-    v-else
-    ref="dataSourceFormRef"
-    :fieldList="dataSourceField"
-    :dataIndex="(props.preps?.params?.totalTab || 1) - 1"
-    :subFormFlag="'Y'"
-    :objectName="'dataSource'"
-    v-model:dataForm="dataForm"
+      v-else
+      ref="dataSourceFormRef"
+      :fieldList="dataSourceField"
+      :dataIndex="(props.preps?.params?.totalTab || 1) - 1"
+      :subFormFlag="'Y'"
+      :objectName="'dataSource'"
+      v-model:dataForm="dataForm"
   />
 </template>
 

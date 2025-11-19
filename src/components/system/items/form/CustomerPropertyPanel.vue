@@ -1,20 +1,16 @@
 <script setup lang="ts" name="CustomerPropertyPanel">
-import { computed, nextTick, onMounted, ref, unref, watch } from "vue";
-import {
-  formFieldMapping,
-  isJson,
-  PageFieldInfo,
-  piniaInstance,
-  useDesignFormStore,
-} from "star-horse-lowcode";
-import { loadSvgIcons } from "@/api/star_horse_utils.js";
-import { useDialogManager } from "@/components/system/items/form/composables/useDialogManager.js";
+import {computed, nextTick, onMounted, PropType, ref, unref, watch} from "vue";
+import {formFieldMapping, isJson, PageFieldInfo, piniaInstance, useDesignFormStore,} from "star-horse-lowcode";
+import {loadSvgIcons} from "@/api/star_horse_utils.js";
+import {useDialogManager} from "@/components/system/items/form/composables/useDialogManager.js";
 import ButtonEventDialog from "@/components/system/items/form/dialogs/ButtonEventDialog.vue";
 import JsEditorDialog from "@/components/system/items/form/dialogs/JsEditorDialog.vue";
 import ParamsDialog from "@/components/system/items/form/dialogs/ParamsDialog.vue";
 import PreOrPendDialog from "@/components/system/items/form/dialogs/PreOrPendDialog.vue";
-defineProps({
-  compSize: { type: String, default: "default" },
+import {FormConfig} from "@/components/types";
+
+const props = defineProps({
+  optional: {type: Object as PropType<FormConfig>}
 });
 let designForm = useDesignFormStore(piniaInstance);
 let formDataList = computed(() => designForm.formDataList);
@@ -25,12 +21,13 @@ let currentItemType = computed(() => {
   comp.type = comp.itemType;
   return comp.itemType;
 });
+let compSize = computed(() => props.optional?.compSize ?? "default");
 let currentCompCategory = computed(() => designForm.currentCompCategory);
 let currentItemId = computed(() => designForm.currentItemId);
 let list = computed(() => designForm.compList);
 let formInfo = computed(() => designForm.formInfo);
 const formProps = computed(() => designForm.currentFormPreps);
-const { dialogStates, openDialog, closeAllDialogs } = useDialogManager();
+const {dialogStates, openDialog, closeAllDialogs} = useDialogManager();
 let currentField = ref<any>({});
 let fieldName = ref<string>("");
 let activeNames = ref<string[]>(["base"]);
@@ -159,7 +156,7 @@ const assignValue = (fieldInfo: any) => {
         fieldName: "cfgClickEvent",
         type: "button",
         formVisible: true,
-        actions: { click: (_data: any) => btnClickOpen() },
+        actions: {click: (_data: any) => btnClickOpen()},
       });
     }
     recordPreps.value[temp.itemType] = {
@@ -199,69 +196,69 @@ defineExpose({
   assignPrep,
 });
 watch(
-  () => [currentItemId.value, currentItemType.value],
-  () => {
-    console.log(currentItemId.value, currentItemType.value);
-    assignPrep();
-  },
-  {
-    immediate: false,
-  },
+    () => [currentItemId.value, currentItemType.value],
+    () => {
+      console.log(currentItemId.value, currentItemType.value);
+      assignPrep();
+    },
+    {
+      immediate: false,
+    },
 );
 </script>
 <template>
   <!-- Button Event Dialog -->
   <ButtonEventDialog
-    :visible="dialogStates.buttonEventDialog"
-    :formProps="formProps"
-    @merge="handleDialogMerge"
-    @close="handleDialogClose"
-    @reset="handleDialogClose"
+      :visible="dialogStates.buttonEventDialog"
+      :formProps="formProps"
+      @merge="handleDialogMerge"
+      @close="handleDialogClose"
+      @reset="handleDialogClose"
   />
   <!-- Params Dialog -->
   <ParamsDialog
-    :visible="dialogStates.paramsDialog"
-    :formProps="formProps"
-    :formInfo="formInfo"
-    :fieldName="fieldName"
-    :currentField="currentField"
-    @merge="handleDialogMerge"
-    @close="handleDialogClose"
-    @reset="handleDialogClose"
+      :visible="dialogStates.paramsDialog"
+      :formProps="formProps"
+      :formInfo="formInfo"
+      :fieldName="fieldName"
+      :currentField="currentField"
+      @merge="handleDialogMerge"
+      @close="handleDialogClose"
+      @reset="handleDialogClose"
   />
 
   <!-- JS Editor Dialog -->
   <JsEditorDialog
-    :visible="dialogStates.jsEditor"
-    :formProps="formProps"
-    :fieldName="fieldName"
-    :currentField="currentField"
-    :list="list"
-    @close="handleDialogClose"
+      :visible="dialogStates.jsEditor"
+      :formProps="formProps"
+      :fieldName="fieldName"
+      :currentField="currentField"
+      :list="list"
+      @close="handleDialogClose"
   />
   <PreOrPendDialog
-    :visible="dialogStates.preOrPendDialog"
-    :formProps="formProps"
-    :formInfo="formInfo"
-    :fieldName="fieldName"
-    :currentField="currentField"
-    @merge="handleDialogMerge"
-    @close="handleDialogClose"
-    @reset="handleDialogClose"
+      :visible="dialogStates.preOrPendDialog"
+      :formProps="formProps"
+      :formInfo="formInfo"
+      :fieldName="fieldName"
+      :currentField="currentField"
+      @merge="handleDialogMerge"
+      @close="handleDialogClose"
+      @reset="handleDialogClose"
   />
   <el-scrollbar>
     <el-collapse v-model="activeNames">
       <el-collapse-item name="base">
         <template #title="{ isActive }">
           <div :class="['title-wrapper', { 'is-active': isActive }]">
-            <star-horse-icon iconClass="base_preps" />
+            <star-horse-icon iconClass="base_preps"/>
             <span>组件属性</span>
           </div>
         </template>
         <el-form-item
-          label="前置/后置"
-          prop="cfg"
-          v-if="
+            label="前置/后置"
+            prop="cfg"
+            v-if="
             [
               'input',
               'autocomplete',
@@ -270,59 +267,61 @@ watch(
               'number-range',
             ].includes(currentItemType)
           "
+            :size="compSize"
         >
           <el-button @click="prependOrAppend" icon="setting"> 配置</el-button>
         </el-form-item>
         <template v-for="item in basePreps">
           <el-form-item
-            :label="item.label"
-            :prop="item.fieldName"
-            :label-position="
+              :label="item.label"
+              :prop="item.fieldName"
+              :size="compSize"
+              :label-position="
               item.type == 'switch' || item.type == 'button' ? 'left' : 'top'
             "
           >
             <el-input
-              v-if="item.type == 'input'"
-              v-model="formProps[item.fieldName]"
-              :placeholder="'请输入' + item.label"
+                v-if="item.type == 'input'"
+                v-model="formProps[item.fieldName]"
+                :placeholder="'请输入' + item.label"
             />
             <el-select
-              v-if="item.type == 'select'"
-              clearable
-              filterable
-              v-model="formProps[item.fieldName]"
-              :placeholder="'请选择' + item.label"
+                v-if="item.type == 'select'"
+                clearable
+                filterable
+                v-model="formProps[item.fieldName]"
+                :placeholder="'请选择' + item.label"
             >
               <el-option
-                v-for="temp in item.preps.values"
-                :label="temp.label"
-                :value="temp.value"
+                  v-for="temp in item.preps.values"
+                  :label="temp.label"
+                  :value="temp.value"
               />
             </el-select>
             <el-button
-              v-if="item.type == 'button'"
-              type="primary"
-              plain
-              @click="item.actions?.click(formProps)"
-              icon="Setting"
+                v-if="item.type == 'button'"
+                type="primary"
+                plain
+                @click="item.actions?.click(formProps)"
+                icon="Setting"
             >
               配置
             </el-button>
             <el-input-number
-              v-if="item.type == 'number'"
-              controls-position="right"
-              min="0"
-              v-model="formProps[item.fieldName]"
-              :placeholder="'请输入' + item.label"
+                v-if="item.type == 'number'"
+                controls-position="right"
+                min="0"
+                v-model="formProps[item.fieldName]"
+                :placeholder="'请输入' + item.label"
             />
             <el-switch
-              v-if="item.type == 'switch'"
-              v-model="formProps[item.fieldName]"
+                v-if="item.type == 'switch'"
+                v-model="formProps[item.fieldName]"
             />
             <icon-item
-              v-if="item.type == 'icon'"
-              v-model:formData="formProps"
-              :field="{
+                v-if="item.type == 'icon'"
+                v-model:formData="formProps"
+                :field="{
                 fieldName: item.fieldName,
                 preps: item.preps,
               }"
@@ -333,22 +332,23 @@ watch(
       <el-collapse-item name="action">
         <template #title="{ isActive }">
           <div :class="['title-wrapper', { 'is-active': isActive }]">
-            <star-horse-icon iconClass="event-action" />
+            <star-horse-icon iconClass="event-action"/>
             <span>自定义事件</span>
           </div>
         </template>
         <template v-for="item in actionPreps">
           <el-form-item
-            :label="item.label"
-            :prop="item.name"
-            label-position="top"
+              :label="item.label"
+              :prop="item.name"
+              :size="compSize"
+              label-position="top"
           >
             <el-button
-              type="primary"
-              plain
-              @click="item.actions.click"
-              icon="Setting"
-              >配置
+                type="primary"
+                plain
+                @click="item.actions.click"
+                icon="Setting"
+            >配置
             </el-button>
           </el-form-item>
         </template>

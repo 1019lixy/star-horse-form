@@ -18,9 +18,9 @@ import {FormConfig} from "@/components/types";
 const props = defineProps<{
   optional: FormConfig
 }>();
-const emits = defineEmits(["loadMenu", "loadTableColumns"]);
 let designForm = useDesignFormStore(piniaInstance);
 let formInfo = computed(() => designForm.formInfo);
+const model = computed(() => props.optional?.model ?? "simple");
 let dynamicFormItemRef = ref();
 let dbList = ref<any>([]);
 let systemIconList = ref<SelectOption[]>([]);
@@ -104,7 +104,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
           },
         },
         required: true,
-        formVisible: true,
+        formVisible: ["full"].includes(model.value),
         preps: {
           values: dbList,
         },
@@ -132,7 +132,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
                 formVisible: true,
                 preps: {
                   editDisabled: true,
-                  colspan: 11,
+                  colspan: ["simple"].includes(model.value) ? 24 : 11,
                 },
               },
               {
@@ -144,7 +144,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
                     loadMenus(val["sysId"]);
                   },
                 },
-                formVisible: true,
+                formVisible: ["full"].includes(model.value),
                 required: true,
                 preps: {
                   checkStrictly: true,
@@ -157,7 +157,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
                 fieldName: "createTable",
                 type: "switch",
                 defaultValue: "N",
-                formVisible: true,
+                formVisible: ["full"].includes(model.value),
                 preps: {
                   colspan: 5,
                   activeValue: "Y",
@@ -173,14 +173,14 @@ const tableFieldList = reactive<PageFieldInfo | any>({
                 formVisible: true,
                 preps: {
                   editDisabled: true,
-                  colspan: 11,
+                  colspan: ["simple"].includes(model.value) ? 24 : 11,
                 },
               },
               {
                 label: "主键策略",
                 fieldName: "primaryKeyPolicy",
                 type: "select",
-                formVisible: true,
+                formVisible: ["full"].includes(model.value),
                 preps: {
                   editDisabled: true,
                   values: primaryKeyPolicyList,
@@ -194,7 +194,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
                 defaultValue: "document",
                 formVisible: true,
                 preps: {
-                  colspan: 5,
+                  colspan:  ["simple"].includes(model.value) ? 24 :5,
                   iconType: "user",
                   values: loadSvgIcons(),
                 },
@@ -206,7 +206,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
                 fieldName: "createMenu",
                 type: "switch",
                 defaultValue: "N",
-                formVisible: true,
+                formVisible: ["full"].includes(model.value),
                 preps: {
                   colspan: 12,
                   dataRelation: {
@@ -273,7 +273,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
                 fieldName: "templateFlag",
                 type: "switch",
                 defaultValue: 2,
-                formVisible: true,
+                formVisible: ["full"].includes(model.value),
                 preps: {
                   activeValue: 1,
                   inactiveValue: 2,
@@ -286,7 +286,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
                 fieldName: "deleteCascade",
                 type: "switch",
                 defaultValue: "Y",
-                formVisible: true,
+                formVisible: ["full"].includes(model.value),
                 preps: {
                   colspan: 8,
                   activeValue: "Y",
@@ -300,7 +300,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
                 label: "页面风格",
                 fieldName: "pageStyle",
                 type: "select",
-                formVisible: true,
+                formVisible: ["default", "full"].includes(model.value),
                 preps: {
                   colspan: 8,
                   dataRelation: {
@@ -333,6 +333,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
         {
           title: "映射关系配置",
           tabName: "tab2",
+          disVisible: model.value == "full",
           helpMsg: relationMsg,
           batchFieldList: [
             {
@@ -367,11 +368,13 @@ const tableFieldList = reactive<PageFieldInfo | any>({
         {
           title: "脚本绑定",
           tabName: "tab3",
+          disVisible: ["default", "full"].includes(model.value),
           fieldList: [],
         },
         {
           title: "其它属性",
           tabName: "tab4",
+          disVisible: ["default", "full"].includes(model.value),
           fieldList: [
             [
               {
@@ -491,6 +494,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
         {
           title: "公共属性",
           tabName: "tab5",
+          disVisible: ["default", "full"].includes(model.value),
           helpMsg: commonColumnsMsg,
           fieldList: [
             [
@@ -575,6 +579,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
         {
           tabName: "tab6",
           title: "列表显示配置",
+          disVisible: ["full"].includes(model.value),
           helpMsg: tableListMsg,
           batchFieldList: [
             {
@@ -655,6 +660,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
         {
           tabName: "tab7",
           title: "列表自定义事件",
+          disVisible: ["full"].includes(model.value),
           batchFieldList: [
             {
               objectName: "listActions",
@@ -760,6 +766,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
         {
           tabName: "tab8",
           title: "列表排序字段",
+          disVisible: ["default", "full"].includes(model.value),
           batchFieldList: [
             {
               objectName: "orderBy",
@@ -863,6 +870,10 @@ const analysisMainFields = async () => {
 let currentDataSourceId = ref<string>("");
 //获取同数据源下的表,用来配置对应的关系
 const loadSameDataSourceTables = (formInfo: any) => {
+  if (!props.optional?.api?.listConditionUrl) {
+    warning("未配置listConditionUrl");
+    return;
+  }
   let params: any = [];
   formInfo["relations"] = [];
   currentDataSourceId.value = formInfo["datasourceConfigId"];
