@@ -1403,6 +1403,7 @@ const formFields = computed(() => designForm.forceLoadCompNames());
  * 关联
  * @param preps 当前组件参数
 
+ * @param model 模式
  */
 export function relationDataField(preps: any, model: string) {
     const currentFieldValues = ref<SelectOption[]>([]);

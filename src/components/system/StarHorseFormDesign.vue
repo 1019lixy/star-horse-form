@@ -153,6 +153,15 @@ const init = async () => {
     designForm.setSelfFormDataList(formExtendItems);
     designForm.setAllFormDataList(allFormDataList);
   }
+  props.optional?.containerList().then((res: CompType[]) => {
+    designForm.addContainerList(res);
+  });
+  props.optional?.itemList().then((res: CompType[]) => {
+    designForm.addFormDataList(res);
+  });
+  props.optional?.extendItemList().then((res: CompType[]) => {
+    designForm.addSelfFormDataList(res);
+  });
   cacheDataRestore(null as MouseEvent);
 
   //解决数据已经加载完成，但是组件属性没有加载完成的问题
@@ -396,30 +405,6 @@ const initStoreData = () => {
 const formShortKeySwitch = (disabled: boolean) => {
   designForm.setShortKeyDisabled(disabled);
 };
-
-/**
- *扩展第三方容器组件
- * @param containerData 容器组件
- */
-const setContainerDatas = (containers: CompType[]) => {
-  designForm.addContainerList(containers);
-};
-/**
- * 系统组件
- * @param items 组件列表
- */
-const setItemDatas = (items: CompType[]) => {
-  designForm.addFormDataList(items);
-};
-/**
- * 扩展第三方组件
- * @param items 组件列表
- */
-const addExtendItemDatas = (items: CompType[]) => {
-  designForm.addSelfFormDataList(items);
-};
-
-
 defineExpose({
   validatePreviewForm,
   exportPreviewToHtml,
@@ -427,11 +412,7 @@ defineExpose({
   setFormInfo,
   closeAction,
   initStoreData,
-  formShortKeySwitch,
-  setContainerDatas,
-  setItemDatas,
-  addExtendItemDatas,
-
+  formShortKeySwitch
 });
 </script>
 

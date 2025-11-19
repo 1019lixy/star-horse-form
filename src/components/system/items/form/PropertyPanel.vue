@@ -14,8 +14,6 @@ let prepActiveName = ref<string>("base");
 let compSize = computed(() => props.optional?.compSize ?? "default");
 const itemPropertiesRef = ref();
 const customerPropertyPanelRef = ref();
-
-//-----------------------数据源相关属性---------------------
 let matchTypeList = ref<SelectOption[]>();
 const changeOperation = (val: string) => {
   if (val === "customer") {

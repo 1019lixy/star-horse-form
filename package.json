@@ -2,7 +2,7 @@
   "name": "star-horse-form",
   "private": false,
   "author": "l_1019@163.com",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "type": "module",
   "description": "星马动态表单组件",
   "keywords": [
@@ -89,7 +89,7 @@
     "smooth-signature": "^1.1.0",
     "sortablejs": "^1.15.6",
     "sql-formatter": "^15.6.10",
-    "star-horse-lowcode": "../testcode",
+    "star-horse-lowcode": "^2.8.27",
     "tailwindcss": "^4.1.17",
     "thememirror": "^2.0.1",
     "uuid": "^13.0.0",

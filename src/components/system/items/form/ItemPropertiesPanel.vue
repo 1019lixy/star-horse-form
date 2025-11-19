@@ -148,8 +148,7 @@ const dataRelationMerge = async () => {
   if (!flag) {
     return;
   }
-  formProps.value["dataRelation"] =
-      dataRelationFormRef.value.getFormData().value;
+  formProps.value["dataRelation"] = dataRelationFormRef.value.getFormData().value;
   closeAction();
 };
 const dataRelationReset = () => {

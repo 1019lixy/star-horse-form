@@ -35,3 +35,8 @@ app.mount('#app')
 <style scoped>
 </style>
    ``` 
+#更新日志:
+```
+1. 2025-11-19 新增StarHorseFormDesign optional 参数，表单默认使用极简模式
+
+```
