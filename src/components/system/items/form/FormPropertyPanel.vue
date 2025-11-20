@@ -1,6 +1,7 @@
 <script setup lang="ts" name="FormPropertyPanel">
 import {computed, onActivated, onMounted, reactive, ref, watch} from "vue";
 import {
+  analysisCompDatas,
   createCondition,
   loadData,
   PageFieldInfo,
@@ -194,7 +195,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
                 defaultValue: "document",
                 formVisible: true,
                 preps: {
-                  colspan:  ["simple"].includes(model.value) ? 24 :5,
+                  colspan: ["simple"].includes(model.value) ? 24 : 5,
                   iconType: "user",
                   values: loadSvgIcons(),
                 },
@@ -333,7 +334,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
         {
           title: "映射关系配置",
           tabName: "tab2",
-          disVisible: model.value == "full",
+          disVisible: model.value != "full",
           helpMsg: relationMsg,
           batchFieldList: [
             {
@@ -368,13 +369,13 @@ const tableFieldList = reactive<PageFieldInfo | any>({
         {
           title: "脚本绑定",
           tabName: "tab3",
-          disVisible: ["default", "full"].includes(model.value),
+          disVisible: !["default", "full"].includes(model.value),
           fieldList: [],
         },
         {
           title: "其它属性",
           tabName: "tab4",
-          disVisible: ["default", "full"].includes(model.value),
+          disVisible: !["default", "full"].includes(model.value),
           fieldList: [
             [
               {
@@ -494,7 +495,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
         {
           title: "公共属性",
           tabName: "tab5",
-          disVisible: ["default", "full"].includes(model.value),
+          disVisible: !["default", "full"].includes(model.value),
           helpMsg: commonColumnsMsg,
           fieldList: [
             [
@@ -579,7 +580,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
         {
           tabName: "tab6",
           title: "列表显示配置",
-          disVisible: ["full"].includes(model.value),
+          disVisible: !["full"].includes(model.value),
           helpMsg: tableListMsg,
           batchFieldList: [
             {
@@ -660,7 +661,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
         {
           tabName: "tab7",
           title: "列表自定义事件",
-          disVisible: ["full"].includes(model.value),
+          disVisible: !["full"].includes(model.value),
           batchFieldList: [
             {
               objectName: "listActions",
@@ -766,7 +767,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
         {
           tabName: "tab8",
           title: "列表排序字段",
-          disVisible: ["default", "full"].includes(model.value),
+          disVisible: !["default", "full"].includes(model.value),
           batchFieldList: [
             {
               objectName: "orderBy",
@@ -841,22 +842,20 @@ const analysisDynamicFields = async (formInfo: any) => {
       formInfo,
   );
   if (reData.error) {
-    // warning(reData.error);
     return;
   }
   dynamicFieldList.value = reData.data;
 };
 const analysisMainFields = async () => {
-  let reData = await loadData(props.optional?.api?.basePrefix + "/analysisMainTableFields", {
-    details: {
-      content: JSON.stringify(designForm.compList),
-    },
+  let {fieldList} = analysisCompDatas(designForm.compList);
+  const selectDatas: SelectOption[] = fieldList.filter(item => item.label).map(item => {
+    return {
+      name: item.label,
+      value: item.fieldName
+    };
   });
-  if (reData.error) {
-    return;
-  }
-  mainTableFieldList.value = reData.data;
-  orderByFieldList.value = reData.data;
+  mainTableFieldList.value = selectDatas;
+  orderByFieldList.value = selectDatas;
   allTableFieldList.value = [
     ...mainTableFieldList.value,
     ...commonField().map((item: any) => {

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import {computed, onMounted, ref} from "vue";
-import {piniaInstance, postRequest, useDesignFormStore, warning,} from "star-horse-lowcode";
+import {analysisCompDatas, piniaInstance, useDesignFormStore,} from "star-horse-lowcode";
 import {FormConfig} from "@/components/types/FormConfig";
 
 const props = defineProps<{
@@ -9,31 +9,18 @@ const props = defineProps<{
 let designForm = useDesignFormStore(piniaInstance);
 let compList = computed(() => designForm.compList);
 let formInfo = computed(() => designForm.formInfo);
-let formData = computed(() => designForm.formData);
 let compSize = computed(() => props.optional?.compSize ?? "default");
 let tabName = ref<string>("vue3");
 let pageInfo = ref<any>({});
 const init = async () => {
-  let dynameForm = formInfo.value;
-  dynameForm!["relations"] =
-      dynameForm["relations"] instanceof Array
-          ? JSON.stringify(dynameForm["relations"])
-          : dynameForm["relations"];
-  dynameForm!["details"] = {};
-  dynameForm!["details"]["content"] = JSON.stringify(compList.value);
-  dynameForm!["details"]["fieldNames"] = JSON.stringify(formData.value);
-  if (props.optional?.api?.basePrefix) {
-    await postRequest(
-        `${props.optional?.api?.basePrefix}/analysisFields`,
-        dynameForm,
-    ).then((res: any) => {
-      if (res.data.code != 0) {
-        warning(res.data.cnMessage);
-        return;
-      }
-      pageInfo.value = res.data.data;
-    });
-  }
+  let {fieldList, searchItemList} = analysisCompDatas(compList);
+  pageInfo.value["searchFormData"] = {
+    fieldList: searchItemList
+  };
+  pageInfo.value["tableFieldList"] = {
+    fieldList
+  };
+
 };
 onMounted(async () => {
   await init();

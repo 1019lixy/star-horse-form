@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { i18n } from "@/lang/index.js";
-import { error, success } from "star-horse-lowcode";
-import { ref } from "vue";
-import FormPreview from "@/components/system/items/form/FormPreview.vue";
+import {i18n} from "@/lang/index.js";
+import {error, success} from "star-horse-lowcode";
+import {ref} from "vue";
+
 const emit = defineEmits<{
   (e: "close"): void;
 }>();
@@ -13,7 +13,7 @@ const props = defineProps<{
   list: any[];
   currentPageClass?: string; // Add currentPageClass prop
 }>();
-
+const pageStyle = ref<string>("normal");
 const closeAction = () => {
   emit("close");
 };
@@ -23,9 +23,9 @@ const previewFormRef = ref();
 // Form validation function
 const validateForm = async () => {
   if (
-    previewFormRef.value &&
-    previewFormRef.value.$refs &&
-    previewFormRef.value.$refs.previewFormRef
+      previewFormRef.value &&
+      previewFormRef.value.$refs &&
+      previewFormRef.value.$refs.previewFormRef
   ) {
     try {
       await previewFormRef.value.$refs.previewFormRef.validate();
@@ -46,8 +46,8 @@ const exportToHtml = () => {
   // Get the form content with safety checks
   let formContent = "";
   if (
-    previewFormRef.value.$el &&
-    typeof previewFormRef.value.$el.innerHTML === "string"
+      previewFormRef.value.$el &&
+      typeof previewFormRef.value.$el.innerHTML === "string"
   ) {
     formContent = previewFormRef.value.$el.innerHTML;
   } else {
@@ -110,7 +110,7 @@ const exportToHtml = () => {
   `.trim();
 
   // Create blob and download
-  const blob = new Blob([htmlContent], { type: "text/html;charset=utf-8" });
+  const blob = new Blob([htmlContent], {type: "text/html;charset=utf-8"});
   const url = URL.createObjectURL(blob);
   const link = document.createElement("a");
   link.href = url;
@@ -132,25 +132,28 @@ defineExpose({
 
 <template>
   <star-horse-dialog
-    :dialogVisible="visible"
-    @closeAction="closeAction"
-    box-height="80%"
-    :selfFunc="true"
-    :compSize="compSize"
-    :title="i18n('dyform.preview.dialog.title')"
-    :source="3"
+      :dialogVisible="visible"
+      @closeAction="closeAction"
+      box-height="80%"
+      :selfFunc="true"
+      :compSize="compSize"
+      :title="i18n('dyform.preview.dialog.title')"
+      :source="3"
   >
-    <template #header>
-      <div class="dialog-actions">
-        <el-button @click="validateForm" type="primary" size="small">
-          {{ i18n("dyform.preview.button.validate") }}
-        </el-button>
-        <el-button @click="exportToHtml" type="success" size="small">
-          {{ i18n("dyform.preview.button.export") }}
-        </el-button>
-      </div>
-    </template>
-    <form-preview :list="list" ref="previewFormRef" :class="currentPageClass" />
+    <div class="w-full h-full">
+    <el-select v-model="pageStyle" style="z-index:9999999 !important">
+      <el-option value="normal" label="默认"/>
+      <el-option value="form" label="表单"/>
+      <el-option value="form-table" label="表单列表"/>
+      <el-option value="tab" label="Tab"/>
+      <el-option value="view" label="查看"/>
+    </el-select>
+    <NormalPage v-if="pageStyle=='normal'"/>
+    <FormPage v-if="pageStyle=='form'"/>
+    <FormTablePage v-if="pageStyle=='form-table'"/>
+    <TabPage v-if="pageStyle=='tab'"/>
+    <!--    <ViewPage v-if="pageStyle=='view'"/>-->
+    </div>
   </star-horse-dialog>
 </template>
 
