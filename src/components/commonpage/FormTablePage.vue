@@ -21,6 +21,7 @@ const errorMsg = ref(i18n("commonPage.dataLoading"));
 let searchFormData = ref<SearchFields>({});
 const tableFieldList = ref<PageFieldInfo>({
   fieldList: [],
+  stopAutoLoad:true
 });
 // 添加骨架屏加载状态
 const isLoading = ref(true);
@@ -29,12 +30,11 @@ const rules = ref({});
 const hasData = ref(false);
 const loadFormData = async () => {
   isLoading.value = true; // 开始加载
-  isLoading.value = true; // 开始加载
   let {fieldList} = analysisCompDatas(compList);
   primaryKey.value = "id";
   tableFieldList.value.fieldList = fieldList;
   await nextTick();
-  isLoading.value = false; // 加载完成
+  hasData.value=true;
   isLoading.value = false; // 加载完成
 };
 

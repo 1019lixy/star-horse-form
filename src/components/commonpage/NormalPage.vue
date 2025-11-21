@@ -21,7 +21,10 @@ let relationTables = ref<any>({});
 let dataUrl = ref<ApiUrls>();
 const errorMsg = ref(i18n("commonPage.dataLoading"));
 let searchFormData = ref<SearchFields | any>({fieldList: []});
-const tableFieldList = ref<any>({fieldList: []});
+const tableFieldList = ref<any>({
+  fieldList: [],
+    stopAutoLoad:true
+});
 // 添加骨架屏加载状态
 const isLoading = ref(true);
 /**
@@ -47,7 +50,6 @@ const loadFormData = async () => {
   tableFieldList.value.fieldList = fieldList;
   await nextTick();
   normalPageRef.value?.loadByPage();
-
   isLoading.value = false; // 加载完成
 
 };

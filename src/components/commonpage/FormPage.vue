@@ -4,13 +4,10 @@ import {
   analysisCompDatas,
   apiInstance,
   ApiUrls,
-  createCondition,
   dialogPreps,
   piniaInstance,
-  postRequest,
   useDesignFormStore,
 } from "star-horse-lowcode";
-import {getUserInfo} from "@/utils/auth";
 import {i18n} from "@/lang";
 import CommonSkeleton from "./CommonSkeleton.vue";
 
@@ -20,6 +17,7 @@ let dataUrl = ref<ApiUrls>(apiInstance("", ""));
 const errorMsg = ref(i18n("commonPage.dataLoading"));
 const tableFieldList = ref<any>({
   fieldList: [],
+  stopAutoLoad: true
 });
 // 添加骨架屏加载状态
 const isLoading = ref(true);
@@ -29,17 +27,14 @@ const hasData = ref(false);
 let relationTables = ref<any>({});
 const formInfo = ref<any>({});
 let outerFormData = ref<any>({});
-const clear = () => {
-  hasData.value = false;
-};
+
 const loadFormData = async () => {
-  isLoading.value = true; // 开始加载
   isLoading.value = true; // 开始加载
   let {fieldList} = analysisCompDatas(compList);
   primaryKey.value = "id";
   tableFieldList.value.fieldList = fieldList;
   await nextTick();
-  isLoading.value = false; // 加载完成
+  hasData.value = true;
   isLoading.value = false; // 加载完成
 
 };
@@ -84,7 +79,6 @@ onMounted(async () => {
             :dynamicForm="true"
             :globalCondition="relationTables"
             :outerFormData="outerFormData"
-            @refresh="loadInstanceData"
             :fieldList="tableFieldList"
             :rules="rules"
             :typeModel="'form'"

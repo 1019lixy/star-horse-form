@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import {i18n} from "@/lang/index.js";
 import {error, success} from "star-horse-lowcode";
-import {ref} from "vue";
+import {nextTick, onMounted, ref} from "vue";
 
 const emit = defineEmits<{
   (e: "close"): void;
@@ -122,8 +122,22 @@ const exportToHtml = () => {
 
   success(i18n("dyform.preview.html.export.success"));
 };
-
+const selectDatas = ref<any>([]);
+const formData = ref<any>({
+  pageStyle: "normal"
+});
 // Expose methods for parent component to use
+onMounted(() => {
+  nextTick(() => {
+    selectDatas.value = [
+      {name: "默认", value: "normal", key: "normal"},
+      {name: "表单", value: "form", key: "form"},
+      {name: "表单列表", value: "form-table", key: "form-table"},
+      {name: "Tab", value: "tab", key: "tab"},
+      {name: "查看", value: "view", key: "view"},
+    ];
+  });
+});
 defineExpose({
   validateForm,
   exportToHtml,
@@ -140,19 +154,21 @@ defineExpose({
       :title="i18n('dyform.preview.dialog.title')"
       :source="3"
   >
-    <div class="w-full h-full">
-    <el-select v-model="pageStyle" style="z-index:9999999 !important">
-      <el-option value="normal" label="默认"/>
-      <el-option value="form" label="表单"/>
-      <el-option value="form-table" label="表单列表"/>
-      <el-option value="tab" label="Tab"/>
-      <el-option value="view" label="查看"/>
-    </el-select>
-    <NormalPage v-if="pageStyle=='normal'"/>
-    <FormPage v-if="pageStyle=='form'"/>
-    <FormTablePage v-if="pageStyle=='form-table'"/>
-    <TabPage v-if="pageStyle=='tab'"/>
-    <!--    <ViewPage v-if="pageStyle=='view'"/>-->
+    <el-form-item label="页面风格" class="w-[240px]!">
+      <select-item v-model:formData="formData"
+                   :field="{
+                      fieldName:'pageStyle',
+                      preps:{
+                          values:selectDatas
+                        }
+                     }"/>
+    </el-form-item>
+    <div class="w-full h-full relative">
+      <NormalPage v-if="formData.pageStyle=='normal'"/>
+      <FormPage v-if="formData.pageStyle=='form'"/>
+      <FormTablePage v-if="formData.pageStyle=='form-table'"/>
+      <TabPage v-if="formData.pageStyle=='tab'"/>
+      <ViewFormPage v-if="formData.pageStyle=='view'"/>
     </div>
   </star-horse-dialog>
 </template>
