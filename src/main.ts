@@ -3,7 +3,7 @@ import "star-horse-lowcode/assets/index.css";
 import "@/assets/css/devops.scss";
 import "@/assets/css/table-enhancements.scss";
 import "tailwindcss/index.css";
-// import itemsComponent from "@/components/formcomp/items/allitem";
+import itemsComponent from "@/components/formcomp/items/allitem";
 import systemComponent from "@/components/system/SystemComp";
 import App from "@/App.vue";
 import { createApp } from "vue";
@@ -29,7 +29,7 @@ for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
  */
 // app.use(commonComponent);
 app.use(systemComponent);
-// app.use(itemsComponent);
+app.use(itemsComponent);
 
 console.log("当前语言", currentLang);
 app.use(StarHorseLowCode, {
