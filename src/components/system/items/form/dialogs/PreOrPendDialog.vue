@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { nextTick, ref, unref, watch } from "vue";
 import { i18n } from "@/lang/index.js";
-import { loadSvgIcons } from "@/api/star_horse_utils.js";
+import { loadSvgIcons } from "@/api/star_horse_form_utils.js";
 
 const props = defineProps<{
   visible: boolean;

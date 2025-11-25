@@ -11,11 +11,8 @@ import piniaCompInstance from "@/store/index";
 import draggable from "vuedraggable-es";
 
 const items = import.meta.glob([
-    // "@/components/common/*.vue",
-    // "@/components/commonpage/*.vue",
     "@/components/system/*.vue",
-    "@/components/formcomp/items/*.vue",
-    // "@/components/formcomp/pageitems/*.vue"
+    "@/components/formcomp/items/*.vue"
 ]);
 // 插件安装方法
 const install = (
@@ -46,7 +43,6 @@ const install = (
     });
 };
 export * from "@/components/formcomp/items";
-// export * from "@/components/formcomp/pageitems";
 export * from "@/components/types";
 export * from "@/components/system";
 export default {

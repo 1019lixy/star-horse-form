@@ -5,10 +5,9 @@ import {
   containerField,
   fieldPlaceholder,
   relationDataField,
+
 } from "@/components/system/items/utils/ItemPreps.js";
-import {piniaInstance, useDesignFormStore, warning} from "star-horse-lowcode";
-import {validRulesList} from "@/api/valid_utils.js";
-import Help from "@/components/help.vue";
+import {piniaInstance, useDesignFormStore, warning,validRulesList} from "star-horse-lowcode";
 import {i18n} from "@/lang/index.js";
 import DataSourceComp from "@/components/system/items/utils/DataSourceComp.vue";
 import {FormConfig} from "@/components/types";

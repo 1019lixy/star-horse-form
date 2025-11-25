@@ -10,10 +10,10 @@ import {
   SelectOption,
   useDesignFormStore,
   warning,
+  ascOrDesc, commonField, httpMethod,
 } from "star-horse-lowcode";
 import {Config} from "@/api/settings.js";
-import {loadElementPlusIcon, loadSvgIcons,} from "@/api/star_horse_utils.js";
-import {ascOrDesc, commonField, httpMethod} from "@/api/system.js";
+import { loadSvgIcons,} from "@/api/star_horse_form_utils.js";
 import {FormConfig} from "@/components/types";
 
 const props = defineProps<{

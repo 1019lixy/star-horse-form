@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {loadSvgIconsByPath} from "@/api/star_horse_utils.js";
+import {loadSvgIconsByPath} from "@/api/star_horse_form_utils.js";
 import {
   createData,
   getInterfaceUtils,
@@ -96,7 +96,7 @@ const analysisOptionData = (val: any) => {
       error("请填写函数名");
       return;
     }
-    import("@/api/star_horse_utils.js").then(async (utils: any) => {
+    import("@/api/star_horse_form_utils.js").then(async (utils: any) => {
       if (utils && utils[analysisValue]) {
         // 确保函数存在
         if (typeof utils[analysisValue] === "function") {

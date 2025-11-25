@@ -5,15 +5,13 @@ import {
   useDesignFormStore,
   uuid,
   warning,
-} from "star-horse-lowcode";
-import { computed } from "vue";
-import { ModuleEnums } from "@/components/enums/ModuleEnums";
-import {
   copyContainer,
   moveDownItem,
   moveUpItem,
   removeItem,
-} from "@/plugins/AblesPlugin";
+} from "star-horse-lowcode";
+import { computed } from "vue";
+import { ModuleEnums } from "@/components/enums/ModuleEnums";
 
 const designForm = useDesignFormStore(piniaInstance);
 const copyerOperation = useCopyerOperationStore(piniaInstance);

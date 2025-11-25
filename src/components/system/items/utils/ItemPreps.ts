@@ -1,9 +1,13 @@
 import {computed, nextTick, reactive, ref, Ref, unref, watch} from "vue";
 import {
+    analysisCompDatas,
+    ascOrDesc,
     compDynamicData,
+    dataType,
     dictData,
     error,
     FieldInfo,
+    httpMethod,
     loadData,
     loadGetData,
     PageFieldInfo,
@@ -12,10 +16,10 @@ import {
     SelectOption,
     success,
     useDesignFormStore,
-    warning,
+    validRulesList,
+    warning
 } from "star-horse-lowcode";
-import {ascOrDesc, dataType, httpMethod, validDataUrl} from "@/api/system.js";
-import {validRulesList} from "@/api/valid_utils.js";
+import {validDataUrl} from "@/api/system.js";
 import WebUrlComp from "./WebUrlComp.vue";
 
 const designForm = useDesignFormStore(piniaInstance);
@@ -1397,7 +1401,7 @@ export function buttonClickDataField() {
     });
 }
 
-const formFields = computed(() => designForm.forceLoadCompNames());
+const formFields = computed(() => analysisCompDatas(designForm.compList));
 
 /**
  * 关联

@@ -1,5 +1,4 @@
 <script setup lang="ts">
-
 import {openDatabase, tableColumns,} from "@/components/system/items/utils/DbSearchUtils";
 import {
   BtnAuth,
@@ -69,7 +68,6 @@ const containerTypeOperation = (val: any) => {
 const configFormRef = ref<any>();
 const tableFormRef = ref<any>();
 const createMenuFlag = ref<boolean>(false);
-const conditionFlag = ref<boolean>(false);
 const rolesList = ref<Array<SelectOption>>([]);
 const appinfoList = ref<SelectOption[]>([]);
 const menuList = ref<Array<SelectOption>>([]);
