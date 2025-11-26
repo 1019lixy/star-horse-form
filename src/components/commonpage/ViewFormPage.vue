@@ -12,8 +12,16 @@ import {
   SearchFields,
   useDesignFormStore,
 } from "star-horse-lowcode";
-import {computed, nextTick, onMounted, provide, reactive, ref, watch} from "vue";
-import {i18n} from "@/lang";
+import {
+  computed,
+  nextTick,
+  onMounted,
+  provide,
+  reactive,
+  ref,
+  watch,
+} from "vue";
+import { i18n } from "@/lang";
 
 let designForm = useDesignFormStore(piniaInstance);
 const compList = computed(() => designForm.compList);
@@ -21,7 +29,7 @@ const compList = computed(() => designForm.compList);
 const dataUrl = apiInstance("userdb-manage", "consumer/api");
 
 const errorMsg = ref(i18n("commonPage.dataLoading"));
-let searchFormData = ref<SearchFields | any>({fieldList: []});
+let searchFormData = ref<SearchFields | any>({ fieldList: [] });
 const tableFieldList = ref<PageFieldInfo | any>({
   fieldList: [],
 });
@@ -49,31 +57,30 @@ const exportData = () => {
     currentPage: 1,
   };
   download(dataUrl.exportAllUrl!, params)
-      .catch((err) => {
-        error(i18n("commonPage.interfaceNotFound") + ":" + err);
-      })
-      .finally(() => {
-        closeLoad();
-      });
+    .catch((err) => {
+      error(i18n("commonPage.interfaceNotFound") + ":" + err);
+    })
+    .finally(() => {
+      closeLoad();
+    });
 };
 const columnList = ref([]);
 const loadFormData = async () => {
   isLoading.value = true; // 开始加载
-  let {fieldList, searchItemList} = analysisCompDatas(compList);
+  let { fieldList, searchItemList } = analysisCompDatas(compList);
   searchFormData.value.fieldList = searchItemList;
   primaryKey.value = "id";
   tableFieldList.value.fieldList = fieldList;
   await nextTick();
   isLoading.value = false; // 加载完成
-
 };
 
 watch(
-    () => compList.value,
-    (val) => {
-      loadFormData();
-    },
-    {deep: true},
+  () => compList.value,
+  (val) => {
+    loadFormData();
+  },
+  { deep: true },
 );
 //记录表单的属性
 const formFields = reactive<Array<any>>([]);
@@ -96,9 +103,9 @@ onMounted(async () => {
   <div class="flex flex-col h-full overflow-hidden">
     <el-card class="inner_content">
       <star-horse-data-view
-          :field-list="tableFieldList"
-          :dataFormat="dataFormat"
-          :compUrl="dataUrl"
+        :field-list="tableFieldList"
+        :dataFormat="dataFormat"
+        :compUrl="dataUrl"
       />
     </el-card>
   </div>

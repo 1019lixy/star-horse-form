@@ -1,12 +1,18 @@
 <script setup lang="ts" name="ItemPropertiesPanel">
-import {computed, onMounted, PropType, ref} from "vue";
-import {piniaInstance, searchMatchList, SelectOption, StarHorseIcon, useDesignFormStore,} from "star-horse-lowcode";
+import { computed, onMounted, PropType, ref } from "vue";
+import {
+  piniaInstance,
+  searchMatchList,
+  SelectOption,
+  StarHorseIcon,
+  useDesignFormStore,
+} from "star-horse-lowcode";
 import ItemPropertiesPanel from "@/components/system/items/form/ItemPropertiesPanel.vue";
 import CustomerPropertyPanel from "@/components/system/items/form/CustomerPropertyPanel.vue";
-import {FormConfig} from "@/components/types";
+import { FormConfig } from "@/components/types";
 
 const props = defineProps({
-  optional: {type: Object as PropType<FormConfig>}
+  optional: { type: Object as PropType<FormConfig> },
 });
 let designForm = useDesignFormStore(piniaInstance);
 const formProps = computed(() => designForm.currentFormPreps);
@@ -28,42 +34,42 @@ onMounted(async () => {
 <template>
   <div class="flex flex-col h-full overflow-hidden">
     <el-form
-        :model="formProps"
-        class="dynamic-form"
-        ref="itemPropertiesRef"
-        :size="compSize"
-        :scroll-to-error="true"
-        :scroll-into-view-options="true"
-        :inline-message="false"
-        :status-icon="true"
-        label-width="auto"
-        label-position="right"
-        require-asterisk-position="right"
+      :model="formProps"
+      class="dynamic-form"
+      ref="itemPropertiesRef"
+      :size="compSize"
+      :scroll-to-error="true"
+      :scroll-into-view-options="true"
+      :inline-message="false"
+      :status-icon="true"
+      label-width="auto"
+      label-position="right"
+      require-asterisk-position="right"
     >
       <el-tabs
-          v-model="prepActiveName"
-          type="border-card"
-          @tabChange="changeOperation"
+        v-model="prepActiveName"
+        type="border-card"
+        @tabChange="changeOperation"
       >
         <el-tab-pane label="基础属性" name="base">
           <template #label>
             <div class="flex items-center">
-              <star-horse-icon iconClass="base_preps"/>
+              <star-horse-icon iconClass="base_preps" />
               基础属性
             </div>
           </template>
-          <item-properties-panel :optional="optional"/>
+          <item-properties-panel :optional="optional" />
         </el-tab-pane>
         <el-tab-pane name="customer">
           <template #label>
             <div class="flex items-center">
-              <star-horse-icon iconClass="data_db"/>
+              <star-horse-icon iconClass="data_db" />
               个性化属性
             </div>
           </template>
           <customer-property-panel
-              ref="customerPropertyPanelRef"
-              :optional="optional"
+            ref="customerPropertyPanelRef"
+            :optional="optional"
           />
         </el-tab-pane>
       </el-tabs>

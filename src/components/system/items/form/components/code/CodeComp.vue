@@ -1,10 +1,14 @@
 <script setup lang="ts">
-import {computed, onMounted, ref} from "vue";
-import {analysisCompDatas, piniaInstance, useDesignFormStore,} from "star-horse-lowcode";
-import {FormConfig} from "@/components/types/FormConfig";
+import { computed, onMounted, ref } from "vue";
+import {
+  analysisCompDatas,
+  piniaInstance,
+  useDesignFormStore,
+} from "star-horse-lowcode";
+import { FormConfig } from "@/components/types/FormConfig";
 
 const props = defineProps<{
-  optional: FormConfig
+  optional: FormConfig;
 }>();
 let designForm = useDesignFormStore(piniaInstance);
 let compList = computed(() => designForm.compList);
@@ -13,14 +17,13 @@ let compSize = computed(() => props.optional?.compSize ?? "default");
 let tabName = ref<string>("vue3");
 let pageInfo = ref<any>({});
 const init = async () => {
-  let {fieldList, searchItemList} = analysisCompDatas(compList);
+  let { fieldList, searchItemList } = analysisCompDatas(compList);
   pageInfo.value["searchFormData"] = {
-    fieldList: searchItemList
+    fieldList: searchItemList,
   };
   pageInfo.value["tableFieldList"] = {
-    fieldList
+    fieldList,
   };
-
 };
 onMounted(async () => {
   await init();
@@ -29,16 +32,16 @@ onMounted(async () => {
 <template>
   <el-tabs v-model="tabName" type="border-card">
     <el-tab-pane name="vue3" label="Vue3">
-      <vue3 :formInfo="formInfo" :compList="pageInfo" :compSize="compSize"/>
+      <vue3 :formInfo="formInfo" :compList="pageInfo" :compSize="compSize" />
     </el-tab-pane>
     <el-tab-pane name="vue2" label="Vue2">
-      <vue2 :formInfo="formInfo" :compList="pageInfo" :compSize="compSize"/>
+      <vue2 :formInfo="formInfo" :compList="pageInfo" :compSize="compSize" />
     </el-tab-pane>
     <el-tab-pane name="react" label="React">
-      <react :formInfo="formInfo" :compList="pageInfo" :compSize="compSize"/>
+      <react :formInfo="formInfo" :compList="pageInfo" :compSize="compSize" />
     </el-tab-pane>
     <el-tab-pane name="json" label="Json代码">
-      <star-horse-json-editor :lang="'json'" v-model="compList"/>
+      <star-horse-json-editor :lang="'json'" v-model="compList" />
     </el-tab-pane>
   </el-tabs>
 </template>

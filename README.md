@@ -37,7 +37,7 @@ app.mount('#app')
 </style>
    ``` 
 #更新日志:
+### v1.2.0
 ```
-1. 2025-11-19 新增StarHorseFormDesign optional 参数，表单默认使用极简模式
-2. 2025-11-21 新增editor,vedio 表单组件，新增预览时显示不同的页面风格
+ - 升级内部组件，清理无用代码
 ```

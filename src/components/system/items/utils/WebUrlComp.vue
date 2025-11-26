@@ -1,7 +1,19 @@
 <script setup lang="ts">
-import {getInterfaceUtils, getUrlFieldConfig, validOperation,} from "@/components/system/items/utils/ItemPreps";
-import {PageFieldInfo, searchMatchList,} from "star-horse-lowcode";
-import {ModelRef, nextTick, onMounted, PropType, reactive, ref, unref,} from "vue";
+import {
+  getInterfaceUtils,
+  getUrlFieldConfig,
+  validOperation,
+} from "@/components/system/items/utils/ItemPreps";
+import { PageFieldInfo, searchMatchList } from "star-horse-lowcode";
+import {
+  ModelRef,
+  nextTick,
+  onMounted,
+  PropType,
+  reactive,
+  ref,
+  unref,
+} from "vue";
 
 defineOptions({
   name: "WebUrlComp",
@@ -9,20 +21,17 @@ defineOptions({
 const props = defineProps({
   formProps: {
     type: Object as PropType<any>,
-    default: () => {
-    },
+    default: () => {},
   },
 
   preps: {
     type: Object as PropType<any>,
-    default: () => {
-    },
+    default: () => {},
   },
 
   item: {
     type: Object as PropType<PageFieldInfo>,
-    default: () => {
-    },
+    default: () => {},
   },
   source: {
     type: Number,
@@ -45,7 +54,7 @@ const currentTabName = ref<string>("data");
 
 // 使用从ItemPreps导入的接口工具函数
 const interfaceUtils = getInterfaceUtils();
-const {fieldList, disableUrl} = interfaceUtils;
+const { fieldList, disableUrl } = interfaceUtils;
 // 使用getUrlFieldConfig函数生成URL配置字段列表
 const urlFields = getUrlFieldConfig(interfaceUtils, {
   urlColspan: 20,
@@ -54,13 +63,13 @@ const urlFields = getUrlFieldConfig(interfaceUtils, {
   validateCallback: {
     click: async (val: any) => {
       await validOperation(
-          val,
-          dataSourceFormRef,
-          fieldList,
-          disableUrl,
-          !dataForm.value,
-          dataForm.value[props.batchName],
-          true,
+        val,
+        dataSourceFormRef,
+        fieldList,
+        disableUrl,
+        !dataForm.value,
+        dataForm.value[props.batchName],
+        true,
       );
     },
   },
@@ -141,27 +150,27 @@ const dataSourceField = reactive<PageFieldInfo | any>({
 const submitValid = async () => {
   let flag: boolean = false;
   await validOperation(
-      props.formProps,
-      dataSourceFormRef,
-      fieldList,
-      disableUrl,
-      !dataForm.value,
-      dataForm,
-      true,
+    props.formProps,
+    dataSourceFormRef,
+    fieldList,
+    disableUrl,
+    !dataForm.value,
+    dataForm,
+    true,
   )
-      .then(() => {
-        // 如果验证成功，需要保存数据
-        if (props.formProps) {
-          const dataSource = unref(dataSourceFormRef)?.getFormData()?.value;
-          if (dataSource) {
-            props.formProps["values"] = dataSource["values"];
-          }
+    .then(() => {
+      // 如果验证成功，需要保存数据
+      if (props.formProps) {
+        const dataSource = unref(dataSourceFormRef)?.getFormData()?.value;
+        if (dataSource) {
+          props.formProps["values"] = dataSource["values"];
         }
-        flag = true;
-      })
-      .catch(() => {
-        flag = false;
-      });
+      }
+      flag = true;
+    })
+    .catch(() => {
+      flag = false;
+    });
   return flag;
 };
 const isInited = ref<boolean>(false);
@@ -172,7 +181,6 @@ const createSubForm = () => {
   return props.batchName;
 };
 const init = () => {
-
   nextTick(() => {
     if (props.preps?.objectName && dataForm.value) {
       let temp = dataForm.value;
@@ -204,21 +212,21 @@ defineExpose({
 <template>
   <el-scrollbar height="100%">
     <star-horse-form
-        :fieldList="dataSourceField"
-        ref="dataSourceFormRef"
-        v-if="!dataForm"
+      :fieldList="dataSourceField"
+      ref="dataSourceFormRef"
+      v-if="!dataForm"
     />
     <star-horse-form-item
-        v-else
-        ref="dataSourceFormRef"
-        :fieldList="dataSourceField"
-        :dataIndex="(props.preps?.params?.totalTab || 1) - 1"
-        :subFormFlag="subFormFlag ? 'Y' : 'N'"
-        :propPrefix="batchName"
-        :key="createSubForm()"
-        :batchName="batchName"
-        :source="source"
-        v-model:dataForm="dataForm[batchName]"
+      v-else
+      ref="dataSourceFormRef"
+      :fieldList="dataSourceField"
+      :dataIndex="(props.preps?.params?.totalTab || 1) - 1"
+      :subFormFlag="subFormFlag ? 'Y' : 'N'"
+      :propPrefix="batchName"
+      :key="createSubForm()"
+      :batchName="batchName"
+      :source="source"
+      v-model:dataForm="dataForm[batchName]"
     />
   </el-scrollbar>
 </template>

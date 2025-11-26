@@ -107,13 +107,17 @@ const getCfg = (key: string, def: any) => {
       ret = def;
     }
     return ret;
-  } catch (e) {}
+  } catch (e) {
+    console.error(e);
+  }
   return def;
 };
 const setCfg = (key: string, value: any) => {
   try {
     sessionStorage.setItem("vedio-item." + key, value);
-  } catch (e) {}
+  } catch (e) {
+    console.error(e);
+  }
 };
 const saveSettings = () => {
   setCfg("sURL", props.field.preps?.["videoUrl"]);

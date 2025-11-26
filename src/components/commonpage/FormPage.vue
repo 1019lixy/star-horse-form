@@ -1,5 +1,13 @@
 <script setup lang="ts">
-import {computed, nextTick, onMounted, provide, reactive, ref, watch} from "vue";
+import {
+  computed,
+  nextTick,
+  onMounted,
+  provide,
+  reactive,
+  ref,
+  watch,
+} from "vue";
 import {
   analysisCompDatas,
   apiInstance,
@@ -8,7 +16,7 @@ import {
   piniaInstance,
   useDesignFormStore,
 } from "star-horse-lowcode";
-import {i18n} from "@/lang";
+import { i18n } from "@/lang";
 import CommonSkeleton from "./CommonSkeleton.vue";
 
 let designForm = useDesignFormStore(piniaInstance);
@@ -17,7 +25,7 @@ let dataUrl = ref<ApiUrls>(apiInstance("", ""));
 const errorMsg = ref(i18n("commonPage.dataLoading"));
 const tableFieldList = ref<any>({
   fieldList: [],
-  stopAutoLoad: true
+  stopAutoLoad: true,
 });
 // 添加骨架屏加载状态
 const isLoading = ref(true);
@@ -30,21 +38,20 @@ let outerFormData = ref<any>({});
 
 const loadFormData = async () => {
   isLoading.value = true; // 开始加载
-  let {fieldList} = analysisCompDatas(compList);
+  let { fieldList } = analysisCompDatas(compList);
   primaryKey.value = "id";
   tableFieldList.value.fieldList = fieldList;
   await nextTick();
   hasData.value = true;
   isLoading.value = false; // 加载完成
-
 };
 
 watch(
-    () => compList.value,
-    (val) => {
-      loadFormData();
-    },
-    {deep: true},
+  () => compList.value,
+  (val) => {
+    loadFormData();
+  },
+  { deep: true },
 );
 //记录表单的属性
 const formFields = reactive<Array<any>>([]);
@@ -64,24 +71,24 @@ onMounted(async () => {
   <div class="flex flex-col h-full overflow-hidden">
     <!-- 使用通用骨架屏组件 -->
     <CommonSkeleton
-        v-if="isLoading"
-        :showSearch="false"
-        :showHeader="true"
-        :showForm="true"
-        :formRowCount="6"
+      v-if="isLoading"
+      :showSearch="false"
+      :showHeader="true"
+      :showForm="true"
+      :formRowCount="6"
     />
 
     <template v-else-if="hasData">
       <el-card class="inner_content">
         <star-horse-form
-            :compUrl="dataUrl"
-            :formInfo="formInfo"
-            :dynamicForm="true"
-            :globalCondition="relationTables"
-            :outerFormData="outerFormData"
-            :fieldList="tableFieldList"
-            :rules="rules"
-            :typeModel="'form'"
+          :compUrl="dataUrl"
+          :formInfo="formInfo"
+          :dynamicForm="true"
+          :globalCondition="relationTables"
+          :outerFormData="outerFormData"
+          :fieldList="tableFieldList"
+          :rules="rules"
+          :typeModel="'form'"
         />
       </el-card>
     </template>

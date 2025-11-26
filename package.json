@@ -2,7 +2,7 @@
   "name": "star-horse-form",
   "private": false,
   "author": "l_1019@163.com",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "type": "module",
   "description": "星马动态表单组件",
   "keywords": [
@@ -36,7 +36,7 @@
   },
   "scripts": {
     "lint": "eslint .",
-    "lint:fix": "cross-env NODE_OPTIONS=\"--max-old-space-size=8192\" eslint . --fix",
+    "lint:fix": "eslint . --fix",
     "format": "prettier --write \"./**/*.{jsx,ts,tsx,vue,css,scss,html}\"",
     "serve": " vite --mode development",
     "build": " vite build --mode production",
@@ -63,7 +63,7 @@
     "postcss": "^8.5.6",
     "sass": "^1.94.2",
     "sortablejs": "^1.15.6",
-    "star-horse-lowcode": "../testcode",
+    "star-horse-lowcode": "^2.8.30",
     "vue": "^3.5.25",
     "vue-router": "^4.6.3",
     "vue3-moveable": "^0.28.0",

@@ -1,6 +1,10 @@
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted } from "vue";
-import { itemCheck, uuid,dynamicFormContextMenuData } from "star-horse-lowcode";
+import {
+  itemCheck,
+  uuid,
+  dynamicFormContextMenuData,
+} from "star-horse-lowcode";
 import { i18n } from "@/lang/index";
 const emit = defineEmits<{
   (e: "dragAdd", event: Event, dataList: Array<any>): void;

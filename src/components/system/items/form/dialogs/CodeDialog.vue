@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import {i18n} from "@/lang/index.js";
+import { i18n } from "@/lang/index.js";
 import CodeComp from "@/components/system/items/form/components/code/CodeComp.vue";
-import {FormConfig} from "@/components/types";
+import { FormConfig } from "@/components/types";
 
 const emit = defineEmits<{
   (e: "close"): void;
@@ -10,7 +10,7 @@ const emit = defineEmits<{
 
 const props = defineProps<{
   visible: boolean;
-  optional: FormConfig
+  optional: FormConfig;
 }>();
 
 const closeAction = () => {
@@ -24,16 +24,16 @@ const codeDoSave = () => {
 
 <template>
   <star-horse-dialog
-      :dialogVisible="visible"
-      @closeAction="closeAction"
-      :selfFunc="true"
-      :source="3"
-      :full-screen="true"
-      :compSize="props.optional?.compSize??'default'"
-      @merge="codeDoSave"
-      boxHeight="80%"
-      :title="i18n('dyform.code.dialog.title')"
+    :dialogVisible="visible"
+    @closeAction="closeAction"
+    :selfFunc="true"
+    :source="3"
+    :full-screen="true"
+    :compSize="props.optional?.compSize ?? 'default'"
+    @merge="codeDoSave"
+    boxHeight="80%"
+    :title="i18n('dyform.code.dialog.title')"
   >
-    <code-comp :optional="optional"/>
+    <code-comp :optional="optional" />
   </star-horse-dialog>
 </template>

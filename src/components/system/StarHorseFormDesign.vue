@@ -1,5 +1,15 @@
 <script lang="ts" setup>
-import {computed, nextTick, onActivated, onBeforeUnmount, onDeactivated, onMounted, PropType, ref, watch,} from "vue";
+import {
+  computed,
+  nextTick,
+  onActivated,
+  onBeforeUnmount,
+  onDeactivated,
+  onMounted,
+  PropType,
+  ref,
+  watch,
+} from "vue";
 import {
   CompType,
   operationConfirm,
@@ -9,10 +19,10 @@ import {
   useSelfOperationStore,
   warning,
 } from "star-horse-lowcode";
-import {validDynamicFormCompParams} from "@/components/system/items/utils/FormParamsValid";
-import {delCacheData, getCacheData, setCacheData} from "@/api/cached_utils";
-import {i18n} from "@/lang";
-import {Config} from "@/api/settings";
+import { validDynamicFormCompParams } from "@/components/system/items/utils/FormParamsValid";
+import { delCacheData, getCacheData, setCacheData } from "@/api/cached_utils";
+import { i18n } from "@/lang";
+import { Config } from "@/api/settings";
 import CodeDialog from "@/components/system/items/form/dialogs/CodeDialog.vue";
 import BatchEditDialog from "@/components/system/items/form/dialogs/BatchEditDialog.vue";
 import PreviewDialog from "@/components/system/items/form/dialogs/PreviewDialog.vue";
@@ -21,14 +31,14 @@ import FormToolbar from "@/components/system/items/form/components/FormToolbar.v
 import FormDesigner from "@/components/system/items/form/components/FormDesigner.vue";
 import FieldPanel from "@/components/system/items/form/FieldPanel.vue";
 import PropertyPanel from "@/components/system/items/form/PropertyPanel.vue";
-import {useKeyboardEvents} from "@/components/system/items/form/composables/useKeyboardEvents";
-import {useDialogManager} from "@/components/system/items/form/composables/useDialogManager";
-import {ToolBtnType} from "@/components/types/ToolBtnType";
+import { useKeyboardEvents } from "@/components/system/items/form/composables/useKeyboardEvents";
+import { useDialogManager } from "@/components/system/items/form/composables/useDialogManager";
+import { ToolBtnType } from "@/components/types/ToolBtnType";
 import ConfigDialog from "@/components/system/items/form/dialogs/ConfigDialog.vue";
-import {formContainer} from "@/components/system/items/form/composables/formContainer";
-import {formExtendItems} from "@/components/system/items/form/composables/formExtendItems";
-import {formItems} from "@/components/system/items/form/composables/formItems";
-import {FormConfig} from "@/components/types";
+import { formContainer } from "@/components/system/items/form/composables/formContainer";
+import { formExtendItems } from "@/components/system/items/form/composables/formExtendItems";
+import { formItems } from "@/components/system/items/form/composables/formItems";
+import { FormConfig } from "@/components/types";
 
 defineOptions({
   name: "StarHorseFormDesign",
@@ -38,7 +48,7 @@ const props = defineProps({
     type: String,
     default: "idDynamicForm",
   },
-  optional: {type: Object as PropType<FormConfig>},
+  optional: { type: Object as PropType<FormConfig> },
 });
 const emits = defineEmits([
   "changeDataHandle",
@@ -46,14 +56,14 @@ const emits = defineEmits([
   "action",
   "saveData",
   "loadMenu",
-  "loadTableColumns"
+  "loadTableColumns",
 ]);
 let designForm = useDesignFormStore(piniaInstance);
 let userOperation = useSelfOperationStore(piniaInstance);
 let configStore = useGlobalConfigStore(piniaInstance);
 
 let compSize = computed(
-    () => configStore.configFormInfo?.buttonSize || Config.compSize,
+  () => configStore.configFormInfo?.buttonSize || Config.compSize,
 );
 let draggingItem = computed(() => designForm.draggingItem);
 let list = computed(() => designForm.compList);
@@ -67,16 +77,15 @@ const fieldPanelRef = ref();
 const dynamicFormRef = ref();
 const previewDynamicFormRef = ref();
 let reOrUnDoFlag = ref<boolean>(false);
-let currentPageStyle = ref<any>({label: "电脑", key: "pc"});
+let currentPageStyle = ref<any>({ label: "电脑", key: "pc" });
 let currentPageClass = ref<string>("main-design");
 let cacheName = "dynamicFormCache";
 let cacheData = ref<any>([]);
 const propertyRef = ref();
 const isSubmit = ref(false);
 const configDialogRef = ref();
-let shortKeySwitch: Function = () => {
-};
-const {dialogStates, openDialog, closeAllDialogs} = useDialogManager();
+let shortKeySwitch: Function = () => {};
+const { dialogStates, openDialog, closeAllDialogs } = useDialogManager();
 
 const actions = (action: ToolBtnType) => {
   switch (action.key) {
@@ -194,12 +203,12 @@ const closeAction = () => {
 const clearData = (flag: boolean = true) => {
   if (list.value?.length > 0) {
     operationConfirm("新建将清空舞台上的所有元素，是否确定要清空？").then(
-        (res: boolean) => {
-          if (res) {
-            designForm.clearAll(flag);
-            delCacheData(cacheName);
-          }
-        },
+      (res: boolean) => {
+        if (res) {
+          designForm.clearAll(flag);
+          delCacheData(cacheName);
+        }
+      },
     );
   } else {
     designForm.clearAll(flag);
@@ -234,9 +243,9 @@ const onDragAdd = async (_evt: Event, dataList?: Array<any>) => {
     designForm.selectItem(temp, temp["itemType"], "");
   } else {
     designForm.selectItem(
-        draggingItem.value,
-        draggingItem.value["itemType"],
-        "",
+      draggingItem.value,
+      draggingItem.value["itemType"],
+      "",
     );
   }
 };
@@ -334,21 +343,21 @@ onBeforeUnmount(() => {
 });
 
 const listWatcher = watch(
-    () => list.value,
-    (val: any) => {
-      designForm.removePromise();
-      designForm.setRefresh();
-      designForm.addHistoryRecord(reOrUnDoFlag.value);
-      reOrUnDoFlag.value = false;
-      userOperation.setFormInstance(dynamicFormRef);
-      userOperation.setFormData(formData);
-      userOperation.addFormItemList(val);
-      setCacheData(cacheName, val);
-    },
-    {
-      immediate: false,
-      deep: true,
-    },
+  () => list.value,
+  (val: any) => {
+    designForm.removePromise();
+    designForm.setRefresh();
+    designForm.addHistoryRecord(reOrUnDoFlag.value);
+    reOrUnDoFlag.value = false;
+    userOperation.setFormInstance(dynamicFormRef);
+    userOperation.setFormData(formData);
+    userOperation.addFormItemList(val);
+    setCacheData(cacheName, val);
+  },
+  {
+    immediate: false,
+    deep: true,
+  },
 );
 
 onMounted(async () => {
@@ -375,10 +384,10 @@ const nodeList = () => {
   return list.value;
 };
 const setFormInfo = (
-    nodeList: Array<any>,
-    formInfo: any,
-    formData: any,
-    isEdit: boolean,
+  nodeList: Array<any>,
+  formInfo: any,
+  formData: any,
+  isEdit: boolean,
 ) => {
   initStoreData();
   designForm.setFormInfo(formInfo);
@@ -412,89 +421,89 @@ defineExpose({
   setFormInfo,
   closeAction,
   initStoreData,
-  formShortKeySwitch
+  formShortKeySwitch,
 });
 </script>
 
 <template>
   <ConfigDialog
-      ref="configDialogRef"
-      :visible="dialogStates.configDialogVisible"
-      :optional="optional"
-      @save="saveData"
-      @close="closeAction"
+    ref="configDialogRef"
+    :visible="dialogStates.configDialogVisible"
+    :optional="optional"
+    @save="saveData"
+    @close="closeAction"
   />
   <CodeDialog
-      :visible="dialogStates.codeDialogVisible"
-      :optional="optional"
-      @close="closeAction"
-      @save="codeDoSave"
+    :visible="dialogStates.codeDialogVisible"
+    :optional="optional"
+    @close="closeAction"
+    @save="codeDoSave"
   />
   <BatchEditDialog
-      :visible="dialogStates.batchEditFieldVisible"
-      :compSize="compSize"
-      @close="closeAction"
-      @save="closeAction"
+    :visible="dialogStates.batchEditFieldVisible"
+    :compSize="compSize"
+    @close="closeAction"
+    @save="closeAction"
   />
   <PreviewDialog
-      :visible="isPreview"
-      :compSize="compSize"
-      :list="list"
-      :currentPageClass="currentPageClass"
-      @close="closeAction"
-      ref="previewDialogRef"
+    :visible="isPreview"
+    :compSize="compSize"
+    :list="list"
+    :currentPageClass="currentPageClass"
+    @close="closeAction"
+    ref="previewDialogRef"
   />
-  <FieldLayerDrawer v-model:visible="dialogStates.formFieldLayer"/>
+  <FieldLayerDrawer v-model:visible="dialogStates.formFieldLayer" />
   <el-splitter>
     <el-splitter-panel collapsible size="350" min="200" max="450">
       <field-panel
-          ref="fieldPanelRef"
-          :optional="optional"
-          @loadData="loadData"
+        ref="fieldPanelRef"
+        :optional="optional"
+        @loadData="loadData"
       />
     </el-splitter-panel>
     <el-splitter-panel>
       <div class="main-design-outer">
         <FormToolbar
-            :list="list"
-            :currentPageStyle="currentPageStyle"
-            :cacheData="cacheData"
-            @action="actions"
-            @cacheRestore="cacheDataRestore"
-            :optional="optional"
+          :list="list"
+          :currentPageStyle="currentPageStyle"
+          :cacheData="cacheData"
+          @action="actions"
+          @cacheRestore="cacheDataRestore"
+          :optional="optional"
         />
         <FormDesigner
-            :list="list"
-            :form-data="formData"
-            :form-info="formInfo"
-            :is-dragging="isDragging"
-            :current-page-class="currentPageClass"
-            @drag-add="onDragAdd"
-            @context-menu="contextMenu"
-            @select-component="onComponentSelect"
-            ref="dynamicFormRef"
+          :list="list"
+          :form-data="formData"
+          :form-info="formInfo"
+          :is-dragging="isDragging"
+          :current-page-class="currentPageClass"
+          @drag-add="onDragAdd"
+          @context-menu="contextMenu"
+          @select-component="onComponentSelect"
+          ref="dynamicFormRef"
         />
 
         <FormMenuShot
-            ref="formListRef"
-            v-if="Object.keys(optional?.api || {}).length > 0"
-            @change="changeDataHandle"
-            :dataUrl="optional?.api"
-            :primaryKey="primaryKey"
+          ref="formListRef"
+          v-if="Object.keys(optional?.api || {}).length > 0"
+          @change="changeDataHandle"
+          :dataUrl="optional?.api"
+          :primaryKey="primaryKey"
         />
         <div class="main-copyright">{{ i18n("starhorse.copyright") }}</div>
       </div>
     </el-splitter-panel>
     <el-splitter-panel
-        collapsible
-        :size="350"
-        min="260"
-        max="500"
-        class="overflow-hidden!"
-        v-if="list.length > 0"
+      collapsible
+      :size="350"
+      min="260"
+      max="500"
+      class="overflow-hidden!"
+      v-if="list.length > 0"
     >
       <el-scrollbar>
-        <property-panel ref="propertyRef" :optional="optional"/>
+        <property-panel ref="propertyRef" :optional="optional" />
       </el-scrollbar>
     </el-splitter-panel>
   </el-splitter>

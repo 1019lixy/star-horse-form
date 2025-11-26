@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import {i18n} from "@/lang/index.js";
-import {error, success} from "star-horse-lowcode";
-import {nextTick, onMounted, ref} from "vue";
+import { i18n } from "@/lang/index.js";
+import { error, success } from "star-horse-lowcode";
+import { nextTick, onMounted, ref } from "vue";
 
 const emit = defineEmits<{
   (e: "close"): void;
@@ -23,9 +23,9 @@ const previewFormRef = ref();
 // Form validation function
 const validateForm = async () => {
   if (
-      previewFormRef.value &&
-      previewFormRef.value.$refs &&
-      previewFormRef.value.$refs.previewFormRef
+    previewFormRef.value &&
+    previewFormRef.value.$refs &&
+    previewFormRef.value.$refs.previewFormRef
   ) {
     try {
       await previewFormRef.value.$refs.previewFormRef.validate();
@@ -46,8 +46,8 @@ const exportToHtml = () => {
   // Get the form content with safety checks
   let formContent = "";
   if (
-      previewFormRef.value.$el &&
-      typeof previewFormRef.value.$el.innerHTML === "string"
+    previewFormRef.value.$el &&
+    typeof previewFormRef.value.$el.innerHTML === "string"
   ) {
     formContent = previewFormRef.value.$el.innerHTML;
   } else {
@@ -110,7 +110,7 @@ const exportToHtml = () => {
   `.trim();
 
   // Create blob and download
-  const blob = new Blob([htmlContent], {type: "text/html;charset=utf-8"});
+  const blob = new Blob([htmlContent], { type: "text/html;charset=utf-8" });
   const url = URL.createObjectURL(blob);
   const link = document.createElement("a");
   link.href = url;
@@ -124,17 +124,17 @@ const exportToHtml = () => {
 };
 const selectDatas = ref<any>([]);
 const formData = ref<any>({
-  pageStyle: "normal"
+  pageStyle: "normal",
 });
 // Expose methods for parent component to use
 onMounted(() => {
   nextTick(() => {
     selectDatas.value = [
-      {name: "默认", value: "normal", key: "normal"},
-      {name: "表单", value: "form", key: "form"},
-      {name: "表单列表", value: "form-table", key: "form-table"},
-      {name: "Tab", value: "tab", key: "tab"},
-      {name: "查看", value: "view", key: "view"},
+      { name: "默认", value: "normal", key: "normal" },
+      { name: "表单", value: "form", key: "form" },
+      { name: "表单列表", value: "form-table", key: "form-table" },
+      { name: "Tab", value: "tab", key: "tab" },
+      { name: "查看", value: "view", key: "view" },
     ];
   });
 });
@@ -146,29 +146,31 @@ defineExpose({
 
 <template>
   <star-horse-dialog
-      :dialogVisible="visible"
-      @closeAction="closeAction"
-      box-height="80%"
-      :selfFunc="true"
-      :compSize="compSize"
-      :title="i18n('dyform.preview.dialog.title')"
-      :source="3"
+    :dialogVisible="visible"
+    @closeAction="closeAction"
+    box-height="80%"
+    :selfFunc="true"
+    :compSize="compSize"
+    :title="i18n('dyform.preview.dialog.title')"
+    :source="3"
   >
     <el-form-item label="页面风格" class="w-[240px]!">
-      <select-item v-model:formData="formData"
-                   :field="{
-                      fieldName:'pageStyle',
-                      preps:{
-                          values:selectDatas
-                        }
-                     }"/>
+      <select-item
+        v-model:formData="formData"
+        :field="{
+          fieldName: 'pageStyle',
+          preps: {
+            values: selectDatas,
+          },
+        }"
+      />
     </el-form-item>
     <div class="w-full h-full relative">
-      <NormalPage v-if="formData.pageStyle=='normal'"/>
-      <FormPage v-if="formData.pageStyle=='form'"/>
-      <FormTablePage v-if="formData.pageStyle=='form-table'"/>
-      <TabPage v-if="formData.pageStyle=='tab'"/>
-      <ViewFormPage v-if="formData.pageStyle=='view'"/>
+      <NormalPage v-if="formData.pageStyle == 'normal'" />
+      <FormPage v-if="formData.pageStyle == 'form'" />
+      <FormTablePage v-if="formData.pageStyle == 'form-table'" />
+      <TabPage v-if="formData.pageStyle == 'tab'" />
+      <ViewFormPage v-if="formData.pageStyle == 'view'" />
     </div>
   </star-horse-dialog>
 </template>
