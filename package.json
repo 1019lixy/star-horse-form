@@ -2,7 +2,7 @@
   "name": "star-horse-form",
   "private": false,
   "author": "l_1019@163.com",
-  "version": "1.2.0",
+  "version": "1.4.0",
   "type": "module",
   "description": "星马动态表单组件",
   "keywords": [
@@ -62,12 +62,9 @@
     "pinia-plugin-persistedstate": "^4.7.1",
     "postcss": "^8.5.6",
     "sass": "^1.94.2",
-    "sortablejs": "^1.15.6",
-    "star-horse-lowcode": "^2.8.30",
+    "star-horse-lowcode": "^2.8.31",
     "vue": "^3.5.25",
-    "vue-router": "^4.6.3",
-    "vue3-moveable": "^0.28.0",
-    "vuedraggable-es": "^4.1.1"
+    "vue-router": "^4.6.3"
   },
   "devDependencies": {
     "@rollup/plugin-commonjs": "^29.0.0",
@@ -81,7 +78,7 @@
     "eslint": "^9.39.1",
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-prettier": "^5.5.4",
-    "eslint-plugin-vue": "^10.6.0",
+    "eslint-plugin-vue": "^10.6.1",
     "globals": "^16.5.0",
     "prettier": "^3.6.2",
     "rollup-plugin-bpmnlint": "^0.4.1",

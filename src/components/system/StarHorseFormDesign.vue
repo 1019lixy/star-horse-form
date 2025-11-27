@@ -162,13 +162,13 @@ const init = async () => {
     designForm.setSelfFormDataList(formExtendItems);
     designForm.setAllFormDataList(allFormDataList);
   }
-  props.optional?.containerList().then((res: CompType[]) => {
+  props.optional?.containerList()?.then((res: CompType[]) => {
     designForm.addContainerList(res);
   });
-  props.optional?.itemList().then((res: CompType[]) => {
+  props.optional?.itemList()?.then((res: CompType[]) => {
     designForm.addFormDataList(res);
   });
-  props.optional?.extendItemList().then((res: CompType[]) => {
+  props.optional?.extendItemList()?.then((res: CompType[]) => {
     designForm.addSelfFormDataList(res);
   });
   cacheDataRestore(null as MouseEvent);

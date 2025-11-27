@@ -818,32 +818,31 @@ const tableFieldList = reactive<PageFieldInfo | any>({
 });
 
 const initData = async () => {
-  systemIconList.value = loadElementPlusIcon();
-  props.optional?.loadAppList().then((res: SelectOption[]) => {
+  props.optional?.loadAppList()?.then((res: SelectOption[]) => {
     informationsList.value = res;
   });
-  props.optional?.loadRolesList().then((res: SelectOption[]) => {
+  props.optional?.loadRolesList()?.then((res: SelectOption[]) => {
     rolesList.value = res;
   });
-  props.optional?.loadDicts("page_style").then((res: SelectOption[]) => {
+  props.optional?.loadDicts("page_style")?.then((res: SelectOption[]) => {
     pageStyleList.value = res;
   });
-  props.optional?.loadDicts("button_authority").then((res: SelectOption[]) => {
+  props.optional?.loadDicts("button_authority")?.then((res: SelectOption[]) => {
     authorityList.value = res;
   });
-  props.optional?.loadDicts("event_type").then((res: SelectOption[]) => {
-    authorityList.value = res;
+  props.optional?.loadDicts("event_type")?.then((res: SelectOption[]) => {
+    eventTypeList.value = res;
   });
-  props.optional
-    ?.loadDicts("DATA_LOAD_CONDITION")
-    .then((res: SelectOption[]) => {
+  props.optional?.loadDicts("DATA_LOAD_CONDITION")?.then((res: SelectOption[]) => {
       dataLoadConditionList.value = res;
     });
-  props.optional
-    ?.loadDicts("PRIMARY_KEY_POLICY")
-    .then((res: SelectOption[]) => {
+  props.optional?.loadDicts("PRIMARY_KEY_POLICY")?.then((res: SelectOption[]) => {
       primaryKeyPolicyList.value = res;
     });
+  props.optional?.loadDbList()?.then(res=>{
+      dbList.value=res;
+    });
+    systemIconList.value = loadElementPlusIcon();
 };
 
 const analysisDynamicFields = async (formInfo: any) => {
@@ -923,9 +922,7 @@ const loadTableColumns = (tbName: any) => {
   if (!tbName) {
     return;
   }
-  props.optional
-    ?.loadTableColumns(currentDataSourceId.value, tbName)
-    .then((columns: SelectOption[]) => {
+  props.optional?.loadTableColumns(currentDataSourceId.value, tbName)?.then((columns: SelectOption[]) => {
       tableColumnsList.value = columns;
     });
 };

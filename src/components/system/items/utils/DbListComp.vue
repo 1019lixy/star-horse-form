@@ -495,29 +495,25 @@ const loadMenuBySystemId = (systemId: string) => {
 };
 
 const init = async () => {
-  props.optional?.loadDbList().then((res: SelectOption[]) => {
+  props.optional?.loadDbList()?.then((res: SelectOption[]) => {
     dbList.value = res;
   });
-  props.optional?.loadAppList().then((res: SelectOption[]) => {
+  props.optional?.loadAppList()?.then((res: SelectOption[]) => {
     appinfoList.value = res;
   });
-  props.optional?.loadRolesList().then((res: SelectOption[]) => {
+  props.optional?.loadRolesList()?.then((res: SelectOption[]) => {
     rolesList.value = res;
   });
-  props.optional?.loadDicts("page_style").then((res: SelectOption[]) => {
+  props.optional?.loadDicts("page_style")?.then((res: SelectOption[]) => {
     pageStyleList.value = res;
   });
-  props.optional
-    ?.loadDicts("DATA_LOAD_CONDITION")
-    .then((res: SelectOption[]) => {
+  props.optional?.loadDicts("DATA_LOAD_CONDITION")?.then((res: SelectOption[]) => {
       dataLoadConditionList.value = res;
     });
-  props.optional
-    ?.loadDicts("PRIMARY_KEY_POLICY")
-    .then((res: SelectOption[]) => {
+  props.optional?.loadDicts("PRIMARY_KEY_POLICY")?.then((res: SelectOption[]) => {
       primaryKeyPolicyList.value = res;
     });
-  props.optional?.loadDicts("button_authority").then((res: SelectOption[]) => {
+  props.optional?.loadDicts("button_authority")?.then((res: SelectOption[]) => {
     buttonPermissionsList.value = res;
   });
 };
@@ -815,7 +811,7 @@ const doCreateData = (type: string) => {
   //创建页面
   load("页面创建中");
   postRequest(
-    `${props.optional.api.basePrefix}/batchCreateForm`,
+    `${props.optional?.api?.basePrefix}/batchCreateForm`,
     configData.value,
   )
     .then((res: any) => {

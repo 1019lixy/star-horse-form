@@ -115,6 +115,7 @@ export default defineConfig((mode) => {
         external: [
           "vue",
           "pinia",
+          "preview-image-js",
           "element-plus",
           "flv.js",
           "star-horse-lowcode",

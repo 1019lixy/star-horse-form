@@ -34,7 +34,7 @@ const onDataCopy = (data: any, type: string) => {
 };
 const templateList = ref<any[]>([]);
 const tabChange = (name: string) => {
-  if (name == "template" && props.optional?.api.basePrefix) {
+  if (name == "template" && props.optional?.api?.basePrefix) {
     loadData(props.optional.api.basePrefix + "/loadTemplate", {}).then(
       async (res: any) => {
         templateList.value = res.data || [];
