@@ -162,15 +162,21 @@ const init = async () => {
     designForm.setSelfFormDataList(formExtendItems);
     designForm.setAllFormDataList(allFormDataList);
   }
-  props.optional?.containerList()?.then((res: CompType[]) => {
+  if(props.optional?.containerList&&typeof props.optional.containerList=="function"){
+    props.optional.containerList().then((res: CompType[]) => {
     designForm.addContainerList(res);
   });
-  props.optional?.itemList()?.then((res: CompType[]) => {
+  }
+  if(props.optional?.itemList&&typeof props.optional.itemList=="function"){
+    props.optional.itemList().then((res: CompType[]) => {
     designForm.addFormDataList(res);
   });
-  props.optional?.extendItemList()?.then((res: CompType[]) => {
+  }
+  if(props.optional?.extendItemList&&typeof props.optional.extendItemList=="function"){
+    props.optional.extendItemList().then((res: CompType[]) => {
     designForm.addSelfFormDataList(res);
   });
+  }
   cacheDataRestore(null as MouseEvent);
 
   //解决数据已经加载完成，但是组件属性没有加载完成的问题
