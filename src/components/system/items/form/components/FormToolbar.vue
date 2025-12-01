@@ -6,6 +6,7 @@ import {
 import { i18n } from "@/lang";
 import { computed, onMounted, ref } from "vue";
 import { ToolBtnType } from "@/components/types/ToolBtnType";
+import {FormConfig} from "@/components/types";
 
 const emit = defineEmits<{
   (e: "action", action: ToolBtnType): void;
@@ -14,14 +15,14 @@ const emit = defineEmits<{
 
 const props = defineProps<{
   list: any[];
-  optional: any;
+  optional: FormConfig;
   currentPageStyle: any;
   cacheData: any;
 }>();
 
 const activeDropdown = ref<string | null>(null);
 const allActions = computed(() => {
-  return formActions().concat(props.optional?.extendBtns);
+  return formActions().concat(props.optional?.extendButtons);
 });
 const actions = (item: ToolBtnType) => {
   if (item.action) {
