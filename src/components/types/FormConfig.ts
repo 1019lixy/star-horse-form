@@ -22,7 +22,10 @@ export interface FormConfig {
    * 定义了表单需要与后端交互正常交互的接口
    */
   api?: ApiUrls;
-
+  /**
+   * 快捷菜单的参数
+   */
+  shotProps:Record<string, any>;
   /**
    * 设计器顶部自定义按钮
    */
