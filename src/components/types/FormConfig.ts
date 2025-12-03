@@ -15,6 +15,10 @@ export interface FormConfig {
    */
   model: "simple" | "default" | "full";
   /**
+   * 主键名称,指的api 接口中的数据对象对应的主键名
+   */
+  primaryKey: string;
+  /**
    * 禁用系统自带的组件，默认显示
    */
   forbiddenSystemItems: boolean;

@@ -486,8 +486,8 @@ defineExpose({
             v-if="Object.keys(optional?.api || {}).length > 0"
             @change="changeDataHandle"
             :dataUrl="optional?.api"
-            :props="optional?.shotProps"
-            :primaryKey="primaryKey"
+            :prop="optional?.shotProps"
+            :primaryKey="optional?.primaryKey"
         />
         <div class="main-copyright">{{ i18n("starhorse.copyright") }}</div>
       </div>

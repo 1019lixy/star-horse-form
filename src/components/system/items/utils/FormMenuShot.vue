@@ -28,7 +28,7 @@ const props = defineProps({
     type: String,
     default: "表单列表",
   },
-  props:{
+  prop:{
     type:Object as PropType<Record<string,any>>
   }
 });
@@ -210,7 +210,7 @@ defineExpose({
             ascOrDesc: 'desc',
           },
         ]"
-        :preps="props??{
+        :preps="prop??{
           label: 'name',
           value: 'value',
         }"
