@@ -401,7 +401,7 @@ const setFormInfo = (
  *
  * @param flag 如果为true 则清空所有组件,如果为false 则只清空选中的组件
  */
-const initStoreData = () => {
+  const initStoreData = () => {
   designForm.clearAll(true);
 };
 /**
