@@ -18,7 +18,7 @@ import {computed, ComputedRef, nextTick, onMounted, PropType, ref, unref,} from 
 import {FormConfig} from "@/components/types";
 
 const props = defineProps({
-  optional: {type: Object as PropType<FormConfig>},
+  optional: {type: Object as PropType<FormConfig>}
 });
 let designForm = useDesignFormStore(piniaInstance);
 let allFormDataList = computed(() => designForm.allFormDataList);

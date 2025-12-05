@@ -61,3 +61,11 @@ app.mount('#app')
 ```
  - 修复在full模式下快捷菜单列表不显示问题
 ```
+### v1.7.1
+```
+- 增加PreviewDialog和DbListComp 组件导出
+```
+### v1.7.2
+```
+- 增加FormView 组件导出
+```

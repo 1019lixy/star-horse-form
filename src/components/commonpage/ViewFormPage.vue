@@ -1,35 +1,17 @@
 <script setup lang="ts">
-import {
-  analysisCompDatas,
-  apiInstance,
-  closeLoad,
-  dialogPreps,
-  download,
-  error,
-  load,
-  PageFieldInfo,
-  piniaInstance,
-  SearchFields,
-  useDesignFormStore,
-} from "star-horse-lowcode";
-import {
-  computed,
-  nextTick,
-  onMounted,
-  provide,
-  reactive,
-  ref,
-  watch,
-} from "vue";
-import { i18n } from "@/lang";
+import {analysisCompDatas, apiInstance, dialogPreps, PageFieldInfo, SearchFields,} from "star-horse-lowcode";
+import {nextTick, onMounted, provide, ref, watch,} from "vue";
 
-let designForm = useDesignFormStore(piniaInstance);
-const compList = computed(() => designForm.compList);
+const props = defineProps({
+  compList: {
+    type: Array,
+    required: true
+  }
+});
 
 const dataUrl = apiInstance("userdb-manage", "consumer/api");
 
-const errorMsg = ref(i18n("commonPage.dataLoading"));
-let searchFormData = ref<SearchFields | any>({ fieldList: [] });
+let searchFormData = ref<SearchFields | any>({fieldList: []});
 const tableFieldList = ref<PageFieldInfo | any>({
   fieldList: [],
 });
@@ -40,34 +22,10 @@ const isLoading = ref(true);
  * 列表数据重新定义，方便排序和位置拖拽
  */
 const primaryKey = ref<string>("");
-const viewSearchRef = ref();
-const rules = ref<any>({});
-const hasData = ref<boolean>(false);
-const formInfo = ref<any>({});
-const previewDatas = ref<any>({});
-const starHorseTableCompRef = ref();
-const clear = () => {
-  hasData.value = false;
-};
-const exportData = () => {
-  load(i18n("commonPage.dataProcessing"));
-  let params = {
-    fieldList: viewSearchRef.value.createSearchParams(searchFormData.value),
-    pageSize: 100,
-    currentPage: 1,
-  };
-  download(dataUrl.exportAllUrl!, params)
-    .catch((err) => {
-      error(i18n("commonPage.interfaceNotFound") + ":" + err);
-    })
-    .finally(() => {
-      closeLoad();
-    });
-};
-const columnList = ref([]);
+
 const loadFormData = async () => {
   isLoading.value = true; // 开始加载
-  let { fieldList, searchItemList } = analysisCompDatas(compList);
+  let {fieldList, searchItemList} = analysisCompDatas(props.compList);
   searchFormData.value.fieldList = searchItemList;
   primaryKey.value = "id";
   tableFieldList.value.fieldList = fieldList;
@@ -76,15 +34,13 @@ const loadFormData = async () => {
 };
 
 watch(
-  () => compList.value,
-  (val) => {
-    loadFormData();
-  },
-  { deep: true },
+    () => props.compList,
+    (val) => {
+      loadFormData();
+    },
+    {deep: true},
 );
-//记录表单的属性
-const formFields = reactive<Array<any>>([]);
-provide("formFields", formFields);
+
 const dialogProps = dialogPreps();
 provide("dialogProps", dialogProps);
 
@@ -92,7 +48,6 @@ const dataFormat = (name: string, cellValue: object): any => {
   return cellValue;
 };
 const init = async () => {
-  designForm.setIsEdit(false);
   await loadFormData();
 };
 onMounted(async () => {
@@ -103,9 +58,9 @@ onMounted(async () => {
   <div class="flex flex-col h-full overflow-hidden">
     <el-card class="inner_content">
       <star-horse-data-view
-        :field-list="tableFieldList"
-        :dataFormat="dataFormat"
-        :compUrl="dataUrl"
+          :field-list="tableFieldList"
+          :dataFormat="dataFormat"
+          :compUrl="dataUrl"
       />
     </el-card>
   </div>

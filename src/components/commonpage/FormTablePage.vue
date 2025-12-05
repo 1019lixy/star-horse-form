@@ -1,32 +1,19 @@
 <script setup lang="ts">
-import {
-  computed,
-  nextTick,
-  onMounted,
-  provide,
-  reactive,
-  ref,
-  watch,
-} from "vue";
-import {
-  analysisCompDatas,
-  apiInstance,
-  ApiUrls,
-  dialogPreps,
-  PageFieldInfo,
-  piniaInstance,
-  SearchFields,
-  useDesignFormStore,
-} from "star-horse-lowcode";
-import { i18n } from "@/lang";
+import {nextTick, onMounted, provide, reactive, ref, watch,} from "vue";
+import {analysisCompDatas, apiInstance, ApiUrls, dialogPreps, PageFieldInfo, SearchFields,} from "star-horse-lowcode";
+import {i18n} from "@/lang";
 import CommonSkeleton from "./CommonSkeleton.vue";
 
-let designForm = useDesignFormStore(piniaInstance);
-const compList = computed(() => designForm.compList);
+const props = defineProps({
+  compList: {
+    type: Array,
+    required: true
+  }
+});
 const starHorseTableCompRef = ref();
 const dataUrl = ref<ApiUrls>(apiInstance("", ""));
 const errorMsg = ref(i18n("commonPage.dataLoading"));
-let searchFormData = ref<SearchFields>({});
+let searchFormData = ref<SearchFields | any>({});
 const tableFieldList = ref<PageFieldInfo>({
   fieldList: [],
   stopAutoLoad: true,
@@ -38,7 +25,7 @@ const rules = ref({});
 const hasData = ref(false);
 const loadFormData = async () => {
   isLoading.value = true; // 开始加载
-  let { fieldList } = analysisCompDatas(compList);
+  let {fieldList} = analysisCompDatas(props.compList);
   primaryKey.value = "id";
   tableFieldList.value.fieldList = fieldList;
   await nextTick();
@@ -47,11 +34,11 @@ const loadFormData = async () => {
 };
 
 watch(
-  () => compList.value,
-  (val) => {
-    loadFormData();
-  },
-  { deep: true },
+    () => props.compList,
+    (val) => {
+      loadFormData();
+    },
+    {deep: true},
 );
 //记录表单的属性
 const formFields = reactive<Array<any>>([]);
@@ -74,61 +61,61 @@ onMounted(async () => {
   <div class="flex flex-col h-full overflow-hidden">
     <!-- 使用通用骨架屏组件 -->
     <CommonSkeleton
-      v-if="isLoading"
-      :showSearch="true"
-      :showHeader="true"
-      :showTable="true"
-      :tableRowCount="5"
+        v-if="isLoading"
+        :showSearch="true"
+        :showHeader="true"
+        :showTable="true"
+        :tableRowCount="5"
     />
 
     <template v-else-if="hasData">
       <star-horse-dialog
-        :isShowBtnContinue="true"
-        :dialogVisible="dialogProps.editVisible"
-        :dialogProps="dialogProps"
+          :isShowBtnContinue="true"
+          :dialogVisible="dialogProps.editVisible"
+          :dialogProps="dialogProps"
       >
         <star-horse-form
-          @refresh="starHorseTableCompRef?.loadByPage()"
-          :compUrl="dataUrl"
-          :fieldList="tableFieldList"
-          :rules="rules"
+            @refresh="starHorseTableCompRef?.loadByPage()"
+            :compUrl="dataUrl"
+            :fieldList="tableFieldList"
+            :rules="rules"
         />
       </star-horse-dialog>
       <star-horse-dialog
-        :dialog-visible="dialogProps.viewVisible"
-        :dialogProps="dialogProps"
-        :source="3"
+          :dialog-visible="dialogProps.viewVisible"
+          :dialogProps="dialogProps"
+          :source="3"
       >
         <star-horse-data-view
-          :dataFormat="dataFormat"
-          :field-list="tableFieldList"
-          :compUrl="dataUrl"
+            :dataFormat="dataFormat"
+            :field-list="tableFieldList"
+            :compUrl="dataUrl"
         />
       </star-horse-dialog>
       <div class="search_content" v-if="searchFormData.fieldList?.length > 0">
         <div class="search_btn">
           <star-horse-search-comp
-            @searchData="
+              @searchData="
               (data: any) => starHorseTableCompRef?.createSearchParams(data)
             "
-            :formData="searchFormData"
-            :compUrl="dataUrl"
+              :formData="searchFormData"
+              :compUrl="dataUrl"
           />
         </div>
       </div>
       <el-card class="inner_content">
         <star-horse-table-comp
-          ref="starHorseTableCompRef"
-          :fieldList="tableFieldList"
-          :primaryKey="primaryKey"
-          :compUrl="dataUrl"
-          :btnPermissions="{
+            ref="starHorseTableCompRef"
+            :fieldList="tableFieldList"
+            :primaryKey="primaryKey"
+            :compUrl="dataUrl"
+            :btnPermissions="{
             add: 'add',
             edit: 'eidt',
             view: 'view',
           }"
-          :showBatchField="true"
-          :dataFormat="dataFormat"
+            :showBatchField="true"
+            :dataFormat="dataFormat"
         />
       </el-card>
     </template>

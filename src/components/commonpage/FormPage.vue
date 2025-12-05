@@ -1,26 +1,15 @@
 <script setup lang="ts">
-import {
-  computed,
-  nextTick,
-  onMounted,
-  provide,
-  reactive,
-  ref,
-  watch,
-} from "vue";
-import {
-  analysisCompDatas,
-  apiInstance,
-  ApiUrls,
-  dialogPreps,
-  piniaInstance,
-  useDesignFormStore,
-} from "star-horse-lowcode";
-import { i18n } from "@/lang";
+import {nextTick, onMounted, provide, reactive, ref, watch,} from "vue";
+import {analysisCompDatas, apiInstance, ApiUrls, dialogPreps,} from "star-horse-lowcode";
+import {i18n} from "@/lang";
 import CommonSkeleton from "./CommonSkeleton.vue";
 
-let designForm = useDesignFormStore(piniaInstance);
-const compList = computed(() => designForm.compList);
+const props = defineProps({
+  compList: {
+    type: Array,
+    required: true
+  }
+});
 let dataUrl = ref<ApiUrls>(apiInstance("", ""));
 const errorMsg = ref(i18n("commonPage.dataLoading"));
 const tableFieldList = ref<any>({
@@ -38,7 +27,7 @@ let outerFormData = ref<any>({});
 
 const loadFormData = async () => {
   isLoading.value = true; // 开始加载
-  let { fieldList } = analysisCompDatas(compList);
+  let {fieldList} = analysisCompDatas(props.compList);
   primaryKey.value = "id";
   tableFieldList.value.fieldList = fieldList;
   await nextTick();
@@ -47,20 +36,17 @@ const loadFormData = async () => {
 };
 
 watch(
-  () => compList.value,
-  (val) => {
-    loadFormData();
-  },
-  { deep: true },
+    () => props.compList,
+    (val) => {
+      loadFormData();
+    },
+    {deep: true},
 );
-//记录表单的属性
-const formFields = reactive<Array<any>>([]);
-provide("formFields", formFields);
+
 const dialogProps = dialogPreps();
 provide("dialogProps", dialogProps);
 
 const init = async () => {
-  designForm.setIsEdit(false);
   await loadFormData();
 };
 onMounted(async () => {
@@ -71,24 +57,24 @@ onMounted(async () => {
   <div class="flex flex-col h-full overflow-hidden">
     <!-- 使用通用骨架屏组件 -->
     <CommonSkeleton
-      v-if="isLoading"
-      :showSearch="false"
-      :showHeader="true"
-      :showForm="true"
-      :formRowCount="6"
+        v-if="isLoading"
+        :showSearch="false"
+        :showHeader="true"
+        :showForm="true"
+        :formRowCount="6"
     />
 
     <template v-else-if="hasData">
       <el-card class="inner_content">
         <star-horse-form
-          :compUrl="dataUrl"
-          :formInfo="formInfo"
-          :dynamicForm="true"
-          :globalCondition="relationTables"
-          :outerFormData="outerFormData"
-          :fieldList="tableFieldList"
-          :rules="rules"
-          :typeModel="'form'"
+            :compUrl="dataUrl"
+            :formInfo="formInfo"
+            :dynamicForm="true"
+            :globalCondition="relationTables"
+            :outerFormData="outerFormData"
+            :fieldList="tableFieldList"
+            :rules="rules"
+            :typeModel="'form'"
         />
       </el-card>
     </template>

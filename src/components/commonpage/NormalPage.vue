@@ -1,34 +1,21 @@
 <script setup lang="ts">
-import {
-  analysisCompDatas,
-  ApiUrls,
-  createDatetime,
-  dialogPreps,
-  piniaInstance,
-  SearchFields,
-  useDesignFormStore,
-  UserFuncInfo,
-} from "star-horse-lowcode";
-import {
-  computed,
-  nextTick,
-  onMounted,
-  provide,
-  reactive,
-  ref,
-  watch,
-} from "vue";
-import { i18n } from "@/lang";
+import {analysisCompDatas, ApiUrls, createDatetime, dialogPreps, SearchFields, UserFuncInfo,} from "star-horse-lowcode";
+import {nextTick, onMounted, provide, ref, watch,} from "vue";
+import {i18n} from "@/lang";
 import CommonSkeleton from "./CommonSkeleton.vue";
 
-let designForm = useDesignFormStore(piniaInstance);
-const compList = computed(() => designForm.compList);
+const props = defineProps({
+  compList: {
+    type: Array,
+    required: true
+  }
+});
 const normalPageRef = ref();
 const normalFormRef = ref();
 let relationTables = ref<any>({});
 let dataUrl = ref<ApiUrls>();
 const errorMsg = ref(i18n("commonPage.dataLoading"));
-let searchFormData = ref<SearchFields | any>({ fieldList: [] });
+let searchFormData = ref<SearchFields | any>({fieldList: []});
 const tableFieldList = ref<any>({
   fieldList: [],
   stopAutoLoad: true,
@@ -46,13 +33,9 @@ const fieldMappingList = ref<any>([]);
 const dataSource = ref<any>({});
 let dateFields = ref<Array<string>>([]);
 let extBtns = ref<Array<UserFuncInfo>>([]);
-
-const clear = () => {
-  hasData.value = false;
-};
 const loadFormData = async () => {
   isLoading.value = true; // 开始加载
-  let { fieldList, searchItemList } = analysisCompDatas(compList);
+  let {fieldList, searchItemList} = analysisCompDatas(props.compList);
   searchFormData.value.fieldList = searchItemList;
   primaryKey.value = "id";
   tableFieldList.value.fieldList = fieldList;
@@ -61,15 +44,12 @@ const loadFormData = async () => {
   isLoading.value = false; // 加载完成
 };
 watch(
-  () => compList.value,
-  (val) => {
-    loadFormData();
-  },
-  { deep: true },
+    () => props.compList,
+    (val) => {
+      loadFormData();
+    },
+    {deep: true},
 );
-//记录表单的属性
-const formFields = reactive<Array<any>>([]);
-provide("formFields", formFields);
 const dialogProps = dialogPreps();
 provide("dialogProps", dialogProps);
 const dataFormat = (name: string, cellValue: any, row: any): any => {
@@ -83,7 +63,7 @@ const dataFormat = (name: string, cellValue: any, row: any): any => {
       let temp = dataSource.value[name];
       if (temp) {
         let stemp = temp.datas?.find(
-          (item: any) => item[temp.valueField] == cellValue,
+            (item: any) => item[temp.valueField] == cellValue,
         );
         return stemp ? stemp[temp.labelField] : cellValue || "--";
       }
@@ -92,7 +72,7 @@ const dataFormat = (name: string, cellValue: any, row: any): any => {
   };
   if (fieldMappingList.value && fieldMappingList.value?.length > 0) {
     let temp = fieldMappingList.value.find(
-      (item: any) => item["fieldName"] == name,
+        (item: any) => item["fieldName"] == name,
     );
     if (temp) {
       return row[temp.mappingDisplayField] || subFormat(name, cellValue, row);
@@ -103,8 +83,7 @@ const dataFormat = (name: string, cellValue: any, row: any): any => {
 const init = async () => {
   await loadFormData();
 };
-onMounted(async () => {
-  designForm.setIsEdit(false);
+onMounted(() => {
   init();
 });
 </script>
@@ -112,69 +91,69 @@ onMounted(async () => {
   <div class="flex flex-col h-full overflow-hidden">
     <!-- 使用通用骨架屏组件 -->
     <CommonSkeleton
-      v-if="isLoading"
-      :showSearch="true"
-      :showHeader="true"
-      :showTable="true"
-      :tableRowCount="5"
+        v-if="isLoading"
+        :showSearch="true"
+        :showHeader="true"
+        :showTable="true"
+        :tableRowCount="5"
     />
 
     <!-- 正常内容 -->
     <template v-else-if="hasData">
       <star-horse-dialog
-        :isShowBtnContinue="true"
-        :dialogVisible="dialogProps.editVisible"
-        :dialogProps="dialogProps"
+          :isShowBtnContinue="true"
+          :dialogVisible="dialogProps.editVisible"
+          :dialogProps="dialogProps"
       >
         <star-horse-form
-          @refresh="normalPageRef?.loadByPage()"
-          :compUrl="dataUrl"
-          :fieldList="tableFieldList"
-          :primary-key="primaryKey"
-          :rules="rules"
-          ref="normalFormRef"
-          :globalCondition="relationTables"
-          :dynamicForm="true"
+            @refresh="normalPageRef?.loadByPage()"
+            :compUrl="dataUrl"
+            :fieldList="tableFieldList"
+            :primary-key="primaryKey"
+            :rules="rules"
+            ref="normalFormRef"
+            :globalCondition="relationTables"
+            :dynamicForm="true"
         />
       </star-horse-dialog>
       <star-horse-dialog
-        :dialog-visible="dialogProps.viewVisible"
-        :dialogProps="dialogProps"
-        :source="3"
+          :dialog-visible="dialogProps.viewVisible"
+          :dialogProps="dialogProps"
+          :source="3"
       >
         <star-horse-data-view
-          :dataFormat="dataFormat"
-          :field-list="tableFieldList"
-          :globalCondition="relationTables"
-          :dynamicForm="true"
-          :compUrl="dataUrl"
+            :dataFormat="dataFormat"
+            :field-list="tableFieldList"
+            :globalCondition="relationTables"
+            :dynamicForm="true"
+            :compUrl="dataUrl"
         />
       </star-horse-dialog>
       <div class="search-content" v-if="searchFormData.fieldList?.length > 0">
         <div class="search_btn">
           <star-horse-search-comp
-            @searchData="(data: any) => normalPageRef?.createSearchParams(data)"
-            :formData="searchFormData"
-            :compUrl="dataUrl"
+              @searchData="(data: any) => normalPageRef?.createSearchParams(data)"
+              :formData="searchFormData"
+              :compUrl="dataUrl"
           />
         </div>
       </div>
       <el-card class="inner_content">
         <star-horse-table-comp
-          ref="normalPageRef"
-          :fieldList="tableFieldList"
-          :primaryKey="primaryKey"
-          :globalConfig="relationTables"
-          :isDynamic="true"
-          :extendBtns="extBtns"
-          :compUrl="dataUrl"
-          :btnPermissions="{
-            add: 'add',
-            edit: 'eidt',
-            view: 'view',
-          }"
-          :showBatchField="true"
-          :dataFormat="dataFormat"
+            ref="normalPageRef"
+            :fieldList="tableFieldList"
+            :primaryKey="primaryKey"
+            :globalConfig="relationTables"
+            :isDynamic="true"
+            :extendBtns="extBtns"
+            :compUrl="dataUrl"
+            :btnPermissions="{
+              add: 'add',
+              edit: 'edit',
+              view: 'view',
+            }"
+            :showBatchField="true"
+            :dataFormat="dataFormat"
         />
       </el-card>
     </template>
