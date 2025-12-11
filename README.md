@@ -73,3 +73,11 @@ app.mount('#app')
 ```
 - 优化列表容器禁止在单元格内显示标签
 ```
+### v1.9.0
+```
+- 增加dialog 组件
+```
+### v2.0.0
+```
+- 增加DataSourceComp，DbListComp,FormMenuShot,WebUrlComp组件导出
+```

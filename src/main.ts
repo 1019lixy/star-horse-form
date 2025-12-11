@@ -11,6 +11,7 @@ import { createApp } from "vue";
 import draggable from "vuedraggable-es";
 import piniaCompInstance from "@/store";
 import * as ElementPlusIconsVue from "@element-plus/icons-vue";
+import prepsComponent from "@/components/system/items/prepscomp";
 import StarHorseLowCode from "star-horse-lowcode";
 import { getLang } from "@/theme/localStorge";
 import { LangType } from "@/theme/theme";
@@ -27,7 +28,7 @@ for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
 /**
  * 加载elementplus 自己提供的图标
  */
-// app.use(commonComponent);
+app.use(prepsComponent);
 app.use(systemComponent);
 app.use(itemsComponent);
 

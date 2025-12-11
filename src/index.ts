@@ -12,6 +12,7 @@ import draggable from "vuedraggable-es";
 
 const items = import.meta.glob([
   "@/components/system/*.vue",
+  "@/components/system/items/utils/*.vue",
   "@/components/formcomp/items/*.vue",
 ]);
 // 插件安装方法
