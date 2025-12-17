@@ -3157,6 +3157,7 @@ export const formItems: CompType[] = [
         actions: [],
         preps: [],
     },
+
     {
         itemName: "图片",
         itemType: "image",

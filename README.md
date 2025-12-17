@@ -81,3 +81,8 @@ app.mount('#app')
 ```
 - 增加DataSourceComp，DbListComp,FormMenuShot,WebUrlComp组件导出
 ```
+### v2.0.0
+```
+- 更新star-horse-lowcode 版本
+```
+

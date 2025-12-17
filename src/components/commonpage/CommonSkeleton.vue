@@ -90,8 +90,6 @@
 </template>
 
 <script setup lang="ts">
-import { defineProps } from "vue";
-
 // 定义props，控制骨架屏各部分的显示
 const props = defineProps({
   showSearch: {
