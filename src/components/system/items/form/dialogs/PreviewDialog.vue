@@ -48,7 +48,9 @@ defineExpose({
       :title="i18n('dyform.preview.dialog.title')"
       :source="3"
   >
-    <FormPreview :compSize="compSize" :currentPageClass="currentPageClass" :list="list" ref="previewFormRef"/>
+    <div :class="currentPageClass">
+      <FormPreview :compSize="compSize" :currentPageClass="currentPageClass" :list="list" ref="previewFormRef"/>
+    </div>
   </star-horse-dialog>
 </template>
 

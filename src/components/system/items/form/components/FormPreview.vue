@@ -1,16 +1,17 @@
 <script setup lang="ts">
 import {i18n} from "@/lang/index.js";
 import {error, success} from "star-horse-lowcode";
-import {nextTick, onMounted, ref} from "vue";
+import {nextTick, onMounted, ref, watch} from "vue";
 
 const props = defineProps<{
   compSize: string;
   list: any[];
-  currentPageClass?: string; // Add currentPageClass prop
+  currentPageClass?: string;
+  formStyle?: string;
 }>();
 const previewFormRef = ref();
 const validateForm = async () => {
-  if ( previewFormRef.value && previewFormRef.value.$refs && previewFormRef.value.$refs.previewFormRef) {
+  if (previewFormRef.value && previewFormRef.value.$refs && previewFormRef.value.$refs.previewFormRef) {
     try {
       await previewFormRef.value.$refs.previewFormRef.validate();
       success(i18n("dyform.preview.validate.success"));
@@ -102,7 +103,6 @@ const selectDatas = ref<any>([]);
 const formData = ref<any>({
   pageStyle: "normal",
 });
-// Expose methods for parent component to use
 onMounted(() => {
   nextTick(() => {
     selectDatas.value = [
@@ -114,6 +114,9 @@ onMounted(() => {
     ];
   });
 });
+watch(() => props.formStyle, (val) => {
+  formData.value.pageStyle = val ?? "normal";
+}, {immediate: true});
 defineExpose({
   validateForm,
   exportToHtml,
@@ -125,6 +128,7 @@ defineExpose({
     <el-form-item label="页面风格" class="w-[240px]!">
       <select-item
           v-model:formData="formData"
+          source="1"
           :field="{
           fieldName: 'pageStyle',
           preps: {
