@@ -1,5 +1,16 @@
 <script lang="ts" setup>
-import {computed, nextTick, onActivated, onBeforeUnmount, onDeactivated, onMounted, PropType, ref, watch,} from "vue";
+import {
+  computed,
+  nextTick,
+  onActivated,
+  onBeforeUnmount,
+  onDeactivated,
+  onMounted,
+  PropType,
+  ref,
+  unref,
+  watch
+} from "vue";
 import {
   CompType,
   operationConfirm,
@@ -61,7 +72,15 @@ let isPreview = computed(() => designForm.previewVisible);
 let isEdit = computed(() => designForm.isEdit);
 let errMessage = ref<string>("");
 let formData = computed(() => designForm.formData);
-let formInfo = computed(() => designForm.formInfo);
+let formInfo = computed(() => {
+  let temp = unref(designForm.formInfo);
+  if (temp["currentPageType"]) {
+    actionsStyle({
+      key: temp["currentPageType"]
+    });
+  }
+  return temp;
+});
 const isDragging = computed(() => designForm.isDragging);
 const fieldPanelRef = ref();
 const dynamicFormRef = ref();
@@ -275,18 +294,16 @@ const actionsStyle = (item: any) => {
   } else {
     currentPageClass.value = "main-design";
   }
+  formInfo.value["currentPageType"] = item.key ?? "pc";
 };
 
 const cacheDataRestore = (evt: MouseEvent) => {
   evt?.stopPropagation();
   designForm.clearAll(true);
   cacheData.value = getCacheData(cacheName);
-  if (cacheData.value) {
-    try {
-      designForm.setFormInfo(JSON.parse(cacheData.value));
-    } catch (e) {
-      designForm.setCompList(cacheData.value);
-    }
+  if (cacheData.value && typeof cacheData.value == "object") {
+    designForm.setFormInfo(cacheData.value["formInfo"]);
+    designForm.setCompList(cacheData.value["dataList"]);
   }
   setCacheData(cacheName, null);
   cacheData.value = "";
@@ -349,7 +366,10 @@ const listWatcher = watch(
       userOperation.setFormInstance(dynamicFormRef);
       userOperation.setFormData(formData);
       userOperation.addFormItemList(val);
-      setCacheData(cacheName, val);
+      setCacheData(cacheName, {
+        dataList: val,
+        formInfo: unref(formInfo)
+      });
     },
     {
       immediate: false,
@@ -401,7 +421,7 @@ const setFormInfo = (
  *
  * @param flag 如果为true 则清空所有组件,如果为false 则只清空选中的组件
  */
-  const initStoreData = () => {
+const initStoreData = () => {
   designForm.clearAll(true);
 };
 /**
