@@ -74,9 +74,10 @@ let errMessage = ref<string>("");
 let formData = computed(() => designForm.formData);
 let formInfo = computed(() => {
   let temp = unref(designForm.formInfo);
-  if (temp["currentPageType"]) {
+  let pageType = temp["currentPageType"];
+  if (pageType && currentPageStyle.value?.key != pageType) {
     actionsStyle({
-      key: temp["currentPageType"]
+      key: pageType
     });
   }
   return temp;
