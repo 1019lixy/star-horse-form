@@ -23,6 +23,10 @@ export interface FormConfig {
    */
   forbiddenSystemItems: boolean;
   /**
+   * 隐藏配置风格按钮
+   */
+  hideConfigBtn?: boolean;
+  /**
    * 定义了表单需要与后端交互正常交互的接口
    */
   api?: ApiUrls;

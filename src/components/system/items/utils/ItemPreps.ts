@@ -1,7 +1,7 @@
 import { computed, nextTick, reactive, ref, Ref, unref, watch } from "vue";
 import {
   analysisCompDatas,
-  ascOrDesc,
+  orderBy,
   compDynamicData,
   dataType,
   dictData,
@@ -570,11 +570,11 @@ export function urlFields() {
     },
     {
       label: "排序",
-      fieldName: "ascOrDesc",
+      fieldName: "orderBy",
       type: "select",
       formVisible: true,
       preps: {
-        values: ascOrDesc(),
+        values: orderBy(),
       },
     },
   ];
@@ -778,11 +778,11 @@ export function paramsFields(
     },
     {
       label: "排序",
-      fieldName: "ascOrDesc",
+      fieldName: "orderBy",
       type: "select",
       formVisible: true,
       preps: {
-        values: ascOrDesc(),
+        values: orderBy(),
       },
     },
   ];

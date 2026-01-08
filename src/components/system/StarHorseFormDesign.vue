@@ -13,12 +13,13 @@ import {
 } from "vue";
 import {
   CompType,
+  SelectOption,
   operationConfirm,
   piniaInstance,
   useDesignFormStore,
   useGlobalConfigStore,
   useSelfOperationStore,
-  warning,
+  warning
 } from "star-horse-lowcode";
 import {validDynamicFormCompParams} from "@/components/system/items/utils/FormParamsValid";
 import {delCacheData, getCacheData, setCacheData} from "@/api/cached_utils";
@@ -82,10 +83,16 @@ let formInfo = computed(() => {
   }
   return temp;
 });
+const langList: SelectOption[] = [
+  {name: "中文", value: "zh_CN"},
+  {name: "English", value: "en_US"},
+
+];
 const isDragging = computed(() => designForm.isDragging);
 const fieldPanelRef = ref();
 const dynamicFormRef = ref();
 const previewDynamicFormRef = ref();
+const formConfigDialogVisible = ref<boolean>(false);
 let reOrUnDoFlag = ref<boolean>(false);
 let currentPageStyle = ref<any>({label: "电脑", key: "pc"});
 let currentPageClass = ref<string>("main-design");
@@ -100,8 +107,8 @@ const {dialogStates, openDialog, closeAllDialogs} = useDialogManager();
 
 const actions = (action: ToolBtnType) => {
   switch (action.key) {
-    case "leftPanel":
-      leftPanelVisible.value = !leftPanelVisible.value;
+    case "formConfig":
+      formConfigDialogVisible.value = true;
       break;
     case "rightPanel":
       rightPanelVisible.value = !rightPanelVisible.value;
@@ -282,7 +289,6 @@ const batchEdit = () => {
   designForm.setShortKeyDisabled(true);
 };
 
-let leftPanelVisible = ref<boolean>(true);
 let rightPanelVisible = ref<boolean>(true);
 
 //页面风格
@@ -471,6 +477,18 @@ defineExpose({
       @close="closeAction"
       ref="previewDialogRef"
   />
+  <PageConfig v-model="formConfigDialogVisible">
+<!--    <template #header="{form}">
+      <el-form-item label="页面风格" prop="pageStyle">
+        <select-item :formData="form" :field="{
+          fieldName:'pageStyle',
+          preps:{
+            values:langList
+          }
+        }"/>
+      </el-form-item>
+    </template>-->
+  </PageConfig>
   <FieldLayerDrawer v-model:visible="dialogStates.formFieldLayer"/>
   <el-splitter>
     <el-splitter-panel collapsible size="350" min="200" max="450">

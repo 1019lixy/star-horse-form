@@ -105,7 +105,7 @@ export const isZH = () => currentLang === LangType.ZH_CN;
  */
 export function i18n(key: string, ...args: any[]) {
   // 优先从当前语言包获取
-  if (!langSet) {
+  if (Object.keys(langSet || {}).length === 0) {
     langSet = zh_CN;
   }
   let result = langSet[key];

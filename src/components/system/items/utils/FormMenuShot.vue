@@ -207,7 +207,7 @@ defineExpose({
         :orderBy="[
           {
             fieldName: 'a.createdTime',
-            ascOrDesc: 'desc',
+            orderBy: 'desc',
           },
         ]"
         :preps="prop??{

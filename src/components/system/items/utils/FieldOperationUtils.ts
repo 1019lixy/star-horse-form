@@ -131,7 +131,7 @@ export function compFieldInit() {
     ];
     const query = {
       fieldList: params,
-      orderBy: [{ fieldName: "dataSort", ascOrDesc: "asc" }],
+      orderBy: [{ fieldName: "dataSort", orderBy: "asc" }],
     };
     return new Promise((resolve) => {
       postRequest(url, query).then((res) => {

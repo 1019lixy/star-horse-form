@@ -85,4 +85,9 @@ app.mount('#app')
 ```
 - 更新star-horse-lowcode 版本
 ```
+### v2.1.0
+```
+- 更新star-horse-lowcode 版本
+--修复其它bug
+```
 

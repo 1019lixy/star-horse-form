@@ -2,7 +2,7 @@
 import {computed, onActivated, onMounted, reactive, ref, watch} from "vue";
 import {
   analysisCompDatas,
-  ascOrDesc,
+  orderBy,
   commonField,
   createCondition,
   httpMethod,
@@ -795,12 +795,12 @@ const tableFieldList = reactive<PageFieldInfo | any>({
                 },
                 {
                   label: "排序方式",
-                  fieldName: "ascOrDesc",
+                  fieldName: "orderBy",
                   type: "select",
 
                   formVisible: true,
                   preps: {
-                    values: ascOrDesc(),
+                    values: orderBy(),
                   },
                 },
                 {
