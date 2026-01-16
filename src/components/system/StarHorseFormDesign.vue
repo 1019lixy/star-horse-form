@@ -499,50 +499,61 @@ defineExpose({
       />
     </el-splitter-panel>
     <el-splitter-panel>
-      <div class="main-design-outer">
-        <FormToolbar
-            :list="list"
-            :currentPageStyle="currentPageStyle"
-            :cacheData="cacheData"
-            @action="actions"
-            @cacheRestore="cacheDataRestore"
-            :optional="optional"
-        />
-        <FormDesigner
-            :list="list"
-            :form-data="formData"
-            :form-info="formInfo"
-            :is-dragging="isDragging"
-            :current-page-class="currentPageClass"
-            @drag-add="onDragAdd"
-            @context-menu="contextMenu"
-            @select-component="onComponentSelect"
-            ref="dynamicFormRef"
-        />
+      <el-splitter layout="vertical">
+       <el-splitter-panel :collapsible="false" :resizable="false" size="42">
+         <FormToolbar
+             :list="list"
+             :currentPageStyle="currentPageStyle"
+             :cacheData="cacheData"
+             @action="actions"
+             @cacheRestore="cacheDataRestore"
+             :optional="optional"
+         />
+       </el-splitter-panel>
+        <el-splitter-panel>
+          <el-splitter>
+            <el-splitter-panel>
+              <div class="main-design-outer">
+                <FormDesigner
+                    :list="list"
+                    :form-data="formData"
+                    :form-info="formInfo"
+                    :is-dragging="isDragging"
+                    :current-page-class="currentPageClass"
+                    @drag-add="onDragAdd"
+                    @context-menu="contextMenu"
+                    @select-component="onComponentSelect"
+                    ref="dynamicFormRef"
+                />
+                <FormMenuShot
+                    ref="formListRef"
+                    v-if="Object.keys(optional?.api || {}).length > 0"
+                    @change="changeDataHandle"
+                    :dataUrl="optional?.api"
+                    :prop="optional?.shotProps"
+                    :primaryKey="optional?.primaryKey"
+                />
+                <div class="main-copyright">{{ i18n("starhorse.copyright") }}</div>
+              </div>
+            </el-splitter-panel>
+            <el-splitter-panel
+                collapsible
+                :size="350"
+                min="260"
+                max="500"
+                class="overflow-hidden!"
+                v-if="list.length > 0"
+            >
+              <el-scrollbar>
+                <property-panel ref="propertyRef" :optional="optional"/>
+              </el-scrollbar>
+            </el-splitter-panel>
+          </el-splitter>
+        </el-splitter-panel>
+      </el-splitter>
 
-        <FormMenuShot
-            ref="formListRef"
-            v-if="Object.keys(optional?.api || {}).length > 0"
-            @change="changeDataHandle"
-            :dataUrl="optional?.api"
-            :prop="optional?.shotProps"
-            :primaryKey="optional?.primaryKey"
-        />
-        <div class="main-copyright">{{ i18n("starhorse.copyright") }}</div>
-      </div>
     </el-splitter-panel>
-    <el-splitter-panel
-        collapsible
-        :size="350"
-        min="260"
-        max="500"
-        class="overflow-hidden!"
-        v-if="list.length > 0"
-    >
-      <el-scrollbar>
-        <property-panel ref="propertyRef" :optional="optional"/>
-      </el-scrollbar>
-    </el-splitter-panel>
+
   </el-splitter>
 </template>
 

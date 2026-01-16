@@ -213,7 +213,7 @@ export default {
   "dyform.help.step2": "在右边属性区域设置选中组件得属性",
   "dyform.help.step3": "在头部可批量编辑按钮可编辑属性名称",
   "dyform.help.step4": "在头部设置按钮可设置表单属性",
-  "dyform.help.step5": "在头部代码按钮可以生产代码（目前只能生产vue3）",
+  "dyform.help.step5": "在头部代码按钮可以生成代码（目前只能生成vue3）",
   "dyform.help.step6": "在头部预览按钮可以预览表单信息",
   "dyform.help.step7": "在舞台上点击鼠标右键可打开右键菜单",
   "dyform.help.blindSpots": "盲点（数据源生成的表单模型）",
