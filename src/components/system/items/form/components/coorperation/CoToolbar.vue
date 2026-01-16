@@ -66,8 +66,19 @@ const onClickOutside = () => {
             <star-horse-icon iconClass="user-add"/>
             添加人员
           </div>
-          <div class="flex justify-center items-center pointer rounded-sm border-[#f1f1f1] border-1 h-[35px] flex-1"><star-horse-icon iconClass="user-edit"/> 邀请成员加入</div>
+          <div class="flex justify-center items-center pointer rounded-sm border-[#f1f1f1] border-1 h-[35px] flex-1">
+            <star-horse-icon iconClass="user-edit"/>
+            邀请成员加入
+          </div>
         </div>
+        <el-card class="inner_content w-full flex">
+          <div class="w-full flex justify-start">
+            <h3>正在看(2)</h3>
+          </div>
+          <div class="w-full  flex justify-start">
+            <h3>其它成员(5)</h3>
+          </div>
+        </el-card>
       </el-card>
     </template>
   </el-drawer>
