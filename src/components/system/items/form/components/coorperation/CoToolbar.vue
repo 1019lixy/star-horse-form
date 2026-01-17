@@ -3,6 +3,9 @@ import {FormConfig} from "@/components/types";
 import {StarHorseIcon} from "star-horse-lowcode";
 import {ref} from "vue";
 import {ClickOutside as vClickOutside, PopoverInstance} from "element-plus";
+import GroupUsers from "@/components/system/items/form/components/coorperation/GroupUsers.vue";
+import ChatDialog from "@/components/system/items/form/components/coorperation/ChatDialog.vue";
+import MeetingDialog from "@/components/system/items/form/components/coorperation/MeetingDialog.vue";
 
 const props = defineProps<{
   optional: FormConfig;
@@ -14,14 +17,25 @@ const userListPopoverRef = ref<PopoverInstance>();
 const userAddPopoverRef = ref<PopoverInstance>();
 const formStatusPopoverRef = ref<PopoverInstance>();
 const onClickOutside = () => {
-  userListPopoverRef.value?.hide();
-  userAddPopoverRef.value?.hide();
-  formStatusPopoverRef.value?.hide();
+  userListPopoverRef?.value?.hide?.();
+  userAddPopoverRef?.value?.hide?.();
+  formStatusPopoverRef?.value?.hide?.();
+};
+const chatDialogVisible = ref<boolean>(false);
+const meetingDialogVisible = ref<boolean>(false);
+const groupOperation = (type: string) => {
+  if (type == "chat") {
+    chatDialogVisible.value = true;
+  } else if (type == "meeting") {
+    meetingDialogVisible.value = true;
+  }
 };
 </script>
 
 <template>
-  <div class="h-full flex justify-center items-center flex-row gap-2">
+  <ChatDialog v-model:visible="chatDialogVisible" title="XX表单交流"/>
+  <MeetingDialog v-model:visible="meetingDialogVisible" title="XX表单会议"/>
+  <div class="h-full flex justify-center items-center flex-row gap-15">
     <el-tooltip content="7人">
       <star-horse-icon ref="userListRef" cursor="pointer" icon-class="user-edit" @click.stop="userListVisible=true"/>
     </el-tooltip>
@@ -36,14 +50,14 @@ const onClickOutside = () => {
   <el-drawer
       ref="userListPopoverRef"
       v-model="userListVisible"
-      width="200"
+      size="350"
       header-class="hstyle"
       :close-on-click-modal="false"
       :close-on-press-escape="false"
   >
     <template #header>
       <div class="flex justify-between items-center"><h3>人员列表</h3>
-        <el-dropdown>
+        <el-dropdown @command="groupOperation">
     <span class="el-dropdown-link">
        <star-horse-icon iconClass="user-circle" color="#fff"/>
       <el-icon class="el-icon--right">
@@ -61,7 +75,7 @@ const onClickOutside = () => {
     </template>
     <template #default>
       <el-card class="inner_content w-full">
-        <div class="flex justify-between items-center w-full my-3 mx-3">
+        <div class="flex justify-center items-center w-[90%] my-3  mx-auto gap-5 ">
           <div class="flex justify-center items-center pointer rounded-sm border-[#f1f1f1] border-1 h-[35px]  flex-1">
             <star-horse-icon iconClass="user-add"/>
             添加人员
@@ -71,12 +85,18 @@ const onClickOutside = () => {
             邀请成员加入
           </div>
         </div>
-        <el-card class="inner_content w-full flex">
-          <div class="w-full flex justify-start">
-            <h3>正在看(2)</h3>
+        <el-card class="inner_content w-full flex px-5 py-2">
+          <div class="w-full flex flex-col justify-start">
+            <h3 class="font-bold my-3 justify-start flex">正在看.2</h3>
+            <div class="flex flex-col w-full">
+              <GroupUsers type="online"/>
+            </div>
           </div>
-          <div class="w-full  flex justify-start">
-            <h3>其它成员(5)</h3>
+          <div class="w-full flex-col flex justify-start">
+            <h3 class="font-bold  my-3  justify-start flex">其它成员.5</h3>
+            <div class="flex flex-col w-full">
+              <GroupUsers/>
+            </div>
           </div>
         </el-card>
       </el-card>
