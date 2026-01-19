@@ -450,22 +450,27 @@ const initWebRTC = () => {
       
       // 创建新的offer并发送给其他参与者
       if (webSocketService.value && isConnected.value) {
-        webRTCCore.createOffer().then((offer) => {
-          console.log("Created new offer for camera stream:", offer);
-          // 发送offer给所有其他参与者
-          participants.value.forEach(participant => {
-            if (participant.status === 'online' && participant.id !== 0) {
-              webSocketService.value?.sendWebRtcOffer({
-                senderId: currentUserId.value,
-                targetUserId: `user${participant.id}`,
-                offer: offer
-              });
-              console.log("Sent camera stream offer to:", participant.name);
-            }
+        // 检查WebRTC WebSocket是否连接
+        if (webSocketService.value.isWebRtcConnected()) {
+          webRTCCore.createOffer().then((offer) => {
+            console.log("Created new offer for camera stream:", offer);
+            // 发送offer给所有其他参与者
+            participants.value.forEach(participant => {
+              if (participant.status === 'online' && participant.id !== 0) {
+                webSocketService.value?.sendWebRtcOffer({
+                  senderId: currentUserId.value,
+                  targetUserId: `user${participant.id}`,
+                  offer: offer
+                });
+                console.log("Sent camera stream offer to:", participant.name);
+              }
+            });
+          }).catch((error) => {
+            console.error("Error creating camera stream offer:", error);
           });
-        }).catch((error) => {
-          console.error("Error creating camera stream offer:", error);
-        });
+        } else {
+          console.warn("WebRTC WebSocket not connected, skipping offer creation");
+        }
       }
     },
     onStreamStopped: () => {
@@ -541,22 +546,27 @@ const initWebRTC = () => {
       
       // 创建新的offer并发送给其他参与者
       if (webSocketService.value && isConnected.value) {
-        webRTCCore.createOffer().then((offer) => {
-          console.log("Created new offer for screen share:", offer);
-          // 发送offer给所有其他参与者
-          participants.value.forEach(participant => {
-            if (participant.status === 'online' && participant.id !== 0) {
-              webSocketService.value?.sendWebRtcOffer({
-                senderId: currentUserId.value,
-                targetUserId: `user${participant.id}`,
-                offer: offer
-              });
-              console.log("Sent screen share offer to:", participant.name);
-            }
+        // 检查WebRTC WebSocket是否连接
+        if (webSocketService.value.isWebRtcConnected()) {
+          webRTCCore.createOffer().then((offer) => {
+            console.log("Created new offer for screen share:", offer);
+            // 发送offer给所有其他参与者
+            participants.value.forEach(participant => {
+              if (participant.status === 'online' && participant.id !== 0) {
+                webSocketService.value?.sendWebRtcOffer({
+                  senderId: currentUserId.value,
+                  targetUserId: `user${participant.id}`,
+                  offer: offer
+                });
+                console.log("Sent screen share offer to:", participant.name);
+              }
+            });
+          }).catch((error) => {
+            console.error("Error creating screen share offer:", error);
           });
-        }).catch((error) => {
-          console.error("Error creating screen share offer:", error);
-        });
+        } else {
+          console.warn("WebRTC WebSocket not connected, skipping screen share offer creation");
+        }
       }
     },
     onStreamStopped: () => {
@@ -575,22 +585,27 @@ const initWebRTC = () => {
       
       // 创建新的offer并发送给其他参与者
       if (webSocketService.value && isConnected.value) {
-        webRTCCore.createOffer().then((offer) => {
-          console.log("Created new offer after screen share:", offer);
-          // 发送offer给所有其他参与者
-          participants.value.forEach(participant => {
-            if (participant.status === 'online' && participant.id !== 0) {
-              webSocketService.value?.sendWebRtcOffer({
-                senderId: currentUserId.value,
-                targetUserId: `user${participant.id}`,
-                offer: offer
-              });
-              console.log("Sent post-screen share offer to:", participant.name);
-            }
+        // 检查WebRTC WebSocket是否连接
+        if (webSocketService.value.isWebRtcConnected()) {
+          webRTCCore.createOffer().then((offer) => {
+            console.log("Created new offer after screen share:", offer);
+            // 发送offer给所有其他参与者
+            participants.value.forEach(participant => {
+              if (participant.status === 'online' && participant.id !== 0) {
+                webSocketService.value?.sendWebRtcOffer({
+                  senderId: currentUserId.value,
+                  targetUserId: `user${participant.id}`,
+                  offer: offer
+                });
+                console.log("Sent post-screen share offer to:", participant.name);
+              }
+            });
+          }).catch((error) => {
+            console.error("Error creating post-screen share offer:", error);
           });
-        }).catch((error) => {
-          console.error("Error creating post-screen share offer:", error);
-        });
+        } else {
+          console.warn("WebRTC WebSocket not connected, skipping post-screen share offer creation");
+        }
       }
     },
     onError: (error) => {
