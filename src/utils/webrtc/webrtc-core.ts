@@ -198,6 +198,11 @@ export class WebRTCCore {
     stream.getTracks().forEach(track => {
       this.peerConnection!.addTrack(track, stream);
     });
+
+    // 当流发生变化时，需要重新协商WebRTC连接
+    // 注意：在实际应用中，这里应该创建新的offer并通过信令服务器发送给其他参与者
+    console.log("Local stream added/updated, WebRTC should re-negotiate");
+    console.log("Stream tracks:", stream.getTracks().map(t => t.kind + ":" + t.label));
   }
 
   // 移除本地流

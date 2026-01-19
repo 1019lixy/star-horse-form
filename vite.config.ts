@@ -11,6 +11,7 @@ import dts from "vite-plugin-dts";
 // https://vitejs.dev/config/
 const systemHost: string = "http://localhost:8749/";
 const userDbHost: string = "http://localhost:7758/";
+const wbrtcHost: string = "http://localhost:8080/";
 /**
  * 此配置文件，非必需不要随便做修改，特别是打包相关的参数
  */
@@ -29,6 +30,13 @@ export default defineConfig((mode) => {
           changeOrigin: true,
           rewrite: (path: string) =>
             path.replace(/^\/system-config/, "/system-config-dev"),
+          ws: true,
+        },
+         "/api": {
+          target: wbrtcHost,
+          changeOrigin: true,
+          // rewrite: (path: string) =>
+          //   path.replace(/^\/system-config/, "/system-config-dev"),
           ws: true,
         },
 

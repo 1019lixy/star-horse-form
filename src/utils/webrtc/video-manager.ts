@@ -49,6 +49,7 @@ export class VideoManager {
       };
 
       // 构建MediaStreamConstraints
+      // eslint-disable-next-line no-undef
       const mediaConstraints: MediaStreamConstraints = {
         video: mergedConstraints,
         audio: false // 音频由AudioManager单独处理
