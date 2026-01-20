@@ -23,7 +23,20 @@ export class ScreenShareManager {
   private isSharing: boolean = false;
 
   constructor(options: ScreenShareManagerOptions = {}) {
-    this.options = options;
+    // 设置默认约束，降低屏幕共享的视频质量以减少延迟
+    const defaultConstraints: ScreenShareConstraints = {
+      audio: false,
+      video: {
+        cursor: "motion", // 只在鼠标移动时显示光标
+        displaySurface: "monitor", // 共享整个显示器
+        logicalSurface: true // 使用逻辑表面，适应不同分辨率
+      }
+    };
+    
+    this.options = {
+      defaultConstraints,
+      ...options
+    };
   }
 
   // 开始屏幕共享

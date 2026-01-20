@@ -35,6 +35,7 @@ export class WebRTCCore {
   private localStream: MediaStream | null = null;
   private remoteStreams: Map<string, MediaStream> = new Map();
   private options: WebRTCOptions;
+  private senderId: string | null = null;
 
   constructor(options: WebRTCOptions = {}) {
     this.options = options;
@@ -118,7 +119,13 @@ export class WebRTCCore {
     }
 
     try {
-      const offer = await this.peerConnection!.createOffer();
+      // 添加约束以支持屏幕共享
+      const offerOptions: RTCOfferOptions = {
+        offerToReceiveAudio: true,
+        offerToReceiveVideo: true
+      };
+      
+      const offer = await this.peerConnection!.createOffer(offerOptions);
       await this.peerConnection!.setLocalDescription(offer);
       return offer;
     } catch (error) {

@@ -68,7 +68,7 @@ const userMessages = ref<Record<string, any[]>>({});
 
 // 当前显示的消息列表
 const messages = computed(() => {
-  if (activeTab.value === 'users') {
+  if (activeTab.value === "users") {
     // 确保当前选中用户的消息数组存在
     if (!userMessages.value[selectedUser.value.id]) {
       userMessages.value[selectedUser.value.id] = [];
@@ -94,7 +94,7 @@ const selectGroup = (group: any) => {
 // 获取群组的未读消息数量，大于99显示为99+
 const getGroupUnreadCount = (groupId: string) => {
   const count = groupUnreadCounts.value[groupId] || 0;
-  return count > 99 ? '99+' : count;
+  return count > 99 ? "99+" : count;
 };
 // 为每个用户单独存储未读消息数量
 const unreadCounts = ref<Record<string, number>>({});
@@ -102,7 +102,7 @@ const unreadCounts = ref<Record<string, number>>({});
 // 计算属性：获取用户的未读消息数量，大于99显示为99+
 const getUserUnreadCount = (userId: string) => {
   const count = unreadCounts.value[userId] || 0;
-  return count > 99 ? '99+' : count;
+  return count > 99 ? "99+" : count;
 };
 
 // 当前选中的TAB
@@ -263,7 +263,7 @@ const subscribeToMessages = () => {
   }
 
   // 订阅当前选中群组的消息
-  if (activeTab.value === 'groups') {
+  if (activeTab.value === "groups") {
     const groupSubscription = webSocketService.value.subscribeToGroupMessages(selectedGroup.value.id, (message) => {
       handleIncomingMessage(message);
     });
@@ -283,7 +283,7 @@ const subscribeToMessages = () => {
 
 // 监听群组切换，重新订阅消息
 watch(selectedGroup, () => {
-  if (activeTab.value === 'groups' && webSocketService.value && webSocketService.value.isChatConnected()) {
+  if (activeTab.value === "groups" && webSocketService.value && webSocketService.value.isChatConnected()) {
     subscribeToMessages();
   }
 });
@@ -302,28 +302,28 @@ const handleIncomingMessage = (message: any) => {
     // 确保消息格式正确
     if (message.content && message.senderName) {
       // 检查消息类型
-      if (message.type === 'private') {
+      if (message.type === "private") {
         // 私人消息
         // 检查消息是否与当前用户相关
         // 1. 消息是当前用户发送的
         // 2. 消息是发送给当前用户的
-        const isRelevantMessage = 
-          message.senderId === currentUserId.value || 
+        const isRelevantMessage =
+          message.senderId === currentUserId.value ||
           message.targetUserId === currentUserId.value;
-        
+
         if (isRelevantMessage) {
           // 确定消息所属的聊天对象
           // 1. 如果是当前用户发送的，聊天对象是targetUserId
           // 2. 如果是其他用户发送的，聊天对象是senderId
-          const chatUserId = message.senderId === currentUserId.value 
-            ? message.targetUserId 
+          const chatUserId = message.senderId === currentUserId.value
+            ? message.targetUserId
             : message.senderId;
-          
+
           // 确保聊天对象的消息数组存在
           if (!userMessages.value[chatUserId]) {
             userMessages.value[chatUserId] = [];
           }
-          
+
           const newMessage = {
             id: userMessages.value[chatUserId].length + 1,
             senderId: message.senderId,
@@ -332,10 +332,10 @@ const handleIncomingMessage = (message: any) => {
             time: new Date().toLocaleTimeString("zh-CN", {hour: "2-digit", minute: "2-digit"}),
             isSelf: message.senderId === currentUserId.value
           };
-          
+
           console.log(`添加消息到用户 ${chatUserId} 的聊天记录:`, newMessage);
           userMessages.value[chatUserId].push(newMessage);
-          
+
           // 如果消息是其他用户发送的，并且当前没有与该用户聊天，增加未读消息数量
           if (message.senderId !== currentUserId.value && chatUserId !== selectedUser.value.id) {
             if (!unreadCounts.value[chatUserId]) {
@@ -344,9 +344,9 @@ const handleIncomingMessage = (message: any) => {
             unreadCounts.value[chatUserId]++;
             console.log(`用户 ${chatUserId} 的未读消息数量更新为:`, unreadCounts.value[chatUserId]);
           }
-          
+
           // 如果当前正在与该用户聊天，滚动到最新消息
-          if (activeTab.value === 'users' && chatUserId === selectedUser.value.id) {
+          if (activeTab.value === "users" && chatUserId === selectedUser.value.id) {
             scrollToBottom();
             // 清空未读消息数量
             unreadCounts.value[chatUserId] = 0;
@@ -354,16 +354,16 @@ const handleIncomingMessage = (message: any) => {
         } else {
           console.log("消息与当前用户无关，跳过处理:", message);
         }
-      } else if (message.type === 'group') {
+      } else if (message.type === "group") {
         // 群组消息
         // 检查消息是否与当前用户相关
         // 1. 消息是发送到群组的
         const isRelevantMessage = message.groupId;
-        
+
         if (isRelevantMessage) {
           // 确定消息所属的群组
           const groupId = message.groupId;
-          
+
           // 只有当消息不是当前用户发送的时，才将消息添加到本地的消息数组中
           // 因为当前用户发送的消息已经在sendMessage函数中添加过了
           if (message.senderId !== currentUserId.value) {
@@ -371,7 +371,7 @@ const handleIncomingMessage = (message: any) => {
             if (!groupMessages.value[groupId]) {
               groupMessages.value[groupId] = [];
             }
-            
+
             const newMessage = {
               id: groupMessages.value[groupId].length + 1,
               senderId: message.senderId,
@@ -380,10 +380,10 @@ const handleIncomingMessage = (message: any) => {
               time: new Date().toLocaleTimeString("zh-CN", {hour: "2-digit", minute: "2-digit"}),
               isSelf: message.senderId === currentUserId.value
             };
-            
+
             console.log(`添加消息到群组 ${groupId} 的聊天记录:`, newMessage);
             groupMessages.value[groupId].push(newMessage);
-            
+
             // 如果消息是其他用户发送的，并且当前没有与该群组聊天，增加未读消息数量
             if (groupId !== selectedGroup.value.id) {
               if (!groupUnreadCounts.value[groupId]) {
@@ -392,9 +392,9 @@ const handleIncomingMessage = (message: any) => {
               groupUnreadCounts.value[groupId]++;
               console.log(`群组 ${groupId} 的未读消息数量更新为:`, groupUnreadCounts.value[groupId]);
             }
-            
+
             // 如果当前正在与该群组聊天，滚动到最新消息
-            if (activeTab.value === 'groups' && groupId === selectedGroup.value.id) {
+            if (activeTab.value === "groups" && groupId === selectedGroup.value.id) {
               scrollToBottom();
               // 清空未读消息数量
               groupUnreadCounts.value[groupId] = 0;
@@ -424,7 +424,7 @@ const sendMessage = () => {
       time: new Date().toLocaleTimeString("zh-CN", {hour: "2-digit", minute: "2-digit"}),
       isSelf: true
     };
-    
+
     // 添加消息到当前选中用户或群组的聊天记录中
     messages.value.push(newMessage);
     inputMessage.value = "";
@@ -434,7 +434,7 @@ const sendMessage = () => {
     // 通过WebSocket发送消息
     if (webSocketService.value && webSocketService.value.isChatConnected()) {
       try {
-        if (activeTab.value === 'users') {
+        if (activeTab.value === "users") {
           // 发送私人消息
           webSocketService.value.sendPrivateMessage({
             senderId: currentUserId.value,
@@ -461,7 +461,7 @@ const sendMessage = () => {
         console.log("消息发送失败，使用模拟回复");
         setTimeout(() => {
           let replyMessage;
-          if (activeTab.value === 'users') {
+          if (activeTab.value === "users") {
             // 模拟私人消息回复
             replyMessage = {
               id: messages.value.length + 1,
@@ -619,15 +619,15 @@ onUnmounted(() => {
           </div>
           <!-- TAB切换 -->
           <div class="tab-container">
-            <div 
-                class="tab-item" 
+            <div
+                class="tab-item"
                 :class="{ active: activeTab === 'users' }"
                 @click="activeTab = 'users'"
             >
               用户
             </div>
-            <div 
-                class="tab-item" 
+            <div
+                class="tab-item"
                 :class="{ active: activeTab === 'groups' }"
                 @click="activeTab = 'groups'"
             >
@@ -716,8 +716,8 @@ onUnmounted(() => {
                     :class="{ 'self-message': message.isSelf }"
                 >
                   <div class="message-avatar">
-                    <img 
-                      :src="message.isSelf ? 'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png' : (activeTab === 'users' ? selectedUser.avatar : selectedGroup.avatar)" 
+                    <img
+                      :src="message.isSelf ? 'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png' : (activeTab === 'users' ? selectedUser.avatar : selectedGroup.avatar)"
                       alt="avatar"
                     />
                   </div>

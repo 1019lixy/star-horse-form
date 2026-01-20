@@ -1,5 +1,5 @@
 // WebSocket服务类，封装与后端的WebSocket通信
-
+//https://webrtc.github.io/samples/
 import SockJS from "sockjs-client";
 import Stomp from "stompjs";
 
@@ -425,7 +425,7 @@ export class WebSocketService {
 
     try {
       console.log("Attempting to subscribe to WebRTC offers for user:", userId);
-      const subscription = this.webrtcStompClient.subscribe(`/user/${userId}/queue/webrtc/offer`, (message) => {
+      const subscription = this.webrtcStompClient.subscribe(`/queue/user/${userId}/webrtc/offer`, (message) => {
         console.log("Received WebRTC offer:", message?.body);
         try {
           const data = JSON.parse(message?.body);
@@ -456,7 +456,7 @@ export class WebSocketService {
 
     try {
       console.log("Attempting to subscribe to WebRTC answers for user:", userId);
-      const subscription = this.webrtcStompClient.subscribe(`/user/${userId}/queue/webrtc/answer`, (message) => {
+      const subscription = this.webrtcStompClient.subscribe(`/queue/user/${userId}/webrtc/answer`, (message) => {
         console.log("Received WebRTC answer:", message?.body);
         try {
           const data = JSON.parse(message?.body);
@@ -487,7 +487,7 @@ export class WebSocketService {
 
     try {
       console.log("Attempting to subscribe to ICE candidates for user:", userId);
-      const subscription = this.webrtcStompClient.subscribe(`/user/${userId}/queue/webrtc/ice-candidate`, (message) => {
+      const subscription = this.webrtcStompClient.subscribe(`/queue/user/${userId}/webrtc/ice-candidate`, (message) => {
         console.log("Received ICE candidate:", message?.body);
         try {
           const data = JSON.parse(message?.body);
@@ -558,6 +558,99 @@ export class WebSocketService {
   // 检查WebRTC连接状态
   public isWebRtcConnected(): boolean {
     return this.webrtcConnected;
+  }
+
+  // 订阅会议参与者状态变化
+  public subscribeToParticipantStatus(callback: (message: any) => void, meetingId: string): string | null {
+    if (!this.chatStompClient || !this.chatConnected) {
+      console.error("Chat WebSocket not connected");
+      return null;
+    }
+
+    try {
+      console.log("Attempting to subscribe to participant status for meeting:", meetingId);
+      const subscription = this.chatStompClient.subscribe(`/topic/meeting/${meetingId}/participants`, (message) => {
+        console.log("Received participant status message:", message?.body);
+        try {
+          const data = JSON.parse(message?.body);
+          console.log("Parsed participant status message:", data);
+          callback(data);
+        } catch (parseError) {
+          console.error("Error parsing participant status message:", parseError);
+        }
+      });
+
+      console.log("Successfully subscribed to participant status for meeting:", meetingId);
+      return subscription.id;
+    } catch (error) {
+      console.error("Error subscribing to participant status:", error);
+      if (this.options.onError) {
+        this.options.onError(error);
+      }
+      return null;
+    }
+  }
+
+  // 发送用户加入会议消息
+  public sendUserJoinedMessage(meetingId: string, userId: string, userName: string): void {
+    if (!this.chatStompClient || !this.chatConnected) {
+      console.error("Chat WebSocket not connected");
+      return;
+    }
+
+    try {
+      const message = {
+        meetingId: meetingId,
+        userId: userId,
+        userName: userName,
+        type: "USER_JOINED",
+        timestamp: new Date().toISOString()
+      };
+
+      console.log("Attempting to send user joined message:", message);
+      this.chatStompClient.send(
+        "/app/meeting/user-joined",
+        {},
+        JSON.stringify(message)
+      );
+      console.log("User joined message sent successfully:", message);
+    } catch (error) {
+      console.error("Error sending user joined message:", error);
+      if (this.options.onError) {
+        this.options.onError(error);
+      }
+    }
+  }
+
+  // 发送用户离开会议消息
+  public sendUserLeftMessage(meetingId: string, userId: string, userName: string): void {
+    if (!this.chatStompClient || !this.chatConnected) {
+      console.error("Chat WebSocket not connected");
+      return;
+    }
+
+    try {
+      const message = {
+        meetingId: meetingId,
+        userId: userId,
+        userName: userName,
+        type: "USER_LEFT",
+        timestamp: new Date().toISOString()
+      };
+
+      console.log("Attempting to send user left message:", message);
+      this.chatStompClient.send(
+        "/app/meeting/user-left",
+        {},
+        JSON.stringify(message)
+      );
+      console.log("User left message sent successfully:", message);
+    } catch (error) {
+      console.error("Error sending user left message:", error);
+      if (this.options.onError) {
+        this.options.onError(error);
+      }
+    }
   }
 
   // 处理重连

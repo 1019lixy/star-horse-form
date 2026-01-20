@@ -43,12 +43,13 @@ public class WebRtcSignalingController {
         String targetUserId = (String) payload.get("targetUserId");
         
         if (targetUserId != null) {
+            messagingTemplate.convertAndSend(String.format("/queue/user/%s/webrtc/offer",targetUserId), payload);
             // 发送给目标用户
-            messagingTemplate.convertAndSendToUser(
-                    targetUserId, 
-                    "/queue/webrtc/offer", 
-                    payload
-            );
+//            messagingTemplate.convertAndSendToUser(
+//                    targetUserId,
+//                    "/queue/webrtc/offer",
+//                    payload
+//            );
             System.out.println("Offer sent to: " + targetUserId);
         }
     }
@@ -61,12 +62,13 @@ public class WebRtcSignalingController {
         String targetUserId = (String) payload.get("targetUserId");
         
         if (targetUserId != null) {
+            messagingTemplate.convertAndSend(String.format("/queue/user/%s/webrtc/answer",targetUserId), payload);
             // 发送给目标用户
-            messagingTemplate.convertAndSendToUser(
-                    targetUserId, 
-                    "/queue/webrtc/answer", 
-                    payload
-            );
+//            messagingTemplate.convertAndSendToUser(
+//                    targetUserId,
+//                    "/queue/webrtc/answer",
+//                    payload
+//            );
             System.out.println("Answer sent to: " + targetUserId);
         }
     }
@@ -79,12 +81,13 @@ public class WebRtcSignalingController {
         String targetUserId = (String) payload.get("targetUserId");
         
         if (targetUserId != null) {
+            messagingTemplate.convertAndSend(String.format("/queue/user/%s/webrtc/ice-candidate",targetUserId), payload);
             // 发送给目标用户
-            messagingTemplate.convertAndSendToUser(
-                    targetUserId, 
-                    "/queue/webrtc/ice-candidate", 
-                    payload
-            );
+//            messagingTemplate.convertAndSendToUser(
+//                    targetUserId,
+//                    "/queue/webrtc/ice-candidate",
+//                    payload
+//            );
             System.out.println("ICE candidate sent to: " + targetUserId);
         }
     }

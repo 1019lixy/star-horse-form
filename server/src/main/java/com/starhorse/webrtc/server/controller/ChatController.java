@@ -31,11 +31,11 @@ public class ChatController {
         if (targetUserId != null) {
             messagingTemplate.convertAndSend(String.format("/queue/user/%s/chat/messages",targetUserId), payload);
             // 发送给目标用户
-            messagingTemplate.convertAndSendToUser(
-                    targetUserId, 
-                    "/queue/chat/messages",
-                    payload
-            );
+//            messagingTemplate.convertAndSendToUser(
+//                    targetUserId,
+//                    "/queue/chat/messages",
+//                    payload
+//            );
             System.out.println("Private message sent to: " + targetUserId);
         } else {
             System.out.println("Target user ID is null, message not sent");
@@ -73,6 +73,48 @@ public class ChatController {
                     payload
             );
             System.out.println("Meeting message sent to: " + meetingId);
+        }
+    }
+
+    /**
+     * 处理用户加入会议
+     */
+    @MessageMapping("/meeting/user-joined")
+    public void handleUserJoined(@Payload Map<String, Object> payload) {
+        String meetingId = (String) payload.get("meetingId");
+        String userId = (String) payload.get("userId");
+        String userName = (String) payload.get("userName");
+        
+        System.out.println("User joined meeting: " + userName + " (" + userId + ") in meeting " + meetingId);
+        
+        if (meetingId != null) {
+            // 广播给会议所有参与者
+            messagingTemplate.convertAndSend(
+                    "/topic/meeting/" + meetingId + "/participants", 
+                    payload
+            );
+            System.out.println("User joined message broadcasted to meeting: " + meetingId);
+        }
+    }
+
+    /**
+     * 处理用户离开会议
+     */
+    @MessageMapping("/meeting/user-left")
+    public void handleUserLeft(@Payload Map<String, Object> payload) {
+        String meetingId = (String) payload.get("meetingId");
+        String userId = (String) payload.get("userId");
+        String userName = (String) payload.get("userName");
+        
+        System.out.println("User left meeting: " + userName + " (" + userId + ") in meeting " + meetingId);
+        
+        if (meetingId != null) {
+            // 广播给会议所有参与者
+            messagingTemplate.convertAndSend(
+                    "/topic/meeting/" + meetingId + "/participants", 
+                    payload
+            );
+            System.out.println("User left message broadcasted to meeting: " + meetingId);
         }
     }
 }
