@@ -41,6 +41,7 @@ export interface WebRtcSignalingMessage {
   offer?: any;
   answer?: any;
   candidate?: any;
+  isScreenShare?: boolean;
 }
 
 export class WebSocketService {
@@ -317,23 +318,91 @@ export class WebSocketService {
   }
 
   // 注册用户
-  public registerUser(userId: string, sessionId: string): void {
+  public registerUser(userId: string, sessionId: string, meetingId?: string): void {
     if (!this.webrtcStompClient || !this.webrtcConnected) {
       console.error("WebRTC WebSocket not connected");
       return;
     }
 
     try {
-      this.webrtcStompClient.send("/app/webrtc/register", {}, JSON.stringify({
+      const payload: any = {
         userId,
         sessionId
-      }));
-      console.log("User registered:", userId);
+      };
+      
+      if (meetingId) {
+        payload.meetingId = meetingId;
+      }
+      
+      this.webrtcStompClient.send("/app/webrtc/register", {}, JSON.stringify(payload));
+      console.log("User registered:", userId, "meeting:", meetingId);
     } catch (error) {
       console.error("Error registering user:", error);
       if (this.options.onError) {
         this.options.onError(error);
       }
+    }
+  }
+  
+  // 订阅新peer加入通知
+  public subscribeToPeerJoined(callback: (message: any) => void, userId: string): string | null {
+    if (!this.webrtcStompClient || !this.webrtcConnected) {
+      console.error("WebRTC WebSocket not connected");
+      return null;
+    }
+
+    try {
+      console.log("Attempting to subscribe to peer joined notifications for user:", userId);
+      const subscription = this.webrtcStompClient.subscribe(`/queue/user/${userId}/webrtc/peer-joined`, (message) => {
+        console.log("Received peer joined notification:", message?.body);
+        try {
+          const data = JSON.parse(message?.body);
+          console.log("Parsed peer joined notification:", data);
+          callback(data);
+        } catch (parseError) {
+          console.error("Error parsing peer joined notification:", parseError);
+        }
+      });
+
+      console.log("Successfully subscribed to peer joined notifications for user:", userId);
+      return subscription.id;
+    } catch (error) {
+      console.error("Error subscribing to peer joined notifications:", error);
+      if (this.options.onError) {
+        this.options.onError(error);
+      }
+      return null;
+    }
+  }
+  
+  // 订阅已存在peers通知
+  public subscribeToExistingPeers(callback: (message: any) => void, userId: string): string | null {
+    if (!this.webrtcStompClient || !this.webrtcConnected) {
+      console.error("WebRTC WebSocket not connected");
+      return null;
+    }
+
+    try {
+      console.log("Attempting to subscribe to existing peers notifications for user:", userId);
+      const subscription = this.webrtcStompClient.subscribe(`/queue/user/${userId}/webrtc/existing-peers`, (message) => {
+        console.log("Received existing peers notification:", message?.body);
+        try {
+          const data = JSON.parse(message?.body);
+          console.log("Parsed existing peers notification:", data);
+          callback(data);
+        } catch (parseError) {
+          console.error("Error parsing existing peers notification:", parseError);
+        }
+      });
+
+      console.log("Successfully subscribed to existing peers notifications for user:", userId);
+      return subscription.id;
+    } catch (error) {
+      console.error("Error subscribing to existing peers notifications:", error);
+      if (this.options.onError) {
+        this.options.onError(error);
+      }
+      return null;
     }
   }
 

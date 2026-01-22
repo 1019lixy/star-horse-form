@@ -23,20 +23,7 @@ export class ScreenShareManager {
   private isSharing: boolean = false;
 
   constructor(options: ScreenShareManagerOptions = {}) {
-    // 设置默认约束，降低屏幕共享的视频质量以减少延迟
-    const defaultConstraints: ScreenShareConstraints = {
-      audio: false,
-      video: {
-        cursor: "motion", // 只在鼠标移动时显示光标
-        displaySurface: "monitor", // 共享整个显示器
-        logicalSurface: true // 使用逻辑表面，适应不同分辨率
-      }
-    };
-    
-    this.options = {
-      defaultConstraints,
-      ...options
-    };
+    this.options = options;
   }
 
   // 开始屏幕共享
@@ -71,10 +58,13 @@ export class ScreenShareManager {
       this.screenStream = stream;
       this.isSharing = true;
 
-      // 监听流结束事件
-      stream.getVideoTracks()[0].onended = () => {
-        this.stopScreenShare();
-      };
+      // 监听所有轨道的结束事件
+      stream.getTracks().forEach(track => {
+        track.onended = () => {
+          console.log("Screen share track ended:", track.kind, track.id);
+          this.stopScreenShare();
+        };
+      });
 
       // 触发流获取成功回调
       if (this.options.onStreamAcquired) {

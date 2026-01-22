@@ -166,16 +166,47 @@ export class WebRTCCore {
     }
   }
 
+  // 回滚本地描述（用于处理offer碰撞）
+  // eslint-disable-next-line no-undef
+  public async rollbackLocalDescription(): Promise<void> {
+    if (!this.peerConnection) {
+      this.initPeerConnection();
+    }
+
+    try {
+      if (this.peerConnection!.signalingState === "have-local-offer") {
+        await this.peerConnection!.setLocalDescription({ type: "rollback" } as RTCSessionDescriptionInit);
+      }
+    } catch (error) {
+      console.error("Error rolling back local description:", error);
+      throw error;
+    }
+  }
+
   // 添加ICE候选者
   // eslint-disable-next-line no-undef
   public async addIceCandidate(candidate: RTCIceCandidateInit): Promise<void> {
     if (!this.peerConnection) return;
 
     try {
+      // 检查远程描述是否已设置，避免在null状态下添加ICE候选者
+      if (!this.peerConnection.remoteDescription) {
+        console.warn("Remote description is null, queuing ICE candidate for later processing");
+        // 可以在这里实现ICE候选者队列，等远程描述设置后再添加
+        return;
+      }
+      
       await this.peerConnection.addIceCandidate(new RTCIceCandidate(candidate));
+      console.log("ICE candidate added successfully");
     } catch (error) {
       console.error("Error adding ice candidate:", error);
-      // 忽略某些ICE候选者错误
+      // 如果是由于远程描述为空导致的错误，忽略它
+      if (error.toString().includes("remote description was null")) {
+        console.warn("Ignoring ICE candidate error due to null remote description");
+        return;
+      }
+      // 重新抛出其他错误
+      throw error;
     }
   }
 
@@ -210,6 +241,38 @@ export class WebRTCCore {
     // 注意：在实际应用中，这里应该创建新的offer并通过信令服务器发送给其他参与者
     console.log("Local stream added/updated, WebRTC should re-negotiate");
     console.log("Stream tracks:", stream.getTracks().map(t => t.kind + ":" + t.label));
+  }
+
+  // 替换指定类型的轨道
+  public replaceTrack(kind: "audio" | "video", track: MediaStreamTrack | null, stream?: MediaStream): void {
+    if (!this.peerConnection) {
+      this.initPeerConnection();
+    }
+
+    const sender = this.peerConnection!.getSenders().find(s => s.track && s.track.kind === kind);
+
+    if (track) {
+      if (sender) {
+        sender.replaceTrack(track);
+      } else {
+        const attachStream = stream || new MediaStream([track]);
+        this.peerConnection!.addTrack(track, attachStream);
+      }
+    } else if (sender) {
+      this.peerConnection!.removeTrack(sender);
+    }
+
+    if (!this.localStream) {
+      this.localStream = new MediaStream();
+    }
+
+    const existingTrack = this.localStream.getTracks().find(t => t.kind === kind);
+    if (existingTrack) {
+      this.localStream.removeTrack(existingTrack);
+    }
+    if (track) {
+      this.localStream.addTrack(track);
+    }
   }
 
   // 移除本地流
@@ -271,6 +334,12 @@ export class WebRTCCore {
   public getIceConnectionState(): RTCIceConnectionState | null {
     return this.peerConnection ? this.peerConnection.iceConnectionState : null;
   }
+
+  // 获取信令状态
+  // eslint-disable-next-line no-undef
+  public getSignalingState(): RTCSignalingState | null {
+    return this.peerConnection ? this.peerConnection.signalingState : null;
+  }
 }
 
 // 导出单例实例
@@ -281,4 +350,8 @@ export const getWebRTCCoreInstance = (options?: WebRTCOptions): WebRTCCore => {
     webRTCCoreInstance = new WebRTCCore(options);
   }
   return webRTCCoreInstance;
+};
+
+export const createWebRTCCoreInstance = (options?: WebRTCOptions): WebRTCCore => {
+  return new WebRTCCore(options);
 };

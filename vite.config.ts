@@ -1,17 +1,37 @@
 import { fileURLToPath, URL } from "node:url";
 import { defineConfig } from "vite";
 import vue from "@vitejs/plugin-vue";
-import { dirname, resolve } from "path";
+import { dirname, resolve,join } from "path";
 import Components from "unplugin-vue-components/vite";
 import { ElementPlusResolver } from "unplugin-vue-components/resolvers";
 import AutoImport from "unplugin-auto-import/vite";
 import tailwindcss from "@tailwindcss/vite";
 //生产types文件插件
 import dts from "vite-plugin-dts";
+import fs from "fs";
+import https from "https"; // 新增引入
+import tls from "tls"; // 引入 Node.js 的 TLS 模块
 // https://vitejs.dev/config/
 const systemHost: string = "http://localhost:8749/";
 const userDbHost: string = "http://localhost:7758/";
-const wbrtcHost: string = "http://localhost:8080/";
+const wbrtcHost: string = "https://192.168.120.7:8443/";
+// 证书路径（用之前生成的证书，或先执行 mkcert 生成）
+const certPath = resolve(__dirname, "./cert");
+const httpsOptions = {
+  key: fs.readFileSync(join(certPath, "key.pem")),
+  cert: fs.readFileSync(join(certPath, "cert.pem")),
+  // 关键：指定兼容的 TLS 版本和加密套件
+  minVersion: "TLSv1.2", // 最低支持 TLS 1.2（主流浏览器都支持）
+  maxVersion: "TLSv1.3", // 最高支持 TLS 1.3
+  ciphers: [
+    "TLS_AES_128_GCM_SHA256",
+    "TLS_AES_256_GCM_SHA384",
+    "TLS_CHACHA20_POLY1305_SHA256",
+    "ECDHE-RSA-AES128-GCM-SHA256",
+    "ECDHE-RSA-AES256-GCM-SHA384"
+  ].join(":"), // 主流兼容的加密套件
+  honorCipherOrder: true
+};
 /**
  * 此配置文件，非必需不要随便做修改，特别是打包相关的参数
  */
@@ -20,8 +40,13 @@ export default defineConfig((mode) => {
   return {
     base: "/",
     server: {
-      port: 4000,
-      host: true,
+      https: httpsOptions,
+      host: "0.0.0.0",
+      port: 5173,
+      http:true,
+      allowedHosts: true,
+      strictPort: true,
+      http2: false,
       open: true,
       hmr: true,
       proxy: {
@@ -35,9 +60,14 @@ export default defineConfig((mode) => {
          "/api": {
           target: wbrtcHost,
           changeOrigin: true,
+          secure: false,
           // rewrite: (path: string) =>
           //   path.replace(/^\/system-config/, "/system-config-dev"),
           ws: true,
+           agent: new https.Agent({
+             rejectUnauthorized: false, // 开发环境忽略自签名证书错误
+             minVersion: "TLSv1.2"
+           })
         },
 
         "/userdb-manage": {
