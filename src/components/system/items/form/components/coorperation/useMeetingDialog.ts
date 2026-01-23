@@ -6,13 +6,15 @@ import {DEFAULT_RECORDING_OPTIONS, RecordingManager} from "@/utils/webrtc/record
 import {ScreenShareManager} from "@/utils/webrtc/screen-share-manager";
 import {WebSocketService} from "@/utils/websocket/WebSocketService";
 
-export const useMeetingDialog = (emit: any) => {
+export const useMeetingDialog = (emit?: any) => {
+  const safeEmit = emit ?? (() => undefined);
+
   const closeAction = () => {
-    emit("update:visible", false);
+    safeEmit("update:visible", false);
   };
 
   const codeDoSave = () => {
-    emit("save");
+    safeEmit("save");
   };
 
   // 模拟会议信息
@@ -28,10 +30,25 @@ export const useMeetingDialog = (emit: any) => {
   });
 
   // 模拟参会人员
-  const participants = ref([]);
+  const participants = ref<Array<{
+    id: string;
+    name: string;
+    avatar: string;
+    role: string;
+    status: string;
+    audio: boolean;
+    video: boolean;
+  }>>([]);
 
   // 模拟会议聊天消息
-  const chatMessages = ref([]);
+  const chatMessages = ref<Array<{
+    id: number;
+    senderId: string;
+    senderName: string;
+    content: string;
+    time: string;
+    isSelf: boolean;
+  }>>([]);
 
   // 输入消息内容
   const inputMessage = ref("");
@@ -44,6 +61,27 @@ export const useMeetingDialog = (emit: any) => {
   const isConnected = ref(false);
   const connectionStatus = ref("未连接");
   const messageSubscriptions = ref<string[]>([]);
+
+  // 会议控制增强功能
+  const raisedHands = ref<Set<string>>(new Set()); // 举手的参会者
+  const networkQuality = ref<Map<string, { bandwidth: number; packetLoss: number; latency: number }>>(new Map()); // 网络质量
+  const meetingStartTime = ref<Date>(new Date()); // 会议开始时间
+  const isMuteAll = ref(false); // 是否静音所有参会者
+  const isVideoOffAll = ref(false); // 是否关闭所有参会者视频
+  const meetingSettings = ref({
+    name: meetingInfo.value.name,
+    password: meetingInfo.value.password,
+    duration: meetingInfo.value.duration,
+    allowScreenShare: true,
+    allowChat: true,
+    allowRaiseHand: true
+  }); // 会议设置
+  const meetingStats = ref({
+    totalParticipants: 0,
+    onlineParticipants: 0,
+    totalMessages: 0,
+    speakingTime: 0
+  }); // 会议统计信息
 
   // 可选择的身份列表
   const availableUsers = ref([
@@ -147,11 +185,11 @@ export const useMeetingDialog = (emit: any) => {
     const pc = getPeerConnection(peerId);
     if (!pc) return;
 
-    // 修复：只有在非重试模式下才检查negotiatingPeers
-    // 避免竞态条件导致第三次操作失败
-    if (!isRetry && negotiatingPeers.value.has(peerId)) {
-      console.warn("Negotiation in progress, but forcing retry for:", peerId);
-      // 不直接返回，而是延迟重试
+    const ns = getNegotiationState(peerId);
+    
+    // 检查是否已经在创建offer
+    if (!isRetry && ns.makingOffer) {
+      console.warn("Already making offer, retrying:", peerId);
       setTimeout(() => createOfferWhenStable(peerId, callback, true), 100);
       return;
     }
@@ -163,21 +201,18 @@ export const useMeetingDialog = (emit: any) => {
       return;
     }
     
-    // 只有在非重试模式下才添加negotiatingPeers
-    if (!isRetry) {
-      negotiatingPeers.value.add(peerId);
-    }
+    ns.makingOffer = true;
     
     pc.createOffer().then((offer) => {
       callback(offer);
     }).catch((error) => {
       console.error("Error creating offer:", error);
     }).finally(() => {
-      negotiatingPeers.value.delete(peerId);
+      ns.makingOffer = false;
     });
   };
 
-  const sendOfferToParticipant = (peerId: string, isScreenShare: boolean) => {
+  const sendOfferToParticipant = async (peerId: string, isScreenShare: boolean) => {
     console.log("=== 开始发送offer给参与者 ===");
     console.log("目标参与者:", peerId, "屏幕共享:", isScreenShare);
     console.log("WebSocket服务状态:", webSocketService.value ? "存在" : "不存在");
@@ -188,7 +223,7 @@ export const useMeetingDialog = (emit: any) => {
       return;
     }
     
-    // 修复：检查WebSocket连接状态并确保连接稳定
+    // 确保WebSocket连接稳定
     const ensureWebSocketConnected = async (): Promise<boolean> => {
       if (isConnected.value) {
         return true;
@@ -216,45 +251,66 @@ export const useMeetingDialog = (emit: any) => {
       return false;
     };
     
-    createOfferWhenStable(peerId, async (offer) => {
-      console.log("=== 准备发送WebRTC offer ===");
-      console.log("目标参与者:", peerId, "屏幕共享:", isScreenShare);
-      console.log("offer类型:", offer.type);
-      
-      // 确保WebSocket连接稳定
-      const isStable = await ensureWebSocketConnected();
-      if (!isStable) {
-        console.error("WebSocket连接不稳定，无法发送offer");
-        return;
-      }
-      
-      console.log("WebRTC连接状态:", webSocketService.value?.isWebRtcConnected() ? "已连接" : "未连接");
-      
-      try {
-        webSocketService.value?.sendWebRtcOffer({
-          senderId: currentUserId.value,
-          targetUserId: peerId,
-          offer: offer,
-          isScreenShare: isScreenShare
-        });
-        
-        console.log("=== WebRTC offer发送完成 ===");
-        
-        // 发送后立即检查连接状态，如果断开则尝试重连
-        setTimeout(() => {
-          if (!isConnected.value) {
-            console.warn("WebSocket在发送offer后断开，尝试保持连接");
-            ensureWebSocketConnected();
+    // 确保WebSocket连接稳定
+    const isStable = await ensureWebSocketConnected();
+    if (!isStable) {
+      console.error("WebSocket连接不稳定，无法发送offer");
+      return;
+    }
+    
+    // 创建并发送offer
+    const createAndSendOffer = async () => {
+      return new Promise<void>((resolve, reject) => {
+        createOfferWhenStable(peerId, async (offer) => {
+          try {
+            console.log("=== 准备发送WebRTC offer ===");
+            console.log("目标参与者:", peerId, "屏幕共享:", isScreenShare);
+            console.log("offer类型:", offer.type);
+            
+            // 再次检查WebSocket连接状态
+            const isStillStable = await ensureWebSocketConnected();
+            if (!isStillStable) {
+              console.error("WebSocket连接不稳定，无法发送offer");
+              reject(new Error("WebSocket connection unstable"));
+              return;
+            }
+            
+            console.log("WebRTC连接状态:", webSocketService.value?.isWebRtcConnected() ? "已连接" : "未连接");
+            
+            // 发送offer
+            await webSocketService.value?.sendWebRtcOffer({
+              senderId: currentUserId.value,
+              targetUserId: peerId,
+              offer: offer,
+              isScreenShare: isScreenShare
+            });
+            
+            console.log("=== WebRTC offer发送完成 ===");
+            resolve();
+          } catch (error) {
+            console.error("发送WebRTC offer失败:", error);
+            reject(error);
           }
-        }, 100);
-        
-      } catch (error) {
-        console.error("发送WebRTC offer失败:", error);
-      }
-    });
+        });
+      });
+    };
+    
+    try {
+      await createAndSendOffer();
+      
+      // 发送后立即检查连接状态，如果断开则尝试重连
+      setTimeout(() => {
+        if (!isConnected.value) {
+          console.warn("WebSocket在发送offer后断开，尝试保持连接");
+          ensureWebSocketConnected();
+        }
+      }, 100);
+    } catch (error) {
+      console.error("发送offer失败:", error);
+    }
   };
 
-  const sendOfferToAllParticipants = (isScreenShare: boolean) => {
+  const sendOfferToAllParticipants = async (isScreenShare: boolean) => {
     console.log("=== 开始发送offer给所有参与者 ===");
     console.log("屏幕共享:", isScreenShare);
     console.log("当前在线参与者:", participants.value.filter(p => p.status === "online" && p.id !== currentUserId.value));
@@ -267,10 +323,23 @@ export const useMeetingDialog = (emit: any) => {
       return;
     }
     
-    onlineParticipants.forEach((participant, index) => {
-      console.log(`向第${index + 1}个参与者发送offer:`, participant.id, participant.name);
-      sendOfferToParticipant(participant.id, isScreenShare);
-    });
+    // 错开发送时间，避免同时处理多个offer导致的性能问题
+    for (let i = 0; i < onlineParticipants.length; i++) {
+      const participant = onlineParticipants[i];
+      console.log(`向第${i + 1}个参与者发送offer:`, participant.id, participant.name);
+      
+      try {
+        // 等待前一个offer处理完成后再发送下一个
+        await sendOfferToParticipant(participant.id, isScreenShare);
+        // 错开发送时间
+        if (i < onlineParticipants.length - 1) {
+          await new Promise(resolve => setTimeout(resolve, 200));
+        }
+      } catch (error) {
+        console.error(`向参与者 ${participant.id} 发送offer失败:`, error);
+        // 继续处理下一个参与者，不中断整个流程
+      }
+    }
     
     console.log("=== 所有offer发送完成 ===");
   };
@@ -382,12 +451,12 @@ export const useMeetingDialog = (emit: any) => {
     
     // 如果强制重建或连接状态异常，则重建连接
     if (pc && !forceRecreate) {
-      const connectionState = pc.getConnectionState?.() || pc.connectionState;
-      const iceState = pc.getIceConnectionState?.() || pc.iceConnectionState;
+      const connectionState = pc.getConnectionState();
+      const iceState = pc.getIceConnectionState();
       
       // 检查连接状态，如果处于失败状态则重建
-      if (connectionState === 'failed' || connectionState === 'disconnected' || 
-          iceState === 'failed' || iceState === 'disconnected') {
+      if (connectionState === "failed" || connectionState === "disconnected" || 
+          iceState === "failed" || iceState === "disconnected") {
         console.warn("Peer connection in bad state, recreating:", peerId, "connection:", connectionState, "ice:", iceState);
         pc.close();
         peerConnections.value.delete(peerId);
@@ -409,7 +478,7 @@ export const useMeetingDialog = (emit: any) => {
         console.log("Connection state (", peerId, "):", state);
         
         // 如果连接失败，立即重建连接
-        if (state === 'failed' || state === 'disconnected') {
+        if (state === "failed" || state === "disconnected") {
           console.warn("Peer connection failed/disconnected, will recreate on next use:", peerId);
           // 不立即重建，等待下次使用时自动重建
         }
@@ -418,7 +487,7 @@ export const useMeetingDialog = (emit: any) => {
         console.log("ICE connection state (", peerId, "):", state);
         
         // 如果ICE连接失败，标记为需要重建
-        if (state === 'failed' || state === 'disconnected') {
+        if (state === "failed" || state === "disconnected") {
           console.warn("ICE connection failed/disconnected:", peerId);
         }
       },
@@ -723,6 +792,38 @@ export const useMeetingDialog = (emit: any) => {
   // 处理接收到的聊天消息
   const handleIncomingChatMessage = (message: any) => {
     try {
+      // 处理举手状态消息
+      if (message.participantId !== undefined && message.isRaised !== undefined) {
+        // 避免自己发送的消息重复处理
+        if (message.senderId === currentUserId.value) {
+          return;
+        }
+        
+        if (message.isRaised) {
+          raisedHands.value.add(message.participantId);
+          console.log("Remote participant raised hand:", message.participantId);
+        } else {
+          raisedHands.value.delete(message.participantId);
+          console.log("Remote participant lowered hand:", message.participantId);
+        }
+        
+        // 添加系统消息到聊天列表
+        if (message.content) {
+          const newMessage = {
+            id: chatMessages.value.length + 1,
+            senderId: "system",
+            senderName: "系统",
+            content: message.content,
+            time: new Date().toLocaleTimeString("zh-CN", {hour: "2-digit", minute: "2-digit"}),
+            isSelf: false
+          };
+          chatMessages.value.push(newMessage);
+          // 滚动到最新消息
+          scrollToLatestMessage();
+        }
+        return;
+      }
+      
       // 确保消息格式正确
       if (message.content && message.senderName) {
         // 避免自己发送的消息重复显示
@@ -891,6 +992,25 @@ export const useMeetingDialog = (emit: any) => {
     }
   };
 
+  // 协商状态管理
+  const negotiationState = ref<Map<string, {
+    makingOffer: boolean;
+    ignoreOffer: boolean;
+    srdAnswerPending: boolean;
+  }>>(new Map());
+
+  // 获取协商状态
+  const getNegotiationState = (peerId: string) => {
+    if (!negotiationState.value.has(peerId)) {
+      negotiationState.value.set(peerId, {
+        makingOffer: false,
+        ignoreOffer: false,
+        srdAnswerPending: false
+      });
+    }
+    return negotiationState.value.get(peerId)!;
+  };
+
   // 处理offer的具体逻辑
   const processWebRtcOffer = async (message: any, peerId: string) => {
     const pc = getPeerConnection(peerId);
@@ -899,23 +1019,39 @@ export const useMeetingDialog = (emit: any) => {
     try {
       console.log("开始处理WebRTC提议，目标用户ID:", peerId, "屏幕共享:", message.isScreenShare);
       const state = pc.getSignalingState?.();
-      if (state && state !== "stable") {
-        console.warn("Signaling not stable when receiving offer, rolling back:", state);
-        await pc.rollbackLocalDescription?.();
+      const ns = getNegotiationState(peerId);
+      
+      // 检查是否应该忽略offer（处理竞态条件）
+      const isStable = state === "stable" || (state === "have-local-offer" && ns.srdAnswerPending);
+      ns.ignoreOffer = message.offer.type === "offer" && !isStable;
+      
+      if (ns.ignoreOffer) {
+        console.warn("Glare detected, ignoring offer:", peerId);
+        return;
       }
-
+      
+      ns.srdAnswerPending = message.offer.type === "answer";
       await pc.setRemoteDescription(message.offer);
-      console.log("SDP提议处理成功，正在创建应答...");
-      const answer = await pc.createAnswer();
-      console.log("应答创建成功，正在发送...");
-      // 发送answer，保留屏幕共享标记
-      webSocketService.value.sendWebRtcAnswer({
-        senderId: currentUserId.value,
-        targetUserId: peerId,
-        answer: answer,
-        isScreenShare: message.isScreenShare || false  // 传递屏幕共享标记
-      });
-      console.log("WebRTC应答已发送，目标用户ID:", peerId, "屏幕共享:", message.isScreenShare);
+      
+      if (message.offer.type === "offer") {
+        console.log("SDP提议处理成功，正在创建应答...");
+        const answer = await pc.createAnswer();
+        console.log("应答创建成功，正在发送...");
+        // 发送answer，保留屏幕共享标记
+        webSocketService.value.sendWebRtcAnswer({
+          senderId: currentUserId.value,
+          targetUserId: peerId,
+          answer: answer,
+          isScreenShare: message.isScreenShare || false  // 传递屏幕共享标记
+        });
+        console.log("WebRTC应答已发送，目标用户ID:", peerId, "屏幕共享:", message.isScreenShare);
+      }
+      
+      // 远程描述设置成功后，处理该peer的ICE候选者队列
+      console.log("远程描述设置完成，处理ICE候选者队列");
+      processIceCandidateQueue(peerId);
+      
+      ns.srdAnswerPending = false;
     } catch (error) {
       console.error("处理WebRTC提议失败:", error);
     }
@@ -931,6 +1067,9 @@ export const useMeetingDialog = (emit: any) => {
         return;
       }
       const pc = getPeerConnection(peerId);
+      const ns = getNegotiationState(peerId);
+      
+      ns.srdAnswerPending = true;
       pc.setRemoteDescription(message.answer).then(() => {
         console.log("WebRTC answer handled successfully for:", peerId);
         
@@ -938,8 +1077,10 @@ export const useMeetingDialog = (emit: any) => {
         console.log("远程描述设置完成，处理ICE候选者队列");
         processIceCandidateQueue(peerId);
         
+        ns.srdAnswerPending = false;
       }).catch((error) => {
         console.error("Error handling WebRTC answer:", error);
+        ns.srdAnswerPending = false;
       });
     } catch (error) {
       console.error("处理WebRTC应答失败:", error);
@@ -962,7 +1103,7 @@ export const useMeetingDialog = (emit: any) => {
       const pc = getPeerConnection(peerId);
       
       // 检查远程描述是否已设置
-      if (pc.getRemoteDescription?.() || pc.remoteDescription) {
+      if (pc.getRemoteDescription()) {
         // 远程描述已设置，直接添加ICE候选者
         console.log("远程描述已设置，直接添加ICE候选者");
         pc.addIceCandidate(message.candidate);
@@ -1072,6 +1213,141 @@ export const useMeetingDialog = (emit: any) => {
     alert("邀请参会者功能");
   };
 
+  // 举手功能
+  const toggleRaiseHand = (participantId: string) => {
+    const isRaised = raisedHands.value.has(participantId);
+    
+    if (isRaised) {
+      raisedHands.value.delete(participantId);
+      console.log("Participant lowered hand:", participantId);
+    } else {
+      raisedHands.value.add(participantId);
+      console.log("Participant raised hand:", participantId);
+      
+      // 添加系统消息到聊天列表
+      const participant = participants.value.find(p => p.id === participantId);
+      if (participant) {
+        chatMessages.value.push({
+          id: chatMessages.value.length + 1,
+          senderId: "system",
+          senderName: "系统",
+          content: `${participant.name} 举手了`,
+          time: new Date().toLocaleTimeString("zh-CN", {hour: "2-digit", minute: "2-digit"}),
+          isSelf: false
+        });
+        scrollToLatestMessage();
+      }
+    }
+    
+    // 通过WebSocket发送举手状态
+    if (webSocketService.value && isConnected.value) {
+      try {
+        webSocketService.value.sendMeetingMessage({
+          senderId: currentUserId.value,
+          senderName: currentUserName.value,
+          meetingId: meetingInfo.value.id,
+          content: isRaised ? `${participants.value.find(p => p.id === participantId)?.name || participantId} 放下了手` : `${participants.value.find(p => p.id === participantId)?.name || participantId} 举手了`,
+          sentAt: new Date().toISOString(),
+          type: "HAND_RAISE",
+          participantId: participantId,
+          isRaised: !isRaised
+        });
+        console.log("举手状态已通过WebSocket发送，发送者ID:", currentUserId.value);
+      } catch (error) {
+        console.error("发送举手状态失败:", error);
+      }
+    }
+  };
+
+  // 静音所有参会者
+  const toggleMuteAll = () => {
+    isMuteAll.value = !isMuteAll.value;
+    console.log("Mute all:", isMuteAll.value);
+    
+    // 更新所有参会者的音频状态
+    participants.value.forEach(participant => {
+      if (participant.id !== currentUserId.value) {
+        participant.audio = !isMuteAll.value;
+      }
+    });
+    
+    // 添加系统消息到聊天列表
+    chatMessages.value.push({
+      id: chatMessages.value.length + 1,
+      senderId: "system",
+      senderName: "系统",
+      content: isMuteAll.value ? "主持人已静音所有参会者" : "主持人已取消静音所有参会者",
+      time: new Date().toLocaleTimeString("zh-CN", {hour: "2-digit", minute: "2-digit"}),
+      isSelf: false
+    });
+    scrollToLatestMessage();
+  };
+
+  // 关闭所有参会者视频
+  const toggleVideoOffAll = () => {
+    isVideoOffAll.value = !isVideoOffAll.value;
+    console.log("Video off all:", isVideoOffAll.value);
+    
+    // 更新所有参会者的视频状态
+    participants.value.forEach(participant => {
+      if (participant.id !== currentUserId.value) {
+        participant.video = !isVideoOffAll.value;
+      }
+    });
+    
+    // 添加系统消息到聊天列表
+    chatMessages.value.push({
+      id: chatMessages.value.length + 1,
+      senderId: "system",
+      senderName: "系统",
+      content: isVideoOffAll.value ? "主持人已关闭所有参会者视频" : "主持人已开启所有参会者视频",
+      time: new Date().toLocaleTimeString("zh-CN", {hour: "2-digit", minute: "2-digit"}),
+      isSelf: false
+    });
+    scrollToLatestMessage();
+  };
+
+  // 监控网络质量
+  const monitorNetworkQuality = () => {
+    // 模拟网络质量监控
+    setInterval(() => {
+      participants.value.forEach(participant => {
+        if (participant.status === "online") {
+          networkQuality.value.set(participant.id, {
+            bandwidth: Math.random() * 5000 + 500, // 500-5500 kbps
+            packetLoss: Math.random() * 5, // 0-5%
+            latency: Math.random() * 200 + 50 // 50-250 ms
+          });
+        }
+      });
+    }, 5000); // 每5秒更新一次
+  };
+
+  // 获取网络质量等级
+  const getNetworkQualityLevel = (participantId: string) => {
+    const quality = networkQuality.value.get(participantId);
+    if (!quality) return "unknown";
+    
+    if (quality.latency < 100 && quality.packetLoss < 1) {
+      return "excellent";
+    } else if (quality.latency < 200 && quality.packetLoss < 3) {
+      return "good";
+    } else if (quality.latency < 300 && quality.packetLoss < 5) {
+      return "fair";
+    } else {
+      return "poor";
+    }
+  };
+
+  // 更新会议统计信息
+  const updateMeetingStats = () => {
+    meetingStats.value = {
+      totalParticipants: participants.value.length,
+      onlineParticipants: participants.value.filter(p => p.status === "online").length,
+      totalMessages: chatMessages.value.length,
+      speakingTime: Math.floor((Date.now() - meetingStartTime.value.getTime()) / 1000) // 秒
+    };
+  };
 
   // 结束会议
   const endMeeting = () => {
@@ -1133,7 +1409,7 @@ export const useMeetingDialog = (emit: any) => {
   };
 
   // 参会人员列表显示状态
-  const participantsVisible = ref(true);
+  const participantsVisible = ref(false);
 
   // 切换参会人员列表显示/隐藏
   const toggleParticipants = () => {
@@ -1286,15 +1562,30 @@ export const useMeetingDialog = (emit: any) => {
 
     if (isAudioEnabled.value) {
       // 关闭音频
-      audioManager.stopStream();
-      isAudioEnabled.value = false;
+      try {
+        audioManager.stopStream();
+        isAudioEnabled.value = false;
+        currentAudioStream = null;
+        // 更新所有peer的track并重新发送offer
+        updateAllPeerTracks();
+        await sendOfferToAllParticipants(false);
+        console.log("音频已关闭");
+      } catch (error) {
+        console.error("Error stopping audio:", error);
+      }
     } else {
       // 开启音频
       try {
-        await audioManager.getMicrophoneStream();
+        const stream = await audioManager.getMicrophoneStream();
         isAudioEnabled.value = true;
+        currentAudioStream = stream;
+        // 更新所有peer的track并重新发送offer
+        updateAllPeerTracks();
+        await sendOfferToAllParticipants(false);
+        console.log("音频已开启");
       } catch (error) {
         console.error("Error starting audio:", error);
+        alert("开启音频失败: " + (error as Error).message);
       }
     }
   };
@@ -1311,18 +1602,22 @@ export const useMeetingDialog = (emit: any) => {
       
       // 更新所有peer的track并重新发送offer
       updateAllPeerTracks();
-      sendOfferToAllParticipants(false);
+      await sendOfferToAllParticipants(false);
       
     } else {
       // 开启视频
       try {
+        // 强制重建所有peer connection，确保连接状态的一致性
+        // 避免多次切换视频和屏幕共享后状态混乱
+        recreateAllPeerConnections();
+        
         const stream = await videoManager.getCameraStream();
         isVideoEnabled.value = true;
         currentVideoStream = stream;
         
         // 更新所有peer的track并重新发送offer
         updateAllPeerTracks();
-        sendOfferToAllParticipants(false);
+        await sendOfferToAllParticipants(false);
         
       } catch (error) {
         console.error("Error starting video:", error);
@@ -1345,6 +1640,10 @@ export const useMeetingDialog = (emit: any) => {
     } else {
       // 开始屏幕共享
       try {
+        // 强制重建所有peer connection，确保连接状态的一致性
+        // 避免多次切换视频和屏幕共享后状态混乱
+        recreateAllPeerConnections();
+        
         await screenShareManager.startScreenShare();
         isScreenSharing.value = true;
         
@@ -1410,6 +1709,7 @@ export const useMeetingDialog = (emit: any) => {
     // 重置协商状态
     negotiatingPeers.value.clear();
     lastOfferBySender.value.clear();
+    negotiationState.value.clear();
     
     console.log("所有peer connection已重建");
   };
@@ -1494,6 +1794,13 @@ export const useMeetingDialog = (emit: any) => {
 
     initWebRTC();
     initWebSocketService();
+    
+    // 启动网络质量监控
+    monitorNetworkQuality();
+    
+    // 定期更新会议统计信息
+    setInterval(updateMeetingStats, 1000); // 每秒更新一次
+    updateMeetingStats(); // 初始更新
 
     // 发送用户加入会议消息
     setTimeout(() => {
@@ -1646,6 +1953,20 @@ export const useMeetingDialog = (emit: any) => {
     toggleVideo,
     toggleScreenShare,
     toggleRecording,
-    onlineParticipantsCount
+    onlineParticipantsCount,
+    
+    // 新增的会议控制功能
+    raisedHands,
+    networkQuality,
+    meetingStartTime,
+    isMuteAll,
+    isVideoOffAll,
+    meetingSettings,
+    meetingStats,
+    toggleRaiseHand,
+    toggleMuteAll,
+    toggleVideoOffAll,
+    getNetworkQualityLevel,
+    updateMeetingStats
   };
 };

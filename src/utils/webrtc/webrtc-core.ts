@@ -340,6 +340,18 @@ export class WebRTCCore {
   public getSignalingState(): RTCSignalingState | null {
     return this.peerConnection ? this.peerConnection.signalingState : null;
   }
+
+  // 获取远程描述
+  // eslint-disable-next-line no-undef
+  public getRemoteDescription(): RTCSessionDescription | null {
+    return this.peerConnection ? this.peerConnection.remoteDescription : null;
+  }
+
+  // 获取本地描述
+  // eslint-disable-next-line no-undef
+  public getLocalDescription(): RTCSessionDescription | null {
+    return this.peerConnection ? this.peerConnection.localDescription : null;
+  }
 }
 
 // 导出单例实例

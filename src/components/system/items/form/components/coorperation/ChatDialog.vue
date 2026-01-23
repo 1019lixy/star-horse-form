@@ -639,9 +639,12 @@ onUnmounted(() => {
             <el-input
                 v-model="searchQuery"
                 :placeholder="activeTab === 'users' ? '搜索用户' : '搜索群组'"
-                prefix-icon="el-icon-search"
                 size="small"
-            />
+            >
+                <template #prefix>
+                    <el-icon><Search /></el-icon>
+                </template>
+            </el-input>
           </div>
           <!-- 用户列表 -->
           <div v-if="activeTab === 'users'" class="user-list">
@@ -700,11 +703,12 @@ onUnmounted(() => {
                 <div class="chat-title">{{ activeTab === 'users' ? selectedUser.name : selectedGroup.name }}</div>
                 <div class="chat-actions">
                   <el-button size="small" type="text" :title="connectionStatus">
-                    <i :class="isConnected ? 'el-icon-video-camera' : 'el-icon-video-camera-off'"></i>
+                    <el-icon v-if="isConnected"><VideoCamera /></el-icon>
+                    <el-icon v-else><VideoCamera /></el-icon>
                     <span style="margin-left: 5px; font-size: 12px;">{{ connectionStatus }}</span>
                   </el-button>
                   <el-button size="small" type="text">
-                    <i class="el-icon-more"></i>
+                    <el-icon><More /></el-icon>
                   </el-button>
                 </div>
               </div>

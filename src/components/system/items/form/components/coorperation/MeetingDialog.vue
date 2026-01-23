@@ -1,5 +1,9 @@
 <script setup lang="ts">
+import { provideMeetingCore } from "./meeting-core-context";
 import { useMeetingDialog } from "./useMeetingDialog";
+import MeetingVideoPanel from "./MeetingVideoPanel.vue";
+import MeetingChatPanel from "./MeetingChatPanel.vue";
+import MeetingControls from "./MeetingControls.vue";
 
 const emit = defineEmits<{
   (e: "close"): void;
@@ -12,46 +16,25 @@ const props = defineProps<{
   title: string;
 }>();
 
+const core = useMeetingDialog(emit);
+provideMeetingCore(core);
+
 const {
   closeAction,
   codeDoSave,
   meetingInfo,
   participants,
-  chatMessages,
-  inputMessage,
-  chatMessagesRef,
   availableUsers,
   selectedUser,
   currentUserId,
   currentUserName,
-  currentUserAvatar,
-  remoteStreamEntries,
-  hasParticipantStream,
-  hasParticipantScreenShare,
-  switchUser,
-  sendChatMessage,
-  toggleParticipantAudio,
-  toggleParticipantVideo,
-  inviteParticipants,
-  endMeeting,
   sidebarVisible,
   toggleSidebar,
-  maximizeScreenShareForParticipant,
   participantsVisible,
   toggleParticipants,
-  isAudioEnabled,
-  isVideoEnabled,
-  isRecording,
-  isScreenSharing,
-  currentScreenSharer,
-  localStreamRef,
-  setRemoteVideoRef,
-  toggleAudio,
-  toggleVideo,
-  toggleScreenShare,
-  toggleRecording,
-  onlineParticipantsCount
-} = useMeetingDialog(emit);
+  onlineParticipantsCount,
+  switchUser
+} = core;
 </script>
 
 <template>
@@ -89,7 +72,7 @@ const {
               </div>
             </div>
             <button class="sidebar-toggle-btn" @click="toggleSidebar">
-              <i class="el-icon-menu"></i>
+              <el-icon><Menu /></el-icon>
               {{ sidebarVisible ? '隐藏侧边栏' : '显示侧边栏' }}
             </button>
           </div>
@@ -102,156 +85,10 @@ const {
         </div>
 
         <!-- 视频区域 -->
-        <div class="video-area">
-          <!-- 屏幕共享全屏显示 -->
-          <div v-if="currentScreenSharer" class="screen-share-fullscreen">
-            <div class="screen-share-header">
-              <div class="screen-sharer-info">
-                <div class="status-indicator online"></div>
-                <span class="participant-name">{{ currentScreenSharer.name }}</span>
-                <span class="screen-share-badge">屏幕共享</span>
-              </div>
-              <button class="exit-screen-share-btn" @click="currentScreenSharer = null">
-                <i class="el-icon-close"></i>
-                退出全屏
-              </button>
-            </div>
-            <div class="screen-share-content">
-              <video
-                  autoplay
-                  playsinline
-                  class="screen-share-video"
-                  :srcObject="currentScreenSharer.stream"
-              ></video>
-            </div>
-          </div>
-
-          <!-- 普通视频网格（当没有屏幕共享时显示） -->
-          <div v-else class="video-grid">
-            <!-- 本地视频 -->
-            <div class="video-item local-video">
-              <div class="video-preview">
-                <video
-                    ref="localStreamRef"
-                    class="local-video-element"
-                    autoplay
-                    muted
-                    playsinline
-                ></video>
-                <div class="participant-status">
-                  <div class="status-indicator online"></div>
-                  <span class="participant-name">我</span>
-                  <span class="host-badge">本地</span>
-                  <span v-if="isScreenSharing" class="screen-share-badge">屏幕共享</span>
-                </div>
-              </div>
-            </div>
-
-            <!-- 远程参与者视频 -->
-            <template v-for="item in participants">
-              <div :key="item?.id || 'unknown'" class="video-item"
-                   v-if="item.id !== currentUserId"
-                   :class="{ 'offline': item.status !== 'online' }">
-                <div class="video-preview">
-                  <!-- 检查是否有对应的远程流 -->
-                  <template v-if="item.status === 'online'">
-                    <!-- 查找该参与者的远程流 -->
-                    <template v-for="[streamId, streamInfo] in remoteStreamEntries">
-                      <video
-                          :key="streamId"
-                          v-if="streamInfo?.senderId === item.id || !streamInfo.senderId"
-                          :ref="setRemoteVideoRef(streamId)"
-                          class="remote-video-element"
-                          autoplay
-                          playsinline
-                      ></video>
-                    </template>
-                    <!-- 如果没有远程流，显示头像 -->
-                    <img v-if="!hasParticipantStream(item.id)"
-                         :src="item.avatar" :alt="item.name" class="avatar"/>
-                  </template>
-                  <img v-else :src="item.avatar" :alt="item.name" class="avatar"/>
-
-                  <div class="participant-status">
-                    <div class="status-indicator" :class="item.status"></div>
-                    <span class="participant-name">{{ item.name }}</span>
-                    <span v-if="item.role === 'host'" class="host-badge">主持人</span>
-                    <!-- 显示屏幕共享状态 -->
-                    <span v-if="item.status === 'online' && hasParticipantScreenShare(item.id)"
-                          class="screen-share-badge">屏幕共享</span>
-                    <!-- 屏幕共享最大化按钮 -->
-                    <button v-if="item.status === 'online' && hasParticipantScreenShare(item.id)"
-                            class="maximize-screen-share-btn"
-                            @click="maximizeScreenShareForParticipant(item.id)">
-                      <i class="el-icon-full-screen"></i>
-                      最大化
-                    </button>
-                  </div>
-                  <div class="participant-controls">
-                    <button
-                        class="control-btn"
-                        :class="{ 'active': item.audio }"
-                        @click="toggleParticipantAudio(item.id)"
-                    >
-                      <i class="el-icon-microphone"></i>
-                    </button>
-                    <button
-                        class="control-btn"
-                        :class="{ 'active': item.video }"
-                        @click="toggleParticipantVideo(item.id)"
-                    >
-                      <i class="el-icon-video-camera"></i>
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </template>
-          </div>
-        </div>
+        <MeetingVideoPanel />
 
         <!-- 会议控制栏 -->
-        <div class="meeting-controls">
-          <button
-              class="control-btn"
-              :class="{ 'active': isAudioEnabled }"
-              @click="toggleAudio"
-          >
-            <i class="el-icon-microphone"></i>
-            <span>{{ isAudioEnabled ? '静音' : '取消静音' }}</span>
-          </button>
-          <button
-              class="control-btn"
-              :class="{ 'active': isVideoEnabled }"
-              @click="toggleVideo"
-          >
-            <i class="el-icon-video-camera"></i>
-            <span>{{ isVideoEnabled ? '关闭视频' : '开启视频' }}</span>
-          </button>
-          <button
-              class="control-btn"
-              :class="{ 'active': isScreenSharing }"
-              @click="toggleScreenShare"
-          >
-            <i class="el-icon-monitor"></i>
-            <span>{{ isScreenSharing ? '停止共享' : '共享屏幕' }}</span>
-          </button>
-          <button
-              class="control-btn"
-              :class="{ 'active': isRecording }"
-              @click="toggleRecording"
-          >
-            <i class="el-icon-video-camera"></i>
-            <span>{{ isRecording ? '停止录制' : '开始录制' }}</span>
-          </button>
-          <button class="control-btn" @click="inviteParticipants">
-            <i class="el-icon-user-plus"></i>
-            <span>邀请</span>
-          </button>
-          <button class="control-btn danger" @click="endMeeting">
-            <i class="el-icon-close"></i>
-            <span>结束会议</span>
-          </button>
-        </div>
+        <MeetingControls />
       </div>
 
       <!-- 侧边栏 -->
@@ -279,10 +116,10 @@ const {
                 </div>
                 <div class="participant-stats">
                 <span class="stat-item" :class="{ 'active': participant.audio }">
-                  <i class="el-icon-microphone"></i>
+                  <el-icon><Microphone /></el-icon>
                 </span>
                   <span class="stat-item" :class="{ 'active': participant.video }">
-                  <i class="el-icon-video-camera"></i>
+                  <el-icon><VideoCamera /></el-icon>
                 </span>
                 </div>
               </div>
@@ -298,51 +135,7 @@ const {
               显示参会人员
             </el-button>
           </div>
-          <div class="chat-container">
-            <div class="chat-messages" ref="chatMessagesRef">
-              <div v-for="message in chatMessages" :key="message.id" class="chat-message"
-                   :class="{ 'self': message.isSelf }">
-                <!-- 他人发送的消息：头像在前，消息在后 -->
-                <template v-if="!message.isSelf">
-                  <div class="message-avatar">
-                    <img src="https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png"
-                         alt="{{ message.senderName }}"/>
-                  </div>
-                  <div class="message-body">
-                    <div class="message-header">
-                      <span class="message-sender">{{ message.senderName }}</span>
-                      <span class="message-time">{{ message.time }}</span>
-                    </div>
-                    <div class="message-content">{{ message.content }}</div>
-                  </div>
-                </template>
-
-                <!-- 自己发送的消息：消息在前，头像在后 -->
-                <template v-else>
-                  <div class="message-body">
-                    <div class="message-header">
-                      <span class="message-sender">{{ message.senderName }}</span>
-                      <span class="message-time">{{ message.time }}</span>
-                    </div>
-                    <div class="message-content">{{ message.content }}</div>
-                  </div>
-                  <div class="message-avatar">
-                    <img :src="currentUserAvatar" alt="{{ message.senderName }}"/>
-                  </div>
-                </template>
-              </div>
-            </div>
-            <div class="chat-input">
-              <el-input
-                  v-model="inputMessage"
-                  placeholder="输入消息..."
-                  @keyup.enter.exact="sendChatMessage"
-              />
-              <button class="send-btn" @click="sendChatMessage">
-                <i class="el-icon-send"></i>
-              </button>
-            </div>
-          </div>
+          <MeetingChatPanel />
         </div>
       </div>
     </div>
@@ -354,7 +147,10 @@ const {
 .meeting-container {
   display: flex;
   height: 100%;
-  gap: 20px;
+  gap: 10px;
+  background: linear-gradient(135deg, #f5f7fa 0%, #e4e9f2 100%);
+  padding: 10px;
+  border-radius: 12px;
 }
 
 /* 会议主区域 */
@@ -362,140 +158,159 @@ const {
   flex: 1;
   display: flex;
   flex-direction: column;
-  gap: 15px;
+  gap: 10px;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  background: #ffffff;
 }
 
 /* 会议信息 */
 .meeting-info {
-  background-color: #ffffff;
-  padding: 15px;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  background: linear-gradient(90deg, #409eff 0%, #66b1ff 100%);
+  padding: 10px;
+  color: #ffffff;
+  box-shadow: 0 2px 8px rgba(64, 158, 255, 0.3);
 }
 
 .meeting-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 10px;
+  margin-bottom: 15px;
   flex-wrap: wrap;
-  gap: 10px;
+  gap: 15px;
 }
 
 .meeting-name {
-  font-size: 18px;
+  font-size: 20px;
   font-weight: 600;
-  color: #303133;
   flex: 1;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
 }
 
 .user-selection {
   display: flex;
   align-items: center;
-  gap: 10px;
-  padding: 8px 12px;
-  background-color: #f5f7fa;
-  border-radius: 6px;
+  gap: 12px;
+  padding: 10px 16px;
+  background-color: rgba(255, 255, 255, 0.2);
+  border-radius: 8px;
   font-size: 14px;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
 }
 
 .user-options {
   display: flex;
-  gap: 6px;
+  gap: 8px;
 }
 
 .user-option-btn {
-  padding: 4px 12px;
-  border: 1px solid #dcdfe6;
-  border-radius: 4px;
-  background-color: #ffffff;
+  padding: 6px 14px;
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  border-radius: 6px;
+  background-color: rgba(255, 255, 255, 0.1);
+  color: #ffffff;
   cursor: pointer;
   font-size: 12px;
   transition: all 0.3s ease;
 }
 
 .user-option-btn:hover {
-  background-color: #ecf5ff;
-  border-color: #c6e2ff;
-  color: #409eff;
+  background-color: rgba(255, 255, 255, 0.2);
+  border-color: rgba(255, 255, 255, 0.6);
+  transform: translateY(-1px);
 }
 
 .user-option-btn.active {
-  background-color: #409eff;
-  border-color: #409eff;
-  color: #ffffff;
+  background-color: rgba(255, 255, 255, 0.3);
+  border-color: rgba(255, 255, 255, 0.8);
+  font-weight: 500;
 }
 
 .sidebar-toggle-btn {
-  background-color: #f5f7fa;
-  border: 1px solid #dcdfe6;
-  border-radius: 4px;
-  padding: 6px 12px;
+  background-color: rgba(255, 255, 255, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 6px;
+  padding: 8px 16px;
   font-size: 14px;
+  color: #ffffff;
   cursor: pointer;
   transition: all 0.3s ease;
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 8px;
+  backdrop-filter: blur(10px);
 }
 
 .sidebar-toggle-btn:hover {
-  background-color: #ecf5ff;
-  border-color: #c6e2ff;
-  color: #409eff;
+  background-color: rgba(255, 255, 255, 0.3);
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
 .meeting-meta {
   display: flex;
-  gap: 20px;
+  gap: 24px;
   font-size: 14px;
-  color: #606266;
+  color: rgba(255, 255, 255, 0.9);
   flex-wrap: wrap;
 }
 
 .meta-item {
   display: inline-block;
+  padding: 4px 12px;
+  background-color: rgba(0, 0, 0, 0.1);
+  border-radius: 16px;
+  backdrop-filter: blur(5px);
 }
 
 /* 视频区域 */
 .video-area {
   flex: 1;
-  background-color: #f0f2f5;
-  border-radius: 8px;
-  padding: 20px;
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  border-radius: 12px;
+  padding: 24px;
   overflow-y: auto;
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
 .video-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  gap: 15px;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 20px;
 }
 
 .video-item {
   background-color: #ffffff;
-  border-radius: 8px;
+  border-radius: 12px;
   overflow: hidden;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
   transition: all 0.3s ease;
+  border: 1px solid rgba(64, 158, 255, 0.1);
 }
 
 .video-item:hover {
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+  transform: translateY(-2px);
+  border-color: rgba(64, 158, 255, 0.3);
 }
 
 .video-item.offline {
-  opacity: 0.6;
+  opacity: 0.7;
+  filter: grayscale(30%);
 }
 
 .video-preview {
   position: relative;
   width: 100%;
   aspect-ratio: 16/9;
-  background-color: #f5f7fa;
+  background: linear-gradient(135deg, #f5f7fa 0%, #e4e9f2 100%);
   display: flex;
   align-items: center;
   justify-content: center;
+  overflow: hidden;
 }
 
 .local-video-element {
@@ -505,10 +320,12 @@ const {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  transition: transform 0.3s ease;
 }
 
 .local-video {
-  border: 2px solid #409eff;
+  border: 3px solid #409eff;
+  box-shadow: 0 0 15px rgba(64, 158, 255, 0.4);
 }
 
 .video-placeholder {
@@ -518,25 +335,28 @@ const {
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: #e6f7ff;
+  background: linear-gradient(135deg, #e6f7ff 0%, #bae7ff 100%);
 }
 
 .avatar {
-  width: 80px;
-  height: 80px;
+  width: 90px;
+  height: 90px;
   border-radius: 50%;
   object-fit: cover;
+  border: 3px solid rgba(64, 158, 255, 0.3);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
 
 .video-indicator {
   position: absolute;
-  bottom: 10px;
-  right: 10px;
-  background-color: rgba(0, 0, 0, 0.6);
+  bottom: 12px;
+  right: 12px;
+  background-color: rgba(0, 0, 0, 0.7);
   color: #ffffff;
   font-size: 12px;
-  padding: 4px 8px;
-  border-radius: 4px;
+  padding: 6px 10px;
+  border-radius: 6px;
+  backdrop-filter: blur(5px);
 }
 
 .participant-status {
@@ -544,50 +364,73 @@ const {
   bottom: 0;
   left: 0;
   right: 0;
-  background-color: rgba(0, 0, 0, 0.7);
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.4));
   color: #ffffff;
-  padding: 8px 12px;
+  padding: 12px 16px;
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 10px;
+  backdrop-filter: blur(5px);
 }
 
 .status-indicator {
-  width: 8px;
-  height: 8px;
+  width: 10px;
+  height: 10px;
   border-radius: 50%;
   background-color: #909399;
+  transition: all 0.3s ease;
 }
 
 .status-indicator.online {
   background-color: #67c23a;
+  box-shadow: 0 0 10px rgba(103, 194, 58, 0.6);
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.2);
+    opacity: 0.8;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
 }
 
 .participant-name {
   flex: 1;
   font-size: 14px;
   font-weight: 500;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
 }
 
 .host-badge {
   background-color: #409eff;
   color: #ffffff;
   font-size: 12px;
-  padding: 2px 6px;
-  border-radius: 4px;
+  padding: 3px 8px;
+  border-radius: 6px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
 }
 
 .screen-share-badge {
   background-color: #67c23a;
   color: #ffffff;
   font-size: 12px;
-  padding: 2px 6px;
-  border-radius: 4px;
-  margin-left: 4px;
+  padding: 3px 8px;
+  border-radius: 6px;
+  margin-left: 6px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
 }
 
 .video-item.screen-share {
   border: 2px solid #67c23a;
+  box-shadow: 0 0 15px rgba(103, 194, 58, 0.3);
 }
 
 /* 屏幕共享全屏显示样式 */
@@ -596,8 +439,9 @@ const {
   width: 100%;
   height: 600px;
   background-color: #000;
-  border-radius: 8px;
+  border-radius: 12px;
   overflow: hidden;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
 }
 
 .screen-share-header {
@@ -605,37 +449,42 @@ const {
   top: 0;
   left: 0;
   right: 0;
-  height: 50px;
-  background-color: rgba(0, 0, 0, 0.7);
+  height: 60px;
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.4));
   color: white;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 20px;
+  padding: 0 24px;
   z-index: 10;
+  backdrop-filter: blur(10px);
 }
 
 .screen-sharer-info {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 12px;
 }
 
 .exit-screen-share-btn {
   background-color: rgba(255, 255, 255, 0.2);
   color: white;
-  border: none;
-  padding: 8px 16px;
-  border-radius: 4px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  padding: 10px 20px;
+  border-radius: 6px;
   cursor: pointer;
   font-size: 14px;
   display: flex;
   align-items: center;
-  gap: 5px;
+  gap: 8px;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(5px);
 }
 
 .exit-screen-share-btn:hover {
   background-color: rgba(255, 255, 255, 0.3);
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(255, 255, 255, 0.2);
 }
 
 .screen-share-content {
@@ -659,130 +508,151 @@ const {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  transition: all 0.3s ease;
 }
 
 .participant-controls {
   position: absolute;
-  top: 10px;
-  right: 10px;
+  top: 12px;
+  right: 12px;
   display: flex;
-  gap: 5px;
+  gap: 8px;
 }
 
 .control-btn {
-  background-color: rgba(255, 255, 255, 0.8);
+  background-color: rgba(255, 255, 255, 0.9);
   border: none;
   border-radius: 50%;
-  width: 32px;
-  height: 32px;
+  width: 36px;
+  height: 36px;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
   transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
 }
 
 .control-btn:hover {
   background-color: #ffffff;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  transform: translateY(-2px);
 }
 
 .control-btn.active {
   background-color: #409eff;
   color: #ffffff;
+  box-shadow: 0 2px 8px rgba(64, 158, 255, 0.4);
 }
 
 /* 会议控制栏 */
 .meeting-controls {
-  background-color: #ffffff;
-  padding: 15px;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   display: flex;
-  gap: 10px;
+  gap: 12px;
   align-items: center;
+  border: 1px solid rgba(64, 158, 255, 0.1);
 }
 
 .meeting-controls .control-btn {
   flex: 1;
-  border-radius: 6px;
-  height: 40px;
+  border-radius: 8px;
+  height: 44px;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
+  gap: 10px;
   font-size: 14px;
-  background-color: #f5f7fa;
+  background-color: rgba(255, 255, 255, 0.8);
   color: #303133;
+  border: 1px solid rgba(64, 158, 255, 0.2);
 }
 
 .meeting-controls .control-btn:hover {
-  background-color: #ecf5ff;
+  background-color: rgba(64, 158, 255, 0.1);
+  border-color: rgba(64, 158, 255, 0.4);
+  transform: translateY(-1px);
 }
 
 .meeting-controls .control-btn.active {
-  background-color: #409eff;
+  background: linear-gradient(135deg, #409eff 0%, #66b1ff 100%);
   color: #ffffff;
+  box-shadow: 0 2px 8px rgba(64, 158, 255, 0.4);
+  border-color: #409eff;
 }
 
 .meeting-controls .control-btn.danger {
-  background-color: #f56c6c;
+  background: linear-gradient(135deg, #f56c6c 0%, #f78989 100%);
   color: #ffffff;
+  border-color: #f56c6c;
+  box-shadow: 0 2px 8px rgba(245, 108, 108, 0.4);
 }
 
 .meeting-controls .control-btn.danger:hover {
-  background-color: #f78989;
+  background: linear-gradient(135deg, #f78989 0%, #f9a9a9 100%);
+  transform: translateY(-1px);
 }
 
 /* 侧边栏 */
 .meeting-sidebar {
-  width: 300px;
+  width: 320px;
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 10px;
   overflow: hidden;
   height: 100%;
+  background-color: #ffffff;
+  border-radius: 12px;
+  padding: 10px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
 }
 
 .sidebar-section {
   background-color: #ffffff;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  border-radius: 12px;
   overflow: hidden;
   display: flex;
   flex-direction: column;
   flex: 1;
   min-height: 0;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  border: 1px solid rgba(64, 158, 255, 0.1);
 }
 
 .section-title {
-  padding: 15px;
-  border-bottom: 1px solid #ebeef5;
+  padding: 18px 20px;
+  border-bottom: 1px solid #f0f2f5;
   font-size: 16px;
-  font-weight: 500;
+  font-weight: 600;
   color: #303133;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  background-color: #f8f9fa;
 }
 
 .section-toggle-btn {
   background-color: transparent;
   border: 1px solid #dcdfe6;
-  border-radius: 4px;
-  padding: 4px 8px;
+  border-radius: 6px;
+  padding: 6px 12px;
   font-size: 12px;
   cursor: pointer;
   transition: all 0.3s ease;
   display: flex;
   align-items: center;
   justify-content: center;
+  color: #606266;
 }
 
 .section-toggle-btn:hover {
   background-color: #ecf5ff;
   border-color: #c6e2ff;
   color: #409eff;
+  transform: translateY(-1px);
 }
 
 /* 参会人员列表 */
@@ -795,36 +665,47 @@ const {
 .participant-item {
   display: flex;
   align-items: center;
-  padding: 12px 15px;
+  padding: 16px 20px;
   border-bottom: 1px solid #f0f2f5;
-  transition: background-color 0.3s ease;
+  transition: all 0.3s ease;
+  cursor: pointer;
 }
 
 .participant-item:hover {
-  background-color: #f5f7fa;
+  background-color: #f8f9fa;
+  transform: translateX(4px);
 }
 
 .participant-item.offline {
-  opacity: 0.6;
+  opacity: 0.7;
+  filter: grayscale(30%);
 }
 
 .participant-avatar {
   position: relative;
-  margin-right: 12px;
+  margin-right: 16px;
 }
 
 .participant-avatar img {
-  width: 40px;
-  height: 40px;
+  width: 48px;
+  height: 48px;
   border-radius: 50%;
   object-fit: cover;
+  border: 2px solid rgba(64, 158, 255, 0.2);
+  transition: all 0.3s ease;
+}
+
+.participant-avatar:hover img {
+  border-color: rgba(64, 158, 255, 0.6);
+  transform: scale(1.05);
 }
 
 .participant-avatar .status-indicator {
   position: absolute;
-  bottom: 0;
-  right: 0;
+  bottom: 2px;
+  right: 2px;
   border: 2px solid #ffffff;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
 }
 
 .participant-info {
@@ -835,22 +716,23 @@ const {
 .participant-role {
   font-size: 12px;
   color: #909399;
-  margin-top: 2px;
+  margin-top: 4px;
 }
 
 .participant-stats {
   display: flex;
-  gap: 10px;
+  gap: 12px;
 }
 
 .stat-item {
-  font-size: 16px;
+  font-size: 18px;
   color: #c0c4cc;
-  transition: color 0.3s ease;
+  transition: all 0.3s ease;
 }
 
 .stat-item.active {
   color: #409eff;
+  transform: scale(1.1);
 }
 
 /* 会议聊天 */
@@ -871,17 +753,23 @@ const {
 .chat-messages {
   flex: 1;
   overflow-y: auto;
-  padding: 15px;
+  padding: 20px;
   display: flex;
   flex-direction: column;
-  gap: 15px;
+  gap: 16px;
   min-height: 0;
+  background-color: #f8f9fa;
 }
 
 .chat-message {
   display: flex;
   align-items: flex-start;
-  gap: 10px;
+  gap: 12px;
+  transition: all 0.3s ease;
+}
+
+.chat-message:hover {
+  transform: translateX(4px);
 }
 
 .chat-message.self {
@@ -889,12 +777,19 @@ const {
 }
 
 .message-avatar {
-  width: 36px;
-  height: 36px;
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
   overflow: hidden;
   flex-shrink: 0;
   margin-top: 2px;
+  border: 2px solid rgba(64, 158, 255, 0.2);
+  transition: all 0.3s ease;
+}
+
+.message-avatar:hover {
+  border-color: rgba(64, 158, 255, 0.6);
+  transform: scale(1.05);
 }
 
 .message-avatar img {
@@ -907,7 +802,7 @@ const {
   flex: 1;
   display: flex;
   flex-direction: column;
-  gap: 5px;
+  gap: 6px;
   max-width: 70%;
 }
 
@@ -919,7 +814,7 @@ const {
   display: flex;
   justify-content: flex-start;
   align-items: center;
-  gap: 8px;
+  gap: 10px;
 }
 
 .chat-message.self .message-header {
@@ -943,69 +838,89 @@ const {
 }
 
 .message-content {
-  padding: 10px 14px;
-  border-radius: 18px;
+  padding: 12px 16px;
+  border-radius: 20px;
   font-size: 14px;
-  line-height: 1.4;
+  line-height: 1.5;
   word-wrap: break-word;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
 }
 
 .chat-message:not(.self) .message-content {
-  background-color: #f5f7fa;
+  background-color: #ffffff;
   color: #303133;
-  border-bottom-left-radius: 4px;
+  border-bottom-left-radius: 6px;
+  border: 1px solid rgba(64, 158, 255, 0.1);
 }
 
 .chat-message.self .message-content {
-  background-color: #409eff;
+  background: linear-gradient(135deg, #409eff 0%, #66b1ff 100%);
   color: #ffffff;
-  border-bottom-right-radius: 4px;
+  border-bottom-right-radius: 6px;
+  box-shadow: 0 1px 3px rgba(64, 158, 255, 0.3);
 }
 
 .chat-input {
-  padding: 15px;
+  padding: 16px 20px;
   border-top: 1px solid #ebeef5;
   display: flex;
-  gap: 10px;
+  gap: 12px;
   align-items: center;
+  background-color: #ffffff;
 }
 
 .chat-input .el-input {
   flex: 1;
 }
 
+.chat-input .el-input__inner {
+  border-radius: 8px;
+  border: 1px solid rgba(64, 158, 255, 0.2);
+  transition: all 0.3s ease;
+}
+
+.chat-input .el-input__inner:focus {
+  border-color: #409eff;
+  box-shadow: 0 0 0 2px rgba(64, 158, 255, 0.2);
+}
+
 .send-btn {
-  background-color: #409eff;
+  background: linear-gradient(135deg, #409eff 0%, #66b1ff 100%);
   color: #ffffff;
   border: none;
-  border-radius: 4px;
-  padding: 0 16px;
-  height: 36px;
+  border-radius: 8px;
+  padding: 0 20px;
+  height: 40px;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  transition: all 0.3s ease;
   display: flex;
   align-items: center;
   justify-content: center;
+  box-shadow: 0 2px 8px rgba(64, 158, 255, 0.3);
 }
 
 .send-btn:hover {
-  background-color: #66b1ff;
+  background: linear-gradient(135deg, #66b1ff 0%, #91cfff 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(64, 158, 255, 0.4);
 }
 
 /* 滚动条样式 */
 ::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
+  width: 8px;
+  height: 8px;
 }
 
 ::-webkit-scrollbar-track {
   background: #f1f1f1;
-  border-radius: 3px;
+  border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb {
   background: #c1c1c1;
-  border-radius: 3px;
+  border-radius: 4px;
+  transition: all 0.3s ease;
 }
 
 ::-webkit-scrollbar-thumb:hover {
@@ -1020,18 +935,27 @@ const {
 
   .meeting-sidebar {
     width: 100%;
-    max-height: 300px;
+    max-height: 320px;
   }
 
   .video-grid {
-    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
   }
 }
 
 @media (max-width: 768px) {
+  .meeting-container {
+    padding: 12px;
+  }
+
+  .meeting-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
   .meeting-meta {
     flex-direction: column;
-    gap: 5px;
+    gap: 8px;
   }
 
   .meeting-controls {
@@ -1039,7 +963,11 @@ const {
   }
 
   .meeting-controls .control-btn {
-    flex: 1 1 calc(50% - 5px);
+    flex: 1 1 calc(50% - 6px);
+  }
+
+  .video-grid {
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
   }
 }
 </style>
