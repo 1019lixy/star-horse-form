@@ -329,11 +329,11 @@ export class WebSocketService {
         userId,
         sessionId
       };
-      
+
       if (meetingId) {
         payload.meetingId = meetingId;
       }
-      
+
       this.webrtcStompClient.send("/app/webrtc/register", {}, JSON.stringify(payload));
       console.log("User registered:", userId, "meeting:", meetingId);
     } catch (error) {
@@ -343,7 +343,7 @@ export class WebSocketService {
       }
     }
   }
-  
+
   // 订阅新peer加入通知
   public subscribeToPeerJoined(callback: (message: any) => void, userId: string): string | null {
     if (!this.webrtcStompClient || !this.webrtcConnected) {
@@ -374,7 +374,7 @@ export class WebSocketService {
       return null;
     }
   }
-  
+
   // 订阅已存在peers通知
   public subscribeToExistingPeers(callback: (message: any) => void, userId: string): string | null {
     if (!this.webrtcStompClient || !this.webrtcConnected) {
@@ -709,13 +709,44 @@ export class WebSocketService {
 
       console.log("Attempting to send user left message:", message);
       this.chatStompClient.send(
-        "/app/meeting/user-left",
+        "/app/webrtc/leave",
         {},
         JSON.stringify(message)
       );
       console.log("User left message sent successfully:", message);
     } catch (error) {
       console.error("Error sending user left message:", error);
+      if (this.options.onError) {
+        this.options.onError(error);
+      }
+    }
+  }
+
+  // 发送会议结束消息
+  public sendMeetingEndedMessage(meetingId: string, userId: string, userName: string): void {
+    if (!this.chatStompClient || !this.chatConnected) {
+      console.error("Chat WebSocket not connected");
+      return;
+    }
+
+    try {
+      const message = {
+        meetingId: meetingId,
+        userId: userId,
+        userName: userName,
+        type: "MEETING_ENDED",
+        timestamp: new Date().toISOString()
+      };
+
+      console.log("Attempting to send meeting ended message:", message);
+      this.chatStompClient.send(
+        "/app/webrtc/end",
+        {},
+        JSON.stringify(message)
+      );
+      console.log("Meeting ended message sent successfully:", message);
+    } catch (error) {
+      console.error("Error sending meeting ended message:", error);
       if (this.options.onError) {
         this.options.onError(error);
       }

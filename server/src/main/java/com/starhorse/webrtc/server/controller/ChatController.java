@@ -117,4 +117,5 @@ public class ChatController {
             System.out.println("User left message broadcasted to meeting: " + meetingId);
         }
     }
+
 }

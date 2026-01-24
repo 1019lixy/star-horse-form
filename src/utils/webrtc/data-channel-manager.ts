@@ -42,14 +42,14 @@ export class DataChannelManager {
     // 监听连接状态变化
     this.peerConnection.onconnectionstatechange = () => {
       if (this.peerConnection) {
-        console.log('Connection state:', this.peerConnection.connectionState);
-        if (this.peerConnection.connectionState === 'connected') {
+        console.log("Connection state:", this.peerConnection.connectionState);
+        if (this.peerConnection.connectionState === "connected") {
           this.isConnected = true;
           if (this.options.onConnectionEstablished) {
             this.options.onConnectionEstablished();
           }
-        } else if (this.peerConnection.connectionState === 'closed' || 
-                   this.peerConnection.connectionState === 'failed') {
+        } else if (this.peerConnection.connectionState === "closed" ||
+                   this.peerConnection.connectionState === "failed") {
           this.isConnected = false;
           if (this.options.onConnectionClosed) {
             this.options.onConnectionClosed();
@@ -67,10 +67,10 @@ export class DataChannelManager {
   // 创建数据通道
   public createDataChannel(): RTCDataChannel {
     if (!this.peerConnection) {
-      throw new Error('PeerConnection not initialized');
+      throw new Error("PeerConnection not initialized");
     }
 
-    this.dataChannel = this.peerConnection.createDataChannel('chat', {
+    this.dataChannel = this.peerConnection.createDataChannel("chat", {
       ordered: true,
       maxRetransmits: 10
     });
@@ -84,11 +84,11 @@ export class DataChannelManager {
     this.dataChannel = channel;
 
     this.dataChannel.onopen = () => {
-      console.log('Data channel opened');
+      console.log("Data channel opened");
     };
 
     this.dataChannel.onclose = () => {
-      console.log('Data channel closed');
+      console.log("Data channel closed");
     };
 
     this.dataChannel.onmessage = (event) => {
@@ -98,12 +98,12 @@ export class DataChannelManager {
           this.options.onMessage(message);
         }
       } catch (error) {
-        console.error('Error parsing message:', error);
+        console.error("Error parsing message:", error);
       }
     };
 
     this.dataChannel.onerror = (error) => {
-      console.error('Data channel error:', error);
+      console.error("Data channel error:", error);
       if (this.options.onError) {
         this.options.onError(error as Error);
       }
@@ -111,9 +111,10 @@ export class DataChannelManager {
   }
 
   // 创建Offer
+  // eslint-disable-next-line no-undef
   public async createOffer(): Promise<RTCSessionDescriptionInit> {
     if (!this.peerConnection) {
-      throw new Error('PeerConnection not initialized');
+      throw new Error("PeerConnection not initialized");
     }
 
     const offer = await this.peerConnection.createOffer();
@@ -122,18 +123,20 @@ export class DataChannelManager {
   }
 
   // 设置远程描述
+  // eslint-disable-next-line no-undef
   public async setRemoteDescription(description: RTCSessionDescriptionInit): Promise<void> {
     if (!this.peerConnection) {
-      throw new Error('PeerConnection not initialized');
+      throw new Error("PeerConnection not initialized");
     }
 
     await this.peerConnection.setRemoteDescription(description);
   }
 
   // 添加ICE候选者
+  // eslint-disable-next-line no-undef
   public async addIceCandidate(candidate: RTCIceCandidateInit): Promise<void> {
     if (!this.peerConnection) {
-      throw new Error('PeerConnection not initialized');
+      throw new Error("PeerConnection not initialized");
     }
 
     await this.peerConnection.addIceCandidate(candidate);
@@ -141,15 +144,15 @@ export class DataChannelManager {
 
   // 发送消息
   public sendMessage(message: any): void {
-    if (!this.dataChannel || this.dataChannel.readyState !== 'open') {
-      throw new Error('Data channel not open');
+    if (!this.dataChannel || this.dataChannel.readyState !== "open") {
+      throw new Error("Data channel not open");
     }
 
     try {
       const messageString = JSON.stringify(message);
       this.dataChannel.send(messageString);
     } catch (error) {
-      console.error('Error sending message:', error);
+      console.error("Error sending message:", error);
       if (this.options.onError) {
         this.options.onError(error as Error);
       }
@@ -158,7 +161,7 @@ export class DataChannelManager {
 
   // 检查连接状态
   public isConnectedToPeer(): boolean {
-    return this.isConnected && this.dataChannel && this.dataChannel.readyState === 'open';
+    return this.isConnected && this.dataChannel && this.dataChannel.readyState === "open";
   }
 
   // 关闭连接
@@ -178,7 +181,7 @@ export class DataChannelManager {
   private onIceCandidate(candidate: RTCIceCandidate): void {
     // 这里需要通过信令服务器发送ICE候选者到远程端
     // 实际实现中，应该调用外部提供的回调函数
-    console.log('ICE candidate:', candidate);
+    console.log("ICE candidate:", candidate);
   }
 }
 

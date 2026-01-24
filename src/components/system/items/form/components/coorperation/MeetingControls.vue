@@ -9,6 +9,8 @@ const {
   isRecording, 
   toggleRecording, 
   endMeeting,
+  leaveMeeting,
+  isCurrentUserHost,
   raisedHands,
   isMuteAll,
   isVideoOffAll,
@@ -56,9 +58,13 @@ const isHandRaised = () => {
         </el-dropdown-menu>
       </template>
     </el-dropdown>
-    <button class="control-btn danger" @click="endMeeting">
+    <button v-if="isCurrentUserHost()" class="control-btn danger" @click="endMeeting">
       <el-icon><Close /></el-icon>
       <span>结束会议</span>
+    </button>
+    <button v-else class="control-btn danger" @click="leaveMeeting">
+      <el-icon><Close /></el-icon>
+      <span>离开会议</span>
     </button>
   </div>
 </template>

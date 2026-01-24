@@ -3,9 +3,12 @@
 export interface RTCPeerConnectionConfig {
   iceServers?: Array<{
     urls: string | string[];
+
     username?: string;
     credential?: string;
   }>;
+  iceTransportPolicy?: string;
+
 }
 
 export interface RTCDataChannelConfig {
@@ -35,7 +38,7 @@ export class WebRTCCore {
   private localStream: MediaStream | null = null;
   private remoteStreams: Map<string, MediaStream> = new Map();
   private options: WebRTCOptions;
-  private senderId: string | null = null;
+  // private senderId: string | null = null;
 
   constructor(options: WebRTCOptions = {}) {
     this.options = options;
@@ -120,11 +123,12 @@ export class WebRTCCore {
 
     try {
       // 添加约束以支持屏幕共享
+      // eslint-disable-next-line no-undef
       const offerOptions: RTCOfferOptions = {
         offerToReceiveAudio: true,
         offerToReceiveVideo: true
       };
-      
+
       const offer = await this.peerConnection!.createOffer(offerOptions);
       await this.peerConnection!.setLocalDescription(offer);
       return offer;
@@ -142,8 +146,15 @@ export class WebRTCCore {
     }
 
     try {
+      // 关键检查：确保当前状态是 have-remote-offer（已设置远端 offer）
+      const currentState = this.peerConnection!.signalingState;
+      if (currentState !== "have-remote-offer") {
+        throw new Error(`无法创建 Answer：当前信令状态为 ${currentState}，必须是 have-remote-offer`);
+      }
+
       const answer = await this.peerConnection!.createAnswer();
       await this.peerConnection!.setLocalDescription(answer);
+      console.log("Answer 创建并设置本地描述成功");
       return answer;
     } catch (error) {
       console.error("Error creating answer:", error);
@@ -159,7 +170,13 @@ export class WebRTCCore {
     }
 
     try {
-      await this.peerConnection!.setRemoteDescription(new RTCSessionDescription(description));
+      // 校验传入的描述类型必须是 offer（应答方只能接收 offer）
+      // if (description.type !== "offer") {
+      //   throw new Error(`无效的远端描述类型：${description.type}，必须是 offer`);
+      // }
+      const rtcDescription = new RTCSessionDescription(description);
+      await this.peerConnection!.setRemoteDescription(rtcDescription);
+      console.log("远端 Offer 设置成功，当前状态:", this.peerConnection!.signalingState);
     } catch (error) {
       console.error("Error setting remote description:", error);
       throw error;
@@ -167,7 +184,7 @@ export class WebRTCCore {
   }
 
   // 回滚本地描述（用于处理offer碰撞）
-  // eslint-disable-next-line no-undef
+
   public async rollbackLocalDescription(): Promise<void> {
     if (!this.peerConnection) {
       this.initPeerConnection();
@@ -175,6 +192,7 @@ export class WebRTCCore {
 
     try {
       if (this.peerConnection!.signalingState === "have-local-offer") {
+        // eslint-disable-next-line no-undef
         await this.peerConnection!.setLocalDescription({ type: "rollback" } as RTCSessionDescriptionInit);
       }
     } catch (error) {
@@ -195,7 +213,7 @@ export class WebRTCCore {
         // 可以在这里实现ICE候选者队列，等远程描述设置后再添加
         return;
       }
-      
+
       await this.peerConnection.addIceCandidate(new RTCIceCandidate(candidate));
       console.log("ICE candidate added successfully");
     } catch (error) {
@@ -342,13 +360,13 @@ export class WebRTCCore {
   }
 
   // 获取远程描述
-  // eslint-disable-next-line no-undef
+
   public getRemoteDescription(): RTCSessionDescription | null {
     return this.peerConnection ? this.peerConnection.remoteDescription : null;
   }
 
   // 获取本地描述
-  // eslint-disable-next-line no-undef
+
   public getLocalDescription(): RTCSessionDescription | null {
     return this.peerConnection ? this.peerConnection.localDescription : null;
   }

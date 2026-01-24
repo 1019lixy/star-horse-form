@@ -30,29 +30,29 @@ export const useWebRTCManager = (options: WebRTCManagerOptions) => {
 
   // WebRTC实例
   const peerConnections = ref<Map<string, WebRTCCore>>(new Map());
-  
+
   // 远程流管理
   const remoteStreams = ref<Map<string, RemoteStreamInfo>>(new Map());
   const remoteStreamElements = ref<Map<string, HTMLVideoElement>>(new Map());
   const participantStreams = ref<Map<string, string>>(new Map());
-  
+
   // 当前本地流
   const currentAudioStream = ref<MediaStream | null>(null);
   const currentVideoStream = ref<MediaStream | null>(null);
-  
+
   // 协商状态跟踪
   const negotiatingPeers = ref<Set<string>>(new Set());
   const lastOfferBySender = ref<Map<string, { isScreenShare: boolean; timestamp: number }>>(new Map());
-  
+
   // ICE候选者队列
   const iceCandidateQueues = ref<Map<string, any[]>>(new Map());
-  
+
   // 连接状态监控
   const connectionHealth = ref<Map<string, { lastAlive: number; retries: number }>>(new Map());
-  
+
   // 网络质量监控
   const networkQuality = ref<Map<string, { bandwidth: number; packetLoss: number; latency: number }>>(new Map());
-  
+
   // 自动重连配置
   const reconnectionConfig = {
     maxRetries: 5,
@@ -65,17 +65,17 @@ export const useWebRTCManager = (options: WebRTCManagerOptions) => {
   const getPeerConnection = (peerId: string, forceRecreate = false): WebRTCCore | null => {
     // 创建唯一的p2p标识符
     const p2pId = [currentUserId.value, peerId].sort().join("-");
-    
+
     let pc = peerConnections.value.get(p2pId);
-    
+
     // 如果强制重建或连接状态异常，则重建连接
     if (pc && !forceRecreate) {
       // 检查连接状态，如果处于失败状态则重建
       const connectionState = pc.getConnectionState();
       const iceState = pc.getIceConnectionState();
-      
+
       // 检查连接状态，如果处于失败状态则重建
-      if (connectionState === "failed" || connectionState === "disconnected" || 
+      if (connectionState === "failed" || connectionState === "disconnected" ||
           iceState === "failed" || iceState === "disconnected") {
         console.warn("Peer connection in bad state, recreating:", p2pId, "connection:", connectionState, "ice:", iceState);
         pc.close();
@@ -106,6 +106,14 @@ export const useWebRTCManager = (options: WebRTCManagerOptions) => {
       }
     ];
 
+    /**
+     *  bundlePolicy?: RTCBundlePolicy;
+     *     certificates?: RTCCertificate[];
+     *     iceCandidatePoolSize?: number;
+     *     iceServers?: RTCIceServer[];
+     *     iceTransportPolicy?: RTCIceTransportPolicy;
+     *     rtcpMuxPolicy?: RTCRtcpMuxPolicy;
+     */
     pc = new WebRTCCore({
       peerConnectionConfig: {
         iceServers: iceServers,
@@ -116,7 +124,7 @@ export const useWebRTCManager = (options: WebRTCManagerOptions) => {
       },
       onConnectionStateChange: (state) => {
         console.log("Connection state (", p2pId, "):", state);
-        
+
         // 更新连接健康状态
         if (state === "connected" || state === "connecting") {
           connectionHealth.value.set(p2pId, {
@@ -130,7 +138,7 @@ export const useWebRTCManager = (options: WebRTCManagerOptions) => {
       },
       onIceConnectionStateChange: (state) => {
         console.log("ICE connection state (", p2pId, "):", state);
-        
+
         if (state === "failed" || state === "disconnected") {
           console.warn("ICE connection failed/disconnected:", p2pId);
           handleConnectionFailure(peerId, p2pId);
@@ -187,12 +195,12 @@ export const useWebRTCManager = (options: WebRTCManagerOptions) => {
       lastAlive: Date.now(),
       retries: 0
     });
-    
+
     updatePeerTracks(peerId);
-    
+
     // 定期检查连接健康状态
     startConnectionHealthCheck(p2pId, peerId);
-    
+
     return pc as WebRTCCore;
   };
 
@@ -209,10 +217,10 @@ export const useWebRTCManager = (options: WebRTCManagerOptions) => {
     // 优先使用屏幕共享轨道，如果没有屏幕共享则使用视频轨道
     const activeVideoTrack = screenShareTrack || videoTrack;
     const activeStream = mediaManager.currentScreenShareStream.value || mediaManager.currentVideoStream.value || undefined;
-    
+
     pc.replaceTrack("audio", audioTrack, mediaManager.currentAudioStream.value || undefined);
     pc.replaceTrack("video", activeVideoTrack, activeStream);
-    
+
     console.log("更新peer tracks完成，peerId:", peerId, "屏幕共享:", !!screenShareTrack, "视频:", !!videoTrack, "音频:", !!audioTrack);
   };
 
@@ -364,19 +372,19 @@ export const useWebRTCManager = (options: WebRTCManagerOptions) => {
       setTimeout(() => createOfferWhenStable(peerId, callback, true), 100);
       return;
     }
-    
+
     const state = pc.getSignalingState?.();
     if (state && state !== "stable") {
       console.warn("Signaling not stable:", state, "retrying...");
       setTimeout(() => createOfferWhenStable(peerId, callback, true), 200);
       return;
     }
-    
+
     // 只有在非重试模式下才添加negotiatingPeers
     if (!isRetry) {
       negotiatingPeers.value.add(peerId);
     }
-    
+
     pc.createOffer().then((offer) => {
       callback(offer);
     }).catch((error) => {
@@ -392,29 +400,29 @@ export const useWebRTCManager = (options: WebRTCManagerOptions) => {
     console.log("目标参与者:", peerId, "屏幕共享:", isScreenShare);
     console.log("WebSocket服务状态:", webSocketService.value ? "存在" : "不存在");
     console.log("连接状态:", isConnected.value ? "已连接" : "未连接");
-    
+
     if (!webSocketService.value) {
       console.error("WebSocket服务不存在，无法发送offer");
       return;
     }
-    
+
     // 修复：检查WebSocket连接状态并确保连接稳定
     const ensureWebSocketConnected = async (): Promise<boolean> => {
       if (isConnected.value) {
         return true;
       }
-      
+
       console.warn("WebSocket连接已断开，尝试重新连接");
-      
+
       try {
         const connected = await webSocketService.value.connect();
         if (connected) {
           isConnected.value = true;
           console.log("WebSocket重新连接成功");
-          
+
           // 重新注册用户
           webSocketService.value?.registerUser(currentUserId.value, "session_" + Date.now(), meetingInfo.value.id);
-          
+
           // 等待连接稳定
           await new Promise(resolve => setTimeout(resolve, 300));
           return true;
@@ -422,24 +430,24 @@ export const useWebRTCManager = (options: WebRTCManagerOptions) => {
       } catch (error) {
         console.error("WebSocket重新连接失败:", error);
       }
-      
+
       return false;
     };
-    
+
     createOfferWhenStable(peerId, async (offer) => {
       console.log("=== 准备发送WebRTC offer ===");
       console.log("目标参与者:", peerId, "屏幕共享:", isScreenShare);
       console.log("offer类型:", offer.type);
-      
+
       // 确保WebSocket连接稳定
       const isStable = await ensureWebSocketConnected();
       if (!isStable) {
         console.error("WebSocket连接不稳定，无法发送offer");
         return;
       }
-      
+
       console.log("WebRTC连接状态:", webSocketService.value?.isWebRtcConnected() ? "已连接" : "未连接");
-      
+
       try {
         webSocketService.value?.sendWebRtcOffer({
           senderId: currentUserId.value,
@@ -447,9 +455,9 @@ export const useWebRTCManager = (options: WebRTCManagerOptions) => {
           offer: offer,
           isScreenShare: isScreenShare
         });
-        
+
         console.log("=== WebRTC offer发送完成 ===");
-        
+
         // 发送后立即检查连接状态，如果断开则尝试重连
         setTimeout(() => {
           if (!isConnected.value) {
@@ -457,7 +465,7 @@ export const useWebRTCManager = (options: WebRTCManagerOptions) => {
             ensureWebSocketConnected();
           }
         }, 100);
-        
+
       } catch (error) {
         console.error("发送WebRTC offer失败:", error);
       }
@@ -468,7 +476,7 @@ export const useWebRTCManager = (options: WebRTCManagerOptions) => {
   const sendOfferToAllParticipants = (isScreenShare: boolean) => {
     console.log("=== 开始发送offer给所有参与者 ===");
     console.log("屏幕共享:", isScreenShare);
-    
+
     // 注意：参与者列表需要从外部传入
     console.warn("参与者列表需要从外部传入，当前无法发送offer");
   };
@@ -482,11 +490,11 @@ export const useWebRTCManager = (options: WebRTCManagerOptions) => {
         console.warn("ICE candidate missing senderId");
         return;
       }
-      
+
       // 创建唯一的p2p标识符
       const p2pId = [currentUserId.value, peerId].sort().join("-");
       const pc = peerConnections.value.get(p2pId);
-      
+
       // 检查远程描述是否已设置
       // 检查远程描述是否已设置，通过检查信令状态来判断
       const signalingState = pc.getSignalingState();
@@ -513,9 +521,9 @@ export const useWebRTCManager = (options: WebRTCManagerOptions) => {
     const p2pId = [currentUserId.value, peerId].sort().join("-");
     const queue = iceCandidateQueues.value.get(p2pId);
     if (!queue || queue.length === 0) return;
-    
+
     console.log("处理ICE候选者队列，p2pId:", p2pId, "队列长度:", queue.length);
-    
+
     const pc = peerConnections.value.get(p2pId);
     queue.forEach(async (candidate) => {
       try {
@@ -525,7 +533,7 @@ export const useWebRTCManager = (options: WebRTCManagerOptions) => {
         console.error("处理队列中的ICE候选者失败:", error);
       }
     });
-    
+
     // 清空队列
     iceCandidateQueues.value.set(p2pId, []);
   };
@@ -544,7 +552,7 @@ export const useWebRTCManager = (options: WebRTCManagerOptions) => {
       const p2pId = [currentUserId.value, peerId].sort().join("-");
       const pc = peerConnections.value.get(p2pId) || getPeerConnection(peerId);
       if (!pc || !webSocketService.value) return;
-      
+
       try {
         console.log("开始处理WebRTC提议，目标用户ID:", peerId, "屏幕共享:", message.isScreenShare);
         const state = pc.getSignalingState?.();
@@ -557,14 +565,14 @@ export const useWebRTCManager = (options: WebRTCManagerOptions) => {
         console.log("SDP提议处理成功，正在创建应答...");
         const answer = await pc.createAnswer();
         console.log("应答创建成功，正在发送...");
-        
+
         // 记录最近一次Offer，用于后续流类型匹配
         console.log("记录最新Offer信息:", message.senderId, "屏幕共享:", message.isScreenShare);
         lastOfferBySender.value.set(message.senderId, {
           isScreenShare: !!message.isScreenShare,
           timestamp: Date.now()
         });
-        
+
         // 发送answer，保留屏幕共享标记
         webSocketService.value.sendWebRtcAnswer({
           senderId: currentUserId.value,
@@ -593,11 +601,11 @@ export const useWebRTCManager = (options: WebRTCManagerOptions) => {
       const pc = getPeerConnection(peerId);
       pc.setRemoteDescription(message.answer).then(() => {
         console.log("WebRTC answer handled successfully for:", peerId);
-        
+
         // 远程描述设置成功后，处理该peer的ICE候选者队列
         console.log("远程描述设置完成，处理ICE候选者队列");
         processIceCandidateQueue(peerId);
-        
+
       }).catch((error) => {
         console.error("Error handling WebRTC answer:", error);
       });
@@ -609,20 +617,20 @@ export const useWebRTCManager = (options: WebRTCManagerOptions) => {
   // 重建所有peer connection
   const recreateAllPeerConnections = () => {
     console.log("强制重建所有peer connection");
-    
+
     // 关闭所有现有连接
     peerConnections.value.forEach(pc => pc.close());
     peerConnections.value.clear();
-    
+
     // 清空远程流
     remoteStreams.value.clear();
     remoteStreamElements.value.clear();
     participantStreams.value.clear();
-    
+
     // 重置协商状态
     negotiatingPeers.value.clear();
     lastOfferBySender.value.clear();
-    
+
     console.log("所有peer connection已重建");
   };
 
@@ -636,22 +644,22 @@ export const useWebRTCManager = (options: WebRTCManagerOptions) => {
   // 处理连接失败
   const handleConnectionFailure = (peerId: string, p2pId: string) => {
     console.warn("Handling connection failure for:", p2pId);
-    
+
     const health = connectionHealth.value.get(p2pId);
     const retries = health?.retries || 0;
-    
+
     if (retries < reconnectionConfig.maxRetries) {
       // 计算重试延迟（指数退避）
       const delay = Math.min(
         reconnectionConfig.initialDelay * Math.pow(reconnectionConfig.backoffFactor, retries),
         reconnectionConfig.maxDelay
       );
-      
+
       console.log(`Scheduling reconnection attempt ${retries + 1}/${reconnectionConfig.maxRetries} in ${delay}ms`);
-      
+
       setTimeout(() => {
         console.log(`Attempting to reconnect to ${peerId}`);
-        
+
         // 重建连接
         const pc = getPeerConnection(peerId, true);
         if (pc) {
@@ -660,7 +668,7 @@ export const useWebRTCManager = (options: WebRTCManagerOptions) => {
             lastAlive: Date.now(),
             retries: retries + 1
           });
-          
+
           // 发送offer以重新建立连接
           sendOfferToParticipant(peerId, false);
         }
@@ -679,22 +687,22 @@ export const useWebRTCManager = (options: WebRTCManagerOptions) => {
         clearInterval(checkInterval);
         return;
       }
-      
+
       const now = Date.now();
       const timeSinceLastAlive = now - health.lastAlive;
-      
+
       // 如果超过30秒没有活动，认为连接可能已断开
       if (timeSinceLastAlive > 30000) {
         console.warn(`Connection ${p2pId} appears to be inactive for ${timeSinceLastAlive}ms, checking state`);
-        
+
         const pc = peerConnections.value.get(p2pId);
         if (pc) {
           const connectionState = pc.getConnectionState();
           const iceState = pc.getIceConnectionState();
-          
+
           console.log(`Connection state check: ${connectionState}, ICE state: ${iceState}`);
-          
-          if (connectionState === "failed" || connectionState === "disconnected" || 
+
+          if (connectionState === "failed" || connectionState === "disconnected" ||
               iceState === "failed" || iceState === "disconnected") {
             console.warn(`Connection ${p2pId} is indeed disconnected, initiating reconnect`);
             handleConnectionFailure(peerId, p2pId);
@@ -724,13 +732,13 @@ export const useWebRTCManager = (options: WebRTCManagerOptions) => {
         // 这里可以通过mediaManager提高视频分辨率和帧率
       }
     };
-    
+
     // 监控网络质量
     const monitorNetworkQuality = () => {
       // 这里可以实现网络质量监控逻辑
       // 例如，通过定期发送小数据包并测量往返时间
     };
-    
+
     monitorNetworkQuality();
   };
 
@@ -749,7 +757,7 @@ export const useWebRTCManager = (options: WebRTCManagerOptions) => {
           }, 500);
         });
       }
-      
+
       // 发送offer
       sendOfferToParticipant(peerId, isScreenShare);
     } catch (error) {
@@ -790,7 +798,7 @@ export const useWebRTCManager = (options: WebRTCManagerOptions) => {
     currentVideoStream,
     connectionHealth,
     networkQuality,
-    
+
     // 方法
     getPeerConnection,
     updatePeerTracks,
