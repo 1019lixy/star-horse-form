@@ -6,7 +6,7 @@ const { inviteParticipants } = useMeetingCore();
 
 <template>
   <button class="control-btn" @click="inviteParticipants">
-    <el-icon><UserPlus /></el-icon>
+   <star-horse-icon iconClass="user-add"/>
     <span>邀请</span>
   </button>
 </template>

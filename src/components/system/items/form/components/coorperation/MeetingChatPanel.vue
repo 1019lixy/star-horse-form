@@ -38,7 +38,7 @@ const { chatMessages, chatMessagesRef, inputMessage, sendChatMessage, currentUse
     <div class="chat-input">
       <el-input v-model="inputMessage" placeholder="输入消息..." @keyup.enter.exact="sendChatMessage" />
       <button class="send-btn" @click="sendChatMessage">
-        <el-icon><Send /></el-icon>
+        <star-horse-icon iconClass="direction-up" color="#fff" />
       </button>
     </div>
   </div>
@@ -271,8 +271,8 @@ const { chatMessages, chatMessagesRef, inputMessage, sendChatMessage, currentUse
   color: #ffffff;
   border: none;
   border-radius: 8px;
-  padding: 0 20px;
-  height: 40px;
+  padding: 0 10px;
+  height: 30px;
   cursor: pointer;
   transition: all 0.3s ease;
   display: flex;
@@ -284,7 +284,6 @@ const { chatMessages, chatMessagesRef, inputMessage, sendChatMessage, currentUse
 
 .send-btn:hover {
   background: linear-gradient(135deg, #66b1ff 0%, #91cfff 100%);
-  transform: translateY(-2px);
   box-shadow: 0 4px 12px rgba(64, 158, 255, 0.4);
 }
 

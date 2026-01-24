@@ -318,7 +318,7 @@ export const useMeetingDialog = (emit?: any) => {
             try {
                 // 等待offer创建完成
                 console.log("等待offer创建完成...");
-                
+
                 // 使用Promise包装createOfferWhenStable函数
                 const offer = await new Promise<any>((resolve, reject) => {
                     createOfferWhenStable(peerId, (offer) => {
@@ -329,7 +329,7 @@ export const useMeetingDialog = (emit?: any) => {
                         }
                     });
                 });
-                
+
                 console.log("=== 准备发送WebRTC offer ===");
                 console.log("目标参与者:", peerId, "屏幕共享:", isScreenShare);
                 console.log("offer类型:", offer.type);
@@ -378,7 +378,7 @@ export const useMeetingDialog = (emit?: any) => {
     const sendOfferToAllParticipants = async (isScreenShare: boolean) => {
         console.log("=== 开始发送offer给所有参与者 ===");
         console.log("屏幕共享:", isScreenShare);
-        
+
         // 确保WebSocket连接稳定
         if (webSocketService.value && !isConnected.value) {
             console.warn("WebSocket连接已断开，尝试重新连接");
@@ -409,7 +409,7 @@ export const useMeetingDialog = (emit?: any) => {
         // 错开发送时间，避免同时处理多个offer导致的性能问题
         let successCount = 0;
         let failCount = 0;
-        
+
         for (let i = 0; i < onlineParticipants.length; i++) {
             const participant = onlineParticipants[i];
             console.log(`向第${i + 1}个参与者发送offer:`, participant.id, participant.name);
@@ -419,7 +419,7 @@ export const useMeetingDialog = (emit?: any) => {
                 await sendOfferToParticipant(participant.id, isScreenShare);
                 successCount++;
                 console.log(`向参与者 ${participant.id} 发送offer成功`);
-                
+
                 // 错开发送时间，避免并发问题
                 if (i < onlineParticipants.length - 1) {
                     await new Promise(resolve => setTimeout(resolve, 300)); // 增加延迟时间，确保处理完成
@@ -427,7 +427,7 @@ export const useMeetingDialog = (emit?: any) => {
             } catch (error) {
                 failCount++;
                 console.error(`向参与者 ${participant.id} 发送offer失败:`, error);
-                
+
                 // 尝试重试一次
                 try {
                     console.log(`尝试重新向参与者 ${participant.id} 发送offer`);
@@ -439,7 +439,7 @@ export const useMeetingDialog = (emit?: any) => {
                 } catch (retryError) {
                     console.error(`重试失败：向参与者 ${participant.id} 发送offer失败:`, retryError);
                 }
-                
+
                 // 继续处理下一个参与者，不中断整个流程
                 if (i < onlineParticipants.length - 1) {
                     await new Promise(resolve => setTimeout(resolve, 200));
@@ -447,12 +447,12 @@ export const useMeetingDialog = (emit?: any) => {
             }
         }
 
-        console.log(`=== 所有offer发送完成 ===`);
+        console.log("=== 所有offer发送完成 ===");
         console.log(`发送结果: 成功 ${successCount} 个, 失败 ${failCount} 个`);
-        
+
         // 如果有失败的情况，记录详细信息
         if (failCount > 0) {
-            console.warn(`部分参与者未收到offer，可能需要检查网络连接或WebRTC服务状态`);
+            console.warn("部分参与者未收到offer，可能需要检查网络连接或WebRTC服务状态");
         }
     };
 
@@ -578,7 +578,7 @@ export const useMeetingDialog = (emit?: any) => {
                     const streamInfo = remoteStreams.value.get(stream.id);
                     remoteStreams.value.delete(stream.id);
                     remoteStreamElements.value.delete(stream.id);
-                    
+
                     // 清理参与者与流的映射关系
                     participantStreams.value.forEach((streamId, participantId) => {
                         if (streamId === stream.id) {
@@ -586,7 +586,7 @@ export const useMeetingDialog = (emit?: any) => {
                             console.log("清理参与者与流的映射关系:", participantId);
                         }
                     });
-                    
+
                     // 清理屏幕共享状态
                     if (streamInfo && streamInfo.isScreenShare) {
                         if (currentScreenSharer.value &&
@@ -603,7 +603,7 @@ export const useMeetingDialog = (emit?: any) => {
         // 立即检查流的状态
         const hasActiveTracks = stream.getTracks().some(t => t.readyState === "live");
         console.log("流的当前状态 - 有活跃轨道:", hasActiveTracks);
-        
+
         if (!hasActiveTracks) {
             console.warn("接收到的流没有活跃轨道，可能是视频关闭的信号");
             // 清理该流
@@ -1261,7 +1261,7 @@ export const useMeetingDialog = (emit?: any) => {
             if (message.offer.type === "answer") {
                 ns.srdAnswerPending = true;
             }
-            
+
             try {
                 await pc.setRemoteDescription(message.offer);
                 console.log("远程描述设置成功，当前信令状态:", pc.getSignalingState?.());
@@ -1274,20 +1274,20 @@ export const useMeetingDialog = (emit?: any) => {
 
             if (message.offer.type === "offer") {
                 console.log("SDP提议处理成功，正在创建应答...");
-                
+
                 // 再次检查信令状态，确保当前状态是 have-remote-offer
                 const currentSignalingState = pc.getSignalingState?.();
                 if (currentSignalingState !== "have-remote-offer") {
                     console.warn(`无法创建 Answer：当前信令状态为 ${currentSignalingState}，必须是 have-remote-offer`);
-                    console.warn(`远程描述状态:`, pc.getRemoteDescription?.());
-                    console.warn(`本地描述状态:`, pc.getLocalDescription?.());
+                    console.warn("远程描述状态:", pc.getRemoteDescription?.());
+                    console.warn("本地描述状态:", pc.getLocalDescription?.());
                     return;
                 }
-                
+
                 try {
                     const answer = await pc.createAnswer();
                     console.log("应答创建成功，正在发送...");
-                    
+
                     // 检查WebSocket连接状态
                     if (!webSocketService.value || !isConnected.value) {
                         console.error("WebSocket连接已断开，无法发送answer");
@@ -1308,7 +1308,7 @@ export const useMeetingDialog = (emit?: any) => {
                             return;
                         }
                     }
-                    
+
                     // 发送answer，保留屏幕共享标记
                     await webSocketService.value.sendWebRtcAnswer({
                         senderId: currentUserId.value,
@@ -1321,7 +1321,7 @@ export const useMeetingDialog = (emit?: any) => {
                     console.error("创建或发送Answer失败:", error);
                     // 清理状态，避免影响后续操作
                     ns.srdAnswerPending = false;
-                    
+
                     // 尝试重置连接状态
                     try {
                         console.log("尝试重置连接状态");
@@ -1347,22 +1347,22 @@ export const useMeetingDialog = (emit?: any) => {
     const handleIncomingWebRtcAnswer = async (message: any) => {
         try {
             console.log("接收到WebRTC应答:", message);
-            
+
             // 验证消息格式
             if (!message || !message.answer || !message.senderId) {
                 console.error("无效的WebRTC应答消息:", message);
                 return;
             }
-            
+
             const peerId = message.senderId;
             const pc = getPeerConnection(peerId);
-            
+
             // 检查peer connection是否存在
             if (!pc) {
                 console.error("Peer connection不存在，无法处理WebRTC应答:", peerId);
                 return;
             }
-            
+
             const ns = getNegotiationState(peerId);
 
             ns.srdAnswerPending = true;
@@ -1378,7 +1378,7 @@ export const useMeetingDialog = (emit?: any) => {
             } catch (error) {
                 console.error("Error handling WebRTC answer:", error);
                 ns.srdAnswerPending = false;
-                
+
                 // 尝试重置连接状态
                 try {
                     console.log("尝试重置连接状态");
@@ -1751,11 +1751,17 @@ export const useMeetingDialog = (emit?: any) => {
     };
 
     // 侧边栏显示状态
-    const sidebarVisible = ref(true);
+    const sidebarVisible = ref(window.innerWidth >= 768);
 
     // 切换侧边栏显示/隐藏
     const toggleSidebar = () => {
         sidebarVisible.value = !sidebarVisible.value;
+    };
+
+    // 响应式处理：根据屏幕宽度自动显示/隐藏侧边栏
+    const handleResize = () => {
+        // 当屏幕宽度小于768px时，自动隐藏侧边栏；否则显示侧边栏
+        sidebarVisible.value = window.innerWidth >= 768;
     };
 
     // 最大化屏幕共享
@@ -1996,13 +2002,13 @@ export const useMeetingDialog = (emit?: any) => {
                 // 发送offer给所有参与者，通知视频已关闭
                 console.log("发送offer给所有参与者，通知视频已关闭");
                 await sendOfferToAllParticipants(false);
-                
+
                 console.log("=== 视频关闭完成 ===");
 
             } else {
                 // 开启视频
                 console.log("=== 开始开启视频 ===");
-                
+
                 // 确保WebSocket连接稳定
                 if (webSocketService.value && !isConnected.value) {
                     console.warn("WebSocket连接已断开，尝试重新连接");
@@ -2026,16 +2032,16 @@ export const useMeetingDialog = (emit?: any) => {
 
                 console.log("获取摄像头流");
                 const stream = await videoManager.getCameraStream(videoConstraints);
-                
+
                 // 注意：videoManager的onStreamAcquired回调会自动处理以下操作：
                 // 1. 设置localStreamRef.value.srcObject = stream
                 // 2. 设置isVideoEnabled.value = true
                 // 3. 设置currentVideoStream = stream
                 // 4. 调用updateAllPeerTracks()
                 // 5. 调用sendOfferToAllParticipants(false)
-                
+
                 console.log("视频开启请求已发送，等待回调处理");
-                
+
                 console.log("=== 视频开启完成 ===");
             }
         } catch (error) {
@@ -2262,6 +2268,9 @@ export const useMeetingDialog = (emit?: any) => {
                 }
             }
         }, 1000);
+
+        // 添加resize事件监听器，根据屏幕宽度自动显示/隐藏侧边栏
+        window.addEventListener('resize', handleResize);
     });
 
     // 组件卸载时清理WebRTC和WebSocket资源
@@ -2289,6 +2298,9 @@ export const useMeetingDialog = (emit?: any) => {
 
         // 清理WebRTC资源
         cleanupWebRTC();
+
+        // 移除resize事件监听器
+        window.removeEventListener('resize', handleResize);
     });
 
     // 监听消息变化，自动滚动到最新消息
@@ -2372,6 +2384,7 @@ export const useMeetingDialog = (emit?: any) => {
         isCurrentUserHost,
         sidebarVisible,
         toggleSidebar,
+        handleResize,
         maximizeScreenShareForParticipant,
         participantsVisible,
         toggleParticipants,

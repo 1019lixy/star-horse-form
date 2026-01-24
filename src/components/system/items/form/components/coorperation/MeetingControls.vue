@@ -36,15 +36,15 @@ const isHandRaised = () => {
       <span>{{ isRecording ? '停止录制' : '开始录制' }}</span>
     </button>
     <button class="control-btn" :class="{ active: isHandRaised() }" @click="toggleRaiseHand(currentUserId)">
-      <el-icon><Hand /></el-icon>
+      <el-icon><Avatar /></el-icon>
       <span>{{ isHandRaised() ? '放下手' : '举手' }}</span>
     </button>
     <MeetingInviteButton />
     <el-dropdown trigger="click">
-      <button class="control-btn">
-        <el-icon><More /></el-icon>
+      <div class="control-btn px-2">
+        <el-icon><More/></el-icon>
         <span>更多</span>
-      </button>
+      </div>
       <template #dropdown>
         <el-dropdown-menu>
           <el-dropdown-item @click="toggleMuteAll">

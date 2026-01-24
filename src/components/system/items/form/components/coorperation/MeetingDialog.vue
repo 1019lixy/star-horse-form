@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { ref, watch } from "vue";
 import { provideMeetingCore } from "./meeting-core-context";
 import { useMeetingDialog } from "./useMeetingDialog";
 import MeetingVideoPanel from "./MeetingVideoPanel.vue";
@@ -30,11 +31,30 @@ const {
   currentUserName,
   sidebarVisible,
   toggleSidebar,
+  handleResize,
   participantsVisible,
   toggleParticipants,
   onlineParticipantsCount,
   switchUser
 } = core;
+
+// 会议信息折叠状态
+const meetingMetaCollapsed = ref(false);
+
+// 切换会议信息折叠状态
+const toggleMeetingMeta = () => {
+  meetingMetaCollapsed.value = !meetingMetaCollapsed.value;
+};
+
+// 监听 dialog 显示状态，当 dialog 显示时重新计算 sidebarVisible 的值
+watch(
+  () => props.visible,
+  (newVisible) => {
+    if (newVisible) {
+      handleResize();
+    }
+  }
+);
 </script>
 
 <template>
@@ -56,7 +76,13 @@ const {
         <!-- 会议信息 -->
         <div class="meeting-info">
           <div class="meeting-header">
-            <div class="meeting-name">{{ meetingInfo.name }}</div>
+            <div class="meeting-name">
+              {{ meetingInfo.name }}
+              <button class="meta-toggle-icon" @click="toggleMeetingMeta">
+                <el-icon v-if="meetingMetaCollapsed"><Minus /></el-icon>
+                <el-icon v-else><Plus /></el-icon>
+              </button>
+            </div>
             <div class="user-selection">
               <span>当前身份:</span>
               <div class="user-options">
@@ -76,7 +102,7 @@ const {
               {{ sidebarVisible ? '隐藏侧边栏' : '显示侧边栏' }}
             </button>
           </div>
-          <div class="meeting-meta">
+          <div v-if="!meetingMetaCollapsed" class="meeting-meta">
             <span class="meta-item">会议ID: {{ meetingInfo.id }}</span>
             <span class="meta-item">开始时间: {{ meetingInfo.startTime }}</span>
             <span class="meta-item">主持人: {{ meetingInfo.host }}</span>
@@ -187,6 +213,28 @@ const {
   font-weight: 600;
   flex: 1;
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.meta-toggle-icon {
+  background: #fff;
+  border: none;
+  color: #ffffff;
+  cursor: pointer;
+  font-size: 16px;
+  padding: 4px;
+  border-radius: 4px;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.meta-toggle-icon:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+  transform: rotate(15deg);
 }
 
 .user-selection {
