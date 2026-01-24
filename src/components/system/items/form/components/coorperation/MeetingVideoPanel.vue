@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useMeetingCore } from "./meeting-core-context";
+import { ref, useMeetingCore } from "vue";
 
 const {
   currentScreenSharer,
@@ -13,6 +13,15 @@ const {
   setRemoteVideoRef,
   maximizeScreenShareForParticipant
 } = useMeetingCore();
+
+// 参与者状态显示状态
+const participantStatusVisible = ref<Map<string, boolean>>(new Map());
+
+// 切换参与者状态显示
+const toggleParticipantStatus = (participantId: string) => {
+  const currentVisible = participantStatusVisible.value.get(participantId) || false;
+  participantStatusVisible.value.set(participantId, !currentVisible);
+};
 </script>
 
 <template>
@@ -53,55 +62,60 @@ const {
             playsinline
           ></video>
           <div class="participant-status">
-            <div class="status-indicator online"></div>
-            <span class="participant-name">我</span>
-            <span class="host-badge">本地</span>
-            <span v-if="isScreenSharing" class="screen-share-badge">屏幕共享</span>
+            <div class="status-indicator online" @click="toggleParticipantStatus('local')"></div>
+            <template v-if="participantStatusVisible.get('local') || !localStreamRef?.value?.srcObject">
+              <span class="participant-name">我</span>
+              <span class="host-badge">本地</span>
+              <span v-if="isScreenSharing" class="screen-share-badge">屏幕共享</span>
+            </template>
           </div>
         </div>
       </div>
 
       <!-- 远程参与者视频 -->
-      <template v-for="item in participants">
-        <div
-          :key="item?.id || 'unknown'"
-          class="video-item"
-          v-if="item.id !== currentUserId"
-          :class="{ offline: item.status !== 'online' }"
-        >
-          <div class="video-preview">
-            <template v-if="item.status === 'online'">
-              <template v-for="[streamId, streamInfo] in remoteStreamEntries">
-                <video
-                  :key="streamId"
-                  v-if="streamInfo?.senderId === item.id || !streamInfo.senderId"
-                  :ref="setRemoteVideoRef(streamId)"
-                  class="remote-video-element"
-                  autoplay
-                  playsinline
-                ></video>
+        <template v-for="item in participants">
+          <div
+            :key="item?.id || 'unknown'"
+            class="video-item"
+            v-if="item.id !== currentUserId"
+            :class="{ offline: item.status !== 'online' }"
+            @dblclick="item.status === 'online' && hasParticipantStream(item.id) && maximizeScreenShareForParticipant(item.id)"
+          >
+            <div class="video-preview">
+              <template v-if="item.status === 'online'">
+                <template v-for="[streamId, streamInfo] in remoteStreamEntries">
+                  <video
+                    :key="streamId"
+                    v-if="streamInfo?.senderId === item.id || !streamInfo.senderId"
+                    :ref="setRemoteVideoRef(streamId)"
+                    class="remote-video-element"
+                    autoplay
+                    playsinline
+                  ></video>
+                </template>
+                <img v-if="!hasParticipantStream(item.id)" :src="item.avatar" :alt="item.name" class="avatar"/>
               </template>
-              <img v-if="!hasParticipantStream(item.id)" :src="item.avatar" :alt="item.name" class="avatar"/>
-            </template>
-            <img v-else :src="item.avatar" :alt="item.name" class="avatar"/>
+              <img v-else :src="item.avatar" :alt="item.name" class="avatar"/>
 
-            <div class="participant-status">
-              <div class="status-indicator" :class="item.status"></div>
-              <span class="participant-name">{{ item.name }}</span>
-              <span v-if="item.role === 'host'" class="host-badge">主持人</span>
-              <span v-if="item.status === 'online' && hasParticipantScreenShare(item.id)" class="screen-share-badge">屏幕共享</span>
-              <button
-                v-if="item.status === 'online' && hasParticipantScreenShare(item.id)"
-                class="maximize-screen-share-btn"
-                @click="maximizeScreenShareForParticipant(item.id)"
-              >
-                <el-icon><FullScreen /></el-icon>
-                最大化
-              </button>
+              <div class="participant-status">
+                <div class="status-indicator" :class="item.status" @click="toggleParticipantStatus(item.id)"></div>
+                <template v-if="participantStatusVisible.get(item.id) || !hasParticipantStream(item.id)">
+                  <span class="participant-name">{{ item.name }}</span>
+                  <span v-if="item.role === 'host'" class="host-badge">主持人</span>
+                  <span v-if="item.status === 'online' && hasParticipantScreenShare(item.id)" class="screen-share-badge">屏幕共享</span>
+                  <button
+                    v-if="item.status === 'online' && hasParticipantScreenShare(item.id)"
+                    class="maximize-screen-share-btn"
+                    @click="maximizeScreenShareForParticipant(item.id)"
+                  >
+                    <el-icon><FullScreen /></el-icon>
+                    最大化
+                  </button>
+                </template>
+              </div>
             </div>
           </div>
-        </div>
-      </template>
+        </template>
     </div>
   </div>
 </template>
@@ -265,6 +279,12 @@ const {
   background-color: #909399;
   transition: all 0.3s ease;
   flex-shrink: 0;
+  cursor: pointer;
+}
+
+.status-indicator:hover {
+  transform: scale(1.2);
+  box-shadow: 0 0 12px rgba(103, 194, 58, 0.8);
 }
 
 .status-indicator.online {
