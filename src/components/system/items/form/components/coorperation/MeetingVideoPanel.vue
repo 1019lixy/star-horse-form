@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { ref, useMeetingCore } from "vue";
+import { ref } from "vue";
+import {useMeetingCore} from "@/components/system/items/form/components/coorperation/meeting-core-context";
 
 const {
   currentScreenSharer,
