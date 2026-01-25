@@ -2222,8 +2222,8 @@ export const useMeetingDialog = (emit?: any) => {
                 avatar: initialUser.avatar,
                 role: isHost ? "host" : "participant",
                 status: "online",
-                audio: false,
-                video: false
+                audio: true,
+                video: true
             };
             participants.value.push(newParticipant);
             console.log("添加初始在线用户:", currentUserName.value, "角色:", newParticipant.role);
