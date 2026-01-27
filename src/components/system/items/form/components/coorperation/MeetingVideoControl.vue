@@ -5,8 +5,8 @@ const { isVideoEnabled, toggleVideo } = useMeetingCore();
 </script>
 
 <template>
-  <button class="control-btn" :class="{ active: isVideoEnabled }" @click="toggleVideo">
+  <button class="flex flex-col items-center justify-center px-4 py-3 rounded-lg hover:bg-gray-100 transition-all duration-300 border border-blue-100/30" :class="{ 'bg-gradient-to-br from-blue-500 to-blue-400 text-white shadow-md': isVideoEnabled }" @click="toggleVideo">
     <el-icon><VideoCamera /></el-icon>
-    <span>{{ isVideoEnabled ? '关闭视频' : '开启视频' }}</span>
+    <span class="mt-1 text-xs">{{ isVideoEnabled ? '关闭视频' : '开启视频' }}</span>
   </button>
 </template>
