@@ -2,8 +2,7 @@
 
 import {StarHorseDialog} from "star-horse-lowcode";
 import {computed, nextTick, onMounted, onUnmounted, ref, watch} from "vue";
-import {DataChannelManager, DEFAULT_DATA_CHANNEL_OPTIONS} from "@/utils/webrtc/data-channel-manager";
-import {WebSocketService, MessageType} from "@/utils/websocket/WebSocketService";
+import {ChatSocketService} from "@/utils/websocket/ChatSocketService";
 
 const emit = defineEmits<{
   (e: "close"): void;
@@ -146,15 +145,15 @@ const groupUnreadCounts = ref<Record<string, number>>({});
 const inputMessage = ref("");
 
 // WebSocket服务管理
-const webSocketService = ref<WebSocketService | null>(null);
+const webSocketService = ref<ChatSocketService | null>(null);
 const isConnected = ref(false);
 const connectionStatus = ref("未连接");
 const messageSubscriptions = ref<string[]>([]);
 
 // 预设用户身份选项
 const userIdentities = [
-  { id: "zhangsan", name: "张三" },
-  { id: "lisi", name: "李四" }
+  {id: "zhangsan", name: "张三"},
+  {id: "lisi", name: "李四"}
 ];
 
 // 当前用户身份
@@ -170,7 +169,7 @@ const updateCurrentIdentity = (identity: any) => {
   console.log("当前用户身份已更新:", identity.name, "ID:", identity.id);
 
   // 重新注册用户
-  if (webSocketService.value && webSocketService.value.isWebRtcConnected()) {
+  if (webSocketService.value && webSocketService.value.isChatConnected()) {
     webSocketService.value.registerUser(currentUserId.value, "session_" + Date.now());
     console.log("用户已重新注册，ID:", currentUserId.value);
   }
@@ -192,21 +191,15 @@ const updateCurrentIdentity = (identity: any) => {
 const initWebSocketService = () => {
   try {
     console.log("Initializing WebSocket service");
-    webSocketService.value = new WebSocketService({
+    webSocketService.value = new ChatSocketService({
       chatEndpoint: "/api/ws/chat",
-      webrtcEndpoint: "/api/ws/webrtc",
       onChatConnected: () => {
         console.log("Chat WebSocket连接已建立");
         isConnected.value = true;
         connectionStatus.value = "已连接";
         subscribeToMessages();
       },
-      onWebRtcConnected: () => {
-        console.log("WebRTC WebSocket连接已建立");
-        // 注册用户
-        webSocketService.value?.registerUser(currentUserId.value, "session_" + Date.now());
-        console.log("用户已注册，ID:", currentUserId.value);
-      },
+
       onError: (error) => {
         console.error("WebSocket错误:", error);
         connectionStatus.value = "错误: " + error;
@@ -257,7 +250,7 @@ const subscribeToMessages = () => {
   // 订阅私人消息
   const privateSubscription = webSocketService.value.subscribeToPrivateMessages((message) => {
     handleIncomingMessage(message);
-  },currentUserId.value);
+  }, currentUserId.value);
   if (privateSubscription) {
     messageSubscriptions.value.push(privateSubscription);
   }
@@ -272,13 +265,6 @@ const subscribeToMessages = () => {
     }
   }
 
-  // 订阅会议消息
-  const meetingSubscription = webSocketService.value.subscribeToMeetingMessages("meeting1", (message) => {
-    handleIncomingMessage(message);
-  });
-  if (meetingSubscription) {
-    messageSubscriptions.value.push(meetingSubscription);
-  }
 };
 
 // 监听群组切换，重新订阅消息
@@ -308,16 +294,16 @@ const handleIncomingMessage = (message: any) => {
         // 1. 消息是当前用户发送的
         // 2. 消息是发送给当前用户的
         const isRelevantMessage =
-          message.senderId === currentUserId.value ||
-          message.targetUserId === currentUserId.value;
+            message.senderId === currentUserId.value ||
+            message.targetUserId === currentUserId.value;
 
         if (isRelevantMessage) {
           // 确定消息所属的聊天对象
           // 1. 如果是当前用户发送的，聊天对象是targetUserId
           // 2. 如果是其他用户发送的，聊天对象是senderId
           const chatUserId = message.senderId === currentUserId.value
-            ? message.targetUserId
-            : message.senderId;
+              ? message.targetUserId
+              : message.senderId;
 
           // 确保聊天对象的消息数组存在
           if (!userMessages.value[chatUserId]) {
@@ -550,7 +536,7 @@ watch(
     () => {
       scrollToBottom();
     },
-    {immediate:true,deep: true}
+    {immediate: true, deep: true}
 );
 // 修改selectedUser的watch，当切换聊天对象时清空未读消息数量
 watch(selectedUser, (newUser) => {
@@ -601,93 +587,98 @@ onUnmounted(() => {
     <el-splitter>
       <!-- 用户列表区域 -->
       <el-splitter-panel size="25%" collapsible>
-        <div class="user-list-container">
+        <div class="flex flex-col h-full bg-gray-50">
           <!-- 身份选择 -->
-          <div class="identity-selector">
-            <div class="identity-label">当前身份:</div>
-            <div class="identity-options">
+          <div class="p-2.5 bg-white border-b border-gray-200 flex items-center gap-2.5">
+            <div class="text-xs text-gray-500 whitespace-nowrap">当前身份:</div>
+            <div class="flex gap-2">
               <div
-                v-for="identity in userIdentities"
-                :key="identity.id"
-                class="identity-option"
-                :class="{ active: currentIdentity.id === identity.id }"
-                @click="updateCurrentIdentity(identity)"
+                  v-for="identity in userIdentities"
+                  :key="identity.id"
+                  class="px-3 py-1 rounded-full text-xs cursor-pointer bg-gray-100 text-gray-800 transition-all duration-300 hover:bg-blue-50"
+                  :class="{ 'bg-blue-500 text-white': currentIdentity.id === identity.id }"
+                  @click="updateCurrentIdentity(identity)"
               >
                 {{ identity.name }}
               </div>
             </div>
           </div>
           <!-- TAB切换 -->
-          <div class="tab-container">
+          <div class="flex border-b border-gray-200 bg-white">
             <div
-                class="tab-item"
-                :class="{ active: activeTab === 'users' }"
+                class="flex-1 py-2.5 text-center text-sm cursor-pointer transition-all duration-300 text-gray-600 border-b-2 border-transparent hover:text-blue-500"
+                :class="{ 'text-blue-500 border-blue-500': activeTab === 'users' }"
                 @click="activeTab = 'users'"
             >
               用户
             </div>
             <div
-                class="tab-item"
-                :class="{ active: activeTab === 'groups' }"
+                class="flex-1 py-2.5 text-center text-sm cursor-pointer transition-all duration-300 text-gray-600 border-b-2 border-transparent hover:text-blue-500"
+                :class="{ 'text-blue-500 border-blue-500': activeTab === 'groups' }"
                 @click="activeTab = 'groups'"
             >
               群组
             </div>
           </div>
           <!-- 搜索框 -->
-          <div class="search-box">
+          <div class="p-2.5 bg-white border-b border-gray-200">
             <el-input
                 v-model="searchQuery"
                 :placeholder="activeTab === 'users' ? '搜索用户' : '搜索群组'"
                 size="small"
             >
-                <template #prefix>
-                    <el-icon><Search /></el-icon>
-                </template>
+              <template #prefix>
+                <el-icon>
+                  <Search/>
+                </el-icon>
+              </template>
             </el-input>
           </div>
           <!-- 用户列表 -->
-          <div v-if="activeTab === 'users'" class="user-list">
+          <div v-if="activeTab === 'users'" class="flex-1 overflow-y-auto p-0">
             <div
                 v-for="user in filteredUsers"
                 :key="user.id"
-                class="user-item"
-                :class="{ active: selectedUser.id === user.id }"
+                class="flex items-center p-3 cursor-pointer transition-all duration-300 hover:bg-gray-100"
+                :class="{ 'bg-blue-50': selectedUser.id === user.id }"
                 @click="selectUser(user)"
             >
-              <div class="user-avatar">
-                <img :src="user.avatar" alt="avatar"/>
-                <div class="online-status" :class="{ online: user.online }"></div>
+              <div class="relative mr-3">
+                <img :src="user.avatar" alt="avatar" class="w-10 h-10 rounded-full object-cover"/>
+                <div class="absolute bottom-0 right-0 w-3 h-3 rounded-full border-2 border-white" :class="user.online ? 'bg-green-500' : 'bg-gray-400'"
+                ></div>
               </div>
-              <div class="user-info">
-                <div class="user-name">{{ user.name }}</div>
-                <div class="user-message">最近消息...</div>
+              <div class="flex-1 min-w-0">
+                <div class="text-sm font-medium text-gray-800 mb-1">{{ user.name }}</div>
+                <div class="text-xs text-gray-400 whitespace-nowrap overflow-hidden text-ellipsis">最近消息...</div>
               </div>
-              <div v-if="getUserUnreadCount(user.id) > 0" class="unread-badge">
-  {{ getUserUnreadCount(user.id) }}
-</div>
+              <div class="bg-red-500 text-white text-xs min-w-4.5 h-4.5 leading-4.5 text-center rounded-full px-1.5">
+                {{ getUserUnreadCount(user.id) }}
+              </div>
             </div>
           </div>
           <!-- 群组列表 -->
-          <div v-if="activeTab === 'groups'" class="group-list">
+          <div v-if="activeTab === 'groups'" class="flex-1 overflow-y-auto p-0">
             <div
                 v-for="group in groups"
                 :key="group.id"
-                class="group-item"
-                :class="{ active: selectedGroup.id === group.id }"
+                class="flex items-center p-3 cursor-pointer transition-all duration-300 hover:bg-gray-100"
+                :class="{ 'bg-blue-50': selectedGroup.id === group.id }"
                 @click="selectGroup(group)"
             >
-              <div class="group-avatar">
-                <img :src="group.avatar" alt="avatar"/>
-                <div class="member-count">{{ group.memberCount }}人</div>
+              <div class="relative mr-3">
+                <img :src="group.avatar" alt="avatar" class="w-10 h-10 rounded-full object-cover"/>
+                <div class="absolute bottom-[-4px] right-[-4px] bg-red-500 text-white text-xs min-w-4 h-4 leading-4 text-center rounded-full px-1">
+                  {{ group.memberCount }}人
+                </div>
               </div>
-              <div class="group-info">
-                <div class="group-name">{{ group.name }}</div>
-                <div class="group-message">最近消息...</div>
+              <div class="flex-1 min-w-0">
+                <div class="text-sm font-medium text-gray-800 mb-1">{{ group.name }}</div>
+                <div class="text-xs text-gray-400 whitespace-nowrap overflow-hidden text-ellipsis">最近消息...</div>
               </div>
-              <div v-if="getGroupUnreadCount(group.id) > 0" class="unread-badge">
-  {{ getGroupUnreadCount(group.id) }}
-</div>
+              <div class="bg-red-500 text-white text-xs min-w-4.5 h-4.5 leading-4.5 text-center rounded-full px-1.5">
+                {{ getGroupUnreadCount(group.id) }}
+              </div>
             </div>
           </div>
         </div>
@@ -698,42 +689,61 @@ onUnmounted(() => {
         <el-splitter layout="vertical">
           <!-- 聊天消息区域 -->
           <el-splitter-panel size="85%">
-            <div class="message-container">
-              <div class="message-header">
-                <div class="chat-title">{{ activeTab === 'users' ? selectedUser.name : selectedGroup.name }}</div>
-                <div class="chat-actions">
+            <div class="flex flex-col bg-gray-100 h-full overflow-hidden">
+              <div class="flex justify-between items-center p-4 bg-white border-b border-gray-200 flex-shrink-0 sticky top-0 z-10">
+                <div class="text-base font-medium text-gray-800">{{ activeTab === 'users' ? selectedUser.name : selectedGroup.name }}</div>
+                <div class="flex items-center gap-2">
                   <el-button size="small" type="text" :title="connectionStatus">
-                    <el-icon v-if="isConnected"><VideoCamera /></el-icon>
-                    <el-icon v-else><VideoCamera /></el-icon>
-                    <span style="margin-left: 5px; font-size: 12px;">{{ connectionStatus }}</span>
+                    <el-icon v-if="isConnected">
+                      <VideoCamera/>
+                    </el-icon>
+                    <el-icon v-else>
+                      <VideoCamera/>
+                    </el-icon>
+                    <span class="ml-1.5 text-xs">{{ connectionStatus }}</span>
                   </el-button>
                   <el-button size="small" type="text">
-                    <el-icon><More /></el-icon>
+                    <el-icon>
+                      <More/>
+                    </el-icon>
                   </el-button>
                 </div>
               </div>
-              <div class="message-list" ref="messageListRef">
+              <div class="flex-1 overflow-y-auto p-5 flex flex-col gap-4" ref="messageListRef">
                 <div
                     v-for="message in messages"
                     :key="message.id"
-                    class="message-item"
-                    :class="{ 'self-message': message.isSelf }"
+                    class="flex items-start gap-3"
+                    :class="{ 'justify-end': message.isSelf }"
                 >
-                  <div class="message-avatar">
+                  <div v-if="!message.isSelf" class="flex-shrink-0">
                     <img
-                      :src="message.isSelf ? 'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png' : (activeTab === 'users' ? selectedUser.avatar : selectedGroup.avatar)"
-                      alt="avatar"
+                        :src="activeTab === 'users' ? selectedUser.avatar : selectedGroup.avatar"
+                        alt="avatar"
+                        class="w-9 h-9 rounded-full object-cover"
                     />
                   </div>
-                  <div class="message-content">
+                  <div class="max-w-[70%] min-w-0">
                     <!-- 群组消息显示发送者名称 -->
-                    <div v-if="activeTab === 'groups' && !message.isSelf" class="message-sender">
+                    <div v-if="activeTab === 'groups' && !message.isSelf" class="text-xs text-gray-600 ml-2 mb-1">
                       {{ message.senderName }}
                     </div>
-                    <div class="message-bubble" :class="{ 'self-bubble': message.isSelf }">
+                    <div v-if="!message.isSelf" class="mt-1.5 p-2.5 rounded-2xl rounded-bl-sm bg-white text-gray-800 text-sm self-start">
                       {{ message.content }}
                     </div>
-                    <div class="message-time">{{ message.time }}</div>
+                    <div v-else class="mt-1.5 p-2.5 rounded-2xl rounded-br-sm bg-blue-100 text-gray-800 text-sm self-end">
+                      {{ message.content }}
+                    </div>
+                    <div class="text-xs text-gray-400" :class="message.isSelf ? 'text-right' : 'text-left'">
+                      {{ message.time }}
+                    </div>
+                  </div>
+                  <div v-if="message.isSelf" class="flex-shrink-0">
+                    <img
+                        src="https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png"
+                        alt="avatar"
+                        class="w-9 h-9 rounded-full object-cover"
+                    />
                   </div>
                 </div>
               </div>
@@ -741,25 +751,28 @@ onUnmounted(() => {
           </el-splitter-panel>
 
           <!-- 消息输入区域 -->
-          <el-splitter-panel class="input-container" size="180" min="180">
-            <div class="input-toolbar">
-              <star-horse-icon iconClass="icon" size="16px"/>
-              <star-horse-icon iconClass="image" size="16px"/>
-              <star-horse-icon iconClass="document" size="16px"/>
-              <star-horse-icon iconClass="phone" size="16px"/>
-            </div>
-            <div class="input-box">
-              <el-input
-                  v-model="inputMessage"
-                  type="textarea"
-                  placeholder="输入消息..."
-                  resize="none"
-                  rows="3"
-                  @keyup.enter.exact="sendMessage"
-              />
-            </div>
-            <div class="input-actions">
-              <el-button type="primary" @click="sendMessage">发送</el-button>
+          <el-splitter-panel size="180" min="180">
+            <div class="bg-white border-t border-gray-200 p-2.5 overflow-hidden">
+              <div class="flex gap-2 items-center mb-2">
+                <star-horse-icon iconClass="icon" size="16px"/>
+                <star-horse-icon iconClass="image" size="16px"/>
+                <star-horse-icon iconClass="document" size="16px"/>
+                <star-horse-icon iconClass="phone" size="16px"/>
+              </div>
+              <div class="mb-2.5">
+                <el-input
+                    v-model="inputMessage"
+                    type="textarea"
+                    placeholder="输入消息..."
+                    resize="none"
+                    rows="3"
+                    @keyup.enter.exact="sendMessage"
+                    class="rounded-lg border border-gray-300"
+                />
+              </div>
+              <div class="flex justify-end">
+                <el-button type="primary" @click="sendMessage">发送</el-button>
+              </div>
             </div>
           </el-splitter-panel>
         </el-splitter>
@@ -769,392 +782,21 @@ onUnmounted(() => {
 </template>
 
 <style scoped>
-/* 用户列表样式 */
-.user-list-container {
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  background-color: #f5f7fa;
-}
-
-.identity-selector {
-  padding: 10px;
-  background-color: #ffffff;
-  border-bottom: 1px solid #e4e7ed;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.identity-label {
-  font-size: 12px;
-  color: #909399;
-  white-space: nowrap;
-}
-
-.identity-options {
-  display: flex;
-  gap: 8px;
-}
-
-.identity-option {
-  padding: 4px 12px;
-  border-radius: 12px;
-  font-size: 12px;
-  cursor: pointer;
-  background-color: #f0f2f5;
-  color: #303133;
-  transition: all 0.3s;
-}
-
-.identity-option:hover {
-  background-color: #e6f7ff;
-}
-
-.identity-option.active {
-  background-color: #409eff;
-  color: #ffffff;
-}
-
-/* TAB容器样式 */
-.tab-container {
-  display: flex;
-  border-bottom: 1px solid #e4e7ed;
-  background-color: #ffffff;
-}
-
-.tab-item {
-  flex: 1;
-  padding: 10px 0;
-  text-align: center;
-  font-size: 14px;
-  cursor: pointer;
-  transition: all 0.3s;
-  color: #606266;
-  border-bottom: 2px solid transparent;
-}
-
-.tab-item:hover {
-  color: #409eff;
-}
-
-.tab-item.active {
-  color: #409eff;
-  border-bottom-color: #409eff;
-}
-
-.search-box {
-  padding: 10px;
-  background-color: #ffffff;
-  border-bottom: 1px solid #e4e7ed;
-}
-
-.user-list {
-  flex: 1;
-  overflow-y: auto;
-  padding: 10px 0;
-}
-
-.user-item {
-  display: flex;
-  align-items: center;
-  padding: 12px 16px;
-  cursor: pointer;
-  transition: background-color 0.3s;
-  position: relative;
-}
-
-.user-item:hover {
-  background-color: #f0f2f5;
-}
-
-.user-item.active {
-  background-color: #e6f7ff;
-}
-
-.user-avatar {
-  position: relative;
-  margin-right: 12px;
-}
-
-.user-avatar img {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  object-fit: cover;
-}
-
-.online-status {
-  position: absolute;
-  bottom: 0;
-  right: 0;
-  width: 12px;
-  height: 12px;
-  border-radius: 50%;
-  background-color: #909399;
-  border: 2px solid #ffffff;
-}
-
-.online-status.online {
-  background-color: #67c23a;
-}
-
-.user-info {
-  flex: 1;
-  min-width: 0;
-}
-
-.user-name {
-  font-size: 14px;
-  font-weight: 500;
-  color: #303133;
-  margin-bottom: 4px;
-}
-
-.user-message {
-  font-size: 12px;
-  color: #909399;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.unread-badge {
-  background-color: #f56c6c;
-  color: #ffffff;
-  font-size: 12px;
-  min-width: 18px;
-  height: 18px;
-  line-height: 18px;
-  text-align: center;
-  border-radius: 9px;
-  padding: 0 6px;
-}
-
-/* 群组列表样式 */
-.group-list {
-  flex: 1;
-  overflow-y: auto;
-  padding: 10px 0;
-}
-
-.group-item {
-  display: flex;
-  align-items: center;
-  padding: 12px 16px;
-  cursor: pointer;
-  transition: background-color 0.3s;
-  position: relative;
-}
-
-.group-item:hover {
-  background-color: #f0f2f5;
-}
-
-.group-item.active {
-  background-color: #e6f7ff;
-}
-
-.group-avatar {
-  position: relative;
-  margin-right: 12px;
-}
-
-.group-avatar img {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  object-fit: cover;
-}
-
-.member-count {
-  position: absolute;
-  bottom: -4px;
-  right: -4px;
-  background-color: #f56c6c;
-  color: #ffffff;
-  font-size: 10px;
-  min-width: 16px;
-  height: 16px;
-  line-height: 16px;
-  text-align: center;
-  border-radius: 8px;
-  padding: 0 4px;
-}
-
-.group-info {
-  flex: 1;
-  min-width: 0;
-}
-
-.group-name {
-  font-size: 14px;
-  font-weight: 500;
-  color: #303133;
-  margin-bottom: 4px;
-}
-
-.group-message {
-  font-size: 12px;
-  color: #909399;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-/* 消息容器样式 */
-.message-container {
-  display: flex;
-  flex-direction: column;
-  background-color: #f0f2f5;
-  height: 100%;
-  overflow: hidden;
-}
-
-.message-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 10px 16px;
-  background-color: #ffffff;
-  border-bottom: 1px solid #e4e7ed;
-  flex-shrink: 0;
-  position: sticky;
-  top: 0;
-  z-index: 10;
-}
-
-.chat-title {
-  font-size: 16px;
-  font-weight: 500;
-  color: #303133;
-}
-
-.message-list {
-  flex: 1;
-  overflow-y: auto;
-  padding: 20px;
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-  height: calc(100% - 50px);
-}
-
-.message-item {
-  display: flex;
-  align-items: flex-start;
-  gap: 12px;
-}
-
-.self-message {
-  flex-direction: row-reverse;
-}
-
-.message-avatar img {
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
-  object-fit: cover;
-}
-
-.message-content {
-  max-width: 70%;
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-}
-
-.message-sender {
-  font-size: 12px;
-  color: #666;
-  margin-left: 8px;
-  align-self: flex-start;
-}
-
-.message-bubble {
-  padding: 10px 14px;
-  border-radius: 18px;
-  font-size: 14px;
-  line-height: 1.4;
-  word-wrap: break-word;
-}
-
-.message-bubble {
-  background-color: #ffffff;
-  border-bottom-left-radius: 4px;
-}
-
-.self-bubble {
-  background-color: #91d5ff;
-  color: #303133;
-  border-bottom-right-radius: 4px;
-  border-bottom-left-radius: 18px;
-  align-self: flex-end;
-}
-
-.message-bubble {
-  background-color: #ffffff;
-  border-bottom-left-radius: 4px;
-  align-self: flex-start;
-}
-
-.message-time {
-  font-size: 12px;
-  color: #909399;
-  text-align: left;
-}
-
-.self-message .message-time {
-  text-align: right;
-}
-
-/* 输入容器样式 */
-.input-container {
-  background-color: #ffffff;
-  border-top: 1px solid #e4e7ed;
-  padding: 10px;
-  overflow: hidden;
-}
-
-.input-toolbar {
-  display: flex;
-  gap: 8px;
-  align-items: center;
-  margin: 5px;
-  justify-content: start;
-
-}
-
-.input-box {
-  margin-bottom: 10px;
-}
-
-.input-box textarea {
-  border-radius: 8px;
-  border: 1px solid #dcdfe6;
-  resize: none;
-  min-height: 80px;
-}
-
-.input-actions {
-  display: flex;
-  justify-content: flex-end;
-}
-
-/* 滚动条样式 */
+/* 自定义滚动条样式 */
 ::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
+  width: 8px;
+  height: 8px;
 }
 
 ::-webkit-scrollbar-track {
   background: #f1f1f1;
-  border-radius: 3px;
+  border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb {
   background: #c1c1c1;
-  border-radius: 3px;
+  border-radius: 4px;
+  transition: all 0.3s ease;
 }
 
 ::-webkit-scrollbar-thumb:hover {

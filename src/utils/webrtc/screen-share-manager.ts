@@ -5,6 +5,7 @@ export interface ScreenShareConstraints {
   video?: boolean | {
     cursor?: "always" | "motion" | "never";
     displaySurface?: "monitor" | "window" | "browser";
+    frameRate?: number;
     logicalSurface?: boolean;
   };
 }

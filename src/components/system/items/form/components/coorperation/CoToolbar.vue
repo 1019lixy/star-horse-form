@@ -51,19 +51,19 @@ const groupOperation = (type: string) => {
       ref="userListPopoverRef"
       v-model="userListVisible"
       size="350"
-      header-class="hstyle"
       :close-on-click-modal="false"
       :close-on-press-escape="false"
   >
     <template #header>
-      <div class="flex justify-between items-center"><h3>人员列表</h3>
+      <div class="flex justify-between items-center">
+        <h3 class="flex items-center justify-start">人员列表</h3>
         <el-dropdown @command="groupOperation">
-    <span class="el-dropdown-link">
-       <star-horse-icon iconClass="user-circle" color="#fff"/>
-      <el-icon class="el-icon--right">
-        <arrow-down/>
-      </el-icon>
-    </span>
+          <span class="cursor-pointer text-blue-500 flex items-center pr-4">
+            <star-horse-icon iconClass="user-circle" color="#fff"/>
+            <el-icon class="el-icon--right">
+              <arrow-down/>
+            </el-icon>
+          </span>
           <template #dropdown>
             <el-dropdown-menu>
               <el-dropdown-item command="chat">发起聊天</el-dropdown-item>
@@ -74,18 +74,18 @@ const groupOperation = (type: string) => {
       </div>
     </template>
     <template #default>
-      <el-card class="inner_content w-full">
-        <div class="flex justify-center items-center w-[90%] my-3  mx-auto gap-5 ">
-          <div class="flex justify-center items-center pointer rounded-sm border-[#f1f1f1] border-1 h-[35px]  flex-1">
+      <el-card class="w-full">
+        <div class="flex justify-center items-center w-[90%] my-3 mx-auto gap-5">
+          <div class="flex justify-center items-center cursor-pointer rounded-sm border border-gray-200 h-[35px] flex-1">
             <star-horse-icon iconClass="user-add"/>
             添加人员
           </div>
-          <div class="flex justify-center items-center pointer rounded-sm border-[#f1f1f1] border-1 h-[35px] flex-1">
+          <div class="flex justify-center items-center cursor-pointer rounded-sm border border-gray-200 h-[35px] flex-1">
             <star-horse-icon iconClass="user-edit"/>
             邀请成员加入
           </div>
         </div>
-        <el-card class="inner_content w-full flex px-5 py-2">
+        <el-card class="w-full flex px-5 py-2">
           <div class="w-full flex flex-col justify-start">
             <h3 class="font-bold my-3 justify-start flex">正在看.2</h3>
             <div class="flex flex-col w-full">
@@ -93,7 +93,7 @@ const groupOperation = (type: string) => {
             </div>
           </div>
           <div class="w-full flex-col flex justify-start">
-            <h3 class="font-bold  my-3  justify-start flex">其它成员.5</h3>
+            <h3 class="font-bold my-3 justify-start flex">其它成员.5</h3>
             <div class="flex flex-col w-full">
               <GroupUsers/>
             </div>
@@ -110,7 +110,7 @@ const groupOperation = (type: string) => {
       title="邀请人员"
       virtual-triggering
   >
-    <el-card class="inner_content">
+    <el-card>
     </el-card>
   </el-popover>
   <el-popover
@@ -121,28 +121,7 @@ const groupOperation = (type: string) => {
       title="表单状态"
       virtual-triggering
   >
-    <el-card class="inner_content">
+    <el-card>
     </el-card>
   </el-popover>
 </template>
-
-<style scoped lang="scss">
-.hstyle {
-  display: flex;
-  align-items: center;
-  justify-content: start;
-
-  h3 {
-    display: inline-flex;
-    justify-content: start;
-  }
-}
-
-.el-dropdown-link {
-  cursor: pointer;
-  color: var(--el-color-primary);
-  display: flex;
-  align-items: center;
-  padding-right: 1rem;
-}
-</style>

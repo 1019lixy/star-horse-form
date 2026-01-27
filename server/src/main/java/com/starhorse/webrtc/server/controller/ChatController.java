@@ -30,12 +30,7 @@ public class ChatController {
         
         if (targetUserId != null) {
             messagingTemplate.convertAndSend(String.format("/queue/user/%s/chat/messages",targetUserId), payload);
-            // 发送给目标用户
-//            messagingTemplate.convertAndSendToUser(
-//                    targetUserId,
-//                    "/queue/chat/messages",
-//                    payload
-//            );
+
             System.out.println("Private message sent to: " + targetUserId);
         } else {
             System.out.println("Target user ID is null, message not sent");

@@ -1,10 +1,10 @@
 import { ref, Ref, onMounted, onUnmounted } from "vue";
 import { WebRTCCore } from "../../../../../../utils/webrtc/webrtc-core";
-import { WebSocketService } from "../../../../../../utils/websocket/WebSocketService";
+import { MeetingSocketService } from "../../../../../../utils/websocket/MeetingSocketService";
 
 // WebRTC连接配置接口
 export interface WebRTCManagerOptions {
-  webSocketService: Ref<WebSocketService | null>;
+  webSocketService: Ref<MeetingSocketService | null>;
   isConnected: Ref<boolean>;
   currentUserId: Ref<string>;
   meetingInfo: Ref<any>;

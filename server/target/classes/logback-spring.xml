@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration scan="true" scanPeriod="30 seconds" debug="false">
+    <springProperty scope="context" name="contextName" source="spring.application.name"/>
+    <springProperty scope="context" name="serverPort" source="server.port"/>
+    <springProperty scope="context" name="logging.level" source="logging.level.root" defaultValue="debug"/>
+    <springProperty scope="context" name="logging.path" source="logging.file.path" defaultValue="./logs"/>
+    <property name="log.charset" value="utf-8"/>
+    <property name="log.pattern"
+              value="%blue(${contextName}:) ${serverPort} %red(%d{yyyy-MM-dd HH:mm:ss}) %green([%thread]) %highlight(%-5level) %boldMagenta(%logger{36}) - %highlight(%msg%n)"/>
+    <!--输出到控制台-->
+    <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>${log.pattern}</pattern>
+            <charset>${log.charset}</charset>
+        </encoder>
+    </appender>
+    <appender name="FILE_RECORD" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <append>true</append>
+        <file>${logging.path}/server-common.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <fileNamePattern>${logging.path}/server-common-%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+            <maxFileSize>500MB</maxFileSize>
+            <maxHistory>10</maxHistory>
+        </rollingPolicy>
+        <encoder>
+            <pattern>${log.pattern}</pattern>
+            <charset>utf-8</charset>
+        </encoder>
+    </appender>
+    <appender name="FILE_APPENDER_ASYNC" class="ch.qos.logback.classic.AsyncAppender">
+        <discardingThreshold>0</discardingThreshold>
+        <queueSize>12000</queueSize>
+        <neverBlock>true</neverBlock>
+        <appender-ref ref="FILE_RECORD"/>
+    </appender>
+    <!--普通日志输出到控制台-->
+    <root level="info">
+        <appender-ref ref="FILE_APPENDER_ASYNC"/>
+        <appender-ref ref="console"/>
+    </root>
+    <logger name="com.alibaba.nacos" level="ERROR"/>
+    <!--监控sql日志输出 -->
+    <logger name="jdbc.sqlonly" level="INFO"/>
+    <logger name="jdbc.resultset" level="ERROR"/>
+    <!--  如想看到表格数据，将OFF改为INFO  -->
+    <logger name="jdbc.resultsettable" level="INFO"/>
+    <logger name="jdbc.connection" level="INFO"/>
+    <logger name="jdbc.sqltiming" level="INFO"/>
+    <logger name="jdbc.audit" level="INFO"/>
+    <logger name="com.starhorse.webrtc.server.dao" level="DEBUG"/>
+</configuration>

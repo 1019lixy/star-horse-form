@@ -63,7 +63,13 @@ const emits = defineEmits([
 let designForm = useDesignFormStore(piniaInstance);
 let userOperation = useSelfOperationStore(piniaInstance);
 let configStore = useGlobalConfigStore(piniaInstance);
-
+/**
+ * 协作逻辑，
+ * 1、有人选中了某个组件，马上向后端发消息，
+ * 2、后端用读写锁处理并发问题，保证同一时间只有一个组件被一个人选中，后选中则返回失败消息，选中成功像所有人员广播消息
+ * 3、切换编辑组件，现释放掉当前选中的组件，
+ * 4、增加或者删除，编辑组件，实时同步数据到所有协作人员
+ */
 let compSize = computed(
     () => configStore.configFormInfo?.buttonSize || Config.compSize,
 );
@@ -83,11 +89,6 @@ let formInfo = computed(() => {
   }
   return temp;
 });
-const langList: SelectOption[] = [
-  {name: "中文", value: "zh_CN"},
-  {name: "English", value: "en_US"},
-
-];
 const isDragging = computed(() => designForm.isDragging);
 const fieldPanelRef = ref();
 const dynamicFormRef = ref();

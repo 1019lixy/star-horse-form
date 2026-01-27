@@ -1,9 +1,9 @@
 import { ref, Ref } from "vue";
-import { WebSocketService } from "../../../../../../utils/websocket/WebSocketService";
+import { MeetingSocketService } from "../../../../../../utils/websocket/MeetingSocketService";
 
 // 聊天消息管理配置接口
 export interface ChatManagerOptions {
-  webSocketService: Ref<WebSocketService | null>;
+  webSocketService: Ref<MeetingSocketService | null>;
   isConnected: Ref<boolean>;
   currentUserId: Ref<string>;
   currentUserName: Ref<string>;
@@ -35,13 +35,13 @@ export const useChatManager = (options: ChatManagerOptions) => {
 
   // 聊天消息列表
   const chatMessages = ref<ChatMessage[]>([]);
-  
+
   // 输入消息内容
   const inputMessage = ref("");
-  
+
   // 聊天消息容器引用
   const chatMessagesRef = ref<HTMLElement | null>(null);
-  
+
   // 消息订阅列表
   const messageSubscriptions = ref<string[]>([]);
 
@@ -59,7 +59,7 @@ export const useChatManager = (options: ChatManagerOptions) => {
       };
 
       chatMessages.value.push(newMessage);
-      
+
       // 通过WebSocket发送消息
       if (webSocketService.value && isConnected.value) {
         webSocketService.value.sendMeetingMessage({
@@ -147,7 +147,7 @@ export const useChatManager = (options: ChatManagerOptions) => {
     inputMessage,
     chatMessagesRef,
     messageSubscriptions,
-    
+
     // 方法
     sendChatMessage,
     scrollToLatestMessage,

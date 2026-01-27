@@ -1,9 +1,9 @@
 import { ref, Ref, computed } from "vue";
-import { WebSocketService } from "../../../../../../utils/websocket/WebSocketService";
+import { MeetingSocketService } from "../../../../../../utils/websocket/MeetingSocketService";
 
 // 参与者管理配置接口
 export interface ParticipantManagerOptions {
-  webSocketService: Ref<WebSocketService | null>;
+  webSocketService: Ref<MeetingSocketService | null>;
   isConnected: Ref<boolean>;
   currentUserId: Ref<string>;
   currentUserName: Ref<string>;
@@ -35,15 +35,15 @@ export const useParticipantManager = (options: ParticipantManagerOptions) => {
 
   // 参与者列表
   const participants = ref<Participant[]>([]);
-  
+
   // 当前选择的用户（默认设置为张三）
   const selectedUser = ref<Participant | null>({
-    id: "zhangsan", 
-    name: "张三", 
-    avatar: "https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png", 
+    id: "zhangsan",
+    name: "张三",
+    avatar: "https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png",
     status: "online"
   });
-  
+
   // 可选择的身份列表（所有用户都可以选择）
   const availableUsers = ref<Participant[]>([
     {id: "zhangsan", name: "张三", avatar: "https://cube.elemecdn.com/3/7c/3ea6ec64369c2642b92c6726f1epng.png", status: "online"},
@@ -54,10 +54,10 @@ export const useParticipantManager = (options: ParticipantManagerOptions) => {
 
   // 当前屏幕共享者
   const currentScreenSharer = ref<{id: string; stream: MediaStream} | null>(null);
-  
+
   // 侧边栏可见性
   const sidebarVisible = ref(false);
-  
+
   // 参与者列表可见性
   const participantsVisible = ref(false);
 
@@ -122,7 +122,7 @@ export const useParticipantManager = (options: ParticipantManagerOptions) => {
   // 邀请参与者
   const inviteParticipants = (userIds: string[]) => {
     console.log("邀请参与者:", userIds);
-    
+
     userIds.forEach(userId => {
       const user = availableUsers.value.find(u => u.id === userId);
       if (user) {

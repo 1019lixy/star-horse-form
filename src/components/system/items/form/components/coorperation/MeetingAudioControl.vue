@@ -5,8 +5,8 @@ const { isAudioEnabled, toggleAudio } = useMeetingCore();
 </script>
 
 <template>
-  <button class="control-btn" :class="{ active: isAudioEnabled }" @click="toggleAudio">
+  <button class="flex flex-col items-center justify-center px-4 py-3 rounded-lg hover:bg-gray-100 transition-all duration-300" :class="{ 'text-red-500': isAudioEnabled }" @click="toggleAudio">
     <el-icon><Microphone /></el-icon>
-    <span>{{ isAudioEnabled ? '静音' : '取消静音' }}</span>
+    <span class="mt-1 text-xs">{{ isAudioEnabled ? '静音' : '取消静音' }}</span>
   </button>
 </template>

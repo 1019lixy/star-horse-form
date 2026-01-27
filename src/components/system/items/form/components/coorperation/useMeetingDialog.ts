@@ -3,8 +3,8 @@ import {createWebRTCCoreInstance, WebRTCCore} from "@/utils/webrtc/webrtc-core";
 import {DEFAULT_VIDEO_CONSTRAINTS, VideoManager} from "@/utils/webrtc/video-manager";
 import {AudioManager, DEFAULT_AUDIO_CONSTRAINTS} from "@/utils/webrtc/audio-manager";
 import {DEFAULT_RECORDING_OPTIONS, RecordingManager} from "@/utils/webrtc/recording-manager";
-import {ScreenShareManager} from "@/utils/webrtc/screen-share-manager";
-import {WebSocketService} from "@/utils/websocket/WebSocketService";
+import {ScreenShareConstraints, ScreenShareManager} from "@/utils/webrtc/screen-share-manager";
+import {MeetingSocketService} from "@/utils/websocket/MeetingSocketService";
 import {operationConfirm, warning} from "star-horse-lowcode";
 
 export const useMeetingDialog = (emit?: any) => {
@@ -57,8 +57,11 @@ export const useMeetingDialog = (emit?: any) => {
     // 聊天消息容器引用
     const chatMessagesRef = ref<HTMLElement | null>(null);
 
+    // 初始化状态
+    const isInitialized = ref(false);
+
     // WebSocket服务管理
-    const webSocketService = ref<WebSocketService | null>(null);
+    const webSocketService = ref<MeetingSocketService | null>(null);
     const isConnected = ref(false);
     const connectionStatus = ref("未连接");
     const messageSubscriptions = ref<string[]>([]);
@@ -207,38 +210,38 @@ export const useMeetingDialog = (emit?: any) => {
         if (state && state !== "stable") {
             // 特殊处理：当状态为have-local-offer时，说明已经发送了offer正在等待answer，应该继续等待
             if (state === "have-local-offer") {
-                    console.log("Signaling state is have-local-offer, waiting for answer instead of retrying:", peerId);
-                    if (retryCount < 60) { // 增加等待次数到60次，适应网络延迟
-                        setTimeout(() => createOfferWhenStable(peerId, callback, true, retryCount + 1), 500);
-                    } else {
-                        console.error("Max wait time reached for answer:", peerId, "Current state:", state);
-                        // 尝试重置连接状态
-                        try {
-                            console.log("尝试重置连接状态");
-                            pc.close();
-                            peerConnections.value.delete(peerId);
-                            console.log("连接状态重置成功，将在下次操作时重新创建连接");
-                        } catch (resetError) {
-                            console.error("重置连接状态失败:", resetError);
-                        }
-                    }
+                console.log("Signaling state is have-local-offer, waiting for answer instead of retrying:", peerId);
+                if (retryCount < 60) { // 增加等待次数到60次，适应网络延迟
+                    setTimeout(() => createOfferWhenStable(peerId, callback, true, retryCount + 1), 500);
                 } else {
-                    console.warn("Signaling not stable:", state, "retrying...", `Attempt ${retryCount + 1}/30`);
-                    if (retryCount < 30) { // 增加重试次数到30次，适应网络延迟
-                        setTimeout(() => createOfferWhenStable(peerId, callback, true, retryCount + 1), 200);
-                    } else {
-                        console.error("Max retries reached for stable signaling state:", peerId, "Current state:", state);
-                        // 尝试重置连接状态
-                        try {
-                            console.log("尝试重置连接状态");
-                            pc.close();
-                            peerConnections.value.delete(peerId);
-                            console.log("连接状态重置成功，将在下次操作时重新创建连接");
-                        } catch (resetError) {
-                            console.error("重置连接状态失败:", resetError);
-                        }
+                    console.error("Max wait time reached for answer:", peerId, "Current state:", state);
+                    // 尝试重置连接状态
+                    try {
+                        console.log("尝试重置连接状态");
+                        pc.close();
+                        peerConnections.value.delete(peerId);
+                        console.log("连接状态重置成功，将在下次操作时重新创建连接");
+                    } catch (resetError) {
+                        console.error("重置连接状态失败:", resetError);
                     }
                 }
+            } else {
+                console.warn("Signaling not stable:", state, "retrying...", `Attempt ${retryCount + 1}/30`);
+                if (retryCount < 30) { // 增加重试次数到30次，适应网络延迟
+                    setTimeout(() => createOfferWhenStable(peerId, callback, true, retryCount + 1), 200);
+                } else {
+                    console.error("Max retries reached for stable signaling state:", peerId, "Current state:", state);
+                    // 尝试重置连接状态
+                    try {
+                        console.log("尝试重置连接状态");
+                        pc.close();
+                        peerConnections.value.delete(peerId);
+                        console.log("连接状态重置成功，将在下次操作时重新创建连接");
+                    } catch (resetError) {
+                        console.error("重置连接状态失败:", resetError);
+                    }
+                }
+            }
             return;
         }
 
@@ -341,7 +344,7 @@ export const useMeetingDialog = (emit?: any) => {
                     throw new Error("WebSocket connection unstable");
                 }
 
-                console.log("WebRTC连接状态:", webSocketService.value?.isWebRtcConnected() ? "已连接" : "未连接");
+                console.log("WebRTC连接状态:", webSocketService.value?.isConnected() ? "已连接" : "未连接");
 
                 // 注意：WebRTCCore的createOffer方法已经包含了设置本地描述的逻辑，不需要在这里重复设置
 
@@ -349,6 +352,7 @@ export const useMeetingDialog = (emit?: any) => {
                 await webSocketService.value?.sendWebRtcOffer({
                     senderId: currentUserId.value,
                     targetUserId: peerId,
+                    meetingId: meetingInfo.value.id,
                     offer: offer,
                     isScreenShare: isScreenShare
                 });
@@ -685,10 +689,11 @@ export const useMeetingDialog = (emit?: any) => {
                 }
             },
             onIceCandidate: (candidate) => {
-                if (webSocketService.value && isConnected.value && webSocketService.value.isWebRtcConnected()) {
+                if (webSocketService.value && isConnected.value && webSocketService.value.isConnected()) {
                     webSocketService.value.sendIceCandidate({
                         senderId: currentUserId.value,
                         targetUserId: peerId,
+                        meetingId: meetingInfo.value.id,
                         candidate: candidate
                     });
                 }
@@ -801,14 +806,11 @@ export const useMeetingDialog = (emit?: any) => {
     // 初始化WebSocket服务
     const initWebSocketService = () => {
         try {
-            webSocketService.value = new WebSocketService({
-                onChatConnected: () => {
+            webSocketService.value = new MeetingSocketService({
+                onConnected: () => {
                     console.log("Chat WebSocket连接已建立");
                     // 订阅会议消息
                     subscribeToMeetingMessages();
-                },
-                onWebRtcConnected: () => {
-                    console.log("WebRTC WebSocket连接已建立");
                     // 立即订阅WebRTC信令
                     subscribeToWebRtcSignaling();
                     // 注册用户，传入meetingId
@@ -849,9 +851,9 @@ export const useMeetingDialog = (emit?: any) => {
         if (!webSocketService.value) return;
 
         // 订阅会议消息
-        const meetingSubscription = webSocketService.value.subscribeToMeetingMessages(meetingInfo.value.id, (message) => {
+        const meetingSubscription = webSocketService.value.subscribeToMeetingMessages((message) => {
             handleIncomingChatMessage(message);
-        });
+        }, meetingInfo.value.id);
         if (meetingSubscription) {
             messageSubscriptions.value.push(meetingSubscription);
         }
@@ -874,7 +876,7 @@ export const useMeetingDialog = (emit?: any) => {
         const peerJoinedSubscription = webSocketService.value.subscribeToPeerJoined((message) => {
             console.log("收到新peer加入通知:", message);
             handleNewPeerJoined(message);
-        }, currentUserId.value);
+        }, meetingInfo.value.id);
         if (peerJoinedSubscription) {
             messageSubscriptions.value.push(peerJoinedSubscription);
             console.log("成功订阅新peer加入通知");
@@ -884,7 +886,7 @@ export const useMeetingDialog = (emit?: any) => {
         const existingPeersSubscription = webSocketService.value.subscribeToExistingPeers((message) => {
             console.log("收到已存在peers通知:", message);
             handleExistingPeers(message);
-        }, currentUserId.value);
+        }, meetingInfo.value.id);
         if (existingPeersSubscription) {
             messageSubscriptions.value.push(existingPeersSubscription);
             console.log("成功订阅已存在peers通知");
@@ -894,7 +896,7 @@ export const useMeetingDialog = (emit?: any) => {
         const offerSubscription = webSocketService.value.subscribeToWebRtcOffers((message) => {
             console.log("收到WebRTC提议消息:", message);
             handleIncomingWebRtcOffer(message);
-        }, currentUserId.value);
+        }, meetingInfo.value.id);
         if (offerSubscription) {
             messageSubscriptions.value.push(offerSubscription);
             console.log("成功订阅WebRTC提议消息");
@@ -905,7 +907,7 @@ export const useMeetingDialog = (emit?: any) => {
         const answerSubscription = webSocketService.value.subscribeToWebRtcAnswers((message) => {
             console.log("收到WebRTC应答消息:", message);
             handleIncomingWebRtcAnswer(message);
-        }, currentUserId.value);
+        }, meetingInfo.value.id);
         if (answerSubscription) {
             messageSubscriptions.value.push(answerSubscription);
             console.log("成功订阅WebRTC应答消息");
@@ -916,7 +918,7 @@ export const useMeetingDialog = (emit?: any) => {
         const iceSubscription = webSocketService.value.subscribeToIceCandidates((message) => {
             console.log("收到ICE候选者消息:", message);
             handleIncomingIceCandidate(message);
-        }, currentUserId.value);
+        }, meetingInfo.value.id);
         if (iceSubscription) {
             messageSubscriptions.value.push(iceSubscription);
             console.log("成功订阅ICE候选者消息");
@@ -1313,6 +1315,7 @@ export const useMeetingDialog = (emit?: any) => {
                     await webSocketService.value.sendWebRtcAnswer({
                         senderId: currentUserId.value,
                         targetUserId: peerId,
+                        meetingId: meetingInfo.value.id,
                         answer: answer,
                         isScreenShare: message.isScreenShare || false  // 传递屏幕共享标记
                     });
@@ -2071,7 +2074,7 @@ export const useMeetingDialog = (emit?: any) => {
             // 开始屏幕共享
             try {
                 // 优化屏幕共享设置，减少延迟
-                const screenShareConstraints = {
+                const screenShareConstraints: ScreenShareConstraints = {
                     audio: false,
                     video: {
                         frameRate: 15, // 降低帧率以减少延迟
@@ -2243,7 +2246,7 @@ export const useMeetingDialog = (emit?: any) => {
         setTimeout(() => {
             if (webSocketService.value) {
                 // 确保WebSocket连接已建立
-                if (webSocketService.value.isChatConnected()) {
+                if (webSocketService.value.isConnected()) {
                     webSocketService.value.sendUserJoinedMessage(
                         meetingInfo.value.id,
                         currentUserId.value,
@@ -2254,7 +2257,7 @@ export const useMeetingDialog = (emit?: any) => {
                     console.error("Chat WebSocket not connected, cannot send user joined message");
                     // 等待WebSocket连接建立后再发送
                     setTimeout(() => {
-                        if (webSocketService.value && webSocketService.value.isChatConnected()) {
+                        if (webSocketService.value && webSocketService.value.isConnected()) {
                             webSocketService.value.sendUserJoinedMessage(
                                 meetingInfo.value.id,
                                 currentUserId.value,
@@ -2270,7 +2273,11 @@ export const useMeetingDialog = (emit?: any) => {
         }, 1000);
 
         // 添加resize事件监听器，根据屏幕宽度自动显示/隐藏侧边栏
-        window.addEventListener('resize', handleResize);
+        window.addEventListener("resize", handleResize);
+
+        // 所有初始化操作完成
+        isInitialized.value = true;
+        console.log("Meeting dialog initialized");
     });
 
     // 组件卸载时清理WebRTC和WebSocket资源
@@ -2300,7 +2307,7 @@ export const useMeetingDialog = (emit?: any) => {
         cleanupWebRTC();
 
         // 移除resize事件监听器
-        window.removeEventListener('resize', handleResize);
+        window.removeEventListener("resize", handleResize);
     });
 
     // 监听消息变化，自动滚动到最新消息
@@ -2400,6 +2407,7 @@ export const useMeetingDialog = (emit?: any) => {
         toggleScreenShare,
         toggleRecording,
         onlineParticipantsCount,
+        isInitialized,
 
         // 新增的会议控制功能
         raisedHands,
