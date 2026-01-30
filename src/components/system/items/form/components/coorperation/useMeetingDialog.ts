@@ -1664,7 +1664,7 @@ export const useMeetingDialog = (emit?: any) => {
     };
 
     // 侧边栏显示状态
-    const sidebarVisible = ref(window.innerWidth >= 768);
+    const sidebarVisible = ref(window.innerWidth >= 1024);
 
     // 切换侧边栏显示/隐藏
     const toggleSidebar = () => {
@@ -1674,7 +1674,7 @@ export const useMeetingDialog = (emit?: any) => {
     // 响应式处理：根据屏幕宽度自动显示/隐藏侧边栏
     const handleResize = () => {
         // 当屏幕宽度小于768px时，自动隐藏侧边栏；否则显示侧边栏
-        sidebarVisible.value = window.innerWidth >= 768;
+        sidebarVisible.value = window.innerWidth >= 1024;
     };
 
     // 最大化屏幕共享
