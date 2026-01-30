@@ -54,63 +54,6 @@ public class ChatController {
         }
     }
 
-    /**
-     * 发送会议消息
-     */
-    @MessageMapping("/chat/meeting-message")
-    public void sendMeetingMessage(@Payload Map<String, Object> payload) {
-        String meetingId = (String) payload.get("meetingId");
-        
-        if (meetingId != null) {
-            // 发送给会议所有参与者
-            messagingTemplate.convertAndSend(
-                    "/topic/chat/meeting/" + meetingId, 
-                    payload
-            );
-            System.out.println("Meeting message sent to: " + meetingId);
-        }
-    }
 
-    /**
-     * 处理用户加入会议
-     */
-    @MessageMapping("/meeting/user-joined")
-    public void handleUserJoined(@Payload Map<String, Object> payload) {
-        String meetingId = (String) payload.get("meetingId");
-        String userId = (String) payload.get("userId");
-        String userName = (String) payload.get("userName");
-        
-        System.out.println("User joined meeting: " + userName + " (" + userId + ") in meeting " + meetingId);
-        
-        if (meetingId != null) {
-            // 广播给会议所有参与者
-            messagingTemplate.convertAndSend(
-                    "/topic/meeting/" + meetingId + "/participants", 
-                    payload
-            );
-            System.out.println("User joined message broadcasted to meeting: " + meetingId);
-        }
-    }
-
-    /**
-     * 处理用户离开会议
-     */
-    @MessageMapping("/meeting/user-left")
-    public void handleUserLeft(@Payload Map<String, Object> payload) {
-        String meetingId = (String) payload.get("meetingId");
-        String userId = (String) payload.get("userId");
-        String userName = (String) payload.get("userName");
-        
-        System.out.println("User left meeting: " + userName + " (" + userId + ") in meeting " + meetingId);
-        
-        if (meetingId != null) {
-            // 广播给会议所有参与者
-            messagingTemplate.convertAndSend(
-                    "/topic/meeting/" + meetingId + "/participants", 
-                    payload
-            );
-            System.out.println("User left message broadcasted to meeting: " + meetingId);
-        }
-    }
 
 }

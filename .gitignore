@@ -1,3 +1,16 @@
+### IDEA ###
+.idea/*
+.scannerwork/*
+*/*factorypath/*
+.project
+.settings/
+.vscode/*
+*.iml
+*/target/*
+*/*.iml
+=======
+# Compiled class file
+*.class
 # Logs
 logs
 *.log

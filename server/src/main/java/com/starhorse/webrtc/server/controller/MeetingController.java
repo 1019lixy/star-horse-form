@@ -1,5 +1,7 @@
 package com.starhorse.webrtc.server.controller;
 
+import com.starhorse.devops.utils.utils.StarHorseUtils;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
@@ -11,6 +13,7 @@ import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Controller
+@Slf4j
 public class MeetingController {
 
     private final SimpMessagingTemplate messagingTemplate;
@@ -36,7 +39,7 @@ public class MeetingController {
 
         if (userId != null && sessionId != null) {
             userSessionMap.put(userId, sessionId);
-            System.out.println("User registered: " + userId + " with session: " + sessionId);
+            log.info("User registered: {} with session:{} " , userId, sessionId);
 
             // 如果提供了meetingId，将用户添加到会议中
             if (meetingId != null) {
@@ -50,7 +53,7 @@ public class MeetingController {
 
                 // 将新用户添加到会议中
                 meetingUsersMap.computeIfAbsent(meetingId, k -> ConcurrentHashMap.newKeySet()).add(userId);
-                System.out.println("User " + userId + " joined meeting: " + meetingId);
+                log.info("User {} joined meeting: {} " , userId, meetingId);
 
                 // 通知新用户：会议中已有哪些用户
                 if (existingUsers != null && !existingUsers.isEmpty()) {
@@ -65,15 +68,17 @@ public class MeetingController {
      */
     private void notifyExistingUsers(String meetingId, String newUserId, Set<String> existingUsers) {
         Map<String, Object> notification = new HashMap<>();
-        notification.put("type", "NEW_PEER_JOINED");
-        notification.put("newUserId", newUserId);
-        notification.put("meetingId", meetingId);
+        notification.put("type" , "NEW_PEER_JOINED");
+        notification.put("newUserId" , newUserId);
+        notification.put("meetingId" , meetingId);
 
-        if (null != meetingId) {
-            messagingTemplate.convertAndSend(
-                    String.format("/meeting/%s/peer-joined", meetingId),
-                    notification
-            );
+        if (StarHorseUtils.notEmpty(existingUsers)) {
+            for (String existingUser : existingUsers) {
+                messagingTemplate.convertAndSend(
+                        String.format("/meeting/%s/peer-joined" , existingUser),
+                        notification
+                );
+            }
         }
 
     }
@@ -83,16 +88,19 @@ public class MeetingController {
      */
     private void notifyNewUserAboutExistingPeers(String meetingId, String newUserId, Set<String> existingUsers) {
         Map<String, Object> notification = new HashMap<>();
-        notification.put("type", "EXISTING_PEERS");
-        notification.put("meetingId", meetingId);
-        notification.put("existingUserIds", existingUsers);
-        if (null != meetingId) {
-            messagingTemplate.convertAndSend(
-                    String.format("/meeting/%s/existing-peers", meetingId),
-                    notification
-            );
+        notification.put("type" , "EXISTING_PEERS");
+        notification.put("meetingId" , meetingId);
+        notification.put("existingUserIds" , existingUsers);
+        if (StarHorseUtils.notEmpty(existingUsers)) {
+            for (String existingUser : existingUsers) {
+                messagingTemplate.convertAndSend(
+                        String.format("/meeting/%s/existing-peers" , existingUser),
+                        notification
+                );
+            }
+
         }
-        System.out.println("Notified new user " + newUserId + " about existing peers: " + existingUsers);
+        log.info("Notified new user {} about existing peers:{} " , newUserId, existingUsers);
     }
 
     /**
@@ -100,17 +108,11 @@ public class MeetingController {
      */
     @MessageMapping("/meeting/offer")
     public void sendOffer(@Payload Map<String, Object> payload) {
-        String meetingId = (String) payload.get("meetingId");
+        String targetUserId = (String) payload.get("targetUserId");
 
-        if (meetingId != null) {
-            messagingTemplate.convertAndSend(String.format("/meeting/%s/offer", meetingId), payload);
-            // 发送给目标用户
-//            messagingTemplate.convertAndSendToUser(
-//                    targetUserId,
-//                    "/queue/webrtc/offer",
-//                    payload
-//            );
-            System.out.println("Offer sent to: " + meetingId);
+        if (targetUserId != null) {
+            messagingTemplate.convertAndSend(String.format("/meeting/%s/offer" , targetUserId), payload);
+            log.info("Offer sent to: {}" , targetUserId);
         }
     }
 
@@ -119,17 +121,11 @@ public class MeetingController {
      */
     @MessageMapping("/meeting/answer")
     public void sendAnswer(@Payload Map<String, Object> payload) {
-        String meetingId = (String) payload.get("meetingId");
+        String targetUserId = (String) payload.get("targetUserId");
 
-        if (meetingId != null) {
-            messagingTemplate.convertAndSend(String.format("/meeting/%s/answer", meetingId), payload);
-            // 发送给目标用户
-//            messagingTemplate.convertAndSendToUser(
-//                    targetUserId,
-//                    "/queue/webrtc/answer",
-//                    payload
-//            );
-            System.out.println("Answer sent to: " + meetingId);
+        if (targetUserId != null) {
+            messagingTemplate.convertAndSend(String.format("/meeting/%s/answer" , targetUserId), payload);
+            log.info("Answer sent to:{} " , targetUserId);
         }
     }
 
@@ -138,17 +134,12 @@ public class MeetingController {
      */
     @MessageMapping("/meeting/ice-candidate")
     public void sendIceCandidate(@Payload Map<String, Object> payload) {
-        String meetingId = (String) payload.get("meetingId");
+        String targetUserId = (String) payload.get("targetUserId");
 
-        if (meetingId != null) {
-            messagingTemplate.convertAndSend(String.format("/meeting/%s/ice-candidate", meetingId), payload);
-            // 发送给目标用户
-//            messagingTemplate.convertAndSendToUser(
-//                    targetUserId,
-//                    "/queue/webrtc/ice-candidate",
-//                    payload
-//            );
-            System.out.println("ICE candidate sent to: " + meetingId);
+        if (targetUserId != null) {
+            messagingTemplate.convertAndSend(String.format("/meeting/%s/ice-candidate" , targetUserId), payload);
+
+            log.info("ICE candidate sent to: {}" , targetUserId);
         }
     }
 
@@ -162,24 +153,24 @@ public class MeetingController {
 
         if (userId != null) {
             userSessionMap.remove(userId);
-            System.out.println("User left: " + userId);
+            log.info("User left: {}" , userId);
             // 从会议中移除用户
             if (meetingId != null) {
                 Set<String> users = meetingUsersMap.get(meetingId);
                 if (users != null) {
                     users.remove(userId);
-                    System.out.println("User " + userId + " removed from meeting: " + meetingId);
+                    log.info("User {} removed from meeting: {} " , userId, meetingId);
 
                     // 如果会议中没有用户了，清理会议
                     if (users.isEmpty()) {
                         meetingUsersMap.remove(meetingId);
-                        System.out.println("Meeting " + meetingId + " is now empty and removed");
+                        log.info("Meeting {} is now empty and removed" , meetingId);
                     }
                 }
             }
             // 通知会议中的其他用户
             messagingTemplate.convertAndSend(
-                    String.format("/meeting/%s/participants", meetingId),
+                    String.format("/meeting/%s/participants" , meetingId),
                     payload
             );
         }
@@ -188,11 +179,69 @@ public class MeetingController {
     @MessageMapping("/meeting/end")
     public void handleMeetingEnd(@Payload Map<String, Object> payload) {
         String meetingId = (String) payload.get("meetingId");
-        System.out.println("Meeting end operation start: " + meetingId);
+        log.info("Meeting end operation start: {}" , meetingId);
         if (meetingId != null) {
             // 广播给会议所有参与者
             meetingUsersMap.remove(meetingId);
-            System.out.println("Meeting end operation finish: " + meetingId);
+            log.info("Meeting end operation finish: {}" , meetingId);
+        }
+    }
+
+    /**
+     * 发送会议消息
+     */
+    @MessageMapping("/meeting/message")
+    public void sendMeetingMessage(@Payload Map<String, Object> payload) {
+        String meetingId = (String) payload.get("meetingId");
+        if (meetingId != null) {
+            // 发送给会议所有参与者
+            messagingTemplate.convertAndSend(
+                    String.format("/meeting/%s/message" , meetingId),
+                    payload
+            );
+            System.out.println("Meeting message sent to: " + meetingId);
+        }
+    }
+
+    /**
+     * 处理用户加入会议
+     */
+    @MessageMapping("/meeting/user-joined")
+    public void handleUserJoined(@Payload Map<String, Object> payload) {
+        String meetingId = (String) payload.get("meetingId");
+        String userId = (String) payload.get("userId");
+        String userName = (String) payload.get("userName");
+
+        System.out.println("User joined meeting: " + userName + " (" + userId + ") in meeting " + meetingId);
+
+        if (meetingId != null) {
+            // 广播给会议所有参与者
+            messagingTemplate.convertAndSend(
+                    "/meeting/" + meetingId + "/participants" ,
+                    payload
+            );
+            System.out.println("User joined message broadcasted to meeting: " + meetingId);
+        }
+    }
+
+    /**
+     * 处理用户离开会议
+     */
+    @MessageMapping("/meeting/user-left")
+    public void handleUserLeft(@Payload Map<String, Object> payload) {
+        String meetingId = (String) payload.get("meetingId");
+        String userId = (String) payload.get("userId");
+        String userName = (String) payload.get("userName");
+
+        System.out.println("User left meeting: " + userName + " (" + userId + ") in meeting " + meetingId);
+
+        if (meetingId != null) {
+            // 广播给会议所有参与者
+            messagingTemplate.convertAndSend(
+                    "/meeting/" + meetingId + "/participants" ,
+                    payload
+            );
+            System.out.println("User left message broadcasted to meeting: " + meetingId);
         }
     }
 }

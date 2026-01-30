@@ -28,9 +28,9 @@ const toggleParticipantStatus = (participantId: string) => {
 
 <template>
   <div class="flex-1 bg-gradient-to-br from-gray-50 to-gray-200 rounded-xl p-6 overflow-y-auto shadow-inner">
-    <div v-if="isInitialized">
+    <div v-if="isInitialized" class="flex flex-col flex-1 min-h-0">
       <!-- 屏幕共享全屏显示 -->
-      <div v-if="currentScreenSharer" class="relative w-full h-[600px] md:h-[500px] sm:h-[400px] xs:h-[300px] bg-black rounded-xl overflow-hidden shadow-lg">
+      <div v-if="currentScreenSharer" class="relative w-full flex-1 md:h-[500px] sm:h-[400px] xs:h-[300px] bg-black rounded-xl overflow-hidden shadow-lg">
         <div class="absolute top-0 left-0 right-0 h-15 bg-gradient-to-b from-black/80 to-black/40 text-white flex items-center justify-between px-6 sm:px-4 z-10 backdrop-blur-md">
           <div class="flex items-center gap-3 sm:gap-2.5">
             <div class="w-2.5 h-2.5 rounded-full bg-green-500 shadow-green-500/40 animate-pulse"></div>

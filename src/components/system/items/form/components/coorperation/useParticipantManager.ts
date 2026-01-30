@@ -1,5 +1,6 @@
 import { ref, Ref, computed } from "vue";
-import { MeetingSocketService } from "../../../../../../utils/websocket/MeetingSocketService";
+import { MeetingSocketService } from "@/utils/websocket/MeetingSocketService";
+import {availableUsers, meetingInfo} from "@/components/system/items/form/components/coorperation/script/dataConfig";
 
 // 参与者管理配置接口
 export interface ParticipantManagerOptions {
@@ -35,22 +36,14 @@ export const useParticipantManager = (options: ParticipantManagerOptions) => {
 
   // 参与者列表
   const participants = ref<Participant[]>([]);
-
+  const tempInitUser=availableUsers[0];
   // 当前选择的用户（默认设置为张三）
   const selectedUser = ref<Participant | null>({
-    id: "zhangsan",
-    name: "张三",
-    avatar: "https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png",
+    id: tempInitUser.id,
+    name: tempInitUser.name,
+    avatar: tempInitUser.avatar,
     status: "online"
   });
-
-  // 可选择的身份列表（所有用户都可以选择）
-  const availableUsers = ref<Participant[]>([
-    {id: "zhangsan", name: "张三", avatar: "https://cube.elemecdn.com/3/7c/3ea6ec64369c2642b92c6726f1epng.png", status: "online"},
-    {id: "lisi", name: "李四", avatar: "https://cube.elemecdn.com/3/7c/3ea6ec64369c2642b92c6726f1epng.png", status: "online"},
-    {id: "wangwu", name: "王五", avatar: "https://cube.elemecdn.com/3/7c/3ea6ec64369c2642b92c6726f1epng.png", status: "online"},
-    {id: "zhaoliu", name: "赵六", avatar: "https://cube.elemecdn.com/3/7c/3ea6ec64369c2642b92c6726f1epng.png", status: "online"}
-  ]);
 
   // 当前屏幕共享者
   const currentScreenSharer = ref<{id: string; stream: MediaStream} | null>(null);

@@ -45,15 +45,15 @@ export interface WebRtcSignalingMessage {
 
 export class MeetingSocketService {
     private stompClient: Stomp.Client | null = null;
-    private socket: SockJS | null = null;
+    private socket: WebSocket | null = null;
     private options: WebSocketServiceOptions;
     private connected: boolean = false;
     private reconnectAttempts: number = 0;
     private maxReconnectAttempts: number = 5;
     private reconnectDelay: number = 2000;
     private initConnectInstance: boolean = false;
+
     //会议Id
-    private meetingId: string = "";
 
     constructor(options: WebSocketServiceOptions = {}) {
         this.options = {
@@ -254,16 +254,16 @@ export class MeetingSocketService {
     /**
      * 订阅新peer加入通知
      * @param callback
-     * @param meetingId
+     * @param userId
      */
-    public subscribeToPeerJoined(callback: (message: any) => void, meetingId: string): string | null {
+    public subscribeToPeerJoined(callback: (message: any) => void, userId: string): string | null {
         if (!this.stompClient || !this.connected) {
             console.error("WebRTC WebSocket not connected");
             return null;
         }
         try {
-            console.log("Attempting to subscribe to peer joined notifications for meeting:", meetingId);
-            const subscription = this.stompClient.subscribe(`/meeting/${meetingId}/peer-joined`, (message) => {
+            console.log("Attempting to subscribe to peer joined notifications for meeting:", userId);
+            const subscription = this.stompClient.subscribe(`/meeting/${userId}/peer-joined`, (message) => {
                 console.log("Received peer joined notification:", message?.body);
                 try {
                     const data = JSON.parse(message?.body);
@@ -273,7 +273,7 @@ export class MeetingSocketService {
                     console.error("Error parsing peer joined notification:", parseError);
                 }
             });
-            console.log("Successfully subscribed to peer joined notifications for meeting:", meetingId);
+            console.log("Successfully subscribed to peer joined notifications for meeting:", userId);
             return subscription.id;
         } catch (error) {
             console.error("Error subscribing to peer joined notifications:", error);
@@ -287,16 +287,16 @@ export class MeetingSocketService {
     /**
      * 订阅已存在peers通知
      * @param callback 回调函数
-     * @param meetingId 会议Id
+     * @param userId 会议Id
      */
-    public subscribeToExistingPeers(callback: (message: any) => void, meetingId: string): string | null {
+    public subscribeToExistingPeers(callback: (message: any) => void, userId: string): string | null {
         if (!this.stompClient || !this.connected) {
             console.error("WebRTC WebSocket not connected");
             return null;
         }
         try {
-            console.log("Attempting to subscribe to existing peers notifications for meeting:", meetingId);
-            const subscription = this.stompClient.subscribe(`/meeting/${meetingId}/existing-peers`, (message) => {
+            console.log("Attempting to subscribe to existing peers notifications for meeting:", userId);
+            const subscription = this.stompClient.subscribe(`/meeting/${userId}/existing-peers`, (message) => {
                 console.log("Received existing peers notification:", message?.body);
                 try {
                     const data = JSON.parse(message?.body);
@@ -307,7 +307,7 @@ export class MeetingSocketService {
                 }
             });
 
-            console.log("Successfully subscribed to existing peers notifications for meeting:", meetingId);
+            console.log("Successfully subscribed to existing peers notifications for meeting:", userId);
             return subscription.id;
         } catch (error) {
             console.error("Error subscribing to existing peers notifications:", error);
@@ -332,7 +332,7 @@ export class MeetingSocketService {
         try {
             const subscription = this.stompClient.subscribe(`/meeting/${meetingId}/message`, (message) => {
                 const data = JSON.parse(message.body);
-                callback(data);
+                callback && callback(data);
             });
 
             console.log(`Subscribed to meeting messages for meeting ${meetingId}`);
@@ -349,16 +349,16 @@ export class MeetingSocketService {
     /**
      * 订阅WebRTC提议
      * @param callback
-     * @param meetingId
+     * @param userId
      */
-    public subscribeToWebRtcOffers(callback: (message: WebRtcSignalingMessage) => void, meetingId: string): string | null {
+    public subscribeToWebRtcOffers(callback: (message: WebRtcSignalingMessage) => void, userId: string): string | null {
         if (!this.stompClient || !this.connected) {
             console.error("WebRTC WebSocket not connected");
             return null;
         }
         try {
-            console.log("Attempting to subscribe to WebRTC offers for meeting:", meetingId);
-            const subscription = this.stompClient.subscribe(`/meeting/${meetingId}/offer`, (message) => {
+            console.log("Attempting to subscribe to WebRTC offers for meeting:", userId);
+            const subscription = this.stompClient.subscribe(`/meeting/${userId}/offer`, (message) => {
                 console.log("Received WebRTC offer:", message?.body);
                 try {
                     const data = JSON.parse(message?.body);
@@ -368,7 +368,7 @@ export class MeetingSocketService {
                     console.error("Error parsing WebRTC offer:", parseError);
                 }
             });
-            console.log("Successfully subscribed to WebRTC offers for meeting:", meetingId);
+            console.log("Successfully subscribed to WebRTC offers for meeting:", userId);
             return subscription.id;
         } catch (error) {
             console.error("Error subscribing to WebRTC offers:", error);
@@ -382,16 +382,16 @@ export class MeetingSocketService {
     /**
      * 订阅WebRTC应答
      * @param callback
-     * @param meetingId
+     * @param userId
      */
-    public subscribeToWebRtcAnswers(callback: (message: WebRtcSignalingMessage) => void, meetingId: string): string | null {
+    public subscribeToWebRtcAnswers(callback: (message: WebRtcSignalingMessage) => void, userId: string): string | null {
         if (!this.stompClient || !this.connected) {
             console.error("WebRTC WebSocket not connected");
             return null;
         }
         try {
-            console.log("Attempting to subscribe to WebRTC answers for meeting:", meetingId);
-            const subscription = this.stompClient.subscribe(`/meeting/${meetingId}/answer`, (message) => {
+            console.log("Attempting to subscribe to WebRTC answers for meeting:", userId);
+            const subscription = this.stompClient.subscribe(`/meeting/${userId}/answer`, (message) => {
                 console.log("Received WebRTC answer:", message?.body);
                 try {
                     const data = JSON.parse(message?.body);
@@ -402,7 +402,7 @@ export class MeetingSocketService {
                 }
             });
 
-            console.log("Successfully subscribed to WebRTC answers for meeting:", meetingId);
+            console.log("Successfully subscribed to WebRTC answers for meeting:", userId);
             return subscription.id;
         } catch (error) {
             console.error("Error subscribing to WebRTC answers:", error);
@@ -416,16 +416,16 @@ export class MeetingSocketService {
     /**
      * 订阅ICE候选者
      * @param callback
-     * @param meetingId
+     * @param userId
      */
-    public subscribeToIceCandidates(callback: (message: WebRtcSignalingMessage) => void, meetingId: string): string | null {
+    public subscribeToIceCandidates(callback: (message: WebRtcSignalingMessage) => void, userId: string): string | null {
         if (!this.stompClient || !this.connected) {
             console.error("WebRTC WebSocket not connected");
             return null;
         }
         try {
-            console.log("Attempting to subscribe to ICE candidates for meeting:", meetingId);
-            const subscription = this.stompClient.subscribe(`/meeting/${meetingId}/ice-candidate`, (message) => {
+            console.log("Attempting to subscribe to ICE candidates for user:", userId);
+            const subscription = this.stompClient.subscribe(`/meeting/${userId}/ice-candidate`, (message) => {
                 console.log("Received ICE candidate:", message?.body);
                 try {
                     const data = JSON.parse(message?.body);
@@ -436,7 +436,7 @@ export class MeetingSocketService {
                 }
             });
 
-            console.log("Successfully subscribed to ICE candidates for meeting:", meetingId);
+            console.log("Successfully subscribed to ICE candidates for meeting:", userId);
             return subscription.id;
         } catch (error) {
             console.error("Error subscribing to ICE candidates:", error);
@@ -623,6 +623,41 @@ export class MeetingSocketService {
             if (this.options.onError) {
                 this.options.onError(error);
             }
+        }
+    }
+
+    /**
+     * 订阅结束会议
+     * @param callback
+     * @param meetingId
+     */
+    public subscribeMeetingEnd(callback: (message: any) => void, meetingId: string): string | null {
+        if (!this.stompClient || !this.connected) {
+            console.error("Chat WebSocket not connected");
+            return null;
+        }
+
+        try {
+            console.log("Attempting to subscribe to meeting end  for meeting:", meetingId);
+            const subscription = this.stompClient.subscribe(`/meeting/${meetingId}/end`, (message) => {
+                console.log("Received meeting end message:", message?.body);
+                try {
+                    const data = JSON.parse(message?.body);
+                    console.log("Parsed meeting end message:", data);
+                    callback && callback(data);
+                } catch (parseError) {
+                    console.error("Error parsing meeting end message:", parseError);
+                }
+            });
+
+            console.log("Successfully subscribed to meeting end for meeting:", meetingId);
+            return subscription.id;
+        } catch (error) {
+            console.error("Error subscribing to meeting end:", error);
+            if (this.options.onError) {
+                this.options.onError(error);
+            }
+            return null;
         }
     }
 

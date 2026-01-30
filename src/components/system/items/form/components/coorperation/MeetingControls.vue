@@ -27,44 +27,44 @@ const isHandRaised = () => {
 </script>
 
 <template>
-  <div class="flex flex-wrap gap-3 p-5 bg-gradient-to-br from-gray-50 to-gray-200 rounded-xl shadow-md border border-blue-100/30 animate-fade-in-up">
+  <div class="flex flex-wrap gap-2 p-4 bg-gradient-to-br from-gray-50 to-gray-200 rounded-xl shadow-md border border-blue-100/30 animate-fade-in-up">
     <MeetingAudioControl />
     <MeetingVideoControl />
     <MeetingScreenShareControl />
     <button class="flex-1 flex flex-col items-center justify-center px-4 py-3 rounded-lg hover:bg-gray-100 transition-all duration-300 border border-blue-100/30" :class="{ 'bg-gradient-to-br from-blue-500 to-blue-400 text-white shadow-md animate-pulse': isRecording }" @click="toggleRecording">
-      <el-icon><VideoCamera /></el-icon>
-      <span class="mt-1 text-xs">{{ isRecording ? '停止录制' : '开始录制' }}</span>
+      <el-icon :size="22"><VideoCamera /></el-icon>
+      <span class="mt-1 text-sm">{{ isRecording ? '停止录制' : '开始录制' }}</span>
     </button>
     <button class="flex-1 flex flex-col items-center justify-center px-4 py-3 rounded-lg hover:bg-gray-100 transition-all duration-300 border border-blue-100/30" :class="{ 'bg-gradient-to-br from-blue-500 to-blue-400 text-white shadow-md': isHandRaised() }" @click="toggleRaiseHand(currentUserId)">
-      <el-icon><Avatar /></el-icon>
-      <span class="mt-1 text-xs">{{ isHandRaised() ? '放下手' : '举手' }}</span>
+      <el-icon :size="22"><Avatar /></el-icon>
+      <span class="mt-1 text-sm">{{ isHandRaised() ? '放下手' : '举手' }}</span>
     </button>
     <MeetingInviteButton />
     <el-dropdown trigger="click">
       <div class="flex-1 flex flex-col items-center justify-center px-4 py-3 rounded-lg hover:bg-gray-100 transition-all duration-300 border border-blue-100/30">
-        <el-icon><More/></el-icon>
-        <span class="mt-1 text-xs">更多</span>
+        <el-icon :size="22"><More/></el-icon>
+        <span class="mt-1 text-sm">更多</span>
       </div>
       <template #dropdown>
         <el-dropdown-menu>
           <el-dropdown-item @click="toggleMuteAll">
-            <el-icon><Microphone /></el-icon>
+            <el-icon :size="22"><Microphone /></el-icon>
             <span>{{ isMuteAll ? '取消静音所有' : '静音所有' }}</span>
           </el-dropdown-item>
           <el-dropdown-item @click="toggleVideoOffAll">
-            <el-icon><VideoCamera /></el-icon>
+            <el-icon :size="22"><VideoCamera /></el-icon>
             <span>{{ isVideoOffAll ? '开启所有视频' : '关闭所有视频' }}</span>
           </el-dropdown-item>
         </el-dropdown-menu>
       </template>
     </el-dropdown>
-    <button v-if="isCurrentUserHost()" class="flex-1 flex flex-col items-center justify-center px-4 py-3 rounded-lg hover:bg-gray-100 transition-all duration-300 bg-gradient-to-br from-red-500 to-red-400 text-white shadow-md" @click="endMeeting">
-      <el-icon><Close /></el-icon>
-      <span class="mt-1 text-xs">结束会议</span>
+    <button v-if="isCurrentUserHost()" class="w-32 flex flex-col items-center justify-center px-4 py-3 rounded-lg hover:bg-gray-100 transition-all duration-300 bg-gradient-to-br from-red-500 to-red-400 text-white shadow-md" @click="endMeeting">
+      <el-icon :size="22" color="#fff"><Close /></el-icon>
+      <span class="mt-1 text-sm">结束会议</span>
     </button>
-    <button v-else class="flex-1 flex flex-col items-center justify-center px-4 py-3 rounded-lg hover:bg-gray-100 transition-all duration-300 bg-gradient-to-br from-red-500 to-red-400 text-white shadow-md" @click="leaveMeeting">
-      <el-icon><Close /></el-icon>
-      <span class="mt-1 text-xs">离开会议</span>
+    <button v-else class="w-32 flex flex-col items-center justify-center px-4 py-3 rounded-lg hover:bg-gray-100 transition-all duration-300 bg-gradient-to-br from-red-500 to-red-400 text-white shadow-md" @click="leaveMeeting">
+      <el-icon :size="22" color="#fff"><Close /></el-icon>
+      <span class="mt-1 text-sm">离开会议</span>
     </button>
   </div>
 </template>

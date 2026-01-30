@@ -5,6 +5,7 @@ import { useMeetingDialog } from "./useMeetingDialog";
 import MeetingVideoPanel from "./MeetingVideoPanel.vue";
 import MeetingChatPanel from "./MeetingChatPanel.vue";
 import MeetingControls from "./MeetingControls.vue";
+import {meetingInfo,availableUsers} from "@/components/system/items/form/components/coorperation/script/dataConfig";
 
 const emit = defineEmits<{
   (e: "close"): void;
@@ -23,9 +24,7 @@ provideMeetingCore(core);
 const {
   closeAction,
   codeDoSave,
-  meetingInfo,
   participants,
-  availableUsers,
   selectedUser,
   currentUserId,
   currentUserName,
@@ -79,9 +78,9 @@ watch(
           <div class="flex justify-between items-center mb-3.75 flex-wrap gap-3.75">
             <div class="flex-1 text-2xl font-semibold text-shadow-md flex items-center gap-2.5">
               {{ meetingInfo.name }}
-              <button class="bg-white/20 hover:bg-white/30 transition-all duration-300 ease-in-out p-1 rounded-md hover:rotate-15" @click="toggleMeetingMeta">
-                <el-icon v-if="meetingMetaCollapsed"><Minus /></el-icon>
-                <el-icon v-else><Plus /></el-icon>
+              <button class="bg-white hover:bg-white transition-all duration-300 ease-in-out flex rounded-md h-6 w-8 items-center justify-center" @click="toggleMeetingMeta">
+                <el-icon :size="20" color="#409efc" v-if="meetingMetaCollapsed"><Minus /></el-icon>
+                <el-icon :size="20" color="#409efc"  v-else><Plus /></el-icon>
               </button>
             </div>
             <div class="flex items-center gap-3 bg-white/20 backdrop-blur-md rounded-2xl px-4 py-2.5 text-sm border border-white/30">
@@ -98,7 +97,7 @@ watch(
                 </button>
               </div>
             </div>
-            <button class="bg-white/20 backdrop-blur-md border border-white/30 rounded-lg px-4 py-2 text-sm text-white transition-all duration-300 hover:bg-white/30 hover:-translate-y-0.5 flex items-center gap-2">
+            <button size="small" class="bg-white/20 backdrop-blur-md border border-white/30 rounded-lg px-4 py-2 text-sm text-white transition-all duration-300 hover:bg-white/30 hover:-translate-y-0.5 flex items-center gap-2" @click="toggleSidebar">
               <el-icon><Menu /></el-icon>
               {{ sidebarVisible ? '隐藏侧边栏' : '显示侧边栏' }}
             </button>
@@ -121,12 +120,12 @@ watch(
       </div>
 
       <!-- 侧边栏 -->
-      <div v-if="sidebarVisible" class="w-80 flex flex-col gap-2.5 overflow-hidden h-full bg-white rounded-xl shadow-lg p-2.5">
+      <div v-if="sidebarVisible" class="w-110 flex flex-col gap-2.5 overflow-hidden h-full bg-white rounded-xl shadow-lg p-2.5">
         <!-- 参会人员列表 -->
         <div v-if="participantsVisible" class="bg-white rounded-xl overflow-hidden flex flex-col flex-1 min-h-0 shadow-md border border-blue-100/30">
           <div class="px-5 py-4.5 border-b border-gray-100 font-medium text-base text-gray-800 flex justify-between items-center bg-gray-50">
             <span>参会人员 ({{ onlineParticipantsCount }}/{{ participants.length }})</span>
-            <el-button class="bg-transparent border border-gray-300 rounded-lg px-3 py-1.5 text-xs transition-all duration-300 hover:bg-blue-50 hover:border-blue-200 hover:text-blue-500 flex items-center justify-center" icon="minus" @click="toggleParticipants">
+            <el-button size="small" class="bg-transparent border border-gray-300 rounded-lg px-3 py-1.5 text-xs transition-all duration-300 hover:bg-blue-50 hover:border-blue-200 hover:text-blue-500 flex items-center justify-center" icon="minus" @click="toggleParticipants">
               隐藏参会人员
             </el-button>
           </div>
@@ -160,7 +159,7 @@ watch(
         <div class="bg-white rounded-xl overflow-hidden flex flex-col flex-1 min-h-0 shadow-md border border-blue-100/30">
           <div class="px-5 py-4.5 border-b border-gray-100 font-medium text-base text-gray-800 flex justify-between items-center bg-gray-50">
             <span>会议聊天</span>
-            <el-button v-if="!participantsVisible" class="bg-transparent border border-gray-300 rounded-lg px-3 py-1.5 text-xs transition-all duration-300 hover:bg-blue-50 hover:border-blue-200 hover:text-blue-500 flex items-center justify-center" icon="plus" @click="toggleParticipants">
+            <el-button v-if="!participantsVisible" size="small" class="bg-transparent border border-gray-300 rounded-lg px-3 py-1.5 text-xs transition-all duration-300 hover:bg-blue-50 hover:border-blue-200 hover:text-blue-500 flex items-center justify-center" icon="plus" @click="toggleParticipants">
               显示参会人员
             </el-button>
           </div>

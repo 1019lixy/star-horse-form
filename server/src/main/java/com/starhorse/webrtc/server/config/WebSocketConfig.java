@@ -13,7 +13,7 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
     @Override
     public void configureMessageBroker(MessageBrokerRegistry config) {
         // 配置消息代理，用于广播消息和用户消息
-        config.enableSimpleBroker("/topic", "/queue");
+        config.enableSimpleBroker("/topic", "/queue","/meeting");
         // 配置用户消息前缀
         config.setUserDestinationPrefix("/user");
         // 配置应用前缀，用于处理客户端发送的消息
@@ -26,7 +26,10 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
         registry.addEndpoint("/ws/chat")
                 .setAllowedOriginPatterns("*")
                 .withSockJS();
-        
+        // 注册WebRTC信令端点
+        registry.addEndpoint("/ws/meeting")
+                .setAllowedOriginPatterns("*")
+                .withSockJS();
         // 注册WebRTC信令端点
         registry.addEndpoint("/ws/webrtc")
                 .setAllowedOriginPatterns("*")

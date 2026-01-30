@@ -6,6 +6,12 @@ import {DEFAULT_RECORDING_OPTIONS, RecordingManager} from "@/utils/webrtc/record
 import {ScreenShareConstraints, ScreenShareManager} from "@/utils/webrtc/screen-share-manager";
 import {MeetingSocketService} from "@/utils/websocket/MeetingSocketService";
 import {operationConfirm, warning} from "star-horse-lowcode";
+import {availableUsers, meetingInfo} from "@/components/system/items/form/components/coorperation/script/dataConfig";
+import {
+    ChatMessage,
+    createMessage,
+    createSystemMessage
+} from "@/components/system/items/form/components/coorperation/useChatManager";
 
 export const useMeetingDialog = (emit?: any) => {
     const safeEmit = emit ?? (() => undefined);
@@ -17,18 +23,6 @@ export const useMeetingDialog = (emit?: any) => {
     const codeDoSave = () => {
         safeEmit("save");
     };
-
-    // 模拟会议信息
-    const meetingInfo = ref({
-        id: "MEET123456",
-        name: "项目进度讨论会议",
-        startTime: new Date().toLocaleString(),
-        endTime: new Date(Date.now() + 60 * 60 * 1000).toLocaleString(),
-        host: "张三",
-        hostAvatar: "https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png",
-        password: "123456",
-        duration: 60 // 会议时长（分钟）
-    });
 
     // 模拟参会人员
     const participants = ref<Array<{
@@ -42,14 +36,7 @@ export const useMeetingDialog = (emit?: any) => {
     }>>([]);
 
     // 模拟会议聊天消息
-    const chatMessages = ref<Array<{
-        id: number;
-        senderId: string;
-        senderName: string;
-        content: string;
-        time: string;
-        isSelf: boolean;
-    }>>([]);
+    const chatMessages = ref<Array<ChatMessage>>([]);
 
     // 输入消息内容
     const inputMessage = ref("");
@@ -73,9 +60,9 @@ export const useMeetingDialog = (emit?: any) => {
     const isMuteAll = ref(false); // 是否静音所有参会者
     const isVideoOffAll = ref(false); // 是否关闭所有参会者视频
     const meetingSettings = ref({
-        name: meetingInfo.value.name,
-        password: meetingInfo.value.password,
-        duration: meetingInfo.value.duration,
+        name: meetingInfo.name,
+        password: meetingInfo.password,
+        duration: meetingInfo.duration,
         allowScreenShare: true,
         allowChat: true,
         allowRaiseHand: true
@@ -87,15 +74,9 @@ export const useMeetingDialog = (emit?: any) => {
         speakingTime: 0
     }); // 会议统计信息
 
-    // 可选择的身份列表
-    const availableUsers = ref([
-        {id: "zhangsan", name: "张三", avatar: "https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png"},
-        {id: "lisi", name: "李四", avatar: "https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png"},
-        {id: "wangwu", name: "王五", avatar: "https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png"}
-    ]);
 
     // 当前选择的用户
-    const selectedUser = ref(availableUsers.value[0]);
+    const selectedUser = ref(availableUsers[0]);
 
     // 当前用户ID和名称
     const currentUserId = ref(selectedUser.value.id);
@@ -170,6 +151,10 @@ export const useMeetingDialog = (emit?: any) => {
     let currentAudioStream: MediaStream | null = null;
     let currentVideoStream: MediaStream | null = null;
 
+    /**
+     * 更新peer track
+     * @param peerId
+     */
     const updatePeerTracks = (peerId: string) => {
         const pc = getPeerConnection(peerId);
         if (!pc) return;
@@ -181,6 +166,9 @@ export const useMeetingDialog = (emit?: any) => {
         pc.replaceTrack("video", videoTrack, currentVideoStream || undefined);
     };
 
+    /**
+     * 更新所有peer track
+     */
     const updateAllPeerTracks = () => {
         participants.value.forEach(participant => {
             if (participant.status === "online" && participant.id !== currentUserId.value) {
@@ -197,12 +185,12 @@ export const useMeetingDialog = (emit?: any) => {
 
         // 检查是否已经在创建offer
         if (!isRetry && ns.makingOffer) {
-            console.warn("Already making offer, retrying:", peerId);
-            if (retryCount < 30) { // 增加重试次数到30次，适应网络延迟
-                setTimeout(() => createOfferWhenStable(peerId, callback, true, retryCount + 1), 100);
-            } else {
-                console.error("Max retries reached for making offer:", peerId);
-            }
+            // console.warn("Already making offer, retrying:", peerId);
+            // if (retryCount < 30) { // 增加重试次数到30次，适应网络延迟
+            //     setTimeout(() => createOfferWhenStable(peerId, callback, true, retryCount + 1), 100);
+            // } else {
+            //     console.error("Max retries reached for making offer:", peerId);
+            // }
             return;
         }
 
@@ -210,10 +198,10 @@ export const useMeetingDialog = (emit?: any) => {
         if (state && state !== "stable") {
             // 特殊处理：当状态为have-local-offer时，说明已经发送了offer正在等待answer，应该继续等待
             if (state === "have-local-offer") {
-                console.log("Signaling state is have-local-offer, waiting for answer instead of retrying:", peerId);
-                if (retryCount < 60) { // 增加等待次数到60次，适应网络延迟
-                    setTimeout(() => createOfferWhenStable(peerId, callback, true, retryCount + 1), 500);
-                } else {
+                // console.log("Signaling state is have-local-offer, waiting for answer instead of retrying:", peerId);
+                // if (retryCount < 60) { // 增加等待次数到60次，适应网络延迟
+                //     setTimeout(() => createOfferWhenStable(peerId, callback, true, retryCount + 1), 500);
+                // } else {
                     console.error("Max wait time reached for answer:", peerId, "Current state:", state);
                     // 尝试重置连接状态
                     try {
@@ -224,23 +212,23 @@ export const useMeetingDialog = (emit?: any) => {
                     } catch (resetError) {
                         console.error("重置连接状态失败:", resetError);
                     }
-                }
-            } else {
-                console.warn("Signaling not stable:", state, "retrying...", `Attempt ${retryCount + 1}/30`);
-                if (retryCount < 30) { // 增加重试次数到30次，适应网络延迟
-                    setTimeout(() => createOfferWhenStable(peerId, callback, true, retryCount + 1), 200);
-                } else {
-                    console.error("Max retries reached for stable signaling state:", peerId, "Current state:", state);
-                    // 尝试重置连接状态
-                    try {
-                        console.log("尝试重置连接状态");
-                        pc.close();
-                        peerConnections.value.delete(peerId);
-                        console.log("连接状态重置成功，将在下次操作时重新创建连接");
-                    } catch (resetError) {
-                        console.error("重置连接状态失败:", resetError);
-                    }
-                }
+                // }
+            // } else {
+            //     console.warn("Signaling not stable:", state, "retrying...", `Attempt ${retryCount + 1}/30`);
+            //     if (retryCount < 30) { // 增加重试次数到30次，适应网络延迟
+            //         setTimeout(() => createOfferWhenStable(peerId, callback, true, retryCount + 1), 200);
+            //     } else {
+            //         console.error("Max retries reached for stable signaling state:", peerId, "Current state:", state);
+            //         // 尝试重置连接状态
+            //         try {
+            //             console.log("尝试重置连接状态");
+            //             pc.close();
+            //             peerConnections.value.delete(peerId);
+            //             console.log("连接状态重置成功，将在下次操作时重新创建连接");
+            //         } catch (resetError) {
+            //             console.error("重置连接状态失败:", resetError);
+            //         }
+            //     }
             }
             return;
         }
@@ -296,7 +284,7 @@ export const useMeetingDialog = (emit?: any) => {
                     console.log("WebSocket重新连接成功");
 
                     // 重新注册用户
-                    webSocketService.value?.registerUser(currentUserId.value, "session_" + Date.now(), meetingInfo.value.id);
+                    webSocketService.value?.registerUser(currentUserId.value, "session_" + Date.now(), meetingInfo.id);
 
                     // 等待连接稳定
                     await new Promise(resolve => setTimeout(resolve, 300));
@@ -352,7 +340,7 @@ export const useMeetingDialog = (emit?: any) => {
                 await webSocketService.value?.sendWebRtcOffer({
                     senderId: currentUserId.value,
                     targetUserId: peerId,
-                    meetingId: meetingInfo.value.id,
+                    meetingId: meetingInfo.id,
                     offer: offer,
                     isScreenShare: isScreenShare
                 });
@@ -653,7 +641,11 @@ export const useMeetingDialog = (emit?: any) => {
             peerConnectionConfig: {
                 iceServers: [
                     {
-                        urls: ["stun:stun.l.google.com:19302", "stun:stun1.l.google.com:19302", "stun:stun2.l.google.com:19302", "stun:stun3.l.google.com:19302", "stun:stun4.l.google.com:19302"]
+                        urls: ["stun:stun.l.google.com:19302",
+                            "stun:stun1.l.google.com:19302",
+                            "stun:stun2.l.google.com:19302",
+                            "stun:stun3.l.google.com:19302",
+                            "stun:stun4.l.google.com:19302"]
                     },
                     // 添加TURN服务器作为备选（需要根据实际部署情况修改）
                     {
@@ -693,7 +685,7 @@ export const useMeetingDialog = (emit?: any) => {
                     webSocketService.value.sendIceCandidate({
                         senderId: currentUserId.value,
                         targetUserId: peerId,
-                        meetingId: meetingInfo.value.id,
+                        meetingId: meetingInfo.id,
                         candidate: candidate
                     });
                 }
@@ -762,7 +754,7 @@ export const useMeetingDialog = (emit?: any) => {
         } else {
             // 如果用户不在participants数组中，添加一个新的在线用户
             // 如果是会议主持人，设置角色为host
-            const isHost = user.name === meetingInfo.value.host;
+            const isHost = user.name === meetingInfo.host;
             const newParticipant = {
                 id: user.id,
                 name: user.name,
@@ -786,8 +778,8 @@ export const useMeetingDialog = (emit?: any) => {
             messageSubscriptions.value = [];
 
             // 重新注册用户，传入meetingId
-            webSocketService.value.registerUser(currentUserId.value, "session_" + Date.now(), meetingInfo.value.id);
-            console.log("用户已重新注册，ID:", currentUserId.value, "会议ID:", meetingInfo.value.id);
+            webSocketService.value.registerUser(currentUserId.value, "session_" + Date.now(), meetingInfo.id);
+            console.log("用户已重新注册，ID:", currentUserId.value, "会议ID:", meetingInfo.id);
             // 重新订阅消息
             subscribeToMeetingMessages();
             subscribeToWebRtcSignaling();
@@ -814,8 +806,8 @@ export const useMeetingDialog = (emit?: any) => {
                     // 立即订阅WebRTC信令
                     subscribeToWebRtcSignaling();
                     // 注册用户，传入meetingId
-                    webSocketService.value?.registerUser(currentUserId.value, "session_" + Date.now(), meetingInfo.value.id);
-                    console.log("用户已注册，ID:", currentUserId.value, "会议ID:", meetingInfo.value.id);
+                    webSocketService.value?.registerUser(currentUserId.value, "session_" + Date.now(), meetingInfo.id);
+                    console.log("用户已注册，ID:", currentUserId.value, "会议ID:", meetingInfo.id);
                 },
                 onError: (error) => {
                     console.error("WebSocket错误:", error);
@@ -853,7 +845,7 @@ export const useMeetingDialog = (emit?: any) => {
         // 订阅会议消息
         const meetingSubscription = webSocketService.value.subscribeToMeetingMessages((message) => {
             handleIncomingChatMessage(message);
-        }, meetingInfo.value.id);
+        }, meetingInfo.id);
         if (meetingSubscription) {
             messageSubscriptions.value.push(meetingSubscription);
         }
@@ -861,7 +853,7 @@ export const useMeetingDialog = (emit?: any) => {
         // 订阅参与者状态变化
         const participantSubscription = webSocketService.value.subscribeToParticipantStatus((message) => {
             handleIncomingParticipantStatus(message);
-        }, meetingInfo.value.id);
+        }, meetingInfo.id);
         if (participantSubscription) {
             messageSubscriptions.value.push(participantSubscription);
         }
@@ -876,7 +868,7 @@ export const useMeetingDialog = (emit?: any) => {
         const peerJoinedSubscription = webSocketService.value.subscribeToPeerJoined((message) => {
             console.log("收到新peer加入通知:", message);
             handleNewPeerJoined(message);
-        }, meetingInfo.value.id);
+        }, currentUserId.value);
         if (peerJoinedSubscription) {
             messageSubscriptions.value.push(peerJoinedSubscription);
             console.log("成功订阅新peer加入通知");
@@ -886,7 +878,7 @@ export const useMeetingDialog = (emit?: any) => {
         const existingPeersSubscription = webSocketService.value.subscribeToExistingPeers((message) => {
             console.log("收到已存在peers通知:", message);
             handleExistingPeers(message);
-        }, meetingInfo.value.id);
+        }, currentUserId.value);
         if (existingPeersSubscription) {
             messageSubscriptions.value.push(existingPeersSubscription);
             console.log("成功订阅已存在peers通知");
@@ -896,7 +888,7 @@ export const useMeetingDialog = (emit?: any) => {
         const offerSubscription = webSocketService.value.subscribeToWebRtcOffers((message) => {
             console.log("收到WebRTC提议消息:", message);
             handleIncomingWebRtcOffer(message);
-        }, meetingInfo.value.id);
+        }, currentUserId.value);
         if (offerSubscription) {
             messageSubscriptions.value.push(offerSubscription);
             console.log("成功订阅WebRTC提议消息");
@@ -907,7 +899,7 @@ export const useMeetingDialog = (emit?: any) => {
         const answerSubscription = webSocketService.value.subscribeToWebRtcAnswers((message) => {
             console.log("收到WebRTC应答消息:", message);
             handleIncomingWebRtcAnswer(message);
-        }, meetingInfo.value.id);
+        }, currentUserId.value);
         if (answerSubscription) {
             messageSubscriptions.value.push(answerSubscription);
             console.log("成功订阅WebRTC应答消息");
@@ -918,7 +910,7 @@ export const useMeetingDialog = (emit?: any) => {
         const iceSubscription = webSocketService.value.subscribeToIceCandidates((message) => {
             console.log("收到ICE候选者消息:", message);
             handleIncomingIceCandidate(message);
-        }, meetingInfo.value.id);
+        }, currentUserId.value);
         if (iceSubscription) {
             messageSubscriptions.value.push(iceSubscription);
             console.log("成功订阅ICE候选者消息");
@@ -990,28 +982,22 @@ export const useMeetingDialog = (emit?: any) => {
                 participants.value.push(newParticipant);
                 console.log("新用户已添加到参与者列表:", newUserId);
 
-                // 添加系统消息到聊天列表，通知有新用户加入
-                const joinMessage = {
-                    id: chatMessages.value.length + 1,
-                    senderId: "system",
-                    senderName: "系统",
-                    content: `${newUserId} 加入了会议`,
-                    time: new Date().toLocaleTimeString("zh-CN", {hour: "2-digit", minute: "2-digit"}),
-                    isSelf: false
-                };
-                chatMessages.value.push(joinMessage);
+                chatMessages.value.push(createSystemMessage(`${newUserId} 加入了会议`));
                 // 滚动到最新消息
                 scrollToLatestMessage();
                 console.log("新用户加入通知已添加到聊天列表:", newUserId);
+
+                console.log("新用户加入，需要发送offer:", newUserId);
+
+                // 延迟发送offer，确保对方已经准备好接收
+                setTimeout(() => {
+                    console.log("向新用户发送offer:", newUserId);
+                    sendOfferToParticipant(newUserId, isScreenSharing.value);
+                }, 500); // 延迟500ms，确保对方已订阅
+            } else {
+                console.log("用户已存在，跳过处理:", newUserId);
+                // 用户已存在，不需要发送新的offer，避免逻辑混乱
             }
-
-            console.log("新用户加入，需要发送offer:", newUserId);
-
-            // 延迟发送offer，确保对方已经准备好接收
-            setTimeout(() => {
-                console.log("向新用户发送offer:", newUserId);
-                sendOfferToParticipant(newUserId, isScreenSharing.value);
-            }, 500); // 延迟500ms，确保对方已订阅
         } catch (error) {
             console.error("处理新peer加入通知失败:", error);
         }
@@ -1037,15 +1023,7 @@ export const useMeetingDialog = (emit?: any) => {
 
                 // 添加系统消息到聊天列表
                 if (message.content) {
-                    const newMessage = {
-                        id: chatMessages.value.length + 1,
-                        senderId: "system",
-                        senderName: "系统",
-                        content: message.content,
-                        time: new Date().toLocaleTimeString("zh-CN", {hour: "2-digit", minute: "2-digit"}),
-                        isSelf: false
-                    };
-                    chatMessages.value.push(newMessage);
+                    chatMessages.value.push(createSystemMessage(message.content));
                     // 滚动到最新消息
                     scrollToLatestMessage();
                 }
@@ -1058,15 +1036,7 @@ export const useMeetingDialog = (emit?: any) => {
                 if (message.senderId === currentUserId.value) {
                     return;
                 }
-                const newMessage = {
-                    id: chatMessages.value.length + 1,
-                    senderId: message.senderId || 0,
-                    senderName: message.senderName,
-                    content: message.content,
-                    time: new Date().toLocaleTimeString("zh-CN", {hour: "2-digit", minute: "2-digit"}),
-                    isSelf: false
-                };
-                chatMessages.value.push(newMessage);
+                chatMessages.value.push(createMessage(message, message.content));
                 // 滚动到最新消息
                 scrollToLatestMessage();
             }
@@ -1119,14 +1089,7 @@ export const useMeetingDialog = (emit?: any) => {
                 }
 
                 // 添加系统消息到聊天列表（只有非自己的消息）
-                chatMessages.value.push({
-                    id: chatMessages.value.length + 1,
-                    senderId: "system",
-                    senderName: "系统",
-                    content: `${message.userName} 加入了会议`,
-                    time: new Date().toLocaleTimeString("zh-CN", {hour: "2-digit", minute: "2-digit"}),
-                    isSelf: false
-                });
+                chatMessages.value.push(createSystemMessage(`${message.userName} 加入了会议`));
                 scrollToLatestMessage();
             } else if (message.type === "USER_LEFT") {
                 // 检查是否是自己发送的消息
@@ -1143,14 +1106,7 @@ export const useMeetingDialog = (emit?: any) => {
                 }
 
                 // 添加系统消息到聊天列表（只有非自己的消息）
-                chatMessages.value.push({
-                    id: chatMessages.value.length + 1,
-                    senderId: "system",
-                    senderName: "系统",
-                    content: `${message.userName} 离开了会议`,
-                    time: new Date().toLocaleTimeString("zh-CN", {hour: "2-digit", minute: "2-digit"}),
-                    isSelf: false
-                });
+                chatMessages.value.push(createSystemMessage(`${message.userName} 离开了会议`));
                 scrollToLatestMessage();
             }
         } catch (error) {
@@ -1175,7 +1131,7 @@ export const useMeetingDialog = (emit?: any) => {
                 console.log("创建新的参与者卡片:", message.senderId);
                 // 尝试从可用用户列表中查找用户名
                 let senderName = `参与者 ${message.senderId.substring(0, 4)}`;
-                const userFromList = availableUsers.value.find(u => u.id === message.senderId);
+                const userFromList = availableUsers.find(u => u.id === message.senderId);
                 if (userFromList) {
                     senderName = userFromList.name;
                 }
@@ -1315,7 +1271,7 @@ export const useMeetingDialog = (emit?: any) => {
                     await webSocketService.value.sendWebRtcAnswer({
                         senderId: currentUserId.value,
                         targetUserId: peerId,
-                        meetingId: meetingInfo.value.id,
+                        meetingId: meetingInfo.id,
                         answer: answer,
                         isScreenShare: message.isScreenShare || false  // 传递屏幕共享标记
                     });
@@ -1324,7 +1280,6 @@ export const useMeetingDialog = (emit?: any) => {
                     console.error("创建或发送Answer失败:", error);
                     // 清理状态，避免影响后续操作
                     ns.srdAnswerPending = false;
-
                     // 尝试重置连接状态
                     try {
                         console.log("尝试重置连接状态");
@@ -1339,7 +1294,6 @@ export const useMeetingDialog = (emit?: any) => {
             // 远程描述设置成功后，处理该peer的ICE候选者队列
             console.log("远程描述设置完成，处理ICE候选者队列");
             processIceCandidateQueue(peerId);
-
             ns.srdAnswerPending = false;
         } catch (error) {
             console.error("处理WebRTC提议失败:", error);
@@ -1455,14 +1409,11 @@ export const useMeetingDialog = (emit?: any) => {
     const sendChatMessage = () => {
         if (inputMessage.value.trim()) {
             const newMessage: any = {
-                id: chatMessages.value.length + 1,
                 senderId: currentUserId.value,
                 senderName: currentUserName.value,
                 content: inputMessage.value,
-                time: new Date().toLocaleTimeString("zh-CN", {hour: "2-digit", minute: "2-digit"}),
-                isSelf: true
             };
-            chatMessages.value.push(newMessage);
+            chatMessages.value.push(createMessage(newMessage, newMessage.content, true));
             inputMessage.value = "";
             // 滚动到最新消息
             scrollToLatestMessage();
@@ -1473,7 +1424,7 @@ export const useMeetingDialog = (emit?: any) => {
                     webSocketService.value.sendMeetingMessage({
                         senderId: currentUserId.value,
                         senderName: currentUserName.value,
-                        meetingId: meetingInfo.value.id,
+                        meetingId: meetingInfo.id,
                         content: newMessage.content,
                         sentAt: new Date().toISOString()
                     });
@@ -1485,15 +1436,7 @@ export const useMeetingDialog = (emit?: any) => {
                 // 如果WebSocket未连接，使用模拟回复
                 console.log("WebSocket未连接，使用模拟回复");
                 setTimeout(() => {
-                    const replyMessage: any = {
-                        id: chatMessages.value.length + 1,
-                        senderId: "1",
-                        senderName: "张三",
-                        content: "收到，谢谢！",
-                        time: new Date().toLocaleTimeString("zh-CN", {hour: "2-digit", minute: "2-digit"}),
-                        isSelf: false
-                    };
-                    chatMessages.value.push(replyMessage);
+                    chatMessages.value.push(createSystemMessage("服务器连接异常"));
                     // 滚动到最新消息
                     scrollToLatestMessage();
                 }, 1000);
@@ -1537,14 +1480,7 @@ export const useMeetingDialog = (emit?: any) => {
             // 添加系统消息到聊天列表
             const participant = participants.value.find(p => p.id === participantId);
             if (participant) {
-                chatMessages.value.push({
-                    id: chatMessages.value.length + 1,
-                    senderId: "system",
-                    senderName: "系统",
-                    content: `${participant.name} 举手了`,
-                    time: new Date().toLocaleTimeString("zh-CN", {hour: "2-digit", minute: "2-digit"}),
-                    isSelf: false
-                });
+                chatMessages.value.push(createSystemMessage(`${participant.name} 举手了`));
                 scrollToLatestMessage();
             }
         }
@@ -1555,7 +1491,7 @@ export const useMeetingDialog = (emit?: any) => {
                 webSocketService.value.sendMeetingMessage({
                     senderId: currentUserId.value,
                     senderName: currentUserName.value,
-                    meetingId: meetingInfo.value.id,
+                    meetingId: meetingInfo.id,
                     content: isRaised ? `${participants.value.find(p => p.id === participantId)?.name || participantId} 放下了手` : `${participants.value.find(p => p.id === participantId)?.name || participantId} 举手了`,
                     sentAt: new Date().toISOString(),
                     type: "HAND_RAISE",
@@ -1580,16 +1516,8 @@ export const useMeetingDialog = (emit?: any) => {
                 participant.audio = !isMuteAll.value;
             }
         });
-
         // 添加系统消息到聊天列表
-        chatMessages.value.push({
-            id: chatMessages.value.length + 1,
-            senderId: "system",
-            senderName: "系统",
-            content: isMuteAll.value ? "主持人已静音所有参会者" : "主持人已取消静音所有参会者",
-            time: new Date().toLocaleTimeString("zh-CN", {hour: "2-digit", minute: "2-digit"}),
-            isSelf: false
-        });
+        chatMessages.value.push(createSystemMessage(isMuteAll.value ? "主持人已静音所有参会者" : "主持人已取消静音所有参会者"));
         scrollToLatestMessage();
     };
 
@@ -1604,17 +1532,9 @@ export const useMeetingDialog = (emit?: any) => {
                 participant.video = !isVideoOffAll.value;
             }
         });
-
-        // 添加系统消息到聊天列表
-        chatMessages.value.push({
-            id: chatMessages.value.length + 1,
-            senderId: "system",
-            senderName: "系统",
-            content: isVideoOffAll.value ? "主持人已关闭所有参会者视频" : "主持人已开启所有参会者视频",
-            time: new Date().toLocaleTimeString("zh-CN", {hour: "2-digit", minute: "2-digit"}),
-            isSelf: false
-        });
+        chatMessages.value.push(createSystemMessage(isVideoOffAll.value ? "主持人已关闭所有参会者视频" : "主持人已开启所有参会者视频"));
         scrollToLatestMessage();
+
     };
 
     // 监控网络质量
@@ -1687,7 +1607,7 @@ export const useMeetingDialog = (emit?: any) => {
                     webSocketService.value.sendMeetingMessage({
                         senderId: currentUserId.value,
                         senderName: currentUserName.value,
-                        meetingId: meetingInfo.value.id,
+                        meetingId: meetingInfo.id,
                         type: "MEETING_ENDED",
                         content: `会议已由 ${currentUserName.value} 结束`,
                         timestamp: new Date().toISOString()
@@ -1695,7 +1615,7 @@ export const useMeetingDialog = (emit?: any) => {
 
                     // 发送会议结束消息通知服务器销毁会议
                     webSocketService.value.sendMeetingEndedMessage(
-                        meetingInfo.value.id,
+                        meetingInfo.id,
                         currentUserId.value,
                         currentUserName.value
                     );
@@ -1725,19 +1645,9 @@ export const useMeetingDialog = (emit?: any) => {
             // 发送离开会议通知
             if (webSocketService.value && isConnected.value) {
                 try {
-                    // 发送会议消息通知所有参与者
-                    /*   webSocketService.value.sendMeetingMessage({
-                         senderId: currentUserId.value,
-                         senderName: currentUserName.value,
-                         meetingId: meetingInfo.value.id,
-                         type: "USER_LEFT",
-                         content: `${currentUserName.value} 离开了会议`,
-                         timestamp: new Date().toISOString()
-                       });*/
-
                     // 发送用户离开消息通知服务器
                     webSocketService.value.sendUserLeftMessage(
-                        meetingInfo.value.id,
+                        meetingInfo.id,
                         currentUserId.value,
                         currentUserName.value
                     );
@@ -1918,6 +1828,24 @@ export const useMeetingDialog = (emit?: any) => {
 
                 isScreenSharing.value = true;
                 currentVideoStream = stream;
+                
+                // 清理可能存在的旧状态
+                console.log("清理可能存在的旧状态");
+                currentScreenSharer.value = {
+                    id: currentUserId.value,
+                    name: currentUserName.value,
+                    stream: stream
+                };
+                
+                // 清理lastOfferBySender中的旧信息，确保使用最新的状态
+                console.log("清理lastOfferBySender中的旧信息");
+                lastOfferBySender.value.forEach((value, key) => {
+                    if (value.isScreenShare) {
+                        lastOfferBySender.value.delete(key);
+                        console.log("已清理lastOfferBySender中的旧屏幕共享信息:", key);
+                    }
+                });
+                
                 updateAllPeerTracks();
                 sendOfferToAllParticipants(true);
             },
@@ -1928,6 +1856,34 @@ export const useMeetingDialog = (emit?: any) => {
                     localStreamRef.value.srcObject = null;
                 }
                 isScreenSharing.value = false;
+                
+                // 清理屏幕共享相关状态
+                console.log("清理屏幕共享相关状态");
+                currentScreenSharer.value = null;
+                
+                // 清理lastOfferBySender中的信息，避免使用过期的状态
+                console.log("清理lastOfferBySender中的屏幕共享状态信息");
+                lastOfferBySender.value.forEach((value, key) => {
+                    if (value.isScreenShare) {
+                        lastOfferBySender.value.delete(key);
+                        console.log("已清理lastOfferBySender中的屏幕共享信息:", key);
+                    }
+                });
+                
+                // 强制断开所有peer连接，确保下次共享时重新建立干净的连接
+                console.log("强制断开所有peer连接，避免状态累积导致的问题");
+                peerConnections.value.forEach((pc, peerId) => {
+                    try {
+                        console.log("断开peer连接:", peerId);
+                        pc.close();
+                        console.log("peer连接已断开:", peerId);
+                    } catch (error) {
+                        console.error("断开peer连接失败:", error);
+                    }
+                });
+                // 清空peer连接映射
+                peerConnections.value.clear();
+                console.log("所有peer连接已清空，下次共享时将重新建立");
 
                 if (isVideoEnabled.value) {
                     console.log("Restoring camera video after screen share");
@@ -2034,7 +1990,7 @@ export const useMeetingDialog = (emit?: any) => {
                 };
 
                 console.log("获取摄像头流");
-                const stream = await videoManager.getCameraStream(videoConstraints);
+                await videoManager.getCameraStream(videoConstraints);
 
                 // 注意：videoManager的onStreamAcquired回调会自动处理以下操作：
                 // 1. 设置localStreamRef.value.srcObject = stream
@@ -2065,8 +2021,7 @@ export const useMeetingDialog = (emit?: any) => {
         if (isScreenSharing.value) {
             // 停止屏幕共享
             screenShareManager.stopScreenShare();
-            isScreenSharing.value = false;
-
+            // 注意：不要在这里设置isScreenSharing.value = false，而是在onStreamStopped回调中设置
             // 屏幕共享管理器会在onStreamStopped回调中处理重新协商
             console.log("Screen share stopped, waiting for callback to handle renegotiation");
 
@@ -2082,9 +2037,9 @@ export const useMeetingDialog = (emit?: any) => {
                     }
                 };
 
+                // 注意：不要在这里设置isScreenSharing.value = true，而是在onStreamAcquired回调中设置
                 await screenShareManager.startScreenShare(screenShareConstraints);
-                isScreenSharing.value = true;
-
+                
                 // 屏幕共享管理器会在onStreamAcquired回调中处理重新协商
                 console.log("Screen share started, waiting for callback to handle renegotiation");
 
@@ -2218,7 +2173,7 @@ export const useMeetingDialog = (emit?: any) => {
         } else {
             // 如果初始用户不在participants数组中，添加一个新的在线用户
             // 如果是会议主持人，设置角色为host
-            const isHost = currentUserName.value === meetingInfo.value.host;
+            const isHost = currentUserName.value === meetingInfo.host;
             const newParticipant = {
                 id: currentUserId.value,
                 name: currentUserName.value,
@@ -2234,21 +2189,18 @@ export const useMeetingDialog = (emit?: any) => {
 
         initWebRTC();
         initWebSocketService();
-
         // 启动网络质量监控
         monitorNetworkQuality();
-
         // 定期更新会议统计信息
         setInterval(updateMeetingStats, 1000); // 每秒更新一次
         updateMeetingStats(); // 初始更新
-
         // 发送用户加入会议消息
         setTimeout(() => {
             if (webSocketService.value) {
                 // 确保WebSocket连接已建立
                 if (webSocketService.value.isConnected()) {
                     webSocketService.value.sendUserJoinedMessage(
-                        meetingInfo.value.id,
+                        meetingInfo.id,
                         currentUserId.value,
                         currentUserName.value
                     );
@@ -2259,7 +2211,7 @@ export const useMeetingDialog = (emit?: any) => {
                     setTimeout(() => {
                         if (webSocketService.value && webSocketService.value.isConnected()) {
                             webSocketService.value.sendUserJoinedMessage(
-                                meetingInfo.value.id,
+                                meetingInfo.id,
                                 currentUserId.value,
                                 currentUserName.value
                             );
@@ -2285,7 +2237,7 @@ export const useMeetingDialog = (emit?: any) => {
         // 发送用户离开会议消息
         if (webSocketService.value) {
             webSocketService.value.sendUserLeftMessage(
-                meetingInfo.value.id,
+                meetingInfo.id,
                 currentUserId.value,
                 currentUserName.value
             );
@@ -2367,12 +2319,10 @@ export const useMeetingDialog = (emit?: any) => {
     return {
         closeAction,
         codeDoSave,
-        meetingInfo,
         participants,
         chatMessages,
         inputMessage,
         chatMessagesRef,
-        availableUsers,
         selectedUser,
         currentUserId,
         currentUserName,
@@ -2408,7 +2358,6 @@ export const useMeetingDialog = (emit?: any) => {
         toggleRecording,
         onlineParticipantsCount,
         isInitialized,
-
         // 新增的会议控制功能
         raisedHands,
         networkQuality,
