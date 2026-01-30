@@ -22,6 +22,9 @@ const {
 
 // 检查当前用户是否举手
 const isHandRaised = () => {
+  if (!raisedHands.value || !currentUserId.value) {
+    return false;
+  }
   return raisedHands.value.has(currentUserId.value);
 };
 </script>

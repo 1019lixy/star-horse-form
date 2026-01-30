@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, watch } from "vue";
+import { ref, watch, provide } from "vue";
 import { provideMeetingCore } from "./meeting-core-context";
 import { useMeetingDialog } from "./useMeetingDialog";
 import MeetingVideoPanel from "./MeetingVideoPanel.vue";
@@ -18,25 +18,67 @@ const props = defineProps<{
   title: string;
 }>();
 
-const core = useMeetingDialog(emit);
-provideMeetingCore(core);
+// 延迟初始化 core 实例
+const core = ref<any>(null);
+const isInitialized = ref(false);
 
-const {
-  closeAction,
-  codeDoSave,
-  participants,
-  selectedUser,
-  currentUserId,
-  currentUserName,
-  sidebarVisible,
-  toggleSidebar,
-  handleResize,
-  participantsVisible,
-  toggleParticipants,
-  onlineParticipantsCount,
-  switchUser,
-  isInitialized
-} = core;
+// 初始化核心逻辑
+const initializeCore = () => {
+  if (!core.value) {
+    console.log("初始化会议核心逻辑");
+    core.value = useMeetingDialog(emit);
+    provideMeetingCore(core.value);
+    updateCoreProperties();
+    // 本地管理初始化状态，不依赖 useMeetingDialog 的 onMounted
+    isInitialized.value = true;
+    console.log("会议核心逻辑初始化完成");
+  }
+};
+
+// 清理核心逻辑
+const cleanupCore = () => {
+  if (core.value) {
+    console.log("清理会议核心逻辑");
+    // 这里可以添加清理逻辑，比如关闭 WebSocket 连接等
+    core.value = null;
+    isInitialized.value = false;
+    console.log("会议核心逻辑清理完成");
+  }
+};
+
+// 解构 core 实例的属性
+const closeAction = ref(() => {});
+const codeDoSave = ref(() => {});
+const participants = ref([]);
+const selectedUser = ref(null);
+const currentUserId = ref(null);
+const currentUserName = ref(null);
+const sidebarVisible = ref(false);
+const toggleSidebar = ref(() => {});
+const handleResize = ref(() => {});
+const participantsVisible = ref(false);
+const toggleParticipants = ref(() => {});
+const onlineParticipantsCount = ref(0);
+const switchUser = ref(() => {});
+
+// 更新解构的属性
+const updateCoreProperties = () => {
+  if (core.value) {
+    closeAction.value = core.value.closeAction;
+    codeDoSave.value = core.value.codeDoSave;
+    participants.value = core.value.participants;
+    selectedUser.value = core.value.selectedUser;
+    currentUserId.value = core.value.currentUserId;
+    currentUserName.value = core.value.currentUserName;
+    sidebarVisible.value = core.value.sidebarVisible;
+    toggleSidebar.value = core.value.toggleSidebar;
+    handleResize.value = core.value.handleResize;
+    participantsVisible.value = core.value.participantsVisible;
+    toggleParticipants.value = core.value.toggleParticipants;
+    onlineParticipantsCount.value = core.value.onlineParticipantsCount;
+    switchUser.value = core.value.switchUser;
+  }
+};
 
 // 会议信息折叠状态
 const meetingMetaCollapsed = ref(false);
@@ -46,14 +88,23 @@ const toggleMeetingMeta = () => {
   meetingMetaCollapsed.value = !meetingMetaCollapsed.value;
 };
 
-// 监听 dialog 显示状态，当 dialog 显示时重新计算 sidebarVisible 的值
+// 监听 dialog 显示状态，当 dialog 显示时初始化核心逻辑
 watch(
   () => props.visible,
   (newVisible) => {
     if (newVisible) {
-      handleResize();
+      console.log("对话框打开，初始化核心逻辑");
+      initializeCore();
+      updateCoreProperties();
+      if (core.value && core.value.handleResize) {
+        core.value.handleResize();
+      }
+    } else {
+      console.log("对话框关闭，清理核心逻辑");
+      cleanupCore();
     }
-  }
+  },
+  { immediate: true }
 );
 </script>
 
@@ -90,7 +141,7 @@ watch(
                     v-for="user in availableUsers"
                     :key="user.id"
                     class="px-3.5 py-1.5 border border-white/40 rounded-lg bg-white/10 text-white text-xs transition-all duration-300 hover:bg-white/20 hover:border-white/60 hover:-translate-y-0.5"
-                    :class="{ 'bg-white/30 border-white/80 font-medium': selectedUser.id === user.id }"
+                    :class="{ 'bg-white/30 border-white/80 font-medium': selectedUser && selectedUser.id === user.id }"
                     @click="switchUser(user)"
                 >
                   {{ user.name }}
