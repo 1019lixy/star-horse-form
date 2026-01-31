@@ -380,6 +380,255 @@ export class ChatSocketService {
         return this.chatConnected;
     }
 
+    /**
+     * 发送通话邀请
+     */
+    public sendCallOffer(callData: any): void {
+        if (!this.chatStompClient || !this.chatConnected) {
+            console.error("Chat WebSocket not connected");
+            return;
+        }
+
+        try {
+            this.chatStompClient.send("/app/chat/call-offer", {}, JSON.stringify(callData));
+            console.log("Call offer sent:", callData);
+        } catch (error) {
+            console.error("Error sending call offer:", error);
+            if (this.options.onError) {
+                this.options.onError(error);
+            }
+        }
+    }
+
+    /**
+     * 发送通话应答
+     */
+    public sendCallAnswer(answerData: any): void {
+        if (!this.chatStompClient || !this.chatConnected) {
+            console.error("Chat WebSocket not connected");
+            return;
+        }
+
+        try {
+            this.chatStompClient.send("/app/chat/call-answer", {}, JSON.stringify(answerData));
+            console.log("Call answer sent:", answerData);
+        } catch (error) {
+            console.error("Error sending call answer:", error);
+            if (this.options.onError) {
+                this.options.onError(error);
+            }
+        }
+    }
+
+    /**
+     * 拒绝通话
+     */
+    public sendCallReject(rejectData: any): void {
+        if (!this.chatStompClient || !this.chatConnected) {
+            console.error("Chat WebSocket not connected");
+            return;
+        }
+
+        try {
+            this.chatStompClient.send("/app/chat/call-reject", {}, JSON.stringify(rejectData));
+            console.log("Call reject sent:", rejectData);
+        } catch (error) {
+            console.error("Error sending call reject:", error);
+            if (this.options.onError) {
+                this.options.onError(error);
+            }
+        }
+    }
+
+    /**
+     * 结束通话
+     */
+    public sendCallEnd(endData: any): void {
+        if (!this.chatStompClient || !this.chatConnected) {
+            console.error("Chat WebSocket not connected");
+            return;
+        }
+
+        try {
+            this.chatStompClient.send("/app/chat/call-end", {}, JSON.stringify(endData));
+            console.log("Call end sent:", endData);
+        } catch (error) {
+            console.error("Error sending call end:", error);
+            if (this.options.onError) {
+                this.options.onError(error);
+            }
+        }
+    }
+
+    /**
+     * 发送 ICE 候选
+     */
+    public sendIceCandidate(candidateData: any): void {
+        if (!this.chatStompClient || !this.chatConnected) {
+            console.error("Chat WebSocket not connected");
+            return;
+        }
+
+        try {
+            this.chatStompClient.send("/app/chat/ice-candidate", {}, JSON.stringify(candidateData));
+            console.log("ICE candidate sent:", candidateData);
+        } catch (error) {
+            console.error("Error sending ICE candidate:", error);
+            if (this.options.onError) {
+                this.options.onError(error);
+            }
+        }
+    }
+
+    /**
+     * 订阅通话邀请
+     */
+    public subscribeToCallOffer(callback: (message: any) => void, userId: string): string | null {
+        if (!this.chatStompClient || !this.chatConnected) {
+            console.error("Chat WebSocket not connected");
+            return null;
+        }
+
+        try {
+            const subscription = this.chatStompClient.subscribe(`/queue/user/${userId}/chat/call-offer`, (message) => {
+                try {
+                    const data = JSON.parse(message?.body);
+                    callback(data);
+                } catch (parseError) {
+                    console.error("Error parsing call offer:", parseError);
+                }
+            });
+
+            console.log("Subscribed to call offers");
+            return subscription.id;
+        } catch (error) {
+            console.error("Error subscribing to call offers:", error);
+            if (this.options.onError) {
+                this.options.onError(error);
+            }
+            return null;
+        }
+    }
+
+    /**
+     * 订阅通话应答
+     */
+    public subscribeToCallAnswer(callback: (message: any) => void, userId: string): string | null {
+        if (!this.chatStompClient || !this.chatConnected) {
+            console.error("Chat WebSocket not connected");
+            return null;
+        }
+
+        try {
+            const subscription = this.chatStompClient.subscribe(`/queue/user/${userId}/chat/call-answer`, (message) => {
+                try {
+                    const data = JSON.parse(message?.body);
+                    callback(data);
+                } catch (parseError) {
+                    console.error("Error parsing call answer:", parseError);
+                }
+            });
+
+            console.log("Subscribed to call answers");
+            return subscription.id;
+        } catch (error) {
+            console.error("Error subscribing to call answers:", error);
+            if (this.options.onError) {
+                this.options.onError(error);
+            }
+            return null;
+        }
+    }
+
+    /**
+     * 订阅通话拒绝
+     */
+    public subscribeToCallReject(callback: (message: any) => void, userId: string): string | null {
+        if (!this.chatStompClient || !this.chatConnected) {
+            console.error("Chat WebSocket not connected");
+            return null;
+        }
+
+        try {
+            const subscription = this.chatStompClient.subscribe(`/queue/user/${userId}/chat/call-reject`, (message) => {
+                try {
+                    const data = JSON.parse(message?.body);
+                    callback(data);
+                } catch (parseError) {
+                    console.error("Error parsing call reject:", parseError);
+                }
+            });
+
+            console.log("Subscribed to call rejects");
+            return subscription.id;
+        } catch (error) {
+            console.error("Error subscribing to call rejects:", error);
+            if (this.options.onError) {
+                this.options.onError(error);
+            }
+            return null;
+        }
+    }
+
+    /**
+     * 订阅通话结束
+     */
+    public subscribeToCallEnd(callback: (message: any) => void, userId: string): string | null {
+        if (!this.chatStompClient || !this.chatConnected) {
+            console.error("Chat WebSocket not connected");
+            return null;
+        }
+
+        try {
+            const subscription = this.chatStompClient.subscribe(`/queue/user/${userId}/chat/call-end`, (message) => {
+                try {
+                    const data = JSON.parse(message?.body);
+                    callback(data);
+                } catch (parseError) {
+                    console.error("Error parsing call end:", parseError);
+                }
+            });
+
+            console.log("Subscribed to call ends");
+            return subscription.id;
+        } catch (error) {
+            console.error("Error subscribing to call ends:", error);
+            if (this.options.onError) {
+                this.options.onError(error);
+            }
+            return null;
+        }
+    }
+
+    /**
+     * 订阅 ICE 候选
+     */
+    public subscribeToIceCandidate(callback: (message: any) => void, userId: string): string | null {
+        if (!this.chatStompClient || !this.chatConnected) {
+            console.error("Chat WebSocket not connected");
+            return null;
+        }
+
+        try {
+            const subscription = this.chatStompClient.subscribe(`/queue/user/${userId}/chat/ice-candidate`, (message) => {
+                try {
+                    const data = JSON.parse(message?.body);
+                    callback(data);
+                } catch (parseError) {
+                    console.error("Error parsing ICE candidate:", parseError);
+                }
+            });
+
+            console.log("Subscribed to ICE candidates");
+            return subscription.id;
+        } catch (error) {
+            console.error("Error subscribing to ICE candidates:", error);
+            if (this.options.onError) {
+                this.options.onError(error);
+            }
+            return null;
+        }
+    }
 
     /**
      * 处理重连
