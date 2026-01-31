@@ -1305,7 +1305,7 @@ defineExpose({
                 <el-icon><Picture /></el-icon>
               </el-button>
               <el-button size="default" type="text" @click="toggleEmojiPicker" title="表情包">
-                <el-icon><Smile /></el-icon>
+                <span class="text-xl">😊</span>
               </el-button>
               <el-button v-if="!isInCall" size="default" type="text" @click="startAudioCall" title="语音通话">
                 <el-icon><Microphone /></el-icon>
