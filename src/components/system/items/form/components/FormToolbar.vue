@@ -4,7 +4,6 @@ import {i18n} from "@/lang";
 import {computed, onMounted, ref} from "vue";
 import {ToolBtnType} from "@/components/types/ToolBtnType";
 import {FormConfig} from "@/components/types";
-import CoToolbar from "@/components/system/items/form/components/coorperation/CoToolbar.vue";
 
 const emit = defineEmits<{
   (e: "action", action: ToolBtnType | any): void;
@@ -138,7 +137,6 @@ onMounted(() => {
     </div>
 
     <div class="toolbar-right">
-      <CoToolbar :optional="optional"/>
       <el-tooltip class="item" content="配置" effect="dark" placement="bottom">
         <star-horse-icon
             v-if="optional?.hideConfigBtn??true"
