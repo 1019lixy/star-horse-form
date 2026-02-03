@@ -13,7 +13,6 @@ import {
 } from "vue";
 import {
   CompType,
-  SelectOption,
   operationConfirm,
   piniaInstance,
   useDesignFormStore,
@@ -41,6 +40,7 @@ import {formContainer} from "@/components/system/items/form/composables/formCont
 import {formExtendItems} from "@/components/system/items/form/composables/formExtendItems";
 import {formItems} from "@/components/system/items/form/composables/formItems";
 import {FormConfig} from "@/components/types";
+import {FormSocketService} from "@/components/system/items/FormSocketService";
 
 defineOptions({
   name: "StarHorseFormDesign",
@@ -60,21 +60,17 @@ const emits = defineEmits([
   "loadMenu",
   "loadTableColumns",
 ]);
+const formSocketInstance = ref<FormSocketService | null>(null);
 let designForm = useDesignFormStore(piniaInstance);
 let userOperation = useSelfOperationStore(piniaInstance);
 let configStore = useGlobalConfigStore(piniaInstance);
-/**
- * 协作逻辑，
- * 1、有人选中了某个组件，马上向后端发消息，
- * 2、后端用读写锁处理并发问题，保证同一时间只有一个组件被一个人选中，后选中则返回失败消息，选中成功像所有人员广播消息
- * 3、切换编辑组件，现释放掉当前选中的组件，
- * 4、增加或者删除，编辑组件，实时同步数据到所有协作人员
- */
+
 let compSize = computed(
     () => configStore.configFormInfo?.buttonSize || Config.compSize,
 );
 let draggingItem = computed(() => designForm.draggingItem);
 let list = computed(() => designForm.compList);
+let currentItemId = computed(() => designForm.currentItemId);
 let isPreview = computed(() => designForm.previewVisible);
 let isEdit = computed(() => designForm.isEdit);
 let errMessage = ref<string>("");
@@ -105,7 +101,120 @@ const configDialogRef = ref();
 let shortKeySwitch: Function = () => {
 };
 const {dialogStates, openDialog, closeAllDialogs} = useDialogManager();
+watch(() => currentItemId.value, (newVal, oldVal) => {
+  console.log("Current item changed:", oldVal, "->", newVal);
+  
+  // 当组件切换时，解锁旧组件
+  if (oldVal && oldVal !== newVal) {
+    unlockComponentById(oldVal);
+  }
+  
+  // 锁定新组件
+  if (newVal) {
+    lockComponent(newVal);
+  }
+}, {immediate: true});
+const connectionStatus = ref<string>("未连接");
+const isConnected = ref<boolean>(false);
+const currentFormId = ref<string>("");
+const messageSubscriptions = ref<string[]>([]);
+const subscribeToMessages = () => {
+  if (!formSocketInstance.value) return;
 
+  messageSubscriptions.value.forEach((subscription) => {
+    formSocketInstance.value?.unsubscribe(subscription);
+  });
+  messageSubscriptions.value = [];
+
+  const privateSubscription = formSocketInstance.value.subscribeToGroupMessages((message:any) => {
+    handleIncomingMessage(message);
+  }, currentFormId.value);
+  if (privateSubscription) {
+    messageSubscriptions.value.push(privateSubscription);
+  }
+
+};
+//处理消息
+const handleIncomingMessage = (message:any) => {
+  console.log("Received message:", message);
+  
+  switch (message.type) {
+    case 'lock':
+      if (message.success) {
+        console.log("Component locked successfully:", message.compId);
+      } else {
+        console.error("Component lock failed:", message.compId, message.message);
+        // 显示锁定失败的提示
+        warning(`组件 ${message.compId} 已被 ${message.userInfo?.name || '其他用户'} 锁定`);
+      }
+      break;
+    case 'unlock':
+      console.log("Component unlocked:", message.compId);
+      break;
+    case 'sync':
+      console.log("Syncing form data:", message.data);
+      if (message.data && message.data.list) {
+        designForm.setFormDataList(message.data.list);
+      }
+      break;
+    case 'lock-status':
+      console.log("Component lock status:", message.compId, message.userInfo);
+      if (message.compId && message.userInfo) {
+        designForm.addCurrentCompEditUserInfo(message.compId, message.userInfo);
+      }
+      break;
+  }
+};
+const initWebSocketService = () => {
+  try {
+    console.log("Initializing WebSocket service");
+    formSocketInstance.value = new FormSocketService({
+      endpoint: "/api/ws/form",
+      onChatConnected: () => {
+        console.log("Form WebSocket连接已建立");
+        isConnected.value = true;
+        connectionStatus.value = "已连接";
+        subscribeToMessages();
+      },
+
+      onError: (error) => {
+        console.error("WebSocket错误:", error);
+        connectionStatus.value = "错误: " + error;
+      },
+      onDisconnected: () => {
+        isConnected.value = false;
+        connectionStatus.value = "已断开";
+        console.log("WebSocket连接已断开");
+      },
+    });
+
+    console.log("Attempting to connect to WebSocket server");
+    formSocketInstance.value
+        .connect()
+        .then((connected) => {
+          if (connected) {
+            isConnected.value = true;
+            connectionStatus.value = "已连接";
+            console.log("WebSocket服务连接成功");
+          } else {
+            isConnected.value = false;
+            connectionStatus.value = "连接失败";
+            console.error("WebSocket服务连接失败");
+          }
+        })
+        .catch((error) => {
+          console.error("WebSocket连接过程中出错:", error);
+          isConnected.value = false;
+          connectionStatus.value = "连接出错";
+        });
+
+    console.log("WebSocket服务初始化完成");
+  } catch (error) {
+    console.error("初始化WebSocket服务失败:", error);
+    isConnected.value = false;
+    connectionStatus.value = "初始化失败";
+  }
+};
 const actions = (action: ToolBtnType) => {
   switch (action.key) {
     case "formConfig":
@@ -276,6 +385,14 @@ const onDragAdd = async (_evt: Event, dataList?: Array<any>) => {
 };
 
 const onComponentSelect = (component: any) => {
+  // 先解锁当前选中的组件
+  if (currentItemId.value) {
+    unlockComponentById(currentItemId.value);
+  }
+  
+  // 锁定新组件
+  lockComponent(component.id);
+  
   designForm.selectItem(component, component["itemType"], "");
 };
 
@@ -378,6 +495,9 @@ const listWatcher = watch(
         dataList: val,
         formInfo: unref(formInfo)
       });
+      
+      // 同步数据到其他用户
+      syncFormData();
     },
     {
       immediate: false,
@@ -404,6 +524,45 @@ const exportPreviewToHtml = () => {
   if (previewDialogRef.value) {
     previewDialogRef.value.exportToHtml();
   }
+};
+
+// 锁定组件
+const lockComponent = (compId: string) => {
+  if (!formSocketInstance.value || !formSocketInstance.value.isConnected()) {
+    console.error("WebSocket not connected");
+    return;
+  }
+  
+  const userInfo = {
+    id: configStore.userInfo?.userId || 'anonymous',
+    name: configStore.userInfo?.userName || 'Anonymous User'
+  };
+  
+  formSocketInstance.value.lockComponent(compId, currentFormId.value || 'default', userInfo);
+};
+
+// 解锁组件
+const unlockComponentById = (compId: string) => {
+  if (!formSocketInstance.value || !formSocketInstance.value.isConnected() || !compId) {
+    return;
+  }
+  
+  formSocketInstance.value.unlockComponent(compId, currentFormId.value || 'default');
+};
+
+// 同步表单数据
+const syncFormData = () => {
+  if (!formSocketInstance.value || !formSocketInstance.value.isConnected()) {
+    return;
+  }
+  
+  const data = {
+    list: list.value,
+    formInfo: formInfo.value,
+    formData: formData.value
+  };
+  
+  formSocketInstance.value.syncComponentData(currentFormId.value || 'default', data);
 };
 const nodeList = () => {
   return list.value;
@@ -479,16 +638,16 @@ defineExpose({
       ref="previewDialogRef"
   />
   <PageConfig v-model="formConfigDialogVisible">
-<!--    <template #header="{form}">
-      <el-form-item label="页面风格" prop="pageStyle">
-        <select-item :formData="form" :field="{
-          fieldName:'pageStyle',
-          preps:{
-            values:langList
-          }
-        }"/>
-      </el-form-item>
-    </template>-->
+    <!--    <template #header="{form}">
+          <el-form-item label="页面风格" prop="pageStyle">
+            <select-item :formData="form" :field="{
+              fieldName:'pageStyle',
+              preps:{
+                values:langList
+              }
+            }"/>
+          </el-form-item>
+        </template>-->
   </PageConfig>
   <FieldLayerDrawer v-model:visible="dialogStates.formFieldLayer"/>
   <el-splitter>
@@ -501,16 +660,16 @@ defineExpose({
     </el-splitter-panel>
     <el-splitter-panel>
       <el-splitter layout="vertical">
-       <el-splitter-panel :collapsible="false" :resizable="false" size="42">
-         <FormToolbar
-             :list="list"
-             :currentPageStyle="currentPageStyle"
-             :cacheData="cacheData"
-             @action="actions"
-             @cacheRestore="cacheDataRestore"
-             :optional="optional"
-         />
-       </el-splitter-panel>
+        <el-splitter-panel :collapsible="false" :resizable="false" size="42">
+          <FormToolbar
+              :list="list"
+              :currentPageStyle="currentPageStyle"
+              :cacheData="cacheData"
+              @action="actions"
+              @cacheRestore="cacheDataRestore"
+              :optional="optional"
+          />
+        </el-splitter-panel>
         <el-splitter-panel>
           <el-splitter>
             <el-splitter-panel>

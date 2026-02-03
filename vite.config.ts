@@ -6,6 +6,7 @@ import Components from "unplugin-vue-components/vite";
 import {ElementPlusResolver} from "unplugin-vue-components/resolvers";
 import AutoImport from "unplugin-auto-import/vite";
 import tailwindcss from "@tailwindcss/vite";
+import vueDevTools from "vite-plugin-vue-devtools";
 //生产types文件插件
 import dts from "vite-plugin-dts";
 // https://vitejs.dev/config/
@@ -48,6 +49,7 @@ export default defineConfig((mode) => {
             include: optimizeDepsList,
         },
         plugins: [
+            vueDevTools(),
             tailwindcss(),
             vue({
                 script: {
