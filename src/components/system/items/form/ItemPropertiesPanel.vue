@@ -13,7 +13,7 @@ import {FormConfig} from "@/components/types";
 
 defineOptions({
   name: "ItemPropertiesPanel"
-})
+});
 const props = defineProps({
   optional: {type: Object as PropType<FormConfig>},
 });

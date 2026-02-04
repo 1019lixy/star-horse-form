@@ -11,6 +11,7 @@ import {
   unref,
   watch
 } from "vue";
+import { debounce } from "lodash";
 import {
   CompType,
   operationConfirm,
@@ -75,6 +76,7 @@ let isPreview = computed(() => designForm.previewVisible);
 let isEdit = computed(() => designForm.isEdit);
 let errMessage = ref<string>("");
 let formData = computed(() => designForm.formData);
+const currentUserInfo=ref<any>({});
 let formInfo = computed(() => {
   let temp = unref(designForm.formInfo);
   let pageType = temp["currentPageType"];
@@ -101,25 +103,62 @@ const configDialogRef = ref();
 let shortKeySwitch: Function = () => {
 };
 const {dialogStates, openDialog, closeAllDialogs} = useDialogManager();
+const isCooperationMode = computed(() => formInfo.value?.cooperation === "Y");
+const connectionStatus = ref<string>("未连接");
+const isConnected = ref<boolean>(false);
+const currentFormId = computed(() => {
+  // 优先使用表单的实际 ID
+  if (formInfo.value?.formId) {
+    return formInfo.value.formId;
+  }
+  // 如果没有 ID，使用默认值
+  return "default";
+});
+const messageSubscriptions = ref<string[]>([]);
+const isSyncing = ref<boolean>(false);
+
 watch(() => currentItemId.value, (newVal, oldVal) => {
   console.log("Current item changed:", oldVal, "->", newVal);
-  
+
+  if (!isCooperationMode.value) {
+    return;
+  }
+
+  if (!formSocketInstance.value || !formSocketInstance.value.isConnected()) {
+    console.log("WebSocket not connected, skipping component lock/unlock");
+    return;
+  }
+
   // 当组件切换时，解锁旧组件
   if (oldVal && oldVal !== newVal) {
     unlockComponentById(oldVal);
   }
-  
+
   // 锁定新组件
   if (newVal) {
     lockComponent(newVal);
   }
 }, {immediate: true});
-const connectionStatus = ref<string>("未连接");
-const isConnected = ref<boolean>(false);
-const currentFormId = ref<string>("");
-const messageSubscriptions = ref<string[]>([]);
+
+watch(() => formInfo.value?.cooperation, (newVal, oldVal) => {
+  console.log("Cooperation mode changed:", oldVal, "->", newVal);
+
+  if (newVal === "Y" && oldVal !== "Y") {
+    // 切换到协作模式，初始化 WebSocket
+    initWebSocketService();
+  } else if (newVal !== "Y" && oldVal === "Y") {
+    // 切换到非协作模式，断开 WebSocket
+    if (formSocketInstance.value) {
+      formSocketInstance.value.disconnect();
+      formSocketInstance.value = null;
+    }
+  }
+});
 const subscribeToMessages = () => {
-  if (!formSocketInstance.value) return;
+  if (!formSocketInstance.value || !formSocketInstance.value.isConnected()) {
+    console.error("WebSocket not connected");
+    return;
+  }
 
   messageSubscriptions.value.forEach((subscription) => {
     formSocketInstance.value?.unsubscribe(subscription);
@@ -137,35 +176,56 @@ const subscribeToMessages = () => {
 //处理消息
 const handleIncomingMessage = (message:any) => {
   console.log("Received message:", message);
-  
+
   switch (message.type) {
-    case 'lock':
+    case "lock":
       if (message.success) {
         console.log("Component locked successfully:", message.compId);
+        // 如果是自己锁定的组件，不需要添加编辑用户信息
+        if (message.userInfo && message.userInfo.userId !== currentUserInfo.value.userId) {
+          designForm.addCurrentCompEditUserInfo(message.compId, message.userInfo);
+        }
       } else {
         console.error("Component lock failed:", message.compId, message.message);
         // 显示锁定失败的提示
-        warning(`组件 ${message.compId} 已被 ${message.userInfo?.name || '其他用户'} 锁定`);
+        warning(`组件 ${message.compId} 已被 ${message.userInfo?.name || "其他用户"} 锁定`);
       }
       break;
-    case 'unlock':
+    case "unlock":
       console.log("Component unlocked:", message.compId);
+      if (message.compId) {
+        designForm.removeCurrentCompEditUserInfo(message.compId);
+      }
       break;
-    case 'sync':
+    case "sync":
       console.log("Syncing form data:", message.data);
       if (message.data && message.data.list) {
-        designForm.setFormDataList(message.data.list);
+        isSyncing.value = true;
+        try {
+          designForm.setCompList(message.data.list);
+        } finally {
+          isSyncing.value = false;
+        }
       }
       break;
-    case 'lock-status':
+    case "lock-status":
       console.log("Component lock status:", message.compId, message.userInfo);
       if (message.compId && message.userInfo) {
-        designForm.addCurrentCompEditUserInfo(message.compId, message.userInfo);
+        // 跳过自己的锁定状态，只显示其他用户的编辑状态
+        if (message.userInfo.userId !== currentUserInfo.value.userId) {
+          designForm.addCurrentCompEditUserInfo(message.compId, message.userInfo);
+        }
       }
       break;
   }
 };
+
 const initWebSocketService = () => {
+  if (!isCooperationMode.value) {
+    console.log("非协作模式，跳过WebSocket初始化");
+    return;
+  }
+
   try {
     console.log("Initializing WebSocket service");
     formSocketInstance.value = new FormSocketService({
@@ -175,6 +235,14 @@ const initWebSocketService = () => {
         isConnected.value = true;
         connectionStatus.value = "已连接";
         subscribeToMessages();
+
+        // 注册表单信息到后端
+        registerFormInfo();
+
+        // 同步当前表单数据到后端
+        if (list.value.length > 0) {
+          syncFormData();
+        }
       },
 
       onError: (error) => {
@@ -214,6 +282,10 @@ const initWebSocketService = () => {
     isConnected.value = false;
     connectionStatus.value = "初始化失败";
   }
+};
+const changeRole=(data:any) => {
+  console.log("changeRole",data);
+  currentUserInfo.value=data;
 };
 const actions = (action: ToolBtnType) => {
   switch (action.key) {
@@ -306,7 +378,8 @@ const init = async () => {
     });
   }
   cacheDataRestore(null as MouseEvent);
-
+  // 初始化 WebSocket 服务
+  initWebSocketService();
   //解决数据已经加载完成，但是组件属性没有加载完成的问题
   if (list.value.length > 0) {
     let activeItem = list.value[0];
@@ -382,17 +455,26 @@ const onDragAdd = async (_evt: Event, dataList?: Array<any>) => {
         "",
     );
   }
+    // 仅在协作模式下同步数据到其他用户，且不在同步过程中
+      if (isCooperationMode.value && !isSyncing.value) {
+        syncFormData();
+      }
 };
 
 const onComponentSelect = (component: any) => {
+  if (!isCooperationMode.value) {
+    designForm.selectItem(component, component["itemType"], "");
+    return;
+  }
+
   // 先解锁当前选中的组件
   if (currentItemId.value) {
     unlockComponentById(currentItemId.value);
   }
-  
+
   // 锁定新组件
   lockComponent(component.id);
-  
+
   designForm.selectItem(component, component["itemType"], "");
 };
 
@@ -483,7 +565,7 @@ onBeforeUnmount(() => {
 
 const listWatcher = watch(
     () => list.value,
-    (val: any) => {
+    debounce((val: any) => {
       designForm.removePromise();
       designForm.setRefresh();
       designForm.addHistoryRecord(reOrUnDoFlag.value);
@@ -495,10 +577,9 @@ const listWatcher = watch(
         dataList: val,
         formInfo: unref(formInfo)
       });
-      
-      // 同步数据到其他用户
-      syncFormData();
-    },
+
+
+    }, 300),
     {
       immediate: false,
       deep: true,
@@ -508,6 +589,11 @@ const listWatcher = watch(
 onMounted(async () => {
   await init();
   shortKeySwitch(true);
+
+  // 如果是协作模式，初始化 WebSocket
+  if (isCooperationMode.value) {
+    initWebSocketService();
+  }
 });
 
 const contentMenuRef = ref();
@@ -526,19 +612,32 @@ const exportPreviewToHtml = () => {
   }
 };
 
+// 注册表单信息到后端
+const registerFormInfo = () => {
+  if (!formSocketInstance.value || !formSocketInstance.value.isConnected()) {
+    console.error("WebSocket not connected");
+    return;
+  }
+
+  const formInfoData = {
+    formId: currentFormId.value,
+    formInfo: formInfo.value,
+    formData: formData.value,
+    list: list.value
+  };
+
+  console.log("Registering form info to backend:", formInfoData);
+  formSocketInstance.value.registerFormInfo(formInfoData);
+};
+
 // 锁定组件
 const lockComponent = (compId: string) => {
   if (!formSocketInstance.value || !formSocketInstance.value.isConnected()) {
     console.error("WebSocket not connected");
     return;
   }
-  
-  const userInfo = {
-    id: configStore.userInfo?.userId || 'anonymous',
-    name: configStore.userInfo?.userName || 'Anonymous User'
-  };
-  
-  formSocketInstance.value.lockComponent(compId, currentFormId.value || 'default', userInfo);
+
+  formSocketInstance.value.lockComponent(compId, currentFormId.value, currentUserInfo.value);
 };
 
 // 解锁组件
@@ -546,8 +645,8 @@ const unlockComponentById = (compId: string) => {
   if (!formSocketInstance.value || !formSocketInstance.value.isConnected() || !compId) {
     return;
   }
-  
-  formSocketInstance.value.unlockComponent(compId, currentFormId.value || 'default');
+
+  formSocketInstance.value.unlockComponent(compId, currentFormId.value );
 };
 
 // 同步表单数据
@@ -555,14 +654,14 @@ const syncFormData = () => {
   if (!formSocketInstance.value || !formSocketInstance.value.isConnected()) {
     return;
   }
-  
+
   const data = {
     list: list.value,
     formInfo: formInfo.value,
     formData: formData.value
   };
-  
-  formSocketInstance.value.syncComponentData(currentFormId.value || 'default', data);
+
+  formSocketInstance.value.syncComponentData(currentFormId.value, data);
 };
 const nodeList = () => {
   return list.value;
@@ -666,6 +765,7 @@ defineExpose({
               :currentPageStyle="currentPageStyle"
               :cacheData="cacheData"
               @action="actions"
+              @changeRole="changeRole"
               @cacheRestore="cacheDataRestore"
               :optional="optional"
           />

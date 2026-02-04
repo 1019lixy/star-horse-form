@@ -6,6 +6,7 @@ import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
@@ -126,6 +127,32 @@ public class FormController {
 
         messagingTemplate.convertAndSend("/form/" + formId + "/message", response);
         System.out.println("Data synced to all users in form " + formId);
+    }
+
+    /**
+     * 注册表单信息
+     */
+    @MessageMapping("/form/register-form")
+    public void registerForm(Map<String, Object> payload) {
+        String formId = (String) payload.get("formId");
+        Map<String, Object> formInfo = (Map<String, Object>) payload.get("formInfo");
+        Map<String, Object> formData = (Map<String, Object>) payload.get("formData");
+        List<Map<String, Object>> list = (List<Map<String, Object>>) payload.get("list");
+
+        System.out.println("Register form request: formId=" + formId + ", formInfo=" + formInfo + ", component count=" + (list != null ? list.size() : 0));
+
+        // 保存表单信息
+        // 这里可以将表单信息存储到数据库或缓存中
+
+        // 发送注册成功响应
+        Map<String, Object> response = new HashMap<>();
+        response.put("type", "register-form");
+        response.put("formId", formId);
+        response.put("success", true);
+        response.put("message", "Form registered successfully");
+
+        messagingTemplate.convertAndSend("/form/" + formId + "/message", response);
+        System.out.println("Form " + formId + " registered successfully");
     }
 
     /**

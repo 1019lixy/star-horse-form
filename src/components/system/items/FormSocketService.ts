@@ -187,6 +187,27 @@ export class FormSocketService {
     }
 
     /**
+     * 注册表单信息
+     * @param formInfoData
+     */
+    public registerFormInfo(formInfoData: any): void {
+        if (!this.stompClient || !this.connected) {
+            console.error("Chat WebSocket not connected");
+            return;
+        }
+
+        try {
+            this.stompClient.send("/app/form/register-form", {}, JSON.stringify(formInfoData));
+            console.log("Form info registered:", formInfoData.formId);
+        } catch (error) {
+            console.error("Error registering form info:", error);
+            if (this.options.onError) {
+                this.options.onError(error);
+            }
+        }
+    }
+
+    /**
      * 订阅新peer加入通知
      * @param callback
      * @param userId

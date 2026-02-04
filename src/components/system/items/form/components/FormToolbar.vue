@@ -4,10 +4,12 @@ import {i18n} from "@/lang";
 import {computed, onMounted, ref} from "vue";
 import {ToolBtnType} from "@/components/types/ToolBtnType";
 import {FormConfig} from "@/components/types";
+import {piniaInstance, useDesignFormStore} from "star-horse-lowcode";
 
 const emit = defineEmits<{
   (e: "action", action: ToolBtnType | any): void;
   (e: "cacheRestore", event: MouseEvent): void;
+  (e: "changeRole", data: any): void;
 }>();
 
 const props = defineProps<{
@@ -16,7 +18,8 @@ const props = defineProps<{
   currentPageStyle: any;
   cacheData: any;
 }>();
-
+const designForm = useDesignFormStore(piniaInstance);
+let formInfo = computed(() => designForm.formInfo);
 const activeDropdown = ref<string | null>(null);
 const allActions = computed(() => {
   return formActions().concat(props.optional?.extendButtons);
@@ -51,16 +54,64 @@ const pageConfig = () => {
   emit("action", {
     key: "formConfig"
   });
+
 };
 const closeDropdown = () => {
   activeDropdown.value = null;
+};
+const cooperationConfigVisible = ref<boolean>(false);
+const tempForm = ref<any>({});
+const cooperationFormRef = ref();
+const roleList: any = [
+  {name: "张三", value: "zhangsan", userId: "zhangsan"},
+  {name: "李四", value: "lisi", userId: "lisi"},
+];
+const cooperationConfig = () => {
+  cooperationConfigVisible.value = true;
+};
+const doSave = (flag: boolean) => {
+  cooperationFormRef.value?.validate((temp) => {
+    if (temp) {
+      formInfo.value["cooperation"] = tempForm.value.cooperation ?? "N";
+      formInfo.value["formId"] = tempForm.value.formId;
+      cooperationConfigVisible.value = false;
+    }
+  });
+  emit("changeRole", roleList.find(item => item.value == tempForm.value.roleId)
+  );
+  // formInfo.value["formId"]=tempForm.value.formId;
 };
 onMounted(() => {
 });
 </script>
 
 <template>
+  <star-horse-dialog
+      :dialogVisible="cooperationConfigVisible"
+      @closeAction="cooperationConfigVisible=false"
+      :selfFunc="true"
+      compSize="default"
+      @merge="() => doSave(false)"
+      boxHeight="30%"
+      boxWidth="40%"
+      title="协作配置">
+    <el-form :model="tempForm" ref="cooperationFormRef">
+      <el-form-item label="是否协作" required prop="cooperation">
+        <el-input v-model="tempForm.cooperation"/>
+      </el-form-item>
+      <el-form-item label="表单Id" required prop="formId">
+        <el-input v-model="tempForm.formId"/>
+      </el-form-item>
+      <el-form-item label="角色" required prop="roleId">
+        <el-radio-group v-model="tempForm.roleId">
+          <el-radio :value="item.value" v-for="item in roleList">
+            {{ item.name }}
+          </el-radio>
+        </el-radio-group>
 
+      </el-form-item>
+    </el-form>
+  </star-horse-dialog>
   <div class="inner_button" @click="closeDropdown">
     <div class="toolbar-container">
       <el-button-group class="toolbar-group">
@@ -137,6 +188,13 @@ onMounted(() => {
     </div>
 
     <div class="toolbar-right">
+      <el-tooltip class="item" content="协作配置" effect="dark" placement="bottom">
+        <star-horse-icon
+            icon-class="setting"
+            @click="cooperationConfig"
+            cursor="pointer"
+        />
+      </el-tooltip>
       <el-tooltip class="item" content="配置" effect="dark" placement="bottom">
         <star-horse-icon
             v-if="optional?.hideConfigBtn??true"
