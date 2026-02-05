@@ -370,6 +370,13 @@ onMounted(() => {
             inactive-text="否"
         />
       </el-form-item>
+      <el-form-item label="隐藏标签" prop="hideLabel">
+        <el-switch
+            v-model="formProps.hideLabel"
+            active-text="是"
+            inactive-text="否"
+        />
+      </el-form-item>
       <el-form-item
           label="显示方式"
           prop="defaultVisible"
@@ -415,6 +422,19 @@ onMounted(() => {
             v-model="formProps.clearable"
             active-text="是"
             inactive-text="否"
+        />
+      </el-form-item>
+      <el-form-item label="标签数据" prop="staticData" v-if="currentItemType=='text'||currentItemType=='html'">
+        <el-switch
+            v-model="formProps.staticData"
+            active-text="是"
+            inactive-text="否"
+        />
+      </el-form-item>
+      <el-form-item label="标签内容" prop="staticData" v-if="formProps.staticData">
+        <el-input
+            v-model="formProps.textContent"
+            type="textarea"
         />
       </el-form-item>
 

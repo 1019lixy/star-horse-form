@@ -81,22 +81,22 @@ export function fieldCopy(data: any, type: string) {
   if (reData.itemType == "box") {
     mvData.preps["elements"] = [
       {
-        _uuid: uuid(),
+        id: uuid(),
         rowIndex: 1,
-        columns: [{ _uuid: uuid(), colIndex: 1, colspan: 24, items: [] }],
+        columns: [{ id: uuid(), colIndex: 1, colspan: 24, items: [] }],
       },
     ];
   } else if (reData.itemType == "table") {
     mvData.preps["elements"] = [
-      { _uuid: uuid(), colIndex: 1, columns: 1, items: [] },
+      { id: uuid(), colIndex: 1, columns: 1, items: [] },
     ];
   } else if (reData.itemType == "dytable") {
     mvData.preps["elements"] = [
       {
-        _uuid: uuid(),
+        id: uuid(),
         colIndex: 1,
         columns: [
-          { _uuid: uuid(), colIndex: 1, colspan: 1, rowspan: 1, items: [] },
+          { id: uuid(), colIndex: 1, colspan: 1, rowspan: 1, items: [] },
         ],
       },
     ];

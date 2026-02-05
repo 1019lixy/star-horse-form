@@ -2591,6 +2591,16 @@ export const formItems: CompType[] = [
                 category: 1,
                 configParams: [],
             },
+            {
+                label: "隐藏工具栏",
+                fieldName: "hideToolbar",
+                fieldType: "switch",
+                required: false,
+                selectValues: "",
+                defaultValues: "",
+                category: 1,
+                configParams: [],
+            },
         ],
         advancedFields: [
             {
