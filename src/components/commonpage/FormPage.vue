@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {nextTick, onMounted, provide, reactive, ref, watch,} from "vue";
+import {nextTick, onMounted, provide, ref, watch,} from "vue";
 import {analysisCompDatas, apiInstance, ApiUrls, dialogPreps,} from "star-horse-lowcode";
 import {i18n} from "@/lang";
 import CommonSkeleton from "./CommonSkeleton.vue";
@@ -30,6 +30,7 @@ const loadFormData = async () => {
   let {fieldList} = analysisCompDatas(props.compList);
   primaryKey.value = "id";
   tableFieldList.value.fieldList = fieldList;
+  console.log(fieldList);
   await nextTick();
   hasData.value = true;
   isLoading.value = false; // 加载完成

@@ -4,7 +4,7 @@ import {i18n} from "@/lang";
 import {computed, onMounted, ref} from "vue";
 import {ToolBtnType} from "@/components/types/ToolBtnType";
 import {FormConfig} from "@/components/types";
-import {piniaInstance, useDesignFormStore} from "star-horse-lowcode";
+import {piniaInstance, StarHorseIcon, useDesignFormStore} from "star-horse-lowcode";
 
 const emit = defineEmits<{
   (e: "action", action: ToolBtnType | any): void;
@@ -193,6 +193,7 @@ onMounted(() => {
             icon-class="setting"
             @click="cooperationConfig"
             cursor="pointer"
+            v-if="optional?.cooperationMode??false"
         />
       </el-tooltip>
       <el-tooltip class="item" content="配置" effect="dark" placement="bottom">
