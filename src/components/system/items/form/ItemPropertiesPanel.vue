@@ -475,6 +475,13 @@ onMounted(() => {
             type="textarea"
         />
       </el-form-item>
+      <el-form-item label="Css样式" prop="styles">
+        <el-input
+            v-model="formProps.styles"
+            placeholder="请输入Css样式"
+            type="textarea"
+        />
+      </el-form-item>
     </template>
   </el-scrollbar>
 </template>

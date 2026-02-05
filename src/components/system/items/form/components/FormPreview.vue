@@ -115,7 +115,7 @@ onMounted(() => {
   });
 });
 watch(() => props.formStyle, (val) => {
-  formData.value.pageStyle = val ?? "normal";
+  formData.value.pageStyle = val ?? "form";
 }, {immediate: true});
 defineExpose({
   validateForm,
