@@ -92,3 +92,7 @@ app.mount('#app')
 - 更新star-horse-lowcode 版本
 --table和box 容器展示bug,可通过此二者容器构建复杂的表单
 ```
+### v2.1.3
+```
+- 修复更新导致的bug
+```

@@ -83,6 +83,9 @@ const dyPaste = () => {
     copyContainer(list.value, copyItem, action.value === "cut");
   } else {
     copyItem.id = uuid();
+    if(!copyItem.preps){
+      copyItem.preps={};
+    }
     copyItem.preps.id = copyItem.id;
 
     copyItem.preps.label = copyItem.preps.label + "(复制)";
