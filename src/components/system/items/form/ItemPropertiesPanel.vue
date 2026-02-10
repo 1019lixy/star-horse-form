@@ -60,6 +60,7 @@ let relationComps: Array<string> = [
   "page-select",
   "dialog-input",
   "icon",
+  "datapicker"
 ];
 let exclusionDataSource: Array<string> = [
   "page-select",

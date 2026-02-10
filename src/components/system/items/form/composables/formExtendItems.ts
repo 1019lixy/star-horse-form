@@ -635,4 +635,15 @@ export const formExtendItems: CompType[] = [
         actions: [],
         preps: [],
     },
+    {
+        itemName: "数据选择器",
+        itemType: "datapicker",
+        itemIcon: "select",
+        category: 3,
+        fields: [],
+        advancedFields: [],
+        selfFields: [],
+        actions: [],
+        preps: [],
+    },
 ];

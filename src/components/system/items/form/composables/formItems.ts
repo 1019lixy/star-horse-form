@@ -649,15 +649,9 @@ export const formItems: CompType[] = [
                 selectValues: [
                     {name: "年", value: "year"},
                     {name: "月", value: "month"},
-                    {
-                        name: "周",
-                        value: "week",
-                    },
+                    {name: "周", value: "week"},
                     {name: "日期", value: "date"},
-                    {
-                        name: "日期和时间",
-                        value: "datetime",
-                    },
+                    {name: "日期和时间",value: "datetime"},
                     {name: "日期和时间范围", value: "datetimerange"},
                     {name: "日期范围", value: "daterange"},
                 ],
