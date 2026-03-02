@@ -1,4 +1,5 @@
-import {CompType} from "star-horse-lowcode";
+import {CompType, StarHorseDialog, StarHorseForm} from "star-horse-lowcode";
+import {createDynamicContainer} from "@/api/system";
 
 export const formItems: CompType[] = [
     {
@@ -651,7 +652,7 @@ export const formItems: CompType[] = [
                     {name: "月", value: "month"},
                     {name: "周", value: "week"},
                     {name: "日期", value: "date"},
-                    {name: "日期和时间",value: "datetime"},
+                    {name: "日期和时间", value: "datetime"},
                     {name: "日期和时间范围", value: "datetimerange"},
                     {name: "日期范围", value: "daterange"},
                 ],
@@ -2969,7 +2970,42 @@ export const formItems: CompType[] = [
                 defaultValues: "",
                 category: 1,
                 configParams: [],
-            },
+                actions: {
+                    click: (prep: any) => {
+                        createDynamicContainer({
+                            type: StarHorseDialog,
+                            title: "配置数据",
+                            props: {
+                                dialogVisible: true,
+                                selfFunc: true
+                            },
+                            content: {
+                                type: StarHorseForm,
+                                props: {
+                                    fieldList: {
+                                        fieldList: [
+                                            {
+                                                label: "内容",
+                                                fieldName: "content",
+                                                type: "textarea"
+                                            }]
+                                    }
+                                }
+                            },
+                            events: {
+                                //所有emits 定义的函数都遵循 merge=>onMerge
+                                onMerge: (type) => {
+                                    alert(3);
+                                },
+                                onCloseAction: () => {
+                                    alert("close")
+                                }
+                            }
+                        })
+                        ;
+                    }
+                }
+            }
         ],
         advancedFields: [],
         selfFields: [],

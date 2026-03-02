@@ -15,6 +15,7 @@ import prepsComponent from "@/components/system/items/prepscomp";
 import StarHorseLowCode from "star-horse-lowcode";
 import { getLang } from "@/theme/localStorge";
 import { LangType } from "@/theme/theme";
+import {registerVueContext} from "@/api/vueContext";
 
 const app = createApp(App);
 export const appInstance = app;
@@ -59,5 +60,5 @@ app.config.warnHandler = () => null;
 //     console.log(instance);
 //     console.log(trace);
 // }
-
+registerVueContext("formContext",app._context);
 app.mount("#app");

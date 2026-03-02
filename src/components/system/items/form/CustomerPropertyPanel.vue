@@ -8,6 +8,7 @@ import JsEditorDialog from "@/components/system/items/form/dialogs/JsEditorDialo
 import ParamsDialog from "@/components/system/items/form/dialogs/ParamsDialog.vue";
 import PreOrPendDialog from "@/components/system/items/form/dialogs/PreOrPendDialog.vue";
 import {FormConfig} from "@/components/types";
+import {deepClone} from "@/api/system.js";
 
 const props = defineProps({
   optional: {type: Object as PropType<FormConfig>},
@@ -103,12 +104,13 @@ const convertFormFieldData = (items: any, type: string) => {
       }
     }
     if (item["type"] == "button") {
+ 
       switch (type) {
         case "base":
-          item["actions"] = {};
+          item["actions"] =item["actions"]?? {};
           break;
         case "other":
-          item["actions"] = {};
+          item["actions"] =item["actions"]?? {};
           break;
         default:
           item["actions"] = {
@@ -142,7 +144,8 @@ const assignValue = (fieldInfo: any) => {
     }
     basePreps.value = [];
     actionPreps.value = [];
-    let temp = JSON.parse(JSON.stringify(fieldInfo));
+    //let temp = JSON.parse(JSON.stringify(fieldInfo));
+    let temp =deepClone(fieldInfo);
     currentField.value = temp;
     convertFormFieldData(temp.fields, "base");
     convertFormFieldData(temp.advancedFields, "other");
@@ -199,10 +202,12 @@ watch(
     () => [currentItemId.value, currentItemType.value],
     () => {
       console.log(currentItemId.value, currentItemType.value);
+     if(!currentItemId.value && !currentItemType.value){
       assignPrep();
+     }
     },
     {
-      immediate: false,
+      immediate: true,
     },
 );
 </script>
@@ -280,57 +285,20 @@ watch(
               item.type == 'switch' || item.type == 'button' ? 'left' : 'top'
             "
           >
-<!--            <el-input
-                v-if="item.type == 'input'"
-                v-model="formProps[item.fieldName]"
-                :placeholder="'请输入' + item.label"
-            />
-            <el-select
-                v-if="item.type == 'select'"
-                clearable
-                filterable
-                v-model="formProps[item.fieldName]"
-                :placeholder="'请选择' + item.label"
-            >
-              <el-option
-                  v-for="temp in item.preps.values"
-                  :label="temp.label"
-                  :value="temp.value"
-              />
-            </el-select>-->
             <el-button
                 v-if="item.type == 'button'"
                 type="primary"
                 plain
-                @click="item.actions?.click(formProps)"
+                @click="item.actions?.click?.(formProps)"
                 icon="Setting"
             >
               配置
             </el-button>
-<!--            <el-input-number
-                v-if="item.type == 'number'"
-                controls-position="right"
-                min="0"
-                v-model="formProps[item.fieldName]"
-                :placeholder="'请输入' + item.label"
-            />
-            <el-switch
-                v-if="item.type == 'switch'"
-                v-model="formProps[item.fieldName]"
-            />
-            <icon-item
-                v-if="item.type == 'icon'"
+            <component
+                v-else
+                :is="item.type+'-item'"
                 v-model:formData="formProps"
                 :field="{
-                fieldName: item.fieldName,
-                preps: item.preps,
-              }"
-            />-->
-              <component
-                  v-else
-                  :is="item.type+'-item'"
-                  v-model:formData="formProps"
-                  :field="{
                 fieldName: item.fieldName,
                 preps: item.preps,
               }"/>
