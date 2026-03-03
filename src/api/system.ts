@@ -1,5 +1,5 @@
 import {loadData, SelectOption} from "star-horse-lowcode";
-import {createVNode, isVNode, render} from "vue";
+import {AppContext, createVNode, isVNode, nextTick, ref, render, VNode} from "vue";
 import {getVueContext} from "@/api/vueContext";
 
 const validUrl: string = "/userdb-manage/redirect/valid";
@@ -107,6 +107,16 @@ export function deepClone(obj: any) {
     return obj;
 }
 
+// 定义 TS 接口（增强类型提示，可选但推荐）
+export interface DynamicContainerOptions {
+    type: any; // Dialog 组件
+    title?: string;
+    content: DynamicContainerOptions | VNode;
+    props?: Record<string, any>;
+    events?: Record<string, any>;
+    appContext?: AppContext;
+}
+
 /**
  * 动态创建 Dialog/Drawer 组件
  * @param {Object} options - 配置项
@@ -115,8 +125,8 @@ export function deepClone(obj: any) {
  * @param {string} options.content - 内容（支持简单文本或HTML）
  * @param {Object} options.props - 组件额外属性（如 width、direction 等）
  */
-export const createDynamicContainer = (options: any) => {
-    const {type, title, content, props, events, refName} = options
+export const createDynamicComp = (options: DynamicContainerOptions) => {
+    const {type, title, content, props, events} = options
     // 1. 创建容器 DOM 节点（挂载点）
     const container = document.createElement('div')
     document.body.appendChild(container)
@@ -126,17 +136,21 @@ export const createDynamicContainer = (options: any) => {
         render(null, container)
         document.body.removeChild(container)
     }
-    let dataContent = content;
+    let dataContent: any = content;
     // 定义 Form 组件的 ref（核心：用于获取实例）
-    // 判断 content 是否为 VNode，如果不是则创建 VNode
+    const formInstance = ref<any>(null);
+
     if (!isVNode(content)) {
         dataContent = createVNode(content.type, {
-            ...content.props,
-            ref: refName,
+            ...content.props
         }, {
             default: () => []
         });
-
+    } else {
+        // 如果 content 已是 VNode，覆盖其 ref 回调
+        dataContent.props = {
+            ...dataContent.props
+        }
     }
     // 3. 构建组件 VNode（虚拟节点）
     const vNode = createVNode(
@@ -153,9 +167,23 @@ export const createDynamicContainer = (options: any) => {
         }
     );
     vNode.appContext = getVueContext("formContext");
-    console.log(dataContent.appContext);
+    dataContent.appContext = vNode.appContext;
+    console.log(vNode, dataContent);
     // 4. 渲染 VNode 到 DOM 中
     render(vNode, container);
+
+
+    setTimeout(() => {
+        console.log("valid:", formInstance);
+    }, 2000);
+    nextTick(() => {
+        // debugger;
+        formInstance.value = dataContent.component?.exposed;
+        console.log(formInstance, dataContent.component);
+        // if (refName) {
+        //     refName.value = formInstance.value;
+        // }
+    })
     // 返回销毁方法，供外部手动控制
-    return {close}
+    return {close, formInstance}
 }

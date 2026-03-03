@@ -9,6 +9,7 @@ import ParamsDialog from "@/components/system/items/form/dialogs/ParamsDialog.vu
 import PreOrPendDialog from "@/components/system/items/form/dialogs/PreOrPendDialog.vue";
 import {FormConfig} from "@/components/types";
 import {deepClone} from "@/api/system.js";
+import UserDefinePrepsDialog from "@/components/system/items/form/dialogs/UserDefinePrepsDialog.vue";
 
 const props = defineProps({
   optional: {type: Object as PropType<FormConfig>},
@@ -29,6 +30,7 @@ let list = computed(() => designForm.compList);
 let formInfo = computed(() => designForm.formInfo);
 const formProps = computed(() => designForm.currentFormPreps);
 const {dialogStates, openDialog, closeAllDialogs} = useDialogManager();
+const userDefinePreps = ref<Record<string, any>>({});
 let currentField = ref<any>({});
 let fieldName = ref<string>("");
 let activeNames = ref<string[]>(["base"]);
@@ -104,13 +106,13 @@ const convertFormFieldData = (items: any, type: string) => {
       }
     }
     if (item["type"] == "button") {
- 
+
       switch (type) {
         case "base":
-          item["actions"] =item["actions"]?? {};
+          item["actions"] = item["actions"] ?? {};
           break;
         case "other":
-          item["actions"] =item["actions"]?? {};
+          item["actions"] = item["actions"] ?? {};
           break;
         default:
           item["actions"] = {
@@ -137,15 +139,17 @@ const basePreps = ref<Array<any>>([]);
 const actionPreps = ref<Array<any>>([]);
 const assignValue = (fieldInfo: any) => {
   try {
+    basePreps.value = [];
+    actionPreps.value = [];
     if (recordPreps.value[fieldInfo.itemType]) {
       basePreps.value = recordPreps.value[fieldInfo.itemType].basePreps;
       actionPreps.value = recordPreps.value[fieldInfo.itemType].actionPreps;
       return;
     }
-    basePreps.value = [];
-    actionPreps.value = [];
+    // basePreps.value = [];
+    // actionPreps.value = [];
     //let temp = JSON.parse(JSON.stringify(fieldInfo));
-    let temp =deepClone(fieldInfo);
+    let temp = deepClone(fieldInfo);
     currentField.value = temp;
     convertFormFieldData(temp.fields, "base");
     convertFormFieldData(temp.advancedFields, "other");
@@ -192,6 +196,11 @@ const init = () => {
 const prependOrAppend = () => {
   openDialog("preOrPendDialog");
 };
+const configPreps = () => {
+  // userDefinePreps.value = formProps.value;
+  openDialog("userDefinePrepsDialog");
+}
+
 onMounted(() => {
   init();
 });
@@ -201,10 +210,9 @@ defineExpose({
 watch(
     () => [currentItemId.value, currentItemType.value],
     () => {
-      console.log(currentItemId.value, currentItemType.value);
-     if(!currentItemId.value && !currentItemType.value){
-      assignPrep();
-     }
+      if (!currentItemId.value && !currentItemType.value) {
+        assignPrep();
+      }
     },
     {
       immediate: true,
@@ -228,6 +236,16 @@ watch(
       :fieldName="fieldName"
       :currentField="currentField"
       @merge="handleDialogMerge"
+      @close="handleDialogClose"
+      @reset="handleDialogClose"
+  />
+
+  <UserDefinePrepsDialog
+      :visible="dialogStates.userDefinePrepsDialog"
+      :formProps="formProps"
+      :formInfo="formInfo"
+      :fieldName="fieldName"
+      :currentField="currentField"
       @close="handleDialogClose"
       @reset="handleDialogClose"
   />
@@ -304,6 +322,18 @@ watch(
               }"/>
           </el-form-item>
         </template>
+        <el-form-item  label="自定义属性"
+                       prop="userDefinePreps"
+                       :size="compSize">
+          <el-button
+              type="primary"
+              plain
+              @click="configPreps"
+              icon="Setting"
+          >
+            配置
+          </el-button>
+        </el-form-item>
       </el-collapse-item>
       <el-collapse-item name="action">
         <template #title="{ isActive }">

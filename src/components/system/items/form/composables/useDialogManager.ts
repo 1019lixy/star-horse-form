@@ -18,6 +18,7 @@ export function useDialogManager() {
     containerDialog: false,
     jsEditor: false,
     preOrPendDialog: false,
+    userDefinePrepsDialog:false,
   });
 
   const setShortKeyDisabled = (disabled: boolean) => {

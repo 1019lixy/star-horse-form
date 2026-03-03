@@ -85,7 +85,9 @@ const dataSource = (_type: string) => {
   });
 };
 const setDataSourceData = () => {
-  dataSourceFormRef.value?.setFormData(formProps.value);
+  setTimeout(() => {
+    dataSourceFormRef.value?.setFormData(formProps.value);
+  }, 200);
 };
 const configRelationPolicy = () => {
   dataRelationDialogVisible.value = true;
@@ -425,19 +427,7 @@ onMounted(() => {
             inactive-text="否"
         />
       </el-form-item>
-      <el-form-item label="标签数据" prop="staticData" v-if="currentItemType=='text'||currentItemType=='html'">
-        <el-switch
-            v-model="formProps.staticData"
-            active-text="是"
-            inactive-text="否"
-        />
-      </el-form-item>
-      <el-form-item label="标签内容" prop="staticData" v-if="formProps.staticData">
-        <el-input
-            v-model="formProps.textContent"
-            type="textarea"
-        />
-      </el-form-item>
+
 
       <el-form-item label="原样显示" prop="prototypeDisplay">
         <el-switch

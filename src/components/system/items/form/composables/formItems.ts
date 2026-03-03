@@ -1,6 +1,79 @@
-import {CompType, StarHorseDialog, StarHorseForm} from "star-horse-lowcode";
-import {createDynamicContainer} from "@/api/system";
+import {CompType, ItemType, StarHorseDialog, StarHorseForm} from "star-horse-lowcode";
+import {createDynamicComp} from "@/api/system";
+import {unref} from "vue";
 
+const dialogAndDrawerFields: Array<ItemType|any> = [
+    {
+        label: "组件名称",
+        fieldName: "compName",
+        fieldType: "input",
+        required: false,
+        defaultValues: "",
+        category: 1,
+    },
+    {
+    label: "参数说明",
+    fieldName: "paramDesc",
+    fieldType: "html",
+    required: false,
+    defaultValues: "",
+    category: 1,
+    preps: {
+        staticData: true,
+        textContent: "此组件可在自定义属性中配置:<br/> 表单信息(fieldList:数组)，<br/>组件/表单参数(params:对象)"
+    }
+}];
+const labelContent: ItemType | any = (itemType: string) => {
+    return {
+        label: "内容",
+        fieldName: "textContent",
+        fieldType: "button",
+        required: false,
+        selectValues: "",
+        defaultValues: "",
+        category: 1,
+        configParams: [],
+        actions: {
+            click: (prep: any) => {
+                const {close, formInstance} = createDynamicComp({
+                        type: StarHorseDialog,
+                        title: "配置数据",
+                        props: {
+                            dialogVisible: true,
+                            selfFunc: true
+                        },
+                        content: {
+                            type: StarHorseForm,
+                            props: {
+                                fieldList: {
+                                    fieldList: [
+                                        {
+                                            label: "内容",
+                                            fieldName: "textContent",
+                                            defaultValue: prep.textContent ?? "",
+                                            type: itemType ?? "htmleditor"
+                                        }]
+                                }
+                            }
+                        },
+                        events: {
+                            //所有emits 定义的函数都遵循 merge=>onMerge
+                            onMerge: (type) => {
+                                const tempData = unref(formInstance.value.getFormData());
+                                prep["staticData"] = true;
+                                prep["textContent"] = tempData["textContent"];
+                                close();
+                            },
+                            onCloseAction: () => {
+                                console.log("onCloseAction");
+                            },
+                        }
+                    })
+                ;
+            }
+        }
+    }
+};
 export const formItems: CompType[] = [
     {
         itemName: "单行文本框",
@@ -2961,51 +3034,7 @@ export const formItems: CompType[] = [
         itemIcon: "text",
         category: 1,
         fields: [
-            {
-                label: "内容",
-                fieldName: "content",
-                fieldType: "button",
-                required: false,
-                selectValues: "",
-                defaultValues: "",
-                category: 1,
-                configParams: [],
-                actions: {
-                    click: (prep: any) => {
-                        createDynamicContainer({
-                            type: StarHorseDialog,
-                            title: "配置数据",
-                            props: {
-                                dialogVisible: true,
-                                selfFunc: true
-                            },
-                            content: {
-                                type: StarHorseForm,
-                                props: {
-                                    fieldList: {
-                                        fieldList: [
-                                            {
-                                                label: "内容",
-                                                fieldName: "content",
-                                                type: "textarea"
-                                            }]
-                                    }
-                                }
-                            },
-                            events: {
-                                //所有emits 定义的函数都遵循 merge=>onMerge
-                                onMerge: (type) => {
-                                    alert(3);
-                                },
-                                onCloseAction: () => {
-                                    alert("close")
-                                }
-                            }
-                        })
-                        ;
-                    }
-                }
-            }
+            labelContent("htmleditor")
         ],
         advancedFields: [],
         selfFields: [],
@@ -3018,16 +3047,7 @@ export const formItems: CompType[] = [
         itemIcon: "text",
         category: 1,
         fields: [
-            {
-                label: "文本内容",
-                fieldName: "textContent",
-                fieldType: "input",
-                required: true,
-                selectValues: "",
-                defaultValues: "",
-                category: 1,
-                configParams: [],
-            },
+            labelContent("textarea")
         ],
         advancedFields: [],
         selfFields: [],
@@ -3331,34 +3351,18 @@ export const formItems: CompType[] = [
         itemType: "dialog",
         itemIcon: "map",
         category: 1,
-        fields: [
-            {
-                label: "组件名称",
-                fieldName: "compName",
-                fieldType: "input",
-                required: false,
-                defaultValues: "",
-                category: 1
-            },
-            {
-                label: "表单信息",
-                fieldName: "fieldList",
-                fieldType: "json",
-                required: false,
-                selectValues: "",
-                defaultValues: "",
-                category: 1
-            },
-            {
-                label: "组件/表单参数",
-                fieldName: "params",
-                fieldType: "json",
-                required: false,
-                selectValues: "",
-                defaultValues: "",
-                category: 1
-            },
-        ],
+        fields: dialogAndDrawerFields,
+        advancedFields: [],
+        selfFields: [],
+        actions: [],
+        preps: [],
+    },
+    {
+        itemName: "抽屉",
+        itemType: "drawer",
+        itemIcon: "map",
+        category: 1,
+        fields: dialogAndDrawerFields,
         advancedFields: [],
         selfFields: [],
         actions: [],
