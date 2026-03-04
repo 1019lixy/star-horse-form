@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import {i18n} from "@/lang/index.js";
-import {onMounted, ref} from "vue";
+import { i18n } from "@/lang/index.js";
+import { onMounted, ref } from "vue";
 import FormPreview from "@/components/system/items/form/components/FormPreview.vue";
 
 const emit = defineEmits<{
@@ -26,12 +26,9 @@ const validateForm = async () => {
 // HTML export function
 const exportToHtml = () => {
   previewFormRef.value?.exportToHtml();
-
 };
 // Expose methods for parent component to use
-onMounted(() => {
-
-});
+onMounted(() => {});
 defineExpose({
   validateForm,
   exportToHtml,
@@ -40,16 +37,21 @@ defineExpose({
 
 <template>
   <star-horse-dialog
-      :dialogVisible="visible"
-      @closeAction="closeAction"
-      box-height="80%"
-      :selfFunc="true"
-      :compSize="compSize"
-      :title="i18n('dyform.preview.dialog.title')"
-      :source="3"
+    :dialogVisible="visible"
+    @closeAction="closeAction"
+    box-height="80%"
+    :selfFunc="true"
+    :compSize="compSize"
+    :title="i18n('dyform.preview.dialog.title')"
+    :source="3"
   >
     <div :class="currentPageClass">
-      <FormPreview :compSize="compSize" :currentPageClass="currentPageClass" :list="list" ref="previewFormRef"/>
+      <FormPreview
+        :compSize="compSize"
+        :currentPageClass="currentPageClass"
+        :list="list"
+        ref="previewFormRef"
+      />
     </div>
   </star-horse-dialog>
 </template>

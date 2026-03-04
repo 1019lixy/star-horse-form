@@ -1,10 +1,17 @@
 <script setup lang="ts">
-import {dynamicFormHelpMessage, formActions,} from "@/components/system/items/utils/DynamicForm";
-import {i18n} from "@/lang";
-import {computed, onMounted, ref} from "vue";
-import {ToolBtnType} from "@/components/types/ToolBtnType";
-import {FormConfig} from "@/components/types";
-import {piniaInstance, StarHorseIcon, useDesignFormStore} from "star-horse-lowcode";
+import {
+  dynamicFormHelpMessage,
+  formActions,
+} from "@/components/system/items/utils/DynamicForm";
+import { i18n } from "@/lang";
+import { computed, onMounted, ref } from "vue";
+import { ToolBtnType } from "@/components/types/ToolBtnType";
+import { FormConfig } from "@/components/types";
+import {
+  piniaInstance,
+  StarHorseIcon,
+  useDesignFormStore,
+} from "star-horse-lowcode";
 
 const emit = defineEmits<{
   (e: "action", action: ToolBtnType | any): void;
@@ -44,17 +51,16 @@ const permissionCheck = (item: ToolBtnType) => {
   if (!item) return false;
   const permissions = props.optional?.permissions ?? {};
   return (
-      (props.list.length > 0 || item.defaultEdit) &&
-      (item.auth == "none" || permissions[item.auth]) &&
-      !item.children
+    (props.list.length > 0 || item.defaultEdit) &&
+    (item.auth == "none" || permissions[item.auth]) &&
+    !item.children
   );
 };
 // 页面配置功能
 const pageConfig = () => {
   emit("action", {
-    key: "formConfig"
+    key: "formConfig",
   });
-
 };
 const closeDropdown = () => {
   activeDropdown.value = null;
@@ -63,8 +69,8 @@ const cooperationConfigVisible = ref<boolean>(false);
 const tempForm = ref<any>({});
 const cooperationFormRef = ref();
 const roleList: any = [
-  {name: "张三", value: "zhangsan", userId: "zhangsan"},
-  {name: "李四", value: "lisi", userId: "lisi"},
+  { name: "张三", value: "zhangsan", userId: "zhangsan" },
+  { name: "李四", value: "lisi", userId: "lisi" },
 ];
 const cooperationConfig = () => {
   cooperationConfigVisible.value = true;
@@ -77,30 +83,32 @@ const doSave = (flag: boolean) => {
       cooperationConfigVisible.value = false;
     }
   });
-  emit("changeRole", roleList.find(item => item.value == tempForm.value.roleId)
+  emit(
+    "changeRole",
+    roleList.find((item) => item.value == tempForm.value.roleId),
   );
   // formInfo.value["formId"]=tempForm.value.formId;
 };
-onMounted(() => {
-});
+onMounted(() => {});
 </script>
 
 <template>
   <star-horse-dialog
-      :dialogVisible="cooperationConfigVisible"
-      @closeAction="cooperationConfigVisible=false"
-      :selfFunc="true"
-      compSize="default"
-      @merge="() => doSave(false)"
-      boxHeight="30%"
-      boxWidth="40%"
-      title="协作配置">
+    :dialogVisible="cooperationConfigVisible"
+    @closeAction="cooperationConfigVisible = false"
+    :selfFunc="true"
+    compSize="default"
+    @merge="() => doSave(false)"
+    boxHeight="30%"
+    boxWidth="40%"
+    title="协作配置"
+  >
     <el-form :model="tempForm" ref="cooperationFormRef">
       <el-form-item label="是否协作" required prop="cooperation">
-        <el-input v-model="tempForm.cooperation"/>
+        <el-input v-model="tempForm.cooperation" />
       </el-form-item>
       <el-form-item label="表单Id" required prop="formId">
-        <el-input v-model="tempForm.formId"/>
+        <el-input v-model="tempForm.formId" />
       </el-form-item>
       <el-form-item label="角色" required prop="roleId">
         <el-radio-group v-model="tempForm.roleId">
@@ -108,7 +116,6 @@ onMounted(() => {
             {{ item.name }}
           </el-radio>
         </el-radio-group>
-
       </el-form-item>
     </el-form>
   </star-horse-dialog>
@@ -117,67 +124,67 @@ onMounted(() => {
       <el-button-group class="toolbar-group">
         <template v-for="(item, index) in allActions">
           <el-button
-              v-if="permissionCheck(item)"
-              :key="'1_' + index"
-              @click="actions(item)"
-              :title="`${item.label} (${item.shortcut || ''})`"
-              class="toolbar-button"
+            v-if="permissionCheck(item)"
+            :key="'1_' + index"
+            @click="actions(item)"
+            :title="`${item.label} (${item.shortcut || ''})`"
+            class="toolbar-button"
           >
             <el-tooltip
-                class="item"
-                :content="`${item.label} (${item.shortcut || ''})`"
-                effect="dark"
-                placement="bottom"
+              class="item"
+              :content="`${item.label} (${item.shortcut || ''})`"
+              effect="dark"
+              placement="bottom"
             >
               <star-horse-icon
-                  :icon-class="item.icon"
-                  size="24px"
-                  style="color: var(--star-horse-style)"
+                :icon-class="item.icon"
+                size="24px"
+                style="color: var(--star-horse-style)"
               />
             </el-tooltip>
           </el-button>
 
           <div
-              v-else-if="item?.children && item.children.length > 0"
-              class="dropdown-container"
+            v-else-if="item?.children && item.children.length > 0"
+            class="dropdown-container"
           >
             <el-button
-                @click.stop="toggleDropdown(item.key)"
-                :title="item.label"
-                class="toolbar-button with-dropdown"
+              @click.stop="toggleDropdown(item.key)"
+              :title="item.label"
+              class="toolbar-button with-dropdown"
             >
               <el-tooltip
-                  class="item"
-                  :content="item.label"
-                  effect="dark"
-                  placement="bottom"
+                class="item"
+                :content="item.label"
+                effect="dark"
+                placement="bottom"
               >
                 <star-horse-icon
-                    :icon-class="item.icon"
-                    size="24px"
-                    style="color: var(--star-horse-style)"
+                  :icon-class="item.icon"
+                  size="24px"
+                  style="color: var(--star-horse-style)"
                 />
               </el-tooltip>
               <el-icon class="dropdown-arrow">
-                <arrow-down/>
+                <arrow-down />
               </el-icon>
             </el-button>
             <div
-                v-show="activeDropdown === item.key"
-                class="dropdown-menu"
-                @click.stop
+              v-show="activeDropdown === item.key"
+              class="dropdown-menu"
+              @click.stop
             >
               <div
-                  v-for="(sitem, sindex) in item.children"
-                  :key="'2_' + sindex"
-                  class="dropdown-item"
-                  @click="actions(sitem)"
-                  :title="`${sitem.label} (${sitem.shortcut || ''})`"
+                v-for="(sitem, sindex) in item.children"
+                :key="'2_' + sindex"
+                class="dropdown-item"
+                @click="actions(sitem)"
+                :title="`${sitem.label} (${sitem.shortcut || ''})`"
               >
                 <star-horse-icon
-                    :icon-class="sitem.icon"
-                    size="24px"
-                    style="color: var(--star-horse-style)"
+                  :icon-class="sitem.icon"
+                  size="24px"
+                  style="color: var(--star-horse-style)"
                 />
                 <span class="dropdown-label">{{ sitem.label }}</span>
               </div>
@@ -188,31 +195,36 @@ onMounted(() => {
     </div>
 
     <div class="toolbar-right">
-      <el-tooltip class="item" content="协作配置" effect="dark" placement="bottom">
+      <el-tooltip
+        class="item"
+        content="协作配置"
+        effect="dark"
+        placement="bottom"
+      >
         <star-horse-icon
-            icon-class="setting"
-            @click="cooperationConfig"
-            cursor="pointer"
-            v-if="optional?.cooperationMode??false"
+          icon-class="setting"
+          @click="cooperationConfig"
+          cursor="pointer"
+          v-if="optional?.cooperationMode ?? false"
         />
       </el-tooltip>
       <el-tooltip class="item" content="配置" effect="dark" placement="bottom">
         <star-horse-icon
-            v-if="optional?.hideConfigBtn??true"
-            icon-class="setting"
-            @click="pageConfig"
-            cursor="pointer"
+          v-if="optional?.hideConfigBtn ?? true"
+          icon-class="setting"
+          @click="pageConfig"
+          cursor="pointer"
         />
       </el-tooltip>
       <el-tooltip
-          :content="i18n('dyform.toolbar.cache.restore')"
-          v-if="cacheData?.length > 0"
-          class="cache-button"
+        :content="i18n('dyform.toolbar.cache.restore')"
+        v-if="cacheData?.length > 0"
+        class="cache-button"
       >
-        <star-horse-icon icon-class="reset" @click="cacheDataRestore($event)"/>
+        <star-horse-icon icon-class="reset" @click="cacheDataRestore($event)" />
       </el-tooltip>
 
-      <help :message="dynamicFormHelpMessage()"/>
+      <help :message="dynamicFormHelpMessage()" />
     </div>
   </div>
 </template>

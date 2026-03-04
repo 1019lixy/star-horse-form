@@ -1,8 +1,8 @@
 // src/utils/vueContext.ts
-import type { AppContext } from 'vue'
+import type { AppContext } from "vue";
 
 // 上下文存储（支持多实例）
-const contextMap = new Map<string, AppContext>()
+const contextMap = new Map<string, AppContext>();
 
 /**
  * 注册Vue上下文
@@ -10,7 +10,7 @@ const contextMap = new Map<string, AppContext>()
  * @param context 应用上下文
  */
 export function registerVueContext(key: string, context: AppContext) {
-    contextMap.set(key, context)
+  contextMap.set(key, context);
 }
 
 /**
@@ -19,5 +19,5 @@ export function registerVueContext(key: string, context: AppContext) {
  * @returns 应用上下文
  */
 export function getVueContext(key: string): AppContext | undefined {
-    return contextMap.get(key)
+  return contextMap.get(key);
 }

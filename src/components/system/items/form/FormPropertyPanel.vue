@@ -1,5 +1,5 @@
 <script setup lang="ts" name="FormPropertyPanel">
-import {computed, onActivated, onMounted, reactive, ref, watch} from "vue";
+import { computed, onActivated, onMounted, reactive, ref, watch } from "vue";
 import {
   analysisCompDatas,
   orderBy,
@@ -14,9 +14,12 @@ import {
   useDesignFormStore,
   warning,
 } from "star-horse-lowcode";
-import {Config} from "@/api/settings.js";
-import {loadElementPlusIcon, loadSvgIcons} from "@/api/star_horse_form_utils.js";
-import {FormConfig} from "@/components/types";
+import { Config } from "@/api/settings.js";
+import {
+  loadElementPlusIcon,
+  loadSvgIcons,
+} from "@/api/star_horse_form_utils.js";
+import { FormConfig } from "@/components/types";
 
 const props = defineProps<{
   optional: FormConfig;
@@ -29,24 +32,24 @@ let dbList = ref<any>([]);
 let systemIconList = ref<SelectOption[]>([]);
 let relationDataList = ref<Array<SelectOption>>([]);
 let relationTypeList = ref<Array<SelectOption>>([
-  {name: "一对一", value: "11"},
-  {name: "一对多", value: "1n"},
-  {name: "多对一", value: "n1"},
-  {name: "多对多", value: "mn"},
+  { name: "一对一", value: "11" },
+  { name: "一对多", value: "1n" },
+  { name: "多对一", value: "n1" },
+  { name: "多对多", value: "mn" },
 ]);
 let dataSourceData = ref<any>();
 let requireAsteriskPositionList = ref<SelectOption[]>([
-  {name: "左", value: "left"},
-  {name: "右", value: "right"},
+  { name: "左", value: "left" },
+  { name: "右", value: "right" },
 ]);
 let labelPositionList = ref<SelectOption[]>([
   ...requireAsteriskPositionList.value,
-  {name: "顶部", value: "top"},
+  { name: "顶部", value: "top" },
 ]);
 let formSizeList = ref<SelectOption[]>([
-  {name: "大", value: "large"},
-  {name: "中", value: "default"},
-  {name: "小", value: "small"},
+  { name: "大", value: "large" },
+  { name: "中", value: "default" },
+  { name: "小", value: "small" },
 ]);
 let dataLoadConditionList = ref<SelectOption[]>([]);
 let dynamicFieldList = ref<SelectOption[]>([]);
@@ -80,7 +83,10 @@ const tableListMsg = `
 将编码或者ID 映射为对应的名称显示。`;
 
 const loadMenus = (sysId: string) => {
-  if (props.optional?.loadMenuList && typeof props.optional.loadMenuList == "function") {
+  if (
+    props.optional?.loadMenuList &&
+    typeof props.optional.loadMenuList == "function"
+  ) {
     props.optional?.loadMenuList(sysId).then((res: SelectOption[]) => {
       menusInfoList.value = res;
     });
@@ -652,7 +658,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
                   fieldName: "displayAliasField",
 
                   helpMsg:
-                      "关联字段与主表字段冲突时配置,\n必须以字母开头不能有特殊符号",
+                    "关联字段与主表字段冲突时配置,\n必须以字母开头不能有特殊符号",
                   formVisible: true,
                   rules: [
                     {
@@ -718,7 +724,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
                     actions: {
                       change: (val: any) => {
                         urlFieldVisible.value =
-                            val["eventType"] && val["eventType"] != "dialog";
+                          val["eventType"] && val["eventType"] != "dialog";
                       },
                     },
                     preps: {
@@ -742,7 +748,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
                     label: "请求地址",
                     fieldName: "content",
                     helpMsg:
-                        "请求接口：填写接口地址， 例如：/userdb-manage/xx/xx/xx;\n页面跳转：填写前端路由，例如：/test/UserInfo;\n弹窗：填写弹窗组件名称，例如：UserInfo。",
+                      "请求接口：填写接口地址， 例如：/userdb-manage/xx/xx/xx;\n页面跳转：填写前端路由，例如：/test/UserInfo;\n弹窗：填写弹窗组件名称，例如：UserInfo。",
                     required: true,
                     formVisible: true,
                     preps: {
@@ -820,35 +826,53 @@ const tableFieldList = reactive<PageFieldInfo | any>({
 });
 
 const initData = async () => {
-  if (props.optional?.loadAppList && typeof props.optional.loadAppList == "function") {
+  if (
+    props.optional?.loadAppList &&
+    typeof props.optional.loadAppList == "function"
+  ) {
     props.optional?.loadAppList()?.then((res: SelectOption[]) => {
       informationsList.value = res;
     });
   }
-  if (props.optional?.loadRolesList && typeof props.optional.loadRolesList == "function") {
+  if (
+    props.optional?.loadRolesList &&
+    typeof props.optional.loadRolesList == "function"
+  ) {
     props.optional?.loadRolesList()?.then((res: SelectOption[]) => {
       rolesList.value = res;
     });
   }
-  if (props.optional?.loadDicts && typeof props.optional.loadDicts == "function") {
+  if (
+    props.optional?.loadDicts &&
+    typeof props.optional.loadDicts == "function"
+  ) {
     props.optional?.loadDicts("page_style")?.then((res: SelectOption[]) => {
       pageStyleList.value = res;
     });
-    props.optional?.loadDicts("button_authority")?.then((res: SelectOption[]) => {
-      authorityList.value = res;
-    });
+    props.optional
+      ?.loadDicts("button_authority")
+      ?.then((res: SelectOption[]) => {
+        authorityList.value = res;
+      });
     props.optional?.loadDicts("event_type")?.then((res: SelectOption[]) => {
       eventTypeList.value = res;
     });
-    props.optional?.loadDicts("DATA_LOAD_CONDITION")?.then((res: SelectOption[]) => {
-      dataLoadConditionList.value = res;
-    });
-    props.optional?.loadDicts("PRIMARY_KEY_POLICY")?.then((res: SelectOption[]) => {
-      primaryKeyPolicyList.value = res;
-    });
+    props.optional
+      ?.loadDicts("DATA_LOAD_CONDITION")
+      ?.then((res: SelectOption[]) => {
+        dataLoadConditionList.value = res;
+      });
+    props.optional
+      ?.loadDicts("PRIMARY_KEY_POLICY")
+      ?.then((res: SelectOption[]) => {
+        primaryKeyPolicyList.value = res;
+      });
   }
-  if (props.optional?.loadDbList && typeof props.optional.loadDbList == "function") {
-    props.optional?.loadDbList()?.then(res => {
+  if (
+    props.optional?.loadDbList &&
+    typeof props.optional.loadDbList == "function"
+  ) {
+    props.optional?.loadDbList()?.then((res) => {
       dbList.value = res;
     });
   }
@@ -857,8 +881,8 @@ const initData = async () => {
 
 const analysisDynamicFields = async (formInfo: any) => {
   let reData = await loadData(
-      props.optional?.api?.basePrefix + "/analysisDynamicDatasourceFields",
-      formInfo,
+    props.optional?.api?.basePrefix + "/analysisDynamicDatasourceFields",
+    formInfo,
   );
   if (reData.error) {
     return;
@@ -866,21 +890,21 @@ const analysisDynamicFields = async (formInfo: any) => {
   dynamicFieldList.value = reData.data;
 };
 const analysisMainFields = async () => {
-  let {fieldList} = analysisCompDatas(designForm.compList);
+  let { fieldList } = analysisCompDatas(designForm.compList);
   const selectDatas: SelectOption[] = fieldList
-      .filter((item) => item.label)
-      .map((item) => {
-        return {
-          name: item.label,
-          value: item.fieldName,
-        };
-      });
+    .filter((item) => item.label)
+    .map((item) => {
+      return {
+        name: item.label,
+        value: item.fieldName,
+      };
+    });
   mainTableFieldList.value = selectDatas;
   orderByFieldList.value = selectDatas;
   allTableFieldList.value = [
     ...mainTableFieldList.value,
     ...commonField().map((item: any) => {
-      return {name: item.label, value: item.fieldName};
+      return { name: item.label, value: item.fieldName };
     }),
   ];
   if (formInfo.value?.needCommonFields == "Y") {
@@ -898,11 +922,11 @@ const loadSameDataSourceTables = (formInfo: any) => {
   formInfo["relations"] = [];
   currentDataSourceId.value = formInfo["datasourceConfigId"];
   params.push(
-      createCondition(
-          "datasourceConfigId",
-          formInfo["datasourceConfigId"] || null,
-          formInfo["datasourceConfigId"] ? "eq" : "is",
-      ),
+    createCondition(
+      "datasourceConfigId",
+      formInfo["datasourceConfigId"] || null,
+      formInfo["datasourceConfigId"] ? "eq" : "is",
+    ),
   );
   postRequest(props.optional?.api?.listConditionUrl!, {
     fieldList: params,
@@ -932,16 +956,17 @@ const loadTableColumns = (tbName: any) => {
   if (!tbName) {
     return;
   }
-  props.optional?.loadTableColumns(currentDataSourceId.value, tbName)?.then((columns: SelectOption[]) => {
-    tableColumnsList.value = columns;
-  });
+  props.optional
+    ?.loadTableColumns(currentDataSourceId.value, tbName)
+    ?.then((columns: SelectOption[]) => {
+      tableColumnsList.value = columns;
+    });
 };
 
 /**
  * 表单更新的时候，更新表单的属性
  */
-const updateCompInfo = () => {
-};
+const updateCompInfo = () => {};
 const getFormData = () => {
   return dynamicFormItemRef.value.getFormData();
 };
@@ -954,14 +979,14 @@ onActivated(() => {
 });
 
 watch(
-    () => formInfo.value,
-    () => {
-      updateCompInfo();
-    },
-    {
-      immediate: true,
-      deep: true,
-    },
+  () => formInfo.value,
+  () => {
+    updateCompInfo();
+  },
+  {
+    immediate: true,
+    deep: true,
+  },
 );
 defineExpose({
   getFormData,
@@ -975,9 +1000,9 @@ defineExpose({
 </style>
 <template>
   <star-horse-form
-      label-position="right"
-      :outerFormData="formInfo"
-      :fieldList="tableFieldList"
-      ref="dynamicFormItemRef"
+    label-position="right"
+    :outerFormData="formInfo"
+    :fieldList="tableFieldList"
+    ref="dynamicFormItemRef"
   />
 </template>

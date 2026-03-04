@@ -9,6 +9,7 @@ import { LangType } from "@/theme/theme";
 import StarHorseLowcode from "star-horse-lowcode";
 import piniaCompInstance from "@/store/index";
 import draggable from "vuedraggable-es";
+import { registerVueContext } from "@/api/vueContext";
 
 const items = import.meta.glob([
   "@/components/system/*.vue",
@@ -32,6 +33,7 @@ const install = (
   app.use(piniaCompInstance);
   // 3. 最后使用StarHorseLowcode组件
   app.use(StarHorseLowcode, options);
+
   Object.entries(items).forEach(([path, component]) => {
     const name = path
       .split("/")
@@ -42,6 +44,8 @@ const install = (
       app.component(name, defineAsyncComponent(component as any));
     }
   });
+  //注册上下文
+  registerVueContext("formContext", app._context);
 };
 export * from "@/components/formcomp/items";
 export * from "@/components/types";

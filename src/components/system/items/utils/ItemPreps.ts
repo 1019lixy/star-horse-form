@@ -1400,7 +1400,9 @@ export function buttonClickDataField() {
   });
 }
 
-const formFields = computed(() => analysisCompDatas(designForm.compList).selectList);
+const formFields = computed(
+  () => analysisCompDatas(designForm.compList).selectList,
+);
 
 /**
  * 关联

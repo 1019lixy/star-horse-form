@@ -28,9 +28,9 @@ const props = defineProps({
     type: String,
     default: "表单列表",
   },
-  prop:{
-    type:Object as PropType<Record<string,any>>
-  }
+  prop: {
+    type: Object as PropType<Record<string, any>>,
+  },
 });
 const emits = defineEmits(["change"]);
 const starHorseTreeRef = ref();
@@ -210,10 +210,12 @@ defineExpose({
             orderBy: 'desc',
           },
         ]"
-        :preps="prop??{
-          label: 'name',
-          value: 'value',
-        }"
+        :preps="
+          prop ?? {
+            label: 'name',
+            value: 'value',
+          }
+        "
         :helpMsg="`点击节点进行编辑，点击按钮进行添加或删除`"
         :showPageBar="true"
         :isDynamicData="true"

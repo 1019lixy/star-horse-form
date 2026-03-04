@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {nextTick, onMounted, provide, ref, watch,} from "vue";
+import { nextTick, onMounted, provide, ref, watch } from "vue";
 import {
   analysisCompDatas,
   apiInstance,
@@ -9,15 +9,15 @@ import {
   SearchFields,
   UserFuncInfo,
 } from "star-horse-lowcode";
-import {TabsPaneContext} from "element-plus";
-import {i18n} from "@/lang";
+import { TabsPaneContext } from "element-plus";
+import { i18n } from "@/lang";
 import CommonSkeleton from "./CommonSkeleton.vue";
 
 const props = defineProps({
   compList: {
     type: Array,
-    required: true
-  }
+    required: true,
+  },
 });
 const starHorseTableCompRef = ref();
 let dataUrl = ref<ApiUrls>(apiInstance("", ""));
@@ -40,12 +40,11 @@ let dateFields = ref<Array<string>>([]);
 const activeName = ref<string>("form");
 let extBtns = ref<Array<UserFuncInfo>>([]);
 
-const handleClick = (_tab: TabsPaneContext, _event: Event) => {
-};
+const handleClick = (_tab: TabsPaneContext, _event: Event) => {};
 
 const loadFormData = async () => {
   isLoading.value = true; // 开始加载
-  let {fieldList} = analysisCompDatas(props.compList);
+  let { fieldList } = analysisCompDatas(props.compList);
   primaryKey.value = "id";
   tableFieldList.value.fieldList = fieldList;
   await nextTick();
@@ -54,11 +53,11 @@ const loadFormData = async () => {
 };
 
 watch(
-    () => props.compList,
-    (val) => {
-      loadFormData();
-    },
-    {deep: true},
+  () => props.compList,
+  (val) => {
+    loadFormData();
+  },
+  { deep: true },
 );
 
 const dialogProps = dialogPreps();
@@ -78,7 +77,7 @@ const dataFormat = (name: string, cellValue: object, row: any): any => {
       let temp = dataSource.value[name];
       if (temp) {
         let stemp = temp.datas?.find(
-            (item: any) => item[temp.valueField] == cellValue,
+          (item: any) => item[temp.valueField] == cellValue,
         );
         return stemp ? stemp[temp.labelField] : cellValue || "--";
       }
@@ -87,7 +86,7 @@ const dataFormat = (name: string, cellValue: object, row: any): any => {
   };
   if (fieldMappingList.value?.length > 0) {
     let temp = fieldMappingList.value.find(
-        (item: any) => item["fieldName"] == name,
+      (item: any) => item["fieldName"] == name,
     );
     if (temp) {
       return row[temp.mappingDisplayField] || subFormat(name, cellValue, row);
@@ -103,82 +102,82 @@ onMounted(async () => {
   <div class="flex flex-col h-full overflow-hidden">
     <!-- 使用通用骨架屏组件 - 带标签页样式 -->
     <CommonSkeleton
-        v-if="isLoading"
-        :showSearch="false"
-        :showHeader="true"
-        :showTabs="true"
-        :showForm="true"
-        :showTable="false"
-        :formRowCount="6"
+      v-if="isLoading"
+      :showSearch="false"
+      :showHeader="true"
+      :showTabs="true"
+      :showForm="true"
+      :showTable="false"
+      :formRowCount="6"
     />
 
     <template v-else-if="hasData">
       <star-horse-dialog
-          :dialog-visible="dialogProps.viewVisible"
-          :dialogProps="dialogProps"
-          :source="3"
+        :dialog-visible="dialogProps.viewVisible"
+        :dialogProps="dialogProps"
+        :source="3"
       >
         <star-horse-data-view
-            :dataFormat="dataFormat"
-            :primary-key="primaryKey"
-            :dynamicForm="true"
-            :field-list="tableFieldList"
-            :compUrl="dataUrl"
+          :dataFormat="dataFormat"
+          :primary-key="primaryKey"
+          :dynamicForm="true"
+          :field-list="tableFieldList"
+          :compUrl="dataUrl"
         />
       </star-horse-dialog>
       <el-card class="inner_content">
         <el-tabs
-            v-model="activeName"
-            type="border-card"
-            @tab-click="handleClick"
+          v-model="activeName"
+          type="border-card"
+          @tab-click="handleClick"
         >
           <el-tab-pane
-              :label="i18n('commonPage.tab.form')"
-              name="form"
-              class="flex flex-col"
+            :label="i18n('commonPage.tab.form')"
+            name="form"
+            class="flex flex-col"
           >
             <star-horse-form
-                @refresh="starHorseTableCompRef?.loadByPage()"
-                :dynamicForm="true"
-                :compUrl="dataUrl"
-                :formInfo="formInfo"
-                :fieldList="tableFieldList"
-                :rules="rules"
-                :globalCondition="relationTables"
-                :typeModel="'form'"
+              @refresh="starHorseTableCompRef?.loadByPage()"
+              :dynamicForm="true"
+              :compUrl="dataUrl"
+              :formInfo="formInfo"
+              :fieldList="tableFieldList"
+              :rules="rules"
+              :globalCondition="relationTables"
+              :typeModel="'form'"
             />
           </el-tab-pane>
           <el-tab-pane :label="i18n('commonPage.tab.dataList')" name="table">
             <div
-                class="search-content"
-                v-if="searchFormData.fieldList?.length > 0"
+              class="search-content"
+              v-if="searchFormData.fieldList?.length > 0"
             >
               <div class="search_btn">
                 <star-horse-search-comp
-                    @searchData="
+                  @searchData="
                     (data: any) =>
                       starHorseTableCompRef?.createSearchParams(data)
                   "
-                    :formData="searchFormData"
-                    :compUrl="dataUrl"
+                  :formData="searchFormData"
+                  :compUrl="dataUrl"
                 />
               </div>
             </div>
             <star-horse-table-comp
-                ref="starHorseTableCompRef"
-                :fieldList="tableFieldList"
-                :primaryKey="primaryKey"
-                :compUrl="dataUrl"
-                :globalConfig="relationTables"
-                :isDynamic="true"
-                :btnPermissions="{
+              ref="starHorseTableCompRef"
+              :fieldList="tableFieldList"
+              :primaryKey="primaryKey"
+              :compUrl="dataUrl"
+              :globalConfig="relationTables"
+              :isDynamic="true"
+              :btnPermissions="{
                 add: 'add',
                 edit: 'eidt',
                 view: 'view',
               }"
-                :extendBtns="extBtns"
-                :showBatchField="true"
-                :dataFormat="dataFormat"
+              :extendBtns="extBtns"
+              :showBatchField="true"
+              :dataFormat="dataFormat"
             />
           </el-tab-pane>
         </el-tabs>

@@ -1,7 +1,11 @@
 <script setup lang="ts">
-import {onMounted, onUnmounted, ref} from "vue";
-import {dynamicFormContextMenuData, itemCheck, uuid,} from "star-horse-lowcode";
-import {i18n} from "@/lang/index";
+import { onMounted, onUnmounted, ref } from "vue";
+import {
+  dynamicFormContextMenuData,
+  itemCheck,
+  uuid,
+} from "star-horse-lowcode";
+import { i18n } from "@/lang/index";
 
 const emit = defineEmits<{
   (e: "dragAdd", event: Event, dataList: Array<any>): void;
@@ -41,7 +45,7 @@ const scrollToField = (fieldId: string) => {
   if (!formContainerRef.value) return;
 
   const fieldElement = formContainerRef.value.querySelector(
-      `[data-field-id="${fieldId}"]`,
+    `[data-field-id="${fieldId}"]`,
   );
   if (fieldElement) {
     // Get container and element positions
@@ -78,32 +82,32 @@ onUnmounted(() => {
 
 <template>
   <sh-form
-      ref="dynamicFormRef"
-      :needScroller="false"
-      class="design-form-container"
-      :class="{ 'dragging-area': isDragging }"
-      :disabled="formInfo['disabled'] == 'Y'"
-      :hide-required-asterisk="formInfo['hideRequiredAsterisk'] == 'Y'"
-      :inline="formInfo.inline == 'Y'"
-      :inline-message="formInfo['inlineMessage'] == 'Y'"
-      :label-position="formInfo['labelPosition']"
-      :label-suffix="formInfo['labelSuffix']"
-      :label-width="formInfo['labelWidth']"
-      :dataForm="formData"
-      @update:dataForm="$emit('update:formData', $event)"
-      :require-asterisk-position="formInfo['requireAsteriskPosition']"
-      :rules="formInfo.rules || {}"
-      :scroll-to-error="formInfo['scrollToError'] == 'Y'"
-      :show-message="formInfo['showMessage'] == 'Y'"
-      :size="'default'"
-      :status-icon="formInfo['statusIcon'] == 'Y'"
-      :validate-on-rule-change="formInfo['validateOnRuleChange'] == 'Y'"
-      style="width: 100% !important; position: relative"
+    ref="dynamicFormRef"
+    :needScroller="false"
+    class="design-form-container"
+    :class="{ 'dragging-area': isDragging }"
+    :disabled="formInfo['disabled'] == 'Y'"
+    :hide-required-asterisk="formInfo['hideRequiredAsterisk'] == 'Y'"
+    :inline="formInfo.inline == 'Y'"
+    :inline-message="formInfo['inlineMessage'] == 'Y'"
+    :label-position="formInfo['labelPosition']"
+    :label-suffix="formInfo['labelSuffix']"
+    :label-width="formInfo['labelWidth']"
+    :dataForm="formData"
+    @update:dataForm="$emit('update:formData', $event)"
+    :require-asterisk-position="formInfo['requireAsteriskPosition']"
+    :rules="formInfo.rules || {}"
+    :scroll-to-error="formInfo['scrollToError'] == 'Y'"
+    :show-message="formInfo['showMessage'] == 'Y'"
+    :size="'default'"
+    :status-icon="formInfo['statusIcon'] == 'Y'"
+    :validate-on-rule-change="formInfo['validateOnRuleChange'] == 'Y'"
+    style="width: 100% !important; position: relative"
   >
     <template v-if="list.length === 0">
       <div
-          class="empty-canvas"
-          :style="{
+        class="empty-canvas"
+        :style="{
           margin: '0 auto',
           width:
             currentPageClass == 'main-design-phone'
@@ -115,10 +119,10 @@ onUnmounted(() => {
       >
         <div class="empty-illustration">
           <svg width="120" height="120" viewBox="0 0 120 120" fill="none">
-            <rect x="20" y="30" width="80" height="60" rx="4" fill="#E1E8ED"/>
-            <rect x="30" y="45" width="60" height="8" rx="4" fill="#A1AEBB"/>
-            <rect x="30" y="60" width="40" height="8" rx="4" fill="#A1AEBB"/>
-            <rect x="30" y="75" width="50" height="8" rx="4" fill="#A1AEBB"/>
+            <rect x="20" y="30" width="80" height="60" rx="4" fill="#E1E8ED" />
+            <rect x="30" y="45" width="60" height="8" rx="4" fill="#A1AEBB" />
+            <rect x="30" y="60" width="40" height="8" rx="4" fill="#A1AEBB" />
+            <rect x="30" y="75" width="50" height="8" rx="4" fill="#A1AEBB" />
           </svg>
         </div>
         <div class="empty-message">
@@ -126,50 +130,50 @@ onUnmounted(() => {
           <p>{{ i18n("dyform.designer.instruction") }}</p>
           <div class="tips">
             <span class="tip-item"
-            >💡 {{ i18n("dyform.designer.tip.drag") }}</span
+              >💡 {{ i18n("dyform.designer.tip.drag") }}</span
             >
             <span class="tip-item"
-            >⚙️ {{ i18n("dyform.designer.tip.config") }}</span
+              >⚙️ {{ i18n("dyform.designer.tip.config") }}</span
             >
             <span class="tip-item"
-            >🚀 {{ i18n("dyform.designer.tip.build") }}</span
+              >🚀 {{ i18n("dyform.designer.tip.build") }}</span
             >
           </div>
         </div>
       </div>
     </template>
     <div
-        ref="formContainerRef"
-        :class="currentPageClass"
-        @contextmenu="contextMenu"
-        style="scrollbar-width: thin"
-        class="overflow-auto! relative"
+      ref="formContainerRef"
+      :class="currentPageClass"
+      @contextmenu="contextMenu"
+      style="scrollbar-width: thin"
+      class="overflow-auto! relative"
     >
       <draggable
-          @add="(evt: Event) => onDragAdd(evt, list)"
-          tag="div"
-          class="h-full w-[99%] mx-auto relative"
-          group="starHorseGroup"
-          :list="list"
-          :itemKey="uuid()"
+        @add="(evt: Event) => onDragAdd(evt, list)"
+        tag="div"
+        class="h-full w-[99%] mx-auto relative"
+        group="starHorseGroup"
+        :list="list"
+        :itemKey="uuid()"
       >
         <template #item="{ element: data, index }">
           <div
-              :class="{ 'comp-item': data.preps?.headerFlag == 'Y' }"
-              class="overflow-visible relative"
-              :data-field-id="data.id"
-              :key="data.id"
+            :class="{ 'comp-item': data.preps?.headerFlag == 'Y' }"
+            class="overflow-visible relative"
+            :data-field-id="data.id"
+            :key="data.id"
           >
             <component
-                :key="data.id"
-                :field="data"
-                :isDesign="true"
-                :formInfo="formInfo"
-                :showFormItem="data?.itemType !='table'"
-                :index-of-parent-list="index"
-                :is="itemCheck(data)"
-                :formData="formData"
-                @update:formData="$emit('update:formData', $event)"
+              :key="data.id"
+              :field="data"
+              :isDesign="true"
+              :formInfo="formInfo"
+              :showFormItem="data?.itemType != 'table'"
+              :index-of-parent-list="index"
+              :is="itemCheck(data)"
+              :formData="formData"
+              @update:formData="$emit('update:formData', $event)"
             />
           </div>
         </template>
@@ -178,8 +182,8 @@ onUnmounted(() => {
   </sh-form>
   <Teleport to="body">
     <ContentMenu
-        ref="contentMenuRef"
-        :menu-data="dynamicFormContextMenuData({}, {})"
+      ref="contentMenuRef"
+      :menu-data="dynamicFormContextMenuData({}, {})"
     />
   </Teleport>
 </template>
@@ -261,14 +265,16 @@ onUnmounted(() => {
 }
 
 .dragging-area {
-  background: linear-gradient(45deg, #e6f7ff 25%, transparent 25%),
-  linear-gradient(-45deg, #e6f7ff 25%, transparent 25%),
-  linear-gradient(45deg, transparent 75%, #e6f7ff 75%),
-  linear-gradient(-45deg, transparent 75%, #e6f7ff 75%);
+  background:
+    linear-gradient(45deg, #e6f7ff 25%, transparent 25%),
+    linear-gradient(-45deg, #e6f7ff 25%, transparent 25%),
+    linear-gradient(45deg, transparent 75%, #e6f7ff 75%),
+    linear-gradient(-45deg, transparent 75%, #e6f7ff 75%);
   background-size: 20px 20px;
-  background-position: 0 0,
-  0 10px,
-  10px -10px,
-  -10px 0px;
+  background-position:
+    0 0,
+    0 10px,
+    10px -10px,
+    -10px 0px;
 }
 </style>

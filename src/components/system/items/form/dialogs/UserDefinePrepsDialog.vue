@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import {nextTick, reactive, ref, unref, watch} from "vue";
-import {PageFieldInfo} from "star-horse-lowcode";
-import {i18n} from "@/lang/index.js";
+import { nextTick, reactive, ref, unref, watch } from "vue";
+import { PageFieldInfo } from "star-horse-lowcode";
+import { i18n } from "@/lang/index.js";
 import JSON5 from "json5";
 
 const props = defineProps<{
@@ -25,18 +25,18 @@ const formInfo = reactive<PageFieldInfo>({
       fieldName: "userDefinePreps",
       type: "json",
       preps: {
-        rows: 10
-      }
-    }
-  ]
-})
+        rows: 10,
+      },
+    },
+  ],
+});
 
 const dataSubmit = async () => {
   let flag = false;
   await paramsConfigRef.value.$refs.starHorseFormRef.validate(
-      (res: boolean) => {
-        flag = res;
-      },
+    (res: boolean) => {
+      flag = res;
+    },
   );
   if (!flag) {
     return;
@@ -47,7 +47,7 @@ const dataSubmit = async () => {
     props.formProps[key] = value;
   });
   emit("close");
-}
+};
 const resetDataSourceForm = () => {
   // Reset logic if needed
 };
@@ -63,20 +63,20 @@ const setFormData = async (data: any) => {
       setTimeout(setData, 100);
     }
   };
-  
+
   // 等待下一个 DOM 更新周期
   await nextTick();
   // 开始尝试设置数据
   setData();
 };
 watch(
-    () => props.visible,
-    (newVal) => {
-      if (newVal) {
-        setFormData(props.formProps);
-      }
-    },
-    {immediate: true},
+  () => props.visible,
+  (newVal) => {
+    if (newVal) {
+      setFormData(props.formProps);
+    }
+  },
+  { immediate: true },
 );
 defineExpose({
   setFormData,
@@ -85,19 +85,16 @@ defineExpose({
 
 <template>
   <star-horse-dialog
-      :dialogVisible="visible"
-      :title="i18n('dyform.params.dialog.title')"
-      :isBatch="false"
-      @merge="dataSubmit"
-      @closeAction="emit('close')"
-      @resetForm="resetDataSourceForm"
-      :selfFunc="true"
-      :boxHeight="'40%'"
+    :dialogVisible="visible"
+    :title="i18n('dyform.params.dialog.title')"
+    :isBatch="false"
+    @merge="dataSubmit"
+    @closeAction="emit('close')"
+    @resetForm="resetDataSourceForm"
+    :selfFunc="true"
+    :boxHeight="'40%'"
   >
-    <star-horse-form
-        ref="paramsConfigRef"
-        :fieldList="formInfo"
-    />
+    <star-horse-form ref="paramsConfigRef" :fieldList="formInfo" />
   </star-horse-dialog>
 </template>
 <style scoped lang="scss">
