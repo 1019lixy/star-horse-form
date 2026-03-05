@@ -79,6 +79,8 @@ export function fieldCopy(data: any, type: string) {
   mvData["fieldName"] = mvData.preps["name"];
   mvData["itemType"] = reData.itemType;
   if (reData.itemType == "box") {
+    mvData.rowNums=1;
+    mvData.columnNums=1;
     mvData.preps["elements"] = [
       {
         id: uuid(),
@@ -91,6 +93,8 @@ export function fieldCopy(data: any, type: string) {
       { id: uuid(), colIndex: 1, columns: 1, items: [] },
     ];
   } else if (reData.itemType == "dytable") {
+    mvData.rowNums=1;
+    mvData.columnNums=1;
     mvData.preps["elements"] = [
       {
         id: uuid(),
