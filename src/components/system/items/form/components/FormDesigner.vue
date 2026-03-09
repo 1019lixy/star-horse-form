@@ -160,7 +160,7 @@ onUnmounted(() => {
         <template #item="{ element: data, index }">
           <div
             :class="{ 'comp-item': data.preps?.headerFlag == 'Y' }"
-            class="overflow-visible relative"
+            class="overflow-visible relative my-[5px]"
             :data-field-id="data.id"
             :key="data.id"
           >
