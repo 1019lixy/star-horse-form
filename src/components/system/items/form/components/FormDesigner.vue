@@ -188,6 +188,9 @@ onUnmounted(() => {
   </Teleport>
 </template>
 <style lang="scss" scoped>
+:deep(.form-item-operation){
+  min-height: 45px;
+}
 .design-form-container {
   height: 100%;
   display: flex;

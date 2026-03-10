@@ -1,7 +1,8 @@
 <script lang="ts" setup>
-import { getRequest, postRequest, SelectOption } from "star-horse-lowcode";
+import {apiInstance, getRequest, postRequest, SelectOption} from "star-horse-lowcode";
 import StarHorseFormDesign from "@/components/system/StarHorseFormDesign.vue";
 import { ref } from "vue";
+import {FormConfig} from "@/components/types";
 
 const starHorseFormDesignRef = ref();
 const loadMenu = (type: string, sysId: string) => {
@@ -36,11 +37,18 @@ const loadTableColumns = (
 /**
  * 需要逐步的把StarHorseFormDesign 需要的参数给拎出来,
  */
+const api = apiInstance("userdb-manage", "userdb/dynamicForm");
+const optional:FormConfig={
+  model:"full",
+  primaryKey:"idDynamicForm",
+  api:api
+}
 </script>
 
 <template>
   <StarHorseFormDesign
     ref="starHorseFormDesignRef"
+    :optional="optional"
     @loadMenu="loadMenu"
     @loadTableColumns="loadTableColumns"
   />

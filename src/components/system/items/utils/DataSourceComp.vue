@@ -291,6 +291,7 @@ const dictField: FieldInfo[] | any = [
     preps: {
       dataUrl: "/system-config/system/dictinfoType/pageList",
       displayName: "dictTypeName",
+      multiple:false,
       displayValue: "dictTypeCode",
       pageSize: 100,
       colspan: 16,
