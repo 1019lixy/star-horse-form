@@ -240,7 +240,6 @@ export function getUrlFieldConfig(interfaceUtils: any, options: any = {}) {
 
   //很奇怪，此数组 没有加一个隐藏的数据，后面第一个host 会变成radio
   const urlFields: FieldInfo[] | any = [
-    {},
     [
       {
         label: "应用名称",
