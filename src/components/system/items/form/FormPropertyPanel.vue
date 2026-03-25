@@ -891,8 +891,7 @@ const analysisDynamicFields = async (formInfo: any) => {
 };
 const analysisMainFields = async () => {
   let { fieldList } = analysisCompDatas(designForm.compList);
-  const selectDatas: SelectOption[] = fieldList
-    .filter((item) => item.label)
+  const selectDatas: SelectOption[] = fieldList?.filter((item) => item.label)
     .map((item) => {
       return {
         name: item.label,
