@@ -17,6 +17,7 @@ const props = defineProps({
 });
 let dataUrl = ref<ApiUrls>(apiInstance("", ""));
 const errorMsg = ref(i18n("commonPage.dataLoading"));
+const formPageRef=ref();
 const tableFieldList = ref<any>({
   fieldList: [],
   stopAutoLoad: true,
@@ -76,6 +77,7 @@ onMounted(async () => {
           :compUrl="dataUrl"
           :formInfo="formInfo"
           :dynamicForm="true"
+          ref="formPageRef"
           :globalCondition="relationTables"
           :outerFormData="outerFormData"
           :fieldList="tableFieldList"
