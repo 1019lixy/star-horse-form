@@ -334,6 +334,7 @@ const operImportFile = () => {
 
           } else if (jsonData.dataList) {
             designForm.setCompList(jsonData.dataList);
+            designForm.setFormInfo(jsonData.formInfo);
           } else {
             designForm.setCompList([jsonData]);
           }

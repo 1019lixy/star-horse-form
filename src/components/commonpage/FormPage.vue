@@ -78,6 +78,7 @@ onMounted(async () => {
           :formInfo="formInfo"
           :dynamicForm="true"
           ref="formPageRef"
+
           :globalCondition="relationTables"
           :outerFormData="outerFormData"
           :fieldList="tableFieldList"

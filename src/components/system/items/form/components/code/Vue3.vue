@@ -142,4 +142,7 @@ watch(
     overflow: hidden;
   }
 }
+.inner_button{
+  margin:8px auto;
+}
 </style>

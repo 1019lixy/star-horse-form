@@ -784,3 +784,9 @@ $white: #ffffff;
     line-height: 35px;
   }
 }
+.el-form-item__label-wrap{
+  margin-right: auto !important;
+}
+.el-form-item__content{
+  min-width: unset;
+}
