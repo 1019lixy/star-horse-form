@@ -11,20 +11,22 @@ import {
   unref,
   watch,
 } from "vue";
-import { debounce } from "lodash";
+import {debounce} from "lodash";
 import {
   CompType,
+  error,
   operationConfirm,
   piniaInstance,
+  success,
   useDesignFormStore,
   useGlobalConfigStore,
   useSelfOperationStore,
-  warning,
+  warning
 } from "star-horse-lowcode";
-import { validDynamicFormCompParams } from "@/components/system/items/utils/FormParamsValid";
-import { delCacheData, getCacheData, setCacheData } from "@/api/cached_utils";
-import { i18n } from "@/lang";
-import { Config } from "@/api/settings";
+import {validDynamicFormCompParams} from "@/components/system/items/utils/FormParamsValid";
+import {delCacheData, getCacheData, setCacheData} from "@/api/cached_utils";
+import {i18n} from "@/lang";
+import {Config} from "@/api/settings";
 import CodeDialog from "@/components/system/items/form/dialogs/CodeDialog.vue";
 import BatchEditDialog from "@/components/system/items/form/dialogs/BatchEditDialog.vue";
 import PreviewDialog from "@/components/system/items/form/dialogs/PreviewDialog.vue";
@@ -33,15 +35,16 @@ import FormToolbar from "@/components/system/items/form/components/FormToolbar.v
 import FormDesigner from "@/components/system/items/form/components/FormDesigner.vue";
 import FieldPanel from "@/components/system/items/form/FieldPanel.vue";
 import PropertyPanel from "@/components/system/items/form/PropertyPanel.vue";
-import { useKeyboardEvents } from "@/components/system/items/form/composables/useKeyboardEvents";
-import { useDialogManager } from "@/components/system/items/form/composables/useDialogManager";
-import { ToolBtnType } from "@/components/types/ToolBtnType";
+import {useKeyboardEvents} from "@/components/system/items/form/composables/useKeyboardEvents";
+import {useDialogManager} from "@/components/system/items/form/composables/useDialogManager";
+import {ToolBtnType} from "@/components/types/ToolBtnType";
 import ConfigDialog from "@/components/system/items/form/dialogs/ConfigDialog.vue";
-import { formContainer } from "@/components/system/items/form/composables/formContainer";
-import { formExtendItems } from "@/components/system/items/form/composables/formExtendItems";
-import { formItems } from "@/components/system/items/form/composables/formItems";
-import { FormConfig } from "@/components/types";
-import { FormSocketService } from "@/components/system/items/FormSocketService";
+import {formContainer} from "@/components/system/items/form/composables/formContainer";
+import {formExtendItems} from "@/components/system/items/form/composables/formExtendItems";
+import {formItems} from "@/components/system/items/form/composables/formItems";
+import {FormConfig} from "@/components/types";
+import {FormSocketService} from "@/components/system/items/FormSocketService";
+import JSON5 from "json5";
 
 defineOptions({
   name: "StarHorseFormDesign",
@@ -51,7 +54,7 @@ const props = defineProps({
     type: String,
     default: "idDynamicForm",
   },
-  optional: { type: Object as PropType<FormConfig> },
+  optional: {type: Object as PropType<FormConfig>},
 });
 const emits = defineEmits([
   "changeDataHandle",
@@ -67,7 +70,7 @@ let userOperation = useSelfOperationStore(piniaInstance);
 let configStore = useGlobalConfigStore(piniaInstance);
 
 let compSize = computed(
-  () => configStore.configFormInfo?.buttonSize || Config.compSize,
+    () => configStore.configFormInfo?.buttonSize || Config.compSize,
 );
 let draggingItem = computed(() => designForm.draggingItem);
 let list = computed(() => designForm.compList);
@@ -93,15 +96,16 @@ const dynamicFormRef = ref();
 const previewDynamicFormRef = ref();
 const formConfigDialogVisible = ref<boolean>(false);
 let reOrUnDoFlag = ref<boolean>(false);
-let currentPageStyle = ref<any>({ label: "电脑", key: "pc" });
+let currentPageStyle = ref<any>({label: "电脑", key: "pc"});
 let currentPageClass = ref<string>("main-design");
 let cacheName = "dynamicFormCache";
 let cacheData = ref<any>([]);
 const propertyRef = ref();
 const isSubmit = ref(false);
 const configDialogRef = ref();
-let shortKeySwitch: Function = () => {};
-const { dialogStates, openDialog, closeAllDialogs } = useDialogManager();
+let shortKeySwitch: Function = () => {
+};
+const {dialogStates, openDialog, closeAllDialogs} = useDialogManager();
 const isCooperationMode = computed(() => formInfo.value?.cooperation === "Y");
 const connectionStatus = ref<string>("未连接");
 const isConnected = ref<boolean>(false);
@@ -117,48 +121,48 @@ const messageSubscriptions = ref<string[]>([]);
 const isSyncing = ref<boolean>(false);
 
 watch(
-  () => currentItemId.value,
-  (newVal, oldVal) => {
-    console.log("Current item changed:", oldVal, "->", newVal);
+    () => currentItemId.value,
+    (newVal, oldVal) => {
+      console.log("Current item changed:", oldVal, "->", newVal);
 
-    if (!isCooperationMode.value) {
-      return;
-    }
+      if (!isCooperationMode.value) {
+        return;
+      }
 
-    if (!formSocketInstance.value || !formSocketInstance.value.isConnected()) {
-      console.log("WebSocket not connected, skipping component lock/unlock");
-      return;
-    }
+      if (!formSocketInstance.value || !formSocketInstance.value.isConnected()) {
+        console.log("WebSocket not connected, skipping component lock/unlock");
+        return;
+      }
 
-    // 当组件切换时，解锁旧组件
-    if (oldVal && oldVal !== newVal) {
-      unlockComponentById(oldVal);
-    }
+      // 当组件切换时，解锁旧组件
+      if (oldVal && oldVal !== newVal) {
+        unlockComponentById(oldVal);
+      }
 
-    // 锁定新组件
-    if (newVal) {
-      lockComponent(newVal);
-    }
-  },
-  { immediate: true },
+      // 锁定新组件
+      if (newVal) {
+        lockComponent(newVal);
+      }
+    },
+    {immediate: true},
 );
 
 watch(
-  () => formInfo.value?.cooperation,
-  (newVal, oldVal) => {
-    console.log("Cooperation mode changed:", oldVal, "->", newVal);
+    () => formInfo.value?.cooperation,
+    (newVal, oldVal) => {
+      console.log("Cooperation mode changed:", oldVal, "->", newVal);
 
-    if (newVal === "Y" && oldVal !== "Y") {
-      // 切换到协作模式，初始化 WebSocket
-      initWebSocketService();
-    } else if (newVal !== "Y" && oldVal === "Y") {
-      // 切换到非协作模式，断开 WebSocket
-      if (formSocketInstance.value) {
-        formSocketInstance.value.disconnect();
-        formSocketInstance.value = null;
+      if (newVal === "Y" && oldVal !== "Y") {
+        // 切换到协作模式，初始化 WebSocket
+        initWebSocketService();
+      } else if (newVal !== "Y" && oldVal === "Y") {
+        // 切换到非协作模式，断开 WebSocket
+        if (formSocketInstance.value) {
+          formSocketInstance.value.disconnect();
+          formSocketInstance.value = null;
+        }
       }
-    }
-  },
+    },
 );
 const subscribeToMessages = () => {
   if (!formSocketInstance.value || !formSocketInstance.value.isConnected()) {
@@ -172,10 +176,10 @@ const subscribeToMessages = () => {
   messageSubscriptions.value = [];
 
   const privateSubscription = formSocketInstance.value.subscribeToGroupMessages(
-    (message: any) => {
-      handleIncomingMessage(message);
-    },
-    currentFormId.value,
+      (message: any) => {
+        handleIncomingMessage(message);
+      },
+      currentFormId.value,
   );
   if (privateSubscription) {
     messageSubscriptions.value.push(privateSubscription);
@@ -191,23 +195,23 @@ const handleIncomingMessage = (message: any) => {
         console.log("Component locked successfully:", message.compId);
         // 如果是自己锁定的组件，不需要添加编辑用户信息
         if (
-          message.userInfo &&
-          message.userInfo.userId !== currentUserInfo.value.userId
+            message.userInfo &&
+            message.userInfo.userId !== currentUserInfo.value.userId
         ) {
           designForm.addCurrentCompEditUserInfo(
-            message.compId,
-            message.userInfo,
+              message.compId,
+              message.userInfo,
           );
         }
       } else {
         console.error(
-          "Component lock failed:",
-          message.compId,
-          message.message,
+            "Component lock failed:",
+            message.compId,
+            message.message,
         );
         // 显示锁定失败的提示
         warning(
-          `组件 ${message.compId} 已被 ${message.userInfo?.name || "其他用户"} 锁定`,
+            `组件 ${message.compId} 已被 ${message.userInfo?.name || "其他用户"} 锁定`,
         );
       }
       break;
@@ -234,8 +238,8 @@ const handleIncomingMessage = (message: any) => {
         // 跳过自己的锁定状态，只显示其他用户的编辑状态
         if (message.userInfo.userId !== currentUserInfo.value.userId) {
           designForm.addCurrentCompEditUserInfo(
-            message.compId,
-            message.userInfo,
+              message.compId,
+              message.userInfo,
           );
         }
       }
@@ -281,23 +285,23 @@ const initWebSocketService = () => {
 
     console.log("Attempting to connect to WebSocket server");
     formSocketInstance.value
-      .connect()
-      .then((connected) => {
-        if (connected) {
-          isConnected.value = true;
-          connectionStatus.value = "已连接";
-          console.log("WebSocket服务连接成功");
-        } else {
+        .connect()
+        .then((connected) => {
+          if (connected) {
+            isConnected.value = true;
+            connectionStatus.value = "已连接";
+            console.log("WebSocket服务连接成功");
+          } else {
+            isConnected.value = false;
+            connectionStatus.value = "连接失败";
+            console.error("WebSocket服务连接失败");
+          }
+        })
+        .catch((error) => {
+          console.error("WebSocket连接过程中出错:", error);
           isConnected.value = false;
-          connectionStatus.value = "连接失败";
-          console.error("WebSocket服务连接失败");
-        }
-      })
-      .catch((error) => {
-        console.error("WebSocket连接过程中出错:", error);
-        isConnected.value = false;
-        connectionStatus.value = "连接出错";
-      });
+          connectionStatus.value = "连接出错";
+        });
 
     console.log("WebSocket服务初始化完成");
   } catch (error) {
@@ -310,6 +314,42 @@ const changeRole = (data: any) => {
   console.log("changeRole", data);
   currentUserInfo.value = data;
 };
+//导入文件
+const operImportFile = () => {
+  const input = document.createElement('input');
+  input.type = 'file';
+  input.accept = '.json';
+  input.onchange = (event) => {
+    const file = (event.target as HTMLInputElement).files?.[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      try {
+        const content = e.target?.result as string;
+        const jsonData = JSON5.parse(content);
+        if (jsonData) {
+          if (Array.isArray(jsonData)) {
+            designForm.setCompList(jsonData);
+
+          } else if (jsonData.dataList) {
+            designForm.setCompList(jsonData.dataList);
+          } else {
+            designForm.setCompList([jsonData]);
+          }
+          success('导入成功');
+        } else {
+          error('文件格式不正确，请导入正确的JSON文件');
+        }
+      } catch (err) {
+        console.error('导入文件失败:', err);
+        error('文件解析失败，请检查文件格式');
+      }
+    };
+    reader.readAsText(file);
+  };
+  input.click();
+}
 const actions = (action: ToolBtnType) => {
   switch (action.key) {
     case "formConfig":
@@ -356,6 +396,8 @@ const actions = (action: ToolBtnType) => {
     case "pc":
       actionsStyle(action);
       break;
+    case "upload":
+      operImportFile();
   }
   emits("action", action);
 };
@@ -386,24 +428,24 @@ const init = async () => {
     designForm.setAllFormDataList(allFormDataList);
   }
   if (
-    props.optional?.containerList &&
-    typeof props.optional.containerList == "function"
+      props.optional?.containerList &&
+      typeof props.optional.containerList == "function"
   ) {
     props.optional.containerList().then((res: CompType[]) => {
       designForm.addContainerList(res);
     });
   }
   if (
-    props.optional?.itemList &&
-    typeof props.optional.itemList == "function"
+      props.optional?.itemList &&
+      typeof props.optional.itemList == "function"
   ) {
     props.optional.itemList().then((res: CompType[]) => {
       designForm.addFormDataList(res);
     });
   }
   if (
-    props.optional?.extendItemList &&
-    typeof props.optional.extendItemList == "function"
+      props.optional?.extendItemList &&
+      typeof props.optional.extendItemList == "function"
   ) {
     props.optional.extendItemList().then((res: CompType[]) => {
       designForm.addSelfFormDataList(res);
@@ -442,12 +484,12 @@ const closeAction = () => {
 const clearData = (flag: boolean = true) => {
   if (list.value?.length > 0) {
     operationConfirm("新建将清空舞台上的所有元素，是否确定要清空？").then(
-      (res: boolean) => {
-        if (res) {
-          designForm.clearAll(flag);
-          delCacheData(cacheName);
-        }
-      },
+        (res: boolean) => {
+          if (res) {
+            designForm.clearAll(flag);
+            delCacheData(cacheName);
+          }
+        },
     );
   } else {
     designForm.clearAll(flag);
@@ -482,9 +524,9 @@ const onDragAdd = async (_evt: Event, dataList?: Array<any>) => {
     designForm.selectItem(temp, temp["itemType"], "");
   } else {
     designForm.selectItem(
-      draggingItem.value,
-      draggingItem.value["itemType"],
-      "",
+        draggingItem.value,
+        draggingItem.value["itemType"],
+        "",
     );
   }
   // 仅在协作模式下同步数据到其他用户，且不在同步过程中
@@ -596,24 +638,24 @@ onBeforeUnmount(() => {
 });
 
 const listWatcher = watch(
-  () => list.value,
-  debounce((val: any) => {
-    designForm.removePromise();
-    designForm.setRefresh();
-    designForm.addHistoryRecord(reOrUnDoFlag.value);
-    reOrUnDoFlag.value = false;
-    userOperation.setFormInstance(dynamicFormRef);
-    userOperation.setFormData(formData);
-    userOperation.addFormItemList(val);
-    setCacheData(cacheName, {
-      dataList: val,
-      formInfo: unref(formInfo),
-    });
-  }, 300),
-  {
-    immediate: false,
-    deep: true,
-  },
+    () => list.value,
+    debounce((val: any) => {
+      designForm.removePromise();
+      designForm.setRefresh();
+      designForm.addHistoryRecord(reOrUnDoFlag.value);
+      reOrUnDoFlag.value = false;
+      userOperation.setFormInstance(dynamicFormRef);
+      userOperation.setFormData(formData);
+      userOperation.addFormItemList(val);
+      setCacheData(cacheName, {
+        dataList: val,
+        formInfo: unref(formInfo),
+      });
+    }, 300),
+    {
+      immediate: false,
+      deep: true,
+    },
 );
 
 onMounted(async () => {
@@ -668,18 +710,18 @@ const lockComponent = (compId: string) => {
   }
 
   formSocketInstance.value.lockComponent(
-    compId,
-    currentFormId.value,
-    currentUserInfo.value,
+      compId,
+      currentFormId.value,
+      currentUserInfo.value,
   );
 };
 
 // 解锁组件
 const unlockComponentById = (compId: string) => {
   if (
-    !formSocketInstance.value ||
-    !formSocketInstance.value.isConnected() ||
-    !compId
+      !formSocketInstance.value ||
+      !formSocketInstance.value.isConnected() ||
+      !compId
   ) {
     return;
   }
@@ -705,10 +747,10 @@ const nodeList = () => {
   return list.value;
 };
 const setFormInfo = (
-  nodeList: Array<any>,
-  formInfo: any,
-  formData: any,
-  isEdit: boolean,
+    nodeList: Array<any>,
+    formInfo: any,
+    formData: any,
+    isEdit: boolean,
 ) => {
   initStoreData();
   designForm.setFormInfo(formInfo);
@@ -748,31 +790,31 @@ defineExpose({
 
 <template>
   <ConfigDialog
-    ref="configDialogRef"
-    :visible="dialogStates.configDialogVisible"
-    :optional="optional"
-    @save="saveData"
-    @close="closeAction"
+      ref="configDialogRef"
+      :visible="dialogStates.configDialogVisible"
+      :optional="optional"
+      @save="saveData"
+      @close="closeAction"
   />
   <CodeDialog
-    :visible="dialogStates.codeDialogVisible"
-    :optional="optional"
-    @close="closeAction"
-    @save="codeDoSave"
+      :visible="dialogStates.codeDialogVisible"
+      :optional="optional"
+      @close="closeAction"
+      @save="codeDoSave"
   />
   <BatchEditDialog
-    :visible="dialogStates.batchEditFieldVisible"
-    :compSize="compSize"
-    @close="closeAction"
-    @save="closeAction"
+      :visible="dialogStates.batchEditFieldVisible"
+      :compSize="compSize"
+      @close="closeAction"
+      @save="closeAction"
   />
   <PreviewDialog
-    :visible="isPreview"
-    :compSize="compSize"
-    :list="list"
-    :currentPageClass="currentPageClass"
-    @close="closeAction"
-    ref="previewDialogRef"
+      :visible="isPreview"
+      :compSize="compSize"
+      :list="list"
+      :currentPageClass="currentPageClass"
+      @close="closeAction"
+      ref="previewDialogRef"
   />
   <PageConfig v-model="formConfigDialogVisible">
     <!--    <template #header="{form}">
@@ -786,26 +828,26 @@ defineExpose({
           </el-form-item>
         </template>-->
   </PageConfig>
-  <FieldLayerDrawer v-model:visible="dialogStates.formFieldLayer" />
+  <FieldLayerDrawer v-model:visible="dialogStates.formFieldLayer"/>
   <el-splitter>
     <el-splitter-panel collapsible size="350" min="200" max="450">
       <field-panel
-        ref="fieldPanelRef"
-        :optional="optional"
-        @loadData="loadData"
+          ref="fieldPanelRef"
+          :optional="optional"
+          @loadData="loadData"
       />
     </el-splitter-panel>
     <el-splitter-panel>
       <el-splitter layout="vertical">
         <el-splitter-panel :collapsible="false" :resizable="false" size="42">
           <FormToolbar
-            :list="list"
-            :currentPageStyle="currentPageStyle"
-            :cacheData="cacheData"
-            @action="actions"
-            @changeRole="changeRole"
-            @cacheRestore="cacheDataRestore"
-            :optional="optional"
+              :list="list"
+              :currentPageStyle="currentPageStyle"
+              :cacheData="cacheData"
+              @action="actions"
+              @changeRole="changeRole"
+              @cacheRestore="cacheDataRestore"
+              :optional="optional"
           />
         </el-splitter-panel>
         <el-splitter-panel>
@@ -813,23 +855,23 @@ defineExpose({
             <el-splitter-panel>
               <div class="main-design-outer">
                 <FormDesigner
-                  :list="list"
-                  :form-data="formData"
-                  :form-info="formInfo"
-                  :is-dragging="isDragging"
-                  :current-page-class="currentPageClass"
-                  @drag-add="onDragAdd"
-                  @context-menu="contextMenu"
-                  @select-component="onComponentSelect"
-                  ref="dynamicFormRef"
+                    :list="list"
+                    :form-data="formData"
+                    :form-info="formInfo"
+                    :is-dragging="isDragging"
+                    :current-page-class="currentPageClass"
+                    @drag-add="onDragAdd"
+                    @context-menu="contextMenu"
+                    @select-component="onComponentSelect"
+                    ref="dynamicFormRef"
                 />
                 <FormMenuShot
-                  ref="formListRef"
-                  v-if="Object.keys(optional?.api || {}).length > 0"
-                  @change="changeDataHandle"
-                  :dataUrl="optional?.api"
-                  :prop="optional?.shotProps"
-                  :primaryKey="optional?.primaryKey"
+                    ref="formListRef"
+                    v-if="Object.keys(optional?.api || {}).length > 0"
+                    @change="changeDataHandle"
+                    :dataUrl="optional?.api"
+                    :prop="optional?.shotProps"
+                    :primaryKey="optional?.primaryKey"
                 />
                 <div class="main-copyright">
                   {{ i18n("starhorse.copyright") }}
@@ -837,15 +879,15 @@ defineExpose({
               </div>
             </el-splitter-panel>
             <el-splitter-panel
-              collapsible
-              :size="350"
-              min="260"
-              max="500"
-              class="overflow-hidden!"
-              v-if="list.length > 0"
+                collapsible
+                :size="350"
+                min="260"
+                max="500"
+                class="overflow-hidden!"
+                v-if="list.length > 0"
             >
               <el-scrollbar>
-                <property-panel ref="propertyRef" :optional="optional" />
+                <property-panel ref="propertyRef" :optional="optional"/>
               </el-scrollbar>
             </el-splitter-panel>
           </el-splitter>

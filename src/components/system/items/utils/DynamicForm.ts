@@ -40,6 +40,13 @@ const formActions = (): Array<ToolBtnType> => [
     label: i18n("dyform.action.new"),
   },
   {
+    icon: "upload",
+    defaultEdit: true,
+    key: "upload",
+    auth: "none",
+    label: i18n("dyform.action.import"),
+  },
+  {
     icon: "edit",
     key: "eprep",
     auth: "none",
