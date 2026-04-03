@@ -25,8 +25,8 @@ const quickConfig = ref<Record<string, number>>({
 let currentItemType = computed(() => {
   let comp = designForm.currentComp;
   comp.type = comp.itemType;
-  quickConfig.value.rowNums = comp.preps.rowNums || 1;
-  quickConfig.value.columnNums = comp.preps.columnNums || 1;
+  quickConfig.value.rowNums = comp.preps?.rowNums || 1;
+  quickConfig.value.columnNums = comp.preps?.columnNums || 1;
   return comp.itemType;
 });
 let compSize = computed(() => props.optional?.compSize ?? "default");
@@ -210,7 +210,8 @@ const boxAndTableQuickConfig = (val: any) => {
           colIndex: 1,
           rowspan: 1,
           colspan: currentItemType.value == "box" ? (24 / val.columnNums) : 1,
-          items: []
+          items: [],
+          visible:true
         });
       }
       tempRows.push({
@@ -233,6 +234,7 @@ const boxAndTableQuickConfig = (val: any) => {
           colIndex: 1,
           rowspan: 1,
           colspan: 1,
+          visible:true,
           items: []
         });
       }
