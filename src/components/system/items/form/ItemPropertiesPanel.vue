@@ -211,7 +211,7 @@ const boxAndTableQuickConfig = (val: any) => {
           rowspan: 1,
           colspan: currentItemType.value == "box" ? (24 / val.columnNums) : 1,
           items: [],
-          visible:true
+          cellVisible:true
         });
       }
       tempRows.push({
@@ -234,7 +234,7 @@ const boxAndTableQuickConfig = (val: any) => {
           colIndex: 1,
           rowspan: 1,
           colspan: 1,
-          visible:true,
+          cellVisible:true,
           items: []
         });
       }
@@ -484,6 +484,7 @@ watch(() => quickConfig.value, (val) => {
             inactive-text="否"
         />
       </el-form-item>
+
       <el-form-item label="隐藏标签" prop="hideLabel">
         <el-switch
             v-model="formProps.hideLabel"
@@ -539,6 +540,7 @@ watch(() => quickConfig.value, (val) => {
         />
       </el-form-item>
 
+
       <el-form-item label="原样显示" prop="prototypeDisplay">
         <el-switch
             v-model="formProps.prototypeDisplay"
@@ -567,6 +569,14 @@ watch(() => quickConfig.value, (val) => {
         />
         <help
             :message="`如果开启此功能，\n在新增数据时系统对数据进行唯一性校验。`"
+        />
+      </el-form-item>
+      <el-form-item label="标签位置" prop="labelPosition">
+        <el-select
+            clearable
+            filterable
+            v-model="formProps.labelPosition"
+            :options="[{label:'顶部',value:'top'},{label:'左边',value:'left'},{label:'右边',value:'right'}]"
         />
       </el-form-item>
       <el-form-item label="提示信息" prop="helpMsg">
