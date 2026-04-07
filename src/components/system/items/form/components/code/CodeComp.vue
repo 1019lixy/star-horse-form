@@ -77,7 +77,7 @@ onMounted(async () => {
       <div class="flex justify-end my-3">
         <el-button type="primary" @click="exportCode">导出代码</el-button>
       </div>
-      <star-horse-json-editor :lang="'json'" v-model="compList"/>
+      <star-horse-json-editor currentMode="json" v-model="compList"/>
     </el-tab-pane>
   </el-tabs>
 </template>
