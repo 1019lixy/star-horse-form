@@ -1,15 +1,11 @@
 <script setup lang="ts">
-import { nextTick, onMounted, provide, ref, watch } from "vue";
-import {
-  analysisCompDatas,
-  apiInstance,
-  ApiUrls,
-  dialogPreps,
-} from "star-horse-lowcode";
-import { i18n } from "@/lang";
+import {nextTick, onMounted, provide, ref, watch} from "vue";
+import {analysisAppComps, analysisCompDatas, apiInstance, ApiUrls, dialogPreps,} from "star-horse-lowcode";
+import {i18n} from "@/lang";
 import CommonSkeleton from "./CommonSkeleton.vue";
 
 const props = defineProps({
+  currentPageClass: {type: String, default: ""},
   compList: {
     type: Array,
     required: true,
@@ -17,7 +13,7 @@ const props = defineProps({
 });
 let dataUrl = ref<ApiUrls>(apiInstance("", ""));
 const errorMsg = ref(i18n("commonPage.dataLoading"));
-const formPageRef=ref();
+const formPageRef = ref();
 const tableFieldList = ref<any>({
   fieldList: [],
   stopAutoLoad: true,
@@ -33,22 +29,20 @@ let outerFormData = ref<any>({});
 
 const loadFormData = async () => {
   isLoading.value = true; // 开始加载
-  let { fieldList } = analysisCompDatas(props.compList);
   primaryKey.value = "id";
-  tableFieldList.value.fieldList = fieldList;
-  console.log(fieldList);
+  if (props.currentPageClass == "main-design-phone") {
+    let {fieldList} = analysisAppComps(props.compList);
+    tableFieldList.value.fieldList = fieldList;
+  } else {
+    let {fieldList} = analysisCompDatas(props.compList);
+    tableFieldList.value.fieldList = fieldList;
+  }
   await nextTick();
   hasData.value = true;
   isLoading.value = false; // 加载完成
 };
 
-watch(
-  () => props.compList,
-  (val) => {
-    loadFormData();
-  },
-  { deep: true },
-);
+
 
 const dialogProps = dialogPreps();
 provide("dialogProps", dialogProps);
@@ -59,31 +53,45 @@ const init = async () => {
 onMounted(async () => {
   await init();
 });
+watch(
+    () => props.compList,
+    (val) => {
+      loadFormData();
+    },
+    {deep: true},
+);
+watch(
+    () => props.currentPageClass,
+    (val) => {
+      loadFormData();
+    },
+    {deep: true},
+);
 </script>
 <template>
   <div class="flex flex-col h-full overflow-hidden">
     <!-- 使用通用骨架屏组件 -->
     <CommonSkeleton
-      v-if="isLoading"
-      :showSearch="false"
-      :showHeader="true"
-      :showForm="true"
-      :formRowCount="6"
+        v-if="isLoading"
+        :showSearch="false"
+        :showHeader="true"
+        :showForm="true"
+        :formRowCount="6"
     />
 
     <template v-else-if="hasData">
       <el-card class="inner_content">
         <star-horse-form
-          :compUrl="dataUrl"
-          :formInfo="formInfo"
-          :dynamicForm="true"
-          ref="formPageRef"
-
-          :globalCondition="relationTables"
-          :outerFormData="outerFormData"
-          :fieldList="tableFieldList"
-          :rules="rules"
-          :typeModel="'form'"
+            :compUrl="dataUrl"
+            :formInfo="formInfo"
+            :dynamicForm="true"
+            ref="formPageRef"
+            :label-position="currentPageClass=='main-design-phone'?'top':'left'"
+            :globalCondition="relationTables"
+            :outerFormData="outerFormData"
+            :fieldList="tableFieldList"
+            :rules="rules"
+            :typeModel="'form'"
         />
       </el-card>
     </template>

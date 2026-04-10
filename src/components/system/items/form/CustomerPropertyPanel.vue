@@ -10,6 +10,8 @@ import PreOrPendDialog from "@/components/system/items/form/dialogs/PreOrPendDia
 import {FormConfig} from "@/components/types";
 import {deepClone} from "@/api/system.js";
 import UserDefinePrepsDialog from "@/components/system/items/form/dialogs/UserDefinePrepsDialog.vue";
+import {OtherPreps, otherPreps} from "@/components/system/items/form/composables/otherPreps";
+import FieldLayerDrawer from "@/components/system/items/form/dialogs/FieldLayerDrawer.vue";
 
 const props = defineProps({
   optional: {type: Object as PropType<FormConfig>},
@@ -201,7 +203,23 @@ const configPreps = () => {
   // userDefinePreps.value = formProps.value;
   openDialog("userDefinePrepsDialog");
 };
-
+const checkMatchComp = (item: OtherPreps) => {
+  if (item.matchComp) {
+    return item.matchComp.includes(currentItemType.value);
+  }
+  return true;
+}
+const dataBind = (data: any) => {
+  if (!formProps.value["labelFor"]) {
+    formProps.value["labelFor"] = [];
+  }
+  const labelFor = formProps.value["labelFor"];
+  if (!labelFor.includes(data.value)) {
+    labelFor.push(data.value);
+  } else {
+    formProps.value["labelFor"] = labelFor.filter(item => item !== data.value);
+  }
+}
 onMounted(() => {
   init();
 });
@@ -270,6 +288,9 @@ watch(
       @close="handleDialogClose"
       @reset="handleDialogClose"
   />
+  <FieldLayerDrawer v-model:visible="dialogStates.bindFieldVisible"
+                    @dataBind="dataBind"
+                    operType="bind"/>
   <el-scrollbar>
     <el-collapse v-model="activeNames">
       <el-collapse-item name="base">
@@ -334,6 +355,56 @@ watch(
           </el-button>
         </el-form-item>
       </el-collapse-item>
+      <el-collapse-item name="other">
+        <template #title="{ isActive }">
+          <div :class="['title-wrapper', { 'is-active': isActive }]">
+            <star-horse-icon iconClass="other"/>
+            <span>其它配置</span>
+          </div>
+        </template>
+        <template v-for="item in otherPreps">
+          <el-form-item
+              :label="item.label"
+              :prop="item.fieldName"
+              :size="compSize"
+              v-if="checkMatchComp(item)"
+              :label-position="
+              item.fieldType == 'switch' || item.fieldType == 'button' ? 'left' : 'top'
+            "
+          >
+            <div class="flex flex-col " v-if="item.fieldType == 'button'">
+              <el-button
+
+                  type="primary"
+                  plain
+                  @click="item.actions?.click?.(dialogStates,formProps)"
+                  icon="Setting"
+              >
+                配置
+              </el-button>
+              <div class="my-3">
+                <component
+                    :is="'input-tag-item'"
+                    v-model:formData="formProps"
+                    :field="{
+                fieldName: item.fieldName,
+                preps: item.preps,
+              }"
+                />
+              </div>
+            </div>
+            <component
+                v-else
+                :is="item.fieldType + '-item'"
+                v-model:formData="formProps"
+                :field="{
+                fieldName: item.fieldName,
+                preps: item.preps,
+              }"
+            />
+          </el-form-item>
+        </template>
+      </el-collapse-item>
       <el-collapse-item name="action">
         <template #title="{ isActive }">
           <div :class="['title-wrapper', { 'is-active': isActive }]">
@@ -351,7 +422,7 @@ watch(
             <el-button
                 type="primary"
                 plain
-                @click="item.actions.click"
+                @click="item.actions.click()"
                 icon="Setting"
             >配置
             </el-button>

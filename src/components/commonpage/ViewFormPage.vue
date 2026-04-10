@@ -1,14 +1,16 @@
 <script setup lang="ts">
 import {
+  analysisAppComps,
   analysisCompDatas,
   apiInstance,
   dialogPreps,
   PageFieldInfo,
   SearchFields,
 } from "star-horse-lowcode";
-import { nextTick, onMounted, provide, ref, watch } from "vue";
+import {nextTick, onMounted, provide, ref, watch} from "vue";
 
 const props = defineProps({
+  currentPageClass: {type: String, default: ""},
   compList: {
     type: Array,
     required: true,
@@ -17,7 +19,7 @@ const props = defineProps({
 
 const dataUrl = apiInstance("userdb-manage", "consumer/api");
 
-let searchFormData = ref<SearchFields | any>({ fieldList: [] });
+let searchFormData = ref<SearchFields | any>({fieldList: []});
 const tableFieldList = ref<PageFieldInfo | any>({
   fieldList: [],
 });
@@ -31,21 +33,20 @@ const primaryKey = ref<string>("");
 
 const loadFormData = async () => {
   isLoading.value = true; // 开始加载
-  let { fieldList, searchItemList } = analysisCompDatas(props.compList);
-  searchFormData.value.fieldList = searchItemList;
   primaryKey.value = "id";
-  tableFieldList.value.fieldList = fieldList;
+  if (props.currentPageClass == "main-design-phone") {
+    let {fieldList} = analysisAppComps(props.compList);
+    tableFieldList.value.fieldList = fieldList;
+  } else {
+    let {fieldList, searchItemList} = analysisCompDatas(props.compList);
+    searchFormData.value.fieldList = searchItemList;
+    tableFieldList.value.fieldList = fieldList;
+  }
   await nextTick();
   isLoading.value = false; // 加载完成
 };
 
-watch(
-  () => props.compList,
-  (val) => {
-    loadFormData();
-  },
-  { deep: true },
-);
+
 
 const dialogProps = dialogPreps();
 provide("dialogProps", dialogProps);
@@ -59,14 +60,28 @@ const init = async () => {
 onMounted(async () => {
   await init();
 });
+watch(
+    () => props.compList,
+    (val) => {
+      loadFormData();
+    },
+    { deep: true },
+);
+watch(
+    () => props.currentPageClass,
+    (val) => {
+      loadFormData();
+    },
+    {deep: true},
+);
 </script>
 <template>
   <div class="flex flex-col h-full overflow-hidden">
     <el-card class="inner_content">
       <star-horse-data-view
-        :field-list="tableFieldList"
-        :dataFormat="dataFormat"
-        :compUrl="dataUrl"
+          :field-list="tableFieldList"
+          :dataFormat="dataFormat"
+          :compUrl="dataUrl"
       />
     </el-card>
   </div>

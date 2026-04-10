@@ -1,22 +1,39 @@
 <script setup lang="ts" name="FieldPanel">
-import { computed, PropType, ref } from "vue";
-import {
-  loadData,
-  piniaInstance,
-  useDesignFormStore,
-} from "star-horse-lowcode";
-import { fieldCopy } from "@/components/system/items/utils/FieldOperationUtils.js";
-import { i18n } from "@/lang/index.js";
-import { FormConfig } from "@/components/types";
+import {computed, PropType, ref} from "vue";
+import {loadData, piniaInstance, StarHorseIcon, useDesignFormStore,} from "star-horse-lowcode";
+import {fieldCopy} from "@/components/system/items/utils/FieldOperationUtils.js";
+import {i18n} from "@/lang/index.js";
+import {FormConfig} from "@/components/types";
 
 const props = defineProps({
-  optional: { type: Object as PropType<FormConfig> },
+  optional: {type: Object as PropType<FormConfig>},
 });
 const emits = defineEmits(["loadData"]);
-let designForm = useDesignFormStore(piniaInstance);
-let formDataList = computed(() => designForm.formDataList);
-let containerList = computed(() => designForm.containerList);
-let selfFormDataList = computed(() => designForm.selfFormDataList);
+const designForm = useDesignFormStore(piniaInstance);
+const baseFormDataList = computed(() => designForm.formDataList);
+const baseContainerList = computed(() => designForm.containerList);
+const baseSelfFormDataList = computed(() => designForm.selfFormDataList);
+const formQuery = ref<string>("");
+const containerQuery = ref<string>("");
+const selfQuery = ref<string>("");
+const formDataList = computed(() => {
+  if (!formQuery.value) {
+    return baseFormDataList.value;
+  }
+  return  baseFormDataList.value.filter((item) =>item.itemName.toLowerCase().includes(formQuery.value.toLowerCase()));
+});
+let containerList = computed(() => {
+  if (!containerQuery.value) {
+    return baseContainerList.value;
+  }
+  return baseContainerList.value.filter((item) =>item.itemName.toLowerCase().includes(containerQuery.value.toLowerCase()));
+});
+let selfFormDataList = computed(() => {
+  if (!selfQuery.value) {
+    return baseSelfFormDataList.value;
+  }
+  return baseSelfFormDataList.value.filter((item) => item.itemName.toLowerCase().includes(selfQuery.value.toLowerCase()));
+});
 let list = computed(() => designForm.compList);
 let tabModel = ref<string>("component");
 let activeNames = ref(["a", "b", "c", "d"]);
@@ -36,9 +53,9 @@ const templateList = ref<any[]>([]);
 const tabChange = (name: string) => {
   if (name == "template" && props.optional?.api?.basePrefix) {
     loadData(props.optional.api.basePrefix + "/loadTemplate", {}).then(
-      async (res: any) => {
-        templateList.value = res.data || [];
-      },
+        async (res: any) => {
+          templateList.value = res.data || [];
+        },
     );
   }
 };
@@ -65,17 +82,17 @@ defineExpose({});
 </script>
 <template>
   <el-tabs
-    v-model="tabModel"
-    class="h-full w-full"
-    tab-position="left"
-    @tabChange="tabChange"
-    type="border-card"
+      v-model="tabModel"
+      class="h-full w-full"
+      tab-position="left"
+      @tabChange="tabChange"
+      type="border-card"
   >
     <el-tab-pane name="component">
       <template #label>
         <star-horse-icon
-          icon-class="component"
-          style="color: var(--star-horse-style)"
+            icon-class="component"
+            style="color: var(--star-horse-style)"
         />&nbsp;<span>{{ i18n("dyform.tab.component") }}</span>
       </template>
       <div class="field-area">
@@ -84,38 +101,45 @@ defineExpose({});
             <el-collapse-item name="a">
               <template #title>
                 <div
-                  class="collapse-item-title title h-full flex justify-between"
+                    class="collapse-item-title title h-full flex justify-between"
                 >
                   <div class="flex flex-row items-center h-full">
                     {{ i18n("dyform.collapse.layout") }}
                   </div>
                   <star-horse-icon
-                    icon-class="container"
-                    size="20px"
-                    style="color: var(--star-horse-style); margin-right: 10px"
+                      icon-class="container"
+                      size="20px"
+                      style="color: var(--star-horse-style); margin-right: 10px"
                   />
                 </div>
               </template>
+              <div class="my-3 w-full">
+                <el-input v-model="containerQuery" :placeholder="i18n('dyform.collapse.layout')" clearable>
+                  <template #prefix>
+                    <star-horse-icon iconClass="search"/>
+                  </template>
+                </el-input>
+              </div>
               <draggable
-                :clone="onContainerCopy"
-                :group="{ name: 'starHorseGroup', pull: 'clone', put: false }"
-                :sort="false"
-                animation="300"
-                ghost-class="ghost"
-                item-key="id"
-                tag="ul"
-                :list="containerList"
+                  :clone="onContainerCopy"
+                  :group="{ name: 'starHorseGroup', pull: 'clone', put: false }"
+                  :sort="false"
+                  animation="300"
+                  ghost-class="ghost"
+                  item-key="id"
+                  tag="ul"
+                  :list="containerList"
               >
                 <template #item="{ element }">
                   <li
-                    class="field-item h-[80px]!"
-                    @dblclick="addElement(element, 'container')"
-                    :title="element.itemName"
+                      class="field-item h-[80px]!"
+                      @dblclick="addElement(element, 'container')"
+                      :title="element.itemName"
                   >
                     <star-horse-icon
-                      :icon-class="element.itemIcon"
-                      size="32px"
-                      style="color: var(--star-horse-style)"
+                        :icon-class="element.itemIcon"
+                        size="32px"
+                        style="color: var(--star-horse-style)"
                     />
                     <i>{{ element.itemName }}</i>
                   </li>
@@ -125,7 +149,7 @@ defineExpose({});
             <el-collapse-item name="b">
               <template #title>
                 <div
-                  class="collapse-item-title title h-full flex justify-between"
+                    class="collapse-item-title title h-full flex justify-between"
                 >
                   <div class="flex flex-row items-center h-full">
                     {{ i18n("dyform.collapse.form") }}
@@ -134,29 +158,36 @@ defineExpose({});
                     icon-class="form"
                     size="20px"
                     style="color: var(--star-horse-style); margin-right: 10px"
-                  />
+                />
                 </div>
               </template>
+              <div class="my-3 w-full">
+                <el-input v-model="formQuery" :placeholder="i18n('dyform.collapse.form')" clearable>
+                  <template #prefix>
+                   <star-horse-icon iconClass="search"/>
+                  </template>
+                </el-input>
+              </div>
               <draggable
-                :clone="onFormItemCopy"
-                :group="{ name: 'starHorseGroup', pull: 'clone', put: false }"
-                :sort="false"
-                animation="300"
-                ghost-class="ghost"
-                item-key="key"
-                tag="ul"
-                :list="formDataList"
+                  :clone="onFormItemCopy"
+                  :group="{ name: 'starHorseGroup', pull: 'clone', put: false }"
+                  :sort="false"
+                  animation="300"
+                  ghost-class="ghost"
+                  item-key="key"
+                  tag="ul"
+                  :list="formDataList"
               >
                 <template #item="{ element }">
                   <li
-                    class="field-item h-[80px]!"
-                    @dblclick="addElement(element, 'item')"
-                    :title="element.itemName"
+                      class="field-item h-[80px]!"
+                      @dblclick="addElement(element, 'item')"
+                      :title="element.itemName"
                   >
                     <star-horse-icon
-                      :icon-class="element.itemIcon"
-                      size="32px"
-                      style="color: var(--star-horse-style)"
+                        :icon-class="element.itemIcon"
+                        size="32px"
+                        style="color: var(--star-horse-style)"
                     />
                     <i>{{ element.itemName }}</i>
                   </li>
@@ -166,7 +197,7 @@ defineExpose({});
             <el-collapse-item name="c">
               <template #title>
                 <div
-                  class="collapse-item-title title h-full flex justify-between"
+                    class="collapse-item-title title h-full flex justify-between"
                 >
                   <div class="flex flex-row items-center h-full">
                     {{ i18n("dyform.collapse.custom") }}
@@ -175,29 +206,36 @@ defineExpose({});
                     icon-class="other"
                     size="24px"
                     style="color: var(--star-horse-style); margin-right: 10px"
-                  />
+                />
                 </div>
               </template>
+              <div class="my-3 w-full">
+                <el-input v-model="selfQuery" clearable :placeholder="i18n('dyform.collapse.custom')" >
+                  <template #prefix>
+                    <star-horse-icon iconClass="search"/>
+                  </template>
+                </el-input>
+              </div>
               <draggable
-                :clone="onFormItemCopy"
-                :group="{ name: 'starHorseGroup', pull: 'clone', put: false }"
-                :sort="false"
-                animation="300"
-                ghost-class="ghost"
-                item-key="key"
-                tag="ul"
-                :list="selfFormDataList"
+                  :clone="onFormItemCopy"
+                  :group="{ name: 'starHorseGroup', pull: 'clone', put: false }"
+                  :sort="false"
+                  animation="300"
+                  ghost-class="ghost"
+                  item-key="key"
+                  tag="ul"
+                  :list="selfFormDataList"
               >
                 <template #item="{ element }">
                   <li
-                    class="field-item h-[80px]!"
-                    @dblclick="addElement(element, 'item')"
-                    :title="element.itemName"
+                      class="field-item h-[80px]!"
+                      @dblclick="addElement(element, 'item')"
+                      :title="element.itemName"
                   >
                     <star-horse-icon
-                      :icon-class="element.itemIcon"
-                      size="32px"
-                      style="color: var(--star-horse-style)"
+                        :icon-class="element.itemIcon"
+                        size="32px"
+                        style="color: var(--star-horse-style)"
                     />
                     <i>{{ element.itemName }}</i>
                   </li>
@@ -213,45 +251,45 @@ defineExpose({});
       <template #label>
         <div class="flex flex-row items-center h-[110px]">
           <star-horse-icon
-            icon-class="database"
-            style="color: var(--star-horse-style)"
+              icon-class="database"
+              style="color: var(--star-horse-style)"
           />&nbsp;<span>{{ i18n("dyform.tab.dbinfo") }}</span>
         </div>
       </template>
-      <db-list-comp :optional="optional" />
+      <db-list-comp :optional="optional"/>
     </el-tab-pane>
     <el-tab-pane name="template" v-if="model == 'full'">
       <template #label>
         <star-horse-icon
-          icon-class="template"
-          style="color: var(--star-horse-style)"
+            icon-class="template"
+            style="color: var(--star-horse-style)"
         />&nbsp;<span>{{ i18n("dyform.tab.template") }}</span>
       </template>
       <div class="field-area m-t-8">
-        <el-empty v-if="!templateList || templateList?.length == 0" />
+        <el-empty v-if="!templateList || templateList?.length == 0"/>
         <el-scrollbar height="100%">
           <el-card
-            class="temp-card"
-            style="margin-bottom: 10px !important"
-            v-for="item in templateList"
+              class="temp-card"
+              style="margin-bottom: 10px !important"
+              v-for="item in templateList"
           >
             <div class="flex w-full flex-1 justify-center items-center">
               <el-popover placement="right" :width="500">
                 <template #reference>
                   <el-image :src="item.shortImages">
                     <template #error>
-                      <star-horse-icon iconClass="empty_image" size="100px" />
+                      <star-horse-icon iconClass="empty_image" size="100px"/>
                     </template>
                   </el-image>
                 </template>
                 <template #default>
                   <form-preview
-                    :compSize="'small'"
-                    :formDisabled="true"
-                    :list="JSON.parse(item['details'].content || [])"
-                    :ref="createRef"
-                    class="flex w-full flex-1 justify-center items-center"
-                    v-if="item['details'].content"
+                      :compSize="'small'"
+                      :formDisabled="true"
+                      :list="JSON.parse(item['details'].content || [])"
+                      :ref="createRef"
+                      class="flex w-full flex-1 justify-center items-center"
+                      v-if="item['details'].content"
                   />
                 </template>
               </el-popover>
@@ -259,17 +297,17 @@ defineExpose({});
             <template #footer>
               <div class="flex items-center">
                 <div
-                  class="w-[60%] overflow-hidden text-ellipsis whitespace-nowrap"
+                    class="w-[60%] overflow-hidden text-ellipsis whitespace-nowrap"
                 >
                   #{{ item.formName }}
                 </div>
                 <div class="flex-1 justify-end">
                   <el-button
-                    size="small"
-                    link
-                    @click="loadFormData(item.idDynamicForm)"
-                    icon="plus"
-                    >{{ i18n("dyform.template.load") }}
+                      size="small"
+                      link
+                      @click="loadFormData(item.idDynamicForm)"
+                      icon="plus"
+                  >{{ i18n("dyform.template.load") }}
                   </el-button>
                 </div>
               </div>
@@ -281,8 +319,8 @@ defineExpose({});
     <el-tab-pane name="help">
       <template #label>
         <star-horse-icon
-          icon-class="help"
-          style="color: var(--star-horse-style)"
+            icon-class="help"
+            style="color: var(--star-horse-style)"
         />&nbsp;<span>{{ i18n("dyform.tab.help") }}</span>
       </template>
     </el-tab-pane>
@@ -324,7 +362,7 @@ i {
     .el-collapse-item__header {
       background: linear-gradient(120deg, #f0f2f5, #ffffff);
       border-bottom: 1px solid #e4e7ed;
-      height: 56px;
+      height: 38px;
       padding: 0 20px;
       font-weight: 600;
       color: #303133;
@@ -351,7 +389,7 @@ i {
       border-radius: 0 0 12px 12px;
 
       .el-collapse-item__content {
-        padding: 20px;
+        padding: 0 10px;
       }
     }
   }

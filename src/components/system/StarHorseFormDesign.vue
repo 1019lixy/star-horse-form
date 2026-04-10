@@ -78,6 +78,7 @@ let currentItemId = computed(() => designForm.currentItemId);
 let isPreview = computed(() => designForm.previewVisible);
 let isEdit = computed(() => designForm.isEdit);
 let errMessage = ref<string>("");
+let operType = ref<string>("view");
 let formData = computed(() => designForm.formData);
 const currentUserInfo = ref<any>({});
 let formInfo = computed(() => {
@@ -591,8 +592,9 @@ const cacheDataRestore = (evt: MouseEvent) => {
   cacheData.value = "";
 };
 
-const viewFieldLayer = () => {
+const viewFieldLayer = (type?: string) => {
   shortKeySwitch(false);
+  operType.value = type || "view";
   openDialog("formFieldLayer");
 };
 
@@ -829,7 +831,8 @@ defineExpose({
           </el-form-item>
         </template>-->
   </PageConfig>
-  <FieldLayerDrawer v-model:visible="dialogStates.formFieldLayer"/>
+  <FieldLayerDrawer v-model:visible="dialogStates.formFieldLayer"
+                    :operType="operType"/>
   <el-splitter>
     <el-splitter-panel collapsible size="350" min="200" max="450">
       <field-panel

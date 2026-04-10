@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import {
+  analysisAppComps,
   analysisCompDatas,
   ApiUrls,
   createDatetime,
@@ -12,6 +13,7 @@ import { i18n } from "@/lang";
 import CommonSkeleton from "./CommonSkeleton.vue";
 
 const props = defineProps({
+  currentPageClass: {type:String, default:""},
   compList: {
     type: Array,
     required: true,
@@ -42,21 +44,19 @@ let dateFields = ref<Array<string>>([]);
 let extBtns = ref<Array<UserFuncInfo>>([]);
 const loadFormData = async () => {
   isLoading.value = true; // 开始加载
-  let { fieldList, searchItemList } = analysisCompDatas(props.compList);
-  searchFormData.value.fieldList = searchItemList;
   primaryKey.value = "id";
-  tableFieldList.value.fieldList = fieldList;
+  if (props.currentPageClass == "main-design-phone") {
+    let {fieldList} = analysisAppComps(props.compList);
+    tableFieldList.value.fieldList = fieldList;
+  } else {
+    let {fieldList} = analysisCompDatas(props.compList);
+    tableFieldList.value.fieldList = fieldList;
+  }
   await nextTick();
   normalPageRef.value?.loadByPage();
   isLoading.value = false; // 加载完成
 };
-watch(
-  () => props.compList,
-  (val) => {
-    loadFormData();
-  },
-  { deep: true },
-);
+
 const dialogProps = dialogPreps();
 provide("dialogProps", dialogProps);
 const dataFormat = (name: string, cellValue: any, row: any): any => {
@@ -93,6 +93,20 @@ const init = async () => {
 onMounted(() => {
   init();
 });
+watch(
+    () => props.compList,
+    (val) => {
+      loadFormData();
+    },
+    { deep: true },
+);
+watch(
+    () => props.currentPageClass,
+    (val) => {
+      loadFormData();
+    },
+    {deep: true},
+);
 </script>
 <template>
   <div class="flex flex-col h-full overflow-hidden">

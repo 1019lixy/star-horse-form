@@ -15,6 +15,7 @@ const items = import.meta.glob([
   "@/components/system/*.vue",
   "@/components/system/items/utils/*.vue",
   "@/components/formcomp/items/*.vue",
+    "@/components/formcomp/container/*.vue",
 ]);
 // 插件安装方法
 const install = (
@@ -48,6 +49,7 @@ const install = (
   registerVueContext("formContext", app._context);
 };
 export * from "@/components/formcomp/items";
+export * from "@/components/formcomp/container";
 export * from "@/components/types";
 export * from "@/components/system";
 export default {

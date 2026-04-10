@@ -81,6 +81,18 @@ watch(
             :optional="optional"
           />
         </el-tab-pane>
+<!--        <el-tab-pane name="special">
+          <template #label>
+            <div class="flex items-center">
+              <star-horse-icon iconClass="config" />
+              其它配置
+            </div>
+          </template>
+          <customer-property-panel
+              ref="customerPropertyPanelRef"
+              :optional="optional"
+          />
+        </el-tab-pane>-->
       </el-tabs>
     </el-form>
   </div>

@@ -1675,335 +1675,6 @@ export default {
   "dbSearch.value": "值",
   "dbSearch.itemsPerPage": "每页{0}条",
   "dbSearch.totalRecords": "共 {0} 条记录",
-  /**
-   * System Components
-   */
-  "system.dataProcessing": "数据处理中",
-  /**
-   * Common Files
-   */
-  "system.unique.identifier": "唯一标识",
-  "system.file.name": "文件名",
-  "system.file.type": "文件类型",
-  "system.file.size": "文件大小",
-  "system.file.path": "文件路径",
-  "system.download": "下载",
-  /**
-   * System Parameters
-   */
-  "system.param.name": "参数名",
-  "system.param.value": "参数值",
-  /**
-   * Tenant Business Configuration
-   */
-  // "system.menu.name": "菜单名称",
-  // "system.sort": "排序",
-  // "system.application.name": "应用名称",
-  // "system.select.child.node.first": "选择子节点时，一定要先选中父节点，否则在头部应用菜单栏无法显示",
-  // "system.system.name": "系统名称",
-  "system.assign.all.menus": "分配所有菜单",
-  "system.specified.menu": "指定菜单",
-  "system.add.application": "添加应用",
-  "system.add.menu": "添加菜单",
-  "system.tenant.list": "租户列表",
-  "system.application.list": "应用列表",
-  "system.delete.application": "删除应用",
-  /**
-   * System Components
-   */
-  "system.component.template": "模板",
-  "system.component.comp": "组件",
-  "system.component.return": "返回",
-  "system.component.addElement": "添加元素",
-  "system.component.clearStage": "清空舞台",
-  "system.component.mainAxisDirection": "主轴方向",
-  "system.component.code": "代码",
-  "system.component.disableInfiniteScroll": "关闭无限滚动",
-  "system.component.enableInfiniteScroll": "开启无限滚动",
-  "system.component.hideRuler": "开启标尺",
-  "system.component.showRuler": "关闭标尺",
-  "system.component.save": "保存",
-  "system.component.preview": "预览",
-  "system.component.publish": "发布",
-  "system.component.share": "分享",
-  "system.component.exitFullscreen": "退出全屏",
-  "system.component.fullscreen": "全屏",
-  "system.component.container": "容器",
-  "system.component.layout": "布局",
-  "system.component.positionSize": "位置大小",
-  "system.component.background": "背景",
-  "system.component.font": "文字",
-  "system.component.item": "节点",
-  "system.component.compProps": "组件属性",
-  "system.component.confirmClearStage": "确认清空舞台吗？",
-  "system.component.untitledDesign": "未命名设计",
-  "system.component.flex": "Flex",
-  "system.component.flexGrid": "FlexGrid",
-  "system.component.inputField": "输入框",
-  "system.component.saveSuccess": "设计保存成功",
-  "system.component.shareSuccess": "分享链接生成成功",
-  "system.component.publishSuccess": "设计发布成功",
-  "system.component.templateSaveSuccess": "模板保存成功",
-  "system.component.loadSuccess": "设计加载成功",
-  "system.component.loadFailed": "加载设计失败",
-  "system.component.validationFailed": "设计数据验证失败，请检查设计内容",
-  "system.component.publishValidationFailed": "设计数据验证失败，无法发布",
-  "system.component.shareValidationFailed": "设计数据验证失败，无法分享",
-  "system.component.autoSaveFailed": "自动保存失败",
-  "system.component.autoSaveSuccess": "自动保存成功",
-  /**
-   * Tenant Info
-   */
-  "system.tenant.name": "租户名称",
-  "system.tenant.code": "租户编码",
-  "system.expiring.tenant": "临期租户",
-  "system.contact.person": "联系人",
-  "system.contact.phone": "联系电话",
-  "system.email": "邮箱",
-  "system.telephone": "座机",
-  "system.industry": "行业",
-  "system.validity.period": "有效期",
-  "system.expiration.policy": "过期策略",
-  "system.data.backup.policy": "数据备份策略",
-  "system.business.notification": "业务提醒方式",
-  "system.inner.message": "站内通知",
-  "system.sms.notification": "短信通知",
-  "system.email.notification": "邮件通知",
-  "system.dingtalk.notification": "钉钉通知",
-  "system.enterprise.wechat": "企业微信",
-  "system.subscribe.interface": "是否订阅接口",
-  "system.message.template": "消息模板",
-  "system.contact.address": "联系人地址",
-  "system.business.description": "业务描述",
-  /**
-   * User Manage
-   */
-  "system.employee.number": "工号",
-  "system.avatar": "头像",
-  "system.auto.generate.if.empty": "如不填写系统自动生成",
-  "system.affiliated.department": "所属部门",
-  "system.emergency.contact.phone": "紧急联系电话",
-  "system.emergency.contact.help": "方便特殊情况联系家属",
-  "system.grant.system.login.authority": "赋予系统登录权限",
-  "system.organization": "组织机构",
-  /**
-   * Users Audit
-   */
-  "system.effective.date": "生效日期",
-  "system.expired.date": "失效日期",
-  "system.data.type": "数据类型",
-  /**
-   * White List
-   */
-  "system.filter.type": "过滤类型",
-  "system.filter.content": "过滤内容",
-  /**
-   * Calendar
-   */
-  "system.calendar.category": "日历分类",
-  "system.calendar.name": "日历名称",
-  "system.shared.members": "共享成员",
-  /**
-   * Calendar Manage
-   */
-  "system.schedule.title": "日程标题",
-  "system.start.date": "开始日期",
-  "system.end.date": "结束日期",
-  "system.is.public": "是否公开",
-  "system.allow.subscription": "是否允许订阅",
-  "system.message.reminder": "是否消息提醒",
-  "system.start.time": "开始时间",
-  "system.end.time": "结束时间",
-  "system.invite": "邀请",
-  "system.cc": "抄送",
-  "system.schedule.content": "日程内容",
-  "system.message.reminder.method": "消息提醒方式",
-  /**
-   * Role User List
-   */
-  "system.remove": "移出",
-  "system.confirm.remove": "确定要移出吗？",
-  "system.data.processing": "数据处理中",
-  "system.operation.success": "操作成功",
-  /**
-   * User Transfer
-   */
-  "system.user.list": "用户列表",
-  "system.selected.users": "已选用户",
-  "system.add": "添加",
-  /**
-   * Company Category
-   */
-  "system.sequence.number": "序号",
-  "system.add.child.node": "添加子节点",
-  /**
-   * Company Defined
-   */
-  "system.company.name": "公司名称",
-  "system.company.code": "公司编码",
-  "system.company.category": "公司类别",
-  "system.company.abbreviation": "公司简称",
-  "system.parent.node": "父节点",
-  "system.add.subsidiary": "添加子公司",
-  /**
-   * Job Category
-   */
-  "system.category.name": "分类名称",
-  "system.function.description": "职能描述",
-  /**
-   * Account Permission
-   */
-  "system.account": "账号",
-  "system.group.name": "分组名称",
-  "system.account.info": "账号信息",
-  "system.group.code": "分组编码",
-  "system.email.address": "邮箱地址",
-  "system.please.select.group": "请先选择分组",
-  /**
-   * Appinfo Permission
-   */
-  "system.please.select.user.group": "请先选择用户分组",
-  /**
-   * Data Permission
-   */
-  "system.permission.type": "权限类型",
-  "system.authorized.user.group": "被授权用户组/人",
-  "system.authorized.menu": "授权菜单",
-  "system.authorized.account": "被授权账号",
-  "system.permission": "权限",
-  "system.authorized.user.group.account": "被授权用户组/账号",
-  "system.please.select.application": "请先选择应用",
-  "system.application.system": "应用系统",
-  "system.system.menu": "系统菜单",
-  /**
-   * Menuinfo Permission
-   */
-  /**
-   * Page Button Permission
-   */
-  "system.role.name": "角色名称",
-  "system.owned.system": "所属系统",
-  "system.btn.names": "按钮名称",
-  /**
-   * Common Role Manage
-   */
-  "system.personnel.info": "人员信息",
-  "system.name.employee.number": "姓名/工号",
-  "system.rank": "职级",
-  "system.position": "岗位",
-  "system.affiliated.organization": "所属组织",
-  "system.delete": "删除",
-  "system.add.personnel": "添加人员",
-  "system.please.select.company.first": "请先在左侧选择公司",
-  "system.please.select.personnel.info": "请选择人员信息",
-  "system.data.submitting": "数据提交中",
-  "system.company.list": "公司列表",
-  /**
-   * Company Role Manage
-   */
-  "system.company.name.code": "公司名称/编码",
-  "system.role.name.code": "角色名称/编码",
-  "system.load.company.role.info.error": "加载公司角色信息异常",
-  "system.set.personnel": "设置人员",
-  "system.view.all.personnel.info": "查看所有人员信息",
-  /**
-   * Role Config
-   */
-  "system.role.type": "角色类型",
-  "system.set.role.affiliated.company": "设置角色归属公司",
-  "system.please.set.role.affiliated.company": "请设置当前角色的归属公司",
-  /**
-   * Role Defined
-   */
-  "system.affiliated.company.quantity": "归属公司(数量)",
-  "system.configure.affiliated.company": "配置归属公司",
-  "system.confirm.delete": "确定要删除吗？",
-  /**
-   * Station Category
-   */
-  "system.sequence.description": "序列描述",
-  /**
-   * Station Defined
-   */
-  "system.station.name": "岗位名称",
-  "system.station.code": "岗位编码",
-  "system.belonging.sequence": "所属序列",
-  "system.station.sort": "岗位排序",
-  "system.position.sequence": "职位序列",
-  /**
-   * User Fields
-   */
-  "system.sex": "性别",
-  "system.education": "学历",
-  "system.entry.time": "入职时间",
-  "system.leave.time": "离职时间",
-  "system.native.place": "籍贯",
-  "system.political.status": "政治面貌",
-  "system.identity.type": "证件类型",
-  "system.identity.number": "证件编号",
-  "system.mailing.address": "通信地址",
-  "system.id.photo": "证件照",
-  /**
-   * Workflow Components
-   */
-  "workflow.dataLoading": "数据加载中",
-  /**
-   * Workflow Application Details
-   */
-  "workflow.application.id": "申请ID",
-  "workflow.application.name": "申请名称",
-  "workflow.application.category": "分类",
-  "workflow.application.status": "状态",
-  "workflow.application.createdBy": "创建人",
-  "workflow.application.createdDate": "创建日期",
-  "workflow.application.description": "描述",
-  "workflow.application.noDescription": "暂无描述",
-  /**
-   * Workflow Buttons
-   */
-  "workflow.btn.agree": "同意",
-  "workflow.btn.reject": "拒绝",
-  "workflow.btn.return": "退回",
-  "workflow.btn.returnToStart": "退回至起点",
-  "workflow.btn.returnToHistory": "退回至历史任务",
-  "workflow.btn.revoke": "撤销",
-  "workflow.btn.transfer": "转办",
-  "workflow.btn.addSign": "加签",
-  "workflow.btn.reduceSign": "减签",
-  "workflow.btn.save": "保存",
-  "workflow.btn.terminate": "中止",
-  "workflow.btn.countersign": "会签",
-  "workflow.btn.agreeCountersign": "同意（会签）",
-  "workflow.btn.rejectCountersign": "拒绝（会签）",
-  "workflow.btn.abstainCountersign": "弃权（会签）",
-  "workflow.btn.assignApprover": "指定审批人",
-  "workflow.btn.assignJump": "指定跳转",
-
-  /**
-   * Workflow Actions
-   */
-  "workflow.action.title": "工作流操作",
-  "workflow.action.rejectReason": "拒绝原因",
-  "workflow.action.rejectReason.placeholder": "请输入拒绝原因",
-  "workflow.action.rejectReason.required": "拒绝原因是必填的",
-  "workflow.action.returnReason": "退回原因",
-  "workflow.action.returnReason.placeholder": "请输入退回原因",
-  "workflow.action.returnReason.required": "退回原因是必填的",
-  "workflow.action.addSignUsers": "加签用户",
-  "workflow.action.addSignUsers.placeholder": "请选择要加签的用户",
-  "workflow.action.addSignUsers.required": "请选择要加签的用户",
-  "workflow.action.reduceSignUsers": "减签用户",
-  "workflow.action.reduceSignUsers.placeholder": "请选择要减签的用户",
-  "workflow.action.reduceSignUsers.required": "请选择要减签的用户",
-  "workflow.action.transferTo": "转办给",
-  "workflow.action.transferTo.placeholder": "请选择要转办的用户",
-  "workflow.action.transferTo.required": "请选择要转办的用户",
-  "workflow.action.assignApprover": "指定审批人",
-  "workflow.action.assignApprover.placeholder": "请选择审批人",
-  "workflow.action.assignApprover.required": "请选择审批人",
-  "workflow.action.comments": "意见",
-  "workflow.action.comments.placeholder": "请输入意见",
-  "workflow.action.comments.required": "意见是必填的",
 
   /**
    * Index Component
@@ -2064,4 +1735,34 @@ export default {
   "locale.german": "Deutsch",
   "locale.japanese": "日本語",
   "locale.traditionalChinese": "繁體中文",
+
+  "ui.insertLeftCol": "左边插入列",
+  "ui.insertRightCol": "右边插入列",
+  "ui.insertAboveRow": "上方插入行",
+  "ui.insertBelowRow": "下方插入行",
+  "ui.mergeLeftCell": "合并左边单元格",
+  "ui.mergeRightCell": "合并右边单元格",
+  "ui.mergeWholeRow": "合并整行",
+  "ui.mergeAboveCell": "合并上边单元格",
+  "ui.mergeBelowCell": "合并下边单元格",
+  "ui.mergeWholeCol": "合并整列",
+  "ui.undoMergeRow": "撤销行合并",
+  "ui.undoMergeCol": "撤销列合并",
+  "ui.resetMerge": "还原合并",
+  "ui.moveRowUp": "上移一行",
+  "ui.moveRowDown": "下移一行",
+  "ui.moveColLeft": "左移一列",
+  "ui.moveColRight": "右移一列",
+  "ui.moveRowUpFirst": "上移到最上面",
+  "ui.moveRowDownLast": "下移到最下面",
+  "ui.moveColLeftFirst": "左移到最左边",
+  "ui.moveColRightLast": "右移到最右边",
+  "ui.addCellAfter": "添加单元格(后)",
+  "ui.addCellBefore": "添加单元格(前)",
+  "ui.deleteWholeCol": "删除整列",
+  "ui.deleteWholeRow": "删除整行",
+  "ui.deleteCurrentCol": "删除单元格",
+  "ui.colConfig": "列设置",
+  "ui.rowConfig": "行设置",
+  "ui.cellConfig": "单元格设置",
 };

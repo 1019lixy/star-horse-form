@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { nextTick, onMounted, provide, reactive, ref, watch } from "vue";
 import {
+  analysisAppComps,
   analysisCompDatas,
   apiInstance,
   ApiUrls,
@@ -12,6 +13,7 @@ import { i18n } from "@/lang";
 import CommonSkeleton from "./CommonSkeleton.vue";
 
 const props = defineProps({
+  currentPageClass: {type:String, default:""},
   compList: {
     type: Array,
     required: true,
@@ -32,21 +34,21 @@ const rules = ref({});
 const hasData = ref(false);
 const loadFormData = async () => {
   isLoading.value = true; // 开始加载
-  let { fieldList } = analysisCompDatas(props.compList);
+
   primaryKey.value = "id";
-  tableFieldList.value.fieldList = fieldList;
+  if (props.currentPageClass == "main-design-phone") {
+    let {fieldList} = analysisAppComps(props.compList);
+    tableFieldList.value.fieldList = fieldList;
+  } else {
+    let {fieldList} = analysisCompDatas(props.compList);
+    tableFieldList.value.fieldList = fieldList;
+  }
   await nextTick();
   hasData.value = true;
   isLoading.value = false; // 加载完成
 };
 
-watch(
-  () => props.compList,
-  (val) => {
-    loadFormData();
-  },
-  { deep: true },
-);
+
 //记录表单的属性
 const formFields = reactive<Array<any>>([]);
 provide("formFields", formFields);
@@ -62,6 +64,20 @@ const init = async () => {
 onMounted(async () => {
   await init();
 });
+watch(
+    () => props.compList,
+    (val) => {
+      loadFormData();
+    },
+    { deep: true },
+);
+watch(
+    () => props.currentPageClass,
+    (val) => {
+      loadFormData();
+    },
+    {deep: true},
+);
 </script>
 <style scoped></style>
 <template>

@@ -1756,340 +1756,7 @@ export default {
   "dbSearch.value": "Value",
   "dbSearch.itemsPerPage": "{0} items per page",
   "dbSearch.totalRecords": "Total {0} records",
-  /**
-   * System Components
-   */
-  "system.dataProcessing": "Data processing",
-  /**
-   * Common Files
-   */
-  "system.unique.identifier": "Unique Identifier",
-  "system.file.name": "File Name",
-  "system.file.type": "File Type",
-  "system.file.size": "File Size",
-  "system.file.path": "File Path",
-  "system.download": "Download",
-  /**
-   * System Parameters
-   */
-  "system.param.name": "Parameter Name",
-  "system.param.value": "Parameter Value",
-  /**
-   * Tenant Business Configuration
-   */
-  // "system.menu.name": "Menu Name",
-  // "system.sort": "Sort",
-  // "system.application.name": "Application Name",
-  "system.select.child.node.first":
-    "When selecting child nodes, you must select the parent node first, otherwise it will not be displayed in the header application menu bar",
-  // "system.system.name": "System Name",
-  "system.assign.all.menus": "Assign All Menus",
-  "system.specified.menu": "Specified Menu",
-  "system.add.application": "Add Application",
-  "system.add.menu": "Add Menu",
-  "system.tenant.list": "Tenant List",
-  "system.application.list": "Application List",
-  "system.delete.application": "Delete Application",
-  /**
-   * Tenant Info
-   */
-  "system.tenant.name": "Tenant Name",
-  "system.tenant.code": "Tenant Code",
-  "system.expiring.tenant": "Expiring Tenant",
-  "system.contact.person": "Contact Person",
-  "system.contact.phone": "Contact Phone",
-  "system.email": "Email",
-  "system.telephone": "Telephone",
-  "system.industry": "Industry",
-  "system.validity.period": "Validity Period",
-  "system.expiration.policy": "Expiration Policy",
-  "system.data.backup.policy": "Data Backup Policy",
-  "system.business.notification": "Business Notification",
-  "system.inner.message": "Inner Message",
-  "system.sms.notification": "SMS Notification",
-  "system.email.notification": "Email Notification",
-  "system.dingtalk.notification": "DingTalk Notification",
-  "system.enterprise.wechat": "Enterprise WeChat",
-  "system.subscribe.interface": "Subscribe Interface",
-  "system.message.template": "Message Template",
-  "system.contact.address": "Contact Address",
-  "system.business.description": "Business Description",
-  /**
-   * User Manage
-   */
-  "system.employee.number": "Employee Number",
-  "system.avatar": "Avatar",
-  "system.auto.generate.if.empty": "Auto-generated if left empty",
-  "system.affiliated.department": "Affiliated Department",
-  "system.emergency.contact.phone": "Emergency Contact Phone",
-  "system.emergency.contact.help":
-    "For contacting family in special circumstances",
-  "system.grant.system.login.authority": "Grant System Login Authority",
-  "system.organization": "Organization",
-  /**
-   * Users Audit
-   */
-  // "system.password": "Password",
-  "system.effective.date": "Effective Date",
-  "system.expired.date": "Expired Date",
-  "system.data.type": "Data Type",
-  // "system.created.date": "Created Date",
-  // "system.updated.date": "Updated Date",
-  // "system.data.version": "Data Version",
-  /**
-   * White List
-   */
-  "system.filter.type": "Filter Type",
-  "system.filter.content": "Filter Content",
-  /**
-   * Calendar
-   */
-  "system.calendar.category": "Calendar Category",
-  "system.calendar.name": "Calendar Name",
-  "system.shared.members": "Shared Members",
-  /**
-   * Calendar Manage
-   */
-  "system.schedule.title": "Schedule Title",
-  "system.start.date": "Start Date",
-  "system.end.date": "End Date",
-  "system.is.public": "Is Public",
-  "system.allow.subscription": "Allow Subscription",
-  "system.message.reminder": "Message Reminder",
-  "system.start.time": "Start Time",
-  "system.end.time": "End Time",
-  "system.invite": "Invite",
-  "system.cc": "CC",
-  "system.schedule.content": "Schedule Content",
-  "system.message.reminder.method": "Message Reminder Method",
-  /**
-   * Role User List
-   */
-  "system.remove": "Remove",
-  "system.confirm.remove": "Are you sure you want to remove?",
-  "system.data.processing": "Data processing",
-  "system.operation.success": "Operation successful",
-  /**
-   * User Transfer
-   */
-  "system.user.list": "User List",
-  "system.selected.users": "Selected Users",
-  "system.add": "Add",
-  /**
-   * Company Category
-   */
-  "system.sequence.number": "Sequence Number",
-  "system.add.child.node": "Add Child Node",
-  /**
-   * Company Defined
-   */
-  "system.company.name": "Company Name",
-  "system.company.code": "Company Code",
-  "system.company.category": "Company Category",
-  "system.company.abbreviation": "Company Abbreviation",
-  "system.parent.node": "Parent Node",
-  "system.add.subsidiary": "Add Subsidiary",
-  /**
-   * Job Category
-   */
-  "system.category.name": "Category Name",
-  "system.function.description": "Function Description",
-  /**
-   * Account Permission
-   */
-  "system.account": "Account",
-  // "system.name": "Name",
-  // "system.status": "Status",
-  "system.group.name": "Group Name",
-  "system.account.info": "Account Information",
-  // "system.username": "Username",
-  // "system.contact.phone": "Contact Phone",
-  // "system.email": "Email",
-  "system.group.code": "Group Code",
-  "system.email.address": "Email Address",
-  "system.please.select.group": "Please select a group first",
-  // "system.user.group": "User Group",
-  /**
-   * Appinfo Permission
-   */
-  // "system.system.name": "System Name",
-  // "system.application.name": "Application Name",
-  // "system.system.code": "System Code",
-  "system.please.select.user.group": "Please select a user group first",
-  /**
-   * Data Permission
-   */
-  "system.permission.type": "Permission Type",
-  "system.authorized.user.group": "Authorized User Group/Person",
-  "system.authorized.menu": "Authorized Menu",
-  // "system.user.group": "User Group",
-  "system.authorized.account": "Authorized Account",
-  "system.permission": "Permission",
-  // "system.validity.period": "Validity Period",
-  "system.authorized.user.group.account": "Authorized User Group/Account",
-  "system.please.select.application": "Please select an application first",
-  "system.application.system": "Application System",
-  "system.system.menu": "System Menu",
-  /**
-   * Menuinfo Permission
-   */
-  // "system.menu.name": "Menu Name",
-  // "system.assign.all.menus": "Assign All Menus",
-  // "system.specified.menu": "Specified Menu",
-  /**
-   * Page Button Permission
-   */
-  "system.role.name": "Role Name",
-  // "system.created.date": "Created Date",
-  "system.owned.system": "Owned System",
-  // "system.permission": "Permission",
-  "system.btn.names": "Button Names",
-  /**
-   * Common Role Manage
-   */
-  // "system.role.code": "Role Code",
-  // "system.version": "Version",
-  // "system.created.by": "Created By",
-  // "system.created.time": "Created Time",
-  // "system.updated.by": "Updated By",
-  // "system.updated.time": "Updated Time",
-  // "system.data.number": "Data Number",
-  // "system.status.code": "Status Code",
-  // "system.status.name": "Status Name",
-  // "system.is.logical.deleted": "Is Logical Deleted",
-  // "system.international.code": "International Code",
-  // "system.remark": "Remark",
-  "system.personnel.info": "Personnel Info",
-  "system.name.employee.number": "Name/Employee Number",
-  "system.rank": "Rank",
-  "system.position": "Position",
-  "system.affiliated.organization": "Affiliated Organization",
-  // "system.affiliated.company": "Affiliated Company",
-  // "system.affiliated.department": "Affiliated Department",
-  "system.delete": "Delete",
-  "system.add.personnel": "Add Personnel",
-  "system.please.select.company.first":
-    "Please select a company first on the left",
-  "system.please.select.personnel.info": "Please select personnel information",
-  "system.data.submitting": "Data submitting",
-  "system.company.list": "Company List",
-  /**
-   * Company Role Manage
-   */
-  "system.company.name.code": "Company Name/Code",
-  "system.role.name.code": "Role Name/Code",
-  // "system.company.name": "Company Name",
-  "system.load.company.role.info.error":
-    "Error loading company role information",
-  "system.set.personnel": "Set Personnel",
-  "system.view.all.personnel.info": "View All Personnel Information",
-  /**
-   * Role Config
-   */
-  "system.role.type": "Role Type",
-  "system.set.role.affiliated.company": "Set Role Affiliated Company",
-  "system.please.set.role.affiliated.company":
-    "Please set the affiliated company for the current role",
-  /**
-   * Role Defined
-   */
-  "system.affiliated.company.quantity": "Affiliated Company (Quantity)",
-  "system.configure.affiliated.company": "Configure Affiliated Company",
-  // "system.affiliated.company": "Affiliated Company",
-  "system.confirm.delete": "Are you sure you want to delete?",
-  // "system.data.submitting": "Data submitting",
-  /**
-   * Station Category
-   */
-  "system.sequence.description": "Sequence Description",
-  /**
-   * Station Defined
-   */
-  "system.station.name": "Station Name",
-  "system.station.code": "Station Code",
-  "system.belonging.sequence": "Belonging Sequence",
-  "system.station.sort": "Station Sort",
-  "system.position.sequence": "Position Sequence",
-  /**
-   * User Fields
-   */
-  // "system.email.address": "Email Address",
-  // "system.contact.phone": "Contact Phone",
-  "system.sex": "Sex",
-  // "system.emergency.contact.phone": "Emergency Contact Phone",
-  // "system.user.group": "User Group",
-  "system.education": "Education",
-  "system.entry.time": "Entry Time",
-  "system.leave.time": "Leave Time",
-  "system.native.place": "Native Place",
-  "system.political.status": "Political Status",
-  "system.identity.type": "Identity Type",
-  "system.identity.number": "Identity Number",
-  "system.mailing.address": "Mailing Address",
-  "system.id.photo": "ID Photo",
-  "system.auditing.opinion": "Approval Comments",
-  /**
-   * Workflow Components
-   */
-  "workflow.dataLoading": "Data loading",
-  /**
-   * Workflow Application Details
-   */
-  "workflow.application.id": "Application ID",
-  "workflow.application.name": "Application Name",
-  "workflow.application.category": "Category",
-  "workflow.application.status": "Status",
-  "workflow.application.createdBy": "Created By",
-  "workflow.application.createdDate": "Created Date",
-  "workflow.application.description": "Description",
-  "workflow.application.noDescription": "No description provided",
-  /**
-   * Workflow Buttons
-   */
-  "workflow.btn.agree": "Approve",
-  "workflow.btn.reject": "Reject",
-  "workflow.btn.return": "Return",
-  "workflow.btn.returnToStart": "Return to Start",
-  "workflow.btn.returnToHistory": "Return to History Task",
-  "workflow.btn.revoke": "Revoke",
-  "workflow.btn.transfer": "Transfer",
-  "workflow.btn.addSign": "Add Sign",
-  "workflow.btn.reduceSign": "Reduce Sign",
-  "workflow.btn.save": "Save",
-  "workflow.btn.terminate": "Terminate",
-  "workflow.btn.countersign": "Countersign",
-  "workflow.btn.agreeCountersign": "Approve (Countersign)",
-  "workflow.btn.rejectCountersign": "Reject (Countersign)",
-  "workflow.btn.abstainCountersign": "Abstain (Countersign)",
-  "workflow.btn.assignApprover": "Assign Approver",
-  "workflow.btn.assignJump": "Assign Jump",
 
-  /**
-   * Workflow Actions
-   */
-  "workflow.action.title": "Workflow Action",
-  "workflow.action.rejectReason": "Reject Reason",
-  "workflow.action.rejectReason.placeholder": "Please enter reject reason",
-  "workflow.action.rejectReason.required": "Reject reason is required",
-  "workflow.action.returnReason": "Return Reason",
-  "workflow.action.returnReason.placeholder": "Please enter return reason",
-  "workflow.action.returnReason.required": "Return reason is required",
-  "workflow.action.addSignUsers": "Add Sign Users",
-  "workflow.action.addSignUsers.placeholder": "Please select users to add",
-  "workflow.action.addSignUsers.required": "Please select users to add",
-  "workflow.action.reduceSignUsers": "Reduce Sign Users",
-  "workflow.action.reduceSignUsers.placeholder":
-    "Please select users to reduce",
-  "workflow.action.reduceSignUsers.required": "Please select users to reduce",
-  "workflow.action.transferTo": "Transfer To",
-  "workflow.action.transferTo.placeholder": "Please select user to transfer to",
-  "workflow.action.transferTo.required": "Please select user to transfer to",
-  "workflow.action.assignApprover": "Assign Approver",
-  "workflow.action.assignApprover.placeholder": "Please select approver",
-  "workflow.action.assignApprover.required": "Please select approver",
-  "workflow.action.comments": "Comments",
-  "workflow.action.comments.placeholder": "Please enter comments",
-  "workflow.action.comments.required": "Comments are required",
 
   /**
    * Index Component
@@ -2150,4 +1817,33 @@ export default {
   "locale.german": "Deutsch",
   "locale.japanese": "日本語",
   "locale.traditionalChinese": "繁體中文",
+  "ui.insertLeftCol": "Insert column to the left",
+  "ui.insertRightCol": "Insert column to the right",
+  "ui.insertAboveRow": "Insert row above",
+  "ui.insertBelowRow": "Insert row below",
+  "ui.mergeLeftCell": "Merge left cell",
+  "ui.mergeRightCell": "Merge right cell",
+  "ui.mergeWholeRow": "Merge whole row",
+  "ui.mergeAboveCell": "Merge above cell",
+  "ui.mergeBelowCell": "Merge below cell",
+  "ui.mergeWholeCol": "Merge whole column",
+  "ui.undoMergeRow": "Undo row merge",
+  "ui.undoMergeCol": "Undo column merge",
+  "ui.resetMerge": "Reset merge",
+  "ui.moveRowUp": "Move row up",
+  "ui.moveRowDown": "Move row down",
+  "ui.moveColLeft": "Move column left",
+  "ui.moveColRight": "Move column right",
+  "ui.moveRowUpFirst": "Move row to the top",
+  "ui.moveRowDownLast": "Move row to the bottom",
+  "ui.moveColLeftFirst": "Move column to the leftmost",
+  "ui.moveColRightLast": "Move column to the rightmost",
+  "ui.addCellAfter": "Add cell(left)",
+  "ui.addCellBefore": "Add cell(right)",
+  "ui.deleteWholeCol": "Delete whole column",
+  "ui.deleteWholeRow": "Delete whole row",
+  "ui.deleteCurrentCol": "Delete current cell",
+  "ui.colConfig": "Column configuration",
+  "ui.rowConfig": "Row configuration",
+  "ui.cellConfig": "Cell configuration",
 };

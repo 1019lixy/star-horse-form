@@ -30,81 +30,31 @@ const validateForm = async () => {
 
 // HTML export function
 const exportToHtml = () => {
-  if (!previewFormRef.value) return;
-  let formContent = "";
-  if (
-    previewFormRef.value.$el &&
-    typeof previewFormRef.value.$el.innerHTML === "string"
-  ) {
-    formContent = previewFormRef.value.$el.innerHTML;
-  } else {
-    console.error("Unable to access form content for export");
-    error(i18n("dyform.preview.html.export.failure"));
-    return;
-  }
-  const htmlContent = `
-<!DOCTYPE html>
-<html lang="zh-CN">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>${i18n("dyform.preview.html.title")}</title>
-    <link rel="stylesheet" href="https://unpkg.com/element-plus/dist/index.css">
-    <style>
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif;
-            margin: 0;
-            padding: 20px;
-            background-color: #f5f7fa;
-        }
-        .form-container {
-            max-width: 800px;
-            margin: 0 auto;
-            background: white;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
-        }
-        .main-design {
-            padding: 15px;
-            background: rgba(247, 250, 250, 0.8);
-        }
-        .main-design-phone {
-            width: 420px;
-            margin: 15px auto;
-            border-radius: 10px;
-            box-shadow: 0 0 1px 10px #dcdfe6;
-        }
-        .main-design-pad {
-            width: 960px;
-            margin: 15px auto;
-            border-radius: 10px;
-            box-shadow: 0 0 1px 10px #dcdfe6;
-        }
-    </style>
-</head>
-<body>
-    <div class="form-container">
-        <h1>${i18n("dyform.preview.html.title")}</h1>
-        <div class="${props.currentPageClass || "main-design"}">
-            ${formContent}
-        </div>
-    </div>
-</body>
-</html>
-  `.trim();
+  // if (!previewFormRef.value) return;
+  // let formContent = "";
+  // if (
+  //   previewFormRef.value.$el &&
+  //   typeof previewFormRef.value.$el.innerHTML === "string"
+  // ) {
+  //   formContent = previewFormRef.value.$el.innerHTML;
+  // } else {
+  //   console.error("Unable to access form content for export");
+  //   error(i18n("dyform.preview.html.export.failure"));
+  //   return;
+  // }
+
 
   // Create blob and download
-  const blob = new Blob([htmlContent], { type: "text/html;charset=utf-8" });
-  const url = URL.createObjectURL(blob);
-  const link = document.createElement("a");
-  link.href = url;
-  link.download = "form-preview.html";
-  document.body.appendChild(link);
-  link.click();
-  document.body.removeChild(link);
-  URL.revokeObjectURL(url);
-  success(i18n("dyform.preview.html.export.success"));
+  // const blob = new Blob([htmlContent], { type: "text/html;charset=utf-8" });
+  // const url = URL.createObjectURL(blob);
+  // const link = document.createElement("a");
+  // link.href = url;
+  // link.download = "form-preview.html";
+  // document.body.appendChild(link);
+  // link.click();
+  // document.body.removeChild(link);
+  // URL.revokeObjectURL(url);
+  // success(i18n("dyform.preview.html.export.success"));
 };
 const selectDatas = ref<any>([]);
 const formData = ref<any>({
@@ -148,15 +98,16 @@ defineExpose({
         }"
       />
     </el-form-item>
-    <div class="flex-1 w-full h-full relative">
-      <NormalPage v-if="formData.pageStyle == 'normal'" :compList="list" />
-      <FormPage v-if="formData.pageStyle == 'form'" :compList="list" />
+    <div class="flex-1 w-full h-full relative" :class="currentPageClass">
+      <NormalPage v-if="formData.pageStyle == 'normal'" :compList="list" :currentPageClass="currentPageClass" />
+      <FormPage v-if="formData.pageStyle == 'form'" :compList="list" :currentPageClass="currentPageClass"/>
       <FormTablePage
         v-if="formData.pageStyle == 'form-table'"
         :compList="list"
+        :currentPageClass="currentPageClass"
       />
-      <TabPage v-if="formData.pageStyle == 'tab'" :compList="list" />
-      <ViewFormPage v-if="formData.pageStyle == 'view'" :compList="list" />
+      <TabPage v-if="formData.pageStyle == 'tab'" :compList="list" :currentPageClass="currentPageClass"/>
+      <ViewFormPage v-if="formData.pageStyle == 'view'" :compList="list" :currentPageClass="currentPageClass"/>
     </div>
   </div>
 </template>

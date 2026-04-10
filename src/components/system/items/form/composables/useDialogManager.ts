@@ -1,61 +1,62 @@
-import { ref } from "vue";
-import { useDesignFormStore, piniaInstance } from "star-horse-lowcode";
+import {ref} from "vue";
+import {piniaInstance, useDesignFormStore} from "star-horse-lowcode";
 
 const designForm = useDesignFormStore(piniaInstance);
 
 export function useDialogManager() {
-  const dialogStates = ref({
-    codeDialogVisible: false,
-    configDialogVisible: false,
-    batchEditFieldVisible: false,
-    previewVisible: false,
-    formFieldLayer: false,
-    // Adding missing dialog states for ItemPropertiesPanel
-    buttonEventDialog: false,
-    dataRelationDialog: false,
-    dataSourceDialog: false,
-    paramsDialog: false,
-    containerDialog: false,
-    jsEditor: false,
-    preOrPendDialog: false,
-    userDefinePrepsDialog: false,
-  });
-
-  const setShortKeyDisabled = (disabled: boolean) => {
-    designForm.setShortKeyDisabled(disabled);
-  };
-
-  const openDialog = (dialogName: string) => {
-    // Close all dialogs first
-    Object.keys(dialogStates.value).forEach((key) => {
-      dialogStates.value[key as keyof typeof dialogStates.value] = false;
+    const dialogStates = ref({
+        codeDialogVisible: false,
+        configDialogVisible: false,
+        batchEditFieldVisible: false,
+        previewVisible: false,
+        formFieldLayer: false,
+        // Adding missing dialog states for ItemPropertiesPanel
+        buttonEventDialog: false,
+        dataRelationDialog: false,
+        dataSourceDialog: false,
+        paramsDialog: false,
+        containerDialog: false,
+        jsEditor: false,
+        preOrPendDialog: false,
+        userDefinePrepsDialog: false,
+        bindFieldVisible: false
     });
 
-    // Open the requested dialog
-    if (dialogName in dialogStates.value) {
-      dialogStates.value[dialogName as keyof typeof dialogStates.value] = true;
-      setShortKeyDisabled(true);
-    }
-  };
+    const setShortKeyDisabled = (disabled: boolean) => {
+        designForm.setShortKeyDisabled(disabled);
+    };
 
-  const closeAllDialogs = () => {
-    Object.keys(dialogStates.value).forEach((key) => {
-      dialogStates.value[key as keyof typeof dialogStates.value] = false;
-    });
-    setShortKeyDisabled(false);
-  };
+    const openDialog = (dialogName: string) => {
+        // Close all dialogs first
+        Object.keys(dialogStates.value).forEach((key) => {
+            dialogStates.value[key as keyof typeof dialogStates.value] = false;
+        });
 
-  const closeDialog = (dialogName: string) => {
-    if (dialogName in dialogStates.value) {
-      dialogStates.value[dialogName as keyof typeof dialogStates.value] = false;
-      setShortKeyDisabled(false);
-    }
-  };
+        // Open the requested dialog
+        if (dialogName in dialogStates.value) {
+            dialogStates.value[dialogName as keyof typeof dialogStates.value] = true;
+            setShortKeyDisabled(true);
+        }
+    };
 
-  return {
-    dialogStates,
-    openDialog,
-    closeAllDialogs,
-    closeDialog,
-  };
+    const closeAllDialogs = () => {
+        Object.keys(dialogStates.value).forEach((key) => {
+            dialogStates.value[key as keyof typeof dialogStates.value] = false;
+        });
+        setShortKeyDisabled(false);
+    };
+
+    const closeDialog = (dialogName: string) => {
+        if (dialogName in dialogStates.value) {
+            dialogStates.value[dialogName as keyof typeof dialogStates.value] = false;
+            setShortKeyDisabled(false);
+        }
+    };
+
+    return {
+        dialogStates,
+        openDialog,
+        closeAllDialogs,
+        closeDialog,
+    };
 }

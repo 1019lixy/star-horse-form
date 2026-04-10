@@ -1,12 +1,12 @@
 <script setup lang="ts">
-import { i18n } from "@/lang/index.js";
-import { onMounted, ref } from "vue";
+import {i18n} from "@/lang/index.js";
+import {onMounted, ref, watch} from "vue";
 import FormPreview from "@/components/system/items/form/components/FormPreview.vue";
 
 const emit = defineEmits<{
   (e: "close"): void;
 }>();
-defineProps<{
+const props = defineProps<{
   visible: boolean;
   compSize: string;
   list: any[];
@@ -27,8 +27,12 @@ const validateForm = async () => {
 const exportToHtml = () => {
   previewFormRef.value?.exportToHtml();
 };
-// Expose methods for parent component to use
-onMounted(() => {});
+const pageStyle = ref<string>("");
+onMounted(() => {
+});
+watch(() => props.currentPageClass, (newVal) => {
+  pageStyle.value = newVal;
+}, {immediate: true});
 defineExpose({
   validateForm,
   exportToHtml,
@@ -37,22 +41,41 @@ defineExpose({
 
 <template>
   <star-horse-dialog
-    :dialogVisible="visible"
-    @closeAction="closeAction"
-    box-height="80%"
-    :selfFunc="true"
-    :compSize="compSize"
-    :title="i18n('dyform.preview.dialog.title')"
-    :source="3"
+      :dialogVisible="visible"
+      @closeAction="closeAction"
+      box-height="80%"
+      :selfFunc="true"
+      :compSize="compSize"
+      :fullScreen="true"
+      :title="i18n('dyform.preview.dialog.title')"
+      :source="3"
   >
-    <div :class="currentPageClass">
-      <FormPreview
-        :compSize="compSize"
-        :currentPageClass="currentPageClass"
-        :list="list"
-        ref="previewFormRef"
-      />
-    </div>
+    <el-tabs v-model="pageStyle">
+      <el-tab-pane name="main-design" label="电脑">
+        <FormPreview
+            :compSize="compSize"
+            :currentPageClass="pageStyle"
+            :list="list"
+            ref="previewFormRef"
+        />
+      </el-tab-pane>
+      <el-tab-pane name="main-design-pad" label="平板">
+        <FormPreview
+            :compSize="compSize"
+            :currentPageClass="pageStyle"
+            :list="list"
+            ref="previewFormRef"
+        />
+      </el-tab-pane>
+      <el-tab-pane name="main-design-phone" label="手机">
+        <FormPreview
+            :compSize="compSize"
+            :currentPageClass="pageStyle"
+            :list="list"
+            ref="previewFormRef"
+        />
+      </el-tab-pane>
+    </el-tabs>
   </star-horse-dialog>
 </template>
 
