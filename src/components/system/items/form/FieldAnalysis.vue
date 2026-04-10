@@ -1,13 +1,13 @@
 <script setup lang="ts" name="FieldAnalysis">
-import { Config } from "@/api/settings.js";
-import { onMounted, PropType } from "vue";
-import { fieldPlaceholder } from "@/components/system/items/utils/ItemPreps.js";
+import {Config} from "@/api/settings.js";
+import {onMounted, PropType} from "vue";
+import {fieldPlaceholder} from "@/components/system/items/utils/ItemPreps.js";
 
 const props = defineProps({
-  container: { type: String, default: "" },
-  field: { type: Object as PropType<any>, required: true },
-  index: { type: Number, required: true, default: 1 },
-  size: { type: String, default: Config.compSize },
+  container: {type: String, default: ""},
+  field: {type: Object as PropType<any>, required: true},
+  index: {type: Number, required: true, default: 1},
+  size: {type: String, default: Config.compSize},
 });
 const numberLengthComp: Array<string> = [
   "number",
@@ -43,23 +43,23 @@ onMounted(() => {
 <template>
   <template v-if="field?.compType == 'container'">
     <template
-      v-if="field.preps['elements']?.length > 0"
-      v-for="sitem in field.preps['elements']"
+        v-if="field.preps['elements']?.length > 0"
+        v-for="sitem in field.preps['elements']"
     >
       <template v-for="sitem1 in sitem['columns']">
         <template v-for="(sitem2, sindex) in sitem1.items">
           <FieldAnalysis
-            :index="index + sindex + 1"
-            :field="sitem2"
-            :container="container + '>' + field.preps.label"
+              :index="index + sindex + 1"
+              :field="sitem2"
+              :container="container + '>' + field.preps.label"
           />
         </template>
       </template>
       <template v-for="(sitem2, sindex) in sitem.items">
         <FieldAnalysis
-          :index="index + sindex + 1"
-          :field="sitem2"
-          :container="container + '>' + field.preps.label"
+            :index="index + sindex + 1"
+            :field="sitem2"
+            :container="container + '>' + field.preps.label"
         />
       </template>
     </template>
@@ -71,85 +71,93 @@ onMounted(() => {
       </td>
       <td class="field-cell">
         <el-input
-          v-model="field.preps['label']"
-          @blur="fieldPlaceholder(field.preps, field)"
-          :size="size"
-          placeholder="标签名称"
-          clearable
+            v-model="field.preps['label']"
+            @blur="fieldPlaceholder(field.preps, field)"
+            :size="size"
+            placeholder="标签名称"
+            clearable
         />
       </td>
       <td class="field-cell">
         <el-input
-          v-model="field.preps['name']"
-          @blur="fieldPlaceholder(field.preps, field)"
-          :size="size"
-          placeholder="属性名称"
-          clearable
+            v-model="field.preps['name']"
+            @blur="fieldPlaceholder(field.preps, field)"
+            :size="size"
+            placeholder="属性名称"
+            clearable
         />
       </td>
       <td class="field-cell">
         <el-row :gutter="10" :align="'middle'">
           <el-col :span="12">
             <el-input-number
-              v-model="field.preps['maxLength']"
-              :size="size"
-              placeholder="最大长度"
-              min="1"
-              :controls="false"
-              v-if="!exclusionLengthComp.includes(field.itemType)"
-              clearable
+                v-model="field.preps['maxLength']"
+                :size="size"
+                placeholder="最大长度"
+                min="1"
+                :controls="false"
+                v-if="!exclusionLengthComp.includes(field.itemType)"
+                clearable
             />
           </el-col>
           <el-col :span="12">
             <el-input-number
-              min="0"
-              v-model="field.preps['precision']"
-              :size="size"
-              placeholder="精度"
-              v-if="numberLengthComp.includes(field.itemType)"
-              :controls="false"
-              clearable
+                min="0"
+                v-model="field.preps['precision']"
+                :size="size"
+                placeholder="精度"
+                v-if="numberLengthComp.includes(field.itemType)"
+                :controls="false"
+                clearable
             />
           </el-col>
         </el-row>
       </td>
       <td class="field-cell">
         <el-switch
-          v-model="field.preps['required']"
-          :size="size"
-          :active-value="true"
-          :inactive-value="false"
+            v-model="field.preps['required']"
+            :size="size"
+            :active-value="true"
+            :inactive-value="false"
         />
       </td>
       <td class="field-cell">
         <el-switch
-          v-model="field.preps['formVisible']"
-          :size="size"
-          :active-value="true"
-          :inactive-value="false"
+            v-model="field.preps['formVisible']"
+            :size="size"
+            :active-value="true"
+            :inactive-value="false"
         />
       </td>
       <td class="field-cell">
         <el-switch
-          v-model="field.preps['searchVisible']"
-          :size="size"
-          :active-value="true"
-          :inactive-value="false"
+            v-model="field.preps['searchVisible']"
+            :size="size"
+            :active-value="true"
+            :inactive-value="false"
         />
       </td>
       <td class="field-cell">
         <el-switch
-          v-model="field.preps['listVisible']"
-          :size="size"
-          :active-value="true"
-          :inactive-value="false"
+            v-model="field.preps['listVisible']"
+            :size="size"
+            :active-value="true"
+            :inactive-value="false"
+        />
+      </td>
+      <td class="field-cell">
+        <el-input-number
+            v-model="field.preps['dataIndex']"
+            :size="size"
+            controls-position="right"
+            placeholder="排序"
         />
       </td>
       <td class="field-cell">
         <el-input
-          v-model="field.preps['defaultValue']"
-          :size="size"
-          placeholder="默认值"
+            v-model="field.preps['defaultValue']"
+            :size="size"
+            placeholder="默认值"
         />
       </td>
     </tr>

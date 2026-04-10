@@ -26,19 +26,22 @@ const batchModifyAction = (items: Array<any>, val: any, fieldName: string) => {
         const col = sitems[sindex];
         if (col.columns && Array.isArray(col.columns)) {
           col.columns.forEach((temp: any) => {
-            batchModifyAction(temp.items, val, fieldName);
+            batchModifyAction(temp.items, fieldName == "dataIndex" ? val++ : val, fieldName);
           });
         } else {
-          batchModifyAction(col.items, val, fieldName);
+          batchModifyAction(col.items, fieldName == "dataIndex" ? val++ : val, fieldName);
         }
       }
     } else {
-      item.preps[fieldName] = val;
+      item.preps[fieldName] = fieldName == "dataIndex" ? val++ : val;
 
     }
   }
 };
 const batchOperation = (val: any, fieldName: string) => {
+  if (fieldName == "dataIndex") {
+    val = 1;
+  }
   batchModifyAction(list.value, val, fieldName);
 };
 </script>
@@ -56,6 +59,7 @@ const batchOperation = (val: any, fieldName: string) => {
             <col class="w-[7%]"/>
             <col class="w-[7%]"/>
             <col class="w-[7%]"/>
+            <col class="w-[10%]"/>
             <col class="w-[10%]"/>
           </colgroup>
           <thead>
@@ -83,6 +87,9 @@ const batchOperation = (val: any, fieldName: string) => {
             </th>
             <th class="header-cell">
               {{ i18n("dyform.batch.edit.field.listDisplay") }}
+            </th>
+            <th class="header-cell">
+              {{ i18n("dyform.batch.edit.field.compSort") }}
             </th>
             <th class="header-cell">
               {{ i18n("dyform.batch.edit.field.defaultValue") }}
@@ -150,6 +157,13 @@ const batchOperation = (val: any, fieldName: string) => {
                   @change="(val: any) => batchOperation(val, 'listVisible')"
               />
             </td>
+            <td class="batch-cell">
+              <el-switch
+                  v-model="batchModifyData.dataIndex"
+                  :size="compSize"
+                  @change="(val: any) => batchOperation(val, 'dataIndex')"
+              />
+            </td>
             <td class="batch-cell"></td>
           </tr>
           </thead>
@@ -167,6 +181,7 @@ const batchOperation = (val: any, fieldName: string) => {
               <col class="w-[7%]"/>
               <col class="w-[7%]"/>
               <col class="w-[7%]"/>
+              <col class="w-[10%]"/>
               <col class="w-[10%]"/>
             </colgroup>
             <tbody>

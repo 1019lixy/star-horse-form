@@ -1312,6 +1312,7 @@ export default {
   "dyform.batch.edit.field.formDisplay": "表单显示",
   "dyform.batch.edit.field.searchDisplay": "查询显示",
   "dyform.batch.edit.field.listDisplay": "列表显示",
+  "dyform.batch.edit.field.compSort": "排序",
   "dyform.batch.edit.field.defaultValue": "默认值",
   "dyform.batch.edit.field.batchSetting": "批量设置",
   "dyform.batch.edit.field.placeholder.fieldLength": "字段长度",

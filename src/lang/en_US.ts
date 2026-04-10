@@ -1388,6 +1388,7 @@ export default {
   "dyform.batch.edit.field.formDisplay": "Form Display",
   "dyform.batch.edit.field.searchDisplay": "Search Display",
   "dyform.batch.edit.field.listDisplay": "List Display",
+  "dyform.batch.edit.field.compSort": "Sort",
   "dyform.batch.edit.field.defaultValue": "Default Value",
   "dyform.batch.edit.field.batchSetting": "Batch Setting",
   "dyform.batch.edit.field.placeholder.fieldLength": "Field Length",
