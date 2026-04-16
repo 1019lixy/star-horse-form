@@ -114,7 +114,7 @@ const tableOperation = (actonName: string, _preps: any) => {
     insertBelowRow(
       {
         parentField: props.formItem,
-        rowIndex: preps.elements.length,
+        rowIndex: preps.elements.length-1,
       },
       itemType,
     );
@@ -126,11 +126,12 @@ const tableOperation = (actonName: string, _preps: any) => {
     insertRightCol(
       {
         parentField: props.formItem,
-        colIndex: preps.elements[0].columns.length,
+        colIndex: preps.elements[0].columns.length-1,
       },
       itemType,
       true,
     );
+
   } else if (actonName == "copy") {
     //拷贝容器
     copyContainer(props.parentField, props.formItem, false);

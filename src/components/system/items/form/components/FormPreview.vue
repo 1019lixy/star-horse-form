@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { i18n } from "@/lang/index.js";
-import { error, success } from "star-horse-lowcode";
+import {error, isMobile, success} from "star-horse-lowcode";
 import { nextTick, onMounted, ref, watch } from "vue";
 
 const props = defineProps<{
@@ -78,6 +78,10 @@ watch(
   },
   { immediate: true },
 );
+watch(()=>props.currentPageClass, (val) => {
+    // window["_isDebug_"]=val.includes("-phone");
+    console.log(window,isMobile);
+})
 defineExpose({
   validateForm,
   exportToHtml,

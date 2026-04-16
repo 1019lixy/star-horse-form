@@ -19,6 +19,7 @@ const boxCol = (colspan: number) => {
 const insertLeftCol = (props: any, type: any, allCol?: boolean) => {
     const position = props.isFirstCol ? 0 : props.colIndex;
     insertCol(props, position, type, allCol);
+
 };
 const insertCol = (
     props: any,
@@ -50,7 +51,7 @@ const insertCol = (
                 const newCol = colDataInfo(type);
                 newCol.cellVisible = true;
                 //如果有整行合并的需要把合并的列+1
-                if (cols[0].colspan == cols.length) {
+                if (cols[0].colspan == cols.length&&cols[0].colspan>1) {
                     cols[0].colspan = cols[0].colspan + 1;
                     newCol.cellVisible = false;
                 }
@@ -58,6 +59,7 @@ const insertCol = (
             }
         }
     }
+    changeRowAndColNums(props, type);
 };
 /**
  * 更新表格有多少行和多少列
@@ -75,6 +77,7 @@ const changeRowAndColNums = (props: any, type: string) => {
 export const insertRightCol = (props: any, type: any, allCol?: boolean) => {
     const position = props.colIndex + 1;
     insertCol(props, position, type, allCol);
+
 };
 const insertAboveRow = (props: any, type: any) => {
     const position = props.rowIndex;
@@ -114,16 +117,18 @@ const addRow = (props: any, position: number, type: any) => {
         //还需要判断哪些列是需要隐藏
         //如果有整列合并，则获取到当前的列进行隐藏
         for (let index = 0; index < len; index++) {
-            if (columns[index].rowspan == rows.length) {
+            const tempRowSpan = columns[index].rowspan;
+            if (tempRowSpan > 1 && tempRowSpan == rows.length) {
                 items[index].cellVisible = false;
                 columns[index].rowspan = columns[index].rowspan + 1;
                 break;
             }
         }
-        console.log(items);
+        // console.log(items);
         cols.columns = items;
     }
     rows.splice(position, 0, cols);
+    changeRowAndColNums(props, type);
 };
 export const insertBelowRow = (props: any, type: any) => {
     const position = props.rowIndex + 1;
@@ -147,7 +152,7 @@ const mergeLeftCol = (props: any, type: any) => {
         //拿到左边倒数第一个visible =true 的单元格
         for (let i = props.colIndex - 1; i >= 0; i--) {
             const tempCol = row.columns[i];
-            if (tempCol.cellVisible) {
+            if (tempCol.cellVisible&&tempCol.colspan>1) {
                 tempCol.colspan = col.colspan + tempCol.colspan;
                 col.cellVisible = false;
                 break;
@@ -169,7 +174,7 @@ const mergeRightCol = (props: any, type: any) => {
         const columns = row.columns;
         for (let i = props.colIndex + 1; i < columns.length; i++) {
             const tempCol = columns[i];
-            if (tempCol.cellVisible) {
+            if (tempCol.cellVisible&&col.colspan>1) {
                 col.colspan = col.colspan + tempCol.colspan;
                 tempCol.cellVisible = false;
                 break;

@@ -50,13 +50,13 @@ export default defineConfig((mode) => {
   return {
     base: "/",
     server: {
-      https: httpsOptions,
+      // https: httpsOptions,
+      // allowedHosts: true,
+      // strictPort: true,
+      // http2: false,
       host: "0.0.0.0",
       port: 5173,
       http: true,
-      allowedHosts: true,
-      strictPort: true,
-      http2: false,
       open: true,
       hmr: true,
       proxy: {
