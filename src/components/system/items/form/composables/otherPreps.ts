@@ -9,12 +9,26 @@ export interface OtherPreps extends ItemType {
     preps?: Record<string, any>;
 }
 
+/**
+ * 其它属性配置参数
+ */
 export const otherPreps: OtherPreps[] = [
+    {
+        label: "Card列表显示",
+        fieldName: "appListVisible",
+        fieldType: "switch",
+        category: 1,
+        preps: {
+            activeText: "是",
+            inactiveText: "否"
+        }
+    },
     {
         label: "App隐藏组件",
         fieldName: "appCompVisible",
         fieldType: "switch",
         category: 1,
+        defaultValues: false,
         preps: {
             activeText: "是",
             inactiveText: "否"
@@ -24,7 +38,8 @@ export const otherPreps: OtherPreps[] = [
         label: "App隐藏标签",
         fieldName: "appLabelVisible",
         fieldType: "switch",
-        helpMsg: "App隐藏组件设置为隐藏后,此设置无效",
+        helpMsg: "上面组件设置为隐藏后,此设置无效",
+        defaultValues: false,
         category: 1,
         preps: {
             activeText: "是",
@@ -36,10 +51,11 @@ export const otherPreps: OtherPreps[] = [
         fieldName: "labelFor",
         fieldType: "button",
         category: 1,
+        helpMsg: "在App模式中将将该组件配置为指定组件的标签",
         matchComp: ["text", "html"],
-        actions:{
-            click: (dialogStates:any,item:any) => {
-                dialogStates.bindFieldVisible=true;
+        actions: {
+            click: (dialogStates: any, item: any) => {
+                dialogStates.bindFieldVisible = true;
             }
         }
     }

@@ -40,16 +40,10 @@ const formProps = computed(() => {
   }
   fieldPlaceholder(preps);
   let keys = Object.keys(preps);
-  if (!keys.includes("maxLength")) {
-    preps.maxLength = currentItemType.value == "number" ? 10 : 255;
-  }
   if (!keys.includes("formVisible")) {
+    preps.maxLength = currentItemType.value == "number" ? 10 : 255;
     preps.formVisible = true;
-  }
-  if (!keys.includes("listVisible")) {
     preps.listVisible = true;
-  }
-  if (!keys.includes("viewVisible")) {
     preps.viewVisible = true;
   }
   return preps;
@@ -157,8 +151,7 @@ const dataRelationMerge = async () => {
   if (!flag) {
     return;
   }
-  formProps.value["dataRelation"] =
-      dataRelationFormRef.value.getFormData().value;
+  formProps.value["dataRelation"] = dataRelationFormRef.value.getFormData().value;
   closeAction();
 };
 const dataRelationReset = () => {
@@ -190,16 +183,16 @@ const boxAndTableQuickConfig = (val: any) => {
   if (!val.rowNums || !val.columnNums) {
     return;
   }
- if(!formProps.value["rowNums"] || !formProps.value["columnNums"]){
-  formProps.value.elements = [];
-  // console.log("formProps.value.elements", formProps.value.elements);
- }
+  if (!formProps.value["rowNums"] || !formProps.value["columnNums"]) {
+    formProps.value.elements = [];
+    // console.log("formProps.value.elements", formProps.value.elements);
+  }
   const lastRowNums = formProps.value["rowNums"] || 0;
   const lastColNums = formProps.value["columnNums"] || 0;
   // console.log("lastRowNums", lastRowNums);
   // console.log("lastColNums", lastColNums);
   const elements: any = formProps.value.elements;
-  const tempRows:any=[];
+  const tempRows: any = [];
   if (val.rowNums >= lastRowNums) {
     const rows = val.rowNums - lastRowNums;
     for (let i = 0; i < rows; i++) {
@@ -211,7 +204,7 @@ const boxAndTableQuickConfig = (val: any) => {
           rowspan: 1,
           colspan: currentItemType.value == "box" ? (24 / val.columnNums) : 1,
           items: [],
-          cellVisible:true
+          cellVisible: true
         });
       }
       tempRows.push({
@@ -234,7 +227,7 @@ const boxAndTableQuickConfig = (val: any) => {
           colIndex: 1,
           rowspan: 1,
           colspan: 1,
-          cellVisible:true,
+          cellVisible: true,
           items: []
         });
       }
@@ -358,7 +351,7 @@ watch(() => quickConfig.value, (val) => {
           <el-input-number v-model="quickConfig.rowNums" min="1" max="500" controls-position="right"/>
         </el-form-item>
         <el-form-item label="列数" style="margin-top: 10px">
-          <div class="flex flex-row items-center w-full" v-if="currentItemType=='box'" >
+          <div class="flex flex-row items-center w-full" v-if="currentItemType=='box'">
             <help message="栅格容器特殊性,只能设置备选值"/>
             <el-select v-model="quickConfig.columnNums" :options="[
               {label:'1列',value:1},
@@ -370,7 +363,7 @@ watch(() => quickConfig.value, (val) => {
               {label:'12列',value:12},
               {label:'24列',value:24}
           ]">
-          </el-select>
+            </el-select>
           </div>
           <el-input-number v-else v-model="quickConfig.columnNums" min="1" max="50"
                            controls-position="right"/>
@@ -378,21 +371,21 @@ watch(() => quickConfig.value, (val) => {
       </el-form-item>
     </template>
     <template v-else>
-      <el-form-item label="标签名称" prop="label" required>
+      <el-form-item label="标签名称" label-position="top" prop="label" required>
         <el-input
             v-model="formProps.label"
             placeholder="请输入标签名"
             @blur="fieldPlaceholder(formProps)"
         />
       </el-form-item>
-      <el-form-item label="字段名称" prop="name" required>
+      <el-form-item label="字段名称" label-position="top" prop="name" required>
         <el-input
             v-model="formProps.name"
             placeholder="请输入字段名"
             @blur="fieldPlaceholder(formProps)"
         />
       </el-form-item>
-      <el-form-item label="数据长度" prop="maxLength">
+      <el-form-item label="数据长度" label-position="top" prop="maxLength">
         <el-input-number
             v-model="formProps.maxLength"
             controls-position="right"
@@ -440,7 +433,7 @@ watch(() => quickConfig.value, (val) => {
       >
         <el-button type="primary" @click="btnClickOpen">配置</el-button>
       </el-form-item>
-      <el-form-item label="校验规则" prop="rules">
+      <el-form-item label="校验规则" label-position="top" prop="rules">
         <el-select
             v-model="formProps.rules"
             multiple
@@ -552,7 +545,7 @@ watch(() => quickConfig.value, (val) => {
         />
       </el-form-item>
       <el-form-item
-          label="组件值"
+          label="组件值" label-position="top"
           prop="listPrototypeDisplay"
           v-if="formProps.prototypeDisplay === true"
       >
@@ -571,7 +564,7 @@ watch(() => quickConfig.value, (val) => {
             :message="`如果开启此功能，\n在新增数据时系统对数据进行唯一性校验。`"
         />
       </el-form-item>
-      <el-form-item label="标签位置" prop="labelPosition">
+      <el-form-item label="标签位置" label-position="top" prop="labelPosition">
         <el-select
             clearable
             filterable
@@ -579,14 +572,14 @@ watch(() => quickConfig.value, (val) => {
             :options="[{label:'顶部',value:'top'},{label:'左边',value:'left'},{label:'右边',value:'right'}]"
         />
       </el-form-item>
-      <el-form-item label="提示信息" prop="helpMsg">
+      <el-form-item label="提示信息" label-position="top" prop="helpMsg">
         <el-input
             v-model="formProps.helpMsg"
             placeholder="请输入提示信息"
             type="textarea"
         />
       </el-form-item>
-      <el-form-item label="Css样式" prop="styles">
+      <el-form-item label="Css样式" label-position="top" prop="styles">
         <el-input
             v-model="formProps.styles"
             placeholder="请输入Css样式"

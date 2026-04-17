@@ -14,6 +14,7 @@ import CommonSkeleton from "./CommonSkeleton.vue";
 
 const props = defineProps({
   currentPageClass: {type:String, default:""},
+  preview:{type:Boolean, default:false},
   compList: {
     type: Array,
     required: true,
@@ -55,6 +56,13 @@ provide("formFields", formFields);
 const dialogProps = dialogPreps();
 provide("dialogProps", dialogProps);
 
+const dataRecall = (formData: any, result: any) => {
+  if (props.preview) {
+    starHorseTableCompRef.value?.assignStaticData(formData);
+  } else {
+    starHorseTableCompRef.value?.loadByPage()
+  }
+};
 const dataFormat = (name: string, cellValue: object): any => {
   return cellValue;
 };
@@ -98,8 +106,9 @@ watch(
         :dialogProps="dialogProps"
       >
         <star-horse-form
-          @refresh="starHorseTableCompRef?.loadByPage()"
+          @refresh="dataRecall"
           :compUrl="dataUrl"
+          :preview="preview"
           :fieldList="tableFieldList"
           :rules="rules"
         />
@@ -111,6 +120,7 @@ watch(
       >
         <star-horse-data-view
           :dataFormat="dataFormat"
+          :preview="preview"
           :field-list="tableFieldList"
           :compUrl="dataUrl"
         />
@@ -132,6 +142,7 @@ watch(
           :fieldList="tableFieldList"
           :primaryKey="primaryKey"
           :compUrl="dataUrl"
+          :preview="preview"
           :btnPermissions="{
             add: 'add',
             edit: 'eidt',

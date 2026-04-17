@@ -103,15 +103,16 @@ defineExpose({
       />
     </el-form-item>
     <div class="flex-1 w-full h-full relative" :class="currentPageClass">
-      <NormalPage v-if="formData.pageStyle == 'normal'" :compList="list" :currentPageClass="currentPageClass" />
-      <FormPage v-if="formData.pageStyle == 'form'" :compList="list" :currentPageClass="currentPageClass"/>
+      <NormalPage v-if="formData.pageStyle == 'normal'" :compList="list" :currentPageClass="currentPageClass" :preview="true"/>
+      <FormPage v-if="formData.pageStyle == 'form'" :compList="list" :currentPageClass="currentPageClass" :preview="true"/>
       <FormTablePage
         v-if="formData.pageStyle == 'form-table'"
         :compList="list"
         :currentPageClass="currentPageClass"
+        :preview="true"
       />
-      <TabPage v-if="formData.pageStyle == 'tab'" :compList="list" :currentPageClass="currentPageClass"/>
-      <ViewFormPage v-if="formData.pageStyle == 'view'" :compList="list" :currentPageClass="currentPageClass"/>
+      <TabPage v-if="formData.pageStyle == 'tab'" :compList="list" :currentPageClass="currentPageClass" :preview="true"/>
+      <ViewFormPage v-if="formData.pageStyle == 'view'" :compList="list" :currentPageClass="currentPageClass" :preview="true"/>
     </div>
   </div>
 </template>

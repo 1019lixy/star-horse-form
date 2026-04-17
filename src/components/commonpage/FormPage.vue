@@ -6,6 +6,7 @@ import CommonSkeleton from "./CommonSkeleton.vue";
 
 const props = defineProps({
   currentPageClass: {type: String, default: ""},
+  preview:{type:Boolean, default:false},
   compList: {
     type: Array,
     required: true,
@@ -86,6 +87,7 @@ watch(
             :formInfo="formInfo"
             :dynamicForm="true"
             ref="formPageRef"
+            :preview="preview"
             :label-position="currentPageClass=='main-design-phone'?'top':'left'"
             :globalCondition="relationTables"
             :outerFormData="outerFormData"

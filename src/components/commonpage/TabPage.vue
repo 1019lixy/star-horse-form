@@ -16,6 +16,7 @@ import CommonSkeleton from "./CommonSkeleton.vue";
 
 const props = defineProps({
   currentPageClass: {type: String, default: ""},
+  preview: {type: Boolean, default: false},
   compList: {
     type: Array,
     required: true,
@@ -94,6 +95,13 @@ const dataFormat = (name: string, cellValue: object, row: any): any => {
   }
   return subFormat(name, cellValue, row);
 };
+const dataRecall = (formData: any, result: any) => {
+  if (props.preview) {
+    starHorseTableCompRef.value?.assignStaticData(formData);
+  } else {
+    starHorseTableCompRef.value?.loadByPage()
+  }
+};
 onMounted(async () => {
   await init();
 });
@@ -102,7 +110,7 @@ watch(
     (val) => {
       loadFormData();
     },
-    { deep: true },
+    {deep: true},
 );
 watch(
     () => props.currentPageClass,
@@ -135,6 +143,7 @@ watch(
             :dataFormat="dataFormat"
             :primary-key="primaryKey"
             :dynamicForm="true"
+            :preview="preview"
             :field-list="tableFieldList"
             :compUrl="dataUrl"
         />
@@ -151,10 +160,11 @@ watch(
               class="flex flex-col"
           >
             <star-horse-form
-                @refresh="starHorseTableCompRef?.loadByPage()"
+                @refresh="dataRecall"
                 :dynamicForm="true"
                 :compUrl="dataUrl"
                 :formInfo="formInfo"
+                :preview="preview"
                 :fieldList="tableFieldList"
                 :rules="rules"
                 :globalCondition="relationTables"
@@ -184,6 +194,7 @@ watch(
                 :compUrl="dataUrl"
                 :globalConfig="relationTables"
                 :isDynamic="true"
+                :preview="preview"
                 :btnPermissions="{
                 add: 'add',
                 edit: 'eidt',

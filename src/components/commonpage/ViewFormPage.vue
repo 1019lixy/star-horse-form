@@ -5,12 +5,13 @@ import {
   apiInstance,
   dialogPreps,
   PageFieldInfo,
-  SearchFields,
+  SearchFields, StarHorseDataView,
 } from "star-horse-lowcode";
 import {nextTick, onMounted, provide, ref, watch} from "vue";
 
 const props = defineProps({
   currentPageClass: {type: String, default: ""},
+  preview:{type:Boolean, default:false},
   compList: {
     type: Array,
     required: true,
@@ -81,6 +82,7 @@ watch(
       <star-horse-data-view
           :field-list="tableFieldList"
           :dataFormat="dataFormat"
+          :preview="preview"
           :compUrl="dataUrl"
       />
     </el-card>

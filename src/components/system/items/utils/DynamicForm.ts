@@ -100,6 +100,12 @@ const formActions = (): Array<ToolBtnType> => [
     auth: "none",
     label: i18n("dyform.action.save"),
   },
+  {
+    icon: "export",
+    key: "export",
+    auth: "none",
+    label: i18n("dyform.action.export"),
+  },
   /*{
         icon: "right_panel",
         defaultEdit: true,

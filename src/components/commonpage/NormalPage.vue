@@ -8,12 +8,13 @@ import {
   SearchFields,
   UserFuncInfo,
 } from "star-horse-lowcode";
-import { nextTick, onMounted, provide, ref, watch } from "vue";
-import { i18n } from "@/lang";
+import {nextTick, onMounted, provide, ref, watch} from "vue";
+import {i18n} from "@/lang";
 import CommonSkeleton from "./CommonSkeleton.vue";
 
 const props = defineProps({
-  currentPageClass: {type:String, default:""},
+  currentPageClass: {type: String, default: ""},
+  preview: {type: Boolean, default: false},
   compList: {
     type: Array,
     required: true,
@@ -24,7 +25,7 @@ const normalFormRef = ref();
 let relationTables = ref<any>({});
 let dataUrl = ref<ApiUrls>();
 const errorMsg = ref(i18n("commonPage.dataLoading"));
-let searchFormData = ref<SearchFields | any>({ fieldList: [] });
+let searchFormData = ref<SearchFields | any>({fieldList: []});
 const tableFieldList = ref<any>({
   fieldList: [],
   stopAutoLoad: true,
@@ -48,6 +49,7 @@ const loadFormData = async () => {
   if (props.currentPageClass == "main-design-phone") {
     let {fieldList} = analysisAppComps(props.compList);
     tableFieldList.value.fieldList = fieldList;
+    console.log(tableFieldList.value.fieldList);
   } else {
     let {fieldList} = analysisCompDatas(props.compList);
     tableFieldList.value.fieldList = fieldList;
@@ -64,13 +66,15 @@ const dataFormat = (name: string, cellValue: any, row: any): any => {
     if (dateFields.value.includes(name)) {
       return createDatetime(cellValue);
     }
+    console.log(name,cellValue,row);
+    return cellValue;
   }
   const subFormat = (name: string, cellValue: any, row: any) => {
     if (dataSource.value && Object.keys(dataSource.value).length > 0) {
       let temp = dataSource.value[name];
       if (temp) {
         let stemp = temp.datas?.find(
-          (item: any) => item[temp.valueField] == cellValue,
+            (item: any) => item[temp.valueField] == cellValue,
         );
         return stemp ? stemp[temp.labelField] : cellValue || "--";
       }
@@ -79,13 +83,21 @@ const dataFormat = (name: string, cellValue: any, row: any): any => {
   };
   if (fieldMappingList.value && fieldMappingList.value?.length > 0) {
     let temp = fieldMappingList.value.find(
-      (item: any) => item["fieldName"] == name,
+        (item: any) => item["fieldName"] == name,
     );
     if (temp) {
       return row[temp.mappingDisplayField] || subFormat(name, cellValue, row);
     }
   }
   return subFormat(name, cellValue, row);
+};
+const dataRecall = (formData: any, result: any) => {
+  if (props.preview) {
+    console.log(formData.dataMap);
+    normalPageRef.value?.assignStaticData(formData.dataMap);
+  } else {
+    normalPageRef.value?.loadByPage();
+  }
 };
 const init = async () => {
   await loadFormData();
@@ -98,7 +110,7 @@ watch(
     (val) => {
       loadFormData();
     },
-    { deep: true },
+    {deep: true},
 );
 watch(
     () => props.currentPageClass,
@@ -112,69 +124,73 @@ watch(
   <div class="flex flex-col h-full overflow-hidden">
     <!-- 使用通用骨架屏组件 -->
     <CommonSkeleton
-      v-if="isLoading"
-      :showSearch="true"
-      :showHeader="true"
-      :showTable="true"
-      :tableRowCount="5"
+        v-if="isLoading"
+        :showSearch="true"
+        :showHeader="true"
+        :showTable="true"
+        :tableRowCount="5"
     />
 
     <!-- 正常内容 -->
     <template v-else-if="hasData">
       <star-horse-dialog
-        :isShowBtnContinue="true"
-        :dialogVisible="dialogProps.editVisible"
-        :dialogProps="dialogProps"
+          :isShowBtnContinue="true"
+          :dialogVisible="dialogProps.editVisible"
+          :dialogProps="dialogProps"
       >
         <star-horse-form
-          @refresh="normalPageRef?.loadByPage()"
-          :compUrl="dataUrl"
-          :fieldList="tableFieldList"
-          :primary-key="primaryKey"
-          :rules="rules"
-          ref="normalFormRef"
-          :globalCondition="relationTables"
-          :dynamicForm="true"
+            @refresh="dataRecall"
+            :compUrl="dataUrl"
+            :preview="preview"
+            :fieldList="tableFieldList"
+            :primary-key="primaryKey"
+            :rules="rules"
+            ref="normalFormRef"
+            :globalCondition="relationTables"
+            :dynamicForm="true"
         />
       </star-horse-dialog>
       <star-horse-dialog
-        :dialog-visible="dialogProps.viewVisible"
-        :dialogProps="dialogProps"
-        :source="3"
+          :dialog-visible="dialogProps.viewVisible"
+          :dialogProps="dialogProps"
+          :source="3"
       >
         <star-horse-data-view
-          :dataFormat="dataFormat"
-          :field-list="tableFieldList"
-          :globalCondition="relationTables"
-          :dynamicForm="true"
-          :compUrl="dataUrl"
+            :dataFormat="dataFormat"
+            :field-list="tableFieldList"
+            :preview="preview"
+            :globalCondition="relationTables"
+            :dynamicForm="true"
+            :compUrl="dataUrl"
         />
       </star-horse-dialog>
       <div class="search-content" v-if="searchFormData.fieldList?.length > 0">
         <div class="search_btn">
           <star-horse-search-comp
-            @searchData="(data: any) => normalPageRef?.createSearchParams(data)"
-            :formData="searchFormData"
-            :compUrl="dataUrl"
+              @searchData="(data: any) => normalPageRef?.createSearchParams(data)"
+              :formData="searchFormData"
+              :preview="preview"
+              :compUrl="dataUrl"
           />
         </div>
       </div>
       <el-card class="inner_content">
         <star-horse-table-comp
-          ref="normalPageRef"
-          :fieldList="tableFieldList"
-          :primaryKey="primaryKey"
-          :globalConfig="relationTables"
-          :isDynamic="true"
-          :extendBtns="extBtns"
-          :compUrl="dataUrl"
-          :btnPermissions="{
+            ref="normalPageRef"
+            :fieldList="tableFieldList"
+            :primaryKey="primaryKey"
+            :globalConfig="relationTables"
+            :isDynamic="true"
+            :preview="preview"
+            :extendBtns="extBtns"
+            :compUrl="dataUrl"
+            :btnPermissions="{
             add: 'add',
             edit: 'edit',
             view: 'view',
           }"
-          :showBatchField="true"
-          :dataFormat="dataFormat"
+            :showBatchField="true"
+            :dataFormat="dataFormat"
         />
       </el-card>
     </template>

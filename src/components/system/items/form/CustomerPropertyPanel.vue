@@ -49,6 +49,14 @@ const configParams = async (params: any) => {
   openDialog("paramsDialog");
   fieldName.value = params;
 };
+const otherDefaultValues = () => {
+  for (let key in otherPreps) {
+    const item = otherPreps[key];
+    if (!Object.keys(formProps.value).includes(item.fieldName) && Object.keys(item).includes("defaultValues")) {
+      formProps.value[item.fieldName] = item["defaultValues"];
+    }
+  }
+}
 /**
  * 根据属性类别获取对应参数
 
@@ -58,6 +66,8 @@ const assignPrep = () => {
     let formDatas = unref(formDataList);
     let selfFormDatas = unref(selfFormDataList);
     let containers = unref(containerList);
+
+
     let isContainer = currentCompCategory.value == "container";
     if (isContainer) {
       for (let key in containers) {
@@ -144,6 +154,7 @@ const assignValue = (fieldInfo: any) => {
   try {
     basePreps.value = [];
     actionPreps.value = [];
+    otherDefaultValues();
     if (recordPreps.value[fieldInfo.itemType]) {
       basePreps.value = recordPreps.value[fieldInfo.itemType].basePreps;
       actionPreps.value = recordPreps.value[fieldInfo.itemType].actionPreps;
@@ -181,6 +192,8 @@ const assignValue = (fieldInfo: any) => {
         formProps.value[key] = defaultValues[key];
       }
     }
+
+
   } catch (e) {
     console.log(e);
   }
@@ -373,15 +386,17 @@ watch(
             "
           >
             <div class="flex flex-col " v-if="item.fieldType == 'button'">
-              <el-button
-
-                  type="primary"
-                  plain
-                  @click="item.actions?.click?.(dialogStates,formProps)"
-                  icon="Setting"
-              >
-                配置
-              </el-button>
+              <div class="flex gap-3 justify-start items-center w-full">
+                <help v-if="item.helpMsg" :message="item.helpMsg"/>
+                <el-button
+                    type="primary"
+                    plain
+                    @click="item.actions?.click?.(dialogStates,formProps)"
+                    icon="Setting"
+                >
+                  配置
+                </el-button>
+              </div>
               <div class="my-3">
                 <component
                     :is="'input-tag-item'"
@@ -393,15 +408,18 @@ watch(
                 />
               </div>
             </div>
-            <component
-                v-else
-                :is="item.fieldType + '-item'"
-                v-model:formData="formProps"
-                :field="{
+            <template v-else>
+              <help v-if="item.helpMsg" :message="item.helpMsg"/>
+              <component
+                  :is="item.fieldType + '-item'"
+                  v-model:formData="formProps"
+                  :field="{
                 fieldName: item.fieldName,
                 preps: item.preps,
               }"
-            />
+              />
+            </template>
+
           </el-form-item>
         </template>
       </el-collapse-item>

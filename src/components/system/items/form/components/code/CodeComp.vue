@@ -21,43 +21,7 @@ const init = async () => {
     fieldList,
   };
 };
-const exportCode = () => {
-  try {
-    // 获取要导出的数据
-    const exportData = {
-      formInfo: formInfo.value,
-      dataList: compList.value,
-      exportTime: new Date().toISOString(),
-      version: '1.0'
-    };
 
-    // 格式化JSON
-    const jsonString = JSON.stringify(exportData, null, 2);
-
-    // 创建Blob对象
-    const blob = new Blob([jsonString], {type: 'application/json'});
-
-    // 创建下载链接
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = `form-design-${new Date().getTime()}.json`;
-
-    // 触发下载
-    document.body.appendChild(a);
-    a.click();
-
-    // 清理
-    document.body.removeChild(a);
-    URL.revokeObjectURL(url);
-
-    // 提示用户
-    success('导出成功');
-  } catch (err) {
-    console.error('导出失败:', err);
-    error('导出失败，请重试');
-  }
-}
 onMounted(async () => {
   await init();
 });

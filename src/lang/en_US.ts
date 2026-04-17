@@ -167,6 +167,7 @@ export default {
   "dyform.action.phone": "Mobile",
   "dyform.action.new": "New",
   "dyform.action.import": "Import",
+  "dyform.action.export": "Export",
   "dyform.action.edit": "Edit Properties",
   "dyform.action.layer": "Form Layer",
   "dyform.action.empty": "Clear Elements",
