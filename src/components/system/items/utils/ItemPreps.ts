@@ -912,307 +912,306 @@ const mappingList: SelectOption[] = [
     {name: "一对一", value: "1"},
     {name: "一对多", value: "n"},
 ];
+const containerCommonFields = [{
+    label: "是否子表",
+    fieldName: "subFormFlag",
+    type: "switch",
+    defaultValue: "Y",
+    required: true,
+    formVisible: true,
+    listVisible: true,
+    preps: {
+        activeValue: "Y",
+        inactiveValue: "N",
+        dataRelation: {
+            actionName: "change",
+            relationDetails: [
+                {
+                    matchType: "eq",
+                    controlCondition: "eqVisible",
+                    relationFields: ["objectName", "mapping"],
+                    matchFieldValue: "Y",
+                }]
+        }
+    },
+},
+    {
+        label: "对象名字(表名)",
+        fieldName: "objectName",
+        required: true,
+        formVisible: false,
+        listVisible: true,
+    },
+    {
+        label: "对应关系",
+        fieldName: "mapping",
+        type: "select",
+        defaultValue: "1",
+        formVisible: false,
+        listVisible: true,
+        preps: {
+            values: mappingList
+        }
+    }];
+const tabFields = {
+    title: "Tab属性",
+    tabName: "tab",
+    batchFieldList: [
+        {
+            batchName: "elements",
+            fieldList: [
+                {
+                    label: "Tab名字",
+                    fieldName: "label",
 
+                    required: true,
+                    formVisible: true,
+                    listVisible: true,
+                },
+                {
+                    label: "主键",
+                    fieldName: "tabName",
+                    helpMsg: `默认作为tab组件的名称，
+                当设置对应关系时,系统作为表的主键`,
+
+                    required: true,
+                    formVisible: true,
+                    listVisible: true,
+                },
+                ...containerCommonFields
+            ],
+        },
+    ],
+};
+const collapseFields = {
+    title: "Collapse属性",
+    tabName: "collapse",
+    batchFieldList: [
+        {
+            batchName: "elements",
+            fieldList: [
+                {
+                    label: "Collapse名字",
+                    fieldName: "label",
+
+                    required: true,
+                    formVisible: true,
+                    listVisible: true,
+                },
+                {
+                    label: "主键",
+                    fieldName: "tabName",
+                    helpMsg: `默认作为Collapse组件的名称，
+                当设置对应关系时,系统作为表的主键`,
+
+                    required: true,
+                    formVisible: true,
+                    listVisible: true,
+                },
+                ...containerCommonFields
+            ],
+        },
+    ],
+};
+const splitterFields = {
+    title: "Splitter属性",
+    tabName: "splitter",
+    batchFieldList: [
+        {
+            batchName: "elements",
+            fieldList: [
+                {
+                    label: "Splitter名字",
+                    fieldName: "label",
+
+                    required: true,
+                    formVisible: true,
+                    listVisible: true,
+                },
+                {
+                    label: "主键",
+                    fieldName: "tabName",
+                    helpMsg: `默认作为Splitter组件的名称，
+                当设置对应关系时,系统作为表的主键`,
+
+                    required: true,
+                    formVisible: true,
+                    listVisible: true,
+                },
+                ...containerCommonFields,
+                {
+                    label: "容器Item属性",
+                    fieldName: "preps",
+                    type: "json",
+                    formVisible: true,
+                    listVisible: true,
+                },
+            ],
+        },
+    ],
+};
+const cardFields = {
+    title: "Card属性",
+    tabName: "card",
+    batchFieldList: [
+        {
+            batchName: "elements",
+            fieldList: [
+                {
+                    label: "Card名字",
+                    fieldName: "title",
+                    required: true,
+                    formVisible: true,
+                    listVisible: true,
+                },
+                {
+                    label: "主键",
+                    fieldName: "tabName",
+                    helpMsg: `默认作为Card组件的名称，
+                当设置对应关系时,系统作为表的主键`,
+                    required: true,
+                    formVisible: true,
+                    listVisible: true,
+                },
+                ...containerCommonFields
+
+            ],
+        },
+    ],
+};
+
+const boxFields = {
+    title: "栅格属性",
+    tabName: "box",
+    batchFieldList: [
+        {
+            batchName: "elements",
+            fieldList: [
+                {
+                    label: "列",
+                    fieldName: "colIndex",
+
+                    required: true,
+                    formVisible: true,
+                    listVisible: true,
+                    batchFieldList: [
+                        {
+                            batchName: "columns",
+                            batchDefaultData: {items: []},
+                            fieldList: [
+                                {
+                                    label: "列宽",
+                                    fieldName: "colspan",
+                                    type: "number",
+                                    defaultValue: 24,
+                                    required: true,
+                                    formVisible: true,
+                                    listVisible: true,
+                                    preps: {
+                                        min: 1,
+                                        max: 24,
+                                        step: 4,
+                                    },
+                                    actions: {
+                                        change: (val: any, type: string) => {
+                                            const obj = val.value || val;
+                                            const cols = obj.columns;
+                                            if (type == "oper") {
+                                                const len = 24 / cols.length;
+                                                cols.forEach((item: any) => {
+                                                    item.colspan = len;
+                                                });
+                                            }
+                                        },
+                                    },
+                                },
+                            ],
+                        },
+                    ],
+                },
+            ],
+        },
+    ],
+};
+const dyTableFields = {
+    title: "动态表格属性",
+    tabName: "dytable",
+    batchFieldList: [
+        {
+            batchName: "elements",
+            fieldList: [
+                {
+                    label: "列",
+                    fieldName: "colIndex",
+
+                    required: true,
+                    formVisible: true,
+                    listVisible: true,
+                    batchFieldList: [
+                        {
+                            batchName: "columns",
+                            batchDefaultData: {items: []},
+                            fieldList: [
+                                {
+                                    label: "列宽",
+                                    fieldName: "colWidth",
+                                    type: "number",
+                                    defaultValue: 100,
+                                    required: true,
+                                    formVisible: true,
+                                    listVisible: true,
+                                    preps: {
+                                        min: 10,
+                                        max: 100,
+                                        step: 2,
+                                    },
+                                    actions: {
+                                        change: (val: any, type: string) => {
+                                            const obj = val.value || val;
+                                            const cols = obj.columns;
+                                            if (type == "oper") {
+                                                const len = 100 / cols.length;
+                                                cols.forEach((item: any) => {
+                                                    item.colWidth = len;
+                                                });
+                                            }
+                                        },
+                                    },
+                                },
+                                {
+                                    label: "行高",
+                                    fieldName: "colHeight",
+                                    type: "number",
+                                    defaultValue: 30,
+                                    required: true,
+                                    formVisible: true,
+                                    listVisible: true,
+                                    preps: {
+                                        min: 30,
+                                        max: 100,
+                                        step: 1,
+                                    },
+                                },
+                            ],
+                        },
+                    ],
+                },
+            ],
+        },
+    ],
+};
+const fields: any = {
+    tab: tabFields,
+    collapse: collapseFields,
+    splitter: splitterFields,
+    card: cardFields,
+    box: boxFields,
+    dytable: dyTableFields,
+};
 /**
  * 容器属性
  */
 export function containerField(fieldName: string) {
-    const containerCommonFields = [{
-        label: "是否子表",
-        fieldName: "subFormFlag",
-        type: "switch",
-        defaultValue: "Y",
-        required: true,
-        formVisible: true,
-        listVisible: true,
-        preps: {
-            activeValue: "Y",
-            inactiveValue: "N",
-            dataRelation: {
-                actionName: "change",
-                relationDetails: [
-                    {
-                        matchType: "eq",
-                        controlCondition: "eqVisible",
-                        relationFields: ["objectName", "mapping"],
-                        matchFieldValue: "Y",
-                    }]
-            }
-        },
-    },
-        {
-            label: "对象名字",
-            fieldName: "objectName",
-            required: true,
-            formVisible: false,
-            listVisible: true,
-        },
-        {
-            label: "对应关系",
-            fieldName: "mapping",
-            type: "select",
-            defaultValue: "1",
-            formVisible: false,
-            listVisible: true,
-            preps: {
-                values: mappingList
-            }
-        }];
-    const tabFields = {
-        title: "Tab属性",
-        tabName: "tab",
-        batchFieldList: [
-            {
-                batchName: "elements",
-                fieldList: [
-                    {
-                        label: "Tab名字",
-                        fieldName: "label",
-
-                        required: true,
-                        formVisible: true,
-                        listVisible: true,
-                    },
-                    {
-                        label: "主键",
-                        fieldName: "tabName",
-                        helpMsg: `默认作为tab组件的名称，
-                当设置对应关系时,系统作为表的主键`,
-
-                        required: true,
-                        formVisible: true,
-                        listVisible: true,
-                    },
-                    ...containerCommonFields
-                ],
-            },
-        ],
-    };
-    const collapseFields = {
-        title: "Collapse属性",
-        tabName: "collapse",
-        batchFieldList: [
-            {
-                batchName: "elements",
-                fieldList: [
-                    {
-                        label: "Collapse名字",
-                        fieldName: "label",
-
-                        required: true,
-                        formVisible: true,
-                        listVisible: true,
-                    },
-                    {
-                        label: "主键",
-                        fieldName: "tabName",
-                        helpMsg: `默认作为Collapse组件的名称，
-                当设置对应关系时,系统作为表的主键`,
-
-                        required: true,
-                        formVisible: true,
-                        listVisible: true,
-                    },
-                    ...containerCommonFields
-                ],
-            },
-        ],
-    };
-    const splitterFields = {
-        title: "Splitter属性",
-        tabName: "splitter",
-        batchFieldList: [
-            {
-                batchName: "elements",
-                fieldList: [
-                    {
-                        label: "Splitter名字",
-                        fieldName: "label",
-
-                        required: true,
-                        formVisible: true,
-                        listVisible: true,
-                    },
-                    {
-                        label: "主键",
-                        fieldName: "tabName",
-                        helpMsg: `默认作为Splitter组件的名称，
-                当设置对应关系时,系统作为表的主键`,
-
-                        required: true,
-                        formVisible: true,
-                        listVisible: true,
-                    },
-                    ...containerCommonFields,
-                    {
-                        label: "容器Item属性",
-                        fieldName: "preps",
-                        type: "json",
-                        formVisible: true,
-                        listVisible: true,
-                    },
-                ],
-            },
-        ],
-    };
-    const cardFields = {
-        title: "Card属性",
-        tabName: "card",
-        batchFieldList: [
-            {
-                batchName: "elements",
-                fieldList: [
-                    {
-                        label: "Card名字",
-                        fieldName: "title",
-                        required: true,
-                        formVisible: true,
-                        listVisible: true,
-                    },
-                    {
-                        label: "主键",
-                        fieldName: "tabName",
-                        helpMsg: `默认作为Card组件的名称，
-                当设置对应关系时,系统作为表的主键`,
-                        required: true,
-                        formVisible: true,
-                        listVisible: true,
-                    },
-                    ...containerCommonFields
-
-                ],
-            },
-        ],
-    };
-
-    const boxFields = {
-        title: "栅格属性",
-        tabName: "box",
-        batchFieldList: [
-            {
-                batchName: "elements",
-                fieldList: [
-                    {
-                        label: "列",
-                        fieldName: "colIndex",
-
-                        required: true,
-                        formVisible: true,
-                        listVisible: true,
-                        batchFieldList: [
-                            {
-                                batchName: "columns",
-                                batchDefaultData: {items: []},
-                                fieldList: [
-                                    {
-                                        label: "列宽",
-                                        fieldName: "colspan",
-                                        type: "number",
-                                        defaultValue: 24,
-                                        required: true,
-                                        formVisible: true,
-                                        listVisible: true,
-                                        preps: {
-                                            min: 1,
-                                            max: 24,
-                                            step: 4,
-                                        },
-                                        actions: {
-                                            change: (val: any, type: string) => {
-                                                const obj = val.value || val;
-                                                const cols = obj.columns;
-                                                if (type == "oper") {
-                                                    const len = 24 / cols.length;
-                                                    cols.forEach((item: any) => {
-                                                        item.colspan = len;
-                                                    });
-                                                }
-                                            },
-                                        },
-                                    },
-                                ],
-                            },
-                        ],
-                    },
-                ],
-            },
-        ],
-    };
-    const dyTableFields = {
-        title: "动态表格属性",
-        tabName: "dytable",
-        batchFieldList: [
-            {
-                batchName: "elements",
-                fieldList: [
-                    {
-                        label: "列",
-                        fieldName: "colIndex",
-
-                        required: true,
-                        formVisible: true,
-                        listVisible: true,
-                        batchFieldList: [
-                            {
-                                batchName: "columns",
-                                batchDefaultData: {items: []},
-                                fieldList: [
-                                    {
-                                        label: "列宽",
-                                        fieldName: "colWidth",
-                                        type: "number",
-                                        defaultValue: 100,
-                                        required: true,
-                                        formVisible: true,
-                                        listVisible: true,
-                                        preps: {
-                                            min: 10,
-                                            max: 100,
-                                            step: 2,
-                                        },
-                                        actions: {
-                                            change: (val: any, type: string) => {
-                                                const obj = val.value || val;
-                                                const cols = obj.columns;
-                                                if (type == "oper") {
-                                                    const len = 100 / cols.length;
-                                                    cols.forEach((item: any) => {
-                                                        item.colWidth = len;
-                                                    });
-                                                }
-                                            },
-                                        },
-                                    },
-                                    {
-                                        label: "行高",
-                                        fieldName: "colHeight",
-                                        type: "number",
-                                        defaultValue: 30,
-                                        required: true,
-                                        formVisible: true,
-                                        listVisible: true,
-                                        preps: {
-                                            min: 30,
-                                            max: 100,
-                                            step: 1,
-                                        },
-                                    },
-                                ],
-                            },
-                        ],
-                    },
-                ],
-            },
-        ],
-    };
-    const fields: any = {
-        tab: tabFields,
-        collapse: collapseFields,
-        splitter: splitterFields,
-        card: cardFields,
-        box: boxFields,
-        dytable: dyTableFields,
-    };
     return reactive<PageFieldInfo | any>({
         fieldList: [
             {
