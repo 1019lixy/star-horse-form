@@ -1,0 +1,1225 @@
+import {
+    BatchFieldInfo,
+    createDatetime,
+    error,
+    FieldInfo,
+    getRequest,
+    JoinSearchParams,
+    MenusInfo,
+    operationConfirm,
+    OrderByInfo,
+    PageFieldInfo,
+    postRequest,
+    SearchParams,
+    SelectOption,
+    success,
+    TabFieldInfo,
+    warning,
+} from "star-horse-lowcode";
+import {reactive, ShallowRef, unref} from "vue";
+import {ElLoading} from "element-plus";
+// import * as ElementPlusIconsVue from "@element-plus/icons-vue";
+import {ServiceEnums} from "@/components/enums/ServiceEnums";
+import {i18n} from "@/lang";
+
+let loading: any = null;
+/**
+ * 系统接口
+ */
+const systemUrl: string = `${ServiceEnums.SYSTEM_PREFIX}informations/systemTree`;
+/**
+ * 字典接口
+ */
+const dictUrl: string = `${ServiceEnums.SYSTEM_PREFIX}dictinfo/getAllByCondition`;
+/**
+ * 获取所有菜单
+ */
+const menuUrl: string = `${ServiceEnums.SYSTEM_PREFIX}menusinfo/getAllTreeDataByCondition`;
+/**
+ * 归属主体
+ */
+const customerUrl: string = `${ServiceEnums.SYSTEM_PREFIX}customer/getAllByCondition`;
+
+/**
+ * 加载Post 数据
+ * @param url 接口地址
+ * @param params 参数
+ * @param orderBy 排序
+ * @param signal - Optional AbortSignal for request cancellation
+ */
+export async function loadData(
+    url: string,
+    params: SearchParams[] | any,
+    orderBy: OrderByInfo[] = [],
+    signal?: AbortSignal,
+) {
+    let data: any = null;
+    let error = "";
+    let cond = params;
+    if (params instanceof Array) {
+        cond = {
+            fieldList: params,
+            orderBy: orderBy,
+        };
+    }
+    await postRequest(url, cond, signal)
+        .then((res: any) => {
+            const redata = res.data;
+            if (redata.code) {
+                error = redata.cnMessage;
+            } else {
+                //先去分页数据，没有再去非分页数据
+                data = redata.data.dataList || redata.data;
+            }
+        })
+        .catch((err) => {
+            // Check if the error is due to abort
+            if (err.name === "AbortError") {
+                console.log("Request was cancelled");
+                return;
+            }
+            error = err;
+        });
+    return {
+        data,
+        error,
+    };
+}
+
+/**
+ * 加载Get 数据
+ * @param url 接口地址
+ * @param signal - Optional AbortSignal for request cancellation
+ */
+export async function loadGetData(url: string, signal?: AbortSignal) {
+    let data = reactive<any>([]);
+    let error: string = "";
+    await getRequest(url, signal)
+        .then((res) => {
+            const redata = res.data;
+            if (redata.code != 0) {
+                error = redata.cnMessage;
+            } else {
+                data = redata.data;
+            }
+        })
+        .catch((err) => {
+            // Check if the error is due to abort
+            if (err.name === "AbortError") {
+                console.log("Request was cancelled");
+                return;
+            }
+            error = err;
+        });
+    return {
+        data,
+        error,
+    };
+}
+
+/**
+ * 加载所有系统信息
+ * @param params 查询参数
+ * @param newUrl 新的接口地址
+ */
+export async function loadSystemInfo(params: any, newUrl?: string) {
+    let systemList: SelectOption[] = [];
+    await postRequest(newUrl || systemUrl, {
+        fieldList: params,
+    })
+        .then((res) => {
+            const redata = res.data;
+            if (redata.code == 0) {
+                const data = redata.data;
+                if (redata.data) {
+                    systemList = createTree(data, "idInformations", "sysName", "");
+                }
+            }
+        })
+        .catch((err) => {
+            console.error(err);
+        });
+    return systemList;
+}
+
+/**
+ * 加载所有主体信息
+ * @param params 查询参数
+ */
+export async function loadCustomInfo(params: any) {
+    const customerList: SelectOption[] = [];
+    await postRequest(customerUrl, {
+        fieldList: params,
+    })
+        .then((res) => {
+            const redata = res.data;
+            if (redata.code == 0) {
+                const data = redata.data;
+                if (redata.data) {
+                    data.forEach((item: any) => {
+                        const temp: SelectOption = {
+                            name: item.customerName,
+                            value: item.idCustomer,
+                        };
+                        customerList.push(temp);
+                    });
+                }
+            }
+        })
+        .catch((err) => {
+            console.error(err);
+        });
+    return customerList;
+}
+
+/**
+ * 加载部门信息
+ * @param param 查询参数
+ */
+export async function loadDepartmentInfo(param: any) {
+    let deptData: any = [];
+    await postRequest(`${ServiceEnums.SYSTEM_PREFIX}department/deptTree`, {
+        fieldList: param,
+    })
+        .then((res) => {
+            if (res.data.code != 0) {
+                console.warn(res.data.cnMessage);
+            } else {
+                deptData = res.data.data;
+            }
+        })
+        .catch((err) => console.error(err));
+    return deptData;
+}
+
+/**
+ * 获取角色信息
+ * @param param
+ */
+export async function loadRolesInfo(param: any) {
+    const roleData: SelectOption[] = [];
+    await postRequest(
+        `${ServiceEnums.SYSTEM_PREFIX}rolesinfo/queryUserAllRoles`,
+        {
+            fieldList: param,
+        },
+    )
+        .then((res) => {
+            if (res.data.code) {
+                console.warn(res.data.cnMessage);
+            } else {
+                const redata = res.data.data;
+                redata.forEach((item: any) => {
+                    roleData.push({name: item.roleName, value: item.idRolesinfo});
+                });
+            }
+        })
+        .catch((err) => console.error(err));
+    return roleData;
+}
+
+/**
+ * 加载菜单数据
+ * @param direct
+ * @param params
+ * @param needSystem
+ */
+export async function loadMenusInfo(
+    direct: boolean,
+    params: any,
+    needSystem: boolean,
+) {
+    let menuDatas: any = [];
+    await postRequest(`${menuUrl}/${needSystem}`, {
+        fieldList: params,
+        orderBy: [{fieldName: "idInformations"}],
+    })
+        .then((res) => {
+            const redata = res.data;
+            if (redata.code != 0) {
+                console.warn(redata.cnMessage);
+            } else {
+                if (direct) {
+                    menuDatas = redata.data;
+                } else {
+                    //构建菜单树
+                    menuDatas = createTree(redata.data, "idMenusinfo", "menuName", "");
+                }
+            }
+        })
+        .catch((err) => {
+            console.error(err);
+        });
+    return menuDatas;
+}
+
+/**
+ * 构建菜单树
+ * @param data
+ * @param valField 字符串值
+ * @param name
+ * @param val 数字值
+ */
+export function createTree(
+    data: any,
+    valField: string,
+    name: string,
+    val: string,
+) {
+    const list: SelectOption[] = [];
+    data.forEach((item: any) => {
+        const temp: any = {};
+        temp["value"] = valField ? item[valField] : parseInt(item[val]);
+        temp["name"] = item[name];
+        if (item.children && item.children.length > 0) {
+            temp["children"] = createTree(item.children, valField, name, val);
+        }
+        list.push(temp);
+    });
+    return list;
+}
+
+/**
+ * 加载框
+ * @param msg
+ * @param defaultTarget
+ */
+export function load(msg: string, defaultTarget?: string) {
+    closeLoad();
+    loading = ElLoading.service({
+        lock: true,
+        target: defaultTarget ?? "#app",
+        text: msg || "Loading...",
+        background: "rgba(0, 0, 0, 0.7)",
+    });
+}
+
+/**
+ * 关闭加载框
+ */
+export function closeLoad() {
+    if (loading) {
+        loading.close();
+        loading = null;
+        $(".el-loading-mask").remove();
+    }
+}
+
+/**
+ * 公共数据格式化
+ * @param _row
+ * @param column
+ * @param cellValue
+ * @param _index
+ */
+export function commonDataFormat(
+    _row: any,
+    column: any,
+    cellValue: any,
+    _index: number,
+) {
+    return commonParseCodeToName(column.property, cellValue);
+}
+
+/**
+ * 下划线转驼峰
+ * @param str
+ */
+export function convertToCamelCase(str: string) {
+    if (!str) {
+        return undefined;
+    }
+    str = str.toLowerCase();
+    return str.replace(/_(\w)/g, (_match, p1) => {
+        return p1.toUpperCase();
+    });
+}
+
+/**
+ * 驼峰转下划线
+ * @param str
+ */
+export function camelCaseToUnderline(str: string) {
+    if (!str) {
+        return undefined;
+    }
+    return str.replace(/[A-Z]/g, (match, _p1) => {
+        return "_" + match.toLowerCase();
+    });
+}
+
+/**
+ * 数据格式化
+ * @param name
+ * @param cellValue
+ */
+export function commonParseCodeToName(name: string, cellValue: any) {
+    if (!cellValue && cellValue != 0) {
+        return "-";
+    }
+    if (name == "isDel" || name.includes("&isDel")) {
+        return cellValue == 1 ? "是" : "否";
+    }
+    if (name == "state" || name.includes("&state")) {
+        return cellValue == 1 ? "正常" : "异常";
+    }
+    const preps: Array<string> = [
+        "createdTime",
+        "updatedTime",
+        "createdDate",
+        "updatedDate",
+        "createTime",
+        "editTime",
+    ];
+    const result = preps.find(
+        (item) =>
+            name?.includes("&" + item) ||
+            convertToCamelCase(name)?.toLowerCase() === item.toLowerCase(),
+    );
+    if (result) {
+        return createDatetime(cellValue);
+    } else {
+        return cellValue;
+    }
+}
+
+/**
+ * 加载Id数据
+ * @param url
+ * @param id
+ * @param params
+ */
+export async function loadById(url: string, id: any, params: any = {}) {
+    if (!url || "undefined" == id) {
+        warning("请提供正确的数据");
+        return;
+    }
+    let objData: any = {};
+    const suffix: string = id ? "/" + id : "";
+    await postRequest(url + suffix, params).then((res) => {
+        const redata = res.data.data;
+        if (!redata) {
+            warning("未找到对应数据");
+        } else {
+            objData = redata;
+        }
+    });
+    return objData;
+}
+
+/**
+ * 根据Id删除数据
+ * @param url
+ * @param ids
+ * @param msg 删除提示
+ */
+export async function deleteByIds(
+    url: string,
+    ids: any,
+    msg: string = "确认需要删除选择的数据吗？",
+) {
+    if (!url) {
+        warning("请提供正确的数据");
+        return;
+    }
+    if (!ids || ids.length == 0) {
+        warning("请选择要删除的数据");
+        return;
+    }
+    let objData: boolean = false;
+    const confirmFlag: boolean = await operationConfirm(msg);
+    if (!confirmFlag) {
+        return;
+    }
+    await postRequest(url, ids)
+        .then((res) => {
+            if (res.data.code == 0) {
+                success(res.data.cnMessage);
+            } else {
+                warning(res.data.cnMessage);
+            }
+            closeLoad();
+            objData = true;
+        })
+        .catch((err) => {
+            error("接口不存在或网络异常:" + err);
+            objData = false;
+        })
+        .finally(() => {
+            closeLoad();
+        });
+    return objData;
+}
+
+/**
+ * 根据字典类别获取字典数据
+ * @param dictType 字典类别
+ * @param exclusion 排除字典项
+ */
+export async function dictData(
+    dictType: string,
+    exclusion: Array<string> = [],
+) {
+    const query = [];
+    query.push({
+        propertyName: "dictType",
+        value: dictType,
+    });
+    const dicts: SelectOption[] = [];
+    await postRequest(dictUrl, {fieldList: query})
+        .then((res) => {
+            const redata = res.data;
+            if (redata.code == 0) {
+                redata.data?.forEach((item: any) => {
+                    if (exclusion && exclusion.includes(item.dictCode)) {
+                        return;
+                    }
+                    dicts.push({name: item.dictName, value: item.dictCode});
+                });
+            }
+        })
+        .catch((err: any) => {
+            console.log("接口不存在或网络异常", err);
+        });
+    return dicts;
+}
+
+/**
+ * 加载ElementPlus 提供的官方矢量图标
+ */
+export function loadElementPlusIcon() {
+    const menuIconList = [];
+    // for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
+    //   menuIconList.push({ name: key, value: component.name });
+    // }
+    return menuIconList;
+}
+
+/**
+ * 自定义的svg图标
+ */
+export function loadSvgIcons() {
+    const items = import.meta.glob("@/icons/*.svg");
+    const menuIconList = [];
+    for (const [key, value] of Object.entries(items)) {
+        const name = key.slice(key.lastIndexOf("/") + 1, key.lastIndexOf("."));
+        menuIconList.push({name: name, value: name});
+    }
+    return menuIconList;
+}
+
+export async function loadSvgIconsByPath(path: string) {
+    import(path).then((res) => {
+        console.log("xxxx", res);
+    });
+
+    warning("暂未实现");
+    return [];
+}
+
+// 正确导出方式示例（具名导出）
+export function demoFunc() {
+    // 确保返回数组
+    return [{name: "test", value: 1}];
+}
+
+/**
+ * 复制数据
+ * @param msg
+ */
+export function copy(msg: string) {
+    navigator.clipboard
+        .writeText(msg)
+        .then(() => {
+            success("已复制");
+        })
+        .catch(() => {
+            error("复制失败");
+        });
+}
+
+/**
+ * 表格序号
+ * @param row
+ * @param rowIndex
+ */
+export function rowClassName({row, rowIndex}: any) {
+    row.xh = rowIndex + 1;
+}
+
+/**
+ * 创建条件
+ */
+export function createCondition(
+    name: string,
+    val: any,
+    matchType: string = "eq",
+): SearchParams {
+    return {propertyName: name, value: val, operation: matchType};
+}
+
+/**
+ * 创建关联条件
+ * @param leftFieldName 左表字段名称
+ * @param rightFieldName 右表字段名称
+ * @param matchType 匹配方式
+ */
+export function createJoinCondition(
+    leftFieldName: string,
+    rightFieldName: string,
+    matchType: string = "eq",
+): JoinSearchParams {
+    return {leftFieldName, rightFieldName, operation: matchType};
+}
+
+/**
+ * 解析已组装的条件
+ * @param conditions
+ * @param name
+ */
+export function analysisField(conditions: SearchParams[], name: string) {
+    return conditions.find((item) => item.propertyName?.endsWith(name)) || {};
+}
+
+/**
+ * 动态过滤数据
+ * @param search
+ * @param menusList
+ */
+export function filterTree(search: any, menusList: MenusInfo[]): MenusInfo[] {
+    // let tempData = permissionMenuList.value;
+    const filterRecursive = (node: any, parentInclude: any) => {
+        // 如果节点是数组，则对每个元素应用过滤逻辑
+        if (Array.isArray(node)) {
+            const result: Array<any> = node
+                .map((child) => filterRecursive(child, parentInclude))
+                .filter((item) => item !== null);
+            return result;
+        }
+        const containsData =
+            !search || node.meta?.title.toLowerCase().includes(search?.toLowerCase());
+        const includeNode = parentInclude || containsData;
+        const filteredChildren: any =
+            node?.children && node.children.length > 0
+                ? filterRecursive(node.children, includeNode)
+                : [];
+        return includeNode || filteredChildren.length > 0
+            ? {...node, children: filteredChildren}
+            : null;
+    };
+    const filteredTree = filterRecursive(menusList, false);
+    return JSON.parse(JSON.stringify(filteredTree));
+}
+
+/**
+ * 设置css 全局变量
+ * @param name 变量名称
+ * @param val 变量值
+ * @param dom
+ */
+export function setCssVar(
+    name: string,
+    val: any,
+    dom = document.documentElement,
+) {
+    dom.style.setProperty(name, val);
+}
+
+/**
+ * 获取关联属性逻辑
+ * @param formFields 表单属性
+ * @param fieldName 属性名称
+ * @param batchName 关联Key 如果有
+ * @param xh 列序号
+ */
+export function relationFieldOperation(
+    formFields: any,
+    fieldName: string,
+    batchName: string | null,
+    xh: number | null,
+): any {
+    if (batchName) {
+        const tempList = formFields[batchName];
+        for (const index in tempList) {
+            const tmpIndex = +index;
+            const item = tempList[index] as Array<ShallowRef>;
+            //数组
+            if (tmpIndex + 1 === xh) {
+                for (const ind in item) {
+                    const temp = item[ind].value;
+                    if (temp.preps.name == fieldName) {
+                        return temp;
+                    }
+                }
+            }
+        }
+    } else {
+        return formFields[fieldName].value;
+    }
+}
+
+/**
+ * 判断是不是Json
+ * @param v
+ */
+export function isJson(v: any) {
+    // 快速路径检查 - 先检查类型
+    if (!v) return false;
+
+    // 字符串类型检查优化
+    if (typeof v === "string") {
+        const length = v.length;
+        if (length < 2) return false;
+
+        // 使用charAt代替substring，减少内存分配
+        const start = v.charAt(0);
+        const end = v.charAt(length - 1);
+
+        // 只检查必要的边界字符
+        return (start === "{" && end === "}") || (start === "[" && end === "]");
+    }
+
+    // 对象类型检查优化
+    if (typeof v === "object") {
+        // 快速检查数组
+        if (Array.isArray(v)) return false;
+
+        // 只使用一次toString调用
+        return Object.prototype.toString.call(v) === "[object Object]";
+    }
+
+    return false;
+}
+
+/**
+ * 带缓存的JSON解析函数
+ * @param jsonString 要解析的JSON字符串
+ * @param defaultValue 解析失败时的默认值
+ * @returns 解析后的对象或默认值
+ */
+export function parseJsonWithCache(
+    jsonString: string,
+    defaultValue: any = null,
+): any {
+    if (!jsonString || typeof jsonString !== "string") {
+        return defaultValue;
+    }
+
+    // 使用字符串内容的前30个字符+长度作为缓存键，避免太长的键
+    const cacheKey = `json_${jsonString.length}_${jsonString.substring(0, 30)}`;
+
+    // 检查缓存
+    const cachedResult = jsonParseCache.get(cacheKey);
+    if (cachedResult !== undefined) {
+        return cachedResult;
+    }
+
+    try {
+        const result = JSON.parse(jsonString);
+
+        // 缓存结果
+        jsonParseCache.set(cacheKey, result);
+
+        return result;
+    } catch (e) {
+        console.error("JSON解析错误:", e);
+        return defaultValue;
+    }
+}
+
+/**
+ * 解析表单字段映射 - 优化版
+ * @param fieldList
+ */
+
+// 优化点2: 移除缓存的辅助函数
+const clearFormMappingCache = () => {
+    formFieldCache.clear();
+};
+
+// 优化点3: 导出清除缓存的函数，便于在必要时调用
+export {clearFormMappingCache};
+
+export function formFieldMapping(fieldList: PageFieldInfo) {
+    // 优化点4: 创建缓存键
+    const cacheKey = JSON.stringify(fieldList);
+
+    // 优化点5: 检查缓存是否命中
+    if (formFieldCache.has(cacheKey)) {
+        return formFieldCache.get(cacheKey)!;
+    }
+
+    let defaultDatas: any = {};
+    const actions: Array<any> = [];
+    //解析出字段之间的映射关系
+    const mappingFields: Array<any> = [];
+    const tempList = fieldList?.fieldList;
+    const batchDefaultValues: any = {};
+
+    // 使用内联函数避免函数声明开销
+    const processFieldDefaultValue = (
+        item: FieldInfo,
+        target: any,
+        batchName?: string,
+    ) => {
+        if (item.defaultValue) {
+            if (isJson(item.defaultValue)) {
+                try {
+                    // 使用带缓存的JSON解析
+                    const parsedValue =
+                        typeof item.defaultValue === "string"
+                            ? parseJsonWithCache(item.defaultValue, {})
+                            : item.defaultValue;
+                    Object.assign(target, parsedValue);
+                } catch (e) {
+                    console.error("JSON解析错误:", e);
+                    // 失败时回退到原值
+                    target[item.fieldName] = item.defaultValue;
+                }
+            } else {
+                target[item.fieldName] = item.defaultValue;
+            }
+        }
+
+        // 处理别名和动作
+        if (item.aliasName) {
+            mappingFields.push({name: item.fieldName, alias: item.aliasName});
+        }
+
+        if (item.actions) {
+            const actionItem: any = {
+                actions: item.actions,
+                fieldName: item.fieldName,
+            };
+            if (batchName) {
+                actionItem.batchName = batchName;
+            }
+            actions.push(actionItem);
+        }
+    };
+
+    const tabOperation = (data: TabFieldInfo) => {
+        const fieldList = data.fieldList as Array<FieldInfo>;
+        if ("Y" == data.subFormFlag) {
+            defaultDatas[data.tabName] = {};
+            //如果是子表
+            fieldsOperation(fieldList, defaultDatas[data.tabName]);
+        } else {
+            fieldsOperation(fieldList, defaultDatas);
+        }
+    };
+
+    const tableOperation = (batchTempList: Array<BatchFieldInfo>) => {
+        // 优化点8: 预分配数组空间
+        batchTempList.forEach((temp, index) => {
+            const batchName = temp.batchName;
+
+            if (!defaultDatas[batchName]) {
+                defaultDatas[batchName] = [];
+            }
+
+            const defaultValueKey = batchName + "DefaultValue";
+            if (!batchDefaultValues[defaultValueKey]) {
+                batchDefaultValues[defaultValueKey] = [];
+            }
+
+            const fieldList = temp.fieldList as Array<FieldInfo>;
+            let tempData: any = {};
+
+            // 优化点9: 使用for循环代替forEach，减少函数调用开销
+            for (let i = 0; i < fieldList.length; i++) {
+                const item = fieldList[i];
+                processFieldDefaultValue(item, tempData, batchName);
+            }
+
+            batchDefaultValues[defaultValueKey].push(tempData);
+        });
+    };
+
+    const fieldsOperation = (dataList: any, defaultData: any) => {
+        // 优化点10: 处理null/undefined情况
+        if (!dataList) return;
+
+        // 优化点11: 根据数据类型选择不同的处理方式
+        if (Array.isArray(dataList)) {
+            // 优化点12: 对数组使用普通for循环
+            for (let i = 0; i < dataList.length; i++) {
+                const temp = dataList[i];
+
+                if (temp instanceof Array) {
+                    // 优化点13: 嵌套数组的处理
+                    for (let j = 0; j < temp.length; j++) {
+                        const item = temp[j];
+                        processFieldDefaultValue(item, defaultData);
+                    }
+                } else if (
+                    temp["tabList"] ||
+                    temp["collapseList"] ||
+                    temp["cardList"]
+                ) {
+                    //如果是tabList
+                    const tabList =
+                        temp["tabList"] || temp["collapseList"] || temp["cardList"];
+
+                    // 优化点14: 对tabList使用forEach
+                    tabList.forEach((tabItem: TabFieldInfo) => {
+                        tabOperation(tabItem);
+                    });
+                } else if (temp["batchFieldList"]) {
+                    //如果是tableList
+                    const tableList = temp["batchFieldList"] as Array<BatchFieldInfo>;
+                    tableOperation(tableList);
+                } else {
+                    // 处理单个字段
+                    processFieldDefaultValue(temp, defaultData);
+                }
+            }
+        } else if (typeof dataList === "object") {
+            // 优化点15: 对对象使用Object.values和for循环
+            const entries = Object.values(dataList);
+            for (let i = 0; i < entries.length; i++) {
+                const temp = entries[i];
+
+                if (temp instanceof Array) {
+                    for (let j = 0; j < temp.length; j++) {
+                        const item = temp[j];
+                        processFieldDefaultValue(item, defaultData);
+                    }
+                } else if (
+                    temp["tabList"] ||
+                    temp["collapseList"] ||
+                    temp["cardList"]
+                ) {
+                    const tabList =
+                        temp["tabList"] || temp["collapseList"] || temp["cardList"];
+
+                    tabList.forEach((tabItem: TabFieldInfo) => {
+                        tabOperation(tabItem);
+                    });
+                } else if (temp["batchFieldList"]) {
+                    const tableList = temp["batchFieldList"] as Array<BatchFieldInfo>;
+                    tableOperation(tableList);
+                } else {
+                    processFieldDefaultValue(temp, defaultData);
+                }
+            }
+        }
+    };
+
+    // 执行操作
+    fieldsOperation(tempList, defaultDatas);
+
+    // 优化点16: 检查batchFieldList是否存在
+    if (fieldList?.batchFieldList) {
+        tableOperation(fieldList.batchFieldList);
+    }
+
+    // 优化点17: 使用Object.assign代替展开运算符，避免创建过多中间对象
+    Object.assign(defaultDatas, batchDefaultValues);
+
+    // 优化点18: 缓存结果
+    const result = {defaultDatas, mappingFields, batchDefaultValues, actions};
+
+    // 优化点19: 只缓存合理大小的结果，避免内存泄漏
+    const resultSize = JSON.stringify(result).length;
+    if (resultSize < 50000) {
+        // 限制50KB以内的结果才缓存
+        formFieldCache.set(cacheKey, result);
+    }
+
+    return result;
+}
+
+/**
+ * 批量列表数据默认值
+ * @param datas
+ */
+export function batchFieldDefaultValues(datas: BatchFieldInfo, dataForm: any) {
+    let defaultValues: any = {};
+    if (datas["batchDefaultData"]) {
+        defaultValues = {...datas["batchDefaultData"]};
+    }
+
+    // 创建缓存键
+    const fieldList = datas["fieldList"];
+    const cacheKey = `batch_default_${datas.batchName}_${fieldList?.length || 0}`;
+
+    // 检查缓存
+    const cachedResult = formFieldCache.get(cacheKey);
+    if (cachedResult && !dataForm) {
+        return cachedResult;
+    }
+
+    for (const inde in fieldList) {
+        const temp = fieldList[inde];
+        if (temp.defaultValue) {
+            if (isJson(temp.defaultValue)) {
+                try {
+                    // 使用带缓存的JSON解析
+                    const parsedValue =
+                        typeof temp.defaultValue === "string"
+                            ? parseJsonWithCache(temp.defaultValue, {})
+                            : temp.defaultValue;
+
+                    // 使用Object.assign代替for...in循环
+                    if (typeof parsedValue === "object") {
+                        Object.assign(defaultValues, parsedValue);
+                    }
+                } catch (e) {
+                    console.error("JSON解析错误:", e);
+                    defaultValues[temp.fieldName] = temp.defaultValue;
+                }
+            } else {
+                defaultValues[temp.fieldName] = temp.defaultValue;
+            }
+        }
+    }
+
+    if (dataForm) {
+        let temp = unref(dataForm)[datas.batchName];
+        if (temp) {
+            defaultValues = {...temp, ...defaultValues};
+        }
+    } else {
+        // 只在没有dataForm时缓存结果，因为dataForm可能每次都不同
+        formFieldCache.set(cacheKey, defaultValues);
+    }
+
+    return defaultValues;
+}
+
+/**
+ * 动态组件数据
+ * @param preps 组件参数信息
+ * @param prototype 数据原样返回
+ */
+export async function compDynamicData(preps: any) {
+    const temp = preps;
+    let reDataList: SelectOption[] = [];
+    const dataSource = temp["dataSource"];
+    const urlOrDictName = temp["urlOrDictName"];
+    //如果已经有数据了，就不再请求
+    if (preps["values"] && preps["values"].length > 0) {
+        return preps["values"];
+    }
+    if (dataSource == "url") {
+        reDataList = await dynamicUrlOperation(preps);
+    } else if (dataSource == "dict") {
+        const dicts = await dictData(urlOrDictName);
+        if (Object.keys(dicts).length == 0) {
+            error("数据字典可能未配置");
+        } else {
+            reDataList = dicts;
+        }
+    } else {
+        reDataList = temp["values"];
+    }
+    return reDataList;
+}
+
+/**
+ *
+ * @param preps 组件参数信息
+ * @param queryInfo 查询条件
+ * @param prototype 数据原样返回
+ */
+export async function dynamicUrlOperation(
+    preps: any,
+    queryInfo?: SearchParams[],
+) {
+    const temp = preps;
+    const reDataList: SelectOption[] = [];
+    const requestParams: any = [];
+    const queryParams = temp["queryParams"];
+    queryParams?.forEach((item: any) => {
+        if (!item.name) {
+            return;
+        }
+        requestParams.push({
+            propertyName: item.name,
+            value: item.value,
+            operation: item.matchType,
+        });
+    });
+    //自定义查询
+    if (queryInfo) {
+        requestParams.push(...queryInfo);
+    }
+    let url = temp["preinterfaceUrl"] + temp["interfaceUrl"];
+    const params = {
+        url: temp["interfaceUrl"],
+        host: temp["host"],
+        port: temp["port"],
+        protocol: temp["protocol"],
+        env: temp["env"],
+        httpMethod: temp.httpMethod || "POST",
+        dataType: temp.dataType || "JSON",
+        searchInfo: {
+            fieldList: requestParams,
+        },
+    };
+    url = "/system-config/redirect/execute";
+    const validResult = await loadData(url, params);
+    if (validResult.error) {
+        error(validResult.error);
+    } else {
+        const childrenOperation = (list: Array<any>) => {
+            const options: SelectOption[] = [];
+            list?.forEach((item: any) => {
+                const option: SelectOption = {
+                    name: item[temp["selectLabel"]],
+                    value: item[temp["selectValue"]],
+                };
+                if (item.children && item.children.length > 0) {
+                    option.children = childrenOperation(item.children);
+                }
+                options.push(option);
+            });
+            return options;
+        };
+        validResult.data.forEach((item: any) => {
+            const option: SelectOption = {
+                name: item[temp["selectLabel"]],
+                value: item[temp["selectValue"]],
+            };
+            if (item.children && item.children.length > 0) {
+                option.children = childrenOperation(item.children);
+            }
+            reDataList.push(option);
+        });
+    }
+    return reDataList;
+}
+
+/**
+ * 创建过滤器
+ * @param queryString 查询参数
+ */
+export async function createFilter(queryString: string) {
+    return (restaurant: SelectOption) => {
+        return (
+            restaurant?.name?.toLowerCase().search(queryString?.toLowerCase()) ||
+            restaurant?.value
+                ?.toString()
+                ?.toLowerCase()
+                .search(queryString?.toLowerCase())
+        );
+    };
+}
+
+export async function dbConfigList(): Promise<SelectOption[]> {
+    const {data, error} = await loadGetData(
+        "/userdb-manage/dbsearch/dbinfo/getDbInfoByUser",
+    );
+    if (error) {
+        warning(error);
+        return [];
+    }
+    return data?.map((item: any) => {
+        return {
+            name: item.name,
+            value: item.configId + "",
+        };
+    });
+}
+
+
+
+/**
+ * 查找应用信息
+ * @param list 应用列表
+ * @param id 应用id
+ */
+export function findAppInfo(list: any[], id: string): any {
+    for (const item of list) {
+        if (item.idInformations === id) {
+            return item;
+        }
+        if (item.children) {
+            const found = findAppInfo(item.children, id);
+            if (found) return found;
+        }
+    }
+    return null;
+}
+
+export const formatBoolean = (cellValue: any) => {
+    return cellValue == 1 ? i18n("utils.boolean.yes") : i18n("utils.boolean.no");
+};
+
+export const formatStatus = (cellValue: any) => {
+    return cellValue == 1
+        ? i18n("utils.status.normal")
+        : i18n("utils.status.abnormal");
+};
+
+export const validateData = (data: any) => {
+    if (!data) {
+        warning(i18n("utils.warning.provideCorrectData"));
+        return false;
+    }
+    return true;
+};
+
+export const findData = (data: any, id: string) => {
+    if (!data) {
+        warning(i18n("utils.warning.dataNotFound"));
+        return null;
+    }
+    for (const item of data) {
+        if (item.id === id) {
+            return item;
+        }
+    }
+    return null;
+};
+
+/**
+ * 获取数据字典
+ * @param dictName
+ * @returns {Promise<unknown>}
+ */
+export async function loadDict(dictName: string) {
+    let redata: Array<SelectOption> = [];
+    const param = {
+        fieldList: [{propertyName: "dictType", value: dictName ?? "public"}],
+    };
+    await postRequest(
+        `${ServiceEnums.SYSTEM_PREFIX}dictinfo/getAllByCondition`,
+        param,
+    )
+        .then((res) => {
+            if (res?.data?.code != 0) {
+                console.log(res.data.cnMessage);
+            } else {
+                const resdata = res?.data?.data;
+                redata = resdata?.map((item: any) => {
+                    return {
+                        name: item.dictName,
+                        value: item.dictCode,
+                    };
+                });
+            }
+        })
+        .catch((err) => console.log(err));
+    return redata;
+}
+
+/**
+ * 一次性加载用户权限菜单
+ * @param data
+ * @param sysId
+ */
+export async function permissionMenus(data: any, sysId: string) {
+    const userId = data?.userId || getUserInfo().idUsersinfo;
+    return await postRequest(
+        `${ServiceEnums.SYSTEM_PREFIX}menusinfo/permissionMenus/${userId}/${sysId}`,
+        {},
+    );
+}
+
+export const getUserInfo = () => {
+    return {
+        idUsersinfo: "10948"
+    }
+}

@@ -1,24 +1,43 @@
 <script lang="ts" setup>
-import {apiInstance, getRequest, postRequest, SelectOption,loadData,warning} from "star-horse-lowcode";
+import {
+  apiInstance, closeLoad,
+  deleteByIds, error,
+  getRequest,
+  load,
+  loadData,
+  postRequest,
+  SelectOption, success,
+  warning
+} from "star-horse-lowcode";
 import StarHorseFormDesign from "@/components/system/StarHorseFormDesign.vue";
-import { ref,nextTick } from "vue";
+import {nextTick, ref} from "vue";
 import {FormConfig} from "@/components/types";
 import {useRoute} from "vue-router";
+import {
+  dbConfigList,
+  getUserInfo,
+  loadDict,
+  loadRolesInfo,
+  loadSystemInfo,
+  permissionMenus
+} from "@/sample/utils/formapi";
+import {ServiceEnums} from "@/components/enums/ServiceEnums";
+
 const starHorseFormDesignRef = ref();
 const loadMenu = (type: string, sysId: string) => {
   const userId = "";
   postRequest(
-    `system-config/system/menusinfo/permissionMenus/${userId}/${sysId}`,
-    {},
+      `system-config/system/menusinfo/permissionMenus/${userId}/${sysId}`,
+      {},
   );
 };
 const loadTableColumns = (
-  type: string,
-  dataSourceId: string,
-  tbName: string,
+    type: string,
+    dataSourceId: string,
+    tbName: string,
 ) => {
   getRequest(
-    `/userdb-manage/dbsearch/dbinfo/tableColumns/${dataSourceId}/${tbName}`,
+      `/userdb-manage/dbsearch/dbinfo/tableColumns/${dataSourceId}/${tbName}`,
   ).then((res: any) => {
     if (res.data.code != 0) {
       return;
@@ -38,20 +57,183 @@ const loadTableColumns = (
  * 需要逐步的把StarHorseFormDesign 需要的参数给拎出来,
  */
 const api = apiInstance("userdb-manage", "userdb/dynamicForm");
-const optional:FormConfig={
-  model:"full",
-  primaryKey:"idDynamicForm",
-  api:api,
-  shotProps:{
-    value:"idDynamicForm",
-    label:"formName",
-  }
-};
+const optional = ref<FormConfig>({
+  model: "full",
+  api: api,
+  primaryKey: "idDynamicForm",
+  permissions: {
+    "add":"add",
+    "edit":"edit",
+    "view":"view"
+  },
+  hideConfigBtn: false,
+  batchCreatePage: true,
+  loadDicts: loadDict,
+  forbiddenSystemItems: false,
+  shotProps: {
+    label: "formName",
+    value: "idDynamicForm",
+  },
+  loadMenuList: (appId: string) => {
+    return new Promise((executor, reject) => {
+      if (!appId) {
+        return executor([]);
+      }
+      permissionMenus({}, appId)
+          .then((res: any) => {
+            executor(res.data.data);
+          })
+          .catch((e) => {
+            reject(e);
+          });
+    });
+  },
+  loadAppList: () => {
+    return new Promise((executor, reject) => {
+      let params = [{propertyName: "statusCode", value: "1"}];
+      loadSystemInfo(
+          params,
+          `${ServiceEnums.SYSTEM_PREFIX}informations/getUserSystem/${getUserInfo()?.idUsersinfo}`,
+      )
+          .then((res: any) => {
+            executor(res);
+          })
+          .catch((e) => {
+            reject(e);
+          });
+    });
+  },
+  loadRolesList: () => {
+    return new Promise((executor, reject) => {
+      loadRolesInfo([])
+          .then((res: any) => {
+            executor(res);
+          })
+          .catch((e) => {
+            reject(e);
+          });
+    });
+  },
+  loadTableColumns: (dataSourceId: string, tableName: string) => {
+    return new Promise((executor, reject) => {
+      if (!tableName || !dataSourceId) {
+        return executor([]);
+      }
+      const tableColumnsList: SelectOption[] = [];
+      getRequest(
+          `/userdb-manage/dbsearch/dbinfo/tableColumns/${dataSourceId}/${tableName}`,
+      )
+          .then((res: any) => {
+            if (res.data.code != 0) {
+              return;
+            }
+            let resData = res.data.data;
+            resData.forEach((item: any) => {
+              tableColumnsList.push({
+                name: item.comment,
+                value: item.fieldName,
+              });
+            });
+            executor(tableColumnsList);
+          })
+          .catch((e) => {
+            reject(e);
+          });
+    });
+  },
+  loadDbList: () => {
+    return new Promise((executor, reject) => {
+      executor([
+            {
+              "name" : "192.168.20.107(star_horse_devops)",
+              "value" : "2"
+            },
+            {
+              "name" : "10.10.10.27(db_dynamic)",
+              "value" : "3"
+            },
+            {
+              "name" : "10.10.10.27(doov_system_config)",
+              "value" : "4"
+            },
+            {
+              "name" : "10.10.10.27(doov_lean_materials)",
+              "value" : "7"
+            },
+            {
+              "name" : "10.10.10.27(workflow)",
+              "value" : "5"
+            },
+            {
+              "name" : "192.168.20.107(script_manage)",
+              "value" : "8"
+            },
+            {
+              "name" : "10.10.10.25(ORCLPDB1)",
+              "value" : "91"
+            },
+            {
+              "name" : "10.10.10.10(doovpackdb)",
+              "value" : "90"
+            },
+            {
+              "name" : "192.168.20.29(GdzcDB)",
+              "value" : "130"
+            },
+            {
+              "name" : "10.10.10.32(DVMES)",
+              "value" : "133"
+            },
+            {
+              "name" : "10.10.10.99(DVMES)",
+              "value" : "134"
+            },
+            {
+              "name" : "192.168.20.165(device_manage)",
+              "value" : "137"
+            },
+            {
+              "name" : "192.168.20.107(device_manage)",
+              "value" : "6"
+            },
+            {
+              "name" : "192.168.20.107(glue_manage)",
+              "value" : "331718530636448765"
+            },
+            {
+              "name" : "192.168.20.107(star_horse_workflow)",
+              "value" : "337537414606095357"
+            },
+            {
+              "name" : "192.168.20.107(star_horse_continuous)",
+              "value" : "136"
+            },
+            {
+              "name" : "10.10.10.32(dvmes)",
+              "value" : "368615530598237181"
+            },
+            {
+              "name" : "10.10.10.99(dvmes)",
+              "value" : "368615668037190653"
+            },
+            {
+              "name" : "192.168.20.6(TIMS_DOOV)",
+              "value" : "370194292930511869"
+            },
+            {
+              "name" : "192.168.20.207(quantity_manage)",
+              "value" : "381167130139165693"
+            }
+      ]);
+    });
+  },
+  extendButtons: [],
+});
 let route = useRoute();
 const loadFormData = async (
-  formId: any,
-  isParent: boolean,
-  isTemplate?: boolean,
+    formId: any,
+    isParent: boolean,
+    isTemplate?: boolean,
 ) => {
   await nextTick();
   let resultData: any = await loadData(api.loadByIdUrl! + "/" + formId, {});
@@ -100,16 +282,16 @@ const loadFormData = async (
     details["updatedTime"] = undefined;
   } else {
     dynamicFormData["sysId"] =
-      route?.query?.["sysId"] ?? dynamicFormData["sysId"] ?? undefined;
+        route?.query?.["sysId"] ?? dynamicFormData["sysId"] ?? undefined;
   }
   dynamicFormData["details"] = {};
   const compList = JSON.parse(details?.content || "[]");
   const formData = JSON.parse(details?.fieldNames || "{}");
   starHorseFormDesignRef.value?.setFormInfo(
-    compList,
-    dynamicFormData,
-    formData,
-    true,
+      compList,
+      dynamicFormData,
+      formData,
+      true,
   );
 };
 /**
@@ -129,15 +311,33 @@ const changeDataHandle = (type: string, data: any) => {
     console.log(type, data);
   }
 };
+const saveData = (isDraft: boolean, data: any) => {
+  load("数据提交中，请等待");
+  postRequest(`${api.basePrefix}/${isDraft ? "mergeDraft" : "merge"}`, data)
+      .then((res: any) => {
+        if (res.data.code != 0) {
+          warning(res.data.cnMessage);
+          return;
+        }
+        success(res.data.cnMessage);
+      })
+      .catch((err: any) => {
+        error("操作异常:" + err);
+      })
+      .finally(() => {
+        closeLoad();
+      });
+};
 </script>
 
 <template>
   <StarHorseFormDesign
-    ref="starHorseFormDesignRef"
-    :optional="optional"
-    @loadMenu="loadMenu"
-    @changeDataHandle="changeDataHandle"
-    @loadTableColumns="loadTableColumns"
+      ref="starHorseFormDesignRef"
+      :optional="optional"
+      @loadMenu="loadMenu"
+      @saveData="saveData"
+      @changeDataHandle="changeDataHandle"
+      @loadTableColumns="loadTableColumns"
   />
 </template>
 
