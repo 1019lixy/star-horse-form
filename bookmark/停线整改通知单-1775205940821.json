@@ -1,0 +1,1821 @@
+{
+  "formInfo": {
+    "rules": "",
+    "inline": "N",
+    "labelPosition": "left",
+    "labelWidth": "",
+    "labelSuffix": "",
+    "hideRequiredAsterisk": "N",
+    "requireAsteriskPosition": "left",
+    "showMessage": "Y",
+    "inlineMessage": "N",
+    "statusIcon": "N",
+    "primaryKeyPolicy": "manual",
+    "createTable": "Y",
+    "validateOnRuleChange": "Y",
+    "size": "default",
+    "disabled": "N",
+    "dataIndex": 42,
+    "scrollToError": "N",
+    "formId": "id1775204196847",
+    "tbName": "tb1775204196847"
+  },
+  "dataList": [
+    {
+      "id": "Idsh0280b97e-1794-4db0-b90d-5090455cdad8",
+      "preps": {
+        "id": "Idsh0280b97e-1794-4db0-b90d-5090455cdad8",
+        "label": "动态表格",
+        "itemNameLabel": "动态表格",
+        "name": "dytable1",
+        "elements": [
+          {
+            "id": "sh42fc25e8-f61f-40f4-ab7b-0727c79de30b",
+            "colIndex": 1,
+            "columns": [
+              {
+                "id": "sh1aadbe08-82bf-4adc-a8cb-dae778769076",
+                "colIndex": 1,
+                "rowspan": 1,
+                "colspan": 5,
+                "items": [
+                  {
+                    "id": "Idsh9830f0f5-d661-4d24-8cd7-38df5b020936",
+                    "preps": {
+                      "id": "Idsh9830f0f5-d661-4d24-8cd7-38df5b020936",
+                      "label": "Html组件",
+                      "itemNameLabel": "Html组件",
+                      "name": "html2",
+                      "clearable": true,
+                      "readonly": false,
+                      "rules": [],
+                      "maxLength": 255,
+                      "formVisible": true,
+                      "listVisible": true,
+                      "viewVisible": true,
+                      "elements": [
+                        {
+                          "id": "sh30550c88-08ac-434b-9b5d-90bc9b758675",
+                          "colIndex": 1,
+                          "columns": [
+                            {
+                              "id": "sh7c3b5330-f951-42e4-920f-0a5fbe03edd3",
+                              "colIndex": 1,
+                              "rowspan": 1,
+                              "colspan": 1,
+                              "items": [],
+                              "cellVisible": true
+                            }
+                          ]
+                        }
+                      ],
+                      "rowNums": 1,
+                      "columnNums": 1,
+                      "staticData": true,
+                      "textContent": "<p style=\"text-align: center;\"><span style=\"font-size: 19px;\">惠州朵唯通信设备有限公司</span></p><p style=\"text-align: center;\"><span style=\"font-size: 19px;\">停线整改通知单</span></p>"
+                    },
+                    "compType": "formItem",
+                    "fieldName": "html2",
+                    "itemType": "html",
+                    "label": "Html组件",
+                    "type": "html"
+                  }
+                ],
+                "cellVisible": true,
+                "colHeight": "120px",
+                "colWidth": "38px"
+              },
+              {
+                "id": "shaa35ec75-31d8-4682-a419-8d29a07be0ad",
+                "colIndex": 1,
+                "rowspan": 1,
+                "colspan": 1,
+                "cellVisible": false,
+                "items": []
+              },
+              {
+                "id": "sh16a7247a-9f0b-4433-9bd3-e3cd904458ca",
+                "colIndex": 1,
+                "rowspan": 1,
+                "colspan": 1,
+                "cellVisible": false,
+                "items": []
+              },
+              {
+                "id": "shb5466b7c-1c1f-4abb-ab19-fd7389a5e07c",
+                "colIndex": 1,
+                "rowspan": 1,
+                "colspan": 1,
+                "cellVisible": false,
+                "items": []
+              },
+              {
+                "id": "sh02905885-22eb-4d5e-b6e6-bd8e701527f9",
+                "colIndex": 1,
+                "rowspan": 1,
+                "colspan": 1,
+                "cellVisible": false,
+                "items": []
+              }
+            ]
+          },
+          {
+            "id": "sh926a6bbd-fa48-462e-999b-ceeb4e6cf1f1",
+            "colIndex": 1,
+            "columns": [
+              {
+                "id": "sha9652f17-d003-47b7-845c-95006e21ff0d",
+                "colIndex": 1,
+                "rowspan": 1,
+                "colspan": 4,
+                "items": [],
+                "cellVisible": true,
+                "colWidth": "38px"
+              },
+              {
+                "id": "sh327858ae-5d4d-4688-93ef-b518f26221a2",
+                "colIndex": 1,
+                "rowspan": 1,
+                "colspan": 1,
+                "cellVisible": false,
+                "items": []
+              },
+              {
+                "id": "sh9eda3f02-8d08-4e02-9e93-844774e9c7be",
+                "colIndex": 1,
+                "rowspan": 1,
+                "colspan": 1,
+                "cellVisible": false,
+                "items": []
+              },
+              {
+                "id": "sh7eec8d21-49ae-4541-9008-e753a4d5082b",
+                "colIndex": 1,
+                "rowspan": 1,
+                "colspan": 1,
+                "cellVisible": false,
+                "items": []
+              },
+              {
+                "id": "shf4d68ab0-3732-4f2e-8b03-367546705139",
+                "colIndex": 1,
+                "rowspan": 1,
+                "colspan": 1,
+                "cellVisible": true,
+                "items": [
+                  {
+                    "id": "Idsh09247d6c-36e3-4de6-a229-bf933471bbfe",
+                    "preps": {
+                      "id": "Idsh09247d6c-36e3-4de6-a229-bf933471bbfe",
+                      "label": "编号",
+                      "itemNameLabel": "单行文本框",
+                      "name": "input3",
+                      "clearable": true,
+                      "readonly": false,
+                      "placeholder": "请输入编号",
+                      "rules": [],
+                      "maxLength": 255,
+                      "formVisible": true,
+                      "listVisible": true,
+                      "viewVisible": true
+                    },
+                    "compType": "formItem",
+                    "fieldName": "input3",
+                    "itemType": "input",
+                    "label": "单行文本框",
+                    "type": "input"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "id": "shde9608a6-07ab-4f33-93e2-8b4880c605b3",
+            "colIndex": 1,
+            "columns": [
+              {
+                "id": "sh739ee06b-b4f8-413b-985e-2aa71efa27eb",
+                "colIndex": 1,
+                "rowspan": 5,
+                "colspan": 1,
+                "items": [
+                  {
+                    "id": "Idsh73e0993e-12f4-4e74-961d-b695fe68063d",
+                    "preps": {
+                      "id": "Idsh73e0993e-12f4-4e74-961d-b695fe68063d",
+                      "label": "静态文本",
+                      "itemNameLabel": "静态文本",
+                      "name": "text5",
+                      "clearable": true,
+                      "readonly": false,
+                      "rules": [],
+                      "maxLength": 255,
+                      "formVisible": true,
+                      "listVisible": true,
+                      "viewVisible": true,
+                      "staticData": true,
+                      "textContent": "提出部门填写"
+                    },
+                    "compType": "formItem",
+                    "fieldName": "text5",
+                    "itemType": "text",
+                    "label": "静态文本",
+                    "type": "text"
+                  }
+                ],
+                "cellVisible": true,
+                "colWidth": "38px"
+              },
+              {
+                "id": "sh5bcc50a8-3c4d-4636-b6d4-367473762923",
+                "colIndex": 1,
+                "rowspan": 1,
+                "colspan": 2,
+                "cellVisible": true,
+                "items": [
+                  {
+                    "id": "Idsh32990db3-8357-4c7e-bfa6-7ab36cb32649",
+                    "preps": {
+                      "id": "Idsh32990db3-8357-4c7e-bfa6-7ab36cb32649",
+                      "label": "TO",
+                      "itemNameLabel": "单行文本框",
+                      "clearable": true,
+                      "readonly": false,
+                      "placeholder": "请输入TO",
+                      "rules": [],
+                      "maxLength": 255,
+                      "formVisible": true,
+                      "listVisible": true,
+                      "viewVisible": true,
+                      "name": "pulishTo"
+                    },
+                    "compType": "formItem",
+                    "fieldName": "pulishTo",
+                    "itemType": "input",
+                    "label": "单行文本框",
+                    "type": "input"
+                  }
+                ]
+              },
+              {
+                "id": "sh519f78e9-ae6c-4002-a3af-c41cf89aa754",
+                "colIndex": 1,
+                "rowspan": 1,
+                "colspan": 1,
+                "cellVisible": false,
+                "items": []
+              },
+              {
+                "id": "shd570dd89-6d4e-4261-9f6b-2bcde1dffa46",
+                "colIndex": 1,
+                "rowspan": 1,
+                "colspan": 2,
+                "cellVisible": true,
+                "items": [
+                  {
+                    "id": "Idsh446e3f64-bf3b-4606-8934-0af8920ab0fe",
+                    "preps": {
+                      "id": "Idsh446e3f64-bf3b-4606-8934-0af8920ab0fe",
+                      "label": "CC",
+                      "itemNameLabel": "单行文本框",
+                      "name": "copyTo",
+                      "clearable": true,
+                      "readonly": false,
+                      "placeholder": "请输入CC",
+                      "rules": [],
+                      "maxLength": 255,
+                      "formVisible": true,
+                      "listVisible": true,
+                      "viewVisible": true
+                    },
+                    "compType": "formItem",
+                    "fieldName": "copyTo",
+                    "itemType": "input",
+                    "label": "单行文本框",
+                    "type": "input"
+                  }
+                ]
+              },
+              {
+                "id": "sh4ac46368-42a2-4243-8920-147d51c64a09",
+                "colIndex": 1,
+                "rowspan": 1,
+                "colspan": 1,
+                "cellVisible": false,
+                "items": []
+              }
+            ]
+          },
+          {
+            "id": "sh26a4aeb8-4e03-4dc3-8244-e2fbb9c04a2f",
+            "colIndex": 1,
+            "columns": [
+              {
+                "id": "sh55ba4f65-2cf3-48cd-b3c7-b0f81c54dae4",
+                "colIndex": 1,
+                "rowspan": 1,
+                "colspan": 1,
+                "items": [],
+                "cellVisible": false,
+                "colWidth": "38px"
+              },
+              {
+                "id": "sh37c31a6a-d7b3-413c-83de-b567de7dad5b",
+                "colIndex": 1,
+                "rowspan": 1,
+                "colspan": 1,
+                "cellVisible": true,
+                "items": [
+                  {
+                    "id": "Idsheb22efaf-d8cd-4756-935c-a34ef19fb0c6",
+                    "preps": {
+                      "id": "Idsheb22efaf-d8cd-4756-935c-a34ef19fb0c6",
+                      "itemNameLabel": "单行文本框",
+                      "name": "deviceModel",
+                      "clearable": true,
+                      "readonly": false,
+                      "placeholder": "请输入机型",
+                      "rules": [],
+                      "maxLength": 255,
+                      "formVisible": true,
+                      "listVisible": true,
+                      "viewVisible": true,
+                      "label": "机型"
+                    },
+                    "compType": "formItem",
+                    "fieldName": "deviceModel",
+                    "itemType": "input",
+                    "label": "单行文本框",
+                    "type": "input"
+                  }
+                ]
+              },
+              {
+                "id": "sh89e2aa86-fdfd-4394-97e3-28b6ad15e020",
+                "colIndex": 1,
+                "rowspan": 1,
+                "colspan": 1,
+                "cellVisible": true,
+                "items": [
+                  {
+                    "id": "Idsh9d5e0e62-224c-4f3d-adbe-4035ee5584c4",
+                    "preps": {
+                      "id": "Idsh9d5e0e62-224c-4f3d-adbe-4035ee5584c4",
+                      "label": "工单号",
+                      "itemNameLabel": "单行文本框",
+                      "name": "workNo",
+                      "clearable": true,
+                      "readonly": false,
+                      "placeholder": "请输入工单号",
+                      "rules": [],
+                      "maxLength": 255,
+                      "formVisible": true,
+                      "listVisible": true,
+                      "viewVisible": true
+                    },
+                    "compType": "formItem",
+                    "fieldName": "workNo",
+                    "itemType": "input",
+                    "label": "单行文本框",
+                    "type": "input"
+                  }
+                ]
+              },
+              {
+                "id": "sh7146b947-4038-48bd-b94f-421e0c1a2505",
+                "colIndex": 1,
+                "rowspan": 1,
+                "colspan": 1,
+                "cellVisible": true,
+                "items": [
+                  {
+                    "id": "Idshff06478e-0d16-4d89-abb8-647ed69d5335",
+                    "preps": {
+                      "id": "Idshff06478e-0d16-4d89-abb8-647ed69d5335",
+                      "itemNameLabel": "单行文本框",
+                      "name": "batchNums",
+                      "clearable": true,
+                      "readonly": false,
+                      "placeholder": "请输入批量",
+                      "rules": [],
+                      "maxLength": 255,
+                      "formVisible": true,
+                      "listVisible": true,
+                      "viewVisible": true,
+                      "label": "批量"
+                    },
+                    "compType": "formItem",
+                    "fieldName": "batchNums",
+                    "itemType": "input",
+                    "label": "单行文本框",
+                    "type": "input"
+                  }
+                ]
+              },
+              {
+                "id": "sh3d9dddd1-798f-47d3-975d-ca6ce048b422",
+                "colIndex": 1,
+                "rowspan": 1,
+                "colspan": 1,
+                "cellVisible": true,
+                "items": [
+                  {
+                    "id": "Idshcbd0ba6c-4bd4-4cc4-a1fa-c420241dea72",
+                    "preps": {
+                      "id": "Idshcbd0ba6c-4bd4-4cc4-a1fa-c420241dea72",
+                      "label": "发生时间",
+                      "itemNameLabel": "日期选择器",
+                      "name": "envntTime",
+                      "clearable": true,
+                      "readonly": false,
+                      "placeholder": "请选择发生时间",
+                      "type": "datetime",
+                      "rules": [],
+                      "maxLength": 255,
+                      "formVisible": true,
+                      "listVisible": true,
+                      "viewVisible": true
+                    },
+                    "compType": "formItem",
+                    "fieldName": "envntTime",
+                    "itemType": "datetime",
+                    "label": "日期选择器",
+                    "type": "datetime"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "id": "sh8396ac49-8c9a-40d5-8a8a-a56fa27303a2",
+            "colIndex": 1,
+            "columns": [
+              {
+                "id": "sh109bbaff-a040-4df2-9525-ab2fa5174814",
+                "colIndex": 1,
+                "rowspan": 1,
+                "colspan": 1,
+                "items": [],
+                "cellVisible": false,
+                "colWidth": "38px"
+              },
+              {
+                "id": "shdd6b79e0-99dd-4a22-8923-7561a477ed3f",
+                "colIndex": 1,
+                "rowspan": 1,
+                "colspan": 1,
+                "cellVisible": true,
+                "items": [
+                  {
+                    "id": "Idsh4bb72757-6a6e-4249-8cf9-1775c4fab695",
+                    "preps": {
+                      "id": "Idsh4bb72757-6a6e-4249-8cf9-1775c4fab695",
+                      "itemNameLabel": "数字输入框",
+                      "name": "inputNums",
+                      "clearable": true,
+                      "readonly": false,
+                      "placeholder": "请输入投入数",
+                      "step": 1,
+                      "min": 0,
+                      "precision": 0,
+                      "rules": [],
+                      "maxLength": 10,
+                      "formVisible": true,
+                      "listVisible": true,
+                      "viewVisible": true,
+                      "label": "投入数"
+                    },
+                    "compType": "formItem",
+                    "fieldName": "inputNums",
+                    "itemType": "number",
+                    "label": "数字输入框",
+                    "type": "number"
+                  }
+                ]
+              },
+              {
+                "id": "sha615924d-6ddb-4a06-9dfa-306726f433ce",
+                "colIndex": 1,
+                "rowspan": 1,
+                "colspan": 1,
+                "cellVisible": true,
+                "items": [
+                  {
+                    "id": "Idshaca4ce81-e901-4d05-b524-5cfcf89c5a2b",
+                    "preps": {
+                      "id": "Idshaca4ce81-e901-4d05-b524-5cfcf89c5a2b",
+                      "itemNameLabel": "数字输入框",
+                      "name": "ngNums",
+                      "clearable": true,
+                      "readonly": false,
+                      "placeholder": "请输入不良数",
+                      "step": 1,
+                      "min": 0,
+                      "precision": 0,
+                      "rules": [],
+                      "maxLength": 10,
+                      "formVisible": true,
+                      "listVisible": true,
+                      "viewVisible": true,
+                      "label": "不良数"
+                    },
+                    "compType": "formItem",
+                    "fieldName": "ngNums",
+                    "itemType": "number",
+                    "label": "数字输入框",
+                    "type": "number"
+                  }
+                ]
+              },
+              {
+                "id": "she6824bda-4d65-488e-b559-f0dd8bb71d33",
+                "colIndex": 1,
+                "rowspan": 1,
+                "colspan": 1,
+                "cellVisible": true,
+                "items": [
+                  {
+                    "id": "Idsh9e544742-afa7-4ee4-9e72-306acb1be8a0",
+                    "preps": {
+                      "id": "Idsh9e544742-afa7-4ee4-9e72-306acb1be8a0",
+                      "itemNameLabel": "数字输入框",
+                      "name": "ngPercent",
+                      "clearable": true,
+                      "readonly": false,
+                      "placeholder": "请输入不良率",
+                      "step": 1,
+                      "min": 0,
+                      "precision": 0,
+                      "rules": [],
+                      "maxLength": 10,
+                      "formVisible": true,
+                      "listVisible": true,
+                      "viewVisible": true,
+                      "label": "不良率"
+                    },
+                    "compType": "formItem",
+                    "fieldName": "ngPercent",
+                    "itemType": "number",
+                    "label": "数字输入框",
+                    "type": "number"
+                  }
+                ]
+              },
+              {
+                "id": "shde813a08-413c-4752-8a88-2302b0480c36",
+                "colIndex": 1,
+                "rowspan": 1,
+                "colspan": 1,
+                "cellVisible": true,
+                "items": [
+                  {
+                    "id": "Idshe09d40d2-286a-4bb8-a669-f4c776097aa0",
+                    "preps": {
+                      "id": "Idshe09d40d2-286a-4bb8-a669-f4c776097aa0",
+                      "label": "班线",
+                      "itemNameLabel": "单行文本框",
+                      "name": "workLine",
+                      "clearable": true,
+                      "readonly": false,
+                      "placeholder": "请输入班线",
+                      "rules": [],
+                      "maxLength": 255,
+                      "formVisible": true,
+                      "listVisible": true,
+                      "viewVisible": true
+                    },
+                    "compType": "formItem",
+                    "fieldName": "workLine",
+                    "itemType": "input",
+                    "label": "单行文本框",
+                    "type": "input"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "id": "shed4acaaf-dbe9-4e90-9d8d-6fa32f3e4704",
+            "colIndex": 1,
+            "columns": [
+              {
+                "id": "sh3f34819b-779c-414e-885d-c551bdfd5a8e",
+                "colIndex": 1,
+                "rowspan": 1,
+                "colspan": 1,
+                "items": [],
+                "cellVisible": false,
+                "colWidth": "38px"
+              },
+              {
+                "id": "she3c9e231-cad9-4d53-80ee-a9fef7e45f42",
+                "colIndex": 1,
+                "rowspan": 1,
+                "colspan": 4,
+                "cellVisible": true,
+                "items": [
+                  {
+                    "id": "Idsh0c9aaa7b-ce06-466a-9075-31d9173a4f47",
+                    "preps": {
+                      "id": "Idsh0c9aaa7b-ce06-466a-9075-31d9173a4f47",
+                      "label": "停线事实描述",
+                      "itemNameLabel": "多行文本框",
+                      "name": "stopLineDesc",
+                      "clearable": true,
+                      "readonly": false,
+                      "placeholder": "请输入停线事实描述",
+                      "rules": [],
+                      "maxLength": 1000,
+                      "formVisible": true,
+                      "listVisible": true,
+                      "viewVisible": true,
+                      "labelPosition": "top"
+                    },
+                    "compType": "formItem",
+                    "fieldName": "stopLineDesc",
+                    "itemType": "textarea",
+                    "label": "多行文本框",
+                    "type": "textarea"
+                  }
+                ],
+                "colHeight": "190px"
+              },
+              {
+                "id": "shcc417439-d824-43c1-91a2-447d307e4246",
+                "colIndex": 1,
+                "rowspan": 1,
+                "colspan": 1,
+                "cellVisible": false,
+                "items": []
+              },
+              {
+                "id": "shcbae92bf-ad82-4b19-b007-cea1f08478fc",
+                "colIndex": 1,
+                "rowspan": 1,
+                "colspan": 1,
+                "cellVisible": false,
+                "items": []
+              },
+              {
+                "id": "sh8a35a398-90d7-4068-92c1-4e0af7c3a25d",
+                "colIndex": 1,
+                "rowspan": 1,
+                "colspan": 1,
+                "cellVisible": false,
+                "items": []
+              }
+            ]
+          },
+          {
+            "id": "sh1a20d10a-8eb0-4ee4-ab65-20e40234a88b",
+            "colIndex": 1,
+            "columns": [
+              {
+                "id": "sh64cb28d9-721b-430b-a0b6-3b094f731138",
+                "colIndex": 1,
+                "rowspan": 1,
+                "colspan": 1,
+                "items": [],
+                "cellVisible": false,
+                "colWidth": "38px"
+              },
+              {
+                "id": "shaa06c9d4-6f71-4e4f-9888-e1b426234d37",
+                "colIndex": 1,
+                "rowspan": 1,
+                "colspan": 1,
+                "cellVisible": true,
+                "items": [
+                  {
+                    "id": "Idsh3d3d2c63-20a0-47da-a0e4-9761ffcce981",
+                    "preps": {
+                      "id": "Idsh3d3d2c63-20a0-47da-a0e4-9761ffcce981",
+                      "label": "批准/时间",
+                      "itemNameLabel": "日期选择器",
+                      "name": "agreeTime",
+                      "clearable": true,
+                      "readonly": false,
+                      "placeholder": "请选择批准/时间",
+                      "type": "datetime",
+                      "rules": [],
+                      "maxLength": 255,
+                      "formVisible": true,
+                      "listVisible": true,
+                      "viewVisible": true
+                    },
+                    "compType": "formItem",
+                    "fieldName": "agreeTime",
+                    "itemType": "datetime",
+                    "label": "日期选择器",
+                    "type": "datetime"
+                  }
+                ]
+              },
+              {
+                "id": "shbfdb7708-0e16-4fbf-90cf-1a8428adeba3",
+                "colIndex": 1,
+                "rowspan": 1,
+                "colspan": 1,
+                "cellVisible": true,
+                "items": [
+                  {
+                    "id": "Idsh2ef17c9d-b9cf-437c-a4cf-bde73f66001b",
+                    "preps": {
+                      "id": "Idsh2ef17c9d-b9cf-437c-a4cf-bde73f66001b",
+                      "label": "QE确认",
+                      "itemNameLabel": "单行文本框",
+                      "name": "qeConfirm",
+                      "clearable": true,
+                      "readonly": false,
+                      "placeholder": "请输入QE确认",
+                      "rules": [],
+                      "maxLength": 255,
+                      "formVisible": true,
+                      "listVisible": true,
+                      "viewVisible": true
+                    },
+                    "compType": "formItem",
+                    "fieldName": "qeConfirm",
+                    "itemType": "input",
+                    "label": "单行文本框",
+                    "type": "input"
+                  }
+                ]
+              },
+              {
+                "id": "shbfd3bebf-f767-4092-af3e-dcdbeaea1244",
+                "colIndex": 1,
+                "rowspan": 1,
+                "colspan": 1,
+                "cellVisible": true,
+                "items": [
+                  {
+                    "id": "Idshfbb53d7b-a768-4143-a86a-6b39e85e7ea5",
+                    "preps": {
+                      "id": "Idshfbb53d7b-a768-4143-a86a-6b39e85e7ea5",
+                      "label": "提出人/时间",
+                      "itemNameLabel": "日期选择器",
+                      "name": "creatorTime",
+                      "clearable": true,
+                      "readonly": false,
+                      "placeholder": "请选择提出人/时间",
+                      "type": "datetime",
+                      "rules": [],
+                      "maxLength": 255,
+                      "formVisible": true,
+                      "listVisible": true,
+                      "viewVisible": true
+                    },
+                    "compType": "formItem",
+                    "fieldName": "creatorTime",
+                    "itemType": "datetime",
+                    "label": "日期选择器",
+                    "type": "datetime"
+                  }
+                ]
+              },
+              {
+                "id": "sh41168ce4-bbf2-42c0-abfa-65d4e38677de",
+                "colIndex": 1,
+                "rowspan": 1,
+                "colspan": 1,
+                "cellVisible": true,
+                "items": [
+                  {
+                    "id": "Idsh4442682e-500e-4769-ac2c-fbc7cf3d2242",
+                    "preps": {
+                      "id": "Idsh4442682e-500e-4769-ac2c-fbc7cf3d2242",
+                      "itemNameLabel": "单行文本框",
+                      "name": "creatorDeptName",
+                      "clearable": true,
+                      "readonly": false,
+                      "placeholder": "请输入提出部门",
+                      "rules": [],
+                      "maxLength": 255,
+                      "formVisible": true,
+                      "listVisible": true,
+                      "viewVisible": true,
+                      "label": "提出部门"
+                    },
+                    "compType": "formItem",
+                    "fieldName": "creatorDeptName",
+                    "itemType": "input",
+                    "label": "单行文本框",
+                    "type": "input"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "id": "shcb702399-2001-4b25-888f-6ee3a52b30c2",
+            "colIndex": 1,
+            "columns": [
+              {
+                "id": "shae2822c1-0707-43b9-bca0-06185aa59ccf",
+                "colIndex": 1,
+                "rowspan": 2,
+                "colspan": 1,
+                "items": [
+                  {
+                    "id": "Idsh3e187bbc-1fc8-4527-9b98-65f30712107b",
+                    "preps": {
+                      "id": "Idsh3e187bbc-1fc8-4527-9b98-65f30712107b",
+                      "label": "静态文本",
+                      "itemNameLabel": "静态文本",
+                      "name": "text23",
+                      "clearable": true,
+                      "readonly": false,
+                      "rules": [],
+                      "maxLength": 255,
+                      "formVisible": true,
+                      "listVisible": true,
+                      "viewVisible": true,
+                      "placeholder": "",
+                      "staticData": true,
+                      "textContent": "工程填写"
+                    },
+                    "compType": "formItem",
+                    "fieldName": "text23",
+                    "itemType": "text",
+                    "label": "静态文本",
+                    "type": "text"
+                  }
+                ],
+                "cellVisible": true,
+                "colWidth": "38px"
+              },
+              {
+                "id": "shb764f076-22db-4ed2-8af1-f556a23e1d9d",
+                "colIndex": 1,
+                "rowspan": 1,
+                "colspan": 4,
+                "cellVisible": true,
+                "items": [
+                  {
+                    "id": "Idsh1d11e01f-84b0-4445-a20f-9b5ca0f48fb9",
+                    "preps": {
+                      "id": "Idsh1d11e01f-84b0-4445-a20f-9b5ca0f48fb9",
+                      "label": "不良原因及临时措施实施情况",
+                      "itemNameLabel": "多行文本框",
+                      "name": "ngReasonAndTempPolicy",
+                      "clearable": true,
+                      "readonly": false,
+                      "placeholder": "请输入不良原因及临时措施实施情况",
+                      "rules": [],
+                      "maxLength": 1000,
+                      "formVisible": true,
+                      "listVisible": true,
+                      "viewVisible": true,
+                      "labelPosition": "top"
+                    },
+                    "compType": "formItem",
+                    "fieldName": "ngReasonAndTempPolicy",
+                    "itemType": "textarea",
+                    "label": "多行文本框",
+                    "type": "textarea"
+                  },
+                  {
+                    "id": "Idsh862f00a2-c28b-49bb-8ea5-439c3f61a3d4",
+                    "preps": {
+                      "id": "Idsh862f00a2-c28b-49bb-8ea5-439c3f61a3d4",
+                      "label": "出货交付影响",
+                      "itemNameLabel": "单行文本框",
+                      "name": "shipmentAndDeliveryProblem",
+                      "clearable": true,
+                      "readonly": false,
+                      "placeholder": "请输入出货交付影响",
+                      "rules": [],
+                      "maxLength": 500,
+                      "formVisible": true,
+                      "listVisible": true,
+                      "viewVisible": true
+                    },
+                    "compType": "formItem",
+                    "fieldName": "shipmentAndDeliveryProblem",
+                    "itemType": "input",
+                    "label": "单行文本框",
+                    "type": "input"
+                  }
+                ],
+                "colHeight": "171px"
+              },
+              {
+                "id": "sh446a011b-952d-4c5a-b174-b9c4d70f7f06",
+                "colIndex": 1,
+                "rowspan": 1,
+                "colspan": 1,
+                "cellVisible": false,
+                "items": []
+              },
+              {
+                "id": "shacecdc1e-f3c3-485c-baae-a54d2b8a31bb",
+                "colIndex": 1,
+                "rowspan": 1,
+                "colspan": 1,
+                "cellVisible": false,
+                "items": []
+              },
+              {
+                "id": "sh4a80c159-c495-41fb-b3fc-9644bfc28ba1",
+                "colIndex": 1,
+                "rowspan": 1,
+                "colspan": 1,
+                "cellVisible": false,
+                "items": []
+              }
+            ]
+          },
+          {
+            "id": "shada5758b-e4d2-481c-a6b5-6ac77f7e9628",
+            "colIndex": 1,
+            "columns": [
+              {
+                "id": "she821230a-3630-4388-9a8c-ed79699f18f0",
+                "colIndex": 1,
+                "rowspan": 1,
+                "colspan": 1,
+                "items": [],
+                "cellVisible": false,
+                "colWidth": "38px"
+              },
+              {
+                "id": "shfb8591f2-0789-40b0-bbec-e0c2bbca7f87",
+                "colIndex": 1,
+                "rowspan": 1,
+                "colspan": 2,
+                "cellVisible": true,
+                "items": [
+                  {
+                    "id": "Idshbc675667-dfa0-4760-836b-c009adb1dd81",
+                    "preps": {
+                      "id": "Idshbc675667-dfa0-4760-836b-c009adb1dd81",
+                      "itemNameLabel": "单行文本框",
+                      "name": "projectConfirm",
+                      "clearable": true,
+                      "readonly": false,
+                      "placeholder": "请输入工程确认",
+                      "rules": [],
+                      "maxLength": 255,
+                      "formVisible": true,
+                      "listVisible": true,
+                      "viewVisible": true,
+                      "label": "工程确认"
+                    },
+                    "compType": "formItem",
+                    "fieldName": "projectConfirm",
+                    "itemType": "input",
+                    "label": "单行文本框",
+                    "type": "input"
+                  }
+                ]
+              },
+              {
+                "id": "sh194dcd40-cb1e-4090-98e2-427a75e27b12",
+                "colIndex": 1,
+                "rowspan": 1,
+                "colspan": 1,
+                "cellVisible": false,
+                "items": []
+              },
+              {
+                "id": "sh24720acf-8d25-4d24-8c55-b09239178e49",
+                "colIndex": 1,
+                "rowspan": 1,
+                "colspan": 2,
+                "cellVisible": true,
+                "items": [
+                  {
+                    "id": "Idsh407ecd59-dfb5-419c-876b-ae15e216dfeb",
+                    "preps": {
+                      "id": "Idsh407ecd59-dfb5-419c-876b-ae15e216dfeb",
+                      "label": "QE确认",
+                      "itemNameLabel": "单行文本框",
+                      "name": "qeConfirm2",
+                      "clearable": true,
+                      "readonly": false,
+                      "placeholder": "请输入QE确认",
+                      "rules": [],
+                      "maxLength": 255,
+                      "formVisible": true,
+                      "listVisible": true,
+                      "viewVisible": true
+                    },
+                    "compType": "formItem",
+                    "fieldName": "qeConfirm2",
+                    "itemType": "input",
+                    "label": "单行文本框",
+                    "type": "input"
+                  }
+                ]
+              },
+              {
+                "id": "sh84a0a175-9360-48a5-a6ba-ca39f89619b9",
+                "colIndex": 1,
+                "rowspan": 1,
+                "colspan": 1,
+                "cellVisible": false,
+                "items": []
+              }
+            ]
+          },
+          {
+            "id": "sh6948d085-ec3d-45f5-994c-89b0bb5003ff",
+            "colIndex": 1,
+            "columns": [
+              {
+                "id": "shad3733ae-9b51-4bfd-beda-71d3b50e19f9",
+                "colIndex": 1,
+                "rowspan": 5,
+                "colspan": 1,
+                "items": [
+                  {
+                    "id": "Idsh9a23db34-6587-4415-959c-e643cc417ccf",
+                    "preps": {
+                      "id": "Idsh9a23db34-6587-4415-959c-e643cc417ccf",
+                      "label": "静态文本",
+                      "itemNameLabel": "静态文本",
+                      "name": "text27",
+                      "clearable": true,
+                      "readonly": false,
+                      "rules": [],
+                      "maxLength": 255,
+                      "formVisible": true,
+                      "listVisible": true,
+                      "viewVisible": true,
+                      "staticData": true,
+                      "textContent": "审批栏"
+                    },
+                    "compType": "formItem",
+                    "fieldName": "text27",
+                    "itemType": "text",
+                    "label": "静态文本",
+                    "type": "text"
+                  }
+                ],
+                "cellVisible": true,
+                "colWidth": "38px"
+              },
+              {
+                "id": "sh84620bfc-53c7-4ae3-aa1d-e4f055670966",
+                "colIndex": 1,
+                "rowspan": 1,
+                "colspan": 4,
+                "cellVisible": true,
+                "items": [
+                  {
+                    "id": "Idsh05f1154d-de69-4cd4-8f96-6871315063e7",
+                    "preps": {
+                      "id": "Idsh05f1154d-de69-4cd4-8f96-6871315063e7",
+                      "label": "Html组件",
+                      "itemNameLabel": "Html组件",
+                      "name": "html26",
+                      "clearable": true,
+                      "readonly": false,
+                      "rules": [],
+                      "maxLength": 255,
+                      "formVisible": true,
+                      "listVisible": true,
+                      "viewVisible": true,
+                      "placeholder": "",
+                      "staticData": true,
+                      "textContent": "<p style=\"text-align: left;\">停线审批意见</p>",
+                      "styles": {
+                        "alignItems": "start"
+                      }
+                    },
+                    "compType": "formItem",
+                    "fieldName": "html26",
+                    "itemType": "html",
+                    "label": "Html组件",
+                    "type": "html"
+                  }
+                ]
+              },
+              {
+                "id": "sh33090e02-d1f4-40cc-88cc-d092052db55c",
+                "colIndex": 1,
+                "rowspan": 1,
+                "colspan": 1,
+                "cellVisible": false,
+                "items": []
+              },
+              {
+                "id": "she20c46dd-bad0-416b-aea9-deb7d93d5ce4",
+                "colIndex": 1,
+                "rowspan": 1,
+                "colspan": 1,
+                "cellVisible": false,
+                "items": []
+              },
+              {
+                "id": "sh9c5ba23f-be72-482e-bc69-71546aece7b7",
+                "colIndex": 1,
+                "rowspan": 1,
+                "colspan": 1,
+                "cellVisible": false,
+                "items": []
+              }
+            ]
+          },
+          {
+            "id": "sh1190abf7-9d61-45a3-9092-1522a848e960",
+            "colIndex": 1,
+            "columns": [
+              {
+                "id": "shd2ba4f94-07fa-447f-a8a9-cb195ee7f10b",
+                "colIndex": 1,
+                "rowspan": 1,
+                "colspan": 1,
+                "items": [],
+                "cellVisible": false,
+                "colWidth": "38px"
+              },
+              {
+                "id": "sh59baf23f-65c6-4de8-8b49-08ebb2327ab7",
+                "colIndex": 1,
+                "rowspan": 1,
+                "colspan": 3,
+                "cellVisible": true,
+                "items": [
+                  {
+                    "id": "Idsh574a3ed8-9ed8-4c95-88ea-9cb944716037",
+                    "preps": {
+                      "id": "Idsh574a3ed8-9ed8-4c95-88ea-9cb944716037",
+                      "itemNameLabel": "单行文本框",
+                      "name": "zcb",
+                      "clearable": true,
+                      "readonly": false,
+                      "placeholder": "请输入资材部",
+                      "rules": [],
+                      "maxLength": 255,
+                      "formVisible": true,
+                      "listVisible": true,
+                      "viewVisible": true,
+                      "label": "资材部"
+                    },
+                    "compType": "formItem",
+                    "fieldName": "zcb",
+                    "itemType": "input",
+                    "label": "单行文本框",
+                    "type": "input"
+                  }
+                ]
+              },
+              {
+                "id": "sh8001081b-1f98-43d4-873f-249cd586c48e",
+                "colIndex": 1,
+                "rowspan": 1,
+                "colspan": 1,
+                "cellVisible": false,
+                "items": []
+              },
+              {
+                "id": "sh35e95263-6366-4a19-ae9a-a08ef6823213",
+                "colIndex": 1,
+                "rowspan": 1,
+                "colspan": 1,
+                "cellVisible": false,
+                "items": []
+              },
+              {
+                "id": "sh33a782cf-4e29-4c7d-a0bd-a19dbe0a0e38",
+                "colIndex": 1,
+                "rowspan": 1,
+                "colspan": 1,
+                "cellVisible": true,
+                "items": [
+                  {
+                    "id": "Idshdc5d5ffc-a18d-45b2-8ac4-80906fcd3ca3",
+                    "preps": {
+                      "id": "Idshdc5d5ffc-a18d-45b2-8ac4-80906fcd3ca3",
+                      "label": "签名/时间",
+                      "itemNameLabel": "日期选择器",
+                      "name": "zcbsj",
+                      "clearable": true,
+                      "readonly": false,
+                      "placeholder": "请选择签名/时间",
+                      "type": "datetime",
+                      "disabledDate": "(e20) => t16.value.includes(e20.getDate().toString())",
+                      "rules": [],
+                      "maxLength": 255,
+                      "formVisible": true,
+                      "listVisible": true,
+                      "viewVisible": true
+                    },
+                    "compType": "formItem",
+                    "fieldName": "zcbsj",
+                    "itemType": "datetime",
+                    "label": "日期选择器",
+                    "type": "datetime"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "id": "sh4bc81036-5e0d-4046-92ba-3982ae8c5455",
+            "colIndex": 1,
+            "columns": [
+              {
+                "id": "sha8fe9d85-d41d-479c-a71a-c40ffa450f09",
+                "colIndex": 1,
+                "rowspan": 1,
+                "colspan": 1,
+                "items": [],
+                "cellVisible": false,
+                "colWidth": "38px"
+              },
+              {
+                "id": "shea18bee9-56b4-42be-9ba6-584b9181034f",
+                "colIndex": 1,
+                "rowspan": 1,
+                "colspan": 3,
+                "cellVisible": true,
+                "items": [
+                  {
+                    "id": "Idshec8af96d-9c8c-47e8-a54c-94536f492982",
+                    "preps": {
+                      "id": "Idshec8af96d-9c8c-47e8-a54c-94536f492982",
+                      "label": "质量管理中心",
+                      "itemNameLabel": "单行文本框",
+                      "name": "zlglzx",
+                      "clearable": true,
+                      "readonly": false,
+                      "placeholder": "请输入质量管理中心",
+                      "rules": [],
+                      "maxLength": 255,
+                      "formVisible": true,
+                      "listVisible": true,
+                      "viewVisible": true
+                    },
+                    "compType": "formItem",
+                    "fieldName": "zlglzx",
+                    "itemType": "input",
+                    "label": "单行文本框",
+                    "type": "input"
+                  }
+                ]
+              },
+              {
+                "id": "sh567c7da6-ded7-46ae-a23b-6a8d622e85c5",
+                "colIndex": 1,
+                "rowspan": 1,
+                "colspan": 1,
+                "cellVisible": false,
+                "items": []
+              },
+              {
+                "id": "shaf4d1a38-ba45-4c5b-b924-4f7a182b03b9",
+                "colIndex": 1,
+                "rowspan": 1,
+                "colspan": 1,
+                "cellVisible": false,
+                "items": []
+              },
+              {
+                "id": "sh466b30e2-aaf9-4248-abf0-9e430c8d3cb9",
+                "colIndex": 1,
+                "rowspan": 1,
+                "colspan": 1,
+                "cellVisible": true,
+                "items": [
+                  {
+                    "id": "Idsh31fced62-cfd6-49ce-8e0c-ba32fc69f8e4",
+                    "preps": {
+                      "id": "Idsh31fced62-cfd6-49ce-8e0c-ba32fc69f8e4",
+                      "label": "签名/时间",
+                      "itemNameLabel": "日期选择器",
+                      "name": "zlglzxsj",
+                      "clearable": true,
+                      "readonly": false,
+                      "placeholder": "请选择签名/时间",
+                      "type": "datetime",
+                      "rules": [],
+                      "maxLength": 255,
+                      "formVisible": true,
+                      "listVisible": true,
+                      "viewVisible": true
+                    },
+                    "compType": "formItem",
+                    "fieldName": "zlglzxsj",
+                    "itemType": "datetime",
+                    "label": "日期选择器",
+                    "type": "datetime"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "id": "sh65d0fe7d-1752-47ad-a1b5-e679df130470",
+            "colIndex": 1,
+            "columns": [
+              {
+                "id": "sh57b94cde-5fed-4e1d-aa75-30290bfca8f7",
+                "colIndex": 1,
+                "rowspan": 1,
+                "colspan": 1,
+                "items": [],
+                "cellVisible": false,
+                "colWidth": "38px"
+              },
+              {
+                "id": "shbb3eb5dd-041d-43bf-880e-b9b37f362afa",
+                "colIndex": 1,
+                "rowspan": 1,
+                "colspan": 3,
+                "cellVisible": true,
+                "items": [
+                  {
+                    "id": "Idsh9ba101d9-4934-4572-96ec-d464943c48db",
+                    "preps": {
+                      "id": "Idsh9ba101d9-4934-4572-96ec-d464943c48db",
+                      "label": "生产总监",
+                      "itemNameLabel": "单行文本框",
+                      "name": "sczj",
+                      "clearable": true,
+                      "readonly": false,
+                      "placeholder": "请输入生产总监",
+                      "rules": [],
+                      "maxLength": 255,
+                      "formVisible": true,
+                      "listVisible": true,
+                      "viewVisible": true
+                    },
+                    "compType": "formItem",
+                    "fieldName": "sczj",
+                    "itemType": "input",
+                    "label": "单行文本框",
+                    "type": "input"
+                  }
+                ]
+              },
+              {
+                "id": "sh0b6a0f8e-5189-49ef-bb7f-1e84298996eb",
+                "colIndex": 1,
+                "rowspan": 1,
+                "colspan": 1,
+                "cellVisible": false,
+                "items": []
+              },
+              {
+                "id": "sh244f06d9-89a6-4b99-9f50-e78efc3386c4",
+                "colIndex": 1,
+                "rowspan": 1,
+                "colspan": 1,
+                "cellVisible": false,
+                "items": []
+              },
+              {
+                "id": "shadcbbe9e-5886-49ee-9d32-a5c88cc14751",
+                "colIndex": 1,
+                "rowspan": 1,
+                "colspan": 1,
+                "cellVisible": true,
+                "items": [
+                  {
+                    "id": "Idsh1fa836da-3390-4823-8746-d365d4451ddc",
+                    "preps": {
+                      "id": "Idsh1fa836da-3390-4823-8746-d365d4451ddc",
+                      "label": "签名/时间",
+                      "itemNameLabel": "日期选择器",
+                      "name": "sczjsj",
+                      "clearable": true,
+                      "readonly": false,
+                      "placeholder": "请选择签名/时间",
+                      "type": "datetime",
+                      "rules": [],
+                      "maxLength": 255,
+                      "formVisible": true,
+                      "listVisible": true,
+                      "viewVisible": true
+                    },
+                    "compType": "formItem",
+                    "fieldName": "sczjsj",
+                    "itemType": "datetime",
+                    "label": "日期选择器",
+                    "type": "datetime"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "id": "she0b87cc6-10b4-48d8-b0f1-95dec95f5f66",
+            "colIndex": 1,
+            "columns": [
+              {
+                "id": "sh6a1c6e69-3aad-4dc7-b397-19906e71cada",
+                "colIndex": 1,
+                "rowspan": 1,
+                "colspan": 1,
+                "items": [],
+                "cellVisible": false,
+                "colWidth": "38px"
+              },
+              {
+                "id": "shfaa7f2f6-75b4-4ee7-b5c6-a804d26c5e5d",
+                "colIndex": 1,
+                "rowspan": 1,
+                "colspan": 3,
+                "cellVisible": true,
+                "items": [
+                  {
+                    "id": "Idshc3f9ca3d-feea-4c5f-9878-0d0d9abc9240",
+                    "preps": {
+                      "id": "Idshc3f9ca3d-feea-4c5f-9878-0d0d9abc9240",
+                      "label": "客户意见",
+                      "itemNameLabel": "单行文本框",
+                      "name": "kehuyijian",
+                      "clearable": true,
+                      "readonly": false,
+                      "placeholder": "请输入客户意见",
+                      "rules": [],
+                      "maxLength": 255,
+                      "formVisible": true,
+                      "listVisible": true,
+                      "viewVisible": true
+                    },
+                    "compType": "formItem",
+                    "fieldName": "kehuyijian",
+                    "itemType": "input",
+                    "label": "单行文本框",
+                    "type": "input"
+                  }
+                ]
+              },
+              {
+                "id": "sh803f1577-daa1-4911-a817-a0b14de3054b",
+                "colIndex": 1,
+                "rowspan": 1,
+                "colspan": 1,
+                "cellVisible": false,
+                "items": []
+              },
+              {
+                "id": "shabb871a0-4fa7-484a-a8b7-eb2a01ac227f",
+                "colIndex": 1,
+                "rowspan": 1,
+                "colspan": 1,
+                "cellVisible": false,
+                "items": []
+              },
+              {
+                "id": "sh002a8a87-364b-47a3-af87-05bbf7fa3963",
+                "colIndex": 1,
+                "rowspan": 1,
+                "colspan": 1,
+                "cellVisible": true,
+                "items": [
+                  {
+                    "id": "Idshf8e9e659-277d-4a18-94f3-29920cf8a139",
+                    "preps": {
+                      "id": "Idshf8e9e659-277d-4a18-94f3-29920cf8a139",
+                      "label": "签名/时间",
+                      "itemNameLabel": "日期选择器",
+                      "name": "kehuyijiansj",
+                      "clearable": true,
+                      "readonly": false,
+                      "placeholder": "请选择签名/时间",
+                      "type": "datetime",
+                      "rules": [],
+                      "maxLength": 255,
+                      "formVisible": true,
+                      "listVisible": true,
+                      "viewVisible": true
+                    },
+                    "compType": "formItem",
+                    "fieldName": "kehuyijiansj",
+                    "itemType": "datetime",
+                    "label": "日期选择器",
+                    "type": "datetime"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "id": "sh404527a6-c177-4bac-a70f-3ac7131a3e83",
+            "colIndex": 1,
+            "columns": [
+              {
+                "id": "sh8157dcc4-3fb0-4563-b23c-eefb02c1e681",
+                "colIndex": 1,
+                "rowspan": 3,
+                "colspan": 1,
+                "items": [
+                  {
+                    "id": "Idshb9ab86b6-213a-45d5-a192-57f90fa4cd3d",
+                    "preps": {
+                      "id": "Idshb9ab86b6-213a-45d5-a192-57f90fa4cd3d",
+                      "label": "静态文本",
+                      "itemNameLabel": "静态文本",
+                      "name": "text36",
+                      "clearable": true,
+                      "readonly": false,
+                      "rules": [],
+                      "maxLength": 255,
+                      "formVisible": true,
+                      "listVisible": true,
+                      "viewVisible": true,
+                      "placeholder": "",
+                      "staticData": true,
+                      "textContent": "质量管理中心填写"
+                    },
+                    "compType": "formItem",
+                    "fieldName": "text36",
+                    "itemType": "text",
+                    "label": "静态文本",
+                    "type": "text"
+                  }
+                ],
+                "cellVisible": true,
+                "colWidth": "38px"
+              },
+              {
+                "id": "sha88e2eea-56b2-4497-bc42-f1b329be8ef0",
+                "colIndex": 1,
+                "rowspan": 2,
+                "colspan": 4,
+                "cellVisible": true,
+                "items": [
+                  {
+                    "id": "Idsh694b1e2a-c724-426d-8f7a-c9a17bdc8992",
+                    "preps": {
+                      "id": "Idsh694b1e2a-c724-426d-8f7a-c9a17bdc8992",
+                      "label": "整改措施及效果确认",
+                      "itemNameLabel": "多行文本框",
+                      "name": "zgcsjxgqr",
+                      "clearable": true,
+                      "readonly": false,
+                      "placeholder": "请输入整改措施及效果确认",
+                      "rules": [],
+                      "maxLength": 1000,
+                      "formVisible": true,
+                      "listVisible": true,
+                      "viewVisible": true,
+                      "labelPosition": "top"
+                    },
+                    "compType": "formItem",
+                    "fieldName": "zgcsjxgqr",
+                    "itemType": "textarea",
+                    "label": "多行文本框",
+                    "type": "textarea"
+                  },
+                  {
+                    "id": "Idshdcc5a7d7-b3b3-450c-8a62-0c574a771b9f",
+                    "preps": {
+                      "id": "Idshdcc5a7d7-b3b3-450c-8a62-0c574a771b9f",
+                      "label": "恢复生产意见",
+                      "itemNameLabel": "单选框",
+                      "name": "hfscyj",
+                      "clearable": true,
+                      "readonly": false,
+                      "rules": [],
+                      "maxLength": 255,
+                      "formVisible": true,
+                      "listVisible": true,
+                      "viewVisible": true,
+                      "placeholder": "",
+                      "dataSource": "data",
+                      "analysisType": "func",
+                      "values": [
+                        {
+                          "name": "整改措施有效，可恢复生产",
+                          "value": "ok",
+                          "xh": 1
+                        },
+                        {
+                          "name": "措施无效，继续停线整改",
+                          "value": "ng",
+                          "xh": 2
+                        }
+                      ],
+                      "valuesDefaultValue": [
+                        {}
+                      ]
+                    },
+                    "compType": "formItem",
+                    "fieldName": "hfscyj",
+                    "itemType": "radio",
+                    "label": "单选框",
+                    "type": "radio"
+                  }
+                ],
+                "colHeight": "170px"
+              },
+              {
+                "id": "sha2317e9e-d19c-44c7-bda7-39c6b32076e5",
+                "colIndex": 1,
+                "rowspan": 1,
+                "colspan": 1,
+                "cellVisible": false,
+                "items": [],
+                "colHeight": "98.33333587646484px"
+              },
+              {
+                "id": "sh0de2378b-2e44-4d70-9a21-14f95c612388",
+                "colIndex": 1,
+                "rowspan": 1,
+                "colspan": 1,
+                "cellVisible": false,
+                "items": []
+              },
+              {
+                "id": "sha81f7c08-67a9-441b-a2c8-8e15bd36f10c",
+                "colIndex": 1,
+                "rowspan": 1,
+                "colspan": 1,
+                "cellVisible": false,
+                "items": []
+              }
+            ]
+          },
+          {
+            "id": "sh1d07ef29-84f3-4fe3-8b92-ebbe6af4a2d7",
+            "colIndex": 1,
+            "columns": [
+              {
+                "id": "sh48957c3e-ef3c-4f0b-b732-7c5df69469bb",
+                "colIndex": 1,
+                "rowspan": 1,
+                "colspan": 1,
+                "items": [],
+                "cellVisible": false,
+                "colWidth": "38px"
+              },
+              {
+                "id": "shcd630856-10fd-4384-a74c-beedd89af3d8",
+                "colIndex": 1,
+                "rowspan": 1,
+                "colspan": 1,
+                "cellVisible": false,
+                "items": []
+              },
+              {
+                "id": "sh383fbf44-a6ee-49e1-ae9c-b571040cb3cb",
+                "colIndex": 1,
+                "rowspan": 1,
+                "colspan": 1,
+                "cellVisible": false,
+                "items": [],
+                "colHeight": "72px"
+              },
+              {
+                "id": "sh06eab0ac-4199-4dcb-9645-b6f506a5df6b",
+                "colIndex": 1,
+                "rowspan": 1,
+                "colspan": 1,
+                "cellVisible": false,
+                "items": []
+              },
+              {
+                "id": "sh5bf3c763-c88b-4c18-b026-c70714410dfe",
+                "colIndex": 1,
+                "rowspan": 1,
+                "colspan": 1,
+                "cellVisible": false,
+                "items": []
+              }
+            ]
+          },
+          {
+            "id": "sh3429f96b-13fa-4073-af10-04f504acff52",
+            "colIndex": 1,
+            "columns": [
+              {
+                "id": "she7cb42f8-1ea4-4d0f-b1cc-c0c782da91e4",
+                "colIndex": 1,
+                "rowspan": 1,
+                "colspan": 1,
+                "items": [],
+                "cellVisible": false,
+                "colWidth": "38px"
+              },
+              {
+                "id": "sh979252af-ea69-4cbc-be33-ff5c75c69665",
+                "colIndex": 1,
+                "rowspan": 1,
+                "colspan": 2,
+                "cellVisible": true,
+                "items": [
+                  {
+                    "id": "Idsh078c4064-d257-4222-936a-78354855a96f",
+                    "preps": {
+                      "id": "Idsh078c4064-d257-4222-936a-78354855a96f",
+                      "label": "生产总监批准/时间",
+                      "itemNameLabel": "日期选择器",
+                      "name": "sczjpzsj",
+                      "clearable": true,
+                      "readonly": false,
+                      "placeholder": "请选择生产总监批准/时间",
+                      "type": "datetime",
+                      "rules": [],
+                      "maxLength": 255,
+                      "formVisible": true,
+                      "listVisible": true,
+                      "viewVisible": true
+                    },
+                    "compType": "formItem",
+                    "fieldName": "sczjpzsj",
+                    "itemType": "datetime",
+                    "label": "日期选择器",
+                    "type": "datetime"
+                  }
+                ]
+              },
+              {
+                "id": "sha763a920-0caa-4cc6-a73e-a89b9a936d9c",
+                "colIndex": 1,
+                "rowspan": 1,
+                "colspan": 1,
+                "cellVisible": false,
+                "items": []
+              },
+              {
+                "id": "sh7b332be1-719e-4438-b7af-95ccda8e2521",
+                "colIndex": 1,
+                "rowspan": 1,
+                "colspan": 1,
+                "cellVisible": true,
+                "items": [
+                  {
+                    "id": "Idshd60a7dfd-3546-4ab7-a995-8ade376f0f02",
+                    "preps": {
+                      "id": "Idshd60a7dfd-3546-4ab7-a995-8ade376f0f02",
+                      "label": "品质主管审核/时间",
+                      "itemNameLabel": "日期选择器",
+                      "name": "pzzgshsj",
+                      "clearable": true,
+                      "readonly": false,
+                      "placeholder": "请选择品质主管审核/时间",
+                      "type": "datetime",
+                      "rules": [],
+                      "maxLength": 255,
+                      "formVisible": true,
+                      "listVisible": true,
+                      "viewVisible": true
+                    },
+                    "compType": "formItem",
+                    "fieldName": "pzzgshsj",
+                    "itemType": "datetime",
+                    "label": "日期选择器",
+                    "type": "datetime"
+                  }
+                ]
+              },
+              {
+                "id": "shc096a486-fe1f-478d-9545-6d280d8ebd80",
+                "colIndex": 1,
+                "rowspan": 1,
+                "colspan": 1,
+                "cellVisible": true,
+                "items": [
+                  {
+                    "id": "Idsh0ac0fc55-6441-4ea1-a381-5ca46bd42d22",
+                    "preps": {
+                      "id": "Idsh0ac0fc55-6441-4ea1-a381-5ca46bd42d22",
+                      "label": "QE作成/时间",
+                      "itemNameLabel": "日期选择器",
+                      "name": "qezcsja",
+                      "clearable": true,
+                      "readonly": false,
+                      "placeholder": "请选择QE作成/时间",
+                      "type": "datetime",
+                      "rules": [],
+                      "maxLength": 255,
+                      "formVisible": true,
+                      "listVisible": true,
+                      "viewVisible": true
+                    },
+                    "compType": "formItem",
+                    "fieldName": "qezcsja",
+                    "itemType": "datetime",
+                    "label": "日期选择器",
+                    "type": "datetime"
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "rules": [],
+        "maxLength": 255,
+        "formVisible": true,
+        "listVisible": true,
+        "viewVisible": true,
+        "rowNums": 17,
+        "columnNums": 5
+      },
+      "compType": "container",
+      "fieldName": "dytable1",
+      "itemType": "dytable",
+      "rowNums": 1,
+      "columnNums": 1,
+      "type": "dytable"
+    }
+  ],
+  "exportTime": "2026-04-03T08:45:40.815Z",
+  "version": "1.0"
+}
