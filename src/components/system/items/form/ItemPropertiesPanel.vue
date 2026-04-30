@@ -6,7 +6,7 @@ import {
   fieldPlaceholder,
   relationDataField,
 } from "@/components/system/items/utils/ItemPreps.js";
-import {piniaInstance, useDesignFormStore, uuid, validRulesList, warning,} from "star-horse-lowcode";
+import {operationConfirm, piniaInstance, useDesignFormStore, uuid, validRulesList, warning,} from "star-horse-lowcode";
 import {i18n} from "@/lang/index.js";
 import DataSourceComp from "@/components/system/items/utils/DataSourceComp.vue";
 import {FormConfig} from "@/components/types";
@@ -34,7 +34,7 @@ const model = computed(() => props.optional?.model ?? "simple");
 let currentCompCategory = computed(() => designForm.currentCompCategory);
 
 const formProps = computed(() => {
-  let preps = unref(designForm.currentFormPreps);
+  let preps = unref(designForm.currentComp).preps;
   if (!preps.rules) {
     preps.rules = [];
   }
@@ -136,8 +136,13 @@ const closeAction = () => {
 };
 const submitValid = async () => {
   const result = await dataSourceFormRef.value.submitValid();
+  console.log(formProps.value);
   if (result) {
     closeAction();
+  } else {
+    operationConfirm("接口验证可能异常,是否提交?").then((res) => {
+      closeAction();
+    });
   }
 };
 

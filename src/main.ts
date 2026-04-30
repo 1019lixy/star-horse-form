@@ -17,7 +17,7 @@ import StarHorseLowCode from "star-horse-lowcode";
 import {getLang} from "@/theme/localStorge";
 import {LangType} from "@/theme/theme";
 import {registerVueContext} from "@/api/vueContext";
-
+import {axiosInstance} from "@/api/star_horse_form_api.js";
 const app = createApp(App);
 export const appInstance = app;
 const currentLang = getLang() || LangType.ZH_CN;
@@ -38,6 +38,7 @@ app.use(containerComponent);
 console.log("当前语言", currentLang);
 app.use(StarHorseLowCode, {
     lang: currentLang,
+    axiosInstance
 });
 
 app.config.performance = false;

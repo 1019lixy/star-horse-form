@@ -8,6 +8,9 @@ export function loadSvgIcons(): SelectOption[] {
   return formIcons;
 }
 export function loadSvgIconsByPath(path: string) {
+  const url = new URL(path, import.meta.url);
+  console.log(url.pathname) ;
+// path.value = /assets/${val
   import(path).then((res) => {
     console.log("xxxx", res);
   });

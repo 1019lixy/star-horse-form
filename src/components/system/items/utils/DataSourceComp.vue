@@ -189,10 +189,10 @@ const baseDataField: FieldInfo[] | any = [
           {
             label: "属性值",
             fieldName: "value",
-
             required: dataRequired,
             formVisible: true,
             listVisible: true,
+
           },
         ],
       },
@@ -222,7 +222,8 @@ const dynamicUrlField: FieldInfo[] | any = [
                 listVisible: true,
                 preps: {
                   values: fieldList,
-                  allowCreate: "Y",
+                  filterable:true,
+                  allowCreate: true,
                 },
               },
               {
@@ -235,6 +236,8 @@ const dynamicUrlField: FieldInfo[] | any = [
                 listVisible: true,
                 preps: {
                   values: matchTypeList,
+                  allowCreate: true,
+                  filterable:true,
                   dataRelation: {
                     actionName: "change",
                     relationDetails: [

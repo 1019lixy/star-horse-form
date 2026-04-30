@@ -403,6 +403,7 @@ export function getUrlFieldConfig(interfaceUtils: any, options: any = {}) {
                 formVisible: true,
                 listVisible: true,
                 preps: {
+                    allowCreate:true,
                     values: fieldList,
                 },
             },
@@ -411,6 +412,7 @@ export function getUrlFieldConfig(interfaceUtils: any, options: any = {}) {
                 fieldName: "selectValue",
                 type: "select",
                 preps: {
+                    allowCreate:true,
                     values: fieldList,
                 },
                 formVisible: true,
@@ -565,6 +567,7 @@ export function urlFields() {
             type: "select",
             formVisible: true,
             preps: {
+                allowCreate:true,
                 values: fieldList,
             },
         },
@@ -586,6 +589,7 @@ export function urlFields() {
             type: "select",
             formVisible: true,
             preps: {
+                allowCreate:true,
                 values: fieldList,
             },
         },
