@@ -1,30 +1,27 @@
 import {
     copyContainer,
+    getCopyerOperationStore,
+    getDesignFormStore,
     moveDownItem,
     moveUpItem,
     operationConfirm,
-    piniaInstance,
     removeItem,
-    useCopyerOperationStore,
-    useDesignFormStore,
     uuid,
     warning,
 } from "star-horse-lowcode";
 import {computed} from "vue";
 import {ModuleEnums} from "@/components/enums/ModuleEnums";
 
-const designForm = useDesignFormStore(piniaInstance);
-const copyerOperation = useCopyerOperationStore(piniaInstance);
 
-const list = computed(() => designForm.compList);
-const isEdit = computed(() => designForm.isEdit);
-const currentComp = computed(() => designForm.currentComp);
-const action = computed(() => copyerOperation.action);
-const shortKeyDisabled = computed(() => designForm.shortKeyDisabled);
-const parentContainer = computed(() => copyerOperation.parentContainer);
-const copyerData = computed(() => copyerOperation.copyerData);
-const currentSubItemId = computed(() => designForm.currentSubItemId);
-const parentCompType = computed(() => designForm.getParentContainer());
+const list = computed(() => getDesignFormStore().compList);
+const isEdit = computed(() => getDesignFormStore().isEdit);
+const currentComp = computed(() => getDesignFormStore().currentComp);
+const action = computed(() => getCopyerOperationStore().action);
+const shortKeyDisabled = computed(() => getDesignFormStore().shortKeyDisabled);
+const parentContainer = computed(() => getCopyerOperationStore().parentContainer);
+const copyerData = computed(() => getCopyerOperationStore().copyerData);
+const currentSubItemId = computed(() => getDesignFormStore().currentSubItemId);
+const parentCompType = computed(() => getDesignFormStore().getParentContainer());
 /**
  * 复制
  */
@@ -38,7 +35,7 @@ const dyCopy = () => {
         return;
     }
     const copyItem: any = JSON.parse(JSON.stringify(item));
-    copyerOperation.keyboardOperation(
+    getCopyerOperationStore().keyboardOperation(
         "copy",
         ModuleEnums.DYNAMIC_FORM,
         {},
@@ -58,7 +55,7 @@ const dyCut = () => {
         return;
     }
     const copyItem: any = JSON.parse(JSON.stringify(item));
-    copyerOperation.keyboardOperation(
+    getCopyerOperationStore().keyboardOperation(
         "cut",
         ModuleEnums.DYNAMIC_FORM,
         {},
@@ -95,7 +92,7 @@ const dyPaste = () => {
         if (name.match(/\d+$/)) {
             name = name.replace(/\d+$/, "");
         }
-        copyItem.preps.name = name + designForm.getFieldDataIndex();
+        copyItem.preps.name = name + getDesignFormStore().getFieldDataIndex();
         if (currentSubItemId.value) {
 
             // const subItem = designForm.selectItemById(currentSubItemId.value);
@@ -136,7 +133,7 @@ const dyPaste = () => {
             list.value.push(copyItem);
         }
     }
-    designForm.selectItem(copyItem, itemType, "");
+    getDesignFormStore().selectItem(copyItem, itemType, "");
 };
 const dyEnter = () => {
     console.log("enter");
@@ -194,7 +191,7 @@ const dySelectAll = () => {
 };
 const dyDeleteAll = () => {
     operationConfirm("确定要删除所有组件吗？").then(() => {
-        designForm.clearAll();
+        getDesignFormStore().clearAll();
     });
     console.log("deleteAll");
 };
@@ -202,7 +199,7 @@ const dyFind = () => {
     console.log("find");
 };
 const dyExchange = () => {
-    designForm.setComponentVisible(true);
+    getDesignFormStore().setComponentVisible(true);
     console.log("exchange");
 };
 const dyGroup = () => {

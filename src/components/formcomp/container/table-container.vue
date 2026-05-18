@@ -3,7 +3,8 @@
 import {computed, PropType, ref} from "vue";
 import {i18n} from "@/lang";
 import GroupContainer from "@/components/formcomp/container/group-container.vue";
-import {itemCheck, uuid,useDesignFormStore,piniaInstance,operationConfirm, warning} from "star-horse-lowcode";
+import {getDesignFormStore, itemCheck, operationConfirm, uuid, warning} from "star-horse-lowcode";
+
 let containerTableRef = ref(); // 强制刷新表格
 const props = defineProps({
   parentField: {type: Object as PropType<any>},
@@ -14,7 +15,7 @@ const props = defineProps({
   field: {type: Object as PropType<any>},
   compSize: {type: String, default: "default"},
 });
-let designForm = useDesignFormStore(piniaInstance);
+let designForm = getDesignFormStore();
 let draggingItem = computed(() => designForm.draggingItem);
 let excludeContainerType: Array<string> = [
   "box",
@@ -232,6 +233,7 @@ th {
   position: relative;
   border: 1px solid #dfe6ec;
   table-layout: fixed;
+
   .td-operator {
     position: absolute;
     right: 0;

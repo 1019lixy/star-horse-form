@@ -1,7 +1,6 @@
 import {ref} from "vue";
-import {piniaInstance, useDesignFormStore} from "star-horse-lowcode";
+import {getDesignFormStore} from "star-horse-lowcode";
 
-const designForm = useDesignFormStore(piniaInstance);
 
 export function useDialogManager() {
     const dialogStates = ref({
@@ -23,7 +22,7 @@ export function useDialogManager() {
     });
 
     const setShortKeyDisabled = (disabled: boolean) => {
-        designForm.setShortKeyDisabled(disabled);
+        getDesignFormStore().setShortKeyDisabled(disabled);
     };
 
     const openDialog = (dialogName: string) => {

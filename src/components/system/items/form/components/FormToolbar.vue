@@ -4,7 +4,7 @@ import {i18n} from "@/lang";
 import {computed, onMounted, ref} from "vue";
 import {ToolBtnType} from "@/components/types/ToolBtnType";
 import {FormConfig} from "@/components/types";
-import {piniaInstance, StarHorseIcon, useDesignFormStore,} from "star-horse-lowcode";
+import {getDesignFormStore, StarHorseIcon,} from "star-horse-lowcode";
 
 const emit = defineEmits<{
   (e: "action", action: ToolBtnType | any): void;
@@ -18,7 +18,7 @@ const props = defineProps<{
   currentPageStyle: any;
   cacheData: any;
 }>();
-const designForm = useDesignFormStore(piniaInstance);
+const designForm = getDesignFormStore();
 let formInfo = computed(() => designForm.formInfo);
 const activeDropdown = ref<string | null>(null);
 const allActions = computed(() => {

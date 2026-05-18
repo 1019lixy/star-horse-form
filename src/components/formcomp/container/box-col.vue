@@ -2,7 +2,7 @@
 import {computed, onMounted, PropType} from "vue";
 // import piniaInstance from "@/store/index";
 import {tableCellOperation} from "@/components/formcomp/container/dytableUtils";
-import {itemCheck, uuid,warning,useDesignFormStore,piniaInstance} from "star-horse-lowcode";
+import {getDesignFormStore, itemCheck, uuid, warning} from "star-horse-lowcode";
 import ContainerDropDown from "@/components/formcomp/utils/ContainerDropDown.vue";
 
 const props = defineProps({
@@ -21,7 +21,7 @@ const props = defineProps({
   colIndex: {type: Number, default: -1},
   compSize: {type: String, default: "default"},
 });
-let designForm = useDesignFormStore(piniaInstance);
+let designForm = getDesignFormStore();
 let draggingItem = computed(() => designForm.draggingItem);
 const isDragging = computed(() => designForm.isDragging);
 let excludeContainerType: Array<string> = [

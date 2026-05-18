@@ -11,10 +11,10 @@
 
 <script lang="ts" setup>
 import {onMounted, ref} from "vue";
-import {analysisCompDatas,useDesignFormStore,piniaInstance} from "star-horse-lowcode";
+import {analysisCompDatas, getDesignFormStore} from "star-horse-lowcode";
 import TableContainer from "@/components/formcomp/container/table-container.vue";
 
-let designForm = useDesignFormStore(piniaInstance);
+let designForm = getDesignFormStore();
 const formData = ref<any>({
   test: "1-2-1",
 });

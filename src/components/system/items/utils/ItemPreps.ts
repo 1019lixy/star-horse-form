@@ -5,24 +5,21 @@ import {
     dataType,
     dictData,
     error,
-    FieldInfo,
+    FieldInfo, getDesignFormStore,
     httpMethod,
     loadData,
     loadGetData,
     orderBy,
     PageFieldInfo,
-    piniaInstance,
     searchMatchList,
     SelectOption,
     success,
-    useDesignFormStore,
     validRulesList,
     warning,
 } from "star-horse-lowcode";
 import {validDataUrl} from "@/api/system.js";
 import WebUrlComp from "./WebUrlComp.vue";
 
-const designForm = useDesignFormStore(piniaInstance);
 
 export const urlReturnDataHelpMsg = `
     接口返回的数据格式必须是：
@@ -403,7 +400,7 @@ export function getUrlFieldConfig(interfaceUtils: any, options: any = {}) {
                 formVisible: true,
                 listVisible: true,
                 preps: {
-                    allowCreate:true,
+                    allowCreate: true,
                     values: fieldList,
                 },
             },
@@ -412,7 +409,7 @@ export function getUrlFieldConfig(interfaceUtils: any, options: any = {}) {
                 fieldName: "selectValue",
                 type: "select",
                 preps: {
-                    allowCreate:true,
+                    allowCreate: true,
                     values: fieldList,
                 },
                 formVisible: true,
@@ -567,7 +564,7 @@ export function urlFields() {
             type: "select",
             formVisible: true,
             preps: {
-                allowCreate:true,
+                allowCreate: true,
                 values: fieldList,
             },
         },
@@ -589,7 +586,7 @@ export function urlFields() {
             type: "select",
             formVisible: true,
             preps: {
-                allowCreate:true,
+                allowCreate: true,
                 values: fieldList,
             },
         },
@@ -1212,6 +1209,7 @@ const fields: any = {
     box: boxFields,
     dytable: dyTableFields,
 };
+
 /**
  * 容器属性
  */
@@ -1370,7 +1368,7 @@ export function buttonClickDataField() {
 }
 
 const formFields = computed(
-    () => analysisCompDatas(designForm.compList).selectList,
+    () => analysisCompDatas(getDesignFormStore().compList).selectList,
 );
 
 /**
@@ -1629,7 +1627,7 @@ const selectType = [
  * @param itemType
  */
 export function fieldPlaceholder(item: any, compInfo?: any) {
-    let preps: any = compInfo ?? unref(designForm.currentComp);
+    let preps: any = compInfo ?? unref(getDesignFormStore().currentComp);
     if (!preps) {
         return "";
     }

@@ -1,16 +1,16 @@
 <script setup lang="ts" name="collapse-container">
-import { computed, onMounted, PropType, ref, watch } from "vue";
-import {itemCheck, uuid,useDesignFormStore,piniaInstance} from "star-horse-lowcode";
+import {computed, onMounted, PropType, ref, watch} from "vue";
+import {getDesignFormStore, itemCheck, uuid} from "star-horse-lowcode";
 
 const props = defineProps({
-  parentField: { type: Object as PropType<any> },
-  isDesign: { type: Boolean, default: false },
-  showFormItem: { type: Boolean, default: false },
-  disabled: { type: Boolean, default: false },
-  formInfo: { type: Object as PropType<any> },
-  field: { type: Object as PropType<any> },
+  parentField: {type: Object as PropType<any>},
+  isDesign: {type: Boolean, default: false},
+  showFormItem: {type: Boolean, default: false},
+  disabled: {type: Boolean, default: false},
+  formInfo: {type: Object as PropType<any>},
+  field: {type: Object as PropType<any>},
 });
-let designForm = useDesignFormStore(piniaInstance);
+let designForm = getDesignFormStore();
 const isDragging = computed(() => designForm.isDragging);
 const formData = defineModel("formData");
 /**
@@ -55,31 +55,31 @@ onMounted(() => {
   activeTabName.value = props.field["preps"]["elements"][0].tabName;
 });
 watch(
-  () => activeTabName.value,
-  (val) => {
-    props.field["activeItemName"] = val;
-    designForm.setCurrentSubTabName(val);
-  },
-  { immediate: true, deep: true },
+    () => activeTabName.value,
+    (val) => {
+      props.field["activeItemName"] = val;
+      designForm.setCurrentSubTabName(val);
+    },
+    {immediate: true, deep: true},
 );
 </script>
 <template>
   <group-container
-    class="star-horse-form-container"
-    :showFormItem="showFormItem"
-    :isDesign="isDesign"
-    :disabled="disabled"
-    :parentField="parentField"
-    :form-item="field"
+      class="star-horse-form-container"
+      :showFormItem="showFormItem"
+      :isDesign="isDesign"
+      :disabled="disabled"
+      :parentField="parentField"
+      :form-item="field"
   >
     <el-collapse
-      v-model="activeTabName"
-      class="collapse-container"
-      :accordion="field.preps['accordion']"
+        v-model="activeTabName"
+        class="collapse-container"
+        :accordion="field.preps['accordion']"
     >
       <el-collapse-item
-        v-for="adata in field['preps']['elements']"
-        :name="adata.tabName"
+          v-for="adata in field['preps']['elements']"
+          :name="adata.tabName"
       >
         <template #title>
           <div class="collapse-item-title title">
@@ -87,28 +87,28 @@ watch(
           </div>
         </template>
         <draggable
-          @add="(evt: Event) => onDragAdd(evt, adata['items'])"
-          @dragover="checkItem(adata)"
-          class="card-design"
-          :class="{ 'dragging-area': isDragging }"
-          group="starHorseGroup"
-          animation="100"
-          :item-key="uuid()"
-          ghostClass="ghost"
-          :list="adata['items']"
+            @add="(evt: Event) => onDragAdd(evt, adata['items'])"
+            @dragover="checkItem(adata)"
+            class="card-design"
+            :class="{ 'dragging-area': isDragging }"
+            group="starHorseGroup"
+            animation="100"
+            :item-key="uuid()"
+            ghostClass="ghost"
+            :list="adata['items']"
         >
           <template #item="{ element: data }">
             <div class="comp-item  my-[5px]">
               <component
-                :key="data.id"
-                :field="data"
-                :isDesign="isDesign"
-                :disabled="disabled"
-                :showFormItem="showFormItem"
-                :formInfo="formInfo"
-                :is="itemCheck(data)"
-                :parentField="field"
-                v-model:formData="formData"
+                  :key="data.id"
+                  :field="data"
+                  :isDesign="isDesign"
+                  :disabled="disabled"
+                  :showFormItem="showFormItem"
+                  :formInfo="formInfo"
+                  :is="itemCheck(data)"
+                  :parentField="field"
+                  v-model:formData="formData"
               />
             </div>
           </template>

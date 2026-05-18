@@ -1,6 +1,6 @@
 <script setup lang="ts" name="CustomerPropertyPanel">
 import {computed, nextTick, onMounted, PropType, ref, unref, watch,} from "vue";
-import {formFieldMapping, isJson, PageFieldInfo, piniaInstance, useDesignFormStore,} from "star-horse-lowcode";
+import {formFieldMapping, getDesignFormStore, isJson, PageFieldInfo,} from "star-horse-lowcode";
 import {loadSvgIcons} from "@/api/star_horse_form_utils.js";
 import {useDialogManager} from "@/components/system/items/form/composables/useDialogManager.js";
 import ButtonEventDialog from "@/components/system/items/form/dialogs/ButtonEventDialog.vue";
@@ -16,7 +16,7 @@ import FieldLayerDrawer from "@/components/system/items/form/dialogs/FieldLayerD
 const props = defineProps({
   optional: {type: Object as PropType<FormConfig>},
 });
-let designForm = useDesignFormStore(piniaInstance);
+let designForm = getDesignFormStore();
 let formDataList = computed(() => designForm.formDataList);
 let containerList = computed(() => designForm.containerList);
 let selfFormDataList = computed(() => designForm.selfFormDataList);

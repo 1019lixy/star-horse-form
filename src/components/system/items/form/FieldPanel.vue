@@ -1,6 +1,6 @@
 <script setup lang="ts" name="FieldPanel">
 import {computed, PropType, ref} from "vue";
-import {loadData, piniaInstance, StarHorseIcon, useDesignFormStore,} from "star-horse-lowcode";
+import {getDesignFormStore, loadData, StarHorseIcon,} from "star-horse-lowcode";
 import {fieldCopy} from "@/components/system/items/utils/FieldOperationUtils.js";
 import {i18n} from "@/lang/index.js";
 import {FormConfig} from "@/components/types";
@@ -9,7 +9,7 @@ const props = defineProps({
   optional: {type: Object as PropType<FormConfig>},
 });
 const emits = defineEmits(["loadData"]);
-const designForm = useDesignFormStore(piniaInstance);
+const designForm = getDesignFormStore();
 const baseFormDataList = computed(() => designForm.formDataList);
 const baseContainerList = computed(() => designForm.containerList);
 const baseSelfFormDataList = computed(() => designForm.selfFormDataList);
@@ -20,13 +20,13 @@ const formDataList = computed(() => {
   if (!formQuery.value) {
     return baseFormDataList.value;
   }
-  return  baseFormDataList.value.filter((item) =>item.itemName.toLowerCase().includes(formQuery.value.toLowerCase()));
+  return baseFormDataList.value.filter((item) => item.itemName.toLowerCase().includes(formQuery.value.toLowerCase()));
 });
 let containerList = computed(() => {
   if (!containerQuery.value) {
     return baseContainerList.value;
   }
-  return baseContainerList.value.filter((item) =>item.itemName.toLowerCase().includes(containerQuery.value.toLowerCase()));
+  return baseContainerList.value.filter((item) => item.itemName.toLowerCase().includes(containerQuery.value.toLowerCase()));
 });
 let selfFormDataList = computed(() => {
   if (!selfQuery.value) {
@@ -164,7 +164,7 @@ defineExpose({});
               <div class="my-3 w-full">
                 <el-input v-model="formQuery" :placeholder="i18n('dyform.collapse.form')" clearable>
                   <template #prefix>
-                   <star-horse-icon iconClass="search"/>
+                    <star-horse-icon iconClass="search"/>
                   </template>
                 </el-input>
               </div>
@@ -210,7 +210,7 @@ defineExpose({});
                 </div>
               </template>
               <div class="my-3 w-full">
-                <el-input v-model="selfQuery" clearable :placeholder="i18n('dyform.collapse.custom')" >
+                <el-input v-model="selfQuery" clearable :placeholder="i18n('dyform.collapse.custom')">
                   <template #prefix>
                     <star-horse-icon iconClass="search"/>
                   </template>

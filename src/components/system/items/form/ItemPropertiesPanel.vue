@@ -6,7 +6,7 @@ import {
   fieldPlaceholder,
   relationDataField,
 } from "@/components/system/items/utils/ItemPreps.js";
-import {operationConfirm, piniaInstance, useDesignFormStore, uuid, validRulesList, warning,} from "star-horse-lowcode";
+import {getDesignFormStore, operationConfirm, uuid, validRulesList, warning,} from "star-horse-lowcode";
 import {i18n} from "@/lang/index.js";
 import DataSourceComp from "@/components/system/items/utils/DataSourceComp.vue";
 import {FormConfig} from "@/components/types";
@@ -17,7 +17,7 @@ defineOptions({
 const props = defineProps({
   optional: {type: Object as PropType<FormConfig>},
 });
-let designForm = useDesignFormStore(piniaInstance);
+let designForm = getDesignFormStore();
 const quickConfig = ref<Record<string, number>>({
   rowNums: 1,
   columnNums: 1,

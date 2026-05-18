@@ -1,17 +1,17 @@
 <template>
   <box-container
-    :formData="formData"
-    :field="fields"
-    :isDesign="true"
-    :formInfo="{}"
+      :formData="formData"
+      :field="fields"
+      :isDesign="true"
+      :formInfo="{}"
   />
 </template>
 
 <script lang="ts" setup>
-import { computed, onMounted, ref } from "vue";
-import { useDesignFormStore,piniaInstance } from "star-horse-lowcode";
+import {computed, onMounted, ref} from "vue";
+import {getDesignFormStore} from "star-horse-lowcode";
 
-let designForm = useDesignFormStore(piniaInstance);
+let designForm = getDesignFormStore();
 let currenetId = computed(() => designForm.currentItemId);
 const formData = ref<any>({
   test: "1-2-1",
@@ -729,7 +729,7 @@ const formData = ref<any>({
   type: "box",
 });*/
 
-const fields=ref<any>({
+const fields = ref<any>({
   "id": "Idsh5d0dae94-d250-4e19-b655-04dc860f722d",
   "preps": {
     "id": "Idsh5d0dae94-d250-4e19-b655-04dc860f722d",

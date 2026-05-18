@@ -1,8 +1,7 @@
-import {piniaInstance, postRequest, SearchParams, useDesignFormStore, uuid,} from "star-horse-lowcode";
+import {getDesignFormStore, postRequest, SearchParams, uuid,} from "star-horse-lowcode";
 import {computed} from "vue";
 
-const designForm = useDesignFormStore(piniaInstance);
-const formData = computed(() => designForm.formData);
+const formData = computed(() => getDesignFormStore().formData);
 const numField: Array<string> = [
     "minlength",
     "maxLength",
@@ -43,7 +42,7 @@ const getDefaultVal = (type: string) => {
 export function fieldCopy(data: any, type: string) {
     const reData = JSON.parse(JSON.stringify(data));
     //如果数据没有索引，则初始化索引
-    const ms = designForm.getFieldDataIndex();
+    const ms = getDesignFormStore().getFieldDataIndex();
     const mvData: any = {};
     mvData["id"] = "Id" + uuid();
     // console.log(reData);
@@ -79,7 +78,7 @@ export function fieldCopy(data: any, type: string) {
             {
                 id: uuid(),
                 rowIndex: 1,
-                columns: [{id: uuid(),cellVisible: true, colIndex: 1, colspan: 24, items: []}],
+                columns: [{id: uuid(), cellVisible: true, colIndex: 1, colspan: 24, items: []}],
             },
         ];
     } else if (reData.itemType == "table") {
@@ -152,9 +151,9 @@ export function compFieldInit() {
         assignData(itemsRes);
         assignData(selfItemsRes);
 
-        designForm.setContainerList(containerRes);
-        designForm.setFormDataList(itemsRes);
-        designForm.setSelfFormDataList(selfItemsRes);
-        designForm.setAllFormDataList(allFormDataList);
+        getDesignFormStore().setContainerList(containerRes);
+        getDesignFormStore().setFormDataList(itemsRes);
+        getDesignFormStore().setSelfFormDataList(selfItemsRes);
+        getDesignFormStore().setAllFormDataList(allFormDataList);
     });
 }

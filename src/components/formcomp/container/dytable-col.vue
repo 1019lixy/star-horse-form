@@ -1,7 +1,7 @@
 <script setup lang="ts" name="box-container">
 import {computed, onMounted, PropType, ref} from "vue";
 import {tableCellOperation} from "@/components/formcomp/container/dytableUtils";
-import {itemCheck, uuid,useDesignFormStore,piniaInstance,warning} from "star-horse-lowcode";
+import {getDesignFormStore, itemCheck, uuid, warning} from "star-horse-lowcode";
 import ContainerDropDown from "@/components/formcomp/utils/ContainerDropDown.vue";
 
 const props = defineProps({
@@ -21,7 +21,7 @@ const props = defineProps({
   actionColIndex: {type: Number, default: -1},
   compSize: {type: String, default: "default"},
 });
-let designForm = useDesignFormStore(piniaInstance);
+let designForm = getDesignFormStore();
 let draggingItem = computed(() => designForm.draggingItem);
 let excludeContainerType: Array<string> = [
   "box",

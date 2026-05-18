@@ -25,10 +25,10 @@
 
 <script lang="ts" setup>
 import {onMounted, ref} from "vue";
-import { useDesignFormStore,piniaInstance,StarHorseJsonEditor } from "star-horse-lowcode";
+import {getDesignFormStore, StarHorseJsonEditor} from "star-horse-lowcode";
 import JSON5 from "json5";
 
-let designForm = useDesignFormStore(piniaInstance);
+let designForm = getDesignFormStore();
 const formData = ref<any>({
   test: "1-2-1",
 });

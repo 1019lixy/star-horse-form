@@ -1,12 +1,12 @@
 <script setup lang="ts">
 import {computed, onMounted, ref} from "vue";
-import {analysisCompDatas, error, piniaInstance, success, useDesignFormStore} from "star-horse-lowcode";
+import {analysisCompDatas, getDesignFormStore} from "star-horse-lowcode";
 import {FormConfig} from "@/components/types/FormConfig";
 
 const props = defineProps<{
   optional: FormConfig;
 }>();
-let designForm = useDesignFormStore(piniaInstance);
+let designForm = getDesignFormStore();
 let compList = computed(() => designForm.compList);
 let formInfo = computed(() => designForm.formInfo);
 let compSize = computed(() => props.optional?.compSize ?? "default");

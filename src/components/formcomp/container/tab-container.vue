@@ -1,15 +1,16 @@
 <script setup lang="ts" name="tab-container">
-import { computed, onMounted, PropType, ref, watch } from "vue";
-import {itemCheck, uuid,useDesignFormStore,piniaInstance,compKey} from "star-horse-lowcode";
+import {computed, onMounted, PropType, ref, watch} from "vue";
+import {compKey, getDesignFormStore, itemCheck, uuid} from "star-horse-lowcode";
+
 const props = defineProps({
-  parentField: { type: Object as PropType<any> },
-  isDesign: { type: Boolean, default: false },
-  showFormItem: { type: Boolean, default: false },
-  disabled: { type: Boolean, default: false },
-  formInfo: { type: Object as PropType<any> },
-  field: { type: Object as PropType<any> },
+  parentField: {type: Object as PropType<any>},
+  isDesign: {type: Boolean, default: false},
+  showFormItem: {type: Boolean, default: false},
+  disabled: {type: Boolean, default: false},
+  formInfo: {type: Object as PropType<any>},
+  field: {type: Object as PropType<any>},
 });
-let designForm = useDesignFormStore(piniaInstance);
+let designForm = getDesignFormStore();
 const isDragging = computed(() => designForm.isDragging);
 const formData = defineModel("formData");
 let containerType: Array<string> = [
@@ -68,74 +69,75 @@ onMounted(() => {
   activeTabName.value = props.field.preps.elements[0].tabName;
 });
 watch(
-  () => activeTabName.value,
-  (val) => {
-    props.field["activeItemName"] = val;
-    designForm.setCurrentSubTabName(val);
-  },
-  { immediate: true, deep: true },
+    () => activeTabName.value,
+    (val) => {
+      props.field["activeItemName"] = val;
+      designForm.setCurrentSubTabName(val);
+    },
+    {immediate: true, deep: true},
 );
 const dynamicFunc = (funcType: string, funcCode: any) => {
   let func = new Function(funcCode);
   func.call(this);
 };
-const addTab = () => {};
+const addTab = () => {
+};
 </script>
 <template>
   <group-container
-    class="star-horse-form-container"
-    :showFormItem="showFormItem"
-    :isDesign="isDesign"
-    :disabled="disabled"
-    :parentField="parentField"
-    :form-item="field"
+      class="star-horse-form-container"
+      :showFormItem="showFormItem"
+      :isDesign="isDesign"
+      :disabled="disabled"
+      :parentField="parentField"
+      :form-item="field"
   >
     <el-tabs
-      class="tab-container"
-      :tab-position="field.preps['tablePosition'] || 'top'"
-      :type="field.preps['type'] || ''"
-      :closable="field.preps['closable']"
-      :addable="field.preps['addable']"
-      :editable="field.preps['editable']"
-      :stretch="field.preps['stretch']"
-      v-model="activeTabName"
-      @tab-add="addTab()"
-      @tab-click="dynamicFunc('tabClick', field['tabClick'])"
-      @tab-change="dynamicFunc('tabChange', field['tabChange'])"
-      @tab-remove="dynamicFunc('tabRemove', field['tabRemove'])"
+        class="tab-container"
+        :tab-position="field.preps['tablePosition'] || 'top'"
+        :type="field.preps['type'] || ''"
+        :closable="field.preps['closable']"
+        :addable="field.preps['addable']"
+        :editable="field.preps['editable']"
+        :stretch="field.preps['stretch']"
+        v-model="activeTabName"
+        @tab-add="addTab()"
+        @tab-click="dynamicFunc('tabClick', field['tabClick'])"
+        @tab-change="dynamicFunc('tabChange', field['tabChange'])"
+        @tab-remove="dynamicFunc('tabRemove', field['tabRemove'])"
     >
       <el-tab-pane
-        v-for="(adata, key) in field['preps']['elements']"
-        :key="compKey(adata, key)"
-        :label="adata['label']"
-        :name="adata['tabName']"
+          v-for="(adata, key) in field['preps']['elements']"
+          :key="compKey(adata, key)"
+          :label="adata['label']"
+          :name="adata['tabName']"
       >
         <draggable
-          @add="(evt: Event) => onDragAdd(evt, adata['items'])"
-          @dragover="checkItem(adata)"
-          class="tab-design"
-          :class="{ 'dragging-area': isDragging }"
-          group="starHorseGroup"
-          animation="100"
-          :item-key="uuid()"
-          ghostClass="ghost"
-          :list="adata['items']"
+            @add="(evt: Event) => onDragAdd(evt, adata['items'])"
+            @dragover="checkItem(adata)"
+            class="tab-design"
+            :class="{ 'dragging-area': isDragging }"
+            group="starHorseGroup"
+            animation="100"
+            :item-key="uuid()"
+            ghostClass="ghost"
+            :list="adata['items']"
         >
           <template #item="{ element: data }">
             <div
-              class="comp-item  my-[5px]"
-              :style="{ marginTop: isContainer(data) ? '25px' : '10px' }"
+                class="comp-item  my-[5px]"
+                :style="{ marginTop: isContainer(data) ? '25px' : '10px' }"
             >
               <component
-                :key="data.id"
-                :field="data"
-                :isDesign="isDesign"
-                :disabled="disabled"
-                :showFormItem="showFormItem"
-                :formInfo="formInfo"
-                :is="itemCheck(data)"
-                :parentField="field"
-                v-model:formData="formData"
+                  :key="data.id"
+                  :field="data"
+                  :isDesign="isDesign"
+                  :disabled="disabled"
+                  :showFormItem="showFormItem"
+                  :formInfo="formInfo"
+                  :is="itemCheck(data)"
+                  :parentField="field"
+                  v-model:formData="formData"
               />
             </div>
           </template>

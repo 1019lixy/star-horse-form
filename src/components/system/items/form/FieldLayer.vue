@@ -1,13 +1,13 @@
 <script setup lang="ts" name="FieldLayer">
 import {computed, onMounted, ref, watch} from "vue";
-import {analysisCompDatas, piniaInstance, SelectOption, useDesignFormStore,} from "star-horse-lowcode";
+import {analysisCompDatas, getDesignFormStore, SelectOption,} from "star-horse-lowcode";
 import {i18n} from "@/lang/index.js";
 
 const props = defineProps({
   operType: {type: String, required: false},
 });
 const emits = defineEmits(["dataBind"]);
-const designForm = useDesignFormStore(piniaInstance);
+const designForm = getDesignFormStore();
 const compList = computed(() => designForm.compList);
 const compNames = ref<SelectOption[]>([]);
 const dataChange = (data: any) => {

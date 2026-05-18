@@ -1,6 +1,6 @@
 <script setup lang="ts" name="card-container">
 import {computed, onMounted, PropType, ref} from "vue";
-import {itemCheck, uuid,useDesignFormStore,piniaInstance} from "star-horse-lowcode";
+import {getDesignFormStore, itemCheck, uuid} from "star-horse-lowcode";
 
 const props = defineProps({
   parentField: {type: Object as PropType<any>},
@@ -10,7 +10,7 @@ const props = defineProps({
   formInfo: {type: Object as PropType<any>},
   field: {type: Object as PropType<any>},
 });
-let designForm = useDesignFormStore(piniaInstance);
+let designForm = getDesignFormStore();
 const isDragging = computed(() => designForm.isDragging);
 const formData = defineModel("formData");
 let containerType: Array<string> = [

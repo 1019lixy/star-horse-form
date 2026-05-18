@@ -15,12 +15,11 @@ import {debounce} from "lodash";
 import {
   CompType,
   error,
+  getDesignFormStore,
+  getGlobalConfigStore,
+  getSelfOperationStore,
   operationConfirm,
-  piniaInstance,
   success,
-  useDesignFormStore,
-  useGlobalConfigStore,
-  useSelfOperationStore,
   warning
 } from "star-horse-lowcode";
 import {validDynamicFormCompParams} from "@/components/system/items/utils/FormParamsValid";
@@ -65,9 +64,9 @@ const emits = defineEmits([
   "loadTableColumns",
 ]);
 const formSocketInstance = ref<FormSocketService | null>(null);
-let designForm = useDesignFormStore(piniaInstance);
-let userOperation = useSelfOperationStore(piniaInstance);
-let configStore = useGlobalConfigStore(piniaInstance);
+let designForm = getDesignFormStore();
+let userOperation = getSelfOperationStore();
+let configStore = getGlobalConfigStore();
 
 let compSize = computed(
     () => configStore.configFormInfo?.buttonSize || Config.compSize,

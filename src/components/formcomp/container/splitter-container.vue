@@ -1,21 +1,22 @@
 <script setup lang="ts">
-import { computed, onMounted, PropType } from "vue";
+import {computed, onMounted, PropType} from "vue";
 
 import GroupContainer from "@/components/formcomp/container/group-container.vue";
 import JSON5 from "json5";
-import {itemCheck, uuid,useDesignFormStore,piniaInstance} from "star-horse-lowcode";
+import {getDesignFormStore, itemCheck, uuid} from "star-horse-lowcode";
+
 defineOptions({
   name: "SplitterContainer",
 });
 const props = defineProps({
-  parentField: { type: Object as PropType<any> },
-  isDesign: { type: Boolean, default: false },
-  showFormItem: { type: Boolean, default: false },
-  disabled: { type: Boolean, default: false },
-  formInfo: { type: Object as PropType<any> },
-  field: { type: Object as PropType<any> },
+  parentField: {type: Object as PropType<any>},
+  isDesign: {type: Boolean, default: false},
+  showFormItem: {type: Boolean, default: false},
+  disabled: {type: Boolean, default: false},
+  formInfo: {type: Object as PropType<any>},
+  field: {type: Object as PropType<any>},
 });
-let designForm = useDesignFormStore(piniaInstance);
+let designForm = getDesignFormStore();
 const isDragging = computed(() => designForm.isDragging);
 const formData = defineModel("formData");
 /**
@@ -85,44 +86,44 @@ onMounted(() => {
 </script>
 <template>
   <group-container
-    class="star-horse-form-container"
-    :showFormItem="showFormItem"
-    :isDesign="isDesign"
-    :disabled="disabled"
-    :parentField="parentField"
-    :form-item="field"
+      class="star-horse-form-container"
+      :showFormItem="showFormItem"
+      :isDesign="isDesign"
+      :disabled="disabled"
+      :parentField="parentField"
+      :form-item="field"
   >
     <el-splitter
-      :layout="field?.preps?.layout ?? 'horizontal'"
-      :lazy="field?.preps?.lazy"
+        :layout="field?.preps?.layout ?? 'horizontal'"
+        :lazy="field?.preps?.lazy"
     >
       <el-splitter-panel
-        v-for="adata in field['preps']['elements']"
-        v-bind="checkData(adata)"
+          v-for="adata in field['preps']['elements']"
+          v-bind="checkData(adata)"
       >
         <draggable
-          @add="(evt: Event) => onDragAdd(evt, adata['items'])"
-          @dragover="checkItem(adata)"
-          class="card-design"
-          :class="{ 'dragging-area': isDragging }"
-          group="starHorseGroup"
-          animation="100"
-          :item-key="uuid()"
-          ghostClass="ghost"
-          :list="adata['items']"
+            @add="(evt: Event) => onDragAdd(evt, adata['items'])"
+            @dragover="checkItem(adata)"
+            class="card-design"
+            :class="{ 'dragging-area': isDragging }"
+            group="starHorseGroup"
+            animation="100"
+            :item-key="uuid()"
+            ghostClass="ghost"
+            :list="adata['items']"
         >
           <template #item="{ element: data }">
             <div class="comp-item  my-[5px]">
               <component
-                :key="data.id"
-                :field="data"
-                :isDesign="isDesign"
-                :disabled="disabled"
-                :showFormItem="showFormItem"
-                :formInfo="formInfo"
-                :is="itemCheck(data)"
-                :parentField="field"
-                v-model:formData="formData"
+                  :key="data.id"
+                  :field="data"
+                  :isDesign="isDesign"
+                  :disabled="disabled"
+                  :showFormItem="showFormItem"
+                  :formInfo="formInfo"
+                  :is="itemCheck(data)"
+                  :parentField="field"
+                  v-model:formData="formData"
               />
             </div>
           </template>
