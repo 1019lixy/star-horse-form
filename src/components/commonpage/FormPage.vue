@@ -38,6 +38,7 @@ const loadFormData = async () => {
     let {fieldList} = analysisCompDatas(props.compList);
     tableFieldList.value.fieldList = fieldList;
   }
+  console.log(JSON.stringify(tableFieldList.value));
   await nextTick();
   hasData.value = true;
   isLoading.value = false; // 加载完成

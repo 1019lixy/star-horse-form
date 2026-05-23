@@ -54,6 +54,7 @@ const loadFormData = async () => {
     let {fieldList} = analysisCompDatas(props.compList);
     tableFieldList.value.fieldList = fieldList;
   }
+  console.log(JSON.stringify(tableFieldList.value));
   await nextTick();
   normalPageRef.value?.loadByPage();
   isLoading.value = false; // 加载完成

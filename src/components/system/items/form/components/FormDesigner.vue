@@ -146,7 +146,7 @@ onUnmounted(() => {
       ref="formContainerRef"
       :class="currentPageClass"
       @contextmenu="contextMenu"
-      style="scrollbar-width: thin"
+      style="scrollbar-width: thin; padding-top: 32px"
       class="overflow-auto! relative"
     >
       <draggable

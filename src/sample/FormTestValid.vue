@@ -1,26 +1,22 @@
 <script lang="ts" setup>
 import {
-  apiInstance, closeLoad,
-  deleteByIds, error,
+  apiInstance,
+  closeLoad,
+  deleteByIds,
+  error,
   getRequest,
   load,
   loadData,
   postRequest,
-  SelectOption, success,
+  SelectOption,
+  success,
   warning
 } from "star-horse-lowcode";
 import StarHorseFormDesign from "@/components/system/StarHorseFormDesign.vue";
 import {nextTick, ref} from "vue";
 import {FormConfig} from "@/components/types";
 import {useRoute} from "vue-router";
-import {
-  dbConfigList,
-  getUserInfo,
-  loadDict,
-  loadRolesInfo,
-  loadSystemInfo,
-  permissionMenus
-} from "@/sample/utils/formapi";
+import {getUserInfo, loadDict, loadRolesInfo, loadSystemInfo, permissionMenus} from "@/sample/utils/formapi";
 import {ServiceEnums} from "@/components/enums/ServiceEnums";
 
 const starHorseFormDesignRef = ref();
@@ -62,13 +58,13 @@ const optional = ref<FormConfig>({
   api: api,
   primaryKey: "idDynamicForm",
   permissions: {
-    "add":"add",
-    "edit":"edit",
-    "view":"view"
+    "add": "add",
+    "edit": "edit",
+    "view": "view"
   },
   hideConfigBtn: false,
   batchCreatePage: true,
-  loadDicts: loadDict,
+  loadDicts: (dictName: string) => loadDict(dictName),
   forbiddenSystemItems: false,
   shotProps: {
     label: "formName",
@@ -144,86 +140,86 @@ const optional = ref<FormConfig>({
   loadDbList: () => {
     return new Promise((executor, reject) => {
       executor([
-            {
-              "name" : "192.168.20.107(star_horse_devops)",
-              "value" : "2"
-            },
-            {
-              "name" : "10.10.10.27(db_dynamic)",
-              "value" : "3"
-            },
-            {
-              "name" : "10.10.10.27(doov_system_config)",
-              "value" : "4"
-            },
-            {
-              "name" : "10.10.10.27(doov_lean_materials)",
-              "value" : "7"
-            },
-            {
-              "name" : "10.10.10.27(workflow)",
-              "value" : "5"
-            },
-            {
-              "name" : "192.168.20.107(script_manage)",
-              "value" : "8"
-            },
-            {
-              "name" : "10.10.10.25(ORCLPDB1)",
-              "value" : "91"
-            },
-            {
-              "name" : "10.10.10.10(doovpackdb)",
-              "value" : "90"
-            },
-            {
-              "name" : "192.168.20.29(GdzcDB)",
-              "value" : "130"
-            },
-            {
-              "name" : "10.10.10.32(DVMES)",
-              "value" : "133"
-            },
-            {
-              "name" : "10.10.10.99(DVMES)",
-              "value" : "134"
-            },
-            {
-              "name" : "192.168.20.165(device_manage)",
-              "value" : "137"
-            },
-            {
-              "name" : "192.168.20.107(device_manage)",
-              "value" : "6"
-            },
-            {
-              "name" : "192.168.20.107(glue_manage)",
-              "value" : "331718530636448765"
-            },
-            {
-              "name" : "192.168.20.107(star_horse_workflow)",
-              "value" : "337537414606095357"
-            },
-            {
-              "name" : "192.168.20.107(star_horse_continuous)",
-              "value" : "136"
-            },
-            {
-              "name" : "10.10.10.32(dvmes)",
-              "value" : "368615530598237181"
-            },
-            {
-              "name" : "10.10.10.99(dvmes)",
-              "value" : "368615668037190653"
-            },
-            {
-              "name" : "192.168.20.6(TIMS_DOOV)",
-              "value" : "370194292930511869"
-            },
-            {
-              "name" : "192.168.20.207(quantity_manage)",
-              "value" : "381167130139165693"
-            }
+        {
+          "name": "192.168.20.107(star_horse_devops)",
+          "value": "2"
+        },
+        {
+          "name": "10.10.10.27(db_dynamic)",
+          "value": "3"
+        },
+        {
+          "name": "10.10.10.27(doov_system_config)",
+          "value": "4"
+        },
+        {
+          "name": "10.10.10.27(doov_lean_materials)",
+          "value": "7"
+        },
+        {
+          "name": "10.10.10.27(workflow)",
+          "value": "5"
+        },
+        {
+          "name": "192.168.20.107(script_manage)",
+          "value": "8"
+        },
+        {
+          "name": "10.10.10.25(ORCLPDB1)",
+          "value": "91"
+        },
+        {
+          "name": "10.10.10.10(doovpackdb)",
+          "value": "90"
+        },
+        {
+          "name": "192.168.20.29(GdzcDB)",
+          "value": "130"
+        },
+        {
+          "name": "10.10.10.32(DVMES)",
+          "value": "133"
+        },
+        {
+          "name": "10.10.10.99(DVMES)",
+          "value": "134"
+        },
+        {
+          "name": "192.168.20.165(device_manage)",
+          "value": "137"
+        },
+        {
+          "name": "192.168.20.107(device_manage)",
+          "value": "6"
+        },
+        {
+          "name": "192.168.20.107(glue_manage)",
+          "value": "331718530636448765"
+        },
+        {
+          "name": "192.168.20.107(star_horse_workflow)",
+          "value": "337537414606095357"
+        },
+        {
+          "name": "192.168.20.107(star_horse_continuous)",
+          "value": "136"
+        },
+        {
+          "name": "10.10.10.32(dvmes)",
+          "value": "368615530598237181"
+        },
+        {
+          "name": "10.10.10.99(dvmes)",
+          "value": "368615668037190653"
+        },
+        {
+          "name": "192.168.20.6(TIMS_DOOV)",
+          "value": "370194292930511869"
+        },
+        {
+          "name": "192.168.20.207(quantity_manage)",
+          "value": "381167130139165693"
+        }
       ]);
     });
   },

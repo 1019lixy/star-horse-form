@@ -701,6 +701,16 @@ export const formItems: CompType[] = [
                 configParams: [],
             },
             {
+                label: "取系统时间",
+                fieldName: "dateNeedDefaultValue",
+                fieldType: "switch",
+                required: false,
+                selectValues: "[true,false]",
+                defaultValues: "false",
+                category: 1,
+                configParams: [],
+            },
+            {
                 label: "日期显示格式",
                 fieldName: "format",
                 fieldType: "select",
