@@ -6,14 +6,27 @@ import {
   fieldPlaceholder,
   relationDataField,
 } from "@/components/system/items/utils/ItemPreps.js";
-import {getDesignFormStore, operationConfirm, uuid, validRulesList, warning,} from "star-horse-lowcode";
+import {
+  analysisCompDatas,
+  getDesignFormStore,
+  operationConfirm,
+  uuid,
+  validRulesList,
+  warning
+} from "star-horse-lowcode";
 import {i18n} from "@/lang/index.js";
 import DataSourceComp from "@/components/system/items/utils/DataSourceComp.vue";
 import {FormConfig} from "@/components/types";
+import type {FormulaConfig} from "@/components/types/FormulaConfig";
+import FormulaConfigDialog from "@/components/system/items/form/dialogs/FormulaConfigDialog.vue";
 
 defineOptions({
   name: "ItemPropertiesPanel",
 });
+
+/** 支持公式配置的组件类型 */
+const formulaSupportedTypes = ["input", "number"];
+
 const props = defineProps({
   optional: {type: Object as PropType<FormConfig>},
 });
@@ -35,8 +48,8 @@ let currentCompCategory = computed(() => designForm.currentCompCategory);
 
 const formProps = computed(() => {
   let preps = unref(designForm.currentComp).preps;
-  if (!preps.rules) {
-    preps.rules = [];
+  if (!preps?.rules) {
+    preps["rules"] = [];
   }
   fieldPlaceholder(preps);
   let keys = Object.keys(preps);
@@ -48,6 +61,42 @@ const formProps = computed(() => {
   }
   return preps;
 });
+
+// ==================== 公式配置相关 ====================
+const formulaDialogRef = ref<InstanceType<typeof FormulaConfigDialog>>();
+
+/** 当前公式配置对象（响应式引用 formProps.formula） */
+const formulaConfig = computed<FormulaConfig>(() => {
+  if (!formProps.value.formula) {
+    formProps.value.formula = {
+      enable: false,
+      type: "calc",
+      sourceFields: [],
+      expression: "",
+    };
+  }
+  return formProps.value.formula;
+});
+
+/** 获取表单中所有可选字段（排除自身） */
+const availableFields = computed(() => {
+  const datas = analysisCompDatas(unref(designForm.compList));
+  console.log(datas)
+  const currentFieldName = formProps.value.name;
+  const dataList: any = [];
+  Object.entries(datas.compListResult).forEach(([key, value]) => {
+    if (value.compType != "container") {
+      dataList.push(value);
+    }
+  })
+  return dataList.filter((item: any) => item.fieldName && item.fieldName !== currentFieldName)
+      .map((item: any) => ({label: `${item.label} (${item.fieldName})`, value: item.fieldName, id: item.id}));
+});
+
+const openFormulaConfig = () => {
+  formulaDialogRef.value?.open();
+};
+
 let relationComps: Array<string> = [
   "select",
   "tselect",
@@ -438,6 +487,45 @@ watch(() => quickConfig.value, (val) => {
       >
         <el-button type="primary" @click="btnClickOpen">配置</el-button>
       </el-form-item>
+
+      <!-- ==================== 公式计算配置 ==================== -->
+      <el-form-item
+          :label="i18n('dyform.formula.label')"
+          prop="formula"
+          v-if="formulaSupportedTypes.includes(currentItemType)"
+      >
+        <div style="display: flex; align-items: center; width: 100%">
+          <el-switch
+              v-model="formulaConfig.enable"
+              :active-text="i18n('dyform.formula.enable')"
+              :inactive-text="i18n('dyform.formula.disable')"
+          />
+          <help
+              v-if="!formulaConfig.enable"
+              :message="i18n('dyform.formula.helpMsg')"
+          />
+          <el-button
+              v-if="formulaConfig.enable"
+              type="primary"
+              plain
+              size="small"
+              icon="Setting"
+              @click="openFormulaConfig"
+              style="margin-left: 8px"
+          >{{ i18n('dyform.formula.config') }}
+          </el-button>
+        </div>
+
+      </el-form-item>
+      <FormulaConfigDialog
+          ref="formulaDialogRef"
+          v-model="formulaConfig"
+          :prepsConfig="formProps"
+          :item-type="currentItemType"
+          :fields="availableFields"
+      />
+      <!-- ==================== 公式计算配置 END ==================== -->
+
       <el-form-item label="校验规则" label-position="top" prop="rules">
         <el-select
             v-model="formProps.rules"
@@ -594,4 +682,5 @@ watch(() => quickConfig.value, (val) => {
     </template>
   </el-scrollbar>
 </template>
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+</style>
