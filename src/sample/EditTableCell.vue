@@ -1,5 +1,6 @@
 <script setup lang="ts" name="SystemParams">
 import {onActivated, onDeactivated, onMounted, provide, reactive, ref,} from "vue";
+import {i18n} from "@/lang";
 
 import {apiInstance, ApiUrls, dialogPreps,  PageFieldInfo, SearchFields} from "star-horse-lowcode";
 //后端交互接口地址
@@ -14,13 +15,13 @@ provide("formFields", formFields);
 const searchFormData = reactive<SearchFields>({
   fieldList: [
     {
-      label: "参数名",
+      label: i18n("dyform.sample.paramName"),
       fieldName: "paramName",
       defaultVisible: true,
       matchType: "lk",
     },
     {
-      label: "参数值",
+      label: i18n("dyform.sample.paramValue"),
       fieldName: "paramValue",
       defaultVisible: true,
       matchType: "lk",
@@ -32,7 +33,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
   //属性列表
   fieldList: [
     {
-      label: "参数名",
+      label: i18n("dyform.sample.paramName"),
       fieldName: "paramName",
 
       required: true,
@@ -43,7 +44,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       },
     },
     {
-      label: "参数值",
+      label: i18n("dyform.sample.paramValue"),
       fieldName: "paramValue",
       type: "textarea",
       required: true,
@@ -52,7 +53,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
     },
 
     {
-      label: "备注",
+      label: i18n("dyform.sample.remark"),
       fieldName: "remark",
       type: "textarea",
       required: false,
@@ -135,7 +136,7 @@ onDeactivated(() => {
           :fieldList="tableFieldList"
           :primaryKey="primaryKey"
           :compUrl="dataUrl"
-          :help-msg="`系统参数创建后，请不要随便删除或者修改，\n否则可能导致系统功能异常`"
+          :help-msg="i18n('dyform.sample.systemParamHelp')"
           :dataFormat="dataFormat"
       />
     </el-card>

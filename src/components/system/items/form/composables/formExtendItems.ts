@@ -1,18 +1,19 @@
 import { CompType, SelectOption } from "star-horse-lowcode";
+import {i18n} from "@/lang";
 
 const commonSelectOptions: SelectOption[] = [
-  { name: "字符串", value: "string" },
-  { name: "数值", value: "number" },
+  { name: i18n("dyform.item.40"), value: "string" },
+  { name: i18n("dyform.item.41"), value: "number" },
 ];
 export const formExtendItems: CompType[] = [
   {
-    itemName: "下拉分页",
+    itemName: i18n("dyform.extend.346"),
     itemType: "page-select",
     itemIcon: "input",
     category: 3,
     fields: [
       {
-        label: "值类型",
+        label: i18n("dyform.item.39"),
         fieldName: "valueType",
         fieldType: "select",
         required: false,
@@ -22,7 +23,7 @@ export const formExtendItems: CompType[] = [
         configParams: [],
       },
       {
-        label: "参数配置",
+        label: i18n("dyform.extend.347"),
         fieldName: "paramConfig",
         fieldType: "config",
         required: true,
@@ -34,7 +35,7 @@ export const formExtendItems: CompType[] = [
     ],
     advancedFields: [
       {
-        label: "指定返回字段",
+        label: i18n("dyform.extend.348"),
         fieldName: "needField",
         fieldType: "json",
         required: true,
@@ -44,7 +45,7 @@ export const formExtendItems: CompType[] = [
         configParams: [],
       },
       {
-        label: "接口地址",
+        label: i18n("dyform.extend.349"),
         fieldName: "dataUrl",
         fieldType: "input",
         required: true,
@@ -54,7 +55,7 @@ export const formExtendItems: CompType[] = [
         configParams: [],
       },
       {
-        label: "占位信息",
+        label: i18n("dyform.item.7"),
         fieldName: "placeholder",
         fieldType: "input",
         required: false,
@@ -64,7 +65,7 @@ export const formExtendItems: CompType[] = [
         configParams: [],
       },
       {
-        label: "展示字段",
+        label: i18n("dyform.extend.350"),
         fieldName: "fieldList",
         fieldType: "json",
         required: false,
@@ -74,7 +75,7 @@ export const formExtendItems: CompType[] = [
         configParams: [],
       },
       {
-        label: "查询条件",
+        label: i18n("dyform.extend.351"),
         fieldName: "condition",
         fieldType: "json",
         required: false,
@@ -84,7 +85,7 @@ export const formExtendItems: CompType[] = [
         configParams: [],
       },
       {
-        label: "排序",
+        label: i18n("dyform.extend.352"),
         fieldName: "orderby",
         fieldType: "json",
         required: false,
@@ -99,13 +100,13 @@ export const formExtendItems: CompType[] = [
     preps: [],
   },
   {
-    itemName: "弹窗选择",
+    itemName: i18n("dyform.extend.353"),
     itemType: "dialog-input",
     itemIcon: "input",
     category: 3,
     fields: [
       {
-        label: "参数配置",
+        label: i18n("dyform.extend.347"),
         fieldName: "paramConfig",
         fieldType: "config",
         required: true,
@@ -115,7 +116,7 @@ export const formExtendItems: CompType[] = [
         configParams: [],
       },
       {
-        label: "值类型",
+        label: i18n("dyform.item.39"),
         fieldName: "valueType",
         fieldType: "select",
         required: false,
@@ -127,7 +128,7 @@ export const formExtendItems: CompType[] = [
     ],
     advancedFields: [
       {
-        label: "指定返回字段",
+        label: i18n("dyform.extend.348"),
         fieldName: "needField",
         fieldType: "json",
         required: true,
@@ -137,7 +138,7 @@ export const formExtendItems: CompType[] = [
         configParams: [],
       },
       {
-        label: "展示字段",
+        label: i18n("dyform.extend.350"),
         fieldName: "fieldList",
         fieldType: "json",
         required: false,
@@ -147,7 +148,7 @@ export const formExtendItems: CompType[] = [
         configParams: [],
       },
       {
-        label: "排序",
+        label: i18n("dyform.extend.352"),
         fieldName: "orderby",
         fieldType: "json",
         required: false,
@@ -157,7 +158,7 @@ export const formExtendItems: CompType[] = [
         configParams: [],
       },
       {
-        label: "占位信息",
+        label: i18n("dyform.item.7"),
         fieldName: "placeholder",
         fieldType: "input",
         required: false,
@@ -189,7 +190,7 @@ export const formExtendItems: CompType[] = [
     fields: [],
     advancedFields: [
       {
-        label: "高度自适应",
+        label: i18n("dyform.item.126"),
         fieldName: "autosize",
         fieldType: "switch",
         required: false,
@@ -199,7 +200,7 @@ export const formExtendItems: CompType[] = [
         configParams: [],
       },
       {
-        label: "占位信息",
+        label: i18n("dyform.item.7"),
         fieldName: "placeholder",
         fieldType: "input",
         required: false,
@@ -209,14 +210,14 @@ export const formExtendItems: CompType[] = [
         configParams: [],
       },
       {
-        label: "输入框尺寸",
+        label: i18n("dyform.extend.354"),
         fieldName: "size",
         fieldType: "select",
         required: false,
         selectValues: [
-          { name: "大", value: "large" },
-          { name: "中", value: "default" },
-          { name: "小", value: "small" },
+          { name: i18n("dyform.extend.355"), value: "large" },
+          { name: i18n("dyform.item.289"), value: "default" },
+          { name: i18n("dyform.extend.356"), value: "small" },
         ],
         defaultValues: "",
         category: 2,
@@ -228,13 +229,13 @@ export const formExtendItems: CompType[] = [
     preps: [],
   },
   {
-    itemName: "下拉联动",
+    itemName: i18n("dyform.extend.357"),
     itemType: "relation-select",
     itemIcon: "input",
     category: 3,
     fields: [
       {
-        label: "值类型",
+        label: i18n("dyform.item.39"),
         fieldName: "valueType",
         fieldType: "select",
         required: false,
@@ -251,13 +252,13 @@ export const formExtendItems: CompType[] = [
   },
 
   {
-    itemName: "区域",
+    itemName: i18n("dyform.extend.358"),
     itemType: "area",
     itemIcon: "text",
     category: 3,
     fields: [
       {
-        label: "可搜索",
+        label: i18n("dyform.extend.359"),
         fieldName: "filterable",
         fieldType: "switch",
         required: false,
@@ -273,7 +274,7 @@ export const formExtendItems: CompType[] = [
     preps: [],
   },
   {
-    itemName: "视频播放器",
+    itemName: i18n("dyform.extend.360"),
     itemType: "vedio",
     itemIcon: "vedio",
     category: 3,
@@ -290,7 +291,7 @@ export const formExtendItems: CompType[] = [
     category: 3,
     fields: [
       {
-        label: "开发者模式",
+        label: i18n("dyform.extend.361"),
         fieldName: "devType",
         fieldType: "switch",
         required: false,
@@ -306,7 +307,7 @@ export const formExtendItems: CompType[] = [
     preps: [],
   },
   {
-    itemName: "音频播放器",
+    itemName: i18n("dyform.extend.362"),
     itemType: "audio",
     itemIcon: "audio",
     category: 3,
@@ -328,13 +329,13 @@ export const formExtendItems: CompType[] = [
     preps: [],
   },
   {
-    itemName: "签名",
+    itemName: i18n("dyform.extend.363"),
     itemType: "signature",
     itemIcon: "text",
     category: 3,
     fields: [
       {
-        label: "宽度",
+        label: i18n("dyform.item.120"),
         fieldName: "width",
         required: false,
         fieldType: "number",
@@ -342,7 +343,7 @@ export const formExtendItems: CompType[] = [
         category: 1,
       },
       {
-        label: "高度",
+        label: i18n("dyform.item.261"),
         fieldName: "height",
         required: false,
         fieldType: "number",
@@ -350,7 +351,7 @@ export const formExtendItems: CompType[] = [
         category: 1,
       },
       {
-        label: "画笔最小宽度(px)",
+        label: i18n("dyform.extend.364"),
         fieldName: "minWidth",
         required: false,
         fieldType: "number",
@@ -358,7 +359,7 @@ export const formExtendItems: CompType[] = [
         category: 1,
       },
       {
-        label: "画笔最大宽度(px)",
+        label: i18n("dyform.extend.365"),
         fieldName: "minWidth",
         required: false,
         fieldType: "number",
@@ -368,7 +369,7 @@ export const formExtendItems: CompType[] = [
     ],
     advancedFields: [
       {
-        label: "是否开启笔锋效果",
+        label: i18n("dyform.extend.366"),
         fieldName: "openSmooth",
         required: false,
         fieldType: "switch",
@@ -376,11 +377,11 @@ export const formExtendItems: CompType[] = [
         category: 2,
       },
       {
-        label: "画笔达到最小宽度所需最小速度(px/ms)",
+        label: i18n("dyform.extend.367"),
         fieldName: "minWidth",
         required: false,
         helpMsg:
-          "画笔达到最小宽度所需最小速度(px/ms),取值范围1.0-10.0，值越小，画笔越容易变细，笔锋效果会比较明显，可以自行调整查看效果，选出自己满意的值",
+          i18n("dyform.extend.368"),
         fieldType: "number",
         defaultValues: "1.5",
         category: 2,
@@ -391,13 +392,13 @@ export const formExtendItems: CompType[] = [
     preps: [],
   },
   {
-    itemName: "JSON数组",
+    itemName: i18n("dyform.extend.369"),
     itemType: "json-array",
     itemIcon: "text",
     category: 3,
     fields: [
       {
-        label: "开发者模式",
+        label: i18n("dyform.extend.361"),
         fieldName: "devType",
         fieldType: "switch",
         required: false,
@@ -414,24 +415,24 @@ export const formExtendItems: CompType[] = [
   },
 
   {
-    itemName: "系统组件",
+    itemName: i18n("dyform.extend.370"),
     itemType: "usercomp",
     itemIcon: "setting",
     category: 3,
     fields: [
       {
-        label: "组件名称",
+        label: i18n("dyform.item.0"),
         fieldName: "compName",
         fieldType: "input",
         required: true,
         selectValues: "",
         defaultValues: "",
         category: 1,
-        remark: "只能是components/common目录下的组件，n不能带目录2",
+        remark: i18n("dyform.extend.371"),
         configParams: [],
       },
       {
-        label: "组件目录",
+        label: i18n("dyform.extend.372"),
         fieldName: "compDirName",
         fieldType: "input",
         required: false,
@@ -448,13 +449,13 @@ export const formExtendItems: CompType[] = [
     preps: [],
   },
   {
-    itemName: "二维码",
+    itemName: i18n("dyform.extend.373"),
     itemType: "qrcode",
     itemIcon: "qrcode",
     category: 3,
     fields: [
       {
-        label: "二维码颜色",
+        label: i18n("dyform.extend.374"),
         fieldName: "color",
         fieldType: "input",
         required: false,
@@ -464,7 +465,7 @@ export const formExtendItems: CompType[] = [
         configParams: [],
       },
       {
-        label: "尺寸",
+        label: i18n("dyform.extend.375"),
         fieldName: "size",
         fieldType: "input",
         required: false,
@@ -474,7 +475,7 @@ export const formExtendItems: CompType[] = [
         configParams: [],
       },
       {
-        label: "背景色",
+        label: i18n("dyform.item.155"),
         fieldName: "bgColor",
         fieldType: "input",
         required: false,
@@ -484,37 +485,37 @@ export const formExtendItems: CompType[] = [
         configParams: [],
       },
       {
-        label: "纠错等级",
+        label: i18n("dyform.extend.376"),
         fieldName: "level",
         fieldType: "select",
         required: false,
         selectValues: [
-          { name: "低", value: "L" },
-          { name: "中", value: "M" },
+          { name: i18n("dyform.extend.377"), value: "L" },
+          { name: i18n("dyform.item.289"), value: "M" },
           { name: "1/4", value: "Q" },
-          { name: "高", value: "H" },
+          { name: i18n("dyform.extend.378"), value: "H" },
         ],
         defaultValues: "M",
         category: 1,
         configParams: [],
       },
       {
-        label: "二维码状态",
+        label: i18n("dyform.extend.379"),
         fieldName: "status",
         fieldType: "select",
         required: false,
         selectValues: [
-          { name: "激活", value: "active" },
-          { name: "过期", value: "expired" },
-          { name: "加载中", value: "loading" },
-          { name: "已浏览", value: "scanned" },
+          { name: i18n("dyform.extend.380"), value: "active" },
+          { name: i18n("dyform.extend.381"), value: "expired" },
+          { name: i18n("dyform.extend.382"), value: "loading" },
+          { name: i18n("dyform.extend.383"), value: "scanned" },
         ],
         defaultValues: "active",
         category: 1,
         configParams: [],
       },
       {
-        label: "渲染类型",
+        label: i18n("dyform.extend.384"),
         fieldName: "type",
         fieldType: "select",
         required: false,
@@ -529,7 +530,7 @@ export const formExtendItems: CompType[] = [
     ],
     advancedFields: [
       {
-        label: "图片地址",
+        label: i18n("dyform.extend.385"),
         fieldName: "icon",
         fieldType: "input",
         required: false,
@@ -539,7 +540,7 @@ export const formExtendItems: CompType[] = [
         configParams: [],
       },
       {
-        label: "图片大小",
+        label: i18n("dyform.extend.386"),
         fieldName: "iconSize",
         fieldType: "input",
         required: false,
@@ -549,7 +550,7 @@ export const formExtendItems: CompType[] = [
         configParams: [],
       },
       {
-        label: "图片设置",
+        label: i18n("dyform.extend.387"),
         fieldName: "iconsettings",
         fieldType: "json",
         required: false,
@@ -564,13 +565,13 @@ export const formExtendItems: CompType[] = [
     preps: [],
   },
   {
-    itemName: "条形码",
+    itemName: i18n("dyform.extend.388"),
     itemType: "barcode",
     itemIcon: "date-range-field",
     category: 3,
     fields: [
       {
-        label: "缩放",
+        label: i18n("dyform.item.9"),
         fieldName: "scale",
         fieldType: "input",
         required: false,
@@ -580,7 +581,7 @@ export const formExtendItems: CompType[] = [
         configParams: [],
       },
       {
-        label: "是否显示文本",
+        label: i18n("dyform.extend.389"),
         fieldName: "includeText",
         fieldType: "switch",
         required: false,
@@ -590,7 +591,7 @@ export const formExtendItems: CompType[] = [
         configParams: [],
       },
       {
-        label: "高度",
+        label: i18n("dyform.item.261"),
         fieldName: "height",
         fieldType: "input",
         required: false,
@@ -600,21 +601,21 @@ export const formExtendItems: CompType[] = [
         configParams: [],
       },
       {
-        label: "对齐方式",
+        label: i18n("dyform.extend.390"),
         fieldName: "textAlign",
         fieldType: "select",
         required: false,
         selectValues: [
-          { name: "左", value: "left" },
-          { name: "中", value: "center" },
-          { name: "右", value: "right" },
+          { name: i18n("dyform.item.32"), value: "left" },
+          { name: i18n("dyform.item.289"), value: "center" },
+          { name: i18n("dyform.item.33"), value: "right" },
         ],
         defaultValues: "center",
         category: 1,
         configParams: [],
       },
       {
-        label: "条形码风格",
+        label: i18n("dyform.extend.391"),
         fieldName: "bcid",
         fieldType: "input",
         required: false,
@@ -630,7 +631,7 @@ export const formExtendItems: CompType[] = [
     preps: [],
   },
   {
-    itemName: "地址",
+    itemName: i18n("dyform.extend.392"),
     itemType: "area",
     itemIcon: "position",
     category: 3,
@@ -641,7 +642,7 @@ export const formExtendItems: CompType[] = [
     preps: [],
   },
   {
-    itemName: "数据选择器",
+    itemName: i18n("dyform.extend.393"),
     itemType: "datapicker",
     itemIcon: "select",
     category: 3,

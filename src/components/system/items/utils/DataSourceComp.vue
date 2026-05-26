@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { loadSvgIconsByPath } from "@/api/star_horse_form_utils.js";
+import {i18n} from "@/lang";
 import {
   createData,
   getInterfaceUtils,
@@ -50,11 +51,11 @@ const props = defineProps({
   },
 });
 const dataSourceList = computed(() => {
-  const arr: SelectOption[] = [{ value: "data", name: "静态数据" }];
+  const arr: SelectOption[] = [{ value: "data", name: i18n("dyform.utils.586") }];
   if (props.model == "full") {
     arr.push(
-      { value: "url", name: "动态接口" },
-      { value: "dict", name: "数据字典" },
+      { value: "url", name: i18n("dyform.utils.587") },
+      { value: "dict", name: i18n("dyform.utils.588") },
     );
   }
   return arr;
@@ -74,7 +75,7 @@ const { fieldList, disableUrl } = interfaceUtils;
 // 生成URL配置字段
 const urlFields = getUrlFieldConfig(interfaceUtils, {
   showValidateButton: true,
-  validateButtonText: "校验",
+  validateButtonText: i18n("dyform.utils.589"),
   validateButtonIcon: "valid",
   urlColspan: 20,
   validateButtonColspan: 4,
@@ -101,7 +102,7 @@ const analysisOptionData = (val: any) => {
   const analysisValue = temp["analysisValue"];
   if (temp["analysisType"] === "path") {
     if (!analysisValue) {
-      error("请填写解析路径");
+      error(i18n("dyform.utils.590"));
       return;
     }
     // 添加public路径处理
@@ -109,7 +110,7 @@ const analysisOptionData = (val: any) => {
     temp["values"] = loadSvgIconsByPath(publicPath);
   } else if (temp["analysisType"] === "func") {
     if (!analysisValue) {
-      error("请填写函数名");
+      error(i18n("dyform.utils.591"));
       return;
     }
     import("@/api/star_horse_form_utils.js").then(async (utils: any) => {
@@ -120,13 +121,13 @@ const analysisOptionData = (val: any) => {
             const result = await utils[analysisValue]();
             temp.values = Array.isArray(result) ? result : [];
           } catch (e) {
-            error(`函数执行失败: ${e.message}`);
+            error(i18n("dyform.utils.592"));
           }
         } else {
-          error("指定函数不存在");
+          error(i18n("dyform.utils.593"));
         }
       } else {
-        error("未找到指定的工具函数");
+        error(i18n("dyform.utils.594"));
       }
     });
   }
@@ -134,23 +135,23 @@ const analysisOptionData = (val: any) => {
 const baseDataField: FieldInfo[] | any = [
   [
     {
-      label: "解析方式",
+      label: i18n("dyform.utils.595"),
       fieldName: "analysisType",
       helpMsg:
-        "路径解析：只能解析项目public下的子路径，格式为 test/*.svg，\n函数解析：只能解析src/api/star_horse_utils.ts下的无参函数，格式为: analysisData",
+        i18n("dyform.utils.596"),
       type: "radio",
       formVisible: true,
       defaultValue: "func",
       preps: {
         values: [
-          { name: "路径", value: "path", disabled: true },
-          { name: "函数", value: "func" },
+          { name: i18n("dyform.item.297"), value: "path", disabled: true },
+          { name: i18n("dyform.utils.499"), value: "func" },
         ],
         colspan: 8,
       },
     },
     {
-      label: "值",
+      label: i18n("dyform.dialog.420"),
       fieldName: "analysisValue",
       type: "input",
       formVisible: true,
@@ -159,7 +160,7 @@ const baseDataField: FieldInfo[] | any = [
       },
     },
     {
-      label: "解析",
+      label: i18n("dyform.utils.597"),
       fieldName: "btn",
       type: "button",
       formVisible: true,
@@ -179,7 +180,7 @@ const baseDataField: FieldInfo[] | any = [
         },
         fieldList: [
           {
-            label: "属性名",
+            label: i18n("dyform.utils.598"),
             fieldName: "name",
 
             required: dataRequired,
@@ -187,7 +188,7 @@ const baseDataField: FieldInfo[] | any = [
             listVisible: true,
           },
           {
-            label: "属性值",
+            label: i18n("dyform.utils.599"),
             fieldName: "value",
             required: dataRequired,
             formVisible: true,
@@ -205,16 +206,16 @@ const dynamicUrlField: FieldInfo[] | any = [
     fieldName: "queryParams",
     tabList: [
       {
-        title: "标准参数",
+        title: i18n("dyform.utils.600"),
         tabName: "queryParams",
         objectName: "queryParams",
         batchFieldList: [
           {
             batchName: "queryParams",
-            helpMsg: "标准参数：",
+            helpMsg: i18n("dyform.utils.601"),
             fieldList: [
               {
-                label: "参数名",
+                label: i18n("dyform.utils.467"),
                 fieldName: "name",
                 type: "select",
                 required: true,
@@ -227,7 +228,7 @@ const dynamicUrlField: FieldInfo[] | any = [
                 },
               },
               {
-                label: "匹配方式",
+                label: i18n("dyform.utils.468"),
                 fieldName: "matchType",
                 type: "select",
                 defaultValue: "eq",
@@ -252,7 +253,7 @@ const dynamicUrlField: FieldInfo[] | any = [
                 },
               },
               {
-                label: "参数值",
+                label: i18n("dyform.utils.469"),
                 fieldName: "value",
                 required: true,
                 formVisible: true,
@@ -263,13 +264,13 @@ const dynamicUrlField: FieldInfo[] | any = [
         ],
       },
       {
-        title: "自定义参数",
+        title: i18n("dyform.utils.602"),
         tabName: "customParams",
         objectName: "customParams",
         fieldList: [
           {
             fieldName: "customParams",
-            label: "自定义JSON参数",
+            label: i18n("dyform.utils.603"),
             type: "json",
             formVisible: true,
             listVisible: true,
@@ -285,7 +286,7 @@ const dynamicUrlField: FieldInfo[] | any = [
 ];
 const dictField: FieldInfo[] | any = [
   {
-    label: "字典名称",
+    label: i18n("dyform.utils.604"),
     fieldName: "urlOrDictName",
     required: true,
     type: "datapicker",
@@ -301,7 +302,7 @@ const dictField: FieldInfo[] | any = [
     },
   },
   {
-    label: "验证",
+    label: i18n("dyform.utils.452"),
     fieldName: "urlOrDictNameBtn",
     type: "button",
     actions: {
@@ -329,7 +330,7 @@ const dataSourceField = reactive<PageFieldInfo | any>({
   fieldList: [
     [
       {
-        label: "表单属性",
+        label: i18n("dyform.utils.605"),
         fieldName: "label",
         type: "tag",
         formVisible: true,
@@ -339,7 +340,7 @@ const dataSourceField = reactive<PageFieldInfo | any>({
         },
       },
       {
-        label: "数据源类型",
+        label: i18n("dyform.utils.606"),
         fieldName: "dataSource",
         type: "radio",
         required: true,

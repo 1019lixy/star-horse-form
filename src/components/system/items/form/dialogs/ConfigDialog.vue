@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed, nextTick, ref } from "vue";
-import { i18n } from "@/lang/index.js";
+import {i18n} from "@/lang";
 import { validDynamicFormCompParams } from "@/components/system/items/utils/FormParamsValid";
 import { piniaInstance, useDesignFormStore, warning } from "star-horse-lowcode";
 import FormPropertyPanel from "@/components/system/items/form/FormPropertyPanel.vue";
@@ -64,7 +64,7 @@ const doSave = async (isDraft: boolean = false) => {
     },
   );
   if (!flag) {
-    warning("请先填写表单信息");
+    warning(i18n("dyform.dialog.414"));
     return;
   }
   emits("save", isDraft, createFormInfo());

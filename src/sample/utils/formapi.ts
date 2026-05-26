@@ -358,10 +358,10 @@ export function commonParseCodeToName(name: string, cellValue: any) {
         return "-";
     }
     if (name == "isDel" || name.includes("&isDel")) {
-        return cellValue == 1 ? "是" : "否";
+        return cellValue == 1 ? i18n("dyform.sample.yes") : i18n("dyform.sample.no");
     }
     if (name == "state" || name.includes("&state")) {
-        return cellValue == 1 ? "正常" : "异常";
+        return cellValue == 1 ? i18n("dyform.sample.normal") : i18n("dyform.sample.abnormal");
     }
     const preps: Array<string> = [
         "createdTime",
@@ -391,7 +391,7 @@ export function commonParseCodeToName(name: string, cellValue: any) {
  */
 export async function loadById(url: string, id: any, params: any = {}) {
     if (!url || "undefined" == id) {
-        warning("请提供正确的数据");
+        warning(i18n("dyform.sample.provideCorrectData"));
         return;
     }
     let objData: any = {};
@@ -399,7 +399,7 @@ export async function loadById(url: string, id: any, params: any = {}) {
     await postRequest(url + suffix, params).then((res) => {
         const redata = res.data.data;
         if (!redata) {
-            warning("未找到对应数据");
+            warning(i18n("dyform.sample.dataNotFound"));
         } else {
             objData = redata;
         }
@@ -416,14 +416,14 @@ export async function loadById(url: string, id: any, params: any = {}) {
 export async function deleteByIds(
     url: string,
     ids: any,
-    msg: string = "确认需要删除选择的数据吗？",
+    msg: string = i18n("dyform.sample.confirmDelete"),
 ) {
     if (!url) {
-        warning("请提供正确的数据");
+        warning(i18n("dyform.sample.provideCorrectData"));
         return;
     }
     if (!ids || ids.length == 0) {
-        warning("请选择要删除的数据");
+        warning(i18n("dyform.sample.selectDeleteData"));
         return;
     }
     let objData: boolean = false;
@@ -442,7 +442,7 @@ export async function deleteByIds(
             objData = true;
         })
         .catch((err) => {
-            error("接口不存在或网络异常:" + err);
+            error(i18n("dyform.sample.apiError") + err);
             objData = false;
         })
         .finally(() => {
@@ -513,7 +513,7 @@ export async function loadSvgIconsByPath(path: string) {
         console.log("xxxx", res);
     });
 
-    warning("暂未实现");
+    warning(i18n("dyform.api.notImplemented"));
     return [];
 }
 
@@ -531,10 +531,10 @@ export function copy(msg: string) {
     navigator.clipboard
         .writeText(msg)
         .then(() => {
-            success("已复制");
+            success(i18n("dyform.sample.copied"));
         })
         .catch(() => {
-            error("复制失败");
+            error(i18n("dyform.sample.copyFailed"));
         });
 }
 

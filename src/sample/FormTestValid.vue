@@ -12,6 +12,7 @@ import {
   success,
   warning
 } from "star-horse-lowcode";
+import {i18n} from "@/lang";
 import StarHorseFormDesign from "@/components/system/StarHorseFormDesign.vue";
 import {nextTick, ref} from "vue";
 import {FormConfig} from "@/components/types";
@@ -308,7 +309,7 @@ const changeDataHandle = (type: string, data: any) => {
   }
 };
 const saveData = (isDraft: boolean, data: any) => {
-  load("数据提交中，请等待");
+  load(i18n("dyform.sample.submitting"));
   postRequest(`${api.basePrefix}/${isDraft ? "mergeDraft" : "merge"}`, data)
       .then((res: any) => {
         if (res.data.code != 0) {
@@ -318,7 +319,7 @@ const saveData = (isDraft: boolean, data: any) => {
         success(res.data.cnMessage);
       })
       .catch((err: any) => {
-        error("操作异常:" + err);
+        error(i18n("dyform.sample.operationError") + err);
       })
       .finally(() => {
         closeLoad();

@@ -1,5 +1,6 @@
 <script setup lang="ts" name="FieldAnalysis">
 import {Config} from "@/api/settings.js";
+import {i18n} from "@/lang";
 import {onMounted, PropType} from "vue";
 import {fieldPlaceholder} from "@/components/system/items/utils/ItemPreps.js";
 
@@ -42,10 +43,27 @@ onMounted(() => {
 </script>
 <template>
   <template v-if="field?.compType == 'container'">
-    <template
-        v-if="field.preps['elements']?.length > 0"
-        v-for="sitem in field.preps['elements']"
-    >
+    <!-- condition容器：遍历items和children -->
+    <template v-if="field.itemType === 'condition'">
+      <!-- condition直接叶子节点（items在根级别） -->
+      <template v-for="(leafItem, leafIndex) in (field.items || field.preps.items || [])">
+        <FieldAnalysis
+            :index="index + leafIndex + 1"
+            :field="leafItem"
+            :container="container + '>' + (field.preps.label || field.label)"
+        />
+      </template>
+      <!-- condition子条件节点 -->
+      <template v-for="child in (field.children || field.preps.children || [])">
+        <FieldAnalysis
+            :index="index"
+            :field="child"
+            :container="container + '>' + (field.preps.label || field.label)"
+        />
+      </template>
+    </template>
+    <!-- 其他容器：遍历preps.elements -->
+    <template v-else-if="field.preps['elements']?.length > 0" v-for="sitem in field.preps['elements']">
       <template v-for="sitem1 in sitem['columns']">
         <template v-for="(sitem2, sindex) in sitem1.items">
           <FieldAnalysis
@@ -74,7 +92,7 @@ onMounted(() => {
             v-model="field.preps['label']"
             @blur="fieldPlaceholder(field.preps, field)"
             :size="size"
-            placeholder="标签名称"
+            :placeholder="i18n('dyform.fieldAnalysis.406')"
             clearable
         />
       </td>
@@ -83,7 +101,7 @@ onMounted(() => {
             v-model="field.preps['name']"
             @blur="fieldPlaceholder(field.preps, field)"
             :size="size"
-            placeholder="属性名称"
+            :placeholder="i18n('dyform.fieldAnalysis.407')"
             clearable
         />
       </td>
@@ -93,7 +111,7 @@ onMounted(() => {
             <el-input-number
                 v-model="field.preps['maxLength']"
                 :size="size"
-                placeholder="最大长度"
+                :placeholder="i18n('dyform.fieldAnalysis.408')"
                 min="1"
                 :controls="false"
                 v-if="!exclusionLengthComp.includes(field.itemType)"
@@ -105,7 +123,7 @@ onMounted(() => {
                 min="0"
                 v-model="field.preps['precision']"
                 :size="size"
-                placeholder="精度"
+                :placeholder="i18n('dyform.fieldAnalysis.409')"
                 v-if="numberLengthComp.includes(field.itemType)"
                 :controls="false"
                 clearable
@@ -150,14 +168,14 @@ onMounted(() => {
             v-model="field.preps['dataIndex']"
             :size="size"
             controls-position="right"
-            placeholder="排序"
+            :placeholder="i18n('dyform.extend.352')"
         />
       </td>
       <td class="field-cell">
         <el-input
             v-model="field.preps['defaultValue']"
             :size="size"
-            placeholder="默认值"
+            :placeholder="i18n('dyform.fieldAnalysis.410')"
         />
       </td>
     </tr>

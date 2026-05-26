@@ -63,11 +63,11 @@ const formData = ref<any>({
 onMounted(() => {
   nextTick(() => {
     selectDatas.value = [
-      { name: "默认", value: "normal", key: "normal" },
-      { name: "表单", value: "form", key: "form" },
-      { name: "表单列表", value: "form-table", key: "form-table" },
+      { name: i18n("dyform.common.428"), value: "normal", key: "normal" },
+      { name: i18n("dyform.common.429"), value: "form", key: "form" },
+      { name: i18n("dyform.common.430"), value: "form-table", key: "form-table" },
       { name: "Tab", value: "tab", key: "tab" },
-      { name: "查看", value: "view", key: "view" },
+      { name: i18n("dyform.common.431"), value: "view", key: "view" },
     ];
   });
 });
@@ -90,7 +90,7 @@ defineExpose({
 
 <template>
   <div class="flex flex-col w-full h-full">
-    <el-form-item label="页面风格" class="w-[240px]!">
+    <el-form-item :label="i18n('dyform.common.432')" class="w-[240px]!">
       <select-item
         v-model:formData="formData"
         source="1"

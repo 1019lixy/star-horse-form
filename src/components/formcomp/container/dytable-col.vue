@@ -1,5 +1,6 @@
 <script setup lang="ts" name="box-container">
 import {computed, onMounted, PropType, ref} from "vue";
+import {i18n} from "@/lang";
 import {tableCellOperation} from "@/components/formcomp/container/dytableUtils";
 import {getDesignFormStore, itemCheck, uuid, warning} from "star-horse-lowcode";
 import ContainerDropDown from "@/components/formcomp/utils/ContainerDropDown.vue";
@@ -52,7 +53,7 @@ const onDragAdd = (evt: Event | any, dataList: any) => {
   selectCurrentTd();
   let newIndex = evt.newIndex;
   if (excludeContainerType.includes(draggingItem.value.itemType)) {
-    warning("动态表格容器不允许嵌套其他容器");
+    warning(i18n("dyform.comp.container.442"));
     let columns = props.field?.columns;
     for (let sind in columns) {
       let column = columns[sind];

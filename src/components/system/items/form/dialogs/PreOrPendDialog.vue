@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { nextTick, ref, unref, watch } from "vue";
-import { i18n } from "@/lang/index.js";
+import {i18n} from "@/lang";
 import { loadSvgIcons } from "@/api/star_horse_form_utils.js";
 
 const props = defineProps<{
@@ -27,7 +27,7 @@ const preOrPendFields = () => {
     fieldList: [
       // Prepend配置
       {
-        label: "头部图标",
+        label: i18n("dyform.dialog.415"),
         fieldName: "prefixIcon",
         type: "icon",
         formVisible: true,
@@ -38,13 +38,13 @@ const preOrPendFields = () => {
         },
       },
       {
-        label: "头部文本",
+        label: i18n("dyform.dialog.416"),
         fieldName: "prefix",
         formVisible: true,
         listVisible: false,
       },
       {
-        label: "前置文本",
+        label: i18n("dyform.dialog.417"),
         fieldName: "prependText",
         type: "input",
         formVisible: true,
@@ -52,7 +52,7 @@ const preOrPendFields = () => {
         helpMsg: i18n("dyform.preOrPend.prependText.helpMsg"),
       },
       {
-        label: "前置下拉列表",
+        label: i18n("dyform.dialog.418"),
         fieldName: "prependList",
         type: "json-array",
         formVisible: true,
@@ -62,15 +62,15 @@ const preOrPendFields = () => {
           jsonConfig: {
             dialogTitle: i18n("dyform.preOrPend.prependList.title"),
             columns: [
-              { title: "名称", fieldName: "name", required: true },
-              { title: "值", fieldName: "value", required: true },
+              { title: i18n("dyform.dialog.419"), fieldName: "name", required: true },
+              { title: i18n("dyform.dialog.420"), fieldName: "value", required: true },
             ],
           },
         },
       },
       // Append配置
       {
-        label: "尾部图标",
+        label: i18n("dyform.dialog.421"),
         fieldName: "suffixIcon",
         type: "icon",
         formVisible: true,
@@ -81,13 +81,13 @@ const preOrPendFields = () => {
         },
       },
       {
-        label: "尾部文本",
+        label: i18n("dyform.dialog.422"),
         fieldName: "suffix",
         formVisible: true,
         listVisible: false,
       },
       {
-        label: "后置文本",
+        label: i18n("dyform.dialog.423"),
         fieldName: "appendText",
         type: "input",
         formVisible: true,
@@ -95,7 +95,7 @@ const preOrPendFields = () => {
         helpMsg: i18n("dyform.preOrPend.appendText.helpMsg"),
       },
       {
-        label: "后置按钮",
+        label: i18n("dyform.dialog.424"),
         fieldName: "appendAction",
         type: "json",
         formVisible: true,
@@ -105,10 +105,10 @@ const preOrPendFields = () => {
           jsonConfig: {
             dialogTitle: i18n("dyform.preOrPend.appendAction.title"),
             columns: [
-              { title: "操作标题", fieldName: "actionTitle", required: true },
-              { title: "图标", fieldName: "icon", required: true },
+              { title: i18n("dyform.dialog.425"), fieldName: "actionTitle", required: true },
+              { title: i18n("dyform.item.139"), fieldName: "icon", required: true },
               {
-                title: "动作函数",
+                title: i18n("dyform.dialog.426"),
                 fieldName: "actions",
                 required: false,
                 type: "textarea",
@@ -118,7 +118,7 @@ const preOrPendFields = () => {
         },
       },
       {
-        label: "后置下拉列表",
+        label: i18n("dyform.dialog.427"),
         fieldName: "appendList",
         type: "json-array",
         formVisible: true,
@@ -128,8 +128,8 @@ const preOrPendFields = () => {
           jsonConfig: {
             dialogTitle: i18n("dyform.preOrPend.appendList.title"),
             columns: [
-              { title: "名称", fieldName: "name", required: true },
-              { title: "值", fieldName: "value", required: true },
+              { title: i18n("dyform.dialog.419"), fieldName: "name", required: true },
+              { title: i18n("dyform.dialog.420"), fieldName: "value", required: true },
             ],
           },
         },

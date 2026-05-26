@@ -1,6 +1,7 @@
 import { SelectOption, warning } from "star-horse-lowcode";
 import * as ElementPlusIconsVue from "@element-plus/icons-vue";
 import { formIcons } from "@/assets/form_icons";
+import {i18n} from "@/lang";
 /**
  * 自定义的svg图标
  */
@@ -14,7 +15,7 @@ export function loadSvgIconsByPath(path: string) {
   import(path).then((res) => {
     console.log("xxxx", res);
   });
-  warning("暂未实现");
+  warning(i18n("dyform.api.notImplemented"));
   return [];
 }
 /**

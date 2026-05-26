@@ -1,5 +1,6 @@
 <script setup lang="ts" name="CustomerPropertyPanel">
 import {computed, nextTick, onMounted, PropType, ref, unref, watch,} from "vue";
+import {i18n} from "@/lang";
 import {formFieldMapping, getDesignFormStore, isJson, PageFieldInfo,} from "star-horse-lowcode";
 import {loadSvgIcons} from "@/api/star_horse_form_utils.js";
 import {useDialogManager} from "@/components/system/items/form/composables/useDialogManager.js";
@@ -134,7 +135,7 @@ const convertFormFieldData = (items: any, type: string) => {
       }
     } else if (item["type"] == "config") {
       item["type"] = "button";
-      item["label"] = "参数配置";
+      item["label"] = i18n("dyform.extend.347");
       item["actions"] = {
         click: (_data: any) => configParams(item.actionName),
       };
@@ -173,7 +174,7 @@ const assignValue = (fieldInfo: any) => {
 
     if (currentItemType.value == "button") {
       temp.fields.splice(5, 0, {
-        label: "配置点击事件",
+        label: i18n("dyform.custProp.402"),
         fieldName: "cfgClickEvent",
         type: "button",
         formVisible: true,
@@ -310,11 +311,11 @@ watch(
         <template #title="{ isActive }">
           <div :class="['title-wrapper', { 'is-active': isActive }]">
             <star-horse-icon iconClass="base_preps"/>
-            <span>组件属性</span>
+            <span>{{ i18n('dyform.custProp.compProps') }}</span>
           </div>
         </template>
         <el-form-item
-            label="前置/后置"
+            :label="i18n('dyform.custProp.403')"
             prop="cfg"
             v-if="
             [
@@ -327,7 +328,7 @@ watch(
           "
             :size="compSize"
         >
-          <el-button @click="prependOrAppend" icon="setting"> 配置</el-button>
+          <el-button @click="prependOrAppend" icon="setting"> {{ i18n('dyform.custProp.config') }}</el-button>
         </el-form-item>
         <template v-for="item in basePreps">
           <el-form-item
@@ -345,7 +346,7 @@ watch(
                 @click="item.actions?.click?.(formProps)"
                 icon="Setting"
             >
-              配置
+              {{ i18n('dyform.custProp.config') }}
             </el-button>
             <component
                 v-else
@@ -359,12 +360,12 @@ watch(
           </el-form-item>
         </template>
         <el-form-item
-            label="自定义属性"
+            :label="i18n('dyform.custProp.404')"
             prop="userDefinePreps"
             :size="compSize"
         >
           <el-button type="primary" plain @click="configPreps" icon="Setting">
-            配置
+            {{ i18n('dyform.custProp.config') }}
           </el-button>
         </el-form-item>
       </el-collapse-item>
@@ -372,7 +373,7 @@ watch(
         <template #title="{ isActive }">
           <div :class="['title-wrapper', { 'is-active': isActive }]">
             <star-horse-icon iconClass="other"/>
-            <span>其它配置</span>
+            <span>{{ i18n('dyform.custProp.otherConfig') }}</span>
           </div>
         </template>
         <template v-for="item in otherPreps">
@@ -394,7 +395,7 @@ watch(
                     @click="item.actions?.click?.(dialogStates,formProps)"
                     icon="Setting"
                 >
-                  配置
+                  {{ i18n('dyform.custProp.config') }}
                 </el-button>
               </div>
               <div class="my-3">
@@ -427,7 +428,7 @@ watch(
         <template #title="{ isActive }">
           <div :class="['title-wrapper', { 'is-active': isActive }]">
             <star-horse-icon iconClass="event-action"/>
-            <span>自定义事件</span>
+            <span>{{ i18n('dyform.custProp.customEvent') }}</span>
           </div>
         </template>
         <template v-for="item in actionPreps">
@@ -442,7 +443,7 @@ watch(
                 plain
                 @click="item.actions.click()"
                 icon="Setting"
-            >配置
+            >{{ i18n('dyform.custProp.config') }}
             </el-button>
           </el-form-item>
         </template>

@@ -1,4 +1,5 @@
 import {ItemType} from "star-horse-lowcode";
+import {i18n} from "@/lang";
 
 export interface OtherPreps extends ItemType {
     /**
@@ -14,44 +15,44 @@ export interface OtherPreps extends ItemType {
  */
 export const otherPreps: OtherPreps[] = [
     {
-        label: "Card列表显示",
+        label: i18n("dyform.otherPreps.394"),
         fieldName: "appListVisible",
         fieldType: "switch",
         category: 1,
         preps: {
-            activeText: "是",
-            inactiveText: "否"
+            activeText: i18n("dyform.otherPreps.395"),
+            inactiveText: i18n("dyform.otherPreps.396")
         }
     },
     {
-        label: "App隐藏组件",
+        label: i18n("dyform.otherPreps.397"),
         fieldName: "appCompVisible",
         fieldType: "switch",
         category: 1,
         defaultValues: false,
         preps: {
-            activeText: "是",
-            inactiveText: "否"
+            activeText: i18n("dyform.otherPreps.395"),
+            inactiveText: i18n("dyform.otherPreps.396")
         }
     },
     {
-        label: "App隐藏标签",
+        label: i18n("dyform.otherPreps.398"),
         fieldName: "appLabelVisible",
         fieldType: "switch",
-        helpMsg: "上面组件设置为隐藏后,此设置无效",
+        helpMsg: i18n("dyform.otherPreps.399"),
         defaultValues: false,
         category: 1,
         preps: {
-            activeText: "是",
-            inactiveText: "否"
+            activeText: i18n("dyform.otherPreps.395"),
+            inactiveText: i18n("dyform.otherPreps.396")
         }
     },
     {
-        label: "文本绑定到标签",
+        label: i18n("dyform.otherPreps.400"),
         fieldName: "labelFor",
         fieldType: "button",
         category: 1,
-        helpMsg: "在App模式中将将该组件配置为指定组件的标签",
+        helpMsg: i18n("dyform.otherPreps.401"),
         matchComp: ["text", "html"],
         actions: {
             click: (dialogStates: any, item: any) => {

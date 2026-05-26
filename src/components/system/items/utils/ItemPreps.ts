@@ -1,4 +1,5 @@
 import {computed, nextTick, reactive, ref, Ref, unref, watch} from "vue";
+import {i18n} from "@/lang";
 import {
     analysisCompDatas,
     compDynamicData,
@@ -21,27 +22,7 @@ import {validDataUrl} from "@/api/system.js";
 import WebUrlComp from "./WebUrlComp.vue";
 
 
-export const urlReturnDataHelpMsg = `
-    接口返回的数据格式必须是：
-        {
-        "data": {
-            "pageSize": 0,
-            "currentPage": 0,
-            "totalDatas": 34,
-            "totalPages": 4,
-            "dataList": [ {} ]
-        },
-        "code": 0, //0 表示数据正常 
-        "message": "success",
-        "cnMessage": "操作成功"
-    }或者：
-    {
-        "data":  [ {} ],
-        "code": 0, //0 表示数据正常 
-        "message": "success",
-        "cnMessage": "操作成功"
-    }
-    `;
+export const urlReturnDataHelpMsg = i18n("dyform.preps.urlReturnDataHelpMsg");
 
 /**
  * 验证接口
@@ -134,27 +115,27 @@ export async function validInterface(
             flag = false;
             validErrorMsg = validResult.error;
         } else {
-            validSuccessMsg = "验证成功";
+            validSuccessMsg = i18n("dyform.utils.447");
             dataList = validResult.data;
         }
     } else if (dataSource == "dict") {
         const dicts = await dictData(urlOrDictName);
         if (Object.keys(dicts || {}).length == 0) {
             flag = false;
-            validErrorMsg = "验证失败\n数据字典可能未配置";
+            validErrorMsg = i18n("dyform.utils.448");
         } else {
             dataList = dicts;
-            validSuccessMsg = "验证成功";
+            validSuccessMsg = i18n("dyform.utils.447");
         }
     } else {
         //静态数据
         const datas = temp["values"] as SelectOption[];
         if (Object.keys(datas || {}).length == 0) {
             flag = false;
-            validErrorMsg = "验证失败\n请设置数据";
+            validErrorMsg = i18n("dyform.utils.449");
         } else {
             dataList = datas;
-            validSuccessMsg = "验证成功";
+            validSuccessMsg = i18n("dyform.utils.447");
         }
     }
     if (recall) {
@@ -186,9 +167,9 @@ export function createData(
             const element = dataList[0];
             const keys = Object.keys(element);
             if (!keys.find((item) => item == temp["selectLabel"])) {
-                errorMsg = "验证失败\n【标签名字段】错误：" + JSON.stringify(keys);
+                errorMsg = i18n("dyform.utils.450") + JSON.stringify(keys);
             } else if (!keys.find((item) => item == temp["selectValue"])) {
-                errorMsg = "验证失败\n【标签值字段】错误：" + JSON.stringify(keys);
+                errorMsg = i18n("dyform.utils.451") + JSON.stringify(keys);
             } else {
                 dataList.forEach((item: any) => {
                     reDataList.push({
@@ -229,7 +210,7 @@ export function getUrlFieldConfig(interfaceUtils: any, options: any = {}) {
     const {
         showValidateButton = true,
         showPrimaryKey = false,
-        validateButtonText = "验证",
+        validateButtonText = i18n("dyform.utils.452"),
         validateCallback,
         urlColspan = undefined,
         showLabelFields = false,
@@ -239,7 +220,7 @@ export function getUrlFieldConfig(interfaceUtils: any, options: any = {}) {
     const urlFields: FieldInfo[] | any = [
         [
             {
-                label: "应用名称",
+                label: i18n("dyform.utils.453"),
                 fieldName: "host",
                 type: "select",
                 formVisible: true,
@@ -257,7 +238,7 @@ export function getUrlFieldConfig(interfaceUtils: any, options: any = {}) {
                 },
             },
             {
-                label: "接口",
+                label: i18n("dyform.utils.454"),
                 fieldName: "interfaceName",
                 type: "select",
                 formVisible: true,
@@ -274,7 +255,7 @@ export function getUrlFieldConfig(interfaceUtils: any, options: any = {}) {
         ],
         [
             {
-                label: "方法/函数",
+                label: i18n("dyform.utils.455"),
                 fieldName: "method",
                 type: "select",
                 formVisible: true,
@@ -300,7 +281,7 @@ export function getUrlFieldConfig(interfaceUtils: any, options: any = {}) {
                 },
             },
             {
-                label: "接口代理",
+                label: i18n("dyform.utils.456"),
                 fieldName: "redirect",
                 type: "switch",
                 defaultValue: true,
@@ -310,7 +291,7 @@ export function getUrlFieldConfig(interfaceUtils: any, options: any = {}) {
         ],
         [
             {
-                label: "请求方式",
+                label: i18n("dyform.utils.457"),
                 fieldName: "httpMethod",
                 type: "select",
                 required: true,
@@ -322,7 +303,7 @@ export function getUrlFieldConfig(interfaceUtils: any, options: any = {}) {
                 },
             },
             {
-                label: "协议",
+                label: i18n("dyform.utils.458"),
                 fieldName: "protocol",
                 type: "select",
                 required: true,
@@ -338,7 +319,7 @@ export function getUrlFieldConfig(interfaceUtils: any, options: any = {}) {
             },
         ],
         {
-            label: "接口地址",
+            label: i18n("dyform.extend.349"),
             fieldName: "url",
             required: true,
             helpMsg: urlReturnDataHelpMsg,
@@ -375,7 +356,7 @@ export function getUrlFieldConfig(interfaceUtils: any, options: any = {}) {
 
         if (showPrimaryKey) {
             validateRow.push({
-                label: "主键",
+                label: i18n("dyform.container.334"),
                 fieldName: "primaryKey",
                 type: "select",
                 required: false,
@@ -394,7 +375,7 @@ export function getUrlFieldConfig(interfaceUtils: any, options: any = {}) {
     if (showLabelFields) {
         urlFields.push([
             {
-                label: "标签名字段",
+                label: i18n("dyform.utils.459"),
                 fieldName: "selectLabel",
                 type: "select",
                 formVisible: true,
@@ -405,7 +386,7 @@ export function getUrlFieldConfig(interfaceUtils: any, options: any = {}) {
                 },
             },
             {
-                label: "标签值字段",
+                label: i18n("dyform.utils.460"),
                 fieldName: "selectValue",
                 type: "select",
                 preps: {
@@ -475,7 +456,7 @@ const urlBaseInfo: FieldInfo[] = [
         },
     },
     {
-        label: "接口地址",
+        label: i18n("dyform.extend.349"),
         fieldName: "interfaceUrl",
 
         required: true,
@@ -502,7 +483,7 @@ export function urlFields() {
 
     const dataUrls: FieldInfo[] = [
         {
-            label: "请求方式",
+            label: i18n("dyform.utils.457"),
             fieldName: "httpMethod",
             type: "select",
             defaultValue: "POST",
@@ -514,7 +495,7 @@ export function urlFields() {
             },
         },
         {
-            label: "请求数据格式",
+            label: i18n("dyform.utils.461"),
             fieldName: "dataType",
             type: "select",
             defaultValue: "JSON",
@@ -526,12 +507,12 @@ export function urlFields() {
             },
         },
         {
-            label: "验证",
+            label: i18n("dyform.utils.452"),
             fieldName: "urlValid",
             type: "button",
             preps: {
                 icon: "valid",
-                actionTitle: "验证",
+                actionTitle: i18n("dyform.utils.452"),
                 colspan: 4,
             },
             actions: async (val: any) => {
@@ -559,7 +540,7 @@ export function urlFields() {
     ];
     const orderBys: FieldInfo[] = [
         {
-            label: "列名",
+            label: i18n("dyform.utils.462"),
             fieldName: "fieldName",
             type: "select",
             formVisible: true,
@@ -569,7 +550,7 @@ export function urlFields() {
             },
         },
         {
-            label: "排序",
+            label: i18n("dyform.extend.352"),
             fieldName: "orderBy",
             type: "select",
             formVisible: true,
@@ -581,7 +562,7 @@ export function urlFields() {
 
     const needFields: FieldInfo[] = [
         {
-            label: "原属性名",
+            label: i18n("dyform.utils.463"),
             fieldName: "sourceField",
             type: "select",
             formVisible: true,
@@ -591,7 +572,7 @@ export function urlFields() {
             },
         },
         {
-            label: "目标属性名",
+            label: i18n("dyform.utils.464"),
             fieldName: "distField",
             formVisible: true,
         },
@@ -604,8 +585,8 @@ export function urlFields() {
                     batchName: "queryParams",
                     fieldList: [
                         {
-                            label: "动态参数",
-                            helpMsg: "设置为动态参数后，参数值将从当前表单数据中获取",
+                            label: i18n("dyform.utils.465"),
+                            helpMsg: i18n("dyform.utils.466"),
                             fieldName: "isDynamicParam",
                             type: "switch",
                             defaultValue: "N",
@@ -616,13 +597,13 @@ export function urlFields() {
                             },
                         },
                         {
-                            label: "参数名",
+                            label: i18n("dyform.utils.467"),
                             fieldName: "paramName",
                             required: true,
                             formVisible: true,
                         },
                         {
-                            label: "匹配方式",
+                            label: i18n("dyform.utils.468"),
                             fieldName: "matchType",
                             type: "select",
                             defaultValue: "eq",
@@ -632,7 +613,7 @@ export function urlFields() {
                             },
                         },
                         {
-                            label: "参数值",
+                            label: i18n("dyform.utils.469"),
                             fieldName: "paramValue",
                             type: "textarea",
                             formVisible: true,
@@ -650,19 +631,19 @@ export function urlFields() {
         fieldName: "params",
         tabList: [
             {
-                title: "接口参数",
+                title: i18n("dyform.utils.470"),
                 tabName: "params",
                 objectName: "params",
                 fieldList: paramFields,
             },
             {
-                title: "返回字段映射",
+                title: i18n("dyform.utils.471"),
                 tabName: "needField",
                 objectName: "needField",
                 fieldList: needFields,
             },
             {
-                title: "返回数据排序",
+                title: i18n("dyform.utils.472"),
                 tabName: "orderBy",
                 objectName: "orderBy",
                 fieldList: orderBys,
@@ -769,7 +750,7 @@ export function paramsFields(
     );
     const orderBys: FieldInfo[] = [
         {
-            label: "列名",
+            label: i18n("dyform.utils.462"),
             fieldName: "fieldName",
             type: "select",
             formVisible: true,
@@ -778,7 +759,7 @@ export function paramsFields(
             },
         },
         {
-            label: "排序",
+            label: i18n("dyform.extend.352"),
             fieldName: "orderBy",
             type: "select",
             formVisible: true,
@@ -789,13 +770,13 @@ export function paramsFields(
     ];
     const fieldLists: FieldInfo[] | any = [
         {
-            label: "列名",
+            label: i18n("dyform.utils.462"),
             fieldName: "label",
 
             formVisible: true,
         },
         {
-            label: "属性名称",
+            label: i18n("dyform.fieldAnalysis.407"),
             fieldName: "fieldName",
             type: "select",
             allowCreate: true,
@@ -805,7 +786,7 @@ export function paramsFields(
             },
         },
         {
-            label: "搜索显示",
+            label: i18n("dyform.utils.473"),
             fieldName: "searchFlag",
             type: "switch",
             defaultValue: "Y",
@@ -818,7 +799,7 @@ export function paramsFields(
     ];
     const needFields: FieldInfo[] = [
         {
-            label: "原属性名",
+            label: i18n("dyform.utils.463"),
             fieldName: "sourceField",
             type: "select",
             formVisible: true,
@@ -827,7 +808,7 @@ export function paramsFields(
             },
         },
         {
-            label: "目标属性名",
+            label: i18n("dyform.utils.464"),
             fieldName: "distField",
             formVisible: true,
         },
@@ -853,7 +834,7 @@ export function paramsFields(
         fieldName: "fieldLists",
         fieldList: [
             {
-                label: "数据源",
+                label: i18n("dyform.utils.474"),
                 fieldName: "dataSource",
                 required: true,
                 defaultValue: "data",
@@ -863,31 +844,31 @@ export function paramsFields(
         ],
         batchFieldList: [
             {
-                title: "显示属性",
+                title: i18n("dyform.utils.475"),
                 tabName: "fieldLists",
                 batchName: "fieldLists",
                 fieldList: fieldLists,
             },
             {
-                title: "回调字段",
+                title: i18n("dyform.utils.476"),
                 tabName: "needField",
                 batchName: "needField",
                 fieldList: needFields,
             },
             {
-                title: "数据排序",
+                title: i18n("dyform.utils.477"),
                 tabName: "orderBy",
                 batchName: "orderBy",
                 fieldList: orderBys,
             },
             {
-                title: "接口参数",
+                title: i18n("dyform.utils.470"),
                 tabName: "params",
                 batchName: "params",
                 formFlag: "Y",
                 fieldList: [
                     {
-                        label: "接口参数",
+                        label: i18n("dyform.utils.470"),
                         fieldName: "params",
                         type: "json-array",
                         formVisible: true,
@@ -910,11 +891,11 @@ export function paramsFields(
 }
 
 const mappingList: SelectOption[] = [
-    {name: "一对一", value: "1"},
-    {name: "一对多", value: "n"},
+    {name: i18n("dyform.utils.478"), value: "1"},
+    {name: i18n("dyform.utils.479"), value: "n"},
 ];
 const containerCommonFields = [{
-    label: "是否子表",
+    label: i18n("dyform.container.333"),
     fieldName: "subFormFlag",
     type: "switch",
     defaultValue: "Y",
@@ -937,14 +918,14 @@ const containerCommonFields = [{
     },
 },
     {
-        label: "对象名字(表名)",
+        label: i18n("dyform.utils.480"),
         fieldName: "objectName",
         required: true,
         formVisible: false,
         listVisible: true,
     },
     {
-        label: "对应关系",
+        label: i18n("dyform.utils.481"),
         fieldName: "mapping",
         type: "select",
         defaultValue: "1",
@@ -955,14 +936,14 @@ const containerCommonFields = [{
         }
     }];
 const tabFields = {
-    title: "Tab属性",
+    title: i18n("dyform.utils.482"),
     tabName: "tab",
     batchFieldList: [
         {
             batchName: "elements",
             fieldList: [
                 {
-                    label: "Tab名字",
+                    label: i18n("dyform.utils.483"),
                     fieldName: "label",
 
                     required: true,
@@ -970,10 +951,9 @@ const tabFields = {
                     listVisible: true,
                 },
                 {
-                    label: "主键",
+                    label: i18n("dyform.container.334"),
                     fieldName: "tabName",
-                    helpMsg: `默认作为tab组件的名称，
-                当设置对应关系时,系统作为表的主键`,
+                    helpMsg: i18n("dyform.preps.tabNameHelp"),
 
                     required: true,
                     formVisible: true,
@@ -985,14 +965,14 @@ const tabFields = {
     ],
 };
 const collapseFields = {
-    title: "Collapse属性",
+    title: i18n("dyform.utils.484"),
     tabName: "collapse",
     batchFieldList: [
         {
             batchName: "elements",
             fieldList: [
                 {
-                    label: "Collapse名字",
+                    label: i18n("dyform.utils.485"),
                     fieldName: "label",
 
                     required: true,
@@ -1000,10 +980,9 @@ const collapseFields = {
                     listVisible: true,
                 },
                 {
-                    label: "主键",
+                    label: i18n("dyform.container.334"),
                     fieldName: "tabName",
-                    helpMsg: `默认作为Collapse组件的名称，
-                当设置对应关系时,系统作为表的主键`,
+                    helpMsg: i18n("dyform.preps.collapseNameHelp"),
 
                     required: true,
                     formVisible: true,
@@ -1015,14 +994,14 @@ const collapseFields = {
     ],
 };
 const splitterFields = {
-    title: "Splitter属性",
+    title: i18n("dyform.utils.486"),
     tabName: "splitter",
     batchFieldList: [
         {
             batchName: "elements",
             fieldList: [
                 {
-                    label: "Splitter名字",
+                    label: i18n("dyform.utils.487"),
                     fieldName: "label",
 
                     required: true,
@@ -1030,10 +1009,9 @@ const splitterFields = {
                     listVisible: true,
                 },
                 {
-                    label: "主键",
+                    label: i18n("dyform.container.334"),
                     fieldName: "tabName",
-                    helpMsg: `默认作为Splitter组件的名称，
-                当设置对应关系时,系统作为表的主键`,
+                    helpMsg: i18n("dyform.preps.splitterNameHelp"),
 
                     required: true,
                     formVisible: true,
@@ -1041,7 +1019,7 @@ const splitterFields = {
                 },
                 ...containerCommonFields,
                 {
-                    label: "容器Item属性",
+                    label: i18n("dyform.utils.488"),
                     fieldName: "preps",
                     type: "json",
                     formVisible: true,
@@ -1052,24 +1030,23 @@ const splitterFields = {
     ],
 };
 const cardFields = {
-    title: "Card属性",
+    title: i18n("dyform.utils.489"),
     tabName: "card",
     batchFieldList: [
         {
             batchName: "elements",
             fieldList: [
                 {
-                    label: "Card名字",
+                    label: i18n("dyform.utils.490"),
                     fieldName: "title",
                     required: true,
                     formVisible: true,
                     listVisible: true,
                 },
                 {
-                    label: "主键",
+                    label: i18n("dyform.container.334"),
                     fieldName: "tabName",
-                    helpMsg: `默认作为Card组件的名称，
-                当设置对应关系时,系统作为表的主键`,
+                    helpMsg: i18n("dyform.preps.cardNameHelp"),
                     required: true,
                     formVisible: true,
                     listVisible: true,
@@ -1082,14 +1059,14 @@ const cardFields = {
 };
 
 const boxFields = {
-    title: "栅格属性",
+    title: i18n("dyform.utils.491"),
     tabName: "box",
     batchFieldList: [
         {
             batchName: "elements",
             fieldList: [
                 {
-                    label: "列",
+                    label: i18n("dyform.utils.492"),
                     fieldName: "colIndex",
 
                     required: true,
@@ -1101,7 +1078,7 @@ const boxFields = {
                             batchDefaultData: {items: []},
                             fieldList: [
                                 {
-                                    label: "列宽",
+                                    label: i18n("dyform.utils.435"),
                                     fieldName: "colspan",
                                     type: "number",
                                     defaultValue: 24,
@@ -1135,14 +1112,14 @@ const boxFields = {
     ],
 };
 const dyTableFields = {
-    title: "动态表格属性",
+    title: i18n("dyform.utils.493"),
     tabName: "dytable",
     batchFieldList: [
         {
             batchName: "elements",
             fieldList: [
                 {
-                    label: "列",
+                    label: i18n("dyform.utils.492"),
                     fieldName: "colIndex",
 
                     required: true,
@@ -1154,7 +1131,7 @@ const dyTableFields = {
                             batchDefaultData: {items: []},
                             fieldList: [
                                 {
-                                    label: "列宽",
+                                    label: i18n("dyform.utils.435"),
                                     fieldName: "colWidth",
                                     type: "number",
                                     defaultValue: 100,
@@ -1180,7 +1157,7 @@ const dyTableFields = {
                                     },
                                 },
                                 {
-                                    label: "行高",
+                                    label: i18n("dyform.utils.434"),
                                     fieldName: "colHeight",
                                     type: "number",
                                     defaultValue: 30,
@@ -1201,6 +1178,31 @@ const dyTableFields = {
         },
     ],
 };
+const conditionFields = {
+    title: i18n("dyform.condition.containerName"),
+    tabName: "condition",
+    batchFieldList: [
+        {
+            batchName: "elements",
+            fieldList: [
+                {
+                    label: i18n("dyform.condition.label"),
+                    fieldName: "label",
+                    required: true,
+                    formVisible: true,
+                    listVisible: true,
+                },
+                {
+                    label: i18n("dyform.condition.placeholder"),
+                    fieldName: "placeholder",
+                    required: false,
+                    formVisible: true,
+                    listVisible: true,
+                },
+            ],
+        },
+    ],
+};
 const fields: any = {
     tab: tabFields,
     collapse: collapseFields,
@@ -1208,6 +1210,7 @@ const fields: any = {
     card: cardFields,
     box: boxFields,
     dytable: dyTableFields,
+    condition: conditionFields,
 };
 
 /**
@@ -1226,11 +1229,11 @@ export function containerField(fieldName: string) {
 
 const fieldMap: any = reactive({
     form: {
-        title: "动态表单",
+        title: i18n("dyform.utils.494"),
         tabName: "form",
         fieldList: [
             {
-                label: "表单名称",
+                label: i18n("dyform.utils.495"),
                 fieldName: "formName",
                 aliasName: "idDynamicForm",
                 type: "dialog-input",
@@ -1249,27 +1252,27 @@ const fieldMap: any = reactive({
 
                     fieldList: [
                         {
-                            label: "表单名称",
+                            label: i18n("dyform.utils.495"),
                             fieldName: "formName",
                             searchVisible: true,
                             formVisible: true,
                             listVisible: true,
                         },
                         {
-                            label: "表名",
+                            label: i18n("dyform.utils.496"),
                             fieldName: "tbName",
                             searchVisible: true,
                             formVisible: true,
                             listVisible: true,
                         },
                         {
-                            label: "主键",
+                            label: i18n("dyform.container.334"),
                             fieldName: "formId",
                             formVisible: true,
                             listVisible: true,
                         },
                         {
-                            label: "数据源",
+                            label: i18n("dyform.utils.474"),
                             fieldName: "datasourceConfigId",
                             type: "select",
                             formVisible: true,
@@ -1281,11 +1284,11 @@ const fieldMap: any = reactive({
         ],
     },
     comp: {
-        title: "组件",
+        title: i18n("dyform.utils.497"),
         tabName: "comp",
         fieldList: [
             {
-                label: "组件名称",
+                label: i18n("dyform.item.0"),
                 fieldName: "componentName",
 
                 required: true,
@@ -1295,16 +1298,16 @@ const fieldMap: any = reactive({
         ],
     },
     inter: {
-        title: "接口信息",
+        title: i18n("dyform.utils.498"),
         tabName: "interface",
         fieldList: urlFields(),
     },
     method: {
-        title: "函数",
+        title: i18n("dyform.utils.499"),
         tabName: "method",
         fieldList: [
             {
-                label: "函数名称",
+                label: i18n("dyform.utils.500"),
                 fieldName: "method",
 
                 required: true,
@@ -1314,11 +1317,11 @@ const fieldMap: any = reactive({
         ],
     },
     code: {
-        title: "代码块",
+        title: i18n("dyform.utils.501"),
         tabName: "code",
         fieldList: [
             {
-                label: "函数名称",
+                label: i18n("dyform.utils.500"),
                 fieldName: "StarHorseEditor",
                 type: "usercomp",
                 required: true,
@@ -1332,16 +1335,16 @@ let currentField = ref<FieldInfo[]>([fieldMap["form"]]);
 
 export function buttonClickDataField() {
     const eventList: SelectOption[] = [
-        {name: "动态表单", value: "form"},
-        {name: "调用组件", value: "comp"},
-        {name: "调用接口", value: "inter"},
-        {name: "执行函数", value: "method"},
-        {name: "执行代码块", value: "code"},
+        {name: i18n("dyform.utils.494"), value: "form"},
+        {name: i18n("dyform.utils.502"), value: "comp"},
+        {name: i18n("dyform.utils.503"), value: "inter"},
+        {name: i18n("dyform.utils.504"), value: "method"},
+        {name: i18n("dyform.utils.505"), value: "code"},
     ];
     return reactive<PageFieldInfo>({
         fieldList: [
             {
-                label: "响应内容",
+                label: i18n("dyform.utils.506"),
                 fieldName: "viewType",
                 type: "radio",
                 required: true,
@@ -1388,22 +1391,22 @@ export function relationDataField(preps: any, model: string) {
         {name: "Input", value: "input"},
     ];
     const controlConditionList: SelectOption[] = [
-        {name: "等于指定值时禁用被关联字段", value: "eqDisable"},
-        {name: "等于指定值时可编辑被关联字段", value: "eqEditable"},
-        {name: "等于指定值时隐藏被关联字段", value: "eqHide"},
-        {name: "等于指定值时显示被关联字段", value: "eqVisible"},
-        {name: "等于指定值时被关联字段必填", value: "eqRequired"},
-        {name: "等于指定值时被关联字段赋予新值", value: "assignValue"},
+        {name: i18n("dyform.utils.507"), value: "eqDisable"},
+        {name: i18n("dyform.utils.508"), value: "eqEditable"},
+        {name: i18n("dyform.utils.509"), value: "eqHide"},
+        {name: i18n("dyform.utils.510"), value: "eqVisible"},
+        {name: i18n("dyform.utils.511"), value: "eqRequired"},
+        {name: i18n("dyform.utils.512"), value: "assignValue"},
     ];
     if (model == "full") {
         controlConditionList.splice(
             0,
             0,
-            {name: "满足条件触发数据联动", value: "eqConditionDataLinkage"},
-            {name: "数据作为参数触发数据联动", value: "asParamDataLinkage"},
+            {name: i18n("dyform.utils.513"), value: "eqConditionDataLinkage"},
+            {name: i18n("dyform.utils.514"), value: "asParamDataLinkage"},
         );
         controlConditionList.push({
-            name: "数据等于指定值时被关联字段改变字段类型",
+            name: i18n("dyform.utils.515"),
             value: "changeType",
         });
     }
@@ -1411,7 +1414,7 @@ export function relationDataField(preps: any, model: string) {
     return reactive<PageFieldInfo | any>({
         fieldList: [
             {
-                label: "触发事件",
+                label: i18n("dyform.utils.516"),
                 fieldName: "actionName",
                 type: "select",
                 defaultValue: "change",
@@ -1431,7 +1434,7 @@ export function relationDataField(preps: any, model: string) {
                         fieldList: [
                             [
                                 {
-                                    label: "控制条件",
+                                    label: i18n("dyform.utils.517"),
                                     fieldName: "controlCondition",
                                     type: "select",
                                     required: true,
@@ -1496,14 +1499,14 @@ export function relationDataField(preps: any, model: string) {
                             ],
                             [
                                 {
-                                    label: "被控制属性",
+                                    label: i18n("dyform.utils.518"),
                                     fieldName: "relationFields",
                                     type: "tselect",
                                     required: true,
                                     formVisible: true,
                                     listVisible: true,
                                     helpMsg:
-                                        "相同的属性不能配置到多个相同的控制条件中，\n否则后面的条件会覆盖前面的条件,导致数据联动失效",
+                                        i18n("dyform.utils.519"),
                                     preps: {
                                         data: formFields.value,
 
@@ -1513,7 +1516,7 @@ export function relationDataField(preps: any, model: string) {
                                 },
 
                                 {
-                                    label: "匹配条件",
+                                    label: i18n("dyform.utils.520"),
                                     fieldName: "matchType",
                                     type: "select",
                                     defaultValue: "eq",
@@ -1528,21 +1531,21 @@ export function relationDataField(preps: any, model: string) {
                             ],
                             [
                                 {
-                                    label: "参数名",
+                                    label: i18n("dyform.utils.467"),
                                     fieldName: "matchFieldName",
                                     required: false,
                                     defaultValue: preps.name,
-                                    helpMsg: "作为查询条件时的参数名",
+                                    helpMsg: i18n("dyform.utils.521"),
                                     formVisible: false,
                                     listVisible: true,
                                 },
                                 {
-                                    label: "参数/匹配值",
+                                    label: i18n("dyform.utils.522"),
                                     fieldName: "matchFieldValue",
                                     type: "select",
                                     required: false,
                                     helpMsg:
-                                        "作为触发事件的匹配值；\n控制条件为数据作为参数触发数据联动时，没有选中则所有数据都作为联动参数，\n否则只有选中的才会作为联动参数",
+                                        i18n("dyform.utils.523"),
 
                                     formVisible: true,
                                     listVisible: true,
@@ -1559,21 +1562,21 @@ export function relationDataField(preps: any, model: string) {
                                 fieldName: "dataSourceDivider",
                                 preps: {
                                     bareFlag: "Y",
-                                    content: "数据源",
+                                    content: i18n("dyform.utils.474"),
                                 },
                             },
                             {
-                                label: "赋新值",
+                                label: i18n("dyform.utils.524"),
                                 type: "input",
                                 fieldName: "newValue",
                                 formVisible: false,
                                 preps: {},
                             },
                             {
-                                label: "修改字段类型",
+                                label: i18n("dyform.utils.525"),
                                 type: "select",
                                 fieldName: "newType",
-                                helpMsg: "字段:field_type",
+                                helpMsg: i18n("dyform.utils.526"),
                                 formVisible: false,
                                 preps: {
                                     dataSource: "dict",
@@ -1581,7 +1584,7 @@ export function relationDataField(preps: any, model: string) {
                                 },
                             },
                             {
-                                label: "联动数据源",
+                                label: i18n("dyform.utils.527"),
                                 type: "usercomp",
                                 fieldName: "params",
                                 formVisible: false,
@@ -1642,20 +1645,20 @@ export function fieldPlaceholder(item: any, compInfo?: any) {
         return;
     }
     if (inputType.includes(itemType)) {
-        item["placeholder"] = "请输入" + item.label;
+        item["placeholder"] = i18n("dyform.utils.528") + item.label;
     } else if (selectType.includes(itemType)) {
-        item["placeholder"] = "请选择" + item.label;
+        item["placeholder"] = i18n("dyform.utils.529") + item.label;
     }
     if (itemType == "datetime") {
         if (preps?.preps?.type?.includes("range")) {
-            item["startPlaceholder"] = "请选择开始日期";
-            item["endPlaceholder"] = "请选择结束日期";
+            item["startPlaceholder"] = i18n("dyform.utils.530");
+            item["endPlaceholder"] = i18n("dyform.utils.531");
         } else {
-            item["placeholder"] = "请选择" + item.label;
+            item["placeholder"] = i18n("dyform.utils.529") + item.label;
         }
     } else if (itemType == "number-range") {
-        item["minPlaceholder"] = "请输入最小值";
-        item["maxPlaceholder"] = "请输入最大值";
+        item["minPlaceholder"] = i18n("dyform.utils.532");
+        item["maxPlaceholder"] = i18n("dyform.utils.533");
     }
 }
 
@@ -1670,7 +1673,7 @@ export function compCommonFields(
 ): FieldInfo[] {
     return [
         {
-            label: "标签名称",
+            label: i18n("dyform.fieldAnalysis.406"),
             fieldName: "label",
             required: true,
             formVisible: true,
@@ -1681,7 +1684,7 @@ export function compCommonFields(
             },
         },
         {
-            label: "属性名称",
+            label: i18n("dyform.fieldAnalysis.407"),
             fieldName: "name",
             required: true,
             formVisible: true,
@@ -1693,7 +1696,7 @@ export function compCommonFields(
         },
 
         {
-            label: "数据长度",
+            label: i18n("dyform.utils.534"),
             fieldName: "maxLength",
             required: true,
             defaultValue: isNumber ? 10 : 255,
@@ -1701,7 +1704,7 @@ export function compCommonFields(
             formVisible: true,
         },
         {
-            label: "校验规则",
+            label: i18n("dyform.utils.535"),
             fieldName: "rules",
             defaultValue: [],
             type: "select",
@@ -1719,87 +1722,87 @@ export function compCommonFields(
             },
         },
         {
-            label: "表单显示",
+            label: i18n("dyform.utils.536"),
             fieldName: "formVisible",
             type: "switch",
             defaultValue: true,
             formVisible: true,
         },
         {
-            label: "查询显示",
+            label: i18n("dyform.utils.537"),
             fieldName: "searchVisible",
             type: "switch",
             defaultValue: false,
             formVisible: true,
         },
         {
-            label: "列表显示",
+            label: i18n("dyform.utils.538"),
             fieldName: "listVisible",
             type: "switch",
             defaultValue: true,
             formVisible: true,
         },
         {
-            label: "查看显示",
+            label: i18n("dyform.utils.539"),
             fieldName: "viewVisible",
             type: "switch",
             defaultValue: true,
             formVisible: true,
         },
         {
-            label: "隐藏标签",
+            label: i18n("dyform.utils.540"),
             fieldName: "hideLabel",
             type: "switch",
             defaultValue: false,
             formVisible: true,
         },
         {
-            label: "是否必须",
+            label: i18n("dyform.utils.541"),
             fieldName: "required",
             type: "switch",
             defaultValue: false,
             formVisible: true,
         },
         {
-            label: "全局禁用",
+            label: i18n("dyform.utils.542"),
             fieldName: "disabled",
             type: "switch",
             defaultValue: false,
             formVisible: true,
         },
         {
-            label: "修改禁用",
+            label: i18n("dyform.utils.543"),
             fieldName: "editDisabled",
             type: "switch",
             defaultValue: false,
             formVisible: true,
         },
         {
-            label: "可清除",
+            label: i18n("dyform.utils.544"),
             fieldName: "clearable",
             type: "switch",
             defaultValue: true,
             formVisible: true,
         },
         {
-            label: "只读",
+            label: i18n("dyform.utils.545"),
             fieldName: "readonly",
             type: "switch",
             defaultValue: false,
             formVisible: true,
         },
         {
-            label: "查询区域显示类别",
+            label: i18n("dyform.utils.546"),
             fieldName: "defaultVisible",
             helpMsg:
-                "如果开启此功能，查询区域的此组件默认展示，\n否则需要点击高级查询时才会展示",
+                i18n("dyform.utils.547"),
             type: "switch",
             defaultValue: false,
             formVisible: true,
         },
         {
-            label: "组件原样显示",
-            helpMsg: "在列表上原样显示组件,\n此属性开启可能会导致列表数据加载缓慢",
+            label: i18n("dyform.utils.548"),
+            helpMsg: i18n("dyform.utils.549"),
             fieldName: "prototypeDisplay",
             type: "switch",
             defaultValue: false,
@@ -1817,23 +1820,23 @@ export function compCommonFields(
             formVisible: true,
         },
         {
-            label: "组件值",
-            helpMsg: "可指定显示为什么组件",
+            label: i18n("dyform.utils.550"),
+            helpMsg: i18n("dyform.utils.551"),
             fieldName: "listPrototypeDisplay",
 
             defaultValue: false,
             formVisible: listPrototypeVisible,
         },
         {
-            label: "唯一性校验",
+            label: i18n("dyform.utils.552"),
             fieldName: "uniqueValid",
             type: "switch",
-            helpMsg: "如果开启此功能，\n在新增数据时系统对数据进行唯一性校验。",
+            helpMsg: i18n("dyform.utils.553"),
             defaultValue: false,
             formVisible: true,
         },
         {
-            label: "提示信息",
+            label: i18n("dyform.utils.554"),
             fieldName: "helpMsg",
             type: "textarea",
             formVisible: true,

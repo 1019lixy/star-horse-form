@@ -97,6 +97,9 @@ export function fieldCopy(data: any, type: string) {
                 ],
             },
         ];
+    } else if (reData.itemType == "condition") {
+        mvData.preps["children"] = [];
+        mvData.preps["items"] = [];
     }
     return mvData;
 }

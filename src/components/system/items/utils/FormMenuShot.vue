@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { nextTick, onMounted, PropType, ref } from "vue";
+import {i18n} from "@/lang";
 import {
   ApiUrls,
   operationConfirm,
@@ -26,7 +27,7 @@ const props = defineProps({
   },
   treeTitle: {
     type: String,
-    default: "表单列表",
+    default: i18n("dyform.common.430"),
   },
   prop: {
     type: Object as PropType<Record<string, any>>,
@@ -156,14 +157,14 @@ const dataChange = (menu: any) => {
   emits("change", "edit", menu);
 };
 const rmvData = (menu: any) => {
-  operationConfirm("确认删除吗？").then(() => {
+  operationConfirm(i18n("dyform.utils.619")).then(() => {
     postRequest(props.dataUrl?.deleteUrl!, [menu[props.primaryKey]]).then(
       (res) => {
         if (res.data.code) {
           warning(res.data.cnMessage);
           return;
         }
-        success("操作成功");
+        success(i18n("dyform.utils.446"));
         starHorseTreeRef.value.createSearchParams();
       },
     );
@@ -216,13 +217,13 @@ defineExpose({
             value: 'value',
           }
         "
-        :helpMsg="`点击节点进行编辑，点击按钮进行添加或删除`"
+        :helpMsg="i18n('dyform.utils.620')"
         :showPageBar="true"
         :isDynamicData="true"
         :btnVisible="true"
         :rmvVisible="true"
-        rmv-title="删除子表单"
-        btnTitle="添加子表单"
+        :rmv-title="i18n('dyform.utils.621')"
+        :btnTitle="i18n('dyform.utils.622')"
         :autoLoad="true"
         :compUrl="dataUrl"
         :compSize="compSize"

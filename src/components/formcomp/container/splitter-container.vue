@@ -1,9 +1,11 @@
 <script setup lang="ts">
-import {computed, onMounted, PropType} from "vue";
+import {computed, nextTick, onMounted, PropType, ref} from "vue";
 
 import GroupContainer from "@/components/formcomp/container/group-container.vue";
 import JSON5 from "json5";
 import {getDesignFormStore, itemCheck, uuid} from "star-horse-lowcode";
+import {i18n} from "@/lang";
+import {quickAddItem} from "@/api/form_utils";
 
 defineOptions({
   name: "SplitterContainer",
@@ -19,6 +21,31 @@ const props = defineProps({
 let designForm = getDesignFormStore();
 const isDragging = computed(() => designForm.isDragging);
 const formData = defineModel("formData");
+
+// 双击编辑相关
+const editingId = ref<string>("");
+const editingText = ref<string>("");
+
+const startEditName = (element: any) => {
+  if (!props.isDesign) return;
+  editingId.value = element.tabName || element.objectName;
+  editingText.value = element.label || "";
+  nextTick(() => {
+    const input = document.querySelector(`.splitter-edit-input input`) as HTMLInputElement;
+    if (input) {
+      input.focus();
+      input.select();
+    }
+  });
+};
+
+const finishEditName = (element: any) => {
+  if (editingText.value.trim()) {
+    element.label = editingText.value.trim();
+  }
+  editingId.value = "";
+};
+
 /**
  * 如果没有items，动态添加
  * @param adata
@@ -35,9 +62,9 @@ const onDragAdd = (evt: Event | any, dataList: any) => {
     designForm.selectItem(dataInfo, dataInfo.itemType, "");
   }
 };
+
+
 const checkData = (adata: any) => {
-  //:size="adata.size"
-  //      :min="adata.min" :max="adata.max" :resizable="adata.resizable" :collapsible="adata.collapsible"
   if (adata.preps) {
     let temp = adata.preps;
     if (typeof temp == "string") {
@@ -101,6 +128,23 @@ onMounted(() => {
           v-for="adata in field['preps']['elements']"
           v-bind="checkData(adata)"
       >
+        <div class="splitter-panel-header" v-if="isDesign">
+          <span
+              v-if="editingId !== (adata.tabName || adata.objectName)"
+              class="editable-name"
+              @dblclick.stop="startEditName(adata)"
+          >{{ adata.label || adata.objectName }}</span>
+          <el-input
+              v-else
+              class="splitter-edit-input"
+              v-model="editingText"
+              size="small"
+              @blur="finishEditName(adata)"
+              @keyup.enter="finishEditName(adata)"
+              @click.stop
+              style="width: 120px;"
+          />
+        </div>
         <draggable
             @add="(evt: Event) => onDragAdd(evt, adata['items'])"
             @dragover="checkItem(adata)"
@@ -128,6 +172,13 @@ onMounted(() => {
             </div>
           </template>
         </draggable>
+
+        <!-- 快捷添加组件按钮 -->
+        <div v-if="isDesign" class="quick-add-bar">
+          <el-button size="small" type="info" plain @click.stop="quickAddItem(adata.items)" icon="Plus">
+            {{ i18n("dyform.condition.addLeaf") }}
+          </el-button>
+        </div>
       </el-splitter-panel>
     </el-splitter>
   </group-container>
@@ -139,5 +190,38 @@ onMounted(() => {
 
 :deep(.el-card__body) {
   margin-top: 5px;
+}
+
+.splitter-panel-header {
+  padding: 4px 8px;
+  font-size: 12px;
+  color: #909399;
+  border-bottom: 1px solid #ebeef5;
+  background: #fafafa;
+}
+
+.editable-name {
+  cursor: text;
+  border-bottom: 1px dashed transparent;
+  transition: border-color 0.2s;
+
+  &:hover {
+    border-bottom-color: #409eff;
+  }
+}
+
+.quick-add-bar {
+  display: flex;
+  justify-content: center;
+  padding: 4px 0;
+  margin-top: 4px;
+  border: 1px dashed #d9ecff;
+  border-radius: 4px;
+  transition: all 0.2s;
+
+  &:hover {
+    border-color: #409eff;
+    background: #ecf5ff;
+  }
 }
 </style>

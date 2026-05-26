@@ -17,6 +17,7 @@ import {
 import {Config} from "@/api/settings.js";
 import {loadElementPlusIcon, loadSvgIcons,} from "@/api/star_horse_form_utils.js";
 import {FormConfig} from "@/components/types";
+import {i18n} from "@/lang/index.js";
 
 const props = defineProps<{
   optional: FormConfig;
@@ -29,29 +30,29 @@ let dbList = ref<any>([]);
 let systemIconList = ref<SelectOption[]>([]);
 let relationDataList = ref<SelectOption[]>([]);
 let relationTypeList = ref<SelectOption[]>([
-  {name: "一对一", value: "11"},
-  {name: "一对多", value: "1n"},
-  {name: "多对一", value: "n1"},
-  {name: "多对多", value: "mn"},
+  {name: i18n("dyform.formProp.relation.11"), value: "11"},
+  {name: i18n("dyform.formProp.relation.1n"), value: "1n"},
+  {name: i18n("dyform.formProp.relation.n1"), value: "n1"},
+  {name: i18n("dyform.formProp.relation.mn"), value: "mn"},
 ]);
 let cloneDatasList = ref<SelectOption[]>([
-  {name: "表单模型", value: "form"},
-  {name: "权限", value: "authority"},
-  {name: "全部", value: "all"},
+  {name: i18n("dyform.formProp.modelType.form"), value: "form"},
+  {name: i18n("dyform.formProp.modelType.authority"), value: "authority"},
+  {name: i18n("dyform.formProp.modelType.all"), value: "all"},
 ]);
 let dataSourceData = ref<any>();
 let requireAsteriskPositionList = ref<SelectOption[]>([
-  {name: "左", value: "left"},
-  {name: "右", value: "right"},
+  {name: i18n("dyform.formProp.align.left"), value: "left"},
+  {name: i18n("dyform.formProp.align.right"), value: "right"},
 ]);
 let labelPositionList = ref<SelectOption[]>([
   ...requireAsteriskPositionList.value,
-  {name: "顶部", value: "top"},
+  {name: i18n("dyform.formProp.labelPosition.top"), value: "top"},
 ]);
 let formSizeList = ref<SelectOption[]>([
-  {name: "大", value: "large"},
-  {name: "中", value: "default"},
-  {name: "小", value: "small"},
+  {name: i18n("dyform.formProp.size.large"), value: "large"},
+  {name: i18n("dyform.formProp.size.default"), value: "default"},
+  {name: i18n("dyform.formProp.size.small"), value: "small"},
 ]);
 let dataLoadConditionList = ref<SelectOption[]>([]);
 let dynamicFieldList = ref<SelectOption[]>([]);
@@ -66,23 +67,10 @@ let pageStyleList = ref<SelectOption[]>([]);
 let informationsList = ref<any>([]);
 let menusInfoList = ref<any>([]);
 let rolesList = ref<any>([]);
-const relationMsg = `
-映射关系表示当前表与所选择的表之间的关系:
- 一对一: 表示当前表和被选择表数据是一一对应关系;
- 一对多: 表示当前表一条数据对应被选择表多条数据;
- 多对一: 表示当前表多条数据对应被选择表1条数据;
- 多对多: 表示当前表1条数据对应被选择表多条,
-        反之被选择表的一条数据也对于当前表的多条数据。`;
-const commonColumnsMsg = `
- 配置系统公共字段:
-  控制公共字段是否显示在页面对于的位置
-`;
-const dbPositionMsg = `
-动态创建的表需要存在那个数据库，
-如果为空，则在当前业务数据库创建表信息。`;
-const tableListMsg = `
-对于关联字段的处理，
-将编码或者ID 映射为对应的名称显示。`;
+const relationMsg = i18n("dyform.formProp.relation.helpMsg");
+const commonColumnsMsg = i18n("dyform.formProp.publicFields.helpMsg");
+const dbPositionMsg = i18n("dyform.formProp.dbName.helpMsg");
+const tableListMsg = i18n("dyform.formProp.relationField.helpMsg");
 
 const loadMenus = (sysId: string) => {
   if (
@@ -99,13 +87,13 @@ const tableFieldList = reactive<PageFieldInfo | any>({
   fieldList: [
     [
       {
-        label: "表单名称",
+        label: i18n("dyform.formProp.formName"),
         fieldName: "formName",
         required: true,
         formVisible: true,
       },
       {
-        label: "数据源",
+        label: i18n("dyform.formProp.dataSource"),
         fieldName: "datasourceConfigId",
         helpMsg: dbPositionMsg,
         type: "select",
@@ -128,18 +116,18 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       actions: {
         tabChange: (val: any) => {
           if (val == "tab2" && !relationDataList.value?.length) {
-            warning("请选择数据源");
+            warning(i18n("dyform.formProp.dataSource.warning"));
           }
         },
       },
       tabList: [
         {
-          title: "基础属性",
+          title: i18n("dyform.formProp.basicProps"),
           tabName: "tab1",
           fieldList: [
             [
               {
-                label: "表名",
+                label: i18n("dyform.formProp.tableName"),
                 fieldName: "tbName",
                 required: true,
                 formVisible: true,
@@ -149,7 +137,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
                 },
               },
               {
-                label: "归属应用",
+                label: i18n("dyform.formProp.appName"),
                 fieldName: "sysId",
                 type: "tselect",
                 actions: {
@@ -166,7 +154,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
                 },
               },
               {
-                label: "创建表",
+                label: i18n("dyform.formProp.createTable"),
                 fieldName: "createTable",
                 type: "switch",
                 defaultValue: "N",
@@ -180,7 +168,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
             ],
             [
               {
-                label: "主键",
+                label: i18n("dyform.formProp.primaryKey"),
                 fieldName: "formId",
                 required: true,
                 formVisible: true,
@@ -190,7 +178,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
                 },
               },
               {
-                label: "主键策略",
+                label: i18n("dyform.formProp.primaryKeyStrategy"),
                 fieldName: "primaryKeyPolicy",
                 type: "select",
                 formVisible: ["full"].includes(model.value),
@@ -201,7 +189,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
                 },
               },
               {
-                label: "表单图标",
+                label: i18n("dyform.formProp.formIcon"),
                 fieldName: "formIcon",
                 type: "icon",
                 defaultValue: "document",
@@ -215,7 +203,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
             ],
             [
               {
-                label: "是否创建菜单",
+                label: i18n("dyform.formProp.createMenu"),
                 fieldName: "createMenu",
                 type: "switch",
                 defaultValue: "N",
@@ -242,7 +230,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
                 },
               },
               {
-                label: "授权用户组",
+                label: i18n("dyform.formProp.authGroup"),
                 fieldName: "userGroupList",
                 type: "select",
                 formVisible: false,
@@ -256,7 +244,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
             ],
             [
               {
-                label: "父级菜单",
+                label: i18n("dyform.formProp.parentMenu"),
                 fieldName: "parentMenuId",
                 type: "tselect",
                 formVisible: false,
@@ -271,7 +259,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
                 },
               },
               {
-                label: "按钮权限",
+                label: i18n("dyform.formProp.buttonAuth"),
                 fieldName: "buttonPermissionsList",
                 type: "select",
                 required: false,
@@ -286,7 +274,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
             ],
             [
               {
-                label: "存为模板",
+                label: i18n("dyform.formProp.saveAsTemplate"),
                 fieldName: "templateFlag",
                 type: "switch",
                 defaultValue: 2,
@@ -298,8 +286,8 @@ const tableFieldList = reactive<PageFieldInfo | any>({
                 },
               },
               {
-                label: "级联删除",
-                helpMsg: "页面字段删除时同步删除数据库对应表字段",
+                label: i18n("dyform.formProp.cascadeDelete"),
+                helpMsg: i18n("dyform.formProp.cascadeDelete.helpMsg"),
                 fieldName: "deleteCascade",
                 type: "switch",
                 defaultValue: "Y",
@@ -311,8 +299,8 @@ const tableFieldList = reactive<PageFieldInfo | any>({
                 },
               },
               {
-                label: "克隆数据到目标环境",
-                helpMsg: "将表单模型和权限等在上面选中数据库中生成相同的数据,\n目标数据库上必须要有所需的表，将克隆失败",
+                label: i18n("dyform.formProp.cloneData"),
+                helpMsg: i18n("dyform.formProp.cloneData.helpMsg"),
                 fieldName: "cloneData",
                 type: "select",
                 formVisible: ["full"].includes(model.value),
@@ -325,7 +313,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
 
             [
               {
-                label: "页面风格",
+                label: i18n("dyform.formProp.pageStyle"),
                 fieldName: "pageStyle",
                 type: "select",
                 formVisible: ["default", "full"].includes(model.value),
@@ -346,7 +334,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
                 },
               },
               {
-                label: "数据加载条件",
+                label: i18n("dyform.formProp.loadCondition"),
                 fieldName: "dataLoadField",
                 type: "select",
                 formVisible: false,
@@ -359,7 +347,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
           ],
         },
         {
-          title: "映射关系配置",
+          title: i18n("dyform.formProp.relationConfig"),
           tabName: "tab2",
           disVisible: model.value != "full",
           helpMsg: relationMsg,
@@ -369,7 +357,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
               initRows: 0,
               fieldList: [
                 {
-                  label: "关联表",
+                  label: i18n("dyform.formProp.relationTable"),
                   fieldName: "tableId",
                   type: "select",
                   required: true,
@@ -379,7 +367,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
                   },
                 },
                 {
-                  label: "映射关系",
+                  label: i18n("dyform.formProp.relationType"),
                   fieldName: "relationType",
                   type: "select",
                   defaultValue: "1n",
@@ -394,19 +382,19 @@ const tableFieldList = reactive<PageFieldInfo | any>({
           ],
         },
         {
-          title: "脚本绑定",
+          title: i18n("dyform.formProp.scriptBinding"),
           tabName: "tab3",
           disVisible: !["default", "full"].includes(model.value),
           fieldList: [],
         },
         {
-          title: "其它属性",
+          title: i18n("dyform.formProp.otherProps"),
           tabName: "tab4",
           disVisible: !["default", "full"].includes(model.value),
           fieldList: [
             [
               {
-                label: "标签位置",
+                label: i18n("dyform.formProp.labelPosition2"),
                 fieldName: "labelPosition",
                 defaultValue: "left",
                 type: "select",
@@ -416,13 +404,13 @@ const tableFieldList = reactive<PageFieldInfo | any>({
                 },
               },
               {
-                label: "标签长度",
+                label: i18n("dyform.formProp.labelWidth"),
                 fieldName: "labelWidth",
-                helpMsg: "如：50px",
+                helpMsg: i18n("dyform.formProp.labelWidth.helpMsg"),
                 formVisible: true,
               },
               {
-                label: "表单验证规则名称",
+                label: i18n("dyform.formProp.validRuleName"),
                 fieldName: "rules",
                 defaultValue: "rules",
                 formVisible: true,
@@ -430,7 +418,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
             ],
             [
               {
-                label: "表单风格",
+                label: i18n("dyform.formProp.formStyle"),
                 fieldName: "size",
                 defaultValue: Config.compSize,
                 type: "select",
@@ -440,12 +428,12 @@ const tableFieldList = reactive<PageFieldInfo | any>({
                 },
               },
               {
-                label: "表单域标签的后缀",
+                label: i18n("dyform.formProp.labelSuffix"),
                 fieldName: "labelSuffix",
                 formVisible: true,
               },
               {
-                label: "禁用所有组件",
+                label: i18n("dyform.formProp.disableAll"),
                 fieldName: "disabled",
                 defaultValue: false,
                 type: "switch",
@@ -454,21 +442,21 @@ const tableFieldList = reactive<PageFieldInfo | any>({
             ],
             [
               {
-                label: "隐藏必填字段的红色星号",
+                label: i18n("dyform.formProp.hideRequiredAsterisk"),
                 fieldName: "hideRequiredAsterisk",
                 defaultValue: false,
                 type: "switch",
                 formVisible: true,
               },
               {
-                label: "校验失败时，滚动到第一个错误表单项",
+                label: i18n("dyform.formProp.scrollToError"),
                 fieldName: "scrollToError",
                 defaultValue: true,
                 type: "switch",
                 formVisible: true,
               },
               {
-                label: "星号的位置",
+                label: i18n("dyform.formProp.asteriskPosition"),
                 fieldName: "requireAsteriskPosition",
                 defaultValue: "right",
                 type: "radio",
@@ -480,21 +468,21 @@ const tableFieldList = reactive<PageFieldInfo | any>({
             ],
             [
               {
-                label: "是否在输入框中显示校验结果反馈图标",
+                label: i18n("dyform.formProp.showValidateIcon"),
                 fieldName: "statusIcon",
                 defaultValue: false,
                 type: "switch",
                 formVisible: true,
               },
               {
-                label: "是否显示校验错误信息",
+                label: i18n("dyform.formProp.showErrorMessage"),
                 fieldName: "showMessage",
                 defaultValue: true,
                 type: "switch",
                 formVisible: true,
               },
               {
-                label: "是否以行内形式展示校验信息",
+                label: i18n("dyform.formProp.inlineMessage"),
                 fieldName: "inlineMessage",
                 defaultValue: true,
                 type: "switch",
@@ -503,14 +491,14 @@ const tableFieldList = reactive<PageFieldInfo | any>({
             ],
             [
               {
-                label: "是否在 rules 属性改变后立即触发一次验证",
+                label: i18n("dyform.formProp.validateOnRuleChange"),
                 fieldName: "validateOnRuleChange",
                 defaultValue: false,
                 type: "switch",
                 formVisible: true,
               },
               {
-                label: "行内表单模式",
+                label: i18n("dyform.formProp.inlineForm"),
                 fieldName: "inline",
                 defaultValue: true,
                 type: "switch",
@@ -520,14 +508,14 @@ const tableFieldList = reactive<PageFieldInfo | any>({
           ],
         },
         {
-          title: "公共属性",
+          title: i18n("dyform.formProp.publicProps"),
           tabName: "tab5",
           disVisible: !["default", "full"].includes(model.value),
           helpMsg: commonColumnsMsg,
           fieldList: [
             [
               {
-                label: "需要公共字段",
+                label: i18n("dyform.formProp.needPublicFields"),
                 fieldName: "needCommonFields",
                 type: "switch",
                 defaultValue: "Y",
@@ -547,8 +535,8 @@ const tableFieldList = reactive<PageFieldInfo | any>({
                 },
               },
               {
-                label: "状态字典",
-                helpMsg: "系统字段中配置的类型编码",
+                label: i18n("dyform.formProp.statusDict"),
+                helpMsg: i18n("dyform.formProp.statusDict.helpMsg"),
                 fieldName: "statusDictName",
 
                 defaultValue: "common",
@@ -564,7 +552,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
                   subFormFlag: "Y",
                   fieldList: [
                     {
-                      label: "字段信息",
+                      label: i18n("dyform.formProp.fieldInfo"),
                       fieldName: "fieldName",
                       type: "select",
                       required: true,
@@ -578,21 +566,21 @@ const tableFieldList = reactive<PageFieldInfo | any>({
                       },
                     },
                     {
-                      label: "查询显示",
+                      label: i18n("dyform.formProp.searchDisplay"),
                       fieldName: "searchVisible",
                       type: "switch",
                       defaultValue: false,
                       formVisible: true,
                     },
                     {
-                      label: "表单显示",
+                      label: i18n("dyform.formProp.formDisplay"),
                       fieldName: "formVisible",
                       type: "switch",
                       defaultValue: false,
                       formVisible: true,
                     },
                     {
-                      label: "列表显示",
+                      label: i18n("dyform.formProp.listDisplay"),
                       fieldName: "listVisible",
                       type: "switch",
                       defaultValue: true,
@@ -606,7 +594,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
         },
         {
           tabName: "tab6",
-          title: "列表显示配置",
+          title: i18n("dyform.formProp.listConfig"),
           disVisible: !["full"].includes(model.value),
           helpMsg: tableListMsg,
           batchFieldList: [
@@ -617,7 +605,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
               initRows: 0,
               fieldList: [
                 {
-                  label: "字段信息",
+                  label: i18n("dyform.formProp.fieldInfo"),
                   fieldName: "fieldName",
                   type: "select",
                   formVisible: true,
@@ -627,7 +615,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
                   },
                 },
                 {
-                  label: "映射表",
+                  label: i18n("dyform.formProp.mappingTable"),
                   fieldName: "mappingTable",
                   type: "select",
                   formVisible: true,
@@ -646,7 +634,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
                   },
                 },
                 {
-                  label: "关联字段",
+                  label: i18n("dyform.formProp.relationField2"),
                   fieldName: "mappingField",
                   type: "select",
                   required: true,
@@ -656,7 +644,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
                   },
                 },
                 {
-                  label: "显示字段",
+                  label: i18n("dyform.formProp.displayField"),
                   fieldName: "mappingDisplayField",
                   type: "select",
                   required: true,
@@ -667,16 +655,16 @@ const tableFieldList = reactive<PageFieldInfo | any>({
                   },
                 },
                 {
-                  label: "显示别名",
+                  label: i18n("dyform.formProp.displayAlias"),
                   fieldName: "displayAliasField",
 
                   helpMsg:
-                      "关联字段与主表字段冲突时配置,\n必须以字母开头不能有特殊符号",
+                      i18n("dyform.formProp.displayAlias.helpMsg"),
                   formVisible: true,
                   rules: [
                     {
                       pattern: /^[a-zA-Z][a-zA-Z0-9_]*$/,
-                      message: "必须以字母开头不能有特殊符号",
+                      message: i18n("dyform.formProp.displayAlias.validate"),
                       trigger: "blur",
                     },
                   ],
@@ -687,7 +675,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
         },
         {
           tabName: "tab7",
-          title: "列表自定义事件",
+          title: i18n("dyform.formProp.listCustomEvent"),
           disVisible: !["full"].includes(model.value),
           batchFieldList: [
             {
@@ -699,13 +687,13 @@ const tableFieldList = reactive<PageFieldInfo | any>({
               fieldList: [
                 [
                   {
-                    label: "事件名称",
+                    label: i18n("dyform.formProp.eventName"),
                     fieldName: "eventName",
                     formVisible: true,
                     required: true,
                   },
                   {
-                    label: "图标",
+                    label: i18n("dyform.formProp.eventIcon"),
                     fieldName: "icon",
                     type: "icon",
                     formVisible: true,
@@ -718,7 +706,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
                 ],
                 [
                   {
-                    label: "操作权限",
+                    label: i18n("dyform.formProp.operationAuth"),
                     fieldName: "authority",
                     type: "select",
                     required: true,
@@ -729,7 +717,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
                     },
                   },
                   {
-                    label: "事件类别",
+                    label: i18n("dyform.formProp.eventCategory"),
                     fieldName: "eventType",
                     type: "select",
                     required: true,
@@ -758,10 +746,10 @@ const tableFieldList = reactive<PageFieldInfo | any>({
                 ],
                 [
                   {
-                    label: "请求地址",
+                    label: i18n("dyform.formProp.requestUrl"),
                     fieldName: "content",
                     helpMsg:
-                        "请求接口：填写接口地址， 例如：/userdb-manage/xx/xx/xx;\n页面跳转：填写前端路由，例如：/test/UserInfo;\n弹窗：填写弹窗组件名称，例如：UserInfo。",
+                        i18n("dyform.formProp.requestUrl.helpMsg"),
                     required: true,
                     formVisible: true,
                     preps: {
@@ -769,7 +757,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
                     },
                   },
                   {
-                    label: "请求方式",
+                    label: i18n("dyform.formProp.requestMethod"),
                     fieldName: "httpMethod",
                     defaultValue: "POST",
                     type: "select",
@@ -782,7 +770,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
                   },
                 ],
                 {
-                  label: "参数",
+                  label: i18n("dyform.formProp.params"),
                   fieldName: "parameters",
                   type: "json",
                   formVisible: urlFieldVisible,
@@ -793,7 +781,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
         },
         {
           tabName: "tab8",
-          title: "列表排序字段",
+          title: i18n("dyform.formProp.listSortField"),
           disVisible: !["default", "full"].includes(model.value),
           batchFieldList: [
             {
@@ -803,7 +791,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
               initRows: 0,
               fieldList: [
                 {
-                  label: "排序字段",
+                  label: i18n("dyform.formProp.sortField"),
                   fieldName: "fieldName",
                   type: "select",
                   required: true,
@@ -813,7 +801,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
                   },
                 },
                 {
-                  label: "排序方式",
+                  label: i18n("dyform.formProp.sortOrder"),
                   fieldName: "orderBy",
                   type: "select",
 
@@ -823,7 +811,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
                   },
                 },
                 {
-                  label: "优先级",
+                  label: i18n("dyform.formProp.priority"),
                   fieldName: "priority",
                   type: "number",
                   defaultValue: 1,
@@ -928,7 +916,7 @@ let currentDataSourceId = ref<string>("");
 //获取同数据源下的表,用来配置对应的关系
 const loadSameDataSourceTables = (formInfo: any) => {
   if (!props.optional?.api?.listConditionUrl) {
-    warning("未配置listConditionUrl");
+    warning(i18n("dyform.formProp.listConditionUrl.warning"));
     return;
   }
   let params: any = [];

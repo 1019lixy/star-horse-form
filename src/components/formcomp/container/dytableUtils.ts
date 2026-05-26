@@ -1,4 +1,5 @@
 import {operationConfirm, uuid} from "star-horse-lowcode";
+import {i18n} from "@/lang";
 
 /**
  * 定义td 数据
@@ -330,7 +331,7 @@ const resetMerge = (props: any, type: any) => {
 const deleteWholeCol = (props: any, type: any) => {
     const rows = props.parentField.preps.elements;
 
-    operationConfirm("删除当前列后，所有的合并和添加的组件都会被删除，是否确认?").then(res => {
+    operationConfirm(i18n("dyform.comp.container.444")).then(res => {
         //返回的是数组
         for (let i = 0; i < rows.length; i++) {
             const tempColumns = rows[i].columns;
@@ -399,7 +400,7 @@ const deleteWholeRow = (props: any, type: any) => {
     //如果当前行有跨行合并，则所有跨行合并的数据都需要还原
     //
     const rows = props.parentField.preps.elements;
-    operationConfirm("删除当前行后，所有的合并和添加的组件都会被删除，是否确认?").then(res => {
+    operationConfirm(i18n("dyform.comp.container.445")).then(res => {
         //返回的是数组
         const row = rows.splice(props.rowIndex, 1);
         row[0].columns.forEach((column, col) => {

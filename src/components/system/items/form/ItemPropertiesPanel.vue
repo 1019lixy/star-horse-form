@@ -48,6 +48,9 @@ let currentCompCategory = computed(() => designForm.currentCompCategory);
 
 const formProps = computed(() => {
   let preps = unref(designForm.currentComp).preps;
+  if (!preps) {
+    return {};
+  }
   if (!preps?.rules) {
     preps["rules"] = [];
   }
@@ -125,7 +128,7 @@ const containerDialogVisible = ref<boolean>(false);
  * 自定义验证规则
  */
 const customerValid = () => {
-  warning("自定义验证规则开发中");
+  warning(i18n("dyform.common.customValid Developing"));
 };
 const dataSource = (_type: string) => {
   dataSourceVisible.value = true;
@@ -189,7 +192,7 @@ const submitValid = async () => {
   if (result) {
     closeAction();
   } else {
-    operationConfirm("接口验证可能异常,是否提交?").then((res) => {
+    operationConfirm(i18n("dyform.common.submitConfirm")).then((res) => {
       closeAction();
     });
   }
@@ -390,32 +393,32 @@ watch(() => quickConfig.value, (val) => {
   </star-horse-dialog>
   <el-scrollbar>
     <template v-if="currentCompCategory == 'container'">
-      <el-form-item label="配置容器属性" prop="rows">
+      <el-form-item :label="i18n('dyform.props.container.config')" prop="rows">
         <el-button
             type="primary"
             plain
             icon="Setting"
             @click="editContainerPrep"
-        >配置
+        >{{ i18n('dyform.props.container.config.btn') }}
         </el-button>
       </el-form-item>
-      <el-form-item label="快速配置" label-position="top" prop="rowAndCol"
+      <el-form-item :label="i18n('dyform.props.quickConfig')" label-position="top" prop="rowAndCol"
                     v-if="['dytable','box'].includes(currentItemType)">
-        <el-form-item label="行数">
+        <el-form-item :label="i18n('dyform.props.quickConfig.rows')">
           <el-input-number v-model="quickConfig.rowNums" min="1" max="500" controls-position="right"/>
         </el-form-item>
-        <el-form-item label="列数" style="margin-top: 10px">
+        <el-form-item :label="i18n('dyform.props.quickConfig.cols')" style="margin-top: 10px">
           <div class="flex flex-row items-center w-full" v-if="currentItemType=='box'">
-            <help message="栅格容器特殊性,只能设置备选值"/>
+            <help :message="i18n('dyform.props.quickConfig.cols.helpMsg')"/>
             <el-select v-model="quickConfig.columnNums" :options="[
-              {label:'1列',value:1},
-              {label:'2列',value:2},
-              {label:'3列',value:3},
-              {label:'4列',value:4},
-              {label:'6列',value:6},
-              {label:'8列',value:8},
-              {label:'12列',value:12},
-              {label:'24列',value:24}
+              {label:i18n('dyform.props.quickConfig.cols.1'),value:1},
+              {label:i18n('dyform.props.quickConfig.cols.2'),value:2},
+              {label:i18n('dyform.props.quickConfig.cols.3'),value:3},
+              {label:i18n('dyform.props.quickConfig.cols.4'),value:4},
+              {label:i18n('dyform.props.quickConfig.cols.6'),value:6},
+              {label:i18n('dyform.props.quickConfig.cols.8'),value:8},
+              {label:i18n('dyform.props.quickConfig.cols.12'),value:12},
+              {label:i18n('dyform.props.quickConfig.cols.24'),value:24}
           ]">
             </el-select>
           </div>
@@ -425,30 +428,30 @@ watch(() => quickConfig.value, (val) => {
       </el-form-item>
     </template>
     <template v-else>
-      <el-form-item label="标签名称" label-position="top" prop="label" required>
+      <el-form-item :label="i18n('dyform.props.label')" label-position="top" prop="label" required>
         <el-input
             v-model="formProps.label"
-            placeholder="请输入标签名"
+            :placeholder="i18n('dyform.props.label.placeholder')"
             @blur="fieldPlaceholder(formProps)"
         />
       </el-form-item>
-      <el-form-item label="字段名称" label-position="top" prop="name" required>
+      <el-form-item :label="i18n('dyform.props.name')" label-position="top" prop="name" required>
         <el-input
             v-model="formProps.name"
-            placeholder="请输入字段名"
+            :placeholder="i18n('dyform.props.name.placeholder')"
             @blur="fieldPlaceholder(formProps)"
         />
       </el-form-item>
-      <el-form-item label="数据长度" label-position="top" prop="maxLength">
+      <el-form-item :label="i18n('dyform.props.maxLength')" label-position="top" prop="maxLength">
         <el-input-number
             v-model="formProps.maxLength"
             controls-position="right"
             min="1"
         />
-        <help :message="`长度超过4000，后台自动转为文本类型如：text,clob等`"/>
+        <help :message="i18n('dyform.props.maxLength.helpMsg')"/>
       </el-form-item>
       <el-form-item
-          label="数据源"
+          :label="i18n('dyform.props.dataSource')"
           prop="dataSource"
           v-if="
           !exclusionDataSource.includes(currentItemType) &&
@@ -456,12 +459,12 @@ watch(() => quickConfig.value, (val) => {
         "
       >
         <el-button type="primary" plain icon="Setting" @click="dataSource"
-        >配置
+        >{{ i18n('dyform.props.dataSource.btn') }}
         </el-button>
-        <help :message="`配置当前属性的备选数据项`"/>
+        <help :message="i18n('dyform.props.dataSource.helpMsg')"/>
       </el-form-item>
       <el-form-item
-          label="联动策略"
+          :label="i18n('dyform.props.dataRelation')"
           prop="dataRelation"
           v-if="
           relationComps.includes(currentItemType) &&
@@ -474,18 +477,18 @@ watch(() => quickConfig.value, (val) => {
             plain
             icon="Setting"
             @click="configRelationPolicy"
-        >配置
+        >{{ i18n('dyform.props.dataRelation.btn') }}
         </el-button>
         <help
-            :message="`当前属性数据改变，控制表单内其他属性的数据范围及操作行为`"
+            :message="i18n('dyform.props.dataRelation.helpMsg')"
         />
       </el-form-item>
       <el-form-item
-          label="事件"
+          :label="i18n('dyform.props.event')"
           prop="cfgClickEvent"
           v-if="currentItemType == 'button'"
       >
-        <el-button type="primary" @click="btnClickOpen">配置</el-button>
+        <el-button type="primary" @click="btnClickOpen">{{ i18n('dyform.props.event.btn') }}</el-button>
       </el-form-item>
 
       <!-- ==================== 公式计算配置 ==================== -->
@@ -526,12 +529,12 @@ watch(() => quickConfig.value, (val) => {
       />
       <!-- ==================== 公式计算配置 END ==================== -->
 
-      <el-form-item label="校验规则" label-position="top" prop="rules">
+      <el-form-item :label="i18n('dyform.props.rules')" label-position="top" prop="rules">
         <el-select
             v-model="formProps.rules"
             multiple
             @change="changeOperation"
-            placeholder="请选择校验规则"
+            :placeholder="i18n('dyform.props.rules.placeholder')"
         >
           <el-option
               v-for="item in validRulesList"
@@ -541,141 +544,141 @@ watch(() => quickConfig.value, (val) => {
           />
         </el-select>
       </el-form-item>
-      <el-form-item label="是否必须" prop="required">
+      <el-form-item :label="i18n('dyform.props.required')" prop="required">
         <el-switch
             v-model="formProps.required"
-            active-text="是"
-            inactive-text="否"
+            :active-text="i18n('dyform.props.yes')"
+            :inactive-text="i18n('dyform.props.no')"
         />
       </el-form-item>
-      <el-form-item label="表单显示" prop="formVisible">
+      <el-form-item :label="i18n('dyform.props.formVisible')" prop="formVisible">
         <el-switch
             v-model="formProps.formVisible"
-            active-text="是"
-            inactive-text="否"
+            :active-text="i18n('dyform.props.yes')"
+            :inactive-text="i18n('dyform.props.no')"
         />
       </el-form-item>
 
-      <el-form-item label="列表可见" prop="listVisible">
+      <el-form-item :label="i18n('dyform.props.listVisible')" prop="listVisible">
         <el-switch
             v-model="formProps.listVisible"
-            active-text="是"
-            inactive-text="否"
+            :active-text="i18n('dyform.props.yes')"
+            :inactive-text="i18n('dyform.props.no')"
         />
       </el-form-item>
-      <el-form-item label="查询可见" prop="searchVisible">
+      <el-form-item :label="i18n('dyform.props.searchVisible')" prop="searchVisible">
         <el-switch
             v-model="formProps.searchVisible"
-            active-text="是"
-            inactive-text="否"
+            :active-text="i18n('dyform.props.yes')"
+            :inactive-text="i18n('dyform.props.no')"
         />
       </el-form-item>
 
-      <el-form-item label="隐藏标签" prop="hideLabel">
+      <el-form-item :label="i18n('dyform.props.hideLabel')" prop="hideLabel">
         <el-switch
             v-model="formProps.hideLabel"
-            active-text="是"
-            inactive-text="否"
+            :active-text="i18n('dyform.props.yes')"
+            :inactive-text="i18n('dyform.props.no')"
         />
       </el-form-item>
       <el-form-item
-          label="显示方式"
+          :label="i18n('dyform.props.defaultVisible')"
           prop="defaultVisible"
           v-if="formProps.searchVisible"
       >
         <el-switch
             v-model="formProps.defaultVisible"
-            active-text="默认展示"
-            inactive-text="默认隐藏"
+            :active-text="i18n('dyform.props.defaultVisible.show')"
+            :inactive-text="i18n('dyform.props.defaultVisible.hide')"
         />
       </el-form-item>
-      <el-form-item label="查看可见" prop="viewVisible">
+      <el-form-item :label="i18n('dyform.props.viewVisible')" prop="viewVisible">
         <el-switch
             v-model="formProps.viewVisible"
-            active-text="是"
-            inactive-text="否"
+            :active-text="i18n('dyform.props.yes')"
+            :inactive-text="i18n('dyform.props.no')"
         />
       </el-form-item>
 
-      <el-form-item label="全局禁用" prop="disabled">
+      <el-form-item :label="i18n('dyform.props.disabled')" prop="disabled">
         <el-switch
             v-model="formProps.disabled"
-            active-text="是"
-            inactive-text="否"
+            :active-text="i18n('dyform.props.yes')"
+            :inactive-text="i18n('dyform.props.no')"
         />
       </el-form-item>
-      <el-form-item label="修改禁用" prop="editDisabled">
+      <el-form-item :label="i18n('dyform.props.editDisabled')" prop="editDisabled">
         <el-switch
             v-model="formProps.editDisabled"
-            active-text="是"
-            inactive-text="否"
+            :active-text="i18n('dyform.props.yes')"
+            :inactive-text="i18n('dyform.props.no')"
         />
       </el-form-item>
-      <el-form-item label="全局只读" prop="readonly">
+      <el-form-item :label="i18n('dyform.props.readonly')" prop="readonly">
         <el-switch
             v-model="formProps.readonly"
-            active-text="是"
-            inactive-text="否"
+            :active-text="i18n('dyform.props.yes')"
+            :inactive-text="i18n('dyform.props.no')"
         />
       </el-form-item>
-      <el-form-item label="可清除" prop="clearable">
+      <el-form-item :label="i18n('dyform.props.clearable')" prop="clearable">
         <el-switch
             v-model="formProps.clearable"
-            active-text="是"
-            inactive-text="否"
+            :active-text="i18n('dyform.props.yes')"
+            :inactive-text="i18n('dyform.props.no')"
         />
       </el-form-item>
 
 
-      <el-form-item label="原样显示" prop="prototypeDisplay">
+      <el-form-item :label="i18n('dyform.props.prototypeDisplay')" prop="prototypeDisplay">
         <el-switch
             v-model="formProps.prototypeDisplay"
-            active-text="是"
-            inactive-text="否"
+            :active-text="i18n('dyform.props.yes')"
+            :inactive-text="i18n('dyform.props.no')"
         />
         <help
-            :message="`如果设置为true，组件值将原样显示，不进行任何处理，主要使用在数据列表`"
+            :message="i18n('dyform.props.prototypeDisplay.helpMsg')"
         />
       </el-form-item>
       <el-form-item
-          label="组件值" label-position="top"
+          :label="i18n('dyform.props.listPrototypeDisplay')" label-position="top"
           prop="listPrototypeDisplay"
           v-if="formProps.prototypeDisplay === true"
       >
         <el-input
             v-model="formProps.listPrototypeDisplay"
-            placeholder="请输入组件值"
+            :placeholder="i18n('dyform.props.listPrototypeDisplay.placeholder')"
         />
       </el-form-item>
-      <el-form-item label="唯一性校验" prop="uniqueValid">
+      <el-form-item :label="i18n('dyform.props.uniqueValid')" prop="uniqueValid">
         <el-switch
             v-model="formProps.uniqueValid"
-            active-text="是"
-            inactive-text="否"
+            :active-text="i18n('dyform.props.yes')"
+            :inactive-text="i18n('dyform.props.no')"
         />
         <help
-            :message="`如果开启此功能，\n在新增数据时系统对数据进行唯一性校验。`"
+            :message="i18n('dyform.props.uniqueValid.helpMsg')"
         />
       </el-form-item>
-      <el-form-item label="标签位置" label-position="top" prop="labelPosition">
+      <el-form-item :label="i18n('dyform.props.labelPosition')" label-position="top" prop="labelPosition">
         <el-select
             clearable
             filterable
             v-model="formProps.labelPosition"
-            :options="[{label:'顶部',value:'top'},{label:'左边',value:'left'},{label:'右边',value:'right'}]"
+            :options="[{label:i18n('dyform.props.labelPosition.top'),value:'top'},{label:i18n('dyform.props.labelPosition.left'),value:'left'},{label:i18n('dyform.props.labelPosition.right'),value:'right'}]"
         />
       </el-form-item>
-      <el-form-item label="提示信息" label-position="top" prop="helpMsg">
+      <el-form-item :label="i18n('dyform.props.helpMsg')" label-position="top" prop="helpMsg">
         <el-input
             v-model="formProps.helpMsg"
-            placeholder="请输入提示信息"
+            :placeholder="i18n('dyform.props.helpMsg.placeholder')"
             type="textarea"
         />
       </el-form-item>
-      <el-form-item label="Css样式" label-position="top" prop="styles">
+      <el-form-item :label="i18n('dyform.props.styles')" label-position="top" prop="styles">
         <el-input
             v-model="formProps.styles"
-            placeholder="请输入Css样式"
+            :placeholder="i18n('dyform.props.styles.placeholder')"
             type="textarea"
         />
       </el-form-item>

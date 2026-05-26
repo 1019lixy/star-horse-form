@@ -1,4 +1,5 @@
 import { SearchParams, success } from "star-horse-lowcode";
+import {i18n} from "@/lang";
 
 /**
  * 解析查询字段类型
@@ -85,13 +86,13 @@ export function validDynamicFormCompParams(
   const dupObjectNames = arrayDuplicateDatas(objectNames);
   const dupBatchNames = arrayDuplicateDatas(batchNames);
   if (dupTabNames.length > 0) {
-    errorMsg = `Tab组件中tabName 名${dupTabNames.join(";")}重复，请在容器对应属性面板【基础属性->编辑容器属性】中检查所有Tab组件`;
+    errorMsg = i18n("dyform.valid.dupTabName", {names: dupTabNames.join(";")});
   }
   if (dupObjectNames.length > 0) {
-    errorMsg += `\nTab组件中objectName 名${dupObjectNames.join(";")}重复，请在容器对应属性面板【基础属性->编辑容器属性】中检查所有Tab组件`;
+    errorMsg += "\n" + i18n("dyform.valid.dupObjectName", {names: dupObjectNames.join(";")});
   }
   if (dupBatchNames.length > 0) {
-    errorMsg += `\nTable组件中集合名称${dupBatchNames.join(";")}重复，请在容器对应属性面板【个性化属性->集合名称】中检查所有Table组件`;
+    errorMsg += "\n" + i18n("dyform.valid.dupBatchName", {names: dupBatchNames.join(";")});
   }
   /**
    * 主要校验 参数是否重名，必须的参数是否赋值，参数数据合法性，此举旨在保证数据提交后可以正常运行，
@@ -107,19 +108,19 @@ export function validDynamicFormCompParams(
     const itemType = temp.itemType;
     if (itemType == "dialog-input" || itemType == "page-select") {
       const temp =
-        "\n【" + name + "】组件必须在【属性面板->个性化属性->参数配置】中";
+        "\n【" + name + i18n("dyform.utils.612");
       if (!preps.dataUrl?.host) {
-        msg += ",配置IP地址或服务名";
+        msg += i18n("dyform.utils.613");
       }
       if (!preps.dataUrl?.pageListUrl) {
-        msg += ",配置Url地址";
+        msg += i18n("dyform.utils.614");
       }
 
       if (!preps.fieldLists || preps.fieldLists?.length == 0) {
-        msg += ",配置显示属性";
+        msg += i18n("dyform.utils.615");
       }
       if (!preps.needField || preps.needField?.length < 1) {
-        msg += ",配置回调字段";
+        msg += i18n("dyform.utils.616");
       }
       if (msg.length > 0) {
         msg = temp + msg;
@@ -134,7 +135,7 @@ export function validDynamicFormCompParams(
         msg =
           "\n【" +
           name +
-          "】组件必须在【属性面板->基础属性->数据源】中配置数据源;";
+          i18n("dyform.utils.617");
       }
     }
     if (msg.length > 0) {
@@ -142,7 +143,7 @@ export function validDynamicFormCompParams(
     }
   }
   if (!errorMsg && !isSubmit) {
-    success("校验通过");
+    success(i18n("dyform.utils.618"));
   }
   return errorMsg;
 }

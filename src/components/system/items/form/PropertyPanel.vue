@@ -1,5 +1,6 @@
 <script setup lang="ts" name="ItemPropertiesPanel">
 import {computed, onMounted, PropType, ref, watch} from "vue";
+import {i18n} from "@/lang";
 import {getDesignFormStore, searchMatchList, SelectOption, StarHorseIcon,} from "star-horse-lowcode";
 import ItemPropertiesPanel from "@/components/system/items/form/ItemPropertiesPanel.vue";
 import CustomerPropertyPanel from "@/components/system/items/form/CustomerPropertyPanel.vue";
@@ -54,11 +55,11 @@ watch(
           type="border-card"
           @tabChange="changeOperation"
       >
-        <el-tab-pane label="基础属性" name="base">
+        <el-tab-pane :label="i18n('dyform.propPanel.405')" name="base">
           <template #label>
             <div class="flex items-center">
               <star-horse-icon iconClass="base_preps"/>
-              基础属性
+              {{ i18n('dyform.propPanel.baseProps') }}
             </div>
           </template>
           <item-properties-panel :optional="optional"/>
@@ -67,7 +68,7 @@ watch(
           <template #label>
             <div class="flex items-center">
               <star-horse-icon iconClass="data_db"/>
-              个性化属性
+              {{ i18n('dyform.propPanel.customProps') }}
             </div>
           </template>
           <customer-property-panel

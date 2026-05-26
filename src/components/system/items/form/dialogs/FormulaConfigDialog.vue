@@ -125,8 +125,6 @@ const onFormulaTypeChange = (type: FormulaType) => {
   c.branches = undefined;
   c.lookupMappings = undefined;
   c.precision = undefined;
-  c.prefix = undefined;
-  c.suffix = undefined;
   c.dateUnit = undefined;
   c.dateMode = undefined;
   c.dateOffset = undefined;
@@ -409,13 +407,13 @@ defineExpose({open, close});
         </el-form-item>
       </template>
 
-      <!-- ===== 前缀/后缀（与 formula 平级） ===== -->
+      <!-- ===== 前缀/后缀（与 formula 平级，属于 preps） ===== -->
       <div style="display: flex; gap: 12px">
         <el-form-item :label="i18n('dyform.formula.prefix')" style="flex: 1">
-          <el-input v-model="prepsConfig.prefix" :placeholder="i18n('dyform.formula.prefix.placeholder')"/>
+          <el-input v-model="props.prepsConfig.prefix" :placeholder="i18n('dyform.formula.prefix.placeholder')"/>
         </el-form-item>
         <el-form-item :label="i18n('dyform.formula.suffix')" style="flex: 1">
-          <el-input v-model="prepsConfig.suffix" :placeholder="i18n('dyform.formula.suffix.placeholder')"/>
+          <el-input v-model="props.prepsConfig.suffix" :placeholder="i18n('dyform.formula.suffix.placeholder')"/>
         </el-form-item>
       </div>
     </el-form>

@@ -35,7 +35,7 @@ const selectData = () => {
   designForm.selectItem(container, container?.itemType, "");
 };
 const removeData = () => {
-  operationConfirm("删除容器，容器内的所有元素都会被删除").then((res) => {
+  operationConfirm(i18n("dyform.comp.container.440")).then((res) => {
     if (res) {
       let id = props.formItem.preps?.id || props.formItem.id;
       if (props.parentField?.itemType == "tab") {

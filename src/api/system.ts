@@ -1,4 +1,5 @@
 import { loadData, SelectOption } from "star-horse-lowcode";
+import {i18n} from "@/lang";
 import {
   AppContext,
   createVNode,
@@ -45,7 +46,7 @@ export async function printerList(): Promise<Array<SelectOption>> {
         });
         resolve(options);
       } else {
-        reject("获取打印机失败");
+        reject(i18n("dyform.api.printerFailed"));
       }
     };
   });

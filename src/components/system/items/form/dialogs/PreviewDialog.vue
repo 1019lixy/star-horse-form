@@ -51,7 +51,7 @@ defineExpose({
       :source="3"
   >
     <el-tabs v-model="pageStyle">
-      <el-tab-pane name="main-design" label="电脑">
+      <el-tab-pane name="main-design" :label="i18n('dyform.dialog.411')">
         <FormPreview
             :compSize="compSize"
             :currentPageClass="pageStyle"
@@ -59,7 +59,7 @@ defineExpose({
             ref="previewFormRef"
         />
       </el-tab-pane>
-      <el-tab-pane name="main-design-pad" label="平板">
+      <el-tab-pane name="main-design-pad" :label="i18n('dyform.dialog.412')">
         <FormPreview
             :compSize="compSize"
             :currentPageClass="pageStyle"
@@ -67,7 +67,7 @@ defineExpose({
             ref="previewFormRef"
         />
       </el-tab-pane>
-      <el-tab-pane name="main-design-phone" label="手机">
+      <el-tab-pane name="main-design-phone" :label="i18n('dyform.dialog.413')">
         <FormPreview
             :compSize="compSize"
             :currentPageClass="pageStyle"

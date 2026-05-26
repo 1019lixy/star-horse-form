@@ -4,6 +4,7 @@ import {
   getUrlFieldConfig,
   validOperation,
 } from "@/components/system/items/utils/ItemPreps";
+import {i18n} from "@/lang";
 import { PageFieldInfo, searchMatchList } from "star-horse-lowcode";
 import {
   ModelRef,
@@ -58,7 +59,7 @@ const { fieldList, disableUrl } = interfaceUtils;
 // 使用getUrlFieldConfig函数生成URL配置字段列表
 const urlFields = getUrlFieldConfig(interfaceUtils, {
   urlColspan: 20,
-  validateButtonText: "校验",
+  validateButtonText: i18n("dyform.utils.589"),
   showLabelFields: true,
   validateCallback: {
     click: async (val: any) => {
@@ -82,7 +83,7 @@ const dataSourceField = reactive<PageFieldInfo | any>({
       fieldName: "queryParams",
       tabList: [
         {
-          title: "标准参数",
+          title: i18n("dyform.utils.600"),
           tabName: "queryParams",
           objectName: "queryParams",
           batchFieldList: [
@@ -90,7 +91,7 @@ const dataSourceField = reactive<PageFieldInfo | any>({
               batchName: "queryParams",
               fieldList: [
                 {
-                  label: "参数名",
+                  label: i18n("dyform.utils.467"),
                   fieldName: "name",
                   type: "select",
                   required: true,
@@ -102,14 +103,14 @@ const dataSourceField = reactive<PageFieldInfo | any>({
                   },
                 },
                 {
-                  label: "参数值",
+                  label: i18n("dyform.utils.469"),
                   fieldName: "value",
                   required: true,
                   formVisible: true,
                   listVisible: true,
                 },
                 {
-                  label: "匹配方式",
+                  label: i18n("dyform.utils.468"),
                   fieldName: "matchType",
                   type: "select",
                   defaultValue: "eq",
@@ -125,13 +126,13 @@ const dataSourceField = reactive<PageFieldInfo | any>({
           ],
         },
         {
-          title: "自定义参数",
+          title: i18n("dyform.utils.602"),
           tabName: "customParams",
           objectName: "customParams",
           fieldList: [
             {
               fieldName: "customParams",
-              label: "自定义JSON参数",
+              label: i18n("dyform.utils.603"),
               type: "json",
               formVisible: true,
               listVisible: true,

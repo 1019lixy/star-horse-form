@@ -44,6 +44,7 @@ import {formItems} from "@/components/system/items/form/composables/formItems";
 import {FormConfig} from "@/components/types";
 import {FormSocketService} from "@/components/system/items/FormSocketService";
 import JSON5 from "json5";
+import {quickAddItem} from "@/api/form_utils";
 
 defineOptions({
   name: "StarHorseFormDesign",
@@ -96,7 +97,7 @@ const dynamicFormRef = ref();
 const previewDynamicFormRef = ref();
 const formConfigDialogVisible = ref<boolean>(false);
 let reOrUnDoFlag = ref<boolean>(false);
-let currentPageStyle = ref<any>({label: "电脑", key: "pc"});
+let currentPageStyle = ref<any>({label: i18n("dyform.design.pageStyle.pc"), key: "pc"});
 let currentPageClass = ref<string>("main-design");
 let cacheName = "dynamicFormCache";
 let cacheData = ref<any>([]);
@@ -107,7 +108,7 @@ let shortKeySwitch: Function = () => {
 };
 const {dialogStates, openDialog, closeAllDialogs} = useDialogManager();
 const isCooperationMode = computed(() => formInfo.value?.cooperation === "Y");
-const connectionStatus = ref<string>("未连接");
+const connectionStatus = ref<string>(i18n("dyform.design.ws.disconnected"));
 const isConnected = ref<boolean>(false);
 const currentFormId = computed(() => {
   // 优先使用表单的实际 ID
@@ -211,7 +212,7 @@ const handleIncomingMessage = (message: any) => {
         );
         // 显示锁定失败的提示
         warning(
-            `组件 ${message.compId} 已被 ${message.userInfo?.name || "其他用户"} 锁定`,
+            `${i18n("dyform.design.ws.comp")} ${message.compId} ${i18n("dyform.design.ws.lockedBy")} ${message.userInfo?.name || i18n("dyform.design.ws.otherUser")}`,
         );
       }
       break;
@@ -260,7 +261,7 @@ const initWebSocketService = () => {
       onChatConnected: () => {
         console.log("Form WebSocket连接已建立");
         isConnected.value = true;
-        connectionStatus.value = "已连接";
+        connectionStatus.value = i18n("dyform.design.ws.connected");
         subscribeToMessages();
 
         // 注册表单信息到后端
@@ -274,11 +275,11 @@ const initWebSocketService = () => {
 
       onError: (error) => {
         console.error("WebSocket错误:", error);
-        connectionStatus.value = "错误: " + error;
+        connectionStatus.value = i18n("dyform.design.ws.error") + error;
       },
       onDisconnected: () => {
         isConnected.value = false;
-        connectionStatus.value = "已断开";
+        connectionStatus.value = i18n("dyform.design.ws.disconnected2");
         console.log("WebSocket连接已断开");
       },
     });
@@ -289,25 +290,25 @@ const initWebSocketService = () => {
         .then((connected) => {
           if (connected) {
             isConnected.value = true;
-            connectionStatus.value = "已连接";
+            connectionStatus.value = i18n("dyform.design.ws.connected");
             console.log("WebSocket服务连接成功");
           } else {
             isConnected.value = false;
-            connectionStatus.value = "连接失败";
+            connectionStatus.value = i18n("dyform.design.ws.connectFailed");
             console.error("WebSocket服务连接失败");
           }
         })
         .catch((error) => {
           console.error("WebSocket连接过程中出错:", error);
           isConnected.value = false;
-          connectionStatus.value = "连接出错";
+          connectionStatus.value = i18n("dyform.design.ws.connectError");
         });
 
     console.log("WebSocket服务初始化完成");
   } catch (error) {
     console.error("初始化WebSocket服务失败:", error);
     isConnected.value = false;
-    connectionStatus.value = "初始化失败";
+    connectionStatus.value = i18n("dyform.design.ws.initFailed");
   }
 };
 const changeRole = (data: any) => {
@@ -338,13 +339,13 @@ const operImportFile = () => {
           } else {
             designForm.setCompList([jsonData]);
           }
-          success('导入成功');
+          success(i18n('dyform.design.importSuccess'));
         } else {
-          error('文件格式不正确，请导入正确的JSON文件');
+          error(i18n('dyform.design.importFormatError'));
         }
       } catch (err) {
         console.error('导入文件失败:', err);
-        error('文件解析失败，请检查文件格式');
+        error(i18n('dyform.design.importParseError'));
       }
     };
     reader.readAsText(file);
@@ -376,10 +377,10 @@ const operExportFile = () => {
     document.body.removeChild(a);
     URL.revokeObjectURL(url);
     // 提示用户
-    success('导出成功');
+    success(i18n('dyform.design.exportSuccess'));
   } catch (err) {
     console.error('导出失败:', err);
-    error('导出失败，请重试');
+    error(i18n('dyform.design.exportFailed'));
   }
 };
 const actions = (action: ToolBtnType) => {
@@ -391,6 +392,9 @@ const actions = (action: ToolBtnType) => {
       rightPanelVisible.value = !rightPanelVisible.value;
       break;
     case "new":
+      //添加组件
+      quickAddItem(list.value);
+      break;
     case "empty":
       clearData(false);
       break;
@@ -519,7 +523,7 @@ const closeAction = () => {
 
 const clearData = (flag: boolean = true) => {
   if (list.value?.length > 0) {
-    operationConfirm("新建将清空舞台上的所有元素，是否确定要清空？").then(
+    operationConfirm(i18n("dyform.design.newConfirmMsg")).then(
         (res: boolean) => {
           if (res) {
             designForm.clearAll(flag);
@@ -856,7 +860,7 @@ defineExpose({
   />
   <PageConfig v-model="formConfigDialogVisible">
     <!--    <template #header="{form}">
-          <el-form-item label="页面风格" prop="pageStyle">
+          <el-form-item :label="i18n('dyform.design.pageStyle')" prop="pageStyle">
             <select-item :formData="form" :field="{
               fieldName:'pageStyle',
               preps:{

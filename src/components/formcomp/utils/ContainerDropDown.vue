@@ -188,29 +188,29 @@ watch(
   >
     <el-form v-model="fieldForm">
       <el-form-item
-          label="行高"
+          :label="i18n('dyform.utils.434')"
           prop="colHeight"
           v-if="currentCommand == 'rowConfig'"
       >
         <el-input v-model="fieldForm.colHeight"/>
       </el-form-item>
       <el-form-item
-          label="列宽"
+          :label="i18n('dyform.utils.435')"
           prop="colWidth"
           v-if="currentCommand == 'colConfig'"
       >
         <el-input v-model="fieldForm.colWidth"/>
       </el-form-item>
       <el-form-item
-          label="跨行数"
+          :label="i18n('dyform.utils.436')"
           prop="rowspan"
           v-if="type == 'dytable' && currentCommand == 'cellConfig'"
       >
         <el-input-number min="1" step="1" :max="cellInfo.maxRow" v-model="fieldForm.rowspan"/>
-        <help message="大于1的行数,需要手动删除所在行下一行的列数"/>
+        <help :message="i18n('dyform.utils.437')"/>
       </el-form-item>
       <el-form-item
-          label="跨列数"
+          :label="i18n('dyform.utils.438')"
           prop="colspan"
           v-if="currentCommand == 'cellConfig'"
       >
@@ -221,7 +221,7 @@ watch(
             v-model="fieldForm.colspan"
         />
         <help
-            message="大于1的列数,需要手动删除所在行的列数"
+            :message="i18n('dyform.utils.439')"
             v-if="type == 'dytable'"
         />
       </el-form-item>

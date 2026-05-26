@@ -30,8 +30,6 @@ export interface FormulaConfig {
   branches?: ConditionBranch[];
   lookupMappings?: LookupMapping[];
   precision?: number;
-  prefix?: string;
-  suffix?: string;
   dateUnit?: "year" | "month" | "day" | "hour" | "minute" | "second";
   dateOffset?: number;
   dateMode?: "diff" | "offset" | "format";

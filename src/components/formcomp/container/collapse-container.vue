@@ -1,6 +1,8 @@
 <script setup lang="ts" name="collapse-container">
-import {computed, onMounted, PropType, ref, watch} from "vue";
+import {computed, onMounted, PropType, ref, watch, nextTick} from "vue";
 import {getDesignFormStore, itemCheck, uuid} from "star-horse-lowcode";
+import {i18n} from "@/lang";
+import {quickAddItem} from "@/api/form_utils";
 
 const props = defineProps({
   parentField: {type: Object as PropType<any>},
@@ -13,6 +15,31 @@ const props = defineProps({
 let designForm = getDesignFormStore();
 const isDragging = computed(() => designForm.isDragging);
 const formData = defineModel("formData");
+
+// 双击编辑相关
+const editingId = ref<string>("");
+const editingText = ref<string>("");
+
+const startEditName = (element: any) => {
+  if (!props.isDesign) return;
+  editingId.value = element.tabName || element.objectName;
+  editingText.value = element.label || "";
+  nextTick(() => {
+    const input = document.querySelector(`.collapse-edit-input input`) as HTMLInputElement;
+    if (input) {
+      input.focus();
+      input.select();
+    }
+  });
+};
+
+const finishEditName = (element: any) => {
+  if (editingText.value.trim()) {
+    element.label = editingText.value.trim();
+  }
+  editingId.value = "";
+};
+
 /**
  * 如果没有items，动态添加
  * @param adata
@@ -29,6 +56,8 @@ const onDragAdd = (evt: Event | any, dataList: any) => {
     designForm.selectItem(dataInfo, dataInfo.itemType, "");
   }
 };
+
+
 const activeTabName = ref();
 onMounted(() => {
   if (!props.field["preps"]) {
@@ -83,7 +112,21 @@ watch(
       >
         <template #title>
           <div class="collapse-item-title title">
-            <div>{{ adata.label || adata.objectName }}</div>
+            <span
+              v-if="editingId !== (adata.tabName || adata.objectName)"
+              class="editable-name"
+              @dblclick.stop="startEditName(adata)"
+            >{{ adata.label || adata.objectName }}</span>
+            <el-input
+              v-else
+              class="collapse-edit-input"
+              v-model="editingText"
+              size="small"
+              @blur="finishEditName(adata)"
+              @keyup.enter="finishEditName(adata)"
+              @click.stop
+              style="width: 120px;"
+            />
           </div>
         </template>
         <draggable
@@ -113,6 +156,13 @@ watch(
             </div>
           </template>
         </draggable>
+
+        <!-- 快捷添加组件按钮 -->
+        <div v-if="isDesign" class="quick-add-bar">
+          <el-button size="small" type="info" plain @click.stop="quickAddItem(adata.items)" icon="Plus">
+            {{ i18n("dyform.condition.addLeaf") }}
+          </el-button>
+        </div>
       </el-collapse-item>
     </el-collapse>
   </group-container>
@@ -124,5 +174,28 @@ watch(
 
 :deep(.el-card__body) {
   margin-top: 5px;
+}
+
+.editable-name {
+  cursor: text;
+  border-bottom: 1px dashed transparent;
+  transition: border-color 0.2s;
+  &:hover {
+    border-bottom-color: #409eff;
+  }
+}
+
+.quick-add-bar {
+  display: flex;
+  justify-content: center;
+  padding: 4px 0;
+  margin-top: 4px;
+  border: 1px dashed #d9ecff;
+  border-radius: 4px;
+  transition: all 0.2s;
+  &:hover {
+    border-color: #409eff;
+    background: #ecf5ff;
+  }
 }
 </style>

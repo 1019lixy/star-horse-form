@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import {openDatabase, tableColumns,} from "@/components/system/items/utils/DbSearchUtils";
+import {i18n} from "@/lang";
 import {
   BtnAuth,
   closeLoad,
@@ -48,11 +49,7 @@ let configData = ref<any>({
   commonFieldFlag: "N",
 });
 let currentData = ref<any>({});
-const fieldCompTypesMsg = `类型操作提示：
-1、系统默认将数字类型的字段映射为数字输入框组件；
-   将字符串类型的字段映射为单行文本框组件；
-   将日期类型映射为日期选择器组件；
-2、如果字段有特色业务需要，则可以将字段配置为对应的组件类型`;
+const fieldCompTypesMsg = i18n("dyform.utils.dbList.fieldCompTypesMsg");
 let columnsContr = ref<string>("Y");
 let added = ref<string>("N");
 /**
@@ -79,7 +76,7 @@ const tableFieldInfo = ref<PageFieldInfo>({
       staticData: "N",
       fieldList: [
         {
-          label: "表名",
+          label: i18n("dyform.utils.496"),
           fieldName: "tableName",
           type: "input",
           formVisible: true,
@@ -87,7 +84,7 @@ const tableFieldInfo = ref<PageFieldInfo>({
           required: true,
         },
         {
-          label: "菜单名称",
+          label: i18n("dyform.utils.555"),
           fieldName: "comment",
           type: "input",
           formVisible: true,
@@ -102,7 +99,7 @@ const configFieldInfo = ref<PageFieldInfo>({
   fieldList: [
     [
       {
-        label: "数据库信息",
+        label: i18n("dyform.utils.556"),
         fieldName: "idDbConfigInfo",
         type: "select",
         formVisible: true,
@@ -119,7 +116,7 @@ const configFieldInfo = ref<PageFieldInfo>({
         },
       },
       {
-        label: "组件类型",
+        label: i18n("dyform.utils.557"),
         fieldName: "containerType",
         type: "select",
         defaultValue: "box",
@@ -130,7 +127,7 @@ const configFieldInfo = ref<PageFieldInfo>({
         },
       },
       {
-        label: "每行显示列数",
+        label: i18n("dyform.utils.558"),
         fieldName: "columns",
         type: "number",
         formVisible: true,
@@ -144,7 +141,7 @@ const configFieldInfo = ref<PageFieldInfo>({
     ],
     [
       {
-        label: "显示公共属性",
+        label: i18n("dyform.utils.559"),
         fieldName: "commonFieldFlag",
         type: "switch",
         formVisible: true,
@@ -155,7 +152,7 @@ const configFieldInfo = ref<PageFieldInfo>({
         },
       },
       {
-        label: "是否创建菜单",
+        label: i18n("dyform.utils.560"),
         fieldName: "isCreateMenu",
         type: "switch",
         formVisible: true,
@@ -187,7 +184,7 @@ const configFieldInfo = ref<PageFieldInfo>({
     ],
     [
       {
-        label: "归属应用",
+        label: i18n("dyform.utils.561"),
         fieldName: "idInformations",
         type: "tselect",
         required: true,
@@ -207,7 +204,7 @@ const configFieldInfo = ref<PageFieldInfo>({
         },
       },
       {
-        label: "父菜单",
+        label: i18n("dyform.utils.562"),
         fieldName: "parentNo",
         type: "tselect",
         formVisible: false,
@@ -224,7 +221,7 @@ const configFieldInfo = ref<PageFieldInfo>({
     ],
     [
       {
-        label: "授权用户组",
+        label: i18n("dyform.utils.563"),
         fieldName: "userGroupList",
         type: "select",
         formVisible: false,
@@ -235,7 +232,7 @@ const configFieldInfo = ref<PageFieldInfo>({
         },
       },
       {
-        label: "按钮权限",
+        label: i18n("dyform.utils.564"),
         fieldName: "buttonPermissionsList",
         type: "select",
         required: false,
@@ -250,7 +247,7 @@ const configFieldInfo = ref<PageFieldInfo>({
 
     [
       {
-        label: "主键策略",
+        label: i18n("dyform.utils.565"),
         fieldName: "primaryKeyPolicy",
         type: "select",
         defaultValue: "manual",
@@ -262,7 +259,7 @@ const configFieldInfo = ref<PageFieldInfo>({
         },
       },
       {
-        label: "页面风格",
+        label: i18n("dyform.common.432"),
         fieldName: "pageStyle",
         type: "select",
         defaultValue: "general",
@@ -284,7 +281,7 @@ const configFieldInfo = ref<PageFieldInfo>({
         },
       },
       {
-        label: "数据加载条件",
+        label: i18n("dyform.utils.566"),
         fieldName: "dataLoadField",
         type: "select",
         formVisible: false,
@@ -296,7 +293,7 @@ const configFieldInfo = ref<PageFieldInfo>({
     ],
 
     {
-      label: "数据库表",
+      label: i18n("dyform.utils.567"),
       fieldName: "tableNameList",
       type: "transfer",
       formVisible: true,
@@ -316,7 +313,7 @@ let dataFieldInfo = ref<PageFieldInfo>({
   fieldList: [
     [
       {
-        label: "展示方式",
+        label: i18n("dyform.utils.568"),
         fieldName: "containerType",
         type: "select",
         formVisible: true,
@@ -327,10 +324,10 @@ let dataFieldInfo = ref<PageFieldInfo>({
         },
       },
       {
-        label: "列数",
+        label: i18n("dyform.utils.569"),
         fieldName: "columns",
         type: "number",
-        helpMsg: "一行展示几列,展示方式为栅格时有效",
+        helpMsg: i18n("dyform.utils.570"),
         formVisible: true,
         listVisible: true,
         disabled: columnsContr,
@@ -343,7 +340,7 @@ let dataFieldInfo = ref<PageFieldInfo>({
       },
     ],
     {
-      label: "排除字段",
+      label: i18n("dyform.utils.571"),
       fieldName: "exclusionFields",
       type: "select",
       formVisible: true,
@@ -357,11 +354,11 @@ let dataFieldInfo = ref<PageFieldInfo>({
       batchFieldList: [
         {
           batchName: "fieldCompTypes",
-          title: "字段类型",
+          title: i18n("dyform.utils.572"),
           helpMsg: fieldCompTypesMsg,
           fieldList: [
             {
-              label: "字段",
+              label: i18n("dyform.utils.573"),
               fieldName: "fieldName",
               type: "select",
               formVisible: true,
@@ -371,7 +368,7 @@ let dataFieldInfo = ref<PageFieldInfo>({
               },
             },
             {
-              label: "组件类型",
+              label: i18n("dyform.utils.557"),
               fieldName: "fieldType",
               type: "select",
               formVisible: true,
@@ -578,7 +575,7 @@ const onDataCopy = async (data: any) => {
   let tableName = data.tableName;
   let tableInfo = await tableField(tableName);
   if (!tableInfo || !tableInfo.fields) {
-    warning(`${tableInfo}属性异常，请检查`);
+    warning(i18n("dyform.utils.574"));
     return {};
   }
   let compLength = compList.value.length;
@@ -642,7 +639,7 @@ const onDataCopy = async (data: any) => {
         let jsonData = JSON.parse(labelName);
         labelName = jsonData["desc"];
       } catch (e) {
-        labelName = "属性";
+        labelName = i18n("dyform.utils.575");
       }
     }
     mvData.preps["label"] = labelName;
@@ -674,7 +671,7 @@ const onDataCopy = async (data: any) => {
         size: "default",
         listVisible: false,
         tag: "div",
-        label: "栅格",
+        label: i18n("dyform.container.312"),
         name: "box",
       },
     };
@@ -725,7 +722,7 @@ const onDataCopy = async (data: any) => {
         searchVisible: false,
         size: compSize.value,
 
-        label: "动态列表",
+        label: i18n("dyform.container.329"),
         templateDownFlag: false,
         importFlag: false,
         name: "table",
@@ -754,16 +751,12 @@ const closeAction = () => {
 const viewConfig = () => {
   configDialogVisible.value = true;
 };
-const configMsg = `操作指引：
-1、此处配置主要是对字段展示方式,排除字段和组件类型做配置；
-1、表字段在添加到舞台前需要做配置，配置好后再拖入舞台，
-   否则配置不生效；
-3、其他细节配置需要在舞台中进行处理`;
+const configMsg = i18n("dyform.utils.dbList.configMsg");
 const dynamicBtn = () => {
   let userBtn: BtnAuth[] = [];
   userBtn.push({
-    btnName: "添加",
-    labelName: "添加",
+    btnName: i18n("dyform.utils.576"),
+    labelName: i18n("dyform.utils.576"),
     icon: "add",
     disabled: added.value,
     exec: () => {
@@ -824,11 +817,11 @@ const execCreateData = (type: string) => {
 };
 const doCreateData = (type: string) => {
   if (!props.optional) {
-    warning("组件未配置optional参数");
+    warning(i18n("dyform.utils.577"));
     return;
   }
   //创建页面
-  load("页面创建中");
+  load(i18n("dyform.utils.578"));
   postRequest(
       `${props.optional?.api?.basePrefix}/batchCreateForm`,
       configData.value,
@@ -863,7 +856,7 @@ defineExpose({});
       :isShowBtnContinue="false"
       @resetForm="configData = { columns: 1 }"
       @merge="execCreateData"
-      :title="'列表信息'"
+      :title="i18n('dyform.utils.579')"
       :box-width="'40%'"
   >
     <star-horse-form
@@ -892,22 +885,22 @@ defineExpose({});
                 icon-class="config"
                 color="var(--star-horse-style)"
             />
-            风格设置
+            {{ i18n('dyform.utils.dbList.styleSetting') }}
             <help :width="400" :message="configMsg"/>
           </div>
         </template>
         <star-horse-form ref="tableFieldInfoRef" :field-list="dataFieldInfo"/>
       </el-tab-pane>
-      <el-tab-pane name="tb2" label="表格属性" class="h-full overflow-hidden">
+      <el-tab-pane name="tb2" :label="i18n('dyform.utils.580')" class="h-full overflow-hidden">
         <el-scrollbar height="100%">
           <table class="el-table field-table" style="width: 100%">
             <thead>
             <tr class="font-bold size9">
-              <th>名称</th>
-              <th>类型</th>
-              <th class="w-[60px]">空标识</th>
-              <th class="w-[40px]">主键</th>
-              <th>备注</th>
+              <th>{{ i18n('dyform.utils.dbList.name') }}</th>
+              <th>{{ i18n('dyform.utils.dbList.type') }}</th>
+              <th class="w-[60px]">{{ i18n('dyform.utils.dbList.nullFlag') }}</th>
+              <th class="w-[40px]">{{ i18n('dyform.utils.dbList.primaryKey') }}</th>
+              <th>{{ i18n('dyform.utils.dbList.remark') }}</th>
             </tr>
             </thead>
             <tbody>
@@ -931,7 +924,7 @@ defineExpose({});
       :isShowBtnContinue="true"
       @resetForm="configData = { columns: 1 }"
       @merge="configDataSubmit"
-      :title="'批量生成动态表单'"
+      :title="i18n('dyform.utils.581')"
       :box-width="'50%'"
   >
     <star-horse-form
@@ -952,7 +945,7 @@ defineExpose({});
           clearable
           filterable
           id="dbInfo"
-          placeholder="请选择数据库信息"
+          :placeholder="i18n('dyform.utils.582')"
           v-model="dbIndex"
       >
         <el-option
@@ -964,14 +957,14 @@ defineExpose({});
       </el-select>
       <el-button link @click="viewConfig" :size="compSize">
         <star-horse-icon icon-class="setting" color="var(--star-horse-style)"/>
-        <span>配置</span>
+        <span>{{ i18n('dyform.utils.dbList.config') }}</span>
       </el-button>
     </div>
 
     <div style="margin-top: 5px"></div>
     <el-input
         :size="compSize"
-        placeholder="请输入关键字"
+        :placeholder="i18n('dyform.utils.583')"
         v-model="filterTableName"
         @keydown.enter="filterData"
     >
@@ -1011,7 +1004,7 @@ defineExpose({});
                 {{ data.tableName }}
               </el-tooltip>
               <star-horse-icon
-                  title="查看&配置"
+                  :title="i18n('dyform.utils.584')"
                   icon-class="setting"
                   style="color: var(--star-horse-style); cursor: pointer"
                   @click="(evt: Event) => contextOperation(evt, data, idx)"

@@ -1,10 +1,11 @@
 import {CompType, ItemType, StarHorseDialog, StarHorseForm,} from "star-horse-lowcode";
+import {i18n} from "@/lang";
 import {createDynamicComp} from "@/api/system";
 import {unref} from "vue";
 
 const dialogAndDrawerFields: Array<ItemType | any> = [
     {
-        label: "组件名称",
+        label: i18n("dyform.item.0"),
         fieldName: "compName",
         fieldType: "input",
         required: false,
@@ -12,7 +13,7 @@ const dialogAndDrawerFields: Array<ItemType | any> = [
         category: 1,
     },
     {
-        label: "参数说明",
+        label: i18n("dyform.item.1"),
         fieldName: "paramDesc",
         fieldType: "html",
         required: false,
@@ -21,13 +22,13 @@ const dialogAndDrawerFields: Array<ItemType | any> = [
         preps: {
             staticData: true,
             textContent:
-                "此组件可在自定义属性中配置:<br/> 表单信息(fieldList:数组)，<br/>组件/表单参数(params:对象)",
+                i18n("dyform.item.2"),
         },
     },
 ];
 const labelContent: ItemType | any = (itemType: string) => {
     return {
-        label: "内容",
+        label: i18n("dyform.item.3"),
         fieldName: "textContent",
         fieldType: "button",
         required: false,
@@ -39,7 +40,7 @@ const labelContent: ItemType | any = (itemType: string) => {
             click: (prep: any) => {
                 const {close, formInstance} = createDynamicComp({
                     type: StarHorseDialog,
-                    title: "配置数据",
+                    title: i18n("dyform.item.4"),
                     props: {
                         dialogVisible: true,
                         selfFunc: true,
@@ -50,7 +51,7 @@ const labelContent: ItemType | any = (itemType: string) => {
                             fieldList: {
                                 fieldList: [
                                     {
-                                        label: "内容",
+                                        label: i18n("dyform.item.3"),
                                         fieldName: "textContent",
                                         defaultValue: prep.textContent ?? "",
                                         type: itemType ?? "htmleditor",
@@ -78,14 +79,14 @@ const labelContent: ItemType | any = (itemType: string) => {
 };
 export const formItems: CompType[] = [
     {
-        itemName: "单行文本框",
+        itemName: i18n("dyform.item.5"),
         itemType: "input",
         itemIcon: "input",
         category: 1,
         fields: [],
         advancedFields: [
             {
-                label: "原生 autocomplete 属性",
+                label: i18n("dyform.item.6"),
                 fieldName: "autocomplete",
                 fieldType: "switch",
                 required: false,
@@ -95,7 +96,7 @@ export const formItems: CompType[] = [
                 configParams: [],
             },
             {
-                label: "占位信息",
+                label: i18n("dyform.item.7"),
                 fieldName: "placeholder",
                 fieldType: "input",
                 required: false,
@@ -105,7 +106,7 @@ export const formItems: CompType[] = [
                 configParams: [],
             },
             {
-                label: "是否显示统计字数",
+                label: i18n("dyform.item.8"),
                 fieldName: "showWordLimit",
                 fieldType: "switch",
                 required: false,
@@ -115,25 +116,25 @@ export const formItems: CompType[] = [
                 configParams: [],
             },
             {
-                label: "缩放",
+                label: i18n("dyform.item.9"),
                 fieldName: "resize",
                 fieldType: "select",
                 required: false,
                 selectValues: [
-                    {name: "禁止缩放", value: "none"},
+                    {name: i18n("dyform.item.10"), value: "none"},
                     {
-                        name: "垂直和水平缩放",
+                        name: i18n("dyform.item.11"),
                         value: "both",
                     },
-                    {name: "垂直缩放", value: "vertical"},
-                    {name: "水平缩放", value: "horizontal"},
+                    {name: i18n("dyform.item.12"), value: "vertical"},
+                    {name: i18n("dyform.item.13"), value: "horizontal"},
                 ],
                 defaultValues: "none",
                 category: 2,
                 configParams: [],
             },
             {
-                label: "最小输入长度",
+                label: i18n("dyform.item.14"),
                 fieldName: "minlength",
                 fieldType: "number",
                 required: false,
@@ -143,7 +144,7 @@ export const formItems: CompType[] = [
                 configParams: [],
             },
             {
-                label: "设置最大值",
+                label: i18n("dyform.item.15"),
                 fieldName: "max",
                 fieldType: "number",
                 required: false,
@@ -153,7 +154,7 @@ export const formItems: CompType[] = [
                 configParams: [],
             },
             {
-                label: "设置最小值",
+                label: i18n("dyform.item.16"),
                 fieldName: "min",
                 fieldType: "number",
                 required: false,
@@ -163,7 +164,7 @@ export const formItems: CompType[] = [
                 configParams: [],
             },
             {
-                label: "指定输入值的格式",
+                label: i18n("dyform.item.17"),
                 fieldName: "formatter",
                 fieldType: "button",
                 required: false,
@@ -173,7 +174,7 @@ export const formItems: CompType[] = [
                 configParams: [],
             },
             {
-                label: "输入框行数",
+                label: i18n("dyform.item.18"),
                 fieldName: "rows",
                 fieldType: "number",
                 required: false,
@@ -186,27 +187,27 @@ export const formItems: CompType[] = [
         selfFields: [],
         actions: [
             {
-                label: "在 Input 值改变时触发",
+                label: i18n("dyform.item.19"),
                 actionName: "input",
                 fieldType: "button",
             },
             {
-                label: "数据改变时触发",
+                label: i18n("dyform.item.20"),
                 actionName: "change",
                 fieldType: "button",
             },
             {
-                label: "Clearable 属性生成的清空按钮时触发",
+                label: i18n("dyform.item.21"),
                 actionName: "clear",
                 fieldType: "button",
             },
             {
-                label: "在 Input 失去焦点时触发",
+                label: i18n("dyform.item.22"),
                 actionName: "blur",
                 fieldType: "button",
             },
             {
-                label: "在 Input 获得焦点时触发",
+                label: i18n("dyform.item.23"),
                 actionName: "focus",
                 fieldType: "button",
             },
@@ -214,13 +215,13 @@ export const formItems: CompType[] = [
         preps: [],
     },
     {
-        itemName: "数字输入框",
+        itemName: i18n("dyform.item.24"),
         itemType: "number",
         itemIcon: "number",
         category: 1,
         fields: [
             {
-                label: "设置最大值",
+                label: i18n("dyform.item.15"),
                 fieldName: "max",
                 fieldType: "number",
                 required: false,
@@ -230,7 +231,7 @@ export const formItems: CompType[] = [
                 configParams: [],
             },
             {
-                label: "计数器步长",
+                label: i18n("dyform.item.25"),
                 fieldName: "step",
                 fieldType: "input",
                 required: false,
@@ -240,7 +241,7 @@ export const formItems: CompType[] = [
                 configParams: [],
             },
             {
-                label: "数值精度",
+                label: i18n("dyform.item.26"),
                 fieldName: "precision",
                 fieldType: "number",
                 required: false,
@@ -250,7 +251,7 @@ export const formItems: CompType[] = [
                 configParams: [],
             },
             {
-                label: "设置最小值",
+                label: i18n("dyform.item.16"),
                 fieldName: "min",
                 fieldType: "number",
                 required: false,
@@ -262,7 +263,7 @@ export const formItems: CompType[] = [
         ],
         advancedFields: [
             {
-                label: "占位信息",
+                label: i18n("dyform.item.7"),
                 fieldName: "placeholder",
                 fieldType: "input",
                 required: false,
@@ -272,20 +273,20 @@ export const formItems: CompType[] = [
                 configParams: [],
             },
             {
-                label: "清空时显示的值",
+                label: i18n("dyform.item.27"),
                 fieldName: "valueOnClear",
                 fieldType: "select",
                 required: false,
                 selectValues: [
-                    {name: "最小值", value: "min"},
-                    {name: "最大值", value: "max"},
+                    {name: i18n("dyform.item.28"), value: "min"},
+                    {name: i18n("dyform.item.29"), value: "max"},
                 ],
                 defaultValues: "",
                 category: 2,
                 configParams: [],
             },
             {
-                label: "是否使用控制按钮",
+                label: i18n("dyform.item.30"),
                 fieldName: "controls",
                 fieldType: "switch",
                 required: false,
@@ -295,13 +296,13 @@ export const formItems: CompType[] = [
                 configParams: [],
             },
             {
-                label: "按钮位置",
+                label: i18n("dyform.item.31"),
                 fieldName: "controlsPosition",
                 fieldType: "select",
                 required: false,
                 selectValues: [
-                    {name: "左", value: "left"},
-                    {name: "右", value: "right"},
+                    {name: i18n("dyform.item.32"), value: "left"},
+                    {name: i18n("dyform.item.33"), value: "right"},
                 ],
                 defaultValues: "right",
                 category: 2,
@@ -311,17 +312,17 @@ export const formItems: CompType[] = [
         selfFields: [],
         actions: [
             {
-                label: "数据改变时触发",
+                label: i18n("dyform.item.20"),
                 actionName: "change",
                 fieldType: "button",
             },
             {
-                label: "在 Input 失去焦点时触发",
+                label: i18n("dyform.item.22"),
                 actionName: "blur",
                 fieldType: "button",
             },
             {
-                label: "在 Input 获得焦点时触发",
+                label: i18n("dyform.item.23"),
                 actionName: "focus",
                 fieldType: "button",
             },
@@ -329,13 +330,13 @@ export const formItems: CompType[] = [
         preps: [],
     },
     {
-        itemName: "选择器",
+        itemName: i18n("dyform.item.34"),
         itemType: "select",
         itemIcon: "select",
         category: 1,
         fields: [
             {
-                label: "显示所有选中标签",
+                label: i18n("dyform.item.35"),
                 fieldName: "collapseTagsTooltip",
                 fieldType: "switch",
                 required: false,
@@ -345,7 +346,7 @@ export const formItems: CompType[] = [
                 configParams: [],
             },
             {
-                label: "多选时按文字形式展示",
+                label: i18n("dyform.item.36"),
                 fieldName: "collapseTags",
                 fieldType: "switch",
                 required: false,
@@ -355,7 +356,7 @@ export const formItems: CompType[] = [
                 configParams: [],
             },
             {
-                label: "是否可筛选",
+                label: i18n("dyform.item.37"),
                 fieldName: "filterable",
                 fieldType: "switch",
                 required: false,
@@ -365,7 +366,7 @@ export const formItems: CompType[] = [
                 configParams: [],
             },
             {
-                label: "是否多选",
+                label: i18n("dyform.item.38"),
                 fieldName: "multiple",
                 fieldType: "switch",
                 required: false,
@@ -375,13 +376,13 @@ export const formItems: CompType[] = [
                 configParams: [],
             },
             {
-                label: "值类型",
+                label: i18n("dyform.item.39"),
                 fieldName: "valueType",
                 fieldType: "select",
                 required: false,
                 selectValues: [
-                    {name: "字符串", value: "string"},
-                    {name: "数值", value: "number"},
+                    {name: i18n("dyform.item.40"), value: "string"},
+                    {name: i18n("dyform.item.41"), value: "number"},
                 ],
                 defaultValues: "",
                 category: 1,
@@ -390,7 +391,7 @@ export const formItems: CompType[] = [
         ],
         advancedFields: [
             {
-                label: "是否保留搜索关键词",
+                label: i18n("dyform.item.42"),
                 fieldName: "reserveKeyword",
                 fieldType: "switch",
                 required: false,
@@ -400,7 +401,7 @@ export const formItems: CompType[] = [
                 configParams: [],
             },
             {
-                label: "否从服务器远程加载",
+                label: i18n("dyform.item.43"),
                 fieldName: "remote",
                 fieldType: "switch",
                 required: false,
@@ -410,7 +411,7 @@ export const formItems: CompType[] = [
                 configParams: [],
             },
             {
-                label: "是否正在从远程获取数据",
+                label: i18n("dyform.item.44"),
                 fieldName: "loading",
                 fieldType: "switch",
                 required: false,
@@ -420,7 +421,7 @@ export const formItems: CompType[] = [
                 configParams: [],
             },
             {
-                label: "显示下拉箭头",
+                label: i18n("dyform.item.45"),
                 fieldName: "showArrow",
                 fieldType: "switch",
                 required: false,
@@ -430,55 +431,55 @@ export const formItems: CompType[] = [
                 configParams: [],
             },
             {
-                label: "标签类型",
+                label: i18n("dyform.item.46"),
                 fieldName: "placement",
                 fieldType: "select",
                 required: false,
                 selectValues: [
-                    {name: "顶部", value: "top"},
+                    {name: i18n("dyform.item.47"), value: "top"},
                     {
-                        name: "顶部开始",
+                        name: i18n("dyform.item.48"),
                         value: "top-start",
                     },
-                    {name: "顶部结束", value: "top-end"},
-                    {name: "底部", value: "bottom"},
+                    {name: i18n("dyform.item.49"), value: "top-end"},
+                    {name: i18n("dyform.item.50"), value: "bottom"},
                     {
-                        name: "底部开始",
+                        name: i18n("dyform.item.51"),
                         value: "bottom-start",
                     },
-                    {name: "底部结束", value: "bottom-end"},
-                    {name: "左边", value: "left"},
+                    {name: i18n("dyform.item.52"), value: "bottom-end"},
+                    {name: i18n("dyform.item.53"), value: "left"},
                     {
-                        name: "左上",
+                        name: i18n("dyform.item.54"),
                         value: "left-start",
                     },
-                    {name: "左下", value: "left-end"},
-                    {name: "右边", value: "right"},
+                    {name: i18n("dyform.item.55"), value: "left-end"},
+                    {name: i18n("dyform.item.56"), value: "right"},
                     {
-                        name: "右上",
+                        name: i18n("dyform.item.57"),
                         value: "right-start",
                     },
-                    {name: "右下", value: "right-end"},
+                    {name: i18n("dyform.item.58"), value: "right-end"},
                 ],
                 defaultValues: "",
                 category: 2,
                 configParams: [],
             },
             {
-                label: "Tooltip 主题",
+                label: i18n("dyform.item.59"),
                 fieldName: "effect",
                 fieldType: "select",
                 required: false,
                 selectValues: [
-                    {name: "暗黑", value: "dark"},
-                    {name: "高亮", value: "light"},
+                    {name: i18n("dyform.item.60"), value: "dark"},
+                    {name: i18n("dyform.item.61"), value: "light"},
                 ],
                 defaultValues: "",
                 category: 2,
                 configParams: [],
             },
             {
-                label: "自定义远程搜索",
+                label: i18n("dyform.item.62"),
                 fieldName: "remoteMethod",
                 fieldType: "button",
                 required: false,
@@ -488,7 +489,7 @@ export const formItems: CompType[] = [
                 configParams: [],
             },
             {
-                label: "无数据显示的文字",
+                label: i18n("dyform.item.63"),
                 fieldName: "noDataText",
                 fieldType: "input",
                 required: false,
@@ -498,7 +499,7 @@ export const formItems: CompType[] = [
                 configParams: [],
             },
             {
-                label: "唯一标识KEY",
+                label: i18n("dyform.item.64"),
                 fieldName: "valueKey",
                 fieldType: "input",
                 required: false,
@@ -508,7 +509,7 @@ export const formItems: CompType[] = [
                 configParams: [],
             },
             {
-                label: "最多可以选择的项目数",
+                label: i18n("dyform.item.65"),
                 fieldName: "multipleLimit",
                 fieldType: "number",
                 required: false,
@@ -518,7 +519,7 @@ export const formItems: CompType[] = [
                 configParams: [],
             },
             {
-                label: "从服务器加载内容时显示的文本",
+                label: i18n("dyform.item.66"),
                 fieldName: "loadingText",
                 fieldType: "input",
                 required: false,
@@ -528,7 +529,7 @@ export const formItems: CompType[] = [
                 configParams: [],
             },
             {
-                label: "自定义筛选方法",
+                label: i18n("dyform.item.67"),
                 fieldName: "filterMethod",
                 fieldType: "button",
                 required: false,
@@ -538,7 +539,7 @@ export const formItems: CompType[] = [
                 configParams: [],
             },
             {
-                label: "自定义类名",
+                label: i18n("dyform.item.68"),
                 fieldName: "popperClass",
                 fieldType: "input",
                 required: false,
@@ -548,7 +549,7 @@ export const formItems: CompType[] = [
                 configParams: [],
             },
             {
-                label: "占位信息",
+                label: i18n("dyform.item.7"),
                 fieldName: "placeholder",
                 fieldType: "input",
                 required: false,
@@ -558,7 +559,7 @@ export const formItems: CompType[] = [
                 configParams: [],
             },
             {
-                label: "无匹配时显示的文字",
+                label: i18n("dyform.item.69"),
                 fieldName: "noMatchText",
                 fieldType: "input",
                 required: false,
@@ -568,25 +569,25 @@ export const formItems: CompType[] = [
                 configParams: [],
             },
             {
-                label: "标签类型",
+                label: i18n("dyform.item.46"),
                 fieldName: "tagType",
                 fieldType: "select",
                 required: false,
                 selectValues: [
-                    {name: "成功", value: "success"},
+                    {name: i18n("dyform.item.70"), value: "success"},
                     {
-                        name: "信息",
+                        name: i18n("dyform.item.71"),
                         value: "info",
                     },
-                    {name: "警告", value: "warning"},
-                    {name: "危险", value: "danger"},
+                    {name: i18n("dyform.item.72"), value: "warning"},
+                    {name: i18n("dyform.item.73"), value: "danger"},
                 ],
                 defaultValues: "",
                 category: 2,
                 configParams: [],
             },
             {
-                label: "是否允许用户创建新条目",
+                label: i18n("dyform.item.74"),
                 fieldName: "allowCreate",
                 fieldType: "switch",
                 required: false,
@@ -596,7 +597,7 @@ export const formItems: CompType[] = [
                 configParams: [],
             },
             {
-                label: "默认选择第一个匹配项",
+                label: i18n("dyform.item.75"),
                 fieldName: "defaultFirstOption",
                 fieldType: "switch",
                 required: false,
@@ -606,7 +607,7 @@ export const formItems: CompType[] = [
                 configParams: [],
             },
             {
-                label: "获得焦点弹出选项菜单",
+                label: i18n("dyform.item.76"),
                 fieldName: "automaticDropdown",
                 fieldType: "switch",
                 required: false,
@@ -616,7 +617,7 @@ export const formItems: CompType[] = [
                 configParams: [],
             },
             {
-                label: "获得焦点弹出选项菜单",
+                label: i18n("dyform.item.76"),
                 fieldName: "fitInputWidth",
                 fieldType: "switch",
                 required: false,
@@ -626,7 +627,7 @@ export const formItems: CompType[] = [
                 configParams: [],
             },
             {
-                label: "是否自动完成",
+                label: i18n("dyform.item.77"),
                 fieldName: "autocomplete",
                 fieldType: "switch",
                 required: false,
@@ -639,32 +640,32 @@ export const formItems: CompType[] = [
         selfFields: [],
         actions: [
             {
-                label: "下拉框出现/隐藏时触发",
+                label: i18n("dyform.item.78"),
                 actionName: "visibleChange",
                 fieldType: "button",
             },
             {
-                label: "数据改变时触发",
+                label: i18n("dyform.item.20"),
                 actionName: "change",
                 fieldType: "button",
             },
             {
-                label: "点击清空按钮时触发",
+                label: i18n("dyform.item.79"),
                 actionName: "clear",
                 fieldType: "button",
             },
             {
-                label: "在 Input 失去焦点时触发",
+                label: i18n("dyform.item.22"),
                 actionName: "blur",
                 fieldType: "button",
             },
             {
-                label: "在 Input 获得焦点时触发",
+                label: i18n("dyform.item.23"),
                 actionName: "focus",
                 fieldType: "button",
             },
             {
-                label: "多选模式下移除tag时触发",
+                label: i18n("dyform.item.80"),
                 actionName: "removeTag",
                 fieldType: "button",
             },
@@ -672,26 +673,26 @@ export const formItems: CompType[] = [
         preps: [],
     },
     {
-        itemName: "日期选择器",
+        itemName: i18n("dyform.item.81"),
         itemType: "datetime",
         itemIcon: "datetime",
         category: 1,
         fields: [
             {
-                label: "值类型",
+                label: i18n("dyform.item.39"),
                 fieldName: "valueType",
                 fieldType: "select",
                 required: false,
                 selectValues: [
-                    {name: "字符串", value: "string"},
-                    {name: "数值", value: "number"},
+                    {name: i18n("dyform.item.40"), value: "string"},
+                    {name: i18n("dyform.item.41"), value: "number"},
                 ],
                 defaultValues: "",
                 category: 1,
                 configParams: [],
             },
             {
-                label: "文本框可输入",
+                label: i18n("dyform.item.82"),
                 fieldName: "editable",
                 fieldType: "switch",
                 required: false,
@@ -701,7 +702,7 @@ export const formItems: CompType[] = [
                 configParams: [],
             },
             {
-                label: "取系统时间",
+                label: i18n("dyform.item.83"),
                 fieldName: "dateNeedDefaultValue",
                 fieldType: "switch",
                 required: false,
@@ -711,70 +712,70 @@ export const formItems: CompType[] = [
                 configParams: [],
             },
             {
-                label: "日期显示格式",
+                label: i18n("dyform.item.84"),
                 fieldName: "format",
                 fieldType: "select",
                 required: false,
                 selectValues: [
-                    {name: "年", value: "YYYY"},
-                    {name: "月", value: "MM"},
-                    {name: "日", value: "DD"},
-                    {name: "时", value: "HH"},
-                    {name: "分", value: "mm"},
-                    {name: "秒", value: "ss"},
-                    {name: "年月日时分秒", value: "YYYY-MM-DD HH:mm:ss"},
+                    {name: i18n("dyform.item.85"), value: "YYYY"},
+                    {name: i18n("dyform.item.86"), value: "MM"},
+                    {name: i18n("dyform.item.87"), value: "DD"},
+                    {name: i18n("dyform.item.88"), value: "HH"},
+                    {name: i18n("dyform.item.89"), value: "mm"},
+                    {name: i18n("dyform.item.90"), value: "ss"},
+                    {name: i18n("dyform.item.91"), value: "YYYY-MM-DD HH:mm:ss"},
                     {
-                        name: "年月日",
+                        name: i18n("dyform.item.92"),
                         value: "YYYY-MM-DD",
                     },
-                    {name: "年月日(短)", value: "Y-M-D"},
+                    {name: i18n("dyform.item.93"), value: "Y-M-D"},
                 ],
                 defaultValues: "",
                 category: 1,
                 configParams: [],
             },
             {
-                label: "日期值格式",
+                label: i18n("dyform.item.94"),
                 fieldName: "valueFormat",
                 fieldType: "select",
                 required: false,
                 selectValues: [
-                    {name: "年", value: "YYYY"},
-                    {name: "月", value: "MM"},
-                    {name: "日", value: "DD"},
-                    {name: "时", value: "HH"},
-                    {name: "分", value: "mm"},
-                    {name: "秒", value: "ss"},
-                    {name: "年月日时分秒", value: "YYYY-MM-DD HH:mm:ss"},
+                    {name: i18n("dyform.item.85"), value: "YYYY"},
+                    {name: i18n("dyform.item.86"), value: "MM"},
+                    {name: i18n("dyform.item.87"), value: "DD"},
+                    {name: i18n("dyform.item.88"), value: "HH"},
+                    {name: i18n("dyform.item.89"), value: "mm"},
+                    {name: i18n("dyform.item.90"), value: "ss"},
+                    {name: i18n("dyform.item.91"), value: "YYYY-MM-DD HH:mm:ss"},
                     {
-                        name: "年月日",
+                        name: i18n("dyform.item.92"),
                         value: "YYYY-MM-DD",
                     },
-                    {name: "年月日(短)", value: "Y-M-D"},
+                    {name: i18n("dyform.item.93"), value: "Y-M-D"},
                 ],
                 defaultValues: "",
                 category: 1,
                 configParams: [],
             },
             {
-                label: "显示类型",
+                label: i18n("dyform.item.95"),
                 fieldName: "type",
                 fieldType: "select",
                 required: false,
                 selectValues: [
                     //'year' | 'years' |'month' | 'months' | 'date' | 'dates' | 'datetime' | 'week' | 'datetimerange' | 'daterange' | 'monthrange' | 'yearrange'
-                    {name: "年", value: "year"},
-                    {name: "年(多选)", value: "years"},
-                    {name: "月", value: "month"},
-                    {name: "月(多选)", value: "months"},
-                    {name: "日期", value: "date"},
-                    {name: "日期(多选)", value: "dates"},
-                    {name: "日期和时间", value: "datetime"},
-                    {name: "周", value: "week"},
-                    {name: "日期和时间范围", value: "datetimerange"},
-                    {name: "日期范围", value: "daterange"},
-                    {name: "月份范围", value: "monthrange"},
-                    {name: "年份范围", value: "yearrange"},
+                    {name: i18n("dyform.item.85"), value: "year"},
+                    {name: i18n("dyform.item.96"), value: "years"},
+                    {name: i18n("dyform.item.86"), value: "month"},
+                    {name: i18n("dyform.item.97"), value: "months"},
+                    {name: i18n("dyform.item.98"), value: "date"},
+                    {name: i18n("dyform.item.99"), value: "dates"},
+                    {name: i18n("dyform.item.100"), value: "datetime"},
+                    {name: i18n("dyform.item.101"), value: "week"},
+                    {name: i18n("dyform.item.102"), value: "datetimerange"},
+                    {name: i18n("dyform.item.103"), value: "daterange"},
+                    {name: i18n("dyform.item.104"), value: "monthrange"},
+                    {name: i18n("dyform.item.105"), value: "yearrange"},
                 ],
                 defaultValues: "date",
                 category: 1,
@@ -783,7 +784,7 @@ export const formItems: CompType[] = [
         ],
         advancedFields: [
             {
-                label: "是否用箭头按钮",
+                label: i18n("dyform.item.106"),
                 fieldName: "timeArrowControl",
                 fieldType: "switch",
                 required: false,
@@ -793,7 +794,7 @@ export const formItems: CompType[] = [
                 configParams: [],
             },
             {
-                label: "占位信息",
+                label: i18n("dyform.item.7"),
                 fieldName: "placeholder",
                 fieldType: "input",
                 required: false,
@@ -803,7 +804,7 @@ export const formItems: CompType[] = [
                 configParams: [],
             },
             {
-                label: "占位内容A",
+                label: i18n("dyform.item.107"),
                 fieldName: "startPlaceholder",
                 fieldType: "input",
                 required: false,
@@ -813,7 +814,7 @@ export const formItems: CompType[] = [
                 configParams: [],
             },
             {
-                label: "占位内容B",
+                label: i18n("dyform.item.108"),
                 fieldName: "endPlaceholder",
                 fieldType: "input",
                 required: false,
@@ -823,7 +824,7 @@ export const formItems: CompType[] = [
                 configParams: [],
             },
             {
-                label: "范围分隔符",
+                label: i18n("dyform.item.109"),
                 fieldName: "rangeSeparator",
                 fieldType: "input",
                 required: false,
@@ -833,7 +834,7 @@ export const formItems: CompType[] = [
                 configParams: [],
             },
             {
-                label: "禁用日期",
+                label: i18n("dyform.item.110"),
                 fieldName: "disabledDate",
                 fieldType: "input",
                 required: false,
@@ -846,27 +847,27 @@ export const formItems: CompType[] = [
         selfFields: [],
         actions: [
             {
-                label: "下拉框出现/隐藏时触发",
+                label: i18n("dyform.item.78"),
                 actionName: "visibleChange",
                 fieldType: "button",
             },
             {
-                label: "数据改变时触发",
+                label: i18n("dyform.item.20"),
                 actionName: "change",
                 fieldType: "button",
             },
             {
-                label: "在 Input 失去焦点时触发",
+                label: i18n("dyform.item.22"),
                 actionName: "blur",
                 fieldType: "button",
             },
             {
-                label: "在 Input 获得焦点时触发",
+                label: i18n("dyform.item.23"),
                 actionName: "focus",
                 fieldType: "button",
             },
             {
-                label: "datetimerange时日期改变触发",
+                label: i18n("dyform.item.111"),
                 actionName: "calendarChange",
                 fieldType: "button",
             },
@@ -874,19 +875,19 @@ export const formItems: CompType[] = [
         preps: [],
     },
     {
-        itemName: "开关",
+        itemName: i18n("dyform.item.112"),
         itemType: "switch",
         itemIcon: "switch",
         category: 1,
         fields: [
             {
-                label: "值类型",
+                label: i18n("dyform.item.39"),
                 fieldName: "valueType",
                 fieldType: "select",
                 required: false,
                 selectValues: [
-                    {name: "字符串", value: "string"},
-                    {name: "数值", value: "number"},
+                    {name: i18n("dyform.item.40"), value: "string"},
+                    {name: i18n("dyform.item.41"), value: "number"},
                 ],
                 defaultValues: "",
                 category: 1,
@@ -895,7 +896,7 @@ export const formItems: CompType[] = [
         ],
         advancedFields: [
             {
-                label: "关闭时的值",
+                label: i18n("dyform.item.113"),
                 fieldName: "inactiveValue",
                 fieldType: "input",
                 required: false,
@@ -905,7 +906,7 @@ export const formItems: CompType[] = [
                 configParams: [],
             },
             {
-                label: "打开图标",
+                label: i18n("dyform.item.114"),
                 fieldName: "activeIcon",
                 fieldType: "input",
                 required: false,
@@ -915,7 +916,7 @@ export const formItems: CompType[] = [
                 configParams: [],
             },
             {
-                label: "状态时是否触发表单的校验",
+                label: i18n("dyform.item.115"),
                 fieldName: "validateEvent",
                 fieldType: "switch",
                 required: false,
@@ -925,7 +926,7 @@ export const formItems: CompType[] = [
                 configParams: [],
             },
             {
-                label: "是否显示加载中",
+                label: i18n("dyform.item.116"),
                 fieldName: "loading",
                 fieldType: "switch",
                 required: false,
@@ -935,7 +936,7 @@ export const formItems: CompType[] = [
                 configParams: [],
             },
             {
-                label: "关闭时的颜色",
+                label: i18n("dyform.item.117"),
                 fieldName: "inactiveColor",
                 fieldType: "input",
                 required: false,
@@ -945,7 +946,7 @@ export const formItems: CompType[] = [
                 configParams: [],
             },
             {
-                label: "关闭图标",
+                label: i18n("dyform.item.118"),
                 fieldName: "inactiveIcon",
                 fieldType: "input",
                 required: false,
@@ -955,7 +956,7 @@ export const formItems: CompType[] = [
                 configParams: [],
             },
             {
-                label: "开启时的值",
+                label: i18n("dyform.item.119"),
                 fieldName: "activeValue",
                 fieldType: "input",
                 required: false,
@@ -965,7 +966,7 @@ export const formItems: CompType[] = [
                 configParams: [],
             },
             {
-                label: "宽度",
+                label: i18n("dyform.item.120"),
                 fieldName: "width",
                 fieldType: "input",
                 required: false,
@@ -975,7 +976,7 @@ export const formItems: CompType[] = [
                 configParams: [],
             },
             {
-                label: "开启时文字描述",
+                label: i18n("dyform.item.121"),
                 fieldName: "activeText",
                 fieldType: "input",
                 required: false,
@@ -985,7 +986,7 @@ export const formItems: CompType[] = [
                 configParams: [],
             },
             {
-                label: "开启时的颜色",
+                label: i18n("dyform.item.122"),
                 fieldName: "activeColor",
                 fieldType: "input",
                 required: false,
@@ -995,7 +996,7 @@ export const formItems: CompType[] = [
                 configParams: [],
             },
             {
-                label: "关闭时文字描述",
+                label: i18n("dyform.item.123"),
                 fieldName: "inactiveText",
                 fieldType: "input",
                 required: false,
@@ -1008,7 +1009,7 @@ export const formItems: CompType[] = [
         selfFields: [],
         actions: [
             {
-                label: "switch 状态发生变化时",
+                label: i18n("dyform.item.124"),
                 actionName: "change",
                 fieldType: "button",
             },
@@ -1016,13 +1017,13 @@ export const formItems: CompType[] = [
         preps: [],
     },
     {
-        itemName: "多行文本框",
+        itemName: i18n("dyform.item.125"),
         itemType: "textarea",
         itemIcon: "textarea",
         category: 1,
         fields: [
             {
-                label: "高度自适应",
+                label: i18n("dyform.item.126"),
                 fieldName: "autosize",
                 fieldType: "switch",
                 required: false,
@@ -1032,7 +1033,7 @@ export const formItems: CompType[] = [
                 configParams: [],
             },
             {
-                label: "输入框行数",
+                label: i18n("dyform.item.18"),
                 fieldName: "rows",
                 fieldType: "number",
                 required: false,
@@ -1044,25 +1045,25 @@ export const formItems: CompType[] = [
         ],
         advancedFields: [
             {
-                label: "缩放",
+                label: i18n("dyform.item.9"),
                 fieldName: "resize",
                 fieldType: "select",
                 required: false,
                 selectValues: [
-                    {name: "禁止缩放", value: "none"},
+                    {name: i18n("dyform.item.10"), value: "none"},
                     {
-                        name: "垂直和水平缩放",
+                        name: i18n("dyform.item.11"),
                         value: "both",
                     },
-                    {name: "垂直缩放", value: "vertical"},
-                    {name: "水平缩放", value: "horizontal"},
+                    {name: i18n("dyform.item.12"), value: "vertical"},
+                    {name: i18n("dyform.item.13"), value: "horizontal"},
                 ],
                 defaultValues: "none",
                 category: 2,
                 configParams: [],
             },
             {
-                label: "占位信息",
+                label: i18n("dyform.item.7"),
                 fieldName: "placeholder",
                 fieldType: "input",
                 required: false,
@@ -1072,7 +1073,7 @@ export const formItems: CompType[] = [
                 configParams: [],
             },
             {
-                label: "指定输入值的格式",
+                label: i18n("dyform.item.17"),
                 fieldName: "formatter",
                 fieldType: "button",
                 required: false,
@@ -1082,7 +1083,7 @@ export const formItems: CompType[] = [
                 configParams: [],
             },
             {
-                label: "设置最大值",
+                label: i18n("dyform.item.15"),
                 fieldName: "max",
                 fieldType: "number",
                 required: false,
@@ -1092,7 +1093,7 @@ export const formItems: CompType[] = [
                 configParams: [],
             },
             {
-                label: "是否显示统计字数",
+                label: i18n("dyform.item.8"),
                 fieldName: "showWordLimit",
                 fieldType: "switch",
                 required: false,
@@ -1112,7 +1113,7 @@ export const formItems: CompType[] = [
                 configParams: [],
             },
             {
-                label: "设置最小值",
+                label: i18n("dyform.item.16"),
                 fieldName: "min",
                 fieldType: "number",
                 required: false,
@@ -1122,7 +1123,7 @@ export const formItems: CompType[] = [
                 configParams: [],
             },
             {
-                label: "最小输入长度",
+                label: i18n("dyform.item.14"),
                 fieldName: "minlength",
                 fieldType: "number",
                 required: false,
@@ -1132,7 +1133,7 @@ export const formItems: CompType[] = [
                 configParams: [],
             },
             {
-                label: "原生 autocomplete 属性",
+                label: i18n("dyform.item.6"),
                 fieldName: "autocomplete",
                 fieldType: "switch",
                 required: false,
@@ -1145,27 +1146,27 @@ export const formItems: CompType[] = [
         selfFields: [],
         actions: [
             {
-                label: "在 Input 值改变时触发",
+                label: i18n("dyform.item.19"),
                 actionName: "input",
                 fieldType: "button",
             },
             {
-                label: "数据改变时触发",
+                label: i18n("dyform.item.20"),
                 actionName: "change",
                 fieldType: "button",
             },
             {
-                label: "Clearable 属性生成的清空按钮时触发",
+                label: i18n("dyform.item.21"),
                 actionName: "clear",
                 fieldType: "button",
             },
             {
-                label: "在 Input 失去焦点时触发",
+                label: i18n("dyform.item.22"),
                 actionName: "blur",
                 fieldType: "button",
             },
             {
-                label: "在 Input 获得焦点时触发",
+                label: i18n("dyform.item.23"),
                 actionName: "focus",
                 fieldType: "button",
             },
@@ -1173,19 +1174,19 @@ export const formItems: CompType[] = [
         preps: [],
     },
     {
-        itemName: "多选框",
+        itemName: i18n("dyform.item.127"),
         itemType: "checkbox",
         itemIcon: "checkbox",
         category: 1,
         fields: [
             {
-                label: "值类型",
+                label: i18n("dyform.item.39"),
                 fieldName: "valueType",
                 fieldType: "select",
                 required: false,
                 selectValues: [
-                    {name: "字符串", value: "string"},
-                    {name: "数值", value: "number"},
+                    {name: i18n("dyform.item.40"), value: "string"},
+                    {name: i18n("dyform.item.41"), value: "number"},
                 ],
                 defaultValues: "",
                 category: 1,
@@ -1194,7 +1195,7 @@ export const formItems: CompType[] = [
         ],
         advancedFields: [
             {
-                label: "输入时校验",
+                label: i18n("dyform.item.128"),
                 fieldName: "validateEvent",
                 fieldType: "switch",
                 required: false,
@@ -1204,7 +1205,7 @@ export const formItems: CompType[] = [
                 configParams: [],
             },
             {
-                label: "边框",
+                label: i18n("dyform.item.129"),
                 fieldName: "border",
                 fieldType: "switch",
                 required: false,
@@ -1214,7 +1215,7 @@ export const formItems: CompType[] = [
                 configParams: [],
             },
             {
-                label: "当前是否勾选",
+                label: i18n("dyform.item.130"),
                 fieldName: "checked",
                 fieldType: "switch",
                 required: false,
@@ -1224,7 +1225,7 @@ export const formItems: CompType[] = [
                 configParams: [],
             },
             {
-                label: "没有选中时的值",
+                label: i18n("dyform.item.131"),
                 fieldName: "falseLabel",
                 fieldType: "input",
                 required: false,
@@ -1237,7 +1238,7 @@ export const formItems: CompType[] = [
         selfFields: [],
         actions: [
             {
-                label: "值改变时触发",
+                label: i18n("dyform.item.132"),
                 actionName: "change",
                 fieldType: "button",
             },
@@ -1245,19 +1246,19 @@ export const formItems: CompType[] = [
         preps: [],
     },
     {
-        itemName: "单选框",
+        itemName: i18n("dyform.item.133"),
         itemType: "radio",
         itemIcon: "radio",
         category: 1,
         fields: [
             {
-                label: "值类型",
+                label: i18n("dyform.item.39"),
                 fieldName: "valueType",
                 fieldType: "select",
                 required: false,
                 selectValues: [
-                    {name: "字符串", value: "string"},
-                    {name: "数值", value: "number"},
+                    {name: i18n("dyform.item.40"), value: "string"},
+                    {name: i18n("dyform.item.41"), value: "number"},
                 ],
                 defaultValues: "",
                 category: 1,
@@ -1266,7 +1267,7 @@ export const formItems: CompType[] = [
         ],
         advancedFields: [
             {
-                label: "输入时校验",
+                label: i18n("dyform.item.128"),
                 fieldName: "validateEvent",
                 fieldType: "switch",
                 required: false,
@@ -1276,7 +1277,7 @@ export const formItems: CompType[] = [
                 configParams: [],
             },
             {
-                label: "填充色",
+                label: i18n("dyform.item.134"),
                 fieldName: "fill",
                 fieldType: "color",
                 required: false,
@@ -1286,7 +1287,7 @@ export const formItems: CompType[] = [
                 configParams: [],
             },
             {
-                label: "激活时的文本颜色",
+                label: i18n("dyform.item.135"),
                 fieldName: "textColor",
                 fieldType: "color",
                 required: false,
@@ -1299,7 +1300,7 @@ export const formItems: CompType[] = [
         selfFields: [],
         actions: [
             {
-                label: "值改变时触发",
+                label: i18n("dyform.item.132"),
                 actionName: "change",
                 fieldType: "button",
             },
@@ -1307,31 +1308,31 @@ export const formItems: CompType[] = [
         preps: [],
     },
     {
-        itemName: "按钮",
+        itemName: i18n("dyform.item.136"),
         itemType: "button",
         itemIcon: "button",
         category: 1,
         fields: [
             {
-                label: "类型",
+                label: i18n("dyform.item.137"),
                 fieldName: "type",
                 fieldType: "select",
                 required: false,
                 selectValues: [
-                    {name: "成功", value: "success"},
+                    {name: i18n("dyform.item.70"), value: "success"},
                     {
-                        name: "信息",
+                        name: i18n("dyform.item.71"),
                         value: "info",
                     },
-                    {name: "警告", value: "warning"},
-                    {name: "危险", value: "danger"},
+                    {name: i18n("dyform.item.72"), value: "warning"},
+                    {name: i18n("dyform.item.73"), value: "danger"},
                 ],
                 defaultValues: "",
                 category: 1,
                 configParams: [],
             },
             {
-                label: "标签名字",
+                label: i18n("dyform.item.138"),
                 fieldName: "btnLabel",
                 fieldType: "input",
                 required: false,
@@ -1341,7 +1342,7 @@ export const formItems: CompType[] = [
                 configParams: [],
             },
             {
-                label: "图标",
+                label: i18n("dyform.item.139"),
                 fieldName: "icon",
                 fieldType: "icon",
                 required: false,
@@ -1353,7 +1354,7 @@ export const formItems: CompType[] = [
         ],
         advancedFields: [
             {
-                label: "是否为链接按钮",
+                label: i18n("dyform.item.140"),
                 fieldName: "link",
                 fieldType: "switch",
                 required: false,
@@ -1363,7 +1364,7 @@ export const formItems: CompType[] = [
                 configParams: [],
             },
             {
-                label: "自动在两个中文字符之间插入空格",
+                label: i18n("dyform.item.141"),
                 fieldName: "autoInsertSpace",
                 fieldType: "switch",
                 required: false,
@@ -1373,7 +1374,7 @@ export const formItems: CompType[] = [
                 configParams: [],
             },
             {
-                label: "是否为朴素按钮",
+                label: i18n("dyform.item.142"),
                 fieldName: "plain",
                 fieldType: "switch",
                 required: false,
@@ -1383,7 +1384,7 @@ export const formItems: CompType[] = [
                 configParams: [],
             },
             {
-                label: "是否显示文字按钮背景颜色",
+                label: i18n("dyform.item.143"),
                 fieldName: "bg",
                 fieldType: "switch",
                 required: false,
@@ -1393,7 +1394,7 @@ export const formItems: CompType[] = [
                 configParams: [],
             },
             {
-                label: "自定义加载中状态图标组件",
+                label: i18n("dyform.item.144"),
                 fieldName: "loadingIcon",
                 fieldType: "input",
                 required: false,
@@ -1403,7 +1404,7 @@ export const formItems: CompType[] = [
                 configParams: [],
             },
             {
-                label: "原生 type 属性",
+                label: i18n("dyform.item.145"),
                 fieldName: "nativeType",
                 fieldType: "select",
                 required: false,
@@ -1420,7 +1421,7 @@ export const formItems: CompType[] = [
                 configParams: [],
             },
             {
-                label: "是否为圆形按钮",
+                label: i18n("dyform.item.146"),
                 fieldName: "circle",
                 fieldType: "switch",
                 required: false,
@@ -1430,7 +1431,7 @@ export const formItems: CompType[] = [
                 configParams: [],
             },
             {
-                label: "是否为文字按钮",
+                label: i18n("dyform.item.147"),
                 fieldName: "text",
                 fieldType: "switch",
                 required: false,
@@ -1440,7 +1441,7 @@ export const formItems: CompType[] = [
                 configParams: [],
             },
             {
-                label: "是否为圆角按钮",
+                label: i18n("dyform.item.148"),
                 fieldName: "round",
                 fieldType: "switch",
                 required: false,
@@ -1450,7 +1451,7 @@ export const formItems: CompType[] = [
                 configParams: [],
             },
             {
-                label: "是否为加载中状态",
+                label: i18n("dyform.item.149"),
                 fieldName: "loading",
                 fieldType: "switch",
                 required: false,
@@ -1463,7 +1464,7 @@ export const formItems: CompType[] = [
         selfFields: [],
         actions: [
             {
-                label: "在点击按钮时触发",
+                label: i18n("dyform.item.150"),
                 actionName: "click",
                 fieldType: "button",
             },
@@ -1471,31 +1472,31 @@ export const formItems: CompType[] = [
         preps: [],
     },
     {
-        itemName: "标签",
+        itemName: i18n("dyform.item.151"),
         itemType: "tag",
         itemIcon: "text",
         category: 1,
         fields: [
             {
-                label: "类型",
+                label: i18n("dyform.item.137"),
                 fieldName: "tagType",
                 fieldType: "select",
                 required: false,
                 selectValues: [
-                    {name: "成功", value: "success"},
+                    {name: i18n("dyform.item.70"), value: "success"},
                     {
-                        name: "信息",
+                        name: i18n("dyform.item.71"),
                         value: "info",
                     },
-                    {name: "警告", value: "warning"},
-                    {name: "危险", value: "danger"},
+                    {name: i18n("dyform.item.72"), value: "warning"},
+                    {name: i18n("dyform.item.73"), value: "danger"},
                 ],
                 defaultValues: "",
                 category: 1,
                 configParams: [],
             },
             {
-                label: "是否表头",
+                label: i18n("dyform.item.152"),
                 fieldName: "headerFlag",
                 fieldType: "switch",
                 required: false,
@@ -1507,20 +1508,20 @@ export const formItems: CompType[] = [
         ],
         advancedFields: [
             {
-                label: "Tag 的主题",
+                label: i18n("dyform.item.153"),
                 fieldName: "effect",
                 fieldType: "select",
                 required: false,
                 selectValues: [
-                    {name: "暗黑", value: "dark"},
-                    {name: "高亮", value: "light"},
+                    {name: i18n("dyform.item.60"), value: "dark"},
+                    {name: i18n("dyform.item.61"), value: "light"},
                 ],
                 defaultValues: "",
                 category: 2,
                 configParams: [],
             },
             {
-                label: "是否有边框描边",
+                label: i18n("dyform.item.154"),
                 fieldName: "hit",
                 fieldType: "switch",
                 required: false,
@@ -1530,7 +1531,7 @@ export const formItems: CompType[] = [
                 configParams: [],
             },
             {
-                label: "背景色",
+                label: i18n("dyform.item.155"),
                 fieldName: "color",
                 fieldType: "input",
                 required: false,
@@ -1540,7 +1541,7 @@ export const formItems: CompType[] = [
                 configParams: [],
             },
             {
-                label: "Tag 是否为圆形",
+                label: i18n("dyform.item.156"),
                 fieldName: "round",
                 fieldType: "switch",
                 required: false,
@@ -1550,7 +1551,7 @@ export const formItems: CompType[] = [
                 configParams: [],
             },
             {
-                label: "是否禁用渐变动画",
+                label: i18n("dyform.item.157"),
                 fieldName: "disableTransitions",
                 fieldType: "switch",
                 required: false,
@@ -1565,26 +1566,26 @@ export const formItems: CompType[] = [
         preps: [],
     },
     {
-        itemName: "时间选择",
+        itemName: i18n("dyform.item.158"),
         itemType: "time",
         itemIcon: "datetime",
         category: 1,
         fields: [
             {
-                label: "值类型",
+                label: i18n("dyform.item.39"),
                 fieldName: "valueType",
                 fieldType: "select",
                 required: false,
                 selectValues: [
-                    {name: "字符串", value: "string"},
-                    {name: "数值", value: "number"},
+                    {name: i18n("dyform.item.40"), value: "string"},
+                    {name: i18n("dyform.item.41"), value: "number"},
                 ],
                 defaultValues: "",
                 category: 1,
                 configParams: [],
             },
             {
-                label: "文本框可输入",
+                label: i18n("dyform.item.82"),
                 fieldName: "editable",
                 fieldType: "switch",
                 required: false,
@@ -1594,7 +1595,7 @@ export const formItems: CompType[] = [
                 configParams: [],
             },
             {
-                label: "开始时间",
+                label: i18n("dyform.item.159"),
                 fieldName: "start",
                 fieldType: "input",
                 required: false,
@@ -1602,7 +1603,7 @@ export const formItems: CompType[] = [
                 configParams: [],
             },
             {
-                label: "结束时间",
+                label: i18n("dyform.item.160"),
                 fieldName: "end",
                 fieldType: "input",
                 required: false,
@@ -1610,7 +1611,7 @@ export const formItems: CompType[] = [
                 configParams: [],
             },
             {
-                label: "间隔时间",
+                label: i18n("dyform.item.161"),
                 fieldName: "step",
                 fieldType: "input",
                 defaultValues: "00:30",
@@ -1619,7 +1620,7 @@ export const formItems: CompType[] = [
                 configParams: [],
             },
             {
-                label: "最小时间",
+                label: i18n("dyform.item.162"),
                 fieldName: "minTime",
                 fieldType: "input",
                 required: false,
@@ -1627,7 +1628,7 @@ export const formItems: CompType[] = [
                 configParams: [],
             },
             {
-                label: "最大时间",
+                label: i18n("dyform.item.163"),
                 fieldName: "maxTime",
                 fieldType: "input",
                 required: false,
@@ -1635,16 +1636,16 @@ export const formItems: CompType[] = [
                 configParams: [],
             },
             {
-                label: "时间显示格式",
+                label: i18n("dyform.item.164"),
                 fieldName: "format",
                 fieldType: "select",
                 required: false,
                 selectValues: [
 
-                    {name: "时", value: "HH"},
-                    {name: "分", value: "mm"},
-                    {name: "秒", value: "ss"},
-                    {name: "时分秒", value: "HH:mm:ss"}
+                    {name: i18n("dyform.item.88"), value: "HH"},
+                    {name: i18n("dyform.item.89"), value: "mm"},
+                    {name: i18n("dyform.item.90"), value: "ss"},
+                    {name: i18n("dyform.item.165"), value: "HH:mm:ss"}
                 ],
                 defaultValues: "",
                 category: 1,
@@ -1655,7 +1656,7 @@ export const formItems: CompType[] = [
         advancedFields: [
 
             {
-                label: "占位信息",
+                label: i18n("dyform.item.7"),
                 fieldName: "placeholder",
                 fieldType: "input",
                 required: false,
@@ -1666,7 +1667,7 @@ export const formItems: CompType[] = [
             },
 
             {
-                label: "是否在选项中包含end",
+                label: i18n("dyform.item.166"),
                 fieldName: "includeEndTime",
                 fieldType: "switch",
                 required: false,
@@ -1680,22 +1681,22 @@ export const formItems: CompType[] = [
         actions: [
 
             {
-                label: "数据改变时触发",
+                label: i18n("dyform.item.20"),
                 actionName: "change",
                 fieldType: "button",
             },
             {
-                label: "在 Input 失去焦点时触发",
+                label: i18n("dyform.item.22"),
                 actionName: "blur",
                 fieldType: "button",
             },
             {
-                label: "在 Input 获得焦点时触发",
+                label: i18n("dyform.item.23"),
                 actionName: "focus",
                 fieldType: "button",
             },
             {
-                label: "数据清空时触发",
+                label: i18n("dyform.item.167"),
                 actionName: "clear",
                 fieldType: "button",
             },
@@ -1703,26 +1704,26 @@ export const formItems: CompType[] = [
         preps: [],
     },
     {
-        itemName: "时间选择器",
+        itemName: i18n("dyform.item.168"),
         itemType: "time-picker",
         itemIcon: "datetime",
         category: 1,
         fields: [
             {
-                label: "值类型",
+                label: i18n("dyform.item.39"),
                 fieldName: "valueType",
                 fieldType: "select",
                 required: false,
                 selectValues: [
-                    {name: "字符串", value: "string"},
-                    {name: "数值", value: "number"},
+                    {name: i18n("dyform.item.40"), value: "string"},
+                    {name: i18n("dyform.item.41"), value: "number"},
                 ],
                 defaultValues: "",
                 category: 1,
                 configParams: [],
             },
             {
-                label: "文本框可输入",
+                label: i18n("dyform.item.82"),
                 fieldName: "editable",
                 fieldType: "switch",
                 required: false,
@@ -1732,7 +1733,7 @@ export const formItems: CompType[] = [
                 configParams: [],
             },
             {
-                label: "是否为范围",
+                label: i18n("dyform.item.169"),
                 fieldName: "isRange",
                 fieldType: "switch",
                 required: false,
@@ -1742,7 +1743,7 @@ export const formItems: CompType[] = [
                 configParams: [],
             },
             {
-                label: "箭头控制",
+                label: i18n("dyform.item.170"),
                 fieldName: "arrowControl",
                 fieldType: "switch",
                 required: false,
@@ -1752,7 +1753,7 @@ export const formItems: CompType[] = [
                 configParams: [],
             },
             {
-                label: "范围分隔符",
+                label: i18n("dyform.item.109"),
                 fieldName: "rangeSeparator",
                 fieldType: "input",
                 defaultValues: "-",
@@ -1762,32 +1763,32 @@ export const formItems: CompType[] = [
             },
 
             {
-                label: "时间显示格式",
+                label: i18n("dyform.item.164"),
                 fieldName: "format",
                 fieldType: "select",
                 required: false,
                 selectValues: [
 
-                    {name: "时", value: "HH"},
-                    {name: "分", value: "mm"},
-                    {name: "秒", value: "ss"},
-                    {name: "时分秒", value: "HH:mm:ss"}
+                    {name: i18n("dyform.item.88"), value: "HH"},
+                    {name: i18n("dyform.item.89"), value: "mm"},
+                    {name: i18n("dyform.item.90"), value: "ss"},
+                    {name: i18n("dyform.item.165"), value: "HH:mm:ss"}
                 ],
                 defaultValues: "",
                 category: 1,
                 configParams: [],
             },
             {
-                label: "绑定值的格式",
+                label: i18n("dyform.item.171"),
                 fieldName: "valueFormat",
                 fieldType: "select",
                 required: false,
                 selectValues: [
 
-                    {name: "时", value: "HH"},
-                    {name: "分", value: "mm"},
-                    {name: "秒", value: "ss"},
-                    {name: "时分秒", value: "HH:mm:ss"}
+                    {name: i18n("dyform.item.88"), value: "HH"},
+                    {name: i18n("dyform.item.89"), value: "mm"},
+                    {name: i18n("dyform.item.90"), value: "ss"},
+                    {name: i18n("dyform.item.165"), value: "HH:mm:ss"}
                 ],
                 defaultValues: "",
                 category: 1,
@@ -1798,7 +1799,7 @@ export const formItems: CompType[] = [
         advancedFields: [
 
             {
-                label: "占位信息",
+                label: i18n("dyform.item.7"),
                 fieldName: "placeholder",
                 fieldType: "input",
                 required: false,
@@ -1809,7 +1810,7 @@ export const formItems: CompType[] = [
             },
 
             {
-                label: "占位信息",
+                label: i18n("dyform.item.7"),
                 fieldName: "placeholder",
                 fieldType: "input",
                 required: false,
@@ -1819,7 +1820,7 @@ export const formItems: CompType[] = [
                 configParams: [],
             },
             {
-                label: "占位内容A",
+                label: i18n("dyform.item.107"),
                 fieldName: "startPlaceholder",
                 fieldType: "input",
                 required: false,
@@ -1829,7 +1830,7 @@ export const formItems: CompType[] = [
                 configParams: [],
             },
             {
-                label: "占位内容B",
+                label: i18n("dyform.item.108"),
                 fieldName: "endPlaceholder",
                 fieldType: "input",
                 required: false,
@@ -1843,22 +1844,22 @@ export const formItems: CompType[] = [
         actions: [
 
             {
-                label: "数据改变时触发",
+                label: i18n("dyform.item.20"),
                 actionName: "change",
                 fieldType: "button",
             },
             {
-                label: "在 Input 失去焦点时触发",
+                label: i18n("dyform.item.22"),
                 actionName: "blur",
                 fieldType: "button",
             },
             {
-                label: "在 Input 获得焦点时触发",
+                label: i18n("dyform.item.23"),
                 actionName: "focus",
                 fieldType: "button",
             },
             {
-                label: "数据清空时触发",
+                label: i18n("dyform.item.167"),
                 actionName: "clear",
                 fieldType: "button",
             },
@@ -1866,32 +1867,32 @@ export const formItems: CompType[] = [
         preps: [],
     },
     {
-        itemName: "密码框",
+        itemName: i18n("dyform.item.172"),
         itemType: "password",
         itemIcon: "password",
         category: 1,
         fields: [],
         advancedFields: [
             {
-                label: "缩放",
+                label: i18n("dyform.item.9"),
                 fieldName: "resize",
                 fieldType: "select",
                 required: false,
                 selectValues: [
-                    {name: "禁止缩放", value: "none"},
+                    {name: i18n("dyform.item.10"), value: "none"},
                     {
-                        name: "垂直和水平缩放",
+                        name: i18n("dyform.item.11"),
                         value: "both",
                     },
-                    {name: "垂直缩放", value: "vertical"},
-                    {name: "水平缩放", value: "horizontal"},
+                    {name: i18n("dyform.item.12"), value: "vertical"},
+                    {name: i18n("dyform.item.13"), value: "horizontal"},
                 ],
                 defaultValues: "none",
                 category: 2,
                 configParams: [],
             },
             {
-                label: "最大值",
+                label: i18n("dyform.item.29"),
                 fieldName: "max",
                 fieldType: "number",
                 required: false,
@@ -1901,7 +1902,7 @@ export const formItems: CompType[] = [
                 configParams: [],
             },
             {
-                label: "最小值",
+                label: i18n("dyform.item.28"),
                 fieldName: "min",
                 fieldType: "number",
                 required: false,
@@ -1911,7 +1912,7 @@ export const formItems: CompType[] = [
                 configParams: [],
             },
             {
-                label: "样式",
+                label: i18n("dyform.item.173"),
                 fieldName: "inputStyle",
                 fieldType: "input",
                 required: false,
@@ -1921,7 +1922,7 @@ export const formItems: CompType[] = [
                 configParams: [],
             },
             {
-                label: "最小长度",
+                label: i18n("dyform.item.174"),
                 fieldName: "minlength",
                 fieldType: "number",
                 required: false,
@@ -1931,7 +1932,7 @@ export const formItems: CompType[] = [
                 configParams: [],
             },
             {
-                label: "是否显示切换密码图标",
+                label: i18n("dyform.item.175"),
                 fieldName: "showPassword",
                 fieldType: "switch",
                 required: false,
@@ -1941,7 +1942,7 @@ export const formItems: CompType[] = [
                 configParams: [],
             },
             {
-                label: "是否显示统计字数",
+                label: i18n("dyform.item.8"),
                 fieldName: "showWordLimit",
                 fieldType: "switch",
                 required: false,
@@ -1951,7 +1952,7 @@ export const formItems: CompType[] = [
                 configParams: [],
             },
             {
-                label: "原生 autocomplete 属性",
+                label: i18n("dyform.item.6"),
                 fieldName: "autocomplete",
                 fieldType: "switch",
                 required: false,
@@ -1961,7 +1962,7 @@ export const formItems: CompType[] = [
                 configParams: [],
             },
             {
-                label: "占位信息",
+                label: i18n("dyform.item.7"),
                 fieldName: "placeholder",
                 fieldType: "input",
                 required: false,
@@ -1974,27 +1975,27 @@ export const formItems: CompType[] = [
         selfFields: [],
         actions: [
             {
-                label: "在 Input 值改变时触发",
+                label: i18n("dyform.item.19"),
                 actionName: "input",
                 fieldType: "button",
             },
             {
-                label: "数据改变时触发",
+                label: i18n("dyform.item.20"),
                 actionName: "change",
                 fieldType: "button",
             },
             {
-                label: "Clearable 属性生成的清空按钮时触发",
+                label: i18n("dyform.item.21"),
                 actionName: "clear",
                 fieldType: "button",
             },
             {
-                label: "在 Input 失去焦点时触发",
+                label: i18n("dyform.item.22"),
                 actionName: "blur",
                 fieldType: "button",
             },
             {
-                label: "在 Input 获得焦点时触发",
+                label: i18n("dyform.item.23"),
                 actionName: "focus",
                 fieldType: "button",
             },
@@ -2002,19 +2003,19 @@ export const formItems: CompType[] = [
         preps: [],
     },
     {
-        itemName: "自动补全输入框",
+        itemName: i18n("dyform.item.176"),
         itemType: "autocomplete",
         itemIcon: "autocomplete",
         category: 1,
         fields: [
             {
-                label: "值类型",
+                label: i18n("dyform.item.39"),
                 fieldName: "valueType",
                 fieldType: "select",
                 required: false,
                 selectValues: [
-                    {name: "字符串", value: "string"},
-                    {name: "数值", value: "number"},
+                    {name: i18n("dyform.item.40"), value: "string"},
+                    {name: i18n("dyform.item.41"), value: "number"},
                 ],
                 defaultValues: "",
                 category: 1,
@@ -2023,7 +2024,7 @@ export const formItems: CompType[] = [
         ],
         advancedFields: [
             {
-                label: "获得焦点显示数据",
+                label: i18n("dyform.item.177"),
                 fieldName: "triggerOnFocus",
                 fieldType: "switch",
                 required: true,
@@ -2033,7 +2034,7 @@ export const formItems: CompType[] = [
                 configParams: [],
             },
             {
-                label: "是否隐藏加载图标",
+                label: i18n("dyform.item.178"),
                 fieldName: "hideLoading",
                 fieldType: "switch",
                 required: false,
@@ -2043,7 +2044,7 @@ export const formItems: CompType[] = [
                 configParams: [],
             },
             {
-                label: "下拉框是否与输入框同宽",
+                label: i18n("dyform.item.179"),
                 fieldName: "fitInputWidth",
                 fieldType: "switch",
                 required: false,
@@ -2053,7 +2054,7 @@ export const formItems: CompType[] = [
                 configParams: [],
             },
             {
-                label: "占位信息",
+                label: i18n("dyform.item.7"),
                 fieldName: "placeholder",
                 fieldType: "input",
                 required: false,
@@ -2063,42 +2064,42 @@ export const formItems: CompType[] = [
                 configParams: [],
             },
             {
-                label: "菜单弹出位置",
+                label: i18n("dyform.item.180"),
                 fieldName: "placement",
                 fieldType: "select",
                 required: false,
                 selectValues: [
-                    {name: "顶部", value: "top"},
+                    {name: i18n("dyform.item.47"), value: "top"},
                     {
-                        name: "顶部开始",
+                        name: i18n("dyform.item.48"),
                         value: "top-start",
                     },
-                    {name: "顶部结束", value: "top-end"},
-                    {name: "底部", value: "bottom"},
+                    {name: i18n("dyform.item.49"), value: "top-end"},
+                    {name: i18n("dyform.item.50"), value: "bottom"},
                     {
-                        name: "底部开始",
+                        name: i18n("dyform.item.51"),
                         value: "bottom-start",
                     },
-                    {name: "底部结束", value: "bottom-end"},
-                    {name: "左边", value: "left"},
+                    {name: i18n("dyform.item.52"), value: "bottom-end"},
+                    {name: i18n("dyform.item.53"), value: "left"},
                     {
-                        name: "左上",
+                        name: i18n("dyform.item.54"),
                         value: "left-start",
                     },
-                    {name: "左下", value: "left-end"},
-                    {name: "右边", value: "right"},
+                    {name: i18n("dyform.item.55"), value: "left-end"},
+                    {name: i18n("dyform.item.56"), value: "right"},
                     {
-                        name: "右上",
+                        name: i18n("dyform.item.57"),
                         value: "right-start",
                     },
-                    {name: "右下", value: "right-end"},
+                    {name: i18n("dyform.item.58"), value: "right-end"},
                 ],
                 defaultValues: "",
                 category: 2,
                 configParams: [],
             },
             {
-                label: "下拉列表的类名",
+                label: i18n("dyform.item.181"),
                 fieldName: "popperClass",
                 fieldType: "input",
                 required: false,
@@ -2111,12 +2112,12 @@ export const formItems: CompType[] = [
         selfFields: [],
         actions: [
             {
-                label: "点击选中建议项时触发",
+                label: i18n("dyform.item.182"),
                 actionName: "select",
                 fieldType: "button",
             },
             {
-                label: "在Input值改变时触发",
+                label: i18n("dyform.item.183"),
                 actionName: "change",
                 fieldType: "button",
             },
@@ -2124,26 +2125,26 @@ export const formItems: CompType[] = [
         preps: [],
     },
     {
-        itemName: "级联选择器",
+        itemName: i18n("dyform.item.184"),
         itemType: "cascade",
         itemIcon: "cascade",
         category: 1,
         fields: [
             {
-                label: "值类型",
+                label: i18n("dyform.item.39"),
                 fieldName: "valueType",
                 fieldType: "select",
                 required: false,
                 selectValues: [
-                    {name: "字符串", value: "string"},
-                    {name: "数值", value: "number"},
+                    {name: i18n("dyform.item.40"), value: "string"},
+                    {name: i18n("dyform.item.41"), value: "number"},
                 ],
                 defaultValues: "",
                 category: 1,
                 configParams: [],
             },
             {
-                label: "多选模式下是否折叠Tag",
+                label: i18n("dyform.item.185"),
                 fieldName: "collapseTags",
                 fieldType: "switch",
                 required: false,
@@ -2153,7 +2154,7 @@ export const formItems: CompType[] = [
                 configParams: [],
             },
             {
-                label: "显示完整路径",
+                label: i18n("dyform.item.186"),
                 fieldName: "showAllLevels",
                 fieldType: "switch",
                 required: false,
@@ -2165,25 +2166,25 @@ export const formItems: CompType[] = [
         ],
         advancedFields: [
             {
-                label: "输入框类型",
+                label: i18n("dyform.item.187"),
                 fieldName: "tagType",
                 fieldType: "select",
                 required: false,
                 selectValues: [
-                    {name: "成功", value: "success"},
+                    {name: i18n("dyform.item.70"), value: "success"},
                     {
-                        name: "信息",
+                        name: i18n("dyform.item.71"),
                         value: "info",
                     },
-                    {name: "警告", value: "warning"},
-                    {name: "危险", value: "danger"},
+                    {name: i18n("dyform.item.72"), value: "warning"},
+                    {name: i18n("dyform.item.73"), value: "danger"},
                 ],
                 defaultValues: "",
                 category: 2,
                 configParams: [],
             },
             {
-                label: "是否可以被搜索",
+                label: i18n("dyform.item.188"),
                 fieldName: "filterable",
                 fieldType: "switch",
                 required: false,
@@ -2193,7 +2194,7 @@ export const formItems: CompType[] = [
                 configParams: [],
             },
             {
-                label: "是否显示所有选中的标签",
+                label: i18n("dyform.item.189"),
                 fieldName: "collapseTagsTooltip",
                 fieldType: "switch",
                 required: false,
@@ -2203,7 +2204,7 @@ export const formItems: CompType[] = [
                 configParams: [],
             },
             {
-                label: "否触发表单的校验",
+                label: i18n("dyform.item.190"),
                 fieldName: "validateEvent",
                 fieldType: "switch",
                 required: false,
@@ -2213,7 +2214,7 @@ export const formItems: CompType[] = [
                 configParams: [],
             },
             {
-                label: "自定义搜索逻辑",
+                label: i18n("dyform.item.191"),
                 fieldName: "filterMethod",
                 fieldType: "input",
                 required: false,
@@ -2223,7 +2224,7 @@ export const formItems: CompType[] = [
                 configParams: [],
             },
             {
-                label: "配置选项",
+                label: i18n("dyform.item.192"),
                 fieldName: "props",
                 fieldType: "input",
                 required: false,
@@ -2233,7 +2234,7 @@ export const formItems: CompType[] = [
                 configParams: [],
             },
             {
-                label: "占位信息",
+                label: i18n("dyform.item.7"),
                 fieldName: "placeholder",
                 fieldType: "input",
                 required: false,
@@ -2243,7 +2244,7 @@ export const formItems: CompType[] = [
                 configParams: [],
             },
             {
-                label: "用于分隔选项的字符",
+                label: i18n("dyform.item.193"),
                 fieldName: "separator",
                 fieldType: "input",
                 required: false,
@@ -2253,7 +2254,7 @@ export const formItems: CompType[] = [
                 configParams: [],
             },
             {
-                label: "自定义类名",
+                label: i18n("dyform.item.68"),
                 fieldName: "popperClass",
                 fieldType: "input",
                 required: false,
@@ -2266,32 +2267,32 @@ export const formItems: CompType[] = [
         selfFields: [],
         actions: [
             {
-                label: "下拉框出现/隐藏时触发",
+                label: i18n("dyform.item.78"),
                 actionName: "visibleChange",
                 fieldType: "button",
             },
             {
-                label: "数据改变时触发",
+                label: i18n("dyform.item.20"),
                 actionName: "change",
                 fieldType: "button",
             },
             {
-                label: "在 Input 失去焦点时触发",
+                label: i18n("dyform.item.22"),
                 actionName: "blur",
                 fieldType: "button",
             },
             {
-                label: "在 Input 获得焦点时触发",
+                label: i18n("dyform.item.23"),
                 actionName: "focus",
                 fieldType: "button",
             },
             {
-                label: "多选模式下移除tag时触发",
+                label: i18n("dyform.item.80"),
                 actionName: "removeTag",
                 fieldType: "button",
             },
             {
-                label: "当展开节点发生变化时触发",
+                label: i18n("dyform.item.194"),
                 actionName: "expandChange",
                 fieldType: "button",
             },
@@ -2299,13 +2300,13 @@ export const formItems: CompType[] = [
         preps: [],
     },
     {
-        itemName: "上传",
+        itemName: i18n("dyform.item.195"),
         itemType: "upload",
         itemIcon: "btn-upload",
         category: 1,
         fields: [
             {
-                label: "自动上传",
+                label: i18n("dyform.item.196"),
                 fieldName: "autoUpload",
                 fieldType: "switch",
                 required: false,
@@ -2315,35 +2316,35 @@ export const formItems: CompType[] = [
                 configParams: [],
             },
             {
-                label: "列表类型",
+                label: i18n("dyform.item.197"),
                 fieldName: "listType",
                 fieldType: "select",
                 required: false,
                 selectValues: [
-                    {name: "文本", value: "text"},
+                    {name: i18n("dyform.item.198"), value: "text"},
                     {
-                        name: "图片",
+                        name: i18n("dyform.item.199"),
                         value: "picture",
                     },
-                    {name: "图片卡片", value: "picture-card"},
+                    {name: i18n("dyform.item.200"), value: "picture-card"},
                 ],
                 defaultValues: "",
                 category: 1,
                 configParams: [],
             },
             {
-                label: "保留上传结果",
+                label: i18n("dyform.item.201"),
                 fieldName: "keepResult",
                 fieldType: "switch",
                 required: false,
                 selectValues: "[true,false]",
                 defaultValues: "",
                 category: 1,
-                remark: "数据上传成功后会返回路径、文件名、文件类型、文件大小等信息",
+                remark: i18n("dyform.item.202"),
                 configParams: [],
             },
             {
-                label: "启用拖拽",
+                label: i18n("dyform.item.203"),
                 fieldName: "drag",
                 fieldType: "switch",
                 required: false,
@@ -2353,7 +2354,7 @@ export const formItems: CompType[] = [
                 configParams: [],
             },
             {
-                label: "请求头部",
+                label: i18n("dyform.item.204"),
                 fieldName: "headers",
                 fieldType: "json",
                 required: false,
@@ -2363,7 +2364,7 @@ export const formItems: CompType[] = [
                 configParams: [],
             },
             {
-                label: "数量限制",
+                label: i18n("dyform.item.205"),
                 fieldName: "limit",
                 fieldType: "number",
                 required: false,
@@ -2373,7 +2374,7 @@ export const formItems: CompType[] = [
                 configParams: [],
             },
             {
-                label: "上传文件类型",
+                label: i18n("dyform.item.206"),
                 fieldName: "accept",
                 fieldType: "input",
                 required: false,
@@ -2383,7 +2384,7 @@ export const formItems: CompType[] = [
                 configParams: [],
             },
             {
-                label: "上传地址",
+                label: i18n("dyform.item.207"),
                 fieldName: "action",
                 fieldType: "input",
                 required: false,
@@ -2393,7 +2394,7 @@ export const formItems: CompType[] = [
                 configParams: [],
             },
             {
-                label: "支持多选文件",
+                label: i18n("dyform.item.208"),
                 fieldName: "multiple",
                 fieldType: "switch",
                 required: false,
@@ -2405,7 +2406,7 @@ export const formItems: CompType[] = [
         ],
         advancedFields: [
             {
-                label: "附加参数",
+                label: i18n("dyform.item.209"),
                 fieldName: "data",
                 fieldType: "json",
                 required: false,
@@ -2415,7 +2416,7 @@ export const formItems: CompType[] = [
                 configParams: [],
             },
             {
-                label: "显示已上传文件",
+                label: i18n("dyform.item.210"),
                 fieldName: "showFileList",
                 fieldType: "input",
                 required: false,
@@ -2425,7 +2426,7 @@ export const formItems: CompType[] = [
                 configParams: [],
             },
             {
-                label: "凭证信息",
+                label: i18n("dyform.item.211"),
                 fieldName: "withCredentials",
                 fieldType: "input",
                 required: false,
@@ -2440,13 +2441,13 @@ export const formItems: CompType[] = [
         preps: [],
     },
     {
-        itemName: " 穿梭框",
+        itemName: i18n("dyform.item.212"),
         itemType: "transfer",
         itemIcon: "transfer",
         category: 1,
         fields: [
             {
-                label: "左边列表标题",
+                label: i18n("dyform.item.213"),
                 fieldName: "leftTitle",
                 fieldType: "input",
                 required: false,
@@ -2456,17 +2457,17 @@ export const formItems: CompType[] = [
                 configParams: [],
             },
             {
-                label: "数据源的字段别名",
+                label: i18n("dyform.item.214"),
                 fieldName: "props",
                 fieldType: "input",
                 required: false,
-                selectValues: "['待选数据','已选数据']",
+                selectValues: "[是,否]",
                 defaultValues: "",
                 category: 1,
                 configParams: [],
             },
             {
-                label: "右侧列表标题",
+                label: i18n("dyform.item.217"),
                 fieldName: "rightTitle",
                 fieldType: "input",
                 required: false,
@@ -2478,7 +2479,7 @@ export const formItems: CompType[] = [
         ],
         advancedFields: [
             {
-                label: "是否可搜索",
+                label: i18n("dyform.item.218"),
                 fieldName: "filterable",
                 fieldType: "switch",
                 required: false,
@@ -2488,7 +2489,7 @@ export const formItems: CompType[] = [
                 configParams: [],
             },
             {
-                label: "状态时是否触发表单的校验",
+                label: i18n("dyform.item.115"),
                 fieldName: "validateEvent",
                 fieldType: "switch",
                 required: false,
@@ -2498,24 +2499,24 @@ export const formItems: CompType[] = [
                 configParams: [],
             },
             {
-                label: "排序策略",
+                label: i18n("dyform.item.219"),
                 fieldName: "targetOrder",
                 fieldType: "select",
                 required: false,
                 selectValues: [
-                    {name: "原始", value: "original"},
+                    {name: i18n("dyform.item.220"), value: "original"},
                     {
-                        name: "追加",
+                        name: i18n("dyform.item.221"),
                         value: "push",
                     },
-                    {name: "头部添加", value: "unshift"},
+                    {name: i18n("dyform.item.222"), value: "unshift"},
                 ],
                 defaultValues: "",
                 category: 2,
                 configParams: [],
             },
             {
-                label: "自定义搜索方法",
+                label: i18n("dyform.item.223"),
                 fieldName: "filterMethod",
                 fieldType: "button",
                 required: false,
@@ -2525,7 +2526,7 @@ export const formItems: CompType[] = [
                 configParams: [],
             },
             {
-                label: "左侧已勾选的数据集合",
+                label: i18n("dyform.item.224"),
                 fieldName: "leftDefaultChecked",
                 fieldType: "input",
                 required: false,
@@ -2535,7 +2536,7 @@ export const formItems: CompType[] = [
                 configParams: [],
             },
             {
-                label: "搜索框占位符",
+                label: i18n("dyform.item.225"),
                 fieldName: "filterPlaceholder",
                 fieldType: "input",
                 required: false,
@@ -2545,7 +2546,7 @@ export const formItems: CompType[] = [
                 configParams: [],
             },
             {
-                label: "右侧已勾选的数据集合",
+                label: i18n("dyform.item.226"),
                 fieldName: "rightDefaultChecked",
                 fieldType: "input",
                 required: false,
@@ -2558,17 +2559,17 @@ export const formItems: CompType[] = [
         selfFields: [],
         actions: [
             {
-                label: "左侧列表元素被用户选中 / 取消选中时触发",
+                label: i18n("dyform.item.227"),
                 actionName: "leftCheckChange",
                 fieldType: "button",
             },
             {
-                label: "右侧列表元素变化时触发",
+                label: i18n("dyform.item.228"),
                 actionName: "change",
                 fieldType: "button",
             },
             {
-                label: "右侧列表元素被用户选中 / 取消选中时触发",
+                label: i18n("dyform.item.229"),
                 actionName: "rightCheckChange",
                 fieldType: "button",
             },
@@ -2576,26 +2577,26 @@ export const formItems: CompType[] = [
         preps: [],
     },
     {
-        itemName: "滑块",
+        itemName: i18n("dyform.item.230"),
         itemType: "slider",
         itemIcon: "slider",
         category: 1,
         fields: [
             {
-                label: "数组类型",
+                label: i18n("dyform.item.231"),
                 fieldName: "valueType",
                 fieldType: "select",
                 required: false,
                 selectValues: [
-                    {name: "字符串", value: "string"},
-                    {name: "数值", value: "number"},
+                    {name: i18n("dyform.item.40"), value: "string"},
+                    {name: i18n("dyform.item.41"), value: "number"},
                 ],
                 defaultValues: "",
                 category: 1,
                 configParams: [],
             },
             {
-                label: "垂直模式",
+                label: i18n("dyform.item.232"),
                 fieldName: "vertical",
                 fieldType: "switch",
                 required: false,
@@ -2605,7 +2606,7 @@ export const formItems: CompType[] = [
                 configParams: [],
             },
             {
-                label: "步长",
+                label: i18n("dyform.item.233"),
                 fieldName: "step",
                 fieldType: "number",
                 required: false,
@@ -2615,7 +2616,7 @@ export const formItems: CompType[] = [
                 configParams: [],
             },
             {
-                label: "最大值",
+                label: i18n("dyform.item.29"),
                 fieldName: "max",
                 fieldType: "number",
                 required: false,
@@ -2625,7 +2626,7 @@ export const formItems: CompType[] = [
                 configParams: [],
             },
             {
-                label: "最小值",
+                label: i18n("dyform.item.28"),
                 fieldName: "min",
                 fieldType: "number",
                 required: false,
@@ -2637,7 +2638,7 @@ export const formItems: CompType[] = [
         ],
         advancedFields: [
             {
-                label: "是否格式化提示信息",
+                label: i18n("dyform.item.234"),
                 fieldName: "formatTooltip",
                 fieldType: "switch",
                 required: false,
@@ -2647,7 +2648,7 @@ export const formItems: CompType[] = [
                 configParams: [],
             },
             {
-                label: "是否显示输入框",
+                label: i18n("dyform.item.235"),
                 fieldName: "showInput",
                 fieldType: "switch",
                 required: false,
@@ -2657,7 +2658,7 @@ export const formItems: CompType[] = [
                 configParams: [],
             },
             {
-                label: "是否显示间断点",
+                label: i18n("dyform.item.236"),
                 fieldName: "showStops",
                 fieldType: "switch",
                 required: false,
@@ -2667,7 +2668,7 @@ export const formItems: CompType[] = [
                 configParams: [],
             },
             {
-                label: "是否开启选择范围",
+                label: i18n("dyform.item.237"),
                 fieldName: "range",
                 fieldType: "switch",
                 required: false,
@@ -2677,7 +2678,7 @@ export const formItems: CompType[] = [
                 configParams: [],
             },
             {
-                label: "是否显示输入框的控制按钮",
+                label: i18n("dyform.item.238"),
                 fieldName: "showInputControls",
                 fieldType: "switch",
                 required: false,
@@ -2687,7 +2688,7 @@ export const formItems: CompType[] = [
                 configParams: [],
             },
             {
-                label: "是否显示提示信息",
+                label: i18n("dyform.item.239"),
                 fieldName: "showTooltip",
                 fieldType: "switch",
                 required: false,
@@ -2697,7 +2698,7 @@ export const formItems: CompType[] = [
                 configParams: [],
             },
             {
-                label: "屏幕阅读器标签结尾的标记",
+                label: i18n("dyform.item.240"),
                 fieldName: "rangeEndLabel",
                 fieldType: "input",
                 required: false,
@@ -2707,42 +2708,42 @@ export const formItems: CompType[] = [
                 configParams: [],
             },
             {
-                label: "标签位置",
+                label: i18n("dyform.item.241"),
                 fieldName: "placement",
                 fieldType: "select",
                 required: false,
                 selectValues: [
-                    {name: "顶部", value: "top"},
+                    {name: i18n("dyform.item.47"), value: "top"},
                     {
-                        name: "顶部开始",
+                        name: i18n("dyform.item.48"),
                         value: "top-start",
                     },
-                    {name: "顶部结束", value: "top-end"},
-                    {name: "底部", value: "bottom"},
+                    {name: i18n("dyform.item.49"), value: "top-end"},
+                    {name: i18n("dyform.item.50"), value: "bottom"},
                     {
-                        name: "底部开始",
+                        name: i18n("dyform.item.51"),
                         value: "bottom-start",
                     },
-                    {name: "底部结束", value: "bottom-end"},
-                    {name: "左边", value: "left"},
+                    {name: i18n("dyform.item.52"), value: "bottom-end"},
+                    {name: i18n("dyform.item.53"), value: "left"},
                     {
-                        name: "左上",
+                        name: i18n("dyform.item.54"),
                         value: "left-start",
                     },
-                    {name: "左下", value: "left-end"},
-                    {name: "右边", value: "right"},
+                    {name: i18n("dyform.item.55"), value: "left-end"},
+                    {name: i18n("dyform.item.56"), value: "right"},
                     {
-                        name: "右上",
+                        name: i18n("dyform.item.57"),
                         value: "right-start",
                     },
-                    {name: "右下", value: "right-end"},
+                    {name: i18n("dyform.item.58"), value: "right-end"},
                 ],
                 defaultValues: "",
                 category: 2,
                 configParams: [],
             },
             {
-                label: "滑块高度，垂直模式必填",
+                label: i18n("dyform.item.242"),
                 fieldName: "height",
                 fieldType: "input",
                 required: false,
@@ -2752,7 +2753,7 @@ export const formItems: CompType[] = [
                 configParams: [],
             },
             {
-                label: "屏幕阅读器标签开始的标记",
+                label: i18n("dyform.item.243"),
                 fieldName: "rangeStartLabel",
                 fieldType: "input",
                 required: false,
@@ -2762,7 +2763,7 @@ export const formItems: CompType[] = [
                 configParams: [],
             },
             {
-                label: "自定义类名",
+                label: i18n("dyform.item.68"),
                 fieldName: "tooltipClass",
                 fieldType: "input",
                 required: false,
@@ -2775,12 +2776,12 @@ export const formItems: CompType[] = [
         selfFields: [],
         actions: [
             {
-                label: "数据改变时触发",
+                label: i18n("dyform.item.20"),
                 actionName: "input",
                 fieldType: "button",
             },
             {
-                label: "值改变时触发",
+                label: i18n("dyform.item.132"),
                 actionName: "change",
                 fieldType: "button",
             },
@@ -2788,26 +2789,26 @@ export const formItems: CompType[] = [
         preps: [],
     },
     {
-        itemName: "评分",
+        itemName: i18n("dyform.item.244"),
         itemType: "rate",
         itemIcon: "rate",
         category: 1,
         fields: [
             {
-                label: "值类型",
+                label: i18n("dyform.item.39"),
                 fieldName: "valueType",
                 fieldType: "select",
                 required: false,
                 selectValues: [
-                    {name: "字符串", value: "string"},
-                    {name: "数值", value: "number"},
+                    {name: i18n("dyform.item.40"), value: "string"},
+                    {name: i18n("dyform.item.41"), value: "number"},
                 ],
                 defaultValues: "",
                 category: 1,
                 configParams: [],
             },
             {
-                label: "最大分值",
+                label: i18n("dyform.item.245"),
                 fieldName: "max",
                 fieldType: "number",
                 required: false,
@@ -2819,7 +2820,7 @@ export const formItems: CompType[] = [
         ],
         advancedFields: [
             {
-                label: "是否显示辅助文字",
+                label: i18n("dyform.item.246"),
                 fieldName: "showText",
                 fieldType: "switch",
                 required: false,
@@ -2829,7 +2830,7 @@ export const formItems: CompType[] = [
                 configParams: [],
             },
             {
-                label: "是否允许半选",
+                label: i18n("dyform.item.247"),
                 fieldName: "allowHalf",
                 fieldType: "switch",
                 required: false,
@@ -2839,7 +2840,7 @@ export const formItems: CompType[] = [
                 configParams: [],
             },
             {
-                label: "图标颜色",
+                label: i18n("dyform.item.248"),
                 fieldName: "colors",
                 fieldType: "input",
                 required: false,
@@ -2849,7 +2850,7 @@ export const formItems: CompType[] = [
                 configParams: [],
             },
             {
-                label: "低分和中等分数的界限值",
+                label: i18n("dyform.item.249"),
                 fieldName: "lowThreshold",
                 fieldType: "number",
                 required: false,
@@ -2859,7 +2860,7 @@ export const formItems: CompType[] = [
                 configParams: [],
             },
             {
-                label: "只读时未选中 icon 的颜色",
+                label: i18n("dyform.item.250"),
                 fieldName: "disabledVoidColor",
                 fieldType: "input",
                 required: false,
@@ -2869,7 +2870,7 @@ export const formItems: CompType[] = [
                 configParams: [],
             },
             {
-                label: "辅助文字的颜色",
+                label: i18n("dyform.item.251"),
                 fieldName: "textColor",
                 fieldType: "color",
                 required: false,
@@ -2879,7 +2880,7 @@ export const formItems: CompType[] = [
                 configParams: [],
             },
             {
-                label: "高分和中等分数的界限值",
+                label: i18n("dyform.item.252"),
                 fieldName: "highThreshold",
                 fieldType: "number",
                 required: false,
@@ -2889,7 +2890,7 @@ export const formItems: CompType[] = [
                 configParams: [],
             },
             {
-                label: "图标颜色",
+                label: i18n("dyform.item.248"),
                 fieldName: "voidColor",
                 fieldType: "input",
                 required: false,
@@ -2902,7 +2903,7 @@ export const formItems: CompType[] = [
         selfFields: [],
         actions: [
             {
-                label: "数据改变时触发",
+                label: i18n("dyform.item.20"),
                 actionName: "change",
                 fieldType: "button",
             },
@@ -2910,13 +2911,13 @@ export const formItems: CompType[] = [
         preps: [],
     },
     {
-        itemName: "取色器",
+        itemName: i18n("dyform.item.253"),
         itemType: "color",
         itemIcon: "color",
         category: 1,
         fields: [
             {
-                label: "颜色的格式",
+                label: i18n("dyform.item.254"),
                 fieldName: "colorFormat",
                 fieldType: "select",
                 required: false,
@@ -2936,7 +2937,7 @@ export const formItems: CompType[] = [
         ],
         advancedFields: [
             {
-                label: "是否支持透明度选择",
+                label: i18n("dyform.item.255"),
                 fieldName: "showAlpha",
                 fieldType: "switch",
                 required: false,
@@ -2946,7 +2947,7 @@ export const formItems: CompType[] = [
                 configParams: [],
             },
             {
-                label: "否触发表单的校验",
+                label: i18n("dyform.item.190"),
                 fieldName: "validateEvent",
                 fieldType: "switch",
                 required: false,
@@ -2956,7 +2957,7 @@ export const formItems: CompType[] = [
                 configParams: [],
             },
             {
-                label: "预定义颜色",
+                label: i18n("dyform.item.256"),
                 fieldName: "predefine",
                 fieldType: "input",
                 required: false,
@@ -2966,7 +2967,7 @@ export const formItems: CompType[] = [
                 configParams: [],
             },
             {
-                label: "下拉框的类名",
+                label: i18n("dyform.item.257"),
                 fieldName: "popperClass",
                 fieldType: "input",
                 required: false,
@@ -2979,12 +2980,12 @@ export const formItems: CompType[] = [
         selfFields: [],
         actions: [
             {
-                label: "颜色发生改变时触发",
+                label: i18n("dyform.item.258"),
                 actionName: "activeChange",
                 fieldType: "button",
             },
             {
-                label: "数据改变时触发",
+                label: i18n("dyform.item.20"),
                 actionName: "change",
                 fieldType: "button",
             },
@@ -2992,13 +2993,13 @@ export const formItems: CompType[] = [
         preps: [],
     },
     {
-        itemName: "富文本编辑器",
+        itemName: i18n("dyform.item.259"),
         itemType: "htmleditor",
         itemIcon: "html-text",
         category: 1,
         fields: [
             {
-                label: "上传地址",
+                label: i18n("dyform.item.207"),
                 fieldName: "action",
                 fieldType: "input",
                 required: false,
@@ -3008,7 +3009,7 @@ export const formItems: CompType[] = [
                 configParams: [],
             },
             {
-                label: "隐藏工具栏",
+                label: i18n("dyform.item.260"),
                 fieldName: "hideToolbar",
                 fieldType: "switch",
                 required: false,
@@ -3020,7 +3021,7 @@ export const formItems: CompType[] = [
         ],
         advancedFields: [
             {
-                label: "高度",
+                label: i18n("dyform.item.261"),
                 fieldName: "height",
                 fieldType: "input",
                 required: false,
@@ -3035,13 +3036,13 @@ export const formItems: CompType[] = [
         preps: [],
     },
     {
-        itemName: "树形选择器",
+        itemName: i18n("dyform.item.262"),
         itemType: "tselect",
         itemIcon: "tselect",
         category: 1,
         fields: [
             {
-                label: "显示选择框",
+                label: i18n("dyform.item.263"),
                 fieldName: "showCheckbox",
                 fieldType: "switch",
                 required: false,
@@ -3051,7 +3052,7 @@ export const formItems: CompType[] = [
                 configParams: [],
             },
             {
-                label: "允许选择父节点",
+                label: i18n("dyform.item.264"),
                 fieldName: "checkStrictly",
                 fieldType: "switch",
                 required: false,
@@ -3061,7 +3062,7 @@ export const formItems: CompType[] = [
                 configParams: [],
             },
             {
-                label: "显示所有选中标签",
+                label: i18n("dyform.item.35"),
                 fieldName: "collapseTagsTooltip",
                 fieldType: "switch",
                 required: false,
@@ -3071,7 +3072,7 @@ export const formItems: CompType[] = [
                 configParams: [],
             },
             {
-                label: "多选时按文字形式展示",
+                label: i18n("dyform.item.36"),
                 fieldName: "collapseTags",
                 fieldType: "switch",
                 required: false,
@@ -3081,7 +3082,7 @@ export const formItems: CompType[] = [
                 configParams: [],
             },
             {
-                label: "是否多选",
+                label: i18n("dyform.item.38"),
                 fieldName: "multiple",
                 fieldType: "switch",
                 required: false,
@@ -3091,7 +3092,7 @@ export const formItems: CompType[] = [
                 configParams: [],
             },
             {
-                label: "配置选项",
+                label: i18n("dyform.item.192"),
                 fieldName: "props",
                 fieldType: "json",
                 required: false,
@@ -3101,20 +3102,20 @@ export const formItems: CompType[] = [
                 configParams: [],
             },
             {
-                label: "值类型",
+                label: i18n("dyform.item.39"),
                 fieldName: "valueType",
                 fieldType: "select",
                 required: false,
                 selectValues: [
-                    {name: "字符串", value: "string"},
-                    {name: "数值", value: "number"},
+                    {name: i18n("dyform.item.40"), value: "string"},
+                    {name: i18n("dyform.item.41"), value: "number"},
                 ],
                 defaultValues: "",
                 category: 1,
                 configParams: [],
             },
             {
-                label: "是否可筛选",
+                label: i18n("dyform.item.37"),
                 fieldName: "filterable",
                 fieldType: "switch",
                 required: false,
@@ -3126,7 +3127,7 @@ export const formItems: CompType[] = [
         ],
         advancedFields: [
             {
-                label: "获得焦点弹出选项菜单",
+                label: i18n("dyform.item.76"),
                 fieldName: "automaticDropdown",
                 fieldType: "switch",
                 required: false,
@@ -3136,7 +3137,7 @@ export const formItems: CompType[] = [
                 configParams: [],
             },
             {
-                label: "获得焦点弹出选项菜单",
+                label: i18n("dyform.item.76"),
                 fieldName: "fitInputWidth",
                 fieldType: "switch",
                 required: false,
@@ -3146,7 +3147,7 @@ export const formItems: CompType[] = [
                 configParams: [],
             },
             {
-                label: "是否自动完成",
+                label: i18n("dyform.item.77"),
                 fieldName: "autocomplete",
                 fieldType: "switch",
                 required: false,
@@ -3156,7 +3157,7 @@ export const formItems: CompType[] = [
                 configParams: [],
             },
             {
-                label: "是否显示下拉箭头",
+                label: i18n("dyform.item.265"),
                 fieldName: "showArrow",
                 fieldType: "switch",
                 required: false,
@@ -3166,7 +3167,7 @@ export const formItems: CompType[] = [
                 configParams: [],
             },
             {
-                label: "从服务器加载内容时显示的文本",
+                label: i18n("dyform.item.66"),
                 fieldName: "loadingText",
                 fieldType: "input",
                 required: false,
@@ -3176,7 +3177,7 @@ export const formItems: CompType[] = [
                 configParams: [],
             },
             {
-                label: "默认选择第一个匹配项",
+                label: i18n("dyform.item.75"),
                 fieldName: "defaultFirstOption",
                 fieldType: "switch",
                 required: false,
@@ -3186,7 +3187,7 @@ export const formItems: CompType[] = [
                 configParams: [],
             },
             {
-                label: "自定义筛选方法",
+                label: i18n("dyform.item.67"),
                 fieldName: "filterMethod",
                 fieldType: "button",
                 required: false,
@@ -3196,7 +3197,7 @@ export const formItems: CompType[] = [
                 configParams: [],
             },
             {
-                label: "自定义类名",
+                label: i18n("dyform.item.68"),
                 fieldName: "popperClass",
                 fieldType: "input",
                 required: false,
@@ -3206,7 +3207,7 @@ export const formItems: CompType[] = [
                 configParams: [],
             },
             {
-                label: "无匹配时显示的文字",
+                label: i18n("dyform.item.69"),
                 fieldName: "noMatchText",
                 fieldType: "input",
                 required: false,
@@ -3216,55 +3217,55 @@ export const formItems: CompType[] = [
                 configParams: [],
             },
             {
-                label: "Tooltip 主题",
+                label: i18n("dyform.item.59"),
                 fieldName: "effect",
                 fieldType: "select",
                 required: false,
                 selectValues: [
-                    {name: "暗黑", value: "dark"},
-                    {name: "高亮", value: "light"},
+                    {name: i18n("dyform.item.60"), value: "dark"},
+                    {name: i18n("dyform.item.61"), value: "light"},
                 ],
                 defaultValues: "",
                 category: 2,
                 configParams: [],
             },
             {
-                label: "标签类型",
+                label: i18n("dyform.item.46"),
                 fieldName: "placement",
                 fieldType: "select",
                 required: false,
                 selectValues: [
-                    {name: "顶部", value: "top"},
+                    {name: i18n("dyform.item.47"), value: "top"},
                     {
-                        name: "顶部开始",
+                        name: i18n("dyform.item.48"),
                         value: "top-start",
                     },
-                    {name: "顶部结束", value: "top-end"},
-                    {name: "底部", value: "bottom"},
+                    {name: i18n("dyform.item.49"), value: "top-end"},
+                    {name: i18n("dyform.item.50"), value: "bottom"},
                     {
-                        name: "底部开始",
+                        name: i18n("dyform.item.51"),
                         value: "bottom-start",
                     },
-                    {name: "底部结束", value: "bottom-end"},
-                    {name: "左边", value: "left"},
+                    {name: i18n("dyform.item.52"), value: "bottom-end"},
+                    {name: i18n("dyform.item.53"), value: "left"},
                     {
-                        name: "左上",
+                        name: i18n("dyform.item.54"),
                         value: "left-start",
                     },
-                    {name: "左下", value: "left-end"},
-                    {name: "右边", value: "right"},
+                    {name: i18n("dyform.item.55"), value: "left-end"},
+                    {name: i18n("dyform.item.56"), value: "right"},
                     {
-                        name: "右上",
+                        name: i18n("dyform.item.57"),
                         value: "right-start",
                     },
-                    {name: "右下", value: "right-end"},
+                    {name: i18n("dyform.item.58"), value: "right-end"},
                 ],
                 defaultValues: "",
                 category: 2,
                 configParams: [],
             },
             {
-                label: "自定义远程搜索",
+                label: i18n("dyform.item.62"),
                 fieldName: "remoteMethod",
                 fieldType: "button",
                 required: false,
@@ -3274,7 +3275,7 @@ export const formItems: CompType[] = [
                 configParams: [],
             },
             {
-                label: "无数据显示的文字",
+                label: i18n("dyform.item.63"),
                 fieldName: "noDataText",
                 fieldType: "input",
                 required: false,
@@ -3284,7 +3285,7 @@ export const formItems: CompType[] = [
                 configParams: [],
             },
             {
-                label: "是否允许用户创建新条目",
+                label: i18n("dyform.item.74"),
                 fieldName: "allowCreate",
                 fieldType: "switch",
                 required: false,
@@ -3294,7 +3295,7 @@ export const formItems: CompType[] = [
                 configParams: [],
             },
             {
-                label: "唯一标识KEY",
+                label: i18n("dyform.item.64"),
                 fieldName: "valueKey",
                 fieldType: "input",
                 required: false,
@@ -3304,7 +3305,7 @@ export const formItems: CompType[] = [
                 configParams: [],
             },
             {
-                label: "最多可以选择的项目数",
+                label: i18n("dyform.item.65"),
                 fieldName: "multipleLimit",
                 fieldType: "number",
                 required: false,
@@ -3314,7 +3315,7 @@ export const formItems: CompType[] = [
                 configParams: [],
             },
             {
-                label: "是否保留搜索关键词",
+                label: i18n("dyform.item.42"),
                 fieldName: "reserveKeyword",
                 fieldType: "switch",
                 required: false,
@@ -3324,7 +3325,7 @@ export const formItems: CompType[] = [
                 configParams: [],
             },
             {
-                label: "否从服务器远程加载",
+                label: i18n("dyform.item.43"),
                 fieldName: "remote",
                 fieldType: "switch",
                 required: false,
@@ -3334,7 +3335,7 @@ export const formItems: CompType[] = [
                 configParams: [],
             },
             {
-                label: "是否正在从远程获取数据",
+                label: i18n("dyform.item.44"),
                 fieldName: "loading",
                 fieldType: "switch",
                 required: false,
@@ -3344,7 +3345,7 @@ export const formItems: CompType[] = [
                 configParams: [],
             },
             {
-                label: "占位信息",
+                label: i18n("dyform.item.7"),
                 fieldName: "placeholder",
                 fieldType: "input",
                 required: false,
@@ -3354,18 +3355,18 @@ export const formItems: CompType[] = [
                 configParams: [],
             },
             {
-                label: "标签类型",
+                label: i18n("dyform.item.46"),
                 fieldName: "tagType",
                 fieldType: "select",
                 required: false,
                 selectValues: [
-                    {name: "成功", value: "success"},
+                    {name: i18n("dyform.item.70"), value: "success"},
                     {
-                        name: "信息",
+                        name: i18n("dyform.item.71"),
                         value: "info",
                     },
-                    {name: "警告", value: "warning"},
-                    {name: "危险", value: "danger"},
+                    {name: i18n("dyform.item.72"), value: "warning"},
+                    {name: i18n("dyform.item.73"), value: "danger"},
                 ],
                 defaultValues: "",
                 category: 2,
@@ -3377,37 +3378,37 @@ export const formItems: CompType[] = [
         preps: [],
     },
     {
-        itemName: "标签输入框",
+        itemName: i18n("dyform.item.266"),
         itemType: "input-tag",
         itemIcon: "input",
         category: 1,
         fields: [
             {
-                label: "标签类型",
+                label: i18n("dyform.item.46"),
                 fieldName: "tagType",
                 fieldType: "select",
                 required: false,
                 selectValues: [
-                    {name: "无", value: ""},
-                    {name: "成功", value: "success"},
-                    {name: "信息", value: "info"},
-                    {name: "警告", value: "warning"},
-                    {name: "危险", value: "danger"},
+                    {name: i18n("dyform.item.267"), value: ""},
+                    {name: i18n("dyform.item.70"), value: "success"},
+                    {name: i18n("dyform.item.71"), value: "info"},
+                    {name: i18n("dyform.item.72"), value: "warning"},
+                    {name: i18n("dyform.item.73"), value: "danger"},
                 ],
                 defaultValues: "",
                 category: 1,
                 configParams: [],
             },
             {
-                label: "标签效果",
+                label: i18n("dyform.item.268"),
                 fieldName: "tagEffect",
                 fieldType: "select",
                 required: false,
                 selectValues: [
-                    {name: "无", value: ""},
-                    {name: "高亮", value: "light"},
-                    {name: "黑色", value: "dark"},
-                    {name: "普通", value: "plain"},
+                    {name: i18n("dyform.item.267"), value: ""},
+                    {name: i18n("dyform.item.61"), value: "light"},
+                    {name: i18n("dyform.item.269"), value: "dark"},
+                    {name: i18n("dyform.item.270"), value: "plain"},
 
                 ],
                 defaultValues: "",
@@ -3415,13 +3416,13 @@ export const formItems: CompType[] = [
                 configParams: [],
             },
             {
-                label: "触发按键",
+                label: i18n("dyform.item.271"),
                 fieldName: "trigger",
                 fieldType: "select",
                 required: false,
                 selectValues: [
-                    {name: "回车", value: "Enter"},
-                    {name: "空格", value: "Space"},
+                    {name: i18n("dyform.item.272"), value: "Enter"},
+                    {name: i18n("dyform.item.273"), value: "Space"},
 
                 ],
                 defaultValues: "Enter",
@@ -3429,7 +3430,7 @@ export const formItems: CompType[] = [
                 configParams: [],
             },
             {
-                label: "是否可拖动标签",
+                label: i18n("dyform.item.274"),
                 fieldName: "draggable",
                 fieldType: "switch",
                 required: false,
@@ -3438,7 +3439,7 @@ export const formItems: CompType[] = [
                 configParams: [],
             },
             {
-                label: "标签最大数量",
+                label: i18n("dyform.item.275"),
                 fieldName: "max",
                 fieldType: "number",
                 required: false,
@@ -3446,7 +3447,7 @@ export const formItems: CompType[] = [
                 configParams: [],
             },
             {
-                label: "匹配分隔符添加标签",
+                label: i18n("dyform.item.276"),
                 fieldName: "delimiter",
                 fieldType: "input",
                 required: false,
@@ -3456,7 +3457,7 @@ export const formItems: CompType[] = [
         ],
         advancedFields: [
             {
-                label: "多选时是否将选中值按文字的形式展示",
+                label: i18n("dyform.item.277"),
                 fieldName: "collapseTags",
                 fieldType: "switch",
                 required: false,
@@ -3464,7 +3465,7 @@ export const formItems: CompType[] = [
                 configParams: [],
             },
             {
-                label: "折叠鼠标悬停显示标签",
+                label: i18n("dyform.item.278"),
                 fieldName: "collapseTagsTooltip",
                 fieldType: "switch",
                 required: false,
@@ -3472,7 +3473,7 @@ export const formItems: CompType[] = [
                 configParams: [],
             },
             {
-                label: "需要显示的Tag的最大数量",
+                label: i18n("dyform.item.279"),
                 fieldName: "maxCollapseTags",
                 fieldType: "number",
                 required: false,
@@ -3484,27 +3485,27 @@ export const formItems: CompType[] = [
         selfFields: [],
         actions: [
             {
-                label: "数据改变时触发",
+                label: i18n("dyform.item.20"),
                 actionName: "change",
                 fieldType: "button",
             },
             {
-                label: "添加标签",
+                label: i18n("dyform.item.280"),
                 actionName: "addTag",
                 fieldType: "button",
             },
             {
-                label: "移除标签",
+                label: i18n("dyform.item.281"),
                 actionName: "removeTag",
                 fieldType: "button",
             },
             {
-                label: "拖动标签",
+                label: i18n("dyform.item.282"),
                 actionName: "dragTag",
                 fieldType: "button",
             },
             {
-                label: "清除",
+                label: i18n("dyform.item.283"),
                 actionName: "clear",
                 fieldType: "button",
             },
@@ -3512,7 +3513,7 @@ export const formItems: CompType[] = [
         preps: [],
     },
     {
-        itemName: "Html组件",
+        itemName: i18n("dyform.item.284"),
         itemType: "html",
         itemIcon: "text",
         category: 1,
@@ -3523,7 +3524,7 @@ export const formItems: CompType[] = [
         preps: [],
     },
     {
-        itemName: "静态文本",
+        itemName: i18n("dyform.item.285"),
         itemType: "text",
         itemIcon: "text",
         category: 1,
@@ -3534,13 +3535,13 @@ export const formItems: CompType[] = [
         preps: [],
     },
     {
-        itemName: "数据范围",
+        itemName: i18n("dyform.item.286"),
         itemType: "number-range",
         itemIcon: "number-field",
         category: 1,
         fields: [
             {
-                label: "数值精度",
+                label: i18n("dyform.item.26"),
                 fieldName: "precision",
                 fieldType: "number",
                 required: false,
@@ -3550,7 +3551,7 @@ export const formItems: CompType[] = [
                 configParams: [],
             },
             {
-                label: "计数器步长",
+                label: i18n("dyform.item.25"),
                 fieldName: "step",
                 fieldType: "input",
                 required: false,
@@ -3562,7 +3563,7 @@ export const formItems: CompType[] = [
         ],
         advancedFields: [
             {
-                label: "是否使用控制按钮",
+                label: i18n("dyform.item.30"),
                 fieldName: "controls",
                 fieldType: "switch",
                 required: false,
@@ -3572,7 +3573,7 @@ export const formItems: CompType[] = [
                 configParams: [],
             },
             {
-                label: "最小值",
+                label: i18n("dyform.item.28"),
                 fieldName: "min",
                 fieldType: "input",
                 required: false,
@@ -3582,7 +3583,7 @@ export const formItems: CompType[] = [
                 configParams: [],
             },
             {
-                label: "最大值",
+                label: i18n("dyform.item.29"),
                 fieldName: "max",
                 fieldType: "input",
                 required: false,
@@ -3592,20 +3593,20 @@ export const formItems: CompType[] = [
                 configParams: [],
             },
             {
-                label: "清空时显示的值",
+                label: i18n("dyform.item.27"),
                 fieldName: "valueOnClear",
                 fieldType: "select",
                 required: false,
                 selectValues: [
-                    {name: "最小值", value: "min"},
-                    {name: "最大值", value: "max"},
+                    {name: i18n("dyform.item.28"), value: "min"},
+                    {name: i18n("dyform.item.29"), value: "max"},
                 ],
                 defaultValues: "",
                 category: 2,
                 configParams: [],
             },
             {
-                label: "占位信息",
+                label: i18n("dyform.item.7"),
                 fieldName: "placeholder",
                 fieldType: "input",
                 required: false,
@@ -3620,13 +3621,13 @@ export const formItems: CompType[] = [
         preps: [],
     },
     {
-        itemName: "分割线",
+        itemName: i18n("dyform.item.287"),
         itemType: "divider",
         itemIcon: "divider",
         category: 1,
         fields: [
             {
-                label: "内容",
+                label: i18n("dyform.item.3"),
                 fieldName: "content",
                 fieldType: "input",
                 required: false,
@@ -3636,15 +3637,15 @@ export const formItems: CompType[] = [
                 configParams: [],
             },
             {
-                label: "内容位置",
+                label: i18n("dyform.item.288"),
                 fieldName: "contentPosition",
                 fieldType: "select",
                 required: false,
                 selectValues: [
-                    {name: "左", value: "left"},
-                    {name: "中", value: "center"},
+                    {name: i18n("dyform.item.32"), value: "left"},
+                    {name: i18n("dyform.item.289"), value: "center"},
                     {
-                        name: "右",
+                        name: i18n("dyform.item.33"),
                         value: "right",
                     },
                 ],
@@ -3653,13 +3654,13 @@ export const formItems: CompType[] = [
                 configParams: [],
             },
             {
-                label: "方向",
+                label: i18n("dyform.item.290"),
                 fieldName: "direction",
                 fieldType: "select",
                 required: false,
                 selectValues: [
-                    {name: "水平", value: "horizontal"},
-                    {name: "垂直", value: "vertical"},
+                    {name: i18n("dyform.item.291"), value: "horizontal"},
+                    {name: i18n("dyform.item.292"), value: "vertical"},
                 ],
                 defaultValues: "",
                 category: 1,
@@ -3672,19 +3673,19 @@ export const formItems: CompType[] = [
         preps: [],
     },
     {
-        itemName: "图标",
+        itemName: i18n("dyform.item.139"),
         itemType: "icon",
         itemIcon: "icon",
         category: 1,
         fields: [
             {
-                label: "图标类型",
+                label: i18n("dyform.item.293"),
                 fieldName: "iconType",
                 fieldType: "select",
                 required: false,
                 selectValues: [
-                    {name: "系统图标", value: "system"},
-                    {name: "用户自定义图标", value: "user"},
+                    {name: i18n("dyform.item.294"), value: "system"},
+                    {name: i18n("dyform.item.295"), value: "user"},
                 ],
                 defaultValues: "",
                 category: 1,
@@ -3698,39 +3699,39 @@ export const formItems: CompType[] = [
     },
 
     {
-        itemName: "图片",
+        itemName: i18n("dyform.item.199"),
         itemType: "image",
         itemIcon: "image",
         category: 1,
         fields: [
             {
-                label: "图片展示风格",
+                label: i18n("dyform.item.296"),
                 fieldName: "assignType",
                 fieldType: "select",
                 required: false,
                 selectValues: [
-                    {name: "路径", value: "url"},
-                    {name: "图片", value: "image"},
+                    {name: i18n("dyform.item.297"), value: "url"},
+                    {name: i18n("dyform.item.199"), value: "image"},
                 ],
                 defaultValues: "",
                 category: 1,
                 configParams: [],
             },
             {
-                label: "适应类型",
+                label: i18n("dyform.item.298"),
                 fieldName: "fit",
                 fieldType: "select",
                 required: false,
                 selectValues: [
-                    {name: "填充", value: "fill"},
+                    {name: i18n("dyform.item.299"), value: "fill"},
                     {
-                        name: "包含",
+                        name: i18n("dyform.item.300"),
                         value: "contain",
                     },
-                    {name: "覆盖", value: "cover"},
-                    {name: "无", value: "none"},
+                    {name: i18n("dyform.item.301"), value: "cover"},
+                    {name: i18n("dyform.item.267"), value: "none"},
                     {
-                        name: "向下缩放",
+                        name: i18n("dyform.item.302"),
                         value: "scale-down",
                     },
                 ],
@@ -3739,7 +3740,7 @@ export const formItems: CompType[] = [
                 configParams: [],
             },
             {
-                label: "预览数据",
+                label: i18n("dyform.item.303"),
                 fieldName: "previewSrcList",
                 fieldType: "json",
                 required: false,
@@ -3751,7 +3752,7 @@ export const formItems: CompType[] = [
         ],
         advancedFields: [
             {
-                label: "缩放速率",
+                label: i18n("dyform.item.304"),
                 fieldName: "zoomRate",
                 fieldType: "input",
                 required: false,
@@ -3761,7 +3762,7 @@ export const formItems: CompType[] = [
                 configParams: [],
             },
             {
-                label: "图片高度",
+                label: i18n("dyform.item.305"),
                 fieldName: "height",
                 fieldType: "input",
                 required: false,
@@ -3771,7 +3772,7 @@ export const formItems: CompType[] = [
                 configParams: [],
             },
             {
-                label: "图片宽度",
+                label: i18n("dyform.item.306"),
                 fieldName: "width",
                 fieldType: "input",
                 required: false,
@@ -3781,7 +3782,7 @@ export const formItems: CompType[] = [
                 configParams: [],
             },
             {
-                label: "最大缩放比例",
+                label: i18n("dyform.item.307"),
                 fieldName: "maxScale",
                 fieldType: "input",
                 required: false,
@@ -3791,7 +3792,7 @@ export const formItems: CompType[] = [
                 configParams: [],
             },
             {
-                label: "最小缩放比例",
+                label: i18n("dyform.item.308"),
                 fieldName: "minScale",
                 fieldType: "input",
                 required: false,
@@ -3801,7 +3802,7 @@ export const formItems: CompType[] = [
                 configParams: [],
             },
             {
-                label: "预览图像索引",
+                label: i18n("dyform.item.309"),
                 fieldName: "initialIndex",
                 fieldType: "input",
                 required: false,
@@ -3826,7 +3827,7 @@ export const formItems: CompType[] = [
         preps: [],
     },
     {
-        itemName: "模态窗口",
+        itemName: i18n("dyform.item.310"),
         itemType: "dialog",
         itemIcon: "map",
         category: 1,
@@ -3837,7 +3838,7 @@ export const formItems: CompType[] = [
         preps: [],
     },
     {
-        itemName: "抽屉",
+        itemName: i18n("dyform.item.311"),
         itemType: "drawer",
         itemIcon: "map",
         category: 1,

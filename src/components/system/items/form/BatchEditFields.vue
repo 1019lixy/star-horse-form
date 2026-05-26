@@ -17,24 +17,48 @@ let batchModifyData = reactive<any>({
   searchVisible: true,
   listVisible: true,
 });
+// 递归处理condition容器的子条件节点
+const batchModifyConditionChildren = (children: any[], val: any, fieldName: string) => {
+  for (const child of children) {
+    // 处理子条件节点的items（在根级别）
+    if (child.items && Array.isArray(child.items)) {
+      batchModifyAction(child.items, fieldName == "dataIndex" ? val++ : val, fieldName);
+    }
+    // 递归处理更深层的子条件
+    if (child.children && Array.isArray(child.children)) {
+      batchModifyConditionChildren(child.children, val, fieldName);
+    }
+  }
+};
+
 const batchModifyAction = (items: Array<any>, val: any, fieldName: string) => {
   for (const index in items) {
     const item = items[index];
     if (item.compType == "container") {
-      const sitems = item.preps.elements;
-      for (const sindex in sitems) {
-        const col = sitems[sindex];
-        if (col.columns && Array.isArray(col.columns)) {
-          col.columns.forEach((temp: any) => {
-            batchModifyAction(temp.items, fieldName == "dataIndex" ? val++ : val, fieldName);
-          });
-        } else {
-          batchModifyAction(col.items, fieldName == "dataIndex" ? val++ : val, fieldName);
+      // condition容器：处理preps.items/preps.children和根级别items/children
+      if (item.itemType === "condition") {
+        // 根级别的items（子条件节点）
+        if (item.children && Array.isArray(item.children)) {
+          batchModifyAction(item.children, fieldName == "dataIndex" ? val++ : val, fieldName);
+        }
+      } else {
+        // 其他容器：处理preps.elements
+        const sitems = item.preps?.elements;
+        if (sitems) {
+          for (const sindex in sitems) {
+            const col = sitems[sindex];
+            if (col.columns && Array.isArray(col.columns)) {
+              col.columns.forEach((temp: any) => {
+                batchModifyAction(temp.items, fieldName == "dataIndex" ? val++ : val, fieldName);
+              });
+            } else {
+              batchModifyAction(col.items, fieldName == "dataIndex" ? val++ : val, fieldName);
+            }
+          }
         }
       }
     } else {
       item.preps[fieldName] = fieldName == "dataIndex" ? val++ : val;
-
     }
   }
 };
@@ -186,34 +210,21 @@ const batchOperation = (val: any, fieldName: string) => {
             </colgroup>
             <tbody>
             <template v-for="(item, index) in list">
-              <template
-                  v-if="item.compType == 'container'"
-                  v-for="sitem in item.preps['elements']"
-              >
-                <template v-for="sitem1 in sitem['columns']">
-                  <template v-for="(sitem2, sindex) in sitem1.items">
-                    <FieldAnalysis
-                        :index="index + sindex + 1"
-                        :size="compSize"
-                        :field="sitem2"
-                        :container="item.preps.label"
-                    />
-                  </template>
-                </template>
-                <template v-for="(sitem2, sindex) in sitem.items">
-                  <FieldAnalysis
-                      :index="index + sindex + 1"
-                      :size="compSize"
-                      :field="sitem2"
-                      :container="sitem.label || item.preps.label"
-                  />
-                </template>
+              <!-- 容器类型：通过FieldAnalysis递归处理（包括condition容器） -->
+              <template v-if="item.compType == 'container'">
+                <FieldAnalysis
+                    :index="index + 1"
+                    :size="compSize"
+                    :field="item"
+                    :container="item.preps.label || item.label || '--'"
+                />
               </template>
+              <!-- 非容器类型 -->
               <FieldAnalysis
                   :index="index + 1"
                   :field="item"
                   :size="compSize"
-                  v-if="item.compType == 'item' || item.compType == 'formItem'"
+                  v-else-if="item.compType == 'item' || item.compType == 'formItem'"
                   :container="'--'"
               />
             </template>

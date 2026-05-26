@@ -59,8 +59,8 @@ const cooperationConfigVisible = ref<boolean>(false);
 const tempForm = ref<any>({});
 const cooperationFormRef = ref();
 const roleList: any = [
-  {name: "张三", value: "zhangsan", userId: "zhangsan"},
-  {name: "李四", value: "lisi", userId: "lisi"},
+  {name: i18n("dyform.toolbar.testUser1"), value: "zhangsan", userId: "zhangsan"},
+  {name: i18n("dyform.toolbar.testUser2"), value: "lisi", userId: "lisi"},
 ];
 const cooperationConfig = () => {
   cooperationConfigVisible.value = true;
@@ -92,16 +92,16 @@ onMounted(() => {
       @merge="() => doSave(false)"
       boxHeight="30%"
       boxWidth="40%"
-      title="协作配置"
+      :title="i18n('dyform.toolbar.cooperationConfig')"
   >
     <el-form :model="tempForm" ref="cooperationFormRef">
-      <el-form-item label="是否协作" required prop="cooperation">
+      <el-form-item :label="i18n('dyform.toolbar.isCooperation')" required prop="cooperation">
         <el-input v-model="tempForm.cooperation"/>
       </el-form-item>
-      <el-form-item label="表单Id" required prop="formId">
+      <el-form-item :label="i18n('dyform.toolbar.formId')" required prop="formId">
         <el-input v-model="tempForm.formId"/>
       </el-form-item>
-      <el-form-item label="角色" required prop="roleId">
+      <el-form-item :label="i18n('dyform.toolbar.role')" required prop="roleId">
         <el-radio-group v-model="tempForm.roleId">
           <el-radio :value="item.value" v-for="item in roleList">
             {{ item.name }}
@@ -171,7 +171,7 @@ onMounted(() => {
     <div class="toolbar-right">
       <el-tooltip
           class="item"
-          content="协作配置"
+          :content="i18n('dyform.toolbar.cooperationConfig')"
           effect="dark"
           placement="bottom"
       >
@@ -182,7 +182,7 @@ onMounted(() => {
             v-if="optional?.cooperationMode ?? false"
         />
       </el-tooltip>
-      <el-tooltip class="item" content="配置" effect="dark" placement="bottom">
+      <el-tooltip class="item" :content="i18n('dyform.toolbar.config')" effect="dark" placement="bottom">
         <star-horse-icon
             v-if="optional?.hideConfigBtn ?? true"
             icon-class="setting"

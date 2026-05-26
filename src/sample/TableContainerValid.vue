@@ -12,6 +12,7 @@
 <script lang="ts" setup>
 import {onMounted, ref} from "vue";
 import {analysisCompDatas, getDesignFormStore} from "star-horse-lowcode";
+import {i18n} from "@/lang";
 import TableContainer from "@/components/formcomp/container/table-container.vue";
 
 let designForm = getDesignFormStore();
@@ -23,8 +24,8 @@ const fields = {
   "id": "Idsh829d2794-3cb8-4b02-96b4-1c2655d1a646",
   "preps": {
     "id": "Idsh829d2794-3cb8-4b02-96b4-1c2655d1a646",
-    "label": "动态列表",
-    "itemNameLabel": "动态列表",
+    "label": i18n("dyform.sample.dynamicList"),
+    "itemNameLabel": i18n("dyform.sample.dynamicList"),
     "name": "table1",
     "elements": [
       {
@@ -36,12 +37,12 @@ const fields = {
             "id": "Idshb790dbe5-4215-4e86-94d9-abe715ce0b55",
             "preps": {
               "id": "Idshb790dbe5-4215-4e86-94d9-abe715ce0b55",
-              "label": "单行文本框",
-              "itemNameLabel": "单行文本框",
+              "label": i18n("dyform.sample.singleLineInput"),
+              "itemNameLabel": i18n("dyform.sample.singleLineInput"),
               "name": "input2",
               "clearable": true,
               "readonly": false,
-              "placeholder": "请输入单行文本框",
+              "placeholder": i18n("dyform.sample.enterSingleLineInput"),
               "rules": [],
               "maxLength": 255,
               "formVisible": true,
@@ -51,7 +52,7 @@ const fields = {
             "compType": "formItem",
             "fieldName": "input2",
             "itemType": "input",
-            "label": "单行文本框",
+            "label": i18n("dyform.sample.singleLineInput"),
             "type": "input"
           }
         ]
@@ -63,12 +64,12 @@ const fields = {
             "id": "Idsh49036256-5b09-45ea-a9da-ed64610ce886",
             "preps": {
               "id": "Idsh49036256-5b09-45ea-a9da-ed64610ce886",
-              "label": "单行文本框",
-              "itemNameLabel": "单行文本框",
+              "label": i18n("dyform.sample.singleLineInput"),
+              "itemNameLabel": i18n("dyform.sample.singleLineInput"),
               "name": "input3",
               "clearable": true,
               "readonly": false,
-              "placeholder": "请输入单行文本框",
+              "placeholder": i18n("dyform.sample.enterSingleLineInput"),
               "rules": [],
               "maxLength": 255,
               "formVisible": true,
@@ -78,7 +79,7 @@ const fields = {
             "compType": "formItem",
             "fieldName": "input3",
             "itemType": "input",
-            "label": "单行文本框",
+            "label": i18n("dyform.sample.singleLineInput"),
             "type": "input"
           }
         ]
@@ -90,12 +91,12 @@ const fields = {
             "id": "Idsh21f9f594-594d-427a-a1de-f5df5681b16a",
             "preps": {
               "id": "Idsh21f9f594-594d-427a-a1de-f5df5681b16a",
-              "label": "单行文本框",
-              "itemNameLabel": "单行文本框",
+              "label": i18n("dyform.sample.singleLineInput"),
+              "itemNameLabel": i18n("dyform.sample.singleLineInput"),
               "name": "input4",
               "clearable": true,
               "readonly": false,
-              "placeholder": "请输入单行文本框",
+              "placeholder": i18n("dyform.sample.enterSingleLineInput"),
               "rules": [],
               "maxLength": 255,
               "formVisible": true,
@@ -105,7 +106,7 @@ const fields = {
             "compType": "formItem",
             "fieldName": "input4",
             "itemType": "input",
-            "label": "单行文本框",
+            "label": i18n("dyform.sample.singleLineInput"),
             "type": "input"
           }
         ]
@@ -117,12 +118,12 @@ const fields = {
             "id": "Idshbbb4ea6d-7ce2-4650-90d6-c88cb0c900b9",
             "preps": {
               "id": "Idshbbb4ea6d-7ce2-4650-90d6-c88cb0c900b9",
-              "label": "单行文本框",
-              "itemNameLabel": "单行文本框",
+              "label": i18n("dyform.sample.singleLineInput"),
+              "itemNameLabel": i18n("dyform.sample.singleLineInput"),
               "name": "input5",
               "clearable": true,
               "readonly": false,
-              "placeholder": "请输入单行文本框",
+              "placeholder": i18n("dyform.sample.enterSingleLineInput"),
               "rules": [],
               "maxLength": 255,
               "formVisible": true,
@@ -132,7 +133,7 @@ const fields = {
             "compType": "formItem",
             "fieldName": "input5",
             "itemType": "input",
-            "label": "单行文本框",
+            "label": i18n("dyform.sample.singleLineInput"),
             "type": "input"
           }
         ]
@@ -144,12 +145,12 @@ const fields = {
             "id": "Idsh505a394a-6d9d-4496-b6c5-dee6e72d1da9",
             "preps": {
               "id": "Idsh505a394a-6d9d-4496-b6c5-dee6e72d1da9",
-              "label": "单行文本框",
-              "itemNameLabel": "单行文本框",
+              "label": i18n("dyform.sample.singleLineInput"),
+              "itemNameLabel": i18n("dyform.sample.singleLineInput"),
               "name": "input6",
               "clearable": true,
               "readonly": false,
-              "placeholder": "请输入单行文本框",
+              "placeholder": i18n("dyform.sample.enterSingleLineInput"),
               "rules": [],
               "maxLength": 255,
               "formVisible": true,
@@ -159,7 +160,7 @@ const fields = {
             "compType": "formItem",
             "fieldName": "input6",
             "itemType": "input",
-            "label": "单行文本框",
+            "label": i18n("dyform.sample.singleLineInput"),
             "type": "input"
           }
         ]

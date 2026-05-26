@@ -9,6 +9,7 @@ import {
     SelectOption,
     warning,
 } from "star-horse-lowcode";
+import {i18n} from "@/lang";
 
 const dbInfoUrl = apiInstance("userdb-manage", "dbsearch/dbinfo");
 
@@ -21,7 +22,7 @@ export function openDatabase(configId: any): Promise<any> | null {
     if (!configId) {
         return null;
     }
-    load("数据加载中");
+    load(i18n("dyform.utils.585"));
     return new Promise<any>((resolve, reject) => {
         getRequest(`${dbInfoUrl.basePrefix}/openConn/${configId}`)
             .then((res: any) => {

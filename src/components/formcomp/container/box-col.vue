@@ -1,5 +1,6 @@
 <script setup lang="ts" name="box-container">
 import {computed, onMounted, PropType} from "vue";
+import {i18n} from "@/lang";
 // import piniaInstance from "@/store/index";
 import {tableCellOperation} from "@/components/formcomp/container/dytableUtils";
 import {getDesignFormStore, itemCheck, uuid, warning} from "star-horse-lowcode";
@@ -48,7 +49,7 @@ const onDragAdd = (evt: Event | any, dataList: any) => {
   selectCurrentTd();
   let newIndex = evt.newIndex;
   if (excludeContainerType.includes(draggingItem.value.itemType)) {
-    warning("栅格容器不允许嵌套其他容器");
+    warning(i18n("dyform.comp.container.443"));
     let elements = props.field.preps.elements;
     for (let inde in elements) {
       let element = elements[inde];

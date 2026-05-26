@@ -1,5 +1,6 @@
 import axios, {AxiosResponse, InternalAxiosRequestConfig} from "axios";
 import {error, getFingerId, warning} from "star-horse-lowcode";
+import {i18n} from "@/lang";
 
 const TOKENCONST: string = "sh116b13e3c8664406b2e7e7570a68e289";
 const axiosInstance = axios.create({
@@ -38,7 +39,7 @@ axiosInstance.interceptors.response.use(
         const code = response.data?.code;
         // 401 未登录
         if (code === 401) {
-            warning("Session超时")
+            warning(i18n("dyform.api.sessionExpired"))
         } else {
             return response;
         }
@@ -47,9 +48,9 @@ axiosInstance.interceptors.response.use(
         let data = err?.response?.status ?? err.toString().toLowerCase();
         data = String(data);
         if (data === "401" || data?.includes("status code 401")) {
-            warning("Session超时")
+            warning(i18n("dyform.api.sessionExpired"))
         } else if (data === "500" || data?.includes("status code 500")) {
-            error("服务接口异常，请联系管理员");
+            error(i18n("dyform.api.serverError"));
             return Promise.reject(err);
         } else {
             // 对响应错误做点什么

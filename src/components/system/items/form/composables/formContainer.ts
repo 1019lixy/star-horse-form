@@ -1,22 +1,23 @@
 import { CompType } from "star-horse-lowcode";
+import {i18n} from "@/lang";
 
 export const formContainer: CompType[] = [
   {
-    itemName: "栅格",
+    itemName: i18n("dyform.container.312"),
     itemType: "box",
     itemIcon: "box",
     category: 2,
-    remark: "帮助排列组件风格",
+    remark: i18n("dyform.container.313"),
     fields: [
       {
-        label: "垂直排列方式",
+        label: i18n("dyform.container.314"),
         fieldName: "align",
         fieldType: "select",
         required: false,
         selectValues: [
-          { name: "顶部", value: "top" },
-          { name: "居中", value: "middle" },
-          { name: "底部", value: "bottom" },
+          { name: i18n("dyform.item.47"), value: "top" },
+          { name: i18n("dyform.container.315"), value: "middle" },
+          { name: i18n("dyform.item.50"), value: "bottom" },
         ],
         defaultValues: "",
         category: 1,
@@ -25,7 +26,7 @@ export const formContainer: CompType[] = [
     ],
     advancedFields: [
       {
-        label: "水平排列方式",
+        label: i18n("dyform.container.316"),
         fieldName: "justify",
         fieldType: "select",
         required: false,
@@ -42,7 +43,7 @@ export const formContainer: CompType[] = [
         configParams: [],
       },
       {
-        label: "栅格间隔",
+        label: i18n("dyform.container.317"),
         fieldName: "gutter",
         fieldType: "number",
         required: false,
@@ -52,7 +53,7 @@ export const formContainer: CompType[] = [
         configParams: [],
       },
       {
-        label: "自定义元素标签",
+        label: i18n("dyform.container.318"),
         fieldName: "tag",
         fieldType: "input",
         required: false,
@@ -73,7 +74,7 @@ export const formContainer: CompType[] = [
     category: 2,
     fields: [
       {
-        label: "标签的宽度是否自撑开",
+        label: i18n("dyform.container.319"),
         fieldName: "stretch",
         fieldType: "switch",
         required: false,
@@ -81,7 +82,7 @@ export const formContainer: CompType[] = [
         configParams: [],
       },
       {
-        label: "标签是否同时可增加和关闭",
+        label: i18n("dyform.container.320"),
         fieldName: "editable",
         fieldType: "switch",
         required: false,
@@ -89,7 +90,7 @@ export const formContainer: CompType[] = [
         configParams: [],
       },
       {
-        label: "标签是否可增加",
+        label: i18n("dyform.container.321"),
         fieldName: "addable",
         fieldType: "switch",
         required: false,
@@ -97,36 +98,36 @@ export const formContainer: CompType[] = [
         configParams: [],
       },
       {
-        label: "选项卡所在位置",
+        label: i18n("dyform.container.322"),
         fieldName: "tablePosition",
         fieldType: "select",
         required: false,
         selectValues: [
-          { name: "顶部", value: "top" },
-          { name: "右侧", value: "right" },
-          { name: "底部", value: "bottom" },
-          { name: "左侧", value: "left" },
+          { name: i18n("dyform.item.47"), value: "top" },
+          { name: i18n("dyform.container.323"), value: "right" },
+          { name: i18n("dyform.item.50"), value: "bottom" },
+          { name: i18n("dyform.container.324"), value: "left" },
         ],
         defaultValues: "",
         category: 1,
         configParams: [],
       },
       {
-        label: "风格",
+        label: i18n("dyform.container.325"),
         fieldName: "type",
         fieldType: "select",
         required: false,
         selectValues: [
-          { name: "无", value: "—" },
-          { name: "卡片", value: "card" },
-          { name: "有边框卡片", value: "border-card" },
+          { name: i18n("dyform.item.267"), value: "—" },
+          { name: i18n("dyform.container.326"), value: "card" },
+          { name: i18n("dyform.container.327"), value: "border-card" },
         ],
         defaultValues: "",
         category: 1,
         configParams: [],
       },
       {
-        label: "标签可关闭",
+        label: i18n("dyform.container.328"),
         fieldName: "closable",
         fieldType: "switch",
         required: false,
@@ -140,13 +141,13 @@ export const formContainer: CompType[] = [
     preps: [],
   },
   {
-    itemName: "动态列表",
+    itemName: i18n("dyform.container.329"),
     itemType: "table",
     itemIcon: "table",
     category: 2,
     fields: [
       {
-        label: "列表描述",
+        label: i18n("dyform.container.330"),
         fieldName: "label",
         fieldType: "input",
         required: true,
@@ -154,7 +155,7 @@ export const formContainer: CompType[] = [
         configParams: [],
       },
       {
-        label: "是否支持模板下载",
+        label: i18n("dyform.container.331"),
         fieldName: "templateDownFlag",
         fieldType: "switch",
         required: false,
@@ -162,7 +163,7 @@ export const formContainer: CompType[] = [
         configParams: [],
       },
       {
-        label: "是否支持导入",
+        label: i18n("dyform.container.332"),
         fieldName: "importFlag",
         fieldType: "switch",
         required: false,
@@ -170,7 +171,7 @@ export const formContainer: CompType[] = [
         configParams: [],
       },
       {
-        label: "是否子表",
+        label: i18n("dyform.container.333"),
         fieldName: "subFormFlag",
         fieldType: "switch",
         required: false,
@@ -179,7 +180,7 @@ export const formContainer: CompType[] = [
         configParams: [],
       },
       {
-        label: "主键",
+        label: i18n("dyform.container.334"),
         fieldName: "primaryKeyName",
         fieldType: "input",
         required: true,
@@ -187,7 +188,7 @@ export const formContainer: CompType[] = [
         configParams: [],
       },
       {
-        label: "集合名称",
+        label: i18n("dyform.container.335"),
         fieldName: "batchFieldName",
         fieldType: "input",
         required: true,
@@ -195,7 +196,7 @@ export const formContainer: CompType[] = [
         configParams: [],
       },
       {
-        label: "表格列数",
+        label: i18n("dyform.container.336"),
         fieldName: "columns",
         fieldType: "number",
         required: false,
@@ -207,7 +208,7 @@ export const formContainer: CompType[] = [
     ],
     advancedFields: [
       {
-        label: "表格间隔",
+        label: i18n("dyform.container.337"),
         fieldName: "gutter",
         fieldType: "number",
         required: false,
@@ -217,14 +218,14 @@ export const formContainer: CompType[] = [
         configParams: [],
       },
       {
-        label: "布局下的垂直排列方式",
+        label: i18n("dyform.container.338"),
         fieldName: "align",
         fieldType: "select",
         required: false,
         selectValues: [
-          { name: "顶部", value: "top" },
-          { name: "居中", value: "middle" },
-          { name: "底部", value: "bottom" },
+          { name: i18n("dyform.item.47"), value: "top" },
+          { name: i18n("dyform.container.315"), value: "middle" },
+          { name: i18n("dyform.item.50"), value: "bottom" },
         ],
         defaultValues: "",
         category: 2,
@@ -236,7 +237,7 @@ export const formContainer: CompType[] = [
     preps: [],
   },
   {
-    itemName: "折叠面板",
+    itemName: i18n("dyform.container.339"),
     itemType: "collapse",
     itemIcon: "text",
     category: 2,
@@ -247,7 +248,7 @@ export const formContainer: CompType[] = [
     preps: [],
   },
   {
-    itemName: "卡片",
+    itemName: i18n("dyform.container.326"),
     itemType: "card",
     itemIcon: "text",
     category: 2,
@@ -258,13 +259,13 @@ export const formContainer: CompType[] = [
     preps: [],
   },
   {
-    itemName: "动态表格",
+    itemName: i18n("dyform.container.340"),
     itemType: "dytable",
     itemIcon: "text",
     category: 2,
     fields: [
       {
-        label: "行间距",
+        label: i18n("dyform.container.341"),
         fieldName: "rowSpan",
         fieldType: "input",
         required: false,
@@ -274,7 +275,7 @@ export const formContainer: CompType[] = [
         configParams: [],
       },
       {
-        label: "列间距",
+        label: i18n("dyform.container.342"),
         fieldName: "colSpan",
         fieldType: "input",
         required: false,
@@ -290,13 +291,13 @@ export const formContainer: CompType[] = [
     preps: [],
   },
   {
-    itemName: "分栏容器",
+    itemName: i18n("dyform.container.343"),
     itemType: "splitter",
     itemIcon: "text",
     category: 2,
     fields: [
       {
-        label: "懒加载",
+        label: i18n("dyform.container.344"),
         fieldName: "lazy",
         fieldType: "switch",
         required: false,
@@ -306,15 +307,46 @@ export const formContainer: CompType[] = [
         configParams: [],
       },
       {
-        label: "布局",
+        label: i18n("dyform.container.345"),
         fieldName: "layout",
         fieldType: "select",
         required: false,
         selectValues: [
-          { name: "水平", value: "horizontal" },
-          { name: "垂直", value: "vertical" },
+          { name: i18n("dyform.item.291"), value: "horizontal" },
+          { name: i18n("dyform.item.292"), value: "vertical" },
         ],
         defaultValues: "horizontal",
+        category: 1,
+        configParams: [],
+      },
+    ],
+    advancedFields: [],
+    selfFields: [],
+    actions: [],
+    preps: [],
+  },
+  {
+    itemName: i18n("dyform.condition.containerName"),
+    itemType: "condition",
+    itemIcon: "condition",
+    category: 2,
+    remark: i18n("dyform.condition.containerRemark"),
+    fields: [
+      {
+        label: i18n("dyform.condition.label"),
+        fieldName: "label",
+        fieldType: "input",
+        required: false,
+        defaultValues: "",
+        category: 1,
+        configParams: [],
+      },
+      {
+        label: i18n("dyform.condition.placeholder"),
+        fieldName: "placeholder",
+        fieldType: "input",
+        required: false,
+        defaultValues: "",
         category: 1,
         configParams: [],
       },

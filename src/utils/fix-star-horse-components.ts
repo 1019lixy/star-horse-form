@@ -1,4 +1,7 @@
 import { App } from 'vue';
+import {i18n} from "@/lang";
+import ConditionContainer from "@/components/formcomp/container/condition-container.vue";
+import ConditionNode from "@/components/formcomp/container/condition-node.vue";
 
 // 按需导入star-horse-lowcode中的组件
 export function fixStarHorseComponents(app: App) {
@@ -74,6 +77,10 @@ export function fixStarHorseComponents(app: App) {
       DytableCol && app.component('dytable-col', DytableCol);
     });
 
+    // 注册本地自定义容器组件
+    app.component('condition-container', ConditionContainer);
+    app.component('condition-node', ConditionNode);
+
     // 表单项目组件
     import('star-horse-lowcode').then(({ 
       AreaItem, AudioItem, AutocompleteItem, BarcodeItem, 
@@ -142,8 +149,8 @@ export function fixStarHorseComponents(app: App) {
       UnknownItem && app.component('unknown-item', UnknownItem);
     });
 
-    console.log('star-horse-lowcode组件注册成功');
+    console.log(i18n('dyform.utils.compRegisterSuccess'));
   } catch (error) {
-    console.error('star-horse-lowcode组件注册失败:', error);
+    console.error(i18n('dyform.utils.compRegisterFailed'), error);
   }
 }

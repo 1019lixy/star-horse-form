@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { onMounted, PropType, ref, watch } from "vue";
 import { convertToCamelCase } from "star-horse-lowcode";
+import {i18n} from "@/lang";
 
 const props = defineProps({
   formInfo: { type: Object as PropType<any>, required: true },
@@ -18,8 +19,8 @@ const tableFieldList = reactive<PageFieldInfo>({
     fieldList:${formFields}
 });
 const primaryKey = "${props.formInfo.formId}";
-let appName="需要手动添加";
-let interfacePrefix="需要手动添加";
+let appName=i18n("dyform.code.needManualAdd");
+let interfacePrefix=i18n("dyform.code.needManualAdd");
 const dataUrl: ApiUrls =apiInstance(appNmae,interfacePrefix);
 const initData = async () => {
 };
@@ -125,7 +126,7 @@ watch(
           size="16px"
           color="var(--star-horse-white)"
         />
-        保存为文件
+        {{ i18n('dyform.code.saveAsFile') }}
       </el-button>
     </div>
   </div>

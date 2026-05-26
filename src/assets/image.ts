@@ -1,3 +1,4 @@
+import {i18n} from "@/lang";
 const business = import.meta.glob("@/assets/icons/svg/business/*.svg");
 const education = import.meta.glob("@/assets/icons/svg/education/*.svg");
 const festival = import.meta.glob("@/assets/icons/svg/festival/*.svg");
@@ -7,7 +8,7 @@ const tools = import.meta.glob("@/assets/icons/svg/tools/*.svg");
 const travel = import.meta.glob("@/assets/icons/svg/travel/*.svg");
 const images: Array<any> = [
   {
-    name: "优先级图标",
+    name: i18n("dyform.image.priorityIcon"),
     type: "priority",
     list: [
       {
@@ -53,7 +54,7 @@ const images: Array<any> = [
     ],
   },
   {
-    name: "进度图标",
+    name: i18n("dyform.image.progressIcon"),
     type: "progress",
     list: [
       {
@@ -91,7 +92,7 @@ const images: Array<any> = [
     ],
   },
   {
-    name: "表情图标",
+    name: i18n("dyform.image.emojiIcon"),
     type: "expression",
     list: [
       {
@@ -177,7 +178,7 @@ const images: Array<any> = [
     ],
   },
   {
-    name: "标记图标",
+    name: i18n("dyform.image.markIcon"),
     type: "sign",
     list: [
       {
@@ -275,7 +276,7 @@ const images: Array<any> = [
     ],
   },
   {
-    name: "商务",
+    name: i18n("dyform.image.business"),
     list: Object.entries(business).map(([key, value]) => {
       return {
         name:
@@ -286,7 +287,7 @@ const images: Array<any> = [
     }),
   },
   {
-    name: "教育",
+    name: i18n("dyform.image.education"),
     list: Object.entries(education).map(([key, value]) => {
       return {
         name:
@@ -297,7 +298,7 @@ const images: Array<any> = [
     }),
   },
   {
-    name: "节日",
+    name: i18n("dyform.image.festival"),
     list: Object.entries(festival).map(([key, value]) => {
       return {
         name:
@@ -308,7 +309,7 @@ const images: Array<any> = [
     }),
   },
   {
-    name: "食物",
+    name: i18n("dyform.image.food"),
     list: Object.entries(food).map(([key, value]) => {
       return {
         name:
@@ -318,7 +319,7 @@ const images: Array<any> = [
     }),
   },
   {
-    name: "医疗",
+    name: i18n("dyform.image.medicine"),
     list: Object.entries(medicine).map(([key, value]) => {
       return {
         name:
@@ -329,7 +330,7 @@ const images: Array<any> = [
     }),
   },
   {
-    name: "工具",
+    name: i18n("dyform.image.tools"),
     list: Object.entries(tools).map(([key, value]) => {
       return {
         name:
@@ -339,7 +340,7 @@ const images: Array<any> = [
     }),
   },
   {
-    name: "旅行",
+    name: i18n("dyform.image.travel"),
     list: Object.entries(travel).map(([key, value]) => {
       return {
         name:

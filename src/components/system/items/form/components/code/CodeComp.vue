@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import {computed, onMounted, ref} from "vue";
+import {i18n} from "@/lang";
 import {analysisCompDatas, getDesignFormStore} from "star-horse-lowcode";
 import {FormConfig} from "@/components/types/FormConfig";
 
@@ -37,9 +38,9 @@ onMounted(async () => {
     <el-tab-pane name="react" label="React">
       <react :formInfo="formInfo" :compList="pageInfo" :compSize="compSize"/>
     </el-tab-pane>
-    <el-tab-pane name="json" label="Json代码">
+    <el-tab-pane name="json" :label="i18n('dyform.common.433')">
       <div class="flex justify-end my-3">
-        <el-button type="primary" @click="exportCode">导出代码</el-button>
+        <el-button type="primary" @click="exportCode">{{ i18n('dyform.code.exportCode') }}</el-button>
       </div>
       <star-horse-json-editor currentMode="json" v-model="compList"/>
     </el-tab-pane>

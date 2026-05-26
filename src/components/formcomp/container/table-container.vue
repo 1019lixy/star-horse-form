@@ -127,7 +127,7 @@ const deleteCol = (index: number) => {
             @mouseleave="(evt) => tdOut(evt, td)"
         >
           <div class="td-operator" v-if="currentIndex == td && isDesign">
-            <el-tooltip content="删除列">
+            <el-tooltip :content="i18n('dyform.comp.container.441')">
               <star-horse-icon
                   icon-class="delete"
                   cursor="pointer"

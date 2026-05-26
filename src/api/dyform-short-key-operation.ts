@@ -9,6 +9,7 @@ import {
     uuid,
     warning,
 } from "star-horse-lowcode";
+import {i18n} from "@/lang";
 import {computed} from "vue";
 import {ModuleEnums} from "@/components/enums/ModuleEnums";
 
@@ -31,7 +32,7 @@ const dyCopy = () => {
     }
     const item: any = currentComp.value;
     if (!item || Object.keys(item).length === 0) {
-        warning("请先选择要复制的组件");
+        warning(i18n("dyform.shortKey.selectCopyFirst"));
         return;
     }
     const copyItem: any = JSON.parse(JSON.stringify(item));
@@ -51,7 +52,7 @@ const dyCut = () => {
     }
     const item: any = currentComp.value;
     if (!item || Object.keys(item).length === 0) {
-        warning("请先选择要剪切的组件");
+        warning(i18n("dyform.shortKey.selectCutFirst"));
         return;
     }
     const copyItem: any = JSON.parse(JSON.stringify(item));
@@ -182,7 +183,7 @@ const dyOpen = () => {
     console.log("open");
 };
 const dyDelete = () => {
-    operationConfirm("确定要删除所选组件吗？").then(() => {
+    operationConfirm(i18n("dyform.shortKey.confirmDeleteSelected")).then(() => {
         console.log("delete");
     });
 };
@@ -190,7 +191,7 @@ const dySelectAll = () => {
     console.log("selectAll");
 };
 const dyDeleteAll = () => {
-    operationConfirm("确定要删除所有组件吗？").then(() => {
+    operationConfirm(i18n("dyform.shortKey.confirmDeleteAll")).then(() => {
         getDesignFormStore().clearAll();
     });
     console.log("deleteAll");
