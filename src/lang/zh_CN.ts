@@ -1738,6 +1738,8 @@ export default {
   "locale.japanese": "日本語",
   "locale.traditionalChinese": "繁體中文",
 
+  "ui.addText":"添加文本",
+  "ui.removeText":"删除文本",
   "ui.insertLeftCol": "左边插入列",
   "ui.insertRightCol": "右边插入列",
   "ui.insertAboveRow": "上方插入行",
@@ -2767,8 +2769,6 @@ export default {
   "dyform.propPanel.baseProps": "基础属性",
   "dyform.propPanel.customProps": "个性化属性",
 
-  // formProp
-  "dyform.formProp.fieldInfo": "字段信息",
 
   // preps
   "dyform.preps.urlReturnDataHelpMsg": "接口返回的数据格式必须是：\n{\"data\":{\"pageSize\":0,\"currentPage\":0,\"totalDatas\":34,\"totalPages\":4,\"dataList\":[{}]},\"code\":0,\"message\":\"success\"}\n或者：\n{\"data\":[{}],\"code\":0,\"message\":\"success\"}",

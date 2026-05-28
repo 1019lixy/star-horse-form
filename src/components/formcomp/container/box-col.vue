@@ -75,7 +75,7 @@ const handleTableCellCommand = (command: string) => {
   tableCellOperation(command, props, "box");
 };
 const selectCurrentTd = () => {
-  designForm.setSubItemId(props.field.id);
+  designForm.setSubItem(props.field);
 };
 const checkItem = (items: any) => {
   if (!items["items"]) {
@@ -94,7 +94,10 @@ onMounted(() => {
       :style="{ height: field.colHeight || '100%' }"
       @click="selectCurrentTd"
   >
+    <div class="h-full w-full p-2 items-center justify-center flex flex-col" v-if="field.staticData===true"
+         v-html="field.textContent"/>
     <draggable
+        v-else
         @add="(evt: Event) => onDragAdd(evt, field.items)"
         @dragover="checkItem(field)"
         class="smain-design"

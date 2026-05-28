@@ -77,7 +77,7 @@ const handleTableCellCommand = (command: string) => {
   tableCellOperation(command, props, "dytable");
 };
 const selectCurrentTd = () => {
-  designForm.setSubItemId(props.field.id);
+  designForm.setSubItem(props.field);
 };
 // 修正事件处理逻辑，只处理高度调整
 const handleResizeStart = (e: MouseEvent) => {
@@ -135,10 +135,9 @@ onMounted(() => {
       @click="selectCurrentTd"
       @mousedown="handleResizeStart"
   >
-
-    <!--    {{rowIndex}},{{colIndex}}  {{field.id}}-->
-    <!--{{actionColIndex}},{{rowIndex}}-->
+    <div class="h-full w-full p-2 items-center justify-center flex flex-col" v-if="field.staticData===true" v-html="field.textContent"/>
     <draggable
+        v-else
         @add="(evt: Event) => onDragAdd(evt, field.items)"
         class="smain-design"
         tag="div"

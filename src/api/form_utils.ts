@@ -82,7 +82,6 @@ export const quickAddItem = (items: any[]) => {
         id: "Id" + uid,
         label: label,
         fieldName: name,
-        type: "input",
         compType: "formItem",
         itemType: "input",
         preps: {
@@ -90,8 +89,7 @@ export const quickAddItem = (items: any[]) => {
             listVisible: true,
             formVisible: true,
             name: name,
-            label: label,
-            type: "input",
+            label: label
         },
     };
     items.push(newItem);

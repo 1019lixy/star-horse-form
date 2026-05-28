@@ -1,12 +1,13 @@
+
+// @ts-ignore
 export default {
-  "starhorse.copyright": `©Copyright2020-${new Date().getFullYear()} Star Horse Personal Work House`,
   /**
    * Home Component Internationalization
    */
+  "starhorse.copyright": `©Copyright2020-${new Date().getFullYear()} Star Horse Personal Work House`,
   "home.addModule": "Add Module",
   "home.welcome": "Welcome to the System",
-  "home.noModules":
-    "You haven't configured any modules yet. Please add your first module.",
+  "home.noModules": "You haven't configured any modules yet. Please add your first module.",
   "home.selectModule": "Select Module",
   "home.searchModules": "Search Modules...",
   "home.addSelectedModules": "Add Selected Modules",
@@ -1819,6 +1820,8 @@ export default {
   "locale.german": "Deutsch",
   "locale.japanese": "日本語",
   "locale.traditionalChinese": "繁體中文",
+  "ui.addText":"Add Text/Html",
+  "ui.removeText":"Delete Text/Html",
   "ui.insertLeftCol": "Insert column to the left",
   "ui.insertRightCol": "Insert column to the right",
   "ui.insertAboveRow": "Insert row above",
@@ -2629,14 +2632,10 @@ If empty, the table will be created in the current business database.`,
   "dyform.comp.container.445": "After deleting the current row, all merged and added components will be deleted. Confirm?",
   "dyform.utils.446": "Operation successful",
   "dyform.utils.447": "Validation successful",
-  "dyform.utils.448": "Validation failed
-Data dictionary may not be configured",
-  "dyform.utils.449": "Validation failed
-Please set data",
-  "dyform.utils.450": "Validation failed
-[Label name field] error:",
-  "dyform.utils.451": "Validation failed
-[Label value field] error:",
+  "dyform.utils.448": "Validation failed Data dictionary may not be configured",
+  "dyform.utils.449": "Validation failed Please set data",
+  "dyform.utils.450": "Validation failed [Label name field] error:",
+  "dyform.utils.451": "Validation failed [Label value field] error:",
   "dyform.utils.452": "Validate",
   "dyform.utils.453": "App name",
   "dyform.utils.454": "API",
@@ -2704,14 +2703,11 @@ Please set data",
   "dyform.utils.516": "Trigger event",
   "dyform.utils.517": "Control condition",
   "dyform.utils.518": "Controlled attribute",
-  "dyform.utils.519": "Same attribute cannot be configured in multiple identical control conditions,
-otherwise later conditions will override earlier ones, causing data linkage failure",
+  "dyform.utils.519": "Same attribute cannot be configured in multiple identical control conditions,otherwise later conditions will override earlier ones, causing data linkage failure",
   "dyform.utils.520": "Match condition",
   "dyform.utils.521": "Parameter name when used as query condition",
   "dyform.utils.522": "Parameter/Match value",
-  "dyform.utils.523": "Match value for trigger event;
-When control condition is data as parameter, if not selected, all data will be used as linkage parameter,
-otherwise only selected data will be used",
+  "dyform.utils.523": "Match value for trigger event;When control condition is data as parameter, if not selected, all data will be used as linkage parameter,otherwise only selected data will be used",
   "dyform.utils.524": "Assign new value",
   "dyform.utils.525": "Change field type",
   "dyform.utils.526": "Field: field_type",
@@ -2735,11 +2731,9 @@ otherwise only selected data will be used",
   "dyform.utils.544": "Clearable",
   "dyform.utils.545": "Readonly",
   "dyform.utils.546": "Query area display type",
-  "dyform.utils.547": "If enabled, this component is displayed by default in the query area,
-otherwise it will only be displayed when advanced query is clicked",
+  "dyform.utils.547": "If enabled, this component is displayed by default in the query area,otherwise it will only be displayed when advanced query is clicked",
   "dyform.utils.548": "Display component as-is",
-  "dyform.utils.549": "Display component as-is in the list,
-enabling this may cause slow list data loading",
+  "dyform.utils.549": "Display component as-is in the list,enabling this may cause slow list data loading",
   "dyform.utils.550": "Component value",
   "dyform.utils.551": "Can specify which component to display as",
   "dyform.utils.552": "Uniqueness validation",
@@ -2786,8 +2780,7 @@ enabling this may cause slow list data loading",
   "dyform.utils.593": "Specified function does not exist",
   "dyform.utils.594": "Specified utility function not found",
   "dyform.utils.595": "Parse mode",
-  "dyform.utils.596": "Path parse: only parse sub-paths under project public, format: test/*.svg,
-Function parse: only parse parameterless functions under src/api/star_horse_utils.ts, format: analysisData",
+  "dyform.utils.596": "Path parse: only parse sub-paths under project public, format: test/*.svg,Function parse: only parse parameterless functions under src/api/star_horse_utils.ts, format: analysisData",
   "dyform.utils.597": "Parse",
   "dyform.utils.598": "Property name",
   "dyform.utils.599": "Property value",
@@ -2856,8 +2849,7 @@ Function parse: only parse parameterless functions under src/api/star_horse_util
   "dyform.propPanel.baseProps": "Basic Properties",
   "dyform.propPanel.customProps": "Custom Properties",
 
-  // formProp
-  "dyform.formProp.fieldInfo": "Field Info",
+
 
   // preps
   "dyform.preps.urlReturnDataHelpMsg": "The API response format must be:\n{\"data\":{\"pageSize\":0,\"currentPage\":0,\"totalDatas\":34,\"totalPages\":4,\"dataList\":[{}]},\"code\":0,\"message\":\"success\"}\nor:\n{\"data\":[{}],\"code\":0,\"message\":\"success\"}",

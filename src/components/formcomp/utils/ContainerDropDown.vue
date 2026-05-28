@@ -100,6 +100,7 @@ const checkMenuStatus = () => {
 };
 let buttonControl = computed(() => checkMenuStatus());
 const configDialog = ref<boolean>(false);
+const staticDataConfigDialog = ref<boolean>(false);
 const currentCommand = ref<string>("");
 const handleTableCellCommand = (command: string) => {
   currentCommand.value = command;
@@ -109,12 +110,31 @@ const handleTableCellCommand = (command: string) => {
     fieldForm.value["colWidth"] = props.field.colWidth;
     fieldForm.value["rowspan"] = props.field.rowspan;
     fieldForm.value["colspan"] = props.field.colspan;
+  } else if (command == "addText") {
+    staticDataConfigDialog.value = true;
+    fieldForm.value = {
+      dataType: props.field?.dataType ?? 'text',
+      textContent: props.field?.textContent,
+      visiblePlatform: "all",
+    };
+  } else if (command == "removeText") {
+    const elements = props.parentField.preps.elements;
+    const element = elements[props.rowIndex];
+    const columns = element.columns;
+    const column = columns[props.colIndex];
+    if (column) {
+      column.staticData = false;
+      column.dataType = "none";
+      column.textContent = "";
+      column.visiblePlatform = "";
+    }
   } else {
     emits("command", command);
   }
 };
 const close = () => {
   configDialog.value = false;
+  staticDataConfigDialog.value = false;
 };
 const submitAction = () => {
   const elements = props.parentField.preps.elements;
@@ -147,6 +167,11 @@ const submitAction = () => {
         tempCols[col].cellVisible = false;
       }
     }
+  } else if (currentCommand.value === "addText") {
+    column["dataType"] = fieldForm.value["dataType"];
+    column["staticData"] = column["dataType"] != 'none';
+    column["visiblePlatform"] = column["visiblePlatform"] ?? "all";
+    column["textContent"] = fieldForm.value["textContent"];
   }
   Object.entries(fieldForm.value ?? {}).forEach(([key, value]) => {
     props.field[key] = value;
@@ -177,6 +202,44 @@ watch(
 </script>
 
 <template>
+  <star-horse-dialog
+      title="编辑静态文本"
+      :self-func="true"
+      :hide-full-screen-icon="true"
+      @merge="submitAction"
+      @closeAction="close"
+      :dialog-visible="staticDataConfigDialog"
+      box-width="40%"
+  >
+    <el-form v-model="fieldForm">
+      <el-form-item
+          label="可见平台"
+          prop="visiblePlatform"
+      >
+        <el-radio-group v-model="fieldForm.visiblePlatform">
+          <el-radio label="PC" value="pc"/>
+          <el-radio label="App" value="app"/>
+          <el-radio label="全部" value="all"/>
+        </el-radio-group>
+      </el-form-item>
+      <el-form-item
+          label="文本类型"
+          prop="dataType"
+      >
+        <el-radio-group v-model="fieldForm.dataType">
+          <el-radio label="Text" value="text"/>
+          <el-radio label="Html" value="html"/>
+          <el-radio label="无" value="none"/>
+        </el-radio-group>
+      </el-form-item>
+      <el-form-item label="内容" prop="textContent">
+        <el-input type="textarea" v-model="fieldForm.textContent" v-if="fieldForm.dataType=='text'"/>
+        <htmleditor-item v-if="fieldForm.dataType=='html'" :formData="fieldForm" :field="{
+          fieldName:'textContent'
+        }"/>
+      </el-form-item>
+    </el-form>
+  </star-horse-dialog>
   <star-horse-dialog
       :title="i18n('ui.operation')"
       :self-func="true"
@@ -236,7 +299,23 @@ watch(
     <star-horse-icon icon-class="menu" style="color: var(--star-horse-white)"/>
     <template #dropdown>
       <el-dropdown-menu style="max-height: 400px; overflow-y: auto;">
-        <el-dropdown-item command="insertLeftCol"
+        <el-dropdown-item command="addText"
+        >{{ i18n("ui.addText") }}
+        </el-dropdown-item>
+        <el-dropdown-item command="removeText"
+        >{{ i18n("ui.removeText") }}
+        </el-dropdown-item>
+        <el-dropdown-item command="colConfig" divided>
+          {{ i18n("ui.colConfig") }}
+        </el-dropdown-item>
+        <el-dropdown-item command="rowConfig">
+          {{ i18n("ui.rowConfig") }}
+        </el-dropdown-item>
+        <el-dropdown-item command="cellConfig">
+          {{ i18n("ui.cellConfig") }}
+        </el-dropdown-item>
+
+        <el-dropdown-item divided command="insertLeftCol"
         >{{ i18n("ui.insertLeftCol") }}
         </el-dropdown-item>
         <el-dropdown-item command="insertRightCol"
@@ -332,15 +411,6 @@ watch(
             command="deleteCurrentCol"
             :disabled="buttonControl.deleteWholeColDisabled"
         >{{ i18n("ui.deleteCurrentCol") }}
-        </el-dropdown-item>
-        <el-dropdown-item command="colConfig" divided>
-          {{ i18n("ui.colConfig") }}
-        </el-dropdown-item>
-        <el-dropdown-item command="rowConfig">
-          {{ i18n("ui.rowConfig") }}
-        </el-dropdown-item>
-        <el-dropdown-item command="cellConfig">
-          {{ i18n("ui.cellConfig") }}
         </el-dropdown-item>
       </el-dropdown-menu>
     </template>

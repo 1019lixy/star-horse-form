@@ -44,7 +44,8 @@ export function fieldCopy(data: any, type: string) {
     //如果数据没有索引，则初始化索引
     const ms = getDesignFormStore().getFieldDataIndex();
     const mvData: any = {};
-    mvData["id"] = "Id" + uuid();
+    const tempId = uuid();
+    mvData["id"] = "Id" + tempId;
     // console.log(reData);
     /**
      * 处理preps
@@ -66,7 +67,7 @@ export function fieldCopy(data: any, type: string) {
     mvData.preps["id"] = mvData["id"];
     mvData.preps["label"] = reData.itemName;
     mvData.preps["itemNameLabel"] = reData.itemName;
-    mvData.preps["name"] = reData.itemType + ms;
+    mvData.preps["name"] = "field_" + tempId.substring(0, 6);
     formData.value[reData.preps.fieldName] = getDefaultVal(reData.itemType);
     mvData["compType"] = type;
     mvData["fieldName"] = mvData.preps["name"];
