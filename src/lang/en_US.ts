@@ -1851,6 +1851,7 @@ export default {
   "ui.colConfig": "Column configuration",
   "ui.rowConfig": "Row configuration",
   "ui.cellConfig": "Cell configuration",
+  "ui.addComp":"Add Component",
   "form.addComponent": "Add component",
   "form.confirm": "Confirm",
   "form.cancel": "Cancel",

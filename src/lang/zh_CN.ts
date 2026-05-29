@@ -1769,6 +1769,7 @@ export default {
   "ui.colConfig": "列设置",
   "ui.rowConfig": "行设置",
   "ui.cellConfig": "单元格设置",
+  "ui.addComp":"添加组件",
   "dialog.addTitle": "新增数据",
   "dialog.batchAddTitle": "批量新增数据",
   "dialog.interfaceError": "接口不存在或网络异常:",

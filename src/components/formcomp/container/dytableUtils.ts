@@ -52,7 +52,7 @@ const insertCol = (
                 const newCol = colDataInfo(type);
                 newCol.cellVisible = true;
                 //如果有整行合并的需要把合并的列+1
-                if (cols[0].colspan == cols.length&&cols[0].colspan>1) {
+                if (cols[0].colspan == cols.length && cols[0].colspan > 1) {
                     cols[0].colspan = cols[0].colspan + 1;
                     newCol.cellVisible = false;
                 }
@@ -153,7 +153,7 @@ const mergeLeftCol = (props: any, type: any) => {
         //拿到左边倒数第一个visible =true 的单元格
         for (let i = props.colIndex - 1; i >= 0; i--) {
             const tempCol = row.columns[i];
-            if (tempCol.cellVisible&&tempCol.colspan>1) {
+            if (tempCol.cellVisible) {
                 tempCol.colspan = col.colspan + tempCol.colspan;
                 col.cellVisible = false;
                 break;
@@ -175,8 +175,8 @@ const mergeRightCol = (props: any, type: any) => {
         const columns = row.columns;
         for (let i = props.colIndex + 1; i < columns.length; i++) {
             const tempCol = columns[i];
-            if (tempCol.cellVisible&&col.colspan>1) {
-                col.colspan = col.colspan + tempCol.colspan;
+            if (tempCol.cellVisible) {
+                col.colspan = (col.colspan ?? 1) + tempCol.colspan;
                 tempCol.cellVisible = false;
                 break;
             }

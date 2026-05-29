@@ -4,7 +4,7 @@ import {
   analysisAppComps,
   analysisCompDatas,
   apiInstance,
-  ApiUrls,
+  ApiUrls, convertCompToAppComps,
   dialogPreps,
   PageFieldInfo,
   SearchFields,
@@ -37,12 +37,9 @@ const loadFormData = async () => {
   isLoading.value = true; // 开始加载
 
   primaryKey.value = "id";
+  tableFieldList.value = analysisCompDatas(props.compList);
   if (props.currentPageClass == "main-design-phone") {
-    let {fieldList} = analysisAppComps(props.compList);
-    tableFieldList.value.fieldList = fieldList;
-  } else {
-    let {fieldList} = analysisCompDatas(props.compList);
-    tableFieldList.value.fieldList = fieldList;
+    tableFieldList.value = convertCompToAppComps(tableFieldList.value);
   }
   await nextTick();
   hasData.value = true;

@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import {
-  analysisAppComps,
   analysisCompDatas,
   ApiUrls,
+  convertCompToAppComps,
   createDatetime,
   dialogPreps,
   SearchFields,
@@ -46,15 +46,11 @@ let extBtns = ref<Array<UserFuncInfo>>([]);
 const loadFormData = async () => {
   isLoading.value = true; // 开始加载
   primaryKey.value = "id";
+  tableFieldList.value = analysisCompDatas(props.compList);
   if (props.currentPageClass == "main-design-phone") {
-    let {fieldList} = analysisAppComps(props.compList);
-    tableFieldList.value.fieldList = fieldList;
-    console.log(tableFieldList.value.fieldList);
-  } else {
-    let {fieldList} = analysisCompDatas(props.compList);
-    tableFieldList.value.fieldList = fieldList;
+    tableFieldList.value = convertCompToAppComps(tableFieldList.value);
   }
-  console.log(JSON.stringify(tableFieldList.value));
+
   await nextTick();
   normalPageRef.value?.loadByPage();
   isLoading.value = false; // 加载完成
@@ -67,7 +63,7 @@ const dataFormat = (name: string, cellValue: any, row: any): any => {
     if (dateFields.value.includes(name)) {
       return createDatetime(cellValue);
     }
-    console.log(name,cellValue,row);
+    console.log(name, cellValue, row);
     return cellValue;
   }
   const subFormat = (name: string, cellValue: any, row: any) => {
@@ -165,11 +161,11 @@ watch(
             :compUrl="dataUrl"
         />
       </star-horse-dialog>
-      <div class="search-content" v-if="searchFormData.fieldList?.length > 0">
+      <div class="search-content" v-if="searchFormData.searchItemList?.length > 0">
         <div class="search_btn">
           <star-horse-search-comp
               @searchData="(data: any) => normalPageRef?.createSearchParams(data)"
-              :formData="searchFormData"
+              :formData="{fieldList:tableFieldList.searchItemList}"
               :preview="preview"
               :compUrl="dataUrl"
           />

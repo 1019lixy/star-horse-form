@@ -1,17 +1,17 @@
 <script setup lang="ts">
 import {
-  analysisAppComps,
   analysisCompDatas,
   apiInstance,
+  convertCompToAppComps,
   dialogPreps,
   PageFieldInfo,
-  SearchFields, StarHorseDataView,
+  StarHorseDataView,
 } from "star-horse-lowcode";
 import {nextTick, onMounted, provide, ref, watch} from "vue";
 
 const props = defineProps({
   currentPageClass: {type: String, default: ""},
-  preview:{type:Boolean, default:false},
+  preview: {type: Boolean, default: false},
   compList: {
     type: Array,
     required: true,
@@ -20,7 +20,6 @@ const props = defineProps({
 
 const dataUrl = apiInstance("userdb-manage", "consumer/api");
 
-let searchFormData = ref<SearchFields | any>({fieldList: []});
 const tableFieldList = ref<PageFieldInfo | any>({
   fieldList: [],
 });
@@ -35,18 +34,13 @@ const primaryKey = ref<string>("");
 const loadFormData = async () => {
   isLoading.value = true; // 开始加载
   primaryKey.value = "id";
+  tableFieldList.value = analysisCompDatas(props.compList);
   if (props.currentPageClass == "main-design-phone") {
-    let {fieldList} = analysisAppComps(props.compList);
-    tableFieldList.value.fieldList = fieldList;
-  } else {
-    let {fieldList, searchItemList} = analysisCompDatas(props.compList);
-    searchFormData.value.fieldList = searchItemList;
-    tableFieldList.value.fieldList = fieldList;
+    tableFieldList.value = convertCompToAppComps(tableFieldList.value);
   }
   await nextTick();
   isLoading.value = false; // 加载完成
 };
-
 
 
 const dialogProps = dialogPreps();
@@ -66,7 +60,7 @@ watch(
     (val) => {
       loadFormData();
     },
-    { deep: true },
+    {deep: true},
 );
 watch(
     () => props.currentPageClass,

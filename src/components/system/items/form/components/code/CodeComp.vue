@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import {computed, onMounted, ref} from "vue";
 import {i18n} from "@/lang";
-import {analysisCompDatas, getDesignFormStore} from "star-horse-lowcode";
+import {analysisAppComps, analysisCompDatas, getDesignFormStore} from "star-horse-lowcode";
 import {FormConfig} from "@/components/types/FormConfig";
 
 const props = defineProps<{
@@ -12,19 +12,30 @@ let compList = computed(() => designForm.compList);
 let formInfo = computed(() => designForm.formInfo);
 let compSize = computed(() => props.optional?.compSize ?? "default");
 let tabName = ref<string>("vue3");
+let codeStyle = ref<string>("pc");
 let pageInfo = ref<any>({});
-const init = async () => {
-  let {fieldList, searchItemList} = analysisCompDatas(compList);
-  pageInfo.value["searchFormData"] = {
-    fieldList: searchItemList,
-  };
-  pageInfo.value["tableFieldList"] = {
-    fieldList,
-  };
+const init = async (type: string) => {
+  if (type == "pc") {
+    let {fieldList, searchItemList} = analysisCompDatas(compList);
+    pageInfo.value["searchFormData"] = {
+      fieldList: searchItemList,
+    };
+    pageInfo.value["tableFieldList"] = {
+      fieldList,
+    };
+  } else {
+    let {fieldList, searchItemList} = analysisAppComps(compList);
+    pageInfo.value["searchFormData"] = {
+      fieldList: searchItemList,
+    };
+    pageInfo.value["tableFieldList"] = {
+      fieldList,
+    };
+  }
 };
 
 onMounted(async () => {
-  await init();
+  await init("pc");
 });
 </script>
 <template>
@@ -40,9 +51,12 @@ onMounted(async () => {
     </el-tab-pane>
     <el-tab-pane name="json" :label="i18n('dyform.common.433')">
       <div class="flex justify-end my-3">
-        <el-button type="primary" @click="exportCode">{{ i18n('dyform.code.exportCode') }}</el-button>
+        <el-radio-group v-model="codeStyle" @change="init">
+          <el-radio label="PC代码" value="pc"/>
+          <el-radio label="App代码" value="app"/>
+        </el-radio-group>
       </div>
-      <star-horse-json-editor currentMode="json" v-model="compList"/>
+      <star-horse-json-editor currentMode="json" v-model="pageInfo"/>
     </el-tab-pane>
   </el-tabs>
 </template>

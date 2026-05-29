@@ -84,7 +84,6 @@ const formulaConfig = computed<FormulaConfig>(() => {
 /** 获取表单中所有可选字段（排除自身） */
 const availableFields = computed(() => {
   const datas = analysisCompDatas(unref(designForm.compList));
-  console.log(datas)
   const currentFieldName = formProps.value.name;
   const dataList: any = [];
   Object.entries(datas.compListResult).forEach(([key, value]) => {

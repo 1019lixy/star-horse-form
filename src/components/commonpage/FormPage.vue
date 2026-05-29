@@ -1,6 +1,13 @@
 <script setup lang="ts">
 import {nextTick, onMounted, provide, ref, watch} from "vue";
-import {analysisAppComps, analysisCompDatas, apiInstance, ApiUrls, dialogPreps,} from "star-horse-lowcode";
+import {
+  analysisAppComps,
+  analysisCompDatas,
+  apiInstance,
+  ApiUrls,
+  convertCompToAppComps,
+  dialogPreps,
+} from "star-horse-lowcode";
 import {i18n} from "@/lang";
 import CommonSkeleton from "./CommonSkeleton.vue";
 
@@ -31,14 +38,11 @@ let outerFormData = ref<any>({});
 const loadFormData = async () => {
   isLoading.value = true; // 开始加载
   primaryKey.value = "id";
+  tableFieldList.value = analysisCompDatas(props.compList);
   if (props.currentPageClass == "main-design-phone") {
-    let {fieldList} = analysisAppComps(props.compList);
-    tableFieldList.value.fieldList = fieldList;
-  } else {
-    let {fieldList} = analysisCompDatas(props.compList);
-    tableFieldList.value.fieldList = fieldList;
+    tableFieldList.value = convertCompToAppComps(tableFieldList.value);
   }
-  console.log(JSON.stringify(tableFieldList.value));
+
   await nextTick();
   hasData.value = true;
   isLoading.value = false; // 加载完成

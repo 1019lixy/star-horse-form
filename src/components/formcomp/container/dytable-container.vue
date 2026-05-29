@@ -184,6 +184,7 @@ const getColIndex = (rowIndex: number, colIndex: number, col: any) => {
       <!-- 隐藏的表头行，用于保持列结构和宽度 -->
       <thead v-if="field.preps.elements.length > 0">
       <tr class="hidden-header">
+        <td style="width:30px"></td>
         <td
             v-for="(col, index) in columnStructure"
             :key="index"
@@ -202,9 +203,21 @@ const getColIndex = (rowIndex: number, colIndex: number, col: any) => {
           />
         </td>
       </tr>
+      <tr >
+        <td>NO.</td>
+        <td
+            v-for="(col, index) in columnStructure"
+            :key="index"
+            :colspan="col.colspan"
+            class="dy-cell no-cell"
+        >
+        {{ index + 1}}
+        </td>
+      </tr>
       </thead>
       <tbody>
       <tr v-for="(row, rowIndex) in field.preps.elements" class="dy-tr">
+        <td class="dy-cell no-cell">{{rowIndex+1}}</td>
         <template v-for="(td, colIndex) in row.columns">
           <dytable-col
               :field="td"
@@ -265,5 +278,8 @@ const getColIndex = (rowIndex: number, colIndex: number, col: any) => {
 
 .hidden-header:hover .col-resize-handle {
   opacity: 0.5;
+}
+.no-cell{
+  border: 1px solid var(--star-horse-style);
 }
 </style>

@@ -2,7 +2,7 @@
 import {computed, onMounted, PropType, ref, watch} from "vue";
 import {tableAction} from "@/components/formcomp/container/dytableUtils";
 import {i18n} from "@/lang";
-import {StarHorseDialog} from "star-horse-lowcode";
+import {FieldList, numberRangeItem, StarHorseDialog, uuid, warning} from "star-horse-lowcode";
 
 const props = defineProps({
   parentField: {type: Object as PropType<any>},
@@ -26,6 +26,12 @@ const cellInfo = computed(() => {
     maxCol: columns.length - props.colIndex,
   }
 });
+const currentCell = computed(() => {
+  const elements = props.parentField.preps.elements;
+  const element = elements[props.rowIndex];
+  const columns = element.columns;
+  return columns[props.colIndex];
+})
 const emits = defineEmits(["command"]);
 const fieldForm = ref<Record<string, any>>({});
 const checkMenuStatus = () => {
@@ -101,6 +107,7 @@ const checkMenuStatus = () => {
 let buttonControl = computed(() => checkMenuStatus());
 const configDialog = ref<boolean>(false);
 const staticDataConfigDialog = ref<boolean>(false);
+const componentVisible = ref<boolean>(false);
 const currentCommand = ref<string>("");
 const handleTableCellCommand = (command: string) => {
   currentCommand.value = command;
@@ -110,12 +117,14 @@ const handleTableCellCommand = (command: string) => {
     fieldForm.value["colWidth"] = props.field.colWidth;
     fieldForm.value["rowspan"] = props.field.rowspan;
     fieldForm.value["colspan"] = props.field.colspan;
+    fieldForm.value["configRowType"] = "currentRow";
   } else if (command == "addText") {
     staticDataConfigDialog.value = true;
     fieldForm.value = {
       dataType: props.field?.dataType ?? 'text',
       textContent: props.field?.textContent,
       visiblePlatform: "all",
+      configRowType: "currentRow"
     };
   } else if (command == "removeText") {
     const elements = props.parentField.preps.elements;
@@ -128,6 +137,8 @@ const handleTableCellCommand = (command: string) => {
       column.textContent = "";
       column.visiblePlatform = "";
     }
+  } else if (command == "addComp") {
+    componentVisible.value = true;
   } else {
     emits("command", command);
   }
@@ -135,12 +146,37 @@ const handleTableCellCommand = (command: string) => {
 const close = () => {
   configDialog.value = false;
   staticDataConfigDialog.value = false;
+  componentVisible.value = false;
+  currentItem.value = null;
+  fieldForm.value = {};
+};
+const operationCell = (endCol: number, endRow: number, columns: any) => {
+  const elements = props.parentField.preps.elements;
+  //将当前行合并的单元格的可见改为false
+  // console.log((props.colIndex + 1) + "," + endCol, column);
+  for (let col = props.colIndex + 1; col < endCol; col++) {
+    columns[col].cellVisible = false;
+  }
+  //将跨行合并的单元格的可见改为false
+  for (let row = props.rowIndex + 1; row < endRow; row++) {
+    const tempRow = elements[row];
+    const tempCols = tempRow.columns;
+    for (let col = props.colIndex; col < endCol; col++) {
+      tempCols[col].cellVisible = false;
+    }
+  }
+}
+const operationCellText = (column: any, fieldForm: any) => {
+  column["dataType"] = fieldForm["dataType"];
+  column["staticData"] = column["dataType"] != 'none';
+  column["visiblePlatform"] = column["visiblePlatform"] ?? "all";
+  column["textContent"] = fieldForm["textContent"];
 };
 const submitAction = () => {
   const elements = props.parentField.preps.elements;
-  const element = elements[props.rowIndex];
-  const columns = element.columns;
-  const column = columns[props.colIndex];
+  let element = elements[props.rowIndex];
+  let columns = element.columns;
+  let column = columns[props.colIndex];
   if (currentCommand.value === "rowConfig") {
     column["colHeight"] = fieldForm.value["colHeight"];
   } else if (currentCommand.value === "colConfig") {
@@ -151,31 +187,146 @@ const submitAction = () => {
     const startRow = props.rowIndex;
     const endRow = startRow + newRowspan;
     const endCol = props.colIndex + newColspan;
-    column["rowspan"] = newRowspan;
-    column["colspan"] = newColspan;
-
-    //将当前行合并的单元格的可见改为false
-    // console.log((props.colIndex + 1) + "," + endCol, column);
-    for (let col = props.colIndex + 1; col < endCol; col++) {
-      columns[col].cellVisible = false;
-    }
-    //将跨行合并的单元格的可见改为false
-    for (let row = props.rowIndex + 1; row < endRow; row++) {
-      const tempRow = elements[row];
-      const tempCols = tempRow.columns;
-      for (let col = props.colIndex; col < endCol; col++) {
-        tempCols[col].cellVisible = false;
+    const configRowType = fieldForm.value.configRowType ?? 'currentRow';
+    let unlinkRows = fieldForm.value.unlinkRows ?? [];
+    if (configRowType == "linkRows") {
+      const linkRowsMin = fieldForm.value.linkRowsMin;
+      const linkRowsMax = fieldForm.value.linkRowsMax;
+      if (!linkRowsMin || !linkRowsMax) {
+        warning("请设置指定连续行");
+        return;
       }
+      for (let i = linkRowsMin - 1; i < linkRowsMax; i++) {
+        element = elements[i];
+        columns = element.columns;
+        column = columns[props.colIndex];
+        column["rowspan"] = newRowspan;
+        column["colspan"] = newColspan;
+        operationCell(endCol, endRow, columns);
+      }
+    } else if (configRowType == "unlinkRows") {
+      // unlinkRows=["6","10","11","12","13","14","15","18","21","22","23","25","26","27","32","34","40","41","43","45","46"];
+      for (let nums in unlinkRows) {
+        element = elements[parseInt(unlinkRows[nums]) - 1];
+        columns = element.columns;
+        column = columns[props.colIndex];
+        column["rowspan"] = newRowspan;
+        column["colspan"] = newColspan;
+        operationCell(endCol, endRow, columns);
+      }
+    } else {
+      column["rowspan"] = newRowspan;
+      column["colspan"] = newColspan;
+      operationCell(endCol, endRow, columns);
     }
+
   } else if (currentCommand.value === "addText") {
-    column["dataType"] = fieldForm.value["dataType"];
-    column["staticData"] = column["dataType"] != 'none';
-    column["visiblePlatform"] = column["visiblePlatform"] ?? "all";
-    column["textContent"] = fieldForm.value["textContent"];
+    const configRowType = fieldForm.value.configRowType ?? 'currentRow';
+    let unlinkRows = fieldForm.value.unlinkRows ?? [];
+    if (configRowType == "linkRows") {
+      const linkRowsMin = fieldForm.value.linkRowsMin;
+      const linkRowsMax = fieldForm.value.linkRowsMax;
+      if (!linkRowsMin || !linkRowsMax) {
+        warning("请设置指定连续行");
+        return;
+      }
+      for (let i = linkRowsMin - 1; i < linkRowsMax; i++) {
+        element = elements[i];
+        columns = element.columns;
+        column = columns[props.colIndex];
+        operationCellText(column, fieldForm.value);
+      }
+    } else if (configRowType == "unlinkRows") {
+      for (let nums in unlinkRows) {
+        element = elements[parseInt(unlinkRows[nums]) - 1];
+        columns = element.columns;
+        column = columns[props.colIndex];
+        operationCellText(column, fieldForm.value);
+      }
+    } else {
+      operationCellText(column, fieldForm.value);
+    }
   }
   Object.entries(fieldForm.value ?? {}).forEach(([key, value]) => {
     props.field[key] = value;
   });
+  close();
+};
+const currentItem = ref<any>();
+const changeItem = (item: any) => {
+  currentItem.value = item;
+};
+const addCompOperation = (column: any, item: any, suffix: string) => {
+  if (column.cellVisible) {
+    const listItems = Array.isArray(item) ? item.map(i => JSON.parse(JSON.stringify(i))) : [JSON.parse(JSON.stringify(item))];
+    for (let i = 0; i < listItems.length; i++) {
+      const id = uuid();
+      const tempItem = listItems[i];
+      tempItem.id = id;
+      tempItem.fieldName = "field_" + id.substring(0, 4) + suffix;
+      if (!tempItem.preps) {
+        tempItem.preps = {};
+      }
+      tempItem.preps.id = id;
+      tempItem.preps.name = tempItem.fieldName;
+      if (!column.items) {
+        column.items = [];
+      }
+      console.log(tempItem);
+      column.items.push(tempItem);
+    }
+  }
+}
+const compAddOperation = (type: string) => {
+  if (!currentItem.value && !fieldForm.value.copyCurrentItem) {
+    warning("请先选择组件");
+    return;
+  }
+  const configRowType = fieldForm.value.configRowType ?? 'currentRow';
+  const elements = props.parentField.preps.elements;
+  let element = elements[props.rowIndex];
+  let columns = element.columns;
+  let column = columns[props.colIndex];
+  if (fieldForm.value.copyCurrentItem) {
+    currentItem.value = column.items;
+  }
+  if (configRowType == "linkRows") {
+    const linkRowsMin = fieldForm.value.linkRowsMin;
+    const linkRowsMax = fieldForm.value.linkRowsMax;
+    if (!linkRowsMin || !linkRowsMax) {
+      warning("请设置指定连续行");
+      return;
+    }
+    const linkColsMin = fieldForm.value.linkColsMin;
+    const linkColsMax = fieldForm.value.linkColsMax;
+    for (let i = linkRowsMin - 1; i < linkRowsMax; i++) {
+      element = elements[i];
+      columns = element.columns;
+      for (let j = linkColsMin - 1; j < linkColsMax; j++) {
+        if (fieldForm.value.copyCurrentItem && i == props.rowIndex && j == props.colIndex) {
+          continue;
+        }
+        addCompOperation(columns[j], currentItem.value, i + "" + j);
+      }
+    }
+  } else if (configRowType == "unlinkRows") {
+    let unlinkRows = fieldForm.value.unlinkRows ?? [];
+    let unLinkCols = fieldForm.value.unlinkCols ?? [];
+    for (let nums in unlinkRows) {
+      const tempRow = parseInt(unlinkRows[nums]) - 1;
+      element = elements[tempRow];
+      columns = element.columns;
+      for (let col of unLinkCols) {
+        const tempCol = parseInt(unLinkCols[col]) - 1;
+        if (fieldForm.value.copyCurrentItem && tempRow == props.rowIndex && tempCol == props.colIndex) {
+          continue;
+        }
+        addCompOperation(columns[tempCol], currentItem.value, tempRow + "" + tempCol);
+      }
+    }
+  } else {
+    addCompOperation(column, currentItem.value);
+  }
   close();
 };
 const init = () => {
@@ -203,6 +354,60 @@ watch(
 
 <template>
   <star-horse-dialog
+      box-width="50%"
+      box-height="60%"
+      :source="2"
+      :full-screen="false"
+      :title="i18n('form.changeComponent')"
+      :self-func="true"
+      :dialog-visible="componentVisible"
+      @merge="compAddOperation"
+      @closeAction="close"
+  >
+    <el-splitter>
+      <el-splitter-panel size="40%">
+        <field-list @selectData="changeItem"/>
+      </el-splitter-panel>
+      <el-splitter-panel>
+        <el-form v-model="fieldForm" label-position="top">
+          <el-form-item
+              label="指定行数做相同设置"
+              prop="sameConfigRows"
+          >
+            <el-select v-model="fieldForm.configRowType">
+              <el-option label="当前单元格" value="currentRow"/>
+              <el-option label="连续" value="linkRows"/>
+              <el-option label="非连续" value="unlinkRows"/>
+            </el-select>
+          </el-form-item>
+          <el-form-item label="拷贝当前组件" v-if="currentCell?.items?.length>0&&fieldForm.configRowType!='currentRow'"
+                        prop="copyCurrentItem">
+            <el-switch v-model="fieldForm.copyCurrentItem"/>
+          </el-form-item>
+          <el-form-item label="指定连续行" prop="linkRows" v-if="fieldForm.configRowType=='linkRows'">
+            <number-range-item :field="{
+              fieldName:'linkRows',
+              preps:{}
+            }" v-model:formData="fieldForm"/>
+          </el-form-item>
+          <el-form-item label="指定连续列" prop="linkCols" v-if="fieldForm.configRowType=='linkRows'">
+            <number-range-item :field="{
+                fieldName:'linkCols',
+                preps:{}
+              }" v-model:formData="fieldForm"/>
+          </el-form-item>
+          <el-form-item label="非连续行" prop="unlinkRows" v-if="fieldForm.configRowType=='unlinkRows'">
+            <el-input-tag v-model="fieldForm.unlinkRows"/>
+          </el-form-item>
+          <el-form-item label="非连续列" prop="unlinkCols" v-if="fieldForm.configRowType=='unlinkRows'">
+            <el-input-tag v-model="fieldForm.unlinkCols"/>
+          </el-form-item>
+        </el-form>
+      </el-splitter-panel>
+    </el-splitter>
+
+  </star-horse-dialog>
+  <star-horse-dialog
       title="编辑静态文本"
       :self-func="true"
       :hide-full-screen-icon="true"
@@ -221,6 +426,25 @@ watch(
           <el-radio label="App" value="app"/>
           <el-radio label="全部" value="all"/>
         </el-radio-group>
+      </el-form-item>
+      <el-form-item
+          label="指定行数做相同设置"
+          prop="sameConfigRows"
+      >
+        <el-select v-model="fieldForm.configRowType">
+          <el-option label="当前行" value="currentRow"/>
+          <el-option label="连续行" value="linkRows"/>
+          <el-option label="非连续行" value="unlinkRows"/>
+        </el-select>
+      </el-form-item>
+      <el-form-item label="指定连续行" prop="linkRows" v-if="fieldForm.configRowType=='linkRows'">
+        <number-range-item :field="{
+          fieldName:'linkRows',
+          preps:{}
+        }" v-model:formData="fieldForm"/>
+      </el-form-item>
+      <el-form-item label="非连续行" prop="unlinkRows" v-if="fieldForm.configRowType=='unlinkRows'">
+        <el-input-tag v-model="fieldForm.unlinkRows"/>
       </el-form-item>
       <el-form-item
           label="文本类型"
@@ -263,6 +487,26 @@ watch(
           v-if="currentCommand == 'colConfig'"
       >
         <el-input v-model="fieldForm.colWidth"/>
+      </el-form-item>
+      <el-form-item
+          label="指定行数做相同设置"
+          prop="sameConfigRows"
+          v-if="currentCommand == 'cellConfig'"
+      >
+        <el-select v-model="fieldForm.configRowType">
+          <el-option label="当前行" value="currentRow"/>
+          <el-option label="连续行" value="linkRows"/>
+          <el-option label="非连续行" value="unlinkRows"/>
+        </el-select>
+      </el-form-item>
+      <el-form-item label="指定连续行" prop="linkRows" v-if="fieldForm.configRowType=='linkRows'">
+        <number-range-item :field="{
+          fieldName:'linkRows',
+          preps:{}
+        }" v-model:formData="fieldForm"/>
+      </el-form-item>
+      <el-form-item label="非连续行" prop="unlinkRows" v-if="fieldForm.configRowType=='unlinkRows'">
+        <el-input-tag v-model="fieldForm.unlinkRows"/>
       </el-form-item>
       <el-form-item
           :label="i18n('dyform.utils.436')"
@@ -313,6 +557,9 @@ watch(
         </el-dropdown-item>
         <el-dropdown-item command="cellConfig">
           {{ i18n("ui.cellConfig") }}
+        </el-dropdown-item>
+        <el-dropdown-item command="addComp">
+          {{ i18n("ui.addComp") }}
         </el-dropdown-item>
 
         <el-dropdown-item divided command="insertLeftCol"
