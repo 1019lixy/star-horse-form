@@ -139,6 +139,9 @@ const handleTableCellCommand = (command: string) => {
     }
   } else if (command == "addComp") {
     componentVisible.value = true;
+    fieldForm.value = {
+      configRowType: "currentRow"
+    };
   } else {
     emits("command", command);
   }
@@ -254,7 +257,22 @@ const submitAction = () => {
 };
 const currentItem = ref<any>();
 const changeItem = (item: any) => {
-  currentItem.value = item;
+  const id = uuid();
+  const fieldName = "field_" + id.substring(0, 6);
+  currentItem.value = {
+    id: "Sh" + id,
+    label: item.itemName,
+    fieldName: fieldName,
+    itemType: item.itemType,
+    type: item.itemType,
+    compType: item.compType,
+    preps: {
+      id: "Sh" + id,
+      name: fieldName,
+      itemNameLabel:item.itemName,
+      label: item.itemName
+    }
+  }
 };
 const addCompOperation = (column: any, item: any, suffix: string) => {
   if (column.cellVisible) {
@@ -325,7 +343,7 @@ const compAddOperation = (type: string) => {
       }
     }
   } else {
-    addCompOperation(column, currentItem.value);
+    addCompOperation(column, currentItem.value, "");
   }
   close();
 };
@@ -371,6 +389,13 @@ watch(
       <el-splitter-panel>
         <el-form v-model="fieldForm" label-position="top">
           <el-form-item
+              label="已选组件"
+              label-position="left"
+              v-if="currentItem"
+          >
+            <el-tag type="primary">{{currentItem.label}}</el-tag>
+          </el-form-item>
+          <el-form-item
               label="指定行数做相同设置"
               prop="sameConfigRows"
           >
@@ -380,7 +405,7 @@ watch(
               <el-option label="非连续" value="unlinkRows"/>
             </el-select>
           </el-form-item>
-          <el-form-item label="拷贝当前组件" v-if="currentCell?.items?.length>0&&fieldForm.configRowType!='currentRow'"
+          <el-form-item label-position="left" label="拷贝当前组件" v-if="currentCell?.items?.length>0&&fieldForm.configRowType!='currentRow'"
                         prop="copyCurrentItem">
             <el-switch v-model="fieldForm.copyCurrentItem"/>
           </el-form-item>
@@ -544,71 +569,72 @@ watch(
     <template #dropdown>
       <el-dropdown-menu style="max-height: 400px; overflow-y: auto;">
         <el-dropdown-item command="addText"
-        >{{ i18n("ui.addText") }}
+        >
+          <star-horse-icon iconClass="edit"/>{{ i18n("ui.addText") }}
         </el-dropdown-item>
         <el-dropdown-item command="removeText"
-        >{{ i18n("ui.removeText") }}
+        > <star-horse-icon iconClass="delete"/>{{ i18n("ui.removeText") }}
         </el-dropdown-item>
         <el-dropdown-item command="colConfig" divided>
-          {{ i18n("ui.colConfig") }}
+          <star-horse-icon iconClass="document"/> {{ i18n("ui.colConfig") }}
         </el-dropdown-item>
         <el-dropdown-item command="rowConfig">
-          {{ i18n("ui.rowConfig") }}
+          <star-horse-icon iconClass="document"/> {{ i18n("ui.rowConfig") }}
         </el-dropdown-item>
         <el-dropdown-item command="cellConfig">
-          {{ i18n("ui.cellConfig") }}
+          <star-horse-icon iconClass="config"/>{{ i18n("ui.cellConfig") }}
         </el-dropdown-item>
         <el-dropdown-item command="addComp">
-          {{ i18n("ui.addComp") }}
+          <star-horse-icon iconClass="add"/>  {{ i18n("ui.addComp") }}
         </el-dropdown-item>
 
         <el-dropdown-item divided command="insertLeftCol"
-        >{{ i18n("ui.insertLeftCol") }}
+        > <star-horse-icon iconClass="document"/>{{ i18n("ui.insertLeftCol") }}
         </el-dropdown-item>
         <el-dropdown-item command="insertRightCol"
-        >{{ i18n("ui.insertRightCol") }}
+        > <star-horse-icon iconClass="document"/>{{ i18n("ui.insertRightCol") }}
         </el-dropdown-item>
         <el-dropdown-item command="insertAboveRow"
-        >{{ i18n("ui.insertAboveRow") }}
+        > <star-horse-icon iconClass="document"/>{{ i18n("ui.insertAboveRow") }}
         </el-dropdown-item>
         <el-dropdown-item command="insertBelowRow"
-        >{{ i18n("ui.insertBelowRow") }}
+        > <star-horse-icon iconClass="document"/>{{ i18n("ui.insertBelowRow") }}
         </el-dropdown-item>
 
         <el-dropdown-item
             command="mergeLeftCol"
             :disabled="buttonControl.mergeLeftColDisabled"
             divided
-        >{{ i18n("ui.mergeLeftCell") }}
+        > <star-horse-icon iconClass="document"/>{{ i18n("ui.mergeLeftCell") }}
         </el-dropdown-item>
         <el-dropdown-item
             command="mergeRightCol"
             :disabled="buttonControl.mergeRightColDisabled"
-        >{{ i18n("ui.mergeRightCell") }}
+        > <star-horse-icon iconClass="document"/>{{ i18n("ui.mergeRightCell") }}
         </el-dropdown-item>
         <el-dropdown-item
             command="mergeWholeRow"
             :disabled="buttonControl.mergeWholeRowDisabled"
-        >{{ i18n("ui.mergeWholeRow") }}
+        > <star-horse-icon iconClass="document"/>{{ i18n("ui.mergeWholeRow") }}
         </el-dropdown-item>
         <el-dropdown-item
             command="mergeAboveRow"
             v-if="type != 'box' || validBox"
             :disabled="buttonControl.mergeAboveRowDisabled"
             divided
-        >{{ i18n("ui.mergeAboveCell") }}
+        > <star-horse-icon iconClass="document"/>{{ i18n("ui.mergeAboveCell") }}
         </el-dropdown-item>
         <el-dropdown-item
             command="mergeBelowRow"
             v-if="type != 'box' || validBox"
             :disabled="buttonControl.mergeBelowRowDisabled"
-        >{{ i18n("ui.mergeBelowCell") }}
+        > <star-horse-icon iconClass="document"/>{{ i18n("ui.mergeBelowCell") }}
         </el-dropdown-item>
         <el-dropdown-item
             command="mergeWholeCol"
             v-if="type != 'box' || validBox"
             :disabled="buttonControl.mergeWholeColDisabled"
-        >{{ i18n("ui.mergeWholeCol") }}
+        > <star-horse-icon iconClass="plus"/>{{ i18n("ui.mergeWholeCol") }}
         </el-dropdown-item>
 
         <el-dropdown-item
@@ -616,52 +642,56 @@ watch(
             v-if="type != 'box' || validBox"
             :disabled="buttonControl.undoMergeRowDisabled"
             divided
-        >{{ i18n("ui.undoMergeRow") }}
+        > <star-horse-icon iconClass="undo"/>{{ i18n("ui.undoMergeRow") }}
         </el-dropdown-item>
         <el-dropdown-item
             command="undoMergeCol"
             :disabled="buttonControl.undoMergeColDisabled"
-        >{{ i18n("ui.undoMergeCol") }}
+        > <star-horse-icon iconClass="undo"/>{{ i18n("ui.undoMergeCol") }}
         </el-dropdown-item>
         <el-dropdown-item
             command="resetMerge"
             :disabled="buttonControl.resetMergeDisabled"
-        >{{ i18n("ui.resetMerge") }}
+        > <star-horse-icon iconClass="reset"/>{{ i18n("ui.resetMerge") }}
         </el-dropdown-item>
         <el-dropdown-item
             command="addCellAfter"
             v-if="type == 'box'"
             :disabled="buttonControl.addCellAfterDisabled"
             divided
-        >{{ i18n("ui.addCellAfter") }}
+        > <star-horse-icon iconClass="add"/>{{ i18n("ui.addCellAfter") }}
         </el-dropdown-item>
         <el-dropdown-item
             command="addCellBefore"
             v-if="type == 'box'"
             :disabled="buttonControl.addCellBeforeDisabled"
-        >{{ i18n("ui.addCellBefore") }}
+        > <star-horse-icon iconClass="add"/>{{ i18n("ui.addCellBefore") }}
         </el-dropdown-item>
         <el-dropdown-item
             command="deleteWholeCol"
             v-if="type != 'box'"
             :disabled="buttonControl.deleteWholeColDisabled"
             divided
-        >{{ i18n("ui.deleteWholeCol") }}
+        > <star-horse-icon iconClass="delete"/>{{ i18n("ui.deleteWholeCol") }}
         </el-dropdown-item>
         <el-dropdown-item
             command="deleteWholeRow"
             :disabled="buttonControl.deleteWholeRowDisabled"
-        >{{ i18n("ui.deleteWholeRow") }}
+        > <star-horse-icon iconClass="delete"/>{{ i18n("ui.deleteWholeRow") }}
         </el-dropdown-item>
         <el-dropdown-item
             v-if="type == 'box'"
             command="deleteCurrentCol"
             :disabled="buttonControl.deleteWholeColDisabled"
-        >{{ i18n("ui.deleteCurrentCol") }}
+        > <star-horse-icon iconClass="delete"/>{{ i18n("ui.deleteCurrentCol") }}
         </el-dropdown-item>
       </el-dropdown-menu>
     </template>
   </el-dropdown>
 </template>
 
-<style scoped lang="scss"></style>
+<style scoped lang="scss">
+:deep(.field-item){
+  cursor: pointer;
+}
+</style>

@@ -1820,7 +1820,7 @@ export default {
   "locale.german": "Deutsch",
   "locale.japanese": "日本語",
   "locale.traditionalChinese": "繁體中文",
-  "ui.addText":"Add Text/Html",
+  "ui.addText":"Edit Text/Html",
   "ui.removeText":"Delete Text/Html",
   "ui.insertLeftCol": "Insert column to the left",
   "ui.insertRightCol": "Insert column to the right",

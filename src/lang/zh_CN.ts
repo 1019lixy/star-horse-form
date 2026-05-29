@@ -1738,7 +1738,7 @@ export default {
   "locale.japanese": "日本語",
   "locale.traditionalChinese": "繁體中文",
 
-  "ui.addText":"添加文本",
+  "ui.addText":"编辑文本",
   "ui.removeText":"删除文本",
   "ui.insertLeftCol": "左边插入列",
   "ui.insertRightCol": "右边插入列",
