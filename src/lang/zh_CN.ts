@@ -2539,6 +2539,7 @@ export default {
   "dyform.common.431": "查看",
   "dyform.common.432": "页面风格",
   "dyform.common.433": "Json代码",
+  "dyform.common.a433": "编辑Json代码",
   "dyform.utils.434": "行高",
   "dyform.utils.435": "列宽",
   "dyform.utils.436": "跨行数",

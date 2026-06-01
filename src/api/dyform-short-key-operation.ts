@@ -4,7 +4,7 @@ import {
     getDesignFormStore,
     moveDownItem,
     moveUpItem,
-    operationConfirm,
+        operationConfirm,
     removeItem,
     uuid,
     warning,

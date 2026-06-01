@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import {computed, onMounted, ref} from "vue";
 import {i18n} from "@/lang";
-import {analysisAppComps, analysisCompDatas, getDesignFormStore} from "star-horse-lowcode";
+import {analysisAppComps, analysisCompDatas, getDesignFormStore, operationConfirm} from "star-horse-lowcode";
 import {FormConfig} from "@/components/types/FormConfig";
 
 const props = defineProps<{
@@ -33,13 +33,23 @@ const init = async (type: string) => {
     };
   }
 };
-
+const jsonPrototype = ref<any>([]);
+const tabChange = (name: string) => {
+  if (name == "json_prototype") {
+    jsonPrototype.value = compList.value;
+  }
+}
+const updateJsonPrototype = () => {
+  operationConfirm("确定更新JSON原型吗？").then(() => {
+    designForm.setCompList(jsonPrototype.value);
+  });
+}
 onMounted(async () => {
   await init("pc");
 });
 </script>
 <template>
-  <el-tabs v-model="tabName" type="border-card">
+  <el-tabs v-model="tabName" type="border-card" @tabChange="tabChange">
     <el-tab-pane name="vue3" label="Vue3">
       <vue3 :formInfo="formInfo" :compList="pageInfo" :compSize="compSize"/>
     </el-tab-pane>
@@ -48,6 +58,15 @@ onMounted(async () => {
     </el-tab-pane>
     <el-tab-pane name="react" label="React">
       <react :formInfo="formInfo" :compList="pageInfo" :compSize="compSize"/>
+    </el-tab-pane>
+    <el-tab-pane name="json_prototype" :label="i18n('dyform.common.a433')">
+      <div class="flex justify-end my-3">
+        <el-button type="primary" @click="updateJsonPrototype">
+          <star-horse-icon iconClass="edit" color="var(--star-horse-white)"/>
+          {{ i18n("workflow.edit") }}
+        </el-button>
+      </div>
+      <star-horse-json-editor currentMode="json" v-model="jsonPrototype"/>
     </el-tab-pane>
     <el-tab-pane name="json" :label="i18n('dyform.common.433')">
       <div class="flex justify-end my-3">

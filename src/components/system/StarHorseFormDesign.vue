@@ -897,7 +897,6 @@ defineExpose({
           <el-splitter>
             <el-splitter-panel>
               <div class="main-design-outer">
-                {{list}}
                 <FormDesigner
                     :list="list"
                     :form-data="formData"
