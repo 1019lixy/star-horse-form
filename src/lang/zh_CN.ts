@@ -2264,6 +2264,7 @@ export default {
   "dyform.item.156": "Tag 是否为圆形",
   "dyform.item.157": "是否禁用渐变动画",
   "dyform.item.158": "时间选择",
+  "dyform.item.458": "日期时间选择",
   "dyform.item.159": "开始时间",
   "dyform.item.160": "结束时间",
   "dyform.item.161": "间隔时间",
