@@ -2768,13 +2768,12 @@ If empty, the table information will be created in the current business database
   "dyform.utils.604": "Dictionary Name",
   "dyform.utils.605": "Form Properties",
   "dyform.utils.606": "Data Source Type",
-  "dyform.utils.607": `Tab component tabName ${dupTabNames.join(",
-  "dyform.utils.608": `)} is duplicated, please check all Tab components in the container property panel [Basic Properties -> Configure Container Properties]`,
-  "dyform.utils.609": `\nTab component objectName ${dupObjectNames.join(",
-  "dyform.utils.610": `\nTable component collection name ${dupBatchNames.join(",
-  "dyform.utils.611": `)} is duplicated, please check all Table components in the container property panel [Personalized Properties -> Collection Name]`,
-  "dyform.utils.612":
-    "] component must be in [Property Panel -> Personalized Properties -> Parameter Configuration]",
+  "dyform.utils.607": "Tab component tabName \${dupTabNames.join(",
+  "dyform.utils.608": ")} is duplicated, please check all Tab components in the container property panel [Basic Properties -> Configure Container Properties]",
+  "dyform.utils.609": "\nTab component objectName \${dupObjectNames.join(",
+  "dyform.utils.610": "\nTable component collection name ${dupBatchNames.join(",
+  "dyform.utils.611": ")} is duplicated, please check all Table components in the container property panel [Personalized Properties -> Collection Name]",
+  "dyform.utils.612": "] component must be in [Property Panel -> Personalized Properties -> Parameter Configuration]",
   "dyform.utils.613": ", configure IP address or service name",
   "dyform.utils.614": ", configure URL address",
   "dyform.utils.615": ", configure display property",
@@ -2888,8 +2887,7 @@ If empty, the table information will be created in the current business database
   "dyform.sample.enterSingleLineInput":
     "Please enter single-line input",
   // utils
-  "dyform.utils.compRegisterSuccess":
-    "star-horse-lowcode component registered successfully",
+  "dyform.utils.compRegisterSuccess": "star-horse-lowcode component registered successfully",
   "dyform.utils.compRegisterFailed":
     "star-horse-lowcode component registration failed:",
   // condition
@@ -2904,6 +2902,5 @@ If empty, the table information will be created in the current business database
   "dyform.condition.deleteChild": "Delete Sub-condition",
   "dyform.condition.childCondition": "Sub-condition",
   "dyform.condition.leafField": "Field",
-  "dyform.condition.confirmDeleteChild":
-    "Are you sure you want to delete this sub-condition and all its child nodes?",
+  "dyform.condition.confirmDeleteChild": "Are you sure you want to delete this sub-condition and all its child nodes?",
 };
