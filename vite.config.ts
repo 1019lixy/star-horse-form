@@ -55,7 +55,7 @@ export default defineConfig((mode) => {
       // strictPort: true,
       // http2: false,
       host: "0.0.0.0",
-      port: 5173,
+      port: 9990,
       http: true,
       open: true,
       hmr: true,
