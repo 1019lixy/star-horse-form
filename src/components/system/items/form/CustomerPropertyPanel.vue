@@ -354,7 +354,7 @@ watch(
                 v-model:formData="formProps"
                 :field="{
                 fieldName: item.fieldName,
-                preps: {...item.preps,clearable:true},
+                preps: item.preps,
               }"
             />
           </el-form-item>
@@ -404,7 +404,7 @@ watch(
                     v-model:formData="formProps"
                     :field="{
                 fieldName: item.fieldName,
-                preps: {...item.preps,clearable:true},
+                preps: item.preps,
               }"
                 />
               </div>
@@ -416,7 +416,7 @@ watch(
                   v-model:formData="formProps"
                   :field="{
                 fieldName: item.fieldName,
-                preps: {...item.preps,clearable:true},
+                preps: item.preps,
               }"
               />
             </template>
