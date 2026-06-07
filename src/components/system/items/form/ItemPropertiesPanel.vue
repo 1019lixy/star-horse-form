@@ -47,7 +47,7 @@ const model = computed(() => props.optional?.model ?? "simple");
 let currentCompCategory = computed(() => designForm.currentCompCategory);
 
 const formProps = computed(() => {
-  let preps = unref(designForm.currentComp).preps;
+  let preps = designForm.currentFormPreps;
   if (!preps) {
     return {};
   }
