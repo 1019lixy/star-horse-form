@@ -1,5 +1,5 @@
 import { ref } from "vue";
-import { ShortKey } from "star-horse-lowcode";
+import { ShortKey, getDesignFormStore } from "star-horse-lowcode";
 import { ModuleEnums } from "@/components/enums/ModuleEnums";
 import {
   altDownFun,
@@ -41,6 +41,29 @@ import {
 const ctrlKey = ref<boolean>(false);
 const altKey = ref<boolean>(false);
 const shiftKey = ref<boolean>(false);
+
+/**
+ * 判断事件目标是否为可输入元素
+ * 当用户在输入框、文本域、下拉框等元素中操作时，不应拦截快捷键
+ */
+const isEditableTarget = (evt: KeyboardEvent): boolean => {
+  const target = evt.target as HTMLElement;
+  if (!target) return false;
+  const tagName = target.tagName;
+  // input / textarea / select 元素
+  if (tagName === "INPUT" || tagName === "TEXTAREA" || tagName === "SELECT") {
+    return true;
+  }
+  // contenteditable 元素
+  if (target.isContentEditable) {
+    return true;
+  }
+  // el-input 等组件的内部 input
+  if (target.closest(".el-input") || target.closest(".el-textarea") || target.closest(".el-select")) {
+    return true;
+  }
+  return false;
+};
 /**
  * 重置ctrlKey
  */
@@ -82,22 +105,28 @@ const shortKeyList = (model: ModuleEnums) => {
       action: "delete",
       handler: () => deleteFun(model),
     },
-
     {
-      key: "1",
-      alt: true,
+      key: "b",
       action: "leftPanel",
+      ctrl: true,
     },
     {
-      key: "2",
-      alt: true,
+      key: "j",
       action: "rightPanel",
+      ctrl: true,
     },
     {
       key: "z",
       action: "undo",
       ctrl: true,
       handler: () => undoFun(model),
+    },
+    {
+      key: "z",
+      action: "redo",
+      ctrl: true,
+      shift: true,
+      handler: () => redoFun(model),
     },
     {
       key: "y",
@@ -109,40 +138,36 @@ const shortKeyList = (model: ModuleEnums) => {
       key: "c",
       action: "copy",
       ctrl: true,
-      alt: true,
       handler: () => copyFun(model),
     },
     {
       key: "x",
       action: "cut",
       ctrl: true,
-      alt: true,
       handler: () => cutFun(model),
     },
     {
       key: "v",
       action: "paste",
       ctrl: true,
-      alt: true,
       handler: () => pasteFun(model),
     },
     {
       key: "v",
       action: "valid",
-      alt: true,
+      ctrl: true,
+      shift: true,
     },
     {
       key: "n",
       action: "new",
       ctrl: true,
-      alt: true,
       handler: () => newFun(model),
     },
     {
       key: "s",
       action: "save",
       ctrl: true,
-      alt: true,
       handler: () => saveFun(model),
     },
     {
@@ -153,22 +178,16 @@ const shortKeyList = (model: ModuleEnums) => {
     },
     {
       key: "d",
-      action: "delete",
+      action: "deleteAll",
       ctrl: true,
-      handler: () => deleteFun(model),
+      shift: true,
+      handler: () => deleteAllFun(model),
     },
     {
       key: "a",
       action: "selectAll",
       ctrl: true,
       handler: () => selectAllFun(model),
-    },
-    {
-      key: "d",
-      action: "deleteAll",
-      ctrl: true,
-      alt: true,
-      handler: () => deleteAllFun(model),
     },
     {
       key: "f",
@@ -180,7 +199,6 @@ const shortKeyList = (model: ModuleEnums) => {
       key: "m",
       action: "exchange",
       ctrl: true,
-      alt: true,
       handler: () => exchangeFun(model),
     },
     {
@@ -193,46 +211,27 @@ const shortKeyList = (model: ModuleEnums) => {
       key: "g",
       action: "unGroup",
       ctrl: true,
-      alt: true,
+      shift: true,
       handler: () => unGroupFun(model),
+    },
+    {
+      key: "p",
+      action: "preview",
+      ctrl: true,
+      handler: () => previewFun(model),
     },
     {
       key: "p",
       action: "print",
       ctrl: true,
+      shift: true,
       handler: () => printFun(model),
     },
     {
-      key: "p",
-      action: "preview",
-      alt: true,
-      handler: () => previewFun(model),
-    },
-    {
-      key: "r",
-      action: "goBack",
-      ctrl: true,
-      handler: () => returnFun(model),
-    },
-    {
-      key: "ArrowUp",
-      action: "up",
-      handler: () => upFun(model),
-    },
-    {
-      key: "ArrowDown",
-      action: "down",
-      handler: () => downFun(model),
-    },
-    {
       key: "ArrowLeft",
-      action: "left",
-      handler: () => leftFun(model),
-    },
-    {
-      key: "ArrowRight",
-      action: "right",
-      handler: () => rightFun(model),
+      action: "goBack",
+      alt: true,
+      handler: () => returnFun(model),
     },
     {
       key: "ArrowUp",
@@ -310,6 +309,15 @@ export const keyboardEvent = (
   if (evt.key == "Shift") {
     shiftKey.value = true;
   }
+  // 当焦点在输入框/文本域/下拉框等可编辑元素中时，不拦截快捷键
+  // 这样用户可以在弹窗、属性面板等输入框中正常使用 Ctrl+C/V 等操作
+  if (isEditableTarget(evt)) {
+    return;
+  }
+  // 当弹窗打开等场景下 shortKeyDisabled 为 true 时，跳过快捷键处理
+  if (getDesignFormStore().shortKeyDisabled) {
+    return;
+  }
   let keyInfo;
   if (ctrlKey.value && altKey.value && shiftKey.value) {
     keyInfo = shortKeyList(module).find(
@@ -345,6 +353,8 @@ export const keyboardEvent = (
     );
   }
   if (keyInfo) {
+    //阻止浏览器默认行为
+    evt.preventDefault();
     //执行方法
     keyInfo.handler && keyInfo.handler();
     actions && actions(keyInfo.action, ...params);

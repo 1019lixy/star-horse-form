@@ -131,6 +131,7 @@ const customerValid = () => {
 };
 const dataSource = (_type: string) => {
   dataSourceVisible.value = true;
+  getDesignFormStore().setShortKeyDisabled(true);
   nextTick(() => {
     setDataSourceData();
   });
@@ -142,6 +143,7 @@ const setDataSourceData = () => {
 };
 const configRelationPolicy = () => {
   dataRelationDialogVisible.value = true;
+  getDesignFormStore().setShortKeyDisabled(true);
   nextTick(() => {
     setRelationInitedData();
   });
@@ -151,6 +153,7 @@ const setRelationInitedData = () => {
 };
 const editContainerPrep = () => {
   containerDialogVisible.value = true;
+  getDesignFormStore().setShortKeyDisabled(true);
 };
 const setContainerData = () => {
   const temp = { ...formProps.value };
@@ -178,12 +181,14 @@ const buttonEventReset = () => {
 };
 const btnClickOpen = () => {
   buttonDialogVisible.value = true;
+  getDesignFormStore().setShortKeyDisabled(true);
 };
 const closeAction = () => {
   dataSourceVisible.value = false;
   dataRelationDialogVisible.value = false;
   buttonDialogVisible.value = false;
   containerDialogVisible.value = false;
+  getDesignFormStore().setShortKeyDisabled(false);
 };
 const submitValid = async () => {
   const result = await dataSourceFormRef.value.submitValid();

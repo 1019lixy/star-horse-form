@@ -2,6 +2,7 @@
 import {computed, ref} from "vue";
 import type {ConditionBranch, FormulaConfig, FormulaType, LookupMapping} from "@/components/types/FormulaConfig";
 import {i18n} from "@/lang/index.js";
+import {getDesignFormStore} from "star-horse-lowcode";
 
 defineOptions({name: "FormulaConfigDialog"});
 
@@ -171,9 +172,11 @@ const insertFieldRef = (fieldName: string) => {
 
 const open = () => {
   visible.value = true;
+  getDesignFormStore().setShortKeyDisabled(true);
 };
 const close = () => {
   visible.value = false;
+  getDesignFormStore().setShortKeyDisabled(false);
 };
 
 defineExpose({open, close});

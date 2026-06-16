@@ -16,7 +16,8 @@ onMounted(() => {
 </script>
 <template>
   <div class="flex flex-col h-full overflow-auto">
-    <el-tabs v-model="actName" class="h-full">
+    <FormTestValid/>
+<!--    <el-tabs v-model="actName" class="h-full">
       <el-tab-pane name="a" :label="i18n('dyform.sample.dynamicForm')">
         <FormTestValid/>
       </el-tab-pane>
@@ -30,7 +31,7 @@ onMounted(() => {
         <TableContainerValid/>
       </el-tab-pane>
 
-    </el-tabs>
+    </el-tabs>-->
   </div>
 </template>
 <style lang="scss" scoped>

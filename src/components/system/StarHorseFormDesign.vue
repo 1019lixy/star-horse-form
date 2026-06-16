@@ -519,6 +519,7 @@ const closeAction = () => {
   designForm.setBatchEditFieldVisible(false);
   closeAllDialogs();
   designForm.setShortKeyDisabled(false);
+  shortKeySwitch(true);
 };
 
 const clearData = (flag: boolean = true) => {

@@ -10,6 +10,8 @@ const emits = defineEmits(["dataBind"]);
 const designForm = getDesignFormStore();
 const compList = computed(() => designForm.compList);
 const compNames = ref<SelectOption[]>([]);
+// 缓存 id -> 组件 的映射，避免依赖 store 的 isCompListUpdated 缓存
+const compMap = ref<Record<string, any>>({});
 const dataChange = (data: any) => {
   if (!data) {
     return;
@@ -17,29 +19,31 @@ const dataChange = (data: any) => {
   if (props.operType == "bind") {
     emits("dataBind", data);
   } else {
-    const compItem = designForm.selectItemById(data.id);
+    const compItem = compMap.value[data.id];
     if (!compItem) {
       console.log("未找到组件");
       return;
     }
     designForm.selectItem(compItem, compItem.itemType, "");
-    // 新增：触发滚动定位
+    // 触发滚动定位
     const event = new CustomEvent("scroll-to-field", {detail: data.id});
     window.dispatchEvent(event);
   }
 };
 const init = () => {
-  let {selectList} = analysisCompDatas(compList);
+  let {selectList, compListResult} = analysisCompDatas(compList);
   compNames.value = selectList;
+  compMap.value = compListResult;
 };
 onMounted(() => {
   init();
 });
 watch(
     () => compList.value,
-    (val: any) => {
+    () => {
       init();
     },
+    {deep: true},
 );
 </script>
 <template>

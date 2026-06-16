@@ -29,6 +29,9 @@ export function useKeyboardEvents(actions: (action: ToolBtnType) => void) {
    */
   const shortKeySwitch = (val: boolean) => {
     if (val) {
+      if (keyboardHandlers.value) {
+        removeKeyboardEvent(keyboardHandlers.value);
+      }
       keyboardHandlers.value = initKeyboardEvent(
         actions,
         ModuleEnums.DYNAMIC_FORM,
@@ -37,6 +40,7 @@ export function useKeyboardEvents(actions: (action: ToolBtnType) => void) {
     } else {
       if (keyboardHandlers.value) {
         removeKeyboardEvent(keyboardHandlers.value);
+        keyboardHandlers.value = null;
       }
       window.removeEventListener("scroll-to-field", scrollHandler);
     }

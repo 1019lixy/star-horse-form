@@ -118,12 +118,12 @@ onMounted(() => {
               v-if="permissionCheck(item)"
               :key="'1_' + index"
               @click="actions(item)"
-              :title="`${item.label} (${item.shortcut || ''})`"
+              :title="item.shortcut ? `${item.label} (${item.shortcut})` : item.label"
               class="toolbar-button"
           >
             <el-tooltip
                 class="item"
-                :content="`${item.label} (${item.shortcut || ''})`"
+                :content="item.shortcut ? `${item.label} (${item.shortcut})` : item.label"
                 effect="dark"
                 placement="bottom"
             >
