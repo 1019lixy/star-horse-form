@@ -54,12 +54,6 @@ const formActions = (): Array<ToolBtnType> => [
     label: i18n("dyform.action.edit"),
   },
   {
-    icon: "dept",
-    key: "layer",
-    auth: "none",
-    label: i18n("dyform.action.layer"),
-  },
-  {
     icon: "empty_setting",
     key: "empty",
     auth: "none",

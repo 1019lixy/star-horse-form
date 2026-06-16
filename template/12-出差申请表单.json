@@ -1,0 +1,679 @@
+{
+  "formInfo": {
+    "formName": "12-出差申请表单",
+    "currentPageType": "pc"
+  },
+  "dataList": [
+    {
+      "id": "Id29cb90f5-489b-4edb-842f-b6d1ed74ab85",
+      "compType": "container",
+      "itemType": "card",
+      "fieldName": "field_0b038c",
+      "preps": {
+        "id": "Id29cb90f5-489b-4edb-842f-b6d1ed74ab85",
+        "label": "出差信息",
+        "name": "field_0b038c",
+        "itemNameLabel": "出差信息",
+        "headerFieldList": [],
+        "elements": [
+          {
+            "label": "出差信息",
+            "tabName": "出差信息",
+            "objectName": "出差信息",
+            "subFormFlag": "Y",
+            "items": [
+              {
+                "id": "Id5c2e216c-1b57-4cbe-87e2-1e4e87a1da37",
+                "compType": "container",
+                "itemType": "box",
+                "fieldName": "field_a8ae1a",
+                "rowNums": 1,
+                "columnNums": 2,
+                "preps": {
+                  "id": "Id5c2e216c-1b57-4cbe-87e2-1e4e87a1da37",
+                  "label": "Grid Layout",
+                  "name": "field_a8ae1a",
+                  "itemNameLabel": "Grid Layout",
+                  "elements": [
+                    {
+                      "id": "row-ccfdd4d1-c6b4-4409-ba38-6d7812de4c6e",
+                      "rowIndex": 1,
+                      "columns": [
+                        {
+                          "id": "col-490793e5-d36f-4de8-91c4-eab66ebc7e9d",
+                          "cellVisible": true,
+                          "colIndex": 1,
+                          "colspan": 12,
+                          "items": [
+                            {
+                              "id": "Idceb05205-458c-4d85-af39-af7ab9cf5a81",
+                              "compType": "formItem",
+                              "itemType": "input",
+                              "fieldName": "field_be5b2c",
+                              "preps": {
+                                "id": "Idceb05205-458c-4d85-af39-af7ab9cf5a81",
+                                "label": "申请人",
+                                "name": "field_be5b2c",
+                                "itemNameLabel": "申请人",
+                                "formVisible": true,
+                                "listVisible": true,
+                                "viewVisible": true,
+                                "searchVisible": false,
+                                "required": true,
+                                "disabled": false,
+                                "clearable": true,
+                                "readonly": false,
+                                "maxLength": 255,
+                                "placeholder": "请输入申请人",
+                                "dataSource": "",
+                                "values": [],
+                                "rules": [],
+                                "helpMsg": ""
+                              }
+                            }
+                          ]
+                        },
+                        {
+                          "id": "col-b0116e80-8aa4-42b8-88a4-c7236a5a903b",
+                          "cellVisible": true,
+                          "colIndex": 1,
+                          "colspan": 12,
+                          "items": [
+                            {
+                              "id": "Id06381eec-98d9-42bd-a146-82781bddda12",
+                              "compType": "formItem",
+                              "itemType": "select",
+                              "fieldName": "field_ba7f1a",
+                              "preps": {
+                                "id": "Id06381eec-98d9-42bd-a146-82781bddda12",
+                                "label": "部门",
+                                "name": "field_ba7f1a",
+                                "itemNameLabel": "部门",
+                                "formVisible": true,
+                                "listVisible": true,
+                                "viewVisible": true,
+                                "searchVisible": false,
+                                "required": false,
+                                "disabled": false,
+                                "clearable": true,
+                                "readonly": false,
+                                "maxLength": 255,
+                                "placeholder": "请输入部门",
+                                "dataSource": "data",
+                                "values": [
+                                  {
+                                    "label": "技术部",
+                                    "value": "1"
+                                  },
+                                  {
+                                    "label": "产品部",
+                                    "value": "2"
+                                  },
+                                  {
+                                    "label": "市场部",
+                                    "value": "3"
+                                  },
+                                  {
+                                    "label": "人事部",
+                                    "value": "4"
+                                  },
+                                  {
+                                    "label": "财务部",
+                                    "value": "5"
+                                  }
+                                ],
+                                "rules": [],
+                                "helpMsg": ""
+                              }
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              },
+              {
+                "id": "Id4b51bf89-0ca6-4035-b0ed-aa2d4d675a59",
+                "compType": "container",
+                "itemType": "box",
+                "fieldName": "field_e4ab9b",
+                "rowNums": 1,
+                "columnNums": 2,
+                "preps": {
+                  "id": "Id4b51bf89-0ca6-4035-b0ed-aa2d4d675a59",
+                  "label": "Grid Layout",
+                  "name": "field_e4ab9b",
+                  "itemNameLabel": "Grid Layout",
+                  "elements": [
+                    {
+                      "id": "row-8f9d406e-67fd-4e2f-9319-b25215482c69",
+                      "rowIndex": 1,
+                      "columns": [
+                        {
+                          "id": "col-a87b4cf4-6e1f-483e-8542-a4a1089e429c",
+                          "cellVisible": true,
+                          "colIndex": 1,
+                          "colspan": 12,
+                          "items": [
+                            {
+                              "id": "Id19979fb4-fd2c-4ba0-9862-7ae003556798",
+                              "compType": "formItem",
+                              "itemType": "input",
+                              "fieldName": "field_678fdf",
+                              "preps": {
+                                "id": "Id19979fb4-fd2c-4ba0-9862-7ae003556798",
+                                "label": "目的地",
+                                "name": "field_678fdf",
+                                "itemNameLabel": "目的地",
+                                "formVisible": true,
+                                "listVisible": true,
+                                "viewVisible": true,
+                                "searchVisible": false,
+                                "required": true,
+                                "disabled": false,
+                                "clearable": true,
+                                "readonly": false,
+                                "maxLength": 255,
+                                "placeholder": "请输入目的地",
+                                "dataSource": "",
+                                "values": [],
+                                "rules": [],
+                                "helpMsg": ""
+                              }
+                            }
+                          ]
+                        },
+                        {
+                          "id": "col-980da071-f930-4f0c-991d-230019f173bb",
+                          "cellVisible": true,
+                          "colIndex": 1,
+                          "colspan": 12,
+                          "items": [
+                            {
+                              "id": "Iddc738e9b-47a1-4f07-87f5-27d877663108",
+                              "compType": "formItem",
+                              "itemType": "select",
+                              "fieldName": "field_07a214",
+                              "preps": {
+                                "id": "Iddc738e9b-47a1-4f07-87f5-27d877663108",
+                                "label": "出差类型",
+                                "name": "field_07a214",
+                                "itemNameLabel": "出差类型",
+                                "formVisible": true,
+                                "listVisible": true,
+                                "viewVisible": true,
+                                "searchVisible": false,
+                                "required": false,
+                                "disabled": false,
+                                "clearable": true,
+                                "readonly": false,
+                                "maxLength": 255,
+                                "placeholder": "请输入出差类型",
+                                "dataSource": "data",
+                                "values": [
+                                  {
+                                    "label": "国内出差",
+                                    "value": "1"
+                                  },
+                                  {
+                                    "label": "国际出差",
+                                    "value": "2"
+                                  }
+                                ],
+                                "rules": [],
+                                "helpMsg": ""
+                              }
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              },
+              {
+                "id": "Idaaa3cdc9-6022-470c-8f67-27fbcb41a88a",
+                "compType": "container",
+                "itemType": "box",
+                "fieldName": "field_b3de05",
+                "rowNums": 1,
+                "columnNums": 2,
+                "preps": {
+                  "id": "Idaaa3cdc9-6022-470c-8f67-27fbcb41a88a",
+                  "label": "Grid Layout",
+                  "name": "field_b3de05",
+                  "itemNameLabel": "Grid Layout",
+                  "elements": [
+                    {
+                      "id": "row-e7468bd8-d5ed-47b3-aad6-5def29479df2",
+                      "rowIndex": 1,
+                      "columns": [
+                        {
+                          "id": "col-386fc58f-020f-4257-9696-f340eaccf7f9",
+                          "cellVisible": true,
+                          "colIndex": 1,
+                          "colspan": 12,
+                          "items": [
+                            {
+                              "id": "Id56e6125d-3ed9-41f3-a45f-9bf70dc67fbf",
+                              "compType": "formItem",
+                              "itemType": "date",
+                              "fieldName": "field_a0dbaf",
+                              "preps": {
+                                "id": "Id56e6125d-3ed9-41f3-a45f-9bf70dc67fbf",
+                                "label": "出发日期",
+                                "name": "field_a0dbaf",
+                                "itemNameLabel": "出发日期",
+                                "formVisible": true,
+                                "listVisible": true,
+                                "viewVisible": true,
+                                "searchVisible": false,
+                                "required": true,
+                                "disabled": false,
+                                "clearable": true,
+                                "readonly": false,
+                                "maxLength": 255,
+                                "placeholder": "请输入出发日期",
+                                "dataSource": "",
+                                "values": [],
+                                "rules": [],
+                                "helpMsg": ""
+                              }
+                            }
+                          ]
+                        },
+                        {
+                          "id": "col-aa0fdace-8597-4db8-8c9c-475734441a27",
+                          "cellVisible": true,
+                          "colIndex": 1,
+                          "colspan": 12,
+                          "items": [
+                            {
+                              "id": "Id921d7f8b-7aa1-4d47-9896-f06aa17afe2e",
+                              "compType": "formItem",
+                              "itemType": "date",
+                              "fieldName": "field_4954ea",
+                              "preps": {
+                                "id": "Id921d7f8b-7aa1-4d47-9896-f06aa17afe2e",
+                                "label": "返回日期",
+                                "name": "field_4954ea",
+                                "itemNameLabel": "返回日期",
+                                "formVisible": true,
+                                "listVisible": true,
+                                "viewVisible": true,
+                                "searchVisible": false,
+                                "required": true,
+                                "disabled": false,
+                                "clearable": true,
+                                "readonly": false,
+                                "maxLength": 255,
+                                "placeholder": "请输入返回日期",
+                                "dataSource": "",
+                                "values": [],
+                                "rules": [],
+                                "helpMsg": ""
+                              }
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              },
+              {
+                "id": "Idbc19c3d8-160d-47e5-9075-f6c9780a7dd2",
+                "compType": "formItem",
+                "itemType": "textarea",
+                "fieldName": "field_91f5e7",
+                "preps": {
+                  "id": "Idbc19c3d8-160d-47e5-9075-f6c9780a7dd2",
+                  "label": "出差目的",
+                  "name": "field_91f5e7",
+                  "itemNameLabel": "出差目的",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": true,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 500,
+                  "placeholder": "请输入出差目的",
+                  "dataSource": "",
+                  "values": [],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Id280cd8b1-8286-4cf0-926e-6d442447035b",
+                "compType": "formItem",
+                "itemType": "select",
+                "fieldName": "field_19cd7f",
+                "preps": {
+                  "id": "Id280cd8b1-8286-4cf0-926e-6d442447035b",
+                  "label": "交通方式",
+                  "name": "field_19cd7f",
+                  "itemNameLabel": "交通方式",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入交通方式",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "label": "飞机",
+                      "value": "1"
+                    },
+                    {
+                      "label": "高铁",
+                      "value": "2"
+                    },
+                    {
+                      "label": "自驾",
+                      "value": "3"
+                    },
+                    {
+                      "label": "公司派车",
+                      "value": "4"
+                    },
+                    {
+                      "label": "其他",
+                      "value": "5"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "Idd546aad9-a6f0-4506-aa05-a10866f4f077",
+      "compType": "container",
+      "itemType": "card",
+      "fieldName": "field_36830b",
+      "preps": {
+        "id": "Idd546aad9-a6f0-4506-aa05-a10866f4f077",
+        "label": "预算明细",
+        "name": "field_36830b",
+        "itemNameLabel": "预算明细",
+        "headerFieldList": [],
+        "elements": [
+          {
+            "label": "预算明细",
+            "tabName": "预算明细",
+            "objectName": "预算明细",
+            "subFormFlag": "Y",
+            "items": [
+              {
+                "id": "Id1974a565-75bc-44b2-bb69-306e9c671f4f",
+                "compType": "container",
+                "itemType": "box",
+                "fieldName": "field_1edb49",
+                "rowNums": 1,
+                "columnNums": 3,
+                "preps": {
+                  "id": "Id1974a565-75bc-44b2-bb69-306e9c671f4f",
+                  "label": "Grid Layout",
+                  "name": "field_1edb49",
+                  "itemNameLabel": "Grid Layout",
+                  "elements": [
+                    {
+                      "id": "row-ccaddbf8-e92c-4702-8f40-445d88810678",
+                      "rowIndex": 1,
+                      "columns": [
+                        {
+                          "id": "col-76bafd3f-a3d8-449b-9ed3-d350e9c5b24b",
+                          "cellVisible": true,
+                          "colIndex": 1,
+                          "colspan": 8,
+                          "items": [
+                            {
+                              "id": "Id960426f7-4fee-4960-906c-9758bf59933c",
+                              "compType": "formItem",
+                              "itemType": "number",
+                              "fieldName": "field_343099",
+                              "preps": {
+                                "id": "Id960426f7-4fee-4960-906c-9758bf59933c",
+                                "label": "交通费",
+                                "name": "field_343099",
+                                "itemNameLabel": "交通费",
+                                "formVisible": true,
+                                "listVisible": true,
+                                "viewVisible": true,
+                                "searchVisible": false,
+                                "required": false,
+                                "disabled": false,
+                                "clearable": true,
+                                "readonly": false,
+                                "maxLength": 255,
+                                "placeholder": "请输入交通费",
+                                "dataSource": "",
+                                "values": [],
+                                "rules": [],
+                                "helpMsg": "",
+                                "min": 0,
+                                "precision": 2
+                              }
+                            }
+                          ]
+                        },
+                        {
+                          "id": "col-4cfda0eb-30a0-4ec0-a5fe-55b85878f9c4",
+                          "cellVisible": true,
+                          "colIndex": 1,
+                          "colspan": 8,
+                          "items": [
+                            {
+                              "id": "Id94551419-91d4-4da0-873a-88660a131950",
+                              "compType": "formItem",
+                              "itemType": "number",
+                              "fieldName": "field_767d66",
+                              "preps": {
+                                "id": "Id94551419-91d4-4da0-873a-88660a131950",
+                                "label": "住宿费",
+                                "name": "field_767d66",
+                                "itemNameLabel": "住宿费",
+                                "formVisible": true,
+                                "listVisible": true,
+                                "viewVisible": true,
+                                "searchVisible": false,
+                                "required": false,
+                                "disabled": false,
+                                "clearable": true,
+                                "readonly": false,
+                                "maxLength": 255,
+                                "placeholder": "请输入住宿费",
+                                "dataSource": "",
+                                "values": [],
+                                "rules": [],
+                                "helpMsg": "",
+                                "min": 0,
+                                "precision": 2
+                              }
+                            }
+                          ]
+                        },
+                        {
+                          "id": "col-a4138b76-88d9-47ed-b7da-fa82e5ca1620",
+                          "cellVisible": true,
+                          "colIndex": 1,
+                          "colspan": 8,
+                          "items": [
+                            {
+                              "id": "Idd5c1aa92-08a0-433a-8af5-fa020b0936aa",
+                              "compType": "formItem",
+                              "itemType": "number",
+                              "fieldName": "field_114925",
+                              "preps": {
+                                "id": "Idd5c1aa92-08a0-433a-8af5-fa020b0936aa",
+                                "label": "餐饮补贴",
+                                "name": "field_114925",
+                                "itemNameLabel": "餐饮补贴",
+                                "formVisible": true,
+                                "listVisible": true,
+                                "viewVisible": true,
+                                "searchVisible": false,
+                                "required": false,
+                                "disabled": false,
+                                "clearable": true,
+                                "readonly": false,
+                                "maxLength": 255,
+                                "placeholder": "请输入餐饮补贴",
+                                "dataSource": "",
+                                "values": [],
+                                "rules": [],
+                                "helpMsg": "",
+                                "min": 0,
+                                "precision": 2
+                              }
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              },
+              {
+                "id": "Idf2163970-9fdd-4c33-ad13-48da1363734b",
+                "compType": "container",
+                "itemType": "box",
+                "fieldName": "field_e3518b",
+                "rowNums": 1,
+                "columnNums": 2,
+                "preps": {
+                  "id": "Idf2163970-9fdd-4c33-ad13-48da1363734b",
+                  "label": "Grid Layout",
+                  "name": "field_e3518b",
+                  "itemNameLabel": "Grid Layout",
+                  "elements": [
+                    {
+                      "id": "row-5fb57397-a25f-4a89-a011-212f47027652",
+                      "rowIndex": 1,
+                      "columns": [
+                        {
+                          "id": "col-9531805a-ce3d-407d-b1a6-a8f21a31cb10",
+                          "cellVisible": true,
+                          "colIndex": 1,
+                          "colspan": 12,
+                          "items": [
+                            {
+                              "id": "Id5fd86e46-0584-498a-a4e0-ccc92a5cbbd7",
+                              "compType": "formItem",
+                              "itemType": "number",
+                              "fieldName": "field_2082b2",
+                              "preps": {
+                                "id": "Id5fd86e46-0584-498a-a4e0-ccc92a5cbbd7",
+                                "label": "其他费用",
+                                "name": "field_2082b2",
+                                "itemNameLabel": "其他费用",
+                                "formVisible": true,
+                                "listVisible": true,
+                                "viewVisible": true,
+                                "searchVisible": false,
+                                "required": false,
+                                "disabled": false,
+                                "clearable": true,
+                                "readonly": false,
+                                "maxLength": 255,
+                                "placeholder": "请输入其他费用",
+                                "dataSource": "",
+                                "values": [],
+                                "rules": [],
+                                "helpMsg": "",
+                                "min": 0,
+                                "precision": 2
+                              }
+                            }
+                          ]
+                        },
+                        {
+                          "id": "col-40b9b40e-e61e-4270-ad7c-7ec7054b7612",
+                          "cellVisible": true,
+                          "colIndex": 1,
+                          "colspan": 12,
+                          "items": [
+                            {
+                              "id": "Id12c02145-b886-4f6f-9f48-d748315a1be5",
+                              "compType": "formItem",
+                              "itemType": "number",
+                              "fieldName": "field_7d4bfb",
+                              "preps": {
+                                "id": "Id12c02145-b886-4f6f-9f48-d748315a1be5",
+                                "label": "合计金额",
+                                "name": "field_7d4bfb",
+                                "itemNameLabel": "合计金额",
+                                "formVisible": true,
+                                "listVisible": true,
+                                "viewVisible": true,
+                                "searchVisible": false,
+                                "required": false,
+                                "disabled": false,
+                                "clearable": true,
+                                "readonly": true,
+                                "maxLength": 255,
+                                "placeholder": "请输入合计金额",
+                                "dataSource": "",
+                                "values": [],
+                                "rules": [],
+                                "helpMsg": "",
+                                "min": 0,
+                                "precision": 2
+                              }
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              },
+              {
+                "id": "Id4e89de15-996c-47ac-88b5-1e3cf92beb2b",
+                "compType": "formItem",
+                "itemType": "textarea",
+                "fieldName": "field_90635d",
+                "preps": {
+                  "id": "Id4e89de15-996c-47ac-88b5-1e3cf92beb2b",
+                  "label": "费用说明",
+                  "name": "field_90635d",
+                  "itemNameLabel": "费用说明",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入费用说明",
+                  "dataSource": "",
+                  "values": [],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "exportTime": "2026-06-16T09:36:26.507Z",
+  "version": "1.0"
+}

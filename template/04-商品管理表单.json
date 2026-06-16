@@ -1,0 +1,692 @@
+{
+  "formInfo": {
+    "formName": "04-商品管理表单",
+    "currentPageType": "pc"
+  },
+  "dataList": [
+    {
+      "id": "Id91fec06c-8d23-42e3-aa58-83c08a9b6363",
+      "compType": "container",
+      "itemType": "card",
+      "fieldName": "field_79afdd",
+      "preps": {
+        "id": "Id91fec06c-8d23-42e3-aa58-83c08a9b6363",
+        "label": "基本信息",
+        "name": "field_79afdd",
+        "itemNameLabel": "基本信息",
+        "headerFieldList": [],
+        "elements": [
+          {
+            "label": "基本信息",
+            "tabName": "基本信息",
+            "objectName": "基本信息",
+            "subFormFlag": "Y",
+            "items": [
+              {
+                "id": "Id33814433-6ee2-4118-a93f-10b59a9255d6",
+                "compType": "container",
+                "itemType": "box",
+                "fieldName": "field_403941",
+                "rowNums": 1,
+                "columnNums": 2,
+                "preps": {
+                  "id": "Id33814433-6ee2-4118-a93f-10b59a9255d6",
+                  "label": "Grid Layout",
+                  "name": "field_403941",
+                  "itemNameLabel": "Grid Layout",
+                  "elements": [
+                    {
+                      "id": "row-11194411-bd79-4341-a742-47b9e4770503",
+                      "rowIndex": 1,
+                      "columns": [
+                        {
+                          "id": "col-aefa826c-1a20-46f9-b944-ee62395f75be",
+                          "cellVisible": true,
+                          "colIndex": 1,
+                          "colspan": 12,
+                          "items": [
+                            {
+                              "id": "Id2c7ce14c-233a-4742-82d5-0344650e6b08",
+                              "compType": "formItem",
+                              "itemType": "input",
+                              "fieldName": "field_f5d832",
+                              "preps": {
+                                "id": "Id2c7ce14c-233a-4742-82d5-0344650e6b08",
+                                "label": "商品名称",
+                                "name": "field_f5d832",
+                                "itemNameLabel": "商品名称",
+                                "formVisible": true,
+                                "listVisible": true,
+                                "viewVisible": true,
+                                "searchVisible": false,
+                                "required": true,
+                                "disabled": false,
+                                "clearable": true,
+                                "readonly": false,
+                                "maxLength": 255,
+                                "placeholder": "请输入商品名称",
+                                "dataSource": "",
+                                "values": [],
+                                "rules": [],
+                                "helpMsg": ""
+                              }
+                            }
+                          ]
+                        },
+                        {
+                          "id": "col-055a428d-07be-419a-9ddf-5480075aae39",
+                          "cellVisible": true,
+                          "colIndex": 1,
+                          "colspan": 12,
+                          "items": [
+                            {
+                              "id": "Id44bce28f-77cc-4505-8819-5158f974266d",
+                              "compType": "formItem",
+                              "itemType": "select",
+                              "fieldName": "field_5d6de2",
+                              "preps": {
+                                "id": "Id44bce28f-77cc-4505-8819-5158f974266d",
+                                "label": "商品分类",
+                                "name": "field_5d6de2",
+                                "itemNameLabel": "商品分类",
+                                "formVisible": true,
+                                "listVisible": true,
+                                "viewVisible": true,
+                                "searchVisible": false,
+                                "required": false,
+                                "disabled": false,
+                                "clearable": true,
+                                "readonly": false,
+                                "maxLength": 255,
+                                "placeholder": "请输入商品分类",
+                                "dataSource": "data",
+                                "values": [
+                                  {
+                                    "label": "电子产品",
+                                    "value": "1"
+                                  },
+                                  {
+                                    "label": "服装鞋帽",
+                                    "value": "2"
+                                  },
+                                  {
+                                    "label": "食品饮料",
+                                    "value": "3"
+                                  },
+                                  {
+                                    "label": "家居用品",
+                                    "value": "4"
+                                  },
+                                  {
+                                    "label": "图书文具",
+                                    "value": "5"
+                                  },
+                                  {
+                                    "label": "其他",
+                                    "value": "6"
+                                  }
+                                ],
+                                "rules": [],
+                                "helpMsg": ""
+                              }
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              },
+              {
+                "id": "Idc969b2c4-75cb-4982-b35d-c0f0568ae0df",
+                "compType": "container",
+                "itemType": "box",
+                "fieldName": "field_d1d418",
+                "rowNums": 1,
+                "columnNums": 3,
+                "preps": {
+                  "id": "Idc969b2c4-75cb-4982-b35d-c0f0568ae0df",
+                  "label": "Grid Layout",
+                  "name": "field_d1d418",
+                  "itemNameLabel": "Grid Layout",
+                  "elements": [
+                    {
+                      "id": "row-f9ce3ed9-94d7-4854-9e07-e56e8e4f6cf5",
+                      "rowIndex": 1,
+                      "columns": [
+                        {
+                          "id": "col-e0b8843d-0a2a-45b7-b1a7-3722ba11f208",
+                          "cellVisible": true,
+                          "colIndex": 1,
+                          "colspan": 8,
+                          "items": [
+                            {
+                              "id": "Id553986e2-6053-47c1-b378-cb23cdd7d4b2",
+                              "compType": "formItem",
+                              "itemType": "number",
+                              "fieldName": "field_34577e",
+                              "preps": {
+                                "id": "Id553986e2-6053-47c1-b378-cb23cdd7d4b2",
+                                "label": "售价",
+                                "name": "field_34577e",
+                                "itemNameLabel": "售价",
+                                "formVisible": true,
+                                "listVisible": true,
+                                "viewVisible": true,
+                                "searchVisible": false,
+                                "required": true,
+                                "disabled": false,
+                                "clearable": true,
+                                "readonly": false,
+                                "maxLength": 255,
+                                "placeholder": "请输入售价",
+                                "dataSource": "",
+                                "values": [],
+                                "rules": [],
+                                "helpMsg": "",
+                                "min": 0,
+                                "precision": 2
+                              }
+                            }
+                          ]
+                        },
+                        {
+                          "id": "col-ce110d96-8498-4c68-ad1b-d0782edcfca7",
+                          "cellVisible": true,
+                          "colIndex": 1,
+                          "colspan": 8,
+                          "items": [
+                            {
+                              "id": "Id61a81a02-7607-43e9-832a-a528a7f6014b",
+                              "compType": "formItem",
+                              "itemType": "number",
+                              "fieldName": "field_a96026",
+                              "preps": {
+                                "id": "Id61a81a02-7607-43e9-832a-a528a7f6014b",
+                                "label": "成本价",
+                                "name": "field_a96026",
+                                "itemNameLabel": "成本价",
+                                "formVisible": true,
+                                "listVisible": true,
+                                "viewVisible": true,
+                                "searchVisible": false,
+                                "required": false,
+                                "disabled": false,
+                                "clearable": true,
+                                "readonly": false,
+                                "maxLength": 255,
+                                "placeholder": "请输入成本价",
+                                "dataSource": "",
+                                "values": [],
+                                "rules": [],
+                                "helpMsg": "",
+                                "min": 0,
+                                "precision": 2
+                              }
+                            }
+                          ]
+                        },
+                        {
+                          "id": "col-94e4185a-9056-4d9c-a791-119aef26a033",
+                          "cellVisible": true,
+                          "colIndex": 1,
+                          "colspan": 8,
+                          "items": [
+                            {
+                              "id": "Id7f1535e4-07af-43ce-b62b-dccc58361ffd",
+                              "compType": "formItem",
+                              "itemType": "number",
+                              "fieldName": "field_aa2efd",
+                              "preps": {
+                                "id": "Id7f1535e4-07af-43ce-b62b-dccc58361ffd",
+                                "label": "库存数量",
+                                "name": "field_aa2efd",
+                                "itemNameLabel": "库存数量",
+                                "formVisible": true,
+                                "listVisible": true,
+                                "viewVisible": true,
+                                "searchVisible": false,
+                                "required": true,
+                                "disabled": false,
+                                "clearable": true,
+                                "readonly": false,
+                                "maxLength": 255,
+                                "placeholder": "请输入库存数量",
+                                "dataSource": "",
+                                "values": [],
+                                "rules": [],
+                                "helpMsg": "",
+                                "min": 0,
+                                "precision": 0
+                              }
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              },
+              {
+                "id": "Idd1ec2d2e-7319-42d3-8084-5ee1540d5086",
+                "compType": "container",
+                "itemType": "box",
+                "fieldName": "field_cbcbf6",
+                "rowNums": 1,
+                "columnNums": 2,
+                "preps": {
+                  "id": "Idd1ec2d2e-7319-42d3-8084-5ee1540d5086",
+                  "label": "Grid Layout",
+                  "name": "field_cbcbf6",
+                  "itemNameLabel": "Grid Layout",
+                  "elements": [
+                    {
+                      "id": "row-a7baf7c0-9961-4f6c-8b3b-192897021a23",
+                      "rowIndex": 1,
+                      "columns": [
+                        {
+                          "id": "col-0880b0aa-34e6-4267-8a9f-2b3e173660cd",
+                          "cellVisible": true,
+                          "colIndex": 1,
+                          "colspan": 12,
+                          "items": [
+                            {
+                              "id": "Id092bcdaf-0c6f-497d-b5d4-0b20808671f0",
+                              "compType": "formItem",
+                              "itemType": "select",
+                              "fieldName": "field_5aebda",
+                              "preps": {
+                                "id": "Id092bcdaf-0c6f-497d-b5d4-0b20808671f0",
+                                "label": "品牌",
+                                "name": "field_5aebda",
+                                "itemNameLabel": "品牌",
+                                "formVisible": true,
+                                "listVisible": true,
+                                "viewVisible": true,
+                                "searchVisible": false,
+                                "required": false,
+                                "disabled": false,
+                                "clearable": true,
+                                "readonly": false,
+                                "maxLength": 255,
+                                "placeholder": "请输入品牌",
+                                "dataSource": "data",
+                                "values": [
+                                  {
+                                    "label": "品牌A",
+                                    "value": "1"
+                                  },
+                                  {
+                                    "label": "品牌B",
+                                    "value": "2"
+                                  },
+                                  {
+                                    "label": "品牌C",
+                                    "value": "3"
+                                  },
+                                  {
+                                    "label": "其他",
+                                    "value": "4"
+                                  }
+                                ],
+                                "rules": [],
+                                "helpMsg": ""
+                              }
+                            }
+                          ]
+                        },
+                        {
+                          "id": "col-c96b01c3-08ba-4c4d-887c-6f9f8af6c636",
+                          "cellVisible": true,
+                          "colIndex": 1,
+                          "colspan": 12,
+                          "items": [
+                            {
+                              "id": "Idf00ff28c-d3ec-46a5-87ad-d8e5dbee750f",
+                              "compType": "formItem",
+                              "itemType": "input",
+                              "fieldName": "field_c8f8ef",
+                              "preps": {
+                                "id": "Idf00ff28c-d3ec-46a5-87ad-d8e5dbee750f",
+                                "label": "商品编码",
+                                "name": "field_c8f8ef",
+                                "itemNameLabel": "商品编码",
+                                "formVisible": true,
+                                "listVisible": true,
+                                "viewVisible": true,
+                                "searchVisible": false,
+                                "required": true,
+                                "disabled": false,
+                                "clearable": true,
+                                "readonly": false,
+                                "maxLength": 255,
+                                "placeholder": "请输入商品编码",
+                                "dataSource": "",
+                                "values": [],
+                                "rules": [],
+                                "helpMsg": ""
+                              }
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "Id669ca436-d6eb-4396-aa76-6defd4eb0160",
+      "compType": "container",
+      "itemType": "card",
+      "fieldName": "field_3160cc",
+      "preps": {
+        "id": "Id669ca436-d6eb-4396-aa76-6defd4eb0160",
+        "label": "商品详情",
+        "name": "field_3160cc",
+        "itemNameLabel": "商品详情",
+        "headerFieldList": [],
+        "elements": [
+          {
+            "label": "商品详情",
+            "tabName": "商品详情",
+            "objectName": "商品详情",
+            "subFormFlag": "Y",
+            "items": [
+              {
+                "id": "Idb70a97da-93c3-4977-8595-340865813725",
+                "compType": "formItem",
+                "itemType": "textarea",
+                "fieldName": "field_c413e6",
+                "preps": {
+                  "id": "Idb70a97da-93c3-4977-8595-340865813725",
+                  "label": "商品描述",
+                  "name": "field_c413e6",
+                  "itemNameLabel": "商品描述",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 1000,
+                  "placeholder": "请输入商品描述",
+                  "dataSource": "",
+                  "values": [],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Id6e698d93-757c-424f-bdcd-cae940efb579",
+                "compType": "formItem",
+                "itemType": "upload",
+                "fieldName": "field_da7813",
+                "preps": {
+                  "id": "Id6e698d93-757c-424f-bdcd-cae940efb579",
+                  "label": "商品图片",
+                  "name": "field_da7813",
+                  "itemNameLabel": "商品图片",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入商品图片",
+                  "dataSource": "",
+                  "values": [],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Idf0660ecc-7a2f-4203-a99c-9ec18b0773f6",
+                "compType": "formItem",
+                "itemType": "upload",
+                "fieldName": "field_e5959a",
+                "preps": {
+                  "id": "Idf0660ecc-7a2f-4203-a99c-9ec18b0773f6",
+                  "label": "详情图片",
+                  "name": "field_e5959a",
+                  "itemNameLabel": "详情图片",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入详情图片",
+                  "dataSource": "",
+                  "values": [],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Idd8f0a89d-2ef9-444a-8ce6-cb9760b50e2c",
+                "compType": "formItem",
+                "itemType": "htmleditor",
+                "fieldName": "field_94a8da",
+                "preps": {
+                  "id": "Idd8f0a89d-2ef9-444a-8ce6-cb9760b50e2c",
+                  "label": "详细描述",
+                  "name": "field_94a8da",
+                  "itemNameLabel": "详细描述",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入详细描述",
+                  "dataSource": "",
+                  "values": [],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "Id1b3887d5-370e-45e6-897a-ad9b2af3c98e",
+      "compType": "container",
+      "itemType": "card",
+      "fieldName": "field_c9e344",
+      "preps": {
+        "id": "Id1b3887d5-370e-45e6-897a-ad9b2af3c98e",
+        "label": "规格参数",
+        "name": "field_c9e344",
+        "itemNameLabel": "规格参数",
+        "headerFieldList": [],
+        "elements": [
+          {
+            "label": "规格参数",
+            "tabName": "规格参数",
+            "objectName": "规格参数",
+            "subFormFlag": "Y",
+            "items": [
+              {
+                "id": "Ide0d66664-efee-44a2-a333-fc3b18894b20",
+                "compType": "formItem",
+                "itemType": "input-tag",
+                "fieldName": "field_b1d3f3",
+                "preps": {
+                  "id": "Ide0d66664-efee-44a2-a333-fc3b18894b20",
+                  "label": "商品标签",
+                  "name": "field_b1d3f3",
+                  "itemNameLabel": "商品标签",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入商品标签",
+                  "dataSource": "",
+                  "values": [],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Id987cd069-5035-4d6e-b1eb-4f8e4eca118a",
+                "compType": "container",
+                "itemType": "box",
+                "fieldName": "field_83b24b",
+                "rowNums": 1,
+                "columnNums": 2,
+                "preps": {
+                  "id": "Id987cd069-5035-4d6e-b1eb-4f8e4eca118a",
+                  "label": "Grid Layout",
+                  "name": "field_83b24b",
+                  "itemNameLabel": "Grid Layout",
+                  "elements": [
+                    {
+                      "id": "row-8dbe3e5f-555e-4d30-83cb-62317a9deb19",
+                      "rowIndex": 1,
+                      "columns": [
+                        {
+                          "id": "col-63f289f8-f3be-4514-8e2e-1d53e516d707",
+                          "cellVisible": true,
+                          "colIndex": 1,
+                          "colspan": 12,
+                          "items": [
+                            {
+                              "id": "Ida7628415-4b93-41ae-b91e-40783ef8fb0f",
+                              "compType": "formItem",
+                              "itemType": "number",
+                              "fieldName": "field_a38e92",
+                              "preps": {
+                                "id": "Ida7628415-4b93-41ae-b91e-40783ef8fb0f",
+                                "label": "重量(kg)",
+                                "name": "field_a38e92",
+                                "itemNameLabel": "重量(kg)",
+                                "formVisible": true,
+                                "listVisible": true,
+                                "viewVisible": true,
+                                "searchVisible": false,
+                                "required": false,
+                                "disabled": false,
+                                "clearable": true,
+                                "readonly": false,
+                                "maxLength": 255,
+                                "placeholder": "请输入重量(kg)",
+                                "dataSource": "",
+                                "values": [],
+                                "rules": [],
+                                "helpMsg": "",
+                                "min": 0,
+                                "precision": 2
+                              }
+                            }
+                          ]
+                        },
+                        {
+                          "id": "col-954ed012-38d6-4a37-92f0-8e54d9d8b546",
+                          "cellVisible": true,
+                          "colIndex": 1,
+                          "colspan": 12,
+                          "items": [
+                            {
+                              "id": "Idf3c5848f-3940-4b10-84da-a7c1885ac71f",
+                              "compType": "formItem",
+                              "itemType": "number",
+                              "fieldName": "field_98daa6",
+                              "preps": {
+                                "id": "Idf3c5848f-3940-4b10-84da-a7c1885ac71f",
+                                "label": "尺寸(cm)",
+                                "name": "field_98daa6",
+                                "itemNameLabel": "尺寸(cm)",
+                                "formVisible": true,
+                                "listVisible": true,
+                                "viewVisible": true,
+                                "searchVisible": false,
+                                "required": false,
+                                "disabled": false,
+                                "clearable": true,
+                                "readonly": false,
+                                "maxLength": 255,
+                                "placeholder": "请输入尺寸(cm)",
+                                "dataSource": "",
+                                "values": [],
+                                "rules": [],
+                                "helpMsg": ""
+                              }
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              },
+              {
+                "id": "Ida438f229-64fe-4053-a6f9-0f20604b563c",
+                "compType": "formItem",
+                "itemType": "select",
+                "fieldName": "field_5ecef7",
+                "preps": {
+                  "id": "Ida438f229-64fe-4053-a6f9-0f20604b563c",
+                  "label": "商品状态",
+                  "name": "field_5ecef7",
+                  "itemNameLabel": "商品状态",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入商品状态",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "label": "上架",
+                      "value": "1"
+                    },
+                    {
+                      "label": "下架",
+                      "value": "2"
+                    },
+                    {
+                      "label": "预售",
+                      "value": "3"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "exportTime": "2026-06-16T09:36:26.499Z",
+  "version": "1.0"
+}

@@ -1,0 +1,461 @@
+{
+  "formInfo": {
+    "formName": "06-请假申请表单",
+    "currentPageType": "pc"
+  },
+  "dataList": [
+    {
+      "id": "Id1da3100c-b916-4d92-8d9e-0ee42dbdc114",
+      "compType": "container",
+      "itemType": "card",
+      "fieldName": "field_a1bfea",
+      "preps": {
+        "id": "Id1da3100c-b916-4d92-8d9e-0ee42dbdc114",
+        "label": "请假信息",
+        "name": "field_a1bfea",
+        "itemNameLabel": "请假信息",
+        "headerFieldList": [],
+        "elements": [
+          {
+            "label": "请假信息",
+            "tabName": "请假信息",
+            "objectName": "请假信息",
+            "subFormFlag": "Y",
+            "items": [
+              {
+                "id": "Iddd45a0b3-cc80-4350-b2a6-fbaad29aa4ad",
+                "compType": "container",
+                "itemType": "box",
+                "fieldName": "field_e168db",
+                "rowNums": 1,
+                "columnNums": 2,
+                "preps": {
+                  "id": "Iddd45a0b3-cc80-4350-b2a6-fbaad29aa4ad",
+                  "label": "Grid Layout",
+                  "name": "field_e168db",
+                  "itemNameLabel": "Grid Layout",
+                  "elements": [
+                    {
+                      "id": "row-cf4b17fd-233b-4621-b67b-ec84f61e8075",
+                      "rowIndex": 1,
+                      "columns": [
+                        {
+                          "id": "col-8d03602f-4f9c-4c4d-8313-2705cc68173d",
+                          "cellVisible": true,
+                          "colIndex": 1,
+                          "colspan": 12,
+                          "items": [
+                            {
+                              "id": "Idc79b96c4-b115-4296-b801-d8d4a04829d1",
+                              "compType": "formItem",
+                              "itemType": "input",
+                              "fieldName": "field_3ca83c",
+                              "preps": {
+                                "id": "Idc79b96c4-b115-4296-b801-d8d4a04829d1",
+                                "label": "申请人",
+                                "name": "field_3ca83c",
+                                "itemNameLabel": "申请人",
+                                "formVisible": true,
+                                "listVisible": true,
+                                "viewVisible": true,
+                                "searchVisible": false,
+                                "required": true,
+                                "disabled": true,
+                                "clearable": true,
+                                "readonly": false,
+                                "maxLength": 255,
+                                "placeholder": "请输入申请人",
+                                "dataSource": "",
+                                "values": [],
+                                "rules": [],
+                                "helpMsg": ""
+                              }
+                            }
+                          ]
+                        },
+                        {
+                          "id": "col-6aa3ee1e-a0da-46fa-8680-7bd7215907dd",
+                          "cellVisible": true,
+                          "colIndex": 1,
+                          "colspan": 12,
+                          "items": [
+                            {
+                              "id": "Idc8b29ddb-bba0-4adb-aa1a-362d9ea97e28",
+                              "compType": "formItem",
+                              "itemType": "select",
+                              "fieldName": "field_b0bd52",
+                              "preps": {
+                                "id": "Idc8b29ddb-bba0-4adb-aa1a-362d9ea97e28",
+                                "label": "部门",
+                                "name": "field_b0bd52",
+                                "itemNameLabel": "部门",
+                                "formVisible": true,
+                                "listVisible": true,
+                                "viewVisible": true,
+                                "searchVisible": false,
+                                "required": false,
+                                "disabled": false,
+                                "clearable": true,
+                                "readonly": false,
+                                "maxLength": 255,
+                                "placeholder": "请输入部门",
+                                "dataSource": "data",
+                                "values": [
+                                  {
+                                    "label": "技术部",
+                                    "value": "1"
+                                  },
+                                  {
+                                    "label": "产品部",
+                                    "value": "2"
+                                  },
+                                  {
+                                    "label": "市场部",
+                                    "value": "3"
+                                  },
+                                  {
+                                    "label": "人事部",
+                                    "value": "4"
+                                  },
+                                  {
+                                    "label": "财务部",
+                                    "value": "5"
+                                  }
+                                ],
+                                "rules": [],
+                                "helpMsg": ""
+                              }
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              },
+              {
+                "id": "Idb3d05545-eae4-4a96-8751-0bfdbde38cbc",
+                "compType": "formItem",
+                "itemType": "select",
+                "fieldName": "field_a15b40",
+                "preps": {
+                  "id": "Idb3d05545-eae4-4a96-8751-0bfdbde38cbc",
+                  "label": "请假类型",
+                  "name": "field_a15b40",
+                  "itemNameLabel": "请假类型",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": true,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入请假类型",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "label": "年假",
+                      "value": "1"
+                    },
+                    {
+                      "label": "事假",
+                      "value": "2"
+                    },
+                    {
+                      "label": "病假",
+                      "value": "3"
+                    },
+                    {
+                      "label": "婚假",
+                      "value": "4"
+                    },
+                    {
+                      "label": "产假",
+                      "value": "5"
+                    },
+                    {
+                      "label": "丧假",
+                      "value": "6"
+                    },
+                    {
+                      "label": "调休",
+                      "value": "7"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Id748e9d42-655e-49e0-8ec6-619d5500f150",
+                "compType": "container",
+                "itemType": "box",
+                "fieldName": "field_f262de",
+                "rowNums": 1,
+                "columnNums": 2,
+                "preps": {
+                  "id": "Id748e9d42-655e-49e0-8ec6-619d5500f150",
+                  "label": "Grid Layout",
+                  "name": "field_f262de",
+                  "itemNameLabel": "Grid Layout",
+                  "elements": [
+                    {
+                      "id": "row-120afff9-2e13-4aca-a87c-f6136b31c093",
+                      "rowIndex": 1,
+                      "columns": [
+                        {
+                          "id": "col-9997bebc-6e2c-4e8d-8793-099423f021a8",
+                          "cellVisible": true,
+                          "colIndex": 1,
+                          "colspan": 12,
+                          "items": [
+                            {
+                              "id": "Id9c263901-fa76-4043-849a-30fc2edc9ec3",
+                              "compType": "formItem",
+                              "itemType": "datetime",
+                              "fieldName": "field_a9f40e",
+                              "preps": {
+                                "id": "Id9c263901-fa76-4043-849a-30fc2edc9ec3",
+                                "label": "开始时间",
+                                "name": "field_a9f40e",
+                                "itemNameLabel": "开始时间",
+                                "formVisible": true,
+                                "listVisible": true,
+                                "viewVisible": true,
+                                "searchVisible": false,
+                                "required": true,
+                                "disabled": false,
+                                "clearable": true,
+                                "readonly": false,
+                                "maxLength": 255,
+                                "placeholder": "请输入开始时间",
+                                "dataSource": "",
+                                "values": [],
+                                "rules": [],
+                                "helpMsg": ""
+                              }
+                            }
+                          ]
+                        },
+                        {
+                          "id": "col-2d655b69-e60b-4f28-9a7c-8ca0edb474a9",
+                          "cellVisible": true,
+                          "colIndex": 1,
+                          "colspan": 12,
+                          "items": [
+                            {
+                              "id": "Id9fff0f17-3d5d-4b21-8a00-17eabe9e0088",
+                              "compType": "formItem",
+                              "itemType": "datetime",
+                              "fieldName": "field_cb715b",
+                              "preps": {
+                                "id": "Id9fff0f17-3d5d-4b21-8a00-17eabe9e0088",
+                                "label": "结束时间",
+                                "name": "field_cb715b",
+                                "itemNameLabel": "结束时间",
+                                "formVisible": true,
+                                "listVisible": true,
+                                "viewVisible": true,
+                                "searchVisible": false,
+                                "required": true,
+                                "disabled": false,
+                                "clearable": true,
+                                "readonly": false,
+                                "maxLength": 255,
+                                "placeholder": "请输入结束时间",
+                                "dataSource": "",
+                                "values": [],
+                                "rules": [],
+                                "helpMsg": ""
+                              }
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              },
+              {
+                "id": "Id7a5c8478-4663-4623-8dc1-5eaae7c5628f",
+                "compType": "formItem",
+                "itemType": "number",
+                "fieldName": "field_08b793",
+                "preps": {
+                  "id": "Id7a5c8478-4663-4623-8dc1-5eaae7c5628f",
+                  "label": "请假天数",
+                  "name": "field_08b793",
+                  "itemNameLabel": "请假天数",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": true,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入请假天数",
+                  "dataSource": "",
+                  "values": [],
+                  "rules": [],
+                  "helpMsg": "",
+                  "min": 0.5,
+                  "precision": 1
+                }
+              },
+              {
+                "id": "Id9617cbea-5b99-4fcf-af08-5408994000ab",
+                "compType": "formItem",
+                "itemType": "textarea",
+                "fieldName": "field_807284",
+                "preps": {
+                  "id": "Id9617cbea-5b99-4fcf-af08-5408994000ab",
+                  "label": "请假事由",
+                  "name": "field_807284",
+                  "itemNameLabel": "请假事由",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": true,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 500,
+                  "placeholder": "请输入请假事由",
+                  "dataSource": "",
+                  "values": [],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "Ide951517d-2994-4617-b733-357ecd22883b",
+      "compType": "container",
+      "itemType": "card",
+      "fieldName": "field_31a7d2",
+      "preps": {
+        "id": "Ide951517d-2994-4617-b733-357ecd22883b",
+        "label": "审批信息",
+        "name": "field_31a7d2",
+        "itemNameLabel": "审批信息",
+        "headerFieldList": [],
+        "elements": [
+          {
+            "label": "审批信息",
+            "tabName": "审批信息",
+            "objectName": "审批信息",
+            "subFormFlag": "Y",
+            "items": [
+              {
+                "id": "Id6be9cea4-d1b6-4951-a40e-9ac688b0ff74",
+                "compType": "formItem",
+                "itemType": "input",
+                "fieldName": "field_29a560",
+                "preps": {
+                  "id": "Id6be9cea4-d1b6-4951-a40e-9ac688b0ff74",
+                  "label": "审批人",
+                  "name": "field_29a560",
+                  "itemNameLabel": "审批人",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": true,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入审批人",
+                  "dataSource": "",
+                  "values": [],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Id94a64e64-eb44-483b-86b1-13f213f9e9c6",
+                "compType": "formItem",
+                "itemType": "select",
+                "fieldName": "field_7157aa",
+                "preps": {
+                  "id": "Id94a64e64-eb44-483b-86b1-13f213f9e9c6",
+                  "label": "审批状态",
+                  "name": "field_7157aa",
+                  "itemNameLabel": "审批状态",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入审批状态",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "label": "待审批",
+                      "value": "1"
+                    },
+                    {
+                      "label": "已通过",
+                      "value": "2"
+                    },
+                    {
+                      "label": "已拒绝",
+                      "value": "3"
+                    },
+                    {
+                      "label": "已撤回",
+                      "value": "4"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Id08e04b79-a5df-4d9e-b8ab-4fff4aa21e0f",
+                "compType": "formItem",
+                "itemType": "textarea",
+                "fieldName": "field_ae268b",
+                "preps": {
+                  "id": "Id08e04b79-a5df-4d9e-b8ab-4fff4aa21e0f",
+                  "label": "审批意见",
+                  "name": "field_ae268b",
+                  "itemNameLabel": "审批意见",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入审批意见",
+                  "dataSource": "",
+                  "values": [],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "exportTime": "2026-06-16T09:36:26.501Z",
+  "version": "1.0"
+}

@@ -45,6 +45,8 @@ import {FormConfig} from "@/components/types";
 import {FormSocketService} from "@/components/system/items/FormSocketService";
 import JSON5 from "json5";
 import {quickAddItem} from "@/api/form_utils";
+import {createJSONEditor, toJSONContent, isTextContent} from "vanilla-jsoneditor";
+import type {Content} from "vanilla-jsoneditor";
 
 defineOptions({
   name: "StarHorseFormDesign",
@@ -108,6 +110,136 @@ let shortKeySwitch: Function = () => {
 };
 const {dialogStates, openDialog, closeAllDialogs} = useDialogManager();
 const isCooperationMode = computed(() => formInfo.value?.cooperation === "Y");
+
+// ── Design/Code Mode Toggle ──
+const designMode = ref<"design" | "code">("design");
+const codeEditorTarget = ref<HTMLDivElement | null>(null);
+let jsonEditorInstance: ReturnType<typeof createJSONEditor> | null = null;
+let currentJsonData: unknown = [];
+
+const destroyEditor = () => {
+  if (jsonEditorInstance) {
+    try { jsonEditorInstance.destroy(); } catch (_) {}
+    jsonEditorInstance = null;
+  }
+};
+
+const initEditor = () => {
+  if (!codeEditorTarget.value) return;
+  destroyEditor();
+  try {
+    jsonEditorInstance = createJSONEditor({
+      target: codeEditorTarget.value,
+      props: {
+        content: { json: currentJsonData },
+        mode: "text" as any,
+        mainMenuBar: true,
+        navigationBar: false,
+        statusBar: true,
+        onChange: (content: Content) => {
+          if (isTextContent(content)) {
+            try { currentJsonData = JSON.parse(content.text); } catch (_) {}
+          } else {
+            currentJsonData = content.json;
+          }
+        },
+      },
+    });
+  } catch (e) {
+    console.error("Failed to create JSON editor:", e);
+  }
+};
+
+const switchToCodeMode = () => {
+  currentJsonData = JSON.parse(JSON.stringify(list.value));
+  designMode.value = "code";
+  shortKeySwitch(false);
+  designForm.setShortKeyDisabled(true);
+  nextTick(() => initEditor());
+};
+
+const switchToDesignMode = () => {
+  // Auto-apply valid changes before switching
+  if (Array.isArray(currentJsonData)) {
+    designForm.setCompList(JSON.parse(JSON.stringify(currentJsonData)));
+  }
+  destroyEditor();
+  shortKeySwitch(true);
+  designForm.setShortKeyDisabled(false);
+  designMode.value = "design";
+};
+
+const setMode = (mode: "design" | "code") => {
+  if (mode === designMode.value) return;
+  if (mode === "code") {
+    switchToCodeMode();
+  } else {
+    switchToDesignMode();
+  }
+};
+
+const applyCodeChanges = () => {
+  let data: unknown = currentJsonData;
+  // Try reading directly from editor instance for most up-to-date content
+  if (jsonEditorInstance) {
+    try {
+      const content = jsonEditorInstance.get();
+      if (isTextContent(content)) {
+        data = JSON.parse(content.text);
+      } else {
+        data = content.json;
+      }
+    } catch (e) {
+      // Fallback: try parsing from tracked data as text
+      if (typeof currentJsonData === "string") {
+        try { data = JSON.parse(currentJsonData); } catch (_) {}
+      }
+    }
+  }
+  if (!Array.isArray(data)) {
+    try {
+      const parsed = toJSONContent({ text: String(data) } as any);
+      data = parsed.json;
+    } catch (_) {
+      warning("数据格式错误：需要 JSON 数组");
+      return;
+    }
+  }
+  if (!Array.isArray(data)) {
+    warning("数据格式错误：需要 JSON 数组");
+    return;
+  }
+  try {
+    designForm.setCompList(JSON.parse(JSON.stringify(data)));
+    success(i18n("dyform.design.importSuccess"));
+  } catch (e: any) {
+    warning("应用更改失败：" + (e?.message || "未知错误"));
+  }
+};
+
+const resetCodeEditor = () => {
+  currentJsonData = JSON.parse(JSON.stringify(list.value));
+  if (jsonEditorInstance) {
+    jsonEditorInstance.set({ json: currentJsonData });
+  }
+};
+
+const formatCodeEditor = () => {
+  if (!jsonEditorInstance) return;
+  try {
+    const content = jsonEditorInstance.get();
+    let parsed: unknown;
+    if (isTextContent(content)) {
+      parsed = JSON.parse(content.text);
+    } else {
+      parsed = content.json;
+    }
+    jsonEditorInstance.set({ text: JSON.stringify(parsed, null, 2) });
+  } catch (_) {
+    warning("JSON 格式错误，无法格式化");
+  }
+};
+
 const connectionStatus = ref<string>(i18n("dyform.design.ws.disconnected"));
 const isConnected = ref<boolean>(false);
 const currentFormId = computed(() => {
@@ -677,6 +809,7 @@ onDeactivated(() => {
 });
 
 onBeforeUnmount(() => {
+  destroyEditor();
   designForm.setIsEdit(false);
   shortKeySwitch(false);
   listWatcher();
@@ -873,82 +1006,157 @@ defineExpose({
   </PageConfig>
   <FieldLayerDrawer v-model:visible="dialogStates.formFieldLayer"
                     :operType="operType"/>
-  <el-splitter>
-    <el-splitter-panel collapsible size="350" min="200" max="450">
-      <field-panel
-          ref="fieldPanelRef"
-          :optional="optional"
-          @loadData="loadData"
-      />
-    </el-splitter-panel>
-    <el-splitter-panel>
-      <el-splitter layout="vertical">
-        <el-splitter-panel :collapsible="false" :resizable="false" size="42">
-          <FormToolbar
-              :list="list"
-              :currentPageStyle="currentPageStyle"
-              :cacheData="cacheData"
-              @action="actions"
-              @changeRole="changeRole"
-              @cacheRestore="cacheDataRestore"
-              :optional="optional"
-          />
-        </el-splitter-panel>
-        <el-splitter-panel>
-          <el-splitter>
-            <el-splitter-panel>
-              <div class="main-design-outer">
-                <FormDesigner
-                    :list="list"
-                    :form-data="formData"
-                    :form-info="formInfo"
-                    :is-dragging="isDragging"
-                    :current-page-class="currentPageClass"
-                    @drag-add="onDragAdd"
-                    @context-menu="contextMenu"
-                    @select-component="onComponentSelect"
-                    ref="dynamicFormRef"
-                />
-                <FormMenuShot
-                    ref="formListRef"
-                    v-if="Object.keys(optional?.api || {}).length > 0"
-                    @change="changeDataHandle"
-                    :dataUrl="optional?.api"
-                    :prop="optional?.shotProps"
-                    :primaryKey="optional?.primaryKey"
-                />
-                <div class="main-copyright">
-                  {{ i18n("starhorse.copyright") }}
+  <div class="sh-form-design-root">
+    <el-splitter class="sh-splitter">
+      <el-splitter-panel collapsible size="320" min="220" max="450">
+        <field-panel
+            ref="fieldPanelRef"
+            :optional="optional"
+            @loadData="loadData"
+        />
+      </el-splitter-panel>
+      <el-splitter-panel>
+        <el-splitter layout="vertical" class="sh-splitter-vertical">
+          <el-splitter-panel :collapsible="false" :resizable="false" size="48">
+            <FormToolbar
+                :list="list"
+                :currentPageStyle="currentPageStyle"
+                :cacheData="cacheData"
+                @action="actions"
+                @changeRole="changeRole"
+                @cacheRestore="cacheDataRestore"
+                :optional="optional"
+            />
+          </el-splitter-panel>
+          <el-splitter-panel>
+            <el-splitter class="sh-splitter-inner">
+              <el-splitter-panel>
+                <div class="main-design-outer">
+                  <!-- Mode Switcher Bar -->
+                  <div class="mode-switcher-bar">
+                    <div class="mode-switcher">
+                      <button
+                          :class="['mode-btn', { active: designMode === 'design' }]"
+                          @click="setMode('design')"
+                      >
+                        <svg viewBox="0 0 16 16" fill="none" width="14" height="14">
+                          <rect x="1" y="1" width="6" height="6" rx="1" stroke="currentColor" stroke-width="1.3"/>
+                          <rect x="9" y="1" width="6" height="6" rx="1" stroke="currentColor" stroke-width="1.3"/>
+                          <rect x="1" y="9" width="14" height="6" rx="1" stroke="currentColor" stroke-width="1.3"/>
+                        </svg>
+                        {{ i18n("dyform.action.edit") || '设计' }}
+                      </button>
+                      <button
+                          :class="['mode-btn', { active: designMode === 'code' }]"
+                          @click="setMode('code')"
+                      >
+                        <svg viewBox="0 0 16 16" fill="none" width="14" height="14">
+                          <path d="M5 3L1 8L5 13" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
+                          <path d="M11 3L15 8L11 13" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                        {{ i18n("dyform.action.code") || '代码' }}
+                      </button>
+                    </div>
+                    <!-- Code mode actions -->
+                    <div v-if="designMode === 'code'" class="mode-actions">
+                      <el-button size="small" @click="formatCodeEditor">格式化</el-button>
+                      <el-button size="small" @click="resetCodeEditor">重置</el-button>
+                      <el-button size="small" type="primary" @click="applyCodeChanges">应用更改</el-button>
+                    </div>
+                  </div>
+
+                  <!-- Design Mode -->
+                  <template v-if="designMode === 'design'">
+                    <FormDesigner
+                        :list="list"
+                        :form-data="formData"
+                        :form-info="formInfo"
+                        :is-dragging="isDragging"
+                        :current-page-class="currentPageClass"
+                        @drag-add="onDragAdd"
+                        @context-menu="contextMenu"
+                        @select-component="onComponentSelect"
+                        ref="dynamicFormRef"
+                    />
+                    <FormMenuShot
+                        ref="formListRef"
+                        v-if="Object.keys(optional?.api || {}).length > 0"
+                        @change="changeDataHandle"
+                        :dataUrl="optional?.api"
+                        :prop="optional?.shotProps"
+                        :primaryKey="optional?.primaryKey"
+                    />
+                  </template>
+
+                  <!-- Code Mode -->
+                  <div v-else class="code-mode-editor" ref="codeEditorTarget"></div>
+
+                  <div class="main-copyright">
+                    {{ i18n("starhorse.copyright") }}
+                  </div>
                 </div>
-              </div>
-            </el-splitter-panel>
-            <el-splitter-panel
-                collapsible
-                :size="350"
-                min="260"
-                max="500"
-                class="overflow-hidden!"
-                v-if="list.length > 0"
-            >
-              <el-scrollbar>
-                <property-panel ref="propertyRef" :optional="optional"/>
-              </el-scrollbar>
-            </el-splitter-panel>
-          </el-splitter>
-        </el-splitter-panel>
-      </el-splitter>
-    </el-splitter-panel>
-  </el-splitter>
+              </el-splitter-panel>
+              <el-splitter-panel
+                  collapsible
+                  :size="340"
+                  min="260"
+                  max="500"
+                  class="sh-property-panel"
+                  v-if="list.length > 0 && designMode === 'design'"
+              >
+                <el-scrollbar class="sh-property-scrollbar">
+                  <property-panel ref="propertyRef" :optional="optional"/>
+                </el-scrollbar>
+              </el-splitter-panel>
+            </el-splitter>
+          </el-splitter-panel>
+        </el-splitter>
+      </el-splitter-panel>
+    </el-splitter>
+  </div>
 </template>
 
 <style lang="scss" scoped>
+/* ====== Root Container ====== */
+.sh-form-design-root {
+  width: 100%;
+  height: 100%;
+  background: #f5f7fa;
+  overflow: hidden;
+  border-radius: 6px;
+}
+
+/* ====== Splitter Refinements ====== */
+.sh-splitter,
+.sh-splitter-vertical,
+.sh-splitter-inner {
+  height: 100%;
+}
+
+:deep(.el-splitter__bar) {
+  background: #eef0f3 !important;
+  transition: background 0.2s ease;
+
+  &:hover {
+    background: #dce1e8 !important;
+  }
+}
+
+:deep(.el-splitter__bar-draggable) {
+  &::after {
+    background: transparent !important;
+  }
+}
+
+/* ====== Component Overrides ====== */
 :deep(.el-icon) {
-  color: #fff !important;
+  color: #606266;
 }
 
 :deep {
   .el-card {
     margin: 0 !important;
+    border: none;
   }
 }
 
@@ -962,56 +1170,70 @@ defineExpose({
   height: 100%;
 }
 
-.fade-move {
-  transition: transform 0.3s ease;
-}
-
-.design-form-container {
-  width: 100%;
-  display: flex; // 改用grid布局
-  align-items: center;
-}
-
-// 在样式部分添加以下规则
-
 :deep(.el-divider--horizontal) {
   margin: 10px 0;
 }
 
 :deep(.el-collapse-item__header) {
-  height: 30px;
-  background: var(--star-horse-font-color);
-  border-bottom: 1px dashed var(--star-horse-shadow);
+  height: 36px;
+  background: #f8f9fb;
+  border-bottom: 1px solid #ebeef5;
+  font-size: 13px;
+  font-weight: 500;
+  color: #303133;
+  padding: 0 12px;
 }
 
 :deep(.el-collapse-item__wrap) {
-  margin-top: 5px;
+  margin-top: 4px;
+  border-bottom: none;
 }
 
 :deep(.el-scrollbar__view) {
   height: 100%;
 }
 
-.inner_content {
-  display: flex;
-  flex: 1;
-}
-
+/* ====== Main Design Canvas Area ====== */
 .main-design-outer {
   flex: 1;
   height: 100%;
   position: relative;
-  background: var(--star-horse-background);
-  justify-content: center;
-  border: 1px dashed var(--star-horse-shadow);
-  padding: 0;
-  border-radius: 3px;
+  background: #f0f2f5;
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  top: 0;
-  left: 0;
-  transform: translate(0, 0);
+  border-radius: 0;
+}
+
+/* ====== Property Panel ====== */
+.sh-property-panel {
+  overflow: hidden !important;
+  background: #ffffff;
+  border-left: 1px solid #ebeef5;
+}
+
+.sh-property-scrollbar {
+  height: 100%;
+
+  :deep(.el-scrollbar__wrap) {
+    overflow-x: hidden;
+  }
+}
+
+/* ====== Transitions ====== */
+.fade-move {
+  transition: transform 0.3s ease;
+}
+
+.design-form-container {
+  width: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.inner_content {
+  display: flex;
+  flex: 1;
 }
 
 .inner_button {
@@ -1025,5 +1247,155 @@ defineExpose({
   li {
     border: none !important;
   }
+}
+
+/* ====== Mode Switcher ====== */
+.mode-switcher-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 4px 12px;
+  background: #f8f9fb;
+  border-bottom: 1px solid #ebeef5;
+  flex-shrink: 0;
+}
+
+.mode-switcher {
+  display: flex;
+  background: #eef0f3;
+  border-radius: 6px;
+  padding: 2px;
+}
+
+.mode-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 14px;
+  border: none;
+  background: transparent;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 12px;
+  color: #909399;
+  transition: all 0.15s ease;
+  white-space: nowrap;
+
+  svg {
+    flex-shrink: 0;
+  }
+
+  &:hover {
+    color: #606266;
+  }
+
+  &.active {
+    background: #ffffff;
+    color: #303133;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+    font-weight: 500;
+  }
+}
+
+.mode-actions {
+  display: flex;
+  gap: 8px;
+}
+
+/* ====== Code Editor Mode ====== */
+.code-mode-editor {
+  flex: 1;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+
+  /* Force light theme variables for the editor */
+  --jse-theme-color: #3b6bb5 !important;
+  --jse-theme-color-highlight: #2b5aa0 !important;
+  --jse-background-color: #ffffff !important;
+  --jse-text-color: #4d4d4d !important;
+  --jse-text-color-inverse: #fff !important;
+  --jse-menu-color: #4d4d4d !important;
+  --jse-main-border: 1px solid #e4e7ed !important;
+  --jse-panel-background: #f5f7fa !important;
+  --jse-panel-background-border: 1px solid #e4e7ed !important;
+  --jse-panel-color: #4d4d4d !important;
+  --jse-panel-border: 1px solid #e4e7ed !important;
+  --jse-key-color: #004ed0 !important;
+  --jse-value-color: #4d4d4d !important;
+  --jse-value-color-number: #1a1aa6 !important;
+  --jse-value-color-boolean: #ff8c00 !important;
+  --jse-value-color-null: #004ed0 !important;
+  --jse-value-color-string: #008000 !important;
+  --jse-value-color-url: #008000 !important;
+  --jse-delimiter-color: #4d4d4d !important;
+  --jse-selection-background-color: #d3e5f7 !important;
+  --jse-hover-background-color: #f0f5ff !important;
+  --jse-button-background: #e0e0e0 !important;
+  --jse-button-background-highlight: #d5d5d5 !important;
+  --jse-button-color: #4d4d4d !important;
+  --jse-a-color: #3b6bb5 !important;
+  --jse-a-color-highlight: #2b5aa0 !important;
+
+  :deep(.jse-contents) {
+    border: none !important;
+  }
+
+  :deep(.jse-menu) {
+    background: #f8f9fb !important;
+    border-bottom: 1px solid #ebeef5 !important;
+    color: #4d4d4d !important;
+  }
+
+  :deep(.jse-menu button),
+  :deep(.jse-menu .jse-menu-button) {
+    color: #4d4d4d !important;
+  }
+
+  :deep(.jse-menu button:active),
+  :deep(.jse-menu button.jse-selected),
+  :deep(.jse-menu .jse-menu-button:active),
+  :deep(.jse-menu .jse-menu-button.jse-selected) {
+    color: #ffffff !important;
+    background-color: var(--jse-theme-color, #3b6bb5) !important;
+  }
+
+  :deep(.jse-menu .fa-icon),
+  :deep(.jse-menu svg) {
+    fill: currentColor !important;
+    color: #4d4d4d !important;
+  }
+
+  :deep(.jse-menu button:active .fa-icon),
+  :deep(.jse-menu button:active svg),
+  :deep(.jse-menu button.jse-selected .fa-icon),
+  :deep(.jse-menu button.jse-selected svg) {
+    color: #ffffff !important;
+    fill: #ffffff !important;
+  }
+
+  :deep(.jse-text-mode .cm-editor) {
+    font-family: 'Cascadia Code', 'Fira Code', 'Consolas', monospace;
+    font-size: 13px;
+  }
+
+  :deep(.jse-status-bar) {
+    background: #f5f7fa;
+    border-top: 1px solid #ebeef5;
+    color: #909399;
+    font-size: 12px;
+  }
+}
+
+/* ====== Copyright Footer ====== */
+.main-copyright {
+  text-align: center;
+  padding: 6px 0;
+  font-size: 11px;
+  color: #c0c4cc;
+  background: #f8f9fb;
+  border-top: 1px solid #ebeef5;
+  flex-shrink: 0;
 }
 </style>

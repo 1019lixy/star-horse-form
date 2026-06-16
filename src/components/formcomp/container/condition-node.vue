@@ -167,12 +167,13 @@ const finishEditName = (node: any) => {
         :class="{'dragging-area': isDragging}"
         group="starHorseGroup"
         animation="100"
-        :item-key="uuid()"
+        item-key="id"
         ghostClass="ghost"
         :list="node.children || []"
     >
       <template #item="{ element: data, index }">
         <div class="condition-leaf-item my-[3px]"
+             :data-field-id="data.id"
              :class="levelClass(data,depth + 1)">
           <component
               :key="data.id"

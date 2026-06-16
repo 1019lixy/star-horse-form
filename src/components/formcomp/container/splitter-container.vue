@@ -152,12 +152,12 @@ onMounted(() => {
             :class="{ 'dragging-area': isDragging }"
             group="starHorseGroup"
             animation="100"
-            :item-key="uuid()"
+            item-key="id"
             ghostClass="ghost"
             :list="adata['items']"
         >
           <template #item="{ element: data }">
-            <div class="comp-item  my-[5px]">
+            <div class="comp-item  my-[5px]" :data-field-id="data.id">
               <component
                   :key="data.id"
                   :field="data"

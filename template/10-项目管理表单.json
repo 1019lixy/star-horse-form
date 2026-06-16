@@ -1,0 +1,732 @@
+{
+  "formInfo": {
+    "formName": "10-项目管理表单",
+    "currentPageType": "pc"
+  },
+  "dataList": [
+    {
+      "id": "Id6ad8a035-a95d-48f0-82ec-2776a4b8bdd8",
+      "compType": "container",
+      "itemType": "card",
+      "fieldName": "field_1683d3",
+      "preps": {
+        "id": "Id6ad8a035-a95d-48f0-82ec-2776a4b8bdd8",
+        "label": "项目概况",
+        "name": "field_1683d3",
+        "itemNameLabel": "项目概况",
+        "headerFieldList": [],
+        "elements": [
+          {
+            "label": "项目概况",
+            "tabName": "项目概况",
+            "objectName": "项目概况",
+            "subFormFlag": "Y",
+            "items": [
+              {
+                "id": "Id05ff9aa7-10df-4e56-812d-aaf45dbd0aa6",
+                "compType": "container",
+                "itemType": "box",
+                "fieldName": "field_3516cc",
+                "rowNums": 1,
+                "columnNums": 2,
+                "preps": {
+                  "id": "Id05ff9aa7-10df-4e56-812d-aaf45dbd0aa6",
+                  "label": "Grid Layout",
+                  "name": "field_3516cc",
+                  "itemNameLabel": "Grid Layout",
+                  "elements": [
+                    {
+                      "id": "row-c3f3102e-0771-4625-8e16-51b4bd1d0abe",
+                      "rowIndex": 1,
+                      "columns": [
+                        {
+                          "id": "col-78073bcf-dd28-4b9b-acab-3b64cdd6b279",
+                          "cellVisible": true,
+                          "colIndex": 1,
+                          "colspan": 12,
+                          "items": [
+                            {
+                              "id": "Id110f733e-501d-4a3c-92ef-a26287de65d8",
+                              "compType": "formItem",
+                              "itemType": "input",
+                              "fieldName": "field_6f4bad",
+                              "preps": {
+                                "id": "Id110f733e-501d-4a3c-92ef-a26287de65d8",
+                                "label": "项目名称",
+                                "name": "field_6f4bad",
+                                "itemNameLabel": "项目名称",
+                                "formVisible": true,
+                                "listVisible": true,
+                                "viewVisible": true,
+                                "searchVisible": false,
+                                "required": true,
+                                "disabled": false,
+                                "clearable": true,
+                                "readonly": false,
+                                "maxLength": 255,
+                                "placeholder": "请输入项目名称",
+                                "dataSource": "",
+                                "values": [],
+                                "rules": [],
+                                "helpMsg": ""
+                              }
+                            }
+                          ]
+                        },
+                        {
+                          "id": "col-2035cb2b-1038-4bd5-96fa-7cf178cfab77",
+                          "cellVisible": true,
+                          "colIndex": 1,
+                          "colspan": 12,
+                          "items": [
+                            {
+                              "id": "Id299fabc9-bc20-4898-b8ed-f4f183e37703",
+                              "compType": "formItem",
+                              "itemType": "input",
+                              "fieldName": "field_e10679",
+                              "preps": {
+                                "id": "Id299fabc9-bc20-4898-b8ed-f4f183e37703",
+                                "label": "项目编号",
+                                "name": "field_e10679",
+                                "itemNameLabel": "项目编号",
+                                "formVisible": true,
+                                "listVisible": true,
+                                "viewVisible": true,
+                                "searchVisible": false,
+                                "required": true,
+                                "disabled": false,
+                                "clearable": true,
+                                "readonly": false,
+                                "maxLength": 255,
+                                "placeholder": "请输入项目编号",
+                                "dataSource": "",
+                                "values": [],
+                                "rules": [],
+                                "helpMsg": ""
+                              }
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              },
+              {
+                "id": "Id674323b5-ae45-4b03-b150-18b4c70bdfdd",
+                "compType": "container",
+                "itemType": "box",
+                "fieldName": "field_d82b0c",
+                "rowNums": 1,
+                "columnNums": 2,
+                "preps": {
+                  "id": "Id674323b5-ae45-4b03-b150-18b4c70bdfdd",
+                  "label": "Grid Layout",
+                  "name": "field_d82b0c",
+                  "itemNameLabel": "Grid Layout",
+                  "elements": [
+                    {
+                      "id": "row-27588ffa-d7f4-4fde-bbb8-06b37965c096",
+                      "rowIndex": 1,
+                      "columns": [
+                        {
+                          "id": "col-0d5f1b4f-f797-4544-b3de-9cea8dfca4fc",
+                          "cellVisible": true,
+                          "colIndex": 1,
+                          "colspan": 12,
+                          "items": [
+                            {
+                              "id": "Id7e478282-8dc2-4a03-a19c-652e95f2fbb0",
+                              "compType": "formItem",
+                              "itemType": "select",
+                              "fieldName": "field_247f33",
+                              "preps": {
+                                "id": "Id7e478282-8dc2-4a03-a19c-652e95f2fbb0",
+                                "label": "项目类型",
+                                "name": "field_247f33",
+                                "itemNameLabel": "项目类型",
+                                "formVisible": true,
+                                "listVisible": true,
+                                "viewVisible": true,
+                                "searchVisible": false,
+                                "required": false,
+                                "disabled": false,
+                                "clearable": true,
+                                "readonly": false,
+                                "maxLength": 255,
+                                "placeholder": "请输入项目类型",
+                                "dataSource": "data",
+                                "values": [
+                                  {
+                                    "label": "产品研发",
+                                    "value": "1"
+                                  },
+                                  {
+                                    "label": "系统集成",
+                                    "value": "2"
+                                  },
+                                  {
+                                    "label": "运维服务",
+                                    "value": "3"
+                                  },
+                                  {
+                                    "label": "咨询服务",
+                                    "value": "4"
+                                  },
+                                  {
+                                    "label": "其他",
+                                    "value": "5"
+                                  }
+                                ],
+                                "rules": [],
+                                "helpMsg": ""
+                              }
+                            }
+                          ]
+                        },
+                        {
+                          "id": "col-a8730650-c2fd-4fd9-92b3-8bd751664dc5",
+                          "cellVisible": true,
+                          "colIndex": 1,
+                          "colspan": 12,
+                          "items": [
+                            {
+                              "id": "Id78e945db-80b0-4958-bbe8-9a4e05327209",
+                              "compType": "formItem",
+                              "itemType": "select",
+                              "fieldName": "field_536cb5",
+                              "preps": {
+                                "id": "Id78e945db-80b0-4958-bbe8-9a4e05327209",
+                                "label": "优先级",
+                                "name": "field_536cb5",
+                                "itemNameLabel": "优先级",
+                                "formVisible": true,
+                                "listVisible": true,
+                                "viewVisible": true,
+                                "searchVisible": false,
+                                "required": false,
+                                "disabled": false,
+                                "clearable": true,
+                                "readonly": false,
+                                "maxLength": 255,
+                                "placeholder": "请输入优先级",
+                                "dataSource": "data",
+                                "values": [
+                                  {
+                                    "label": "P0-紧急",
+                                    "value": "1"
+                                  },
+                                  {
+                                    "label": "P1-高",
+                                    "value": "2"
+                                  },
+                                  {
+                                    "label": "P2-中",
+                                    "value": "3"
+                                  },
+                                  {
+                                    "label": "P3-低",
+                                    "value": "4"
+                                  }
+                                ],
+                                "rules": [],
+                                "helpMsg": ""
+                              }
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              },
+              {
+                "id": "Id5ad0cfdf-d3a0-4584-bb80-e622a6809a61",
+                "compType": "formItem",
+                "itemType": "textarea",
+                "fieldName": "field_20b2ae",
+                "preps": {
+                  "id": "Id5ad0cfdf-d3a0-4584-bb80-e622a6809a61",
+                  "label": "项目描述",
+                  "name": "field_20b2ae",
+                  "itemNameLabel": "项目描述",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": true,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 1000,
+                  "placeholder": "请输入项目描述",
+                  "dataSource": "",
+                  "values": [],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "Id9b692651-2871-4d37-915d-6f64fdae2b79",
+      "compType": "container",
+      "itemType": "card",
+      "fieldName": "field_434d39",
+      "preps": {
+        "id": "Id9b692651-2871-4d37-915d-6f64fdae2b79",
+        "label": "时间与预算",
+        "name": "field_434d39",
+        "itemNameLabel": "时间与预算",
+        "headerFieldList": [],
+        "elements": [
+          {
+            "label": "时间与预算",
+            "tabName": "时间与预算",
+            "objectName": "时间与预算",
+            "subFormFlag": "Y",
+            "items": [
+              {
+                "id": "Id786f9926-57aa-45e8-8ca1-6a120d04b7ad",
+                "compType": "container",
+                "itemType": "box",
+                "fieldName": "field_5e053d",
+                "rowNums": 1,
+                "columnNums": 2,
+                "preps": {
+                  "id": "Id786f9926-57aa-45e8-8ca1-6a120d04b7ad",
+                  "label": "Grid Layout",
+                  "name": "field_5e053d",
+                  "itemNameLabel": "Grid Layout",
+                  "elements": [
+                    {
+                      "id": "row-70e40d7e-12be-4f1f-a9cd-59826b298cda",
+                      "rowIndex": 1,
+                      "columns": [
+                        {
+                          "id": "col-3a10457d-2371-46b2-aad9-2cd705c99ac5",
+                          "cellVisible": true,
+                          "colIndex": 1,
+                          "colspan": 12,
+                          "items": [
+                            {
+                              "id": "Idd91dff71-c9e3-411a-a327-780aca369395",
+                              "compType": "formItem",
+                              "itemType": "date",
+                              "fieldName": "field_b19237",
+                              "preps": {
+                                "id": "Idd91dff71-c9e3-411a-a327-780aca369395",
+                                "label": "计划开始",
+                                "name": "field_b19237",
+                                "itemNameLabel": "计划开始",
+                                "formVisible": true,
+                                "listVisible": true,
+                                "viewVisible": true,
+                                "searchVisible": false,
+                                "required": true,
+                                "disabled": false,
+                                "clearable": true,
+                                "readonly": false,
+                                "maxLength": 255,
+                                "placeholder": "请输入计划开始",
+                                "dataSource": "",
+                                "values": [],
+                                "rules": [],
+                                "helpMsg": ""
+                              }
+                            }
+                          ]
+                        },
+                        {
+                          "id": "col-1a590adb-337f-432c-a5ef-4b1295f0be6b",
+                          "cellVisible": true,
+                          "colIndex": 1,
+                          "colspan": 12,
+                          "items": [
+                            {
+                              "id": "Id823497fd-76aa-4e33-a9cb-caace21a0867",
+                              "compType": "formItem",
+                              "itemType": "date",
+                              "fieldName": "field_9c79f3",
+                              "preps": {
+                                "id": "Id823497fd-76aa-4e33-a9cb-caace21a0867",
+                                "label": "计划结束",
+                                "name": "field_9c79f3",
+                                "itemNameLabel": "计划结束",
+                                "formVisible": true,
+                                "listVisible": true,
+                                "viewVisible": true,
+                                "searchVisible": false,
+                                "required": true,
+                                "disabled": false,
+                                "clearable": true,
+                                "readonly": false,
+                                "maxLength": 255,
+                                "placeholder": "请输入计划结束",
+                                "dataSource": "",
+                                "values": [],
+                                "rules": [],
+                                "helpMsg": ""
+                              }
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              },
+              {
+                "id": "Ida6ce5be3-c180-4dc4-bd5c-c339412ec0f0",
+                "compType": "container",
+                "itemType": "box",
+                "fieldName": "field_29cb49",
+                "rowNums": 1,
+                "columnNums": 3,
+                "preps": {
+                  "id": "Ida6ce5be3-c180-4dc4-bd5c-c339412ec0f0",
+                  "label": "Grid Layout",
+                  "name": "field_29cb49",
+                  "itemNameLabel": "Grid Layout",
+                  "elements": [
+                    {
+                      "id": "row-413ceda4-3e52-453f-a4eb-5f83894187ea",
+                      "rowIndex": 1,
+                      "columns": [
+                        {
+                          "id": "col-c7fe5404-466d-481e-b758-7176a0b3d9d7",
+                          "cellVisible": true,
+                          "colIndex": 1,
+                          "colspan": 8,
+                          "items": [
+                            {
+                              "id": "Id325a4d48-4f52-4bcd-b60f-bbaab917b9ef",
+                              "compType": "formItem",
+                              "itemType": "number",
+                              "fieldName": "field_cf7045",
+                              "preps": {
+                                "id": "Id325a4d48-4f52-4bcd-b60f-bbaab917b9ef",
+                                "label": "预算(万元)",
+                                "name": "field_cf7045",
+                                "itemNameLabel": "预算(万元)",
+                                "formVisible": true,
+                                "listVisible": true,
+                                "viewVisible": true,
+                                "searchVisible": false,
+                                "required": false,
+                                "disabled": false,
+                                "clearable": true,
+                                "readonly": false,
+                                "maxLength": 255,
+                                "placeholder": "请输入预算(万元)",
+                                "dataSource": "",
+                                "values": [],
+                                "rules": [],
+                                "helpMsg": "",
+                                "min": 0,
+                                "precision": 2
+                              }
+                            }
+                          ]
+                        },
+                        {
+                          "id": "col-86c74deb-6c77-4332-8e0a-93424fb79e53",
+                          "cellVisible": true,
+                          "colIndex": 1,
+                          "colspan": 8,
+                          "items": [
+                            {
+                              "id": "Idb480a99d-d698-46e3-8dd2-b086422011e8",
+                              "compType": "formItem",
+                              "itemType": "number",
+                              "fieldName": "field_4ac42d",
+                              "preps": {
+                                "id": "Idb480a99d-d698-46e3-8dd2-b086422011e8",
+                                "label": "已花费(万元)",
+                                "name": "field_4ac42d",
+                                "itemNameLabel": "已花费(万元)",
+                                "formVisible": true,
+                                "listVisible": true,
+                                "viewVisible": true,
+                                "searchVisible": false,
+                                "required": false,
+                                "disabled": false,
+                                "clearable": true,
+                                "readonly": false,
+                                "maxLength": 255,
+                                "placeholder": "请输入已花费(万元)",
+                                "dataSource": "",
+                                "values": [],
+                                "rules": [],
+                                "helpMsg": "",
+                                "min": 0,
+                                "precision": 2
+                              }
+                            }
+                          ]
+                        },
+                        {
+                          "id": "col-5fc297e9-5094-4001-b964-4cd321c6c3b5",
+                          "cellVisible": true,
+                          "colIndex": 1,
+                          "colspan": 8,
+                          "items": [
+                            {
+                              "id": "Id1999fd86-a095-4cfb-92f9-4063d695da24",
+                              "compType": "formItem",
+                              "itemType": "slider",
+                              "fieldName": "field_caabf7",
+                              "preps": {
+                                "id": "Id1999fd86-a095-4cfb-92f9-4063d695da24",
+                                "label": "进度(%)",
+                                "name": "field_caabf7",
+                                "itemNameLabel": "进度(%)",
+                                "formVisible": true,
+                                "listVisible": true,
+                                "viewVisible": true,
+                                "searchVisible": false,
+                                "required": false,
+                                "disabled": false,
+                                "clearable": true,
+                                "readonly": false,
+                                "maxLength": 255,
+                                "placeholder": "请输入进度(%)",
+                                "dataSource": "",
+                                "values": [],
+                                "rules": [],
+                                "helpMsg": "",
+                                "min": 0,
+                                "max": 100
+                              }
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              },
+              {
+                "id": "Id1936ce2b-de20-4c5e-80cc-ca28f7b9d8b3",
+                "compType": "formItem",
+                "itemType": "select",
+                "fieldName": "field_71fa86",
+                "preps": {
+                  "id": "Id1936ce2b-de20-4c5e-80cc-ca28f7b9d8b3",
+                  "label": "项目状态",
+                  "name": "field_71fa86",
+                  "itemNameLabel": "项目状态",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入项目状态",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "label": "规划中",
+                      "value": "1"
+                    },
+                    {
+                      "label": "进行中",
+                      "value": "2"
+                    },
+                    {
+                      "label": "已暂停",
+                      "value": "3"
+                    },
+                    {
+                      "label": "已完成",
+                      "value": "4"
+                    },
+                    {
+                      "label": "已取消",
+                      "value": "5"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "Idc5061d5a-0bf0-4e13-a450-7aab6a260f7b",
+      "compType": "container",
+      "itemType": "card",
+      "fieldName": "field_8ddbe9",
+      "preps": {
+        "id": "Idc5061d5a-0bf0-4e13-a450-7aab6a260f7b",
+        "label": "团队与资源",
+        "name": "field_8ddbe9",
+        "itemNameLabel": "团队与资源",
+        "headerFieldList": [],
+        "elements": [
+          {
+            "label": "团队与资源",
+            "tabName": "团队与资源",
+            "objectName": "团队与资源",
+            "subFormFlag": "Y",
+            "items": [
+              {
+                "id": "Id98853ab9-078b-4733-a626-d2069d0f64fc",
+                "compType": "container",
+                "itemType": "box",
+                "fieldName": "field_588e9b",
+                "rowNums": 1,
+                "columnNums": 2,
+                "preps": {
+                  "id": "Id98853ab9-078b-4733-a626-d2069d0f64fc",
+                  "label": "Grid Layout",
+                  "name": "field_588e9b",
+                  "itemNameLabel": "Grid Layout",
+                  "elements": [
+                    {
+                      "id": "row-f4f89a1a-0c9a-42ef-81ac-9010e25cad25",
+                      "rowIndex": 1,
+                      "columns": [
+                        {
+                          "id": "col-b63291cd-1ae6-4dd8-9656-ffe26fc797ad",
+                          "cellVisible": true,
+                          "colIndex": 1,
+                          "colspan": 12,
+                          "items": [
+                            {
+                              "id": "Id4991556c-52d4-4f84-9774-592a8b6e9263",
+                              "compType": "formItem",
+                              "itemType": "input",
+                              "fieldName": "field_703a4c",
+                              "preps": {
+                                "id": "Id4991556c-52d4-4f84-9774-592a8b6e9263",
+                                "label": "项目负责人",
+                                "name": "field_703a4c",
+                                "itemNameLabel": "项目负责人",
+                                "formVisible": true,
+                                "listVisible": true,
+                                "viewVisible": true,
+                                "searchVisible": false,
+                                "required": true,
+                                "disabled": false,
+                                "clearable": true,
+                                "readonly": false,
+                                "maxLength": 255,
+                                "placeholder": "请输入项目负责人",
+                                "dataSource": "",
+                                "values": [],
+                                "rules": [],
+                                "helpMsg": ""
+                              }
+                            }
+                          ]
+                        },
+                        {
+                          "id": "col-00f13315-1606-4226-be42-6a8def490074",
+                          "cellVisible": true,
+                          "colIndex": 1,
+                          "colspan": 12,
+                          "items": [
+                            {
+                              "id": "Id8286568d-98d7-4fcb-99bb-c3556fc658c5",
+                              "compType": "formItem",
+                              "itemType": "input",
+                              "fieldName": "field_93682c",
+                              "preps": {
+                                "id": "Id8286568d-98d7-4fcb-99bb-c3556fc658c5",
+                                "label": "技术负责人",
+                                "name": "field_93682c",
+                                "itemNameLabel": "技术负责人",
+                                "formVisible": true,
+                                "listVisible": true,
+                                "viewVisible": true,
+                                "searchVisible": false,
+                                "required": false,
+                                "disabled": false,
+                                "clearable": true,
+                                "readonly": false,
+                                "maxLength": 255,
+                                "placeholder": "请输入技术负责人",
+                                "dataSource": "",
+                                "values": [],
+                                "rules": [],
+                                "helpMsg": ""
+                              }
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              },
+              {
+                "id": "Idfa600c59-4341-468c-8ef0-aaa907df783e",
+                "compType": "formItem",
+                "itemType": "input-tag",
+                "fieldName": "field_7ff47e",
+                "preps": {
+                  "id": "Idfa600c59-4341-468c-8ef0-aaa907df783e",
+                  "label": "团队成员",
+                  "name": "field_7ff47e",
+                  "itemNameLabel": "团队成员",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入团队成员",
+                  "dataSource": "",
+                  "values": [],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Id23731d70-4385-41af-870a-2908641f2825",
+                "compType": "formItem",
+                "itemType": "textarea",
+                "fieldName": "field_e99df8",
+                "preps": {
+                  "id": "Id23731d70-4385-41af-870a-2908641f2825",
+                  "label": "风险与备注",
+                  "name": "field_e99df8",
+                  "itemNameLabel": "风险与备注",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入风险与备注",
+                  "dataSource": "",
+                  "values": [],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "exportTime": "2026-06-16T09:36:26.505Z",
+  "version": "1.0"
+}

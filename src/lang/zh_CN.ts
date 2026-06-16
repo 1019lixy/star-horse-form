@@ -137,6 +137,7 @@ export default {
   "dyform.tab.charts": "图表",
   "dyform.tab.template": "模板",
   "dyform.tab.help": "帮助",
+  "dyform.tab.outline": "大纲",
   "dyform.collapse.layout": "布局组件",
   "dyform.collapse.form": "表单组件",
   "dyform.collapse.custom": "自定义组件",

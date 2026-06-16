@@ -1,0 +1,886 @@
+{
+  "formInfo": {
+    "formName": "16-设备管理表单",
+    "currentPageType": "pc"
+  },
+  "dataList": [
+    {
+      "id": "Idd785165e-488a-4c18-a543-07039539b808",
+      "compType": "container",
+      "itemType": "card",
+      "fieldName": "field_1d8b43",
+      "preps": {
+        "id": "Idd785165e-488a-4c18-a543-07039539b808",
+        "label": "设备信息",
+        "name": "field_1d8b43",
+        "itemNameLabel": "设备信息",
+        "headerFieldList": [],
+        "elements": [
+          {
+            "label": "设备信息",
+            "tabName": "设备信息",
+            "objectName": "设备信息",
+            "subFormFlag": "Y",
+            "items": [
+              {
+                "id": "Ide08b2d0e-c5bb-4725-8d59-eaeecb877d2e",
+                "compType": "container",
+                "itemType": "box",
+                "fieldName": "field_4c1b5c",
+                "rowNums": 1,
+                "columnNums": 2,
+                "preps": {
+                  "id": "Ide08b2d0e-c5bb-4725-8d59-eaeecb877d2e",
+                  "label": "Grid Layout",
+                  "name": "field_4c1b5c",
+                  "itemNameLabel": "Grid Layout",
+                  "elements": [
+                    {
+                      "id": "row-a6c5108f-c176-4740-901e-7353f3b3ac69",
+                      "rowIndex": 1,
+                      "columns": [
+                        {
+                          "id": "col-ae0c31cf-b64b-4886-a64e-a76c15d3e058",
+                          "cellVisible": true,
+                          "colIndex": 1,
+                          "colspan": 12,
+                          "items": [
+                            {
+                              "id": "Id21fd42e3-4cab-4685-ad92-006bdedd5337",
+                              "compType": "formItem",
+                              "itemType": "input",
+                              "fieldName": "field_492d91",
+                              "preps": {
+                                "id": "Id21fd42e3-4cab-4685-ad92-006bdedd5337",
+                                "label": "设备名称",
+                                "name": "field_492d91",
+                                "itemNameLabel": "设备名称",
+                                "formVisible": true,
+                                "listVisible": true,
+                                "viewVisible": true,
+                                "searchVisible": false,
+                                "required": true,
+                                "disabled": false,
+                                "clearable": true,
+                                "readonly": false,
+                                "maxLength": 255,
+                                "placeholder": "请输入设备名称",
+                                "dataSource": "",
+                                "values": [],
+                                "rules": [],
+                                "helpMsg": ""
+                              }
+                            }
+                          ]
+                        },
+                        {
+                          "id": "col-c08da9b4-711a-4f1f-a517-35569bf0ac74",
+                          "cellVisible": true,
+                          "colIndex": 1,
+                          "colspan": 12,
+                          "items": [
+                            {
+                              "id": "Id91fa7294-2ffc-4ed7-8fcc-49543112beef",
+                              "compType": "formItem",
+                              "itemType": "input",
+                              "fieldName": "field_0e3a0c",
+                              "preps": {
+                                "id": "Id91fa7294-2ffc-4ed7-8fcc-49543112beef",
+                                "label": "设备编号",
+                                "name": "field_0e3a0c",
+                                "itemNameLabel": "设备编号",
+                                "formVisible": true,
+                                "listVisible": true,
+                                "viewVisible": true,
+                                "searchVisible": false,
+                                "required": true,
+                                "disabled": false,
+                                "clearable": true,
+                                "readonly": false,
+                                "maxLength": 255,
+                                "placeholder": "请输入设备编号",
+                                "dataSource": "",
+                                "values": [],
+                                "rules": [],
+                                "helpMsg": ""
+                              }
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              },
+              {
+                "id": "Idbb308687-5dbd-4d5b-8569-70fef12f59be",
+                "compType": "container",
+                "itemType": "box",
+                "fieldName": "field_50f152",
+                "rowNums": 1,
+                "columnNums": 2,
+                "preps": {
+                  "id": "Idbb308687-5dbd-4d5b-8569-70fef12f59be",
+                  "label": "Grid Layout",
+                  "name": "field_50f152",
+                  "itemNameLabel": "Grid Layout",
+                  "elements": [
+                    {
+                      "id": "row-e189dfbe-6748-4f7a-a39b-4fe6d8e5d5fc",
+                      "rowIndex": 1,
+                      "columns": [
+                        {
+                          "id": "col-fccd91d1-7b06-43cf-ac1c-b879cbe3d3ea",
+                          "cellVisible": true,
+                          "colIndex": 1,
+                          "colspan": 12,
+                          "items": [
+                            {
+                              "id": "Id89eaf01f-4f55-405e-8ac6-0cd7995d62a2",
+                              "compType": "formItem",
+                              "itemType": "select",
+                              "fieldName": "field_2a3697",
+                              "preps": {
+                                "id": "Id89eaf01f-4f55-405e-8ac6-0cd7995d62a2",
+                                "label": "设备类型",
+                                "name": "field_2a3697",
+                                "itemNameLabel": "设备类型",
+                                "formVisible": true,
+                                "listVisible": true,
+                                "viewVisible": true,
+                                "searchVisible": false,
+                                "required": false,
+                                "disabled": false,
+                                "clearable": true,
+                                "readonly": false,
+                                "maxLength": 255,
+                                "placeholder": "请输入设备类型",
+                                "dataSource": "data",
+                                "values": [
+                                  {
+                                    "label": "服务器",
+                                    "value": "1"
+                                  },
+                                  {
+                                    "label": "交换机",
+                                    "value": "2"
+                                  },
+                                  {
+                                    "label": "路由器",
+                                    "value": "3"
+                                  },
+                                  {
+                                    "label": "PC终端",
+                                    "value": "4"
+                                  },
+                                  {
+                                    "label": "打印机",
+                                    "value": "5"
+                                  },
+                                  {
+                                    "label": "监控设备",
+                                    "value": "6"
+                                  },
+                                  {
+                                    "label": "其他",
+                                    "value": "7"
+                                  }
+                                ],
+                                "rules": [],
+                                "helpMsg": ""
+                              }
+                            }
+                          ]
+                        },
+                        {
+                          "id": "col-62697b62-bb61-4ceb-9fab-78ceefb8a52e",
+                          "cellVisible": true,
+                          "colIndex": 1,
+                          "colspan": 12,
+                          "items": [
+                            {
+                              "id": "Idb166c67f-e2e2-4e20-b64d-fe710afc67b9",
+                              "compType": "formItem",
+                              "itemType": "select",
+                              "fieldName": "field_77fd02",
+                              "preps": {
+                                "id": "Idb166c67f-e2e2-4e20-b64d-fe710afc67b9",
+                                "label": "设备品牌",
+                                "name": "field_77fd02",
+                                "itemNameLabel": "设备品牌",
+                                "formVisible": true,
+                                "listVisible": true,
+                                "viewVisible": true,
+                                "searchVisible": false,
+                                "required": false,
+                                "disabled": false,
+                                "clearable": true,
+                                "readonly": false,
+                                "maxLength": 255,
+                                "placeholder": "请输入设备品牌",
+                                "dataSource": "data",
+                                "values": [
+                                  {
+                                    "label": "华为",
+                                    "value": "1"
+                                  },
+                                  {
+                                    "label": "联想",
+                                    "value": "2"
+                                  },
+                                  {
+                                    "label": "戴尔",
+                                    "value": "3"
+                                  },
+                                  {
+                                    "label": "惠普",
+                                    "value": "4"
+                                  },
+                                  {
+                                    "label": "思科",
+                                    "value": "5"
+                                  },
+                                  {
+                                    "label": "其他",
+                                    "value": "6"
+                                  }
+                                ],
+                                "rules": [],
+                                "helpMsg": ""
+                              }
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              },
+              {
+                "id": "Id89ecdd8e-d4de-4fad-bfa9-cd448edf4981",
+                "compType": "container",
+                "itemType": "box",
+                "fieldName": "field_85816d",
+                "rowNums": 1,
+                "columnNums": 2,
+                "preps": {
+                  "id": "Id89ecdd8e-d4de-4fad-bfa9-cd448edf4981",
+                  "label": "Grid Layout",
+                  "name": "field_85816d",
+                  "itemNameLabel": "Grid Layout",
+                  "elements": [
+                    {
+                      "id": "row-849187e5-9711-4059-a3c8-747373feebb5",
+                      "rowIndex": 1,
+                      "columns": [
+                        {
+                          "id": "col-d336d599-a79e-4031-88c6-58413ee1de63",
+                          "cellVisible": true,
+                          "colIndex": 1,
+                          "colspan": 12,
+                          "items": [
+                            {
+                              "id": "Ida26e4960-f40a-41cf-8d4e-8e154da52090",
+                              "compType": "formItem",
+                              "itemType": "input",
+                              "fieldName": "field_bc6481",
+                              "preps": {
+                                "id": "Ida26e4960-f40a-41cf-8d4e-8e154da52090",
+                                "label": "型号规格",
+                                "name": "field_bc6481",
+                                "itemNameLabel": "型号规格",
+                                "formVisible": true,
+                                "listVisible": true,
+                                "viewVisible": true,
+                                "searchVisible": false,
+                                "required": false,
+                                "disabled": false,
+                                "clearable": true,
+                                "readonly": false,
+                                "maxLength": 255,
+                                "placeholder": "请输入型号规格",
+                                "dataSource": "",
+                                "values": [],
+                                "rules": [],
+                                "helpMsg": ""
+                              }
+                            }
+                          ]
+                        },
+                        {
+                          "id": "col-06462d9f-b0d8-42d3-931b-ed4c8dabc62c",
+                          "cellVisible": true,
+                          "colIndex": 1,
+                          "colspan": 12,
+                          "items": [
+                            {
+                              "id": "Id8616dcd4-6faa-4bb9-b9e5-10c5c63d6369",
+                              "compType": "formItem",
+                              "itemType": "input",
+                              "fieldName": "field_549164",
+                              "preps": {
+                                "id": "Id8616dcd4-6faa-4bb9-b9e5-10c5c63d6369",
+                                "label": "序列号",
+                                "name": "field_549164",
+                                "itemNameLabel": "序列号",
+                                "formVisible": true,
+                                "listVisible": true,
+                                "viewVisible": true,
+                                "searchVisible": false,
+                                "required": false,
+                                "disabled": false,
+                                "clearable": true,
+                                "readonly": false,
+                                "maxLength": 255,
+                                "placeholder": "请输入序列号",
+                                "dataSource": "",
+                                "values": [],
+                                "rules": [],
+                                "helpMsg": ""
+                              }
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              },
+              {
+                "id": "Idf46bf8a5-cb93-4f65-88d9-f839553ee023",
+                "compType": "container",
+                "itemType": "box",
+                "fieldName": "field_90c493",
+                "rowNums": 1,
+                "columnNums": 2,
+                "preps": {
+                  "id": "Idf46bf8a5-cb93-4f65-88d9-f839553ee023",
+                  "label": "Grid Layout",
+                  "name": "field_90c493",
+                  "itemNameLabel": "Grid Layout",
+                  "elements": [
+                    {
+                      "id": "row-5ab13e6a-f6ca-4f7a-8428-4ca12d9a37d4",
+                      "rowIndex": 1,
+                      "columns": [
+                        {
+                          "id": "col-bd563aaf-ed17-467b-adfb-f4d1eb2d1dc8",
+                          "cellVisible": true,
+                          "colIndex": 1,
+                          "colspan": 12,
+                          "items": [
+                            {
+                              "id": "Idffc39113-fd17-4a49-8b1f-20d727e830e9",
+                              "compType": "formItem",
+                              "itemType": "date",
+                              "fieldName": "field_f2a139",
+                              "preps": {
+                                "id": "Idffc39113-fd17-4a49-8b1f-20d727e830e9",
+                                "label": "采购日期",
+                                "name": "field_f2a139",
+                                "itemNameLabel": "采购日期",
+                                "formVisible": true,
+                                "listVisible": true,
+                                "viewVisible": true,
+                                "searchVisible": false,
+                                "required": false,
+                                "disabled": false,
+                                "clearable": true,
+                                "readonly": false,
+                                "maxLength": 255,
+                                "placeholder": "请输入采购日期",
+                                "dataSource": "",
+                                "values": [],
+                                "rules": [],
+                                "helpMsg": ""
+                              }
+                            }
+                          ]
+                        },
+                        {
+                          "id": "col-3e30e67c-e901-412a-9a82-288ab16ec07b",
+                          "cellVisible": true,
+                          "colIndex": 1,
+                          "colspan": 12,
+                          "items": [
+                            {
+                              "id": "Id9baf1bb1-27d7-488a-ba14-514589908688",
+                              "compType": "formItem",
+                              "itemType": "date",
+                              "fieldName": "field_e36634",
+                              "preps": {
+                                "id": "Id9baf1bb1-27d7-488a-ba14-514589908688",
+                                "label": "保修到期",
+                                "name": "field_e36634",
+                                "itemNameLabel": "保修到期",
+                                "formVisible": true,
+                                "listVisible": true,
+                                "viewVisible": true,
+                                "searchVisible": false,
+                                "required": false,
+                                "disabled": false,
+                                "clearable": true,
+                                "readonly": false,
+                                "maxLength": 255,
+                                "placeholder": "请输入保修到期",
+                                "dataSource": "",
+                                "values": [],
+                                "rules": [],
+                                "helpMsg": ""
+                              }
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              },
+              {
+                "id": "Id63958d46-2245-4c62-9a9a-ed5c0cf22d31",
+                "compType": "formItem",
+                "itemType": "select",
+                "fieldName": "field_951086",
+                "preps": {
+                  "id": "Id63958d46-2245-4c62-9a9a-ed5c0cf22d31",
+                  "label": "设备状态",
+                  "name": "field_951086",
+                  "itemNameLabel": "设备状态",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入设备状态",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "label": "在用",
+                      "value": "1"
+                    },
+                    {
+                      "label": "闲置",
+                      "value": "2"
+                    },
+                    {
+                      "label": "维修中",
+                      "value": "3"
+                    },
+                    {
+                      "label": "已报废",
+                      "value": "4"
+                    },
+                    {
+                      "label": "待分配",
+                      "value": "5"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "Id1b470656-052b-4e12-91e0-c143af4ab75f",
+      "compType": "container",
+      "itemType": "card",
+      "fieldName": "field_21b673",
+      "preps": {
+        "id": "Id1b470656-052b-4e12-91e0-c143af4ab75f",
+        "label": "使用信息",
+        "name": "field_21b673",
+        "itemNameLabel": "使用信息",
+        "headerFieldList": [],
+        "elements": [
+          {
+            "label": "使用信息",
+            "tabName": "使用信息",
+            "objectName": "使用信息",
+            "subFormFlag": "Y",
+            "items": [
+              {
+                "id": "Id7946ff55-dc49-4433-9c4c-973716735c71",
+                "compType": "container",
+                "itemType": "box",
+                "fieldName": "field_3543c9",
+                "rowNums": 1,
+                "columnNums": 2,
+                "preps": {
+                  "id": "Id7946ff55-dc49-4433-9c4c-973716735c71",
+                  "label": "Grid Layout",
+                  "name": "field_3543c9",
+                  "itemNameLabel": "Grid Layout",
+                  "elements": [
+                    {
+                      "id": "row-88626b6b-42d5-49b8-b48f-a872e0ba7a9a",
+                      "rowIndex": 1,
+                      "columns": [
+                        {
+                          "id": "col-386eb06e-c372-4a12-bba7-ac77a750b719",
+                          "cellVisible": true,
+                          "colIndex": 1,
+                          "colspan": 12,
+                          "items": [
+                            {
+                              "id": "Idefeb88e1-8317-4697-a10c-98c3c67c8786",
+                              "compType": "formItem",
+                              "itemType": "input",
+                              "fieldName": "field_a12040",
+                              "preps": {
+                                "id": "Idefeb88e1-8317-4697-a10c-98c3c67c8786",
+                                "label": "使用人",
+                                "name": "field_a12040",
+                                "itemNameLabel": "使用人",
+                                "formVisible": true,
+                                "listVisible": true,
+                                "viewVisible": true,
+                                "searchVisible": false,
+                                "required": false,
+                                "disabled": false,
+                                "clearable": true,
+                                "readonly": false,
+                                "maxLength": 255,
+                                "placeholder": "请输入使用人",
+                                "dataSource": "",
+                                "values": [],
+                                "rules": [],
+                                "helpMsg": ""
+                              }
+                            }
+                          ]
+                        },
+                        {
+                          "id": "col-7de59987-bae8-495d-8529-6881278301ae",
+                          "cellVisible": true,
+                          "colIndex": 1,
+                          "colspan": 12,
+                          "items": [
+                            {
+                              "id": "Id5034c964-6f05-43b0-b9f0-c3cb06ea3e3c",
+                              "compType": "formItem",
+                              "itemType": "input",
+                              "fieldName": "field_1748ae",
+                              "preps": {
+                                "id": "Id5034c964-6f05-43b0-b9f0-c3cb06ea3e3c",
+                                "label": "使用部门",
+                                "name": "field_1748ae",
+                                "itemNameLabel": "使用部门",
+                                "formVisible": true,
+                                "listVisible": true,
+                                "viewVisible": true,
+                                "searchVisible": false,
+                                "required": false,
+                                "disabled": false,
+                                "clearable": true,
+                                "readonly": false,
+                                "maxLength": 255,
+                                "placeholder": "请输入使用部门",
+                                "dataSource": "",
+                                "values": [],
+                                "rules": [],
+                                "helpMsg": ""
+                              }
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              },
+              {
+                "id": "Idbdb63feb-a160-4eef-81a1-27b87b98dbdb",
+                "compType": "formItem",
+                "itemType": "input",
+                "fieldName": "field_14bf7a",
+                "preps": {
+                  "id": "Idbdb63feb-a160-4eef-81a1-27b87b98dbdb",
+                  "label": "设备位置",
+                  "name": "field_14bf7a",
+                  "itemNameLabel": "设备位置",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入设备位置",
+                  "dataSource": "",
+                  "values": [],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Id72af5c1c-864e-4f68-9886-5af8f4d1d8b6",
+                "compType": "formItem",
+                "itemType": "textarea",
+                "fieldName": "field_4559a9",
+                "preps": {
+                  "id": "Id72af5c1c-864e-4f68-9886-5af8f4d1d8b6",
+                  "label": "设备备注",
+                  "name": "field_4559a9",
+                  "itemNameLabel": "设备备注",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入设备备注",
+                  "dataSource": "",
+                  "values": [],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Id5361f0c3-7108-4332-b29d-9141de1fb9e3",
+                "compType": "formItem",
+                "itemType": "upload",
+                "fieldName": "field_57d751",
+                "preps": {
+                  "id": "Id5361f0c3-7108-4332-b29d-9141de1fb9e3",
+                  "label": "设备照片",
+                  "name": "field_57d751",
+                  "itemNameLabel": "设备照片",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入设备照片",
+                  "dataSource": "",
+                  "values": [],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "Idcb8988ad-9aa6-4819-a1bb-fe192350db40",
+      "compType": "container",
+      "itemType": "card",
+      "fieldName": "field_e01589",
+      "preps": {
+        "id": "Idcb8988ad-9aa6-4819-a1bb-fe192350db40",
+        "label": "维护记录",
+        "name": "field_e01589",
+        "itemNameLabel": "维护记录",
+        "headerFieldList": [],
+        "elements": [
+          {
+            "label": "维护记录",
+            "tabName": "维护记录",
+            "objectName": "维护记录",
+            "subFormFlag": "Y",
+            "items": [
+              {
+                "id": "Id2525e583-40a4-4786-a6e2-de54089aed42",
+                "compType": "formItem",
+                "itemType": "dytable",
+                "fieldName": "field_0d0bc1",
+                "preps": {
+                  "id": "Id2525e583-40a4-4786-a6e2-de54089aed42",
+                  "label": "维护历史",
+                  "name": "field_0d0bc1",
+                  "itemNameLabel": "维护历史",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入维护历史",
+                  "dataSource": "",
+                  "values": [],
+                  "rules": [],
+                  "helpMsg": "",
+                  "rowNums": 1,
+                  "columnNums": 4,
+                  "elements": [
+                    {
+                      "id": "row-b18df6f8-71b2-446a-ad6a-3f79ca45856d",
+                      "colIndex": 1,
+                      "columns": [
+                        {
+                          "id": "c1-a6c5b76f-c82d-45fb-b686-8d46d251df96",
+                          "cellVisible": true,
+                          "colIndex": 1,
+                          "colspan": 1,
+                          "rowspan": 1,
+                          "items": [
+                            {
+                              "id": "Idb5f733cb-29da-4959-9060-567fba57eaf4",
+                              "compType": "formItem",
+                              "itemType": "date",
+                              "fieldName": "field_f6aa6a",
+                              "preps": {
+                                "id": "Idb5f733cb-29da-4959-9060-567fba57eaf4",
+                                "label": "维护日期",
+                                "name": "field_f6aa6a",
+                                "itemNameLabel": "维护日期",
+                                "formVisible": true,
+                                "listVisible": true,
+                                "viewVisible": true,
+                                "searchVisible": false,
+                                "required": false,
+                                "disabled": false,
+                                "clearable": true,
+                                "readonly": false,
+                                "maxLength": 255,
+                                "placeholder": "请输入维护日期",
+                                "dataSource": "",
+                                "values": [],
+                                "rules": [],
+                                "helpMsg": ""
+                              }
+                            }
+                          ]
+                        },
+                        {
+                          "id": "c2-b95279b1-561b-4f4e-9f53-c60adff47b4b",
+                          "cellVisible": true,
+                          "colIndex": 2,
+                          "colspan": 1,
+                          "rowspan": 1,
+                          "items": [
+                            {
+                              "id": "Id52e59e27-af0b-46de-a60c-1e8d5427f610",
+                              "compType": "formItem",
+                              "itemType": "input",
+                              "fieldName": "field_070bdb",
+                              "preps": {
+                                "id": "Id52e59e27-af0b-46de-a60c-1e8d5427f610",
+                                "label": "维护内容",
+                                "name": "field_070bdb",
+                                "itemNameLabel": "维护内容",
+                                "formVisible": true,
+                                "listVisible": true,
+                                "viewVisible": true,
+                                "searchVisible": false,
+                                "required": false,
+                                "disabled": false,
+                                "clearable": true,
+                                "readonly": false,
+                                "maxLength": 255,
+                                "placeholder": "请输入维护内容",
+                                "dataSource": "",
+                                "values": [],
+                                "rules": [],
+                                "helpMsg": ""
+                              }
+                            }
+                          ]
+                        },
+                        {
+                          "id": "c3-5fc57dff-33d8-449d-8a1d-1eefdef8869d",
+                          "cellVisible": true,
+                          "colIndex": 3,
+                          "colspan": 1,
+                          "rowspan": 1,
+                          "items": [
+                            {
+                              "id": "Id9d9e12b5-e767-4e3d-a5c2-aaaa63dbb6eb",
+                              "compType": "formItem",
+                              "itemType": "input",
+                              "fieldName": "field_c21f23",
+                              "preps": {
+                                "id": "Id9d9e12b5-e767-4e3d-a5c2-aaaa63dbb6eb",
+                                "label": "维护人员",
+                                "name": "field_c21f23",
+                                "itemNameLabel": "维护人员",
+                                "formVisible": true,
+                                "listVisible": true,
+                                "viewVisible": true,
+                                "searchVisible": false,
+                                "required": false,
+                                "disabled": false,
+                                "clearable": true,
+                                "readonly": false,
+                                "maxLength": 255,
+                                "placeholder": "请输入维护人员",
+                                "dataSource": "",
+                                "values": [],
+                                "rules": [],
+                                "helpMsg": ""
+                              }
+                            }
+                          ]
+                        },
+                        {
+                          "id": "c4-f885fcaf-a458-4d4f-bbd2-e641fa6358f2",
+                          "cellVisible": true,
+                          "colIndex": 4,
+                          "colspan": 1,
+                          "rowspan": 1,
+                          "items": [
+                            {
+                              "id": "Id2251e781-2973-43cd-a060-89765cfa28e0",
+                              "compType": "formItem",
+                              "itemType": "number",
+                              "fieldName": "field_75d4b5",
+                              "preps": {
+                                "id": "Id2251e781-2973-43cd-a060-89765cfa28e0",
+                                "label": "费用",
+                                "name": "field_75d4b5",
+                                "itemNameLabel": "费用",
+                                "formVisible": true,
+                                "listVisible": true,
+                                "viewVisible": true,
+                                "searchVisible": false,
+                                "required": false,
+                                "disabled": false,
+                                "clearable": true,
+                                "readonly": false,
+                                "maxLength": 255,
+                                "placeholder": "请输入费用",
+                                "dataSource": "",
+                                "values": [],
+                                "rules": [],
+                                "helpMsg": "",
+                                "min": 0,
+                                "precision": 2
+                              }
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "exportTime": "2026-06-16T09:36:26.509Z",
+  "version": "1.0"
+}

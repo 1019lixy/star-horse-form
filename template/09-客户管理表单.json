@@ -1,0 +1,696 @@
+{
+  "formInfo": {
+    "formName": "09-客户管理表单",
+    "currentPageType": "pc"
+  },
+  "dataList": [
+    {
+      "id": "Id1756c291-accd-4f04-81c5-7cfb2a5e56a8",
+      "compType": "container",
+      "itemType": "card",
+      "fieldName": "field_6b0a51",
+      "preps": {
+        "id": "Id1756c291-accd-4f04-81c5-7cfb2a5e56a8",
+        "label": "客户基本信息",
+        "name": "field_6b0a51",
+        "itemNameLabel": "客户基本信息",
+        "headerFieldList": [],
+        "elements": [
+          {
+            "label": "客户基本信息",
+            "tabName": "客户基本信息",
+            "objectName": "客户基本信息",
+            "subFormFlag": "Y",
+            "items": [
+              {
+                "id": "Id5ffd8d11-4cf6-46dd-a98f-f50ad6640d2d",
+                "compType": "container",
+                "itemType": "box",
+                "fieldName": "field_aeedf0",
+                "rowNums": 1,
+                "columnNums": 2,
+                "preps": {
+                  "id": "Id5ffd8d11-4cf6-46dd-a98f-f50ad6640d2d",
+                  "label": "Grid Layout",
+                  "name": "field_aeedf0",
+                  "itemNameLabel": "Grid Layout",
+                  "elements": [
+                    {
+                      "id": "row-ef09a3ee-674d-4e3a-a862-a23f9f5d6b88",
+                      "rowIndex": 1,
+                      "columns": [
+                        {
+                          "id": "col-12696ec4-3e6d-424e-af02-a58e7cc58a58",
+                          "cellVisible": true,
+                          "colIndex": 1,
+                          "colspan": 12,
+                          "items": [
+                            {
+                              "id": "Id45f25a84-33aa-4a7a-9b1b-a4532e0708fc",
+                              "compType": "formItem",
+                              "itemType": "input",
+                              "fieldName": "field_46e7de",
+                              "preps": {
+                                "id": "Id45f25a84-33aa-4a7a-9b1b-a4532e0708fc",
+                                "label": "客户名称",
+                                "name": "field_46e7de",
+                                "itemNameLabel": "客户名称",
+                                "formVisible": true,
+                                "listVisible": true,
+                                "viewVisible": true,
+                                "searchVisible": false,
+                                "required": true,
+                                "disabled": false,
+                                "clearable": true,
+                                "readonly": false,
+                                "maxLength": 255,
+                                "placeholder": "请输入客户名称",
+                                "dataSource": "",
+                                "values": [],
+                                "rules": [],
+                                "helpMsg": ""
+                              }
+                            }
+                          ]
+                        },
+                        {
+                          "id": "col-a3826c4e-4a8d-4527-8a88-7b99f8a71d60",
+                          "cellVisible": true,
+                          "colIndex": 1,
+                          "colspan": 12,
+                          "items": [
+                            {
+                              "id": "Id79d8af23-4ab9-484a-9d04-5cac454985c7",
+                              "compType": "formItem",
+                              "itemType": "select",
+                              "fieldName": "field_d342cd",
+                              "preps": {
+                                "id": "Id79d8af23-4ab9-484a-9d04-5cac454985c7",
+                                "label": "客户类型",
+                                "name": "field_d342cd",
+                                "itemNameLabel": "客户类型",
+                                "formVisible": true,
+                                "listVisible": true,
+                                "viewVisible": true,
+                                "searchVisible": false,
+                                "required": false,
+                                "disabled": false,
+                                "clearable": true,
+                                "readonly": false,
+                                "maxLength": 255,
+                                "placeholder": "请输入客户类型",
+                                "dataSource": "data",
+                                "values": [
+                                  {
+                                    "label": "企业客户",
+                                    "value": "1"
+                                  },
+                                  {
+                                    "label": "个人客户",
+                                    "value": "2"
+                                  },
+                                  {
+                                    "label": "VIP客户",
+                                    "value": "3"
+                                  },
+                                  {
+                                    "label": "代理商",
+                                    "value": "4"
+                                  }
+                                ],
+                                "rules": [],
+                                "helpMsg": ""
+                              }
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              },
+              {
+                "id": "Id98ad93b9-7594-4bd1-b2e5-6bcd0dd0512a",
+                "compType": "container",
+                "itemType": "box",
+                "fieldName": "field_8b6130",
+                "rowNums": 1,
+                "columnNums": 2,
+                "preps": {
+                  "id": "Id98ad93b9-7594-4bd1-b2e5-6bcd0dd0512a",
+                  "label": "Grid Layout",
+                  "name": "field_8b6130",
+                  "itemNameLabel": "Grid Layout",
+                  "elements": [
+                    {
+                      "id": "row-f42ddc99-6445-496c-9867-dfa059ff474f",
+                      "rowIndex": 1,
+                      "columns": [
+                        {
+                          "id": "col-07340ecc-3cf3-4944-bd13-03d435830d18",
+                          "cellVisible": true,
+                          "colIndex": 1,
+                          "colspan": 12,
+                          "items": [
+                            {
+                              "id": "Id210207ae-ca20-49ee-8573-e1c383b68861",
+                              "compType": "formItem",
+                              "itemType": "input",
+                              "fieldName": "field_16e1ff",
+                              "preps": {
+                                "id": "Id210207ae-ca20-49ee-8573-e1c383b68861",
+                                "label": "联系人",
+                                "name": "field_16e1ff",
+                                "itemNameLabel": "联系人",
+                                "formVisible": true,
+                                "listVisible": true,
+                                "viewVisible": true,
+                                "searchVisible": false,
+                                "required": true,
+                                "disabled": false,
+                                "clearable": true,
+                                "readonly": false,
+                                "maxLength": 255,
+                                "placeholder": "请输入联系人",
+                                "dataSource": "",
+                                "values": [],
+                                "rules": [],
+                                "helpMsg": ""
+                              }
+                            }
+                          ]
+                        },
+                        {
+                          "id": "col-3617300f-152f-4a27-8644-7a37cdac283c",
+                          "cellVisible": true,
+                          "colIndex": 1,
+                          "colspan": 12,
+                          "items": [
+                            {
+                              "id": "Idc8989c9c-11dc-4a7c-981f-b228b0a4a6ad",
+                              "compType": "formItem",
+                              "itemType": "input",
+                              "fieldName": "field_971cae",
+                              "preps": {
+                                "id": "Idc8989c9c-11dc-4a7c-981f-b228b0a4a6ad",
+                                "label": "联系电话",
+                                "name": "field_971cae",
+                                "itemNameLabel": "联系电话",
+                                "formVisible": true,
+                                "listVisible": true,
+                                "viewVisible": true,
+                                "searchVisible": false,
+                                "required": true,
+                                "disabled": false,
+                                "clearable": true,
+                                "readonly": false,
+                                "maxLength": 255,
+                                "placeholder": "请输入联系电话",
+                                "dataSource": "",
+                                "values": [],
+                                "rules": [],
+                                "helpMsg": ""
+                              }
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              },
+              {
+                "id": "Idb2957ff6-e4af-4547-8f2a-906073f51b66",
+                "compType": "container",
+                "itemType": "box",
+                "fieldName": "field_75a7a6",
+                "rowNums": 1,
+                "columnNums": 2,
+                "preps": {
+                  "id": "Idb2957ff6-e4af-4547-8f2a-906073f51b66",
+                  "label": "Grid Layout",
+                  "name": "field_75a7a6",
+                  "itemNameLabel": "Grid Layout",
+                  "elements": [
+                    {
+                      "id": "row-836e5796-68e0-407c-978f-d2a192728986",
+                      "rowIndex": 1,
+                      "columns": [
+                        {
+                          "id": "col-84cae7bd-c344-4425-99b3-cb954b008f4f",
+                          "cellVisible": true,
+                          "colIndex": 1,
+                          "colspan": 12,
+                          "items": [
+                            {
+                              "id": "Id1ecea1f6-0969-43cd-b48e-e66305cb3a31",
+                              "compType": "formItem",
+                              "itemType": "input",
+                              "fieldName": "field_7a1797",
+                              "preps": {
+                                "id": "Id1ecea1f6-0969-43cd-b48e-e66305cb3a31",
+                                "label": "邮箱",
+                                "name": "field_7a1797",
+                                "itemNameLabel": "邮箱",
+                                "formVisible": true,
+                                "listVisible": true,
+                                "viewVisible": true,
+                                "searchVisible": false,
+                                "required": false,
+                                "disabled": false,
+                                "clearable": true,
+                                "readonly": false,
+                                "maxLength": 255,
+                                "placeholder": "请输入邮箱",
+                                "dataSource": "",
+                                "values": [],
+                                "rules": [],
+                                "helpMsg": ""
+                              }
+                            }
+                          ]
+                        },
+                        {
+                          "id": "col-3e4d7fb9-22eb-427c-8760-5ba05f3c214e",
+                          "cellVisible": true,
+                          "colIndex": 1,
+                          "colspan": 12,
+                          "items": [
+                            {
+                              "id": "Idd289d0a2-a4b4-4d73-a990-21e2db098bf8",
+                              "compType": "formItem",
+                              "itemType": "input",
+                              "fieldName": "field_a2ac5b",
+                              "preps": {
+                                "id": "Idd289d0a2-a4b4-4d73-a990-21e2db098bf8",
+                                "label": "公司网站",
+                                "name": "field_a2ac5b",
+                                "itemNameLabel": "公司网站",
+                                "formVisible": true,
+                                "listVisible": true,
+                                "viewVisible": true,
+                                "searchVisible": false,
+                                "required": false,
+                                "disabled": false,
+                                "clearable": true,
+                                "readonly": false,
+                                "maxLength": 255,
+                                "placeholder": "请输入公司网站",
+                                "dataSource": "",
+                                "values": [],
+                                "rules": [],
+                                "helpMsg": ""
+                              }
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              },
+              {
+                "id": "Id2de50e64-b301-4084-975d-178c391f3dd0",
+                "compType": "formItem",
+                "itemType": "select",
+                "fieldName": "field_cdf5cc",
+                "preps": {
+                  "id": "Id2de50e64-b301-4084-975d-178c391f3dd0",
+                  "label": "所属行业",
+                  "name": "field_cdf5cc",
+                  "itemNameLabel": "所属行业",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入所属行业",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "label": "互联网",
+                      "value": "1"
+                    },
+                    {
+                      "label": "金融",
+                      "value": "2"
+                    },
+                    {
+                      "label": "教育",
+                      "value": "3"
+                    },
+                    {
+                      "label": "医疗",
+                      "value": "4"
+                    },
+                    {
+                      "label": "制造业",
+                      "value": "5"
+                    },
+                    {
+                      "label": "零售",
+                      "value": "6"
+                    },
+                    {
+                      "label": "其他",
+                      "value": "7"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Idf39e6578-1fd8-46c5-aab1-95065f6e0d43",
+                "compType": "formItem",
+                "itemType": "input",
+                "fieldName": "field_b984f4",
+                "preps": {
+                  "id": "Idf39e6578-1fd8-46c5-aab1-95065f6e0d43",
+                  "label": "客户地址",
+                  "name": "field_b984f4",
+                  "itemNameLabel": "客户地址",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入客户地址",
+                  "dataSource": "",
+                  "values": [],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "Idb9815a9c-72fe-4605-aecd-6a97b6ef8f49",
+      "compType": "container",
+      "itemType": "card",
+      "fieldName": "field_ba8b48",
+      "preps": {
+        "id": "Idb9815a9c-72fe-4605-aecd-6a97b6ef8f49",
+        "label": "商务信息",
+        "name": "field_ba8b48",
+        "itemNameLabel": "商务信息",
+        "headerFieldList": [],
+        "elements": [
+          {
+            "label": "商务信息",
+            "tabName": "商务信息",
+            "objectName": "商务信息",
+            "subFormFlag": "Y",
+            "items": [
+              {
+                "id": "Idaa4b1a2e-d403-4c4b-80f1-b5e851c3c1e5",
+                "compType": "container",
+                "itemType": "box",
+                "fieldName": "field_36637c",
+                "rowNums": 1,
+                "columnNums": 2,
+                "preps": {
+                  "id": "Idaa4b1a2e-d403-4c4b-80f1-b5e851c3c1e5",
+                  "label": "Grid Layout",
+                  "name": "field_36637c",
+                  "itemNameLabel": "Grid Layout",
+                  "elements": [
+                    {
+                      "id": "row-67ba5b83-94f7-4424-9b5b-2f24a89050db",
+                      "rowIndex": 1,
+                      "columns": [
+                        {
+                          "id": "col-a44e5c97-90c4-4b31-9864-94b3e7acecc5",
+                          "cellVisible": true,
+                          "colIndex": 1,
+                          "colspan": 12,
+                          "items": [
+                            {
+                              "id": "Id8395218a-489c-427d-a604-7be801157055",
+                              "compType": "formItem",
+                              "itemType": "input",
+                              "fieldName": "field_617415",
+                              "preps": {
+                                "id": "Id8395218a-489c-427d-a604-7be801157055",
+                                "label": "客户经理",
+                                "name": "field_617415",
+                                "itemNameLabel": "客户经理",
+                                "formVisible": true,
+                                "listVisible": true,
+                                "viewVisible": true,
+                                "searchVisible": false,
+                                "required": false,
+                                "disabled": false,
+                                "clearable": true,
+                                "readonly": false,
+                                "maxLength": 255,
+                                "placeholder": "请输入客户经理",
+                                "dataSource": "",
+                                "values": [],
+                                "rules": [],
+                                "helpMsg": ""
+                              }
+                            }
+                          ]
+                        },
+                        {
+                          "id": "col-f8341b51-f826-4292-92b6-2a28275ab233",
+                          "cellVisible": true,
+                          "colIndex": 1,
+                          "colspan": 12,
+                          "items": [
+                            {
+                              "id": "Idca0036d9-61bf-4ce4-a93d-7eb1ceec9a53",
+                              "compType": "formItem",
+                              "itemType": "select",
+                              "fieldName": "field_e95cd2",
+                              "preps": {
+                                "id": "Idca0036d9-61bf-4ce4-a93d-7eb1ceec9a53",
+                                "label": "客户来源",
+                                "name": "field_e95cd2",
+                                "itemNameLabel": "客户来源",
+                                "formVisible": true,
+                                "listVisible": true,
+                                "viewVisible": true,
+                                "searchVisible": false,
+                                "required": false,
+                                "disabled": false,
+                                "clearable": true,
+                                "readonly": false,
+                                "maxLength": 255,
+                                "placeholder": "请输入客户来源",
+                                "dataSource": "data",
+                                "values": [
+                                  {
+                                    "label": "线上推广",
+                                    "value": "1"
+                                  },
+                                  {
+                                    "label": "线下活动",
+                                    "value": "2"
+                                  },
+                                  {
+                                    "label": "老客户推荐",
+                                    "value": "3"
+                                  },
+                                  {
+                                    "label": "电话营销",
+                                    "value": "4"
+                                  },
+                                  {
+                                    "label": "其他",
+                                    "value": "5"
+                                  }
+                                ],
+                                "rules": [],
+                                "helpMsg": ""
+                              }
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              },
+              {
+                "id": "Id35e10825-d295-4474-a78c-4c696d52dd5a",
+                "compType": "container",
+                "itemType": "box",
+                "fieldName": "field_d2df42",
+                "rowNums": 1,
+                "columnNums": 2,
+                "preps": {
+                  "id": "Id35e10825-d295-4474-a78c-4c696d52dd5a",
+                  "label": "Grid Layout",
+                  "name": "field_d2df42",
+                  "itemNameLabel": "Grid Layout",
+                  "elements": [
+                    {
+                      "id": "row-5d21d262-be83-4146-8dda-b2d4f0868e87",
+                      "rowIndex": 1,
+                      "columns": [
+                        {
+                          "id": "col-f42ecc92-a79b-42b7-8ee8-4d1dd37dad0f",
+                          "cellVisible": true,
+                          "colIndex": 1,
+                          "colspan": 12,
+                          "items": [
+                            {
+                              "id": "Id28d310c6-b753-488b-b681-78c8f0cf71bf",
+                              "compType": "formItem",
+                              "itemType": "number",
+                              "fieldName": "field_9f11fe",
+                              "preps": {
+                                "id": "Id28d310c6-b753-488b-b681-78c8f0cf71bf",
+                                "label": "预估金额",
+                                "name": "field_9f11fe",
+                                "itemNameLabel": "预估金额",
+                                "formVisible": true,
+                                "listVisible": true,
+                                "viewVisible": true,
+                                "searchVisible": false,
+                                "required": false,
+                                "disabled": false,
+                                "clearable": true,
+                                "readonly": false,
+                                "maxLength": 255,
+                                "placeholder": "请输入预估金额",
+                                "dataSource": "",
+                                "values": [],
+                                "rules": [],
+                                "helpMsg": "",
+                                "min": 0,
+                                "precision": 2
+                              }
+                            }
+                          ]
+                        },
+                        {
+                          "id": "col-6855ab4a-ce18-4deb-bf96-bdba7a979f6e",
+                          "cellVisible": true,
+                          "colIndex": 1,
+                          "colspan": 12,
+                          "items": [
+                            {
+                              "id": "Iddb144260-7e7b-4f17-b892-3efbd6cb826a",
+                              "compType": "formItem",
+                              "itemType": "select",
+                              "fieldName": "field_f58ef7",
+                              "preps": {
+                                "id": "Iddb144260-7e7b-4f17-b892-3efbd6cb826a",
+                                "label": "客户等级",
+                                "name": "field_f58ef7",
+                                "itemNameLabel": "客户等级",
+                                "formVisible": true,
+                                "listVisible": true,
+                                "viewVisible": true,
+                                "searchVisible": false,
+                                "required": false,
+                                "disabled": false,
+                                "clearable": true,
+                                "readonly": false,
+                                "maxLength": 255,
+                                "placeholder": "请输入客户等级",
+                                "dataSource": "data",
+                                "values": [
+                                  {
+                                    "label": "A级",
+                                    "value": "1"
+                                  },
+                                  {
+                                    "label": "B级",
+                                    "value": "2"
+                                  },
+                                  {
+                                    "label": "C级",
+                                    "value": "3"
+                                  },
+                                  {
+                                    "label": "D级",
+                                    "value": "4"
+                                  }
+                                ],
+                                "rules": [],
+                                "helpMsg": ""
+                              }
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              },
+              {
+                "id": "Id73af4737-2e63-4f3a-8c77-003d1fdb1f55",
+                "compType": "formItem",
+                "itemType": "textarea",
+                "fieldName": "field_3cb25c",
+                "preps": {
+                  "id": "Id73af4737-2e63-4f3a-8c77-003d1fdb1f55",
+                  "label": "客户需求",
+                  "name": "field_3cb25c",
+                  "itemNameLabel": "客户需求",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 500,
+                  "placeholder": "请输入客户需求",
+                  "dataSource": "",
+                  "values": [],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Idb9d4490b-41f6-468a-b2e0-f5c411cefceb",
+                "compType": "formItem",
+                "itemType": "textarea",
+                "fieldName": "field_e5c8a6",
+                "preps": {
+                  "id": "Idb9d4490b-41f6-468a-b2e0-f5c411cefceb",
+                  "label": "跟进记录",
+                  "name": "field_e5c8a6",
+                  "itemNameLabel": "跟进记录",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 1000,
+                  "placeholder": "请输入跟进记录",
+                  "dataSource": "",
+                  "values": [],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "exportTime": "2026-06-16T09:36:26.504Z",
+  "version": "1.0"
+}

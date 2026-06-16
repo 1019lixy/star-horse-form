@@ -1,0 +1,572 @@
+{
+  "formInfo": {
+    "formName": "13-报销申请表单",
+    "currentPageType": "pc"
+  },
+  "dataList": [
+    {
+      "id": "Idd453fc5b-8e7d-4987-814d-9746ca60f347",
+      "compType": "container",
+      "itemType": "card",
+      "fieldName": "field_4b8b82",
+      "preps": {
+        "id": "Idd453fc5b-8e7d-4987-814d-9746ca60f347",
+        "label": "报销基本信息",
+        "name": "field_4b8b82",
+        "itemNameLabel": "报销基本信息",
+        "headerFieldList": [],
+        "elements": [
+          {
+            "label": "报销基本信息",
+            "tabName": "报销基本信息",
+            "objectName": "报销基本信息",
+            "subFormFlag": "Y",
+            "items": [
+              {
+                "id": "Idddb32a94-2f2f-4d01-8e74-4baefcecc527",
+                "compType": "container",
+                "itemType": "box",
+                "fieldName": "field_6b23a2",
+                "rowNums": 1,
+                "columnNums": 2,
+                "preps": {
+                  "id": "Idddb32a94-2f2f-4d01-8e74-4baefcecc527",
+                  "label": "Grid Layout",
+                  "name": "field_6b23a2",
+                  "itemNameLabel": "Grid Layout",
+                  "elements": [
+                    {
+                      "id": "row-23df5c73-523c-4ce5-ba07-0bdc7b9a1129",
+                      "rowIndex": 1,
+                      "columns": [
+                        {
+                          "id": "col-f5095900-bd0b-4e0b-a726-c8a3282a7cda",
+                          "cellVisible": true,
+                          "colIndex": 1,
+                          "colspan": 12,
+                          "items": [
+                            {
+                              "id": "Idae53f058-8f28-4f98-914f-43f5f8d1bdb4",
+                              "compType": "formItem",
+                              "itemType": "input",
+                              "fieldName": "field_935952",
+                              "preps": {
+                                "id": "Idae53f058-8f28-4f98-914f-43f5f8d1bdb4",
+                                "label": "申请人",
+                                "name": "field_935952",
+                                "itemNameLabel": "申请人",
+                                "formVisible": true,
+                                "listVisible": true,
+                                "viewVisible": true,
+                                "searchVisible": false,
+                                "required": true,
+                                "disabled": false,
+                                "clearable": true,
+                                "readonly": false,
+                                "maxLength": 255,
+                                "placeholder": "请输入申请人",
+                                "dataSource": "",
+                                "values": [],
+                                "rules": [],
+                                "helpMsg": ""
+                              }
+                            }
+                          ]
+                        },
+                        {
+                          "id": "col-0c827d5e-2a5a-4f53-a5d6-323a19fe5084",
+                          "cellVisible": true,
+                          "colIndex": 1,
+                          "colspan": 12,
+                          "items": [
+                            {
+                              "id": "Id0db865ec-6e18-43da-acfd-133e13af6b64",
+                              "compType": "formItem",
+                              "itemType": "date",
+                              "fieldName": "field_3b5325",
+                              "preps": {
+                                "id": "Id0db865ec-6e18-43da-acfd-133e13af6b64",
+                                "label": "申请日期",
+                                "name": "field_3b5325",
+                                "itemNameLabel": "申请日期",
+                                "formVisible": true,
+                                "listVisible": true,
+                                "viewVisible": true,
+                                "searchVisible": false,
+                                "required": true,
+                                "disabled": false,
+                                "clearable": true,
+                                "readonly": false,
+                                "maxLength": 255,
+                                "placeholder": "请输入申请日期",
+                                "dataSource": "",
+                                "values": [],
+                                "rules": [],
+                                "helpMsg": ""
+                              }
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              },
+              {
+                "id": "Id33c81024-29fa-4710-b04c-d171687c7cc2",
+                "compType": "formItem",
+                "itemType": "select",
+                "fieldName": "field_f1ec92",
+                "preps": {
+                  "id": "Id33c81024-29fa-4710-b04c-d171687c7cc2",
+                  "label": "报销类型",
+                  "name": "field_f1ec92",
+                  "itemNameLabel": "报销类型",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入报销类型",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "label": "差旅费",
+                      "value": "1"
+                    },
+                    {
+                      "label": "办公用品",
+                      "value": "2"
+                    },
+                    {
+                      "label": "交通费",
+                      "value": "3"
+                    },
+                    {
+                      "label": "餐饮费",
+                      "value": "4"
+                    },
+                    {
+                      "label": "通讯费",
+                      "value": "5"
+                    },
+                    {
+                      "label": "培训费",
+                      "value": "6"
+                    },
+                    {
+                      "label": "其他",
+                      "value": "7"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Idb14bac05-0a62-4b84-9a22-743d3df4b7a0",
+                "compType": "formItem",
+                "itemType": "input",
+                "fieldName": "field_efe2a2",
+                "preps": {
+                  "id": "Idb14bac05-0a62-4b84-9a22-743d3df4b7a0",
+                  "label": "关联项目",
+                  "name": "field_efe2a2",
+                  "itemNameLabel": "关联项目",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入关联项目",
+                  "dataSource": "",
+                  "values": [],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "Idd889e5e4-e627-4dc1-b3a0-c69349909398",
+      "compType": "container",
+      "itemType": "card",
+      "fieldName": "field_0c3007",
+      "preps": {
+        "id": "Idd889e5e4-e627-4dc1-b3a0-c69349909398",
+        "label": "费用明细",
+        "name": "field_0c3007",
+        "itemNameLabel": "费用明细",
+        "headerFieldList": [],
+        "elements": [
+          {
+            "label": "费用明细",
+            "tabName": "费用明细",
+            "objectName": "费用明细",
+            "subFormFlag": "Y",
+            "items": [
+              {
+                "id": "Id1b39169e-e67a-4f11-9850-d2c59a88dd00",
+                "compType": "formItem",
+                "itemType": "dytable",
+                "fieldName": "field_317735",
+                "preps": {
+                  "id": "Id1b39169e-e67a-4f11-9850-d2c59a88dd00",
+                  "label": "费用明细表",
+                  "name": "field_317735",
+                  "itemNameLabel": "费用明细表",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入费用明细表",
+                  "dataSource": "",
+                  "values": [],
+                  "rules": [],
+                  "helpMsg": "",
+                  "rowNums": 1,
+                  "columnNums": 4,
+                  "elements": [
+                    {
+                      "id": "row-00c33c05-e453-44f1-a2f5-eb9f74ebed59",
+                      "colIndex": 1,
+                      "columns": [
+                        {
+                          "id": "c1-f93eb78e-28e2-4889-a703-293f47587986",
+                          "cellVisible": true,
+                          "colIndex": 1,
+                          "colspan": 1,
+                          "rowspan": 1,
+                          "items": [
+                            {
+                              "id": "Id08865eda-d307-4ed2-8d67-14f4a3d4d79e",
+                              "compType": "formItem",
+                              "itemType": "date",
+                              "fieldName": "field_ea4eb3",
+                              "preps": {
+                                "id": "Id08865eda-d307-4ed2-8d67-14f4a3d4d79e",
+                                "label": "日期",
+                                "name": "field_ea4eb3",
+                                "itemNameLabel": "日期",
+                                "formVisible": true,
+                                "listVisible": true,
+                                "viewVisible": true,
+                                "searchVisible": false,
+                                "required": false,
+                                "disabled": false,
+                                "clearable": true,
+                                "readonly": false,
+                                "maxLength": 255,
+                                "placeholder": "请输入日期",
+                                "dataSource": "",
+                                "values": [],
+                                "rules": [],
+                                "helpMsg": ""
+                              }
+                            }
+                          ]
+                        },
+                        {
+                          "id": "c2-268c8501-3d25-4323-b1e5-7da94c208331",
+                          "cellVisible": true,
+                          "colIndex": 2,
+                          "colspan": 1,
+                          "rowspan": 1,
+                          "items": [
+                            {
+                              "id": "Id20041371-3fdb-4572-8ba6-cdecb9797f58",
+                              "compType": "formItem",
+                              "itemType": "input",
+                              "fieldName": "field_0d9492",
+                              "preps": {
+                                "id": "Id20041371-3fdb-4572-8ba6-cdecb9797f58",
+                                "label": "费用项目",
+                                "name": "field_0d9492",
+                                "itemNameLabel": "费用项目",
+                                "formVisible": true,
+                                "listVisible": true,
+                                "viewVisible": true,
+                                "searchVisible": false,
+                                "required": false,
+                                "disabled": false,
+                                "clearable": true,
+                                "readonly": false,
+                                "maxLength": 255,
+                                "placeholder": "请输入费用项目",
+                                "dataSource": "",
+                                "values": [],
+                                "rules": [],
+                                "helpMsg": ""
+                              }
+                            }
+                          ]
+                        },
+                        {
+                          "id": "c3-7ade3d49-be67-454c-b766-dfbab0f6fd7f",
+                          "cellVisible": true,
+                          "colIndex": 3,
+                          "colspan": 1,
+                          "rowspan": 1,
+                          "items": [
+                            {
+                              "id": "Id1b759cf8-5728-4d7f-885a-4e9acc1fba40",
+                              "compType": "formItem",
+                              "itemType": "number",
+                              "fieldName": "field_715a65",
+                              "preps": {
+                                "id": "Id1b759cf8-5728-4d7f-885a-4e9acc1fba40",
+                                "label": "金额",
+                                "name": "field_715a65",
+                                "itemNameLabel": "金额",
+                                "formVisible": true,
+                                "listVisible": true,
+                                "viewVisible": true,
+                                "searchVisible": false,
+                                "required": false,
+                                "disabled": false,
+                                "clearable": true,
+                                "readonly": false,
+                                "maxLength": 255,
+                                "placeholder": "请输入金额",
+                                "dataSource": "",
+                                "values": [],
+                                "rules": [],
+                                "helpMsg": "",
+                                "min": 0,
+                                "precision": 2
+                              }
+                            }
+                          ]
+                        },
+                        {
+                          "id": "c4-a08501e1-6378-405d-932b-1c2cc98b2d74",
+                          "cellVisible": true,
+                          "colIndex": 4,
+                          "colspan": 1,
+                          "rowspan": 1,
+                          "items": [
+                            {
+                              "id": "Id913b2b10-c9da-4536-acd3-220a3a2458a9",
+                              "compType": "formItem",
+                              "itemType": "input",
+                              "fieldName": "field_9dab55",
+                              "preps": {
+                                "id": "Id913b2b10-c9da-4536-acd3-220a3a2458a9",
+                                "label": "备注",
+                                "name": "field_9dab55",
+                                "itemNameLabel": "备注",
+                                "formVisible": true,
+                                "listVisible": true,
+                                "viewVisible": true,
+                                "searchVisible": false,
+                                "required": false,
+                                "disabled": false,
+                                "clearable": true,
+                                "readonly": false,
+                                "maxLength": 255,
+                                "placeholder": "请输入备注",
+                                "dataSource": "",
+                                "values": [],
+                                "rules": [],
+                                "helpMsg": ""
+                              }
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              },
+              {
+                "id": "Ida7d6e7d5-a792-45af-8348-74077c0f0335",
+                "compType": "container",
+                "itemType": "box",
+                "fieldName": "field_a3c927",
+                "rowNums": 1,
+                "columnNums": 2,
+                "preps": {
+                  "id": "Ida7d6e7d5-a792-45af-8348-74077c0f0335",
+                  "label": "Grid Layout",
+                  "name": "field_a3c927",
+                  "itemNameLabel": "Grid Layout",
+                  "elements": [
+                    {
+                      "id": "row-353d6332-2b27-4cc5-824d-89ce58def404",
+                      "rowIndex": 1,
+                      "columns": [
+                        {
+                          "id": "col-f7e61be7-2808-4578-8e69-3c1e523b49e8",
+                          "cellVisible": true,
+                          "colIndex": 1,
+                          "colspan": 12,
+                          "items": [
+                            {
+                              "id": "Ida320ba2d-f60b-4f7a-9fbd-1a7f2181d264",
+                              "compType": "formItem",
+                              "itemType": "number",
+                              "fieldName": "field_d3fdf8",
+                              "preps": {
+                                "id": "Ida320ba2d-f60b-4f7a-9fbd-1a7f2181d264",
+                                "label": "报销总额",
+                                "name": "field_d3fdf8",
+                                "itemNameLabel": "报销总额",
+                                "formVisible": true,
+                                "listVisible": true,
+                                "viewVisible": true,
+                                "searchVisible": false,
+                                "required": true,
+                                "disabled": false,
+                                "clearable": true,
+                                "readonly": false,
+                                "maxLength": 255,
+                                "placeholder": "请输入报销总额",
+                                "dataSource": "",
+                                "values": [],
+                                "rules": [],
+                                "helpMsg": "",
+                                "min": 0,
+                                "precision": 2
+                              }
+                            }
+                          ]
+                        },
+                        {
+                          "id": "col-7c7c4ea1-97e6-4812-bccb-5e1c8bb62ff2",
+                          "cellVisible": true,
+                          "colIndex": 1,
+                          "colspan": 12,
+                          "items": [
+                            {
+                              "id": "Id556ca208-1c07-490b-b1a5-072b2630fcfd",
+                              "compType": "formItem",
+                              "itemType": "input",
+                              "fieldName": "field_6eda7b",
+                              "preps": {
+                                "id": "Id556ca208-1c07-490b-b1a5-072b2630fcfd",
+                                "label": "收款账户",
+                                "name": "field_6eda7b",
+                                "itemNameLabel": "收款账户",
+                                "formVisible": true,
+                                "listVisible": true,
+                                "viewVisible": true,
+                                "searchVisible": false,
+                                "required": false,
+                                "disabled": false,
+                                "clearable": true,
+                                "readonly": false,
+                                "maxLength": 255,
+                                "placeholder": "请输入收款账户",
+                                "dataSource": "",
+                                "values": [],
+                                "rules": [],
+                                "helpMsg": ""
+                              }
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "Id2ef37ae5-974e-4659-a353-28c6f4190a3c",
+      "compType": "container",
+      "itemType": "card",
+      "fieldName": "field_2cb457",
+      "preps": {
+        "id": "Id2ef37ae5-974e-4659-a353-28c6f4190a3c",
+        "label": "附件与说明",
+        "name": "field_2cb457",
+        "itemNameLabel": "附件与说明",
+        "headerFieldList": [],
+        "elements": [
+          {
+            "label": "附件与说明",
+            "tabName": "附件与说明",
+            "objectName": "附件与说明",
+            "subFormFlag": "Y",
+            "items": [
+              {
+                "id": "Id2e392f8d-93a3-4e30-b1fb-116bf0790e4c",
+                "compType": "formItem",
+                "itemType": "upload",
+                "fieldName": "field_b53dbd",
+                "preps": {
+                  "id": "Id2e392f8d-93a3-4e30-b1fb-116bf0790e4c",
+                  "label": "发票/收据",
+                  "name": "field_b53dbd",
+                  "itemNameLabel": "发票/收据",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入发票/收据",
+                  "dataSource": "",
+                  "values": [],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Id0d71c65c-0d4a-48a7-b5ba-464f92351fb1",
+                "compType": "formItem",
+                "itemType": "textarea",
+                "fieldName": "field_998346",
+                "preps": {
+                  "id": "Id0d71c65c-0d4a-48a7-b5ba-464f92351fb1",
+                  "label": "报销说明",
+                  "name": "field_998346",
+                  "itemNameLabel": "报销说明",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 500,
+                  "placeholder": "请输入报销说明",
+                  "dataSource": "",
+                  "values": [],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "exportTime": "2026-06-16T09:36:26.507Z",
+  "version": "1.0"
+}

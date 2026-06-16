@@ -1,0 +1,807 @@
+{
+  "formInfo": {
+    "formName": "20-综合业务表单",
+    "currentPageType": "pc"
+  },
+  "dataList": [
+    {
+      "id": "Idf3d650db-3821-45ed-b08d-09038a8b77ff",
+      "compType": "container",
+      "itemType": "card",
+      "fieldName": "field_6f27f5",
+      "preps": {
+        "id": "Idf3d650db-3821-45ed-b08d-09038a8b77ff",
+        "label": "申请人信息",
+        "name": "field_6f27f5",
+        "itemNameLabel": "申请人信息",
+        "headerFieldList": [],
+        "elements": [
+          {
+            "label": "申请人信息",
+            "tabName": "申请人信息",
+            "objectName": "申请人信息",
+            "subFormFlag": "Y",
+            "items": [
+              {
+                "id": "Id88032879-383b-4e7a-81df-5330f4ad1013",
+                "compType": "container",
+                "itemType": "box",
+                "fieldName": "field_8aca2c",
+                "rowNums": 1,
+                "columnNums": 3,
+                "preps": {
+                  "id": "Id88032879-383b-4e7a-81df-5330f4ad1013",
+                  "label": "Grid Layout",
+                  "name": "field_8aca2c",
+                  "itemNameLabel": "Grid Layout",
+                  "elements": [
+                    {
+                      "id": "row-c1b37700-82d7-46da-a9d7-7afcf691a58c",
+                      "rowIndex": 1,
+                      "columns": [
+                        {
+                          "id": "col-ae6f5d42-1c7e-4be2-b43a-405f6d0b9f7c",
+                          "cellVisible": true,
+                          "colIndex": 1,
+                          "colspan": 8,
+                          "items": [
+                            {
+                              "id": "Idb8129234-31ec-48b1-b56a-cb1d4e8b531e",
+                              "compType": "formItem",
+                              "itemType": "input",
+                              "fieldName": "field_8e54c2",
+                              "preps": {
+                                "id": "Idb8129234-31ec-48b1-b56a-cb1d4e8b531e",
+                                "label": "申请人",
+                                "name": "field_8e54c2",
+                                "itemNameLabel": "申请人",
+                                "formVisible": true,
+                                "listVisible": true,
+                                "viewVisible": true,
+                                "searchVisible": false,
+                                "required": true,
+                                "disabled": false,
+                                "clearable": true,
+                                "readonly": false,
+                                "maxLength": 255,
+                                "placeholder": "请输入申请人",
+                                "dataSource": "",
+                                "values": [],
+                                "rules": [],
+                                "helpMsg": ""
+                              }
+                            }
+                          ]
+                        },
+                        {
+                          "id": "col-f3d46ab9-df2c-44ab-ba7f-da730fb2b70e",
+                          "cellVisible": true,
+                          "colIndex": 1,
+                          "colspan": 8,
+                          "items": [
+                            {
+                              "id": "Iddc6dc6c4-f6b6-43a0-b811-800370d5d64c",
+                              "compType": "formItem",
+                              "itemType": "select",
+                              "fieldName": "field_6d73f2",
+                              "preps": {
+                                "id": "Iddc6dc6c4-f6b6-43a0-b811-800370d5d64c",
+                                "label": "部门",
+                                "name": "field_6d73f2",
+                                "itemNameLabel": "部门",
+                                "formVisible": true,
+                                "listVisible": true,
+                                "viewVisible": true,
+                                "searchVisible": false,
+                                "required": false,
+                                "disabled": false,
+                                "clearable": true,
+                                "readonly": false,
+                                "maxLength": 255,
+                                "placeholder": "请输入部门",
+                                "dataSource": "data",
+                                "values": [
+                                  {
+                                    "label": "技术部",
+                                    "value": "1"
+                                  },
+                                  {
+                                    "label": "产品部",
+                                    "value": "2"
+                                  },
+                                  {
+                                    "label": "市场部",
+                                    "value": "3"
+                                  },
+                                  {
+                                    "label": "人事部",
+                                    "value": "4"
+                                  },
+                                  {
+                                    "label": "财务部",
+                                    "value": "5"
+                                  },
+                                  {
+                                    "label": "运营部",
+                                    "value": "6"
+                                  }
+                                ],
+                                "rules": [],
+                                "helpMsg": ""
+                              }
+                            }
+                          ]
+                        },
+                        {
+                          "id": "col-05267685-d03d-4e9f-bf56-055300247658",
+                          "cellVisible": true,
+                          "colIndex": 1,
+                          "colspan": 8,
+                          "items": [
+                            {
+                              "id": "Id6a0b712c-3ad9-4a7c-b4ed-dca398ca083b",
+                              "compType": "formItem",
+                              "itemType": "date",
+                              "fieldName": "field_008fc7",
+                              "preps": {
+                                "id": "Id6a0b712c-3ad9-4a7c-b4ed-dca398ca083b",
+                                "label": "申请日期",
+                                "name": "field_008fc7",
+                                "itemNameLabel": "申请日期",
+                                "formVisible": true,
+                                "listVisible": true,
+                                "viewVisible": true,
+                                "searchVisible": false,
+                                "required": true,
+                                "disabled": false,
+                                "clearable": true,
+                                "readonly": false,
+                                "maxLength": 255,
+                                "placeholder": "请输入申请日期",
+                                "dataSource": "",
+                                "values": [],
+                                "rules": [],
+                                "helpMsg": ""
+                              }
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "Idf93e6f62-a341-4b61-a245-de288aa288d1",
+      "compType": "container",
+      "itemType": "tab",
+      "fieldName": "field_d228ff",
+      "preps": {
+        "id": "Idf93e6f62-a341-4b61-a245-de288aa288d1",
+        "label": "Tab",
+        "name": "field_d228ff",
+        "itemNameLabel": "Tab",
+        "elements": [
+          {
+            "label": "业务详情",
+            "tabName": "业务详情",
+            "objectName": "业务详情",
+            "subFormFlag": "Y",
+            "items": [
+              {
+                "id": "Id9d94035c-3f18-4873-adcf-b881fb3ab603",
+                "compType": "container",
+                "itemType": "box",
+                "fieldName": "field_25db13",
+                "rowNums": 1,
+                "columnNums": 2,
+                "preps": {
+                  "id": "Id9d94035c-3f18-4873-adcf-b881fb3ab603",
+                  "label": "Grid Layout",
+                  "name": "field_25db13",
+                  "itemNameLabel": "Grid Layout",
+                  "elements": [
+                    {
+                      "id": "row-db3b70fd-d189-4cea-b5a8-f0c3729b5573",
+                      "rowIndex": 1,
+                      "columns": [
+                        {
+                          "id": "col-6a8604b1-332e-4b74-93cd-f42f19b81bee",
+                          "cellVisible": true,
+                          "colIndex": 1,
+                          "colspan": 12,
+                          "items": [
+                            {
+                              "id": "Id392a0082-3fb1-443e-996e-ac565d8ed9d5",
+                              "compType": "formItem",
+                              "itemType": "input",
+                              "fieldName": "field_c9622f",
+                              "preps": {
+                                "id": "Id392a0082-3fb1-443e-996e-ac565d8ed9d5",
+                                "label": "业务编号",
+                                "name": "field_c9622f",
+                                "itemNameLabel": "业务编号",
+                                "formVisible": true,
+                                "listVisible": true,
+                                "viewVisible": true,
+                                "searchVisible": false,
+                                "required": true,
+                                "disabled": false,
+                                "clearable": true,
+                                "readonly": false,
+                                "maxLength": 255,
+                                "placeholder": "请输入业务编号",
+                                "dataSource": "",
+                                "values": [],
+                                "rules": [],
+                                "helpMsg": ""
+                              }
+                            }
+                          ]
+                        },
+                        {
+                          "id": "col-39d41541-7cd2-4bb1-b165-342abff6ee3b",
+                          "cellVisible": true,
+                          "colIndex": 1,
+                          "colspan": 12,
+                          "items": [
+                            {
+                              "id": "Idc81f975c-b60f-4b63-abf1-d414eca6f62e",
+                              "compType": "formItem",
+                              "itemType": "select",
+                              "fieldName": "field_f764a5",
+                              "preps": {
+                                "id": "Idc81f975c-b60f-4b63-abf1-d414eca6f62e",
+                                "label": "业务类型",
+                                "name": "field_f764a5",
+                                "itemNameLabel": "业务类型",
+                                "formVisible": true,
+                                "listVisible": true,
+                                "viewVisible": true,
+                                "searchVisible": false,
+                                "required": false,
+                                "disabled": false,
+                                "clearable": true,
+                                "readonly": false,
+                                "maxLength": 255,
+                                "placeholder": "请输入业务类型",
+                                "dataSource": "data",
+                                "values": [
+                                  {
+                                    "label": "新办",
+                                    "value": "1"
+                                  },
+                                  {
+                                    "label": "续办",
+                                    "value": "2"
+                                  },
+                                  {
+                                    "label": "变更",
+                                    "value": "3"
+                                  },
+                                  {
+                                    "label": "撤销",
+                                    "value": "4"
+                                  }
+                                ],
+                                "rules": [],
+                                "helpMsg": ""
+                              }
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              },
+              {
+                "id": "Idd7f0f0a3-d9c0-44c2-8877-5318b50c46b1",
+                "compType": "formItem",
+                "itemType": "input",
+                "fieldName": "field_ebedc9",
+                "preps": {
+                  "id": "Idd7f0f0a3-d9c0-44c2-8877-5318b50c46b1",
+                  "label": "关联客户",
+                  "name": "field_ebedc9",
+                  "itemNameLabel": "关联客户",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入关联客户",
+                  "dataSource": "",
+                  "values": [],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Idcbdb078a-0c7a-4392-96b4-ecd6ea75227d",
+                "compType": "formItem",
+                "itemType": "select",
+                "fieldName": "field_fc19b9",
+                "preps": {
+                  "id": "Idcbdb078a-0c7a-4392-96b4-ecd6ea75227d",
+                  "label": "业务优先级",
+                  "name": "field_fc19b9",
+                  "itemNameLabel": "业务优先级",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入业务优先级",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "label": "紧急",
+                      "value": "1"
+                    },
+                    {
+                      "label": "高",
+                      "value": "2"
+                    },
+                    {
+                      "label": "中",
+                      "value": "3"
+                    },
+                    {
+                      "label": "低",
+                      "value": "4"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Ida1621336-b90b-44d3-b52b-5099e4baf056",
+                "compType": "formItem",
+                "itemType": "textarea",
+                "fieldName": "field_f4d81e",
+                "preps": {
+                  "id": "Ida1621336-b90b-44d3-b52b-5099e4baf056",
+                  "label": "业务描述",
+                  "name": "field_f4d81e",
+                  "itemNameLabel": "业务描述",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": true,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 2000,
+                  "placeholder": "请输入业务描述",
+                  "dataSource": "",
+                  "values": [],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Id33c193bf-b10d-4695-adee-dd977fb0606b",
+                "compType": "formItem",
+                "itemType": "upload",
+                "fieldName": "field_9381ad",
+                "preps": {
+                  "id": "Id33c193bf-b10d-4695-adee-dd977fb0606b",
+                  "label": "相关附件",
+                  "name": "field_9381ad",
+                  "itemNameLabel": "相关附件",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入相关附件",
+                  "dataSource": "",
+                  "values": [],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              }
+            ]
+          },
+          {
+            "label": "审批流程",
+            "tabName": "审批流程",
+            "objectName": "审批流程",
+            "subFormFlag": "Y",
+            "items": [
+              {
+                "id": "Id258ee66e-ec43-4f6a-802a-cf5ccbb3e372",
+                "compType": "formItem",
+                "itemType": "input",
+                "fieldName": "field_e4b10e",
+                "preps": {
+                  "id": "Id258ee66e-ec43-4f6a-802a-cf5ccbb3e372",
+                  "label": "当前审批人",
+                  "name": "field_e4b10e",
+                  "itemNameLabel": "当前审批人",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": true,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入当前审批人",
+                  "dataSource": "",
+                  "values": [],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Id6ff76721-3adf-4acf-821b-3c525e58d740",
+                "compType": "formItem",
+                "itemType": "select",
+                "fieldName": "field_35a95f",
+                "preps": {
+                  "id": "Id6ff76721-3adf-4acf-821b-3c525e58d740",
+                  "label": "审批状态",
+                  "name": "field_35a95f",
+                  "itemNameLabel": "审批状态",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入审批状态",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "label": "待提交",
+                      "value": "1"
+                    },
+                    {
+                      "label": "审批中",
+                      "value": "2"
+                    },
+                    {
+                      "label": "已通过",
+                      "value": "3"
+                    },
+                    {
+                      "label": "已驳回",
+                      "value": "4"
+                    },
+                    {
+                      "label": "已撤回",
+                      "value": "5"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Id8e0d4401-6fea-40ca-8194-4ca35832df57",
+                "compType": "formItem",
+                "itemType": "datetime",
+                "fieldName": "field_f5e88d",
+                "preps": {
+                  "id": "Id8e0d4401-6fea-40ca-8194-4ca35832df57",
+                  "label": "审批时间",
+                  "name": "field_f5e88d",
+                  "itemNameLabel": "审批时间",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入审批时间",
+                  "dataSource": "",
+                  "values": [],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Id8da777c2-0b84-4414-9f8d-76f4c6e68a62",
+                "compType": "formItem",
+                "itemType": "textarea",
+                "fieldName": "field_b0803a",
+                "preps": {
+                  "id": "Id8da777c2-0b84-4414-9f8d-76f4c6e68a62",
+                  "label": "审批意见",
+                  "name": "field_b0803a",
+                  "itemNameLabel": "审批意见",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入审批意见",
+                  "dataSource": "",
+                  "values": [],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              }
+            ]
+          },
+          {
+            "label": "执行记录",
+            "tabName": "执行记录",
+            "objectName": "执行记录",
+            "subFormFlag": "Y",
+            "items": [
+              {
+                "id": "Idc52f9c6d-e323-416a-bdcd-f696fed87dbe",
+                "compType": "formItem",
+                "itemType": "input",
+                "fieldName": "field_d729b2",
+                "preps": {
+                  "id": "Idc52f9c6d-e323-416a-bdcd-f696fed87dbe",
+                  "label": "执行人",
+                  "name": "field_d729b2",
+                  "itemNameLabel": "执行人",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入执行人",
+                  "dataSource": "",
+                  "values": [],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Id86c5d19a-395a-426c-8f2d-743729be5dc1",
+                "compType": "formItem",
+                "itemType": "datetime",
+                "fieldName": "field_507efd",
+                "preps": {
+                  "id": "Id86c5d19a-395a-426c-8f2d-743729be5dc1",
+                  "label": "执行时间",
+                  "name": "field_507efd",
+                  "itemNameLabel": "执行时间",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入执行时间",
+                  "dataSource": "",
+                  "values": [],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Id75c35be1-b8b1-469e-8a5d-37fa691b66da",
+                "compType": "formItem",
+                "itemType": "select",
+                "fieldName": "field_236265",
+                "preps": {
+                  "id": "Id75c35be1-b8b1-469e-8a5d-37fa691b66da",
+                  "label": "执行结果",
+                  "name": "field_236265",
+                  "itemNameLabel": "执行结果",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入执行结果",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "label": "成功",
+                      "value": "1"
+                    },
+                    {
+                      "label": "失败",
+                      "value": "2"
+                    },
+                    {
+                      "label": "部分完成",
+                      "value": "3"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Id2cfc5e49-91bf-4e93-821f-b34a667f7f4a",
+                "compType": "formItem",
+                "itemType": "textarea",
+                "fieldName": "field_eec62a",
+                "preps": {
+                  "id": "Id2cfc5e49-91bf-4e93-821f-b34a667f7f4a",
+                  "label": "执行备注",
+                  "name": "field_eec62a",
+                  "itemNameLabel": "执行备注",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入执行备注",
+                  "dataSource": "",
+                  "values": [],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "Idf093dd7c-9d5d-4ee6-a95f-9830cc669252",
+      "compType": "formItem",
+      "itemType": "divider",
+      "fieldName": "field_3928c6",
+      "preps": {
+        "id": "Idf093dd7c-9d5d-4ee6-a95f-9830cc669252",
+        "label": "签字确认",
+        "name": "field_3928c6",
+        "itemNameLabel": "签字确认",
+        "formVisible": true,
+        "listVisible": true,
+        "viewVisible": true,
+        "searchVisible": false,
+        "required": false,
+        "disabled": false,
+        "clearable": true,
+        "readonly": false,
+        "maxLength": 255,
+        "placeholder": "请输入签字确认",
+        "dataSource": "",
+        "values": [],
+        "rules": [],
+        "helpMsg": "",
+        "direction": "horizontal"
+      }
+    },
+    {
+      "id": "Id6317eb90-6335-442e-ab29-857c13adaf28",
+      "compType": "container",
+      "itemType": "box",
+      "fieldName": "field_bc06da",
+      "rowNums": 1,
+      "columnNums": 2,
+      "preps": {
+        "id": "Id6317eb90-6335-442e-ab29-857c13adaf28",
+        "label": "Grid Layout",
+        "name": "field_bc06da",
+        "itemNameLabel": "Grid Layout",
+        "elements": [
+          {
+            "id": "row-e231f9bc-4ecf-4454-8583-fd9a1b155d3f",
+            "rowIndex": 1,
+            "columns": [
+              {
+                "id": "col-64eb6764-9149-4701-a31d-d5ca0b7c3dfc",
+                "cellVisible": true,
+                "colIndex": 1,
+                "colspan": 12,
+                "items": [
+                  {
+                    "id": "Idddd20208-7e7c-47e2-9740-f69f18633a65",
+                    "compType": "formItem",
+                    "itemType": "signature",
+                    "fieldName": "field_e930d2",
+                    "preps": {
+                      "id": "Idddd20208-7e7c-47e2-9740-f69f18633a65",
+                      "label": "申请人签字",
+                      "name": "field_e930d2",
+                      "itemNameLabel": "申请人签字",
+                      "formVisible": true,
+                      "listVisible": true,
+                      "viewVisible": true,
+                      "searchVisible": false,
+                      "required": false,
+                      "disabled": false,
+                      "clearable": true,
+                      "readonly": false,
+                      "maxLength": 255,
+                      "placeholder": "请输入申请人签字",
+                      "dataSource": "",
+                      "values": [],
+                      "rules": [],
+                      "helpMsg": ""
+                    }
+                  }
+                ]
+              },
+              {
+                "id": "col-d1af1713-c45c-495b-882b-7023a5433587",
+                "cellVisible": true,
+                "colIndex": 1,
+                "colspan": 12,
+                "items": [
+                  {
+                    "id": "Id94c53b32-30a8-487a-ab63-02dccb17dfe4",
+                    "compType": "formItem",
+                    "itemType": "signature",
+                    "fieldName": "field_f6718f",
+                    "preps": {
+                      "id": "Id94c53b32-30a8-487a-ab63-02dccb17dfe4",
+                      "label": "审批人签字",
+                      "name": "field_f6718f",
+                      "itemNameLabel": "审批人签字",
+                      "formVisible": true,
+                      "listVisible": true,
+                      "viewVisible": true,
+                      "searchVisible": false,
+                      "required": false,
+                      "disabled": false,
+                      "clearable": true,
+                      "readonly": false,
+                      "maxLength": 255,
+                      "placeholder": "请输入审批人签字",
+                      "dataSource": "",
+                      "values": [],
+                      "rules": [],
+                      "helpMsg": ""
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "exportTime": "2026-06-16T09:36:26.513Z",
+  "version": "1.0"
+}

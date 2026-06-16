@@ -1,0 +1,532 @@
+{
+  "formInfo": {
+    "formName": "11-会议申请表单",
+    "currentPageType": "pc"
+  },
+  "dataList": [
+    {
+      "id": "Idc52207ec-3b42-41c0-8e42-408ed247cee2",
+      "compType": "container",
+      "itemType": "card",
+      "fieldName": "field_c8e372",
+      "preps": {
+        "id": "Idc52207ec-3b42-41c0-8e42-408ed247cee2",
+        "label": "会议信息",
+        "name": "field_c8e372",
+        "itemNameLabel": "会议信息",
+        "headerFieldList": [],
+        "elements": [
+          {
+            "label": "会议信息",
+            "tabName": "会议信息",
+            "objectName": "会议信息",
+            "subFormFlag": "Y",
+            "items": [
+              {
+                "id": "Id35f637b5-0198-4c4c-83a7-79e8ed7e4d7f",
+                "compType": "container",
+                "itemType": "box",
+                "fieldName": "field_655de0",
+                "rowNums": 1,
+                "columnNums": 2,
+                "preps": {
+                  "id": "Id35f637b5-0198-4c4c-83a7-79e8ed7e4d7f",
+                  "label": "Grid Layout",
+                  "name": "field_655de0",
+                  "itemNameLabel": "Grid Layout",
+                  "elements": [
+                    {
+                      "id": "row-4a2561bb-6554-4522-ad5a-8230d42e0947",
+                      "rowIndex": 1,
+                      "columns": [
+                        {
+                          "id": "col-0af1e493-c75a-419e-8e0b-baf587720053",
+                          "cellVisible": true,
+                          "colIndex": 1,
+                          "colspan": 12,
+                          "items": [
+                            {
+                              "id": "Id277481da-eb37-4137-9700-478d489d3e92",
+                              "compType": "formItem",
+                              "itemType": "input",
+                              "fieldName": "field_d42ac5",
+                              "preps": {
+                                "id": "Id277481da-eb37-4137-9700-478d489d3e92",
+                                "label": "会议主题",
+                                "name": "field_d42ac5",
+                                "itemNameLabel": "会议主题",
+                                "formVisible": true,
+                                "listVisible": true,
+                                "viewVisible": true,
+                                "searchVisible": false,
+                                "required": true,
+                                "disabled": false,
+                                "clearable": true,
+                                "readonly": false,
+                                "maxLength": 255,
+                                "placeholder": "请输入会议主题",
+                                "dataSource": "",
+                                "values": [],
+                                "rules": [],
+                                "helpMsg": ""
+                              }
+                            }
+                          ]
+                        },
+                        {
+                          "id": "col-24c5351a-5c90-471c-9549-9e46bb2cff11",
+                          "cellVisible": true,
+                          "colIndex": 1,
+                          "colspan": 12,
+                          "items": [
+                            {
+                              "id": "Idf6b25e68-7f26-479b-bdea-2a8c591749e5",
+                              "compType": "formItem",
+                              "itemType": "select",
+                              "fieldName": "field_0e39bc",
+                              "preps": {
+                                "id": "Idf6b25e68-7f26-479b-bdea-2a8c591749e5",
+                                "label": "会议类型",
+                                "name": "field_0e39bc",
+                                "itemNameLabel": "会议类型",
+                                "formVisible": true,
+                                "listVisible": true,
+                                "viewVisible": true,
+                                "searchVisible": false,
+                                "required": false,
+                                "disabled": false,
+                                "clearable": true,
+                                "readonly": false,
+                                "maxLength": 255,
+                                "placeholder": "请输入会议类型",
+                                "dataSource": "data",
+                                "values": [
+                                  {
+                                    "label": "周会",
+                                    "value": "1"
+                                  },
+                                  {
+                                    "label": "月度总结",
+                                    "value": "2"
+                                  },
+                                  {
+                                    "label": "项目评审",
+                                    "value": "3"
+                                  },
+                                  {
+                                    "label": "需求讨论",
+                                    "value": "4"
+                                  },
+                                  {
+                                    "label": "头脑风暴",
+                                    "value": "5"
+                                  },
+                                  {
+                                    "label": "培训",
+                                    "value": "6"
+                                  },
+                                  {
+                                    "label": "其他",
+                                    "value": "7"
+                                  }
+                                ],
+                                "rules": [],
+                                "helpMsg": ""
+                              }
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              },
+              {
+                "id": "Id3d23f99b-44d5-4309-9030-841a0a76bb0d",
+                "compType": "container",
+                "itemType": "box",
+                "fieldName": "field_e1d225",
+                "rowNums": 1,
+                "columnNums": 2,
+                "preps": {
+                  "id": "Id3d23f99b-44d5-4309-9030-841a0a76bb0d",
+                  "label": "Grid Layout",
+                  "name": "field_e1d225",
+                  "itemNameLabel": "Grid Layout",
+                  "elements": [
+                    {
+                      "id": "row-1cfa0ed9-b742-419f-b5e7-6905285033dd",
+                      "rowIndex": 1,
+                      "columns": [
+                        {
+                          "id": "col-7b2da07c-a805-453f-a920-870dc02f5ba0",
+                          "cellVisible": true,
+                          "colIndex": 1,
+                          "colspan": 12,
+                          "items": [
+                            {
+                              "id": "Id35f6b416-3116-4993-9ab0-aab302b620ca",
+                              "compType": "formItem",
+                              "itemType": "datetime",
+                              "fieldName": "field_6daf84",
+                              "preps": {
+                                "id": "Id35f6b416-3116-4993-9ab0-aab302b620ca",
+                                "label": "开始时间",
+                                "name": "field_6daf84",
+                                "itemNameLabel": "开始时间",
+                                "formVisible": true,
+                                "listVisible": true,
+                                "viewVisible": true,
+                                "searchVisible": false,
+                                "required": true,
+                                "disabled": false,
+                                "clearable": true,
+                                "readonly": false,
+                                "maxLength": 255,
+                                "placeholder": "请输入开始时间",
+                                "dataSource": "",
+                                "values": [],
+                                "rules": [],
+                                "helpMsg": ""
+                              }
+                            }
+                          ]
+                        },
+                        {
+                          "id": "col-ccd6f0ef-7d92-44eb-bbb2-cde8ed209a5f",
+                          "cellVisible": true,
+                          "colIndex": 1,
+                          "colspan": 12,
+                          "items": [
+                            {
+                              "id": "Id77aca5a7-c957-4c3c-bb7a-7372fb2d5aff",
+                              "compType": "formItem",
+                              "itemType": "datetime",
+                              "fieldName": "field_0ca1d8",
+                              "preps": {
+                                "id": "Id77aca5a7-c957-4c3c-bb7a-7372fb2d5aff",
+                                "label": "结束时间",
+                                "name": "field_0ca1d8",
+                                "itemNameLabel": "结束时间",
+                                "formVisible": true,
+                                "listVisible": true,
+                                "viewVisible": true,
+                                "searchVisible": false,
+                                "required": true,
+                                "disabled": false,
+                                "clearable": true,
+                                "readonly": false,
+                                "maxLength": 255,
+                                "placeholder": "请输入结束时间",
+                                "dataSource": "",
+                                "values": [],
+                                "rules": [],
+                                "helpMsg": ""
+                              }
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              },
+              {
+                "id": "Idbc508101-d27d-41b2-85e4-55bb7a716a24",
+                "compType": "formItem",
+                "itemType": "select",
+                "fieldName": "field_568c06",
+                "preps": {
+                  "id": "Idbc508101-d27d-41b2-85e4-55bb7a716a24",
+                  "label": "会议室",
+                  "name": "field_568c06",
+                  "itemNameLabel": "会议室",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": true,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入会议室",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "label": "A101-大会议室",
+                      "value": "1"
+                    },
+                    {
+                      "label": "B202-中会议室",
+                      "value": "2"
+                    },
+                    {
+                      "label": "C303-小会议室",
+                      "value": "3"
+                    },
+                    {
+                      "label": "线上-腾讯会议",
+                      "value": "4"
+                    },
+                    {
+                      "label": "线上-钉钉",
+                      "value": "5"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Idf192a246-430e-427d-88e9-f8de659dfba5",
+                "compType": "formItem",
+                "itemType": "input",
+                "fieldName": "field_769ee3",
+                "preps": {
+                  "id": "Idf192a246-430e-427d-88e9-f8de659dfba5",
+                  "label": "参会人员",
+                  "name": "field_769ee3",
+                  "itemNameLabel": "参会人员",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": true,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入参会人，逗号分隔",
+                  "dataSource": "",
+                  "values": [],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Idf2dfe177-5490-46f8-aa64-c845c93b5ac8",
+                "compType": "formItem",
+                "itemType": "textarea",
+                "fieldName": "field_e61f32",
+                "preps": {
+                  "id": "Idf2dfe177-5490-46f8-aa64-c845c93b5ac8",
+                  "label": "会议议程",
+                  "name": "field_e61f32",
+                  "itemNameLabel": "会议议程",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 1000,
+                  "placeholder": "请输入会议议程",
+                  "dataSource": "",
+                  "values": [],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Id2e99d102-8f4f-406b-910c-ca70905ec33f",
+                "compType": "formItem",
+                "itemType": "upload",
+                "fieldName": "field_e1dbdb",
+                "preps": {
+                  "id": "Id2e99d102-8f4f-406b-910c-ca70905ec33f",
+                  "label": "会议资料",
+                  "name": "field_e1dbdb",
+                  "itemNameLabel": "会议资料",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入会议资料",
+                  "dataSource": "",
+                  "values": [],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "Idfe70a5a6-4398-4b20-8e14-98774df69aea",
+      "compType": "container",
+      "itemType": "card",
+      "fieldName": "field_d225d6",
+      "preps": {
+        "id": "Idfe70a5a6-4398-4b20-8e14-98774df69aea",
+        "label": "会后纪要",
+        "name": "field_d225d6",
+        "itemNameLabel": "会后纪要",
+        "headerFieldList": [],
+        "elements": [
+          {
+            "label": "会后纪要",
+            "tabName": "会后纪要",
+            "objectName": "会后纪要",
+            "subFormFlag": "Y",
+            "items": [
+              {
+                "id": "Idd14db2f4-4e85-4494-aa2e-142cdd3bc2ac",
+                "compType": "formItem",
+                "itemType": "textarea",
+                "fieldName": "field_f15efa",
+                "preps": {
+                  "id": "Idd14db2f4-4e85-4494-aa2e-142cdd3bc2ac",
+                  "label": "会议纪要",
+                  "name": "field_f15efa",
+                  "itemNameLabel": "会议纪要",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 2000,
+                  "placeholder": "请输入会议纪要",
+                  "dataSource": "",
+                  "values": [],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Id62c82e65-7851-4719-9c72-be1329e10d24",
+                "compType": "container",
+                "itemType": "box",
+                "fieldName": "field_63b4ba",
+                "rowNums": 1,
+                "columnNums": 2,
+                "preps": {
+                  "id": "Id62c82e65-7851-4719-9c72-be1329e10d24",
+                  "label": "Grid Layout",
+                  "name": "field_63b4ba",
+                  "itemNameLabel": "Grid Layout",
+                  "elements": [
+                    {
+                      "id": "row-10a280a4-4705-4302-8de5-2761b39001ad",
+                      "rowIndex": 1,
+                      "columns": [
+                        {
+                          "id": "col-af270126-0520-4777-99c9-529c8f1579f4",
+                          "cellVisible": true,
+                          "colIndex": 1,
+                          "colspan": 12,
+                          "items": [
+                            {
+                              "id": "Id8b72174c-8226-4f82-a6f2-9f97d81013ff",
+                              "compType": "formItem",
+                              "itemType": "input",
+                              "fieldName": "field_fa5ca9",
+                              "preps": {
+                                "id": "Id8b72174c-8226-4f82-a6f2-9f97d81013ff",
+                                "label": "记录人",
+                                "name": "field_fa5ca9",
+                                "itemNameLabel": "记录人",
+                                "formVisible": true,
+                                "listVisible": true,
+                                "viewVisible": true,
+                                "searchVisible": false,
+                                "required": false,
+                                "disabled": false,
+                                "clearable": true,
+                                "readonly": false,
+                                "maxLength": 255,
+                                "placeholder": "请输入记录人",
+                                "dataSource": "",
+                                "values": [],
+                                "rules": [],
+                                "helpMsg": ""
+                              }
+                            }
+                          ]
+                        },
+                        {
+                          "id": "col-ed40fe40-fe03-4c91-ad66-4252870ce8fd",
+                          "cellVisible": true,
+                          "colIndex": 1,
+                          "colspan": 12,
+                          "items": [
+                            {
+                              "id": "Idb0cb650d-9985-4cef-b989-e2ae015380da",
+                              "compType": "formItem",
+                              "itemType": "datetime",
+                              "fieldName": "field_25a71b",
+                              "preps": {
+                                "id": "Idb0cb650d-9985-4cef-b989-e2ae015380da",
+                                "label": "记录时间",
+                                "name": "field_25a71b",
+                                "itemNameLabel": "记录时间",
+                                "formVisible": true,
+                                "listVisible": true,
+                                "viewVisible": true,
+                                "searchVisible": false,
+                                "required": false,
+                                "disabled": false,
+                                "clearable": true,
+                                "readonly": false,
+                                "maxLength": 255,
+                                "placeholder": "请输入记录时间",
+                                "dataSource": "",
+                                "values": [],
+                                "rules": [],
+                                "helpMsg": ""
+                              }
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              },
+              {
+                "id": "Idff555d3d-1a36-4691-a6c5-327de065570a",
+                "compType": "formItem",
+                "itemType": "input-tag",
+                "fieldName": "field_a5d0ca",
+                "preps": {
+                  "id": "Idff555d3d-1a36-4691-a6c5-327de065570a",
+                  "label": "待办事项",
+                  "name": "field_a5d0ca",
+                  "itemNameLabel": "待办事项",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入待办事项",
+                  "dataSource": "",
+                  "values": [],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "exportTime": "2026-06-16T09:36:26.506Z",
+  "version": "1.0"
+}

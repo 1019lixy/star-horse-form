@@ -200,12 +200,12 @@ const levelClass = (data: any, depth: number) => {
             :class="{'dragging-area': isDragging}"
             group="starHorseGroup"
             animation="100"
-            :item-key="uuid()"
+            item-key="id"
             ghostClass="ghost"
             :list="field.children || []"
         >
           <template #item="{ element: data, index }">
-            <div class="condition-leaf-item my-[3px]" :class="levelClass(data,1)">
+            <div class="condition-leaf-item my-[3px]" :data-field-id="data.id" :class="levelClass(data,1)">
               <component
                   :key="data.id"
                   :field="data"

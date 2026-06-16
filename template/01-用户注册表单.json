@@ -1,0 +1,530 @@
+{
+  "formInfo": {
+    "formName": "01-用户注册表单",
+    "currentPageType": "pc"
+  },
+  "dataList": [
+    {
+      "id": "Id8acb7d7c-4597-4310-baf9-e29357d5ce36",
+      "compType": "container",
+      "itemType": "card",
+      "fieldName": "field_a077bf",
+      "preps": {
+        "id": "Id8acb7d7c-4597-4310-baf9-e29357d5ce36",
+        "label": "基本信息",
+        "name": "field_a077bf",
+        "itemNameLabel": "基本信息",
+        "headerFieldList": [],
+        "elements": [
+          {
+            "label": "基本信息",
+            "tabName": "基本信息",
+            "objectName": "基本信息",
+            "subFormFlag": "Y",
+            "items": [
+              {
+                "id": "Id28ecc98d-74c7-4178-a288-c817e244f751",
+                "compType": "container",
+                "itemType": "box",
+                "fieldName": "field_899266",
+                "rowNums": 1,
+                "columnNums": 2,
+                "preps": {
+                  "id": "Id28ecc98d-74c7-4178-a288-c817e244f751",
+                  "label": "Grid Layout",
+                  "name": "field_899266",
+                  "itemNameLabel": "Grid Layout",
+                  "elements": [
+                    {
+                      "id": "row-4e73616f-30ef-4ed0-a027-ca1ee5266c44",
+                      "rowIndex": 1,
+                      "columns": [
+                        {
+                          "id": "col-62c18097-1d7a-4b85-ba31-c5b0a21d60c9",
+                          "cellVisible": true,
+                          "colIndex": 1,
+                          "colspan": 12,
+                          "items": [
+                            {
+                              "id": "Id45597dd4-7e47-4c4b-9ffb-fdf810b14902",
+                              "compType": "formItem",
+                              "itemType": "input",
+                              "fieldName": "field_aa279a",
+                              "preps": {
+                                "id": "Id45597dd4-7e47-4c4b-9ffb-fdf810b14902",
+                                "label": "用户名",
+                                "name": "field_aa279a",
+                                "itemNameLabel": "用户名",
+                                "formVisible": true,
+                                "listVisible": true,
+                                "viewVisible": true,
+                                "searchVisible": false,
+                                "required": true,
+                                "disabled": false,
+                                "clearable": true,
+                                "readonly": false,
+                                "maxLength": 20,
+                                "placeholder": "请输入用户名",
+                                "dataSource": "",
+                                "values": [],
+                                "rules": [],
+                                "helpMsg": ""
+                              }
+                            }
+                          ]
+                        },
+                        {
+                          "id": "col-fcc06a2f-f0da-41aa-88c5-e10237c96483",
+                          "cellVisible": true,
+                          "colIndex": 1,
+                          "colspan": 12,
+                          "items": [
+                            {
+                              "id": "Id7021ca18-fbdb-47a2-9e25-2e2cc2f52a82",
+                              "compType": "formItem",
+                              "itemType": "input",
+                              "fieldName": "field_12c665",
+                              "preps": {
+                                "id": "Id7021ca18-fbdb-47a2-9e25-2e2cc2f52a82",
+                                "label": "邮箱",
+                                "name": "field_12c665",
+                                "itemNameLabel": "邮箱",
+                                "formVisible": true,
+                                "listVisible": true,
+                                "viewVisible": true,
+                                "searchVisible": false,
+                                "required": true,
+                                "disabled": false,
+                                "clearable": true,
+                                "readonly": false,
+                                "maxLength": 255,
+                                "placeholder": "请输入邮箱",
+                                "dataSource": "",
+                                "values": [],
+                                "rules": [],
+                                "helpMsg": ""
+                              }
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              },
+              {
+                "id": "Idfd28bab6-d238-4400-898e-927556a5e6d1",
+                "compType": "container",
+                "itemType": "box",
+                "fieldName": "field_bf4f8f",
+                "rowNums": 1,
+                "columnNums": 2,
+                "preps": {
+                  "id": "Idfd28bab6-d238-4400-898e-927556a5e6d1",
+                  "label": "Grid Layout",
+                  "name": "field_bf4f8f",
+                  "itemNameLabel": "Grid Layout",
+                  "elements": [
+                    {
+                      "id": "row-ed5788ba-090a-4529-8f98-d7066d681c83",
+                      "rowIndex": 1,
+                      "columns": [
+                        {
+                          "id": "col-dd55c5fa-e49b-43e4-9c29-6f48f7aa874f",
+                          "cellVisible": true,
+                          "colIndex": 1,
+                          "colspan": 12,
+                          "items": [
+                            {
+                              "id": "Idd6833eb5-8831-4e33-8e17-32a2589a6613",
+                              "compType": "formItem",
+                              "itemType": "password",
+                              "fieldName": "field_4a3280",
+                              "preps": {
+                                "id": "Idd6833eb5-8831-4e33-8e17-32a2589a6613",
+                                "label": "密码",
+                                "name": "field_4a3280",
+                                "itemNameLabel": "密码",
+                                "formVisible": true,
+                                "listVisible": true,
+                                "viewVisible": true,
+                                "searchVisible": false,
+                                "required": true,
+                                "disabled": false,
+                                "clearable": true,
+                                "readonly": false,
+                                "maxLength": 32,
+                                "placeholder": "请输入密码",
+                                "dataSource": "",
+                                "values": [],
+                                "rules": [],
+                                "helpMsg": ""
+                              }
+                            }
+                          ]
+                        },
+                        {
+                          "id": "col-87c6c2eb-1174-4874-9f43-821d36c94fee",
+                          "cellVisible": true,
+                          "colIndex": 1,
+                          "colspan": 12,
+                          "items": [
+                            {
+                              "id": "Idb1be1808-604d-4896-be0e-4064ea7bc0a2",
+                              "compType": "formItem",
+                              "itemType": "password",
+                              "fieldName": "field_b06239",
+                              "preps": {
+                                "id": "Idb1be1808-604d-4896-be0e-4064ea7bc0a2",
+                                "label": "确认密码",
+                                "name": "field_b06239",
+                                "itemNameLabel": "确认密码",
+                                "formVisible": true,
+                                "listVisible": true,
+                                "viewVisible": true,
+                                "searchVisible": false,
+                                "required": true,
+                                "disabled": false,
+                                "clearable": true,
+                                "readonly": false,
+                                "maxLength": 32,
+                                "placeholder": "请输入确认密码",
+                                "dataSource": "",
+                                "values": [],
+                                "rules": [],
+                                "helpMsg": ""
+                              }
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              },
+              {
+                "id": "Id0c61fd39-5cc1-4826-a598-0d258b89b38b",
+                "compType": "container",
+                "itemType": "box",
+                "fieldName": "field_eacd0f",
+                "rowNums": 1,
+                "columnNums": 2,
+                "preps": {
+                  "id": "Id0c61fd39-5cc1-4826-a598-0d258b89b38b",
+                  "label": "Grid Layout",
+                  "name": "field_eacd0f",
+                  "itemNameLabel": "Grid Layout",
+                  "elements": [
+                    {
+                      "id": "row-e9bb86ae-4ef3-40cb-af94-947d6e8ca248",
+                      "rowIndex": 1,
+                      "columns": [
+                        {
+                          "id": "col-63293ab0-ebf9-498d-b0ab-3547137f83ef",
+                          "cellVisible": true,
+                          "colIndex": 1,
+                          "colspan": 12,
+                          "items": [
+                            {
+                              "id": "Ide58d109e-6016-4b9b-97a2-278b6319258b",
+                              "compType": "formItem",
+                              "itemType": "input",
+                              "fieldName": "field_bd8b86",
+                              "preps": {
+                                "id": "Ide58d109e-6016-4b9b-97a2-278b6319258b",
+                                "label": "手机号",
+                                "name": "field_bd8b86",
+                                "itemNameLabel": "手机号",
+                                "formVisible": true,
+                                "listVisible": true,
+                                "viewVisible": true,
+                                "searchVisible": false,
+                                "required": true,
+                                "disabled": false,
+                                "clearable": true,
+                                "readonly": false,
+                                "maxLength": 11,
+                                "placeholder": "请输入手机号",
+                                "dataSource": "",
+                                "values": [],
+                                "rules": [],
+                                "helpMsg": ""
+                              }
+                            }
+                          ]
+                        },
+                        {
+                          "id": "col-b760bf7b-2ccb-4c4c-b081-d0b4243eb416",
+                          "cellVisible": true,
+                          "colIndex": 1,
+                          "colspan": 12,
+                          "items": [
+                            {
+                              "id": "Idd527cca6-26f3-4083-9453-38931f0fcca9",
+                              "compType": "formItem",
+                              "itemType": "date",
+                              "fieldName": "field_b35f64",
+                              "preps": {
+                                "id": "Idd527cca6-26f3-4083-9453-38931f0fcca9",
+                                "label": "出生日期",
+                                "name": "field_b35f64",
+                                "itemNameLabel": "出生日期",
+                                "formVisible": true,
+                                "listVisible": true,
+                                "viewVisible": true,
+                                "searchVisible": false,
+                                "required": false,
+                                "disabled": false,
+                                "clearable": true,
+                                "readonly": false,
+                                "maxLength": 255,
+                                "placeholder": "请输入出生日期",
+                                "dataSource": "",
+                                "values": [],
+                                "rules": [],
+                                "helpMsg": ""
+                              }
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "Idf5f0120c-fdf6-4c1f-870b-faa4e3d33727",
+      "compType": "container",
+      "itemType": "card",
+      "fieldName": "field_6c374a",
+      "preps": {
+        "id": "Idf5f0120c-fdf6-4c1f-870b-faa4e3d33727",
+        "label": "详细资料",
+        "name": "field_6c374a",
+        "itemNameLabel": "详细资料",
+        "headerFieldList": [],
+        "elements": [
+          {
+            "label": "详细资料",
+            "tabName": "详细资料",
+            "objectName": "详细资料",
+            "subFormFlag": "Y",
+            "items": [
+              {
+                "id": "Id8ee5a8d2-688d-4c3c-8c1c-c00af04ca0f3",
+                "compType": "formItem",
+                "itemType": "select",
+                "fieldName": "field_77cdfc",
+                "preps": {
+                  "id": "Id8ee5a8d2-688d-4c3c-8c1c-c00af04ca0f3",
+                  "label": "性别",
+                  "name": "field_77cdfc",
+                  "itemNameLabel": "性别",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入性别",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "label": "男",
+                      "value": "1"
+                    },
+                    {
+                      "label": "女",
+                      "value": "2"
+                    },
+                    {
+                      "label": "其他",
+                      "value": "3"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Id125dd7f1-c7ed-45a5-80df-02659805fb9f",
+                "compType": "formItem",
+                "itemType": "textarea",
+                "fieldName": "field_0766c9",
+                "preps": {
+                  "id": "Id125dd7f1-c7ed-45a5-80df-02659805fb9f",
+                  "label": "个人简介",
+                  "name": "field_0766c9",
+                  "itemNameLabel": "个人简介",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 500,
+                  "placeholder": "请输入个人简介",
+                  "dataSource": "",
+                  "values": [],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Id96e3e4e6-fdd4-497a-a2a2-96f569687f6e",
+                "compType": "formItem",
+                "itemType": "upload",
+                "fieldName": "field_5535df",
+                "preps": {
+                  "id": "Id96e3e4e6-fdd4-497a-a2a2-96f569687f6e",
+                  "label": "头像上传",
+                  "name": "field_5535df",
+                  "itemNameLabel": "头像上传",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入头像上传",
+                  "dataSource": "",
+                  "values": [],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "Id22bf91ce-13d0-417d-9f5d-1da3633126b3",
+      "compType": "container",
+      "itemType": "box",
+      "fieldName": "field_7dcb6f",
+      "rowNums": 1,
+      "columnNums": 1,
+      "preps": {
+        "id": "Id22bf91ce-13d0-417d-9f5d-1da3633126b3",
+        "label": "Grid Layout",
+        "name": "field_7dcb6f",
+        "itemNameLabel": "Grid Layout",
+        "elements": [
+          {
+            "id": "row-554ce6c2-12a4-471b-9a9d-c021a842846d",
+            "rowIndex": 1,
+            "columns": [
+              {
+                "id": "col-8dbd3ec7-40ff-4ab0-a208-f1cadf6173a6",
+                "cellVisible": true,
+                "colIndex": 1,
+                "colspan": 24,
+                "items": [
+                  {
+                    "id": "Id880a1853-5a6b-4502-b3f5-4c8bbd287831",
+                    "compType": "formItem",
+                    "itemType": "checkbox",
+                    "fieldName": "field_a77778",
+                    "preps": {
+                      "id": "Id880a1853-5a6b-4502-b3f5-4c8bbd287831",
+                      "label": "我已阅读并同意用户协议",
+                      "name": "field_a77778",
+                      "itemNameLabel": "我已阅读并同意用户协议",
+                      "formVisible": true,
+                      "listVisible": true,
+                      "viewVisible": true,
+                      "searchVisible": false,
+                      "required": true,
+                      "disabled": false,
+                      "clearable": true,
+                      "readonly": false,
+                      "maxLength": 255,
+                      "placeholder": "请输入我已阅读并同意用户协议",
+                      "dataSource": "",
+                      "values": [],
+                      "rules": [],
+                      "helpMsg": ""
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "Idc73f89ae-c42e-421a-b7c8-dc127816cd45",
+      "compType": "container",
+      "itemType": "box",
+      "fieldName": "field_fbff50",
+      "rowNums": 1,
+      "columnNums": 1,
+      "preps": {
+        "id": "Idc73f89ae-c42e-421a-b7c8-dc127816cd45",
+        "label": "Grid Layout",
+        "name": "field_fbff50",
+        "itemNameLabel": "Grid Layout",
+        "elements": [
+          {
+            "id": "row-2189213b-fefa-45cb-9c18-50a6841d88f6",
+            "rowIndex": 1,
+            "columns": [
+              {
+                "id": "col-c7ef55f7-307a-485d-a042-4fa74bbdf66b",
+                "cellVisible": true,
+                "colIndex": 1,
+                "colspan": 24,
+                "items": [
+                  {
+                    "id": "Id419ca9f0-0ce8-47bb-b365-d96120d54d45",
+                    "compType": "formItem",
+                    "itemType": "button",
+                    "fieldName": "field_c75573",
+                    "preps": {
+                      "id": "Id419ca9f0-0ce8-47bb-b365-d96120d54d45",
+                      "label": "注册",
+                      "name": "field_c75573",
+                      "itemNameLabel": "注册",
+                      "formVisible": true,
+                      "listVisible": true,
+                      "viewVisible": true,
+                      "searchVisible": false,
+                      "required": false,
+                      "disabled": false,
+                      "clearable": true,
+                      "readonly": false,
+                      "maxLength": 255,
+                      "placeholder": "请输入注册",
+                      "dataSource": "",
+                      "values": [],
+                      "rules": [],
+                      "helpMsg": "",
+                      "buttonType": "primary"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "exportTime": "2026-06-16T09:36:26.493Z",
+  "version": "1.0"
+}

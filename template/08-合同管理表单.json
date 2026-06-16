@@ -1,0 +1,683 @@
+{
+  "formInfo": {
+    "formName": "08-合同管理表单",
+    "currentPageType": "pc"
+  },
+  "dataList": [
+    {
+      "id": "Id65c733b1-068e-4395-a564-2a62d9486ca1",
+      "compType": "container",
+      "itemType": "card",
+      "fieldName": "field_b33602",
+      "preps": {
+        "id": "Id65c733b1-068e-4395-a564-2a62d9486ca1",
+        "label": "合同基本信息",
+        "name": "field_b33602",
+        "itemNameLabel": "合同基本信息",
+        "headerFieldList": [],
+        "elements": [
+          {
+            "label": "合同基本信息",
+            "tabName": "合同基本信息",
+            "objectName": "合同基本信息",
+            "subFormFlag": "Y",
+            "items": [
+              {
+                "id": "Id7b42f9e1-e86c-4e4b-873e-9a6c8f16524b",
+                "compType": "container",
+                "itemType": "box",
+                "fieldName": "field_6bf1f5",
+                "rowNums": 1,
+                "columnNums": 2,
+                "preps": {
+                  "id": "Id7b42f9e1-e86c-4e4b-873e-9a6c8f16524b",
+                  "label": "Grid Layout",
+                  "name": "field_6bf1f5",
+                  "itemNameLabel": "Grid Layout",
+                  "elements": [
+                    {
+                      "id": "row-41b680d7-72a8-4c15-8191-09a1cebe0b40",
+                      "rowIndex": 1,
+                      "columns": [
+                        {
+                          "id": "col-59e0052f-a7d9-42ef-8ac7-82a904691110",
+                          "cellVisible": true,
+                          "colIndex": 1,
+                          "colspan": 12,
+                          "items": [
+                            {
+                              "id": "Id3bf6509c-4fe1-4ca5-ada9-6b34c45ec6f0",
+                              "compType": "formItem",
+                              "itemType": "input",
+                              "fieldName": "field_2e39d2",
+                              "preps": {
+                                "id": "Id3bf6509c-4fe1-4ca5-ada9-6b34c45ec6f0",
+                                "label": "合同编号",
+                                "name": "field_2e39d2",
+                                "itemNameLabel": "合同编号",
+                                "formVisible": true,
+                                "listVisible": true,
+                                "viewVisible": true,
+                                "searchVisible": false,
+                                "required": true,
+                                "disabled": false,
+                                "clearable": true,
+                                "readonly": false,
+                                "maxLength": 255,
+                                "placeholder": "请输入合同编号",
+                                "dataSource": "",
+                                "values": [],
+                                "rules": [],
+                                "helpMsg": ""
+                              }
+                            }
+                          ]
+                        },
+                        {
+                          "id": "col-ad301f0e-0cc3-4c04-b491-adf886fd7d05",
+                          "cellVisible": true,
+                          "colIndex": 1,
+                          "colspan": 12,
+                          "items": [
+                            {
+                              "id": "Id83cbe1e4-6b76-4d34-8dc6-82c7574283a1",
+                              "compType": "formItem",
+                              "itemType": "select",
+                              "fieldName": "field_ed8bc8",
+                              "preps": {
+                                "id": "Id83cbe1e4-6b76-4d34-8dc6-82c7574283a1",
+                                "label": "合同类型",
+                                "name": "field_ed8bc8",
+                                "itemNameLabel": "合同类型",
+                                "formVisible": true,
+                                "listVisible": true,
+                                "viewVisible": true,
+                                "searchVisible": false,
+                                "required": false,
+                                "disabled": false,
+                                "clearable": true,
+                                "readonly": false,
+                                "maxLength": 255,
+                                "placeholder": "请输入合同类型",
+                                "dataSource": "data",
+                                "values": [
+                                  {
+                                    "label": "采购合同",
+                                    "value": "1"
+                                  },
+                                  {
+                                    "label": "销售合同",
+                                    "value": "2"
+                                  },
+                                  {
+                                    "label": "服务合同",
+                                    "value": "3"
+                                  },
+                                  {
+                                    "label": "租赁合同",
+                                    "value": "4"
+                                  },
+                                  {
+                                    "label": "劳动合同",
+                                    "value": "5"
+                                  },
+                                  {
+                                    "label": "其他",
+                                    "value": "6"
+                                  }
+                                ],
+                                "rules": [],
+                                "helpMsg": ""
+                              }
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              },
+              {
+                "id": "Id9673557b-9add-4cae-8858-830490b4f786",
+                "compType": "container",
+                "itemType": "box",
+                "fieldName": "field_8c89be",
+                "rowNums": 1,
+                "columnNums": 2,
+                "preps": {
+                  "id": "Id9673557b-9add-4cae-8858-830490b4f786",
+                  "label": "Grid Layout",
+                  "name": "field_8c89be",
+                  "itemNameLabel": "Grid Layout",
+                  "elements": [
+                    {
+                      "id": "row-8aac6612-dd93-4ffd-9a8c-4283afea3031",
+                      "rowIndex": 1,
+                      "columns": [
+                        {
+                          "id": "col-4a28529f-84cd-48ab-a308-f09ae746b4ec",
+                          "cellVisible": true,
+                          "colIndex": 1,
+                          "colspan": 12,
+                          "items": [
+                            {
+                              "id": "Idd5ab40aa-ca7c-4f39-ab6b-35b01ae5a9a1",
+                              "compType": "formItem",
+                              "itemType": "input",
+                              "fieldName": "field_f36f67",
+                              "preps": {
+                                "id": "Idd5ab40aa-ca7c-4f39-ab6b-35b01ae5a9a1",
+                                "label": "合同名称",
+                                "name": "field_f36f67",
+                                "itemNameLabel": "合同名称",
+                                "formVisible": true,
+                                "listVisible": true,
+                                "viewVisible": true,
+                                "searchVisible": false,
+                                "required": true,
+                                "disabled": false,
+                                "clearable": true,
+                                "readonly": false,
+                                "maxLength": 255,
+                                "placeholder": "请输入合同名称",
+                                "dataSource": "",
+                                "values": [],
+                                "rules": [],
+                                "helpMsg": ""
+                              }
+                            }
+                          ]
+                        },
+                        {
+                          "id": "col-936f17ee-fee8-432e-ba8b-fe8eb243b079",
+                          "cellVisible": true,
+                          "colIndex": 1,
+                          "colspan": 12,
+                          "items": [
+                            {
+                              "id": "Id6eef6658-4bcb-4246-940e-3968963f3c0f",
+                              "compType": "formItem",
+                              "itemType": "input",
+                              "fieldName": "field_20e01f",
+                              "preps": {
+                                "id": "Id6eef6658-4bcb-4246-940e-3968963f3c0f",
+                                "label": "合同金额(元)",
+                                "name": "field_20e01f",
+                                "itemNameLabel": "合同金额(元)",
+                                "formVisible": true,
+                                "listVisible": true,
+                                "viewVisible": true,
+                                "searchVisible": false,
+                                "required": true,
+                                "disabled": false,
+                                "clearable": true,
+                                "readonly": false,
+                                "maxLength": 255,
+                                "placeholder": "请输入合同金额(元)",
+                                "dataSource": "",
+                                "values": [],
+                                "rules": [],
+                                "helpMsg": ""
+                              }
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              },
+              {
+                "id": "Idff9123fe-9b8e-4806-a948-35f42bab62d0",
+                "compType": "container",
+                "itemType": "box",
+                "fieldName": "field_9daa2a",
+                "rowNums": 1,
+                "columnNums": 2,
+                "preps": {
+                  "id": "Idff9123fe-9b8e-4806-a948-35f42bab62d0",
+                  "label": "Grid Layout",
+                  "name": "field_9daa2a",
+                  "itemNameLabel": "Grid Layout",
+                  "elements": [
+                    {
+                      "id": "row-0dca928b-b39c-4061-a34c-0f738a781411",
+                      "rowIndex": 1,
+                      "columns": [
+                        {
+                          "id": "col-b24e2558-476a-4e45-a490-4384aad10062",
+                          "cellVisible": true,
+                          "colIndex": 1,
+                          "colspan": 12,
+                          "items": [
+                            {
+                              "id": "Idf9b4b676-f59f-4a39-a422-a3b267845939",
+                              "compType": "formItem",
+                              "itemType": "date",
+                              "fieldName": "field_d84f2d",
+                              "preps": {
+                                "id": "Idf9b4b676-f59f-4a39-a422-a3b267845939",
+                                "label": "签订日期",
+                                "name": "field_d84f2d",
+                                "itemNameLabel": "签订日期",
+                                "formVisible": true,
+                                "listVisible": true,
+                                "viewVisible": true,
+                                "searchVisible": false,
+                                "required": true,
+                                "disabled": false,
+                                "clearable": true,
+                                "readonly": false,
+                                "maxLength": 255,
+                                "placeholder": "请输入签订日期",
+                                "dataSource": "",
+                                "values": [],
+                                "rules": [],
+                                "helpMsg": ""
+                              }
+                            }
+                          ]
+                        },
+                        {
+                          "id": "col-71cdfe38-216d-43dd-b9ea-87d5976657bb",
+                          "cellVisible": true,
+                          "colIndex": 1,
+                          "colspan": 12,
+                          "items": [
+                            {
+                              "id": "Ida1f28d48-9300-473c-9fbf-37847908bb30",
+                              "compType": "formItem",
+                              "itemType": "date",
+                              "fieldName": "field_3cb226",
+                              "preps": {
+                                "id": "Ida1f28d48-9300-473c-9fbf-37847908bb30",
+                                "label": "到期日期",
+                                "name": "field_3cb226",
+                                "itemNameLabel": "到期日期",
+                                "formVisible": true,
+                                "listVisible": true,
+                                "viewVisible": true,
+                                "searchVisible": false,
+                                "required": true,
+                                "disabled": false,
+                                "clearable": true,
+                                "readonly": false,
+                                "maxLength": 255,
+                                "placeholder": "请输入到期日期",
+                                "dataSource": "",
+                                "values": [],
+                                "rules": [],
+                                "helpMsg": ""
+                              }
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              },
+              {
+                "id": "Id9ed3407b-7857-413e-a3b1-0744527b495d",
+                "compType": "formItem",
+                "itemType": "select",
+                "fieldName": "field_ee404a",
+                "preps": {
+                  "id": "Id9ed3407b-7857-413e-a3b1-0744527b495d",
+                  "label": "合同状态",
+                  "name": "field_ee404a",
+                  "itemNameLabel": "合同状态",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入合同状态",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "label": "草稿",
+                      "value": "1"
+                    },
+                    {
+                      "label": "审批中",
+                      "value": "2"
+                    },
+                    {
+                      "label": "已签署",
+                      "value": "3"
+                    },
+                    {
+                      "label": "执行中",
+                      "value": "4"
+                    },
+                    {
+                      "label": "已到期",
+                      "value": "5"
+                    },
+                    {
+                      "label": "已终止",
+                      "value": "6"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "Ida889d844-c8eb-4d6d-aa58-2c3c88a4a9fb",
+      "compType": "container",
+      "itemType": "card",
+      "fieldName": "field_9d7af9",
+      "preps": {
+        "id": "Ida889d844-c8eb-4d6d-aa58-2c3c88a4a9fb",
+        "label": "签约方信息",
+        "name": "field_9d7af9",
+        "itemNameLabel": "签约方信息",
+        "headerFieldList": [],
+        "elements": [
+          {
+            "label": "签约方信息",
+            "tabName": "签约方信息",
+            "objectName": "签约方信息",
+            "subFormFlag": "Y",
+            "items": [
+              {
+                "id": "Idaecd31d7-c5b9-4a74-88f7-bf745ca43a4a",
+                "compType": "container",
+                "itemType": "box",
+                "fieldName": "field_a2e513",
+                "rowNums": 1,
+                "columnNums": 2,
+                "preps": {
+                  "id": "Idaecd31d7-c5b9-4a74-88f7-bf745ca43a4a",
+                  "label": "Grid Layout",
+                  "name": "field_a2e513",
+                  "itemNameLabel": "Grid Layout",
+                  "elements": [
+                    {
+                      "id": "row-b58449e6-d113-4dfb-ae50-6f0983829235",
+                      "rowIndex": 1,
+                      "columns": [
+                        {
+                          "id": "col-1a8d98db-6198-4b62-8d8b-dd8b2259a8d8",
+                          "cellVisible": true,
+                          "colIndex": 1,
+                          "colspan": 12,
+                          "items": [
+                            {
+                              "id": "Idf47e9dd7-62ef-4857-aa35-d6367c9dba75",
+                              "compType": "formItem",
+                              "itemType": "input",
+                              "fieldName": "field_e25d6a",
+                              "preps": {
+                                "id": "Idf47e9dd7-62ef-4857-aa35-d6367c9dba75",
+                                "label": "甲方名称",
+                                "name": "field_e25d6a",
+                                "itemNameLabel": "甲方名称",
+                                "formVisible": true,
+                                "listVisible": true,
+                                "viewVisible": true,
+                                "searchVisible": false,
+                                "required": true,
+                                "disabled": false,
+                                "clearable": true,
+                                "readonly": false,
+                                "maxLength": 255,
+                                "placeholder": "请输入甲方名称",
+                                "dataSource": "",
+                                "values": [],
+                                "rules": [],
+                                "helpMsg": ""
+                              }
+                            }
+                          ]
+                        },
+                        {
+                          "id": "col-db59ffb5-12ea-4ff5-a1b1-208a574ed2f3",
+                          "cellVisible": true,
+                          "colIndex": 1,
+                          "colspan": 12,
+                          "items": [
+                            {
+                              "id": "Idd7361c70-d3ec-4087-a971-04842897172b",
+                              "compType": "formItem",
+                              "itemType": "input",
+                              "fieldName": "field_48c6ca",
+                              "preps": {
+                                "id": "Idd7361c70-d3ec-4087-a971-04842897172b",
+                                "label": "甲方联系人",
+                                "name": "field_48c6ca",
+                                "itemNameLabel": "甲方联系人",
+                                "formVisible": true,
+                                "listVisible": true,
+                                "viewVisible": true,
+                                "searchVisible": false,
+                                "required": false,
+                                "disabled": false,
+                                "clearable": true,
+                                "readonly": false,
+                                "maxLength": 255,
+                                "placeholder": "请输入甲方联系人",
+                                "dataSource": "",
+                                "values": [],
+                                "rules": [],
+                                "helpMsg": ""
+                              }
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              },
+              {
+                "id": "Id477650f2-c13d-46dc-b169-80c548ebd852",
+                "compType": "container",
+                "itemType": "box",
+                "fieldName": "field_d56796",
+                "rowNums": 1,
+                "columnNums": 2,
+                "preps": {
+                  "id": "Id477650f2-c13d-46dc-b169-80c548ebd852",
+                  "label": "Grid Layout",
+                  "name": "field_d56796",
+                  "itemNameLabel": "Grid Layout",
+                  "elements": [
+                    {
+                      "id": "row-eae85b19-27b4-4eca-96a3-70c26e519fb3",
+                      "rowIndex": 1,
+                      "columns": [
+                        {
+                          "id": "col-5551596c-fc17-4507-8c07-4f06cf870197",
+                          "cellVisible": true,
+                          "colIndex": 1,
+                          "colspan": 12,
+                          "items": [
+                            {
+                              "id": "Id78181c13-09de-4dbc-bf47-75489178b893",
+                              "compType": "formItem",
+                              "itemType": "input",
+                              "fieldName": "field_2f5e8e",
+                              "preps": {
+                                "id": "Id78181c13-09de-4dbc-bf47-75489178b893",
+                                "label": "乙方名称",
+                                "name": "field_2f5e8e",
+                                "itemNameLabel": "乙方名称",
+                                "formVisible": true,
+                                "listVisible": true,
+                                "viewVisible": true,
+                                "searchVisible": false,
+                                "required": true,
+                                "disabled": false,
+                                "clearable": true,
+                                "readonly": false,
+                                "maxLength": 255,
+                                "placeholder": "请输入乙方名称",
+                                "dataSource": "",
+                                "values": [],
+                                "rules": [],
+                                "helpMsg": ""
+                              }
+                            }
+                          ]
+                        },
+                        {
+                          "id": "col-a85d40bc-937f-49d7-88d4-72df70009ee0",
+                          "cellVisible": true,
+                          "colIndex": 1,
+                          "colspan": 12,
+                          "items": [
+                            {
+                              "id": "Id05e92277-452f-4346-8dc1-56495ac60dde",
+                              "compType": "formItem",
+                              "itemType": "input",
+                              "fieldName": "field_3edc00",
+                              "preps": {
+                                "id": "Id05e92277-452f-4346-8dc1-56495ac60dde",
+                                "label": "乙方联系人",
+                                "name": "field_3edc00",
+                                "itemNameLabel": "乙方联系人",
+                                "formVisible": true,
+                                "listVisible": true,
+                                "viewVisible": true,
+                                "searchVisible": false,
+                                "required": false,
+                                "disabled": false,
+                                "clearable": true,
+                                "readonly": false,
+                                "maxLength": 255,
+                                "placeholder": "请输入乙方联系人",
+                                "dataSource": "",
+                                "values": [],
+                                "rules": [],
+                                "helpMsg": ""
+                              }
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              },
+              {
+                "id": "Id4a83be13-1a8b-4de1-bbb0-a48f59d58176",
+                "compType": "formItem",
+                "itemType": "textarea",
+                "fieldName": "field_92d73a",
+                "preps": {
+                  "id": "Id4a83be13-1a8b-4de1-bbb0-a48f59d58176",
+                  "label": "合同摘要",
+                  "name": "field_92d73a",
+                  "itemNameLabel": "合同摘要",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 500,
+                  "placeholder": "请输入合同摘要",
+                  "dataSource": "",
+                  "values": [],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "Id4d20aa31-bbf7-48bd-a03d-14cf5b563613",
+      "compType": "container",
+      "itemType": "card",
+      "fieldName": "field_5b0233",
+      "preps": {
+        "id": "Id4d20aa31-bbf7-48bd-a03d-14cf5b563613",
+        "label": "附件",
+        "name": "field_5b0233",
+        "itemNameLabel": "附件",
+        "headerFieldList": [],
+        "elements": [
+          {
+            "label": "附件",
+            "tabName": "附件",
+            "objectName": "附件",
+            "subFormFlag": "Y",
+            "items": [
+              {
+                "id": "Id19a97458-5af6-4dc9-a773-03b645ada468",
+                "compType": "formItem",
+                "itemType": "upload",
+                "fieldName": "field_ae897c",
+                "preps": {
+                  "id": "Id19a97458-5af6-4dc9-a773-03b645ada468",
+                  "label": "合同文件",
+                  "name": "field_ae897c",
+                  "itemNameLabel": "合同文件",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入合同文件",
+                  "dataSource": "",
+                  "values": [],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Id0d26a97b-5f24-43cd-9b88-8eb80a4f9c7a",
+                "compType": "formItem",
+                "itemType": "upload",
+                "fieldName": "field_3e0b88",
+                "preps": {
+                  "id": "Id0d26a97b-5f24-43cd-9b88-8eb80a4f9c7a",
+                  "label": "补充文件",
+                  "name": "field_3e0b88",
+                  "itemNameLabel": "补充文件",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入补充文件",
+                  "dataSource": "",
+                  "values": [],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "exportTime": "2026-06-16T09:36:26.503Z",
+  "version": "1.0"
+}

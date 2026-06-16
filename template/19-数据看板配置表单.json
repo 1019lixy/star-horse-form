@@ -1,0 +1,650 @@
+{
+  "formInfo": {
+    "formName": "19-数据看板配置表单",
+    "currentPageType": "pc"
+  },
+  "dataList": [
+    {
+      "id": "Idc91971cc-264c-4605-b756-676703e74345",
+      "compType": "container",
+      "itemType": "card",
+      "fieldName": "field_dfde69",
+      "preps": {
+        "id": "Idc91971cc-264c-4605-b756-676703e74345",
+        "label": "看板基本信息",
+        "name": "field_dfde69",
+        "itemNameLabel": "看板基本信息",
+        "headerFieldList": [],
+        "elements": [
+          {
+            "label": "看板基本信息",
+            "tabName": "看板基本信息",
+            "objectName": "看板基本信息",
+            "subFormFlag": "Y",
+            "items": [
+              {
+                "id": "Idcee8c583-c6a8-4431-915c-093f59847c60",
+                "compType": "container",
+                "itemType": "box",
+                "fieldName": "field_e03239",
+                "rowNums": 1,
+                "columnNums": 2,
+                "preps": {
+                  "id": "Idcee8c583-c6a8-4431-915c-093f59847c60",
+                  "label": "Grid Layout",
+                  "name": "field_e03239",
+                  "itemNameLabel": "Grid Layout",
+                  "elements": [
+                    {
+                      "id": "row-e36ee23a-fbb5-4d9b-a450-606b8de8ff9b",
+                      "rowIndex": 1,
+                      "columns": [
+                        {
+                          "id": "col-219dcd0b-3d62-474b-9141-3289dde1e2e4",
+                          "cellVisible": true,
+                          "colIndex": 1,
+                          "colspan": 12,
+                          "items": [
+                            {
+                              "id": "Id67fdef30-e4e7-4d37-9bf3-425ed29c274f",
+                              "compType": "formItem",
+                              "itemType": "input",
+                              "fieldName": "field_363115",
+                              "preps": {
+                                "id": "Id67fdef30-e4e7-4d37-9bf3-425ed29c274f",
+                                "label": "看板名称",
+                                "name": "field_363115",
+                                "itemNameLabel": "看板名称",
+                                "formVisible": true,
+                                "listVisible": true,
+                                "viewVisible": true,
+                                "searchVisible": false,
+                                "required": true,
+                                "disabled": false,
+                                "clearable": true,
+                                "readonly": false,
+                                "maxLength": 255,
+                                "placeholder": "请输入看板名称",
+                                "dataSource": "",
+                                "values": [],
+                                "rules": [],
+                                "helpMsg": ""
+                              }
+                            }
+                          ]
+                        },
+                        {
+                          "id": "col-2ba394ea-75aa-453a-af44-ac99dd41106f",
+                          "cellVisible": true,
+                          "colIndex": 1,
+                          "colspan": 12,
+                          "items": [
+                            {
+                              "id": "Id763dbcce-04b8-489b-ba0a-a30c1674d611",
+                              "compType": "formItem",
+                              "itemType": "select",
+                              "fieldName": "field_b93070",
+                              "preps": {
+                                "id": "Id763dbcce-04b8-489b-ba0a-a30c1674d611",
+                                "label": "刷新频率",
+                                "name": "field_b93070",
+                                "itemNameLabel": "刷新频率",
+                                "formVisible": true,
+                                "listVisible": true,
+                                "viewVisible": true,
+                                "searchVisible": false,
+                                "required": false,
+                                "disabled": false,
+                                "clearable": true,
+                                "readonly": false,
+                                "maxLength": 255,
+                                "placeholder": "请输入刷新频率",
+                                "dataSource": "data",
+                                "values": [
+                                  {
+                                    "label": "实时",
+                                    "value": "1"
+                                  },
+                                  {
+                                    "label": "1分钟",
+                                    "value": "2"
+                                  },
+                                  {
+                                    "label": "5分钟",
+                                    "value": "3"
+                                  },
+                                  {
+                                    "label": "15分钟",
+                                    "value": "4"
+                                  },
+                                  {
+                                    "label": "30分钟",
+                                    "value": "5"
+                                  },
+                                  {
+                                    "label": "1小时",
+                                    "value": "6"
+                                  }
+                                ],
+                                "rules": [],
+                                "helpMsg": ""
+                              }
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              },
+              {
+                "id": "Idbde4bc50-5523-4e70-bdfe-1b0fa7b2e37a",
+                "compType": "formItem",
+                "itemType": "textarea",
+                "fieldName": "field_5b26e4",
+                "preps": {
+                  "id": "Idbde4bc50-5523-4e70-bdfe-1b0fa7b2e37a",
+                  "label": "看板描述",
+                  "name": "field_5b26e4",
+                  "itemNameLabel": "看板描述",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入看板描述",
+                  "dataSource": "",
+                  "values": [],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "Id16beace0-cd7d-4b22-a50b-a0773cb0a46a",
+      "compType": "container",
+      "itemType": "card",
+      "fieldName": "field_4b3ea2",
+      "preps": {
+        "id": "Id16beace0-cd7d-4b22-a50b-a0773cb0a46a",
+        "label": "图表配置",
+        "name": "field_4b3ea2",
+        "itemNameLabel": "图表配置",
+        "headerFieldList": [],
+        "elements": [
+          {
+            "label": "图表配置",
+            "tabName": "图表配置",
+            "objectName": "图表配置",
+            "subFormFlag": "Y",
+            "items": [
+              {
+                "id": "Idfa31afbc-da08-4eea-a807-11df080e1554",
+                "compType": "container",
+                "itemType": "collapse",
+                "fieldName": "field_07df57",
+                "preps": {
+                  "id": "Idfa31afbc-da08-4eea-a807-11df080e1554",
+                  "label": "Collapse",
+                  "name": "field_07df57",
+                  "itemNameLabel": "Collapse",
+                  "elements": [
+                    {
+                      "label": "图表1 - 趋势图",
+                      "tabName": "图表1 - 趋势图",
+                      "objectName": "图表1 - 趋势图",
+                      "subFormFlag": "Y",
+                      "items": [
+                        {
+                          "id": "Idb71ca551-c663-4c13-8dc4-c76a593ee8fc",
+                          "compType": "formItem",
+                          "itemType": "input",
+                          "fieldName": "field_c11d7e",
+                          "preps": {
+                            "id": "Idb71ca551-c663-4c13-8dc4-c76a593ee8fc",
+                            "label": "图表标题",
+                            "name": "field_c11d7e",
+                            "itemNameLabel": "图表标题",
+                            "formVisible": true,
+                            "listVisible": true,
+                            "viewVisible": true,
+                            "searchVisible": false,
+                            "required": false,
+                            "disabled": false,
+                            "clearable": true,
+                            "readonly": false,
+                            "maxLength": 255,
+                            "placeholder": "请输入图表标题",
+                            "dataSource": "",
+                            "values": [],
+                            "rules": [],
+                            "helpMsg": ""
+                          }
+                        },
+                        {
+                          "id": "Id94f0e0c5-0c86-4f2a-8350-2a70c70a28e3",
+                          "compType": "formItem",
+                          "itemType": "select",
+                          "fieldName": "field_9c4ddb",
+                          "preps": {
+                            "id": "Id94f0e0c5-0c86-4f2a-8350-2a70c70a28e3",
+                            "label": "图表类型",
+                            "name": "field_9c4ddb",
+                            "itemNameLabel": "图表类型",
+                            "formVisible": true,
+                            "listVisible": true,
+                            "viewVisible": true,
+                            "searchVisible": false,
+                            "required": false,
+                            "disabled": false,
+                            "clearable": true,
+                            "readonly": false,
+                            "maxLength": 255,
+                            "placeholder": "请输入图表类型",
+                            "dataSource": "data",
+                            "values": [
+                              {
+                                "label": "折线图",
+                                "value": "1"
+                              },
+                              {
+                                "label": "柱状图",
+                                "value": "2"
+                              },
+                              {
+                                "label": "饼图",
+                                "value": "3"
+                              },
+                              {
+                                "label": "散点图",
+                                "value": "4"
+                              }
+                            ],
+                            "rules": [],
+                            "helpMsg": ""
+                          }
+                        },
+                        {
+                          "id": "Id38e46d8f-51d5-47d4-aedd-6238f890fc04",
+                          "compType": "container",
+                          "itemType": "box",
+                          "fieldName": "field_ee59a7",
+                          "rowNums": 1,
+                          "columnNums": 2,
+                          "preps": {
+                            "id": "Id38e46d8f-51d5-47d4-aedd-6238f890fc04",
+                            "label": "Grid Layout",
+                            "name": "field_ee59a7",
+                            "itemNameLabel": "Grid Layout",
+                            "elements": [
+                              {
+                                "id": "row-f8e953ae-e5f0-4d55-b74d-625f21467596",
+                                "rowIndex": 1,
+                                "columns": [
+                                  {
+                                    "id": "col-3e1e6d9c-4668-486d-890f-4d25bfda0a2a",
+                                    "cellVisible": true,
+                                    "colIndex": 1,
+                                    "colspan": 12,
+                                    "items": [
+                                      {
+                                        "id": "Id5a82e84b-9191-487b-996e-c2a6d981d874",
+                                        "compType": "formItem",
+                                        "itemType": "input",
+                                        "fieldName": "field_ad6f38",
+                                        "preps": {
+                                          "id": "Id5a82e84b-9191-487b-996e-c2a6d981d874",
+                                          "label": "数据源接口",
+                                          "name": "field_ad6f38",
+                                          "itemNameLabel": "数据源接口",
+                                          "formVisible": true,
+                                          "listVisible": true,
+                                          "viewVisible": true,
+                                          "searchVisible": false,
+                                          "required": false,
+                                          "disabled": false,
+                                          "clearable": true,
+                                          "readonly": false,
+                                          "maxLength": 255,
+                                          "placeholder": "请输入数据源接口",
+                                          "dataSource": "",
+                                          "values": [],
+                                          "rules": [],
+                                          "helpMsg": ""
+                                        }
+                                      }
+                                    ]
+                                  },
+                                  {
+                                    "id": "col-2c3485d7-2f42-4629-8a5b-abd7e2ebd8b9",
+                                    "cellVisible": true,
+                                    "colIndex": 1,
+                                    "colspan": 12,
+                                    "items": [
+                                      {
+                                        "id": "Id5a9d996e-e232-4fdf-85e2-71a1b9b662a4",
+                                        "compType": "formItem",
+                                        "itemType": "select",
+                                        "fieldName": "field_25351b",
+                                        "preps": {
+                                          "id": "Id5a9d996e-e232-4fdf-85e2-71a1b9b662a4",
+                                          "label": "时间范围",
+                                          "name": "field_25351b",
+                                          "itemNameLabel": "时间范围",
+                                          "formVisible": true,
+                                          "listVisible": true,
+                                          "viewVisible": true,
+                                          "searchVisible": false,
+                                          "required": false,
+                                          "disabled": false,
+                                          "clearable": true,
+                                          "readonly": false,
+                                          "maxLength": 255,
+                                          "placeholder": "请输入时间范围",
+                                          "dataSource": "data",
+                                          "values": [
+                                            {
+                                              "label": "今日",
+                                              "value": "1"
+                                            },
+                                            {
+                                              "label": "本周",
+                                              "value": "2"
+                                            },
+                                            {
+                                              "label": "本月",
+                                              "value": "3"
+                                            },
+                                            {
+                                              "label": "本季度",
+                                              "value": "4"
+                                            },
+                                            {
+                                              "label": "本年",
+                                              "value": "5"
+                                            }
+                                          ],
+                                          "rules": [],
+                                          "helpMsg": ""
+                                        }
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "label": "图表2 - 统计卡片",
+                      "tabName": "图表2 - 统计卡片",
+                      "objectName": "图表2 - 统计卡片",
+                      "subFormFlag": "Y",
+                      "items": [
+                        {
+                          "id": "Id6c116da9-feec-4c7b-b6cb-7fbb0c185f38",
+                          "compType": "formItem",
+                          "itemType": "input",
+                          "fieldName": "field_6a2054",
+                          "preps": {
+                            "id": "Id6c116da9-feec-4c7b-b6cb-7fbb0c185f38",
+                            "label": "卡片标题",
+                            "name": "field_6a2054",
+                            "itemNameLabel": "卡片标题",
+                            "formVisible": true,
+                            "listVisible": true,
+                            "viewVisible": true,
+                            "searchVisible": false,
+                            "required": false,
+                            "disabled": false,
+                            "clearable": true,
+                            "readonly": false,
+                            "maxLength": 255,
+                            "placeholder": "请输入卡片标题",
+                            "dataSource": "",
+                            "values": [],
+                            "rules": [],
+                            "helpMsg": ""
+                          }
+                        },
+                        {
+                          "id": "Id3582accb-2c74-4db2-a4ff-668f1af9ea3d",
+                          "compType": "container",
+                          "itemType": "box",
+                          "fieldName": "field_3ff254",
+                          "rowNums": 1,
+                          "columnNums": 2,
+                          "preps": {
+                            "id": "Id3582accb-2c74-4db2-a4ff-668f1af9ea3d",
+                            "label": "Grid Layout",
+                            "name": "field_3ff254",
+                            "itemNameLabel": "Grid Layout",
+                            "elements": [
+                              {
+                                "id": "row-d393917d-df95-46c0-a3cc-98f3435c2b32",
+                                "rowIndex": 1,
+                                "columns": [
+                                  {
+                                    "id": "col-60a1456e-e29c-4d40-88a8-2619b1a5bcf2",
+                                    "cellVisible": true,
+                                    "colIndex": 1,
+                                    "colspan": 12,
+                                    "items": [
+                                      {
+                                        "id": "Id1ecab88d-a287-4725-a3ce-e8f2cd90943b",
+                                        "compType": "formItem",
+                                        "itemType": "number",
+                                        "fieldName": "field_f9927f",
+                                        "preps": {
+                                          "id": "Id1ecab88d-a287-4725-a3ce-e8f2cd90943b",
+                                          "label": "数值",
+                                          "name": "field_f9927f",
+                                          "itemNameLabel": "数值",
+                                          "formVisible": true,
+                                          "listVisible": true,
+                                          "viewVisible": true,
+                                          "searchVisible": false,
+                                          "required": false,
+                                          "disabled": false,
+                                          "clearable": true,
+                                          "readonly": false,
+                                          "maxLength": 255,
+                                          "placeholder": "请输入数值",
+                                          "dataSource": "",
+                                          "values": [],
+                                          "rules": [],
+                                          "helpMsg": ""
+                                        }
+                                      }
+                                    ]
+                                  },
+                                  {
+                                    "id": "col-44af7903-0a46-4431-8748-4542d9740ee7",
+                                    "cellVisible": true,
+                                    "colIndex": 1,
+                                    "colspan": 12,
+                                    "items": [
+                                      {
+                                        "id": "Id380262ef-6ba4-4bf5-8e93-5dd99b144b14",
+                                        "compType": "formItem",
+                                        "itemType": "input",
+                                        "fieldName": "field_eca363",
+                                        "preps": {
+                                          "id": "Id380262ef-6ba4-4bf5-8e93-5dd99b144b14",
+                                          "label": "单位",
+                                          "name": "field_eca363",
+                                          "itemNameLabel": "单位",
+                                          "formVisible": true,
+                                          "listVisible": true,
+                                          "viewVisible": true,
+                                          "searchVisible": false,
+                                          "required": false,
+                                          "disabled": false,
+                                          "clearable": true,
+                                          "readonly": false,
+                                          "maxLength": 255,
+                                          "placeholder": "请输入单位",
+                                          "dataSource": "",
+                                          "values": [],
+                                          "rules": [],
+                                          "helpMsg": ""
+                                        }
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        },
+                        {
+                          "id": "Idfaae7416-05ed-4055-93dd-b0a050a40237",
+                          "compType": "formItem",
+                          "itemType": "select",
+                          "fieldName": "field_0ec471",
+                          "preps": {
+                            "id": "Idfaae7416-05ed-4055-93dd-b0a050a40237",
+                            "label": "变化趋势",
+                            "name": "field_0ec471",
+                            "itemNameLabel": "变化趋势",
+                            "formVisible": true,
+                            "listVisible": true,
+                            "viewVisible": true,
+                            "searchVisible": false,
+                            "required": false,
+                            "disabled": false,
+                            "clearable": true,
+                            "readonly": false,
+                            "maxLength": 255,
+                            "placeholder": "请输入变化趋势",
+                            "dataSource": "data",
+                            "values": [
+                              {
+                                "label": "上升",
+                                "value": "1"
+                              },
+                              {
+                                "label": "下降",
+                                "value": "2"
+                              },
+                              {
+                                "label": "持平",
+                                "value": "3"
+                              }
+                            ],
+                            "rules": [],
+                            "helpMsg": ""
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "label": "图表3 - 数据表格",
+                      "tabName": "图表3 - 数据表格",
+                      "objectName": "图表3 - 数据表格",
+                      "subFormFlag": "Y",
+                      "items": [
+                        {
+                          "id": "Idef2e7cdb-9269-4030-b530-34d2e66892d7",
+                          "compType": "formItem",
+                          "itemType": "input",
+                          "fieldName": "field_301919",
+                          "preps": {
+                            "id": "Idef2e7cdb-9269-4030-b530-34d2e66892d7",
+                            "label": "表格标题",
+                            "name": "field_301919",
+                            "itemNameLabel": "表格标题",
+                            "formVisible": true,
+                            "listVisible": true,
+                            "viewVisible": true,
+                            "searchVisible": false,
+                            "required": false,
+                            "disabled": false,
+                            "clearable": true,
+                            "readonly": false,
+                            "maxLength": 255,
+                            "placeholder": "请输入表格标题",
+                            "dataSource": "",
+                            "values": [],
+                            "rules": [],
+                            "helpMsg": ""
+                          }
+                        },
+                        {
+                          "id": "Idc1bf59b5-1065-449a-9b39-97ab5c63b790",
+                          "compType": "formItem",
+                          "itemType": "input",
+                          "fieldName": "field_53ec20",
+                          "preps": {
+                            "id": "Idc1bf59b5-1065-449a-9b39-97ab5c63b790",
+                            "label": "数据源接口",
+                            "name": "field_53ec20",
+                            "itemNameLabel": "数据源接口",
+                            "formVisible": true,
+                            "listVisible": true,
+                            "viewVisible": true,
+                            "searchVisible": false,
+                            "required": false,
+                            "disabled": false,
+                            "clearable": true,
+                            "readonly": false,
+                            "maxLength": 255,
+                            "placeholder": "请输入数据源接口",
+                            "dataSource": "",
+                            "values": [],
+                            "rules": [],
+                            "helpMsg": ""
+                          }
+                        },
+                        {
+                          "id": "Ida73745ef-2d38-4946-884a-a26db84d63f1",
+                          "compType": "formItem",
+                          "itemType": "number",
+                          "fieldName": "field_29d307",
+                          "preps": {
+                            "id": "Ida73745ef-2d38-4946-884a-a26db84d63f1",
+                            "label": "显示行数",
+                            "name": "field_29d307",
+                            "itemNameLabel": "显示行数",
+                            "formVisible": true,
+                            "listVisible": true,
+                            "viewVisible": true,
+                            "searchVisible": false,
+                            "required": false,
+                            "disabled": false,
+                            "clearable": true,
+                            "readonly": false,
+                            "maxLength": 255,
+                            "placeholder": "请输入显示行数",
+                            "dataSource": "",
+                            "values": [],
+                            "rules": [],
+                            "helpMsg": "",
+                            "min": 5,
+                            "max": 100
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "exportTime": "2026-06-16T09:36:26.512Z",
+  "version": "1.0"
+}

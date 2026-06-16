@@ -36,238 +36,149 @@ watch(
 </script>
 
 <template>
-  <div class="flex flex-col h-full overflow-hidden">
-    <el-form
-        :model="formProps"
-        class="dynamic-form"
-        ref="itemPropertiesRef"
-        :size="compSize"
-        :scroll-to-error="true"
-        :scroll-into-view-options="true"
-        :inline-message="false"
-        :status-icon="true"
-        label-width="auto"
-        label-position="right"
-        require-asterisk-position="right"
-    >
-      <el-tabs
-          v-model="prepActiveName"
-          type="border-card"
-          @tabChange="changeOperation"
+  <div class="property-panel-root">
+    <!-- Tab Header -->
+    <div class="property-tabs-header">
+      <button
+          :class="['property-tab', { active: prepActiveName === 'base' }]"
+          @click="prepActiveName = 'base'; changeOperation('base')"
       >
-        <el-tab-pane :label="i18n('dyform.propPanel.405')" name="base">
-          <template #label>
-            <div class="flex items-center">
-              <star-horse-icon iconClass="base_preps"/>
-              {{ i18n('dyform.propPanel.baseProps') }}
-            </div>
-          </template>
-          <item-properties-panel :optional="optional"/>
-        </el-tab-pane>
-        <el-tab-pane name="customer">
-          <template #label>
-            <div class="flex items-center">
-              <star-horse-icon iconClass="data_db"/>
-              {{ i18n('dyform.propPanel.customProps') }}
-            </div>
-          </template>
+        <star-horse-icon iconClass="base_preps" size="14px"/>
+        <span>{{ i18n('dyform.propPanel.baseProps') }}</span>
+      </button>
+      <button
+          :class="['property-tab', { active: prepActiveName === 'customer' }]"
+          @click="prepActiveName = 'customer'; changeOperation('customer')"
+      >
+        <star-horse-icon iconClass="data_db" size="14px"/>
+        <span>{{ i18n('dyform.propPanel.customProps') }}</span>
+      </button>
+    </div>
+
+    <!-- Tab Content -->
+    <div class="property-tabs-content">
+      <el-scrollbar class="property-scrollbar">
+        <el-form
+            :model="formProps"
+            class="property-form"
+            ref="itemPropertiesRef"
+            :size="compSize"
+            :scroll-to-error="true"
+            :scroll-into-view-options="true"
+            :inline-message="false"
+            :status-icon="true"
+            label-width="auto"
+            label-position="right"
+            require-asterisk-position="right"
+        >
+          <item-properties-panel v-if="prepActiveName === 'base'" :optional="optional"/>
           <customer-property-panel
+              v-if="prepActiveName === 'customer'"
               ref="customerPropertyPanelRef"
               :optional="optional"
           />
-        </el-tab-pane>
-        <!--        <el-tab-pane name="special">
-                  <template #label>
-                    <div class="flex items-center">
-                      <star-horse-icon iconClass="config" />
-                      其它配置
-                    </div>
-                  </template>
-                  <customer-property-panel
-                      ref="customerPropertyPanelRef"
-                      :optional="optional"
-                  />
-                </el-tab-pane>-->
-      </el-tabs>
-    </el-form>
+        </el-form>
+      </el-scrollbar>
+    </div>
   </div>
 </template>
 
 <style lang="scss" scoped>
-.item-properties-container {
+.property-panel-root {
   height: 100%;
   display: flex;
   flex-direction: column;
+  background: #ffffff;
+  overflow: hidden;
 }
 
-.properties-header {
-  padding: 16px;
+/* ====== Tab Header (segment style) ====== */
+.property-tabs-header {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 8px 12px;
+  background: #f8f9fb;
   border-bottom: 1px solid #ebeef5;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  color: white;
-
-  h3 {
-    margin: 0;
-    font-size: 16px;
-    font-weight: 500;
-  }
-
-  .component-info {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    margin-top: 8px;
-    font-size: 13px;
-    opacity: 0.9;
-  }
-
-  .component-icon {
-    font-size: 16px;
-  }
+  flex-shrink: 0;
 }
 
-.properties-content {
+.property-tab {
   flex: 1;
-  overflow: hidden;
-}
-
-.properties-form {
-  padding: 16px;
-}
-
-.property-section {
-  margin-bottom: 20px;
-  border: 1px solid #ebeef5;
-  border-radius: 6px;
-  overflow: hidden;
-
-  .section-header {
-    background: #f5f7fa;
-    padding: 12px 16px;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-
-    &:hover {
-      background: #ecf5ff;
-    }
-
-    h4 {
-      margin: 0;
-      font-size: 14px;
-      font-weight: 500;
-      color: #303133;
-    }
-
-    .section-actions {
-      display: flex;
-      gap: 8px;
-    }
-  }
-
-  .section-content {
-    padding: 16px;
-    background: white;
-  }
-}
-
-.property-group {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  gap: 16px;
-  margin-bottom: 16px;
-
-  &:last-child {
-    margin-bottom: 0;
-  }
-}
-
-.property-item {
-  display: flex;
-  flex-direction: column;
-
-  .property-label {
-    font-size: 13px;
-    color: #606266;
-    margin-bottom: 6px;
-    display: flex;
-    align-items: center;
-    gap: 4px;
-
-    .required {
-      color: #f56c6c;
-    }
-  }
-
-  .property-control {
-    flex: 1;
-  }
-}
-
-.quick-actions {
-  display: flex;
-  gap: 12px;
-  flex-wrap: wrap;
-  padding: 16px;
-  border-top: 1px solid #ebeef5;
-  background: #fafafa;
-}
-
-.action-button {
-  flex: 1;
-  min-width: 120px;
-
-  &:hover {
-    transform: translateY(-1px);
-  }
-}
-
-.empty-properties {
-  display: flex;
-  flex-direction: column;
+  display: inline-flex;
   align-items: center;
   justify-content: center;
-  height: 100%;
-  padding: 20px;
-  color: #909399;
-  text-align: center;
+  gap: 6px;
+  padding: 6px 12px;
+  border: 1px solid transparent;
+  background: transparent;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 13px;
+  color: #606266;
+  transition: all 0.15s ease;
+  white-space: nowrap;
+  line-height: 1.2;
 
-  .empty-icon {
-    font-size: 48px;
-    margin-bottom: 12px;
-    color: #c0c4cc;
+  :deep(.star-horse-icon) {
+    font-size: 14px;
+    color: inherit;
   }
 
-  h3 {
-    margin: 0 0 8px 0;
-    font-size: 16px;
+  &:hover {
+    background: #eef0f3;
+    color: #303133;
+  }
+
+  &.active {
+    background: #ffffff;
+    color: #409eff;
+    border-color: #e4e7ed;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
     font-weight: 500;
-    color: #606266;
-  }
-
-  p {
-    margin: 0;
-    font-size: 13px;
-    line-height: 1.5;
   }
 }
 
-// Responsive design
-@media (max-width: 768px) {
-  .property-group {
-    grid-template-columns: 1fr;
+/* ====== Content Area ====== */
+.property-tabs-content {
+  flex: 1;
+  overflow: hidden;
+}
+
+.property-scrollbar {
+  height: 100%;
+
+  :deep(.el-scrollbar__wrap) {
+    overflow-x: hidden;
   }
+}
 
-  .quick-actions {
-    flex-direction: column;
+.property-form {
+  padding: 12px;
+  width: 100%;
 
-    .action-button {
-      width: 100%;
+  :deep(.el-form-item) {
+    margin-bottom: 14px;
+
+    &:last-child {
+      margin-bottom: 0;
     }
   }
+
+  :deep(.el-form-item__label) {
+    font-size: 13px;
+    color: #606266;
+    padding-right: 8px;
+  }
+
+  :deep(.el-form-item__content) {
+    width: 90%;
+    margin-left: 5px;
+    padding-left: 5px;
+  }
 }
 
+/* ====== Element Overrides ====== */
 :deep(.el-collapse-item) {
   overflow: hidden;
 
@@ -287,12 +198,6 @@ watch(
   }
 }
 
-:deep(.el-form-item__content) {
-  width: 90%;
-  margin-left: 5px;
-  padding-left: 5px;
-}
-
 :deep(.el-scrollbar) {
   border-top-width: 0;
   display: flex;
@@ -305,21 +210,41 @@ watch(
   padding: 0;
 }
 
+:deep(.el-input__wrapper),
+:deep(.el-select__wrapper) {
+  border-radius: 6px;
+}
+
+/* ====== Legacy classes (kept for compatibility) ====== */
+.item-properties-container {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.properties-header {
+  padding: 16px;
+  border-bottom: 1px solid #ebeef5;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+
+  h3 {
+    margin: 0;
+    font-size: 16px;
+    font-weight: 500;
+  }
+}
+
+.properties-content {
+  flex: 1;
+  overflow: hidden;
+}
+
 .widget-collapse {
   height: 99%;
 }
 
 .oper-btn {
   cursor: pointer;
-}
-
-.dynamic-form {
-  width: 100%;
-  margin: 0 auto;
-  overflow: hidden;
-}
-
-:deep(.el-tabs) {
-  overflow: auto !important;
 }
 </style>

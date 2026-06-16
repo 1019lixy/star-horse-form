@@ -1,0 +1,503 @@
+{
+  "formInfo": {
+    "formName": "07-报修申请表单",
+    "currentPageType": "pc"
+  },
+  "dataList": [
+    {
+      "id": "Id9069305a-a99d-4c59-99b2-743f75e7116b",
+      "compType": "container",
+      "itemType": "card",
+      "fieldName": "field_c28c8c",
+      "preps": {
+        "id": "Id9069305a-a99d-4c59-99b2-743f75e7116b",
+        "label": "报修信息",
+        "name": "field_c28c8c",
+        "itemNameLabel": "报修信息",
+        "headerFieldList": [],
+        "elements": [
+          {
+            "label": "报修信息",
+            "tabName": "报修信息",
+            "objectName": "报修信息",
+            "subFormFlag": "Y",
+            "items": [
+              {
+                "id": "Idf8dbb5d9-e829-4b7d-aada-5eabd5e7f2c6",
+                "compType": "container",
+                "itemType": "box",
+                "fieldName": "field_dd46ad",
+                "rowNums": 1,
+                "columnNums": 2,
+                "preps": {
+                  "id": "Idf8dbb5d9-e829-4b7d-aada-5eabd5e7f2c6",
+                  "label": "Grid Layout",
+                  "name": "field_dd46ad",
+                  "itemNameLabel": "Grid Layout",
+                  "elements": [
+                    {
+                      "id": "row-c564c25e-10a9-4dc0-9086-8d454fba548c",
+                      "rowIndex": 1,
+                      "columns": [
+                        {
+                          "id": "col-983c0239-6092-467a-800e-537d9105ab15",
+                          "cellVisible": true,
+                          "colIndex": 1,
+                          "colspan": 12,
+                          "items": [
+                            {
+                              "id": "Id70589f91-fb86-4dae-854e-ddfeeb51212a",
+                              "compType": "formItem",
+                              "itemType": "input",
+                              "fieldName": "field_b2423f",
+                              "preps": {
+                                "id": "Id70589f91-fb86-4dae-854e-ddfeeb51212a",
+                                "label": "报修人",
+                                "name": "field_b2423f",
+                                "itemNameLabel": "报修人",
+                                "formVisible": true,
+                                "listVisible": true,
+                                "viewVisible": true,
+                                "searchVisible": false,
+                                "required": true,
+                                "disabled": false,
+                                "clearable": true,
+                                "readonly": false,
+                                "maxLength": 255,
+                                "placeholder": "请输入报修人",
+                                "dataSource": "",
+                                "values": [],
+                                "rules": [],
+                                "helpMsg": ""
+                              }
+                            }
+                          ]
+                        },
+                        {
+                          "id": "col-350575aa-80a5-44e6-9ef3-6e3aba025d22",
+                          "cellVisible": true,
+                          "colIndex": 1,
+                          "colspan": 12,
+                          "items": [
+                            {
+                              "id": "Id68baadec-ca90-411e-858c-afc4ef4c6030",
+                              "compType": "formItem",
+                              "itemType": "input",
+                              "fieldName": "field_2bfabc",
+                              "preps": {
+                                "id": "Id68baadec-ca90-411e-858c-afc4ef4c6030",
+                                "label": "联系电话",
+                                "name": "field_2bfabc",
+                                "itemNameLabel": "联系电话",
+                                "formVisible": true,
+                                "listVisible": true,
+                                "viewVisible": true,
+                                "searchVisible": false,
+                                "required": true,
+                                "disabled": false,
+                                "clearable": true,
+                                "readonly": false,
+                                "maxLength": 11,
+                                "placeholder": "请输入联系电话",
+                                "dataSource": "",
+                                "values": [],
+                                "rules": [],
+                                "helpMsg": ""
+                              }
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              },
+              {
+                "id": "Id1363f628-bbe3-4ef3-9c08-667517bdee88",
+                "compType": "container",
+                "itemType": "box",
+                "fieldName": "field_34692d",
+                "rowNums": 1,
+                "columnNums": 2,
+                "preps": {
+                  "id": "Id1363f628-bbe3-4ef3-9c08-667517bdee88",
+                  "label": "Grid Layout",
+                  "name": "field_34692d",
+                  "itemNameLabel": "Grid Layout",
+                  "elements": [
+                    {
+                      "id": "row-b08f24d5-4ac1-437b-abbe-08faee8bb40e",
+                      "rowIndex": 1,
+                      "columns": [
+                        {
+                          "id": "col-bcacdb7b-ceb6-4cba-8632-806d510e7234",
+                          "cellVisible": true,
+                          "colIndex": 1,
+                          "colspan": 12,
+                          "items": [
+                            {
+                              "id": "Id6d981932-f86f-43b5-bc50-d4b638116120",
+                              "compType": "formItem",
+                              "itemType": "input",
+                              "fieldName": "field_3053e3",
+                              "preps": {
+                                "id": "Id6d981932-f86f-43b5-bc50-d4b638116120",
+                                "label": "报修地点",
+                                "name": "field_3053e3",
+                                "itemNameLabel": "报修地点",
+                                "formVisible": true,
+                                "listVisible": true,
+                                "viewVisible": true,
+                                "searchVisible": false,
+                                "required": true,
+                                "disabled": false,
+                                "clearable": true,
+                                "readonly": false,
+                                "maxLength": 255,
+                                "placeholder": "请输入报修地点",
+                                "dataSource": "",
+                                "values": [],
+                                "rules": [],
+                                "helpMsg": ""
+                              }
+                            }
+                          ]
+                        },
+                        {
+                          "id": "col-8faefa40-18e9-4090-a946-77d402f62c0f",
+                          "cellVisible": true,
+                          "colIndex": 1,
+                          "colspan": 12,
+                          "items": [
+                            {
+                              "id": "Id8d2a155f-2705-4023-9fab-525d41fad77b",
+                              "compType": "formItem",
+                              "itemType": "select",
+                              "fieldName": "field_ff6070",
+                              "preps": {
+                                "id": "Id8d2a155f-2705-4023-9fab-525d41fad77b",
+                                "label": "故障类型",
+                                "name": "field_ff6070",
+                                "itemNameLabel": "故障类型",
+                                "formVisible": true,
+                                "listVisible": true,
+                                "viewVisible": true,
+                                "searchVisible": false,
+                                "required": false,
+                                "disabled": false,
+                                "clearable": true,
+                                "readonly": false,
+                                "maxLength": 255,
+                                "placeholder": "请输入故障类型",
+                                "dataSource": "data",
+                                "values": [
+                                  {
+                                    "label": "电力故障",
+                                    "value": "1"
+                                  },
+                                  {
+                                    "label": "水管问题",
+                                    "value": "2"
+                                  },
+                                  {
+                                    "label": "门窗损坏",
+                                    "value": "3"
+                                  },
+                                  {
+                                    "label": "空调故障",
+                                    "value": "4"
+                                  },
+                                  {
+                                    "label": "网络故障",
+                                    "value": "5"
+                                  },
+                                  {
+                                    "label": "家具损坏",
+                                    "value": "6"
+                                  },
+                                  {
+                                    "label": "其他",
+                                    "value": "7"
+                                  }
+                                ],
+                                "rules": [],
+                                "helpMsg": ""
+                              }
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              },
+              {
+                "id": "Id07cee8b4-52c2-416d-9603-7bc2a785d5d5",
+                "compType": "formItem",
+                "itemType": "select",
+                "fieldName": "field_23994a",
+                "preps": {
+                  "id": "Id07cee8b4-52c2-416d-9603-7bc2a785d5d5",
+                  "label": "紧急程度",
+                  "name": "field_23994a",
+                  "itemNameLabel": "紧急程度",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": true,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入紧急程度",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "label": "紧急",
+                      "value": "1"
+                    },
+                    {
+                      "label": "一般",
+                      "value": "2"
+                    },
+                    {
+                      "label": "不紧急",
+                      "value": "3"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Ide08e8263-a404-46cb-9eec-7fe7b2e67a4d",
+                "compType": "formItem",
+                "itemType": "textarea",
+                "fieldName": "field_ecb0e5",
+                "preps": {
+                  "id": "Ide08e8263-a404-46cb-9eec-7fe7b2e67a4d",
+                  "label": "问题描述",
+                  "name": "field_ecb0e5",
+                  "itemNameLabel": "问题描述",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": true,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 500,
+                  "placeholder": "请输入问题描述",
+                  "dataSource": "",
+                  "values": [],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Id6bc6da0d-41d6-4e4a-8948-4d78b2fae7f0",
+                "compType": "formItem",
+                "itemType": "upload",
+                "fieldName": "field_a17842",
+                "preps": {
+                  "id": "Id6bc6da0d-41d6-4e4a-8948-4d78b2fae7f0",
+                  "label": "现场照片",
+                  "name": "field_a17842",
+                  "itemNameLabel": "现场照片",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入现场照片",
+                  "dataSource": "",
+                  "values": [],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Idd94c5c23-c96d-455c-93ba-8ca8622bbbc0",
+                "compType": "formItem",
+                "itemType": "datetime",
+                "fieldName": "field_f5e743",
+                "preps": {
+                  "id": "Idd94c5c23-c96d-455c-93ba-8ca8622bbbc0",
+                  "label": "期望维修时间",
+                  "name": "field_f5e743",
+                  "itemNameLabel": "期望维修时间",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入期望维修时间",
+                  "dataSource": "",
+                  "values": [],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "Id3986ca98-2b9a-456d-a5ca-02352ea7f5d2",
+      "compType": "container",
+      "itemType": "card",
+      "fieldName": "field_aac4b9",
+      "preps": {
+        "id": "Id3986ca98-2b9a-456d-a5ca-02352ea7f5d2",
+        "label": "处理信息",
+        "name": "field_aac4b9",
+        "itemNameLabel": "处理信息",
+        "headerFieldList": [],
+        "elements": [
+          {
+            "label": "处理信息",
+            "tabName": "处理信息",
+            "objectName": "处理信息",
+            "subFormFlag": "Y",
+            "items": [
+              {
+                "id": "Id9991eec1-4501-4492-bc20-08a2b4e66175",
+                "compType": "formItem",
+                "itemType": "input",
+                "fieldName": "field_a946d0",
+                "preps": {
+                  "id": "Id9991eec1-4501-4492-bc20-08a2b4e66175",
+                  "label": "维修人员",
+                  "name": "field_a946d0",
+                  "itemNameLabel": "维修人员",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入维修人员",
+                  "dataSource": "",
+                  "values": [],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Ida5bc57ab-419d-41b4-b39d-22fd5d76bad1",
+                "compType": "formItem",
+                "itemType": "select",
+                "fieldName": "field_f38e9c",
+                "preps": {
+                  "id": "Ida5bc57ab-419d-41b4-b39d-22fd5d76bad1",
+                  "label": "处理状态",
+                  "name": "field_f38e9c",
+                  "itemNameLabel": "处理状态",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入处理状态",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "label": "待处理",
+                      "value": "1"
+                    },
+                    {
+                      "label": "处理中",
+                      "value": "2"
+                    },
+                    {
+                      "label": "已完成",
+                      "value": "3"
+                    },
+                    {
+                      "label": "已关闭",
+                      "value": "4"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Id7103ac0d-a929-4956-86e6-2213ab18b928",
+                "compType": "formItem",
+                "itemType": "textarea",
+                "fieldName": "field_535c5c",
+                "preps": {
+                  "id": "Id7103ac0d-a929-4956-86e6-2213ab18b928",
+                  "label": "处理结果",
+                  "name": "field_535c5c",
+                  "itemNameLabel": "处理结果",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入处理结果",
+                  "dataSource": "",
+                  "values": [],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Id71a8e2c4-4626-406a-b013-0d9831b4e3ab",
+                "compType": "formItem",
+                "itemType": "datetime",
+                "fieldName": "field_bc50e5",
+                "preps": {
+                  "id": "Id71a8e2c4-4626-406a-b013-0d9831b4e3ab",
+                  "label": "完成时间",
+                  "name": "field_bc50e5",
+                  "itemNameLabel": "完成时间",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入完成时间",
+                  "dataSource": "",
+                  "values": [],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "exportTime": "2026-06-16T09:36:26.502Z",
+  "version": "1.0"
+}

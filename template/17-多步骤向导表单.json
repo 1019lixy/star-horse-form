@@ -1,0 +1,508 @@
+{
+  "formInfo": {
+    "formName": "17-多步骤向导表单",
+    "currentPageType": "pc"
+  },
+  "dataList": [
+    {
+      "id": "Idfa65bb62-92e3-4bda-b933-2f3d17f7aa5e",
+      "compType": "container",
+      "itemType": "tab",
+      "fieldName": "field_2e2503",
+      "preps": {
+        "id": "Idfa65bb62-92e3-4bda-b933-2f3d17f7aa5e",
+        "label": "Tab",
+        "name": "field_2e2503",
+        "itemNameLabel": "Tab",
+        "elements": [
+          {
+            "label": "第一步：基本信息",
+            "tabName": "第一步：基本信息",
+            "objectName": "第一步：基本信息",
+            "subFormFlag": "Y",
+            "items": [
+              {
+                "id": "Id07915454-a303-42a1-99f7-307fe79a28a8",
+                "compType": "formItem",
+                "itemType": "input",
+                "fieldName": "field_397a13",
+                "preps": {
+                  "id": "Id07915454-a303-42a1-99f7-307fe79a28a8",
+                  "label": "步骤标题",
+                  "name": "field_397a13",
+                  "itemNameLabel": "步骤标题",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": true,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入步骤标题",
+                  "dataSource": "",
+                  "values": [],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Idb4a40102-4fc0-44c1-907f-18def767b587",
+                "compType": "container",
+                "itemType": "box",
+                "fieldName": "field_0e7271",
+                "rowNums": 1,
+                "columnNums": 2,
+                "preps": {
+                  "id": "Idb4a40102-4fc0-44c1-907f-18def767b587",
+                  "label": "Grid Layout",
+                  "name": "field_0e7271",
+                  "itemNameLabel": "Grid Layout",
+                  "elements": [
+                    {
+                      "id": "row-4af6bdce-353e-4161-bfd7-01f1abd36320",
+                      "rowIndex": 1,
+                      "columns": [
+                        {
+                          "id": "col-b5ac30d9-6645-44ec-be39-96e9ff209b00",
+                          "cellVisible": true,
+                          "colIndex": 1,
+                          "colspan": 12,
+                          "items": [
+                            {
+                              "id": "Iddbed6f36-f010-4d17-b9dd-fc8d98fe91cd",
+                              "compType": "formItem",
+                              "itemType": "input",
+                              "fieldName": "field_c95baf",
+                              "preps": {
+                                "id": "Iddbed6f36-f010-4d17-b9dd-fc8d98fe91cd",
+                                "label": "字段1",
+                                "name": "field_c95baf",
+                                "itemNameLabel": "字段1",
+                                "formVisible": true,
+                                "listVisible": true,
+                                "viewVisible": true,
+                                "searchVisible": false,
+                                "required": true,
+                                "disabled": false,
+                                "clearable": true,
+                                "readonly": false,
+                                "maxLength": 255,
+                                "placeholder": "请输入字段1",
+                                "dataSource": "",
+                                "values": [],
+                                "rules": [],
+                                "helpMsg": ""
+                              }
+                            }
+                          ]
+                        },
+                        {
+                          "id": "col-7998884a-3f05-457e-878d-9492ccddca48",
+                          "cellVisible": true,
+                          "colIndex": 1,
+                          "colspan": 12,
+                          "items": [
+                            {
+                              "id": "Id8850dd42-54cc-46c4-8e4f-ecbcb21fad78",
+                              "compType": "formItem",
+                              "itemType": "input",
+                              "fieldName": "field_a7a861",
+                              "preps": {
+                                "id": "Id8850dd42-54cc-46c4-8e4f-ecbcb21fad78",
+                                "label": "字段2",
+                                "name": "field_a7a861",
+                                "itemNameLabel": "字段2",
+                                "formVisible": true,
+                                "listVisible": true,
+                                "viewVisible": true,
+                                "searchVisible": false,
+                                "required": true,
+                                "disabled": false,
+                                "clearable": true,
+                                "readonly": false,
+                                "maxLength": 255,
+                                "placeholder": "请输入字段2",
+                                "dataSource": "",
+                                "values": [],
+                                "rules": [],
+                                "helpMsg": ""
+                              }
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              },
+              {
+                "id": "Id0a9f0ea3-1728-491d-ab1b-fd747b65b16b",
+                "compType": "formItem",
+                "itemType": "textarea",
+                "fieldName": "field_ee089c",
+                "preps": {
+                  "id": "Id0a9f0ea3-1728-491d-ab1b-fd747b65b16b",
+                  "label": "描述信息",
+                  "name": "field_ee089c",
+                  "itemNameLabel": "描述信息",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入描述信息",
+                  "dataSource": "",
+                  "values": [],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              }
+            ]
+          },
+          {
+            "label": "第二步：详细配置",
+            "tabName": "第二步：详细配置",
+            "objectName": "第二步：详细配置",
+            "subFormFlag": "Y",
+            "items": [
+              {
+                "id": "Id910c5d58-e9c9-4aa1-9632-1c5dafb79d5f",
+                "compType": "formItem",
+                "itemType": "select",
+                "fieldName": "field_e3ada8",
+                "preps": {
+                  "id": "Id910c5d58-e9c9-4aa1-9632-1c5dafb79d5f",
+                  "label": "配置选项",
+                  "name": "field_e3ada8",
+                  "itemNameLabel": "配置选项",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入配置选项",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "label": "选项A",
+                      "value": "1"
+                    },
+                    {
+                      "label": "选项B",
+                      "value": "2"
+                    },
+                    {
+                      "label": "选项C",
+                      "value": "3"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Id528af728-6247-4879-9cd5-33e9e5165f33",
+                "compType": "container",
+                "itemType": "box",
+                "fieldName": "field_e1377f",
+                "rowNums": 1,
+                "columnNums": 2,
+                "preps": {
+                  "id": "Id528af728-6247-4879-9cd5-33e9e5165f33",
+                  "label": "Grid Layout",
+                  "name": "field_e1377f",
+                  "itemNameLabel": "Grid Layout",
+                  "elements": [
+                    {
+                      "id": "row-47221528-7a4f-4044-b512-386cf286a0bb",
+                      "rowIndex": 1,
+                      "columns": [
+                        {
+                          "id": "col-2d33eea0-8961-494d-8801-45886953b367",
+                          "cellVisible": true,
+                          "colIndex": 1,
+                          "colspan": 12,
+                          "items": [
+                            {
+                              "id": "Idb0d21718-565c-441d-a380-f61447bb8d5b",
+                              "compType": "formItem",
+                              "itemType": "number",
+                              "fieldName": "field_82aea7",
+                              "preps": {
+                                "id": "Idb0d21718-565c-441d-a380-f61447bb8d5b",
+                                "label": "参数1",
+                                "name": "field_82aea7",
+                                "itemNameLabel": "参数1",
+                                "formVisible": true,
+                                "listVisible": true,
+                                "viewVisible": true,
+                                "searchVisible": false,
+                                "required": false,
+                                "disabled": false,
+                                "clearable": true,
+                                "readonly": false,
+                                "maxLength": 255,
+                                "placeholder": "请输入参数1",
+                                "dataSource": "",
+                                "values": [],
+                                "rules": [],
+                                "helpMsg": ""
+                              }
+                            }
+                          ]
+                        },
+                        {
+                          "id": "col-5aa53893-0fb4-4e0e-bb8b-efc97d3752e5",
+                          "cellVisible": true,
+                          "colIndex": 1,
+                          "colspan": 12,
+                          "items": [
+                            {
+                              "id": "Id684bfd36-6a63-4f80-8dce-47fe56501361",
+                              "compType": "formItem",
+                              "itemType": "number",
+                              "fieldName": "field_2d6d43",
+                              "preps": {
+                                "id": "Id684bfd36-6a63-4f80-8dce-47fe56501361",
+                                "label": "参数2",
+                                "name": "field_2d6d43",
+                                "itemNameLabel": "参数2",
+                                "formVisible": true,
+                                "listVisible": true,
+                                "viewVisible": true,
+                                "searchVisible": false,
+                                "required": false,
+                                "disabled": false,
+                                "clearable": true,
+                                "readonly": false,
+                                "maxLength": 255,
+                                "placeholder": "请输入参数2",
+                                "dataSource": "",
+                                "values": [],
+                                "rules": [],
+                                "helpMsg": ""
+                              }
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              },
+              {
+                "id": "Id05245ec8-69b2-4022-a5e1-c71f450bf6bd",
+                "compType": "formItem",
+                "itemType": "switch",
+                "fieldName": "field_487fca",
+                "preps": {
+                  "id": "Id05245ec8-69b2-4022-a5e1-c71f450bf6bd",
+                  "label": "高级选项开关",
+                  "name": "field_487fca",
+                  "itemNameLabel": "高级选项开关",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入高级选项开关",
+                  "dataSource": "",
+                  "values": [],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Id8c8ab833-3649-47ce-8fac-77d4a105a3f4",
+                "compType": "formItem",
+                "itemType": "slider",
+                "fieldName": "field_2dc44a",
+                "preps": {
+                  "id": "Id8c8ab833-3649-47ce-8fac-77d4a105a3f4",
+                  "label": "调节参数",
+                  "name": "field_2dc44a",
+                  "itemNameLabel": "调节参数",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入调节参数",
+                  "dataSource": "",
+                  "values": [],
+                  "rules": [],
+                  "helpMsg": "",
+                  "min": 0,
+                  "max": 100
+                }
+              }
+            ]
+          },
+          {
+            "label": "第三步：确认提交",
+            "tabName": "第三步：确认提交",
+            "objectName": "第三步：确认提交",
+            "subFormFlag": "Y",
+            "items": [
+              {
+                "id": "Id33f8777f-22fd-42c9-8e31-9cd2fa94e044",
+                "compType": "formItem",
+                "itemType": "input",
+                "fieldName": "field_93c819",
+                "preps": {
+                  "id": "Id33f8777f-22fd-42c9-8e31-9cd2fa94e044",
+                  "label": "确认码",
+                  "name": "field_93c819",
+                  "itemNameLabel": "确认码",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": true,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入确认码",
+                  "dataSource": "",
+                  "values": [],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Id215cae55-5013-4fa1-adcf-50194cba3f94",
+                "compType": "formItem",
+                "itemType": "checkbox",
+                "fieldName": "field_5d370f",
+                "preps": {
+                  "id": "Id215cae55-5013-4fa1-adcf-50194cba3f94",
+                  "label": "我已确认所有信息无误",
+                  "name": "field_5d370f",
+                  "itemNameLabel": "我已确认所有信息无误",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": true,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入我已确认所有信息无误",
+                  "dataSource": "",
+                  "values": [],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Idd2b8a4b2-51a2-4f61-9dc2-2b445d13f633",
+                "compType": "formItem",
+                "itemType": "textarea",
+                "fieldName": "field_4e121b",
+                "preps": {
+                  "id": "Idd2b8a4b2-51a2-4f61-9dc2-2b445d13f633",
+                  "label": "补充说明",
+                  "name": "field_4e121b",
+                  "itemNameLabel": "补充说明",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入补充说明",
+                  "dataSource": "",
+                  "values": [],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Id1e98a3ab-6c71-4770-bacb-0f68e4ac9c76",
+                "compType": "container",
+                "itemType": "box",
+                "fieldName": "field_a48ba6",
+                "rowNums": 1,
+                "columnNums": 1,
+                "preps": {
+                  "id": "Id1e98a3ab-6c71-4770-bacb-0f68e4ac9c76",
+                  "label": "Grid Layout",
+                  "name": "field_a48ba6",
+                  "itemNameLabel": "Grid Layout",
+                  "elements": [
+                    {
+                      "id": "row-c7aa95e2-461c-4bab-81df-151d1f6f365f",
+                      "rowIndex": 1,
+                      "columns": [
+                        {
+                          "id": "col-e5774274-0ac5-42eb-a50f-5302a04db22c",
+                          "cellVisible": true,
+                          "colIndex": 1,
+                          "colspan": 24,
+                          "items": [
+                            {
+                              "id": "Idc9a04ed0-fd9d-4cbc-8eb1-7984f73a5a1b",
+                              "compType": "formItem",
+                              "itemType": "button",
+                              "fieldName": "field_a1f659",
+                              "preps": {
+                                "id": "Idc9a04ed0-fd9d-4cbc-8eb1-7984f73a5a1b",
+                                "label": "提交",
+                                "name": "field_a1f659",
+                                "itemNameLabel": "提交",
+                                "formVisible": true,
+                                "listVisible": true,
+                                "viewVisible": true,
+                                "searchVisible": false,
+                                "required": false,
+                                "disabled": false,
+                                "clearable": true,
+                                "readonly": false,
+                                "maxLength": 255,
+                                "placeholder": "请输入提交",
+                                "dataSource": "",
+                                "values": [],
+                                "rules": [],
+                                "helpMsg": "",
+                                "buttonType": "primary"
+                              }
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "exportTime": "2026-06-16T09:36:26.510Z",
+  "version": "1.0"
+}

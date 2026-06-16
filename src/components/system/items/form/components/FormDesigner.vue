@@ -40,7 +40,7 @@ const handleScrollToField = (event: Event) => {
   scrollToField(fieldId);
 };
 
-// Scroll to the specified field
+// Scroll to the specified field (supports nested components via data-field-id)
 const scrollToField = (fieldId: string) => {
   if (!formContainerRef.value) return;
 
@@ -58,7 +58,6 @@ const scrollToField = (fieldId: string) => {
     const isBelow = elementRect.bottom > containerRect.bottom;
 
     if (isAbove || isBelow) {
-      // Use scrollIntoView with options for smooth scrolling
       fieldElement.scrollIntoView({
         behavior: "smooth",
         block: "nearest",
@@ -104,6 +103,7 @@ onUnmounted(() => {
     :validate-on-rule-change="formInfo['validateOnRuleChange'] == 'Y'"
     style="width: 100% !important; position: relative"
   >
+    <!-- Empty Canvas State -->
     <template v-if="list.length === 0">
       <div
         class="empty-canvas"
@@ -118,26 +118,31 @@ onUnmounted(() => {
         }"
       >
         <div class="empty-illustration">
-          <svg width="120" height="120" viewBox="0 0 120 120" fill="none">
-            <rect x="20" y="30" width="80" height="60" rx="4" fill="#E1E8ED" />
-            <rect x="30" y="45" width="60" height="8" rx="4" fill="#A1AEBB" />
-            <rect x="30" y="60" width="40" height="8" rx="4" fill="#A1AEBB" />
-            <rect x="30" y="75" width="50" height="8" rx="4" fill="#A1AEBB" />
+          <svg width="160" height="120" viewBox="0 0 160 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <!-- Form outline -->
+            <rect x="30" y="10" width="100" height="100" rx="8" fill="#f5f7fa" stroke="#dce1e8" stroke-width="1.5"/>
+            <!-- Header bar -->
+            <rect x="30" y="10" width="100" height="20" rx="8" fill="#e8eaed"/>
+            <rect x="30" y="22" width="100" height="8" fill="#e8eaed"/>
+            <!-- Form fields -->
+            <rect x="42" y="40" width="30" height="4" rx="2" fill="#c0c4cc"/>
+            <rect x="42" y="48" width="76" height="8" rx="4" fill="#e8eaed" stroke="#dce1e8" stroke-width="0.5"/>
+            <rect x="42" y="64" width="24" height="4" rx="2" fill="#c0c4cc"/>
+            <rect x="42" y="72" width="76" height="8" rx="4" fill="#e8eaed" stroke="#dce1e8" stroke-width="0.5"/>
+            <rect x="42" y="88" width="20" height="4" rx="2" fill="#c0c4cc"/>
+            <rect x="42" y="96" width="76" height="8" rx="4" fill="#e8eaed" stroke="#dce1e8" stroke-width="0.5"/>
+            <!-- Plus icon -->
+            <circle cx="130" cy="90" r="14" fill="#409eff" fill-opacity="0.1" stroke="#409eff" stroke-width="1.5"/>
+            <path d="M125 90H135M130 85V95" stroke="#409eff" stroke-width="1.5" stroke-linecap="round"/>
           </svg>
         </div>
         <div class="empty-message">
           <h3>{{ i18n("dyform.designer.welcome") }}</h3>
           <p>{{ i18n("dyform.designer.instruction") }}</p>
           <div class="tips">
-            <span class="tip-item"
-              >💡 {{ i18n("dyform.designer.tip.drag") }}</span
-            >
-            <span class="tip-item"
-              >⚙️ {{ i18n("dyform.designer.tip.config") }}</span
-            >
-            <span class="tip-item"
-              >🚀 {{ i18n("dyform.designer.tip.build") }}</span
-            >
+            <span class="tip-item">{{ i18n("dyform.designer.tip.drag") }}</span>
+            <span class="tip-item">{{ i18n("dyform.designer.tip.config") }}</span>
+            <span class="tip-item">{{ i18n("dyform.designer.tip.build") }}</span>
           </div>
         </div>
       </div>
@@ -146,21 +151,24 @@ onUnmounted(() => {
       ref="formContainerRef"
       :class="currentPageClass"
       @contextmenu="contextMenu"
-      style="scrollbar-width: thin; padding-top: 32px"
-      class="overflow-auto! relative"
+      class="design-canvas"
     >
       <draggable
         @add="(evt: Event) => onDragAdd(evt, list)"
         tag="div"
-        class="h-full w-[99%] mx-auto relative"
+        class="draggable-wrapper"
         group="starHorseGroup"
         :list="list"
-        :itemKey="uuid()"
+        :itemKey="'id'"
+        animation="200"
+        ghost-class="drag-ghost"
+        chosen-class="drag-chosen"
+        drag-class="drag-active"
       >
         <template #item="{ element: data, index }">
           <div
             :class="{ 'comp-item': data.preps?.headerFlag == 'Y' }"
-            class="overflow-visible relative my-[5px]"
+            class="design-field-item"
             :data-field-id="data.id"
             :key="data.id"
           >
@@ -188,23 +196,63 @@ onUnmounted(() => {
   </Teleport>
 </template>
 <style lang="scss" scoped>
-:deep(.form-item-operation){
+:deep(.form-item-operation) {
   min-height: 45px;
 }
+
 .design-form-container {
   height: 100%;
   display: flex;
   flex-direction: column;
+  background: #f0f2f5;
 }
 
+/* ====== Design Canvas ====== */
 .design-canvas {
   flex: 1;
-  min-height: 400px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  scrollbar-width: thin;
+  padding: 24px 16px 40px;
   position: relative;
-  border-radius: 4px;
-  overflow: hidden;
+  background:
+    radial-gradient(circle, #dde0e4 1px, transparent 1px);
+  background-size: 20px 20px;
+  background-color: #f0f2f5;
+
+  &::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: #c0c4cc;
+    border-radius: 3px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
 }
 
+.draggable-wrapper {
+  min-height: 100%;
+  width: 99%;
+  margin: 0 auto;
+  position: relative;
+}
+
+/* ====== Field Items ====== */
+.design-field-item {
+  position: relative;
+  overflow: visible;
+  margin-bottom: 4px;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+
+/* ====== Empty Canvas State ====== */
 .empty-canvas {
   position: absolute;
   top: 0;
@@ -216,68 +264,78 @@ onUnmounted(() => {
   align-items: center;
   justify-content: center;
   text-align: center;
-  padding: 20px;
-  background: rgba(255, 255, 255, 0.9);
-  border-radius: 8px;
-  margin: 20px;
+  padding: 32px;
   z-index: 0;
   pointer-events: none;
 }
 
 .empty-illustration {
-  margin-bottom: 24px;
+  margin-bottom: 28px;
+  opacity: 0.8;
 }
 
 .empty-message {
   h3 {
-    color: #1a1a1a;
-    font-size: 20px;
-    margin-bottom: 12px;
+    color: #303133;
+    font-size: 18px;
+    margin-bottom: 8px;
     font-weight: 600;
-    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
   }
 
   p {
-    color: #4d4d4d;
-    font-size: 14px;
+    color: #909399;
+    font-size: 13px;
     line-height: 1.6;
-    max-width: 500px;
+    max-width: 420px;
     margin-bottom: 20px;
-    text-shadow: 0 1px 1px rgba(0, 0, 0, 0.05);
   }
 }
 
 .tips {
   display: flex;
-  gap: 20px;
+  gap: 12px;
   justify-content: center;
   flex-wrap: wrap;
 }
 
 .tip-item {
   background: #ffffff;
-  color: #409eff;
-  padding: 6px 12px;
-  border-radius: 16px;
+  color: #606266;
+  padding: 6px 14px;
+  border-radius: 20px;
   font-size: 12px;
   display: flex;
   align-items: center;
   gap: 4px;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-  text-shadow: none;
+  border: 1px solid #ebeef5;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
 }
 
+/* ====== Drag State ====== */
 .dragging-area {
   background:
-    linear-gradient(45deg, #e6f7ff 25%, transparent 25%),
-    linear-gradient(-45deg, #e6f7ff 25%, transparent 25%),
-    linear-gradient(45deg, transparent 75%, #e6f7ff 75%),
-    linear-gradient(-45deg, transparent 75%, #e6f7ff 75%);
-  background-size: 20px 20px;
-  background-position:
-    0 0,
-    0 10px,
-    10px -10px,
-    -10px 0px;
+    radial-gradient(circle, #c8ddf5 1px, transparent 1px) !important;
+  background-size: 20px 20px !important;
+  background-color: #edf4ff !important;
+}
+
+/* ====== Drag & Drop Classes ====== */
+:deep(.drag-ghost) {
+  opacity: 0.4;
+  background: #ecf5ff !important;
+  border: 2px dashed #a0cfff !important;
+  border-radius: 6px;
+  min-height: 40px;
+  transition: none !important;
+}
+
+:deep(.drag-chosen) {
+  opacity: 0.9;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+  z-index: 10;
+}
+
+:deep(.drag-active) {
+  opacity: 0.6;
 }
 </style>

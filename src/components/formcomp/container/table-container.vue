@@ -168,7 +168,7 @@ const deleteCol = (index: number) => {
                 group="starHorseGroup"
                 ghostClass="container_ghost"
                 animation="200"
-                :item-key="uuid()"
+                item-key="id"
                 :list="field.preps.elements[td - 1].items"
             >
               <template #item="{ element: data }">
@@ -177,6 +177,7 @@ const deleteCol = (index: number) => {
             'comp-item': data?.preps?.headerFlag != 'Y',
             'bare-item': data?.preps?.headerFlag,
           }"
+                    :data-field-id="data?.id"
                     style="height: 100%"
                 >
                   <component

@@ -145,13 +145,14 @@ onMounted(() => {
                 class="card-design"
                 group="starHorseGroup"
                 animation="100"
-                :item-key="uuid()"
+                item-key="id"
                 ghostClass="ghost"
                 v-model="adata['headerFieldList']"
             >
               <template #item="{ element: header }">
                 <div
                     class="comp-item my-[5px]"
+                    :data-field-id="header.id"
                     :style="{ marginTop: isContainer(header) ? '25px' : '10px' }"
                 >
                   <component
@@ -179,12 +180,12 @@ onMounted(() => {
           :class="{ 'dragging-area': isDragging }"
           group="starHorseGroup"
           animation="100"
-          :item-key="uuid()"
+          item-key="id"
           ghostClass="ghost"
           v-model="adata['items']"
       >
         <template #item="{ element: item }">
-          <div class="comp-item">
+          <div class="comp-item" :data-field-id="item.id">
             <component
                 :key="item.id"
                 :field="item"

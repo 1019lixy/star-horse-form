@@ -103,14 +103,14 @@ onMounted(() => {
         class="smain-design"
         tag="div"
         :disabled="!isEdit"
-        :item-key="uuid()"
+        item-key="id"
         group="starHorseGroup"
         ghostClass="container_ghost"
         animation="200"
         :list="field.items"
     >
       <template #item="{ element: data }">
-        <div class="comp-item">
+        <div class="comp-item" :data-field-id="data?.id">
           <component
               :key="data?.id"
               :field="data"

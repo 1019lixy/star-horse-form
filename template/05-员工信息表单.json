@@ -1,0 +1,818 @@
+{
+  "formInfo": {
+    "formName": "05-员工信息表单",
+    "currentPageType": "pc"
+  },
+  "dataList": [
+    {
+      "id": "Id423466b2-a066-48ed-bc57-fb341e8ec1a5",
+      "compType": "container",
+      "itemType": "tab",
+      "fieldName": "field_298bbf",
+      "preps": {
+        "id": "Id423466b2-a066-48ed-bc57-fb341e8ec1a5",
+        "label": "Tab",
+        "name": "field_298bbf",
+        "itemNameLabel": "Tab",
+        "elements": [
+          {
+            "label": "基本信息",
+            "tabName": "基本信息",
+            "objectName": "基本信息",
+            "subFormFlag": "Y",
+            "items": [
+              {
+                "id": "Id7df46a46-ed75-40df-b115-2cec6ca86337",
+                "compType": "container",
+                "itemType": "box",
+                "fieldName": "field_af9d87",
+                "rowNums": 1,
+                "columnNums": 2,
+                "preps": {
+                  "id": "Id7df46a46-ed75-40df-b115-2cec6ca86337",
+                  "label": "Grid Layout",
+                  "name": "field_af9d87",
+                  "itemNameLabel": "Grid Layout",
+                  "elements": [
+                    {
+                      "id": "row-7007f6a0-11e8-4a86-8f53-5851a1d7991b",
+                      "rowIndex": 1,
+                      "columns": [
+                        {
+                          "id": "col-873e117d-071c-4a84-93d2-ee6fcd00c97c",
+                          "cellVisible": true,
+                          "colIndex": 1,
+                          "colspan": 12,
+                          "items": [
+                            {
+                              "id": "Id8eb1e279-7b6f-4e9d-81df-c502671ae6d9",
+                              "compType": "formItem",
+                              "itemType": "input",
+                              "fieldName": "field_a2fa96",
+                              "preps": {
+                                "id": "Id8eb1e279-7b6f-4e9d-81df-c502671ae6d9",
+                                "label": "员工姓名",
+                                "name": "field_a2fa96",
+                                "itemNameLabel": "员工姓名",
+                                "formVisible": true,
+                                "listVisible": true,
+                                "viewVisible": true,
+                                "searchVisible": false,
+                                "required": true,
+                                "disabled": false,
+                                "clearable": true,
+                                "readonly": false,
+                                "maxLength": 255,
+                                "placeholder": "请输入员工姓名",
+                                "dataSource": "",
+                                "values": [],
+                                "rules": [],
+                                "helpMsg": ""
+                              }
+                            }
+                          ]
+                        },
+                        {
+                          "id": "col-f382dcd8-804e-4ccb-90d5-73f8bfd89ebe",
+                          "cellVisible": true,
+                          "colIndex": 1,
+                          "colspan": 12,
+                          "items": [
+                            {
+                              "id": "Id61770dc5-d601-49d7-a19f-5a8187fbd5b6",
+                              "compType": "formItem",
+                              "itemType": "input",
+                              "fieldName": "field_a8b767",
+                              "preps": {
+                                "id": "Id61770dc5-d601-49d7-a19f-5a8187fbd5b6",
+                                "label": "工号",
+                                "name": "field_a8b767",
+                                "itemNameLabel": "工号",
+                                "formVisible": true,
+                                "listVisible": true,
+                                "viewVisible": true,
+                                "searchVisible": false,
+                                "required": true,
+                                "disabled": false,
+                                "clearable": true,
+                                "readonly": false,
+                                "maxLength": 255,
+                                "placeholder": "请输入工号",
+                                "dataSource": "",
+                                "values": [],
+                                "rules": [],
+                                "helpMsg": ""
+                              }
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              },
+              {
+                "id": "Id3ea10617-173d-41c9-8e8d-694a01fa5e61",
+                "compType": "container",
+                "itemType": "box",
+                "fieldName": "field_9caaf6",
+                "rowNums": 1,
+                "columnNums": 2,
+                "preps": {
+                  "id": "Id3ea10617-173d-41c9-8e8d-694a01fa5e61",
+                  "label": "Grid Layout",
+                  "name": "field_9caaf6",
+                  "itemNameLabel": "Grid Layout",
+                  "elements": [
+                    {
+                      "id": "row-fc29fcd2-4b0d-44f8-b7f4-65548115d1da",
+                      "rowIndex": 1,
+                      "columns": [
+                        {
+                          "id": "col-f251ef0a-23a6-4000-a98a-8d04d30d1103",
+                          "cellVisible": true,
+                          "colIndex": 1,
+                          "colspan": 12,
+                          "items": [
+                            {
+                              "id": "Id4b4c08b1-8f55-4905-8f69-f4746410fb2f",
+                              "compType": "formItem",
+                              "itemType": "select",
+                              "fieldName": "field_15b8a3",
+                              "preps": {
+                                "id": "Id4b4c08b1-8f55-4905-8f69-f4746410fb2f",
+                                "label": "性别",
+                                "name": "field_15b8a3",
+                                "itemNameLabel": "性别",
+                                "formVisible": true,
+                                "listVisible": true,
+                                "viewVisible": true,
+                                "searchVisible": false,
+                                "required": false,
+                                "disabled": false,
+                                "clearable": true,
+                                "readonly": false,
+                                "maxLength": 255,
+                                "placeholder": "请输入性别",
+                                "dataSource": "data",
+                                "values": [
+                                  {
+                                    "label": "男",
+                                    "value": "1"
+                                  },
+                                  {
+                                    "label": "女",
+                                    "value": "2"
+                                  }
+                                ],
+                                "rules": [],
+                                "helpMsg": ""
+                              }
+                            }
+                          ]
+                        },
+                        {
+                          "id": "col-2749004f-4d2a-48bc-85c9-72882c119125",
+                          "cellVisible": true,
+                          "colIndex": 1,
+                          "colspan": 12,
+                          "items": [
+                            {
+                              "id": "Id8fcba8a7-2b35-4db7-bca0-6c383a17b4dd",
+                              "compType": "formItem",
+                              "itemType": "date",
+                              "fieldName": "field_c78715",
+                              "preps": {
+                                "id": "Id8fcba8a7-2b35-4db7-bca0-6c383a17b4dd",
+                                "label": "出生日期",
+                                "name": "field_c78715",
+                                "itemNameLabel": "出生日期",
+                                "formVisible": true,
+                                "listVisible": true,
+                                "viewVisible": true,
+                                "searchVisible": false,
+                                "required": false,
+                                "disabled": false,
+                                "clearable": true,
+                                "readonly": false,
+                                "maxLength": 255,
+                                "placeholder": "请输入出生日期",
+                                "dataSource": "",
+                                "values": [],
+                                "rules": [],
+                                "helpMsg": ""
+                              }
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              },
+              {
+                "id": "Id3b8ea194-25a6-44be-ab4e-7fb0b4662ca1",
+                "compType": "container",
+                "itemType": "box",
+                "fieldName": "field_b48cb7",
+                "rowNums": 1,
+                "columnNums": 2,
+                "preps": {
+                  "id": "Id3b8ea194-25a6-44be-ab4e-7fb0b4662ca1",
+                  "label": "Grid Layout",
+                  "name": "field_b48cb7",
+                  "itemNameLabel": "Grid Layout",
+                  "elements": [
+                    {
+                      "id": "row-fe6512d3-4626-4c42-a515-ce34088956f0",
+                      "rowIndex": 1,
+                      "columns": [
+                        {
+                          "id": "col-8087760f-5789-449d-9354-150fcc914f08",
+                          "cellVisible": true,
+                          "colIndex": 1,
+                          "colspan": 12,
+                          "items": [
+                            {
+                              "id": "Id3876048f-2cd5-4cfe-b326-994564f1baf9",
+                              "compType": "formItem",
+                              "itemType": "input",
+                              "fieldName": "field_a264a2",
+                              "preps": {
+                                "id": "Id3876048f-2cd5-4cfe-b326-994564f1baf9",
+                                "label": "身份证号",
+                                "name": "field_a264a2",
+                                "itemNameLabel": "身份证号",
+                                "formVisible": true,
+                                "listVisible": true,
+                                "viewVisible": true,
+                                "searchVisible": false,
+                                "required": false,
+                                "disabled": false,
+                                "clearable": true,
+                                "readonly": false,
+                                "maxLength": 18,
+                                "placeholder": "请输入身份证号",
+                                "dataSource": "",
+                                "values": [],
+                                "rules": [],
+                                "helpMsg": ""
+                              }
+                            }
+                          ]
+                        },
+                        {
+                          "id": "col-bd895879-4642-4a39-9f98-45c639902126",
+                          "cellVisible": true,
+                          "colIndex": 1,
+                          "colspan": 12,
+                          "items": [
+                            {
+                              "id": "Id1d23143b-992a-455f-a0bc-50cdb4e7b38e",
+                              "compType": "formItem",
+                              "itemType": "input",
+                              "fieldName": "field_762479",
+                              "preps": {
+                                "id": "Id1d23143b-992a-455f-a0bc-50cdb4e7b38e",
+                                "label": "手机号",
+                                "name": "field_762479",
+                                "itemNameLabel": "手机号",
+                                "formVisible": true,
+                                "listVisible": true,
+                                "viewVisible": true,
+                                "searchVisible": false,
+                                "required": true,
+                                "disabled": false,
+                                "clearable": true,
+                                "readonly": false,
+                                "maxLength": 11,
+                                "placeholder": "请输入手机号",
+                                "dataSource": "",
+                                "values": [],
+                                "rules": [],
+                                "helpMsg": ""
+                              }
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              },
+              {
+                "id": "Id7106bc47-b3b9-43b2-985b-63c9204ac0fe",
+                "compType": "formItem",
+                "itemType": "input",
+                "fieldName": "field_57298e",
+                "preps": {
+                  "id": "Id7106bc47-b3b9-43b2-985b-63c9204ac0fe",
+                  "label": "邮箱",
+                  "name": "field_57298e",
+                  "itemNameLabel": "邮箱",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入邮箱",
+                  "dataSource": "",
+                  "values": [],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Id06cf78db-12cd-46a6-9ae0-3dc06f4cbe1e",
+                "compType": "formItem",
+                "itemType": "upload",
+                "fieldName": "field_b4ab11",
+                "preps": {
+                  "id": "Id06cf78db-12cd-46a6-9ae0-3dc06f4cbe1e",
+                  "label": "证件照",
+                  "name": "field_b4ab11",
+                  "itemNameLabel": "证件照",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入证件照",
+                  "dataSource": "",
+                  "values": [],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              }
+            ]
+          },
+          {
+            "label": "工作信息",
+            "tabName": "工作信息",
+            "objectName": "工作信息",
+            "subFormFlag": "Y",
+            "items": [
+              {
+                "id": "Id6b45dc0e-bba0-42fb-b7bf-4440fa4a6840",
+                "compType": "container",
+                "itemType": "box",
+                "fieldName": "field_803073",
+                "rowNums": 1,
+                "columnNums": 2,
+                "preps": {
+                  "id": "Id6b45dc0e-bba0-42fb-b7bf-4440fa4a6840",
+                  "label": "Grid Layout",
+                  "name": "field_803073",
+                  "itemNameLabel": "Grid Layout",
+                  "elements": [
+                    {
+                      "id": "row-ea175e48-1419-4536-8b26-09b8d7f25868",
+                      "rowIndex": 1,
+                      "columns": [
+                        {
+                          "id": "col-bcff837d-6851-4323-91a6-ba2af7e5d81f",
+                          "cellVisible": true,
+                          "colIndex": 1,
+                          "colspan": 12,
+                          "items": [
+                            {
+                              "id": "Id07d1d869-b509-445c-9a43-c57436f35f82",
+                              "compType": "formItem",
+                              "itemType": "select",
+                              "fieldName": "field_77a13f",
+                              "preps": {
+                                "id": "Id07d1d869-b509-445c-9a43-c57436f35f82",
+                                "label": "部门",
+                                "name": "field_77a13f",
+                                "itemNameLabel": "部门",
+                                "formVisible": true,
+                                "listVisible": true,
+                                "viewVisible": true,
+                                "searchVisible": false,
+                                "required": false,
+                                "disabled": false,
+                                "clearable": true,
+                                "readonly": false,
+                                "maxLength": 255,
+                                "placeholder": "请输入部门",
+                                "dataSource": "data",
+                                "values": [
+                                  {
+                                    "label": "技术部",
+                                    "value": "1"
+                                  },
+                                  {
+                                    "label": "产品部",
+                                    "value": "2"
+                                  },
+                                  {
+                                    "label": "市场部",
+                                    "value": "3"
+                                  },
+                                  {
+                                    "label": "人事部",
+                                    "value": "4"
+                                  },
+                                  {
+                                    "label": "财务部",
+                                    "value": "5"
+                                  },
+                                  {
+                                    "label": "运营部",
+                                    "value": "6"
+                                  }
+                                ],
+                                "rules": [],
+                                "helpMsg": ""
+                              }
+                            }
+                          ]
+                        },
+                        {
+                          "id": "col-c852020c-1446-4547-8577-731aeaed3994",
+                          "cellVisible": true,
+                          "colIndex": 1,
+                          "colspan": 12,
+                          "items": [
+                            {
+                              "id": "Id8dcf1811-bd47-4e2a-be07-af9c1290dd5a",
+                              "compType": "formItem",
+                              "itemType": "select",
+                              "fieldName": "field_1287a6",
+                              "preps": {
+                                "id": "Id8dcf1811-bd47-4e2a-be07-af9c1290dd5a",
+                                "label": "职位",
+                                "name": "field_1287a6",
+                                "itemNameLabel": "职位",
+                                "formVisible": true,
+                                "listVisible": true,
+                                "viewVisible": true,
+                                "searchVisible": false,
+                                "required": false,
+                                "disabled": false,
+                                "clearable": true,
+                                "readonly": false,
+                                "maxLength": 255,
+                                "placeholder": "请输入职位",
+                                "dataSource": "data",
+                                "values": [
+                                  {
+                                    "label": "初级工程师",
+                                    "value": "1"
+                                  },
+                                  {
+                                    "label": "中级工程师",
+                                    "value": "2"
+                                  },
+                                  {
+                                    "label": "高级工程师",
+                                    "value": "3"
+                                  },
+                                  {
+                                    "label": "技术经理",
+                                    "value": "4"
+                                  },
+                                  {
+                                    "label": "总监",
+                                    "value": "5"
+                                  }
+                                ],
+                                "rules": [],
+                                "helpMsg": ""
+                              }
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              },
+              {
+                "id": "Id1e8a0181-bb8d-441b-b559-c54c1814023e",
+                "compType": "container",
+                "itemType": "box",
+                "fieldName": "field_11d72f",
+                "rowNums": 1,
+                "columnNums": 2,
+                "preps": {
+                  "id": "Id1e8a0181-bb8d-441b-b559-c54c1814023e",
+                  "label": "Grid Layout",
+                  "name": "field_11d72f",
+                  "itemNameLabel": "Grid Layout",
+                  "elements": [
+                    {
+                      "id": "row-acd9a455-3700-46f9-b09b-a4e1a228387f",
+                      "rowIndex": 1,
+                      "columns": [
+                        {
+                          "id": "col-65f5e760-8056-44f9-8109-c6fc00c707c3",
+                          "cellVisible": true,
+                          "colIndex": 1,
+                          "colspan": 12,
+                          "items": [
+                            {
+                              "id": "Idf2e08a6e-c9ff-426a-8568-fc233cf494b6",
+                              "compType": "formItem",
+                              "itemType": "date",
+                              "fieldName": "field_2e5234",
+                              "preps": {
+                                "id": "Idf2e08a6e-c9ff-426a-8568-fc233cf494b6",
+                                "label": "入职日期",
+                                "name": "field_2e5234",
+                                "itemNameLabel": "入职日期",
+                                "formVisible": true,
+                                "listVisible": true,
+                                "viewVisible": true,
+                                "searchVisible": false,
+                                "required": true,
+                                "disabled": false,
+                                "clearable": true,
+                                "readonly": false,
+                                "maxLength": 255,
+                                "placeholder": "请输入入职日期",
+                                "dataSource": "",
+                                "values": [],
+                                "rules": [],
+                                "helpMsg": ""
+                              }
+                            }
+                          ]
+                        },
+                        {
+                          "id": "col-1e7a12db-82fa-4e48-8f3c-9e730d05ec58",
+                          "cellVisible": true,
+                          "colIndex": 1,
+                          "colspan": 12,
+                          "items": [
+                            {
+                              "id": "Id01208fa6-a570-4370-9954-438811a835fe",
+                              "compType": "formItem",
+                              "itemType": "select",
+                              "fieldName": "field_df8841",
+                              "preps": {
+                                "id": "Id01208fa6-a570-4370-9954-438811a835fe",
+                                "label": "用工类型",
+                                "name": "field_df8841",
+                                "itemNameLabel": "用工类型",
+                                "formVisible": true,
+                                "listVisible": true,
+                                "viewVisible": true,
+                                "searchVisible": false,
+                                "required": false,
+                                "disabled": false,
+                                "clearable": true,
+                                "readonly": false,
+                                "maxLength": 255,
+                                "placeholder": "请输入用工类型",
+                                "dataSource": "data",
+                                "values": [
+                                  {
+                                    "label": "全职",
+                                    "value": "1"
+                                  },
+                                  {
+                                    "label": "兼职",
+                                    "value": "2"
+                                  },
+                                  {
+                                    "label": "实习",
+                                    "value": "3"
+                                  },
+                                  {
+                                    "label": "外包",
+                                    "value": "4"
+                                  }
+                                ],
+                                "rules": [],
+                                "helpMsg": ""
+                              }
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              },
+              {
+                "id": "Id406e4228-e272-4ace-a564-760e74c639f5",
+                "compType": "formItem",
+                "itemType": "number",
+                "fieldName": "field_d2d1bb",
+                "preps": {
+                  "id": "Id406e4228-e272-4ace-a564-760e74c639f5",
+                  "label": "基本工资",
+                  "name": "field_d2d1bb",
+                  "itemNameLabel": "基本工资",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入基本工资",
+                  "dataSource": "",
+                  "values": [],
+                  "rules": [],
+                  "helpMsg": "",
+                  "min": 0,
+                  "precision": 2
+                }
+              },
+              {
+                "id": "Id24c25cfb-a900-4aad-adb4-2c40da6deb95",
+                "compType": "formItem",
+                "itemType": "input",
+                "fieldName": "field_bff894",
+                "preps": {
+                  "id": "Id24c25cfb-a900-4aad-adb4-2c40da6deb95",
+                  "label": "直属上级",
+                  "name": "field_bff894",
+                  "itemNameLabel": "直属上级",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入直属上级",
+                  "dataSource": "",
+                  "values": [],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              }
+            ]
+          },
+          {
+            "label": "紧急联系人",
+            "tabName": "紧急联系人",
+            "objectName": "紧急联系人",
+            "subFormFlag": "Y",
+            "items": [
+              {
+                "id": "Id98ec78af-c74a-4d7d-b96f-838eff961b45",
+                "compType": "container",
+                "itemType": "box",
+                "fieldName": "field_b24089",
+                "rowNums": 1,
+                "columnNums": 2,
+                "preps": {
+                  "id": "Id98ec78af-c74a-4d7d-b96f-838eff961b45",
+                  "label": "Grid Layout",
+                  "name": "field_b24089",
+                  "itemNameLabel": "Grid Layout",
+                  "elements": [
+                    {
+                      "id": "row-4f7ff1e4-4563-4210-8e67-38fa418f4412",
+                      "rowIndex": 1,
+                      "columns": [
+                        {
+                          "id": "col-3d7b7787-b32a-45df-a883-e865e673b412",
+                          "cellVisible": true,
+                          "colIndex": 1,
+                          "colspan": 12,
+                          "items": [
+                            {
+                              "id": "Idad93090a-5c13-4400-955b-7041b69fe2ef",
+                              "compType": "formItem",
+                              "itemType": "input",
+                              "fieldName": "field_6635c4",
+                              "preps": {
+                                "id": "Idad93090a-5c13-4400-955b-7041b69fe2ef",
+                                "label": "联系人姓名",
+                                "name": "field_6635c4",
+                                "itemNameLabel": "联系人姓名",
+                                "formVisible": true,
+                                "listVisible": true,
+                                "viewVisible": true,
+                                "searchVisible": false,
+                                "required": true,
+                                "disabled": false,
+                                "clearable": true,
+                                "readonly": false,
+                                "maxLength": 255,
+                                "placeholder": "请输入联系人姓名",
+                                "dataSource": "",
+                                "values": [],
+                                "rules": [],
+                                "helpMsg": ""
+                              }
+                            }
+                          ]
+                        },
+                        {
+                          "id": "col-ef8548dc-c9c4-4336-931f-a5e0c4658bec",
+                          "cellVisible": true,
+                          "colIndex": 1,
+                          "colspan": 12,
+                          "items": [
+                            {
+                              "id": "Ida06094f8-155d-4042-a035-9132c7821f3b",
+                              "compType": "formItem",
+                              "itemType": "input",
+                              "fieldName": "field_f822d2",
+                              "preps": {
+                                "id": "Ida06094f8-155d-4042-a035-9132c7821f3b",
+                                "label": "联系人电话",
+                                "name": "field_f822d2",
+                                "itemNameLabel": "联系人电话",
+                                "formVisible": true,
+                                "listVisible": true,
+                                "viewVisible": true,
+                                "searchVisible": false,
+                                "required": true,
+                                "disabled": false,
+                                "clearable": true,
+                                "readonly": false,
+                                "maxLength": 255,
+                                "placeholder": "请输入联系人电话",
+                                "dataSource": "",
+                                "values": [],
+                                "rules": [],
+                                "helpMsg": ""
+                              }
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              },
+              {
+                "id": "Id8e384d35-a39c-4907-aa51-cf0936d993d2",
+                "compType": "formItem",
+                "itemType": "input",
+                "fieldName": "field_bfd00c",
+                "preps": {
+                  "id": "Id8e384d35-a39c-4907-aa51-cf0936d993d2",
+                  "label": "与员工关系",
+                  "name": "field_bfd00c",
+                  "itemNameLabel": "与员工关系",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入与员工关系",
+                  "dataSource": "",
+                  "values": [],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Id0555052d-2f0d-4f6b-bd9b-89bf3794abf6",
+                "compType": "formItem",
+                "itemType": "input",
+                "fieldName": "field_80a7b3",
+                "preps": {
+                  "id": "Id0555052d-2f0d-4f6b-bd9b-89bf3794abf6",
+                  "label": "联系人地址",
+                  "name": "field_80a7b3",
+                  "itemNameLabel": "联系人地址",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入联系人地址",
+                  "dataSource": "",
+                  "values": [],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "exportTime": "2026-06-16T09:36:26.500Z",
+  "version": "1.0"
+}

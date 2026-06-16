@@ -1,0 +1,453 @@
+{
+  "formInfo": {
+    "formName": "14-问卷调查表单",
+    "currentPageType": "pc"
+  },
+  "dataList": [
+    {
+      "id": "Id5af200f1-e80c-4ee9-99bd-91f97de193b7",
+      "compType": "container",
+      "itemType": "card",
+      "fieldName": "field_8e6ca5",
+      "preps": {
+        "id": "Id5af200f1-e80c-4ee9-99bd-91f97de193b7",
+        "label": "基本信息",
+        "name": "field_8e6ca5",
+        "itemNameLabel": "基本信息",
+        "headerFieldList": [],
+        "elements": [
+          {
+            "label": "基本信息",
+            "tabName": "基本信息",
+            "objectName": "基本信息",
+            "subFormFlag": "Y",
+            "items": [
+              {
+                "id": "Id0d2720f6-dd47-4630-9bc0-3454320b2e23",
+                "compType": "formItem",
+                "itemType": "input",
+                "fieldName": "field_a0f264",
+                "preps": {
+                  "id": "Id0d2720f6-dd47-4630-9bc0-3454320b2e23",
+                  "label": "姓名",
+                  "name": "field_a0f264",
+                  "itemNameLabel": "姓名",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入姓名",
+                  "dataSource": "",
+                  "values": [],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Id91c7fa6f-74cf-4178-a70c-bca2deba688c",
+                "compType": "container",
+                "itemType": "box",
+                "fieldName": "field_81d387",
+                "rowNums": 1,
+                "columnNums": 2,
+                "preps": {
+                  "id": "Id91c7fa6f-74cf-4178-a70c-bca2deba688c",
+                  "label": "Grid Layout",
+                  "name": "field_81d387",
+                  "itemNameLabel": "Grid Layout",
+                  "elements": [
+                    {
+                      "id": "row-e362dbe0-4582-4997-95aa-e62e1412861b",
+                      "rowIndex": 1,
+                      "columns": [
+                        {
+                          "id": "col-43021e89-9c85-49c6-94f4-a408a1814737",
+                          "cellVisible": true,
+                          "colIndex": 1,
+                          "colspan": 12,
+                          "items": [
+                            {
+                              "id": "Idef410767-e0a7-42a9-bd32-02bdfbd45b9c",
+                              "compType": "formItem",
+                              "itemType": "select",
+                              "fieldName": "field_598d16",
+                              "preps": {
+                                "id": "Idef410767-e0a7-42a9-bd32-02bdfbd45b9c",
+                                "label": "年龄段",
+                                "name": "field_598d16",
+                                "itemNameLabel": "年龄段",
+                                "formVisible": true,
+                                "listVisible": true,
+                                "viewVisible": true,
+                                "searchVisible": false,
+                                "required": false,
+                                "disabled": false,
+                                "clearable": true,
+                                "readonly": false,
+                                "maxLength": 255,
+                                "placeholder": "请输入年龄段",
+                                "dataSource": "data",
+                                "values": [
+                                  {
+                                    "label": "18岁以下",
+                                    "value": "1"
+                                  },
+                                  {
+                                    "label": "18-25岁",
+                                    "value": "2"
+                                  },
+                                  {
+                                    "label": "26-35岁",
+                                    "value": "3"
+                                  },
+                                  {
+                                    "label": "36-45岁",
+                                    "value": "4"
+                                  },
+                                  {
+                                    "label": "46岁以上",
+                                    "value": "5"
+                                  }
+                                ],
+                                "rules": [],
+                                "helpMsg": ""
+                              }
+                            }
+                          ]
+                        },
+                        {
+                          "id": "col-0220ab4e-af1e-44f6-9610-7e3d80d39b6b",
+                          "cellVisible": true,
+                          "colIndex": 1,
+                          "colspan": 12,
+                          "items": [
+                            {
+                              "id": "Ideec52eec-26cd-42a8-8de0-2c6f744d77ae",
+                              "compType": "formItem",
+                              "itemType": "select",
+                              "fieldName": "field_33f1b5",
+                              "preps": {
+                                "id": "Ideec52eec-26cd-42a8-8de0-2c6f744d77ae",
+                                "label": "职业",
+                                "name": "field_33f1b5",
+                                "itemNameLabel": "职业",
+                                "formVisible": true,
+                                "listVisible": true,
+                                "viewVisible": true,
+                                "searchVisible": false,
+                                "required": false,
+                                "disabled": false,
+                                "clearable": true,
+                                "readonly": false,
+                                "maxLength": 255,
+                                "placeholder": "请输入职业",
+                                "dataSource": "data",
+                                "values": [
+                                  {
+                                    "label": "学生",
+                                    "value": "1"
+                                  },
+                                  {
+                                    "label": "上班族",
+                                    "value": "2"
+                                  },
+                                  {
+                                    "label": "自由职业",
+                                    "value": "3"
+                                  },
+                                  {
+                                    "label": "创业者",
+                                    "value": "4"
+                                  },
+                                  {
+                                    "label": "退休",
+                                    "value": "5"
+                                  }
+                                ],
+                                "rules": [],
+                                "helpMsg": ""
+                              }
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "Id926639c5-c4d1-47ba-a504-492b264ec44c",
+      "compType": "container",
+      "itemType": "card",
+      "fieldName": "field_bab684",
+      "preps": {
+        "id": "Id926639c5-c4d1-47ba-a504-492b264ec44c",
+        "label": "满意度调查",
+        "name": "field_bab684",
+        "itemNameLabel": "满意度调查",
+        "headerFieldList": [],
+        "elements": [
+          {
+            "label": "满意度调查",
+            "tabName": "满意度调查",
+            "objectName": "满意度调查",
+            "subFormFlag": "Y",
+            "items": [
+              {
+                "id": "Idbcf70970-7641-4285-bf2e-b4ce75faeba8",
+                "compType": "formItem",
+                "itemType": "select",
+                "fieldName": "field_5a1c99",
+                "preps": {
+                  "id": "Idbcf70970-7641-4285-bf2e-b4ce75faeba8",
+                  "label": "总体满意度",
+                  "name": "field_5a1c99",
+                  "itemNameLabel": "总体满意度",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": true,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入总体满意度",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "label": "非常满意",
+                      "value": "1"
+                    },
+                    {
+                      "label": "满意",
+                      "value": "2"
+                    },
+                    {
+                      "label": "一般",
+                      "value": "3"
+                    },
+                    {
+                      "label": "不满意",
+                      "value": "4"
+                    },
+                    {
+                      "label": "非常不满意",
+                      "value": "5"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Id3f516ffb-198b-4437-be50-1f34bb7881e3",
+                "compType": "formItem",
+                "itemType": "rate",
+                "fieldName": "field_c9d255",
+                "preps": {
+                  "id": "Id3f516ffb-198b-4437-be50-1f34bb7881e3",
+                  "label": "产品质量评分",
+                  "name": "field_c9d255",
+                  "itemNameLabel": "产品质量评分",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入产品质量评分",
+                  "dataSource": "",
+                  "values": [],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Id1dfa5571-00f6-47d6-964e-b7eff57a747c",
+                "compType": "formItem",
+                "itemType": "rate",
+                "fieldName": "field_2a41a4",
+                "preps": {
+                  "id": "Id1dfa5571-00f6-47d6-964e-b7eff57a747c",
+                  "label": "服务体验评分",
+                  "name": "field_2a41a4",
+                  "itemNameLabel": "服务体验评分",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入服务体验评分",
+                  "dataSource": "",
+                  "values": [],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Id896476ca-4040-4aea-9dc1-006414ed3fbb",
+                "compType": "formItem",
+                "itemType": "rate",
+                "fieldName": "field_63fa26",
+                "preps": {
+                  "id": "Id896476ca-4040-4aea-9dc1-006414ed3fbb",
+                  "label": "性价比评分",
+                  "name": "field_63fa26",
+                  "itemNameLabel": "性价比评分",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入性价比评分",
+                  "dataSource": "",
+                  "values": [],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "Idc04f7e02-55f4-47b5-910c-a8d2e11ab43e",
+      "compType": "container",
+      "itemType": "card",
+      "fieldName": "field_266964",
+      "preps": {
+        "id": "Idc04f7e02-55f4-47b5-910c-a8d2e11ab43e",
+        "label": "详细反馈",
+        "name": "field_266964",
+        "itemNameLabel": "详细反馈",
+        "headerFieldList": [],
+        "elements": [
+          {
+            "label": "详细反馈",
+            "tabName": "详细反馈",
+            "objectName": "详细反馈",
+            "subFormFlag": "Y",
+            "items": [
+              {
+                "id": "Id311f3988-4d33-4a64-b083-011672e0660e",
+                "compType": "formItem",
+                "itemType": "checkbox",
+                "fieldName": "field_ba8106",
+                "preps": {
+                  "id": "Id311f3988-4d33-4a64-b083-011672e0660e",
+                  "label": "您认为我们的优势是什么？",
+                  "name": "field_ba8106",
+                  "itemNameLabel": "您认为我们的优势是什么？",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入您认为我们的优势是什么？",
+                  "dataSource": "",
+                  "values": [],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Id314f46c9-8911-4749-9c6e-cb2b39df60c3",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_c4dfaf",
+                "preps": {
+                  "id": "Id314f46c9-8911-4749-9c6e-cb2b39df60c3",
+                  "label": "您是否愿意推荐给朋友？",
+                  "name": "field_c4dfaf",
+                  "itemNameLabel": "您是否愿意推荐给朋友？",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入您是否愿意推荐给朋友？",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "label": "愿意",
+                      "value": "1"
+                    },
+                    {
+                      "label": "不愿意",
+                      "value": "2"
+                    },
+                    {
+                      "label": "不确定",
+                      "value": "3"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Idbf74afd7-611f-45de-af07-6c9d202434fc",
+                "compType": "formItem",
+                "itemType": "textarea",
+                "fieldName": "field_1c86fc",
+                "preps": {
+                  "id": "Idbf74afd7-611f-45de-af07-6c9d202434fc",
+                  "label": "您的建议或意见",
+                  "name": "field_1c86fc",
+                  "itemNameLabel": "您的建议或意见",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 1000,
+                  "placeholder": "请输入您的建议或意见",
+                  "dataSource": "",
+                  "values": [],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "exportTime": "2026-06-16T09:36:26.508Z",
+  "version": "1.0"
+}

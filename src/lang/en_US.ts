@@ -137,6 +137,7 @@ export default {
   "dyform.tab.charts": "Charts",
   "dyform.tab.template": "Template",
   "dyform.tab.help": "Help",
+  "dyform.tab.outline": "Outline",
   "dyform.collapse.layout": "Layout Components",
   "dyform.collapse.form": "Form Components",
   "dyform.collapse.custom": "Custom Components",

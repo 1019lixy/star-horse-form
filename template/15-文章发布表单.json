@@ -1,0 +1,479 @@
+{
+  "formInfo": {
+    "formName": "15-文章发布表单",
+    "currentPageType": "pc"
+  },
+  "dataList": [
+    {
+      "id": "Id6a264e6b-5b5d-408a-83af-e46e02b7079f",
+      "compType": "container",
+      "itemType": "card",
+      "fieldName": "field_7589ac",
+      "preps": {
+        "id": "Id6a264e6b-5b5d-408a-83af-e46e02b7079f",
+        "label": "文章信息",
+        "name": "field_7589ac",
+        "itemNameLabel": "文章信息",
+        "headerFieldList": [],
+        "elements": [
+          {
+            "label": "文章信息",
+            "tabName": "文章信息",
+            "objectName": "文章信息",
+            "subFormFlag": "Y",
+            "items": [
+              {
+                "id": "Id34279551-8681-4c8c-a03f-1b15c81cb12b",
+                "compType": "formItem",
+                "itemType": "input",
+                "fieldName": "field_c824b3",
+                "preps": {
+                  "id": "Id34279551-8681-4c8c-a03f-1b15c81cb12b",
+                  "label": "文章标题",
+                  "name": "field_c824b3",
+                  "itemNameLabel": "文章标题",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": true,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 100,
+                  "placeholder": "请输入文章标题",
+                  "dataSource": "",
+                  "values": [],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Id06af8ac0-9125-44ef-b26b-cb97658923c7",
+                "compType": "container",
+                "itemType": "box",
+                "fieldName": "field_cc32b4",
+                "rowNums": 1,
+                "columnNums": 2,
+                "preps": {
+                  "id": "Id06af8ac0-9125-44ef-b26b-cb97658923c7",
+                  "label": "Grid Layout",
+                  "name": "field_cc32b4",
+                  "itemNameLabel": "Grid Layout",
+                  "elements": [
+                    {
+                      "id": "row-ac7c8f79-0555-4564-ba43-54bed03b3222",
+                      "rowIndex": 1,
+                      "columns": [
+                        {
+                          "id": "col-46e52b78-6368-4199-940e-3b182d492c86",
+                          "cellVisible": true,
+                          "colIndex": 1,
+                          "colspan": 12,
+                          "items": [
+                            {
+                              "id": "Id0341ab1a-e0a3-4d5d-ba14-b490de5e496a",
+                              "compType": "formItem",
+                              "itemType": "select",
+                              "fieldName": "field_2a1c42",
+                              "preps": {
+                                "id": "Id0341ab1a-e0a3-4d5d-ba14-b490de5e496a",
+                                "label": "文章分类",
+                                "name": "field_2a1c42",
+                                "itemNameLabel": "文章分类",
+                                "formVisible": true,
+                                "listVisible": true,
+                                "viewVisible": true,
+                                "searchVisible": false,
+                                "required": false,
+                                "disabled": false,
+                                "clearable": true,
+                                "readonly": false,
+                                "maxLength": 255,
+                                "placeholder": "请输入文章分类",
+                                "dataSource": "data",
+                                "values": [
+                                  {
+                                    "label": "技术",
+                                    "value": "1"
+                                  },
+                                  {
+                                    "label": "产品",
+                                    "value": "2"
+                                  },
+                                  {
+                                    "label": "运营",
+                                    "value": "3"
+                                  },
+                                  {
+                                    "label": "行业动态",
+                                    "value": "4"
+                                  },
+                                  {
+                                    "label": "公司新闻",
+                                    "value": "5"
+                                  }
+                                ],
+                                "rules": [],
+                                "helpMsg": ""
+                              }
+                            }
+                          ]
+                        },
+                        {
+                          "id": "col-a63bf588-4066-432d-a971-62495d0b0339",
+                          "cellVisible": true,
+                          "colIndex": 1,
+                          "colspan": 12,
+                          "items": [
+                            {
+                              "id": "Id59c862c6-53d5-4b48-aa64-3b5c484c1703",
+                              "compType": "formItem",
+                              "itemType": "select",
+                              "fieldName": "field_d68f0e",
+                              "preps": {
+                                "id": "Id59c862c6-53d5-4b48-aa64-3b5c484c1703",
+                                "label": "发布状态",
+                                "name": "field_d68f0e",
+                                "itemNameLabel": "发布状态",
+                                "formVisible": true,
+                                "listVisible": true,
+                                "viewVisible": true,
+                                "searchVisible": false,
+                                "required": false,
+                                "disabled": false,
+                                "clearable": true,
+                                "readonly": false,
+                                "maxLength": 255,
+                                "placeholder": "请输入发布状态",
+                                "dataSource": "data",
+                                "values": [
+                                  {
+                                    "label": "草稿",
+                                    "value": "1"
+                                  },
+                                  {
+                                    "label": "待审核",
+                                    "value": "2"
+                                  },
+                                  {
+                                    "label": "已发布",
+                                    "value": "3"
+                                  },
+                                  {
+                                    "label": "已下架",
+                                    "value": "4"
+                                  }
+                                ],
+                                "rules": [],
+                                "helpMsg": ""
+                              }
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              },
+              {
+                "id": "Id15851d09-c58b-46e3-bf69-dc0e0ed0d5a0",
+                "compType": "container",
+                "itemType": "box",
+                "fieldName": "field_274622",
+                "rowNums": 1,
+                "columnNums": 2,
+                "preps": {
+                  "id": "Id15851d09-c58b-46e3-bf69-dc0e0ed0d5a0",
+                  "label": "Grid Layout",
+                  "name": "field_274622",
+                  "itemNameLabel": "Grid Layout",
+                  "elements": [
+                    {
+                      "id": "row-73d2d005-0725-4534-ada3-ae6e7e21f6e3",
+                      "rowIndex": 1,
+                      "columns": [
+                        {
+                          "id": "col-da0642c7-1669-4e63-b4cb-336e3de7bc56",
+                          "cellVisible": true,
+                          "colIndex": 1,
+                          "colspan": 12,
+                          "items": [
+                            {
+                              "id": "Idc5c19f8b-0566-4ea1-82f3-7bfc622149a5",
+                              "compType": "formItem",
+                              "itemType": "datetime",
+                              "fieldName": "field_cb1020",
+                              "preps": {
+                                "id": "Idc5c19f8b-0566-4ea1-82f3-7bfc622149a5",
+                                "label": "发布时间",
+                                "name": "field_cb1020",
+                                "itemNameLabel": "发布时间",
+                                "formVisible": true,
+                                "listVisible": true,
+                                "viewVisible": true,
+                                "searchVisible": false,
+                                "required": false,
+                                "disabled": false,
+                                "clearable": true,
+                                "readonly": false,
+                                "maxLength": 255,
+                                "placeholder": "请输入发布时间",
+                                "dataSource": "",
+                                "values": [],
+                                "rules": [],
+                                "helpMsg": ""
+                              }
+                            }
+                          ]
+                        },
+                        {
+                          "id": "col-828ecde7-0361-4be7-9504-fa5edcf0a754",
+                          "cellVisible": true,
+                          "colIndex": 1,
+                          "colspan": 12,
+                          "items": [
+                            {
+                              "id": "Id7cb72f11-73e5-4eb9-863e-4ba3431ec780",
+                              "compType": "formItem",
+                              "itemType": "input",
+                              "fieldName": "field_170358",
+                              "preps": {
+                                "id": "Id7cb72f11-73e5-4eb9-863e-4ba3431ec780",
+                                "label": "作者",
+                                "name": "field_170358",
+                                "itemNameLabel": "作者",
+                                "formVisible": true,
+                                "listVisible": true,
+                                "viewVisible": true,
+                                "searchVisible": false,
+                                "required": false,
+                                "disabled": false,
+                                "clearable": true,
+                                "readonly": false,
+                                "maxLength": 255,
+                                "placeholder": "请输入作者",
+                                "dataSource": "",
+                                "values": [],
+                                "rules": [],
+                                "helpMsg": ""
+                              }
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              },
+              {
+                "id": "Id3629fb72-a68b-4e6d-acfc-6f0daa535584",
+                "compType": "formItem",
+                "itemType": "input-tag",
+                "fieldName": "field_4cdbc2",
+                "preps": {
+                  "id": "Id3629fb72-a68b-4e6d-acfc-6f0daa535584",
+                  "label": "标签",
+                  "name": "field_4cdbc2",
+                  "itemNameLabel": "标签",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入标签",
+                  "dataSource": "",
+                  "values": [],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Id8d6ec544-9c16-43f7-8749-51da27e4a68f",
+                "compType": "formItem",
+                "itemType": "upload",
+                "fieldName": "field_b63b83",
+                "preps": {
+                  "id": "Id8d6ec544-9c16-43f7-8749-51da27e4a68f",
+                  "label": "封面图片",
+                  "name": "field_b63b83",
+                  "itemNameLabel": "封面图片",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入封面图片",
+                  "dataSource": "",
+                  "values": [],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "Id216834f5-6d3e-46e6-8d7b-343b5d3bc8b3",
+      "compType": "container",
+      "itemType": "card",
+      "fieldName": "field_658942",
+      "preps": {
+        "id": "Id216834f5-6d3e-46e6-8d7b-343b5d3bc8b3",
+        "label": "文章内容",
+        "name": "field_658942",
+        "itemNameLabel": "文章内容",
+        "headerFieldList": [],
+        "elements": [
+          {
+            "label": "文章内容",
+            "tabName": "文章内容",
+            "objectName": "文章内容",
+            "subFormFlag": "Y",
+            "items": [
+              {
+                "id": "Id0446ff18-165b-4f29-8a15-1082e331d9ec",
+                "compType": "formItem",
+                "itemType": "htmleditor",
+                "fieldName": "field_81220b",
+                "preps": {
+                  "id": "Id0446ff18-165b-4f29-8a15-1082e331d9ec",
+                  "label": "正文内容",
+                  "name": "field_81220b",
+                  "itemNameLabel": "正文内容",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": true,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入正文内容",
+                  "dataSource": "",
+                  "values": [],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "Idefe44b0b-6226-4312-8e0c-8e02493dc83e",
+      "compType": "container",
+      "itemType": "card",
+      "fieldName": "field_b1a16d",
+      "preps": {
+        "id": "Idefe44b0b-6226-4312-8e0c-8e02493dc83e",
+        "label": "SEO 设置",
+        "name": "field_b1a16d",
+        "itemNameLabel": "SEO 设置",
+        "headerFieldList": [],
+        "elements": [
+          {
+            "label": "SEO 设置",
+            "tabName": "SEO 设置",
+            "objectName": "SEO 设置",
+            "subFormFlag": "Y",
+            "items": [
+              {
+                "id": "Id7c410aa3-36d4-40ea-9dcf-06ae37fe66f5",
+                "compType": "formItem",
+                "itemType": "input",
+                "fieldName": "field_b1fd0a",
+                "preps": {
+                  "id": "Id7c410aa3-36d4-40ea-9dcf-06ae37fe66f5",
+                  "label": "SEO 标题",
+                  "name": "field_b1fd0a",
+                  "itemNameLabel": "SEO 标题",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 60,
+                  "placeholder": "请输入SEO 标题",
+                  "dataSource": "",
+                  "values": [],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Id9cac1705-684d-4f38-bfdb-abe21081344e",
+                "compType": "formItem",
+                "itemType": "textarea",
+                "fieldName": "field_a56288",
+                "preps": {
+                  "id": "Id9cac1705-684d-4f38-bfdb-abe21081344e",
+                  "label": "SEO 描述",
+                  "name": "field_a56288",
+                  "itemNameLabel": "SEO 描述",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 160,
+                  "placeholder": "请输入SEO 描述",
+                  "dataSource": "",
+                  "values": [],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Id4395c005-1c3d-4d7f-8c7c-e847f002e37f",
+                "compType": "formItem",
+                "itemType": "input-tag",
+                "fieldName": "field_b4ce80",
+                "preps": {
+                  "id": "Id4395c005-1c3d-4d7f-8c7c-e847f002e37f",
+                  "label": "关键词",
+                  "name": "field_b4ce80",
+                  "itemNameLabel": "关键词",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入关键词",
+                  "dataSource": "",
+                  "values": [],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "exportTime": "2026-06-16T09:36:26.509Z",
+  "version": "1.0"
+}

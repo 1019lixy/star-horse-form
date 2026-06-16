@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import {dynamicFormHelpMessage, formActions,} from "@/components/system/items/utils/DynamicForm";
 import {i18n} from "@/lang";
-import {computed, onMounted, ref} from "vue";
+import {computed, ref} from "vue";
 import {ToolBtnType} from "@/components/types/ToolBtnType";
 import {FormConfig} from "@/components/types";
 import {getDesignFormStore, StarHorseIcon,} from "star-horse-lowcode";
@@ -79,8 +79,7 @@ const doSave = (flag: boolean) => {
   );
   // formInfo.value["formId"]=tempForm.value.formId;
 };
-onMounted(() => {
-});
+// onMounted reserved for future initialization
 </script>
 
 <template>
@@ -103,99 +102,104 @@ onMounted(() => {
       </el-form-item>
       <el-form-item :label="i18n('dyform.toolbar.role')" required prop="roleId">
         <el-radio-group v-model="tempForm.roleId">
-          <el-radio :value="item.value" v-for="item in roleList">
+          <el-radio :value="item.value" v-for="item in roleList" :key="item.value">
             {{ item.name }}
           </el-radio>
         </el-radio-group>
       </el-form-item>
     </el-form>
   </star-horse-dialog>
-  <div class="inner_button" @click="closeDropdown">
-    <div class="toolbar-container">
-      <el-button-group class="toolbar-group">
-        <template v-for="(item, index) in allActions">
-          <el-button
-              v-if="permissionCheck(item)"
-              :key="'1_' + index"
-              @click="actions(item)"
-              :title="item.shortcut ? `${item.label} (${item.shortcut})` : item.label"
-              class="toolbar-button"
-          >
-            <el-tooltip
-                class="item"
-                :content="item.shortcut ? `${item.label} (${item.shortcut})` : item.label"
-                effect="dark"
-                placement="bottom"
-            >
-              <star-horse-icon
-                  :icon-class="item.icon"
-                  size="24px"
-                  style="color: var(--star-horse-style)"
-              />
-            </el-tooltip>
-          </el-button>
-          <el-dropdown :show-arrow="false" v-else-if="item?.children?.length > 0">
+  <div class="toolbar-root" @click="closeDropdown">
+    <div class="toolbar-left">
+      <!-- Group 1: 页面视图 + 新建/导入/编辑/图层/清空 -->
+      <div class="toolbar-group">
+        <template v-for="(item, index) in allActions" :key="'tb_' + index">
+          <!-- 在 undo 前插入分隔 -->
+          <div v-if="item.key === 'undo'" class="toolbar-divider" :key="'div_undo_' + index"></div>
+          <!-- 在 valid 前插入分隔 -->
+          <div v-if="item.key === 'valid'" class="toolbar-divider" :key="'div_valid_' + index"></div>
+          <!-- 在 save 前插入分隔 -->
+          <div v-if="item.key === 'save'" class="toolbar-divider" :key="'div_save_' + index"></div>
 
-            <el-button class="toolbar-button">
-              <star-horse-icon
-                  :icon-class="item.icon"
-                  size="24px"
-                  style="color: var(--star-horse-style)"
-              />
-              <el-icon class="el-icon--right">
-                <arrow-down/>
-              </el-icon>
+          <!-- 有子菜单的下拉按钮 -->
+          <el-dropdown
+              v-if="item?.children?.length > 0"
+              :show-arrow="false"
+              trigger="click"
+              :key="'dd_' + index"
+          >
+            <el-button class="tb-btn" :title="item.label">
+              <star-horse-icon :icon-class="item.icon" size="20px"/>
+              <el-icon class="el-icon--right"><arrow-down/></el-icon>
             </el-button>
             <template #dropdown>
               <el-dropdown-menu>
-                <el-dropdown-item v-for="(sitem, sindex) in item.children"
-                                  @click="actions(sitem)"
+                <el-dropdown-item
+                    v-for="(sitem, sindex) in item.children"
+                    :key="'sub_' + sindex"
+                    @click="actions(sitem)"
                 >
-                  <div class="flex items-center justify-center">
-                    <star-horse-icon
-                        :icon-class="sitem.icon"
-                        size="24px"
-                        style="color: var(--star-horse-style)"
-                    />
-                    <span class="dropdown-label">{{ sitem.label }}</span>
+                  <div class="dropdown-item-inner">
+                    <star-horse-icon :icon-class="sitem.icon" size="18px"/>
+                    <span>{{ sitem.label }}</span>
                   </div>
                 </el-dropdown-item>
               </el-dropdown-menu>
             </template>
           </el-dropdown>
 
+          <!-- 普通按钮 -->
+          <el-tooltip
+              v-else-if="permissionCheck(item)"
+              :content="item.shortcut ? `${item.label} (${item.shortcut})` : item.label"
+              effect="dark"
+              placement="bottom"
+              :show-after="500"
+              :key="'btn_' + index"
+          >
+            <el-button class="tb-btn" @click="actions(item)">
+              <star-horse-icon :icon-class="item.icon" size="20px"/>
+            </el-button>
+          </el-tooltip>
         </template>
-      </el-button-group>
+      </div>
     </div>
 
     <div class="toolbar-right">
       <el-tooltip
-          class="item"
+          v-if="optional?.cooperationMode ?? false"
           :content="i18n('dyform.toolbar.cooperationConfig')"
           effect="dark"
           placement="bottom"
+          :show-after="500"
       >
-        <star-horse-icon
-            icon-class="setting"
-            @click="cooperationConfig"
-            cursor="pointer"
-            v-if="optional?.cooperationMode ?? false"
-        />
+        <el-button class="tb-btn tb-btn-ghost" @click="cooperationConfig">
+          <star-horse-icon icon-class="setting" size="20px"/>
+        </el-button>
       </el-tooltip>
-      <el-tooltip class="item" :content="i18n('dyform.toolbar.config')" effect="dark" placement="bottom">
-        <star-horse-icon
-            v-if="optional?.hideConfigBtn ?? true"
-            icon-class="setting"
-            @click="pageConfig"
-            cursor="pointer"
-        />
-      </el-tooltip>
+
       <el-tooltip
-          :content="i18n('dyform.toolbar.cache.restore')"
-          v-if="cacheData?.length > 0"
-          class="cache-button"
+          v-if="optional?.hideConfigBtn ?? true"
+          :content="i18n('dyform.toolbar.config')"
+          effect="dark"
+          placement="bottom"
+          :show-after="500"
       >
-        <star-horse-icon icon-class="reset" @click="cacheDataRestore($event)"/>
+        <el-button class="tb-btn tb-btn-ghost" @click="pageConfig">
+          <star-horse-icon icon-class="setting" size="20px"/>
+        </el-button>
+      </el-tooltip>
+
+      <el-tooltip
+          v-if="cacheData?.length > 0"
+          :content="i18n('dyform.toolbar.cache.restore')"
+          effect="dark"
+          placement="bottom"
+          :show-after="500"
+      >
+        <el-button class="tb-btn tb-btn-ghost" @click="cacheDataRestore($event)">
+          <star-horse-icon icon-class="reset" size="20px"/>
+        </el-button>
       </el-tooltip>
 
       <help :message="dynamicFormHelpMessage()"/>
@@ -204,125 +208,118 @@ onMounted(() => {
 </template>
 
 <style lang="scss" scoped>
-.inner_button {
+.toolbar-root {
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  width: 100%;
-  height: 42px !important;
-  background: #f5f7fa;
-  border-bottom: 1px solid #e4e7ed;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
+  justify-content: space-between;
+  height: 100%;
+  padding: 0 12px;
+  background: #ffffff;
+  border-bottom: 1px solid #e8eaed;
+  box-sizing: border-box;
+}
 
-  .toolbar-container {
-    display: flex;
-    align-items: center;
+.toolbar-left {
+  display: flex;
+  align-items: center;
+  overflow-x: auto;
+  scrollbar-width: none;
 
-    .toolbar-group {
-      display: flex;
-      align-items: center;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
 
-      .toolbar-button {
-        border: none !important;
-        background: transparent;
-        padding: 8px 12px;
-        height: 40px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        border-radius: 4px;
-        transition: all 0.2s ease;
-        margin: 0 2px;
+/* ====== Toolbar Group ====== */
+.toolbar-group {
+  display: flex;
+  align-items: center;
+}
 
-        &:hover {
-          background-color: #ecf5ff;
-          color: #409eff;
-        }
+/* ====== Divider between groups ====== */
+.toolbar-divider {
+  width: 1px;
+  height: 22px;
+  background: #dcdfe6;
+  margin: 0 10px;
+  flex-shrink: 0;
+}
 
-        &:active {
-          background-color: #d9ecff;
-        }
+/* ====== Toolbar Button ====== */
+.tb-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 36px;
+  height: 36px;
+  padding: 0 8px;
+  border: none !important;
+  background: transparent !important;
+  border-radius: 6px !important;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  color: #606266;
+  margin: 0 2px;
 
-        &.with-dropdown {
-          display: flex;
-          align-items: center;
-          gap: 4px;
+  :deep(.star-horse-icon) {
+    font-size: 20px;
+    color: var(--star-horse-style);
+    transition: color 0.15s ease;
+  }
 
-          .dropdown-arrow {
-            font-size: 12px;
-            transition: transform 0.3s;
-          }
-        }
-      }
+  &:hover {
+    background: #f0f2f5 !important;
+    color: #303133;
+
+    :deep(.star-horse-icon) {
+      color: var(--star-horse-style);
     }
   }
 
-  .dropdown-container {
-    position: relative;
-    display: flex;
-    height: 40px;
-    margin: 0 2px;
-
-    .dropdown-menu {
-      position: absolute;
-      top: 100%;
-      left: 0;
-      z-index: 1000;
-      background: white;
-      border: 1px solid #e4e7ed;
-      border-radius: 6px;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-      min-width: 140px;
-      padding: 6px 0;
-      margin-top: 6px;
-
-      .dropdown-item {
-        display: flex;
-        align-items: center;
-        padding: 10px 16px;
-        cursor: pointer;
-        gap: 8px;
-        transition: background-color 0.2s;
-
-        &:hover {
-          background-color: #f5f7fa;
-        }
-
-        .dropdown-label {
-          font-size: 14px;
-          color: #606266;
-        }
-      }
-    }
+  &:active {
+    background: #e4e7ed !important;
   }
 
-  .toolbar-right {
-    display: flex;
-    align-items: center;
-    gap: 12px;
+  .el-icon--right {
+    margin-left: 2px;
+    font-size: 12px;
+    color: #909399;
+  }
+}
 
-    .cache-button {
-      display: flex;
-      align-items: center;
-      padding: 8px;
-      height: 40px;
-      border-radius: 4px;
-      transition: background-color 0.2s;
+.tb-btn-ghost {
+  :deep(.star-horse-icon) {
+    color: #909399;
+  }
 
-      &:hover {
-        background-color: #ecf5ff;
-      }
-
-      :deep(.star-horse-icon) {
-        cursor: pointer;
-        font-size: 20px;
-        color: #606266;
-
-        &:hover {
-          color: #409eff;
-        }
-      }
+  &:hover {
+    :deep(.star-horse-icon) {
+      color: var(--star-horse-style);
     }
+  }
+}
+
+/* ====== Right Side ====== */
+.toolbar-right {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex-shrink: 0;
+}
+
+/* ====== Dropdown Menu Item ====== */
+:deep(.dropdown-item-inner) {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  .star-horse-icon {
+    color: var(--star-horse-style);
+  }
+
+  span {
+    font-size: 13px;
+    color: #303133;
   }
 }
 </style>

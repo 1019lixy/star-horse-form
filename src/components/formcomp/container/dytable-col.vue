@@ -68,6 +68,7 @@ const onDragAdd = (evt: Event | any, dataList: any) => {
   }
   if (newIndex != null && newIndex != "undefined") {
     let dataInfo = dataList[newIndex];
+    dataInfo.preps["hideLabel"] = true;
     designForm.selectItem(dataInfo, dataInfo.itemType, "");
   }
 };
@@ -141,7 +142,7 @@ onMounted(() => {
         @add="(evt: Event) => onDragAdd(evt, field.items)"
         class="smain-design"
         tag="div"
-        :item-key="uuid()"
+        item-key="id"
         group="starHorseGroup"
         ghostClass="container_ghost"
         animation="200"
@@ -153,6 +154,7 @@ onMounted(() => {
             'comp-item': data?.preps?.headerFlag != 'Y',
             'bare-item': data?.preps?.headerFlag,
           }"
+            :data-field-id="data?.id"
             style="height: 100%"
         >
 
