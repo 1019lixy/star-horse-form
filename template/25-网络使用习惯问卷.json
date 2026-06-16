@@ -1,0 +1,2765 @@
+{
+  "formInfo": {
+    "formName": "25-网络使用习惯问卷",
+    "currentPageType": "pc"
+  },
+  "dataList": [
+    {
+      "id": "Ida3780db0-63cf-405c-8901-aadad1a5bb5a",
+      "compType": "container",
+      "itemType": "card",
+      "fieldName": "field_7bf520",
+      "preps": {
+        "id": "Ida3780db0-63cf-405c-8901-aadad1a5bb5a",
+        "label": "基本信息",
+        "name": "field_7bf520",
+        "itemNameLabel": "基本信息",
+        "headerFieldList": [],
+        "elements": [
+          {
+            "label": "基本信息",
+            "tabName": "基本信息",
+            "objectName": "基本信息",
+            "subFormFlag": "Y",
+            "items": [
+              {
+                "id": "Id83cc7499-68a6-48c0-b73d-9b94d6f4d4f9",
+                "compType": "container",
+                "itemType": "box",
+                "fieldName": "field_ecc4ab",
+                "rowNums": 1,
+                "columnNums": 2,
+                "preps": {
+                  "id": "Id83cc7499-68a6-48c0-b73d-9b94d6f4d4f9",
+                  "label": "Grid Layout",
+                  "name": "field_ecc4ab",
+                  "itemNameLabel": "Grid Layout",
+                  "elements": [
+                    {
+                      "id": "row-9197728a-259c-4d59-99f6-888d3fd1783e",
+                      "rowIndex": 1,
+                      "columns": [
+                        {
+                          "id": "col-6172ef93-5e31-4195-8a39-cfbd5bdc12be",
+                          "cellVisible": true,
+                          "colIndex": 1,
+                          "colspan": 12,
+                          "items": [
+                            {
+                              "id": "Id158a7d92-66cf-4aa1-88b2-f01d7aa9a99b",
+                              "compType": "formItem",
+                              "itemType": "radio",
+                              "fieldName": "field_b4098b",
+                              "preps": {
+                                "id": "Id158a7d92-66cf-4aa1-88b2-f01d7aa9a99b",
+                                "label": "性别",
+                                "name": "field_b4098b",
+                                "itemNameLabel": "性别",
+                                "formVisible": true,
+                                "listVisible": true,
+                                "viewVisible": true,
+                                "searchVisible": false,
+                                "required": false,
+                                "disabled": false,
+                                "clearable": true,
+                                "readonly": false,
+                                "maxLength": 255,
+                                "placeholder": "请输入性别",
+                                "dataSource": "data",
+                                "values": [
+                                  {
+                                    "name": "男",
+                                    "value": "1"
+                                  },
+                                  {
+                                    "name": "女",
+                                    "value": "2"
+                                  }
+                                ],
+                                "rules": [],
+                                "helpMsg": ""
+                              }
+                            }
+                          ]
+                        },
+                        {
+                          "id": "col-e9135c37-55fb-41cc-aeff-817ad227390b",
+                          "cellVisible": true,
+                          "colIndex": 1,
+                          "colspan": 12,
+                          "items": [
+                            {
+                              "id": "Id68170aef-7a96-4b86-9049-20af20b52d5a",
+                              "compType": "formItem",
+                              "itemType": "radio",
+                              "fieldName": "field_b7c675",
+                              "preps": {
+                                "id": "Id68170aef-7a96-4b86-9049-20af20b52d5a",
+                                "label": "年龄段",
+                                "name": "field_b7c675",
+                                "itemNameLabel": "年龄段",
+                                "formVisible": true,
+                                "listVisible": true,
+                                "viewVisible": true,
+                                "searchVisible": false,
+                                "required": false,
+                                "disabled": false,
+                                "clearable": true,
+                                "readonly": false,
+                                "maxLength": 255,
+                                "placeholder": "请输入年龄段",
+                                "dataSource": "data",
+                                "values": [
+                                  {
+                                    "name": "12岁以下",
+                                    "value": "1"
+                                  },
+                                  {
+                                    "name": "12-18岁",
+                                    "value": "2"
+                                  },
+                                  {
+                                    "name": "18-25岁",
+                                    "value": "3"
+                                  },
+                                  {
+                                    "name": "26-35岁",
+                                    "value": "4"
+                                  },
+                                  {
+                                    "name": "36-50岁",
+                                    "value": "5"
+                                  },
+                                  {
+                                    "name": "50岁以上",
+                                    "value": "6"
+                                  }
+                                ],
+                                "rules": [],
+                                "helpMsg": ""
+                              }
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              },
+              {
+                "id": "Id0461b6a7-3cb0-4fad-a4ef-d2d33af7324c",
+                "compType": "container",
+                "itemType": "box",
+                "fieldName": "field_2b7010",
+                "rowNums": 1,
+                "columnNums": 2,
+                "preps": {
+                  "id": "Id0461b6a7-3cb0-4fad-a4ef-d2d33af7324c",
+                  "label": "Grid Layout",
+                  "name": "field_2b7010",
+                  "itemNameLabel": "Grid Layout",
+                  "elements": [
+                    {
+                      "id": "row-2b3d3932-46f6-4763-bc5f-d6d6ed89747e",
+                      "rowIndex": 1,
+                      "columns": [
+                        {
+                          "id": "col-c4015ed5-bd27-40c5-83b1-c6742f7de787",
+                          "cellVisible": true,
+                          "colIndex": 1,
+                          "colspan": 12,
+                          "items": [
+                            {
+                              "id": "Id4181231e-0de8-4efc-9d4d-a6274cfe7ab6",
+                              "compType": "formItem",
+                              "itemType": "radio",
+                              "fieldName": "field_c30ac4",
+                              "preps": {
+                                "id": "Id4181231e-0de8-4efc-9d4d-a6274cfe7ab6",
+                                "label": "学历",
+                                "name": "field_c30ac4",
+                                "itemNameLabel": "学历",
+                                "formVisible": true,
+                                "listVisible": true,
+                                "viewVisible": true,
+                                "searchVisible": false,
+                                "required": false,
+                                "disabled": false,
+                                "clearable": true,
+                                "readonly": false,
+                                "maxLength": 255,
+                                "placeholder": "请输入学历",
+                                "dataSource": "data",
+                                "values": [
+                                  {
+                                    "name": "初中及以下",
+                                    "value": "1"
+                                  },
+                                  {
+                                    "name": "高中",
+                                    "value": "2"
+                                  },
+                                  {
+                                    "name": "大专",
+                                    "value": "3"
+                                  },
+                                  {
+                                    "name": "本科",
+                                    "value": "4"
+                                  },
+                                  {
+                                    "name": "硕士及以上",
+                                    "value": "5"
+                                  }
+                                ],
+                                "rules": [],
+                                "helpMsg": ""
+                              }
+                            }
+                          ]
+                        },
+                        {
+                          "id": "col-5a1a5f90-bb23-4c60-8e11-a6356208a64a",
+                          "cellVisible": true,
+                          "colIndex": 1,
+                          "colspan": 12,
+                          "items": [
+                            [
+                              {
+                                "id": "Id6592a10d-31bb-461c-8b3e-1030b39bac3c",
+                                "compType": "formItem",
+                                "itemType": "radio",
+                                "fieldName": "field_e9d3fe",
+                                "preps": {
+                                  "id": "Id6592a10d-31bb-461c-8b3e-1030b39bac3c",
+                                  "label": "职业",
+                                  "name": "field_e9d3fe",
+                                  "itemNameLabel": "职业",
+                                  "formVisible": true,
+                                  "listVisible": true,
+                                  "viewVisible": true,
+                                  "searchVisible": false,
+                                  "required": false,
+                                  "disabled": false,
+                                  "clearable": true,
+                                  "readonly": false,
+                                  "maxLength": 255,
+                                  "placeholder": "请输入职业",
+                                  "dataSource": "data",
+                                  "values": [
+                                    {
+                                      "name": "学生",
+                                      "value": "1"
+                                    },
+                                    {
+                                      "name": "上班族",
+                                      "value": "2"
+                                    },
+                                    {
+                                      "name": "自由职业",
+                                      "value": "3"
+                                    },
+                                    {
+                                      "name": "退休",
+                                      "value": "4"
+                                    },
+                                    {
+                                      "name": "其他",
+                                      "value": "5"
+                                    }
+                                  ],
+                                  "rules": [],
+                                  "helpMsg": ""
+                                }
+                              },
+                              {
+                                "id": "Id352e1882-ead9-4c6c-a3c5-27fd4a300af6",
+                                "compType": "formItem",
+                                "itemType": "input",
+                                "fieldName": "field_fd4ace",
+                                "preps": {
+                                  "id": "Id352e1882-ead9-4c6c-a3c5-27fd4a300af6",
+                                  "label": "职业(其他请说明)",
+                                  "name": "field_fd4ace",
+                                  "itemNameLabel": "职业(其他请说明)",
+                                  "formVisible": false,
+                                  "listVisible": true,
+                                  "viewVisible": true,
+                                  "searchVisible": false,
+                                  "required": false,
+                                  "disabled": false,
+                                  "clearable": true,
+                                  "readonly": false,
+                                  "maxLength": 255,
+                                  "placeholder": "请填写具体说明",
+                                  "dataSource": "",
+                                  "values": [],
+                                  "rules": [],
+                                  "helpMsg": ""
+                                }
+                              }
+                            ]
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              },
+              {
+                "id": "Ide3e4eafa-f3e3-4347-9adf-a02d9c34cc87",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_7ccdcf",
+                "preps": {
+                  "id": "Ide3e4eafa-f3e3-4347-9adf-a02d9c34cc87",
+                  "label": "居住地区",
+                  "name": "field_7ccdcf",
+                  "itemNameLabel": "居住地区",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入居住地区",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "一线城市",
+                      "value": "1"
+                    },
+                    {
+                      "name": "新一线",
+                      "value": "2"
+                    },
+                    {
+                      "name": "二线",
+                      "value": "3"
+                    },
+                    {
+                      "name": "三线",
+                      "value": "4"
+                    },
+                    {
+                      "name": "四线及以下",
+                      "value": "5"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "Id212d498c-0bc9-4ebf-be33-59a4a060666f",
+      "compType": "container",
+      "itemType": "card",
+      "fieldName": "field_aeaccc",
+      "preps": {
+        "id": "Id212d498c-0bc9-4ebf-be33-59a4a060666f",
+        "label": "上网时长与设备",
+        "name": "field_aeaccc",
+        "itemNameLabel": "上网时长与设备",
+        "headerFieldList": [],
+        "elements": [
+          {
+            "label": "上网时长与设备",
+            "tabName": "上网时长与设备",
+            "objectName": "上网时长与设备",
+            "subFormFlag": "Y",
+            "items": [
+              {
+                "id": "Id7080021a-6f14-4eb6-88b1-603be0b95ebb",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_6c982d",
+                "preps": {
+                  "id": "Id7080021a-6f14-4eb6-88b1-603be0b95ebb",
+                  "label": "每天上网时长",
+                  "name": "field_6c982d",
+                  "itemNameLabel": "每天上网时长",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": true,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入每天上网时长",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "1小时以下",
+                      "value": "1"
+                    },
+                    {
+                      "name": "1-3小时",
+                      "value": "2"
+                    },
+                    {
+                      "name": "3-5小时",
+                      "value": "3"
+                    },
+                    {
+                      "name": "5-8小时",
+                      "value": "4"
+                    },
+                    {
+                      "name": "8小时以上",
+                      "value": "5"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Id38d9e893-4f35-471e-a1e2-2bd5d6049efb",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_f85fe8",
+                "preps": {
+                  "id": "Id38d9e893-4f35-471e-a1e2-2bd5d6049efb",
+                  "label": "手机上网时长占比",
+                  "name": "field_f85fe8",
+                  "itemNameLabel": "手机上网时长占比",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入手机上网时长占比",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "几乎全部",
+                      "value": "1"
+                    },
+                    {
+                      "name": "大部分",
+                      "value": "2"
+                    },
+                    {
+                      "name": "一半",
+                      "value": "3"
+                    },
+                    {
+                      "name": "少部分",
+                      "value": "4"
+                    },
+                    {
+                      "name": "几乎不用手机",
+                      "value": "5"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Id6a744433-cf59-49c3-a3e1-57c4d7c7abb7",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_6f7d26",
+                "preps": {
+                  "id": "Id6a744433-cf59-49c3-a3e1-57c4d7c7abb7",
+                  "label": "最常用的上网设备",
+                  "name": "field_6f7d26",
+                  "itemNameLabel": "最常用的上网设备",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入最常用的上网设备",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "手机",
+                      "value": "1"
+                    },
+                    {
+                      "name": "电脑",
+                      "value": "2"
+                    },
+                    {
+                      "name": "平板",
+                      "value": "3"
+                    },
+                    {
+                      "name": "电视",
+                      "value": "4"
+                    },
+                    {
+                      "name": "多种设备",
+                      "value": "5"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Id79c706c7-8521-44c5-8bb6-e1dba5325914",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_83f0e4",
+                "preps": {
+                  "id": "Id79c706c7-8521-44c5-8bb6-e1dba5325914",
+                  "label": "手机品牌",
+                  "name": "field_83f0e4",
+                  "itemNameLabel": "手机品牌",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入手机品牌",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "苹果",
+                      "value": "1"
+                    },
+                    {
+                      "name": "华为",
+                      "value": "2"
+                    },
+                    {
+                      "name": "小米",
+                      "value": "3"
+                    },
+                    {
+                      "name": "OPPO",
+                      "value": "4"
+                    },
+                    {
+                      "name": "vivo",
+                      "value": "5"
+                    },
+                    {
+                      "name": "三星",
+                      "value": "6"
+                    },
+                    {
+                      "name": "其他",
+                      "value": "7"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Id8d1be379-8251-4d7a-b946-d8d5bcd1ff8d",
+                "compType": "formItem",
+                "itemType": "input",
+                "fieldName": "field_cefb2f",
+                "preps": {
+                  "id": "Id8d1be379-8251-4d7a-b946-d8d5bcd1ff8d",
+                  "label": "手机品牌(其他请说明)",
+                  "name": "field_cefb2f",
+                  "itemNameLabel": "手机品牌(其他请说明)",
+                  "formVisible": false,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请填写具体说明",
+                  "dataSource": "",
+                  "values": [],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Id45403454-2f63-48d7-ba30-44918c1651f3",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_cfc48e",
+                "preps": {
+                  "id": "Id45403454-2f63-48d7-ba30-44918c1651f3",
+                  "label": "家庭宽带速度",
+                  "name": "field_cfc48e",
+                  "itemNameLabel": "家庭宽带速度",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入家庭宽带速度",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "100M以下",
+                      "value": "1"
+                    },
+                    {
+                      "name": "100-300M",
+                      "value": "2"
+                    },
+                    {
+                      "name": "300-500M",
+                      "value": "3"
+                    },
+                    {
+                      "name": "500M-1G",
+                      "value": "4"
+                    },
+                    {
+                      "name": "1G以上",
+                      "value": "5"
+                    },
+                    {
+                      "name": "不清楚",
+                      "value": "6"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Id494d16e4-4a9d-404b-b2d5-4a6ddebca7a8",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_345b5c",
+                "preps": {
+                  "id": "Id494d16e4-4a9d-404b-b2d5-4a6ddebca7a8",
+                  "label": "月均手机话费",
+                  "name": "field_345b5c",
+                  "itemNameLabel": "月均手机话费",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入月均手机话费",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "50以下",
+                      "value": "1"
+                    },
+                    {
+                      "name": "50-100",
+                      "value": "2"
+                    },
+                    {
+                      "name": "100-200",
+                      "value": "3"
+                    },
+                    {
+                      "name": "200-300",
+                      "value": "4"
+                    },
+                    {
+                      "name": "300以上",
+                      "value": "5"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Id94a97342-4655-4650-a2da-60b5d1398eb6",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_2d9ac0",
+                "preps": {
+                  "id": "Id94a97342-4655-4650-a2da-60b5d1398eb6",
+                  "label": "是否使用VPN/代理",
+                  "name": "field_2d9ac0",
+                  "itemNameLabel": "是否使用VPN/代理",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入是否使用VPN/代理",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "经常",
+                      "value": "1"
+                    },
+                    {
+                      "name": "偶尔",
+                      "value": "2"
+                    },
+                    {
+                      "name": "很少",
+                      "value": "3"
+                    },
+                    {
+                      "name": "从不",
+                      "value": "4"
+                    },
+                    {
+                      "name": "不知道是什么",
+                      "value": "5"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "Idbcb2ee40-58a2-4dd8-9eca-b7050d2f7753",
+      "compType": "container",
+      "itemType": "card",
+      "fieldName": "field_5b61d9",
+      "preps": {
+        "id": "Idbcb2ee40-58a2-4dd8-9eca-b7050d2f7753",
+        "label": "上网内容与目的",
+        "name": "field_5b61d9",
+        "itemNameLabel": "上网内容与目的",
+        "headerFieldList": [],
+        "elements": [
+          {
+            "label": "上网内容与目的",
+            "tabName": "上网内容与目的",
+            "objectName": "上网内容与目的",
+            "subFormFlag": "Y",
+            "items": [
+              {
+                "id": "Idb5cc174f-2f21-447d-9388-6f5103693a0d",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_d74199",
+                "preps": {
+                  "id": "Idb5cc174f-2f21-447d-9388-6f5103693a0d",
+                  "label": "上网主要目的",
+                  "name": "field_d74199",
+                  "itemNameLabel": "上网主要目的",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入上网主要目的",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "社交媒体",
+                      "value": "1"
+                    },
+                    {
+                      "name": "视频娱乐",
+                      "value": "2"
+                    },
+                    {
+                      "name": "游戏",
+                      "value": "3"
+                    },
+                    {
+                      "name": "学习/工作",
+                      "value": "4"
+                    },
+                    {
+                      "name": "购物",
+                      "value": "5"
+                    },
+                    {
+                      "name": "新闻资讯",
+                      "value": "6"
+                    },
+                    {
+                      "name": "其他",
+                      "value": "7"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Id42fdad25-9990-41fe-b013-238905fc0c74",
+                "compType": "formItem",
+                "itemType": "input",
+                "fieldName": "field_5139b2",
+                "preps": {
+                  "id": "Id42fdad25-9990-41fe-b013-238905fc0c74",
+                  "label": "上网主要目的(其他请说明)",
+                  "name": "field_5139b2",
+                  "itemNameLabel": "上网主要目的(其他请说明)",
+                  "formVisible": false,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请填写具体说明",
+                  "dataSource": "",
+                  "values": [],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Idc3ae4b4a-9a94-4fcf-af50-0d127dc31707",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_582f29",
+                "preps": {
+                  "id": "Idc3ae4b4a-9a94-4fcf-af50-0d127dc31707",
+                  "label": "最常使用的APP",
+                  "name": "field_582f29",
+                  "itemNameLabel": "最常使用的APP",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入最常使用的APP",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "微信",
+                      "value": "1"
+                    },
+                    {
+                      "name": "抖音",
+                      "value": "2"
+                    },
+                    {
+                      "name": "B站",
+                      "value": "3"
+                    },
+                    {
+                      "name": "微博",
+                      "value": "4"
+                    },
+                    {
+                      "name": "小红书",
+                      "value": "5"
+                    },
+                    {
+                      "name": "知乎",
+                      "value": "6"
+                    },
+                    {
+                      "name": "其他",
+                      "value": "7"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Ideb9ba991-9095-4012-8b54-be5e2d170c85",
+                "compType": "formItem",
+                "itemType": "input",
+                "fieldName": "field_ff5ae4",
+                "preps": {
+                  "id": "Ideb9ba991-9095-4012-8b54-be5e2d170c85",
+                  "label": "最常使用的APP(其他请说明)",
+                  "name": "field_ff5ae4",
+                  "itemNameLabel": "最常使用的APP(其他请说明)",
+                  "formVisible": false,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请填写具体说明",
+                  "dataSource": "",
+                  "values": [],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Idc1b6d4c9-48b0-451c-a811-d3bd7da417b1",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_f86b9f",
+                "preps": {
+                  "id": "Idc1b6d4c9-48b0-451c-a811-d3bd7da417b1",
+                  "label": "视频平台偏好",
+                  "name": "field_f86b9f",
+                  "itemNameLabel": "视频平台偏好",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入视频平台偏好",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "抖音/快手",
+                      "value": "1"
+                    },
+                    {
+                      "name": "B站",
+                      "value": "2"
+                    },
+                    {
+                      "name": "优酷/爱奇艺/腾讯",
+                      "value": "3"
+                    },
+                    {
+                      "name": "YouTube",
+                      "value": "4"
+                    },
+                    {
+                      "name": "不看视频",
+                      "value": "5"
+                    },
+                    {
+                      "name": "其他",
+                      "value": "6"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Id4da96b19-53e3-43a6-9d1d-8282dace715a",
+                "compType": "formItem",
+                "itemType": "input",
+                "fieldName": "field_bace37",
+                "preps": {
+                  "id": "Id4da96b19-53e3-43a6-9d1d-8282dace715a",
+                  "label": "视频平台偏好(其他请说明)",
+                  "name": "field_bace37",
+                  "itemNameLabel": "视频平台偏好(其他请说明)",
+                  "formVisible": false,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请填写具体说明",
+                  "dataSource": "",
+                  "values": [],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Idacd38906-3866-4291-8657-e86f34da45d8",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_e022ca",
+                "preps": {
+                  "id": "Idacd38906-3866-4291-8657-e86f34da45d8",
+                  "label": "每天看短视频时长",
+                  "name": "field_e022ca",
+                  "itemNameLabel": "每天看短视频时长",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入每天看短视频时长",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "不看",
+                      "value": "1"
+                    },
+                    {
+                      "name": "30分钟以下",
+                      "value": "2"
+                    },
+                    {
+                      "name": "30-60分钟",
+                      "value": "3"
+                    },
+                    {
+                      "name": "1-2小时",
+                      "value": "4"
+                    },
+                    {
+                      "name": "2小时以上",
+                      "value": "5"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Id1657e50d-35c7-4bb6-9cd6-8bd21c5f3a85",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_a46d03",
+                "preps": {
+                  "id": "Id1657e50d-35c7-4bb6-9cd6-8bd21c5f3a85",
+                  "label": "是否看直播",
+                  "name": "field_a46d03",
+                  "itemNameLabel": "是否看直播",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入是否看直播",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "经常看",
+                      "value": "1"
+                    },
+                    {
+                      "name": "偶尔看",
+                      "value": "2"
+                    },
+                    {
+                      "name": "很少看",
+                      "value": "3"
+                    },
+                    {
+                      "name": "从不看",
+                      "value": "4"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Id86f71cc1-3d1f-475f-a90d-3a99fe409cc3",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_4d0f5a",
+                "preps": {
+                  "id": "Id86f71cc1-3d1f-475f-a90d-3a99fe409cc3",
+                  "label": "是否在直播间消费过",
+                  "name": "field_4d0f5a",
+                  "itemNameLabel": "是否在直播间消费过",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入是否在直播间消费过",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "经常",
+                      "value": "1"
+                    },
+                    {
+                      "name": "偶尔",
+                      "value": "2"
+                    },
+                    {
+                      "name": "很少",
+                      "value": "3"
+                    },
+                    {
+                      "name": "从不",
+                      "value": "4"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Ida3b274c8-6179-4e56-a7b2-870159cc6e67",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_f26df5",
+                "preps": {
+                  "id": "Ida3b274c8-6179-4e56-a7b2-870159cc6e67",
+                  "label": "游戏类型偏好",
+                  "name": "field_f26df5",
+                  "itemNameLabel": "游戏类型偏好",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入游戏类型偏好",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "手游",
+                      "value": "1"
+                    },
+                    {
+                      "name": "端游",
+                      "value": "2"
+                    },
+                    {
+                      "name": "主机游戏",
+                      "value": "3"
+                    },
+                    {
+                      "name": "网页游戏",
+                      "value": "4"
+                    },
+                    {
+                      "name": "不玩游戏",
+                      "value": "5"
+                    },
+                    {
+                      "name": "其他",
+                      "value": "6"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Idd2e3cd21-296c-4491-95a6-eecf1ef475f6",
+                "compType": "formItem",
+                "itemType": "input",
+                "fieldName": "field_d565a7",
+                "preps": {
+                  "id": "Idd2e3cd21-296c-4491-95a6-eecf1ef475f6",
+                  "label": "游戏类型偏好(其他请说明)",
+                  "name": "field_d565a7",
+                  "itemNameLabel": "游戏类型偏好(其他请说明)",
+                  "formVisible": false,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请填写具体说明",
+                  "dataSource": "",
+                  "values": [],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Id07b9e617-0213-431a-8aa9-204d5dd7bc53",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_789c8b",
+                "preps": {
+                  "id": "Id07b9e617-0213-431a-8aa9-204d5dd7bc53",
+                  "label": "每天游戏时长",
+                  "name": "field_789c8b",
+                  "itemNameLabel": "每天游戏时长",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入每天游戏时长",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "不玩",
+                      "value": "1"
+                    },
+                    {
+                      "name": "30分钟以下",
+                      "value": "2"
+                    },
+                    {
+                      "name": "30-60分钟",
+                      "value": "3"
+                    },
+                    {
+                      "name": "1-3小时",
+                      "value": "4"
+                    },
+                    {
+                      "name": "3小时以上",
+                      "value": "5"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Id458bc546-163e-4526-9142-43b5845eb43c",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_32c8d6",
+                "preps": {
+                  "id": "Id458bc546-163e-4526-9142-43b5845eb43c",
+                  "label": "是否为游戏充过值",
+                  "name": "field_32c8d6",
+                  "itemNameLabel": "是否为游戏充过值",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入是否为游戏充过值",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "经常充值",
+                      "value": "1"
+                    },
+                    {
+                      "name": "偶尔充值",
+                      "value": "2"
+                    },
+                    {
+                      "name": "很少充值",
+                      "value": "3"
+                    },
+                    {
+                      "name": "从不充值",
+                      "value": "4"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Id57fcf658-ee49-4e66-a5fd-836189e4c7f6",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_9225fc",
+                "preps": {
+                  "id": "Id57fcf658-ee49-4e66-a5fd-836189e4c7f6",
+                  "label": "新闻资讯获取渠道",
+                  "name": "field_9225fc",
+                  "itemNameLabel": "新闻资讯获取渠道",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入新闻资讯获取渠道",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "新闻APP",
+                      "value": "1"
+                    },
+                    {
+                      "name": "社交媒体",
+                      "value": "2"
+                    },
+                    {
+                      "name": "搜索引擎",
+                      "value": "3"
+                    },
+                    {
+                      "name": "推送通知",
+                      "value": "4"
+                    },
+                    {
+                      "name": "不看新闻",
+                      "value": "5"
+                    },
+                    {
+                      "name": "其他",
+                      "value": "6"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Id619419ea-7587-427f-a1d8-6b9977479ff6",
+                "compType": "formItem",
+                "itemType": "input",
+                "fieldName": "field_827539",
+                "preps": {
+                  "id": "Id619419ea-7587-427f-a1d8-6b9977479ff6",
+                  "label": "新闻资讯获取渠道(其他请说明)",
+                  "name": "field_827539",
+                  "itemNameLabel": "新闻资讯获取渠道(其他请说明)",
+                  "formVisible": false,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请填写具体说明",
+                  "dataSource": "",
+                  "values": [],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Idaa333d89-6627-4074-81a7-349566ac60f0",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_a03890",
+                "preps": {
+                  "id": "Idaa333d89-6627-4074-81a7-349566ac60f0",
+                  "label": "是否使用AI工具(如ChatGPT等)",
+                  "name": "field_a03890",
+                  "itemNameLabel": "是否使用AI工具(如ChatGPT等)",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入是否使用AI工具(如ChatGPT等)",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "经常使用",
+                      "value": "1"
+                    },
+                    {
+                      "name": "偶尔使用",
+                      "value": "2"
+                    },
+                    {
+                      "name": "尝试过",
+                      "value": "3"
+                    },
+                    {
+                      "name": "没使用过",
+                      "value": "4"
+                    },
+                    {
+                      "name": "不知道",
+                      "value": "5"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Idbc7598f2-3771-4aaf-835c-aa7502a5e5ba",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_eb3a69",
+                "preps": {
+                  "id": "Idbc7598f2-3771-4aaf-835c-aa7502a5e5ba",
+                  "label": "是否在网上学习过课程",
+                  "name": "field_eb3a69",
+                  "itemNameLabel": "是否在网上学习过课程",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入是否在网上学习过课程",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "经常",
+                      "value": "1"
+                    },
+                    {
+                      "name": "偶尔",
+                      "value": "2"
+                    },
+                    {
+                      "name": "一两次",
+                      "value": "3"
+                    },
+                    {
+                      "name": "从未",
+                      "value": "4"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Idc8bbc6a5-754e-46bf-a64c-57203185d750",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_06e080",
+                "preps": {
+                  "id": "Idc8bbc6a5-754e-46bf-a64c-57203185d750",
+                  "label": "常用的学习/知识平台",
+                  "name": "field_06e080",
+                  "itemNameLabel": "常用的学习/知识平台",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入常用的学习/知识平台",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "得到",
+                      "value": "1"
+                    },
+                    {
+                      "name": "知乎",
+                      "value": "2"
+                    },
+                    {
+                      "name": "B站",
+                      "value": "3"
+                    },
+                    {
+                      "name": "网易公开课",
+                      "value": "4"
+                    },
+                    {
+                      "name": "Coursera",
+                      "value": "5"
+                    },
+                    {
+                      "name": "不使用",
+                      "value": "6"
+                    },
+                    {
+                      "name": "其他",
+                      "value": "7"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Id9bdea406-205a-4628-b3e6-e637360f94fb",
+                "compType": "formItem",
+                "itemType": "input",
+                "fieldName": "field_e38270",
+                "preps": {
+                  "id": "Id9bdea406-205a-4628-b3e6-e637360f94fb",
+                  "label": "常用的学习/知识平台(其他请说明)",
+                  "name": "field_e38270",
+                  "itemNameLabel": "常用的学习/知识平台(其他请说明)",
+                  "formVisible": false,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请填写具体说明",
+                  "dataSource": "",
+                  "values": [],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Id9e666a42-bcb6-4517-a7c8-8a11e7e2ec23",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_4cf5b0",
+                "preps": {
+                  "id": "Id9e666a42-bcb6-4517-a7c8-8a11e7e2ec23",
+                  "label": "每天花多少时间在网上学习",
+                  "name": "field_4cf5b0",
+                  "itemNameLabel": "每天花多少时间在网上学习",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入每天花多少时间在网上学习",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "不学习",
+                      "value": "1"
+                    },
+                    {
+                      "name": "30分钟以下",
+                      "value": "2"
+                    },
+                    {
+                      "name": "30-60分钟",
+                      "value": "3"
+                    },
+                    {
+                      "name": "1-2小时",
+                      "value": "4"
+                    },
+                    {
+                      "name": "2小时以上",
+                      "value": "5"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "Id7c180046-0e7b-4735-a9b9-8ddb8619bd11",
+      "compType": "container",
+      "itemType": "card",
+      "fieldName": "field_4eeb45",
+      "preps": {
+        "id": "Id7c180046-0e7b-4735-a9b9-8ddb8619bd11",
+        "label": "社交媒体使用",
+        "name": "field_4eeb45",
+        "itemNameLabel": "社交媒体使用",
+        "headerFieldList": [],
+        "elements": [
+          {
+            "label": "社交媒体使用",
+            "tabName": "社交媒体使用",
+            "objectName": "社交媒体使用",
+            "subFormFlag": "Y",
+            "items": [
+              {
+                "id": "Id91e2b98b-66d0-40f0-b9db-217f3b744b40",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_fe7355",
+                "preps": {
+                  "id": "Id91e2b98b-66d0-40f0-b9db-217f3b744b40",
+                  "label": "最常用的社交平台",
+                  "name": "field_fe7355",
+                  "itemNameLabel": "最常用的社交平台",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入最常用的社交平台",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "微信",
+                      "value": "1"
+                    },
+                    {
+                      "name": "微博",
+                      "value": "2"
+                    },
+                    {
+                      "name": "抖音",
+                      "value": "3"
+                    },
+                    {
+                      "name": "小红书",
+                      "value": "4"
+                    },
+                    {
+                      "name": "B站",
+                      "value": "5"
+                    },
+                    {
+                      "name": "知乎",
+                      "value": "6"
+                    },
+                    {
+                      "name": "QQ",
+                      "value": "7"
+                    },
+                    {
+                      "name": "其他",
+                      "value": "8"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Idc296fc3a-d8af-404e-9d67-89f70695a813",
+                "compType": "formItem",
+                "itemType": "input",
+                "fieldName": "field_d5468a",
+                "preps": {
+                  "id": "Idc296fc3a-d8af-404e-9d67-89f70695a813",
+                  "label": "最常用的社交平台(其他请说明)",
+                  "name": "field_d5468a",
+                  "itemNameLabel": "最常用的社交平台(其他请说明)",
+                  "formVisible": false,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请填写具体说明",
+                  "dataSource": "",
+                  "values": [],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Id9e6f2b3e-ccd3-4655-ad24-300bf90cb035",
+                "compType": "formItem",
+                "itemType": "number",
+                "fieldName": "field_67b07c",
+                "preps": {
+                  "id": "Id9e6f2b3e-ccd3-4655-ad24-300bf90cb035",
+                  "label": "日均刷社交媒体时长(分钟)",
+                  "name": "field_67b07c",
+                  "itemNameLabel": "日均刷社交媒体时长(分钟)",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入日均刷社交媒体时长(分钟)",
+                  "dataSource": "",
+                  "values": [],
+                  "rules": [],
+                  "helpMsg": "",
+                  "min": 0,
+                  "precision": 0
+                }
+              },
+              {
+                "id": "Id48ed349f-1913-4da5-8826-6917b81eabb4",
+                "compType": "formItem",
+                "itemType": "number",
+                "fieldName": "field_5a1344",
+                "preps": {
+                  "id": "Id48ed349f-1913-4da5-8826-6917b81eabb4",
+                  "label": "社交媒体好友/关注数",
+                  "name": "field_5a1344",
+                  "itemNameLabel": "社交媒体好友/关注数",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入社交媒体好友/关注数",
+                  "dataSource": "",
+                  "values": [],
+                  "rules": [],
+                  "helpMsg": "",
+                  "min": 0,
+                  "precision": 0
+                }
+              },
+              {
+                "id": "Idf3ec6741-4629-44de-8fe9-d470b8006e7d",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_63a2b1",
+                "preps": {
+                  "id": "Idf3ec6741-4629-44de-8fe9-d470b8006e7d",
+                  "label": "是否发布过原创内容",
+                  "name": "field_63a2b1",
+                  "itemNameLabel": "是否发布过原创内容",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入是否发布过原创内容",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "经常发布",
+                      "value": "1"
+                    },
+                    {
+                      "name": "偶尔发布",
+                      "value": "2"
+                    },
+                    {
+                      "name": "很少发布",
+                      "value": "3"
+                    },
+                    {
+                      "name": "从不发布",
+                      "value": "4"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Idd61aaeec-8a5a-418e-884b-0bcc90c36c47",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_31a5bc",
+                "preps": {
+                  "id": "Idd61aaeec-8a5a-418e-884b-0bcc90c36c47",
+                  "label": "发布内容类型",
+                  "name": "field_31a5bc",
+                  "itemNameLabel": "发布内容类型",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入发布内容类型",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "文字",
+                      "value": "1"
+                    },
+                    {
+                      "name": "图片",
+                      "value": "2"
+                    },
+                    {
+                      "name": "短视频",
+                      "value": "3"
+                    },
+                    {
+                      "name": "直播",
+                      "value": "4"
+                    },
+                    {
+                      "name": "不发布",
+                      "value": "5"
+                    },
+                    {
+                      "name": "其他",
+                      "value": "6"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Idce16151d-b300-4463-a9ee-2bc8938b321d",
+                "compType": "formItem",
+                "itemType": "input",
+                "fieldName": "field_aed12a",
+                "preps": {
+                  "id": "Idce16151d-b300-4463-a9ee-2bc8938b321d",
+                  "label": "发布内容类型(其他请说明)",
+                  "name": "field_aed12a",
+                  "itemNameLabel": "发布内容类型(其他请说明)",
+                  "formVisible": false,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请填写具体说明",
+                  "dataSource": "",
+                  "values": [],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Id44c8bbee-f990-43b5-977d-1cf80423ee3c",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_2e7bf6",
+                "preps": {
+                  "id": "Id44c8bbee-f990-43b5-977d-1cf80423ee3c",
+                  "label": "是否关注公众人物/KOL",
+                  "name": "field_2e7bf6",
+                  "itemNameLabel": "是否关注公众人物/KOL",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入是否关注公众人物/KOL",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "大量关注",
+                      "value": "1"
+                    },
+                    {
+                      "name": "关注一些",
+                      "value": "2"
+                    },
+                    {
+                      "name": "很少关注",
+                      "value": "3"
+                    },
+                    {
+                      "name": "不关注",
+                      "value": "4"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Idce436429-a943-4298-9e85-b39d32c42874",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_92ea3b",
+                "preps": {
+                  "id": "Idce436429-a943-4298-9e85-b39d32c42874",
+                  "label": "社交互动频率(点赞/评论)",
+                  "name": "field_92ea3b",
+                  "itemNameLabel": "社交互动频率(点赞/评论)",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入社交互动频率(点赞/评论)",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "非常频繁",
+                      "value": "1"
+                    },
+                    {
+                      "name": "频繁",
+                      "value": "2"
+                    },
+                    {
+                      "name": "一般",
+                      "value": "3"
+                    },
+                    {
+                      "name": "很少",
+                      "value": "4"
+                    },
+                    {
+                      "name": "从不",
+                      "value": "5"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Iddf5c64ae-6fa6-4779-9bbe-5b0c87a1a4c9",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_a5986f",
+                "preps": {
+                  "id": "Iddf5c64ae-6fa6-4779-9bbe-5b0c87a1a4c9",
+                  "label": "是否加入过线上社群/圈子",
+                  "name": "field_a5986f",
+                  "itemNameLabel": "是否加入过线上社群/圈子",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入是否加入过线上社群/圈子",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "多个",
+                      "value": "1"
+                    },
+                    {
+                      "name": "少量",
+                      "value": "2"
+                    },
+                    {
+                      "name": "没有",
+                      "value": "3"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Idc77e1c59-9b83-4ab5-9258-e37d4dba5a0d",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_629135",
+                "preps": {
+                  "id": "Idc77e1c59-9b83-4ab5-9258-e37d4dba5a0d",
+                  "label": "社交媒体上最关注的内容类型",
+                  "name": "field_629135",
+                  "itemNameLabel": "社交媒体上最关注的内容类型",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入社交媒体上最关注的内容类型",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "新闻资讯",
+                      "value": "1"
+                    },
+                    {
+                      "name": "娱乐搞笑",
+                      "value": "2"
+                    },
+                    {
+                      "name": "知识科普",
+                      "value": "3"
+                    },
+                    {
+                      "name": "生活分享",
+                      "value": "4"
+                    },
+                    {
+                      "name": "时尚美妆",
+                      "value": "5"
+                    },
+                    {
+                      "name": "科技数码",
+                      "value": "6"
+                    },
+                    {
+                      "name": "其他",
+                      "value": "7"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Id2923ba4e-d57c-4165-87f9-50b4064049ec",
+                "compType": "formItem",
+                "itemType": "input",
+                "fieldName": "field_4e4c18",
+                "preps": {
+                  "id": "Id2923ba4e-d57c-4165-87f9-50b4064049ec",
+                  "label": "社交媒体上最关注的内容类型(其他请说明)",
+                  "name": "field_4e4c18",
+                  "itemNameLabel": "社交媒体上最关注的内容类型(其他请说明)",
+                  "formVisible": false,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请填写具体说明",
+                  "dataSource": "",
+                  "values": [],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Id7c0615dc-b254-44df-9ea0-dd1e24e44e76",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_3fbd7f",
+                "preps": {
+                  "id": "Id7c0615dc-b254-44df-9ea0-dd1e24e44e76",
+                  "label": "是否在社交媒体上参与过话题讨论",
+                  "name": "field_3fbd7f",
+                  "itemNameLabel": "是否在社交媒体上参与过话题讨论",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入是否在社交媒体上参与过话题讨论",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "经常",
+                      "value": "1"
+                    },
+                    {
+                      "name": "偶尔",
+                      "value": "2"
+                    },
+                    {
+                      "name": "很少",
+                      "value": "3"
+                    },
+                    {
+                      "name": "从不",
+                      "value": "4"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Id0bb63a5a-4842-413c-ae64-834b4b13b4ee",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_bdbae8",
+                "preps": {
+                  "id": "Id0bb63a5a-4842-413c-ae64-834b4b13b4ee",
+                  "label": "是否关注过网络热点事件",
+                  "name": "field_bdbae8",
+                  "itemNameLabel": "是否关注过网络热点事件",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入是否关注过网络热点事件",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "经常关注",
+                      "value": "1"
+                    },
+                    {
+                      "name": "偶尔关注",
+                      "value": "2"
+                    },
+                    {
+                      "name": "很少关注",
+                      "value": "3"
+                    },
+                    {
+                      "name": "不关注",
+                      "value": "4"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Id2d63c40a-733a-4ea8-82d6-192d1997be78",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_6986b4",
+                "preps": {
+                  "id": "Id2d63c40a-733a-4ea8-82d6-192d1997be78",
+                  "label": "对社交媒体上信息真实性的判断",
+                  "name": "field_6986b4",
+                  "itemNameLabel": "对社交媒体上信息真实性的判断",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入对社交媒体上信息真实性的判断",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "大部分可信",
+                      "value": "1"
+                    },
+                    {
+                      "name": "部分可信",
+                      "value": "2"
+                    },
+                    {
+                      "name": "不太可信",
+                      "value": "3"
+                    },
+                    {
+                      "name": "完全不可信",
+                      "value": "4"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "Idf1222d5f-1196-454e-b39d-1c03d43abfb8",
+      "compType": "container",
+      "itemType": "card",
+      "fieldName": "field_5df2ab",
+      "preps": {
+        "id": "Idf1222d5f-1196-454e-b39d-1c03d43abfb8",
+        "label": "网络安全与健康",
+        "name": "field_5df2ab",
+        "itemNameLabel": "网络安全与健康",
+        "headerFieldList": [],
+        "elements": [
+          {
+            "label": "网络安全与健康",
+            "tabName": "网络安全与健康",
+            "objectName": "网络安全与健康",
+            "subFormFlag": "Y",
+            "items": [
+              {
+                "id": "Id2cd71727-0708-4875-a7f7-b8aba8e43dd3",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_53e017",
+                "preps": {
+                  "id": "Id2cd71727-0708-4875-a7f7-b8aba8e43dd3",
+                  "label": "是否担心过度使用手机/网络",
+                  "name": "field_53e017",
+                  "itemNameLabel": "是否担心过度使用手机/网络",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入是否担心过度使用手机/网络",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "非常担心",
+                      "value": "1"
+                    },
+                    {
+                      "name": "有些担心",
+                      "value": "2"
+                    },
+                    {
+                      "name": "不担心",
+                      "value": "3"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Id55fa5456-22ad-426c-b824-ab595d7a8955",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_e80266",
+                "preps": {
+                  "id": "Id55fa5456-22ad-426c-b824-ab595d7a8955",
+                  "label": "是否尝试过控制上网时间",
+                  "name": "field_e80266",
+                  "itemNameLabel": "是否尝试过控制上网时间",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入是否尝试过控制上网时间",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "多次尝试",
+                      "value": "1"
+                    },
+                    {
+                      "name": "尝试过",
+                      "value": "2"
+                    },
+                    {
+                      "name": "想过但没做",
+                      "value": "3"
+                    },
+                    {
+                      "name": "没有想过",
+                      "value": "4"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Id60bb64c3-2249-4003-b63e-83b30f92f88e",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_d459ed",
+                "preps": {
+                  "id": "Id60bb64c3-2249-4003-b63e-83b30f92f88e",
+                  "label": "是否遇到过网络安全问题",
+                  "name": "field_d459ed",
+                  "itemNameLabel": "是否遇到过网络安全问题",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入是否遇到过网络安全问题",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "是，多次",
+                      "value": "1"
+                    },
+                    {
+                      "name": "是，偶尔",
+                      "value": "2"
+                    },
+                    {
+                      "name": "否",
+                      "value": "3"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Id8d0b3571-c5e5-4509-b489-a88853d7270c",
+                "compType": "formItem",
+                "itemType": "checkbox",
+                "fieldName": "field_e14904",
+                "preps": {
+                  "id": "Id8d0b3571-c5e5-4509-b489-a88853d7270c",
+                  "label": "遇到的网络安全问题类型(多选)",
+                  "name": "field_e14904",
+                  "itemNameLabel": "遇到的网络安全问题类型(多选)",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入遇到的网络安全问题类型(多选)",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "账号被盗",
+                      "value": "1"
+                    },
+                    {
+                      "name": "个人信息泄露",
+                      "value": "2"
+                    },
+                    {
+                      "name": "网络诈骗",
+                      "value": "3"
+                    },
+                    {
+                      "name": "骚扰信息",
+                      "value": "4"
+                    },
+                    {
+                      "name": "没有遇到过",
+                      "value": "5"
+                    },
+                    {
+                      "name": "其他",
+                      "value": "6"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Ide7ddf315-e12a-465e-a494-aa6618a73cab",
+                "compType": "formItem",
+                "itemType": "input",
+                "fieldName": "field_a4f9f4",
+                "preps": {
+                  "id": "Ide7ddf315-e12a-465e-a494-aa6618a73cab",
+                  "label": "遇到的网络安全问题类型(多选)(其他请说明)",
+                  "name": "field_a4f9f4",
+                  "itemNameLabel": "遇到的网络安全问题类型(多选)(其他请说明)",
+                  "formVisible": false,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请填写具体说明",
+                  "dataSource": "",
+                  "values": [],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Id7804f9b6-3ad2-4524-90d3-83ed3476fc49",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_259d7d",
+                "preps": {
+                  "id": "Id7804f9b6-3ad2-4524-90d3-83ed3476fc49",
+                  "label": "密码管理方式",
+                  "name": "field_259d7d",
+                  "itemNameLabel": "密码管理方式",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入密码管理方式",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "每个账号不同密码",
+                      "value": "1"
+                    },
+                    {
+                      "name": "大部分不同",
+                      "value": "2"
+                    },
+                    {
+                      "name": "几个密码轮换",
+                      "value": "3"
+                    },
+                    {
+                      "name": "几乎同一密码",
+                      "value": "4"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Id6d71e98b-fa1f-4b45-8c97-50bd86647411",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_7273e5",
+                "preps": {
+                  "id": "Id6d71e98b-fa1f-4b45-8c97-50bd86647411",
+                  "label": "是否开启两步验证",
+                  "name": "field_7273e5",
+                  "itemNameLabel": "是否开启两步验证",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入是否开启两步验证",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "是",
+                      "value": "1"
+                    },
+                    {
+                      "name": "部分账号",
+                      "value": "2"
+                    },
+                    {
+                      "name": "否",
+                      "value": "3"
+                    },
+                    {
+                      "name": "不知道是什么",
+                      "value": "4"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Id5650b873-7919-42e2-9b79-004647686b93",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_82d002",
+                "preps": {
+                  "id": "Id5650b873-7919-42e2-9b79-004647686b93",
+                  "label": "上网是否影响睡眠",
+                  "name": "field_82d002",
+                  "itemNameLabel": "上网是否影响睡眠",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入上网是否影响睡眠",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "严重影响",
+                      "value": "1"
+                    },
+                    {
+                      "name": "有些影响",
+                      "value": "2"
+                    },
+                    {
+                      "name": "轻微影响",
+                      "value": "3"
+                    },
+                    {
+                      "name": "没有影响",
+                      "value": "4"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Id83fa600f-b02f-4bf8-a44b-a81b3d027dc7",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_289915",
+                "preps": {
+                  "id": "Id83fa600f-b02f-4bf8-a44b-a81b3d027dc7",
+                  "label": "上网是否影响工作/学习",
+                  "name": "field_289915",
+                  "itemNameLabel": "上网是否影响工作/学习",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入上网是否影响工作/学习",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "严重影响",
+                      "value": "1"
+                    },
+                    {
+                      "name": "有些影响",
+                      "value": "2"
+                    },
+                    {
+                      "name": "轻微影响",
+                      "value": "3"
+                    },
+                    {
+                      "name": "没有影响",
+                      "value": "4"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Id8b6dd9da-f0fb-4a9b-aeaa-fd470db23d8a",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_f051d8",
+                "preps": {
+                  "id": "Id8b6dd9da-f0fb-4a9b-aeaa-fd470db23d8a",
+                  "label": "是否因上网影响现实社交",
+                  "name": "field_f051d8",
+                  "itemNameLabel": "是否因上网影响现实社交",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入是否因上网影响现实社交",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "严重影响",
+                      "value": "1"
+                    },
+                    {
+                      "name": "有些影响",
+                      "value": "2"
+                    },
+                    {
+                      "name": "轻微影响",
+                      "value": "3"
+                    },
+                    {
+                      "name": "没有影响",
+                      "value": "4"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Id5f366636-0d7d-48c2-890a-0c7c7b6fd613",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_a6adb3",
+                "preps": {
+                  "id": "Id5f366636-0d7d-48c2-890a-0c7c7b6fd613",
+                  "label": "上网是否影响了运动锻炼",
+                  "name": "field_a6adb3",
+                  "itemNameLabel": "上网是否影响了运动锻炼",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入上网是否影响了运动锻炼",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "严重影响",
+                      "value": "1"
+                    },
+                    {
+                      "name": "有些影响",
+                      "value": "2"
+                    },
+                    {
+                      "name": "轻微影响",
+                      "value": "3"
+                    },
+                    {
+                      "name": "没有影响",
+                      "value": "4"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Idd18b6457-b5da-4c17-b274-b21cab63c448",
+                "compType": "formItem",
+                "itemType": "rate",
+                "fieldName": "field_83859b",
+                "preps": {
+                  "id": "Idd18b6457-b5da-4c17-b274-b21cab63c448",
+                  "label": "网络使用习惯健康度自评",
+                  "name": "field_83859b",
+                  "itemNameLabel": "网络使用习惯健康度自评",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入网络使用习惯健康度自评",
+                  "dataSource": "",
+                  "values": [],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Idc8a791d1-e484-4eb1-b912-e69e51712178",
+                "compType": "formItem",
+                "itemType": "textarea",
+                "fieldName": "field_9c0a27",
+                "preps": {
+                  "id": "Idc8a791d1-e484-4eb1-b912-e69e51712178",
+                  "label": "对健康使用网络有什么建议",
+                  "name": "field_9c0a27",
+                  "itemNameLabel": "对健康使用网络有什么建议",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 1000,
+                  "placeholder": "请详细描述您的想法",
+                  "dataSource": "",
+                  "values": [],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "exportTime": "2026-06-16T10:51:24.812Z",
+  "version": "1.0"
+}

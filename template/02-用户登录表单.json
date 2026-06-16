@@ -5,14 +5,14 @@
   },
   "dataList": [
     {
-      "id": "Ided096561-3192-4e6a-acaf-89185396c798",
+      "id": "Id41e6e176-60c7-4d54-baa0-078168f2dd81",
       "compType": "formItem",
       "itemType": "input",
-      "fieldName": "field_d5bcd6",
+      "fieldName": "field_6807d2",
       "preps": {
-        "id": "Ided096561-3192-4e6a-acaf-89185396c798",
+        "id": "Id41e6e176-60c7-4d54-baa0-078168f2dd81",
         "label": "用户名/邮箱",
-        "name": "field_d5bcd6",
+        "name": "field_6807d2",
         "itemNameLabel": "用户名/邮箱",
         "formVisible": true,
         "listVisible": true,
@@ -31,14 +31,14 @@
       }
     },
     {
-      "id": "Idfc80b123-7258-4615-acaa-1d895119a557",
+      "id": "Id7bfd29ee-e886-48d3-9cf5-80e42d300a91",
       "compType": "formItem",
       "itemType": "password",
-      "fieldName": "field_9e6d9d",
+      "fieldName": "field_039cc1",
       "preps": {
-        "id": "Idfc80b123-7258-4615-acaa-1d895119a557",
+        "id": "Id7bfd29ee-e886-48d3-9cf5-80e42d300a91",
         "label": "密码",
-        "name": "field_9e6d9d",
+        "name": "field_039cc1",
         "itemNameLabel": "密码",
         "formVisible": true,
         "listVisible": true,
@@ -57,37 +57,37 @@
       }
     },
     {
-      "id": "Ida7feab22-ae61-4bce-9bb6-1a39202d16fa",
+      "id": "Id7494704c-f80e-4f67-9977-75531c1a679f",
       "compType": "container",
       "itemType": "box",
-      "fieldName": "field_fca5b6",
+      "fieldName": "field_d11ed9",
       "rowNums": 1,
       "columnNums": 2,
       "preps": {
-        "id": "Ida7feab22-ae61-4bce-9bb6-1a39202d16fa",
+        "id": "Id7494704c-f80e-4f67-9977-75531c1a679f",
         "label": "Grid Layout",
-        "name": "field_fca5b6",
+        "name": "field_d11ed9",
         "itemNameLabel": "Grid Layout",
         "elements": [
           {
-            "id": "row-41418ec8-f3fb-4061-a61b-0147078a0e80",
+            "id": "row-c3328626-b11b-411e-ab27-9bbfe72b3d75",
             "rowIndex": 1,
             "columns": [
               {
-                "id": "col-299969b6-1476-4ee6-b22d-cfe6f95bf5d1",
+                "id": "col-5f96acff-87ef-4c77-a8cc-f33f7b9ae230",
                 "cellVisible": true,
                 "colIndex": 1,
                 "colspan": 12,
                 "items": [
                   {
-                    "id": "Id8ee43f03-5da7-4004-8bbe-e7f2e812a835",
+                    "id": "Id7de42c38-dd08-40f9-989c-46f8e98cc0f0",
                     "compType": "formItem",
                     "itemType": "input",
-                    "fieldName": "field_3d0f15",
+                    "fieldName": "field_c1d517",
                     "preps": {
-                      "id": "Id8ee43f03-5da7-4004-8bbe-e7f2e812a835",
+                      "id": "Id7de42c38-dd08-40f9-989c-46f8e98cc0f0",
                       "label": "验证码",
-                      "name": "field_3d0f15",
+                      "name": "field_c1d517",
                       "itemNameLabel": "验证码",
                       "formVisible": true,
                       "listVisible": true,
@@ -108,20 +108,20 @@
                 ]
               },
               {
-                "id": "col-4e0f8b7c-f22b-4065-a288-61eba7d52092",
+                "id": "col-3959d3f5-9489-4a63-969f-62723039bbd3",
                 "cellVisible": true,
                 "colIndex": 1,
                 "colspan": 12,
                 "items": [
                   {
-                    "id": "Idbf28ae51-158b-4fa6-ba17-60625bbf56d0",
+                    "id": "Id753869cb-4a2b-48b3-b60b-e5268a035bf0",
                     "compType": "formItem",
                     "itemType": "button",
-                    "fieldName": "field_1a9930",
+                    "fieldName": "field_21d665",
                     "preps": {
-                      "id": "Idbf28ae51-158b-4fa6-ba17-60625bbf56d0",
+                      "id": "Id753869cb-4a2b-48b3-b60b-e5268a035bf0",
                       "label": "获取验证码",
-                      "name": "field_1a9930",
+                      "name": "field_21d665",
                       "itemNameLabel": "获取验证码",
                       "formVisible": true,
                       "listVisible": true,
@@ -147,14 +147,14 @@
       }
     },
     {
-      "id": "Id9a55d00c-97c0-4eb7-8a99-853c2d1afb40",
+      "id": "Idc54512ed-def6-4082-9ee0-85caf1669a02",
       "compType": "formItem",
       "itemType": "checkbox",
-      "fieldName": "field_453e4a",
+      "fieldName": "field_86035f",
       "preps": {
-        "id": "Id9a55d00c-97c0-4eb7-8a99-853c2d1afb40",
+        "id": "Idc54512ed-def6-4082-9ee0-85caf1669a02",
         "label": "记住我",
-        "name": "field_453e4a",
+        "name": "field_86035f",
         "itemNameLabel": "记住我",
         "formVisible": true,
         "listVisible": true,
@@ -173,37 +173,37 @@
       }
     },
     {
-      "id": "Id5ca8f15b-c453-4d1c-928b-980caea6c5bc",
+      "id": "Id9cebdb40-4bf8-4513-8a68-c1f1611e0f46",
       "compType": "container",
       "itemType": "box",
-      "fieldName": "field_e95e43",
+      "fieldName": "field_f91d21",
       "rowNums": 1,
       "columnNums": 1,
       "preps": {
-        "id": "Id5ca8f15b-c453-4d1c-928b-980caea6c5bc",
+        "id": "Id9cebdb40-4bf8-4513-8a68-c1f1611e0f46",
         "label": "Grid Layout",
-        "name": "field_e95e43",
+        "name": "field_f91d21",
         "itemNameLabel": "Grid Layout",
         "elements": [
           {
-            "id": "row-ffdc0157-7f7e-47d4-a8c2-f24f5d02b785",
+            "id": "row-e7b48df1-cf34-40bb-ace7-3fa4d77c1b13",
             "rowIndex": 1,
             "columns": [
               {
-                "id": "col-a6757e1c-62be-4106-8863-43d483e68638",
+                "id": "col-8580129d-8ee1-4051-bc36-35115450f808",
                 "cellVisible": true,
                 "colIndex": 1,
                 "colspan": 24,
                 "items": [
                   {
-                    "id": "Id10755f58-d6c5-4989-b229-fbf5b0b8da91",
+                    "id": "Idf211a514-3508-42aa-86b0-8a153c18fde1",
                     "compType": "formItem",
                     "itemType": "button",
-                    "fieldName": "field_981cb8",
+                    "fieldName": "field_a87546",
                     "preps": {
-                      "id": "Id10755f58-d6c5-4989-b229-fbf5b0b8da91",
+                      "id": "Idf211a514-3508-42aa-86b0-8a153c18fde1",
                       "label": "登录",
-                      "name": "field_981cb8",
+                      "name": "field_a87546",
                       "itemNameLabel": "登录",
                       "formVisible": true,
                       "listVisible": true,
@@ -230,6 +230,6 @@
       }
     }
   ],
-  "exportTime": "2026-06-16T09:36:26.496Z",
+  "exportTime": "2026-06-16T10:22:42.520Z",
   "version": "1.0"
 }

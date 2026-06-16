@@ -1,0 +1,2677 @@
+{
+  "formInfo": {
+    "formName": "26-阅读习惯问卷",
+    "currentPageType": "pc"
+  },
+  "dataList": [
+    {
+      "id": "Id50a77c89-a19d-4d3a-8af6-70859caca955",
+      "compType": "container",
+      "itemType": "card",
+      "fieldName": "field_51d124",
+      "preps": {
+        "id": "Id50a77c89-a19d-4d3a-8af6-70859caca955",
+        "label": "基本信息",
+        "name": "field_51d124",
+        "itemNameLabel": "基本信息",
+        "headerFieldList": [],
+        "elements": [
+          {
+            "label": "基本信息",
+            "tabName": "基本信息",
+            "objectName": "基本信息",
+            "subFormFlag": "Y",
+            "items": [
+              {
+                "id": "Id93dbc3a4-f495-4427-ba6c-fce7b689a49e",
+                "compType": "container",
+                "itemType": "box",
+                "fieldName": "field_ef70fb",
+                "rowNums": 1,
+                "columnNums": 2,
+                "preps": {
+                  "id": "Id93dbc3a4-f495-4427-ba6c-fce7b689a49e",
+                  "label": "Grid Layout",
+                  "name": "field_ef70fb",
+                  "itemNameLabel": "Grid Layout",
+                  "elements": [
+                    {
+                      "id": "row-5c418125-9782-4004-b01e-fec06a2a2a8f",
+                      "rowIndex": 1,
+                      "columns": [
+                        {
+                          "id": "col-4607f815-b5f8-40bb-9c70-6a26a8efd7cc",
+                          "cellVisible": true,
+                          "colIndex": 1,
+                          "colspan": 12,
+                          "items": [
+                            {
+                              "id": "Ide14d9765-ea89-4bfc-92ea-fe35b8336e15",
+                              "compType": "formItem",
+                              "itemType": "radio",
+                              "fieldName": "field_662933",
+                              "preps": {
+                                "id": "Ide14d9765-ea89-4bfc-92ea-fe35b8336e15",
+                                "label": "性别",
+                                "name": "field_662933",
+                                "itemNameLabel": "性别",
+                                "formVisible": true,
+                                "listVisible": true,
+                                "viewVisible": true,
+                                "searchVisible": false,
+                                "required": false,
+                                "disabled": false,
+                                "clearable": true,
+                                "readonly": false,
+                                "maxLength": 255,
+                                "placeholder": "请输入性别",
+                                "dataSource": "data",
+                                "values": [
+                                  {
+                                    "name": "男",
+                                    "value": "1"
+                                  },
+                                  {
+                                    "name": "女",
+                                    "value": "2"
+                                  }
+                                ],
+                                "rules": [],
+                                "helpMsg": ""
+                              }
+                            }
+                          ]
+                        },
+                        {
+                          "id": "col-9d8b0175-32d7-44b3-9107-8d9f80010273",
+                          "cellVisible": true,
+                          "colIndex": 1,
+                          "colspan": 12,
+                          "items": [
+                            {
+                              "id": "Id9ca46848-566f-4a91-8d3d-9e3ac625c10b",
+                              "compType": "formItem",
+                              "itemType": "radio",
+                              "fieldName": "field_ff5a20",
+                              "preps": {
+                                "id": "Id9ca46848-566f-4a91-8d3d-9e3ac625c10b",
+                                "label": "年龄段",
+                                "name": "field_ff5a20",
+                                "itemNameLabel": "年龄段",
+                                "formVisible": true,
+                                "listVisible": true,
+                                "viewVisible": true,
+                                "searchVisible": false,
+                                "required": false,
+                                "disabled": false,
+                                "clearable": true,
+                                "readonly": false,
+                                "maxLength": 255,
+                                "placeholder": "请输入年龄段",
+                                "dataSource": "data",
+                                "values": [
+                                  {
+                                    "name": "18岁以下",
+                                    "value": "1"
+                                  },
+                                  {
+                                    "name": "18-25岁",
+                                    "value": "2"
+                                  },
+                                  {
+                                    "name": "26-35岁",
+                                    "value": "3"
+                                  },
+                                  {
+                                    "name": "36-45岁",
+                                    "value": "4"
+                                  },
+                                  {
+                                    "name": "46-60岁",
+                                    "value": "5"
+                                  },
+                                  {
+                                    "name": "60岁以上",
+                                    "value": "6"
+                                  }
+                                ],
+                                "rules": [],
+                                "helpMsg": ""
+                              }
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              },
+              {
+                "id": "Id81631755-a329-4c60-b73d-efb5f6ec6a6e",
+                "compType": "container",
+                "itemType": "box",
+                "fieldName": "field_dfe864",
+                "rowNums": 1,
+                "columnNums": 2,
+                "preps": {
+                  "id": "Id81631755-a329-4c60-b73d-efb5f6ec6a6e",
+                  "label": "Grid Layout",
+                  "name": "field_dfe864",
+                  "itemNameLabel": "Grid Layout",
+                  "elements": [
+                    {
+                      "id": "row-144d4c70-0aed-4da6-8516-f21577873f3f",
+                      "rowIndex": 1,
+                      "columns": [
+                        {
+                          "id": "col-4521d4a1-508d-427b-9bf1-d028973e7186",
+                          "cellVisible": true,
+                          "colIndex": 1,
+                          "colspan": 12,
+                          "items": [
+                            {
+                              "id": "Id03846759-d227-4cdb-b6a7-ebe9129282da",
+                              "compType": "formItem",
+                              "itemType": "radio",
+                              "fieldName": "field_f36611",
+                              "preps": {
+                                "id": "Id03846759-d227-4cdb-b6a7-ebe9129282da",
+                                "label": "学历",
+                                "name": "field_f36611",
+                                "itemNameLabel": "学历",
+                                "formVisible": true,
+                                "listVisible": true,
+                                "viewVisible": true,
+                                "searchVisible": false,
+                                "required": false,
+                                "disabled": false,
+                                "clearable": true,
+                                "readonly": false,
+                                "maxLength": 255,
+                                "placeholder": "请输入学历",
+                                "dataSource": "data",
+                                "values": [
+                                  {
+                                    "name": "初中及以下",
+                                    "value": "1"
+                                  },
+                                  {
+                                    "name": "高中/中专",
+                                    "value": "2"
+                                  },
+                                  {
+                                    "name": "大专",
+                                    "value": "3"
+                                  },
+                                  {
+                                    "name": "本科",
+                                    "value": "4"
+                                  },
+                                  {
+                                    "name": "硕士及以上",
+                                    "value": "5"
+                                  }
+                                ],
+                                "rules": [],
+                                "helpMsg": ""
+                              }
+                            }
+                          ]
+                        },
+                        {
+                          "id": "col-e1f0bc64-8788-48a5-963a-ad9eea748f94",
+                          "cellVisible": true,
+                          "colIndex": 1,
+                          "colspan": 12,
+                          "items": [
+                            [
+                              {
+                                "id": "Idf3ec22dd-a0f7-4550-a871-3a728e206ced",
+                                "compType": "formItem",
+                                "itemType": "radio",
+                                "fieldName": "field_8cf96b",
+                                "preps": {
+                                  "id": "Idf3ec22dd-a0f7-4550-a871-3a728e206ced",
+                                  "label": "职业",
+                                  "name": "field_8cf96b",
+                                  "itemNameLabel": "职业",
+                                  "formVisible": true,
+                                  "listVisible": true,
+                                  "viewVisible": true,
+                                  "searchVisible": false,
+                                  "required": false,
+                                  "disabled": false,
+                                  "clearable": true,
+                                  "readonly": false,
+                                  "maxLength": 255,
+                                  "placeholder": "请输入职业",
+                                  "dataSource": "data",
+                                  "values": [
+                                    {
+                                      "name": "学生",
+                                      "value": "1"
+                                    },
+                                    {
+                                      "name": "教师",
+                                      "value": "2"
+                                    },
+                                    {
+                                      "name": "上班族",
+                                      "value": "3"
+                                    },
+                                    {
+                                      "name": "自由职业",
+                                      "value": "4"
+                                    },
+                                    {
+                                      "name": "退休",
+                                      "value": "5"
+                                    },
+                                    {
+                                      "name": "其他",
+                                      "value": "6"
+                                    }
+                                  ],
+                                  "rules": [],
+                                  "helpMsg": ""
+                                }
+                              },
+                              {
+                                "id": "Idadecd90a-9fdb-4670-9f59-6c80c58aaf31",
+                                "compType": "formItem",
+                                "itemType": "input",
+                                "fieldName": "field_e4dd9a",
+                                "preps": {
+                                  "id": "Idadecd90a-9fdb-4670-9f59-6c80c58aaf31",
+                                  "label": "职业(其他请说明)",
+                                  "name": "field_e4dd9a",
+                                  "itemNameLabel": "职业(其他请说明)",
+                                  "formVisible": false,
+                                  "listVisible": true,
+                                  "viewVisible": true,
+                                  "searchVisible": false,
+                                  "required": false,
+                                  "disabled": false,
+                                  "clearable": true,
+                                  "readonly": false,
+                                  "maxLength": 255,
+                                  "placeholder": "请填写具体说明",
+                                  "dataSource": "",
+                                  "values": [],
+                                  "rules": [],
+                                  "helpMsg": ""
+                                }
+                              }
+                            ]
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              },
+              {
+                "id": "Id196c24ae-6333-4ebc-8775-9ca41cfa6ca5",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_daf176",
+                "preps": {
+                  "id": "Id196c24ae-6333-4ebc-8775-9ca41cfa6ca5",
+                  "label": "年收入范围",
+                  "name": "field_daf176",
+                  "itemNameLabel": "年收入范围",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入年收入范围",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "5万以下",
+                      "value": "1"
+                    },
+                    {
+                      "name": "5-10万",
+                      "value": "2"
+                    },
+                    {
+                      "name": "10-20万",
+                      "value": "3"
+                    },
+                    {
+                      "name": "20-50万",
+                      "value": "4"
+                    },
+                    {
+                      "name": "50万以上",
+                      "value": "5"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "Idc961fb74-6d96-404d-8d71-7a7e6dab42a8",
+      "compType": "container",
+      "itemType": "card",
+      "fieldName": "field_db7e40",
+      "preps": {
+        "id": "Idc961fb74-6d96-404d-8d71-7a7e6dab42a8",
+        "label": "阅读偏好",
+        "name": "field_db7e40",
+        "itemNameLabel": "阅读偏好",
+        "headerFieldList": [],
+        "elements": [
+          {
+            "label": "阅读偏好",
+            "tabName": "阅读偏好",
+            "objectName": "阅读偏好",
+            "subFormFlag": "Y",
+            "items": [
+              {
+                "id": "Id9d748268-2c85-4880-ba94-465a271f4551",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_ec524d",
+                "preps": {
+                  "id": "Id9d748268-2c85-4880-ba94-465a271f4551",
+                  "label": "最喜欢的阅读方式",
+                  "name": "field_ec524d",
+                  "itemNameLabel": "最喜欢的阅读方式",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入最喜欢的阅读方式",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "纸质书",
+                      "value": "1"
+                    },
+                    {
+                      "name": "电子书",
+                      "value": "2"
+                    },
+                    {
+                      "name": "有声书",
+                      "value": "3"
+                    },
+                    {
+                      "name": "都差不多",
+                      "value": "4"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Id941fa163-4612-4c55-9881-3f6de5f0c7fa",
+                "compType": "formItem",
+                "itemType": "checkbox",
+                "fieldName": "field_97b2c9",
+                "preps": {
+                  "id": "Id941fa163-4612-4c55-9881-3f6de5f0c7fa",
+                  "label": "最喜欢的书籍类型(多选)",
+                  "name": "field_97b2c9",
+                  "itemNameLabel": "最喜欢的书籍类型(多选)",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入最喜欢的书籍类型(多选)",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "文学小说",
+                      "value": "1"
+                    },
+                    {
+                      "name": "历史传记",
+                      "value": "2"
+                    },
+                    {
+                      "name": "科学技术",
+                      "value": "3"
+                    },
+                    {
+                      "name": "经管励志",
+                      "value": "4"
+                    },
+                    {
+                      "name": "哲学心理",
+                      "value": "5"
+                    },
+                    {
+                      "name": "教育学习",
+                      "value": "6"
+                    },
+                    {
+                      "name": "漫画绘本",
+                      "value": "7"
+                    },
+                    {
+                      "name": "杂志期刊",
+                      "value": "8"
+                    },
+                    {
+                      "name": "其他",
+                      "value": "9"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Id0a045b72-db2c-4cb5-9456-a3cfcc4ad85b",
+                "compType": "formItem",
+                "itemType": "input",
+                "fieldName": "field_29f2ad",
+                "preps": {
+                  "id": "Id0a045b72-db2c-4cb5-9456-a3cfcc4ad85b",
+                  "label": "最喜欢的书籍类型(多选)(其他请说明)",
+                  "name": "field_29f2ad",
+                  "itemNameLabel": "最喜欢的书籍类型(多选)(其他请说明)",
+                  "formVisible": false,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请填写具体说明",
+                  "dataSource": "",
+                  "values": [],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Ida5e585d7-084b-440b-84d6-eccf3280b80b",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_57ed75",
+                "preps": {
+                  "id": "Ida5e585d7-084b-440b-84d6-eccf3280b80b",
+                  "label": "阅读目的",
+                  "name": "field_57ed75",
+                  "itemNameLabel": "阅读目的",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入阅读目的",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "学习提升",
+                      "value": "1"
+                    },
+                    {
+                      "name": "休闲娱乐",
+                      "value": "2"
+                    },
+                    {
+                      "name": "工作需要",
+                      "value": "3"
+                    },
+                    {
+                      "name": "考试备考",
+                      "value": "4"
+                    },
+                    {
+                      "name": "兴趣爱好",
+                      "value": "5"
+                    },
+                    {
+                      "name": "其他",
+                      "value": "6"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Idda293db5-6185-4c21-988f-cfc44ce9878b",
+                "compType": "formItem",
+                "itemType": "input",
+                "fieldName": "field_67a47d",
+                "preps": {
+                  "id": "Idda293db5-6185-4c21-988f-cfc44ce9878b",
+                  "label": "阅读目的(其他请说明)",
+                  "name": "field_67a47d",
+                  "itemNameLabel": "阅读目的(其他请说明)",
+                  "formVisible": false,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请填写具体说明",
+                  "dataSource": "",
+                  "values": [],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Id50248e7a-4db6-47b3-9126-525b45a78519",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_f9df03",
+                "preps": {
+                  "id": "Id50248e7a-4db6-47b3-9126-525b45a78519",
+                  "label": "选择书籍的主要依据",
+                  "name": "field_f9df03",
+                  "itemNameLabel": "选择书籍的主要依据",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入选择书籍的主要依据",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "朋友推荐",
+                      "value": "1"
+                    },
+                    {
+                      "name": "榜单排名",
+                      "value": "2"
+                    },
+                    {
+                      "name": "作者知名度",
+                      "value": "3"
+                    },
+                    {
+                      "name": "书评/读后感",
+                      "value": "4"
+                    },
+                    {
+                      "name": "封面/标题",
+                      "value": "5"
+                    },
+                    {
+                      "name": "随意浏览",
+                      "value": "6"
+                    },
+                    {
+                      "name": "其他",
+                      "value": "7"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Id2e089340-280b-4cee-9f07-c10a33eab6b7",
+                "compType": "formItem",
+                "itemType": "input",
+                "fieldName": "field_12b852",
+                "preps": {
+                  "id": "Id2e089340-280b-4cee-9f07-c10a33eab6b7",
+                  "label": "选择书籍的主要依据(其他请说明)",
+                  "name": "field_12b852",
+                  "itemNameLabel": "选择书籍的主要依据(其他请说明)",
+                  "formVisible": false,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请填写具体说明",
+                  "dataSource": "",
+                  "values": [],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Id5b2b24a6-57e3-4120-a5c4-aa8252567003",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_1e3377",
+                "preps": {
+                  "id": "Id5b2b24a6-57e3-4120-a5c4-aa8252567003",
+                  "label": "阅读语言偏好",
+                  "name": "field_1e3377",
+                  "itemNameLabel": "阅读语言偏好",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入阅读语言偏好",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "中文",
+                      "value": "1"
+                    },
+                    {
+                      "name": "英文",
+                      "value": "2"
+                    },
+                    {
+                      "name": "中英兼有",
+                      "value": "3"
+                    },
+                    {
+                      "name": "其他语言",
+                      "value": "4"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Idf9330a98-e071-4379-8c8e-b274cac2b2fa",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_9a5258",
+                "preps": {
+                  "id": "Idf9330a98-e071-4379-8c8e-b274cac2b2fa",
+                  "label": "是否关注新书发布",
+                  "name": "field_9a5258",
+                  "itemNameLabel": "是否关注新书发布",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入是否关注新书发布",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "经常关注",
+                      "value": "1"
+                    },
+                    {
+                      "name": "偶尔关注",
+                      "value": "2"
+                    },
+                    {
+                      "name": "很少关注",
+                      "value": "3"
+                    },
+                    {
+                      "name": "不关注",
+                      "value": "4"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Id68624d59-5492-4a95-aa86-afe121c3e60b",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_cf8610",
+                "preps": {
+                  "id": "Id68624d59-5492-4a95-aa86-afe121c3e60b",
+                  "label": "对经典文学的态度",
+                  "name": "field_cf8610",
+                  "itemNameLabel": "对经典文学的态度",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入对经典文学的态度",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "非常喜欢",
+                      "value": "1"
+                    },
+                    {
+                      "name": "喜欢",
+                      "value": "2"
+                    },
+                    {
+                      "name": "一般",
+                      "value": "3"
+                    },
+                    {
+                      "name": "不太喜欢",
+                      "value": "4"
+                    },
+                    {
+                      "name": "不喜欢",
+                      "value": "5"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Ide22b5916-4dc6-41f7-85ce-97765d073cfd",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_bf4fa4",
+                "preps": {
+                  "id": "Ide22b5916-4dc6-41f7-85ce-97765d073cfd",
+                  "label": "是否喜欢同一作者的多部作品",
+                  "name": "field_bf4fa4",
+                  "itemNameLabel": "是否喜欢同一作者的多部作品",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入是否喜欢同一作者的多部作品",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "是，会追读",
+                      "value": "1"
+                    },
+                    {
+                      "name": "看情况",
+                      "value": "2"
+                    },
+                    {
+                      "name": "不太会",
+                      "value": "3"
+                    },
+                    {
+                      "name": "从不",
+                      "value": "4"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Id3e29d85e-f6f8-46ff-8608-e5d9487a0092",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_9700e6",
+                "preps": {
+                  "id": "Id3e29d85e-f6f8-46ff-8608-e5d9487a0092",
+                  "label": "是否偏好系列丛书/套书",
+                  "name": "field_9700e6",
+                  "itemNameLabel": "是否偏好系列丛书/套书",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入是否偏好系列丛书/套书",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "非常喜欢",
+                      "value": "1"
+                    },
+                    {
+                      "name": "喜欢",
+                      "value": "2"
+                    },
+                    {
+                      "name": "一般",
+                      "value": "3"
+                    },
+                    {
+                      "name": "不太喜欢",
+                      "value": "4"
+                    },
+                    {
+                      "name": "不喜欢",
+                      "value": "5"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Idf88408ef-cf8b-44fd-a2e0-dde4a145d2ef",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_0f22f0",
+                "preps": {
+                  "id": "Idf88408ef-cf8b-44fd-a2e0-dde4a145d2ef",
+                  "label": "购买书籍的主要渠道",
+                  "name": "field_0f22f0",
+                  "itemNameLabel": "购买书籍的主要渠道",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入购买书籍的主要渠道",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "线上书店",
+                      "value": "1"
+                    },
+                    {
+                      "name": "实体书店",
+                      "value": "2"
+                    },
+                    {
+                      "name": "二手书",
+                      "value": "3"
+                    },
+                    {
+                      "name": "电子书平台",
+                      "value": "4"
+                    },
+                    {
+                      "name": "图书馆借阅",
+                      "value": "5"
+                    },
+                    {
+                      "name": "朋友赠送",
+                      "value": "6"
+                    },
+                    {
+                      "name": "其他",
+                      "value": "7"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Idbbcdb5e1-d33d-4cb4-a6ef-4f36b85452ec",
+                "compType": "formItem",
+                "itemType": "input",
+                "fieldName": "field_73fcb3",
+                "preps": {
+                  "id": "Idbbcdb5e1-d33d-4cb4-a6ef-4f36b85452ec",
+                  "label": "购买书籍的主要渠道(其他请说明)",
+                  "name": "field_73fcb3",
+                  "itemNameLabel": "购买书籍的主要渠道(其他请说明)",
+                  "formVisible": false,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请填写具体说明",
+                  "dataSource": "",
+                  "values": [],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Id62d1fb45-1911-46a7-a027-fb4281582080",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_0dda5d",
+                "preps": {
+                  "id": "Id62d1fb45-1911-46a7-a027-fb4281582080",
+                  "label": "常用的线上书店",
+                  "name": "field_0dda5d",
+                  "itemNameLabel": "常用的线上书店",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入常用的线上书店",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "当当",
+                      "value": "1"
+                    },
+                    {
+                      "name": "京东",
+                      "value": "2"
+                    },
+                    {
+                      "name": "淘宝",
+                      "value": "3"
+                    },
+                    {
+                      "name": "多抓鱼",
+                      "value": "4"
+                    },
+                    {
+                      "name": "孔夫子",
+                      "value": "5"
+                    },
+                    {
+                      "name": "其他",
+                      "value": "6"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Idf4a0b9b9-bedd-4d4b-970d-9d6aa8552674",
+                "compType": "formItem",
+                "itemType": "input",
+                "fieldName": "field_35c102",
+                "preps": {
+                  "id": "Idf4a0b9b9-bedd-4d4b-970d-9d6aa8552674",
+                  "label": "常用的线上书店(其他请说明)",
+                  "name": "field_35c102",
+                  "itemNameLabel": "常用的线上书店(其他请说明)",
+                  "formVisible": false,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请填写具体说明",
+                  "dataSource": "",
+                  "values": [],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Idf087efad-c22a-4248-94f1-b4387ae4ff27",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_41f4db",
+                "preps": {
+                  "id": "Idf087efad-c22a-4248-94f1-b4387ae4ff27",
+                  "label": "逛实体书店的频率",
+                  "name": "field_41f4db",
+                  "itemNameLabel": "逛实体书店的频率",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入逛实体书店的频率",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "每周",
+                      "value": "1"
+                    },
+                    {
+                      "name": "每月",
+                      "value": "2"
+                    },
+                    {
+                      "name": "每季度",
+                      "value": "3"
+                    },
+                    {
+                      "name": "很少",
+                      "value": "4"
+                    },
+                    {
+                      "name": "从不",
+                      "value": "5"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "Id2540813a-224a-4379-89bb-ba756efd20ad",
+      "compType": "container",
+      "itemType": "card",
+      "fieldName": "field_30cc19",
+      "preps": {
+        "id": "Id2540813a-224a-4379-89bb-ba756efd20ad",
+        "label": "阅读频率与时间",
+        "name": "field_30cc19",
+        "itemNameLabel": "阅读频率与时间",
+        "headerFieldList": [],
+        "elements": [
+          {
+            "label": "阅读频率与时间",
+            "tabName": "阅读频率与时间",
+            "objectName": "阅读频率与时间",
+            "subFormFlag": "Y",
+            "items": [
+              {
+                "id": "Idb3923b70-d0c6-4798-9ecd-60be7cd0e2ec",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_6f97bd",
+                "preps": {
+                  "id": "Idb3923b70-d0c6-4798-9ecd-60be7cd0e2ec",
+                  "label": "每月阅读书籍数量",
+                  "name": "field_6f97bd",
+                  "itemNameLabel": "每月阅读书籍数量",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入每月阅读书籍数量",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "0本",
+                      "value": "1"
+                    },
+                    {
+                      "name": "1-2本",
+                      "value": "2"
+                    },
+                    {
+                      "name": "3-5本",
+                      "value": "3"
+                    },
+                    {
+                      "name": "5-10本",
+                      "value": "4"
+                    },
+                    {
+                      "name": "10本以上",
+                      "value": "5"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Id79ee084e-96e1-4f56-a657-2cc8792043a7",
+                "compType": "formItem",
+                "itemType": "number",
+                "fieldName": "field_53ad05",
+                "preps": {
+                  "id": "Id79ee084e-96e1-4f56-a657-2cc8792043a7",
+                  "label": "年购书预算(元)",
+                  "name": "field_53ad05",
+                  "itemNameLabel": "年购书预算(元)",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入年购书预算(元)",
+                  "dataSource": "",
+                  "values": [],
+                  "rules": [],
+                  "helpMsg": "",
+                  "min": 0,
+                  "precision": 0
+                }
+              },
+              {
+                "id": "Id346fb821-be85-4c9f-8695-f8f354ee3be1",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_88a687",
+                "preps": {
+                  "id": "Id346fb821-be85-4c9f-8695-f8f354ee3be1",
+                  "label": "每天阅读时长",
+                  "name": "field_88a687",
+                  "itemNameLabel": "每天阅读时长",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入每天阅读时长",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "不读",
+                      "value": "1"
+                    },
+                    {
+                      "name": "30分钟以下",
+                      "value": "2"
+                    },
+                    {
+                      "name": "30-60分钟",
+                      "value": "3"
+                    },
+                    {
+                      "name": "1-2小时",
+                      "value": "4"
+                    },
+                    {
+                      "name": "2小时以上",
+                      "value": "5"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Iddc134485-9b68-46af-8f98-fe99ee0e470e",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_c760de",
+                "preps": {
+                  "id": "Iddc134485-9b68-46af-8f98-fe99ee0e470e",
+                  "label": "通常在什么时间阅读",
+                  "name": "field_c760de",
+                  "itemNameLabel": "通常在什么时间阅读",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入通常在什么时间阅读",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "早晨",
+                      "value": "1"
+                    },
+                    {
+                      "name": "午休",
+                      "value": "2"
+                    },
+                    {
+                      "name": "通勤路上",
+                      "value": "3"
+                    },
+                    {
+                      "name": "睡前",
+                      "value": "4"
+                    },
+                    {
+                      "name": "周末/假日",
+                      "value": "5"
+                    },
+                    {
+                      "name": "碎片时间",
+                      "value": "6"
+                    },
+                    {
+                      "name": "其他",
+                      "value": "7"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Id251655cc-4d2c-46f7-934b-be0d8786b0e5",
+                "compType": "formItem",
+                "itemType": "input",
+                "fieldName": "field_6c2389",
+                "preps": {
+                  "id": "Id251655cc-4d2c-46f7-934b-be0d8786b0e5",
+                  "label": "通常在什么时间阅读(其他请说明)",
+                  "name": "field_6c2389",
+                  "itemNameLabel": "通常在什么时间阅读(其他请说明)",
+                  "formVisible": false,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请填写具体说明",
+                  "dataSource": "",
+                  "values": [],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Id987a3131-2da8-470a-8c7e-105babfd022c",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_251c33",
+                "preps": {
+                  "id": "Id987a3131-2da8-470a-8c7e-105babfd022c",
+                  "label": "阅读环境偏好",
+                  "name": "field_251c33",
+                  "itemNameLabel": "阅读环境偏好",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入阅读环境偏好",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "安静的房间",
+                      "value": "1"
+                    },
+                    {
+                      "name": "咖啡厅/图书馆",
+                      "value": "2"
+                    },
+                    {
+                      "name": "户外",
+                      "value": "3"
+                    },
+                    {
+                      "name": "交通工具上",
+                      "value": "4"
+                    },
+                    {
+                      "name": "无所谓",
+                      "value": "5"
+                    },
+                    {
+                      "name": "其他",
+                      "value": "6"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Idca3f6ec4-5cee-4d19-9b5c-e2b69136ebe2",
+                "compType": "formItem",
+                "itemType": "input",
+                "fieldName": "field_29ab3f",
+                "preps": {
+                  "id": "Idca3f6ec4-5cee-4d19-9b5c-e2b69136ebe2",
+                  "label": "阅读环境偏好(其他请说明)",
+                  "name": "field_29ab3f",
+                  "itemNameLabel": "阅读环境偏好(其他请说明)",
+                  "formVisible": false,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请填写具体说明",
+                  "dataSource": "",
+                  "values": [],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Iddc81ba19-5881-4490-aad7-ce4b35724a53",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_1ade63",
+                "preps": {
+                  "id": "Iddc81ba19-5881-4490-aad7-ce4b35724a53",
+                  "label": "是否有做读书笔记的习惯",
+                  "name": "field_1ade63",
+                  "itemNameLabel": "是否有做读书笔记的习惯",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入是否有做读书笔记的习惯",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "每本都做",
+                      "value": "1"
+                    },
+                    {
+                      "name": "经常做",
+                      "value": "2"
+                    },
+                    {
+                      "name": "偶尔做",
+                      "value": "3"
+                    },
+                    {
+                      "name": "从不做",
+                      "value": "4"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Idc420c7c1-a485-4c50-94df-d15c53028592",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_0c7c08",
+                "preps": {
+                  "id": "Idc420c7c1-a485-4c50-94df-d15c53028592",
+                  "label": "读书笔记方式",
+                  "name": "field_0c7c08",
+                  "itemNameLabel": "读书笔记方式",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入读书笔记方式",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "摘抄",
+                      "value": "1"
+                    },
+                    {
+                      "name": "读后感",
+                      "value": "2"
+                    },
+                    {
+                      "name": "思维导图",
+                      "value": "3"
+                    },
+                    {
+                      "name": "标注",
+                      "value": "4"
+                    },
+                    {
+                      "name": "电子笔记",
+                      "value": "5"
+                    },
+                    {
+                      "name": "不做笔记",
+                      "value": "6"
+                    },
+                    {
+                      "name": "其他",
+                      "value": "7"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Ide5845872-3e12-4a4c-aaf9-38fc40d51673",
+                "compType": "formItem",
+                "itemType": "input",
+                "fieldName": "field_2b4007",
+                "preps": {
+                  "id": "Ide5845872-3e12-4a4c-aaf9-38fc40d51673",
+                  "label": "读书笔记方式(其他请说明)",
+                  "name": "field_2b4007",
+                  "itemNameLabel": "读书笔记方式(其他请说明)",
+                  "formVisible": false,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请填写具体说明",
+                  "dataSource": "",
+                  "values": [],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Ida51707d5-0c6e-4437-8350-8ecd0305a995",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_8b75d5",
+                "preps": {
+                  "id": "Ida51707d5-0c6e-4437-8350-8ecd0305a995",
+                  "label": "是否加入读书会/阅读社群",
+                  "name": "field_8b75d5",
+                  "itemNameLabel": "是否加入读书会/阅读社群",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入是否加入读书会/阅读社群",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "是，活跃参与",
+                      "value": "1"
+                    },
+                    {
+                      "name": "是，偶尔参与",
+                      "value": "2"
+                    },
+                    {
+                      "name": "曾经加入过",
+                      "value": "3"
+                    },
+                    {
+                      "name": "没有",
+                      "value": "4"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Id45accb9e-3c89-4192-8fed-2ae0854dbb6c",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_150379",
+                "preps": {
+                  "id": "Id45accb9e-3c89-4192-8fed-2ae0854dbb6c",
+                  "label": "阅读速度自评",
+                  "name": "field_150379",
+                  "itemNameLabel": "阅读速度自评",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入阅读速度自评",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "非常快",
+                      "value": "1"
+                    },
+                    {
+                      "name": "较快",
+                      "value": "2"
+                    },
+                    {
+                      "name": "一般",
+                      "value": "3"
+                    },
+                    {
+                      "name": "较慢",
+                      "value": "4"
+                    },
+                    {
+                      "name": "非常慢",
+                      "value": "5"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "Id6d2ed140-1c7e-4605-9ef1-47c650738e3d",
+      "compType": "container",
+      "itemType": "card",
+      "fieldName": "field_5fca5d",
+      "preps": {
+        "id": "Id6d2ed140-1c7e-4605-9ef1-47c650738e3d",
+        "label": "数字阅读",
+        "name": "field_5fca5d",
+        "itemNameLabel": "数字阅读",
+        "headerFieldList": [],
+        "elements": [
+          {
+            "label": "数字阅读",
+            "tabName": "数字阅读",
+            "objectName": "数字阅读",
+            "subFormFlag": "Y",
+            "items": [
+              {
+                "id": "Id070ccf8a-a34c-4daf-b8e9-bf72fcb5140d",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_1c54b2",
+                "preps": {
+                  "id": "Id070ccf8a-a34c-4daf-b8e9-bf72fcb5140d",
+                  "label": "常用电子阅读平台",
+                  "name": "field_1c54b2",
+                  "itemNameLabel": "常用电子阅读平台",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入常用电子阅读平台",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "微信读书",
+                      "value": "1"
+                    },
+                    {
+                      "name": "kindle",
+                      "value": "2"
+                    },
+                    {
+                      "name": "番茄小说",
+                      "value": "3"
+                    },
+                    {
+                      "name": "豆瓣阅读",
+                      "value": "4"
+                    },
+                    {
+                      "name": "得到",
+                      "value": "5"
+                    },
+                    {
+                      "name": "喜马拉雅",
+                      "value": "6"
+                    },
+                    {
+                      "name": "不使用",
+                      "value": "7"
+                    },
+                    {
+                      "name": "其他",
+                      "value": "8"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Idf2bae886-95d0-4a1b-bf08-e82abb7245a1",
+                "compType": "formItem",
+                "itemType": "input",
+                "fieldName": "field_1b7e3d",
+                "preps": {
+                  "id": "Idf2bae886-95d0-4a1b-bf08-e82abb7245a1",
+                  "label": "常用电子阅读平台(其他请说明)",
+                  "name": "field_1b7e3d",
+                  "itemNameLabel": "常用电子阅读平台(其他请说明)",
+                  "formVisible": false,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请填写具体说明",
+                  "dataSource": "",
+                  "values": [],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Id1bfdc377-e938-43d3-82fc-8740350a5854",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_cb7687",
+                "preps": {
+                  "id": "Id1bfdc377-e938-43d3-82fc-8740350a5854",
+                  "label": "是否愿意为电子书付费",
+                  "name": "field_cb7687",
+                  "itemNameLabel": "是否愿意为电子书付费",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入是否愿意为电子书付费",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "愿意，经常付费",
+                      "value": "1"
+                    },
+                    {
+                      "name": "偶尔付费",
+                      "value": "2"
+                    },
+                    {
+                      "name": "只读免费内容",
+                      "value": "3"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Idf073cce8-20be-4a8c-8904-b9dfe33eae45",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_b981fc",
+                "preps": {
+                  "id": "Idf073cce8-20be-4a8c-8904-b9dfe33eae45",
+                  "label": "电子阅读时长占比",
+                  "name": "field_b981fc",
+                  "itemNameLabel": "电子阅读时长占比",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入电子阅读时长占比",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "几乎全部",
+                      "value": "1"
+                    },
+                    {
+                      "name": "大部分",
+                      "value": "2"
+                    },
+                    {
+                      "name": "一半",
+                      "value": "3"
+                    },
+                    {
+                      "name": "少部分",
+                      "value": "4"
+                    },
+                    {
+                      "name": "不电子阅读",
+                      "value": "5"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Id9681ec91-fe86-4e09-a4fb-966b905af389",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_8d769f",
+                "preps": {
+                  "id": "Id9681ec91-fe86-4e09-a4fb-966b905af389",
+                  "label": "是否使用听书功能",
+                  "name": "field_8d769f",
+                  "itemNameLabel": "是否使用听书功能",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入是否使用听书功能",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "经常使用",
+                      "value": "1"
+                    },
+                    {
+                      "name": "偶尔使用",
+                      "value": "2"
+                    },
+                    {
+                      "name": "很少使用",
+                      "value": "3"
+                    },
+                    {
+                      "name": "不使用",
+                      "value": "4"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Id009884cf-3e08-42a8-affe-4a6f5f5125b3",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_238a8f",
+                "preps": {
+                  "id": "Id009884cf-3e08-42a8-affe-4a6f5f5125b3",
+                  "label": "对AI辅助阅读工具的态度",
+                  "name": "field_238a8f",
+                  "itemNameLabel": "对AI辅助阅读工具的态度",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入对AI辅助阅读工具的态度",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "积极使用",
+                      "value": "1"
+                    },
+                    {
+                      "name": "偶尔使用",
+                      "value": "2"
+                    },
+                    {
+                      "name": "了解但未使用",
+                      "value": "3"
+                    },
+                    {
+                      "name": "不了解",
+                      "value": "4"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Id30e86b68-ade3-490d-91ab-eed576f9f7d4",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_53cba1",
+                "preps": {
+                  "id": "Id30e86b68-ade3-490d-91ab-eed576f9f7d4",
+                  "label": "手机阅读APP数量",
+                  "name": "field_53cba1",
+                  "itemNameLabel": "手机阅读APP数量",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入手机阅读APP数量",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "0个",
+                      "value": "1"
+                    },
+                    {
+                      "name": "1个",
+                      "value": "2"
+                    },
+                    {
+                      "name": "2-3个",
+                      "value": "3"
+                    },
+                    {
+                      "name": "4个以上",
+                      "value": "4"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Id48ed5f8a-d169-40ed-935f-26eb550ac7e8",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_8e9d72",
+                "preps": {
+                  "id": "Id48ed5f8a-d169-40ed-935f-26eb550ac7e8",
+                  "label": "在线阅读时的注意力集中程度",
+                  "name": "field_8e9d72",
+                  "itemNameLabel": "在线阅读时的注意力集中程度",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入在线阅读时的注意力集中程度",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "非常集中",
+                      "value": "1"
+                    },
+                    {
+                      "name": "较集中",
+                      "value": "2"
+                    },
+                    {
+                      "name": "一般",
+                      "value": "3"
+                    },
+                    {
+                      "name": "容易分心",
+                      "value": "4"
+                    },
+                    {
+                      "name": "非常分心",
+                      "value": "5"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Id594771d5-48c9-4f7e-9d4d-6690c3970e09",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_8ce8c1",
+                "preps": {
+                  "id": "Id594771d5-48c9-4f7e-9d4d-6690c3970e09",
+                  "label": "电子书与纸质书价格接受度对比",
+                  "name": "field_8ce8c1",
+                  "itemNameLabel": "电子书与纸质书价格接受度对比",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入电子书与纸质书价格接受度对比",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "电子书应更便宜",
+                      "value": "1"
+                    },
+                    {
+                      "name": "差不多即可",
+                      "value": "2"
+                    },
+                    {
+                      "name": "不在意价格",
+                      "value": "3"
+                    },
+                    {
+                      "name": "只接受免费电子书",
+                      "value": "4"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Id5394a3a2-cb0f-4a7a-b84c-1ce2f693c8e0",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_bc60b0",
+                "preps": {
+                  "id": "Id5394a3a2-cb0f-4a7a-b84c-1ce2f693c8e0",
+                  "label": "是否在阅读APP上做笔记/划线",
+                  "name": "field_bc60b0",
+                  "itemNameLabel": "是否在阅读APP上做笔记/划线",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入是否在阅读APP上做笔记/划线",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "经常",
+                      "value": "1"
+                    },
+                    {
+                      "name": "偶尔",
+                      "value": "2"
+                    },
+                    {
+                      "name": "很少",
+                      "value": "3"
+                    },
+                    {
+                      "name": "从不",
+                      "value": "4"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Idcc1502af-4474-4624-8cac-c3376905a42b",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_40aadd",
+                "preps": {
+                  "id": "Idcc1502af-4474-4624-8cac-c3376905a42b",
+                  "label": "电子书阅读字体/排版偏好",
+                  "name": "field_40aadd",
+                  "itemNameLabel": "电子书阅读字体/排版偏好",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入电子书阅读字体/排版偏好",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "非常在意",
+                      "value": "1"
+                    },
+                    {
+                      "name": "在意",
+                      "value": "2"
+                    },
+                    {
+                      "name": "无所谓",
+                      "value": "3"
+                    },
+                    {
+                      "name": "不知道可以调",
+                      "value": "4"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Ida79b8f4b-34bd-4c22-8d01-d7b27b44c9f2",
+                "compType": "formItem",
+                "itemType": "rate",
+                "fieldName": "field_a38c8b",
+                "preps": {
+                  "id": "Ida79b8f4b-34bd-4c22-8d01-d7b27b44c9f2",
+                  "label": "数字阅读体验满意度",
+                  "name": "field_a38c8b",
+                  "itemNameLabel": "数字阅读体验满意度",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入数字阅读体验满意度",
+                  "dataSource": "",
+                  "values": [],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "Id672afbed-17eb-4fcc-8e5d-e6cceb180eca",
+      "compType": "container",
+      "itemType": "card",
+      "fieldName": "field_1f3735",
+      "preps": {
+        "id": "Id672afbed-17eb-4fcc-8e5d-e6cceb180eca",
+        "label": "阅读与成长",
+        "name": "field_1f3735",
+        "itemNameLabel": "阅读与成长",
+        "headerFieldList": [],
+        "elements": [
+          {
+            "label": "阅读与成长",
+            "tabName": "阅读与成长",
+            "objectName": "阅读与成长",
+            "subFormFlag": "Y",
+            "items": [
+              {
+                "id": "Id9447980a-c588-4fd6-a92b-6cdc4220e75b",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_f6c4bb",
+                "preps": {
+                  "id": "Id9447980a-c588-4fd6-a92b-6cdc4220e75b",
+                  "label": "阅读对个人成长的影响程度",
+                  "name": "field_f6c4bb",
+                  "itemNameLabel": "阅读对个人成长的影响程度",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入阅读对个人成长的影响程度",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "非常大",
+                      "value": "1"
+                    },
+                    {
+                      "name": "较大",
+                      "value": "2"
+                    },
+                    {
+                      "name": "一般",
+                      "value": "3"
+                    },
+                    {
+                      "name": "较小",
+                      "value": "4"
+                    },
+                    {
+                      "name": "几乎没有",
+                      "value": "5"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Id73b552fe-1c52-419d-af8e-df25aec199ca",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_c43be5",
+                "preps": {
+                  "id": "Id73b552fe-1c52-419d-af8e-df25aec199ca",
+                  "label": "阅读是否改变了您的某些观念",
+                  "name": "field_c43be5",
+                  "itemNameLabel": "阅读是否改变了您的某些观念",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入阅读是否改变了您的某些观念",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "经常",
+                      "value": "1"
+                    },
+                    {
+                      "name": "偶尔",
+                      "value": "2"
+                    },
+                    {
+                      "name": "很少",
+                      "value": "3"
+                    },
+                    {
+                      "name": "从未",
+                      "value": "4"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Id6fe0e736-9462-4d4e-b880-336d523fe4b1",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_22bd5a",
+                "preps": {
+                  "id": "Id6fe0e736-9462-4d4e-b880-336d523fe4b1",
+                  "label": "是否会与他人讨论读过的书",
+                  "name": "field_22bd5a",
+                  "itemNameLabel": "是否会与他人讨论读过的书",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入是否会与他人讨论读过的书",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "经常",
+                      "value": "1"
+                    },
+                    {
+                      "name": "偶尔",
+                      "value": "2"
+                    },
+                    {
+                      "name": "很少",
+                      "value": "3"
+                    },
+                    {
+                      "name": "从不",
+                      "value": "4"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Ide3a4e113-6a0b-4d96-9bce-2562d5f78f0a",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_63f876",
+                "preps": {
+                  "id": "Ide3a4e113-6a0b-4d96-9bce-2562d5f78f0a",
+                  "label": "是否有定期去图书馆的习惯",
+                  "name": "field_63f876",
+                  "itemNameLabel": "是否有定期去图书馆的习惯",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入是否有定期去图书馆的习惯",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "经常去",
+                      "value": "1"
+                    },
+                    {
+                      "name": "偶尔去",
+                      "value": "2"
+                    },
+                    {
+                      "name": "很少去",
+                      "value": "3"
+                    },
+                    {
+                      "name": "从不去",
+                      "value": "4"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Ide7659bdc-d77c-4970-ace8-5e7c67d476c5",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_b137c8",
+                "preps": {
+                  "id": "Ide7659bdc-d77c-4970-ace8-5e7c67d476c5",
+                  "label": "是否有定期去书店的习惯",
+                  "name": "field_b137c8",
+                  "itemNameLabel": "是否有定期去书店的习惯",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入是否有定期去书店的习惯",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "经常去",
+                      "value": "1"
+                    },
+                    {
+                      "name": "偶尔去",
+                      "value": "2"
+                    },
+                    {
+                      "name": "很少去",
+                      "value": "3"
+                    },
+                    {
+                      "name": "从不去",
+                      "value": "4"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Id7530fa88-867e-48b9-946a-bd8ed67e26c4",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_c09bea",
+                "preps": {
+                  "id": "Id7530fa88-867e-48b9-946a-bd8ed67e26c4",
+                  "label": "家中藏书数量",
+                  "name": "field_c09bea",
+                  "itemNameLabel": "家中藏书数量",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入家中藏书数量",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "10本以下",
+                      "value": "1"
+                    },
+                    {
+                      "name": "10-50本",
+                      "value": "2"
+                    },
+                    {
+                      "name": "50-100本",
+                      "value": "3"
+                    },
+                    {
+                      "name": "100-500本",
+                      "value": "4"
+                    },
+                    {
+                      "name": "500本以上",
+                      "value": "5"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Idaa3c2081-4ae3-48cf-b173-0816fe7b38fe",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_8af542",
+                "preps": {
+                  "id": "Idaa3c2081-4ae3-48cf-b173-0816fe7b38fe",
+                  "label": "阅读后是否会写书评/打分",
+                  "name": "field_8af542",
+                  "itemNameLabel": "阅读后是否会写书评/打分",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入阅读后是否会写书评/打分",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "每本都写",
+                      "value": "1"
+                    },
+                    {
+                      "name": "经常写",
+                      "value": "2"
+                    },
+                    {
+                      "name": "偶尔写",
+                      "value": "3"
+                    },
+                    {
+                      "name": "从不写",
+                      "value": "4"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Id61707e90-f89a-44a4-a775-305d07ffb549",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_8f1b96",
+                "preps": {
+                  "id": "Id61707e90-f89a-44a4-a775-305d07ffb549",
+                  "label": "对速读/量子波动阅读等速成法的看法",
+                  "name": "field_8f1b96",
+                  "itemNameLabel": "对速读/量子波动阅读等速成法的看法",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入对速读/量子波动阅读等速成法的看法",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "有效且尝试过",
+                      "value": "1"
+                    },
+                    {
+                      "name": "可能有道理",
+                      "value": "2"
+                    },
+                    {
+                      "name": "持怀疑态度",
+                      "value": "3"
+                    },
+                    {
+                      "name": "完全不信",
+                      "value": "4"
+                    },
+                    {
+                      "name": "不了解",
+                      "value": "5"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Idf8299ae8-fbfa-40c0-8066-d598f0f26c8b",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_1cee16",
+                "preps": {
+                  "id": "Idf8299ae8-fbfa-40c0-8066-d598f0f26c8b",
+                  "label": "儿童时期是否有阅读习惯",
+                  "name": "field_1cee16",
+                  "itemNameLabel": "儿童时期是否有阅读习惯",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入儿童时期是否有阅读习惯",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "从小爱读书",
+                      "value": "1"
+                    },
+                    {
+                      "name": "偶尔看书",
+                      "value": "2"
+                    },
+                    {
+                      "name": "很少看书",
+                      "value": "3"
+                    },
+                    {
+                      "name": "不记得",
+                      "value": "4"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Id417ca8ca-4178-46d1-87b0-20f26036a2d7",
+                "compType": "formItem",
+                "itemType": "rate",
+                "fieldName": "field_88862e",
+                "preps": {
+                  "id": "Id417ca8ca-4178-46d1-87b0-20f26036a2d7",
+                  "label": "阅读习惯满意度自评",
+                  "name": "field_88862e",
+                  "itemNameLabel": "阅读习惯满意度自评",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入阅读习惯满意度自评",
+                  "dataSource": "",
+                  "values": [],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Id1678b5ec-c1d5-4748-8611-824e4639cf4e",
+                "compType": "formItem",
+                "itemType": "textarea",
+                "fieldName": "field_f3f62e",
+                "preps": {
+                  "id": "Id1678b5ec-c1d5-4748-8611-824e4639cf4e",
+                  "label": "分享一本最近读过且印象深刻的书",
+                  "name": "field_f3f62e",
+                  "itemNameLabel": "分享一本最近读过且印象深刻的书",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 1000,
+                  "placeholder": "请详细描述您的想法",
+                  "dataSource": "",
+                  "values": [],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Id756b60c7-759c-4303-baa2-8f1cd075f684",
+                "compType": "formItem",
+                "itemType": "textarea",
+                "fieldName": "field_420b64",
+                "preps": {
+                  "id": "Id756b60c7-759c-4303-baa2-8f1cd075f684",
+                  "label": "对培养阅读习惯的建议",
+                  "name": "field_420b64",
+                  "itemNameLabel": "对培养阅读习惯的建议",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 1000,
+                  "placeholder": "请详细描述您的想法",
+                  "dataSource": "",
+                  "values": [],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Id8cd76b75-ab24-46fd-beb8-dabf186a1c87",
+                "compType": "formItem",
+                "itemType": "textarea",
+                "fieldName": "field_aa5bab",
+                "preps": {
+                  "id": "Id8cd76b75-ab24-46fd-beb8-dabf186a1c87",
+                  "label": "您认为阅读最大的收获是什么",
+                  "name": "field_aa5bab",
+                  "itemNameLabel": "您认为阅读最大的收获是什么",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 1000,
+                  "placeholder": "请详细描述您的想法",
+                  "dataSource": "",
+                  "values": [],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "exportTime": "2026-06-16T10:51:24.815Z",
+  "version": "1.0"
+}

@@ -1,0 +1,2670 @@
+{
+  "formInfo": {
+    "formName": "29-居家生活品质问卷",
+    "currentPageType": "pc"
+  },
+  "dataList": [
+    {
+      "id": "Id80968d55-e801-45f1-b83b-10dc5266c9ac",
+      "compType": "container",
+      "itemType": "card",
+      "fieldName": "field_75ad58",
+      "preps": {
+        "id": "Id80968d55-e801-45f1-b83b-10dc5266c9ac",
+        "label": "基本信息",
+        "name": "field_75ad58",
+        "itemNameLabel": "基本信息",
+        "headerFieldList": [],
+        "elements": [
+          {
+            "label": "基本信息",
+            "tabName": "基本信息",
+            "objectName": "基本信息",
+            "subFormFlag": "Y",
+            "items": [
+              {
+                "id": "Id92cf39e4-71b7-4899-9b48-acb96a51a30f",
+                "compType": "container",
+                "itemType": "box",
+                "fieldName": "field_9560d6",
+                "rowNums": 1,
+                "columnNums": 2,
+                "preps": {
+                  "id": "Id92cf39e4-71b7-4899-9b48-acb96a51a30f",
+                  "label": "Grid Layout",
+                  "name": "field_9560d6",
+                  "itemNameLabel": "Grid Layout",
+                  "elements": [
+                    {
+                      "id": "row-4fbe72b3-2969-44aa-84d3-9368853693b0",
+                      "rowIndex": 1,
+                      "columns": [
+                        {
+                          "id": "col-fa6ce381-2f11-4fe9-8ecf-ed3814aa0e2b",
+                          "cellVisible": true,
+                          "colIndex": 1,
+                          "colspan": 12,
+                          "items": [
+                            {
+                              "id": "Id3f8430e9-75ac-49f9-9807-32c2377b980b",
+                              "compType": "formItem",
+                              "itemType": "radio",
+                              "fieldName": "field_0631a7",
+                              "preps": {
+                                "id": "Id3f8430e9-75ac-49f9-9807-32c2377b980b",
+                                "label": "性别",
+                                "name": "field_0631a7",
+                                "itemNameLabel": "性别",
+                                "formVisible": true,
+                                "listVisible": true,
+                                "viewVisible": true,
+                                "searchVisible": false,
+                                "required": false,
+                                "disabled": false,
+                                "clearable": true,
+                                "readonly": false,
+                                "maxLength": 255,
+                                "placeholder": "请输入性别",
+                                "dataSource": "data",
+                                "values": [
+                                  {
+                                    "name": "男",
+                                    "value": "1"
+                                  },
+                                  {
+                                    "name": "女",
+                                    "value": "2"
+                                  }
+                                ],
+                                "rules": [],
+                                "helpMsg": ""
+                              }
+                            }
+                          ]
+                        },
+                        {
+                          "id": "col-80c488a6-11c7-4b6e-a0ba-2a85a6807fef",
+                          "cellVisible": true,
+                          "colIndex": 1,
+                          "colspan": 12,
+                          "items": [
+                            {
+                              "id": "Idc21366e7-0880-4d02-aa45-723ed4598a96",
+                              "compType": "formItem",
+                              "itemType": "radio",
+                              "fieldName": "field_0fa749",
+                              "preps": {
+                                "id": "Idc21366e7-0880-4d02-aa45-723ed4598a96",
+                                "label": "年龄段",
+                                "name": "field_0fa749",
+                                "itemNameLabel": "年龄段",
+                                "formVisible": true,
+                                "listVisible": true,
+                                "viewVisible": true,
+                                "searchVisible": false,
+                                "required": false,
+                                "disabled": false,
+                                "clearable": true,
+                                "readonly": false,
+                                "maxLength": 255,
+                                "placeholder": "请输入年龄段",
+                                "dataSource": "data",
+                                "values": [
+                                  {
+                                    "name": "18-25岁",
+                                    "value": "1"
+                                  },
+                                  {
+                                    "name": "26-35岁",
+                                    "value": "2"
+                                  },
+                                  {
+                                    "name": "36-45岁",
+                                    "value": "3"
+                                  },
+                                  {
+                                    "name": "46-55岁",
+                                    "value": "4"
+                                  },
+                                  {
+                                    "name": "55岁以上",
+                                    "value": "5"
+                                  }
+                                ],
+                                "rules": [],
+                                "helpMsg": ""
+                              }
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              },
+              {
+                "id": "Id390d3018-9d23-4270-ab33-ae048e6c2480",
+                "compType": "container",
+                "itemType": "box",
+                "fieldName": "field_e65725",
+                "rowNums": 1,
+                "columnNums": 2,
+                "preps": {
+                  "id": "Id390d3018-9d23-4270-ab33-ae048e6c2480",
+                  "label": "Grid Layout",
+                  "name": "field_e65725",
+                  "itemNameLabel": "Grid Layout",
+                  "elements": [
+                    {
+                      "id": "row-5422ce68-0d4b-4dd5-9a35-f2d4cf688b9d",
+                      "rowIndex": 1,
+                      "columns": [
+                        {
+                          "id": "col-455ec713-fad0-4ef0-a9fb-99cc777c085b",
+                          "cellVisible": true,
+                          "colIndex": 1,
+                          "colspan": 12,
+                          "items": [
+                            {
+                              "id": "Idba342be4-a2f4-48b7-b9c4-b89b05e7303b",
+                              "compType": "formItem",
+                              "itemType": "radio",
+                              "fieldName": "field_1d1e74",
+                              "preps": {
+                                "id": "Idba342be4-a2f4-48b7-b9c4-b89b05e7303b",
+                                "label": "居住类型",
+                                "name": "field_1d1e74",
+                                "itemNameLabel": "居住类型",
+                                "formVisible": true,
+                                "listVisible": true,
+                                "viewVisible": true,
+                                "searchVisible": false,
+                                "required": false,
+                                "disabled": false,
+                                "clearable": true,
+                                "readonly": false,
+                                "maxLength": 255,
+                                "placeholder": "请输入居住类型",
+                                "dataSource": "data",
+                                "values": [
+                                  {
+                                    "name": "自有房产",
+                                    "value": "1"
+                                  },
+                                  {
+                                    "name": "租房",
+                                    "value": "2"
+                                  },
+                                  {
+                                    "name": "与家人同住",
+                                    "value": "3"
+                                  },
+                                  {
+                                    "name": "宿舍",
+                                    "value": "4"
+                                  }
+                                ],
+                                "rules": [],
+                                "helpMsg": ""
+                              }
+                            }
+                          ]
+                        },
+                        {
+                          "id": "col-eab4ebfc-4919-4ca0-9ff1-031aac893e0e",
+                          "cellVisible": true,
+                          "colIndex": 1,
+                          "colspan": 12,
+                          "items": [
+                            {
+                              "id": "Id032d62a7-a1a2-4592-95da-3dd85d3ea7cb",
+                              "compType": "formItem",
+                              "itemType": "radio",
+                              "fieldName": "field_374611",
+                              "preps": {
+                                "id": "Id032d62a7-a1a2-4592-95da-3dd85d3ea7cb",
+                                "label": "居住面积",
+                                "name": "field_374611",
+                                "itemNameLabel": "居住面积",
+                                "formVisible": true,
+                                "listVisible": true,
+                                "viewVisible": true,
+                                "searchVisible": false,
+                                "required": false,
+                                "disabled": false,
+                                "clearable": true,
+                                "readonly": false,
+                                "maxLength": 255,
+                                "placeholder": "请输入居住面积",
+                                "dataSource": "data",
+                                "values": [
+                                  {
+                                    "name": "30㎡以下",
+                                    "value": "1"
+                                  },
+                                  {
+                                    "name": "30-60㎡",
+                                    "value": "2"
+                                  },
+                                  {
+                                    "name": "60-90㎡",
+                                    "value": "3"
+                                  },
+                                  {
+                                    "name": "90-120㎡",
+                                    "value": "4"
+                                  },
+                                  {
+                                    "name": "120㎡以上",
+                                    "value": "5"
+                                  }
+                                ],
+                                "rules": [],
+                                "helpMsg": ""
+                              }
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              },
+              {
+                "id": "Id21512408-b69b-45a5-a383-60fdb4798f8d",
+                "compType": "container",
+                "itemType": "box",
+                "fieldName": "field_e32e19",
+                "rowNums": 1,
+                "columnNums": 2,
+                "preps": {
+                  "id": "Id21512408-b69b-45a5-a383-60fdb4798f8d",
+                  "label": "Grid Layout",
+                  "name": "field_e32e19",
+                  "itemNameLabel": "Grid Layout",
+                  "elements": [
+                    {
+                      "id": "row-43947ffb-5d68-4248-a5c9-9f432b932e74",
+                      "rowIndex": 1,
+                      "columns": [
+                        {
+                          "id": "col-414badad-8680-4486-8023-6e1e49eada28",
+                          "cellVisible": true,
+                          "colIndex": 1,
+                          "colspan": 12,
+                          "items": [
+                            {
+                              "id": "Idae0cae1d-03e0-4de2-b83e-61119f718f60",
+                              "compType": "formItem",
+                              "itemType": "radio",
+                              "fieldName": "field_3f0544",
+                              "preps": {
+                                "id": "Idae0cae1d-03e0-4de2-b83e-61119f718f60",
+                                "label": "家庭结构",
+                                "name": "field_3f0544",
+                                "itemNameLabel": "家庭结构",
+                                "formVisible": true,
+                                "listVisible": true,
+                                "viewVisible": true,
+                                "searchVisible": false,
+                                "required": false,
+                                "disabled": false,
+                                "clearable": true,
+                                "readonly": false,
+                                "maxLength": 255,
+                                "placeholder": "请输入家庭结构",
+                                "dataSource": "data",
+                                "values": [
+                                  {
+                                    "name": "独居",
+                                    "value": "1"
+                                  },
+                                  {
+                                    "name": "二人世界",
+                                    "value": "2"
+                                  },
+                                  {
+                                    "name": "三口之家",
+                                    "value": "3"
+                                  },
+                                  {
+                                    "name": "多口之家",
+                                    "value": "4"
+                                  },
+                                  {
+                                    "name": "与父母同住",
+                                    "value": "5"
+                                  }
+                                ],
+                                "rules": [],
+                                "helpMsg": ""
+                              }
+                            }
+                          ]
+                        },
+                        {
+                          "id": "col-7cb1ed41-70fe-422d-ac1c-1ba237603f7b",
+                          "cellVisible": true,
+                          "colIndex": 1,
+                          "colspan": 12,
+                          "items": [
+                            {
+                              "id": "Id4ea8ebc3-30a7-4503-8ec6-097058a695b7",
+                              "compType": "formItem",
+                              "itemType": "radio",
+                              "fieldName": "field_d2ac2f",
+                              "preps": {
+                                "id": "Id4ea8ebc3-30a7-4503-8ec6-097058a695b7",
+                                "label": "户型",
+                                "name": "field_d2ac2f",
+                                "itemNameLabel": "户型",
+                                "formVisible": true,
+                                "listVisible": true,
+                                "viewVisible": true,
+                                "searchVisible": false,
+                                "required": false,
+                                "disabled": false,
+                                "clearable": true,
+                                "readonly": false,
+                                "maxLength": 255,
+                                "placeholder": "请输入户型",
+                                "dataSource": "data",
+                                "values": [
+                                  {
+                                    "name": "一室",
+                                    "value": "1"
+                                  },
+                                  {
+                                    "name": "两室",
+                                    "value": "2"
+                                  },
+                                  {
+                                    "name": "三室",
+                                    "value": "3"
+                                  },
+                                  {
+                                    "name": "四室及以上",
+                                    "value": "4"
+                                  },
+                                  {
+                                    "name": "其他",
+                                    "value": "5"
+                                  }
+                                ],
+                                "rules": [],
+                                "helpMsg": ""
+                              }
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              },
+              {
+                "id": "Id8dc5c335-5708-4f65-85b5-5a8b9f85dc2c",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_c88a85",
+                "preps": {
+                  "id": "Id8dc5c335-5708-4f65-85b5-5a8b9f85dc2c",
+                  "label": "居住楼层",
+                  "name": "field_c88a85",
+                  "itemNameLabel": "居住楼层",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入居住楼层",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "低层(1-3楼)",
+                      "value": "1"
+                    },
+                    {
+                      "name": "中层(4-10楼)",
+                      "value": "2"
+                    },
+                    {
+                      "name": "高层(11-20楼)",
+                      "value": "3"
+                    },
+                    {
+                      "name": "超高层(20楼以上)",
+                      "value": "4"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "Id9ed2a26b-3a16-444d-8bfa-54fd136b84f5",
+      "compType": "container",
+      "itemType": "card",
+      "fieldName": "field_4c14a6",
+      "preps": {
+        "id": "Id9ed2a26b-3a16-444d-8bfa-54fd136b84f5",
+        "label": "居家环境与装修",
+        "name": "field_4c14a6",
+        "itemNameLabel": "居家环境与装修",
+        "headerFieldList": [],
+        "elements": [
+          {
+            "label": "居家环境与装修",
+            "tabName": "居家环境与装修",
+            "objectName": "居家环境与装修",
+            "subFormFlag": "Y",
+            "items": [
+              {
+                "id": "Ide4ab99e0-e8bf-4f9c-a234-bf1da6321e17",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_bba211",
+                "preps": {
+                  "id": "Ide4ab99e0-e8bf-4f9c-a234-bf1da6321e17",
+                  "label": "装修风格",
+                  "name": "field_bba211",
+                  "itemNameLabel": "装修风格",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入装修风格",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "现代简约",
+                      "value": "1"
+                    },
+                    {
+                      "name": "北欧风",
+                      "value": "2"
+                    },
+                    {
+                      "name": "中式",
+                      "value": "3"
+                    },
+                    {
+                      "name": "日式",
+                      "value": "4"
+                    },
+                    {
+                      "name": "欧式",
+                      "value": "5"
+                    },
+                    {
+                      "name": "美式",
+                      "value": "6"
+                    },
+                    {
+                      "name": "混搭",
+                      "value": "7"
+                    },
+                    {
+                      "name": "无特别风格",
+                      "value": "8"
+                    },
+                    {
+                      "name": "其他",
+                      "value": "9"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Id8008bd2d-7bcd-4518-9ddd-9d7df214cd89",
+                "compType": "formItem",
+                "itemType": "input",
+                "fieldName": "field_7a9e57",
+                "preps": {
+                  "id": "Id8008bd2d-7bcd-4518-9ddd-9d7df214cd89",
+                  "label": "装修风格(其他请说明)",
+                  "name": "field_7a9e57",
+                  "itemNameLabel": "装修风格(其他请说明)",
+                  "formVisible": false,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请填写具体说明",
+                  "dataSource": "",
+                  "values": [],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Ida63f66f0-9724-4c5d-843f-a7ebc2cc4fbc",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_be7a51",
+                "preps": {
+                  "id": "Ida63f66f0-9724-4c5d-843f-a7ebc2cc4fbc",
+                  "label": "装修满意度",
+                  "name": "field_be7a51",
+                  "itemNameLabel": "装修满意度",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入装修满意度",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "非常满意",
+                      "value": "1"
+                    },
+                    {
+                      "name": "满意",
+                      "value": "2"
+                    },
+                    {
+                      "name": "一般",
+                      "value": "3"
+                    },
+                    {
+                      "name": "不满意",
+                      "value": "4"
+                    },
+                    {
+                      "name": "非常不满意",
+                      "value": "5"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Id609d9f57-535a-4419-aae6-67b005e09c71",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_2eb75a",
+                "preps": {
+                  "id": "Id609d9f57-535a-4419-aae6-67b005e09c71",
+                  "label": "家居整洁度自评",
+                  "name": "field_2eb75a",
+                  "itemNameLabel": "家居整洁度自评",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入家居整洁度自评",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "非常整洁",
+                      "value": "1"
+                    },
+                    {
+                      "name": "较整洁",
+                      "value": "2"
+                    },
+                    {
+                      "name": "一般",
+                      "value": "3"
+                    },
+                    {
+                      "name": "较凌乱",
+                      "value": "4"
+                    },
+                    {
+                      "name": "非常凌乱",
+                      "value": "5"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Idcfc5b3ad-e387-44cf-8bae-d01601138f7b",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_3d5691",
+                "preps": {
+                  "id": "Idcfc5b3ad-e387-44cf-8bae-d01601138f7b",
+                  "label": "收纳空间是否充足",
+                  "name": "field_3d5691",
+                  "itemNameLabel": "收纳空间是否充足",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入收纳空间是否充足",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "非常充足",
+                      "value": "1"
+                    },
+                    {
+                      "name": "充足",
+                      "value": "2"
+                    },
+                    {
+                      "name": "一般",
+                      "value": "3"
+                    },
+                    {
+                      "name": "不足",
+                      "value": "4"
+                    },
+                    {
+                      "name": "严重不足",
+                      "value": "5"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Id8f096dbe-7b46-460e-b433-90e4ee5836e9",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_2a3b06",
+                "preps": {
+                  "id": "Id8f096dbe-7b46-460e-b433-90e4ee5836e9",
+                  "label": "采光情况",
+                  "name": "field_2a3b06",
+                  "itemNameLabel": "采光情况",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入采光情况",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "非常好",
+                      "value": "1"
+                    },
+                    {
+                      "name": "较好",
+                      "value": "2"
+                    },
+                    {
+                      "name": "一般",
+                      "value": "3"
+                    },
+                    {
+                      "name": "较差",
+                      "value": "4"
+                    },
+                    {
+                      "name": "非常差",
+                      "value": "5"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Idc27e7885-2d51-49fc-8dc1-afb5a59f0846",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_e64217",
+                "preps": {
+                  "id": "Idc27e7885-2d51-49fc-8dc1-afb5a59f0846",
+                  "label": "隔音效果",
+                  "name": "field_e64217",
+                  "itemNameLabel": "隔音效果",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入隔音效果",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "非常好",
+                      "value": "1"
+                    },
+                    {
+                      "name": "较好",
+                      "value": "2"
+                    },
+                    {
+                      "name": "一般",
+                      "value": "3"
+                    },
+                    {
+                      "name": "较差",
+                      "value": "4"
+                    },
+                    {
+                      "name": "非常差",
+                      "value": "5"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Idefa77845-7114-48e7-ae90-3ee701fdde87",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_00db25",
+                "preps": {
+                  "id": "Idefa77845-7114-48e7-ae90-3ee701fdde87",
+                  "label": "室内空气质量",
+                  "name": "field_00db25",
+                  "itemNameLabel": "室内空气质量",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入室内空气质量",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "非常好",
+                      "value": "1"
+                    },
+                    {
+                      "name": "较好",
+                      "value": "2"
+                    },
+                    {
+                      "name": "一般",
+                      "value": "3"
+                    },
+                    {
+                      "name": "较差",
+                      "value": "4"
+                    },
+                    {
+                      "name": "非常差",
+                      "value": "5"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Idcd67f74d-443d-47aa-96cb-b86d578b7b84",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_cb0afd",
+                "preps": {
+                  "id": "Idcd67f74d-443d-47aa-96cb-b86d578b7b84",
+                  "label": "是否有养宠物",
+                  "name": "field_cb0afd",
+                  "itemNameLabel": "是否有养宠物",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入是否有养宠物",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "有狗",
+                      "value": "1"
+                    },
+                    {
+                      "name": "有猫",
+                      "value": "2"
+                    },
+                    {
+                      "name": "猫狗都有",
+                      "value": "3"
+                    },
+                    {
+                      "name": "其他宠物",
+                      "value": "4"
+                    },
+                    {
+                      "name": "没有",
+                      "value": "5"
+                    },
+                    {
+                      "name": "其他",
+                      "value": "6"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Idabedf831-f774-47bb-8f08-96cf426f89cc",
+                "compType": "formItem",
+                "itemType": "input",
+                "fieldName": "field_5299a9",
+                "preps": {
+                  "id": "Idabedf831-f774-47bb-8f08-96cf426f89cc",
+                  "label": "是否有养宠物(其他请说明)",
+                  "name": "field_5299a9",
+                  "itemNameLabel": "是否有养宠物(其他请说明)",
+                  "formVisible": false,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请填写具体说明",
+                  "dataSource": "",
+                  "values": [],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Id1a769252-a8d1-4b67-8703-95dfcec69d8e",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_384625",
+                "preps": {
+                  "id": "Id1a769252-a8d1-4b67-8703-95dfcec69d8e",
+                  "label": "是否有养植物/绿植",
+                  "name": "field_384625",
+                  "itemNameLabel": "是否有养植物/绿植",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入是否有养植物/绿植",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "很多",
+                      "value": "1"
+                    },
+                    {
+                      "name": "有一些",
+                      "value": "2"
+                    },
+                    {
+                      "name": "少量",
+                      "value": "3"
+                    },
+                    {
+                      "name": "没有",
+                      "value": "4"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "Id95650d79-398a-4a2f-a42f-333c3b21f424",
+      "compType": "container",
+      "itemType": "card",
+      "fieldName": "field_a3ce6d",
+      "preps": {
+        "id": "Id95650d79-398a-4a2f-a42f-333c3b21f424",
+        "label": "家务与生活",
+        "name": "field_a3ce6d",
+        "itemNameLabel": "家务与生活",
+        "headerFieldList": [],
+        "elements": [
+          {
+            "label": "家务与生活",
+            "tabName": "家务与生活",
+            "objectName": "家务与生活",
+            "subFormFlag": "Y",
+            "items": [
+              {
+                "id": "Id4f0a9aff-2a30-4254-abe4-8afac1aef409",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_1b041a",
+                "preps": {
+                  "id": "Id4f0a9aff-2a30-4254-abe4-8afac1aef409",
+                  "label": "每周做家务频率",
+                  "name": "field_1b041a",
+                  "itemNameLabel": "每周做家务频率",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入每周做家务频率",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "每天",
+                      "value": "1"
+                    },
+                    {
+                      "name": "每周3-5次",
+                      "value": "2"
+                    },
+                    {
+                      "name": "每周1-2次",
+                      "value": "3"
+                    },
+                    {
+                      "name": "偶尔",
+                      "value": "4"
+                    },
+                    {
+                      "name": "几乎不做",
+                      "value": "5"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Id37197f2a-b440-4d3c-97ef-820c082b93e7",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_ea2b42",
+                "preps": {
+                  "id": "Id37197f2a-b440-4d3c-97ef-820c082b93e7",
+                  "label": "做饭频率",
+                  "name": "field_ea2b42",
+                  "itemNameLabel": "做饭频率",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入做饭频率",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "每天自己做",
+                      "value": "1"
+                    },
+                    {
+                      "name": "经常做",
+                      "value": "2"
+                    },
+                    {
+                      "name": "偶尔做",
+                      "value": "3"
+                    },
+                    {
+                      "name": "几乎不做，以外卖为主",
+                      "value": "4"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Id7dacc188-4886-400d-b741-629e71dbe404",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_857f90",
+                "preps": {
+                  "id": "Id7dacc188-4886-400d-b741-629e71dbe404",
+                  "label": "厨房使用频率",
+                  "name": "field_857f90",
+                  "itemNameLabel": "厨房使用频率",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入厨房使用频率",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "每天",
+                      "value": "1"
+                    },
+                    {
+                      "name": "经常",
+                      "value": "2"
+                    },
+                    {
+                      "name": "偶尔",
+                      "value": "3"
+                    },
+                    {
+                      "name": "几乎不用",
+                      "value": "4"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Id6a5bfee1-c678-48aa-8380-91555c629e5d",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_9f4371",
+                "preps": {
+                  "id": "Id6a5bfee1-c678-48aa-8380-91555c629e5d",
+                  "label": "家庭清洁方式",
+                  "name": "field_9f4371",
+                  "itemNameLabel": "家庭清洁方式",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入家庭清洁方式",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "自己打扫",
+                      "value": "1"
+                    },
+                    {
+                      "name": "请保洁",
+                      "value": "2"
+                    },
+                    {
+                      "name": "扫地机器人",
+                      "value": "3"
+                    },
+                    {
+                      "name": "综合使用",
+                      "value": "4"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Idcb133725-492f-4f97-a1a1-180364d13fde",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_2f0779",
+                "preps": {
+                  "id": "Idcb133725-492f-4f97-a1a1-180364d13fde",
+                  "label": "洗衣服频率",
+                  "name": "field_2f0779",
+                  "itemNameLabel": "洗衣服频率",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入洗衣服频率",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "每天",
+                      "value": "1"
+                    },
+                    {
+                      "name": "每两天",
+                      "value": "2"
+                    },
+                    {
+                      "name": "每周1-2次",
+                      "value": "3"
+                    },
+                    {
+                      "name": "每周不到1次",
+                      "value": "4"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Id51cf23f2-ab2c-490f-870a-b08ba227b580",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_592253",
+                "preps": {
+                  "id": "Id51cf23f2-ab2c-490f-870a-b08ba227b580",
+                  "label": "是否使用洗碗机",
+                  "name": "field_592253",
+                  "itemNameLabel": "是否使用洗碗机",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入是否使用洗碗机",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "有且常用",
+                      "value": "1"
+                    },
+                    {
+                      "name": "有但不常用",
+                      "value": "2"
+                    },
+                    {
+                      "name": "没有但考虑买",
+                      "value": "3"
+                    },
+                    {
+                      "name": "没有也不考虑",
+                      "value": "4"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Id0a69914a-1522-4689-96be-71bdeb84d509",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_34461d",
+                "preps": {
+                  "id": "Id0a69914a-1522-4689-96be-71bdeb84d509",
+                  "label": "是否使用烘干机",
+                  "name": "field_34461d",
+                  "itemNameLabel": "是否使用烘干机",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入是否使用烘干机",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "有且常用",
+                      "value": "1"
+                    },
+                    {
+                      "name": "有但不常用",
+                      "value": "2"
+                    },
+                    {
+                      "name": "没有但考虑买",
+                      "value": "3"
+                    },
+                    {
+                      "name": "没有也不考虑",
+                      "value": "4"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Id0849d49d-649c-40ee-967f-510aa187821c",
+                "compType": "formItem",
+                "itemType": "number",
+                "fieldName": "field_cd1e8b",
+                "preps": {
+                  "id": "Id0849d49d-649c-40ee-967f-510aa187821c",
+                  "label": "月均家居消费(元)",
+                  "name": "field_cd1e8b",
+                  "itemNameLabel": "月均家居消费(元)",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入月均家居消费(元)",
+                  "dataSource": "",
+                  "values": [],
+                  "rules": [],
+                  "helpMsg": "",
+                  "min": 0,
+                  "precision": 0
+                }
+              },
+              {
+                "id": "Idd686207b-dbe7-46b2-961a-2b7cdd9309e9",
+                "compType": "formItem",
+                "itemType": "number",
+                "fieldName": "field_80851c",
+                "preps": {
+                  "id": "Idd686207b-dbe7-46b2-961a-2b7cdd9309e9",
+                  "label": "月均水电燃气费(元)",
+                  "name": "field_80851c",
+                  "itemNameLabel": "月均水电燃气费(元)",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入月均水电燃气费(元)",
+                  "dataSource": "",
+                  "values": [],
+                  "rules": [],
+                  "helpMsg": "",
+                  "min": 0,
+                  "precision": 0
+                }
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "Id731e8a6a-3c1c-4b30-b9a3-a91f44e0ba16",
+      "compType": "container",
+      "itemType": "card",
+      "fieldName": "field_32475e",
+      "preps": {
+        "id": "Id731e8a6a-3c1c-4b30-b9a3-a91f44e0ba16",
+        "label": "智能家电",
+        "name": "field_32475e",
+        "itemNameLabel": "智能家电",
+        "headerFieldList": [],
+        "elements": [
+          {
+            "label": "智能家电",
+            "tabName": "智能家电",
+            "objectName": "智能家电",
+            "subFormFlag": "Y",
+            "items": [
+              {
+                "id": "Id7e0ffa39-e179-4bce-8584-ada6c8a38681",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_5aca26",
+                "preps": {
+                  "id": "Id7e0ffa39-e179-4bce-8584-ada6c8a38681",
+                  "label": "家电智能化程度",
+                  "name": "field_5aca26",
+                  "itemNameLabel": "家电智能化程度",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入家电智能化程度",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "全屋智能",
+                      "value": "1"
+                    },
+                    {
+                      "name": "部分智能",
+                      "value": "2"
+                    },
+                    {
+                      "name": "少量智能",
+                      "value": "3"
+                    },
+                    {
+                      "name": "传统家电",
+                      "value": "4"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Id736c4f68-7d3d-4313-b76c-cecb47b5756f",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_c81a1a",
+                "preps": {
+                  "id": "Id736c4f68-7d3d-4313-b76c-cecb47b5756f",
+                  "label": "是否有智能音箱",
+                  "name": "field_c81a1a",
+                  "itemNameLabel": "是否有智能音箱",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入是否有智能音箱",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "有且常用",
+                      "value": "1"
+                    },
+                    {
+                      "name": "有但不常用",
+                      "value": "2"
+                    },
+                    {
+                      "name": "没有",
+                      "value": "3"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Ida753da70-60e3-4a15-aa9f-1ec02d775b15",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_cc7be4",
+                "preps": {
+                  "id": "Ida753da70-60e3-4a15-aa9f-1ec02d775b15",
+                  "label": "是否有智能门锁",
+                  "name": "field_cc7be4",
+                  "itemNameLabel": "是否有智能门锁",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入是否有智能门锁",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "有",
+                      "value": "1"
+                    },
+                    {
+                      "name": "没有",
+                      "value": "2"
+                    },
+                    {
+                      "name": "考虑安装",
+                      "value": "3"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Id2fac3293-e958-4624-8888-56e754db057e",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_8389e2",
+                "preps": {
+                  "id": "Id2fac3293-e958-4624-8888-56e754db057e",
+                  "label": "是否有扫地机器人",
+                  "name": "field_8389e2",
+                  "itemNameLabel": "是否有扫地机器人",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入是否有扫地机器人",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "有且常用",
+                      "value": "1"
+                    },
+                    {
+                      "name": "有但不常用",
+                      "value": "2"
+                    },
+                    {
+                      "name": "没有",
+                      "value": "3"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Id671ebebb-39fd-4e69-8bbc-2d3a370176a8",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_770402",
+                "preps": {
+                  "id": "Id671ebebb-39fd-4e69-8bbc-2d3a370176a8",
+                  "label": "智能家居使用体验",
+                  "name": "field_770402",
+                  "itemNameLabel": "智能家居使用体验",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入智能家居使用体验",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "非常满意",
+                      "value": "1"
+                    },
+                    {
+                      "name": "满意",
+                      "value": "2"
+                    },
+                    {
+                      "name": "一般",
+                      "value": "3"
+                    },
+                    {
+                      "name": "不满意",
+                      "value": "4"
+                    },
+                    {
+                      "name": "非常不满意",
+                      "value": "5"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Idde26854e-179f-486e-8a47-996e3bf47783",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_00c002",
+                "preps": {
+                  "id": "Idde26854e-179f-486e-8a47-996e3bf47783",
+                  "label": "对智能家居的接受度",
+                  "name": "field_00c002",
+                  "itemNameLabel": "对智能家居的接受度",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入对智能家居的接受度",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "非常喜欢",
+                      "value": "1"
+                    },
+                    {
+                      "name": "喜欢",
+                      "value": "2"
+                    },
+                    {
+                      "name": "一般",
+                      "value": "3"
+                    },
+                    {
+                      "name": "不太喜欢",
+                      "value": "4"
+                    },
+                    {
+                      "name": "不喜欢",
+                      "value": "5"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Id5b832fbc-782e-4b53-8ea3-f866f08ed0c4",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_6591a5",
+                "preps": {
+                  "id": "Id5b832fbc-782e-4b53-8ea3-f866f08ed0c4",
+                  "label": "最常用的智能家居功能",
+                  "name": "field_6591a5",
+                  "itemNameLabel": "最常用的智能家居功能",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入最常用的智能家居功能",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "语音控制",
+                      "value": "1"
+                    },
+                    {
+                      "name": "远程监控",
+                      "value": "2"
+                    },
+                    {
+                      "name": "自动化场景",
+                      "value": "3"
+                    },
+                    {
+                      "name": "安防",
+                      "value": "4"
+                    },
+                    {
+                      "name": "不使用",
+                      "value": "5"
+                    },
+                    {
+                      "name": "其他",
+                      "value": "6"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Id5357e141-fd86-47a1-88ea-f7a9cc993bc7",
+                "compType": "formItem",
+                "itemType": "input",
+                "fieldName": "field_405472",
+                "preps": {
+                  "id": "Id5357e141-fd86-47a1-88ea-f7a9cc993bc7",
+                  "label": "最常用的智能家居功能(其他请说明)",
+                  "name": "field_405472",
+                  "itemNameLabel": "最常用的智能家居功能(其他请说明)",
+                  "formVisible": false,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请填写具体说明",
+                  "dataSource": "",
+                  "values": [],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Id39f65ae8-0680-4965-b8c3-f40e0decdbc9",
+                "compType": "formItem",
+                "itemType": "checkbox",
+                "fieldName": "field_064d4c",
+                "preps": {
+                  "id": "Id39f65ae8-0680-4965-b8c3-f40e0decdbc9",
+                  "label": "购买家电最看重什么(多选)",
+                  "name": "field_064d4c",
+                  "itemNameLabel": "购买家电最看重什么(多选)",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入购买家电最看重什么(多选)",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "品牌",
+                      "value": "1"
+                    },
+                    {
+                      "name": "价格",
+                      "value": "2"
+                    },
+                    {
+                      "name": "功能",
+                      "value": "3"
+                    },
+                    {
+                      "name": "外观",
+                      "value": "4"
+                    },
+                    {
+                      "name": "能效",
+                      "value": "5"
+                    },
+                    {
+                      "name": "售后",
+                      "value": "6"
+                    },
+                    {
+                      "name": "其他",
+                      "value": "7"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Ida1d57470-afae-44c7-933a-957c9e744d23",
+                "compType": "formItem",
+                "itemType": "input",
+                "fieldName": "field_66f70c",
+                "preps": {
+                  "id": "Ida1d57470-afae-44c7-933a-957c9e744d23",
+                  "label": "购买家电最看重什么(多选)(其他请说明)",
+                  "name": "field_66f70c",
+                  "itemNameLabel": "购买家电最看重什么(多选)(其他请说明)",
+                  "formVisible": false,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请填写具体说明",
+                  "dataSource": "",
+                  "values": [],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "Id901ab391-e1ef-4ca6-8f18-a61df88ec6f0",
+      "compType": "container",
+      "itemType": "card",
+      "fieldName": "field_0c1535",
+      "preps": {
+        "id": "Id901ab391-e1ef-4ca6-8f18-a61df88ec6f0",
+        "label": "社区与周边",
+        "name": "field_0c1535",
+        "itemNameLabel": "社区与周边",
+        "headerFieldList": [],
+        "elements": [
+          {
+            "label": "社区与周边",
+            "tabName": "社区与周边",
+            "objectName": "社区与周边",
+            "subFormFlag": "Y",
+            "items": [
+              {
+                "id": "Id9a1a35a7-0a3c-4542-8773-c00a359dc3fc",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_7f0203",
+                "preps": {
+                  "id": "Id9a1a35a7-0a3c-4542-8773-c00a359dc3fc",
+                  "label": "对居住环境的满意度",
+                  "name": "field_7f0203",
+                  "itemNameLabel": "对居住环境的满意度",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入对居住环境的满意度",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "非常满意",
+                      "value": "1"
+                    },
+                    {
+                      "name": "满意",
+                      "value": "2"
+                    },
+                    {
+                      "name": "一般",
+                      "value": "3"
+                    },
+                    {
+                      "name": "不满意",
+                      "value": "4"
+                    },
+                    {
+                      "name": "非常不满意",
+                      "value": "5"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Id5261431b-21b0-4a01-a00d-375444525cd1",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_539bab",
+                "preps": {
+                  "id": "Id5261431b-21b0-4a01-a00d-375444525cd1",
+                  "label": "对社区/小区配套的评价",
+                  "name": "field_539bab",
+                  "itemNameLabel": "对社区/小区配套的评价",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入对社区/小区配套的评价",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "非常完善",
+                      "value": "1"
+                    },
+                    {
+                      "name": "完善",
+                      "value": "2"
+                    },
+                    {
+                      "name": "一般",
+                      "value": "3"
+                    },
+                    {
+                      "name": "不完善",
+                      "value": "4"
+                    },
+                    {
+                      "name": "非常不完善",
+                      "value": "5"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Idd722a81b-3124-45ab-9fec-523164767223",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_256aad",
+                "preps": {
+                  "id": "Idd722a81b-3124-45ab-9fec-523164767223",
+                  "label": "物业管理满意度",
+                  "name": "field_256aad",
+                  "itemNameLabel": "物业管理满意度",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入物业管理满意度",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "非常满意",
+                      "value": "1"
+                    },
+                    {
+                      "name": "满意",
+                      "value": "2"
+                    },
+                    {
+                      "name": "一般",
+                      "value": "3"
+                    },
+                    {
+                      "name": "不满意",
+                      "value": "4"
+                    },
+                    {
+                      "name": "非常不满意",
+                      "value": "5"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Id04f696c2-0e0e-450d-b029-d1fcf61de055",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_fe4a07",
+                "preps": {
+                  "id": "Id04f696c2-0e0e-450d-b029-d1fcf61de055",
+                  "label": "小区安保满意度",
+                  "name": "field_fe4a07",
+                  "itemNameLabel": "小区安保满意度",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入小区安保满意度",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "非常满意",
+                      "value": "1"
+                    },
+                    {
+                      "name": "满意",
+                      "value": "2"
+                    },
+                    {
+                      "name": "一般",
+                      "value": "3"
+                    },
+                    {
+                      "name": "不满意",
+                      "value": "4"
+                    },
+                    {
+                      "name": "非常不满意",
+                      "value": "5"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Id0e329043-8e03-4aa7-a12c-46cc1d341988",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_e85913",
+                "preps": {
+                  "id": "Id0e329043-8e03-4aa7-a12c-46cc1d341988",
+                  "label": "小区绿化满意度",
+                  "name": "field_e85913",
+                  "itemNameLabel": "小区绿化满意度",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入小区绿化满意度",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "非常满意",
+                      "value": "1"
+                    },
+                    {
+                      "name": "满意",
+                      "value": "2"
+                    },
+                    {
+                      "name": "一般",
+                      "value": "3"
+                    },
+                    {
+                      "name": "不满意",
+                      "value": "4"
+                    },
+                    {
+                      "name": "非常不满意",
+                      "value": "5"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Ida17a64ff-c9e5-4ff0-8e41-dfbbccbc1603",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_2bd293",
+                "preps": {
+                  "id": "Ida17a64ff-c9e5-4ff0-8e41-dfbbccbc1603",
+                  "label": "周边交通便利度",
+                  "name": "field_2bd293",
+                  "itemNameLabel": "周边交通便利度",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入周边交通便利度",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "非常满意",
+                      "value": "1"
+                    },
+                    {
+                      "name": "满意",
+                      "value": "2"
+                    },
+                    {
+                      "name": "一般",
+                      "value": "3"
+                    },
+                    {
+                      "name": "不满意",
+                      "value": "4"
+                    },
+                    {
+                      "name": "非常不满意",
+                      "value": "5"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Id2544017d-800f-4a77-9a5a-a3ee73e346cf",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_76b89f",
+                "preps": {
+                  "id": "Id2544017d-800f-4a77-9a5a-a3ee73e346cf",
+                  "label": "周边购物便利度",
+                  "name": "field_76b89f",
+                  "itemNameLabel": "周边购物便利度",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入周边购物便利度",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "非常满意",
+                      "value": "1"
+                    },
+                    {
+                      "name": "满意",
+                      "value": "2"
+                    },
+                    {
+                      "name": "一般",
+                      "value": "3"
+                    },
+                    {
+                      "name": "不满意",
+                      "value": "4"
+                    },
+                    {
+                      "name": "非常不满意",
+                      "value": "5"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Id89971ecd-0ad4-4b8c-a72f-62b5b35ad9b5",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_86738f",
+                "preps": {
+                  "id": "Id89971ecd-0ad4-4b8c-a72f-62b5b35ad9b5",
+                  "label": "周边医疗资源",
+                  "name": "field_86738f",
+                  "itemNameLabel": "周边医疗资源",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入周边医疗资源",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "非常满意",
+                      "value": "1"
+                    },
+                    {
+                      "name": "满意",
+                      "value": "2"
+                    },
+                    {
+                      "name": "一般",
+                      "value": "3"
+                    },
+                    {
+                      "name": "不满意",
+                      "value": "4"
+                    },
+                    {
+                      "name": "非常不满意",
+                      "value": "5"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Ide04135e1-2700-40df-8c39-734538e3f140",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_8ca573",
+                "preps": {
+                  "id": "Ide04135e1-2700-40df-8c39-734538e3f140",
+                  "label": "周边教育资源",
+                  "name": "field_8ca573",
+                  "itemNameLabel": "周边教育资源",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入周边教育资源",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "非常满意",
+                      "value": "1"
+                    },
+                    {
+                      "name": "满意",
+                      "value": "2"
+                    },
+                    {
+                      "name": "一般",
+                      "value": "3"
+                    },
+                    {
+                      "name": "不满意",
+                      "value": "4"
+                    },
+                    {
+                      "name": "非常不满意",
+                      "value": "5"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Id631292b7-759d-4a43-8bd3-22f2ce42ea78",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_8e5e9b",
+                "preps": {
+                  "id": "Id631292b7-759d-4a43-8bd3-22f2ce42ea78",
+                  "label": "周边公园/休闲场所",
+                  "name": "field_8e5e9b",
+                  "itemNameLabel": "周边公园/休闲场所",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入周边公园/休闲场所",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "非常满意",
+                      "value": "1"
+                    },
+                    {
+                      "name": "满意",
+                      "value": "2"
+                    },
+                    {
+                      "name": "一般",
+                      "value": "3"
+                    },
+                    {
+                      "name": "不满意",
+                      "value": "4"
+                    },
+                    {
+                      "name": "非常不满意",
+                      "value": "5"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Id5e350ab6-45ac-4fba-85b5-87e4bc80ca9d",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_f37e20",
+                "preps": {
+                  "id": "Id5e350ab6-45ac-4fba-85b5-87e4bc80ca9d",
+                  "label": "社区活动参与度",
+                  "name": "field_f37e20",
+                  "itemNameLabel": "社区活动参与度",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入社区活动参与度",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "积极参与",
+                      "value": "1"
+                    },
+                    {
+                      "name": "偶尔参与",
+                      "value": "2"
+                    },
+                    {
+                      "name": "很少参与",
+                      "value": "3"
+                    },
+                    {
+                      "name": "从不参与",
+                      "value": "4"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Id3f123a33-d028-402b-8343-86d98751f4cd",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_07a758",
+                "preps": {
+                  "id": "Id3f123a33-d028-402b-8343-86d98751f4cd",
+                  "label": "邻里关系",
+                  "name": "field_07a758",
+                  "itemNameLabel": "邻里关系",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入邻里关系",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "非常和睦",
+                      "value": "1"
+                    },
+                    {
+                      "name": "和睦",
+                      "value": "2"
+                    },
+                    {
+                      "name": "一般",
+                      "value": "3"
+                    },
+                    {
+                      "name": "有矛盾",
+                      "value": "4"
+                    },
+                    {
+                      "name": "矛盾较大",
+                      "value": "5"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "Id4562fab1-f813-4495-aeed-88a8ffa0e4db",
+      "compType": "container",
+      "itemType": "card",
+      "fieldName": "field_66b066",
+      "preps": {
+        "id": "Id4562fab1-f813-4495-aeed-88a8ffa0e4db",
+        "label": "居家幸福感",
+        "name": "field_66b066",
+        "itemNameLabel": "居家幸福感",
+        "headerFieldList": [],
+        "elements": [
+          {
+            "label": "居家幸福感",
+            "tabName": "居家幸福感",
+            "objectName": "居家幸福感",
+            "subFormFlag": "Y",
+            "items": [
+              {
+                "id": "Id382c11e1-35cc-4701-a948-0b453e5e2c5d",
+                "compType": "formItem",
+                "itemType": "rate",
+                "fieldName": "field_7f9fc0",
+                "preps": {
+                  "id": "Id382c11e1-35cc-4701-a948-0b453e5e2c5d",
+                  "label": "居家幸福感评分",
+                  "name": "field_7f9fc0",
+                  "itemNameLabel": "居家幸福感评分",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入居家幸福感评分",
+                  "dataSource": "",
+                  "values": [],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Id5c4ab2fa-2fd2-4fda-98b5-de8525142f1e",
+                "compType": "formItem",
+                "itemType": "checkbox",
+                "fieldName": "field_3b4f31",
+                "preps": {
+                  "id": "Id5c4ab2fa-2fd2-4fda-98b5-de8525142f1e",
+                  "label": "最希望改善的居家方面(多选)",
+                  "name": "field_3b4f31",
+                  "itemNameLabel": "最希望改善的居家方面(多选)",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入最希望改善的居家方面(多选)",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "居住面积",
+                      "value": "1"
+                    },
+                    {
+                      "name": "装修品质",
+                      "value": "2"
+                    },
+                    {
+                      "name": "社区配套",
+                      "value": "3"
+                    },
+                    {
+                      "name": "周边环境",
+                      "value": "4"
+                    },
+                    {
+                      "name": "家居智能化",
+                      "value": "5"
+                    },
+                    {
+                      "name": "其他",
+                      "value": "6"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Id8dfdd7fd-e466-4e67-91d9-a0cda36feb97",
+                "compType": "formItem",
+                "itemType": "input",
+                "fieldName": "field_25f18d",
+                "preps": {
+                  "id": "Id8dfdd7fd-e466-4e67-91d9-a0cda36feb97",
+                  "label": "最希望改善的居家方面(多选)(其他请说明)",
+                  "name": "field_25f18d",
+                  "itemNameLabel": "最希望改善的居家方面(多选)(其他请说明)",
+                  "formVisible": false,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请填写具体说明",
+                  "dataSource": "",
+                  "values": [],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Id0684fa00-87da-493f-acea-8aac5c5e1bd1",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_f8a50d",
+                "preps": {
+                  "id": "Id0684fa00-87da-493f-acea-8aac5c5e1bd1",
+                  "label": "是否有意愿搬家",
+                  "name": "field_f8a50d",
+                  "itemNameLabel": "是否有意愿搬家",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入是否有意愿搬家",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "近期计划搬",
+                      "value": "1"
+                    },
+                    {
+                      "name": "考虑中",
+                      "value": "2"
+                    },
+                    {
+                      "name": "暂时不想",
+                      "value": "3"
+                    },
+                    {
+                      "name": "完全不想",
+                      "value": "4"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Id53eb6364-428a-45c3-b0cb-12a9d9594fde",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_143e12",
+                "preps": {
+                  "id": "Id53eb6364-428a-45c3-b0cb-12a9d9594fde",
+                  "label": "理想居住地的特征",
+                  "name": "field_143e12",
+                  "itemNameLabel": "理想居住地的特征",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入理想居住地的特征",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "市中心繁华区",
+                      "value": "1"
+                    },
+                    {
+                      "name": "近郊安静区",
+                      "value": "2"
+                    },
+                    {
+                      "name": "学区",
+                      "value": "3"
+                    },
+                    {
+                      "name": "海景/湖景",
+                      "value": "4"
+                    },
+                    {
+                      "name": "乡村田园",
+                      "value": "5"
+                    },
+                    {
+                      "name": "其他",
+                      "value": "6"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Id8248a0bc-a15e-4f60-a955-b490f76faad4",
+                "compType": "formItem",
+                "itemType": "input",
+                "fieldName": "field_c38d9e",
+                "preps": {
+                  "id": "Id8248a0bc-a15e-4f60-a955-b490f76faad4",
+                  "label": "理想居住地的特征(其他请说明)",
+                  "name": "field_c38d9e",
+                  "itemNameLabel": "理想居住地的特征(其他请说明)",
+                  "formVisible": false,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请填写具体说明",
+                  "dataSource": "",
+                  "values": [],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Idcb2f8598-6feb-46b7-8fd3-f698b0a0a2d5",
+                "compType": "formItem",
+                "itemType": "textarea",
+                "fieldName": "field_6f0c4e",
+                "preps": {
+                  "id": "Idcb2f8598-6feb-46b7-8fd3-f698b0a0a2d5",
+                  "label": "您提升居家生活品质的经验",
+                  "name": "field_6f0c4e",
+                  "itemNameLabel": "您提升居家生活品质的经验",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 1000,
+                  "placeholder": "请详细描述您的想法",
+                  "dataSource": "",
+                  "values": [],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Ide45f9189-82c5-47ff-ab0b-6302b87c118e",
+                "compType": "formItem",
+                "itemType": "textarea",
+                "fieldName": "field_c71208",
+                "preps": {
+                  "id": "Ide45f9189-82c5-47ff-ab0b-6302b87c118e",
+                  "label": "您理想中的家是什么样的",
+                  "name": "field_c71208",
+                  "itemNameLabel": "您理想中的家是什么样的",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 1000,
+                  "placeholder": "请详细描述您的想法",
+                  "dataSource": "",
+                  "values": [],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "exportTime": "2026-06-16T10:51:24.823Z",
+  "version": "1.0"
+}

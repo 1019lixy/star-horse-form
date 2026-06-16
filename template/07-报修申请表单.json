@@ -5,14 +5,14 @@
   },
   "dataList": [
     {
-      "id": "Id9069305a-a99d-4c59-99b2-743f75e7116b",
+      "id": "Idcc1f9653-8e84-4253-aae1-e1bbe2e2296c",
       "compType": "container",
       "itemType": "card",
-      "fieldName": "field_c28c8c",
+      "fieldName": "field_344361",
       "preps": {
-        "id": "Id9069305a-a99d-4c59-99b2-743f75e7116b",
+        "id": "Idcc1f9653-8e84-4253-aae1-e1bbe2e2296c",
         "label": "报修信息",
-        "name": "field_c28c8c",
+        "name": "field_344361",
         "itemNameLabel": "报修信息",
         "headerFieldList": [],
         "elements": [
@@ -23,37 +23,37 @@
             "subFormFlag": "Y",
             "items": [
               {
-                "id": "Idf8dbb5d9-e829-4b7d-aada-5eabd5e7f2c6",
+                "id": "Id5660cbff-9c52-4d28-8618-fc2f4bb86a20",
                 "compType": "container",
                 "itemType": "box",
-                "fieldName": "field_dd46ad",
+                "fieldName": "field_28f47b",
                 "rowNums": 1,
                 "columnNums": 2,
                 "preps": {
-                  "id": "Idf8dbb5d9-e829-4b7d-aada-5eabd5e7f2c6",
+                  "id": "Id5660cbff-9c52-4d28-8618-fc2f4bb86a20",
                   "label": "Grid Layout",
-                  "name": "field_dd46ad",
+                  "name": "field_28f47b",
                   "itemNameLabel": "Grid Layout",
                   "elements": [
                     {
-                      "id": "row-c564c25e-10a9-4dc0-9086-8d454fba548c",
+                      "id": "row-cea3b964-d90e-41f0-9c0e-973b7473d17d",
                       "rowIndex": 1,
                       "columns": [
                         {
-                          "id": "col-983c0239-6092-467a-800e-537d9105ab15",
+                          "id": "col-0d72edfe-096f-4b17-8247-518e3a9471d3",
                           "cellVisible": true,
                           "colIndex": 1,
                           "colspan": 12,
                           "items": [
                             {
-                              "id": "Id70589f91-fb86-4dae-854e-ddfeeb51212a",
+                              "id": "Id926a4a82-78c7-45c1-99e2-afc0d3332547",
                               "compType": "formItem",
                               "itemType": "input",
-                              "fieldName": "field_b2423f",
+                              "fieldName": "field_dbcd22",
                               "preps": {
-                                "id": "Id70589f91-fb86-4dae-854e-ddfeeb51212a",
+                                "id": "Id926a4a82-78c7-45c1-99e2-afc0d3332547",
                                 "label": "报修人",
-                                "name": "field_b2423f",
+                                "name": "field_dbcd22",
                                 "itemNameLabel": "报修人",
                                 "formVisible": true,
                                 "listVisible": true,
@@ -74,20 +74,20 @@
                           ]
                         },
                         {
-                          "id": "col-350575aa-80a5-44e6-9ef3-6e3aba025d22",
+                          "id": "col-24cd1d84-ed63-4423-96a1-8c4ee54f7dcb",
                           "cellVisible": true,
                           "colIndex": 1,
                           "colspan": 12,
                           "items": [
                             {
-                              "id": "Id68baadec-ca90-411e-858c-afc4ef4c6030",
+                              "id": "Id4ea78dc1-1874-4744-9f06-65bec4962bd6",
                               "compType": "formItem",
                               "itemType": "input",
-                              "fieldName": "field_2bfabc",
+                              "fieldName": "field_c64206",
                               "preps": {
-                                "id": "Id68baadec-ca90-411e-858c-afc4ef4c6030",
+                                "id": "Id4ea78dc1-1874-4744-9f06-65bec4962bd6",
                                 "label": "联系电话",
-                                "name": "field_2bfabc",
+                                "name": "field_c64206",
                                 "itemNameLabel": "联系电话",
                                 "formVisible": true,
                                 "listVisible": true,
@@ -113,37 +113,37 @@
                 }
               },
               {
-                "id": "Id1363f628-bbe3-4ef3-9c08-667517bdee88",
+                "id": "Id20a23209-31b8-4535-9315-f4bfcc29f8a0",
                 "compType": "container",
                 "itemType": "box",
-                "fieldName": "field_34692d",
+                "fieldName": "field_b9d74b",
                 "rowNums": 1,
                 "columnNums": 2,
                 "preps": {
-                  "id": "Id1363f628-bbe3-4ef3-9c08-667517bdee88",
+                  "id": "Id20a23209-31b8-4535-9315-f4bfcc29f8a0",
                   "label": "Grid Layout",
-                  "name": "field_34692d",
+                  "name": "field_b9d74b",
                   "itemNameLabel": "Grid Layout",
                   "elements": [
                     {
-                      "id": "row-b08f24d5-4ac1-437b-abbe-08faee8bb40e",
+                      "id": "row-94808913-c0f4-48b5-a4b3-107b52ec65c8",
                       "rowIndex": 1,
                       "columns": [
                         {
-                          "id": "col-bcacdb7b-ceb6-4cba-8632-806d510e7234",
+                          "id": "col-ae435181-f5c8-4bdf-aaed-505a9371e247",
                           "cellVisible": true,
                           "colIndex": 1,
                           "colspan": 12,
                           "items": [
                             {
-                              "id": "Id6d981932-f86f-43b5-bc50-d4b638116120",
+                              "id": "Idce444bb1-c9c2-42a7-aa42-2aadb86a78ca",
                               "compType": "formItem",
                               "itemType": "input",
-                              "fieldName": "field_3053e3",
+                              "fieldName": "field_8c1731",
                               "preps": {
-                                "id": "Id6d981932-f86f-43b5-bc50-d4b638116120",
+                                "id": "Idce444bb1-c9c2-42a7-aa42-2aadb86a78ca",
                                 "label": "报修地点",
-                                "name": "field_3053e3",
+                                "name": "field_8c1731",
                                 "itemNameLabel": "报修地点",
                                 "formVisible": true,
                                 "listVisible": true,
@@ -164,20 +164,20 @@
                           ]
                         },
                         {
-                          "id": "col-8faefa40-18e9-4090-a946-77d402f62c0f",
+                          "id": "col-519539c2-c4e5-4a42-842e-5439857f3dfa",
                           "cellVisible": true,
                           "colIndex": 1,
                           "colspan": 12,
                           "items": [
                             {
-                              "id": "Id8d2a155f-2705-4023-9fab-525d41fad77b",
+                              "id": "Idaead071f-f222-4305-9739-360e5a89d856",
                               "compType": "formItem",
                               "itemType": "select",
-                              "fieldName": "field_ff6070",
+                              "fieldName": "field_0b006f",
                               "preps": {
-                                "id": "Id8d2a155f-2705-4023-9fab-525d41fad77b",
+                                "id": "Idaead071f-f222-4305-9739-360e5a89d856",
                                 "label": "故障类型",
-                                "name": "field_ff6070",
+                                "name": "field_0b006f",
                                 "itemNameLabel": "故障类型",
                                 "formVisible": true,
                                 "listVisible": true,
@@ -232,14 +232,14 @@
                 }
               },
               {
-                "id": "Id07cee8b4-52c2-416d-9603-7bc2a785d5d5",
+                "id": "Idb4a190be-f101-4cc7-97f9-9d4993f4bb5e",
                 "compType": "formItem",
                 "itemType": "select",
-                "fieldName": "field_23994a",
+                "fieldName": "field_c93d5c",
                 "preps": {
-                  "id": "Id07cee8b4-52c2-416d-9603-7bc2a785d5d5",
+                  "id": "Idb4a190be-f101-4cc7-97f9-9d4993f4bb5e",
                   "label": "紧急程度",
-                  "name": "field_23994a",
+                  "name": "field_c93d5c",
                   "itemNameLabel": "紧急程度",
                   "formVisible": true,
                   "listVisible": true,
@@ -271,14 +271,14 @@
                 }
               },
               {
-                "id": "Ide08e8263-a404-46cb-9eec-7fe7b2e67a4d",
+                "id": "Iddcc5aa80-48c7-4680-8a14-4f45121da385",
                 "compType": "formItem",
                 "itemType": "textarea",
-                "fieldName": "field_ecb0e5",
+                "fieldName": "field_bb1ebb",
                 "preps": {
-                  "id": "Ide08e8263-a404-46cb-9eec-7fe7b2e67a4d",
+                  "id": "Iddcc5aa80-48c7-4680-8a14-4f45121da385",
                   "label": "问题描述",
-                  "name": "field_ecb0e5",
+                  "name": "field_bb1ebb",
                   "itemNameLabel": "问题描述",
                   "formVisible": true,
                   "listVisible": true,
@@ -297,14 +297,14 @@
                 }
               },
               {
-                "id": "Id6bc6da0d-41d6-4e4a-8948-4d78b2fae7f0",
+                "id": "Idd8f50540-cee2-4e3a-8a7d-461d52e75411",
                 "compType": "formItem",
                 "itemType": "upload",
-                "fieldName": "field_a17842",
+                "fieldName": "field_9f8113",
                 "preps": {
-                  "id": "Id6bc6da0d-41d6-4e4a-8948-4d78b2fae7f0",
+                  "id": "Idd8f50540-cee2-4e3a-8a7d-461d52e75411",
                   "label": "现场照片",
-                  "name": "field_a17842",
+                  "name": "field_9f8113",
                   "itemNameLabel": "现场照片",
                   "formVisible": true,
                   "listVisible": true,
@@ -323,14 +323,14 @@
                 }
               },
               {
-                "id": "Idd94c5c23-c96d-455c-93ba-8ca8622bbbc0",
+                "id": "Id18740e94-6f6c-4605-9dea-53c5c5b8b07d",
                 "compType": "formItem",
                 "itemType": "datetime",
-                "fieldName": "field_f5e743",
+                "fieldName": "field_fdb08b",
                 "preps": {
-                  "id": "Idd94c5c23-c96d-455c-93ba-8ca8622bbbc0",
+                  "id": "Id18740e94-6f6c-4605-9dea-53c5c5b8b07d",
                   "label": "期望维修时间",
-                  "name": "field_f5e743",
+                  "name": "field_fdb08b",
                   "itemNameLabel": "期望维修时间",
                   "formVisible": true,
                   "listVisible": true,
@@ -354,14 +354,14 @@
       }
     },
     {
-      "id": "Id3986ca98-2b9a-456d-a5ca-02352ea7f5d2",
+      "id": "Id7e3756d4-d98e-4119-8ef3-1552ec5cbb13",
       "compType": "container",
       "itemType": "card",
-      "fieldName": "field_aac4b9",
+      "fieldName": "field_4e82cc",
       "preps": {
-        "id": "Id3986ca98-2b9a-456d-a5ca-02352ea7f5d2",
+        "id": "Id7e3756d4-d98e-4119-8ef3-1552ec5cbb13",
         "label": "处理信息",
-        "name": "field_aac4b9",
+        "name": "field_4e82cc",
         "itemNameLabel": "处理信息",
         "headerFieldList": [],
         "elements": [
@@ -372,14 +372,14 @@
             "subFormFlag": "Y",
             "items": [
               {
-                "id": "Id9991eec1-4501-4492-bc20-08a2b4e66175",
+                "id": "Id02c297c5-c6cb-4744-9bc0-f8727a1c9770",
                 "compType": "formItem",
                 "itemType": "input",
-                "fieldName": "field_a946d0",
+                "fieldName": "field_14f7dc",
                 "preps": {
-                  "id": "Id9991eec1-4501-4492-bc20-08a2b4e66175",
+                  "id": "Id02c297c5-c6cb-4744-9bc0-f8727a1c9770",
                   "label": "维修人员",
-                  "name": "field_a946d0",
+                  "name": "field_14f7dc",
                   "itemNameLabel": "维修人员",
                   "formVisible": true,
                   "listVisible": true,
@@ -398,14 +398,14 @@
                 }
               },
               {
-                "id": "Ida5bc57ab-419d-41b4-b39d-22fd5d76bad1",
+                "id": "Idd709f04d-e666-48a2-ad5c-16a6902255c5",
                 "compType": "formItem",
                 "itemType": "select",
-                "fieldName": "field_f38e9c",
+                "fieldName": "field_5db5ef",
                 "preps": {
-                  "id": "Ida5bc57ab-419d-41b4-b39d-22fd5d76bad1",
+                  "id": "Idd709f04d-e666-48a2-ad5c-16a6902255c5",
                   "label": "处理状态",
-                  "name": "field_f38e9c",
+                  "name": "field_5db5ef",
                   "itemNameLabel": "处理状态",
                   "formVisible": true,
                   "listVisible": true,
@@ -441,14 +441,14 @@
                 }
               },
               {
-                "id": "Id7103ac0d-a929-4956-86e6-2213ab18b928",
+                "id": "Idae788f2b-8168-433d-9026-9d405ad801b0",
                 "compType": "formItem",
                 "itemType": "textarea",
-                "fieldName": "field_535c5c",
+                "fieldName": "field_11a857",
                 "preps": {
-                  "id": "Id7103ac0d-a929-4956-86e6-2213ab18b928",
+                  "id": "Idae788f2b-8168-433d-9026-9d405ad801b0",
                   "label": "处理结果",
-                  "name": "field_535c5c",
+                  "name": "field_11a857",
                   "itemNameLabel": "处理结果",
                   "formVisible": true,
                   "listVisible": true,
@@ -467,14 +467,14 @@
                 }
               },
               {
-                "id": "Id71a8e2c4-4626-406a-b013-0d9831b4e3ab",
+                "id": "Id07848fdb-be49-4e99-ad08-7698ae4c2322",
                 "compType": "formItem",
                 "itemType": "datetime",
-                "fieldName": "field_bc50e5",
+                "fieldName": "field_935b62",
                 "preps": {
-                  "id": "Id71a8e2c4-4626-406a-b013-0d9831b4e3ab",
+                  "id": "Id07848fdb-be49-4e99-ad08-7698ae4c2322",
                   "label": "完成时间",
-                  "name": "field_bc50e5",
+                  "name": "field_935b62",
                   "itemNameLabel": "完成时间",
                   "formVisible": true,
                   "listVisible": true,
@@ -498,6 +498,6 @@
       }
     }
   ],
-  "exportTime": "2026-06-16T09:36:26.502Z",
+  "exportTime": "2026-06-16T10:22:42.528Z",
   "version": "1.0"
 }

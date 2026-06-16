@@ -1,0 +1,2740 @@
+{
+  "formInfo": {
+    "formName": "28-职场满意度问卷",
+    "currentPageType": "pc"
+  },
+  "dataList": [
+    {
+      "id": "Id8f2825d5-231d-481d-b0e5-d144004286e0",
+      "compType": "container",
+      "itemType": "card",
+      "fieldName": "field_30a94e",
+      "preps": {
+        "id": "Id8f2825d5-231d-481d-b0e5-d144004286e0",
+        "label": "基本信息",
+        "name": "field_30a94e",
+        "itemNameLabel": "基本信息",
+        "headerFieldList": [],
+        "elements": [
+          {
+            "label": "基本信息",
+            "tabName": "基本信息",
+            "objectName": "基本信息",
+            "subFormFlag": "Y",
+            "items": [
+              {
+                "id": "Idde72850c-8163-4411-a9e3-78f473f43bcc",
+                "compType": "container",
+                "itemType": "box",
+                "fieldName": "field_d20164",
+                "rowNums": 1,
+                "columnNums": 2,
+                "preps": {
+                  "id": "Idde72850c-8163-4411-a9e3-78f473f43bcc",
+                  "label": "Grid Layout",
+                  "name": "field_d20164",
+                  "itemNameLabel": "Grid Layout",
+                  "elements": [
+                    {
+                      "id": "row-9fbd38ec-536e-4ff5-8af8-3839e603ecc5",
+                      "rowIndex": 1,
+                      "columns": [
+                        {
+                          "id": "col-9f49be05-8a4c-45bc-8aac-36a42a3c8557",
+                          "cellVisible": true,
+                          "colIndex": 1,
+                          "colspan": 12,
+                          "items": [
+                            {
+                              "id": "Ide40b079c-815e-4dff-9f8e-e0eeb8c6e85f",
+                              "compType": "formItem",
+                              "itemType": "radio",
+                              "fieldName": "field_8376b3",
+                              "preps": {
+                                "id": "Ide40b079c-815e-4dff-9f8e-e0eeb8c6e85f",
+                                "label": "性别",
+                                "name": "field_8376b3",
+                                "itemNameLabel": "性别",
+                                "formVisible": true,
+                                "listVisible": true,
+                                "viewVisible": true,
+                                "searchVisible": false,
+                                "required": false,
+                                "disabled": false,
+                                "clearable": true,
+                                "readonly": false,
+                                "maxLength": 255,
+                                "placeholder": "请输入性别",
+                                "dataSource": "data",
+                                "values": [
+                                  {
+                                    "name": "男",
+                                    "value": "1"
+                                  },
+                                  {
+                                    "name": "女",
+                                    "value": "2"
+                                  }
+                                ],
+                                "rules": [],
+                                "helpMsg": ""
+                              }
+                            }
+                          ]
+                        },
+                        {
+                          "id": "col-50f92ae0-80eb-43bb-a62c-1d6249d4426f",
+                          "cellVisible": true,
+                          "colIndex": 1,
+                          "colspan": 12,
+                          "items": [
+                            {
+                              "id": "Id6c289137-0c67-42fa-be04-700dfa7faa8b",
+                              "compType": "formItem",
+                              "itemType": "radio",
+                              "fieldName": "field_732484",
+                              "preps": {
+                                "id": "Id6c289137-0c67-42fa-be04-700dfa7faa8b",
+                                "label": "年龄段",
+                                "name": "field_732484",
+                                "itemNameLabel": "年龄段",
+                                "formVisible": true,
+                                "listVisible": true,
+                                "viewVisible": true,
+                                "searchVisible": false,
+                                "required": false,
+                                "disabled": false,
+                                "clearable": true,
+                                "readonly": false,
+                                "maxLength": 255,
+                                "placeholder": "请输入年龄段",
+                                "dataSource": "data",
+                                "values": [
+                                  {
+                                    "name": "22岁以下",
+                                    "value": "1"
+                                  },
+                                  {
+                                    "name": "22-28岁",
+                                    "value": "2"
+                                  },
+                                  {
+                                    "name": "29-35岁",
+                                    "value": "3"
+                                  },
+                                  {
+                                    "name": "36-45岁",
+                                    "value": "4"
+                                  },
+                                  {
+                                    "name": "46岁以上",
+                                    "value": "5"
+                                  }
+                                ],
+                                "rules": [],
+                                "helpMsg": ""
+                              }
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              },
+              {
+                "id": "Id2e69eb04-d726-4607-b817-37fa3558027a",
+                "compType": "container",
+                "itemType": "box",
+                "fieldName": "field_b822df",
+                "rowNums": 1,
+                "columnNums": 2,
+                "preps": {
+                  "id": "Id2e69eb04-d726-4607-b817-37fa3558027a",
+                  "label": "Grid Layout",
+                  "name": "field_b822df",
+                  "itemNameLabel": "Grid Layout",
+                  "elements": [
+                    {
+                      "id": "row-76acaf50-fd00-4cf7-97b2-1e5289313f3b",
+                      "rowIndex": 1,
+                      "columns": [
+                        {
+                          "id": "col-7035f0af-ba14-4466-8823-1cae3e4639d5",
+                          "cellVisible": true,
+                          "colIndex": 1,
+                          "colspan": 12,
+                          "items": [
+                            {
+                              "id": "Id6a1bdccd-af8f-4995-9718-ba1a1f329a50",
+                              "compType": "formItem",
+                              "itemType": "radio",
+                              "fieldName": "field_793f0c",
+                              "preps": {
+                                "id": "Id6a1bdccd-af8f-4995-9718-ba1a1f329a50",
+                                "label": "工作年限",
+                                "name": "field_793f0c",
+                                "itemNameLabel": "工作年限",
+                                "formVisible": true,
+                                "listVisible": true,
+                                "viewVisible": true,
+                                "searchVisible": false,
+                                "required": false,
+                                "disabled": false,
+                                "clearable": true,
+                                "readonly": false,
+                                "maxLength": 255,
+                                "placeholder": "请输入工作年限",
+                                "dataSource": "data",
+                                "values": [
+                                  {
+                                    "name": "1年以下",
+                                    "value": "1"
+                                  },
+                                  {
+                                    "name": "1-3年",
+                                    "value": "2"
+                                  },
+                                  {
+                                    "name": "3-5年",
+                                    "value": "3"
+                                  },
+                                  {
+                                    "name": "5-10年",
+                                    "value": "4"
+                                  },
+                                  {
+                                    "name": "10年以上",
+                                    "value": "5"
+                                  }
+                                ],
+                                "rules": [],
+                                "helpMsg": ""
+                              }
+                            }
+                          ]
+                        },
+                        {
+                          "id": "col-67c96ee2-ba4d-408e-b6b2-c47443404746",
+                          "cellVisible": true,
+                          "colIndex": 1,
+                          "colspan": 12,
+                          "items": [
+                            [
+                              {
+                                "id": "Id25b57181-0f4c-46f2-b7e9-537ac76e6cb2",
+                                "compType": "formItem",
+                                "itemType": "radio",
+                                "fieldName": "field_c6a13b",
+                                "preps": {
+                                  "id": "Id25b57181-0f4c-46f2-b7e9-537ac76e6cb2",
+                                  "label": "所属行业",
+                                  "name": "field_c6a13b",
+                                  "itemNameLabel": "所属行业",
+                                  "formVisible": true,
+                                  "listVisible": true,
+                                  "viewVisible": true,
+                                  "searchVisible": false,
+                                  "required": false,
+                                  "disabled": false,
+                                  "clearable": true,
+                                  "readonly": false,
+                                  "maxLength": 255,
+                                  "placeholder": "请输入所属行业",
+                                  "dataSource": "data",
+                                  "values": [
+                                    {
+                                      "name": "互联网/IT",
+                                      "value": "1"
+                                    },
+                                    {
+                                      "name": "金融",
+                                      "value": "2"
+                                    },
+                                    {
+                                      "name": "教育",
+                                      "value": "3"
+                                    },
+                                    {
+                                      "name": "医疗",
+                                      "value": "4"
+                                    },
+                                    {
+                                      "name": "制造业",
+                                      "value": "5"
+                                    },
+                                    {
+                                      "name": "零售/消费",
+                                      "value": "6"
+                                    },
+                                    {
+                                      "name": "政府/事业单位",
+                                      "value": "7"
+                                    },
+                                    {
+                                      "name": "建筑/地产",
+                                      "value": "8"
+                                    },
+                                    {
+                                      "name": "其他",
+                                      "value": "9"
+                                    }
+                                  ],
+                                  "rules": [],
+                                  "helpMsg": ""
+                                }
+                              },
+                              {
+                                "id": "Ide6adce61-cf18-44ea-a4fb-82ea8b5f7452",
+                                "compType": "formItem",
+                                "itemType": "input",
+                                "fieldName": "field_8ef652",
+                                "preps": {
+                                  "id": "Ide6adce61-cf18-44ea-a4fb-82ea8b5f7452",
+                                  "label": "所属行业(其他请说明)",
+                                  "name": "field_8ef652",
+                                  "itemNameLabel": "所属行业(其他请说明)",
+                                  "formVisible": false,
+                                  "listVisible": true,
+                                  "viewVisible": true,
+                                  "searchVisible": false,
+                                  "required": false,
+                                  "disabled": false,
+                                  "clearable": true,
+                                  "readonly": false,
+                                  "maxLength": 255,
+                                  "placeholder": "请填写具体说明",
+                                  "dataSource": "",
+                                  "values": [],
+                                  "rules": [],
+                                  "helpMsg": ""
+                                }
+                              }
+                            ]
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              },
+              {
+                "id": "Idd4009e92-d45d-4411-b067-c479bc789545",
+                "compType": "container",
+                "itemType": "box",
+                "fieldName": "field_ff6b3a",
+                "rowNums": 1,
+                "columnNums": 2,
+                "preps": {
+                  "id": "Idd4009e92-d45d-4411-b067-c479bc789545",
+                  "label": "Grid Layout",
+                  "name": "field_ff6b3a",
+                  "itemNameLabel": "Grid Layout",
+                  "elements": [
+                    {
+                      "id": "row-8600c0d8-a626-4d0a-855a-3e524ce901d5",
+                      "rowIndex": 1,
+                      "columns": [
+                        {
+                          "id": "col-e6fcff6b-32f5-45ea-88ae-3c56da1bb21a",
+                          "cellVisible": true,
+                          "colIndex": 1,
+                          "colspan": 12,
+                          "items": [
+                            {
+                              "id": "Id715c7c91-d2e4-4199-969e-f82ac277cd4d",
+                              "compType": "formItem",
+                              "itemType": "radio",
+                              "fieldName": "field_709693",
+                              "preps": {
+                                "id": "Id715c7c91-d2e4-4199-969e-f82ac277cd4d",
+                                "label": "职位层级",
+                                "name": "field_709693",
+                                "itemNameLabel": "职位层级",
+                                "formVisible": true,
+                                "listVisible": true,
+                                "viewVisible": true,
+                                "searchVisible": false,
+                                "required": false,
+                                "disabled": false,
+                                "clearable": true,
+                                "readonly": false,
+                                "maxLength": 255,
+                                "placeholder": "请输入职位层级",
+                                "dataSource": "data",
+                                "values": [
+                                  {
+                                    "name": "基层员工",
+                                    "value": "1"
+                                  },
+                                  {
+                                    "name": "初级管理",
+                                    "value": "2"
+                                  },
+                                  {
+                                    "name": "中级管理",
+                                    "value": "3"
+                                  },
+                                  {
+                                    "name": "高级管理",
+                                    "value": "4"
+                                  },
+                                  {
+                                    "name": "创业者/老板",
+                                    "value": "5"
+                                  }
+                                ],
+                                "rules": [],
+                                "helpMsg": ""
+                              }
+                            }
+                          ]
+                        },
+                        {
+                          "id": "col-7ac6764e-8bbb-47de-89ca-6a4932346096",
+                          "cellVisible": true,
+                          "colIndex": 1,
+                          "colspan": 12,
+                          "items": [
+                            {
+                              "id": "Id63041ef6-3561-46ad-85b6-15d1eeaa4292",
+                              "compType": "formItem",
+                              "itemType": "radio",
+                              "fieldName": "field_1172f6",
+                              "preps": {
+                                "id": "Id63041ef6-3561-46ad-85b6-15d1eeaa4292",
+                                "label": "企业类型",
+                                "name": "field_1172f6",
+                                "itemNameLabel": "企业类型",
+                                "formVisible": true,
+                                "listVisible": true,
+                                "viewVisible": true,
+                                "searchVisible": false,
+                                "required": false,
+                                "disabled": false,
+                                "clearable": true,
+                                "readonly": false,
+                                "maxLength": 255,
+                                "placeholder": "请输入企业类型",
+                                "dataSource": "data",
+                                "values": [
+                                  {
+                                    "name": "国企",
+                                    "value": "1"
+                                  },
+                                  {
+                                    "name": "外企",
+                                    "value": "2"
+                                  },
+                                  {
+                                    "name": "民企",
+                                    "value": "3"
+                                  },
+                                  {
+                                    "name": "事业单位",
+                                    "value": "4"
+                                  },
+                                  {
+                                    "name": "政府机关",
+                                    "value": "5"
+                                  },
+                                  {
+                                    "name": "自雇",
+                                    "value": "6"
+                                  }
+                                ],
+                                "rules": [],
+                                "helpMsg": ""
+                              }
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              },
+              {
+                "id": "Idcca3c74c-6ba7-4e80-9eaa-46942449b91f",
+                "compType": "container",
+                "itemType": "box",
+                "fieldName": "field_7065ed",
+                "rowNums": 1,
+                "columnNums": 2,
+                "preps": {
+                  "id": "Idcca3c74c-6ba7-4e80-9eaa-46942449b91f",
+                  "label": "Grid Layout",
+                  "name": "field_7065ed",
+                  "itemNameLabel": "Grid Layout",
+                  "elements": [
+                    {
+                      "id": "row-362fee29-e596-4edf-8369-c4e37d3ab584",
+                      "rowIndex": 1,
+                      "columns": [
+                        {
+                          "id": "col-3c550f13-7d53-49c9-aa61-f855391edfcc",
+                          "cellVisible": true,
+                          "colIndex": 1,
+                          "colspan": 12,
+                          "items": [
+                            {
+                              "id": "Idb8859dc7-0e11-4b89-bfb6-1fb04c09f425",
+                              "compType": "formItem",
+                              "itemType": "radio",
+                              "fieldName": "field_79692a",
+                              "preps": {
+                                "id": "Idb8859dc7-0e11-4b89-bfb6-1fb04c09f425",
+                                "label": "公司规模",
+                                "name": "field_79692a",
+                                "itemNameLabel": "公司规模",
+                                "formVisible": true,
+                                "listVisible": true,
+                                "viewVisible": true,
+                                "searchVisible": false,
+                                "required": false,
+                                "disabled": false,
+                                "clearable": true,
+                                "readonly": false,
+                                "maxLength": 255,
+                                "placeholder": "请输入公司规模",
+                                "dataSource": "data",
+                                "values": [
+                                  {
+                                    "name": "10人以下",
+                                    "value": "1"
+                                  },
+                                  {
+                                    "name": "10-100人",
+                                    "value": "2"
+                                  },
+                                  {
+                                    "name": "100-500人",
+                                    "value": "3"
+                                  },
+                                  {
+                                    "name": "500-5000人",
+                                    "value": "4"
+                                  },
+                                  {
+                                    "name": "5000人以上",
+                                    "value": "5"
+                                  }
+                                ],
+                                "rules": [],
+                                "helpMsg": ""
+                              }
+                            }
+                          ]
+                        },
+                        {
+                          "id": "col-2da53f44-71b4-4517-8e4a-80700c6a9f81",
+                          "cellVisible": true,
+                          "colIndex": 1,
+                          "colspan": 12,
+                          "items": [
+                            {
+                              "id": "Idcf1a1b1c-bd25-4002-973a-a9490e959127",
+                              "compType": "formItem",
+                              "itemType": "radio",
+                              "fieldName": "field_61a0a3",
+                              "preps": {
+                                "id": "Idcf1a1b1c-bd25-4002-973a-a9490e959127",
+                                "label": "所在城市级别",
+                                "name": "field_61a0a3",
+                                "itemNameLabel": "所在城市级别",
+                                "formVisible": true,
+                                "listVisible": true,
+                                "viewVisible": true,
+                                "searchVisible": false,
+                                "required": false,
+                                "disabled": false,
+                                "clearable": true,
+                                "readonly": false,
+                                "maxLength": 255,
+                                "placeholder": "请输入所在城市级别",
+                                "dataSource": "data",
+                                "values": [
+                                  {
+                                    "name": "一线",
+                                    "value": "1"
+                                  },
+                                  {
+                                    "name": "新一线",
+                                    "value": "2"
+                                  },
+                                  {
+                                    "name": "二线",
+                                    "value": "3"
+                                  },
+                                  {
+                                    "name": "三线及以下",
+                                    "value": "4"
+                                  }
+                                ],
+                                "rules": [],
+                                "helpMsg": ""
+                              }
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "Id325ede41-052f-4c51-a5db-7bbeca96b45d",
+      "compType": "container",
+      "itemType": "card",
+      "fieldName": "field_5bd98f",
+      "preps": {
+        "id": "Id325ede41-052f-4c51-a5db-7bbeca96b45d",
+        "label": "工作满意度",
+        "name": "field_5bd98f",
+        "itemNameLabel": "工作满意度",
+        "headerFieldList": [],
+        "elements": [
+          {
+            "label": "工作满意度",
+            "tabName": "工作满意度",
+            "objectName": "工作满意度",
+            "subFormFlag": "Y",
+            "items": [
+              {
+                "id": "Id31be5df7-d9f9-46c3-96f1-a2a820cf27b4",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_372509",
+                "preps": {
+                  "id": "Id31be5df7-d9f9-46c3-96f1-a2a820cf27b4",
+                  "label": "目前工作整体满意度",
+                  "name": "field_372509",
+                  "itemNameLabel": "目前工作整体满意度",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": true,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入目前工作整体满意度",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "非常满意",
+                      "value": "1"
+                    },
+                    {
+                      "name": "满意",
+                      "value": "2"
+                    },
+                    {
+                      "name": "一般",
+                      "value": "3"
+                    },
+                    {
+                      "name": "不满意",
+                      "value": "4"
+                    },
+                    {
+                      "name": "非常不满意",
+                      "value": "5"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Id2fccb6e5-2130-46df-9ba4-4259c04fe855",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_b79476",
+                "preps": {
+                  "id": "Id2fccb6e5-2130-46df-9ba4-4259c04fe855",
+                  "label": "目前薪资满意度",
+                  "name": "field_b79476",
+                  "itemNameLabel": "目前薪资满意度",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入目前薪资满意度",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "非常满意",
+                      "value": "1"
+                    },
+                    {
+                      "name": "满意",
+                      "value": "2"
+                    },
+                    {
+                      "name": "一般",
+                      "value": "3"
+                    },
+                    {
+                      "name": "不满意",
+                      "value": "4"
+                    },
+                    {
+                      "name": "非常不满意",
+                      "value": "5"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Id7cd296d0-807d-44b5-ba60-154da5a63db6",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_e20593",
+                "preps": {
+                  "id": "Id7cd296d0-807d-44b5-ba60-154da5a63db6",
+                  "label": "薪资与市场水平对比",
+                  "name": "field_e20593",
+                  "itemNameLabel": "薪资与市场水平对比",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入薪资与市场水平对比",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "高于市场",
+                      "value": "1"
+                    },
+                    {
+                      "name": "略高于市场",
+                      "value": "2"
+                    },
+                    {
+                      "name": "与市场持平",
+                      "value": "3"
+                    },
+                    {
+                      "name": "略低于市场",
+                      "value": "4"
+                    },
+                    {
+                      "name": "低于市场",
+                      "value": "5"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Idcf4a0634-b308-4722-abb8-2788612ab4c0",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_e99ef5",
+                "preps": {
+                  "id": "Idcf4a0634-b308-4722-abb8-2788612ab4c0",
+                  "label": "福利满意度",
+                  "name": "field_e99ef5",
+                  "itemNameLabel": "福利满意度",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入福利满意度",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "非常满意",
+                      "value": "1"
+                    },
+                    {
+                      "name": "满意",
+                      "value": "2"
+                    },
+                    {
+                      "name": "一般",
+                      "value": "3"
+                    },
+                    {
+                      "name": "不满意",
+                      "value": "4"
+                    },
+                    {
+                      "name": "非常不满意",
+                      "value": "5"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Id0860262a-6c34-4c7c-b7b5-52da9885552d",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_63b43e",
+                "preps": {
+                  "id": "Id0860262a-6c34-4c7c-b7b5-52da9885552d",
+                  "label": "工作强度感受",
+                  "name": "field_63b43e",
+                  "itemNameLabel": "工作强度感受",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入工作强度感受",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "过于忙碌",
+                      "value": "1"
+                    },
+                    {
+                      "name": "偏忙",
+                      "value": "2"
+                    },
+                    {
+                      "name": "适中",
+                      "value": "3"
+                    },
+                    {
+                      "name": "轻松",
+                      "value": "4"
+                    },
+                    {
+                      "name": "过于清闲",
+                      "value": "5"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Id07ae7998-0507-4f3c-89bb-b42dc99a0913",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_853b2b",
+                "preps": {
+                  "id": "Id07ae7998-0507-4f3c-89bb-b42dc99a0913",
+                  "label": "加班频率",
+                  "name": "field_853b2b",
+                  "itemNameLabel": "加班频率",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入加班频率",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "每天加班",
+                      "value": "1"
+                    },
+                    {
+                      "name": "经常加班",
+                      "value": "2"
+                    },
+                    {
+                      "name": "偶尔加班",
+                      "value": "3"
+                    },
+                    {
+                      "name": "很少加班",
+                      "value": "4"
+                    },
+                    {
+                      "name": "从不加班",
+                      "value": "5"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Ide00be4c4-b0ef-46c5-908e-5d673c6dfd0a",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_215ba9",
+                "preps": {
+                  "id": "Ide00be4c4-b0ef-46c5-908e-5d673c6dfd0a",
+                  "label": "加班是否有补偿",
+                  "name": "field_215ba9",
+                  "itemNameLabel": "加班是否有补偿",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入加班是否有补偿",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "有加班费",
+                      "value": "1"
+                    },
+                    {
+                      "name": "可调休",
+                      "value": "2"
+                    },
+                    {
+                      "name": "两者都有",
+                      "value": "3"
+                    },
+                    {
+                      "name": "都没有",
+                      "value": "4"
+                    },
+                    {
+                      "name": "不需要加班",
+                      "value": "5"
+                    },
+                    {
+                      "name": "其他",
+                      "value": "6"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Id6b8e3bd3-95d9-4199-b3de-1a1bdab94ac1",
+                "compType": "formItem",
+                "itemType": "input",
+                "fieldName": "field_ffc242",
+                "preps": {
+                  "id": "Id6b8e3bd3-95d9-4199-b3de-1a1bdab94ac1",
+                  "label": "加班是否有补偿(其他请说明)",
+                  "name": "field_ffc242",
+                  "itemNameLabel": "加班是否有补偿(其他请说明)",
+                  "formVisible": false,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请填写具体说明",
+                  "dataSource": "",
+                  "values": [],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Id18a9f49e-13d6-45cd-9de0-47e33a264f5c",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_7e2e1f",
+                "preps": {
+                  "id": "Id18a9f49e-13d6-45cd-9de0-47e33a264f5c",
+                  "label": "年假是否休完",
+                  "name": "field_7e2e1f",
+                  "itemNameLabel": "年假是否休完",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入年假是否休完",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "全部休完",
+                      "value": "1"
+                    },
+                    {
+                      "name": "休了一部分",
+                      "value": "2"
+                    },
+                    {
+                      "name": "几乎没休",
+                      "value": "3"
+                    },
+                    {
+                      "name": "完全没休",
+                      "value": "4"
+                    },
+                    {
+                      "name": "公司没有年假",
+                      "value": "5"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Id1a97e21c-453a-4aa0-a42e-4da261ac6e3d",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_78636f",
+                "preps": {
+                  "id": "Id1a97e21c-453a-4aa0-a42e-4da261ac6e3d",
+                  "label": "通勤时间",
+                  "name": "field_78636f",
+                  "itemNameLabel": "通勤时间",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入通勤时间",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "30分钟以内",
+                      "value": "1"
+                    },
+                    {
+                      "name": "30-60分钟",
+                      "value": "2"
+                    },
+                    {
+                      "name": "1-1.5小时",
+                      "value": "3"
+                    },
+                    {
+                      "name": "1.5-2小时",
+                      "value": "4"
+                    },
+                    {
+                      "name": "2小时以上",
+                      "value": "5"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Id7e1de352-edf3-4aee-8ff5-844115644bba",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_e8d7ad",
+                "preps": {
+                  "id": "Id7e1de352-edf3-4aee-8ff5-844115644bba",
+                  "label": "远程办公态度",
+                  "name": "field_e8d7ad",
+                  "itemNameLabel": "远程办公态度",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入远程办公态度",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "完全远程",
+                      "value": "1"
+                    },
+                    {
+                      "name": "混合模式",
+                      "value": "2"
+                    },
+                    {
+                      "name": "偏好坐班",
+                      "value": "3"
+                    },
+                    {
+                      "name": "无所谓",
+                      "value": "4"
+                    },
+                    {
+                      "name": "公司不允许",
+                      "value": "5"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Id4ae55748-e426-4838-b1c3-5c7c3c57bf3b",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_ac4516",
+                "preps": {
+                  "id": "Id4ae55748-e426-4838-b1c3-5c7c3c57bf3b",
+                  "label": "对工作内容的兴趣度",
+                  "name": "field_ac4516",
+                  "itemNameLabel": "对工作内容的兴趣度",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入对工作内容的兴趣度",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "非常感兴趣",
+                      "value": "1"
+                    },
+                    {
+                      "name": "感兴趣",
+                      "value": "2"
+                    },
+                    {
+                      "name": "一般",
+                      "value": "3"
+                    },
+                    {
+                      "name": "不太感兴趣",
+                      "value": "4"
+                    },
+                    {
+                      "name": "不感兴趣",
+                      "value": "5"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Id7c692476-8230-4437-af63-c4471f28a1a0",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_8c0df4",
+                "preps": {
+                  "id": "Id7c692476-8230-4437-af63-c4471f28a1a0",
+                  "label": "工作压力来源",
+                  "name": "field_8c0df4",
+                  "itemNameLabel": "工作压力来源",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入工作压力来源",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "工作量",
+                      "value": "1"
+                    },
+                    {
+                      "name": "截止日期",
+                      "value": "2"
+                    },
+                    {
+                      "name": "人际关系",
+                      "value": "3"
+                    },
+                    {
+                      "name": "绩效要求",
+                      "value": "4"
+                    },
+                    {
+                      "name": "职业发展",
+                      "value": "5"
+                    },
+                    {
+                      "name": "其他",
+                      "value": "6"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Id01c5b1c0-a949-432d-90d3-63755755576e",
+                "compType": "formItem",
+                "itemType": "input",
+                "fieldName": "field_13e64a",
+                "preps": {
+                  "id": "Id01c5b1c0-a949-432d-90d3-63755755576e",
+                  "label": "工作压力来源(其他请说明)",
+                  "name": "field_13e64a",
+                  "itemNameLabel": "工作压力来源(其他请说明)",
+                  "formVisible": false,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请填写具体说明",
+                  "dataSource": "",
+                  "values": [],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Id4a599d1b-9891-440e-ba80-c640963143bf",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_d7d241",
+                "preps": {
+                  "id": "Id4a599d1b-9891-440e-ba80-c640963143bf",
+                  "label": "对目前工作岗位的胜任度",
+                  "name": "field_d7d241",
+                  "itemNameLabel": "对目前工作岗位的胜任度",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入对目前工作岗位的胜任度",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "非常胜任",
+                      "value": "1"
+                    },
+                    {
+                      "name": "胜任",
+                      "value": "2"
+                    },
+                    {
+                      "name": "基本胜任",
+                      "value": "3"
+                    },
+                    {
+                      "name": "有些吃力",
+                      "value": "4"
+                    },
+                    {
+                      "name": "非常吃力",
+                      "value": "5"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Id27d2a5e1-85cf-42bc-9122-9a34d454b14d",
+                "compType": "formItem",
+                "itemType": "rate",
+                "fieldName": "field_e486cc",
+                "preps": {
+                  "id": "Id27d2a5e1-85cf-42bc-9122-9a34d454b14d",
+                  "label": "工作生活平衡度评分",
+                  "name": "field_e486cc",
+                  "itemNameLabel": "工作生活平衡度评分",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入工作生活平衡度评分",
+                  "dataSource": "",
+                  "values": [],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "Idf2797dc9-c614-45cd-b43f-bf2f0c0929a7",
+      "compType": "container",
+      "itemType": "card",
+      "fieldName": "field_1bf3be",
+      "preps": {
+        "id": "Idf2797dc9-c614-45cd-b43f-bf2f0c0929a7",
+        "label": "职业发展",
+        "name": "field_1bf3be",
+        "itemNameLabel": "职业发展",
+        "headerFieldList": [],
+        "elements": [
+          {
+            "label": "职业发展",
+            "tabName": "职业发展",
+            "objectName": "职业发展",
+            "subFormFlag": "Y",
+            "items": [
+              {
+                "id": "Id2aa9edfe-fe0b-4be7-856e-1a17ff256ae0",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_b4645b",
+                "preps": {
+                  "id": "Id2aa9edfe-fe0b-4be7-856e-1a17ff256ae0",
+                  "label": "晋升空间看法",
+                  "name": "field_b4645b",
+                  "itemNameLabel": "晋升空间看法",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入晋升空间看法",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "很有空间",
+                      "value": "1"
+                    },
+                    {
+                      "name": "有空间",
+                      "value": "2"
+                    },
+                    {
+                      "name": "一般",
+                      "value": "3"
+                    },
+                    {
+                      "name": "没什么空间",
+                      "value": "4"
+                    },
+                    {
+                      "name": "完全没有",
+                      "value": "5"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Id827e500d-cc31-4933-8833-f246476b4793",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_f1d89c",
+                "preps": {
+                  "id": "Id827e500d-cc31-4933-8833-f246476b4793",
+                  "label": "是否有跳槽打算",
+                  "name": "field_f1d89c",
+                  "itemNameLabel": "是否有跳槽打算",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入是否有跳槽打算",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "正在找工作",
+                      "value": "1"
+                    },
+                    {
+                      "name": "近期有打算",
+                      "value": "2"
+                    },
+                    {
+                      "name": "偶尔想想",
+                      "value": "3"
+                    },
+                    {
+                      "name": "暂时没有",
+                      "value": "4"
+                    },
+                    {
+                      "name": "完全没有",
+                      "value": "5"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Id70e11be6-00c6-4067-8473-e35a7f18d46c",
+                "compType": "formItem",
+                "itemType": "checkbox",
+                "fieldName": "field_7a1fef",
+                "preps": {
+                  "id": "Id70e11be6-00c6-4067-8473-e35a7f18d46c",
+                  "label": "最看重的工作因素(多选)",
+                  "name": "field_7a1fef",
+                  "itemNameLabel": "最看重的工作因素(多选)",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入最看重的工作因素(多选)",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "薪资待遇",
+                      "value": "1"
+                    },
+                    {
+                      "name": "发展前景",
+                      "value": "2"
+                    },
+                    {
+                      "name": "工作环境",
+                      "value": "3"
+                    },
+                    {
+                      "name": "团队氛围",
+                      "value": "4"
+                    },
+                    {
+                      "name": "工作稳定性",
+                      "value": "5"
+                    },
+                    {
+                      "name": "兴趣匹配",
+                      "value": "6"
+                    },
+                    {
+                      "name": "其他",
+                      "value": "7"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Idfbc771a5-2b0c-49a9-bf94-eedd2898bcee",
+                "compType": "formItem",
+                "itemType": "input",
+                "fieldName": "field_9bee8e",
+                "preps": {
+                  "id": "Idfbc771a5-2b0c-49a9-bf94-eedd2898bcee",
+                  "label": "最看重的工作因素(多选)(其他请说明)",
+                  "name": "field_9bee8e",
+                  "itemNameLabel": "最看重的工作因素(多选)(其他请说明)",
+                  "formVisible": false,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请填写具体说明",
+                  "dataSource": "",
+                  "values": [],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Id4a37fcec-cdb9-43a9-8e74-cd31292a5234",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_f70c6c",
+                "preps": {
+                  "id": "Id4a37fcec-cdb9-43a9-8e74-cd31292a5234",
+                  "label": "对目前岗位是否感兴趣",
+                  "name": "field_f70c6c",
+                  "itemNameLabel": "对目前岗位是否感兴趣",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入对目前岗位是否感兴趣",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "非常感兴趣",
+                      "value": "1"
+                    },
+                    {
+                      "name": "感兴趣",
+                      "value": "2"
+                    },
+                    {
+                      "name": "一般",
+                      "value": "3"
+                    },
+                    {
+                      "name": "不太感兴趣",
+                      "value": "4"
+                    },
+                    {
+                      "name": "不感兴趣",
+                      "value": "5"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Id7976b8c1-71d2-4238-bcc3-c42f3499624f",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_d84fdf",
+                "preps": {
+                  "id": "Id7976b8c1-71d2-4238-bcc3-c42f3499624f",
+                  "label": "是否有明确的职业规划",
+                  "name": "field_d84fdf",
+                  "itemNameLabel": "是否有明确的职业规划",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入是否有明确的职业规划",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "非常明确",
+                      "value": "1"
+                    },
+                    {
+                      "name": "比较明确",
+                      "value": "2"
+                    },
+                    {
+                      "name": "模糊",
+                      "value": "3"
+                    },
+                    {
+                      "name": "没有规划",
+                      "value": "4"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Id80d77be8-1a50-426d-b22f-5419b047b29b",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_a1c4e3",
+                "preps": {
+                  "id": "Id80d77be8-1a50-426d-b22f-5419b047b29b",
+                  "label": "未来3年职业目标",
+                  "name": "field_a1c4e3",
+                  "itemNameLabel": "未来3年职业目标",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入未来3年职业目标",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "晋升管理层",
+                      "value": "1"
+                    },
+                    {
+                      "name": "跳槽到大公司",
+                      "value": "2"
+                    },
+                    {
+                      "name": "创业",
+                      "value": "3"
+                    },
+                    {
+                      "name": "转行",
+                      "value": "4"
+                    },
+                    {
+                      "name": "维持现状",
+                      "value": "5"
+                    },
+                    {
+                      "name": "其他",
+                      "value": "6"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Id437cc92f-6f66-4ee3-a083-be52f9a8d371",
+                "compType": "formItem",
+                "itemType": "input",
+                "fieldName": "field_711d22",
+                "preps": {
+                  "id": "Id437cc92f-6f66-4ee3-a083-be52f9a8d371",
+                  "label": "未来3年职业目标(其他请说明)",
+                  "name": "field_711d22",
+                  "itemNameLabel": "未来3年职业目标(其他请说明)",
+                  "formVisible": false,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请填写具体说明",
+                  "dataSource": "",
+                  "values": [],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Id09e9b76e-041d-47a0-9bd2-e5ce551e4f00",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_8b17f9",
+                "preps": {
+                  "id": "Id09e9b76e-041d-47a0-9bd2-e5ce551e4f00",
+                  "label": "是否有在职学习/进修",
+                  "name": "field_8b17f9",
+                  "itemNameLabel": "是否有在职学习/进修",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入是否有在职学习/进修",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "正在进修",
+                      "value": "1"
+                    },
+                    {
+                      "name": "计划进修",
+                      "value": "2"
+                    },
+                    {
+                      "name": "考虑过但没有",
+                      "value": "3"
+                    },
+                    {
+                      "name": "没有考虑过",
+                      "value": "4"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Id726bad24-2b0c-4456-8965-b91207c3c8ae",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_c73af8",
+                "preps": {
+                  "id": "Id726bad24-2b0c-4456-8965-b91207c3c8ae",
+                  "label": "公司培训机会是否充足",
+                  "name": "field_c73af8",
+                  "itemNameLabel": "公司培训机会是否充足",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入公司培训机会是否充足",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "非常充足",
+                      "value": "1"
+                    },
+                    {
+                      "name": "比较充足",
+                      "value": "2"
+                    },
+                    {
+                      "name": "一般",
+                      "value": "3"
+                    },
+                    {
+                      "name": "不足",
+                      "value": "4"
+                    },
+                    {
+                      "name": "非常不足",
+                      "value": "5"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "Ided1840db-a6a1-4c62-85ee-9f6e8be57a29",
+      "compType": "container",
+      "itemType": "card",
+      "fieldName": "field_0c4024",
+      "preps": {
+        "id": "Ided1840db-a6a1-4c62-85ee-9f6e8be57a29",
+        "label": "团队与管理",
+        "name": "field_0c4024",
+        "itemNameLabel": "团队与管理",
+        "headerFieldList": [],
+        "elements": [
+          {
+            "label": "团队与管理",
+            "tabName": "团队与管理",
+            "objectName": "团队与管理",
+            "subFormFlag": "Y",
+            "items": [
+              {
+                "id": "Id61c60ec5-223c-41e0-a565-8761202b9fd6",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_851947",
+                "preps": {
+                  "id": "Id61c60ec5-223c-41e0-a565-8761202b9fd6",
+                  "label": "与上级关系",
+                  "name": "field_851947",
+                  "itemNameLabel": "与上级关系",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入与上级关系",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "非常融洽",
+                      "value": "1"
+                    },
+                    {
+                      "name": "融洽",
+                      "value": "2"
+                    },
+                    {
+                      "name": "一般",
+                      "value": "3"
+                    },
+                    {
+                      "name": "紧张",
+                      "value": "4"
+                    },
+                    {
+                      "name": "非常紧张",
+                      "value": "5"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Id9eb7a87b-f74f-4cd1-be66-246a33e884fb",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_8e3542",
+                "preps": {
+                  "id": "Id9eb7a87b-f74f-4cd1-be66-246a33e884fb",
+                  "label": "与同事关系",
+                  "name": "field_8e3542",
+                  "itemNameLabel": "与同事关系",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入与同事关系",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "非常融洽",
+                      "value": "1"
+                    },
+                    {
+                      "name": "融洽",
+                      "value": "2"
+                    },
+                    {
+                      "name": "一般",
+                      "value": "3"
+                    },
+                    {
+                      "name": "紧张",
+                      "value": "4"
+                    },
+                    {
+                      "name": "非常紧张",
+                      "value": "5"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Id92a6df2f-6f31-4a84-a357-07c8195a75bb",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_d5ecdd",
+                "preps": {
+                  "id": "Id92a6df2f-6f31-4a84-a357-07c8195a75bb",
+                  "label": "上级管理风格",
+                  "name": "field_d5ecdd",
+                  "itemNameLabel": "上级管理风格",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入上级管理风格",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "授权型",
+                      "value": "1"
+                    },
+                    {
+                      "name": "指导型",
+                      "value": "2"
+                    },
+                    {
+                      "name": "民主型",
+                      "value": "3"
+                    },
+                    {
+                      "name": "专制型",
+                      "value": "4"
+                    },
+                    {
+                      "name": "放任型",
+                      "value": "5"
+                    },
+                    {
+                      "name": "其他",
+                      "value": "6"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Id38fbb40f-2599-45f7-a16e-ac36d91533ed",
+                "compType": "formItem",
+                "itemType": "input",
+                "fieldName": "field_35c87e",
+                "preps": {
+                  "id": "Id38fbb40f-2599-45f7-a16e-ac36d91533ed",
+                  "label": "上级管理风格(其他请说明)",
+                  "name": "field_35c87e",
+                  "itemNameLabel": "上级管理风格(其他请说明)",
+                  "formVisible": false,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请填写具体说明",
+                  "dataSource": "",
+                  "values": [],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Idfd27970c-cdb2-49e2-b788-637ac51e3a99",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_96afc1",
+                "preps": {
+                  "id": "Idfd27970c-cdb2-49e2-b788-637ac51e3a99",
+                  "label": "对上级管理能力的评价",
+                  "name": "field_96afc1",
+                  "itemNameLabel": "对上级管理能力的评价",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入对上级管理能力的评价",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "非常满意",
+                      "value": "1"
+                    },
+                    {
+                      "name": "满意",
+                      "value": "2"
+                    },
+                    {
+                      "name": "一般",
+                      "value": "3"
+                    },
+                    {
+                      "name": "不满意",
+                      "value": "4"
+                    },
+                    {
+                      "name": "非常不满意",
+                      "value": "5"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Id30364e79-bbd3-45d1-a8aa-d60d1ee2a55a",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_773cdd",
+                "preps": {
+                  "id": "Id30364e79-bbd3-45d1-a8aa-d60d1ee2a55a",
+                  "label": "团队协作效率",
+                  "name": "field_773cdd",
+                  "itemNameLabel": "团队协作效率",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入团队协作效率",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "非常高",
+                      "value": "1"
+                    },
+                    {
+                      "name": "较高",
+                      "value": "2"
+                    },
+                    {
+                      "name": "一般",
+                      "value": "3"
+                    },
+                    {
+                      "name": "较低",
+                      "value": "4"
+                    },
+                    {
+                      "name": "非常低",
+                      "value": "5"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Id38da5c03-b4ee-4eea-b187-f8f9b0baf7cb",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_44e994",
+                "preps": {
+                  "id": "Id38da5c03-b4ee-4eea-b187-f8f9b0baf7cb",
+                  "label": "公司文化认同度",
+                  "name": "field_44e994",
+                  "itemNameLabel": "公司文化认同度",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入公司文化认同度",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "非常认同",
+                      "value": "1"
+                    },
+                    {
+                      "name": "认同",
+                      "value": "2"
+                    },
+                    {
+                      "name": "一般",
+                      "value": "3"
+                    },
+                    {
+                      "name": "不认同",
+                      "value": "4"
+                    },
+                    {
+                      "name": "非常不认同",
+                      "value": "5"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Id50058db5-574d-45b7-8a5f-5b6212e140cf",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_55be3b",
+                "preps": {
+                  "id": "Id50058db5-574d-45b7-8a5f-5b6212e140cf",
+                  "label": "公司内部沟通是否顺畅",
+                  "name": "field_55be3b",
+                  "itemNameLabel": "公司内部沟通是否顺畅",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入公司内部沟通是否顺畅",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "非常顺畅",
+                      "value": "1"
+                    },
+                    {
+                      "name": "顺畅",
+                      "value": "2"
+                    },
+                    {
+                      "name": "一般",
+                      "value": "3"
+                    },
+                    {
+                      "name": "不顺畅",
+                      "value": "4"
+                    },
+                    {
+                      "name": "非常不顺畅",
+                      "value": "5"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Idb003b4c9-dc16-43ec-8641-4f7e2ec12fdd",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_2b4969",
+                "preps": {
+                  "id": "Idb003b4c9-dc16-43ec-8641-4f7e2ec12fdd",
+                  "label": "是否有职场PUA经历",
+                  "name": "field_2b4969",
+                  "itemNameLabel": "是否有职场PUA经历",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入是否有职场PUA经历",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "经常",
+                      "value": "1"
+                    },
+                    {
+                      "name": "偶尔",
+                      "value": "2"
+                    },
+                    {
+                      "name": "很少",
+                      "value": "3"
+                    },
+                    {
+                      "name": "从未",
+                      "value": "4"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Ida90cfc4f-49ff-418c-916b-dae744fa520e",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_75d55e",
+                "preps": {
+                  "id": "Ida90cfc4f-49ff-418c-916b-dae744fa520e",
+                  "label": "绩效考核是否公平",
+                  "name": "field_75d55e",
+                  "itemNameLabel": "绩效考核是否公平",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入绩效考核是否公平",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "非常公平",
+                      "value": "1"
+                    },
+                    {
+                      "name": "公平",
+                      "value": "2"
+                    },
+                    {
+                      "name": "一般",
+                      "value": "3"
+                    },
+                    {
+                      "name": "不公平",
+                      "value": "4"
+                    },
+                    {
+                      "name": "非常不公平",
+                      "value": "5"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "Id417b240d-fe8c-491e-9cf8-7b98544364c7",
+      "compType": "container",
+      "itemType": "card",
+      "fieldName": "field_825b95",
+      "preps": {
+        "id": "Id417b240d-fe8c-491e-9cf8-7b98544364c7",
+        "label": "工作环境与福利",
+        "name": "field_825b95",
+        "itemNameLabel": "工作环境与福利",
+        "headerFieldList": [],
+        "elements": [
+          {
+            "label": "工作环境与福利",
+            "tabName": "工作环境与福利",
+            "objectName": "工作环境与福利",
+            "subFormFlag": "Y",
+            "items": [
+              {
+                "id": "Id8232eb0e-3e5c-4d17-8b82-e254c672bf91",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_d2f51e",
+                "preps": {
+                  "id": "Id8232eb0e-3e5c-4d17-8b82-e254c672bf91",
+                  "label": "办公环境满意度",
+                  "name": "field_d2f51e",
+                  "itemNameLabel": "办公环境满意度",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入办公环境满意度",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "非常满意",
+                      "value": "1"
+                    },
+                    {
+                      "name": "满意",
+                      "value": "2"
+                    },
+                    {
+                      "name": "一般",
+                      "value": "3"
+                    },
+                    {
+                      "name": "不满意",
+                      "value": "4"
+                    },
+                    {
+                      "name": "非常不满意",
+                      "value": "5"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Id6baa6ff1-6023-4c37-9b8d-2e8fe2aa1af8",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_0a6382",
+                "preps": {
+                  "id": "Id6baa6ff1-6023-4c37-9b8d-2e8fe2aa1af8",
+                  "label": "办公设备是否满意",
+                  "name": "field_0a6382",
+                  "itemNameLabel": "办公设备是否满意",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入办公设备是否满意",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "非常满意",
+                      "value": "1"
+                    },
+                    {
+                      "name": "满意",
+                      "value": "2"
+                    },
+                    {
+                      "name": "一般",
+                      "value": "3"
+                    },
+                    {
+                      "name": "不满意",
+                      "value": "4"
+                    },
+                    {
+                      "name": "非常不满意",
+                      "value": "5"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Id92343712-1788-47fe-97dd-b83ffbc6d95f",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_639253",
+                "preps": {
+                  "id": "Id92343712-1788-47fe-97dd-b83ffbc6d95f",
+                  "label": "是否有五险一金",
+                  "name": "field_639253",
+                  "itemNameLabel": "是否有五险一金",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入是否有五险一金",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "齐全",
+                      "value": "1"
+                    },
+                    {
+                      "name": "部分有",
+                      "value": "2"
+                    },
+                    {
+                      "name": "没有",
+                      "value": "3"
+                    },
+                    {
+                      "name": "不清楚",
+                      "value": "4"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Id6adc52ce-fa60-4429-b0f6-87ad5e4093f9",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_7e74af",
+                "preps": {
+                  "id": "Id6adc52ce-fa60-4429-b0f6-87ad5e4093f9",
+                  "label": "是否有补充商业保险",
+                  "name": "field_7e74af",
+                  "itemNameLabel": "是否有补充商业保险",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入是否有补充商业保险",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "有",
+                      "value": "1"
+                    },
+                    {
+                      "name": "没有",
+                      "value": "2"
+                    },
+                    {
+                      "name": "不清楚",
+                      "value": "3"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Id5ac68596-0794-47f4-9573-7a8ab1b0d9a4",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_1bb031",
+                "preps": {
+                  "id": "Id5ac68596-0794-47f4-9573-7a8ab1b0d9a4",
+                  "label": "公司团建频率",
+                  "name": "field_1bb031",
+                  "itemNameLabel": "公司团建频率",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入公司团建频率",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "每月",
+                      "value": "1"
+                    },
+                    {
+                      "name": "每季度",
+                      "value": "2"
+                    },
+                    {
+                      "name": "每年",
+                      "value": "3"
+                    },
+                    {
+                      "name": "几乎没有",
+                      "value": "4"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Id99822f33-bdc0-4bee-84fc-da07ea92eb6d",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_47d005",
+                "preps": {
+                  "id": "Id99822f33-bdc0-4bee-84fc-da07ea92eb6d",
+                  "label": "对团建活动的态度",
+                  "name": "field_47d005",
+                  "itemNameLabel": "对团建活动的态度",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入对团建活动的态度",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "非常喜欢",
+                      "value": "1"
+                    },
+                    {
+                      "name": "喜欢",
+                      "value": "2"
+                    },
+                    {
+                      "name": "一般",
+                      "value": "3"
+                    },
+                    {
+                      "name": "不喜欢",
+                      "value": "4"
+                    },
+                    {
+                      "name": "非常反感",
+                      "value": "5"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Id8db72757-11d6-4a2c-83fd-ad9ff166ac4a",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_91b5f8",
+                "preps": {
+                  "id": "Id8db72757-11d6-4a2c-83fd-ad9ff166ac4a",
+                  "label": "公司餐饮/餐补满意度",
+                  "name": "field_91b5f8",
+                  "itemNameLabel": "公司餐饮/餐补满意度",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入公司餐饮/餐补满意度",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "非常满意",
+                      "value": "1"
+                    },
+                    {
+                      "name": "满意",
+                      "value": "2"
+                    },
+                    {
+                      "name": "一般",
+                      "value": "3"
+                    },
+                    {
+                      "name": "不满意",
+                      "value": "4"
+                    },
+                    {
+                      "name": "非常不满意",
+                      "value": "5"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Id7d9bea63-cb24-4ffd-9d7e-cfb5da1e7304",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_52aa1c",
+                "preps": {
+                  "id": "Id7d9bea63-cb24-4ffd-9d7e-cfb5da1e7304",
+                  "label": "是否有弹性工作制",
+                  "name": "field_52aa1c",
+                  "itemNameLabel": "是否有弹性工作制",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入是否有弹性工作制",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "有且灵活",
+                      "value": "1"
+                    },
+                    {
+                      "name": "有但不灵活",
+                      "value": "2"
+                    },
+                    {
+                      "name": "没有但希望有",
+                      "value": "3"
+                    },
+                    {
+                      "name": "没有也不需要",
+                      "value": "4"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Idd7dc2898-2773-42bc-8701-a84832ac059d",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_f2afe4",
+                "preps": {
+                  "id": "Idd7dc2898-2773-42bc-8701-a84832ac059d",
+                  "label": "是否有员工心理健康支持",
+                  "name": "field_f2afe4",
+                  "itemNameLabel": "是否有员工心理健康支持",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入是否有员工心理健康支持",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "有且有效",
+                      "value": "1"
+                    },
+                    {
+                      "name": "有但形同虚设",
+                      "value": "2"
+                    },
+                    {
+                      "name": "没有",
+                      "value": "3"
+                    },
+                    {
+                      "name": "不知道",
+                      "value": "4"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Id843ba5f4-976a-4cc3-a08a-0ab47941032c",
+                "compType": "formItem",
+                "itemType": "rate",
+                "fieldName": "field_985e93",
+                "preps": {
+                  "id": "Id843ba5f4-976a-4cc3-a08a-0ab47941032c",
+                  "label": "公司整体满意度评分",
+                  "name": "field_985e93",
+                  "itemNameLabel": "公司整体满意度评分",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入公司整体满意度评分",
+                  "dataSource": "",
+                  "values": [],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Idc221f076-cd61-4dd1-9406-817f30b5b592",
+                "compType": "formItem",
+                "itemType": "textarea",
+                "fieldName": "field_c4db6a",
+                "preps": {
+                  "id": "Idc221f076-cd61-4dd1-9406-817f30b5b592",
+                  "label": "对职场发展有什么建议或困惑",
+                  "name": "field_c4db6a",
+                  "itemNameLabel": "对职场发展有什么建议或困惑",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 1000,
+                  "placeholder": "请详细描述您的想法",
+                  "dataSource": "",
+                  "values": [],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Id77c17fcd-3d23-4326-bd46-33ea4e475874",
+                "compType": "formItem",
+                "itemType": "textarea",
+                "fieldName": "field_f99ee0",
+                "preps": {
+                  "id": "Id77c17fcd-3d23-4326-bd46-33ea4e475874",
+                  "label": "您理想中的工作环境是怎样的",
+                  "name": "field_f99ee0",
+                  "itemNameLabel": "您理想中的工作环境是怎样的",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 1000,
+                  "placeholder": "请详细描述您的想法",
+                  "dataSource": "",
+                  "values": [],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "exportTime": "2026-06-16T10:51:24.821Z",
+  "version": "1.0"
+}
