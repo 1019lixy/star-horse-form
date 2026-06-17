@@ -211,7 +211,7 @@ onUnmounted(() => {
 .design-canvas {
   flex: 1;
   overflow-y: auto;
-  overflow-x: hidden;
+  overflow-x: auto;
   scrollbar-width: thin;
   padding: 24px 16px 40px;
   position: relative;
@@ -222,6 +222,7 @@ onUnmounted(() => {
 
   &::-webkit-scrollbar {
     width: 6px;
+    height: 6px;
   }
 
   &::-webkit-scrollbar-thumb {
@@ -250,6 +251,12 @@ onUnmounted(() => {
   &:last-child {
     margin-bottom: 0;
   }
+}
+
+/* ====== Component Toolbar Overflow Fix ====== */
+:deep(.component-header-actions) {
+  right: auto !important;
+  min-width: 100%;
 }
 
 /* ====== Empty Canvas State ====== */

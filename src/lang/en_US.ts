@@ -2116,11 +2116,16 @@ If empty, the table information will be created in the current business database
     "File parsing failed, please check file format",
   "dyform.design.importParseError":
     "File parsing failed, please check file format",
+  "dyform.design.importExcelNoApi":
+    "Excel analysis API not configured, cannot import Excel file",
+  "dyform.design.importExcelFailed":
+    "Excel file parsing failed, please check file format",
   "dyform.design.export.success": "Export Successful",
   "dyform.design.exportSuccess": "Export Successful",
   "dyform.design.exportFailed": "Export failed, please try again",
   "dyform.design.newConfirmMsg":
     "Creating new will clear all elements on the stage. Are you sure you want to clear?",
+  "dyform.design.parsing": "Parsing file, please wait...",
   /**
    * Common
    */

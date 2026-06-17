@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {computed, onMounted, ref} from "vue";
+import {computed, onMounted, ref, watch} from "vue";
 import {i18n} from "@/lang";
 import {analysisAppComps, analysisCompDatas, getDesignFormStore, operationConfirm} from "star-horse-lowcode";
 import {FormConfig} from "@/components/types/FormConfig";
@@ -47,6 +47,17 @@ const updateJsonPrototype = () => {
 onMounted(async () => {
   await init("pc");
 });
+watch(
+    () => compList.value,
+    () => {
+      // 当舞台数据变化时（如导入），同步更新代码编辑器
+      init(codeStyle.value);
+      if (tabName.value === "json_prototype") {
+        jsonPrototype.value = compList.value;
+      }
+    },
+    {deep: true},
+);
 </script>
 <template>
   <el-tabs v-model="tabName" type="border-card" @tabChange="tabChange">

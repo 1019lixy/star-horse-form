@@ -223,10 +223,24 @@ const doSave = (flag: boolean) => {
   display: flex;
   align-items: center;
   overflow-x: auto;
-  scrollbar-width: none;
+  scrollbar-width: thin;
+  scrollbar-color: #c0c4cc transparent;
 
   &::-webkit-scrollbar {
-    display: none;
+    height: 4px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: #c0c4cc;
+    border-radius: 2px;
+
+    &:hover {
+      background: #909399;
+    }
   }
 }
 
@@ -234,6 +248,7 @@ const doSave = (flag: boolean) => {
 .toolbar-group {
   display: flex;
   align-items: center;
+  flex-shrink: 0;
 }
 
 /* ====== Divider between groups ====== */

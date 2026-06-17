@@ -1,4 +1,5 @@
-gjt<script lang="ts" setup>
+gjt
+<script lang="ts" setup>
 import {
   apiInstance,
   closeLoad,
@@ -54,6 +55,7 @@ const loadTableColumns = (
  * 需要逐步的把StarHorseFormDesign 需要的参数给拎出来,
  */
 const api = apiInstance("userdb-manage", "userdb/dynamicForm");
+api.excelAnalysisUrl = "/userdb-manage/userdb/dynamicForm/excelAnalysis";
 const optional = ref<FormConfig>({
   model: "full",
   api: api,

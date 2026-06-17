@@ -13,13 +13,16 @@ import {
 } from "vue";
 import {debounce} from "lodash";
 import {
+  closeLoad,
   CompType,
   error,
   getDesignFormStore,
   getGlobalConfigStore,
   getSelfOperationStore,
+  load,
   operationConfirm,
   success,
+  uploadRequest,
   warning
 } from "star-horse-lowcode";
 import {validDynamicFormCompParams} from "@/components/system/items/utils/FormParamsValid";
@@ -45,8 +48,8 @@ import {FormConfig} from "@/components/types";
 import {FormSocketService} from "@/components/system/items/FormSocketService";
 import JSON5 from "json5";
 import {quickAddItem} from "@/api/form_utils";
-import {createJSONEditor, toJSONContent, isTextContent} from "vanilla-jsoneditor";
 import type {Content} from "vanilla-jsoneditor";
+import {createJSONEditor, isTextContent, toJSONContent} from "vanilla-jsoneditor";
 
 defineOptions({
   name: "StarHorseFormDesign",
@@ -70,6 +73,54 @@ const formSocketInstance = ref<FormSocketService | null>(null);
 let designForm = getDesignFormStore();
 let userOperation = getSelfOperationStore();
 let configStore = getGlobalConfigStore();
+
+/**
+ * Post-process imported container data: ensure box/dytable containers have
+ * correct rowNums & columnNums in preps (and top-level) derived from their
+ * actual elements grid structure.
+ */
+const initContainerDimensions = (comps: any[]) => {
+  if (!Array.isArray(comps)) return;
+  for (const comp of comps) {
+    // Recurse into nested containers (card, tab, collapse, splitter, condition)
+    if (comp.compType === 'container' && comp.preps?.elements) {
+      for (const element of comp.preps.elements) {
+        // tab/collapse/card/splitter elements have .items
+        if (element.items && Array.isArray(element.items)) {
+          initContainerDimensions(element.items);
+        }
+        // box/dytable elements have .columns[].items
+        if (element.columns && Array.isArray(element.columns)) {
+          for (const col of element.columns) {
+            if (col.items && Array.isArray(col.items)) {
+              initContainerDimensions(col.items);
+            }
+          }
+        }
+      }
+    }
+    // Also handle condition containers with children
+    if (comp.children && Array.isArray(comp.children)) {
+      initContainerDimensions(comp.children);
+    }
+    // Fix box/dytable dimensions
+    if (comp.compType === 'container' &&
+        (comp.itemType === 'box' || comp.itemType === 'dytable')) {
+      const elements = comp.preps?.elements;
+      if (Array.isArray(elements) && elements.length > 0) {
+        const rows = elements.length;
+        const cols = elements[0]?.columns?.length || 1;
+        // Set in preps (read by property panel)
+        if (!comp.preps) comp.preps = {};
+        comp.preps.rowNums = rows;
+        comp.preps.columnNums = cols;
+        // Set at top-level (fallback for property panel)
+        comp.rowNums = rows;
+        comp.columnNums = cols;
+      }
+    }
+  }
+};
 
 let compSize = computed(
     () => configStore.configFormInfo?.buttonSize || Config.compSize,
@@ -119,7 +170,10 @@ let currentJsonData: unknown = [];
 
 const destroyEditor = () => {
   if (jsonEditorInstance) {
-    try { jsonEditorInstance.destroy(); } catch (_) {}
+    try {
+      jsonEditorInstance.destroy();
+    } catch (_) {
+    }
     jsonEditorInstance = null;
   }
 };
@@ -131,14 +185,17 @@ const initEditor = () => {
     jsonEditorInstance = createJSONEditor({
       target: codeEditorTarget.value,
       props: {
-        content: { json: currentJsonData },
+        content: {json: currentJsonData},
         mode: "text" as any,
         mainMenuBar: true,
         navigationBar: false,
         statusBar: true,
         onChange: (content: Content) => {
           if (isTextContent(content)) {
-            try { currentJsonData = JSON.parse(content.text); } catch (_) {}
+            try {
+              currentJsonData = JSON.parse(content.text);
+            } catch (_) {
+            }
           } else {
             currentJsonData = content.json;
           }
@@ -161,7 +218,9 @@ const switchToCodeMode = () => {
 const switchToDesignMode = () => {
   // Auto-apply valid changes before switching
   if (Array.isArray(currentJsonData)) {
-    designForm.setCompList(JSON.parse(JSON.stringify(currentJsonData)));
+    const parsed = JSON.parse(JSON.stringify(currentJsonData));
+    initContainerDimensions(parsed);
+    designForm.setCompList(parsed);
   }
   destroyEditor();
   shortKeySwitch(true);
@@ -192,13 +251,16 @@ const applyCodeChanges = () => {
     } catch (e) {
       // Fallback: try parsing from tracked data as text
       if (typeof currentJsonData === "string") {
-        try { data = JSON.parse(currentJsonData); } catch (_) {}
+        try {
+          data = JSON.parse(currentJsonData);
+        } catch (_) {
+        }
       }
     }
   }
   if (!Array.isArray(data)) {
     try {
-      const parsed = toJSONContent({ text: String(data) } as any);
+      const parsed = toJSONContent({text: String(data)} as any);
       data = parsed.json;
     } catch (_) {
       warning("数据格式错误：需要 JSON 数组");
@@ -210,7 +272,9 @@ const applyCodeChanges = () => {
     return;
   }
   try {
-    designForm.setCompList(JSON.parse(JSON.stringify(data)));
+    const parsed = JSON.parse(JSON.stringify(data));
+    initContainerDimensions(parsed);
+    designForm.setCompList(parsed);
     success(i18n("dyform.design.importSuccess"));
   } catch (e: any) {
     warning("应用更改失败：" + (e?.message || "未知错误"));
@@ -220,7 +284,7 @@ const applyCodeChanges = () => {
 const resetCodeEditor = () => {
   currentJsonData = JSON.parse(JSON.stringify(list.value));
   if (jsonEditorInstance) {
-    jsonEditorInstance.set({ json: currentJsonData });
+    jsonEditorInstance.set({json: currentJsonData});
   }
 };
 
@@ -234,7 +298,7 @@ const formatCodeEditor = () => {
     } else {
       parsed = content.json;
     }
-    jsonEditorInstance.set({ text: JSON.stringify(parsed, null, 2) });
+    jsonEditorInstance.set({text: JSON.stringify(parsed, null, 2)});
   } catch (_) {
     warning("JSON 格式错误，无法格式化");
   }
@@ -359,6 +423,7 @@ const handleIncomingMessage = (message: any) => {
       if (message.data && message.data.list) {
         isSyncing.value = true;
         try {
+          initContainerDimensions(message.data.list);
           designForm.setCompList(message.data.list);
         } finally {
           isSyncing.value = false;
@@ -451,36 +516,87 @@ const changeRole = (data: any) => {
 const operImportFile = () => {
   const input = document.createElement('input');
   input.type = 'file';
-  input.accept = '.json';
-  input.onchange = (event) => {
+  input.accept = '*.json;*.xls;*.xlsx;*.xlsm';
+  input.onchange = async (event) => {
     const file = (event.target as HTMLInputElement).files?.[0];
     if (!file) return;
 
-    const reader = new FileReader();
-    reader.onload = (e) => {
+    const fileName = file.name.toLowerCase();
+    const isJson = fileName.endsWith('.json');
+
+    if (isJson) {
+      // JSON文件：前端直接解析
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        try {
+          const content = e.target?.result as string;
+          const jsonData = JSON5.parse(content);
+          if (jsonData) {
+            if (Array.isArray(jsonData)) {
+              initContainerDimensions(jsonData);
+              designForm.setCompList(jsonData);
+            } else if (jsonData.dataList) {
+              initContainerDimensions(jsonData.dataList);
+              designForm.setCompList(jsonData.dataList);
+              designForm.setFormInfo(jsonData.formInfo);
+            } else {
+              initContainerDimensions([jsonData]);
+              designForm.setCompList([jsonData]);
+            }
+            if (designMode.value == "code") {
+              switchToCodeMode();
+            }
+            success(i18n('dyform.design.importSuccess'));
+          } else {
+            error(i18n('dyform.design.importFormatError'));
+          }
+        } catch (err) {
+          console.error('导入文件失败:', err);
+          error(i18n('dyform.design.importParseError'));
+        }
+      };
+      reader.readAsText(file);
+    } else {
+      // Excel文件：上传到后端解析
+      const excelUrl = props.optional?.api?.excelAnalysisUrl;
+      if (!excelUrl) {
+        error(i18n('dyform.design.importExcelNoApi'));
+        return;
+      }
       try {
-        const content = e.target?.result as string;
-        const jsonData = JSON5.parse(content);
+        const formData = new FormData();
+        formData.append('file', file);
+        load(i18n('dyform.design.parsing'));
+        const res = await uploadRequest(excelUrl, formData);
+        const jsonData = res?.data?.data;
         if (jsonData) {
           if (Array.isArray(jsonData)) {
+            initContainerDimensions(jsonData);
             designForm.setCompList(jsonData);
-
           } else if (jsonData.dataList) {
+            initContainerDimensions(jsonData.dataList);
             designForm.setCompList(jsonData.dataList);
             designForm.setFormInfo(jsonData.formInfo);
           } else {
+            initContainerDimensions([jsonData]);
             designForm.setCompList([jsonData]);
+          }
+          if (designMode.value == "code") {
+            switchToCodeMode();
           }
           success(i18n('dyform.design.importSuccess'));
         } else {
-          error(i18n('dyform.design.importFormatError'));
+          error(i18n('dyform.design.importExcelFailed'));
         }
       } catch (err) {
-        console.error('导入文件失败:', err);
-        error(i18n('dyform.design.importParseError'));
+        console.error('Excel文件解析失败:', err);
+        error(i18n('dyform.design.importExcelFailed'));
+      } finally {
+        nextTick(() => {
+          closeLoad();
+        })
       }
-    };
-    reader.readAsText(file);
+    }
   };
   input.click();
 }
@@ -757,6 +873,7 @@ const cacheDataRestore = (evt: MouseEvent) => {
   cacheData.value = getCacheData(cacheName);
   if (cacheData.value && typeof cacheData.value == "object") {
     designForm.setFormInfo(cacheData.value["formInfo"]);
+    initContainerDimensions(cacheData.value["dataList"]);
     designForm.setCompList(cacheData.value["dataList"]);
   }
   setCacheData(cacheName, null);
@@ -930,6 +1047,7 @@ const setFormInfo = (
 ) => {
   initStoreData();
   designForm.setFormInfo(formInfo);
+  initContainerDimensions(nodeList);
   designForm.setCompList(nodeList);
   designForm.setFormData(formData);
   designForm.setIsEdit(isEdit);
@@ -1051,8 +1169,10 @@ defineExpose({
                           @click="setMode('code')"
                       >
                         <svg viewBox="0 0 16 16" fill="none" width="14" height="14">
-                          <path d="M5 3L1 8L5 13" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
-                          <path d="M11 3L15 8L11 13" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
+                          <path d="M5 3L1 8L5 13" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"
+                                stroke-linejoin="round"/>
+                          <path d="M11 3L15 8L11 13" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"
+                                stroke-linejoin="round"/>
                         </svg>
                         {{ i18n("dyform.action.code") || '代码' }}
                       </button>

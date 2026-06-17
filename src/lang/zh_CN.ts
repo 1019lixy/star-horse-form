@@ -2103,10 +2103,13 @@ export default {
   "dyform.design.importFormatError": "文件格式不正确，请导入正确的JSON文件",
   "dyform.design.import.parseError": "文件解析失败，请检查文件格式",
   "dyform.design.importParseError": "文件解析失败，请检查文件格式",
+  "dyform.design.importExcelNoApi": "未配置Excel解析接口，无法导入Excel文件",
+  "dyform.design.importExcelFailed": "Excel文件解析失败，请检查文件格式",
   "dyform.design.export.success": "导出成功",
   "dyform.design.exportSuccess": "导出成功",
   "dyform.design.exportFailed": "导出失败，请重试",
   "dyform.design.newConfirmMsg": "新建将清空舞台上的所有元素，是否确定要清空？",
+  "dyform.design.parsing": "文件解析中，请稍后",
 
   /**
    * 通用

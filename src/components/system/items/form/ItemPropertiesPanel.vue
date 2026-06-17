@@ -38,8 +38,9 @@ const quickConfig = ref<Record<string, number>>({
 let currentItemType = computed(() => {
   let comp = designForm.currentComp;
   comp.type = comp.itemType;
-  quickConfig.value.rowNums = comp.preps?.rowNums || 1;
-  quickConfig.value.columnNums = comp.preps?.columnNums || 1;
+  // rowNums/columnNums may be at top-level (imported JSON) or in preps (created via UI)
+  quickConfig.value.rowNums = comp.preps?.rowNums ?? comp.rowNums ?? 1;
+  quickConfig.value.columnNums = comp.preps?.columnNums ?? comp.columnNums ?? 1;
   return comp.itemType;
 });
 let compSize = computed(() => props.optional?.compSize ?? "default");
@@ -251,8 +252,15 @@ const boxAndTableQuickConfig = (val: any) => {
     return;
   }
   if (!formProps.value["rowNums"] || !formProps.value["columnNums"]) {
-    formProps.value.elements = [];
-    // console.log("formProps.value.elements", formProps.value.elements);
+    // For imported data: if elements already exist with valid structure, preserve them
+    // and infer rowNums/columnNums from the existing structure instead of wiping it.
+    const existingElements = formProps.value.elements;
+    if (Array.isArray(existingElements) && existingElements.length > 0) {
+      formProps.value["rowNums"] = existingElements.length;
+      formProps.value["columnNums"] = existingElements[0]?.columns?.length || 1;
+    } else {
+      formProps.value.elements = [];
+    }
   }
   const lastRowNums = formProps.value["rowNums"] || 0;
   const lastColNums = formProps.value["columnNums"] || 0;
