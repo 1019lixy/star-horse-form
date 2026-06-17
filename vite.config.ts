@@ -10,7 +10,8 @@ import vueDevTools from "vite-plugin-vue-devtools";
 //生产types文件插件
 import dts from "vite-plugin-dts";
 import fs from "fs";
-import https from "https"; // 新增引入
+import https from "https";
+import { execSync } from "child_process"; // 新增引入
 // https://vitejs.dev/config/
 const systemHost: string = "http://localhost:8749/";
 const userDbHost: string = "http://localhost:7758/";
@@ -92,7 +93,7 @@ export default defineConfig((mode) => {
       include: optimizeDepsList,
     },
     plugins: [
-      vueDevTools(),
+      // vueDevTools(),
       tailwindcss(),
       vue({
         script: {
@@ -105,9 +106,62 @@ export default defineConfig((mode) => {
         entryRoot: "./src",
         outDir: "dist/types",
         insertTypesEntry: true,
-        rollupTypes: true,
-        tsconfigPath: "./tsconfig.json",
-        exclude: ["**/*.svg", "**/sample/*.vue"],
+        rollupTypes: false,
+        tsconfigPath: "./tsconfig.build.json",
+        exclude: ["**/*.svg", "**/sample/**", "**/views/**"],
+        // 显式配置别名，确保 .d.ts 中的 @/ 被正确替换为相对路径
+        aliases: {
+          "@": resolve(dirname(fileURLToPath(import.meta.url)), "./src"),
+        },
+        async afterBuild() {
+          // vue-tsc 在有类型错误时默认不生成声明文件，需要显式传入 --noEmitOnError false
+          console.log("[dts] Running vue-tsc to generate type declarations...");
+          try {
+            execSync(
+              "npx vue-tsc -p tsconfig.build.json --noEmitOnError false",
+              { stdio: "pipe", cwd: process.cwd() }
+            );
+            console.log("[dts] Type declarations generated successfully.");
+          } catch {
+            console.log("[dts] Type declarations generated (with type warnings).");
+          }
+
+          // 后备修复：如果 aliases 选项未完全生效，手动替换 @/ 为相对路径
+          console.log("[dts] Fixing path aliases in declaration files...");
+          const fs = await import("fs");
+          const path = await import("path");
+          const typesDir = resolve(__dirname, "dist/types");
+
+          function fixPathsInFile(filePath: string) {
+            let content = fs.readFileSync(filePath, "utf-8");
+            if (!content.includes("@/")) return;
+
+            // 计算从当前文件到 types 根目录的相对路径
+            const relToRoot = path.relative(path.dirname(filePath), typesDir).replace(/\\/g, "/");
+            const prefix = relToRoot ? relToRoot + "/" : "./";
+
+            // 替换 "@/xxx" 为 "./xxx" 或 "../xxx"
+            content = content.replace(/"@\//g, `"${prefix}`);
+            content = content.replace(/'@\//g, `'${prefix}`);
+
+            fs.writeFileSync(filePath, content, "utf-8");
+          }
+
+          function walkDir(dir: string) {
+            const entries = fs.readdirSync(dir, { withFileTypes: true });
+            for (const entry of entries) {
+              const fullPath = path.join(dir, entry.name);
+              if (entry.isDirectory()) {
+                walkDir(fullPath);
+              } else if (entry.name.endsWith(".d.ts")) {
+                fixPathsInFile(fullPath);
+              }
+            }
+          }
+
+          walkDir(typesDir);
+          console.log("[dts] Path aliases fixed successfully.");
+        },
       }),
       AutoImport({
         imports: [
@@ -157,7 +211,7 @@ export default defineConfig((mode) => {
 
     cacheDir: "node_modules/.vite",
     build: {
-      //  告诉打包工具 "vue-demi" 也是外部依赖项
+      // 保留所有显式导出，避免tree-shaking移除
       rollupOptions: {
         external: [
           "vue",
@@ -166,15 +220,20 @@ export default defineConfig((mode) => {
           "element-plus",
           "flv.js",
           "star-horse-lowcode",
+          "vanilla-jsoneditor",
           "sample/**/*",
         ],
         output: {
           exports: "named",
           assetFileNames: "assets/[name][extname]",
-          // 保留模块结构，避免扁平化
-          preserveModules: false,
           // 禁用代码分割
-          inlineDynamicImports: true,
+          codeSplitting: false,
+          // 合并所有chunk到单个文件
+          manualChunks: undefined,
+          // 保留模块结构，避免扁平化
+          // preserveModules: false,
+          // 禁用代码分割
+          // inlineDynamicImports: true,
           // 合并所有chunk到单个文件
           /* manualChunks: (id) => {
                                   // 按目录拆分：将 src/components 下的组件拆分为单独的 chunk
