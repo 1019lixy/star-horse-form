@@ -5,14 +5,14 @@
   },
   "dataList": [
     {
-      "id": "Id5af200f1-e80c-4ee9-99bd-91f97de193b7",
+      "id": "Id2246231f-d7a2-41a4-8e6c-e46bdf563ac3",
       "compType": "container",
       "itemType": "card",
-      "fieldName": "field_8e6ca5",
+      "fieldName": "field_a5fd01",
       "preps": {
-        "id": "Id5af200f1-e80c-4ee9-99bd-91f97de193b7",
+        "id": "Id2246231f-d7a2-41a4-8e6c-e46bdf563ac3",
         "label": "基本信息",
-        "name": "field_8e6ca5",
+        "name": "field_a5fd01",
         "itemNameLabel": "基本信息",
         "headerFieldList": [],
         "elements": [
@@ -23,14 +23,14 @@
             "subFormFlag": "Y",
             "items": [
               {
-                "id": "Id0d2720f6-dd47-4630-9bc0-3454320b2e23",
+                "id": "Id75a12143-6ef7-4120-9061-4c62a4ba6db0",
                 "compType": "formItem",
                 "itemType": "input",
-                "fieldName": "field_a0f264",
+                "fieldName": "field_f90dfc",
                 "preps": {
-                  "id": "Id0d2720f6-dd47-4630-9bc0-3454320b2e23",
+                  "id": "Id75a12143-6ef7-4120-9061-4c62a4ba6db0",
                   "label": "姓名",
-                  "name": "field_a0f264",
+                  "name": "field_f90dfc",
                   "itemNameLabel": "姓名",
                   "formVisible": true,
                   "listVisible": true,
@@ -49,37 +49,37 @@
                 }
               },
               {
-                "id": "Id91c7fa6f-74cf-4178-a70c-bca2deba688c",
+                "id": "Id289b1d1f-a27c-4ca9-bd38-d85ef0850658",
                 "compType": "container",
                 "itemType": "box",
-                "fieldName": "field_81d387",
+                "fieldName": "field_567a3c",
                 "rowNums": 1,
                 "columnNums": 2,
                 "preps": {
-                  "id": "Id91c7fa6f-74cf-4178-a70c-bca2deba688c",
+                  "id": "Id289b1d1f-a27c-4ca9-bd38-d85ef0850658",
                   "label": "Grid Layout",
-                  "name": "field_81d387",
+                  "name": "field_567a3c",
                   "itemNameLabel": "Grid Layout",
                   "elements": [
                     {
-                      "id": "row-e362dbe0-4582-4997-95aa-e62e1412861b",
+                      "id": "row-2ebaab6b-d6be-4d01-a26b-49bb7dc6b392",
                       "rowIndex": 1,
                       "columns": [
                         {
-                          "id": "col-43021e89-9c85-49c6-94f4-a408a1814737",
+                          "id": "col-26292656-b96c-46cc-b6b0-0c56c4e20497",
                           "cellVisible": true,
                           "colIndex": 1,
                           "colspan": 12,
                           "items": [
                             {
-                              "id": "Idef410767-e0a7-42a9-bd32-02bdfbd45b9c",
+                              "id": "Ida316bf8b-3cf7-4621-b20c-fb1a8363c5a0",
                               "compType": "formItem",
                               "itemType": "select",
-                              "fieldName": "field_598d16",
+                              "fieldName": "field_35eb26",
                               "preps": {
-                                "id": "Idef410767-e0a7-42a9-bd32-02bdfbd45b9c",
+                                "id": "Ida316bf8b-3cf7-4621-b20c-fb1a8363c5a0",
                                 "label": "年龄段",
-                                "name": "field_598d16",
+                                "name": "field_35eb26",
                                 "itemNameLabel": "年龄段",
                                 "formVisible": true,
                                 "listVisible": true,
@@ -121,20 +121,20 @@
                           ]
                         },
                         {
-                          "id": "col-0220ab4e-af1e-44f6-9610-7e3d80d39b6b",
+                          "id": "col-71ee33e6-1088-4f24-8493-a761f3743b52",
                           "cellVisible": true,
                           "colIndex": 1,
                           "colspan": 12,
                           "items": [
                             {
-                              "id": "Ideec52eec-26cd-42a8-8de0-2c6f744d77ae",
+                              "id": "Id2aa16d91-41d7-449b-af89-06660be2b06a",
                               "compType": "formItem",
                               "itemType": "select",
-                              "fieldName": "field_33f1b5",
+                              "fieldName": "field_46b3a6",
                               "preps": {
-                                "id": "Ideec52eec-26cd-42a8-8de0-2c6f744d77ae",
+                                "id": "Id2aa16d91-41d7-449b-af89-06660be2b06a",
                                 "label": "职业",
-                                "name": "field_33f1b5",
+                                "name": "field_46b3a6",
                                 "itemNameLabel": "职业",
                                 "formVisible": true,
                                 "listVisible": true,
@@ -186,14 +186,14 @@
       }
     },
     {
-      "id": "Id926639c5-c4d1-47ba-a504-492b264ec44c",
+      "id": "Id31275375-2573-4956-8d74-d02cc688d22b",
       "compType": "container",
       "itemType": "card",
-      "fieldName": "field_bab684",
+      "fieldName": "field_5d967b",
       "preps": {
-        "id": "Id926639c5-c4d1-47ba-a504-492b264ec44c",
+        "id": "Id31275375-2573-4956-8d74-d02cc688d22b",
         "label": "满意度调查",
-        "name": "field_bab684",
+        "name": "field_5d967b",
         "itemNameLabel": "满意度调查",
         "headerFieldList": [],
         "elements": [
@@ -204,14 +204,14 @@
             "subFormFlag": "Y",
             "items": [
               {
-                "id": "Idbcf70970-7641-4285-bf2e-b4ce75faeba8",
+                "id": "Id450297c7-91bb-415c-a054-53c88511c273",
                 "compType": "formItem",
                 "itemType": "select",
-                "fieldName": "field_5a1c99",
+                "fieldName": "field_55e012",
                 "preps": {
-                  "id": "Idbcf70970-7641-4285-bf2e-b4ce75faeba8",
+                  "id": "Id450297c7-91bb-415c-a054-53c88511c273",
                   "label": "总体满意度",
-                  "name": "field_5a1c99",
+                  "name": "field_55e012",
                   "itemNameLabel": "总体满意度",
                   "formVisible": true,
                   "listVisible": true,
@@ -251,14 +251,14 @@
                 }
               },
               {
-                "id": "Id3f516ffb-198b-4437-be50-1f34bb7881e3",
+                "id": "Id6c4cb84f-5549-406a-a39b-f3aef42f98e4",
                 "compType": "formItem",
                 "itemType": "rate",
-                "fieldName": "field_c9d255",
+                "fieldName": "field_b3a135",
                 "preps": {
-                  "id": "Id3f516ffb-198b-4437-be50-1f34bb7881e3",
+                  "id": "Id6c4cb84f-5549-406a-a39b-f3aef42f98e4",
                   "label": "产品质量评分",
-                  "name": "field_c9d255",
+                  "name": "field_b3a135",
                   "itemNameLabel": "产品质量评分",
                   "formVisible": true,
                   "listVisible": true,
@@ -277,14 +277,14 @@
                 }
               },
               {
-                "id": "Id1dfa5571-00f6-47d6-964e-b7eff57a747c",
+                "id": "Idba9162e4-6445-434b-a6a0-9c9944af9c20",
                 "compType": "formItem",
                 "itemType": "rate",
-                "fieldName": "field_2a41a4",
+                "fieldName": "field_ea57d0",
                 "preps": {
-                  "id": "Id1dfa5571-00f6-47d6-964e-b7eff57a747c",
+                  "id": "Idba9162e4-6445-434b-a6a0-9c9944af9c20",
                   "label": "服务体验评分",
-                  "name": "field_2a41a4",
+                  "name": "field_ea57d0",
                   "itemNameLabel": "服务体验评分",
                   "formVisible": true,
                   "listVisible": true,
@@ -303,14 +303,14 @@
                 }
               },
               {
-                "id": "Id896476ca-4040-4aea-9dc1-006414ed3fbb",
+                "id": "Ide58d9fe7-3bc9-4b49-8091-8d9b94082402",
                 "compType": "formItem",
                 "itemType": "rate",
-                "fieldName": "field_63fa26",
+                "fieldName": "field_093975",
                 "preps": {
-                  "id": "Id896476ca-4040-4aea-9dc1-006414ed3fbb",
+                  "id": "Ide58d9fe7-3bc9-4b49-8091-8d9b94082402",
                   "label": "性价比评分",
-                  "name": "field_63fa26",
+                  "name": "field_093975",
                   "itemNameLabel": "性价比评分",
                   "formVisible": true,
                   "listVisible": true,
@@ -334,14 +334,14 @@
       }
     },
     {
-      "id": "Idc04f7e02-55f4-47b5-910c-a8d2e11ab43e",
+      "id": "Id955720b7-344a-4574-b1e3-433cb1d8912b",
       "compType": "container",
       "itemType": "card",
-      "fieldName": "field_266964",
+      "fieldName": "field_842675",
       "preps": {
-        "id": "Idc04f7e02-55f4-47b5-910c-a8d2e11ab43e",
+        "id": "Id955720b7-344a-4574-b1e3-433cb1d8912b",
         "label": "详细反馈",
-        "name": "field_266964",
+        "name": "field_842675",
         "itemNameLabel": "详细反馈",
         "headerFieldList": [],
         "elements": [
@@ -352,14 +352,14 @@
             "subFormFlag": "Y",
             "items": [
               {
-                "id": "Id311f3988-4d33-4a64-b083-011672e0660e",
+                "id": "Id16bbf82a-7de8-4c02-bb4e-6711c6b2ddfc",
                 "compType": "formItem",
                 "itemType": "checkbox",
-                "fieldName": "field_ba8106",
+                "fieldName": "field_432a4a",
                 "preps": {
-                  "id": "Id311f3988-4d33-4a64-b083-011672e0660e",
+                  "id": "Id16bbf82a-7de8-4c02-bb4e-6711c6b2ddfc",
                   "label": "您认为我们的优势是什么？",
-                  "name": "field_ba8106",
+                  "name": "field_432a4a",
                   "itemNameLabel": "您认为我们的优势是什么？",
                   "formVisible": true,
                   "listVisible": true,
@@ -378,14 +378,14 @@
                 }
               },
               {
-                "id": "Id314f46c9-8911-4749-9c6e-cb2b39df60c3",
+                "id": "Idbf898839-b9f9-4500-8bcd-abab1a1be245",
                 "compType": "formItem",
                 "itemType": "radio",
-                "fieldName": "field_c4dfaf",
+                "fieldName": "field_879b65",
                 "preps": {
-                  "id": "Id314f46c9-8911-4749-9c6e-cb2b39df60c3",
+                  "id": "Idbf898839-b9f9-4500-8bcd-abab1a1be245",
                   "label": "您是否愿意推荐给朋友？",
-                  "name": "field_c4dfaf",
+                  "name": "field_879b65",
                   "itemNameLabel": "您是否愿意推荐给朋友？",
                   "formVisible": true,
                   "listVisible": true,
@@ -417,14 +417,14 @@
                 }
               },
               {
-                "id": "Idbf74afd7-611f-45de-af07-6c9d202434fc",
+                "id": "Id85ad6208-a299-468d-985d-42c49bd9630a",
                 "compType": "formItem",
                 "itemType": "textarea",
-                "fieldName": "field_1c86fc",
+                "fieldName": "field_c5909b",
                 "preps": {
-                  "id": "Idbf74afd7-611f-45de-af07-6c9d202434fc",
+                  "id": "Id85ad6208-a299-468d-985d-42c49bd9630a",
                   "label": "您的建议或意见",
-                  "name": "field_1c86fc",
+                  "name": "field_c5909b",
                   "itemNameLabel": "您的建议或意见",
                   "formVisible": true,
                   "listVisible": true,
@@ -448,6 +448,6 @@
       }
     }
   ],
-  "exportTime": "2026-06-16T09:36:26.508Z",
+  "exportTime": "2026-06-16T10:22:42.538Z",
   "version": "1.0"
 }

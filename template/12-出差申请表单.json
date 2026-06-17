@@ -5,14 +5,14 @@
   },
   "dataList": [
     {
-      "id": "Id29cb90f5-489b-4edb-842f-b6d1ed74ab85",
+      "id": "Id293c4954-8f3c-4f0b-bcd3-eb7a42434abf",
       "compType": "container",
       "itemType": "card",
-      "fieldName": "field_0b038c",
+      "fieldName": "field_f1e63a",
       "preps": {
-        "id": "Id29cb90f5-489b-4edb-842f-b6d1ed74ab85",
+        "id": "Id293c4954-8f3c-4f0b-bcd3-eb7a42434abf",
         "label": "出差信息",
-        "name": "field_0b038c",
+        "name": "field_f1e63a",
         "itemNameLabel": "出差信息",
         "headerFieldList": [],
         "elements": [
@@ -23,37 +23,37 @@
             "subFormFlag": "Y",
             "items": [
               {
-                "id": "Id5c2e216c-1b57-4cbe-87e2-1e4e87a1da37",
+                "id": "Id8fbd1e85-e241-4e7d-85ea-0798aa0e8cc3",
                 "compType": "container",
                 "itemType": "box",
-                "fieldName": "field_a8ae1a",
+                "fieldName": "field_138fca",
                 "rowNums": 1,
                 "columnNums": 2,
                 "preps": {
-                  "id": "Id5c2e216c-1b57-4cbe-87e2-1e4e87a1da37",
+                  "id": "Id8fbd1e85-e241-4e7d-85ea-0798aa0e8cc3",
                   "label": "Grid Layout",
-                  "name": "field_a8ae1a",
+                  "name": "field_138fca",
                   "itemNameLabel": "Grid Layout",
                   "elements": [
                     {
-                      "id": "row-ccfdd4d1-c6b4-4409-ba38-6d7812de4c6e",
+                      "id": "row-38fd5706-6bed-4fc5-8e4f-a550ba11c498",
                       "rowIndex": 1,
                       "columns": [
                         {
-                          "id": "col-490793e5-d36f-4de8-91c4-eab66ebc7e9d",
+                          "id": "col-47fc97ed-6494-45d3-9418-2022f62804c0",
                           "cellVisible": true,
                           "colIndex": 1,
                           "colspan": 12,
                           "items": [
                             {
-                              "id": "Idceb05205-458c-4d85-af39-af7ab9cf5a81",
+                              "id": "Idc4f00c13-fe7c-4aba-8280-c71e0be65e58",
                               "compType": "formItem",
                               "itemType": "input",
-                              "fieldName": "field_be5b2c",
+                              "fieldName": "field_53a861",
                               "preps": {
-                                "id": "Idceb05205-458c-4d85-af39-af7ab9cf5a81",
+                                "id": "Idc4f00c13-fe7c-4aba-8280-c71e0be65e58",
                                 "label": "申请人",
-                                "name": "field_be5b2c",
+                                "name": "field_53a861",
                                 "itemNameLabel": "申请人",
                                 "formVisible": true,
                                 "listVisible": true,
@@ -74,20 +74,20 @@
                           ]
                         },
                         {
-                          "id": "col-b0116e80-8aa4-42b8-88a4-c7236a5a903b",
+                          "id": "col-72b1d9d3-530a-4786-920a-5abad09f6d9e",
                           "cellVisible": true,
                           "colIndex": 1,
                           "colspan": 12,
                           "items": [
                             {
-                              "id": "Id06381eec-98d9-42bd-a146-82781bddda12",
+                              "id": "Id3cb6fe00-a53e-4948-a526-b16291aa65f6",
                               "compType": "formItem",
                               "itemType": "select",
-                              "fieldName": "field_ba7f1a",
+                              "fieldName": "field_f40e5b",
                               "preps": {
-                                "id": "Id06381eec-98d9-42bd-a146-82781bddda12",
+                                "id": "Id3cb6fe00-a53e-4948-a526-b16291aa65f6",
                                 "label": "部门",
-                                "name": "field_ba7f1a",
+                                "name": "field_f40e5b",
                                 "itemNameLabel": "部门",
                                 "formVisible": true,
                                 "listVisible": true,
@@ -134,37 +134,37 @@
                 }
               },
               {
-                "id": "Id4b51bf89-0ca6-4035-b0ed-aa2d4d675a59",
+                "id": "Idc17829c1-1598-45a8-b448-fd9dc60a4afc",
                 "compType": "container",
                 "itemType": "box",
-                "fieldName": "field_e4ab9b",
+                "fieldName": "field_94d01c",
                 "rowNums": 1,
                 "columnNums": 2,
                 "preps": {
-                  "id": "Id4b51bf89-0ca6-4035-b0ed-aa2d4d675a59",
+                  "id": "Idc17829c1-1598-45a8-b448-fd9dc60a4afc",
                   "label": "Grid Layout",
-                  "name": "field_e4ab9b",
+                  "name": "field_94d01c",
                   "itemNameLabel": "Grid Layout",
                   "elements": [
                     {
-                      "id": "row-8f9d406e-67fd-4e2f-9319-b25215482c69",
+                      "id": "row-745e9aea-96e0-4e5c-8d06-0478d3f89bff",
                       "rowIndex": 1,
                       "columns": [
                         {
-                          "id": "col-a87b4cf4-6e1f-483e-8542-a4a1089e429c",
+                          "id": "col-30281e2f-4681-4689-a337-ca1d51847e2c",
                           "cellVisible": true,
                           "colIndex": 1,
                           "colspan": 12,
                           "items": [
                             {
-                              "id": "Id19979fb4-fd2c-4ba0-9862-7ae003556798",
+                              "id": "Id3df9157f-0833-4725-8ddc-9b69402b2145",
                               "compType": "formItem",
                               "itemType": "input",
-                              "fieldName": "field_678fdf",
+                              "fieldName": "field_719d51",
                               "preps": {
-                                "id": "Id19979fb4-fd2c-4ba0-9862-7ae003556798",
+                                "id": "Id3df9157f-0833-4725-8ddc-9b69402b2145",
                                 "label": "目的地",
-                                "name": "field_678fdf",
+                                "name": "field_719d51",
                                 "itemNameLabel": "目的地",
                                 "formVisible": true,
                                 "listVisible": true,
@@ -185,20 +185,20 @@
                           ]
                         },
                         {
-                          "id": "col-980da071-f930-4f0c-991d-230019f173bb",
+                          "id": "col-de938fff-d258-43e5-b9d5-6d5f7e3e3d61",
                           "cellVisible": true,
                           "colIndex": 1,
                           "colspan": 12,
                           "items": [
                             {
-                              "id": "Iddc738e9b-47a1-4f07-87f5-27d877663108",
+                              "id": "Idb07570ef-7354-4092-ac23-6b7d1860cde8",
                               "compType": "formItem",
                               "itemType": "select",
-                              "fieldName": "field_07a214",
+                              "fieldName": "field_d1afa2",
                               "preps": {
-                                "id": "Iddc738e9b-47a1-4f07-87f5-27d877663108",
+                                "id": "Idb07570ef-7354-4092-ac23-6b7d1860cde8",
                                 "label": "出差类型",
-                                "name": "field_07a214",
+                                "name": "field_d1afa2",
                                 "itemNameLabel": "出差类型",
                                 "formVisible": true,
                                 "listVisible": true,
@@ -233,37 +233,37 @@
                 }
               },
               {
-                "id": "Idaaa3cdc9-6022-470c-8f67-27fbcb41a88a",
+                "id": "Idb68074a3-0c89-47f0-851a-a38c977a6415",
                 "compType": "container",
                 "itemType": "box",
-                "fieldName": "field_b3de05",
+                "fieldName": "field_4e8a8e",
                 "rowNums": 1,
                 "columnNums": 2,
                 "preps": {
-                  "id": "Idaaa3cdc9-6022-470c-8f67-27fbcb41a88a",
+                  "id": "Idb68074a3-0c89-47f0-851a-a38c977a6415",
                   "label": "Grid Layout",
-                  "name": "field_b3de05",
+                  "name": "field_4e8a8e",
                   "itemNameLabel": "Grid Layout",
                   "elements": [
                     {
-                      "id": "row-e7468bd8-d5ed-47b3-aad6-5def29479df2",
+                      "id": "row-28490b51-d85b-4379-9934-d128c6305eb9",
                       "rowIndex": 1,
                       "columns": [
                         {
-                          "id": "col-386fc58f-020f-4257-9696-f340eaccf7f9",
+                          "id": "col-ec238865-0e43-4571-95cf-042c11db74df",
                           "cellVisible": true,
                           "colIndex": 1,
                           "colspan": 12,
                           "items": [
                             {
-                              "id": "Id56e6125d-3ed9-41f3-a45f-9bf70dc67fbf",
+                              "id": "Idd29a48f1-3263-454b-bd24-9c91ce6e6762",
                               "compType": "formItem",
                               "itemType": "date",
-                              "fieldName": "field_a0dbaf",
+                              "fieldName": "field_63d2b8",
                               "preps": {
-                                "id": "Id56e6125d-3ed9-41f3-a45f-9bf70dc67fbf",
+                                "id": "Idd29a48f1-3263-454b-bd24-9c91ce6e6762",
                                 "label": "出发日期",
-                                "name": "field_a0dbaf",
+                                "name": "field_63d2b8",
                                 "itemNameLabel": "出发日期",
                                 "formVisible": true,
                                 "listVisible": true,
@@ -284,20 +284,20 @@
                           ]
                         },
                         {
-                          "id": "col-aa0fdace-8597-4db8-8c9c-475734441a27",
+                          "id": "col-d3f94318-0726-4227-ab3b-1a052e76dcd8",
                           "cellVisible": true,
                           "colIndex": 1,
                           "colspan": 12,
                           "items": [
                             {
-                              "id": "Id921d7f8b-7aa1-4d47-9896-f06aa17afe2e",
+                              "id": "Ide4f50274-9ba8-4e64-8a4b-2bc7ce199dc5",
                               "compType": "formItem",
                               "itemType": "date",
-                              "fieldName": "field_4954ea",
+                              "fieldName": "field_770c94",
                               "preps": {
-                                "id": "Id921d7f8b-7aa1-4d47-9896-f06aa17afe2e",
+                                "id": "Ide4f50274-9ba8-4e64-8a4b-2bc7ce199dc5",
                                 "label": "返回日期",
-                                "name": "field_4954ea",
+                                "name": "field_770c94",
                                 "itemNameLabel": "返回日期",
                                 "formVisible": true,
                                 "listVisible": true,
@@ -323,14 +323,14 @@
                 }
               },
               {
-                "id": "Idbc19c3d8-160d-47e5-9075-f6c9780a7dd2",
+                "id": "Idd933604c-ef0c-4575-97d2-9cd80fa5f6be",
                 "compType": "formItem",
                 "itemType": "textarea",
-                "fieldName": "field_91f5e7",
+                "fieldName": "field_ad9191",
                 "preps": {
-                  "id": "Idbc19c3d8-160d-47e5-9075-f6c9780a7dd2",
+                  "id": "Idd933604c-ef0c-4575-97d2-9cd80fa5f6be",
                   "label": "出差目的",
-                  "name": "field_91f5e7",
+                  "name": "field_ad9191",
                   "itemNameLabel": "出差目的",
                   "formVisible": true,
                   "listVisible": true,
@@ -349,14 +349,14 @@
                 }
               },
               {
-                "id": "Id280cd8b1-8286-4cf0-926e-6d442447035b",
+                "id": "Idb59fdd6f-a0eb-4289-9023-f04550553082",
                 "compType": "formItem",
                 "itemType": "select",
-                "fieldName": "field_19cd7f",
+                "fieldName": "field_4a3fbe",
                 "preps": {
-                  "id": "Id280cd8b1-8286-4cf0-926e-6d442447035b",
+                  "id": "Idb59fdd6f-a0eb-4289-9023-f04550553082",
                   "label": "交通方式",
-                  "name": "field_19cd7f",
+                  "name": "field_4a3fbe",
                   "itemNameLabel": "交通方式",
                   "formVisible": true,
                   "listVisible": true,
@@ -401,14 +401,14 @@
       }
     },
     {
-      "id": "Idd546aad9-a6f0-4506-aa05-a10866f4f077",
+      "id": "Id6ec5a35c-5813-4ece-a280-3c776a31c5e7",
       "compType": "container",
       "itemType": "card",
-      "fieldName": "field_36830b",
+      "fieldName": "field_35d92f",
       "preps": {
-        "id": "Idd546aad9-a6f0-4506-aa05-a10866f4f077",
+        "id": "Id6ec5a35c-5813-4ece-a280-3c776a31c5e7",
         "label": "预算明细",
-        "name": "field_36830b",
+        "name": "field_35d92f",
         "itemNameLabel": "预算明细",
         "headerFieldList": [],
         "elements": [
@@ -419,37 +419,37 @@
             "subFormFlag": "Y",
             "items": [
               {
-                "id": "Id1974a565-75bc-44b2-bb69-306e9c671f4f",
+                "id": "Idaa518072-157e-44c5-a5c8-babb617f1963",
                 "compType": "container",
                 "itemType": "box",
-                "fieldName": "field_1edb49",
+                "fieldName": "field_759ec0",
                 "rowNums": 1,
                 "columnNums": 3,
                 "preps": {
-                  "id": "Id1974a565-75bc-44b2-bb69-306e9c671f4f",
+                  "id": "Idaa518072-157e-44c5-a5c8-babb617f1963",
                   "label": "Grid Layout",
-                  "name": "field_1edb49",
+                  "name": "field_759ec0",
                   "itemNameLabel": "Grid Layout",
                   "elements": [
                     {
-                      "id": "row-ccaddbf8-e92c-4702-8f40-445d88810678",
+                      "id": "row-1726bb19-dc96-464c-9d37-2441b24b7b5b",
                       "rowIndex": 1,
                       "columns": [
                         {
-                          "id": "col-76bafd3f-a3d8-449b-9ed3-d350e9c5b24b",
+                          "id": "col-97f8187d-8d7b-45c7-a3a7-218a80413699",
                           "cellVisible": true,
                           "colIndex": 1,
                           "colspan": 8,
                           "items": [
                             {
-                              "id": "Id960426f7-4fee-4960-906c-9758bf59933c",
+                              "id": "Id086cbdfc-edc2-4265-8324-56891332e3f2",
                               "compType": "formItem",
                               "itemType": "number",
-                              "fieldName": "field_343099",
+                              "fieldName": "field_da44aa",
                               "preps": {
-                                "id": "Id960426f7-4fee-4960-906c-9758bf59933c",
+                                "id": "Id086cbdfc-edc2-4265-8324-56891332e3f2",
                                 "label": "交通费",
-                                "name": "field_343099",
+                                "name": "field_da44aa",
                                 "itemNameLabel": "交通费",
                                 "formVisible": true,
                                 "listVisible": true,
@@ -472,20 +472,20 @@
                           ]
                         },
                         {
-                          "id": "col-4cfda0eb-30a0-4ec0-a5fe-55b85878f9c4",
+                          "id": "col-116dc0e7-dce4-4f6d-8267-dd29bb5284a3",
                           "cellVisible": true,
                           "colIndex": 1,
                           "colspan": 8,
                           "items": [
                             {
-                              "id": "Id94551419-91d4-4da0-873a-88660a131950",
+                              "id": "Id689c2963-4f5c-4c94-9963-8bb6c6e805f9",
                               "compType": "formItem",
                               "itemType": "number",
-                              "fieldName": "field_767d66",
+                              "fieldName": "field_4695ef",
                               "preps": {
-                                "id": "Id94551419-91d4-4da0-873a-88660a131950",
+                                "id": "Id689c2963-4f5c-4c94-9963-8bb6c6e805f9",
                                 "label": "住宿费",
-                                "name": "field_767d66",
+                                "name": "field_4695ef",
                                 "itemNameLabel": "住宿费",
                                 "formVisible": true,
                                 "listVisible": true,
@@ -508,20 +508,20 @@
                           ]
                         },
                         {
-                          "id": "col-a4138b76-88d9-47ed-b7da-fa82e5ca1620",
+                          "id": "col-08684f2f-6273-4e55-b372-9f5ecb685cf1",
                           "cellVisible": true,
                           "colIndex": 1,
                           "colspan": 8,
                           "items": [
                             {
-                              "id": "Idd5c1aa92-08a0-433a-8af5-fa020b0936aa",
+                              "id": "Id5661ed61-53fe-4667-85e2-17c1c76a9db9",
                               "compType": "formItem",
                               "itemType": "number",
-                              "fieldName": "field_114925",
+                              "fieldName": "field_6e0b87",
                               "preps": {
-                                "id": "Idd5c1aa92-08a0-433a-8af5-fa020b0936aa",
+                                "id": "Id5661ed61-53fe-4667-85e2-17c1c76a9db9",
                                 "label": "餐饮补贴",
-                                "name": "field_114925",
+                                "name": "field_6e0b87",
                                 "itemNameLabel": "餐饮补贴",
                                 "formVisible": true,
                                 "listVisible": true,
@@ -549,37 +549,37 @@
                 }
               },
               {
-                "id": "Idf2163970-9fdd-4c33-ad13-48da1363734b",
+                "id": "Ida465e7fa-66a2-4db9-824e-8e8bb4858152",
                 "compType": "container",
                 "itemType": "box",
-                "fieldName": "field_e3518b",
+                "fieldName": "field_2cfecd",
                 "rowNums": 1,
                 "columnNums": 2,
                 "preps": {
-                  "id": "Idf2163970-9fdd-4c33-ad13-48da1363734b",
+                  "id": "Ida465e7fa-66a2-4db9-824e-8e8bb4858152",
                   "label": "Grid Layout",
-                  "name": "field_e3518b",
+                  "name": "field_2cfecd",
                   "itemNameLabel": "Grid Layout",
                   "elements": [
                     {
-                      "id": "row-5fb57397-a25f-4a89-a011-212f47027652",
+                      "id": "row-c6c0eb57-2017-456d-a3e9-d8951844b805",
                       "rowIndex": 1,
                       "columns": [
                         {
-                          "id": "col-9531805a-ce3d-407d-b1a6-a8f21a31cb10",
+                          "id": "col-42d4e51e-94b1-483f-ade4-871a52c5105e",
                           "cellVisible": true,
                           "colIndex": 1,
                           "colspan": 12,
                           "items": [
                             {
-                              "id": "Id5fd86e46-0584-498a-a4e0-ccc92a5cbbd7",
+                              "id": "Idd9f0ff68-89d5-46c8-8f94-44ec2efb7080",
                               "compType": "formItem",
                               "itemType": "number",
-                              "fieldName": "field_2082b2",
+                              "fieldName": "field_44010a",
                               "preps": {
-                                "id": "Id5fd86e46-0584-498a-a4e0-ccc92a5cbbd7",
+                                "id": "Idd9f0ff68-89d5-46c8-8f94-44ec2efb7080",
                                 "label": "其他费用",
-                                "name": "field_2082b2",
+                                "name": "field_44010a",
                                 "itemNameLabel": "其他费用",
                                 "formVisible": true,
                                 "listVisible": true,
@@ -602,20 +602,20 @@
                           ]
                         },
                         {
-                          "id": "col-40b9b40e-e61e-4270-ad7c-7ec7054b7612",
+                          "id": "col-e6bb2f23-9710-42b0-8cd0-ec5c0affb848",
                           "cellVisible": true,
                           "colIndex": 1,
                           "colspan": 12,
                           "items": [
                             {
-                              "id": "Id12c02145-b886-4f6f-9f48-d748315a1be5",
+                              "id": "Idd9f1f742-3006-4175-a21e-98587654dc73",
                               "compType": "formItem",
                               "itemType": "number",
-                              "fieldName": "field_7d4bfb",
+                              "fieldName": "field_9ddbe8",
                               "preps": {
-                                "id": "Id12c02145-b886-4f6f-9f48-d748315a1be5",
+                                "id": "Idd9f1f742-3006-4175-a21e-98587654dc73",
                                 "label": "合计金额",
-                                "name": "field_7d4bfb",
+                                "name": "field_9ddbe8",
                                 "itemNameLabel": "合计金额",
                                 "formVisible": true,
                                 "listVisible": true,
@@ -643,14 +643,14 @@
                 }
               },
               {
-                "id": "Id4e89de15-996c-47ac-88b5-1e3cf92beb2b",
+                "id": "Id1bf6a75b-fa8d-4aa6-89e4-ade3b77325c0",
                 "compType": "formItem",
                 "itemType": "textarea",
-                "fieldName": "field_90635d",
+                "fieldName": "field_d06002",
                 "preps": {
-                  "id": "Id4e89de15-996c-47ac-88b5-1e3cf92beb2b",
+                  "id": "Id1bf6a75b-fa8d-4aa6-89e4-ade3b77325c0",
                   "label": "费用说明",
-                  "name": "field_90635d",
+                  "name": "field_d06002",
                   "itemNameLabel": "费用说明",
                   "formVisible": true,
                   "listVisible": true,
@@ -674,6 +674,6 @@
       }
     }
   ],
-  "exportTime": "2026-06-16T09:36:26.507Z",
+  "exportTime": "2026-06-16T10:22:42.535Z",
   "version": "1.0"
 }

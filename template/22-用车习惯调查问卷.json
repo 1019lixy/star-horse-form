@@ -1,0 +1,2878 @@
+{
+  "formInfo": {
+    "formName": "22-用车习惯调查问卷",
+    "currentPageType": "pc"
+  },
+  "dataList": [
+    {
+      "id": "Idcebac794-f61c-4307-80a6-c16f149d1ff4",
+      "compType": "container",
+      "itemType": "card",
+      "fieldName": "field_80cee7",
+      "preps": {
+        "id": "Idcebac794-f61c-4307-80a6-c16f149d1ff4",
+        "label": "车主基本信息",
+        "name": "field_80cee7",
+        "itemNameLabel": "车主基本信息",
+        "headerFieldList": [],
+        "elements": [
+          {
+            "label": "车主基本信息",
+            "tabName": "车主基本信息",
+            "objectName": "车主基本信息",
+            "subFormFlag": "Y",
+            "items": [
+              {
+                "id": "Idfc6f31f0-410a-4203-bef5-3552e127cfd0",
+                "compType": "container",
+                "itemType": "box",
+                "fieldName": "field_d0b622",
+                "rowNums": 1,
+                "columnNums": 2,
+                "preps": {
+                  "id": "Idfc6f31f0-410a-4203-bef5-3552e127cfd0",
+                  "label": "Grid Layout",
+                  "name": "field_d0b622",
+                  "itemNameLabel": "Grid Layout",
+                  "elements": [
+                    {
+                      "id": "row-928bb444-b589-4284-92bd-fef78da2ed0d",
+                      "rowIndex": 1,
+                      "columns": [
+                        {
+                          "id": "col-bf35b93b-b46c-4fab-b213-b45f5934f01c",
+                          "cellVisible": true,
+                          "colIndex": 1,
+                          "colspan": 12,
+                          "items": [
+                            {
+                              "id": "Id2766907a-3065-4493-b8d0-28500ce44b7f",
+                              "compType": "formItem",
+                              "itemType": "radio",
+                              "fieldName": "field_3ee741",
+                              "preps": {
+                                "id": "Id2766907a-3065-4493-b8d0-28500ce44b7f",
+                                "label": "性别",
+                                "name": "field_3ee741",
+                                "itemNameLabel": "性别",
+                                "formVisible": true,
+                                "listVisible": true,
+                                "viewVisible": true,
+                                "searchVisible": false,
+                                "required": false,
+                                "disabled": false,
+                                "clearable": true,
+                                "readonly": false,
+                                "maxLength": 255,
+                                "placeholder": "请输入性别",
+                                "dataSource": "data",
+                                "values": [
+                                  {
+                                    "name": "男",
+                                    "value": "1"
+                                  },
+                                  {
+                                    "name": "女",
+                                    "value": "2"
+                                  }
+                                ],
+                                "rules": [],
+                                "helpMsg": ""
+                              }
+                            }
+                          ]
+                        },
+                        {
+                          "id": "col-30204c81-6627-47ad-b982-5c8eb33234e2",
+                          "cellVisible": true,
+                          "colIndex": 1,
+                          "colspan": 12,
+                          "items": [
+                            {
+                              "id": "Idc0a41bca-f460-4816-aaa3-a044a8ecde15",
+                              "compType": "formItem",
+                              "itemType": "radio",
+                              "fieldName": "field_3a851d",
+                              "preps": {
+                                "id": "Idc0a41bca-f460-4816-aaa3-a044a8ecde15",
+                                "label": "年龄段",
+                                "name": "field_3a851d",
+                                "itemNameLabel": "年龄段",
+                                "formVisible": true,
+                                "listVisible": true,
+                                "viewVisible": true,
+                                "searchVisible": false,
+                                "required": false,
+                                "disabled": false,
+                                "clearable": true,
+                                "readonly": false,
+                                "maxLength": 255,
+                                "placeholder": "请输入年龄段",
+                                "dataSource": "data",
+                                "values": [
+                                  {
+                                    "name": "18-25岁",
+                                    "value": "1"
+                                  },
+                                  {
+                                    "name": "26-35岁",
+                                    "value": "2"
+                                  },
+                                  {
+                                    "name": "36-45岁",
+                                    "value": "3"
+                                  },
+                                  {
+                                    "name": "46-55岁",
+                                    "value": "4"
+                                  },
+                                  {
+                                    "name": "55岁以上",
+                                    "value": "5"
+                                  }
+                                ],
+                                "rules": [],
+                                "helpMsg": ""
+                              }
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              },
+              {
+                "id": "Iddb572fa2-875d-432f-8c85-10d16d824e6d",
+                "compType": "container",
+                "itemType": "box",
+                "fieldName": "field_3466b2",
+                "rowNums": 1,
+                "columnNums": 2,
+                "preps": {
+                  "id": "Iddb572fa2-875d-432f-8c85-10d16d824e6d",
+                  "label": "Grid Layout",
+                  "name": "field_3466b2",
+                  "itemNameLabel": "Grid Layout",
+                  "elements": [
+                    {
+                      "id": "row-1ca117dd-4686-4eb5-9fdc-7445e7b5fadf",
+                      "rowIndex": 1,
+                      "columns": [
+                        {
+                          "id": "col-c33f5d7d-8599-4dd8-a95b-ff87d5da754d",
+                          "cellVisible": true,
+                          "colIndex": 1,
+                          "colspan": 12,
+                          "items": [
+                            {
+                              "id": "Id6a9f24bc-117c-4bb5-9600-6035aa1e0258",
+                              "compType": "formItem",
+                              "itemType": "radio",
+                              "fieldName": "field_7fd3c5",
+                              "preps": {
+                                "id": "Id6a9f24bc-117c-4bb5-9600-6035aa1e0258",
+                                "label": "驾龄",
+                                "name": "field_7fd3c5",
+                                "itemNameLabel": "驾龄",
+                                "formVisible": true,
+                                "listVisible": true,
+                                "viewVisible": true,
+                                "searchVisible": false,
+                                "required": false,
+                                "disabled": false,
+                                "clearable": true,
+                                "readonly": false,
+                                "maxLength": 255,
+                                "placeholder": "请输入驾龄",
+                                "dataSource": "data",
+                                "values": [
+                                  {
+                                    "name": "1年以下",
+                                    "value": "1"
+                                  },
+                                  {
+                                    "name": "1-3年",
+                                    "value": "2"
+                                  },
+                                  {
+                                    "name": "3-5年",
+                                    "value": "3"
+                                  },
+                                  {
+                                    "name": "5-10年",
+                                    "value": "4"
+                                  },
+                                  {
+                                    "name": "10年以上",
+                                    "value": "5"
+                                  }
+                                ],
+                                "rules": [],
+                                "helpMsg": ""
+                              }
+                            }
+                          ]
+                        },
+                        {
+                          "id": "col-ac6f5434-e03d-4851-b061-9b7700a752a2",
+                          "cellVisible": true,
+                          "colIndex": 1,
+                          "colspan": 12,
+                          "items": [
+                            {
+                              "id": "Id931c2de9-a205-487b-9ab4-879854d663d7",
+                              "compType": "formItem",
+                              "itemType": "input",
+                              "fieldName": "field_85068b",
+                              "preps": {
+                                "id": "Id931c2de9-a205-487b-9ab4-879854d663d7",
+                                "label": "持有驾照类型",
+                                "name": "field_85068b",
+                                "itemNameLabel": "持有驾照类型",
+                                "formVisible": true,
+                                "listVisible": true,
+                                "viewVisible": true,
+                                "searchVisible": false,
+                                "required": false,
+                                "disabled": false,
+                                "clearable": true,
+                                "readonly": false,
+                                "maxLength": 255,
+                                "placeholder": "如C1/C2/A1等",
+                                "dataSource": "",
+                                "values": [],
+                                "rules": [],
+                                "helpMsg": ""
+                              }
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              },
+              {
+                "id": "Id0d306a5d-9557-4772-9087-32ae2723fa3f",
+                "compType": "container",
+                "itemType": "box",
+                "fieldName": "field_13a137",
+                "rowNums": 1,
+                "columnNums": 2,
+                "preps": {
+                  "id": "Id0d306a5d-9557-4772-9087-32ae2723fa3f",
+                  "label": "Grid Layout",
+                  "name": "field_13a137",
+                  "itemNameLabel": "Grid Layout",
+                  "elements": [
+                    {
+                      "id": "row-29a21b95-1a19-4102-ae15-2919010f009c",
+                      "rowIndex": 1,
+                      "columns": [
+                        {
+                          "id": "col-ec7a49e7-bec3-4ca6-b926-2430487f6bf9",
+                          "cellVisible": true,
+                          "colIndex": 1,
+                          "colspan": 12,
+                          "items": [
+                            {
+                              "id": "Idfdc6c00a-4c98-4434-aaa3-62989cb8d24b",
+                              "compType": "formItem",
+                              "itemType": "radio",
+                              "fieldName": "field_8a6c0f",
+                              "preps": {
+                                "id": "Idfdc6c00a-4c98-4434-aaa3-62989cb8d24b",
+                                "label": "所在城市级别",
+                                "name": "field_8a6c0f",
+                                "itemNameLabel": "所在城市级别",
+                                "formVisible": true,
+                                "listVisible": true,
+                                "viewVisible": true,
+                                "searchVisible": false,
+                                "required": false,
+                                "disabled": false,
+                                "clearable": true,
+                                "readonly": false,
+                                "maxLength": 255,
+                                "placeholder": "请输入所在城市级别",
+                                "dataSource": "data",
+                                "values": [
+                                  {
+                                    "name": "一线城市",
+                                    "value": "1"
+                                  },
+                                  {
+                                    "name": "新一线",
+                                    "value": "2"
+                                  },
+                                  {
+                                    "name": "二线城市",
+                                    "value": "3"
+                                  },
+                                  {
+                                    "name": "三线城市",
+                                    "value": "4"
+                                  },
+                                  {
+                                    "name": "四线及以下",
+                                    "value": "5"
+                                  }
+                                ],
+                                "rules": [],
+                                "helpMsg": ""
+                              }
+                            }
+                          ]
+                        },
+                        {
+                          "id": "col-128d70a6-8d6e-44ee-b579-02f2e4d54d24",
+                          "cellVisible": true,
+                          "colIndex": 1,
+                          "colspan": 12,
+                          "items": [
+                            {
+                              "id": "Id90e22e8d-cec5-4671-a8b8-d5dbdd730e05",
+                              "compType": "formItem",
+                              "itemType": "radio",
+                              "fieldName": "field_dda31a",
+                              "preps": {
+                                "id": "Id90e22e8d-cec5-4671-a8b8-d5dbdd730e05",
+                                "label": "婚姻状况",
+                                "name": "field_dda31a",
+                                "itemNameLabel": "婚姻状况",
+                                "formVisible": true,
+                                "listVisible": true,
+                                "viewVisible": true,
+                                "searchVisible": false,
+                                "required": false,
+                                "disabled": false,
+                                "clearable": true,
+                                "readonly": false,
+                                "maxLength": 255,
+                                "placeholder": "请输入婚姻状况",
+                                "dataSource": "data",
+                                "values": [
+                                  {
+                                    "name": "未婚",
+                                    "value": "1"
+                                  },
+                                  {
+                                    "name": "已婚",
+                                    "value": "2"
+                                  },
+                                  {
+                                    "name": "离异",
+                                    "value": "3"
+                                  }
+                                ],
+                                "rules": [],
+                                "helpMsg": ""
+                              }
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              },
+              {
+                "id": "Id5f449840-cc2b-4d67-9196-9a73fc7267d7",
+                "compType": "formItem",
+                "itemType": "input",
+                "fieldName": "field_88859d",
+                "preps": {
+                  "id": "Id5f449840-cc2b-4d67-9196-9a73fc7267d7",
+                  "label": "职业",
+                  "name": "field_88859d",
+                  "itemNameLabel": "职业",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入职业",
+                  "dataSource": "",
+                  "values": [],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "Id09e9ea43-1027-49a5-8ab6-76744bee1acd",
+      "compType": "container",
+      "itemType": "card",
+      "fieldName": "field_6f0446",
+      "preps": {
+        "id": "Id09e9ea43-1027-49a5-8ab6-76744bee1acd",
+        "label": "车辆信息",
+        "name": "field_6f0446",
+        "itemNameLabel": "车辆信息",
+        "headerFieldList": [],
+        "elements": [
+          {
+            "label": "车辆信息",
+            "tabName": "车辆信息",
+            "objectName": "车辆信息",
+            "subFormFlag": "Y",
+            "items": [
+              {
+                "id": "Idc3c8df46-8f79-433b-b841-93793ec9f345",
+                "compType": "container",
+                "itemType": "box",
+                "fieldName": "field_341d1a",
+                "rowNums": 1,
+                "columnNums": 2,
+                "preps": {
+                  "id": "Idc3c8df46-8f79-433b-b841-93793ec9f345",
+                  "label": "Grid Layout",
+                  "name": "field_341d1a",
+                  "itemNameLabel": "Grid Layout",
+                  "elements": [
+                    {
+                      "id": "row-50186c62-d664-40b5-af2c-8d8576a8cf71",
+                      "rowIndex": 1,
+                      "columns": [
+                        {
+                          "id": "col-458531be-89e3-452e-b76a-c1a15291b850",
+                          "cellVisible": true,
+                          "colIndex": 1,
+                          "colspan": 12,
+                          "items": [
+                            [
+                              {
+                                "id": "Ida0676333-b731-4f56-b565-b54eabb055d8",
+                                "compType": "formItem",
+                                "itemType": "radio",
+                                "fieldName": "field_23cb9e",
+                                "preps": {
+                                  "id": "Ida0676333-b731-4f56-b565-b54eabb055d8",
+                                  "label": "车辆类型",
+                                  "name": "field_23cb9e",
+                                  "itemNameLabel": "车辆类型",
+                                  "formVisible": true,
+                                  "listVisible": true,
+                                  "viewVisible": true,
+                                  "searchVisible": false,
+                                  "required": false,
+                                  "disabled": false,
+                                  "clearable": true,
+                                  "readonly": false,
+                                  "maxLength": 255,
+                                  "placeholder": "请输入车辆类型",
+                                  "dataSource": "data",
+                                  "values": [
+                                    {
+                                      "name": "轿车",
+                                      "value": "1"
+                                    },
+                                    {
+                                      "name": "SUV",
+                                      "value": "2"
+                                    },
+                                    {
+                                      "name": "MPV",
+                                      "value": "3"
+                                    },
+                                    {
+                                      "name": "新能源",
+                                      "value": "4"
+                                    },
+                                    {
+                                      "name": "混合动力",
+                                      "value": "5"
+                                    },
+                                    {
+                                      "name": "皮卡",
+                                      "value": "6"
+                                    },
+                                    {
+                                      "name": "其他",
+                                      "value": "7"
+                                    }
+                                  ],
+                                  "rules": [],
+                                  "helpMsg": ""
+                                }
+                              },
+                              {
+                                "id": "Id5d6b5197-aaa6-42fa-8d03-110cedae9b11",
+                                "compType": "formItem",
+                                "itemType": "input",
+                                "fieldName": "field_9984ec",
+                                "preps": {
+                                  "id": "Id5d6b5197-aaa6-42fa-8d03-110cedae9b11",
+                                  "label": "车辆类型(其他请说明)",
+                                  "name": "field_9984ec",
+                                  "itemNameLabel": "车辆类型(其他请说明)",
+                                  "formVisible": false,
+                                  "listVisible": true,
+                                  "viewVisible": true,
+                                  "searchVisible": false,
+                                  "required": false,
+                                  "disabled": false,
+                                  "clearable": true,
+                                  "readonly": false,
+                                  "maxLength": 255,
+                                  "placeholder": "请填写具体说明",
+                                  "dataSource": "",
+                                  "values": [],
+                                  "rules": [],
+                                  "helpMsg": ""
+                                }
+                              }
+                            ]
+                          ]
+                        },
+                        {
+                          "id": "col-66f0e72e-16d5-4eca-b837-372daf07dd6a",
+                          "cellVisible": true,
+                          "colIndex": 1,
+                          "colspan": 12,
+                          "items": [
+                            [
+                              {
+                                "id": "Id46d38417-3804-4859-b270-562cac57acbe",
+                                "compType": "formItem",
+                                "itemType": "radio",
+                                "fieldName": "field_fc6b75",
+                                "preps": {
+                                  "id": "Id46d38417-3804-4859-b270-562cac57acbe",
+                                  "label": "车辆品牌",
+                                  "name": "field_fc6b75",
+                                  "itemNameLabel": "车辆品牌",
+                                  "formVisible": true,
+                                  "listVisible": true,
+                                  "viewVisible": true,
+                                  "searchVisible": false,
+                                  "required": false,
+                                  "disabled": false,
+                                  "clearable": true,
+                                  "readonly": false,
+                                  "maxLength": 255,
+                                  "placeholder": "请输入车辆品牌",
+                                  "dataSource": "data",
+                                  "values": [
+                                    {
+                                      "name": "丰田",
+                                      "value": "1"
+                                    },
+                                    {
+                                      "name": "本田",
+                                      "value": "2"
+                                    },
+                                    {
+                                      "name": "大众",
+                                      "value": "3"
+                                    },
+                                    {
+                                      "name": "宝马",
+                                      "value": "4"
+                                    },
+                                    {
+                                      "name": "奔驰",
+                                      "value": "5"
+                                    },
+                                    {
+                                      "name": "比亚迪",
+                                      "value": "6"
+                                    },
+                                    {
+                                      "name": "特斯拉",
+                                      "value": "7"
+                                    },
+                                    {
+                                      "name": "蔚来",
+                                      "value": "8"
+                                    },
+                                    {
+                                      "name": "理想",
+                                      "value": "9"
+                                    },
+                                    {
+                                      "name": "小鹏",
+                                      "value": "10"
+                                    },
+                                    {
+                                      "name": "其他",
+                                      "value": "11"
+                                    }
+                                  ],
+                                  "rules": [],
+                                  "helpMsg": ""
+                                }
+                              },
+                              {
+                                "id": "Idcbe24632-3ab8-4888-8aa6-d2b2329a0d89",
+                                "compType": "formItem",
+                                "itemType": "input",
+                                "fieldName": "field_98c73e",
+                                "preps": {
+                                  "id": "Idcbe24632-3ab8-4888-8aa6-d2b2329a0d89",
+                                  "label": "车辆品牌(其他请说明)",
+                                  "name": "field_98c73e",
+                                  "itemNameLabel": "车辆品牌(其他请说明)",
+                                  "formVisible": false,
+                                  "listVisible": true,
+                                  "viewVisible": true,
+                                  "searchVisible": false,
+                                  "required": false,
+                                  "disabled": false,
+                                  "clearable": true,
+                                  "readonly": false,
+                                  "maxLength": 255,
+                                  "placeholder": "请填写具体说明",
+                                  "dataSource": "",
+                                  "values": [],
+                                  "rules": [],
+                                  "helpMsg": ""
+                                }
+                              }
+                            ]
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              },
+              {
+                "id": "Id72b5b12a-d34e-430d-b395-a6a8c4fd5071",
+                "compType": "container",
+                "itemType": "box",
+                "fieldName": "field_d48438",
+                "rowNums": 1,
+                "columnNums": 2,
+                "preps": {
+                  "id": "Id72b5b12a-d34e-430d-b395-a6a8c4fd5071",
+                  "label": "Grid Layout",
+                  "name": "field_d48438",
+                  "itemNameLabel": "Grid Layout",
+                  "elements": [
+                    {
+                      "id": "row-5eb67862-76a6-4381-8154-d7e39c2d2a44",
+                      "rowIndex": 1,
+                      "columns": [
+                        {
+                          "id": "col-c5eec791-4746-4be6-839d-2865a287a20f",
+                          "cellVisible": true,
+                          "colIndex": 1,
+                          "colspan": 12,
+                          "items": [
+                            {
+                              "id": "Idf3b36359-7f08-4a64-af22-ccbd85db80ea",
+                              "compType": "formItem",
+                              "itemType": "radio",
+                              "fieldName": "field_309f39",
+                              "preps": {
+                                "id": "Idf3b36359-7f08-4a64-af22-ccbd85db80ea",
+                                "label": "购车年份",
+                                "name": "field_309f39",
+                                "itemNameLabel": "购车年份",
+                                "formVisible": true,
+                                "listVisible": true,
+                                "viewVisible": true,
+                                "searchVisible": false,
+                                "required": false,
+                                "disabled": false,
+                                "clearable": true,
+                                "readonly": false,
+                                "maxLength": 255,
+                                "placeholder": "请输入购车年份",
+                                "dataSource": "data",
+                                "values": [
+                                  {
+                                    "name": "2024年",
+                                    "value": "1"
+                                  },
+                                  {
+                                    "name": "2023年",
+                                    "value": "2"
+                                  },
+                                  {
+                                    "name": "2022年",
+                                    "value": "3"
+                                  },
+                                  {
+                                    "name": "2021年",
+                                    "value": "4"
+                                  },
+                                  {
+                                    "name": "2020年及以前",
+                                    "value": "5"
+                                  }
+                                ],
+                                "rules": [],
+                                "helpMsg": ""
+                              }
+                            }
+                          ]
+                        },
+                        {
+                          "id": "col-ac713c02-8b25-4e03-8bee-9d7ceb8a60f6",
+                          "cellVisible": true,
+                          "colIndex": 1,
+                          "colspan": 12,
+                          "items": [
+                            {
+                              "id": "Id3fd38df3-be3e-4d74-b031-83823aa77d6a",
+                              "compType": "formItem",
+                              "itemType": "radio",
+                              "fieldName": "field_658e78",
+                              "preps": {
+                                "id": "Id3fd38df3-be3e-4d74-b031-83823aa77d6a",
+                                "label": "购车价格区间",
+                                "name": "field_658e78",
+                                "itemNameLabel": "购车价格区间",
+                                "formVisible": true,
+                                "listVisible": true,
+                                "viewVisible": true,
+                                "searchVisible": false,
+                                "required": false,
+                                "disabled": false,
+                                "clearable": true,
+                                "readonly": false,
+                                "maxLength": 255,
+                                "placeholder": "请输入购车价格区间",
+                                "dataSource": "data",
+                                "values": [
+                                  {
+                                    "name": "10万以下",
+                                    "value": "1"
+                                  },
+                                  {
+                                    "name": "10-20万",
+                                    "value": "2"
+                                  },
+                                  {
+                                    "name": "20-30万",
+                                    "value": "3"
+                                  },
+                                  {
+                                    "name": "30-50万",
+                                    "value": "4"
+                                  },
+                                  {
+                                    "name": "50万以上",
+                                    "value": "5"
+                                  }
+                                ],
+                                "rules": [],
+                                "helpMsg": ""
+                              }
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              },
+              {
+                "id": "Idcc0fca56-7c3a-4e47-b13d-b62b1fc1edbd",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_d23929",
+                "preps": {
+                  "id": "Idcc0fca56-7c3a-4e47-b13d-b62b1fc1edbd",
+                  "label": "购车方式",
+                  "name": "field_d23929",
+                  "itemNameLabel": "购车方式",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入购车方式",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "全款",
+                      "value": "1"
+                    },
+                    {
+                      "name": "贷款",
+                      "value": "2"
+                    },
+                    {
+                      "name": "租赁",
+                      "value": "3"
+                    },
+                    {
+                      "name": "公司配车",
+                      "value": "4"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Id5c7257c7-ffa2-4a28-8802-643794cec993",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_6fb618",
+                "preps": {
+                  "id": "Id5c7257c7-ffa2-4a28-8802-643794cec993",
+                  "label": "车辆颜色",
+                  "name": "field_6fb618",
+                  "itemNameLabel": "车辆颜色",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入车辆颜色",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "白色",
+                      "value": "1"
+                    },
+                    {
+                      "name": "黑色",
+                      "value": "2"
+                    },
+                    {
+                      "name": "银色/灰色",
+                      "value": "3"
+                    },
+                    {
+                      "name": "红色",
+                      "value": "4"
+                    },
+                    {
+                      "name": "蓝色",
+                      "value": "5"
+                    },
+                    {
+                      "name": "其他",
+                      "value": "6"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Idbfab30c5-96e3-427b-b3cf-7fc9078457f5",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_b1fbe6",
+                "preps": {
+                  "id": "Idbfab30c5-96e3-427b-b3cf-7fc9078457f5",
+                  "label": "是否为家中第一辆车",
+                  "name": "field_b1fbe6",
+                  "itemNameLabel": "是否为家中第一辆车",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入是否为家中第一辆车",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "是",
+                      "value": "1"
+                    },
+                    {
+                      "name": "否",
+                      "value": "2"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Id532ccc16-079f-47c2-be57-86dc93b75544",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_5170db",
+                "preps": {
+                  "id": "Id532ccc16-079f-47c2-be57-86dc93b75544",
+                  "label": "车辆主要用途",
+                  "name": "field_5170db",
+                  "itemNameLabel": "车辆主要用途",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入车辆主要用途",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "家用",
+                      "value": "1"
+                    },
+                    {
+                      "name": "商用",
+                      "value": "2"
+                    },
+                    {
+                      "name": "两者兼有",
+                      "value": "3"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "Ida7df33c9-b145-4ffc-939a-d9f67818fec5",
+      "compType": "container",
+      "itemType": "card",
+      "fieldName": "field_b587e9",
+      "preps": {
+        "id": "Ida7df33c9-b145-4ffc-939a-d9f67818fec5",
+        "label": "日常用车习惯",
+        "name": "field_b587e9",
+        "itemNameLabel": "日常用车习惯",
+        "headerFieldList": [],
+        "elements": [
+          {
+            "label": "日常用车习惯",
+            "tabName": "日常用车习惯",
+            "objectName": "日常用车习惯",
+            "subFormFlag": "Y",
+            "items": [
+              {
+                "id": "Id4cc039a9-37f0-4d0b-b5d2-c3d9a5a59e60",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_0e4fd8",
+                "preps": {
+                  "id": "Id4cc039a9-37f0-4d0b-b5d2-c3d9a5a59e60",
+                  "label": "每天用车主要目的",
+                  "name": "field_0e4fd8",
+                  "itemNameLabel": "每天用车主要目的",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": true,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入每天用车主要目的",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "上下班通勤",
+                      "value": "1"
+                    },
+                    {
+                      "name": "接送孩子",
+                      "value": "2"
+                    },
+                    {
+                      "name": "商务出行",
+                      "value": "3"
+                    },
+                    {
+                      "name": "购物出行",
+                      "value": "4"
+                    },
+                    {
+                      "name": "休闲旅游",
+                      "value": "5"
+                    },
+                    {
+                      "name": "其他",
+                      "value": "6"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Id108ee90c-95b9-4f0a-8e13-940727b2bebc",
+                "compType": "formItem",
+                "itemType": "input",
+                "fieldName": "field_4c390b",
+                "preps": {
+                  "id": "Id108ee90c-95b9-4f0a-8e13-940727b2bebc",
+                  "label": "每天用车主要目的(其他请说明)",
+                  "name": "field_4c390b",
+                  "itemNameLabel": "每天用车主要目的(其他请说明)",
+                  "formVisible": false,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请填写具体说明",
+                  "dataSource": "",
+                  "values": [],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Id404e6b1d-b99b-4739-8b63-ec1e2d32a0b0",
+                "compType": "container",
+                "itemType": "box",
+                "fieldName": "field_094db6",
+                "rowNums": 1,
+                "columnNums": 2,
+                "preps": {
+                  "id": "Id404e6b1d-b99b-4739-8b63-ec1e2d32a0b0",
+                  "label": "Grid Layout",
+                  "name": "field_094db6",
+                  "itemNameLabel": "Grid Layout",
+                  "elements": [
+                    {
+                      "id": "row-bb61d951-48f1-4265-955d-45591b3ca71a",
+                      "rowIndex": 1,
+                      "columns": [
+                        {
+                          "id": "col-dba336d8-3bc4-4222-89a5-9b763f3a7f15",
+                          "cellVisible": true,
+                          "colIndex": 1,
+                          "colspan": 12,
+                          "items": [
+                            {
+                              "id": "Idba910948-018b-41d6-b664-44cb111a8712",
+                              "compType": "formItem",
+                              "itemType": "radio",
+                              "fieldName": "field_f9d12f",
+                              "preps": {
+                                "id": "Idba910948-018b-41d6-b664-44cb111a8712",
+                                "label": "日均行驶里程",
+                                "name": "field_f9d12f",
+                                "itemNameLabel": "日均行驶里程",
+                                "formVisible": true,
+                                "listVisible": true,
+                                "viewVisible": true,
+                                "searchVisible": false,
+                                "required": false,
+                                "disabled": false,
+                                "clearable": true,
+                                "readonly": false,
+                                "maxLength": 255,
+                                "placeholder": "请输入日均行驶里程",
+                                "dataSource": "data",
+                                "values": [
+                                  {
+                                    "name": "10公里以内",
+                                    "value": "1"
+                                  },
+                                  {
+                                    "name": "10-30公里",
+                                    "value": "2"
+                                  },
+                                  {
+                                    "name": "30-50公里",
+                                    "value": "3"
+                                  },
+                                  {
+                                    "name": "50-100公里",
+                                    "value": "4"
+                                  },
+                                  {
+                                    "name": "100公里以上",
+                                    "value": "5"
+                                  }
+                                ],
+                                "rules": [],
+                                "helpMsg": ""
+                              }
+                            }
+                          ]
+                        },
+                        {
+                          "id": "col-9242a80e-b236-462c-aac9-d17f1c629be5",
+                          "cellVisible": true,
+                          "colIndex": 1,
+                          "colspan": 12,
+                          "items": [
+                            {
+                              "id": "Id9bdbecc4-f851-45b3-9f45-645045fd2bb2",
+                              "compType": "formItem",
+                              "itemType": "radio",
+                              "fieldName": "field_3670b8",
+                              "preps": {
+                                "id": "Id9bdbecc4-f851-45b3-9f45-645045fd2bb2",
+                                "label": "常用出行时段",
+                                "name": "field_3670b8",
+                                "itemNameLabel": "常用出行时段",
+                                "formVisible": true,
+                                "listVisible": true,
+                                "viewVisible": true,
+                                "searchVisible": false,
+                                "required": false,
+                                "disabled": false,
+                                "clearable": true,
+                                "readonly": false,
+                                "maxLength": 255,
+                                "placeholder": "请输入常用出行时段",
+                                "dataSource": "data",
+                                "values": [
+                                  {
+                                    "name": "早高峰(7-9点)",
+                                    "value": "1"
+                                  },
+                                  {
+                                    "name": "晚高峰(17-19点)",
+                                    "value": "2"
+                                  },
+                                  {
+                                    "name": "平峰时段",
+                                    "value": "3"
+                                  },
+                                  {
+                                    "name": "夜间",
+                                    "value": "4"
+                                  },
+                                  {
+                                    "name": "不固定",
+                                    "value": "5"
+                                  }
+                                ],
+                                "rules": [],
+                                "helpMsg": ""
+                              }
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              },
+              {
+                "id": "Idecfa9895-34d7-4ea2-96b8-0e519da32ff8",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_2f25c8",
+                "preps": {
+                  "id": "Idecfa9895-34d7-4ea2-96b8-0e519da32ff8",
+                  "label": "每周用车频率",
+                  "name": "field_2f25c8",
+                  "itemNameLabel": "每周用车频率",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入每周用车频率",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "每天",
+                      "value": "1"
+                    },
+                    {
+                      "name": "5-6天",
+                      "value": "2"
+                    },
+                    {
+                      "name": "3-4天",
+                      "value": "3"
+                    },
+                    {
+                      "name": "1-2天",
+                      "value": "4"
+                    },
+                    {
+                      "name": "偶尔",
+                      "value": "5"
+                    },
+                    {
+                      "name": "几乎不用",
+                      "value": "6"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Id60e73411-b25e-42f4-9e3f-1354a789a221",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_6ad9f7",
+                "preps": {
+                  "id": "Id60e73411-b25e-42f4-9e3f-1354a789a221",
+                  "label": "最常行驶路况",
+                  "name": "field_6ad9f7",
+                  "itemNameLabel": "最常行驶路况",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入最常行驶路况",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "城市道路",
+                      "value": "1"
+                    },
+                    {
+                      "name": "高速公路",
+                      "value": "2"
+                    },
+                    {
+                      "name": "乡村道路",
+                      "value": "3"
+                    },
+                    {
+                      "name": "其他",
+                      "value": "4"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Id692df696-d4fa-42fb-ad77-cdb7bf786edc",
+                "compType": "formItem",
+                "itemType": "input",
+                "fieldName": "field_74a154",
+                "preps": {
+                  "id": "Id692df696-d4fa-42fb-ad77-cdb7bf786edc",
+                  "label": "最常行驶路况(其他请说明)",
+                  "name": "field_74a154",
+                  "itemNameLabel": "最常行驶路况(其他请说明)",
+                  "formVisible": false,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请填写具体说明",
+                  "dataSource": "",
+                  "values": [],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Idc3cf63e2-75ef-46a5-850e-e04707718aeb",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_51dd29",
+                "preps": {
+                  "id": "Idc3cf63e2-75ef-46a5-850e-e04707718aeb",
+                  "label": "是否经常遇到堵车",
+                  "name": "field_51dd29",
+                  "itemNameLabel": "是否经常遇到堵车",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入是否经常遇到堵车",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "每天堵车",
+                      "value": "1"
+                    },
+                    {
+                      "name": "经常堵车",
+                      "value": "2"
+                    },
+                    {
+                      "name": "偶尔堵车",
+                      "value": "3"
+                    },
+                    {
+                      "name": "很少堵车",
+                      "value": "4"
+                    },
+                    {
+                      "name": "从不堵车",
+                      "value": "5"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Idba073be1-d2bc-453e-b827-08a81eb5481d",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_ab7072",
+                "preps": {
+                  "id": "Idba073be1-d2bc-453e-b827-08a81eb5481d",
+                  "label": "停车是否方便",
+                  "name": "field_ab7072",
+                  "itemNameLabel": "停车是否方便",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入停车是否方便",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "非常方便",
+                      "value": "1"
+                    },
+                    {
+                      "name": "方便",
+                      "value": "2"
+                    },
+                    {
+                      "name": "一般",
+                      "value": "3"
+                    },
+                    {
+                      "name": "不方便",
+                      "value": "4"
+                    },
+                    {
+                      "name": "非常不方便",
+                      "value": "5"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Id59290635-69c7-4c04-98a3-5696ea00a46f",
+                "compType": "formItem",
+                "itemType": "number",
+                "fieldName": "field_9fb28b",
+                "preps": {
+                  "id": "Id59290635-69c7-4c04-98a3-5696ea00a46f",
+                  "label": "月均油费/电费(元)",
+                  "name": "field_9fb28b",
+                  "itemNameLabel": "月均油费/电费(元)",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入月均油费/电费(元)",
+                  "dataSource": "",
+                  "values": [],
+                  "rules": [],
+                  "helpMsg": "",
+                  "min": 0,
+                  "precision": 0
+                }
+              },
+              {
+                "id": "Idc4363dbf-835c-4a98-b46f-fa3d46837d4c",
+                "compType": "formItem",
+                "itemType": "number",
+                "fieldName": "field_dc6bee",
+                "preps": {
+                  "id": "Idc4363dbf-835c-4a98-b46f-fa3d46837d4c",
+                  "label": "月均停车费(元)",
+                  "name": "field_dc6bee",
+                  "itemNameLabel": "月均停车费(元)",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入月均停车费(元)",
+                  "dataSource": "",
+                  "values": [],
+                  "rules": [],
+                  "helpMsg": "",
+                  "min": 0,
+                  "precision": 0
+                }
+              },
+              {
+                "id": "Id4ff31c5f-bfb7-4def-b282-8d75ee7dd782",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_d84c41",
+                "preps": {
+                  "id": "Id4ff31c5f-bfb7-4def-b282-8d75ee7dd782",
+                  "label": "是否有拼车/顺风车习惯",
+                  "name": "field_d84c41",
+                  "itemNameLabel": "是否有拼车/顺风车习惯",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入是否有拼车/顺风车习惯",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "经常",
+                      "value": "1"
+                    },
+                    {
+                      "name": "偶尔",
+                      "value": "2"
+                    },
+                    {
+                      "name": "很少",
+                      "value": "3"
+                    },
+                    {
+                      "name": "从不",
+                      "value": "4"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Idbaab2ce3-aff9-4f59-bc3f-4cde855fdeeb",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_e66d06",
+                "preps": {
+                  "id": "Idbaab2ce3-aff9-4f59-bc3f-4cde855fdeeb",
+                  "label": "是否使用导航软件",
+                  "name": "field_e66d06",
+                  "itemNameLabel": "是否使用导航软件",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入是否使用导航软件",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "每次都用",
+                      "value": "1"
+                    },
+                    {
+                      "name": "经常用",
+                      "value": "2"
+                    },
+                    {
+                      "name": "偶尔用",
+                      "value": "3"
+                    },
+                    {
+                      "name": "不用",
+                      "value": "4"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "Id63cbe167-1879-4c45-a0ef-13e4d39d99ca",
+      "compType": "container",
+      "itemType": "card",
+      "fieldName": "field_7a648b",
+      "preps": {
+        "id": "Id63cbe167-1879-4c45-a0ef-13e4d39d99ca",
+        "label": "驾驶行为与安全",
+        "name": "field_7a648b",
+        "itemNameLabel": "驾驶行为与安全",
+        "headerFieldList": [],
+        "elements": [
+          {
+            "label": "驾驶行为与安全",
+            "tabName": "驾驶行为与安全",
+            "objectName": "驾驶行为与安全",
+            "subFormFlag": "Y",
+            "items": [
+              {
+                "id": "Id2321f462-a744-4850-8341-275053486758",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_e10035",
+                "preps": {
+                  "id": "Id2321f462-a744-4850-8341-275053486758",
+                  "label": "是否有过交通违章",
+                  "name": "field_e10035",
+                  "itemNameLabel": "是否有过交通违章",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入是否有过交通违章",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "多次",
+                      "value": "1"
+                    },
+                    {
+                      "name": "偶尔",
+                      "value": "2"
+                    },
+                    {
+                      "name": "从未",
+                      "value": "3"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Id960bfcd6-77fe-4bb8-b369-9ea0c463ee48",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_72dd4d",
+                "preps": {
+                  "id": "Id960bfcd6-77fe-4bb8-b369-9ea0c463ee48",
+                  "label": "最常见的违章类型",
+                  "name": "field_72dd4d",
+                  "itemNameLabel": "最常见的违章类型",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入最常见的违章类型",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "超速",
+                      "value": "1"
+                    },
+                    {
+                      "name": "违停",
+                      "value": "2"
+                    },
+                    {
+                      "name": "闯红灯",
+                      "value": "3"
+                    },
+                    {
+                      "name": "未系安全带",
+                      "value": "4"
+                    },
+                    {
+                      "name": "无",
+                      "value": "5"
+                    },
+                    {
+                      "name": "其他",
+                      "value": "6"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Iddb0ab381-5574-441e-9be3-63643bd218c9",
+                "compType": "formItem",
+                "itemType": "input",
+                "fieldName": "field_21e066",
+                "preps": {
+                  "id": "Iddb0ab381-5574-441e-9be3-63643bd218c9",
+                  "label": "最常见的违章类型(其他请说明)",
+                  "name": "field_21e066",
+                  "itemNameLabel": "最常见的违章类型(其他请说明)",
+                  "formVisible": false,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请填写具体说明",
+                  "dataSource": "",
+                  "values": [],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Idecf870ff-6d74-4919-b9ad-fdc080c28209",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_079fde",
+                "preps": {
+                  "id": "Idecf870ff-6d74-4919-b9ad-fdc080c28209",
+                  "label": "是否有过交通事故",
+                  "name": "field_079fde",
+                  "itemNameLabel": "是否有过交通事故",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入是否有过交通事故",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "多次",
+                      "value": "1"
+                    },
+                    {
+                      "name": "偶尔",
+                      "value": "2"
+                    },
+                    {
+                      "name": "从未",
+                      "value": "3"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Ida3b32d7e-20d9-448b-9479-962da068f607",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_a585c4",
+                "preps": {
+                  "id": "Ida3b32d7e-20d9-448b-9479-962da068f607",
+                  "label": "开车时是否使用手机",
+                  "name": "field_a585c4",
+                  "itemNameLabel": "开车时是否使用手机",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入开车时是否使用手机",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "经常",
+                      "value": "1"
+                    },
+                    {
+                      "name": "偶尔",
+                      "value": "2"
+                    },
+                    {
+                      "name": "很少",
+                      "value": "3"
+                    },
+                    {
+                      "name": "从不",
+                      "value": "4"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Idf88c6639-fc80-4381-b8ae-96f632d9b177",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_33d65f",
+                "preps": {
+                  "id": "Idf88c6639-fc80-4381-b8ae-96f632d9b177",
+                  "label": "是否系安全带",
+                  "name": "field_33d65f",
+                  "itemNameLabel": "是否系安全带",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入是否系安全带",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "每次都系",
+                      "value": "1"
+                    },
+                    {
+                      "name": "经常系",
+                      "value": "2"
+                    },
+                    {
+                      "name": "偶尔系",
+                      "value": "3"
+                    },
+                    {
+                      "name": "不系",
+                      "value": "4"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Id61a0395b-e589-42f8-bdd4-27b8ef093a11",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_8684d8",
+                "preps": {
+                  "id": "Id61a0395b-e589-42f8-bdd4-27b8ef093a11",
+                  "label": "是否有疲劳驾驶经历",
+                  "name": "field_8684d8",
+                  "itemNameLabel": "是否有疲劳驾驶经历",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入是否有疲劳驾驶经历",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "经常",
+                      "value": "1"
+                    },
+                    {
+                      "name": "偶尔",
+                      "value": "2"
+                    },
+                    {
+                      "name": "很少",
+                      "value": "3"
+                    },
+                    {
+                      "name": "从不",
+                      "value": "4"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Ida9f0baa1-4c91-450d-b956-dae6ba965e91",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_e8a015",
+                "preps": {
+                  "id": "Ida9f0baa1-4c91-450d-b956-dae6ba965e91",
+                  "label": "驾驶风格自评",
+                  "name": "field_e8a015",
+                  "itemNameLabel": "驾驶风格自评",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入驾驶风格自评",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "激进型",
+                      "value": "1"
+                    },
+                    {
+                      "name": "偏快型",
+                      "value": "2"
+                    },
+                    {
+                      "name": "稳重型",
+                      "value": "3"
+                    },
+                    {
+                      "name": "保守型",
+                      "value": "4"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Id48686770-ffcc-4c4a-a49c-d123e56991a4",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_2a7c3b",
+                "preps": {
+                  "id": "Id48686770-ffcc-4c4a-a49c-d123e56991a4",
+                  "label": "夜间驾驶频率",
+                  "name": "field_2a7c3b",
+                  "itemNameLabel": "夜间驾驶频率",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入夜间驾驶频率",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "经常",
+                      "value": "1"
+                    },
+                    {
+                      "name": "偶尔",
+                      "value": "2"
+                    },
+                    {
+                      "name": "很少",
+                      "value": "3"
+                    },
+                    {
+                      "name": "从不",
+                      "value": "4"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Id235bcca1-a876-495b-8495-d03ae9ff032b",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_0b8f3c",
+                "preps": {
+                  "id": "Id235bcca1-a876-495b-8495-d03ae9ff032b",
+                  "label": "高速公路驾驶频率",
+                  "name": "field_0b8f3c",
+                  "itemNameLabel": "高速公路驾驶频率",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入高速公路驾驶频率",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "经常",
+                      "value": "1"
+                    },
+                    {
+                      "name": "偶尔",
+                      "value": "2"
+                    },
+                    {
+                      "name": "很少",
+                      "value": "3"
+                    },
+                    {
+                      "name": "从不",
+                      "value": "4"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Idbfd93a74-0049-45e4-b484-43e6055c3aa8",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_5b4f50",
+                "preps": {
+                  "id": "Idbfd93a74-0049-45e4-b484-43e6055c3aa8",
+                  "label": "对自动驾驶辅助功能的使用",
+                  "name": "field_5b4f50",
+                  "itemNameLabel": "对自动驾驶辅助功能的使用",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入对自动驾驶辅助功能的使用",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "经常使用",
+                      "value": "1"
+                    },
+                    {
+                      "name": "偶尔使用",
+                      "value": "2"
+                    },
+                    {
+                      "name": "不使用",
+                      "value": "3"
+                    },
+                    {
+                      "name": "车辆没有此功能",
+                      "value": "4"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Ide3b822f1-af5d-458e-9055-b028e07853f2",
+                "compType": "formItem",
+                "itemType": "rate",
+                "fieldName": "field_771f11",
+                "preps": {
+                  "id": "Ide3b822f1-af5d-458e-9055-b028e07853f2",
+                  "label": "驾驶安全意识自评",
+                  "name": "field_771f11",
+                  "itemNameLabel": "驾驶安全意识自评",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入驾驶安全意识自评",
+                  "dataSource": "",
+                  "values": [],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "Id1c1b6cb6-026b-42b5-bf53-cd53b0959291",
+      "compType": "container",
+      "itemType": "card",
+      "fieldName": "field_7c8e27",
+      "preps": {
+        "id": "Id1c1b6cb6-026b-42b5-bf53-cd53b0959291",
+        "label": "保养与维护",
+        "name": "field_7c8e27",
+        "itemNameLabel": "保养与维护",
+        "headerFieldList": [],
+        "elements": [
+          {
+            "label": "保养与维护",
+            "tabName": "保养与维护",
+            "objectName": "保养与维护",
+            "subFormFlag": "Y",
+            "items": [
+              {
+                "id": "Id2fda8ad7-232d-4069-90b7-35ce2bb75d4b",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_d87d2b",
+                "preps": {
+                  "id": "Id2fda8ad7-232d-4069-90b7-35ce2bb75d4b",
+                  "label": "通常在哪里保养？",
+                  "name": "field_d87d2b",
+                  "itemNameLabel": "通常在哪里保养？",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入通常在哪里保养？",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "4S店",
+                      "value": "1"
+                    },
+                    {
+                      "name": "连锁维修店",
+                      "value": "2"
+                    },
+                    {
+                      "name": "路边修理店",
+                      "value": "3"
+                    },
+                    {
+                      "name": "自己保养",
+                      "value": "4"
+                    },
+                    {
+                      "name": "其他",
+                      "value": "5"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Idd439395a-d1cb-47ad-b8a3-b20da794e0b8",
+                "compType": "formItem",
+                "itemType": "input",
+                "fieldName": "field_dd91a1",
+                "preps": {
+                  "id": "Idd439395a-d1cb-47ad-b8a3-b20da794e0b8",
+                  "label": "通常在哪里保养？(其他请说明)",
+                  "name": "field_dd91a1",
+                  "itemNameLabel": "通常在哪里保养？(其他请说明)",
+                  "formVisible": false,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请填写具体说明",
+                  "dataSource": "",
+                  "values": [],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Id1e5bff3b-92aa-43ed-ad11-b2b6d87b97ff",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_54b5b2",
+                "preps": {
+                  "id": "Id1e5bff3b-92aa-43ed-ad11-b2b6d87b97ff",
+                  "label": "保养频率",
+                  "name": "field_54b5b2",
+                  "itemNameLabel": "保养频率",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入保养频率",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "每5000公里",
+                      "value": "1"
+                    },
+                    {
+                      "name": "每10000公里",
+                      "value": "2"
+                    },
+                    {
+                      "name": "每半年",
+                      "value": "3"
+                    },
+                    {
+                      "name": "每年",
+                      "value": "4"
+                    },
+                    {
+                      "name": "不规律",
+                      "value": "5"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Id0f5b6c57-8196-4b25-8467-5033e93544c4",
+                "compType": "formItem",
+                "itemType": "number",
+                "fieldName": "field_ca9f4f",
+                "preps": {
+                  "id": "Id0f5b6c57-8196-4b25-8467-5033e93544c4",
+                  "label": "年均车辆维护费用(元)",
+                  "name": "field_ca9f4f",
+                  "itemNameLabel": "年均车辆维护费用(元)",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入年均车辆维护费用(元)",
+                  "dataSource": "",
+                  "values": [],
+                  "rules": [],
+                  "helpMsg": "",
+                  "min": 0,
+                  "precision": 0
+                }
+              },
+              {
+                "id": "Id51173ef1-2081-47fa-9f60-d8d17e10e288",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_944156",
+                "preps": {
+                  "id": "Id51173ef1-2081-47fa-9f60-d8d17e10e288",
+                  "label": "是否购买全险？",
+                  "name": "field_944156",
+                  "itemNameLabel": "是否购买全险？",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入是否购买全险？",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "是",
+                      "value": "1"
+                    },
+                    {
+                      "name": "否",
+                      "value": "2"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Id6ea7fe65-33b7-41e6-89d9-f99b61733146",
+                "compType": "formItem",
+                "itemType": "number",
+                "fieldName": "field_7139d7",
+                "preps": {
+                  "id": "Id6ea7fe65-33b7-41e6-89d9-f99b61733146",
+                  "label": "年保险费用(元)",
+                  "name": "field_7139d7",
+                  "itemNameLabel": "年保险费用(元)",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入年保险费用(元)",
+                  "dataSource": "",
+                  "values": [],
+                  "rules": [],
+                  "helpMsg": "",
+                  "min": 0,
+                  "precision": 0
+                }
+              },
+              {
+                "id": "Idc4f40273-e7b9-4ad1-be66-f54e367eb915",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_55c6b3",
+                "preps": {
+                  "id": "Idc4f40273-e7b9-4ad1-be66-f54e367eb915",
+                  "label": "车辆清洗频率",
+                  "name": "field_55c6b3",
+                  "itemNameLabel": "车辆清洗频率",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入车辆清洗频率",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "每周",
+                      "value": "1"
+                    },
+                    {
+                      "name": "每两周",
+                      "value": "2"
+                    },
+                    {
+                      "name": "每月",
+                      "value": "3"
+                    },
+                    {
+                      "name": "脏了才洗",
+                      "value": "4"
+                    },
+                    {
+                      "name": "几乎不洗",
+                      "value": "5"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Id27d55773-3809-442c-9e90-beaf0a7f8dfa",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_1a5e7f",
+                "preps": {
+                  "id": "Id27d55773-3809-442c-9e90-beaf0a7f8dfa",
+                  "label": "是否定期检查轮胎",
+                  "name": "field_1a5e7f",
+                  "itemNameLabel": "是否定期检查轮胎",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入是否定期检查轮胎",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "是",
+                      "value": "1"
+                    },
+                    {
+                      "name": "否",
+                      "value": "2"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Id4cfba347-62cb-4ac2-8410-923852b487ab",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_4d6def",
+                "preps": {
+                  "id": "Id4cfba347-62cb-4ac2-8410-923852b487ab",
+                  "label": "是否自己会换轮胎",
+                  "name": "field_4d6def",
+                  "itemNameLabel": "是否自己会换轮胎",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入是否自己会换轮胎",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "是",
+                      "value": "1"
+                    },
+                    {
+                      "name": "否",
+                      "value": "2"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "Id5bad8a41-cb6f-407b-acf5-789b0378f03a",
+      "compType": "container",
+      "itemType": "card",
+      "fieldName": "field_6232ae",
+      "preps": {
+        "id": "Id5bad8a41-cb6f-407b-acf5-789b0378f03a",
+        "label": "用车满意度与未来规划",
+        "name": "field_6232ae",
+        "itemNameLabel": "用车满意度与未来规划",
+        "headerFieldList": [],
+        "elements": [
+          {
+            "label": "用车满意度与未来规划",
+            "tabName": "用车满意度与未来规划",
+            "objectName": "用车满意度与未来规划",
+            "subFormFlag": "Y",
+            "items": [
+              {
+                "id": "Idd8543287-88c0-4ad6-9c56-ba64f7302b7b",
+                "compType": "formItem",
+                "itemType": "rate",
+                "fieldName": "field_067dbb",
+                "preps": {
+                  "id": "Idd8543287-88c0-4ad6-9c56-ba64f7302b7b",
+                  "label": "对当前车辆的整体满意度",
+                  "name": "field_067dbb",
+                  "itemNameLabel": "对当前车辆的整体满意度",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入对当前车辆的整体满意度",
+                  "dataSource": "",
+                  "values": [],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Id1036d6bc-bfc9-4806-89a3-d005506876c6",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_f5acf7",
+                "preps": {
+                  "id": "Id1036d6bc-bfc9-4806-89a3-d005506876c6",
+                  "label": "对车辆油耗/电耗满意度",
+                  "name": "field_f5acf7",
+                  "itemNameLabel": "对车辆油耗/电耗满意度",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入对车辆油耗/电耗满意度",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "非常满意",
+                      "value": "1"
+                    },
+                    {
+                      "name": "满意",
+                      "value": "2"
+                    },
+                    {
+                      "name": "一般",
+                      "value": "3"
+                    },
+                    {
+                      "name": "不满意",
+                      "value": "4"
+                    },
+                    {
+                      "name": "非常不满意",
+                      "value": "5"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Id3b7f8865-b46c-4404-b197-d9002b909842",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_d59ee2",
+                "preps": {
+                  "id": "Id3b7f8865-b46c-4404-b197-d9002b909842",
+                  "label": "对车辆舒适性满意度",
+                  "name": "field_d59ee2",
+                  "itemNameLabel": "对车辆舒适性满意度",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入对车辆舒适性满意度",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "非常满意",
+                      "value": "1"
+                    },
+                    {
+                      "name": "满意",
+                      "value": "2"
+                    },
+                    {
+                      "name": "一般",
+                      "value": "3"
+                    },
+                    {
+                      "name": "不满意",
+                      "value": "4"
+                    },
+                    {
+                      "name": "非常不满意",
+                      "value": "5"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Id600d07f1-ba27-48b7-a3a3-be3f832c4103",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_dcef49",
+                "preps": {
+                  "id": "Id600d07f1-ba27-48b7-a3a3-be3f832c4103",
+                  "label": "对车辆安全性能满意度",
+                  "name": "field_dcef49",
+                  "itemNameLabel": "对车辆安全性能满意度",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入对车辆安全性能满意度",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "非常满意",
+                      "value": "1"
+                    },
+                    {
+                      "name": "满意",
+                      "value": "2"
+                    },
+                    {
+                      "name": "一般",
+                      "value": "3"
+                    },
+                    {
+                      "name": "不满意",
+                      "value": "4"
+                    },
+                    {
+                      "name": "非常不满意",
+                      "value": "5"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Ide81dbfa2-03c2-4b8f-94ad-31363b345b72",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_d1a7a7",
+                "preps": {
+                  "id": "Ide81dbfa2-03c2-4b8f-94ad-31363b345b72",
+                  "label": "对车辆外观满意度",
+                  "name": "field_d1a7a7",
+                  "itemNameLabel": "对车辆外观满意度",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入对车辆外观满意度",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "非常满意",
+                      "value": "1"
+                    },
+                    {
+                      "name": "满意",
+                      "value": "2"
+                    },
+                    {
+                      "name": "一般",
+                      "value": "3"
+                    },
+                    {
+                      "name": "不满意",
+                      "value": "4"
+                    },
+                    {
+                      "name": "非常不满意",
+                      "value": "5"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Id475b0132-6579-45e2-8c07-7a0eb8ae0163",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_984ad3",
+                "preps": {
+                  "id": "Id475b0132-6579-45e2-8c07-7a0eb8ae0163",
+                  "label": "对售后服务满意度",
+                  "name": "field_984ad3",
+                  "itemNameLabel": "对售后服务满意度",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入对售后服务满意度",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "非常满意",
+                      "value": "1"
+                    },
+                    {
+                      "name": "满意",
+                      "value": "2"
+                    },
+                    {
+                      "name": "一般",
+                      "value": "3"
+                    },
+                    {
+                      "name": "不满意",
+                      "value": "4"
+                    },
+                    {
+                      "name": "非常不满意",
+                      "value": "5"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Idebe6ffdc-878c-4e1d-bb5e-c0a83833e09b",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_4a85e1",
+                "preps": {
+                  "id": "Idebe6ffdc-878c-4e1d-bb5e-c0a83833e09b",
+                  "label": "下次购车是否考虑新能源",
+                  "name": "field_4a85e1",
+                  "itemNameLabel": "下次购车是否考虑新能源",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入下次购车是否考虑新能源",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "是",
+                      "value": "1"
+                    },
+                    {
+                      "name": "否",
+                      "value": "2"
+                    },
+                    {
+                      "name": "不确定",
+                      "value": "3"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Ida547d747-f7bd-4418-ab10-101e07b3cbf8",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_2b45b5",
+                "preps": {
+                  "id": "Ida547d747-f7bd-4418-ab10-101e07b3cbf8",
+                  "label": "预计多久换车",
+                  "name": "field_2b45b5",
+                  "itemNameLabel": "预计多久换车",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入预计多久换车",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "1年内",
+                      "value": "1"
+                    },
+                    {
+                      "name": "1-3年",
+                      "value": "2"
+                    },
+                    {
+                      "name": "3-5年",
+                      "value": "3"
+                    },
+                    {
+                      "name": "5年以上",
+                      "value": "4"
+                    },
+                    {
+                      "name": "没有换车计划",
+                      "value": "5"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Id8d6e811e-abfe-4ce2-8131-a672aafa45d7",
+                "compType": "formItem",
+                "itemType": "checkbox",
+                "fieldName": "field_15656e",
+                "preps": {
+                  "id": "Id8d6e811e-abfe-4ce2-8131-a672aafa45d7",
+                  "label": "您最看重车辆的哪些方面(多选)",
+                  "name": "field_15656e",
+                  "itemNameLabel": "您最看重车辆的哪些方面(多选)",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入您最看重车辆的哪些方面(多选)",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "油耗/电耗",
+                      "value": "1"
+                    },
+                    {
+                      "name": "安全性能",
+                      "value": "2"
+                    },
+                    {
+                      "name": "舒适空间",
+                      "value": "3"
+                    },
+                    {
+                      "name": "外观设计",
+                      "value": "4"
+                    },
+                    {
+                      "name": "品牌口碑",
+                      "value": "5"
+                    },
+                    {
+                      "name": "智能配置",
+                      "value": "6"
+                    },
+                    {
+                      "name": "售后服务",
+                      "value": "7"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Idec120145-1ff0-43cf-a36e-fdd49b335e09",
+                "compType": "formItem",
+                "itemType": "textarea",
+                "fieldName": "field_0b6a8c",
+                "preps": {
+                  "id": "Idec120145-1ff0-43cf-a36e-fdd49b335e09",
+                  "label": "用车体验中最满意的一点",
+                  "name": "field_0b6a8c",
+                  "itemNameLabel": "用车体验中最满意的一点",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 1000,
+                  "placeholder": "请详细描述您的想法",
+                  "dataSource": "",
+                  "values": [],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Id43005eb6-a867-480a-83bd-2b9c6355a2ff",
+                "compType": "formItem",
+                "itemType": "textarea",
+                "fieldName": "field_7a7949",
+                "preps": {
+                  "id": "Id43005eb6-a867-480a-83bd-2b9c6355a2ff",
+                  "label": "用车体验中最不满意的一点",
+                  "name": "field_7a7949",
+                  "itemNameLabel": "用车体验中最不满意的一点",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 1000,
+                  "placeholder": "请详细描述您的想法",
+                  "dataSource": "",
+                  "values": [],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "exportTime": "2026-06-16T10:51:24.803Z",
+  "version": "1.0"
+}

@@ -5,14 +5,14 @@
   },
   "dataList": [
     {
-      "id": "Id423466b2-a066-48ed-bc57-fb341e8ec1a5",
+      "id": "Id49e31615-4be0-41f8-9730-866748d8d26a",
       "compType": "container",
       "itemType": "tab",
-      "fieldName": "field_298bbf",
+      "fieldName": "field_979fdf",
       "preps": {
-        "id": "Id423466b2-a066-48ed-bc57-fb341e8ec1a5",
+        "id": "Id49e31615-4be0-41f8-9730-866748d8d26a",
         "label": "Tab",
-        "name": "field_298bbf",
+        "name": "field_979fdf",
         "itemNameLabel": "Tab",
         "elements": [
           {
@@ -22,37 +22,37 @@
             "subFormFlag": "Y",
             "items": [
               {
-                "id": "Id7df46a46-ed75-40df-b115-2cec6ca86337",
+                "id": "Idb4613cc0-0a53-449e-9f92-72a9ef71d367",
                 "compType": "container",
                 "itemType": "box",
-                "fieldName": "field_af9d87",
+                "fieldName": "field_a46110",
                 "rowNums": 1,
                 "columnNums": 2,
                 "preps": {
-                  "id": "Id7df46a46-ed75-40df-b115-2cec6ca86337",
+                  "id": "Idb4613cc0-0a53-449e-9f92-72a9ef71d367",
                   "label": "Grid Layout",
-                  "name": "field_af9d87",
+                  "name": "field_a46110",
                   "itemNameLabel": "Grid Layout",
                   "elements": [
                     {
-                      "id": "row-7007f6a0-11e8-4a86-8f53-5851a1d7991b",
+                      "id": "row-b29498fd-25d5-4fdd-a6f9-1fe1d9ac7cac",
                       "rowIndex": 1,
                       "columns": [
                         {
-                          "id": "col-873e117d-071c-4a84-93d2-ee6fcd00c97c",
+                          "id": "col-8e03709e-6e03-4f91-a8c2-d4c9f4a42115",
                           "cellVisible": true,
                           "colIndex": 1,
                           "colspan": 12,
                           "items": [
                             {
-                              "id": "Id8eb1e279-7b6f-4e9d-81df-c502671ae6d9",
+                              "id": "Id6d964960-a890-4f12-a4fc-260a8acc991e",
                               "compType": "formItem",
                               "itemType": "input",
-                              "fieldName": "field_a2fa96",
+                              "fieldName": "field_535526",
                               "preps": {
-                                "id": "Id8eb1e279-7b6f-4e9d-81df-c502671ae6d9",
+                                "id": "Id6d964960-a890-4f12-a4fc-260a8acc991e",
                                 "label": "员工姓名",
-                                "name": "field_a2fa96",
+                                "name": "field_535526",
                                 "itemNameLabel": "员工姓名",
                                 "formVisible": true,
                                 "listVisible": true,
@@ -73,20 +73,20 @@
                           ]
                         },
                         {
-                          "id": "col-f382dcd8-804e-4ccb-90d5-73f8bfd89ebe",
+                          "id": "col-21e8e06e-1f32-44ad-91e9-4c79cbd113c5",
                           "cellVisible": true,
                           "colIndex": 1,
                           "colspan": 12,
                           "items": [
                             {
-                              "id": "Id61770dc5-d601-49d7-a19f-5a8187fbd5b6",
+                              "id": "Iddfa5996e-fb0e-4567-a8d8-8cc132c3f86c",
                               "compType": "formItem",
                               "itemType": "input",
-                              "fieldName": "field_a8b767",
+                              "fieldName": "field_9ec3ff",
                               "preps": {
-                                "id": "Id61770dc5-d601-49d7-a19f-5a8187fbd5b6",
+                                "id": "Iddfa5996e-fb0e-4567-a8d8-8cc132c3f86c",
                                 "label": "工号",
-                                "name": "field_a8b767",
+                                "name": "field_9ec3ff",
                                 "itemNameLabel": "工号",
                                 "formVisible": true,
                                 "listVisible": true,
@@ -112,37 +112,37 @@
                 }
               },
               {
-                "id": "Id3ea10617-173d-41c9-8e8d-694a01fa5e61",
+                "id": "Id440b6bca-3e06-4e09-807f-b765301f34e5",
                 "compType": "container",
                 "itemType": "box",
-                "fieldName": "field_9caaf6",
+                "fieldName": "field_fb2710",
                 "rowNums": 1,
                 "columnNums": 2,
                 "preps": {
-                  "id": "Id3ea10617-173d-41c9-8e8d-694a01fa5e61",
+                  "id": "Id440b6bca-3e06-4e09-807f-b765301f34e5",
                   "label": "Grid Layout",
-                  "name": "field_9caaf6",
+                  "name": "field_fb2710",
                   "itemNameLabel": "Grid Layout",
                   "elements": [
                     {
-                      "id": "row-fc29fcd2-4b0d-44f8-b7f4-65548115d1da",
+                      "id": "row-8c9f66d5-a40c-4b73-a9ff-9f4b5ba91640",
                       "rowIndex": 1,
                       "columns": [
                         {
-                          "id": "col-f251ef0a-23a6-4000-a98a-8d04d30d1103",
+                          "id": "col-0b32b05f-312b-4d57-8632-485640d55ff2",
                           "cellVisible": true,
                           "colIndex": 1,
                           "colspan": 12,
                           "items": [
                             {
-                              "id": "Id4b4c08b1-8f55-4905-8f69-f4746410fb2f",
+                              "id": "Id9a40c990-9219-4c27-8d14-30aff1daff4d",
                               "compType": "formItem",
                               "itemType": "select",
-                              "fieldName": "field_15b8a3",
+                              "fieldName": "field_7ac60b",
                               "preps": {
-                                "id": "Id4b4c08b1-8f55-4905-8f69-f4746410fb2f",
+                                "id": "Id9a40c990-9219-4c27-8d14-30aff1daff4d",
                                 "label": "性别",
-                                "name": "field_15b8a3",
+                                "name": "field_7ac60b",
                                 "itemNameLabel": "性别",
                                 "formVisible": true,
                                 "listVisible": true,
@@ -172,20 +172,20 @@
                           ]
                         },
                         {
-                          "id": "col-2749004f-4d2a-48bc-85c9-72882c119125",
+                          "id": "col-122da702-8fc7-4823-a940-72ba8532861b",
                           "cellVisible": true,
                           "colIndex": 1,
                           "colspan": 12,
                           "items": [
                             {
-                              "id": "Id8fcba8a7-2b35-4db7-bca0-6c383a17b4dd",
+                              "id": "Ida8f2f3eb-d156-4334-b41d-ac897bbf5398",
                               "compType": "formItem",
                               "itemType": "date",
-                              "fieldName": "field_c78715",
+                              "fieldName": "field_ada36f",
                               "preps": {
-                                "id": "Id8fcba8a7-2b35-4db7-bca0-6c383a17b4dd",
+                                "id": "Ida8f2f3eb-d156-4334-b41d-ac897bbf5398",
                                 "label": "出生日期",
-                                "name": "field_c78715",
+                                "name": "field_ada36f",
                                 "itemNameLabel": "出生日期",
                                 "formVisible": true,
                                 "listVisible": true,
@@ -211,37 +211,37 @@
                 }
               },
               {
-                "id": "Id3b8ea194-25a6-44be-ab4e-7fb0b4662ca1",
+                "id": "Id57d4ea8c-c9e0-4326-a82e-b72c0ff1c93f",
                 "compType": "container",
                 "itemType": "box",
-                "fieldName": "field_b48cb7",
+                "fieldName": "field_c629b2",
                 "rowNums": 1,
                 "columnNums": 2,
                 "preps": {
-                  "id": "Id3b8ea194-25a6-44be-ab4e-7fb0b4662ca1",
+                  "id": "Id57d4ea8c-c9e0-4326-a82e-b72c0ff1c93f",
                   "label": "Grid Layout",
-                  "name": "field_b48cb7",
+                  "name": "field_c629b2",
                   "itemNameLabel": "Grid Layout",
                   "elements": [
                     {
-                      "id": "row-fe6512d3-4626-4c42-a515-ce34088956f0",
+                      "id": "row-d1e045d0-21ad-45d4-a56e-ed8ca2155ddd",
                       "rowIndex": 1,
                       "columns": [
                         {
-                          "id": "col-8087760f-5789-449d-9354-150fcc914f08",
+                          "id": "col-4fcdf2a2-5e39-4ccd-bdd5-31ce7bc6956e",
                           "cellVisible": true,
                           "colIndex": 1,
                           "colspan": 12,
                           "items": [
                             {
-                              "id": "Id3876048f-2cd5-4cfe-b326-994564f1baf9",
+                              "id": "Id0357ced1-4ad0-40dc-943f-2ac7c29b6830",
                               "compType": "formItem",
                               "itemType": "input",
-                              "fieldName": "field_a264a2",
+                              "fieldName": "field_0e7e96",
                               "preps": {
-                                "id": "Id3876048f-2cd5-4cfe-b326-994564f1baf9",
+                                "id": "Id0357ced1-4ad0-40dc-943f-2ac7c29b6830",
                                 "label": "身份证号",
-                                "name": "field_a264a2",
+                                "name": "field_0e7e96",
                                 "itemNameLabel": "身份证号",
                                 "formVisible": true,
                                 "listVisible": true,
@@ -262,20 +262,20 @@
                           ]
                         },
                         {
-                          "id": "col-bd895879-4642-4a39-9f98-45c639902126",
+                          "id": "col-7eda2085-fa53-4131-8813-17694cecdf53",
                           "cellVisible": true,
                           "colIndex": 1,
                           "colspan": 12,
                           "items": [
                             {
-                              "id": "Id1d23143b-992a-455f-a0bc-50cdb4e7b38e",
+                              "id": "Id731dff58-1e92-453b-9f08-2529540edfb6",
                               "compType": "formItem",
                               "itemType": "input",
-                              "fieldName": "field_762479",
+                              "fieldName": "field_d1724f",
                               "preps": {
-                                "id": "Id1d23143b-992a-455f-a0bc-50cdb4e7b38e",
+                                "id": "Id731dff58-1e92-453b-9f08-2529540edfb6",
                                 "label": "手机号",
-                                "name": "field_762479",
+                                "name": "field_d1724f",
                                 "itemNameLabel": "手机号",
                                 "formVisible": true,
                                 "listVisible": true,
@@ -301,14 +301,14 @@
                 }
               },
               {
-                "id": "Id7106bc47-b3b9-43b2-985b-63c9204ac0fe",
+                "id": "Id8a755e7f-5d46-4084-9f0c-7c5f9184b49a",
                 "compType": "formItem",
                 "itemType": "input",
-                "fieldName": "field_57298e",
+                "fieldName": "field_1bc713",
                 "preps": {
-                  "id": "Id7106bc47-b3b9-43b2-985b-63c9204ac0fe",
+                  "id": "Id8a755e7f-5d46-4084-9f0c-7c5f9184b49a",
                   "label": "邮箱",
-                  "name": "field_57298e",
+                  "name": "field_1bc713",
                   "itemNameLabel": "邮箱",
                   "formVisible": true,
                   "listVisible": true,
@@ -327,14 +327,14 @@
                 }
               },
               {
-                "id": "Id06cf78db-12cd-46a6-9ae0-3dc06f4cbe1e",
+                "id": "Id5ad8ccb6-fe0f-4d36-b0bd-0b67fba004ff",
                 "compType": "formItem",
                 "itemType": "upload",
-                "fieldName": "field_b4ab11",
+                "fieldName": "field_65fdea",
                 "preps": {
-                  "id": "Id06cf78db-12cd-46a6-9ae0-3dc06f4cbe1e",
+                  "id": "Id5ad8ccb6-fe0f-4d36-b0bd-0b67fba004ff",
                   "label": "证件照",
-                  "name": "field_b4ab11",
+                  "name": "field_65fdea",
                   "itemNameLabel": "证件照",
                   "formVisible": true,
                   "listVisible": true,
@@ -361,37 +361,37 @@
             "subFormFlag": "Y",
             "items": [
               {
-                "id": "Id6b45dc0e-bba0-42fb-b7bf-4440fa4a6840",
+                "id": "Id21a7809a-f67b-41d7-afc1-a275151c9ffe",
                 "compType": "container",
                 "itemType": "box",
-                "fieldName": "field_803073",
+                "fieldName": "field_9545ec",
                 "rowNums": 1,
                 "columnNums": 2,
                 "preps": {
-                  "id": "Id6b45dc0e-bba0-42fb-b7bf-4440fa4a6840",
+                  "id": "Id21a7809a-f67b-41d7-afc1-a275151c9ffe",
                   "label": "Grid Layout",
-                  "name": "field_803073",
+                  "name": "field_9545ec",
                   "itemNameLabel": "Grid Layout",
                   "elements": [
                     {
-                      "id": "row-ea175e48-1419-4536-8b26-09b8d7f25868",
+                      "id": "row-90048d8c-0731-4952-bac1-a5e7b9d1bf13",
                       "rowIndex": 1,
                       "columns": [
                         {
-                          "id": "col-bcff837d-6851-4323-91a6-ba2af7e5d81f",
+                          "id": "col-b12529c5-5028-4e58-a45e-7fcdcd6cfd59",
                           "cellVisible": true,
                           "colIndex": 1,
                           "colspan": 12,
                           "items": [
                             {
-                              "id": "Id07d1d869-b509-445c-9a43-c57436f35f82",
+                              "id": "Id9c819dd5-a75e-4e08-819d-f2024d9f3de3",
                               "compType": "formItem",
                               "itemType": "select",
-                              "fieldName": "field_77a13f",
+                              "fieldName": "field_456075",
                               "preps": {
-                                "id": "Id07d1d869-b509-445c-9a43-c57436f35f82",
+                                "id": "Id9c819dd5-a75e-4e08-819d-f2024d9f3de3",
                                 "label": "部门",
-                                "name": "field_77a13f",
+                                "name": "field_456075",
                                 "itemNameLabel": "部门",
                                 "formVisible": true,
                                 "listVisible": true,
@@ -437,20 +437,20 @@
                           ]
                         },
                         {
-                          "id": "col-c852020c-1446-4547-8577-731aeaed3994",
+                          "id": "col-23f18b29-c129-439b-92e9-ac20eea2ca01",
                           "cellVisible": true,
                           "colIndex": 1,
                           "colspan": 12,
                           "items": [
                             {
-                              "id": "Id8dcf1811-bd47-4e2a-be07-af9c1290dd5a",
+                              "id": "Id14620ab9-a00a-4621-8fa0-88093df7a1f9",
                               "compType": "formItem",
                               "itemType": "select",
-                              "fieldName": "field_1287a6",
+                              "fieldName": "field_a6eb7c",
                               "preps": {
-                                "id": "Id8dcf1811-bd47-4e2a-be07-af9c1290dd5a",
+                                "id": "Id14620ab9-a00a-4621-8fa0-88093df7a1f9",
                                 "label": "职位",
-                                "name": "field_1287a6",
+                                "name": "field_a6eb7c",
                                 "itemNameLabel": "职位",
                                 "formVisible": true,
                                 "listVisible": true,
@@ -497,37 +497,37 @@
                 }
               },
               {
-                "id": "Id1e8a0181-bb8d-441b-b559-c54c1814023e",
+                "id": "Idab843a0f-cf75-4fe9-a979-edf2b5c58a8c",
                 "compType": "container",
                 "itemType": "box",
-                "fieldName": "field_11d72f",
+                "fieldName": "field_7c537e",
                 "rowNums": 1,
                 "columnNums": 2,
                 "preps": {
-                  "id": "Id1e8a0181-bb8d-441b-b559-c54c1814023e",
+                  "id": "Idab843a0f-cf75-4fe9-a979-edf2b5c58a8c",
                   "label": "Grid Layout",
-                  "name": "field_11d72f",
+                  "name": "field_7c537e",
                   "itemNameLabel": "Grid Layout",
                   "elements": [
                     {
-                      "id": "row-acd9a455-3700-46f9-b09b-a4e1a228387f",
+                      "id": "row-94719a9f-2d5f-4e7b-85bd-6da4ad8933f0",
                       "rowIndex": 1,
                       "columns": [
                         {
-                          "id": "col-65f5e760-8056-44f9-8109-c6fc00c707c3",
+                          "id": "col-72b15048-6fd1-4a80-b919-4bf4471a3deb",
                           "cellVisible": true,
                           "colIndex": 1,
                           "colspan": 12,
                           "items": [
                             {
-                              "id": "Idf2e08a6e-c9ff-426a-8568-fc233cf494b6",
+                              "id": "Ida6430b13-3154-4771-9914-89a04261da8b",
                               "compType": "formItem",
                               "itemType": "date",
-                              "fieldName": "field_2e5234",
+                              "fieldName": "field_f87a50",
                               "preps": {
-                                "id": "Idf2e08a6e-c9ff-426a-8568-fc233cf494b6",
+                                "id": "Ida6430b13-3154-4771-9914-89a04261da8b",
                                 "label": "入职日期",
-                                "name": "field_2e5234",
+                                "name": "field_f87a50",
                                 "itemNameLabel": "入职日期",
                                 "formVisible": true,
                                 "listVisible": true,
@@ -548,20 +548,20 @@
                           ]
                         },
                         {
-                          "id": "col-1e7a12db-82fa-4e48-8f3c-9e730d05ec58",
+                          "id": "col-75b2bfc5-ee04-4109-aefb-097d3a5175e4",
                           "cellVisible": true,
                           "colIndex": 1,
                           "colspan": 12,
                           "items": [
                             {
-                              "id": "Id01208fa6-a570-4370-9954-438811a835fe",
+                              "id": "Id111bb309-79f5-423f-8cf5-6af0546082b1",
                               "compType": "formItem",
                               "itemType": "select",
-                              "fieldName": "field_df8841",
+                              "fieldName": "field_9a576e",
                               "preps": {
-                                "id": "Id01208fa6-a570-4370-9954-438811a835fe",
+                                "id": "Id111bb309-79f5-423f-8cf5-6af0546082b1",
                                 "label": "用工类型",
-                                "name": "field_df8841",
+                                "name": "field_9a576e",
                                 "itemNameLabel": "用工类型",
                                 "formVisible": true,
                                 "listVisible": true,
@@ -604,14 +604,14 @@
                 }
               },
               {
-                "id": "Id406e4228-e272-4ace-a564-760e74c639f5",
+                "id": "Id9bf14a6f-be71-4ca0-a0df-dc1218efbf4e",
                 "compType": "formItem",
                 "itemType": "number",
-                "fieldName": "field_d2d1bb",
+                "fieldName": "field_980bef",
                 "preps": {
-                  "id": "Id406e4228-e272-4ace-a564-760e74c639f5",
+                  "id": "Id9bf14a6f-be71-4ca0-a0df-dc1218efbf4e",
                   "label": "基本工资",
-                  "name": "field_d2d1bb",
+                  "name": "field_980bef",
                   "itemNameLabel": "基本工资",
                   "formVisible": true,
                   "listVisible": true,
@@ -632,14 +632,14 @@
                 }
               },
               {
-                "id": "Id24c25cfb-a900-4aad-adb4-2c40da6deb95",
+                "id": "Id238f4fc9-3986-4b6c-9909-ea6161b6f63f",
                 "compType": "formItem",
                 "itemType": "input",
-                "fieldName": "field_bff894",
+                "fieldName": "field_0b9b66",
                 "preps": {
-                  "id": "Id24c25cfb-a900-4aad-adb4-2c40da6deb95",
+                  "id": "Id238f4fc9-3986-4b6c-9909-ea6161b6f63f",
                   "label": "直属上级",
-                  "name": "field_bff894",
+                  "name": "field_0b9b66",
                   "itemNameLabel": "直属上级",
                   "formVisible": true,
                   "listVisible": true,
@@ -666,37 +666,37 @@
             "subFormFlag": "Y",
             "items": [
               {
-                "id": "Id98ec78af-c74a-4d7d-b96f-838eff961b45",
+                "id": "Ida5f22541-0407-4d4d-b10a-946a6cbc8eb8",
                 "compType": "container",
                 "itemType": "box",
-                "fieldName": "field_b24089",
+                "fieldName": "field_e5fada",
                 "rowNums": 1,
                 "columnNums": 2,
                 "preps": {
-                  "id": "Id98ec78af-c74a-4d7d-b96f-838eff961b45",
+                  "id": "Ida5f22541-0407-4d4d-b10a-946a6cbc8eb8",
                   "label": "Grid Layout",
-                  "name": "field_b24089",
+                  "name": "field_e5fada",
                   "itemNameLabel": "Grid Layout",
                   "elements": [
                     {
-                      "id": "row-4f7ff1e4-4563-4210-8e67-38fa418f4412",
+                      "id": "row-720abedc-721d-419c-9a7c-8adcc108f074",
                       "rowIndex": 1,
                       "columns": [
                         {
-                          "id": "col-3d7b7787-b32a-45df-a883-e865e673b412",
+                          "id": "col-aa3a1b9d-4dfa-4cff-b4d3-58d1cda6a491",
                           "cellVisible": true,
                           "colIndex": 1,
                           "colspan": 12,
                           "items": [
                             {
-                              "id": "Idad93090a-5c13-4400-955b-7041b69fe2ef",
+                              "id": "Idd099b2a5-6a43-4a26-af1a-ca82bea4b9be",
                               "compType": "formItem",
                               "itemType": "input",
-                              "fieldName": "field_6635c4",
+                              "fieldName": "field_19ad88",
                               "preps": {
-                                "id": "Idad93090a-5c13-4400-955b-7041b69fe2ef",
+                                "id": "Idd099b2a5-6a43-4a26-af1a-ca82bea4b9be",
                                 "label": "联系人姓名",
-                                "name": "field_6635c4",
+                                "name": "field_19ad88",
                                 "itemNameLabel": "联系人姓名",
                                 "formVisible": true,
                                 "listVisible": true,
@@ -717,20 +717,20 @@
                           ]
                         },
                         {
-                          "id": "col-ef8548dc-c9c4-4336-931f-a5e0c4658bec",
+                          "id": "col-f25beea6-2af3-4b7e-a70f-92bb3ce72ada",
                           "cellVisible": true,
                           "colIndex": 1,
                           "colspan": 12,
                           "items": [
                             {
-                              "id": "Ida06094f8-155d-4042-a035-9132c7821f3b",
+                              "id": "Id2a05c968-7112-4c4d-80c6-d3a7d640d36c",
                               "compType": "formItem",
                               "itemType": "input",
-                              "fieldName": "field_f822d2",
+                              "fieldName": "field_c3e527",
                               "preps": {
-                                "id": "Ida06094f8-155d-4042-a035-9132c7821f3b",
+                                "id": "Id2a05c968-7112-4c4d-80c6-d3a7d640d36c",
                                 "label": "联系人电话",
-                                "name": "field_f822d2",
+                                "name": "field_c3e527",
                                 "itemNameLabel": "联系人电话",
                                 "formVisible": true,
                                 "listVisible": true,
@@ -756,14 +756,14 @@
                 }
               },
               {
-                "id": "Id8e384d35-a39c-4907-aa51-cf0936d993d2",
+                "id": "Idd16d3591-3d61-49ce-a1f9-41b96560c7d9",
                 "compType": "formItem",
                 "itemType": "input",
-                "fieldName": "field_bfd00c",
+                "fieldName": "field_b9c602",
                 "preps": {
-                  "id": "Id8e384d35-a39c-4907-aa51-cf0936d993d2",
+                  "id": "Idd16d3591-3d61-49ce-a1f9-41b96560c7d9",
                   "label": "与员工关系",
-                  "name": "field_bfd00c",
+                  "name": "field_b9c602",
                   "itemNameLabel": "与员工关系",
                   "formVisible": true,
                   "listVisible": true,
@@ -782,14 +782,14 @@
                 }
               },
               {
-                "id": "Id0555052d-2f0d-4f6b-bd9b-89bf3794abf6",
+                "id": "Idcdc5f9c1-1a21-4f2f-8873-d259bcf09eb8",
                 "compType": "formItem",
                 "itemType": "input",
-                "fieldName": "field_80a7b3",
+                "fieldName": "field_74fcca",
                 "preps": {
-                  "id": "Id0555052d-2f0d-4f6b-bd9b-89bf3794abf6",
+                  "id": "Idcdc5f9c1-1a21-4f2f-8873-d259bcf09eb8",
                   "label": "联系人地址",
-                  "name": "field_80a7b3",
+                  "name": "field_74fcca",
                   "itemNameLabel": "联系人地址",
                   "formVisible": true,
                   "listVisible": true,
@@ -813,6 +813,6 @@
       }
     }
   ],
-  "exportTime": "2026-06-16T09:36:26.500Z",
+  "exportTime": "2026-06-16T10:22:42.525Z",
   "version": "1.0"
 }

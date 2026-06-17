@@ -2,7 +2,7 @@
 import {insertBelowRow, insertRightCol,} from "@/components/formcomp/container/dytableUtils";
 import {i18n} from "@/lang";
 
-import {computed, PropType, ref} from "vue";
+import {computed, PropType, ref, watch} from "vue";
 import {
   copyContainer,
   dynamicFormContextMenuData,
@@ -36,6 +36,38 @@ const toggleCollapse = (e: Event) => {
   e.stopPropagation();
   collapsed.value = !collapsed.value;
 };
+
+// Auto-expand when a child component is selected (e.g. from outline)
+const containsItemId = (container: any, targetId: string): boolean => {
+  if (!targetId || !container) return false;
+  const elements = container.preps?.elements || [];
+  for (const el of elements) {
+    for (const item of el.items || []) {
+      if ((item.preps?.id || item.id) === targetId) return true;
+      if (item.itemType && containsItemId(item, targetId)) return true;
+    }
+    for (const item of el.headerFieldList || []) {
+      if ((item.preps?.id || item.id) === targetId) return true;
+    }
+    for (const col of el.columns || []) {
+      for (const item of col.items || []) {
+        if ((item.preps?.id || item.id) === targetId) return true;
+        if (item.itemType && containsItemId(item, targetId)) return true;
+      }
+    }
+  }
+  for (const child of container.children || []) {
+    if ((child.preps?.id || child.id) === targetId) return true;
+    if (child.itemType && containsItemId(child, targetId)) return true;
+  }
+  return false;
+};
+
+watch(currentItemId, (newId) => {
+  if (collapsed.value && newId && containsItemId(props.formItem, newId)) {
+    collapsed.value = false;
+  }
+});
 const containerLabel = computed(() => {
   const labels: Record<string, string> = {
     tab: "选项卡", box: "栅格", table: "表格", card: "卡片",
@@ -53,23 +85,45 @@ const removeData = () => {
   operationConfirm(i18n("dyform.comp.container.440")).then((res) => {
     if (res) {
       let id = props.formItem.preps?.id || props.formItem.id;
-      if (props.parentField?.itemType == "tab") {
+      let parentType = props.parentField?.itemType;
+      if (parentType == "tab" || parentType == "card" || parentType == "collapse") {
+        // These containers store items in elements[i].items
         let elements = props.parentField!.preps.elements;
         for (let i = 0; i < elements.length; i++) {
           let items = elements[i].items;
           for (let j = 0; j < items.length; j++) {
-            if (id === items[j]?.id) {
+            let itemId = items[j]?.preps?.id || items[j]?.id;
+            if (id === itemId) {
               items.splice(j, 1);
               return;
             }
           }
         }
-      } else if (props.parentField?.itemType == "box") {
+      } else if (parentType == "box" || parentType == "dytable" || parentType == "table") {
+        // These containers store items in elements[i].columns[j].items
+        let elements = props.parentField!.preps.elements;
+        for (let i = 0; i < elements.length; i++) {
+          let columns = elements[i].columns;
+          if (!columns) continue;
+          for (let j = 0; j < columns.length; j++) {
+            let items = columns[j].items;
+            for (let k = 0; k < items.length; k++) {
+              let itemId = items[k]?.preps?.id || items[k]?.id;
+              if (id === itemId) {
+                items.splice(k, 1);
+                return;
+              }
+            }
+          }
+        }
       } else {
+        // Top-level container in compList
         let dataList = compList.value;
         for (let i = 0; i < dataList.length; i++) {
-          if (id === dataList[i].id) {
+          let itemId = dataList[i].preps?.id || dataList[i].id;
+          if (id === itemId) {
             dataList.splice(i, 1);
+            return;
           }
         }
       }

@@ -5,14 +5,14 @@
   },
   "dataList": [
     {
-      "id": "Id91fec06c-8d23-42e3-aa58-83c08a9b6363",
+      "id": "Idc62b006e-7515-4435-93a7-1dcd54a7b7c7",
       "compType": "container",
       "itemType": "card",
-      "fieldName": "field_79afdd",
+      "fieldName": "field_1ea5e5",
       "preps": {
-        "id": "Id91fec06c-8d23-42e3-aa58-83c08a9b6363",
+        "id": "Idc62b006e-7515-4435-93a7-1dcd54a7b7c7",
         "label": "基本信息",
-        "name": "field_79afdd",
+        "name": "field_1ea5e5",
         "itemNameLabel": "基本信息",
         "headerFieldList": [],
         "elements": [
@@ -23,37 +23,37 @@
             "subFormFlag": "Y",
             "items": [
               {
-                "id": "Id33814433-6ee2-4118-a93f-10b59a9255d6",
+                "id": "Id949ca9bc-8d9c-4ec1-8447-8fd2db96b772",
                 "compType": "container",
                 "itemType": "box",
-                "fieldName": "field_403941",
+                "fieldName": "field_d2b7e3",
                 "rowNums": 1,
                 "columnNums": 2,
                 "preps": {
-                  "id": "Id33814433-6ee2-4118-a93f-10b59a9255d6",
+                  "id": "Id949ca9bc-8d9c-4ec1-8447-8fd2db96b772",
                   "label": "Grid Layout",
-                  "name": "field_403941",
+                  "name": "field_d2b7e3",
                   "itemNameLabel": "Grid Layout",
                   "elements": [
                     {
-                      "id": "row-11194411-bd79-4341-a742-47b9e4770503",
+                      "id": "row-f5c119c0-d272-428b-bf5e-551039f15d48",
                       "rowIndex": 1,
                       "columns": [
                         {
-                          "id": "col-aefa826c-1a20-46f9-b944-ee62395f75be",
+                          "id": "col-31db3e10-08dd-4082-ba1a-dcd3141998fb",
                           "cellVisible": true,
                           "colIndex": 1,
                           "colspan": 12,
                           "items": [
                             {
-                              "id": "Id2c7ce14c-233a-4742-82d5-0344650e6b08",
+                              "id": "Id056d3bf9-571d-410a-9ab7-ed95c7ff5d7a",
                               "compType": "formItem",
                               "itemType": "input",
-                              "fieldName": "field_f5d832",
+                              "fieldName": "field_933614",
                               "preps": {
-                                "id": "Id2c7ce14c-233a-4742-82d5-0344650e6b08",
+                                "id": "Id056d3bf9-571d-410a-9ab7-ed95c7ff5d7a",
                                 "label": "商品名称",
-                                "name": "field_f5d832",
+                                "name": "field_933614",
                                 "itemNameLabel": "商品名称",
                                 "formVisible": true,
                                 "listVisible": true,
@@ -74,20 +74,20 @@
                           ]
                         },
                         {
-                          "id": "col-055a428d-07be-419a-9ddf-5480075aae39",
+                          "id": "col-3817635c-a1b0-4bc9-b9f8-bc4cab7957f6",
                           "cellVisible": true,
                           "colIndex": 1,
                           "colspan": 12,
                           "items": [
                             {
-                              "id": "Id44bce28f-77cc-4505-8819-5158f974266d",
+                              "id": "Ide0adf28b-750f-4f4d-8f1b-5b662938033c",
                               "compType": "formItem",
                               "itemType": "select",
-                              "fieldName": "field_5d6de2",
+                              "fieldName": "field_1aadc2",
                               "preps": {
-                                "id": "Id44bce28f-77cc-4505-8819-5158f974266d",
+                                "id": "Ide0adf28b-750f-4f4d-8f1b-5b662938033c",
                                 "label": "商品分类",
-                                "name": "field_5d6de2",
+                                "name": "field_1aadc2",
                                 "itemNameLabel": "商品分类",
                                 "formVisible": true,
                                 "listVisible": true,
@@ -138,37 +138,37 @@
                 }
               },
               {
-                "id": "Idc969b2c4-75cb-4982-b35d-c0f0568ae0df",
+                "id": "Ida2a457db-6ec6-43f6-8014-fd70a04e38e0",
                 "compType": "container",
                 "itemType": "box",
-                "fieldName": "field_d1d418",
+                "fieldName": "field_2f5404",
                 "rowNums": 1,
                 "columnNums": 3,
                 "preps": {
-                  "id": "Idc969b2c4-75cb-4982-b35d-c0f0568ae0df",
+                  "id": "Ida2a457db-6ec6-43f6-8014-fd70a04e38e0",
                   "label": "Grid Layout",
-                  "name": "field_d1d418",
+                  "name": "field_2f5404",
                   "itemNameLabel": "Grid Layout",
                   "elements": [
                     {
-                      "id": "row-f9ce3ed9-94d7-4854-9e07-e56e8e4f6cf5",
+                      "id": "row-05616a81-6bd7-427c-a55e-9df264187062",
                       "rowIndex": 1,
                       "columns": [
                         {
-                          "id": "col-e0b8843d-0a2a-45b7-b1a7-3722ba11f208",
+                          "id": "col-c46259fb-8d53-4423-a027-2ebb6f60237a",
                           "cellVisible": true,
                           "colIndex": 1,
                           "colspan": 8,
                           "items": [
                             {
-                              "id": "Id553986e2-6053-47c1-b378-cb23cdd7d4b2",
+                              "id": "Id9e15878b-4480-47e1-b4f3-13f26547a827",
                               "compType": "formItem",
                               "itemType": "number",
-                              "fieldName": "field_34577e",
+                              "fieldName": "field_11d0d5",
                               "preps": {
-                                "id": "Id553986e2-6053-47c1-b378-cb23cdd7d4b2",
+                                "id": "Id9e15878b-4480-47e1-b4f3-13f26547a827",
                                 "label": "售价",
-                                "name": "field_34577e",
+                                "name": "field_11d0d5",
                                 "itemNameLabel": "售价",
                                 "formVisible": true,
                                 "listVisible": true,
@@ -191,20 +191,20 @@
                           ]
                         },
                         {
-                          "id": "col-ce110d96-8498-4c68-ad1b-d0782edcfca7",
+                          "id": "col-95535c87-0379-4754-9b12-c051d2633d5e",
                           "cellVisible": true,
                           "colIndex": 1,
                           "colspan": 8,
                           "items": [
                             {
-                              "id": "Id61a81a02-7607-43e9-832a-a528a7f6014b",
+                              "id": "Id625428ad-aa55-4873-948a-cc4c04cd39e5",
                               "compType": "formItem",
                               "itemType": "number",
-                              "fieldName": "field_a96026",
+                              "fieldName": "field_56f36e",
                               "preps": {
-                                "id": "Id61a81a02-7607-43e9-832a-a528a7f6014b",
+                                "id": "Id625428ad-aa55-4873-948a-cc4c04cd39e5",
                                 "label": "成本价",
-                                "name": "field_a96026",
+                                "name": "field_56f36e",
                                 "itemNameLabel": "成本价",
                                 "formVisible": true,
                                 "listVisible": true,
@@ -227,20 +227,20 @@
                           ]
                         },
                         {
-                          "id": "col-94e4185a-9056-4d9c-a791-119aef26a033",
+                          "id": "col-ba610053-e3e5-4531-9bb8-871c37ea5e8f",
                           "cellVisible": true,
                           "colIndex": 1,
                           "colspan": 8,
                           "items": [
                             {
-                              "id": "Id7f1535e4-07af-43ce-b62b-dccc58361ffd",
+                              "id": "Id791abae6-e36e-48af-97e3-c881d89c1331",
                               "compType": "formItem",
                               "itemType": "number",
-                              "fieldName": "field_aa2efd",
+                              "fieldName": "field_1a1180",
                               "preps": {
-                                "id": "Id7f1535e4-07af-43ce-b62b-dccc58361ffd",
+                                "id": "Id791abae6-e36e-48af-97e3-c881d89c1331",
                                 "label": "库存数量",
-                                "name": "field_aa2efd",
+                                "name": "field_1a1180",
                                 "itemNameLabel": "库存数量",
                                 "formVisible": true,
                                 "listVisible": true,
@@ -268,37 +268,37 @@
                 }
               },
               {
-                "id": "Idd1ec2d2e-7319-42d3-8084-5ee1540d5086",
+                "id": "Id0a5ebf13-5913-4e9d-b74e-59998bde4e5d",
                 "compType": "container",
                 "itemType": "box",
-                "fieldName": "field_cbcbf6",
+                "fieldName": "field_80b99d",
                 "rowNums": 1,
                 "columnNums": 2,
                 "preps": {
-                  "id": "Idd1ec2d2e-7319-42d3-8084-5ee1540d5086",
+                  "id": "Id0a5ebf13-5913-4e9d-b74e-59998bde4e5d",
                   "label": "Grid Layout",
-                  "name": "field_cbcbf6",
+                  "name": "field_80b99d",
                   "itemNameLabel": "Grid Layout",
                   "elements": [
                     {
-                      "id": "row-a7baf7c0-9961-4f6c-8b3b-192897021a23",
+                      "id": "row-16dbd4e2-90e7-4554-8f78-658155779650",
                       "rowIndex": 1,
                       "columns": [
                         {
-                          "id": "col-0880b0aa-34e6-4267-8a9f-2b3e173660cd",
+                          "id": "col-62ae5057-119d-40a5-990c-d980bc27ff21",
                           "cellVisible": true,
                           "colIndex": 1,
                           "colspan": 12,
                           "items": [
                             {
-                              "id": "Id092bcdaf-0c6f-497d-b5d4-0b20808671f0",
+                              "id": "Id1964ad0c-c5df-47df-a75f-b84b712b7b27",
                               "compType": "formItem",
                               "itemType": "select",
-                              "fieldName": "field_5aebda",
+                              "fieldName": "field_6a49fb",
                               "preps": {
-                                "id": "Id092bcdaf-0c6f-497d-b5d4-0b20808671f0",
+                                "id": "Id1964ad0c-c5df-47df-a75f-b84b712b7b27",
                                 "label": "品牌",
-                                "name": "field_5aebda",
+                                "name": "field_6a49fb",
                                 "itemNameLabel": "品牌",
                                 "formVisible": true,
                                 "listVisible": true,
@@ -336,20 +336,20 @@
                           ]
                         },
                         {
-                          "id": "col-c96b01c3-08ba-4c4d-887c-6f9f8af6c636",
+                          "id": "col-be596db6-9387-4eeb-a973-6e9018f35fcb",
                           "cellVisible": true,
                           "colIndex": 1,
                           "colspan": 12,
                           "items": [
                             {
-                              "id": "Idf00ff28c-d3ec-46a5-87ad-d8e5dbee750f",
+                              "id": "Id3ffe08df-514f-4f01-a8a9-d7c3b83a3268",
                               "compType": "formItem",
                               "itemType": "input",
-                              "fieldName": "field_c8f8ef",
+                              "fieldName": "field_c32898",
                               "preps": {
-                                "id": "Idf00ff28c-d3ec-46a5-87ad-d8e5dbee750f",
+                                "id": "Id3ffe08df-514f-4f01-a8a9-d7c3b83a3268",
                                 "label": "商品编码",
-                                "name": "field_c8f8ef",
+                                "name": "field_c32898",
                                 "itemNameLabel": "商品编码",
                                 "formVisible": true,
                                 "listVisible": true,
@@ -380,14 +380,14 @@
       }
     },
     {
-      "id": "Id669ca436-d6eb-4396-aa76-6defd4eb0160",
+      "id": "Id1f4deb9a-a0f4-44c7-a597-ec14cab2cbbb",
       "compType": "container",
       "itemType": "card",
-      "fieldName": "field_3160cc",
+      "fieldName": "field_2ed584",
       "preps": {
-        "id": "Id669ca436-d6eb-4396-aa76-6defd4eb0160",
+        "id": "Id1f4deb9a-a0f4-44c7-a597-ec14cab2cbbb",
         "label": "商品详情",
-        "name": "field_3160cc",
+        "name": "field_2ed584",
         "itemNameLabel": "商品详情",
         "headerFieldList": [],
         "elements": [
@@ -398,14 +398,14 @@
             "subFormFlag": "Y",
             "items": [
               {
-                "id": "Idb70a97da-93c3-4977-8595-340865813725",
+                "id": "Id05282e4e-2a05-4041-9fc9-982f567dc2ae",
                 "compType": "formItem",
                 "itemType": "textarea",
-                "fieldName": "field_c413e6",
+                "fieldName": "field_2e596a",
                 "preps": {
-                  "id": "Idb70a97da-93c3-4977-8595-340865813725",
+                  "id": "Id05282e4e-2a05-4041-9fc9-982f567dc2ae",
                   "label": "商品描述",
-                  "name": "field_c413e6",
+                  "name": "field_2e596a",
                   "itemNameLabel": "商品描述",
                   "formVisible": true,
                   "listVisible": true,
@@ -424,14 +424,14 @@
                 }
               },
               {
-                "id": "Id6e698d93-757c-424f-bdcd-cae940efb579",
+                "id": "Id76433da4-8c58-4731-a194-f41d7c80b264",
                 "compType": "formItem",
                 "itemType": "upload",
-                "fieldName": "field_da7813",
+                "fieldName": "field_dae1fe",
                 "preps": {
-                  "id": "Id6e698d93-757c-424f-bdcd-cae940efb579",
+                  "id": "Id76433da4-8c58-4731-a194-f41d7c80b264",
                   "label": "商品图片",
-                  "name": "field_da7813",
+                  "name": "field_dae1fe",
                   "itemNameLabel": "商品图片",
                   "formVisible": true,
                   "listVisible": true,
@@ -450,14 +450,14 @@
                 }
               },
               {
-                "id": "Idf0660ecc-7a2f-4203-a99c-9ec18b0773f6",
+                "id": "Iddfb7d4de-c554-4a2c-a906-e078c4937a59",
                 "compType": "formItem",
                 "itemType": "upload",
-                "fieldName": "field_e5959a",
+                "fieldName": "field_f80c5c",
                 "preps": {
-                  "id": "Idf0660ecc-7a2f-4203-a99c-9ec18b0773f6",
+                  "id": "Iddfb7d4de-c554-4a2c-a906-e078c4937a59",
                   "label": "详情图片",
-                  "name": "field_e5959a",
+                  "name": "field_f80c5c",
                   "itemNameLabel": "详情图片",
                   "formVisible": true,
                   "listVisible": true,
@@ -476,14 +476,14 @@
                 }
               },
               {
-                "id": "Idd8f0a89d-2ef9-444a-8ce6-cb9760b50e2c",
+                "id": "Id9cffce47-fdef-47b0-b889-f97c9b19926f",
                 "compType": "formItem",
                 "itemType": "htmleditor",
-                "fieldName": "field_94a8da",
+                "fieldName": "field_bfcbaf",
                 "preps": {
-                  "id": "Idd8f0a89d-2ef9-444a-8ce6-cb9760b50e2c",
+                  "id": "Id9cffce47-fdef-47b0-b889-f97c9b19926f",
                   "label": "详细描述",
-                  "name": "field_94a8da",
+                  "name": "field_bfcbaf",
                   "itemNameLabel": "详细描述",
                   "formVisible": true,
                   "listVisible": true,
@@ -507,14 +507,14 @@
       }
     },
     {
-      "id": "Id1b3887d5-370e-45e6-897a-ad9b2af3c98e",
+      "id": "Id50b0172e-cf33-4a3f-83d6-d07ae37badd4",
       "compType": "container",
       "itemType": "card",
-      "fieldName": "field_c9e344",
+      "fieldName": "field_b34b9a",
       "preps": {
-        "id": "Id1b3887d5-370e-45e6-897a-ad9b2af3c98e",
+        "id": "Id50b0172e-cf33-4a3f-83d6-d07ae37badd4",
         "label": "规格参数",
-        "name": "field_c9e344",
+        "name": "field_b34b9a",
         "itemNameLabel": "规格参数",
         "headerFieldList": [],
         "elements": [
@@ -525,14 +525,14 @@
             "subFormFlag": "Y",
             "items": [
               {
-                "id": "Ide0d66664-efee-44a2-a333-fc3b18894b20",
+                "id": "Idf7bc5d00-ad3d-4465-b265-e3e5f5bb5d3e",
                 "compType": "formItem",
                 "itemType": "input-tag",
-                "fieldName": "field_b1d3f3",
+                "fieldName": "field_c8ad96",
                 "preps": {
-                  "id": "Ide0d66664-efee-44a2-a333-fc3b18894b20",
+                  "id": "Idf7bc5d00-ad3d-4465-b265-e3e5f5bb5d3e",
                   "label": "商品标签",
-                  "name": "field_b1d3f3",
+                  "name": "field_c8ad96",
                   "itemNameLabel": "商品标签",
                   "formVisible": true,
                   "listVisible": true,
@@ -551,37 +551,37 @@
                 }
               },
               {
-                "id": "Id987cd069-5035-4d6e-b1eb-4f8e4eca118a",
+                "id": "Id1a780c4f-ccc8-4f06-9ad7-45bf53e5381b",
                 "compType": "container",
                 "itemType": "box",
-                "fieldName": "field_83b24b",
+                "fieldName": "field_fd30ee",
                 "rowNums": 1,
                 "columnNums": 2,
                 "preps": {
-                  "id": "Id987cd069-5035-4d6e-b1eb-4f8e4eca118a",
+                  "id": "Id1a780c4f-ccc8-4f06-9ad7-45bf53e5381b",
                   "label": "Grid Layout",
-                  "name": "field_83b24b",
+                  "name": "field_fd30ee",
                   "itemNameLabel": "Grid Layout",
                   "elements": [
                     {
-                      "id": "row-8dbe3e5f-555e-4d30-83cb-62317a9deb19",
+                      "id": "row-59a04f88-2035-421a-9ce9-10f70bb52b39",
                       "rowIndex": 1,
                       "columns": [
                         {
-                          "id": "col-63f289f8-f3be-4514-8e2e-1d53e516d707",
+                          "id": "col-137b5e21-7171-403e-8a65-3f5c7f82a55f",
                           "cellVisible": true,
                           "colIndex": 1,
                           "colspan": 12,
                           "items": [
                             {
-                              "id": "Ida7628415-4b93-41ae-b91e-40783ef8fb0f",
+                              "id": "Ide1d3b416-b2be-44fa-ae3d-42ada9b219c3",
                               "compType": "formItem",
                               "itemType": "number",
-                              "fieldName": "field_a38e92",
+                              "fieldName": "field_b0238a",
                               "preps": {
-                                "id": "Ida7628415-4b93-41ae-b91e-40783ef8fb0f",
+                                "id": "Ide1d3b416-b2be-44fa-ae3d-42ada9b219c3",
                                 "label": "重量(kg)",
-                                "name": "field_a38e92",
+                                "name": "field_b0238a",
                                 "itemNameLabel": "重量(kg)",
                                 "formVisible": true,
                                 "listVisible": true,
@@ -604,20 +604,20 @@
                           ]
                         },
                         {
-                          "id": "col-954ed012-38d6-4a37-92f0-8e54d9d8b546",
+                          "id": "col-d688336f-2572-40cb-a4a0-3167365b86b7",
                           "cellVisible": true,
                           "colIndex": 1,
                           "colspan": 12,
                           "items": [
                             {
-                              "id": "Idf3c5848f-3940-4b10-84da-a7c1885ac71f",
+                              "id": "Id829e4fc4-88d0-452b-b347-2cf8aedf5027",
                               "compType": "formItem",
                               "itemType": "number",
-                              "fieldName": "field_98daa6",
+                              "fieldName": "field_4a2f97",
                               "preps": {
-                                "id": "Idf3c5848f-3940-4b10-84da-a7c1885ac71f",
+                                "id": "Id829e4fc4-88d0-452b-b347-2cf8aedf5027",
                                 "label": "尺寸(cm)",
-                                "name": "field_98daa6",
+                                "name": "field_4a2f97",
                                 "itemNameLabel": "尺寸(cm)",
                                 "formVisible": true,
                                 "listVisible": true,
@@ -643,14 +643,14 @@
                 }
               },
               {
-                "id": "Ida438f229-64fe-4053-a6f9-0f20604b563c",
+                "id": "Id5ef4d4a5-691b-4ae0-8360-a484d237d786",
                 "compType": "formItem",
                 "itemType": "select",
-                "fieldName": "field_5ecef7",
+                "fieldName": "field_b7d3ce",
                 "preps": {
-                  "id": "Ida438f229-64fe-4053-a6f9-0f20604b563c",
+                  "id": "Id5ef4d4a5-691b-4ae0-8360-a484d237d786",
                   "label": "商品状态",
-                  "name": "field_5ecef7",
+                  "name": "field_b7d3ce",
                   "itemNameLabel": "商品状态",
                   "formVisible": true,
                   "listVisible": true,
@@ -687,6 +687,6 @@
       }
     }
   ],
-  "exportTime": "2026-06-16T09:36:26.499Z",
+  "exportTime": "2026-06-16T10:22:42.523Z",
   "version": "1.0"
 }

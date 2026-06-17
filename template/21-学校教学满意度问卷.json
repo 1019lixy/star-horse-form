@@ -1,0 +1,3091 @@
+{
+  "formInfo": {
+    "formName": "21-学校教学满意度问卷",
+    "currentPageType": "pc"
+  },
+  "dataList": [
+    {
+      "id": "Idf071f1f1-bd67-4121-a014-8d9ccc095d8c",
+      "compType": "container",
+      "itemType": "card",
+      "fieldName": "field_193464",
+      "preps": {
+        "id": "Idf071f1f1-bd67-4121-a014-8d9ccc095d8c",
+        "label": "学生基本信息",
+        "name": "field_193464",
+        "itemNameLabel": "学生基本信息",
+        "headerFieldList": [],
+        "elements": [
+          {
+            "label": "学生基本信息",
+            "tabName": "学生基本信息",
+            "objectName": "学生基本信息",
+            "subFormFlag": "Y",
+            "items": [
+              {
+                "id": "Id00f5e025-edb7-4c52-a2c1-71ec80c02062",
+                "compType": "container",
+                "itemType": "box",
+                "fieldName": "field_13990d",
+                "rowNums": 1,
+                "columnNums": 2,
+                "preps": {
+                  "id": "Id00f5e025-edb7-4c52-a2c1-71ec80c02062",
+                  "label": "Grid Layout",
+                  "name": "field_13990d",
+                  "itemNameLabel": "Grid Layout",
+                  "elements": [
+                    {
+                      "id": "row-a2e20f8b-1736-4139-ba6f-48bfef6e04a6",
+                      "rowIndex": 1,
+                      "columns": [
+                        {
+                          "id": "col-b69d3e25-ccf2-4f99-8558-259e81812099",
+                          "cellVisible": true,
+                          "colIndex": 1,
+                          "colspan": 12,
+                          "items": [
+                            {
+                              "id": "Idb85529ac-cdb7-4c3b-a435-8505b756b3ec",
+                              "compType": "formItem",
+                              "itemType": "input",
+                              "fieldName": "field_83caaa",
+                              "preps": {
+                                "id": "Idb85529ac-cdb7-4c3b-a435-8505b756b3ec",
+                                "label": "学生姓名",
+                                "name": "field_83caaa",
+                                "itemNameLabel": "学生姓名",
+                                "formVisible": true,
+                                "listVisible": true,
+                                "viewVisible": true,
+                                "searchVisible": false,
+                                "required": true,
+                                "disabled": false,
+                                "clearable": true,
+                                "readonly": false,
+                                "maxLength": 255,
+                                "placeholder": "请输入学生姓名",
+                                "dataSource": "",
+                                "values": [],
+                                "rules": [],
+                                "helpMsg": ""
+                              }
+                            }
+                          ]
+                        },
+                        {
+                          "id": "col-2b717c78-b8b1-4bb8-b543-2c20c28b7b1b",
+                          "cellVisible": true,
+                          "colIndex": 1,
+                          "colspan": 12,
+                          "items": [
+                            {
+                              "id": "Id64a9ddfa-875e-452a-9da7-7fad7eb1aaf1",
+                              "compType": "formItem",
+                              "itemType": "radio",
+                              "fieldName": "field_4956a0",
+                              "preps": {
+                                "id": "Id64a9ddfa-875e-452a-9da7-7fad7eb1aaf1",
+                                "label": "性别",
+                                "name": "field_4956a0",
+                                "itemNameLabel": "性别",
+                                "formVisible": true,
+                                "listVisible": true,
+                                "viewVisible": true,
+                                "searchVisible": false,
+                                "required": false,
+                                "disabled": false,
+                                "clearable": true,
+                                "readonly": false,
+                                "maxLength": 255,
+                                "placeholder": "请输入性别",
+                                "dataSource": "data",
+                                "values": [
+                                  {
+                                    "name": "男",
+                                    "value": "1"
+                                  },
+                                  {
+                                    "name": "女",
+                                    "value": "2"
+                                  }
+                                ],
+                                "rules": [],
+                                "helpMsg": ""
+                              }
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              },
+              {
+                "id": "Id2fa2b354-2fc2-4692-b476-2ed5e20b3f9c",
+                "compType": "container",
+                "itemType": "box",
+                "fieldName": "field_a08e99",
+                "rowNums": 1,
+                "columnNums": 2,
+                "preps": {
+                  "id": "Id2fa2b354-2fc2-4692-b476-2ed5e20b3f9c",
+                  "label": "Grid Layout",
+                  "name": "field_a08e99",
+                  "itemNameLabel": "Grid Layout",
+                  "elements": [
+                    {
+                      "id": "row-ad9d13b0-04c4-4bc5-ac34-ce312497d02b",
+                      "rowIndex": 1,
+                      "columns": [
+                        {
+                          "id": "col-22b44d05-3e5b-485d-85c5-a986f0aaba86",
+                          "cellVisible": true,
+                          "colIndex": 1,
+                          "colspan": 12,
+                          "items": [
+                            {
+                              "id": "Idb86c04d1-2d53-4f2e-92dc-7c69841362c2",
+                              "compType": "formItem",
+                              "itemType": "radio",
+                              "fieldName": "field_0d122b",
+                              "preps": {
+                                "id": "Idb86c04d1-2d53-4f2e-92dc-7c69841362c2",
+                                "label": "年级",
+                                "name": "field_0d122b",
+                                "itemNameLabel": "年级",
+                                "formVisible": true,
+                                "listVisible": true,
+                                "viewVisible": true,
+                                "searchVisible": false,
+                                "required": true,
+                                "disabled": false,
+                                "clearable": true,
+                                "readonly": false,
+                                "maxLength": 255,
+                                "placeholder": "请输入年级",
+                                "dataSource": "data",
+                                "values": [
+                                  {
+                                    "name": "一年级",
+                                    "value": "1"
+                                  },
+                                  {
+                                    "name": "二年级",
+                                    "value": "2"
+                                  },
+                                  {
+                                    "name": "三年级",
+                                    "value": "3"
+                                  },
+                                  {
+                                    "name": "四年级",
+                                    "value": "4"
+                                  },
+                                  {
+                                    "name": "五年级",
+                                    "value": "5"
+                                  },
+                                  {
+                                    "name": "六年级",
+                                    "value": "6"
+                                  },
+                                  {
+                                    "name": "初一",
+                                    "value": "7"
+                                  },
+                                  {
+                                    "name": "初二",
+                                    "value": "8"
+                                  },
+                                  {
+                                    "name": "初三",
+                                    "value": "9"
+                                  },
+                                  {
+                                    "name": "高一",
+                                    "value": "10"
+                                  },
+                                  {
+                                    "name": "高二",
+                                    "value": "11"
+                                  },
+                                  {
+                                    "name": "高三",
+                                    "value": "12"
+                                  }
+                                ],
+                                "rules": [],
+                                "helpMsg": ""
+                              }
+                            }
+                          ]
+                        },
+                        {
+                          "id": "col-40e6d152-1a39-4496-b041-d76878141643",
+                          "cellVisible": true,
+                          "colIndex": 1,
+                          "colspan": 12,
+                          "items": [
+                            {
+                              "id": "Idb0073197-9456-4d5f-a713-e611e9ef3457",
+                              "compType": "formItem",
+                              "itemType": "input",
+                              "fieldName": "field_a684c7",
+                              "preps": {
+                                "id": "Idb0073197-9456-4d5f-a713-e611e9ef3457",
+                                "label": "班级",
+                                "name": "field_a684c7",
+                                "itemNameLabel": "班级",
+                                "formVisible": true,
+                                "listVisible": true,
+                                "viewVisible": true,
+                                "searchVisible": false,
+                                "required": false,
+                                "disabled": false,
+                                "clearable": true,
+                                "readonly": false,
+                                "maxLength": 255,
+                                "placeholder": "请输入班级",
+                                "dataSource": "",
+                                "values": [],
+                                "rules": [],
+                                "helpMsg": ""
+                              }
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              },
+              {
+                "id": "Id6cc83049-0b39-4add-b745-be58a8fd877d",
+                "compType": "container",
+                "itemType": "box",
+                "fieldName": "field_946b0c",
+                "rowNums": 1,
+                "columnNums": 2,
+                "preps": {
+                  "id": "Id6cc83049-0b39-4add-b745-be58a8fd877d",
+                  "label": "Grid Layout",
+                  "name": "field_946b0c",
+                  "itemNameLabel": "Grid Layout",
+                  "elements": [
+                    {
+                      "id": "row-f0016671-8ebe-4415-aeb3-cb626c74b468",
+                      "rowIndex": 1,
+                      "columns": [
+                        {
+                          "id": "col-f1930e14-6774-4827-b1fb-1b8adffa43ac",
+                          "cellVisible": true,
+                          "colIndex": 1,
+                          "colspan": 12,
+                          "items": [
+                            {
+                              "id": "Id18685bf2-3300-41b7-babb-56f7da2d6b35",
+                              "compType": "formItem",
+                              "itemType": "radio",
+                              "fieldName": "field_e44886",
+                              "preps": {
+                                "id": "Id18685bf2-3300-41b7-babb-56f7da2d6b35",
+                                "label": "学期",
+                                "name": "field_e44886",
+                                "itemNameLabel": "学期",
+                                "formVisible": true,
+                                "listVisible": true,
+                                "viewVisible": true,
+                                "searchVisible": false,
+                                "required": false,
+                                "disabled": false,
+                                "clearable": true,
+                                "readonly": false,
+                                "maxLength": 255,
+                                "placeholder": "请输入学期",
+                                "dataSource": "data",
+                                "values": [
+                                  {
+                                    "name": "上学期",
+                                    "value": "1"
+                                  },
+                                  {
+                                    "name": "下学期",
+                                    "value": "2"
+                                  }
+                                ],
+                                "rules": [],
+                                "helpMsg": ""
+                              }
+                            }
+                          ]
+                        },
+                        {
+                          "id": "col-429a4d8a-0101-43cc-85fa-f238d6f96202",
+                          "cellVisible": true,
+                          "colIndex": 1,
+                          "colspan": 12,
+                          "items": [
+                            {
+                              "id": "Idd2e97411-efe6-4ea8-8039-3a54c3a8fcb0",
+                              "compType": "formItem",
+                              "itemType": "input",
+                              "fieldName": "field_c10beb",
+                              "preps": {
+                                "id": "Idd2e97411-efe6-4ea8-8039-3a54c3a8fcb0",
+                                "label": "填写日期",
+                                "name": "field_c10beb",
+                                "itemNameLabel": "填写日期",
+                                "formVisible": true,
+                                "listVisible": true,
+                                "viewVisible": true,
+                                "searchVisible": false,
+                                "required": false,
+                                "disabled": false,
+                                "clearable": true,
+                                "readonly": false,
+                                "maxLength": 255,
+                                "placeholder": "请输入填写日期",
+                                "dataSource": "",
+                                "values": [],
+                                "rules": [],
+                                "helpMsg": ""
+                              }
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              },
+              {
+                "id": "Id76de5cb8-24ba-41aa-8366-81b8b67a8ac6",
+                "compType": "formItem",
+                "itemType": "input",
+                "fieldName": "field_cd6b4f",
+                "preps": {
+                  "id": "Id76de5cb8-24ba-41aa-8366-81b8b67a8ac6",
+                  "label": "家长姓名",
+                  "name": "field_cd6b4f",
+                  "itemNameLabel": "家长姓名",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入家长姓名",
+                  "dataSource": "",
+                  "values": [],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Id2fb75798-71ef-419e-a434-68725357d613",
+                "compType": "formItem",
+                "itemType": "input",
+                "fieldName": "field_f7d758",
+                "preps": {
+                  "id": "Id2fb75798-71ef-419e-a434-68725357d613",
+                  "label": "联系电话",
+                  "name": "field_f7d758",
+                  "itemNameLabel": "联系电话",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 11,
+                  "placeholder": "请输入联系电话",
+                  "dataSource": "",
+                  "values": [],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "Id4281aacf-95f5-4329-8481-bf7a0131a3db",
+      "compType": "container",
+      "itemType": "card",
+      "fieldName": "field_e39b5b",
+      "preps": {
+        "id": "Id4281aacf-95f5-4329-8481-bf7a0131a3db",
+        "label": "教学质量评价",
+        "name": "field_e39b5b",
+        "itemNameLabel": "教学质量评价",
+        "headerFieldList": [],
+        "elements": [
+          {
+            "label": "教学质量评价",
+            "tabName": "教学质量评价",
+            "objectName": "教学质量评价",
+            "subFormFlag": "Y",
+            "items": [
+              {
+                "id": "Id78963f59-3a93-49a5-84dd-107c0eec1599",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_8f2938",
+                "preps": {
+                  "id": "Id78963f59-3a93-49a5-84dd-107c0eec1599",
+                  "label": "教师教学态度",
+                  "name": "field_8f2938",
+                  "itemNameLabel": "教师教学态度",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": true,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入教师教学态度",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "非常满意",
+                      "value": "1"
+                    },
+                    {
+                      "name": "满意",
+                      "value": "2"
+                    },
+                    {
+                      "name": "一般",
+                      "value": "3"
+                    },
+                    {
+                      "name": "不满意",
+                      "value": "4"
+                    },
+                    {
+                      "name": "非常不满意",
+                      "value": "5"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Idc1ad240d-7da8-401e-a5ba-f5635194f685",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_104bb8",
+                "preps": {
+                  "id": "Idc1ad240d-7da8-401e-a5ba-f5635194f685",
+                  "label": "课堂教学效果",
+                  "name": "field_104bb8",
+                  "itemNameLabel": "课堂教学效果",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入课堂教学效果",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "非常好",
+                      "value": "1"
+                    },
+                    {
+                      "name": "好",
+                      "value": "2"
+                    },
+                    {
+                      "name": "一般",
+                      "value": "3"
+                    },
+                    {
+                      "name": "差",
+                      "value": "4"
+                    },
+                    {
+                      "name": "非常差",
+                      "value": "5"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Idf1727bf2-236e-4281-93c0-e7c3236efd45",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_c508f8",
+                "preps": {
+                  "id": "Idf1727bf2-236e-4281-93c0-e7c3236efd45",
+                  "label": "教师授课内容清晰度",
+                  "name": "field_c508f8",
+                  "itemNameLabel": "教师授课内容清晰度",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入教师授课内容清晰度",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "非常满意",
+                      "value": "1"
+                    },
+                    {
+                      "name": "满意",
+                      "value": "2"
+                    },
+                    {
+                      "name": "一般",
+                      "value": "3"
+                    },
+                    {
+                      "name": "不满意",
+                      "value": "4"
+                    },
+                    {
+                      "name": "非常不满意",
+                      "value": "5"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Id76a6472d-338d-4219-ac3a-c1df2d7a8ba8",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_5d567c",
+                "preps": {
+                  "id": "Id76a6472d-338d-4219-ac3a-c1df2d7a8ba8",
+                  "label": "教师课堂互动情况",
+                  "name": "field_5d567c",
+                  "itemNameLabel": "教师课堂互动情况",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入教师课堂互动情况",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "非常满意",
+                      "value": "1"
+                    },
+                    {
+                      "name": "满意",
+                      "value": "2"
+                    },
+                    {
+                      "name": "一般",
+                      "value": "3"
+                    },
+                    {
+                      "name": "不满意",
+                      "value": "4"
+                    },
+                    {
+                      "name": "非常不满意",
+                      "value": "5"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Id1f55991d-6beb-42f1-b157-78cd60943dc9",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_23eb58",
+                "preps": {
+                  "id": "Id1f55991d-6beb-42f1-b157-78cd60943dc9",
+                  "label": "教师是否关注学生个体差异",
+                  "name": "field_23eb58",
+                  "itemNameLabel": "教师是否关注学生个体差异",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入教师是否关注学生个体差异",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "非常满意",
+                      "value": "1"
+                    },
+                    {
+                      "name": "满意",
+                      "value": "2"
+                    },
+                    {
+                      "name": "一般",
+                      "value": "3"
+                    },
+                    {
+                      "name": "不满意",
+                      "value": "4"
+                    },
+                    {
+                      "name": "非常不满意",
+                      "value": "5"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Id7320fef3-0418-4aef-91c5-190255f6c1b0",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_0e6e45",
+                "preps": {
+                  "id": "Id7320fef3-0418-4aef-91c5-190255f6c1b0",
+                  "label": "作业布置量是否合理",
+                  "name": "field_0e6e45",
+                  "itemNameLabel": "作业布置量是否合理",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入作业布置量是否合理",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "太多",
+                      "value": "1"
+                    },
+                    {
+                      "name": "偏多",
+                      "value": "2"
+                    },
+                    {
+                      "name": "合适",
+                      "value": "3"
+                    },
+                    {
+                      "name": "偏少",
+                      "value": "4"
+                    },
+                    {
+                      "name": "太少",
+                      "value": "5"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Id7e39f618-2675-47ae-af3a-4831eb97ac4d",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_b4f738",
+                "preps": {
+                  "id": "Id7e39f618-2675-47ae-af3a-4831eb97ac4d",
+                  "label": "教师批改作业认真程度",
+                  "name": "field_b4f738",
+                  "itemNameLabel": "教师批改作业认真程度",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入教师批改作业认真程度",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "非常满意",
+                      "value": "1"
+                    },
+                    {
+                      "name": "满意",
+                      "value": "2"
+                    },
+                    {
+                      "name": "一般",
+                      "value": "3"
+                    },
+                    {
+                      "name": "不满意",
+                      "value": "4"
+                    },
+                    {
+                      "name": "非常不满意",
+                      "value": "5"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Idc3f396e4-144f-4e0a-9d17-dc479dac822a",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_b21e04",
+                "preps": {
+                  "id": "Idc3f396e4-144f-4e0a-9d17-dc479dac822a",
+                  "label": "教师课后辅导是否到位",
+                  "name": "field_b21e04",
+                  "itemNameLabel": "教师课后辅导是否到位",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入教师课后辅导是否到位",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "非常满意",
+                      "value": "1"
+                    },
+                    {
+                      "name": "满意",
+                      "value": "2"
+                    },
+                    {
+                      "name": "一般",
+                      "value": "3"
+                    },
+                    {
+                      "name": "不满意",
+                      "value": "4"
+                    },
+                    {
+                      "name": "非常不满意",
+                      "value": "5"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Idf9b945c2-24cd-45f3-b19e-313537fecad6",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_be276e",
+                "preps": {
+                  "id": "Idf9b945c2-24cd-45f3-b19e-313537fecad6",
+                  "label": "教学方法是否多样化",
+                  "name": "field_be276e",
+                  "itemNameLabel": "教学方法是否多样化",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入教学方法是否多样化",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "非常满意",
+                      "value": "1"
+                    },
+                    {
+                      "name": "满意",
+                      "value": "2"
+                    },
+                    {
+                      "name": "一般",
+                      "value": "3"
+                    },
+                    {
+                      "name": "不满意",
+                      "value": "4"
+                    },
+                    {
+                      "name": "非常不满意",
+                      "value": "5"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Ide422cf10-dbf9-4003-b3bc-b563b22ed0ea",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_e9b7ce",
+                "preps": {
+                  "id": "Ide422cf10-dbf9-4003-b3bc-b563b22ed0ea",
+                  "label": "教师对学生提问的回应态度",
+                  "name": "field_e9b7ce",
+                  "itemNameLabel": "教师对学生提问的回应态度",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入教师对学生提问的回应态度",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "非常满意",
+                      "value": "1"
+                    },
+                    {
+                      "name": "满意",
+                      "value": "2"
+                    },
+                    {
+                      "name": "一般",
+                      "value": "3"
+                    },
+                    {
+                      "name": "不满意",
+                      "value": "4"
+                    },
+                    {
+                      "name": "非常不满意",
+                      "value": "5"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Id8ca6e56f-9fb4-4f99-a9ff-a7c37fb41f40",
+                "compType": "formItem",
+                "itemType": "rate",
+                "fieldName": "field_f7af0d",
+                "preps": {
+                  "id": "Id8ca6e56f-9fb4-4f99-a9ff-a7c37fb41f40",
+                  "label": "教学质量总体评分",
+                  "name": "field_f7af0d",
+                  "itemNameLabel": "教学质量总体评分",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入教学质量总体评分",
+                  "dataSource": "",
+                  "values": [],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "Id16d0e1ef-112f-4a20-90ef-ac76c8a34e63",
+      "compType": "container",
+      "itemType": "card",
+      "fieldName": "field_e14ce4",
+      "preps": {
+        "id": "Id16d0e1ef-112f-4a20-90ef-ac76c8a34e63",
+        "label": "课程与学科",
+        "name": "field_e14ce4",
+        "itemNameLabel": "课程与学科",
+        "headerFieldList": [],
+        "elements": [
+          {
+            "label": "课程与学科",
+            "tabName": "课程与学科",
+            "objectName": "课程与学科",
+            "subFormFlag": "Y",
+            "items": [
+              {
+                "id": "Id49c25c22-4e2a-49b0-acc4-f686222c2842",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_c8e119",
+                "preps": {
+                  "id": "Id49c25c22-4e2a-49b0-acc4-f686222c2842",
+                  "label": "最喜欢的学科",
+                  "name": "field_c8e119",
+                  "itemNameLabel": "最喜欢的学科",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入最喜欢的学科",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "语文",
+                      "value": "1"
+                    },
+                    {
+                      "name": "数学",
+                      "value": "2"
+                    },
+                    {
+                      "name": "英语",
+                      "value": "3"
+                    },
+                    {
+                      "name": "物理",
+                      "value": "4"
+                    },
+                    {
+                      "name": "化学",
+                      "value": "5"
+                    },
+                    {
+                      "name": "生物",
+                      "value": "6"
+                    },
+                    {
+                      "name": "历史",
+                      "value": "7"
+                    },
+                    {
+                      "name": "地理",
+                      "value": "8"
+                    },
+                    {
+                      "name": "政治",
+                      "value": "9"
+                    },
+                    {
+                      "name": "体育",
+                      "value": "10"
+                    },
+                    {
+                      "name": "音乐",
+                      "value": "11"
+                    },
+                    {
+                      "name": "美术",
+                      "value": "12"
+                    },
+                    {
+                      "name": "其他",
+                      "value": "13"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Id14a47d26-2ab4-4e47-9c54-3a4681b7508c",
+                "compType": "formItem",
+                "itemType": "input",
+                "fieldName": "field_479f3a",
+                "preps": {
+                  "id": "Id14a47d26-2ab4-4e47-9c54-3a4681b7508c",
+                  "label": "最喜欢的学科(其他请说明)",
+                  "name": "field_479f3a",
+                  "itemNameLabel": "最喜欢的学科(其他请说明)",
+                  "formVisible": false,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请填写具体说明",
+                  "dataSource": "",
+                  "values": [],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Idb58577e9-3457-44d3-af0e-85851b80a218",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_3b277f",
+                "preps": {
+                  "id": "Idb58577e9-3457-44d3-af0e-85851b80a218",
+                  "label": "最不喜欢的学科",
+                  "name": "field_3b277f",
+                  "itemNameLabel": "最不喜欢的学科",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入最不喜欢的学科",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "语文",
+                      "value": "1"
+                    },
+                    {
+                      "name": "数学",
+                      "value": "2"
+                    },
+                    {
+                      "name": "英语",
+                      "value": "3"
+                    },
+                    {
+                      "name": "物理",
+                      "value": "4"
+                    },
+                    {
+                      "name": "化学",
+                      "value": "5"
+                    },
+                    {
+                      "name": "生物",
+                      "value": "6"
+                    },
+                    {
+                      "name": "历史",
+                      "value": "7"
+                    },
+                    {
+                      "name": "地理",
+                      "value": "8"
+                    },
+                    {
+                      "name": "政治",
+                      "value": "9"
+                    },
+                    {
+                      "name": "体育",
+                      "value": "10"
+                    },
+                    {
+                      "name": "音乐",
+                      "value": "11"
+                    },
+                    {
+                      "name": "美术",
+                      "value": "12"
+                    },
+                    {
+                      "name": "其他",
+                      "value": "13"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Id47b2c8c8-407c-48a0-a0c1-ed98b01e2231",
+                "compType": "formItem",
+                "itemType": "input",
+                "fieldName": "field_943a4b",
+                "preps": {
+                  "id": "Id47b2c8c8-407c-48a0-a0c1-ed98b01e2231",
+                  "label": "最不喜欢的学科(其他请说明)",
+                  "name": "field_943a4b",
+                  "itemNameLabel": "最不喜欢的学科(其他请说明)",
+                  "formVisible": false,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请填写具体说明",
+                  "dataSource": "",
+                  "values": [],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Id80855de6-9340-4f2b-9610-4b992c1eecbe",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_363b45",
+                "preps": {
+                  "id": "Id80855de6-9340-4f2b-9610-4b992c1eecbe",
+                  "label": "课程难度感受",
+                  "name": "field_363b45",
+                  "itemNameLabel": "课程难度感受",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入课程难度感受",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "太难",
+                      "value": "1"
+                    },
+                    {
+                      "name": "偏难",
+                      "value": "2"
+                    },
+                    {
+                      "name": "适中",
+                      "value": "3"
+                    },
+                    {
+                      "name": "偏简单",
+                      "value": "4"
+                    },
+                    {
+                      "name": "太简单",
+                      "value": "5"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Iddd1197a5-9e6f-4f2f-aa03-e1500629bfe5",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_992e30",
+                "preps": {
+                  "id": "Iddd1197a5-9e6f-4f2f-aa03-e1500629bfe5",
+                  "label": "课程进度感受",
+                  "name": "field_992e30",
+                  "itemNameLabel": "课程进度感受",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入课程进度感受",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "太快",
+                      "value": "1"
+                    },
+                    {
+                      "name": "偏快",
+                      "value": "2"
+                    },
+                    {
+                      "name": "适中",
+                      "value": "3"
+                    },
+                    {
+                      "name": "偏慢",
+                      "value": "4"
+                    },
+                    {
+                      "name": "太慢",
+                      "value": "5"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Id8b8268b6-620d-445b-a8e2-a1cd178f66e7",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_af47fd",
+                "preps": {
+                  "id": "Id8b8268b6-620d-445b-a8e2-a1cd178f66e7",
+                  "label": "选修课丰富程度",
+                  "name": "field_af47fd",
+                  "itemNameLabel": "选修课丰富程度",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入选修课丰富程度",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "非常满意",
+                      "value": "1"
+                    },
+                    {
+                      "name": "满意",
+                      "value": "2"
+                    },
+                    {
+                      "name": "一般",
+                      "value": "3"
+                    },
+                    {
+                      "name": "不满意",
+                      "value": "4"
+                    },
+                    {
+                      "name": "非常不满意",
+                      "value": "5"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Id91bafa12-9f76-4594-ade3-2a776ccdbd15",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_ec712e",
+                "preps": {
+                  "id": "Id91bafa12-9f76-4594-ade3-2a776ccdbd15",
+                  "label": "实践课程是否充足",
+                  "name": "field_ec712e",
+                  "itemNameLabel": "实践课程是否充足",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入实践课程是否充足",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "非常满意",
+                      "value": "1"
+                    },
+                    {
+                      "name": "满意",
+                      "value": "2"
+                    },
+                    {
+                      "name": "一般",
+                      "value": "3"
+                    },
+                    {
+                      "name": "不满意",
+                      "value": "4"
+                    },
+                    {
+                      "name": "非常不满意",
+                      "value": "5"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Id81d69ef1-1e57-4905-9663-babc22d3f1db",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_3c8b8e",
+                "preps": {
+                  "id": "Id81d69ef1-1e57-4905-9663-babc22d3f1db",
+                  "label": "课程安排是否合理",
+                  "name": "field_3c8b8e",
+                  "itemNameLabel": "课程安排是否合理",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入课程安排是否合理",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "非常满意",
+                      "value": "1"
+                    },
+                    {
+                      "name": "满意",
+                      "value": "2"
+                    },
+                    {
+                      "name": "一般",
+                      "value": "3"
+                    },
+                    {
+                      "name": "不满意",
+                      "value": "4"
+                    },
+                    {
+                      "name": "非常不满意",
+                      "value": "5"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Id23dc2be2-f645-4223-ae8c-89bda9017ef7",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_4db14f",
+                "preps": {
+                  "id": "Id23dc2be2-f645-4223-ae8c-89bda9017ef7",
+                  "label": "对体育课满意度",
+                  "name": "field_4db14f",
+                  "itemNameLabel": "对体育课满意度",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入对体育课满意度",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "非常满意",
+                      "value": "1"
+                    },
+                    {
+                      "name": "满意",
+                      "value": "2"
+                    },
+                    {
+                      "name": "一般",
+                      "value": "3"
+                    },
+                    {
+                      "name": "不满意",
+                      "value": "4"
+                    },
+                    {
+                      "name": "非常不满意",
+                      "value": "5"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Id528e43d4-dffb-4f40-9516-d60546bb4e40",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_b4bb42",
+                "preps": {
+                  "id": "Id528e43d4-dffb-4f40-9516-d60546bb4e40",
+                  "label": "对音乐/美术课满意度",
+                  "name": "field_b4bb42",
+                  "itemNameLabel": "对音乐/美术课满意度",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入对音乐/美术课满意度",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "非常满意",
+                      "value": "1"
+                    },
+                    {
+                      "name": "满意",
+                      "value": "2"
+                    },
+                    {
+                      "name": "一般",
+                      "value": "3"
+                    },
+                    {
+                      "name": "不满意",
+                      "value": "4"
+                    },
+                    {
+                      "name": "非常不满意",
+                      "value": "5"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Id084af6ba-5051-4772-9d09-c3f3a44116de",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_7b501d",
+                "preps": {
+                  "id": "Id084af6ba-5051-4772-9d09-c3f3a44116de",
+                  "label": "对信息技术课满意度",
+                  "name": "field_7b501d",
+                  "itemNameLabel": "对信息技术课满意度",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入对信息技术课满意度",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "非常满意",
+                      "value": "1"
+                    },
+                    {
+                      "name": "满意",
+                      "value": "2"
+                    },
+                    {
+                      "name": "一般",
+                      "value": "3"
+                    },
+                    {
+                      "name": "不满意",
+                      "value": "4"
+                    },
+                    {
+                      "name": "非常不满意",
+                      "value": "5"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "Ida4e96624-8924-4db0-a9bc-156dda51d9e1",
+      "compType": "container",
+      "itemType": "card",
+      "fieldName": "field_96c519",
+      "preps": {
+        "id": "Ida4e96624-8924-4db0-a9bc-156dda51d9e1",
+        "label": "校园环境与设施",
+        "name": "field_96c519",
+        "itemNameLabel": "校园环境与设施",
+        "headerFieldList": [],
+        "elements": [
+          {
+            "label": "校园环境与设施",
+            "tabName": "校园环境与设施",
+            "objectName": "校园环境与设施",
+            "subFormFlag": "Y",
+            "items": [
+              {
+                "id": "Idfa01f64a-07c1-48eb-98d2-fad2020efcb3",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_92c9a1",
+                "preps": {
+                  "id": "Idfa01f64a-07c1-48eb-98d2-fad2020efcb3",
+                  "label": "学校教学设施完善程度",
+                  "name": "field_92c9a1",
+                  "itemNameLabel": "学校教学设施完善程度",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入学校教学设施完善程度",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "非常满意",
+                      "value": "1"
+                    },
+                    {
+                      "name": "满意",
+                      "value": "2"
+                    },
+                    {
+                      "name": "一般",
+                      "value": "3"
+                    },
+                    {
+                      "name": "不满意",
+                      "value": "4"
+                    },
+                    {
+                      "name": "非常不满意",
+                      "value": "5"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Id68824fff-e1f3-4676-a03c-0e2ffb9726ea",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_68d40c",
+                "preps": {
+                  "id": "Id68824fff-e1f3-4676-a03c-0e2ffb9726ea",
+                  "label": "图书馆资源是否充足",
+                  "name": "field_68d40c",
+                  "itemNameLabel": "图书馆资源是否充足",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入图书馆资源是否充足",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "非常满意",
+                      "value": "1"
+                    },
+                    {
+                      "name": "满意",
+                      "value": "2"
+                    },
+                    {
+                      "name": "一般",
+                      "value": "3"
+                    },
+                    {
+                      "name": "不满意",
+                      "value": "4"
+                    },
+                    {
+                      "name": "非常不满意",
+                      "value": "5"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Idd3f38ef4-1a24-4dc2-9424-72648711dbc2",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_52309b",
+                "preps": {
+                  "id": "Idd3f38ef4-1a24-4dc2-9424-72648711dbc2",
+                  "label": "实验室设备是否齐全",
+                  "name": "field_52309b",
+                  "itemNameLabel": "实验室设备是否齐全",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入实验室设备是否齐全",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "非常满意",
+                      "value": "1"
+                    },
+                    {
+                      "name": "满意",
+                      "value": "2"
+                    },
+                    {
+                      "name": "一般",
+                      "value": "3"
+                    },
+                    {
+                      "name": "不满意",
+                      "value": "4"
+                    },
+                    {
+                      "name": "非常不满意",
+                      "value": "5"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Id42f184c1-9c13-435a-834c-c16ddebd4596",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_7c4c31",
+                "preps": {
+                  "id": "Id42f184c1-9c13-435a-834c-c16ddebd4596",
+                  "label": "体育设施满意度",
+                  "name": "field_7c4c31",
+                  "itemNameLabel": "体育设施满意度",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入体育设施满意度",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "非常满意",
+                      "value": "1"
+                    },
+                    {
+                      "name": "满意",
+                      "value": "2"
+                    },
+                    {
+                      "name": "一般",
+                      "value": "3"
+                    },
+                    {
+                      "name": "不满意",
+                      "value": "4"
+                    },
+                    {
+                      "name": "非常不满意",
+                      "value": "5"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Idf7fd459a-9b34-494e-8f3e-abfba9f906b1",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_228fb8",
+                "preps": {
+                  "id": "Idf7fd459a-9b34-494e-8f3e-abfba9f906b1",
+                  "label": "教室环境(灯光/温度/桌椅)",
+                  "name": "field_228fb8",
+                  "itemNameLabel": "教室环境(灯光/温度/桌椅)",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入教室环境(灯光/温度/桌椅)",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "非常满意",
+                      "value": "1"
+                    },
+                    {
+                      "name": "满意",
+                      "value": "2"
+                    },
+                    {
+                      "name": "一般",
+                      "value": "3"
+                    },
+                    {
+                      "name": "不满意",
+                      "value": "4"
+                    },
+                    {
+                      "name": "非常不满意",
+                      "value": "5"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Idd71f8970-e553-4fa8-9437-9be57aa51fa2",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_d775d0",
+                "preps": {
+                  "id": "Idd71f8970-e553-4fa8-9437-9be57aa51fa2",
+                  "label": "校园卫生状况",
+                  "name": "field_d775d0",
+                  "itemNameLabel": "校园卫生状况",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入校园卫生状况",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "非常满意",
+                      "value": "1"
+                    },
+                    {
+                      "name": "满意",
+                      "value": "2"
+                    },
+                    {
+                      "name": "一般",
+                      "value": "3"
+                    },
+                    {
+                      "name": "不满意",
+                      "value": "4"
+                    },
+                    {
+                      "name": "非常不满意",
+                      "value": "5"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Id4815860c-2a66-43c6-8709-3321aaa92b69",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_a7b94d",
+                "preps": {
+                  "id": "Id4815860c-2a66-43c6-8709-3321aaa92b69",
+                  "label": "食堂饭菜质量",
+                  "name": "field_a7b94d",
+                  "itemNameLabel": "食堂饭菜质量",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入食堂饭菜质量",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "非常满意",
+                      "value": "1"
+                    },
+                    {
+                      "name": "满意",
+                      "value": "2"
+                    },
+                    {
+                      "name": "一般",
+                      "value": "3"
+                    },
+                    {
+                      "name": "不满意",
+                      "value": "4"
+                    },
+                    {
+                      "name": "非常不满意",
+                      "value": "5"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Id100131ba-61c2-4a3a-b771-0fe4412bbb06",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_d1d103",
+                "preps": {
+                  "id": "Id100131ba-61c2-4a3a-b771-0fe4412bbb06",
+                  "label": "食堂就餐环境",
+                  "name": "field_d1d103",
+                  "itemNameLabel": "食堂就餐环境",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入食堂就餐环境",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "非常满意",
+                      "value": "1"
+                    },
+                    {
+                      "name": "满意",
+                      "value": "2"
+                    },
+                    {
+                      "name": "一般",
+                      "value": "3"
+                    },
+                    {
+                      "name": "不满意",
+                      "value": "4"
+                    },
+                    {
+                      "name": "非常不满意",
+                      "value": "5"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Id07a9b399-d3bf-450f-a0b8-de42e321bea1",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_f514c2",
+                "preps": {
+                  "id": "Id07a9b399-d3bf-450f-a0b8-de42e321bea1",
+                  "label": "校园安全措施",
+                  "name": "field_f514c2",
+                  "itemNameLabel": "校园安全措施",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入校园安全措施",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "非常满意",
+                      "value": "1"
+                    },
+                    {
+                      "name": "满意",
+                      "value": "2"
+                    },
+                    {
+                      "name": "一般",
+                      "value": "3"
+                    },
+                    {
+                      "name": "不满意",
+                      "value": "4"
+                    },
+                    {
+                      "name": "非常不满意",
+                      "value": "5"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Iddf589126-3cfe-4934-8367-886253aff6fe",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_416259",
+                "preps": {
+                  "id": "Iddf589126-3cfe-4934-8367-886253aff6fe",
+                  "label": "校园绿化与美观程度",
+                  "name": "field_416259",
+                  "itemNameLabel": "校园绿化与美观程度",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入校园绿化与美观程度",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "非常满意",
+                      "value": "1"
+                    },
+                    {
+                      "name": "满意",
+                      "value": "2"
+                    },
+                    {
+                      "name": "一般",
+                      "value": "3"
+                    },
+                    {
+                      "name": "不满意",
+                      "value": "4"
+                    },
+                    {
+                      "name": "非常不满意",
+                      "value": "5"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Idf0aacc49-bc13-447d-b462-509f81670544",
+                "compType": "formItem",
+                "itemType": "rate",
+                "fieldName": "field_4125d2",
+                "preps": {
+                  "id": "Idf0aacc49-bc13-447d-b462-509f81670544",
+                  "label": "校园环境总体评分",
+                  "name": "field_4125d2",
+                  "itemNameLabel": "校园环境总体评分",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入校园环境总体评分",
+                  "dataSource": "",
+                  "values": [],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "Id515d2004-1fbd-4554-87a7-2611ff1912ed",
+      "compType": "container",
+      "itemType": "card",
+      "fieldName": "field_caed87",
+      "preps": {
+        "id": "Id515d2004-1fbd-4554-87a7-2611ff1912ed",
+        "label": "师生关系与管理",
+        "name": "field_caed87",
+        "itemNameLabel": "师生关系与管理",
+        "headerFieldList": [],
+        "elements": [
+          {
+            "label": "师生关系与管理",
+            "tabName": "师生关系与管理",
+            "objectName": "师生关系与管理",
+            "subFormFlag": "Y",
+            "items": [
+              {
+                "id": "Id5ca75d03-e69a-4a0f-9ab5-19c918abd7b0",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_b7bc65",
+                "preps": {
+                  "id": "Id5ca75d03-e69a-4a0f-9ab5-19c918abd7b0",
+                  "label": "师生关系融洽程度",
+                  "name": "field_b7bc65",
+                  "itemNameLabel": "师生关系融洽程度",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入师生关系融洽程度",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "非常满意",
+                      "value": "1"
+                    },
+                    {
+                      "name": "满意",
+                      "value": "2"
+                    },
+                    {
+                      "name": "一般",
+                      "value": "3"
+                    },
+                    {
+                      "name": "不满意",
+                      "value": "4"
+                    },
+                    {
+                      "name": "非常不满意",
+                      "value": "5"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Id017d6467-425b-4497-8ea9-fb9564c84457",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_8425b4",
+                "preps": {
+                  "id": "Id017d6467-425b-4497-8ea9-fb9564c84457",
+                  "label": "同学之间相处情况",
+                  "name": "field_8425b4",
+                  "itemNameLabel": "同学之间相处情况",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入同学之间相处情况",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "非常融洽",
+                      "value": "1"
+                    },
+                    {
+                      "name": "融洽",
+                      "value": "2"
+                    },
+                    {
+                      "name": "一般",
+                      "value": "3"
+                    },
+                    {
+                      "name": "有矛盾",
+                      "value": "4"
+                    },
+                    {
+                      "name": "矛盾较多",
+                      "value": "5"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Id95a5af2a-c7b6-4bb2-b8b0-bb5ff98fc9aa",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_bcfe68",
+                "preps": {
+                  "id": "Id95a5af2a-c7b6-4bb2-b8b0-bb5ff98fc9aa",
+                  "label": "班主任管理水平",
+                  "name": "field_bcfe68",
+                  "itemNameLabel": "班主任管理水平",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入班主任管理水平",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "非常满意",
+                      "value": "1"
+                    },
+                    {
+                      "name": "满意",
+                      "value": "2"
+                    },
+                    {
+                      "name": "一般",
+                      "value": "3"
+                    },
+                    {
+                      "name": "不满意",
+                      "value": "4"
+                    },
+                    {
+                      "name": "非常不满意",
+                      "value": "5"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Idd1638923-0034-4618-ac6d-c8daee164251",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_7ff455",
+                "preps": {
+                  "id": "Idd1638923-0034-4618-ac6d-c8daee164251",
+                  "label": "学校纪律管理是否合理",
+                  "name": "field_7ff455",
+                  "itemNameLabel": "学校纪律管理是否合理",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入学校纪律管理是否合理",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "非常满意",
+                      "value": "1"
+                    },
+                    {
+                      "name": "满意",
+                      "value": "2"
+                    },
+                    {
+                      "name": "一般",
+                      "value": "3"
+                    },
+                    {
+                      "name": "不满意",
+                      "value": "4"
+                    },
+                    {
+                      "name": "非常不满意",
+                      "value": "5"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Id94d893f0-d2bb-4d30-bdb9-9a38a49c1374",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_f207ab",
+                "preps": {
+                  "id": "Id94d893f0-d2bb-4d30-bdb9-9a38a49c1374",
+                  "label": "学校对学生的心理关怀",
+                  "name": "field_f207ab",
+                  "itemNameLabel": "学校对学生的心理关怀",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入学校对学生的心理关怀",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "非常满意",
+                      "value": "1"
+                    },
+                    {
+                      "name": "满意",
+                      "value": "2"
+                    },
+                    {
+                      "name": "一般",
+                      "value": "3"
+                    },
+                    {
+                      "name": "不满意",
+                      "value": "4"
+                    },
+                    {
+                      "name": "非常不满意",
+                      "value": "5"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Idebd999e0-5cc0-4481-8339-b18d9b9e401a",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_67939f",
+                "preps": {
+                  "id": "Idebd999e0-5cc0-4481-8339-b18d9b9e401a",
+                  "label": "家校沟通是否及时",
+                  "name": "field_67939f",
+                  "itemNameLabel": "家校沟通是否及时",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入家校沟通是否及时",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "非常满意",
+                      "value": "1"
+                    },
+                    {
+                      "name": "满意",
+                      "value": "2"
+                    },
+                    {
+                      "name": "一般",
+                      "value": "3"
+                    },
+                    {
+                      "name": "不满意",
+                      "value": "4"
+                    },
+                    {
+                      "name": "非常不满意",
+                      "value": "5"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Idcfdeb3b7-6bff-4ac9-a064-0d91e3dc0ac6",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_ccccd0",
+                "preps": {
+                  "id": "Idcfdeb3b7-6bff-4ac9-a064-0d91e3dc0ac6",
+                  "label": "教师是否存在偏见或歧视",
+                  "name": "field_ccccd0",
+                  "itemNameLabel": "教师是否存在偏见或歧视",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入教师是否存在偏见或歧视",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "完全没有",
+                      "value": "1"
+                    },
+                    {
+                      "name": "很少",
+                      "value": "2"
+                    },
+                    {
+                      "name": "偶尔",
+                      "value": "3"
+                    },
+                    {
+                      "name": "较多",
+                      "value": "4"
+                    },
+                    {
+                      "name": "严重",
+                      "value": "5"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Idba66411a-165b-47d2-b55e-98245407be88",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_a277c8",
+                "preps": {
+                  "id": "Idba66411a-165b-47d2-b55e-98245407be88",
+                  "label": "学生话语权是否被尊重",
+                  "name": "field_a277c8",
+                  "itemNameLabel": "学生话语权是否被尊重",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入学生话语权是否被尊重",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "非常满意",
+                      "value": "1"
+                    },
+                    {
+                      "name": "满意",
+                      "value": "2"
+                    },
+                    {
+                      "name": "一般",
+                      "value": "3"
+                    },
+                    {
+                      "name": "不满意",
+                      "value": "4"
+                    },
+                    {
+                      "name": "非常不满意",
+                      "value": "5"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "Id13e276bf-94d4-40ad-ae25-03e7379fe529",
+      "compType": "container",
+      "itemType": "card",
+      "fieldName": "field_5361cc",
+      "preps": {
+        "id": "Id13e276bf-94d4-40ad-ae25-03e7379fe529",
+        "label": "课外活动与发展",
+        "name": "field_5361cc",
+        "itemNameLabel": "课外活动与发展",
+        "headerFieldList": [],
+        "elements": [
+          {
+            "label": "课外活动与发展",
+            "tabName": "课外活动与发展",
+            "objectName": "课外活动与发展",
+            "subFormFlag": "Y",
+            "items": [
+              {
+                "id": "Idb0a3d40c-7f49-4619-bc7f-ec889c5ddbcc",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_f0c03f",
+                "preps": {
+                  "id": "Idb0a3d40c-7f49-4619-bc7f-ec889c5ddbcc",
+                  "label": "课外活动丰富程度",
+                  "name": "field_f0c03f",
+                  "itemNameLabel": "课外活动丰富程度",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入课外活动丰富程度",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "非常满意",
+                      "value": "1"
+                    },
+                    {
+                      "name": "满意",
+                      "value": "2"
+                    },
+                    {
+                      "name": "一般",
+                      "value": "3"
+                    },
+                    {
+                      "name": "不满意",
+                      "value": "4"
+                    },
+                    {
+                      "name": "非常不满意",
+                      "value": "5"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Id4ecf57b4-a063-4036-8ff0-1f12d24e2a08",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_7ac58f",
+                "preps": {
+                  "id": "Id4ecf57b4-a063-4036-8ff0-1f12d24e2a08",
+                  "label": "社团活动满意度",
+                  "name": "field_7ac58f",
+                  "itemNameLabel": "社团活动满意度",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入社团活动满意度",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "非常满意",
+                      "value": "1"
+                    },
+                    {
+                      "name": "满意",
+                      "value": "2"
+                    },
+                    {
+                      "name": "一般",
+                      "value": "3"
+                    },
+                    {
+                      "name": "不满意",
+                      "value": "4"
+                    },
+                    {
+                      "name": "非常不满意",
+                      "value": "5"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Idf2efde5c-24fb-46fd-8ef4-1ee2f1383c92",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_9a1bd7",
+                "preps": {
+                  "id": "Idf2efde5c-24fb-46fd-8ef4-1ee2f1383c92",
+                  "label": "学校对学生兴趣培养的重视程度",
+                  "name": "field_9a1bd7",
+                  "itemNameLabel": "学校对学生兴趣培养的重视程度",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入学校对学生兴趣培养的重视程度",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "非常满意",
+                      "value": "1"
+                    },
+                    {
+                      "name": "满意",
+                      "value": "2"
+                    },
+                    {
+                      "name": "一般",
+                      "value": "3"
+                    },
+                    {
+                      "name": "不满意",
+                      "value": "4"
+                    },
+                    {
+                      "name": "非常不满意",
+                      "value": "5"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Id30669e3c-56b1-4e22-9f8b-9ae59589b966",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_88099a",
+                "preps": {
+                  "id": "Id30669e3c-56b1-4e22-9f8b-9ae59589b966",
+                  "label": "参加校外竞赛/活动机会",
+                  "name": "field_88099a",
+                  "itemNameLabel": "参加校外竞赛/活动机会",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入参加校外竞赛/活动机会",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "很多",
+                      "value": "1"
+                    },
+                    {
+                      "name": "较多",
+                      "value": "2"
+                    },
+                    {
+                      "name": "一般",
+                      "value": "3"
+                    },
+                    {
+                      "name": "很少",
+                      "value": "4"
+                    },
+                    {
+                      "name": "几乎没有",
+                      "value": "5"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Id63f510b9-565a-44f3-9ba5-29a6eb36a8cb",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_14530a",
+                "preps": {
+                  "id": "Id63f510b9-565a-44f3-9ba5-29a6eb36a8cb",
+                  "label": "学校对学生创新能力培养",
+                  "name": "field_14530a",
+                  "itemNameLabel": "学校对学生创新能力培养",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入学校对学生创新能力培养",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "非常满意",
+                      "value": "1"
+                    },
+                    {
+                      "name": "满意",
+                      "value": "2"
+                    },
+                    {
+                      "name": "一般",
+                      "value": "3"
+                    },
+                    {
+                      "name": "不满意",
+                      "value": "4"
+                    },
+                    {
+                      "name": "非常不满意",
+                      "value": "5"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Id10c7dcc7-e867-4dfc-b07e-66665d814f74",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_96ab87",
+                "preps": {
+                  "id": "Id10c7dcc7-e867-4dfc-b07e-66665d814f74",
+                  "label": "学业压力感受",
+                  "name": "field_96ab87",
+                  "itemNameLabel": "学业压力感受",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入学业压力感受",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "非常大",
+                      "value": "1"
+                    },
+                    {
+                      "name": "较大",
+                      "value": "2"
+                    },
+                    {
+                      "name": "适中",
+                      "value": "3"
+                    },
+                    {
+                      "name": "较小",
+                      "value": "4"
+                    },
+                    {
+                      "name": "几乎没有",
+                      "value": "5"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Idcace25cc-2bad-445e-b6df-f8676342eacc",
+                "compType": "formItem",
+                "itemType": "checkbox",
+                "fieldName": "field_ca9136",
+                "preps": {
+                  "id": "Idcace25cc-2bad-445e-b6df-f8676342eacc",
+                  "label": "学生参加过哪些课外活动(多选)",
+                  "name": "field_ca9136",
+                  "itemNameLabel": "学生参加过哪些课外活动(多选)",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入学生参加过哪些课外活动(多选)",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "体育类",
+                      "value": "1"
+                    },
+                    {
+                      "name": "艺术类",
+                      "value": "2"
+                    },
+                    {
+                      "name": "科技类",
+                      "value": "3"
+                    },
+                    {
+                      "name": "学科竞赛",
+                      "value": "4"
+                    },
+                    {
+                      "name": "社会实践",
+                      "value": "5"
+                    },
+                    {
+                      "name": "志愿者活动",
+                      "value": "6"
+                    },
+                    {
+                      "name": "无",
+                      "value": "7"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "Idd5b4936a-192a-4008-95c9-e4897583e876",
+      "compType": "container",
+      "itemType": "card",
+      "fieldName": "field_c07ac9",
+      "preps": {
+        "id": "Idd5b4936a-192a-4008-95c9-e4897583e876",
+        "label": "总体评价与建议",
+        "name": "field_c07ac9",
+        "itemNameLabel": "总体评价与建议",
+        "headerFieldList": [],
+        "elements": [
+          {
+            "label": "总体评价与建议",
+            "tabName": "总体评价与建议",
+            "objectName": "总体评价与建议",
+            "subFormFlag": "Y",
+            "items": [
+              {
+                "id": "Id02781249-58cb-4101-a70b-ebe119f92395",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_94852c",
+                "preps": {
+                  "id": "Id02781249-58cb-4101-a70b-ebe119f92395",
+                  "label": "对学校总体满意度",
+                  "name": "field_94852c",
+                  "itemNameLabel": "对学校总体满意度",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": true,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入对学校总体满意度",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "非常满意",
+                      "value": "1"
+                    },
+                    {
+                      "name": "满意",
+                      "value": "2"
+                    },
+                    {
+                      "name": "一般",
+                      "value": "3"
+                    },
+                    {
+                      "name": "不满意",
+                      "value": "4"
+                    },
+                    {
+                      "name": "非常不满意",
+                      "value": "5"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Ide1e8bddc-3b9f-4de7-aff7-543b6291f0de",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_b481c8",
+                "preps": {
+                  "id": "Ide1e8bddc-3b9f-4de7-aff7-543b6291f0de",
+                  "label": "是否愿意向其他家长推荐本校",
+                  "name": "field_b481c8",
+                  "itemNameLabel": "是否愿意向其他家长推荐本校",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入是否愿意向其他家长推荐本校",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "是",
+                      "value": "1"
+                    },
+                    {
+                      "name": "否",
+                      "value": "2"
+                    },
+                    {
+                      "name": "不确定",
+                      "value": "3"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Id6f5d7161-e637-45ef-98fd-95c45311f411",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_bdb1cc",
+                "preps": {
+                  "id": "Id6f5d7161-e637-45ef-98fd-95c45311f411",
+                  "label": "与去年相比学校是否有进步",
+                  "name": "field_bdb1cc",
+                  "itemNameLabel": "与去年相比学校是否有进步",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入与去年相比学校是否有进步",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "明显进步",
+                      "value": "1"
+                    },
+                    {
+                      "name": "有进步",
+                      "value": "2"
+                    },
+                    {
+                      "name": "没变化",
+                      "value": "3"
+                    },
+                    {
+                      "name": "退步了",
+                      "value": "4"
+                    },
+                    {
+                      "name": "明显退步",
+                      "value": "5"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Id7076b73b-785f-4ff0-b666-b7695e1ec648",
+                "compType": "formItem",
+                "itemType": "checkbox",
+                "fieldName": "field_9092c9",
+                "preps": {
+                  "id": "Id7076b73b-785f-4ff0-b666-b7695e1ec648",
+                  "label": "您认为学校的优势有哪些(多选)",
+                  "name": "field_9092c9",
+                  "itemNameLabel": "您认为学校的优势有哪些(多选)",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入您认为学校的优势有哪些(多选)",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "师资力量",
+                      "value": "1"
+                    },
+                    {
+                      "name": "教学设施",
+                      "value": "2"
+                    },
+                    {
+                      "name": "课程设置",
+                      "value": "3"
+                    },
+                    {
+                      "name": "校风校纪",
+                      "value": "4"
+                    },
+                    {
+                      "name": "课外活动",
+                      "value": "5"
+                    },
+                    {
+                      "name": "家校沟通",
+                      "value": "6"
+                    },
+                    {
+                      "name": "其他",
+                      "value": "7"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Idd9c3f872-ed29-42bc-b3a2-75a5e80dc13e",
+                "compType": "formItem",
+                "itemType": "textarea",
+                "fieldName": "field_9d81bf",
+                "preps": {
+                  "id": "Idd9c3f872-ed29-42bc-b3a2-75a5e80dc13e",
+                  "label": "您认为学校最需要改进的方面",
+                  "name": "field_9d81bf",
+                  "itemNameLabel": "您认为学校最需要改进的方面",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 1000,
+                  "placeholder": "请详细描述您的想法",
+                  "dataSource": "",
+                  "values": [],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Id14343276-0874-4759-b636-d99fb6ed795a",
+                "compType": "formItem",
+                "itemType": "textarea",
+                "fieldName": "field_82d0f2",
+                "preps": {
+                  "id": "Id14343276-0874-4759-b636-d99fb6ed795a",
+                  "label": "其他意见或建议",
+                  "name": "field_82d0f2",
+                  "itemNameLabel": "其他意见或建议",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 1000,
+                  "placeholder": "请详细描述您的想法",
+                  "dataSource": "",
+                  "values": [],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "exportTime": "2026-06-16T10:51:24.797Z",
+  "version": "1.0"
+}

@@ -250,10 +250,12 @@ const handleNodeClick = (data: any) => {
     selectedNodeId.value = data.id;
     const comp = compMap.value[data.id];
     designForm.selectItem(comp, comp.itemType, "");
-    // Trigger scroll to field in canvas
-    window.dispatchEvent(
-      new CustomEvent("scroll-to-field", { detail: data.id }),
-    );
+    // Trigger scroll to field in canvas (delayed to allow collapsed containers to expand first)
+    nextTick(() => {
+      window.dispatchEvent(
+        new CustomEvent("scroll-to-field", { detail: data.id }),
+      );
+    });
   }
 };
 

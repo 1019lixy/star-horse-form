@@ -5,14 +5,14 @@
   },
   "dataList": [
     {
-      "id": "Id1da3100c-b916-4d92-8d9e-0ee42dbdc114",
+      "id": "Ide67fdb2c-3764-4660-a5d3-f16e26995842",
       "compType": "container",
       "itemType": "card",
-      "fieldName": "field_a1bfea",
+      "fieldName": "field_14c1b4",
       "preps": {
-        "id": "Id1da3100c-b916-4d92-8d9e-0ee42dbdc114",
+        "id": "Ide67fdb2c-3764-4660-a5d3-f16e26995842",
         "label": "请假信息",
-        "name": "field_a1bfea",
+        "name": "field_14c1b4",
         "itemNameLabel": "请假信息",
         "headerFieldList": [],
         "elements": [
@@ -23,37 +23,37 @@
             "subFormFlag": "Y",
             "items": [
               {
-                "id": "Iddd45a0b3-cc80-4350-b2a6-fbaad29aa4ad",
+                "id": "Id8531081d-9de5-412c-b98e-8f10e7d431b0",
                 "compType": "container",
                 "itemType": "box",
-                "fieldName": "field_e168db",
+                "fieldName": "field_f3056a",
                 "rowNums": 1,
                 "columnNums": 2,
                 "preps": {
-                  "id": "Iddd45a0b3-cc80-4350-b2a6-fbaad29aa4ad",
+                  "id": "Id8531081d-9de5-412c-b98e-8f10e7d431b0",
                   "label": "Grid Layout",
-                  "name": "field_e168db",
+                  "name": "field_f3056a",
                   "itemNameLabel": "Grid Layout",
                   "elements": [
                     {
-                      "id": "row-cf4b17fd-233b-4621-b67b-ec84f61e8075",
+                      "id": "row-99bd52d5-7d14-436b-9b93-d35724cd9b1f",
                       "rowIndex": 1,
                       "columns": [
                         {
-                          "id": "col-8d03602f-4f9c-4c4d-8313-2705cc68173d",
+                          "id": "col-f281526e-1910-4618-8bf7-d88cde15430c",
                           "cellVisible": true,
                           "colIndex": 1,
                           "colspan": 12,
                           "items": [
                             {
-                              "id": "Idc79b96c4-b115-4296-b801-d8d4a04829d1",
+                              "id": "Id5f0b40a9-7df3-4628-b294-cb44f2873fd0",
                               "compType": "formItem",
                               "itemType": "input",
-                              "fieldName": "field_3ca83c",
+                              "fieldName": "field_843df2",
                               "preps": {
-                                "id": "Idc79b96c4-b115-4296-b801-d8d4a04829d1",
+                                "id": "Id5f0b40a9-7df3-4628-b294-cb44f2873fd0",
                                 "label": "申请人",
-                                "name": "field_3ca83c",
+                                "name": "field_843df2",
                                 "itemNameLabel": "申请人",
                                 "formVisible": true,
                                 "listVisible": true,
@@ -74,20 +74,20 @@
                           ]
                         },
                         {
-                          "id": "col-6aa3ee1e-a0da-46fa-8680-7bd7215907dd",
+                          "id": "col-b876415f-7166-4617-929b-983df13134a7",
                           "cellVisible": true,
                           "colIndex": 1,
                           "colspan": 12,
                           "items": [
                             {
-                              "id": "Idc8b29ddb-bba0-4adb-aa1a-362d9ea97e28",
+                              "id": "Id3f67e603-9e16-49c0-9f81-3098764e30df",
                               "compType": "formItem",
                               "itemType": "select",
-                              "fieldName": "field_b0bd52",
+                              "fieldName": "field_9e4512",
                               "preps": {
-                                "id": "Idc8b29ddb-bba0-4adb-aa1a-362d9ea97e28",
+                                "id": "Id3f67e603-9e16-49c0-9f81-3098764e30df",
                                 "label": "部门",
-                                "name": "field_b0bd52",
+                                "name": "field_9e4512",
                                 "itemNameLabel": "部门",
                                 "formVisible": true,
                                 "listVisible": true,
@@ -134,14 +134,14 @@
                 }
               },
               {
-                "id": "Idb3d05545-eae4-4a96-8751-0bfdbde38cbc",
+                "id": "Idce57287a-9ed9-4485-9586-0a49f33f78e3",
                 "compType": "formItem",
                 "itemType": "select",
-                "fieldName": "field_a15b40",
+                "fieldName": "field_2c1940",
                 "preps": {
-                  "id": "Idb3d05545-eae4-4a96-8751-0bfdbde38cbc",
+                  "id": "Idce57287a-9ed9-4485-9586-0a49f33f78e3",
                   "label": "请假类型",
-                  "name": "field_a15b40",
+                  "name": "field_2c1940",
                   "itemNameLabel": "请假类型",
                   "formVisible": true,
                   "listVisible": true,
@@ -189,37 +189,37 @@
                 }
               },
               {
-                "id": "Id748e9d42-655e-49e0-8ec6-619d5500f150",
+                "id": "Id277d16a8-261c-4831-88ae-b6d09e6674cd",
                 "compType": "container",
                 "itemType": "box",
-                "fieldName": "field_f262de",
+                "fieldName": "field_98cf1f",
                 "rowNums": 1,
                 "columnNums": 2,
                 "preps": {
-                  "id": "Id748e9d42-655e-49e0-8ec6-619d5500f150",
+                  "id": "Id277d16a8-261c-4831-88ae-b6d09e6674cd",
                   "label": "Grid Layout",
-                  "name": "field_f262de",
+                  "name": "field_98cf1f",
                   "itemNameLabel": "Grid Layout",
                   "elements": [
                     {
-                      "id": "row-120afff9-2e13-4aca-a87c-f6136b31c093",
+                      "id": "row-33f24613-7c5b-40f2-9edc-b0015bd45e50",
                       "rowIndex": 1,
                       "columns": [
                         {
-                          "id": "col-9997bebc-6e2c-4e8d-8793-099423f021a8",
+                          "id": "col-8ec4aa1e-1dd0-415c-a53b-0d167561788d",
                           "cellVisible": true,
                           "colIndex": 1,
                           "colspan": 12,
                           "items": [
                             {
-                              "id": "Id9c263901-fa76-4043-849a-30fc2edc9ec3",
+                              "id": "Id4f0539d1-ea3f-42c3-a245-08ec4dbc0403",
                               "compType": "formItem",
                               "itemType": "datetime",
-                              "fieldName": "field_a9f40e",
+                              "fieldName": "field_52609d",
                               "preps": {
-                                "id": "Id9c263901-fa76-4043-849a-30fc2edc9ec3",
+                                "id": "Id4f0539d1-ea3f-42c3-a245-08ec4dbc0403",
                                 "label": "开始时间",
-                                "name": "field_a9f40e",
+                                "name": "field_52609d",
                                 "itemNameLabel": "开始时间",
                                 "formVisible": true,
                                 "listVisible": true,
@@ -240,20 +240,20 @@
                           ]
                         },
                         {
-                          "id": "col-2d655b69-e60b-4f28-9a7c-8ca0edb474a9",
+                          "id": "col-32a32c68-434f-4aa3-991b-b7c0d0b8c6e4",
                           "cellVisible": true,
                           "colIndex": 1,
                           "colspan": 12,
                           "items": [
                             {
-                              "id": "Id9fff0f17-3d5d-4b21-8a00-17eabe9e0088",
+                              "id": "Id321c58a5-228c-44c6-8db0-498bf8cb65dd",
                               "compType": "formItem",
                               "itemType": "datetime",
-                              "fieldName": "field_cb715b",
+                              "fieldName": "field_4f1145",
                               "preps": {
-                                "id": "Id9fff0f17-3d5d-4b21-8a00-17eabe9e0088",
+                                "id": "Id321c58a5-228c-44c6-8db0-498bf8cb65dd",
                                 "label": "结束时间",
-                                "name": "field_cb715b",
+                                "name": "field_4f1145",
                                 "itemNameLabel": "结束时间",
                                 "formVisible": true,
                                 "listVisible": true,
@@ -279,14 +279,14 @@
                 }
               },
               {
-                "id": "Id7a5c8478-4663-4623-8dc1-5eaae7c5628f",
+                "id": "Id031b64e2-26b7-44d9-b126-1fb69a5d657d",
                 "compType": "formItem",
                 "itemType": "number",
-                "fieldName": "field_08b793",
+                "fieldName": "field_d2dfe6",
                 "preps": {
-                  "id": "Id7a5c8478-4663-4623-8dc1-5eaae7c5628f",
+                  "id": "Id031b64e2-26b7-44d9-b126-1fb69a5d657d",
                   "label": "请假天数",
-                  "name": "field_08b793",
+                  "name": "field_d2dfe6",
                   "itemNameLabel": "请假天数",
                   "formVisible": true,
                   "listVisible": true,
@@ -307,14 +307,14 @@
                 }
               },
               {
-                "id": "Id9617cbea-5b99-4fcf-af08-5408994000ab",
+                "id": "Idb29f22a2-ace1-4f1c-b01f-184b355ddc1c",
                 "compType": "formItem",
                 "itemType": "textarea",
-                "fieldName": "field_807284",
+                "fieldName": "field_ab858a",
                 "preps": {
-                  "id": "Id9617cbea-5b99-4fcf-af08-5408994000ab",
+                  "id": "Idb29f22a2-ace1-4f1c-b01f-184b355ddc1c",
                   "label": "请假事由",
-                  "name": "field_807284",
+                  "name": "field_ab858a",
                   "itemNameLabel": "请假事由",
                   "formVisible": true,
                   "listVisible": true,
@@ -338,14 +338,14 @@
       }
     },
     {
-      "id": "Ide951517d-2994-4617-b733-357ecd22883b",
+      "id": "Id7bee7c2a-e257-4638-9a60-f94c0d471bac",
       "compType": "container",
       "itemType": "card",
-      "fieldName": "field_31a7d2",
+      "fieldName": "field_c13f8d",
       "preps": {
-        "id": "Ide951517d-2994-4617-b733-357ecd22883b",
+        "id": "Id7bee7c2a-e257-4638-9a60-f94c0d471bac",
         "label": "审批信息",
-        "name": "field_31a7d2",
+        "name": "field_c13f8d",
         "itemNameLabel": "审批信息",
         "headerFieldList": [],
         "elements": [
@@ -356,14 +356,14 @@
             "subFormFlag": "Y",
             "items": [
               {
-                "id": "Id6be9cea4-d1b6-4951-a40e-9ac688b0ff74",
+                "id": "Id2a5e35bf-2aeb-44fe-94f6-925537d7e9fe",
                 "compType": "formItem",
                 "itemType": "input",
-                "fieldName": "field_29a560",
+                "fieldName": "field_839d8d",
                 "preps": {
-                  "id": "Id6be9cea4-d1b6-4951-a40e-9ac688b0ff74",
+                  "id": "Id2a5e35bf-2aeb-44fe-94f6-925537d7e9fe",
                   "label": "审批人",
-                  "name": "field_29a560",
+                  "name": "field_839d8d",
                   "itemNameLabel": "审批人",
                   "formVisible": true,
                   "listVisible": true,
@@ -382,14 +382,14 @@
                 }
               },
               {
-                "id": "Id94a64e64-eb44-483b-86b1-13f213f9e9c6",
+                "id": "Id877dc833-3956-46a7-b2a6-7999e4a6ec1c",
                 "compType": "formItem",
                 "itemType": "select",
-                "fieldName": "field_7157aa",
+                "fieldName": "field_af781a",
                 "preps": {
-                  "id": "Id94a64e64-eb44-483b-86b1-13f213f9e9c6",
+                  "id": "Id877dc833-3956-46a7-b2a6-7999e4a6ec1c",
                   "label": "审批状态",
-                  "name": "field_7157aa",
+                  "name": "field_af781a",
                   "itemNameLabel": "审批状态",
                   "formVisible": true,
                   "listVisible": true,
@@ -425,14 +425,14 @@
                 }
               },
               {
-                "id": "Id08e04b79-a5df-4d9e-b8ab-4fff4aa21e0f",
+                "id": "Iddc99b90a-ea59-40ee-b199-8a5b8678f6c7",
                 "compType": "formItem",
                 "itemType": "textarea",
-                "fieldName": "field_ae268b",
+                "fieldName": "field_5f1edd",
                 "preps": {
-                  "id": "Id08e04b79-a5df-4d9e-b8ab-4fff4aa21e0f",
+                  "id": "Iddc99b90a-ea59-40ee-b199-8a5b8678f6c7",
                   "label": "审批意见",
-                  "name": "field_ae268b",
+                  "name": "field_5f1edd",
                   "itemNameLabel": "审批意见",
                   "formVisible": true,
                   "listVisible": true,
@@ -456,6 +456,6 @@
       }
     }
   ],
-  "exportTime": "2026-06-16T09:36:26.501Z",
+  "exportTime": "2026-06-16T10:22:42.526Z",
   "version": "1.0"
 }

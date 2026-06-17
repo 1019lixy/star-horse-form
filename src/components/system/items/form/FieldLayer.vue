@@ -1,5 +1,5 @@
 <script setup lang="ts" name="FieldLayer">
-import {computed, onMounted, ref, watch} from "vue";
+import {computed, nextTick, onMounted, ref, watch} from "vue";
 import {analysisCompDatas, getDesignFormStore, SelectOption,} from "star-horse-lowcode";
 import {i18n} from "@/lang/index.js";
 
@@ -25,9 +25,11 @@ const dataChange = (data: any) => {
       return;
     }
     designForm.selectItem(compItem, compItem.itemType, "");
-    // 触发滚动定位
-    const event = new CustomEvent("scroll-to-field", {detail: data.id});
-    window.dispatchEvent(event);
+    // 触发滚动定位 (延迟一帧，等待折叠容器展开)
+    nextTick(() => {
+      const event = new CustomEvent("scroll-to-field", {detail: data.id});
+      window.dispatchEvent(event);
+    });
   }
 };
 const init = () => {

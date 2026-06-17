@@ -1,0 +1,2871 @@
+{
+  "formInfo": {
+    "formName": "27-旅游出行习惯问卷",
+    "currentPageType": "pc"
+  },
+  "dataList": [
+    {
+      "id": "Id59a44ad3-189c-469d-b7e2-ff1674ee5674",
+      "compType": "container",
+      "itemType": "card",
+      "fieldName": "field_febc30",
+      "preps": {
+        "id": "Id59a44ad3-189c-469d-b7e2-ff1674ee5674",
+        "label": "基本信息",
+        "name": "field_febc30",
+        "itemNameLabel": "基本信息",
+        "headerFieldList": [],
+        "elements": [
+          {
+            "label": "基本信息",
+            "tabName": "基本信息",
+            "objectName": "基本信息",
+            "subFormFlag": "Y",
+            "items": [
+              {
+                "id": "Id55be94cb-b05e-46c5-8e81-1540ad6eaf9c",
+                "compType": "container",
+                "itemType": "box",
+                "fieldName": "field_6ab75c",
+                "rowNums": 1,
+                "columnNums": 2,
+                "preps": {
+                  "id": "Id55be94cb-b05e-46c5-8e81-1540ad6eaf9c",
+                  "label": "Grid Layout",
+                  "name": "field_6ab75c",
+                  "itemNameLabel": "Grid Layout",
+                  "elements": [
+                    {
+                      "id": "row-ce5a4127-099f-4e18-985f-076f77cdce29",
+                      "rowIndex": 1,
+                      "columns": [
+                        {
+                          "id": "col-7f7994f2-cc00-4680-962e-0201f539abfd",
+                          "cellVisible": true,
+                          "colIndex": 1,
+                          "colspan": 12,
+                          "items": [
+                            {
+                              "id": "Ida7249d5e-746c-46f9-a1b8-d25f0c97ac2d",
+                              "compType": "formItem",
+                              "itemType": "radio",
+                              "fieldName": "field_9faf0c",
+                              "preps": {
+                                "id": "Ida7249d5e-746c-46f9-a1b8-d25f0c97ac2d",
+                                "label": "性别",
+                                "name": "field_9faf0c",
+                                "itemNameLabel": "性别",
+                                "formVisible": true,
+                                "listVisible": true,
+                                "viewVisible": true,
+                                "searchVisible": false,
+                                "required": false,
+                                "disabled": false,
+                                "clearable": true,
+                                "readonly": false,
+                                "maxLength": 255,
+                                "placeholder": "请输入性别",
+                                "dataSource": "data",
+                                "values": [
+                                  {
+                                    "name": "男",
+                                    "value": "1"
+                                  },
+                                  {
+                                    "name": "女",
+                                    "value": "2"
+                                  }
+                                ],
+                                "rules": [],
+                                "helpMsg": ""
+                              }
+                            }
+                          ]
+                        },
+                        {
+                          "id": "col-554c4862-daf1-489b-a156-847e728d37ab",
+                          "cellVisible": true,
+                          "colIndex": 1,
+                          "colspan": 12,
+                          "items": [
+                            {
+                              "id": "Idd8f6b5a5-038c-4862-aba6-5f15158ac503",
+                              "compType": "formItem",
+                              "itemType": "radio",
+                              "fieldName": "field_e05031",
+                              "preps": {
+                                "id": "Idd8f6b5a5-038c-4862-aba6-5f15158ac503",
+                                "label": "年龄段",
+                                "name": "field_e05031",
+                                "itemNameLabel": "年龄段",
+                                "formVisible": true,
+                                "listVisible": true,
+                                "viewVisible": true,
+                                "searchVisible": false,
+                                "required": false,
+                                "disabled": false,
+                                "clearable": true,
+                                "readonly": false,
+                                "maxLength": 255,
+                                "placeholder": "请输入年龄段",
+                                "dataSource": "data",
+                                "values": [
+                                  {
+                                    "name": "18岁以下",
+                                    "value": "1"
+                                  },
+                                  {
+                                    "name": "18-25岁",
+                                    "value": "2"
+                                  },
+                                  {
+                                    "name": "26-35岁",
+                                    "value": "3"
+                                  },
+                                  {
+                                    "name": "36-45岁",
+                                    "value": "4"
+                                  },
+                                  {
+                                    "name": "46-55岁",
+                                    "value": "5"
+                                  },
+                                  {
+                                    "name": "55岁以上",
+                                    "value": "6"
+                                  }
+                                ],
+                                "rules": [],
+                                "helpMsg": ""
+                              }
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              },
+              {
+                "id": "Id9f85c4c3-1d3c-467e-be21-c1d748e9c813",
+                "compType": "container",
+                "itemType": "box",
+                "fieldName": "field_9709b4",
+                "rowNums": 1,
+                "columnNums": 2,
+                "preps": {
+                  "id": "Id9f85c4c3-1d3c-467e-be21-c1d748e9c813",
+                  "label": "Grid Layout",
+                  "name": "field_9709b4",
+                  "itemNameLabel": "Grid Layout",
+                  "elements": [
+                    {
+                      "id": "row-ec4c83c3-5dbc-4c77-ad52-17d8fdc6cfde",
+                      "rowIndex": 1,
+                      "columns": [
+                        {
+                          "id": "col-4bdf2111-f12d-4309-ab4a-a3e5836cbea7",
+                          "cellVisible": true,
+                          "colIndex": 1,
+                          "colspan": 12,
+                          "items": [
+                            {
+                              "id": "Idcab31d99-309e-47ab-83ab-7ec02ce5d9fa",
+                              "compType": "formItem",
+                              "itemType": "radio",
+                              "fieldName": "field_1727d4",
+                              "preps": {
+                                "id": "Idcab31d99-309e-47ab-83ab-7ec02ce5d9fa",
+                                "label": "月收入范围",
+                                "name": "field_1727d4",
+                                "itemNameLabel": "月收入范围",
+                                "formVisible": true,
+                                "listVisible": true,
+                                "viewVisible": true,
+                                "searchVisible": false,
+                                "required": false,
+                                "disabled": false,
+                                "clearable": true,
+                                "readonly": false,
+                                "maxLength": 255,
+                                "placeholder": "请输入月收入范围",
+                                "dataSource": "data",
+                                "values": [
+                                  {
+                                    "name": "3000以下",
+                                    "value": "1"
+                                  },
+                                  {
+                                    "name": "3000-8000",
+                                    "value": "2"
+                                  },
+                                  {
+                                    "name": "8000-15000",
+                                    "value": "3"
+                                  },
+                                  {
+                                    "name": "15000-30000",
+                                    "value": "4"
+                                  },
+                                  {
+                                    "name": "30000以上",
+                                    "value": "5"
+                                  }
+                                ],
+                                "rules": [],
+                                "helpMsg": ""
+                              }
+                            }
+                          ]
+                        },
+                        {
+                          "id": "col-abcfb18a-3fb0-4263-921e-02fed4cae24f",
+                          "cellVisible": true,
+                          "colIndex": 1,
+                          "colspan": 12,
+                          "items": [
+                            {
+                              "id": "Id2b07a8e5-2607-43db-b242-f819180c8050",
+                              "compType": "formItem",
+                              "itemType": "radio",
+                              "fieldName": "field_26bdae",
+                              "preps": {
+                                "id": "Id2b07a8e5-2607-43db-b242-f819180c8050",
+                                "label": "家庭结构",
+                                "name": "field_26bdae",
+                                "itemNameLabel": "家庭结构",
+                                "formVisible": true,
+                                "listVisible": true,
+                                "viewVisible": true,
+                                "searchVisible": false,
+                                "required": false,
+                                "disabled": false,
+                                "clearable": true,
+                                "readonly": false,
+                                "maxLength": 255,
+                                "placeholder": "请输入家庭结构",
+                                "dataSource": "data",
+                                "values": [
+                                  {
+                                    "name": "单身",
+                                    "value": "1"
+                                  },
+                                  {
+                                    "name": "情侣/夫妻",
+                                    "value": "2"
+                                  },
+                                  {
+                                    "name": "有小孩",
+                                    "value": "3"
+                                  },
+                                  {
+                                    "name": "与父母同住",
+                                    "value": "4"
+                                  }
+                                ],
+                                "rules": [],
+                                "helpMsg": ""
+                              }
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              },
+              {
+                "id": "Idb3c7f9e1-bbe1-4793-a8fa-37ac3ba23d60",
+                "compType": "container",
+                "itemType": "box",
+                "fieldName": "field_feb3a6",
+                "rowNums": 1,
+                "columnNums": 2,
+                "preps": {
+                  "id": "Idb3c7f9e1-bbe1-4793-a8fa-37ac3ba23d60",
+                  "label": "Grid Layout",
+                  "name": "field_feb3a6",
+                  "itemNameLabel": "Grid Layout",
+                  "elements": [
+                    {
+                      "id": "row-e5278f73-2ae1-4a67-85f9-0adde23d6999",
+                      "rowIndex": 1,
+                      "columns": [
+                        {
+                          "id": "col-b3ebc574-d313-4ff7-96e6-1716c3f70eeb",
+                          "cellVisible": true,
+                          "colIndex": 1,
+                          "colspan": 12,
+                          "items": [
+                            {
+                              "id": "Idf3e0bb98-05e6-4621-a43e-0bc1fbdf7943",
+                              "compType": "formItem",
+                              "itemType": "radio",
+                              "fieldName": "field_31cd8d",
+                              "preps": {
+                                "id": "Idf3e0bb98-05e6-4621-a43e-0bc1fbdf7943",
+                                "label": "学历",
+                                "name": "field_31cd8d",
+                                "itemNameLabel": "学历",
+                                "formVisible": true,
+                                "listVisible": true,
+                                "viewVisible": true,
+                                "searchVisible": false,
+                                "required": false,
+                                "disabled": false,
+                                "clearable": true,
+                                "readonly": false,
+                                "maxLength": 255,
+                                "placeholder": "请输入学历",
+                                "dataSource": "data",
+                                "values": [
+                                  {
+                                    "name": "高中及以下",
+                                    "value": "1"
+                                  },
+                                  {
+                                    "name": "大专",
+                                    "value": "2"
+                                  },
+                                  {
+                                    "name": "本科",
+                                    "value": "3"
+                                  },
+                                  {
+                                    "name": "硕士及以上",
+                                    "value": "4"
+                                  }
+                                ],
+                                "rules": [],
+                                "helpMsg": ""
+                              }
+                            }
+                          ]
+                        },
+                        {
+                          "id": "col-f6d34831-b687-481b-aa1b-5c7e44ecd2eb",
+                          "cellVisible": true,
+                          "colIndex": 1,
+                          "colspan": 12,
+                          "items": [
+                            {
+                              "id": "Idc6a6beee-d9a4-4503-92b9-a2ba1cd27795",
+                              "compType": "formItem",
+                              "itemType": "radio",
+                              "fieldName": "field_dcb5f6",
+                              "preps": {
+                                "id": "Idc6a6beee-d9a4-4503-92b9-a2ba1cd27795",
+                                "label": "所在城市级别",
+                                "name": "field_dcb5f6",
+                                "itemNameLabel": "所在城市级别",
+                                "formVisible": true,
+                                "listVisible": true,
+                                "viewVisible": true,
+                                "searchVisible": false,
+                                "required": false,
+                                "disabled": false,
+                                "clearable": true,
+                                "readonly": false,
+                                "maxLength": 255,
+                                "placeholder": "请输入所在城市级别",
+                                "dataSource": "data",
+                                "values": [
+                                  {
+                                    "name": "一线",
+                                    "value": "1"
+                                  },
+                                  {
+                                    "name": "新一线",
+                                    "value": "2"
+                                  },
+                                  {
+                                    "name": "二线",
+                                    "value": "3"
+                                  },
+                                  {
+                                    "name": "三线及以下",
+                                    "value": "4"
+                                  }
+                                ],
+                                "rules": [],
+                                "helpMsg": ""
+                              }
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "Id6266fd24-b8cc-4b7e-a3cd-37cf61eae03d",
+      "compType": "container",
+      "itemType": "card",
+      "fieldName": "field_9c5b82",
+      "preps": {
+        "id": "Id6266fd24-b8cc-4b7e-a3cd-37cf61eae03d",
+        "label": "旅游频率与预算",
+        "name": "field_9c5b82",
+        "itemNameLabel": "旅游频率与预算",
+        "headerFieldList": [],
+        "elements": [
+          {
+            "label": "旅游频率与预算",
+            "tabName": "旅游频率与预算",
+            "objectName": "旅游频率与预算",
+            "subFormFlag": "Y",
+            "items": [
+              {
+                "id": "Id2440bd2a-e1a7-4027-85eb-6c34a922029e",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_59b600",
+                "preps": {
+                  "id": "Id2440bd2a-e1a7-4027-85eb-6c34a922029e",
+                  "label": "每年旅游次数",
+                  "name": "field_59b600",
+                  "itemNameLabel": "每年旅游次数",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": true,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入每年旅游次数",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "0次",
+                      "value": "1"
+                    },
+                    {
+                      "name": "1-2次",
+                      "value": "2"
+                    },
+                    {
+                      "name": "3-4次",
+                      "value": "3"
+                    },
+                    {
+                      "name": "5次以上",
+                      "value": "4"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Idd373b9c9-9add-4f8c-abfc-59cb8c2b87ac",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_743d5a",
+                "preps": {
+                  "id": "Idd373b9c9-9add-4f8c-abfc-59cb8c2b87ac",
+                  "label": "每次旅游天数",
+                  "name": "field_743d5a",
+                  "itemNameLabel": "每次旅游天数",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入每次旅游天数",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "1-2天",
+                      "value": "1"
+                    },
+                    {
+                      "name": "3-5天",
+                      "value": "2"
+                    },
+                    {
+                      "name": "6-10天",
+                      "value": "3"
+                    },
+                    {
+                      "name": "10天以上",
+                      "value": "4"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Id51933d40-4534-45fd-bfe0-d9520f2d0720",
+                "compType": "formItem",
+                "itemType": "number",
+                "fieldName": "field_3c1a29",
+                "preps": {
+                  "id": "Id51933d40-4534-45fd-bfe0-d9520f2d0720",
+                  "label": "年旅游预算(元)",
+                  "name": "field_3c1a29",
+                  "itemNameLabel": "年旅游预算(元)",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入年旅游预算(元)",
+                  "dataSource": "",
+                  "values": [],
+                  "rules": [],
+                  "helpMsg": "",
+                  "min": 0,
+                  "precision": 0
+                }
+              },
+              {
+                "id": "Ideaf55a88-d962-4e52-86ae-484e448645c0",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_1de2ee",
+                "preps": {
+                  "id": "Ideaf55a88-d962-4e52-86ae-484e448645c0",
+                  "label": "单次旅游花费",
+                  "name": "field_1de2ee",
+                  "itemNameLabel": "单次旅游花费",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入单次旅游花费",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "2000以下",
+                      "value": "1"
+                    },
+                    {
+                      "name": "2000-5000",
+                      "value": "2"
+                    },
+                    {
+                      "name": "5000-10000",
+                      "value": "3"
+                    },
+                    {
+                      "name": "10000-30000",
+                      "value": "4"
+                    },
+                    {
+                      "name": "30000以上",
+                      "value": "5"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Id2be680bd-c04d-4c02-85d1-eb56a50d462e",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_0d7579",
+                "preps": {
+                  "id": "Id2be680bd-c04d-4c02-85d1-eb56a50d462e",
+                  "label": "旅游预算中最大开销",
+                  "name": "field_0d7579",
+                  "itemNameLabel": "旅游预算中最大开销",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入旅游预算中最大开销",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "交通",
+                      "value": "1"
+                    },
+                    {
+                      "name": "住宿",
+                      "value": "2"
+                    },
+                    {
+                      "name": "餐饮",
+                      "value": "3"
+                    },
+                    {
+                      "name": "门票",
+                      "value": "4"
+                    },
+                    {
+                      "name": "购物",
+                      "value": "5"
+                    },
+                    {
+                      "name": "其他",
+                      "value": "6"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Idf30466c5-e33c-4dda-bb0c-d00795d6cbca",
+                "compType": "formItem",
+                "itemType": "input",
+                "fieldName": "field_5e158d",
+                "preps": {
+                  "id": "Idf30466c5-e33c-4dda-bb0c-d00795d6cbca",
+                  "label": "旅游预算中最大开销(其他请说明)",
+                  "name": "field_5e158d",
+                  "itemNameLabel": "旅游预算中最大开销(其他请说明)",
+                  "formVisible": false,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请填写具体说明",
+                  "dataSource": "",
+                  "values": [],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Id6799097f-521c-4711-bd33-1ff27103b9f8",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_2a4bad",
+                "preps": {
+                  "id": "Id6799097f-521c-4711-bd33-1ff27103b9f8",
+                  "label": "是否提前规划行程",
+                  "name": "field_2a4bad",
+                  "itemNameLabel": "是否提前规划行程",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入是否提前规划行程",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "提前很久规划",
+                      "value": "1"
+                    },
+                    {
+                      "name": "提前一周",
+                      "value": "2"
+                    },
+                    {
+                      "name": "临时决定",
+                      "value": "3"
+                    },
+                    {
+                      "name": "完全不规划",
+                      "value": "4"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Id8951057b-e778-4776-bbbc-0ac312d1f7ac",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_47dff6",
+                "preps": {
+                  "id": "Id8951057b-e778-4776-bbbc-0ac312d1f7ac",
+                  "label": "通常选择的出行时间",
+                  "name": "field_47dff6",
+                  "itemNameLabel": "通常选择的出行时间",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入通常选择的出行时间",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "法定假日",
+                      "value": "1"
+                    },
+                    {
+                      "name": "年假出行",
+                      "value": "2"
+                    },
+                    {
+                      "name": "周末短途",
+                      "value": "3"
+                    },
+                    {
+                      "name": "寒暑假",
+                      "value": "4"
+                    },
+                    {
+                      "name": "不固定",
+                      "value": "5"
+                    },
+                    {
+                      "name": "其他",
+                      "value": "6"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Id084c7a67-fc03-41ac-856f-dc6f2e3261f8",
+                "compType": "formItem",
+                "itemType": "input",
+                "fieldName": "field_a097b8",
+                "preps": {
+                  "id": "Id084c7a67-fc03-41ac-856f-dc6f2e3261f8",
+                  "label": "通常选择的出行时间(其他请说明)",
+                  "name": "field_a097b8",
+                  "itemNameLabel": "通常选择的出行时间(其他请说明)",
+                  "formVisible": false,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请填写具体说明",
+                  "dataSource": "",
+                  "values": [],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "Idcb1103e9-b702-45b8-a3e9-cde931eaf755",
+      "compType": "container",
+      "itemType": "card",
+      "fieldName": "field_cf1c4f",
+      "preps": {
+        "id": "Idcb1103e9-b702-45b8-a3e9-cde931eaf755",
+        "label": "旅游偏好",
+        "name": "field_cf1c4f",
+        "itemNameLabel": "旅游偏好",
+        "headerFieldList": [],
+        "elements": [
+          {
+            "label": "旅游偏好",
+            "tabName": "旅游偏好",
+            "objectName": "旅游偏好",
+            "subFormFlag": "Y",
+            "items": [
+              {
+                "id": "Id3c6ec71c-c3cd-4914-8c75-d5963b9e863b",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_66a018",
+                "preps": {
+                  "id": "Id3c6ec71c-c3cd-4914-8c75-d5963b9e863b",
+                  "label": "偏好的旅游类型",
+                  "name": "field_66a018",
+                  "itemNameLabel": "偏好的旅游类型",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入偏好的旅游类型",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "自然风光",
+                      "value": "1"
+                    },
+                    {
+                      "name": "历史文化",
+                      "value": "2"
+                    },
+                    {
+                      "name": "美食之旅",
+                      "value": "3"
+                    },
+                    {
+                      "name": "亲子游",
+                      "value": "4"
+                    },
+                    {
+                      "name": "冒险探险",
+                      "value": "5"
+                    },
+                    {
+                      "name": "休闲度假",
+                      "value": "6"
+                    },
+                    {
+                      "name": "购物游",
+                      "value": "7"
+                    },
+                    {
+                      "name": "红色旅游",
+                      "value": "8"
+                    },
+                    {
+                      "name": "其他",
+                      "value": "9"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Idae320240-4e77-4732-9274-6a5d9ded2ce2",
+                "compType": "formItem",
+                "itemType": "input",
+                "fieldName": "field_468129",
+                "preps": {
+                  "id": "Idae320240-4e77-4732-9274-6a5d9ded2ce2",
+                  "label": "偏好的旅游类型(其他请说明)",
+                  "name": "field_468129",
+                  "itemNameLabel": "偏好的旅游类型(其他请说明)",
+                  "formVisible": false,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请填写具体说明",
+                  "dataSource": "",
+                  "values": [],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Idf1920b6e-e739-4c9d-8a4b-218c22832da0",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_9463a2",
+                "preps": {
+                  "id": "Idf1920b6e-e739-4c9d-8a4b-218c22832da0",
+                  "label": "出游方式",
+                  "name": "field_9463a2",
+                  "itemNameLabel": "出游方式",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入出游方式",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "自由行",
+                      "value": "1"
+                    },
+                    {
+                      "name": "跟团游",
+                      "value": "2"
+                    },
+                    {
+                      "name": "自驾游",
+                      "value": "3"
+                    },
+                    {
+                      "name": "半自由行",
+                      "value": "4"
+                    },
+                    {
+                      "name": "定制游",
+                      "value": "5"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Id92ec2fe1-2b2c-4bdc-a67d-90bb90b8156c",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_67677d",
+                "preps": {
+                  "id": "Id92ec2fe1-2b2c-4bdc-a67d-90bb90b8156c",
+                  "label": "同行人数",
+                  "name": "field_67677d",
+                  "itemNameLabel": "同行人数",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入同行人数",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "独自出行",
+                      "value": "1"
+                    },
+                    {
+                      "name": "2人",
+                      "value": "2"
+                    },
+                    {
+                      "name": "3-5人",
+                      "value": "3"
+                    },
+                    {
+                      "name": "6人以上",
+                      "value": "4"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Id327e32c0-3732-4519-89be-2c7ca9dedc41",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_c5de4b",
+                "preps": {
+                  "id": "Id327e32c0-3732-4519-89be-2c7ca9dedc41",
+                  "label": "同行对象",
+                  "name": "field_c5de4b",
+                  "itemNameLabel": "同行对象",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入同行对象",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "独自",
+                      "value": "1"
+                    },
+                    {
+                      "name": "伴侣",
+                      "value": "2"
+                    },
+                    {
+                      "name": "家人",
+                      "value": "3"
+                    },
+                    {
+                      "name": "朋友",
+                      "value": "4"
+                    },
+                    {
+                      "name": "同事",
+                      "value": "5"
+                    },
+                    {
+                      "name": "陌生人拼团",
+                      "value": "6"
+                    },
+                    {
+                      "name": "其他",
+                      "value": "7"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Id04e22ce0-8ede-431c-b84c-c45b2567bcec",
+                "compType": "formItem",
+                "itemType": "input",
+                "fieldName": "field_5cc730",
+                "preps": {
+                  "id": "Id04e22ce0-8ede-431c-b84c-c45b2567bcec",
+                  "label": "同行对象(其他请说明)",
+                  "name": "field_5cc730",
+                  "itemNameLabel": "同行对象(其他请说明)",
+                  "formVisible": false,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请填写具体说明",
+                  "dataSource": "",
+                  "values": [],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Id16271837-539d-4527-93fb-2d7e23586dc9",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_92065c",
+                "preps": {
+                  "id": "Id16271837-539d-4527-93fb-2d7e23586dc9",
+                  "label": "最喜欢的国内目的地类型",
+                  "name": "field_92065c",
+                  "itemNameLabel": "最喜欢的国内目的地类型",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入最喜欢的国内目的地类型",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "海滨城市",
+                      "value": "1"
+                    },
+                    {
+                      "name": "古镇乡村",
+                      "value": "2"
+                    },
+                    {
+                      "name": "名山大川",
+                      "value": "3"
+                    },
+                    {
+                      "name": "都市购物",
+                      "value": "4"
+                    },
+                    {
+                      "name": "草原沙漠",
+                      "value": "5"
+                    },
+                    {
+                      "name": "雪景冰雕",
+                      "value": "6"
+                    },
+                    {
+                      "name": "其他",
+                      "value": "7"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Id2650f129-74b7-4597-9081-8f0ac1d6316c",
+                "compType": "formItem",
+                "itemType": "input",
+                "fieldName": "field_9dd7a2",
+                "preps": {
+                  "id": "Id2650f129-74b7-4597-9081-8f0ac1d6316c",
+                  "label": "最喜欢的国内目的地类型(其他请说明)",
+                  "name": "field_9dd7a2",
+                  "itemNameLabel": "最喜欢的国内目的地类型(其他请说明)",
+                  "formVisible": false,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请填写具体说明",
+                  "dataSource": "",
+                  "values": [],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Idf6810399-4c10-44d7-85fc-eaae23bd686f",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_c594a5",
+                "preps": {
+                  "id": "Idf6810399-4c10-44d7-85fc-eaae23bd686f",
+                  "label": "是否喜欢小众目的地",
+                  "name": "field_c594a5",
+                  "itemNameLabel": "是否喜欢小众目的地",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入是否喜欢小众目的地",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "非常喜欢",
+                      "value": "1"
+                    },
+                    {
+                      "name": "比较喜欢",
+                      "value": "2"
+                    },
+                    {
+                      "name": "一般",
+                      "value": "3"
+                    },
+                    {
+                      "name": "不太喜欢",
+                      "value": "4"
+                    },
+                    {
+                      "name": "不喜欢",
+                      "value": "5"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Id60ed40e2-b660-4641-a47f-713ac6b23b19",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_c29420",
+                "preps": {
+                  "id": "Id60ed40e2-b660-4641-a47f-713ac6b23b19",
+                  "label": "对红色旅游/研学游的态度",
+                  "name": "field_c29420",
+                  "itemNameLabel": "对红色旅游/研学游的态度",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入对红色旅游/研学游的态度",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "非常喜欢",
+                      "value": "1"
+                    },
+                    {
+                      "name": "喜欢",
+                      "value": "2"
+                    },
+                    {
+                      "name": "一般",
+                      "value": "3"
+                    },
+                    {
+                      "name": "不太感兴趣",
+                      "value": "4"
+                    },
+                    {
+                      "name": "不感兴趣",
+                      "value": "5"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Id8de5322e-e7ad-4b1c-88eb-05f1b3b35530",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_f3982b",
+                "preps": {
+                  "id": "Id8de5322e-e7ad-4b1c-88eb-05f1b3b35530",
+                  "label": "是否喜欢体验当地民俗风情",
+                  "name": "field_f3982b",
+                  "itemNameLabel": "是否喜欢体验当地民俗风情",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入是否喜欢体验当地民俗风情",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "非常喜欢",
+                      "value": "1"
+                    },
+                    {
+                      "name": "喜欢",
+                      "value": "2"
+                    },
+                    {
+                      "name": "一般",
+                      "value": "3"
+                    },
+                    {
+                      "name": "不太喜欢",
+                      "value": "4"
+                    },
+                    {
+                      "name": "不喜欢",
+                      "value": "5"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Id25951ca1-ec20-408d-a9d9-9525b6fdfac1",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_9c50dc",
+                "preps": {
+                  "id": "Id25951ca1-ec20-408d-a9d9-9525b6fdfac1",
+                  "label": "旅游时是否会提前了解当地文化",
+                  "name": "field_9c50dc",
+                  "itemNameLabel": "旅游时是否会提前了解当地文化",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入旅游时是否会提前了解当地文化",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "总是会",
+                      "value": "1"
+                    },
+                    {
+                      "name": "经常会",
+                      "value": "2"
+                    },
+                    {
+                      "name": "偶尔",
+                      "value": "3"
+                    },
+                    {
+                      "name": "从不",
+                      "value": "4"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Idf5ae8e50-d391-4a5b-8f4f-b58200657b3e",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_29cb6a",
+                "preps": {
+                  "id": "Idf5ae8e50-d391-4a5b-8f4f-b58200657b3e",
+                  "label": "对主题公园/乐园的态度",
+                  "name": "field_29cb6a",
+                  "itemNameLabel": "对主题公园/乐园的态度",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入对主题公园/乐园的态度",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "非常喜欢",
+                      "value": "1"
+                    },
+                    {
+                      "name": "喜欢",
+                      "value": "2"
+                    },
+                    {
+                      "name": "一般",
+                      "value": "3"
+                    },
+                    {
+                      "name": "不太喜欢",
+                      "value": "4"
+                    },
+                    {
+                      "name": "不喜欢",
+                      "value": "5"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Id449c9d65-9379-4009-a066-dd51ff12aaa3",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_f7f7af",
+                "preps": {
+                  "id": "Id449c9d65-9379-4009-a066-dd51ff12aaa3",
+                  "label": "是否喜欢夜游项目",
+                  "name": "field_f7f7af",
+                  "itemNameLabel": "是否喜欢夜游项目",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入是否喜欢夜游项目",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "非常喜欢",
+                      "value": "1"
+                    },
+                    {
+                      "name": "喜欢",
+                      "value": "2"
+                    },
+                    {
+                      "name": "一般",
+                      "value": "3"
+                    },
+                    {
+                      "name": "不太喜欢",
+                      "value": "4"
+                    },
+                    {
+                      "name": "不喜欢",
+                      "value": "5"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "Id83e077d9-eb1d-4dec-9fd6-b3bd6d38237c",
+      "compType": "container",
+      "itemType": "card",
+      "fieldName": "field_156f89",
+      "preps": {
+        "id": "Id83e077d9-eb1d-4dec-9fd6-b3bd6d38237c",
+        "label": "交通与住宿",
+        "name": "field_156f89",
+        "itemNameLabel": "交通与住宿",
+        "headerFieldList": [],
+        "elements": [
+          {
+            "label": "交通与住宿",
+            "tabName": "交通与住宿",
+            "objectName": "交通与住宿",
+            "subFormFlag": "Y",
+            "items": [
+              {
+                "id": "Id90e9a2ab-3d7c-4893-84b1-126ad520d791",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_94bd6e",
+                "preps": {
+                  "id": "Id90e9a2ab-3d7c-4893-84b1-126ad520d791",
+                  "label": "长途出行首选交通工具",
+                  "name": "field_94bd6e",
+                  "itemNameLabel": "长途出行首选交通工具",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入长途出行首选交通工具",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "飞机",
+                      "value": "1"
+                    },
+                    {
+                      "name": "高铁",
+                      "value": "2"
+                    },
+                    {
+                      "name": "自驾",
+                      "value": "3"
+                    },
+                    {
+                      "name": "大巴",
+                      "value": "4"
+                    },
+                    {
+                      "name": "火车",
+                      "value": "5"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Ida8be7e01-9e2d-477d-ad21-57a71a20a21a",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_16ac64",
+                "preps": {
+                  "id": "Ida8be7e01-9e2d-477d-ad21-57a71a20a21a",
+                  "label": "是否经常提前购买机票/车票",
+                  "name": "field_16ac64",
+                  "itemNameLabel": "是否经常提前购买机票/车票",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入是否经常提前购买机票/车票",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "总是提前",
+                      "value": "1"
+                    },
+                    {
+                      "name": "经常提前",
+                      "value": "2"
+                    },
+                    {
+                      "name": "偶尔提前",
+                      "value": "3"
+                    },
+                    {
+                      "name": "临时购买",
+                      "value": "4"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Idc6e0eb2f-8d12-44bc-a0b2-e59e5c66a97c",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_7e61b3",
+                "preps": {
+                  "id": "Idc6e0eb2f-8d12-44bc-a0b2-e59e5c66a97c",
+                  "label": "住宿偏好",
+                  "name": "field_7e61b3",
+                  "itemNameLabel": "住宿偏好",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入住宿偏好",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "高星级酒店",
+                      "value": "1"
+                    },
+                    {
+                      "name": "经济型酒店",
+                      "value": "2"
+                    },
+                    {
+                      "name": "民宿",
+                      "value": "3"
+                    },
+                    {
+                      "name": "青年旅舍",
+                      "value": "4"
+                    },
+                    {
+                      "name": "露营",
+                      "value": "5"
+                    },
+                    {
+                      "name": "亲友家",
+                      "value": "6"
+                    },
+                    {
+                      "name": "其他",
+                      "value": "7"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Idd215b8a9-9d03-4259-b1b0-91cba064508c",
+                "compType": "formItem",
+                "itemType": "input",
+                "fieldName": "field_8ad04d",
+                "preps": {
+                  "id": "Idd215b8a9-9d03-4259-b1b0-91cba064508c",
+                  "label": "住宿偏好(其他请说明)",
+                  "name": "field_8ad04d",
+                  "itemNameLabel": "住宿偏好(其他请说明)",
+                  "formVisible": false,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请填写具体说明",
+                  "dataSource": "",
+                  "values": [],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Id3dd1d2fd-3c82-4237-a3d1-5badeb21c7ab",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_5e72b9",
+                "preps": {
+                  "id": "Id3dd1d2fd-3c82-4237-a3d1-5badeb21c7ab",
+                  "label": "选择住宿最看重的因素",
+                  "name": "field_5e72b9",
+                  "itemNameLabel": "选择住宿最看重的因素",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入选择住宿最看重的因素",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "价格",
+                      "value": "1"
+                    },
+                    {
+                      "name": "位置",
+                      "value": "2"
+                    },
+                    {
+                      "name": "评分",
+                      "value": "3"
+                    },
+                    {
+                      "name": "设施",
+                      "value": "4"
+                    },
+                    {
+                      "name": "特色",
+                      "value": "5"
+                    },
+                    {
+                      "name": "其他",
+                      "value": "6"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Idb75ffcf2-6f04-4bd4-8f8e-a5adf90ff9fc",
+                "compType": "formItem",
+                "itemType": "input",
+                "fieldName": "field_4965e9",
+                "preps": {
+                  "id": "Idb75ffcf2-6f04-4bd4-8f8e-a5adf90ff9fc",
+                  "label": "选择住宿最看重的因素(其他请说明)",
+                  "name": "field_4965e9",
+                  "itemNameLabel": "选择住宿最看重的因素(其他请说明)",
+                  "formVisible": false,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请填写具体说明",
+                  "dataSource": "",
+                  "values": [],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Idde82a5e9-96ca-4494-9f96-6020ef11f878",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_8f7828",
+                "preps": {
+                  "id": "Idde82a5e9-96ca-4494-9f96-6020ef11f878",
+                  "label": "每晚住宿预算",
+                  "name": "field_8f7828",
+                  "itemNameLabel": "每晚住宿预算",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入每晚住宿预算",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "200以下",
+                      "value": "1"
+                    },
+                    {
+                      "name": "200-500",
+                      "value": "2"
+                    },
+                    {
+                      "name": "500-1000",
+                      "value": "3"
+                    },
+                    {
+                      "name": "1000-2000",
+                      "value": "4"
+                    },
+                    {
+                      "name": "2000以上",
+                      "value": "5"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Id0ab79b7d-adae-48c1-bcca-4efc7db3643f",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_2148d6",
+                "preps": {
+                  "id": "Id0ab79b7d-adae-48c1-bcca-4efc7db3643f",
+                  "label": "预订行程的渠道",
+                  "name": "field_2148d6",
+                  "itemNameLabel": "预订行程的渠道",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入预订行程的渠道",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "携程",
+                      "value": "1"
+                    },
+                    {
+                      "name": "飞猪",
+                      "value": "2"
+                    },
+                    {
+                      "name": "美团",
+                      "value": "3"
+                    },
+                    {
+                      "name": "去哪儿",
+                      "value": "4"
+                    },
+                    {
+                      "name": "小红书",
+                      "value": "5"
+                    },
+                    {
+                      "name": "旅行社",
+                      "value": "6"
+                    },
+                    {
+                      "name": "其他",
+                      "value": "7"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Id2904c919-ac28-4360-a3ea-909ec8b87a50",
+                "compType": "formItem",
+                "itemType": "input",
+                "fieldName": "field_876e0e",
+                "preps": {
+                  "id": "Id2904c919-ac28-4360-a3ea-909ec8b87a50",
+                  "label": "预订行程的渠道(其他请说明)",
+                  "name": "field_876e0e",
+                  "itemNameLabel": "预订行程的渠道(其他请说明)",
+                  "formVisible": false,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请填写具体说明",
+                  "dataSource": "",
+                  "values": [],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Id15d0cf68-805f-467a-834f-3c07b9c34cd8",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_938fa1",
+                "preps": {
+                  "id": "Id15d0cf68-805f-467a-834f-3c07b9c34cd8",
+                  "label": "旅途中使用导航的频率",
+                  "name": "field_938fa1",
+                  "itemNameLabel": "旅途中使用导航的频率",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入旅途中使用导航的频率",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "一直用",
+                      "value": "1"
+                    },
+                    {
+                      "name": "经常用",
+                      "value": "2"
+                    },
+                    {
+                      "name": "偶尔用",
+                      "value": "3"
+                    },
+                    {
+                      "name": "不用",
+                      "value": "4"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "Id7e11a666-25de-41e7-a6e6-d91dec8949c6",
+      "compType": "container",
+      "itemType": "card",
+      "fieldName": "field_2288ad",
+      "preps": {
+        "id": "Id7e11a666-25de-41e7-a6e6-d91dec8949c6",
+        "label": "旅途体验",
+        "name": "field_2288ad",
+        "itemNameLabel": "旅途体验",
+        "headerFieldList": [],
+        "elements": [
+          {
+            "label": "旅途体验",
+            "tabName": "旅途体验",
+            "objectName": "旅途体验",
+            "subFormFlag": "Y",
+            "items": [
+              {
+                "id": "Id8c112222-905b-4b52-973c-012087691eeb",
+                "compType": "formItem",
+                "itemType": "checkbox",
+                "fieldName": "field_9e9740",
+                "preps": {
+                  "id": "Id8c112222-905b-4b52-973c-012087691eeb",
+                  "label": "旅途中最喜欢做的事(多选)",
+                  "name": "field_9e9740",
+                  "itemNameLabel": "旅途中最喜欢做的事(多选)",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入旅途中最喜欢做的事(多选)",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "拍照打卡",
+                      "value": "1"
+                    },
+                    {
+                      "name": "品尝美食",
+                      "value": "2"
+                    },
+                    {
+                      "name": "逛博物馆",
+                      "value": "3"
+                    },
+                    {
+                      "name": "购物",
+                      "value": "4"
+                    },
+                    {
+                      "name": "发呆放松",
+                      "value": "5"
+                    },
+                    {
+                      "name": "社交认识新朋友",
+                      "value": "6"
+                    },
+                    {
+                      "name": "其他",
+                      "value": "7"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Id518f0ae1-c6a0-40fb-bb60-1cffa56eccc9",
+                "compType": "formItem",
+                "itemType": "input",
+                "fieldName": "field_8aa70f",
+                "preps": {
+                  "id": "Id518f0ae1-c6a0-40fb-bb60-1cffa56eccc9",
+                  "label": "旅途中最喜欢做的事(多选)(其他请说明)",
+                  "name": "field_8aa70f",
+                  "itemNameLabel": "旅途中最喜欢做的事(多选)(其他请说明)",
+                  "formVisible": false,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请填写具体说明",
+                  "dataSource": "",
+                  "values": [],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Id85d794d5-55c2-4782-9ee9-be53dc97d6f2",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_bc181e",
+                "preps": {
+                  "id": "Id85d794d5-55c2-4782-9ee9-be53dc97d6f2",
+                  "label": "是否喜欢在旅途中社交",
+                  "name": "field_bc181e",
+                  "itemNameLabel": "是否喜欢在旅途中社交",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入是否喜欢在旅途中社交",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "非常喜欢",
+                      "value": "1"
+                    },
+                    {
+                      "name": "比较喜欢",
+                      "value": "2"
+                    },
+                    {
+                      "name": "一般",
+                      "value": "3"
+                    },
+                    {
+                      "name": "不太喜欢",
+                      "value": "4"
+                    },
+                    {
+                      "name": "不喜欢",
+                      "value": "5"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Idb76e6408-4883-414b-b8cd-d7cd73533f71",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_923e70",
+                "preps": {
+                  "id": "Idb76e6408-4883-414b-b8cd-d7cd73533f71",
+                  "label": "旅游时是否会写游记/发朋友圈",
+                  "name": "field_923e70",
+                  "itemNameLabel": "旅游时是否会写游记/发朋友圈",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入旅游时是否会写游记/发朋友圈",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "每次都发",
+                      "value": "1"
+                    },
+                    {
+                      "name": "经常发",
+                      "value": "2"
+                    },
+                    {
+                      "name": "偶尔发",
+                      "value": "3"
+                    },
+                    {
+                      "name": "从不发",
+                      "value": "4"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Idb5b3505f-1788-4603-bf0f-fe327a4be375",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_341f4d",
+                "preps": {
+                  "id": "Idb5b3505f-1788-4603-bf0f-fe327a4be375",
+                  "label": "购买旅游纪念品的习惯",
+                  "name": "field_341f4d",
+                  "itemNameLabel": "购买旅游纪念品的习惯",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入购买旅游纪念品的习惯",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "每次必买",
+                      "value": "1"
+                    },
+                    {
+                      "name": "经常买",
+                      "value": "2"
+                    },
+                    {
+                      "name": "偶尔买",
+                      "value": "3"
+                    },
+                    {
+                      "name": "从不买",
+                      "value": "4"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Id99d4dfba-6a82-4985-8e03-c6a2fe0e2bdd",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_33e833",
+                "preps": {
+                  "id": "Id99d4dfba-6a82-4985-8e03-c6a2fe0e2bdd",
+                  "label": "对旅游购物的态度",
+                  "name": "field_33e833",
+                  "itemNameLabel": "对旅游购物的态度",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入对旅游购物的态度",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "很重要",
+                      "value": "1"
+                    },
+                    {
+                      "name": "比较重要",
+                      "value": "2"
+                    },
+                    {
+                      "name": "无所谓",
+                      "value": "3"
+                    },
+                    {
+                      "name": "不太喜欢",
+                      "value": "4"
+                    },
+                    {
+                      "name": "反感",
+                      "value": "5"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Id7d6c58ea-1bd4-4e91-b099-2bf82d034ae4",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_326fc9",
+                "preps": {
+                  "id": "Id7d6c58ea-1bd4-4e91-b099-2bf82d034ae4",
+                  "label": "旅途中是否遇到过不愉快经历",
+                  "name": "field_326fc9",
+                  "itemNameLabel": "旅途中是否遇到过不愉快经历",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入旅途中是否遇到过不愉快经历",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "多次",
+                      "value": "1"
+                    },
+                    {
+                      "name": "偶尔",
+                      "value": "2"
+                    },
+                    {
+                      "name": "很少",
+                      "value": "3"
+                    },
+                    {
+                      "name": "从未",
+                      "value": "4"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Idb4e4e7d1-31c9-4e8c-a6b8-c63b4c2b5a91",
+                "compType": "formItem",
+                "itemType": "checkbox",
+                "fieldName": "field_7dbd8d",
+                "preps": {
+                  "id": "Idb4e4e7d1-31c9-4e8c-a6b8-c63b4c2b5a91",
+                  "label": "不愉快经历类型(多选)",
+                  "name": "field_7dbd8d",
+                  "itemNameLabel": "不愉快经历类型(多选)",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入不愉快经历类型(多选)",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "强制购物",
+                      "value": "1"
+                    },
+                    {
+                      "name": "交通延误",
+                      "value": "2"
+                    },
+                    {
+                      "name": "住宿不符",
+                      "value": "3"
+                    },
+                    {
+                      "name": "景点踩雷",
+                      "value": "4"
+                    },
+                    {
+                      "name": "人身安全",
+                      "value": "5"
+                    },
+                    {
+                      "name": "没有",
+                      "value": "6"
+                    },
+                    {
+                      "name": "其他",
+                      "value": "7"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Idfa982ac7-c244-4f81-bf30-c1a50ff5b877",
+                "compType": "formItem",
+                "itemType": "input",
+                "fieldName": "field_778986",
+                "preps": {
+                  "id": "Idfa982ac7-c244-4f81-bf30-c1a50ff5b877",
+                  "label": "不愉快经历类型(多选)(其他请说明)",
+                  "name": "field_778986",
+                  "itemNameLabel": "不愉快经历类型(多选)(其他请说明)",
+                  "formVisible": false,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请填写具体说明",
+                  "dataSource": "",
+                  "values": [],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Iddf4cdf5f-ce42-4af3-89ca-9c61119d80b6",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_d06f1a",
+                "preps": {
+                  "id": "Iddf4cdf5f-ce42-4af3-89ca-9c61119d80b6",
+                  "label": "是否会重游去过的目的地",
+                  "name": "field_d06f1a",
+                  "itemNameLabel": "是否会重游去过的目的地",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入是否会重游去过的目的地",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "经常会",
+                      "value": "1"
+                    },
+                    {
+                      "name": "偶尔",
+                      "value": "2"
+                    },
+                    {
+                      "name": "很少",
+                      "value": "3"
+                    },
+                    {
+                      "name": "从不",
+                      "value": "4"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Iddce1b327-06fd-47b5-af80-8b9887daa85f",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_82798a",
+                "preps": {
+                  "id": "Iddce1b327-06fd-47b5-af80-8b9887daa85f",
+                  "label": "旅途中使用翻译工具的频率",
+                  "name": "field_82798a",
+                  "itemNameLabel": "旅途中使用翻译工具的频率",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入旅途中使用翻译工具的频率",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "经常使用",
+                      "value": "1"
+                    },
+                    {
+                      "name": "偶尔使用",
+                      "value": "2"
+                    },
+                    {
+                      "name": "很少使用",
+                      "value": "3"
+                    },
+                    {
+                      "name": "不使用",
+                      "value": "4"
+                    },
+                    {
+                      "name": "不需要",
+                      "value": "5"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Ide6091972-f983-4b0f-8fbf-f492884a3d83",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_5750fd",
+                "preps": {
+                  "id": "Ide6091972-f983-4b0f-8fbf-f492884a3d83",
+                  "label": "是否会给旅游景点写点评",
+                  "name": "field_5750fd",
+                  "itemNameLabel": "是否会给旅游景点写点评",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入是否会给旅游景点写点评",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "每次都会",
+                      "value": "1"
+                    },
+                    {
+                      "name": "经常",
+                      "value": "2"
+                    },
+                    {
+                      "name": "偶尔",
+                      "value": "3"
+                    },
+                    {
+                      "name": "从不",
+                      "value": "4"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Id9da81081-210b-4342-9585-0c65ce692869",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_31a49f",
+                "preps": {
+                  "id": "Id9da81081-210b-4342-9585-0c65ce692869",
+                  "label": "旅途中最喜欢的美食类型",
+                  "name": "field_31a49f",
+                  "itemNameLabel": "旅途中最喜欢的美食类型",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入旅途中最喜欢的美食类型",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "当地特色",
+                      "value": "1"
+                    },
+                    {
+                      "name": "中餐",
+                      "value": "2"
+                    },
+                    {
+                      "name": "西餐",
+                      "value": "3"
+                    },
+                    {
+                      "name": "快餐",
+                      "value": "4"
+                    },
+                    {
+                      "name": "自带食物",
+                      "value": "5"
+                    },
+                    {
+                      "name": "无所谓",
+                      "value": "6"
+                    },
+                    {
+                      "name": "其他",
+                      "value": "7"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Id7d345b0b-08e3-4bd8-bb43-1104667e52fe",
+                "compType": "formItem",
+                "itemType": "input",
+                "fieldName": "field_62566f",
+                "preps": {
+                  "id": "Id7d345b0b-08e3-4bd8-bb43-1104667e52fe",
+                  "label": "旅途中最喜欢的美食类型(其他请说明)",
+                  "name": "field_62566f",
+                  "itemNameLabel": "旅途中最喜欢的美食类型(其他请说明)",
+                  "formVisible": false,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请填写具体说明",
+                  "dataSource": "",
+                  "values": [],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Id85ea3d80-ac69-4bb9-9c57-6465e4ab3fd2",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_e678e0",
+                "preps": {
+                  "id": "Id85ea3d80-ac69-4bb9-9c57-6465e4ab3fd2",
+                  "label": "旅游中是否喜欢拍照打卡",
+                  "name": "field_e678e0",
+                  "itemNameLabel": "旅游中是否喜欢拍照打卡",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入旅游中是否喜欢拍照打卡",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "非常喜欢",
+                      "value": "1"
+                    },
+                    {
+                      "name": "喜欢",
+                      "value": "2"
+                    },
+                    {
+                      "name": "一般",
+                      "value": "3"
+                    },
+                    {
+                      "name": "不太喜欢",
+                      "value": "4"
+                    },
+                    {
+                      "name": "不喜欢",
+                      "value": "5"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "Id75c2644c-82f0-4e15-a112-549fbb45c769",
+      "compType": "container",
+      "itemType": "card",
+      "fieldName": "field_23d1a3",
+      "preps": {
+        "id": "Id75c2644c-82f0-4e15-a112-549fbb45c769",
+        "label": "旅游满意度与期望",
+        "name": "field_23d1a3",
+        "itemNameLabel": "旅游满意度与期望",
+        "headerFieldList": [],
+        "elements": [
+          {
+            "label": "旅游满意度与期望",
+            "tabName": "旅游满意度与期望",
+            "objectName": "旅游满意度与期望",
+            "subFormFlag": "Y",
+            "items": [
+              {
+                "id": "Ida440b623-6583-4c78-afde-88a3a0f7803d",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_0d1bd2",
+                "preps": {
+                  "id": "Ida440b623-6583-4c78-afde-88a3a0f7803d",
+                  "label": "最向往的出境目的地",
+                  "name": "field_0d1bd2",
+                  "itemNameLabel": "最向往的出境目的地",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入最向往的出境目的地",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "日韩",
+                      "value": "1"
+                    },
+                    {
+                      "name": "东南亚",
+                      "value": "2"
+                    },
+                    {
+                      "name": "欧美",
+                      "value": "3"
+                    },
+                    {
+                      "name": "澳新",
+                      "value": "4"
+                    },
+                    {
+                      "name": "中东",
+                      "value": "5"
+                    },
+                    {
+                      "name": "非洲",
+                      "value": "6"
+                    },
+                    {
+                      "name": "南极/北极",
+                      "value": "7"
+                    },
+                    {
+                      "name": "其他",
+                      "value": "8"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Id81b0c4ce-8643-4114-a919-aef6f77620e6",
+                "compType": "formItem",
+                "itemType": "input",
+                "fieldName": "field_22e9f5",
+                "preps": {
+                  "id": "Id81b0c4ce-8643-4114-a919-aef6f77620e6",
+                  "label": "最向往的出境目的地(其他请说明)",
+                  "name": "field_22e9f5",
+                  "itemNameLabel": "最向往的出境目的地(其他请说明)",
+                  "formVisible": false,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请填写具体说明",
+                  "dataSource": "",
+                  "values": [],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Id0cdcbc9b-1171-40c0-9fcb-8d3d4fdf0664",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_99eb2b",
+                "preps": {
+                  "id": "Id0cdcbc9b-1171-40c0-9fcb-8d3d4fdf0664",
+                  "label": "是否有出境游经历",
+                  "name": "field_99eb2b",
+                  "itemNameLabel": "是否有出境游经历",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入是否有出境游经历",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "多次",
+                      "value": "1"
+                    },
+                    {
+                      "name": "一两次",
+                      "value": "2"
+                    },
+                    {
+                      "name": "没有",
+                      "value": "3"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Ide120bdbc-a7e6-4e97-8778-fd5eb393ff22",
+                "compType": "formItem",
+                "itemType": "checkbox",
+                "fieldName": "field_e101c1",
+                "preps": {
+                  "id": "Ide120bdbc-a7e6-4e97-8778-fd5eb393ff22",
+                  "label": "出境游最担心的问题(多选)",
+                  "name": "field_e101c1",
+                  "itemNameLabel": "出境游最担心的问题(多选)",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入出境游最担心的问题(多选)",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "语言障碍",
+                      "value": "1"
+                    },
+                    {
+                      "name": "安全问题",
+                      "value": "2"
+                    },
+                    {
+                      "name": "签证",
+                      "value": "3"
+                    },
+                    {
+                      "name": "费用",
+                      "value": "4"
+                    },
+                    {
+                      "name": "文化差异",
+                      "value": "5"
+                    },
+                    {
+                      "name": "其他",
+                      "value": "6"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Idaf133baa-2443-4bab-874b-8a275363714c",
+                "compType": "formItem",
+                "itemType": "input",
+                "fieldName": "field_e2106e",
+                "preps": {
+                  "id": "Idaf133baa-2443-4bab-874b-8a275363714c",
+                  "label": "出境游最担心的问题(多选)(其他请说明)",
+                  "name": "field_e2106e",
+                  "itemNameLabel": "出境游最担心的问题(多选)(其他请说明)",
+                  "formVisible": false,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请填写具体说明",
+                  "dataSource": "",
+                  "values": [],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Id0f7b9778-5644-4b30-b718-3ffced833415",
+                "compType": "formItem",
+                "itemType": "rate",
+                "fieldName": "field_86f042",
+                "preps": {
+                  "id": "Id0f7b9778-5644-4b30-b718-3ffced833415",
+                  "label": "国内旅游体验整体满意度",
+                  "name": "field_86f042",
+                  "itemNameLabel": "国内旅游体验整体满意度",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入国内旅游体验整体满意度",
+                  "dataSource": "",
+                  "values": [],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Id97f4b108-c185-4d39-917f-fe0391acd97e",
+                "compType": "formItem",
+                "itemType": "rate",
+                "fieldName": "field_4dd0ae",
+                "preps": {
+                  "id": "Id97f4b108-c185-4d39-917f-fe0391acd97e",
+                  "label": "旅游服务行业整体满意度",
+                  "name": "field_4dd0ae",
+                  "itemNameLabel": "旅游服务行业整体满意度",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入旅游服务行业整体满意度",
+                  "dataSource": "",
+                  "values": [],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Id60cd64e4-da10-49f1-88e9-a48fa7369d2c",
+                "compType": "formItem",
+                "itemType": "textarea",
+                "fieldName": "field_a3d41d",
+                "preps": {
+                  "id": "Id60cd64e4-da10-49f1-88e9-a48fa7369d2c",
+                  "label": "最难忘的一次旅行经历",
+                  "name": "field_a3d41d",
+                  "itemNameLabel": "最难忘的一次旅行经历",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 1000,
+                  "placeholder": "请详细描述您的想法",
+                  "dataSource": "",
+                  "values": [],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Id16b2ed90-6757-4c15-aaac-0be5ab2bcc2a",
+                "compType": "formItem",
+                "itemType": "textarea",
+                "fieldName": "field_f22ee7",
+                "preps": {
+                  "id": "Id16b2ed90-6757-4c15-aaac-0be5ab2bcc2a",
+                  "label": "对未来旅游趋势的看法",
+                  "name": "field_f22ee7",
+                  "itemNameLabel": "对未来旅游趋势的看法",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 1000,
+                  "placeholder": "请详细描述您的想法",
+                  "dataSource": "",
+                  "values": [],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "exportTime": "2026-06-16T10:51:24.818Z",
+  "version": "1.0"
+}

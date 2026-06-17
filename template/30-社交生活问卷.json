@@ -1,0 +1,2779 @@
+{
+  "formInfo": {
+    "formName": "30-社交生活问卷",
+    "currentPageType": "pc"
+  },
+  "dataList": [
+    {
+      "id": "Id7345761c-ee17-48cb-8479-03224c686b7a",
+      "compType": "container",
+      "itemType": "card",
+      "fieldName": "field_238584",
+      "preps": {
+        "id": "Id7345761c-ee17-48cb-8479-03224c686b7a",
+        "label": "基本信息",
+        "name": "field_238584",
+        "itemNameLabel": "基本信息",
+        "headerFieldList": [],
+        "elements": [
+          {
+            "label": "基本信息",
+            "tabName": "基本信息",
+            "objectName": "基本信息",
+            "subFormFlag": "Y",
+            "items": [
+              {
+                "id": "Idcbc4a1b8-35f9-4935-908a-43f3e80ed8c7",
+                "compType": "container",
+                "itemType": "box",
+                "fieldName": "field_91f95e",
+                "rowNums": 1,
+                "columnNums": 2,
+                "preps": {
+                  "id": "Idcbc4a1b8-35f9-4935-908a-43f3e80ed8c7",
+                  "label": "Grid Layout",
+                  "name": "field_91f95e",
+                  "itemNameLabel": "Grid Layout",
+                  "elements": [
+                    {
+                      "id": "row-a8ffa4ca-cad5-46fe-81ae-0cc23b437aab",
+                      "rowIndex": 1,
+                      "columns": [
+                        {
+                          "id": "col-4e16cf86-cbe8-4ea5-a9ab-cea9c053105d",
+                          "cellVisible": true,
+                          "colIndex": 1,
+                          "colspan": 12,
+                          "items": [
+                            {
+                              "id": "Id04b4bdc3-16d5-4268-9681-f46545f03b44",
+                              "compType": "formItem",
+                              "itemType": "radio",
+                              "fieldName": "field_38d0f8",
+                              "preps": {
+                                "id": "Id04b4bdc3-16d5-4268-9681-f46545f03b44",
+                                "label": "性别",
+                                "name": "field_38d0f8",
+                                "itemNameLabel": "性别",
+                                "formVisible": true,
+                                "listVisible": true,
+                                "viewVisible": true,
+                                "searchVisible": false,
+                                "required": false,
+                                "disabled": false,
+                                "clearable": true,
+                                "readonly": false,
+                                "maxLength": 255,
+                                "placeholder": "请输入性别",
+                                "dataSource": "data",
+                                "values": [
+                                  {
+                                    "name": "男",
+                                    "value": "1"
+                                  },
+                                  {
+                                    "name": "女",
+                                    "value": "2"
+                                  }
+                                ],
+                                "rules": [],
+                                "helpMsg": ""
+                              }
+                            }
+                          ]
+                        },
+                        {
+                          "id": "col-85604420-f094-4b05-a0c4-a872619e45d5",
+                          "cellVisible": true,
+                          "colIndex": 1,
+                          "colspan": 12,
+                          "items": [
+                            {
+                              "id": "Id61a64630-af28-4406-8e7d-a7d3adcd2ffa",
+                              "compType": "formItem",
+                              "itemType": "radio",
+                              "fieldName": "field_cd76b2",
+                              "preps": {
+                                "id": "Id61a64630-af28-4406-8e7d-a7d3adcd2ffa",
+                                "label": "年龄段",
+                                "name": "field_cd76b2",
+                                "itemNameLabel": "年龄段",
+                                "formVisible": true,
+                                "listVisible": true,
+                                "viewVisible": true,
+                                "searchVisible": false,
+                                "required": false,
+                                "disabled": false,
+                                "clearable": true,
+                                "readonly": false,
+                                "maxLength": 255,
+                                "placeholder": "请输入年龄段",
+                                "dataSource": "data",
+                                "values": [
+                                  {
+                                    "name": "18岁以下",
+                                    "value": "1"
+                                  },
+                                  {
+                                    "name": "18-25岁",
+                                    "value": "2"
+                                  },
+                                  {
+                                    "name": "26-35岁",
+                                    "value": "3"
+                                  },
+                                  {
+                                    "name": "36-45岁",
+                                    "value": "4"
+                                  },
+                                  {
+                                    "name": "46-60岁",
+                                    "value": "5"
+                                  },
+                                  {
+                                    "name": "60岁以上",
+                                    "value": "6"
+                                  }
+                                ],
+                                "rules": [],
+                                "helpMsg": ""
+                              }
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              },
+              {
+                "id": "Id2f927923-b5b7-4faf-9b21-6d43b090c0ac",
+                "compType": "container",
+                "itemType": "box",
+                "fieldName": "field_77d5f9",
+                "rowNums": 1,
+                "columnNums": 2,
+                "preps": {
+                  "id": "Id2f927923-b5b7-4faf-9b21-6d43b090c0ac",
+                  "label": "Grid Layout",
+                  "name": "field_77d5f9",
+                  "itemNameLabel": "Grid Layout",
+                  "elements": [
+                    {
+                      "id": "row-b8341853-5d37-4cfd-9fb0-70d1f71a8613",
+                      "rowIndex": 1,
+                      "columns": [
+                        {
+                          "id": "col-7fc7bf6e-d4d4-4dd2-a003-b09699d28ff6",
+                          "cellVisible": true,
+                          "colIndex": 1,
+                          "colspan": 12,
+                          "items": [
+                            {
+                              "id": "Ide4ed55c9-4a31-433a-8570-c3aa9bf51670",
+                              "compType": "formItem",
+                              "itemType": "radio",
+                              "fieldName": "field_f9e942",
+                              "preps": {
+                                "id": "Ide4ed55c9-4a31-433a-8570-c3aa9bf51670",
+                                "label": "性格类型",
+                                "name": "field_f9e942",
+                                "itemNameLabel": "性格类型",
+                                "formVisible": true,
+                                "listVisible": true,
+                                "viewVisible": true,
+                                "searchVisible": false,
+                                "required": false,
+                                "disabled": false,
+                                "clearable": true,
+                                "readonly": false,
+                                "maxLength": 255,
+                                "placeholder": "请输入性格类型",
+                                "dataSource": "data",
+                                "values": [
+                                  {
+                                    "name": "外向型",
+                                    "value": "1"
+                                  },
+                                  {
+                                    "name": "内向型",
+                                    "value": "2"
+                                  },
+                                  {
+                                    "name": "中间型",
+                                    "value": "3"
+                                  },
+                                  {
+                                    "name": "不确定",
+                                    "value": "4"
+                                  }
+                                ],
+                                "rules": [],
+                                "helpMsg": ""
+                              }
+                            }
+                          ]
+                        },
+                        {
+                          "id": "col-6ebcb98c-68d0-4ccc-9086-692329029b8c",
+                          "cellVisible": true,
+                          "colIndex": 1,
+                          "colspan": 12,
+                          "items": [
+                            [
+                              {
+                                "id": "Id9404899d-3bd0-4a51-965b-f235a75b22b6",
+                                "compType": "formItem",
+                                "itemType": "radio",
+                                "fieldName": "field_f69eb3",
+                                "preps": {
+                                  "id": "Id9404899d-3bd0-4a51-965b-f235a75b22b6",
+                                  "label": "职业",
+                                  "name": "field_f69eb3",
+                                  "itemNameLabel": "职业",
+                                  "formVisible": true,
+                                  "listVisible": true,
+                                  "viewVisible": true,
+                                  "searchVisible": false,
+                                  "required": false,
+                                  "disabled": false,
+                                  "clearable": true,
+                                  "readonly": false,
+                                  "maxLength": 255,
+                                  "placeholder": "请输入职业",
+                                  "dataSource": "data",
+                                  "values": [
+                                    {
+                                      "name": "学生",
+                                      "value": "1"
+                                    },
+                                    {
+                                      "name": "上班族",
+                                      "value": "2"
+                                    },
+                                    {
+                                      "name": "自由职业",
+                                      "value": "3"
+                                    },
+                                    {
+                                      "name": "创业者",
+                                      "value": "4"
+                                    },
+                                    {
+                                      "name": "退休",
+                                      "value": "5"
+                                    },
+                                    {
+                                      "name": "其他",
+                                      "value": "6"
+                                    }
+                                  ],
+                                  "rules": [],
+                                  "helpMsg": ""
+                                }
+                              },
+                              {
+                                "id": "Id6bd7e30d-489c-40bc-8fca-9c7b57634abc",
+                                "compType": "formItem",
+                                "itemType": "input",
+                                "fieldName": "field_e1d465",
+                                "preps": {
+                                  "id": "Id6bd7e30d-489c-40bc-8fca-9c7b57634abc",
+                                  "label": "职业(其他请说明)",
+                                  "name": "field_e1d465",
+                                  "itemNameLabel": "职业(其他请说明)",
+                                  "formVisible": false,
+                                  "listVisible": true,
+                                  "viewVisible": true,
+                                  "searchVisible": false,
+                                  "required": false,
+                                  "disabled": false,
+                                  "clearable": true,
+                                  "readonly": false,
+                                  "maxLength": 255,
+                                  "placeholder": "请填写具体说明",
+                                  "dataSource": "",
+                                  "values": [],
+                                  "rules": [],
+                                  "helpMsg": ""
+                                }
+                              }
+                            ]
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              },
+              {
+                "id": "Id7892d03c-8963-47a7-b339-70dc80c9775d",
+                "compType": "container",
+                "itemType": "box",
+                "fieldName": "field_a6ab34",
+                "rowNums": 1,
+                "columnNums": 2,
+                "preps": {
+                  "id": "Id7892d03c-8963-47a7-b339-70dc80c9775d",
+                  "label": "Grid Layout",
+                  "name": "field_a6ab34",
+                  "itemNameLabel": "Grid Layout",
+                  "elements": [
+                    {
+                      "id": "row-4c38dd7c-5090-4fc3-802a-85c95c68137c",
+                      "rowIndex": 1,
+                      "columns": [
+                        {
+                          "id": "col-87e40420-54f3-48a5-8427-b28f33e6238f",
+                          "cellVisible": true,
+                          "colIndex": 1,
+                          "colspan": 12,
+                          "items": [
+                            {
+                              "id": "Id883bf81d-b637-40b9-98d8-049624c4bd93",
+                              "compType": "formItem",
+                              "itemType": "radio",
+                              "fieldName": "field_eb2259",
+                              "preps": {
+                                "id": "Id883bf81d-b637-40b9-98d8-049624c4bd93",
+                                "label": "学历",
+                                "name": "field_eb2259",
+                                "itemNameLabel": "学历",
+                                "formVisible": true,
+                                "listVisible": true,
+                                "viewVisible": true,
+                                "searchVisible": false,
+                                "required": false,
+                                "disabled": false,
+                                "clearable": true,
+                                "readonly": false,
+                                "maxLength": 255,
+                                "placeholder": "请输入学历",
+                                "dataSource": "data",
+                                "values": [
+                                  {
+                                    "name": "高中及以下",
+                                    "value": "1"
+                                  },
+                                  {
+                                    "name": "大专",
+                                    "value": "2"
+                                  },
+                                  {
+                                    "name": "本科",
+                                    "value": "3"
+                                  },
+                                  {
+                                    "name": "硕士及以上",
+                                    "value": "4"
+                                  }
+                                ],
+                                "rules": [],
+                                "helpMsg": ""
+                              }
+                            }
+                          ]
+                        },
+                        {
+                          "id": "col-d4f46358-2e1b-4c99-bbe7-8a5e794be421",
+                          "cellVisible": true,
+                          "colIndex": 1,
+                          "colspan": 12,
+                          "items": [
+                            {
+                              "id": "Id84ba39d7-1447-4942-9799-9ac5eed3ac49",
+                              "compType": "formItem",
+                              "itemType": "radio",
+                              "fieldName": "field_ac2906",
+                              "preps": {
+                                "id": "Id84ba39d7-1447-4942-9799-9ac5eed3ac49",
+                                "label": "居住城市级别",
+                                "name": "field_ac2906",
+                                "itemNameLabel": "居住城市级别",
+                                "formVisible": true,
+                                "listVisible": true,
+                                "viewVisible": true,
+                                "searchVisible": false,
+                                "required": false,
+                                "disabled": false,
+                                "clearable": true,
+                                "readonly": false,
+                                "maxLength": 255,
+                                "placeholder": "请输入居住城市级别",
+                                "dataSource": "data",
+                                "values": [
+                                  {
+                                    "name": "一线",
+                                    "value": "1"
+                                  },
+                                  {
+                                    "name": "新一线",
+                                    "value": "2"
+                                  },
+                                  {
+                                    "name": "二线",
+                                    "value": "3"
+                                  },
+                                  {
+                                    "name": "三线及以下",
+                                    "value": "4"
+                                  }
+                                ],
+                                "rules": [],
+                                "helpMsg": ""
+                              }
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              },
+              {
+                "id": "Ida9b645a9-6cf6-46c3-97cd-b27a9048556d",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_0c7102",
+                "preps": {
+                  "id": "Ida9b645a9-6cf6-46c3-97cd-b27a9048556d",
+                  "label": "婚姻状况",
+                  "name": "field_0c7102",
+                  "itemNameLabel": "婚姻状况",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入婚姻状况",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "未婚",
+                      "value": "1"
+                    },
+                    {
+                      "name": "已婚",
+                      "value": "2"
+                    },
+                    {
+                      "name": "离异",
+                      "value": "3"
+                    },
+                    {
+                      "name": "其他",
+                      "value": "4"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "Id1a3535cb-672d-4e73-9033-278604e01465",
+      "compType": "container",
+      "itemType": "card",
+      "fieldName": "field_75e600",
+      "preps": {
+        "id": "Id1a3535cb-672d-4e73-9033-278604e01465",
+        "label": "社交习惯",
+        "name": "field_75e600",
+        "itemNameLabel": "社交习惯",
+        "headerFieldList": [],
+        "elements": [
+          {
+            "label": "社交习惯",
+            "tabName": "社交习惯",
+            "objectName": "社交习惯",
+            "subFormFlag": "Y",
+            "items": [
+              {
+                "id": "Id9664983e-01f9-4f6b-bb22-edfd089af48b",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_d5b3db",
+                "preps": {
+                  "id": "Id9664983e-01f9-4f6b-bb22-edfd089af48b",
+                  "label": "每周社交活动频率",
+                  "name": "field_d5b3db",
+                  "itemNameLabel": "每周社交活动频率",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": true,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入每周社交活动频率",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "每天都有",
+                      "value": "1"
+                    },
+                    {
+                      "name": "每周3-5次",
+                      "value": "2"
+                    },
+                    {
+                      "name": "每周1-2次",
+                      "value": "3"
+                    },
+                    {
+                      "name": "每月几次",
+                      "value": "4"
+                    },
+                    {
+                      "name": "很少",
+                      "value": "5"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Id75ccee33-c2be-41b0-abf8-2a9e2c1b4e1d",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_7bdf08",
+                "preps": {
+                  "id": "Id75ccee33-c2be-41b0-abf8-2a9e2c1b4e1d",
+                  "label": "最喜欢的社交方式",
+                  "name": "field_7bdf08",
+                  "itemNameLabel": "最喜欢的社交方式",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入最喜欢的社交方式",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "面对面聚会",
+                      "value": "1"
+                    },
+                    {
+                      "name": "线上聊天",
+                      "value": "2"
+                    },
+                    {
+                      "name": "社交活动/派对",
+                      "value": "3"
+                    },
+                    {
+                      "name": "运动/户外活动",
+                      "value": "4"
+                    },
+                    {
+                      "name": "兴趣小组",
+                      "value": "5"
+                    },
+                    {
+                      "name": "其他",
+                      "value": "6"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Idc0e0997a-bb39-475c-a6fe-88f0f62a1e61",
+                "compType": "formItem",
+                "itemType": "input",
+                "fieldName": "field_3bc889",
+                "preps": {
+                  "id": "Idc0e0997a-bb39-475c-a6fe-88f0f62a1e61",
+                  "label": "最喜欢的社交方式(其他请说明)",
+                  "name": "field_3bc889",
+                  "itemNameLabel": "最喜欢的社交方式(其他请说明)",
+                  "formVisible": false,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请填写具体说明",
+                  "dataSource": "",
+                  "values": [],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Id46f8ceee-9399-4c93-9c2f-f5b83b9edc2a",
+                "compType": "formItem",
+                "itemType": "checkbox",
+                "fieldName": "field_90e876",
+                "preps": {
+                  "id": "Id46f8ceee-9399-4c93-9c2f-f5b83b9edc2a",
+                  "label": "通常的社交场景(多选)",
+                  "name": "field_90e876",
+                  "itemNameLabel": "通常的社交场景(多选)",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入通常的社交场景(多选)",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "工作场合",
+                      "value": "1"
+                    },
+                    {
+                      "name": "朋友聚会",
+                      "value": "2"
+                    },
+                    {
+                      "name": "家庭聚餐",
+                      "value": "3"
+                    },
+                    {
+                      "name": "兴趣社群",
+                      "value": "4"
+                    },
+                    {
+                      "name": "网络社区",
+                      "value": "5"
+                    },
+                    {
+                      "name": "其他",
+                      "value": "6"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Ide649e30a-8e6b-41fc-bb99-727a81ba7a1f",
+                "compType": "formItem",
+                "itemType": "input",
+                "fieldName": "field_ba412b",
+                "preps": {
+                  "id": "Ide649e30a-8e6b-41fc-bb99-727a81ba7a1f",
+                  "label": "通常的社交场景(多选)(其他请说明)",
+                  "name": "field_ba412b",
+                  "itemNameLabel": "通常的社交场景(多选)(其他请说明)",
+                  "formVisible": false,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请填写具体说明",
+                  "dataSource": "",
+                  "values": [],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Id686128b1-f13a-4e02-8050-fa01ac6380c0",
+                "compType": "formItem",
+                "itemType": "number",
+                "fieldName": "field_114581",
+                "preps": {
+                  "id": "Id686128b1-f13a-4e02-8050-fa01ac6380c0",
+                  "label": "月均社交消费(元)",
+                  "name": "field_114581",
+                  "itemNameLabel": "月均社交消费(元)",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入月均社交消费(元)",
+                  "dataSource": "",
+                  "values": [],
+                  "rules": [],
+                  "helpMsg": "",
+                  "min": 0,
+                  "precision": 0
+                }
+              },
+              {
+                "id": "Ida0e26828-8737-4895-8507-ed0fb5b9a80e",
+                "compType": "formItem",
+                "itemType": "number",
+                "fieldName": "field_aa5886",
+                "preps": {
+                  "id": "Ida0e26828-8737-4895-8507-ed0fb5b9a80e",
+                  "label": "亲密朋友数量",
+                  "name": "field_aa5886",
+                  "itemNameLabel": "亲密朋友数量",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入亲密朋友数量",
+                  "dataSource": "",
+                  "values": [],
+                  "rules": [],
+                  "helpMsg": "",
+                  "min": 0,
+                  "precision": 0
+                }
+              },
+              {
+                "id": "Idaf802780-365e-4686-b76e-d5dbcee256c2",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_5ef7ee",
+                "preps": {
+                  "id": "Idaf802780-365e-4686-b76e-d5dbcee256c2",
+                  "label": "社交圈大小",
+                  "name": "field_5ef7ee",
+                  "itemNameLabel": "社交圈大小",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入社交圈大小",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "很大",
+                      "value": "1"
+                    },
+                    {
+                      "name": "较大",
+                      "value": "2"
+                    },
+                    {
+                      "name": "一般",
+                      "value": "3"
+                    },
+                    {
+                      "name": "较小",
+                      "value": "4"
+                    },
+                    {
+                      "name": "很小",
+                      "value": "5"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Id4656308e-8704-4baa-bcf9-98cdf55eefc6",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_20eac9",
+                "preps": {
+                  "id": "Id4656308e-8704-4baa-bcf9-98cdf55eefc6",
+                  "label": "朋友主要来自哪里",
+                  "name": "field_20eac9",
+                  "itemNameLabel": "朋友主要来自哪里",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入朋友主要来自哪里",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "同学",
+                      "value": "1"
+                    },
+                    {
+                      "name": "同事",
+                      "value": "2"
+                    },
+                    {
+                      "name": "邻居",
+                      "value": "3"
+                    },
+                    {
+                      "name": "网络",
+                      "value": "4"
+                    },
+                    {
+                      "name": "兴趣社群",
+                      "value": "5"
+                    },
+                    {
+                      "name": "发小",
+                      "value": "6"
+                    },
+                    {
+                      "name": "其他",
+                      "value": "7"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Id005af009-4153-4e7f-a51b-33b781942080",
+                "compType": "formItem",
+                "itemType": "input",
+                "fieldName": "field_22985e",
+                "preps": {
+                  "id": "Id005af009-4153-4e7f-a51b-33b781942080",
+                  "label": "朋友主要来自哪里(其他请说明)",
+                  "name": "field_22985e",
+                  "itemNameLabel": "朋友主要来自哪里(其他请说明)",
+                  "formVisible": false,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请填写具体说明",
+                  "dataSource": "",
+                  "values": [],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Id311f8f9e-c43d-4954-85d1-7372fc22b72a",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_ed9c59",
+                "preps": {
+                  "id": "Id311f8f9e-c43d-4954-85d1-7372fc22b72a",
+                  "label": "是否主动发起社交活动",
+                  "name": "field_ed9c59",
+                  "itemNameLabel": "是否主动发起社交活动",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入是否主动发起社交活动",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "经常主动",
+                      "value": "1"
+                    },
+                    {
+                      "name": "偶尔主动",
+                      "value": "2"
+                    },
+                    {
+                      "name": "很少主动",
+                      "value": "3"
+                    },
+                    {
+                      "name": "从不主动",
+                      "value": "4"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Idf581d195-c0a7-4486-8464-1d651b6990d0",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_9bf6b9",
+                "preps": {
+                  "id": "Idf581d195-c0a7-4486-8464-1d651b6990d0",
+                  "label": "社交活动时间偏好",
+                  "name": "field_9bf6b9",
+                  "itemNameLabel": "社交活动时间偏好",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入社交活动时间偏好",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "工作日晚上",
+                      "value": "1"
+                    },
+                    {
+                      "name": "周末白天",
+                      "value": "2"
+                    },
+                    {
+                      "name": "周末晚上",
+                      "value": "3"
+                    },
+                    {
+                      "name": "节假日",
+                      "value": "4"
+                    },
+                    {
+                      "name": "不固定",
+                      "value": "5"
+                    },
+                    {
+                      "name": "其他",
+                      "value": "6"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Idd08b4990-4ed2-4819-8faf-9c3817b1613f",
+                "compType": "formItem",
+                "itemType": "input",
+                "fieldName": "field_3be186",
+                "preps": {
+                  "id": "Idd08b4990-4ed2-4819-8faf-9c3817b1613f",
+                  "label": "社交活动时间偏好(其他请说明)",
+                  "name": "field_3be186",
+                  "itemNameLabel": "社交活动时间偏好(其他请说明)",
+                  "formVisible": false,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请填写具体说明",
+                  "dataSource": "",
+                  "values": [],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Id38219829-d442-4ff5-9627-73227e005ed0",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_6335a7",
+                "preps": {
+                  "id": "Id38219829-d442-4ff5-9627-73227e005ed0",
+                  "label": "是否喜欢参加大型社交活动(50人以上)",
+                  "name": "field_6335a7",
+                  "itemNameLabel": "是否喜欢参加大型社交活动(50人以上)",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入是否喜欢参加大型社交活动(50人以上)",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "非常喜欢",
+                      "value": "1"
+                    },
+                    {
+                      "name": "喜欢",
+                      "value": "2"
+                    },
+                    {
+                      "name": "一般",
+                      "value": "3"
+                    },
+                    {
+                      "name": "不太喜欢",
+                      "value": "4"
+                    },
+                    {
+                      "name": "不喜欢",
+                      "value": "5"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Idffe8f5c6-8db9-4fd8-ae15-3a8127c32c03",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_2c98b4",
+                "preps": {
+                  "id": "Idffe8f5c6-8db9-4fd8-ae15-3a8127c32c03",
+                  "label": "社交中最常聊的话题",
+                  "name": "field_2c98b4",
+                  "itemNameLabel": "社交中最常聊的话题",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入社交中最常聊的话题",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "工作",
+                      "value": "1"
+                    },
+                    {
+                      "name": "兴趣爱好",
+                      "value": "2"
+                    },
+                    {
+                      "name": "时事新闻",
+                      "value": "3"
+                    },
+                    {
+                      "name": "家庭",
+                      "value": "4"
+                    },
+                    {
+                      "name": "八卦娱乐",
+                      "value": "5"
+                    },
+                    {
+                      "name": "其他",
+                      "value": "6"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Idc62b68e8-f3c7-47dd-905c-dbdc1284c230",
+                "compType": "formItem",
+                "itemType": "input",
+                "fieldName": "field_3ca9d8",
+                "preps": {
+                  "id": "Idc62b68e8-f3c7-47dd-905c-dbdc1284c230",
+                  "label": "社交中最常聊的话题(其他请说明)",
+                  "name": "field_3ca9d8",
+                  "itemNameLabel": "社交中最常聊的话题(其他请说明)",
+                  "formVisible": false,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请填写具体说明",
+                  "dataSource": "",
+                  "values": [],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Iddf7ad927-b1a4-44ec-a07f-7322838bcb87",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_885bed",
+                "preps": {
+                  "id": "Iddf7ad927-b1a4-44ec-a07f-7322838bcb87",
+                  "label": "社交中是否喜欢分享个人经历",
+                  "name": "field_885bed",
+                  "itemNameLabel": "社交中是否喜欢分享个人经历",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入社交中是否喜欢分享个人经历",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "非常喜欢",
+                      "value": "1"
+                    },
+                    {
+                      "name": "喜欢",
+                      "value": "2"
+                    },
+                    {
+                      "name": "一般",
+                      "value": "3"
+                    },
+                    {
+                      "name": "不太喜欢",
+                      "value": "4"
+                    },
+                    {
+                      "name": "不喜欢",
+                      "value": "5"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Ida9eb23e2-5865-4b59-83b2-64656f02b2a8",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_20fcaf",
+                "preps": {
+                  "id": "Ida9eb23e2-5865-4b59-83b2-64656f02b2a8",
+                  "label": "是否愿意在社交场合认识新朋友",
+                  "name": "field_20fcaf",
+                  "itemNameLabel": "是否愿意在社交场合认识新朋友",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入是否愿意在社交场合认识新朋友",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "非常愿意",
+                      "value": "1"
+                    },
+                    {
+                      "name": "愿意",
+                      "value": "2"
+                    },
+                    {
+                      "name": "看情况",
+                      "value": "3"
+                    },
+                    {
+                      "name": "不太愿意",
+                      "value": "4"
+                    },
+                    {
+                      "name": "不愿意",
+                      "value": "5"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Idc5fc6d72-e4fc-44be-8215-41cf8db69c0b",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_1f9e2b",
+                "preps": {
+                  "id": "Idc5fc6d72-e4fc-44be-8215-41cf8db69c0b",
+                  "label": "是否经常参加同学聚会",
+                  "name": "field_1f9e2b",
+                  "itemNameLabel": "是否经常参加同学聚会",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入是否经常参加同学聚会",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "经常",
+                      "value": "1"
+                    },
+                    {
+                      "name": "偶尔",
+                      "value": "2"
+                    },
+                    {
+                      "name": "很少",
+                      "value": "3"
+                    },
+                    {
+                      "name": "从不",
+                      "value": "4"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Id5f91b905-4287-417b-8cd8-f5a4c2009669",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_300897",
+                "preps": {
+                  "id": "Id5f91b905-4287-417b-8cd8-f5a4c2009669",
+                  "label": "是否参与社区/志愿者活动",
+                  "name": "field_300897",
+                  "itemNameLabel": "是否参与社区/志愿者活动",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入是否参与社区/志愿者活动",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "经常",
+                      "value": "1"
+                    },
+                    {
+                      "name": "偶尔",
+                      "value": "2"
+                    },
+                    {
+                      "name": "很少",
+                      "value": "3"
+                    },
+                    {
+                      "name": "从不",
+                      "value": "4"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "Idf388dba9-1662-48aa-ba1a-6c3bc88f489c",
+      "compType": "container",
+      "itemType": "card",
+      "fieldName": "field_eb4230",
+      "preps": {
+        "id": "Idf388dba9-1662-48aa-ba1a-6c3bc88f489c",
+        "label": "线上社交",
+        "name": "field_eb4230",
+        "itemNameLabel": "线上社交",
+        "headerFieldList": [],
+        "elements": [
+          {
+            "label": "线上社交",
+            "tabName": "线上社交",
+            "objectName": "线上社交",
+            "subFormFlag": "Y",
+            "items": [
+              {
+                "id": "Id6b2c8551-4532-4667-bb7e-39423376201d",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_c5e0ed",
+                "preps": {
+                  "id": "Id6b2c8551-4532-4667-bb7e-39423376201d",
+                  "label": "最常用的社交工具",
+                  "name": "field_c5e0ed",
+                  "itemNameLabel": "最常用的社交工具",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入最常用的社交工具",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "微信",
+                      "value": "1"
+                    },
+                    {
+                      "name": "QQ",
+                      "value": "2"
+                    },
+                    {
+                      "name": "微博",
+                      "value": "3"
+                    },
+                    {
+                      "name": "抖音",
+                      "value": "4"
+                    },
+                    {
+                      "name": "小红书",
+                      "value": "5"
+                    },
+                    {
+                      "name": "Discord",
+                      "value": "6"
+                    },
+                    {
+                      "name": "其他",
+                      "value": "7"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Id9cff2e38-c9e6-4ed4-a087-cc0243e2dabb",
+                "compType": "formItem",
+                "itemType": "input",
+                "fieldName": "field_c23d0a",
+                "preps": {
+                  "id": "Id9cff2e38-c9e6-4ed4-a087-cc0243e2dabb",
+                  "label": "最常用的社交工具(其他请说明)",
+                  "name": "field_c23d0a",
+                  "itemNameLabel": "最常用的社交工具(其他请说明)",
+                  "formVisible": false,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请填写具体说明",
+                  "dataSource": "",
+                  "values": [],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Id28a84e90-4f56-4cb7-b426-f30c32ced385",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_3f8dae",
+                "preps": {
+                  "id": "Id28a84e90-4f56-4cb7-b426-f30c32ced385",
+                  "label": "每天线上社交时长",
+                  "name": "field_3f8dae",
+                  "itemNameLabel": "每天线上社交时长",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入每天线上社交时长",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "30分钟以下",
+                      "value": "1"
+                    },
+                    {
+                      "name": "30-60分钟",
+                      "value": "2"
+                    },
+                    {
+                      "name": "1-2小时",
+                      "value": "3"
+                    },
+                    {
+                      "name": "2-4小时",
+                      "value": "4"
+                    },
+                    {
+                      "name": "4小时以上",
+                      "value": "5"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Id14672a46-253d-41a1-9be6-4306e42edb3a",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_bbe8a6",
+                "preps": {
+                  "id": "Id14672a46-253d-41a1-9be6-4306e42edb3a",
+                  "label": "线上社交主要形式",
+                  "name": "field_bbe8a6",
+                  "itemNameLabel": "线上社交主要形式",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入线上社交主要形式",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "文字聊天",
+                      "value": "1"
+                    },
+                    {
+                      "name": "语音/视频",
+                      "value": "2"
+                    },
+                    {
+                      "name": "群聊互动",
+                      "value": "3"
+                    },
+                    {
+                      "name": "朋友圈互动",
+                      "value": "4"
+                    },
+                    {
+                      "name": "直播互动",
+                      "value": "5"
+                    },
+                    {
+                      "name": "其他",
+                      "value": "6"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Idd69b0db2-b780-4d5e-986b-f6bebe072aa6",
+                "compType": "formItem",
+                "itemType": "input",
+                "fieldName": "field_5a119a",
+                "preps": {
+                  "id": "Idd69b0db2-b780-4d5e-986b-f6bebe072aa6",
+                  "label": "线上社交主要形式(其他请说明)",
+                  "name": "field_5a119a",
+                  "itemNameLabel": "线上社交主要形式(其他请说明)",
+                  "formVisible": false,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请填写具体说明",
+                  "dataSource": "",
+                  "values": [],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Idfa1993a9-a678-4754-926a-cd8bf4dfa6bc",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_0210cd",
+                "preps": {
+                  "id": "Idfa1993a9-a678-4754-926a-cd8bf4dfa6bc",
+                  "label": "线上朋友是否发展为线下朋友",
+                  "name": "field_0210cd",
+                  "itemNameLabel": "线上朋友是否发展为线下朋友",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入线上朋友是否发展为线下朋友",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "经常",
+                      "value": "1"
+                    },
+                    {
+                      "name": "偶尔",
+                      "value": "2"
+                    },
+                    {
+                      "name": "很少",
+                      "value": "3"
+                    },
+                    {
+                      "name": "从不",
+                      "value": "4"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Id3b69100a-406c-4d71-8dc8-d0ee86add2ef",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_1532a7",
+                "preps": {
+                  "id": "Id3b69100a-406c-4d71-8dc8-d0ee86add2ef",
+                  "label": "是否在网上匿名表达过真实想法",
+                  "name": "field_1532a7",
+                  "itemNameLabel": "是否在网上匿名表达过真实想法",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入是否在网上匿名表达过真实想法",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "经常",
+                      "value": "1"
+                    },
+                    {
+                      "name": "偶尔",
+                      "value": "2"
+                    },
+                    {
+                      "name": "很少",
+                      "value": "3"
+                    },
+                    {
+                      "name": "从不",
+                      "value": "4"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Id3b5f37e9-2998-4ced-b5bb-7639c17cfcab",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_847d91",
+                "preps": {
+                  "id": "Id3b5f37e9-2998-4ced-b5bb-7639c17cfcab",
+                  "label": "线上社交与线下社交偏好",
+                  "name": "field_847d91",
+                  "itemNameLabel": "线上社交与线下社交偏好",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入线上社交与线下社交偏好",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "偏好线上",
+                      "value": "1"
+                    },
+                    {
+                      "name": "偏好线下",
+                      "value": "2"
+                    },
+                    {
+                      "name": "差不多",
+                      "value": "3"
+                    },
+                    {
+                      "name": "都不喜欢",
+                      "value": "4"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Id354f4587-343f-4065-bde3-aed422efa5f1",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_d12ad5",
+                "preps": {
+                  "id": "Id354f4587-343f-4065-bde3-aed422efa5f1",
+                  "label": "是否在社交媒体上打造人设",
+                  "name": "field_d12ad5",
+                  "itemNameLabel": "是否在社交媒体上打造人设",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入是否在社交媒体上打造人设",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "是，精心经营",
+                      "value": "1"
+                    },
+                    {
+                      "name": "有一定包装",
+                      "value": "2"
+                    },
+                    {
+                      "name": "真实呈现",
+                      "value": "3"
+                    },
+                    {
+                      "name": "不怎么发",
+                      "value": "4"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Id6d514cc3-5280-4c9b-a82a-81a9585f041b",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_9ad3c2",
+                "preps": {
+                  "id": "Id6d514cc3-5280-4c9b-a82a-81a9585f041b",
+                  "label": "线上聊天中最常用的表达方式",
+                  "name": "field_9ad3c2",
+                  "itemNameLabel": "线上聊天中最常用的表达方式",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入线上聊天中最常用的表达方式",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "文字",
+                      "value": "1"
+                    },
+                    {
+                      "name": "表情包",
+                      "value": "2"
+                    },
+                    {
+                      "name": "语音",
+                      "value": "3"
+                    },
+                    {
+                      "name": "视频",
+                      "value": "4"
+                    },
+                    {
+                      "name": "图片",
+                      "value": "5"
+                    },
+                    {
+                      "name": "其他",
+                      "value": "6"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Id7ed0477f-03a0-48fb-849f-fa8045928460",
+                "compType": "formItem",
+                "itemType": "input",
+                "fieldName": "field_3c5808",
+                "preps": {
+                  "id": "Id7ed0477f-03a0-48fb-849f-fa8045928460",
+                  "label": "线上聊天中最常用的表达方式(其他请说明)",
+                  "name": "field_3c5808",
+                  "itemNameLabel": "线上聊天中最常用的表达方式(其他请说明)",
+                  "formVisible": false,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请填写具体说明",
+                  "dataSource": "",
+                  "values": [],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Id585394c0-9961-42a0-b929-5028aa925cd3",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_4e9aba",
+                "preps": {
+                  "id": "Id585394c0-9961-42a0-b929-5028aa925cd3",
+                  "label": "是否在网上找到过志同道合的朋友",
+                  "name": "field_4e9aba",
+                  "itemNameLabel": "是否在网上找到过志同道合的朋友",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入是否在网上找到过志同道合的朋友",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "是，多个",
+                      "value": "1"
+                    },
+                    {
+                      "name": "是，一两个",
+                      "value": "2"
+                    },
+                    {
+                      "name": "不确定",
+                      "value": "3"
+                    },
+                    {
+                      "name": "没有",
+                      "value": "4"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "Idb8d8aff9-cd22-4808-917d-627aeade76df",
+      "compType": "container",
+      "itemType": "card",
+      "fieldName": "field_769f81",
+      "preps": {
+        "id": "Idb8d8aff9-cd22-4808-917d-627aeade76df",
+        "label": "社交质量与满意度",
+        "name": "field_769f81",
+        "itemNameLabel": "社交质量与满意度",
+        "headerFieldList": [],
+        "elements": [
+          {
+            "label": "社交质量与满意度",
+            "tabName": "社交质量与满意度",
+            "objectName": "社交质量与满意度",
+            "subFormFlag": "Y",
+            "items": [
+              {
+                "id": "Idb4149e49-e33b-4b82-b35c-dd424c059d4e",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_ea704c",
+                "preps": {
+                  "id": "Idb4149e49-e33b-4b82-b35c-dd424c059d4e",
+                  "label": "目前社交生活满意度",
+                  "name": "field_ea704c",
+                  "itemNameLabel": "目前社交生活满意度",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入目前社交生活满意度",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "非常满意",
+                      "value": "1"
+                    },
+                    {
+                      "name": "满意",
+                      "value": "2"
+                    },
+                    {
+                      "name": "一般",
+                      "value": "3"
+                    },
+                    {
+                      "name": "不满意",
+                      "value": "4"
+                    },
+                    {
+                      "name": "非常不满意",
+                      "value": "5"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Id79f68e63-23f6-4793-a434-7ff72ca173c2",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_824754",
+                "preps": {
+                  "id": "Id79f68e63-23f6-4793-a434-7ff72ca173c2",
+                  "label": "是否感到社交焦虑",
+                  "name": "field_824754",
+                  "itemNameLabel": "是否感到社交焦虑",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入是否感到社交焦虑",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "经常",
+                      "value": "1"
+                    },
+                    {
+                      "name": "偶尔",
+                      "value": "2"
+                    },
+                    {
+                      "name": "很少",
+                      "value": "3"
+                    },
+                    {
+                      "name": "从不",
+                      "value": "4"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Ide88cd08b-99b4-438e-96f4-23d7f14201fb",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_d82fd3",
+                "preps": {
+                  "id": "Ide88cd08b-99b4-438e-96f4-23d7f14201fb",
+                  "label": "社交中最大的困扰",
+                  "name": "field_d82fd3",
+                  "itemNameLabel": "社交中最大的困扰",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入社交中最大的困扰",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "缺乏话题",
+                      "value": "1"
+                    },
+                    {
+                      "name": "害怕被拒绝",
+                      "value": "2"
+                    },
+                    {
+                      "name": "精力不足",
+                      "value": "3"
+                    },
+                    {
+                      "name": "时间不够",
+                      "value": "4"
+                    },
+                    {
+                      "name": "找不到志同道合的人",
+                      "value": "5"
+                    },
+                    {
+                      "name": "其他",
+                      "value": "6"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Ideab0c282-7c45-4332-a1c4-e8505211d70f",
+                "compType": "formItem",
+                "itemType": "input",
+                "fieldName": "field_cf0a34",
+                "preps": {
+                  "id": "Ideab0c282-7c45-4332-a1c4-e8505211d70f",
+                  "label": "社交中最大的困扰(其他请说明)",
+                  "name": "field_cf0a34",
+                  "itemNameLabel": "社交中最大的困扰(其他请说明)",
+                  "formVisible": false,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请填写具体说明",
+                  "dataSource": "",
+                  "values": [],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Id4149f716-fbf8-4eaf-96cf-6fd4b0fbb1e5",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_9b1b7e",
+                "preps": {
+                  "id": "Id4149f716-fbf8-4eaf-96cf-6fd4b0fbb1e5",
+                  "label": "是否有知心好友(可倾诉)",
+                  "name": "field_9b1b7e",
+                  "itemNameLabel": "是否有知心好友(可倾诉)",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入是否有知心好友(可倾诉)",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "有多个",
+                      "value": "1"
+                    },
+                    {
+                      "name": "有1-2个",
+                      "value": "2"
+                    },
+                    {
+                      "name": "不确定",
+                      "value": "3"
+                    },
+                    {
+                      "name": "没有",
+                      "value": "4"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Id57cac38d-8b4e-4614-99fd-874bfec61826",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_f616fb",
+                "preps": {
+                  "id": "Id57cac38d-8b4e-4614-99fd-874bfec61826",
+                  "label": "遇到烦恼时是否愿意向人倾诉",
+                  "name": "field_f616fb",
+                  "itemNameLabel": "遇到烦恼时是否愿意向人倾诉",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入遇到烦恼时是否愿意向人倾诉",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "总是",
+                      "value": "1"
+                    },
+                    {
+                      "name": "经常",
+                      "value": "2"
+                    },
+                    {
+                      "name": "偶尔",
+                      "value": "3"
+                    },
+                    {
+                      "name": "从不，自己消化",
+                      "value": "4"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Iddc9024db-083d-4494-835c-a8d1a3b34474",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_61b86b",
+                "preps": {
+                  "id": "Iddc9024db-083d-4494-835c-a8d1a3b34474",
+                  "label": "认为理想的社交状态",
+                  "name": "field_61b86b",
+                  "itemNameLabel": "认为理想的社交状态",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入认为理想的社交状态",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "广泛交友",
+                      "value": "1"
+                    },
+                    {
+                      "name": "深度交友",
+                      "value": "2"
+                    },
+                    {
+                      "name": "少量深交",
+                      "value": "3"
+                    },
+                    {
+                      "name": "独处为主",
+                      "value": "4"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Id123877b6-3dce-4065-9b13-f4362f002921",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_3b6413",
+                "preps": {
+                  "id": "Id123877b6-3dce-4065-9b13-f4362f002921",
+                  "label": "对独处的态度",
+                  "name": "field_3b6413",
+                  "itemNameLabel": "对独处的态度",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入对独处的态度",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "享受独处",
+                      "value": "1"
+                    },
+                    {
+                      "name": "可以独处",
+                      "value": "2"
+                    },
+                    {
+                      "name": "不太喜欢独处",
+                      "value": "3"
+                    },
+                    {
+                      "name": "害怕独处",
+                      "value": "4"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Ide2db282f-bbfc-46ae-b4a7-d35d65db25d3",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_0a3801",
+                "preps": {
+                  "id": "Ide2db282f-bbfc-46ae-b4a7-d35d65db25d3",
+                  "label": "是否觉得社交消耗精力",
+                  "name": "field_0a3801",
+                  "itemNameLabel": "是否觉得社交消耗精力",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入是否觉得社交消耗精力",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "非常消耗",
+                      "value": "1"
+                    },
+                    {
+                      "name": "比较消耗",
+                      "value": "2"
+                    },
+                    {
+                      "name": "一般",
+                      "value": "3"
+                    },
+                    {
+                      "name": "不太消耗",
+                      "value": "4"
+                    },
+                    {
+                      "name": "完全不消耗",
+                      "value": "5"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Idcb2f282f-4258-409b-b94b-87592dc9a73b",
+                "compType": "formItem",
+                "itemType": "rate",
+                "fieldName": "field_ca9e94",
+                "preps": {
+                  "id": "Idcb2f282f-4258-409b-b94b-87592dc9a73b",
+                  "label": "社交幸福感评分",
+                  "name": "field_ca9e94",
+                  "itemNameLabel": "社交幸福感评分",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入社交幸福感评分",
+                  "dataSource": "",
+                  "values": [],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "Id9bfe874f-ab58-4b31-a55f-7b1a9e16d854",
+      "compType": "container",
+      "itemType": "card",
+      "fieldName": "field_4e2a1f",
+      "preps": {
+        "id": "Id9bfe874f-ab58-4b31-a55f-7b1a9e16d854",
+        "label": "社交能力与成长",
+        "name": "field_4e2a1f",
+        "itemNameLabel": "社交能力与成长",
+        "headerFieldList": [],
+        "elements": [
+          {
+            "label": "社交能力与成长",
+            "tabName": "社交能力与成长",
+            "objectName": "社交能力与成长",
+            "subFormFlag": "Y",
+            "items": [
+              {
+                "id": "Idb5c17d58-b39d-4254-9bef-91158abc8331",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_8cd27f",
+                "preps": {
+                  "id": "Idb5c17d58-b39d-4254-9bef-91158abc8331",
+                  "label": "社交能力自评",
+                  "name": "field_8cd27f",
+                  "itemNameLabel": "社交能力自评",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入社交能力自评",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "非常强",
+                      "value": "1"
+                    },
+                    {
+                      "name": "较强",
+                      "value": "2"
+                    },
+                    {
+                      "name": "一般",
+                      "value": "3"
+                    },
+                    {
+                      "name": "较弱",
+                      "value": "4"
+                    },
+                    {
+                      "name": "非常弱",
+                      "value": "5"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Idf12abe82-e227-4149-a184-e512c27330e2",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_9fcf9b",
+                "preps": {
+                  "id": "Idf12abe82-e227-4149-a184-e512c27330e2",
+                  "label": "是否愿意参加陌生人聚会",
+                  "name": "field_9fcf9b",
+                  "itemNameLabel": "是否愿意参加陌生人聚会",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入是否愿意参加陌生人聚会",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "非常愿意",
+                      "value": "1"
+                    },
+                    {
+                      "name": "愿意",
+                      "value": "2"
+                    },
+                    {
+                      "name": "看情况",
+                      "value": "3"
+                    },
+                    {
+                      "name": "不太愿意",
+                      "value": "4"
+                    },
+                    {
+                      "name": "不愿意",
+                      "value": "5"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Id8b047496-71e2-44da-a621-a4757e3e4b11",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_98252d",
+                "preps": {
+                  "id": "Id8b047496-71e2-44da-a621-a4757e3e4b11",
+                  "label": "在群体中的角色",
+                  "name": "field_98252d",
+                  "itemNameLabel": "在群体中的角色",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入在群体中的角色",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "领导者",
+                      "value": "1"
+                    },
+                    {
+                      "name": "活跃分子",
+                      "value": "2"
+                    },
+                    {
+                      "name": "倾听者",
+                      "value": "3"
+                    },
+                    {
+                      "name": "观察者",
+                      "value": "4"
+                    },
+                    {
+                      "name": "边缘人",
+                      "value": "5"
+                    },
+                    {
+                      "name": "其他",
+                      "value": "6"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Id0f2be572-c8a6-46fa-9e01-d142f21f0fe2",
+                "compType": "formItem",
+                "itemType": "input",
+                "fieldName": "field_e98c5d",
+                "preps": {
+                  "id": "Id0f2be572-c8a6-46fa-9e01-d142f21f0fe2",
+                  "label": "在群体中的角色(其他请说明)",
+                  "name": "field_e98c5d",
+                  "itemNameLabel": "在群体中的角色(其他请说明)",
+                  "formVisible": false,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请填写具体说明",
+                  "dataSource": "",
+                  "values": [],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Id27ce61ae-a4ab-4905-afad-b4466a0a7a31",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_4e5b8f",
+                "preps": {
+                  "id": "Id27ce61ae-a4ab-4905-afad-b4466a0a7a31",
+                  "label": "是否害怕公开演讲/发言",
+                  "name": "field_4e5b8f",
+                  "itemNameLabel": "是否害怕公开演讲/发言",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入是否害怕公开演讲/发言",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "非常害怕",
+                      "value": "1"
+                    },
+                    {
+                      "name": "比较害怕",
+                      "value": "2"
+                    },
+                    {
+                      "name": "一般",
+                      "value": "3"
+                    },
+                    {
+                      "name": "不太害怕",
+                      "value": "4"
+                    },
+                    {
+                      "name": "完全不害怕",
+                      "value": "5"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Id20182d86-31c6-4ea9-8321-ede51e4584a3",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_3f9a7b",
+                "preps": {
+                  "id": "Id20182d86-31c6-4ea9-8321-ede51e4584a3",
+                  "label": "处理人际冲突的方式",
+                  "name": "field_3f9a7b",
+                  "itemNameLabel": "处理人际冲突的方式",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入处理人际冲突的方式",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "直接沟通",
+                      "value": "1"
+                    },
+                    {
+                      "name": "回避",
+                      "value": "2"
+                    },
+                    {
+                      "name": "第三方调解",
+                      "value": "3"
+                    },
+                    {
+                      "name": "冷战",
+                      "value": "4"
+                    },
+                    {
+                      "name": "其他",
+                      "value": "5"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Idc5fbad12-97c3-4cc1-aadb-24b6565a5765",
+                "compType": "formItem",
+                "itemType": "input",
+                "fieldName": "field_e329c6",
+                "preps": {
+                  "id": "Idc5fbad12-97c3-4cc1-aadb-24b6565a5765",
+                  "label": "处理人际冲突的方式(其他请说明)",
+                  "name": "field_e329c6",
+                  "itemNameLabel": "处理人际冲突的方式(其他请说明)",
+                  "formVisible": false,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请填写具体说明",
+                  "dataSource": "",
+                  "values": [],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Id6a9221c4-7675-4624-a3b8-84c8bdd772cf",
+                "compType": "formItem",
+                "itemType": "radio",
+                "fieldName": "field_acc39d",
+                "preps": {
+                  "id": "Id6a9221c4-7675-4624-a3b8-84c8bdd772cf",
+                  "label": "是否参加过社交技能培训",
+                  "name": "field_acc39d",
+                  "itemNameLabel": "是否参加过社交技能培训",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入是否参加过社交技能培训",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "参加过",
+                      "value": "1"
+                    },
+                    {
+                      "name": "考虑过",
+                      "value": "2"
+                    },
+                    {
+                      "name": "没有考虑过",
+                      "value": "3"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Id0bc6ddf3-6ee2-4a10-831d-9e871db402ad",
+                "compType": "formItem",
+                "itemType": "checkbox",
+                "fieldName": "field_bcd5ce",
+                "preps": {
+                  "id": "Id0bc6ddf3-6ee2-4a10-831d-9e871db402ad",
+                  "label": "最想提升的社交能力(多选)",
+                  "name": "field_bcd5ce",
+                  "itemNameLabel": "最想提升的社交能力(多选)",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请输入最想提升的社交能力(多选)",
+                  "dataSource": "data",
+                  "values": [
+                    {
+                      "name": "表达能力",
+                      "value": "1"
+                    },
+                    {
+                      "name": "倾听能力",
+                      "value": "2"
+                    },
+                    {
+                      "name": "幽默感",
+                      "value": "3"
+                    },
+                    {
+                      "name": "自信心",
+                      "value": "4"
+                    },
+                    {
+                      "name": "共情能力",
+                      "value": "5"
+                    },
+                    {
+                      "name": "其他",
+                      "value": "6"
+                    }
+                  ],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Idb019333c-898a-4b57-be3f-ce08057867c9",
+                "compType": "formItem",
+                "itemType": "input",
+                "fieldName": "field_d64230",
+                "preps": {
+                  "id": "Idb019333c-898a-4b57-be3f-ce08057867c9",
+                  "label": "最想提升的社交能力(多选)(其他请说明)",
+                  "name": "field_d64230",
+                  "itemNameLabel": "最想提升的社交能力(多选)(其他请说明)",
+                  "formVisible": false,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 255,
+                  "placeholder": "请填写具体说明",
+                  "dataSource": "",
+                  "values": [],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Id669a694a-c82f-4634-b238-addff81a23ab",
+                "compType": "formItem",
+                "itemType": "textarea",
+                "fieldName": "field_a0d59f",
+                "preps": {
+                  "id": "Id669a694a-c82f-4634-b238-addff81a23ab",
+                  "label": "对社交生活的感想",
+                  "name": "field_a0d59f",
+                  "itemNameLabel": "对社交生活的感想",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 1000,
+                  "placeholder": "请详细描述您的想法",
+                  "dataSource": "",
+                  "values": [],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Idae1fa3cd-194b-4562-99ad-074bd2696f32",
+                "compType": "formItem",
+                "itemType": "textarea",
+                "fieldName": "field_8824d0",
+                "preps": {
+                  "id": "Idae1fa3cd-194b-4562-99ad-074bd2696f32",
+                  "label": "您觉得维持好人际关系最重要的是什么",
+                  "name": "field_8824d0",
+                  "itemNameLabel": "您觉得维持好人际关系最重要的是什么",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 1000,
+                  "placeholder": "请详细描述您的想法",
+                  "dataSource": "",
+                  "values": [],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              },
+              {
+                "id": "Idc158b561-88ce-43c9-8e8b-abffd34f3916",
+                "compType": "formItem",
+                "itemType": "textarea",
+                "fieldName": "field_48be80",
+                "preps": {
+                  "id": "Idc158b561-88ce-43c9-8e8b-abffd34f3916",
+                  "label": "一次让您印象深刻的社交经历",
+                  "name": "field_48be80",
+                  "itemNameLabel": "一次让您印象深刻的社交经历",
+                  "formVisible": true,
+                  "listVisible": true,
+                  "viewVisible": true,
+                  "searchVisible": false,
+                  "required": false,
+                  "disabled": false,
+                  "clearable": true,
+                  "readonly": false,
+                  "maxLength": 1000,
+                  "placeholder": "请详细描述您的想法",
+                  "dataSource": "",
+                  "values": [],
+                  "rules": [],
+                  "helpMsg": ""
+                }
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "exportTime": "2026-06-16T10:51:24.825Z",
+  "version": "1.0"
+}
