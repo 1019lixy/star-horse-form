@@ -50,6 +50,9 @@ export default defineConfig((mode) => {
   let optimizeDepsList: string[] = ["vue", "vue-router", "pinia", "axios"];
   return {
     base: "/",
+    define: {
+      global: "globalThis",
+    },
     server: {
       // https: httpsOptions,
       // allowedHosts: true,
