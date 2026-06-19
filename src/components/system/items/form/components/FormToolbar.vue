@@ -22,7 +22,8 @@ const designForm = getDesignFormStore();
 let formInfo = computed(() => designForm.formInfo);
 const activeDropdown = ref<string | null>(null);
 const allActions = computed(() => {
-  return formActions().concat(props.optional?.extendButtons);
+  const extra = props.optional?.extendButtons;
+  return extra ? formActions().concat(extra) : formActions();
 });
 const actions = (item: ToolBtnType) => {
   if (item.action) {

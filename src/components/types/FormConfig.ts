@@ -6,22 +6,21 @@ import { ToolBtnType } from "@/components/types/ToolBtnType";
  */
 export interface FormConfig {
   /**
-   * 表单设计器模式
+   * 表单设计器模式，默认 simple
    * simple 极简模式 只有简单功能,
    * default 默认模式 除需要与后台交互的功能都会正常展示
    * full 包含所有功能，某些功能需结合后台服务方能进行,在全量模式下,需要加载数据字典,应用名称，角色信息，权限信息等,
    *      下面的所有参数都需要配置,若不配配置，则某些功能没法用或者数据没法展示
-   * 默认极简模式
    */
-  model: "simple" | "default" | "full";
+  model?: "simple" | "default" | "full";
   /**
-   * 主键名称,指的api 接口中的数据对象对应的主键名
+   * 主键名称,指的api 接口中的数据对象对应的主键名，默认 "id"
    */
-  primaryKey: string;
+  primaryKey?: string;
   /**
-   * 禁用系统自带的组件，默认显示
+   * 禁用系统自带的组件，默认 false
    */
-  forbiddenSystemItems: boolean;
+  forbiddenSystemItems?: boolean;
   /**
    * 隐藏配置风格按钮
    */
@@ -31,9 +30,9 @@ export interface FormConfig {
    */
   api?: ApiUrls;
   /**
-   * 快捷菜单的参数
+   * 快捷菜单的参数，默认从 primaryKey 推导 { label: "formName", value: primaryKey }
    */
-  shotProps: Record<string, any>;
+  shotProps?: Record<string, any>;
   /**
    * 设计器顶部自定义按钮
    */
@@ -53,7 +52,7 @@ export interface FormConfig {
    */
   permissions?: Record<string, string>;
   /**
-   * 组件大小,默认default
+   * 组件大小，默认 default
    */
   compSize?: "small" | "default" | "large";
   /**
@@ -70,7 +69,7 @@ export interface FormConfig {
    */
   extendItemList?: () => Promise<CompType[]>;
   /**
-   * 是否批量创建页面,此参数用在
+   * 是否批量创建页面
    */
   batchCreatePage?: boolean;
   /**

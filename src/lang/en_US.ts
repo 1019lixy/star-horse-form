@@ -166,6 +166,8 @@ export default {
   "dyform.action.import": "Import",
   "dyform.action.export": "Export",
   "dyform.action.edit": "Edit Properties",
+  "dyform.action.designMode": "Design",
+  "dyform.action.codeMode": "Code",
   "dyform.action.layer": "Form Hierarchy",
   "dyform.action.empty": "Clear Elements",
   "dyform.action.undo": "Undo",

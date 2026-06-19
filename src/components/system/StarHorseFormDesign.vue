@@ -61,6 +61,20 @@ const props = defineProps({
   },
   optional: {type: Object as PropType<FormConfig>},
 });
+
+// 合并默认值：确保 FormConfig 中标记为可选的字段有合理回退
+const resolvedConfig = computed(() => {
+  const opt = props.optional ?? {};
+  const pk = opt.primaryKey ?? props.primaryKey ?? "id";
+  return {
+    model: opt.model ?? "simple",
+    primaryKey: pk,
+    forbiddenSystemItems: opt.forbiddenSystemItems ?? false,
+    shotProps: opt.shotProps ?? { label: "formName", value: pk },
+    compSize: opt.compSize ?? "default",
+    ...opt,
+  } as FormConfig;
+});
 const emits = defineEmits([
   "changeDataHandle",
   "loadData",
@@ -558,7 +572,7 @@ const operImportFile = () => {
       reader.readAsText(file);
     } else {
       // Excel文件：上传到后端解析
-      const excelUrl = props.optional?.api?.excelAnalysisUrl;
+      const excelUrl = resolvedConfig.value?.api?.excelAnalysisUrl;
       if (!excelUrl) {
         error(i18n('dyform.design.importExcelNoApi'));
         return;
@@ -706,7 +720,7 @@ const init = async () => {
     });
   };
   //如果禁用系统组件，不加载系统组件
-  if (!props.optional?.forbiddenSystemItems) {
+  if (!resolvedConfig.value?.forbiddenSystemItems) {
     assignData(formContainer);
     assignData(formItems);
     assignData(formExtendItems);
@@ -716,26 +730,26 @@ const init = async () => {
     designForm.setAllFormDataList(allFormDataList);
   }
   if (
-      props.optional?.containerList &&
-      typeof props.optional.containerList == "function"
-  ) {
-    props.optional.containerList().then((res: CompType[]) => {
+      resolvedConfig.value?.containerList &&
+      typeof resolvedConfig.value.containerList == "function"
+    ) {
+    resolvedConfig.value.containerList().then((res: CompType[]) => {
       designForm.addContainerList(res);
     });
   }
   if (
-      props.optional?.itemList &&
-      typeof props.optional.itemList == "function"
+      resolvedConfig.value?.itemList &&
+      typeof resolvedConfig.value.itemList == "function"
   ) {
-    props.optional.itemList().then((res: CompType[]) => {
+    resolvedConfig.value.itemList().then((res: CompType[]) => {
       designForm.addFormDataList(res);
     });
   }
   if (
-      props.optional?.extendItemList &&
-      typeof props.optional.extendItemList == "function"
+      resolvedConfig.value?.extendItemList &&
+      typeof resolvedConfig.value.extendItemList == "function"
   ) {
-    props.optional.extendItemList().then((res: CompType[]) => {
+    resolvedConfig.value.extendItemList().then((res: CompType[]) => {
       designForm.addSelfFormDataList(res);
     });
   }
@@ -1086,13 +1100,13 @@ defineExpose({
   <ConfigDialog
       ref="configDialogRef"
       :visible="dialogStates.configDialogVisible"
-      :optional="optional"
+      :optional="resolvedConfig"
       @save="saveData"
       @close="closeAction"
   />
   <CodeDialog
       :visible="dialogStates.codeDialogVisible"
-      :optional="optional"
+      :optional="resolvedConfig"
       @close="closeAction"
       @save="codeDoSave"
   />
@@ -1129,7 +1143,7 @@ defineExpose({
       <el-splitter-panel collapsible size="320" min="220" max="450">
         <field-panel
             ref="fieldPanelRef"
-            :optional="optional"
+            :optional="resolvedConfig"
             @loadData="loadData"
         />
       </el-splitter-panel>
@@ -1143,7 +1157,7 @@ defineExpose({
                 @action="actions"
                 @changeRole="changeRole"
                 @cacheRestore="cacheDataRestore"
-                :optional="optional"
+                :optional="resolvedConfig"
             />
           </el-splitter-panel>
           <el-splitter-panel>
@@ -1162,7 +1176,7 @@ defineExpose({
                           <rect x="9" y="1" width="6" height="6" rx="1" stroke="currentColor" stroke-width="1.3"/>
                           <rect x="1" y="9" width="14" height="6" rx="1" stroke="currentColor" stroke-width="1.3"/>
                         </svg>
-                        {{ i18n("dyform.action.edit") || '设计' }}
+                        {{ i18n("dyform.action.designMode") || '设计' }}
                       </button>
                       <button
                           :class="['mode-btn', { active: designMode === 'code' }]"
@@ -1174,7 +1188,7 @@ defineExpose({
                           <path d="M11 3L15 8L11 13" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"
                                 stroke-linejoin="round"/>
                         </svg>
-                        {{ i18n("dyform.action.code") || '代码' }}
+                        {{ i18n("dyform.action.codeMode") || '代码' }}
                       </button>
                     </div>
                     <!-- Code mode actions -->
@@ -1200,11 +1214,11 @@ defineExpose({
                     />
                     <FormMenuShot
                         ref="formListRef"
-                        v-if="Object.keys(optional?.api || {}).length > 0"
+                        v-if="Object.keys(resolvedConfig?.api || {}).length > 0"
                         @change="changeDataHandle"
-                        :dataUrl="optional?.api"
-                        :prop="optional?.shotProps"
-                        :primaryKey="optional?.primaryKey"
+                        :dataUrl="resolvedConfig?.api"
+                        :prop="resolvedConfig?.shotProps"
+                        :primaryKey="resolvedConfig?.primaryKey"
                     />
                   </template>
 
@@ -1225,7 +1239,7 @@ defineExpose({
                   v-if="list.length > 0 && designMode === 'design'"
               >
                 <el-scrollbar class="sh-property-scrollbar">
-                  <property-panel ref="propertyRef" :optional="optional"/>
+                  <property-panel ref="propertyRef" :optional="resolvedConfig"/>
                 </el-scrollbar>
               </el-splitter-panel>
             </el-splitter>
@@ -1406,14 +1420,13 @@ defineExpose({
   }
 
   &:hover {
-    color: #606266;
+    color: var(--star-horse-style);
   }
 
   &.active {
     background: #ffffff;
-    color: #303133;
+    color: var(--star-horse-style);
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
-    font-weight: 500;
   }
 }
 

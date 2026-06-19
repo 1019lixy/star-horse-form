@@ -166,6 +166,8 @@ export default {
   "dyform.action.import": "导入",
   "dyform.action.export": "导出",
   "dyform.action.edit": "修改属性",
+  "dyform.action.designMode": "设计",
+  "dyform.action.codeMode": "代码",
   "dyform.action.layer": "表单层级",
   "dyform.action.empty": "清空元素",
   "dyform.action.undo": "后退一步",

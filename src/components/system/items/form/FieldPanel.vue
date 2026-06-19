@@ -111,7 +111,7 @@ const addElement = (element: any, type: string) => {
           v-show="tab.visible"
           :title="tab.label"
       >
-        <star-horse-icon :icon-class="tab.icon" size="18px"/>
+        <star-horse-icon :icon-class="tab.icon" size="22px"/>
         <span class="sidebar-tab-label">{{ tab.label }}</span>
       </button>
       <div class="sidebar-spacer"></div>
@@ -127,7 +127,7 @@ const addElement = (element: any, type: string) => {
             <div class="field-section">
               <div class="section-header" @click="toggleSection('a')">
                 <div class="section-title">
-                  <star-horse-icon icon-class="container" size="15px" class="section-icon"/>
+                  <star-horse-icon icon-class="container" size="18px" class="section-icon"/>
                   <span>{{ i18n("dyform.collapse.layout") }}</span>
                 </div>
                 <svg :class="['section-arrow', { expanded: activeNames.includes('a') }]"
@@ -142,7 +142,7 @@ const addElement = (element: any, type: string) => {
                             :placeholder="i18n('dyform.collapse.layout')"
                             clearable size="small">
                     <template #prefix>
-                      <star-horse-icon iconClass="search"/>
+                      <star-horse-icon iconClass="search" size="14px"/>
                     </template>
                   </el-input>
                 </div>
@@ -179,7 +179,7 @@ const addElement = (element: any, type: string) => {
             <div class="field-section">
               <div class="section-header" @click="toggleSection('b')">
                 <div class="section-title">
-                  <star-horse-icon icon-class="form" size="15px" class="section-icon"/>
+                  <star-horse-icon icon-class="form" size="18px" class="section-icon"/>
                   <span>{{ i18n("dyform.collapse.form") }}</span>
                 </div>
                 <svg :class="['section-arrow', { expanded: activeNames.includes('b') }]"
@@ -194,7 +194,7 @@ const addElement = (element: any, type: string) => {
                             :placeholder="i18n('dyform.collapse.form')"
                             clearable size="small">
                     <template #prefix>
-                      <star-horse-icon iconClass="search"/>
+                      <star-horse-icon iconClass="search" size="14px"/>
                     </template>
                   </el-input>
                 </div>
@@ -231,7 +231,7 @@ const addElement = (element: any, type: string) => {
             <div class="field-section">
               <div class="section-header" @click="toggleSection('c')">
                 <div class="section-title">
-                  <star-horse-icon icon-class="other" size="15px" class="section-icon"/>
+                  <star-horse-icon icon-class="other" size="18px" class="section-icon"/>
                   <span>{{ i18n("dyform.collapse.custom") }}</span>
                 </div>
                 <svg :class="['section-arrow', { expanded: activeNames.includes('c') }]"
@@ -246,7 +246,7 @@ const addElement = (element: any, type: string) => {
                             :placeholder="i18n('dyform.collapse.custom')"
                             clearable size="small">
                     <template #prefix>
-                      <star-horse-icon iconClass="search"/>
+                      <star-horse-icon iconClass="search" size="14px"/>
                     </template>
                   </el-input>
                 </div>
@@ -374,12 +374,12 @@ const addElement = (element: any, type: string) => {
   flex-direction: column;
   align-items: center;
   gap: 2px;
-  padding: 6px 4px;
-  background: #f8f9fb;
+  padding: 8px 4px;
+  background: #f5f7fa;
   border-right: 1px solid #ebeef5;
   flex-shrink: 0;
-  width: 48px;
-  min-width: 48px;
+  width: 56px;
+  min-width: 56px;
   overflow-y: auto;
   overflow-x: hidden;
   scrollbar-width: none;
@@ -399,8 +399,8 @@ const addElement = (element: any, type: string) => {
   align-items: center;
   justify-content: center;
   gap: 4px;
-  width: 40px;
-  padding: 8px 2px;
+  width: 48px;
+  padding: 10px 2px;
   border: none;
   background: transparent;
   border-radius: 8px;
@@ -411,19 +411,19 @@ const addElement = (element: any, type: string) => {
   flex-shrink: 0;
 
   :deep(.star-horse-icon) {
-    font-size: 18px;
+    font-size: 22px;
     color: inherit;
     transition: color 0.15s ease;
   }
 
   &:hover {
     background: #eef0f3;
-    color: #606266;
+    color: var(--star-horse-style);
   }
 
   &.active {
     background: #ffffff;
-    color: #409eff;
+    color: var(--star-horse-style);
     box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
 
     &::before {
@@ -433,23 +433,23 @@ const addElement = (element: any, type: string) => {
       top: 50%;
       transform: translateY(-50%);
       width: 3px;
-      height: 18px;
-      background: #409eff;
+      height: 20px;
+      background: var(--star-horse-style);
       border-radius: 0 3px 3px 0;
     }
   }
 }
 
 .sidebar-tab-label {
-  font-size: 10px;
-  line-height: 1.2;
+  font-size: 13px;
+  line-height: 1.4;
   text-align: center;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  max-width: 40px;
+  max-width: 48px;
   writing-mode: vertical-lr;
-  letter-spacing: 1px;
+  letter-spacing: 2px;
 }
 
 /* ====== Content Area ====== */
@@ -484,7 +484,7 @@ const addElement = (element: any, type: string) => {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 8px 12px;
+  padding: 10px 12px;
   background: #fafbfc;
   cursor: pointer;
   user-select: none;
@@ -499,13 +499,13 @@ const addElement = (element: any, type: string) => {
   display: flex;
   align-items: center;
   gap: 8px;
-  font-size: 13px;
-  font-weight: 500;
+  font-size: 14px;
+  font-weight: 600;
   color: #303133;
 }
 
 .section-icon {
-  color: #909399;
+  color: var(--star-horse-style);
 }
 
 .section-arrow {
@@ -540,7 +540,7 @@ const addElement = (element: any, type: string) => {
       }
 
       &.is-focus {
-        box-shadow: 0 0 0 1px #409eff inset;
+        box-shadow: 0 0 0 1px var(--star-horse-style) inset;
       }
     }
 
@@ -574,12 +574,12 @@ const addElement = (element: any, type: string) => {
 
   &:hover {
     background: #f0f7ff;
-    border-color: #b3d8ff;
+    border-color: var(--star-horse-style);
     box-shadow: 0 2px 8px rgba(64, 158, 255, 0.1);
     transform: translateY(-1px);
 
     .field-card-icon {
-      color: #409eff;
+      color: var(--star-horse-style);
     }
 
     .field-card-name {
@@ -594,14 +594,14 @@ const addElement = (element: any, type: string) => {
 }
 
 .field-card-icon {
-  color: #606266;
+  color: var(--star-horse-style);
   transition: color 0.15s ease;
   flex-shrink: 0;
 }
 
 .field-card-name {
   font-size: 11px;
-  color: #909399;
+  color: #606266;
   text-align: center;
   line-height: 1.3;
   max-height: 2.6em;
@@ -617,7 +617,7 @@ const addElement = (element: any, type: string) => {
 :deep(.ghost) {
   opacity: 0.4;
   background: #ecf5ff;
-  border: 1px dashed #409eff;
+  border: 1px dashed var(--star-horse-style);
   border-radius: 8px;
 }
 
