@@ -87,9 +87,9 @@ watch(
 
     <template v-else-if="hasData">
       <el-card class="inner_content">
+        {{formPageRef?.getFormData()}}
         <star-horse-form
             :compUrl="dataUrl"
-            :formInfo="formInfo"
             :dynamicForm="true"
             ref="formPageRef"
             :preview="preview"

@@ -882,14 +882,16 @@ const initData = async () => {
 };
 
 const analysisDynamicFields = async (formInfo: any) => {
-  let reData = await loadData(
-      props.optional?.api?.basePrefix + "/analysisDynamicDatasourceFields",
-      formInfo,
-  );
+  const apiUrl = props.optional?.api?.basePrefix + "/analysisDynamicDatasourceFields";
+  console.log("[FormPropertyPanel] analysisDynamicFields called, apiUrl:", apiUrl);
+  let reData = await loadData(apiUrl, formInfo);
+  console.log("[FormPropertyPanel] loadData result:", JSON.stringify({ error: reData.error, dataLength: reData.data?.length, data: reData.data }));
   if (reData.error) {
+    console.error("[FormPropertyPanel] loadData error:", reData.error);
     return;
   }
   dynamicFieldList.value = reData.data;
+  console.log("[FormPropertyPanel] dynamicFieldList updated, length:", dynamicFieldList.value?.length);
 };
 const analysisMainFields = async () => {
   let {fieldList} = analysisCompDatas(designForm.compList);

@@ -237,7 +237,7 @@ export default defineConfig((mode) => {
           // preserveModules: false,
           // 禁用代码分割
           // inlineDynamicImports: true,
-          // 合并所有chunk到单个文件
+            // 合并所有chunk到单个文件
           /* manualChunks: (id) => {
                                   // 按目录拆分：将 src/components 下的组件拆分为单独的 chunk
                                   if (id.includes("src/components/")) {

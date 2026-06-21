@@ -3,8 +3,7 @@ import { computed, nextTick, onMounted, PropType, ref, unref, watch } from "vue"
 import {
   buttonClickDataField,
   containerField,
-  fieldPlaceholder,
-  relationDataField
+  fieldPlaceholder
 } from "@/components/system/items/utils/ItemPreps.js";
 import {
   analysisCompDatas,
@@ -15,10 +14,11 @@ import {
   warning
 } from "star-horse-lowcode";
 import { i18n } from "@/lang/index.js";
-import DataSourceComp from "@/components/system/items/utils/DataSourceComp.vue";
 import { FormConfig } from "@/components/types";
 import type { FormulaConfig } from "@/components/types/FormulaConfig";
 import FormulaConfigDialog from "@/components/system/items/form/dialogs/FormulaConfigDialog.vue";
+import UnifiedDataSourceComp from "@/components/system/items/utils/UnifiedDataSourceComp.vue";
+import UnifiedLinkageComp from "@/components/system/items/utils/UnifiedLinkageComp.vue";
 
 defineOptions({
   name: "ItemPropertiesPanel"
@@ -68,6 +68,20 @@ const formProps = computed(() => {
 
 // ==================== 公式配置相关 ====================
 const formulaDialogRef = ref<InstanceType<typeof FormulaConfigDialog>>();
+
+/** All form fields available for API linkage target field mapping */
+const linkageFormFields = computed(() => {
+  const datas = analysisCompDatas(unref(designForm.compList));
+  const dataList: any = [];
+  Object.entries(datas.compListResult).forEach(([key, value]) => {
+    if (value.compType != "container") {
+      dataList.push(value);
+    }
+  });
+  return dataList
+    .filter((item: any) => item.fieldName)
+    .map((item: any) => ({label: `${item.label} (${item.fieldName})`, value: item.fieldName, name: `${item.label} (${item.fieldName})`}));
+});
 
 /** 当前公式配置对象（响应式引用 formProps.formula） */
 const formulaConfig = computed<FormulaConfig>(() => {
@@ -150,7 +164,7 @@ const configRelationPolicy = () => {
   });
 };
 const setRelationInitedData = () => {
-  dataRelationFormRef.value?.setFormData(formProps.value["dataRelation"] || {});
+  dataRelationFormRef.value?.setFormData(formProps.value);
 };
 const editContainerPrep = () => {
   containerDialogVisible.value = true;
@@ -205,19 +219,17 @@ const submitValid = async () => {
 
 const dataRelationFormRef = ref<any>(null);
 const dataRelationMerge = async () => {
-  let flag: boolean = false;
-  const formRef = dataRelationFormRef.value?.$refs.starHorseFormRef;
-  await formRef.validate((res: boolean) => {
-    flag = res;
-  });
-  if (!flag) {
-    return;
+  const result = await dataRelationFormRef.value?.submitValid();
+  if (result) {
+    closeAction();
+  } else {
+    operationConfirm(i18n("dyform.common.submitConfirm")).then(() => {
+      closeAction();
+    });
   }
-  formProps.value["dataRelation"] = dataRelationFormRef.value.getFormData().value;
-  closeAction();
 };
 const dataRelationReset = () => {
-  dataRelationFormRef.value.setFormData({});
+  dataRelationFormRef.value?.setFormData({});
 };
 
 const containerPrepRef = ref<any>(null);
@@ -357,7 +369,7 @@ watch(() => quickConfig.value, (val) => {
       :fieldList="buttonClickDataField()"
     />
   </star-horse-dialog>
-  <!--配置数据-->
+  <!--Unified Linkage Strategy-->
   <star-horse-dialog
     :dialogVisible="dataRelationDialogVisible"
     :title="i18n('dyform.data.relation.dialog.title')"
@@ -367,15 +379,16 @@ watch(() => quickConfig.value, (val) => {
     @closeAction="closeAction"
     @resetForm="dataRelationReset"
     :selfFunc="true"
+    boxHeight="80%"
   >
-    <star-horse-form
-      primary-key=""
-      :formSize="compSize"
+    <unified-linkage-comp
       ref="dataRelationFormRef"
-      @inited="setRelationInitedData"
-      :fieldList="relationDataField(formProps, model)"
+      :formProps="formProps"
+      :model="model"
+      :formFields="linkageFormFields"
     />
   </star-horse-dialog>
+  <!--Unified Data Source-->
   <star-horse-dialog
     :dialogVisible="dataSourceVisible"
     :title="i18n('dyform.data.source.dialog.title')"
@@ -387,7 +400,7 @@ watch(() => quickConfig.value, (val) => {
     :selfFunc="true"
     boxHeight="80%"
   >
-    <data-source-comp
+    <unified-data-source-comp
       ref="dataSourceFormRef"
       :model="model"
       :formProps="formProps"
@@ -501,6 +514,7 @@ watch(() => quickConfig.value, (val) => {
           :message="i18n('dyform.props.dataRelation.helpMsg')"
         />
       </el-form-item>
+
       <el-form-item
         :label="i18n('dyform.props.event')"
         prop="cfgClickEvent"

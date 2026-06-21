@@ -72,11 +72,21 @@ const doSave = async (isDraft: boolean = false) => {
 
 const analysisDynamicFields = (submit: boolean) => {
   isSubmit.value = submit;
-  nextTick(() => {
-    if (formPropertyRef.value) {
-      formPropertyRef.value.analysisDynamicFields(createFormInfo());
-    }
-  });
+  console.log("[ConfigDialog] analysisDynamicFields called, submit:", submit);
+  // 等待 el-dialog 内容渲染完成后再调用
+  const tryCall = () => {
+    nextTick(() => {
+      if (formPropertyRef.value) {
+        console.log("[ConfigDialog] formPropertyRef available, calling analysisDynamicFields");
+        formPropertyRef.value.analysisDynamicFields(createFormInfo());
+      } else {
+        console.log("[ConfigDialog] formPropertyRef is null, retrying in 50ms...");
+        // el-dialog 的 destroy-on-close 可能导致组件还未挂载，延迟重试
+        setTimeout(tryCall, 50);
+      }
+    });
+  };
+  tryCall();
 };
 
 defineExpose({

@@ -1,4 +1,3 @@
-gjt
 <script lang="ts" setup>
 import {
   apiInstance,
@@ -16,7 +15,7 @@ import {
 import {i18n} from "@/lang";
 import StarHorseFormDesign from "@/components/system/StarHorseFormDesign.vue";
 import {nextTick, ref} from "vue";
-import {FormConfig} from "@/components/types";
+import {FormConfig, createDataAdapter, createParamDataAdapter, createBiParamDataAdapter} from "@/components/types";
 import {useRoute} from "vue-router";
 import {getUserInfo, loadDict, loadRolesInfo, loadSystemInfo, permissionMenus} from "@/sample/utils/formapi";
 import {ServiceEnums} from "@/components/enums/ServiceEnums";
@@ -51,11 +50,45 @@ const loadTableColumns = (
     starHorseFormDesignRef.value.setTableColumns(type, tableColumnsList);
   });
 };
+
+// 静态数据源列表
+const dbListData: SelectOption[] = [
+  {name: "192.168.20.107(star_horse_devops)", value: "2"},
+  {name: "10.10.10.27(db_dynamic)", value: "3"},
+  {name: "10.10.10.27(doov_system_config)", value: "4"},
+  {name: "10.10.10.27(doov_lean_materials)", value: "7"},
+  {name: "10.10.10.27(workflow)", value: "5"},
+  {name: "192.168.20.107(script_manage)", value: "8"},
+  {name: "10.10.10.25(ORCLPDB1)", value: "91"},
+  {name: "10.10.10.10(doovpackdb)", value: "90"},
+  {name: "192.168.20.29(GdzcDB)", value: "130"},
+  {name: "10.10.10.32(DVMES)", value: "133"},
+  {name: "10.10.10.99(DVMES)", value: "134"},
+  {name: "192.168.20.165(device_manage)", value: "137"},
+  {name: "192.168.20.107(device_manage)", value: "6"},
+  {name: "192.168.20.107(glue_manage)", value: "331718530636448765"},
+  {name: "192.168.20.107(star_horse_workflow)", value: "337537414606095357"},
+  {name: "192.168.20.107(star_horse_continuous)", value: "136"},
+  {name: "10.10.10.32(dvmes)", value: "368615530598237181"},
+  {name: "10.10.10.99(dvmes)", value: "368615668037190653"},
+  {name: "192.168.20.6(TIMS_DOOV)", value: "370194292930511869"},
+  {name: "192.168.20.207(quantity_manage)", value: "381167130139165693"},
+];
+
 /**
- * 需要逐步的把StarHorseFormDesign 需要的参数给拎出来,
+ * API 接口配置
  */
 const api = apiInstance("userdb-manage", "userdb/dynamicForm");
 api.excelAnalysisUrl = "/userdb-manage/userdb/dynamicForm/excelAnalysis";
+
+/**
+ * 使用 createDataAdapter / createParamDataAdapter 简化配置
+ *
+ * 关键区分：
+ *   - 如果请求函数已经返回 SelectOption[]（如 loadSystemInfo、loadRolesInfo），直接用函数引用
+ *   - 如果请求函数返回原始 axios 响应，且数据需要字段映射，用 createXxxAdapter
+ *   - 如果组件通过 props.label/value 自行映射字段，直接透传原始数据即可
+ */
 const optional = ref<FormConfig>({
   model: "full",
   api: api,
@@ -63,170 +96,30 @@ const optional = ref<FormConfig>({
   permissions: {
     "add": "add",
     "edit": "edit",
-    "view": "view"
+    "view": "view",
   },
-  hideConfigBtn: false,
   batchCreatePage: true,
+  // 字典：loadDict 已返回 SelectOption[]，直接引用
   loadDicts: (dictName: string) => loadDict(dictName),
-  forbiddenSystemItems: false,
-  shotProps: {
-    label: "formName",
-    value: "idDynamicForm",
-  },
+  // 菜单：permissionMenus 返回原始响应，组件通过 props.label/value 自行映射字段，直接透传 data.data
   loadMenuList: (appId: string) => {
-    return new Promise((executor, reject) => {
-      if (!appId) {
-        return executor([]);
-      }
-      permissionMenus({}, appId)
-          .then((res: any) => {
-            executor(res.data.data);
-          })
-          .catch((e) => {
-            reject(e);
-          });
-    });
+    if (!appId) return Promise.resolve([]);
+    return permissionMenus({}, appId).then((res: any) => res.data?.data ?? []);
   },
-  loadAppList: () => {
-    return new Promise((executor, reject) => {
-      let params = [{propertyName: "statusCode", value: "1"}];
-      loadSystemInfo(
-          params,
-          `${ServiceEnums.SYSTEM_PREFIX}informations/getUserSystem/${getUserInfo()?.idUsersinfo}`,
-      )
-          .then((res: any) => {
-            executor(res);
-          })
-          .catch((e) => {
-            reject(e);
-          });
-    });
-  },
-  loadRolesList: () => {
-    return new Promise((executor, reject) => {
-      loadRolesInfo([])
-          .then((res: any) => {
-            executor(res);
-          })
-          .catch((e) => {
-            reject(e);
-          });
-    });
-  },
-  loadTableColumns: (dataSourceId: string, tableName: string) => {
-    return new Promise((executor, reject) => {
-      if (!tableName || !dataSourceId) {
-        return executor([]);
-      }
-      const tableColumnsList: SelectOption[] = [];
-      getRequest(
-          `/userdb-manage/dbsearch/dbinfo/tableColumns/${dataSourceId}/${tableName}`,
-      )
-          .then((res: any) => {
-            if (res.data.code != 0) {
-              return;
-            }
-            let resData = res.data.data;
-            resData.forEach((item: any) => {
-              tableColumnsList.push({
-                name: item.comment,
-                value: item.fieldName,
-              });
-            });
-            executor(tableColumnsList);
-          })
-          .catch((e) => {
-            reject(e);
-          });
-    });
-  },
-  loadDbList: () => {
-    return new Promise((executor, reject) => {
-      executor([
-        {
-          "name": "192.168.20.107(star_horse_devops)",
-          "value": "2"
-        },
-        {
-          "name": "10.10.10.27(db_dynamic)",
-          "value": "3"
-        },
-        {
-          "name": "10.10.10.27(doov_system_config)",
-          "value": "4"
-        },
-        {
-          "name": "10.10.10.27(doov_lean_materials)",
-          "value": "7"
-        },
-        {
-          "name": "10.10.10.27(workflow)",
-          "value": "5"
-        },
-        {
-          "name": "192.168.20.107(script_manage)",
-          "value": "8"
-        },
-        {
-          "name": "10.10.10.25(ORCLPDB1)",
-          "value": "91"
-        },
-        {
-          "name": "10.10.10.10(doovpackdb)",
-          "value": "90"
-        },
-        {
-          "name": "192.168.20.29(GdzcDB)",
-          "value": "130"
-        },
-        {
-          "name": "10.10.10.32(DVMES)",
-          "value": "133"
-        },
-        {
-          "name": "10.10.10.99(DVMES)",
-          "value": "134"
-        },
-        {
-          "name": "192.168.20.165(device_manage)",
-          "value": "137"
-        },
-        {
-          "name": "192.168.20.107(device_manage)",
-          "value": "6"
-        },
-        {
-          "name": "192.168.20.107(glue_manage)",
-          "value": "331718530636448765"
-        },
-        {
-          "name": "192.168.20.107(star_horse_workflow)",
-          "value": "337537414606095357"
-        },
-        {
-          "name": "192.168.20.107(star_horse_continuous)",
-          "value": "136"
-        },
-        {
-          "name": "10.10.10.32(dvmes)",
-          "value": "368615530598237181"
-        },
-        {
-          "name": "10.10.10.99(dvmes)",
-          "value": "368615668037190653"
-        },
-        {
-          "name": "192.168.20.6(TIMS_DOOV)",
-          "value": "370194292930511869"
-        },
-        {
-          "name": "192.168.20.207(quantity_manage)",
-          "value": "381167130139165693"
-        }
-      ]);
-    });
-  },
-  extendButtons: [],
+  // 应用列表：loadSystemInfo 已返回 SelectOption[]，直接引用
+  loadAppList: () => loadSystemInfo(
+      [{propertyName: "statusCode", value: "1"}],
+      `${ServiceEnums.SYSTEM_PREFIX}informations/getUserSystem/${getUserInfo()?.idUsersinfo}`,
+  ),
+  // 角色列表：loadRolesInfo 已返回 SelectOption[]，直接引用
+  loadRolesList: () => loadRolesInfo([]),
+  // 表字段：getRequest 返回原始响应，需要适配器提取 data.data 并映射字段
+  loadTableColumns: createBiParamDataAdapter(
+      (dataSourceId, tableName) => getRequest(`/userdb-manage/dbsearch/dbinfo/tableColumns/${dataSourceId}/${tableName}`),
+      {name: "comment", value: "fieldName"},
+  ),
+  // 静态数据源列表
+  loadDbList: () => Promise.resolve(dbListData),
 });
 let route = useRoute();
 const loadFormData = async (
