@@ -81,6 +81,10 @@ defineExpose({submitValid, setFormData, getFormData});
     <dynamic-query-builder ref="dynamicQueryBuilderRef"
                            property-name="fieldName"
                            or-condition-name="orList"
+                           :properties="[
+                               {name:'name',value:'value'},
+                               {name:'name1',value:'value1'},
+                           ]"
                            v-model="condition"/>
   </star-horse-dialog>
   <div class="api-config-form">

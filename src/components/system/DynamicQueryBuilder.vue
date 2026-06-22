@@ -1,5 +1,5 @@
 <script setup lang="ts" name="DynamicQueryBuilder">
-import {computed, PropType, watch} from "vue";
+import {computed, PropType, ref, watch} from "vue";
 import {searchMatchList, SelectOption, uuid} from "star-horse-lowcode";
 import {i18n} from "@/lang";
 
@@ -28,7 +28,25 @@ const props = defineProps({
   conditionName: {type: String, default: "condition"},
   /** Output key name for OR sub-list */
   orConditionName: {type: String, default: "orOperList"},
+  /** Which tabs to show: 'all' or array of 'conditions','sort','aggregate' */
+  tabs: {
+    type: [String, Array] as PropType<"all" | ("conditions" | "sort" | "aggregate")[]>,
+    default: "all",
+  },
+  /** Output key name for sort field */
+  sortName: {type: String, default: "sortField"},
+  /** Output key name for aggregate field */
+  aggName: {type: String, default: "aggField"},
+  /** Sort items (use with v-model:sort-value or :sort-value) */
+  sortValue: {type: Array as PropType<any[]>, default: undefined},
+  /** Aggregate items (use with v-model:agg-value or :agg-value) */
+  aggValue: {type: Array as PropType<any[]>, default: undefined},
 });
+
+const emit = defineEmits<{
+  (e: "update:sortValue", val: any[]): void;
+  (e: "update:aggValue", val: any[]): void;
+}>();
 
 // Dynamic key shortcuts
 const PK = computed(() => props.propertyName);
@@ -43,16 +61,58 @@ const propertyOptions = computed<SelectOption[]>(() =>
   ),
 );
 
-// modelValue is a flat array of condition items
+// ─── Models ──────────────────────────────────────────────────
 const modelValue = defineModel<any[]>("modelValue", {default: () => []});
+
+// Use local refs for sort/aggregate to avoid defineModel issues when parent doesn't bind them
+const localSort = ref<any[]>(props.sortValue || []);
+const localAgg = ref<any[]>(props.aggValue || []);
+
+// Sync from parent prop changes
+watch(() => props.sortValue, (v) => {
+  if (v && Array.isArray(v)) localSort.value = v;
+}, {deep: true});
+
+watch(() => props.aggValue, (v) => {
+  if (v && Array.isArray(v)) localAgg.value = v;
+}, {deep: true});
+
+const activeTab = ref("conditions");
 
 const effectivePlaceholder = computed(() =>
   props.propertyPlaceholder || i18n("queryBuilder.placeholder.property"),
 );
 
+// ─── Tab visibility ──────────────────────────────────────────
+const showConditions = computed(() =>
+  props.tabs === "all" || (Array.isArray(props.tabs) && props.tabs.includes("conditions")),
+);
+const showSort = computed(() =>
+  props.tabs === "all" || (Array.isArray(props.tabs) && props.tabs.includes("sort")),
+);
+const showAggregate = computed(() =>
+  props.tabs === "all" || (Array.isArray(props.tabs) && props.tabs.includes("aggregate")),
+);
+
+const visibleTabs = computed(() => {
+  const t: {name: string; label: string}[] = [];
+  if (showConditions.value) t.push({name: "conditions", label: i18n("queryBuilder.tab.conditions")});
+  if (showSort.value) t.push({name: "sort", label: i18n("queryBuilder.tab.sort")});
+  if (showAggregate.value) t.push({name: "aggregate", label: i18n("queryBuilder.tab.aggregate")});
+  return t;
+});
+
 // ─── Factory ─────────────────────────────────────────────────
 function createItem(): Record<string, any> {
   return {id: "qc_" + uuid().substring(0, 8), [PK.value]: "", [CK.value]: "eq", [VK.value]: ""};
+}
+
+function createSortItem(): Record<string, any> {
+  return {id: "qs_" + uuid().substring(0, 8), [props.sortName]: "", sortDirection: "asc"};
+}
+
+function createAggItem(): Record<string, any> {
+  return {id: "qa_" + uuid().substring(0, 8), [props.aggName]: "", aggFunction: "COUNT"};
 }
 
 function normalizeItem(item: any) {
@@ -60,11 +120,6 @@ function normalizeItem(item: any) {
   if (!(CK.value in item)) item[CK.value] = "eq";
   if (!(VK.value in item)) item[VK.value] = "";
   return item;
-}
-
-function normalizeList(list: any[]): any[] {
-  if (!list || !list.length) return [createItem()];
-  return list.map(normalizeItem);
 }
 
 watch(
@@ -84,6 +139,7 @@ const matchList = searchMatchList();
 const NO_VALUE_CONDS = ["isnull", "notnull"];
 const RANGE_CONDS = ["bt"];
 const MULTI_CONDS = ["ini", "ins"];
+const AGG_FUNCTIONS = ["COUNT", "SUM", "AVG", "MAX", "MIN"];
 
 // ─── Helpers ─────────────────────────────────────────────────
 const needsValue = (c: string) => !NO_VALUE_CONDS.includes(c);
@@ -99,7 +155,7 @@ function onConditionChange(cond: Record<string, any>) {
   else cond[vk] = "";
 }
 
-// ─── Operations on main list ─────────────────────────────────
+// ─── Operations on conditions ────────────────────────────────
 function addItem() {
   modelValue.value!.push(createItem());
 }
@@ -109,7 +165,6 @@ function removeItem(i: number | string) {
   if (modelValue.value!.length === 0) modelValue.value!.push(createItem());
 }
 
-// ─── Operations on OR sub-list ───────────────────────────────
 function addOrCondition(item: any) {
   const gk = GK.value;
   if (!item[gk]) item[gk] = [];
@@ -122,152 +177,298 @@ function removeOrCondition(item: any, i: number | string) {
   item[gk].splice(i as number, 1);
   if (item[gk].length === 0) delete item[gk];
 }
+
+// ─── Operations on sort ──────────────────────────────────────
+function addSort() {
+  localSort.value = [...localSort.value, createSortItem()];
+  emit("update:sortValue", localSort.value);
+}
+
+function removeSort(i: number | string) {
+  localSort.value = localSort.value.filter((_, idx) => idx !== i);
+  emit("update:sortValue", localSort.value);
+}
+
+// ─── Operations on aggregate ─────────────────────────────────
+function addAgg() {
+  localAgg.value = [...localAgg.value, createAggItem()];
+  emit("update:aggValue", localAgg.value);
+}
+
+function removeAgg(i: number | string) {
+  localAgg.value = localAgg.value.filter((_, idx) => idx !== i);
+  emit("update:aggValue", localAgg.value);
+}
 </script>
 
 <template>
-  <div class="dqb" :class="{'dqb--nested': depth > 0}">
-    <template v-if="modelValue">
-      <!-- ── Header: logic toggle + actions ──────────────── -->
-      <div class="dqb-header">
-        <div class="dqb-logic" @click.stop="!disabled && toggleLogic(modelValue)">
-          <span class="dqb-logic-badge" :class="`dqb-logic-badge--${modelValue.logic}`">
-            {{ logicTag(modelValue.logic) }}
-          </span>
-          <span class="dqb-logic-desc">{{ logicDesc(modelValue.logic) }}</span>
-          <span v-if="!disabled" class="dqb-logic-switch">{{ i18n('queryBuilder.logic.switch') }}</span>
-        </div>
-      </div>
-
-      <!-- ── Column headers ───────────────────────────────── -->
-      <div class="dqb-col-header">
-        <span class="dqb-col-prop">{{ i18n('queryBuilder.col.property') }}</span>
-        <span class="dqb-col-cond">{{ i18n('queryBuilder.col.condition') }}</span>
-        <span class="dqb-col-val">{{ i18n('queryBuilder.col.value') }}</span>
-        <span class="dqb-col-action"></span>
-      </div>
-
-      <!-- ── Condition Rows ──────────────────────────────── -->
-      <div class="dqb-list">
-        <div
-            v-for="(cond, idx) in (modelValue.conditions || [])"
-            :key="cond.id"
-            class="dqb-item"
-        >
-          <!-- property -->
-          <div class="dqb-item-prop">
-            <el-select
-                v-if="properties.length"
-                v-model="cond[PK]"
-                :placeholder="effectivePlaceholder"
-                filterable
-                :disabled="disabled"
-            >
-              <el-option v-for="p in properties" :key="p.value" :label="p.name" :value="p.value"/>
-            </el-select>
-            <el-input
-                v-else
-                v-model="cond[PK]"
-                :placeholder="effectivePlaceholder"
-                :disabled="disabled"
-            />
+  <div class="dqb">
+    <!-- Tabs mode -->
+    <el-tabs v-if="visibleTabs.length > 1" v-model="activeTab" class="dqb-tabs">
+      <!-- ── Conditions Tab ───────────────────────────────── -->
+      <el-tab-pane v-if="showConditions" :label="i18n('queryBuilder.tab.conditions')" name="conditions">
+        <template v-if="modelValue">
+          <div class="dqb-col-header">
+            <span class="dqb-col-prop">{{ i18n('queryBuilder.col.property') }}</span>
+            <span class="dqb-col-cond">{{ i18n('queryBuilder.col.condition') }}</span>
+            <span class="dqb-col-val">{{ i18n('queryBuilder.col.value') }}</span>
+            <span class="dqb-col-action"></span>
           </div>
-
-          <!-- condition -->
-          <div class="dqb-item-cond">
-            <el-select
-                v-model="cond[CK]"
-                :placeholder="i18n('queryBuilder.placeholder.condition')"
-                :disabled="disabled"
-                @change="onConditionChange(cond)"
-            >
-              <el-option v-for="m in matchList" :key="m.value" :label="m.name" :value="m.value"/>
-            </el-select>
-          </div>
-
-          <!-- value -->
-          <div class="dqb-item-val">
-            <span v-if="!needsValue(cond[CK])" class="dqb-val-empty">—</span>
-
-            <div v-else-if="isRange(cond[CK])" class="dqb-range">
-              <el-input v-model="cond[VK][0]" :placeholder="i18n('queryBuilder.placeholder.min')" :disabled="disabled"
-                        size="default"/>
-              <span class="dqb-range-sep">~</span>
-              <el-input v-model="cond[VK][1]" :placeholder="i18n('queryBuilder.placeholder.max')" :disabled="disabled"
-                        size="default"/>
+          <div class="dqb-list">
+            <div v-for="(item, idx) in modelValue" :key="item.id" class="dqb-entry">
+              <div class="dqb-item">
+                <div class="dqb-item-prop">
+                  <el-select v-if="propertyOptions.length" v-model="item[PK]" :placeholder="effectivePlaceholder" filterable allow-create default-first-option :disabled="disabled">
+                    <el-option v-for="p in propertyOptions" :key="p.value" :label="p.name" :value="p.value"/>
+                  </el-select>
+                  <el-input v-else v-model="item[PK]" :placeholder="effectivePlaceholder" :disabled="disabled"/>
+                </div>
+                <div class="dqb-item-cond">
+                  <el-select v-model="item[CK]" :placeholder="i18n('queryBuilder.placeholder.condition')" :disabled="disabled" @change="onConditionChange(item)">
+                    <el-option v-for="m in matchList" :key="m.value" :label="m.name" :value="m.value"/>
+                  </el-select>
+                </div>
+                <div class="dqb-item-val">
+                  <span v-if="!needsValue(item[CK])" class="dqb-val-empty">&mdash;</span>
+                  <div v-else-if="isRange(item[CK])" class="dqb-range">
+                    <el-input v-model="item[VK][0]" :placeholder="i18n('queryBuilder.placeholder.min')" :disabled="disabled"/>
+                    <span class="dqb-range-sep">~</span>
+                    <el-input v-model="item[VK][1]" :placeholder="i18n('queryBuilder.placeholder.max')" :disabled="disabled"/>
+                  </div>
+                  <el-select v-else-if="isMulti(item[CK])" v-model="item[VK]" multiple filterable allow-create default-first-option :placeholder="i18n('queryBuilder.placeholder.multi')" :disabled="disabled"/>
+                  <el-input v-else v-model="item[VK]" :placeholder="i18n('queryBuilder.placeholder.value')" :disabled="disabled"/>
+                </div>
+                <el-button v-if="!disabled" type="danger" text size="small" icon="Close" class="dqb-item-del" @click="removeItem(idx)"/>
+              </div>
+              <div v-if="item[GK]?.length" class="dqb-or-list">
+                <div v-for="(orCond, oi) in item[GK]" :key="orCond.id" class="dqb-item dqb-item--or">
+                  <span class="dqb-or-tag">OR</span>
+                  <div class="dqb-item-prop">
+                    <el-select v-if="propertyOptions.length" v-model="orCond[PK]" :placeholder="effectivePlaceholder" filterable allow-create default-first-option :disabled="disabled">
+                      <el-option v-for="p in propertyOptions" :key="p.value" :label="p.name" :value="p.value"/>
+                    </el-select>
+                    <el-input v-else v-model="orCond[PK]" :placeholder="effectivePlaceholder" :disabled="disabled"/>
+                  </div>
+                  <div class="dqb-item-cond">
+                    <el-select v-model="orCond[CK]" :placeholder="i18n('queryBuilder.placeholder.condition')" :disabled="disabled" @change="onConditionChange(orCond)">
+                      <el-option v-for="m in matchList" :key="m.value" :label="m.name" :value="m.value"/>
+                    </el-select>
+                  </div>
+                  <div class="dqb-item-val">
+                    <span v-if="!needsValue(orCond[CK])" class="dqb-val-empty">&mdash;</span>
+                    <div v-else-if="isRange(orCond[CK])" class="dqb-range">
+                      <el-input v-model="orCond[VK][0]" :placeholder="i18n('queryBuilder.placeholder.min')" :disabled="disabled"/>
+                      <span class="dqb-range-sep">~</span>
+                      <el-input v-model="orCond[VK][1]" :placeholder="i18n('queryBuilder.placeholder.max')" :disabled="disabled"/>
+                    </div>
+                    <el-select v-else-if="isMulti(orCond[CK])" v-model="orCond[VK]" multiple filterable allow-create default-first-option :placeholder="i18n('queryBuilder.placeholder.multi')" :disabled="disabled"/>
+                    <el-input v-else v-model="orCond[VK]" :placeholder="i18n('queryBuilder.placeholder.value')" :disabled="disabled"/>
+                  </div>
+                  <el-button v-if="!disabled" type="danger" text size="small" icon="Close" class="dqb-item-del" @click="removeOrCondition(item, oi)"/>
+                </div>
+              </div>
+              <div v-if="!disabled && depth < maxDepth - 1" class="dqb-or-action">
+                <el-button type="warning" text size="small" icon="Plus" @click="addOrCondition(item)">{{ i18n('queryBuilder.action.addOr') }}</el-button>
+              </div>
             </div>
-
-            <el-select
-                v-else-if="isMulti(cond[CK])"
-                v-model="cond[VK]"
-                multiple
-                filterable
-                allow-create
-                default-first-option
-                :placeholder="i18n('queryBuilder.placeholder.multi')"
-                :disabled="disabled"
-            />
-
-            <el-input
-                v-else
-                v-model="cond[VK]"
-                :placeholder="i18n('queryBuilder.placeholder.value')"
-                :disabled="disabled"
-            />
           </div>
+          <div v-if="!disabled" class="dqb-actions">
+            <el-button type="primary" text size="small" icon="Plus" @click="addItem">{{ i18n('queryBuilder.action.addCondition') }}</el-button>
+          </div>
+        </template>
+      </el-tab-pane>
 
-          <!-- delete -->
-          <el-button
-              v-if="!disabled"
-              type="danger"
-              text
-              size="small"
-              icon="Close"
-              class="dqb-item-del"
-              :disabled="(modelValue.conditions?.length || 0) <= 1"
-              @click="removeCondition(modelValue, idx)"
-          />
+      <!-- ── Sort Tab ─────────────────────────────────────── -->
+      <el-tab-pane v-if="showSort" :label="i18n('queryBuilder.tab.sort')" name="sort">
+        <div class="dqb-col-header">
+          <span class="dqb-col-sort-field">{{ i18n('queryBuilder.sort.field') }}</span>
+          <span class="dqb-col-sort-dir">{{ i18n('queryBuilder.sort.direction') }}</span>
+          <span class="dqb-col-action"></span>
         </div>
-      </div>
-
-      <!-- ── Child Groups (recursive) ────────────────────── -->
-      <div v-if="modelValue[GK]?.length" class="dqb-groups">
-        <div v-for="(child, ci) in modelValue[GK]" :key="child.id" class="dqb-group-slot">
-          <DynamicQueryBuilder
-              v-model="modelValue[GK][ci]"
-              :properties="properties"
-              :max-depth="maxDepth"
-              :depth="depth + 1"
-              :disabled="disabled"
-              :property-placeholder="propertyPlaceholder"
-          />
-          <el-button
-              v-if="!disabled"
-              class="dqb-group-del"
-              type="danger"
-              text
-              size="small"
-              icon="Delete"
-              @click="removeChildGroup(modelValue, ci)"
-          />
+        <div class="dqb-list">
+          <div v-for="(s, si) in localSort" :key="s.id" class="dqb-item">
+            <div class="dqb-sort-field">
+              <el-select v-if="propertyOptions.length" v-model="s[sortName]" :placeholder="i18n('queryBuilder.sort.selectField')" filterable allow-create default-first-option :disabled="disabled">
+                <el-option v-for="p in propertyOptions" :key="p.value" :label="p.name" :value="p.value"/>
+              </el-select>
+              <el-input v-else v-model="s[sortName]" :placeholder="i18n('queryBuilder.sort.selectField')" :disabled="disabled"/>
+            </div>
+            <div class="dqb-sort-dir">
+              <el-radio-group v-model="s.sortDirection" :disabled="disabled" size="default">
+                <el-radio-button value="asc">{{ i18n('queryBuilder.sort.asc') }}</el-radio-button>
+                <el-radio-button value="desc">{{ i18n('queryBuilder.sort.desc') }}</el-radio-button>
+              </el-radio-group>
+            </div>
+            <div class="dqb-item-val"></div>
+            <el-button v-if="!disabled" type="danger" text size="small" icon="Close" class="dqb-item-del" @click="removeSort(si)"/>
+          </div>
         </div>
-      </div>
+        <div v-if="!disabled" class="dqb-actions">
+          <el-button type="primary" text size="small" icon="Plus" @click="addSort">{{ i18n('queryBuilder.action.addSort') }}</el-button>
+        </div>
+      </el-tab-pane>
 
-      <!-- ── Actions ─────────────────────────────────────── -->
-      <div v-if="!disabled" class="dqb-actions">
-        <el-button type="primary" text size="small" icon="Plus" @click="addCondition(modelValue)">
-          {{ i18n('queryBuilder.action.addCondition') }}
-        </el-button>
-        <el-button
-            v-if="depth < maxDepth - 1"
-            type="success"
-            text
-            size="small"
-            icon="FolderAdd"
-            @click="addChildGroup(modelValue)"
-        >
-          {{ i18n('queryBuilder.action.addGroup') }}
-        </el-button>
-      </div>
+      <!-- ── Aggregate Tab ────────────────────────────────── -->
+      <el-tab-pane v-if="showAggregate" :label="i18n('queryBuilder.tab.aggregate')" name="aggregate">
+        <div class="dqb-col-header">
+          <span class="dqb-col-agg-field">{{ i18n('queryBuilder.agg.field') }}</span>
+          <span class="dqb-col-agg-func">{{ i18n('queryBuilder.agg.function') }}</span>
+          <span class="dqb-col-action"></span>
+        </div>
+        <div class="dqb-list">
+          <div v-for="(a, ai) in localAgg" :key="a.id" class="dqb-item">
+            <div class="dqb-agg-field">
+              <el-select v-if="propertyOptions.length" v-model="a[aggName]" :placeholder="i18n('queryBuilder.agg.selectField')" filterable allow-create default-first-option :disabled="disabled">
+                <el-option v-for="p in propertyOptions" :key="p.value" :label="p.name" :value="p.value"/>
+              </el-select>
+              <el-input v-else v-model="a[aggName]" :placeholder="i18n('queryBuilder.agg.selectField')" :disabled="disabled"/>
+            </div>
+            <div class="dqb-agg-func">
+              <el-select v-model="a.aggFunction" :placeholder="i18n('queryBuilder.agg.selectFunc')" :disabled="disabled">
+                <el-option v-for="fn in AGG_FUNCTIONS" :key="fn" :label="fn" :value="fn"/>
+              </el-select>
+            </div>
+            <div class="dqb-item-val"></div>
+            <el-button v-if="!disabled" type="danger" text size="small" icon="Close" class="dqb-item-del" @click="removeAgg(ai)"/>
+          </div>
+        </div>
+        <div v-if="!disabled" class="dqb-actions">
+          <el-button type="primary" text size="small" icon="Plus" @click="addAgg">{{ i18n('queryBuilder.action.addAggregate') }}</el-button>
+        </div>
+      </el-tab-pane>
+    </el-tabs>
+
+    <!-- Single-tab mode (no tab wrapper) -->
+    <template v-else-if="visibleTabs.length === 1">
+      <!-- Conditions only -->
+      <template v-if="visibleTabs[0].name === 'conditions' && modelValue">
+        <div class="dqb-col-header">
+          <span class="dqb-col-prop">{{ i18n('queryBuilder.col.property') }}</span>
+          <span class="dqb-col-cond">{{ i18n('queryBuilder.col.condition') }}</span>
+          <span class="dqb-col-val">{{ i18n('queryBuilder.col.value') }}</span>
+          <span class="dqb-col-action"></span>
+        </div>
+        <div class="dqb-list">
+          <div v-for="(item, idx) in modelValue" :key="item.id" class="dqb-entry">
+            <div class="dqb-item">
+              <div class="dqb-item-prop">
+                <el-select v-if="propertyOptions.length" v-model="item[PK]" :placeholder="effectivePlaceholder" filterable allow-create default-first-option :disabled="disabled">
+                  <el-option v-for="p in propertyOptions" :key="p.value" :label="p.name" :value="p.value"/>
+                </el-select>
+                <el-input v-else v-model="item[PK]" :placeholder="effectivePlaceholder" :disabled="disabled"/>
+              </div>
+              <div class="dqb-item-cond">
+                <el-select v-model="item[CK]" :placeholder="i18n('queryBuilder.placeholder.condition')" :disabled="disabled" @change="onConditionChange(item)">
+                  <el-option v-for="m in matchList" :key="m.value" :label="m.name" :value="m.value"/>
+                </el-select>
+              </div>
+              <div class="dqb-item-val">
+                <span v-if="!needsValue(item[CK])" class="dqb-val-empty">&mdash;</span>
+                <div v-else-if="isRange(item[CK])" class="dqb-range">
+                  <el-input v-model="item[VK][0]" :placeholder="i18n('queryBuilder.placeholder.min')" :disabled="disabled"/>
+                  <span class="dqb-range-sep">~</span>
+                  <el-input v-model="item[VK][1]" :placeholder="i18n('queryBuilder.placeholder.max')" :disabled="disabled"/>
+                </div>
+                <el-select v-else-if="isMulti(item[CK])" v-model="item[VK]" multiple filterable allow-create default-first-option :placeholder="i18n('queryBuilder.placeholder.multi')" :disabled="disabled"/>
+                <el-input v-else v-model="item[VK]" :placeholder="i18n('queryBuilder.placeholder.value')" :disabled="disabled"/>
+              </div>
+              <el-button v-if="!disabled" type="danger" text size="small" icon="Close" class="dqb-item-del" @click="removeItem(idx)"/>
+            </div>
+            <div v-if="item[GK]?.length" class="dqb-or-list">
+              <div v-for="(orCond, oi) in item[GK]" :key="orCond.id" class="dqb-item dqb-item--or">
+                <span class="dqb-or-tag">OR</span>
+                <div class="dqb-item-prop">
+                  <el-select v-if="propertyOptions.length" v-model="orCond[PK]" :placeholder="effectivePlaceholder" filterable allow-create default-first-option :disabled="disabled">
+                    <el-option v-for="p in propertyOptions" :key="p.value" :label="p.name" :value="p.value"/>
+                  </el-select>
+                  <el-input v-else v-model="orCond[PK]" :placeholder="effectivePlaceholder" :disabled="disabled"/>
+                </div>
+                <div class="dqb-item-cond">
+                  <el-select v-model="orCond[CK]" :placeholder="i18n('queryBuilder.placeholder.condition')" :disabled="disabled" @change="onConditionChange(orCond)">
+                    <el-option v-for="m in matchList" :key="m.value" :label="m.name" :value="m.value"/>
+                  </el-select>
+                </div>
+                <div class="dqb-item-val">
+                  <span v-if="!needsValue(orCond[CK])" class="dqb-val-empty">&mdash;</span>
+                  <div v-else-if="isRange(orCond[CK])" class="dqb-range">
+                    <el-input v-model="orCond[VK][0]" :placeholder="i18n('queryBuilder.placeholder.min')" :disabled="disabled"/>
+                    <span class="dqb-range-sep">~</span>
+                    <el-input v-model="orCond[VK][1]" :placeholder="i18n('queryBuilder.placeholder.max')" :disabled="disabled"/>
+                  </div>
+                  <el-select v-else-if="isMulti(orCond[CK])" v-model="orCond[VK]" multiple filterable allow-create default-first-option :placeholder="i18n('queryBuilder.placeholder.multi')" :disabled="disabled"/>
+                  <el-input v-else v-model="orCond[VK]" :placeholder="i18n('queryBuilder.placeholder.value')" :disabled="disabled"/>
+                </div>
+                <el-button v-if="!disabled" type="danger" text size="small" icon="Close" class="dqb-item-del" @click="removeOrCondition(item, oi)"/>
+              </div>
+            </div>
+            <div v-if="!disabled && depth < maxDepth - 1" class="dqb-or-action">
+              <el-button type="warning" text size="small" icon="Plus" @click="addOrCondition(item)">{{ i18n('queryBuilder.action.addOr') }}</el-button>
+            </div>
+          </div>
+        </div>
+        <div v-if="!disabled" class="dqb-actions">
+          <el-button type="primary" text size="small" icon="Plus" @click="addItem">{{ i18n('queryBuilder.action.addCondition') }}</el-button>
+        </div>
+      </template>
+
+      <!-- Sort only -->
+      <template v-if="visibleTabs[0].name === 'sort'">
+        <div class="dqb-col-header">
+          <span class="dqb-col-sort-field">{{ i18n('queryBuilder.sort.field') }}</span>
+          <span class="dqb-col-sort-dir">{{ i18n('queryBuilder.sort.direction') }}</span>
+          <span class="dqb-col-action"></span>
+        </div>
+        <div class="dqb-list">
+          <div v-for="(s, si) in localSort" :key="s.id" class="dqb-item">
+            <div class="dqb-sort-field">
+              <el-select v-if="propertyOptions.length" v-model="s[sortName]" :placeholder="i18n('queryBuilder.sort.selectField')" filterable allow-create default-first-option :disabled="disabled">
+                <el-option v-for="p in propertyOptions" :key="p.value" :label="p.name" :value="p.value"/>
+              </el-select>
+              <el-input v-else v-model="s[sortName]" :placeholder="i18n('queryBuilder.sort.selectField')" :disabled="disabled"/>
+            </div>
+            <div class="dqb-sort-dir">
+              <el-radio-group v-model="s.sortDirection" :disabled="disabled" size="default">
+                <el-radio-button value="asc">{{ i18n('queryBuilder.sort.asc') }}</el-radio-button>
+                <el-radio-button value="desc">{{ i18n('queryBuilder.sort.desc') }}</el-radio-button>
+              </el-radio-group>
+            </div>
+            <div class="dqb-item-val"></div>
+            <el-button v-if="!disabled" type="danger" text size="small" icon="Close" class="dqb-item-del" @click="removeSort(si)"/>
+          </div>
+        </div>
+        <div v-if="!disabled" class="dqb-actions">
+          <el-button type="primary" text size="small" icon="Plus" @click="addSort">{{ i18n('queryBuilder.action.addSort') }}</el-button>
+        </div>
+      </template>
+
+      <!-- Aggregate only -->
+      <template v-if="visibleTabs[0].name === 'aggregate'">
+        <div class="dqb-col-header">
+          <span class="dqb-col-agg-field">{{ i18n('queryBuilder.agg.field') }}</span>
+          <span class="dqb-col-agg-func">{{ i18n('queryBuilder.agg.function') }}</span>
+          <span class="dqb-col-action"></span>
+        </div>
+        <div class="dqb-list">
+          <div v-for="(a, ai) in localAgg" :key="a.id" class="dqb-item">
+            <div class="dqb-agg-field">
+              <el-select v-if="propertyOptions.length" v-model="a[aggName]" :placeholder="i18n('queryBuilder.agg.selectField')" filterable allow-create default-first-option :disabled="disabled">
+                <el-option v-for="p in propertyOptions" :key="p.value" :label="p.name" :value="p.value"/>
+              </el-select>
+              <el-input v-else v-model="a[aggName]" :placeholder="i18n('queryBuilder.agg.selectField')" :disabled="disabled"/>
+            </div>
+            <div class="dqb-agg-func">
+              <el-select v-model="a.aggFunction" :placeholder="i18n('queryBuilder.agg.selectFunc')" :disabled="disabled">
+                <el-option v-for="fn in AGG_FUNCTIONS" :key="fn" :label="fn" :value="fn"/>
+              </el-select>
+            </div>
+            <div class="dqb-item-val"></div>
+            <el-button v-if="!disabled" type="danger" text size="small" icon="Close" class="dqb-item-del" @click="removeAgg(ai)"/>
+          </div>
+        </div>
+        <div v-if="!disabled" class="dqb-actions">
+          <el-button type="primary" text size="small" icon="Plus" @click="addAgg">{{ i18n('queryBuilder.action.addAggregate') }}</el-button>
+        </div>
+      </template>
     </template>
   </div>
 </template>
@@ -281,60 +482,7 @@ function removeOrCondition(item: any, i: number | string) {
   border-radius: 8px;
 }
 
-.dqb--nested {
-  background: #fff;
-}
-
-/* ── Header ─────────────────────────────────────────────── */
-.dqb-header {
-  margin-bottom: 8px;
-}
-
-.dqb-logic {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  cursor: pointer;
-  user-select: none;
-  padding: 2px 0;
-}
-
-.dqb-logic-badge {
-  display: inline-block;
-  padding: 1px 10px;
-  border-radius: 3px;
-  font-size: 12px;
-  font-weight: 600;
-  letter-spacing: 1px;
-  line-height: 20px;
-
-  &--and {
-    background: #ecf5ff;
-    color: #409eff;
-  }
-
-  &--or {
-    background: #fdf6ec;
-    color: #e6a23c;
-  }
-}
-
-.dqb-logic-desc {
-  font-size: 12px;
-  color: #909399;
-}
-
-.dqb-logic-switch {
-  font-size: 11px;
-  color: #409eff;
-  margin-left: 2px;
-
-  &:hover {
-    text-decoration: underline;
-  }
-}
-
-/* ── Column header ──────────────────────────────────── */
+/* ── Column header ─────────────────────────────────────────── */
 .dqb-col-header {
   display: flex;
   align-items: center;
@@ -345,31 +493,23 @@ function removeOrCondition(item: any, i: number | string) {
   font-weight: 500;
 }
 
-.dqb-col-prop {
-  width: 22%;
-  flex-shrink: 0;
+.dqb-col-prop { width: 22%; flex-shrink: 0; }
+.dqb-col-cond { width: 22%; flex-shrink: 0; }
+.dqb-col-val { flex: 1; min-width: 0; }
+.dqb-col-action { width: 28px; flex-shrink: 0; }
+
+/* ── Entry (item + its OR sub-list) ────────────────────────── */
+.dqb-entry {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
 }
 
-.dqb-col-cond {
-  width: 22%;
-  flex-shrink: 0;
-}
-
-.dqb-col-val {
-  flex: 1;
-  min-width: 0;
-}
-
-.dqb-col-action {
-  width: 28px;
-  flex-shrink: 0;
-}
-
-/* ── Condition list ─────────────────────────────────────── */
+/* ── Condition list ────────────────────────────────────────── */
 .dqb-list {
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 6px;
 }
 
 .dqb-item {
@@ -383,9 +523,7 @@ function removeOrCondition(item: any, i: number | string) {
   overflow: hidden;
   transition: border-color 0.15s;
 
-  &:hover {
-    border-color: #c0c4cc;
-  }
+  &:hover { border-color: #c0c4cc; }
 }
 
 /* property: 22% */
@@ -395,9 +533,7 @@ function removeOrCondition(item: any, i: number | string) {
   flex-shrink: 0;
 
   :deep(.el-input),
-  :deep(.el-select) {
-    width: 100% !important;
-  }
+  :deep(.el-select) { width: 100% !important; }
 }
 
 /* condition: 22% */
@@ -406,9 +542,7 @@ function removeOrCondition(item: any, i: number | string) {
   min-width: 0;
   flex-shrink: 0;
 
-  :deep(.el-select) {
-    width: 100% !important;
-  }
+  :deep(.el-select) { width: 100% !important; }
 }
 
 /* value: flex grow */
@@ -417,9 +551,7 @@ function removeOrCondition(item: any, i: number | string) {
   min-width: 0;
 
   :deep(.el-select),
-  :deep(.el-input) {
-    width: 100% !important;
-  }
+  :deep(.el-input) { width: 100% !important; }
 }
 
 .dqb-val-empty {
@@ -434,10 +566,7 @@ function removeOrCondition(item: any, i: number | string) {
   align-items: center;
   gap: 4px;
 
-  :deep(.el-input) {
-    flex: 1;
-    min-width: 0;
-  }
+  :deep(.el-input) { flex: 1; min-width: 0; }
 }
 
 .dqb-range-sep {
@@ -452,51 +581,92 @@ function removeOrCondition(item: any, i: number | string) {
   opacity: 0;
   transition: opacity 0.15s;
 
-  .dqb-item:hover & {
-    opacity: 1;
-  }
-
-  &[disabled] {
-    opacity: 0 !important;
-  }
+  .dqb-item:hover & { opacity: 1; }
 }
 
-/* ── Child groups ───────────────────────────────────────── */
-.dqb-groups {
-  margin-top: 8px;
+/* ── OR sub-list ───────────────────────────────────────────── */
+.dqb-or-list {
+  margin-left: 20px;
   display: flex;
   flex-direction: column;
-  gap: 8px;
-}
+  gap: 2px;
+  padding-left: 10px;
+  border-left: 2px solid #e6a23c;
 
-.dqb-group-slot {
-  position: relative;
-  padding-left: 12px;
-  border-left: 2px solid #dcdfe6;
+  .dqb-item--or {
+    background: #fffdf5;
+    border-color: #f0e6c8;
 
-  &:hover {
-    border-left-color: #409eff;
-  }
-
-  .dqb-group-del {
-    position: absolute;
-    top: 4px;
-    right: 0;
-    opacity: 0;
-    transition: opacity 0.15s;
-  }
-
-  &:hover > .dqb-group-del {
-    opacity: 1;
+    &:hover { border-color: #e6a23c; }
   }
 }
 
-/* ── Actions ────────────────────────────────────────────── */
+.dqb-or-tag {
+  display: inline-block;
+  padding: 1px 6px;
+  border-radius: 3px;
+  font-size: 11px;
+  font-weight: 600;
+  color: #e6a23c;
+  background: #fdf6ec;
+  flex-shrink: 0;
+  line-height: 18px;
+}
+
+.dqb-or-action {
+  padding-left: 28px;
+}
+
+/* ── Actions ───────────────────────────────────────────────── */
 .dqb-actions {
   display: flex;
   gap: 4px;
   margin-top: 6px;
   padding-top: 6px;
   border-top: 1px dashed #ebeef5;
+}
+
+/* ── Tabs ──────────────────────────────────────────────────── */
+.dqb-tabs {
+  :deep(.el-tabs__header) { margin-bottom: 8px; }
+  :deep(.el-tabs__nav-wrap::after) { display: none; }
+}
+
+/* ── Sort columns ──────────────────────────────────────────── */
+.dqb-col-sort-field { width: 40%; flex-shrink: 0; }
+.dqb-col-sort-dir { width: 180px; flex-shrink: 0; }
+
+.dqb-sort-field {
+  width: 40%;
+  min-width: 0;
+  flex-shrink: 0;
+
+  :deep(.el-input),
+  :deep(.el-select) { width: 100% !important; }
+}
+
+.dqb-sort-dir {
+  width: 180px;
+  flex-shrink: 0;
+}
+
+/* ── Aggregate columns ────────────────────────────────────── */
+.dqb-col-agg-field { width: 40%; flex-shrink: 0; }
+.dqb-col-agg-func { width: 160px; flex-shrink: 0; }
+
+.dqb-agg-field {
+  width: 40%;
+  min-width: 0;
+  flex-shrink: 0;
+
+  :deep(.el-input),
+  :deep(.el-select) { width: 100% !important; }
+}
+
+.dqb-agg-func {
+  width: 160px;
+  flex-shrink: 0;
+
+  :deep(.el-select) { width: 100% !important; }
 }
 </style>
