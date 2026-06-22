@@ -2,6 +2,7 @@
 import {createApiConfig} from "@/components/system/items/utils/ApiSharedConfig";
 import {PageFieldInfo, postRequest, SelectOption, StarHorseDialog, success, warning} from "star-horse-lowcode";
 import {nextTick, PropType, reactive, ref, unref} from "vue";
+import {i18n} from "@/lang";
 import DynamicQueryBuilder from "@/components/system/DynamicQueryBuilder.vue";
 
 defineOptions({name: "ApiConfigForm"});
@@ -46,7 +47,7 @@ const submitValid = async () => {
 const apiValid = async () => {
   const result = await submitValid();
   if (!result) {
-    warning("接口配置不完整,请检查");
+    warning(i18n("dyform.apiConfig.warning.incomplete"));
     return;
   }
   const formDta = unref(formRef.value?.getFormData()) ?? {};
@@ -73,7 +74,7 @@ defineExpose({submitValid, setFormData, getFormData});
       @closeAction="()=>visible=false"
       :selfFunc="true"
       @merge="apiValid"
-      title="验证"
+      :title="i18n('dyform.apiConfig.btn.verify')"
       boxHeight="90%"
       boxWidth="70%"
   >
@@ -91,7 +92,7 @@ defineExpose({submitValid, setFormData, getFormData});
     <div class="flex my-[3px] justify-end w-full">
       <el-button size="small" @click="openDialog">
         <star-horse-icon iconClass="valid"/>
-        验证
+        {{ i18n('dyform.apiConfig.btn.verify') }}
       </el-button>
     </div>
     <star-horse-form :fieldList="apiConfig" ref="formRef"/>

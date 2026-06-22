@@ -59,7 +59,7 @@ export function createRequestTab(title: string, i18nPrefix: string, objectName: 
                 fieldName: "a",
                 tabList: [
                     {
-                        title: "接口信息",
+                        title: i18n("dyform.apiConfig.section.apiInfo"),
                         tabName: "a",
                         objectName: "a",
                         fieldList: [
@@ -111,7 +111,7 @@ export function createRequestTab(title: string, i18nPrefix: string, objectName: 
                             },
                         ]
                     }, {
-                        title: "入参配置",
+                        title: i18n("dyform.apiConfig.section.inputConfig"),
                         tabName: "b",
                         objectName: "b",
                         fieldList: [{
@@ -184,7 +184,7 @@ export function createRequestTab(title: string, i18nPrefix: string, objectName: 
                                 }],
                             }]
                     }, {
-                        title: "出参配置",
+                        title: i18n("dyform.apiConfig.section.outputConfig"),
                         tabName: "c",
                         objectName: "c",
                         fieldList: [{
@@ -356,9 +356,9 @@ export function createApiConfig(mode: "dataSource" | "linkage", formFields?: Sel
                 fieldName: "apiInfo",
                 formVisible: true,
                 tabList: [
-                    createRequestTab("接口配置", i18nPrefix, "apiInfo", defaultMethod),
+                    createRequestTab(i18n("dyform.apiConfig.tab.apiConfig"), i18nPrefix, "apiInfo", defaultMethod),
                     responseTab,
-                    createRequestTab("认证配置", i18nPrefix, "authInfo", defaultMethod),
+                    createRequestTab(i18n("dyform.apiConfig.tab.authConfig"), i18nPrefix, "authInfo", defaultMethod),
                 ],
             }]
     };
