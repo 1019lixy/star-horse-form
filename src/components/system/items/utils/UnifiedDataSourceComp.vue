@@ -146,10 +146,15 @@ const staticFields: FieldInfo[] | any = [
 
 // ─── Internal API fields ───
 const internalApiFields: FieldInfo[] | any = [
-  ...urlFields,
   {
-    fieldName: "queryParams",
+    fieldName: "apiInfo",
     tabList: [
+      {
+        title: "接口信息",
+        tabName: "apiInfo",
+        objectName: "apiInfo",
+        fieldList:urlFields
+      },
       {
         title: i18n("dyform.utils.600"), tabName: "queryParams", objectName: "queryParams",
         batchFieldList: [{

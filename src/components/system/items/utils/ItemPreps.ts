@@ -1548,15 +1548,7 @@ export function relationDataField(preps: any, model: string) {
                                     },
                                 },
                             ],
-                            {
-                                type: "divider",
-                                formVisible: false,
-                                fieldName: "dataSourceDivider",
-                                preps: {
-                                    bareFlag: "Y",
-                                    content: i18n("dyform.utils.474"),
-                                },
-                            },
+                            
                             {
                                 label: i18n("dyform.utils.524"),
                                 type: "input",

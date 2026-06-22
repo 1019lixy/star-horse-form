@@ -4,7 +4,7 @@ import {
   getUrlFieldConfig,
   validOperation,
 } from "@/components/system/items/utils/ItemPreps";
-import {i18n} from "@/lang";
+import { i18n } from "@/lang";
 import { PageFieldInfo, searchMatchList } from "star-horse-lowcode";
 import {
   ModelRef,
@@ -22,17 +22,17 @@ defineOptions({
 const props = defineProps({
   formProps: {
     type: Object as PropType<any>,
-    default: () => {},
+    default: () => { },
   },
 
   preps: {
     type: Object as PropType<any>,
-    default: () => {},
+    default: () => { },
   },
 
   item: {
     type: Object as PropType<PageFieldInfo>,
-    default: () => {},
+    default: () => { },
   },
   source: {
     type: Number,
@@ -78,10 +78,15 @@ const urlFields = getUrlFieldConfig(interfaceUtils, {
 
 const dataSourceField = reactive<PageFieldInfo | any>({
   fieldList: [
-    ...urlFields,
     {
-      fieldName: "queryParams",
+      fieldName: "apiInfo",
       tabList: [
+        {
+          title: "接口信息",
+          tabName: "apiInfo",
+          objectName: "apiInfo",
+          fieldList: urlFields
+        },
         {
           title: i18n("dyform.utils.600"),
           tabName: "queryParams",
@@ -212,23 +217,11 @@ defineExpose({
 
 <template>
   <el-scrollbar height="100%">
-    <star-horse-form
-      :fieldList="dataSourceField"
-      ref="dataSourceFormRef"
-      v-if="!dataForm"
-    />
-    <star-horse-form-item
-      v-else
-      ref="dataSourceFormRef"
-      :fieldList="dataSourceField"
-      :dataIndex="(props.preps?.params?.totalTab || 1) - 1"
-      :subFormFlag="subFormFlag ? 'Y' : 'N'"
-      :propPrefix="batchName"
-      :key="createSubForm()"
-      :batchName="batchName"
-      :source="source"
-      v-model:dataForm="dataForm[batchName]"
-    />
+    <star-horse-form :fieldList="dataSourceField" ref="dataSourceFormRef" v-if="!dataForm" />
+    <star-horse-form-item v-else ref="dataSourceFormRef" :fieldList="dataSourceField"
+      :dataIndex="(props.preps?.params?.totalTab || 1) - 1" :subFormFlag="subFormFlag ? 'Y' : 'N'"
+      :propPrefix="batchName" :key="createSubForm()" :batchName="batchName" :source="source"
+      v-model:dataForm="dataForm[batchName]" />
   </el-scrollbar>
 </template>
 
