@@ -6,7 +6,8 @@ import {
     dataType,
     dictData,
     error,
-    FieldInfo, getDesignFormStore,
+    FieldInfo,
+    getDesignFormStore,
     httpMethod,
     loadData,
     loadGetData,
@@ -1373,7 +1374,13 @@ export function buttonClickDataField() {
 const formFields = computed(
     () => analysisCompDatas(getDesignFormStore().compList).selectList,
 );
-
+export const linkPolicyTypeEvent: SelectOption[] = [
+    {name: i18n("dyform.relation.event.change"), value: "change"},
+    {name: i18n("dyform.relation.event.input"), value: "input"},
+    {name: i18n("dyform.relation.event.focus"), value: "focus"},
+    {name: i18n("dyform.relation.event.blur"), value: "blur"},
+    {name: i18n("dyform.relation.event.enter"), value: "enter"},
+];
 /**
  * 关联
  * @param preps 当前组件参数
@@ -1386,10 +1393,7 @@ export function relationDataField(preps: any, model: string) {
         currentFieldValues.value = res;
     });
 
-    const eventList: SelectOption[] = [
-        {name: "Change", value: "change"},
-        {name: "Input", value: "input"},
-    ];
+
     const controlConditionList: SelectOption[] = [
         {name: i18n("dyform.utils.507"), value: "eqDisable"},
         {name: i18n("dyform.utils.508"), value: "eqEditable"},
@@ -1413,18 +1417,6 @@ export function relationDataField(preps: any, model: string) {
 
     return reactive<PageFieldInfo | any>({
         fieldList: [
-            {
-                label: i18n("dyform.utils.516"),
-                fieldName: "actionName",
-                type: "select",
-                defaultValue: "change",
-                required: true,
-                formVisible: true,
-                listVisible: true,
-                preps: {
-                    values: eventList,
-                },
-            },
             {
                 batchFieldList: [
                     {

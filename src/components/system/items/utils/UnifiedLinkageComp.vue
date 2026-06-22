@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import { i18n } from "@/lang";
-import { relationDataField } from "@/components/system/items/utils/ItemPreps.js";
-import { createApiLinkageConfig } from "@/components/system/items/utils/ApiLinkageConfig";
-import { PageFieldInfo, SelectOption } from "star-horse-lowcode";
-import { nextTick, PropType, reactive, ref } from "vue";
+import {i18n} from "@/lang";
+import {linkPolicyTypeEvent, relationDataField} from "@/components/system/items/utils/ItemPreps.js";
+import {SelectOption, warning} from "star-horse-lowcode";
+import ApiConfigForm from "@/components/system/items/utils/ApiConfigForm.vue";
+import {nextTick, PropType, reactive, ref} from "vue";
 
-defineOptions({ name: "UnifiedLinkageComp" });
+defineOptions({name: "UnifiedLinkageComp"});
 
 const props = defineProps({
   formProps: {
@@ -22,198 +22,238 @@ const props = defineProps({
   },
 });
 
-// ─── Enable state ───
-const enabled = ref<boolean>(!!props.formProps?.dataRelation || !!props.formProps?.apiLinkage);
+// ─── Linkage type options ───
+const linkageTypeOptions = [
+  {
+    value: "visibility",
+    label: i18n("dyform.unified.linkage.tab.visibility"),
+    icon: "View",
+    desc: i18n("dyform.unified.linkage.visibility.desc")
+  },
+  {
+    value: "apiFill",
+    label: i18n("dyform.unified.linkage.tab.apiFill"),
+    icon: "Connection",
+    desc: i18n("dyform.unified.linkage.apiFill.desc")
+  },
+];
 
-// ─── Active tab ───
-const activeTab = ref<string>("visibility");
-
+// ─── Active type ───
+const activeType = ref<string>("visibility");
+const actionName = ref<string>("change");
 // ─── Form refs ───
 const visibilityFormRef = ref();
-const apiFillFormRef = ref();
+const apiConfigRef = ref();
 
-// ─── Visibility Rule field config (reuses relationDataField which has its own event selector) ───
-const visibilityField = reactive<PageFieldInfo | any>(relationDataField(props.formProps, props.model));
+// ─── Visibility Rule field config ───
+const visibilityField = reactive<any>(relationDataField(props.formProps, props.model));
 
-// ─── API Auto-fill field config (uses ApiLinkageConfig tabs) ───
-// createApiLinkageConfig returns a FieldInfo (with tabList), wrap it inside fieldList
-const apiFillConfig = createApiLinkageConfig(props.formFields);
-const apiFillField = reactive<PageFieldInfo | any>({ fieldList: [apiFillConfig] });
-
-// ─── Transform helpers: flat auth fields ↔ backend authInfo Map ───
-
-/**
- * Transform frontend flat auth fields to backend ApiLinkagePo structure:
- * - basicUsername/basicPassword → authInfo: {username, password}
- * - bearerToken → authInfo: {token}
- * - customHeaders (JSON string) → authInfo: parsed map
- * - headers (JSON string) → parsed map
- */
-const transformToBackend = (data: any) => {
-  if (!data) return data;
-  const authType = data.authType || "none";
-
-  // Build authInfo map from flat fields
-  if (authType === "basic") {
-    data.authInfo = {
-      username: data.basicUsername || "",
-      password: data.basicPassword || "",
-    };
-  } else if (authType === "bearer") {
-    data.authInfo = { token: data.bearerToken || "" };
-  } else if (authType === "custom") {
-    // customHeaders might be a JSON string or already an object
-    let customMap: any = {};
-    if (typeof data.customHeaders === "string") {
-      try { customMap = JSON.parse(data.customHeaders); } catch (_) { /* ignore */ }
-    } else if (data.customHeaders && typeof data.customHeaders === "object") {
-      customMap = data.customHeaders;
-    }
-    data.authInfo = customMap;
-  } else {
-    data.authInfo = null;
-  }
-
-  // Parse headers field (non-auth custom headers) to Map
-  if (data.headers) {
-    if (typeof data.headers === "string") {
-      try { data.headers = JSON.parse(data.headers); } catch (_) { /* keep as-is */ }
-    }
-  }
-
-  // Remove UI-only flat fields not in backend PO
-  delete data.basicUsername;
-  delete data.basicPassword;
-  delete data.bearerToken;
-  delete data.customHeaders;
-
-  return data;
-};
-
-/**
- * Transform backend authInfo map back to frontend flat fields for UI display
- */
-const transformFromBackend = (data: any) => {
-  if (!data) return data;
-  const authType = data.authType || "none";
-  const authInfo = data.authInfo;
-
-  if (authType === "basic" && authInfo) {
-    data.basicUsername = authInfo.username || "";
-    data.basicPassword = authInfo.password || "";
-  } else if (authType === "bearer" && authInfo) {
-    data.bearerToken = authInfo.token || "";
-  } else if (authType === "custom" && authInfo) {
-    data.customHeaders = typeof authInfo === "object" ? JSON.stringify(authInfo) : authInfo;
-  }
-
-  return data;
-};
 
 // ─── Public API ───
 const setFormData = (data: any) => {
   nextTick(() => {
-    // Restore enable state
-    enabled.value = !!(data?.dataRelation || data?.apiLinkage);
-    // Set visibility rule data
     if (data?.dataRelation) {
+      activeType.value = "visibility";
       nextTick(() => visibilityFormRef.value?.setFormData(data.dataRelation));
     }
-    // Set API linkage data (restore flat auth fields from authInfo)
-    if (data?.apiLinkage) {
-      const restored = transformFromBackend({ ...data.apiLinkage });
-      nextTick(() => apiFillFormRef.value?.setFormData(restored));
+    if (data?.dataRelation?.apiLinkage) {
+      activeType.value = "apiFill";
+      nextTick(() => apiConfigRef.value?.setFormData(data?.dataRelation?.apiLinkage));
     }
+    actionName.value = props.formProps["dataRelation"]["actionName"] ?? "change";
   });
 };
 
 const getFormData = () => {
   return {
     dataRelation: visibilityFormRef.value?.getFormData(),
-    apiLinkage: apiFillFormRef.value?.getFormData(),
+    apiLinkage: apiConfigRef.value?.getFormData(),
   };
 };
 
 const submitValid = async () => {
-  if (!enabled.value) {
-    // Disabled: clear linkage data
-    if (props.formProps) {
-      delete props.formProps["dataRelation"];
-      delete props.formProps["apiLinkage"];
-    }
-    return true;
-  }
-
-  // Save visibility rule (always, regardless of active tab)
+  // Save visibility rule
   const visibilityStarForm = visibilityFormRef.value?.$refs?.starHorseFormRef;
   if (visibilityStarForm) {
     let flag = false;
-    await visibilityStarForm.validate((res: boolean) => { flag = res; });
-    if (!flag) { activeTab.value = "visibility"; return false; }
+    await visibilityStarForm.validate((res: boolean) => {
+      flag = res;
+    });
+    if (!flag) {
+      activeType.value = "visibility";
+      return false;
+    }
+    if (!actionName.value) {
+      warning("触发事件不能为空");
+      return false;
+    }
+    props.formProps["dataRelation"]["actionName"] = actionName.value;
+
   }
   const visibilityData = visibilityFormRef.value?.getFormData();
   if (visibilityData && props.formProps) {
     props.formProps["dataRelation"] = visibilityData.value ?? visibilityData;
   }
 
-  // Save API auto-fill (always, regardless of active tab)
-  const apiStarForm = apiFillFormRef.value?.$refs?.starHorseFormRef;
-  if (apiStarForm) {
-    let flag = false;
-    await apiStarForm.validate((res: boolean) => { flag = res; });
-    if (!flag) { activeTab.value = "apiFill"; return false; }
+  // Save API auto-fill
+  const valid = await apiConfigRef.value?.submitValid();
+  if (!valid) {
+    activeType.value = "apiFill";
+    return false;
   }
-  const apiData = apiFillFormRef.value?.getFormData();
+  const apiData = apiConfigRef.value?.getFormData();
   if (apiData && props.formProps) {
-    const raw = apiData.value ?? apiData;
-    // Transform flat auth fields → backend authInfo map
-    props.formProps["apiLinkage"] = transformToBackend({ ...raw });
+    props.formProps["dataRelation"]["apiLinkage"] = apiData.value ?? apiData;
   }
 
   return true;
 };
 
-defineExpose({ submitValid, setFormData, getFormData });
+defineExpose({submitValid, setFormData, getFormData});
 </script>
 
 <template>
   <div class="unified-linkage">
-    <!-- Enable Toggle -->
-   
-      <el-tabs v-model="activeTab" class="linkage-tabs">
-        <!-- Visibility Rule Tab -->
-        <el-tab-pane name="visibility">
-          <template #label>
-            <el-icon style="margin-right: 4px"><View /></el-icon>
-            {{ i18n('dyform.unified.linkage.tab.visibility') }}
-          </template>
-          <div class="tab-content">
-            <star-horse-form :fieldList="visibilityField" ref="visibilityFormRef" />
-          </div>
-        </el-tab-pane>
+    <div class="linkage-selector">
+      <div class="selector-header">
+        <span class="selector-title">{{ i18n("dyform.unified.linkage.type") }}</span>
+        <span class="selector-desc">{{ linkageTypeOptions.find(o => o.value === activeType)?.desc }}</span>
+      </div>
+      <div class="type-cards">
+        <div class="flex flex-row gap-3 flex-1">
+          <div
+              v-for="opt in linkageTypeOptions"
+              :key="opt.value"
 
-        <!-- API Auto-fill Tab -->
-        <el-tab-pane name="apiFill">
-          <template #label>
-            <el-icon style="margin-right: 4px"><Connection /></el-icon>
-            {{ i18n('dyform.unified.linkage.tab.apiFill') }}
-          </template>
-          <div class="tab-content">
-            <star-horse-form :fieldList="apiFillField" ref="apiFillFormRef" />
+              :class="['type-card', { active: activeType === opt.value }]"
+              @click="activeType = opt.value"
+          >
+            <el-icon class="type-icon" :size="18">
+              <component :is="opt.icon"/>
+            </el-icon>
+            <span class="type-label">{{ opt.label }}</span>
           </div>
-        </el-tab-pane>
-      </el-tabs>
+        </div>
+        <div class="w-[30%]">
+          <el-form-item :label="i18n('dyform.utils.516')" prop="actionName">
+            <el-select v-model="actionName" allow-create clearable filterable>
+              <el-option v-for="item in linkPolicyTypeEvent" :value="item.value" :key="item.value" :label="item.name"/>
+            </el-select>
+          </el-form-item>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Content -->
+    <div class="linkage-content">
+      <!-- Visibility Rule -->
+      <div v-show="activeType === 'visibility'" class="visibility-panel">
+        <star-horse-form :fieldList="visibilityField" ref="visibilityFormRef"/>
+      </div>
+
+      <div v-show="activeType === 'apiFill'" class="api-fill-panel">
+        <ApiConfigForm
+            ref="apiConfigRef"
+            mode="linkage"
+            :formFields="formFields"
+        />
+      </div>
+    </div>
   </div>
 </template>
 
 <style scoped lang="scss">
-.unified-linkage { width: 100%; }
-.linkage-toggle {
-  margin-bottom: 16px;
-  padding-bottom: 12px;
-  border-bottom: 1px solid var(--el-border-color-lighter);
-  .toggle-desc { margin-top: 6px; font-size: 12px; color: var(--el-text-color-secondary); }
+.unified-linkage {
+  width: 100%;
 }
-.linkage-tabs { margin-bottom: 0; }
-.tab-content { min-height: 200px; padding-top: 8px; }
+
+.linkage-selector {
+  margin-bottom: 16px;
+  padding: 16px;
+  background: var(--el-fill-color-lighter);
+  border-radius: 8px;
+  border: 1px solid var(--el-border-color-lighter);
+
+  .selector-header {
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+    margin-bottom: 12px;
+
+    .selector-title {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--el-text-color-primary);
+      white-space: nowrap;
+    }
+
+    .selector-desc {
+      font-size: 12px;
+      color: var(--el-text-color-secondary);
+      line-height: 1.4;
+    }
+  }
+
+  .type-cards {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 8px;
+    width: 100%;
+  }
+
+  .type-card {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 14px;
+    border-radius: 6px;
+    border: 1px solid var(--el-border-color);
+    background: var(--el-bg-color);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    user-select: none;
+
+    .type-icon {
+      color: var(--el-text-color-secondary);
+      transition: color 0.2s;
+    }
+
+    .type-label {
+      font-size: 13px;
+      color: var(--el-text-color-regular);
+      white-space: nowrap;
+    }
+
+    &:hover {
+      border-color: var(--el-color-primary-light-5);
+      background: var(--el-color-primary-light-9);
+
+      .type-icon {
+        color: var(--el-color-primary);
+      }
+    }
+
+    &.active {
+      border-color: var(--el-color-primary);
+      background: var(--el-color-primary-light-9);
+      box-shadow: 0 0 0 1px var(--el-color-primary-light-7);
+
+      .type-icon {
+        color: var(--el-color-primary);
+      }
+
+      .type-label {
+        color: var(--el-color-primary);
+        font-weight: 500;
+      }
+    }
+  }
+}
+
+.linkage-content {
+  min-height: 200px;
+  padding: 0 4px;
+}
 </style>

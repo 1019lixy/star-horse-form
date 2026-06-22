@@ -25,7 +25,7 @@ const handleColResizeStart = (e: MouseEvent, index: number) => {
   e.preventDefault();
   resizingColIndex.value = index;
   startX.value = e.clientX;
-  const colElement = e.target.parentElement as HTMLElement;
+  const colElement = (e.target as HTMLElement).parentElement as HTMLElement;
   // console.log("colElement",e, colElement);
   startWidth.value = colElement.offsetWidth;
 
@@ -217,7 +217,7 @@ const getColIndex = (rowIndex: number, colIndex: number, col: any) => {
       </thead>
       <tbody>
       <tr v-for="(row, rowIndex) in field.preps.elements" class="dy-tr">
-        <td class="dy-cell no-cell">{{rowIndex+1}}</td>
+        <td class="dy-cell no-cell">{{Number(rowIndex)+1}}</td>
         <template v-for="(td, colIndex) in row.columns">
           <dytable-col
               :field="td"
@@ -232,9 +232,9 @@ const getColIndex = (rowIndex: number, colIndex: number, col: any) => {
               :isLastRow="rowIndex == field.preps.elements.length - 1"
               :isFirstCol="colIndex == 0"
               :isLastCol="colIndex == row.columns.length - 1"
-              :rowIndex="rowIndex"
-              :colIndex="colIndex"
-              :actionColIndex="getColIndex(rowIndex,colIndex,td)"
+              :rowIndex="Number(rowIndex)"
+              :colIndex="Number(colIndex)"
+              :actionColIndex="getColIndex(Number(rowIndex),Number(colIndex),td)"
               class="dy-cell"
           />
         </template>

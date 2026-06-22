@@ -58,8 +58,8 @@ const rowHeight = computed(() => {
             :isLastRow="rowIndex == field.preps.elements.length - 1"
             :isFirstCol="colIndex == 0"
             :isLastCol="colIndex == element.columns.length - 1"
-            :rowIndex="rowIndex"
-            :colIndex="colIndex"
+            :rowIndex="Number(rowIndex)"
+            :colIndex="Number(colIndex)"
         />
       </template>
     </el-row>

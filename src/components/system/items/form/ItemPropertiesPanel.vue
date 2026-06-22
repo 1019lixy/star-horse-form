@@ -19,6 +19,8 @@ import type { FormulaConfig } from "@/components/types/FormulaConfig";
 import FormulaConfigDialog from "@/components/system/items/form/dialogs/FormulaConfigDialog.vue";
 import UnifiedDataSourceComp from "@/components/system/items/utils/UnifiedDataSourceComp.vue";
 import UnifiedLinkageComp from "@/components/system/items/utils/UnifiedLinkageComp.vue";
+import DataSourceConfigPanel from "@/components/system/items/form/components/DataSourceConfigPanel.vue";
+import LinkageConfigPanel from "@/components/system/items/form/components/LinkageConfigPanel.vue";
 
 defineOptions({
   name: "ItemPropertiesPanel"
@@ -220,6 +222,7 @@ const submitValid = async () => {
 const dataRelationFormRef = ref<any>(null);
 const dataRelationMerge = async () => {
   const result = await dataRelationFormRef.value?.submitValid();
+
   if (result) {
     closeAction();
   } else {
@@ -481,39 +484,16 @@ watch(() => quickConfig.value, (val) => {
         />
         <help :message="i18n('dyform.props.maxLength.helpMsg')" />
       </el-form-item>
-      <el-form-item
-        :label="i18n('dyform.props.dataSource')"
-        prop="dataSource"
-        v-if="
-          !exclusionDataSource.includes(currentItemType) &&
-          relationComps.includes(currentItemType)
-        "
-      >
-        <el-button type="primary" plain icon="Setting" @click="dataSource"
-        >{{ i18n("dyform.props.dataSource.btn") }}
-        </el-button>
-        <help :message="i18n('dyform.props.dataSource.helpMsg')" />
-      </el-form-item>
-      <el-form-item
-        :label="i18n('dyform.props.dataRelation')"
-        prop="dataRelation"
-        v-if="
-          relationComps.includes(currentItemType) &&
-          !['icon', 'transfer'].includes(currentItemType) &&
-          optional?.model == 'full'
-        "
-      >
-        <el-button
-          type="primary"
-          plain
-          icon="Setting"
-          @click="configRelationPolicy"
-        >{{ i18n("dyform.props.dataRelation.btn") }}
-        </el-button>
-        <help
-          :message="i18n('dyform.props.dataRelation.helpMsg')"
-        />
-      </el-form-item>
+      <DataSourceConfigPanel
+        :itemType="currentItemType"
+        :model="model"
+        @open="dataSource"
+      />
+      <LinkageConfigPanel
+        :itemType="currentItemType"
+        :model="model"
+        @open="configRelationPolicy"
+      />
 
       <el-form-item
         :label="i18n('dyform.props.event')"
