@@ -82,7 +82,7 @@ const linkageFormFields = computed(() => {
   });
   return dataList
     .filter((item: any) => item.fieldName)
-    .map((item: any) => ({label: `${item.label} (${item.fieldName})`, value: item.fieldName, name: `${item.label} (${item.fieldName})`}));
+    .map((item: any) => ({label: `${item.preps?.label??item.label} (${item.fieldName})`, value: item.fieldName, name: `${item.preps?.label??item.label} (${item.fieldName})`}));
 });
 
 /** 当前公式配置对象（响应式引用 formProps.formula） */
@@ -209,7 +209,6 @@ const closeAction = () => {
 };
 const submitValid = async () => {
   const result = await dataSourceFormRef.value.submitValid();
-  console.log(formProps.value);
   if (result) {
     closeAction();
   } else {
@@ -407,6 +406,7 @@ watch(() => quickConfig.value, (val) => {
       ref="dataSourceFormRef"
       :model="model"
       :formProps="formProps"
+      :formFields="linkageFormFields"
     />
   </star-horse-dialog>
   <!--容器参数配置-->

@@ -1,5 +1,6 @@
 import {getDesignFormStore, postRequest, SearchParams, uuid,} from "star-horse-lowcode";
 import {computed} from "vue";
+import camelCase from "camelcase";
 
 const formData = computed(() => getDesignFormStore().formData);
 const numField: Array<string> = [
@@ -42,7 +43,7 @@ const getDefaultVal = (type: string) => {
 export function fieldCopy(data: any, type: string) {
     const reData = JSON.parse(JSON.stringify(data));
     //如果数据没有索引，则初始化索引
-    const ms = getDesignFormStore().getFieldDataIndex();
+    // const ms = getDesignFormStore().getFieldDataIndex();
     const mvData: any = {};
     const tempId = uuid();
     mvData["id"] = "Id" + tempId;
@@ -67,7 +68,7 @@ export function fieldCopy(data: any, type: string) {
     mvData.preps["id"] = mvData["id"];
     mvData.preps["label"] = reData.itemName;
     mvData.preps["itemNameLabel"] = reData.itemName;
-    mvData.preps["name"] = "field_" + tempId.substring(0, 6);
+    mvData.preps["name"] = camelCase(["field", tempId.substring(0, 6)]);
     formData.value[reData.preps.fieldName] = getDefaultVal(reData.itemType);
     mvData["compType"] = type;
     mvData["fieldName"] = mvData.preps["name"];

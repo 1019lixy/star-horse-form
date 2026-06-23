@@ -1201,7 +1201,6 @@ defineExpose({
 
                   <!-- Design Mode -->
                   <template v-if="designMode === 'design'">
-                    {{list}}
                     <FormDesigner
                         :list="list"
                         :form-data="formData"

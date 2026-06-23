@@ -1,5 +1,6 @@
 import {i18n} from "@/lang";
 import {uuid} from "star-horse-lowcode";
+import camelcase from "camelcase";
 
 /**
  * 检查对象是否需要创建
@@ -76,7 +77,7 @@ export function getDataIndex(
 // 快捷添加组件
 export const quickAddItem = (items: any[]) => {
     const uid = uuid();
-    const name = "field_" + uid.substring(0, 6);
+    const name = camelcase(["field",uid.substring(0, 6)]);
     const label = i18n("dyform.condition.leafField") + (items.length + 1);
     const newItem = {
         id: "Id" + uid,

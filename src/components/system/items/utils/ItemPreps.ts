@@ -21,6 +21,7 @@ import {
 } from "star-horse-lowcode";
 import {validDataUrl} from "@/api/system.js";
 import WebUrlComp from "./WebUrlComp.vue";
+import camelcase from "camelcase";
 
 
 export const urlReturnDataHelpMsg = i18n("dyform.preps.urlReturnDataHelpMsg");
@@ -1381,6 +1382,7 @@ export const linkPolicyTypeEvent: SelectOption[] = [
     {name: i18n("dyform.relation.event.blur"), value: "blur"},
     {name: i18n("dyform.relation.event.enter"), value: "enter"},
 ];
+
 /**
  * 关联
  * @param preps 当前组件参数
@@ -1548,7 +1550,7 @@ export function relationDataField(preps: any, model: string) {
                                     },
                                 },
                             ],
-                            
+
                             {
                                 label: i18n("dyform.utils.524"),
                                 type: "input",
@@ -1619,6 +1621,7 @@ export function fieldPlaceholder(item: any, compInfo?: any) {
         return "";
     }
     let itemType: string = preps?.itemType;
+    item.name = camelcase(item.name);
     preps["fieldName"] = item.name;
     if (item["noPlaceholder"]) {
         delete item["placeholder"];

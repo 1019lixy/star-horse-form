@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import {i18n} from "@/lang";
 import {createApiDataSourceConfig} from "@/components/system/items/utils/ApiDataSourceConfig";
 import {PageFieldInfo} from "star-horse-lowcode";
 import {nextTick, PropType, reactive, ref} from "vue";
@@ -18,7 +17,7 @@ const props = defineProps({
 const dataSourceFormRef = ref();
 
 const apiDataSourceField = reactive<PageFieldInfo | any>({
-    fieldList:[createApiDataSourceConfig()]
+  fieldList: [createApiDataSourceConfig()]
 });
 
 const setFormData = (data: any) => {
@@ -60,8 +59,8 @@ defineExpose({
 
 <template>
   <star-horse-form
-    :fieldList="apiDataSourceField"
-    ref="dataSourceFormRef"
+      :fieldList="apiDataSourceField"
+      ref="dataSourceFormRef"
   />
 </template>
 

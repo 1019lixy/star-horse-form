@@ -3,6 +3,7 @@ import {computed, onMounted, PropType, ref, watch} from "vue";
 import {tableAction} from "@/components/formcomp/container/dytableUtils";
 import {i18n} from "@/lang";
 import {FieldList, numberRangeItem, StarHorseDialog, uuid, warning} from "star-horse-lowcode";
+import camelcase from "camelcase";
 
 const props = defineProps({
   parentField: {type: Object as PropType<any>},
@@ -258,7 +259,7 @@ const submitAction = () => {
 const currentItem = ref<any>();
 const changeItem = (item: any) => {
   const id = uuid();
-  const fieldName = "field_" + id.substring(0, 6);
+  const fieldName = camelcase(["field",id.substring(0, 6)]) ;
   currentItem.value = {
     id: "Sh" + id,
     label: item.itemName,
@@ -281,7 +282,7 @@ const addCompOperation = (column: any, item: any, suffix: string) => {
       const id = uuid();
       const tempItem = listItems[i];
       tempItem.id = id;
-      tempItem.fieldName = "field_" + id.substring(0, 4) + suffix;
+      tempItem.fieldName = camelcase(["field",id.substring(0, 6),suffix]) ;
       if (!tempItem.preps) {
         tempItem.preps = {};
       }

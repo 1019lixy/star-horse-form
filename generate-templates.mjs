@@ -1,13 +1,14 @@
 import { writeFileSync, mkdirSync } from 'fs';
 import { join } from 'path';
 import { randomUUID } from 'crypto';
+import camelcase from "camelcase";
 
 const OUT = 'template';
 mkdirSync(OUT, { recursive: true });
 
 // ── Helpers ──
 const uid = () => randomUUID();
-const fid = () => 'field_' + uid().substring(0, 6);
+const fid = () => camelcase(["field",uid().substring(0, 6)]) ;
 const mkId = () => 'Id' + uid();
 
 function field(itemType, label, opts = {}) {

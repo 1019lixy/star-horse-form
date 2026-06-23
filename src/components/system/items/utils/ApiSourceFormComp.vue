@@ -1,10 +1,9 @@
 <script setup lang="ts">
-import { i18n } from "@/lang";
-import { createApiDataSourceConfig } from "@/components/system/items/utils/ApiDataSourceConfig";
-import { PageFieldInfo } from "star-horse-lowcode";
-import { nextTick, PropType, reactive, ref } from "vue";
+import {createApiDataSourceConfig} from "@/components/system/items/utils/ApiDataSourceConfig";
+import {PageFieldInfo} from "star-horse-lowcode";
+import {nextTick, PropType, reactive, ref} from "vue";
 
-defineOptions({ name: "ApiSourceFormComp" });
+defineOptions({name: "ApiSourceFormComp"});
 
 const props = defineProps({
   formProps: {
@@ -45,11 +44,11 @@ const submitValid = async () => {
   return true;
 };
 
-defineExpose({ submitValid, setFormData, getFormData });
+defineExpose({submitValid, setFormData, getFormData});
 </script>
 
 <template>
-  <star-horse-form :fieldList="fieldConfig" ref="formRef" />
+  <star-horse-form :fieldList="fieldConfig" ref="formRef"/>
 </template>
 
 <style scoped lang="scss"></style>

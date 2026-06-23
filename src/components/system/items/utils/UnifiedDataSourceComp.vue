@@ -7,7 +7,7 @@ import {
   validInterface,
   validOperation,
 } from "@/components/system/items/utils/ItemPreps.js";
-import {error, FieldInfo, PageFieldInfo, searchMatchList,} from "star-horse-lowcode";
+import {error, FieldInfo, PageFieldInfo, searchMatchList, SelectOption,} from "star-horse-lowcode";
 import type {DataSourceType, DataSourceTypeOption} from "@/components/types/DataSourceTypes";
 import ApiConfigForm from "@/components/system/items/utils/ApiConfigForm.vue";
 import {computed, nextTick, PropType, reactive, ref, unref, watch} from "vue";
@@ -23,6 +23,10 @@ const props = defineProps({
     type: String,
     default: "simple",
   },
+  formFields: {
+    type: Array as PropType<SelectOption[]>,
+    default: () => [],
+  },
 });
 
 // ─── Type selector options ───
@@ -37,12 +41,12 @@ const sourceTypeOptions = computed<DataSourceTypeOption[]>(() => {
   ];
   if (props.model === "full") {
     opts.push(
-        {
-          value: "url",
-          label: i18n("dyform.unified.source.internalApi"),
-          icon: "Link",
-          desc: i18n("dyform.unified.source.internalApi.desc")
-        },
+        /* {
+           value: "url",
+           label: i18n("dyform.unified.source.internalApi"),
+           icon: "Link",
+           desc: i18n("dyform.unified.source.internalApi.desc")
+         },*/
         {
           value: "dict",
           label: i18n("dyform.unified.source.dict"),
@@ -50,15 +54,15 @@ const sourceTypeOptions = computed<DataSourceTypeOption[]>(() => {
           desc: i18n("dyform.unified.source.dict.desc")
         },
     );
+    opts.push(
+        {
+          value: "thirdParty",
+          label: i18n("dyform.unified.source.thirdParty"),
+          icon: "Connection",
+          desc: i18n("dyform.unified.source.thirdParty.desc")
+        },
+    );
   }
-  opts.push(
-      {
-        value: "thirdParty",
-        label: i18n("dyform.unified.source.thirdParty"),
-        icon: "Connection",
-        desc: i18n("dyform.unified.source.thirdParty.desc")
-      },
-  );
   return opts;
 });
 
@@ -153,7 +157,7 @@ const internalApiFields: FieldInfo[] | any = [
         title: "接口信息",
         tabName: "apiInfo",
         objectName: "apiInfo",
-        fieldList:urlFields
+        fieldList: urlFields
       },
       {
         title: i18n("dyform.utils.600"), tabName: "queryParams", objectName: "queryParams",
@@ -280,8 +284,9 @@ const analysisOptionData = (val: any) => {
 const switchType = (type: DataSourceType) => {
   unifiedField.fieldList.splice(0);
   // thirdParty uses ApiConfigForm component, not unifiedField
-  if (type === "url") unifiedField.fieldList.push(...internalApiFields);
-  else if (type === "dict") unifiedField.fieldList.push(...dictFields);
+  // if (type === "url") unifiedField.fieldList.push(...internalApiFields);
+  // else
+  if (type === "dict") unifiedField.fieldList.push(...dictFields);
   else if (type === "data") unifiedField.fieldList.push(...staticFields);
 };
 
@@ -388,6 +393,7 @@ defineExpose({submitValid, setFormData, getFormData, currentType});
           v-if="currentType === 'thirdParty'"
           ref="apiConfigRef"
           mode="dataSource"
+          :currentField="formProps.name"
       />
       <!-- Other types use star-horse-form -->
       <star-horse-form v-else :fieldList="unifiedField" ref="formRef"/>

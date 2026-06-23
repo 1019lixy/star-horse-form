@@ -4,9 +4,9 @@ import {PageFieldInfo, postRequest, SelectOption, StarHorseDialog, success, warn
 import {nextTick, PropType, reactive, ref, unref} from "vue";
 import {i18n} from "@/lang";
 import DynamicQueryBuilder from "@/components/system/DynamicQueryBuilder.vue";
+import {getInterfaceUtils} from "@/components/system/items/utils/ItemPreps";
 
 defineOptions({name: "ApiConfigForm"});
-
 const props = defineProps({
   /** "dataSource" - shows labelField/valueField in response; "linkage" - shows fieldMappings in response */
   mode: {
@@ -18,12 +18,16 @@ const props = defineProps({
     type: Array as PropType<SelectOption[]>,
     default: () => [],
   },
+  currentField: {
+    type: String,
+    default: "",
+  }
 });
 
 const formRef = ref();
 
 const apiConfig = reactive<PageFieldInfo | any>(
-    createApiConfig(props.mode, props.formFields)
+    createApiConfig(props.mode, props.formFields, props.currentField, getInterfaceUtils())
 );
 
 // ─── Public API ───
@@ -51,7 +55,7 @@ const apiValid = async () => {
     return;
   }
   const formDta = unref(formRef.value?.getFormData()) ?? {};
-  postRequest("/userdb-manage/redirect/apiLinkage", formDta).then((data) => {
+  postRequest(formDta.proxyUrl ?? "/userdb-manage/redirect/apiValid", formDta).then((data) => {
     const result = data.data;
     if (result.code) {
       warning(result.cnMessage);
@@ -61,7 +65,9 @@ const apiValid = async () => {
   })
 };
 const visible = ref<boolean>(false);
-const condition=ref<any>({});
+const condition = ref<any>({});
+const sortCondition = ref<any>({});
+const aggCondition = ref<any>({});
 const openDialog = () => {
   visible.value = true;
 };
@@ -78,15 +84,14 @@ defineExpose({submitValid, setFormData, getFormData});
       boxHeight="90%"
       boxWidth="70%"
   >
-    {{condition}}
+    {{ condition }}
     <dynamic-query-builder ref="dynamicQueryBuilderRef"
                            property-name="fieldName"
                            or-condition-name="orList"
-                           :properties="[
-                               {name:'name',value:'value'},
-                               {name:'name1',value:'value1'},
-                           ]"
-                           v-model="condition"/>
+                           :properties="formFields"
+                           v-model="condition"
+                           v-model:sortValue="sortCondition"
+                           v-model:agg-value="aggCondition"/>
   </star-horse-dialog>
   <div class="api-config-form">
     <div class="flex my-[3px] justify-end w-full">

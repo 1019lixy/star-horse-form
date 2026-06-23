@@ -60,7 +60,7 @@ const setFormData = (data: any) => {
       activeType.value = "apiFill";
       nextTick(() => apiConfigRef.value?.setFormData(data?.dataRelation?.apiLinkage));
     }
-    actionName.value = props.formProps["dataRelation"]["actionName"] ?? "change";
+    actionName.value = data["dataRelation"]["actionName"] ?? "change";
   });
 };
 
@@ -68,6 +68,7 @@ const getFormData = () => {
   return {
     dataRelation: visibilityFormRef.value?.getFormData(),
     apiLinkage: apiConfigRef.value?.getFormData(),
+    actionName: actionName.value,
   };
 };
 
@@ -87,14 +88,14 @@ const submitValid = async () => {
       warning("触发事件不能为空");
       return false;
     }
-    props.formProps["dataRelation"]["actionName"] = actionName.value;
-
   }
   const visibilityData = visibilityFormRef.value?.getFormData();
   if (visibilityData && props.formProps) {
     props.formProps["dataRelation"] = visibilityData.value ?? visibilityData;
   }
-
+  if (props.formProps) {
+    props.formProps["dataRelation"]["actionName"] = actionName.value;
+  }
   // Save API auto-fill
   const valid = await apiConfigRef.value?.submitValid();
   if (!valid) {
@@ -156,6 +157,7 @@ defineExpose({submitValid, setFormData, getFormData});
         <ApiConfigForm
             ref="apiConfigRef"
             mode="linkage"
+            :currentField="formProps.name"
             :formFields="formFields"
         />
       </div>
