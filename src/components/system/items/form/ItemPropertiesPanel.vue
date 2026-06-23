@@ -456,7 +456,7 @@ watch(() => quickConfig.value, (val) => {
           ]">
             </el-select>
           </div>
-          <el-input-number v-else v-model="quickConfig.columnNums" min="1" max="50"
+          <el-input-number v-else v-model="quickConfig.columnNums" :min="1" :max="50"
                            controls-position="right" />
         </el-form-item>
       </el-form-item>
@@ -480,7 +480,7 @@ watch(() => quickConfig.value, (val) => {
         <el-input-number
           v-model="formProps.maxLength"
           controls-position="right"
-          min="1"
+          :min="1"
         />
         <help :message="i18n('dyform.props.maxLength.helpMsg')" />
       </el-form-item>

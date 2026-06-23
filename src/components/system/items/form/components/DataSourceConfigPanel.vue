@@ -36,7 +36,7 @@ const visible = computed(() => {
 const sourceTypeTag = computed(() => {
   const typeMap: Record<string, string> = {
     data: i18n("dyform.unified.source.static"),
-    url: i18n("dyform.unified.source.internalApi"),
+    // url: i18n("dyform.unified.source.internalApi"),
     dict: i18n("dyform.unified.source.dict"),
     thirdParty: i18n("dyform.unified.source.thirdParty"),
   };
