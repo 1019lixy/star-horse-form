@@ -5,7 +5,7 @@ import {SelectOption, warning} from "star-horse-lowcode";
 import ApiConfigForm from "@/components/system/items/utils/ApiConfigForm.vue";
 import {nextTick, PropType, reactive, ref} from "vue";
 
-defineOptions({name: "UnifiedLinkageComp"});
+defineOptions({name: "LinkPolicyComp"});
 
 const props = defineProps({
   formProps: {
