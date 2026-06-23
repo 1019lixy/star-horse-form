@@ -3074,4 +3074,55 @@ export default {
   "queryBuilder.action.addGroupBy": "添加分组",
   "queryBuilder.action.addHaving": "添加过滤条件",
   "queryBuilder.having.hint": "HAVING 用于对聚合结果进行过滤，例如：COUNT(id) > 5",
+  /**
+   * 容器下拉菜单国际化
+   */
+  "dyform.container.warning.setLinkRows": "请设置指定连续行",
+  "dyform.container.warning.selectComponent": "请先选择组件",
+  "dyform.container.selectedComponent": "已选组件",
+  "dyform.container.sameConfigRows": "指定行数做相同设置",
+  "dyform.container.currentCell": "当前单元格",
+  "dyform.container.continuous": "连续",
+  "dyform.container.nonContinuous": "非连续",
+  "dyform.container.copyCurrentComponent": "拷贝当前组件",
+  "dyform.container.linkRows": "指定连续行",
+  "dyform.container.linkCols": "指定连续列",
+  "dyform.container.unlinkRows": "非连续行",
+  "dyform.container.unlinkCols": "非连续列",
+  "dyform.container.editStaticText": "编辑静态文本",
+  "dyform.container.visiblePlatform": "可见平台",
+  "dyform.container.all": "全部",
+  "dyform.container.currentRow": "当前行",
+  "dyform.container.continuousRow": "连续行",
+  "dyform.container.nonContinuousRow": "非连续行",
+  "dyform.container.textType": "文本类型",
+  "dyform.container.none": "无",
+  "dyform.container.textContent": "内容",
+  "dyform.container.collapsedClickExpand": "已折叠 · 点击展开",
+  "dyform.container.expand": "展开",
+  "dyform.container.collapse": "折叠",
+  /**
+   * 表单设计器国际化
+   */
+  "dyform.design.warning.jsonArrayRequired": "数据格式错误：需要 JSON 数组",
+  "dyform.design.warning.applyFailed": "应用更改失败：",
+  "dyform.design.warning.unknownError": "未知错误",
+  "dyform.design.warning.jsonFormatError": "JSON 格式错误，无法格式化",
+  "dyform.design.format": "格式化",
+  "dyform.design.reset": "重置",
+  "dyform.design.applyChanges": "应用更改",
+  /**
+   * 代码组件国际化
+   */
+  "dyform.code.pcCode": "PC代码",
+  "dyform.code.appCode": "App代码",
+  /**
+   * 大纲树国际化
+   */
+  "dyform.outline.searchComponent": "搜索组件...",
+  "dyform.outline.noComponent": "暂无组件",
+  /**
+   * 联动策略国际化
+   */
+  "dyform.linkPolicy.warning.triggerEventRequired": "触发事件不能为空",
 };

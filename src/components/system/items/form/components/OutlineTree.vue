@@ -1,6 +1,7 @@
 <script setup lang="ts" name="OutlineTree">
 import { computed, ref, watch, nextTick } from "vue";
 import { getDesignFormStore } from "star-horse-lowcode";
+import { i18n } from "@/lang";
 
 const designForm = getDesignFormStore();
 const compList = computed(() => designForm.compList);
@@ -282,7 +283,7 @@ rebuildTree();
     <div class="outline-search">
       <el-input
         v-model="searchQuery"
-        placeholder="搜索组件..."
+        :placeholder="i18n('dyform.outline.searchComponent')"
         clearable
         size="small"
       >
@@ -305,7 +306,7 @@ rebuildTree();
           <rect x="8" y="8" width="32" height="32" rx="4" stroke="#dce1e8" stroke-width="1.5" fill="#f5f7fa"/>
           <path d="M16 20H32M16 28H28" stroke="#c0c4cc" stroke-width="1.5" stroke-linecap="round"/>
         </svg>
-        <span>暂无组件</span>
+        <span>{{ i18n('dyform.outline.noComponent') }}</span>
       </div>
       <el-tree
         v-else

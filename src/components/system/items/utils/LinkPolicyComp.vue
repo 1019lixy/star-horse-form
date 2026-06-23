@@ -85,7 +85,7 @@ const submitValid = async () => {
       return false;
     }
     if (!actionName.value) {
-      warning("触发事件不能为空");
+      warning(i18n("dyform.linkPolicy.warning.triggerEventRequired"));
       return false;
     }
   }

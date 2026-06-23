@@ -3141,4 +3141,55 @@ If empty, the table information will be created in the current business database
     "queryBuilder.action.addGroupBy": "Add Group By",
     "queryBuilder.action.addHaving": "Add Having",
     "queryBuilder.having.hint": "HAVING filters aggregate results, e.g.: COUNT(id) > 5",
+    /**
+     * Container Dropdown Menu
+     */
+    "dyform.container.warning.setLinkRows": "Please set the specified continuous rows",
+    "dyform.container.warning.selectComponent": "Please select a component first",
+    "dyform.container.selectedComponent": "Selected Component",
+    "dyform.container.sameConfigRows": "Apply same settings to specified rows",
+    "dyform.container.currentCell": "Current Cell",
+    "dyform.container.continuous": "Continuous",
+    "dyform.container.nonContinuous": "Non-continuous",
+    "dyform.container.copyCurrentComponent": "Copy Current Component",
+    "dyform.container.linkRows": "Continuous Rows",
+    "dyform.container.linkCols": "Continuous Columns",
+    "dyform.container.unlinkRows": "Non-continuous Rows",
+    "dyform.container.unlinkCols": "Non-continuous Columns",
+    "dyform.container.editStaticText": "Edit Static Text",
+    "dyform.container.visiblePlatform": "Visible Platform",
+    "dyform.container.all": "All",
+    "dyform.container.currentRow": "Current Row",
+    "dyform.container.continuousRow": "Continuous Rows",
+    "dyform.container.nonContinuousRow": "Non-continuous Rows",
+    "dyform.container.textType": "Text Type",
+    "dyform.container.none": "None",
+    "dyform.container.textContent": "Content",
+    "dyform.container.collapsedClickExpand": "Collapsed · Click to expand",
+    "dyform.container.expand": "Expand",
+    "dyform.container.collapse": "Collapse",
+    /**
+     * Form Designer
+     */
+    "dyform.design.warning.jsonArrayRequired": "Data format error: JSON array required",
+    "dyform.design.warning.applyFailed": "Apply changes failed: ",
+    "dyform.design.warning.unknownError": "Unknown error",
+    "dyform.design.warning.jsonFormatError": "JSON format error, cannot format",
+    "dyform.design.format": "Format",
+    "dyform.design.reset": "Reset",
+    "dyform.design.applyChanges": "Apply Changes",
+    /**
+     * Code Component
+     */
+    "dyform.code.pcCode": "PC Code",
+    "dyform.code.appCode": "App Code",
+    /**
+     * Outline Tree
+     */
+    "dyform.outline.searchComponent": "Search components...",
+    "dyform.outline.noComponent": "No components",
+    /**
+     * Link Policy
+     */
+    "dyform.linkPolicy.warning.triggerEventRequired": "Trigger event cannot be empty",
 };
