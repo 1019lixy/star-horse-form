@@ -5,7 +5,7 @@ import {SelectOption, warning} from "star-horse-lowcode";
 import ApiConfigForm from "@/components/system/items/utils/ApiConfigForm.vue";
 import {nextTick, PropType, reactive, ref} from "vue";
 
-defineOptions({name: "UnifiedLinkageComp"});
+defineOptions({name: "LinkPolicyComp"});
 
 const props = defineProps({
   formProps: {
@@ -60,7 +60,7 @@ const setFormData = (data: any) => {
       activeType.value = "apiFill";
       nextTick(() => apiConfigRef.value?.setFormData(data?.dataRelation?.apiLinkage));
     }
-    actionName.value = data["dataRelation"]["actionName"] ?? "change";
+    actionName.value = data["dataRelation"]?.["actionName"] ?? "change";
   });
 };
 
@@ -85,7 +85,7 @@ const submitValid = async () => {
       return false;
     }
     if (!actionName.value) {
-      warning("触发事件不能为空");
+      warning(i18n("dyform.linkPolicy.warning.triggerEventRequired"));
       return false;
     }
   }

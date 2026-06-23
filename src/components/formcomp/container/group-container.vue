@@ -235,7 +235,7 @@ const tableOperation = (actonName: string, _preps: any) => {
       @contextmenu="containerContextMenu"
   >
     <!-- Collapse toggle button (always visible in design mode) -->
-    <div class="collapse-toggle" @click.stop="toggleCollapse" :title="collapsed ? '展开' : '折叠'">
+    <div class="collapse-toggle" @click.stop="toggleCollapse" :title="collapsed ? i18n('dyform.container.expand') : i18n('dyform.container.collapse')">
       <svg viewBox="0 0 16 16" fill="none" width="12" height="12" :class="{ 'rotated': collapsed }">
         <path d="M4 6L8 10L12 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
       </svg>
@@ -244,7 +244,7 @@ const tableOperation = (actonName: string, _preps: any) => {
     <!-- Collapsed indicator (shown only when collapsed, click to expand) -->
     <div v-if="collapsed" class="collapsed-placeholder" @click.stop="toggleCollapse">
       <span class="collapsed-label">{{ containerLabel }}</span>
-      <span class="collapsed-hint">已折叠 · 点击展开</span>
+      <span class="collapsed-hint">{{ i18n('dyform.container.collapsedClickExpand') }}</span>
     </div>
 
     <!-- Container content (hidden when collapsed) -->

@@ -197,7 +197,7 @@ const submitAction = () => {
       const linkRowsMin = fieldForm.value.linkRowsMin;
       const linkRowsMax = fieldForm.value.linkRowsMax;
       if (!linkRowsMin || !linkRowsMax) {
-        warning("请设置指定连续行");
+        warning(i18n("dyform.container.warning.setLinkRows"));
         return;
       }
       for (let i = linkRowsMin - 1; i < linkRowsMax; i++) {
@@ -231,7 +231,7 @@ const submitAction = () => {
       const linkRowsMin = fieldForm.value.linkRowsMin;
       const linkRowsMax = fieldForm.value.linkRowsMax;
       if (!linkRowsMin || !linkRowsMax) {
-        warning("请设置指定连续行");
+        warning(i18n("dyform.container.warning.setLinkRows"));
         return;
       }
       for (let i = linkRowsMin - 1; i < linkRowsMax; i++) {
@@ -298,7 +298,7 @@ const addCompOperation = (column: any, item: any, suffix: string) => {
 }
 const compAddOperation = (type: string) => {
   if (!currentItem.value && !fieldForm.value.copyCurrentItem) {
-    warning("请先选择组件");
+    warning(i18n("dyform.container.warning.selectComponent"));
     return;
   }
   const configRowType = fieldForm.value.configRowType ?? 'currentRow';
@@ -313,7 +313,7 @@ const compAddOperation = (type: string) => {
     const linkRowsMin = fieldForm.value.linkRowsMin;
     const linkRowsMax = fieldForm.value.linkRowsMax;
     if (!linkRowsMin || !linkRowsMax) {
-      warning("请设置指定连续行");
+      warning(i18n("dyform.container.warning.setLinkRows"));
       return;
     }
     const linkColsMin = fieldForm.value.linkColsMin;
@@ -390,42 +390,42 @@ watch(
       <el-splitter-panel>
         <el-form v-model="fieldForm" label-position="top">
           <el-form-item
-              label="已选组件"
+              :label="i18n('dyform.container.selectedComponent')"
               label-position="left"
               v-if="currentItem"
           >
             <el-tag type="primary">{{currentItem.label}}</el-tag>
           </el-form-item>
           <el-form-item
-              label="指定行数做相同设置"
+              :label="i18n('dyform.container.sameConfigRows')"
               prop="sameConfigRows"
           >
             <el-select v-model="fieldForm.configRowType">
-              <el-option label="当前单元格" value="currentRow"/>
-              <el-option label="连续" value="linkRows"/>
-              <el-option label="非连续" value="unlinkRows"/>
+              <el-option :label="i18n('dyform.container.currentCell')" value="currentRow"/>
+              <el-option :label="i18n('dyform.container.continuous')" value="linkRows"/>
+              <el-option :label="i18n('dyform.container.nonContinuous')" value="unlinkRows"/>
             </el-select>
           </el-form-item>
-          <el-form-item label-position="left" label="拷贝当前组件" v-if="currentCell?.items?.length>0&&fieldForm.configRowType!='currentRow'"
+          <el-form-item label-position="left" :label="i18n('dyform.container.copyCurrentComponent')" v-if="currentCell?.items?.length>0&&fieldForm.configRowType!='currentRow'"
                         prop="copyCurrentItem">
             <el-switch v-model="fieldForm.copyCurrentItem"/>
           </el-form-item>
-          <el-form-item label="指定连续行" prop="linkRows" v-if="fieldForm.configRowType=='linkRows'">
+          <el-form-item :label="i18n('dyform.container.linkRows')" prop="linkRows" v-if="fieldForm.configRowType=='linkRows'">
             <number-range-item :field="{
               fieldName:'linkRows',
               preps:{}
             }" v-model:formData="fieldForm"/>
           </el-form-item>
-          <el-form-item label="指定连续列" prop="linkCols" v-if="fieldForm.configRowType=='linkRows'">
+          <el-form-item :label="i18n('dyform.container.linkCols')" prop="linkCols" v-if="fieldForm.configRowType=='linkRows'">
             <number-range-item :field="{
                 fieldName:'linkCols',
                 preps:{}
               }" v-model:formData="fieldForm"/>
           </el-form-item>
-          <el-form-item label="非连续行" prop="unlinkRows" v-if="fieldForm.configRowType=='unlinkRows'">
+          <el-form-item :label="i18n('dyform.container.unlinkRows')" prop="unlinkRows" v-if="fieldForm.configRowType=='unlinkRows'">
             <el-input-tag v-model="fieldForm.unlinkRows"/>
           </el-form-item>
-          <el-form-item label="非连续列" prop="unlinkCols" v-if="fieldForm.configRowType=='unlinkRows'">
+          <el-form-item :label="i18n('dyform.container.unlinkCols')" prop="unlinkCols" v-if="fieldForm.configRowType=='unlinkRows'">
             <el-input-tag v-model="fieldForm.unlinkCols"/>
           </el-form-item>
         </el-form>
@@ -434,7 +434,7 @@ watch(
 
   </star-horse-dialog>
   <star-horse-dialog
-      title="编辑静态文本"
+      :title="i18n('dyform.container.editStaticText')"
       :self-func="true"
       :hide-full-screen-icon="true"
       @merge="submitAction"
@@ -444,45 +444,45 @@ watch(
   >
     <el-form v-model="fieldForm">
       <el-form-item
-          label="可见平台"
+          :label="i18n('dyform.container.visiblePlatform')"
           prop="visiblePlatform"
       >
         <el-radio-group v-model="fieldForm.visiblePlatform">
           <el-radio label="PC" value="pc"/>
           <el-radio label="App" value="app"/>
-          <el-radio label="全部" value="all"/>
+          <el-radio :label="i18n('dyform.container.all')" value="all"/>
         </el-radio-group>
       </el-form-item>
       <el-form-item
-          label="指定行数做相同设置"
+          :label="i18n('dyform.container.sameConfigRows')"
           prop="sameConfigRows"
       >
         <el-select v-model="fieldForm.configRowType">
-          <el-option label="当前行" value="currentRow"/>
-          <el-option label="连续行" value="linkRows"/>
-          <el-option label="非连续行" value="unlinkRows"/>
+          <el-option :label="i18n('dyform.container.currentRow')" value="currentRow"/>
+          <el-option :label="i18n('dyform.container.continuousRow')" value="linkRows"/>
+          <el-option :label="i18n('dyform.container.nonContinuousRow')" value="unlinkRows"/>
         </el-select>
       </el-form-item>
-      <el-form-item label="指定连续行" prop="linkRows" v-if="fieldForm.configRowType=='linkRows'">
+      <el-form-item :label="i18n('dyform.container.linkRows')" prop="linkRows" v-if="fieldForm.configRowType=='linkRows'">
         <number-range-item :field="{
           fieldName:'linkRows',
           preps:{}
         }" v-model:formData="fieldForm"/>
       </el-form-item>
-      <el-form-item label="非连续行" prop="unlinkRows" v-if="fieldForm.configRowType=='unlinkRows'">
+      <el-form-item :label="i18n('dyform.container.unlinkRows')" prop="unlinkRows" v-if="fieldForm.configRowType=='unlinkRows'">
         <el-input-tag v-model="fieldForm.unlinkRows"/>
       </el-form-item>
       <el-form-item
-          label="文本类型"
+          :label="i18n('dyform.container.textType')"
           prop="dataType"
       >
         <el-radio-group v-model="fieldForm.dataType">
           <el-radio label="Text" value="text"/>
           <el-radio label="Html" value="html"/>
-          <el-radio label="无" value="none"/>
+          <el-radio :label="i18n('dyform.container.none')" value="none"/>
         </el-radio-group>
       </el-form-item>
-      <el-form-item label="内容" prop="textContent">
+      <el-form-item :label="i18n('dyform.container.textContent')" prop="textContent">
         <el-input type="textarea" v-model="fieldForm.textContent" v-if="fieldForm.dataType=='text'"/>
         <htmleditor-item v-if="fieldForm.dataType=='html'" :formData="fieldForm" :field="{
           fieldName:'textContent'
@@ -515,23 +515,23 @@ watch(
         <el-input v-model="fieldForm.colWidth"/>
       </el-form-item>
       <el-form-item
-          label="指定行数做相同设置"
+          :label="i18n('dyform.container.sameConfigRows')"
           prop="sameConfigRows"
           v-if="currentCommand == 'cellConfig'"
       >
         <el-select v-model="fieldForm.configRowType">
-          <el-option label="当前行" value="currentRow"/>
-          <el-option label="连续行" value="linkRows"/>
-          <el-option label="非连续行" value="unlinkRows"/>
+          <el-option :label="i18n('dyform.container.currentRow')" value="currentRow"/>
+          <el-option :label="i18n('dyform.container.continuousRow')" value="linkRows"/>
+          <el-option :label="i18n('dyform.container.nonContinuousRow')" value="unlinkRows"/>
         </el-select>
       </el-form-item>
-      <el-form-item label="指定连续行" prop="linkRows" v-if="fieldForm.configRowType=='linkRows'">
+      <el-form-item :label="i18n('dyform.container.linkRows')" prop="linkRows" v-if="fieldForm.configRowType=='linkRows'">
         <number-range-item :field="{
           fieldName:'linkRows',
           preps:{}
         }" v-model:formData="fieldForm"/>
       </el-form-item>
-      <el-form-item label="非连续行" prop="unlinkRows" v-if="fieldForm.configRowType=='unlinkRows'">
+      <el-form-item :label="i18n('dyform.container.unlinkRows')" prop="unlinkRows" v-if="fieldForm.configRowType=='unlinkRows'">
         <el-input-tag v-model="fieldForm.unlinkRows"/>
       </el-form-item>
       <el-form-item

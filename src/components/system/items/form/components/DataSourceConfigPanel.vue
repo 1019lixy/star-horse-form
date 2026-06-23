@@ -8,6 +8,7 @@ defineOptions({ name: "DataSourceConfigPanel" });
 const props = defineProps<{
   /** 当前组件类型 */
   itemType: string;
+  currentSourceType: string;
   /** 设计器模式 */
   model: string;
 }>();
@@ -20,7 +21,7 @@ const emit = defineEmits<{
 const dataSourceComps = [
   "select", "tselect", "switch", "autocomplete",
   "checkbox", "radio", "cascade", "transfer",
-  "page-select", "dialog-input", "icon", "datapicker",
+  "page-select", "dialog-input", "icon", "datapicker"
 ];
 
 /** 不显示数据源配置的组件类型 */
@@ -38,9 +39,9 @@ const sourceTypeTag = computed(() => {
     data: i18n("dyform.unified.source.static"),
     // url: i18n("dyform.unified.source.internalApi"),
     dict: i18n("dyform.unified.source.dict"),
-    thirdParty: i18n("dyform.unified.source.thirdParty"),
+    thirdParty: i18n("dyform.unified.source.thirdParty")
   };
-  return typeMap[props.currentSourceType] || "";
+  return typeMap[props.currentSourceType] || typeMap["data"];
 });
 
 const currentSourceType = ref<DataSourceType>("data");

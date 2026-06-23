@@ -277,12 +277,12 @@ const applyCodeChanges = () => {
       const parsed = toJSONContent({text: String(data)} as any);
       data = parsed.json;
     } catch (_) {
-      warning("数据格式错误：需要 JSON 数组");
+      warning(i18n("dyform.design.warning.jsonArrayRequired"));
       return;
     }
   }
   if (!Array.isArray(data)) {
-    warning("数据格式错误：需要 JSON 数组");
+    warning(i18n("dyform.design.warning.jsonArrayRequired"));
     return;
   }
   try {
@@ -291,7 +291,7 @@ const applyCodeChanges = () => {
     designForm.setCompList(parsed);
     success(i18n("dyform.design.importSuccess"));
   } catch (e: any) {
-    warning("应用更改失败：" + (e?.message || "未知错误"));
+    warning(i18n("dyform.design.warning.applyFailed") + (e?.message || i18n("dyform.design.warning.unknownError")));
   }
 };
 
@@ -314,7 +314,7 @@ const formatCodeEditor = () => {
     }
     jsonEditorInstance.set({text: JSON.stringify(parsed, null, 2)});
   } catch (_) {
-    warning("JSON 格式错误，无法格式化");
+    warning(i18n("dyform.design.warning.jsonFormatError"));
   }
 };
 
@@ -1193,9 +1193,9 @@ defineExpose({
                     </div>
                     <!-- Code mode actions -->
                     <div v-if="designMode === 'code'" class="mode-actions">
-                      <el-button size="small" @click="formatCodeEditor">格式化</el-button>
-                      <el-button size="small" @click="resetCodeEditor">重置</el-button>
-                      <el-button size="small" type="primary" @click="applyCodeChanges">应用更改</el-button>
+                      <el-button size="small" @click="formatCodeEditor">{{ i18n("dyform.design.format") }}</el-button>
+                      <el-button size="small" @click="resetCodeEditor">{{ i18n("dyform.design.reset") }}</el-button>
+                      <el-button size="small" type="primary" @click="applyCodeChanges">{{ i18n("dyform.design.applyChanges") }}</el-button>
                     </div>
                   </div>
 
