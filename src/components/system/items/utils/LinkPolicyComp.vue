@@ -64,7 +64,7 @@ const setFormData = (data: any) => {
       activeType.value = "apiFill";
       nextTick(() => apiConfigRef.value?.setFormData(data?.dataRelation?.apiLinkage));
     }
-    actionName.value = data["dataRelation"]["actionName"] ?? "change";
+    actionName.value = data["dataRelation"]?.["actionName"] ?? "change";
   });
 };
 

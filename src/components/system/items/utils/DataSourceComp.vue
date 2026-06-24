@@ -3,12 +3,11 @@ import {i18n} from "@/lang";
 import {
   createData,
   getInterfaceUtils,
-  getUrlFieldConfig,
   validInterface,
   validOperation,
 } from "@/components/system/items/utils/ItemPreps.js";
-import {error, FieldInfo, PageFieldInfo, searchMatchList, SelectOption,} from "star-horse-lowcode";
-import type {DataSourceType, DataSourceTypeOption, ConfigTemplateCategory} from "@/components/types/DataSourceTypes";
+import {error, FieldInfo, PageFieldInfo, SelectOption,} from "star-horse-lowcode";
+import type {ConfigTemplateCategory, DataSourceType, DataSourceTypeOption} from "@/components/types/DataSourceTypes";
 import ApiConfigForm from "@/components/system/items/utils/ApiConfigForm.vue";
 import ConfigTemplateManager from "@/components/system/items/utils/ConfigTemplateManager.vue";
 import {computed, nextTick, PropType, reactive, ref, unref, watch} from "vue";
@@ -71,15 +70,16 @@ const sourceTypeOptions = computed<DataSourceTypeOption[]>(() => {
 
 const currentType = ref<DataSourceType>(props.formProps?.dataSource || "data");
 const formRef = ref();
-const matchTypeList = searchMatchList();
+// const matchTypeList = searchMatchList();
 const dataRequired = ref<boolean>(true);
-const urlRequired = ref<boolean>(false);
+// const urlRequired = ref<boolean>(false);
 
 // ─── Interface utils (for url/dict validate buttons) ───
 const interfaceUtils = getInterfaceUtils();
 const {fieldList, disableUrl} = interfaceUtils;
 
 // ─── URL field config with validate button ───
+/*
 const urlFields = getUrlFieldConfig(interfaceUtils, {
   showValidateButton: true,
   validateButtonText: i18n("dyform.utils.589"),
@@ -94,6 +94,7 @@ const urlFields = getUrlFieldConfig(interfaceUtils, {
     },
   },
 });
+*/
 
 // ─── Static data fields ───
 const staticFields: FieldInfo[] | any = [
@@ -152,7 +153,7 @@ const staticFields: FieldInfo[] | any = [
 ];
 
 // ─── Internal API fields ───
-const internalApiFields: FieldInfo[] | any = [
+/*const internalApiFields: FieldInfo[] | any = [
   {
     fieldName: "apiInfo",
     tabList: [
@@ -215,7 +216,7 @@ const internalApiFields: FieldInfo[] | any = [
       },
     ],
   },
-];
+];*/
 
 // ─── Dict fields ───
 const dictFields: FieldInfo[] | any = [
@@ -442,6 +443,7 @@ defineExpose({submitValid, setFormData, getFormData, currentType});
     <ConfigTemplateManager
         ref="templateRef"
         :category="templateCategory"
+        :optional="optional"
         :currentConfigData="getCurrentConfigData()"
         @load="handleTemplateLoad"
     />
