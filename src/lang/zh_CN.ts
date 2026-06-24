@@ -181,7 +181,6 @@ export default {
   "dyform.batch.edit.tab.business": "业务字段",
   "dyform.batch.edit.tab.common": "公共字段",
   "dyform.button.event.title": "按钮点击事件",
-  "dyform.template.load": "加载此模板",
   /**
    * 动态表单设计器帮助信息
    */

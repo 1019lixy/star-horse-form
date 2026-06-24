@@ -220,11 +220,15 @@ export default defineConfig((mode) => {
           "vue",
           "pinia",
           "preview-image-js",
-          "element-plus",
+          "axios",
           "flv.js",
           "star-horse-lowcode",
           "vanilla-jsoneditor",
+          "vuedraggable-es",
           "sample/**/*",
+          // element-plus 及其子路径必须全部外部化，否则 CJS 互操作变量 defaults_default 未定义
+          /^element-plus/,
+          /^@element-plus/,
         ],
         output: {
           exports: "named",
@@ -260,7 +264,14 @@ export default defineConfig((mode) => {
           globals: {
             vue: "Vue",
             pinia: "Pinia",
+            axios: "axios",
+            "element-plus": "ElementPlus",
+            "@element-plus/icons-vue": "ElementPlusIconsVue",
           },
+          // 解决 CJS default import 互操作变量未定义问题
+          interop: "auto",
+          // 保留外部模块的 import 语句，防止 Terser 优化掉
+          externalLiveBindings: true,
         },
       },
       terserOptions: {
