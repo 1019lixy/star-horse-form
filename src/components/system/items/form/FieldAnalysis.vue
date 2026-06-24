@@ -3,6 +3,7 @@ import {Config} from "@/api/settings.js";
 import {i18n} from "@/lang";
 import {onMounted, PropType} from "vue";
 import {fieldPlaceholder} from "@/components/system/items/utils/ItemPreps.js";
+import camelCase from "camelcase";
 
 const props = defineProps({
   container: {type: String, default: ""},
@@ -26,7 +27,11 @@ const needBigLengthComp: Array<string> = [
   "signature",
   "markdown",
 ];
-
+const itemKey = (item: any) => {
+  if (item.name) {
+    item.name = camelCase(item.name);
+  }
+}
 onMounted(() => {
   let preps = props.field.preps;
   if (needBigLengthComp.includes(props.field.itemType)) {
@@ -83,7 +88,7 @@ onMounted(() => {
     </template>
   </template>
   <template v-else-if="field?.preps">
-    <tr class="field-row" :class="{ 'field-row-even': index % 2 == 0 }">
+    <tr class="field-row" :class="{ 'field-row-even': index % 2 == 0 }" :key="itemKey(field.preps)">
       <td class="field-cell">
         <el-tag size="small">{{ container }}</el-tag>
       </td>

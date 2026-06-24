@@ -3192,4 +3192,38 @@ If empty, the table information will be created in the current business database
      * Link Policy
      */
     "dyform.linkPolicy.warning.triggerEventRequired": "Trigger event cannot be empty",
+    /**
+     * Config template persistence i18n
+     */
+    "dyform.template.save": "Save as Template",
+    "dyform.template.load": "Load from Template",
+    "dyform.template.manage": "Template Manager",
+    "dyform.template.name": "Template Name",
+    "dyform.template.name.placeholder": "Enter template name",
+    "dyform.template.category": "Category",
+    "dyform.template.category.staticData": "Static Data",
+    "dyform.template.category.thirdPartyDataSource": "Third-party API Data Source",
+    "dyform.template.category.apiLinkage": "API Linkage",
+    "dyform.template.description": "Description",
+    "dyform.template.description.placeholder": "Enter description (optional)",
+    "dyform.template.storage": "Storage",
+    "dyform.template.storage.local": "Local Cache",
+    "dyform.template.storage.database": "Database",
+    "dyform.template.storage.local.desc": "Available only in current browser, not shared across devices",
+    "dyform.template.storage.database.desc": "Shared across devices and users, recommended",
+    "dyform.template.save.success": "Template saved successfully",
+    "dyform.template.save.failed": "Failed to save template",
+    "dyform.template.delete.success": "Template deleted successfully",
+    "dyform.template.delete.failed": "Failed to delete template",
+    "dyform.template.delete.confirm": "Are you sure to delete template \"{name}\"?",
+    "dyform.template.load.success": "Template loaded successfully",
+    "dyform.template.load.failed": "Failed to load template",
+    "dyform.template.empty": "No templates available",
+    "dyform.template.preview": "Preview",
+    "dyform.template.configData": "Config Data",
+    "dyform.template.name.required": "Template name is required",
+    "dyform.template.storage.required": "Please select storage location",
+    "dyform.template.category.staticData.desc": "Static option data config template",
+    "dyform.template.category.thirdPartyDataSource.desc": "Third-party API request/response/auth config template",
+    "dyform.template.category.apiLinkage.desc": "API linkage strategy config template",
 };

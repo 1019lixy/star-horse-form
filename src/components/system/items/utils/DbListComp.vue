@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {openDatabase, tableColumns,} from "@/components/system/items/utils/DbSearchUtils";
+import {initApi, openDatabase, tableColumns,} from "@/components/system/items/utils/DbSearchUtils";
 import {i18n} from "@/lang";
 import {
   BtnAuth,
@@ -14,7 +14,7 @@ import {
   success,
   warning,
 } from "star-horse-lowcode";
-import {computed, ComputedRef, nextTick, onMounted, PropType, ref, unref,} from "vue";
+import {computed, ComputedRef, nextTick, onMounted, PropType, ref, unref, watch,} from "vue";
 import {FormConfig} from "@/components/types";
 
 const props = defineProps({
@@ -846,6 +846,13 @@ const doCreateData = (type: string) => {
 onMounted(() => {
   init();
 });
+watch(() => props.optional.dbInfoApi, (val) => {
+  if (val) {
+    initApi(val);
+  }
+}, {
+  immediate: true,
+})
 defineExpose({});
 </script>
 <template>

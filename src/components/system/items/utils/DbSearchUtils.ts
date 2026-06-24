@@ -1,5 +1,5 @@
 import {
-    apiInstance,
+    ApiUrls,
     closeLoad,
     error,
     getConsumerViewStore,
@@ -10,9 +10,13 @@ import {
     warning,
 } from "star-horse-lowcode";
 import {i18n} from "@/lang";
+import {ref} from "vue";
 
-const dbInfoUrl = apiInstance("userdb-manage", "dbsearch/dbinfo");
+const dbInfoApi = ref<ApiUrls>();
 
+export function initApi(api: ApiUrls) {
+    dbInfoApi.value = api;
+}
 
 /**
  * 打开数据库，并返回所以表信息
@@ -24,7 +28,7 @@ export function openDatabase(configId: any): Promise<any> | null {
     }
     load(i18n("dyform.utils.585"));
     return new Promise<any>((resolve, reject) => {
-        getRequest(`${dbInfoUrl.basePrefix}/openConn/${configId}`)
+        getRequest(`${dbInfoApi.value.customerUrl1}/${configId}`)
             .then((res: any) => {
                 if (res.data.code != 0) {
                     error(res.data.cnMessage);
@@ -46,7 +50,7 @@ export function openDatabase(configId: any): Promise<any> | null {
  */
 export async function initDbList(): Promise<Array<SelectOption>> {
     const {data, error} = await loadGetData(
-        `${dbInfoUrl.basePrefix}/getDbInfoByUser`,
+        `${dbInfoApi.value.customerUrl2}`,
     );
     if (error) {
         warning(error);
@@ -70,7 +74,7 @@ export async function tableList(
     configId: number,
 ): Promise<Array<SelectOption>> {
     const {data, error} = await loadGetData(
-        `${dbInfoUrl.basePrefix}/tableList/${configId}`,
+        `${dbInfoApi.value.customerUrl3}/${configId}`,
     );
     if (error) {
         warning(error);
@@ -103,7 +107,7 @@ export async function tableColumns(
     }
     // load("数据加载中");
     await getRequest(
-        `${dbInfoUrl.basePrefix}/tableColumns/${configId}/${tableName}`,
+        `${dbInfoApi.value.customerUrl4}/${configId}/${tableName}`,
     )
         .then((res: any) => {
             if (res.data.code != 0) {

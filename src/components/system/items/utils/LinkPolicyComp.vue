@@ -3,7 +3,10 @@ import {i18n} from "@/lang";
 import {linkPolicyTypeEvent, relationDataField} from "@/components/system/items/utils/ItemPreps.js";
 import {SelectOption, warning} from "star-horse-lowcode";
 import ApiConfigForm from "@/components/system/items/utils/ApiConfigForm.vue";
-import {nextTick, PropType, reactive, ref} from "vue";
+import ConfigTemplateManager from "@/components/system/items/utils/ConfigTemplateManager.vue";
+import {nextTick, PropType, reactive, ref, computed} from "vue";
+import type {ConfigTemplateCategory} from "@/components/types/DataSourceTypes";
+import {FormConfig} from "@/components/types";
 
 defineOptions({name: "LinkPolicyComp"});
 
@@ -20,6 +23,7 @@ const props = defineProps({
     type: Array as PropType<SelectOption[]>,
     default: () => [],
   },
+  optional: {type: Object as PropType<FormConfig>}
 });
 
 // ─── Linkage type options ───
@@ -110,6 +114,27 @@ const submitValid = async () => {
   return true;
 };
 
+// ─── 配置模板 ───
+const templateRef = ref();
+
+/** 获取当前模板分类（联动策略固定为 apiLinkage） */
+const templateCategory = computed<ConfigTemplateCategory>(() => "apiLinkage");
+
+/** 获取当前配置数据（用于保存模板） */
+const getCurrentConfigData = (): Record<string, any> => {
+  if (activeType.value === "apiFill") {
+    return apiConfigRef.value?.getFormData()?.value ?? apiConfigRef.value?.getFormData() ?? {};
+  }
+  return visibilityFormRef.value?.getFormData()?.value ?? visibilityFormRef.value?.getFormData() ?? {};
+};
+
+/** 从模板加载配置 */
+const handleTemplateLoad = (configData: Record<string, any>) => {
+  if (activeType.value === "apiFill") {
+    nextTick(() => apiConfigRef.value?.setFormData(configData));
+  }
+};
+
 defineExpose({submitValid, setFormData, getFormData});
 </script>
 
@@ -146,6 +171,16 @@ defineExpose({submitValid, setFormData, getFormData});
 
     </div>
 
+    <!-- Template Actions (only show when apiFill is active) -->
+    <div v-if="activeType === 'apiFill'" class="template-actions-bar">
+      <el-button size="small" type="primary" plain icon="FolderAdd" @click="templateRef?.openSaveDialog()">
+        {{ i18n('dyform.template.save') }}
+      </el-button>
+      <el-button size="small" plain icon="FolderOpened" @click="templateRef?.openLoadDialog()">
+        {{ i18n('dyform.template.load') }}
+      </el-button>
+    </div>
+
     <!-- Content -->
     <div class="linkage-content">
       <!-- Visibility Rule -->
@@ -162,6 +197,15 @@ defineExpose({submitValid, setFormData, getFormData});
         />
       </div>
     </div>
+
+    <!-- Config Template Manager -->
+    <ConfigTemplateManager
+        ref="templateRef"
+        :optional="optional"
+        :category="templateCategory"
+        :currentConfigData="getCurrentConfigData()"
+        @load="handleTemplateLoad"
+    />
   </div>
 </template>
 
@@ -256,6 +300,13 @@ defineExpose({submitValid, setFormData, getFormData});
 
 .linkage-content {
   min-height: 200px;
+  padding: 0 4px;
+}
+
+.template-actions-bar {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 12px;
   padding: 0 4px;
 }
 </style>

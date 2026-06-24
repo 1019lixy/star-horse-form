@@ -15,7 +15,7 @@ import {
 import {i18n} from "@/lang";
 import StarHorseFormDesign from "@/components/system/StarHorseFormDesign.vue";
 import {nextTick, ref} from "vue";
-import {FormConfig, createDataAdapter, createParamDataAdapter, createBiParamDataAdapter} from "@/components/types";
+import {createBiParamDataAdapter, FormConfig} from "@/components/types";
 import {useRoute} from "vue-router";
 import {getUserInfo, loadDict, loadRolesInfo, loadSystemInfo, permissionMenus} from "@/sample/utils/formapi";
 import {ServiceEnums} from "@/components/enums/ServiceEnums";
@@ -79,7 +79,14 @@ const dbListData: SelectOption[] = [
  * API 接口配置
  */
 const api = apiInstance("userdb-manage", "userdb/dynamicForm");
-api.excelAnalysisUrl = "/userdb-manage/userdb/dynamicForm/excelAnalysis";
+api.customerUrl1 = "/userdb-manage/userdb/dynamicForm/excelAnalysis";
+const configTemplateApi = apiInstance("userdb-manage", "userdb/configTemplate");
+configTemplateApi.customerUrl1 = "/userdb-manage/userdb/configTemplate/listByCategory";
+const dbInfoApi = apiInstance("userdb-manage", "dbsearch/dbinfo");
+dbInfoApi.customerUrl1 = "/userdb-manage/dbsearch/dbinfo/openConn";
+dbInfoApi.customerUrl2 = "/userdb-manage/dbsearch/dbinfo/getDbInfoByUser";
+dbInfoApi.customerUrl3 = "/userdb-manage/dbsearch/dbinfo/tableList";
+dbInfoApi.customerUrl4 = "/userdb-manage/dbsearch/dbinfo/tableColumns";
 
 /**
  * 使用 createDataAdapter / createParamDataAdapter 简化配置
@@ -92,6 +99,8 @@ api.excelAnalysisUrl = "/userdb-manage/userdb/dynamicForm/excelAnalysis";
 const optional = ref<FormConfig>({
   model: "full",
   api: api,
+  configTemplateApi: configTemplateApi,
+  dbInfoApi:dbInfoApi,
   primaryKey: "idDynamicForm",
   permissions: {
     "add": "add",

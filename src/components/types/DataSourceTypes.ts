@@ -468,3 +468,57 @@ export interface DataSourceTypeOption {
     icon: string;
     desc: string;
 }
+
+// ═══════════════════════════════════════════════════════════════
+// 配置模板持久化类型定义
+// ═══════════════════════════════════════════════════════════════
+
+/** 配置模板分类 */
+export type ConfigTemplateCategory = "staticData" | "thirdPartyDataSource" | "apiLinkage";
+
+/** 配置模板存储位置 */
+export type ConfigTemplateStorage = "local" | "database";
+
+/** 配置模板 */
+export interface ConfigTemplate {
+    /** 模板ID */
+    id: string;
+    /** 模板名称 */
+    name: string;
+    /** 模板分类 */
+    category: ConfigTemplateCategory;
+    /** 模板描述 */
+    description?: string;
+    /** 存储位置 */
+    storage: ConfigTemplateStorage;
+    /** 模板配置数据（JSON） */
+    configData: Record<string, any>;
+    /** 创建时间 */
+    createdTime?: string;
+    /** 更新时间 */
+    updatedTime?: string;
+    /** 创建人 */
+    createdBy?: string;
+}
+
+/** 保存模板请求参数 */
+export interface SaveTemplateParams {
+    /** 模板名称 */
+    name: string;
+    /** 模板分类 */
+    category: ConfigTemplateCategory;
+    /** 模板描述 */
+    description?: string;
+    /** 存储位置 */
+    storage: ConfigTemplateStorage;
+    /** 模板配置数据 */
+    configData: Record<string, any>;
+}
+
+/** 模板分类选项（用于 UI 展示） */
+export interface ConfigTemplateCategoryOption {
+    value: ConfigTemplateCategory;
+    label: string;
+    icon: string;
+    desc: string;
+}

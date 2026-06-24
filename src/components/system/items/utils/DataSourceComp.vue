@@ -8,9 +8,11 @@ import {
   validOperation,
 } from "@/components/system/items/utils/ItemPreps.js";
 import {error, FieldInfo, PageFieldInfo, searchMatchList, SelectOption,} from "star-horse-lowcode";
-import type {DataSourceType, DataSourceTypeOption} from "@/components/types/DataSourceTypes";
+import type {DataSourceType, DataSourceTypeOption, ConfigTemplateCategory} from "@/components/types/DataSourceTypes";
 import ApiConfigForm from "@/components/system/items/utils/ApiConfigForm.vue";
+import ConfigTemplateManager from "@/components/system/items/utils/ConfigTemplateManager.vue";
 import {computed, nextTick, PropType, reactive, ref, unref, watch} from "vue";
+import {FormConfig} from "@/components/types";
 
 defineOptions({name: "DataSourceComp"});
 
@@ -27,6 +29,7 @@ const props = defineProps({
     type: Array as PropType<SelectOption[]>,
     default: () => [],
   },
+  optional: {type: Object as PropType<FormConfig>}
 });
 
 // ─── Type selector options ───
@@ -359,6 +362,32 @@ const submitValid = async () => {
   return flag;
 };
 
+// ─── 配置模板 ───
+const templateRef = ref();
+
+/** 获取当前模板分类 */
+const templateCategory = computed<ConfigTemplateCategory>(() => {
+  if (currentType.value === "thirdParty") return "thirdPartyDataSource";
+  return "staticData";
+});
+
+/** 获取当前配置数据（用于保存模板） */
+const getCurrentConfigData = (): Record<string, any> => {
+  if (currentType.value === "thirdParty") {
+    return apiConfigRef.value?.getFormData()?.value ?? apiConfigRef.value?.getFormData() ?? {};
+  }
+  return formRef.value?.getFormData()?.value ?? formRef.value?.getFormData() ?? {};
+};
+
+/** 从模板加载配置 */
+const handleTemplateLoad = (configData: Record<string, any>) => {
+  if (currentType.value === "thirdParty") {
+    nextTick(() => apiConfigRef.value?.setFormData(configData));
+  } else {
+    nextTick(() => formRef.value?.setFormData(configData));
+  }
+};
+
 defineExpose({submitValid, setFormData, getFormData, currentType});
 </script>
 
@@ -386,6 +415,16 @@ defineExpose({submitValid, setFormData, getFormData, currentType});
       </div>
     </div>
 
+    <!-- Template Actions -->
+    <div class="template-actions-bar">
+      <el-button size="small" type="primary" plain icon="FolderAdd" @click="templateRef?.openSaveDialog()">
+        {{ i18n('dyform.template.save') }}
+      </el-button>
+      <el-button size="small" plain icon="FolderOpened" @click="templateRef?.openLoadDialog()">
+        {{ i18n('dyform.template.load') }}
+      </el-button>
+    </div>
+
     <!-- Form Content -->
     <div class="source-content">
       <!-- Third-party API uses shared ApiConfigForm -->
@@ -398,6 +437,14 @@ defineExpose({submitValid, setFormData, getFormData, currentType});
       <!-- Other types use star-horse-form -->
       <star-horse-form v-else :fieldList="unifiedField" ref="formRef"/>
     </div>
+
+    <!-- Config Template Manager -->
+    <ConfigTemplateManager
+        ref="templateRef"
+        :category="templateCategory"
+        :currentConfigData="getCurrentConfigData()"
+        @load="handleTemplateLoad"
+    />
   </div>
 </template>
 
@@ -490,6 +537,13 @@ defineExpose({submitValid, setFormData, getFormData, currentType});
 
 .source-content {
   min-height: 200px;
+  padding: 0 4px;
+}
+
+.template-actions-bar {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 12px;
   padding: 0 4px;
 }
 </style>

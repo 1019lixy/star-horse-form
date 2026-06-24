@@ -387,6 +387,7 @@ watch(() => quickConfig.value, (val) => {
         ref="dataRelationFormRef"
         :formProps="formProps"
         :model="model"
+        :optional="optional"
         :formFields="linkageFormFields"
     />
   </star-horse-dialog>
@@ -405,6 +406,7 @@ watch(() => quickConfig.value, (val) => {
     <data-source-comp
         ref="dataSourceFormRef"
         :model="model"
+        :optional="optional"
         :formProps="formProps"
         :formFields="linkageFormFields"
     />

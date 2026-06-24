@@ -572,7 +572,7 @@ const operImportFile = () => {
       reader.readAsText(file);
     } else {
       // Excel文件：上传到后端解析
-      const excelUrl = resolvedConfig.value?.api?.excelAnalysisUrl;
+      const excelUrl = resolvedConfig.value?.api?.customerUrl1;
       if (!excelUrl) {
         error(i18n('dyform.design.importExcelNoApi'));
         return;
@@ -1176,7 +1176,7 @@ defineExpose({
                           <rect x="9" y="1" width="6" height="6" rx="1" stroke="currentColor" stroke-width="1.3"/>
                           <rect x="1" y="9" width="14" height="6" rx="1" stroke="currentColor" stroke-width="1.3"/>
                         </svg>
-                        {{ i18n("dyform.action.designMode") || '设计' }}
+                        {{ i18n("dyform.action.designMode") }}
                       </button>
                       <button
                           :class="['mode-btn', { active: designMode === 'code' }]"
@@ -1188,7 +1188,7 @@ defineExpose({
                           <path d="M11 3L15 8L11 13" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"
                                 stroke-linejoin="round"/>
                         </svg>
-                        {{ i18n("dyform.action.codeMode") || '代码' }}
+                        {{ i18n("dyform.action.codeMode")  }}
                       </button>
                     </div>
                     <!-- Code mode actions -->

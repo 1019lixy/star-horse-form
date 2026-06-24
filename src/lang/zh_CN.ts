@@ -3125,4 +3125,38 @@ export default {
    * 联动策略国际化
    */
   "dyform.linkPolicy.warning.triggerEventRequired": "触发事件不能为空",
+  /**
+   * 配置模板持久化国际化
+   */
+  "dyform.template.save": "保存为模板",
+  "dyform.template.load": "从模板加载",
+  "dyform.template.manage": "模板管理",
+  "dyform.template.name": "模板名称",
+  "dyform.template.name.placeholder": "请输入模板名称",
+  "dyform.template.category": "模板分类",
+  "dyform.template.category.staticData": "静态数据",
+  "dyform.template.category.thirdPartyDataSource": "第三方接口数据源",
+  "dyform.template.category.apiLinkage": "接口联动",
+  "dyform.template.description": "模板描述",
+  "dyform.template.description.placeholder": "请输入模板描述（选填）",
+  "dyform.template.storage": "存储位置",
+  "dyform.template.storage.local": "本地缓存",
+  "dyform.template.storage.database": "数据库",
+  "dyform.template.storage.local.desc": "仅当前浏览器可用，不同设备不共享",
+  "dyform.template.storage.database.desc": "跨设备跨用户共享，推荐",
+  "dyform.template.save.success": "模板保存成功",
+  "dyform.template.save.failed": "模板保存失败",
+  "dyform.template.delete.success": "模板删除成功",
+  "dyform.template.delete.failed": "模板删除失败",
+  "dyform.template.delete.confirm": "确定删除模板「{name}」吗？",
+  "dyform.template.load.success": "模板加载成功",
+  "dyform.template.load.failed": "模板加载失败",
+  "dyform.template.empty": "暂无模板",
+  "dyform.template.preview": "预览",
+  "dyform.template.configData": "配置数据",
+  "dyform.template.name.required": "模板名称不能为空",
+  "dyform.template.storage.required": "请选择存储位置",
+  "dyform.template.category.staticData.desc": "静态选项数据配置模板",
+  "dyform.template.category.thirdPartyDataSource.desc": "第三方接口请求/响应/认证配置模板",
+  "dyform.template.category.apiLinkage.desc": "接口联动策略配置模板",
 };
