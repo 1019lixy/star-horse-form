@@ -218,6 +218,7 @@ export default defineConfig((mode) => {
       rollupOptions: {
         external: [
           "vue",
+          "vue-router",
           "pinia",
           "preview-image-js",
           "axios",
@@ -225,7 +226,7 @@ export default defineConfig((mode) => {
           "star-horse-lowcode",
           "vanilla-jsoneditor",
           "vuedraggable-es",
-          "sample/**/*",
+          "jquery",
           // element-plus 及其子路径必须全部外部化，否则 CJS 互操作变量 defaults_default 未定义
           /^element-plus/,
           /^@element-plus/,
@@ -267,6 +268,11 @@ export default defineConfig((mode) => {
             axios: "axios",
             "element-plus": "ElementPlus",
             "@element-plus/icons-vue": "ElementPlusIconsVue",
+            "star-horse-lowcode": "StarHorseLowcode",
+            lodash: "_",
+            camelcase: "camelcase",
+            json5: "JSON5",
+            "vuedraggable-es": "vuedraggable",
           },
           // 解决 CJS default import 互操作变量未定义问题
           interop: "auto",
@@ -309,7 +315,10 @@ export default defineConfig((mode) => {
       sourcemap: mode.mode === "development",
       //自定义底层的 Rollup 打包配置
       //@rollup/plugin-commonjs 插件的选项
-      commonjsOptions: {},
+      commonjsOptions: {
+        include: [/node_modules\/(camelcase|lodash|json5|sockjs-client|stompjs|pinia-plugin-persistedstate)/],
+        transformMixedEsModules: true,
+      },
       //构建的库
       //当设置为 true，构建后将会生成 manifest.json 文件
       manifest: false,
