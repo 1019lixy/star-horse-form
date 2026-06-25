@@ -181,7 +181,6 @@ export default {
     "dyform.batch.edit.tab.business": "Business Fields",
     "dyform.batch.edit.tab.common": "Common Fields",
     "dyform.button.event.title": "Button Click Event",
-    "dyform.template.load": "Load This Template",
     /**
      * Dynamic Form Designer Help Information
      */
