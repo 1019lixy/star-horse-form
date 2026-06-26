@@ -19,7 +19,8 @@ const formData = defineModel("formData");
 const resizingColIndex = ref(-1);
 const startX = ref(0);
 const startWidth = ref(0);
-
+// 新增拖拽辅助线DOM
+let resizeLine: HTMLElement | null = null;
 // 处理列宽调整开始
 const handleColResizeStart = (e: MouseEvent, index: number) => {
   e.preventDefault();
@@ -28,15 +29,30 @@ const handleColResizeStart = (e: MouseEvent, index: number) => {
   const colElement = (e.target as HTMLElement).parentElement as HTMLElement;
   // console.log("colElement",e, colElement);
   startWidth.value = colElement.offsetWidth;
-
+// 创建跟随鼠标的垂直线
+  resizeLine = document.createElement("div");
+  const handleHalf = 3; // 手柄宽度一半，用来居中
+  resizeLine.style.cssText = `
+    position: fixed;
+    top: 0;
+    left: ${e.clientX - handleHalf}px;
+    width: 4px;
+    height: 100vh;
+    background: #409eff;
+    z-index: 9999;
+    pointer-events: none;
+  `;
+  document.body.appendChild(resizeLine);
   document.addEventListener("mousemove", handleColResizeMove);
   document.addEventListener("mouseup", handleColResizeEnd);
 };
 
 // 处理列宽调整移动
 const handleColResizeMove = (e: MouseEvent) => {
-  if (resizingColIndex.value === -1) return;
-
+  if (resizingColIndex.value === -1 || !resizeLine) return;
+  const handleHalf = 3;
+  // 线条跟随鼠标，居中对齐分割位置
+  resizeLine.style.left = `${e.clientX - handleHalf}px`;
   const delta = e.clientX - startX.value;
   const newWidth = Math.max(20, startWidth.value + delta);
   const newWidthStr = `${newWidth}px`;
@@ -54,6 +70,11 @@ const handleColResizeMove = (e: MouseEvent) => {
 // 处理列宽调整结束
 const handleColResizeEnd = () => {
   resizingColIndex.value = -1;
+  // 删除跟随线条
+  if (resizeLine) {
+    document.body.removeChild(resizeLine);
+    resizeLine = null;
+  }
   document.removeEventListener("mousemove", handleColResizeMove);
   document.removeEventListener("mouseup", handleColResizeEnd);
 };

@@ -461,7 +461,14 @@ watch(() => quickConfig.value, (val) => {
           <el-input-number v-else v-model="quickConfig.columnNums" min="1" max="50"
                            controls-position="right"/>
         </el-form-item>
+        <el-form-item v-if="currentItemType=='dytable'" label="显示行和列编号" prop="formProps.showLineNumber">
+          <el-switch v-model="formProps.showLineNumber"/>
+        </el-form-item>
+        <el-form-item v-if="currentItemType=='dytable'" label="表单可改变单元格宽度" prop="formProps.allowResize">
+          <el-switch v-model="formProps.allowResize"/>
+        </el-form-item>
       </el-form-item>
+
     </template>
     <template v-else>
       <el-form-item :label="i18n('dyform.props.label')" label-position="top" prop="label" required>
