@@ -156,6 +156,8 @@ const assignValue = (fieldInfo: any) => {
     basePreps.value = [];
     actionPreps.value = [];
     otherDefaultValues();
+    // 即使命中缓存也要同步 currentField，避免对话框展示上一次组件的字段信息
+    currentField.value = fieldInfo;
     if (recordPreps.value[fieldInfo.itemType]) {
       basePreps.value = recordPreps.value[fieldInfo.itemType].basePreps;
       actionPreps.value = recordPreps.value[fieldInfo.itemType].actionPreps;
@@ -243,9 +245,9 @@ defineExpose({
 watch(
     () => [currentItemId.value, currentItemType.value],
     () => {
-      if (!currentItemId.value && !currentItemType.value) {
-        assignPrep();
-      }
+      // 选中组件、切换组件、取消选中均需刷新属性面板，
+      // 原先仅在两个字段均为空时刷新，导致首次挂载且已有选中组件时 actionPreps 不更新
+      assignPrep();
     },
     {
       immediate: true,
@@ -298,6 +300,8 @@ watch(
       :formInfo="formInfo"
       :fieldName="fieldName"
       :currentField="currentField"
+      :itemType="currentItemType"
+      :model="optional?.model ?? 'full'"
       @merge="handleDialogMerge"
       @close="handleDialogClose"
       @reset="handleDialogClose"
@@ -421,30 +425,6 @@ watch(
               />
             </template>
 
-          </el-form-item>
-        </template>
-      </el-collapse-item>
-      <el-collapse-item name="action">
-        <template #title="{ isActive }">
-          <div :class="['title-wrapper', { 'is-active': isActive }]">
-            <star-horse-icon iconClass="event-action"/>
-            <span>{{ i18n('dyform.custProp.customEvent') }}</span>
-          </div>
-        </template>
-        <template v-for="item in actionPreps">
-          <el-form-item
-              :label="item.label"
-              :prop="item.name"
-              :size="compSize"
-              label-position="top"
-          >
-            <el-button
-                type="primary"
-                plain
-                @click="item.actions.click()"
-                icon="Setting"
-            >{{ i18n('dyform.custProp.config') }}
-            </el-button>
           </el-form-item>
         </template>
       </el-collapse-item>

@@ -41,6 +41,7 @@ export default {
      * Form Prefix/Suffix Configuration
      */
     "dyform.preOrPend.dialog.title": "Prefix/Suffix Configuration",
+    "dyform.preOrPend.basic": "Basic Configuration",
     "dyform.preOrPend.prependText": "Prefix Text",
     "dyform.preOrPend.prependText.helpMsg": "Fixed text displayed in front of the input box",
     "dyform.preOrPend.prependList": "Prefix Dropdown List",
@@ -51,6 +52,12 @@ export default {
     "dyform.preOrPend.appendAction": "Suffix Action Button",
     "dyform.preOrPend.appendAction.helpMsg": "Configure action button after the input box",
     "dyform.preOrPend.appendAction.title": "Suffix Action Button Configuration",
+    "dyform.preOrPend.prependAction": "Prefix Action Button",
+    "dyform.preOrPend.prependAction.helpMsg": "Configure action button before the input box",
+    "dyform.preOrPend.prependAction.title": "Prefix Action Button Configuration",
+    "dyform.preOrPend.prependAction.empty": "No prefix button yet, click the top-right to add",
+    "dyform.preOrPend.appendAction.empty": "No suffix button yet, click the top-right to add",
+    "dyform.preOrPend.action.add": "Add Button",
     "dyform.preOrPend.appendList": "Suffix Dropdown List",
     "dyform.preOrPend.appendList.helpMsg": "Configure dropdown options after the input box",
     "dyform.preOrPend.appendList.title": "Suffix Dropdown List Configuration",
@@ -58,6 +65,24 @@ export default {
         "Prefix text and prefix dropdown list cannot be configured at the same time",
     "dyform.preOrPend.warning.appendConflict":
         "Suffix text, suffix action button and suffix dropdown list cannot be configured at the same time",
+    "dyform.preOrPend.event.section.title": "Prefix/Suffix Button Event Configuration",
+    "dyform.preOrPend.event.section.helpMsg":
+        "Configure click events for prefix/suffix action buttons. Supports linkage strategy, data source, and custom implementation.",
+    "dyform.preOrPend.event.dialog.title": "Event Configuration",
+    "dyform.preOrPend.event.type": "Event Type",
+    "dyform.preOrPend.event.type.none": "None",
+    "dyform.preOrPend.event.type.linkage": "Linkage Strategy",
+    "dyform.preOrPend.event.type.dataSource": "Data Source",
+    "dyform.preOrPend.event.type.custom": "Custom Implementation",
+    "dyform.preOrPend.event.prependActionClick": "Prefix Button Click Event",
+    "dyform.preOrPend.event.appendActionClick": "Suffix Button Click Event",
+    "dyform.preOrPend.event.appendAction.items": "Suffix Button List",
+    "dyform.preOrPend.event.appendAction.item": "Button",
+    "dyform.preOrPend.event.appendAction.empty": "Please add buttons in the suffix action button first",
+    "dyform.preOrPend.event.none.desc": "No event configured",
+    "dyform.preOrPend.event.clear": "Clear",
+    "dyform.preOrPend.event.custom.helpMsg":
+        "Custom event code. Available params: currentField (current component info), formData (form data), formInstance (form instance)",
     "login.userName": "Account",
     "login.password": "Password",
     "login.validCode": "Verification Code",
@@ -3097,6 +3122,10 @@ If empty, the table information will be created in the current business database
     "dyform.unified.linkage.type": "Linkage Strategy Type",
     "dyform.unified.linkage.visibility.desc": "Control form field visibility based on conditions",
     "dyform.unified.linkage.apiFill.desc": "Call third-party API on field change and auto-fill response values to form fields",
+    "dyform.unified.linkage.tab.custom": "Custom Implementation",
+    "dyform.unified.linkage.custom.desc": "Write JS code to define custom event logic, for advanced users",
+    "dyform.unified.linkage.custom.helpMsg": "Available objects in code: currentField (current field info), formData (form data), formInstance (form instance).",
+    "dyform.unified.linkage.custom.warning.empty": "Custom code cannot be empty",
 
     // ===== Dynamic Query Builder =====
     "queryBuilder.logic.and": "AND",

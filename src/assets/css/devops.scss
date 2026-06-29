@@ -48,6 +48,7 @@ $white: #ffffff;
   flex-direction: row;
   align-items: center;
   height: 100%;
+
   li {
     min-width: 40px;
     border-radius: 3px;
@@ -668,6 +669,7 @@ $white: #ffffff;
   border-top-width: 0;
   display: flex;
   flex-direction: column;
+
   .el-collapse-item__header {
     padding-left: 10px !important;
     font-weight: bold !important;
@@ -685,6 +687,7 @@ $white: #ffffff;
       margin: 0;
       margin-block-start: 0;
       margin-block-end: 0.25em;
+
       &:after {
         content: "";
         display: block;
@@ -747,6 +750,14 @@ $white: #ffffff;
   }
 }
 
+.drag-handler {
+  z-index: 999 !important;
+}
+
+.content-menu {
+  z-index: 1001 !important;
+}
+
 .ruler {
   position: absolute;
   top: 0;
@@ -778,16 +789,17 @@ $white: #ffffff;
 }
 
 
-
 @media (max-width: 768px) {
   .item {
     height: 35px;
     line-height: 35px;
   }
 }
-.el-form-item__label-wrap{
+
+.el-form-item__label-wrap {
   margin-right: auto !important;
 }
-.el-form-item__content{
+
+.el-form-item__content {
   min-width: unset;
 }

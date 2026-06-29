@@ -17,6 +17,7 @@ export function useDialogManager() {
         containerDialog: false,
         jsEditor: false,
         preOrPendDialog: false,
+        preOrPendEventDialog: false,
         userDefinePrepsDialog: false,
         bindFieldVisible: false
     });

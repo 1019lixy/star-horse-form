@@ -41,6 +41,7 @@ export default {
    * 表单前后缀配置
    */
   "dyform.preOrPend.dialog.title": "前后缀配置",
+  "dyform.preOrPend.basic": "基础配置",
   "dyform.preOrPend.prependText": "前缀文本",
   "dyform.preOrPend.prependText.helpMsg": "输入框前面显示的固定文本",
   "dyform.preOrPend.prependList": "前缀下拉列表",
@@ -51,6 +52,12 @@ export default {
   "dyform.preOrPend.appendAction": "后缀操作按钮",
   "dyform.preOrPend.appendAction.helpMsg": "配置输入框后面的操作按钮",
   "dyform.preOrPend.appendAction.title": "后缀操作按钮配置",
+  "dyform.preOrPend.prependAction": "前缀操作按钮",
+  "dyform.preOrPend.prependAction.helpMsg": "配置输入框前面的操作按钮",
+  "dyform.preOrPend.prependAction.title": "前缀操作按钮配置",
+  "dyform.preOrPend.prependAction.empty": "暂无前缀按钮，点击右上角添加",
+  "dyform.preOrPend.appendAction.empty": "暂无后缀按钮，点击右上角添加",
+  "dyform.preOrPend.action.add": "添加按钮",
   "dyform.preOrPend.appendList": "后缀下拉列表",
   "dyform.preOrPend.appendList.helpMsg": "配置输入框后面的下拉选项",
   "dyform.preOrPend.appendList.title": "后缀下拉列表配置",
@@ -58,6 +65,24 @@ export default {
     "前缀文本和前缀下拉列表不能同时配置",
   "dyform.preOrPend.warning.appendConflict":
     "后缀文本、后缀操作按钮和后缀下拉列表不能同时配置",
+  "dyform.preOrPend.event.section.title": "前后置按钮事件配置",
+  "dyform.preOrPend.event.section.helpMsg":
+    "为前缀/后缀按钮配置点击事件，支持联动策略、数据源、自定义实现三种方式",
+  "dyform.preOrPend.event.dialog.title": "事件配置",
+  "dyform.preOrPend.event.type": "事件类型",
+  "dyform.preOrPend.event.type.none": "无事件",
+  "dyform.preOrPend.event.type.linkage": "联动策略",
+  "dyform.preOrPend.event.type.dataSource": "数据源",
+  "dyform.preOrPend.event.type.custom": "自定义实现",
+  "dyform.preOrPend.event.prependActionClick": "前置按钮点击事件",
+  "dyform.preOrPend.event.appendActionClick": "后置按钮点击事件",
+  "dyform.preOrPend.event.appendAction.items": "后置按钮列表",
+  "dyform.preOrPend.event.appendAction.item": "按钮",
+  "dyform.preOrPend.event.appendAction.empty": "请先在后缀操作按钮中添加按钮",
+  "dyform.preOrPend.event.none.desc": "当前未配置任何事件",
+  "dyform.preOrPend.event.clear": "清除",
+  "dyform.preOrPend.event.custom.helpMsg":
+    "自定义事件代码，可用参数：currentField(当前组件信息)、formData(表单数据)、formInstance(表单实例)",
   "login.userName": "账  号",
   "login.password": "密  码",
   "login.validCode": "验证码",
@@ -3030,6 +3055,10 @@ export default {
   "dyform.unified.linkage.type": "联动策略类型",
   "dyform.unified.linkage.visibility.desc": "根据条件控制表单字段的显示与隐藏",
   "dyform.unified.linkage.apiFill.desc": "字段值变化时调用第三方接口，将返回值自动回填到表单字段",
+  "dyform.unified.linkage.tab.custom": "自定义实现",
+  "dyform.unified.linkage.custom.desc": "通过编写 JS 代码自定义事件处理逻辑，适合专业用户",
+  "dyform.unified.linkage.custom.helpMsg": "在代码中可通过 currentField（当前字段信息）、formData（表单数据）、formInstance（表单实例）等对象进行自定义处理。",
+  "dyform.unified.linkage.custom.warning.empty": "自定义代码不能为空",
 
   // ===== Dynamic Query Builder =====
   "queryBuilder.logic.and": "且",

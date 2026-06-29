@@ -40,6 +40,12 @@ const linkageTypeOptions = [
     icon: "Connection",
     desc: i18n("dyform.unified.linkage.apiFill.desc")
   },
+  {
+    value: "custom",
+    label: i18n("dyform.unified.linkage.tab.custom"),
+    icon: "EditPen",
+    desc: i18n("dyform.unified.linkage.custom.desc")
+  },
 ];
 
 // ─── Active type ───
@@ -48,6 +54,10 @@ const actionName = ref<string>("change");
 // ─── Form refs ───
 const visibilityFormRef = ref();
 const apiConfigRef = ref();
+/** 自定义实现 JS 代码 */
+const customCode = ref<string>("");
+/** 自定义代码编辑器引用 */
+const codeEditorRef = ref();
 
 // ─── Visibility Rule field config ───
 const visibilityField = reactive<any>(relationDataField(props.formProps, props.model));
@@ -64,6 +74,13 @@ const setFormData = (data: any) => {
       activeType.value = "apiFill";
       nextTick(() => apiConfigRef.value?.setFormData(data?.dataRelation?.apiLinkage));
     }
+    // 自定义实现：读取 customCode
+    if (typeof data?.dataRelation?.customCode === "string" && data.dataRelation.customCode.trim()) {
+      activeType.value = "custom";
+      customCode.value = data.dataRelation.customCode;
+    } else {
+      customCode.value = "";
+    }
     actionName.value = data["dataRelation"]?.["actionName"] ?? "change";
   });
 };
@@ -77,6 +94,26 @@ const getFormData = () => {
 };
 
 const submitValid = async () => {
+  // 自定义实现：仅需校验 actionName 和代码非空
+  if (activeType.value === "custom") {
+    if (!actionName.value) {
+      warning(i18n("dyform.linkPolicy.warning.triggerEventRequired"));
+      return false;
+    }
+    if (!customCode.value.trim()) {
+      warning(i18n("dyform.unified.linkage.custom.warning.empty"));
+      return false;
+    }
+    if (props.formProps) {
+      if (!props.formProps["dataRelation"]) {
+        props.formProps["dataRelation"] = {};
+      }
+      props.formProps["dataRelation"]["actionName"] = actionName.value;
+      props.formProps["dataRelation"]["customCode"] = customCode.value;
+    }
+    return true;
+  }
+
   // Save visibility rule
   const visibilityStarForm = visibilityFormRef.value?.$refs?.starHorseFormRef;
   if (visibilityStarForm) {
@@ -99,6 +136,10 @@ const submitValid = async () => {
   }
   if (props.formProps) {
     props.formProps["dataRelation"]["actionName"] = actionName.value;
+    // 切换离开 custom 时清理 customCode
+    if (props.formProps["dataRelation"]["customCode"] !== undefined) {
+      delete props.formProps["dataRelation"]["customCode"];
+    }
   }
   // Save API auto-fill
   const valid = await apiConfigRef.value?.submitValid();
@@ -194,6 +235,23 @@ defineExpose({submitValid, setFormData, getFormData});
             mode="linkage"
             :currentField="formProps.name"
             :formFields="formFields"
+        />
+      </div>
+
+      <!-- 自定义实现 -->
+      <div v-show="activeType === 'custom'" class="custom-panel">
+        <el-alert
+            :title="i18n('dyform.unified.linkage.custom.helpMsg')"
+            type="info"
+            :closable="false"
+            show-icon
+            style="margin-bottom: 8px;"
+        />
+        <star-horse-editor
+            v-model:value="customCode"
+            lang="javascript"
+            ref="codeEditorRef"
+            style="height: 320px;"
         />
       </div>
     </div>
