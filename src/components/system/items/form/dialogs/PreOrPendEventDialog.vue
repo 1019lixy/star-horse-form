@@ -9,6 +9,7 @@ import {
   PreOrPendEventConfig,
   preOrPendEventTypeOptions,
 } from "@/components/system/items/form/composables/usePreOrPendEvent";
+import {compressJs, formatJs} from "@/components/system/items/utils/jsCodeFormatter";
 
 defineOptions({name: "PreOrPendEventDialog"});
 
@@ -77,11 +78,13 @@ const dialogTitle = computed(() => {
 
 /**
  * 初始化表单数据
+ * 自定义代码：加载时格式化，方便编辑
  */
 const initFormData = () => {
   const cfg = props.eventConfig || {eventType: "none"};
   currentEventType.value = cfg.eventType || "none";
-  customCodeRef.value = cfg.customCode || "";
+  // 自定义代码：格式化后回填到编辑器，方便阅读编辑
+  customCodeRef.value = cfg.customCode ? formatJs(cfg.customCode) : "";
 
   // 把已有配置放入临时对象，供子组件读取
   tempConfigHolder.value = {
@@ -137,7 +140,8 @@ const handleSubmit = async () => {
     const data = dataSourceRef.value?.getFormData();
     config.dataSourceConfig = data?.value ?? data ?? tempConfigHolder.value;
   } else if (currentEventType.value === "custom") {
-    config.customCode = customCodeRef.value || "";
+    // 自定义代码：保存时压缩，去掉多余空格
+    config.customCode = customCodeRef.value ? compressJs(customCodeRef.value) : "";
   }
 
   emit("merge", config);

@@ -235,7 +235,11 @@ watch(
       }
     });
   },
-  { deep: true },
+  {
+    deep: true,
+    // flush: 'post' 避免在 compList 高频变化时阻塞主线程
+    flush: "post",
+  },
 );
 
 watch(searchQuery, (val) => {

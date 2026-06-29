@@ -48,7 +48,6 @@ const copyFun = (model: ModuleEnums) => {
     case ModuleEnums.DYNAMIC_PAGE:
       break;
   }
-  console.log("copy", model);
 };
 const cutFun = (model: ModuleEnums) => {
   switch (model) {
@@ -58,7 +57,6 @@ const cutFun = (model: ModuleEnums) => {
     case ModuleEnums.DYNAMIC_PAGE:
       break;
   }
-  console.log("cut", model);
 };
 const pasteFun = (model: ModuleEnums) => {
   switch (model) {
@@ -68,7 +66,6 @@ const pasteFun = (model: ModuleEnums) => {
     case ModuleEnums.DYNAMIC_PAGE:
       break;
   }
-  console.log("paste", model);
 };
 const enterFun = (model: ModuleEnums) => {
   switch (model) {
@@ -78,7 +75,6 @@ const enterFun = (model: ModuleEnums) => {
     case ModuleEnums.DYNAMIC_PAGE:
       break;
   }
-  console.log("enterFun", model);
 };
 const tabFun = (model: ModuleEnums) => {
   switch (model) {
@@ -88,7 +84,6 @@ const tabFun = (model: ModuleEnums) => {
     case ModuleEnums.DYNAMIC_PAGE:
       break;
   }
-  console.log("tab", model);
 };
 const escapeFun = (model: ModuleEnums) => {
   switch (model) {
@@ -98,7 +93,6 @@ const escapeFun = (model: ModuleEnums) => {
     case ModuleEnums.DYNAMIC_PAGE:
       break;
   }
-  console.log("escapeFun", model);
 };
 const backspaceFun = (model: ModuleEnums) => {
   switch (model) {
@@ -108,7 +102,6 @@ const backspaceFun = (model: ModuleEnums) => {
     case ModuleEnums.DYNAMIC_PAGE:
       break;
   }
-  console.log("backspaceFun", model);
 };
 
 const redoFun = (model: ModuleEnums) => {
@@ -119,7 +112,6 @@ const redoFun = (model: ModuleEnums) => {
     case ModuleEnums.DYNAMIC_PAGE:
       break;
   }
-  console.log("redoFun", model);
 };
 const undoFun = (model: ModuleEnums) => {
   switch (model) {
@@ -129,7 +121,6 @@ const undoFun = (model: ModuleEnums) => {
     case ModuleEnums.DYNAMIC_PAGE:
       break;
   }
-  console.log("undoFun", model);
 };
 const newFun = (model: ModuleEnums) => {
   switch (model) {
@@ -139,7 +130,6 @@ const newFun = (model: ModuleEnums) => {
     case ModuleEnums.DYNAMIC_PAGE:
       break;
   }
-  console.log("newFun", model);
 };
 const saveFun = (model: ModuleEnums) => {
   switch (model) {
@@ -149,7 +139,6 @@ const saveFun = (model: ModuleEnums) => {
     case ModuleEnums.DYNAMIC_PAGE:
       break;
   }
-  console.log("saveFun", model);
 };
 const openFun = (model: ModuleEnums) => {
   switch (model) {
@@ -159,7 +148,6 @@ const openFun = (model: ModuleEnums) => {
     case ModuleEnums.DYNAMIC_PAGE:
       break;
   }
-  console.log("openFun", model);
 };
 const deleteFun = (model: ModuleEnums) => {
   switch (model) {
@@ -169,7 +157,6 @@ const deleteFun = (model: ModuleEnums) => {
     case ModuleEnums.DYNAMIC_PAGE:
       break;
   }
-  console.log("deleteFun", model);
 };
 const selectAllFun = (model: ModuleEnums) => {
   switch (model) {
@@ -179,7 +166,6 @@ const selectAllFun = (model: ModuleEnums) => {
     case ModuleEnums.DYNAMIC_PAGE:
       break;
   }
-  console.log("selectAllFun", model);
 };
 const deleteAllFun = (model: ModuleEnums) => {
   switch (model) {
@@ -189,7 +175,6 @@ const deleteAllFun = (model: ModuleEnums) => {
     case ModuleEnums.DYNAMIC_PAGE:
       break;
   }
-  console.log("deleteAllFun", model);
 };
 const findFun = (model: ModuleEnums) => {
   switch (model) {
@@ -199,7 +184,6 @@ const findFun = (model: ModuleEnums) => {
     case ModuleEnums.DYNAMIC_PAGE:
       break;
   }
-  console.log("findFun", model);
 };
 const exchangeFun = (model: ModuleEnums) => {
   switch (model) {
@@ -209,7 +193,6 @@ const exchangeFun = (model: ModuleEnums) => {
     case ModuleEnums.DYNAMIC_PAGE:
       break;
   }
-  console.log("exchangeFun", model);
 };
 const groupFun = (model: ModuleEnums) => {
   switch (model) {
@@ -219,7 +202,6 @@ const groupFun = (model: ModuleEnums) => {
     case ModuleEnums.DYNAMIC_PAGE:
       break;
   }
-  console.log("groupFun", model);
 };
 const unGroupFun = (model: ModuleEnums) => {
   switch (model) {
@@ -229,7 +211,6 @@ const unGroupFun = (model: ModuleEnums) => {
     case ModuleEnums.DYNAMIC_PAGE:
       break;
   }
-  console.log("unGroupFun", model);
 };
 const printFun = (model: ModuleEnums) => {
   switch (model) {
@@ -239,7 +220,6 @@ const printFun = (model: ModuleEnums) => {
     case ModuleEnums.DYNAMIC_PAGE:
       break;
   }
-  console.log("printFun", model);
 };
 const previewFun = (model: ModuleEnums) => {
   switch (model) {
@@ -249,7 +229,6 @@ const previewFun = (model: ModuleEnums) => {
     case ModuleEnums.DYNAMIC_PAGE:
       break;
   }
-  console.log("previewFun", model);
 };
 const returnFun = (model: ModuleEnums) => {
   switch (model) {
@@ -259,7 +238,6 @@ const returnFun = (model: ModuleEnums) => {
     case ModuleEnums.DYNAMIC_PAGE:
       break;
   }
-  console.log("returnFun", model);
 };
 const upFun = (model: ModuleEnums) => {
   switch (model) {
@@ -269,7 +247,6 @@ const upFun = (model: ModuleEnums) => {
     case ModuleEnums.DYNAMIC_PAGE:
       break;
   }
-  console.log("upFun", model);
 };
 const downFun = (model: ModuleEnums) => {
   switch (model) {
@@ -279,7 +256,6 @@ const downFun = (model: ModuleEnums) => {
     case ModuleEnums.DYNAMIC_PAGE:
       break;
   }
-  console.log("downFun", model);
 };
 const leftFun = (model: ModuleEnums) => {
   switch (model) {
@@ -289,7 +265,6 @@ const leftFun = (model: ModuleEnums) => {
     case ModuleEnums.DYNAMIC_PAGE:
       break;
   }
-  console.log("leftFun", model);
 };
 const rightFun = (model: ModuleEnums) => {
   switch (model) {
@@ -299,7 +274,6 @@ const rightFun = (model: ModuleEnums) => {
     case ModuleEnums.DYNAMIC_PAGE:
       break;
   }
-  console.log("rightFun", model);
 };
 const altUpFun = (model: ModuleEnums) => {
   switch (model) {
@@ -309,7 +283,6 @@ const altUpFun = (model: ModuleEnums) => {
     case ModuleEnums.DYNAMIC_PAGE:
       break;
   }
-  console.log("altUpFun", model);
 };
 const altDownFun = (model: ModuleEnums) => {
   switch (model) {
@@ -319,7 +292,6 @@ const altDownFun = (model: ModuleEnums) => {
     case ModuleEnums.DYNAMIC_PAGE:
       break;
   }
-  console.log("altDownFun", model);
 };
 const altLeftFun = (model: ModuleEnums) => {
   switch (model) {
@@ -329,7 +301,6 @@ const altLeftFun = (model: ModuleEnums) => {
     case ModuleEnums.DYNAMIC_PAGE:
       break;
   }
-  console.log("altLeftFun", model);
 };
 const altRightFun = (model: ModuleEnums) => {
   switch (model) {
@@ -339,7 +310,6 @@ const altRightFun = (model: ModuleEnums) => {
     case ModuleEnums.DYNAMIC_PAGE:
       break;
   }
-  console.log("altRightFun", model);
 };
 const ctrlUpFun = (model: ModuleEnums) => {
   switch (model) {
@@ -349,7 +319,6 @@ const ctrlUpFun = (model: ModuleEnums) => {
     case ModuleEnums.DYNAMIC_PAGE:
       break;
   }
-  console.log("ctrlUpFun", model);
 };
 const ctrlDownFun = (model: ModuleEnums) => {
   switch (model) {
@@ -359,7 +328,6 @@ const ctrlDownFun = (model: ModuleEnums) => {
     case ModuleEnums.DYNAMIC_PAGE:
       break;
   }
-  console.log("ctrlDownFun", model);
 };
 const ctrlLeftFun = (model: ModuleEnums) => {
   switch (model) {
@@ -369,7 +337,6 @@ const ctrlLeftFun = (model: ModuleEnums) => {
     case ModuleEnums.DYNAMIC_PAGE:
       break;
   }
-  console.log("ctrlLeftFun", model);
 };
 const ctrlRightFun = (model: ModuleEnums) => {
   switch (model) {
@@ -379,7 +346,6 @@ const ctrlRightFun = (model: ModuleEnums) => {
     case ModuleEnums.DYNAMIC_PAGE:
       break;
   }
-  console.log("ctrlRightFun", model);
 };
 export {
   copyFun,

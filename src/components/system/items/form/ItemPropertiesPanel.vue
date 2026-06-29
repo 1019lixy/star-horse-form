@@ -348,7 +348,8 @@ onMounted(() => {
 watch(() => quickConfig.value, (val) => {
   boxAndTableQuickConfig(val);
 }, {
-  deep: true
+  deep: true,
+  flush: "post",
 });
 </script>
 <template>

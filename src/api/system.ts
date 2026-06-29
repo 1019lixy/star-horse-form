@@ -81,9 +81,19 @@ export async function validDataUrl(
  * @returns {any} 拷贝后的新对象
  */
 export function deepClone(obj: any) {
-  // 处理 null/undefined
+  // 处理 null/undefined 和原始类型
   if (obj === null || typeof obj !== "object") {
     return obj;
+  }
+
+  // 优先使用原生 structuredClone（性能比递归快 5-10 倍，且自带循环引用保护）
+  // 对于含函数的对象（如表单字段配置中的 actions），fallback 到递归实现
+  if (typeof structuredClone === "function") {
+    try {
+      return structuredClone(obj);
+    } catch {
+      // 含函数、Symbol 等不可结构化克隆的值时，回退到递归实现
+    }
   }
 
   // 处理日期对象
@@ -98,11 +108,9 @@ export function deepClone(obj: any) {
 
   // 处理普通对象（包括保留函数）
   if (obj instanceof Object) {
-    const clonedObj = {};
-    // 遍历所有属性（包括可枚举/不可枚举）
+    const clonedObj: Record<string, any> = {};
     Object.getOwnPropertyNames(obj).forEach((key) => {
       const value = obj[key];
-      // 如果是函数，直接赋值（函数是引用类型，无需深拷贝）
       if (typeof value === "function") {
         clonedObj[key] = value;
       } else {
@@ -112,7 +120,6 @@ export function deepClone(obj: any) {
     return clonedObj;
   }
 
-  // 其他类型（如原始类型）直接返回
   return obj;
 }
 

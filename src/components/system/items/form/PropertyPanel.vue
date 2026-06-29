@@ -1,5 +1,5 @@
 <script setup lang="ts" name="ItemPropertiesPanel">
-import {computed, onMounted, PropType, ref, watch} from "vue";
+import {computed, nextTick, onMounted, PropType, ref, watch} from "vue";
 import {i18n} from "@/lang";
 import {getDesignFormStore, searchMatchList, SelectOption, StarHorseIcon,} from "star-horse-lowcode";
 import ItemPropertiesPanel from "@/components/system/items/form/ItemPropertiesPanel.vue";
@@ -19,7 +19,10 @@ const customerPropertyPanelRef = ref();
 let matchTypeList = ref<SelectOption[]>();
 const changeOperation = (val: string) => {
   if (val === "customer") {
-    customerPropertyPanelRef.value.assignPrep();
+    nextTick(()=>{
+      customerPropertyPanelRef.value?.assignPrep();
+    });
+
   }
 };
 onMounted(async () => {

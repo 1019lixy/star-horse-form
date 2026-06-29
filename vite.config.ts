@@ -46,7 +46,16 @@ const httpsOptions = {
  * 此配置文件，非必需不要随便做修改，特别是打包相关的参数
  */
 export default defineConfig((mode) => {
-    let optimizeDepsList: string[] = ["vue", "vue-router", "pinia", "axios"];
+    let optimizeDepsList: string[] = [
+        "vue",
+        "vue-router",
+        "pinia",
+        "axios",
+        "element-plus",
+        "@element-plus/icons-vue",
+        "lodash",
+        "star-horse-lowcode",
+    ];
     return {
         base: "/",
         define: {

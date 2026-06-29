@@ -1,18 +1,19 @@
 <script setup lang="ts" name="CustomerPropertyPanel">
-import {computed, nextTick, onMounted, PropType, ref, unref, watch,} from "vue";
+import {computed, defineAsyncComponent, nextTick, onMounted, PropType, ref, unref, watch,} from "vue";
 import {i18n} from "@/lang";
 import {formFieldMapping, getDesignFormStore, isJson, PageFieldInfo,} from "star-horse-lowcode";
 import {loadSvgIcons} from "@/api/star_horse_form_utils.js";
 import {useDialogManager} from "@/components/system/items/form/composables/useDialogManager.js";
-import ButtonEventDialog from "@/components/system/items/form/dialogs/ButtonEventDialog.vue";
-import JsEditorDialog from "@/components/system/items/form/dialogs/JsEditorDialog.vue";
-import ParamsDialog from "@/components/system/items/form/dialogs/ParamsDialog.vue";
-import PreOrPendDialog from "@/components/system/items/form/dialogs/PreOrPendDialog.vue";
 import {FormConfig} from "@/components/types";
 import {deepClone} from "@/api/system.js";
-import UserDefinePrepsDialog from "@/components/system/items/form/dialogs/UserDefinePrepsDialog.vue";
 import {OtherPreps, otherPreps} from "@/components/system/items/form/composables/otherPreps";
-import FieldLayerDrawer from "@/components/system/items/form/dialogs/FieldLayerDrawer.vue";
+// 对话框类组件改为异步加载，减小首屏 bundle
+const ButtonEventDialog = defineAsyncComponent(() => import("@/components/system/items/form/dialogs/ButtonEventDialog.vue"));
+const JsEditorDialog = defineAsyncComponent(() => import("@/components/system/items/form/dialogs/JsEditorDialog.vue"));
+const ParamsDialog = defineAsyncComponent(() => import("@/components/system/items/form/dialogs/ParamsDialog.vue"));
+const PreOrPendDialog = defineAsyncComponent(() => import("@/components/system/items/form/dialogs/PreOrPendDialog.vue"));
+const UserDefinePrepsDialog = defineAsyncComponent(() => import("@/components/system/items/form/dialogs/UserDefinePrepsDialog.vue"));
+const FieldLayerDrawer = defineAsyncComponent(() => import("@/components/system/items/form/dialogs/FieldLayerDrawer.vue"));
 
 const props = defineProps({
   optional: {type: Object as PropType<FormConfig>},
@@ -225,6 +226,18 @@ const checkMatchComp = (item: OtherPreps) => {
   }
   return true;
 }
+/**
+ * 预过滤的 otherPreps，避免在 v-for 中逐项调用 checkMatchComp
+ */
+const filteredOtherPreps = computed(() => {
+  const type = currentItemType.value;
+  return otherPreps.filter((item: OtherPreps) => {
+    if (item.matchComp) {
+      return item.matchComp.includes(type);
+    }
+    return true;
+  });
+});
 const dataBind = (data: any) => {
   if (!formProps.value["labelFor"]) {
     formProps.value["labelFor"] = [];
@@ -334,7 +347,7 @@ watch(
         >
           <el-button @click="prependOrAppend" icon="setting"> {{ i18n('dyform.custProp.config') }}</el-button>
         </el-form-item>
-        <template v-for="item in basePreps">
+        <template v-for="item in basePreps" :key="item.fieldName">
           <el-form-item
               :label="item.label"
               :prop="item.fieldName"
@@ -380,12 +393,11 @@ watch(
             <span>{{ i18n('dyform.custProp.otherConfig') }}</span>
           </div>
         </template>
-        <template v-for="item in otherPreps">
+        <template v-for="item in filteredOtherPreps" :key="item.fieldName">
           <el-form-item
               :label="item.label"
               :prop="item.fieldName"
               :size="compSize"
-              v-if="checkMatchComp(item)"
               :label-position="
               item.fieldType == 'switch' || item.fieldType == 'button' ? 'left' : 'top'
             "

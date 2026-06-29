@@ -508,11 +508,7 @@ export function loadSvgIcons() {
     return menuIconList;
 }
 
-export async function loadSvgIconsByPath(path: string) {
-    import(path).then((res) => {
-        console.log("xxxx", res);
-    });
-
+export async function loadSvgIconsByPath(_path: string) {
     warning(i18n("dyform.api.notImplemented"));
     return [];
 }

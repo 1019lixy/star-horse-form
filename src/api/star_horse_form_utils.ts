@@ -3,18 +3,16 @@ import * as ElementPlusIconsVue from "@element-plus/icons-vue";
 import { formIcons } from "@/assets/form_icons";
 import {i18n} from "@/lang";
 /**
- * 自定义的svg图标
+ * 自定义的svg图标（模块级缓存，避免每次调用返回新数组引发响应式连锁）
  */
+let _cachedFormIcons: SelectOption[] | null = null;
 export function loadSvgIcons(): SelectOption[] {
-  return formIcons;
+  if (!_cachedFormIcons) {
+    _cachedFormIcons = formIcons;
+  }
+  return _cachedFormIcons;
 }
 export function loadSvgIconsByPath(path: string) {
-  const url = new URL(path, import.meta.url);
-  console.log(url.pathname) ;
-// path.value = /assets/${val
-  import(path).then((res) => {
-    console.log("xxxx", res);
-  });
   warning(i18n("dyform.api.notImplemented"));
   return [];
 }

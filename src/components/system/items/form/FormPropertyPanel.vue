@@ -990,6 +990,7 @@ watch(
     {
       immediate: true,
       deep: true,
+      flush: "post",
     },
 );
 defineExpose({

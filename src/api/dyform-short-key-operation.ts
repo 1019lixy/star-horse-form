@@ -12,6 +12,7 @@ import {
 import {i18n} from "@/lang";
 import {computed} from "vue";
 import {ModuleEnums} from "@/components/enums/ModuleEnums";
+import {deepClone} from "@/api/system";
 
 
 const list = computed(() => getDesignFormStore().compList);
@@ -35,7 +36,7 @@ const dyCopy = () => {
         warning(i18n("dyform.shortKey.selectCopyFirst"));
         return;
     }
-    const copyItem: any = JSON.parse(JSON.stringify(item));
+    const copyItem: any = deepClone(item);
     getCopyerOperationStore().keyboardOperation(
         "copy",
         ModuleEnums.DYNAMIC_FORM,
@@ -55,7 +56,7 @@ const dyCut = () => {
         warning(i18n("dyform.shortKey.selectCutFirst"));
         return;
     }
-    const copyItem: any = JSON.parse(JSON.stringify(item));
+    const copyItem: any = deepClone(item);
     getCopyerOperationStore().keyboardOperation(
         "cut",
         ModuleEnums.DYNAMIC_FORM,
@@ -70,7 +71,7 @@ const dyPaste = () => {
     if (shortKeyDisabled.value) {
         return;
     }
-    const copyItem: any = JSON.parse(JSON.stringify(copyerData.value));
+    const copyItem: any = deepClone(copyerData.value);
     if (!copyItem || Object.keys(copyItem).length === 0) {
         return;
     }

@@ -86,6 +86,15 @@ const setFormData = (data: any) => {
 };
 
 const getFormData = () => {
+  // 自定义实现：submitValid 已把 customCode / actionName 写入 props.formProps.dataRelation，
+  // 这里必须直接返回该对象，否则会回退到 visibilityFormRef 的显隐表单数据，丢失 customCode
+  if (activeType.value === "custom") {
+    return {
+      dataRelation: props.formProps?.dataRelation ?? {},
+      apiLinkage: undefined,
+      actionName: actionName.value,
+    };
+  }
   return {
     dataRelation: visibilityFormRef.value?.getFormData(),
     apiLinkage: apiConfigRef.value?.getFormData(),

@@ -12,6 +12,7 @@ import {
   watch,
 } from "vue";
 import {debounce} from "lodash";
+import {deepClone} from "@/api/system";
 import {
   closeLoad,
   CompType,
@@ -29,10 +30,13 @@ import {validDynamicFormCompParams} from "@/components/system/items/utils/FormPa
 import {delCacheData, getCacheData, setCacheData} from "@/api/cached_utils";
 import {i18n} from "@/lang";
 import {Config} from "@/api/settings";
-import CodeDialog from "@/components/system/items/form/dialogs/CodeDialog.vue";
-import BatchEditDialog from "@/components/system/items/form/dialogs/BatchEditDialog.vue";
-import PreviewDialog from "@/components/system/items/form/dialogs/PreviewDialog.vue";
-import FieldLayerDrawer from "@/components/system/items/form/dialogs/FieldLayerDrawer.vue";
+import {defineAsyncComponent} from "vue";
+// 对话框类组件改为异步加载，减小首屏 bundle
+const CodeDialog = defineAsyncComponent(() => import("@/components/system/items/form/dialogs/CodeDialog.vue"));
+const BatchEditDialog = defineAsyncComponent(() => import("@/components/system/items/form/dialogs/BatchEditDialog.vue"));
+const PreviewDialog = defineAsyncComponent(() => import("@/components/system/items/form/dialogs/PreviewDialog.vue"));
+const FieldLayerDrawer = defineAsyncComponent(() => import("@/components/system/items/form/dialogs/FieldLayerDrawer.vue"));
+const ConfigDialog = defineAsyncComponent(() => import("@/components/system/items/form/dialogs/ConfigDialog.vue"));
 import FormToolbar from "@/components/system/items/form/components/FormToolbar.vue";
 import FormDesigner from "@/components/system/items/form/components/FormDesigner.vue";
 import FieldPanel from "@/components/system/items/form/FieldPanel.vue";
@@ -40,7 +44,6 @@ import PropertyPanel from "@/components/system/items/form/PropertyPanel.vue";
 import {useKeyboardEvents} from "@/components/system/items/form/composables/useKeyboardEvents";
 import {useDialogManager} from "@/components/system/items/form/composables/useDialogManager";
 import {ToolBtnType} from "@/components/types/ToolBtnType";
-import ConfigDialog from "@/components/system/items/form/dialogs/ConfigDialog.vue";
 import {formContainer} from "@/components/system/items/form/composables/formContainer";
 import {formExtendItems} from "@/components/system/items/form/composables/formExtendItems";
 import {formItems} from "@/components/system/items/form/composables/formItems";
@@ -222,7 +225,7 @@ const initEditor = () => {
 };
 
 const switchToCodeMode = () => {
-  currentJsonData = JSON.parse(JSON.stringify(list.value));
+  currentJsonData = deepClone(list.value);
   designMode.value = "code";
   shortKeySwitch(false);
   designForm.setShortKeyDisabled(true);
@@ -232,7 +235,7 @@ const switchToCodeMode = () => {
 const switchToDesignMode = () => {
   // Auto-apply valid changes before switching
   if (Array.isArray(currentJsonData)) {
-    const parsed = JSON.parse(JSON.stringify(currentJsonData));
+    const parsed = deepClone(currentJsonData);
     initContainerDimensions(parsed);
     designForm.setCompList(parsed);
   }
@@ -286,7 +289,7 @@ const applyCodeChanges = () => {
     return;
   }
   try {
-    const parsed = JSON.parse(JSON.stringify(data));
+    const parsed = deepClone(data);
     initContainerDimensions(parsed);
     designForm.setCompList(parsed);
     success(i18n("dyform.design.importSuccess"));
@@ -951,6 +954,7 @@ const listWatcher = watch(
     debounce((val: any) => {
       designForm.removePromise();
       designForm.setRefresh();
+      // reOrUnDoFlag 为 true 表示本次变化由撤销/重做触发，不写入历史记录
       designForm.addHistoryRecord(reOrUnDoFlag.value);
       reOrUnDoFlag.value = false;
       userOperation.setFormInstance(dynamicFormRef);
@@ -960,10 +964,12 @@ const listWatcher = watch(
         dataList: val,
         formInfo: unref(formInfo),
       });
-    }, 300),
+    }, 500),
     {
       immediate: false,
       deep: true,
+      // flush: 'post' 让 watch 在 DOM 更新后触发，避免阻塞用户输入
+      flush: "post",
     },
 );
 

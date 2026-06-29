@@ -6,9 +6,7 @@ import {analysisCompDatas, getDesignFormStore, SelectOption} from "star-horse-lo
 import PreOrPendEventDialog from "@/components/system/items/form/dialogs/PreOrPendEventDialog.vue";
 import {
   PreOrPendEventConfig,
-  PreOrPendEventSlot,
-  preOrPendEventSlots,
-  usePreOrPendEvent,
+  preOrPendEventTypeOptions,
 } from "@/components/system/items/form/composables/usePreOrPendEvent";
 
 const props = defineProps<{
@@ -193,25 +191,29 @@ watch(
 );
 
 // ==================== 前置/后置按钮组管理 ====================
-const {
-  getEventConfig,
-  setEventConfig,
-  clearEventConfig,
-  hasEventConfig,
-  getEventTypeLabel,
-} = usePreOrPendEvent(computed(() => props.formProps));
+// 事件配置直接内联到按钮项的 actions 字段上：
+//   props.formProps.appendAction[i].actions = { eventType, dataRelation?, dataSourceConfig?, customCode? }
+// 读取/赋值都在 props.formProps 上直接操作，无中间层
 
 /** 当前激活的 tab */
 const activeTab = ref<"basic" | "prependAction" | "appendAction">("basic");
 
-/** prependAction / appendAction 插槽定义 */
-const prependActionSlot = preOrPendEventSlots.find(s => s.fieldName === "prependAction")!;
-const appendActionSlot = preOrPendEventSlots.find(s => s.fieldName === "appendAction")!;
+/** 按钮组字段名 */
+type ActionFieldName = "prependAction" | "appendAction";
 
 /**
- * 取得/初始化某个按钮组数据
+ * 取得某个按钮组数组（只读，不在此处初始化）
+ * 初始化在 ensureActionList 中完成，避免在 computed 内写入触发死循环
  */
-const getActionList = (fieldName: "prependAction" | "appendAction"): any[] => {
+const getActionList = (fieldName: ActionFieldName): any[] => {
+  return Array.isArray(props.formProps?.[fieldName]) ? props.formProps[fieldName] : [];
+};
+
+/**
+ * 确保某个按钮组数组存在（写入操作必须在 computed 之外）
+ */
+const ensureActionList = (fieldName: ActionFieldName): any[] => {
+  if (!props.formProps) return [];
   if (!Array.isArray(props.formProps[fieldName])) {
     props.formProps[fieldName] = [];
   }
@@ -223,30 +225,50 @@ const appendActionItems = computed<any[]>(() => getActionList("appendAction"));
 
 /**
  * 新增一个按钮
+ * actions 内联事件配置，运行时按 eventType 分发
  */
-const addAction = (fieldName: "prependAction" | "appendAction") => {
-  getActionList(fieldName).push({
+const addAction = (fieldName: ActionFieldName) => {
+  ensureActionList(fieldName).push({
     actionTitle: "",
     icon: "",
-    actions: "",
+    actions: {eventType: "none"},
   });
 };
 
 /**
- * 删除某个按钮（同时清除其事件配置）
+ * 删除某个按钮（事件配置内联在按钮项上，随按钮一起删除）
  */
-const removeAction = (fieldName: "prependAction" | "appendAction", index: number) => {
-  clearEventConfig(fieldName, "click", index);
-  // 删除后，后续按钮的事件配置 key 需要前移，避免错位
+const removeAction = (fieldName: ActionFieldName, index: number) => {
+  ensureActionList(fieldName).splice(index, 1);
+};
+
+/**
+ * 读取某个按钮的事件配置（直接从按钮项的 actions 字段读）
+ */
+const getEventConfig = (fieldName: ActionFieldName, index: number): PreOrPendEventConfig => {
   const list = getActionList(fieldName);
-  for (let i = index + 1; i < list.length; i++) {
-    if (hasEventConfig(fieldName, "click", i)) {
-      const cfg = getEventConfig(fieldName, "click", i);
-      setEventConfig(fieldName, "click", cfg, i - 1);
-      clearEventConfig(fieldName, "click", i);
-    }
+  const item = list[index];
+  if (item?.actions && typeof item.actions === "object") {
+    return {eventType: "none", ...item.actions};
   }
-  list.splice(index, 1);
+  return {eventType: "none"};
+};
+
+/**
+ * 赋值某个按钮的事件配置（直接写到按钮项的 actions 字段上）
+ */
+const setEventConfig = (fieldName: ActionFieldName, index: number, config: PreOrPendEventConfig) => {
+  const list = ensureActionList(fieldName);
+  if (list[index]) {
+    list[index].actions = config;
+  }
+};
+
+/**
+ * 判断某个按钮是否已配置事件
+ */
+const hasEventConfig = (fieldName: ActionFieldName, index: number): boolean => {
+  return getEventConfig(fieldName, index).eventType !== "none";
 };
 
 // ==================== 事件配置对话框 ====================
@@ -284,8 +306,8 @@ const linkageFormFields = computed<SelectOption[]>(() => {
 /**
  * 读取某个按钮当前事件类型（用于 tag 颜色显示）
  */
-const currentEventTypeOf = (fieldName: string, eventName: string, index?: number) => {
-  return getEventConfig(fieldName, eventName, index).eventType;
+const currentEventTypeOf = (fieldName: ActionFieldName, index: number) => {
+  return getEventConfig(fieldName, index).eventType;
 };
 
 /**
@@ -305,25 +327,34 @@ const eventTagType = (type: PreOrPendEventConfig["eventType"]): "success" | "war
 };
 
 /**
+ * 事件类型对应标签文案
+ */
+const eventTypeLabelOf = (type: PreOrPendEventConfig["eventType"]): string => {
+  return preOrPendEventTypeOptions.value.find((o) => o.value === type)?.label ?? "";
+};
+
+/**
  * 打开事件配置对话框
  */
-const openEventConfig = (slot: PreOrPendEventSlot, index: number) => {
-  currentSlotField.value = slot.fieldName as "prependAction" | "appendAction";
+const openEventConfig = (fieldName: ActionFieldName, index: number) => {
+  currentSlotField.value = fieldName;
   currentIndex.value = index;
-  const list = slot.fieldName === "prependAction" ? prependActionItems.value : appendActionItems.value;
+  const list = fieldName === "prependAction" ? prependActionItems.value : appendActionItems.value;
   const actionItem = list[index];
   currentButtonTitle.value = actionItem?.actionTitle
       || `${i18n("dyform.preOrPend.event.appendAction.item")} ${index + 1}`;
-  currentEventConfig.value = getEventConfig(slot.fieldName, slot.eventName, index);
+  currentEventConfig.value = getEventConfig(fieldName, index);
   eventDialogVisible.value = true;
   getDesignFormStore().setShortKeyDisabled(true);
 };
 
 /**
- * 事件配置保存回调
+ * 事件配置保存回调：直接赋值到 props.formProps[fieldName][index].actions
  */
 const handleEventMerge = (config: PreOrPendEventConfig) => {
-  setEventConfig(currentSlotField.value, "click", config, currentIndex.value);
+  if (currentIndex.value !== undefined) {
+    setEventConfig(currentSlotField.value, currentIndex.value, config);
+  }
   eventDialogVisible.value = false;
   getDesignFormStore().setShortKeyDisabled(false);
 };
@@ -437,22 +468,22 @@ defineExpose({
                 <label class="row-label">{{ i18n('dyform.preOrPend.event.type') }}</label>
                 <div class="row-control event-control">
                   <el-tag
-                      v-if="hasEventConfig('prependAction', 'click', idx)"
+                      v-if="hasEventConfig('prependAction', idx)"
                       size="small"
-                      :type="eventTagType(currentEventTypeOf('prependAction', 'click', idx))"
+                      :type="eventTagType(currentEventTypeOf('prependAction', idx))"
                       effect="light"
                   >
-                    {{ getEventTypeLabel('prependAction', 'click', idx) }}
+                    {{ eventTypeLabelOf(currentEventTypeOf('prependAction', idx)) }}
                   </el-tag>
                   <el-tag v-else size="small" type="info" effect="plain">
                     {{ i18n('dyform.preOrPend.event.type.none') }}
                   </el-tag>
                   <el-button
-                      :type="hasEventConfig('prependAction', 'click', idx) ? 'success' : 'primary'"
+                      :type="hasEventConfig('prependAction', idx) ? 'success' : 'primary'"
                       plain
                       size="small"
                       icon="Setting"
-                      @click="openEventConfig(prependActionSlot, idx)"
+                      @click="openEventConfig('prependAction', idx)"
                   >
                     {{ i18n('dyform.custProp.config') }}
                   </el-button>
@@ -547,22 +578,22 @@ defineExpose({
                 <label class="row-label">{{ i18n('dyform.preOrPend.event.type') }}</label>
                 <div class="row-control event-control">
                   <el-tag
-                      v-if="hasEventConfig('appendAction', 'click', idx)"
+                      v-if="hasEventConfig('appendAction', idx)"
                       size="small"
-                      :type="eventTagType(currentEventTypeOf('appendAction', 'click', idx))"
+                      :type="eventTagType(currentEventTypeOf('appendAction', idx))"
                       effect="light"
                   >
-                    {{ getEventTypeLabel('appendAction', 'click', idx) }}
+                    {{ eventTypeLabelOf(currentEventTypeOf('appendAction', idx)) }}
                   </el-tag>
                   <el-tag v-else size="small" type="info" effect="plain">
                     {{ i18n('dyform.preOrPend.event.type.none') }}
                   </el-tag>
                   <el-button
-                      :type="hasEventConfig('appendAction', 'click', idx) ? 'success' : 'primary'"
+                      :type="hasEventConfig('appendAction', idx) ? 'success' : 'primary'"
                       plain
                       size="small"
                       icon="Setting"
-                      @click="openEventConfig(appendActionSlot, idx)"
+                      @click="openEventConfig('appendAction', idx)"
                   >
                     {{ i18n('dyform.custProp.config') }}
                   </el-button>
