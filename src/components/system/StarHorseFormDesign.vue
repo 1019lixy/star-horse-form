@@ -648,8 +648,11 @@ const operExportFile = () => {
     error(i18n('dyform.design.exportFailed'));
   }
 };
-const actions = (action: ToolBtnType) => {
-  switch (action.key) {
+const actions = (action: ToolBtnType | string) => {
+  // 兼容键盘快捷键传入字符串（keyInfo.action）与工具栏传入对象两种形式
+  const act: ToolBtnType =
+    typeof action === "string" ? ({ key: action } as ToolBtnType) : action;
+  switch (act.key) {
     case "formConfig":
       formConfigDialogVisible.value = true;
       break;
@@ -695,7 +698,7 @@ const actions = (action: ToolBtnType) => {
     case "pad":
     case "phone":
     case "pc":
-      actionsStyle(action);
+      actionsStyle(act);
       break;
     case "upload":
       operImportFile();
@@ -704,7 +707,7 @@ const actions = (action: ToolBtnType) => {
       operExportFile();
       break;
   }
-  emits("action", action);
+  emits("action", act);
 };
 
 const keyboardEvents = useKeyboardEvents(actions);
@@ -1145,6 +1148,15 @@ defineExpose({
   <FieldLayerDrawer v-model:visible="dialogStates.formFieldLayer"
                     :operType="operType"/>
   <div class="sh-form-design-root">
+    <FormToolbar
+        :list="list"
+        :currentPageStyle="currentPageStyle"
+        :cacheData="cacheData"
+        @action="actions"
+        @changeRole="changeRole"
+        @cacheRestore="cacheDataRestore"
+        :optional="resolvedConfig"
+    />
     <el-splitter class="sh-splitter">
       <el-splitter-panel collapsible size="320" min="220" max="450">
         <field-panel
@@ -1155,17 +1167,6 @@ defineExpose({
       </el-splitter-panel>
       <el-splitter-panel>
         <el-splitter layout="vertical" class="sh-splitter-vertical">
-          <el-splitter-panel :collapsible="false" :resizable="false" size="48">
-            <FormToolbar
-                :list="list"
-                :currentPageStyle="currentPageStyle"
-                :cacheData="cacheData"
-                @action="actions"
-                @changeRole="changeRole"
-                @cacheRestore="cacheDataRestore"
-                :optional="resolvedConfig"
-            />
-          </el-splitter-panel>
           <el-splitter-panel>
             <el-splitter class="sh-splitter-inner">
               <el-splitter-panel>
@@ -1264,6 +1265,13 @@ defineExpose({
   background: #f5f7fa;
   overflow: hidden;
   border-radius: 6px;
+  display: flex;
+  flex-direction: column;
+
+  > .sh-splitter {
+    flex: 1;
+    min-height: 0;
+  }
 }
 
 /* ====== Splitter Refinements ====== */

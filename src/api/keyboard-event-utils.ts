@@ -281,6 +281,44 @@ const shortKeyList = (model: ModuleEnums) => {
       ctrl: true,
       handler: () => ctrlRightFun(model),
     },
+    // ===== 工具栏扩展快捷键（通过 actions 回调分发） =====
+    {
+      key: "i",
+      action: "upload",
+      ctrl: true,
+    },
+    {
+      key: "e",
+      action: "eprep",
+      ctrl: true,
+    },
+    {
+      key: "e",
+      action: "export",
+      ctrl: true,
+      shift: true,
+    },
+    {
+      key: "c",
+      action: "code",
+      ctrl: true,
+      shift: true,
+    },
+    {
+      key: "1",
+      action: "pc",
+      alt: true,
+    },
+    {
+      key: "2",
+      action: "pad",
+      alt: true,
+    },
+    {
+      key: "3",
+      action: "phone",
+      alt: true,
+    },
   ];
   return keyboardEventMap;
 };

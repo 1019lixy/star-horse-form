@@ -47,6 +47,13 @@ const permissionCheck = (item: ToolBtnType) => {
       !item.children
   );
 };
+// 是否为分组项（带 children）
+const isGroup = (item: ToolBtnType) => !!item.children?.length;
+// 组间分隔符判定：组前总是分隔；独立按钮仅在前一项也是组时分隔
+const showDividerBefore = (item: ToolBtnType, index: number) => {
+  if (index === 0) return false;
+  return isGroup(item) || isGroup(allActions.value[index - 1]);
+};
 // 页面配置功能
 const pageConfig = () => {
   emit("action", {
@@ -112,25 +119,43 @@ const doSave = (flag: boolean) => {
   </star-horse-dialog>
   <div class="toolbar-root" @click="closeDropdown">
     <div class="toolbar-left">
-      <!-- Group 1: 页面视图 + 新建/导入/编辑/图层/清空 -->
+      <!-- 工具条分组：文件(下拉) | 编辑(下拉) | 撤销/重做(平铺) | 风格(下拉) | 校验 | 预览 | 保存 -->
       <div class="toolbar-group">
         <template v-for="(item, index) in allActions" :key="'tb_' + index">
-          <!-- 在 undo 前插入分隔 -->
-          <div v-if="item.key === 'undo'" class="toolbar-divider" :key="'div_undo_' + index"></div>
-          <!-- 在 valid 前插入分隔 -->
-          <div v-if="item.key === 'valid'" class="toolbar-divider" :key="'div_valid_' + index"></div>
-          <!-- 在 save 前插入分隔 -->
-          <div v-if="item.key === 'save'" class="toolbar-divider" :key="'div_save_' + index"></div>
+          <!-- 组间分隔符（独立渲染，不参与按钮的 v-if 链） -->
+          <div
+              v-if="showDividerBefore(item, index)"
+              class="toolbar-divider"
+              :key="'div_' + index"
+          ></div>
 
-          <!-- 有子菜单的下拉按钮 -->
+          <!-- 平铺组：children 依次平铺为普通按钮（高频操作，如撤销/重做） -->
+          <template v-if="isGroup(item) && item.flat">
+            <template v-for="(child, cidx) in item.children" :key="'flat_' + index + '_' + cidx">
+              <el-tooltip
+                  v-if="permissionCheck(child)"
+                  :content="child.shortcut ? `${child.label} (${child.shortcut})` : child.label"
+                  effect="dark"
+                  placement="bottom"
+                  :show-after="500"
+              >
+                <el-button class="tb-btn" @click="actions(child)">
+                  <star-horse-icon :icon-class="child.icon" size="20px"/>
+                </el-button>
+              </el-tooltip>
+            </template>
+          </template>
+
+          <!-- 下拉组：children 收进下拉菜单（触发器显示 图标+文字+箭头） -->
           <el-dropdown
-              v-if="item?.children?.length > 0"
+              v-else-if="isGroup(item)"
               :show-arrow="false"
               trigger="click"
               :key="'dd_' + index"
           >
-            <el-button class="tb-btn" :title="item.label">
-              <star-horse-icon :icon-class="item.icon" size="20px"/>
+            <el-button class="tb-btn tb-btn-group" :title="item.label">
+              <star-horse-icon :icon-class="item.icon" size="18px"/>
+              <span class="tb-btn-label">{{ item.label }}</span>
               <el-icon class="el-icon--right"><arrow-down/></el-icon>
             </el-button>
             <template #dropdown>
@@ -143,6 +168,7 @@ const doSave = (flag: boolean) => {
                   <div class="dropdown-item-inner">
                     <star-horse-icon :icon-class="sitem.icon" size="18px"/>
                     <span>{{ sitem.label }}</span>
+                    <span v-if="sitem.shortcut" class="dropdown-item-shortcut">{{ sitem.shortcut }}</span>
                   </div>
                 </el-dropdown-item>
               </el-dropdown-menu>
@@ -213,11 +239,14 @@ const doSave = (flag: boolean) => {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  height: 100%;
-  padding: 0 12px;
-  background: #ffffff;
-  border-bottom: 1px solid #e8eaed;
+  height: 48px;
+  padding: 0 16px;
+  background: linear-gradient(to bottom, #ffffff 0%, #fafbfc 100%);
+  border-bottom: 1px solid #e4e7ed;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
   box-sizing: border-box;
+  position: relative;
+  z-index: 10;
 }
 
 .toolbar-left {
@@ -255,9 +284,9 @@ const doSave = (flag: boolean) => {
 /* ====== Divider between groups ====== */
 .toolbar-divider {
   width: 1px;
-  height: 22px;
+  height: 20px;
   background: #dcdfe6;
-  margin: 0 10px;
+  margin: 0 8px;
   flex-shrink: 0;
 }
 
@@ -266,25 +295,25 @@ const doSave = (flag: boolean) => {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  min-width: 36px;
-  height: 36px;
+  min-width: 34px;
+  height: 32px;
   padding: 0 8px;
   border: none !important;
   background: transparent !important;
   border-radius: 6px !important;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: all 0.18s ease;
   color: #606266;
-  margin: 0 2px;
+  margin: 0 1px;
 
   :deep(.star-horse-icon) {
-    font-size: 20px;
+    font-size: 18px;
     color: var(--star-horse-style);
     transition: color 0.15s ease;
   }
 
   &:hover {
-    background: #f0f2f5 !important;
+    background: #eef1f6 !important;
     color: #303133;
 
     :deep(.star-horse-icon) {
@@ -298,8 +327,30 @@ const doSave = (flag: boolean) => {
 
   .el-icon--right {
     margin-left: 2px;
-    font-size: 12px;
+    font-size: 11px;
     color: #909399;
+  }
+}
+
+/* 下拉组触发器：图标 + 文字 + 箭头 */
+.tb-btn-group {
+  padding: 0 8px 0 10px;
+  gap: 5px;
+
+  .tb-btn-label {
+    font-size: 13px;
+    font-weight: 500;
+    color: #303133;
+    line-height: 1;
+    white-space: nowrap;
+  }
+
+  &:hover {
+    background: #eef1f6 !important;
+
+    .tb-btn-label {
+      color: var(--star-horse-style);
+    }
   }
 }
 
@@ -328,14 +379,27 @@ const doSave = (flag: boolean) => {
   display: flex;
   align-items: center;
   gap: 8px;
+  min-width: 160px;
 
   .star-horse-icon {
     color: var(--star-horse-style);
+    flex-shrink: 0;
   }
 
   span {
     font-size: 13px;
     color: #303133;
+
+    &:first-of-type {
+      flex: 1;
+    }
+  }
+
+  .dropdown-item-shortcut {
+    font-size: 11px;
+    color: #c0c4cc;
+    margin-left: 12px;
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
   }
 }
 </style>

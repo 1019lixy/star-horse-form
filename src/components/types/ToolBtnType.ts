@@ -35,4 +35,10 @@ export interface ToolBtnType {
    * 子按钮
    */
   children?: ToolBtnType[];
+  /**
+   * 平铺组标记：为 true 时 children 在工具条中平铺渲染（不收进下拉），
+   * 用于高频操作组（如撤销/重做）；为 false/未设置时 children 渲染为下拉菜单。
+   * 仅当 children 存在时该字段生效。
+   */
+  flat?: boolean;
 }
