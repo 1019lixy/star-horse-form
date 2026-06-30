@@ -5,6 +5,7 @@ import {
   analysisCompDatas,
   getDesignFormStore,
   operationConfirm,
+  searchMatchList,
   uuid,
   validRulesList,
   warning
@@ -614,7 +615,25 @@ watch(() => quickConfig.value, (val) => {
             :active-text="i18n('dyform.props.defaultVisible.show')"
             :inactive-text="i18n('dyform.props.defaultVisible.hide')"
         />
+
       </el-form-item>
+      <el-form-item
+          :label="i18n('dyform.props.matchType')"
+          prop="matchType"
+          v-if="formProps.searchVisible"
+      >
+        <el-select
+            v-model="formProps.matchType"
+            :options="searchMatchList()"
+            filterable
+            clearable
+            :props="{
+              label:'name'
+            }"
+        />
+
+      </el-form-item>
+
       <el-form-item :label="i18n('dyform.props.viewVisible')" prop="viewVisible">
         <el-switch
             v-model="formProps.viewVisible"

@@ -4,9 +4,10 @@ import {linkPolicyTypeEvent, relationDataField} from "@/components/system/items/
 import {SelectOption, warning} from "star-horse-lowcode";
 import ApiConfigForm from "@/components/system/items/utils/ApiConfigForm.vue";
 import ConfigTemplateManager from "@/components/system/items/utils/ConfigTemplateManager.vue";
-import {nextTick, PropType, reactive, ref, computed} from "vue";
+import {computed, nextTick, PropType, reactive, ref} from "vue";
 import type {ConfigTemplateCategory} from "@/components/types/DataSourceTypes";
 import {FormConfig} from "@/components/types";
+import {userOperationMsg} from "@/components/system/items/utils/jsCodeFormatter";
 
 defineOptions({name: "LinkPolicyComp"});
 
@@ -23,31 +24,40 @@ const props = defineProps({
     type: Array as PropType<SelectOption[]>,
     default: () => [],
   },
+  hideUserDefine: {
+    type: Boolean,
+    default: false,
+  },
   optional: {type: Object as PropType<FormConfig>}
 });
 
 // ─── Linkage type options ───
-const linkageTypeOptions = [
-  {
-    value: "visibility",
-    label: i18n("dyform.unified.linkage.tab.visibility"),
-    icon: "View",
-    desc: i18n("dyform.unified.linkage.visibility.desc")
-  },
-  {
-    value: "apiFill",
-    label: i18n("dyform.unified.linkage.tab.apiFill"),
-    icon: "Connection",
-    desc: i18n("dyform.unified.linkage.apiFill.desc")
-  },
-  {
-    value: "custom",
-    label: i18n("dyform.unified.linkage.tab.custom"),
-    icon: "EditPen",
-    desc: i18n("dyform.unified.linkage.custom.desc")
-  },
-];
+const linkageTypeOptions = computed(() => {
+  const options = [
+    {
+      value: "visibility",
+      label: i18n("dyform.unified.linkage.tab.visibility"),
+      icon: "View",
+      desc: i18n("dyform.unified.linkage.visibility.desc")
+    },
+    {
+      value: "apiFill",
+      label: i18n("dyform.unified.linkage.tab.apiFill"),
+      icon: "Connection",
+      desc: i18n("dyform.unified.linkage.apiFill.desc")
+    },
 
+  ];
+  if (!props.hideUserDefine) {
+    options.push({
+      value: "custom",
+      label: i18n("dyform.unified.linkage.tab.custom"),
+      icon: "EditPen",
+      desc: i18n("dyform.unified.linkage.custom.desc")
+    })
+  }
+  return options;
+})
 // ─── Active type ───
 const activeType = ref<string>("visibility");
 const actionName = ref<string>("change");
@@ -184,7 +194,20 @@ const handleTemplateLoad = (configData: Record<string, any>) => {
     nextTick(() => apiConfigRef.value?.setFormData(configData));
   }
 };
-
+const querySearch = (queryString: string, cb: any) => {
+  const results = queryString
+      ? linkPolicyTypeEvent.filter(createFilter(queryString))
+      : linkPolicyTypeEvent
+  // call callback function to return suggestions
+  cb(results)
+}
+const createFilter = (queryString: string) => {
+  return (restaurant: SelectOption) => {
+    return (
+        restaurant.value?.toLowerCase().indexOf(queryString.toLowerCase()) === 0
+    )
+  }
+}
 defineExpose({submitValid, setFormData, getFormData});
 </script>
 
@@ -200,7 +223,6 @@ defineExpose({submitValid, setFormData, getFormData});
           <div
               v-for="opt in linkageTypeOptions"
               :key="opt.value"
-
               :class="['type-card', { active: activeType === opt.value }]"
               @click="activeType = opt.value"
           >
@@ -212,9 +234,7 @@ defineExpose({submitValid, setFormData, getFormData});
         </div>
         <div class="w-[30%]">
           <el-form-item :label="i18n('dyform.utils.516')" prop="actionName">
-            <el-select v-model="actionName" allow-create clearable filterable>
-              <el-option v-for="item in linkPolicyTypeEvent" :value="item.value" :key="item.value" :label="item.name"/>
-            </el-select>
+            <el-autocomplete v-model="actionName" allow-create clearable filterable :fetch-suggestions="querySearch"/>
           </el-form-item>
         </div>
       </div>
@@ -234,11 +254,11 @@ defineExpose({submitValid, setFormData, getFormData});
     <!-- Content -->
     <div class="linkage-content">
       <!-- Visibility Rule -->
-      <div v-show="activeType === 'visibility'" class="visibility-panel">
+      <div v-if="activeType === 'visibility'" class="visibility-panel">
         <star-horse-form :fieldList="visibilityField" ref="visibilityFormRef"/>
       </div>
 
-      <div v-show="activeType === 'apiFill'" class="api-fill-panel">
+      <div v-if="activeType === 'apiFill'" class="api-fill-panel">
         <ApiConfigForm
             ref="apiConfigRef"
             mode="linkage"
@@ -248,14 +268,10 @@ defineExpose({submitValid, setFormData, getFormData});
       </div>
 
       <!-- 自定义实现 -->
-      <div v-show="activeType === 'custom'" class="custom-panel">
-        <el-alert
-            :title="i18n('dyform.unified.linkage.custom.helpMsg')"
-            type="info"
-            :closable="false"
-            show-icon
-            style="margin-bottom: 8px;"
-        />
+      <div v-if="activeType === 'custom'&&!hideUserDefine" class="custom-panel">
+        <div class="custom-help">
+          <help :message="userOperationMsg"/>
+        </div>
         <star-horse-editor
             v-model:value="customCode"
             lang="javascript"

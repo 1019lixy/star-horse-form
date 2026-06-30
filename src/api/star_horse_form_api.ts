@@ -2,7 +2,7 @@ import axios, {AxiosResponse, InternalAxiosRequestConfig} from "axios";
 import {error, getFingerId, warning} from "star-horse-lowcode";
 import {i18n} from "@/lang";
 
-const TOKENCONST: string = "6e30a4a15b534e549688e6ab549f6304";
+const TOKENCONST: string = "ed015805990e4683bf5c51a3fa4ebff4";
 const axiosInstance = axios.create({
     baseURL: "/",
     timeout: 10000,

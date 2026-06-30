@@ -125,7 +125,6 @@ const tableFieldList = reactive<PageFieldInfo | any>({
           title: i18n("dyform.formProp.basicProps"),
           tabName: "tab1",
           fieldList: [
-            [
               {
                 label: i18n("dyform.formProp.tableName"),
                 fieldName: "tbName",
@@ -137,6 +136,15 @@ const tableFieldList = reactive<PageFieldInfo | any>({
                 },
               },
               {
+                label: i18n("dyform.formProp.primaryKey"),
+                fieldName: "formId",
+                required: true,
+                formVisible: true,
+                preps: {
+                  editDisabled: true,
+                  colspan: ["simple"].includes(model.value) ? 24 : 11,
+                },
+              },{
                 label: i18n("dyform.formProp.appName"),
                 fieldName: "sysId",
                 type: "tselect",
@@ -160,23 +168,22 @@ const tableFieldList = reactive<PageFieldInfo | any>({
                 defaultValue: "N",
                 formVisible: ["full"].includes(model.value),
                 preps: {
-                  colspan: 5,
+                  colspan: 8,
                   activeValue: "Y",
                   inactiveValue: "N",
                 },
               },
-            ],
-            [
-              {
-                label: i18n("dyform.formProp.primaryKey"),
-                fieldName: "formId",
-                required: true,
-                formVisible: true,
-                preps: {
-                  editDisabled: true,
-                  colspan: ["simple"].includes(model.value) ? 24 : 11,
+                {
+                  label: i18n("dyform.formProp.checkDuplicate"),
+                  fieldName: "checkDuplicate",
+                  type: "switch",
+                  defaultValue: "false",
+                  formVisible: ["full"].includes(model.value),
+                  preps: {
+                    colspan: 8,
+                  },
                 },
-              },
+
               {
                 label: i18n("dyform.formProp.primaryKeyStrategy"),
                 fieldName: "primaryKeyPolicy",
@@ -200,8 +207,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
                   values: loadSvgIcons(),
                 },
               },
-            ],
-            [
+
               {
                 label: i18n("dyform.formProp.createMenu"),
                 fieldName: "createMenu",
@@ -241,8 +247,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
                   values: rolesList,
                 },
               },
-            ],
-            [
+
               {
                 label: i18n("dyform.formProp.parentMenu"),
                 fieldName: "parentMenuId",
@@ -271,8 +276,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
                   values: authorityList,
                 },
               },
-            ],
-            [
+
               {
                 label: i18n("dyform.formProp.saveAsTemplate"),
                 fieldName: "templateFlag",
@@ -309,9 +313,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
                   values: cloneDatasList
                 },
               },
-            ],
 
-            [
               {
                 label: i18n("dyform.formProp.pageStyle"),
                 fieldName: "pageStyle",
@@ -343,7 +345,6 @@ const tableFieldList = reactive<PageFieldInfo | any>({
                   values: dataLoadConditionList,
                 },
               },
-            ],
           ],
         },
         {

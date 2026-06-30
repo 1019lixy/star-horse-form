@@ -54,8 +54,37 @@ export default defineConfig((mode) => {
         "element-plus",
         "@element-plus/icons-vue",
         "lodash",
-        "star-horse-lowcode",
+        "star-horse-lowcode"
     ];
+    if (mode.mode === "development") {
+        fs.readdirSync("node_modules/element-plus/es/components").map(
+            async (dirname) => {
+                try {
+                    fs.accessSync(
+                        `node_modules/element-plus/es/components/${dirname}/style/css.mjs`,
+                        fs.constants.F_OK,
+                    );
+                    optimizeDepsList.push(
+                        `element-plus/es/components/${dirname}/style/css`,
+                    );
+                } catch (e) {
+                    console.log(`1,将强制对${dirname}进行依赖预构建异常`);
+                }
+                //注意，一定要包含下面这部分
+                try {
+                    fs.accessSync(
+                        `node_modules/element-plus/es/components/${dirname}/style/index.mjs`,
+                        fs.constants.F_OK,
+                    );
+                    optimizeDepsList.push(
+                        `element-plus/es/components/${dirname}/style/index`,
+                    );
+                } catch (e) {
+                    console.log(`2,将强制对${dirname}进行依赖预构建异常`);
+                }
+            },
+        );
+    }
     return {
         base: "/",
         define: {

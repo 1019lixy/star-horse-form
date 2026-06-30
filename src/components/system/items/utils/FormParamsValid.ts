@@ -101,7 +101,6 @@ export function validDynamicFormCompParams(
   // let fieldNames: Array<String> = [];
   for (const index in fieldList) {
     const temp = fieldList[index];
-    console.log(temp);
     const preps = temp.preps;
     const name = preps.label;
     let msg = "";
@@ -130,7 +129,7 @@ export function validDynamicFormCompParams(
         (!preps.values || preps.values?.length <= 0) &&
         !preps.interfaceUrl &&
         !preps.urlOrDictName &&
-        !preps.url
+        !preps.apiDataSource
       ) {
         msg =
           "\n【" +

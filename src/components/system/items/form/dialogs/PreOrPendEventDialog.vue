@@ -9,7 +9,7 @@ import {
   PreOrPendEventConfig,
   preOrPendEventTypeOptions,
 } from "@/components/system/items/form/composables/usePreOrPendEvent";
-import {compressJs, formatJs} from "@/components/system/items/utils/jsCodeFormatter";
+import {compressJs, formatJs, userOperationMsg} from "@/components/system/items/utils/jsCodeFormatter";
 
 defineOptions({name: "PreOrPendEventDialog"});
 
@@ -200,18 +200,19 @@ watch(
       <!-- 配置内容区 -->
       <div class="event-content">
         <!-- 联动策略 -->
-        <div v-show="showLinkage" class="linkage-panel">
+        <div v-if="showLinkage" class="linkage-panel">
           <link-policy-comp
               ref="linkageRef"
               :formProps="tempConfigHolder"
               :model="model || 'full'"
+              :hide-user-define="true"
               :optional="optional"
               :formFields="formFields"
           />
         </div>
 
         <!-- 数据源 -->
-        <div v-show="showDataSource" class="data-source-panel">
+        <div v-if="showDataSource" class="data-source-panel">
           <data-source-comp
               ref="dataSourceRef"
               :formProps="tempConfigHolder"
@@ -222,14 +223,9 @@ watch(
         </div>
 
         <!-- 自定义代码 -->
-        <div v-show="showCustom" class="custom-panel">
+        <div v-if="showCustom" class="custom-panel">
           <div class="custom-help">
-            <el-alert
-                :title="i18n('dyform.preOrPend.event.custom.helpMsg')"
-                type="info"
-                :closable="false"
-                show-icon
-            />
+            <help :message="userOperationMsg"/>
           </div>
           <star-horse-editor
               v-model:value="customCodeRef"
@@ -238,7 +234,6 @@ watch(
               style="height: 100%"
           />
         </div>
-
         <!-- 无事件 -->
         <div v-show="currentEventType === 'none'" class="empty-panel">
           <el-empty :description="i18n('dyform.preOrPend.event.none.desc')"/>

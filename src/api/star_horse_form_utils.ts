@@ -1,14 +1,16 @@
 import { SelectOption, warning } from "star-horse-lowcode";
 import * as ElementPlusIconsVue from "@element-plus/icons-vue";
+import { markRaw } from "vue";
 import { formIcons } from "@/assets/form_icons";
 import {i18n} from "@/lang";
 /**
- * 自定义的svg图标（模块级缓存，避免每次调用返回新数组引发响应式连锁）
+ * 自定义的svg图标（模块级缓存 + markRaw，避免被 Vue 响应式代理后
+ * 触发 Array.values 与 star-horse-lowcode 互相递归导致栈溢出）
  */
 let _cachedFormIcons: SelectOption[] | null = null;
 export function loadSvgIcons(): SelectOption[] {
   if (!_cachedFormIcons) {
-    _cachedFormIcons = formIcons;
+    _cachedFormIcons = markRaw(formIcons);
   }
   return _cachedFormIcons;
 }

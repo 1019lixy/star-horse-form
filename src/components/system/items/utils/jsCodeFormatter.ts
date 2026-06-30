@@ -1,3 +1,18 @@
+export  const userOperationMsg=` /**
+     * 代码不需要 function fname(){} 这样的包装，直接写函数体即可;
+     * 可以直接利用的系统变量
+     * currentField：Record<string,any> 当前组件信息
+     * formData：Record<string,any>  表单数据
+     * formFields:Array<FieldInfo> 表单所有属性
+     * formInstance:Ref 表单实例
+     * userInfo:Record<string,any> 当前登录信息
+     * postRequest:Function(url:string,params:Object|Array) Post 请求接口
+     * getRequest:Function(url:string) Get 请求接口
+     * download:Function(url:string) 下载数据接口
+     * upload:Function(url,params?:Object|Array) 上传数据接口
+     * load:Function(target?:string) 加载遮罩
+     * closeLoad:Function() 关闭加载遮罩
+     */`;
 /**
  * 自定义 JS 代码格式化与压缩工具
  * 轻量实现，不依赖 prettier，避免与第三方库的模块循环依赖

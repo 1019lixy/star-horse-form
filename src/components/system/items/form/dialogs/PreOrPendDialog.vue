@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {computed, nextTick, ref, unref, watch} from "vue";
+import {computed, nextTick, ref, shallowRef, unref, watch} from "vue";
 import {i18n} from "@/lang";
 import {loadSvgIcons} from "@/api/star_horse_form_utils.js";
 import {analysisCompDatas, getDesignFormStore, SelectOption} from "star-horse-lowcode";
@@ -29,8 +29,8 @@ const emit = defineEmits<{
 
 const preOrPendRef = ref<any>(null);
 
-/** 可选图标列表 */
-const iconOptions = computed<SelectOption[]>(() => loadSvgIcons());
+/** 可选图标列表（shallowRef + 一次性初始化，避免 computed 反复求值引发响应式连锁） */
+const iconOptions = shallowRef<SelectOption[]>(loadSvgIcons());
 
 /**
  * 表单字段配置（仅保留前缀图标/文本/下拉、后缀图标/文本/下拉）
@@ -366,13 +366,27 @@ const handleEventClose = () => {
   eventDialogVisible.value = false;
   getDesignFormStore().setShortKeyDisabled(false);
 };
-
+const querySearch = (queryString: string, cb: any) => {
+  const results = queryString
+      ? iconOptions.value.filter(createFilter(queryString))
+      : iconOptions.value
+  // call callback function to return suggestions
+  cb(results)
+}
+const createFilter = (queryString: string) => {
+  return (restaurant: SelectOption) => {
+    return (
+        restaurant.value?.toLowerCase().indexOf(queryString.toLowerCase()) === 0
+    )
+  }
+}
 defineExpose({
   setFormData,
 });
 </script>
 
 <template>
+
   <star-horse-dialog
       :dialogVisible="visible"
       :title="i18n('dyform.preOrPend.dialog.title')"
@@ -396,7 +410,6 @@ defineExpose({
           <star-horse-form ref="preOrPendRef" :fieldList="preOrPendFields()"/>
         </el-tab-pane>
 
-        <!-- 前置按钮组 -->
         <el-tab-pane name="prependAction">
           <template #label>
             <div class="tab-label">
@@ -431,36 +444,27 @@ defineExpose({
             >
               <div class="row-field">
                 <label class="row-label">{{ i18n('dyform.item.139') }}</label>
-                <el-select
+                <el-autocomplete
                     v-model="action.icon"
                     :placeholder="i18n('dyform.item.139')"
-                    size="small"
                     class="row-control"
+                    :fetch-suggestions="querySearch"
                     clearable
                     filterable
                 >
-                  <template #prefix>
-                    <star-horse-icon v-if="action.icon" :icon-class="action.icon"/>
+                  <template #default="{ item }">
+                    <div class="flex flex-row items-center">
+                      <star-horse-icon :iconClass="item.value"/>
+                      <span>{{ item.name }}</span>
+                    </div>
                   </template>
-                  <el-option
-                      v-for="opt in iconOptions"
-                      :key="opt.value"
-                      :label="opt.name"
-                      :value="opt.value"
-                  >
-                    <span style="display: flex; align-items: center; gap: 6px;">
-                      <star-horse-icon :icon-class="opt.value"/>
-                      <span>{{ opt.name }}</span>
-                    </span>
-                  </el-option>
-                </el-select>
+                </el-autocomplete>
               </div>
               <div class="row-field">
                 <label class="row-label">{{ i18n('dyform.dialog.425') }}</label>
                 <el-input
                     v-model="action.actionTitle"
                     :placeholder="i18n('dyform.dialog.425')"
-                    size="small"
                     class="row-control"
                 />
               </div>
@@ -469,7 +473,6 @@ defineExpose({
                 <div class="row-control event-control">
                   <el-tag
                       v-if="hasEventConfig('prependAction', idx)"
-                      size="small"
                       :type="eventTagType(currentEventTypeOf('prependAction', idx))"
                       effect="light"
                   >
@@ -481,7 +484,6 @@ defineExpose({
                   <el-button
                       :type="hasEventConfig('prependAction', idx) ? 'success' : 'primary'"
                       plain
-                      size="small"
                       icon="Setting"
                       @click="openEventConfig('prependAction', idx)"
                   >
@@ -490,13 +492,8 @@ defineExpose({
                 </div>
               </div>
               <div class="row-actions">
-                <el-button
-                    type="danger"
-                    text
-                    size="small"
-                    icon="Delete"
-                    @click="removeAction('prependAction', idx)"
-                />
+                <star-horse-icon iconClass="delete" color="var(--el-color-danger)"
+                                 @click="removeAction('prependAction', idx)"/>
               </div>
             </div>
           </div>
@@ -506,7 +503,6 @@ defineExpose({
               :image-size="40"
           />
         </el-tab-pane>
-
         <el-tab-pane name="appendAction">
           <template #label>
             <div class="tab-label">
@@ -541,36 +537,27 @@ defineExpose({
             >
               <div class="row-field">
                 <label class="row-label">{{ i18n('dyform.item.139') }}</label>
-                <el-select
+                <el-autocomplete
                     v-model="action.icon"
                     :placeholder="i18n('dyform.item.139')"
-                    size="small"
                     class="row-control"
+                    :fetch-suggestions="querySearch"
                     clearable
                     filterable
                 >
-                  <template #prefix>
-                    <star-horse-icon v-if="action.icon" :icon-class="action.icon"/>
+                  <template #default="{ item }">
+                    <div class="flex flex-row items-center">
+                      <star-horse-icon :iconClass="item.value"/>
+                      <span>{{ item.name }}</span>
+                    </div>
                   </template>
-                  <el-option
-                      v-for="opt in iconOptions"
-                      :key="opt.value"
-                      :label="opt.name"
-                      :value="opt.value"
-                  >
-                    <span style="display: flex; align-items: center; gap: 6px;">
-                      <star-horse-icon :icon-class="opt.value"/>
-                      <span>{{ opt.name }}</span>
-                    </span>
-                  </el-option>
-                </el-select>
+                </el-autocomplete>
               </div>
               <div class="row-field">
                 <label class="row-label">{{ i18n('dyform.dialog.425') }}</label>
                 <el-input
                     v-model="action.actionTitle"
                     :placeholder="i18n('dyform.dialog.425')"
-                    size="small"
                     class="row-control"
                 />
               </div>
@@ -579,7 +566,6 @@ defineExpose({
                 <div class="row-control event-control">
                   <el-tag
                       v-if="hasEventConfig('appendAction', idx)"
-                      size="small"
                       :type="eventTagType(currentEventTypeOf('appendAction', idx))"
                       effect="light"
                   >
@@ -591,7 +577,6 @@ defineExpose({
                   <el-button
                       :type="hasEventConfig('appendAction', idx) ? 'success' : 'primary'"
                       plain
-                      size="small"
                       icon="Setting"
                       @click="openEventConfig('appendAction', idx)"
                   >
@@ -600,13 +585,9 @@ defineExpose({
                 </div>
               </div>
               <div class="row-actions">
-                <el-button
-                    type="danger"
-                    text
-                    size="small"
-                    icon="Delete"
-                    @click="removeAction('appendAction', idx)"
-                />
+                <star-horse-icon iconClass="delete" color="var(--el-color-danger)"
+                                 @click="removeAction('appendAction', idx)"/>
+
               </div>
             </div>
           </div>
@@ -618,7 +599,6 @@ defineExpose({
         </el-tab-pane>
       </el-tabs>
     </div>
-
     <!-- 事件配置对话框 -->
     <PreOrPendEventDialog
         :visible="eventDialogVisible"
