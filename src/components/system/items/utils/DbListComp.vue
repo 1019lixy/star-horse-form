@@ -646,7 +646,7 @@ const onDataCopy = async (data: any) => {
     mvData.preps["itemNameLabel"] = labelName;
     mvData.preps["name"] = fieldName;
     formData.value[fieldName] = getDefaultVal(mvData["itemType"]);
-    mvData["compType"] = "item";
+    mvData["compType"] = "formItem";
     mvDataList.push(mvData);
   }
   if (compLength == 0 || compLength == 1) {
