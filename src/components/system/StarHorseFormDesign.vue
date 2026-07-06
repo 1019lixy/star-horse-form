@@ -672,10 +672,15 @@ const actions = (action: ToolBtnType | string) => {
       rightPanelVisible.value = !rightPanelVisible.value;
       break;
     case "new":
-      //添加组件
+      //插入组件
       quickAddItem(list.value);
       break;
+    case "newForm":
+      //新建表单：清空所有组件和表单信息
+      clearData(true);
+      break;
     case "empty":
+      //清空舞台组件：保留表单信息
       clearData(false);
       break;
     case "eprep":

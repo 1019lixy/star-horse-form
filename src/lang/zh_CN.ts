@@ -191,6 +191,8 @@ export default {
   "dyform.action.pad": "平板",
   "dyform.action.phone": "手机",
   "dyform.action.new": "新建",
+  "dyform.action.newForm": "新建表单",
+  "dyform.action.insert": "插入",
   "dyform.action.import": "导入",
   "dyform.action.export": "导出",
   "dyform.action.edit": "修改属性",

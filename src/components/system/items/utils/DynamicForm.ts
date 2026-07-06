@@ -2,7 +2,7 @@ import { i18n } from "@/lang/index.js";
 import { ToolBtnType } from "@/components/types/ToolBtnType.js";
 
 const formActions = (): Array<ToolBtnType> => [
-  // 文件组（下拉）：新建 / 导入 / 导出 / 生成代码
+  // 文件组（下拉）：新建表单 / 导入 / 导出
   {
     icon: "folder",
     defaultEdit: true,
@@ -11,11 +11,11 @@ const formActions = (): Array<ToolBtnType> => [
     label: i18n("dyform.toolbar.file"),
     children: [
       {
-        icon: "add",
+        icon: "new-file",
         defaultEdit: true,
-        key: "new",
+        key: "newForm",
         auth: "none",
-        label: i18n("dyform.action.new"),
+        label: i18n("dyform.action.newForm"),
         shortcut: "Ctrl+N",
       },
       {
@@ -32,61 +32,6 @@ const formActions = (): Array<ToolBtnType> => [
         auth: "none",
         label: i18n("dyform.action.export"),
         shortcut: "Ctrl+Shift+E",
-      },
-      {
-        icon: "code",
-        key: "code",
-        auth: "none",
-        label: i18n("dyform.action.code"),
-        shortcut: "Ctrl+Shift+C",
-      },
-    ],
-  },
-  // 编辑组（下拉）：修改属性 / 清空元素
-  {
-    icon: "edit",
-    defaultEdit: true,
-    key: "editGroup",
-    auth: "none",
-    label: i18n("dyform.toolbar.editGroup"),
-    children: [
-      {
-        icon: "edit",
-        key: "eprep",
-        auth: "none",
-        label: i18n("dyform.action.edit"),
-        shortcut: "Ctrl+E",
-      },
-      {
-        icon: "empty_setting",
-        key: "empty",
-        auth: "none",
-        label: i18n("dyform.action.empty"),
-        shortcut: "Ctrl+Shift+D",
-      },
-    ],
-  },
-  // 历史组（平铺）：撤销 / 重做 —— 高频操作，不收进下拉
-  {
-    icon: "",
-    key: "history",
-    auth: "none",
-    label: i18n("dyform.toolbar.history"),
-    flat: true,
-    children: [
-      {
-        icon: "undo",
-        key: "undo",
-        auth: "none",
-        label: i18n("dyform.action.undo"),
-        shortcut: "Ctrl+Z",
-      },
-      {
-        icon: "redo",
-        key: "redo",
-        auth: "none",
-        label: i18n("dyform.action.redo"),
-        shortcut: "Ctrl+Y",
       },
     ],
   },
@@ -124,6 +69,55 @@ const formActions = (): Array<ToolBtnType> => [
       },
     ],
   },
+  // 插入组件（平铺）
+  {
+    icon: "add",
+    defaultEdit: true,
+    key: "new",
+    auth: "none",
+    label: i18n("dyform.action.insert"),
+    shortcut: "Ctrl+Shift+N",
+  },
+  // 历史组（平铺）：撤销 / 重做
+  {
+    icon: "",
+    key: "history",
+    auth: "none",
+    label: i18n("dyform.toolbar.history"),
+    flat: true,
+    children: [
+      {
+        icon: "undo",
+        key: "undo",
+        auth: "none",
+        label: i18n("dyform.action.undo"),
+        shortcut: "Ctrl+Z",
+      },
+      {
+        icon: "redo",
+        key: "redo",
+        auth: "none",
+        label: i18n("dyform.action.redo"),
+        shortcut: "Ctrl+Y",
+      },
+    ],
+  },
+  // 清空（平铺）：从编辑组拿出，改为独立按钮
+  {
+    icon: "empty_setting",
+    key: "empty",
+    auth: "none",
+    label: i18n("dyform.action.empty"),
+    shortcut: "Ctrl+Shift+D",
+  },
+  // 批量修改属性（平铺）
+  {
+    icon: "edit",
+    key: "eprep",
+    auth: "none",
+    label: i18n("dyform.action.edit"),
+    shortcut: "Ctrl+E",
+  },
   // 校验（平铺）
   {
     icon: "valid",
@@ -148,13 +142,6 @@ const formActions = (): Array<ToolBtnType> => [
     label: i18n("dyform.action.save"),
     shortcut: "Ctrl+S",
   },
-  // AI 助手（平铺）
-  {
-    icon: "ai",
-    key: "aiChat",
-    auth: "none",
-    label: i18n("dyform.aiChat.title"),
-  },
 ];
 const shortKeyHelpMessage = (): string => `
 ${i18n("dyform.help.shortcuts")}：
@@ -171,12 +158,12 @@ ${i18n("dyform.help.shortcuts")}：
   Ctrl + E       ${i18n("dyform.action.edit")}
 
 【${i18n("dyform.help.category.file")}】
-  Ctrl + N       ${i18n("dyform.help.shortcut.new")}
+  Ctrl + N       ${i18n("dyform.action.newForm")}
+  Ctrl + Shift + N   ${i18n("dyform.action.insert")}
   Ctrl + S       ${i18n("dyform.help.shortcut.save")}
   Ctrl + O       ${i18n("dyform.help.shortcut.open")}
   Ctrl + I       ${i18n("dyform.action.import")}
   Ctrl + Shift + E   ${i18n("dyform.action.export")}
-  Ctrl + Shift + C   ${i18n("dyform.action.code")}
 
 【${i18n("dyform.help.category.view")}】
   Ctrl + B       ${i18n("dyform.help.shortcut.toggleLeftPanel")}

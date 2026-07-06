@@ -191,6 +191,8 @@ export default {
     "dyform.action.pad": "Tablet",
     "dyform.action.phone": "Mobile",
     "dyform.action.new": "New",
+    "dyform.action.newForm": "New Form",
+    "dyform.action.insert": "Insert",
     "dyform.action.import": "Import",
     "dyform.action.export": "Export",
     "dyform.action.edit": "Edit Properties",

@@ -160,9 +160,14 @@ const shortKeyList = (model: ModuleEnums) => {
     },
     {
       key: "n",
+      action: "newForm",
+      ctrl: true,
+    },
+    {
+      key: "n",
       action: "new",
       ctrl: true,
-      handler: () => newFun(model),
+      shift: true,
     },
     {
       key: "s",
@@ -305,12 +310,6 @@ const shortKeyList = (model: ModuleEnums) => {
     {
       key: "e",
       action: "export",
-      ctrl: true,
-      shift: true,
-    },
-    {
-      key: "c",
-      action: "code",
       ctrl: true,
       shift: true,
     },

@@ -38,21 +38,30 @@ const cacheDataRestore = (evt: MouseEvent) => {
   emit("cacheRestore", evt);
 };
 
-const permissionCheck = (item: ToolBtnType) => {
-  if (!item) return false;
+const hasComponents = computed(() => props.list.length > 0);
+
+const isDisabled = (item: ToolBtnType) => {
+  const alwaysEnabledKeys = ["file", "upload", "newForm", "new", "style", "pc", "pad", "phone"];
+  if (!hasComponents.value && !alwaysEnabledKeys.includes(item.key)) {
+    return true;
+  }
   const permissions = props.optional?.permissions ?? {};
-  return (
-      (props.list.length > 0 || item.defaultEdit) &&
-      (item.auth == "none" || permissions[item.auth]) &&
-      !item.children
-  );
+  return !(item.auth == "none" || permissions[item.auth]);
 };
-// 是否为分组项（带 children）
+const isGroupDisabled = (item: ToolBtnType) => {
+  if (!isGroup(item)) return isDisabled(item);
+  if (!hasComponents.value) {
+    const hasAlwaysEnabled = item.children?.some(child => 
+      ["newForm", "upload", "pc", "pad", "phone"].includes(child.key)
+    );
+    return !hasAlwaysEnabled;
+  }
+  return false;
+};
 const isGroup = (item: ToolBtnType) => !!item.children?.length;
-// 组间分隔符判定：组前总是分隔；独立按钮仅在前一项也是组时分隔
 const showDividerBefore = (item: ToolBtnType, index: number) => {
   if (index === 0) return false;
-  return isGroup(item) || isGroup(allActions.value[index - 1]);
+  return true;
 };
 // 页面配置功能
 const pageConfig = () => {
@@ -133,13 +142,12 @@ const doSave = (flag: boolean) => {
           <template v-if="isGroup(item) && item.flat">
             <template v-for="(child, cidx) in item.children" :key="'flat_' + index + '_' + cidx">
               <el-tooltip
-                  v-if="permissionCheck(child)"
                   :content="child.shortcut ? `${child.label} (${child.shortcut})` : child.label"
                   effect="dark"
                   placement="bottom"
                   :show-after="500"
               >
-                <el-button class="tb-btn" @click="actions(child)">
+                <el-button class="tb-btn" @click="actions(child)" :disabled="isDisabled(child)">
                   <template v-if="child.icon === 'ai'">
                     <svg class="ai-toolbar-icon" viewBox="0 0 24 24" fill="none" width="20" height="20">
                       <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z" fill="url(#ai-grad)" />
@@ -163,7 +171,7 @@ const doSave = (flag: boolean) => {
               trigger="click"
               :key="'dd_' + index"
           >
-            <el-button class="tb-btn tb-btn-group" :title="item.label">
+            <el-button class="tb-btn tb-btn-group" :title="item.label" :disabled="isGroupDisabled(item)">
               <template v-if="item.icon === 'ai'">
                 <svg class="ai-toolbar-icon" viewBox="0 0 24 24" fill="none" width="18" height="18">
                   <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z" fill="url(#ai-grad)" />
@@ -183,6 +191,7 @@ const doSave = (flag: boolean) => {
                 <el-dropdown-item
                     v-for="(sitem, sindex) in item.children"
                     :key="'sub_' + sindex"
+                    :disabled="isDisabled(sitem)"
                     @click="actions(sitem)"
                 >
                   <div class="dropdown-item-inner">
@@ -207,14 +216,14 @@ const doSave = (flag: boolean) => {
 
           <!-- 普通按钮 -->
           <el-tooltip
-              v-else-if="permissionCheck(item)"
+              v-else
               :content="item.shortcut ? `${item.label} (${item.shortcut})` : item.label"
               effect="dark"
               placement="bottom"
               :show-after="500"
               :key="'btn_' + index"
           >
-            <el-button class="tb-btn" @click="actions(item)">
+            <el-button class="tb-btn" @click="actions(item)" :disabled="isDisabled(item)">
               <template v-if="item.icon === 'ai'">
                 <svg class="ai-toolbar-icon" viewBox="0 0 24 24" fill="none" width="20" height="20">
                   <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z" fill="url(#ai-grad)" />
@@ -367,6 +376,40 @@ const doSave = (flag: boolean) => {
 
   &:active {
     background: #e4e7ed !important;
+  }
+
+  &.is-disabled {
+    cursor: not-allowed !important;
+    opacity: 0.45 !important;
+
+    :deep(.star-horse-icon) {
+      color: #c0c4cc !important;
+    }
+
+    .tb-btn-label {
+      color: #c0c4cc !important;
+    }
+
+    .el-icon--right {
+      color: #dcdfe6 !important;
+    }
+  }
+
+  &:deep(.el-button.is-disabled) {
+    cursor: not-allowed !important;
+    opacity: 0.45 !important;
+
+    :deep(.star-horse-icon) {
+      color: #c0c4cc !important;
+    }
+
+    .tb-btn-label {
+      color: #c0c4cc !important;
+    }
+
+    .el-icon--right {
+      color: #dcdfe6 !important;
+    }
   }
 
   .el-icon--right {

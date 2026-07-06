@@ -2,7 +2,7 @@
 import {computed, onMounted, PropType, ref, watch} from "vue";
 import {tableAction} from "@/components/formcomp/container/dytableUtils";
 import {i18n} from "@/lang";
-import {FieldList, numberRangeItem, StarHorseDialog, uuid, warning} from "star-horse-lowcode";
+import {FieldList, getDesignFormStore, numberRangeItem, StarHorseDialog, uuid, warning} from "star-horse-lowcode";
 import camelcase from "camelcase";
 
 const props = defineProps({
@@ -35,6 +35,7 @@ const currentCell = computed(() => {
 })
 const emits = defineEmits(["command"]);
 const fieldForm = ref<Record<string, any>>({});
+const designForm = getDesignFormStore();
 const checkMenuStatus = () => {
   const moveFlag = !props.field.items?.length;
   const elements = props.parentField.preps.elements;
@@ -291,8 +292,11 @@ const addCompOperation = (column: any, item: any, suffix: string) => {
       if (!column.items) {
         column.items = [];
       }
-      console.log(tempItem);
       column.items.push(tempItem);
+    }
+    if (listItems.length > 0) {
+      const newItem = column.items[column.items.length - 1];
+      designForm.selectItem(newItem, newItem.itemType, newItem.compType);
     }
   }
 }

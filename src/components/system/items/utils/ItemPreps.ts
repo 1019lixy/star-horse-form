@@ -1616,12 +1616,17 @@ const selectType = [
  * @param itemType
  */
 export function fieldPlaceholder(item: any, compInfo?: any) {
+    if (!item) {
+        return;
+    }
     let preps: any = compInfo ?? unref(getDesignFormStore().currentComp);
     if (!preps) {
-        return "";
+        return;
     }
     let itemType: string = preps?.itemType;
-    item.name = camelcase(item.name);
+    if (item?.name) {
+        item.name = camelcase(item.name);
+    }
     preps["fieldName"] = item.name;
     if (item["noPlaceholder"]) {
         delete item["placeholder"];
@@ -1631,17 +1636,18 @@ export function fieldPlaceholder(item: any, compInfo?: any) {
         delete item["maxPlaceholder"];
         return;
     }
+    let label = item.label ?? "";
     if (inputType.includes(itemType)) {
-        item["placeholder"] = i18n("dyform.utils.528") + item.label;
+        item["placeholder"] = i18n("dyform.utils.528") + label;
     } else if (selectType.includes(itemType)) {
-        item["placeholder"] = i18n("dyform.utils.529") + item.label;
+        item["placeholder"] = i18n("dyform.utils.529") + label;
     }
     if (itemType == "datetime") {
         if (preps?.preps?.type?.includes("range")) {
             item["startPlaceholder"] = i18n("dyform.utils.530");
             item["endPlaceholder"] = i18n("dyform.utils.531");
         } else {
-            item["placeholder"] = i18n("dyform.utils.529") + item.label;
+            item["placeholder"] = i18n("dyform.utils.529") + label;
         }
     } else if (itemType == "number-range") {
         item["minPlaceholder"] = i18n("dyform.utils.532");
