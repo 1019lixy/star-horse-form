@@ -226,12 +226,10 @@ const dyReturn = () => {
     // });
 };
 const dyUp = () => {
-    moveUpItem(true, currentComp.value, {});
-    console.log("up");
+    moveUpItem(true, currentComp.value, getDesignFormStore().getParentContainer());
 };
 const dyDown = () => {
-    moveDownItem(true, currentComp.value, {});
-    console.log("down");
+    moveDownItem(true, currentComp.value, getDesignFormStore().getParentContainer());
 };
 const dyLeft = () => {
     console.log("left");

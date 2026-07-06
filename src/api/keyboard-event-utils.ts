@@ -228,6 +228,16 @@ const shortKeyList = (model: ModuleEnums) => {
       handler: () => printFun(model),
     },
     {
+      key: "ArrowUp",
+      action: "up",
+      handler: () => upFun(model),
+    },
+    {
+      key: "ArrowDown",
+      action: "down",
+      handler: () => downFun(model),
+    },
+    {
       key: "ArrowLeft",
       action: "goBack",
       alt: true,
