@@ -140,7 +140,17 @@ const doSave = (flag: boolean) => {
                   :show-after="500"
               >
                 <el-button class="tb-btn" @click="actions(child)">
-                  <star-horse-icon :icon-class="child.icon" size="20px"/>
+                  <template v-if="child.icon === 'ai'">
+                    <svg class="ai-toolbar-icon" viewBox="0 0 24 24" fill="none" width="20" height="20">
+                      <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z" fill="url(#ai-grad)" />
+                      <path d="M8.5 11a1.5 1.5 0 100-3 1.5 1.5 0 000 3zM15.5 11a1.5 1.5 0 100-3 1.5 1.5 0 000 3z" fill="white"/>
+                      <path d="M8 14.5c0 0 1.5 2.5 4 2.5s4-2.5 4-2.5" stroke="white" stroke-width="1.5" stroke-linecap="round"/>
+                      <defs><linearGradient id="ai-grad" x1="2" y1="2" x2="22" y2="22"><stop stop-color="#667eea"/><stop offset="1" stop-color="#764ba2"/></linearGradient></defs>
+                    </svg>
+                  </template>
+                  <template v-else>
+                    <star-horse-icon :icon-class="child.icon" size="20px"/>
+                  </template>
                 </el-button>
               </el-tooltip>
             </template>
@@ -154,7 +164,17 @@ const doSave = (flag: boolean) => {
               :key="'dd_' + index"
           >
             <el-button class="tb-btn tb-btn-group" :title="item.label">
-              <star-horse-icon :icon-class="item.icon" size="18px"/>
+              <template v-if="item.icon === 'ai'">
+                <svg class="ai-toolbar-icon" viewBox="0 0 24 24" fill="none" width="18" height="18">
+                  <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z" fill="url(#ai-grad)" />
+                  <path d="M8.5 11a1.5 1.5 0 100-3 1.5 1.5 0 000 3zM15.5 11a1.5 1.5 0 100-3 1.5 1.5 0 000 3z" fill="white"/>
+                  <path d="M8 14.5c0 0 1.5 2.5 4 2.5s4-2.5 4-2.5" stroke="white" stroke-width="1.5" stroke-linecap="round"/>
+                  <defs><linearGradient id="ai-grad" x1="2" y1="2" x2="22" y2="22"><stop stop-color="#667eea"/><stop offset="1" stop-color="#764ba2"/></linearGradient></defs>
+                </svg>
+              </template>
+              <template v-else>
+                <star-horse-icon :icon-class="item.icon" size="18px"/>
+              </template>
               <span class="tb-btn-label">{{ item.label }}</span>
               <el-icon class="el-icon--right"><arrow-down/></el-icon>
             </el-button>
@@ -166,7 +186,17 @@ const doSave = (flag: boolean) => {
                     @click="actions(sitem)"
                 >
                   <div class="dropdown-item-inner">
-                    <star-horse-icon :icon-class="sitem.icon" size="18px"/>
+                    <template v-if="sitem.icon === 'ai'">
+                      <svg class="ai-toolbar-icon" viewBox="0 0 24 24" fill="none" width="18" height="18">
+                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z" fill="url(#ai-grad)" />
+                        <path d="M8.5 11a1.5 1.5 0 100-3 1.5 1.5 0 000 3zM15.5 11a1.5 1.5 0 100-3 1.5 1.5 0 000 3z" fill="white"/>
+                        <path d="M8 14.5c0 0 1.5 2.5 4 2.5s4-2.5 4-2.5" stroke="white" stroke-width="1.5" stroke-linecap="round"/>
+                        <defs><linearGradient id="ai-grad" x1="2" y1="2" x2="22" y2="22"><stop stop-color="#667eea"/><stop offset="1" stop-color="#764ba2"/></linearGradient></defs>
+                      </svg>
+                    </template>
+                    <template v-else>
+                      <star-horse-icon :icon-class="sitem.icon" size="18px"/>
+                    </template>
                     <span>{{ sitem.label }}</span>
                     <span v-if="sitem.shortcut" class="dropdown-item-shortcut">{{ sitem.shortcut }}</span>
                   </div>
@@ -185,7 +215,17 @@ const doSave = (flag: boolean) => {
               :key="'btn_' + index"
           >
             <el-button class="tb-btn" @click="actions(item)">
-              <star-horse-icon :icon-class="item.icon" size="20px"/>
+              <template v-if="item.icon === 'ai'">
+                <svg class="ai-toolbar-icon" viewBox="0 0 24 24" fill="none" width="20" height="20">
+                  <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z" fill="url(#ai-grad)" />
+                  <path d="M8.5 11a1.5 1.5 0 100-3 1.5 1.5 0 000 3zM15.5 11a1.5 1.5 0 100-3 1.5 1.5 0 000 3z" fill="white"/>
+                  <path d="M8 14.5c0 0 1.5 2.5 4 2.5s4-2.5 4-2.5" stroke="white" stroke-width="1.5" stroke-linecap="round"/>
+                  <defs><linearGradient id="ai-grad" x1="2" y1="2" x2="22" y2="22"><stop stop-color="#667eea"/><stop offset="1" stop-color="#764ba2"/></linearGradient></defs>
+                </svg>
+              </template>
+              <template v-else>
+                <star-horse-icon :icon-class="item.icon" size="20px"/>
+              </template>
             </el-button>
           </el-tooltip>
         </template>
@@ -235,6 +275,10 @@ const doSave = (flag: boolean) => {
 </template>
 
 <style lang="scss" scoped>
+.ai-toolbar-icon {
+  vertical-align: middle;
+}
+
 .toolbar-root {
   display: flex;
   align-items: center;

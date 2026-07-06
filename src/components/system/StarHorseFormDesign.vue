@@ -37,6 +37,7 @@ const BatchEditDialog = defineAsyncComponent(() => import("@/components/system/i
 const PreviewDialog = defineAsyncComponent(() => import("@/components/system/items/form/dialogs/PreviewDialog.vue"));
 const FieldLayerDrawer = defineAsyncComponent(() => import("@/components/system/items/form/dialogs/FieldLayerDrawer.vue"));
 const ConfigDialog = defineAsyncComponent(() => import("@/components/system/items/form/dialogs/ConfigDialog.vue"));
+const AiDialog = defineAsyncComponent(() => import("@/components/system/items/utils/AiDialog.vue"));
 import FormToolbar from "@/components/system/items/form/components/FormToolbar.vue";
 import FormDesigner from "@/components/system/items/form/components/FormDesigner.vue";
 import FieldPanel from "@/components/system/items/form/FieldPanel.vue";
@@ -178,6 +179,7 @@ let shortKeySwitch: Function = () => {
 };
 const {dialogStates, openDialog, closeAllDialogs} = useDialogManager();
 const isCooperationMode = computed(() => formInfo.value?.cooperation === "Y");
+const aiDialogVisible = ref<boolean>(false);
 
 // ── Design/Code Mode Toggle ──
 const designMode = ref<"design" | "code">("design");
@@ -295,6 +297,16 @@ const applyCodeChanges = () => {
     success(i18n("dyform.design.importSuccess"));
   } catch (e: any) {
     warning(i18n("dyform.design.warning.applyFailed") + (e?.message || i18n("dyform.design.warning.unknownError")));
+  }
+};
+
+const applyAiForm = (dataList: any[]) => {
+  if (!Array.isArray(dataList) || dataList.length === 0) return;
+  const parsed = deepClone(dataList);
+  initContainerDimensions(parsed);
+  designForm.setCompList(parsed);
+  if (designMode.value === "code") {
+    switchToCodeMode();
   }
 };
 
@@ -705,6 +717,9 @@ const actions = (action: ToolBtnType | string) => {
       break;
     case "export":
       operExportFile();
+      break;
+    case "aiChat":
+      aiDialogVisible.value = true;
       break;
   }
   emits("action", act);
@@ -1147,6 +1162,10 @@ defineExpose({
   </PageConfig>
   <FieldLayerDrawer v-model:visible="dialogStates.formFieldLayer"
                     :operType="operType"/>
+  <AiDialog
+      v-model:dialogVisible="aiDialogVisible"
+      @applyForm="applyAiForm"
+  />
   <div class="sh-form-design-root">
     <FormToolbar
         :list="list"

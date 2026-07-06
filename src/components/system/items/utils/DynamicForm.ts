@@ -148,6 +148,13 @@ const formActions = (): Array<ToolBtnType> => [
     label: i18n("dyform.action.save"),
     shortcut: "Ctrl+S",
   },
+  // AI 助手（平铺）
+  {
+    icon: "ai",
+    key: "aiChat",
+    auth: "none",
+    label: i18n("dyform.aiChat.title"),
+  },
 ];
 const shortKeyHelpMessage = (): string => `
 ${i18n("dyform.help.shortcuts")}：
