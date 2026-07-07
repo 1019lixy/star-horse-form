@@ -13,6 +13,7 @@ declare global {
   const ElFocusGroupCollection: typeof import('element-plus/es').ElFocusGroupCollection
   const ElIcon: typeof import('element-plus/es').ElIcon
   const ElMessage: typeof import('element-plus/es').ElMessage
+  const ElMessageBox: typeof import('element-plus/es').ElMessageBox
   const ElRovingFocusCollectionItem: typeof import('element-plus/es').ElRovingFocusCollectionItem
   const ElRovingFocusItem: typeof import('element-plus/es').ElRovingFocusItem
   const ElSelectMenu: typeof import('element-plus/es').ElSelectMenu
@@ -89,6 +90,8 @@ declare module 'vue' {
   interface GlobalComponents {}
   interface ComponentCustomProperties {
     readonly EffectScope: UnwrapRef<typeof import('vue')['EffectScope']>
+    readonly ElMessage: UnwrapRef<typeof import('element-plus/es')['ElMessage']>
+    readonly ElMessageBox: UnwrapRef<typeof import('element-plus/es')['ElMessageBox']>
     readonly computed: UnwrapRef<typeof import('vue')['computed']>
     readonly createApp: UnwrapRef<typeof import('vue')['createApp']>
     readonly customRef: UnwrapRef<typeof import('vue')['customRef']>

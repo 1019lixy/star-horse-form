@@ -32,6 +32,7 @@ export function sendAiChatMessage(
         method: "POST",
         headers: {
             "Content-Type": "application/json",
+            "Accept": "text/event-stream",
         },
         body: JSON.stringify({sessionId, message}),
         signal: controller.signal,

@@ -3,8 +3,7 @@ import { ref, nextTick, watch, onBeforeUnmount, computed, reactive } from "vue";
 import { i18n } from "@/lang";
 import { sendAiChatMessage, clearAiChatSession } from "@/api/ai_chat_api";
 import { getAiConfigList, saveAiConfig, activateAiConfig, deleteAiConfig, AiConfigData } from "@/api/ai_config_api";
-import { ElMessage, ElMessageBox } from "element-plus";
-import { getDesignFormStore } from "star-horse-lowcode";
+import { getDesignFormStore, operationConfirm, success, error, warning } from "star-horse-lowcode";
 
 interface Props {
   dialogVisible: boolean;
@@ -45,6 +44,16 @@ const activeProfileId = ref("");
 const editingProfile = ref<AiConfigData | null>(null);
 const showProfileForm = ref(false);
 
+const activeProfileName = computed(() => {
+  const active = profileList.value.find((p: AiConfigData) => p.idAiConfig === activeProfileId.value);
+  return active?.profileName || "";
+});
+
+// 抽屉打开时自动加载配置列表
+watch(() => props.dialogVisible, (val) => {
+  if (val) loadProfileList();
+});
+
 const openSettings = async () => {
   await loadProfileList();
   showSettings.value = true;
@@ -56,7 +65,7 @@ const loadProfileList = async () => {
     const data = res.data?.data || res.data || [];
     profileList.value = Array.isArray(data) ? data : [];
     const active = profileList.value.find((p: AiConfigData) => p.isActive);
-    activeProfileId.value = active?.id || (profileList.value[0]?.id || "");
+    activeProfileId.value = active?.idAiConfig || (profileList.value[0]?.idAiConfig || "");
   } catch {
     profileList.value = [];
   }
@@ -87,16 +96,16 @@ const editProfile = (profile: AiConfigData) => {
 
 const saveProfile = async () => {
   if (!editingProfile.value?.profileName?.trim()) {
-    ElMessage.warning("请输入配置名称");
+    warning("请输入配置名称");
     return;
   }
   try {
     await saveAiConfig(editingProfile.value);
-    ElMessage.success(i18n("dyform.aiChat.saveSuccess"));
+    success(i18n("dyform.aiChat.saveSuccess"));
     showProfileForm.value = false;
     await loadProfileList();
   } catch {
-    ElMessage.error(i18n("dyform.aiChat.saveFailed"));
+    error(i18n("dyform.aiChat.saveFailed"));
   }
 };
 
@@ -109,23 +118,23 @@ const activateProfile = async (id: string) => {
     await activateAiConfig(id);
     activeProfileId.value = id;
     await loadProfileList();
-    ElMessage.success("切换成功");
+    success("切换成功");
   } catch {
-    ElMessage.error("切换失败");
+    error("切换失败");
   }
 };
 
 const deleteProfile = async (id: string) => {
   if (profileList.value.length <= 1) {
-    ElMessage.warning("至少保留一个配置");
+    warning("至少保留一个配置");
     return;
   }
   try {
-    await ElMessageBox.confirm("确定删除此配置？", "提示", { type: "warning" });
+    await operationConfirm("确定删除此配置？");
     await deleteAiConfig(id);
     await loadProfileList();
     if (activeProfileId.value === id) {
-      activeProfileId.value = profileList.value[0]?.id || "";
+      activeProfileId.value = profileList.value[0]?.idAiConfig || "";
     }
   } catch {
     // 取消
@@ -302,11 +311,11 @@ const stopGeneration = () => {
 
 const applyForm = (dataList: any[]) => {
   if (!Array.isArray(dataList) || dataList.length === 0) {
-    ElMessage.warning(i18n("dyform.aiChat.applyFailed"));
+    warning(i18n("dyform.aiChat.applyFailed"));
     return;
   }
   emit("applyForm", dataList);
-  ElMessage.success(i18n("dyform.aiChat.applySuccess"));
+  success(i18n("dyform.aiChat.applySuccess"));
 };
 
 const newSession = async () => {
@@ -314,11 +323,7 @@ const newSession = async () => {
     stopGeneration();
   }
   try {
-    await ElMessageBox.confirm(
-      i18n("dyform.aiChat.clearConfirm"),
-      i18n("dyform.aiChat.newSession"),
-      { confirmButtonText: i18n("dyform.aiChat.newSession"), cancelButtonText: "取消", type: "warning" }
-    );
+    await operationConfirm(i18n("dyform.aiChat.clearConfirm"));
     await clearAiChatSession(sessionId.value);
     messages.value = [];
     sessionId.value = "ai_" + Date.now() + "_" + Math.random().toString(36).substring(2, 10);
@@ -463,13 +468,13 @@ onBeforeUnmount(() => {
               </svg>
             </div>
           </el-tooltip>
-          <el-button
-            size="small"
-            @click="newSession"
-            plain
-          >
-            {{ i18n("dyform.aiChat.newSession") }}
-          </el-button>
+          <el-tooltip :content="i18n('dyform.aiChat.newSession')" effect="dark" placement="bottom">
+            <div class="new-session-btn" @click="newSession">
+              <svg viewBox="0 0 24 24" fill="none" width="16" height="16">
+                <path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+              </svg>
+            </div>
+          </el-tooltip>
         </div>
       </div>
     </template>
@@ -583,6 +588,37 @@ onBeforeUnmount(() => {
     <!-- 底部输入区 -->
     <template #footer>
       <div class="ai-chat-footer">
+        <div class="profile-switcher" v-if="profileList.length > 0">
+          <el-dropdown trigger="click" @command="activateProfile" teleported placement="top-start">
+            <div class="profile-switcher-trigger">
+              <svg viewBox="0 0 24 24" fill="none" width="14" height="14" style="flex-shrink:0;">
+                <circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="1.5"/>
+                <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>
+              </svg>
+              <span class="profile-switcher-name">{{ activeProfileName }}</span>
+              <svg viewBox="0 0 16 16" fill="none" width="12" height="12" style="flex-shrink:0;">
+                <path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+            <template #dropdown>
+              <el-dropdown-menu>
+                <el-dropdown-item
+                  v-for="p in profileList"
+                  :key="p.idAiConfig"
+                  :command="p.idAiConfig"
+                >
+                  <div class="profile-dropdown-item">
+                    <svg v-if="p.isActive" viewBox="0 0 16 16" fill="none" width="12" height="12" style="flex-shrink:0;">
+                      <circle cx="8" cy="8" r="6" fill="#667eea"/>
+                      <path d="M5.5 8l2 2 3.5-3.5" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    <span>{{ p.profileName }}</span>
+                  </div>
+                </el-dropdown-item>
+              </el-dropdown-menu>
+            </template>
+          </el-dropdown>
+        </div>
         <div class="input-area">
           <el-input
             v-model="inputMessage"
@@ -629,10 +665,10 @@ onBeforeUnmount(() => {
       <div class="profile-list">
         <div
           v-for="profile in profileList"
-          :key="profile.id"
-          :class="['profile-item', { active: profile.id === activeProfileId }]"
+          :key="profile.idAiConfig"
+          :class="['profile-item', { active: profile.idAiConfig === activeProfileId }]"
         >
-          <div class="profile-info" @click="activateProfile(profile.id!)">
+          <div class="profile-info" @click="activateProfile(profile.idAiConfig!)">
             <div class="profile-name">
               <svg v-if="profile.isActive" viewBox="0 0 16 16" fill="none" width="14" height="14" style="vertical-align: middle; margin-right: 4px;">
                 <circle cx="8" cy="8" r="6" fill="#667eea"/>
@@ -644,7 +680,7 @@ onBeforeUnmount(() => {
           </div>
           <div class="profile-actions">
             <el-button link size="small" @click="editProfile(profile)">编辑</el-button>
-            <el-button link size="small" type="danger" @click="deleteProfile(profile.id!)">删除</el-button>
+            <el-button link size="small" type="danger" @click="deleteProfile(profile.idAiConfig!)">删除</el-button>
           </div>
         </div>
       </div>
@@ -658,7 +694,7 @@ onBeforeUnmount(() => {
     <!-- AI 设置弹窗 - 编辑配置 -->
     <star-horse-dialog
       :dialogVisible="showProfileForm"
-      :title="editingProfile?.id ? '编辑配置' : '添加配置'"
+      :title="editingProfile?.idAiConfig ? '编辑配置' : '添加配置'"
       :selfFunc="true"
       @closeAction="closeProfileForm"
       @merge="saveProfile"
@@ -735,9 +771,11 @@ onBeforeUnmount(() => {
   display: flex;
   align-items: center;
   gap: 8px;
+  margin-right: 28px;
 }
 
-.settings-btn {
+.settings-btn,
+.new-session-btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -1125,7 +1163,50 @@ onBeforeUnmount(() => {
 
 /* ====== 底部输入区 ====== */
 .ai-chat-footer {
-  padding: 14px 18px;
+  padding: 10px 18px 14px;
+}
+
+.profile-switcher {
+  margin-bottom: 8px;
+
+  :deep(.el-dropdown) {
+    width: 100%;
+  }
+}
+
+.profile-switcher-trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 10px;
+  border-radius: 8px;
+  background: #f5f7fa;
+  border: 1px solid #e4e7ed;
+  font-size: 12px;
+  color: #606266;
+  cursor: pointer;
+  transition: all 0.2s;
+
+  &:hover {
+    border-color: #667eea;
+    color: #667eea;
+    background: rgba(102, 126, 234, 0.04);
+  }
+}
+
+.profile-switcher-name {
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 300px;
+}
+
+.profile-dropdown-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
 }
 
 .input-area {

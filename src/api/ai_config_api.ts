@@ -8,7 +8,7 @@ export function initAiConfigApi(api: ApiUrls) {
 }
 
 export interface AiConfigData {
-    id?: string;
+    idAiConfig?: string;
     profileName: string;
     apiKey: string;
     apiUrl: string;

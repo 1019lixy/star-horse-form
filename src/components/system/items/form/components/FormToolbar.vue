@@ -41,7 +41,7 @@ const cacheDataRestore = (evt: MouseEvent) => {
 const hasComponents = computed(() => props.list.length > 0);
 
 const isDisabled = (item: ToolBtnType) => {
-  const alwaysEnabledKeys = ["file", "upload", "newForm", "new", "style", "pc", "pad", "phone"];
+  const alwaysEnabledKeys = ["file", "upload", "newForm", "new", "style", "pc", "pad", "phone", "aiChat"];
   if (!hasComponents.value && !alwaysEnabledKeys.includes(item.key)) {
     return true;
   }
