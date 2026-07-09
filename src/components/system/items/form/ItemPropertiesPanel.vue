@@ -36,6 +36,9 @@ const quickConfig = ref<Record<string, number>>({
 });
 let currentItemType = computed(() => {
   let comp = designForm.currentComp;
+  if (!comp) {
+    return "";
+  }
   comp.type = comp.itemType;
   // rowNums/columnNums may be at top-level (imported JSON) or in preps (created via UI)
   quickConfig.value.rowNums = comp.preps?.rowNums ?? comp.rowNums ?? 1;
