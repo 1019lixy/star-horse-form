@@ -63,6 +63,250 @@ const ALERT_LEVEL_OPTIONS = [
 ]
 
 export const NODE_CATEGORIES: NodeCategory[] = [
+  // ============ 基础：规则决策控制 ============
+  {
+    name: '规则决策控制', icon: '🎯', color: '#8b5cf6',
+    nodes: [
+      {
+        type: 'start', label: '规则入口', icon: '▶', category: 'flow',
+        desc: '规则评估起点，定义输入数据上下文',
+        defaultData: () => ({}),
+        paramSchema: []
+      },
+      {
+        type: 'end', label: '规则出口', icon: '■', category: 'flow',
+        desc: '规则执行结果出口，可多个表示不同决策结果',
+        defaultData: () => ({ endType: 'success' }),
+        paramSchema: [
+          { name: 'endType', label: '结果类型', type: 'select', options: [
+            { label: '通过', value: 'success' },
+            { label: '拒绝', value: 'fail' },
+            { label: '跳过', value: 'skip' },
+          ], group: '基本配置' },
+        ]
+      },
+      {
+        type: 'exclusive-gateway', label: '条件路由(XOR)', icon: '✕', category: 'flow',
+        desc: '互斥条件路由，根据条件评估结果选择唯一执行路径',
+        defaultData: () => ({ name: '', branches: [] }),
+        paramSchema: [
+          { name: 'name', label: '路由名称', type: 'input', group: '基本配置' },
+          { name: 'branches', label: '条件分支', type: 'table', group: '分支配置',
+            columns: [
+              { prop: 'label', label: '分支标签', type: 'input', width: '120px' },
+              { prop: 'condition', label: '条件表达式', type: 'input', width: '200px' },
+            ]
+          },
+        ]
+      },
+      {
+        type: 'parallel-gateway', label: '并行规则(AND)', icon: '+', category: 'flow',
+        desc: '同时执行多个独立规则，汇总所有规则结果',
+        defaultData: () => ({ name: '' }),
+        paramSchema: [
+          { name: 'name', label: '规则组名称', type: 'input', group: '基本配置' },
+        ]
+      },
+      {
+        type: 'inclusive-gateway', label: '多条件路由(OR)', icon: 'O', category: 'flow',
+        desc: '多条件路由，满足条件的路径都执行',
+        defaultData: () => ({ name: '', branches: [] }),
+        paramSchema: [
+          { name: 'name', label: '路由名称', type: 'input', group: '基本配置' },
+          { name: 'branches', label: '条件分支', type: 'table', group: '分支配置',
+            columns: [
+              { prop: 'label', label: '分支标签', type: 'input', width: '120px' },
+              { prop: 'condition', label: '条件表达式', type: 'input', width: '200px' },
+            ]
+          },
+        ]
+      },
+      {
+        type: 'loop', label: '规则循环', icon: '🔄', category: 'flow',
+        desc: '遍历集合数据，对每项执行相同规则',
+        defaultData: () => ({ loopType: 'forEach', collectionVar: '', itemVar: 'item', indexVar: 'index' }),
+        paramSchema: [
+          { name: 'loopType', label: '循环类型', type: 'select', options: [
+            { label: '遍历集合', value: 'forEach' },
+            { label: '条件循环', value: 'while' },
+            { label: '计数循环', value: 'count' },
+          ], group: '基本配置' },
+          { name: 'collectionVar', label: '集合变量', type: 'input', placeholder: '如: items', group: '基本配置' },
+          { name: 'itemVar', label: '当前项变量', type: 'input', default: 'item', group: '基本配置' },
+          { name: 'indexVar', label: '索引变量', type: 'input', default: 'index', group: '基本配置' },
+        ]
+      },
+      {
+        type: 'join', label: '规则聚合', icon: '⊕', category: 'flow',
+        desc: '汇聚多个并行规则的执行结果，合并决策输出',
+        defaultData: () => ({ joinType: 'AND', waitAll: 'Y' }),
+        paramSchema: [
+          { name: 'joinType', label: '聚合策略', type: 'select', options: [
+            { label: '全部通过(AND)', value: 'AND' },
+            { label: '任一通过(OR)', value: 'OR' },
+            { label: '按数量(N)', value: 'COUNT' },
+          ], group: '基本配置' },
+          { name: 'waitAll', label: '等待所有规则', type: 'switch', default: 'Y', group: '基本配置' },
+        ]
+      },
+    ]
+  },
+
+  // ============ 基础：业务逻辑 ============
+  {
+    name: '业务逻辑', icon: '⚙️', color: '#10b981',
+    nodes: [
+      {
+        type: 'condition', label: '条件判断', icon: '❓', category: 'logic',
+        desc: '支持嵌套 AND/OR 条件组',
+        defaultData: () => ({ logic: 'AND', conditions: [] }),
+        paramSchema: [
+          { name: 'logic', label: '逻辑关系', type: 'select', options: [
+            { label: '且(AND)', value: 'AND' },
+            { label: '或(OR)', value: 'OR' },
+          ], group: '基本配置' },
+          { name: 'conditions', label: '条件列表', type: 'table', group: '条件配置',
+            columns: [
+              { prop: 'fieldName', label: '字段名', type: 'input', width: '120px' },
+              { prop: 'operator', label: '操作符', type: 'select', width: '100px',
+                options: [
+                  { label: '等于', value: 'EQ' },
+                  { label: '不等于', value: 'NEQ' },
+                  { label: '大于', value: 'GT' },
+                  { label: '小于', value: 'LT' },
+                  { label: '包含', value: 'CONTAINS' },
+                ]
+              },
+              { prop: 'value', label: '值', type: 'input', width: '120px' },
+            ]
+          },
+        ]
+      },
+      {
+        type: 'action', label: '动作执行', icon: '▶', category: 'logic',
+        desc: '显示/隐藏/赋值/校验/调API/脚本',
+        defaultData: () => ({ actions: [] }),
+        paramSchema: [
+          { name: 'actions', label: '动作列表', type: 'table', group: '动作配置',
+            columns: [
+              { prop: 'actionType', label: '动作类型', type: 'select', width: '120px',
+                options: [
+                  { label: '显示字段', value: 'SHOW_FIELD' },
+                  { label: '隐藏字段', value: 'HIDE_FIELD' },
+                  { label: '设置值', value: 'SET_VALUE' },
+                  { label: '清空值', value: 'CLEAR_VALUE' },
+                  { label: '设为必填', value: 'SET_REQUIRED' },
+                  { label: '显示消息', value: 'SHOW_MESSAGE' },
+                ]
+              },
+              { prop: 'targetField', label: '目标字段', type: 'input', width: '120px' },
+              { prop: 'actionValue', label: '值', type: 'input', width: '120px' },
+            ]
+          },
+        ]
+      },
+      {
+        type: 'variable-assign', label: '变量赋值', icon: '=', category: 'logic',
+        desc: '设置上下文变量',
+        defaultData: () => ({ assignments: [] }),
+        paramSchema: [
+          { name: 'assignments', label: '赋值列表', type: 'table', group: '赋值配置',
+            columns: [
+              { prop: 'variableName', label: '变量名', type: 'input', width: '120px' },
+              { prop: 'value', label: '值', type: 'input', width: '150px' },
+              { prop: 'valueType', label: '值类型', type: 'select', width: '100px',
+                options: [
+                  { label: '常量', value: 'CONSTANT' },
+                  { label: '变量', value: 'VARIABLE' },
+                  { label: '表达式', value: 'EXPRESSION' },
+                ]
+              },
+            ]
+          },
+        ]
+      },
+      {
+        type: 'script', label: '脚本执行', icon: '📜', category: 'logic',
+        desc: '执行自定义JS脚本',
+        defaultData: () => ({ scriptContent: '', description: '' }),
+        paramSchema: [
+          { name: 'scriptContent', label: '脚本内容', type: 'textarea', rows: 8, placeholder: '// 可访问 context, formData, variables\ncontext.result = context.amount * 0.1;', group: '基本配置' },
+          { name: 'description', label: '节点说明', type: 'textarea', rows: 2, group: '其他' },
+        ]
+      },
+      {
+        type: 'http-call', label: 'HTTP调用', icon: '🌐', category: 'logic',
+        desc: '调用外部接口',
+        defaultData: () => ({ method: 'GET', url: '', headers: {}, body: '', responseVar: '', timeout: 5000, retryCount: 0 }),
+        paramSchema: [
+          { name: 'method', label: '请求方法', type: 'select', options: [
+            { label: 'GET', value: 'GET' },
+            { label: 'POST', value: 'POST' },
+            { label: 'PUT', value: 'PUT' },
+            { label: 'DELETE', value: 'DELETE' },
+          ], group: '基本配置' },
+          { name: 'url', label: '接口地址', type: 'input', required: true, placeholder: 'https://api.example.com/data', group: '基本配置' },
+          { name: 'body', label: '请求体', type: 'textarea', rows: 4, placeholder: 'JSON格式请求体', group: '基本配置' },
+          { name: 'responseVar', label: '响应变量', type: 'input', placeholder: '存储响应的变量名', group: '基本配置' },
+          { name: 'timeout', label: '超时(ms)', type: 'number', min: 1000, default: 5000, group: '高级配置' },
+          { name: 'retryCount', label: '重试次数', type: 'number', min: 0, max: 5, default: 0, group: '高级配置' },
+        ]
+      },
+      {
+        type: 'rule-set-ref', label: '规则集引用', icon: '📚', category: 'logic',
+        desc: '引用一组子规则',
+        defaultData: () => ({ ruleSetCode: '', ruleSetName: '', inputMapping: {}, outputMapping: {} }),
+        paramSchema: [
+          { name: 'ruleSetCode', label: '规则集编码', type: 'input', required: true, placeholder: '如: ORDER_VALIDATION', group: '基本配置' },
+          { name: 'ruleSetName', label: '规则集名称', type: 'input', placeholder: '可选描述', group: '基本配置' },
+          { name: 'inputMapping', label: '入参映射', type: 'textarea', rows: 3, placeholder: 'JSON格式: {"子规则变量": "当前变量"}', group: '映射配置' },
+          { name: 'outputMapping', label: '出参映射', type: 'textarea', rows: 3, placeholder: 'JSON格式: {"子规则结果": "当前变量"}', group: '映射配置' },
+        ]
+      },
+      {
+        type: 'decision-table', label: '决策表', icon: '📊', category: 'logic',
+        desc: '多条件+多动作的表格化规则',
+        defaultData: () => ({ tableName: '', conditions: [], actions: [], rules: [] }),
+        paramSchema: [
+          { name: 'tableName', label: '表名', type: 'input', required: true, placeholder: '如: 折扣决策表', group: '基本配置' },
+          { name: 'conditions', label: '条件列', type: 'table', group: '条件配置',
+            columns: [
+              { prop: 'fieldName', label: '字段名', type: 'input', width: '120px' },
+              { prop: 'fieldLabel', label: '字段标签', type: 'input', width: '120px' },
+              { prop: 'operator', label: '操作符', type: 'select', width: '100px',
+                options: [
+                  { label: '等于', value: 'EQ' },
+                  { label: '大于', value: 'GT' },
+                  { label: '小于', value: 'LT' },
+                  { label: '范围', value: 'BETWEEN' },
+                ]
+              },
+            ]
+          },
+          { name: 'actions', label: '动作列', type: 'table', group: '动作配置',
+            columns: [
+              { prop: 'actionType', label: '动作类型', type: 'select', width: '120px',
+                options: [
+                  { label: '设置值', value: 'SET_VALUE' },
+                  { label: '显示消息', value: 'SHOW_MESSAGE' },
+                  { label: '跳转页面', value: 'REDIRECT' },
+                ]
+              },
+              { prop: 'targetField', label: '目标字段', type: 'input', width: '120px' },
+            ]
+          },
+          { name: 'rules', label: '规则行', type: 'table', group: '规则配置',
+            columns: [
+              { prop: 'priority', label: '优先级', type: 'input', width: '80px' },
+              { prop: 'conditionValues', label: '条件值(JSON)', type: 'input', width: '200px' },
+              { prop: 'actionValues', label: '动作值(JSON)', type: 'input', width: '200px' },
+            ]
+          },
+        ]
+      },
+    ]
+  },
+
   // ============ 一、数据入参&上下文 ============
   {
     name: '数据入参&上下文', icon: '📥', color: '#3b82f6',

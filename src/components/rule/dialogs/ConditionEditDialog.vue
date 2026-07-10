@@ -15,7 +15,7 @@
         <el-input v-model="formData.fieldLabel" placeholder="字段显示标签（可选）" />
       </el-form-item>
       <el-form-item label="字段类型" prop="fieldType">
-        <el-select v-model="formData.fieldType" style="width: 100%" @change="handleFieldTypeChange">
+        <el-select  v-model="formData.fieldType" style="width: 100%;z-index:99999!important;" @change="handleFieldTypeChange">
           <el-option label="字符串 (String)" value="STRING" />
           <el-option label="数字 (Number)" value="NUMBER" />
           <el-option label="日期 (Date)" value="DATE" />
@@ -24,7 +24,7 @@
         </el-select>
       </el-form-item>
       <el-form-item label="操作符" prop="operator">
-        <el-select v-model="formData.operator" style="width: 100%" @change="handleOperatorChange">
+        <el-select  v-model="formData.operator" style="width: 100%;z-index:99999!important;" @change="handleOperatorChange">
           <el-option-group v-for="group in operatorGroups" :key="group.label" :label="group.label">
             <el-option v-for="op in group.options" :key="op.value" :label="op.label" :value="op.value" />
           </el-option-group>

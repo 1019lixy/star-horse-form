@@ -9,9 +9,33 @@
   <RuleSetRefDialog :visible="ruleSetRefDialogVisible" :config="editingRuleSetRef" @close="ruleSetRefDialogVisible = false" @save="handleRuleSetRefSave" />
   <LoopConfigDialog :visible="loopDialogVisible" :config="editingLoopConfig" @close="loopDialogVisible = false" @save="handleLoopSave" />
   <RulePropertyDialog :visible="propertyDialogVisible" :rule-data="ruleData" @close="propertyDialogVisible = false" @save="handlePropertySave" />
-  <star-horse-dialog :dialogVisible="edgeLabelDialogVisible" title="编辑连线标签" boxWidth="420px" :selfFunc="true" @merge="handleEdgeLabelSave" @closeAction="edgeLabelDialogVisible = false">
-    <el-form label-width="80px"><el-form-item label="标签"><el-input v-model="edgeLabel" placeholder="如：是 / 否 / 金额>1000" clearable /></el-form-item></el-form>
+  
+  <!-- 边标签编辑弹窗 -->
+  <star-horse-dialog
+    :dialogVisible="edgeLabelDialogVisible"
+    title="编辑连线标签"
+    boxWidth="500px"
+    :selfFunc="true"
+    @closeAction="edgeLabelDialogVisible = false"
+    @merge="handleEdgeLabelSave"
+  >
+    <el-form label-width="100px">
+      <el-form-item label="连线标签">
+        <el-input v-model="edgeLabel" placeholder="输入连线标签，留空则自动生成" />
+      </el-form-item>
+      <el-form-item>
+        <el-alert type="info" :closable="false">
+          <template #title>
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <el-icon><InfoFilled /></el-icon>
+              <span>留空将根据节点类型自动生成标签，手动输入的内容不会被自动覆盖</span>
+            </div>
+          </template>
+        </el-alert>
+      </el-form-item>
+    </el-form>
   </star-horse-dialog>
+  
   <div class="rule-designer">
     <!-- 顶部菜单栏 -->
     <div class="designer-toolbar">
@@ -53,7 +77,7 @@
           <!-- 中间：画布舞台 -->
           <el-splitter-panel class="center-pane flex flex-col">
             <div class="canvas-toolbar">
-              <span class="canvas-title"><el-icon><Share /></el-icon> 流程设计</span>
+              <span class="canvas-title"><el-icon><Share /></el-icon> 规则设计</span>
               <div class="canvas-actions">
                 <el-tooltip content="删除选中" placement="bottom">
                   <el-button link @click="deleteSelected" :disabled="!hasSelected"><el-icon><Delete /></el-icon></el-button>
@@ -89,6 +113,7 @@
                 :class="{ 'test-mode': isTestMode }"
                 @node-double-click="onNodeDoubleClick"
                 @node-click="onNodeClick"
+                @edge-double-click="onEdgeDoubleClick"
                 @connect="onConnect"
               >
                 <template #node-start="p"><StartNode v-bind="p" /></template>
@@ -103,6 +128,8 @@
                 <template #node-http-call="p"><HttpCallNode v-bind="p" @edit="openHttpDialog(p.id)" /></template>
                 <template #node-rule-set-ref="p"><RuleSetRefNode v-bind="p" @edit="openRuleSetRefDialog(p.id)" /></template>
                 <template #node-loop="p"><LoopNode v-bind="p" @edit="openLoopDialog(p.id)" /></template>
+                <template #node-join="p"><JoinNode v-bind="p" /></template>
+                <template #node-decision-table="p"><DecisionTableNode v-bind="p" /></template>
                 <template #node-generic="p"><GenericNode v-bind="p" /></template>
                 <Background :gap="20" :size="1" />
                 <Controls position="bottom-right" />
@@ -290,7 +317,7 @@
 import { computed, onMounted, onUnmounted, reactive, ref } from 'vue'
 import { useRoute } from 'vue-router'
 import { ElMessage, ElMessageBox } from 'element-plus'
-import { Check, VideoPlay, Upload, EditPen, Setting, Share, FullScreen, Grid, Delete, Brush, Edit, CopyDocument, MagicStick, Monitor, Close, VideoPause, DocumentCopy, Cpu } from '@element-plus/icons-vue'
+import { Check, VideoPlay, Upload, EditPen, Setting, Share, FullScreen, Grid, Delete, Brush, Edit, CopyDocument, MagicStick, Monitor, Close, VideoPause, DocumentCopy, Cpu, InfoFilled } from '@element-plus/icons-vue'
 import { VueFlow, useVueFlow, ConnectionMode, type Node, type Edge } from '@vue-flow/core'
 import { Background, Controls, MiniMap } from '@vue-flow/additional-components'
 import '@vue-flow/core/dist/style.css'
@@ -310,6 +337,8 @@ import ScriptNode from './nodes/ScriptNode.vue'
 import HttpCallNode from './nodes/HttpCallNode.vue'
 import RuleSetRefNode from './nodes/RuleSetRefNode.vue'
 import LoopNode from './nodes/LoopNode.vue'
+import JoinNode from './nodes/JoinNode.vue'
+import DecisionTableNode from './nodes/DecisionTableNode.vue'
 import GenericNode from './nodes/GenericNode.vue'
 import { NODE_TYPE_MAP, getNodeDefaultData, getNodeLabel } from './nodeTypes'
 import ConditionEditDialog from './dialogs/ConditionEditDialog.vue'
@@ -422,7 +451,7 @@ const nodeLabels: Record<string, string> = {
   'variable-assign': '变量赋值',
 }
 // 基础节点类型（有专用组件）
-const BASIC_NODE_TYPES = new Set(['start', 'end', 'condition', 'action', 'exclusive-gateway', 'parallel-gateway', 'inclusive-gateway', 'variable-assign'])
+const BASIC_NODE_TYPES = new Set(['start', 'end', 'condition', 'action', 'exclusive-gateway', 'parallel-gateway', 'inclusive-gateway', 'variable-assign', 'loop', 'join', 'decision-table'])
 let nodeIdCounter = 0
 const generateNodeId = (type: string) => { nodeIdCounter++; return `${type}_${Date.now()}_${nodeIdCounter}` }
 
@@ -456,7 +485,110 @@ const onDrop = (e: DragEvent) => {
 }
 
 const onConnect = (c: any) => {
-  addEdges({ id: `e_${c.source}_${c.target}_${Date.now()}`, source: c.source, target: c.target, animated: true, style: { stroke: '#6366f1', strokeWidth: 2 } })
+  const sourceNode = nodes.value.find(n => n.id === c.source)
+  const targetNode = nodes.value.find(n => n.id === c.target)
+  if (!sourceNode || !targetNode) return
+
+  // 根据源节点类型自动生成边标签
+  let label = ''
+  let labelStyle = { fill: '#64748b', fontSize: 11, fontWeight: 500 }
+  const sourceType = sourceNode.type === 'generic' ? sourceNode.data.__nodeType : sourceNode.type
+
+  switch (sourceType) {
+    case 'condition': {
+      // 条件节点：第一条出边标注"满足✓"，第二条标注"不满足✗"
+      const outEdges = edges.value.filter(e => e.source === c.source)
+      if (outEdges.length === 0) {
+        label = '满足 ✓'
+        labelStyle = { fill: '#10b981', fontSize: 11, fontWeight: 600 }
+      } else {
+        label = '不满足 ✗'
+        labelStyle = { fill: '#ef4444', fontSize: 11, fontWeight: 600 }
+      }
+      break
+    }
+    case 'exclusive-gateway': {
+      // 排他网关：根据分支配置自动生成条件摘要
+      const branches = sourceNode.data.branches || []
+      const outEdges = edges.value.filter(e => e.source === c.source)
+      const branchIndex = outEdges.length
+      if (branchIndex < branches.length) {
+        const branch = branches[branchIndex]
+        label = branch.condition || branch.label || `分支${branchIndex + 1}`
+      } else {
+        label = '默认分支'
+      }
+      labelStyle = { fill: '#f59e0b', fontSize: 11, fontWeight: 600 }
+      break
+    }
+    case 'parallel-gateway': {
+      label = '并行执行'
+      labelStyle = { fill: '#06b6d4', fontSize: 11, fontWeight: 600 }
+      break
+    }
+    case 'inclusive-gateway': {
+      const branches = sourceNode.data.branches || []
+      const outEdges = edges.value.filter(e => e.source === c.source)
+      const branchIndex = outEdges.length
+      if (branchIndex < branches.length) {
+        const branch = branches[branchIndex]
+        label = branch.condition || branch.label || `分支${branchIndex + 1}`
+      } else {
+        label = '默认分支'
+      }
+      labelStyle = { fill: '#8b5cf6', fontSize: 11, fontWeight: 600 }
+      break
+    }
+    case 'variable-assign': {
+      const assignments = sourceNode.data.assignments || []
+      if (assignments.length > 0) {
+        label = `设置 ${assignments.map(a => a.variableName).join(', ')}`
+      } else {
+        label = '变量赋值'
+      }
+      labelStyle = { fill: '#6366f1', fontSize: 11, fontWeight: 500 }
+      break
+    }
+    case 'action': {
+      const actions = sourceNode.data.actions || []
+      if (actions.length > 0) {
+        label = `${actions.length}个动作`
+      } else {
+        label = '执行动作'
+      }
+      break
+    }
+    case 'loop': {
+      label = `遍历 ${sourceNode.data.collectionVar || '集合'}`
+      break
+    }
+    case 'script': {
+      label = '执行脚本'
+      break
+    }
+    case 'http-call': {
+      label = `${sourceNode.data.method || 'GET'} ${sourceNode.data.url || '接口'}`
+      break
+    }
+    default: {
+      // 其他节点：显示节点类型
+      const nodeLabel = getNodeLabel(sourceType)
+      label = nodeLabel || sourceType
+    }
+  }
+
+  addEdges({
+    id: `e_${c.source}_${c.target}_${Date.now()}`,
+    source: c.source,
+    target: c.target,
+    label,
+    labelStyle,
+    labelShowBg: true,
+    labelBgStyle: { fill: '#fff', fillOpacity: 0.9 },
+    animated: true,
+    style: { stroke: '#6366f1', strokeWidth: 2 },
+    data: { manualLabel: false } // 标记为自动生成，可被用户编辑覆盖
+  })
 }
 
 // 点击节点库添加节点
@@ -490,6 +622,16 @@ const onNodeDoubleClick = (params: any) => {
     case 'http-call': openHttpDialog(id); break
     case 'rule-set-ref': openRuleSetRefDialog(id); break
     case 'loop': openLoopDialog(id); break
+  }
+}
+
+// 双击边编辑标签
+const onEdgeDoubleClick = (params: any) => {
+  const edge = params.edge
+  if (edge) {
+    editingEdge.value = edge
+    edgeLabel.value = (edge.label as string) || ''
+    edgeLabelDialogVisible.value = true
   }
 }
 
@@ -559,7 +701,149 @@ const handleLoopSave = (c: any) => { updateNodeData(editingNodeId.value, c); loo
 const openPropertyDialog = () => { propertyDialogVisible.value = true }
 const handlePropertySave = (d: any) => { Object.assign(ruleData, d); propertyDialogVisible.value = false }
 
-const handleEdgeLabelSave = () => { if (editingEdge.value) { editingEdge.value.label = edgeLabel.value; editingEdge.value.labelShowBg = true } edgeLabelDialogVisible.value = false }
+const handleEdgeLabelSave = () => { 
+  if (editingEdge.value) { 
+    editingEdge.value.label = edgeLabel.value
+    editingEdge.value.labelShowBg = true
+    // 标记为手动编辑，后续自动更新不会覆盖
+    if (!editingEdge.value.data) editingEdge.value.data = {}
+    // 如果用户清空了标签，恢复自动生成逻辑
+    if (!edgeLabel.value || edgeLabel.value.trim() === '') {
+      editingEdge.value.data.manualLabel = false
+      // 立即触发自动更新
+      const sourceNode = nodes.value.find(n => n.id === editingEdge.value.source)
+      if (sourceNode) {
+        const outEdges = edges.value.filter(e => e.source === editingEdge.value.source)
+        const edgeIndex = outEdges.findIndex(e => e.id === editingEdge.value.id)
+        if (edgeIndex >= 0) {
+          const { label, labelStyle } = generateEdgeLabel(sourceNode, edgeIndex)
+          editingEdge.value.label = label
+          editingEdge.value.labelStyle = labelStyle
+        }
+      }
+    } else {
+      editingEdge.value.data.manualLabel = true
+    }
+  } 
+  edgeLabelDialogVisible.value = false 
+}
+
+// ========== 边标签自动同步 ==========
+// 根据节点类型和配置自动生成边标签
+const generateEdgeLabel = (sourceNode: any, edgeIndex: number): { label: string; labelStyle: any } => {
+  const sourceType = sourceNode.type === 'generic' ? sourceNode.data.__nodeType : sourceNode.type
+  let label = ''
+  let labelStyle = { fill: '#64748b', fontSize: 11, fontWeight: 500 }
+
+  switch (sourceType) {
+    case 'condition': {
+      // 条件节点：第一条出边标注"满足✓"，第二条标注"不满足✗"
+      if (edgeIndex === 0) {
+        label = '满足 ✓'
+        labelStyle = { fill: '#10b981', fontSize: 11, fontWeight: 600 }
+      } else {
+        label = '不满足 ✗'
+        labelStyle = { fill: '#ef4444', fontSize: 11, fontWeight: 600 }
+      }
+      break
+    }
+    case 'exclusive-gateway': {
+      // 排他网关：根据分支配置自动生成条件摘要
+      const branches = sourceNode.data.branches || []
+      if (edgeIndex < branches.length) {
+        const branch = branches[edgeIndex]
+        label = branch.condition || branch.label || `分支${edgeIndex + 1}`
+      } else {
+        label = '默认分支'
+      }
+      labelStyle = { fill: '#f59e0b', fontSize: 11, fontWeight: 600 }
+      break
+    }
+    case 'parallel-gateway': {
+      label = '并行执行'
+      labelStyle = { fill: '#06b6d4', fontSize: 11, fontWeight: 600 }
+      break
+    }
+    case 'inclusive-gateway': {
+      const branches = sourceNode.data.branches || []
+      if (edgeIndex < branches.length) {
+        const branch = branches[edgeIndex]
+        label = branch.condition || branch.label || `分支${edgeIndex + 1}`
+      } else {
+        label = '默认分支'
+      }
+      labelStyle = { fill: '#8b5cf6', fontSize: 11, fontWeight: 600 }
+      break
+    }
+    case 'variable-assign': {
+      const assignments = sourceNode.data.assignments || []
+      if (assignments.length > 0) {
+        label = `设置 ${assignments.map(a => a.variableName).join(', ')}`
+      } else {
+        label = '变量赋值'
+      }
+      labelStyle = { fill: '#6366f1', fontSize: 11, fontWeight: 500 }
+      break
+    }
+    case 'action': {
+      const actions = sourceNode.data.actions || []
+      if (actions.length > 0) {
+        label = `${actions.length}个动作`
+      } else {
+        label = '执行动作'
+      }
+      break
+    }
+    case 'loop': {
+      label = `遍历 ${sourceNode.data.collectionVar || '集合'}`
+      break
+    }
+    case 'script': {
+      label = '执行脚本'
+      break
+    }
+    case 'http-call': {
+      label = `${sourceNode.data.method || 'GET'} ${sourceNode.data.url || '接口'}`
+      break
+    }
+    default: {
+      const nodeLabel = getNodeLabel(sourceType)
+      label = nodeLabel || sourceType
+    }
+  }
+
+  return { label, labelStyle }
+}
+
+// 更新指定节点的所有出边标签（跳过手动编辑过的边）
+const updateEdgeLabelsForNode = (nodeId: string) => {
+  const sourceNode = nodes.value.find(n => n.id === nodeId)
+  if (!sourceNode) return
+
+  const outEdges = edges.value.filter(e => e.source === nodeId)
+  outEdges.forEach((edge, index) => {
+    // 如果边被手动编辑过，跳过自动更新
+    if (edge.data?.manualLabel) return
+    
+    const { label, labelStyle } = generateEdgeLabel(sourceNode, index)
+    edge.label = label
+    edge.labelStyle = labelStyle
+    edge.labelShowBg = true
+    edge.labelBgStyle = { fill: '#fff', fillOpacity: 0.9 }
+  })
+}
+
+// 监听节点数据变化，自动更新边标签
+watch(() => nodes.value, (newNodes) => {
+  // 遍历所有节点，更新其出边标签
+  newNodes.forEach(node => {
+    const nodeType = node.type === 'generic' ? node.data.__nodeType : node.type
+    // 只对需要自动生成边标签的节点类型进行处理
+    if (['condition', 'exclusive-gateway', 'inclusive-gateway', 'parallel-gateway', 'variable-assign', 'action', 'loop', 'script', 'http-call'].includes(nodeType)) {
+      updateEdgeLabelsForNode(node.id)
+    }
+  })
+}, { deep: true })
 
 // ========== 右键菜单 ==========
 const onCanvasContextMenu = (e: MouseEvent) => {
@@ -729,28 +1013,194 @@ const getStatusType = (s: string) => ({ DRAFT: 'info', PUBLISHED: 'success', DIS
 const getStatusText = (s: string) => ({ DRAFT: '草稿', PUBLISHED: '已发布', DISABLED: '已禁用' }[s] || s)
 
 const loadDemoData = async () => {
-  try { await ElMessageBox.confirm('加载报销审批Demo？当前画布将被替换。', '加载Demo', { type: 'warning' }) } catch { return }
-  ruleData.ruleCode = 'DEMO_EXPENSE'; ruleData.ruleName = 'Demo: 报销审批'; ruleData.ruleDesc = '金额>5000或VIP走经理审批，否则自动通过'; ruleData.ruleType = 'FORM_LINKAGE'; ruleData.conditionLogic = 'OR'
+  const { value: demoType } = await ElMessageBox.prompt(
+    '请选择规则引擎Demo类型：\n1. 商品定价决策（多条件路由+动作执行）\n2. 风控评分卡（多条件嵌套+阈值判定）\n3. 会员等级判定（决策表+变量赋值）\n4. 优惠券权益计算（规则集+条件组合）\n5. 异常交易识别（复合条件+HTTP调用验证）\n6. 订单满减规则（循环遍历+条件匹配）',
+    '加载规则引擎Demo',
+    {
+      confirmButtonText: '确定',
+      cancelButtonText: '取消',
+      inputPattern: /^[1-6]$/,
+      inputErrorMessage: '请输入1-6之间的数字',
+      inputValue: '1'
+    }
+  )
+
+  const demoMap: Record<string, () => void> = {
+    '1': loadDemo1_ProductPricing,
+    '2': loadDemo2_RiskScoring,
+    '3': loadDemo3_MemberLevel,
+    '4': loadDemo4_CouponBenefit,
+    '5': loadDemo5_AbnormalTransaction,
+    '6': loadDemo6_OrderDiscount
+  }
+
+  const loader = demoMap[demoType]
+  if (loader) {
+    loader()
+    setTimeout(() => fitViewFn({ duration: 500 }), 100)
+    ElMessage.success('规则引擎Demo已加载，点击测试体验决策路径')
+  }
+}
+
+// Demo 1: 商品定价决策（多条件路由+动作执行）
+const loadDemo1_ProductPricing = () => {
+  ruleData.ruleCode = 'RULE_PRICING'; ruleData.ruleName = 'Demo1: 商品定价决策'; ruleData.ruleDesc = '根据商品类目、库存、季节计算最终售价'
   nodes.value = [
     { id: 'start_1', type: 'start', position: { x: 400, y: 30 }, data: {} },
-    { id: 'cond_1', type: 'condition', position: { x: 330, y: 130 }, data: { conditions: [{ fieldName: 'amount', fieldType: 'NUMBER', operator: 'GT', value: '5000' }, { fieldName: 'userType', fieldType: 'STRING', operator: 'EQ', value: 'vip' }], logic: 'OR' } },
-    { id: 'gw_1', type: 'exclusive-gateway', position: { x: 380, y: 300 }, data: { name: '审批分支', gatewayType: 'XOR', branches: [{ id: 'b1', label: '需经理审批', conditions: [{ fieldName: 'amount', operator: 'GT', value: '5000' }], logic: 'AND' }, { id: 'b2', label: '自动通过', conditions: [], logic: 'AND' }] } },
-    { id: 'action_1', type: 'action', position: { x: 100, y: 440 }, data: { actions: [{ actionType: 'SHOW_FIELD', targetField: 'managerApprovalSection' }, { actionType: 'SET_REQUIRED', targetField: 'managerComment' }, { actionType: 'SHOW_MESSAGE', message: '金额超5000，需经理审批', messageType: 'WARNING' }] } },
-    { id: 'var_1', type: 'variable-assign', position: { x: 330, y: 440 }, data: { assignments: [{ variableName: 'approvalStatus', valueType: 'CONSTANT', value: 'pending_manager', description: '待审批' }] } },
-    { id: 'action_2', type: 'action', position: { x: 620, y: 440 }, data: { actions: [{ actionType: 'HIDE_FIELD', targetField: 'managerApprovalSection' }, { actionType: 'SET_VALUE', targetField: 'approvalStatus', actionValue: 'auto_approved', actionValueType: 'CONSTANT' }, { actionType: 'SHOW_MESSAGE', message: '金额较小，自动通过', messageType: 'SUCCESS' }] } },
-    { id: 'end_1', type: 'end', position: { x: 400, y: 600 }, data: {} }
+    { id: 'cond_1', type: 'condition', position: { x: 330, y: 130 }, data: { conditions: [{ fieldName: 'category', fieldType: 'STRING', operator: 'EQ', value: 'electronics' }, { fieldName: 'stock', fieldType: 'NUMBER', operator: 'LT', value: '50' }], logic: 'AND' } },
+    { id: 'gw_1', type: 'exclusive-gateway', position: { x: 380, y: 280 }, data: { name: '价格策略路由', gatewayType: 'XOR', branches: [{ id: 'b1', label: '稀缺电子产品', condition: 'category == "electronics" && stock < 50' }, { id: 'b2', label: '普通商品', condition: 'default' }] } },
+    { id: 'var_1', type: 'variable-assign', position: { x: 100, y: 420 }, data: { assignments: [{ variableName: 'priceMultiplier', valueType: 'CONSTANT', value: '1.2' }, { variableName: 'discount', valueType: 'CONSTANT', value: '0' }] } },
+    { id: 'action_1', type: 'action', position: { x: 100, y: 560 }, data: { actions: [{ actionType: 'SET_VALUE', targetField: 'finalPrice', actionValue: 'basePrice * priceMultiplier', actionValueType: 'EXPRESSION' }, { actionType: 'SHOW_MESSAGE', message: '稀缺商品溢价20%', messageType: 'WARNING' }] } },
+    { id: 'var_2', type: 'variable-assign', position: { x: 620, y: 420 }, data: { assignments: [{ variableName: 'priceMultiplier', valueType: 'CONSTANT', value: '1.0' }, { variableName: 'discount', valueType: 'CONSTANT', value: '0.1' }] } },
+    { id: 'action_2', type: 'action', position: { x: 620, y: 560 }, data: { actions: [{ actionType: 'SET_VALUE', targetField: 'finalPrice', actionValue: 'basePrice * (1 - discount)', actionValueType: 'EXPRESSION' }, { actionType: 'SHOW_MESSAGE', message: '普通商品9折优惠', messageType: 'SUCCESS' }] } },
+    { id: 'end_1', type: 'end', position: { x: 400, y: 700 }, data: { endType: 'success' } }
   ]
   edges.value = [
     { id: 'e_s_c', source: 'start_1', target: 'cond_1', animated: true, style: { stroke: '#7c3aed', strokeWidth: 2 } },
-    { id: 'e_c_g', source: 'cond_1', target: 'gw_1', animated: true, label: '是', style: { stroke: '#3b82f6', strokeWidth: 2 }, labelStyle: { fontSize: '12px', fontWeight: 600 }, labelBgStyle: { fill: '#dbeafe' }, labelShowBg: true },
-    { id: 'e_g_a1', source: 'gw_1', target: 'action_1', animated: true, label: '需经理审批', style: { stroke: '#f59e0b', strokeWidth: 2 }, labelStyle: { fontSize: '12px', fontWeight: 600 }, labelBgStyle: { fill: '#fef3c7' }, labelShowBg: true },
-    { id: 'e_g_a2', source: 'gw_1', target: 'action_2', animated: true, label: '自动通过', style: { stroke: '#22c55e', strokeWidth: 2 }, labelStyle: { fontSize: '12px', fontWeight: 600 }, labelBgStyle: { fill: '#dcfce7' }, labelShowBg: true },
-    { id: 'e_a1_v', source: 'action_1', target: 'var_1', animated: true, style: { stroke: '#f59e0b', strokeWidth: 2 } },
-    { id: 'e_v_e', source: 'var_1', target: 'end_1', animated: true, style: { stroke: '#ec4899', strokeWidth: 2 } },
-    { id: 'e_a2_e', source: 'action_2', target: 'end_1', animated: true, style: { stroke: '#22c55e', strokeWidth: 2 } }
+    { id: 'e_c_g', source: 'cond_1', target: 'gw_1', animated: true, label: '满足 ✓', style: { stroke: '#10b981', strokeWidth: 2 }, labelStyle: { fill: '#10b981', fontSize: 11, fontWeight: 600 }, labelShowBg: true, labelBgStyle: { fill: '#fff', fillOpacity: 0.9 } },
+    { id: 'e_g_v1', source: 'gw_1', target: 'var_1', animated: true, label: '稀缺电子产品', style: { stroke: '#f59e0b', strokeWidth: 2 }, labelStyle: { fill: '#f59e0b', fontSize: 11, fontWeight: 600 }, labelShowBg: true, labelBgStyle: { fill: '#fff', fillOpacity: 0.9 } },
+    { id: 'e_g_v2', source: 'gw_1', target: 'var_2', animated: true, label: '普通商品', style: { stroke: '#22c55e', strokeWidth: 2 }, labelStyle: { fill: '#22c55e', fontSize: 11, fontWeight: 600 }, labelShowBg: true, labelBgStyle: { fill: '#fff', fillOpacity: 0.9 } },
+    { id: 'e_v1_a1', source: 'var_1', target: 'action_1', animated: true, label: '设置 priceMultiplier, discount', style: { stroke: '#6366f1', strokeWidth: 2 }, labelStyle: { fill: '#6366f1', fontSize: 11, fontWeight: 500 }, labelShowBg: true, labelBgStyle: { fill: '#fff', fillOpacity: 0.9 } },
+    { id: 'e_v2_a2', source: 'var_2', target: 'action_2', animated: true, label: '设置 priceMultiplier, discount', style: { stroke: '#6366f1', strokeWidth: 2 }, labelStyle: { fill: '#6366f1', fontSize: 11, fontWeight: 500 }, labelShowBg: true, labelBgStyle: { fill: '#fff', fillOpacity: 0.9 } },
+    { id: 'e_a1_e', source: 'action_1', target: 'end_1', animated: true, label: '2个动作', style: { stroke: '#6366f1', strokeWidth: 2 }, labelStyle: { fill: '#6366f1', fontSize: 11, fontWeight: 500 }, labelShowBg: true, labelBgStyle: { fill: '#fff', fillOpacity: 0.9 } },
+    { id: 'e_a2_e', source: 'action_2', target: 'end_1', animated: true, label: '2个动作', style: { stroke: '#6366f1', strokeWidth: 2 }, labelStyle: { fill: '#6366f1', fontSize: 11, fontWeight: 500 }, labelShowBg: true, labelBgStyle: { fill: '#fff', fillOpacity: 0.9 } }
   ]
-  setTimeout(() => fitViewFn({ duration: 500 }), 100)
-  ElMessage.success('Demo已加载，点击测试体验执行路径')
+}
+
+// Demo 2: 风控评分卡（多条件嵌套+阈值判定）
+const loadDemo2_RiskScoring = () => {
+  ruleData.ruleCode = 'RULE_RISK_SCORE'; ruleData.ruleName = 'Demo2: 风控评分卡'; ruleData.ruleDesc = '多条件嵌套评估用户风险等级'
+  nodes.value = [
+    { id: 'start_1', type: 'start', position: { x: 400, y: 30 }, data: {} },
+    { id: 'var_1', type: 'variable-assign', position: { x: 330, y: 130 }, data: { assignments: [{ variableName: 'riskScore', valueType: 'CONSTANT', value: '0' }] } },
+    { id: 'cond_1', type: 'condition', position: { x: 330, y: 260 }, data: { conditions: [{ fieldName: 'age', fieldType: 'NUMBER', operator: 'LT', value: '25' }, { fieldName: 'income', fieldType: 'NUMBER', operator: 'LT', value: '5000' }], logic: 'AND' } },
+    { id: 'action_1', type: 'action', position: { x: 100, y: 400 }, data: { actions: [{ actionType: 'SET_VALUE', targetField: 'riskScore', actionValue: 'riskScore + 30', actionValueType: 'EXPRESSION' }, { actionType: 'SHOW_MESSAGE', message: '年轻低收入群体风险+30', messageType: 'WARNING' }] } },
+    { id: 'cond_2', type: 'condition', position: { x: 560, y: 400 }, data: { conditions: [{ fieldName: 'creditHistory', fieldType: 'STRING', operator: 'EQ', value: 'bad' }, { fieldName: 'debtRatio', fieldType: 'NUMBER', operator: 'GT', value: '0.5' }], logic: 'AND' } },
+    { id: 'action_2', type: 'action', position: { x: 560, y: 540 }, data: { actions: [{ actionType: 'SET_VALUE', targetField: 'riskScore', actionValue: 'riskScore + 50', actionValueType: 'EXPRESSION' }, { actionType: 'SHOW_MESSAGE', message: '信用不良且负债率高风险+50', messageType: 'ERROR' }] } },
+    { id: 'cond_3', type: 'condition', position: { x: 330, y: 680 }, data: { conditions: [{ fieldName: 'riskScore', fieldType: 'NUMBER', operator: 'GTE', value: '80' }], logic: 'AND' } },
+    { id: 'action_3', type: 'action', position: { x: 100, y: 820 }, data: { actions: [{ actionType: 'SET_VALUE', targetField: 'riskLevel', actionValue: 'HIGH', actionValueType: 'CONSTANT' }, { actionType: 'SHOW_MESSAGE', message: '高风险用户，拒绝交易', messageType: 'ERROR' }] } },
+    { id: 'end_1', type: 'end', position: { x: 100, y: 960 }, data: { endType: 'fail' } },
+    { id: 'action_4', type: 'action', position: { x: 560, y: 820 }, data: { actions: [{ actionType: 'SET_VALUE', targetField: 'riskLevel', actionValue: 'LOW', actionValueType: 'CONSTANT' }, { actionType: 'SHOW_MESSAGE', message: '低风险用户，允许交易', messageType: 'SUCCESS' }] } },
+    { id: 'end_2', type: 'end', position: { x: 560, y: 960 }, data: { endType: 'success' } }
+  ]
+  edges.value = [
+    { id: 'e1', source: 'start_1', target: 'var_1', animated: true, style: { stroke: '#7c3aed', strokeWidth: 2 } },
+    { id: 'e2', source: 'var_1', target: 'cond_1', animated: true, label: '设置 riskScore', style: { stroke: '#6366f1', strokeWidth: 2 }, labelStyle: { fill: '#6366f1', fontSize: 11, fontWeight: 500 }, labelShowBg: true, labelBgStyle: { fill: '#fff', fillOpacity: 0.9 } },
+    { id: 'e3', source: 'cond_1', target: 'action_1', animated: true, label: '满足 ✓', style: { stroke: '#10b981', strokeWidth: 2 }, labelStyle: { fill: '#10b981', fontSize: 11, fontWeight: 600 }, labelShowBg: true, labelBgStyle: { fill: '#fff', fillOpacity: 0.9 } },
+    { id: 'e4', source: 'cond_1', target: 'cond_2', animated: true, label: '不满足 ✗', style: { stroke: '#ef4444', strokeWidth: 2 }, labelStyle: { fill: '#ef4444', fontSize: 11, fontWeight: 600 }, labelShowBg: true, labelBgStyle: { fill: '#fff', fillOpacity: 0.9 } },
+    { id: 'e5', source: 'action_1', target: 'cond_3', animated: true, label: '2个动作', style: { stroke: '#6366f1', strokeWidth: 2 }, labelStyle: { fill: '#6366f1', fontSize: 11, fontWeight: 500 }, labelShowBg: true, labelBgStyle: { fill: '#fff', fillOpacity: 0.9 } },
+    { id: 'e6', source: 'cond_2', target: 'action_2', animated: true, label: '满足 ✓', style: { stroke: '#10b981', strokeWidth: 2 }, labelStyle: { fill: '#10b981', fontSize: 11, fontWeight: 600 }, labelShowBg: true, labelBgStyle: { fill: '#fff', fillOpacity: 0.9 } },
+    { id: 'e7', source: 'cond_2', target: 'cond_3', animated: true, label: '不满足 ✗', style: { stroke: '#ef4444', strokeWidth: 2 }, labelStyle: { fill: '#ef4444', fontSize: 11, fontWeight: 600 }, labelShowBg: true, labelBgStyle: { fill: '#fff', fillOpacity: 0.9 } },
+    { id: 'e8', source: 'action_2', target: 'cond_3', animated: true, label: '2个动作', style: { stroke: '#6366f1', strokeWidth: 2 }, labelStyle: { fill: '#6366f1', fontSize: 11, fontWeight: 500 }, labelShowBg: true, labelBgStyle: { fill: '#fff', fillOpacity: 0.9 } },
+    { id: 'e9', source: 'cond_3', target: 'action_3', animated: true, label: '满足 ✓', style: { stroke: '#10b981', strokeWidth: 2 }, labelStyle: { fill: '#10b981', fontSize: 11, fontWeight: 600 }, labelShowBg: true, labelBgStyle: { fill: '#fff', fillOpacity: 0.9 } },
+    { id: 'e10', source: 'cond_3', target: 'action_4', animated: true, label: '不满足 ✗', style: { stroke: '#ef4444', strokeWidth: 2 }, labelStyle: { fill: '#ef4444', fontSize: 11, fontWeight: 600 }, labelShowBg: true, labelBgStyle: { fill: '#fff', fillOpacity: 0.9 } },
+    { id: 'e11', source: 'action_3', target: 'end_1', animated: true, label: '2个动作', style: { stroke: '#6366f1', strokeWidth: 2 }, labelStyle: { fill: '#6366f1', fontSize: 11, fontWeight: 500 }, labelShowBg: true, labelBgStyle: { fill: '#fff', fillOpacity: 0.9 } },
+    { id: 'e12', source: 'action_4', target: 'end_2', animated: true, label: '2个动作', style: { stroke: '#6366f1', strokeWidth: 2 }, labelStyle: { fill: '#6366f1', fontSize: 11, fontWeight: 500 }, labelShowBg: true, labelBgStyle: { fill: '#fff', fillOpacity: 0.9 } }
+  ]
+}
+
+// Demo 3: 会员等级判定（决策表+变量赋值）
+const loadDemo3_MemberLevel = () => {
+  ruleData.ruleCode = 'RULE_MEMBER_LEVEL'; ruleData.ruleName = 'Demo3: 会员等级判定'; ruleData.ruleDesc = '根据消费金额和频次判定会员等级，计算权益'
+  nodes.value = [
+    { id: 'start_1', type: 'start', position: { x: 400, y: 30 }, data: {} },
+    { id: 'var_1', type: 'variable-assign', position: { x: 330, y: 130 }, data: { assignments: [{ variableName: 'totalSpend', valueType: 'VARIABLE', value: 'annualSpend' }, { variableName: 'orderCount', valueType: 'VARIABLE', value: 'annualOrders' }] } },
+    { id: 'gw_1', type: 'exclusive-gateway', position: { x: 380, y: 270 }, data: { name: '会员等级路由', gatewayType: 'XOR', branches: [{ id: 'b1', label: '钻石会员', condition: 'totalSpend >= 50000 && orderCount >= 100' }, { id: 'b2', label: '金卡会员', condition: 'totalSpend >= 20000' }, { id: 'b3', label: '银卡会员', condition: 'totalSpend >= 5000' }, { id: 'b4', label: '普通会员', condition: 'default' }] } },
+    { id: 'action_1', type: 'action', position: { x: 20, y: 420 }, data: { actions: [{ actionType: 'SET_VALUE', targetField: 'memberLevel', actionValue: 'DIAMOND', actionValueType: 'CONSTANT' }, { actionType: 'SET_VALUE', targetField: 'discountRate', actionValue: '0.7', actionValueType: 'CONSTANT' }, { actionType: 'SET_VALUE', targetField: 'freeShipping', actionValue: 'true', actionValueType: 'CONSTANT' }, { actionType: 'SHOW_MESSAGE', message: '钻石会员：7折+免运费', messageType: 'SUCCESS' }] } },
+    { id: 'action_2', type: 'action', position: { x: 260, y: 420 }, data: { actions: [{ actionType: 'SET_VALUE', targetField: 'memberLevel', actionValue: 'GOLD', actionValueType: 'CONSTANT' }, { actionType: 'SET_VALUE', targetField: 'discountRate', actionValue: '0.85', actionValueType: 'CONSTANT' }, { actionType: 'SHOW_MESSAGE', message: '金卡会员：8.5折', messageType: 'SUCCESS' }] } },
+    { id: 'action_3', type: 'action', position: { x: 500, y: 420 }, data: { actions: [{ actionType: 'SET_VALUE', targetField: 'memberLevel', actionValue: 'SILVER', actionValueType: 'CONSTANT' }, { actionType: 'SET_VALUE', targetField: 'discountRate', actionValue: '0.95', actionValueType: 'CONSTANT' }, { actionType: 'SHOW_MESSAGE', message: '银卡会员：9.5折', messageType: 'INFO' }] } },
+    { id: 'action_4', type: 'action', position: { x: 740, y: 420 }, data: { actions: [{ actionType: 'SET_VALUE', targetField: 'memberLevel', actionValue: 'NORMAL', actionValueType: 'CONSTANT' }, { actionType: 'SET_VALUE', targetField: 'discountRate', actionValue: '1.0', actionValueType: 'CONSTANT' }, { actionType: 'SHOW_MESSAGE', message: '普通会员：无折扣', messageType: 'INFO' }] } },
+    { id: 'end_1', type: 'end', position: { x: 400, y: 580 }, data: { endType: 'success' } }
+  ]
+  edges.value = [
+    { id: 'e1', source: 'start_1', target: 'var_1', animated: true, style: { stroke: '#7c3aed', strokeWidth: 2 } },
+    { id: 'e2', source: 'var_1', target: 'gw_1', animated: true, label: '设置 totalSpend, orderCount', style: { stroke: '#6366f1', strokeWidth: 2 }, labelStyle: { fill: '#6366f1', fontSize: 11, fontWeight: 500 }, labelShowBg: true, labelBgStyle: { fill: '#fff', fillOpacity: 0.9 } },
+    { id: 'e3', source: 'gw_1', target: 'action_1', animated: true, label: '钻石会员', style: { stroke: '#f59e0b', strokeWidth: 2 }, labelStyle: { fill: '#f59e0b', fontSize: 11, fontWeight: 600 }, labelShowBg: true, labelBgStyle: { fill: '#fff', fillOpacity: 0.9 } },
+    { id: 'e4', source: 'gw_1', target: 'action_2', animated: true, label: '金卡会员', style: { stroke: '#f59e0b', strokeWidth: 2 }, labelStyle: { fill: '#f59e0b', fontSize: 11, fontWeight: 600 }, labelShowBg: true, labelBgStyle: { fill: '#fff', fillOpacity: 0.9 } },
+    { id: 'e5', source: 'gw_1', target: 'action_3', animated: true, label: '银卡会员', style: { stroke: '#f59e0b', strokeWidth: 2 }, labelStyle: { fill: '#f59e0b', fontSize: 11, fontWeight: 600 }, labelShowBg: true, labelBgStyle: { fill: '#fff', fillOpacity: 0.9 } },
+    { id: 'e6', source: 'gw_1', target: 'action_4', animated: true, label: '普通会员', style: { stroke: '#f59e0b', strokeWidth: 2 }, labelStyle: { fill: '#f59e0b', fontSize: 11, fontWeight: 600 }, labelShowBg: true, labelBgStyle: { fill: '#fff', fillOpacity: 0.9 } },
+    { id: 'e7', source: 'action_1', target: 'end_1', animated: true, label: '4个动作', style: { stroke: '#6366f1', strokeWidth: 2 }, labelStyle: { fill: '#6366f1', fontSize: 11, fontWeight: 500 }, labelShowBg: true, labelBgStyle: { fill: '#fff', fillOpacity: 0.9 } },
+    { id: 'e8', source: 'action_2', target: 'end_1', animated: true, label: '3个动作', style: { stroke: '#6366f1', strokeWidth: 2 }, labelStyle: { fill: '#6366f1', fontSize: 11, fontWeight: 500 }, labelShowBg: true, labelBgStyle: { fill: '#fff', fillOpacity: 0.9 } },
+    { id: 'e9', source: 'action_3', target: 'end_1', animated: true, label: '3个动作', style: { stroke: '#6366f1', strokeWidth: 2 }, labelStyle: { fill: '#6366f1', fontSize: 11, fontWeight: 500 }, labelShowBg: true, labelBgStyle: { fill: '#fff', fillOpacity: 0.9 } },
+    { id: 'e10', source: 'action_4', target: 'end_1', animated: true, label: '3个动作', style: { stroke: '#6366f1', strokeWidth: 2 }, labelStyle: { fill: '#6366f1', fontSize: 11, fontWeight: 500 }, labelShowBg: true, labelBgStyle: { fill: '#fff', fillOpacity: 0.9 } }
+  ]
+}
+
+// Demo 4: 优惠券权益计算（规则集+条件组合）
+const loadDemo4_CouponBenefit = () => {
+  ruleData.ruleCode = 'RULE_COUPON'; ruleData.ruleName = 'Demo4: 优惠券权益计算'; ruleData.ruleDesc = '根据优惠券类型和使用条件计算权益'
+  nodes.value = [
+    { id: 'start_1', type: 'start', position: { x: 400, y: 30 }, data: {} },
+    { id: 'var_1', type: 'variable-assign', position: { x: 330, y: 130 }, data: { assignments: [{ variableName: 'couponType', valueType: 'VARIABLE', value: 'type' }, { variableName: 'orderAmount', valueType: 'VARIABLE', value: 'amount' }] } },
+    { id: 'cond_1', type: 'condition', position: { x: 330, y: 260 }, data: { conditions: [{ fieldName: 'couponType', fieldType: 'STRING', operator: 'EQ', value: 'FULL_REDUCTION' }, { fieldName: 'orderAmount', fieldType: 'NUMBER', operator: 'GTE', value: '200' }], logic: 'AND' } },
+    { id: 'action_1', type: 'action', position: { x: 100, y: 400 }, data: { actions: [{ actionType: 'SET_VALUE', targetField: 'couponValue', actionValue: '50', actionValueType: 'CONSTANT' }, { actionType: 'SHOW_MESSAGE', message: '满200减50优惠券', messageType: 'SUCCESS' }] } },
+    { id: 'cond_2', type: 'condition', position: { x: 560, y: 400 }, data: { conditions: [{ fieldName: 'couponType', fieldType: 'STRING', operator: 'EQ', value: 'PERCENTAGE' }, { fieldName: 'orderAmount', fieldType: 'NUMBER', operator: 'GTE', value: '100' }], logic: 'AND' } },
+    { id: 'action_2', type: 'action', position: { x: 560, y: 540 }, data: { actions: [{ actionType: 'SET_VALUE', targetField: 'couponValue', actionValue: 'orderAmount * 0.2', actionValueType: 'EXPRESSION' }, { actionType: 'SHOW_MESSAGE', message: '8折优惠券', messageType: 'SUCCESS' }] } },
+    { id: 'action_3', type: 'action', position: { x: 330, y: 680 }, data: { actions: [{ actionType: 'SET_VALUE', targetField: 'couponValue', actionValue: '0', actionValueType: 'CONSTANT' }, { actionType: 'SHOW_MESSAGE', message: '优惠券不满足使用条件', messageType: 'WARNING' }] } },
+    { id: 'end_1', type: 'end', position: { x: 400, y: 820 }, data: { endType: 'success' } }
+  ]
+  edges.value = [
+    { id: 'e1', source: 'start_1', target: 'var_1', animated: true, style: { stroke: '#7c3aed', strokeWidth: 2 } },
+    { id: 'e2', source: 'var_1', target: 'cond_1', animated: true, label: '设置 couponType, orderAmount', style: { stroke: '#6366f1', strokeWidth: 2 }, labelStyle: { fill: '#6366f1', fontSize: 11, fontWeight: 500 }, labelShowBg: true, labelBgStyle: { fill: '#fff', fillOpacity: 0.9 } },
+    { id: 'e3', source: 'cond_1', target: 'action_1', animated: true, label: '满足 ✓', style: { stroke: '#10b981', strokeWidth: 2 }, labelStyle: { fill: '#10b981', fontSize: 11, fontWeight: 600 }, labelShowBg: true, labelBgStyle: { fill: '#fff', fillOpacity: 0.9 } },
+    { id: 'e4', source: 'cond_1', target: 'cond_2', animated: true, label: '不满足 ✗', style: { stroke: '#ef4444', strokeWidth: 2 }, labelStyle: { fill: '#ef4444', fontSize: 11, fontWeight: 600 }, labelShowBg: true, labelBgStyle: { fill: '#fff', fillOpacity: 0.9 } },
+    { id: 'e5', source: 'action_1', target: 'end_1', animated: true, label: '2个动作', style: { stroke: '#6366f1', strokeWidth: 2 }, labelStyle: { fill: '#6366f1', fontSize: 11, fontWeight: 500 }, labelShowBg: true, labelBgStyle: { fill: '#fff', fillOpacity: 0.9 } },
+    { id: 'e6', source: 'cond_2', target: 'action_2', animated: true, label: '满足 ✓', style: { stroke: '#10b981', strokeWidth: 2 }, labelStyle: { fill: '#10b981', fontSize: 11, fontWeight: 600 }, labelShowBg: true, labelBgStyle: { fill: '#fff', fillOpacity: 0.9 } },
+    { id: 'e7', source: 'cond_2', target: 'action_3', animated: true, label: '不满足 ✗', style: { stroke: '#ef4444', strokeWidth: 2 }, labelStyle: { fill: '#ef4444', fontSize: 11, fontWeight: 600 }, labelShowBg: true, labelBgStyle: { fill: '#fff', fillOpacity: 0.9 } },
+    { id: 'e8', source: 'action_2', target: 'end_1', animated: true, label: '2个动作', style: { stroke: '#6366f1', strokeWidth: 2 }, labelStyle: { fill: '#6366f1', fontSize: 11, fontWeight: 500 }, labelShowBg: true, labelBgStyle: { fill: '#fff', fillOpacity: 0.9 } },
+    { id: 'e9', source: 'action_3', target: 'end_1', animated: true, label: '2个动作', style: { stroke: '#6366f1', strokeWidth: 2 }, labelStyle: { fill: '#6366f1', fontSize: 11, fontWeight: 500 }, labelShowBg: true, labelBgStyle: { fill: '#fff', fillOpacity: 0.9 } }
+  ]
+}
+
+// Demo 5: 异常交易识别（复合条件+HTTP调用验证）
+const loadDemo5_AbnormalTransaction = () => {
+  ruleData.ruleCode = 'RULE_ABNORMAL_TXN'; ruleData.ruleName = 'Demo5: 异常交易识别'; ruleData.ruleDesc = '多条件组合识别异常交易，调用外部接口验证'
+  nodes.value = [
+    { id: 'start_1', type: 'start', position: { x: 400, y: 30 }, data: {} },
+    { id: 'var_1', type: 'variable-assign', position: { x: 330, y: 130 }, data: { assignments: [{ variableName: 'txnAmount', valueType: 'VARIABLE', value: 'amount' }, { variableName: 'txnTime', valueType: 'VARIABLE', value: 'timestamp' }, { variableName: 'userLocation', valueType: 'VARIABLE', value: 'location' }] } },
+    { id: 'cond_1', type: 'condition', position: { x: 330, y: 260 }, data: { conditions: [{ fieldName: 'txnAmount', fieldType: 'NUMBER', operator: 'GT', value: '10000' }, { fieldName: 'txnTime', fieldType: 'DATE', operator: 'BETWEEN', value: '00:00-06:00' }], logic: 'AND' } },
+    { id: 'http_1', type: 'http-call', position: { x: 100, y: 400 }, data: { method: 'POST', url: '/api/risk/check-location', body: '{"userId": "${userId}", "location": "${userLocation}"}', responseVar: 'locationRisk', timeout: 3000 } },
+    { id: 'cond_2', type: 'condition', position: { x: 100, y: 540 }, data: { conditions: [{ fieldName: 'locationRisk', fieldType: 'STRING', operator: 'EQ', value: 'HIGH_RISK' }], logic: 'AND' } },
+    { id: 'action_1', type: 'action', position: { x: 100, y: 680 }, data: { actions: [{ actionType: 'SET_VALUE', targetField: 'txnStatus', actionValue: 'BLOCKED', actionValueType: 'CONSTANT' }, { actionType: 'SHOW_MESSAGE', message: '异常交易：深夜大额+高风险地点', messageType: 'ERROR' }] } },
+    { id: 'end_1', type: 'end', position: { x: 100, y: 820 }, data: { endType: 'fail' } },
+    { id: 'action_2', type: 'action', position: { x: 560, y: 400 }, data: { actions: [{ actionType: 'SET_VALUE', targetField: 'txnStatus', actionValue: 'PASSED', actionValueType: 'CONSTANT' }, { actionType: 'SHOW_MESSAGE', message: '交易正常', messageType: 'SUCCESS' }] } },
+    { id: 'end_2', type: 'end', position: { x: 560, y: 540 }, data: { endType: 'success' } }
+  ]
+  edges.value = [
+    { id: 'e1', source: 'start_1', target: 'var_1', animated: true, style: { stroke: '#7c3aed', strokeWidth: 2 } },
+    { id: 'e2', source: 'var_1', target: 'cond_1', animated: true, label: '设置 txnAmount, txnTime, userLocation', style: { stroke: '#6366f1', strokeWidth: 2 }, labelStyle: { fill: '#6366f1', fontSize: 11, fontWeight: 500 }, labelShowBg: true, labelBgStyle: { fill: '#fff', fillOpacity: 0.9 } },
+    { id: 'e3', source: 'cond_1', target: 'http_1', animated: true, label: '满足 ✓', style: { stroke: '#10b981', strokeWidth: 2 }, labelStyle: { fill: '#10b981', fontSize: 11, fontWeight: 600 }, labelShowBg: true, labelBgStyle: { fill: '#fff', fillOpacity: 0.9 } },
+    { id: 'e4', source: 'cond_1', target: 'action_2', animated: true, label: '不满足 ✗', style: { stroke: '#ef4444', strokeWidth: 2 }, labelStyle: { fill: '#ef4444', fontSize: 11, fontWeight: 600 }, labelShowBg: true, labelBgStyle: { fill: '#fff', fillOpacity: 0.9 } },
+    { id: 'e5', source: 'http_1', target: 'cond_2', animated: true, label: 'POST /api/risk/check-location', style: { stroke: '#6366f1', strokeWidth: 2 }, labelStyle: { fill: '#6366f1', fontSize: 11, fontWeight: 500 }, labelShowBg: true, labelBgStyle: { fill: '#fff', fillOpacity: 0.9 } },
+    { id: 'e6', source: 'cond_2', target: 'action_1', animated: true, label: '满足 ✓', style: { stroke: '#10b981', strokeWidth: 2 }, labelStyle: { fill: '#10b981', fontSize: 11, fontWeight: 600 }, labelShowBg: true, labelBgStyle: { fill: '#fff', fillOpacity: 0.9 } },
+    { id: 'e7', source: 'cond_2', target: 'action_2', animated: true, label: '不满足 ✗', style: { stroke: '#ef4444', strokeWidth: 2 }, labelStyle: { fill: '#ef4444', fontSize: 11, fontWeight: 600 }, labelShowBg: true, labelBgStyle: { fill: '#fff', fillOpacity: 0.9 } },
+    { id: 'e8', source: 'action_1', target: 'end_1', animated: true, label: '2个动作', style: { stroke: '#6366f1', strokeWidth: 2 }, labelStyle: { fill: '#6366f1', fontSize: 11, fontWeight: 500 }, labelShowBg: true, labelBgStyle: { fill: '#fff', fillOpacity: 0.9 } },
+    { id: 'e9', source: 'action_2', target: 'end_2', animated: true, label: '2个动作', style: { stroke: '#6366f1', strokeWidth: 2 }, labelStyle: { fill: '#6366f1', fontSize: 11, fontWeight: 500 }, labelShowBg: true, labelBgStyle: { fill: '#fff', fillOpacity: 0.9 } }
+  ]
+}
+
+// Demo 6: 订单满减规则（循环遍历+条件匹配）
+const loadDemo6_OrderDiscount = () => {
+  ruleData.ruleCode = 'RULE_ORDER_DISCOUNT'; ruleData.ruleName = 'Demo6: 订单满减规则'; ruleData.ruleDesc = '遍历订单商品，根据金额区间计算满减优惠'
+  nodes.value = [
+    { id: 'start_1', type: 'start', position: { x: 400, y: 30 }, data: {} },
+    { id: 'var_1', type: 'variable-assign', position: { x: 330, y: 130 }, data: { assignments: [{ variableName: 'orderAmount', valueType: 'VARIABLE', value: 'totalAmount' }, { variableName: 'discountRules', valueType: 'CONSTANT', value: '[{threshold:100,discount:10},{threshold:200,discount:30},{threshold:500,discount:80}]' }] } },
+    { id: 'loop_1', type: 'loop', position: { x: 330, y: 260 }, data: { loopType: 'forEach', collectionVar: 'discountRules', itemVar: 'rule', indexVar: 'ruleIndex' } },
+    { id: 'cond_1', type: 'condition', position: { x: 330, y: 400 }, data: { conditions: [{ fieldName: 'orderAmount', fieldType: 'NUMBER', operator: 'GTE', value: 'rule.threshold' }], logic: 'AND' } },
+    { id: 'action_1', type: 'action', position: { x: 100, y: 540 }, data: { actions: [{ actionType: 'SET_VALUE', targetField: 'finalDiscount', actionValue: 'rule.discount', actionValueType: 'EXPRESSION' }, { actionType: 'SET_VALUE', targetField: 'finalAmount', actionValue: 'orderAmount - rule.discount', actionValueType: 'EXPRESSION' }, { actionType: 'SHOW_MESSAGE', message: '满${rule.threshold}减${rule.discount}，最终价格：${finalAmount}', messageType: 'SUCCESS' }] } },
+    { id: 'end_1', type: 'end', position: { x: 100, y: 680 }, data: { endType: 'success' } },
+    { id: 'action_2', type: 'action', position: { x: 560, y: 540 }, data: { actions: [{ actionType: 'SET_VALUE', targetField: 'finalDiscount', actionValue: '0', actionValueType: 'CONSTANT' }, { actionType: 'SET_VALUE', targetField: 'finalAmount', actionValue: 'orderAmount', actionValueType: 'EXPRESSION' }, { actionType: 'SHOW_MESSAGE', message: '未满足任何满减条件，原价：${orderAmount}', messageType: 'INFO' }] } },
+    { id: 'end_2', type: 'end', position: { x: 560, y: 680 }, data: { endType: 'success' } }
+  ]
+  edges.value = [
+    { id: 'e1', source: 'start_1', target: 'var_1', animated: true, style: { stroke: '#7c3aed', strokeWidth: 2 } },
+    { id: 'e2', source: 'var_1', target: 'loop_1', animated: true, label: '设置 orderAmount, discountRules', style: { stroke: '#6366f1', strokeWidth: 2 }, labelStyle: { fill: '#6366f1', fontSize: 11, fontWeight: 500 }, labelShowBg: true, labelBgStyle: { fill: '#fff', fillOpacity: 0.9 } },
+    { id: 'e3', source: 'loop_1', target: 'cond_1', animated: true, label: '遍历 discountRules', style: { stroke: '#ec4899', strokeWidth: 2 }, labelStyle: { fill: '#ec4899', fontSize: 11, fontWeight: 600 }, labelShowBg: true, labelBgStyle: { fill: '#fff', fillOpacity: 0.9 } },
+    { id: 'e4', source: 'cond_1', target: 'action_1', animated: true, label: '满足 ✓', style: { stroke: '#10b981', strokeWidth: 2 }, labelStyle: { fill: '#10b981', fontSize: 11, fontWeight: 600 }, labelShowBg: true, labelBgStyle: { fill: '#fff', fillOpacity: 0.9 } },
+    { id: 'e5', source: 'cond_1', target: 'action_2', animated: true, label: '不满足 ✗', style: { stroke: '#ef4444', strokeWidth: 2 }, labelStyle: { fill: '#ef4444', fontSize: 11, fontWeight: 600 }, labelShowBg: true, labelBgStyle: { fill: '#fff', fillOpacity: 0.9 } },
+    { id: 'e6', source: 'action_1', target: 'end_1', animated: true, label: '3个动作', style: { stroke: '#6366f1', strokeWidth: 2 }, labelStyle: { fill: '#6366f1', fontSize: 11, fontWeight: 500 }, labelShowBg: true, labelBgStyle: { fill: '#fff', fillOpacity: 0.9 } },
+    { id: 'e7', source: 'action_2', target: 'end_2', animated: true, label: '3个动作', style: { stroke: '#6366f1', strokeWidth: 2 }, labelStyle: { fill: '#6366f1', fontSize: 11, fontWeight: 500 }, labelShowBg: true, labelBgStyle: { fill: '#fff', fillOpacity: 0.9 } }
+  ]
 }
 
 const onGlobalClick = () => { if (contextMenu.visible) closeContextMenu() }
