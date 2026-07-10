@@ -59,4 +59,4 @@ axiosInstance.interceptors.response.use(
         }
     },
 );
-export {axiosInstance};
+export  {axiosInstance};
