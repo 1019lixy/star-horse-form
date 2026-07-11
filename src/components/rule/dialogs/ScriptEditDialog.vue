@@ -10,7 +10,7 @@
   >
     <el-form :model="formData" label-width="100px" size="default" ref="formRef" :rules="rules">
       <el-form-item label="脚本语言" prop="scriptLang">
-        <el-select v-model="formData.scriptLang" style="width: 100%">
+        <el-select v-model="formData.scriptLang" style="width: 100%;z-index:999 !important;">
           <el-option label="JavaScript" value="javascript" />
           <el-option label="TypeScript" value="typescript" />
         </el-select>
@@ -43,64 +43,64 @@
 </template>
 
 <script setup lang="ts">
-import { ref, reactive, watch } from 'vue'
-import { ElMessage } from 'element-plus'
-import type { FormInstance, FormRules } from 'element-plus'
+import { reactive, ref, watch } from "vue";
+import type { FormInstance, FormRules } from "element-plus";
+import { warning } from "star-horse-lowcode";
 
 const props = defineProps<{
   visible: boolean
   script: any
-}>()
+}>();
 
 const emit = defineEmits<{
-  (e: 'close'): void
-  (e: 'save', script: any): void
-}>()
+  (e: "close"): void
+  (e: "save", script: any): void
+}>();
 
-const formRef = ref<FormInstance>()
+const formRef = ref<FormInstance>();
 
 const defaultFormData = () => ({
-  scriptLang: 'javascript',
-  scriptContent: ''
-})
+  scriptLang: "javascript",
+  scriptContent: ""
+});
 
-const formData = reactive<any>(defaultFormData())
+const formData = reactive<any>(defaultFormData());
 
 const rules = reactive<FormRules>({
-  scriptLang: [{ required: true, message: '请选择脚本语言', trigger: 'change' }],
-  scriptContent: [{ required: true, message: '请输入脚本内容', trigger: 'blur' }]
-})
+  scriptLang: [{ required: true, message: "请选择脚本语言", trigger: "change" }],
+  scriptContent: [{ required: true, message: "请输入脚本内容", trigger: "blur" }]
+});
 
 watch(() => props.visible, (val) => {
   if (val) {
     if (props.script) {
-      formData.scriptLang = props.script.scriptLang || 'javascript'
-      formData.scriptContent = props.script.scriptContent || ''
+      formData.scriptLang = props.script.scriptLang || "javascript";
+      formData.scriptContent = props.script.scriptContent || "";
     } else {
-      Object.assign(formData, defaultFormData())
+      Object.assign(formData, defaultFormData());
     }
-    formRef.value?.clearValidate()
+    formRef.value?.clearValidate();
   }
-})
+});
 
 const handleClose = () => {
-  emit('close')
-}
+  emit("close");
+};
 
 const handleSave = async () => {
-  if (!formRef.value) return
+  if (!formRef.value) return;
   await formRef.value.validate((valid) => {
-    if (!valid) return
+    if (!valid) return;
     if (!formData.scriptContent.trim()) {
-      ElMessage.warning('脚本内容不能为空')
-      return
+      warning("脚本内容不能为空");
+      return;
     }
-    emit('save', {
+    emit("save", {
       scriptLang: formData.scriptLang,
       scriptContent: formData.scriptContent
-    })
-  })
-}
+    });
+  });
+};
 </script>
 
 <style scoped lang="scss">

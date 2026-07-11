@@ -1,7 +1,9 @@
 <template>
   <div class="execution-log-viewer">
     <div v-if="logList.length === 0" class="empty-state">
-      <el-icon class="empty-icon"><Document /></el-icon>
+      <el-icon class="empty-icon">
+        <Document />
+      </el-icon>
       <span>暂无执行日志</span>
     </div>
     <template v-else>
@@ -13,7 +15,7 @@
           @click="viewDetail(log)"
         >
           <div class="log-header">
-            <el-tag :type="getResultType(log.executionResult)"  effect="dark">
+            <el-tag :type="getResultType(log.executionResult)" effect="dark">
               {{ getResultText(log.executionResult) }}
             </el-tag>
             <span class="log-time">{{ formatTime(log.executionTime) }}</span>
@@ -50,13 +52,13 @@
       @closeAction="detailVisible = false"
     >
       <div v-if="currentLog" class="log-detail">
-        <el-descriptions :column="2" border >
+        <el-descriptions :column="2" border>
           <el-descriptions-item label="规则ID">{{ currentLog.idRuleDefinition }}</el-descriptions-item>
           <el-descriptions-item label="规则编码">{{ currentLog.ruleCode }}</el-descriptions-item>
           <el-descriptions-item label="规则名称">{{ currentLog.ruleName }}</el-descriptions-item>
           <el-descriptions-item label="执行时间">{{ formatTime(currentLog.executionTime) }}</el-descriptions-item>
           <el-descriptions-item label="执行结果">
-            <el-tag :type="getResultType(currentLog.executionResult)" >
+            <el-tag :type="getResultType(currentLog.executionResult)">
               {{ getResultText(currentLog.executionResult) }}
             </el-tag>
           </el-descriptions-item>
@@ -86,88 +88,88 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, onMounted, watch } from 'vue'
-import { ruleExecutionLogApi } from '@/api/rule_engine_api'
-import { ElMessage } from 'element-plus'
-import { Document } from '@element-plus/icons-vue'
+import { computed, onMounted, ref, watch } from "vue";
+import { ruleExecutionLogApi } from "@/api/rule_engine_api";
+import { Document } from "@element-plus/icons-vue";
+import { error } from "star-horse-lowcode";
 
 const props = defineProps<{
   ruleId?: string
-}>()
+}>();
 
-const logList = ref<any[]>([])
-const currentPage = ref(1)
-const pageSize = ref(10)
-const total = ref(0)
-const detailVisible = ref(false)
-const currentLog = ref<any>(null)
+const logList = ref<any[]>([]);
+const currentPage = ref(1);
+const pageSize = ref(10);
+const total = ref(0);
+const detailVisible = ref(false);
+const currentLog = ref<any>(null);
 
 const paginatedLogs = computed(() => {
-  const start = (currentPage.value - 1) * pageSize.value
-  return logList.value.slice(start, start + pageSize.value)
-})
+  const start = (currentPage.value - 1) * pageSize.value;
+  return logList.value.slice(start, start + pageSize.value);
+});
 
 const loadLogs = async () => {
-  if (!props.ruleId) return
+  if (!props.ruleId) return;
 
   try {
-    const res = await ruleExecutionLogApi.listByRuleId(props.ruleId)
+    const res = await ruleExecutionLogApi.listByRuleId(props.ruleId);
     if (res.data.code === 200) {
-      logList.value = res.data.data || []
-      total.value = logList.value.length
+      logList.value = res.data.data || [];
+      total.value = logList.value.length;
     }
-  } catch (error) {
-    ElMessage.error('加载执行日志失败')
+  } catch (err) {
+    error("加载执行日志失败");
   }
-}
+};
 
 const handleSizeChange = (val: number) => {
-  pageSize.value = val
-  currentPage.value = 1
-}
+  pageSize.value = val;
+  currentPage.value = 1;
+};
 
 const handleCurrentChange = (val: number) => {
-  currentPage.value = val
-}
+  currentPage.value = val;
+};
 
 const viewDetail = (log: any) => {
-  currentLog.value = log
-  detailVisible.value = true
-}
+  currentLog.value = log;
+  detailVisible.value = true;
+};
 
 const formatTime = (time: string) => {
-  if (!time) return ''
-  return new Date(time).toLocaleString('zh-CN')
-}
+  if (!time) return "";
+  return new Date(time).toLocaleString("zh-CN");
+};
 
 const getResultType = (result: string) => {
-  const map: any = { SUCCESS: 'success', FAILED: 'danger', SKIPPED: 'warning' }
-  return map[result] || 'info'
-}
+  const map: any = { SUCCESS: "success", FAILED: "danger", SKIPPED: "warning" };
+  return map[result] || "info";
+};
 
 const getResultText = (result: string) => {
-  const map: any = { SUCCESS: '成功', FAILED: '失败', SKIPPED: '跳过' }
-  return map[result] || result
-}
+  const map: any = { SUCCESS: "成功", FAILED: "失败", SKIPPED: "跳过" };
+  return map[result] || result;
+};
 
 const formatJson = (str: string) => {
-  if (!str) return ''
+  if (!str) return "";
   try {
-    return JSON.stringify(JSON.parse(str), null, 2)
+    return JSON.stringify(JSON.parse(str), null, 2);
   } catch {
-    return str
+    return str;
   }
-}
+};
 
 watch(() => props.ruleId, () => {
-  loadLogs()
-})
+  loadLogs();
+});
 
 onMounted(() => {
-  loadLogs()
-})
+  loadLogs();
+});
 
-defineExpose({ loadLogs })
+defineExpose({ loadLogs });
 </script>
 
 <style scoped lang="scss">

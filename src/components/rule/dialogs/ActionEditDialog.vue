@@ -9,7 +9,7 @@
   >
     <el-form :model="formData" label-width="100px" size="default" ref="formRef" :rules="rules">
       <el-form-item label="动作类型" prop="actionType">
-        <el-select v-model="formData.actionType" style="width: 100%" @change="handleActionTypeChange">
+        <el-select v-model="formData.actionType" style="width: 100%;z-index:999 !important;" @change="handleActionTypeChange">
           <el-option-group v-for="group in actionGroups" :key="group.label" :label="group.label">
             <el-option v-for="act in group.options" :key="act.value" :label="act.label" :value="act.value" />
           </el-option-group>
@@ -45,7 +45,7 @@
       </el-form-item>
 
       <el-form-item label="消息类型" v-if="formData.actionType === 'SHOW_MESSAGE'">
-        <el-select v-model="formData.messageType" style="width: 100%">
+        <el-select v-model="formData.messageType" style="width: 100%;z-index:999 !important;">
           <el-option label="信息 (Info)" value="INFO" />
           <el-option label="成功 (Success)" value="SUCCESS" />
           <el-option label="警告 (Warning)" value="WARNING" />

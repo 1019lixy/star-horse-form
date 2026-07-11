@@ -59,6 +59,51 @@
         </el-input>
       </div>
       <div class="toolbar-right">
+        <el-popover placement="bottom-end" :width="420" trigger="click" popper-class="help-popper">
+          <template #reference>
+            <el-button link><el-icon><QuestionFilled /></el-icon> 帮助</el-button>
+          </template>
+          <div class="help-panel">
+            <div class="help-title"><el-icon><QuestionFilled /></el-icon> 快捷键 & 操作说明</div>
+            <el-divider style="margin: 8px 0" />
+            <div class="help-section">
+              <div class="help-section-title">基础操作</div>
+              <div class="help-row"><kbd>左键拖拽</kbd>节点库→画布<span>添加节点</span></div>
+              <div class="help-row"><kbd>左键拖拽</kbd>节点端口→另一节点<span>创建连线</span></div>
+              <div class="help-row"><kbd>双击</kbd>节点<span>打开编辑弹窗</span></div>
+              <div class="help-row"><kbd>双击</kbd>连线<span>编辑连线标签</span></div>
+              <div class="help-row"><kbd>右键</kbd>节点/画布<span>弹出上下文菜单</span></div>
+            </div>
+            <div class="help-section">
+              <div class="help-section-title">选中 & 框选</div>
+              <div class="help-row"><kbd>左键点击</kbd><span>选中单个节点</span></div>
+              <div class="help-row"><kbd>Shift/Ctrl+点击</kbd><span>追加选中 / 多选</span></div>
+              <div class="help-row"><kbd>Shift/Ctrl+拖拽空白</kbd><span>框选区域</span></div>
+              <div class="help-row"><kbd>Ctrl+A</kbd><span>全选（画布聚焦时）</span></div>
+            </div>
+            <div class="help-section">
+              <div class="help-section-title">编辑操作</div>
+              <div class="help-row"><kbd>Delete</kbd> / <kbd>Backspace</kbd><span>删除选中</span></div>
+              <div class="help-row"><kbd>Ctrl+Z</kbd><span>回退</span></div>
+              <div class="help-row"><kbd>Ctrl+Y</kbd> / <kbd>Ctrl+Shift+Z</kbd><span>前进</span></div>
+              <div class="help-row"><kbd>Ctrl+C</kbd> / <kbd>Ctrl+V</kbd><span>复制 / 粘贴节点</span></div>
+            </div>
+            <div class="help-section">
+              <div class="help-section-title">画布操作</div>
+              <div class="help-row"><kbd>滚轮</kbd><span>缩放画布</span></div>
+              <div class="help-row"><kbd>左键拖拽空白</kbd><span>平移画布</span></div>
+              <div class="help-row"><kbd>右键拖拽</kbd><span>平移画布</span></div>
+              <div class="help-row"><kbd>工具栏</kbd>对齐下拉<span>8种对齐方式</span></div>
+              <div class="help-row"><kbd>工具栏</kbd>连线样式<span>曲线/直线/折线切换</span></div>
+            </div>
+            <div class="help-section">
+              <div class="help-section-title">测试模式</div>
+              <div class="help-row"><kbd>测试按钮</kbd><span>打开控制台，输入参数执行</span></div>
+              <div class="help-row"><kbd>执行</kbd><span>高亮显示执行路径</span></div>
+              <div class="help-row"><kbd>关闭控制台</kbd><span>自动还原设计状态</span></div>
+            </div>
+          </div>
+        </el-popover>
         <el-button link @click="openPropertyDialog"><el-icon><Setting /></el-icon> 规则属性</el-button>
         <el-tag :type="getStatusType(ruleData.status)" size="large" effect="dark">{{ getStatusText(ruleData.status) }}</el-tag>
       </div>
@@ -79,6 +124,43 @@
             <div class="canvas-toolbar">
               <span class="canvas-title"><el-icon><Share /></el-icon> 规则设计</span>
               <div class="canvas-actions">
+                <!-- 回退前进 -->
+                <el-tooltip content="回退 (Ctrl+Z)" placement="bottom">
+                  <el-button link @click="undo" :disabled="!canUndo"><el-icon><Back /></el-icon></el-button>
+                </el-tooltip>
+                <el-tooltip content="前进 (Ctrl+Y)" placement="bottom">
+                  <el-button link @click="redo" :disabled="!canRedo"><el-icon><Right /></el-icon></el-button>
+                </el-tooltip>
+                <el-divider direction="vertical" />
+                <!-- 对齐工具（下拉） -->
+                <el-dropdown trigger="click" :disabled="!hasMultiSelected" @command="handleAlign" popper-class="designer-dropdown-popper">
+                  <el-button link :disabled="!hasMultiSelected" title="对齐方式"><el-icon><Grid /></el-icon></el-button>
+                  <template #dropdown>
+                    <el-dropdown-menu>
+                      <el-dropdown-item command="left"><el-icon><DCaret /></el-icon> 左对齐</el-dropdown-item>
+                      <el-dropdown-item command="center"><el-icon><DCaret /></el-icon> 水平居中</el-dropdown-item>
+                      <el-dropdown-item command="right"><el-icon><DCaret /></el-icon> 右对齐</el-dropdown-item>
+                      <el-dropdown-item divided command="top"><el-icon><DCaret /></el-icon> 顶部对齐</el-dropdown-item>
+                      <el-dropdown-item command="middle"><el-icon><DCaret /></el-icon> 垂直居中</el-dropdown-item>
+                      <el-dropdown-item command="bottom"><el-icon><DCaret /></el-icon> 底部对齐</el-dropdown-item>
+                      <el-dropdown-item divided command="hDist"><el-icon><DCaret /></el-icon> 水平分布</el-dropdown-item>
+                      <el-dropdown-item command="vDist"><el-icon><DCaret /></el-icon> 垂直分布</el-dropdown-item>
+                    </el-dropdown-menu>
+                  </template>
+                </el-dropdown>
+                <!-- 连线类型 -->
+                <el-dropdown trigger="click" @command="handleEdgeType" popper-class="designer-dropdown-popper">
+                  <el-button link title="连线样式"><el-icon><Share /></el-icon></el-button>
+                  <template #dropdown>
+                    <el-dropdown-menu>
+                      <el-dropdown-item command="default" :class="{ 'is-active': edgeType === 'default' }">贝塞尔曲线</el-dropdown-item>
+                      <el-dropdown-item command="straight" :class="{ 'is-active': edgeType === 'straight' }">直线</el-dropdown-item>
+                      <el-dropdown-item command="step" :class="{ 'is-active': edgeType === 'step' }">折线</el-dropdown-item>
+                      <el-dropdown-item command="smoothstep" :class="{ 'is-active': edgeType === 'smoothstep' }">平滑折线</el-dropdown-item>
+                    </el-dropdown-menu>
+                  </template>
+                </el-dropdown>
+                <el-divider direction="vertical" />
                 <el-tooltip content="删除选中" placement="bottom">
                   <el-button link @click="deleteSelected" :disabled="!hasSelected"><el-icon><Delete /></el-icon></el-button>
                 </el-tooltip>
@@ -88,11 +170,14 @@
                 <el-tooltip content="自动布局" placement="bottom">
                   <el-button link @click="autoLayout"><el-icon><Grid /></el-icon></el-button>
                 </el-tooltip>
+                <el-tooltip content="布局选中节点" placement="bottom">
+                  <el-button link @click="layoutSelected" :disabled="!hasSelected"><el-icon><Operation /></el-icon></el-button>
+                </el-tooltip>
                 <el-tooltip content="清空" placement="bottom">
                   <el-button link @click="clearCanvas"><el-icon><Brush /></el-icon></el-button>
                 </el-tooltip>
                 <el-divider direction="vertical" />
-                <span class="canvas-tip">选中节点按Delete删除 · 右键更多操作</span>
+                <span class="canvas-tip">左键拖拽平移 · Shift/Ctrl+拖拽框选 · 滚轮缩放 · Ctrl+Z回退</span>
               </div>
             </div>
             <div class="canvas-body" @drop="onDrop" @dragover.prevent="onDragOver" @dragleave.prevent="onDragLeave" @contextmenu.prevent="onCanvasContextMenu">
@@ -102,12 +187,14 @@
                 :default-viewport="{ zoom: 1 }"
                 :min-zoom="0.2" :max-zoom="2"
                 :snap-to-grid="true" :snap-grid="[15, 15]"
-                :connection-mode="ConnectionMode.Loose"
+                :connection-mode="isTestMode?ConnectionMode.Loose:ConnectionMode.Strict"
                 :delete-key-code="['Delete', 'Backspace']"
                 :elements-selectable="true"
-                :selection-on-drag="true"
+                :selection-on-drag="false"
                 :multi-selection-activated="true"
                 :select-nodes-on-drag="true"
+                :pan-on-drag="true"
+                :selection-key-code="['Shift', 'Control']"
                 fit-view-on-init
                 class="vue-flow-instance"
                 :class="{ 'test-mode': isTestMode }"
@@ -190,7 +277,7 @@
               <el-button  @click="stepExecute" :disabled="!executionPath"><el-icon><VideoPause /></el-icon> 单步</el-button>
               <el-button  @click="loadSampleData"><el-icon><DocumentCopy /></el-icon> 示例</el-button>
               <el-button  @click="clearTestResult"><el-icon><Brush /></el-icon> 清除</el-button>
-              <el-button  link @click="testConsoleVisible = false"><el-icon><Close /></el-icon></el-button>
+              <el-button  link @click="closeTestConsole"><el-icon><Close /></el-icon></el-button>
             </div>
           </div>
           <div class="console-body">
@@ -314,44 +401,68 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onMounted, onUnmounted, reactive, ref } from 'vue'
-import { useRoute } from 'vue-router'
-import { ElMessage, ElMessageBox } from 'element-plus'
-import { Check, VideoPlay, Upload, EditPen, Setting, Share, FullScreen, Grid, Delete, Brush, Edit, CopyDocument, MagicStick, Monitor, Close, VideoPause, DocumentCopy, Cpu, InfoFilled } from '@element-plus/icons-vue'
-import { VueFlow, useVueFlow, ConnectionMode, type Node, type Edge } from '@vue-flow/core'
-import { Background, Controls, MiniMap } from '@vue-flow/additional-components'
-import '@vue-flow/core/dist/style.css'
-import '@vue-flow/core/dist/theme-default.css'
-import { ruleActionApi, ruleConditionApi, ruleDefinitionApi } from '@/api/rule_engine_api'
-import NodePanel from './NodePanel.vue'
-import PropertyPanel from './PropertyPanel.vue'
-import StartNode from './nodes/StartNode.vue'
-import EndNode from './nodes/EndNode.vue'
-import ConditionNode from './nodes/ConditionNode.vue'
-import ActionNode from './nodes/ActionNode.vue'
-import ExclusiveGatewayNode from './nodes/ExclusiveGatewayNode.vue'
-import ParallelGatewayNode from './nodes/ParallelGatewayNode.vue'
-import InclusiveGatewayNode from './nodes/InclusiveGatewayNode.vue'
-import VariableAssignNode from './nodes/VariableAssignNode.vue'
-import ScriptNode from './nodes/ScriptNode.vue'
-import HttpCallNode from './nodes/HttpCallNode.vue'
-import RuleSetRefNode from './nodes/RuleSetRefNode.vue'
-import LoopNode from './nodes/LoopNode.vue'
-import JoinNode from './nodes/JoinNode.vue'
-import DecisionTableNode from './nodes/DecisionTableNode.vue'
-import GenericNode from './nodes/GenericNode.vue'
-import { NODE_TYPE_MAP, getNodeDefaultData, getNodeLabel } from './nodeTypes'
-import ConditionEditDialog from './dialogs/ConditionEditDialog.vue'
-import ActionEditDialog from './dialogs/ActionEditDialog.vue'
-import GatewayConfigDialog from './dialogs/GatewayConfigDialog.vue'
-import VariableAssignDialog from './dialogs/VariableAssignDialog.vue'
-import ScriptEditDialog from './dialogs/ScriptEditDialog.vue'
-import HttpCallDialog from './dialogs/HttpCallDialog.vue'
-import RuleSetRefDialog from './dialogs/RuleSetRefDialog.vue'
-import LoopConfigDialog from './dialogs/LoopConfigDialog.vue'
-import RulePropertyDialog from './dialogs/RulePropertyDialog.vue'
-import ExecutionLogViewer from './ExecutionLogViewer.vue'
-import { executeRuleFlow, type ExecutionPath } from './engine/RuleExecutor'
+import { computed, onMounted, onUnmounted, reactive, ref,watch } from "vue";
+import { useRoute } from "vue-router";
+import {
+  Back,
+  Brush,
+  Check,
+  Close,
+  CopyDocument,
+  Cpu,
+  DCaret,
+  Delete,
+  Edit,
+  EditPen,
+  FullScreen,
+  Grid,
+  InfoFilled,
+  MagicStick,
+  Monitor,
+  Operation,
+  QuestionFilled,
+  Right,
+  Setting,
+  Share,
+  Upload,
+  VideoPause,
+  VideoPlay
+} from "@element-plus/icons-vue";
+import { ConnectionMode, type Edge, type Node, useVueFlow, VueFlow } from "@vue-flow/core";
+import { Background, Controls, MiniMap } from "@vue-flow/additional-components";
+import "@vue-flow/core/dist/style.css";
+import "@vue-flow/core/dist/theme-default.css";
+import { ruleActionApi, ruleConditionApi, ruleDefinitionApi } from "@/api/rule_engine_api";
+import NodePanel from "./NodePanel.vue";
+import PropertyPanel from "./PropertyPanel.vue";
+import StartNode from "./nodes/StartNode.vue";
+import EndNode from "./nodes/EndNode.vue";
+import ConditionNode from "./nodes/ConditionNode.vue";
+import ActionNode from "./nodes/ActionNode.vue";
+import ExclusiveGatewayNode from "./nodes/ExclusiveGatewayNode.vue";
+import ParallelGatewayNode from "./nodes/ParallelGatewayNode.vue";
+import InclusiveGatewayNode from "./nodes/InclusiveGatewayNode.vue";
+import VariableAssignNode from "./nodes/VariableAssignNode.vue";
+import ScriptNode from "./nodes/ScriptNode.vue";
+import HttpCallNode from "./nodes/HttpCallNode.vue";
+import RuleSetRefNode from "./nodes/RuleSetRefNode.vue";
+import LoopNode from "./nodes/LoopNode.vue";
+import JoinNode from "./nodes/JoinNode.vue";
+import DecisionTableNode from "./nodes/DecisionTableNode.vue";
+import GenericNode from "./nodes/GenericNode.vue";
+import { DEMO_LIST } from "./demos/demoData";
+import { getNodeDefaultData, getNodeLabel } from "./nodeTypes";
+import ConditionEditDialog from "./dialogs/ConditionEditDialog.vue";
+import ActionEditDialog from "./dialogs/ActionEditDialog.vue";
+import GatewayConfigDialog from "./dialogs/GatewayConfigDialog.vue";
+import VariableAssignDialog from "./dialogs/VariableAssignDialog.vue";
+import ScriptEditDialog from "./dialogs/ScriptEditDialog.vue";
+import HttpCallDialog from "./dialogs/HttpCallDialog.vue";
+import RuleSetRefDialog from "./dialogs/RuleSetRefDialog.vue";
+import LoopConfigDialog from "./dialogs/LoopConfigDialog.vue";
+import RulePropertyDialog from "./dialogs/RulePropertyDialog.vue";
+import { executeRuleFlow, type ExecutionPath } from "./engine/RuleExecutor";
+import { success, warning, error, operationConfirm } from "star-horse-lowcode";
 
 const props = defineProps<{ ruleId?: string }>()
 const emit = defineEmits<{ (e: 'saved'): void; (e: 'close'): void }>()
@@ -471,17 +582,19 @@ const onDrop = (e: DragEvent) => {
   const nodeType = e.dataTransfer?.getData('application/vueflow')
   if (!nodeType) return
   const position = screenToFlowCoordinate({ x: e.clientX, y: e.clientY })
+  // 清除其他节点的选中状态
+  nodes.value.forEach(n => n.selected = false)
   let newNode: Node
   if (BASIC_NODE_TYPES.has(nodeType)) {
-    // 基础节点用专用组件
-    newNode = { id: generateNodeId(nodeType), type: nodeType, position, data: nodeDefaultData[nodeType] ? nodeDefaultData[nodeType]() : {} }
+    newNode = { id: generateNodeId(nodeType), type: nodeType, position, data: nodeDefaultData[nodeType] ? nodeDefaultData[nodeType]() : {}, selected: true }
   } else {
-    // 企业级节点用generic组件，实际类型存在data.__nodeType中
     const defaultData = getNodeDefaultData(nodeType)
-    newNode = { id: generateNodeId(nodeType), type: 'generic', position, data: { ...defaultData, __nodeType: nodeType } }
+    newNode = { id: generateNodeId(nodeType), type: 'generic', position, data: { ...defaultData, __nodeType: nodeType }, selected: true }
   }
   addNodes(newNode)
-  ElMessage.success(`已添加 ${getNodeLabel(nodeType)}`)
+  selectedNode.value = newNode
+  pushHistory()
+  success(`已添加 ${getNodeLabel(nodeType)}`)
 }
 
 const onConnect = (c: any) => {
@@ -585,30 +698,39 @@ const onConnect = (c: any) => {
     labelStyle,
     labelShowBg: true,
     labelBgStyle: { fill: '#fff', fillOpacity: 0.9 },
-    animated: true,
+    animated: false,
+    type: edgeType.value,
     style: { stroke: '#6366f1', strokeWidth: 2 },
     data: { manualLabel: false } // 标记为自动生成，可被用户编辑覆盖
   })
+  pushHistory()
 }
 
 // 点击节点库添加节点
 const handleNodeAdd = (nodeType: string) => {
   const offset = nodes.value.length * 30
   const position = { x: 350 + offset % 300, y: 150 + Math.floor(offset / 300) * 120 }
+  // 清除其他节点的选中状态
+  nodes.value.forEach(n => n.selected = false)
   let newNode: Node
   if (BASIC_NODE_TYPES.has(nodeType)) {
-    newNode = { id: generateNodeId(nodeType), type: nodeType, position, data: nodeDefaultData[nodeType] ? nodeDefaultData[nodeType]() : {} }
+    newNode = { id: generateNodeId(nodeType), type: nodeType, position, data: nodeDefaultData[nodeType] ? nodeDefaultData[nodeType]() : {}, selected: true }
   } else {
-    newNode = { id: generateNodeId(nodeType), type: 'generic', position, data: { ...getNodeDefaultData(nodeType), __nodeType: nodeType } }
+    newNode = { id: generateNodeId(nodeType), type: 'generic', position, data: { ...getNodeDefaultData(nodeType), __nodeType: nodeType }, selected: true }
   }
   addNodes(newNode)
-  ElMessage.success(`已添加 ${getNodeLabel(nodeType)}`)
+  selectedNode.value = newNode
+  pushHistory()
+  success(`已添加 ${getNodeLabel(nodeType)}`)
 }
 
 // ========== 节点选中 ==========
 const onNodeClick = (params: any) => {
   closeContextMenu()
-  selectedNode.value = params.node
+  // VueFlow 自带选中状态管理，这里同步 selectedNode
+  // 如果是多选模式（Ctrl/Shift），取第一个选中节点
+  const selected = nodes.value.filter(n => n.selected)
+  selectedNode.value = selected.length > 0 ? selected[0] : params.node
 }
 const onNodeDoubleClick = (params: any) => {
   const { id, type } = params.node
@@ -860,9 +982,9 @@ const handleCtxAction = (action: string) => {
   const { type, nodeId, edgeId } = contextMenu
   switch (action) {
     case 'edit': if (nodeId) { const n = nodes.value.find(n => n.id === nodeId); if (n) onNodeDoubleClick({ node: n }) } break
-    case 'copy': if (nodeId) { const n = nodes.value.find(n => n.id === nodeId); if (n) { clipboard.value = JSON.parse(JSON.stringify(n)); ElMessage.success('已复制') } } break
-    case 'paste': if (clipboard.value) { addNodes({ ...JSON.parse(JSON.stringify(clipboard.value)), id: generateNodeId(clipboard.value.type || 'node'), position: { x: clipboard.value.position.x + 60, y: clipboard.value.position.y + 60 }, selected: false }); ElMessage.success('已粘贴') } else ElMessage.warning('剪贴板为空'); break
-    case 'delete': if (type === 'node' && nodeId) { edges.value = edges.value.filter(e => e.source !== nodeId && e.target !== nodeId); removeNodes([nodeId]); ElMessage.success('已删除') } else if (type === 'edge' && edgeId) { removeEdges([edgeId]); ElMessage.success('已删除') } break
+    case 'copy': if (nodeId) { const n = nodes.value.find(n => n.id === nodeId); if (n) { clipboard.value = JSON.parse(JSON.stringify(n)); success('已复制') } } break
+    case 'paste': if (clipboard.value) { addNodes({ ...JSON.parse(JSON.stringify(clipboard.value)), id: generateNodeId(clipboard.value.type || 'node'), position: { x: clipboard.value.position.x + 60, y: clipboard.value.position.y + 60 }, selected: false }); success('已粘贴') } else warning('剪贴板为空'); break
+    case 'delete': if (type === 'node' && nodeId) { edges.value = edges.value.filter(e => e.source !== nodeId && e.target !== nodeId); removeNodes([nodeId]); success('已删除') } else if (type === 'edge' && edgeId) { removeEdges([edgeId]); success('已删除') } break
     case 'editEdge': if (edgeId) { const e = edges.value.find(e => e.id === edgeId); if (e) { editingEdge.value = e; edgeLabel.value = (e.label as string) || ''; edgeLabelDialogVisible.value = true } } break
     case 'fitView': fitViewFn({ duration: 300 }); break
   }
@@ -870,31 +992,282 @@ const handleCtxAction = (action: string) => {
 }
 
 // ========== 删除选中 ==========
-const hasSelected = computed(() => nodes.value.some(n => n.selected) || edges.value.some(e => e.selected))
+const hasSelected = computed(() => nodes.value?.some(n => n.selected) || edges.value?.some(e => e.selected))
+const hasMultiSelected = computed(() => nodes.value?.filter(n => n.selected).length >= 2)
 const deleteSelected = () => {
   const sn = nodes.value.filter(n => n.selected)
   const se = edges.value.filter(e => e.selected)
-  if (!sn.length && !se.length) { ElMessage.warning('请先选中'); return }
+  if (!sn.length && !se.length) { warning('请先选中'); return }
   if (sn.length) { const ids = sn.map(n => n.id); edges.value = edges.value.filter(e => !ids.includes(e.source) && !ids.includes(e.target)); removeNodes(ids) }
   if (se.length) removeEdges(se.map(e => e.id))
-  ElMessage.success(`已删除 ${sn.length} 节点, ${se.length} 连线`)
+  success(`已删除 ${sn.length} 节点, ${se.length} 连线`)
+  pushHistory()
+}
+
+// ========== Undo/Redo 历史栈 ==========
+const historyStack = ref<{ nodes: any[]; edges: any[] }[]>([])
+const historyIndex = ref(-1)
+const MAX_HISTORY = 50
+let historyTimer: any = null
+
+const canUndo = computed(() => historyIndex.value > 0)
+const canRedo = computed(() => historyIndex.value < historyStack.value.length - 1)
+
+// 防抖推入历史栈（避免拖拽时频繁记录）
+const pushHistory = () => {
+  if (historyTimer) clearTimeout(historyTimer)
+  historyTimer = setTimeout(() => {
+    const snapshot = {
+      nodes: JSON.parse(JSON.stringify(nodes.value)),
+      edges: JSON.parse(JSON.stringify(edges.value))
+    }
+    // 如果当前不在末尾，截断后面的历史
+    if (historyIndex.value < historyStack.value.length - 1) {
+      historyStack.value = historyStack.value.slice(0, historyIndex.value + 1)
+    }
+    historyStack.value.push(snapshot)
+    if (historyStack.value.length > MAX_HISTORY) historyStack.value.shift()
+    historyIndex.value = historyStack.value.length - 1
+  }, 300)
+}
+
+const undo = () => {
+  if (!canUndo.value) return
+  historyIndex.value--
+  const snapshot = historyStack.value[historyIndex.value]
+  nodes.value = JSON.parse(JSON.stringify(snapshot.nodes))
+  edges.value = JSON.parse(JSON.stringify(snapshot.edges))
+  selectedNode.value = null
+}
+
+const redo = () => {
+  if (!canRedo.value) return
+  historyIndex.value++
+  const snapshot = historyStack.value[historyIndex.value]
+  nodes.value = JSON.parse(JSON.stringify(snapshot.nodes))
+  edges.value = JSON.parse(JSON.stringify(snapshot.edges))
+  selectedNode.value = null
+}
+
+// ========== 对齐工具 ==========
+const handleAlign = (cmd: string) => {
+  const selected = nodes.value.filter(n => n.selected)
+  if (selected.length < 2) { warning('请框选至少2个节点'); return }
+
+  switch (cmd) {
+    case 'left': {
+      const minX = Math.min(...selected.map(n => n.position.x))
+      selected.forEach(n => n.position = { ...n.position, x: minX })
+      break
+    }
+    case 'right': {
+      const maxX = Math.max(...selected.map(n => n.position.x + getNodeSize(n).width))
+      selected.forEach(n => n.position = { ...n.position, x: maxX - getNodeSize(n).width })
+      break
+    }
+    case 'center': {
+      const minX = Math.min(...selected.map(n => n.position.x))
+      const maxX = Math.max(...selected.map(n => n.position.x + getNodeSize(n).width))
+      const centerX = (minX + maxX) / 2
+      selected.forEach(n => n.position = { ...n.position, x: centerX - getNodeSize(n).width / 2 })
+      break
+    }
+    case 'top': {
+      const minY = Math.min(...selected.map(n => n.position.y))
+      selected.forEach(n => n.position = { ...n.position, y: minY })
+      break
+    }
+    case 'bottom': {
+      const maxY = Math.max(...selected.map(n => n.position.y + getNodeSize(n).height))
+      selected.forEach(n => n.position = { ...n.position, y: maxY - getNodeSize(n).height })
+      break
+    }
+    case 'middle': {
+      const minY = Math.min(...selected.map(n => n.position.y))
+      const maxY = Math.max(...selected.map(n => n.position.y + getNodeSize(n).height))
+      const centerY = (minY + maxY) / 2
+      selected.forEach(n => n.position = { ...n.position, y: centerY - getNodeSize(n).height / 2 })
+      break
+    }
+    case 'hDist': {
+      // 水平分布：按X排序后均匀分布
+      const sorted = [...selected].sort((a, b) => a.position.x - b.position.x)
+      if (sorted.length < 3) { ElMessage.info('至少需要3个节点'); return }
+      const first = sorted[0]
+      const last = sorted[sorted.length - 1]
+      const totalWidth = (last.position.x + getNodeSize(last).width) - first.position.x
+      const gap = (totalWidth - sorted.reduce((s, n) => s + getNodeSize(n).width, 0)) / (sorted.length - 1)
+      let xPos = first.position.x
+      sorted.forEach(n => {
+        n.position = { ...n.position, x: xPos }
+        xPos += getNodeSize(n).width + gap
+      })
+      break
+    }
+    case 'vDist': {
+      // 垂直分布：按Y排序后均匀分布
+      const sorted = [...selected].sort((a, b) => a.position.y - b.position.y)
+      if (sorted.length < 3) { ElMessage.info('至少需要3个节点'); return }
+      const first = sorted[0]
+      const last = sorted[sorted.length - 1]
+      const totalHeight = (last.position.y + getNodeSize(last).height) - first.position.y
+      const gap = (totalHeight - sorted.reduce((s, n) => s + getNodeSize(n).height, 0)) / (sorted.length - 1)
+      let yPos = first.position.y
+      sorted.forEach(n => {
+        n.position = { ...n.position, y: yPos }
+        yPos += getNodeSize(n).height + gap
+      })
+      break
+    }
+  }
+  pushHistory()
+  success('对齐完成')
+}
+
+// ========== 连线类型 ==========
+const edgeType = ref<string>('default')
+const handleEdgeType = (type: string) => {
+  edgeType.value = type
+  edges.value.forEach(e => { e.type = type })
 }
 
 // ========== 画布操作 ==========
 const fitView = () => fitViewFn({ duration: 300 })
+
+// 估算节点尺寸（用于自动布局避免重叠）
+const getNodeSize = (node: any): { width: number; height: number } => {
+  const t = node.type === 'generic' ? node.data?.__nodeType : node.type
+  switch (t) {
+    case 'start': case 'end': return { width: 80, height: 80 }
+    case 'exclusive-gateway': case 'parallel-gateway': case 'inclusive-gateway': case 'join': return { width: 80, height: 80 }
+    case 'condition': return { width: 300, height: 120 + ((node.data?.conditions?.length || 0) * 28) }
+    case 'action': return { width: 300, height: 100 + ((node.data?.actions?.length || 0) * 28) }
+    case 'variable-assign': return { width: 300, height: 100 + ((node.data?.assignments?.length || 0) * 28) }
+    case 'decision-table': return { width: 320, height: 160 }
+    case 'script': return { width: 300, height: 140 }
+    case 'http-call': return { width: 300, height: 160 }
+    case 'rule-set-ref': return { width: 300, height: 140 }
+    case 'loop': return { width: 300, height: 120 }
+    default: return { width: 260, height: 100 }
+  }
+}
+
 const autoLayout = () => {
+  if (!nodes.value.length) { warning('画布为空'); return }
+
+  // 1. BFS分层（拓扑排序）
   const startNodes = nodes.value.filter(n => n.type === 'start')
-  const visited = new Set<string>(); const levels: Record<string, number> = {}
-  const queue = startNodes.map(n => ({ id: n.id, level: 0 }))
-  while (queue.length) { const { id, level } = queue.shift()!; if (visited.has(id)) continue; visited.add(id); levels[id] = level; edges.value.filter(e => e.source === id).forEach(e => { if (!visited.has(e.target)) queue.push({ id: e.target, level: level + 1 }) }) }
-  nodes.value.forEach(n => { if (!(n.id in levels)) levels[n.id] = 0 })
+  const visited = new Set<string>()
+  const levels: Record<string, number> = {}
+  const queue = (startNodes.length ? startNodes : [nodes.value[0]]).map(n => ({ id: n.id, level: 0 }))
+  while (queue.length) {
+    const { id, level } = queue.shift()!
+    if (visited.has(id)) { levels[id] = Math.max(levels[id] || 0, level); continue }
+    visited.add(id); levels[id] = level
+    edges.value.filter(e => e.source === id).forEach(e => {
+      queue.push({ id: e.target, level: level + 1 })
+    })
+  }
+  let maxLevel = 0
+  nodes.value.forEach(n => { if (!(n.id in levels)) levels[n.id] = 0; maxLevel = Math.max(maxLevel, levels[n.id]) })
+  nodes.value.forEach(n => { if (!visited.has(n.id)) levels[n.id] = maxLevel + 1 })
+
+  // 2. 按层分组
   const groups: Record<number, string[]> = {}
   Object.entries(levels).forEach(([id, lv]) => { if (!groups[lv]) groups[lv] = []; groups[lv].push(id) })
-  Object.entries(groups).forEach(([lv, ids]) => { const l = parseInt(lv); ids.forEach((id, i) => { const n = nodes.value.find(n => n.id === id); if (n) n.position = { x: 400 + (i - ids.length / 2) * 280, y: 50 + l * 180 } }) })
+
+  // 3. 动态计算每层位置（Y轴根据上层最大节点高度累加，避免重叠）
+  const NODE_GAP_X = 80    // 节点间水平间距
+  const LAYER_GAP_Y = 80   // 层间额外垂直间距
+  const START_Y = 50
+  let currentY = START_Y
+
+  // 按层级从小到大处理
+  const sortedLayers = Object.keys(groups).map(Number).sort((a, b) => a - b)
+  sortedLayers.forEach((layer, idx) => {
+    const ids = groups[layer]
+    const layerNodes = ids.map(id => nodes.value.find(n => n.id === id)).filter(Boolean) as any[]
+    if (!layerNodes.length) return
+
+    // 计算该层所有节点的总宽度
+    const sizes = layerNodes.map(n => getNodeSize(n))
+    const totalWidth = sizes.reduce((sum, s) => sum + s.width, 0) + (layerNodes.length - 1) * NODE_GAP_X
+    // 该层最大高度
+    const max_height = Math.max(...sizes.map(s => s.height))
+
+    // 从中心开始水平排布
+    let xPos = -totalWidth / 2
+    layerNodes.forEach((n, i) => {
+      const size = sizes[i]
+      n.position = { x: xPos + size.width / 2, y: currentY }
+      xPos += size.width + NODE_GAP_X
+    })
+
+    // Y轴累加：当前层最大高度 + 层间距
+    currentY += max_height + LAYER_GAP_Y
+  })
+
   setTimeout(() => fitViewFn({ duration: 300 }), 100)
-  ElMessage.success('已自动布局')
+  success('已自动布局')
 }
-const clearCanvas = async () => { await ElMessageBox.confirm('确定清空画布？', '警告', { type: 'warning' }); nodes.value = []; edges.value = []; initDefaultFlow() }
+
+// 对选中节点进行局部自动布局
+const layoutSelected = () => {
+  const selectedNodes = nodes.value.filter(n => n.selected)
+  if (selectedNodes.length < 2) { warning('请框选至少2个节点'); return }
+
+  // 提取选中节点之间的边（仅选中节点构成的子图）
+  const selectedIds = new Set(selectedNodes.map(n => n.id))
+  const subEdges = edges.value.filter(e => selectedIds.has(e.source) && selectedIds.has(e.target))
+
+  // BFS分层（在子图内）
+  const levels: Record<string, number> = {}
+  const visited = new Set<string>()
+  // 入口：选中节点中没有入边（在子图内）的节点
+  const entryNodes = selectedNodes.filter(n => !subEdges.some(e => e.target === n.id))
+  const queue = (entryNodes.length ? entryNodes : [selectedNodes[0]]).map(n => ({ id: n.id, level: 0 }))
+  while (queue.length) {
+    const { id, level } = queue.shift()!
+    if (visited.has(id)) { levels[id] = Math.max(levels[id] || 0, level); continue }
+    visited.add(id); levels[id] = level
+    subEdges.filter(e => e.source === id).forEach(e => {
+      queue.push({ id: e.target, level: level + 1 })
+    })
+  }
+  selectedNodes.forEach(n => { if (!(n.id in levels)) levels[n.id] = 0 })
+
+  // 分组
+  const groups: Record<number, any[]> = {}
+  Object.entries(levels).forEach(([id, lv]) => { if (!groups[lv]) groups[lv] = []; groups[lv].push(nodes.value.find(n => n.id === id)) })
+
+  // 计算选中节点整体的中心点（作为布局起点）
+  const centerX = selectedNodes.reduce((sum, n) => sum + n.position.x, 0) / selectedNodes.length
+  const startY = Math.min(...selectedNodes.map(n => n.position.y))
+
+  const NODE_GAP_X = 80
+  const LAYER_GAP_Y = 80
+  let currentY = startY
+
+  const sortedLayers = Object.keys(groups).map(Number).sort((a, b) => a - b)
+  sortedLayers.forEach(layer => {
+    const layerNodes = groups[layer].filter(Boolean)
+    if (!layerNodes.length) return
+    const sizes = layerNodes.map((n: any) => getNodeSize(n))
+    const totalWidth = sizes.reduce((sum: number, s: any) => sum + s.width, 0) + (layerNodes.length - 1) * NODE_GAP_X
+    const maxH = Math.max(...sizes.map((s: any) => s.height))
+
+    let xPos = centerX - totalWidth / 2
+    layerNodes.forEach((n: any, i: number) => {
+      const size = sizes[i]
+      n.position = { x: xPos + size.width / 2, y: currentY }
+      xPos += size.width + NODE_GAP_X
+    })
+    currentY += maxH + LAYER_GAP_Y
+  })
+
+  success(`已对 ${selectedNodes.length} 个选中节点布局`)
+}
+const clearCanvas = async () => { await operationConfirm('确定清空画布？'); nodes.value = []; edges.value = []; initDefaultFlow() }
 
 // ========== 高亮 ==========
 const isTestMode = ref(false)
@@ -907,7 +1280,7 @@ const handleHighlightPath = (path: any) => {
 const handleResetHighlight = () => {
   isTestMode.value = false
   nodes.value.forEach(n => { if (n.data) { delete n.data.__highlighted; delete n.data.__dimmed }; n.class = '' })
-  edges.value.forEach(e => { e.animated = true; e.style = { stroke: '#6366f1', strokeWidth: 2 }; e.class = '' })
+  edges.value.forEach(e => { e.animated = false; e.style = { stroke: '#6366f1', strokeWidth: 2 }; e.class = '' })
 }
 
 // ========== 测试控制台 ==========
@@ -915,8 +1288,8 @@ const displaySteps = computed(() => { if (!executionPath.value) return []; retur
 const executeTest = async () => {
   let d: any
   if (jsonMode.value) {
-    if (!testDataStr.value.trim()) { ElMessage.warning('请输入测试数据'); return }
-    try { d = JSON.parse(testDataStr.value) } catch { ElMessage.error('JSON格式错误'); return }
+    if (!testDataStr.value.trim()) { warning('请输入测试数据'); return }
+    try { d = JSON.parse(testDataStr.value) } catch { error('JSON格式错误'); return }
   } else {
     // 表单模式：从testFormData构建
     d = {}
@@ -931,7 +1304,7 @@ const executeTest = async () => {
     })
   }
   executing.value = true; isStepping.value = false
-  try { await new Promise(r => setTimeout(r, 200)); const r = executeRuleFlow(nodes.value, edges.value, d); executionPath.value = r; handleHighlightPath(r); outputTab.value = 'timeline'; ElMessage.success(`执行完成，经过 ${r.visitedNodeIds.length} 节点`) } catch (e: any) { ElMessage.error('执行失败: ' + e.message) } finally { executing.value = false }
+  try { await new Promise(r => setTimeout(r, 200)); const r = executeRuleFlow(nodes.value, edges.value, d); executionPath.value = r; handleHighlightPath(r); outputTab.value = 'timeline'; success(`执行完成，经过 ${r.visitedNodeIds.length} 节点`) } catch (e: any) { error('执行失败: ' + e.message) } finally { executing.value = false }
 }
 const stepExecute = () => {
   if (!executionPath.value) return
@@ -939,6 +1312,7 @@ const stepExecute = () => {
   handleHighlightPath({ ...executionPath.value, visitedNodeIds: executionPath.value.visitedNodeIds.slice(0, stepIndex.value + 1), visitedEdgeIds: executionPath.value.visitedEdgeIds.slice(0, stepIndex.value + 1), steps: executionPath.value.steps.slice(0, stepIndex.value + 1) })
 }
 const clearTestResult = () => { isStepping.value = false; executionPath.value = null; handleResetHighlight() }
+const closeTestConsole = () => { testConsoleVisible.value = false; isStepping.value = false; executionPath.value = null; handleResetHighlight() }
 const loadSampleData = () => {
   if (jsonMode.value) {
     const d: any = {}
@@ -953,7 +1327,7 @@ const loadSampleData = () => {
       else testFormData[f.name] = 'sample'
     })
   }
-  ElMessage.success('已加载示例数据')
+  success('已加载示例数据')
 }
 
 const switchToJsonMode = () => {
@@ -970,7 +1344,7 @@ const switchToJsonMode = () => {
 }
 const getStepType = (s: string) => s === 'SUCCESS' ? 'success' : s === 'FAILED' ? 'danger' : s === 'SKIPPED' ? 'info' : 'primary'
 const formatJson = (o: any) => { try { return JSON.stringify(o, null, 2) } catch { return String(o) } }
-const formatJsonInput = () => { try { testDataStr.value = JSON.stringify(JSON.parse(testDataStr.value), null, 2); ElMessage.success('已格式化') } catch { ElMessage.error('JSON格式错误') } }
+const formatJsonInput = () => { try { testDataStr.value = JSON.stringify(JSON.parse(testDataStr.value), null, 2); success('已格式化') } catch { error('JSON格式错误') } }
 
 // ========== 数据加载保存 ==========
 const allConditions = computed(() => { const c: any[] = []; nodes.value.filter(n => n.type === 'condition').forEach(n => (n.data.conditions || []).forEach((cond: any) => c.push({ ...cond, logic: n.data.logic || 'AND' }))); return c })
@@ -985,11 +1359,11 @@ const loadRuleData = async () => {
       if (ruleData.flowContent) { try { const f = JSON.parse(ruleData.flowContent); nodes.value = f.nodes || []; edges.value = f.edges || [] } catch { initDefaultFlow() } }
       else { initDefaultFlow() }
     }
-  } catch { ElMessage.error('加载失败'); initDefaultFlow() }
+  } catch { error('加载失败'); initDefaultFlow() }
 }
 
 const handleSave = async () => {
-  if (!ruleData.ruleCode || !ruleData.ruleName) { ElMessage.warning('请填写规则编码和名称'); return }
+  if (!ruleData.ruleCode || !ruleData.ruleName) { warning('请填写规则编码和名称'); return }
   saving.value = true
   try {
     ruleData.flowContent = JSON.stringify({ nodes: nodes.value.map(n => ({ ...n, selected: false })), edges: edges.value.map(e => ({ ...e, selected: false })) })
@@ -1002,19 +1376,19 @@ const handleSave = async () => {
     await ruleActionApi.deleteByRuleId(id)
     const as = allActions.value
     if (as.length) await ruleActionApi.batchSaveActions(as.map((a, i) => ({ ...a, idRuleDefinition: id, actionIndex: i })))
-    ElMessage.success('保存成功'); emit('saved')
-  } catch { ElMessage.error('保存失败') } finally { saving.value = false }
+    success('保存成功'); emit('saved')
+  } catch { error('保存失败') } finally { saving.value = false }
 }
 
-const handleTest = () => { if (!nodes.value.length) { ElMessage.warning('流程图为空'); return } testConsoleVisible.value = true }
-const handlePublish = async () => { await ElMessageBox.confirm('确定发布？', '提示', { type: 'warning' }); try { ruleData.status = 'PUBLISHED'; await ruleDefinitionApi.updateRule(ruleData); ElMessage.success('发布成功') } catch { ElMessage.error('发布失败') } }
+const handleTest = () => { if (!nodes.value.length) { warning('流程图为空'); return } testConsoleVisible.value = true }
+const handlePublish = async () => { await operationConfirm('确定发布？'); try { ruleData.status = 'PUBLISHED'; await ruleDefinitionApi.updateRule(ruleData); success('发布成功') } catch { error('发布失败') } }
 
 const getStatusType = (s: string) => ({ DRAFT: 'info', PUBLISHED: 'success', DISABLED: 'danger' }[s] || 'info')
 const getStatusText = (s: string) => ({ DRAFT: '草稿', PUBLISHED: '已发布', DISABLED: '已禁用' }[s] || s)
 
 const loadDemoData = async () => {
   const { value: demoType } = await ElMessageBox.prompt(
-    '请选择规则引擎Demo类型：\n1. 商品定价决策（多条件路由+动作执行）\n2. 风控评分卡（多条件嵌套+阈值判定）\n3. 会员等级判定（决策表+变量赋值）\n4. 优惠券权益计算（规则集+条件组合）\n5. 异常交易识别（复合条件+HTTP调用验证）\n6. 订单满减规则（循环遍历+条件匹配）',
+    '请选择规则引擎Demo类型：\n' + DEMO_LIST.map(d => `${d.id}. ${d.name}（${d.desc}）`).join('\n'),
     '加载规则引擎Demo',
     {
       confirmButtonText: '确定',
@@ -1025,187 +1399,38 @@ const loadDemoData = async () => {
     }
   )
 
-  const demoMap: Record<string, () => void> = {
-    '1': loadDemo1_ProductPricing,
-    '2': loadDemo2_RiskScoring,
-    '3': loadDemo3_MemberLevel,
-    '4': loadDemo4_CouponBenefit,
-    '5': loadDemo5_AbnormalTransaction,
-    '6': loadDemo6_OrderDiscount
-  }
-
-  const loader = demoMap[demoType]
-  if (loader) {
-    loader()
+  const demo = DEMO_LIST.find(d => d.id === demoType)
+  if (demo) {
+    ruleData.ruleCode = demo.data.ruleCode
+    ruleData.ruleName = demo.data.ruleName
+    ruleData.ruleDesc = demo.data.ruleDesc
+    nodes.value = JSON.parse(JSON.stringify(demo.data.nodes))
+    edges.value = JSON.parse(JSON.stringify(demo.data.edges))
     setTimeout(() => fitViewFn({ duration: 500 }), 100)
-    ElMessage.success('规则引擎Demo已加载，点击测试体验决策路径')
+    success('规则引擎Demo已加载，点击测试体验决策路径')
+    pushHistory()
   }
-}
-
-// Demo 1: 商品定价决策（多条件路由+动作执行）
-const loadDemo1_ProductPricing = () => {
-  ruleData.ruleCode = 'RULE_PRICING'; ruleData.ruleName = 'Demo1: 商品定价决策'; ruleData.ruleDesc = '根据商品类目、库存、季节计算最终售价'
-  nodes.value = [
-    { id: 'start_1', type: 'start', position: { x: 400, y: 30 }, data: {} },
-    { id: 'cond_1', type: 'condition', position: { x: 330, y: 130 }, data: { conditions: [{ fieldName: 'category', fieldType: 'STRING', operator: 'EQ', value: 'electronics' }, { fieldName: 'stock', fieldType: 'NUMBER', operator: 'LT', value: '50' }], logic: 'AND' } },
-    { id: 'gw_1', type: 'exclusive-gateway', position: { x: 380, y: 280 }, data: { name: '价格策略路由', gatewayType: 'XOR', branches: [{ id: 'b1', label: '稀缺电子产品', condition: 'category == "electronics" && stock < 50' }, { id: 'b2', label: '普通商品', condition: 'default' }] } },
-    { id: 'var_1', type: 'variable-assign', position: { x: 100, y: 420 }, data: { assignments: [{ variableName: 'priceMultiplier', valueType: 'CONSTANT', value: '1.2' }, { variableName: 'discount', valueType: 'CONSTANT', value: '0' }] } },
-    { id: 'action_1', type: 'action', position: { x: 100, y: 560 }, data: { actions: [{ actionType: 'SET_VALUE', targetField: 'finalPrice', actionValue: 'basePrice * priceMultiplier', actionValueType: 'EXPRESSION' }, { actionType: 'SHOW_MESSAGE', message: '稀缺商品溢价20%', messageType: 'WARNING' }] } },
-    { id: 'var_2', type: 'variable-assign', position: { x: 620, y: 420 }, data: { assignments: [{ variableName: 'priceMultiplier', valueType: 'CONSTANT', value: '1.0' }, { variableName: 'discount', valueType: 'CONSTANT', value: '0.1' }] } },
-    { id: 'action_2', type: 'action', position: { x: 620, y: 560 }, data: { actions: [{ actionType: 'SET_VALUE', targetField: 'finalPrice', actionValue: 'basePrice * (1 - discount)', actionValueType: 'EXPRESSION' }, { actionType: 'SHOW_MESSAGE', message: '普通商品9折优惠', messageType: 'SUCCESS' }] } },
-    { id: 'end_1', type: 'end', position: { x: 400, y: 700 }, data: { endType: 'success' } }
-  ]
-  edges.value = [
-    { id: 'e_s_c', source: 'start_1', target: 'cond_1', animated: true, style: { stroke: '#7c3aed', strokeWidth: 2 } },
-    { id: 'e_c_g', source: 'cond_1', target: 'gw_1', animated: true, label: '满足 ✓', style: { stroke: '#10b981', strokeWidth: 2 }, labelStyle: { fill: '#10b981', fontSize: 11, fontWeight: 600 }, labelShowBg: true, labelBgStyle: { fill: '#fff', fillOpacity: 0.9 } },
-    { id: 'e_g_v1', source: 'gw_1', target: 'var_1', animated: true, label: '稀缺电子产品', style: { stroke: '#f59e0b', strokeWidth: 2 }, labelStyle: { fill: '#f59e0b', fontSize: 11, fontWeight: 600 }, labelShowBg: true, labelBgStyle: { fill: '#fff', fillOpacity: 0.9 } },
-    { id: 'e_g_v2', source: 'gw_1', target: 'var_2', animated: true, label: '普通商品', style: { stroke: '#22c55e', strokeWidth: 2 }, labelStyle: { fill: '#22c55e', fontSize: 11, fontWeight: 600 }, labelShowBg: true, labelBgStyle: { fill: '#fff', fillOpacity: 0.9 } },
-    { id: 'e_v1_a1', source: 'var_1', target: 'action_1', animated: true, label: '设置 priceMultiplier, discount', style: { stroke: '#6366f1', strokeWidth: 2 }, labelStyle: { fill: '#6366f1', fontSize: 11, fontWeight: 500 }, labelShowBg: true, labelBgStyle: { fill: '#fff', fillOpacity: 0.9 } },
-    { id: 'e_v2_a2', source: 'var_2', target: 'action_2', animated: true, label: '设置 priceMultiplier, discount', style: { stroke: '#6366f1', strokeWidth: 2 }, labelStyle: { fill: '#6366f1', fontSize: 11, fontWeight: 500 }, labelShowBg: true, labelBgStyle: { fill: '#fff', fillOpacity: 0.9 } },
-    { id: 'e_a1_e', source: 'action_1', target: 'end_1', animated: true, label: '2个动作', style: { stroke: '#6366f1', strokeWidth: 2 }, labelStyle: { fill: '#6366f1', fontSize: 11, fontWeight: 500 }, labelShowBg: true, labelBgStyle: { fill: '#fff', fillOpacity: 0.9 } },
-    { id: 'e_a2_e', source: 'action_2', target: 'end_1', animated: true, label: '2个动作', style: { stroke: '#6366f1', strokeWidth: 2 }, labelStyle: { fill: '#6366f1', fontSize: 11, fontWeight: 500 }, labelShowBg: true, labelBgStyle: { fill: '#fff', fillOpacity: 0.9 } }
-  ]
-}
-
-// Demo 2: 风控评分卡（多条件嵌套+阈值判定）
-const loadDemo2_RiskScoring = () => {
-  ruleData.ruleCode = 'RULE_RISK_SCORE'; ruleData.ruleName = 'Demo2: 风控评分卡'; ruleData.ruleDesc = '多条件嵌套评估用户风险等级'
-  nodes.value = [
-    { id: 'start_1', type: 'start', position: { x: 400, y: 30 }, data: {} },
-    { id: 'var_1', type: 'variable-assign', position: { x: 330, y: 130 }, data: { assignments: [{ variableName: 'riskScore', valueType: 'CONSTANT', value: '0' }] } },
-    { id: 'cond_1', type: 'condition', position: { x: 330, y: 260 }, data: { conditions: [{ fieldName: 'age', fieldType: 'NUMBER', operator: 'LT', value: '25' }, { fieldName: 'income', fieldType: 'NUMBER', operator: 'LT', value: '5000' }], logic: 'AND' } },
-    { id: 'action_1', type: 'action', position: { x: 100, y: 400 }, data: { actions: [{ actionType: 'SET_VALUE', targetField: 'riskScore', actionValue: 'riskScore + 30', actionValueType: 'EXPRESSION' }, { actionType: 'SHOW_MESSAGE', message: '年轻低收入群体风险+30', messageType: 'WARNING' }] } },
-    { id: 'cond_2', type: 'condition', position: { x: 560, y: 400 }, data: { conditions: [{ fieldName: 'creditHistory', fieldType: 'STRING', operator: 'EQ', value: 'bad' }, { fieldName: 'debtRatio', fieldType: 'NUMBER', operator: 'GT', value: '0.5' }], logic: 'AND' } },
-    { id: 'action_2', type: 'action', position: { x: 560, y: 540 }, data: { actions: [{ actionType: 'SET_VALUE', targetField: 'riskScore', actionValue: 'riskScore + 50', actionValueType: 'EXPRESSION' }, { actionType: 'SHOW_MESSAGE', message: '信用不良且负债率高风险+50', messageType: 'ERROR' }] } },
-    { id: 'cond_3', type: 'condition', position: { x: 330, y: 680 }, data: { conditions: [{ fieldName: 'riskScore', fieldType: 'NUMBER', operator: 'GTE', value: '80' }], logic: 'AND' } },
-    { id: 'action_3', type: 'action', position: { x: 100, y: 820 }, data: { actions: [{ actionType: 'SET_VALUE', targetField: 'riskLevel', actionValue: 'HIGH', actionValueType: 'CONSTANT' }, { actionType: 'SHOW_MESSAGE', message: '高风险用户，拒绝交易', messageType: 'ERROR' }] } },
-    { id: 'end_1', type: 'end', position: { x: 100, y: 960 }, data: { endType: 'fail' } },
-    { id: 'action_4', type: 'action', position: { x: 560, y: 820 }, data: { actions: [{ actionType: 'SET_VALUE', targetField: 'riskLevel', actionValue: 'LOW', actionValueType: 'CONSTANT' }, { actionType: 'SHOW_MESSAGE', message: '低风险用户，允许交易', messageType: 'SUCCESS' }] } },
-    { id: 'end_2', type: 'end', position: { x: 560, y: 960 }, data: { endType: 'success' } }
-  ]
-  edges.value = [
-    { id: 'e1', source: 'start_1', target: 'var_1', animated: true, style: { stroke: '#7c3aed', strokeWidth: 2 } },
-    { id: 'e2', source: 'var_1', target: 'cond_1', animated: true, label: '设置 riskScore', style: { stroke: '#6366f1', strokeWidth: 2 }, labelStyle: { fill: '#6366f1', fontSize: 11, fontWeight: 500 }, labelShowBg: true, labelBgStyle: { fill: '#fff', fillOpacity: 0.9 } },
-    { id: 'e3', source: 'cond_1', target: 'action_1', animated: true, label: '满足 ✓', style: { stroke: '#10b981', strokeWidth: 2 }, labelStyle: { fill: '#10b981', fontSize: 11, fontWeight: 600 }, labelShowBg: true, labelBgStyle: { fill: '#fff', fillOpacity: 0.9 } },
-    { id: 'e4', source: 'cond_1', target: 'cond_2', animated: true, label: '不满足 ✗', style: { stroke: '#ef4444', strokeWidth: 2 }, labelStyle: { fill: '#ef4444', fontSize: 11, fontWeight: 600 }, labelShowBg: true, labelBgStyle: { fill: '#fff', fillOpacity: 0.9 } },
-    { id: 'e5', source: 'action_1', target: 'cond_3', animated: true, label: '2个动作', style: { stroke: '#6366f1', strokeWidth: 2 }, labelStyle: { fill: '#6366f1', fontSize: 11, fontWeight: 500 }, labelShowBg: true, labelBgStyle: { fill: '#fff', fillOpacity: 0.9 } },
-    { id: 'e6', source: 'cond_2', target: 'action_2', animated: true, label: '满足 ✓', style: { stroke: '#10b981', strokeWidth: 2 }, labelStyle: { fill: '#10b981', fontSize: 11, fontWeight: 600 }, labelShowBg: true, labelBgStyle: { fill: '#fff', fillOpacity: 0.9 } },
-    { id: 'e7', source: 'cond_2', target: 'cond_3', animated: true, label: '不满足 ✗', style: { stroke: '#ef4444', strokeWidth: 2 }, labelStyle: { fill: '#ef4444', fontSize: 11, fontWeight: 600 }, labelShowBg: true, labelBgStyle: { fill: '#fff', fillOpacity: 0.9 } },
-    { id: 'e8', source: 'action_2', target: 'cond_3', animated: true, label: '2个动作', style: { stroke: '#6366f1', strokeWidth: 2 }, labelStyle: { fill: '#6366f1', fontSize: 11, fontWeight: 500 }, labelShowBg: true, labelBgStyle: { fill: '#fff', fillOpacity: 0.9 } },
-    { id: 'e9', source: 'cond_3', target: 'action_3', animated: true, label: '满足 ✓', style: { stroke: '#10b981', strokeWidth: 2 }, labelStyle: { fill: '#10b981', fontSize: 11, fontWeight: 600 }, labelShowBg: true, labelBgStyle: { fill: '#fff', fillOpacity: 0.9 } },
-    { id: 'e10', source: 'cond_3', target: 'action_4', animated: true, label: '不满足 ✗', style: { stroke: '#ef4444', strokeWidth: 2 }, labelStyle: { fill: '#ef4444', fontSize: 11, fontWeight: 600 }, labelShowBg: true, labelBgStyle: { fill: '#fff', fillOpacity: 0.9 } },
-    { id: 'e11', source: 'action_3', target: 'end_1', animated: true, label: '2个动作', style: { stroke: '#6366f1', strokeWidth: 2 }, labelStyle: { fill: '#6366f1', fontSize: 11, fontWeight: 500 }, labelShowBg: true, labelBgStyle: { fill: '#fff', fillOpacity: 0.9 } },
-    { id: 'e12', source: 'action_4', target: 'end_2', animated: true, label: '2个动作', style: { stroke: '#6366f1', strokeWidth: 2 }, labelStyle: { fill: '#6366f1', fontSize: 11, fontWeight: 500 }, labelShowBg: true, labelBgStyle: { fill: '#fff', fillOpacity: 0.9 } }
-  ]
-}
-
-// Demo 3: 会员等级判定（决策表+变量赋值）
-const loadDemo3_MemberLevel = () => {
-  ruleData.ruleCode = 'RULE_MEMBER_LEVEL'; ruleData.ruleName = 'Demo3: 会员等级判定'; ruleData.ruleDesc = '根据消费金额和频次判定会员等级，计算权益'
-  nodes.value = [
-    { id: 'start_1', type: 'start', position: { x: 400, y: 30 }, data: {} },
-    { id: 'var_1', type: 'variable-assign', position: { x: 330, y: 130 }, data: { assignments: [{ variableName: 'totalSpend', valueType: 'VARIABLE', value: 'annualSpend' }, { variableName: 'orderCount', valueType: 'VARIABLE', value: 'annualOrders' }] } },
-    { id: 'gw_1', type: 'exclusive-gateway', position: { x: 380, y: 270 }, data: { name: '会员等级路由', gatewayType: 'XOR', branches: [{ id: 'b1', label: '钻石会员', condition: 'totalSpend >= 50000 && orderCount >= 100' }, { id: 'b2', label: '金卡会员', condition: 'totalSpend >= 20000' }, { id: 'b3', label: '银卡会员', condition: 'totalSpend >= 5000' }, { id: 'b4', label: '普通会员', condition: 'default' }] } },
-    { id: 'action_1', type: 'action', position: { x: 20, y: 420 }, data: { actions: [{ actionType: 'SET_VALUE', targetField: 'memberLevel', actionValue: 'DIAMOND', actionValueType: 'CONSTANT' }, { actionType: 'SET_VALUE', targetField: 'discountRate', actionValue: '0.7', actionValueType: 'CONSTANT' }, { actionType: 'SET_VALUE', targetField: 'freeShipping', actionValue: 'true', actionValueType: 'CONSTANT' }, { actionType: 'SHOW_MESSAGE', message: '钻石会员：7折+免运费', messageType: 'SUCCESS' }] } },
-    { id: 'action_2', type: 'action', position: { x: 260, y: 420 }, data: { actions: [{ actionType: 'SET_VALUE', targetField: 'memberLevel', actionValue: 'GOLD', actionValueType: 'CONSTANT' }, { actionType: 'SET_VALUE', targetField: 'discountRate', actionValue: '0.85', actionValueType: 'CONSTANT' }, { actionType: 'SHOW_MESSAGE', message: '金卡会员：8.5折', messageType: 'SUCCESS' }] } },
-    { id: 'action_3', type: 'action', position: { x: 500, y: 420 }, data: { actions: [{ actionType: 'SET_VALUE', targetField: 'memberLevel', actionValue: 'SILVER', actionValueType: 'CONSTANT' }, { actionType: 'SET_VALUE', targetField: 'discountRate', actionValue: '0.95', actionValueType: 'CONSTANT' }, { actionType: 'SHOW_MESSAGE', message: '银卡会员：9.5折', messageType: 'INFO' }] } },
-    { id: 'action_4', type: 'action', position: { x: 740, y: 420 }, data: { actions: [{ actionType: 'SET_VALUE', targetField: 'memberLevel', actionValue: 'NORMAL', actionValueType: 'CONSTANT' }, { actionType: 'SET_VALUE', targetField: 'discountRate', actionValue: '1.0', actionValueType: 'CONSTANT' }, { actionType: 'SHOW_MESSAGE', message: '普通会员：无折扣', messageType: 'INFO' }] } },
-    { id: 'end_1', type: 'end', position: { x: 400, y: 580 }, data: { endType: 'success' } }
-  ]
-  edges.value = [
-    { id: 'e1', source: 'start_1', target: 'var_1', animated: true, style: { stroke: '#7c3aed', strokeWidth: 2 } },
-    { id: 'e2', source: 'var_1', target: 'gw_1', animated: true, label: '设置 totalSpend, orderCount', style: { stroke: '#6366f1', strokeWidth: 2 }, labelStyle: { fill: '#6366f1', fontSize: 11, fontWeight: 500 }, labelShowBg: true, labelBgStyle: { fill: '#fff', fillOpacity: 0.9 } },
-    { id: 'e3', source: 'gw_1', target: 'action_1', animated: true, label: '钻石会员', style: { stroke: '#f59e0b', strokeWidth: 2 }, labelStyle: { fill: '#f59e0b', fontSize: 11, fontWeight: 600 }, labelShowBg: true, labelBgStyle: { fill: '#fff', fillOpacity: 0.9 } },
-    { id: 'e4', source: 'gw_1', target: 'action_2', animated: true, label: '金卡会员', style: { stroke: '#f59e0b', strokeWidth: 2 }, labelStyle: { fill: '#f59e0b', fontSize: 11, fontWeight: 600 }, labelShowBg: true, labelBgStyle: { fill: '#fff', fillOpacity: 0.9 } },
-    { id: 'e5', source: 'gw_1', target: 'action_3', animated: true, label: '银卡会员', style: { stroke: '#f59e0b', strokeWidth: 2 }, labelStyle: { fill: '#f59e0b', fontSize: 11, fontWeight: 600 }, labelShowBg: true, labelBgStyle: { fill: '#fff', fillOpacity: 0.9 } },
-    { id: 'e6', source: 'gw_1', target: 'action_4', animated: true, label: '普通会员', style: { stroke: '#f59e0b', strokeWidth: 2 }, labelStyle: { fill: '#f59e0b', fontSize: 11, fontWeight: 600 }, labelShowBg: true, labelBgStyle: { fill: '#fff', fillOpacity: 0.9 } },
-    { id: 'e7', source: 'action_1', target: 'end_1', animated: true, label: '4个动作', style: { stroke: '#6366f1', strokeWidth: 2 }, labelStyle: { fill: '#6366f1', fontSize: 11, fontWeight: 500 }, labelShowBg: true, labelBgStyle: { fill: '#fff', fillOpacity: 0.9 } },
-    { id: 'e8', source: 'action_2', target: 'end_1', animated: true, label: '3个动作', style: { stroke: '#6366f1', strokeWidth: 2 }, labelStyle: { fill: '#6366f1', fontSize: 11, fontWeight: 500 }, labelShowBg: true, labelBgStyle: { fill: '#fff', fillOpacity: 0.9 } },
-    { id: 'e9', source: 'action_3', target: 'end_1', animated: true, label: '3个动作', style: { stroke: '#6366f1', strokeWidth: 2 }, labelStyle: { fill: '#6366f1', fontSize: 11, fontWeight: 500 }, labelShowBg: true, labelBgStyle: { fill: '#fff', fillOpacity: 0.9 } },
-    { id: 'e10', source: 'action_4', target: 'end_1', animated: true, label: '3个动作', style: { stroke: '#6366f1', strokeWidth: 2 }, labelStyle: { fill: '#6366f1', fontSize: 11, fontWeight: 500 }, labelShowBg: true, labelBgStyle: { fill: '#fff', fillOpacity: 0.9 } }
-  ]
-}
-
-// Demo 4: 优惠券权益计算（规则集+条件组合）
-const loadDemo4_CouponBenefit = () => {
-  ruleData.ruleCode = 'RULE_COUPON'; ruleData.ruleName = 'Demo4: 优惠券权益计算'; ruleData.ruleDesc = '根据优惠券类型和使用条件计算权益'
-  nodes.value = [
-    { id: 'start_1', type: 'start', position: { x: 400, y: 30 }, data: {} },
-    { id: 'var_1', type: 'variable-assign', position: { x: 330, y: 130 }, data: { assignments: [{ variableName: 'couponType', valueType: 'VARIABLE', value: 'type' }, { variableName: 'orderAmount', valueType: 'VARIABLE', value: 'amount' }] } },
-    { id: 'cond_1', type: 'condition', position: { x: 330, y: 260 }, data: { conditions: [{ fieldName: 'couponType', fieldType: 'STRING', operator: 'EQ', value: 'FULL_REDUCTION' }, { fieldName: 'orderAmount', fieldType: 'NUMBER', operator: 'GTE', value: '200' }], logic: 'AND' } },
-    { id: 'action_1', type: 'action', position: { x: 100, y: 400 }, data: { actions: [{ actionType: 'SET_VALUE', targetField: 'couponValue', actionValue: '50', actionValueType: 'CONSTANT' }, { actionType: 'SHOW_MESSAGE', message: '满200减50优惠券', messageType: 'SUCCESS' }] } },
-    { id: 'cond_2', type: 'condition', position: { x: 560, y: 400 }, data: { conditions: [{ fieldName: 'couponType', fieldType: 'STRING', operator: 'EQ', value: 'PERCENTAGE' }, { fieldName: 'orderAmount', fieldType: 'NUMBER', operator: 'GTE', value: '100' }], logic: 'AND' } },
-    { id: 'action_2', type: 'action', position: { x: 560, y: 540 }, data: { actions: [{ actionType: 'SET_VALUE', targetField: 'couponValue', actionValue: 'orderAmount * 0.2', actionValueType: 'EXPRESSION' }, { actionType: 'SHOW_MESSAGE', message: '8折优惠券', messageType: 'SUCCESS' }] } },
-    { id: 'action_3', type: 'action', position: { x: 330, y: 680 }, data: { actions: [{ actionType: 'SET_VALUE', targetField: 'couponValue', actionValue: '0', actionValueType: 'CONSTANT' }, { actionType: 'SHOW_MESSAGE', message: '优惠券不满足使用条件', messageType: 'WARNING' }] } },
-    { id: 'end_1', type: 'end', position: { x: 400, y: 820 }, data: { endType: 'success' } }
-  ]
-  edges.value = [
-    { id: 'e1', source: 'start_1', target: 'var_1', animated: true, style: { stroke: '#7c3aed', strokeWidth: 2 } },
-    { id: 'e2', source: 'var_1', target: 'cond_1', animated: true, label: '设置 couponType, orderAmount', style: { stroke: '#6366f1', strokeWidth: 2 }, labelStyle: { fill: '#6366f1', fontSize: 11, fontWeight: 500 }, labelShowBg: true, labelBgStyle: { fill: '#fff', fillOpacity: 0.9 } },
-    { id: 'e3', source: 'cond_1', target: 'action_1', animated: true, label: '满足 ✓', style: { stroke: '#10b981', strokeWidth: 2 }, labelStyle: { fill: '#10b981', fontSize: 11, fontWeight: 600 }, labelShowBg: true, labelBgStyle: { fill: '#fff', fillOpacity: 0.9 } },
-    { id: 'e4', source: 'cond_1', target: 'cond_2', animated: true, label: '不满足 ✗', style: { stroke: '#ef4444', strokeWidth: 2 }, labelStyle: { fill: '#ef4444', fontSize: 11, fontWeight: 600 }, labelShowBg: true, labelBgStyle: { fill: '#fff', fillOpacity: 0.9 } },
-    { id: 'e5', source: 'action_1', target: 'end_1', animated: true, label: '2个动作', style: { stroke: '#6366f1', strokeWidth: 2 }, labelStyle: { fill: '#6366f1', fontSize: 11, fontWeight: 500 }, labelShowBg: true, labelBgStyle: { fill: '#fff', fillOpacity: 0.9 } },
-    { id: 'e6', source: 'cond_2', target: 'action_2', animated: true, label: '满足 ✓', style: { stroke: '#10b981', strokeWidth: 2 }, labelStyle: { fill: '#10b981', fontSize: 11, fontWeight: 600 }, labelShowBg: true, labelBgStyle: { fill: '#fff', fillOpacity: 0.9 } },
-    { id: 'e7', source: 'cond_2', target: 'action_3', animated: true, label: '不满足 ✗', style: { stroke: '#ef4444', strokeWidth: 2 }, labelStyle: { fill: '#ef4444', fontSize: 11, fontWeight: 600 }, labelShowBg: true, labelBgStyle: { fill: '#fff', fillOpacity: 0.9 } },
-    { id: 'e8', source: 'action_2', target: 'end_1', animated: true, label: '2个动作', style: { stroke: '#6366f1', strokeWidth: 2 }, labelStyle: { fill: '#6366f1', fontSize: 11, fontWeight: 500 }, labelShowBg: true, labelBgStyle: { fill: '#fff', fillOpacity: 0.9 } },
-    { id: 'e9', source: 'action_3', target: 'end_1', animated: true, label: '2个动作', style: { stroke: '#6366f1', strokeWidth: 2 }, labelStyle: { fill: '#6366f1', fontSize: 11, fontWeight: 500 }, labelShowBg: true, labelBgStyle: { fill: '#fff', fillOpacity: 0.9 } }
-  ]
-}
-
-// Demo 5: 异常交易识别（复合条件+HTTP调用验证）
-const loadDemo5_AbnormalTransaction = () => {
-  ruleData.ruleCode = 'RULE_ABNORMAL_TXN'; ruleData.ruleName = 'Demo5: 异常交易识别'; ruleData.ruleDesc = '多条件组合识别异常交易，调用外部接口验证'
-  nodes.value = [
-    { id: 'start_1', type: 'start', position: { x: 400, y: 30 }, data: {} },
-    { id: 'var_1', type: 'variable-assign', position: { x: 330, y: 130 }, data: { assignments: [{ variableName: 'txnAmount', valueType: 'VARIABLE', value: 'amount' }, { variableName: 'txnTime', valueType: 'VARIABLE', value: 'timestamp' }, { variableName: 'userLocation', valueType: 'VARIABLE', value: 'location' }] } },
-    { id: 'cond_1', type: 'condition', position: { x: 330, y: 260 }, data: { conditions: [{ fieldName: 'txnAmount', fieldType: 'NUMBER', operator: 'GT', value: '10000' }, { fieldName: 'txnTime', fieldType: 'DATE', operator: 'BETWEEN', value: '00:00-06:00' }], logic: 'AND' } },
-    { id: 'http_1', type: 'http-call', position: { x: 100, y: 400 }, data: { method: 'POST', url: '/api/risk/check-location', body: '{"userId": "${userId}", "location": "${userLocation}"}', responseVar: 'locationRisk', timeout: 3000 } },
-    { id: 'cond_2', type: 'condition', position: { x: 100, y: 540 }, data: { conditions: [{ fieldName: 'locationRisk', fieldType: 'STRING', operator: 'EQ', value: 'HIGH_RISK' }], logic: 'AND' } },
-    { id: 'action_1', type: 'action', position: { x: 100, y: 680 }, data: { actions: [{ actionType: 'SET_VALUE', targetField: 'txnStatus', actionValue: 'BLOCKED', actionValueType: 'CONSTANT' }, { actionType: 'SHOW_MESSAGE', message: '异常交易：深夜大额+高风险地点', messageType: 'ERROR' }] } },
-    { id: 'end_1', type: 'end', position: { x: 100, y: 820 }, data: { endType: 'fail' } },
-    { id: 'action_2', type: 'action', position: { x: 560, y: 400 }, data: { actions: [{ actionType: 'SET_VALUE', targetField: 'txnStatus', actionValue: 'PASSED', actionValueType: 'CONSTANT' }, { actionType: 'SHOW_MESSAGE', message: '交易正常', messageType: 'SUCCESS' }] } },
-    { id: 'end_2', type: 'end', position: { x: 560, y: 540 }, data: { endType: 'success' } }
-  ]
-  edges.value = [
-    { id: 'e1', source: 'start_1', target: 'var_1', animated: true, style: { stroke: '#7c3aed', strokeWidth: 2 } },
-    { id: 'e2', source: 'var_1', target: 'cond_1', animated: true, label: '设置 txnAmount, txnTime, userLocation', style: { stroke: '#6366f1', strokeWidth: 2 }, labelStyle: { fill: '#6366f1', fontSize: 11, fontWeight: 500 }, labelShowBg: true, labelBgStyle: { fill: '#fff', fillOpacity: 0.9 } },
-    { id: 'e3', source: 'cond_1', target: 'http_1', animated: true, label: '满足 ✓', style: { stroke: '#10b981', strokeWidth: 2 }, labelStyle: { fill: '#10b981', fontSize: 11, fontWeight: 600 }, labelShowBg: true, labelBgStyle: { fill: '#fff', fillOpacity: 0.9 } },
-    { id: 'e4', source: 'cond_1', target: 'action_2', animated: true, label: '不满足 ✗', style: { stroke: '#ef4444', strokeWidth: 2 }, labelStyle: { fill: '#ef4444', fontSize: 11, fontWeight: 600 }, labelShowBg: true, labelBgStyle: { fill: '#fff', fillOpacity: 0.9 } },
-    { id: 'e5', source: 'http_1', target: 'cond_2', animated: true, label: 'POST /api/risk/check-location', style: { stroke: '#6366f1', strokeWidth: 2 }, labelStyle: { fill: '#6366f1', fontSize: 11, fontWeight: 500 }, labelShowBg: true, labelBgStyle: { fill: '#fff', fillOpacity: 0.9 } },
-    { id: 'e6', source: 'cond_2', target: 'action_1', animated: true, label: '满足 ✓', style: { stroke: '#10b981', strokeWidth: 2 }, labelStyle: { fill: '#10b981', fontSize: 11, fontWeight: 600 }, labelShowBg: true, labelBgStyle: { fill: '#fff', fillOpacity: 0.9 } },
-    { id: 'e7', source: 'cond_2', target: 'action_2', animated: true, label: '不满足 ✗', style: { stroke: '#ef4444', strokeWidth: 2 }, labelStyle: { fill: '#ef4444', fontSize: 11, fontWeight: 600 }, labelShowBg: true, labelBgStyle: { fill: '#fff', fillOpacity: 0.9 } },
-    { id: 'e8', source: 'action_1', target: 'end_1', animated: true, label: '2个动作', style: { stroke: '#6366f1', strokeWidth: 2 }, labelStyle: { fill: '#6366f1', fontSize: 11, fontWeight: 500 }, labelShowBg: true, labelBgStyle: { fill: '#fff', fillOpacity: 0.9 } },
-    { id: 'e9', source: 'action_2', target: 'end_2', animated: true, label: '2个动作', style: { stroke: '#6366f1', strokeWidth: 2 }, labelStyle: { fill: '#6366f1', fontSize: 11, fontWeight: 500 }, labelShowBg: true, labelBgStyle: { fill: '#fff', fillOpacity: 0.9 } }
-  ]
-}
-
-// Demo 6: 订单满减规则（循环遍历+条件匹配）
-const loadDemo6_OrderDiscount = () => {
-  ruleData.ruleCode = 'RULE_ORDER_DISCOUNT'; ruleData.ruleName = 'Demo6: 订单满减规则'; ruleData.ruleDesc = '遍历订单商品，根据金额区间计算满减优惠'
-  nodes.value = [
-    { id: 'start_1', type: 'start', position: { x: 400, y: 30 }, data: {} },
-    { id: 'var_1', type: 'variable-assign', position: { x: 330, y: 130 }, data: { assignments: [{ variableName: 'orderAmount', valueType: 'VARIABLE', value: 'totalAmount' }, { variableName: 'discountRules', valueType: 'CONSTANT', value: '[{threshold:100,discount:10},{threshold:200,discount:30},{threshold:500,discount:80}]' }] } },
-    { id: 'loop_1', type: 'loop', position: { x: 330, y: 260 }, data: { loopType: 'forEach', collectionVar: 'discountRules', itemVar: 'rule', indexVar: 'ruleIndex' } },
-    { id: 'cond_1', type: 'condition', position: { x: 330, y: 400 }, data: { conditions: [{ fieldName: 'orderAmount', fieldType: 'NUMBER', operator: 'GTE', value: 'rule.threshold' }], logic: 'AND' } },
-    { id: 'action_1', type: 'action', position: { x: 100, y: 540 }, data: { actions: [{ actionType: 'SET_VALUE', targetField: 'finalDiscount', actionValue: 'rule.discount', actionValueType: 'EXPRESSION' }, { actionType: 'SET_VALUE', targetField: 'finalAmount', actionValue: 'orderAmount - rule.discount', actionValueType: 'EXPRESSION' }, { actionType: 'SHOW_MESSAGE', message: '满${rule.threshold}减${rule.discount}，最终价格：${finalAmount}', messageType: 'SUCCESS' }] } },
-    { id: 'end_1', type: 'end', position: { x: 100, y: 680 }, data: { endType: 'success' } },
-    { id: 'action_2', type: 'action', position: { x: 560, y: 540 }, data: { actions: [{ actionType: 'SET_VALUE', targetField: 'finalDiscount', actionValue: '0', actionValueType: 'CONSTANT' }, { actionType: 'SET_VALUE', targetField: 'finalAmount', actionValue: 'orderAmount', actionValueType: 'EXPRESSION' }, { actionType: 'SHOW_MESSAGE', message: '未满足任何满减条件，原价：${orderAmount}', messageType: 'INFO' }] } },
-    { id: 'end_2', type: 'end', position: { x: 560, y: 680 }, data: { endType: 'success' } }
-  ]
-  edges.value = [
-    { id: 'e1', source: 'start_1', target: 'var_1', animated: true, style: { stroke: '#7c3aed', strokeWidth: 2 } },
-    { id: 'e2', source: 'var_1', target: 'loop_1', animated: true, label: '设置 orderAmount, discountRules', style: { stroke: '#6366f1', strokeWidth: 2 }, labelStyle: { fill: '#6366f1', fontSize: 11, fontWeight: 500 }, labelShowBg: true, labelBgStyle: { fill: '#fff', fillOpacity: 0.9 } },
-    { id: 'e3', source: 'loop_1', target: 'cond_1', animated: true, label: '遍历 discountRules', style: { stroke: '#ec4899', strokeWidth: 2 }, labelStyle: { fill: '#ec4899', fontSize: 11, fontWeight: 600 }, labelShowBg: true, labelBgStyle: { fill: '#fff', fillOpacity: 0.9 } },
-    { id: 'e4', source: 'cond_1', target: 'action_1', animated: true, label: '满足 ✓', style: { stroke: '#10b981', strokeWidth: 2 }, labelStyle: { fill: '#10b981', fontSize: 11, fontWeight: 600 }, labelShowBg: true, labelBgStyle: { fill: '#fff', fillOpacity: 0.9 } },
-    { id: 'e5', source: 'cond_1', target: 'action_2', animated: true, label: '不满足 ✗', style: { stroke: '#ef4444', strokeWidth: 2 }, labelStyle: { fill: '#ef4444', fontSize: 11, fontWeight: 600 }, labelShowBg: true, labelBgStyle: { fill: '#fff', fillOpacity: 0.9 } },
-    { id: 'e6', source: 'action_1', target: 'end_1', animated: true, label: '3个动作', style: { stroke: '#6366f1', strokeWidth: 2 }, labelStyle: { fill: '#6366f1', fontSize: 11, fontWeight: 500 }, labelShowBg: true, labelBgStyle: { fill: '#fff', fillOpacity: 0.9 } },
-    { id: 'e7', source: 'action_2', target: 'end_2', animated: true, label: '3个动作', style: { stroke: '#6366f1', strokeWidth: 2 }, labelStyle: { fill: '#6366f1', fontSize: 11, fontWeight: 500 }, labelShowBg: true, labelBgStyle: { fill: '#fff', fillOpacity: 0.9 } }
-  ]
 }
 
 const onGlobalClick = () => { if (contextMenu.visible) closeContextMenu() }
-onMounted(() => { loadRuleData(); document.addEventListener('click', onGlobalClick) })
-onUnmounted(() => { document.removeEventListener('click', onGlobalClick) })
+
+// 键盘快捷键
+const handleKeydown = (e: KeyboardEvent) => {
+  if ((e.ctrlKey || e.metaKey) && e.key === 'z' && !e.shiftKey) { e.preventDefault(); undo() }
+  else if ((e.ctrlKey || e.metaKey) && (e.key === 'y' || (e.key === 'z' && e.shiftKey))) { e.preventDefault(); redo() }
+}
+
+onMounted(() => {
+  loadRuleData()
+  document.addEventListener('click', onGlobalClick)
+  document.addEventListener('keydown', handleKeydown)
+  // 初始化历史栈
+  setTimeout(() => pushHistory(), 500)
+})
+onUnmounted(() => {
+  document.removeEventListener('click', onGlobalClick)
+  document.removeEventListener('keydown', handleKeydown)
+})
 </script>
 
 <style scoped lang="scss">
@@ -1235,10 +1460,48 @@ onUnmounted(() => { document.removeEventListener('click', onGlobalClick) })
       padding: 6px 14px; background: #fff; border-bottom: 1px solid #e2e8f0; flex-shrink: 0;
       .canvas-title { display: flex; align-items: center; gap: 5px; font-weight: 600; font-size: 13px; color: #1e293b; }
       .canvas-actions { display: flex; align-items: center; gap: 2px;
-        .canvas-tip { font-size: 11px; color: #94a3b8; margin-left: 4px; } }
+        .canvas-tip { font-size: 11px; color: #94a3b8; margin-left: 4px; }
+        :deep(.is-active) { color: #6366f1; font-weight: 600; }
+      }
     }
     .canvas-body { flex: 1; position: relative; overflow: hidden;
       .vue-flow-instance { width: 100%; height: 100%; }
+      /* 节点选中交互效果 */
+      :deep(.vue-flow__node) {
+        transition: box-shadow 0.2s, transform 0.2s;
+        &.selected {
+          .rule-node, .gateway-shape, .start-shape, .end-shape, .generic-node {
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.5), 0 8px 24px rgba(99, 102, 241, 0.3) !important;
+            transform: translateY(-2px);
+          }
+          .gateway-shape { filter: drop-shadow(0 0 8px rgba(99, 102, 241, 0.6)); }
+        }
+        &:hover:not(.selected) {
+          .rule-node, .generic-node { box-shadow: 0 4px 16px rgba(0,0,0,0.12); }
+        }
+      }
+      /* 连线选中效果 */
+      :deep(.vue-flow__edge) {
+        &.selected {
+          .vue-flow__edge-path { stroke: #6366f1 !important; stroke-width: 3 !important; }
+          .vue-flow__edge-text { fill: #6366f1 !important; font-weight: 600; }
+        }
+        &:hover:not(.selected) {
+          .vue-flow__edge-path { stroke: #818cf8 !important; stroke-width: 2.5 !important; }
+        }
+      }
+      /* 框选选择框样式 */
+      :deep(.vue-flow__selection) {
+        border: 2px dashed #6366f1 !important;
+        background: rgba(99, 102, 241, 0.08) !important;
+        border-radius: 4px;
+      }
+      /* 框选时节点提示 */
+      :deep(.vue-flow__nodesselection-rect) {
+        border: 2px dashed #6366f1 !important;
+        background: rgba(99, 102, 241, 0.08) !important;
+        border-radius: 4px;
+      }
       .context-menu {
         position: fixed; z-index: 9999; min-width: 150px; background: #fff;
         border: 1px solid #e2e8f0; border-radius: 8px; box-shadow: 0 8px 24px rgba(0,0,0,0.12); padding: 4px 0; user-select: none;
@@ -1314,4 +1577,67 @@ onUnmounted(() => { document.removeEventListener('click', onGlobalClick) })
 }
 @keyframes pulse-h { 0%,100% { box-shadow: 0 0 0 3px #10b981, 0 0 20px rgba(16,185,129,0.4); } 50% { box-shadow: 0 0 0 5px #10b981, 0 0 30px rgba(16,185,129,0.7); } }
 @keyframes dash-f { to { stroke-dashoffset: -16; } }
+</style>
+
+<!-- 全局样式：确保 dropdown 弹出层不被裁剪 -->
+<style>
+.designer-dropdown-popper {
+  z-index: 9999 !important;
+}
+.designer-dropdown-popper .is-active {
+  color: #6366f1 !important;
+  font-weight: 600 !important;
+  background: #eef2ff !important;
+}
+
+/* 帮助面板样式 */
+.help-popper.help-popper {
+  z-index: 9999 !important;
+}
+.help-popper .help-panel {
+  max-height: 480px;
+  overflow-y: auto;
+}
+.help-popper .help-title {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 14px;
+  font-weight: 700;
+  color: #1e293b;
+}
+.help-popper .help-section {
+  margin-bottom: 10px;
+}
+.help-popper .help-section-title {
+  font-size: 12px;
+  font-weight: 600;
+  color: #6366f1;
+  margin-bottom: 4px;
+  padding-left: 2px;
+}
+.help-popper .help-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  color: #475569;
+  padding: 2px 0;
+}
+.help-popper .help-row span {
+  color: #94a3b8;
+  margin-left: auto;
+}
+.help-popper kbd {
+  display: inline-block;
+  padding: 1px 6px;
+  font-size: 11px;
+  font-family: 'Consolas', 'Monaco', monospace;
+  color: #475569;
+  background: #f1f5f9;
+  border: 1px solid #cbd5e1;
+  border-radius: 4px;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+  white-space: nowrap;
+}
 </style>

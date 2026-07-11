@@ -23,19 +23,27 @@
 
       <div class="test-actions">
         <el-button type="primary" @click="executeTest" :loading="executing">
-          <el-icon><VideoPlay /></el-icon>
+          <el-icon>
+            <VideoPlay />
+          </el-icon>
           执行测试
         </el-button>
         <el-button @click="loadSampleData">
-          <el-icon><DocumentCopy /></el-icon>
+          <el-icon>
+            <DocumentCopy />
+          </el-icon>
           加载示例数据
         </el-button>
         <el-button @click="stepExecute" :disabled="!executionPath || executing">
-          <el-icon><VideoPause /></el-icon>
+          <el-icon>
+            <VideoPause />
+          </el-icon>
           单步回放
         </el-button>
         <el-button @click="resetHighlight" :disabled="!executionPath">
-          <el-icon><RefreshRight /></el-icon>
+          <el-icon>
+            <RefreshRight />
+          </el-icon>
           清除高亮
         </el-button>
       </div>
@@ -46,10 +54,10 @@
           <span class="divider-title">执行路径回放</span>
         </el-divider>
 
-        <el-descriptions :column="3" border  class="result-summary">
+        <el-descriptions :column="3" border class="result-summary">
           <el-descriptions-item label="执行状态">
-            <el-tag :type="executionPath.success ? 'success' : 'danger'" >
-              {{ executionPath.success ? '成功' : '失败' }}
+            <el-tag :type="executionPath.success ? 'success' : 'danger'">
+              {{ executionPath.success ? "成功" : "失败" }}
             </el-tag>
           </el-descriptions-item>
           <el-descriptions-item label="执行耗时">
@@ -71,7 +79,7 @@
           >
             <div class="step-card">
               <div class="step-header">
-                <el-tag :type="getStepType(step.status)"  effect="dark">
+                <el-tag :type="getStepType(step.status)" effect="dark">
                   {{ step.status }}
                 </el-tag>
                 <span class="step-node-name">{{ step.nodeName }}</span>
@@ -86,8 +94,8 @@
         <div v-if="executionPath.conditionResults.length > 0">
           <el-divider content-position="left">条件评估</el-divider>
           <div v-for="cond in executionPath.conditionResults" :key="cond.nodeId" class="cond-result">
-            <el-tag :type="cond.passed ? 'success' : 'info'" >
-              {{ cond.passed ? '满足' : '不满足' }}
+            <el-tag :type="cond.passed ? 'success' : 'info'">
+              {{ cond.passed ? "满足" : "不满足" }}
             </el-tag>
             <pre class="cond-detail">{{ cond.detail }}</pre>
           </div>
@@ -96,13 +104,13 @@
         <!-- 动作执行结果 -->
         <div v-if="executionPath.actionResults.length > 0">
           <el-divider content-position="left">动作执行结果</el-divider>
-          <el-table :data="executionPath.actionResults" border >
+          <el-table :data="executionPath.actionResults" border>
             <el-table-column prop="actionType" label="动作类型" width="120" />
             <el-table-column prop="targetField" label="目标字段" width="150" />
             <el-table-column prop="success" label="状态" width="80">
               <template #default="{ row }">
-                <el-tag :type="row.success ? 'success' : 'danger'" >
-                  {{ row.success ? '成功' : '失败' }}
+                <el-tag :type="row.success ? 'success' : 'danger'">
+                  {{ row.success ? "成功" : "失败" }}
                 </el-tag>
               </template>
             </el-table-column>
@@ -119,10 +127,10 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from 'vue'
-import { ElMessage } from 'element-plus'
-import { VideoPlay, VideoPause, DocumentCopy, RefreshRight } from '@element-plus/icons-vue'
-import { executeRuleFlow, type ExecutionPath } from '../engine/RuleExecutor'
+import { computed, ref } from "vue";
+import { DocumentCopy, RefreshRight, VideoPause, VideoPlay } from "@element-plus/icons-vue";
+import { executeRuleFlow, type ExecutionPath } from "../engine/RuleExecutor";
+import { error, success, warning } from "star-horse-lowcode";
 
 const props = defineProps<{
   visible: boolean
@@ -130,78 +138,78 @@ const props = defineProps<{
   conditions?: any[]
   nodes?: any[]
   edges?: any[]
-}>()
+}>();
 
 const emit = defineEmits<{
-  (e: 'close'): void
-  (e: 'highlight', path: ExecutionPath): void
-  (e: 'resetHighlight'): void
-}>()
+  (e: "close"): void
+  (e: "highlight", path: ExecutionPath): void
+  (e: "resetHighlight"): void
+}>();
 
-const testDataStr = ref('')
-const executing = ref(false)
-const executionPath = ref<ExecutionPath | null>(null)
-const stepIndex = ref(0)
-const isStepping = ref(false)
+const testDataStr = ref("");
+const executing = ref(false);
+const executionPath = ref<ExecutionPath | null>(null);
+const stepIndex = ref(0);
+const isStepping = ref(false);
 
 const displaySteps = computed(() => {
-  if (!executionPath.value) return []
+  if (!executionPath.value) return [];
   if (isStepping.value) {
-    return executionPath.value.steps.slice(0, stepIndex.value + 1)
+    return executionPath.value.steps.slice(0, stepIndex.value + 1);
   }
-  return executionPath.value.steps
-})
+  return executionPath.value.steps;
+});
 
 const executeTest = async () => {
   if (!testDataStr.value.trim()) {
-    ElMessage.warning('请输入测试数据')
-    return
+    warning("请输入测试数据");
+    return;
   }
 
-  let testData: any
+  let testData: any;
   try {
-    testData = JSON.parse(testDataStr.value)
+    testData = JSON.parse(testDataStr.value);
   } catch (error) {
-    ElMessage.error('测试数据格式错误，请输入有效的JSON')
-    return
+    error("测试数据格式错误，请输入有效的JSON");
+    return;
   }
 
   if (!props.nodes || props.nodes.length === 0) {
-    ElMessage.warning('流程图为空，请先添加节点')
-    return
+    warning("流程图为空，请先添加节点");
+    return;
   }
 
-  executing.value = true
-  isStepping.value = false
+  executing.value = true;
+  isStepping.value = false;
 
   try {
     // 延迟一下让loading显示
-    await new Promise(r => setTimeout(r, 300))
+    await new Promise(r => setTimeout(r, 300));
 
-    const result = executeRuleFlow(props.nodes, props.edges || [], testData)
-    executionPath.value = result
+    const result = executeRuleFlow(props.nodes, props.edges || [], testData);
+    executionPath.value = result;
 
     // 触发画布高亮
-    emit('highlight', result)
+    emit("highlight", result);
 
-    ElMessage.success(`执行完成，经过 ${result.visitedNodeIds.length} 个节点`)
-  } catch (error: any) {
-    ElMessage.error('执行失败: ' + (error.message || error))
+    success(`执行完成，经过 ${result.visitedNodeIds.length} 个节点`);
+  } catch (err: any) {
+    error("执行失败: " + (err.message || err));
   } finally {
-    executing.value = false
+    executing.value = false;
   }
-}
+};
 
 const stepExecute = () => {
-  if (!executionPath.value) return
+  if (!executionPath.value) return;
   if (!isStepping.value) {
-    isStepping.value = true
-    stepIndex.value = 0
+    isStepping.value = true;
+    stepIndex.value = 0;
   } else {
     if (stepIndex.value < executionPath.value.steps.length - 1) {
-      stepIndex.value++
+      stepIndex.value++;
     } else {
-      ElMessage.info('已到达最后一步')
+      success("已到达最后一步");
     }
   }
   // 高亮到当前步
@@ -210,86 +218,100 @@ const stepExecute = () => {
     visitedNodeIds: executionPath.value.visitedNodeIds.slice(0, stepIndex.value + 1),
     visitedEdgeIds: executionPath.value.visitedEdgeIds.slice(0, stepIndex.value + 1),
     steps: executionPath.value.steps.slice(0, stepIndex.value + 1)
-  }
-  emit('highlight', partialPath)
-}
+  };
+  emit("highlight", partialPath);
+};
 
 const resetHighlight = () => {
-  isStepping.value = false
-  executionPath.value = null
-  emit('resetHighlight')
-}
+  isStepping.value = false;
+  executionPath.value = null;
+  emit("resetHighlight");
+};
 
 const loadSampleData = () => {
-  const sampleData: any = {}
+  const sampleData: any = {};
   // 从所有条件节点收集字段名
   if (props.nodes) {
     props.nodes.forEach((node: any) => {
-      if (node.type === 'condition' && node.data?.conditions) {
+      if (node.type === "condition" && node.data?.conditions) {
         node.data.conditions.forEach((cond: any) => {
           if (cond.fieldName && !(cond.fieldName in sampleData)) {
-            sampleData[cond.fieldName] = getSampleValue(cond.fieldType)
+            sampleData[cond.fieldName] = getSampleValue(cond.fieldType);
           }
-        })
+        });
       }
       // 从变量赋值节点收集变量名
-      if (node.type === 'variable-assign' && node.data?.assignments) {
+      if (node.type === "variable-assign" && node.data?.assignments) {
         node.data.assignments.forEach((assign: any) => {
           if (assign.variableName && !(assign.variableName in sampleData)) {
-            sampleData[assign.variableName] = getSampleValue(assign.valueType)
+            sampleData[assign.variableName] = getSampleValue(assign.valueType);
           }
-        })
+        });
       }
-    })
+    });
   }
 
   if (Object.keys(sampleData).length === 0) {
     // 默认示例
-    sampleData.amount = 1500
-    sampleData.status = 'approved'
-    sampleData.userType = 'vip'
+    sampleData.amount = 1500;
+    sampleData.status = "approved";
+    sampleData.userType = "vip";
   }
 
-  testDataStr.value = JSON.stringify(sampleData, null, 2)
-  ElMessage.success('已加载示例数据')
-}
+  testDataStr.value = JSON.stringify(sampleData, null, 2);
+  success("已加载示例数据");
+};
 
 const getSampleValue = (fieldType: string) => {
   switch (fieldType) {
-    case 'STRING': return 'sample_value'
-    case 'NUMBER': case 'CONSTANT': return 100
-    case 'DATE': return new Date().toISOString().split('T')[0]
-    case 'BOOLEAN': return true
-    case 'ARRAY': return ['value1', 'value2']
-    case 'VARIABLE': return 'variable_ref'
-    case 'EXPRESSION': return '1 + 2'
-    default: return ''
+    case "STRING":
+      return "sample_value";
+    case "NUMBER":
+    case "CONSTANT":
+      return 100;
+    case "DATE":
+      return new Date().toISOString().split("T")[0];
+    case "BOOLEAN":
+      return true;
+    case "ARRAY":
+      return ["value1", "value2"];
+    case "VARIABLE":
+      return "variable_ref";
+    case "EXPRESSION":
+      return "1 + 2";
+    default:
+      return "";
   }
-}
+};
 
 const getStepType = (status: string) => {
   switch (status) {
-    case 'SUCCESS': return 'success'
-    case 'FAILED': return 'danger'
-    case 'SKIPPED': return 'info'
-    case 'RUNNING': return 'primary'
-    default: return 'info'
+    case "SUCCESS":
+      return "success";
+    case "FAILED":
+      return "danger";
+    case "SKIPPED":
+      return "info";
+    case "RUNNING":
+      return "primary";
+    default:
+      return "info";
   }
-}
+};
 
 const formatJson = (obj: any) => {
-  if (!obj) return ''
+  if (!obj) return "";
   try {
-    return JSON.stringify(obj, null, 2)
+    return JSON.stringify(obj, null, 2);
   } catch {
-    return String(obj)
+    return String(obj);
   }
-}
+};
 
 const handleClose = () => {
-  emit('resetHighlight')
-  emit('close')
-}
+  emit("resetHighlight");
+  emit("close");
+};
 </script>
 
 <style scoped lang="scss">

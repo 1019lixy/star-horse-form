@@ -161,7 +161,7 @@
                 v-else-if="field.type === 'multiselect'"
                 v-model="selectedNode.data[field.name]"
                 multiple
-                style="width: 100%"
+                style="width: 100%;z-index:999 !important;"
                 @change="emit('update', selectedNode.id, { [field.name]: selectedNode.data[field.name] })"
               >
                 <el-option v-for="opt in field.options" :key="opt.value" :label="opt.label" :value="opt.value" />

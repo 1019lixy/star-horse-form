@@ -49,99 +49,99 @@
 </template>
 
 <script setup lang="ts">
-import { ref, reactive, watch } from 'vue'
-import { ElMessage } from 'element-plus'
-import type { FormInstance, FormRules } from 'element-plus'
-import { ruleSetApi } from '@/api/rule_engine_api'
+import { reactive, ref, watch } from "vue";
+import type { FormInstance, FormRules } from "element-plus";
+import { ruleSetApi } from "@/api/rule_engine_api";
+import { warning } from "star-horse-lowcode";
 
 const props = defineProps<{
   visible: boolean
   config: any
-}>()
+}>();
 
 const emit = defineEmits<{
-  (e: 'close'): void
-  (e: 'save', config: any): void
-}>()
+  (e: "close"): void
+  (e: "save", config: any): void
+}>();
 
-const formRef = ref<FormInstance>()
+const formRef = ref<FormInstance>();
 
 const defaultFormData = () => ({
-  ruleSetId: '',
-  ruleSetName: '',
-  ruleSetCode: '',
-  paramMode: 'CONTEXT'
-})
+  ruleSetId: "",
+  ruleSetName: "",
+  ruleSetCode: "",
+  paramMode: "CONTEXT"
+});
 
-const formData = reactive<any>(defaultFormData())
+const formData = reactive<any>(defaultFormData());
 
 const rules = reactive<FormRules>({
-  ruleSetId: [{ required: true, message: '请选择规则集', trigger: 'change' }],
-  paramMode: [{ required: true, message: '请选择传参方式', trigger: 'change' }]
-})
+  ruleSetId: [{ required: true, message: "请选择规则集", trigger: "change" }],
+  paramMode: [{ required: true, message: "请选择传参方式", trigger: "change" }]
+});
 
-const ruleSetOptions = ref<any[]>([])
-const loading = ref(false)
+const ruleSetOptions = ref<any[]>([]);
+const loading = ref(false);
 
 watch(() => props.visible, (val) => {
   if (val) {
     if (props.config) {
-      formData.ruleSetId = props.config.ruleSetId || ''
-      formData.ruleSetName = props.config.ruleSetName || ''
-      formData.ruleSetCode = props.config.ruleSetCode || ''
-      formData.paramMode = props.config.paramMode || 'CONTEXT'
+      formData.ruleSetId = props.config.ruleSetId || "";
+      formData.ruleSetName = props.config.ruleSetName || "";
+      formData.ruleSetCode = props.config.ruleSetCode || "";
+      formData.paramMode = props.config.paramMode || "CONTEXT";
     } else {
-      Object.assign(formData, defaultFormData())
+      Object.assign(formData, defaultFormData());
     }
-    formRef.value?.clearValidate()
-    loadRuleSetList()
+    formRef.value?.clearValidate();
+    loadRuleSetList();
   }
-})
+});
 
 const loadRuleSetList = async () => {
-  loading.value = true
+  loading.value = true;
   try {
-    const res: any = await ruleSetApi.getRuleSetList({ pageNo: 1, pageSize: 999 })
-    ruleSetOptions.value = res?.data?.list || res?.data?.records || res?.list || res?.records || []
+    const res: any = await ruleSetApi.getRuleSetList({ pageNo: 1, pageSize: 999 });
+    ruleSetOptions.value = res?.data?.list || res?.data?.records || res?.list || res?.records || [];
   } catch (e) {
-    console.error('加载规则集列表失败', e)
-    ruleSetOptions.value = []
+    console.error("加载规则集列表失败", e);
+    ruleSetOptions.value = [];
   } finally {
-    loading.value = false
+    loading.value = false;
   }
-}
+};
 
 const handleRuleSetChange = (val: string) => {
-  const selected = ruleSetOptions.value.find((item: any) => item.idRuleSet === val)
+  const selected = ruleSetOptions.value.find((item: any) => item.idRuleSet === val);
   if (selected) {
-    formData.ruleSetName = selected.ruleSetName || ''
-    formData.ruleSetCode = selected.ruleSetCode || selected.code || ''
+    formData.ruleSetName = selected.ruleSetName || "";
+    formData.ruleSetCode = selected.ruleSetCode || selected.code || "";
   } else {
-    formData.ruleSetName = ''
-    formData.ruleSetCode = ''
+    formData.ruleSetName = "";
+    formData.ruleSetCode = "";
   }
-}
+};
 
 const handleClose = () => {
-  emit('close')
-}
+  emit("close");
+};
 
 const handleSave = async () => {
-  if (!formRef.value) return
+  if (!formRef.value) return;
   await formRef.value.validate((valid) => {
-    if (!valid) return
+    if (!valid) return;
     if (!formData.ruleSetId) {
-      ElMessage.warning('请选择规则集')
-      return
+      warning("请选择规则集");
+      return;
     }
-    emit('save', {
+    emit("save", {
       ruleSetId: formData.ruleSetId,
       ruleSetName: formData.ruleSetName,
       ruleSetCode: formData.ruleSetCode,
       paramMode: formData.paramMode
-    })
-  })
-}
+    });
+  });
+};
 </script>
 
 <style scoped lang="scss">

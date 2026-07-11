@@ -7,7 +7,9 @@
         <span class="header-desc">配置和管理表单联动、数据校验及业务规则</span>
       </div>
       <el-button type="primary" @click="handleCreate">
-        <el-icon><Plus /></el-icon>
+        <el-icon>
+          <Plus />
+        </el-icon>
         新建规则
       </el-button>
     </div>
@@ -16,14 +18,14 @@
     <div class="filter-bar">
       <el-form :inline="true" :model="filterForm" class="filter-form">
         <el-form-item label="规则类型">
-          <el-select v-model="filterForm.ruleType" placeholder="全部类型" clearable style="width: 150px">
+          <el-select v-model="filterForm.ruleType" placeholder="全部类型" clearable style="width: 150px;z-index:9999 !important;">
             <el-option label="表单联动" value="FORM_LINKAGE" />
             <el-option label="数据校验" value="DATA_VALID" />
             <el-option label="业务规则" value="BUSINESS" />
           </el-select>
         </el-form-item>
         <el-form-item label="状态">
-          <el-select v-model="filterForm.status" placeholder="全部状态" clearable style="width: 130px">
+          <el-select v-model="filterForm.status" placeholder="全部状态" clearable style="width: 130px;z-index:9999 !important;">
             <el-option label="草稿" value="DRAFT" />
             <el-option label="已发布" value="PUBLISHED" />
             <el-option label="已禁用" value="DISABLED" />
@@ -34,7 +36,9 @@
         </el-form-item>
         <el-form-item>
           <el-button type="primary" @click="handleSearch">
-            <el-icon><Search /></el-icon>
+            <el-icon>
+              <Search />
+            </el-icon>
             查询
           </el-button>
           <el-button @click="handleReset">重置</el-button>
@@ -57,7 +61,7 @@
         </el-table-column>
         <el-table-column prop="ruleType" label="规则类型" width="120" align="center">
           <template #default="{ row }">
-            <el-tag :type="getRuleTypeTag(row.ruleType)"  effect="plain">
+            <el-tag :type="getRuleTypeTag(row.ruleType)" effect="plain">
               {{ getRuleTypeText(row.ruleType) }}
             </el-tag>
           </template>
@@ -65,20 +69,20 @@
         <el-table-column prop="ruleCategory" label="规则分类" width="120" />
         <el-table-column prop="priority" label="优先级" width="80" align="center">
           <template #default="{ row }">
-            <el-tag  type="info">{{ row.priority }}</el-tag>
+            <el-tag type="info">{{ row.priority }}</el-tag>
           </template>
         </el-table-column>
         <el-table-column prop="status" label="状态" width="100" align="center">
           <template #default="{ row }">
-            <el-tag :type="getStatusTag(row.status)"  effect="dark">
+            <el-tag :type="getStatusTag(row.status)" effect="dark">
               {{ getStatusText(row.status) }}
             </el-tag>
           </template>
         </el-table-column>
         <el-table-column prop="enabled" label="启用" width="80" align="center">
           <template #default="{ row }">
-            <el-tag :type="row.enabled === 'Y' ? 'success' : 'info'" >
-              {{ row.enabled === 'Y' ? '是' : '否' }}
+            <el-tag :type="row.enabled === 'Y' ? 'success' : 'info'">
+              {{ row.enabled === "Y" ? "是" : "否" }}
             </el-tag>
           </template>
         </el-table-column>
@@ -90,11 +94,15 @@
         <el-table-column label="操作" width="260" fixed="right" align="center">
           <template #default="{ row }">
             <el-button type="primary" link @click="handleEdit(row)">
-              <el-icon><Edit /></el-icon>
+              <el-icon>
+                <Edit />
+              </el-icon>
               编辑
             </el-button>
             <el-button type="success" link @click="handleTest(row)">
-              <el-icon><VideoPlay /></el-icon>
+              <el-icon>
+                <VideoPlay />
+              </el-icon>
               测试
             </el-button>
             <el-button
@@ -103,11 +111,15 @@
               link
               @click="handlePublish(row)"
             >
-              <el-icon><Upload /></el-icon>
+              <el-icon>
+                <Upload />
+              </el-icon>
               发布
             </el-button>
             <el-button type="danger" link @click="handleDelete(row)">
-              <el-icon><Delete /></el-icon>
+              <el-icon>
+                <Delete />
+              </el-icon>
               删除
             </el-button>
           </template>
@@ -155,156 +167,156 @@
 </template>
 
 <script setup lang="ts">
-import { ref, reactive, onMounted } from 'vue'
-import { ElMessage, ElMessageBox } from 'element-plus'
-import { Plus, Search, Edit, VideoPlay, Upload, Delete } from '@element-plus/icons-vue'
-import { ruleDefinitionApi } from '@/api/rule_engine_api'
-import RuleDesigner from './RuleDesigner.vue'
-import RuleTestDialog from './dialogs/RuleTestDialog.vue'
+import { onMounted, reactive, ref } from "vue";
+import { Delete, Edit, Plus, Search, Upload, VideoPlay } from "@element-plus/icons-vue";
+import { ruleDefinitionApi } from "@/api/rule_engine_api";
+import RuleDesigner from "./RuleDesigner.vue";
+import RuleTestDialog from "./dialogs/RuleTestDialog.vue";
+import { error, operationConfirm, success } from "star-horse-lowcode";
 
-const loading = ref(false)
-const ruleList = ref<any[]>([])
-const currentPage = ref(1)
-const pageSize = ref(10)
-const total = ref(0)
+const loading = ref(false);
+const ruleList = ref<any[]>([]);
+const currentPage = ref(1);
+const pageSize = ref(10);
+const total = ref(0);
 
 const filterForm = reactive({
-  ruleType: '',
-  status: '',
-  keyword: ''
-})
+  ruleType: "",
+  status: "",
+  keyword: ""
+});
 
-const designerVisible = ref(false)
-const currentRuleId = ref('')
+const designerVisible = ref(false);
+const currentRuleId = ref("");
 
-const testVisible = ref(false)
-const currentTestRuleId = ref('')
+const testVisible = ref(false);
+const currentTestRuleId = ref("");
 
 // 加载规则列表
 const loadRuleList = async () => {
-  loading.value = true
+  loading.value = true;
   try {
     const params = {
       page: currentPage.value,
       pageSize: pageSize.value,
       ...filterForm
-    }
-    const res = await ruleDefinitionApi.getRuleList(params)
+    };
+    const res = await ruleDefinitionApi.getRuleList(params);
     if (res.data.code === 200) {
-      ruleList.value = res.data.data.records || []
-      total.value = res.data.data.total || 0
+      ruleList.value = res.data.data.records || [];
+      total.value = res.data.data.total || 0;
     }
-  } catch (error) {
-    ElMessage.error('加载规则列表失败')
+  } catch (err) {
+    error("加载规则列表失败");
   } finally {
-    loading.value = false
+    loading.value = false;
   }
-}
+};
 
 // 新建规则
 const handleCreate = () => {
-  currentRuleId.value = ''
-  designerVisible.value = true
-}
+  currentRuleId.value = "";
+  designerVisible.value = true;
+};
 
 // 编辑规则
 const handleEdit = (row: any) => {
-  currentRuleId.value = row.idRuleDefinition
-  designerVisible.value = true
-}
+  currentRuleId.value = row.idRuleDefinition;
+  designerVisible.value = true;
+};
 
 // 测试规则
 const handleTest = (row: any) => {
-  currentTestRuleId.value = row.idRuleDefinition
-  testVisible.value = true
-}
+  currentTestRuleId.value = row.idRuleDefinition;
+  testVisible.value = true;
+};
 
 // 发布规则
 const handlePublish = async (row: any) => {
-  await ElMessageBox.confirm('确定要发布此规则吗？发布后将立即生效。', '提示', { type: 'warning' })
+  await operationConfirm("确定要发布此规则吗？发布后将立即生效。");
   try {
-    const updateData = { ...row, status: 'PUBLISHED' }
-    await ruleDefinitionApi.updateRule(updateData)
-    ElMessage.success('发布成功')
-    loadRuleList()
-  } catch (error) {
-    ElMessage.error('发布失败')
+    const updateData = { ...row, status: "PUBLISHED" };
+    await ruleDefinitionApi.updateRule(updateData);
+    success("发布成功");
+    loadRuleList();
+  } catch (err) {
+    error("发布失败");
   }
-}
+};
 
 // 删除规则
 const handleDelete = async (row: any) => {
-  await ElMessageBox.confirm('确定要删除此规则吗？此操作不可恢复。', '警告', { type: 'warning' })
+  await operationConfirm("确定要删除此规则吗？此操作不可恢复。");
   try {
-    await ruleDefinitionApi.deleteRule(row.idRuleDefinition)
-    ElMessage.success('删除成功')
-    loadRuleList()
-  } catch (error) {
-    ElMessage.error('删除失败')
+    await ruleDefinitionApi.deleteRule(row.idRuleDefinition);
+    success("删除成功");
+    loadRuleList();
+  } catch (err) {
+    error("删除失败");
   }
-}
+};
 
 // 规则保存成功
 const handleRuleSaved = () => {
-  designerVisible.value = false
-  loadRuleList()
-}
+  designerVisible.value = false;
+  loadRuleList();
+};
 
 // 查询
 const handleSearch = () => {
-  currentPage.value = 1
-  loadRuleList()
-}
+  currentPage.value = 1;
+  loadRuleList();
+};
 
 // 重置
 const handleReset = () => {
-  filterForm.ruleType = ''
-  filterForm.status = ''
-  filterForm.keyword = ''
-  currentPage.value = 1
-  loadRuleList()
-}
+  filterForm.ruleType = "";
+  filterForm.status = "";
+  filterForm.keyword = "";
+  currentPage.value = 1;
+  loadRuleList();
+};
 
 // 分页
 const handleSizeChange = (val: number) => {
-  pageSize.value = val
-  loadRuleList()
-}
+  pageSize.value = val;
+  loadRuleList();
+};
 
 const handleCurrentChange = (val: number) => {
-  currentPage.value = val
-  loadRuleList()
-}
+  currentPage.value = val;
+  loadRuleList();
+};
 
 // 工具方法
 const getRuleTypeTag = (type: string) => {
-  const map: any = { FORM_LINKAGE: 'primary', DATA_VALID: 'success', BUSINESS: 'warning' }
-  return map[type] || 'info'
-}
+  const map: any = { FORM_LINKAGE: "primary", DATA_VALID: "success", BUSINESS: "warning" };
+  return map[type] || "info";
+};
 
 const getRuleTypeText = (type: string) => {
-  const map: any = { FORM_LINKAGE: '表单联动', DATA_VALID: '数据校验', BUSINESS: '业务规则' }
-  return map[type] || type
-}
+  const map: any = { FORM_LINKAGE: "表单联动", DATA_VALID: "数据校验", BUSINESS: "业务规则" };
+  return map[type] || type;
+};
 
 const getStatusTag = (status: string) => {
-  const map: any = { DRAFT: 'info', PUBLISHED: 'success', DISABLED: 'danger' }
-  return map[status] || 'info'
-}
+  const map: any = { DRAFT: "info", PUBLISHED: "success", DISABLED: "danger" };
+  return map[status] || "info";
+};
 
 const getStatusText = (status: string) => {
-  const map: any = { DRAFT: '草稿', PUBLISHED: '已发布', DISABLED: '已禁用' }
-  return map[status] || status
-}
+  const map: any = { DRAFT: "草稿", PUBLISHED: "已发布", DISABLED: "已禁用" };
+  return map[status] || status;
+};
 
 const formatTime = (time: string) => {
-  if (!time) return ''
-  return new Date(time).toLocaleString('zh-CN')
-}
+  if (!time) return "";
+  return new Date(time).toLocaleString("zh-CN");
+};
 
 onMounted(() => {
-  loadRuleList()
-})
+  loadRuleList();
+});
 </script>
 
 <style scoped lang="scss">
