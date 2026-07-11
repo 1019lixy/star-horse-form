@@ -1,13 +1,13 @@
 <script setup lang="ts" name="Areainfo">
-import {onMounted, ref} from "vue";
+import {onMounted, ref, defineAsyncComponent} from "vue";
 import {i18n} from "@/lang";
-import DytableContainerValid from "@/sample/DytableContainerValid.vue";
-import BoxContainerDemo from "@/sample/BoxContainerDemo.vue";
-import TableContainerValid from "@/sample/TableContainerValid.vue";
-import FormTestValid from "@/sample/FormTestValid.vue";
+
+// 懒加载重量级组件，按需初始化
+const FormTestValid = defineAsyncComponent(() => import("@/sample/FormTestValid.vue"));
+const RuleTestValid = defineAsyncComponent(() => import("@/sample/RuleTestValid.vue"));
 
 const visible = ref<boolean>(false);
-const actName = ref<string>("a");
+const actName = ref<string>("form");
 const initData = async () => {
 };
 onMounted(() => {
@@ -16,7 +16,14 @@ onMounted(() => {
 </script>
 <template>
   <div class="flex flex-col h-full overflow-auto">
-    <FormTestValid/>
+    <el-tabs v-model="actName">
+      <el-tab-pane label="表单设计" name="form">
+        <FormTestValid v-if="actName === 'form'" />
+      </el-tab-pane>
+      <el-tab-pane label="规则设计" name="rule">
+        <RuleTestValid v-if="actName === 'rule'" />
+      </el-tab-pane>
+    </el-tabs>
 <!--    <el-tabs v-model="actName" class="h-full">
       <el-tab-pane name="a" :label="i18n('dyform.sample.dynamicForm')">
         <FormTestValid/>

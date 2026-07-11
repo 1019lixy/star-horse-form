@@ -15,7 +15,8 @@
         <el-input v-model="formData.fieldLabel" placeholder="字段显示标签（可选）" />
       </el-form-item>
       <el-form-item label="字段类型" prop="fieldType">
-        <el-select  v-model="formData.fieldType" style="width: 100%;z-index:99999!important;" @change="handleFieldTypeChange">
+        <el-select v-model="formData.fieldType" style="width: 100%;z-index:99999!important;"
+                   @change="handleFieldTypeChange">
           <el-option label="字符串 (String)" value="STRING" />
           <el-option label="数字 (Number)" value="NUMBER" />
           <el-option label="日期 (Date)" value="DATE" />
@@ -24,7 +25,8 @@
         </el-select>
       </el-form-item>
       <el-form-item label="操作符" prop="operator">
-        <el-select  v-model="formData.operator" style="width: 100%;z-index:99999!important;" @change="handleOperatorChange">
+        <el-select v-model="formData.operator" style="width: 100%;z-index:99999!important;"
+                   @change="handleOperatorChange">
           <el-option-group v-for="group in operatorGroups" :key="group.label" :label="group.label">
             <el-option v-for="op in group.options" :key="op.value" :label="op.label" :value="op.value" />
           </el-option-group>
@@ -87,126 +89,126 @@
 </template>
 
 <script setup lang="ts">
-import { ref, reactive, watch, computed } from 'vue'
-import type { FormInstance, FormRules } from 'element-plus'
+import { computed, reactive, ref, watch } from "vue";
+import type { FormInstance, FormRules } from "element-plus";
 
 const props = defineProps<{
   visible: boolean
   condition: any
-}>()
+}>();
 
 const emit = defineEmits<{
-  (e: 'close'): void
-  (e: 'save', condition: any): void
-}>()
+  (e: "close"): void
+  (e: "save", condition: any): void
+}>();
 
-const formRef = ref<FormInstance>()
+const formRef = ref<FormInstance>();
 
 const defaultFormData = () => ({
-  fieldName: '',
-  fieldLabel: '',
-  fieldType: 'STRING',
-  operator: 'EQ',
-  valueType: 'CONSTANT',
-  value: '',
-  logicOperator: 'AND'
-})
+  fieldName: "",
+  fieldLabel: "",
+  fieldType: "STRING",
+  operator: "EQ",
+  valueType: "CONSTANT",
+  value: "",
+  logicOperator: "AND"
+});
 
-const formData = reactive(defaultFormData())
+const formData = reactive(defaultFormData());
 
 const rules = reactive<FormRules>({
-  fieldName: [{ required: true, message: '请输入字段名', trigger: 'blur' }],
-  fieldType: [{ required: true, message: '请选择字段类型', trigger: 'change' }],
-  operator: [{ required: true, message: '请选择操作符', trigger: 'change' }]
-})
+  fieldName: [{ required: true, message: "请输入字段名", trigger: "blur" }],
+  fieldType: [{ required: true, message: "请选择字段类型", trigger: "change" }],
+  operator: [{ required: true, message: "请选择操作符", trigger: "change" }]
+});
 
 // 操作符分组（值与RuleExecutor一致）
 const operatorGroups = computed(() => {
   const base = [
-    { label: '等于 (=)', value: 'EQ' },
-    { label: '不等于 (≠)', value: 'NE' }
-  ]
+    { label: "等于 (=)", value: "EQ" },
+    { label: "不等于 (≠)", value: "NE" }
+  ];
   const numeric = [
-    { label: '大于 (>)', value: 'GT' },
-    { label: '大于等于 (≥)', value: 'GTE' },
-    { label: '小于 (<)', value: 'LT' },
-    { label: '小于等于 (≤)', value: 'LTE' }
-  ]
+    { label: "大于 (>)", value: "GT" },
+    { label: "大于等于 (≥)", value: "GTE" },
+    { label: "小于 (<)", value: "LT" },
+    { label: "小于等于 (≤)", value: "LTE" }
+  ];
   const string = [
-    { label: '包含', value: 'CONTAINS' },
-    { label: '不包含', value: 'NOT_CONTAINS' },
-    { label: '以...开头', value: 'STARTS_WITH' },
-    { label: '以...结尾', value: 'ENDS_WITH' }
-  ]
+    { label: "包含", value: "CONTAINS" },
+    { label: "不包含", value: "NOT_CONTAINS" },
+    { label: "以...开头", value: "STARTS_WITH" },
+    { label: "以...结尾", value: "ENDS_WITH" }
+  ];
   const collection = [
-    { label: '在列表中 (∈)', value: 'IN' },
-    { label: '不在列表中 (∉)', value: 'NOT_IN' }
-  ]
+    { label: "在列表中 (∈)", value: "IN" },
+    { label: "不在列表中 (∉)", value: "NOT_IN" }
+  ];
   const nullCheck = [
-    { label: '为空', value: 'IS_NULL' },
-    { label: '不为空', value: 'NOT_NULL' }
-  ]
+    { label: "为空", value: "IS_NULL" },
+    { label: "不为空", value: "NOT_NULL" }
+  ];
 
   const groups: { label: string; options: any[] }[] = [
-    { label: '基本比较', options: base }
-  ]
-  if (formData.fieldType === 'NUMBER' || formData.fieldType === 'DATE') {
-    groups.push({ label: '数值比较', options: numeric })
+    { label: "基本比较", options: base }
+  ];
+  if (formData.fieldType === "NUMBER" || formData.fieldType === "DATE") {
+    groups.push({ label: "数值比较", options: numeric });
   }
-  if (formData.fieldType === 'STRING') {
-    groups.push({ label: '字符串操作', options: string })
+  if (formData.fieldType === "STRING") {
+    groups.push({ label: "字符串操作", options: string });
   }
-  if (formData.fieldType === 'ARRAY' || formData.fieldType === 'STRING') {
-    groups.push({ label: '集合操作', options: collection })
+  if (formData.fieldType === "ARRAY" || formData.fieldType === "STRING") {
+    groups.push({ label: "集合操作", options: collection });
   }
-  groups.push({ label: '空值检查', options: nullCheck })
-  return groups
-})
+  groups.push({ label: "空值检查", options: nullCheck });
+  return groups;
+});
 
 const needsValue = computed(() => {
-  return !['IS_NULL', 'NOT_NULL'].includes(formData.operator)
-})
+  return !["IS_NULL", "NOT_NULL"].includes(formData.operator);
+});
 
 watch(() => props.visible, (val) => {
   if (val) {
     if (props.condition) {
-      Object.assign(formData, defaultFormData(), props.condition)
+      Object.assign(formData, defaultFormData(), props.condition);
     } else {
-      Object.assign(formData, defaultFormData())
+      Object.assign(formData, defaultFormData());
     }
-    formRef.value?.clearValidate()
+    formRef.value?.clearValidate();
   }
-})
+});
 
 const handleFieldTypeChange = () => {
   // 字段类型变化时，重置不适用的操作符
-  const validOps = operatorGroups.value.flatMap(g => g.options.map(o => o.value))
+  const validOps = operatorGroups.value.flatMap(g => g.options.map(o => o.value));
   if (!validOps.includes(formData.operator)) {
-    formData.operator = 'EQ'
+    formData.operator = "EQ";
   }
-  formData.value = ''
-}
+  formData.value = "";
+};
 
 const handleOperatorChange = () => {
   if (!needsValue.value) {
-    formData.value = ''
-    formData.valueType = 'CONSTANT'
+    formData.value = "";
+    formData.valueType = "CONSTANT";
   }
-}
+};
 
-const handleClose = () => emit('close')
+const handleClose = () => emit("close");
 
 const handleSave = async () => {
-  if (!formRef.value) return
+  if (!formRef.value) return;
   await formRef.value.validate((valid) => {
     if (valid) {
-      const data = { ...formData }
+      const data = { ...formData };
       // 数字类型转换值
-      if (data.fieldType === 'NUMBER' && data.valueType === 'CONSTANT' && data.value !== '') {
-        data.value = String(data.value)
+      if (data.fieldType === "NUMBER" && data.valueType === "CONSTANT" && data.value !== "") {
+        data.value = String(data.value);
       }
-      emit('save', data)
+      emit("save", data);
     }
-  })
-}
+  });
+};
 </script>

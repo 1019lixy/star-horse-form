@@ -92,7 +92,7 @@ const compareValues = (left: any, operator: string, right: any): boolean => {
       return true
     case 'IS_NULL': case 'NULL':
       return left === null || left === undefined || left === ''
-    case 'NOT_NULL': case 'NOT_NULL':
+    case 'NOT_NULL':
       return left !== null && left !== undefined && left !== ''
     case 'STARTS_WITH':
       return typeof left === 'string' && typeof right === 'string' && left.startsWith(right)

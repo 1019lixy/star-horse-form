@@ -15,7 +15,7 @@
         <el-input v-model="formData.ruleName" placeholder="请输入规则名称" />
       </el-form-item>
       <el-form-item label="规则类型" prop="ruleType">
-        <el-select v-model="formData.ruleType" style="width: 100%;z-index:999 !important;">
+        <el-select v-model="formData.ruleType" style="width: 100%;z-index:999!important;">
           <el-option label="表单联动" value="FORM_LINKAGE" />
           <el-option label="数据校验" value="DATA_VALID" />
           <el-option label="业务规则" value="BUSINESS" />
