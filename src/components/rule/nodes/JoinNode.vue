@@ -10,7 +10,7 @@
         </div>
       </div>
     </div>
-    <div class="node-label">{{ data.name || '规则聚合' }}</div>
+    <div class="node-label">{{ data.name || i18n('rule.node.join') }}</div>
     <div class="node-info">
       <span class="info-tag">{{ data.joinType || 'AND' }}</span>
     </div>
@@ -20,6 +20,7 @@
 
 <script setup lang="ts">
 import { Position, Handle } from '@vue-flow/core'
+import { i18n } from '@/lang'
 
 defineProps<{
   id?: string

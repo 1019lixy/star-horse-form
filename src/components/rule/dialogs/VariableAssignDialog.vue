@@ -1,7 +1,7 @@
 <template>
   <star-horse-dialog
     :dialogVisible="visible"
-    title="变量赋值配置"
+    :title="i18n('rule.dialog.variableAssignConfig')"
     boxWidth="720px"
     :selfFunc="true"
     @closeAction="handleClose"
@@ -9,41 +9,41 @@
   >
     <el-form :model="formData" size="default" ref="formRef" label-position="top">
       <div class="assign-toolbar">
-        <span class="toolbar-title">赋值列表</span>
+        <span class="toolbar-title">{{ i18n('rule.lbl.assignList') }}</span>
         <el-button type="primary" plain @click="addAssignment">
           <el-icon>
             <Plus />
           </el-icon>
-          添加赋值
+          {{ i18n('rule.btn.addAssignment') }}
         </el-button>
       </div>
-      <el-table :data="formData.assignments" border style="width: 100%" empty-text="暂无赋值项，请点击上方按钮添加">
-        <el-table-column label="序号" type="index" width="60" align="center" />
-        <el-table-column label="变量名" width="160">
+      <el-table :data="formData.assignments" border style="width: 100%" :empty-text="i18n('rule.dialog.noAssignments')">
+        <el-table-column :label="i18n('rule.lbl.index')" type="index" width="60" align="center" />
+        <el-table-column :label="i18n('rule.lbl.variableName')" width="160">
           <template #default="{ row }">
-            <el-input v-model="row.variableName" placeholder="变量名" />
+            <el-input v-model="row.variableName" :placeholder="i18n('rule.ph.variableName')" />
           </template>
         </el-table-column>
-        <el-table-column label="值类型" width="130">
+        <el-table-column :label="i18n('rule.lbl.valueType')" width="130">
           <template #default="{ row }">
             <el-select v-model="row.valueType" style="width: 100%;z-index:999 !important;">
-              <el-option label="常量" value="CONSTANT" />
-              <el-option label="变量" value="VARIABLE" />
-              <el-option label="表达式" value="EXPRESSION" />
+              <el-option :label="i18n('rule.dialog.constant')" value="CONSTANT" />
+              <el-option :label="i18n('rule.dialog.variable')" value="VARIABLE" />
+              <el-option :label="i18n('rule.dialog.expression')" value="EXPRESSION" />
             </el-select>
           </template>
         </el-table-column>
-        <el-table-column label="值" min-width="180">
+        <el-table-column :label="i18n('rule.lbl.value')" min-width="180">
           <template #default="{ row }">
-            <el-input v-model="row.value" placeholder="请输入值" />
+            <el-input v-model="row.value" :placeholder="i18n('rule.ph.enterValue')" />
           </template>
         </el-table-column>
-        <el-table-column label="说明" min-width="140">
+        <el-table-column :label="i18n('rule.lbl.description')" min-width="140">
           <template #default="{ row }">
-            <el-input v-model="row.description" placeholder="说明(可选)" />
+            <el-input v-model="row.description" :placeholder="i18n('rule.ph.descriptionOptional')" />
           </template>
         </el-table-column>
-        <el-table-column label="操作" width="80" align="center">
+        <el-table-column :label="i18n('rule.lbl.operation')" width="80" align="center">
           <template #default="{ $index }">
             <el-button type="danger" link @click="removeAssignment($index)">
               <el-icon>
@@ -62,6 +62,7 @@ import { reactive, ref, watch } from "vue";
 import type { FormInstance } from "element-plus";
 import { Delete, Plus } from "@element-plus/icons-vue";
 import { warning } from "star-horse-lowcode";
+import { i18n } from '@/lang';
 
 const props = defineProps<{
   visible: boolean
@@ -108,17 +109,17 @@ const handleClose = () => {
 
 const handleSave = async () => {
   if (formData.assignments.length === 0) {
-    warning("请至少添加一条赋值项");
+    warning(i18n('rule.dialog.addAtLeastOneAssignment'));
     return;
   }
   const invalid = formData.assignments.find((item: any) => !item.variableName || !item.variableName.trim());
   if (invalid) {
-    warning("变量名不能为空");
+    warning(i18n('rule.dialog.variableNameCannotBeEmpty'));
     return;
   }
   const noValue = formData.assignments.find((item: any) => !item.value && item.value !== 0);
   if (noValue) {
-    warning("请填写所有赋值项的值");
+    warning(i18n('rule.dialog.fillAllAssignmentValues'));
     return;
   }
   emit("save", JSON.parse(JSON.stringify(formData.assignments)));

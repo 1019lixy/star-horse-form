@@ -6,7 +6,7 @@
         <svg class="header-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
         </svg>
-        <span class="header-title">执行动作</span>
+        <span class="header-title">{{ i18n('rule.node.action') }}</span>
         <el-button type="primary" link  @click.stop="$emit('edit')" class="header-btn">
           <el-icon><Plus /></el-icon>
         </el-button>
@@ -14,7 +14,7 @@
       <div class="node-body">
         <div v-if="!data.actions || data.actions.length === 0" class="empty-tip">
           <el-icon class="empty-icon"><InfoFilled /></el-icon>
-          <span>双击或点击 + 添加动作</span>
+          <span>{{ i18n('rule.node.actionEmptyTip') }}</span>
         </div>
         <div v-else class="action-list">
           <div
@@ -51,6 +51,7 @@
 <script setup lang="ts">
 import { Position, Handle } from '@vue-flow/core'
 import { Plus, Edit, Delete, InfoFilled } from '@element-plus/icons-vue'
+import { i18n } from '@/lang'
 
 defineProps<{
   data: {
@@ -66,17 +67,17 @@ defineEmits<{
 
 const getActionTypeName = (type: string) => {
   const map: Record<string, string> = {
-    SHOW: '显示',
-    HIDE: '隐藏',
-    ENABLE: '启用',
-    DISABLE: '禁用',
-    SET_VALUE: '设置值',
-    CLEAR_VALUE: '清空值',
-    VALIDATE: '校验',
-    SHOW_MESSAGE: '显示消息',
-    HIDE_MESSAGE: '隐藏消息',
-    CALL_API: '调用API',
-    EXECUTE_SCRIPT: '执行脚本'
+    SHOW: i18n('rule.opt.showField'),
+    HIDE: i18n('rule.opt.hideField'),
+    ENABLE: i18n('rule.opt.setEnabled'),
+    DISABLE: i18n('rule.opt.setDisabled'),
+    SET_VALUE: i18n('rule.opt.setValue'),
+    CLEAR_VALUE: i18n('rule.opt.clearValue'),
+    VALIDATE: i18n('rule.opt.validate'),
+    SHOW_MESSAGE: i18n('rule.opt.showMessage'),
+    HIDE_MESSAGE: i18n('rule.opt.hideMessage'),
+    CALL_API: i18n('rule.opt.callApi'),
+    EXECUTE_SCRIPT: i18n('rule.opt.executeScript')
   }
   return map[type] || type
 }

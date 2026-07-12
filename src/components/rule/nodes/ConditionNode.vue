@@ -6,7 +6,7 @@
         <svg class="header-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
         </svg>
-        <span class="header-title">条件判断</span>
+        <span class="header-title">{{ i18n('rule.node.condition') }}</span>
         <el-tag  :type="data.logic === 'OR' ? 'warning' : 'primary'" class="logic-tag">
           {{ data.logic || 'AND' }}
         </el-tag>
@@ -17,7 +17,7 @@
       <div class="node-body">
         <div v-if="!data.conditions || data.conditions.length === 0" class="empty-tip">
           <el-icon class="empty-icon"><InfoFilled /></el-icon>
-          <span>双击或点击 + 添加条件</span>
+          <span>{{ i18n('rule.node.condEmptyTip') }}</span>
         </div>
         <div v-else class="condition-list">
           <div
@@ -29,7 +29,7 @@
               {{ data.logic }}
             </div>
             <div class="cond-content">
-              <span class="cond-field">{{ cond.fieldLabel || cond.fieldName || '字段' }}</span>
+              <span class="cond-field">{{ cond.fieldLabel || cond.fieldName || i18n('rule.lbl.fieldName') }}</span>
               <span class="cond-operator">{{ getOperatorSymbol(cond.operator) }}</span>
               <span class="cond-value">{{ cond.valueType === 'VARIABLE' ? cond.valueField : cond.value || '-' }}</span>
             </div>
@@ -52,6 +52,7 @@
 <script setup lang="ts">
 import { Position, Handle } from '@vue-flow/core'
 import { Plus, Edit, Delete, InfoFilled } from '@element-plus/icons-vue'
+import { i18n } from '@/lang'
 
 defineProps<{
   data: {
@@ -74,15 +75,15 @@ const getOperatorSymbol = (op: string) => {
     GTE: '≥',
     LT: '<',
     LTE: '≤',
-    CONTAINS: '包含',
-    NOT_CONTAINS: '不包含',
-    STARTS_WITH: '开头',
-    ENDS_WITH: '结尾',
+    CONTAINS: i18n('rule.opt.contains'),
+    NOT_CONTAINS: i18n('rule.opt.notContains'),
+    STARTS_WITH: i18n('rule.opt.startsWith'),
+    ENDS_WITH: i18n('rule.opt.endsWith'),
     IN: '∈',
     NOT_IN: '∉',
-    IS_NULL: '为空',
-    IS_NOT_NULL: '不为空',
-    BETWEEN: '介于'
+    IS_NULL: i18n('rule.opt.isNull'),
+    IS_NOT_NULL: i18n('rule.opt.isNotNull'),
+    BETWEEN: i18n('rule.opt.between')
   }
   return map[op] || op
 }

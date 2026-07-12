@@ -5,13 +5,14 @@
       <svg class="node-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
         <rect x="6" y="6" width="12" height="12" rx="2" fill="currentColor"/>
       </svg>
-      <span class="node-label">结束</span>
+      <span class="node-label">{{ i18n('rule.node.end') }}</span>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
 import { Handle, Position } from '@vue-flow/core'
+import { i18n } from '@/lang'
 </script>
 
 <style scoped lang="scss">

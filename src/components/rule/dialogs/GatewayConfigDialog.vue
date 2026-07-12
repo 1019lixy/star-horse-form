@@ -1,7 +1,7 @@
 <template>
   <star-horse-dialog
     :dialogVisible="visible"
-    title="网关分支配置"
+    :title="i18n('rule.dialog.gatewayConfig')"
     boxWidth="700px"
     :selfFunc="true"
     @closeAction="handleClose"
@@ -14,35 +14,35 @@
             <el-icon>
               <InfoFilled />
             </el-icon>
-            <span>从网关画线到目标节点时，会自动创建分支并关联出边。边标签会自动显示条件表达式。</span>
+            <span>{{ i18n('rule.dialog.gatewayConfigTip') }}</span>
           </div>
         </template>
       </el-alert>
 
       <el-form :model="formData" label-width="100px" size="default" ref="formRef" :rules="rules">
-        <el-form-item label="网关名称" prop="name">
-          <el-input v-model="formData.name" placeholder="请输入网关名称" />
+        <el-form-item :label="i18n('rule.lbl.gatewayName')" prop="name">
+          <el-input v-model="formData.name" :placeholder="i18n('rule.ph.enterGatewayName')" />
         </el-form-item>
-        <el-form-item label="网关类型">
+        <el-form-item :label="i18n('rule.lbl.gatewayType')">
           <el-radio-group v-model="formData.gatewayType" :disabled="gatewayTypeDisabled">
-            <el-radio-button label="XOR">排他网关 (XOR)</el-radio-button>
-            <el-radio-button label="OR">包容网关 (OR)</el-radio-button>
+            <el-radio-button label="XOR">{{ i18n('rule.dialog.exclusiveGateway') }}</el-radio-button>
+            <el-radio-button label="OR">{{ i18n('rule.dialog.inclusiveGateway') }}</el-radio-button>
           </el-radio-group>
-          <span v-if="gatewayTypeDisabled" class="type-tip">排他网关类型不可更改</span>
+          <span v-if="gatewayTypeDisabled" class="type-tip">{{ i18n('rule.dialog.gatewayTypeCannotChange') }}</span>
         </el-form-item>
-        <el-form-item label="分支列表">
+        <el-form-item :label="i18n('rule.lbl.branchList')">
           <div class="branch-list">
             <div v-if="formData.branches.length === 0" class="empty-tip">
               <el-icon :size="32">
                 <InfoFilled />
               </el-icon>
-              <p>暂无分支</p>
-              <p class="hint">从网关画线到目标节点会自动创建分支</p>
+              <p>{{ i18n('rule.dialog.noBranches') }}</p>
+              <p class="hint">{{ i18n('rule.dialog.drawLineToCreateBranch') }}</p>
             </div>
             <div v-for="(branch, index) in formData.branches" :key="branch.id" class="branch-item">
               <div class="branch-header">
                 <div class="branch-index">{{ index + 1 }}</div>
-                <el-input v-model="branch.label" placeholder="分支标签" class="branch-label-input" />
+                <el-input v-model="branch.label" :placeholder="i18n('rule.ph.branchLabel')" class="branch-label-input" />
                 <el-button type="danger" link @click="removeBranch(index)">
                   <el-icon>
                     <Delete />
@@ -54,14 +54,14 @@
                   v-model="branch.condition"
                   type="textarea"
                   :rows="2"
-                  placeholder="条件表达式，如: amount > 5000 或 default（默认分支）"
+                  :placeholder="i18n('rule.ph.conditionExpression')"
                   class="condition-input"
                 />
                 <div class="branch-meta">
-                  <el-tag v-if="branch.condition === 'default'" type="warning" size="small">默认分支</el-tag>
-                  <el-tag v-else type="success" size="small">条件分支</el-tag>
+                  <el-tag v-if="branch.condition === 'default'" type="warning" size="small">{{ i18n('rule.dialog.defaultBranch') }}</el-tag>
+                  <el-tag v-else type="success" size="small">{{ i18n('rule.dialog.conditionBranch') }}</el-tag>
                   <span class="target-info" v-if="branch.targetNodeId">
-                    → 目标节点: {{ branch.targetNodeId }}
+                    → {{ i18n('rule.dialog.targetNode') }}: {{ branch.targetNodeId }}
                   </span>
                 </div>
               </div>
@@ -77,6 +77,7 @@
 import { computed, reactive, ref, watch } from "vue";
 import type { FormInstance, FormRules } from "element-plus";
 import { Delete, InfoFilled } from "@element-plus/icons-vue";
+import { i18n } from '@/lang';
 
 const props = defineProps<{
   visible: boolean
@@ -99,7 +100,7 @@ const defaultFormData = () => ({
 const formData = reactive<any>(defaultFormData());
 
 const rules = reactive<FormRules>({
-  name: [{ required: true, message: "请输入网关名称", trigger: "blur" }]
+  name: [{ required: true, message: i18n('rule.ph.enterGatewayName'), trigger: "blur" }]
 });
 
 const gatewayTypeDisabled = computed(() => {

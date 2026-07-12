@@ -6,7 +6,7 @@
         <svg class="header-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path d="M17 2l4 4-4 4M3 11v-1a4 4 0 0 1 4-4h14M7 22l-4-4 4-4M21 13v1a4 4 0 0 1-4 4H3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
         </svg>
-        <span class="header-title">循环执行</span>
+        <span class="header-title">{{ i18n('rule.node.loop') }}</span>
         <el-button type="primary" link  @click.stop="$emit('edit')" class="header-btn">
           <el-icon><Edit /></el-icon>
         </el-button>
@@ -14,25 +14,25 @@
       <div class="node-body">
         <div v-if="!data.collectionVar" class="empty-tip">
           <el-icon class="empty-icon"><InfoFilled /></el-icon>
-          <span>双击配置循环</span>
+          <span>{{ i18n('rule.node.loopEmptyTip') }}</span>
         </div>
         <div v-else class="loop-content">
           <div class="loop-row">
-            <span class="row-label">遍历:</span>
+            <span class="row-label">{{ i18n('rule.lbl.collectionVar') }}:</span>
             <span class="row-value collection">{{ data.collectionVar }}</span>
           </div>
           <div v-if="data.itemVar || data.indexVar" class="loop-row sub">
             <span v-if="data.itemVar" class="var-item">
-              项变量: <span class="var-text">{{ data.itemVar }}</span>
+              {{ i18n('rule.lbl.itemVar') }}: <span class="var-text">{{ data.itemVar }}</span>
             </span>
             <span v-if="data.indexVar" class="var-item">
-              索引: <span class="var-text">{{ data.indexVar }}</span>
+              {{ i18n('rule.lbl.indexVar') }}: <span class="var-text">{{ data.indexVar }}</span>
             </span>
           </div>
           <div class="loop-row">
-            <span class="row-label">执行:</span>
+            <span class="row-label">{{ i18n('rule.lbl.execute') }}:</span>
             <span class="row-value action-count">
-              {{ actionCount }} 个动作
+              {{ actionCount }} {{ i18n('rule.lbl.actionCount') }}
             </span>
           </div>
         </div>
@@ -46,6 +46,7 @@
 import { Position, Handle } from '@vue-flow/core'
 import { Edit, InfoFilled } from '@element-plus/icons-vue'
 import { computed } from 'vue'
+import { i18n } from '@/lang'
 
 const props = defineProps<{
   id?: string

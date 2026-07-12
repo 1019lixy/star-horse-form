@@ -4,7 +4,7 @@
       <el-icon class="empty-icon">
         <Document />
       </el-icon>
-      <span>暂无执行日志</span>
+      <span>{{ i18n('rule.log.noLogs') }}</span>
     </div>
     <template v-else>
       <div class="log-list">
@@ -45,7 +45,7 @@
     <!-- 详情弹窗 -->
     <star-horse-dialog
       :dialogVisible="detailVisible"
-      title="执行详情"
+      :title="i18n('rule.log.executionDetail')"
       boxWidth="800px"
       boxHeight="80%"
       :selfFunc="true"
@@ -53,31 +53,31 @@
     >
       <div v-if="currentLog" class="log-detail">
         <el-descriptions :column="2" border>
-          <el-descriptions-item label="规则ID">{{ currentLog.idRuleDefinition }}</el-descriptions-item>
-          <el-descriptions-item label="规则编码">{{ currentLog.ruleCode }}</el-descriptions-item>
-          <el-descriptions-item label="规则名称">{{ currentLog.ruleName }}</el-descriptions-item>
-          <el-descriptions-item label="执行时间">{{ formatTime(currentLog.executionTime) }}</el-descriptions-item>
-          <el-descriptions-item label="执行结果">
+          <el-descriptions-item :label="i18n('rule.log.ruleId')">{{ currentLog.idRuleDefinition }}</el-descriptions-item>
+          <el-descriptions-item :label="i18n('rule.log.ruleCode')">{{ currentLog.ruleCode }}</el-descriptions-item>
+          <el-descriptions-item :label="i18n('rule.log.ruleName')">{{ currentLog.ruleName }}</el-descriptions-item>
+          <el-descriptions-item :label="i18n('rule.log.executionTime')">{{ formatTime(currentLog.executionTime) }}</el-descriptions-item>
+          <el-descriptions-item :label="i18n('rule.log.executionResult')">
             <el-tag :type="getResultType(currentLog.executionResult)">
               {{ getResultText(currentLog.executionResult) }}
             </el-tag>
           </el-descriptions-item>
-          <el-descriptions-item label="执行耗时">{{ currentLog.executionDuration }} ms</el-descriptions-item>
-          <el-descriptions-item label="触发者">{{ currentLog.triggeredBy }}</el-descriptions-item>
-          <el-descriptions-item label="表单ID">{{ currentLog.formId }}</el-descriptions-item>
+          <el-descriptions-item :label="i18n('rule.log.executionDuration')">{{ currentLog.executionDuration }} ms</el-descriptions-item>
+          <el-descriptions-item :label="i18n('rule.log.triggeredBy')">{{ currentLog.triggeredBy }}</el-descriptions-item>
+          <el-descriptions-item :label="i18n('rule.log.formId')">{{ currentLog.formId }}</el-descriptions-item>
         </el-descriptions>
 
-        <el-divider content-position="left">输入数据</el-divider>
+        <el-divider content-position="left">{{ i18n('rule.log.inputData') }}</el-divider>
         <pre class="json-content">{{ formatJson(currentLog.inputData) }}</pre>
 
-        <el-divider content-position="left">输出数据</el-divider>
+        <el-divider content-position="left">{{ i18n('rule.log.outputData') }}</el-divider>
         <pre class="json-content">{{ formatJson(currentLog.outputData) }}</pre>
 
-        <el-divider content-position="left">执行详情</el-divider>
+        <el-divider content-position="left">{{ i18n('rule.log.executionDetails') }}</el-divider>
         <pre class="json-content">{{ formatJson(currentLog.executionDetails) }}</pre>
 
         <div v-if="currentLog.errorMessage">
-          <el-divider content-position="left">错误信息</el-divider>
+          <el-divider content-position="left">{{ i18n('rule.log.errorMessage') }}</el-divider>
           <el-alert type="error" :closable="false">
             {{ currentLog.errorMessage }}
           </el-alert>
@@ -92,6 +92,7 @@ import { computed, onMounted, ref, watch } from "vue";
 import { ruleExecutionLogApi } from "@/api/rule_engine_api";
 import { Document } from "@element-plus/icons-vue";
 import { error } from "star-horse-lowcode";
+import { i18n } from '@/lang'
 
 const props = defineProps<{
   ruleId?: string
@@ -119,7 +120,7 @@ const loadLogs = async () => {
       total.value = logList.value.length;
     }
   } catch (err) {
-    error("加载执行日志失败");
+    error(i18n('rule.log.loadFailed'));
   }
 };
 
@@ -148,7 +149,7 @@ const getResultType = (result: string) => {
 };
 
 const getResultText = (result: string) => {
-  const map: any = { SUCCESS: "成功", FAILED: "失败", SKIPPED: "跳过" };
+  const map: any = { SUCCESS: i18n('rule.log.success'), FAILED: i18n('rule.log.failed'), SKIPPED: i18n('rule.log.skipped') };
   return map[result] || result;
 };
 

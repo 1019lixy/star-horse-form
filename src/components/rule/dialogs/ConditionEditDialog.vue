@@ -1,30 +1,30 @@
 <template>
   <star-horse-dialog
     :dialogVisible="visible"
-    :title="condition ? '编辑条件' : '添加条件'"
+    :title="condition ? i18n('rule.dialog.editCondition') : i18n('rule.dialog.addCondition')"
     boxWidth="580px"
     :selfFunc="true"
     @closeAction="handleClose"
     @merge="handleSave"
   >
     <el-form :model="formData" label-width="90px" size="default" ref="formRef" :rules="rules">
-      <el-form-item label="字段名" prop="fieldName">
-        <el-input v-model="formData.fieldName" placeholder="如：amount、status、userType" />
+      <el-form-item :label="i18n('rule.lbl.fieldName')" prop="fieldName">
+        <el-input v-model="formData.fieldName" :placeholder="i18n('rule.ph.fieldNameExample')" />
       </el-form-item>
-      <el-form-item label="字段标签">
-        <el-input v-model="formData.fieldLabel" placeholder="字段显示标签（可选）" />
+      <el-form-item :label="i18n('rule.lbl.fieldLabel')">
+        <el-input v-model="formData.fieldLabel" :placeholder="i18n('rule.ph.fieldLabelOptional')" />
       </el-form-item>
-      <el-form-item label="字段类型" prop="fieldType">
+      <el-form-item :label="i18n('rule.lbl.fieldType')" prop="fieldType">
         <el-select v-model="formData.fieldType" style="width: 100%;z-index:99999!important;"
                    @change="handleFieldTypeChange">
-          <el-option label="字符串 (String)" value="STRING" />
-          <el-option label="数字 (Number)" value="NUMBER" />
-          <el-option label="日期 (Date)" value="DATE" />
-          <el-option label="布尔 (Boolean)" value="BOOLEAN" />
-          <el-option label="数组 (Array)" value="ARRAY" />
+          <el-option :label="i18n('rule.dialog.string')" value="STRING" />
+          <el-option :label="i18n('rule.dialog.number')" value="NUMBER" />
+          <el-option :label="i18n('rule.dialog.date')" value="DATE" />
+          <el-option :label="i18n('rule.dialog.boolean')" value="BOOLEAN" />
+          <el-option :label="i18n('rule.dialog.array')" value="ARRAY" />
         </el-select>
       </el-form-item>
-      <el-form-item label="操作符" prop="operator">
+      <el-form-item :label="i18n('rule.lbl.operator')" prop="operator">
         <el-select v-model="formData.operator" style="width: 100%;z-index:99999!important;"
                    @change="handleOperatorChange">
           <el-option-group v-for="group in operatorGroups" :key="group.label" :label="group.label">
@@ -32,19 +32,19 @@
           </el-option-group>
         </el-select>
       </el-form-item>
-      <el-form-item label="值类型" v-if="needsValue">
+      <el-form-item :label="i18n('rule.lbl.valueType')" v-if="needsValue">
         <el-radio-group v-model="formData.valueType">
-          <el-radio-button value="CONSTANT">常量</el-radio-button>
-          <el-radio-button value="VARIABLE">变量</el-radio-button>
+          <el-radio-button value="CONSTANT">{{ i18n('rule.dialog.constant') }}</el-radio-button>
+          <el-radio-button value="VARIABLE">{{ i18n('rule.dialog.variable') }}</el-radio-button>
         </el-radio-group>
       </el-form-item>
-      <el-form-item label="条件值" v-if="needsValue" prop="value">
+      <el-form-item :label="i18n('rule.lbl.conditionValue')" v-if="needsValue" prop="value">
         <!-- 日期选择器 -->
         <el-date-picker
           v-if="formData.fieldType === 'DATE' && formData.valueType === 'CONSTANT'"
           v-model="formData.value"
           type="datetime"
-          placeholder="选择日期时间"
+          :placeholder="i18n('rule.ph.selectDateTime')"
           value-format="YYYY-MM-DD HH:mm:ss"
           style="width: 100%"
         />
@@ -54,34 +54,34 @@
           v-model="formData.value"
           style="width: 100%"
         >
-          <el-option label="是 (true)" value="true" />
-          <el-option label="否 (false)" value="false" />
+          <el-option :label="i18n('rule.dialog.yes')" value="true" />
+          <el-option :label="i18n('rule.dialog.no')" value="false" />
         </el-select>
         <!-- 数组输入 -->
         <el-input
           v-else-if="formData.fieldType === 'ARRAY' && formData.valueType === 'CONSTANT'"
           v-model="formData.value"
-          placeholder='多个值用逗号分隔，如：value1,value2'
+          :placeholder="i18n('rule.ph.arrayValuesCommaSeparated')"
         />
         <!-- 数字输入 -->
         <el-input-number
           v-else-if="formData.fieldType === 'NUMBER' && formData.valueType === 'CONSTANT'"
           v-model="formData.value"
           :controls="false"
-          placeholder="请输入数字"
+          :placeholder="i18n('rule.ph.enterNumber')"
           style="width: 100%"
         />
         <!-- 字符串输入 -->
         <el-input
           v-else-if="formData.valueType === 'CONSTANT'"
           v-model="formData.value"
-          placeholder="请输入条件值"
+          :placeholder="i18n('rule.ph.enterConditionValue')"
         />
         <!-- 变量模式 -->
         <el-input
           v-else
           v-model="formData.value"
-          placeholder="请输入变量字段名（如：formData.amount）"
+          :placeholder="i18n('rule.ph.enterVariableFieldName')"
         />
       </el-form-item>
     </el-form>
@@ -91,6 +91,7 @@
 <script setup lang="ts">
 import { computed, reactive, ref, watch } from "vue";
 import type { FormInstance, FormRules } from "element-plus";
+import { i18n } from '@/lang';
 
 const props = defineProps<{
   visible: boolean
@@ -117,51 +118,51 @@ const defaultFormData = () => ({
 const formData = reactive(defaultFormData());
 
 const rules = reactive<FormRules>({
-  fieldName: [{ required: true, message: "请输入字段名", trigger: "blur" }],
-  fieldType: [{ required: true, message: "请选择字段类型", trigger: "change" }],
-  operator: [{ required: true, message: "请选择操作符", trigger: "change" }]
+  fieldName: [{ required: true, message: i18n('rule.ph.enterFieldName'), trigger: "blur" }],
+  fieldType: [{ required: true, message: i18n('rule.ph.selectFieldType'), trigger: "change" }],
+  operator: [{ required: true, message: i18n('rule.ph.selectOperator'), trigger: "change" }]
 });
 
 // 操作符分组（值与RuleExecutor一致）
 const operatorGroups = computed(() => {
   const base = [
-    { label: "等于 (=)", value: "EQ" },
-    { label: "不等于 (≠)", value: "NE" }
+    { label: i18n('rule.dialog.equalTo'), value: "EQ" },
+    { label: i18n('rule.dialog.notEqualTo'), value: "NE" }
   ];
   const numeric = [
-    { label: "大于 (>)", value: "GT" },
-    { label: "大于等于 (≥)", value: "GTE" },
-    { label: "小于 (<)", value: "LT" },
-    { label: "小于等于 (≤)", value: "LTE" }
+    { label: i18n('rule.dialog.greaterThan'), value: "GT" },
+    { label: i18n('rule.dialog.greaterThanOrEqualTo'), value: "GTE" },
+    { label: i18n('rule.dialog.lessThan'), value: "LT" },
+    { label: i18n('rule.dialog.lessThanOrEqualTo'), value: "LTE" }
   ];
   const string = [
-    { label: "包含", value: "CONTAINS" },
-    { label: "不包含", value: "NOT_CONTAINS" },
-    { label: "以...开头", value: "STARTS_WITH" },
-    { label: "以...结尾", value: "ENDS_WITH" }
+    { label: i18n('rule.dialog.contains'), value: "CONTAINS" },
+    { label: i18n('rule.dialog.notContains'), value: "NOT_CONTAINS" },
+    { label: i18n('rule.dialog.startsWith'), value: "STARTS_WITH" },
+    { label: i18n('rule.dialog.endsWith'), value: "ENDS_WITH" }
   ];
   const collection = [
-    { label: "在列表中 (∈)", value: "IN" },
-    { label: "不在列表中 (∉)", value: "NOT_IN" }
+    { label: i18n('rule.dialog.inList'), value: "IN" },
+    { label: i18n('rule.dialog.notInList'), value: "NOT_IN" }
   ];
   const nullCheck = [
-    { label: "为空", value: "IS_NULL" },
-    { label: "不为空", value: "NOT_NULL" }
+    { label: i18n('rule.dialog.isNull'), value: "IS_NULL" },
+    { label: i18n('rule.dialog.isNotNull'), value: "NOT_NULL" }
   ];
 
   const groups: { label: string; options: any[] }[] = [
-    { label: "基本比较", options: base }
+    { label: i18n('rule.dialog.basicComparison'), options: base }
   ];
   if (formData.fieldType === "NUMBER" || formData.fieldType === "DATE") {
-    groups.push({ label: "数值比较", options: numeric });
+    groups.push({ label: i18n('rule.dialog.numericComparison'), options: numeric });
   }
   if (formData.fieldType === "STRING") {
-    groups.push({ label: "字符串操作", options: string });
+    groups.push({ label: i18n('rule.dialog.stringOperations'), options: string });
   }
   if (formData.fieldType === "ARRAY" || formData.fieldType === "STRING") {
-    groups.push({ label: "集合操作", options: collection });
+    groups.push({ label: i18n('rule.dialog.collectionOperations'), options: collection });
   }
-  groups.push({ label: "空值检查", options: nullCheck });
+  groups.push({ label: i18n('rule.dialog.nullCheck'), options: nullCheck });
   return groups;
 });
 

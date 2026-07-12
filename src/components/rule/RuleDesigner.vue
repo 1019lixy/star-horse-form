@@ -22,15 +22,15 @@
   <!-- 边标签编辑弹窗 -->
   <star-horse-dialog
     :dialogVisible="edgeLabelDialogVisible"
-    title="编辑连线标签"
+    :title="i18n('rule.msg.editEdgeLabel')"
     boxWidth="500px"
     :selfFunc="true"
     @closeAction="edgeLabelDialogVisible = false"
     @merge="handleEdgeLabelSave"
   >
     <el-form label-width="100px">
-      <el-form-item label="连线标签">
-        <el-input v-model="edgeLabel" placeholder="输入连线标签，留空则自动生成" />
+      <el-form-item :label="i18n('rule.msg.edgeLabel')">
+        <el-input v-model="edgeLabel" :placeholder="i18n('rule.msg.edgeLabel')" />
       </el-form-item>
       <el-form-item>
         <el-alert type="info" :closable="false">
@@ -39,7 +39,7 @@
               <el-icon>
                 <InfoFilled />
               </el-icon>
-              <span>留空将根据节点类型自动生成标签，手动输入的内容不会被自动覆盖</span>
+              <span>{{ i18n('rule.msg.edgeLabelHint') }}</span>
             </div>
           </template>
         </el-alert>
@@ -55,29 +55,29 @@
           <el-icon>
             <Check />
           </el-icon>
-          保存
+          {{ i18n('rule.save') }}
         </el-button>
         <el-button @click="handleTest">
           <el-icon>
             <VideoPlay />
           </el-icon>
-          测试
+          {{ i18n('rule.test') }}
         </el-button>
         <el-button @click="handlePublish" v-if="ruleData.status !== 'PUBLISHED'">
           <el-icon>
             <Upload />
           </el-icon>
-          发布
+          {{ i18n('rule.publish') }}
         </el-button>
         <el-divider direction="vertical" />
         <el-button type="success" plain @click="loadDemoData">
           <el-icon>
             <MagicStick />
           </el-icon>
-          Demo
+          {{ i18n('rule.demo') }}
         </el-button>
         <el-divider direction="vertical" />
-        <el-input v-model="ruleData.ruleName" placeholder="规则名称" class="rule-name-input" size="large">
+        <el-input v-model="ruleData.ruleName" :placeholder="i18n('rule.msg.ruleName')" class="rule-name-input" size="large">
           <template #prefix>
             <el-icon>
               <EditPen />
@@ -92,7 +92,7 @@
               <el-icon>
                 <QuestionFilled />
               </el-icon>
-              帮助
+              {{ i18n('rule.help') }}
             </el-button>
           </template>
           <div class="help-panel">
@@ -100,44 +100,42 @@
               <el-icon>
                 <QuestionFilled />
               </el-icon>
-              快捷键 & 操作说明
+              {{ i18n('rule.help.title') }}
             </div>
             <el-divider style="margin: 8px 0" />
             <div class="help-section">
-              <div class="help-section-title">基础操作</div>
-              <div class="help-row"><kbd>左键拖拽</kbd>节点库→画布<span>添加节点</span></div>
-              <div class="help-row"><kbd>左键拖拽</kbd>节点端口→另一节点<span>创建连线</span></div>
-              <div class="help-row"><kbd>双击</kbd>节点<span>打开编辑弹窗</span></div>
-              <div class="help-row"><kbd>双击</kbd>连线<span>编辑连线标签</span></div>
-              <div class="help-row"><kbd>右键</kbd>节点/画布<span>弹出上下文菜单</span></div>
+              <div class="help-section-title">{{ i18n('rule.help.basic') }}</div>
+              <div class="help-row"><kbd>{{ i18n('rule.help.dragAdd') }}</kbd></div>
+              <div class="help-row"><kbd>{{ i18n('rule.help.dragConnect') }}</kbd></div>
+              <div class="help-row"><kbd>{{ i18n('rule.help.doubleClick') }}</kbd></div>
+              <div class="help-row"><kbd>{{ i18n('rule.help.rightClick') }}</kbd></div>
             </div>
             <div class="help-section">
-              <div class="help-section-title">选中 & 框选</div>
-              <div class="help-row"><kbd>左键点击</kbd><span>选中单个节点</span></div>
-              <div class="help-row"><kbd>Shift/Ctrl+点击</kbd><span>追加选中 / 多选</span></div>
-              <div class="help-row"><kbd>Shift/Ctrl+拖拽空白</kbd><span>框选区域</span></div>
-              <div class="help-row"><kbd>Ctrl+A</kbd><span>全选（画布聚焦时）</span></div>
+              <div class="help-section-title">{{ i18n('rule.help.select') }}</div>
+              <div class="help-row"><kbd>{{ i18n('rule.help.clickSelect') }}</kbd></div>
+              <div class="help-row"><kbd>{{ i18n('rule.help.shiftSelect') }}</kbd></div>
+              <div class="help-row"><kbd>{{ i18n('rule.help.shiftDrag') }}</kbd></div>
+              <div class="help-row"><kbd>{{ i18n('rule.help.ctrlA') }}</kbd></div>
             </div>
             <div class="help-section">
-              <div class="help-section-title">编辑操作</div>
-              <div class="help-row"><kbd>Delete</kbd> / <kbd>Backspace</kbd><span>删除选中</span></div>
-              <div class="help-row"><kbd>Ctrl+Z</kbd><span>回退</span></div>
-              <div class="help-row"><kbd>Ctrl+Y</kbd> / <kbd>Ctrl+Shift+Z</kbd><span>前进</span></div>
-              <div class="help-row"><kbd>Ctrl+C</kbd> / <kbd>Ctrl+V</kbd><span>复制 / 粘贴节点</span></div>
+              <div class="help-section-title">{{ i18n('rule.help.edit') }}</div>
+              <div class="help-row"><kbd>{{ i18n('rule.help.delete') }}</kbd></div>
+              <div class="help-row"><kbd>{{ i18n('rule.help.ctrlZ') }}</kbd></div>
+              <div class="help-row"><kbd>{{ i18n('rule.help.ctrlY') }}</kbd></div>
+              <div class="help-row"><kbd>{{ i18n('rule.help.ctrlC') }}</kbd> / <kbd>{{ i18n('rule.help.ctrlV') }}</kbd></div>
             </div>
             <div class="help-section">
-              <div class="help-section-title">画布操作</div>
-              <div class="help-row"><kbd>滚轮</kbd><span>缩放画布</span></div>
-              <div class="help-row"><kbd>左键拖拽空白</kbd><span>平移画布</span></div>
-              <div class="help-row"><kbd>右键拖拽</kbd><span>平移画布</span></div>
-              <div class="help-row"><kbd>工具栏</kbd>对齐下拉<span>8种对齐方式</span></div>
-              <div class="help-row"><kbd>工具栏</kbd>连线样式<span>曲线/直线/折线切换</span></div>
+              <div class="help-section-title">{{ i18n('rule.help.canvas') }}</div>
+              <div class="help-row"><kbd>{{ i18n('rule.help.wheelZoom') }}</kbd></div>
+              <div class="help-row"><kbd>{{ i18n('rule.help.middlePan') }}</kbd></div>
+              <div class="help-row"><kbd>{{ i18n('rule.help.alignTool') }}</kbd></div>
+              <div class="help-row"><kbd>{{ i18n('rule.help.edgeStyle') }}</kbd></div>
             </div>
             <div class="help-section">
-              <div class="help-section-title">测试模式</div>
-              <div class="help-row"><kbd>测试按钮</kbd><span>打开控制台，输入参数执行</span></div>
-              <div class="help-row"><kbd>执行</kbd><span>高亮显示执行路径</span></div>
-              <div class="help-row"><kbd>关闭控制台</kbd><span>自动还原设计状态</span></div>
+              <div class="help-section-title">{{ i18n('rule.help.test') }}</div>
+              <div class="help-row"><kbd>{{ i18n('rule.help.openConsole') }}</kbd></div>
+              <div class="help-row"><kbd>{{ i18n('rule.help.executeHighlight') }}</kbd></div>
+              <div class="help-row"><kbd>{{ i18n('rule.help.closeRestore') }}</kbd></div>
             </div>
           </div>
         </el-popover>
@@ -145,7 +143,7 @@
           <el-icon>
             <Setting />
           </el-icon>
-          规则属性
+          {{ i18n('rule.property') }}
         </el-button>
         <el-tag :type="getStatusType(ruleData.status)" size="large" effect="dark">{{ getStatusText(ruleData.status) }}
         </el-tag>
@@ -165,17 +163,17 @@
           <!-- 中间：画布舞台 -->
           <el-splitter-panel class="center-pane flex flex-col">
             <div class="canvas-toolbar">
-              <span class="canvas-title"><el-icon><Share /></el-icon> 规则设计</span>
+              <span class="canvas-title"><el-icon><Share /></el-icon> {{ i18n('rule.msg.canvasDesign') }}</span>
               <div class="canvas-actions">
                 <!-- 回退前进 -->
-                <el-tooltip content="回退 (Ctrl+Z)" placement="bottom">
+                <el-tooltip :content="i18n('rule.undo') + ' (Ctrl+Z)'" placement="bottom">
                   <el-button link @click="undo" :disabled="!canUndo">
                     <el-icon>
                       <Back />
                     </el-icon>
                   </el-button>
                 </el-tooltip>
-                <el-tooltip content="前进 (Ctrl+Y)" placement="bottom">
+                <el-tooltip :content="i18n('rule.redo') + ' (Ctrl+Y)'" placement="bottom">
                   <el-button link @click="redo" :disabled="!canRedo">
                     <el-icon>
                       <Right />
@@ -186,7 +184,7 @@
                 <!-- 对齐工具（下拉） -->
                 <el-dropdown trigger="click" :disabled="!hasMultiSelected" @command="handleAlign"
                              popper-class="designer-dropdown-popper">
-                  <el-button link :disabled="!hasMultiSelected" title="对齐方式">
+                  <el-button link :disabled="!hasMultiSelected" :title="i18n('rule.property')">
                     <el-icon>
                       <Grid />
                     </el-icon>
@@ -197,104 +195,104 @@
                         <el-icon>
                           <DCaret />
                         </el-icon>
-                        左对齐
+                        {{ i18n('rule.align.left') }}
                       </el-dropdown-item>
                       <el-dropdown-item command="center">
                         <el-icon>
                           <DCaret />
                         </el-icon>
-                        水平居中
+                        {{ i18n('rule.align.centerH') }}
                       </el-dropdown-item>
                       <el-dropdown-item command="right">
                         <el-icon>
                           <DCaret />
                         </el-icon>
-                        右对齐
+                        {{ i18n('rule.align.right') }}
                       </el-dropdown-item>
                       <el-dropdown-item divided command="top">
                         <el-icon>
                           <DCaret />
                         </el-icon>
-                        顶部对齐
+                        {{ i18n('rule.align.top') }}
                       </el-dropdown-item>
                       <el-dropdown-item command="middle">
                         <el-icon>
                           <DCaret />
                         </el-icon>
-                        垂直居中
+                        {{ i18n('rule.align.centerV') }}
                       </el-dropdown-item>
                       <el-dropdown-item command="bottom">
                         <el-icon>
                           <DCaret />
                         </el-icon>
-                        底部对齐
+                        {{ i18n('rule.align.bottom') }}
                       </el-dropdown-item>
                       <el-dropdown-item divided command="hDist">
                         <el-icon>
                           <DCaret />
                         </el-icon>
-                        水平分布
+                        {{ i18n('rule.align.distributeH') }}
                       </el-dropdown-item>
                       <el-dropdown-item command="vDist">
                         <el-icon>
                           <DCaret />
                         </el-icon>
-                        垂直分布
+                        {{ i18n('rule.align.distributeV') }}
                       </el-dropdown-item>
                     </el-dropdown-menu>
                   </template>
                 </el-dropdown>
                 <!-- 连线类型 -->
                 <el-dropdown trigger="click" @command="handleEdgeType" popper-class="designer-dropdown-popper">
-                  <el-button link title="连线样式">
+                  <el-button link :title="i18n('rule.edge.bezier')">
                     <el-icon>
                       <Share />
                     </el-icon>
                   </el-button>
                   <template #dropdown>
                     <el-dropdown-menu>
-                      <el-dropdown-item command="default" :class="{ 'is-active': edgeType === 'default' }">贝塞尔曲线
+                      <el-dropdown-item command="default" :class="{ 'is-active': edgeType === 'default' }">{{ i18n('rule.edge.bezier') }}
                       </el-dropdown-item>
-                      <el-dropdown-item command="straight" :class="{ 'is-active': edgeType === 'straight' }">直线
+                      <el-dropdown-item command="straight" :class="{ 'is-active': edgeType === 'straight' }">{{ i18n('rule.edge.straight') }}
                       </el-dropdown-item>
-                      <el-dropdown-item command="step" :class="{ 'is-active': edgeType === 'step' }">折线
+                      <el-dropdown-item command="step" :class="{ 'is-active': edgeType === 'step' }">{{ i18n('rule.edge.step') }}
                       </el-dropdown-item>
                       <el-dropdown-item command="smoothstep" :class="{ 'is-active': edgeType === 'smoothstep' }">
-                        平滑折线
+                        {{ i18n('rule.edge.smoothstep') }}
                       </el-dropdown-item>
                     </el-dropdown-menu>
                   </template>
                 </el-dropdown>
                 <el-divider direction="vertical" />
-                <el-tooltip content="删除选中" placement="bottom">
+                <el-tooltip :content="i18n('rule.deleteSelected')" placement="bottom">
                   <el-button link @click="deleteSelected" :disabled="!hasSelected">
                     <el-icon>
                       <Delete />
                     </el-icon>
                   </el-button>
                 </el-tooltip>
-                <el-tooltip content="适应画布" placement="bottom">
+                <el-tooltip :content="i18n('rule.fitCanvas')" placement="bottom">
                   <el-button link @click="fitView">
                     <el-icon>
                       <FullScreen />
                     </el-icon>
                   </el-button>
                 </el-tooltip>
-                <el-tooltip content="自动布局" placement="bottom">
+                <el-tooltip :content="i18n('rule.autoLayout')" placement="bottom">
                   <el-button link @click="autoLayout">
                     <el-icon>
                       <Grid />
                     </el-icon>
                   </el-button>
                 </el-tooltip>
-                <el-tooltip content="布局选中节点" placement="bottom">
+                <el-tooltip :content="i18n('rule.layoutSelected')" placement="bottom">
                   <el-button link @click="layoutSelected" :disabled="!hasSelected">
                     <el-icon>
                       <Operation />
                     </el-icon>
                   </el-button>
                 </el-tooltip>
-                <el-tooltip content="清空" placement="bottom">
+                <el-tooltip :content="i18n('rule.clearCanvas')" placement="bottom">
                   <el-button link @click="clearCanvas">
                     <el-icon>
                       <Brush />
@@ -302,7 +300,7 @@
                   </el-button>
                 </el-tooltip>
                 <el-divider direction="vertical" />
-                <span class="canvas-tip">左键拖拽平移 · Shift/Ctrl+拖拽框选 · 滚轮缩放 · Ctrl+Z回退</span>
+                <span class="canvas-tip">{{ i18n('rule.msg.canvasTip') }}</span>
               </div>
             </div>
             <div class="canvas-body" @drop="onDrop" @dragover.prevent="onDragOver" @dragleave.prevent="onDragLeave"
@@ -392,44 +390,44 @@
                     <el-icon>
                       <Edit />
                     </el-icon>
-                    <span>编辑节点</span></div>
+                    <span>{{ i18n('rule.menu.editNode') }}</span></div>
                   <div class="menu-item" @click="handleCtxAction('copy')">
                     <el-icon>
                       <CopyDocument />
                     </el-icon>
-                    <span>复制节点</span></div>
+                    <span>{{ i18n('rule.menu.copyNode') }}</span></div>
                   <div class="menu-divider"></div>
                   <div class="menu-item danger" @click="handleCtxAction('delete')">
                     <el-icon>
                       <Delete />
                     </el-icon>
-                    <span>删除节点</span></div>
+                    <span>{{ i18n('rule.menu.deleteNode') }}</span></div>
                 </template>
                 <template v-else-if="contextMenu.type === 'edge'">
                   <div class="menu-item" @click="handleCtxAction('editEdge')">
                     <el-icon>
                       <Edit />
                     </el-icon>
-                    <span>编辑连线标签</span></div>
+                    <span>{{ i18n('rule.menu.editEdge') }}</span></div>
                   <div class="menu-divider"></div>
                   <div class="menu-item danger" @click="handleCtxAction('delete')">
                     <el-icon>
                       <Delete />
                     </el-icon>
-                    <span>删除连线</span></div>
+                    <span>{{ i18n('rule.menu.deleteEdge') }}</span></div>
                 </template>
                 <template v-else>
                   <div class="menu-item" @click="handleCtxAction('paste')">
                     <el-icon>
                       <CopyDocument />
                     </el-icon>
-                    <span>粘贴节点</span></div>
+                    <span>{{ i18n('rule.menu.pasteNode') }}</span></div>
                   <div class="menu-divider"></div>
                   <div class="menu-item" @click="handleCtxAction('fitView')">
                     <el-icon>
                       <FullScreen />
                     </el-icon>
-                    <span>适应画布</span></div>
+                    <span>{{ i18n('rule.menu.fitCanvas') }}</span></div>
                 </template>
               </div>
             </div>
@@ -457,10 +455,10 @@
         <div class="test-console">
           <div class="console-header">
             <div class="console-tabs">
-              <span class="console-tab"><el-icon><Monitor /></el-icon> 测试控制台</span>
+              <span class="console-tab"><el-icon><Monitor /></el-icon> {{ i18n('rule.console.title') }}</span>
               <el-tag v-if="executionPath" :type="executionPath.success ? 'success' : 'danger'">
-                {{ executionPath.success ? "成功" : "失败" }} · {{ executionPath.duration }}ms ·
-                {{ executionPath.visitedNodeIds.length }}节点
+                {{ executionPath.success ? i18n('rule.console.success') : i18n('rule.console.fail') }} · {{ executionPath.duration }}ms ·
+                {{ executionPath.visitedNodeIds.length }}{{ i18n('rule.node.start') }}
               </el-tag>
             </div>
             <div class="console-actions">
@@ -468,25 +466,25 @@
                 <el-icon>
                   <VideoPlay />
                 </el-icon>
-                执行
+                {{ i18n('rule.execute') }}
               </el-button>
               <el-button @click="stepExecute" :disabled="!executionPath">
                 <el-icon>
                   <VideoPause />
                 </el-icon>
-                单步
+                {{ i18n('rule.step') }}
               </el-button>
               <el-button @click="loadSampleData">
                 <el-icon>
                   <DocumentCopy />
                 </el-icon>
-                示例
+                {{ i18n('rule.sample') }}
               </el-button>
               <el-button @click="clearTestResult">
                 <el-icon>
                   <Brush />
                 </el-icon>
-                清除
+                {{ i18n('rule.clear') }}
               </el-button>
               <el-button link @click="closeTestConsole">
                 <el-icon>
@@ -499,8 +497,8 @@
             <el-splitter class="console-splitter">
               <el-splitter-panel :size="350" resizable collapsible min="200" max="550">
                 <div class="pane-header">
-                  <span>输入参数</span>
-                  <el-button link @click="switchToJsonMode">{{ jsonMode ? "表单模式" : "JSON模式" }}</el-button>
+                  <span>{{ i18n('rule.console.input') }}</span>
+                  <el-button link @click="switchToJsonMode">{{ jsonMode ? i18n('rule.console.formMode') : i18n('rule.console.jsonMode') }}</el-button>
                 </div>
                 <div class="pane-body">
                   <!-- 表单模式：自动解析参数 -->
@@ -509,8 +507,8 @@
                       <el-icon :size="28">
                         <Document />
                       </el-icon>
-                      <p>暂无可测试参数</p>
-                      <p class="hint">添加条件节点后自动解析字段</p>
+                      <p>{{ i18n('rule.console.noParams') }}</p>
+                      <p class="hint">{{ i18n('rule.console.addConditionHint') }}</p>
                     </div>
                     <el-form v-else label-width="100px" labelPosition="top" class="param-form">
                       <el-form-item v-for="field in testFields" :key="field.name" :label="field.name">
@@ -519,7 +517,7 @@
                           v-if="field.type === 'NUMBER'"
                           v-model="testFormData[field.name]"
                           :controls="false"
-                          placeholder="请输入数字"
+                          :placeholder="i18n('rule.option.number')"
                           style="width: 100%"
                         />
                         <!-- 日期 -->
@@ -527,7 +525,7 @@
                           v-else-if="field.type === 'DATE'"
                           v-model="testFormData[field.name]"
                           type="datetime"
-                          placeholder="选择日期"
+                          :placeholder="i18n('rule.option.date')"
                           value-format="YYYY-MM-DD HH:mm:ss"
                           style="width: 100%"
                         />
@@ -537,14 +535,14 @@
                           v-model="testFormData[field.name]"
                           style="width: 100%"
                         >
-                          <el-option label="是" :value="true" />
-                          <el-option label="否" :value="false" />
+                          <el-option :label="i18n('rule.option.boolean')" :value="true" />
+                          <el-option :label="i18n('rule.option.string')" :value="false" />
                         </el-select>
                         <!-- 字符串/数组 -->
                         <el-input
                           v-else
                           v-model="testFormData[field.name]"
-                          :placeholder="field.type === 'ARRAY' ? '多个值用逗号分隔' : '请输入值'"
+                          :placeholder="field.type === 'ARRAY' ? i18n('rule.msg.arrayInput') : i18n('rule.msg.inputValue')"
                         />
                         <el-tag type="info" class="field-type-tag">{{ field.type }}</el-tag>
                       </el-form-item>
@@ -563,12 +561,12 @@
               </el-splitter-panel>
               <el-splitter-panel>
                 <div class="pane-header">
-                  <span>执行输出</span>
+                  <span>{{ i18n('rule.console.output') }}</span>
                   <el-radio-group v-if="executionPath" v-model="outputTab">
-                    <el-radio-button value="timeline">时间线</el-radio-button>
-                    <el-radio-button value="conditions">条件</el-radio-button>
-                    <el-radio-button value="actions">动作</el-radio-button>
-                    <el-radio-button value="context">上下文</el-radio-button>
+                    <el-radio-button value="timeline">{{ i18n('rule.console.timeline') }}</el-radio-button>
+                    <el-radio-button value="conditions">{{ i18n('rule.console.condition') }}</el-radio-button>
+                    <el-radio-button value="actions">{{ i18n('rule.console.action') }}</el-radio-button>
+                    <el-radio-button value="context">{{ i18n('rule.console.context') }}</el-radio-button>
                   </el-radio-group>
                 </div>
                 <div class="pane-body">
@@ -576,7 +574,7 @@
                     <el-icon :size="32">
                       <Cpu />
                     </el-icon>
-                    <p>点击执行按钮运行规则</p></div>
+                    <p>{{ i18n('rule.console.executeHint') }}</p></div>
                   <div v-else-if="outputTab === 'timeline'" class="output-content">
                     <el-timeline>
                       <el-timeline-item v-for="(step, idx) in displaySteps" :key="idx" :type="getStepType(step.status)"
@@ -596,7 +594,7 @@
                   </div>
                   <div v-else-if="outputTab === 'conditions'" class="output-content">
                     <div v-for="cond in executionPath.conditionResults" :key="cond.nodeId" class="cond-item">
-                      <el-tag :type="cond.passed ? 'success' : 'info'" effect="dark">{{ cond.passed ? "✓ 满足" : "✗ 不满足"
+                      <el-tag :type="cond.passed ? 'success' : 'info'" effect="dark">{{ cond.passed ? i18n('rule.edge.satisfied') : i18n('rule.edge.notSatisfied')
                         }}
                       </el-tag>
                       <pre class="cond-detail">{{ cond.detail }}</pre>
@@ -604,15 +602,15 @@
                   </div>
                   <div v-else-if="outputTab === 'actions'" class="output-content">
                     <el-table :data="executionPath.actionResults" border stripe>
-                      <el-table-column prop="actionType" label="动作类型" width="120" />
-                      <el-table-column prop="targetField" label="目标字段" width="160" />
-                      <el-table-column prop="success" label="状态" width="80">
+                      <el-table-column prop="actionType" :label="i18n('rule.field.actionType')" width="120" />
+                      <el-table-column prop="targetField" :label="i18n('rule.field.targetField')" width="160" />
+                      <el-table-column prop="success" :label="i18n('rule.status.draft')" width="80">
                         <template #default="{ row }">
-                          <el-tag :type="row.success ? 'success' : 'danger'">{{ row.success ? "成功" : "失败" }}
+                          <el-tag :type="row.success ? 'success' : 'danger'">{{ row.success ? i18n('rule.console.success') : i18n('rule.console.fail') }}
                           </el-tag>
                         </template>
                       </el-table-column>
-                      <el-table-column prop="message" label="消息" show-overflow-tooltip />
+                      <el-table-column prop="message" :label="i18n('rule.msg.message')" show-overflow-tooltip />
                     </el-table>
                   </div>
                   <div v-else-if="outputTab === 'context'" class="output-content">
@@ -694,6 +692,7 @@ const RulePropertyDialog = defineAsyncComponent(() => import("./dialogs/RuleProp
 import { executeRuleFlow, type ExecutionPath } from "./engine/RuleExecutor";
 import { success, warning, error, operationConfirm } from "star-horse-lowcode";
 import { ElMessageBox } from "element-plus";
+import { i18n } from "@/lang";
 
 const props = defineProps<{ ruleId?: string }>();
 const emit = defineEmits<{ (e: "saved"): void; (e: "close"): void }>();
@@ -789,9 +788,9 @@ const nodeDefaultData: Record<string, () => any> = {
   "end": () => ({}),
   "condition": () => ({ conditions: [], logic: "AND" }),
   "action": () => ({ actions: [] }),
-  "exclusive-gateway": () => ({ name: "排他网关", gatewayType: "XOR", branches: [] }),
-  "parallel-gateway": () => ({ name: "并行网关" }),
-  "inclusive-gateway": () => ({ name: "包容网关", gatewayType: "OR", branches: [] }),
+  "exclusive-gateway": () => ({ name: i18n('rule.node.exclusiveGateway'), gatewayType: "XOR", branches: [] }),
+  "parallel-gateway": () => ({ name: i18n('rule.node.parallelGateway') }),
+  "inclusive-gateway": () => ({ name: i18n('rule.node.inclusiveGateway'), gatewayType: "OR", branches: [] }),
   "variable-assign": () => ({ assignments: [] })
 };
 // 基础节点类型（有专用组件）
@@ -849,7 +848,7 @@ const onDrop = (e: DragEvent) => {
   addNodes(newNode);
   selectedNode.value = newNode;
   pushHistory();
-  success(`已添加 ${getNodeLabel(nodeType)}`);
+  success(`${i18n('rule.msg.added')} ${getNodeLabel(nodeType)}`);
 };
 
 const onConnect = (c: any) => {
@@ -867,10 +866,10 @@ const onConnect = (c: any) => {
       // 条件节点：第一条出边标注"满足✓"，第二条标注"不满足✗"
       const outEdges = edges.value.filter(e => e.source === c.source);
       if (outEdges.length === 0) {
-        label = "满足 ✓";
+        label = i18n('rule.edge.satisfied');
         labelStyle = { fill: "#10b981", fontSize: 11, fontWeight: 600 };
       } else {
-        label = "不满足 ✗";
+        label = i18n('rule.edge.notSatisfied');
         labelStyle = { fill: "#ef4444", fontSize: 11, fontWeight: 600 };
       }
       break;
@@ -882,15 +881,15 @@ const onConnect = (c: any) => {
       const branchIndex = outEdges.length;
       if (branchIndex < branches.length) {
         const branch = branches[branchIndex];
-        label = branch.condition || branch.label || `分支${branchIndex + 1}`;
+        label = branch.condition || branch.label || `${i18n('rule.edge.branch')}${branchIndex + 1}`;
       } else {
-        label = "默认分支";
+        label = i18n('rule.edge.defaultBranch');
       }
       labelStyle = { fill: "#f59e0b", fontSize: 11, fontWeight: 600 };
       break;
     }
     case "parallel-gateway": {
-      label = "并行执行";
+      label = i18n('rule.edge.parallelExec');
       labelStyle = { fill: "#06b6d4", fontSize: 11, fontWeight: 600 };
       break;
     }
@@ -900,9 +899,9 @@ const onConnect = (c: any) => {
       const branchIndex = outEdges.length;
       if (branchIndex < branches.length) {
         const branch = branches[branchIndex];
-        label = branch.condition || branch.label || `分支${branchIndex + 1}`;
+        label = branch.condition || branch.label || `${i18n('rule.edge.branch')}${branchIndex + 1}`;
       } else {
-        label = "默认分支";
+        label = i18n('rule.edge.defaultBranch');
       }
       labelStyle = { fill: "#8b5cf6", fontSize: 11, fontWeight: 600 };
       break;
@@ -910,9 +909,9 @@ const onConnect = (c: any) => {
     case "variable-assign": {
       const assignments = sourceNode.data.assignments || [];
       if (assignments.length > 0) {
-        label = `设置 ${assignments.map(a => a.variableName).join(", ")}`;
+        label = `${i18n('rule.edge.set')} ${assignments.map(a => a.variableName).join(", ")}`;
       } else {
-        label = "变量赋值";
+        label = i18n('rule.edge.varAssign');
       }
       labelStyle = { fill: "#6366f1", fontSize: 11, fontWeight: 500 };
       break;
@@ -920,22 +919,22 @@ const onConnect = (c: any) => {
     case "action": {
       const actions = sourceNode.data.actions || [];
       if (actions.length > 0) {
-        label = `${actions.length}个动作`;
+        label = `${actions.length}${i18n('rule.edge.actions')}`;
       } else {
-        label = "执行动作";
+        label = i18n('rule.edge.execAction');
       }
       break;
     }
     case "loop": {
-      label = `遍历 ${sourceNode.data.collectionVar || "集合"}`;
+      label = `${i18n('rule.edge.loop')} ${sourceNode.data.collectionVar || i18n('rule.edge.collection')}`;
       break;
     }
     case "script": {
-      label = "执行脚本";
+      label = i18n('rule.edge.execScript');
       break;
     }
     case "http-call": {
-      label = `${sourceNode.data.method || "GET"} ${sourceNode.data.url || "接口"}`;
+      label = `${sourceNode.data.method || "GET"} ${sourceNode.data.url || i18n('rule.edge.interface')}`;
       break;
     }
     default: {
@@ -988,7 +987,7 @@ const handleNodeAdd = (nodeType: string) => {
   addNodes(newNode);
   selectedNode.value = newNode;
   pushHistory();
-  success(`已添加 ${getNodeLabel(nodeType)}`);
+  success(`${i18n('rule.msg.added')} ${getNodeLabel(nodeType)}`);
 };
 
 // ========== 节点选中 ==========
@@ -1110,7 +1109,7 @@ const openGatewayDialog = (id: string) => {
   editingNodeId.value = id;
   const d = getNodeData(id);
   editingGateway.value = {
-    name: d.name || "网关",
+    name: d.name || i18n('rule.node.gateway'),
     gatewayType: d.gatewayType || "XOR",
     branches: d.branches ? JSON.parse(JSON.stringify(d.branches)) : []
   };
@@ -1225,10 +1224,10 @@ const generateEdgeLabel = (sourceNode: any, edgeIndex: number): { label: string;
     case "condition": {
       // 条件节点：第一条出边标注"满足✓"，第二条标注"不满足✗"
       if (edgeIndex === 0) {
-        label = "满足 ✓";
+        label = i18n('rule.edge.satisfied');
         labelStyle = { fill: "#10b981", fontSize: 11, fontWeight: 600 };
       } else {
-        label = "不满足 ✗";
+        label = i18n('rule.edge.notSatisfied');
         labelStyle = { fill: "#ef4444", fontSize: 11, fontWeight: 600 };
       }
       break;
@@ -1238,15 +1237,15 @@ const generateEdgeLabel = (sourceNode: any, edgeIndex: number): { label: string;
       const branches = sourceNode.data.branches || [];
       if (edgeIndex < branches.length) {
         const branch = branches[edgeIndex];
-        label = branch.condition || branch.label || `分支${edgeIndex + 1}`;
+        label = branch.condition || branch.label || `${i18n('rule.edge.branch')}${edgeIndex + 1}`;
       } else {
-        label = "默认分支";
+        label = i18n('rule.edge.defaultBranch');
       }
       labelStyle = { fill: "#f59e0b", fontSize: 11, fontWeight: 600 };
       break;
     }
     case "parallel-gateway": {
-      label = "并行执行";
+      label = i18n('rule.edge.parallelExec');
       labelStyle = { fill: "#06b6d4", fontSize: 11, fontWeight: 600 };
       break;
     }
@@ -1254,9 +1253,9 @@ const generateEdgeLabel = (sourceNode: any, edgeIndex: number): { label: string;
       const branches = sourceNode.data.branches || [];
       if (edgeIndex < branches.length) {
         const branch = branches[edgeIndex];
-        label = branch.condition || branch.label || `分支${edgeIndex + 1}`;
+        label = branch.condition || branch.label || `${i18n('rule.edge.branch')}${edgeIndex + 1}`;
       } else {
-        label = "默认分支";
+        label = i18n('rule.edge.defaultBranch');
       }
       labelStyle = { fill: "#8b5cf6", fontSize: 11, fontWeight: 600 };
       break;
@@ -1264,9 +1263,9 @@ const generateEdgeLabel = (sourceNode: any, edgeIndex: number): { label: string;
     case "variable-assign": {
       const assignments = sourceNode.data.assignments || [];
       if (assignments.length > 0) {
-        label = `设置 ${assignments.map(a => a.variableName).join(", ")}`;
+        label = `${i18n('rule.edge.set')} ${assignments.map(a => a.variableName).join(", ")}`;
       } else {
-        label = "变量赋值";
+        label = i18n('rule.edge.varAssign');
       }
       labelStyle = { fill: "#6366f1", fontSize: 11, fontWeight: 500 };
       break;
@@ -1274,22 +1273,22 @@ const generateEdgeLabel = (sourceNode: any, edgeIndex: number): { label: string;
     case "action": {
       const actions = sourceNode.data.actions || [];
       if (actions.length > 0) {
-        label = `${actions.length}个动作`;
+        label = `${actions.length}${i18n('rule.edge.actions')}`;
       } else {
-        label = "执行动作";
+        label = i18n('rule.edge.execAction');
       }
       break;
     }
     case "loop": {
-      label = `遍历 ${sourceNode.data.collectionVar || "集合"}`;
+      label = `${i18n('rule.edge.loop')} ${sourceNode.data.collectionVar || i18n('rule.edge.collection')}`;
       break;
     }
     case "script": {
-      label = "执行脚本";
+      label = i18n('rule.edge.execScript');
       break;
     }
     case "http-call": {
-      label = `${sourceNode.data.method || "GET"} ${sourceNode.data.url || "接口"}`;
+      label = `${sourceNode.data.method || "GET"} ${sourceNode.data.url || i18n('rule.edge.interface')}`;
       break;
     }
     default: {
@@ -1379,7 +1378,7 @@ const handleCtxAction = (action: string) => {
         const n = nodes.value.find(n => n.id === nodeId);
         if (n) {
           clipboard.value = JSON.parse(JSON.stringify(n));
-          success("已复制");
+          success(i18n('rule.msg.copied'));
         }
       }
       break;
@@ -1391,17 +1390,17 @@ const handleCtxAction = (action: string) => {
           position: { x: clipboard.value.position.x + 60, y: clipboard.value.position.y + 60 },
           selected: false
         });
-        success("已粘贴");
-      } else warning("剪贴板为空");
+        success(i18n('rule.msg.pasted'));
+      } else warning(i18n('rule.msg.clipboardEmpty'));
       break;
     case "delete":
       if (type === "node" && nodeId) {
         edges.value = edges.value.filter(e => e.source !== nodeId && e.target !== nodeId);
         removeNodes([nodeId]);
-        success("已删除");
+        success(i18n('rule.msg.deleted'));
       } else if (type === "edge" && edgeId) {
         removeEdges([edgeId]);
-        success("已删除");
+        success(i18n('rule.msg.deleted'));
       }
       break;
     case "editEdge":
@@ -1428,7 +1427,7 @@ const deleteSelected = () => {
   const sn = nodes.value.filter(n => n.selected);
   const se = edges.value.filter(e => e.selected);
   if (!sn.length && !se.length) {
-    warning("请先选中");
+    warning(i18n('rule.msg.pleaseSelect'));
     return;
   }
   if (sn.length) {
@@ -1437,7 +1436,7 @@ const deleteSelected = () => {
     removeNodes(ids);
   }
   if (se.length) removeEdges(se.map(e => e.id));
-  success(`已删除 ${sn.length} 节点, ${se.length} 连线`);
+  success(`${i18n('rule.msg.deleted')} ${sn.length} ${i18n('rule.node.start')}, ${se.length} ${i18n('rule.edge.bezier')}`);
   pushHistory();
 };
 
@@ -1490,7 +1489,7 @@ const redo = () => {
 const handleAlign = (cmd: string) => {
   const selected = nodes.value.filter(n => n.selected);
   if (selected.length < 2) {
-    warning("请框选至少2个节点");
+    warning(i18n('rule.msg.selectAtLeast2'));
     return;
   }
 
@@ -1533,7 +1532,7 @@ const handleAlign = (cmd: string) => {
       // 水平分布：按X排序后均匀分布
       const sorted = [...selected].sort((a, b) => a.position.x - b.position.x);
       if (sorted.length < 3) {
-        warning("至少需要3个节点");
+        warning(i18n('rule.msg.needAtLeast3'));
         return;
       }
       const first = sorted[0];
@@ -1551,7 +1550,7 @@ const handleAlign = (cmd: string) => {
       // 垂直分布：按Y排序后均匀分布
       const sorted = [...selected].sort((a, b) => a.position.y - b.position.y);
       if (sorted.length < 3) {
-        warning("至少需要3个节点");
+        warning(i18n('rule.msg.needAtLeast3'));
         return;
       }
       const first = sorted[0];
@@ -1567,7 +1566,7 @@ const handleAlign = (cmd: string) => {
     }
   }
   pushHistory();
-  success("对齐完成");
+  success(i18n('rule.msg.aligned'));
 };
 
 // ========== 连线类型 ==========
@@ -1617,7 +1616,7 @@ const getNodeSize = (node: any): { width: number; height: number } => {
 
 const autoLayout = () => {
   if (!nodes.value.length) {
-    warning("画布为空");
+    warning(i18n('rule.msg.canvasEmpty'));
     return;
   }
 
@@ -1686,14 +1685,14 @@ const autoLayout = () => {
   });
 
   setTimeout(() => fitViewFn({ duration: 300 }), 100);
-  success("已自动布局");
+  success(i18n('rule.msg.autoLayoutDone'));
 };
 
 // 对选中节点进行局部自动布局
 const layoutSelected = () => {
   const selectedNodes = nodes.value.filter(n => n.selected);
   if (selectedNodes.length < 2) {
-    warning("请框选至少2个节点");
+    warning(i18n('rule.msg.selectAtLeast2'));
     return;
   }
 
@@ -1755,10 +1754,10 @@ const layoutSelected = () => {
     currentY += maxH + LAYER_GAP_Y;
   });
 
-  success(`已对 ${selectedNodes.length} 个选中节点布局`);
+  success(i18n('rule.msg.layoutSelectedDone', [selectedNodes.length]));
 };
 const clearCanvas = async () => {
-  await operationConfirm("确定清空画布？");
+  await operationConfirm(i18n('rule.msg.confirmClear'));
   nodes.value = [];
   edges.value = [];
   initDefaultFlow();
@@ -1816,13 +1815,13 @@ const executeTest = async () => {
   let d: any;
   if (jsonMode.value) {
     if (!testDataStr.value.trim()) {
-      warning("请输入测试数据");
+      warning(i18n('rule.msg.inputTestData'));
       return;
     }
     try {
       d = JSON.parse(testDataStr.value);
     } catch {
-      error("JSON格式错误");
+      error(i18n('rule.msg.jsonError'));
       return;
     }
   } else {
@@ -1846,9 +1845,9 @@ const executeTest = async () => {
     executionPath.value = r;
     handleHighlightPath(r);
     outputTab.value = "timeline";
-    success(`执行完成，经过 ${r.visitedNodeIds.length} 节点`);
+    success(`${i18n('rule.msg.executeSuccess')}, ${i18n('rule.msg.passedThrough')} ${r.visitedNodeIds.length} ${i18n('rule.msg.nodes')}`);
   } catch (e: any) {
-    error("执行失败: " + e.message);
+    error(`${i18n('rule.msg.executeFail')}: ` + e.message);
   } finally {
     executing.value = false;
   }
@@ -1859,7 +1858,7 @@ const stepExecute = () => {
     isStepping.value = true;
     stepIndex.value = 0;
   } else if (stepIndex.value < executionPath.value.steps.length - 1) stepIndex.value++; else {
-    warning("已到最后一步");
+    warning(i18n('rule.msg.lastStep'));
     return;
   }
   handleHighlightPath({
@@ -1899,7 +1898,7 @@ const loadSampleData = () => {
       else testFormData[f.name] = "sample";
     });
   }
-  success("已加载示例数据");
+  success(i18n('rule.msg.sampleLoaded'));
 };
 
 const switchToJsonMode = () => {
@@ -1960,14 +1959,14 @@ const loadRuleData = async () => {
       }
     }
   } catch {
-    error("加载失败");
+    error(i18n('rule.msg.loadFail'));
     initDefaultFlow();
   }
 };
 
 const handleSave = async () => {
   if (!ruleData.ruleCode || !ruleData.ruleName) {
-    warning("请填写规则编码和名称");
+    warning(i18n('rule.msg.fillCodeAndName'));
     return;
   }
   saving.value = true;
@@ -1999,10 +1998,10 @@ const handleSave = async () => {
       idRuleDefinition: id,
       actionIndex: i
     })));
-    success("保存成功");
+    success(i18n('rule.msg.saveSuccess'));
     emit("saved");
   } catch {
-    error("保存失败");
+    error(i18n('rule.msg.saveFail'));
   } finally {
     saving.value = false;
   }
@@ -2010,34 +2009,34 @@ const handleSave = async () => {
 
 const handleTest = () => {
   if (!nodes.value.length) {
-    warning("流程图为空");
+    warning(i18n('rule.msg.flowEmpty'));
     return;
   }
   testConsoleVisible.value = true;
 };
 const handlePublish = async () => {
-  await operationConfirm("确定发布？");
+  await operationConfirm(i18n('rule.msg.confirmPublish'));
   try {
     ruleData.status = "PUBLISHED";
     await ruleDefinitionApi.updateRule(ruleData);
-    success("发布成功");
+    success(i18n('rule.msg.publishSuccess'));
   } catch {
-    error("发布失败");
+    error(i18n('rule.msg.publishFail'));
   }
 };
 
 const getStatusType = (s: string) => ({ DRAFT: "info", PUBLISHED: "success", DISABLED: "danger" }[s] || "info");
-const getStatusText = (s: string) => ({ DRAFT: "草稿", PUBLISHED: "已发布", DISABLED: "已禁用" }[s] || s);
+const getStatusText = (s: string) => ({ DRAFT: i18n('rule.status.draft'), PUBLISHED: i18n('rule.status.published'), DISABLED: i18n('rule.status.disabled') }[s] || s);
 
 const loadDemoData = async () => {
   const { value: demoType } = await ElMessageBox.prompt(
-    "请选择规则引擎Demo类型：\n" + DEMO_LIST.map(d => `${d.id}. ${d.name}（${d.desc}）`).join("\n"),
-    "加载规则引擎Demo",
+    i18n('rule.msg.selectDemoType') + "\n" + DEMO_LIST.map(d => `${d.id}. ${i18n(d.nameKey)}（${i18n(d.descKey)}）`).join("\n"),
+    i18n('rule.msg.loadDemoTitle'),
     {
-      confirmButtonText: "确定",
-      cancelButtonText: "取消",
+      confirmButtonText: i18n('rule.msg.confirm'),
+      cancelButtonText: i18n('rule.msg.cancel'),
       inputPattern: /^[1-6]$/,
-      inputErrorMessage: "请输入1-6之间的数字",
+      inputErrorMessage: i18n('rule.msg.inputDemoRange'),
       inputValue: "1"
     }
   );
@@ -2050,7 +2049,7 @@ const loadDemoData = async () => {
     nodes.value = JSON.parse(JSON.stringify(demo.data.nodes));
     edges.value = JSON.parse(JSON.stringify(demo.data.edges));
     setTimeout(() => fitViewFn({ duration: 500 }), 100);
-    success("规则引擎Demo已加载，点击测试体验决策路径");
+    success(i18n('rule.msg.demoLoaded'));
     pushHistory();
   }
 };

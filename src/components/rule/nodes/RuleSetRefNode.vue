@@ -7,7 +7,7 @@
           <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
           <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
         </svg>
-        <span class="header-title">规则集引用</span>
+        <span class="header-title">{{ i18n('rule.node.ruleSetRef') }}</span>
         <el-button type="primary" link  @click.stop="$emit('edit')" class="header-btn">
           <el-icon><Edit /></el-icon>
         </el-button>
@@ -15,15 +15,15 @@
       <div class="node-body">
         <div v-if="!data.ruleSetName && !data.ruleSetCode" class="empty-tip">
           <el-icon class="empty-icon"><InfoFilled /></el-icon>
-          <span>双击选择规则集</span>
+          <span>{{ i18n('rule.node.ruleSetRefEmptyTip') }}</span>
         </div>
         <div v-else class="ref-content">
           <div class="ref-name">
             <el-icon class="ref-icon"><Link /></el-icon>
-            <span class="ref-text">{{ data.ruleSetName || '未命名规则集' }}</span>
+            <span class="ref-text">{{ data.ruleSetName || i18n('rule.msg.unnamedRuleSet') }}</span>
           </div>
           <div v-if="data.ruleSetCode" class="ref-code">
-            编码: {{ data.ruleSetCode }}
+            {{ i18n('rule.lbl.code') }}: {{ data.ruleSetCode }}
           </div>
         </div>
       </div>
@@ -35,6 +35,7 @@
 <script setup lang="ts">
 import { Position, Handle } from '@vue-flow/core'
 import { Edit, InfoFilled, Link } from '@element-plus/icons-vue'
+import { i18n } from '@/lang'
 
 defineProps<{
   id?: string

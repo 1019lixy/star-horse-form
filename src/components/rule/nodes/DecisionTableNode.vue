@@ -4,25 +4,25 @@
     <div class="node-card">
       <div class="node-header">
         <span class="header-icon">📊</span>
-        <span class="header-title">{{ data.tableName || '决策表' }}</span>
+        <span class="header-title">{{ data.tableName || i18n('rule.node.decisionTable') }}</span>
       </div>
       <div class="node-body">
         <div v-if="!data.conditions || data.conditions.length === 0" class="empty-tip">
           <el-icon class="empty-icon"><InfoFilled /></el-icon>
-          <span>双击配置决策表</span>
+          <span>{{ i18n('rule.node.decisionTableEmptyTip') }}</span>
         </div>
         <div v-else class="table-summary">
           <div class="summary-row">
-            <span class="row-label">条件列:</span>
-            <span class="row-value">{{ data.conditions.length }}列</span>
+            <span class="row-label">{{ i18n('rule.lbl.conditionColumns') }}:</span>
+            <span class="row-value">{{ data.conditions.length }}{{ i18n('rule.lbl.columnCount') }}</span>
           </div>
           <div class="summary-row">
-            <span class="row-label">动作列:</span>
-            <span class="row-value">{{ data.actions?.length || 0 }}列</span>
+            <span class="row-label">{{ i18n('rule.lbl.actionColumns') }}:</span>
+            <span class="row-value">{{ data.actions?.length || 0 }}{{ i18n('rule.lbl.columnCount') }}</span>
           </div>
           <div class="summary-row">
-            <span class="row-label">规则行:</span>
-            <span class="row-value">{{ data.rules?.length || 0 }}行</span>
+            <span class="row-label">{{ i18n('rule.lbl.ruleRows') }}:</span>
+            <span class="row-value">{{ data.rules?.length || 0 }}{{ i18n('rule.lbl.rowCount') }}</span>
           </div>
         </div>
       </div>
@@ -34,6 +34,7 @@
 <script setup lang="ts">
 import { Position, Handle } from '@vue-flow/core'
 import { InfoFilled } from '@element-plus/icons-vue'
+import { i18n } from '@/lang'
 
 defineProps<{
   id?: string

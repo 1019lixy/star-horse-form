@@ -1,27 +1,27 @@
 <template>
   <star-horse-dialog
     :dialogVisible="visible"
-    title="循环节点配置"
+    :title="i18n('rule.dialog.loopNodeConfig')"
     boxWidth="560px"
     :selfFunc="true"
     @closeAction="handleClose"
     @merge="handleSave"
   >
     <el-form :model="formData" label-width="110px" size="default" ref="formRef" :rules="rules">
-      <el-form-item label="集合变量名" prop="collectionVar">
-        <el-input v-model="formData.collectionVar" placeholder="要遍历的集合变量名，如：items" />
+      <el-form-item :label="i18n('rule.lbl.collectionVarName')" prop="collectionVar">
+        <el-input v-model="formData.collectionVar" :placeholder="i18n('rule.ph.collectionVarNameExample')" />
       </el-form-item>
-      <el-form-item label="当前项变量名" prop="itemVar">
-        <el-input v-model="formData.itemVar" placeholder="当前项变量名，默认 item" />
+      <el-form-item :label="i18n('rule.lbl.currentItemVarName')" prop="itemVar">
+        <el-input v-model="formData.itemVar" :placeholder="i18n('rule.ph.currentItemVarNameDefault')" />
       </el-form-item>
-      <el-form-item label="索引变量名" prop="indexVar">
-        <el-input v-model="formData.indexVar" placeholder="索引变量名，默认 index" />
+      <el-form-item :label="i18n('rule.lbl.indexVarName')" prop="indexVar">
+        <el-input v-model="formData.indexVar" :placeholder="i18n('rule.ph.indexVarNameDefault')" />
       </el-form-item>
-      <el-form-item label="循环内动作">
+      <el-form-item :label="i18n('rule.lbl.actionsInLoop')">
         <div class="action-block">
           <div v-if="!formData.actions || formData.actions.length === 0" class="empty-tip">
             <el-icon class="empty-icon"><InfoFilled /></el-icon>
-            <span>暂无动作，请在循环节点内添加并配置动作</span>
+            <span>{{ i18n('rule.dialog.noActionsInLoop') }}</span>
           </div>
           <div v-else class="action-list">
             <div v-for="(action, index) in formData.actions" :key="index" class="action-item">
@@ -31,9 +31,9 @@
           </div>
         </div>
       </el-form-item>
-      <el-form-item label="说明">
+      <el-form-item :label="i18n('rule.lbl.description')">
         <div class="help-block">
-          循环节点会遍历集合变量中的每一项，将当前项存入「当前项变量名」，索引存入「索引变量名」，依次执行循环内的动作。请在画布中向循环节点内部添加动作节点。
+          {{ i18n('rule.dialog.loopNodeHelpText') }}
         </div>
       </el-form-item>
     </el-form>
@@ -44,6 +44,7 @@
 import { ref, reactive, watch } from 'vue'
 import type { FormInstance, FormRules } from 'element-plus'
 import { InfoFilled } from '@element-plus/icons-vue'
+import { i18n } from '@/lang'
 
 const props = defineProps<{
   visible: boolean
@@ -67,9 +68,9 @@ const defaultFormData = () => ({
 const formData = reactive<any>(defaultFormData())
 
 const rules = reactive<FormRules>({
-  collectionVar: [{ required: true, message: '请输入集合变量名', trigger: 'blur' }],
-  itemVar: [{ required: true, message: '请输入当前项变量名', trigger: 'blur' }],
-  indexVar: [{ required: true, message: '请输入索引变量名', trigger: 'blur' }]
+  collectionVar: [{ required: true, message: i18n('rule.ph.enterCollectionVarName'), trigger: 'blur' }],
+  itemVar: [{ required: true, message: i18n('rule.ph.enterCurrentItemVarName'), trigger: 'blur' }],
+  indexVar: [{ required: true, message: i18n('rule.ph.enterIndexVarName'), trigger: 'blur' }]
 })
 
 watch(() => props.visible, (val) => {
@@ -87,11 +88,11 @@ watch(() => props.visible, (val) => {
 })
 
 const getActionDesc = (action: any) => {
-  if (!action) return '未知动作'
+  if (!action) return i18n('rule.dialog.unknownAction')
   if (action.actionType) {
     return `${action.actionType}${action.targetField ? ' -> ' + action.targetField : ''}`
   }
-  return action.label || action.name || '动作'
+  return action.label || action.name || i18n('rule.dialog.action')
 }
 
 const handleClose = () => {

@@ -1,17 +1,17 @@
 <template>
   <star-horse-dialog
     :dialogVisible="visible"
-    title="规则集引用配置"
+    :title="i18n('rule.dialog.ruleSetRefConfig')"
     boxWidth="560px"
     :selfFunc="true"
     @closeAction="handleClose"
     @merge="handleSave"
   >
     <el-form :model="formData" label-width="100px" size="default" ref="formRef" :rules="rules">
-      <el-form-item label="规则集" prop="ruleSetId">
+      <el-form-item :label="i18n('rule.lbl.ruleSet')" prop="ruleSetId">
         <el-select
           v-model="formData.ruleSetId"
-          placeholder="请选择规则集"
+          :placeholder="i18n('rule.ph.selectRuleSet')"
           filterable
           :loading="loading"
           style="width: 100%"
@@ -25,22 +25,22 @@
           />
         </el-select>
       </el-form-item>
-      <el-form-item label="规则集编码">
-        <el-input v-model="formData.ruleSetCode" placeholder="自动填充" disabled />
+      <el-form-item :label="i18n('rule.lbl.ruleSetCode')">
+        <el-input v-model="formData.ruleSetCode" :placeholder="i18n('rule.ph.autoFill')" disabled />
       </el-form-item>
-      <el-form-item label="传参方式" prop="paramMode">
+      <el-form-item :label="i18n('rule.lbl.paramMode')" prop="paramMode">
         <el-radio-group v-model="formData.paramMode">
-          <el-radio label="NONE">不传参</el-radio>
-          <el-radio label="CONTEXT">传入当前上下文</el-radio>
+          <el-radio label="NONE">{{ i18n('rule.dialog.noParam') }}</el-radio>
+          <el-radio label="CONTEXT">{{ i18n('rule.dialog.passCurrentContext') }}</el-radio>
         </el-radio-group>
       </el-form-item>
-      <el-form-item label="说明">
+      <el-form-item :label="i18n('rule.lbl.description')">
         <div class="help-block">
-          <div class="help-title">规则集引用说明：</div>
+          <div class="help-title">{{ i18n('rule.dialog.ruleSetRefInstructions') }}</div>
           <ul class="help-list">
-            <li>不传参：被引用规则集独立执行，不共享当前规则变量</li>
-            <li>传入当前上下文：将当前 context、formData、variables 传入被引用规则集</li>
-            <li>被引用规则集执行完成后会返回执行结果</li>
+            <li>{{ i18n('rule.dialog.noParamDesc') }}</li>
+            <li>{{ i18n('rule.dialog.passContextDesc') }}</li>
+            <li>{{ i18n('rule.dialog.refRuleSetReturnDesc') }}</li>
           </ul>
         </div>
       </el-form-item>
@@ -53,6 +53,7 @@ import { reactive, ref, watch } from "vue";
 import type { FormInstance, FormRules } from "element-plus";
 import { ruleSetApi } from "@/api/rule_engine_api";
 import { warning } from "star-horse-lowcode";
+import { i18n } from '@/lang';
 
 const props = defineProps<{
   visible: boolean
@@ -76,8 +77,8 @@ const defaultFormData = () => ({
 const formData = reactive<any>(defaultFormData());
 
 const rules = reactive<FormRules>({
-  ruleSetId: [{ required: true, message: "请选择规则集", trigger: "change" }],
-  paramMode: [{ required: true, message: "请选择传参方式", trigger: "change" }]
+  ruleSetId: [{ required: true, message: i18n('rule.ph.selectRuleSet'), trigger: "change" }],
+  paramMode: [{ required: true, message: i18n('rule.ph.selectParamMode'), trigger: "change" }]
 });
 
 const ruleSetOptions = ref<any[]>([]);
@@ -104,7 +105,7 @@ const loadRuleSetList = async () => {
     const res: any = await ruleSetApi.getRuleSetList({ pageNo: 1, pageSize: 999 });
     ruleSetOptions.value = res?.data?.list || res?.data?.records || res?.list || res?.records || [];
   } catch (e) {
-    console.error("加载规则集列表失败", e);
+    console.error(i18n('rule.dialog.loadRuleSetListFailed'), e);
     ruleSetOptions.value = [];
   } finally {
     loading.value = false;
@@ -131,7 +132,7 @@ const handleSave = async () => {
   await formRef.value.validate((valid) => {
     if (!valid) return;
     if (!formData.ruleSetId) {
-      warning("请选择规则集");
+      warning(i18n('rule.ph.selectRuleSet'));
       return;
     }
     emit("save", {

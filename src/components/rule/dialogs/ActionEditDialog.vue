@@ -1,14 +1,14 @@
 <template>
   <star-horse-dialog
     :dialogVisible="visible"
-    :title="action ? '编辑动作' : '添加动作'"
+    :title="action ? i18n('rule.dialog.editAction') : i18n('rule.dialog.addAction')"
     boxWidth="600px"
     :selfFunc="true"
     @closeAction="handleClose"
     @merge="handleSave"
   >
     <el-form :model="formData" label-width="100px" size="default" ref="formRef" :rules="rules">
-      <el-form-item label="动作类型" prop="actionType">
+      <el-form-item :label="i18n('rule.lbl.actionType')" prop="actionType">
         <el-select v-model="formData.actionType" style="width: 100%;z-index:999 !important;" @change="handleActionTypeChange">
           <el-option-group v-for="group in actionGroups" :key="group.label" :label="group.label">
             <el-option v-for="act in group.options" :key="act.value" :label="act.label" :value="act.value" />
@@ -16,58 +16,58 @@
         </el-select>
       </el-form-item>
 
-      <el-form-item label="目标字段" v-if="needsTargetField" prop="targetField">
-        <el-input v-model="formData.targetField" placeholder="如：amount、approvalSection、submitBtn" />
+      <el-form-item :label="i18n('rule.lbl.targetField')" v-if="needsTargetField" prop="targetField">
+        <el-input v-model="formData.targetField" :placeholder="i18n('rule.ph.targetFieldExample')" />
       </el-form-item>
 
-      <el-form-item label="值类型" v-if="needsValue">
+      <el-form-item :label="i18n('rule.lbl.valueType')" v-if="needsValue">
         <el-radio-group v-model="formData.actionValueType">
-          <el-radio-button value="CONSTANT">常量</el-radio-button>
-          <el-radio-button value="VARIABLE">变量</el-radio-button>
+          <el-radio-button value="CONSTANT">{{ i18n('rule.dialog.constant') }}</el-radio-button>
+          <el-radio-button value="VARIABLE">{{ i18n('rule.dialog.variable') }}</el-radio-button>
         </el-radio-group>
       </el-form-item>
 
-      <el-form-item label="动作值" v-if="needsValue" prop="actionValue">
+      <el-form-item :label="i18n('rule.lbl.actionValue')" v-if="needsValue" prop="actionValue">
         <el-input
           v-if="formData.actionValueType === 'CONSTANT'"
           v-model="formData.actionValue"
-          placeholder="请输入值"
+          :placeholder="i18n('rule.ph.enterValue')"
         />
         <el-input
           v-else
           v-model="formData.actionValue"
-          placeholder="变量字段名（如：formData.defaultAmount）"
+          :placeholder="i18n('rule.ph.variableFieldNameExample')"
         />
       </el-form-item>
 
-      <el-form-item label="消息内容" v-if="formData.actionType === 'SHOW_MESSAGE'">
-        <el-input v-model="formData.message" type="textarea" :rows="2" placeholder="请输入提示消息内容" />
+      <el-form-item :label="i18n('rule.lbl.messageContent')" v-if="formData.actionType === 'SHOW_MESSAGE'">
+        <el-input v-model="formData.message" type="textarea" :rows="2" :placeholder="i18n('rule.ph.enterMessageContent')" />
       </el-form-item>
 
-      <el-form-item label="消息类型" v-if="formData.actionType === 'SHOW_MESSAGE'">
+      <el-form-item :label="i18n('rule.lbl.messageType')" v-if="formData.actionType === 'SHOW_MESSAGE'">
         <el-select v-model="formData.messageType" style="width: 100%;z-index:999 !important;">
-          <el-option label="信息 (Info)" value="INFO" />
-          <el-option label="成功 (Success)" value="SUCCESS" />
-          <el-option label="警告 (Warning)" value="WARNING" />
-          <el-option label="错误 (Error)" value="ERROR" />
+          <el-option :label="i18n('rule.dialog.info')" value="INFO" />
+          <el-option :label="i18n('rule.dialog.success')" value="SUCCESS" />
+          <el-option :label="i18n('rule.dialog.warning')" value="WARNING" />
+          <el-option :label="i18n('rule.dialog.error')" value="ERROR" />
         </el-select>
       </el-form-item>
 
-      <el-form-item label="跳转地址" v-if="formData.actionType === 'REDIRECT'">
-        <el-input v-model="formData.actionValue" placeholder="/page/url 或 https://..." />
+      <el-form-item :label="i18n('rule.lbl.redirectUrl')" v-if="formData.actionType === 'REDIRECT'">
+        <el-input v-model="formData.actionValue" :placeholder="i18n('rule.ph.redirectUrlExample')" />
       </el-form-item>
 
-      <el-form-item label="描述说明">
-        <el-input v-model="formData.description" placeholder="动作说明（可选）" />
+      <el-form-item :label="i18n('rule.lbl.description')">
+        <el-input v-model="formData.description" :placeholder="i18n('rule.ph.actionDescriptionOptional')" />
       </el-form-item>
 
-      <el-form-item label="出错停止">
+      <el-form-item :label="i18n('rule.lbl.stopOnError')">
         <el-switch
           v-model="formData.stopOnError"
           active-value="Y"
           inactive-value="N"
-          active-text="是"
-          inactive-text="否"
+          :active-text="i18n('rule.dialog.yes')"
+          :inactive-text="i18n('rule.dialog.no')"
         />
       </el-form-item>
     </el-form>
@@ -77,6 +77,7 @@
 <script setup lang="ts">
 import { ref, reactive, watch, computed } from 'vue'
 import type { FormInstance, FormRules } from 'element-plus'
+import { i18n } from '@/lang'
 
 const props = defineProps<{
   visible: boolean
@@ -104,48 +105,48 @@ const defaultFormData = () => ({
 const formData = reactive(defaultFormData())
 
 const rules = reactive<FormRules>({
-  actionType: [{ required: true, message: '请选择动作类型', trigger: 'change' }],
-  targetField: [{ required: true, message: '请输入目标字段', trigger: 'blur' }],
-  actionValue: [{ required: true, message: '请输入值', trigger: 'blur' }]
+  actionType: [{ required: true, message: i18n('rule.ph.selectActionType'), trigger: 'change' }],
+  targetField: [{ required: true, message: i18n('rule.ph.enterTargetField'), trigger: 'blur' }],
+  actionValue: [{ required: true, message: i18n('rule.ph.enterValue'), trigger: 'blur' }]
 })
 
 // 动作类型分组（值与RuleExecutor一致）
 const actionGroups = computed(() => [
   {
-    label: '字段显隐',
+    label: i18n('rule.dialog.fieldVisibility'),
     options: [
-      { label: '显示字段', value: 'SHOW_FIELD' },
-      { label: '隐藏字段', value: 'HIDE_FIELD' }
+      { label: i18n('rule.dialog.showField'), value: 'SHOW_FIELD' },
+      { label: i18n('rule.dialog.hideField'), value: 'HIDE_FIELD' }
     ]
   },
   {
-    label: '字段状态',
+    label: i18n('rule.dialog.fieldStatus'),
     options: [
-      { label: '设为必填', value: 'SET_REQUIRED' },
-      { label: '取消必填', value: 'SET_OPTIONAL' },
-      { label: '设为只读', value: 'SET_READONLY' },
-      { label: '设为可编辑', value: 'SET_EDITABLE' },
-      { label: '禁用字段', value: 'SET_DISABLED' },
-      { label: '启用字段', value: 'SET_ENABLED' }
+      { label: i18n('rule.dialog.setRequired'), value: 'SET_REQUIRED' },
+      { label: i18n('rule.dialog.setOptional'), value: 'SET_OPTIONAL' },
+      { label: i18n('rule.dialog.setReadonly'), value: 'SET_READONLY' },
+      { label: i18n('rule.dialog.setEditable'), value: 'SET_EDITABLE' },
+      { label: i18n('rule.dialog.setDisabled'), value: 'SET_DISABLED' },
+      { label: i18n('rule.dialog.setEnabled'), value: 'SET_ENABLED' }
     ]
   },
   {
-    label: '数据操作',
+    label: i18n('rule.dialog.dataOperations'),
     options: [
-      { label: '设置字段值', value: 'SET_VALUE' },
-      { label: '清空字段值', value: 'CLEAR_VALUE' }
+      { label: i18n('rule.dialog.setFieldValue'), value: 'SET_VALUE' },
+      { label: i18n('rule.dialog.clearFieldValue'), value: 'CLEAR_VALUE' }
     ]
   },
   {
-    label: '消息提示',
+    label: i18n('rule.dialog.messagePrompt'),
     options: [
-      { label: '显示消息', value: 'SHOW_MESSAGE' }
+      { label: i18n('rule.dialog.showMessage'), value: 'SHOW_MESSAGE' }
     ]
   },
   {
-    label: '页面操作',
+    label: i18n('rule.dialog.pageOperations'),
     options: [
-      { label: '页面跳转', value: 'REDIRECT' }
+      { label: i18n('rule.dialog.pageRedirect'), value: 'REDIRECT' }
     ]
   }
 ])

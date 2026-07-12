@@ -1,46 +1,46 @@
 <template>
   <star-horse-dialog
     :dialogVisible="visible"
-    title="规则属性"
+    :title="i18n('rule.dialog.ruleProperty')"
     boxWidth="560px"
     :selfFunc="true"
     @closeAction="handleClose"
     @merge="handleSave"
   >
     <el-form :model="formData" label-width="90px" size="default" ref="formRef" :rules="rules">
-      <el-form-item label="规则编码" prop="ruleCode">
-        <el-input v-model="formData.ruleCode" placeholder="请输入规则编码" :disabled="!!formData.idRuleDefinition" />
+      <el-form-item :label="i18n('rule.lbl.ruleCode')" prop="ruleCode">
+        <el-input v-model="formData.ruleCode" :placeholder="i18n('rule.ph.enterRuleCode')" :disabled="!!formData.idRuleDefinition" />
       </el-form-item>
-      <el-form-item label="规则名称" prop="ruleName">
-        <el-input v-model="formData.ruleName" placeholder="请输入规则名称" />
+      <el-form-item :label="i18n('rule.lbl.ruleName')" prop="ruleName">
+        <el-input v-model="formData.ruleName" :placeholder="i18n('rule.ph.enterRuleName')" />
       </el-form-item>
-      <el-form-item label="规则类型" prop="ruleType">
+      <el-form-item :label="i18n('rule.lbl.ruleType')" prop="ruleType">
         <el-select v-model="formData.ruleType" style="width: 100%;z-index:999!important;">
-          <el-option label="表单联动" value="FORM_LINKAGE" />
-          <el-option label="数据校验" value="DATA_VALID" />
-          <el-option label="业务规则" value="BUSINESS" />
+          <el-option :label="i18n('rule.dialog.formLinkage')" value="FORM_LINKAGE" />
+          <el-option :label="i18n('rule.dialog.dataValidation')" value="DATA_VALID" />
+          <el-option :label="i18n('rule.dialog.businessRule')" value="BUSINESS" />
         </el-select>
       </el-form-item>
-      <el-form-item label="规则分类">
-        <el-input v-model="formData.ruleCategory" placeholder="请输入规则分类" />
+      <el-form-item :label="i18n('rule.lbl.ruleCategory')">
+        <el-input v-model="formData.ruleCategory" :placeholder="i18n('rule.ph.enterRuleCategory')" />
       </el-form-item>
-      <el-form-item label="优先级">
+      <el-form-item :label="i18n('rule.lbl.priority')">
         <el-input-number v-model="formData.priority" :min="0" :max="999" style="width: 100%" />
       </el-form-item>
-      <el-form-item label="条件逻辑">
+      <el-form-item :label="i18n('rule.lbl.conditionLogic')">
         <el-radio-group v-model="formData.conditionLogic">
-          <el-radio-button label="AND">AND (全部满足)</el-radio-button>
-          <el-radio-button label="OR">OR (任一满足)</el-radio-button>
+          <el-radio-button label="AND">{{ i18n('rule.dialog.andAll') }}</el-radio-button>
+          <el-radio-button label="OR">{{ i18n('rule.dialog.orAny') }}</el-radio-button>
         </el-radio-group>
       </el-form-item>
-      <el-form-item label="启用状态">
-        <el-switch v-model="formData.enabled" active-value="Y" inactive-value="N" active-text="启用" inactive-text="禁用" />
+      <el-form-item :label="i18n('rule.lbl.enabledStatus')">
+        <el-switch v-model="formData.enabled" active-value="Y" inactive-value="N" :active-text="i18n('rule.dialog.enabled')" :inactive-text="i18n('rule.dialog.disabled')" />
       </el-form-item>
-      <el-form-item label="关联表单">
-        <el-input v-model="formData.formId" placeholder="请输入表单ID" />
+      <el-form-item :label="i18n('rule.lbl.relatedForm')">
+        <el-input v-model="formData.formId" :placeholder="i18n('rule.ph.enterFormId')" />
       </el-form-item>
-      <el-form-item label="规则描述">
-        <el-input v-model="formData.ruleDesc" type="textarea" :rows="3" placeholder="请输入规则描述" />
+      <el-form-item :label="i18n('rule.lbl.ruleDescription')">
+        <el-input v-model="formData.ruleDesc" type="textarea" :rows="3" :placeholder="i18n('rule.ph.enterRuleDescription')" />
       </el-form-item>
     </el-form>
   </star-horse-dialog>
@@ -49,6 +49,7 @@
 <script setup lang="ts">
 import { ref, reactive, watch } from 'vue'
 import type { FormInstance, FormRules } from 'element-plus'
+import { i18n } from '@/lang'
 
 const props = defineProps<{
   visible: boolean
@@ -79,9 +80,9 @@ const defaultFormData = () => ({
 const formData = reactive(defaultFormData())
 
 const rules = reactive<FormRules>({
-  ruleCode: [{ required: true, message: '请输入规则编码', trigger: 'blur' }],
-  ruleName: [{ required: true, message: '请输入规则名称', trigger: 'blur' }],
-  ruleType: [{ required: true, message: '请选择规则类型', trigger: 'change' }]
+  ruleCode: [{ required: true, message: i18n('rule.ph.enterRuleCode'), trigger: 'blur' }],
+  ruleName: [{ required: true, message: i18n('rule.ph.enterRuleName'), trigger: 'blur' }],
+  ruleType: [{ required: true, message: i18n('rule.ph.selectRuleType'), trigger: 'change' }]
 })
 
 watch(() => props.visible, (val) => {

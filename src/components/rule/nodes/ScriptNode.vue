@@ -6,7 +6,7 @@
         <svg class="header-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path d="M16 18l6-6-6-6M8 6l-6 6 6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
         </svg>
-        <span class="header-title">执行脚本</span>
+        <span class="header-title">{{ i18n('rule.node.script') }}</span>
         <el-button type="primary" link  @click.stop="$emit('edit')" class="header-btn">
           <el-icon><Edit /></el-icon>
         </el-button>
@@ -14,7 +14,7 @@
       <div class="node-body">
         <div v-if="!data.scriptContent" class="empty-tip">
           <el-icon class="empty-icon"><InfoFilled /></el-icon>
-          <span>双击编辑脚本</span>
+          <span>{{ i18n('rule.node.scriptEmptyTip') }}</span>
         </div>
         <div v-else class="script-content">
           <div class="script-meta">
@@ -34,6 +34,7 @@
 import { Position, Handle } from '@vue-flow/core'
 import { Edit, InfoFilled } from '@element-plus/icons-vue'
 import { computed } from 'vue'
+import { i18n } from '@/lang'
 
 const props = defineProps<{
   id?: string

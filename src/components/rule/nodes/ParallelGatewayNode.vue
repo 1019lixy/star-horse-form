@@ -8,7 +8,7 @@
         </div>
       </div>
     </div>
-    <div class="gateway-label">{{ data.name || '并行规则' }}</div>
+    <div class="gateway-label">{{ data.name || i18n('rule.node.parallelGateway') }}</div>
     <Handle type="source" :position="Position.Bottom" id="bottom" />
     <Handle type="source" :position="Position.Left" id="left" />
     <Handle type="source" :position="Position.Right" id="right" />
@@ -17,6 +17,7 @@
 
 <script setup lang="ts">
 import { Position, Handle } from '@vue-flow/core'
+import { i18n } from '@/lang'
 
 defineProps<{ id?: string; data: { name?: string } }>()
 </script>

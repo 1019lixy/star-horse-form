@@ -3,6 +3,7 @@
  * 从RuleDesigner.vue中提取，独立维护
  */
 import type { Node, Edge } from '@vue-flow/core'
+import { i18n } from '@/lang'
 
 export interface DemoData {
   ruleCode: string
@@ -15,8 +16,8 @@ export interface DemoData {
 // Demo 1: 商品定价决策（多条件路由+动作执行）
 export const demo1_ProductPricing: DemoData = {
   ruleCode: 'RULE_PRICING',
-  ruleName: 'Demo1: 商品定价决策',
-  ruleDesc: '根据商品类目、库存、季节计算最终售价',
+  ruleName: `Demo1: ${i18n('rule.demo.productPricing')}`,
+  ruleDesc: i18n('rule.demo.productPricingDesc'),
   nodes: [
     { id: 'start_1', type: 'start', position: { x: 400, y: 30 }, data: {} },
     { id: 'cond_1', type: 'condition', position: { x: 330, y: 130 }, data: { conditions: [{ fieldName: 'category', fieldType: 'STRING', operator: 'EQ', value: 'electronics' }, { fieldName: 'stock', fieldType: 'NUMBER', operator: 'LT', value: '50' }], logic: 'AND' } },
@@ -42,8 +43,8 @@ export const demo1_ProductPricing: DemoData = {
 // Demo 2: 风控评分卡（多条件嵌套+阈值判定）
 export const demo2_RiskScoring: DemoData = {
   ruleCode: 'RULE_RISK_SCORE',
-  ruleName: 'Demo2: 风控评分卡',
-  ruleDesc: '多条件嵌套评估用户风险等级',
+  ruleName: `Demo2: ${i18n('rule.demo.riskScoring')}`,
+  ruleDesc: i18n('rule.demo.riskScoringDesc'),
   nodes: [
     { id: 'start_1', type: 'start', position: { x: 400, y: 30 }, data: {} },
     { id: 'var_1', type: 'variable-assign', position: { x: 330, y: 130 }, data: { assignments: [{ variableName: 'riskScore', valueType: 'CONSTANT', value: '0' }] } },
@@ -76,8 +77,8 @@ export const demo2_RiskScoring: DemoData = {
 // Demo 3: 会员等级判定（决策表+变量赋值）
 export const demo3_MemberLevel: DemoData = {
   ruleCode: 'RULE_MEMBER_LEVEL',
-  ruleName: 'Demo3: 会员等级判定',
-  ruleDesc: '根据消费金额和频次判定会员等级，计算权益',
+  ruleName: `Demo3: ${i18n('rule.demo.memberLevel')}`,
+  ruleDesc: i18n('rule.demo.memberLevelDesc'),
   nodes: [
     { id: 'start_1', type: 'start', position: { x: 400, y: 30 }, data: {} },
     { id: 'var_1', type: 'variable-assign', position: { x: 330, y: 130 }, data: { assignments: [{ variableName: 'totalSpend', valueType: 'VARIABLE', value: 'annualSpend' }, { variableName: 'orderCount', valueType: 'VARIABLE', value: 'annualOrders' }] } },
@@ -105,8 +106,8 @@ export const demo3_MemberLevel: DemoData = {
 // Demo 4: 优惠券权益计算（规则集+条件组合）
 export const demo4_CouponBenefit: DemoData = {
   ruleCode: 'RULE_COUPON',
-  ruleName: 'Demo4: 优惠券权益计算',
-  ruleDesc: '根据优惠券类型和使用条件计算权益',
+  ruleName: `Demo4: ${i18n('rule.demo.couponBenefit')}`,
+  ruleDesc: i18n('rule.demo.couponBenefitDesc'),
   nodes: [
     { id: 'start_1', type: 'start', position: { x: 400, y: 30 }, data: {} },
     { id: 'var_1', type: 'variable-assign', position: { x: 330, y: 130 }, data: { assignments: [{ variableName: 'couponType', valueType: 'VARIABLE', value: 'type' }, { variableName: 'orderAmount', valueType: 'VARIABLE', value: 'amount' }] } },
@@ -133,8 +134,8 @@ export const demo4_CouponBenefit: DemoData = {
 // Demo 5: 异常交易识别（复合条件+HTTP调用验证）
 export const demo5_AbnormalTransaction: DemoData = {
   ruleCode: 'RULE_ABNORMAL_TXN',
-  ruleName: 'Demo5: 异常交易识别',
-  ruleDesc: '多条件组合识别异常交易，调用外部接口验证',
+  ruleName: `Demo5: ${i18n('rule.demo.abnormalTransaction')}`,
+  ruleDesc: i18n('rule.demo.abnormalTransactionDesc'),
   nodes: [
     { id: 'start_1', type: 'start', position: { x: 400, y: 30 }, data: {} },
     { id: 'var_1', type: 'variable-assign', position: { x: 330, y: 130 }, data: { assignments: [{ variableName: 'txnAmount', valueType: 'VARIABLE', value: 'amount' }, { variableName: 'txnTime', valueType: 'VARIABLE', value: 'timestamp' }, { variableName: 'userLocation', valueType: 'VARIABLE', value: 'location' }] } },
@@ -162,8 +163,8 @@ export const demo5_AbnormalTransaction: DemoData = {
 // Demo 6: 订单满减规则（循环遍历+条件匹配）
 export const demo6_OrderDiscount: DemoData = {
   ruleCode: 'RULE_ORDER_DISCOUNT',
-  ruleName: 'Demo6: 订单满减规则',
-  ruleDesc: '遍历订单商品，根据金额区间计算满减优惠',
+  ruleName: `Demo6: ${i18n('rule.demo.orderDiscount')}`,
+  ruleDesc: i18n('rule.demo.orderDiscountDesc'),
   nodes: [
     { id: 'start_1', type: 'start', position: { x: 400, y: 30 }, data: {} },
     { id: 'var_1', type: 'variable-assign', position: { x: 330, y: 130 }, data: { assignments: [{ variableName: 'orderAmount', valueType: 'VARIABLE', value: 'totalAmount' }, { variableName: 'discountRules', valueType: 'CONSTANT', value: '[{threshold:100,discount:10},{threshold:200,discount:30},{threshold:500,discount:80}]' }] } },
@@ -186,11 +187,11 @@ export const demo6_OrderDiscount: DemoData = {
 }
 
 // Demo列表（用于选择）
-export const DEMO_LIST: { id: string; name: string; desc: string; data: DemoData }[] = [
-  { id: '1', name: '商品定价决策', desc: '多条件路由+动作执行', data: demo1_ProductPricing },
-  { id: '2', name: '风控评分卡', desc: '多条件嵌套+阈值判定', data: demo2_RiskScoring },
-  { id: '3', name: '会员等级判定', desc: '决策表+变量赋值', data: demo3_MemberLevel },
-  { id: '4', name: '优惠券权益计算', desc: '规则集+条件组合', data: demo4_CouponBenefit },
-  { id: '5', name: '异常交易识别', desc: '复合条件+HTTP调用验证', data: demo5_AbnormalTransaction },
-  { id: '6', name: '订单满减规则', desc: '循环遍历+条件匹配', data: demo6_OrderDiscount },
+export const DEMO_LIST: { id: string; nameKey: string; descKey: string; data: DemoData }[] = [
+  { id: '1', nameKey: 'rule.demo.productPricing', descKey: 'rule.demo.productPricingDesc', data: demo1_ProductPricing },
+  { id: '2', nameKey: 'rule.demo.riskScoring', descKey: 'rule.demo.riskScoringDesc', data: demo2_RiskScoring },
+  { id: '3', nameKey: 'rule.demo.memberLevel', descKey: 'rule.demo.memberLevelDesc', data: demo3_MemberLevel },
+  { id: '4', nameKey: 'rule.demo.couponBenefit', descKey: 'rule.demo.couponBenefitDesc', data: demo4_CouponBenefit },
+  { id: '5', nameKey: 'rule.demo.abnormalTransaction', descKey: 'rule.demo.abnormalTransactionDesc', data: demo5_AbnormalTransaction },
+  { id: '6', nameKey: 'rule.demo.orderDiscount', descKey: 'rule.demo.orderDiscountDesc', data: demo6_OrderDiscount },
 ]

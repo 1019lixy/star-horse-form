@@ -2,31 +2,31 @@
   <div class="property-panel">
     <div class="panel-header">
       <el-icon><Setting /></el-icon>
-      <span>属性配置</span>
+      <span>{{ i18n('rule.panel.propertyConfig') }}</span>
     </div>
     <div v-if="!selectedNode" class="empty-state">
       <el-icon :size="32"><Pointer /></el-icon>
-      <p>选中一个节点查看属性</p>
+      <p>{{ i18n('rule.panel.selectNodeHint') }}</p>
     </div>
     <div v-else class="panel-body">
       <!-- 节点信息 -->
       <div class="prop-section node-info-section">
         <div class="node-type-badge" :style="{ background: categoryColor + '15', borderColor: categoryColor, color: categoryColor }">
           <span class="badge-icon">{{ nodeDef?.icon || '⬡' }}</span>
-          <span class="badge-label">{{ nodeDef?.label || selectedNode.type }}</span>
+          <span class="badge-label">{{ nodeDef?.label ? i18n(nodeDef.labelKey) : selectedNode.type }}</span>
         </div>
-        <p class="node-desc">{{ nodeDef?.desc || '' }}</p>
+        <p class="node-desc">{{ nodeDef?.desc ? i18n(nodeDef.descKey) : '' }}</p>
       </div>
 
       <!-- 通用：基本信息 -->
       <div class="prop-section">
-        <div class="section-title">基本信息</div>
+        <div class="section-title">{{ i18n('rule.panel.basicInfo') }}</div>
         <el-form label-width="70px" labelPosition="top">
-          <el-form-item label="节点ID">
+          <el-form-item :label="i18n('rule.panel.nodeId')">
             <el-input :model-value="selectedNode.id" disabled  />
           </el-form-item>
-          <el-form-item label="节点类型">
-            <el-tag  :style="{ background: categoryColor + '15', borderColor: categoryColor, color: categoryColor }">{{ nodeDef?.label || selectedNode.type }}</el-tag>
+          <el-form-item :label="i18n('rule.panel.nodeType')">
+            <el-tag  :style="{ background: categoryColor + '15', borderColor: categoryColor, color: categoryColor }">{{ nodeDef?.label ? i18n(nodeDef.labelKey) : selectedNode.type }}</el-tag>
           </el-form-item>
         </el-form>
       </div>
@@ -34,22 +34,22 @@
       <!-- 条件节点（基础类型） -->
       <div v-if="selectedNode.type === 'condition'" class="prop-section">
         <div class="section-title">
-          <span>条件列表</span>
-          <el-button type="primary" link  @click="emit('editCondition', selectedNode.id, -1)"><el-icon><Plus /></el-icon> 添加</el-button>
+          <span>{{ i18n('rule.panel.conditionList') }}</span>
+          <el-button type="primary" link  @click="emit('editCondition', selectedNode.id, -1)"><el-icon><Plus /></el-icon> {{ i18n('rule.add') }}</el-button>
         </div>
         <div class="logic-toggle">
-          <span>逻辑：</span>
+          <span>{{ i18n('rule.panel.logic') }}：</span>
           <el-radio-group :model-value="selectedNode.data.logic" @change="updateField('logic', $event)" >
-            <el-radio-button value="AND">且</el-radio-button>
-            <el-radio-button value="OR">或</el-radio-button>
+            <el-radio-button value="AND">{{ i18n('rule.option.and') }}</el-radio-button>
+            <el-radio-button value="OR">{{ i18n('rule.option.or') }}</el-radio-button>
           </el-radio-group>
         </div>
-        <div v-if="!conditions.length" class="empty-tip">暂无条件</div>
+        <div v-if="!conditions.length" class="empty-tip">{{ i18n('rule.panel.noCondition') }}</div>
         <div v-for="(cond, idx) in conditions" :key="idx" class="list-item">
           <div class="item-info">
             <span class="item-field">{{ cond.fieldName }}</span>
             <span class="item-op">{{ getOpSymbol(cond.operator) }}</span>
-            <span class="item-val">{{ cond.value || '(空值)' }}</span>
+            <span class="item-val">{{ cond.value || i18n('rule.panel.emptyValue') }}</span>
           </div>
           <div class="item-actions">
             <el-button link  @click="emit('editCondition', selectedNode.id, idx)"><el-icon><Edit /></el-icon></el-button>
@@ -61,10 +61,10 @@
       <!-- 动作节点（基础类型） -->
       <div v-if="selectedNode.type === 'action'" class="prop-section">
         <div class="section-title">
-          <span>动作列表</span>
-          <el-button type="primary" link  @click="emit('editAction', selectedNode.id, -1)"><el-icon><Plus /></el-icon> 添加</el-button>
+          <span>{{ i18n('rule.panel.actionList') }}</span>
+          <el-button type="primary" link  @click="emit('editAction', selectedNode.id, -1)"><el-icon><Plus /></el-icon> {{ i18n('rule.add') }}</el-button>
         </div>
-        <div v-if="!actions.length" class="empty-tip">暂无动作</div>
+        <div v-if="!actions.length" class="empty-tip">{{ i18n('rule.panel.noAction') }}</div>
         <div v-for="(act, idx) in actions" :key="idx" class="list-item">
           <div class="item-info">
             <el-tag  type="success" effect="plain">{{ getActionLabel(act.actionType) }}</el-tag>
@@ -80,15 +80,15 @@
       <!-- 变量赋值（基础类型） -->
       <div v-if="selectedNode.type === 'variable-assign'" class="prop-section">
         <div class="section-title">
-          <span>赋值列表</span>
-          <el-button type="primary" link  @click="emit('editCondition', selectedNode.id, -1)"><el-icon><Plus /></el-icon> 添加</el-button>
+          <span>{{ i18n('rule.panel.assignList') }}</span>
+          <el-button type="primary" link  @click="emit('editCondition', selectedNode.id, -1)"><el-icon><Plus /></el-icon> {{ i18n('rule.add') }}</el-button>
         </div>
-        <div v-if="!assignments.length" class="empty-tip">暂无赋值</div>
+        <div v-if="!assignments.length" class="empty-tip">{{ i18n('rule.panel.noAssign') }}</div>
         <div v-for="(assign, idx) in assignments" :key="idx" class="list-item">
           <div class="item-info">
             <span class="item-field">{{ assign.variableName }}</span>
             <span class="item-op">=</span>
-            <span class="item-val">{{ assign.value || '(空)' }}</span>
+            <span class="item-val">{{ assign.value || i18n('rule.panel.empty') }}</span>
           </div>
           <div class="item-actions">
             <el-button link  type="danger" @click="deleteAssignment(idx)"><el-icon><Delete /></el-icon></el-button>
@@ -98,42 +98,42 @@
 
       <!-- 网关节点（基础类型） -->
       <div v-if="isGateway" class="prop-section">
-        <div class="section-title">网关配置</div>
+        <div class="section-title">{{ i18n('rule.panel.gatewayConfig') }}</div>
         <el-form label-width="70px" labelPosition="top">
-          <el-form-item label="名称">
+          <el-form-item :label="i18n('rule.panel.name')">
             <el-input v-model="selectedNode.data.name" @input="updateField('name', selectedNode.data.name)" />
           </el-form-item>
-          <el-form-item label="分支数">
-            <span>{{ branches.length }} 个分支</span>
+          <el-form-item :label="i18n('rule.panel.branchCount')">
+            <span>{{ branches.length }} {{ i18n('rule.panel.branchUnit') }}</span>
           </el-form-item>
         </el-form>
         <el-button type="primary"  @click="emit('editGateway', selectedNode.id)" style="width: 100%">
-          <el-icon><Setting /></el-icon> 配置分支
+          <el-icon><Setting /></el-icon> {{ i18n('rule.panel.configBranch') }}
         </el-button>
       </div>
 
       <!-- 开始/结束节点 -->
       <div v-if="selectedNode.type === 'start' || selectedNode.type === 'end'" class="prop-section">
-        <div class="section-title">说明</div>
-        <p class="node-desc">{{ selectedNode.type === 'start' ? '流程开始节点，每个规则流程只能有一个开始节点。' : '流程结束节点，可以有多个结束节点表示不同结果。' }}</p>
+        <div class="section-title">{{ i18n('rule.panel.description') }}</div>
+        <p class="node-desc">{{ selectedNode.type === 'start' ? i18n('rule.panel.startNodeDesc') : i18n('rule.panel.endNodeDesc') }}</p>
       </div>
 
       <!-- 通用企业级节点（generic类型）：基于paramSchema动态渲染 -->
       <template v-if="isGenericNode && paramSchema.length > 0">
         <div v-for="group in groupedSchema" :key="group.name" class="prop-section">
-          <div class="section-title">{{ group.name }}</div>
+          <div class="section-title">{{ i18n(group.nameKey) }}</div>
           <el-form label-width="90px" labelPosition="top">
             <el-form-item
               v-for="field in group.fields"
               :key="field.name"
-              :label="field.label"
+              :label="i18n(field.labelKey)"
               :required="field.required"
             >
               <!-- input -->
               <el-input
                 v-if="field.type === 'input'"
                 v-model="selectedNode.data[field.name]"
-                :placeholder="field.placeholder"
+                :placeholder="field.placeholder ? i18n(field.placeholderKey) : ''"
                 @input="emit('update', selectedNode.id, { [field.name]: selectedNode.data[field.name] })"
               />
               <!-- number -->
@@ -154,7 +154,7 @@
                 style="width: 100%"
                 @change="emit('update', selectedNode.id, { [field.name]: selectedNode.data[field.name] })"
               >
-                <el-option v-for="opt in field.options" :key="opt.value" :label="opt.label" :value="opt.value" />
+                <el-option v-for="opt in field.options" :key="opt.value" :label="i18n(opt.labelKey)" :value="opt.value" />
               </el-select>
               <!-- multiselect -->
               <el-select
@@ -164,7 +164,7 @@
                 style="width: 100%;z-index:999 !important;"
                 @change="emit('update', selectedNode.id, { [field.name]: selectedNode.data[field.name] })"
               >
-                <el-option v-for="opt in field.options" :key="opt.value" :label="opt.label" :value="opt.value" />
+                <el-option v-for="opt in field.options" :key="opt.value" :label="i18n(opt.labelKey)" :value="opt.value" />
               </el-select>
               <!-- textarea -->
               <el-input
@@ -172,7 +172,7 @@
                 v-model="selectedNode.data[field.name]"
                 type="textarea"
                 :rows="field.rows || 2"
-                :placeholder="field.placeholder"
+                :placeholder="field.placeholder ? i18n(field.placeholderKey) : ''"
                 @input="emit('update', selectedNode.id, { [field.name]: selectedNode.data[field.name] })"
               />
               <!-- date -->
@@ -180,7 +180,7 @@
                 v-else-if="field.type === 'date'"
                 v-model="selectedNode.data[field.name]"
                 type="datetime"
-                :placeholder="field.placeholder || '选择日期'"
+                :placeholder="field.placeholder ? i18n(field.placeholderKey) : i18n('rule.panel.selectDate')"
                 value-format="YYYY-MM-DD HH:mm:ss"
                 style="width: 100%"
                 @change="emit('update', selectedNode.id, { [field.name]: selectedNode.data[field.name] })"
@@ -196,22 +196,22 @@
               <!-- table（可编辑表格） -->
               <div v-else-if="field.type === 'table'" class="schema-table">
                 <el-table :data="getTableData(field.name)" border  style="width: 100%">
-                  <el-table-column v-for="col in field.columns" :key="col.prop" :label="col.label" :width="col.width">
+                  <el-table-column v-for="col in field.columns" :key="col.prop" :label="i18n(col.labelKey)" :width="col.width">
                     <template #default="{ row }">
                       <el-select v-if="col.type === 'select'" v-model="row[col.prop]"  style="width: 100%">
-                        <el-option v-for="opt in col.options" :key="opt.value" :label="opt.label" :value="opt.value" />
+                        <el-option v-for="opt in col.options" :key="opt.value" :label="i18n(opt.labelKey)" :value="opt.value" />
                       </el-select>
                       <el-input v-else v-model="row[col.prop]"  />
                     </template>
                   </el-table-column>
-                  <el-table-column label="操作" width="50" fixed="right">
+                  <el-table-column :label="i18n('rule.operation')" width="50" fixed="right">
                     <template #default="{ $index }">
                       <el-button link  type="danger" @click="removeTableRow(field.name, $index)"><el-icon><Delete /></el-icon></el-button>
                     </template>
                   </el-table-column>
                 </el-table>
                 <el-button type="primary" plain  @click="addTableRow(field.name, field.columns)" style="width: 100%; margin-top: 4px">
-                  <el-icon><Plus /></el-icon> 添加行
+                  <el-icon><Plus /></el-icon> {{ i18n('rule.addLine') }}
                 </el-button>
               </div>
             </el-form-item>
@@ -226,6 +226,7 @@
 import { computed } from 'vue'
 import { Setting, Pointer, Plus, Edit, Delete } from '@element-plus/icons-vue'
 import { NODE_TYPE_MAP, getNodeLabel, getParamSchema, getCategoryColor, type ParamField } from './nodeTypes'
+import { i18n } from '@/lang'
 
 const props = defineProps<{
   selectedNode: any
@@ -278,7 +279,7 @@ const groupedSchema = computed(() => {
   const groups: { name: string; fields: ParamField[] }[] = []
   const groupMap: Record<string, ParamField[]> = {}
   paramSchema.value.forEach(f => {
-    const g = f.group || '基本配置'
+    const g = f.group || i18n('rule.panel.basicConfig')
     if (!groupMap[g]) groupMap[g] = []
     groupMap[g].push(f)
   })
@@ -337,13 +338,13 @@ const getOpSymbol = (op: string) => {
 }
 const getActionLabel = (type: string) => {
   const map: Record<string, string> = {
-    SHOW_FIELD: '显示', HIDE_FIELD: '隐藏', SET_VALUE: '赋值',
-    CLEAR_VALUE: '清空', SET_REQUIRED: '必填', SET_OPTIONAL: '选填',
-    SET_READONLY: '只读', SET_EDITABLE: '可编辑',
-    SET_DISABLED: '禁用', SET_ENABLED: '启用',
-    SHOW_MESSAGE: '消息', REDIRECT: '跳转'
+    SHOW_FIELD: 'rule.action.showField', HIDE_FIELD: 'rule.action.hideField', SET_VALUE: 'rule.action.setValue',
+    CLEAR_VALUE: 'rule.action.clearValue', SET_REQUIRED: 'rule.action.setRequired', SET_OPTIONAL: 'rule.action.setOptional',
+    SET_READONLY: 'rule.action.setReadonly', SET_EDITABLE: 'rule.action.setEditable',
+    SET_DISABLED: 'rule.action.setDisabled', SET_ENABLED: 'rule.action.setEnabled',
+    SHOW_MESSAGE: 'rule.action.showMessage', REDIRECT: 'rule.action.redirect'
   }
-  return map[type] || type
+  return i18n(map[type] || type)
 }
 </script>
 

@@ -6,7 +6,7 @@
         <div class="branch-tooltip">
           <div v-for="(branch, index) in data.branches" :key="index" class="tooltip-item">
             <span class="tooltip-num">{{ index + 1 }}.</span>
-            <span class="tooltip-text">{{ branch.condition || branch.label || '默认' }}</span>
+            <span class="tooltip-text">{{ branch.condition || branch.label || i18n('rule.opt.default') }}</span>
           </div>
         </div>
       </template>
@@ -20,7 +20,7 @@
         </div>
       </div>
     </el-tooltip>
-    <div class="gateway-label">{{ data.name || '多条件路由' }}</div>
+    <div class="gateway-label">{{ data.name || i18n('rule.node.inclusiveGateway') }}</div>
     <Handle type="source" :position="Position.Bottom" id="bottom" />
     <Handle type="source" :position="Position.Left" id="left" />
     <Handle type="source" :position="Position.Right" id="right" />
@@ -30,6 +30,7 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import { Position, Handle } from '@vue-flow/core'
+import { i18n } from '@/lang'
 
 const props = defineProps<{
   id?: string

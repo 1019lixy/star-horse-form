@@ -1,7 +1,7 @@
 <template>
   <star-horse-dialog
     :dialogVisible="visible"
-    title="规则测试执行"
+    :title="i18n('rule.dialog.ruleTestExecution')"
     boxWidth="780px"
     boxHeight="80%"
     :selfFunc="true"
@@ -11,12 +11,12 @@
     <div class="rule-test-dialog">
       <!-- 测试数据输入 -->
       <el-form label-width="100px">
-        <el-form-item label="测试数据">
+        <el-form-item :label="i18n('rule.lbl.testData')">
           <el-input
             v-model="testDataStr"
             type="textarea"
             :rows="8"
-            placeholder='请输入JSON格式的测试数据，例如：&#10;{&#10;  "amount": 1500,&#10;  "status": "approved",&#10;  "userType": "vip"&#10;}'
+            :placeholder="i18n('rule.ph.testDataExample')"
           />
         </el-form-item>
       </el-form>
@@ -26,45 +26,45 @@
           <el-icon>
             <VideoPlay />
           </el-icon>
-          执行测试
+          {{ i18n('rule.btn.executeTest') }}
         </el-button>
         <el-button @click="loadSampleData">
           <el-icon>
             <DocumentCopy />
           </el-icon>
-          加载示例数据
+          {{ i18n('rule.btn.loadSampleData') }}
         </el-button>
         <el-button @click="stepExecute" :disabled="!executionPath || executing">
           <el-icon>
             <VideoPause />
           </el-icon>
-          单步回放
+          {{ i18n('rule.btn.stepReplay') }}
         </el-button>
         <el-button @click="resetHighlight" :disabled="!executionPath">
           <el-icon>
             <RefreshRight />
           </el-icon>
-          清除高亮
+          {{ i18n('rule.btn.clearHighlight') }}
         </el-button>
       </div>
 
       <!-- 执行步骤时间线 -->
       <div v-if="executionPath" class="test-result">
         <el-divider content-position="left">
-          <span class="divider-title">执行路径回放</span>
+          <span class="divider-title">{{ i18n('rule.dialog.executionPathReplay') }}</span>
         </el-divider>
 
         <el-descriptions :column="3" border class="result-summary">
-          <el-descriptions-item label="执行状态">
+          <el-descriptions-item :label="i18n('rule.lbl.executionStatus')">
             <el-tag :type="executionPath.success ? 'success' : 'danger'">
-              {{ executionPath.success ? "成功" : "失败" }}
+              {{ executionPath.success ? i18n('rule.dialog.success') : i18n('rule.dialog.failed') }}
             </el-tag>
           </el-descriptions-item>
-          <el-descriptions-item label="执行耗时">
+          <el-descriptions-item :label="i18n('rule.lbl.executionDuration')">
             {{ executionPath.duration }} ms
           </el-descriptions-item>
-          <el-descriptions-item label="经过节点">
-            {{ executionPath.visitedNodeIds.length }} 个
+          <el-descriptions-item :label="i18n('rule.lbl.visitedNodes')">
+            {{ executionPath.visitedNodeIds.length }} {{ i18n('rule.dialog.count') }}
           </el-descriptions-item>
         </el-descriptions>
 
@@ -92,10 +92,10 @@
 
         <!-- 条件评估结果 -->
         <div v-if="executionPath.conditionResults.length > 0">
-          <el-divider content-position="left">条件评估</el-divider>
+          <el-divider content-position="left">{{ i18n('rule.dialog.conditionEvaluation') }}</el-divider>
           <div v-for="cond in executionPath.conditionResults" :key="cond.nodeId" class="cond-result">
             <el-tag :type="cond.passed ? 'success' : 'info'">
-              {{ cond.passed ? "满足" : "不满足" }}
+              {{ cond.passed ? i18n('rule.dialog.satisfied') : i18n('rule.dialog.notSatisfied') }}
             </el-tag>
             <pre class="cond-detail">{{ cond.detail }}</pre>
           </div>
@@ -103,23 +103,23 @@
 
         <!-- 动作执行结果 -->
         <div v-if="executionPath.actionResults.length > 0">
-          <el-divider content-position="left">动作执行结果</el-divider>
+          <el-divider content-position="left">{{ i18n('rule.dialog.actionExecutionResults') }}</el-divider>
           <el-table :data="executionPath.actionResults" border>
-            <el-table-column prop="actionType" label="动作类型" width="120" />
-            <el-table-column prop="targetField" label="目标字段" width="150" />
-            <el-table-column prop="success" label="状态" width="80">
+            <el-table-column prop="actionType" :label="i18n('rule.lbl.actionType')" width="120" />
+            <el-table-column prop="targetField" :label="i18n('rule.lbl.targetField')" width="150" />
+            <el-table-column prop="success" :label="i18n('rule.lbl.status')" width="80">
               <template #default="{ row }">
                 <el-tag :type="row.success ? 'success' : 'danger'">
-                  {{ row.success ? "成功" : "失败" }}
+                  {{ row.success ? i18n('rule.dialog.success') : i18n('rule.dialog.failed') }}
                 </el-tag>
               </template>
             </el-table-column>
-            <el-table-column prop="message" label="消息" show-overflow-tooltip />
+            <el-table-column prop="message" :label="i18n('rule.lbl.message')" show-overflow-tooltip />
           </el-table>
         </div>
 
         <!-- 上下文数据 -->
-        <el-divider content-position="left">执行后上下文数据</el-divider>
+        <el-divider content-position="left">{{ i18n('rule.dialog.contextDataAfterExecution') }}</el-divider>
         <pre class="json-content">{{ formatJson(executionPath.context) }}</pre>
       </div>
     </div>
@@ -131,6 +131,7 @@ import { computed, ref } from "vue";
 import { DocumentCopy, RefreshRight, VideoPause, VideoPlay } from "@element-plus/icons-vue";
 import { executeRuleFlow, type ExecutionPath } from "../engine/RuleExecutor";
 import { error, success, warning } from "star-horse-lowcode";
+import { i18n } from '@/lang';
 
 const props = defineProps<{
   visible: boolean
@@ -162,20 +163,20 @@ const displaySteps = computed(() => {
 
 const executeTest = async () => {
   if (!testDataStr.value.trim()) {
-    warning("请输入测试数据");
+    warning(i18n('rule.ph.enterTestData'));
     return;
   }
 
   let testData: any;
   try {
     testData = JSON.parse(testDataStr.value);
-  } catch (error) {
-    error("测试数据格式错误，请输入有效的JSON");
+  } catch (err) {
+    error(i18n('rule.dialog.testDataFormatError'));
     return;
   }
 
   if (!props.nodes || props.nodes.length === 0) {
-    warning("流程图为空，请先添加节点");
+    warning(i18n('rule.dialog.flowChartEmpty'));
     return;
   }
 
@@ -192,9 +193,9 @@ const executeTest = async () => {
     // 触发画布高亮
     emit("highlight", result);
 
-    success(`执行完成，经过 ${result.visitedNodeIds.length} 个节点`);
+    success(i18n('rule.dialog.executionCompleted', result.visitedNodeIds.length));
   } catch (err: any) {
-    error("执行失败: " + (err.message || err));
+    error(i18n('rule.dialog.executionFailed') + (err.message || err));
   } finally {
     executing.value = false;
   }
@@ -209,7 +210,7 @@ const stepExecute = () => {
     if (stepIndex.value < executionPath.value.steps.length - 1) {
       stepIndex.value++;
     } else {
-      success("已到达最后一步");
+      success(i18n('rule.dialog.reachedLastStep'));
     }
   }
   // 高亮到当前步
@@ -259,7 +260,7 @@ const loadSampleData = () => {
   }
 
   testDataStr.value = JSON.stringify(sampleData, null, 2);
-  success("已加载示例数据");
+  success(i18n('rule.dialog.sampleDataLoaded'));
 };
 
 const getSampleValue = (fieldType: string) => {

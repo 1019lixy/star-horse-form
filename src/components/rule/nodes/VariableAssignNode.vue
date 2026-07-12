@@ -6,7 +6,7 @@
         <svg class="header-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path d="M8 3H6a2 2 0 0 0-2 2v4a2 2 0 0 1-2 2 2 2 0 0 1 2 2v4a2 2 0 0 0 2 2h2M16 3h2a2 2 0 0 1 2 2v4a2 2 0 0 0 2 2 2 2 0 0 0-2 2v4a2 2 0 0 1-2 2h-2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
         </svg>
-        <span class="header-title">变量赋值</span>
+        <span class="header-title">{{ i18n('rule.node.variableAssign') }}</span>
         <el-button type="primary" link  @click.stop="$emit('edit')" class="header-btn">
           <el-icon><Plus /></el-icon>
         </el-button>
@@ -14,7 +14,7 @@
       <div class="node-body">
         <div v-if="!data.assignments || data.assignments.length === 0" class="empty-tip">
           <el-icon class="empty-icon"><InfoFilled /></el-icon>
-          <span>双击添加变量赋值</span>
+          <span>{{ i18n('rule.node.varAssignEmptyTip') }}</span>
         </div>
         <div v-else class="assign-list">
           <div
@@ -23,7 +23,7 @@
             class="assign-item"
           >
             <div class="assign-content">
-              <span class="assign-var">{{ item.variableName || '变量' }}</span>
+              <span class="assign-var">{{ item.variableName || i18n('rule.lbl.varName') }}</span>
               <span class="assign-eq">=</span>
               <el-tag  :type="item.valueType === 'VARIABLE' ? 'warning' : 'info'" class="assign-type-tag">
                 {{ getValueTypeLabel(item.valueType) }}
@@ -49,6 +49,7 @@
 <script setup lang="ts">
 import { Position, Handle } from '@vue-flow/core'
 import { Plus, Edit, Delete, InfoFilled } from '@element-plus/icons-vue'
+import { i18n } from '@/lang'
 
 defineProps<{
   id?: string
@@ -70,11 +71,11 @@ defineEmits<{
 
 const getValueTypeLabel = (type: string) => {
   const map: Record<string, string> = {
-    CONSTANT: '常量',
-    VARIABLE: '变量',
-    EXPRESSION: '表达式'
+    CONSTANT: i18n('rule.opt.constant'),
+    VARIABLE: i18n('rule.opt.variable'),
+    EXPRESSION: i18n('rule.opt.expression')
   }
-  return map[type] || type || '常量'
+  return map[type] || type || i18n('rule.opt.constant')
 }
 
 const formatValue = (item: any) => {

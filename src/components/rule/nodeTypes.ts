@@ -3,6 +3,8 @@
  * 10大类40+种专业节点，每种节点带完整参数schema
  */
 
+import { i18n } from '@/lang'
+
 export interface ParamField {
   name: string
   label: string
@@ -38,115 +40,115 @@ export interface NodeCategory {
 
 // ============= 通用选项常量 =============
 const SOURCE_OPTIONS = [
-  { label: '表单数据', value: 'form' },
-  { label: '流程变量', value: 'process' },
-  { label: '接口返回', value: 'api' },
-  { label: '历史快照', value: 'snapshot' },
+  { label: () => i18n('rule.opt.formData'), value: 'form' },
+  { label: () => i18n('rule.opt.processVar'), value: 'process' },
+  { label: () => i18n('rule.opt.apiReturn'), value: 'api' },
+  { label: () => i18n('rule.opt.historySnapshot'), value: 'snapshot' },
 ]
 const TYPE_OPTIONS = [
-  { label: '字符串', value: 'STRING' },
-  { label: '数字', value: 'NUMBER' },
-  { label: '日期', value: 'DATE' },
-  { label: '布尔', value: 'BOOLEAN' },
+  { label: () => i18n('rule.opt.string'), value: 'STRING' },
+  { label: () => i18n('rule.opt.number'), value: 'NUMBER' },
+  { label: () => i18n('rule.opt.date'), value: 'DATE' },
+  { label: () => i18n('rule.opt.boolean'), value: 'BOOLEAN' },
 ]
 const ROUND_MODE_OPTIONS = [
-  { label: '四舍五入', value: 'HALF_UP' },
-  { label: '向下取整', value: 'FLOOR' },
-  { label: '向上取整', value: 'CEIL' },
-  { label: '抹零', value: 'TRUNCATE' },
+  { label: () => i18n('rule.opt.halfUp'), value: 'HALF_UP' },
+  { label: () => i18n('rule.opt.floor'), value: 'FLOOR' },
+  { label: () => i18n('rule.opt.ceil'), value: 'CEIL' },
+  { label: () => i18n('rule.opt.truncate'), value: 'TRUNCATE' },
 ]
 const ALERT_LEVEL_OPTIONS = [
-  { label: '提示', value: 'INFO' },
-  { label: '警告', value: 'WARN' },
-  { label: '错误', value: 'ERROR' },
-  { label: '阻断', value: 'BLOCK' },
+  { label: () => i18n('rule.opt.info'), value: 'INFO' },
+  { label: () => i18n('rule.opt.warn'), value: 'WARN' },
+  { label: () => i18n('rule.opt.error'), value: 'ERROR' },
+  { label: () => i18n('rule.opt.block'), value: 'BLOCK' },
 ]
 
 export const NODE_CATEGORIES: NodeCategory[] = [
   // ============ 基础：规则决策控制 ============
   {
-    name: '规则决策控制', icon: '🎯', color: '#8b5cf6',
+    name: 'rule.category.decisionControl', icon: '🎯', color: '#8b5cf6',
     nodes: [
       {
-        type: 'start', label: '规则入口', icon: '▶', category: 'flow',
-        desc: '规则评估起点，定义输入数据上下文',
+        type: 'start', label: 'rule.node.start', icon: '▶', category: 'flow',
+        desc: 'rule.desc.start',
         defaultData: () => ({}),
         paramSchema: []
       },
       {
-        type: 'end', label: '规则出口', icon: '■', category: 'flow',
-        desc: '规则执行结果出口，可多个表示不同决策结果',
+        type: 'end', label: 'rule.node.end', icon: '■', category: 'flow',
+        desc: 'rule.desc.end',
         defaultData: () => ({ endType: 'success' }),
         paramSchema: [
-          { name: 'endType', label: '结果类型', type: 'select', options: [
-            { label: '通过', value: 'success' },
-            { label: '拒绝', value: 'fail' },
-            { label: '跳过', value: 'skip' },
-          ], group: '基本配置' },
+          { name: 'endType', label: 'rule.lbl.resultType', type: 'select', options: [
+            { label: () => i18n('rule.opt.pass'), value: 'success' },
+            { label: () => i18n('rule.opt.reject'), value: 'fail' },
+            { label: () => i18n('rule.opt.skip'), value: 'skip' },
+          ], group: 'rule.group.basic' },
         ]
       },
       {
-        type: 'exclusive-gateway', label: '条件路由(XOR)', icon: '✕', category: 'flow',
-        desc: '互斥条件路由，根据条件评估结果选择唯一执行路径',
+        type: 'exclusive-gateway', label: 'rule.node.exclusiveGateway', icon: '✕', category: 'flow',
+        desc: 'rule.desc.exclusiveGateway',
         defaultData: () => ({ name: '', branches: [] }),
         paramSchema: [
-          { name: 'name', label: '路由名称', type: 'input', group: '基本配置' },
-          { name: 'branches', label: '条件分支', type: 'table', group: '分支配置',
+          { name: 'name', label: 'rule.lbl.routeName', type: 'input', group: 'rule.group.basic' },
+          { name: 'branches', label: 'rule.lbl.conditionBranch', type: 'table', group: 'rule.group.branch',
             columns: [
-              { prop: 'label', label: '分支标签', type: 'input', width: '120px' },
-              { prop: 'condition', label: '条件表达式', type: 'input', width: '200px' },
+              { prop: 'label', label: 'rule.lbl.branchLabel', type: 'input', width: '120px' },
+              { prop: 'condition', label: 'rule.lbl.conditionExpr', type: 'input', width: '200px' },
             ]
           },
         ]
       },
       {
-        type: 'parallel-gateway', label: '并行规则(AND)', icon: '+', category: 'flow',
-        desc: '同时执行多个独立规则，汇总所有规则结果',
+        type: 'parallel-gateway', label: 'rule.node.parallelGateway', icon: '+', category: 'flow',
+        desc: 'rule.desc.parallelGateway',
         defaultData: () => ({ name: '' }),
         paramSchema: [
-          { name: 'name', label: '规则组名称', type: 'input', group: '基本配置' },
+          { name: 'name', label: 'rule.lbl.ruleGroupName', type: 'input', group: 'rule.group.basic' },
         ]
       },
       {
-        type: 'inclusive-gateway', label: '多条件路由(OR)', icon: 'O', category: 'flow',
-        desc: '多条件路由，满足条件的路径都执行',
+        type: 'inclusive-gateway', label: 'rule.node.inclusiveGateway', icon: 'O', category: 'flow',
+        desc: 'rule.desc.inclusiveGateway',
         defaultData: () => ({ name: '', branches: [] }),
         paramSchema: [
-          { name: 'name', label: '路由名称', type: 'input', group: '基本配置' },
-          { name: 'branches', label: '条件分支', type: 'table', group: '分支配置',
+          { name: 'name', label: 'rule.lbl.routeName', type: 'input', group: 'rule.group.basic' },
+          { name: 'branches', label: 'rule.lbl.conditionBranch', type: 'table', group: 'rule.group.branch',
             columns: [
-              { prop: 'label', label: '分支标签', type: 'input', width: '120px' },
-              { prop: 'condition', label: '条件表达式', type: 'input', width: '200px' },
+              { prop: 'label', label: 'rule.lbl.branchLabel', type: 'input', width: '120px' },
+              { prop: 'condition', label: 'rule.lbl.conditionExpr', type: 'input', width: '200px' },
             ]
           },
         ]
       },
       {
-        type: 'loop', label: '规则循环', icon: '🔄', category: 'flow',
-        desc: '遍历集合数据，对每项执行相同规则',
+        type: 'loop', label: 'rule.node.loop', icon: '🔄', category: 'flow',
+        desc: 'rule.desc.loop',
         defaultData: () => ({ loopType: 'forEach', collectionVar: '', itemVar: 'item', indexVar: 'index' }),
         paramSchema: [
-          { name: 'loopType', label: '循环类型', type: 'select', options: [
-            { label: '遍历集合', value: 'forEach' },
-            { label: '条件循环', value: 'while' },
-            { label: '计数循环', value: 'count' },
-          ], group: '基本配置' },
-          { name: 'collectionVar', label: '集合变量', type: 'input', placeholder: '如: items', group: '基本配置' },
-          { name: 'itemVar', label: '当前项变量', type: 'input', default: 'item', group: '基本配置' },
-          { name: 'indexVar', label: '索引变量', type: 'input', default: 'index', group: '基本配置' },
+          { name: 'loopType', label: 'rule.lbl.loopType', type: 'select', options: [
+            { label: () => i18n('rule.opt.forEach'), value: 'forEach' },
+            { label: () => i18n('rule.opt.while'), value: 'while' },
+            { label: () => i18n('rule.opt.count'), value: 'count' },
+          ], group: 'rule.group.basic' },
+          { name: 'collectionVar', label: 'rule.lbl.collectionVar', type: 'input', placeholder: 'rule.ph.items', group: 'rule.group.basic' },
+          { name: 'itemVar', label: 'rule.lbl.itemVar', type: 'input', default: 'item', group: 'rule.group.basic' },
+          { name: 'indexVar', label: 'rule.lbl.indexVar', type: 'input', default: 'index', group: 'rule.group.basic' },
         ]
       },
       {
-        type: 'join', label: '规则聚合', icon: '⊕', category: 'flow',
-        desc: '汇聚多个并行规则的执行结果，合并决策输出',
+        type: 'join', label: 'rule.node.join', icon: '⊕', category: 'flow',
+        desc: 'rule.desc.join',
         defaultData: () => ({ joinType: 'AND', waitAll: 'Y' }),
         paramSchema: [
-          { name: 'joinType', label: '聚合策略', type: 'select', options: [
-            { label: '全部通过(AND)', value: 'AND' },
-            { label: '任一通过(OR)', value: 'OR' },
-            { label: '按数量(N)', value: 'COUNT' },
-          ], group: '基本配置' },
-          { name: 'waitAll', label: '等待所有规则', type: 'switch', default: 'Y', group: '基本配置' },
+          { name: 'joinType', label: 'rule.lbl.joinStrategy', type: 'select', options: [
+            { label: () => i18n('rule.opt.allPass'), value: 'AND' },
+            { label: () => i18n('rule.opt.anyPass'), value: 'OR' },
+            { label: () => i18n('rule.opt.byCount'), value: 'COUNT' },
+          ], group: 'rule.group.basic' },
+          { name: 'waitAll', label: 'rule.lbl.waitAll', type: 'switch', default: 'Y', group: 'rule.group.basic' },
         ]
       },
     ]
@@ -154,71 +156,71 @@ export const NODE_CATEGORIES: NodeCategory[] = [
 
   // ============ 基础：业务逻辑 ============
   {
-    name: '业务逻辑', icon: '⚙️', color: '#10b981',
+    name: 'rule.category.businessLogic', icon: '⚙️', color: '#10b981',
     nodes: [
       {
-        type: 'condition', label: '条件判断', icon: '❓', category: 'logic',
-        desc: '支持嵌套 AND/OR 条件组',
+        type: 'condition', label: 'rule.node.condition', icon: '❓', category: 'logic',
+        desc: 'rule.desc.condition',
         defaultData: () => ({ logic: 'AND', conditions: [] }),
         paramSchema: [
-          { name: 'logic', label: '逻辑关系', type: 'select', options: [
-            { label: '且(AND)', value: 'AND' },
-            { label: '或(OR)', value: 'OR' },
-          ], group: '基本配置' },
-          { name: 'conditions', label: '条件列表', type: 'table', group: '条件配置',
+          { name: 'logic', label: 'rule.lbl.logic', type: 'select', options: [
+            { label: () => i18n('rule.opt.and'), value: 'AND' },
+            { label: () => i18n('rule.opt.or'), value: 'OR' },
+          ], group: 'rule.group.basic' },
+          { name: 'conditions', label: 'rule.lbl.conditionList', type: 'table', group: 'rule.group.condition',
             columns: [
-              { prop: 'fieldName', label: '字段名', type: 'input', width: '120px' },
-              { prop: 'operator', label: '操作符', type: 'select', width: '100px',
+              { prop: 'fieldName', label: 'rule.lbl.fieldName', type: 'input', width: '120px' },
+              { prop: 'operator', label: 'rule.lbl.operator', type: 'select', width: '100px',
                 options: [
-                  { label: '等于', value: 'EQ' },
-                  { label: '不等于', value: 'NEQ' },
-                  { label: '大于', value: 'GT' },
-                  { label: '小于', value: 'LT' },
-                  { label: '包含', value: 'CONTAINS' },
+                  { label: () => i18n('rule.opt.eq'), value: 'EQ' },
+                  { label: () => i18n('rule.opt.neq'), value: 'NEQ' },
+                  { label: () => i18n('rule.opt.gt'), value: 'GT' },
+                  { label: () => i18n('rule.opt.lt'), value: 'LT' },
+                  { label: () => i18n('rule.opt.contains'), value: 'CONTAINS' },
                 ]
               },
-              { prop: 'value', label: '值', type: 'input', width: '120px' },
+              { prop: 'value', label: 'rule.lbl.value', type: 'input', width: '120px' },
             ]
           },
         ]
       },
       {
-        type: 'action', label: '动作执行', icon: '▶', category: 'logic',
-        desc: '显示/隐藏/赋值/校验/调API/脚本',
+        type: 'action', label: 'rule.node.action', icon: '▶', category: 'logic',
+        desc: 'rule.desc.action',
         defaultData: () => ({ actions: [] }),
         paramSchema: [
-          { name: 'actions', label: '动作列表', type: 'table', group: '动作配置',
+          { name: 'actions', label: 'rule.lbl.actionList', type: 'table', group: 'rule.group.action',
             columns: [
-              { prop: 'actionType', label: '动作类型', type: 'select', width: '120px',
+              { prop: 'actionType', label: 'rule.lbl.actionType', type: 'select', width: '120px',
                 options: [
-                  { label: '显示字段', value: 'SHOW_FIELD' },
-                  { label: '隐藏字段', value: 'HIDE_FIELD' },
-                  { label: '设置值', value: 'SET_VALUE' },
-                  { label: '清空值', value: 'CLEAR_VALUE' },
-                  { label: '设为必填', value: 'SET_REQUIRED' },
-                  { label: '显示消息', value: 'SHOW_MESSAGE' },
+                  { label: () => i18n('rule.opt.showField'), value: 'SHOW_FIELD' },
+                  { label: () => i18n('rule.opt.hideField'), value: 'HIDE_FIELD' },
+                  { label: () => i18n('rule.opt.setValue'), value: 'SET_VALUE' },
+                  { label: () => i18n('rule.opt.clearValue'), value: 'CLEAR_VALUE' },
+                  { label: () => i18n('rule.opt.setRequired'), value: 'SET_REQUIRED' },
+                  { label: () => i18n('rule.opt.showMessage'), value: 'SHOW_MESSAGE' },
                 ]
               },
-              { prop: 'targetField', label: '目标字段', type: 'input', width: '120px' },
-              { prop: 'actionValue', label: '值', type: 'input', width: '120px' },
+              { prop: 'targetField', label: 'rule.lbl.targetField', type: 'input', width: '120px' },
+              { prop: 'actionValue', label: 'rule.lbl.value', type: 'input', width: '120px' },
             ]
           },
         ]
       },
       {
-        type: 'variable-assign', label: '变量赋值', icon: '=', category: 'logic',
-        desc: '设置上下文变量',
+        type: 'variable-assign', label: 'rule.node.variableAssign', icon: '=', category: 'logic',
+        desc: 'rule.desc.variableAssign',
         defaultData: () => ({ assignments: [] }),
         paramSchema: [
-          { name: 'assignments', label: '赋值列表', type: 'table', group: '赋值配置',
+          { name: 'assignments', label: 'rule.lbl.assignList', type: 'table', group: 'rule.group.assign',
             columns: [
-              { prop: 'variableName', label: '变量名', type: 'input', width: '120px' },
-              { prop: 'value', label: '值', type: 'input', width: '150px' },
-              { prop: 'valueType', label: '值类型', type: 'select', width: '100px',
+              { prop: 'variableName', label: 'rule.lbl.varName', type: 'input', width: '120px' },
+              { prop: 'value', label: 'rule.lbl.value', type: 'input', width: '150px' },
+              { prop: 'valueType', label: 'rule.lbl.valueType', type: 'select', width: '100px',
                 options: [
-                  { label: '常量', value: 'CONSTANT' },
-                  { label: '变量', value: 'VARIABLE' },
-                  { label: '表达式', value: 'EXPRESSION' },
+                  { label: () => i18n('rule.opt.constant'), value: 'CONSTANT' },
+                  { label: () => i18n('rule.opt.variable'), value: 'VARIABLE' },
+                  { label: () => i18n('rule.opt.expression'), value: 'EXPRESSION' },
                 ]
               },
             ]
@@ -226,80 +228,80 @@ export const NODE_CATEGORIES: NodeCategory[] = [
         ]
       },
       {
-        type: 'script', label: '脚本执行', icon: '📜', category: 'logic',
-        desc: '执行自定义JS脚本',
+        type: 'script', label: 'rule.node.script', icon: '📜', category: 'logic',
+        desc: 'rule.desc.script',
         defaultData: () => ({ scriptContent: '', description: '' }),
         paramSchema: [
-          { name: 'scriptContent', label: '脚本内容', type: 'textarea', rows: 8, placeholder: '// 可访问 context, formData, variables\ncontext.result = context.amount * 0.1;', group: '基本配置' },
-          { name: 'description', label: '节点说明', type: 'textarea', rows: 2, group: '其他' },
+          { name: 'scriptContent', label: 'rule.lbl.scriptContent', type: 'textarea', rows: 8, placeholder: 'rule.ph.script', group: 'rule.group.basic' },
+          { name: 'description', label: 'rule.lbl.nodeDesc', type: 'textarea', rows: 2, group: 'rule.group.other' },
         ]
       },
       {
-        type: 'http-call', label: 'HTTP调用', icon: '🌐', category: 'logic',
-        desc: '调用外部接口',
+        type: 'http-call', label: 'rule.node.httpCall', icon: '🌐', category: 'logic',
+        desc: 'rule.desc.httpCall',
         defaultData: () => ({ method: 'GET', url: '', headers: {}, body: '', responseVar: '', timeout: 5000, retryCount: 0 }),
         paramSchema: [
-          { name: 'method', label: '请求方法', type: 'select', options: [
+          { name: 'method', label: 'rule.lbl.httpMethod', type: 'select', options: [
             { label: 'GET', value: 'GET' },
             { label: 'POST', value: 'POST' },
             { label: 'PUT', value: 'PUT' },
             { label: 'DELETE', value: 'DELETE' },
-          ], group: '基本配置' },
-          { name: 'url', label: '接口地址', type: 'input', required: true, placeholder: 'https://api.example.com/data', group: '基本配置' },
-          { name: 'body', label: '请求体', type: 'textarea', rows: 4, placeholder: 'JSON格式请求体', group: '基本配置' },
-          { name: 'responseVar', label: '响应变量', type: 'input', placeholder: '存储响应的变量名', group: '基本配置' },
-          { name: 'timeout', label: '超时(ms)', type: 'number', min: 1000, default: 5000, group: '高级配置' },
-          { name: 'retryCount', label: '重试次数', type: 'number', min: 0, max: 5, default: 0, group: '高级配置' },
+          ], group: 'rule.group.basic' },
+          { name: 'url', label: 'rule.lbl.apiUrl', type: 'input', required: true, placeholder: 'https://api.example.com/data', group: 'rule.group.basic' },
+          { name: 'body', label: 'rule.lbl.requestBody', type: 'textarea', rows: 4, placeholder: 'rule.ph.jsonBody', group: 'rule.group.basic' },
+          { name: 'responseVar', label: 'rule.lbl.responseVar', type: 'input', placeholder: 'rule.ph.responseVar', group: 'rule.group.basic' },
+          { name: 'timeout', label: 'rule.lbl.timeout', type: 'number', min: 1000, default: 5000, group: 'rule.group.advanced' },
+          { name: 'retryCount', label: 'rule.lbl.retryCount', type: 'number', min: 0, max: 5, default: 0, group: 'rule.group.advanced' },
         ]
       },
       {
-        type: 'rule-set-ref', label: '规则集引用', icon: '📚', category: 'logic',
-        desc: '引用一组子规则',
+        type: 'rule-set-ref', label: 'rule.node.ruleSetRef', icon: '📚', category: 'logic',
+        desc: 'rule.desc.ruleSetRef',
         defaultData: () => ({ ruleSetCode: '', ruleSetName: '', inputMapping: {}, outputMapping: {} }),
         paramSchema: [
-          { name: 'ruleSetCode', label: '规则集编码', type: 'input', required: true, placeholder: '如: ORDER_VALIDATION', group: '基本配置' },
-          { name: 'ruleSetName', label: '规则集名称', type: 'input', placeholder: '可选描述', group: '基本配置' },
-          { name: 'inputMapping', label: '入参映射', type: 'textarea', rows: 3, placeholder: 'JSON格式: {"子规则变量": "当前变量"}', group: '映射配置' },
-          { name: 'outputMapping', label: '出参映射', type: 'textarea', rows: 3, placeholder: 'JSON格式: {"子规则结果": "当前变量"}', group: '映射配置' },
+          { name: 'ruleSetCode', label: 'rule.lbl.ruleSetCode', type: 'input', required: true, placeholder: 'rule.ph.orderValidation', group: 'rule.group.basic' },
+          { name: 'ruleSetName', label: 'rule.lbl.ruleSetName', type: 'input', placeholder: 'rule.ph.optionalDesc', group: 'rule.group.basic' },
+          { name: 'inputMapping', label: 'rule.lbl.inputMapping', type: 'textarea', rows: 3, placeholder: 'rule.ph.inputMapping', group: 'rule.group.mapping' },
+          { name: 'outputMapping', label: 'rule.lbl.outputMapping', type: 'textarea', rows: 3, placeholder: 'rule.ph.outputMapping', group: 'rule.group.mapping' },
         ]
       },
       {
-        type: 'decision-table', label: '决策表', icon: '📊', category: 'logic',
-        desc: '多条件+多动作的表格化规则',
+        type: 'decision-table', label: 'rule.node.decisionTable', icon: '📊', category: 'logic',
+        desc: 'rule.desc.decisionTable',
         defaultData: () => ({ tableName: '', conditions: [], actions: [], rules: [] }),
         paramSchema: [
-          { name: 'tableName', label: '表名', type: 'input', required: true, placeholder: '如: 折扣决策表', group: '基本配置' },
-          { name: 'conditions', label: '条件列', type: 'table', group: '条件配置',
+          { name: 'tableName', label: 'rule.lbl.tableName', type: 'input', required: true, placeholder: 'rule.ph.discountTable', group: 'rule.group.basic' },
+          { name: 'conditions', label: 'rule.lbl.conditionColumns', type: 'table', group: 'rule.group.condition',
             columns: [
-              { prop: 'fieldName', label: '字段名', type: 'input', width: '120px' },
-              { prop: 'fieldLabel', label: '字段标签', type: 'input', width: '120px' },
-              { prop: 'operator', label: '操作符', type: 'select', width: '100px',
+              { prop: 'fieldName', label: 'rule.lbl.fieldName', type: 'input', width: '120px' },
+              { prop: 'fieldLabel', label: 'rule.lbl.fieldLabel', type: 'input', width: '120px' },
+              { prop: 'operator', label: 'rule.lbl.operator', type: 'select', width: '100px',
                 options: [
-                  { label: '等于', value: 'EQ' },
-                  { label: '大于', value: 'GT' },
-                  { label: '小于', value: 'LT' },
-                  { label: '范围', value: 'BETWEEN' },
+                  { label: () => i18n('rule.opt.eq'), value: 'EQ' },
+                  { label: () => i18n('rule.opt.gt'), value: 'GT' },
+                  { label: () => i18n('rule.opt.lt'), value: 'LT' },
+                  { label: () => i18n('rule.opt.between'), value: 'BETWEEN' },
                 ]
               },
             ]
           },
-          { name: 'actions', label: '动作列', type: 'table', group: '动作配置',
+          { name: 'actions', label: 'rule.lbl.actionColumns', type: 'table', group: 'rule.group.action',
             columns: [
-              { prop: 'actionType', label: '动作类型', type: 'select', width: '120px',
+              { prop: 'actionType', label: 'rule.lbl.actionType', type: 'select', width: '120px',
                 options: [
-                  { label: '设置值', value: 'SET_VALUE' },
-                  { label: '显示消息', value: 'SHOW_MESSAGE' },
-                  { label: '跳转页面', value: 'REDIRECT' },
+                  { label: () => i18n('rule.opt.setValue'), value: 'SET_VALUE' },
+                  { label: () => i18n('rule.opt.showMessage'), value: 'SHOW_MESSAGE' },
+                  { label: () => i18n('rule.opt.redirect'), value: 'REDIRECT' },
                 ]
               },
-              { prop: 'targetField', label: '目标字段', type: 'input', width: '120px' },
+              { prop: 'targetField', label: 'rule.lbl.targetField', type: 'input', width: '120px' },
             ]
           },
-          { name: 'rules', label: '规则行', type: 'table', group: '规则配置',
+          { name: 'rules', label: 'rule.lbl.ruleRows', type: 'table', group: 'rule.group.rule',
             columns: [
-              { prop: 'priority', label: '优先级', type: 'input', width: '80px' },
-              { prop: 'conditionValues', label: '条件值(JSON)', type: 'input', width: '200px' },
-              { prop: 'actionValues', label: '动作值(JSON)', type: 'input', width: '200px' },
+              { prop: 'priority', label: 'rule.lbl.priority', type: 'input', width: '80px' },
+              { prop: 'conditionValues', label: 'rule.lbl.conditionValues', type: 'input', width: '200px' },
+              { prop: 'actionValues', label: 'rule.lbl.actionValues', type: 'input', width: '200px' },
             ]
           },
         ]
@@ -309,668 +311,668 @@ export const NODE_CATEGORIES: NodeCategory[] = [
 
   // ============ 一、数据入参&上下文 ============
   {
-    name: '数据入参&上下文', icon: '📥', color: '#3b82f6',
+    name: 'rule.category.dataContext', icon: '📥', color: '#3b82f6',
     nodes: [
       {
-        type: 'context-extract', label: '上下文变量提取', icon: '📎', category: 'data',
-        desc: '从表单/流程/接口/历史快照抽取嵌套对象字段',
+        type: 'context-extract', label: 'rule.node.contextExtract', icon: '📎', category: 'data',
+        desc: 'rule.desc.contextExtract',
         defaultData: () => ({ source: 'form', fieldPath: '', targetVar: '', description: '' }),
         paramSchema: [
-          { name: 'source', label: '数据来源', type: 'select', required: true, options: SOURCE_OPTIONS, group: '基本配置' },
-          { name: 'fieldPath', label: '字段路径', type: 'input', required: true, placeholder: '如: order.details[0].amount', group: '基本配置' },
-          { name: 'targetVar', label: '目标变量', type: 'input', required: true, placeholder: '如: totalAmount', group: '基本配置' },
-          { name: 'description', label: '节点说明', type: 'textarea', rows: 2, placeholder: '节点用途说明', group: '其他' },
+          { name: 'source', label: 'rule.lbl.dataSource', type: 'select', required: true, options: SOURCE_OPTIONS, group: 'rule.group.basic' },
+          { name: 'fieldPath', label: 'rule.lbl.fieldPath', type: 'input', required: true, placeholder: 'rule.ph.orderAmount', group: 'rule.group.basic' },
+          { name: 'targetVar', label: 'rule.lbl.targetVar', type: 'input', required: true, placeholder: 'rule.ph.totalAmount', group: 'rule.group.basic' },
+          { name: 'description', label: 'rule.lbl.nodeDesc', type: 'textarea', rows: 2, placeholder: 'rule.ph.nodePurpose', group: 'rule.group.other' },
         ]
       },
       {
-        type: 'type-cast', label: '变量类型转换', icon: '🔄', category: 'data',
-        desc: '日期/金额/编码/浮点精度统一转换',
+        type: 'type-cast', label: 'rule.node.typeCast', icon: '🔄', category: 'data',
+        desc: 'rule.desc.typeCast',
         defaultData: () => ({ sourceVar: '', targetType: 'STRING', precision: 2, description: '' }),
         paramSchema: [
-          { name: 'sourceVar', label: '源变量', type: 'input', required: true, placeholder: '如: amount', group: '基本配置' },
-          { name: 'targetType', label: '目标类型', type: 'select', required: true, options: TYPE_OPTIONS, group: '基本配置' },
-          { name: 'precision', label: '精度位数', type: 'number', min: 0, max: 10, default: 2, group: '基本配置' },
-          { name: 'description', label: '节点说明', type: 'textarea', rows: 2, group: '其他' },
+          { name: 'sourceVar', label: 'rule.lbl.sourceVar', type: 'input', required: true, placeholder: 'rule.ph.amount', group: 'rule.group.basic' },
+          { name: 'targetType', label: 'rule.lbl.targetType', type: 'select', required: true, options: TYPE_OPTIONS, group: 'rule.group.basic' },
+          { name: 'precision', label: 'rule.lbl.precision', type: 'number', min: 0, max: 10, default: 2, group: 'rule.group.basic' },
+          { name: 'description', label: 'rule.lbl.nodeDesc', type: 'textarea', rows: 2, group: 'rule.group.other' },
         ]
       },
       {
-        type: 'dataset-load', label: '批量数据集载入', icon: '📊', category: 'data',
-        desc: '批量单据、明细列表一次性载入规则上下文',
+        type: 'dataset-load', label: 'rule.node.datasetLoad', icon: '📊', category: 'data',
+        desc: 'rule.desc.datasetLoad',
         defaultData: () => ({ source: 'form', fieldPath: '', targetVar: '', description: '' }),
         paramSchema: [
-          { name: 'source', label: '数据来源', type: 'select', required: true, options: SOURCE_OPTIONS, group: '基本配置' },
-          { name: 'fieldPath', label: '字段路径', type: 'input', required: true, placeholder: '如: order.details', group: '基本配置' },
-          { name: 'targetVar', label: '目标变量', type: 'input', required: true, placeholder: '如: detailList', group: '基本配置' },
-          { name: 'description', label: '节点说明', type: 'textarea', rows: 2, group: '其他' },
+          { name: 'source', label: 'rule.lbl.dataSource', type: 'select', required: true, options: SOURCE_OPTIONS, group: 'rule.group.basic' },
+          { name: 'fieldPath', label: 'rule.lbl.fieldPath', type: 'input', required: true, placeholder: 'rule.ph.orderDetails', group: 'rule.group.basic' },
+          { name: 'targetVar', label: 'rule.lbl.targetVar', type: 'input', required: true, placeholder: 'rule.ph.detailList', group: 'rule.group.basic' },
+          { name: 'description', label: 'rule.lbl.nodeDesc', type: 'textarea', rows: 2, group: 'rule.group.other' },
         ]
       },
       {
-        type: 'datasource-fetch', label: '外部数据源拉取', icon: '🔌', category: 'data',
-        desc: '实时查询库存、客户等级、账期余额注入上下文',
+        type: 'datasource-fetch', label: 'rule.node.datasourceFetch', icon: '🔌', category: 'data',
+        desc: 'rule.desc.datasourceFetch',
         defaultData: () => ({ sourceType: 'API', apiUrl: '', method: 'GET', targetVar: '', cacheEnabled: 'Y', cacheTTL: 300, description: '' }),
         paramSchema: [
-          { name: 'sourceType', label: '数据源类型', type: 'select', required: true, options: [{ label: 'REST API', value: 'API' }, { label: '数据库查询', value: 'DB' }, { label: 'Redis缓存', value: 'REDIS' }], group: '基本配置' },
-          { name: 'method', label: '请求方法', type: 'select', options: [{ label: 'GET', value: 'GET' }, { label: 'POST', value: 'POST' }], group: '基本配置' },
-          { name: 'apiUrl', label: '接口地址', type: 'input', required: true, placeholder: '/api/inventory/query', group: '基本配置' },
-          { name: 'targetVar', label: '目标变量', type: 'input', required: true, placeholder: '如: stockData', group: '基本配置' },
-          { name: 'cacheEnabled', label: '启用缓存', type: 'switch', default: 'Y', group: '缓存配置' },
-          { name: 'cacheTTL', label: '缓存时长(秒)', type: 'number', min: 0, default: 300, group: '缓存配置' },
-          { name: 'description', label: '节点说明', type: 'textarea', rows: 2, group: '其他' },
+          { name: 'sourceType', label: 'rule.lbl.datasourceType', type: 'select', required: true, options: [{ label: 'REST API', value: 'API' }, { label: () => i18n('rule.opt.dbQuery'), value: 'DB' }, { label: () => i18n('rule.opt.redisCache'), value: 'REDIS' }], group: 'rule.group.basic' },
+          { name: 'method', label: 'rule.lbl.httpMethod', type: 'select', options: [{ label: 'GET', value: 'GET' }, { label: 'POST', value: 'POST' }], group: 'rule.group.basic' },
+          { name: 'apiUrl', label: 'rule.lbl.apiUrl', type: 'input', required: true, placeholder: '/api/inventory/query', group: 'rule.group.basic' },
+          { name: 'targetVar', label: 'rule.lbl.targetVar', type: 'input', required: true, placeholder: 'rule.ph.stockData', group: 'rule.group.basic' },
+          { name: 'cacheEnabled', label: 'rule.lbl.enableCache', type: 'switch', default: 'Y', group: 'rule.group.cache' },
+          { name: 'cacheTTL', label: 'rule.lbl.cacheTTL', type: 'number', min: 0, default: 300, group: 'rule.group.cache' },
+          { name: 'description', label: 'rule.lbl.nodeDesc', type: 'textarea', rows: 2, group: 'rule.group.other' },
         ]
       },
     ]
   },
   // ============ 二、复合条件判断 ============
   {
-    name: '复合条件判断', icon: '🔷', color: '#06b6d4',
+    name: 'rule.category.complexCondition', icon: '🔷', color: '#06b6d4',
     nodes: [
       {
-        type: 'cond-multibranch', label: '多分支匹配', icon: '🌳', category: 'condition',
-        desc: '枚举字典、区间分段匹配（阶梯定价、分级审批）',
+        type: 'cond-multibranch', label: 'rule.node.multiBranch', icon: '🌳', category: 'condition',
+        desc: 'rule.desc.multiBranch',
         defaultData: () => ({ matchField: '', matchType: 'ENUM', branches: [], defaultBranch: '', description: '' }),
         paramSchema: [
-          { name: 'matchField', label: '匹配字段', type: 'input', required: true, placeholder: '如: amount', group: '基本配置' },
-          { name: 'matchType', label: '匹配类型', type: 'select', required: true, options: [{ label: '枚举匹配', value: 'ENUM' }, { label: '区间分段', value: 'RANGE' }], group: '基本配置' },
-          { name: 'defaultBranch', label: '默认分支', type: 'input', placeholder: '未匹配时的分支标签', group: '基本配置' },
-          { name: 'branches', label: '分支列表', type: 'table', group: '分支配置',
+          { name: 'matchField', label: 'rule.lbl.matchField', type: 'input', required: true, placeholder: 'rule.ph.matchField', group: 'rule.group.basic' },
+          { name: 'matchType', label: 'rule.lbl.matchType', type: 'select', required: true, options: [{ label: () => i18n('rule.opt.enumMatch'), value: 'ENUM' }, { label: () => i18n('rule.opt.rangeSegment'), value: 'RANGE' }], group: 'rule.group.basic' },
+          { name: 'defaultBranch', label: 'rule.lbl.defaultBranch', type: 'input', placeholder: 'rule.ph.defaultBranch', group: 'rule.group.basic' },
+          { name: 'branches', label: 'rule.lbl.branchList', type: 'table', group: 'rule.group.branch',
             columns: [
-              { prop: 'label', label: '分支标签', type: 'input', width: '120px' },
-              { prop: 'value', label: '匹配值/区间', type: 'input', width: '150px' },
-              { prop: 'targetNode', label: '目标节点', type: 'input', width: '120px' },
+              { prop: 'label', label: 'rule.lbl.branchLabel', type: 'input', width: '120px' },
+              { prop: 'value', label: 'rule.lbl.matchValue', type: 'input', width: '150px' },
+              { prop: 'targetNode', label: 'rule.lbl.targetNode', type: 'input', width: '120px' },
             ]
           },
-          { name: 'description', label: '节点说明', type: 'textarea', rows: 2, group: '其他' },
+          { name: 'description', label: 'rule.lbl.nodeDesc', type: 'textarea', rows: 2, group: 'rule.group.other' },
         ]
       },
       {
-        type: 'cond-set-contains', label: '集合包含/交集', icon: '∩', category: 'condition',
-        desc: '明细行商品集合、部门权限组校验',
+        type: 'cond-set-contains', label: 'rule.node.setContains', icon: '∩', category: 'condition',
+        desc: 'rule.desc.setContains',
         defaultData: () => ({ sourceSet: '', targetSet: '', checkType: 'CONTAINS_ANY', description: '' }),
         paramSchema: [
-          { name: 'sourceSet', label: '源集合变量', type: 'input', required: true, placeholder: '如: userRoles', group: '基本配置' },
-          { name: 'targetSet', label: '目标集合', type: 'input', required: true, placeholder: '如: requiredRoles', group: '基本配置' },
-          { name: 'checkType', label: '检查类型', type: 'select', required: true, options: [
-            { label: '包含任意 (交集非空)', value: 'CONTAINS_ANY' },
-            { label: '包含全部 (子集)', value: 'CONTAINS_ALL' },
-            { label: '完全相同', value: 'EQUALS' },
-            { label: '无交集', value: 'NO_INTERSECT' },
-          ], group: '基本配置' },
-          { name: 'description', label: '节点说明', type: 'textarea', rows: 2, group: '其他' },
+          { name: 'sourceSet', label: 'rule.lbl.sourceSet', type: 'input', required: true, placeholder: 'rule.ph.sourceSet', group: 'rule.group.basic' },
+          { name: 'targetSet', label: 'rule.lbl.targetSet', type: 'input', required: true, placeholder: 'rule.ph.targetSet', group: 'rule.group.basic' },
+          { name: 'checkType', label: 'rule.lbl.checkType', type: 'select', required: true, options: [
+            { label: () => i18n('rule.opt.containsAny'), value: 'CONTAINS_ANY' },
+            { label: () => i18n('rule.opt.containsAll'), value: 'CONTAINS_ALL' },
+            { label: () => i18n('rule.opt.equals'), value: 'EQUALS' },
+            { label: () => i18n('rule.opt.noIntersect'), value: 'NO_INTERSECT' },
+          ], group: 'rule.group.basic' },
+          { name: 'description', label: 'rule.lbl.nodeDesc', type: 'textarea', rows: 2, group: 'rule.group.other' },
         ]
       },
       {
-        type: 'cond-dirty-check', label: '空值/脏数据拦截', icon: '🚫', category: 'condition',
-        desc: '空白、特殊字符、超限值直接终止规则',
+        type: 'cond-dirty-check', label: 'rule.node.dirtyCheck', icon: '🚫', category: 'condition',
+        desc: 'rule.desc.dirtyCheck',
         defaultData: () => ({ fields: [], checkRules: ['EMPTY', 'NULL'], blockOnFail: 'Y', description: '' }),
         paramSchema: [
-          { name: 'fields', label: '检查字段', type: 'input', required: true, placeholder: '多个字段逗号分隔: name,idCard', group: '基本配置' },
-          { name: 'checkRules', label: '检查规则', type: 'multiselect', required: true, options: [
-            { label: '空值', value: 'EMPTY' },
+          { name: 'fields', label: 'rule.lbl.checkFields', type: 'input', required: true, placeholder: 'rule.ph.checkFields', group: 'rule.group.basic' },
+          { name: 'checkRules', label: 'rule.lbl.checkRules', type: 'multiselect', required: true, options: [
+            { label: () => i18n('rule.opt.empty'), value: 'EMPTY' },
             { label: 'NULL', value: 'NULL' },
-            { label: '特殊字符', value: 'SPECIAL_CHAR' },
-            { label: '超长', value: 'TOO_LONG' },
-            { label: '负数', value: 'NEGATIVE' },
-          ], group: '基本配置' },
-          { name: 'blockOnFail', label: '失败时阻断', type: 'switch', default: 'Y', group: '基本配置' },
-          { name: 'description', label: '节点说明', type: 'textarea', rows: 2, group: '其他' },
+            { label: () => i18n('rule.opt.specialChar'), value: 'SPECIAL_CHAR' },
+            { label: () => i18n('rule.opt.tooLong'), value: 'TOO_LONG' },
+            { label: () => i18n('rule.opt.negative'), value: 'NEGATIVE' },
+          ], group: 'rule.group.basic' },
+          { name: 'blockOnFail', label: 'rule.lbl.blockOnFail', type: 'switch', default: 'Y', group: 'rule.group.basic' },
+          { name: 'description', label: 'rule.lbl.nodeDesc', type: 'textarea', rows: 2, group: 'rule.group.other' },
         ]
       },
       {
-        type: 'cond-time-window', label: '周期时间判断', icon: '📅', category: 'condition',
-        desc: '工作日、账期、生效失效时间窗口校验',
+        type: 'cond-time-window', label: 'rule.node.timeWindow', icon: '📅', category: 'condition',
+        desc: 'rule.desc.timeWindow',
         defaultData: () => ({ dateField: '', windowType: 'WORKDAY', startDate: '', endDate: '', description: '' }),
         paramSchema: [
-          { name: 'dateField', label: '日期字段', type: 'input', required: true, placeholder: '如: orderDate', group: '基本配置' },
-          { name: 'windowType', label: '时间窗口', type: 'select', required: true, options: [
-            { label: '工作日', value: 'WORKDAY' },
-            { label: '自然日', value: 'NATURAL' },
-            { label: '账期', value: 'BILLING' },
-            { label: '时间区间', value: 'RANGE' },
-          ], group: '基本配置' },
-          { name: 'startDate', label: '开始日期', type: 'date', placeholder: '生效日期', group: '基本配置' },
-          { name: 'endDate', label: '结束日期', type: 'date', placeholder: '失效日期', group: '基本配置' },
-          { name: 'description', label: '节点说明', type: 'textarea', rows: 2, group: '其他' },
+          { name: 'dateField', label: 'rule.lbl.dateField', type: 'input', required: true, placeholder: 'rule.ph.dateField', group: 'rule.group.basic' },
+          { name: 'windowType', label: 'rule.lbl.windowType', type: 'select', required: true, options: [
+            { label: () => i18n('rule.opt.workday'), value: 'WORKDAY' },
+            { label: () => i18n('rule.opt.natural'), value: 'NATURAL' },
+            { label: () => i18n('rule.opt.billing'), value: 'BILLING' },
+            { label: () => i18n('rule.opt.range'), value: 'RANGE' },
+          ], group: 'rule.group.basic' },
+          { name: 'startDate', label: 'rule.lbl.startDate', type: 'date', placeholder: 'rule.ph.startDate', group: 'rule.group.basic' },
+          { name: 'endDate', label: 'rule.lbl.endDate', type: 'date', placeholder: 'rule.ph.endDate', group: 'rule.group.basic' },
+          { name: 'description', label: 'rule.lbl.nodeDesc', type: 'textarea', rows: 2, group: 'rule.group.other' },
         ]
       },
       {
-        type: 'cond-unique', label: '组合唯一校验', icon: '🔍', category: 'condition',
-        desc: '多字段联合重复拦截（订单号+客户组合）',
+        type: 'cond-unique', label: 'rule.node.uniqueCheck', icon: '🔍', category: 'condition',
+        desc: 'rule.desc.uniqueCheck',
         defaultData: () => ({ fields: [], scope: 'CURRENT_FORM', description: '' }),
         paramSchema: [
-          { name: 'fields', label: '校验字段', type: 'input', required: true, placeholder: '逗号分隔: orderNo,customerCode', group: '基本配置' },
-          { name: 'scope', label: '校验范围', type: 'select', required: true, options: [
-            { label: '当前表单内', value: 'CURRENT_FORM' },
-            { label: '跨表单', value: 'CROSS_FORM' },
-            { label: '数据库查重', value: 'DATABASE' },
-          ], group: '基本配置' },
-          { name: 'description', label: '节点说明', type: 'textarea', rows: 2, group: '其他' },
+          { name: 'fields', label: 'rule.lbl.validateFields', type: 'input', required: true, placeholder: 'rule.ph.validateFields', group: 'rule.group.basic' },
+          { name: 'scope', label: 'rule.lbl.validateScope', type: 'select', required: true, options: [
+            { label: () => i18n('rule.opt.currentForm'), value: 'CURRENT_FORM' },
+            { label: () => i18n('rule.opt.crossForm'), value: 'CROSS_FORM' },
+            { label: () => i18n('rule.opt.database'), value: 'DATABASE' },
+          ], group: 'rule.group.basic' },
+          { name: 'description', label: 'rule.lbl.nodeDesc', type: 'textarea', rows: 2, group: 'rule.group.other' },
         ]
       },
       {
-        type: 'cond-threshold', label: '阈值超限预警', icon: '⚠️', category: 'condition',
-        desc: '金额、数量、比例超出区间分等级拦截',
+        type: 'cond-threshold', label: 'rule.node.thresholdAlert', icon: '⚠️', category: 'condition',
+        desc: 'rule.desc.thresholdAlert',
         defaultData: () => ({ field: '', thresholds: [], alertLevel: 'WARN', description: '' }),
         paramSchema: [
-          { name: 'field', label: '检查字段', type: 'input', required: true, placeholder: '如: amount', group: '基本配置' },
-          { name: 'alertLevel', label: '告警等级', type: 'select', required: true, options: ALERT_LEVEL_OPTIONS, group: '基本配置' },
-          { name: 'thresholds', label: '阈值区间', type: 'table', group: '阈值配置',
+          { name: 'field', label: 'rule.lbl.checkField', type: 'input', required: true, placeholder: 'rule.ph.checkField', group: 'rule.group.basic' },
+          { name: 'alertLevel', label: 'rule.lbl.alertLevel', type: 'select', required: true, options: ALERT_LEVEL_OPTIONS, group: 'rule.group.basic' },
+          { name: 'thresholds', label: 'rule.lbl.thresholdRange', type: 'table', group: 'rule.group.threshold',
             columns: [
-              { prop: 'min', label: '最小值', type: 'input', width: '100px' },
-              { prop: 'max', label: '最大值', type: 'input', width: '100px' },
-              { prop: 'label', label: '区间标签', type: 'input', width: '120px' },
+              { prop: 'min', label: 'rule.lbl.minValue', type: 'input', width: '100px' },
+              { prop: 'max', label: 'rule.lbl.maxValue', type: 'input', width: '100px' },
+              { prop: 'label', label: 'rule.lbl.rangeLabel', type: 'input', width: '120px' },
             ]
           },
-          { name: 'description', label: '节点说明', type: 'textarea', rows: 2, group: '其他' },
+          { name: 'description', label: 'rule.lbl.nodeDesc', type: 'textarea', rows: 2, group: 'rule.group.other' },
         ]
       },
     ]
   },
   // ============ 三、循环迭代 ============
   {
-    name: '循环迭代', icon: '🔁', color: '#f59e0b',
+    name: 'rule.category.loopIterate', icon: '🔁', color: '#f59e0b',
     nodes: [
       {
-        type: 'loop-iterate', label: '数据集逐行循环', icon: '📋', category: 'loop',
-        desc: '遍历单据明细逐条执行规则',
+        type: 'loop-iterate', label: 'rule.node.loopIterate', icon: '📋', category: 'loop',
+        desc: 'rule.desc.loopIterate',
         defaultData: () => ({ collectionVar: '', itemVar: 'item', indexVar: 'index', description: '' }),
         paramSchema: [
-          { name: 'collectionVar', label: '集合变量', type: 'input', required: true, placeholder: '如: order.details', group: '基本配置' },
-          { name: 'itemVar', label: '项变量名', type: 'input', default: 'item', group: '基本配置' },
-          { name: 'indexVar', label: '索引变量名', type: 'input', default: 'index', group: '基本配置' },
-          { name: 'description', label: '节点说明', type: 'textarea', rows: 2, group: '其他' },
+          { name: 'collectionVar', label: 'rule.lbl.collectionVar', type: 'input', required: true, placeholder: 'rule.ph.collectionVar', group: 'rule.group.basic' },
+          { name: 'itemVar', label: 'rule.lbl.itemVarName', type: 'input', default: 'item', group: 'rule.group.basic' },
+          { name: 'indexVar', label: 'rule.lbl.indexVarName', type: 'input', default: 'index', group: 'rule.group.basic' },
+          { name: 'description', label: 'rule.lbl.nodeDesc', type: 'textarea', rows: 2, group: 'rule.group.other' },
         ]
       },
       {
-        type: 'loop-aggregate', label: '聚合统计循环', icon: 'Σ', category: 'loop',
-        desc: '明细求和、最大最小值、平均、计数',
+        type: 'loop-aggregate', label: 'rule.node.loopAggregate', icon: 'Σ', category: 'loop',
+        desc: 'rule.desc.loopAggregate',
         defaultData: () => ({ collectionVar: '', aggField: '', aggType: 'SUM', targetVar: '', description: '' }),
         paramSchema: [
-          { name: 'collectionVar', label: '集合变量', type: 'input', required: true, placeholder: '如: order.details', group: '基本配置' },
-          { name: 'aggType', label: '聚合方式', type: 'select', required: true, options: [
-            { label: '求和 (SUM)', value: 'SUM' },
-            { label: '最大值 (MAX)', value: 'MAX' },
-            { label: '最小值 (MIN)', value: 'MIN' },
-            { label: '平均值 (AVG)', value: 'AVG' },
-            { label: '计数 (COUNT)', value: 'COUNT' },
-          ], group: '基本配置' },
-          { name: 'aggField', label: '聚合字段', type: 'input', required: true, placeholder: '如: amount', group: '基本配置' },
-          { name: 'targetVar', label: '结果变量', type: 'input', required: true, placeholder: '如: totalAmount', group: '基本配置' },
-          { name: 'description', label: '节点说明', type: 'textarea', rows: 2, group: '其他' },
+          { name: 'collectionVar', label: 'rule.lbl.collectionVar', type: 'input', required: true, placeholder: 'rule.ph.collectionVar', group: 'rule.group.basic' },
+          { name: 'aggType', label: 'rule.lbl.aggType', type: 'select', required: true, options: [
+            { label: () => i18n('rule.opt.sum'), value: 'SUM' },
+            { label: () => i18n('rule.opt.max'), value: 'MAX' },
+            { label: () => i18n('rule.opt.min'), value: 'MIN' },
+            { label: () => i18n('rule.opt.avg'), value: 'AVG' },
+            { label: () => i18n('rule.opt.count'), value: 'COUNT' },
+          ], group: 'rule.group.basic' },
+          { name: 'aggField', label: 'rule.lbl.aggField', type: 'input', required: true, placeholder: 'rule.ph.aggField', group: 'rule.group.basic' },
+          { name: 'targetVar', label: 'rule.lbl.resultVar', type: 'input', required: true, placeholder: 'rule.ph.resultVar', group: 'rule.group.basic' },
+          { name: 'description', label: 'rule.lbl.nodeDesc', type: 'textarea', rows: 2, group: 'rule.group.other' },
         ]
       },
       {
-        type: 'loop-filter', label: '条件过滤循环', icon: '⚡', category: 'loop',
-        desc: '只对满足条件的明细行执行运算',
+        type: 'loop-filter', label: 'rule.node.loopFilter', icon: '⚡', category: 'loop',
+        desc: 'rule.desc.loopFilter',
         defaultData: () => ({ collectionVar: '', filterCondition: '', targetVar: '', description: '' }),
         paramSchema: [
-          { name: 'collectionVar', label: '源集合变量', type: 'input', required: true, placeholder: '如: order.details', group: '基本配置' },
-          { name: 'filterCondition', label: '过滤条件', type: 'textarea', rows: 2, required: true, placeholder: '如: item.status == "ACTIVE"', group: '基本配置' },
-          { name: 'targetVar', label: '结果变量', type: 'input', required: true, placeholder: '如: filteredDetails', group: '基本配置' },
-          { name: 'description', label: '节点说明', type: 'textarea', rows: 2, group: '其他' },
+          { name: 'collectionVar', label: 'rule.lbl.sourceSet', type: 'input', required: true, placeholder: 'rule.ph.sourceSet', group: 'rule.group.basic' },
+          { name: 'filterCondition', label: 'rule.lbl.filterCondition', type: 'textarea', rows: 2, required: true, placeholder: 'rule.ph.filterCondition', group: 'rule.group.basic' },
+          { name: 'targetVar', label: 'rule.lbl.resultVar', type: 'input', required: true, placeholder: 'rule.ph.resultVar', group: 'rule.group.basic' },
+          { name: 'description', label: 'rule.lbl.nodeDesc', type: 'textarea', rows: 2, group: 'rule.group.other' },
         ]
       },
       {
-        type: 'loop-break', label: '循环中断/跳出', icon: '⏹️', category: 'loop',
-        desc: '匹配目标数据终止遍历，提升引擎性能',
+        type: 'loop-break', label: 'rule.node.loopBreak', icon: '⏹️', category: 'loop',
+        desc: 'rule.desc.loopBreak',
         defaultData: () => ({ breakCondition: '', description: '' }),
         paramSchema: [
-          { name: 'breakCondition', label: '中断条件', type: 'textarea', rows: 2, required: true, placeholder: '如: item.id == targetId', group: '基本配置' },
-          { name: 'description', label: '节点说明', type: 'textarea', rows: 2, group: '其他' },
+          { name: 'breakCondition', label: 'rule.lbl.breakCondition', type: 'textarea', rows: 2, required: true, placeholder: 'rule.ph.breakCondition', group: 'rule.group.basic' },
+          { name: 'description', label: 'rule.lbl.nodeDesc', type: 'textarea', rows: 2, group: 'rule.group.other' },
         ]
       },
     ]
   },
   // ============ 四、运算&公式 ============
   {
-    name: '运算&公式', icon: '🧮', color: '#8b5cf6',
+    name: 'rule.category.calcFormula', icon: '🧮', color: '#8b5cf6',
     nodes: [
       {
-        type: 'calc-money', label: '高精度金额运算', icon: '¥', category: 'calc',
-        desc: '四舍五入、进位、抹零、税率自动计算',
+        type: 'calc-money', label: 'rule.node.calcMoney', icon: '¥', category: 'calc',
+        desc: 'rule.desc.calcMoney',
         defaultData: () => ({ operands: '', operator: 'ADD', precision: 2, roundMode: 'HALF_UP', targetVar: '', description: '' }),
         paramSchema: [
-          { name: 'operands', label: '操作数', type: 'input', required: true, placeholder: '逗号分隔: amount,tax,fee', group: '基本配置' },
-          { name: 'operator', label: '运算符', type: 'select', required: true, options: [
-            { label: '加法 (ADD)', value: 'ADD' },
-            { label: '减法 (SUB)', value: 'SUB' },
-            { label: '乘法 (MUL)', value: 'MUL' },
-            { label: '除法 (DIV)', value: 'DIV' },
-          ], group: '基本配置' },
-          { name: 'precision', label: '精度位数', type: 'number', min: 0, max: 10, default: 2, group: '精度配置' },
-          { name: 'roundMode', label: '舍入模式', type: 'select', required: true, options: ROUND_MODE_OPTIONS, group: '精度配置' },
-          { name: 'targetVar', label: '结果变量', type: 'input', required: true, placeholder: '如: totalAmount', group: '基本配置' },
-          { name: 'description', label: '节点说明', type: 'textarea', rows: 2, group: '其他' },
+          { name: 'operands', label: 'rule.lbl.operands', type: 'input', required: true, placeholder: 'rule.ph.operands', group: 'rule.group.basic' },
+          { name: 'operator', label: 'rule.lbl.operator', type: 'select', required: true, options: [
+            { label: () => i18n('rule.opt.add'), value: 'ADD' },
+            { label: () => i18n('rule.opt.sub'), value: 'SUB' },
+            { label: () => i18n('rule.opt.mul'), value: 'MUL' },
+            { label: () => i18n('rule.opt.div'), value: 'DIV' },
+          ], group: 'rule.group.basic' },
+          { name: 'precision', label: 'rule.lbl.precisionDigits', type: 'number', min: 0, max: 10, default: 2, group: 'rule.group.precision' },
+          { name: 'roundMode', label: 'rule.lbl.roundMode', type: 'select', required: true, options: ROUND_MODE_OPTIONS, group: 'rule.group.precision' },
+          { name: 'targetVar', label: 'rule.lbl.resultVar', type: 'input', required: true, placeholder: 'rule.ph.resultVar', group: 'rule.group.basic' },
+          { name: 'description', label: 'rule.lbl.nodeDesc', type: 'textarea', rows: 2, group: 'rule.group.other' },
         ]
       },
       {
-        type: 'calc-date', label: '日期偏移运算', icon: '📆', category: 'calc',
-        desc: '账期推算、到期日、缓冲天数自动生成',
+        type: 'calc-date', label: 'rule.node.calcDate', icon: '📆', category: 'calc',
+        desc: 'rule.desc.calcDate',
         defaultData: () => ({ baseDate: '', offset: 0, offsetUnit: 'DAY', targetVar: '', description: '' }),
         paramSchema: [
-          { name: 'baseDate', label: '基准日期', type: 'input', required: true, placeholder: '如: orderDate 或 now', group: '基本配置' },
-          { name: 'offset', label: '偏移量', type: 'number', required: true, default: 0, group: '基本配置' },
-          { name: 'offsetUnit', label: '偏移单位', type: 'select', required: true, options: [
-            { label: '天', value: 'DAY' },
-            { label: '小时', value: 'HOUR' },
-            { label: '分钟', value: 'MINUTE' },
-            { label: '月', value: 'MONTH' },
-            { label: '年', value: 'YEAR' },
-          ], group: '基本配置' },
-          { name: 'targetVar', label: '结果变量', type: 'input', required: true, placeholder: '如: dueDate', group: '基本配置' },
-          { name: 'description', label: '节点说明', type: 'textarea', rows: 2, group: '其他' },
+          { name: 'baseDate', label: 'rule.lbl.baseDate', type: 'input', required: true, placeholder: 'rule.ph.baseDate', group: 'rule.group.basic' },
+          { name: 'offset', label: 'rule.lbl.offset', type: 'number', required: true, default: 0, group: 'rule.group.basic' },
+          { name: 'offsetUnit', label: 'rule.lbl.offsetUnit', type: 'select', required: true, options: [
+            { label: () => i18n('rule.opt.day'), value: 'DAY' },
+            { label: () => i18n('rule.opt.hour'), value: 'HOUR' },
+            { label: () => i18n('rule.opt.minute'), value: 'MINUTE' },
+            { label: () => i18n('rule.opt.month'), value: 'MONTH' },
+            { label: () => i18n('rule.opt.year'), value: 'YEAR' },
+          ], group: 'rule.group.basic' },
+          { name: 'targetVar', label: 'rule.lbl.resultVar', type: 'input', required: true, placeholder: 'rule.ph.resultVar', group: 'rule.group.basic' },
+          { name: 'description', label: 'rule.lbl.nodeDesc', type: 'textarea', rows: 2, group: 'rule.group.other' },
         ]
       },
       {
-        type: 'calc-string', label: '字符串处理', icon: '📝', category: 'calc',
-        desc: '编码拼接、截取、掩码脱敏、大小写统一',
+        type: 'calc-string', label: 'rule.node.calcString', icon: '📝', category: 'calc',
+        desc: 'rule.desc.calcString',
         defaultData: () => ({ operation: 'CONCAT', operands: '', targetVar: '', description: '' }),
         paramSchema: [
-          { name: 'operation', label: '操作类型', type: 'select', required: true, options: [
-            { label: '拼接 (CONCAT)', value: 'CONCAT' },
-            { label: '截取 (SUBSTRING)', value: 'SUBSTRING' },
-            { label: '掩码脱敏 (MASK)', value: 'MASK' },
-            { label: '转大写 (UPPER)', value: 'UPPER' },
-            { label: '转小写 (LOWER)', value: 'LOWER' },
-            { label: '去空格 (TRIM)', value: 'TRIM' },
-          ], group: '基本配置' },
-          { name: 'operands', label: '操作数', type: 'input', required: true, placeholder: '逗号分隔变量名', group: '基本配置' },
-          { name: 'targetVar', label: '结果变量', type: 'input', required: true, placeholder: '如: fullName', group: '基本配置' },
-          { name: 'description', label: '节点说明', type: 'textarea', rows: 2, group: '其他' },
+          { name: 'operation', label: 'rule.lbl.operationType', type: 'select', required: true, options: [
+            { label: () => i18n('rule.opt.concat'), value: 'CONCAT' },
+            { label: () => i18n('rule.opt.substring'), value: 'SUBSTRING' },
+            { label: () => i18n('rule.opt.mask'), value: 'MASK' },
+            { label: () => i18n('rule.opt.upper'), value: 'UPPER' },
+            { label: () => i18n('rule.opt.lower'), value: 'LOWER' },
+            { label: () => i18n('rule.opt.trim'), value: 'TRIM' },
+          ], group: 'rule.group.basic' },
+          { name: 'operands', label: 'rule.lbl.operands', type: 'input', required: true, placeholder: 'rule.ph.operandsVars', group: 'rule.group.basic' },
+          { name: 'targetVar', label: 'rule.lbl.resultVar', type: 'input', required: true, placeholder: 'rule.ph.resultVar', group: 'rule.group.basic' },
+          { name: 'description', label: 'rule.lbl.nodeDesc', type: 'textarea', rows: 2, group: 'rule.group.other' },
         ]
       },
       {
-        type: 'calc-dict-map', label: '字典映射转换', icon: '📖', category: 'calc',
-        desc: '编码转中文、外部系统编码适配映射',
+        type: 'calc-dict-map', label: 'rule.node.dictMap', icon: '📖', category: 'calc',
+        desc: 'rule.desc.dictMap',
         defaultData: () => ({ sourceVar: '', dictCode: '', defaultValue: '', targetVar: '', description: '' }),
         paramSchema: [
-          { name: 'sourceVar', label: '源变量', type: 'input', required: true, placeholder: '如: statusCode', group: '基本配置' },
-          { name: 'dictCode', label: '字典编码', type: 'input', required: true, placeholder: '如: order_status', group: '基本配置' },
-          { name: 'defaultValue', label: '默认值', type: 'input', placeholder: '未匹配时返回的默认值', group: '基本配置' },
-          { name: 'targetVar', label: '结果变量', type: 'input', required: true, placeholder: '如: statusName', group: '基本配置' },
-          { name: 'description', label: '节点说明', type: 'textarea', rows: 2, group: '其他' },
+          { name: 'sourceVar', label: 'rule.lbl.sourceVar', type: 'input', required: true, placeholder: 'rule.ph.sourceVar', group: 'rule.group.basic' },
+          { name: 'dictCode', label: 'rule.lbl.dictCode', type: 'input', required: true, placeholder: 'rule.ph.dictCode', group: 'rule.group.basic' },
+          { name: 'defaultValue', label: 'rule.lbl.defaultValue', type: 'input', placeholder: 'rule.ph.defaultValue', group: 'rule.group.basic' },
+          { name: 'targetVar', label: 'rule.lbl.resultVar', type: 'input', required: true, placeholder: 'rule.ph.resultVar', group: 'rule.group.basic' },
+          { name: 'description', label: 'rule.lbl.nodeDesc', type: 'textarea', rows: 2, group: 'rule.group.other' },
         ]
       },
       {
-        type: 'calc-ratio', label: '比例分摊运算', icon: '%', category: 'calc',
-        desc: '费用分摊、折扣分摊、税额拆分',
+        type: 'calc-ratio', label: 'rule.node.calcRatio', icon: '%', category: 'calc',
+        desc: 'rule.desc.calcRatio',
         defaultData: () => ({ totalAmount: '', ratioSource: '', ratioField: '', roundMode: 'HALF_UP', targetVar: '', description: '' }),
         paramSchema: [
-          { name: 'totalAmount', label: '总金额变量', type: 'input', required: true, placeholder: '如: totalFee', group: '基本配置' },
-          { name: 'ratioSource', label: '比例来源集合', type: 'input', required: true, placeholder: '如: details', group: '基本配置' },
-          { name: 'ratioField', label: '比例字段', type: 'input', required: true, placeholder: '如: weight', group: '基本配置' },
-          { name: 'roundMode', label: '舍入模式', type: 'select', required: true, options: ROUND_MODE_OPTIONS, group: '精度配置' },
-          { name: 'targetVar', label: '结果变量', type: 'input', required: true, placeholder: '如: allocatedAmount', group: '基本配置' },
-          { name: 'description', label: '节点说明', type: 'textarea', rows: 2, group: '其他' },
+          { name: 'totalAmount', label: 'rule.lbl.totalAmountVar', type: 'input', required: true, placeholder: 'rule.ph.totalAmountVar', group: 'rule.group.basic' },
+          { name: 'ratioSource', label: 'rule.lbl.ratioSource', type: 'input', required: true, placeholder: 'rule.ph.ratioSource', group: 'rule.group.basic' },
+          { name: 'ratioField', label: 'rule.lbl.ratioField', type: 'input', required: true, placeholder: 'rule.ph.ratioField', group: 'rule.group.basic' },
+          { name: 'roundMode', label: 'rule.lbl.roundMode', type: 'select', required: true, options: ROUND_MODE_OPTIONS, group: 'rule.group.precision' },
+          { name: 'targetVar', label: 'rule.lbl.resultVar', type: 'input', required: true, placeholder: 'rule.ph.resultVar', group: 'rule.group.basic' },
+          { name: 'description', label: 'rule.lbl.nodeDesc', type: 'textarea', rows: 2, group: 'rule.group.other' },
         ]
       },
     ]
   },
   // ============ 五、分支事务动作 ============
   {
-    name: '分支事务动作', icon: '⚡', color: '#22c55e',
+    name: 'rule.category.branchAction', icon: '⚡', color: '#22c55e',
     nodes: [
       {
-        type: 'action-assign', label: '字段赋值', icon: '✏️', category: 'action',
-        desc: '主表/明细行批量回填计算结果',
+        type: 'action-assign', label: 'rule.node.actionAssign', icon: '✏️', category: 'action',
+        desc: 'rule.desc.actionAssign',
         defaultData: () => ({ assignments: [], description: '' }),
         paramSchema: [
-          { name: 'assignments', label: '赋值列表', type: 'table', required: true, group: '赋值配置',
+          { name: 'assignments', label: 'rule.lbl.assignList', type: 'table', required: true, group: 'rule.group.assign',
             columns: [
-              { prop: 'targetField', label: '目标字段', type: 'input', width: '120px' },
-              { prop: 'valueType', label: '值类型', type: 'select', options: [{ label: '常量', value: 'CONSTANT' }, { label: '变量', value: 'VARIABLE' }], width: '100px' },
-              { prop: 'value', label: '值', type: 'input', width: '120px' },
+              { prop: 'targetField', label: 'rule.lbl.targetField', type: 'input', width: '120px' },
+              { prop: 'valueType', label: 'rule.lbl.valueType', type: 'select', options: [{ label: () => i18n('rule.opt.constant'), value: 'CONSTANT' }, { label: () => i18n('rule.opt.variable'), value: 'VARIABLE' }], width: '100px' },
+              { prop: 'value', label: 'rule.lbl.value', type: 'input', width: '120px' },
             ]
           },
-          { name: 'description', label: '节点说明', type: 'textarea', rows: 2, group: '其他' },
+          { name: 'description', label: 'rule.lbl.nodeDesc', type: 'textarea', rows: 2, group: 'rule.group.other' },
         ]
       },
       {
-        type: 'action-mark', label: '数据标记', icon: '🏷️', category: 'action',
-        desc: '单据标记作废、锁定、特殊管控标签',
+        type: 'action-mark', label: 'rule.node.actionMark', icon: '🏷️', category: 'action',
+        desc: 'rule.desc.actionMark',
         defaultData: () => ({ targetField: '', markType: 'VOID', markValue: '', description: '' }),
         paramSchema: [
-          { name: 'targetField', label: '目标字段', type: 'input', required: true, placeholder: '如: documentStatus', group: '基本配置' },
-          { name: 'markType', label: '标记类型', type: 'select', required: true, options: [
-            { label: '作废', value: 'VOID' },
-            { label: '锁定', value: 'LOCK' },
-            { label: '解锁', value: 'UNLOCK' },
-            { label: '特殊管控', value: 'SPECIAL' },
-            { label: '加急', value: 'URGENT' },
-          ], group: '基本配置' },
-          { name: 'markValue', label: '标记值', type: 'input', placeholder: '标记的具体值', group: '基本配置' },
-          { name: 'description', label: '节点说明', type: 'textarea', rows: 2, group: '其他' },
+          { name: 'targetField', label: 'rule.lbl.targetField', type: 'input', required: true, placeholder: 'rule.ph.targetField', group: 'rule.group.basic' },
+          { name: 'markType', label: 'rule.lbl.markType', type: 'select', required: true, options: [
+            { label: () => i18n('rule.opt.void'), value: 'VOID' },
+            { label: () => i18n('rule.opt.lock'), value: 'LOCK' },
+            { label: () => i18n('rule.opt.unlock'), value: 'UNLOCK' },
+            { label: () => i18n('rule.opt.special'), value: 'SPECIAL' },
+            { label: () => i18n('rule.opt.urgent'), value: 'URGENT' },
+          ], group: 'rule.group.basic' },
+          { name: 'markValue', label: 'rule.lbl.markValue', type: 'input', placeholder: 'rule.ph.markValue', group: 'rule.group.basic' },
+          { name: 'description', label: 'rule.lbl.nodeDesc', type: 'textarea', rows: 2, group: 'rule.group.other' },
         ]
       },
       {
-        type: 'action-filter-output', label: '数据过滤输出', icon: '🔽', category: 'action',
-        desc: '过滤不满足条件明细，生成新数据集',
+        type: 'action-filter-output', label: 'rule.node.filterOutput', icon: '🔽', category: 'action',
+        desc: 'rule.desc.filterOutput',
         defaultData: () => ({ sourceVar: '', filterCondition: '', targetVar: '', description: '' }),
         paramSchema: [
-          { name: 'sourceVar', label: '源集合变量', type: 'input', required: true, placeholder: '如: details', group: '基本配置' },
-          { name: 'filterCondition', label: '过滤条件', type: 'textarea', rows: 2, required: true, placeholder: '如: item.amount > 100', group: '基本配置' },
-          { name: 'targetVar', label: '结果变量', type: 'input', required: true, placeholder: '如: validDetails', group: '基本配置' },
-          { name: 'description', label: '节点说明', type: 'textarea', rows: 2, group: '其他' },
+          { name: 'sourceVar', label: 'rule.lbl.sourceSet', type: 'input', required: true, placeholder: 'rule.ph.sourceSet', group: 'rule.group.basic' },
+          { name: 'filterCondition', label: 'rule.lbl.filterCondition', type: 'textarea', rows: 2, required: true, placeholder: 'rule.ph.filterCondition', group: 'rule.group.basic' },
+          { name: 'targetVar', label: 'rule.lbl.resultVar', type: 'input', required: true, placeholder: 'rule.ph.resultVar', group: 'rule.group.basic' },
+          { name: 'description', label: 'rule.lbl.nodeDesc', type: 'textarea', rows: 2, group: 'rule.group.other' },
         ]
       },
       {
-        type: 'action-split-merge', label: '拆分合并', icon: '🔀', category: 'action',
-        desc: '明细按规格拆分、相同物料行合并汇总',
+        type: 'action-split-merge', label: 'rule.node.splitMerge', icon: '🔀', category: 'action',
+        desc: 'rule.desc.splitMerge',
         defaultData: () => ({ operation: 'MERGE', sourceVar: '', groupFields: '', aggFields: '', targetVar: '', description: '' }),
         paramSchema: [
-          { name: 'operation', label: '操作类型', type: 'select', required: true, options: [
-            { label: '合并 (MERGE)', value: 'MERGE' },
-            { label: '拆分 (SPLIT)', value: 'SPLIT' },
-          ], group: '基本配置' },
-          { name: 'sourceVar', label: '源集合变量', type: 'input', required: true, placeholder: '如: details', group: '基本配置' },
-          { name: 'groupFields', label: '分组字段', type: 'input', placeholder: '合并: 逗号分隔如 materialNo,spec', group: '基本配置' },
-          { name: 'aggFields', label: '聚合字段', type: 'input', placeholder: '逗号分隔如 quantity,amount', group: '基本配置' },
-          { name: 'targetVar', label: '结果变量', type: 'input', required: true, placeholder: '如: mergedDetails', group: '基本配置' },
-          { name: 'description', label: '节点说明', type: 'textarea', rows: 2, group: '其他' },
+          { name: 'operation', label: 'rule.lbl.operationType', type: 'select', required: true, options: [
+            { label: () => i18n('rule.opt.merge'), value: 'MERGE' },
+            { label: () => i18n('rule.opt.split'), value: 'SPLIT' },
+          ], group: 'rule.group.basic' },
+          { name: 'sourceVar', label: 'rule.lbl.sourceSet', type: 'input', required: true, placeholder: 'rule.ph.sourceSet', group: 'rule.group.basic' },
+          { name: 'groupFields', label: 'rule.lbl.groupFields', type: 'input', placeholder: 'rule.ph.groupFields', group: 'rule.group.basic' },
+          { name: 'aggFields', label: 'rule.lbl.aggFields', type: 'input', placeholder: 'rule.ph.aggFields', group: 'rule.group.basic' },
+          { name: 'targetVar', label: 'rule.lbl.resultVar', type: 'input', required: true, placeholder: 'rule.ph.resultVar', group: 'rule.group.basic' },
+          { name: 'description', label: 'rule.lbl.nodeDesc', type: 'textarea', rows: 2, group: 'rule.group.other' },
         ]
       },
     ]
   },
   // ============ 六、消息与通知 ============
   {
-    name: '消息与通知', icon: '📢', color: '#eab308',
+    name: 'rule.category.messageNotify', icon: '📢', color: '#eab308',
     nodes: [
       {
-        type: 'msg-push-todo', label: '内部流程推送', icon: '📨', category: 'message',
-        desc: '触发待办、加签、转办规则',
+        type: 'msg-push-todo', label: 'rule.node.msgPushTodo', icon: '📨', category: 'message',
+        desc: 'rule.desc.msgPushTodo',
         defaultData: () => ({ pushType: 'TODO', targetUsers: '', title: '', content: '', description: '' }),
         paramSchema: [
-          { name: 'pushType', label: '推送类型', type: 'select', required: true, options: [
-            { label: '待办', value: 'TODO' },
-            { label: '加签', value: 'COUNTERSIGN' },
-            { label: '转办', value: 'TRANSFER' },
-            { label: '催办', value: 'REMIND' },
-          ], group: '基本配置' },
-          { name: 'targetUsers', label: '目标用户', type: 'input', placeholder: '用户ID逗号分隔，或变量名', group: '基本配置' },
-          { name: 'title', label: '标题', type: 'input', required: true, placeholder: '推送标题', group: '基本配置' },
-          { name: 'content', label: '内容', type: 'textarea', rows: 3, required: true, placeholder: '推送内容', group: '基本配置' },
-          { name: 'description', label: '节点说明', type: 'textarea', rows: 2, group: '其他' },
+          { name: 'pushType', label: 'rule.lbl.pushType', type: 'select', required: true, options: [
+            { label: () => i18n('rule.opt.todo'), value: 'TODO' },
+            { label: () => i18n('rule.opt.countersign'), value: 'COUNTERSIGN' },
+            { label: () => i18n('rule.opt.transfer'), value: 'TRANSFER' },
+            { label: () => i18n('rule.opt.remind'), value: 'REMIND' },
+          ], group: 'rule.group.basic' },
+          { name: 'targetUsers', label: 'rule.lbl.targetUsers', type: 'input', placeholder: 'rule.ph.targetUsers', group: 'rule.group.basic' },
+          { name: 'title', label: 'rule.lbl.title', type: 'input', required: true, placeholder: 'rule.ph.pushTitle', group: 'rule.group.basic' },
+          { name: 'content', label: 'rule.lbl.content', type: 'textarea', rows: 3, required: true, placeholder: 'rule.ph.pushContent', group: 'rule.group.basic' },
+          { name: 'description', label: 'rule.lbl.nodeDesc', type: 'textarea', rows: 2, group: 'rule.group.other' },
         ]
       },
       {
-        type: 'msg-alert', label: '告警消息', icon: '🚨', category: 'message',
-        desc: '短信、站内信、钉钉/企业微信预警推送',
+        type: 'msg-alert', label: 'rule.node.msgAlert', icon: '🚨', category: 'message',
+        desc: 'rule.desc.msgAlert',
         defaultData: () => ({ channels: [], alertLevel: 'WARN', title: '', content: '', recipients: '', description: '' }),
         paramSchema: [
-          { name: 'channels', label: '通知渠道', type: 'multiselect', required: true, options: [
-            { label: '站内信', value: 'IN_APP' },
-            { label: '短信', value: 'SMS' },
-            { label: '钉钉', value: 'DINGTALK' },
-            { label: '企业微信', value: 'WECOM' },
-            { label: '邮件', value: 'EMAIL' },
-          ], group: '基本配置' },
-          { name: 'alertLevel', label: '告警等级', type: 'select', required: true, options: ALERT_LEVEL_OPTIONS, group: '基本配置' },
-          { name: 'title', label: '标题', type: 'input', required: true, group: '基本配置' },
-          { name: 'content', label: '内容', type: 'textarea', rows: 3, required: true, group: '基本配置' },
-          { name: 'recipients', label: '接收人', type: 'input', placeholder: '用户ID/手机号逗号分隔', group: '基本配置' },
-          { name: 'description', label: '节点说明', type: 'textarea', rows: 2, group: '其他' },
+          { name: 'channels', label: 'rule.lbl.notifyChannels', type: 'multiselect', required: true, options: [
+            { label: () => i18n('rule.opt.inApp'), value: 'IN_APP' },
+            { label: () => i18n('rule.opt.sms'), value: 'SMS' },
+            { label: () => i18n('rule.opt.dingtalk'), value: 'DINGTALK' },
+            { label: () => i18n('rule.opt.wecom'), value: 'WECOM' },
+            { label: () => i18n('rule.opt.email'), value: 'EMAIL' },
+          ], group: 'rule.group.basic' },
+          { name: 'alertLevel', label: 'rule.lbl.alertLevel', type: 'select', required: true, options: ALERT_LEVEL_OPTIONS, group: 'rule.group.basic' },
+          { name: 'title', label: 'rule.lbl.title', type: 'input', required: true, group: 'rule.group.basic' },
+          { name: 'content', label: 'rule.lbl.content', type: 'textarea', rows: 3, required: true, group: 'rule.group.basic' },
+          { name: 'recipients', label: 'rule.lbl.recipients', type: 'input', placeholder: 'rule.ph.recipients', group: 'rule.group.basic' },
+          { name: 'description', label: 'rule.lbl.nodeDesc', type: 'textarea', rows: 2, group: 'rule.group.other' },
         ]
       },
       {
-        type: 'msg-log', label: '日志写入', icon: '📜', category: 'message',
-        desc: '规则执行明细、违规记录落地审计库',
+        type: 'msg-log', label: 'rule.node.msgLog', icon: '📜', category: 'message',
+        desc: 'rule.desc.msgLog',
         defaultData: () => ({ logType: 'AUDIT', logContent: '', fields: '', description: '' }),
         paramSchema: [
-          { name: 'logType', label: '日志类型', type: 'select', required: true, options: [
-            { label: '审计日志', value: 'AUDIT' },
-            { label: '操作日志', value: 'OPERATION' },
-            { label: '违规记录', value: 'VIOLATION' },
-            { label: '执行明细', value: 'EXECUTION' },
-          ], group: '基本配置' },
-          { name: 'logContent', label: '日志内容', type: 'textarea', rows: 3, required: true, placeholder: '记录的内容', group: '基本配置' },
-          { name: 'fields', label: '记录字段', type: 'input', placeholder: '逗号分隔字段名', group: '基本配置' },
-          { name: 'description', label: '节点说明', type: 'textarea', rows: 2, group: '其他' },
+          { name: 'logType', label: 'rule.lbl.logType', type: 'select', required: true, options: [
+            { label: () => i18n('rule.opt.auditLog'), value: 'AUDIT' },
+            { label: () => i18n('rule.opt.operationLog'), value: 'OPERATION' },
+            { label: () => i18n('rule.opt.violationLog'), value: 'VIOLATION' },
+            { label: () => i18n('rule.opt.executionLog'), value: 'EXECUTION' },
+          ], group: 'rule.group.basic' },
+          { name: 'logContent', label: 'rule.lbl.logContent', type: 'textarea', rows: 3, required: true, placeholder: 'rule.ph.logContent', group: 'rule.group.basic' },
+          { name: 'fields', label: 'rule.lbl.logFields', type: 'input', placeholder: 'rule.ph.logFields', group: 'rule.group.basic' },
+          { name: 'description', label: 'rule.lbl.nodeDesc', type: 'textarea', rows: 2, group: 'rule.group.other' },
         ]
       },
     ]
   },
   // ============ 七、外部集成调用 ============
   {
-    name: '外部集成调用', icon: '🌐', color: '#ec4899',
+    name: 'rule.category.externalIntegrate', icon: '🌐', color: '#ec4899',
     nodes: [
       {
-        type: 'ext-http-call', label: 'HTTP接口调用', icon: '🔗', category: 'external',
-        desc: '第三方风控、征信、物流接口',
+        type: 'ext-http-call', label: 'rule.node.extHttpCall', icon: '🔗', category: 'external',
+        desc: 'rule.desc.extHttpCall',
         defaultData: () => ({ method: 'GET', url: '', timeout: 5000, retryCount: 0, responseVar: '', description: '' }),
         paramSchema: [
-          { name: 'method', label: '请求方法', type: 'select', required: true, options: [{ label: 'GET', value: 'GET' }, { label: 'POST', value: 'POST' }, { label: 'PUT', value: 'PUT' }, { label: 'DELETE', value: 'DELETE' }], group: '基本配置' },
-          { name: 'url', label: '接口地址', type: 'input', required: true, placeholder: '/api/risk/check', group: '基本配置' },
-          { name: 'timeout', label: '超时(ms)', type: 'number', min: 1000, step: 1000, default: 5000, group: '基本配置' },
-          { name: 'retryCount', label: '重试次数', type: 'number', min: 0, max: 5, default: 0, group: '基本配置' },
-          { name: 'responseVar', label: '响应变量', type: 'input', required: true, placeholder: '如: riskResult', group: '基本配置' },
-          { name: 'description', label: '节点说明', type: 'textarea', rows: 2, group: '其他' },
+          { name: 'method', label: 'rule.lbl.httpMethod', type: 'select', required: true, options: [{ label: 'GET', value: 'GET' }, { label: 'POST', value: 'POST' }, { label: 'PUT', value: 'PUT' }, { label: 'DELETE', value: 'DELETE' }], group: 'rule.group.basic' },
+          { name: 'url', label: 'rule.lbl.apiUrl', type: 'input', required: true, placeholder: 'rule.ph.apiUrl', group: 'rule.group.basic' },
+          { name: 'timeout', label: 'rule.lbl.timeoutMs', type: 'number', min: 1000, step: 1000, default: 5000, group: 'rule.group.basic' },
+          { name: 'retryCount', label: 'rule.lbl.retryCount', type: 'number', min: 0, max: 5, default: 0, group: 'rule.group.basic' },
+          { name: 'responseVar', label: 'rule.lbl.responseVar', type: 'input', required: true, placeholder: 'rule.ph.responseVar', group: 'rule.group.basic' },
+          { name: 'description', label: 'rule.lbl.nodeDesc', type: 'textarea', rows: 2, group: 'rule.group.other' },
         ]
       },
       {
-        type: 'ext-sp-call', label: '存储过程调用', icon: '🗄️', category: 'external',
-        desc: '数据库复杂统计、历史台账查询',
+        type: 'ext-sp-call', label: 'rule.node.extSpCall', icon: '🗄️', category: 'external',
+        desc: 'rule.desc.extSpCall',
         defaultData: () => ({ spName: '', params: '', resultVar: '', description: '' }),
         paramSchema: [
-          { name: 'spName', label: '存储过程名', type: 'input', required: true, placeholder: 'SP_QUERY_HISTORY', group: '基本配置' },
-          { name: 'params', label: '参数列表', type: 'textarea', rows: 2, placeholder: '逗号分隔参数值或变量名', group: '基本配置' },
-          { name: 'resultVar', label: '结果变量', type: 'input', required: true, placeholder: '如: historyData', group: '基本配置' },
-          { name: 'description', label: '节点说明', type: 'textarea', rows: 2, group: '其他' },
+          { name: 'spName', label: 'rule.lbl.spName', type: 'input', required: true, placeholder: 'rule.ph.spName', group: 'rule.group.basic' },
+          { name: 'params', label: 'rule.lbl.paramList', type: 'textarea', rows: 2, placeholder: 'rule.ph.paramList', group: 'rule.group.basic' },
+          { name: 'resultVar', label: 'rule.lbl.resultVar', type: 'input', required: true, placeholder: 'rule.ph.resultVar', group: 'rule.group.basic' },
+          { name: 'description', label: 'rule.lbl.nodeDesc', type: 'textarea', rows: 2, group: 'rule.group.other' },
         ]
       },
       {
-        type: 'ext-mq-send', label: 'MQ消息发送', icon: '📤', category: 'external',
-        desc: '规则触发推送数据至下游MES/ERP',
+        type: 'ext-mq-send', label: 'rule.node.extMqSend', icon: '📤', category: 'external',
+        desc: 'rule.desc.extMqSend',
         defaultData: () => ({ queueName: '', message: '', exchange: '', routingKey: '', description: '' }),
         paramSchema: [
-          { name: 'queueName', label: '队列名称', type: 'input', required: true, placeholder: '如: order.created', group: '基本配置' },
-          { name: 'exchange', label: '交换机', type: 'input', placeholder: '如: amq.direct', group: '基本配置' },
-          { name: 'routingKey', label: '路由键', type: 'input', placeholder: '如: order.created', group: '基本配置' },
-          { name: 'message', label: '消息内容', type: 'textarea', rows: 3, required: true, placeholder: 'JSON格式消息体', group: '基本配置' },
-          { name: 'description', label: '节点说明', type: 'textarea', rows: 2, group: '其他' },
+          { name: 'queueName', label: 'rule.lbl.queueName', type: 'input', required: true, placeholder: 'rule.ph.queueName', group: 'rule.group.basic' },
+          { name: 'exchange', label: 'rule.lbl.exchange', type: 'input', placeholder: 'rule.ph.exchange', group: 'rule.group.basic' },
+          { name: 'routingKey', label: 'rule.lbl.routingKey', type: 'input', placeholder: 'rule.ph.routingKey', group: 'rule.group.basic' },
+          { name: 'message', label: 'rule.lbl.msgContent', type: 'textarea', rows: 3, required: true, placeholder: 'rule.ph.msgContent', group: 'rule.group.basic' },
+          { name: 'description', label: 'rule.lbl.nodeDesc', type: 'textarea', rows: 2, group: 'rule.group.other' },
         ]
       },
       {
-        type: 'ext-file-export', label: '文件导出', icon: '📄', category: 'external',
-        desc: '规则校验后自动生成校验报表Excel',
+        type: 'ext-file-export', label: 'rule.node.extFileExport', icon: '📄', category: 'external',
+        desc: 'rule.desc.extFileExport',
         defaultData: () => ({ exportType: 'EXCEL', template: '', fields: '', fileName: '', description: '' }),
         paramSchema: [
-          { name: 'exportType', label: '导出格式', type: 'select', required: true, options: [{ label: 'Excel', value: 'EXCEL' }, { label: 'CSV', value: 'CSV' }, { label: 'PDF', value: 'PDF' }], group: '基本配置' },
-          { name: 'template', label: '模板名称', type: 'input', placeholder: '如: check_report_template', group: '基本配置' },
-          { name: 'fields', label: '导出字段', type: 'input', placeholder: '逗号分隔字段名', group: '基本配置' },
-          { name: 'fileName', label: '文件名', type: 'input', placeholder: '如: 校验报表_{date}', group: '基本配置' },
-          { name: 'description', label: '节点说明', type: 'textarea', rows: 2, group: '其他' },
+          { name: 'exportType', label: 'rule.lbl.exportFormat', type: 'select', required: true, options: [{ label: 'Excel', value: 'EXCEL' }, { label: 'CSV', value: 'CSV' }, { label: 'PDF', value: 'PDF' }], group: 'rule.group.basic' },
+          { name: 'template', label: 'rule.lbl.templateName', type: 'input', placeholder: 'rule.ph.templateName', group: 'rule.group.basic' },
+          { name: 'fields', label: 'rule.lbl.exportFields', type: 'input', placeholder: 'rule.ph.exportFields', group: 'rule.group.basic' },
+          { name: 'fileName', label: 'rule.lbl.fileName', type: 'input', placeholder: 'rule.ph.fileName', group: 'rule.group.basic' },
+          { name: 'description', label: 'rule.lbl.nodeDesc', type: 'textarea', rows: 2, group: 'rule.group.other' },
         ]
       },
     ]
   },
   // ============ 八、异常与流程控制 ============
   {
-    name: '异常与流程控制', icon: '🛡️', color: '#ef4444',
+    name: 'rule.category.exceptionControl', icon: '🛡️', color: '#ef4444',
     nodes: [
       {
-        type: 'ctrl-degrade', label: '规则降级', icon: '🔽', category: 'control',
-        desc: '接口超时自动走本地缓存兜底规则',
+        type: 'ctrl-degrade', label: 'rule.node.ctrlDegrade', icon: '🔽', category: 'control',
+        desc: 'rule.desc.ctrlDegrade',
         defaultData: () => ({ degradeCondition: 'TIMEOUT', threshold: 3000, fallbackAction: '', description: '' }),
         paramSchema: [
-          { name: 'degradeCondition', label: '降级条件', type: 'select', required: true, options: [
-            { label: '超时', value: 'TIMEOUT' },
-            { label: '异常', value: 'EXCEPTION' },
-            { label: '不可用', value: 'UNAVAILABLE' },
-            { label: '限流', value: 'RATE_LIMIT' },
-          ], group: '基本配置' },
-          { name: 'threshold', label: '阈值(ms)', type: 'number', min: 100, step: 100, default: 3000, group: '基本配置' },
-          { name: 'fallbackAction', label: '兜底动作', type: 'textarea', rows: 2, placeholder: '降级后执行的动作描述', group: '基本配置' },
-          { name: 'description', label: '节点说明', type: 'textarea', rows: 2, group: '其他' },
+          { name: 'degradeCondition', label: 'rule.lbl.degradeCondition', type: 'select', required: true, options: [
+            { label: () => i18n('rule.opt.timeout'), value: 'TIMEOUT' },
+            { label: () => i18n('rule.opt.exception'), value: 'EXCEPTION' },
+            { label: () => i18n('rule.opt.unavailable'), value: 'UNAVAILABLE' },
+            { label: () => i18n('rule.opt.rateLimit'), value: 'RATE_LIMIT' },
+          ], group: 'rule.group.basic' },
+          { name: 'threshold', label: 'rule.lbl.thresholdMs', type: 'number', min: 100, step: 100, default: 3000, group: 'rule.group.basic' },
+          { name: 'fallbackAction', label: 'rule.lbl.fallbackAction', type: 'textarea', rows: 2, placeholder: 'rule.ph.fallbackAction', group: 'rule.group.basic' },
+          { name: 'description', label: 'rule.lbl.nodeDesc', type: 'textarea', rows: 2, group: 'rule.group.other' },
         ]
       },
       {
-        type: 'ctrl-rollback', label: '事务回滚', icon: '↩️', category: 'control',
-        desc: '校验失败清空本次表单临时计算数据',
+        type: 'ctrl-rollback', label: 'rule.node.ctrlRollback', icon: '↩️', category: 'control',
+        desc: 'rule.desc.ctrlRollback',
         defaultData: () => ({ rollbackFields: '', rollbackScope: 'ALL', description: '' }),
         paramSchema: [
-          { name: 'rollbackScope', label: '回滚范围', type: 'select', required: true, options: [
-            { label: '全部临时数据', value: 'ALL' },
-            { label: '指定字段', value: 'FIELDS' },
-            { label: '当前事务', value: 'TRANSACTION' },
-          ], group: '基本配置' },
-          { name: 'rollbackFields', label: '回滚字段', type: 'input', placeholder: '范围=指定字段时填写，逗号分隔', group: '基本配置' },
-          { name: 'description', label: '节点说明', type: 'textarea', rows: 2, group: '其他' },
+          { name: 'rollbackScope', label: 'rule.lbl.rollbackScope', type: 'select', required: true, options: [
+            { label: () => i18n('rule.opt.allTempData'), value: 'ALL' },
+            { label: () => i18n('rule.opt.specifiedFields'), value: 'FIELDS' },
+            { label: () => i18n('rule.opt.currentTransaction'), value: 'TRANSACTION' },
+          ], group: 'rule.group.basic' },
+          { name: 'rollbackFields', label: 'rule.lbl.rollbackFields', type: 'input', placeholder: 'rule.ph.rollbackFields', group: 'rule.group.basic' },
+          { name: 'description', label: 'rule.lbl.nodeDesc', type: 'textarea', rows: 2, group: 'rule.group.other' },
         ]
       },
       {
-        type: 'ctrl-catch', label: '多级异常捕获', icon: '🪤', category: 'control',
-        desc: '区分参数错误、业务违规、外部接口故障',
+        type: 'ctrl-catch', label: 'rule.node.ctrlCatch', icon: '🪤', category: 'control',
+        desc: 'rule.desc.ctrlCatch',
         defaultData: () => ({ catchTypes: [], handlerAction: '', description: '' }),
         paramSchema: [
-          { name: 'catchTypes', label: '捕获类型', type: 'multiselect', required: true, options: [
-            { label: '参数错误', value: 'PARAM_ERROR' },
-            { label: '业务违规', value: 'BIZ_VIOLATION' },
-            { label: '外部接口故障', value: 'API_FAILURE' },
-            { label: '数据库异常', value: 'DB_ERROR' },
-            { label: '超时', value: 'TIMEOUT' },
-          ], group: '基本配置' },
-          { name: 'handlerAction', label: '处理动作', type: 'textarea', rows: 2, placeholder: '异常处理描述', group: '基本配置' },
-          { name: 'description', label: '节点说明', type: 'textarea', rows: 2, group: '其他' },
+          { name: 'catchTypes', label: 'rule.lbl.catchTypes', type: 'multiselect', required: true, options: [
+            { label: () => i18n('rule.opt.paramError'), value: 'PARAM_ERROR' },
+            { label: () => i18n('rule.opt.bizViolation'), value: 'BIZ_VIOLATION' },
+            { label: () => i18n('rule.opt.apiFailure'), value: 'API_FAILURE' },
+            { label: () => i18n('rule.opt.dbError'), value: 'DB_ERROR' },
+            { label: () => i18n('rule.opt.timeout'), value: 'TIMEOUT' },
+          ], group: 'rule.group.basic' },
+          { name: 'handlerAction', label: 'rule.lbl.handlerAction', type: 'textarea', rows: 2, placeholder: 'rule.ph.handlerAction', group: 'rule.group.basic' },
+          { name: 'description', label: 'rule.lbl.nodeDesc', type: 'textarea', rows: 2, group: 'rule.group.other' },
         ]
       },
       {
-        type: 'ctrl-terminate', label: '规则终止', icon: '⛔', category: 'control',
-        desc: '校验不通过直接阻断单据保存/提交',
+        type: 'ctrl-terminate', label: 'rule.node.ctrlTerminate', icon: '⛔', category: 'control',
+        desc: 'rule.desc.ctrlTerminate',
         defaultData: () => ({ terminateLevel: 'BLOCK', message: '', description: '' }),
         paramSchema: [
-          { name: 'terminateLevel', label: '终止级别', type: 'select', required: true, options: [
-            { label: '阻断 (BLOCK)', value: 'BLOCK' },
-            { label: '警告 (WARN)', value: 'WARN' },
-            { label: '提示 (INFO)', value: 'INFO' },
-          ], group: '基本配置' },
-          { name: 'message', label: '终止消息', type: 'textarea', rows: 2, required: true, placeholder: '给用户的提示消息', group: '基本配置' },
-          { name: 'description', label: '节点说明', type: 'textarea', rows: 2, group: '其他' },
+          { name: 'terminateLevel', label: 'rule.lbl.terminateLevel', type: 'select', required: true, options: [
+            { label: () => i18n('rule.opt.block'), value: 'BLOCK' },
+            { label: () => i18n('rule.opt.warn'), value: 'WARN' },
+            { label: () => i18n('rule.opt.info'), value: 'INFO' },
+          ], group: 'rule.group.basic' },
+          { name: 'message', label: 'rule.lbl.terminateMsg', type: 'textarea', rows: 2, required: true, placeholder: 'rule.ph.terminateMsg', group: 'rule.group.basic' },
+          { name: 'description', label: 'rule.lbl.nodeDesc', type: 'textarea', rows: 2, group: 'rule.group.other' },
         ]
       },
       {
-        type: 'ctrl-delay', label: '延时执行', icon: '⏰', category: 'control',
-        desc: '定时校验、滞后对账规则',
+        type: 'ctrl-delay', label: 'rule.node.ctrlDelay', icon: '⏰', category: 'control',
+        desc: 'rule.desc.ctrlDelay',
         defaultData: () => ({ delayType: 'INTERVAL', delayValue: 0, delayUnit: 'MINUTE', description: '' }),
         paramSchema: [
-          { name: 'delayType', label: '延时类型', type: 'select', required: true, options: [
-            { label: '固定间隔', value: 'INTERVAL' },
-            { label: '定时执行', value: 'CRON' },
-            { label: '条件触发', value: 'CONDITION' },
-          ], group: '基本配置' },
-          { name: 'delayValue', label: '延时值', type: 'number', min: 0, default: 0, group: '基本配置' },
-          { name: 'delayUnit', label: '延时单位', type: 'select', required: true, options: [
-            { label: '秒', value: 'SECOND' },
-            { label: '分钟', value: 'MINUTE' },
-            { label: '小时', value: 'HOUR' },
-            { label: '天', value: 'DAY' },
-          ], group: '基本配置' },
-          { name: 'description', label: '节点说明', type: 'textarea', rows: 2, group: '其他' },
+          { name: 'delayType', label: 'rule.lbl.delayType', type: 'select', required: true, options: [
+            { label: () => i18n('rule.opt.interval'), value: 'INTERVAL' },
+            { label: () => i18n('rule.opt.cron'), value: 'CRON' },
+            { label: () => i18n('rule.opt.condition'), value: 'CONDITION' },
+          ], group: 'rule.group.basic' },
+          { name: 'delayValue', label: 'rule.lbl.delayValue', type: 'number', min: 0, default: 0, group: 'rule.group.basic' },
+          { name: 'delayUnit', label: 'rule.lbl.delayUnit', type: 'select', required: true, options: [
+            { label: () => i18n('rule.opt.second'), value: 'SECOND' },
+            { label: () => i18n('rule.opt.minute'), value: 'MINUTE' },
+            { label: () => i18n('rule.opt.hour'), value: 'HOUR' },
+            { label: () => i18n('rule.opt.day'), value: 'DAY' },
+          ], group: 'rule.group.basic' },
+          { name: 'description', label: 'rule.lbl.nodeDesc', type: 'textarea', rows: 2, group: 'rule.group.other' },
         ]
       },
     ]
   },
   // ============ 九、权限&审计 ============
   {
-    name: '权限&审计', icon: '🔐', color: '#64748b',
+    name: 'rule.category.permissionAudit', icon: '🔐', color: '#64748b',
     nodes: [
       {
-        type: 'sec-desensitize', label: '敏感数据脱敏', icon: '🙈', category: 'security',
-        desc: '规则输出自动隐藏身份证、手机号',
+        type: 'sec-desensitize', label: 'rule.node.secDesensitize', icon: '🙈', category: 'security',
+        desc: 'rule.desc.secDesensitize',
         defaultData: () => ({ fields: '', desensitizeType: 'PHONE', description: '' }),
         paramSchema: [
-          { name: 'fields', label: '脱敏字段', type: 'input', required: true, placeholder: '逗号分隔字段名', group: '基本配置' },
-          { name: 'desensitizeType', label: '脱敏类型', type: 'select', required: true, options: [
-            { label: '手机号', value: 'PHONE' },
-            { label: '身份证', value: 'ID_CARD' },
-            { label: '银行卡', value: 'BANK_CARD' },
-            { label: '邮箱', value: 'EMAIL' },
-            { label: '姓名', value: 'NAME' },
-            { label: '地址', value: 'ADDRESS' },
-            { label: '自定义', value: 'CUSTOM' },
-          ], group: '基本配置' },
-          { name: 'description', label: '节点说明', type: 'textarea', rows: 2, group: '其他' },
+          { name: 'fields', label: 'rule.lbl.desensitizeFields', type: 'input', required: true, placeholder: 'rule.ph.desensitizeFields', group: 'rule.group.basic' },
+          { name: 'desensitizeType', label: 'rule.lbl.desensitizeType', type: 'select', required: true, options: [
+            { label: () => i18n('rule.opt.phone'), value: 'PHONE' },
+            { label: () => i18n('rule.opt.idCard'), value: 'ID_CARD' },
+            { label: () => i18n('rule.opt.bankCard'), value: 'BANK_CARD' },
+            { label: () => i18n('rule.opt.email'), value: 'EMAIL' },
+            { label: () => i18n('rule.opt.name'), value: 'NAME' },
+            { label: () => i18n('rule.opt.address'), value: 'ADDRESS' },
+            { label: () => i18n('rule.opt.custom'), value: 'CUSTOM' },
+          ], group: 'rule.group.basic' },
+          { name: 'description', label: 'rule.lbl.nodeDesc', type: 'textarea', rows: 2, group: 'rule.group.other' },
         ]
       },
       {
-        type: 'sec-audit-trail', label: '操作留痕', icon: '✍️', category: 'security',
-        desc: '记录规则触发人、前后字段值、执行时间',
+        type: 'sec-audit-trail', label: 'rule.node.secAuditTrail', icon: '✍️', category: 'security',
+        desc: 'rule.desc.secAuditTrail',
         defaultData: () => ({ auditType: 'FIELD_CHANGE', fields: '', recordOperator: 'Y', description: '' }),
         paramSchema: [
-          { name: 'auditType', label: '审计类型', type: 'select', required: true, options: [
-            { label: '字段变更', value: 'FIELD_CHANGE' },
-            { label: '规则执行', value: 'RULE_EXEC' },
-            { label: '数据访问', value: 'DATA_ACCESS' },
-            { label: '状态变更', value: 'STATUS_CHANGE' },
-          ], group: '基本配置' },
-          { name: 'fields', label: '审计字段', type: 'input', required: true, placeholder: '逗号分隔字段名', group: '基本配置' },
-          { name: 'recordOperator', label: '记录操作人', type: 'switch', default: 'Y', group: '基本配置' },
-          { name: 'description', label: '节点说明', type: 'textarea', rows: 2, group: '其他' },
+          { name: 'auditType', label: 'rule.lbl.auditType', type: 'select', required: true, options: [
+            { label: () => i18n('rule.opt.fieldChange'), value: 'FIELD_CHANGE' },
+            { label: () => i18n('rule.opt.ruleExec'), value: 'RULE_EXEC' },
+            { label: () => i18n('rule.opt.dataAccess'), value: 'DATA_ACCESS' },
+            { label: () => i18n('rule.opt.statusChange'), value: 'STATUS_CHANGE' },
+          ], group: 'rule.group.basic' },
+          { name: 'fields', label: 'rule.lbl.auditFields', type: 'input', required: true, placeholder: 'rule.ph.auditFields', group: 'rule.group.basic' },
+          { name: 'recordOperator', label: 'rule.lbl.recordOperator', type: 'switch', default: 'Y', group: 'rule.group.basic' },
+          { name: 'description', label: 'rule.lbl.nodeDesc', type: 'textarea', rows: 2, group: 'rule.group.other' },
         ]
       },
       {
-        type: 'sec-row-filter', label: '数据行权限过滤', icon: '👤', category: 'security',
-        desc: '根据登录人部门自动过滤数据集',
+        type: 'sec-row-filter', label: 'rule.node.secRowFilter', icon: '👤', category: 'security',
+        desc: 'rule.desc.secRowFilter',
         defaultData: () => ({ dataSource: '', filterBy: 'DEPARTMENT', targetVar: '', description: '' }),
         paramSchema: [
-          { name: 'dataSource', label: '数据源变量', type: 'input', required: true, placeholder: '如: dataList', group: '基本配置' },
-          { name: 'filterBy', label: '过滤维度', type: 'select', required: true, options: [
-            { label: '部门', value: 'DEPARTMENT' },
-            { label: '角色', value: 'ROLE' },
-            { label: '用户', value: 'USER' },
-            { label: '组织', value: 'ORG' },
-          ], group: '基本配置' },
-          { name: 'targetVar', label: '结果变量', type: 'input', required: true, placeholder: '如: filteredData', group: '基本配置' },
-          { name: 'description', label: '节点说明', type: 'textarea', rows: 2, group: '其他' },
+          { name: 'dataSource', label: 'rule.lbl.dataSourceVar', type: 'input', required: true, placeholder: 'rule.ph.dataSourceVar', group: 'rule.group.basic' },
+          { name: 'filterBy', label: 'rule.lbl.filterDimension', type: 'select', required: true, options: [
+            { label: () => i18n('rule.opt.department'), value: 'DEPARTMENT' },
+            { label: () => i18n('rule.opt.role'), value: 'ROLE' },
+            { label: () => i18n('rule.opt.user'), value: 'USER' },
+            { label: () => i18n('rule.opt.org'), value: 'ORG' },
+          ], group: 'rule.group.basic' },
+          { name: 'targetVar', label: 'rule.lbl.resultVar', type: 'input', required: true, placeholder: 'rule.ph.resultVar', group: 'rule.group.basic' },
+          { name: 'description', label: 'rule.lbl.nodeDesc', type: 'textarea', rows: 2, group: 'rule.group.other' },
         ]
       },
     ]
   },
   // ============ 十、子规则封装 ============
   {
-    name: '子规则封装', icon: '📦', color: '#6366f1',
+    name: 'rule.category.subRule', icon: '📦', color: '#6366f1',
     nodes: [
       {
-        type: 'subrule-call', label: '子规则调用', icon: '📞', category: 'subrule',
-        desc: '复用通用规则（库存校验、金额校验）',
+        type: 'subrule-call', label: 'rule.node.subruleCall', icon: '📞', category: 'subrule',
+        desc: 'rule.desc.subruleCall',
         defaultData: () => ({ subRuleCode: '', subRuleName: '', inputMapping: '', outputMapping: '', description: '' }),
         paramSchema: [
-          { name: 'subRuleCode', label: '子规则编码', type: 'input', required: true, placeholder: '如: STOCK_CHECK', group: '基本配置' },
-          { name: 'subRuleName', label: '子规则名称', type: 'input', placeholder: '如: 库存校验规则', group: '基本配置' },
-          { name: 'inputMapping', label: '入参映射', type: 'textarea', rows: 2, placeholder: 'JSON: {"stockVar":"formData.stock"}', group: '参数映射' },
-          { name: 'outputMapping', label: '出参映射', type: 'textarea', rows: 2, placeholder: 'JSON: {"result":"checkResult"}', group: '参数映射' },
-          { name: 'description', label: '节点说明', type: 'textarea', rows: 2, group: '其他' },
+          { name: 'subRuleCode', label: 'rule.lbl.subRuleCode', type: 'input', required: true, placeholder: 'rule.ph.subRuleCode', group: 'rule.group.basic' },
+          { name: 'subRuleName', label: 'rule.lbl.subRuleName', type: 'input', placeholder: 'rule.ph.subRuleName', group: 'rule.group.basic' },
+          { name: 'inputMapping', label: 'rule.lbl.inputMapping', type: 'textarea', rows: 2, placeholder: 'rule.ph.inputMapping', group: 'rule.group.mapping' },
+          { name: 'outputMapping', label: 'rule.lbl.outputMapping', type: 'textarea', rows: 2, placeholder: 'rule.ph.outputMapping', group: 'rule.group.mapping' },
+          { name: 'description', label: 'rule.lbl.nodeDesc', type: 'textarea', rows: 2, group: 'rule.group.other' },
         ]
       },
       {
-        type: 'subrule-version', label: '规则版本切换', icon: '🔄', category: 'subrule',
-        desc: '测试/正式两套规则一键切换',
+        type: 'subrule-version', label: 'rule.node.subruleVersion', icon: '🔄', category: 'subrule',
+        desc: 'rule.desc.subruleVersion',
         defaultData: () => ({ ruleCode: '', versionType: 'AUTO', specifiedVersion: '', description: '' }),
         paramSchema: [
-          { name: 'ruleCode', label: '规则编码', type: 'input', required: true, placeholder: '如: AMOUNT_CHECK', group: '基本配置' },
-          { name: 'versionType', label: '版本类型', type: 'select', required: true, options: [
-            { label: '自动 (最新)', value: 'AUTO' },
-            { label: '测试版', value: 'TEST' },
-            { label: '正式版', value: 'PROD' },
-            { label: '指定版本', value: 'SPECIFIED' },
-          ], group: '基本配置' },
-          { name: 'specifiedVersion', label: '指定版本号', type: 'input', placeholder: '版本类型=指定版本时填写', group: '基本配置' },
-          { name: 'description', label: '节点说明', type: 'textarea', rows: 2, group: '其他' },
+          { name: 'ruleCode', label: 'rule.lbl.ruleCode', type: 'input', required: true, placeholder: 'rule.ph.ruleCode', group: 'rule.group.basic' },
+          { name: 'versionType', label: 'rule.lbl.versionType', type: 'select', required: true, options: [
+            { label: () => i18n('rule.opt.autoLatest'), value: 'AUTO' },
+            { label: () => i18n('rule.opt.testVersion'), value: 'TEST' },
+            { label: () => i18n('rule.opt.prodVersion'), value: 'PROD' },
+            { label: () => i18n('rule.opt.specifiedVersion'), value: 'SPECIFIED' },
+          ], group: 'rule.group.basic' },
+          { name: 'specifiedVersion', label: 'rule.lbl.specifiedVersion', type: 'input', placeholder: 'rule.ph.specifiedVersion', group: 'rule.group.basic' },
+          { name: 'description', label: 'rule.lbl.nodeDesc', type: 'textarea', rows: 2, group: 'rule.group.other' },
         ]
       },
       {
-        type: 'subrule-gray', label: '规则灰度', icon: '🌗', category: 'subrule',
-        desc: '按客户/单据类型分流新旧两套规则',
+        type: 'subrule-gray', label: 'rule.node.subruleGray', icon: '🌗', category: 'subrule',
+        desc: 'rule.desc.subruleGray',
         defaultData: () => ({ ruleCode: '', grayStrategy: 'BY_PERCENT', grayPercent: 10, grayField: '', description: '' }),
         paramSchema: [
-          { name: 'ruleCode', label: '规则编码', type: 'input', required: true, placeholder: '如: ORDER_CHECK', group: '基本配置' },
-          { name: 'grayStrategy', label: '灰度策略', type: 'select', required: true, options: [
-            { label: '按百分比', value: 'BY_PERCENT' },
-            { label: '按客户', value: 'BY_CUSTOMER' },
-            { label: '按单据类型', value: 'BY_DOC_TYPE' },
-            { label: '按租户', value: 'BY_TENANT' },
-          ], group: '基本配置' },
-          { name: 'grayPercent', label: '灰度比例(%)', type: 'number', min: 0, max: 100, default: 10, group: '基本配置' },
-          { name: 'grayField', label: '灰度字段', type: 'input', placeholder: '策略=按客户/单据类型时填写', group: '基本配置' },
-          { name: 'description', label: '节点说明', type: 'textarea', rows: 2, group: '其他' },
+          { name: 'ruleCode', label: 'rule.lbl.ruleCode', type: 'input', required: true, placeholder: 'rule.ph.ruleCode', group: 'rule.group.basic' },
+          { name: 'grayStrategy', label: 'rule.lbl.grayStrategy', type: 'select', required: true, options: [
+            { label: () => i18n('rule.opt.byPercent'), value: 'BY_PERCENT' },
+            { label: () => i18n('rule.opt.byCustomer'), value: 'BY_CUSTOMER' },
+            { label: () => i18n('rule.opt.byDocType'), value: 'BY_DOC_TYPE' },
+            { label: () => i18n('rule.opt.byTenant'), value: 'BY_TENANT' },
+          ], group: 'rule.group.basic' },
+          { name: 'grayPercent', label: 'rule.lbl.grayPercent', type: 'number', min: 0, max: 100, default: 10, group: 'rule.group.basic' },
+          { name: 'grayField', label: 'rule.lbl.grayField', type: 'input', placeholder: 'rule.ph.grayField', group: 'rule.group.basic' },
+          { name: 'description', label: 'rule.lbl.nodeDesc', type: 'textarea', rows: 2, group: 'rule.group.other' },
         ]
       },
     ]

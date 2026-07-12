@@ -4,10 +4,10 @@
       <el-icon>
         <Grid />
       </el-icon>
-      <span>节点库</span>
+      <span>{{ i18n('rule.panel.nodeLibrary') }}</span>
     </div>
     <div class="my-1 w-[90%] ml-0">
-      <el-input v-model="searchKeyword" placeholder="搜索节点..." class="search-input" clearable>
+      <el-input v-model="searchKeyword" :placeholder="i18n('rule.panel.searchNode')" class="search-input" clearable>
         <template #prefix>
           <el-icon>
             <Search />
@@ -26,7 +26,7 @@
           <template #title>
             <div class="category-title">
               <span class="cat-icon" :style="{ background: cat.color + '20', color: cat.color }">{{ cat.icon }}</span>
-              <span class="cat-name">{{ cat.name }}</span>
+              <span class="cat-name">{{ i18n(cat.nameKey) }}</span>
               <el-tag type="info" round>{{ cat.nodes.length }}</el-tag>
             </div>
           </template>
@@ -44,8 +44,8 @@
                 {{ node.icon }}
               </div>
               <div class="node-info">
-                <div class="node-label">{{ node.label }}</div>
-                <div class="node-desc">{{ node.desc }}</div>
+                <div class="node-label">{{ i18n(node.labelKey) }}</div>
+                <div class="node-desc">{{ i18n(node.descKey) }}</div>
               </div>
               <el-icon class="drag-handle">
                 <Plus />
@@ -62,6 +62,7 @@
 import { ref, computed } from "vue";
 import { Grid, Search, Plus } from "@element-plus/icons-vue";
 import { NODE_CATEGORIES } from "./nodeTypes";
+import { i18n } from "@/lang";
 
 const searchKeyword = ref("");
 const activeGroups = ref(NODE_CATEGORIES.map(c => c.name));
@@ -71,9 +72,11 @@ const filteredCategories = computed(() => {
   const kw = searchKeyword.value.toLowerCase();
   return NODE_CATEGORIES.map(cat => ({
     ...cat,
-    nodes: cat.nodes.filter(n =>
-      n.label.toLowerCase().includes(kw) || n.desc.toLowerCase().includes(kw) || n.type.includes(kw)
-    )
+    nodes: cat.nodes.filter(n => {
+      const label = i18n(n.labelKey).toLowerCase();
+      const desc = i18n(n.descKey).toLowerCase();
+      return label.includes(kw) || desc.includes(kw) || n.type.includes(kw);
+    })
   })).filter(cat => cat.nodes.length > 0);
 });
 

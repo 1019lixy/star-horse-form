@@ -5,13 +5,14 @@
       <svg class="node-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path d="M8 5v14l11-7z" fill="currentColor"/>
       </svg>
-      <span class="node-label">开始</span>
+      <span class="node-label">{{ i18n('rule.node.start') }}</span>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
 import { Handle, Position } from '@vue-flow/core'
+import { i18n } from '@/lang'
 </script>
 
 <style scoped lang="scss">

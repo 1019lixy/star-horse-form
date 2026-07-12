@@ -3,6 +3,8 @@
  * 解析流程图节点和边，模拟规则执行，返回执行路径
  */
 
+import { i18n } from '@/lang'
+
 export interface ExecutionNode {
   id: string
   type: string
@@ -121,7 +123,7 @@ const evaluateCondition = (condition: any, context: any): { passed: boolean; det
  */
 const evaluateConditions = (conditions: any[], logic: string, context: any): { passed: boolean; details: string[] } => {
   if (!conditions || conditions.length === 0) {
-    return { passed: true, details: ['无条件，默认通过'] }
+    return { passed: true, details: [i18n('rule.exec.noConditionDefault')] }
   }
 
   const details: string[] = []
@@ -142,40 +144,40 @@ const executeAction = (action: any, context: any): { success: boolean; message: 
   switch (action.actionType) {
     case 'SHOW_FIELD':
       context[`__visible_${action.targetField}`] = true
-      return { success: true, message: `显示字段: ${action.targetField}` }
+      return { success: true, message: `${i18n('rule.exec.showField')}: ${action.targetField}` }
     case 'HIDE_FIELD':
       context[`__visible_${action.targetField}`] = false
-      return { success: true, message: `隐藏字段: ${action.targetField}` }
+      return { success: true, message: `${i18n('rule.exec.hideField')}: ${action.targetField}` }
     case 'SET_VALUE':
       context[action.targetField] = action.actionValue || action.value
-      return { success: true, message: `设置 ${action.targetField} = ${action.actionValue || action.value}` }
+      return { success: true, message: `${i18n('rule.exec.setValue')} ${action.targetField} = ${action.actionValue || action.value}` }
     case 'CLEAR_VALUE':
       context[action.targetField] = ''
-      return { success: true, message: `清空字段: ${action.targetField}` }
+      return { success: true, message: `${i18n('rule.exec.clearField')}: ${action.targetField}` }
     case 'SET_REQUIRED':
       context[`__required_${action.targetField}`] = true
-      return { success: true, message: `设为必填: ${action.targetField}` }
+      return { success: true, message: `${i18n('rule.exec.setRequired')}: ${action.targetField}` }
     case 'SET_OPTIONAL':
       context[`__required_${action.targetField}`] = false
-      return { success: true, message: `取消必填: ${action.targetField}` }
+      return { success: true, message: `${i18n('rule.exec.setOptional')}: ${action.targetField}` }
     case 'SET_READONLY':
       context[`__readonly_${action.targetField}`] = true
-      return { success: true, message: `设为只读: ${action.targetField}` }
+      return { success: true, message: `${i18n('rule.exec.setReadonly')}: ${action.targetField}` }
     case 'SET_EDITABLE':
       context[`__readonly_${action.targetField}`] = false
-      return { success: true, message: `设为可编辑: ${action.targetField}` }
+      return { success: true, message: `${i18n('rule.exec.setEditable')}: ${action.targetField}` }
     case 'SET_DISABLED':
       context[`__disabled_${action.targetField}`] = true
-      return { success: true, message: `禁用字段: ${action.targetField}` }
+      return { success: true, message: `${i18n('rule.exec.setDisabled')}: ${action.targetField}` }
     case 'SET_ENABLED':
       context[`__disabled_${action.targetField}`] = false
-      return { success: true, message: `启用字段: ${action.targetField}` }
+      return { success: true, message: `${i18n('rule.exec.setEnabled')}: ${action.targetField}` }
     case 'SHOW_MESSAGE':
       return { success: true, message: `[${action.messageType || 'INFO'}] ${action.message || action.actionValue || ''}` }
     case 'REDIRECT':
-      return { success: true, message: `页面跳转: ${action.actionValue || action.value || ''}` }
+      return { success: true, message: `${i18n('rule.exec.redirect')}: ${action.actionValue || action.value || ''}` }
     default:
-      return { success: true, message: `执行动作: ${action.actionType}` }
+      return { success: true, message: `${i18n('rule.exec.executeAction')}: ${action.actionType}` }
   }
 }
 
@@ -203,9 +205,9 @@ const executeScript = (scriptContent: string, context: any): { success: boolean;
     // 创建安全的执行上下文
     const fn = new Function('context', 'formData', 'variables', scriptContent)
     const result = fn(context, context, context)
-    return { success: true, message: `脚本执行完成${result ? ': ' + JSON.stringify(result) : ''}` }
+    return { success: true, message: `${i18n('rule.exec.scriptComplete')}${result ? ': ' + JSON.stringify(result) : ''}` }
   } catch (error: any) {
-    return { success: false, message: `脚本执行错误: ${error.message}` }
+    return { success: false, message: `${i18n('rule.exec.scriptError')}: ${error.message}` }
   }
 }
 
@@ -220,7 +222,7 @@ const executeHttpCall = (config: any, context: any): { success: boolean; message
   if (config.responseVar) {
     context[config.responseVar] = mockResponse
   }
-  return { success: true, message: `${method} ${url} => 200 (模拟)` }
+  return { success: true, message: `${method} ${url} => 200 (${i18n('rule.exec.mock')})` }
 }
 
 /**
@@ -243,8 +245,8 @@ export const executeRuleFlow = (
   const startNode = nodes.find(n => n.type === 'start')
   if (!startNode) {
     steps.push({
-      nodeId: '', nodeType: 'error', nodeName: '错误',
-      status: 'FAILED', message: '未找到开始节点', timestamp: Date.now()
+      nodeId: '', nodeType: 'error', nodeName: i18n('rule.exec.error'),
+      status: 'FAILED', message: i18n('rule.exec.startNodeNotFound'), timestamp: Date.now()
     })
     return {
       visitedNodeIds, visitedEdgeIds, steps, context,
@@ -269,7 +271,7 @@ export const executeRuleFlow = (
 
     steps.push({
       nodeId: node.id, nodeType: node.type, nodeName,
-      status: 'RUNNING', message: `进入节点: ${nodeName}`,
+      status: 'RUNNING', message: `${i18n('rule.exec.enterNode')}: ${nodeName}`,
       timestamp: Date.now()
     })
 
@@ -278,7 +280,7 @@ export const executeRuleFlow = (
 
     switch (node.type) {
       case 'start': {
-        steps[steps.length - 1].message = '流程开始'
+        steps[steps.length - 1].message = i18n('rule.exec.flowStart')
         steps[steps.length - 1].status = 'SUCCESS'
         // 开始节点自动找下一条边
         const startOutEdge = edges.find(e => e.source === node.id)
@@ -290,7 +292,7 @@ export const executeRuleFlow = (
       }
 
       case 'end':
-        steps[steps.length - 1].message = '流程结束'
+        steps[steps.length - 1].message = i18n('rule.exec.flowEnd')
         steps[steps.length - 1].status = 'SUCCESS'
         currentNodeId = null
         continue
@@ -304,7 +306,7 @@ export const executeRuleFlow = (
           passed,
           detail: details.join('\n')
         })
-        steps[steps.length - 1].message = `条件${passed ? '满足' : '不满足'}: ${details.join('; ')}`
+        steps[steps.length - 1].message = `${passed ? i18n('rule.exec.conditionMet') : i18n('rule.exec.conditionNotMet')}: ${details.join('; ')}`
         steps[steps.length - 1].status = passed ? 'SUCCESS' : 'SKIPPED'
 
         // 条件满足走第一条边，不满足找标签为"否"的边
@@ -337,7 +339,7 @@ export const executeRuleFlow = (
             message: result.message
           })
         }
-        steps[steps.length - 1].message = `执行了 ${actions.length} 个动作`
+        steps[steps.length - 1].message = `${i18n('rule.exec.executedActions')} ${actions.length}`
         steps[steps.length - 1].status = 'SUCCESS'
 
         const outEdge = edges.find(e => e.source === node.id)
@@ -376,7 +378,7 @@ export const executeRuleFlow = (
           nextEdgeId = outEdges[0].id
           nextNodeId = outEdges[0].target
         }
-        steps[steps.length - 1].message = found ? `选择分支: ${edges.find(e => e.id === nextEdgeId)?.label || '默认'}` : '无匹配分支'
+        steps[steps.length - 1].message = found ? `${i18n('rule.exec.selectBranch')}: ${edges.find(e => e.id === nextEdgeId)?.label || i18n('rule.exec.default')}` : i18n('rule.exec.noMatchedBranch')
         steps[steps.length - 1].status = 'SUCCESS'
         break
       }
@@ -384,7 +386,7 @@ export const executeRuleFlow = (
       case 'parallel-gateway': {
         // 并行网关：所有出边都走
         const outEdges = edges.filter(e => e.source === node.id)
-        steps[steps.length - 1].message = `并行执行 ${outEdges.length} 个分支`
+        steps[steps.length - 1].message = `${i18n('rule.exec.parallelExecute')} ${outEdges.length} ${i18n('rule.exec.branches')}`
         steps[steps.length - 1].status = 'SUCCESS'
         // 简化处理：只走第一条（实际应并行执行所有分支后聚合）
         if (outEdges.length > 0) {
@@ -419,7 +421,7 @@ export const executeRuleFlow = (
           nextEdgeId = outEdges[0].id
           nextNodeId = outEdges[0].target
         }
-        steps[steps.length - 1].message = `匹配 ${matchedEdges.length} 个分支`
+        steps[steps.length - 1].message = `${i18n('rule.exec.matchedBranches')} ${matchedEdges.length}`
         steps[steps.length - 1].status = 'SUCCESS'
         break
       }
@@ -453,7 +455,7 @@ export const executeRuleFlow = (
       }
 
       case 'rule-set-ref': {
-        steps[steps.length - 1].message = `引用规则集: ${node.data.ruleSetName || ''}`
+        steps[steps.length - 1].message = `${i18n('rule.exec.referenceRuleSet')}: ${node.data.ruleSetName || ''}`
         steps[steps.length - 1].status = 'SUCCESS'
         const outEdge = edges.find(e => e.source === node.id)
         if (outEdge) { nextEdgeId = outEdge.id; nextNodeId = outEdge.target }
@@ -464,9 +466,9 @@ export const executeRuleFlow = (
         const collectionVar = node.data.collectionVar
         const collection = context[collectionVar]
         if (Array.isArray(collection)) {
-          steps[steps.length - 1].message = `循环遍历 ${collection.length} 个元素`
+          steps[steps.length - 1].message = `${i18n('rule.exec.loopIterate')} ${collection.length} ${i18n('rule.exec.elements')}`
         } else {
-          steps[steps.length - 1].message = `循环: 集合变量 ${collectionVar} 不存在或非数组`
+          steps[steps.length - 1].message = `${i18n('rule.exec.loop')}: ${i18n('rule.exec.collectionVarNotExist')} ${collectionVar}`
         }
         steps[steps.length - 1].status = 'SUCCESS'
         const outEdge = edges.find(e => e.source === node.id)
@@ -488,7 +490,7 @@ export const executeRuleFlow = (
       }
 
       default:
-        steps[steps.length - 1].message = `未知节点类型: ${node.type}`
+        steps[steps.length - 1].message = `${i18n('rule.exec.unknownNodeType')}: ${node.type}`
         steps[steps.length - 1].status = 'SKIPPED'
         const outEdge = edges.find(e => e.source === node.id)
         if (outEdge) { nextEdgeId = outEdge.id; nextNodeId = outEdge.target }
@@ -524,7 +526,7 @@ const executeGenericNode = (type: string, data: any, context: any): { success: b
     case 'context-extract': {
       const val = data.fieldPath ? data.fieldPath.split('.').reduce((o: any, k: string) => o?.[k], context) : undefined
       if (data.targetVar) context[data.targetVar] = val
-      return { success: true, message: `提取 ${data.fieldPath || '?'} → ${data.targetVar || '?'} = ${JSON.stringify(val)}` }
+      return { success: true, message: `${i18n('rule.exec.extract')} ${data.fieldPath || '?'} → ${data.targetVar || '?'} = ${JSON.stringify(val)}` }
     }
     case 'type-cast': {
       const val = context[data.sourceVar]
@@ -534,23 +536,23 @@ const executeGenericNode = (type: string, data: any, context: any): { success: b
       else if (data.targetType === 'BOOLEAN') converted = Boolean(val)
       else if (data.targetType === 'DATE') converted = new Date(val).toISOString()
       if (data.targetVar) context[data.targetVar] = converted
-      return { success: true, message: `转换 ${data.sourceVar}(${typeof val}) → ${data.targetType} = ${converted}` }
+      return { success: true, message: `${i18n('rule.exec.convert')} ${data.sourceVar}(${typeof val}) → ${data.targetType} = ${converted}` }
     }
     case 'dataset-load': {
       const ds = data.fieldPath ? data.fieldPath.split('.').reduce((o: any, k: string) => o?.[k], context) : []
       if (data.targetVar) context[data.targetVar] = Array.isArray(ds) ? ds : [ds]
-      return { success: true, message: `载入数据集 ${(Array.isArray(ds) ? ds.length : 1)} 条 → ${data.targetVar || '?'}` }
+      return { success: true, message: `${i18n('rule.exec.loadDataset')} ${(Array.isArray(ds) ? ds.length : 1)} ${i18n('rule.exec.items')} → ${data.targetVar || '?'}` }
     }
     case 'datasource-fetch': {
       if (data.targetVar) context[data.targetVar] = { simulated: true, api: data.apiUrl }
-      return { success: true, message: `模拟拉取 ${data.method} ${data.apiUrl} → ${data.targetVar || '?'}` }
+      return { success: true, message: `${i18n('rule.exec.mockFetch')} ${data.method} ${data.apiUrl} → ${data.targetVar || '?'}` }
     }
 
     // === 条件判断 ===
     case 'cond-multibranch': {
       const val = context[data.matchField]
       const matchType = data.matchType || 'ENUM'
-      let matchedLabel = data.defaultBranch || '默认'
+      let matchedLabel = data.defaultBranch || i18n('rule.exec.default')
       if (data.branches && Array.isArray(data.branches)) {
         if (matchType === 'RANGE') {
           // 区间分段匹配：value 格式 "min~max" 或 "min,max"
@@ -569,7 +571,7 @@ const executeGenericNode = (type: string, data: any, context: any): { success: b
           if (m) matchedLabel = m.label || matchedLabel
         }
       }
-      return { success: true, message: `多分支匹配 ${data.matchField}=${val} → ${matchedLabel}` }
+      return { success: true, message: `${i18n('rule.exec.multiBranchMatch')} ${data.matchField}=${val} → ${matchedLabel}` }
     }
     case 'cond-set-contains': {
       const src = context[data.sourceSet] || []
@@ -582,54 +584,51 @@ const executeGenericNode = (type: string, data: any, context: any): { success: b
       let detail = ''
       if (checkType === 'CONTAINS_ANY') {
         passed = intersect.length > 0
-        detail = `交集 ${intersect.length} 个`
+        detail = `${i18n('rule.exec.intersect')} ${intersect.length} ${i18n('rule.exec.items')}`
       } else if (checkType === 'CONTAINS_ALL') {
         // src 必须包含 tgt 的所有元素（tgt 是 src 的子集）
         const missing = tgtArr.filter((x: any) => !srcArr.includes(x))
         passed = missing.length === 0
-        detail = `子集校验，缺失 ${missing.length} 个`
+        detail = `${i18n('rule.exec.subsetCheck')}, ${i18n('rule.exec.missing')} ${missing.length} ${i18n('rule.exec.items')}`
       } else if (checkType === 'EQUALS') {
         passed = srcArr.length === tgtArr.length && intersect.length === srcArr.length
-        detail = `集合完全相同: ${passed ? '是' : '否'}`
+        detail = `${i18n('rule.exec.setEqual')}: ${passed ? i18n('rule.exec.yes') : i18n('rule.exec.no')}`
       } else if (checkType === 'NO_INTERSECT') {
         passed = intersect.length === 0
-        detail = `无交集: ${passed ? '是' : '否，交集' + intersect.length + '个'}`
+        detail = `${i18n('rule.exec.noIntersect')}: ${passed ? i18n('rule.exec.yes') : i18n('rule.exec.no')},${i18n('rule.exec.intersect')}${intersect.length}${i18n('rule.exec.items')}`
       }
-      return { success: passed, message: `集合检查 ${checkType}: ${detail}` }
+      return { success: passed, message: `${i18n('rule.exec.setCheck')} ${checkType}: ${detail}` }
     }
     case 'cond-dirty-check': {
       const fields = toStringArray(data.fields)
       const dirty = fields.filter((f: string) => !context[f] || context[f] === '' || context[f] === null)
-      return { success: dirty.length === 0, message: dirty.length ? `脏数据: ${dirty.join(',')}` : '数据完整性校验通过', terminate: dirty.length > 0 && data.checkRules?.includes('BLOCK') }
+      return { success: dirty.length === 0, message: dirty.length ? `${i18n('rule.exec.dirtyData')}: ${dirty.join(',')}` : i18n('rule.exec.dataIntegrityPass'), terminate: dirty.length > 0 && data.checkRules?.includes('BLOCK') }
     }
     case 'cond-time-window': {
       const dateVal = context[data.dateField]
-      return { success: true, message: `时间窗口校验 ${data.dateField}=${dateVal} (${data.windowType})` }
+      return { success: true, message: `${i18n('rule.exec.timeWindowCheck')} ${data.dateField}=${dateVal} (${data.windowType})` }
     }
     case 'cond-unique': {
       const fields = toStringArray(data.fields)
-      return { success: true, message: `唯一性校验 ${fields.join('+')} (${data.scope})` }
+      return { success: true, message: `${i18n('rule.exec.uniqueCheck')} ${fields.join('+')} (${data.scope})` }
     }
     case 'cond-threshold': {
       const val = Number(context[data.field] || 0)
       const exceeded = data.thresholds?.some((t: any) => val > (t.max || Infinity) || val < (t.min || -Infinity))
-      return { success: !exceeded, message: `阈值校验 ${data.field}=${val} ${exceeded ? '超限[' + data.alertLevel + ']' : '正常'}` }
+      return { success: !exceeded, message: `${i18n('rule.exec.thresholdCheck')} ${data.field}=${val} ${exceeded ? i18n('rule.exec.exceeded') + '[' + data.alertLevel + ']' : i18n('rule.exec.normal')}` }
     }
 
     // === 循环迭代 ===
     case 'loop-iterate': {
       const coll = context[data.collectionVar]
-      if (!Array.isArray(coll)) return { success: false, message: `集合 ${data.collectionVar} 不存在或非数组` }
+      if (!Array.isArray(coll)) return { success: false, message: `${i18n('rule.exec.collectionNotExist')} ${data.collectionVar}` }
       const itemVar = data.itemVar || 'item'
       const indexVar = data.indexVar || 'index'
-      // 真正遍历：将每个元素依次放入上下文（供后续节点引用）
-      // 注意：前端测试引擎无法执行循环体内的子流程，此处仅完成遍历赋值
       coll.forEach((item, idx) => {
         context[itemVar] = item
         context[indexVar] = idx
       })
-      // 遍历结束后保留最后一个元素
-      return { success: true, message: `逐行循环 ${coll.length} 条（item=${JSON.stringify(coll[coll.length - 1])}）` }
+      return { success: true, message: `${i18n('rule.exec.loopIterate')} ${coll.length} ${i18n('rule.exec.items')}(item=${JSON.stringify(coll[coll.length - 1])})` }
     }
     case 'loop-aggregate': {
       const coll = context[data.collectionVar] || []
@@ -648,10 +647,10 @@ const executeGenericNode = (type: string, data: any, context: any): { success: b
       const coll = context[data.collectionVar] || []
       const filtered = Array.isArray(coll) ? coll.filter((x: any) => x) : []
       if (data.targetVar) context[data.targetVar] = filtered
-      return { success: true, message: `过滤 ${Array.isArray(coll) ? coll.length : 0} → ${filtered.length} 条` }
+      return { success: true, message: `${i18n('rule.exec.filter')} ${Array.isArray(coll) ? coll.length : 0} → ${filtered.length} ${i18n('rule.exec.items')}` }
     }
     case 'loop-break': {
-      return { success: true, message: `循环中断条件: ${data.breakCondition || '匹配即终止'}` }
+      return { success: true, message: `${i18n('rule.exec.loopBreakCondition')}: ${data.breakCondition || i18n('rule.exec.breakOnMatch')}` }
     }
 
     // === 运算公式 ===
@@ -663,14 +662,14 @@ const executeGenericNode = (type: string, data: any, context: any): { success: b
       else if (data.operator === 'MUL') result = operands.reduce((a, b) => a * b, 1)
       else if (data.operator === 'DIV') result = operands.reduce((a, b, i) => i === 0 ? b : a / b, 0)
       if (data.targetVar) context[data.targetVar] = result
-      return { success: true, message: `金额运算 ${data.operator} = ${result.toFixed(data.precision || 2)}` }
+      return { success: true, message: `${i18n('rule.exec.moneyCalc')} ${data.operator} = ${result.toFixed(data.precision || 2)}` }
     }
     case 'calc-date': {
       const base = new Date(context[data.baseDate] || Date.now())
       const ms = data.offset * (data.offsetUnit === 'DAY' ? 86400000 : data.offsetUnit === 'HOUR' ? 3600000 : data.offsetUnit === 'MINUTE' ? 60000 : 86400000)
       const result = new Date(base.getTime() + ms)
       if (data.targetVar) context[data.targetVar] = result.toISOString().split('T')[0]
-      return { success: true, message: `日期偏移 ${data.baseDate}+${data.offset}${data.offsetUnit} → ${context[data.targetVar]}` }
+      return { success: true, message: `${i18n('rule.exec.dateOffset')} ${data.baseDate}+${data.offset}${data.offsetUnit} → ${context[data.targetVar]}` }
     }
     case 'calc-string': {
       const operands = (data.operands || []).map((v: any) => context[v] ?? v ?? '')
@@ -680,15 +679,14 @@ const executeGenericNode = (type: string, data: any, context: any): { success: b
       else if (data.operation === 'LOWER') result = String(operands[0] || '').toLowerCase()
       else if (data.operation === 'MASK') result = String(operands[0] || '').replace(/.(?=.{2})/g, '*')
       if (data.targetVar) context[data.targetVar] = result
-      return { success: true, message: `字符串${data.operation} → ${result}` }
+      return { success: true, message: `${i18n('rule.exec.stringProcess')}${data.operation} → ${result}` }
     }
     case 'calc-dict-map': {
       const val = context[data.sourceVar]
       if (data.targetVar) context[data.targetVar] = val
-      return { success: true, message: `字典映射 ${data.sourceVar}=${val} [${data.dictCode}]` }
+      return { success: true, message: `${i18n('rule.exec.dictMap')} ${data.sourceVar}=${val} [${data.dictCode}]` }
     }
     case 'calc-ratio': {
-      // 按集合中每行的比例字段分摊总金额
       const total = Number(context[data.totalAmount] || 0)
       const ratioSource = context[data.ratioSource]
       const ratioField = data.ratioField || 'ratio'
@@ -703,33 +701,33 @@ const executeGenericNode = (type: string, data: any, context: any): { success: b
         })
       }
       if (data.targetVar) context[data.targetVar] = result
-      return { success: true, message: `比例分摊 总额${total}按${ratioField}分给${arr.length}行（比例和=${ratioSum}）` }
+      return { success: true, message: `${i18n('rule.exec.ratioAllocate')} ${i18n('rule.exec.total')}${total}${i18n('rule.exec.by')}${ratioField}${i18n('rule.exec.allocateTo')}${arr.length}${i18n('rule.exec.rows')}(${i18n('rule.exec.ratioSum')}=${ratioSum})` }
     }
 
     // === 分支动作 ===
     case 'action-assign': {
       const count = data.assignments?.length || 0
       data.assignments?.forEach((a: any) => { context[a.variableName || a.targetField] = a.value })
-      return { success: true, message: `批量赋值 ${count} 项` }
+      return { success: true, message: `${i18n('rule.exec.batchAssign')} ${count} ${i18n('rule.exec.items')}` }
     }
     case 'action-mark': {
       context[`__mark_${data.targetField}`] = data.markType
-      return { success: true, message: `标记 ${data.targetField} → ${data.markType}:${data.markValue}` }
+      return { success: true, message: `${i18n('rule.exec.mark')} ${data.targetField} → ${data.markType}:${data.markValue}` }
     }
     case 'action-filter-output': {
       const src = context[data.sourceVar] || []
       const filtered = Array.isArray(src) ? src : []
       if (data.targetVar) context[data.targetVar] = filtered
-      return { success: true, message: `过滤输出 ${filtered.length} 条 → ${data.targetVar}` }
+      return { success: true, message: `${i18n('rule.exec.filterOutput')} ${filtered.length} ${i18n('rule.exec.items')} → ${data.targetVar}` }
     }
     case 'action-split-merge': {
       const src = context[data.sourceVar] || []
-      return { success: true, message: `${data.operation} ${Array.isArray(src) ? src.length : 0} 条` }
+      return { success: true, message: `${data.operation} ${Array.isArray(src) ? src.length : 0} ${i18n('rule.exec.items')}` }
     }
 
     // === 消息通知 ===
     case 'msg-push-todo': {
-      return { success: true, message: `推送${data.pushType} → ${data.targetUsers || '?'}: ${data.title || ''}` }
+      return { success: true, message: `${i18n('rule.exec.push')}${data.pushType} → ${data.targetUsers || '?'}: ${data.title || ''}` }
     }
     case 'msg-alert': {
       const channels = toStringArray(data.channels)
@@ -737,7 +735,7 @@ const executeGenericNode = (type: string, data: any, context: any): { success: b
     }
     case 'msg-log': {
       const fields = toStringArray(data.fields)
-      return { success: true, message: `写入${data.logType}日志: ${fields.length}字段` }
+      return { success: true, message: `${i18n('rule.exec.writeLog')}${data.logType}: ${fields.length}${i18n('rule.exec.fields')}` }
     }
 
     // === 外部集成 ===
@@ -750,30 +748,30 @@ const executeGenericNode = (type: string, data: any, context: any): { success: b
       return { success: true, message: `SP: ${data.spName} → ${data.resultVar}` }
     }
     case 'ext-mq-send': {
-      return { success: true, message: `MQ发送 → ${data.queueName}` }
+      return { success: true, message: `${i18n('rule.exec.mqSend')} → ${data.queueName}` }
     }
     case 'ext-file-export': {
-      return { success: true, message: `导出${data.exportType}: ${data.fileName || '?'}` }
+      return { success: true, message: `${i18n('rule.exec.export')}${data.exportType}: ${data.fileName || '?'}` }
     }
 
     // === 异常控制 ===
     case 'ctrl-degrade': {
-      return { success: true, message: `降级策略: ${data.degradeCondition}(${data.threshold}ms)` }
+      return { success: true, message: `${i18n('rule.exec.degradeStrategy')}: ${data.degradeCondition}(${data.threshold}ms)` }
     }
     case 'ctrl-rollback': {
       const fields = toStringArray(data.rollbackFields)
       fields.forEach((f: string) => { context[f] = '' })
-      return { success: true, message: `回滚 ${fields.length} 字段` }
+      return { success: true, message: `${i18n('rule.exec.rollback')} ${fields.length} ${i18n('rule.exec.fields')}` }
     }
     case 'ctrl-catch': {
       const types = toStringArray(data.catchTypes)
-      return { success: true, message: `异常捕获: ${types.join(',')}` }
+      return { success: true, message: `${i18n('rule.exec.exceptionCatch')}: ${types.join(',')}` }
     }
     case 'ctrl-terminate': {
-      return { success: false, message: `规则终止[${data.terminateLevel}]: ${data.message}`, terminate: true }
+      return { success: false, message: `${i18n('rule.exec.ruleTerminate')}[${data.terminateLevel}]: ${data.message}`, terminate: true }
     }
     case 'ctrl-delay': {
-      return { success: true, message: `延时 ${data.delayValue}${data.delayUnit}` }
+      return { success: true, message: `${i18n('rule.exec.delay')} ${data.delayValue}${data.delayUnit}` }
     }
 
     // === 权限审计 ===
@@ -783,75 +781,71 @@ const executeGenericNode = (type: string, data: any, context: any): { success: b
         const v = String(context[f] || '')
         context[f] = v.length > 4 ? v.slice(0, 3) + '****' + v.slice(-1) : '****'
       })
-      return { success: true, message: `脱敏 ${fields.length} 字段 (${data.desensitizeType})` }
+      return { success: true, message: `${i18n('rule.exec.desensitize')} ${fields.length} ${i18n('rule.exec.fields')} (${data.desensitizeType})` }
     }
     case 'sec-audit-trail': {
       const fields = toStringArray(data.fields)
-      return { success: true, message: `审计记录: ${data.auditType} (${fields.length}字段)` }
+      return { success: true, message: `${i18n('rule.exec.auditRecord')}: ${data.auditType} (${fields.length}${i18n('rule.exec.fields')})` }
     }
     case 'sec-row-filter': {
-      return { success: true, message: `行权限过滤(${data.filterBy}) → ${data.targetVar}` }
+      return { success: true, message: `${i18n('rule.exec.rowPermissionFilter')}(${data.filterBy}) → ${data.targetVar}` }
     }
 
     // === 子规则 ===
     case 'subrule-call': {
-      // 解析入参映射，构造子上下文
       let subCtx: any = {}
       try {
         if (data.inputMapping) subCtx = typeof data.inputMapping === 'string' ? JSON.parse(data.inputMapping) : data.inputMapping
       } catch { /* ignore */ }
-      // 把映射的变量值从当前上下文取出来
       Object.keys(subCtx).forEach(k => { subCtx[k] = context[subCtx[k]] ?? subCtx[k] })
-      // 模拟子规则执行结果（前端无法真正调用后端规则）
       const mockResult = { success: true, code: data.subRuleCode, data: subCtx }
-      // 按出参映射回填
       let outMap: any = {}
       try {
         if (data.outputMapping) outMap = typeof data.outputMapping === 'string' ? JSON.parse(data.outputMapping) : data.outputMapping
       } catch { /* ignore */ }
       Object.keys(outMap).forEach(k => { context[outMap[k]] = mockResult[k] ?? mockResult.data?.[k] })
-      return { success: true, message: `调用子规则: ${data.subRuleName || data.subRuleCode}（入参${Object.keys(subCtx).length}项→出参${Object.keys(outMap).length}项）` }
+      return { success: true, message: `${i18n('rule.exec.callSubRule')}: ${data.subRuleName || data.subRuleCode}(${i18n('rule.exec.inputParams')}${Object.keys(subCtx).length}${i18n('rule.exec.items')}→${i18n('rule.exec.outputParams')}${Object.keys(outMap).length}${i18n('rule.exec.items')})` }
     }
     case 'subrule-version': {
-      return { success: true, message: `版本切换: ${data.ruleCode} (${data.versionType})` }
+      return { success: true, message: `${i18n('rule.exec.versionSwitch')}: ${data.ruleCode} (${data.versionType})` }
     }
     case 'subrule-gray': {
-      return { success: true, message: `灰度: ${data.grayStrategy} ${data.grayPercent}%` }
+      return { success: true, message: `${i18n('rule.exec.gray')}: ${data.grayStrategy} ${data.grayPercent}%` }
     }
 
     default:
-      return { success: true, message: `执行节点: ${type}` }
+      return { success: true, message: `${i18n('rule.exec.executeNode')}: ${type}` }
   }
 }
 
 const getNodeName = (node: ExecutionNode): string => {
   switch (node.type) {
-    case 'start': return '开始'
-    case 'end': return '结束'
-    case 'condition': return '条件判断'
-    case 'action': return '执行动作'
-    case 'exclusive-gateway': return node.data.name || '排他网关'
-    case 'parallel-gateway': return node.data.name || '并行网关'
-    case 'inclusive-gateway': return node.data.name || '包容网关'
-    case 'variable-assign': return '变量赋值'
-    case 'script': return '执行脚本'
-    case 'http-call': return 'HTTP调用'
-    case 'rule-set-ref': return `规则集: ${node.data.ruleSetName || ''}`
-    case 'loop': return '循环执行'
+    case 'start': return i18n('rule.node.start')
+    case 'end': return i18n('rule.node.end')
+    case 'condition': return i18n('rule.node.condition')
+    case 'action': return i18n('rule.node.action')
+    case 'exclusive-gateway': return node.data.name || i18n('rule.node.exclusiveGateway')
+    case 'parallel-gateway': return node.data.name || i18n('rule.node.parallelGateway')
+    case 'inclusive-gateway': return node.data.name || i18n('rule.node.inclusiveGateway')
+    case 'variable-assign': return i18n('rule.node.variableAssign')
+    case 'script': return i18n('rule.node.script')
+    case 'http-call': return i18n('rule.node.httpCall')
+    case 'rule-set-ref': return `${i18n('rule.node.ruleSetRef')}: ${node.data.ruleSetName || ''}`
+    case 'loop': return i18n('rule.node.loop')
     case 'generic': {
       const labels: Record<string, string> = {
-        'context-extract': '上下文变量提取', 'type-cast': '变量类型转换', 'dataset-load': '批量数据集载入', 'datasource-fetch': '外部数据源拉取',
-        'cond-multibranch': '多分支匹配', 'cond-set-contains': '集合包含/交集', 'cond-dirty-check': '空值/脏数据拦截', 'cond-time-window': '周期时间判断', 'cond-unique': '组合唯一校验', 'cond-threshold': '阈值超限预警',
-        'loop-iterate': '数据集逐行循环', 'loop-aggregate': '聚合统计循环', 'loop-filter': '条件过滤循环', 'loop-break': '循环中断/跳出',
-        'calc-money': '高精度金额运算', 'calc-date': '日期偏移运算', 'calc-string': '字符串处理', 'calc-dict-map': '字典映射转换', 'calc-ratio': '比例分摊运算',
-        'action-assign': '字段赋值', 'action-mark': '数据标记', 'action-filter-output': '数据过滤输出', 'action-split-merge': '拆分合并',
-        'msg-push-todo': '内部流程推送', 'msg-alert': '告警消息', 'msg-log': '日志写入',
-        'ext-http-call': 'HTTP接口调用', 'ext-sp-call': '存储过程调用', 'ext-mq-send': 'MQ消息发送', 'ext-file-export': '文件导出',
-        'ctrl-degrade': '规则降级', 'ctrl-rollback': '事务回滚', 'ctrl-catch': '多级异常捕获', 'ctrl-terminate': '规则终止', 'ctrl-delay': '延时执行',
-        'sec-desensitize': '敏感数据脱敏', 'sec-audit-trail': '操作留痕', 'sec-row-filter': '数据行权限过滤',
-        'subrule-call': '子规则调用', 'subrule-version': '规则版本切换', 'subrule-gray': '规则灰度',
+        'context-extract': i18n('rule.node.contextExtract'), 'type-cast': i18n('rule.node.typeCast'), 'dataset-load': i18n('rule.node.datasetLoad'), 'datasource-fetch': i18n('rule.node.datasourceFetch'),
+        'cond-multibranch': i18n('rule.node.multiBranch'), 'cond-set-contains': i18n('rule.node.setContains'), 'cond-dirty-check': i18n('rule.node.dirtyCheck'), 'cond-time-window': i18n('rule.node.timeWindow'), 'cond-unique': i18n('rule.node.uniqueCheck'), 'cond-threshold': i18n('rule.node.threshold'),
+        'loop-iterate': i18n('rule.node.loopIterate'), 'loop-aggregate': i18n('rule.node.loopAggregate'), 'loop-filter': i18n('rule.node.loopFilter'), 'loop-break': i18n('rule.node.loopBreak'),
+        'calc-money': i18n('rule.node.calcMoney'), 'calc-date': i18n('rule.node.calcDate'), 'calc-string': i18n('rule.node.calcString'), 'calc-dict-map': i18n('rule.node.calcDictMap'), 'calc-ratio': i18n('rule.node.calcRatio'),
+        'action-assign': i18n('rule.node.actionAssign'), 'action-mark': i18n('rule.node.actionMark'), 'action-filter-output': i18n('rule.node.actionFilterOutput'), 'action-split-merge': i18n('rule.node.actionSplitMerge'),
+        'msg-push-todo': i18n('rule.node.msgPushTodo'), 'msg-alert': i18n('rule.node.msgAlert'), 'msg-log': i18n('rule.node.msgLog'),
+        'ext-http-call': i18n('rule.node.extHttpCall'), 'ext-sp-call': i18n('rule.node.extSpCall'), 'ext-mq-send': i18n('rule.node.extMqSend'), 'ext-file-export': i18n('rule.node.extFileExport'),
+        'ctrl-degrade': i18n('rule.node.ctrlDegrade'), 'ctrl-rollback': i18n('rule.node.ctrlRollback'), 'ctrl-catch': i18n('rule.node.ctrlCatch'), 'ctrl-terminate': i18n('rule.node.ctrlTerminate'), 'ctrl-delay': i18n('rule.node.ctrlDelay'),
+        'sec-desensitize': i18n('rule.node.secDesensitize'), 'sec-audit-trail': i18n('rule.node.secAuditTrail'), 'sec-row-filter': i18n('rule.node.secRowFilter'),
+        'subrule-call': i18n('rule.node.subruleCall'), 'subrule-version': i18n('rule.node.subruleVersion'), 'subrule-gray': i18n('rule.node.subruleGray'),
       }
-      return labels[node.data?.__nodeType] || node.data?.__nodeType || '通用节点'
+      return labels[node.data?.__nodeType] || node.data?.__nodeType || i18n('rule.node.genericNode')
     }
     default: return node.type
   }

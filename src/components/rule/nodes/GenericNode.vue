@@ -4,13 +4,13 @@
     <div class="node-card" :style="{ borderLeftColor: categoryColor }">
       <div class="node-header" :style="{ background: categoryColor + '12' }">
         <span class="node-icon" :style="{ color: categoryColor }">{{ nodeDef?.icon || '⬡' }}</span>
-        <span class="node-title">{{ nodeDef?.label || data.__nodeType || '未节点' }}</span>
+        <span class="node-title">{{ nodeDef?.label || data.__nodeType || i18n('rule.node.unknown') }}</span>
         <span class="node-cat" :style="{ color: categoryColor }">{{ categoryName }}</span>
       </div>
       <div class="node-content">
         <!-- 动态显示关键配置摘要 -->
         <div v-if="summary" class="node-summary">{{ summary }}</div>
-        <div v-else class="node-empty">双击编辑配置</div>
+        <div v-else class="node-empty">{{ i18n('rule.node.doubleClickEdit') }}</div>
       </div>
     </div>
     <Handle type="source" :position="Position.Bottom" class="node-handle" />
@@ -21,6 +21,7 @@
 import { computed } from 'vue'
 import { Handle, Position } from '@vue-flow/core'
 import { NODE_TYPE_MAP, NODE_CATEGORIES, getCategoryColor } from '../nodeTypes'
+import { i18n } from '@/lang'
 
 const props = defineProps<{
   id: string
@@ -50,13 +51,13 @@ const summary = computed(() => {
   switch (actualType.value) {
     // 数据入参
     case 'context-extract': return `${d.source} → ${d.targetVar || '?'} (${d.fieldPath || '-'})`
-    case 'type-cast': return `${d.sourceVar} → ${d.targetType}${d.precision ? ` (${d.precision}位)` : ''}`
+    case 'type-cast': return `${d.sourceVar} → ${d.targetType}${d.precision ? ` (${d.precision}${i18n('rule.lbl.precisionUnit')})` : ''}`
     case 'dataset-load': return `${d.source} → ${d.targetVar || '?'}`
     case 'datasource-fetch': return `${d.method} ${d.apiUrl || '?'} → ${d.targetVar || '?'}`
     // 条件判断
-    case 'cond-multibranch': return `${d.matchField || '?'} (${d.matchType}) → ${d.branches?.length || 0}分支`
+    case 'cond-multibranch': return `${d.matchField || '?'} (${d.matchType}) → ${d.branches?.length || 0}${i18n('rule.lbl.branchCount')}`
     case 'cond-set-contains': return `${d.sourceSet} ${d.checkType} ${d.targetSet}`
-    case 'cond-dirty-check': return `${d.fields?.length || 0}字段 (${d.checkRules?.join(',') || '-'})`
+    case 'cond-dirty-check': return `${d.fields?.length || 0}${i18n('rule.lbl.fieldCount')} (${d.checkRules?.join(',') || '-'})`
     case 'cond-time-window': return `${d.dateField} ${d.windowType}`
     case 'cond-unique': return `${d.fields?.join('+') || '?'} (${d.scope})`
     case 'cond-threshold': return `${d.field} ${d.alertLevel}`
@@ -64,22 +65,22 @@ const summary = computed(() => {
     case 'loop-iterate': return `${d.collectionVar} → ${d.itemVar}[${d.indexVar}]`
     case 'loop-aggregate': return `${d.aggType}(${d.aggField}) → ${d.targetVar}`
     case 'loop-filter': return `${d.collectionVar} → ${d.targetVar}`
-    case 'loop-break': return d.breakCondition || '满足条件时中断'
+    case 'loop-break': return d.breakCondition || i18n('rule.msg.breakOnCondition')
     // 运算
-    case 'calc-money': return `${d.operator} → ${d.targetVar} (${d.precision}位,${d.roundMode})`
+    case 'calc-money': return `${d.operator} → ${d.targetVar} (${d.precision}${i18n('rule.lbl.precisionUnit')},${d.roundMode})`
     case 'calc-date': return `${d.baseDate} +${d.offset}${d.offsetUnit} → ${d.targetVar}`
     case 'calc-string': return `${d.operation} → ${d.targetVar}`
     case 'calc-dict-map': return `${d.sourceVar} [${d.dictCode}] → ${d.targetVar}`
     case 'calc-ratio': return `${d.totalAmount} × ${d.ratioField} → ${d.targetVar}`
     // 动作
-    case 'action-assign': return `${d.assignments?.length || 0}项赋值`
+    case 'action-assign': return `${d.assignments?.length || 0}${i18n('rule.lbl.itemAssignCount')}`
     case 'action-mark': return `${d.targetField} → ${d.markType}:${d.markValue}`
     case 'action-filter-output': return `${d.sourceVar} → ${d.targetVar}`
     case 'action-split-merge': return `${d.operation} ${d.sourceVar} → ${d.targetVar}`
     // 消息
     case 'msg-push-todo': return `${d.pushType} → ${d.targetUsers || '?'}`
     case 'msg-alert': return `${d.channels?.join(',') || '?'} [${d.alertLevel}]`
-    case 'msg-log': return `${d.logType} → ${d.fields?.length || 0}字段`
+    case 'msg-log': return `${d.logType} → ${d.fields?.length || 0}${i18n('rule.lbl.fieldCount')}`
     // 外部集成
     case 'ext-http-call': return `${d.method} ${d.url || '?'} → ${d.responseVar}`
     case 'ext-sp-call': return `SP: ${d.spName} → ${d.resultVar}`
@@ -87,24 +88,24 @@ const summary = computed(() => {
     case 'ext-file-export': return `${d.exportType} → ${d.fileName || '?'}`
     // 异常控制
     case 'ctrl-degrade': return `${d.degradeCondition}(${d.threshold}ms)`
-    case 'ctrl-rollback': return `${d.rollbackScope} (${d.rollbackFields?.length || 0}字段)`
+    case 'ctrl-rollback': return `${d.rollbackScope} (${d.rollbackFields?.length || 0}${i18n('rule.lbl.fieldCount')})`
     case 'ctrl-catch': return `${d.catchTypes?.join(',') || '?'}`
     case 'ctrl-terminate': return `${d.terminateLevel}: ${d.message || ''}`
     case 'ctrl-delay': return `${d.delayValue}${d.delayUnit}`
     // 权限审计
-    case 'sec-desensitize': return `${d.fields?.length || 0}字段 (${d.desensitizeType})`
-    case 'sec-audit-trail': return `${d.auditType} (${d.fields?.length || 0}字段)`
+    case 'sec-desensitize': return `${d.fields?.length || 0}${i18n('rule.lbl.fieldCount')} (${d.desensitizeType})`
+    case 'sec-audit-trail': return `${d.auditType} (${d.fields?.length || 0}${i18n('rule.lbl.fieldCount')})`
     case 'sec-row-filter': return `${d.filterBy} → ${d.targetVar}`
     // 子规则
     case 'subrule-call': return `${d.subRuleName || d.subRuleCode || '?'}`
     case 'subrule-version': return `${d.ruleCode} (${d.versionType})`
     case 'subrule-gray': return `${d.grayStrategy} ${d.grayPercent}%`
     // 基础节点
-    case 'start': return '流程开始'
-    case 'end': return '流程结束'
-    case 'condition': return `${d.conditions?.length || 0}个条件 (${d.logic})`
-    case 'action': return `${d.actions?.length || 0}个动作`
-    case 'variable-assign': return `${d.assignments?.length || 0}项赋值`
+    case 'start': return i18n('rule.exec.flowStart')
+    case 'end': return i18n('rule.exec.flowEnd')
+    case 'condition': return `${d.conditions?.length || 0}${i18n('rule.lbl.conditionCount')} (${d.logic})`
+    case 'action': return `${d.actions?.length || 0}${i18n('rule.lbl.actionCount')}`
+    case 'variable-assign': return `${d.assignments?.length || 0}${i18n('rule.lbl.itemAssignCount')}`
     default: return ''
   }
 })
