@@ -26,7 +26,7 @@
           <template #title>
             <div class="category-title">
               <span class="cat-icon" :style="{ background: cat.color + '20', color: cat.color }">{{ cat.icon }}</span>
-              <span class="cat-name">{{ i18n(cat.nameKey) }}</span>
+              <span class="cat-name">{{ i18n(cat.name) }}</span>
               <el-tag type="info" round>{{ cat.nodes.length }}</el-tag>
             </div>
           </template>
@@ -44,8 +44,8 @@
                 {{ node.icon }}
               </div>
               <div class="node-info">
-                <div class="node-label">{{ i18n(node.labelKey) }}</div>
-                <div class="node-desc">{{ i18n(node.descKey) }}</div>
+                <div class="node-label">{{ i18n(node.label) }}</div>
+                <div class="node-desc">{{ i18n(node.desc) }}</div>
               </div>
               <el-icon class="drag-handle">
                 <Plus />
@@ -73,8 +73,8 @@ const filteredCategories = computed(() => {
   return NODE_CATEGORIES.map(cat => ({
     ...cat,
     nodes: cat.nodes.filter(n => {
-      const label = i18n(n.labelKey).toLowerCase();
-      const desc = i18n(n.descKey).toLowerCase();
+      const label = i18n(n.label).toLowerCase();
+      const desc = i18n(n.desc).toLowerCase();
       return label.includes(kw) || desc.includes(kw) || n.type.includes(kw);
     })
   })).filter(cat => cat.nodes.length > 0);

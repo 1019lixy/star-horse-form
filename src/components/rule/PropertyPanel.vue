@@ -13,9 +13,9 @@
       <div class="prop-section node-info-section">
         <div class="node-type-badge" :style="{ background: categoryColor + '15', borderColor: categoryColor, color: categoryColor }">
           <span class="badge-icon">{{ nodeDef?.icon || '⬡' }}</span>
-          <span class="badge-label">{{ nodeDef?.label ? i18n(nodeDef.labelKey) : selectedNode.type }}</span>
+          <span class="badge-label">{{ nodeDef?.label ? i18n(nodeDef.label) : selectedNode.type }}</span>
         </div>
-        <p class="node-desc">{{ nodeDef?.desc ? i18n(nodeDef.descKey) : '' }}</p>
+        <p class="node-desc">{{ nodeDef?.desc ? i18n(nodeDef.desc) : '' }}</p>
       </div>
 
       <!-- 通用：基本信息 -->
@@ -26,7 +26,7 @@
             <el-input :model-value="selectedNode.id" disabled  />
           </el-form-item>
           <el-form-item :label="i18n('rule.panel.nodeType')">
-            <el-tag  :style="{ background: categoryColor + '15', borderColor: categoryColor, color: categoryColor }">{{ nodeDef?.label ? i18n(nodeDef.labelKey) : selectedNode.type }}</el-tag>
+            <el-tag  :style="{ background: categoryColor + '15', borderColor: categoryColor, color: categoryColor }">{{ nodeDef?.label ? i18n(nodeDef.label) : selectedNode.type }}</el-tag>
           </el-form-item>
         </el-form>
       </div>
@@ -121,19 +121,19 @@
       <!-- 通用企业级节点（generic类型）：基于paramSchema动态渲染 -->
       <template v-if="isGenericNode && paramSchema.length > 0">
         <div v-for="group in groupedSchema" :key="group.name" class="prop-section">
-          <div class="section-title">{{ i18n(group.nameKey) }}</div>
+          <div class="section-title">{{ i18n(group.name) }}</div>
           <el-form label-width="90px" labelPosition="top">
             <el-form-item
               v-for="field in group.fields"
               :key="field.name"
-              :label="i18n(field.labelKey)"
+              :label="i18n(field.label)"
               :required="field.required"
             >
               <!-- input -->
               <el-input
                 v-if="field.type === 'input'"
                 v-model="selectedNode.data[field.name]"
-                :placeholder="field.placeholder ? i18n(field.placeholderKey) : ''"
+                :placeholder="field.placeholder ? i18n(field.placeholder) : ''"
                 @input="emit('update', selectedNode.id, { [field.name]: selectedNode.data[field.name] })"
               />
               <!-- number -->
@@ -154,7 +154,7 @@
                 style="width: 100%"
                 @change="emit('update', selectedNode.id, { [field.name]: selectedNode.data[field.name] })"
               >
-                <el-option v-for="opt in field.options" :key="opt.value" :label="i18n(opt.labelKey)" :value="opt.value" />
+                <el-option v-for="opt in field.options" :key="opt.value" :label="typeof opt.label === 'function' ? opt.label() : i18n(opt.label)" :value="opt.value" />
               </el-select>
               <!-- multiselect -->
               <el-select
@@ -164,7 +164,7 @@
                 style="width: 100%;z-index:999 !important;"
                 @change="emit('update', selectedNode.id, { [field.name]: selectedNode.data[field.name] })"
               >
-                <el-option v-for="opt in field.options" :key="opt.value" :label="i18n(opt.labelKey)" :value="opt.value" />
+                <el-option v-for="opt in field.options" :key="opt.value" :label="typeof opt.label === 'function' ? opt.label() : i18n(opt.label)" :value="opt.value" />
               </el-select>
               <!-- textarea -->
               <el-input
@@ -172,7 +172,7 @@
                 v-model="selectedNode.data[field.name]"
                 type="textarea"
                 :rows="field.rows || 2"
-                :placeholder="field.placeholder ? i18n(field.placeholderKey) : ''"
+                :placeholder="field.placeholder ? i18n(field.placeholder) : ''"
                 @input="emit('update', selectedNode.id, { [field.name]: selectedNode.data[field.name] })"
               />
               <!-- date -->
@@ -180,7 +180,7 @@
                 v-else-if="field.type === 'date'"
                 v-model="selectedNode.data[field.name]"
                 type="datetime"
-                :placeholder="field.placeholder ? i18n(field.placeholderKey) : i18n('rule.panel.selectDate')"
+                :placeholder="field.placeholder ? i18n(field.placeholder) : i18n('rule.panel.selectDate')"
                 value-format="YYYY-MM-DD HH:mm:ss"
                 style="width: 100%"
                 @change="emit('update', selectedNode.id, { [field.name]: selectedNode.data[field.name] })"
@@ -196,10 +196,10 @@
               <!-- table（可编辑表格） -->
               <div v-else-if="field.type === 'table'" class="schema-table">
                 <el-table :data="getTableData(field.name)" border  style="width: 100%">
-                  <el-table-column v-for="col in field.columns" :key="col.prop" :label="i18n(col.labelKey)" :width="col.width">
+                  <el-table-column v-for="col in field.columns" :key="col.prop" :label="i18n(col.label)" :width="col.width">
                     <template #default="{ row }">
                       <el-select v-if="col.type === 'select'" v-model="row[col.prop]"  style="width: 100%">
-                        <el-option v-for="opt in col.options" :key="opt.value" :label="i18n(opt.labelKey)" :value="opt.value" />
+                        <el-option v-for="opt in col.options" :key="opt.value" :label="typeof opt.label === 'function' ? opt.label() : i18n(opt.label)" :value="opt.value" />
                       </el-select>
                       <el-input v-else v-model="row[col.prop]"  />
                     </template>
