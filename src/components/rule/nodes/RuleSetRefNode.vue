@@ -52,94 +52,97 @@ defineEmits<{
 </script>
 
 <style scoped lang="scss">
+@import '../styles/design-tokens.scss';
+
 .rule-set-ref-node {
   .node-card {
-    min-width: 260px;
-    max-width: 360px;
-    background: #fff;
-    border: 2px solid #a855f7;
-    border-radius: 10px;
-    box-shadow: 0 4px 12px rgba(168, 85, 247, 0.15);
+    min-width: $rd-node-min-width;
+    max-width: $rd-node-max-width;
+    background: $rd-bg-surface;
+    border: 1px solid $rd-border;
+    border-radius: $rd-radius-lg;
+    box-shadow: $rd-shadow-xs;
     overflow: hidden;
-    transition: all 0.3s ease;
+    transition: box-shadow $rd-transition-base, border-color $rd-transition-base;
 
     &:hover {
-      box-shadow: 0 8px 24px rgba(168, 85, 247, 0.25);
-      transform: translateY(-1px);
+      border-color: $rd-primary-border;
+      box-shadow: $rd-shadow-sm;
     }
   }
 
   .node-header {
     display: flex;
     align-items: center;
-    gap: 8px;
-    padding: 10px 14px;
-    background: linear-gradient(135deg, #a855f7 0%, #9333ea 100%);
-    color: #fff;
+    gap: $rd-space-2;
+    padding: $rd-space-3 $rd-space-4;
+    background: rgba(79, 70, 229, 0.08);
+    color: $rd-node-join;
+    border-bottom: 1px solid $rd-divider;
 
     .header-icon {
-      width: 18px;
-      height: 18px;
+      width: 16px;
+      height: 16px;
     }
 
     .header-title {
       flex: 1;
-      font-size: 13px;
-      font-weight: 600;
+      font-size: $rd-font-base;
+      font-weight: $rd-font-weight-semibold;
     }
 
     .header-btn {
-      color: rgba(255, 255, 255, 0.9);
-      font-size: 16px;
+      color: $rd-node-join;
+      font-size: $rd-font-md;
 
       &:hover {
-        color: #fff;
+        opacity: 0.8;
       }
     }
   }
 
   .node-body {
-    padding: 12px 14px;
+    padding: $rd-space-3 $rd-space-4;
     min-height: 40px;
 
     .empty-tip {
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 6px;
-      padding: 10px 0;
-      color: #94a3b8;
-      font-size: 12px;
+      gap: $rd-space-2;
+      padding: $rd-space-3 0;
+      color: $rd-text-tertiary;
+      font-size: $rd-font-sm;
 
       .empty-icon {
-        font-size: 14px;
+        font-size: $rd-font-md;
       }
     }
 
     .ref-content {
       display: flex;
       flex-direction: column;
-      gap: 4px;
-      padding: 6px 10px;
-      background: #faf5ff;
-      border-radius: 6px;
-      border: 1px solid #e9d5ff;
+      gap: $rd-space-1;
+      padding: $rd-space-2 $rd-space-3;
+      background: $rd-bg-subtle;
+      border-radius: $rd-radius-md;
+      border: 1px solid $rd-divider;
 
       .ref-name {
         display: flex;
         align-items: center;
-        gap: 6px;
+        gap: $rd-space-2;
 
         .ref-icon {
-          font-size: 14px;
-          color: #a855f7;
+          font-size: $rd-font-md;
+          color: $rd-node-join;
           flex-shrink: 0;
         }
 
         .ref-text {
-          font-size: 13px;
-          font-weight: 600;
-          color: #6b21a8;
+          font-size: $rd-font-base;
+          font-weight: $rd-font-weight-semibold;
+          color: $rd-text-primary;
           overflow: hidden;
           text-overflow: ellipsis;
           white-space: nowrap;
@@ -147,8 +150,8 @@ defineEmits<{
       }
 
       .ref-code {
-        font-size: 11px;
-        color: #7c3aed;
+        font-size: $rd-font-xs;
+        color: $rd-text-secondary;
         font-family: 'Consolas', 'Monaco', monospace;
         overflow: hidden;
         text-overflow: ellipsis;

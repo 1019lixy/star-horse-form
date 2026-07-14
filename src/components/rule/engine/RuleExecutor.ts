@@ -138,6 +138,64 @@ const evaluateConditions = (conditions: any[], logic: string, context: any): { p
 }
 
 /**
+ * 表达式求值（设计器模拟用）
+ * 支持 ${var} 占位符插值，以及算术/逻辑表达式（基于上下文变量）
+ */
+const evaluateExpression = (expr: string, context: any): any => {
+  if (!expr) return ''
+  // 1. 替换 ${var} 占位符
+  let resolved = expr.replace(/\$\{([^}]+)\}/g, (_, k) => {
+    const v = resolveContextPath(context, k.trim())
+    return v === undefined || v === null ? '' : String(v)
+  })
+  // 2. 仅当表达式只含安全字符时尝试求值
+  if (/^[\w\s+\-*/%().,:'"<>=!&|?]+$/.test(resolved)) {
+    try {
+      const keys = Object.keys(context).filter(k => /^[$A-Z_a-z][$\w]*$/.test(k))
+      const vals = keys.map(k => context[k])
+      // 注入内置函数
+      const fnScope = {
+        SUM: (...a: number[]) => a.reduce((s, x) => s + Number(x || 0), 0),
+        AVG: (...a: number[]) => a.length ? a.reduce((s, x) => s + Number(x || 0), 0) / a.length : 0,
+        MIN: (...a: number[]) => Math.min(...a.map(x => Number(x))),
+        MAX: (...a: number[]) => Math.max(...a.map(x => Number(x))),
+        ROUND: (x: number, n = 0) => Number((Number(x)).toFixed(n)),
+        ABS: (x: number) => Math.abs(Number(x)),
+        LEN: (s: string) => String(s ?? '').length,
+        CONCAT: (...a: any[]) => a.map(x => String(x ?? '')).join(''),
+        UPPER: (s: string) => String(s ?? '').toUpperCase(),
+        LOWER: (s: string) => String(s ?? '').toLowerCase(),
+        NOW: () => new Date().toISOString(),
+        IF: (c: any, a: any, b: any) => (c ? a : b),
+        IS_EMPTY: (x: any) => (x === undefined || x === null || x === '')
+      }
+      const scopeKeys = Object.keys(fnScope)
+      const scopeVals = scopeKeys.map(k => (fnScope as any)[k])
+      const allKeys = [...scopeKeys, ...keys]
+      const allVals = [...scopeVals, ...vals]
+      const fn = new Function(...allKeys, `"use strict"; return (${resolved});`)
+      return fn(...allVals)
+    } catch {
+      // 求值失败，回退为插值后的字符串
+    }
+  }
+  return resolved
+}
+
+/**
+ * 解析上下文路径（支持 a.b.c 取值）
+ */
+const resolveContextPath = (context: any, path: string): any => {
+  const segs = path.split('.')
+  let cur = context
+  for (const s of segs) {
+    if (cur == null) return undefined
+    cur = cur[s]
+  }
+  return cur
+}
+
+/**
  * 执行动作（模拟）
  */
 const executeAction = (action: any, context: any): { success: boolean; message: string } => {
@@ -148,9 +206,16 @@ const executeAction = (action: any, context: any): { success: boolean; message: 
     case 'HIDE_FIELD':
       context[`__visible_${action.targetField}`] = false
       return { success: true, message: `${i18n('rule.exec.hideField')}: ${action.targetField}` }
-    case 'SET_VALUE':
-      context[action.targetField] = action.actionValue || action.value
-      return { success: true, message: `${i18n('rule.exec.setValue')} ${action.targetField} = ${action.actionValue || action.value}` }
+    case 'SET_VALUE': {
+      let value = action.actionValue || action.value
+      if (action.actionValueType === 'EXPRESSION') {
+        value = evaluateExpression(String(action.actionValue || ''), context)
+      } else if (action.actionValueType === 'VARIABLE') {
+        value = resolveContextPath(context, String(action.actionValue || ''))
+      }
+      context[action.targetField] = value
+      return { success: true, message: `${i18n('rule.exec.setValue')} ${action.targetField} = ${value}` }
+    }
     case 'CLEAR_VALUE':
       context[action.targetField] = ''
       return { success: true, message: `${i18n('rule.exec.clearField')}: ${action.targetField}` }
@@ -189,7 +254,9 @@ const executeVariableAssign = (assignments: any[], context: any): { success: boo
   for (const assign of assignments) {
     let value = assign.value
     if (assign.valueType === 'VARIABLE') {
-      value = context[assign.value]
+      value = resolveContextPath(context, String(assign.value))
+    } else if (assign.valueType === 'EXPRESSION') {
+      value = evaluateExpression(String(assign.value), context)
     }
     context[assign.variableName] = value
     messages.push(`${assign.variableName} = ${value}`)

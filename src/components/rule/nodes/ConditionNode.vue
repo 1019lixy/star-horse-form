@@ -90,30 +90,33 @@ const getOperatorSymbol = (op: string) => {
 </script>
 
 <style scoped lang="scss">
+@import '../styles/design-tokens.scss';
+
 .condition-node {
   .node-card {
-    min-width: 260px;
-    max-width: 360px;
-    background: #fff;
-    border: 2px solid #3b82f6;
-    border-radius: 10px;
-    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.15);
+    min-width: $rd-node-min-width;
+    max-width: $rd-node-max-width;
+    background: $rd-bg-surface;
+    border: 1px solid $rd-border;
+    border-radius: $rd-radius-lg;
+    box-shadow: $rd-shadow-xs;
     overflow: hidden;
-    transition: all 0.3s ease;
+    transition: box-shadow $rd-transition-base, border-color $rd-transition-base;
 
     &:hover {
-      box-shadow: 0 8px 24px rgba(59, 130, 246, 0.25);
-      transform: translateY(-1px);
+      border-color: $rd-primary-border;
+      box-shadow: $rd-shadow-sm;
     }
   }
 
   .node-header {
     display: flex;
     align-items: center;
-    gap: 8px;
-    padding: 10px 14px;
-    background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
-    color: #fff;
+    gap: $rd-space-2;
+    padding: $rd-space-2 $rd-space-4;
+    background: rgba(37, 99, 235, 0.08);
+    color: $rd-node-condition;
+    border-bottom: 1px solid $rd-divider;
 
     .header-icon {
       width: 18px;
@@ -122,62 +125,63 @@ const getOperatorSymbol = (op: string) => {
 
     .header-title {
       flex: 1;
-      font-size: 13px;
-      font-weight: 600;
+      font-size: $rd-font-base;
+      font-weight: $rd-font-weight-semibold;
     }
 
     .logic-tag {
-      font-size: 11px;
-      font-weight: 700;
+      font-size: $rd-font-xs;
+      font-weight: $rd-font-weight-semibold;
     }
 
     .header-btn {
-      color: rgba(255, 255, 255, 0.9);
-      font-size: 16px;
+      color: $rd-node-condition;
+      font-size: $rd-font-lg;
 
       &:hover {
-        color: #fff;
+        color: $rd-node-condition;
+        opacity: 0.8;
       }
     }
   }
 
   .node-body {
-    padding: 12px 14px;
+    padding: $rd-space-3 $rd-space-4;
     min-height: 40px;
 
     .empty-tip {
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 6px;
-      padding: 10px 0;
-      color: #94a3b8;
-      font-size: 12px;
+      gap: $rd-space-2;
+      padding: $rd-space-3 0;
+      color: $rd-text-tertiary;
+      font-size: $rd-font-sm;
 
       .empty-icon {
-        font-size: 14px;
+        font-size: $rd-font-md;
       }
     }
 
     .condition-list {
       display: flex;
       flex-direction: column;
-      gap: 6px;
+      gap: $rd-space-2;
 
       .condition-item {
         position: relative;
         display: flex;
         align-items: center;
-        gap: 8px;
-        padding: 6px 10px;
-        background: #eff6ff;
-        border-radius: 6px;
-        border: 1px solid #bfdbfe;
-        transition: all 0.2s;
+        gap: $rd-space-2;
+        padding: $rd-space-2 $rd-space-3;
+        background: rgba(37, 99, 235, 0.05);
+        border-radius: $rd-radius-md;
+        border: 1px solid rgba(37, 99, 235, 0.12);
+        transition: background $rd-transition-fast, border-color $rd-transition-fast;
 
         &:hover {
-          border-color: #3b82f6;
-          background: #dbeafe;
+          border-color: rgba(37, 99, 235, 0.24);
+          background: rgba(37, 99, 235, 0.09);
         }
 
         .logic-badge {
@@ -185,12 +189,12 @@ const getOperatorSymbol = (op: string) => {
           top: -10px;
           left: 50%;
           transform: translateX(-50%);
-          padding: 1px 8px;
-          background: #3b82f6;
-          color: #fff;
-          font-size: 10px;
-          font-weight: 700;
-          border-radius: 8px;
+          padding: 1px $rd-space-2;
+          background: $rd-node-condition;
+          color: $rd-text-inverse;
+          font-size: $rd-font-xs;
+          font-weight: $rd-font-weight-semibold;
+          border-radius: $rd-radius-pill;
           line-height: 16px;
         }
 
@@ -198,25 +202,25 @@ const getOperatorSymbol = (op: string) => {
           flex: 1;
           display: flex;
           align-items: center;
-          gap: 6px;
-          font-size: 12px;
+          gap: $rd-space-2;
+          font-size: $rd-font-sm;
           min-width: 0;
 
           .cond-field {
-            color: #1e40af;
-            font-weight: 600;
+            color: $rd-node-condition;
+            font-weight: $rd-font-weight-semibold;
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap;
           }
 
           .cond-operator {
-            color: #64748b;
+            color: $rd-text-tertiary;
             flex-shrink: 0;
           }
 
           .cond-value {
-            color: #334155;
+            color: $rd-text-secondary;
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap;
@@ -225,7 +229,7 @@ const getOperatorSymbol = (op: string) => {
 
         .cond-actions {
           display: flex;
-          gap: 2px;
+          gap: $rd-space-1;
           flex-shrink: 0;
         }
       }

@@ -2,7 +2,7 @@
   <div class="generic-node" :class="{ highlighted: data.__highlighted, dimmed: data.__dimmed }">
     <Handle type="target" :position="Position.Top" class="node-handle" />
     <div class="node-card" :style="{ borderLeftColor: categoryColor }">
-      <div class="node-header" :style="{ background: categoryColor + '12' }">
+      <div class="node-header">
         <span class="node-icon" :style="{ color: categoryColor }">{{ nodeDef?.icon || '⬡' }}</span>
         <span class="node-title">{{ nodeDef?.label || data.__nodeType || i18n('rule.node.unknown') }}</span>
         <span class="node-cat" :style="{ color: categoryColor }">{{ categoryName }}</span>
@@ -112,45 +112,111 @@ const summary = computed(() => {
 </script>
 
 <style scoped lang="scss">
+@import '../styles/design-tokens.scss';
+
 .generic-node {
   .node-card {
-    width: 240px; background: #fff; border: 1px solid #e2e8f0;
-    border-left: 3px solid #64748b; border-radius: 8px; overflow: hidden;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.06); transition: box-shadow 0.2s;
-    &:hover { box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+    min-width: $rd-node-min-width;
+    max-width: $rd-node-max-width;
+    background: $rd-bg-surface;
+    border: 1px solid $rd-border;
+    border-left: 3px solid $rd-text-secondary;
+    border-radius: $rd-radius-lg;
+    box-shadow: $rd-shadow-xs;
+    overflow: hidden;
+    transition: box-shadow $rd-transition-base, border-color $rd-transition-base;
+
+    &:hover {
+      border-color: $rd-primary-border;
+      box-shadow: $rd-shadow-sm;
+    }
   }
 
   .node-header {
-    display: flex; align-items: center; gap: 6px;
-    padding: 6px 10px; border-bottom: 1px solid #f1f5f9;
-    .node-icon { font-size: 14px; }
-    .node-title { flex: 1; font-size: 12px; font-weight: 600; color: #1e293b; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-    .node-cat { font-size: 9px; font-weight: 500; }
+    display: flex;
+    align-items: center;
+    gap: $rd-space-2;
+    padding: $rd-space-2 $rd-space-3;
+    background: $rd-bg-surface;
+    border-bottom: 1px solid $rd-divider;
+
+    .node-icon {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 20px;
+      height: 20px;
+      padding: 0 $rd-space-1;
+      background: $rd-bg-subtle;
+      border: 1px solid $rd-divider;
+      border-radius: $rd-radius-sm;
+      font-size: $rd-font-md;
+    }
+
+    .node-title {
+      flex: 1;
+      font-size: $rd-font-sm;
+      font-weight: $rd-font-weight-semibold;
+      color: $rd-text-secondary;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .node-cat {
+      font-size: $rd-font-xs;
+      font-weight: $rd-font-weight-medium;
+    }
   }
 
   .node-content {
-    padding: 6px 10px; min-height: 28px;
+    padding: $rd-space-2 $rd-space-3;
+    min-height: 28px;
+
     .node-summary {
-      font-size: 11px; color: #475569; font-family: 'JetBrains Mono', monospace;
-      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+      font-size: $rd-font-xs;
+      color: $rd-text-secondary;
+      font-family: 'JetBrains Mono', monospace;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
-    .node-empty { font-size: 11px; color: #cbd5e1; font-style: italic; }
+
+    .node-empty {
+      font-size: $rd-font-xs;
+      color: $rd-text-tertiary;
+      font-style: italic;
+    }
   }
 
   .node-handle {
-    width: 10px; height: 10px; background: #6366f1; border: 2px solid #fff;
-    &:hover { background: #4f46e5; }
+    width: 10px;
+    height: 10px;
+    background: $rd-primary;
+    border: 2px solid $rd-bg-surface;
+
+    &:hover {
+      background: $rd-primary-hover;
+    }
   }
 
   &.highlighted .node-card {
-    box-shadow: 0 0 0 3px #10b981, 0 0 20px rgba(16,185,129,0.4);
+    border-color: $rd-success;
+    box-shadow: 0 0 0 2px $rd-success;
     animation: node-pulse 1.5s ease-in-out infinite;
   }
-  &.dimmed { opacity: 0.3; }
+
+  &.dimmed {
+    opacity: 0.3;
+  }
 }
 
 @keyframes node-pulse {
-  0%, 100% { box-shadow: 0 0 0 3px #10b981, 0 0 20px rgba(16,185,129,0.4); }
-  50% { box-shadow: 0 0 0 5px #10b981, 0 0 30px rgba(16,185,129,0.7); }
+  0%, 100% {
+    box-shadow: 0 0 0 2px $rd-success;
+  }
+  50% {
+    box-shadow: 0 0 0 3px $rd-success;
+  }
 }
 </style>

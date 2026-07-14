@@ -24,19 +24,38 @@
         <el-radio-group v-model="formData.actionValueType">
           <el-radio-button value="CONSTANT">{{ i18n('rule.dialog.constant') }}</el-radio-button>
           <el-radio-button value="VARIABLE">{{ i18n('rule.dialog.variable') }}</el-radio-button>
+          <el-radio-button value="EXPRESSION">{{ i18n('rule.dialog.expression') }}</el-radio-button>
         </el-radio-group>
       </el-form-item>
 
       <el-form-item :label="i18n('rule.lbl.actionValue')" v-if="needsValue" prop="actionValue">
-        <el-input
-          v-if="formData.actionValueType === 'CONSTANT'"
+        <el-select
+          v-if="formData.actionValueType === 'VARIABLE'"
           v-model="formData.actionValue"
+          filterable
+          allow-create
+          default-first-option
+          :placeholder="i18n('rule.var.selectField')"
+          style="width: 100%;z-index:999 !important;"
+        >
+          <el-option
+            v-for="v in variables"
+            :key="v.field"
+            :label="`${v.label || v.field} (${v.field})`"
+            :value="v.field"
+          />
+        </el-select>
+        <ExpressionEditor
+          v-else-if="formData.actionValueType === 'EXPRESSION'"
+          v-model="formData.actionValue"
+          :variables="variables"
+          :rows="2"
           :placeholder="i18n('rule.ph.enterValue')"
         />
         <el-input
           v-else
           v-model="formData.actionValue"
-          :placeholder="i18n('rule.ph.variableFieldNameExample')"
+          :placeholder="i18n('rule.ph.enterValue')"
         />
       </el-form-item>
 
@@ -78,10 +97,12 @@
 import { ref, reactive, watch, computed } from 'vue'
 import type { FormInstance, FormRules } from 'element-plus'
 import { i18n } from '@/lang'
+import ExpressionEditor from '../components/ExpressionEditor.vue'
 
 const props = defineProps<{
   visible: boolean
   action: any
+  variables?: Array<{ field: string; label: string; type: string; source: string; defaultValue?: string; desc?: string }>
 }>()
 
 const emit = defineEmits<{

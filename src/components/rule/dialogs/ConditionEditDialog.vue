@@ -9,20 +9,47 @@
   >
     <el-form :model="formData" label-width="90px" size="default" ref="formRef" :rules="rules">
       <el-form-item :label="i18n('rule.lbl.fieldName')" prop="fieldName">
-        <el-input v-model="formData.fieldName" :placeholder="i18n('rule.ph.fieldNameExample')" />
+        <el-select
+          v-model="formData.fieldName"
+          style="width: 100%;z-index:99999!important;"
+          filterable
+          allow-create
+          default-first-option
+          :placeholder="variables.length ? i18n('rule.var.selectField') : i18n('rule.ph.fieldNameExample')"
+          @change="handleFieldChange"
+        >
+          <template v-if="variables.length">
+            <el-option-group
+              v-for="grp in groupedVariables"
+              :key="grp.source"
+              :label="grp.label"
+            >
+              <el-option
+                v-for="v in grp.items"
+                :key="v.field"
+                :label="`${v.label || v.field} (${v.field})`"
+                :value="v.field"
+              >
+                <span style="float: left">{{ v.label || v.field }}</span>
+                <span class="var-opt-field">{{ v.field }}</span>
+              </el-option>
+            </el-option-group>
+          </template>
+        </el-select>
       </el-form-item>
       <el-form-item :label="i18n('rule.lbl.fieldLabel')">
         <el-input v-model="formData.fieldLabel" :placeholder="i18n('rule.ph.fieldLabelOptional')" />
       </el-form-item>
       <el-form-item :label="i18n('rule.lbl.fieldType')" prop="fieldType">
         <el-select v-model="formData.fieldType" style="width: 100%;z-index:99999!important;"
-                   @change="handleFieldTypeChange">
+                   @change="handleFieldTypeChange" :disabled="fieldTypeLocked">
           <el-option :label="i18n('rule.dialog.string')" value="STRING" />
           <el-option :label="i18n('rule.dialog.number')" value="NUMBER" />
           <el-option :label="i18n('rule.dialog.date')" value="DATE" />
           <el-option :label="i18n('rule.dialog.boolean')" value="BOOLEAN" />
           <el-option :label="i18n('rule.dialog.array')" value="ARRAY" />
         </el-select>
+        <div v-if="fieldTypeLocked" class="lock-tip">{{ i18n('rule.var.typeLockedFromVar') }}</div>
       </el-form-item>
       <el-form-item :label="i18n('rule.lbl.operator')" prop="operator">
         <el-select v-model="formData.operator" style="width: 100%;z-index:99999!important;"
@@ -96,6 +123,10 @@ import { i18n } from '@/lang';
 const props = defineProps<{
   visible: boolean
   condition: any
+  variables?: Array<{
+    field: string; label: string; type: string;
+    source: "INPUT" | "CONTEXT" | "CONSTANT"; defaultValue?: string; desc?: string;
+  }>
 }>();
 
 const emit = defineEmits<{
@@ -170,6 +201,28 @@ const needsValue = computed(() => {
   return !["IS_NULL", "NOT_NULL"].includes(formData.operator);
 });
 
+// 变量库分组（按来源：入参/上下文/常量）
+const sourceLabel = (s: string) => ({
+  INPUT: i18n('rule.var.sourceInput'),
+  CONTEXT: i18n('rule.var.sourceContext'),
+  CONSTANT: i18n('rule.var.sourceConstant')
+}[s] || s);
+const groupedVariables = computed(() => {
+  const list = props.variables || [];
+  const order = ["INPUT", "CONTEXT", "CONSTANT"];
+  return order.map(src => ({
+    source: src,
+    label: sourceLabel(src),
+    items: list.filter(v => (v.source || "INPUT") === src)
+  })).filter(g => g.items.length > 0);
+});
+
+// 当前选中字段是否来自变量库（决定类型是否锁定）
+const selectedVariable = computed(() =>
+  (props.variables || []).find(v => v.field === formData.fieldName)
+);
+const fieldTypeLocked = computed(() => !!selectedVariable.value);
+
 watch(() => props.visible, (val) => {
   if (val) {
     if (props.condition) {
@@ -180,6 +233,21 @@ watch(() => props.visible, (val) => {
     formRef.value?.clearValidate();
   }
 });
+
+// 选择变量字段：自动回填显示名与类型
+const handleFieldChange = (val: string) => {
+  const v = (props.variables || []).find(x => x.field === val);
+  if (v) {
+    formData.fieldLabel = v.label || "";
+    if (v.type && v.type !== formData.fieldType) {
+      formData.fieldType = v.type as any;
+      // 类型变化后重置操作符与值
+      const validOps = operatorGroups.value.flatMap(g => g.options.map(o => o.value));
+      if (!validOps.includes(formData.operator)) formData.operator = "EQ";
+      formData.value = "";
+    }
+  }
+};
 
 const handleFieldTypeChange = () => {
   // 字段类型变化时，重置不适用的操作符
@@ -213,3 +281,18 @@ const handleSave = async () => {
   });
 };
 </script>
+
+<style scoped>
+.var-opt-field {
+  float: right;
+  font-size: 11px;
+  color: #9ca3af;
+  font-family: ui-monospace, monospace;
+}
+.lock-tip {
+  font-size: 11px;
+  color: #9ca3af;
+  margin-top: 4px;
+  line-height: 1.4;
+}
+</style>

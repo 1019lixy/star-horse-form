@@ -11,6 +11,7 @@ export interface DemoData {
   ruleDesc: string
   nodes: Node[]
   edges: Edge[]
+  variables?: any[]
 }
 
 // Demo 1: 商品定价决策（多条件路由+动作执行）
@@ -79,6 +80,15 @@ export const demo3_MemberLevel: DemoData = {
   ruleCode: 'RULE_MEMBER_LEVEL',
   ruleName: `Demo3: ${i18n('rule.demo.memberLevel')}`,
   ruleDesc: i18n('rule.demo.memberLevelDesc'),
+  variables: [
+    { field: 'annualSpend', label: '年消费额', type: 'NUMBER', source: 'INPUT' },
+    { field: 'annualOrders', label: '年订单数', type: 'NUMBER', source: 'INPUT' },
+    { field: 'totalSpend', label: '累计消费', type: 'NUMBER', source: 'CONTEXT' },
+    { field: 'orderCount', label: '累计订单', type: 'NUMBER', source: 'CONTEXT' },
+    { field: 'memberLevel', label: '会员等级', type: 'STRING', source: 'CONTEXT', desc: 'DIAMOND/GOLD/SILVER/NORMAL' },
+    { field: 'discountRate', label: '折扣率', type: 'NUMBER', source: 'CONTEXT' },
+    { field: 'freeShipping', label: '免运费', type: 'BOOLEAN', source: 'CONTEXT' }
+  ],
   nodes: [
     { id: 'start_1', type: 'start', position: { x: 400, y: 30 }, data: {} },
     { id: 'var_1', type: 'variable-assign', position: { x: 330, y: 130 }, data: { assignments: [{ variableName: 'totalSpend', valueType: 'VARIABLE', value: 'annualSpend' }, { variableName: 'orderCount', valueType: 'VARIABLE', value: 'annualOrders' }] } },
@@ -136,6 +146,17 @@ export const demo5_AbnormalTransaction: DemoData = {
   ruleCode: 'RULE_ABNORMAL_TXN',
   ruleName: `Demo5: ${i18n('rule.demo.abnormalTransaction')}`,
   ruleDesc: i18n('rule.demo.abnormalTransactionDesc'),
+  variables: [
+    { field: 'amount', label: '交易金额', type: 'NUMBER', source: 'INPUT' },
+    { field: 'timestamp', label: '交易时间', type: 'DATE', source: 'INPUT' },
+    { field: 'location', label: '交易地点', type: 'STRING', source: 'INPUT' },
+    { field: 'userId', label: '用户ID', type: 'STRING', source: 'INPUT' },
+    { field: 'txnAmount', label: '交易金额(上下文)', type: 'NUMBER', source: 'CONTEXT' },
+    { field: 'txnTime', label: '交易时间(上下文)', type: 'DATE', source: 'CONTEXT' },
+    { field: 'userLocation', label: '用户位置', type: 'STRING', source: 'CONTEXT' },
+    { field: 'locationRisk', label: '位置风险', type: 'STRING', source: 'CONTEXT', desc: 'HTTP返回' },
+    { field: 'txnStatus', label: '交易状态', type: 'STRING', source: 'CONTEXT', desc: 'BLOCKED/PASSED' }
+  ],
   nodes: [
     { id: 'start_1', type: 'start', position: { x: 400, y: 30 }, data: {} },
     { id: 'var_1', type: 'variable-assign', position: { x: 330, y: 130 }, data: { assignments: [{ variableName: 'txnAmount', valueType: 'VARIABLE', value: 'amount' }, { variableName: 'txnTime', valueType: 'VARIABLE', value: 'timestamp' }, { variableName: 'userLocation', valueType: 'VARIABLE', value: 'location' }] } },
@@ -165,6 +186,13 @@ export const demo6_OrderDiscount: DemoData = {
   ruleCode: 'RULE_ORDER_DISCOUNT',
   ruleName: `Demo6: ${i18n('rule.demo.orderDiscount')}`,
   ruleDesc: i18n('rule.demo.orderDiscountDesc'),
+  variables: [
+    { field: 'totalAmount', label: '订单总金额', type: 'NUMBER', source: 'INPUT' },
+    { field: 'orderAmount', label: '订单金额(上下文)', type: 'NUMBER', source: 'CONTEXT' },
+    { field: 'discountRules', label: '满减规则集', type: 'ARRAY', source: 'CONTEXT', desc: '满减规则数组' },
+    { field: 'finalDiscount', label: '最终优惠', type: 'NUMBER', source: 'CONTEXT' },
+    { field: 'finalAmount', label: '最终金额', type: 'NUMBER', source: 'CONTEXT' }
+  ],
   nodes: [
     { id: 'start_1', type: 'start', position: { x: 400, y: 30 }, data: {} },
     { id: 'var_1', type: 'variable-assign', position: { x: 330, y: 130 }, data: { assignments: [{ variableName: 'orderAmount', valueType: 'VARIABLE', value: 'totalAmount' }, { variableName: 'discountRules', valueType: 'CONSTANT', value: '[{threshold:100,discount:10},{threshold:200,discount:30},{threshold:500,discount:80}]' }] } },

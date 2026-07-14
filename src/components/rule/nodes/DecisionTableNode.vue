@@ -48,39 +48,42 @@ defineProps<{
 </script>
 
 <style scoped lang="scss">
+@import '../styles/design-tokens.scss';
+
 .decision-table-node {
   .node-card {
-    min-width: 240px;
-    max-width: 320px;
-    background: #fff;
-    border: 2px solid #10b981;
-    border-radius: 10px;
-    box-shadow: 0 4px 12px rgba(16, 185, 129, 0.15);
+    min-width: $rd-node-min-width;
+    max-width: $rd-node-max-width;
+    background: $rd-bg-surface;
+    border: 1px solid $rd-border;
+    border-radius: $rd-radius-lg;
+    box-shadow: $rd-shadow-xs;
     overflow: hidden;
-    transition: all 0.3s ease;
+    transition: box-shadow $rd-transition-base, border-color $rd-transition-base;
 
     &:hover {
-      box-shadow: 0 8px 24px rgba(16, 185, 129, 0.25);
-      transform: translateY(-1px);
+      border-color: $rd-primary-border;
+      box-shadow: $rd-shadow-sm;
     }
   }
 
   .node-header {
     display: flex;
     align-items: center;
-    gap: 8px;
-    padding: 10px 14px;
-    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
-    color: #fff;
+    gap: $rd-space-2;
+    padding: $rd-space-3 $rd-space-4;
+    background: rgba(37, 99, 235, 0.08);
+    color: $rd-node-condition;
+    border-bottom: 1px solid $rd-divider;
 
     .header-icon {
-      font-size: 16px;
+      font-size: $rd-font-md;
     }
 
     .header-title {
       flex: 1;
-      font-size: 13px;
-      font-weight: 600;
+      font-size: $rd-font-base;
+      font-weight: $rd-font-weight-semibold;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
@@ -88,47 +91,47 @@ defineProps<{
   }
 
   .node-body {
-    padding: 12px 14px;
+    padding: $rd-space-3 $rd-space-4;
     min-height: 40px;
 
     .empty-tip {
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 6px;
-      padding: 10px 0;
-      color: #94a3b8;
-      font-size: 12px;
+      gap: $rd-space-2;
+      padding: $rd-space-3 0;
+      color: $rd-text-tertiary;
+      font-size: $rd-font-sm;
 
       .empty-icon {
-        font-size: 14px;
+        font-size: $rd-font-md;
       }
     }
 
     .table-summary {
       display: flex;
       flex-direction: column;
-      gap: 6px;
+      gap: $rd-space-2;
 
       .summary-row {
         display: flex;
         align-items: center;
-        gap: 6px;
-        font-size: 12px;
-        padding: 6px 10px;
-        background: #f0fdf4;
-        border-radius: 6px;
-        border: 1px solid #bbf7d0;
+        gap: $rd-space-2;
+        font-size: $rd-font-sm;
+        padding: $rd-space-2 $rd-space-3;
+        background: $rd-bg-subtle;
+        border-radius: $rd-radius-md;
+        border: 1px solid $rd-divider;
 
         .row-label {
-          color: #64748b;
+          color: $rd-text-secondary;
           flex-shrink: 0;
-          font-weight: 500;
+          font-weight: $rd-font-weight-medium;
         }
 
         .row-value {
-          color: #059669;
-          font-weight: 600;
+          color: $rd-text-primary;
+          font-weight: $rd-font-weight-semibold;
           font-family: 'Consolas', 'Monaco', monospace;
         }
       }

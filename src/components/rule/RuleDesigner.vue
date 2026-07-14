@@ -1,12 +1,12 @@
 <template>
   <!-- 保留必要的弹窗（复杂编辑用） -->
-  <ConditionEditDialog :visible="conditionDialogVisible" :condition="editingCondition"
+  <ConditionEditDialog :visible="conditionDialogVisible" :condition="editingCondition" :variables="ruleData.variables"
                        @close="conditionDialogVisible = false" @save="handleConditionSave" />
-  <ActionEditDialog :visible="actionDialogVisible" :action="editingAction" @close="actionDialogVisible = false"
+  <ActionEditDialog :visible="actionDialogVisible" :action="editingAction" :variables="ruleData.variables" @close="actionDialogVisible = false"
                     @save="handleActionSave" />
   <GatewayConfigDialog :visible="gatewayDialogVisible" :gateway="editingGateway" @close="gatewayDialogVisible = false"
                        @save="handleGatewaySave" />
-  <VariableAssignDialog :visible="variableDialogVisible" :assignments="editingAssignments"
+  <VariableAssignDialog :visible="variableDialogVisible" :assignments="editingAssignments" :variables="ruleData.variables"
                         @close="variableDialogVisible = false" @save="handleVariableSave" />
   <ScriptEditDialog :visible="scriptDialogVisible" :script="editingScript" @close="scriptDialogVisible = false"
                     @save="handleScriptSave" />
@@ -50,42 +50,50 @@
   <div class="rule-designer">
     <!-- 顶部菜单栏 -->
     <div class="designer-toolbar">
+      <!-- 左：规则名 + 状态 -->
       <div class="toolbar-left">
-        <el-button type="primary" @click="handleSave" :loading="saving">
-          <el-icon>
-            <Check />
-          </el-icon>
-          {{ i18n('rule.save') }}
-        </el-button>
-        <el-button @click="handleTest">
-          <el-icon>
-            <VideoPlay />
-          </el-icon>
-          {{ i18n('rule.test') }}
-        </el-button>
-        <el-button @click="handlePublish" v-if="ruleData.status !== 'PUBLISHED'">
-          <el-icon>
-            <Upload />
-          </el-icon>
-          {{ i18n('rule.publish') }}
-        </el-button>
-        <el-divider direction="vertical" />
-        <el-button type="success" plain @click="loadDemoData">
-          <el-icon>
-            <MagicStick />
-          </el-icon>
-          {{ i18n('rule.demo') }}
-        </el-button>
-        <el-divider direction="vertical" />
-        <el-input v-model="ruleData.ruleName" :placeholder="i18n('rule.msg.ruleName')" class="rule-name-input" size="large">
-          <template #prefix>
-            <el-icon>
-              <EditPen />
-            </el-icon>
-          </template>
-        </el-input>
+        <div class="rule-title-wrap">
+          <span class="status-dot" :class="'dot-' + (ruleData.status || 'DRAFT').toLowerCase()"></span>
+          <el-input v-model="ruleData.ruleName" :placeholder="i18n('rule.msg.ruleName')" class="rule-name-input" size="large">
+            <template #prefix>
+              <el-icon>
+                <EditPen />
+              </el-icon>
+            </template>
+          </el-input>
+        </div>
+        <el-tag :type="getStatusType(ruleData.status)" size="small" effect="plain" round>{{ getStatusText(ruleData.status) }}</el-tag>
       </div>
+      <!-- 中：主操作 -->
+      <div class="toolbar-center">
+        <el-button-group>
+          <el-button @click="handleSave" :loading="saving">
+            <el-icon><Check /></el-icon>
+            <span>{{ i18n('rule.save') }}</span>
+          </el-button>
+          <el-button @click="handlePublish" v-if="ruleData.status !== 'PUBLISHED'">
+            <el-icon><Upload /></el-icon>
+            <span>{{ i18n('rule.publish') }}</span>
+          </el-button>
+        </el-button-group>
+        <el-button type="primary" @click="handleTest">
+          <el-icon><VideoPlay /></el-icon>
+          <span>{{ i18n('rule.test') }}</span>
+        </el-button>
+      </div>
+      <!-- 右：辅助操作 -->
       <div class="toolbar-right">
+        <el-button-group>
+          <el-button @click="loadDemoData">
+            <el-icon><MagicStick /></el-icon>
+            <span>{{ i18n('rule.demo') }}</span>
+          </el-button>
+          <el-button @click="openPropertyDialog">
+            <el-icon><Setting /></el-icon>
+            <span>{{ i18n('rule.property') }}</span>
+          </el-button>
+        </el-button-group>
+        <el-divider direction="vertical" />
         <el-popover placement="bottom-end" :width="420" trigger="click" popper-class="help-popper">
           <template #reference>
             <el-button link>
@@ -139,14 +147,6 @@
             </div>
           </div>
         </el-popover>
-        <el-button link @click="openPropertyDialog">
-          <el-icon>
-            <Setting />
-          </el-icon>
-          {{ i18n('rule.property') }}
-        </el-button>
-        <el-tag :type="getStatusType(ruleData.status)" size="large" effect="dark">{{ getStatusText(ruleData.status) }}
-        </el-tag>
       </div>
     </div>
 
@@ -157,139 +157,67 @@
         <el-splitter class="designer-main">
           <!-- 左侧：节点面板 -->
           <el-splitter-panel collapsible :size="220" min="160" max="400" class="left-pane">
-            <NodePanel @add="handleNodeAdd" />
+            <NodePanel @add="handleNodeAdd" v-model:variables="ruleData.variables" />
           </el-splitter-panel>
 
           <!-- 中间：画布舞台 -->
           <el-splitter-panel class="center-pane flex flex-col">
             <div class="canvas-toolbar">
-              <span class="canvas-title"><el-icon><Share /></el-icon> {{ i18n('rule.msg.canvasDesign') }}</span>
+              <span class="canvas-title">{{ i18n('rule.msg.canvasDesign') }}</span>
               <div class="canvas-actions">
-                <!-- 回退前进 -->
+                <!-- 历史组 -->
                 <el-tooltip :content="i18n('rule.undo') + ' (Ctrl+Z)'" placement="bottom">
-                  <el-button link @click="undo" :disabled="!canUndo">
-                    <el-icon>
-                      <Back />
-                    </el-icon>
-                  </el-button>
+                  <el-button link @click="undo" :disabled="!canUndo"><el-icon><Back /></el-icon></el-button>
                 </el-tooltip>
                 <el-tooltip :content="i18n('rule.redo') + ' (Ctrl+Y)'" placement="bottom">
-                  <el-button link @click="redo" :disabled="!canRedo">
-                    <el-icon>
-                      <Right />
-                    </el-icon>
-                  </el-button>
+                  <el-button link @click="redo" :disabled="!canRedo"><el-icon><Right /></el-icon></el-button>
                 </el-tooltip>
                 <el-divider direction="vertical" />
-                <!-- 对齐工具（下拉） -->
-                <el-dropdown trigger="click" :disabled="!hasMultiSelected" @command="handleAlign"
-                             popper-class="designer-dropdown-popper">
-                  <el-button link :disabled="!hasMultiSelected" :title="i18n('rule.property')">
-                    <el-icon>
-                      <Grid />
-                    </el-icon>
+                <!-- 对齐 -->
+                <el-dropdown trigger="click" :disabled="!hasMultiSelected" @command="handleAlign" popper-class="designer-dropdown-popper">
+                  <el-button link :disabled="!hasMultiSelected" :title="i18n('rule.align.title')">
+                    <el-icon><Operation /></el-icon>
                   </el-button>
                   <template #dropdown>
                     <el-dropdown-menu>
-                      <el-dropdown-item command="left">
-                        <el-icon>
-                          <DCaret />
-                        </el-icon>
-                        {{ i18n('rule.align.left') }}
-                      </el-dropdown-item>
-                      <el-dropdown-item command="center">
-                        <el-icon>
-                          <DCaret />
-                        </el-icon>
-                        {{ i18n('rule.align.centerH') }}
-                      </el-dropdown-item>
-                      <el-dropdown-item command="right">
-                        <el-icon>
-                          <DCaret />
-                        </el-icon>
-                        {{ i18n('rule.align.right') }}
-                      </el-dropdown-item>
-                      <el-dropdown-item divided command="top">
-                        <el-icon>
-                          <DCaret />
-                        </el-icon>
-                        {{ i18n('rule.align.top') }}
-                      </el-dropdown-item>
-                      <el-dropdown-item command="middle">
-                        <el-icon>
-                          <DCaret />
-                        </el-icon>
-                        {{ i18n('rule.align.centerV') }}
-                      </el-dropdown-item>
-                      <el-dropdown-item command="bottom">
-                        <el-icon>
-                          <DCaret />
-                        </el-icon>
-                        {{ i18n('rule.align.bottom') }}
-                      </el-dropdown-item>
-                      <el-dropdown-item divided command="hDist">
-                        <el-icon>
-                          <DCaret />
-                        </el-icon>
-                        {{ i18n('rule.align.distributeH') }}
-                      </el-dropdown-item>
-                      <el-dropdown-item command="vDist">
-                        <el-icon>
-                          <DCaret />
-                        </el-icon>
-                        {{ i18n('rule.align.distributeV') }}
-                      </el-dropdown-item>
+                      <el-dropdown-item command="left">{{ i18n('rule.align.left') }}</el-dropdown-item>
+                      <el-dropdown-item command="center">{{ i18n('rule.align.centerH') }}</el-dropdown-item>
+                      <el-dropdown-item command="right">{{ i18n('rule.align.right') }}</el-dropdown-item>
+                      <el-dropdown-item divided command="top">{{ i18n('rule.align.top') }}</el-dropdown-item>
+                      <el-dropdown-item command="middle">{{ i18n('rule.align.centerV') }}</el-dropdown-item>
+                      <el-dropdown-item command="bottom">{{ i18n('rule.align.bottom') }}</el-dropdown-item>
+                      <el-dropdown-item divided command="hDist">{{ i18n('rule.align.distributeH') }}</el-dropdown-item>
+                      <el-dropdown-item command="vDist">{{ i18n('rule.align.distributeV') }}</el-dropdown-item>
                     </el-dropdown-menu>
                   </template>
                 </el-dropdown>
                 <!-- 连线类型 -->
                 <el-dropdown trigger="click" @command="handleEdgeType" popper-class="designer-dropdown-popper">
                   <el-button link :title="i18n('rule.edge.bezier')">
-                    <el-icon>
-                      <Share />
-                    </el-icon>
+                    <el-icon><Connection /></el-icon>
                   </el-button>
                   <template #dropdown>
                     <el-dropdown-menu>
-                      <el-dropdown-item command="default" :class="{ 'is-active': edgeType === 'default' }">{{ i18n('rule.edge.bezier') }}
-                      </el-dropdown-item>
-                      <el-dropdown-item command="straight" :class="{ 'is-active': edgeType === 'straight' }">{{ i18n('rule.edge.straight') }}
-                      </el-dropdown-item>
-                      <el-dropdown-item command="step" :class="{ 'is-active': edgeType === 'step' }">{{ i18n('rule.edge.step') }}
-                      </el-dropdown-item>
-                      <el-dropdown-item command="smoothstep" :class="{ 'is-active': edgeType === 'smoothstep' }">
-                        {{ i18n('rule.edge.smoothstep') }}
-                      </el-dropdown-item>
+                      <el-dropdown-item command="default" :class="{ 'is-active': edgeType === 'default' }">{{ i18n('rule.edge.bezier') }}</el-dropdown-item>
+                      <el-dropdown-item command="straight" :class="{ 'is-active': edgeType === 'straight' }">{{ i18n('rule.edge.straight') }}</el-dropdown-item>
+                      <el-dropdown-item command="step" :class="{ 'is-active': edgeType === 'step' }">{{ i18n('rule.edge.step') }}</el-dropdown-item>
+                      <el-dropdown-item command="smoothstep" :class="{ 'is-active': edgeType === 'smoothstep' }">{{ i18n('rule.edge.smoothstep') }}</el-dropdown-item>
                     </el-dropdown-menu>
                   </template>
                 </el-dropdown>
                 <el-divider direction="vertical" />
                 <el-tooltip :content="i18n('rule.deleteSelected')" placement="bottom">
-                  <el-button link @click="deleteSelected" :disabled="!hasSelected">
-                    <el-icon>
-                      <Delete />
-                    </el-icon>
-                  </el-button>
+                  <el-button link @click="deleteSelected" :disabled="!hasSelected"><el-icon><Delete /></el-icon></el-button>
                 </el-tooltip>
+                <el-divider direction="vertical" />
                 <el-tooltip :content="i18n('rule.fitCanvas')" placement="bottom">
-                  <el-button link @click="fitView">
-                    <el-icon>
-                      <FullScreen />
-                    </el-icon>
-                  </el-button>
+                  <el-button link @click="fitView"><el-icon><FullScreen /></el-icon></el-button>
                 </el-tooltip>
                 <el-tooltip :content="i18n('rule.autoLayout')" placement="bottom">
-                  <el-button link @click="autoLayout">
-                    <el-icon>
-                      <Grid />
-                    </el-icon>
-                  </el-button>
+                  <el-button link @click="autoLayout"><el-icon><Grid /></el-icon></el-button>
                 </el-tooltip>
                 <el-tooltip :content="i18n('rule.layoutSelected')" placement="bottom">
-                  <el-button link @click="layoutSelected" :disabled="!hasSelected">
-                    <el-icon>
-                      <Operation />
-                    </el-icon>
+                  <el-button link @click="layoutSelected" :disabled="!hasSelected"><el-icon><Operation /></el-icon>
                   </el-button>
                 </el-tooltip>
                 <el-tooltip :content="i18n('rule.clearCanvas')" placement="bottom">
@@ -377,9 +305,15 @@
                 <template #node-generic="p">
                   <GenericNode v-bind="p" />
                 </template>
-                <Background :gap="20" :size="1" />
-                <Controls position="bottom-right" />
-                <MiniMap position="bottom-left" />
+                <Background :gap="20" :size="1" pattern-color="#e5e7eb" />
+                <Controls position="bottom-right" :show-interactive="false" />
+                <MiniMap
+                  position="bottom-left"
+                  pannable
+                  zoomable
+                  :node-color="miniMapNodeColor"
+                  mask-color="rgba(247, 248, 250, 0.7)"
+                />
               </VueFlow>
 
               <!-- 右键菜单 -->
@@ -636,7 +570,7 @@ import {
   Close,
   CopyDocument,
   Cpu,
-  DCaret,
+  Connection,
   Delete,
   Edit,
   EditPen,
@@ -780,7 +714,12 @@ const clipboard = ref<Node | null>(null);
 const ruleData = reactive({
   idRuleDefinition: "", ruleCode: "", ruleName: "", ruleDesc: "",
   ruleType: "FORM_LINKAGE", ruleCategory: "", priority: 0, enabled: "Y",
-  conditionLogic: "AND", status: "DRAFT", formId: "", flowContent: ""
+  conditionLogic: "AND", status: "DRAFT", formId: "", flowContent: "",
+  // 变量库：入参/上下文/常量统一管理，供条件编辑与表达式引用
+  variables: [] as Array<{
+    field: string; label: string; type: "STRING" | "NUMBER" | "DATE" | "BOOLEAN" | "ARRAY";
+    source: "INPUT" | "CONTEXT" | "CONSTANT"; defaultValue?: string; desc?: string;
+  }>
 });
 
 const nodeDefaultData: Record<string, () => any> = {
@@ -1421,6 +1360,15 @@ const handleCtxAction = (action: string) => {
 };
 
 // ========== 删除选中 ==========
+const miniMapNodeColor = (node: Node) => {
+  const map: Record<string, string> = {
+    'start': '#475569', 'end': '#475569',
+    'condition': '#2563eb', 'action': '#059669',
+    'variable-assign': '#7c3aed', 'loop': '#db2777', 'join': '#4f46e5',
+    'exclusive-gateway': '#d97706', 'parallel-gateway': '#0891b2', 'inclusive-gateway': '#7c3aed',
+  }
+  return map[node.type || ''] || '#94a3b8'
+}
 const hasSelected = computed(() => nodes.value?.some(n => n.selected) || edges.value?.some(e => e.selected));
 const hasMultiSelected = computed(() => nodes.value?.filter(n => n.selected).length >= 2);
 const deleteSelected = () => {
@@ -1951,6 +1899,7 @@ const loadRuleData = async () => {
           const f = JSON.parse(ruleData.flowContent);
           nodes.value = f.nodes || [];
           edges.value = f.edges || [];
+          ruleData.variables = Array.isArray(f.variables) ? f.variables : [];
         } catch {
           initDefaultFlow();
         }
@@ -1973,7 +1922,8 @@ const handleSave = async () => {
   try {
     ruleData.flowContent = JSON.stringify({
       nodes: nodes.value.map(n => ({ ...n, selected: false })),
-      edges: edges.value.map(e => ({ ...e, selected: false }))
+      edges: edges.value.map(e => ({ ...e, selected: false })),
+      variables: ruleData.variables || []
     });
     let id = ruleData.idRuleDefinition;
     if (id) await ruleDefinitionApi.updateRule(ruleData);
@@ -2046,6 +1996,7 @@ const loadDemoData = async () => {
     ruleData.ruleCode = demo.data.ruleCode;
     ruleData.ruleName = demo.data.ruleName;
     ruleData.ruleDesc = demo.data.ruleDesc;
+    ruleData.variables = JSON.parse(JSON.stringify(demo.data.variables || []));
     nodes.value = JSON.parse(JSON.stringify(demo.data.nodes));
     edges.value = JSON.parse(JSON.stringify(demo.data.edges));
     setTimeout(() => fitViewFn({ duration: 500 }), 100);
@@ -2083,41 +2034,76 @@ onUnmounted(() => {
 </script>
 
 <style scoped lang="scss">
+@import './styles/design-tokens.scss';
+
 .rule-designer {
   height: 100%;
   display: flex;
   flex-direction: column;
-  background: #f0f2f5;
+  background: $rd-bg-canvas;
 
   .designer-toolbar {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 8px 16px;
-    background: #fff;
-    border-bottom: 1px solid #e2e8f0;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+    padding: $rd-space-2 $rd-space-4;
+    background: $rd-bg-surface;
+    border-bottom: 1px solid $rd-border;
+    box-shadow: $rd-shadow-xs;
     z-index: 10;
 
     .toolbar-left {
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: $rd-space-3;
+      flex: 0 0 auto;
 
-      .rule-name-input {
-        width: 260px;
+      .rule-title-wrap {
+        display: flex;
+        align-items: center;
+        gap: $rd-space-2;
 
-        :deep(.el-input__inner) {
-          font-size: 14px;
-          font-weight: 600;
+        .status-dot {
+          width: 8px;
+          height: 8px;
+          border-radius: $rd-radius-pill;
+          flex-shrink: 0;
+          background: $rd-text-tertiary;
+
+          &.dot-draft { background: $rd-text-tertiary; }
+          &.dot-published { background: $rd-success; }
+          &.dot-disabled { background: $rd-error; }
         }
       }
+
+      .rule-name-input {
+        width: 240px;
+
+        :deep(.el-input__wrapper) {
+          box-shadow: none;
+          background: transparent;
+          padding-left: 0;
+        }
+        :deep(.el-input__inner) {
+          font-size: $rd-font-md;
+          font-weight: $rd-font-weight-semibold;
+          color: $rd-text-primary;
+        }
+      }
+    }
+
+    .toolbar-center {
+      display: flex;
+      align-items: center;
+      gap: $rd-space-2;
+      flex: 0 0 auto;
     }
 
     .toolbar-right {
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: $rd-space-2;
+      flex: 0 0 auto;
     }
   }
 
@@ -2148,18 +2134,16 @@ onUnmounted(() => {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 6px 14px;
-      background: #fff;
-      border-bottom: 1px solid #e2e8f0;
+      padding: $rd-space-1 $rd-space-3;
+      background: $rd-bg-surface;
+      border-bottom: 1px solid $rd-border;
       flex-shrink: 0;
 
       .canvas-title {
-        display: flex;
-        align-items: center;
-        gap: 5px;
-        font-weight: 600;
-        font-size: 13px;
-        color: #1e293b;
+        font-weight: $rd-font-weight-semibold;
+        font-size: $rd-font-sm;
+        color: $rd-text-secondary;
+        letter-spacing: 0.2px;
       }
 
       .canvas-actions {
@@ -2167,15 +2151,15 @@ onUnmounted(() => {
         align-items: center;
         gap: 2px;
 
-        .canvas-tip {
-          font-size: 11px;
-          color: #94a3b8;
-          margin-left: 4px;
+        :deep(.el-button) {
+          color: $rd-text-secondary;
+          &:hover { color: $rd-primary; }
+          &.is-disabled { color: $rd-text-tertiary; }
         }
 
         :deep(.is-active) {
-          color: #6366f1;
-          font-weight: 600;
+          color: $rd-primary;
+          font-weight: $rd-font-weight-semibold;
         }
       }
     }
@@ -2192,22 +2176,15 @@ onUnmounted(() => {
 
       /* 节点选中交互效果 */
       :deep(.vue-flow__node) {
-        transition: box-shadow 0.2s, transform 0.2s;
+        transition: outline-color $rd-transition-base;
 
         &.selected {
-          .rule-node, .gateway-shape, .start-shape, .end-shape, .generic-node {
-            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.5), 0 8px 24px rgba(99, 102, 241, 0.3) !important;
-            transform: translateY(-2px);
-          }
+          outline: 2px solid $rd-primary;
+          outline-offset: 3px;
+          border-radius: $rd-radius-lg;
 
           .gateway-shape {
-            filter: drop-shadow(0 0 8px rgba(99, 102, 241, 0.6));
-          }
-        }
-
-        &:hover:not(.selected) {
-          .rule-node, .generic-node {
-            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+            filter: drop-shadow(0 0 0 2px $rd-primary);
           }
         }
       }
@@ -2216,19 +2193,19 @@ onUnmounted(() => {
       :deep(.vue-flow__edge) {
         &.selected {
           .vue-flow__edge-path {
-            stroke: #6366f1 !important;
+            stroke: $rd-primary !important;
             stroke-width: 3 !important;
           }
 
           .vue-flow__edge-text {
-            fill: #6366f1 !important;
-            font-weight: 600;
+            fill: $rd-primary !important;
+            font-weight: $rd-font-weight-semibold;
           }
         }
 
         &:hover:not(.selected) {
           .vue-flow__edge-path {
-            stroke: #818cf8 !important;
+            stroke: $rd-primary-border !important;
             stroke-width: 2.5 !important;
           }
         }
@@ -2236,16 +2213,43 @@ onUnmounted(() => {
 
       /* 框选选择框样式 */
       :deep(.vue-flow__selection) {
-        border: 2px dashed #6366f1 !important;
-        background: rgba(99, 102, 241, 0.08) !important;
-        border-radius: 4px;
+        border: 2px dashed $rd-primary !important;
+        background: rgba(79, 70, 229, 0.06) !important;
+        border-radius: $rd-radius-md;
       }
 
       /* 框选时节点提示 */
       :deep(.vue-flow__nodesselection-rect) {
-        border: 2px dashed #6366f1 !important;
-        background: rgba(99, 102, 241, 0.08) !important;
-        border-radius: 4px;
+        border: 2px dashed $rd-primary !important;
+        background: rgba(79, 70, 229, 0.06) !important;
+        border-radius: $rd-radius-md;
+      }
+
+      /* MiniMap 样式 */
+      :deep(.vue-flow__minimap) {
+        background: $rd-bg-surface;
+        border: 1px solid $rd-border;
+        border-radius: $rd-radius-md;
+        box-shadow: $rd-shadow-sm;
+        overflow: hidden;
+      }
+
+      /* Controls 样式 */
+      :deep(.vue-flow__controls) {
+        background: $rd-bg-surface;
+        border: 1px solid $rd-border;
+        border-radius: $rd-radius-md;
+        box-shadow: $rd-shadow-sm;
+        overflow: hidden;
+
+        .vue-flow__controls-button {
+          border-bottom: 1px solid $rd-divider;
+          background: $rd-bg-surface;
+          color: $rd-text-secondary;
+
+          &:hover { background: $rd-bg-hover; color: $rd-primary; }
+          svg { fill: currentColor; }
+        }
       }
 
       .context-menu {

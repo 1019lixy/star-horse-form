@@ -33,9 +33,32 @@
             </el-select>
           </template>
         </el-table-column>
-        <el-table-column :label="i18n('rule.lbl.value')" min-width="180">
+        <el-table-column :label="i18n('rule.lbl.value')" min-width="240">
           <template #default="{ row }">
-            <el-input v-model="row.value" :placeholder="i18n('rule.ph.enterValue')" />
+            <el-select
+              v-if="row.valueType === 'VARIABLE'"
+              v-model="row.value"
+              filterable
+              allow-create
+              default-first-option
+              :placeholder="i18n('rule.var.selectField')"
+              style="width: 100%;z-index:999 !important;"
+            >
+              <el-option
+                v-for="v in variables"
+                :key="v.field"
+                :label="`${v.label || v.field} (${v.field})`"
+                :value="v.field"
+              />
+            </el-select>
+            <ExpressionEditor
+              v-else-if="row.valueType === 'EXPRESSION'"
+              v-model="row.value"
+              :variables="variables"
+              :rows="2"
+              :placeholder="i18n('rule.ph.enterValue')"
+            />
+            <el-input v-else v-model="row.value" :placeholder="i18n('rule.ph.enterValue')" />
           </template>
         </el-table-column>
         <el-table-column :label="i18n('rule.lbl.description')" min-width="140">
@@ -63,10 +86,12 @@ import type { FormInstance } from "element-plus";
 import { Delete, Plus } from "@element-plus/icons-vue";
 import { warning } from "star-horse-lowcode";
 import { i18n } from '@/lang';
+import ExpressionEditor from '../components/ExpressionEditor.vue';
 
 const props = defineProps<{
   visible: boolean
   assignments: any[]
+  variables?: Array<{ field: string; label: string; type: string; source: string; defaultValue?: string; desc?: string }>
 }>();
 
 const emit = defineEmits<{

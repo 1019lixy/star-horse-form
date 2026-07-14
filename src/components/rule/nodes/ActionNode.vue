@@ -105,30 +105,33 @@ const needsValueDisplay = (type: string) => {
 </script>
 
 <style scoped lang="scss">
+@import '../styles/design-tokens.scss';
+
 .action-node {
   .node-card {
-    min-width: 260px;
-    max-width: 360px;
-    background: #fff;
-    border: 2px solid #22c55e;
-    border-radius: 10px;
-    box-shadow: 0 4px 12px rgba(34, 197, 94, 0.15);
+    min-width: $rd-node-min-width;
+    max-width: $rd-node-max-width;
+    background: $rd-bg-surface;
+    border: 1px solid $rd-border;
+    border-radius: $rd-radius-lg;
+    box-shadow: $rd-shadow-xs;
     overflow: hidden;
-    transition: all 0.3s ease;
+    transition: box-shadow $rd-transition-base, border-color $rd-transition-base;
 
     &:hover {
-      box-shadow: 0 8px 24px rgba(34, 197, 94, 0.25);
-      transform: translateY(-1px);
+      border-color: $rd-primary-border;
+      box-shadow: $rd-shadow-sm;
     }
   }
 
   .node-header {
     display: flex;
     align-items: center;
-    gap: 8px;
-    padding: 10px 14px;
-    background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
-    color: #fff;
+    gap: $rd-space-2;
+    padding: $rd-space-2 $rd-space-4;
+    background: rgba(5, 150, 105, 0.08);
+    color: $rd-node-action;
+    border-bottom: 1px solid $rd-divider;
 
     .header-icon {
       width: 18px;
@@ -137,69 +140,70 @@ const needsValueDisplay = (type: string) => {
 
     .header-title {
       flex: 1;
-      font-size: 13px;
-      font-weight: 600;
+      font-size: $rd-font-base;
+      font-weight: $rd-font-weight-semibold;
     }
 
     .header-btn {
-      color: rgba(255, 255, 255, 0.9);
-      font-size: 16px;
+      color: $rd-node-action;
+      font-size: $rd-font-lg;
 
       &:hover {
-        color: #fff;
+        color: $rd-node-action;
+        opacity: 0.8;
       }
     }
   }
 
   .node-body {
-    padding: 12px 14px;
+    padding: $rd-space-3 $rd-space-4;
     min-height: 40px;
 
     .empty-tip {
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 6px;
-      padding: 10px 0;
-      color: #94a3b8;
-      font-size: 12px;
+      gap: $rd-space-2;
+      padding: $rd-space-3 0;
+      color: $rd-text-tertiary;
+      font-size: $rd-font-sm;
 
       .empty-icon {
-        font-size: 14px;
+        font-size: $rd-font-md;
       }
     }
 
     .action-list {
       display: flex;
       flex-direction: column;
-      gap: 6px;
+      gap: $rd-space-2;
 
       .action-item {
         display: flex;
         align-items: center;
-        gap: 8px;
-        padding: 6px 10px;
-        background: #f0fdf4;
-        border-radius: 6px;
-        border: 1px solid #bbf7d0;
-        transition: all 0.2s;
+        gap: $rd-space-2;
+        padding: $rd-space-2 $rd-space-3;
+        background: rgba(5, 150, 105, 0.05);
+        border-radius: $rd-radius-md;
+        border: 1px solid rgba(5, 150, 105, 0.12);
+        transition: background $rd-transition-fast, border-color $rd-transition-fast;
 
         &:hover {
-          border-color: #22c55e;
-          background: #dcfce7;
+          border-color: rgba(5, 150, 105, 0.24);
+          background: rgba(5, 150, 105, 0.09);
         }
 
         .action-index {
           width: 20px;
           height: 20px;
           border-radius: 50%;
-          background: #22c55e;
-          color: #fff;
+          background: $rd-node-action;
+          color: $rd-text-inverse;
           display: flex;
           align-items: center;
           justify-content: center;
-          font-size: 11px;
-          font-weight: 700;
+          font-size: $rd-font-xs;
+          font-weight: $rd-font-weight-semibold;
           flex-shrink: 0;
         }
 
@@ -207,8 +211,8 @@ const needsValueDisplay = (type: string) => {
           flex: 1;
           display: flex;
           align-items: center;
-          gap: 6px;
-          font-size: 12px;
+          gap: $rd-space-2;
+          font-size: $rd-font-sm;
           min-width: 0;
 
           .action-type-tag {
@@ -216,15 +220,15 @@ const needsValueDisplay = (type: string) => {
           }
 
           .action-target {
-            color: #166534;
-            font-weight: 500;
+            color: $rd-node-action;
+            font-weight: $rd-font-weight-medium;
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap;
           }
 
           .action-value {
-            color: #64748b;
+            color: $rd-text-secondary;
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap;
@@ -233,7 +237,7 @@ const needsValueDisplay = (type: string) => {
 
         .action-ops {
           display: flex;
-          gap: 2px;
+          gap: $rd-space-1;
           flex-shrink: 0;
         }
       }

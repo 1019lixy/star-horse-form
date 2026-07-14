@@ -46,38 +46,35 @@ const hasBranches = computed(() => props.data?.branches && props.data.branches.l
 </script>
 
 <style scoped lang="scss">
+@import '../styles/design-tokens.scss';
 .inclusive-gateway {
   display: flex; flex-direction: column; align-items: center;
 
-  .gateway-wrapper { transition: transform 0.3s ease; }
-  &:hover .gateway-wrapper { transform: translateY(-2px); }
-
   .gateway-shape {
     width: 80px; height: 80px; position: relative;
-    background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
+    background: $rd-node-gw-or;
     clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
-    filter: drop-shadow(0 4px 8px rgba(139, 92, 246, 0.35));
-    transition: filter 0.3s ease;
+    filter: drop-shadow(0 2px 4px rgba(17, 24, 39, 0.1));
+    transition: filter $rd-transition-base;
     cursor: pointer;
     display: flex; align-items: center; justify-content: center;
   }
-  &:hover .gateway-shape { filter: drop-shadow(0 8px 16px rgba(139, 92, 246, 0.55)); }
+  &:hover .gateway-shape { filter: drop-shadow(0 4px 8px rgba(17, 24, 39, 0.15)); }
 
   .gateway-inner {
     width: 64px; height: 64px;
-    background: linear-gradient(135deg, #a78bfa 0%, #8b5cf6 100%);
+    background: rgba(255, 255, 255, 0.18);
     clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
     display: flex; align-items: center; justify-content: center;
   }
 
   .gateway-circle {
     width: 26px; height: 26px; color: #fff;
-    filter: drop-shadow(0 1px 2px rgba(0,0,0,0.2));
   }
 
   .gateway-label {
-    text-align: center; margin-top: 10px; font-size: 12px; font-weight: 600;
-    color: #475569; white-space: nowrap;
+    text-align: center; margin-top: $rd-space-2; font-size: $rd-font-sm; font-weight: $rd-font-weight-semibold;
+    color: $rd-text-secondary; white-space: nowrap;
   }
 }
 </style>

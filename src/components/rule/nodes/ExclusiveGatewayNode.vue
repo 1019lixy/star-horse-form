@@ -44,38 +44,35 @@ const hasBranches = computed(() => props.data?.branches && props.data.branches.l
 </script>
 
 <style scoped lang="scss">
+@import '../styles/design-tokens.scss';
 .exclusive-gateway {
   display: flex; flex-direction: column; align-items: center;
 
-  .gateway-wrapper { transition: transform 0.3s ease; }
-  &:hover .gateway-wrapper { transform: translateY(-2px); }
-
   .gateway-shape {
     width: 80px; height: 80px; position: relative;
-    background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+    background: $rd-node-gw-xor;
     clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
-    filter: drop-shadow(0 4px 8px rgba(245, 158, 11, 0.35));
-    transition: filter 0.3s ease;
+    filter: drop-shadow(0 2px 4px rgba(17, 24, 39, 0.1));
+    transition: filter $rd-transition-base;
     cursor: pointer;
     display: flex; align-items: center; justify-content: center;
   }
-  &:hover .gateway-shape { filter: drop-shadow(0 8px 16px rgba(245, 158, 11, 0.55)); }
+  &:hover .gateway-shape { filter: drop-shadow(0 4px 8px rgba(17, 24, 39, 0.15)); }
 
   .gateway-inner {
     width: 64px; height: 64px;
-    background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+    background: rgba(255, 255, 255, 0.18);
     clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
     display: flex; align-items: center; justify-content: center;
   }
 
   .gateway-icon {
     color: #fff; font-size: 28px; font-weight: 700; line-height: 1;
-    text-shadow: 0 1px 2px rgba(0,0,0,0.2);
   }
 
   .gateway-label {
-    text-align: center; margin-top: 10px; font-size: 12px; font-weight: 600;
-    color: #475569; white-space: nowrap;
+    text-align: center; margin-top: $rd-space-2; font-size: $rd-font-sm; font-weight: $rd-font-weight-semibold;
+    color: $rd-text-secondary; white-space: nowrap;
   }
 }
 </style>

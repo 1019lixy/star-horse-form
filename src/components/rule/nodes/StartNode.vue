@@ -16,34 +16,34 @@ import { i18n } from '@/lang'
 </script>
 
 <style scoped lang="scss">
+@import '../styles/design-tokens.scss';
 .start-node {
   .node-inner {
     display: flex;
     align-items: center;
-    gap: 8px;
-    padding: 10px 28px;
-    border-radius: 24px;
-    background: linear-gradient(135deg, #7c3aed 0%, #a855f7 100%);
-    color: #fff;
-    box-shadow: 0 4px 12px rgba(124, 58, 237, 0.35);
-    transition: all 0.3s ease;
+    gap: $rd-space-2;
+    padding: $rd-space-2 $rd-space-5;
+    border-radius: $rd-radius-pill;
+    background: $rd-node-start;
+    color: $rd-text-inverse;
+    box-shadow: $rd-shadow-sm;
+    transition: box-shadow $rd-transition-base;
     cursor: default;
 
     &:hover {
-      box-shadow: 0 6px 20px rgba(124, 58, 237, 0.5);
-      transform: translateY(-1px);
+      box-shadow: $rd-shadow-md;
     }
   }
 
   .node-icon {
-    width: 18px;
-    height: 18px;
+    width: 16px;
+    height: 16px;
   }
 
   .node-label {
-    font-size: 14px;
-    font-weight: 600;
-    letter-spacing: 1px;
+    font-size: $rd-font-md;
+    font-weight: $rd-font-weight-semibold;
+    letter-spacing: 0.5px;
   }
 }
 </style>
