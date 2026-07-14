@@ -2,6 +2,7 @@ import "@/assets/css/flow.scss";
 import "star-horse-lowcode/assets/index.css";
 import "@/assets/css/devops.scss";
 import "@/assets/css/table-enhancements.scss";
+import "element-plus/theme-chalk/index.css";
 import "tailwindcss/index.css";
 import itemsComponent from "@/components/formcomp/items/allitem";
 import containerComponent from "@/components/formcomp/container/callitem";

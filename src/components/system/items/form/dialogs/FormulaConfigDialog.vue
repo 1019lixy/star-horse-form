@@ -195,7 +195,7 @@ defineExpose({open, close});
       <!-- 公式类型 -->
       <el-form-item :label="i18n('dyform.formula.type')">
         <el-select v-model="cfg.type" @change="onFormulaTypeChange"
-                   :placeholder="i18n('dyform.formula.type.placeholder')" style="width: 100%">
+                   :placeholder="i18n('dyform.formula.type.placeholder')" style="width: 100%;">
           <el-option v-for="opt in currentTypeOptions" :key="opt.value" :label="opt.label" :value="opt.value">
             <span>{{ opt.label }}</span>
             <span style="color: var(--el-text-color-secondary); font-size: 12px; margin-left: 8px">{{ opt.desc }}</span>
@@ -206,7 +206,7 @@ defineExpose({open, close});
       <!-- 依赖字段 -->
       <el-form-item :label="i18n('dyform.formula.sourceFields')">
         <el-select v-model="cfg.sourceFields" multiple filterable
-                   :placeholder="i18n('dyform.formula.sourceFields.placeholder')" style="width: 100%">
+                   :placeholder="i18n('dyform.formula.sourceFields.placeholder')" style="width: 100%;">
           <el-option v-for="field in fields" :key="field.value" :label="field.label" :value="field.value"/>
         </el-select>
       </el-form-item>
@@ -306,7 +306,7 @@ defineExpose({open, close});
       <template v-if="cfg.type === 'aggregate'">
         <el-form-item :label="i18n('dyform.formula.aggregate.method')">
           <el-select v-model="cfg.expression" :placeholder="i18n('dyform.formula.aggregate.method.placeholder')"
-                     style="width: 100%">
+                     style="width: 100%;">
             <el-option v-for="item in aggregateTypes" :key="item.value" :label="item.label" :value="item.value"/>
           </el-select>
         </el-form-item>
@@ -324,7 +324,7 @@ defineExpose({open, close});
       <template v-if="cfg.type === 'dateCalc'">
         <el-form-item :label="i18n('dyform.formula.dateCalc.mode')">
           <el-select v-model="cfg.dateMode" :placeholder="i18n('dyform.formula.dateCalc.mode.placeholder')"
-                     style="width: 100%">
+                     style="width: 100%;">
             <el-option v-for="item in dateModes" :key="item.value" :label="item.label" :value="item.value"/>
           </el-select>
         </el-form-item>
@@ -344,7 +344,7 @@ defineExpose({open, close});
         </el-form-item>
         <el-form-item :label="i18n('dyform.formula.dateCalc.unit')">
           <el-select v-model="cfg.dateUnit" :placeholder="i18n('dyform.formula.dateCalc.unit.placeholder')"
-                     style="width: 100%">
+                     style="width: 100%;">
             <el-option v-for="item in dateUnits" :key="item.value" :label="item.label" :value="item.value"/>
           </el-select>
         </el-form-item>
@@ -362,7 +362,7 @@ defineExpose({open, close});
       <template v-if="cfg.type === 'format'">
         <el-form-item :label="i18n('dyform.formula.format.type')">
           <el-select v-model="cfg.formatType" :placeholder="i18n('dyform.formula.format.type.placeholder')"
-                     style="width: 100%">
+                     style="width: 100%;">
             <el-option v-for="item in formatTypes" :key="item.value" :label="item.label" :value="item.value"/>
           </el-select>
         </el-form-item>

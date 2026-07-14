@@ -24,7 +24,7 @@ defineOptions({
 });
 
 /** 支持公式配置的组件类型 */
-const formulaSupportedTypes = ["input", "number"];
+const formulaSupportedTypes = ["input", "number","select","tselect","autocomplete"];
 
 const props = defineProps({
   optional: {type: Object as PropType<FormConfig>}
