@@ -79,22 +79,7 @@ const interfaceUtils = getInterfaceUtils();
 const {fieldList, disableUrl} = interfaceUtils;
 
 // ─── URL field config with validate button ───
-/*
-const urlFields = getUrlFieldConfig(interfaceUtils, {
-  showValidateButton: true,
-  validateButtonText: i18n("dyform.utils.589"),
-  validateButtonIcon: "valid",
-  urlColspan: 20,
-  validateButtonColspan: 4,
-  showLabelFields: true,
-  showPrimaryKey: false,
-  validateCallback: {
-    click: async (val: any) => {
-      await validOperation(val, formRef, fieldList, disableUrl, true, undefined);
-    },
-  },
-});
-*/
+
 
 // ─── Static data fields ───
 const staticFields: FieldInfo[] | any = [
@@ -129,9 +114,10 @@ const staticFields: FieldInfo[] | any = [
     batchFieldList: [{
       batchName: "values",
       importInfo: {
-        importDataUrl: "/api/star_horse/dyform/importData",
-        downloadTemplateUrl: "/api/star_horse/dyform/downloadData"
+        importDataUrl: props.optional?.api ? `${props.optional.api.basePrefix}/importStaticDataSource` : "",
+        downloadTemplateUrl: props.optional?.api ? `${props.optional.api.basePrefix}/staticDataSourceTemplate` : "",
       },
+      enableSubNode: true,
       fieldList: [
         {
           label: i18n("dyform.utils.598"),
@@ -152,71 +138,6 @@ const staticFields: FieldInfo[] | any = [
   },
 ];
 
-// ─── Internal API fields ───
-/*const internalApiFields: FieldInfo[] | any = [
-  {
-    fieldName: "apiInfo",
-    tabList: [
-      {
-        title: "接口信息",
-        tabName: "apiInfo",
-        objectName: "apiInfo",
-        fieldList: urlFields
-      },
-      {
-        title: i18n("dyform.utils.600"), tabName: "queryParams", objectName: "queryParams",
-        batchFieldList: [{
-          batchName: "queryParams", helpMsg: i18n("dyform.utils.601"),
-          fieldList: [
-            {
-              label: i18n("dyform.utils.467"),
-              fieldName: "name",
-              type: "select",
-              required: true,
-              formVisible: true,
-              listVisible: true,
-              preps: {values: fieldList, filterable: true, allowCreate: true}
-            },
-            {
-              label: i18n("dyform.utils.468"),
-              fieldName: "matchType",
-              type: "select",
-              defaultValue: "eq",
-              required: urlRequired,
-              formVisible: true,
-              listVisible: true,
-              preps: {
-                values: matchTypeList, allowCreate: true, filterable: true,
-                dataRelation: {
-                  actionName: "change",
-                  relationDetails: [{
-                    matchType: "eq",
-                    controlCondition: "eqUnRequired",
-                    relationFields: "value",
-                    matchFieldValue: ["isnull", "notnull", "neq"]
-                  }]
-                }
-              }
-            },
-            {label: i18n("dyform.utils.469"), fieldName: "value", required: true, formVisible: true, listVisible: true},
-          ],
-        }],
-      },
-      {
-        title: i18n("dyform.utils.602"), tabName: "customParams", objectName: "customParams",
-        fieldList: [{
-          fieldName: "customParams",
-          label: i18n("dyform.utils.603"),
-          type: "json",
-          formVisible: true,
-          listVisible: true,
-          defaultValue: "",
-          preps: {devType: "Y"}
-        }],
-      },
-    ],
-  },
-];*/
 
 // ─── Dict fields ───
 const dictFields: FieldInfo[] | any = [
