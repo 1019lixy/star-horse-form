@@ -38,6 +38,7 @@ export interface ExecutionPath {
   duration: number
   conditionResults: { nodeId: string; passed: boolean; detail: string }[]
   actionResults: { nodeId: string; actionType: string; targetField: string; success: boolean; message: string }[]
+  snapshots: { nodeId: string; input: any; output: string; changes: string[] }[]
 }
 
 /**
@@ -307,6 +308,7 @@ export const executeRuleFlow = (
   const actionResults: ExecutionPath['actionResults'] = []
   const visitedNodeIds: string[] = []
   const visitedEdgeIds: string[] = []
+  const snapshots: ExecutionPath['snapshots'] = []
 
   // 找到开始节点
   const startNode = nodes.find(n => n.type === 'start')
@@ -318,7 +320,7 @@ export const executeRuleFlow = (
     return {
       visitedNodeIds, visitedEdgeIds, steps, context,
       success: false, duration: Date.now() - startTime,
-      conditionResults, actionResults
+      conditionResults, actionResults, snapshots
     }
   }
 
@@ -335,6 +337,11 @@ export const executeRuleFlow = (
     visitedNodeIds.push(node.id)
     const nodeStartTime = Date.now()
     const nodeName = getNodeName(node)
+    // 记录节点执行前的上下文快照（排除内部状态键）
+    const contextBefore: Record<string, any> = {}
+    for (const k of Object.keys(context)) {
+      if (!k.startsWith('__')) contextBefore[k] = context[k]
+    }
 
     steps.push({
       nodeId: node.id, nodeType: node.type, nodeName,
@@ -569,6 +576,19 @@ export const executeRuleFlow = (
     if (steps.length > 0) {
       steps[steps.length - 1].duration = Date.now() - nodeStartTime
     }
+
+    // 捕获节点执行快照：输出 + 上下文变更
+    const changes: string[] = []
+    const allKeys = new Set([...Object.keys(contextBefore), ...Object.keys(context).filter(k => !k.startsWith('__'))])
+    for (const k of allKeys) {
+      if (!(k in contextBefore)) {
+        changes.push(`${k} = ${JSON.stringify(context[k])}`)
+      } else if (JSON.stringify(contextBefore[k]) !== JSON.stringify(context[k])) {
+        changes.push(`${k}: ${JSON.stringify(contextBefore[k])} → ${JSON.stringify(context[k])}`)
+      }
+    }
+    const stepMsg = steps.length ? steps[steps.length - 1].message : ''
+    snapshots.push({ nodeId: node.id, input: contextBefore, output: stepMsg, changes })
   }
 
   return {
@@ -579,7 +599,8 @@ export const executeRuleFlow = (
     success: true,
     duration: Date.now() - startTime,
     conditionResults,
-    actionResults
+    actionResults,
+    snapshots
   }
 }
 
