@@ -19,6 +19,14 @@ export const demo1_ProductPricing: DemoData = {
   ruleCode: 'RULE_PRICING',
   ruleName: `Demo1: ${i18n('rule.demo.productPricing')}`,
   ruleDesc: i18n('rule.demo.productPricingDesc'),
+  variables: [
+    { field: 'category', label: '商品类别', type: 'STRING', source: 'INPUT' },
+    { field: 'stock', label: '库存数量', type: 'NUMBER', source: 'INPUT' },
+    { field: 'basePrice', label: '基础价格', type: 'NUMBER', source: 'INPUT' },
+    { field: 'priceMultiplier', label: '价格系数', type: 'NUMBER', source: 'CONTEXT' },
+    { field: 'discount', label: '折扣', type: 'NUMBER', source: 'CONTEXT' },
+    { field: 'finalPrice', label: '最终价格', type: 'NUMBER', source: 'CONTEXT', desc: '计算结果' }
+  ],
   nodes: [
     { id: 'start_1', type: 'start', position: { x: 400, y: 30 }, data: {} },
     { id: 'cond_1', type: 'condition', position: { x: 330, y: 130 }, data: { conditions: [{ fieldName: 'category', fieldType: 'STRING', operator: 'EQ', value: 'electronics' }, { fieldName: 'stock', fieldType: 'NUMBER', operator: 'LT', value: '50' }], logic: 'AND' } },
@@ -46,6 +54,14 @@ export const demo2_RiskScoring: DemoData = {
   ruleCode: 'RULE_RISK_SCORE',
   ruleName: `Demo2: ${i18n('rule.demo.riskScoring')}`,
   ruleDesc: i18n('rule.demo.riskScoringDesc'),
+  variables: [
+    { field: 'age', label: '年龄', type: 'NUMBER', source: 'INPUT' },
+    { field: 'income', label: '月收入', type: 'NUMBER', source: 'INPUT' },
+    { field: 'creditHistory', label: '信用记录', type: 'STRING', source: 'INPUT' },
+    { field: 'debtRatio', label: '负债率', type: 'NUMBER', source: 'INPUT' },
+    { field: 'riskScore', label: '风险评分', type: 'NUMBER', source: 'CONTEXT' },
+    { field: 'riskLevel', label: '风险等级', type: 'STRING', source: 'CONTEXT', desc: 'HIGH/LOW' }
+  ],
   nodes: [
     { id: 'start_1', type: 'start', position: { x: 400, y: 30 }, data: {} },
     { id: 'var_1', type: 'variable-assign', position: { x: 330, y: 130 }, data: { assignments: [{ variableName: 'riskScore', valueType: 'CONSTANT', value: '0' }] } },
@@ -118,19 +134,22 @@ export const demo4_CouponBenefit: DemoData = {
   ruleCode: 'RULE_COUPON',
   ruleName: `Demo4: ${i18n('rule.demo.couponBenefit')}`,
   ruleDesc: i18n('rule.demo.couponBenefitDesc'),
+  variables: [
+    { field: 'couponType', label: '优惠券类型', type: 'STRING', source: 'INPUT' },
+    { field: 'orderAmount', label: '订单金额', type: 'NUMBER', source: 'INPUT' },
+    { field: 'couponValue', label: '优惠金额', type: 'NUMBER', source: 'CONTEXT', desc: '计算结果' }
+  ],
   nodes: [
     { id: 'start_1', type: 'start', position: { x: 400, y: 30 }, data: {} },
-    { id: 'var_1', type: 'variable-assign', position: { x: 330, y: 130 }, data: { assignments: [{ variableName: 'couponType', valueType: 'VARIABLE', value: 'type' }, { variableName: 'orderAmount', valueType: 'VARIABLE', value: 'amount' }] } },
-    { id: 'cond_1', type: 'condition', position: { x: 330, y: 260 }, data: { conditions: [{ fieldName: 'couponType', fieldType: 'STRING', operator: 'EQ', value: 'FULL_REDUCTION' }, { fieldName: 'orderAmount', fieldType: 'NUMBER', operator: 'GTE', value: '200' }], logic: 'AND' } },
-    { id: 'action_1', type: 'action', position: { x: 100, y: 400 }, data: { actions: [{ actionType: 'SET_VALUE', targetField: 'couponValue', actionValue: '50', actionValueType: 'CONSTANT' }, { actionType: 'SHOW_MESSAGE', message: '满200减50优惠券', messageType: 'SUCCESS' }] } },
-    { id: 'cond_2', type: 'condition', position: { x: 560, y: 400 }, data: { conditions: [{ fieldName: 'couponType', fieldType: 'STRING', operator: 'EQ', value: 'PERCENTAGE' }, { fieldName: 'orderAmount', fieldType: 'NUMBER', operator: 'GTE', value: '100' }], logic: 'AND' } },
-    { id: 'action_2', type: 'action', position: { x: 560, y: 540 }, data: { actions: [{ actionType: 'SET_VALUE', targetField: 'couponValue', actionValue: 'orderAmount * 0.2', actionValueType: 'EXPRESSION' }, { actionType: 'SHOW_MESSAGE', message: '8折优惠券', messageType: 'SUCCESS' }] } },
-    { id: 'action_3', type: 'action', position: { x: 330, y: 680 }, data: { actions: [{ actionType: 'SET_VALUE', targetField: 'couponValue', actionValue: '0', actionValueType: 'CONSTANT' }, { actionType: 'SHOW_MESSAGE', message: '优惠券不满足使用条件', messageType: 'WARNING' }] } },
-    { id: 'end_1', type: 'end', position: { x: 400, y: 820 }, data: { endType: 'success' } }
+    { id: 'cond_1', type: 'condition', position: { x: 330, y: 160 }, data: { conditions: [{ fieldName: 'couponType', fieldType: 'STRING', operator: 'EQ', value: 'FULL_REDUCTION' }, { fieldName: 'orderAmount', fieldType: 'NUMBER', operator: 'GTE', value: '200' }], logic: 'AND' } },
+    { id: 'action_1', type: 'action', position: { x: 100, y: 340 }, data: { actions: [{ actionType: 'SET_VALUE', targetField: 'couponValue', actionValue: '50', actionValueType: 'CONSTANT' }, { actionType: 'SHOW_MESSAGE', message: '满200减50优惠券', messageType: 'SUCCESS' }] } },
+    { id: 'cond_2', type: 'condition', position: { x: 560, y: 340 }, data: { conditions: [{ fieldName: 'couponType', fieldType: 'STRING', operator: 'EQ', value: 'PERCENTAGE' }, { fieldName: 'orderAmount', fieldType: 'NUMBER', operator: 'GTE', value: '100' }], logic: 'AND' } },
+    { id: 'action_2', type: 'action', position: { x: 560, y: 520 }, data: { actions: [{ actionType: 'SET_VALUE', targetField: 'couponValue', actionValue: 'orderAmount * 0.2', actionValueType: 'EXPRESSION' }, { actionType: 'SHOW_MESSAGE', message: '8折优惠券', messageType: 'SUCCESS' }] } },
+    { id: 'action_3', type: 'action', position: { x: 330, y: 700 }, data: { actions: [{ actionType: 'SET_VALUE', targetField: 'couponValue', actionValue: '0', actionValueType: 'CONSTANT' }, { actionType: 'SHOW_MESSAGE', message: '优惠券不满足使用条件', messageType: 'WARNING' }] } },
+    { id: 'end_1', type: 'end', position: { x: 400, y: 870 }, data: { endType: 'success' } }
   ],
   edges: [
-    { id: 'e1', source: 'start_1', target: 'var_1', animated: false, style: { stroke: '#7c3aed', strokeWidth: 2 } },
-    { id: 'e2', source: 'var_1', target: 'cond_1', animated: false, label: '设置 couponType, orderAmount', style: { stroke: '#6366f1', strokeWidth: 2 }, labelStyle: { fill: '#6366f1', fontSize: 11, fontWeight: 500 }, labelShowBg: true, labelBgStyle: { fill: '#fff', fillOpacity: 0.9 } },
+    { id: 'e1', source: 'start_1', target: 'cond_1', animated: false, style: { stroke: '#7c3aed', strokeWidth: 2 } },
     { id: 'e3', source: 'cond_1', target: 'action_1', animated: false, label: '满足 ✓', style: { stroke: '#10b981', strokeWidth: 2 }, labelStyle: { fill: '#10b981', fontSize: 11, fontWeight: 600 }, labelShowBg: true, labelBgStyle: { fill: '#fff', fillOpacity: 0.9 } },
     { id: 'e4', source: 'cond_1', target: 'cond_2', animated: false, label: '不满足 ✗', style: { stroke: '#ef4444', strokeWidth: 2 }, labelStyle: { fill: '#ef4444', fontSize: 11, fontWeight: 600 }, labelShowBg: true, labelBgStyle: { fill: '#fff', fillOpacity: 0.9 } },
     { id: 'e5', source: 'action_1', target: 'end_1', animated: false, label: '2个动作', style: { stroke: '#6366f1', strokeWidth: 2 }, labelStyle: { fill: '#6366f1', fontSize: 11, fontWeight: 500 }, labelShowBg: true, labelBgStyle: { fill: '#fff', fillOpacity: 0.9 } },

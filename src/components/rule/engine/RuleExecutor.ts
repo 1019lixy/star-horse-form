@@ -100,6 +100,16 @@ const compareValues = (left: any, operator: string, right: any): boolean => {
       return typeof left === 'string' && typeof right === 'string' && left.startsWith(right)
     case 'ENDS_WITH':
       return typeof left === 'string' && typeof right === 'string' && left.endsWith(right)
+    case 'BETWEEN': {
+      // right格式: "min-max" 或 "min,max"
+      const parts = String(right).split(/[-,]/)
+      if (parts.length >= 2) {
+        const lo = toNum(parts[0])
+        const hi = toNum(parts[1])
+        return toNum(left) >= lo && toNum(left) <= hi
+      }
+      return false
+    }
     default:
       return false
   }
@@ -257,9 +267,28 @@ const executeVariableAssign = (assignments: any[], context: any): { success: boo
       value = resolveContextPath(context, String(assign.value))
     } else if (assign.valueType === 'EXPRESSION') {
       value = evaluateExpression(String(assign.value), context)
+    } else if (assign.valueType === 'CONSTANT') {
+      // 尝试解析为JSON（支持数组/对象常量）
+      if (typeof value === 'string') {
+        const trimmed = value.trim()
+        if ((trimmed.startsWith('[') && trimmed.endsWith(']')) || (trimmed.startsWith('{') && trimmed.endsWith('}'))) {
+          try {
+            value = JSON.parse(trimmed)
+          } catch {
+            // JSON解析失败，保持原始字符串
+          }
+        }
+        // 尝试解析为数字
+        else if (/^-?\d+(\.\d+)?$/.test(trimmed)) {
+          value = Number(trimmed)
+        }
+        // 布尔值
+        else if (trimmed === 'true') value = true
+        else if (trimmed === 'false') value = false
+      }
     }
     context[assign.variableName] = value
-    messages.push(`${assign.variableName} = ${value}`)
+    messages.push(`${assign.variableName} = ${typeof value === 'object' ? JSON.stringify(value) : value}`)
   }
   return { success: true, messages }
 }
@@ -376,19 +405,37 @@ export const executeRuleFlow = (
         steps[steps.length - 1].message = `${passed ? i18n('rule.exec.conditionMet') : i18n('rule.exec.conditionNotMet')}: ${details.join('; ')}`
         steps[steps.length - 1].status = passed ? 'SUCCESS' : 'SKIPPED'
 
-        // 条件满足走第一条边，不满足找标签为"否"的边
+        // 条件满足走"是"边，不满足走"否"边
+        // 匹配策略：满足=包含"是"/"满足"/"true"/"✓"的标签；不满足=包含"否"/"不满足"/"false"/"✗"的标签
         const outEdges = edges.filter(e => e.source === node.id)
+        const isTrueLabel = (label?: string) => {
+          if (!label) return true // 无标签默认为"是"边
+          const l = label.toLowerCase()
+          return l === '是' || l === 'true' || l.includes('满足') || l.includes('✓') || l.includes('yes')
+        }
+        const isFalseLabel = (label?: string) => {
+          if (!label) return false
+          const l = label.toLowerCase()
+          return l === '否' || l === 'false' || l.includes('不满足') || l.includes('✗') || l.includes('no')
+        }
         if (passed) {
-          const trueEdge = outEdges.find(e => !e.label || e.label === '是' || e.label === 'true') || outEdges[0]
+          const trueEdge = outEdges.find(e => isTrueLabel(e.label)) || outEdges[0]
           if (trueEdge) {
             nextEdgeId = trueEdge.id
             nextNodeId = trueEdge.target
           }
         } else {
-          const falseEdge = outEdges.find(e => e.label === '否' || e.label === 'false')
+          const falseEdge = outEdges.find(e => isFalseLabel(e.label))
           if (falseEdge) {
             nextEdgeId = falseEdge.id
             nextNodeId = falseEdge.target
+          } else {
+            // 没有明确的"否"边时，走第二条边（第一条通常是"是"边）
+            const secondEdge = outEdges.length > 1 ? outEdges[1] : outEdges[0]
+            if (secondEdge) {
+              nextEdgeId = secondEdge.id
+              nextNodeId = secondEdge.target
+            }
           }
         }
         break
@@ -422,28 +469,54 @@ export const executeRuleFlow = (
         const branches = node.data.branches || []
         const outEdges = edges.filter(e => e.source === node.id)
         let found = false
+        let defaultEdge: ExecutionEdge | null = null
         for (const edge of outEdges) {
-          // 简单匹配：边的label作为条件描述
+          // 通过edge.label匹配branch
           const branch = branches.find((b: any) => b.label === edge.label)
-          if (branch && branch.conditions && branch.conditions.length > 0) {
-            const { passed } = evaluateConditions(branch.conditions, branch.logic || 'AND', context)
-            if (passed) {
-              nextEdgeId = edge.id
-              nextNodeId = edge.target
-              found = true
-              break
+          if (branch) {
+            // 1) branch有conditions数组 → 用evaluateConditions
+            if (branch.conditions && branch.conditions.length > 0) {
+              const { passed } = evaluateConditions(branch.conditions, branch.logic || 'AND', context)
+              if (passed) {
+                nextEdgeId = edge.id
+                nextNodeId = edge.target
+                found = true
+                break
+              }
+            }
+            // 2) branch有condition字符串 → 用evaluateExpression求值
+            else if (branch.condition && typeof branch.condition === 'string') {
+              const condStr = String(branch.condition)
+              if (condStr === 'default' || condStr.toLowerCase() === 'default') {
+                defaultEdge = edge
+                continue // 默认分支最后处理
+              }
+              try {
+                const result = evaluateExpression(condStr, context)
+                if (result === true || result === 'true') {
+                  nextEdgeId = edge.id
+                  nextNodeId = edge.target
+                  found = true
+                  break
+                }
+              } catch {
+                // 条件求值失败，跳过此分支
+              }
             }
           } else if (!found) {
-            // 默认分支（无条件的边）
-            nextEdgeId = edge.id
-            nextNodeId = edge.target
-            found = true
-            break
+            // 无匹配branch的边，视为默认分支
+            if (!defaultEdge) defaultEdge = edge
           }
         }
+        // 没有条件满足时走默认分支
+        if (!found && defaultEdge) {
+          nextEdgeId = defaultEdge.id
+          nextNodeId = defaultEdge.target
+          found = true
+        }
         if (!found && outEdges.length > 0) {
-          nextEdgeId = outEdges[0].id
-          nextNodeId = outEdges[0].target
+          nextEdgeId = outEdges[outEdges.length - 1].id
+          nextNodeId = outEdges[outEdges.length - 1].target
         }
         steps[steps.length - 1].message = found ? `${i18n('rule.exec.selectBranch')}: ${edges.find(e => e.id === nextEdgeId)?.label || i18n('rule.exec.default')}` : i18n('rule.exec.noMatchedBranch')
         steps[steps.length - 1].status = 'SUCCESS'
@@ -474,9 +547,21 @@ export const executeRuleFlow = (
         const matchedEdges: string[] = []
         for (const edge of outEdges) {
           const branch = branches.find((b: any) => b.label === edge.label)
-          if (branch && branch.conditions && branch.conditions.length > 0) {
-            const { passed } = evaluateConditions(branch.conditions, branch.logic || 'AND', context)
-            if (passed) matchedEdges.push(edge.id)
+          if (branch) {
+            if (branch.conditions && branch.conditions.length > 0) {
+              const { passed } = evaluateConditions(branch.conditions, branch.logic || 'AND', context)
+              if (passed) matchedEdges.push(edge.id)
+            } else if (branch.condition && typeof branch.condition === 'string') {
+              const condStr = String(branch.condition)
+              if (condStr === 'default' || condStr.toLowerCase() === 'default') {
+                matchedEdges.push(edge.id)
+              } else {
+                try {
+                  const result = evaluateExpression(condStr, context)
+                  if (result === true || result === 'true') matchedEdges.push(edge.id)
+                } catch { /* skip */ }
+              }
+            }
           }
         }
         // 简化：走第一个匹配的
