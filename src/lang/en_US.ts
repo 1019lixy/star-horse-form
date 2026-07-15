@@ -1420,6 +1420,18 @@ export default {
     "rule.ph.enterFieldName": "Please enter field name",
     "rule.ph.enterFieldValue": "Please enter field value",
 
+    // ========== Code View ==========
+    "rule.codeView.design": "Design",
+    "rule.codeView.code": "Code",
+    "rule.codeView.flowJson": "Flow JSON",
+    "rule.codeView.fullJson": "Full Rule JSON",
+    "rule.codeView.readonly": "Read Only",
+    "rule.codeView.applyToDesign": "Apply to Design",
+    "rule.codeView.syncFromDesign": "Sync from Design",
+    "rule.codeView.confirmApply": "Are you sure you want to apply the code view changes to the design view? Current design data will be overwritten.",
+    "rule.codeView.applySuccess": "Successfully applied to design view",
+    "rule.codeView.invalidFormat": "Invalid JSON format, nodes and edges must be arrays",
+
     /**
      * Home Component Internationalization
      */

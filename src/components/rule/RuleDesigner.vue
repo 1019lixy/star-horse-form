@@ -80,6 +80,18 @@
           <el-icon><VideoPlay /></el-icon>
           <span>{{ i18n('rule.test') }}</span>
         </el-button>
+        <el-divider direction="vertical" />
+        <!-- 设计/代码视图切换 -->
+        <el-button-group>
+          <el-button :type="viewMode === 'design' ? 'primary' : 'default'" @click="viewMode = 'design'">
+            <el-icon><Grid /></el-icon>
+            <span>{{ i18n('rule.codeView.design') }}</span>
+          </el-button>
+          <el-button :type="viewMode === 'code' ? 'primary' : 'default'" @click="viewMode = 'code'">
+            <el-icon><Document /></el-icon>
+            <span>{{ i18n('rule.codeView.code') }}</span>
+          </el-button>
+        </el-button-group>
       </div>
       <!-- 右：辅助操作 -->
       <div class="toolbar-right">
@@ -204,8 +216,9 @@
       </div>
     </div>
 
-    <!-- 主体：el-splitter 嵌套布局（上=设计区三栏，下=测试控制台） -->
-    <el-splitter layout="vertical" class="designer-body">
+    <!-- 主体 -->
+    <!-- 设计视图 -->
+    <el-splitter v-if="viewMode === 'design'" layout="vertical" class="designer-body">
       <!-- 上部：设计区 -->
       <el-splitter-panel>
         <el-splitter class="designer-main">
@@ -616,6 +629,16 @@
         </div>
       </el-splitter-panel>
     </el-splitter>
+
+    <!-- 代码视图 -->
+    <RuleCodeView
+      v-if="viewMode === 'code'"
+      :ruleData="ruleData"
+      :nodes="nodes"
+      :edges="edges"
+      @update="handleCodeViewUpdate"
+      class="designer-body"
+    />
   </div>
 </template>
 
@@ -633,6 +656,7 @@ import {
   Cpu,
   Connection,
   Delete,
+  Document,
   Edit,
   EditPen,
   FullScreen,
@@ -692,6 +716,7 @@ import { executeRuleFlow, type ExecutionPath } from "./engine/RuleExecutor";
 import { success, warning, error, operationConfirm } from "star-horse-lowcode";
 import { ElMessageBox } from "element-plus";
 import { i18n } from "@/lang";
+import RuleCodeView from "./RuleCodeView.vue";
 
 const props = defineProps<{ ruleId?: string }>();
 const emit = defineEmits<{ (e: "saved"): void; (e: "close"): void }>();
@@ -703,6 +728,8 @@ const saving = ref(false);
 const nodes = ref<Node[]>([]);
 const edges = ref<Edge[]>([]);
 const selectedNode = ref<any>(null);
+// 视图模式：design=设计视图, code=代码视图
+const viewMode = ref<"design" | "code">("design");
 
 // 弹窗
 const conditionDialogVisible = ref(false);
@@ -2010,6 +2037,14 @@ const loadRuleData = async () => {
     error(i18n('rule.msg.loadFail'));
     initDefaultFlow();
   }
+};
+
+// 代码视图更新：将JSON编辑器的数据同步回设计视图
+const handleCodeViewUpdate = (data: { nodes: any[]; edges: any[]; variables: any[] }) => {
+  nodes.value = data.nodes;
+  edges.value = data.edges;
+  ruleData.variables = data.variables;
+  pushHistory();
 };
 
 const handleSave = async () => {

@@ -803,3 +803,7 @@ $white: #ffffff;
 .el-form-item__content {
   min-width: unset;
 }
+
+.is-message-box {
+  z-index: 3500 !important;
+}

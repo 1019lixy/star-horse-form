@@ -1421,6 +1421,18 @@ export default {
   "rule.ph.enterRuleName": "请输入规则名称",
   "rule.ph.selectRuleType": "请选择规则类型",
 
+  // ========== 代码视图 ==========
+  "rule.codeView.design": "设计",
+  "rule.codeView.code": "代码",
+  "rule.codeView.flowJson": "流程JSON",
+  "rule.codeView.fullJson": "完整规则JSON",
+  "rule.codeView.readonly": "只读",
+  "rule.codeView.applyToDesign": "应用到设计",
+  "rule.codeView.syncFromDesign": "从设计同步",
+  "rule.codeView.confirmApply": "确定将代码视图的修改应用到设计视图？当前设计视图的数据将被覆盖。",
+  "rule.codeView.applySuccess": "已成功应用到设计视图",
+  "rule.codeView.invalidFormat": "JSON格式无效，nodes和edges必须为数组",
+
   /**
    * Home组件国际化
    */
