@@ -1,6 +1,6 @@
 <template>
   <star-horse-dialog
-    :dialogVisible="visible"
+    v-model="dialogVisible"
     :title="i18n('rule.dialog.variableAssignConfig')"
     boxWidth="720px"
     :selfFunc="true"
@@ -100,7 +100,10 @@ const emit = defineEmits<{
 }>();
 
 const formRef = ref<FormInstance>();
-
+const dialogVisible=ref<boolean>(false);
+watch(()=>props.visible,(val)=>{
+  dialogVisible.value = val;
+},{immediate:true});
 const formData = reactive<{ assignments: any[] }>({
   assignments: []
 });

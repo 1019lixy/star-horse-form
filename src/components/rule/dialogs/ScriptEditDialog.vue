@@ -1,6 +1,6 @@
 <template>
   <star-horse-dialog
-    :dialogVisible="visible"
+    v-model="dialogVisible"
     :title="i18n('rule.dialog.scriptEdit')"
     boxWidth="680px"
     boxHeight="auto"
@@ -59,7 +59,10 @@ const emit = defineEmits<{
 }>();
 
 const formRef = ref<FormInstance>();
-
+const dialogVisible=ref<boolean>(false);
+watch(()=>props.visible,(val)=>{
+  dialogVisible.value = val;
+},{immediate:true});
 const defaultFormData = () => ({
   scriptLang: "javascript",
   scriptContent: ""

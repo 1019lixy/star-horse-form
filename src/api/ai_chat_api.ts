@@ -25,8 +25,8 @@ export function sendAiChatMessage(
 ): AbortController {
     const controller = new AbortController();
 
-    const baseUrl = aiApi.value?.baseUrl || "/userdb-manage";
-    const url = `${baseUrl}/userdb/aiChat/chat`;
+    const baseUrl = aiApi.value?.appName || "userdb-manage";;
+    const url = `/${baseUrl}/userdb/aiChat/chat`;
 
     fetch(url, {
         method: "POST",
@@ -136,8 +136,8 @@ export function sendAiChatMessage(
  * 清空 AI 会话
  */
 export function clearAiChatSession(sessionId: string): Promise<any> {
-    const baseUrl = aiApi.value?.baseUrl || "/userdb-manage";
-    return fetch(`${baseUrl}/userdb/aiChat/session/${sessionId}`, {
+    const baseUrl =aiApi.value?.appName || "userdb-manage";
+    return fetch(`/${baseUrl}/userdb/aiChat/session/${sessionId}`, {
         method: "DELETE",
     }).then((res) => res.json());
 }

@@ -33,6 +33,10 @@ onMounted(() => {
 watch(() => props.currentPageClass, (newVal) => {
   pageStyle.value = newVal;
 }, {immediate: true});
+const dialogVisible=ref<boolean>(false);
+watch(()=>props.visible,(val)=>{
+  dialogVisible.value = val;
+},{immediate:true});
 defineExpose({
   validateForm,
   exportToHtml,
@@ -41,7 +45,7 @@ defineExpose({
 
 <template>
   <star-horse-dialog
-      :dialogVisible="visible"
+      v-model="dialogVisible"
       @closeAction="closeAction"
       box-height="80%"
       :selfFunc="true"

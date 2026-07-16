@@ -27,7 +27,7 @@ export default {
   "rule.add": "添加",
   "rule.addLine": "添加行",
   "rule.operation": "操作",
-  
+
   // 对齐方式
   "rule.align.left": "左对齐",
   "rule.align.centerH": "水平居中",
@@ -38,13 +38,13 @@ export default {
   "rule.align.distributeH": "水平分布",
   "rule.align.distributeV": "垂直分布",
   "rule.align.title": "对齐分布",
-  
+
   // 连线样式
   "rule.edge.bezier": "贝塞尔曲线",
   "rule.edge.straight": "直线",
   "rule.edge.step": "折线",
   "rule.edge.smoothstep": "平滑折线",
-  
+
   // 右键菜单
   "rule.menu.editNode": "编辑节点",
   "rule.menu.copyNode": "复制节点",
@@ -53,7 +53,7 @@ export default {
   "rule.menu.deleteEdge": "删除连线",
   "rule.menu.pasteNode": "粘贴节点",
   "rule.menu.fitCanvas": "适应画布",
-  
+
   // 测试控制台
   "rule.console.title": "测试控制台",
   "rule.console.success": "成功",
@@ -69,12 +69,12 @@ export default {
   "rule.console.noParams": "暂无可测试参数",
   "rule.console.addConditionHint": "添加条件节点后自动解析字段",
   "rule.console.executeHint": "点击执行按钮运行规则",
-  
+
   // 状态文本
   "rule.status.draft": "草稿",
   "rule.status.published": "已发布",
   "rule.status.disabled": "已禁用",
-  
+
   // 提示信息
   "rule.msg.editEdgeLabel": "编辑连线标签",
   "rule.msg.edgeLabel": "连线标签",
@@ -146,7 +146,7 @@ export default {
   "rule.help.openConsole": "点击测试按钮打开控制台",
   "rule.help.executeHighlight": "执行后高亮显示决策路径",
   "rule.help.closeRestore": "关闭控制台还原设计状态",
-  
+
   // 边标签
   "rule.edge.satisfied": "满足 ✓",
   "rule.edge.notSatisfied": "不满足 ✗",
@@ -175,7 +175,7 @@ export default {
   "rule.category.exceptionControl": "异常与流程控制",
   "rule.category.permissionAudit": "权限&审计",
   "rule.category.subRule": "子规则封装",
-  
+
   // 节点标签
   "rule.node.start": "规则入口",
   "rule.node.end": "规则出口",
@@ -233,7 +233,7 @@ export default {
   "rule.node.subRuleCall": "子规则调用",
   "rule.node.ruleVersion": "规则版本切换",
   "rule.node.ruleGray": "规则灰度",
-  
+
   // 节点组件空状态提示
   "rule.node.condEmptyTip": "双击或点击 + 添加条件",
   "rule.node.actionEmptyTip": "双击或点击 + 添加动作",
@@ -262,7 +262,7 @@ export default {
   "rule.lbl.branchCount": "分支",
   "rule.lbl.itemAssignCount": "项赋值",
   "rule.lbl.code": "编码",
-  
+
   // 通用消息
   "rule.msg.unnamedRuleSet": "未命名规则集",
   "rule.msg.breakOnCondition": "满足条件时中断",
@@ -397,7 +397,7 @@ export default {
   "rule.desc.httpCall": "调用外部接口",
   "rule.desc.ruleSetRef": "引用一组子规则",
   "rule.desc.decisionTable": "多条件+多动作的表格化规则",
-  
+
   // 字段标签
   "rule.field.source": "数据来源",
   "rule.field.fieldPath": "字段路径",
@@ -440,7 +440,7 @@ export default {
   "rule.field.conditionCol": "条件列",
   "rule.field.actionCol": "动作列",
   "rule.field.ruleRow": "规则行",
-  
+
   // 选项文本
   "rule.option.form": "表单数据",
   "rule.option.process": "流程变量",
@@ -489,7 +489,7 @@ export default {
   "rule.option.constant": "常量",
   "rule.option.variable": "变量",
   "rule.option.expression": "表达式",
-  
+
   // 属性面板
   "rule.panel.property": "属性配置",
   "rule.panel.selectNode": "选中一个节点查看属性",
@@ -509,11 +509,11 @@ export default {
   "rule.panel.noCondition": "暂无条件",
   "rule.panel.noAction": "暂无动作",
   "rule.panel.noAssign": "暂无赋值",
-  
+
   // 节点面板
   "rule.panel.nodeLib": "节点库",
   "rule.panel.searchNode": "搜索节点...",
-  
+
   // 节点组件
   "rule.comp.start": "开始",
   "rule.comp.end": "结束",
@@ -570,7 +570,7 @@ export default {
   "rule.comp.actionsCount": "个动作",
   "rule.comp.assignItems": "项赋值",
   "rule.comp.breakOnMatch": "满足条件时中断",
-  
+
   // Demo
   "rule.demo.productPricing": "商品定价决策",
   "rule.demo.productPricingDesc": "根据商品类目、库存、季节计算最终售价",
@@ -1095,8 +1095,6 @@ export default {
   "rule.node.calcRatio": "比例分摊运算",
   "rule.node.actionAssign": "字段赋值",
   "rule.node.actionMark": "数据标记",
-  "rule.node.filterOutput": "数据过滤输出",
-  "rule.node.splitMerge": "拆分合并",
   "rule.node.msgPushTodo": "内部流程推送",
   "rule.node.msgAlert": "告警消息",
   "rule.node.msgLog": "日志写入",
@@ -1239,8 +1237,6 @@ export default {
   "rule.msg.message": "消息",
   "rule.msg.arrayInput": "数组输入",
   "rule.msg.inputValue": "请输入值",
-  "rule.lbl.execute": "执行",
-  "rule.lbl.varName": "变量名",
 
   // ========== 补全：对话框/节点组件中使用的缺失key ==========
   // -- rule.lbl.* 对话框表单标签 --
@@ -1261,8 +1257,6 @@ export default {
   "rule.lbl.operation": "操作",
   "rule.lbl.fieldType": "字段类型",
   "rule.lbl.conditionValue": "条件值",
-  "rule.lbl.columnCount": "列",
-  "rule.lbl.rowCount": "行",
 
   // -- rule.btn.* 按钮文本 --
   "rule.btn.addRequestHeaders": "添加请求头",
@@ -1294,7 +1288,6 @@ export default {
   "rule.opt.hideMessage": "隐藏消息",
   "rule.opt.callApi": "调用API",
   "rule.opt.executeScript": "执行脚本",
-  "rule.opt.count": "计数",
 
   // ========== 补全：RuleTestDialog 测试对话框 ==========
   "rule.lbl.testData": "测试数据",

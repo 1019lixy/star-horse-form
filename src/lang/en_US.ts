@@ -27,7 +27,7 @@ export default {
     "rule.add": "Add",
     "rule.addLine": "Add Row",
     "rule.operation": "Operation",
-    
+
     // Alignment
     "rule.align.left": "Align Left",
     "rule.align.centerH": "Center Horizontal",
@@ -38,13 +38,13 @@ export default {
     "rule.align.distributeH": "Distribute Horizontal",
     "rule.align.distributeV": "Distribute Vertical",
     "rule.align.title": "Align & Distribute",
-    
+
     // Edge Styles
     "rule.edge.bezier": "Bezier Curve",
     "rule.edge.straight": "Straight Line",
     "rule.edge.step": "Step Line",
     "rule.edge.smoothstep": "Smooth Step",
-    
+
     // Context Menu
     "rule.menu.editNode": "Edit Node",
     "rule.menu.copyNode": "Copy Node",
@@ -53,7 +53,7 @@ export default {
     "rule.menu.deleteEdge": "Delete Edge",
     "rule.menu.pasteNode": "Paste Node",
     "rule.menu.fitCanvas": "Fit Canvas",
-    
+
     // Test Console
     "rule.console.title": "Test Console",
     "rule.console.success": "Success",
@@ -69,12 +69,12 @@ export default {
     "rule.console.noParams": "No test parameters available",
     "rule.console.addConditionHint": "Add condition nodes to auto-parse fields",
     "rule.console.executeHint": "Click execute button to run rule",
-    
+
     // Status Text
     "rule.status.draft": "Draft",
     "rule.status.published": "Published",
     "rule.status.disabled": "Disabled",
-    
+
     // Messages
     "rule.msg.editEdgeLabel": "Edit Edge Label",
     "rule.msg.edgeLabel": "Edge Label",
@@ -146,7 +146,7 @@ export default {
     "rule.help.openConsole": "Click test button to open console",
     "rule.help.executeHighlight": "Execute to highlight decision path",
     "rule.help.closeRestore": "Close console to restore design state",
-    
+
     // Edge Labels
     "rule.edge.satisfied": "Satisfied ✓",
     "rule.edge.notSatisfied": "Not Satisfied ✗",
@@ -158,7 +158,7 @@ export default {
     "rule.edge.loop": "Loop",
     "rule.edge.set": "Set",
     "rule.edge.actions": "actions",
-    
+
     // Node Categories
     "rule.category.decisionControl": "Rule Decision Control",
     "rule.category.businessLogic": "Business Logic",
@@ -172,7 +172,7 @@ export default {
     "rule.category.exceptionControl": "Exception & Flow Control",
     "rule.category.permissionAudit": "Permission & Audit",
     "rule.category.subRule": "Sub-Rule Encapsulation",
-    
+
     // Node Labels
     "rule.node.start": "Rule Entry",
     "rule.node.end": "Rule Exit",
@@ -230,7 +230,7 @@ export default {
     "rule.node.subRuleCall": "Sub-Rule Call",
     "rule.node.ruleVersion": "Rule Version Switch",
     "rule.node.ruleGray": "Rule Gray Release",
-    
+
     // Node component empty state tips
     "rule.node.condEmptyTip": "Double-click or click + to add condition",
     "rule.node.actionEmptyTip": "Double-click or click + to add action",
@@ -247,7 +247,7 @@ export default {
     "rule.node.actionFilterOutput": "Data Filter Output",
     "rule.node.actionSplitMerge": "Split and Merge",
     "rule.node.genericNode": "Generic Node",
-    
+
     // Common labels
     "rule.lbl.execute": "Execute",
     "rule.lbl.actionCount": "actions",
@@ -259,11 +259,11 @@ export default {
     "rule.lbl.branchCount": "branches",
     "rule.lbl.itemAssignCount": "assignments",
     "rule.lbl.code": "Code",
-    
+
     // Common messages
     "rule.msg.unnamedRuleSet": "Unnamed rule set",
     "rule.msg.breakOnCondition": "Break when condition is met",
-    
+
     // Node Descriptions
     "rule.desc.start": "Rule evaluation entry point, defines input data context",
     "rule.desc.end": "Rule execution result exit, multiple exits represent different decision results",
@@ -279,7 +279,7 @@ export default {
     "rule.desc.httpCall": "Call external interface",
     "rule.desc.ruleSetRef": "Reference a group of sub-rules",
     "rule.desc.decisionTable": "Tabular rules with multiple conditions and actions",
-    
+
     // Field Labels
     "rule.field.source": "Data Source",
     "rule.field.fieldPath": "Field Path",
@@ -322,7 +322,7 @@ export default {
     "rule.field.conditionCol": "Condition Column",
     "rule.field.actionCol": "Action Column",
     "rule.field.ruleRow": "Rule Row",
-    
+
     // Option Text
     "rule.option.form": "Form Data",
     "rule.option.process": "Process Variable",
@@ -371,7 +371,7 @@ export default {
     "rule.option.constant": "Constant",
     "rule.option.variable": "Variable",
     "rule.option.expression": "Expression",
-    
+
     // Property Panel
     "rule.panel.property": "Property Configuration",
     "rule.panel.selectNode": "Select a node to view properties",
@@ -391,11 +391,11 @@ export default {
     "rule.panel.noCondition": "No conditions",
     "rule.panel.noAction": "No actions",
     "rule.panel.noAssign": "No assignments",
-    
+
     // Node Panel
     "rule.panel.nodeLib": "Node Library",
     "rule.panel.searchNode": "Search nodes...",
-    
+
     // Node Components
     "rule.comp.start": "Start",
     "rule.comp.end": "End",
@@ -452,7 +452,7 @@ export default {
     "rule.comp.actionsCount": "actions",
     "rule.comp.assignItems": "items assigned",
     "rule.comp.breakOnMatch": "Break when condition matches",
-    
+
     // Demo
     "rule.demo.productPricing": "Product Pricing Decision",
     "rule.demo.productPricingDesc": "Calculate final price based on product category, inventory, and season",
@@ -977,8 +977,6 @@ export default {
     "rule.node.calcRatio": "Ratio Allocation Calc",
     "rule.node.actionAssign": "Field Assignment",
     "rule.node.actionMark": "Data Marking",
-    "rule.node.filterOutput": "Data Filter Output",
-    "rule.node.splitMerge": "Split & Merge",
     "rule.node.msgPushTodo": "Internal Process Push",
     "rule.node.msgAlert": "Alert Message",
     "rule.node.msgLog": "Log Write",

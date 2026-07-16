@@ -97,6 +97,10 @@ watch(
   },
   { immediate: true },
 );
+const dialogVisible=ref<boolean>(false);
+watch(()=>props.visible,(val)=>{
+  dialogVisible.value = val;
+},{immediate:true});
 defineExpose({
   setFormData,
 });
@@ -104,7 +108,7 @@ defineExpose({
 
 <template>
   <star-horse-dialog
-    :dialogVisible="visible"
+    v-model="dialogVisible"
     :title="i18n('dyform.params.dialog.title')"
     :isBatch="false"
     @merge="paramsValid"

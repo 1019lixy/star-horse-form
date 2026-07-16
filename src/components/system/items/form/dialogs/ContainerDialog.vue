@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref } from "vue";
+import {ref, watch} from "vue";
 import { containerField } from "@/components/system/items/utils/ItemPreps.js";
 import { i18n } from "@/lang/index.js";
 
@@ -29,7 +29,10 @@ const containerAction = () => {
 const resetForm = () => {
   // Reset logic if needed
 };
-
+const dialogVisible=ref<boolean>(false);
+watch(()=>props.visible,(val)=>{
+  dialogVisible.value = val;
+},{immediate:true});
 defineExpose({
   setFormData: (data: any) => {
     if (containerPrepRef.value) {
@@ -41,7 +44,7 @@ defineExpose({
 
 <template>
   <star-horse-dialog
-    :dialogVisible="visible"
+    v-model="dialogVisible"
     :title="i18n('dyform.container.dialog.title')"
     :isBatch="false"
     @merge="containerAction"

@@ -132,8 +132,7 @@ watch(
     <template v-else-if="hasData">
       <star-horse-dialog
           :isShowBtnContinue="true"
-          :dialogVisible="dialogProps.editVisible"
-          :dialogProps="dialogProps"
+          v-model="dialogProps.editVisible"
       >
         <star-horse-form
             @refresh="dataRecall"
@@ -148,8 +147,7 @@ watch(
         />
       </star-horse-dialog>
       <star-horse-dialog
-          :dialog-visible="dialogProps.viewVisible"
-          :dialogProps="dialogProps"
+          v-model="dialogProps.viewVisible"
           :source="3"
       >
         <star-horse-data-view

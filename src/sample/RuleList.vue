@@ -141,7 +141,7 @@
 
     <!-- 规则设计器弹窗 -->
     <star-horse-dialog
-      :dialogVisible="designerVisible"
+      v-model="designerVisible"
       :title="currentRuleId ? '编辑规则' : '新建规则'"
       boxWidth="95%"
       boxHeight="90vh"

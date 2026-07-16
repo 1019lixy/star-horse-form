@@ -857,7 +857,7 @@ defineExpose({});
 </script>
 <template>
   <star-horse-dialog
-      :dialogVisible="tableDialogVisible"
+      v-model="tableDialogVisible"
       @closeAction="tableDialogVisible = false"
       :selfFunc="true"
       :isShowBtnContinue="false"
@@ -877,7 +877,7 @@ defineExpose({});
   <star-horse-dialog
       :boxWidth="'40%'"
       :boxHeight="'60%'"
-      :dialogVisible="currentDataVisible"
+      v-model="currentDataVisible"
       :selfFunc="true"
       :userBtn="dynamicBtn()"
       @resetForm="dataReset"
@@ -925,7 +925,7 @@ defineExpose({});
     </el-tabs>
   </star-horse-dialog>
   <star-horse-dialog
-      :dialogVisible="configDialogVisible"
+      v-model="configDialogVisible"
       @closeAction="closeAction"
       :selfFunc="true"
       :isShowBtnContinue="true"

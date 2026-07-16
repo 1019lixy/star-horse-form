@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, nextTick, ref } from "vue";
+import {computed, nextTick, ref, watch} from "vue";
 import {i18n} from "@/lang";
 import { validDynamicFormCompParams } from "@/components/system/items/utils/FormParamsValid";
 import { piniaInstance, useDesignFormStore, warning } from "star-horse-lowcode";
@@ -88,7 +88,10 @@ const analysisDynamicFields = (submit: boolean) => {
   };
   tryCall();
 };
-
+const dialogVisible=ref<boolean>(false);
+watch(()=>props.visible,(val)=>{
+  dialogVisible.value = val;
+},{immediate:true});
 defineExpose({
   analysisDynamicFields,
 });
@@ -96,7 +99,7 @@ defineExpose({
 
 <template>
   <star-horse-dialog
-    :dialogVisible="visible"
+    v-model="dialogVisible"
     @closeAction="closeAction"
     :selfFunc="true"
     :compSize="compSize"

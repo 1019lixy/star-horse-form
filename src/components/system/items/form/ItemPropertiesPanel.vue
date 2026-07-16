@@ -358,7 +358,7 @@ watch(() => quickConfig.value, (val) => {
 </script>
 <template>
   <star-horse-dialog
-      :dialogVisible="buttonDialogVisible"
+      v-model="buttonDialogVisible"
       :title="i18n('dyform.button.event.title')"
       :isBatch="false"
       :compSize="compSize"
@@ -378,7 +378,7 @@ watch(() => quickConfig.value, (val) => {
   </star-horse-dialog>
   <!--Unified Linkage Strategy-->
   <star-horse-dialog
-      :dialogVisible="dataRelationDialogVisible"
+      v-model="dataRelationDialogVisible"
       :title="i18n('dyform.data.relation.dialog.title')"
       :isBatch="false"
       :compSize="compSize"
@@ -398,7 +398,7 @@ watch(() => quickConfig.value, (val) => {
   </star-horse-dialog>
   <!--Unified Data Source-->
   <star-horse-dialog
-      :dialogVisible="dataSourceVisible"
+      v-model="dataSourceVisible"
       :title="i18n('dyform.data.source.dialog.title')"
       :isBatch="false"
       :compSize="compSize"
@@ -418,7 +418,7 @@ watch(() => quickConfig.value, (val) => {
   </star-horse-dialog>
   <!--容器参数配置-->
   <star-horse-dialog
-      :dialogVisible="containerDialogVisible"
+      v-model="containerDialogVisible"
       :title="i18n('dyform.container.dialog.title')"
       :isBatch="false"
       @merge="containerAction"

@@ -1,6 +1,6 @@
 <template>
   <star-horse-dialog
-    :dialogVisible="visible"
+    v-model="dialogVisible"
     :title="i18n('rule.dialog.ruleTestExecution')"
     boxWidth="780px"
     boxHeight="80%"
@@ -127,7 +127,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref } from "vue";
+import {computed, ref, watch} from "vue";
 import { DocumentCopy, RefreshRight, VideoPause, VideoPlay } from "@element-plus/icons-vue";
 import { executeRuleFlow, type ExecutionPath } from "../engine/RuleExecutor";
 import { error, success, warning } from "star-horse-lowcode";
@@ -146,7 +146,10 @@ const emit = defineEmits<{
   (e: "highlight", path: ExecutionPath): void
   (e: "resetHighlight"): void
 }>();
-
+const dialogVisible=ref<boolean>(false);
+watch(()=>props.visible,(val)=>{
+  dialogVisible.value = val;
+},{immediate:true});
 const testDataStr = ref("");
 const executing = ref(false);
 const executionPath = ref<ExecutionPath | null>(null);

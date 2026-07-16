@@ -689,7 +689,7 @@ onBeforeUnmount(() => {
     </template>
     <!-- AI 设置弹窗 - 配置列表 -->
     <star-horse-dialog
-        :dialogVisible="showSettings"
+        v-model="showSettings"
         :title="i18n('dyform.aiChat.settingsTitle')"
         :selfFunc="true"
         style="z-index: 3000"
@@ -733,7 +733,7 @@ onBeforeUnmount(() => {
 
     <!-- AI 设置弹窗 - 编辑配置 -->
     <star-horse-dialog
-        :dialogVisible="showProfileForm"
+        v-model="showProfileForm"
         :title="editingProfile?.idAiConfig ? '编辑配置' : '添加配置'"
         :selfFunc="true"
         @closeAction="closeProfileForm"

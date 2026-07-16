@@ -1,6 +1,6 @@
 <template>
   <star-horse-dialog
-    :dialogVisible="visible"
+    v-model="dialogVisible"
     :title="i18n('rule.dialog.ruleProperty')"
     boxWidth="560px"
     :selfFunc="true"
@@ -60,7 +60,10 @@ const emit = defineEmits<{
   (e: 'close'): void
   (e: 'save', data: any): void
 }>()
-
+const dialogVisible=ref<boolean>(false);
+watch(()=>props.visible,(val)=>{
+  dialogVisible.value = val;
+},{immediate:true});
 const formRef = ref<FormInstance>()
 
 const defaultFormData = () => ({

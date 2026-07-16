@@ -2,13 +2,14 @@
 import { i18n } from "@/lang/index.js";
 import { StarHorseDialog } from "star-horse-lowcode";
 import BatchEditFields from "@/components/system/items/form/BatchEditFields.vue";
+import {ref, watch} from "vue";
 
 const emit = defineEmits<{
   (e: "close"): void;
   (e: "save"): void;
 }>();
 
-defineProps<{
+const props=defineProps<{
   visible: boolean;
   compSize: string;
 }>();
@@ -16,11 +17,15 @@ defineProps<{
 const closeAction = () => {
   emit("close");
 };
+const dialogVisible=ref<boolean>(false);
+watch(()=>props.visible,(val)=>{
+  dialogVisible.value = val;
+},{immediate:true});
 </script>
 
 <template>
   <star-horse-dialog
-    :dialogVisible="visible"
+    v-model="dialogVisible"
     @closeAction="closeAction"
     :selfFunc="true"
     :compSize="compSize"

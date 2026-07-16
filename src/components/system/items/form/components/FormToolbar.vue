@@ -51,7 +51,7 @@ const isDisabled = (item: ToolBtnType) => {
 const isGroupDisabled = (item: ToolBtnType) => {
   if (!isGroup(item)) return isDisabled(item);
   if (!hasComponents.value) {
-    const hasAlwaysEnabled = item.children?.some(child => 
+    const hasAlwaysEnabled = item.children?.some(child =>
       ["newForm", "upload", "pc", "pad", "phone"].includes(child.key)
     );
     return !hasAlwaysEnabled;
@@ -101,7 +101,7 @@ const doSave = (flag: boolean) => {
 
 <template>
   <star-horse-dialog
-      :dialogVisible="cooperationConfigVisible"
+      v-model="cooperationConfigVisible"
       @closeAction="cooperationConfigVisible = false"
       :selfFunc="true"
       compSize="default"

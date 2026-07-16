@@ -21,7 +21,7 @@
 
   <!-- 边标签编辑弹窗 -->
   <star-horse-dialog
-    :dialogVisible="edgeLabelDialogVisible"
+    v-model="edgeLabelDialogVisible"
     :title="i18n('rule.msg.editEdgeLabel')"
     boxWidth="500px"
     :selfFunc="true"

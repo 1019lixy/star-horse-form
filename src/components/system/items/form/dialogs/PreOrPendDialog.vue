@@ -380,6 +380,10 @@ const createFilter = (queryString: string) => {
     )
   }
 }
+const preOrPendVisible=ref<boolean>(false);
+watch(()=>props.visible,(val)=>{
+  preOrPendVisible.value = val;
+},{immediate:true});
 defineExpose({
   setFormData,
 });
@@ -388,7 +392,7 @@ defineExpose({
 <template>
 
   <star-horse-dialog
-      :dialogVisible="visible"
+      v-model="preOrPendVisible"
       :title="i18n('dyform.preOrPend.dialog.title')"
       :isBatch="false"
       @merge="preOrPendValid"

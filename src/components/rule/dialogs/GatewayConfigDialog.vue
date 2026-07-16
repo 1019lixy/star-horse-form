@@ -1,6 +1,6 @@
 <template>
   <star-horse-dialog
-    :dialogVisible="visible"
+    v-model="dialogVisible"
     :title="i18n('rule.dialog.gatewayConfig')"
     boxWidth="700px"
     :selfFunc="true"
@@ -83,7 +83,10 @@ const props = defineProps<{
   visible: boolean
   gateway: any
 }>();
-
+const dialogVisible=ref<boolean>(false);
+watch(()=>props.visible,(val)=>{
+  dialogVisible.value = val;
+},{immediate:true});
 const emit = defineEmits<{
   (e: "close"): void
   (e: "save", gateway: any): void

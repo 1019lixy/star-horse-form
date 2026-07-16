@@ -1,6 +1,6 @@
 <template>
   <star-horse-dialog
-    :dialogVisible="visible"
+    v-model="dialogVisible"
     :title="condition ? i18n('rule.dialog.editCondition') : i18n('rule.dialog.addCondition')"
     boxWidth="580px"
     :selfFunc="true"
@@ -128,7 +128,10 @@ const props = defineProps<{
     source: "INPUT" | "CONTEXT" | "CONSTANT"; defaultValue?: string; desc?: string;
   }>
 }>();
-
+const dialogVisible=ref<boolean>(false);
+watch(()=>props.visible,(val)=>{
+  dialogVisible.value = val;
+},{immediate:true});
 const emit = defineEmits<{
   (e: "close"): void
   (e: "save", condition: any): void

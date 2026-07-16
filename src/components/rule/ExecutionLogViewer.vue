@@ -44,7 +44,7 @@
 
     <!-- 详情弹窗 -->
     <star-horse-dialog
-      :dialogVisible="detailVisible"
+      v-model="detailVisible"
       :title="i18n('rule.log.executionDetail')"
       boxWidth="800px"
       boxHeight="80%"

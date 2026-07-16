@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import {createApiConfig} from "@/components/system/items/utils/ApiSharedConfig";
 import {PageFieldInfo, postRequest, SelectOption, StarHorseDialog, success, warning} from "star-horse-lowcode";
-import {nextTick, PropType, reactive, ref, unref} from "vue";
+import {nextTick, PropType, reactive, ref, unref, watch} from "vue";
 import {i18n} from "@/lang";
 import DynamicQueryBuilder from "@/components/system/DynamicQueryBuilder.vue";
 import {getInterfaceUtils} from "@/components/system/items/utils/ItemPreps";
@@ -76,7 +76,7 @@ defineExpose({submitValid, setFormData, getFormData});
 
 <template>
   <star-horse-dialog
-      :dialogVisible="visible"
+      v-model="visible"
       @closeAction="()=>visible=false"
       :selfFunc="true"
       @merge="apiValid"

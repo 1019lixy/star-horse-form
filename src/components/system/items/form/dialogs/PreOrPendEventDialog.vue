@@ -150,7 +150,10 @@ const handleSubmit = async () => {
 const handleClose = () => {
   emit("close");
 };
-
+const dialogVisible=ref<boolean>(false);
+watch(()=>props.visible,(val)=>{
+  dialogVisible.value = val;
+},{immediate:true});
 watch(
     () => props.visible,
     (val) => {
@@ -164,7 +167,7 @@ watch(
 
 <template>
   <star-horse-dialog
-      :dialogVisible="visible"
+      v-model="dialogVisible"
       :title="dialogTitle"
       :isBatch="false"
       @merge="handleSubmit"

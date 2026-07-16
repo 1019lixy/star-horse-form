@@ -190,7 +190,7 @@ defineExpose({openSaveDialog, openLoadDialog});
 <template>
   <!-- 保存为模板弹窗 -->
   <star-horse-dialog
-      :dialogVisible="saveDialogVisible"
+      v-model="saveDialogVisible"
       :title="i18n('dyform.template.save')"
       :selfFunc="true"
       @merge="handleSave"
@@ -236,7 +236,7 @@ defineExpose({openSaveDialog, openLoadDialog});
 
   <!-- 从模板加载弹窗 -->
   <star-horse-dialog
-      :dialogVisible="loadDialogVisible"
+      v-model="loadDialogVisible"
       :title="i18n('dyform.template.load')"
       :selfFunc="true"
       @merge="handleLoad"
@@ -280,7 +280,7 @@ defineExpose({openSaveDialog, openLoadDialog});
 
   <!-- 预览弹窗 -->
   <star-horse-dialog
-      :dialogVisible="previewVisible"
+      v-model="previewVisible"
       :title="i18n('dyform.template.preview')"
       :selfFunc="true"
       @closeAction="closePreviewDialog"
