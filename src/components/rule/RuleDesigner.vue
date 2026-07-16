@@ -106,6 +106,60 @@
           </el-button>
         </el-button-group>
         <el-divider direction="vertical" />
+        <!-- 实时校验徽标 -->
+        <el-popover placement="bottom-end" :width="420" trigger="click" popper-class="validation-popper">
+          <template #reference>
+            <el-badge :value="validationResult.errorCount" :hidden="validationResult.errorCount === 0" type="danger">
+              <el-button link :class="{ 'val-ok': validationResult.errorCount === 0 && validationResult.warningCount === 0 }">
+                <el-icon><CircleCheck v-if="validationResult.errorCount === 0 && validationResult.warningCount === 0" /><Warning v-else /></el-icon>
+                <span>{{ i18n('rule.val.title') }}</span>
+              </el-button>
+            </el-badge>
+          </template>
+          <div class="validation-panel">
+            <div class="validation-head">
+              <div class="vh-title">
+                <el-icon><Warning /></el-icon>
+                {{ i18n('rule.val.title') }}
+              </div>
+              <div class="vh-stats">
+                <el-tag v-if="validationResult.errorCount" type="danger" size="small" effect="dark">
+                  {{ i18n('rule.val.errorCount', [validationResult.errorCount]) }}
+                </el-tag>
+                <el-tag v-if="validationResult.warningCount" type="warning" size="small" effect="dark">
+                  {{ i18n('rule.val.warningCount', [validationResult.warningCount]) }}
+                </el-tag>
+                <el-tag v-if="validationResult.errorCount === 0 && validationResult.warningCount === 0" type="success" size="small" effect="dark">
+                  {{ i18n('rule.val.allPass') }}
+                </el-tag>
+              </div>
+            </div>
+            <el-divider style="margin: 8px 0" />
+            <div class="validation-list">
+              <div v-if="validationResult.issues.length === 0" class="val-empty">
+                <el-icon :size="28"><CircleCheckFilled /></el-icon>
+                <p>{{ i18n('rule.val.allPassDesc') }}</p>
+              </div>
+              <div
+                v-for="(iss, idx) in validationResult.issues"
+                :key="idx"
+                class="val-item"
+                :class="'vi-' + iss.level"
+                @click="iss.nodeId && handleLocateNode(iss.nodeId)"
+              >
+                <span class="vi-bullet">{{ iss.level === 'error' ? '✗' : '⚠' }}</span>
+                <div class="vi-body">
+                  <div class="vi-msg">{{ iss.message }}</div>
+                  <div class="vi-meta">
+                    <span v-if="iss.nodeId" class="vi-node">{{ iss.nodeName }}</span>
+                    <span v-else class="vi-node">{{ i18n('rule.val.graphLevel') }}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </el-popover>
+        <el-divider direction="vertical" />
         <el-popover placement="bottom-end" :width="420" trigger="click" popper-class="help-popper">
           <template #reference>
             <el-button link>
@@ -328,6 +382,11 @@
                   mask-color="rgba(247, 248, 250, 0.7)"
                 />
               </VueFlow>
+
+              <!-- 执行回溯气泡 -->
+              <NodeExecOverlay :execution-path="executionPath" :visible-node-ids="overlayVisibleNodeIds" />
+              <!-- 实时校验红角标 -->
+              <NodeValidationOverlay :result="validationResult" @locate="handleLocateNode" />
 
               <!-- 右键菜单 -->
               <div v-if="contextMenu.visible" class="context-menu"
@@ -590,6 +649,8 @@ import {
   Back,
   Brush,
   Check,
+  CircleCheck,
+  CircleCheckFilled,
   Close,
   CopyDocument,
   Cpu,
@@ -610,7 +671,8 @@ import {
   Share,
   Upload,
   VideoPause,
-  VideoPlay
+  VideoPlay,
+  Warning
 } from "@element-plus/icons-vue";
 import { ConnectionMode, type Edge, type Node, useVueFlow, VueFlow } from "@vue-flow/core";
 import { Background, Controls, MiniMap } from "@vue-flow/additional-components";
@@ -619,6 +681,9 @@ import "@vue-flow/core/dist/theme-default.css";
 import { ruleActionApi, ruleConditionApi, ruleDefinitionApi } from "@/api/rule_engine_api";
 import NodePanel from "./NodePanel.vue";
 import PropertyPanel from "./PropertyPanel.vue";
+import NodeExecOverlay from "./components/NodeExecOverlay.vue";
+import NodeValidationOverlay from "./components/NodeValidationOverlay.vue";
+import { validateRuleFlow, type ValidationResult } from "./engine/validator";
 import StartNode from "./nodes/StartNode.vue";
 import EndNode from "./nodes/EndNode.vue";
 import ConditionNode from "./nodes/ConditionNode.vue";
@@ -699,6 +764,40 @@ const executionPath = ref<ExecutionPath | null>(null);
 const stepIndex = ref(0);
 const isStepping = ref(false);
 const outputTab = ref("timeline");
+// 执行回溯气泡：步进模式下只显示到当前步
+const overlayVisibleNodeIds = computed(() => {
+  if (!executionPath.value) return [];
+  if (isStepping.value) return executionPath.value.visitedNodeIds.slice(0, stepIndex.value + 1);
+  return executionPath.value.visitedNodeIds;
+});
+
+// ===== 实时校验 =====
+// 防抖：节点/边频繁变化时避免过度计算
+const validationTick = ref(0);
+let validationTimer: ReturnType<typeof setTimeout> | null = null;
+watch([nodes, edges], () => {
+  if (validationTimer) clearTimeout(validationTimer);
+  validationTimer = setTimeout(() => { validationTick.value++ }, 200);
+}, { deep: true });
+const emptyResult: ValidationResult = { issues: [], errorCount: 0, warningCount: 0, nodeMap: new Map() };
+const validationResult = computed<ValidationResult>(() => {
+  // 依赖 validationTick 触发防抖重算
+  void validationTick.value;
+  // 测试模式下不显示校验角标，避免干扰执行回溯
+  if (isTestMode.value || !nodes.value.length) return emptyResult;
+  return validateRuleFlow(nodes.value, edges.value);
+});
+// 定位到节点：选中并居中
+const handleLocateNode = (nodeId: string) => {
+  if (!nodeId) return;
+  const n = nodes.value.find(x => x.id === nodeId);
+  if (!n) return;
+  nodes.value.forEach(x => { x.selected = false });
+  n.selected = true;
+  selectedNode.value = { ...n };
+  // 居中到该节点
+  fitViewFn({ nodes: [nodeId], maxZoom: 1.2, duration: 300 });
+};
 const jsonMode = ref(false);
 const testFormData = reactive<Record<string, any>>({});
 
@@ -2000,6 +2099,12 @@ const handleTest = () => {
   testConsoleVisible.value = true;
 };
 const handlePublish = async () => {
+  // 发布前强制校验，存在 error 级别问题时拦截
+  const vr = validateRuleFlow(nodes.value, edges.value);
+  if (vr.errorCount > 0) {
+    error(i18n('rule.val.publishBlocked', [vr.errorCount]));
+    return;
+  }
   await operationConfirm(i18n('rule.msg.confirmPublish'));
   try {
     ruleData.status = "PUBLISHED";
@@ -2139,6 +2244,11 @@ onUnmounted(() => {
       align-items: center;
       gap: $rd-space-2;
       flex: 0 0 auto;
+      // 校验通过时按钮文字置灰，存在问题时由图标颜色区分
+      .val-ok {
+        color: $rd-text-tertiary;
+        .el-icon { color: $rd-success; }
+      }
     }
   }
 
@@ -2661,5 +2771,100 @@ onUnmounted(() => {
   border-radius: 4px;
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
   white-space: nowrap;
+}
+
+/* 实时校验汇总面板（popper 渲染在 body，需放在非 scoped 块） */
+.validation-popper.validation-popper {
+  z-index: 9999 !important;
+}
+.validation-popper .validation-panel {
+  max-height: 460px;
+  overflow-y: auto;
+}
+.validation-popper .validation-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+.validation-popper .vh-title {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #111827;
+}
+.validation-popper .vh-stats {
+  display: flex;
+  gap: 4px;
+}
+.validation-popper .validation-list {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.validation-popper .val-empty {
+  text-align: center;
+  padding: 24px 0;
+  color: #10b981;
+}
+.validation-popper .val-empty p {
+  margin: 8px 0 0;
+  font-size: 13px;
+  color: #6b7280;
+}
+.validation-popper .val-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  padding: 8px 10px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.12s ease;
+  border: 1px solid transparent;
+}
+.validation-popper .val-item:hover {
+  background: #f4f5f7;
+}
+.validation-popper .val-item.vi-error {
+  background: #fef2f2;
+  border-color: #fecaca;
+}
+.validation-popper .val-item.vi-error:hover {
+  background: #fee2e2;
+}
+.validation-popper .val-item.vi-warning {
+  background: #fffbeb;
+  border-color: #fde68a;
+}
+.validation-popper .val-item.vi-warning:hover {
+  background: #fef3c7;
+}
+.validation-popper .vi-bullet {
+  flex-shrink: 0;
+  font-weight: 700;
+  font-size: 13px;
+  line-height: 1.4;
+}
+.validation-popper .vi-error .vi-bullet { color: #ef4444; }
+.validation-popper .vi-warning .vi-bullet { color: #f59e0b; }
+.validation-popper .vi-body {
+  flex: 1;
+  min-width: 0;
+}
+.validation-popper .vi-msg {
+  font-size: 12px;
+  color: #111827;
+  line-height: 1.5;
+  word-break: break-word;
+}
+.validation-popper .vi-meta {
+  margin-top: 2px;
+  font-size: 11px;
+  color: #9ca3af;
+}
+.validation-popper .vi-node {
+  font-family: ui-monospace, monospace;
 }
 </style>
