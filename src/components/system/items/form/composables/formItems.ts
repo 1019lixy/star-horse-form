@@ -3034,7 +3034,7 @@ export const formItems: CompType[] = [
                 fieldName: "colors",
                 fieldType: "input",
                 required: false,
-                selectValues: ["#F7BA2A", "#F7BA2A", "#F7BA2A"],
+                selectValues: '["#F7BA2A", "#F7BA2A", "#F7BA2A"]',
                 defaultValues: "",
                 category: 2,
                 configParams: [],

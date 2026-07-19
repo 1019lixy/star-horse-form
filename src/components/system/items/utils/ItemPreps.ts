@@ -1818,7 +1818,7 @@ export function compCommonFields(
             fieldName: "listPrototypeDisplay",
 
             defaultValue: false,
-            formVisible: listPrototypeVisible,
+            formVisible: listPrototypeVisible.value,
         },
         {
             label: i18n("dyform.utils.552"),

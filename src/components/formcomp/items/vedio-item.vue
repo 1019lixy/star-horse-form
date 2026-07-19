@@ -34,7 +34,7 @@
 </template>
 <script setup lang="ts" name="vedioItem">
 import { onMounted, ref } from "vue";
-import * as flvjs from "flv.js";
+import flvjs from "flv.js";
 import { ItemPreps } from "star-horse-lowcode";
 const props = withDefaults(defineProps<ItemPreps>(), {
   isDesign: false,

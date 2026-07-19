@@ -29,7 +29,13 @@ export interface PreOrPendEventConfig {
 /**
  * 事件类型选项
  */
-export const preOrPendEventTypeOptions = computed(() => [
+export interface PreOrPendEventTypeOption {
+    value: PreOrPendEventType;
+    label: string;
+    icon: string;
+}
+
+export const preOrPendEventTypeOptions = computed<PreOrPendEventTypeOption[]>(() => [
     {value: "none", label: i18n("dyform.preOrPend.event.type.none"), icon: "CircleClose"},
     {value: "linkage", label: i18n("dyform.preOrPend.event.type.linkage"), icon: "Connection"},
     {value: "dataSource", label: i18n("dyform.preOrPend.event.type.dataSource"), icon: "DataAnalysis"},

@@ -39,7 +39,7 @@ export interface ChatMessage {
  */
 export class FormSocketService {
   private stompClient: Stomp.Client | null = null;
-  private socket: SockJS | null = null;
+  private socket: WebSocket | null = null;
   private options: ChatSocketServiceOptions;
   private connected: boolean = false;
   private reconnectAttempts: number = 0;
@@ -75,7 +75,7 @@ export class FormSocketService {
 
         this.stompClient.connect(
           {},
-          (frame: string) => {
+          (frame?: any) => {
             console.log("Chat WebSocket connected successfully:", frame);
             this.connected = true;
             this.reconnectAttempts = 0;

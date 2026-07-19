@@ -216,8 +216,11 @@ export const validateRuleFlow = (nodes: any[], edges: any[]): ValidationResult =
         if (def) {
           def.paramSchema.forEach(f => {
             if (f.required && !nonEmpty(data[f.name])) {
+              const labelText = typeof f.label === 'function'
+                ? (f.label as Function)()
+                : i18n(f.label as string)
               push(id, type, 'error', 'REQUIRED_' + f.name.toUpperCase(),
-                i18n('rule.val.requiredMissing', [i18n(f.label)]))
+                i18n('rule.val.requiredMissing', [labelText]))
             }
           })
         }

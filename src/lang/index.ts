@@ -4,7 +4,7 @@ import { LangType } from "@/theme/theme";
 import { getLang, setLang } from "@/theme/localStorge";
 
 // 当前语言包缓存
-let langCache: Record<LangType, Record<string, string | Function>> = {};
+let langCache: Partial<Record<LangType, Record<string, string | Function>>> = {};
 
 // 当前语言设置
 export let currentLang: LangType =

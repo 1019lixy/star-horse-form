@@ -150,7 +150,7 @@ const containerDialogVisible = ref<boolean>(false);
 const customerValid = () => {
   warning(i18n("dyform.common.customValid Developing"));
 };
-const dataSource = (_type: string) => {
+const dataSource = () => {
   dataSourceVisible.value = true;
   getDesignFormStore().setShortKeyDisabled(true);
   nextTick(() => {
@@ -500,6 +500,7 @@ watch(() => quickConfig.value, (val) => {
       </el-form-item>
       <DataSourceConfigPanel
           :itemType="currentItemType"
+          :currentSourceType="(formProps.dataSource as string) || 'data'"
           :model="model"
           @open="dataSource"
       />

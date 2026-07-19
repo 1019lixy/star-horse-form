@@ -127,7 +127,7 @@ export function deepClone(obj: any) {
 export interface DynamicContainerOptions {
   type: any; // Dialog 组件
   title?: string;
-  content: DynamicContainerOptions | VNode;
+  content?: DynamicContainerOptions | VNode;
   props?: Record<string, any>;
   events?: Record<string, any>;
   appContext?: AppContext;
