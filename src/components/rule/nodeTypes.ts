@@ -18,7 +18,21 @@ export interface ParamField {
     max?: number
     step?: number
     rows?: number
-    columns?: { prop: string; label: string; type?: 'input' | 'select'; options?: any[]; width?: string }[]
+    /**
+     * 标记该参数为表单字段选择器
+     * - 当 formFields 上下文可用时，PropertyPanel 会渲染 FieldSelector 替代 el-input
+     * - 支持单字段（input）与多字段（multiselect 模式由 type 决定）
+     */
+    fieldSelect?: boolean
+    columns?: {
+        prop: string
+        label: string
+        type?: 'input' | 'select'
+        options?: any[]
+        width?: string
+        /** 表格列也支持字段选择器（如 conditions.fieldName / actions.targetField） */
+        fieldSelect?: boolean
+    }[]
 }
 
 export interface NodeTypeDef {
@@ -207,7 +221,7 @@ export const NODE_CATEGORIES: NodeCategory[] = [
                         type: 'table',
                         group: 'rule.group.condition',
                         columns: [
-                            {prop: 'fieldName', label: 'rule.lbl.fieldName', type: 'input', width: '120px'},
+                            {prop: 'fieldName', label: 'rule.lbl.fieldName', type: 'input', width: '120px', fieldSelect: true},
                             {
                                 prop: 'operator', label: 'rule.lbl.operator', type: 'select', width: '100px',
                                 options: [
@@ -239,10 +253,11 @@ export const NODE_CATEGORIES: NodeCategory[] = [
                                     {label: () => i18n('rule.opt.setValue'), value: 'SET_VALUE'},
                                     {label: () => i18n('rule.opt.clearValue'), value: 'CLEAR_VALUE'},
                                     {label: () => i18n('rule.opt.setRequired'), value: 'SET_REQUIRED'},
+                                    {label: () => i18n('rule.opt.setOptions'), value: 'SET_OPTIONS'},
                                     {label: () => i18n('rule.opt.showMessage'), value: 'SHOW_MESSAGE'},
                                 ]
                             },
-                            {prop: 'targetField', label: 'rule.lbl.targetField', type: 'input', width: '120px'},
+                            {prop: 'targetField', label: 'rule.lbl.targetField', type: 'input', width: '120px', fieldSelect: true},
                             {prop: 'actionValue', label: 'rule.lbl.value', type: 'input', width: '120px'},
                         ]
                     },
@@ -412,7 +427,7 @@ export const NODE_CATEGORIES: NodeCategory[] = [
                         type: 'table',
                         group: 'rule.group.condition',
                         columns: [
-                            {prop: 'fieldName', label: 'rule.lbl.fieldName', type: 'input', width: '120px'},
+                            {prop: 'fieldName', label: 'rule.lbl.fieldName', type: 'input', width: '120px', fieldSelect: true},
                             {prop: 'fieldLabel', label: 'rule.lbl.fieldLabel', type: 'input', width: '120px'},
                             {
                                 prop: 'operator', label: 'rule.lbl.operator', type: 'select', width: '100px',
@@ -436,7 +451,7 @@ export const NODE_CATEGORIES: NodeCategory[] = [
                                     {label: () => i18n('rule.opt.redirect'), value: 'REDIRECT'},
                                 ]
                             },
-                            {prop: 'targetField', label: 'rule.lbl.targetField', type: 'input', width: '120px'},
+                            {prop: 'targetField', label: 'rule.lbl.targetField', type: 'input', width: '120px', fieldSelect: true},
                         ]
                     },
                     {
@@ -475,7 +490,8 @@ export const NODE_CATEGORIES: NodeCategory[] = [
                         type: 'input',
                         required: true,
                         placeholder: 'rule.ph.orderAmount',
-                        group: 'rule.group.basic'
+                        group: 'rule.group.basic',
+                        fieldSelect: true
                     },
                     {
                         name: 'targetVar',
@@ -553,7 +569,8 @@ export const NODE_CATEGORIES: NodeCategory[] = [
                         type: 'input',
                         required: true,
                         placeholder: 'rule.ph.orderDetails',
-                        group: 'rule.group.basic'
+                        group: 'rule.group.basic',
+                        fieldSelect: true
                     },
                     {
                         name: 'targetVar',
@@ -666,7 +683,8 @@ export const NODE_CATEGORIES: NodeCategory[] = [
                         type: 'input',
                         required: true,
                         placeholder: 'rule.ph.matchField',
-                        group: 'rule.group.basic'
+                        group: 'rule.group.basic',
+                        fieldSelect: true
                     },
                     {
                         name: 'matchType',
@@ -752,7 +770,8 @@ export const NODE_CATEGORIES: NodeCategory[] = [
                         type: 'input',
                         required: true,
                         placeholder: 'rule.ph.checkFields',
-                        group: 'rule.group.basic'
+                        group: 'rule.group.basic',
+                        fieldSelect: true
                     },
                     {
                         name: 'checkRules',
@@ -801,7 +820,8 @@ export const NODE_CATEGORIES: NodeCategory[] = [
                         type: 'input',
                         required: true,
                         placeholder: 'rule.ph.dateField',
-                        group: 'rule.group.basic'
+                        group: 'rule.group.basic',
+                        fieldSelect: true
                     },
                     {
                         name: 'windowType', label: 'rule.lbl.windowType', type: 'select', required: true, options: [
@@ -845,7 +865,8 @@ export const NODE_CATEGORIES: NodeCategory[] = [
                         type: 'input',
                         required: true,
                         placeholder: 'rule.ph.validateFields',
-                        group: 'rule.group.basic'
+                        group: 'rule.group.basic',
+                        fieldSelect: true
                     },
                     {
                         name: 'scope', label: 'rule.lbl.validateScope', type: 'select', required: true, options: [
@@ -874,7 +895,8 @@ export const NODE_CATEGORIES: NodeCategory[] = [
                         type: 'input',
                         required: true,
                         placeholder: 'rule.ph.checkField',
-                        group: 'rule.group.basic'
+                        group: 'rule.group.basic',
+                        fieldSelect: true
                     },
                     {
                         name: 'alertLevel',
@@ -1079,7 +1101,8 @@ export const NODE_CATEGORIES: NodeCategory[] = [
                         type: 'input',
                         required: true,
                         placeholder: 'rule.ph.operands',
-                        group: 'rule.group.basic'
+                        group: 'rule.group.basic',
+                        fieldSelect: true
                     },
                     {
                         name: 'operator', label: 'rule.lbl.operator', type: 'select', required: true, options: [
@@ -1134,7 +1157,8 @@ export const NODE_CATEGORIES: NodeCategory[] = [
                         type: 'input',
                         required: true,
                         placeholder: 'rule.ph.baseDate',
-                        group: 'rule.group.basic'
+                        group: 'rule.group.basic',
+                        fieldSelect: true
                     },
                     {
                         name: 'offset',
@@ -1191,7 +1215,8 @@ export const NODE_CATEGORIES: NodeCategory[] = [
                         type: 'input',
                         required: true,
                         placeholder: 'rule.ph.operandsVars',
-                        group: 'rule.group.basic'
+                        group: 'rule.group.basic',
+                        fieldSelect: true
                     },
                     {
                         name: 'targetVar',
@@ -1289,7 +1314,8 @@ export const NODE_CATEGORIES: NodeCategory[] = [
                         type: 'input',
                         required: true,
                         placeholder: 'rule.ph.ratioField',
-                        group: 'rule.group.basic'
+                        group: 'rule.group.basic',
+                        fieldSelect: true
                     },
                     {
                         name: 'roundMode',
@@ -1334,7 +1360,7 @@ export const NODE_CATEGORIES: NodeCategory[] = [
                         required: true,
                         group: 'rule.group.assign',
                         columns: [
-                            {prop: 'targetField', label: 'rule.lbl.targetField', type: 'input', width: '120px'},
+                            {prop: 'targetField', label: 'rule.lbl.targetField', type: 'input', width: '120px', fieldSelect: true},
                             {
                                 prop: 'valueType',
                                 label: 'rule.lbl.valueType',
@@ -1368,7 +1394,8 @@ export const NODE_CATEGORIES: NodeCategory[] = [
                         type: 'input',
                         required: true,
                         placeholder: 'rule.ph.targetField',
-                        group: 'rule.group.basic'
+                        group: 'rule.group.basic',
+                        fieldSelect: true
                     },
                     {
                         name: 'markType', label: 'rule.lbl.markType', type: 'select', required: true, options: [
@@ -1384,6 +1411,51 @@ export const NODE_CATEGORIES: NodeCategory[] = [
                         label: 'rule.lbl.markValue',
                         type: 'input',
                         placeholder: 'rule.ph.markValue',
+                        group: 'rule.group.basic'
+                    },
+                    {
+                        name: 'description',
+                        label: 'rule.lbl.nodeDesc',
+                        type: 'textarea',
+                        rows: 2,
+                        group: 'rule.group.other'
+                    },
+                ]
+            },
+            {
+                type: 'action-set-options', label: 'rule.node.setOptions', icon: '📋', category: 'action',
+                desc: 'rule.desc.setOptions',
+                defaultData: () => ({targetField: '', optionsSource: 'STATIC', optionsValue: '', optionsVar: '', description: ''}),
+                paramSchema: [
+                    {
+                        name: 'targetField',
+                        label: 'rule.lbl.targetField',
+                        type: 'input',
+                        required: true,
+                        placeholder: 'rule.ph.targetField',
+                        group: 'rule.group.basic',
+                        fieldSelect: true
+                    },
+                    {
+                        name: 'optionsSource', label: 'rule.lbl.optionsSource', type: 'select', required: true, options: [
+                            {label: () => i18n('rule.opt.staticOptions'), value: 'STATIC'},
+                            {label: () => i18n('rule.opt.varOptions'), value: 'VAR'},
+                            {label: () => i18n('rule.opt.exprOptions'), value: 'EXPR'},
+                        ], group: 'rule.group.basic'
+                    },
+                    {
+                        name: 'optionsValue',
+                        label: 'rule.lbl.optionsValue',
+                        type: 'textarea',
+                        rows: 6,
+                        placeholder: 'rule.ph.optionsValue',
+                        group: 'rule.group.basic'
+                    },
+                    {
+                        name: 'optionsVar',
+                        label: 'rule.lbl.optionsVar',
+                        type: 'input',
+                        placeholder: 'rule.ph.optionsVar',
                         group: 'rule.group.basic'
                     },
                     {
@@ -1629,7 +1701,8 @@ export const NODE_CATEGORIES: NodeCategory[] = [
                         label: 'rule.lbl.logFields',
                         type: 'input',
                         placeholder: 'rule.ph.logFields',
-                        group: 'rule.group.basic'
+                        group: 'rule.group.basic',
+                        fieldSelect: true
                     },
                     {
                         name: 'description',
@@ -1823,7 +1896,8 @@ export const NODE_CATEGORIES: NodeCategory[] = [
                         label: 'rule.lbl.exportFields',
                         type: 'input',
                         placeholder: 'rule.ph.exportFields',
-                        group: 'rule.group.basic'
+                        group: 'rule.group.basic',
+                        fieldSelect: true
                     },
                     {
                         name: 'fileName',
@@ -1918,7 +1992,8 @@ export const NODE_CATEGORIES: NodeCategory[] = [
                         label: 'rule.lbl.rollbackFields',
                         type: 'input',
                         placeholder: 'rule.ph.rollbackFields',
-                        group: 'rule.group.basic'
+                        group: 'rule.group.basic',
+                        fieldSelect: true
                     },
                     {
                         name: 'description',
@@ -2054,7 +2129,8 @@ export const NODE_CATEGORIES: NodeCategory[] = [
                         type: 'input',
                         required: true,
                         placeholder: 'rule.ph.desensitizeFields',
-                        group: 'rule.group.basic'
+                        group: 'rule.group.basic',
+                        fieldSelect: true
                     },
                     {
                         name: 'desensitizeType',
@@ -2100,7 +2176,8 @@ export const NODE_CATEGORIES: NodeCategory[] = [
                         type: 'input',
                         required: true,
                         placeholder: 'rule.ph.auditFields',
-                        group: 'rule.group.basic'
+                        group: 'rule.group.basic',
+                        fieldSelect: true
                     },
                     {
                         name: 'recordOperator',
@@ -2324,5 +2401,9 @@ export const getCategoryColor = (type: string): string => {
 
 export const getNodeDef = (type: string): NodeTypeDef | undefined => NODE_TYPE_MAP[type]
 export const getNodeDefaultData = (type: string): Record<string, any> => NODE_TYPE_MAP[type]?.defaultData() || {}
-export const getNodeLabel = (type: string): string => NODE_TYPE_MAP[type]?.label || type
+export const getNodeLabel = (type: string): string => {
+    const raw = NODE_TYPE_MAP[type]?.label || type
+    // label 存的是 i18n key（如 'rule.node.condition'），需翻译后返回
+    return typeof raw === 'string' && raw.startsWith('rule.') ? i18n(raw) : raw
+}
 export const getParamSchema = (type: string): ParamField[] => NODE_TYPE_MAP[type]?.paramSchema || []

@@ -131,7 +131,22 @@
             >
               <!-- input -->
               <el-input
-                v-if="field.type === 'input'"
+                v-if="field.type === 'input' && !field.fieldSelect"
+                v-model="selectedNode.data[field.name]"
+                :placeholder="field.placeholder ? i18n(field.placeholder) : ''"
+                @input="emit('update', selectedNode.id, { [field.name]: selectedNode.data[field.name] })"
+              />
+              <!-- 字段选择器（fieldSelect: true 且有表单字段上下文） -->
+              <FieldSelector
+                v-else-if="field.type === 'input' && field.fieldSelect && formFields.length > 0"
+                :model-value="selectedNode.data[field.name] || ''"
+                :fields="formFields"
+                :placeholder="field.placeholder ? i18n(field.placeholder) : ''"
+                @update:model-value="onFieldSelectChange(field.name, $event)"
+              />
+              <!-- 无表单字段上下文时降级为普通输入（仍允许手动输入变量名） -->
+              <el-input
+                v-else-if="field.type === 'input' && field.fieldSelect"
                 v-model="selectedNode.data[field.name]"
                 :placeholder="field.placeholder ? i18n(field.placeholder) : ''"
                 @input="emit('update', selectedNode.id, { [field.name]: selectedNode.data[field.name] })"
@@ -201,6 +216,13 @@
                       <el-select v-if="col.type === 'select'" v-model="row[col.prop]"  style="width: 100%">
                         <el-option v-for="opt in col.options" :key="opt.value" :label="typeof opt.label === 'function' ? opt.label() : i18n(opt.label)" :value="opt.value" />
                       </el-select>
+                      <!-- 字段选择器列（有表单字段上下文时） -->
+                      <FieldSelector
+                        v-else-if="col.fieldSelect && formFields.length > 0"
+                        :model-value="row[col.prop] || ''"
+                        :fields="formFields"
+                        @update:model-value="row[col.prop] = $event; emit('update', selectedNode.id, { [field.name]: getTableData(field.name) })"
+                      />
                       <el-input v-else v-model="row[col.prop]"  />
                     </template>
                   </el-table-column>
@@ -223,10 +245,12 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue'
+import { computed, inject, type Ref } from 'vue'
 import { Setting, Pointer, Plus, Edit, Delete } from '@element-plus/icons-vue'
 import { NODE_TYPE_MAP, getNodeLabel, getParamSchema, getCategoryColor, type ParamField } from './nodeTypes'
 import { i18n } from '@/lang'
+import FieldSelector from './components/FieldSelector.vue'
+import type { FormFieldMeta } from './useFormRuleRuntime'
 
 const props = defineProps<{
   selectedNode: any
@@ -242,6 +266,29 @@ const emit = defineEmits<{
   (e: 'editRuleSetRef', nodeId: string): void
   (e: 'editLoop', nodeId: string): void
 }>()
+
+// 从 RuleDesigner 注入表单字段列表（provide 时的 key: ruleFormFields）
+// 若未注入（独立使用 RuleDesigner 时），降级为空数组，FieldSelector 不渲染
+const injectedFormFields = inject<Ref<FormFieldMeta[]> | FormFieldMeta[] | undefined>('ruleFormFields', undefined)
+const formFields = computed<FormFieldMeta[]>(() => {
+  if (!injectedFormFields) {
+    console.log('[PropertyPanel] formFields computed | injected=NONE (未注入 ruleFormFields)')
+    return []
+  }
+  const v = (injectedFormFields as any).value ?? injectedFormFields
+  const arr = Array.isArray(v) ? v : []
+  console.log('[PropertyPanel] formFields computed | injected.type=', typeof injectedFormFields, '| value.length=', arr.length, '| firstField=', arr[0]?.fieldName)
+  return arr
+})
+
+/**
+ * FieldSelector 值变更处理：写入 selectedNode.data 并触发 update 事件
+ */
+const onFieldSelectChange = (fieldName: string, value: string) => {
+  if (!props.selectedNode) return
+  props.selectedNode.data[fieldName] = value
+  emit('update', props.selectedNode.id, { [fieldName]: value })
+}
 
 const conditions = computed(() => props.selectedNode?.data?.conditions || [])
 const actions = computed(() => props.selectedNode?.data?.actions || [])

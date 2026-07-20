@@ -15,10 +15,28 @@
           filterable
           allow-create
           default-first-option
-          :placeholder="variables.length ? i18n('rule.var.selectField') : i18n('rule.ph.fieldNameExample')"
+          :placeholder="i18n('rule.ph.fieldNameExample')"
           @change="handleFieldChange"
         >
-          <template v-if="variables.length">
+          <!-- 表单字段分组（来自当前表单的字段元数据） -->
+          <el-option-group
+            v-if="formFields.length"
+            :label="i18n('rule.dialog.formFields')"
+          >
+            <el-option
+              v-for="f in formFields"
+              :key="f.fieldName"
+              :label="`${f.label || f.fieldName} (${f.fieldName})`"
+              :value="f.fieldName"
+            >
+              <div style="display: flex; align-items: center; justify-content: space-between; width: 100%">
+                <span>{{ f.label || f.fieldName }}</span>
+                <span class="var-opt-field">{{ f.fieldName }}</span>
+              </div>
+            </el-option>
+          </el-option-group>
+          <!-- 变量库分组（INPUT/CONTEXT/CONSTANT） -->
+          <template v-if="groupedVariables.length">
             <el-option-group
               v-for="grp in groupedVariables"
               :key="grp.source"
@@ -36,6 +54,9 @@
             </el-option-group>
           </template>
         </el-select>
+        <div v-if="!formFields.length && !variables.length" class="lock-tip">
+          {{ i18n('rule.msg.noFormFieldsHint') }}
+        </div>
       </el-form-item>
       <el-form-item :label="i18n('rule.lbl.fieldLabel')">
         <el-input v-model="formData.fieldLabel" :placeholder="i18n('rule.ph.fieldLabelOptional')" />
@@ -116,9 +137,10 @@
 </template>
 
 <script setup lang="ts">
-import { computed, reactive, ref, watch } from "vue";
+import { computed, inject, reactive, ref, watch, type Ref } from "vue";
 import type { FormInstance, FormRules } from "element-plus";
 import { i18n } from '@/lang';
+import type { FormFieldMeta } from '../useFormRuleRuntime';
 
 const props = defineProps<{
   visible: boolean
@@ -128,6 +150,15 @@ const props = defineProps<{
     source: "INPUT" | "CONTEXT" | "CONSTANT"; defaultValue?: string; desc?: string;
   }>
 }>();
+
+// 从 RuleDesigner 注入表单字段列表（provide 时的 key: ruleFormFields）
+// 用于在字段下拉中显示当前表单的所有可选字段
+const injectedFormFields = inject<Ref<FormFieldMeta[]> | FormFieldMeta[] | undefined>('ruleFormFields', undefined);
+const formFields = computed<FormFieldMeta[]>(() => {
+  if (!injectedFormFields) return [];
+  const v = (injectedFormFields as any).value ?? injectedFormFields;
+  return Array.isArray(v) ? v : [];
+});
 const dialogVisible=ref<boolean>(false);
 watch(()=>props.visible,(val)=>{
   dialogVisible.value = val;
@@ -239,6 +270,7 @@ watch(() => props.visible, (val) => {
 
 // 选择变量字段：自动回填显示名与类型
 const handleFieldChange = (val: string) => {
+  // 优先匹配变量库
   const v = (props.variables || []).find(x => x.field === val);
   if (v) {
     formData.fieldLabel = v.label || "";
@@ -249,7 +281,39 @@ const handleFieldChange = (val: string) => {
       if (!validOps.includes(formData.operator)) formData.operator = "EQ";
       formData.value = "";
     }
+    return;
   }
+  // 其次匹配表单字段（注入的 ruleFormFields）
+  const f = formFields.value.find(x => x.fieldName === val);
+  if (f) {
+    formData.fieldLabel = f.label || f.fieldName;
+    // 根据 itemType 推断字段类型
+    const inferred = inferFieldTypeFromItemType(f.itemType || f.type);
+    if (inferred && inferred !== formData.fieldType) {
+      formData.fieldType = inferred;
+      const validOps = operatorGroups.value.flatMap(g => g.options.map(o => o.value));
+      if (!validOps.includes(formData.operator)) formData.operator = "EQ";
+      formData.value = "";
+    }
+  }
+};
+
+/**
+ * 根据表单字段 itemType 推断规则字段类型
+ * - input/textarea/autocomplete/tselect/transfer → STRING
+ * - number/rate → NUMBER
+ * - date/datetime/daterange → DATE
+ * - switch/checkbox → BOOLEAN (除非多选)
+ */
+const inferFieldTypeFromItemType = (itemType: string): "STRING" | "NUMBER" | "DATE" | "BOOLEAN" | "ARRAY" | null => {
+  if (!itemType) return null;
+  const t = itemType.toLowerCase();
+  if (['number', 'rate', 'slider'].includes(t)) return 'NUMBER';
+  if (['date', 'datetime', 'daterange', 'time', 'timerange'].includes(t)) return 'DATE';
+  if (['switch'].includes(t)) return 'BOOLEAN';
+  if (['checkbox', 'cascader', 'transfer'].includes(t)) return 'ARRAY';
+  if (['input', 'textarea', 'select', 'autocomplete', 'radio', 'tselect', 'password'].includes(t)) return 'STRING';
+  return null;
 };
 
 const handleFieldTypeChange = () => {

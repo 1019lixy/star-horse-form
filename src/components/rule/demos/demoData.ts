@@ -2,7 +2,7 @@
  * 规则引擎Demo数据
  * 从RuleDesigner.vue中提取，独立维护
  */
-import type { Node, Edge } from '@vue-flow/core'
+import type { Node, Edge } from '../compat'
 import { i18n } from '@/lang'
 
 export interface DemoData {

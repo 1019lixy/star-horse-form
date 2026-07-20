@@ -4,7 +4,7 @@
     <div class="node-card" :style="{ borderLeftColor: categoryColor }">
       <div class="node-header">
         <span class="node-icon" :style="{ color: categoryColor }">{{ nodeDef?.icon || '⬡' }}</span>
-        <span class="node-title">{{ nodeDef?.label || data.__nodeType || i18n('rule.node.unknown') }}</span>
+        <span class="node-title">{{ nodeDef?.label ? i18n(nodeDef.label) : (data.__nodeType || i18n('rule.node.unknown')) }}</span>
         <span class="node-cat" :style="{ color: categoryColor }">{{ categoryName }}</span>
       </div>
       <div class="node-content">
@@ -19,7 +19,7 @@
 
 <script setup lang="ts">
 import { computed } from 'vue'
-import { Handle, Position } from '@vue-flow/core'
+import { Handle, Position } from '../compat'
 import { NODE_TYPE_MAP, NODE_CATEGORIES, getCategoryColor } from '../nodeTypes'
 import { i18n } from '@/lang'
 

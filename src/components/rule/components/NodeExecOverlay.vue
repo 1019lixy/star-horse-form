@@ -35,7 +35,6 @@
 
 <script setup lang="ts">
 import { ref, computed, watch, onMounted, onBeforeUnmount, nextTick } from 'vue'
-import { useVueFlow } from '@vue-flow/core'
 import { i18n } from '@/lang'
 import type { ExecutionPath } from '../engine/RuleExecutor'
 
@@ -43,8 +42,6 @@ const props = defineProps<{
   executionPath: ExecutionPath | null
   visibleNodeIds?: string[]
 }>()
-
-const { onMove, onMoveEnd, onNodeDrag, onNodeDragStop } = useVueFlow()
 
 interface Badge {
   id: string
@@ -98,7 +95,7 @@ const reposition = () => {
   if (!container) return
   const cRect = container.getBoundingClientRect()
   for (const b of badges.value) {
-    const el = container.querySelector(`.vue-flow__node[data-id="${b.id}"]`) as HTMLElement | null
+    const el = container.querySelector(`.rule-canvas-node[data-id="${b.id}"]`) as HTMLElement | null
     if (el) {
       const r = el.getBoundingClientRect()
       // 定位到节点右上角外侧
@@ -119,17 +116,12 @@ watch(() => [props.executionPath, props.visibleNodeIds], rebuild, { deep: false 
 
 onMounted(() => {
   rebuild()
-  // 持续重定位以跟随平移/缩放/拖拽
+  // 持续重定位以跟随平移/缩放/拖拽（RAF 循环替代 VueFlow 事件）
   rafId = requestAnimationFrame(loop)
 })
 onBeforeUnmount(() => {
   if (rafId != null) cancelAnimationFrame(rafId)
 })
-
-onMove(() => reposition())
-onMoveEnd(() => nextTick(reposition))
-onNodeDrag(() => reposition())
-onNodeDragStop(() => nextTick(reposition))
 
 const statusIcon = (s: string) => s === 'SUCCESS' ? '✓' : s === 'FAILED' ? '✗' : s === 'SKIPPED' ? '⊘' : '•'
 const statusText = (s: string) => ({

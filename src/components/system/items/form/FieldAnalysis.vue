@@ -1,8 +1,10 @@
 <script setup lang="ts" name="FieldAnalysis">
 import {Config} from "@/api/settings.js";
 import {i18n} from "@/lang";
-import {onMounted, PropType} from "vue";
+import {onMounted, PropType, ref} from "vue";
 import {fieldPlaceholder} from "@/components/system/items/utils/ItemPreps.js";
+import {getDesignFormStore, operationConfirm, success, warning} from "star-horse-lowcode";
+import {syncRuleFieldReferences} from "@/components/rule/utils/ruleFieldSync";
 import camelCase from "camelcase";
 
 const props = defineProps({
@@ -44,7 +46,55 @@ onMounted(() => {
   } else if (!exclusionLengthComp.includes(props.field.itemType)) {
     preps.maxLength = preps.maxLength ?? 100;
   }
+  // 记录初始字段名，用于 blur 时检测变更并同步规则引用
+  oldFieldName.value = preps?.name || "";
 });
+
+// ==================== 字段名变更同步规则引用 ====================
+// 当用户修改 preps.name 后，规则中引用旧字段名的节点会产生"僵尸属性"
+// 此处在 blur 时检测变更，询问用户是否同步更新所有规则的字段引用
+const oldFieldName = ref<string>("");
+const isSyncing = ref(false);
+
+const handleNameBlur = async () => {
+  // 先记录 blur 前的旧名（fieldPlaceholder 会 camelcase 化 preps.name）
+  const oldName = oldFieldName.value;
+  // 执行原有的 placeholder 同步逻辑（内部会 camelcase 化 name 并写入 fieldName）
+  fieldPlaceholder(props.field.preps, props.field);
+  const newName = props.field.preps?.name || "";
+
+  // 无论是否同步，都更新旧值记录，避免下次重复触发
+  oldFieldName.value = newName;
+
+  // 字段名未变化、或任一端为空，无需同步
+  if (newName === oldName || !newName || !oldName) return;
+  if (isSyncing.value) return;
+
+  // 获取当前表单 formId（与 StarHorseFormDesign.ruleFormId 口径一致）
+  const designForm = getDesignFormStore();
+  const formInfo: any = designForm.formInfo;
+  const formId = formInfo?.idDynamicForm || formInfo?.formId || "";
+  if (!formId) return;
+
+  isSyncing.value = true;
+  try {
+    // 询问用户是否同步（取消则不同步，但字段名已修改，后续规则校验会报僵尸属性）
+    await operationConfirm(i18n("rule.fieldSync.confirm", [oldName, newName]));
+    const result = await syncRuleFieldReferences(formId, oldName, newName);
+    if (result.affectedRules > 0) {
+      success(i18n("rule.fieldSync.success", [result.affectedRules, result.totalReplacements]));
+    } else {
+      warning(i18n("rule.fieldSync.noRef"));
+    }
+  } catch (e: any) {
+    // 用户取消 operationConfirm 走 catch，过滤掉
+    if (e !== "cancel" && e !== "close") {
+      warning(i18n("rule.fieldSync.failed", [e?.message || String(e)]));
+    }
+  } finally {
+    isSyncing.value = false;
+  }
+};
 </script>
 <template>
   <template v-if="field?.compType == 'container'">
@@ -104,7 +154,7 @@ onMounted(() => {
       <td class="field-cell">
         <el-input
             v-model="field.preps['name']"
-            @blur="fieldPlaceholder(field.preps, field)"
+            @blur="handleNameBlur"
             :size="size"
             :placeholder="i18n('dyform.fieldAnalysis.407')"
             clearable

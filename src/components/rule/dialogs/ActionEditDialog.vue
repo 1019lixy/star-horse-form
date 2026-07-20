@@ -17,7 +17,47 @@
       </el-form-item>
 
       <el-form-item :label="i18n('rule.lbl.targetField')" v-if="needsTargetField" prop="targetField">
-        <el-input v-model="formData.targetField" :placeholder="i18n('rule.ph.targetFieldExample')" />
+        <el-select
+          v-model="formData.targetField"
+          filterable
+          allow-create
+          default-first-option
+          :placeholder="i18n('rule.ph.targetFieldExample')"
+          style="width: 100%;z-index:999 !important;"
+        >
+          <!-- 表单字段分组 -->
+          <el-option-group
+            v-if="formFields.length"
+            :label="i18n('rule.dialog.formFields')"
+          >
+            <el-option
+              v-for="f in formFields"
+              :key="f.fieldName"
+              :label="`${f.label || f.fieldName} (${f.fieldName})`"
+              :value="f.fieldName"
+            >
+              <div style="display: flex; align-items: center; justify-content: space-between; width: 100%">
+                <span>{{ f.label || f.fieldName }}</span>
+                <span class="var-opt-field">{{ f.fieldName }}</span>
+              </div>
+            </el-option>
+          </el-option-group>
+          <!-- 变量库分组 -->
+          <el-option-group
+            v-if="variables && variables.length"
+            :label="i18n('rule.var.sourceInput')"
+          >
+            <el-option
+              v-for="v in variables"
+              :key="v.field"
+              :label="`${v.label || v.field} (${v.field})`"
+              :value="v.field"
+            >
+              <span style="float: left">{{ v.label || v.field }}</span>
+              <span class="var-opt-field">{{ v.field }}</span>
+            </el-option>
+          </el-option-group>
+        </el-select>
       </el-form-item>
 
       <el-form-item :label="i18n('rule.lbl.valueType')" v-if="needsValue">
@@ -38,6 +78,17 @@
           :placeholder="i18n('rule.var.selectField')"
           style="width: 100%;z-index:999 !important;"
         >
+          <el-option-group
+            v-if="formFields.length"
+            :label="i18n('rule.dialog.formFields')"
+          >
+            <el-option
+              v-for="f in formFields"
+              :key="f.fieldName"
+              :label="`${f.label || f.fieldName} (${f.fieldName})`"
+              :value="f.fieldName"
+            />
+          </el-option-group>
           <el-option
             v-for="v in variables"
             :key="v.field"
@@ -94,16 +145,25 @@
 </template>
 
 <script setup lang="ts">
-import { ref, reactive, watch, computed } from 'vue'
+import { ref, reactive, watch, computed, inject, type Ref } from 'vue'
 import type { FormInstance, FormRules } from 'element-plus'
 import { i18n } from '@/lang'
 import ExpressionEditor from '../components/ExpressionEditor.vue'
+import type { FormFieldMeta } from '../useFormRuleRuntime'
 
 const props = defineProps<{
   visible: boolean
   action: any
   variables?: Array<{ field: string; label: string; type: string; source: string; defaultValue?: string; desc?: string }>
 }>()
+
+// 从 RuleDesigner 注入表单字段列表
+const injectedFormFields = inject<Ref<FormFieldMeta[]> | FormFieldMeta[] | undefined>('ruleFormFields', undefined);
+const formFields = computed<FormFieldMeta[]>(() => {
+  if (!injectedFormFields) return [];
+  const v = (injectedFormFields as any).value ?? injectedFormFields;
+  return Array.isArray(v) ? v : [];
+});
 const dialogVisible=ref<boolean>(false);
 watch(()=>props.visible,(val)=>{
   dialogVisible.value = val;
@@ -218,3 +278,12 @@ const handleSave = async () => {
   })
 }
 </script>
+
+<style scoped>
+.var-opt-field {
+  float: right;
+  font-size: 11px;
+  color: #9ca3af;
+  font-family: ui-monospace, monospace;
+}
+</style>

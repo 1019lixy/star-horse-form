@@ -40,7 +40,6 @@
 
 <script setup lang="ts">
 import { ref, watch, onMounted, onBeforeUnmount, nextTick } from 'vue'
-import { useVueFlow } from '@vue-flow/core'
 import { Aim } from '@element-plus/icons-vue'
 import { i18n } from '@/lang'
 import type { ValidationResult, ValidationIssue } from '../engine/validator'
@@ -51,8 +50,6 @@ const props = defineProps<{
 const emit = defineEmits<{
   (e: 'locate', nodeId: string): void
 }>()
-
-const { onMove, onMoveEnd, onNodeDrag, onNodeDragStop } = useVueFlow()
 
 interface Badge {
   id: string
@@ -97,7 +94,7 @@ const reposition = () => {
   if (!container) return
   const cRect = container.getBoundingClientRect()
   for (const b of badges.value) {
-    const el = container.querySelector(`.vue-flow__node[data-id="${b.id}"]`) as HTMLElement | null
+    const el = container.querySelector(`.rule-canvas-node[data-id="${b.id}"]`) as HTMLElement | null
     if (el) {
       const r = el.getBoundingClientRect()
       // 定位到节点左上角外侧
@@ -118,16 +115,12 @@ watch(() => props.result, rebuild, { deep: false })
 
 onMounted(() => {
   rebuild()
+  // 持续重定位以跟随平移/缩放/拖拽（RAF 循环替代 VueFlow 事件）
   rafId = requestAnimationFrame(loop)
 })
 onBeforeUnmount(() => {
   if (rafId != null) cancelAnimationFrame(rafId)
 })
-
-onMove(() => reposition())
-onMoveEnd(() => nextTick(reposition))
-onNodeDrag(() => reposition())
-onNodeDragStop(() => nextTick(reposition))
 </script>
 
 <style scoped lang="scss">

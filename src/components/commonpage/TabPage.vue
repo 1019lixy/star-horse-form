@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {nextTick, onMounted, provide, ref, watch} from "vue";
+import {computed, nextTick, onMounted, provide, ref, watch} from "vue";
 import {
   analysisAppComps,
   analysisCompDatas,
@@ -13,6 +13,7 @@ import {
 import {TabsPaneContext} from "element-plus";
 import {i18n} from "@/lang";
 import CommonSkeleton from "./CommonSkeleton.vue";
+import {useFormRuleRuntime} from "@/components/rule/useFormRuleRuntime";
 
 const props = defineProps({
   currentPageClass: {type: String, default: ""},
@@ -23,6 +24,7 @@ const props = defineProps({
   },
 });
 const starHorseTableCompRef = ref();
+const tabPageFormRef = ref();
 let dataUrl = ref<ApiUrls>(apiInstance("", ""));
 const errorMsg = ref(i18n("commonPage.dataLoading"));
 let searchFormData = ref<SearchFields | any>({});
@@ -42,6 +44,44 @@ const dataSource = ref<any>({});
 let dateFields = ref<Array<string>>([]);
 const activeName = ref<string>("form");
 let extBtns = ref<Array<UserFuncInfo>>([]);
+
+// ==================== 规则引擎集成 ====================
+const ruleFormId = computed(() => {
+  const list = props.compList as any[];
+  if (!list || list.length === 0) return '';
+  return list[0]?.formId || list[0]?.preps?.formId || '';
+});
+
+const ruleFormData = computed(() => {
+  return tabPageFormRef.value?.getFormData()?.value ?? {};
+});
+
+const {
+  triggerOnLoad,
+  triggerOnSubmit,
+  loading: ruleLoading,
+  currentFormId,
+  isEnabled,
+} = useFormRuleRuntime({
+  formId: ruleFormId,
+  formFields: tableFieldList,
+  formData: ruleFormData,
+  enabled: computed(() => !!ruleFormId.value),
+});
+
+const onFormDataLoaded = async () => {
+  if (isEnabled.value && currentFormId.value) {
+    await nextTick();
+    await triggerOnLoad();
+  }
+};
+
+const handleBeforeSubmit = async ({type, formData: fd}: {type: string; formData: any}) => {
+  if (isEnabled.value && currentFormId.value) {
+    const ok = await triggerOnSubmit();
+    if (!ok) return false;
+  }
+};
 
 const handleClick = (_tab: TabsPaneContext, _event: Event) => {
 };
@@ -158,6 +198,8 @@ watch(
           >
             <star-horse-form
                 @refresh="dataRecall"
+                @dataLoaded="onFormDataLoaded"
+                @beforeSubmit="handleBeforeSubmit"
                 :dynamicForm="true"
                 :compUrl="dataUrl"
                 :formInfo="formInfo"
@@ -166,6 +208,7 @@ watch(
                 :rules="rules"
                 :globalCondition="relationTables"
                 :typeModel="'form'"
+                ref="tabPageFormRef"
             />
           </el-tab-pane>
           <el-tab-pane :label="i18n('commonPage.tab.dataList')" name="table">

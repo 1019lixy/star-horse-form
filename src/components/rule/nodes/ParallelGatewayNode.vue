@@ -16,7 +16,7 @@
 </template>
 
 <script setup lang="ts">
-import { Position, Handle } from '@vue-flow/core'
+import { Position, Handle } from '../compat'
 import { i18n } from '@/lang'
 
 defineProps<{ id?: string; data: { name?: string } }>()

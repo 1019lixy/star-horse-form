@@ -33,7 +33,7 @@
 </template>
 
 <script setup lang="ts">
-import { Position, Handle } from '@vue-flow/core'
+import { Position, Handle } from '../compat'
 import { Edit, InfoFilled, Link } from '@element-plus/icons-vue'
 import { i18n } from '@/lang'
 

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {nextTick, onMounted, provide, ref, watch} from "vue";
+import {computed, nextTick, onMounted, provide, ref, watch} from "vue";
 import {
   analysisAppComps,
   analysisCompDatas,
@@ -10,6 +10,7 @@ import {
 } from "star-horse-lowcode";
 import {i18n} from "@/lang";
 import CommonSkeleton from "./CommonSkeleton.vue";
+import {useFormRuleRuntime} from "@/components/rule/useFormRuleRuntime";
 
 const props = defineProps({
   currentPageClass: {type: String, default: ""},
@@ -34,6 +35,49 @@ const hasData = ref(false);
 let relationTables = ref<any>({});
 const formInfo = ref<any>({});
 let outerFormData = ref<any>({});
+
+// ==================== 规则引擎集成 ====================
+// 从 compList 中提取 formId（取第一个组件的 formId 或当前表单ID）
+const ruleFormId = computed(() => {
+  const list = props.compList as any[];
+  if (!list || list.length === 0) return '';
+  // 从 compList 或 tableFieldList 中获取 formId
+  return list[0]?.formId || list[0]?.preps?.formId || '';
+});
+
+// 响应式 formData（从 StarHorseForm 获取）
+const ruleFormData = computed(() => {
+  return formPageRef.value?.getFormData()?.value ?? {};
+});
+
+const {
+  triggerOnLoad,
+  triggerOnSubmit,
+  loading: ruleLoading,
+  currentFormId,
+  isEnabled,
+} = useFormRuleRuntime({
+  formId: ruleFormId,
+  formFields: tableFieldList,
+  formData: ruleFormData,
+  enabled: computed(() => !!ruleFormId.value),
+});
+
+// ON_LOAD: 在表单数据加载完成后触发规则引擎
+const onFormDataLoaded = async () => {
+  if (isEnabled.value && currentFormId.value) {
+    await nextTick();
+    await triggerOnLoad();
+  }
+};
+
+// ON_SUBMIT: 在提交前进行规则引擎校验
+const handleBeforeSubmit = async ({type, formData: fd}: {type: string; formData: any}) => {
+  if (isEnabled.value && currentFormId.value) {
+    const ok = await triggerOnSubmit();
+    if (!ok) return false;
+  }
+};
 
 const loadFormData = async () => {
   isLoading.value = true; // 开始加载
@@ -87,7 +131,6 @@ watch(
 
     <template v-else-if="hasData">
       <el-card class="inner_content">
-        {{formPageRef?.getFormData()}}
         <star-horse-form
             :compUrl="dataUrl"
             :dynamicForm="true"
@@ -99,6 +142,8 @@ watch(
             :fieldList="tableFieldList"
             :rules="rules"
             :typeModel="'form'"
+            @dataLoaded="onFormDataLoaded"
+            @beforeSubmit="handleBeforeSubmit"
         />
       </el-card>
     </template>

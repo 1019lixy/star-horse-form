@@ -131,8 +131,29 @@ export function i18n(key: string, ...args: any[]) {
   }
 
   // 处理普通字符串类型的翻译项
-  const resultList: Array<string> = [result];
+  // 支持 {0}/{1}/{2}... 占位符替换（参数可通过数组或展开参数传入）
+  // 例如：i18n('rule.configPanel.ruleCount', [5]) 或 i18n('rule.configPanel.ruleCount', 5)
+  const flatArgs: any[] = [];
   args.forEach((arg: any) => {
+    if (Array.isArray(arg)) {
+      flatArgs.push(...arg);
+    } else {
+      flatArgs.push(arg);
+    }
+  });
+
+  // 优先尝试 {N} 占位符替换
+  if (flatArgs.length > 0 && /\{\d+\}/.test(result)) {
+    return result.replace(/\{(\d+)\}/g, (_, idx: string) => {
+      const i = parseInt(idx, 10);
+      const v = flatArgs[i];
+      return v === undefined || v === null ? `{${idx}}` : String(v);
+    });
+  }
+
+  // 兼容旧逻辑：参数作为翻译 key 拼接（向后兼容）
+  const resultList: Array<string> = [result];
+  flatArgs.forEach((arg: any) => {
     // 首先尝试从当前语言包获取
     let temp = langSet[arg];
     // 如果当前语言包中找不到，尝试从中文语言包获取

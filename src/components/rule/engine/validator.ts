@@ -1,6 +1,6 @@
 /**
  * 规则引擎实时校验器
- * 对标阿里/淘宝规则引擎：节点配置完整性 + 连线合法性 + 图结构合法性
+ * 对标阿里/淘宝规则引擎：节点配置完整性 + 连线合法性 + 图结构合法性 + 字段引用有效性
  * 输出按节点聚合的问题列表，供画布红角标与汇总面板消费
  */
 import { i18n } from '@/lang'
@@ -25,6 +25,14 @@ export interface ValidationResult {
   nodeMap: Map<string, ValidationIssue[]>
 }
 
+export interface ValidationOptions {
+  /**
+   * 当前表单的字段名集合，用于校验规则中的字段引用是否仍存在
+   * 不传则跳过僵尸属性校验
+   */
+  formFieldNames?: string[]
+}
+
 const nonEmpty = (v: any): boolean => {
   if (v == null) return false
   if (typeof v === 'string') return v.trim().length > 0
@@ -46,12 +54,33 @@ const nodeName = (n: any): string => {
  * 主校验入口
  * @param nodes VueFlow nodes
  * @param edges VueFlow edges
+ * @param options 可选校验选项（formFieldNames 用于僵尸属性校验）
  */
-export const validateRuleFlow = (nodes: any[], edges: any[]): ValidationResult => {
+export const validateRuleFlow = (
+  nodes: any[],
+  edges: any[],
+  options?: ValidationOptions,
+): ValidationResult => {
   const issues: ValidationIssue[] = []
   const push = (nodeId: string, nodeType: string, level: IssueLevel, code: string, message: string) => {
     const node = nodes.find(n => n.id === nodeId)
     issues.push({ nodeId, nodeType, nodeName: node ? nodeName(node) : nodeId, level, code, message })
+  }
+
+  // 字段集合（用于僵尸属性校验），构建 Set 加速查找
+  const formFieldSet = options?.formFieldNames?.length
+    ? new Set(options.formFieldNames)
+    : null
+  /** 检查字段引用是否存在于表单中；formFieldSet 为空时跳过（兼容旧调用） */
+  const checkFieldRef = (nodeId: string, nodeType: string, fieldRef: string, labelHint: string) => {
+    if (!formFieldSet) return
+    if (!fieldRef || typeof fieldRef !== 'string') return
+    // 支持表达式占位符 ${var}，跳过非字段名的引用
+    if (fieldRef.startsWith('${') || fieldRef.startsWith('=')) return
+    if (!formFieldSet.has(fieldRef)) {
+      push(nodeId, nodeType, 'error', 'ZOMBIE_FIELD',
+        i18n('rule.val.zombieField', [fieldRef, labelHint]))
+    }
   }
 
   // ===== 图结构级别校验 =====
@@ -109,6 +138,10 @@ export const validateRuleFlow = (nodes: any[], edges: any[]): ValidationResult =
             if (!nonEmpty(c.fieldName) || !nonEmpty(c.operator)) {
               push(id, type, 'error', 'COND_INCOMPLETE', i18n('rule.val.condIncomplete', [idx + 1]))
             }
+            // 僵尸属性校验：condition 中的 fieldName 必须存在于表单中
+            if (nonEmpty(c.fieldName)) {
+              checkFieldRef(id, type, c.fieldName, i18n('rule.lbl.conditionList') + '#' + (idx + 1))
+            }
           })
         }
         // 条件节点应有 2 条出边（满足/不满足），至少 1 条
@@ -124,6 +157,11 @@ export const validateRuleFlow = (nodes: any[], edges: any[]): ValidationResult =
             if (!nonEmpty(a.actionType) || !nonEmpty(a.targetField)) {
               push(id, type, 'error', 'ACTION_INCOMPLETE', i18n('rule.val.actionIncomplete', [idx + 1]))
             }
+            // 僵尸属性校验：action 中的 targetField 必须存在于表单中
+            // 注意：SHOW_MESSAGE 等动作不针对字段，跳过
+            if (nonEmpty(a.targetField) && a.actionType !== 'SHOW_MESSAGE') {
+              checkFieldRef(id, type, a.targetField, i18n('rule.lbl.actionList') + '#' + (idx + 1))
+            }
           })
         }
         if (outs.length === 0) push(id, type, 'error', 'NODE_NO_OUT', i18n('rule.val.nodeNoOut'))
@@ -137,6 +175,10 @@ export const validateRuleFlow = (nodes: any[], edges: any[]): ValidationResult =
           list.forEach((a: any, idx: number) => {
             if (!nonEmpty(a.variableName) && !nonEmpty(a.targetField)) {
               push(id, type, 'error', 'ASSIGN_INCOMPLETE', i18n('rule.val.assignIncomplete', [idx + 1]))
+            }
+            // 僵尸属性校验：assignment 中的 targetField 必须存在于表单中
+            if (nonEmpty(a.targetField)) {
+              checkFieldRef(id, type, a.targetField, i18n('rule.lbl.assignList') + '#' + (idx + 1))
             }
           })
         }
@@ -211,16 +253,36 @@ export const validateRuleFlow = (nodes: any[], edges: any[]): ValidationResult =
         break
       }
       default: {
-        // 通用：基于 paramSchema 的 required 字段校验
+        // 通用：基于 paramSchema 的 required 字段校验 + fieldSelect 字段引用校验
         const def = NODE_TYPE_MAP[type]
         if (def) {
           def.paramSchema.forEach(f => {
+            const labelText = typeof f.label === 'function'
+              ? (f.label as Function)()
+              : i18n(f.label as string)
             if (f.required && !nonEmpty(data[f.name])) {
-              const labelText = typeof f.label === 'function'
-                ? (f.label as Function)()
-                : i18n(f.label as string)
               push(id, type, 'error', 'REQUIRED_' + f.name.toUpperCase(),
                 i18n('rule.val.requiredMissing', [labelText]))
+            }
+            // 僵尸属性校验：fieldSelect 标记的参数值必须是表单中存在的字段
+            if (f.fieldSelect && nonEmpty(data[f.name])) {
+              checkFieldRef(id, type, data[f.name], labelText)
+            }
+            // 表格类型：遍历行，对 fieldSelect 列做僵尸属性校验
+            if (f.type === 'table' && Array.isArray(f.columns) && Array.isArray(data[f.name])) {
+              const fieldSelectCols = f.columns.filter(c => c.fieldSelect)
+              if (fieldSelectCols.length > 0) {
+                data[f.name].forEach((row: any, rowIdx: number) => {
+                  if (!row || typeof row !== 'object') return
+                  for (const col of fieldSelectCols) {
+                    const colLabel = typeof col.label === 'function'
+                      ? (col.label as Function)()
+                      : i18n(col.label as string)
+                    checkFieldRef(id, type, row[col.prop],
+                      labelText + '#' + (rowIdx + 1) + '.' + colLabel)
+                  }
+                })
+              }
             }
           })
         }

@@ -41,7 +41,7 @@ const cacheDataRestore = (evt: MouseEvent) => {
 const hasComponents = computed(() => props.list.length > 0);
 
 const isDisabled = (item: ToolBtnType) => {
-  const alwaysEnabledKeys = ["file", "upload", "newForm", "new", "style", "pc", "pad", "phone", "aiChat"];
+  const alwaysEnabledKeys = ["file", "upload", "newForm", "new", "style", "pc", "pad", "phone", "aiChat", "ruleConfig"];
   if (!hasComponents.value && !alwaysEnabledKeys.includes(item.key)) {
     return true;
   }
@@ -156,6 +156,16 @@ const doSave = (flag: boolean) => {
                       <defs><linearGradient id="ai-grad" x1="2" y1="2" x2="22" y2="22"><stop stop-color="#667eea"/><stop offset="1" stop-color="#764ba2"/></linearGradient></defs>
                     </svg>
                   </template>
+                  <template v-else-if="child.icon === 'rule'">
+                    <svg class="rule-toolbar-icon" viewBox="0 0 24 24" fill="none" width="20" height="20">
+                      <path d="M12 2L17 7L12 12L7 7Z" fill="url(#rule-grad)"/>
+                      <path d="M12 12L12 15.5" stroke="url(#rule-grad)" stroke-width="2" stroke-linecap="round"/>
+                      <rect x="5.5" y="15.5" width="13" height="6.5" rx="1.5" fill="url(#rule-grad)"/>
+                      <circle cx="10" cy="18.75" r="1" fill="white"/>
+                      <circle cx="14" cy="18.75" r="1" fill="white"/>
+                      <defs><linearGradient id="rule-grad" x1="2" y1="2" x2="22" y2="22"><stop stop-color="#3b82f6"/><stop offset="1" stop-color="#06b6d4"/></linearGradient></defs>
+                    </svg>
+                  </template>
                   <template v-else>
                     <star-horse-icon :icon-class="child.icon" size="20px"/>
                   </template>
@@ -180,6 +190,16 @@ const doSave = (flag: boolean) => {
                   <defs><linearGradient id="ai-grad" x1="2" y1="2" x2="22" y2="22"><stop stop-color="#667eea"/><stop offset="1" stop-color="#764ba2"/></linearGradient></defs>
                 </svg>
               </template>
+              <template v-else-if="item.icon === 'rule'">
+                <svg class="rule-toolbar-icon" viewBox="0 0 24 24" fill="none" width="18" height="18">
+                  <path d="M12 2L17 7L12 12L7 7Z" fill="url(#rule-grad)"/>
+                  <path d="M12 12L12 15.5" stroke="url(#rule-grad)" stroke-width="2" stroke-linecap="round"/>
+                  <rect x="5.5" y="15.5" width="13" height="6.5" rx="1.5" fill="url(#rule-grad)"/>
+                  <circle cx="10" cy="18.75" r="1" fill="white"/>
+                  <circle cx="14" cy="18.75" r="1" fill="white"/>
+                  <defs><linearGradient id="rule-grad" x1="2" y1="2" x2="22" y2="22"><stop stop-color="#3b82f6"/><stop offset="1" stop-color="#06b6d4"/></linearGradient></defs>
+                </svg>
+              </template>
               <template v-else>
                 <star-horse-icon :icon-class="item.icon" size="18px"/>
               </template>
@@ -201,6 +221,16 @@ const doSave = (flag: boolean) => {
                         <path d="M8.5 11a1.5 1.5 0 100-3 1.5 1.5 0 000 3zM15.5 11a1.5 1.5 0 100-3 1.5 1.5 0 000 3z" fill="white"/>
                         <path d="M8 14.5c0 0 1.5 2.5 4 2.5s4-2.5 4-2.5" stroke="white" stroke-width="1.5" stroke-linecap="round"/>
                         <defs><linearGradient id="ai-grad" x1="2" y1="2" x2="22" y2="22"><stop stop-color="#667eea"/><stop offset="1" stop-color="#764ba2"/></linearGradient></defs>
+                      </svg>
+                    </template>
+                    <template v-else-if="sitem.icon === 'rule'">
+                      <svg class="rule-toolbar-icon" viewBox="0 0 24 24" fill="none" width="18" height="18">
+                        <path d="M12 2L17 7L12 12L7 7Z" fill="url(#rule-grad)"/>
+                        <path d="M12 12L12 15.5" stroke="url(#rule-grad)" stroke-width="2" stroke-linecap="round"/>
+                        <rect x="5.5" y="15.5" width="13" height="6.5" rx="1.5" fill="url(#rule-grad)"/>
+                        <circle cx="10" cy="18.75" r="1" fill="white"/>
+                        <circle cx="14" cy="18.75" r="1" fill="white"/>
+                        <defs><linearGradient id="rule-grad" x1="2" y1="2" x2="22" y2="22"><stop stop-color="#3b82f6"/><stop offset="1" stop-color="#06b6d4"/></linearGradient></defs>
                       </svg>
                     </template>
                     <template v-else>
@@ -230,6 +260,16 @@ const doSave = (flag: boolean) => {
                   <path d="M8.5 11a1.5 1.5 0 100-3 1.5 1.5 0 000 3zM15.5 11a1.5 1.5 0 100-3 1.5 1.5 0 000 3z" fill="white"/>
                   <path d="M8 14.5c0 0 1.5 2.5 4 2.5s4-2.5 4-2.5" stroke="white" stroke-width="1.5" stroke-linecap="round"/>
                   <defs><linearGradient id="ai-grad" x1="2" y1="2" x2="22" y2="22"><stop stop-color="#667eea"/><stop offset="1" stop-color="#764ba2"/></linearGradient></defs>
+                </svg>
+              </template>
+              <template v-else-if="item.icon === 'rule'">
+                <svg class="rule-toolbar-icon" viewBox="0 0 24 24" fill="none" width="20" height="20">
+                  <path d="M12 2L17 7L12 12L7 7Z" fill="url(#rule-grad)"/>
+                  <path d="M12 12L12 15.5" stroke="url(#rule-grad)" stroke-width="2" stroke-linecap="round"/>
+                  <rect x="5.5" y="15.5" width="13" height="6.5" rx="1.5" fill="url(#rule-grad)"/>
+                  <circle cx="10" cy="18.75" r="1" fill="white"/>
+                  <circle cx="14" cy="18.75" r="1" fill="white"/>
+                  <defs><linearGradient id="rule-grad" x1="2" y1="2" x2="22" y2="22"><stop stop-color="#3b82f6"/><stop offset="1" stop-color="#06b6d4"/></linearGradient></defs>
                 </svg>
               </template>
               <template v-else>
@@ -285,6 +325,10 @@ const doSave = (flag: boolean) => {
 
 <style lang="scss" scoped>
 .ai-toolbar-icon {
+  vertical-align: middle;
+}
+
+.rule-toolbar-icon {
   vertical-align: middle;
 }
 

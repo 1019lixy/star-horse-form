@@ -29,6 +29,7 @@ import {
 import {validDynamicFormCompParams} from "@/components/system/items/utils/FormParamsValid";
 import {delCacheData, getCacheData, setCacheData} from "@/api/cached_utils";
 import {i18n} from "@/lang";
+import {extractFieldMetaList} from "@/components/rule/useFormRuleRuntime";
 import {Config} from "@/api/settings";
 import {defineAsyncComponent} from "vue";
 // 对话框类组件改为异步加载，减小首屏 bundle
@@ -38,6 +39,7 @@ const PreviewDialog = defineAsyncComponent(() => import("@/components/system/ite
 const FieldLayerDrawer = defineAsyncComponent(() => import("@/components/system/items/form/dialogs/FieldLayerDrawer.vue"));
 const ConfigDialog = defineAsyncComponent(() => import("@/components/system/items/form/dialogs/ConfigDialog.vue"));
 const AiDialog = defineAsyncComponent(() => import("@/components/system/items/utils/AiDialog.vue"));
+const RuleConfigPanel = defineAsyncComponent(() => import("@/components/system/items/form/components/RuleConfigPanel.vue"));
 import FormToolbar from "@/components/system/items/form/components/FormToolbar.vue";
 import FormDesigner from "@/components/system/items/form/components/FormDesigner.vue";
 import FieldPanel from "@/components/system/items/form/FieldPanel.vue";
@@ -167,6 +169,19 @@ const fieldPanelRef = ref();
 const dynamicFormRef = ref();
 const previewDynamicFormRef = ref();
 const formConfigDialogVisible = ref<boolean>(false);
+const ruleConfigDialogVisible = ref<boolean>(false);
+// ==================== 规则引擎上下文 ====================
+// 从 formInfo 提取表单主键作为规则引擎 formId
+const ruleFormId = computed(() => {
+  const pk = resolvedConfig.value?.primaryKey ?? props.primaryKey ?? "idDynamicForm";
+  return formInfo.value?.[pk] || formInfo.value?.formId || "";
+});
+// 从 compList 提取字段元数据列表，供规则设计器 FieldSelector 使用
+const ruleFormFields = computed(() => {
+  const fields = extractFieldMetaList(list.value || []);
+  console.log('[StarHorseFormDesign] ruleFormFields computed | compList.length=', list.value?.length, '| fields.length=', fields.length);
+  return fields;
+});
 let reOrUnDoFlag = ref<boolean>(false);
 let currentPageStyle = ref<any>({label: i18n("dyform.design.pageStyle.pc"), key: "pc"});
 let currentPageClass = ref<string>("main-design");
@@ -726,6 +741,10 @@ const actions = (action: ToolBtnType | string) => {
     case "aiChat":
       aiDialogVisible.value = true;
       break;
+    case "ruleConfig":
+      // 打开规则配置面板（与当前表单绑定）
+      ruleConfigDialogVisible.value = true;
+      break;
   }
   emits("action", act);
 };
@@ -1170,6 +1189,12 @@ defineExpose({
   <AiDialog
       v-model:dialogVisible="aiDialogVisible"
       @applyForm="applyAiForm"
+  />
+  <RuleConfigPanel
+      v-model="ruleConfigDialogVisible"
+      :formId="ruleFormId"
+      :formFields="ruleFormFields"
+      :compList="list"
   />
   <div class="sh-form-design-root">
     <FormToolbar

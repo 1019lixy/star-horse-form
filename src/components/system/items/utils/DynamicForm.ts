@@ -149,6 +149,13 @@ const formActions = (): Array<ToolBtnType> => [
     auth: "none",
     label: i18n("dyform.aiChat.title"),
   },
+  // 规则配置（平铺）：打开规则引擎管理面板，与当前表单绑定
+  {
+    icon: "rule",
+    key: "ruleConfig",
+    auth: "none",
+    label: i18n("dyform.toolbar.ruleConfig"),
+  },
 ];
 const shortKeyHelpMessage = (): string => `
 ${i18n("dyform.help.shortcuts")}：

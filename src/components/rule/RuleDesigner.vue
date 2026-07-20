@@ -52,6 +52,9 @@
     <div class="designer-toolbar">
       <!-- 左：规则名 + 状态 -->
       <div class="toolbar-left">
+        <el-button v-if="props.formId" link @click="handleBackToForm" :title="i18n('rule.backToForm')">
+          <el-icon><Back /></el-icon>
+        </el-button>
         <div class="rule-title-wrap">
           <span class="status-dot" :class="'dot-' + (ruleData.status || 'DRAFT').toLowerCase()"></span>
           <el-input v-model="ruleData.ruleName" :placeholder="i18n('rule.msg.ruleName')" class="rule-name-input" size="large">
@@ -67,53 +70,72 @@
       <!-- 中：主操作 -->
       <div class="toolbar-center">
         <el-button-group>
-          <el-button @click="handleSave" :loading="saving">
-            <el-icon><Check /></el-icon>
-            <span>{{ i18n('rule.save') }}</span>
-          </el-button>
-          <el-button @click="handlePublish" v-if="ruleData.status !== 'PUBLISHED'">
-            <el-icon><Upload /></el-icon>
-            <span>{{ i18n('rule.publish') }}</span>
-          </el-button>
+          <el-tooltip :content="i18n('rule.save')" placement="bottom">
+            <el-button @click="handleSave" :loading="saving">
+              <el-icon><Check /></el-icon>
+              <span>{{ i18n('rule.save') }}</span>
+            </el-button>
+          </el-tooltip>
+          <el-tooltip v-if="ruleData.status !== 'PUBLISHED'" :content="i18n('rule.publish')" placement="bottom">
+            <el-button @click="handlePublish">
+              <el-icon><Upload /></el-icon>
+              <span>{{ i18n('rule.publish') }}</span>
+            </el-button>
+          </el-tooltip>
         </el-button-group>
-        <el-button type="primary" @click="handleTest">
-          <el-icon><VideoPlay /></el-icon>
-          <span>{{ i18n('rule.test') }}</span>
-        </el-button>
+        <el-tooltip :content="i18n('rule.test')" placement="bottom">
+          <el-button type="primary" @click="handleTest">
+            <el-icon><VideoPlay /></el-icon>
+            <span>{{ i18n('rule.test') }}</span>
+          </el-button>
+        </el-tooltip>
         <el-divider direction="vertical" />
         <!-- 设计/代码视图切换 -->
         <el-button-group>
-          <el-button :type="viewMode === 'design' ? 'primary' : 'default'" @click="viewMode = 'design'">
-            <el-icon><Grid /></el-icon>
-            <span>{{ i18n('rule.codeView.design') }}</span>
-          </el-button>
-          <el-button :type="viewMode === 'code' ? 'primary' : 'default'" @click="viewMode = 'code'">
-            <el-icon><Document /></el-icon>
-            <span>{{ i18n('rule.codeView.code') }}</span>
-          </el-button>
+          <el-tooltip :content="i18n('rule.codeView.design')" placement="bottom">
+            <el-button :type="viewMode === 'design' ? 'primary' : 'default'" @click="viewMode = 'design'">
+              <el-icon><Grid /></el-icon>
+            </el-button>
+          </el-tooltip>
+          <el-tooltip :content="i18n('rule.codeView.code')" placement="bottom">
+            <el-button :type="viewMode === 'code' ? 'primary' : 'default'" @click="viewMode = 'code'">
+              <el-icon><Document /></el-icon>
+            </el-button>
+          </el-tooltip>
         </el-button-group>
       </div>
       <!-- 右：辅助操作 -->
       <div class="toolbar-right">
-        <el-button-group>
-          <el-button @click="loadDemoData">
-            <el-icon><MagicStick /></el-icon>
-            <span>{{ i18n('rule.demo') }}</span>
+        <el-tooltip :content="i18n('rule.exportRule')" placement="bottom">
+          <el-button link @click="handleExportRule">
+            <el-icon><Download /></el-icon>
           </el-button>
-          <el-button @click="openPropertyDialog">
-            <el-icon><Setting /></el-icon>
-            <span>{{ i18n('rule.property') }}</span>
+        </el-tooltip>
+        <el-tooltip :content="i18n('rule.importRule')" placement="bottom">
+          <el-button link @click="handleImportRule">
+            <el-icon><UploadFilled /></el-icon>
           </el-button>
-        </el-button-group>
+        </el-tooltip>
         <el-divider direction="vertical" />
+        <el-tooltip :content="i18n('rule.demo')" placement="bottom">
+          <el-button link @click="loadDemoData">
+            <el-icon><MagicStick /></el-icon>
+          </el-button>
+        </el-tooltip>
+        <el-tooltip :content="i18n('rule.property')" placement="bottom">
+          <el-button link @click="openPropertyDialog">
+            <el-icon><Setting /></el-icon>
+          </el-button>
+        </el-tooltip>
         <!-- 实时校验徽标 -->
         <el-popover placement="bottom-end" :width="420" trigger="click" popper-class="validation-popper">
           <template #reference>
             <el-badge :value="validationResult.errorCount" :hidden="validationResult.errorCount === 0" type="danger">
-              <el-button link :class="{ 'val-ok': validationResult.errorCount === 0 && validationResult.warningCount === 0 }">
-                <el-icon><CircleCheck v-if="validationResult.errorCount === 0 && validationResult.warningCount === 0" /><Warning v-else /></el-icon>
-                <span>{{ i18n('rule.val.title') }}</span>
-              </el-button>
+              <el-tooltip :content="i18n('rule.val.title')" placement="bottom">
+                <el-button link :class="{ 'val-ok': validationResult.errorCount === 0 && validationResult.warningCount === 0 }">
+                  <el-icon><CircleCheck v-if="validationResult.errorCount === 0 && validationResult.warningCount === 0" /><Warning v-else /></el-icon>
+                </el-button>
+              </el-tooltip>
             </el-badge>
           </template>
           <div class="validation-panel">
@@ -159,15 +181,15 @@
             </div>
           </div>
         </el-popover>
-        <el-divider direction="vertical" />
         <el-popover placement="bottom-end" :width="420" trigger="click" popper-class="help-popper">
           <template #reference>
-            <el-button link>
-              <el-icon>
-                <QuestionFilled />
-              </el-icon>
-              {{ i18n('rule.help') }}
-            </el-button>
+            <el-tooltip :content="i18n('rule.help')" placement="bottom">
+              <el-button link>
+                <el-icon>
+                  <QuestionFilled />
+                </el-icon>
+              </el-button>
+            </el-tooltip>
           </template>
           <div class="help-panel">
             <div class="help-title">
@@ -188,7 +210,8 @@
               <div class="help-section-title">{{ i18n('rule.help.select') }}</div>
               <div class="help-row"><kbd>{{ i18n('rule.help.clickSelect') }}</kbd></div>
               <div class="help-row"><kbd>{{ i18n('rule.help.shiftSelect') }}</kbd></div>
-              <div class="help-row"><kbd>{{ i18n('rule.help.shiftDrag') }}</kbd></div>
+              <div class="help-row"><kbd>{{ i18n('rule.help.boxSelect') }}</kbd></div>
+              <div class="help-row"><kbd>{{ i18n('rule.help.middlePan') }}</kbd></div>
               <div class="help-row"><kbd>{{ i18n('rule.help.ctrlA') }}</kbd></div>
             </div>
             <div class="help-section">
@@ -201,7 +224,6 @@
             <div class="help-section">
               <div class="help-section-title">{{ i18n('rule.help.canvas') }}</div>
               <div class="help-row"><kbd>{{ i18n('rule.help.wheelZoom') }}</kbd></div>
-              <div class="help-row"><kbd>{{ i18n('rule.help.middlePan') }}</kbd></div>
               <div class="help-row"><kbd>{{ i18n('rule.help.alignTool') }}</kbd></div>
               <div class="help-row"><kbd>{{ i18n('rule.help.edgeStyle') }}</kbd></div>
             </div>
@@ -210,6 +232,11 @@
               <div class="help-row"><kbd>{{ i18n('rule.help.openConsole') }}</kbd></div>
               <div class="help-row"><kbd>{{ i18n('rule.help.executeHighlight') }}</kbd></div>
               <div class="help-row"><kbd>{{ i18n('rule.help.closeRestore') }}</kbd></div>
+
+            </div>
+            <div class="help-section">
+              <div class="help-section-title">{{ i18n('rule.msg.tip') }}</div>
+              <div class="help-row"><kbd>{{ i18n('rule.msg.canvasTip') }}</kbd></div>
             </div>
           </div>
         </el-popover>
@@ -230,7 +257,12 @@
           <!-- 中间：画布舞台 -->
           <el-splitter-panel class="center-pane flex flex-col">
             <div class="canvas-toolbar">
-              <span class="canvas-title">{{ i18n('rule.msg.canvasDesign') }}</span>
+              <div class="canvas-toolbar-left">
+                <span class="canvas-title">{{ i18n('rule.msg.canvasDesign') }}</span>
+                <el-tag v-if="selectedCount > 0" size="small" type="primary" effect="light" round>
+                  {{ i18n('rule.msg.selectedCount', [selectedCount]) }}
+                </el-tag>
+              </div>
               <div class="canvas-actions">
                 <!-- 历史组 -->
                 <el-tooltip :content="i18n('rule.undo') + ' (Ctrl+Z)'" placement="bottom">
@@ -240,29 +272,95 @@
                   <el-button link @click="redo" :disabled="!canRedo"><el-icon><Right /></el-icon></el-button>
                 </el-tooltip>
                 <el-divider direction="vertical" />
-                <!-- 对齐 -->
-                <el-dropdown trigger="click" :disabled="!hasMultiSelected" @command="handleAlign" popper-class="designer-dropdown-popper">
-                  <el-button link :disabled="!hasMultiSelected" :title="i18n('rule.align.title')">
-                    <el-icon><Operation /></el-icon>
-                  </el-button>
-                  <template #dropdown>
-                    <el-dropdown-menu>
-                      <el-dropdown-item command="left">{{ i18n('rule.align.left') }}</el-dropdown-item>
-                      <el-dropdown-item command="center">{{ i18n('rule.align.centerH') }}</el-dropdown-item>
-                      <el-dropdown-item command="right">{{ i18n('rule.align.right') }}</el-dropdown-item>
-                      <el-dropdown-item divided command="top">{{ i18n('rule.align.top') }}</el-dropdown-item>
-                      <el-dropdown-item command="middle">{{ i18n('rule.align.centerV') }}</el-dropdown-item>
-                      <el-dropdown-item command="bottom">{{ i18n('rule.align.bottom') }}</el-dropdown-item>
-                      <el-dropdown-item divided command="hDist">{{ i18n('rule.align.distributeH') }}</el-dropdown-item>
-                      <el-dropdown-item command="vDist">{{ i18n('rule.align.distributeV') }}</el-dropdown-item>
-                    </el-dropdown-menu>
-                  </template>
-                </el-dropdown>
+                <!-- 对齐工具组：扁平化按钮，直观可见 -->
+                <el-button-group class="align-group">
+                  <el-tooltip :content="i18n('rule.align.left')" placement="bottom">
+                    <el-button :disabled="!hasMultiSelected" @click="handleAlign('left')" class="align-btn">
+                      <svg viewBox="0 0 16 16" width="14" height="14" fill="currentColor">
+                        <rect x="1" y="2" width="1.2" height="12" />
+                        <rect x="3" y="4" width="6" height="3" rx="0.5" />
+                        <rect x="3" y="9" width="9" height="3" rx="0.5" />
+                      </svg>
+                    </el-button>
+                  </el-tooltip>
+                  <el-tooltip :content="i18n('rule.align.centerH')" placement="bottom">
+                    <el-button :disabled="!hasMultiSelected" @click="handleAlign('center')" class="align-btn">
+                      <svg viewBox="0 0 16 16" width="14" height="14" fill="currentColor">
+                        <rect x="7.4" y="2" width="1.2" height="12" />
+                        <rect x="4" y="4" width="8" height="3" rx="0.5" />
+                        <rect x="2" y="9" width="12" height="3" rx="0.5" />
+                      </svg>
+                    </el-button>
+                  </el-tooltip>
+                  <el-tooltip :content="i18n('rule.align.right')" placement="bottom">
+                    <el-button :disabled="!hasMultiSelected" @click="handleAlign('right')" class="align-btn">
+                      <svg viewBox="0 0 16 16" width="14" height="14" fill="currentColor">
+                        <rect x="13.8" y="2" width="1.2" height="12" />
+                        <rect x="7" y="4" width="6" height="3" rx="0.5" />
+                        <rect x="4" y="9" width="9" height="3" rx="0.5" />
+                      </svg>
+                    </el-button>
+                  </el-tooltip>
+                  <el-tooltip :content="i18n('rule.align.top')" placement="bottom">
+                    <el-button :disabled="!hasMultiSelected" @click="handleAlign('top')" class="align-btn">
+                      <svg viewBox="0 0 16 16" width="14" height="14" fill="currentColor">
+                        <rect x="2" y="1" width="12" height="1.2" />
+                        <rect x="4" y="3" width="3" height="6" rx="0.5" />
+                        <rect x="9" y="3" width="3" height="9" rx="0.5" />
+                      </svg>
+                    </el-button>
+                  </el-tooltip>
+                  <el-tooltip :content="i18n('rule.align.centerV')" placement="bottom">
+                    <el-button :disabled="!hasMultiSelected" @click="handleAlign('middle')" class="align-btn">
+                      <svg viewBox="0 0 16 16" width="14" height="14" fill="currentColor">
+                        <rect x="2" y="7.4" width="12" height="1.2" />
+                        <rect x="4" y="4" width="3" height="8" rx="0.5" />
+                        <rect x="9" y="2" width="3" height="12" rx="0.5" />
+                      </svg>
+                    </el-button>
+                  </el-tooltip>
+                  <el-tooltip :content="i18n('rule.align.bottom')" placement="bottom">
+                    <el-button :disabled="!hasMultiSelected" @click="handleAlign('bottom')" class="align-btn">
+                      <svg viewBox="0 0 16 16" width="14" height="14" fill="currentColor">
+                        <rect x="2" y="13.8" width="12" height="1.2" />
+                        <rect x="4" y="7" width="3" height="6" rx="0.5" />
+                        <rect x="9" y="4" width="3" height="9" rx="0.5" />
+                      </svg>
+                    </el-button>
+                  </el-tooltip>
+                  <el-tooltip :content="i18n('rule.align.distributeH')" placement="bottom">
+                    <el-button :disabled="!hasMultiSelected" @click="handleAlign('hDist')" class="align-btn">
+                      <svg viewBox="0 0 16 16" width="14" height="14" fill="currentColor">
+                        <rect x="1" y="5" width="3" height="6" rx="0.5" />
+                        <rect x="6.5" y="5" width="3" height="6" rx="0.5" />
+                        <rect x="12" y="5" width="3" height="6" rx="0.5" />
+                        <line x1="2.5" y1="3" x2="2.5" y2="13" stroke="currentColor" stroke-width="0.6" stroke-dasharray="1 1" />
+                        <line x1="8" y1="3" x2="8" y2="13" stroke="currentColor" stroke-width="0.6" stroke-dasharray="1 1" />
+                        <line x1="13.5" y1="3" x2="13.5" y2="13" stroke="currentColor" stroke-width="0.6" stroke-dasharray="1 1" />
+                      </svg>
+                    </el-button>
+                  </el-tooltip>
+                  <el-tooltip :content="i18n('rule.align.distributeV')" placement="bottom">
+                    <el-button :disabled="!hasMultiSelected" @click="handleAlign('vDist')" class="align-btn">
+                      <svg viewBox="0 0 16 16" width="14" height="14" fill="currentColor">
+                        <rect x="5" y="1" width="6" height="3" rx="0.5" />
+                        <rect x="5" y="6.5" width="6" height="3" rx="0.5" />
+                        <rect x="5" y="12" width="6" height="3" rx="0.5" />
+                        <line x1="3" y1="2.5" x2="13" y2="2.5" stroke="currentColor" stroke-width="0.6" stroke-dasharray="1 1" />
+                        <line x1="3" y1="8" x2="13" y2="8" stroke="currentColor" stroke-width="0.6" stroke-dasharray="1 1" />
+                        <line x1="3" y1="13.5" x2="13" y2="13.5" stroke="currentColor" stroke-width="0.6" stroke-dasharray="1 1" />
+                      </svg>
+                    </el-button>
+                  </el-tooltip>
+                </el-button-group>
+                <el-divider direction="vertical" />
                 <!-- 连线类型 -->
                 <el-dropdown trigger="click" @command="handleEdgeType" popper-class="designer-dropdown-popper">
-                  <el-button link :title="i18n('rule.edge.bezier')">
-                    <el-icon><Connection /></el-icon>
-                  </el-button>
+                  <el-tooltip :content="i18n('rule.edge.bezier')" placement="bottom">
+                    <el-button link>
+                      <el-icon><Connection /></el-icon>
+                    </el-button>
+                  </el-tooltip>
                   <template #dropdown>
                     <el-dropdown-menu>
                       <el-dropdown-item command="default" :class="{ 'is-active': edgeType === 'default' }">{{ i18n('rule.edge.bezier') }}</el-dropdown-item>
@@ -272,8 +370,7 @@
                     </el-dropdown-menu>
                   </template>
                 </el-dropdown>
-                <el-divider direction="vertical" />
-                <el-tooltip :content="i18n('rule.deleteSelected')" placement="bottom">
+                <el-tooltip :content="i18n('rule.deleteSelected') + ' (Delete)'" placement="bottom">
                   <el-button link @click="deleteSelected" :disabled="!hasSelected"><el-icon><Delete /></el-icon></el-button>
                 </el-tooltip>
                 <el-divider direction="vertical" />
@@ -295,32 +392,37 @@
                   </el-button>
                 </el-tooltip>
                 <el-divider direction="vertical" />
-                <span class="canvas-tip">{{ i18n('rule.msg.canvasTip') }}</span>
+                <!-- 小地图开关 -->
+                <el-tooltip :content="showMinimap ? i18n('rule.minimapHide') : i18n('rule.minimapShow')" placement="bottom">
+                  <el-button link @click="showMinimap = !showMinimap" :class="{ 'is-active': showMinimap }">
+                    <el-icon><Aim /></el-icon>
+                  </el-button>
+                </el-tooltip>
+
               </div>
             </div>
             <div class="canvas-body" @drop="onDrop" @dragover.prevent="onDragOver" @dragleave.prevent="onDragLeave"
                  @contextmenu.prevent="onCanvasContextMenu">
-              <VueFlow
+              <RuleCanvas
+                ref="ruleCanvasRef"
                 v-model:nodes="nodes"
                 v-model:edges="edges"
                 :default-viewport="{ zoom: 1 }"
                 :min-zoom="0.2" :max-zoom="2"
                 :snap-to-grid="true" :snap-grid="[15, 15]"
                 :connection-mode="isTestMode?ConnectionMode.Loose:ConnectionMode.Strict"
-                :delete-key-code="['Delete', 'Backspace']"
-                :elements-selectable="true"
-                :selection-on-drag="false"
-                :multi-selection-activated="true"
-                :select-nodes-on-drag="true"
-                :pan-on-drag="true"
-                :selection-key-code="['Shift', 'Control']"
+                :show-grid="true"
+                :grid-size="20"
+                :grid-color="'#e5e7eb'"
                 fit-view-on-init
-                class="vue-flow-instance"
+                v-model:show-minimap="showMinimap"
+                class="rule-canvas-instance"
                 :class="{ 'test-mode': isTestMode }"
                 @node-double-click="onNodeDoubleClick"
                 @node-click="onNodeClick"
                 @edge-double-click="onEdgeDoubleClick"
                 @connect="onConnect"
+                @nodes-moved="pushHistory"
               >
                 <template #node-start="p">
                   <StartNode v-bind="p" />
@@ -372,16 +474,7 @@
                 <template #node-generic="p">
                   <GenericNode v-bind="p" />
                 </template>
-                <Background :gap="20" :size="1" pattern-color="#e5e7eb" />
-                <Controls position="bottom-right" :show-interactive="false" />
-                <MiniMap
-                  position="bottom-left"
-                  pannable
-                  zoomable
-                  :node-color="miniMapNodeColor"
-                  mask-color="rgba(247, 248, 250, 0.7)"
-                />
-              </VueFlow>
+              </RuleCanvas>
 
               <!-- 执行回溯气泡 -->
               <NodeExecOverlay :execution-path="executionPath" :visible-node-ids="overlayVisibleNodeIds" />
@@ -643,9 +736,10 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onMounted, onUnmounted, reactive, ref, watch } from "vue";
+import { computed, onMounted, onUnmounted, provide, reactive, ref, watch } from "vue";
 import { useRoute } from "vue-router";
 import {
+  Aim,
   Back,
   Brush,
   Check,
@@ -657,6 +751,7 @@ import {
   Connection,
   Delete,
   Document,
+  Download,
   Edit,
   EditPen,
   FullScreen,
@@ -668,17 +763,15 @@ import {
   QuestionFilled,
   Right,
   Setting,
-  Share,
   Upload,
+  UploadFilled,
   VideoPause,
   VideoPlay,
   Warning
 } from "@element-plus/icons-vue";
-import { ConnectionMode, type Edge, type Node, useVueFlow, VueFlow } from "@vue-flow/core";
-import { Background, Controls, MiniMap } from "@vue-flow/additional-components";
-import "@vue-flow/core/dist/style.css";
-import "@vue-flow/core/dist/theme-default.css";
-import { ruleActionApi, ruleConditionApi, ruleDefinitionApi } from "@/api/rule_engine_api";
+import { ConnectionMode, type Edge, type Node } from "./compat";
+import RuleCanvas from "./RuleCanvas.vue";
+import { ruleActionApi, ruleConditionApi, ruleDefinitionApi, ruleVariableApi } from "@/api/rule_engine_api";
 import NodePanel from "./NodePanel.vue";
 import PropertyPanel from "./PropertyPanel.vue";
 import NodeExecOverlay from "./components/NodeExecOverlay.vue";
@@ -713,20 +806,110 @@ const RuleSetRefDialog = defineAsyncComponent(() => import("./dialogs/RuleSetRef
 const LoopConfigDialog = defineAsyncComponent(() => import("./dialogs/LoopConfigDialog.vue"));
 const RulePropertyDialog = defineAsyncComponent(() => import("./dialogs/RulePropertyDialog.vue"));
 import { executeRuleFlow, type ExecutionPath } from "./engine/RuleExecutor";
-import { success, warning, error, operationConfirm } from "star-horse-lowcode";
+import { success, warning, error, operationConfirm, postRequest } from "star-horse-lowcode";
 import { ElMessageBox } from "element-plus";
 import { i18n } from "@/lang";
 import RuleCodeView from "./RuleCodeView.vue";
+import { extractFieldMetaList, type FormFieldMeta } from "./useFormRuleRuntime";
 
-const props = defineProps<{ ruleId?: string }>();
+/**
+ * Props
+ * - ruleId: 编辑已有规则
+ * - formId: 表单ID，传入后会自动写入 ruleData.formId，并加载该表单的规则变量库
+ * - formFields: 表单字段元数据列表，提供给 PropertyPanel/FieldSelector 用于字段下拉选择
+ * - prefilledData: 预填数据（如联动策略转换结果），新建时作为初始流程
+ */
+const props = defineProps<{
+  ruleId?: string;
+  formId?: string;
+  formFields?: FormFieldMeta[];
+  prefilledData?: {
+    ruleName?: string;
+    ruleCode?: string;
+    ruleType?: string;
+    flowContent?: { nodes: any[]; edges: any[]; variables: any[] };
+  };
+}>();
 const emit = defineEmits<{ (e: "saved"): void; (e: "close"): void }>();
 const route = useRoute();
 const ruleId = computed(() => props.ruleId || (route?.params?.id as string));
-const { fitView: fitViewFn, screenToFlowCoordinate, addEdges, addNodes, removeNodes, removeEdges } = useVueFlow();
 
+// ==================== 表单上下文 provide ====================
+// 提供 formFields 给 PropertyPanel / FieldSelector / 各类编辑弹窗使用
+//
+// 字段来源优先级：
+// 1. props.formFields（从表单设计器 RuleConfigPanel 传入，实时同步 compList 变化）
+// 2. autoLoadedFormFields（独立打开规则时根据 formId 调用表单详情 API 自动加载）
+const autoLoadedFormFields = ref<FormFieldMeta[]>([]);
+
+const providedFormFields = computed<FormFieldMeta[]>(() => {
+  // 优先用 props.formFields（从表单设计器传入）
+  if (props.formFields && props.formFields.length > 0) {
+    console.log('[RuleDesigner] providedFormFields | source=props | len=', props.formFields.length)
+    return props.formFields
+  }
+  // 否则用自动加载的字段（独立打开规则时从表单详情 API 加载）
+  console.log('[RuleDesigner] providedFormFields | source=autoLoaded | len=', autoLoadedFormFields.value.length)
+  return autoLoadedFormFields.value
+});
+provide('ruleFormFields', providedFormFields);
+provide('ruleFormId', computed(() => props.formId || ruleData.formId || ''));
+
+/**
+ * 根据 formId 从后端加载表单 compList 并提取字段元数据
+ * 用于独立打开规则设计器（非从表单设计器进入）时补充字段上下文
+ *
+ * API: POST /userdb-manage/userdb/dynamicForm/getById/{formId}
+ * 返回 data.details.content 是 compList 的 JSON 字符串
+ */
+const loadFormFieldsFromApi = async (formId: string) => {
+  if (!formId) return;
+  try {
+    const res: any = await postRequest(`userdb-manage/userdb/dynamicForm/getById/${formId}`, {});
+    const dynamicFormData = res?.data?.data;
+    if (!dynamicFormData) {
+      console.warn('[RuleDesigner] loadFormFieldsFromApi | no data returned for formId=', formId);
+      return;
+    }
+    const details = dynamicFormData.details;
+    if (!details?.content) {
+      console.warn('[RuleDesigner] loadFormFieldsFromApi | no details.content for formId=', formId);
+      return;
+    }
+    const compList = JSON.parse(details.content);
+    if (Array.isArray(compList)) {
+      autoLoadedFormFields.value = extractFieldMetaList(compList);
+      console.log('[RuleDesigner] loadFormFieldsFromApi | formId=', formId, '| fields=', autoLoadedFormFields.value.length);
+    }
+  } catch (e) {
+    console.warn('[RuleDesigner] loadFormFieldsFromApi failed:', e);
+  }
+};
 const saving = ref(false);
 const nodes = ref<Node[]>([]);
 const edges = ref<Edge[]>([]);
+
+// RuleCanvas 实例引用（替代 useVueFlow）
+const ruleCanvasRef = ref<InstanceType<typeof RuleCanvas> | null>(null);
+const fitViewFn = (opts?: { duration?: number; padding?: number; maxZoom?: number; nodes?: string[] }) => ruleCanvasRef.value?.fitView(opts);
+const screenToFlowCoordinate = (pt: { x: number; y: number }) =>
+  ruleCanvasRef.value?.screenToFlowCoordinate(pt) || { x: 0, y: 0 };
+const addNodes = (n: Node | Node[]) => {
+  const arr = Array.isArray(n) ? n : [n];
+  nodes.value.push(...arr);
+};
+const addEdges = (e: Edge | Edge[]) => {
+  const arr = Array.isArray(e) ? e : [e];
+  edges.value.push(...arr);
+};
+const removeNodes = (ids: string | string[]) => {
+  const set = new Set(Array.isArray(ids) ? ids : [ids]);
+  nodes.value = nodes.value.filter(n => !set.has(n.id));
+};
+const removeEdges = (ids: string | string[]) => {
+  const set = new Set(Array.isArray(ids) ? ids : [ids]);
+  edges.value = edges.value.filter(e => !set.has(e.id));
+};
 const selectedNode = ref<any>(null);
 // 视图模式：design=设计视图, code=代码视图
 const viewMode = ref<"design" | "code">("design");
@@ -785,7 +968,9 @@ const validationResult = computed<ValidationResult>(() => {
   void validationTick.value;
   // 测试模式下不显示校验角标，避免干扰执行回溯
   if (isTestMode.value || !nodes.value.length) return emptyResult;
-  return validateRuleFlow(nodes.value, edges.value);
+  // 传入 formFieldNames 进行僵尸属性校验
+  const formFieldNames = (props.formFields || []).map((f: any) => f.fieldName).filter(Boolean);
+  return validateRuleFlow(nodes.value, edges.value, { formFieldNames });
 });
 // 定位到节点：选中并居中
 const handleLocateNode = (nodeId: string) => {
@@ -1056,15 +1241,15 @@ const handleNodeAdd = (nodeType: string) => {
 };
 
 // ========== 节点选中 ==========
-const onNodeClick = (params: any) => {
+const onNodeClick = (payload: any) => {
   closeContextMenu();
-  // VueFlow 自带选中状态管理，这里同步 selectedNode
-  // 如果是多选模式（Ctrl/Shift），取第一个选中节点
+  const node = payload?.node || payload;
   const selected = nodes.value.filter(n => n.selected);
-  selectedNode.value = selected.length > 0 ? selected[0] : params.node;
+  selectedNode.value = selected.length > 0 ? selected[0] : node;
 };
-const onNodeDoubleClick = (params: any) => {
-  const { id, type } = params.node;
+const onNodeDoubleClick = (payload: any) => {
+  const node = payload?.node || payload;
+  const { id, type } = node;
   editingNodeId.value = id;
   switch (type) {
     case "condition":
@@ -1096,8 +1281,8 @@ const onNodeDoubleClick = (params: any) => {
 };
 
 // 双击边编辑标签
-const onEdgeDoubleClick = (params: any) => {
-  const edge = params.edge;
+const onEdgeDoubleClick = (payload: any) => {
+  const edge = payload?.edge || payload;
   if (edge) {
     editingEdge.value = edge;
     edgeLabel.value = (edge.label as string) || "";
@@ -1399,8 +1584,8 @@ watch(() => nodes.value, (newNodes) => {
 // ========== 右键菜单 ==========
 const onCanvasContextMenu = (e: MouseEvent) => {
   const target = e.target as HTMLElement;
-  const nodeEl = target.closest(".vue-flow__node");
-  const edgeEl = target.closest(".vue-flow__edge");
+  const nodeEl = target.closest(".rule-canvas-node");
+  const edgeEl = target.closest(".rule-canvas-edge");
   contextMenu.visible = true;
   contextMenu.x = e.clientX;
   contextMenu.y = e.clientY;
@@ -1486,17 +1671,9 @@ const handleCtxAction = (action: string) => {
 };
 
 // ========== 删除选中 ==========
-const miniMapNodeColor = (node: Node) => {
-  const map: Record<string, string> = {
-    'start': '#475569', 'end': '#475569',
-    'condition': '#2563eb', 'action': '#059669',
-    'variable-assign': '#7c3aed', 'loop': '#db2777', 'join': '#4f46e5',
-    'exclusive-gateway': '#d97706', 'parallel-gateway': '#0891b2', 'inclusive-gateway': '#7c3aed',
-  }
-  return map[node.type || ''] || '#94a3b8'
-}
 const hasSelected = computed(() => nodes.value?.some(n => n.selected) || edges.value?.some(e => e.selected));
 const hasMultiSelected = computed(() => nodes.value?.filter(n => n.selected).length >= 2);
+const selectedCount = computed(() => (nodes.value?.filter(n => n.selected).length || 0) + (edges.value?.filter(e => e.selected).length || 0));
 const deleteSelected = () => {
   const sn = nodes.value.filter(n => n.selected);
   const se = edges.value.filter(e => e.selected);
@@ -1603,38 +1780,49 @@ const handleAlign = (cmd: string) => {
       break;
     }
     case "hDist": {
-      // 水平分布：按X排序后均匀分布
+      // 水平分布：按X排序后均匀分布，保持首节点位置，自动扩展间距以避免重叠
       const sorted = [...selected].sort((a, b) => a.position.x - b.position.x);
       if (sorted.length < 3) {
         warning(i18n('rule.msg.needAtLeast3'));
         return;
       }
+      const sizes = sorted.map(n => getNodeSize(n));
+      const sumWidths = sizes.reduce((s: number, sz: any) => s + sz.width, 0);
+      const minGap = 40; // 节点间最小视觉间距（px）
       const first = sorted[0];
       const last = sorted[sorted.length - 1];
-      const totalWidth = (last.position.x + getNodeSize(last).width) - first.position.x;
-      const gap = (totalWidth - sorted.reduce((s, n) => s + getNodeSize(n).width, 0)) / (sorted.length - 1);
+      const currentSpan = (last.position.x + sizes[sizes.length - 1].width) - first.position.x;
+      const requiredSpan = sumWidths + minGap * (sorted.length - 1);
+      // 取较大值，确保有足够空间；若现有空间足够则保持，避免压缩
+      const totalSpan = Math.max(currentSpan, requiredSpan);
+      const gap = (totalSpan - sumWidths) / (sorted.length - 1);
       let xPos = first.position.x;
-      sorted.forEach(n => {
+      sorted.forEach((n, i) => {
         n.position = { ...n.position, x: xPos };
-        xPos += getNodeSize(n).width + gap;
+        xPos += sizes[i].width + gap;
       });
       break;
     }
     case "vDist": {
-      // 垂直分布：按Y排序后均匀分布
+      // 垂直分布：按Y排序后均匀分布，保持首节点位置，自动扩展间距以避免重叠
       const sorted = [...selected].sort((a, b) => a.position.y - b.position.y);
       if (sorted.length < 3) {
         warning(i18n('rule.msg.needAtLeast3'));
         return;
       }
+      const sizes = sorted.map(n => getNodeSize(n));
+      const sumHeights = sizes.reduce((s: number, sz: any) => s + sz.height, 0);
+      const minGap = 40;
       const first = sorted[0];
       const last = sorted[sorted.length - 1];
-      const totalHeight = (last.position.y + getNodeSize(last).height) - first.position.y;
-      const gap = (totalHeight - sorted.reduce((s, n) => s + getNodeSize(n).height, 0)) / (sorted.length - 1);
+      const currentSpan = (last.position.y + sizes[sizes.length - 1].height) - first.position.y;
+      const requiredSpan = sumHeights + minGap * (sorted.length - 1);
+      const totalSpan = Math.max(currentSpan, requiredSpan);
+      const gap = (totalSpan - sumHeights) / (sorted.length - 1);
       let yPos = first.position.y;
-      sorted.forEach(n => {
+      sorted.forEach((n, i) => {
         n.position = { ...n.position, y: yPos };
-        yPos += getNodeSize(n).height + gap;
+        yPos += sizes[i].height + gap;
       });
       break;
     }
@@ -1655,8 +1843,14 @@ const handleEdgeType = (type: string) => {
 // ========== 画布操作 ==========
 const fitView = () => fitViewFn({ duration: 300 });
 
-// 估算节点尺寸（用于自动布局避免重叠）
+// 获取节点尺寸：优先使用 RuleCanvas 实测值（来自 DOM ResizeObserver），fallback 到估算
 const getNodeSize = (node: any): { width: number; height: number } => {
+  // 优先：实测尺寸（保证对齐/布局准确）
+  const real = ruleCanvasRef.value?.getNodeDim?.(node.id);
+  if (real && real.w > 0 && real.h > 0) {
+    return { width: real.w, height: real.h };
+  }
+  // Fallback：根据节点类型估算
   const t = node.type === "generic" ? node.data?.__nodeType : node.type;
   switch (t) {
     case "start":
@@ -1839,6 +2033,8 @@ const clearCanvas = async () => {
 
 // ========== 高亮 ==========
 const isTestMode = ref(false);
+// 小地图开关（默认开启，方便查看整体布局）
+const showMinimap = ref(true);
 const handleHighlightPath = (path: any) => {
   isTestMode.value = true;
   const nodeIds = new Set(path.visitedNodeIds);
@@ -2012,14 +2208,40 @@ const allActions = computed(() => {
 });
 
 const loadRuleData = async () => {
+  // 优先应用 props 传入的 formId（来自表单设计器的 RuleConfigPanel）
+  if (props.formId) {
+    ruleData.formId = props.formId;
+  }
   if (!ruleId.value) {
+    // 新建场景：优先使用预填数据（联动策略转换）
+    if (props.prefilledData && props.prefilledData.flowContent) {
+      const pf = props.prefilledData
+      if (pf.ruleName) ruleData.ruleName = pf.ruleName
+      if (pf.ruleCode) ruleData.ruleCode = pf.ruleCode
+      if (pf.ruleType) ruleData.ruleType = pf.ruleType
+      nodes.value = pf.flowContent.nodes || []
+      edges.value = pf.flowContent.edges || []
+      ruleData.variables = Array.isArray(pf.flowContent.variables) ? pf.flowContent.variables : []
+      // 同步生成 flowContent 字符串
+      ruleData.flowContent = JSON.stringify({
+        nodes: nodes.value,
+        edges: edges.value,
+        variables: ruleData.variables,
+      })
+      await loadFormVariables()
+      return
+    }
     initDefaultFlow();
+    // 新建规则时，若 formId 已提供，预加载该表单的规则变量库（避免重复定义）
+    await loadFormVariables();
     return;
   }
   try {
     const res = await ruleDefinitionApi.getRuleById(ruleId.value);
     if (res.data.code === 200 && res.data.data) {
       Object.assign(ruleData, res.data.data);
+      // props.formId 优先于已存在 ruleData.formId（防止跨表单复制时残留）
+      if (props.formId) ruleData.formId = props.formId;
       if (ruleData.flowContent) {
         try {
           const f = JSON.parse(ruleData.flowContent);
@@ -2032,11 +2254,46 @@ const loadRuleData = async () => {
       } else {
         initDefaultFlow();
       }
+      // 编辑场景下若变量库为空，也尝试从 formId 加载
+      if ((!ruleData.variables || ruleData.variables.length === 0) && ruleData.formId) {
+        await loadFormVariables();
+      }
     }
   } catch {
     error(i18n('rule.msg.loadFail'));
     initDefaultFlow();
   }
+};
+
+/**
+ * 根据 formId 加载该表单已配置的规则变量库
+ * - 合并到 ruleData.variables，避免重复字段（按 field 去重）
+ * - 同时根据 formFields 自动派生 INPUT 类型变量，便于条件/动作引用
+ */
+const loadFormVariables = async () => {
+  const fid = ruleData.formId || props.formId;
+  if (!fid) return;
+  try {
+    const res = await ruleVariableApi.listByFormId(fid);
+    if (res.data.code === 200 && Array.isArray(res.data.data)) {
+      const existing = new Map((ruleData.variables || []).map(v => [v.field, v]));
+      for (const v of res.data.data) {
+        if (v && v.field && !existing.has(v.field)) {
+          existing.set(v.field, v);
+        }
+      }
+      ruleData.variables = Array.from(existing.values());
+    }
+  } catch (e) {
+    console.warn('[RuleDesigner] loadFormVariables failed:', e);
+  }
+};
+
+/**
+ * 从表单设计器进入时，返回表单设计器（触发 close 事件，由 RuleConfigPanel 关闭弹窗）
+ */
+const handleBackToForm = () => {
+  emit('close');
 };
 
 // 代码视图更新：将JSON编辑器的数据同步回设计视图
@@ -2050,6 +2307,15 @@ const handleCodeViewUpdate = (data: { nodes: any[]; edges: any[]; variables: any
 const handleSave = async () => {
   if (!ruleData.ruleCode || !ruleData.ruleName) {
     warning(i18n('rule.msg.fillCodeAndName'));
+    return;
+  }
+  // 保存前强制校验：存在 error 级别问题时拦截，严禁保存僵尸属性规则
+  const formFieldNames = (props.formFields || []).map((f: any) => f.fieldName).filter(Boolean);
+  const vr = validateRuleFlow(nodes.value, edges.value, { formFieldNames });
+  if (vr.errorCount > 0) {
+    error(i18n('rule.val.saveBlocked', [vr.errorCount]));
+    // 触发校验面板刷新，让用户看到具体错误
+    validationTick.value++;
     return;
   }
   saving.value = true;
@@ -2099,10 +2365,12 @@ const handleTest = () => {
   testConsoleVisible.value = true;
 };
 const handlePublish = async () => {
-  // 发布前强制校验，存在 error 级别问题时拦截
-  const vr = validateRuleFlow(nodes.value, edges.value);
+  // 发布前强制校验，存在 error 级别问题时拦截（含僵尸属性校验）
+  const formFieldNames = (props.formFields || []).map((f: any) => f.fieldName).filter(Boolean);
+  const vr = validateRuleFlow(nodes.value, edges.value, { formFieldNames });
   if (vr.errorCount > 0) {
     error(i18n('rule.val.publishBlocked', [vr.errorCount]));
+    validationTick.value++;
     return;
   }
   await operationConfirm(i18n('rule.msg.confirmPublish'));
@@ -2145,6 +2413,109 @@ const loadDemoData = async () => {
   }
 };
 
+// ========== 规则导入/导出 ==========
+// 导出：将当前规则数据序列化为 JSON 文件下载
+const handleExportRule = () => {
+  if (!nodes.value.length && !ruleData.ruleCode) {
+    warning(i18n('rule.msg.exportEmpty'));
+    return;
+  }
+  // 清理 selected 等瞬态字段，保持导出数据干净
+  const exportData = {
+    version: "1.0",
+    exportedAt: new Date().toISOString(),
+    ruleData: {
+      ruleCode: ruleData.ruleCode,
+      ruleName: ruleData.ruleName,
+      ruleDesc: ruleData.ruleDesc,
+      ruleType: ruleData.ruleType,
+      ruleCategory: ruleData.ruleCategory,
+      priority: ruleData.priority,
+      enabled: ruleData.enabled,
+      conditionLogic: ruleData.conditionLogic,
+      status: ruleData.status,
+      formId: ruleData.formId,
+      variables: ruleData.variables || []
+    },
+    flow: {
+      nodes: nodes.value.map(n => {
+        const { selected, ...rest } = n as any;
+        return rest;
+      }),
+      edges: edges.value.map(e => {
+        const { selected, ...rest } = e as any;
+        return rest;
+      })
+    }
+  };
+  const json = JSON.stringify(exportData, null, 2);
+  const blob = new Blob([json], { type: "application/json;charset=utf-8" });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  // 文件名：规则编码或规则名，去除非法字符
+  const safeName = (ruleData.ruleCode || ruleData.ruleName || "rule").replace(/[\\/:*?"<>|]/g, "_");
+  a.download = `${safeName}_${new Date().toISOString().slice(0, 10)}.json`;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+  success(i18n('rule.msg.exportSuccess'));
+};
+
+// 导入：从 JSON 文件加载规则数据
+const handleImportRule = () => {
+  // 创建临时 input 选择文件
+  const input = document.createElement("input");
+  input.type = "file";
+  input.accept = ".json,application/json";
+  input.onchange = (ev: Event) => {
+    const target = ev.target as HTMLInputElement;
+    const file = target.files?.[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = async (e) => {
+      try {
+        const text = e.target?.result as string;
+        const data = JSON.parse(text);
+        // 兼容两种格式：完整导出格式（含 ruleData + flow）或纯 flow 格式
+        if (data.ruleData) {
+          const rd = data.ruleData;
+          ruleData.ruleCode = rd.ruleCode || "";
+          ruleData.ruleName = rd.ruleName || "";
+          ruleData.ruleDesc = rd.ruleDesc || "";
+          ruleData.ruleType = rd.ruleType || "FORM_LINKAGE";
+          ruleData.ruleCategory = rd.ruleCategory || "";
+          ruleData.priority = rd.priority || 0;
+          ruleData.enabled = rd.enabled || "Y";
+          ruleData.conditionLogic = rd.conditionLogic || "AND";
+          ruleData.status = rd.status || "DRAFT";
+          ruleData.formId = rd.formId || ruleData.formId;
+          ruleData.variables = rd.variables || [];
+        }
+        if (data.flow) {
+          nodes.value = (data.flow.nodes || []).map((n: any) => ({ ...n, selected: false }));
+          edges.value = (data.flow.edges || []).map((e: any) => ({ ...e, selected: false }));
+        } else if (Array.isArray(data.nodes)) {
+          // 兼容纯 flow 格式
+          nodes.value = data.nodes.map((n: any) => ({ ...n, selected: false }));
+          edges.value = (data.edges || []).map((e: any) => ({ ...e, selected: false }));
+        } else {
+          throw new Error("Invalid rule file format");
+        }
+        setTimeout(() => fitViewFn({ duration: 500 }), 100);
+        success(i18n('rule.msg.importSuccess'));
+        pushHistory();
+      } catch (err: any) {
+        error(i18n('rule.msg.importFail') + (err?.message ? `: ${err.message}` : ""));
+      }
+    };
+    reader.onerror = () => error(i18n('rule.msg.importFail'));
+    reader.readAsText(file);
+  };
+  input.click();
+};
+
 const onGlobalClick = () => {
   if (contextMenu.visible) closeContextMenu();
 };
@@ -2160,8 +2531,17 @@ const handleKeydown = (e: KeyboardEvent) => {
   }
 };
 
-onMounted(() => {
-  loadRuleData();
+onMounted(async () => {
+  await loadRuleData();
+  // 独立打开规则（非从表单设计器进入）时，props.formFields 为空
+  // 此处根据 ruleData.formId 自动从后端加载表单 compList 并提取字段
+  // 这样 FieldSelector 才能正常显示表单字段供选择
+  if (!props.formFields || props.formFields.length === 0) {
+    const fid = ruleData.formId || props.formId;
+    if (fid) {
+      await loadFormFieldsFromApi(fid);
+    }
+  }
   document.addEventListener("click", onGlobalClick);
   document.addEventListener("keydown", handleKeydown);
   // 初始化历史栈
@@ -2174,45 +2554,69 @@ onUnmounted(() => {
 </script>
 
 <style scoped lang="scss">
-@import './styles/design-tokens.scss';
+@use './styles/design-tokens.scss' as tokens;
 
 .rule-designer {
   height: 100%;
   display: flex;
   flex-direction: column;
-  background: $rd-bg-canvas;
+  background: tokens.$rd-bg-canvas;
 
   .designer-toolbar {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: $rd-space-2 $rd-space-4;
-    background: $rd-bg-surface;
-    border-bottom: 1px solid $rd-border;
-    box-shadow: $rd-shadow-xs;
+    padding: tokens.$rd-space-2 tokens.$rd-space-4;
+    background: tokens.$rd-bg-surface;
+    border-bottom: 1px solid tokens.$rd-border;
+    box-shadow: tokens.$rd-shadow-xs;
     z-index: 10;
+    min-height: 56px;
+
+    // 统一放大头部按钮图标（默认 14px → 17px）
+    :deep(.el-button) {
+      .el-icon {
+        font-size: 17px;
+        svg {
+          width: 1.05em;
+          height: 1.05em;
+        }
+      }
+    }
+    // 左侧 link 按钮放大 + 增加点击热区
+    .toolbar-left :deep(.el-button.el-button--link),
+    .toolbar-right :deep(.el-button.el-button--link) {
+      padding: 6px 8px;
+      .el-icon { font-size: 18px; }
+    }
+    // 中部按钮组：放大主操作图标
+    .toolbar-center {
+      :deep(.el-button) {
+        .el-icon { font-size: 16px; }
+      }
+    }
 
     .toolbar-left {
       display: flex;
       align-items: center;
-      gap: $rd-space-3;
+      gap: tokens.$rd-space-3;
       flex: 0 0 auto;
 
       .rule-title-wrap {
         display: flex;
         align-items: center;
-        gap: $rd-space-2;
+        gap: tokens.$rd-space-2;
 
         .status-dot {
           width: 8px;
           height: 8px;
-          border-radius: $rd-radius-pill;
+          border-radius: tokens.$rd-radius-pill;
           flex-shrink: 0;
-          background: $rd-text-tertiary;
+          background: tokens.$rd-text-tertiary;
 
-          &.dot-draft { background: $rd-text-tertiary; }
-          &.dot-published { background: $rd-success; }
-          &.dot-disabled { background: $rd-error; }
+          &.dot-draft { background: tokens.$rd-text-tertiary; }
+          &.dot-published { background: tokens.$rd-success; }
+          &.dot-disabled { background: tokens.$rd-error; }
         }
       }
 
@@ -2225,9 +2629,9 @@ onUnmounted(() => {
           padding-left: 0;
         }
         :deep(.el-input__inner) {
-          font-size: $rd-font-md;
-          font-weight: $rd-font-weight-semibold;
-          color: $rd-text-primary;
+          font-size: tokens.$rd-font-md;
+          font-weight: tokens.$rd-font-weight-semibold;
+          color: tokens.$rd-text-primary;
         }
       }
     }
@@ -2235,19 +2639,19 @@ onUnmounted(() => {
     .toolbar-center {
       display: flex;
       align-items: center;
-      gap: $rd-space-2;
+      gap: tokens.$rd-space-2;
       flex: 0 0 auto;
     }
 
     .toolbar-right {
       display: flex;
       align-items: center;
-      gap: $rd-space-2;
+      gap: tokens.$rd-space-2;
       flex: 0 0 auto;
       // 校验通过时按钮文字置灰，存在问题时由图标颜色区分
       .val-ok {
-        color: $rd-text-tertiary;
-        .el-icon { color: $rd-success; }
+        color: tokens.$rd-text-tertiary;
+        .el-icon { color: tokens.$rd-success; }
       }
     }
   }
@@ -2279,15 +2683,21 @@ onUnmounted(() => {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: $rd-space-1 $rd-space-3;
-      background: $rd-bg-surface;
-      border-bottom: 1px solid $rd-border;
+      padding: tokens.$rd-space-1 tokens.$rd-space-3;
+      background: tokens.$rd-bg-surface;
+      border-bottom: 1px solid tokens.$rd-border;
       flex-shrink: 0;
 
+      .canvas-toolbar-left {
+        display: flex;
+        align-items: center;
+        gap: tokens.$rd-space-2;
+      }
+
       .canvas-title {
-        font-weight: $rd-font-weight-semibold;
-        font-size: $rd-font-sm;
-        color: $rd-text-secondary;
+        font-weight: tokens.$rd-font-weight-semibold;
+        font-size: tokens.$rd-font-sm;
+        color: tokens.$rd-text-secondary;
         letter-spacing: 0.2px;
       }
 
@@ -2297,14 +2707,32 @@ onUnmounted(() => {
         gap: 2px;
 
         :deep(.el-button) {
-          color: $rd-text-secondary;
-          &:hover { color: $rd-primary; }
-          &.is-disabled { color: $rd-text-tertiary; }
+          color: tokens.$rd-text-secondary;
+          &:hover { color: tokens.$rd-primary; }
+          &.is-disabled { color: tokens.$rd-text-tertiary; }
         }
 
         :deep(.is-active) {
-          color: $rd-primary;
-          font-weight: $rd-font-weight-semibold;
+          color: tokens.$rd-primary;
+          font-weight: tokens.$rd-font-weight-semibold;
+        }
+
+        /* 对齐按钮组：扁平化，紧凑显示 */
+        .align-group {
+          display: inline-flex;
+          :deep(.el-button) {
+            padding: 0 8px;
+            height: 28px;
+            min-width: 32px;
+            margin: 0 !important;
+            border-radius: 0;
+            color: tokens.$rd-text-secondary;
+            svg { display: block; }
+            &:hover { color: tokens.$rd-primary; background: tokens.$rd-bg-hover; }
+            &.is-disabled { color: tokens.$rd-text-tertiary; svg { opacity: 0.4; } }
+          }
+          :deep(.el-button:first-child) { border-top-left-radius: tokens.$rd-radius-sm; border-bottom-left-radius: tokens.$rd-radius-sm; }
+          :deep(.el-button:last-child) { border-top-right-radius: tokens.$rd-radius-sm; border-bottom-right-radius: tokens.$rd-radius-sm; }
         }
       }
     }
@@ -2314,87 +2742,9 @@ onUnmounted(() => {
       position: relative;
       overflow: hidden;
 
-      .vue-flow-instance {
+      .rule-canvas-instance {
         width: 100%;
         height: 100%;
-      }
-
-      /* 节点选中交互效果 */
-      :deep(.vue-flow__node) {
-        transition: outline-color $rd-transition-base;
-
-        &.selected {
-          outline: 2px solid $rd-primary;
-          outline-offset: 3px;
-          border-radius: $rd-radius-lg;
-
-          .gateway-shape {
-            filter: drop-shadow(0 0 0 2px $rd-primary);
-          }
-        }
-      }
-
-      /* 连线选中效果 */
-      :deep(.vue-flow__edge) {
-        &.selected {
-          .vue-flow__edge-path {
-            stroke: $rd-primary !important;
-            stroke-width: 3 !important;
-          }
-
-          .vue-flow__edge-text {
-            fill: $rd-primary !important;
-            font-weight: $rd-font-weight-semibold;
-          }
-        }
-
-        &:hover:not(.selected) {
-          .vue-flow__edge-path {
-            stroke: $rd-primary-border !important;
-            stroke-width: 2.5 !important;
-          }
-        }
-      }
-
-      /* 框选选择框样式 */
-      :deep(.vue-flow__selection) {
-        border: 2px dashed $rd-primary !important;
-        background: rgba(79, 70, 229, 0.06) !important;
-        border-radius: $rd-radius-md;
-      }
-
-      /* 框选时节点提示 */
-      :deep(.vue-flow__nodesselection-rect) {
-        border: 2px dashed $rd-primary !important;
-        background: rgba(79, 70, 229, 0.06) !important;
-        border-radius: $rd-radius-md;
-      }
-
-      /* MiniMap 样式 */
-      :deep(.vue-flow__minimap) {
-        background: $rd-bg-surface;
-        border: 1px solid $rd-border;
-        border-radius: $rd-radius-md;
-        box-shadow: $rd-shadow-sm;
-        overflow: hidden;
-      }
-
-      /* Controls 样式 */
-      :deep(.vue-flow__controls) {
-        background: $rd-bg-surface;
-        border: 1px solid $rd-border;
-        border-radius: $rd-radius-md;
-        box-shadow: $rd-shadow-sm;
-        overflow: hidden;
-
-        .vue-flow__controls-button {
-          border-bottom: 1px solid $rd-divider;
-          background: $rd-bg-surface;
-          color: $rd-text-secondary;
-
-          &:hover { background: $rd-bg-hover; color: $rd-primary; }
-          svg { fill: currentColor; }
-        }
       }
 
       .context-menu {
@@ -2663,44 +3013,7 @@ onUnmounted(() => {
   }
 }
 
-:deep(.vue-flow) {
-  .node-highlighted .node-card, .node-highlighted .gateway-shape {
-    box-shadow: 0 0 0 3px #10b981, 0 0 20px rgba(16, 185, 129, 0.4) !important;
-    animation: pulse-h 1.5s ease-in-out infinite;
-  }
-
-  .node-dimmed {
-    opacity: 0.3;
-    transition: opacity 0.3s;
-  }
-
-  .edge-highlighted .vue-flow__edge-path {
-    stroke: #10b981 !important;
-    stroke-width: 3 !important;
-    filter: drop-shadow(0 0 6px rgba(16, 185, 129, 0.5));
-    stroke-dasharray: 8;
-    animation: dash-f 0.5s linear infinite;
-  }
-
-  .edge-dimmed .vue-flow__edge-path {
-    opacity: 0.15;
-  }
-}
-
-@keyframes pulse-h {
-  0%, 100% {
-    box-shadow: 0 0 0 3px #10b981, 0 0 20px rgba(16, 185, 129, 0.4);
-  }
-  50% {
-    box-shadow: 0 0 0 5px #10b981, 0 0 30px rgba(16, 185, 129, 0.7);
-  }
-}
-
-@keyframes dash-f {
-  to {
-    stroke-dashoffset: -16;
-  }
-}
+/* 高亮/暗淡样式已由 RuleCanvas 内置处理 */
 </style>
 
 <!-- 全局样式：确保 dropdown 弹出层不被裁剪 -->

@@ -29,7 +29,7 @@
 
 <script setup lang="ts">
 import { computed } from 'vue'
-import { Position, Handle } from '@vue-flow/core'
+import { Position, Handle } from '../compat'
 import { i18n } from '@/lang'
 
 const props = defineProps<{
