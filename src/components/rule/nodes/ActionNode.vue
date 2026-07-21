@@ -67,40 +67,32 @@ defineEmits<{
 
 const getActionTypeName = (type: string) => {
   const map: Record<string, string> = {
-    SHOW: i18n('rule.opt.showField'),
-    HIDE: i18n('rule.opt.hideField'),
-    ENABLE: i18n('rule.opt.setEnabled'),
-    DISABLE: i18n('rule.opt.setDisabled'),
+    SHOW_FIELD: i18n('rule.opt.showField'),
+    HIDE_FIELD: i18n('rule.opt.hideField'),
     SET_VALUE: i18n('rule.opt.setValue'),
     CLEAR_VALUE: i18n('rule.opt.clearValue'),
-    VALIDATE: i18n('rule.opt.validate'),
-    SHOW_MESSAGE: i18n('rule.opt.showMessage'),
-    HIDE_MESSAGE: i18n('rule.opt.hideMessage'),
-    CALL_API: i18n('rule.opt.callApi'),
-    EXECUTE_SCRIPT: i18n('rule.opt.executeScript')
+    SET_REQUIRED: i18n('rule.opt.setRequired'),
+    SET_OPTIONS: i18n('rule.opt.setOptions'),
+    SHOW_MESSAGE: i18n('rule.opt.showMessage')
   }
   return map[type] || type
 }
 
 const getActionTagType = (type: string) => {
   const map: Record<string, string> = {
-    SHOW: 'success',
-    HIDE: 'info',
-    ENABLE: 'success',
-    DISABLE: 'info',
+    SHOW_FIELD: 'success',
+    HIDE_FIELD: 'info',
     SET_VALUE: 'warning',
     CLEAR_VALUE: 'info',
-    VALIDATE: 'danger',
-    SHOW_MESSAGE: '',
-    HIDE_MESSAGE: 'info',
-    CALL_API: 'primary',
-    EXECUTE_SCRIPT: 'warning'
+    SET_REQUIRED: 'danger',
+    SET_OPTIONS: 'primary',
+    SHOW_MESSAGE: ''
   }
   return map[type] || 'info'
 }
 
 const needsValueDisplay = (type: string) => {
-  return ['SET_VALUE', 'VALIDATE'].includes(type)
+  return ['SET_VALUE'].includes(type)
 }
 </script>
 

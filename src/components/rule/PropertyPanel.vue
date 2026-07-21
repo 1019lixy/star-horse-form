@@ -120,6 +120,14 @@
 
       <!-- 通用企业级节点（generic类型）：基于paramSchema动态渲染 -->
       <template v-if="isGenericNode && paramSchema.length > 0">
+        <!-- 复杂节点：详细配置入口（弹窗编辑，避免面板过长） -->
+        <div v-if="hasDialogEditor" class="prop-section dialog-entry-section">
+          <el-button type="primary" @click="openDialogEditor" class="open-dialog-btn">
+            <el-icon><EditPen /></el-icon>
+            <span>{{ i18n('rule.btn.openDialogConfig') }}</span>
+          </el-button>
+          <p class="dialog-tip">{{ dialogEditorHint }}</p>
+        </div>
         <div v-for="group in groupedSchema" :key="group.name" class="prop-section">
           <div class="section-title">{{ i18n(group.name) }}</div>
           <el-form label-width="90px" labelPosition="top">
@@ -141,6 +149,7 @@
                 v-else-if="field.type === 'input' && field.fieldSelect && formFields.length > 0"
                 :model-value="selectedNode.data[field.name] || ''"
                 :fields="formFields"
+                :variables="variables"
                 :placeholder="field.placeholder ? i18n(field.placeholder) : ''"
                 @update:model-value="onFieldSelectChange(field.name, $event)"
               />
@@ -208,32 +217,60 @@
                 inactive-value="N"
                 @change="emit('update', selectedNode.id, { [field.name]: selectedNode.data[field.name] })"
               />
-              <!-- table（可编辑表格） -->
+              <!-- table（卡片式垂直堆叠，避免横向挤压） -->
               <div v-else-if="field.type === 'table'" class="schema-table">
-                <el-table :data="getTableData(field.name)" border  style="width: 100%">
-                  <el-table-column v-for="col in field.columns" :key="col.prop" :label="i18n(col.label)" :width="col.width">
-                    <template #default="{ row }">
-                      <el-select v-if="col.type === 'select'" v-model="row[col.prop]"  style="width: 100%">
-                        <el-option v-for="opt in col.options" :key="opt.value" :label="typeof opt.label === 'function' ? opt.label() : i18n(opt.label)" :value="opt.value" />
-                      </el-select>
-                      <!-- 字段选择器列（有表单字段上下文时） -->
-                      <FieldSelector
-                        v-else-if="col.fieldSelect && formFields.length > 0"
-                        :model-value="row[col.prop] || ''"
-                        :fields="formFields"
-                        @update:model-value="row[col.prop] = $event; emit('update', selectedNode.id, { [field.name]: getTableData(field.name) })"
-                      />
-                      <el-input v-else v-model="row[col.prop]"  />
-                    </template>
-                  </el-table-column>
-                  <el-table-column :label="i18n('rule.operation')" width="50" fixed="right">
-                    <template #default="{ $index }">
-                      <el-button link  type="danger" @click="removeTableRow(field.name, $index)"><el-icon><Delete /></el-icon></el-button>
-                    </template>
-                  </el-table-column>
-                </el-table>
-                <el-button type="primary" plain  @click="addTableRow(field.name, field.columns)" style="width: 100%; margin-top: 4px">
-                  <el-icon><Plus /></el-icon> {{ i18n('rule.addLine') }}
+                <div v-if="!getTableData(field.name).length" class="table-empty-tip">
+                  {{ i18n('rule.panel.noData') }}
+                </div>
+                <div
+                  v-for="(row, rowIdx) in getTableData(field.name)"
+                  :key="rowIdx"
+                  class="table-row-card"
+                >
+                  <div class="row-card-head">
+                    <span class="row-card-idx">#{{ rowIdx + 1 }}</span>
+                    <el-button link type="danger" :title="i18n('rule.delete')" @click="removeTableRow(field.name, rowIdx)">
+                      <el-icon><Delete /></el-icon>
+                    </el-button>
+                  </div>
+                  <div class="row-card-body">
+        <div v-for="col in field.columns" :key="col.prop" class="row-cell" v-show="isColumnVisible(col, row)">
+          <label class="cell-label">{{ i18n(col.label) }}</label>
+          <el-select
+            v-if="col.type === 'select'"
+            v-model="row[col.prop]"
+            size="small"
+            style="width: 100%"
+            @change="emit('update', selectedNode.id, { [field.name]: getTableData(field.name) })"
+          >
+            <el-option v-for="opt in col.options" :key="opt.value" :label="typeof opt.label === 'function' ? opt.label() : i18n(opt.label)" :value="opt.value" />
+          </el-select>
+          <FieldSelector
+            v-else-if="col.fieldSelect && formFields.length > 0"
+            :model-value="row[col.prop] || ''"
+            :fields="formFields"
+            :variables="variables"
+            @update:model-value="row[col.prop] = $event; emit('update', selectedNode.id, { [field.name]: getTableData(field.name) })"
+          />
+          <el-input
+            v-else
+            v-model="row[col.prop]"
+            size="small"
+            :placeholder="i18n(col.label)"
+            @input="emit('update', selectedNode.id, { [field.name]: getTableData(field.name) })"
+          />
+        </div>
+      </div>
+                </div>
+                <el-button
+                  type="primary"
+                  plain
+                  size="small"
+                  @click="addTableRow(field.name, field.columns)"
+                  class="table-add-btn"
+                >
+                  <el-icon><Plus /></el-icon>
+                  <span>{{ i18n('rule.addLine') }}</span>
                 </el-button>
               </div>
             </el-form-item>
@@ -246,8 +283,8 @@
 
 <script setup lang="ts">
 import { computed, inject, type Ref } from 'vue'
-import { Setting, Pointer, Plus, Edit, Delete } from '@element-plus/icons-vue'
-import { NODE_TYPE_MAP, getNodeLabel, getParamSchema, getCategoryColor, type ParamField } from './nodeTypes'
+import { Setting, Pointer, Plus, Edit, EditPen, Delete } from '@element-plus/icons-vue'
+import { NODE_TYPE_MAP, getParamSchema, getCategoryColor, type ParamField } from './nodeTypes'
 import { i18n } from '@/lang'
 import FieldSelector from './components/FieldSelector.vue'
 import type { FormFieldMeta } from './useFormRuleRuntime'
@@ -263,8 +300,6 @@ const emit = defineEmits<{
   (e: 'editGateway', nodeId: string): void
   (e: 'editScript', nodeId: string): void
   (e: 'editHttp', nodeId: string): void
-  (e: 'editRuleSetRef', nodeId: string): void
-  (e: 'editLoop', nodeId: string): void
 }>()
 
 // 从 RuleDesigner 注入表单字段列表（provide 时的 key: ruleFormFields）
@@ -280,6 +315,33 @@ const formFields = computed<FormFieldMeta[]>(() => {
   console.log('[PropertyPanel] formFields computed | injected.type=', typeof injectedFormFields, '| value.length=', arr.length, '| firstField=', arr[0]?.fieldName)
   return arr
 })
+
+// 注入规则变量列表（ruleData.variables），用于：
+// 1. FieldSelector 同时显示表单字段 + 规则变量两组
+// 2. 校验时合并 form fields + variables 作为合法引用集合
+const injectedVariables = inject<Ref<any[]> | any[] | undefined>('ruleVariables', undefined)
+const variables = computed<any[]>(() => {
+  if (!injectedVariables) return []
+  const v = (injectedVariables as any).value ?? injectedVariables
+  return Array.isArray(v) ? v : []
+})
+
+/**
+ * 判断表格列在当前行是否应该显示
+ * - hideOnActionTypes：行数据的 actionType 命中时隐藏
+ * - showOnActionTypes：行数据的 actionType 不命中时隐藏（白名单）
+ */
+const isColumnVisible = (col: any, row: any): boolean => {
+  const actionType = row?.actionType
+  if (!actionType) return true
+  if (Array.isArray(col.hideOnActionTypes) && col.hideOnActionTypes.includes(actionType)) {
+    return false
+  }
+  if (Array.isArray(col.showOnActionTypes) && col.showOnActionTypes.length > 0 && !col.showOnActionTypes.includes(actionType)) {
+    return false
+  }
+  return true
+}
 
 /**
  * FieldSelector 值变更处理：写入 selectedNode.data 并触发 update 事件
@@ -301,6 +363,27 @@ const isGateway = computed(() => {
 })
 
 const isGenericNode = computed(() => props.selectedNode?.type === 'generic')
+
+// 支持"详细配置"弹窗的节点类型：参数较多，面板编辑不便
+const DIALOG_EDITABLE_NODES: Record<string, { hintKey: string; evt: string }> = {
+  'http-call': { hintKey: 'rule.hint.httpCallDialog', evt: 'editHttp' },
+  'datasource-fetch': { hintKey: 'rule.hint.datasourceDialog', evt: 'editHttp' },
+  'action-set-options': { hintKey: 'rule.hint.setOptionsDialog', evt: 'editHttp' },
+}
+const hasDialogEditor = computed(() => {
+  if (!isGenericNode.value) return false
+  return !!DIALOG_EDITABLE_NODES[actualType.value]
+})
+const dialogEditorHint = computed(() => {
+  const cfg = DIALOG_EDITABLE_NODES[actualType.value]
+  return cfg ? i18n(cfg.hintKey) : ''
+})
+const openDialogEditor = () => {
+  if (!props.selectedNode) return
+  const cfg = DIALOG_EDITABLE_NODES[actualType.value]
+  if (!cfg) return
+  emit(cfg.evt as any, props.selectedNode.id)
+}
 
 const actualType = computed(() => props.selectedNode?.data?.__nodeType || '')
 const nodeDef = computed(() => NODE_TYPE_MAP[actualType.value])
@@ -419,6 +502,24 @@ const getActionLabel = (type: string) => {
 
     &.node-info-section { padding: 14px; background: #f8fafc; }
 
+    &.dialog-entry-section {
+      background: linear-gradient(135deg, #eff6ff 0%, #f0f9ff 100%);
+      border-bottom: 1px solid #dbeafe;
+      text-align: center;
+
+      .open-dialog-btn {
+        width: 100%;
+        font-weight: 600;
+      }
+      .dialog-tip {
+        margin-top: 8px;
+        font-size: 11px;
+        color: #64748b;
+        line-height: 1.5;
+        text-align: left;
+      }
+    }
+
     .section-title {
       display: flex; align-items: center; justify-content: space-between;
       font-size: 11px; font-weight: 600; color: #475569;
@@ -455,8 +556,83 @@ const getActionLabel = (type: string) => {
     }
 
     .schema-table {
-      .el-table { font-size: 12px; }
-      :deep(.el-table .cell) { padding: 0 4px; }
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+
+      .table-empty-tip {
+        text-align: center;
+        color: #cbd5e1;
+        font-size: 11px;
+        padding: 12px 0;
+        background: #f8fafc;
+        border: 1px dashed #e2e8f0;
+        border-radius: 6px;
+      }
+
+      .table-row-card {
+        background: #f8fafc;
+        border: 1px solid #e2e8f0;
+        border-radius: 6px;
+        overflow: hidden;
+        transition: border-color 0.2s, box-shadow 0.2s;
+
+        &:hover {
+          border-color: #c7d2fe;
+          box-shadow: 0 1px 4px rgba(99, 102, 241, 0.08);
+        }
+
+        .row-card-head {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          padding: 4px 8px 4px 10px;
+          background: #f1f5f9;
+          border-bottom: 1px solid #e2e8f0;
+
+          .row-card-idx {
+            font-size: 11px;
+            font-weight: 600;
+            color: #6366f1;
+            font-family: 'JetBrains Mono', Consolas, monospace;
+            letter-spacing: 0.3px;
+          }
+        }
+
+        .row-card-body {
+          padding: 8px 10px;
+          display: flex;
+          flex-direction: column;
+          gap: 8px;
+        }
+
+        .row-cell {
+          display: flex;
+          flex-direction: column;
+          gap: 3px;
+
+          .cell-label {
+            font-size: 11px;
+            color: #64748b;
+            font-weight: 500;
+            line-height: 1.3;
+            user-select: none;
+          }
+
+          :deep(.el-input__inner),
+          :deep(.el-select .el-input__inner) {
+            font-size: 12px;
+            height: 28px;
+            line-height: 28px;
+          }
+        }
+      }
+
+      .table-add-btn {
+        width: 100%;
+        border-style: dashed;
+        margin-top: 2px;
+      }
     }
   }
 

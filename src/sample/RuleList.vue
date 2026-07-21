@@ -202,7 +202,7 @@ const loadRuleList = async () => {
       ...filterForm
     };
     const res = await ruleDefinitionApi.getRuleList(params);
-    if (res.data.code === 200) {
+    if (res.data.code === 0) {
       ruleList.value = res.data.data.records || [];
       total.value = res.data.data.total || 0;
     }

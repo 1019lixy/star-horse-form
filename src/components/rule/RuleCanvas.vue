@@ -139,12 +139,12 @@
     </div>
 
     <!-- 小地图（可选） -->
-    <div v-if="showMinimap" class="rule-minimap" ref="minimapRef" @mousedown.stop="onMinimapMouseDown">
+    <div v-if="showMinimap" class="rule-minimap">
       <div class="minimap-header">
         <span>{{ i18n('rule.minimap') }}</span>
-        <button class="minimap-close" @click.stop="$emit('update:showMinimap', false)" :title="i18n('rule.minimapClose')" tabindex="-1">×</button>
+        <button class="minimap-close" @click.stop="$emit('update:showMinimap', false)" @mousedown.stop :title="i18n('rule.minimapClose')" tabindex="-1">×</button>
       </div>
-      <svg class="minimap-svg" :width="minimapSize.w" :height="minimapSize.h">
+      <svg class="minimap-svg" :width="minimapSize.w" :height="minimapSize.h" @mousedown.stop="onMinimapMouseDown">
         <!-- 节点 -->
         <rect
           v-for="n in minimapNodes"
@@ -256,6 +256,9 @@ let dimsRo: ResizeObserver | null = null
 
 const setNodeEl = (id: string, el: HTMLElement | null) => {
   if (el) {
+    // 避免重复 observe 同一元素
+    const existing = nodeElMap.get(id)
+    if (existing === el) return
     nodeElMap.set(id, el)
     if (!dimsRo) {
       dimsRo = new ResizeObserver(entries => {
@@ -263,13 +266,24 @@ const setNodeEl = (id: string, el: HTMLElement | null) => {
           const target = entry.target as HTMLElement
           const nid = target.getAttribute('data-node-id')
           if (nid) {
-            dims.set(nid, { w: target.offsetWidth, h: target.offsetHeight })
+            const w = target.offsetWidth
+            const h = target.offsetHeight
+            const old = dims.get(nid)
+            // 仅在尺寸真正变化时才更新 reactive Map，避免递归触发
+            if (!old || old.w !== w || old.h !== h) {
+              dims.set(nid, { w, h })
+            }
           }
         }
       })
     }
     dimsRo.observe(el)
-    dims.set(id, { w: el.offsetWidth, h: el.offsetHeight })
+    const w = el.offsetWidth
+    const h = el.offsetHeight
+    const old = dims.get(id)
+    if (!old || old.w !== w || old.h !== h) {
+      dims.set(id, { w, h })
+    }
   } else {
     const old = nodeElMap.get(id)
     if (old) dimsRo?.unobserve(old)
@@ -285,12 +299,10 @@ onBeforeUnmount(() => {
 const getDim = (id: string) => {
   const d = dims.get(id)
   if (d && d.w > 0) return d
-  // fallback：从 DOM 重新测量
+  // fallback：从 DOM 重新测量（不写入 reactive Map，避免在 computed 中触发递归）
   const el = nodeElMap.get(id)
   if (el && el.offsetWidth > 0) {
-    const nd = { w: el.offsetWidth, h: el.offsetHeight }
-    dims.set(id, nd)
-    return nd
+    return { w: el.offsetWidth, h: el.offsetHeight }
   }
   return { w: 220, h: 80 }
 }
@@ -560,6 +572,10 @@ const onKeyUpSpace = (e: KeyboardEvent) => {
 }
 
 const onWrapperMouseDown = (e: MouseEvent) => {
+  // 防御：点击小地图区域（含关闭按钮）时不触发画布平移/框选
+  const target = e.target as HTMLElement | null
+  if (target && target.closest('.rule-minimap')) return
+
   // 中键 / 按住 Space 的左键 = 平移（备用，兼容 Figma 习惯）
   const isPanGesture =
     e.button === 1 || // 中键
@@ -802,7 +818,6 @@ watch(() => dims.size, () => { /* 触发响应式更新 */ })
  * - 显示当前视口矩形
  * - 支持点击/拖拽小地图来平移画布
  * ============================================================ */
-const minimapRef = ref<HTMLElement | null>(null)
 const minimapSize = reactive({ w: 200, h: 140 })
 
 // 计算所有节点的 bounding box（flow 坐标系）
@@ -870,13 +885,13 @@ const viewportRect = computed(() => {
 
 // 小地图点击/拖拽：将点击位置转为画布平移
 const onMinimapMouseDown = (e: MouseEvent) => {
-  if (!minimapRef.value) return
-  const rect = minimapRef.value.getBoundingClientRect()
+  const target = e.currentTarget as SVGElement | null
+  if (!target) return
+  const rect = target.getBoundingClientRect()
   const b = flowBounds.value
   const s = minimapScale.value
-  // 点击位置（minimap 坐标系）
+  // 点击位置（minimap 坐标系，相对于 svg）
   const moveViewport = (clientX: number, clientY: number) => {
-    // minimap 坐标
     const mx = clientX - rect.left
     const my = clientY - rect.top
     // 转换为 flow 坐标（小地图中心对齐到鼠标）

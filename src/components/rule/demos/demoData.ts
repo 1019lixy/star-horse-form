@@ -215,7 +215,7 @@ export const demo6_OrderDiscount: DemoData = {
   nodes: [
     { id: 'start_1', type: 'start', position: { x: 400, y: 30 }, data: {} },
     { id: 'var_1', type: 'variable-assign', position: { x: 330, y: 130 }, data: { assignments: [{ variableName: 'orderAmount', valueType: 'VARIABLE', value: 'totalAmount' }, { variableName: 'discountRules', valueType: 'CONSTANT', value: '[{threshold:100,discount:10},{threshold:200,discount:30},{threshold:500,discount:80}]' }] } },
-    { id: 'loop_1', type: 'loop', position: { x: 330, y: 260 }, data: { loopType: 'forEach', collectionVar: 'discountRules', itemVar: 'rule', indexVar: 'ruleIndex' } },
+    { id: 'loop_1', type: 'generic', position: { x: 330, y: 260 }, data: { __nodeType: 'loop-iterate', collectionVar: 'discountRules', itemVar: 'rule', indexVar: 'ruleIndex' } },
     { id: 'cond_1', type: 'condition', position: { x: 330, y: 400 }, data: { conditions: [{ fieldName: 'orderAmount', fieldType: 'NUMBER', operator: 'GTE', value: 'rule.threshold' }], logic: 'AND' } },
     { id: 'action_1', type: 'action', position: { x: 100, y: 540 }, data: { actions: [{ actionType: 'SET_VALUE', targetField: 'finalDiscount', actionValue: 'rule.discount', actionValueType: 'EXPRESSION' }, { actionType: 'SET_VALUE', targetField: 'finalAmount', actionValue: 'orderAmount - rule.discount', actionValueType: 'EXPRESSION' }, { actionType: 'SHOW_MESSAGE', message: '满${rule.threshold}减${rule.discount}，最终价格：${finalAmount}', messageType: 'SUCCESS' }] } },
     { id: 'end_1', type: 'end', position: { x: 100, y: 680 }, data: { endType: 'success' } },

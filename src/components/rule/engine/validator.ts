@@ -31,6 +31,16 @@ export interface ValidationOptions {
    * 不传则跳过僵尸属性校验
    */
   formFieldNames?: string[]
+  /**
+   * 当前规则的变量名集合（ruleData.variables 的 field 列表）
+   * 变量也是合法的字段引用目标，与表单字段并集校验
+   */
+  variableNames?: string[]
+  /**
+   * 规则绑定的表单ID（formId）
+   * 不为空时，校验规则至少引用了表单字段或变量，否则规则没有业务意义
+   */
+  boundFormId?: string
 }
 
 const nonEmpty = (v: any): boolean => {
@@ -67,17 +77,72 @@ export const validateRuleFlow = (
     issues.push({ nodeId, nodeType, nodeName: node ? nodeName(node) : nodeId, level, code, message })
   }
 
-  // 字段集合（用于僵尸属性校验），构建 Set 加速查找
+  // 合法的字段引用集合 = 表单字段 ∪ 规则变量
+  // 企业级规则引擎中，条件/动作/赋值的字段引用可来自表单字段或规则变量库
   const formFieldSet = options?.formFieldNames?.length
     ? new Set(options.formFieldNames)
     : null
-  /** 检查字段引用是否存在于表单中；formFieldSet 为空时跳过（兼容旧调用） */
-  const checkFieldRef = (nodeId: string, nodeType: string, fieldRef: string, labelHint: string) => {
-    if (!formFieldSet) return
+  const variableSet = options?.variableNames?.length
+    ? new Set(options.variableNames)
+    : null
+  // 合法字段集合：表单字段 + 变量（任一来源匹配即视为合法）
+  const validFieldSet = new Set<string>()
+  if (formFieldSet) for (const f of formFieldSet) validFieldSet.add(f)
+  if (variableSet) for (const v of variableSet) validFieldSet.add(v)
+
+  // 业务级校验：追踪规则是否引用了表单字段/变量
+  // 如果绑定了表单但没有引用任何字段，规则没有业务意义
+  let formFieldReferenced = false
+  const boundFormId = options?.boundFormId
+
+  /**
+   * 标记字段引用已命中（表单字段或变量），用于业务级校验
+   */
+  const markFieldReferenced = (fieldRef: string) => {
     if (!fieldRef || typeof fieldRef !== 'string') return
-    // 支持表达式占位符 ${var}，跳过非字段名的引用
-    if (fieldRef.startsWith('${') || fieldRef.startsWith('=')) return
-    if (!formFieldSet.has(fieldRef)) {
+    if (isLiteralValue(fieldRef)) return
+    if (validFieldSet.has(fieldRef)) {
+      formFieldReferenced = true
+    }
+  }
+
+  /**
+   * 判断字段引用是否为"字面量值"（非字段名引用），字面量值无需校验是否存在
+   * - 数字字面量：123、3.14、-5
+   * - 布尔字面量：true、false（不区分大小写）
+   * - 带引号字符串字面量："hello"、'world'
+   * - 表达式占位符：${...}
+   * - 公式格式：=...
+   */
+  const isLiteralValue = (v: string): boolean => {
+    const s = v.trim()
+    if (!s) return false
+    // 表达式占位符 ${...}
+    if (s.startsWith('${')) return true
+    // 公式 =...
+    if (s.startsWith('=')) return true
+    // 数字字面量（含负数、小数）
+    if (/^-?\d+(\.\d+)?$/.test(s)) return true
+    // 布尔字面量
+    if (/^(true|false)$/i.test(s)) return true
+    // 带引号字符串字面量
+    if (/^(["']).*\1$/.test(s)) return true
+    return false
+  }
+
+  /**
+   * 检查字段引用是否合法
+   * - validFieldSet 为空时跳过（兼容旧调用，无表单字段与变量上下文）
+   * - 字面量值/表达式占位符/公式格式跳过（非字段引用）
+   * - 命中表单字段或变量集合即视为合法
+   * - 否则报"僵尸属性"错误
+   */
+  const checkFieldRef = (nodeId: string, nodeType: string, fieldRef: string, labelHint: string) => {
+    if (!validFieldSet.size) return
+    if (!fieldRef || typeof fieldRef !== 'string') return
+    // 字面量值/表达式/公式 跳过
+    if (isLiteralValue(fieldRef)) return
+    if (!validFieldSet.has(fieldRef)) {
       push(nodeId, nodeType, 'error', 'ZOMBIE_FIELD',
         i18n('rule.val.zombieField', [fieldRef, labelHint]))
     }
@@ -141,6 +206,7 @@ export const validateRuleFlow = (
             // 僵尸属性校验：condition 中的 fieldName 必须存在于表单中
             if (nonEmpty(c.fieldName)) {
               checkFieldRef(id, type, c.fieldName, i18n('rule.lbl.conditionList') + '#' + (idx + 1))
+              markFieldReferenced(c.fieldName)
             }
           })
         }
@@ -154,21 +220,26 @@ export const validateRuleFlow = (
         if (acts.length === 0) push(id, type, 'error', 'ACTION_EMPTY', i18n('rule.val.actionEmpty'))
         else {
           acts.forEach((a: any, idx: number) => {
-            if (!nonEmpty(a.actionType) || !nonEmpty(a.targetField)) {
+            if (!nonEmpty(a.actionType)) {
               push(id, type, 'error', 'ACTION_INCOMPLETE', i18n('rule.val.actionIncomplete', [idx + 1]))
             }
-            // 僵尸属性校验：action 中的 targetField 必须存在于表单中
-            // 注意：SHOW_MESSAGE 等动作不针对字段，跳过
-            if (nonEmpty(a.targetField) && a.actionType !== 'SHOW_MESSAGE') {
+            // SHOW_MESSAGE 只是显示消息，不需要 targetField
+            // 其他动作类型（SHOW_FIELD/HIDE_FIELD/SET_VALUE 等）必须指定 targetField
+            if (a.actionType !== 'SHOW_MESSAGE' && !nonEmpty(a.targetField)) {
+              push(id, type, 'error', 'ACTION_INCOMPLETE', i18n('rule.val.actionIncomplete', [idx + 1]))
+            }
+            // 僵尸属性校验：action 中的 targetField 必须存在于表单字段或变量库
+            // SHOW_MESSAGE 无目标字段，跳过
+            if (a.actionType !== 'SHOW_MESSAGE' && nonEmpty(a.targetField)) {
               checkFieldRef(id, type, a.targetField, i18n('rule.lbl.actionList') + '#' + (idx + 1))
+              markFieldReferenced(a.targetField)
             }
           })
         }
         if (outs.length === 0) push(id, type, 'error', 'NODE_NO_OUT', i18n('rule.val.nodeNoOut'))
         break
       }
-      case 'variable-assign':
-      case 'action-assign': {
+      case 'variable-assign': {
         const list = data.assignments || []
         if (list.length === 0) push(id, type, 'error', 'ASSIGN_EMPTY', i18n('rule.val.assignEmpty'))
         else {
@@ -179,6 +250,7 @@ export const validateRuleFlow = (
             // 僵尸属性校验：assignment 中的 targetField 必须存在于表单中
             if (nonEmpty(a.targetField)) {
               checkFieldRef(id, type, a.targetField, i18n('rule.lbl.assignList') + '#' + (idx + 1))
+              markFieldReferenced(a.targetField)
             }
           })
         }
@@ -191,11 +263,17 @@ export const validateRuleFlow = (
         if (branches.length < 2) {
           push(id, type, 'error', 'GW_FEW_BRANCH', i18n('rule.val.gwFewBranch'))
         } else {
+          // 分支目标节点的两种表达方式（任一即可）：
+          // 1. branch.targetNodeId 显式存储（数据驱动模式）
+          // 2. 通过 edges 出边表达（可视化连线模式，企业级规则引擎主流方式）
+          // 校验逻辑：分支数 <= 出边数 即视为每个分支已绑定目标
           branches.forEach((b: any, idx: number) => {
             if (!nonEmpty(b.label) || !nonEmpty(b.condition)) {
               push(id, type, 'error', 'GW_BRANCH_INCOMPLETE', i18n('rule.val.gwBranchIncomplete', [idx + 1]))
             }
-            if (!nonEmpty(b.targetNodeId)) {
+            // 仅在既无 targetNodeId 又无对应出边时才报错
+            // 出边数 >= 分支数 即视为所有分支已通过连线绑定目标
+            if (!nonEmpty(b.targetNodeId) && outs.length < branches.length) {
               push(id, type, 'error', 'GW_BRANCH_NO_TARGET', i18n('rule.val.gwBranchNoTarget', [idx + 1]))
             }
           })
@@ -217,38 +295,13 @@ export const validateRuleFlow = (
         if (outs.length === 0) push(id, type, 'error', 'NODE_NO_OUT', i18n('rule.val.nodeNoOut'))
         break
       }
-      case 'loop': {
-        if (data.loopType === 'forEach' && !nonEmpty(data.collectionVar)) {
-          push(id, type, 'error', 'LOOP_NO_COLLECTION', i18n('rule.val.loopNoCollection'))
-        }
-        if (outs.length === 0) push(id, type, 'error', 'NODE_NO_OUT', i18n('rule.val.nodeNoOut'))
-        break
-      }
       case 'script': {
         if (!nonEmpty(data.scriptContent)) push(id, type, 'error', 'SCRIPT_EMPTY', i18n('rule.val.scriptEmpty'))
         if (outs.length === 0) push(id, type, 'error', 'NODE_NO_OUT', i18n('rule.val.nodeNoOut'))
         break
       }
-      case 'http-call':
-      case 'ext-http-call': {
+      case 'http-call': {
         if (!nonEmpty(data.url)) push(id, type, 'error', 'HTTP_NO_URL', i18n('rule.val.httpNoUrl'))
-        if (outs.length === 0) push(id, type, 'error', 'NODE_NO_OUT', i18n('rule.val.nodeNoOut'))
-        break
-      }
-      case 'rule-set-ref': {
-        if (!nonEmpty(data.ruleSetCode)) push(id, type, 'error', 'RULESET_NO_CODE', i18n('rule.val.rulesetNoCode'))
-        if (outs.length === 0) push(id, type, 'error', 'NODE_NO_OUT', i18n('rule.val.nodeNoOut'))
-        break
-      }
-      case 'subrule-call': {
-        if (!nonEmpty(data.subRuleCode)) push(id, type, 'error', 'SUBRULE_NO_CODE', i18n('rule.val.subruleNoCode'))
-        if (outs.length === 0) push(id, type, 'error', 'NODE_NO_OUT', i18n('rule.val.nodeNoOut'))
-        break
-      }
-      case 'decision-table': {
-        if (!nonEmpty(data.tableName)) push(id, type, 'error', 'DT_NO_NAME', i18n('rule.val.dtNoName'))
-        const rules = data.rules || []
-        if (rules.length === 0) push(id, type, 'error', 'DT_NO_RULES', i18n('rule.val.dtNoRules'))
         if (outs.length === 0) push(id, type, 'error', 'NODE_NO_OUT', i18n('rule.val.nodeNoOut'))
         break
       }
@@ -286,8 +339,8 @@ export const validateRuleFlow = (
             }
           })
         }
-        // 非终止节点应有出边（除非是 ctrl-terminate/end）
-        if (type !== 'ctrl-terminate' && outs.length === 0 && ins.length > 0) {
+        // 非终止节点应有出边（end 节点除外）
+        if (type !== 'end' && outs.length === 0 && ins.length > 0) {
           push(id, type, 'warning', 'NODE_NO_OUT', i18n('rule.val.nodeNoOut'))
         }
         break
@@ -309,6 +362,22 @@ export const validateRuleFlow = (
     if (!nodeIdSet.has(e.source) || !nodeIdSet.has(e.target)) {
       push('', 'edge', 'error', 'EDGE_DANGLING', i18n('rule.val.edgeDangling'))
     }
+  }
+
+  // ===== 业务级校验 =====
+  // 1. 如果绑定了表单（boundFormId 有值），但规则中没有任何表单字段或变量被引用 → 规则没有业务意义
+  if (boundFormId && !formFieldReferenced) {
+    push('', 'graph', 'error', 'NO_FORM_FIELD_REF',
+      i18n('rule.val.noFormFieldReferenced', [boundFormId]))
+  }
+
+  // 2. 如果规则中只有 start/end 节点，没有任何业务节点 → 规则流程无意义
+  const businessNodeTypes = new Set(['condition', 'action', 'variable-assign',
+    'exclusive-gateway', 'inclusive-gateway', 'parallel-gateway',
+    'script', 'http-call', 'join', 'generic'])
+  const hasBusinessNode = nodes.some(n => businessNodeTypes.has(n.type))
+  if (!hasBusinessNode) {
+    push('', 'graph', 'warning', 'NO_BUSINESS_NODE', i18n('rule.val.noBusinessNode'))
   }
 
   // ===== 聚合 =====

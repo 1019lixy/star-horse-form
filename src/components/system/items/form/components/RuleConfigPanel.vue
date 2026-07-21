@@ -59,7 +59,7 @@ const loadRules = async () => {
   loading.value = true
   try {
     const res = await ruleDefinitionApi.listByFormId(props.formId)
-    if (res.data.code === 200) {
+    if (res.data.code === 0) {
       ruleList.value = Array.isArray(res.data.data) ? res.data.data : []
     } else {
       warning(res.data.cnMessage || i18n('rule.configPanel.warning.loadFail'))
@@ -137,7 +137,7 @@ const handleDelete = async (row: any) => {
   try {
     await operationConfirm(i18n('rule.configPanel.confirm.delete', [row.ruleName || row.ruleCode]))
     const res = await ruleDefinitionApi.deleteRule(row.idRuleDefinition)
-    if (res.data.code === 200) {
+    if (res.data.code === 0) {
       success(i18n('rule.configPanel.success.deleted'))
       loadRules()
     } else {
@@ -159,7 +159,7 @@ const handleToggleEnabled = async (row: any) => {
       ...row,
       enabled: newEnabled,
     })
-    if (res.data.code === 200) {
+    if (res.data.code === 0) {
       row.enabled = newEnabled
       success(newEnabled === 'Y' ? i18n('rule.configPanel.success.enabled') : i18n('rule.configPanel.success.disabled'))
     } else {

@@ -14,24 +14,13 @@
       <el-form-item :label="i18n('rule.lbl.ruleName')" prop="ruleName">
         <el-input v-model="formData.ruleName" :placeholder="i18n('rule.ph.enterRuleName')" />
       </el-form-item>
-      <el-form-item :label="i18n('rule.lbl.ruleType')" prop="ruleType">
-        <el-select v-model="formData.ruleType" style="width: 100%;z-index:999!important;">
-          <el-option :label="i18n('rule.dialog.formLinkage')" value="FORM_LINKAGE" />
-          <el-option :label="i18n('rule.dialog.dataValidation')" value="DATA_VALID" />
-          <el-option :label="i18n('rule.dialog.businessRule')" value="BUSINESS" />
-        </el-select>
-      </el-form-item>
       <el-form-item :label="i18n('rule.lbl.ruleCategory')">
-        <el-input v-model="formData.ruleCategory" :placeholder="i18n('rule.ph.enterRuleCategory')" />
+        <el-select v-model="formData.ruleCategory" :placeholder="i18n('rule.ph.selectRuleCategory')" style="width: 100%;z-index:999!important;" clearable>
+          <el-option v-for="cat in CATEGORY_OPTIONS" :key="cat.value" :label="i18n(cat.label)" :value="cat.value" />
+        </el-select>
       </el-form-item>
       <el-form-item :label="i18n('rule.lbl.priority')">
         <el-input-number v-model="formData.priority" :min="0" :max="999" style="width: 100%" />
-      </el-form-item>
-      <el-form-item :label="i18n('rule.lbl.conditionLogic')">
-        <el-radio-group v-model="formData.conditionLogic">
-          <el-radio-button label="AND">{{ i18n('rule.dialog.andAll') }}</el-radio-button>
-          <el-radio-button label="OR">{{ i18n('rule.dialog.orAny') }}</el-radio-button>
-        </el-radio-group>
       </el-form-item>
       <el-form-item :label="i18n('rule.lbl.enabledStatus')">
         <el-switch v-model="formData.enabled" active-value="Y" inactive-value="N" :active-text="i18n('rule.dialog.enabled')" :inactive-text="i18n('rule.dialog.disabled')" />
@@ -50,6 +39,18 @@
 import { ref, reactive, watch } from 'vue'
 import type { FormInstance, FormRules } from 'element-plus'
 import { i18n } from '@/lang'
+
+// 规则分类选项（业务域分类，非自由文本）
+const CATEGORY_OPTIONS = [
+  {label: 'rule.category.formLinkage', value: 'FORM_LINKAGE'},
+  {label: 'rule.category.dataValidation', value: 'DATA_VALIDATION'},
+  {label: 'rule.category.processControl', value: 'PROCESS_CONTROL'},
+  {label: 'rule.category.calcAssignment', value: 'CALC_ASSIGNMENT'},
+  {label: 'rule.category.businessRule', value: 'BUSINESS_RULE'},
+  {label: 'rule.category.notificationMsg', value: 'NOTIFICATION_MSG'},
+  {label: 'rule.category.dataTransform', value: 'DATA_TRANSFORM'},
+  {label: 'rule.category.other', value: 'OTHER'},
+];
 
 const props = defineProps<{
   visible: boolean
@@ -71,11 +72,9 @@ const defaultFormData = () => ({
   ruleCode: '',
   ruleName: '',
   ruleDesc: '',
-  ruleType: 'FORM_LINKAGE',
   ruleCategory: '',
   priority: 0,
   enabled: 'Y',
-  conditionLogic: 'AND',
   status: 'DRAFT',
   formId: ''
 })
@@ -84,8 +83,7 @@ const formData = reactive(defaultFormData())
 
 const rules = reactive<FormRules>({
   ruleCode: [{ required: true, message: i18n('rule.ph.enterRuleCode'), trigger: 'blur' }],
-  ruleName: [{ required: true, message: i18n('rule.ph.enterRuleName'), trigger: 'blur' }],
-  ruleType: [{ required: true, message: i18n('rule.ph.selectRuleType'), trigger: 'change' }]
+  ruleName: [{ required: true, message: i18n('rule.ph.enterRuleName'), trigger: 'blur' }]
 })
 
 watch(() => props.visible, (val) => {

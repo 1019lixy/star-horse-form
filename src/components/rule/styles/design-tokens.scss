@@ -5,48 +5,48 @@
  */
 
 /* ========== 色板：中性色阶 ========== */
-$rd-bg-canvas:     #f7f8fa;  // 画布底色
-$rd-bg-surface:    #ffffff;  // 表面/卡片
-$rd-bg-subtle:     #f4f5f7;  // 次级背景
-$rd-bg-hover:      #eef0f3;  // 悬停背景
+$rd-bg-canvas: #f7f8fa; // 画布底色
+$rd-bg-surface: #ffffff; // 表面/卡片
+$rd-bg-subtle: #f4f5f7; // 次级背景
+$rd-bg-hover: #eef0f3; // 悬停背景
+$rd-bg-active: #eef0f3; //
+$rd-border: #e5e7eb; // 默认边框
+$rd-border-strong: #d1d5db; // 强边框
+$rd-divider: #eef0f3; // 分割线
 
-$rd-border:        #e5e7eb;  // 默认边框
-$rd-border-strong: #d1d5db;  // 强边框
-$rd-divider:       #eef0f3;  // 分割线
-
-$rd-text-primary:   #111827; // 主文本
+$rd-text-primary: #111827; // 主文本
 $rd-text-secondary: #4b5563; // 次文本
-$rd-text-tertiary:  #9ca3af; // 辅助文本
-$rd-text-inverse:   #ffffff; // 反色文本
+$rd-text-tertiary: #9ca3af; // 辅助文本
+$rd-text-inverse: #ffffff; // 反色文本
 
 /* ========== 强调色 ========== */
-$rd-primary:        #4f46e5; // 主色 indigo
-$rd-primary-hover:  #4338ca;
-$rd-primary-bg:     #eef2ff; // 主色浅底
+$rd-primary: #4f46e5; // 主色 indigo
+$rd-primary-hover: #4338ca;
+$rd-primary-bg: #eef2ff; // 主色浅底
 $rd-primary-border: #c7d2fe;
 
 /* ========== 节点类型色（低饱和） ========== */
-$rd-node-start:    #475569; // 开始/结束 slate
-$rd-node-end:      #475569;
-$rd-node-condition:#2563eb; // 条件 blue
-$rd-node-action:   #059669; // 动作 emerald
+$rd-node-start: #475569; // 开始/结束 slate
+$rd-node-end: #475569;
+$rd-node-condition: #2563eb; // 条件 blue
+$rd-node-action: #059669; // 动作 emerald
 $rd-node-variable: #7c3aed; // 变量 violet
-$rd-node-loop:     #db2777; // 循环 pink
-$rd-node-join:     #4f46e5; // 聚合 indigo
-$rd-node-gw-xor:   #d97706; // 排他网关 amber
-$rd-node-gw-and:   #0891b2; // 并行网关 cyan
-$rd-node-gw-or:    #7c3aed; // 包容网关 violet
+$rd-node-loop: #db2777; // 循环 pink
+$rd-node-join: #4f46e5; // 聚合 indigo
+$rd-node-gw-xor: #d97706; // 排他网关 amber
+$rd-node-gw-and: #0891b2; // 并行网关 cyan
+$rd-node-gw-or: #7c3aed; // 包容网关 violet
 $rd-node-business: #0ea5e9; // 业务节点 sky
 
 /* ========== 状态色 ========== */
-$rd-success:      #10b981;
-$rd-success-bg:   #ecfdf5;
-$rd-warning:      #f59e0b;
-$rd-warning-bg:   #fffbeb;
-$rd-error:        #ef4444;
-$rd-error-bg:     #fef2f2;
-$rd-info:         #3b82f6;
-$rd-info-bg:      #eff6ff;
+$rd-success: #10b981;
+$rd-success-bg: #ecfdf5;
+$rd-warning: #f59e0b;
+$rd-warning-bg: #fffbeb;
+$rd-error: #ef4444;
+$rd-error-bg: #fef2f2;
+$rd-info: #3b82f6;
+$rd-info-bg: #eff6ff;
 
 /* ========== 圆角 ========== */
 $rd-radius-xs: 3px;
@@ -57,11 +57,11 @@ $rd-radius-xl: 12px;
 $rd-radius-pill: 999px;
 
 /* ========== 阴影（极弱） ========== */
-$rd-shadow-none:  none;
-$rd-shadow-xs:    0 1px 2px rgba(17, 24, 39, 0.04);
-$rd-shadow-sm:    0 1px 3px rgba(17, 24, 39, 0.06), 0 1px 2px rgba(17, 24, 39, 0.04);
-$rd-shadow-md:    0 2px 8px rgba(17, 24, 39, 0.08);
-$rd-shadow-lg:    0 4px 16px rgba(17, 24, 39, 0.1);
+$rd-shadow-none: none;
+$rd-shadow-xs: 0 1px 2px rgba(17, 24, 39, 0.04);
+$rd-shadow-sm: 0 1px 3px rgba(17, 24, 39, 0.06), 0 1px 2px rgba(17, 24, 39, 0.04);
+$rd-shadow-md: 0 2px 8px rgba(17, 24, 39, 0.08);
+$rd-shadow-lg: 0 4px 16px rgba(17, 24, 39, 0.1);
 $rd-shadow-focus: 0 0 0 3px rgba(79, 70, 229, 0.15);
 $rd-shadow-selected: 0 0 0 2px #4f46e5, 0 4px 12px rgba(79, 70, 229, 0.18);
 
@@ -75,12 +75,12 @@ $rd-space-6: 24px;
 $rd-space-8: 32px;
 
 /* ========== 字号 ========== */
-$rd-font-xs:    11px;
-$rd-font-sm:    12px;
-$rd-font-base:  13px;
-$rd-font-md:    14px;
-$rd-font-lg:    16px;
-$rd-font-xl:    18px;
+$rd-font-xs: 11px;
+$rd-font-sm: 12px;
+$rd-font-base: 13px;
+$rd-font-md: 14px;
+$rd-font-lg: 16px;
+$rd-font-xl: 18px;
 
 $rd-font-weight-normal: 400;
 $rd-font-weight-medium: 500;

@@ -613,28 +613,6 @@ export const executeRuleFlow = (
         break
       }
 
-      case 'rule-set-ref': {
-        steps[steps.length - 1].message = `${i18n('rule.exec.referenceRuleSet')}: ${node.data.ruleSetName || ''}`
-        steps[steps.length - 1].status = 'SUCCESS'
-        const outEdge = edges.find(e => e.source === node.id)
-        if (outEdge) { nextEdgeId = outEdge.id; nextNodeId = outEdge.target }
-        break
-      }
-
-      case 'loop': {
-        const collectionVar = node.data.collectionVar
-        const collection = context[collectionVar]
-        if (Array.isArray(collection)) {
-          steps[steps.length - 1].message = `${i18n('rule.exec.loopIterate')} ${collection.length} ${i18n('rule.exec.elements')}`
-        } else {
-          steps[steps.length - 1].message = `${i18n('rule.exec.loop')}: ${i18n('rule.exec.collectionVarNotExist')} ${collectionVar}`
-        }
-        steps[steps.length - 1].status = 'SUCCESS'
-        const outEdge = edges.find(e => e.source === node.id)
-        if (outEdge) { nextEdgeId = outEdge.id; nextNodeId = outEdge.target }
-        break
-      }
-
       case 'generic': {
         // 通用企业级节点执行
         const actualType = node.data?.__nodeType || 'unknown'
@@ -877,27 +855,6 @@ const executeGenericNode = (type: string, data: any, context: any): { success: b
       return { success: true, message: `${i18n('rule.exec.ratioAllocate')} ${i18n('rule.exec.total')}${total}${i18n('rule.exec.by')}${ratioField}${i18n('rule.exec.allocateTo')}${arr.length}${i18n('rule.exec.rows')}(${i18n('rule.exec.ratioSum')}=${ratioSum})` }
     }
 
-    // === 分支动作 ===
-    case 'action-assign': {
-      const count = data.assignments?.length || 0
-      data.assignments?.forEach((a: any) => { context[a.variableName || a.targetField] = a.value })
-      return { success: true, message: `${i18n('rule.exec.batchAssign')} ${count} ${i18n('rule.exec.items')}` }
-    }
-    case 'action-mark': {
-      context[`__mark_${data.targetField}`] = data.markType
-      return { success: true, message: `${i18n('rule.exec.mark')} ${data.targetField} → ${data.markType}:${data.markValue}` }
-    }
-    case 'action-filter-output': {
-      const src = context[data.sourceVar] || []
-      const filtered = Array.isArray(src) ? src : []
-      if (data.targetVar) context[data.targetVar] = filtered
-      return { success: true, message: `${i18n('rule.exec.filterOutput')} ${filtered.length} ${i18n('rule.exec.items')} → ${data.targetVar}` }
-    }
-    case 'action-split-merge': {
-      const src = context[data.sourceVar] || []
-      return { success: true, message: `${data.operation} ${Array.isArray(src) ? src.length : 0} ${i18n('rule.exec.items')}` }
-    }
-
     // === 消息通知 ===
     case 'msg-push-todo': {
       return { success: true, message: `${i18n('rule.exec.push')}${data.pushType} → ${data.targetUsers || '?'}: ${data.title || ''}` }
@@ -912,10 +869,6 @@ const executeGenericNode = (type: string, data: any, context: any): { success: b
     }
 
     // === 外部集成 ===
-    case 'ext-http-call': {
-      if (data.responseVar) context[data.responseVar] = { simulated: true }
-      return { success: true, message: `${data.method} ${data.url} → ${data.responseVar}` }
-    }
     case 'ext-sp-call': {
       if (data.resultVar) context[data.resultVar] = { simulated: true }
       return { success: true, message: `SP: ${data.spName} → ${data.resultVar}` }
@@ -925,65 +878,6 @@ const executeGenericNode = (type: string, data: any, context: any): { success: b
     }
     case 'ext-file-export': {
       return { success: true, message: `${i18n('rule.exec.export')}${data.exportType}: ${data.fileName || '?'}` }
-    }
-
-    // === 异常控制 ===
-    case 'ctrl-degrade': {
-      return { success: true, message: `${i18n('rule.exec.degradeStrategy')}: ${data.degradeCondition}(${data.threshold}ms)` }
-    }
-    case 'ctrl-rollback': {
-      const fields = toStringArray(data.rollbackFields)
-      fields.forEach((f: string) => { context[f] = '' })
-      return { success: true, message: `${i18n('rule.exec.rollback')} ${fields.length} ${i18n('rule.exec.fields')}` }
-    }
-    case 'ctrl-catch': {
-      const types = toStringArray(data.catchTypes)
-      return { success: true, message: `${i18n('rule.exec.exceptionCatch')}: ${types.join(',')}` }
-    }
-    case 'ctrl-terminate': {
-      return { success: false, message: `${i18n('rule.exec.ruleTerminate')}[${data.terminateLevel}]: ${data.message}`, terminate: true }
-    }
-    case 'ctrl-delay': {
-      return { success: true, message: `${i18n('rule.exec.delay')} ${data.delayValue}${data.delayUnit}` }
-    }
-
-    // === 权限审计 ===
-    case 'sec-desensitize': {
-      const fields = toStringArray(data.fields)
-      fields.forEach((f: string) => {
-        const v = String(context[f] || '')
-        context[f] = v.length > 4 ? v.slice(0, 3) + '****' + v.slice(-1) : '****'
-      })
-      return { success: true, message: `${i18n('rule.exec.desensitize')} ${fields.length} ${i18n('rule.exec.fields')} (${data.desensitizeType})` }
-    }
-    case 'sec-audit-trail': {
-      const fields = toStringArray(data.fields)
-      return { success: true, message: `${i18n('rule.exec.auditRecord')}: ${data.auditType} (${fields.length}${i18n('rule.exec.fields')})` }
-    }
-    case 'sec-row-filter': {
-      return { success: true, message: `${i18n('rule.exec.rowPermissionFilter')}(${data.filterBy}) → ${data.targetVar}` }
-    }
-
-    // === 子规则 ===
-    case 'subrule-call': {
-      let subCtx: any = {}
-      try {
-        if (data.inputMapping) subCtx = typeof data.inputMapping === 'string' ? JSON.parse(data.inputMapping) : data.inputMapping
-      } catch { /* ignore */ }
-      Object.keys(subCtx).forEach(k => { subCtx[k] = context[subCtx[k]] ?? subCtx[k] })
-      const mockResult = { success: true, code: data.subRuleCode, data: subCtx }
-      let outMap: any = {}
-      try {
-        if (data.outputMapping) outMap = typeof data.outputMapping === 'string' ? JSON.parse(data.outputMapping) : data.outputMapping
-      } catch { /* ignore */ }
-      Object.keys(outMap).forEach(k => { context[outMap[k]] = mockResult[k] ?? mockResult.data?.[k] })
-      return { success: true, message: `${i18n('rule.exec.callSubRule')}: ${data.subRuleName || data.subRuleCode}(${i18n('rule.exec.inputParams')}${Object.keys(subCtx).length}${i18n('rule.exec.items')}→${i18n('rule.exec.outputParams')}${Object.keys(outMap).length}${i18n('rule.exec.items')})` }
-    }
-    case 'subrule-version': {
-      return { success: true, message: `${i18n('rule.exec.versionSwitch')}: ${data.ruleCode} (${data.versionType})` }
-    }
-    case 'subrule-gray': {
-      return { success: true, message: `${i18n('rule.exec.gray')}: ${data.grayStrategy} ${data.grayPercent}%` }
     }
 
     default:
@@ -1003,20 +897,15 @@ const getNodeName = (node: ExecutionNode): string => {
     case 'variable-assign': return i18n('rule.node.variableAssign')
     case 'script': return i18n('rule.node.script')
     case 'http-call': return i18n('rule.node.httpCall')
-    case 'rule-set-ref': return `${i18n('rule.node.ruleSetRef')}: ${node.data.ruleSetName || ''}`
-    case 'loop': return i18n('rule.node.loop')
     case 'generic': {
       const labels: Record<string, string> = {
         'context-extract': i18n('rule.node.contextExtract'), 'type-cast': i18n('rule.node.typeCast'), 'dataset-load': i18n('rule.node.datasetLoad'), 'datasource-fetch': i18n('rule.node.datasourceFetch'),
         'cond-multibranch': i18n('rule.node.multiBranch'), 'cond-set-contains': i18n('rule.node.setContains'), 'cond-dirty-check': i18n('rule.node.dirtyCheck'), 'cond-time-window': i18n('rule.node.timeWindow'), 'cond-unique': i18n('rule.node.uniqueCheck'), 'cond-threshold': i18n('rule.node.threshold'),
         'loop-iterate': i18n('rule.node.loopIterate'), 'loop-aggregate': i18n('rule.node.loopAggregate'), 'loop-filter': i18n('rule.node.loopFilter'), 'loop-break': i18n('rule.node.loopBreak'),
         'calc-money': i18n('rule.node.calcMoney'), 'calc-date': i18n('rule.node.calcDate'), 'calc-string': i18n('rule.node.calcString'), 'calc-dict-map': i18n('rule.node.calcDictMap'), 'calc-ratio': i18n('rule.node.calcRatio'),
-        'action-assign': i18n('rule.node.actionAssign'), 'action-mark': i18n('rule.node.actionMark'), 'action-filter-output': i18n('rule.node.actionFilterOutput'), 'action-split-merge': i18n('rule.node.actionSplitMerge'),
+        'action-set-options': i18n('rule.node.setOptions'),
         'msg-push-todo': i18n('rule.node.msgPushTodo'), 'msg-alert': i18n('rule.node.msgAlert'), 'msg-log': i18n('rule.node.msgLog'),
-        'ext-http-call': i18n('rule.node.extHttpCall'), 'ext-sp-call': i18n('rule.node.extSpCall'), 'ext-mq-send': i18n('rule.node.extMqSend'), 'ext-file-export': i18n('rule.node.extFileExport'),
-        'ctrl-degrade': i18n('rule.node.ctrlDegrade'), 'ctrl-rollback': i18n('rule.node.ctrlRollback'), 'ctrl-catch': i18n('rule.node.ctrlCatch'), 'ctrl-terminate': i18n('rule.node.ctrlTerminate'), 'ctrl-delay': i18n('rule.node.ctrlDelay'),
-        'sec-desensitize': i18n('rule.node.secDesensitize'), 'sec-audit-trail': i18n('rule.node.secAuditTrail'), 'sec-row-filter': i18n('rule.node.secRowFilter'),
-        'subrule-call': i18n('rule.node.subruleCall'), 'subrule-version': i18n('rule.node.subruleVersion'), 'subrule-gray': i18n('rule.node.subruleGray'),
+        'ext-sp-call': i18n('rule.node.extSpCall'), 'ext-mq-send': i18n('rule.node.extMqSend'), 'ext-file-export': i18n('rule.node.extFileExport'),
       }
       return labels[node.data?.__nodeType] || node.data?.__nodeType || i18n('rule.node.genericNode')
     }

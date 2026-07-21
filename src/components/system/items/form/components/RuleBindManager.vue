@@ -52,7 +52,7 @@ const loadSetList = async () => {
   setListLoading.value = true
   try {
     const res = await ruleSetApi.listByFormId(props.formId)
-    if (res.data.code === 200) {
+    if (res.data.code === 0) {
       setList.value = Array.isArray(res.data.data) ? res.data.data : []
     } else {
       warning(res.data.cnMessage || i18n('rule.bindManager.warning.loadSetFail'))
@@ -90,7 +90,7 @@ const toggleSet = async (setId: string) => {
   setItemsLoading.value = true
   try {
     const res = await ruleSetItemApi.listBySetId(setId)
-    if (res.data.code === 200) {
+    if (res.data.code === 0) {
       setItems.value = Array.isArray(res.data.data) ? res.data.data : []
     } else {
       setItems.value = []
@@ -107,7 +107,7 @@ const handleUnbindItem = async (item: any) => {
   try {
     await operationConfirm(i18n('rule.bindManager.confirm.unbind', [item.ruleName || item.idRule]))
     const res = await ruleSetItemApi.deleteSetItem(item.idRuleSetItem)
-    if (res.data.code === 200) {
+    if (res.data.code === 0) {
       success(i18n('rule.bindManager.success.unbound'))
       if (expandedSetId.value) {
         toggleSet(expandedSetId.value).then(() => toggleSet(expandedSetId.value))
@@ -141,7 +141,7 @@ const loadAvailableRules = async () => {
   availableLoading.value = true
   try {
     const res = await ruleDefinitionApi.listByRuleType('FORM_LINKAGE')
-    if (res.data.code === 200) {
+    if (res.data.code === 0) {
       availableRules.value = Array.isArray(res.data.data) ? res.data.data : []
     }
   } catch (e: any) {
@@ -175,7 +175,7 @@ const handleConfirmBind = async () => {
       enabled: 'Y',
     }))
     const res = await ruleSetItemApi.batchSaveSetItems(items)
-    if (res.data.code === 200) {
+    if (res.data.code === 0) {
       success(i18n('rule.bindManager.success.bound', [items.length]))
       bindDialogVisible.value = false
       // 刷新关联项列表
@@ -266,7 +266,7 @@ const handleViewCoverage = async () => {
   // 加载当前表单所有规则
   try {
     const res = await ruleDefinitionApi.listByFormId(props.formId)
-    if (res.data.code === 200 && Array.isArray(res.data.data)) {
+    if (res.data.code === 0 && Array.isArray(res.data.data)) {
       coverageData.value = analyzeCoverage(res.data.data)
       coverageVisible.value = true
     }

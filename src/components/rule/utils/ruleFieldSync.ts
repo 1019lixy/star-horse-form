@@ -72,8 +72,8 @@ export const replaceFieldRefsInFlow = (
       continue
     }
 
-    // variable-assign / action-assign：替换 assignments[].targetField
-    if ((type === 'variable-assign' || type === 'action-assign') && Array.isArray(data.assignments)) {
+    // variable-assign：替换 assignments[].targetField
+    if (type === 'variable-assign' && Array.isArray(data.assignments)) {
       for (const a of data.assignments) {
         if (isPlainFieldRef(a.targetField) && a.targetField === oldName) {
           a.targetField = newName
@@ -154,7 +154,7 @@ export const syncRuleFieldReferences = async (
   let rules: any[] = []
   try {
     const res = await ruleDefinitionApi.listByFormId(formId)
-    if (res.data.code !== 200 || !Array.isArray(res.data.data)) return empty
+    if (res.data.code !== 0 || !Array.isArray(res.data.data)) return empty
     rules = res.data.data
   } catch (e: any) {
     console.error('[syncRuleFieldReferences] listByFormId failed:', e)
@@ -206,7 +206,7 @@ export const syncRuleFieldReferencesBatch = async (
   let rules: any[] = []
   try {
     const res = await ruleDefinitionApi.listByFormId(formId)
-    if (res.data.code !== 200 || !Array.isArray(res.data.data)) return merged
+    if (res.data.code !== 0 || !Array.isArray(res.data.data)) return merged
     rules = res.data.data
   } catch (e: any) {
     console.error('[syncRuleFieldReferencesBatch] listByFormId failed:', e)

@@ -20,7 +20,7 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import { Handle, Position } from '../compat'
-import { NODE_TYPE_MAP, NODE_CATEGORIES, getCategoryColor } from '../nodeTypes'
+import { NODE_TYPE_MAP, NODE_CATEGORIES } from '../nodeTypes'
 import { i18n } from '@/lang'
 
 const props = defineProps<{
@@ -53,7 +53,7 @@ const summary = computed(() => {
     case 'context-extract': return `${d.source} → ${d.targetVar || '?'} (${d.fieldPath || '-'})`
     case 'type-cast': return `${d.sourceVar} → ${d.targetType}${d.precision ? ` (${d.precision}${i18n('rule.lbl.precisionUnit')})` : ''}`
     case 'dataset-load': return `${d.source} → ${d.targetVar || '?'}`
-    case 'datasource-fetch': return `${d.method} ${d.apiUrl || '?'} → ${d.targetVar || '?'}`
+    case 'datasource-fetch': return `${d.httpMethod || 'GET'} ${d.url || '?'}`
     // 条件判断
     case 'cond-multibranch': return `${d.matchField || '?'} (${d.matchType}) → ${d.branches?.length || 0}${i18n('rule.lbl.branchCount')}`
     case 'cond-set-contains': return `${d.sourceSet} ${d.checkType} ${d.targetSet}`
@@ -72,34 +72,17 @@ const summary = computed(() => {
     case 'calc-string': return `${d.operation} → ${d.targetVar}`
     case 'calc-dict-map': return `${d.sourceVar} [${d.dictCode}] → ${d.targetVar}`
     case 'calc-ratio': return `${d.totalAmount} × ${d.ratioField} → ${d.targetVar}`
-    // 动作
-    case 'action-assign': return `${d.assignments?.length || 0}${i18n('rule.lbl.itemAssignCount')}`
-    case 'action-mark': return `${d.targetField} → ${d.markType}:${d.markValue}`
-    case 'action-filter-output': return `${d.sourceVar} → ${d.targetVar}`
-    case 'action-split-merge': return `${d.operation} ${d.sourceVar} → ${d.targetVar}`
+    // 分支事务动作
+    case 'action-set-options': return `${d.targetField || '?'} ← ${d.optionsSource || 'STATIC'}`
     // 消息
-    case 'msg-push-todo': return `${d.pushType} → ${d.targetUsers || '?'}`
+    case 'msg-push-todo': return `${d.pushType} → ${(d.targetUsers?.length || 0)}${i18n('rule.lbl.fieldCount')}`
     case 'msg-alert': return `${d.channels?.join(',') || '?'} [${d.alertLevel}]`
     case 'msg-log': return `${d.logType} → ${d.fields?.length || 0}${i18n('rule.lbl.fieldCount')}`
     // 外部集成
-    case 'ext-http-call': return `${d.method} ${d.url || '?'} → ${d.responseVar}`
+    case 'http-call': return `${d.httpMethod || 'GET'} ${d.url || '?'}`
     case 'ext-sp-call': return `SP: ${d.spName} → ${d.resultVar}`
     case 'ext-mq-send': return `MQ → ${d.queueName}`
     case 'ext-file-export': return `${d.exportType} → ${d.fileName || '?'}`
-    // 异常控制
-    case 'ctrl-degrade': return `${d.degradeCondition}(${d.threshold}ms)`
-    case 'ctrl-rollback': return `${d.rollbackScope} (${d.rollbackFields?.length || 0}${i18n('rule.lbl.fieldCount')})`
-    case 'ctrl-catch': return `${d.catchTypes?.join(',') || '?'}`
-    case 'ctrl-terminate': return `${d.terminateLevel}: ${d.message || ''}`
-    case 'ctrl-delay': return `${d.delayValue}${d.delayUnit}`
-    // 权限审计
-    case 'sec-desensitize': return `${d.fields?.length || 0}${i18n('rule.lbl.fieldCount')} (${d.desensitizeType})`
-    case 'sec-audit-trail': return `${d.auditType} (${d.fields?.length || 0}${i18n('rule.lbl.fieldCount')})`
-    case 'sec-row-filter': return `${d.filterBy} → ${d.targetVar}`
-    // 子规则
-    case 'subrule-call': return `${d.subRuleName || d.subRuleCode || '?'}`
-    case 'subrule-version': return `${d.ruleCode} (${d.versionType})`
-    case 'subrule-gray': return `${d.grayStrategy} ${d.grayPercent}%`
     // 基础节点
     case 'start': return i18n('rule.exec.flowStart')
     case 'end': return i18n('rule.exec.flowEnd')
