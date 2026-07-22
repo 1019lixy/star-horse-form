@@ -12,10 +12,10 @@
     "dynamic-form"
   ],
   "license": "MIT",
-  "homepage": "https://gitee.com/lixingyu/star-horse-form-demo.git",
+  "homepage": "https://github.com/1019lixy/star-horse-form.git",
   "repository": {
     "type": "git",
-    "url": "https://gitee.com/lixingyu/star-horse-form-demo.git"
+    "url": "https://github.com/1019lixy/star-horse-form.git"
   },
   "main": "dist/index.es.js",
   "module": "dist/index.es.js",
