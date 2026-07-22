@@ -4,7 +4,10 @@
  * 核心设计原则：
  * 1. 融入已有事件流，不新增并行事件系统
  * 2. ON_LOAD → 复用 StarHorseForm 的 @dataLoaded 事件
- * 3. ON_CHANGE → 复用 shplugin 的 relationEventDispatcher 机制（通过扩展 controlCondition）
+ * 3. ON_CHANGE → 表单级 watch formData（debounced），由 FormPage.vue 调用 triggerOnChange
+ *    - 规则引擎是表单级服务，在表单级监听，不是字段级逐个配置
+ *    - 与 shplugin dataRelation（字段级轻量联动，同步）并行运行，互不干扰
+ *    - 执行时序：字段变更 → dataRelation 同步 → 300ms 后规则引擎异步 → 覆盖前者
  * 4. ON_SUBMIT → 复用 StarHorseForm 的 merge/validate 流程
  * 5. applyActionsToFormFields → 与 shplugin 的 controlFieldProps 保持一致的字段属性控制
  *
@@ -15,7 +18,7 @@
  * - action.readonly → field.preps.readonly
  * - action.value   → field.defaultValue 或 formData[fieldName]
  */
-import { computed, type Ref, ref, unref, watch } from 'vue'
+import { computed, type Ref, ref, unref } from 'vue'
 import { useRuleEngine, type FieldAction, type TriggerEvent } from './useRuleEngine'
 import { analysisCompDatas, warning } from 'star-horse-lowcode'
 
@@ -45,8 +48,6 @@ export interface RuleRuntimeOptions {
   formData: Ref<Record<string, any>>
   /** 是否启用规则引擎（默认 true） */
   enabled?: Ref<boolean> | boolean
-  /** ON_CHANGE 防抖毫秒数（默认 300ms） */
-  debounceMs?: number
 }
 
 /**
@@ -407,10 +408,9 @@ export const useFormRuleRuntime = (options: RuleRuntimeOptions) => {
     formFields,
     formData,
     enabled = true,
-    debounceMs = 300,
   } = options
 
-  const { executeByForm, parseFieldActions } = useRuleEngine()
+  const { executeByForm } = useRuleEngine()
   const loading = ref(false)
 
   // 获取当前 formId
@@ -473,25 +473,22 @@ export const useFormRuleRuntime = (options: RuleRuntimeOptions) => {
   }
 
   /**
-   * ON_CHANGE: 字段变更时触发（防抖）
-   *
-   * 重要：此方法不应通过新增深度 watch formData 来调用，
-   * 而应通过扩展 shplugin ItemRelationEventUtils 的 controlCondition 机制，
-   * 在 relationEventDispatcher 中增加 "ruleEngine" 类型来调用。
-   *
-   * 如果暂时无法修改 shplugin，也可在页面级浅 watch 特定字段时调用此方法。
-   */
-  let changeTimer: ReturnType<typeof setTimeout> | null = null
-  const triggerOnChange = async (changedField?: string): Promise<void> => {
-    if (!currentFormId.value || !isEnabled.value) return
-
-    if (changeTimer) clearTimeout(changeTimer)
-    return new Promise<void>((resolve) => {
-      changeTimer = setTimeout(async () => {
-        await executeAndApply('ON_CHANGE')
-        resolve()
-      }, debounceMs)
-    })
+ * ON_CHANGE: 字段变更时触发
+ *
+ * 设计说明：
+ * - 防抖由调用方（FormPage.vue）的 watch 处理，此处直接执行
+ * - 这样调用方可以自由控制防抖策略（时长、触发条件等），Composable 保持纯粹
+ * - 规则引擎切入点：表单级 watch formData（不是字段级 dataRelation）
+ * - 与 shplugin dataRelation 并行：dataRelation 同步执行，规则引擎异步执行
+ * - 规则引擎结果覆盖 dataRelation（业务规则优先级更高）
+ *
+ * @returns 规则执行结果（含 fieldActions，便于链式处理）
+ */
+  const triggerOnChange = async (): Promise<{ success: boolean; fieldActions: FieldAction[] }> => {
+    if (!currentFormId.value || !isEnabled.value) {
+      return { success: true, fieldActions: [] }
+    }
+    return executeAndApply('ON_CHANGE')
   }
 
   /**

@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import {computed, nextTick, onMounted, provide, ref, watch} from "vue";
 import {
-  analysisAppComps,
   analysisCompDatas,
   apiInstance,
   ApiUrls,
@@ -33,7 +32,6 @@ const primaryKey = ref("");
 const rules = ref({});
 const hasData = ref(false);
 let relationTables = ref<any>({});
-const formInfo = ref<any>({});
 let outerFormData = ref<any>({});
 
 // ==================== 规则引擎集成 ====================
@@ -53,7 +51,7 @@ const ruleFormData = computed(() => {
 const {
   triggerOnLoad,
   triggerOnSubmit,
-  loading: ruleLoading,
+  triggerOnChange,
   currentFormId,
   isEnabled,
 } = useFormRuleRuntime({
@@ -63,7 +61,7 @@ const {
   enabled: computed(() => !!ruleFormId.value),
 });
 
-// ON_LOAD: 在表单数据加载完成后触发规则引擎
+// ON_LOAD: 表单数据加载完成后触发规则引擎
 const onFormDataLoaded = async () => {
   if (isEnabled.value && currentFormId.value) {
     await nextTick();
@@ -71,13 +69,30 @@ const onFormDataLoaded = async () => {
   }
 };
 
-// ON_SUBMIT: 在提交前进行规则引擎校验
+// ON_SUBMIT: 提交前进行规则引擎校验
 const handleBeforeSubmit = async ({type, formData: fd}: {type: string; formData: any}) => {
   if (isEnabled.value && currentFormId.value) {
     const ok = await triggerOnSubmit();
     if (!ok) return false;
   }
 };
+
+// ON_CHANGE: 表单字段变更时触发规则引擎（300ms 防抖）
+// 设计说明：
+//   - 规则引擎是表单级服务，在表单级监听 formData 变更，不是字段级逐个配置
+//   - 与 shplugin 的 dataRelation（字段级轻量联动，同步）并行运行，互不干扰
+//   - 执行时序：字段变更 → dataRelation 同步执行 → 300ms 后规则引擎异步执行
+//   - 规则引擎结果覆盖 dataRelation 结果（业务规则优先级高于字段联动）
+let changeTimer: ReturnType<typeof setTimeout> | null = null;
+watch(
+    () => ruleFormData.value,
+    () => {
+      if (!isEnabled.value || !currentFormId.value) return;
+      if (changeTimer) clearTimeout(changeTimer);
+      changeTimer = setTimeout(() => triggerOnChange(), 300);
+    },
+    {deep: true},
+);
 
 const loadFormData = async () => {
   isLoading.value = true; // 开始加载
