@@ -54,25 +54,9 @@ const loadTableColumns = (
 // 静态数据源列表
 const dbListData: SelectOption[] = [
   {name: "127.0.0.1(star_horse_devops)", value: "2"},
-  {name: "127.0.0.1(db_dynamic)", value: "3"},
-  {name: "127.0.0.1(db_system_config)", value: "4"},
-  {name: "127.0.0.1(db_lean_materials)", value: "7"},
-  {name: "127.0.0.1(workflow)", value: "5"},
   {name: "127.0.0.1(script_manage)", value: "8"},
-  {name: "127.0.0.1(orclpdb1)", value: "91"},
-  {name: "127.0.0.1(mes_prod)", value: "90"},
-  {name: "127.0.0.1(GdzcDB)", value: "130"},
-  {name: "127.0.0.1(mes_dev)", value: "133"},
-  {name: "127.0.0.1(mes_dev)", value: "134"},
-  {name: "127.0.0.1(device_manage)", value: "137"},
-  {name: "127.0.0.1(device_manage)", value: "6"},
-  {name: "127.0.0.1(glue_manage)", value: "331718530636448765"},
   {name: "127.0.0.1(star_horse_workflow)", value: "337537414606095357"},
   {name: "127.0.0.1(star_horse_continuous)", value: "136"},
-  {name: "127.0.0.1(mes_dev)", value: "368615530598237181"},
-  {name: "127.0.0.1(mes_dev)", value: "368615668037190653"},
-  {name: "127.0.0.1(times_db)", value: "370194292930511869"},
-  {name: "127.0.0.1(quantity_manage)", value: "381167130139165693"},
 ];
 
 /**
