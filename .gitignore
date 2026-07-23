@@ -43,3 +43,4 @@ components.d.ts
 /plugin-dist/
 release
 .scannerwork/*
+.trae/*
