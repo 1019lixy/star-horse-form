@@ -95,33 +95,33 @@ const summary = computed(() => {
 </script>
 
 <style scoped lang="scss">
-@import '../styles/design-tokens.scss';
+@use '../styles/design-tokens.scss' as tokens;
 
 .generic-node {
   .node-card {
-    min-width: $rd-node-min-width;
-    max-width: $rd-node-max-width;
-    background: $rd-bg-surface;
-    border: 1px solid $rd-border;
-    border-left: 3px solid $rd-text-secondary;
-    border-radius: $rd-radius-lg;
-    box-shadow: $rd-shadow-xs;
+    min-width: tokens.$rd-node-min-width;
+    max-width: tokens.$rd-node-max-width;
+    background: tokens.$rd-bg-surface;
+    border: 1px solid tokens.$rd-border;
+    border-left: 3px solid tokens.$rd-text-secondary;
+    border-radius: tokens.$rd-radius-lg;
+    box-shadow: tokens.$rd-shadow-xs;
     overflow: hidden;
-    transition: box-shadow $rd-transition-base, border-color $rd-transition-base;
+    transition: box-shadow tokens.$rd-transition-base, border-color tokens.$rd-transition-base;
 
     &:hover {
-      border-color: $rd-primary-border;
-      box-shadow: $rd-shadow-sm;
+      border-color: tokens.$rd-primary-border;
+      box-shadow: tokens.$rd-shadow-sm;
     }
   }
 
   .node-header {
     display: flex;
     align-items: center;
-    gap: $rd-space-2;
-    padding: $rd-space-2 $rd-space-3;
-    background: $rd-bg-surface;
-    border-bottom: 1px solid $rd-divider;
+    gap: tokens.$rd-space-2;
+    padding: tokens.$rd-space-2 tokens.$rd-space-3;
+    background: tokens.$rd-bg-surface;
+    border-bottom: 1px solid tokens.$rd-divider;
 
     .node-icon {
       display: inline-flex;
@@ -129,36 +129,36 @@ const summary = computed(() => {
       justify-content: center;
       min-width: 20px;
       height: 20px;
-      padding: 0 $rd-space-1;
-      background: $rd-bg-subtle;
-      border: 1px solid $rd-divider;
-      border-radius: $rd-radius-sm;
-      font-size: $rd-font-md;
+      padding: 0 tokens.$rd-space-1;
+      background: tokens.$rd-bg-subtle;
+      border: 1px solid tokens.$rd-divider;
+      border-radius: tokens.$rd-radius-sm;
+      font-size: tokens.$rd-font-md;
     }
 
     .node-title {
       flex: 1;
-      font-size: $rd-font-sm;
-      font-weight: $rd-font-weight-semibold;
-      color: $rd-text-secondary;
+      font-size: tokens.$rd-font-sm;
+      font-weight: tokens.$rd-font-weight-semibold;
+      color: tokens.$rd-text-secondary;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
     }
 
     .node-cat {
-      font-size: $rd-font-xs;
-      font-weight: $rd-font-weight-medium;
+      font-size: tokens.$rd-font-xs;
+      font-weight: tokens.$rd-font-weight-medium;
     }
   }
 
   .node-content {
-    padding: $rd-space-2 $rd-space-3;
+    padding: tokens.$rd-space-2 tokens.$rd-space-3;
     min-height: 28px;
 
     .node-summary {
-      font-size: $rd-font-xs;
-      color: $rd-text-secondary;
+      font-size: tokens.$rd-font-xs;
+      color: tokens.$rd-text-secondary;
       font-family: 'JetBrains Mono', monospace;
       white-space: nowrap;
       overflow: hidden;
@@ -166,8 +166,8 @@ const summary = computed(() => {
     }
 
     .node-empty {
-      font-size: $rd-font-xs;
-      color: $rd-text-tertiary;
+      font-size: tokens.$rd-font-xs;
+      color: tokens.$rd-text-tertiary;
       font-style: italic;
     }
   }
@@ -175,17 +175,17 @@ const summary = computed(() => {
   .node-handle {
     width: 10px;
     height: 10px;
-    background: $rd-primary;
-    border: 2px solid $rd-bg-surface;
+    background: tokens.$rd-primary;
+    border: 2px solid tokens.$rd-bg-surface;
 
     &:hover {
-      background: $rd-primary-hover;
+      background: tokens.$rd-primary-hover;
     }
   }
 
   &.highlighted .node-card {
-    border-color: $rd-success;
-    box-shadow: 0 0 0 2px $rd-success;
+    border-color: tokens.$rd-success;
+    box-shadow: 0 0 0 2px tokens.$rd-success;
     animation: node-pulse 1.5s ease-in-out infinite;
   }
 
@@ -196,10 +196,10 @@ const summary = computed(() => {
 
 @keyframes node-pulse {
   0%, 100% {
-    box-shadow: 0 0 0 2px $rd-success;
+    box-shadow: 0 0 0 2px tokens.$rd-success;
   }
   50% {
-    box-shadow: 0 0 0 3px $rd-success;
+    box-shadow: 0 0 0 3px tokens.$rd-success;
   }
 }
 </style>

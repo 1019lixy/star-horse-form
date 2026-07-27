@@ -29,7 +29,7 @@ defineProps<{
 </script>
 
 <style scoped lang="scss">
-@import '../styles/design-tokens.scss';
+@use '../styles/design-tokens.scss' as tokens;
 
 .join-node {
   display: flex;
@@ -40,10 +40,10 @@ defineProps<{
     width: 80px;
     height: 80px;
     position: relative;
-    background: $rd-node-join;
+    background: tokens.$rd-node-join;
     clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
     filter: drop-shadow(0 1px 2px rgba(17, 24, 39, 0.08));
-    transition: filter $rd-transition-base;
+    transition: filter tokens.$rd-transition-base;
     cursor: pointer;
     display: flex;
     align-items: center;
@@ -65,33 +65,33 @@ defineProps<{
   }
 
   .node-icon {
-    color: $rd-text-inverse;
-    font-size: $rd-font-xl;
-    font-weight: $rd-font-weight-bold;
+    color: tokens.$rd-text-inverse;
+    font-size: tokens.$rd-font-xl;
+    font-weight: tokens.$rd-font-weight-bold;
     line-height: 1;
   }
 
   .node-label {
     text-align: center;
-    margin-top: $rd-space-2;
-    font-size: $rd-font-sm;
-    font-weight: $rd-font-weight-semibold;
-    color: $rd-text-secondary;
+    margin-top: tokens.$rd-space-2;
+    font-size: tokens.$rd-font-sm;
+    font-weight: tokens.$rd-font-weight-semibold;
+    color: tokens.$rd-text-secondary;
     white-space: nowrap;
   }
 
   .node-info {
-    margin-top: $rd-space-1;
+    margin-top: tokens.$rd-space-1;
     display: flex;
-    gap: $rd-space-1;
+    gap: tokens.$rd-space-1;
 
     .info-tag {
-      padding: 1px $rd-space-2;
+      padding: 1px tokens.$rd-space-2;
       background: rgba(79, 70, 229, 0.08);
-      color: $rd-node-join;
-      border-radius: $rd-radius-pill;
-      font-size: $rd-font-xs;
-      font-weight: $rd-font-weight-semibold;
+      color: tokens.$rd-node-join;
+      border-radius: tokens.$rd-radius-pill;
+      font-size: tokens.$rd-font-xs;
+      font-weight: tokens.$rd-font-weight-semibold;
     }
   }
 }

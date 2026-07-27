@@ -260,12 +260,12 @@ const sourceTagType = (s: VarSource): any => ({
 </script>
 
 <style scoped lang="scss">
-@import './styles/design-tokens.scss';
+@use './styles/design-tokens.scss' as tokens;
 .node-panel {
   height: 100%;
   display: flex;
   flex-direction: column;
-  background: $rd-bg-surface;
+  background: tokens.$rd-bg-surface;
 
   .panel-tabs {
     height: 100%;
@@ -274,18 +274,18 @@ const sourceTagType = (s: VarSource): any => ({
     :deep(.el-tabs__header) {
       margin: 0;
       flex-shrink: 0;
-      background: $rd-bg-subtle;
-      border-bottom: 1px solid $rd-border;
+      background: tokens.$rd-bg-subtle;
+      border-bottom: 1px solid tokens.$rd-border;
       padding: 0 8px;
     }
     :deep(.el-tabs__nav-wrap::after) { display: none; }
     :deep(.el-tabs__item) {
       height: 38px;
       padding: 0 12px;
-      font-size: $rd-font-sm;
-      font-weight: $rd-font-weight-medium;
-      color: $rd-text-secondary;
-      &.is-active { color: $rd-primary; }
+      font-size: tokens.$rd-font-sm;
+      font-weight: tokens.$rd-font-weight-medium;
+      color: tokens.$rd-text-secondary;
+      &.is-active { color: tokens.$rd-primary; }
     }
     :deep(.el-tabs__content) { flex: 1; min-height: 0; }
     :deep(.el-tab-pane) { height: 100%; }
@@ -307,21 +307,21 @@ const sourceTagType = (s: VarSource): any => ({
 
   // ===== 节点库 =====
   .search-wrap {
-    padding: $rd-space-2 $rd-space-3;
+    padding: tokens.$rd-space-2 tokens.$rd-space-3;
     flex-shrink: 0;
   }
 
   .panel-scroll {
     flex: 1;
     overflow-y: auto;
-    padding: 0 $rd-space-2 $rd-space-2;
+    padding: 0 tokens.$rd-space-2 tokens.$rd-space-2;
   }
 
   .node-collapse {
     :deep(.el-collapse-item__header) {
       padding: 0 4px;
       height: 34px;
-      font-size: $rd-font-sm;
+      font-size: tokens.$rd-font-sm;
       background: transparent;
       border-bottom: none;
     }
@@ -335,101 +335,101 @@ const sourceTagType = (s: VarSource): any => ({
     width: 100%;
     .cat-icon {
       display: inline-flex; align-items: center; justify-content: center;
-      width: 22px; height: 22px; border-radius: $rd-radius-sm; font-size: 13px;
+      width: 22px; height: 22px; border-radius: tokens.$rd-radius-sm; font-size: 13px;
     }
     .cat-name {
-      flex: 1; font-weight: $rd-font-weight-semibold; color: $rd-text-primary; font-size: $rd-font-xs;
+      flex: 1; font-weight: tokens.$rd-font-weight-semibold; color: tokens.$rd-text-primary; font-size: tokens.$rd-font-xs;
     }
   }
 
-  .node-list { display: flex; flex-direction: column; gap: $rd-space-1; }
+  .node-list { display: flex; flex-direction: column; gap: tokens.$rd-space-1; }
 
   .node-item {
-    display: flex; align-items: center; gap: $rd-space-2;
-    padding: $rd-space-2; border: 1px solid $rd-border; border-radius: $rd-radius-md;
-    cursor: grab; transition: all $rd-transition-fast; background: $rd-bg-surface;
+    display: flex; align-items: center; gap: tokens.$rd-space-2;
+    padding: tokens.$rd-space-2; border: 1px solid tokens.$rd-border; border-radius: tokens.$rd-radius-md;
+    cursor: grab; transition: all tokens.$rd-transition-fast; background: tokens.$rd-bg-surface;
     &:hover {
-      border-color: $rd-primary-border; background: $rd-primary-bg; box-shadow: $rd-shadow-xs;
+      border-color: tokens.$rd-primary-border; background: tokens.$rd-primary-bg; box-shadow: tokens.$rd-shadow-xs;
       .drag-handle { opacity: 1; }
     }
     &:active { cursor: grabbing; }
     .node-icon {
       display: flex; align-items: center; justify-content: center;
-      width: 30px; height: 30px; border-radius: $rd-radius-md; border: 1px solid; font-size: 15px; flex-shrink: 0;
+      width: 30px; height: 30px; border-radius: tokens.$rd-radius-md; border: 1px solid; font-size: 15px; flex-shrink: 0;
     }
     .node-info {
       flex: 1; min-width: 0;
       .node-label {
-        font-size: $rd-font-xs; font-weight: $rd-font-weight-semibold; color: $rd-text-primary;
+        font-size: tokens.$rd-font-xs; font-weight: tokens.$rd-font-weight-semibold; color: tokens.$rd-text-primary;
         white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
       }
       .node-desc {
-        font-size: 10px; color: $rd-text-tertiary; white-space: nowrap; overflow: hidden;
+        font-size: 10px; color: tokens.$rd-text-tertiary; white-space: nowrap; overflow: hidden;
         text-overflow: ellipsis; margin-top: 1px;
       }
     }
-    .drag-handle { color: $rd-primary; opacity: 0; transition: opacity $rd-transition-fast; flex-shrink: 0; }
+    .drag-handle { color: tokens.$rd-primary; opacity: 0; transition: opacity tokens.$rd-transition-fast; flex-shrink: 0; }
   }
 
   // ===== 变量库 =====
   .var-body { padding: 0; }
 
   .var-toolbar {
-    display: flex; gap: $rd-space-2; padding: $rd-space-2 $rd-space-3; flex-shrink: 0;
+    display: flex; gap: tokens.$rd-space-2; padding: tokens.$rd-space-2 tokens.$rd-space-3; flex-shrink: 0;
     align-items: center;
     .var-search { flex: 1; }
   }
 
   .var-edit-form {
-    margin: 0 $rd-space-3 $rd-space-2;
-    padding: $rd-space-2;
-    background: $rd-primary-bg;
-    border: 1px solid $rd-primary-border;
-    border-radius: $rd-radius-md;
-    display: flex; flex-direction: column; gap: $rd-space-2;
-    .vef-row { display: flex; gap: $rd-space-2; }
+    margin: 0 tokens.$rd-space-3 tokens.$rd-space-2;
+    padding: tokens.$rd-space-2;
+    background: tokens.$rd-primary-bg;
+    border: 1px solid tokens.$rd-primary-border;
+    border-radius: tokens.$rd-radius-md;
+    display: flex; flex-direction: column; gap: tokens.$rd-space-2;
+    .vef-row { display: flex; gap: tokens.$rd-space-2; }
     .vef-field { flex: 1.2; }
     .vef-label { flex: 1; }
     .vef-type { flex: 1; }
     .vef-source { flex: 1; }
-    .vef-actions { display: flex; justify-content: flex-end; gap: $rd-space-2; margin-top: 2px; }
+    .vef-actions { display: flex; justify-content: flex-end; gap: tokens.$rd-space-2; margin-top: 2px; }
   }
 
-  .var-list { display: flex; flex-direction: column; gap: $rd-space-1; padding: 0 $rd-space-3 $rd-space-2; }
+  .var-list { display: flex; flex-direction: column; gap: tokens.$rd-space-1; padding: 0 tokens.$rd-space-3 tokens.$rd-space-2; }
 
   .var-item {
     position: relative;
-    padding: $rd-space-2 $rd-space-3;
-    border: 1px solid $rd-border;
-    border-radius: $rd-radius-md;
-    background: $rd-bg-surface;
+    padding: tokens.$rd-space-2 tokens.$rd-space-3;
+    border: 1px solid tokens.$rd-border;
+    border-radius: tokens.$rd-radius-md;
+    background: tokens.$rd-bg-surface;
     cursor: pointer;
-    transition: all $rd-transition-fast;
+    transition: all tokens.$rd-transition-fast;
     &:hover {
-      border-color: $rd-primary-border;
-      box-shadow: $rd-shadow-xs;
+      border-color: tokens.$rd-primary-border;
+      box-shadow: tokens.$rd-shadow-xs;
       .var-ops { opacity: 1; }
     }
-    .var-head { display: flex; align-items: baseline; gap: $rd-space-2; }
+    .var-head { display: flex; align-items: baseline; gap: tokens.$rd-space-2; }
     .var-label {
-      font-size: $rd-font-sm; font-weight: $rd-font-weight-semibold; color: $rd-text-primary;
+      font-size: tokens.$rd-font-sm; font-weight: tokens.$rd-font-weight-semibold; color: tokens.$rd-text-primary;
       white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 55%;
     }
     .var-field {
-      font-size: 10px; color: $rd-text-tertiary; font-family: ui-monospace, monospace;
+      font-size: 10px; color: tokens.$rd-text-tertiary; font-family: ui-monospace, monospace;
       white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
     }
-    .var-meta { display: flex; gap: $rd-space-1; margin-top: $rd-space-1; }
+    .var-meta { display: flex; gap: tokens.$rd-space-1; margin-top: tokens.$rd-space-1; }
     .var-desc {
-      font-size: 10px; color: $rd-text-tertiary; margin-top: $rd-space-1;
+      font-size: 10px; color: tokens.$rd-text-tertiary; margin-top: tokens.$rd-space-1;
       white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
     }
     .var-ops {
-      position: absolute; top: $rd-space-2; right: $rd-space-2;
-      display: flex; gap: $rd-space-1; opacity: 0; transition: opacity $rd-transition-fast;
+      position: absolute; top: tokens.$rd-space-2; right: tokens.$rd-space-2;
+      display: flex; gap: tokens.$rd-space-1; opacity: 0; transition: opacity tokens.$rd-transition-fast;
       .el-icon {
-        cursor: pointer; color: $rd-text-tertiary; padding: 2px; border-radius: $rd-radius-sm;
-        &:hover { color: $rd-primary; background: $rd-primary-bg; }
+        cursor: pointer; color: tokens.$rd-text-tertiary; padding: 2px; border-radius: tokens.$rd-radius-sm;
+        &:hover { color: tokens.$rd-primary; background: tokens.$rd-primary-bg; }
       }
     }
   }

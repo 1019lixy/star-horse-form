@@ -97,33 +97,33 @@ const needsValueDisplay = (type: string) => {
 </script>
 
 <style scoped lang="scss">
-@import '../styles/design-tokens.scss';
+@use '../styles/design-tokens.scss' as tokens;
 
 .action-node {
   .node-card {
-    min-width: $rd-node-min-width;
-    max-width: $rd-node-max-width;
-    background: $rd-bg-surface;
-    border: 1px solid $rd-border;
-    border-radius: $rd-radius-lg;
-    box-shadow: $rd-shadow-xs;
+    min-width: tokens.$rd-node-min-width;
+    max-width: tokens.$rd-node-max-width;
+    background: tokens.$rd-bg-surface;
+    border: 1px solid tokens.$rd-border;
+    border-radius: tokens.$rd-radius-lg;
+    box-shadow: tokens.$rd-shadow-xs;
     overflow: hidden;
-    transition: box-shadow $rd-transition-base, border-color $rd-transition-base;
+    transition: box-shadow tokens.$rd-transition-base, border-color tokens.$rd-transition-base;
 
     &:hover {
-      border-color: $rd-primary-border;
-      box-shadow: $rd-shadow-sm;
+      border-color: tokens.$rd-primary-border;
+      box-shadow: tokens.$rd-shadow-sm;
     }
   }
 
   .node-header {
     display: flex;
     align-items: center;
-    gap: $rd-space-2;
-    padding: $rd-space-2 $rd-space-4;
+    gap: tokens.$rd-space-2;
+    padding: tokens.$rd-space-2 tokens.$rd-space-4;
     background: rgba(5, 150, 105, 0.08);
-    color: $rd-node-action;
-    border-bottom: 1px solid $rd-divider;
+    color: tokens.$rd-node-action;
+    border-bottom: 1px solid tokens.$rd-divider;
 
     .header-icon {
       width: 18px;
@@ -132,53 +132,53 @@ const needsValueDisplay = (type: string) => {
 
     .header-title {
       flex: 1;
-      font-size: $rd-font-base;
-      font-weight: $rd-font-weight-semibold;
+      font-size: tokens.$rd-font-base;
+      font-weight: tokens.$rd-font-weight-semibold;
     }
 
     .header-btn {
-      color: $rd-node-action;
-      font-size: $rd-font-lg;
+      color: tokens.$rd-node-action;
+      font-size: tokens.$rd-font-lg;
 
       &:hover {
-        color: $rd-node-action;
+        color: tokens.$rd-node-action;
         opacity: 0.8;
       }
     }
   }
 
   .node-body {
-    padding: $rd-space-3 $rd-space-4;
+    padding: tokens.$rd-space-3 tokens.$rd-space-4;
     min-height: 40px;
 
     .empty-tip {
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: $rd-space-2;
-      padding: $rd-space-3 0;
-      color: $rd-text-tertiary;
-      font-size: $rd-font-sm;
+      gap: tokens.$rd-space-2;
+      padding: tokens.$rd-space-3 0;
+      color: tokens.$rd-text-tertiary;
+      font-size: tokens.$rd-font-sm;
 
       .empty-icon {
-        font-size: $rd-font-md;
+        font-size: tokens.$rd-font-md;
       }
     }
 
     .action-list {
       display: flex;
       flex-direction: column;
-      gap: $rd-space-2;
+      gap: tokens.$rd-space-2;
 
       .action-item {
         display: flex;
         align-items: center;
-        gap: $rd-space-2;
-        padding: $rd-space-2 $rd-space-3;
+        gap: tokens.$rd-space-2;
+        padding: tokens.$rd-space-2 tokens.$rd-space-3;
         background: rgba(5, 150, 105, 0.05);
-        border-radius: $rd-radius-md;
+        border-radius: tokens.$rd-radius-md;
         border: 1px solid rgba(5, 150, 105, 0.12);
-        transition: background $rd-transition-fast, border-color $rd-transition-fast;
+        transition: background tokens.$rd-transition-fast, border-color tokens.$rd-transition-fast;
 
         &:hover {
           border-color: rgba(5, 150, 105, 0.24);
@@ -189,13 +189,13 @@ const needsValueDisplay = (type: string) => {
           width: 20px;
           height: 20px;
           border-radius: 50%;
-          background: $rd-node-action;
-          color: $rd-text-inverse;
+          background: tokens.$rd-node-action;
+          color: tokens.$rd-text-inverse;
           display: flex;
           align-items: center;
           justify-content: center;
-          font-size: $rd-font-xs;
-          font-weight: $rd-font-weight-semibold;
+          font-size: tokens.$rd-font-xs;
+          font-weight: tokens.$rd-font-weight-semibold;
           flex-shrink: 0;
         }
 
@@ -203,8 +203,8 @@ const needsValueDisplay = (type: string) => {
           flex: 1;
           display: flex;
           align-items: center;
-          gap: $rd-space-2;
-          font-size: $rd-font-sm;
+          gap: tokens.$rd-space-2;
+          font-size: tokens.$rd-font-sm;
           min-width: 0;
 
           .action-type-tag {
@@ -212,15 +212,15 @@ const needsValueDisplay = (type: string) => {
           }
 
           .action-target {
-            color: $rd-node-action;
-            font-weight: $rd-font-weight-medium;
+            color: tokens.$rd-node-action;
+            font-weight: tokens.$rd-font-weight-medium;
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap;
           }
 
           .action-value {
-            color: $rd-text-secondary;
+            color: tokens.$rd-text-secondary;
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap;
@@ -229,7 +229,7 @@ const needsValueDisplay = (type: string) => {
 
         .action-ops {
           display: flex;
-          gap: $rd-space-1;
+          gap: tokens.$rd-space-1;
           flex-shrink: 0;
         }
       }

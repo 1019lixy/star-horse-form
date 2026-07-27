@@ -18,7 +18,7 @@ import { i18n } from '@/lang'
 </script>
 
 <style scoped lang="scss">
-@import '../styles/design-tokens.scss';
+@use '../styles/design-tokens.scss' as tokens;
 
 .end-node {
   position: relative;
@@ -27,16 +27,16 @@ import { i18n } from '@/lang'
   .node-pill {
     display: inline-flex;
     align-items: center;
-    gap: $rd-space-2;
+    gap: tokens.$rd-space-2;
     padding: 6px 14px 6px 6px;
-    background: $rd-bg-surface;
-    border: 1px solid $rd-border;
-    border-radius: $rd-radius-pill;
-    box-shadow: $rd-shadow-xs;
-    transition: box-shadow $rd-transition-base, border-color $rd-transition-base;
+    background: tokens.$rd-bg-surface;
+    border: 1px solid tokens.$rd-border;
+    border-radius: tokens.$rd-radius-pill;
+    box-shadow: tokens.$rd-shadow-xs;
+    transition: box-shadow tokens.$rd-transition-base, border-color tokens.$rd-transition-base;
 
     &:hover {
-      border-color: $rd-node-end;
+      border-color: tokens.$rd-node-end;
       box-shadow: 0 2px 8px rgba(71, 85, 105, 0.15);
     }
   }
@@ -45,8 +45,8 @@ import { i18n } from '@/lang'
     width: 22px;
     height: 22px;
     border-radius: 50%;
-    background: $rd-node-end;
-    color: $rd-text-inverse;
+    background: tokens.$rd-node-end;
+    color: tokens.$rd-text-inverse;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -60,9 +60,9 @@ import { i18n } from '@/lang'
   }
 
   .pill-label {
-    font-size: $rd-font-sm;
-    font-weight: $rd-font-weight-semibold;
-    color: $rd-text-primary;
+    font-size: tokens.$rd-font-sm;
+    font-weight: tokens.$rd-font-weight-semibold;
+    color: tokens.$rd-text-primary;
     letter-spacing: 0.3px;
     white-space: nowrap;
   }

@@ -133,7 +133,7 @@ const statusText = (s: string) => ({
 </script>
 
 <style scoped lang="scss">
-@import '../styles/design-tokens.scss';
+@use '../styles/design-tokens.scss' as tokens;
 .exec-overlay {
   position: absolute;
   top: 0;
@@ -161,12 +161,12 @@ const statusText = (s: string) => ({
   pointer-events: auto;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
   border: 2px solid #fff;
-  transition: transform $rd-transition-fast;
+  transition: transform tokens.$rd-transition-fast;
   &:hover { transform: scale(1.15); }
-  &.eb-success { background: $rd-success; }
-  &.eb-failed { background: $rd-error; }
-  &.eb-skipped { background: $rd-text-tertiary; }
-  &.eb-running { background: $rd-primary; }
+  &.eb-success { background: tokens.$rd-success; }
+  &.eb-failed { background: tokens.$rd-error; }
+  &.eb-skipped { background: tokens.$rd-text-tertiary; }
+  &.eb-running { background: tokens.$rd-primary; }
 }
 
 .eb-popover {
@@ -175,11 +175,11 @@ const statusText = (s: string) => ({
   right: 0;
   min-width: 240px;
   max-width: 320px;
-  background: $rd-bg-surface;
-  border: 1px solid $rd-border;
-  border-radius: $rd-radius-md;
-  box-shadow: $rd-shadow-lg;
-  padding: $rd-space-2 $rd-space-3;
+  background: tokens.$rd-bg-surface;
+  border: 1px solid tokens.$rd-border;
+  border-radius: tokens.$rd-radius-md;
+  box-shadow: tokens.$rd-shadow-lg;
+  padding: tokens.$rd-space-2 tokens.$rd-space-3;
   z-index: 100;
   pointer-events: auto;
 }
@@ -188,35 +188,35 @@ const statusText = (s: string) => ({
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: $rd-space-2;
-  margin-bottom: $rd-space-2;
-  padding-bottom: $rd-space-2;
-  border-bottom: 1px solid $rd-divider;
+  gap: tokens.$rd-space-2;
+  margin-bottom: tokens.$rd-space-2;
+  padding-bottom: tokens.$rd-space-2;
+  border-bottom: 1px solid tokens.$rd-divider;
   .eb-pop-name {
-    font-size: $rd-font-sm; font-weight: $rd-font-weight-semibold; color: $rd-text-primary;
+    font-size: tokens.$rd-font-sm; font-weight: tokens.$rd-font-weight-semibold; color: tokens.$rd-text-primary;
     white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
   }
   .eb-pop-status {
-    font-size: 10px; font-weight: 600; padding: 1px 6px; border-radius: $rd-radius-pill; flex-shrink: 0;
-    &.st-success { background: rgba(16, 185, 129, 0.12); color: $rd-success; }
-    &.st-failed { background: rgba(239, 68, 68, 0.12); color: $rd-error; }
-    &.st-skipped { background: rgba(148, 163, 184, 0.15); color: $rd-text-tertiary; }
-    &.st-running { background: rgba(79, 70, 229, 0.12); color: $rd-primary; }
+    font-size: 10px; font-weight: 600; padding: 1px 6px; border-radius: tokens.$rd-radius-pill; flex-shrink: 0;
+    &.st-success { background: rgba(16, 185, 129, 0.12); color: tokens.$rd-success; }
+    &.st-failed { background: rgba(239, 68, 68, 0.12); color: tokens.$rd-error; }
+    &.st-skipped { background: rgba(148, 163, 184, 0.15); color: tokens.$rd-text-tertiary; }
+    &.st-running { background: rgba(79, 70, 229, 0.12); color: tokens.$rd-primary; }
   }
 }
 
-.eb-pop-section { margin-top: $rd-space-1; }
+.eb-pop-section { margin-top: tokens.$rd-space-1; }
 .eb-pop-label {
-  font-size: 10px; font-weight: 600; color: $rd-text-tertiary;
+  font-size: 10px; font-weight: 600; color: tokens.$rd-text-tertiary;
   text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 2px;
 }
 .eb-pop-text {
-  font-size: $rd-font-xs; color: $rd-text-primary; line-height: 1.5;
+  font-size: tokens.$rd-font-xs; color: tokens.$rd-text-primary; line-height: 1.5;
   word-break: break-word; max-height: 80px; overflow-y: auto;
 }
-.eb-pop-meta { font-size: 10px; color: $rd-text-tertiary; margin-top: $rd-space-1; }
+.eb-pop-meta { font-size: 10px; color: tokens.$rd-text-tertiary; margin-top: tokens.$rd-space-1; }
 .eb-pop-changes {
-  margin: 2px 0 0; font-size: 10px; color: $rd-text-secondary;
+  margin: 2px 0 0; font-size: 10px; color: tokens.$rd-text-secondary;
   font-family: ui-monospace, monospace; line-height: 1.5;
   max-height: 120px; overflow-y: auto; white-space: pre-wrap; word-break: break-word;
 }

@@ -289,7 +289,7 @@ const typeColor = (t: string) => ({
 </script>
 
 <style scoped lang="scss">
-@import '../styles/design-tokens.scss';
+@use '../styles/design-tokens.scss' as tokens;
 .expr-editor {
   position: relative;
   width: 100%;
@@ -297,12 +297,12 @@ const typeColor = (t: string) => ({
 
 .expr-wrap {
   position: relative;
-  border: 1px solid $rd-border;
-  border-radius: $rd-radius-md;
-  background: $rd-bg-surface;
-  transition: border-color $rd-transition-fast, box-shadow $rd-transition-fast;
+  border: 1px solid tokens.$rd-border;
+  border-radius: tokens.$rd-radius-md;
+  background: tokens.$rd-bg-surface;
+  transition: border-color tokens.$rd-transition-fast, box-shadow tokens.$rd-transition-fast;
   &.is-focus {
-    border-color: $rd-primary;
+    border-color: tokens.$rd-primary;
     box-shadow: 0 0 0 2px rgba(79, 70, 229, 0.12);
   }
 }
@@ -310,9 +310,9 @@ const typeColor = (t: string) => ({
 .expr-highlight,
 .expr-input {
   margin: 0;
-  padding: $rd-space-2 $rd-space-3;
+  padding: tokens.$rd-space-2 tokens.$rd-space-3;
   font-family: ui-monospace, 'SFMono-Regular', Menlo, Consolas, monospace;
-  font-size: $rd-font-sm;
+  font-size: tokens.$rd-font-sm;
   line-height: 1.6;
   white-space: pre-wrap;
   word-break: break-word;
@@ -323,7 +323,7 @@ const typeColor = (t: string) => ({
   position: absolute;
   inset: 0;
   pointer-events: none;
-  color: $rd-text-primary;
+  color: tokens.$rd-text-primary;
   overflow: hidden;
   z-index: 0;
   min-height: 100%;
@@ -338,9 +338,9 @@ const typeColor = (t: string) => ({
   resize: vertical;
   background: transparent;
   color: transparent;
-  caret-color: $rd-primary;
+  caret-color: tokens.$rd-primary;
   z-index: 1;
-  &::placeholder { color: $rd-text-tertiary; }
+  &::placeholder { color: tokens.$rd-text-tertiary; }
   &::selection { background: rgba(79, 70, 229, 0.2); }
 }
 
@@ -350,7 +350,7 @@ const typeColor = (t: string) => ({
 :deep(.tk-num) { color: #059669; }
 :deep(.tk-str) { color: #d97706; }
 :deep(.tk-op) { color: #94a3b8; }
-:deep(.tk-id) { color: $rd-text-primary; }
+:deep(.tk-id) { color: tokens.$rd-text-primary; }
 
 // 建议面板
 .expr-suggest {
@@ -362,61 +362,61 @@ const typeColor = (t: string) => ({
   max-width: 100%;
   max-height: 280px;
   overflow-y: auto;
-  background: $rd-bg-surface;
-  border: 1px solid $rd-border;
-  border-radius: $rd-radius-md;
-  box-shadow: $rd-shadow-lg;
-  padding: $rd-space-1;
+  background: tokens.$rd-bg-surface;
+  border: 1px solid tokens.$rd-border;
+  border-radius: tokens.$rd-radius-md;
+  box-shadow: tokens.$rd-shadow-lg;
+  padding: tokens.$rd-space-1;
 }
 
 .suggest-title {
   font-size: 10px;
   font-weight: 600;
-  color: $rd-text-tertiary;
+  color: tokens.$rd-text-tertiary;
   text-transform: uppercase;
   letter-spacing: 0.5px;
-  padding: $rd-space-1 $rd-space-2;
+  padding: tokens.$rd-space-1 tokens.$rd-space-2;
 }
 
 .suggest-item {
   display: flex;
   align-items: center;
-  gap: $rd-space-2;
-  padding: $rd-space-1 $rd-space-2;
-  border-radius: $rd-radius-sm;
+  gap: tokens.$rd-space-2;
+  padding: tokens.$rd-space-1 tokens.$rd-space-2;
+  border-radius: tokens.$rd-radius-sm;
   cursor: pointer;
-  font-size: $rd-font-xs;
-  transition: background $rd-transition-fast;
-  &.active, &:hover { background: $rd-primary-bg; }
+  font-size: tokens.$rd-font-xs;
+  transition: background tokens.$rd-transition-fast;
+  &.active, &:hover { background: tokens.$rd-primary-bg; }
   .si-dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
   .si-fn {
     display: inline-flex; align-items: center; justify-content: center;
-    width: 16px; height: 16px; border-radius: $rd-radius-sm;
+    width: 16px; height: 16px; border-radius: tokens.$rd-radius-sm;
     background: rgba(124, 58, 237, 0.12); color: #7c3aed;
     font-weight: 700; font-size: 11px; flex-shrink: 0;
   }
-  .si-label { color: $rd-text-primary; font-weight: 500; }
+  .si-label { color: tokens.$rd-text-primary; font-weight: 500; }
   .si-field {
-    color: $rd-text-tertiary; font-family: ui-monospace, monospace; font-size: 10px;
+    color: tokens.$rd-text-tertiary; font-family: ui-monospace, monospace; font-size: 10px;
     margin-left: auto;
   }
   .si-type {
     color: #2563eb; font-size: 10px; font-weight: 600;
   }
-  .si-desc { color: $rd-text-tertiary; font-size: 10px; margin-left: auto; }
+  .si-desc { color: tokens.$rd-text-tertiary; font-size: 10px; margin-left: auto; }
 }
 
 .suggest-empty {
-  padding: $rd-space-3;
+  padding: tokens.$rd-space-3;
   text-align: center;
-  font-size: $rd-font-xs;
-  color: $rd-text-tertiary;
+  font-size: tokens.$rd-font-xs;
+  color: tokens.$rd-text-tertiary;
 }
 
 .expr-hint {
-  margin-top: $rd-space-1;
+  margin-top: tokens.$rd-space-1;
   font-size: 10px;
-  color: $rd-text-tertiary;
+  color: tokens.$rd-text-tertiary;
   line-height: 1.4;
 }
 </style>

@@ -124,7 +124,7 @@ onBeforeUnmount(() => {
 </script>
 
 <style scoped lang="scss">
-@import '../styles/design-tokens.scss';
+@use '../styles/design-tokens.scss' as tokens;
 .val-overlay {
   position: absolute;
   top: 0;
@@ -152,10 +152,10 @@ onBeforeUnmount(() => {
   pointer-events: auto;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
   border: 2px solid #fff;
-  transition: transform $rd-transition-fast;
+  transition: transform tokens.$rd-transition-fast;
   &:hover { transform: scale(1.15); }
-  &.vb-error { background: $rd-error; animation: vb-pulse 1.6s ease-in-out infinite; }
-  &.vb-warning { background: $rd-warning; }
+  &.vb-error { background: tokens.$rd-error; animation: vb-pulse 1.6s ease-in-out infinite; }
+  &.vb-warning { background: tokens.$rd-warning; }
 }
 
 .vb-count {
@@ -165,8 +165,8 @@ onBeforeUnmount(() => {
   min-width: 14px;
   height: 14px;
   padding: 0 3px;
-  border-radius: $rd-radius-pill;
-  background: $rd-text-primary;
+  border-radius: tokens.$rd-radius-pill;
+  background: tokens.$rd-text-primary;
   color: #fff;
   font-size: 9px;
   line-height: 14px;
@@ -185,11 +185,11 @@ onBeforeUnmount(() => {
   left: 0;
   min-width: 260px;
   max-width: 360px;
-  background: $rd-bg-surface;
-  border: 1px solid $rd-border;
-  border-radius: $rd-radius-md;
-  box-shadow: $rd-shadow-lg;
-  padding: $rd-space-2 $rd-space-3;
+  background: tokens.$rd-bg-surface;
+  border: 1px solid tokens.$rd-border;
+  border-radius: tokens.$rd-radius-md;
+  box-shadow: tokens.$rd-shadow-lg;
+  padding: tokens.$rd-space-2 tokens.$rd-space-3;
   z-index: 100;
   pointer-events: auto;
 }
@@ -198,18 +198,18 @@ onBeforeUnmount(() => {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: $rd-space-2;
-  margin-bottom: $rd-space-2;
-  padding-bottom: $rd-space-2;
-  border-bottom: 1px solid $rd-divider;
+  gap: tokens.$rd-space-2;
+  margin-bottom: tokens.$rd-space-2;
+  padding-bottom: tokens.$rd-space-2;
+  border-bottom: 1px solid tokens.$rd-divider;
   .vb-pop-name {
-    font-size: $rd-font-sm; font-weight: $rd-font-weight-semibold; color: $rd-text-primary;
+    font-size: tokens.$rd-font-sm; font-weight: tokens.$rd-font-weight-semibold; color: tokens.$rd-text-primary;
     white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 200px;
   }
   .vb-pop-level {
-    font-size: 10px; font-weight: 600; padding: 1px 6px; border-radius: $rd-radius-pill; flex-shrink: 0;
-    &.lv-error { background: rgba(239, 68, 68, 0.12); color: $rd-error; }
-    &.lv-warning { background: rgba(245, 158, 11, 0.12); color: $rd-warning; }
+    font-size: 10px; font-weight: 600; padding: 1px 6px; border-radius: tokens.$rd-radius-pill; flex-shrink: 0;
+    &.lv-error { background: rgba(239, 68, 68, 0.12); color: tokens.$rd-error; }
+    &.lv-warning { background: rgba(245, 158, 11, 0.12); color: tokens.$rd-warning; }
   }
 }
 
@@ -223,21 +223,21 @@ onBeforeUnmount(() => {
     display: flex;
     align-items: flex-start;
     gap: 6px;
-    font-size: $rd-font-xs;
+    font-size: tokens.$rd-font-xs;
     line-height: 1.5;
     padding: 3px 0;
-    color: $rd-text-primary;
-    &.lv-error .vb-pop-bullet { color: $rd-error; }
-    &.lv-warning .vb-pop-bullet { color: $rd-warning; }
+    color: tokens.$rd-text-primary;
+    &.lv-error .vb-pop-bullet { color: tokens.$rd-error; }
+    &.lv-warning .vb-pop-bullet { color: tokens.$rd-warning; }
   }
   .vb-pop-bullet { flex-shrink: 0; font-weight: 700; }
   .vb-pop-msg { word-break: break-word; }
 }
 
 .vb-pop-footer {
-  margin-top: $rd-space-2;
-  padding-top: $rd-space-2;
-  border-top: 1px solid $rd-divider;
+  margin-top: tokens.$rd-space-2;
+  padding-top: tokens.$rd-space-2;
+  border-top: 1px solid tokens.$rd-divider;
   text-align: right;
 }
 

@@ -46,16 +46,16 @@ const hasBranches = computed(() => props.data?.branches && props.data.branches.l
 </script>
 
 <style scoped lang="scss">
-@import '../styles/design-tokens.scss';
+@use '../styles/design-tokens.scss' as tokens;
 .inclusive-gateway {
   display: flex; flex-direction: column; align-items: center;
 
   .gateway-shape {
     width: 80px; height: 80px; position: relative;
-    background: $rd-node-gw-or;
+    background: tokens.$rd-node-gw-or;
     clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
     filter: drop-shadow(0 2px 4px rgba(17, 24, 39, 0.1));
-    transition: filter $rd-transition-base;
+    transition: filter tokens.$rd-transition-base;
     cursor: pointer;
     display: flex; align-items: center; justify-content: center;
   }
@@ -73,8 +73,8 @@ const hasBranches = computed(() => props.data?.branches && props.data.branches.l
   }
 
   .gateway-label {
-    text-align: center; margin-top: $rd-space-2; font-size: $rd-font-sm; font-weight: $rd-font-weight-semibold;
-    color: $rd-text-secondary; white-space: nowrap;
+    text-align: center; margin-top: tokens.$rd-space-2; font-size: tokens.$rd-font-sm; font-weight: tokens.$rd-font-weight-semibold;
+    color: tokens.$rd-text-secondary; white-space: nowrap;
   }
 }
 </style>

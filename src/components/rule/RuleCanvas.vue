@@ -916,14 +916,14 @@ const onMinimapMouseDown = (e: MouseEvent) => {
 </script>
 
 <style scoped lang="scss">
-@import './styles/design-tokens.scss';
+@use './styles/design-tokens.scss' as tokens;
 
 .rule-canvas-wrapper {
   position: relative;
   width: 100%;
   height: 100%;
   overflow: hidden;
-  background: $rd-bg-canvas;
+  background: tokens.$rd-bg-canvas;
   cursor: grab;
   user-select: none;
 
@@ -957,11 +957,11 @@ const onMinimapMouseDown = (e: MouseEvent) => {
     transition: stroke 0.15s, stroke-width 0.15s;
   }
   &.selected .edge-line {
-    stroke: $rd-primary !important;
+    stroke: tokens.$rd-primary !important;
     stroke-width: 3 !important;
   }
   &:hover:not(.selected) .edge-line {
-    stroke: $rd-primary-border !important;
+    stroke: tokens.$rd-primary-border !important;
     stroke-width: 2.5 !important;
   }
 }
@@ -991,25 +991,25 @@ const onMinimapMouseDown = (e: MouseEvent) => {
   position: absolute;
   pointer-events: auto;
   cursor: grab;
-  transition: outline-color $rd-transition-base, box-shadow $rd-transition-base;
+  transition: outline-color tokens.$rd-transition-base, box-shadow tokens.$rd-transition-base;
   outline: 2px solid transparent;
   outline-offset: 3px;
-  border-radius: $rd-radius-lg;
+  border-radius: tokens.$rd-radius-lg;
 
   &:active {
     cursor: grabbing;
   }
   &.selected {
-    outline-color: $rd-primary;
+    outline-color: tokens.$rd-primary;
     :deep(.gateway-shape) {
-      filter: drop-shadow(0 0 0 2px $rd-primary);
+      filter: drop-shadow(0 0 0 2px tokens.$rd-primary);
     }
   }
   /* 节点高亮（执行回溯） */
   &:deep(.node-highlighted),
   &.node-highlighted {
     :deep(.node-card), :deep(.gateway-shape) {
-      box-shadow: 0 0 0 3px $rd-success, 0 0 20px rgba(16, 185, 129, 0.4) !important;
+      box-shadow: 0 0 0 3px tokens.$rd-success, 0 0 20px rgba(16, 185, 129, 0.4) !important;
       animation: rule-pulse 1.5s ease-in-out infinite;
     }
   }
@@ -1020,31 +1020,31 @@ const onMinimapMouseDown = (e: MouseEvent) => {
 }
 
 @keyframes rule-pulse {
-  0%, 100% { box-shadow: 0 0 0 3px $rd-success, 0 0 20px rgba(16, 185, 129, 0.4); }
-  50% { box-shadow: 0 0 0 5px $rd-success, 0 0 30px rgba(16, 185, 129, 0.7); }
+  0%, 100% { box-shadow: 0 0 0 3px tokens.$rd-success, 0 0 20px rgba(16, 185, 129, 0.4); }
+  50% { box-shadow: 0 0 0 5px tokens.$rd-success, 0 0 30px rgba(16, 185, 129, 0.7); }
 }
 
 .rule-canvas-default-node {
-  padding: $rd-space-2 $rd-space-3;
-  background: $rd-bg-surface;
-  border: 1px solid $rd-border;
-  border-radius: $rd-radius-md;
-  font-size: $rd-font-sm;
-  color: $rd-text-secondary;
+  padding: tokens.$rd-space-2 tokens.$rd-space-3;
+  background: tokens.$rd-bg-surface;
+  border: 1px solid tokens.$rd-border;
+  border-radius: tokens.$rd-radius-md;
+  font-size: tokens.$rd-font-sm;
+  color: tokens.$rd-text-secondary;
 }
 
 /* 缩放控制 */
 .rule-canvas-controls {
   position: absolute;
-  right: $rd-space-3;
-  bottom: $rd-space-3;
+  right: tokens.$rd-space-3;
+  bottom: tokens.$rd-space-3;
   display: flex;
   flex-direction: column;
   gap: 2px;
-  background: $rd-bg-surface;
-  border: 1px solid $rd-border;
-  border-radius: $rd-radius-md;
-  box-shadow: $rd-shadow-sm;
+  background: tokens.$rd-bg-surface;
+  border: 1px solid tokens.$rd-border;
+  border-radius: tokens.$rd-radius-md;
+  box-shadow: tokens.$rd-shadow-sm;
   overflow: hidden;
   z-index: 10;
 
@@ -1052,8 +1052,8 @@ const onMinimapMouseDown = (e: MouseEvent) => {
     width: 30px;
     height: 30px;
     border: none;
-    background: $rd-bg-surface;
-    color: $rd-text-secondary;
+    background: tokens.$rd-bg-surface;
+    color: tokens.$rd-text-secondary;
     font-size: 16px;
     cursor: pointer;
     transition: background 0.15s, color 0.15s;
@@ -1062,11 +1062,11 @@ const onMinimapMouseDown = (e: MouseEvent) => {
     justify-content: center;
 
     &:hover {
-      background: $rd-bg-hover;
-      color: $rd-primary;
+      background: tokens.$rd-bg-hover;
+      color: tokens.$rd-primary;
     }
     & + .rc-ctrl-btn {
-      border-top: 1px solid $rd-divider;
+      border-top: 1px solid tokens.$rd-divider;
     }
   }
 }
@@ -1076,13 +1076,13 @@ const onMinimapMouseDown = (e: MouseEvent) => {
 /* 小地图 */
 .rule-minimap {
   position: absolute;
-  right: $rd-space-3;
+  right: tokens.$rd-space-3;
   bottom: 50px; // 避开缩放控制按钮
   width: 200px;
-  background: $rd-bg-surface;
-  border: 1px solid $rd-border;
-  border-radius: $rd-radius-md;
-  box-shadow: $rd-shadow-md;
+  background: tokens.$rd-bg-surface;
+  border: 1px solid tokens.$rd-border;
+  border-radius: tokens.$rd-radius-md;
+  box-shadow: tokens.$rd-shadow-md;
   z-index: 10;
   user-select: none;
   overflow: hidden;
@@ -1094,16 +1094,16 @@ const onMinimapMouseDown = (e: MouseEvent) => {
     padding: 4px 8px;
     font-size: 11px;
     font-weight: 600;
-    color: $rd-text-secondary;
-    background: $rd-bg-hover;
-    border-bottom: 1px solid $rd-divider;
+    color: tokens.$rd-text-secondary;
+    background: tokens.$rd-bg-hover;
+    border-bottom: 1px solid tokens.$rd-divider;
 
     .minimap-close {
       width: 18px;
       height: 18px;
       border: none;
       background: transparent;
-      color: $rd-text-tertiary;
+      color: tokens.$rd-text-tertiary;
       font-size: 14px;
       cursor: pointer;
       border-radius: 4px;
@@ -1114,31 +1114,31 @@ const onMinimapMouseDown = (e: MouseEvent) => {
 
       &:hover {
         background: rgba(239, 68, 68, 0.1);
-        color: $rd-error;
+        color: tokens.$rd-error;
       }
     }
   }
 
   .minimap-svg {
     display: block;
-    background: $rd-bg-canvas;
+    background: tokens.$rd-bg-canvas;
     cursor: pointer;
 
     .mini-node {
-      fill: $rd-text-tertiary;
-      stroke: $rd-border;
+      fill: tokens.$rd-text-tertiary;
+      stroke: tokens.$rd-border;
       stroke-width: 0.5;
       opacity: 0.7;
 
       &.mini-node-selected {
-        fill: $rd-primary;
+        fill: tokens.$rd-primary;
         opacity: 1;
       }
     }
 
     .mini-viewport {
       fill: rgba(59, 130, 246, 0.08);
-      stroke: $rd-primary;
+      stroke: tokens.$rd-primary;
       stroke-width: 1.2;
       pointer-events: none;
     }
