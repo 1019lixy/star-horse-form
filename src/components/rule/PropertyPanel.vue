@@ -52,8 +52,8 @@
             <span class="item-val">{{ cond.value || i18n('rule.panel.emptyValue') }}</span>
           </div>
           <div class="item-actions">
-            <el-button link  @click="emit('editCondition', selectedNode.id, idx)"><el-icon><Edit /></el-icon></el-button>
-            <el-button link  type="danger" @click="deleteCondition(idx)"><el-icon><Delete /></el-icon></el-button>
+            <el-button link  @click="emit('editCondition', selectedNode.id, Number(idx))"><el-icon><Edit /></el-icon></el-button>
+            <el-button link  type="danger" @click="deleteCondition(Number(idx))"><el-icon><Delete /></el-icon></el-button>
           </div>
         </div>
       </div>
@@ -71,8 +71,8 @@
             <span class="item-field">{{ act.targetField || '-' }}</span>
           </div>
           <div class="item-actions">
-            <el-button link  @click="emit('editAction', selectedNode.id, idx)"><el-icon><Edit /></el-icon></el-button>
-            <el-button link  type="danger" @click="deleteAction(idx)"><el-icon><Delete /></el-icon></el-button>
+            <el-button link  @click="emit('editAction', selectedNode.id, Number(idx))"><el-icon><Edit /></el-icon></el-button>
+            <el-button link  type="danger" @click="deleteAction(Number(idx))"><el-icon><Delete /></el-icon></el-button>
           </div>
         </div>
       </div>
@@ -91,7 +91,7 @@
             <span class="item-val">{{ assign.value || i18n('rule.panel.empty') }}</span>
           </div>
           <div class="item-actions">
-            <el-button link  type="danger" @click="deleteAssignment(idx)"><el-icon><Delete /></el-icon></el-button>
+            <el-button link  type="danger" @click="deleteAssignment(Number(idx))"><el-icon><Delete /></el-icon></el-button>
           </div>
         </div>
       </div>
@@ -134,7 +134,7 @@
             <el-form-item
               v-for="field in group.fields"
               :key="field.name"
-              :label="i18n(field.label)"
+              :label="typeof field.label === 'function' ? field.label() : i18n(field.label)"
               :required="field.required"
             >
               <!-- input -->

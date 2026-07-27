@@ -80,7 +80,7 @@
                   <el-option :label="i18n('rule.opt.dynamic')" value="dynamic" />
                 </el-select>
                 <el-input v-model="item.paramValue" class="kv-col col-value" :placeholder="i18n('rule.lbl.paramValue')" />
-                <el-button link type="danger" class="kv-col col-op" @click="removeRow('headers', idx)">
+                <el-button link type="danger" class="kv-col col-op" @click="removeRow('headers', Number(idx))">
                   <el-icon><Delete /></el-icon>
                 </el-button>
               </div>
@@ -106,7 +106,7 @@
                   <el-option :label="i18n('rule.opt.dynamic')" value="dynamic" />
                 </el-select>
                 <el-input v-model="item.paramValue" class="kv-col col-value" :placeholder="i18n('rule.lbl.paramValue')" />
-                <el-button link type="danger" class="kv-col col-op" @click="removeRow('requestParams', idx)">
+                <el-button link type="danger" class="kv-col col-op" @click="removeRow('requestParams', Number(idx))">
                   <el-icon><Delete /></el-icon>
                 </el-button>
               </div>
@@ -153,7 +153,7 @@
               <div v-for="(item, idx) in formData.fieldMappings" :key="'m-'+idx" class="kv-row">
                 <el-input v-model="item.sourceField" class="kv-col col-source" :placeholder="i18n('rule.lbl.sourceField')" />
                 <el-input v-model="item.distField" class="kv-col col-dist" :placeholder="i18n('rule.lbl.distField')" />
-                <el-button link type="danger" class="kv-col col-op" @click="removeRow('fieldMappings', idx)">
+                <el-button link type="danger" class="kv-col col-op" @click="removeRow('fieldMappings' as any, Number(idx))">
                   <el-icon><Delete /></el-icon>
                 </el-button>
               </div>
@@ -293,7 +293,7 @@ const addRow = (field: 'headers' | 'requestParams') => {
   formData[field].push({ paramName: '', valueType: 'static', paramValue: '' });
 };
 
-const removeRow = (field: 'headers' | 'requestParams', index: number) => {
+const removeRow = (field: 'headers' | 'requestParams' | 'fieldMappings', index: number) => {
   formData[field].splice(index, 1);
 };
 

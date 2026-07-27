@@ -41,9 +41,9 @@
             </div>
             <div v-for="(branch, index) in formData.branches" :key="branch.id" class="branch-item">
               <div class="branch-header">
-                <div class="branch-index">{{ index + 1 }}</div>
+                <div class="branch-index">{{ Number(index) + 1 }}</div>
                 <el-input v-model="branch.label" :placeholder="i18n('rule.ph.branchLabel')" class="branch-label-input" />
-                <el-button type="danger" link @click="removeBranch(index)">
+                <el-button type="danger" link @click="removeBranch(Number(index))">
                   <el-icon>
                     <Delete />
                   </el-icon>
