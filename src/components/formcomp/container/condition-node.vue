@@ -234,7 +234,7 @@ const finishEditName = (node: any) => {
 <style lang="scss" scoped>
 .condition-node-wrapper {
   border-radius: 6px;
-  overflow: hidden;
+  overflow: visible;
 }
 
 .condition-child-header {
@@ -245,6 +245,7 @@ const finishEditName = (node: any) => {
   font-size: 13px;
   font-weight: 500;
   cursor: pointer;
+  border-radius: 6px 6px 0 0;
 
   .condition-child-title {
     display: flex;
@@ -299,7 +300,7 @@ const finishEditName = (node: any) => {
 .condition-child {
   margin-top: 8px;
   border-radius: 6px;
-  overflow: hidden;
+  overflow: visible;
   transition: all 0.2s;
 }
 

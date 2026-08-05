@@ -13,7 +13,7 @@ const selectedNodeId = ref<string>("");
 // Container item types
 const CONTAINER_TYPES = [
   "tab", "box", "table", "card",
-  "dytable", "collapse", "splitter", "condition",
+  "dytable", "collapse", "splitter", "condition", "step",
 ];
 
 // Container display labels
@@ -26,6 +26,7 @@ const containerLabels: Record<string, string> = {
   collapse: "折叠面板",
   splitter: "分割面板",
   condition: "条件组",
+  step: "步骤容器",
 };
 
 // ─── Helper functions ───
@@ -150,6 +151,7 @@ const buildContainerNode = (field: any): any => {
     case "collapse":
     case "card":
     case "splitter":
+    case "step":
       children = buildTabLikeChildren(field);
       break;
     case "box":
@@ -329,7 +331,7 @@ rebuildTree();
           <div :class="['outline-node', { 'is-container': data.isContainer, 'is-virtual': data.type?.startsWith('__') }]">
             <!-- Container expand indicator -->
             <span v-if="data.isContainer" class="node-badge container-badge">
-              {{ data.type === 'tab' ? 'T' : data.type === 'box' ? 'B' : data.type === 'card' ? 'C' : data.type === 'collapse' ? 'F' : data.type === 'table' ? 'G' : data.type === 'splitter' ? 'S' : data.type === 'dytable' ? 'D' : data.type === 'condition' ? '?' : '□' }}
+              {{ data.type === 'tab' ? 'T' : data.type === 'box' ? 'B' : data.type === 'card' ? 'C' : data.type === 'collapse' ? 'F' : data.type === 'table' ? 'G' : data.type === 'splitter' ? 'S' : data.type === 'dytable' ? 'D' : data.type === 'condition' ? '?' : data.type === 'step' ? 'P' : '□' }}
             </span>
             <!-- Virtual node (tab panel, cell, col) -->
             <span v-else-if="data.type?.startsWith('__')" class="node-badge virtual-badge">·</span>

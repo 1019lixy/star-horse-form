@@ -5,3 +5,4 @@ export { default as dytableContainer } from "./dytable-container.vue";
 export { default as tabContainer } from "./tab-container.vue";
 export { default as tableContainer } from "./table-container.vue";
 export { default as conditionContainer } from "./condition-container.vue";
+export { default as stepContainer } from "./step-container.vue";

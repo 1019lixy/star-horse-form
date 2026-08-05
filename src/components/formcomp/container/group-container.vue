@@ -72,6 +72,7 @@ const containerLabel = computed(() => {
   const labels: Record<string, string> = {
     tab: "选项卡", box: "栅格", table: "表格", card: "卡片",
     dytable: "动态表格", collapse: "折叠", splitter: "分割", condition: "条件",
+    step: "步骤",
   };
   return labels[props.formItem?.itemType] || "容器";
 });
@@ -86,7 +87,7 @@ const removeData = () => {
     if (res) {
       let id = props.formItem.preps?.id || props.formItem.id;
       let parentType = props.parentField?.itemType;
-      if (parentType == "tab" || parentType == "card" || parentType == "collapse") {
+      if (parentType == "tab" || parentType == "card" || parentType == "collapse" || parentType == "step") {
         // These containers store items in elements[i].items
         let elements = props.parentField!.preps.elements;
         for (let i = 0; i < elements.length; i++) {
@@ -336,21 +337,20 @@ const tableOperation = (actonName: string, _preps: any) => {
 /* ── Collapse/Expand ── */
 .collapse-toggle {
   position: absolute;
-  top: 1px;
-  right: 1px;
+  top: 5px;
+  left: 0;
   width: 22px;
   height: 22px;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: rgba(255, 255, 255, 0.85);
-  border: 1px solid #e4e7ed;
+  background: var(--star-horse-style, #409eff);
+  border: 1px solid rgba(0, 0, 0, 0.1);
   border-radius: 4px;
   cursor: pointer;
-  color: #909399;
-  z-index: 200;
+  color: #fff;
+  z-index: 9999999;
   padding: 0;
-  backdrop-filter: blur(4px);
 
   svg {
     transition: transform 0.15s ease;
@@ -361,10 +361,13 @@ const tableOperation = (actonName: string, _preps: any) => {
   }
 
   &:hover {
-    color: #409eff;
-    background: #ecf5ff;
-    border-color: #b3d8ff;
+    background: #66b1ff;
   }
+}
+
+/* 选中容器时，拖拽按钮右移避开折叠按钮 */
+:deep(.drag-handler) {
+  left: 28px !important;
 }
 
 .collapsed-placeholder {

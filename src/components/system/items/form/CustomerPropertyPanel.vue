@@ -268,7 +268,6 @@ watch(
 );
 </script>
 <template>
-  {{dialogStates.preOrPendDialog}}
   <!-- Button Event Dialog -->
   <ButtonEventDialog
       :visible="dialogStates.buttonEventDialog"

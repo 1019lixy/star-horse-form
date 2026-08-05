@@ -187,7 +187,7 @@ export const extractFieldMetaList = (compList: any[]): FormFieldMeta[] => {
   const seen = new Set<string>()
 
   /** 容器 itemType 清单（与 star-horse-lowcode qie 函数对齐） */
-  const CONTAINER_ITEM_TYPES = new Set(['box', 'dytable', 'table', 'tab', 'card', 'collapse', 'splitter', 'condition'])
+  const CONTAINER_ITEM_TYPES = new Set(['box', 'dytable', 'table', 'tab', 'card', 'collapse', 'splitter', 'condition', 'step'])
 
   /**
    * 添加字段到结果集

@@ -1031,6 +1031,33 @@ const splitterFields = {
         },
     ],
 };
+const stepFields = {
+    title: i18n("dyform.utils.stepProps"),
+    tabName: "step",
+    batchFieldList: [
+        {
+            batchName: "elements",
+            fieldList: [
+                {
+                    label: i18n("dyform.utils.stepName"),
+                    fieldName: "label",
+                    required: true,
+                    formVisible: true,
+                    listVisible: true,
+                },
+                {
+                    label: i18n("dyform.container.334"),
+                    fieldName: "tabName",
+                    helpMsg: i18n("dyform.preps.stepNameHelp"),
+                    required: true,
+                    formVisible: true,
+                    listVisible: true,
+                },
+                ...containerCommonFields,
+            ],
+        },
+    ],
+};
 const cardFields = {
     title: i18n("dyform.utils.489"),
     tabName: "card",
@@ -1213,6 +1240,7 @@ const fields: any = {
     box: boxFields,
     dytable: dyTableFields,
     condition: conditionFields,
+    step: stepFields,
 };
 
 /**

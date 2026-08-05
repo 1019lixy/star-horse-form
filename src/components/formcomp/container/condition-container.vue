@@ -176,7 +176,7 @@ const levelClass = (data: any, depth: number) => {
                 link
                 @click.stop="addLeafField(field)"
                 icon="Plus"
-            />
+            ><!--<star-horse-icon iconClass="plus"  size="16px" color="var(&#45;&#45;star-horse-white)"/>--></el-button>
           </el-tooltip>
           <el-tooltip :content="i18n('dyform.condition.addChild')">
             <el-button
@@ -185,7 +185,9 @@ const levelClass = (data: any, depth: number) => {
                 link
                 @click.stop="addChildCondition"
                 icon="FolderAdd"
-            />
+            >
+              <!--              <star-horse-icon iconClass="folder" size="16px" color="var(&#45;&#45;star-horse-white)"/>-->
+            </el-button>
           </el-tooltip>
         </div>
       </div>
@@ -234,7 +236,7 @@ const levelClass = (data: any, depth: number) => {
         <div v-if="isEdit && isDesign" class="condition-add-leaf">
           <el-button
               size="small"
-              type="info"
+              type="primary"
               plain
               @click.stop="addLeafField(field)"
               icon="Plus"
@@ -273,19 +275,22 @@ const levelClass = (data: any, depth: number) => {
 .condition-wrapper {
   border: 1px solid #e4e7ed;
   border-radius: 8px;
-  overflow: hidden;
+  overflow: visible;
   background: #fff;
 }
+
+
 
 .condition-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 8px 12px;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  color: #fff;
+  background: var(--star-horse-shadow);
+  //color: #fff;
   cursor: pointer;
   user-select: none;
+  border-radius: 8px 8px 0 0;
 
   .condition-title {
     display: flex;
@@ -307,7 +312,7 @@ const levelClass = (data: any, depth: number) => {
       color: #fff !important;
 
       &:hover {
-        color: #ffd700 !important;
+        color: #a0cfff !important;
       }
     }
   }
@@ -358,7 +363,7 @@ const levelClass = (data: any, depth: number) => {
 .condition-child {
   margin-top: 8px;
   border-radius: 6px;
-  overflow: hidden;
+  overflow: visible;
   transition: all 0.2s;
 }
 
