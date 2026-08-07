@@ -74,6 +74,10 @@ const onDragAdd = (evt: Event | any, dataList: any) => {
 
 // 当前激活的步骤索引
 const activeStepIndex = ref<number>(0);
+// 步骤校验状态：valid=通过(绿色打钩), invalid=失败(红色打叉), undefined=未校验
+const stepValidationState = ref<Record<number, "valid" | "invalid">>({});
+// 是否已完成所有步骤（最后一步通过校验后置为 true，用于显示全部完成）
+const allStepsCompleted = ref<boolean>(false);
 
 const elements = computed(() => props.field?.preps?.elements || []);
 
@@ -213,12 +217,32 @@ const checkBeforeForward = (fromIndex: number, toIndex: number): boolean => {
 
 const goPrev = () => {
   if (activeStepIndex.value > 0) {
+    // 回退时清除当前步骤的错误状态（用户回去修改）
+    delete stepValidationState.value[activeStepIndex.value];
+    allStepsCompleted.value = false;
     activeStepIndex.value--;
   }
 };
 const goNext = () => {
-  if (activeStepIndex.value >= elements.value.length - 1) return;
-  if (!checkBeforeForward(activeStepIndex.value, activeStepIndex.value + 1)) return;
+  if (activeStepIndex.value >= elements.value.length - 1) {
+    // 已是最后一步：校验通过则标记全部完成
+    if (mustCompleteStep.value && !props.isDesign) {
+      const {valid, missingFields} = validateStep(activeStepIndex.value);
+      if (!valid) {
+        stepValidationState.value[activeStepIndex.value] = "invalid";
+        warning(i18n("dyform.step.validateFailed", [missingFields.map((f: any) => f.label).join("、")]));
+        return;
+      }
+    }
+    stepValidationState.value[activeStepIndex.value] = "valid";
+    allStepsCompleted.value = true;
+    return;
+  }
+  if (!checkBeforeForward(activeStepIndex.value, activeStepIndex.value + 1)) {
+    stepValidationState.value[activeStepIndex.value] = "invalid";
+    return;
+  }
+  stepValidationState.value[activeStepIndex.value] = "valid";
   activeStepIndex.value++;
 };
 
@@ -226,8 +250,18 @@ const handleStepClick = (index: number) => {
   if (index === activeStepIndex.value) return;
   // 向前跳转需校验中间所有步骤
   if (index > activeStepIndex.value) {
-    if (!checkBeforeForward(activeStepIndex.value, index)) return;
+    if (!checkBeforeForward(activeStepIndex.value, index)) {
+      stepValidationState.value[activeStepIndex.value] = "invalid";
+      return;
+    }
+    // 中间步骤全部校验通过，标记为 valid
+    for (let i = activeStepIndex.value; i < index; i++) {
+      stepValidationState.value[i] = "valid";
+    }
   }
+  // 清除目标步骤的错误状态（重新进入给修改机会）
+  delete stepValidationState.value[index];
+  allStepsCompleted.value = false;
   activeStepIndex.value = index;
 };
 
@@ -236,11 +270,21 @@ type StepStatus = "finish" | "process" | "wait" | "error" | "success";
 
 const getStepStatus = (idx: number): StepStatus => {
   const i = Number(idx);
-  if (i === activeStepIndex.value) {
-    return (processStatus.value as StepStatus) || "process";
+  // 校验失败的步骤显示错误（红色打叉）
+  if (stepValidationState.value[i] === "invalid") {
+    return "error";
   }
+  // 全部完成时，所有步骤显示 finish
+  if (allStepsCompleted.value) {
+    return "finish";
+  }
+  // 当前激活步骤
+  if (i === activeStepIndex.value) {
+    return "process";
+  }
+  // 已越过的步骤显示完成（绿色打钩）
   if (i < activeStepIndex.value) {
-    return (finishStatus.value as StepStatus) || "finish";
+    return "finish";
   }
   return "wait";
 };

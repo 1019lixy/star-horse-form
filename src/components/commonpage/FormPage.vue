@@ -97,6 +97,7 @@ watch(
 const loadFormData = async () => {
   isLoading.value = true; // 开始加载
   primaryKey.value = "id";
+  console.log(props.compList);
   tableFieldList.value = analysisCompDatas(props.compList);
   if (props.currentPageClass == "main-design-phone") {
     tableFieldList.value = convertCompToAppComps(tableFieldList.value);

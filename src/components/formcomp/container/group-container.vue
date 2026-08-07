@@ -349,7 +349,7 @@ const tableOperation = (actonName: string, _preps: any) => {
   border-radius: 4px;
   cursor: pointer;
   color: #fff;
-  z-index: 9999999;
+  z-index: 1200;
   padding: 0;
 
   svg {
