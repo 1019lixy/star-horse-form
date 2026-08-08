@@ -30,7 +30,7 @@ export function openDatabase(configId: any): Promise<any> | null {
     return new Promise<any>((resolve, reject) => {
         getRequest(`${dbInfoApi.value.customerUrl1}/${configId}`)
             .then((res: any) => {
-                if (res.data.code != 0) {
+                if (res.data.code != 200) {
                     error(res.data.cnMessage);
                     return;
                 }
@@ -110,7 +110,7 @@ export async function tableColumns(
         `${dbInfoApi.value.customerUrl4}/${configId}/${tableName}`,
     )
         .then((res: any) => {
-            if (res.data.code != 0) {
+            if (res.data.code != 200) {
                 warning(res.data.cnMessage);
                 return;
             }

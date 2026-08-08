@@ -936,7 +936,7 @@ const loadSameDataSourceTables = (formInfo: any) => {
     fieldList: params,
   }).then((res: any) => {
     relationDataList.value = [];
-    if (res.data.code != 0) {
+    if (res.data.code != 200) {
       return;
     }
     dataSourceData.value = res.data.data;

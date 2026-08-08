@@ -57,7 +57,7 @@ const apiValid = async () => {
   const formDta = unref(formRef.value?.getFormData()) ?? {};
   postRequest(formDta.proxyUrl ?? "/userdb-manage/redirect/apiValid", formDta).then((data) => {
     const result = data.data;
-    if (result.code) {
+    if (result.code!==200) {
       warning(result.cnMessage);
       return;
     }

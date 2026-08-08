@@ -36,7 +36,7 @@ const loadTableColumns = (
   getRequest(
       `/userdb-manage/dbsearch/dbinfo/tableColumns/${dataSourceId}/${tbName}`,
   ).then((res: any) => {
-    if (res.data.code != 0) {
+    if (res.data.code != 200) {
       return;
     }
     let resData = res.data.data;
@@ -200,7 +200,7 @@ const saveData = (isDraft: boolean, data: any) => {
   load(i18n("dyform.sample.submitting"));
   postRequest(`${api.basePrefix}/${isDraft ? "mergeDraft" : "merge"}`, data)
       .then((res: any) => {
-        if (res.data.code != 0) {
+        if (res.data.code != 200) {
           warning(res.data.cnMessage);
           return;
         }

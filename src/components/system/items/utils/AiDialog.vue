@@ -27,6 +27,7 @@ const emit = defineEmits<{
 const messages = ref<ChatMessage[]>([]);
 const inputMessage = ref("");
 const isGenerating = ref(false);
+const isTruncated = ref(false);
 const chatContainerRef = ref<HTMLDivElement>();
 
 // AI 思考状态判断
@@ -171,11 +172,15 @@ const examplePrompts = computed(() => {
 
 const scrollToBottom = () => {
   nextTick(() => {
-    setTimeout(() => {
+    const el = chatContainerRef.value;
+    if (!el) return;
+    el.scrollTop = el.scrollHeight;
+    // 二次保证：下一帧再滚一次，处理异步渲染/图片加载导致的布局变化
+    requestAnimationFrame(() => {
       if (chatContainerRef.value) {
         chatContainerRef.value.scrollTop = chatContainerRef.value.scrollHeight;
       }
-    }, 50);
+    });
   });
 };
 
@@ -194,6 +199,48 @@ watch(() => {
 }, () => {
   scrollToBottom();
 });
+
+// 从可能被 max_tokens 截断的内容中，提取已完整生成的 dataList 组件
+// 即使最后一个组件未生成完，也能把前面完整的组件提取出来
+const extractDataListFromTruncated = (content: string): any[] | null => {
+  const keyMatch = content.match(/"dataList"\s*:\s*\[/);
+  if (!keyMatch || keyMatch.index === undefined) return null;
+  const arrStart = content.indexOf('[', keyMatch.index);
+  if (arrStart < 0) return null;
+  let inStr = false, esc = false, depth = 0, elemStart = -1;
+  const slices: string[] = [];
+  for (let i = arrStart + 1; i < content.length; i++) {
+    const ch = content[i];
+    if (esc) { esc = false; continue; }
+    if (ch === '\\') { esc = true; continue; }
+    if (ch === '"') { inStr = !inStr; continue; }
+    if (inStr) continue;
+    if (ch === '{') {
+      if (depth === 0) elemStart = i;
+      depth++;
+    } else if (ch === '}') {
+      depth--;
+      if (depth === 0 && elemStart >= 0) {
+        slices.push(content.slice(elemStart, i + 1));
+        elemStart = -1;
+      }
+    } else if (ch === ']' && depth === 0) {
+      break; // 数组正常结束
+    }
+  }
+  const valid: any[] = [];
+  for (const s of slices) {
+    try {
+      const obj = JSON.parse(s);
+      if (obj && typeof obj === 'object' && (obj.compType || obj.itemType)) {
+        valid.push(obj);
+      }
+    } catch {
+      // 忽略不完整元素
+    }
+  }
+  return valid.length > 0 ? valid : null;
+};
 
 const extractJsonFromContent = (content: string): { jsonData?: any; hasJson: boolean } => {
   // 1. 尝试从 markdown 代码块中提取 JSON
@@ -238,6 +285,12 @@ const extractJsonFromContent = (content: string): { jsonData?: any; hasJson: boo
     }
   }
 
+  // 4. 兜底：尝试从被截断的内容中提取已完整生成的 dataList 组件
+  const truncatedList = extractDataListFromTruncated(content);
+  if (truncatedList && truncatedList.length > 0) {
+    return {jsonData: truncatedList, hasJson: true};
+  }
+
   return {hasJson: false};
 };
 
@@ -260,6 +313,7 @@ const sendMessage = async () => {
   };
   messages.value.push(aiMessage);
   isGenerating.value = true;
+  isTruncated.value = false;
 
   abortController = sendAiChatMessage(
       sessionId.value,
@@ -275,6 +329,11 @@ const sendMessage = async () => {
         if (hasJson && jsonData) {
           aiMessage.hasJson = true;
           aiMessage.jsonData = jsonData;
+          if (isTruncated.value) {
+            warning(i18n("dyform.aiChat.truncatedWarn"));
+          }
+        } else if (isTruncated.value) {
+          warning(i18n("dyform.aiChat.truncatedNoJson"));
         }
         isGenerating.value = false;
         abortController = null;
@@ -287,6 +346,9 @@ const sendMessage = async () => {
         }
         isGenerating.value = false;
         abortController = null;
+      },
+      () => {
+        isTruncated.value = true;
       }
   );
 };

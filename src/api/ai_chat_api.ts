@@ -21,11 +21,12 @@ export function sendAiChatMessage(
     message: string,
     onMessage: (chunk: string) => void,
     onDone: () => void,
-    onError: (err: string) => void
+    onError: (err: string) => void,
+    onTruncated?: () => void
 ): AbortController {
     const controller = new AbortController();
 
-    const baseUrl = aiApi.value?.appName || "userdb-manage";;
+    const baseUrl = aiApi.value?.appName || "userdb-manage";
     const url = `/${baseUrl}/userdb/aiChat/chat`;
 
     fetch(url, {
@@ -85,6 +86,9 @@ export function sendAiChatMessage(
                             if (parsed.content) {
                                 onMessage(parsed.content);
                             }
+                            if (parsed.truncated) {
+                                onTruncated?.();
+                            }
                             if (parsed.error) {
                                 onError(parsed.error);
                                 return;
@@ -112,6 +116,9 @@ export function sendAiChatMessage(
                         const parsed = JSON.parse(data);
                         if (parsed.content) {
                             onMessage(parsed.content);
+                        }
+                        if (parsed.truncated) {
+                            onTruncated?.();
                         }
                     } catch {
                         if (data && data !== "[DONE]") {

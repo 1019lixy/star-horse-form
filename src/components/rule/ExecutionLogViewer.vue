@@ -115,7 +115,7 @@ const loadLogs = async () => {
 
   try {
     const res = await ruleExecutionLogApi.listByRuleId(props.ruleId);
-    if (res.data.code === 0) {
+    if (res.data.code === 200) {
       logList.value = res.data.data || [];
       total.value = logList.value.length;
     }

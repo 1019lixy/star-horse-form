@@ -71,7 +71,7 @@ export async function saveTemplate(params: SaveTemplateParams): Promise<ConfigTe
         return template;
     } else {
         const result = await saveTemplateToDatabase(params);
-        if (result.data.code) {
+        if (result.data.code !=200) {
             warning(result.data.cnMessage);
             return;
         }

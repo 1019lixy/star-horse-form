@@ -2351,7 +2351,7 @@ const loadRuleData = async () => {
   }
   try {
     const res = await ruleDefinitionApi.getRuleById(ruleId.value);
-    if (res.data.code === 0 && res.data.data) {
+    if (res.data.code === 200 && res.data.data) {
       Object.assign(ruleData, res.data.data);
       // props.formId 优先于已存在 ruleData.formId（防止跨表单复制时残留）
       if (props.formId) ruleData.formId = props.formId;

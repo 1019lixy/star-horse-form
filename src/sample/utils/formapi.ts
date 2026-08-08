@@ -65,7 +65,7 @@ export async function loadData(
     await postRequest(url, cond, signal)
         .then((res: any) => {
             const redata = res.data;
-            if (redata.code) {
+            if (redata.code !==200) {
                 error = redata.cnMessage;
             } else {
                 //先去分页数据，没有再去非分页数据
@@ -97,7 +97,7 @@ export async function loadGetData(url: string, signal?: AbortSignal) {
     await getRequest(url, signal)
         .then((res) => {
             const redata = res.data;
-            if (redata.code != 0) {
+            if (redata.code != 200) {
                 error = redata.cnMessage;
             } else {
                 data = redata.data;
@@ -129,7 +129,7 @@ export async function loadSystemInfo(params: any, newUrl?: string) {
     })
         .then((res) => {
             const redata = res.data;
-            if (redata.code == 0) {
+            if (redata.code == 200) {
                 const data = redata.data;
                 if (redata.data) {
                     systemList = createTree(data, "idInformations", "sysName", "");
@@ -153,7 +153,7 @@ export async function loadCustomInfo(params: any) {
     })
         .then((res) => {
             const redata = res.data;
-            if (redata.code == 0) {
+            if (redata.code == 200) {
                 const data = redata.data;
                 if (redata.data) {
                     data.forEach((item: any) => {
@@ -182,7 +182,7 @@ export async function loadDepartmentInfo(param: any) {
         fieldList: param,
     })
         .then((res) => {
-            if (res.data.code != 0) {
+            if (res.data.code != 200) {
                 console.warn(res.data.cnMessage);
             } else {
                 deptData = res.data.data;
@@ -205,7 +205,7 @@ export async function loadRolesInfo(param: any) {
         },
     )
         .then((res) => {
-            if (res.data.code) {
+            if (res.data.code !==200) {
                 console.warn(res.data.cnMessage);
             } else {
                 const redata = res.data.data;
@@ -236,7 +236,7 @@ export async function loadMenusInfo(
     })
         .then((res) => {
             const redata = res.data;
-            if (redata.code != 0) {
+            if (redata.code != 200) {
                 console.warn(redata.cnMessage);
             } else {
                 if (direct) {
@@ -433,7 +433,7 @@ export async function deleteByIds(
     }
     await postRequest(url, ids)
         .then((res) => {
-            if (res.data.code == 0) {
+            if (res.data.code == 200) {
                 success(res.data.cnMessage);
             } else {
                 warning(res.data.cnMessage);
@@ -469,7 +469,7 @@ export async function dictData(
     await postRequest(dictUrl, {fieldList: query})
         .then((res) => {
             const redata = res.data;
-            if (redata.code == 0) {
+            if (redata.code == 200) {
                 redata.data?.forEach((item: any) => {
                     if (exclusion && exclusion.includes(item.dictCode)) {
                         return;
@@ -1185,7 +1185,7 @@ export async function loadDict(dictName: string) {
         param,
     )
         .then((res) => {
-            if (res?.data?.code != 0) {
+            if (res?.data?.code != 200) {
                 console.log(res.data.cnMessage);
             } else {
                 const resdata = res?.data?.data;

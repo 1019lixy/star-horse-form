@@ -4957,6 +4957,8 @@ If empty, the table information will be created in the current business database
     "dyform.aiChat.switchFailed": "Switch failed",
     "dyform.aiChat.deleteConfirm": "Are you sure to delete this profile?",
     "dyform.aiChat.atLeastOne": "At least one profile is required",
+    "dyform.aiChat.truncatedWarn": "Response was truncated; complete parts were extracted. Apply and add missing fields as needed.",
+    "dyform.aiChat.truncatedNoJson": "Response was truncated and could not be parsed. Simplify the request or increase Max Tokens in settings.",
 
     /**
      * Diagram Designer --------------

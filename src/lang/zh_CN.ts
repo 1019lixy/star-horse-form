@@ -4887,6 +4887,8 @@ export default {
   "dyform.aiChat.switchFailed": "切换失败",
   "dyform.aiChat.deleteConfirm": "确定删除此配置？",
   "dyform.aiChat.atLeastOne": "至少保留一个配置",
+  "dyform.aiChat.truncatedWarn": "响应内容较长已被截断，已自动提取完整部分，可在应用后补充缺失字段",
+  "dyform.aiChat.truncatedNoJson": "响应被截断且无法解析，请简化需求或在设置中调大最大Token后重试",
 
   /**
    * 通用图编辑器 --------------

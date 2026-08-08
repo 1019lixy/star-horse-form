@@ -827,7 +827,7 @@ const doCreateData = (type: string) => {
       configData.value,
   )
       .then((res: any) => {
-        if (res.data.code) {
+        if (res.data.code!==200) {
           warning(res.data.cnMessage);
           return;
         } else {

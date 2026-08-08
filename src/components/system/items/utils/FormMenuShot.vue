@@ -160,7 +160,7 @@ const rmvData = (menu: any) => {
   operationConfirm(i18n("dyform.utils.619")).then(() => {
     postRequest(props.dataUrl?.deleteUrl!, [menu[props.primaryKey]]).then(
       (res) => {
-        if (res.data.code) {
+        if (res.data.code !==200) {
           warning(res.data.cnMessage);
           return;
         }
