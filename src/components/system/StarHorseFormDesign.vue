@@ -40,6 +40,7 @@ const FieldLayerDrawer = defineAsyncComponent(() => import("@/components/system/
 const ConfigDialog = defineAsyncComponent(() => import("@/components/system/items/form/dialogs/ConfigDialog.vue"));
 const AiDialog = defineAsyncComponent(() => import("@/components/system/items/utils/AiDialog.vue"));
 const RuleConfigPanel = defineAsyncComponent(() => import("@/components/system/items/form/components/RuleConfigPanel.vue"));
+const SaveAsCustomCompDialog = defineAsyncComponent(() => import("@/components/system/items/form/dialogs/SaveAsCustomCompDialog.vue"));
 import FormToolbar from "@/components/system/items/form/components/FormToolbar.vue";
 import FormDesigner from "@/components/system/items/form/components/FormDesigner.vue";
 import FieldPanel from "@/components/system/items/form/FieldPanel.vue";
@@ -56,6 +57,8 @@ import JSON5 from "json5";
 import {quickAddItem} from "@/api/form_utils";
 import type {Content} from "vanilla-jsoneditor";
 import {createJSONEditor, isTextContent, toJSONContent} from "vanilla-jsoneditor";
+import {loadCustomComponents} from "@/components/system/items/utils/FieldOperationUtils";
+import {initCustomCompApi} from "@/api/custom_component_api";
 
 defineOptions({
   name: "StarHorseFormDesign",
@@ -170,6 +173,7 @@ const dynamicFormRef = ref();
 const previewDynamicFormRef = ref();
 const formConfigDialogVisible = ref<boolean>(false);
 const ruleConfigDialogVisible = ref<boolean>(false);
+const saveAsCompDialogRef = ref();
 // ==================== 规则引擎上下文 ====================
 // 从 formInfo 提取表单主键作为规则引擎 formId
 const ruleFormId = computed(() => {
@@ -745,6 +749,10 @@ const actions = (action: ToolBtnType | string) => {
       // 打开规则配置面板（与当前表单绑定）
       ruleConfigDialogVisible.value = true;
       break;
+    case "saveAsComp":
+      // 将当前选中组件存为自定义第三方组件
+      saveAsCompDialogRef.value?.open();
+      break;
   }
   emits("action", act);
 };
@@ -798,6 +806,10 @@ const init = async () => {
       designForm.addSelfFormDataList(res);
     });
   }
+  // 初始化自定义组件接口配置
+  initCustomCompApi(resolvedConfig.value?.customCompApi, resolvedConfig.value?.api?.basePrefix);
+  // 加载自定义第三方组件
+  loadCustomComponents();
   cacheDataRestore(null as MouseEvent);
   // 初始化 WebSocket 服务
   initWebSocketService();
@@ -1195,6 +1207,12 @@ defineExpose({
       :formId="ruleFormId"
       :formFields="ruleFormFields"
       :compList="list"
+  />
+  <SaveAsCustomCompDialog
+      ref="saveAsCompDialogRef"
+      :currentComp="designForm.currentComp"
+      :optional="resolvedConfig"
+      @saved="loadCustomComponents"
   />
   <div class="sh-form-design-root">
     <FormToolbar

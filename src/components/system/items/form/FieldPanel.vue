@@ -1,10 +1,11 @@
 <script setup lang="ts" name="FieldPanel">
 import {computed, PropType, ref} from "vue";
-import {getDesignFormStore, loadData, StarHorseIcon,} from "star-horse-lowcode";
-import {fieldCopy} from "@/components/system/items/utils/FieldOperationUtils.js";
+import {getDesignFormStore, loadData, operationConfirm, StarHorseIcon, success,} from "star-horse-lowcode";
+import {fieldCopy, loadCustomComponents} from "@/components/system/items/utils/FieldOperationUtils.js";
 import {i18n} from "@/lang/index.js";
 import {FormConfig} from "@/components/types";
 import OutlineTree from "@/components/system/items/form/components/OutlineTree.vue";
+import {deleteCustomComponent, deleteLocalCustomComponent} from "@/api/custom_component_api";
 
 const props = defineProps({
   optional: {type: Object as PropType<FormConfig>},
@@ -17,6 +18,8 @@ const baseSelfFormDataList = computed(() => designForm.selfFormDataList);
 const formQuery = ref<string>("");
 const containerQuery = ref<string>("");
 const selfQuery = ref<string>("");
+const myCompQuery = ref<string>("");
+const myContainerQuery = ref<string>("");
 const formDataList = computed(() => {
   if (!formQuery.value) {
     return baseFormDataList.value;
@@ -35,13 +38,31 @@ let selfFormDataList = computed(() => {
   }
   return baseSelfFormDataList.value.filter((item) => item.itemName.toLowerCase().includes(selfQuery.value.toLowerCase()));
 });
+// 自定义组件子分类: 系统内置扩展组件(组件Tab中仅显示系统扩展,用户自定义组件移至"我的组件"Tab)
+const systemSelfList = computed(() => selfFormDataList.value.filter((item: any) => !item.isCustom));
+// 我的组件: 所有用户保存的自定义组件
+const allMyCustomList = computed(() => baseSelfFormDataList.value.filter((item: any) => item.isCustom));
+// 我的组件-容器分类
+const myCustomContainers = computed(() => {
+  let list = allMyCustomList.value.filter((item: any) => item.compType === "container");
+  if (!myContainerQuery.value) return list;
+  return list.filter((item) => item.itemName.toLowerCase().includes(myContainerQuery.value.toLowerCase()));
+});
+// 我的组件-表单组件分类
+const myCustomFormItems = computed(() => {
+  let list = allMyCustomList.value.filter((item: any) => item.compType !== "container");
+  if (!myCompQuery.value) return list;
+  return list.filter((item) => item.itemName.toLowerCase().includes(myCompQuery.value.toLowerCase()));
+});
 let list = computed(() => designForm.compList);
 let tabModel = ref<string>("component");
 let activeNames = ref<string[]>(["a", "b", "c"]);
+let myCompNames = ref<string[]>(["mc", "mf"]);
 const model = computed(() => props.optional?.model ?? "simple");
 
 const tabList = computed(() => [
   { name: "component", icon: "component", label: i18n("dyform.tab.component"), visible: true },
+  { name: "mycomp", icon: "custom_component", label: i18n("dyform.tab.mycomp"), visible: true },
   { name: "outline", icon: "dept", label: i18n("dyform.tab.outline"), visible: true },
   { name: "dbinfo", icon: "database", label: i18n("dyform.tab.dbinfo"), visible: model.value === "full" },
   { name: "template", icon: "template", label: i18n("dyform.tab.template"), visible: model.value === "full" },
@@ -65,6 +86,15 @@ const toggleSection = (name: string) => {
     activeNames.value.splice(idx, 1);
   } else {
     activeNames.value.push(name);
+  }
+};
+
+const toggleMyCompSection = (name: string) => {
+  const idx = myCompNames.value.indexOf(name);
+  if (idx > -1) {
+    myCompNames.value.splice(idx, 1);
+  } else {
+    myCompNames.value.push(name);
   }
 };
 
@@ -97,6 +127,32 @@ const addElement = (element: any, type: string) => {
   } else {
     designForm.selectItem(mvData, mvData["itemType"], "");
   }
+};
+
+// 根据组件compType选择正确的clone函数
+const onMyCompCopy = (data: any) => {
+  return onDataCopy(data, data.compType === "container" ? "container" : "formItem");
+};
+
+// 删除自定义组件
+const handleDeleteCustomComp = (element: any, e: Event) => {
+  e.stopPropagation();
+  e.preventDefault();
+  const compName = element.itemName || "";
+  operationConfirm(i18n("dyform.customComp.delete.confirm").replace("{name}", compName)).then(() => {
+    const id = element.idCustomComponent;
+    if (!id) return;
+    if (element.storageMode === "local") {
+      deleteLocalCustomComponent(id);
+      loadCustomComponents();
+      success(i18n("dyform.customComp.delete.success"));
+    } else {
+      deleteCustomComponent(id).then(() => {
+        loadCustomComponents();
+        success(i18n("dyform.customComp.delete.success"));
+      }).catch(() => {});
+    }
+  }).catch(() => {});
 };
 </script>
 <template>
@@ -250,35 +306,187 @@ const addElement = (element: any, type: string) => {
                     </template>
                   </el-input>
                 </div>
+                <!-- 系统扩展组件子分组 -->
+                <div v-if="systemSelfList.length > 0" class="sub-section">
+                  <div class="sub-section-title">
+                    <star-horse-icon icon-class="other" size="14px"/>
+                    <span>{{ i18n("dyform.collapse.systemExtend") }}</span>
+                  </div>
+                  <draggable
+                      :clone="onFormItemCopy"
+                      :group="{ name: 'starHorseGroup', pull: 'clone', put: false }"
+                      :sort="false"
+                      animation="200"
+                      ghost-class="ghost"
+                      item-key="key"
+                      tag="div"
+                      class="field-grid"
+                      :list="systemSelfList"
+                  >
+                    <template #item="{ element }">
+                      <div
+                          class="field-card"
+                          @dblclick="addElement(element, 'item')"
+                          :title="element.itemName"
+                      >
+                        <star-horse-icon
+                            :icon-class="element.itemIcon"
+                            size="24px"
+                            class="field-card-icon"
+                        />
+                        <span class="field-card-name">{{ element.itemName }}</span>
+                      </div>
+                    </template>
+                  </draggable>
+                </div>
+                <el-empty v-if="systemSelfList.length === 0" :image-size="60" :description="i18n('dyform.collapse.custom')"/>
+                <div style="height: 40px"></div>
+              </div>
+            </div>
+          </div>
+        </el-scrollbar>
+      </template>
+
+      <!-- My Components Tab -->
+      <template v-if="tabModel === 'mycomp'">
+        <el-scrollbar height="100%">
+          <div class="field-sections">
+            <!-- 我的容器 -->
+            <div class="field-section">
+              <div class="section-header" @click="toggleMyCompSection('mc')">
+                <div class="section-title">
+                  <star-horse-icon icon-class="container" size="18px" class="section-icon"/>
+                  <span>{{ i18n("dyform.collapse.myContainer") }}</span>
+                  <el-tag size="small" type="info" round>{{ myCustomContainers.length }}</el-tag>
+                </div>
+                <svg :class="['section-arrow', { expanded: myCompNames.includes('mc') }]"
+                     viewBox="0 0 10 6" fill="none">
+                  <path d="M1 1L5 5L9 1" stroke="currentColor" stroke-width="1.5"
+                        stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </div>
+              <div v-show="myCompNames.includes('mc')" class="section-body">
+                <div class="search-box">
+                  <el-input v-model="myContainerQuery"
+                            :placeholder="i18n('dyform.collapse.myContainer')"
+                            clearable size="small">
+                    <template #prefix>
+                      <star-horse-icon iconClass="search" size="14px"/>
+                    </template>
+                  </el-input>
+                </div>
                 <draggable
-                    :clone="onFormItemCopy"
+                    v-if="myCustomContainers.length > 0"
+                    :clone="onMyCompCopy"
                     :group="{ name: 'starHorseGroup', pull: 'clone', put: false }"
                     :sort="false"
                     animation="200"
                     ghost-class="ghost"
-                    item-key="key"
+                    item-key="idCustomComponent"
                     tag="div"
                     class="field-grid"
-                    :list="selfFormDataList"
+                    :list="myCustomContainers"
                 >
                   <template #item="{ element }">
                     <div
-                        class="field-card"
-                        @dblclick="addElement(element, 'item')"
-                        :title="element.itemName"
+                        class="field-card custom-card"
+                        @dblclick="addElement(element, element.compType === 'container' ? 'container' : 'item')"
+                        :title="element.customDescription || element.itemName"
                     >
+                      <el-tag
+                          v-if="element.storageMode === 'local'"
+                          size="small" type="warning" class="storage-badge">L</el-tag>
+                      <el-tag
+                          v-else-if="element.isShared === 1"
+                          size="small" type="success" class="storage-badge">S</el-tag>
                       <star-horse-icon
                           :icon-class="element.itemIcon"
                           size="24px"
                           class="field-card-icon"
                       />
                       <span class="field-card-name">{{ element.itemName }}</span>
+                      <span
+                          class="card-delete-btn"
+                          @click="handleDeleteCustomComp(element, $event)"
+                          :title="i18n('dyform.customComp.delete')"
+                      >
+                        <star-horse-icon icon-class="dustbin" size="14px"/>
+                      </span>
                     </div>
                   </template>
                 </draggable>
-                <div style="height: 40px"></div>
+                <el-empty v-else :image-size="60" :description="i18n('dyform.customComp.empty')"/>
               </div>
             </div>
+
+            <!-- 我的表单组件 -->
+            <div class="field-section">
+              <div class="section-header" @click="toggleMyCompSection('mf')">
+                <div class="section-title">
+                  <star-horse-icon icon-class="form" size="18px" class="section-icon"/>
+                  <span>{{ i18n("dyform.collapse.myFormComp") }}</span>
+                  <el-tag size="small" type="info" round>{{ myCustomFormItems.length }}</el-tag>
+                </div>
+                <svg :class="['section-arrow', { expanded: myCompNames.includes('mf') }]"
+                     viewBox="0 0 10 6" fill="none">
+                  <path d="M1 1L5 5L9 1" stroke="currentColor" stroke-width="1.5"
+                        stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </div>
+              <div v-show="myCompNames.includes('mf')" class="section-body">
+                <div class="search-box">
+                  <el-input v-model="myCompQuery"
+                            :placeholder="i18n('dyform.collapse.myFormComp')"
+                            clearable size="small">
+                    <template #prefix>
+                      <star-horse-icon iconClass="search" size="14px"/>
+                    </template>
+                  </el-input>
+                </div>
+                <draggable
+                    v-if="myCustomFormItems.length > 0"
+                    :clone="onMyCompCopy"
+                    :group="{ name: 'starHorseGroup', pull: 'clone', put: false }"
+                    :sort="false"
+                    animation="200"
+                    ghost-class="ghost"
+                    item-key="idCustomComponent"
+                    tag="div"
+                    class="field-grid"
+                    :list="myCustomFormItems"
+                >
+                  <template #item="{ element }">
+                    <div
+                        class="field-card custom-card"
+                        @dblclick="addElement(element, element.compType === 'container' ? 'container' : 'item')"
+                        :title="element.customDescription || element.itemName"
+                    >
+                      <el-tag
+                          v-if="element.storageMode === 'local'"
+                          size="small" type="warning" class="storage-badge">L</el-tag>
+                      <el-tag
+                          v-else-if="element.isShared === 1"
+                          size="small" type="success" class="storage-badge">S</el-tag>
+                      <star-horse-icon
+                          :icon-class="element.itemIcon"
+                          size="24px"
+                          class="field-card-icon"
+                      />
+                      <span class="field-card-name">{{ element.itemName }}</span>
+                      <span
+                          class="card-delete-btn"
+                          @click="handleDeleteCustomComp(element, $event)"
+                          :title="i18n('dyform.customComp.delete')"
+                      >
+                        <star-horse-icon icon-class="dustbin" size="14px"/>
+                      </span>
+                    </div>
+                  </template>
+                </draggable>
+                <el-empty v-else :image-size="60" :description="i18n('dyform.customComp.empty')"/>
+              </div>
+            </div>
+            <div style="height: 40px"></div>
           </div>
         </el-scrollbar>
       </template>
@@ -523,6 +731,98 @@ const addElement = (element: any, type: string) => {
 .section-body {
   padding: 8px;
   background: #ffffff;
+}
+
+/* ====== Custom Sub-section (我的组件 / 系统扩展) ====== */
+.sub-section {
+  margin-bottom: 12px;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+
+.sub-section-title {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #909399;
+  padding: 4px 2px 8px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+
+  :deep(.star-horse-icon) {
+    color: #c0c4cc;
+  }
+}
+
+.custom-card {
+  position: relative;
+  background: linear-gradient(135deg, #f0f9ff 0%, #fafbfc 100%);
+  border-color: #d0e8ff;
+
+  &:hover {
+    background: linear-gradient(135deg, #e1f3ff 0%, #f0f7ff 100%);
+    border-color: var(--star-horse-style);
+
+    .card-delete-btn {
+      opacity: 1;
+      pointer-events: auto;
+    }
+  }
+
+  &::after {
+    content: '';
+    position: absolute;
+    top: 4px;
+    right: 4px;
+    width: 6px;
+    height: 6px;
+    background: var(--star-horse-style);
+    border-radius: 50%;
+    opacity: 0.6;
+  }
+}
+
+.storage-badge {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  font-size: 10px;
+  line-height: 1;
+  padding: 0 4px;
+  height: 14px;
+  min-width: 14px;
+  text-align: center;
+}
+
+.card-delete-btn {
+  position: absolute;
+  top: 2px;
+  right: 2px;
+  width: 18px;
+  height: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: rgba(245, 108, 108, 0.9);
+  color: #fff;
+  cursor: pointer;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.15s ease, background 0.15s ease;
+  z-index: 2;
+
+  :deep(.star-horse-icon) {
+    color: #fff;
+  }
+
+  &:hover {
+    background: rgba(245, 108, 108, 1);
+  }
 }
 
 /* ====== Search Box ====== */

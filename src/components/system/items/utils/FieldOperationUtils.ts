@@ -1,6 +1,7 @@
 import {getDesignFormStore, postRequest, SearchParams, uuid,} from "star-horse-lowcode";
 import {computed} from "vue";
 import camelCase from "camelcase";
+import {getCustomComponentList, getLocalCustomComponentList} from "@/api/custom_component_api";
 
 const formData = computed(() => getDesignFormStore().formData);
 const numField: Array<string> = [
@@ -73,6 +74,15 @@ export function fieldCopy(data: any, type: string) {
     mvData["compType"] = type;
     mvData["fieldName"] = mvData.preps["name"];
     mvData["itemType"] = reData.itemType;
+    // 自定义组件: 用配置快照覆盖默认preps(保留实例专属字段)
+    if (reData.isCustom && reData.prepSnapshot) {
+        const excludeKeys = ["id", "name", "label", "itemNameLabel"];
+        for (const key in reData.prepSnapshot) {
+            if (!excludeKeys.includes(key)) {
+                mvData.preps[key] = reData.prepSnapshot[key];
+            }
+        }
+    }
     if (reData.itemType == "box") {
         mvData.rowNums = 1;
         mvData.columnNums = 1;
@@ -160,5 +170,78 @@ export function compFieldInit() {
         getDesignFormStore().setFormDataList(itemsRes);
         getDesignFormStore().setSelfFormDataList(selfItemsRes);
         getDesignFormStore().setAllFormDataList(allFormDataList);
+    });
+}
+
+/**
+ * 将后端/本地自定义组件原始数据转换为CompType格式
+ */
+function buildCustomCompList(list: any[]): any[] {
+    const designForm = getDesignFormStore();
+    const allComps: any[] = [
+        ...designForm.containerList,
+        ...designForm.formDataList,
+        ...designForm.selfFormDataList,
+    ];
+    const customComps: any[] = [];
+    list.forEach((item: any) => {
+        const baseComp = allComps.find((c: any) => c.itemType === item.baseItemType);
+        if (baseComp) {
+            const comp = JSON.parse(JSON.stringify(baseComp));
+            comp.itemName = item.compName;
+            comp.itemIcon = item.compIcon || baseComp.itemIcon;
+            comp.isCustom = true;
+            comp.idCustomComponent = item.idCustomComponent;
+            comp.customDescription = item.description;
+            comp.storageMode = item.storageMode || "db";
+            // 基础组件定义中没有compType字段(仅在fieldCopy拖入舞台时才设置),
+            // 此处用保存时记录的baseCompType补全,确保容器/组件分类正确
+            comp.compType = item.baseCompType || (baseComp.category === 2 ? "container" : "formItem");
+            comp.isShared = item.isShared;
+            let snapshot: Record<string, any> = {};
+            try {
+                snapshot = JSON.parse(item.prepSnapshot || "{}");
+            } catch (_) {
+                snapshot = {};
+            }
+            comp.prepSnapshot = snapshot;
+            if (Array.isArray(comp.preps)) {
+                comp.preps.forEach((prep: any) => {
+                    if (prep && prep.fieldName && snapshot[prep.fieldName] !== undefined) {
+                        prep.defaultValues = snapshot[prep.fieldName];
+                    }
+                });
+            } else if (comp.preps && typeof comp.preps === "object") {
+                for (const key in snapshot) {
+                    if (comp.preps[key] && typeof comp.preps[key] === "object" && "defaultValues" in comp.preps[key]) {
+                        comp.preps[key].defaultValues = snapshot[key];
+                    }
+                }
+            }
+            customComps.push(comp);
+        }
+    });
+    return customComps;
+}
+
+/**
+ * 加载自定义第三方组件(同时从本地缓存和数据库加载),转换为CompType格式追加到selfFormDataList
+ */
+export function loadCustomComponents() {
+    // 先加载本地缓存组件(同步,立即可用)
+    const localList = getLocalCustomComponentList();
+    const localComps = buildCustomCompList(localList);
+    const designForm = getDesignFormStore();
+    // 移除旧的自定义组件(保留系统扩展组件),避免重复加载
+    const existingNonCustom = designForm.selfFormDataList.filter((c: any) => !c.isCustom);
+    designForm.setSelfFormDataList([...existingNonCustom, ...localComps]);
+    // 再异步加载数据库组件
+    return getCustomComponentList().then((res: any) => {
+        const dbList = res?.data?.data || [];
+        const dbComps = buildCustomCompList(dbList);
+        const currentNonCustom = designForm.selfFormDataList.filter((c: any) => !c.isCustom);
+        designForm.setSelfFormDataList([...currentNonCustom, ...localComps, ...dbComps]);
+    }).catch((err) => {
+        console.error("加载数据库自定义组件失败:", err);
     });
 }

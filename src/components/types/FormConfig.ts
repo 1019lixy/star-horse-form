@@ -34,6 +34,10 @@ export interface FormConfig {
      */
     configTemplateApi?: ApiUrls;
     /**
+     * 自定义第三方组件接口,未配置时使用默认路径 /userdb-manage/userdb/customComponent
+     */
+    customCompApi?: ApiUrls;
+    /**
      * 数据库配置Api
      */
     dbInfoApi?: ApiUrls;

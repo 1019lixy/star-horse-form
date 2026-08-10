@@ -156,6 +156,13 @@ const formActions = (): Array<ToolBtnType> => [
     auth: "none",
     label: i18n("dyform.toolbar.ruleConfig"),
   },
+  // 存为自定义组件（平铺）：将当前选中组件配置保存为第三方组件
+  {
+    icon: "component",
+    key: "saveAsComp",
+    auth: "none",
+    label: i18n("dyform.action.saveAsComp"),
+  },
 ];
 const shortKeyHelpMessage = (): string => `
 ${i18n("dyform.help.shortcuts")}：
