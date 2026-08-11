@@ -18,12 +18,9 @@ const props = defineProps({
 let designForm = getDesignFormStore();
 let draggingItem = computed(() => designForm.draggingItem);
 let excludeContainerType: Array<string> = [
-  "box",
-  "tab",
-  "table",
-  "dytable",
-  "collapse",
-  "card",
+  "box", "tab", "table", "dytable", "collapse", "card",
+  "splitter", "step", "condition",
+  "dialog", "drawer", "fieldset", "descriptions", "anchor",
 ];
 let isEdit = computed(() => props.isDesign);
 const isDragging = computed(() => designForm.isDragging);

@@ -14,6 +14,7 @@ const selectedNodeId = ref<string>("");
 const CONTAINER_TYPES = [
   "tab", "box", "table", "card",
   "dytable", "collapse", "splitter", "condition", "step",
+  "dialog", "drawer", "fieldset", "descriptions", "anchor",
 ];
 
 // Container display labels
@@ -27,6 +28,11 @@ const containerLabels: Record<string, string> = {
   splitter: "分割面板",
   condition: "条件组",
   step: "步骤容器",
+  dialog: "对话框",
+  drawer: "抽屉",
+  fieldset: "分组",
+  descriptions: "描述列表",
+  anchor: "锚点导航",
 };
 
 // ─── Helper functions ───
@@ -152,6 +158,11 @@ const buildContainerNode = (field: any): any => {
     case "card":
     case "splitter":
     case "step":
+    case "dialog":
+    case "drawer":
+    case "fieldset":
+    case "descriptions":
+    case "anchor":
       children = buildTabLikeChildren(field);
       break;
     case "box":
@@ -331,7 +342,7 @@ rebuildTree();
           <div :class="['outline-node', { 'is-container': data.isContainer, 'is-virtual': data.type?.startsWith('__') }]">
             <!-- Container expand indicator -->
             <span v-if="data.isContainer" class="node-badge container-badge">
-              {{ data.type === 'tab' ? 'T' : data.type === 'box' ? 'B' : data.type === 'card' ? 'C' : data.type === 'collapse' ? 'F' : data.type === 'table' ? 'G' : data.type === 'splitter' ? 'S' : data.type === 'dytable' ? 'D' : data.type === 'condition' ? '?' : data.type === 'step' ? 'P' : '□' }}
+              {{ data.type === 'tab' ? 'T' : data.type === 'box' ? 'B' : data.type === 'card' ? 'C' : data.type === 'collapse' ? 'F' : data.type === 'table' ? 'G' : data.type === 'splitter' ? 'S' : data.type === 'dytable' ? 'D' : data.type === 'condition' ? '?' : data.type === 'step' ? 'P' : data.type === 'dialog' ? 'Dg' : data.type === 'drawer' ? 'Dr' : data.type === 'fieldset' ? 'Fs' : data.type === 'descriptions' ? 'De' : data.type === 'anchor' ? 'An' : '□' }}
             </span>
             <!-- Virtual node (tab panel, cell, col) -->
             <span v-else-if="data.type?.startsWith('__')" class="node-badge virtual-badge">·</span>

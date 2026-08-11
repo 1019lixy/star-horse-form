@@ -758,6 +758,12 @@ $white: #ffffff;
   z-index: 1001 !important;
 }
 
+/* Fix: 容器内第一项选中后头部操作菜单(drag-handler/field-action)被容器头部遮挡 */
+/* drag-handler/field-action 使用 translateY(-50%) 向上延伸约15px,需为第一项预留空间 */
+.field-item .comp-item:first-child {
+  margin-top: 25px !important;
+}
+
 .ruler {
   position: absolute;
   top: 0;

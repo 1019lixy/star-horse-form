@@ -72,7 +72,8 @@ const containerLabel = computed(() => {
   const labels: Record<string, string> = {
     tab: "选项卡", box: "栅格", table: "表格", card: "卡片",
     dytable: "动态表格", collapse: "折叠", splitter: "分割", condition: "条件",
-    step: "步骤",
+    step: "步骤", dialog: "对话框", drawer: "抽屉", fieldset: "分组",
+    descriptions: "描述列表", anchor: "锚点导航",
   };
   return labels[props.formItem?.itemType] || "容器";
 });
@@ -87,7 +88,9 @@ const removeData = () => {
     if (res) {
       let id = props.formItem.preps?.id || props.formItem.id;
       let parentType = props.parentField?.itemType;
-      if (parentType == "tab" || parentType == "card" || parentType == "collapse" || parentType == "step") {
+      if (parentType == "tab" || parentType == "card" || parentType == "collapse" || parentType == "step"
+          || parentType == "dialog" || parentType == "drawer" || parentType == "fieldset"
+          || parentType == "descriptions" || parentType == "anchor") {
         // These containers store items in elements[i].items
         let elements = props.parentField!.preps.elements;
         for (let i = 0; i < elements.length; i++) {

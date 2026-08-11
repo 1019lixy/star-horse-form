@@ -26,12 +26,9 @@ let designForm = getDesignFormStore();
 let draggingItem = computed(() => designForm.draggingItem);
 const isDragging = computed(() => designForm.isDragging);
 let excludeContainerType: Array<string> = [
-  "box",
-  "tab",
-  "table",
-  "dytable",
-  "collapse",
-  "card",
+  "box", "tab", "table", "dytable", "collapse", "card",
+  "splitter", "step", "condition",
+  "dialog", "drawer", "fieldset", "descriptions", "anchor",
 ];
 let currentSubItemId = computed(() => designForm.currentSubItemId);
 let isEdit = computed(() => designForm.isEdit);

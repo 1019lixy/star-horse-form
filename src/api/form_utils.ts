@@ -75,9 +75,9 @@ export function getDataIndex(
 }
 
 // 快捷添加组件
-export const quickAddItem = (items: any[]) => {
+export const quickAddItem = (items: any[], hideLabel: boolean = false) => {
     const uid = uuid();
-    const name = camelcase(["field",uid.substring(0, 6)]);
+    const name = camelcase(["field", uid.substring(0, 6)]);
     const label = i18n("dyform.condition.leafField") + (items.length + 1);
     const newItem = {
         id: "Id" + uid,
@@ -89,6 +89,7 @@ export const quickAddItem = (items: any[]) => {
             id: "Id" + uid,
             listVisible: true,
             formVisible: true,
+            hideLabel: hideLabel,
             name: name,
             label: label
         },

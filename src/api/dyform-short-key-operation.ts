@@ -122,7 +122,7 @@ const dyPaste = () => {
         } else if (parentCompType.value) {
             findColumn2:
                 for (const item of list.value.filter(item => item.compType === "container")) {
-                    if (item.itemType !== "dytable" || item.itemType !== "box") {
+                    if (item.itemType !== "dytable" && item.itemType !== "box") {
                         for (const prepItem of item.preps.elements) {
                             if (prepItem.items?.find((item) => item.id === currentComp.value.id)) {
                                 prepItem.items.push(copyItem);

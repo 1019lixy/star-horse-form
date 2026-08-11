@@ -16,12 +16,8 @@ let designForm = getDesignFormStore();
 const isDragging = computed(() => designForm.isDragging);
 const formData = defineModel("formData");
 let containerType: Array<string> = [
-  "tab",
-  "box",
-  "table",
-  "card",
-  "dytable",
-  "collapse",
+  "tab", "box", "table", "card", "dytable", "collapse", "splitter", "step", "condition",
+  "dialog", "drawer", "fieldset", "descriptions", "anchor",
 ];
 
 const isContainer = (data: any) => {

@@ -112,6 +112,38 @@ export function fieldCopy(data: any, type: string) {
     } else if (reData.itemType == "condition") {
         mvData.preps["children"] = [];
         mvData.preps["items"] = [];
+    } else if (["dialog", "drawer", "fieldset", "descriptions", "anchor"].includes(reData.itemType)) {
+        // 扁平型容器(tab-like): elements[].items[] 结构
+        mvData.preps["elements"] = [
+            {
+                label: reData.itemName,
+                tabName: reData.itemType,
+                objectName: reData.itemType,
+                subFormFlag: "Y",
+                items: [],
+            },
+        ];
+        // 从fields和advancedFields中提取默认值到preps
+        const allFields = [...(reData.fields || []), ...(reData.advancedFields || [])];
+        allFields.forEach((f: any) => {
+            if (f.fieldName && f.defaultValues !== "" && f.defaultValues != null && mvData.preps[f.fieldName] === undefined) {
+                if (f.fieldType === "switch") {
+                    mvData.preps[f.fieldName] = f.defaultValues === true || f.defaultValues === "true";
+                } else if (f.fieldType === "number") {
+                    try { mvData.preps[f.fieldName] = parseInt(f.defaultValues); }
+                    catch (e) { mvData.preps[f.fieldName] = null; }
+                } else {
+                    mvData.preps[f.fieldName] = f.defaultValues;
+                }
+            }
+        });
+        // anchor默认创建2个区块
+        if (reData.itemType === "anchor") {
+            mvData.preps["elements"] = [
+                {label: "区块 1", tabName: "anchor1", objectName: "anchor1", subFormFlag: "Y", items: []},
+                {label: "区块 2", tabName: "anchor2", objectName: "anchor2", subFormFlag: "Y", items: []},
+            ];
+        }
     }
     return mvData;
 }
