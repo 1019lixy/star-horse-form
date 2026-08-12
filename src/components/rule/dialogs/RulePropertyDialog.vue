@@ -1,5 +1,5 @@
 <template>
-  <star-horse-dialog
+  <star-horse-panel
     v-model="dialogVisible"
     :title="i18n('rule.dialog.ruleProperty')"
     boxWidth="560px"
@@ -32,7 +32,7 @@
         <el-input v-model="formData.ruleDesc" type="textarea" :rows="3" :placeholder="i18n('rule.ph.enterRuleDescription')" />
       </el-form-item>
     </el-form>
-  </star-horse-dialog>
+  </star-horse-panel>
 </template>
 
 <script setup lang="ts">

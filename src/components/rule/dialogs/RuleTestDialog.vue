@@ -1,5 +1,5 @@
 <template>
-  <star-horse-dialog
+  <star-horse-panel
     v-model="dialogVisible"
     :title="i18n('rule.dialog.ruleTestExecution')"
     boxWidth="780px"
@@ -123,7 +123,7 @@
         <pre class="json-content">{{ formatJson(executionPath.context) }}</pre>
       </div>
     </div>
-  </star-horse-dialog>
+  </star-horse-panel>
 </template>
 
 <script setup lang="ts">

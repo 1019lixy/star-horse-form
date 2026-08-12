@@ -1241,6 +1241,10 @@ const fields: any = {
     dytable: dyTableFields,
     condition: conditionFields,
     step: stepFields,
+    dialog: collapseFields,
+    drawer: collapseFields,
+    descriptions: collapseFields,
+    fieldset: collapseFields
 };
 
 /**

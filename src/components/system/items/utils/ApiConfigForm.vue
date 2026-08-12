@@ -75,7 +75,7 @@ defineExpose({submitValid, setFormData, getFormData});
 </script>
 
 <template>
-  <star-horse-dialog
+  <star-horse-panel
       v-model="visible"
       @closeAction="()=>visible=false"
       :selfFunc="true"
@@ -92,7 +92,7 @@ defineExpose({submitValid, setFormData, getFormData});
                            v-model="condition"
                            v-model:sortValue="sortCondition"
                            v-model:agg-value="aggCondition"/>
-  </star-horse-dialog>
+  </star-horse-panel>
   <div class="api-config-form">
     <div class="flex my-[3px] justify-end w-full">
       <el-button size="small" @click="openDialog">

@@ -88,7 +88,7 @@ defineExpose({
 </script>
 
 <template>
-  <star-horse-dialog
+  <star-horse-panel
     v-model="dialogVisible"
     :title="i18n('dyform.params.dialog.title')"
     :isBatch="false"
@@ -99,7 +99,7 @@ defineExpose({
     :boxHeight="'40%'"
   >
     <star-horse-form ref="paramsConfigRef" :fieldList="formInfo" />
-  </star-horse-dialog>
+  </star-horse-panel>
 </template>
 <style scoped lang="scss">
 :deep(.json-comp) {

@@ -1,5 +1,5 @@
 <template>
-  <star-horse-dialog
+  <star-horse-panel
     v-model="dialogVisible"
     :title="i18n('rule.dialog.gatewayConfig')"
     boxWidth="700px"
@@ -70,7 +70,7 @@
         </el-form-item>
       </el-form>
     </div>
-  </star-horse-dialog>
+  </star-horse-panel>
 </template>
 
 <script setup lang="ts">

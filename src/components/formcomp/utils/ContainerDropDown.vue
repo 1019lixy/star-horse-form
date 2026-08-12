@@ -376,7 +376,7 @@ watch(
 </script>
 
 <template>
-  <star-horse-dialog
+  <star-horse-panel
       box-width="50%"
       box-height="60%"
       :source="2"
@@ -436,8 +436,8 @@ watch(
       </el-splitter-panel>
     </el-splitter>
 
-  </star-horse-dialog>
-  <star-horse-dialog
+  </star-horse-panel>
+  <star-horse-panel
       :title="i18n('dyform.container.editStaticText')"
       :self-func="true"
       :hide-full-screen-icon="true"
@@ -493,8 +493,8 @@ watch(
         }"/>
       </el-form-item>
     </el-form>
-  </star-horse-dialog>
-  <star-horse-dialog
+  </star-horse-panel>
+  <star-horse-panel
       :title="i18n('ui.operation')"
       :self-func="true"
       :hide-full-screen-icon="true"
@@ -563,7 +563,7 @@ watch(
         />
       </el-form-item>
     </el-form>
-  </star-horse-dialog>
+  </star-horse-panel>
   <el-dropdown
       trigger="click"
       :disabled="disabled"

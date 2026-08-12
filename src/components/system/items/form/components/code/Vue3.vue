@@ -43,12 +43,12 @@ onMounted(() => {
 <\/script>
 <template>
 <div class="flex flex-col h-full overflow-hidden">
-<star-horse-dialog :isShowBtnContinue="true" v-model="dialogProps.editVisible" :dialogProps="dialogProps">
+<star-horse-panel :isShowBtnContinue="true" v-model="dialogProps.editVisible" :dialogProps="dialogProps">
     <star-horse-form  @refresh="${convertToCamelCase(props.formInfo.tbName)}Ref?.loadByPage()" :compUrl="dataUrl" :fieldList="tableFieldList" :rules="rules"\/>
-  <\/star-horse-dialog>
-  <star-horse-dialog :dialog-visible="dialogProps.viewVisible" :dialogProps="dialogProps"  :source="3">
+  <\/star-horse-panel>
+  <star-horse-panel :dialog-visible="dialogProps.viewVisible" :dialogProps="dialogProps"  :source="3">
     <star-horse-data-view :dataFormat="dataFormat" :field-list="tableFieldList" :compUrl="dataUrl"\/>
-  <\/star-horse-dialog>
+  <\/star-horse-panel>
   <div class="search-content">
    <div class="search_btn">
       <star-horse-search-comp   @searchData="(data:any)=>${convertToCamelCase(props.formInfo.tbName)}Ref?.createSearchParams(data)" :formData="searchFormData"

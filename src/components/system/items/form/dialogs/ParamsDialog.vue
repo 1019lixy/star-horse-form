@@ -107,7 +107,7 @@ defineExpose({
 </script>
 
 <template>
-  <star-horse-dialog
+  <star-horse-panel
     v-model="dialogVisible"
     :title="i18n('dyform.params.dialog.title')"
     :isBatch="false"
@@ -120,5 +120,5 @@ defineExpose({
       ref="paramsConfigRef"
       :fieldList="paramsFields(paramsConfigRef, fieldName, currentField)"
     />
-  </star-horse-dialog>
+  </star-horse-panel>
 </template>

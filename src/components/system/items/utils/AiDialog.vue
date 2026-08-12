@@ -750,7 +750,7 @@ onBeforeUnmount(() => {
       </div>
     </template>
     <!-- AI 设置弹窗 - 配置列表 -->
-    <star-horse-dialog
+    <star-horse-panel
         v-model="showSettings"
         :title="i18n('dyform.aiChat.settingsTitle')"
         :selfFunc="true"
@@ -791,10 +791,10 @@ onBeforeUnmount(() => {
           + 添加配置
         </el-button>
       </div>
-    </star-horse-dialog>
+    </star-horse-panel>
 
     <!-- AI 设置弹窗 - 编辑配置 -->
-    <star-horse-dialog
+    <star-horse-panel
         v-model="showProfileForm"
         :title="editingProfile?.idAiConfig ? '编辑配置' : '添加配置'"
         :selfFunc="true"
@@ -826,7 +826,7 @@ onBeforeUnmount(() => {
           <el-input-number v-model="editingProfile.timeout" :min="10" :max="300" :step="10"/>
         </el-form-item>
       </el-form>
-    </star-horse-dialog>
+    </star-horse-panel>
   </el-drawer>
 </template>
 

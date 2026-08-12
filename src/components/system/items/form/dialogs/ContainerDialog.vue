@@ -43,7 +43,7 @@ defineExpose({
 </script>
 
 <template>
-  <star-horse-dialog
+  <star-horse-panel
     v-model="dialogVisible"
     :title="i18n('dyform.container.dialog.title')"
     :isBatch="false"
@@ -57,5 +57,5 @@ defineExpose({
       :outerFormData="formInfo"
       :fieldList="containerField(currentItemType)"
     />
-  </star-horse-dialog>
+  </star-horse-panel>
 </template>

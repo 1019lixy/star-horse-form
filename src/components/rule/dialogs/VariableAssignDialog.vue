@@ -1,5 +1,5 @@
 <template>
-  <star-horse-dialog
+  <star-horse-panel
     v-model="dialogVisible"
     :title="i18n('rule.dialog.variableAssignConfig')"
     boxWidth="720px"
@@ -118,7 +118,7 @@
         </el-table-column>
       </el-table>
     </el-form>
-  </star-horse-dialog>
+  </star-horse-panel>
 </template>
 
 <script setup lang="ts">

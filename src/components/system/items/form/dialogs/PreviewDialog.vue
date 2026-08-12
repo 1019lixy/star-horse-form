@@ -44,7 +44,7 @@ defineExpose({
 </script>
 
 <template>
-  <star-horse-dialog
+  <star-horse-panel
       v-model="dialogVisible"
       @closeAction="closeAction"
       box-height="80%"
@@ -80,7 +80,7 @@ defineExpose({
         />
       </el-tab-pane>
     </el-tabs>
-  </star-horse-dialog>
+  </star-horse-panel>
 </template>
 
 <style scoped lang="scss">

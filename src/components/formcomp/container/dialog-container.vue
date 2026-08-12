@@ -130,7 +130,7 @@ onMounted(() => {
     </div>
 
     <!-- 对话框(设计模式和运行模式都可以打开) -->
-    <star-horse-dialog
+    <star-horse-panel
         v-model="dialogVisible"
         :title="field.preps['dialogTitle'] || field.preps['btnText'] || i18n('dyform.container.dialogDefaultBtn')"
         :boxWidth="field.preps['boxWidth'] || '50%'"
@@ -192,7 +192,7 @@ onMounted(() => {
           </el-button>
         </div>
       </div>
-    </star-horse-dialog>
+    </star-horse-panel>
   </group-container>
 </template>
 

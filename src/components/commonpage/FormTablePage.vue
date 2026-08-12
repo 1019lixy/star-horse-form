@@ -76,18 +76,18 @@ const onFormDataLoaded = async () => {
 const validateForm = (): boolean => {
   // 清除之前的验证错误
   validationErrors.value = {}
-  
+
   // 如果没有规则，直接通过
   if (!rules.value || Object.keys(rules.value).length === 0) {
     return true
   }
-  
+
   // 执行验证规则
   const results = validateRule(
     Array.isArray(rules.value) ? rules.value : [],
     ruleFormData.value
   )
-  
+
   // 收集验证错误
   let isValid = true
   for (const result of results) {
@@ -100,7 +100,7 @@ const validateForm = (): boolean => {
       }
     }
   }
-  
+
   return isValid
 }
 
@@ -202,7 +202,7 @@ defineExpose({
     />
 
     <template v-else-if="hasData">
-      <star-horse-dialog
+      <star-horse-panel
         :isShowBtnContinue="true"
         v-model="dialogProps.editVisible"
       >
@@ -222,8 +222,8 @@ defineExpose({
             {{ msg }}
           </div>
         </div>
-      </star-horse-dialog>
-      <star-horse-dialog
+      </star-horse-panel>
+      <star-horse-panel
        v-model="dialogProps.viewVisible"
         :source="3"
       >
@@ -233,7 +233,7 @@ defineExpose({
           :field-list="tableFieldList"
           :compUrl="dataUrl"
         />
-      </star-horse-dialog>
+      </star-horse-panel>
       <div class="search_content" v-if="searchFormData.fieldList?.length > 0">
         <div class="search_btn">
           <star-horse-search-comp

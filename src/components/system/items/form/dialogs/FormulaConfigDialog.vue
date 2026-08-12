@@ -183,7 +183,7 @@ defineExpose({open, close});
 </script>
 
 <template>
-  <star-horse-dialog
+  <star-horse-panel
       v-model="visible"
       :title="i18n('dyform.formula.title')"
       @closeAction="close"
@@ -420,7 +420,7 @@ defineExpose({open, close});
         </el-form-item>
       </div>
     </el-form>
-  </star-horse-dialog>
+  </star-horse-panel>
 </template>
 
 <style lang="scss" scoped>

@@ -280,7 +280,7 @@ const coveredCount = computed(() => coverageData.value.filter((c) => c.covered).
 
 <template>
   <!-- 字段覆盖范围弹窗 -->
-  <star-horse-dialog
+  <star-horse-panel
     v-model="coverageVisible"
     :title="i18n('rule.bindManager.coverage.title')"
     :selfFunc="true"
@@ -320,10 +320,10 @@ const coveredCount = computed(() => coverageData.value.filter((c) => c.covered).
         </el-table-column>
       </el-table>
     </div>
-  </star-horse-dialog>
+  </star-horse-panel>
 
   <!-- 绑定规则选择弹窗 -->
-  <star-horse-dialog
+  <star-horse-panel
     v-model="bindDialogVisible"
     :title="i18n('rule.bindManager.bind.title')"
     :selfFunc="true"
@@ -368,10 +368,10 @@ const coveredCount = computed(() => coverageData.value.filter((c) => c.covered).
         </el-table-column>
       </el-table>
     </div>
-  </star-horse-dialog>
+  </star-horse-panel>
 
   <!-- 主弹窗 -->
-  <star-horse-dialog
+  <star-horse-panel
     v-model="dialogVisible"
     :title="i18n('rule.bindManager.title')"
     :selfFunc="true"
@@ -467,7 +467,7 @@ const coveredCount = computed(() => coverageData.value.filter((c) => c.covered).
         <el-table-column prop="setDesc" :label="i18n('rule.bindManager.col.desc')" min-width="180" show-overflow-tooltip />
       </el-table>
     </div>
-  </star-horse-dialog>
+  </star-horse-panel>
 </template>
 
 <style scoped lang="scss">

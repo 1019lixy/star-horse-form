@@ -391,7 +391,7 @@ defineExpose({
 
 <template>
 
-  <star-horse-dialog
+  <star-horse-panel
       v-model="preOrPendVisible"
       :title="i18n('dyform.preOrPend.dialog.title')"
       :isBatch="false"
@@ -616,7 +616,7 @@ defineExpose({
         @merge="handleEventMerge"
         @close="handleEventClose"
     />
-  </star-horse-dialog>
+  </star-horse-panel>
 </template>
 
 <style scoped lang="scss">

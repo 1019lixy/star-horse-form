@@ -1,5 +1,5 @@
 <template>
-  <star-horse-dialog
+  <star-horse-panel
     v-model="dialogVisible"
     :title="i18n('rule.dialog.httpCallConfig')"
     boxWidth="900px"
@@ -205,7 +205,7 @@
       </el-tag>
       <el-tag v-if="formData.authEnabled" size="small" type="warning">{{ i18n('rule.lbl.authEnabled') }}</el-tag>
     </div>
-  </star-horse-dialog>
+  </star-horse-panel>
 </template>
 
 <script setup lang="ts">

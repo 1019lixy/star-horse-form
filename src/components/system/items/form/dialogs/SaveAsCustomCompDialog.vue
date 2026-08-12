@@ -104,7 +104,7 @@ defineExpose({open, close});
 </script>
 
 <template>
-  <star-horse-dialog
+  <star-horse-panel
       v-model="dialogVisible"
       :title="i18n('dyform.customComp.save.title')"
       :selfFunc="true"
@@ -196,7 +196,7 @@ defineExpose({open, close});
         />
       </el-form-item>
     </el-form>
-  </star-horse-dialog>
+  </star-horse-panel>
 </template>
 
 <style scoped lang="scss">

@@ -270,7 +270,7 @@ watch(mode, (m) => {
   <RuleBindManager v-model="bindManagerVisible" :formId="formId" :formFields="fieldMetaList" />
 
   <!-- 主弹窗：根据 mode 切换显示列表/设计器 -->
-  <star-horse-dialog
+  <star-horse-panel
     v-model="dialogVisible"
     :title="mode === 'list' ? i18n('rule.configPanel.title') : i18n('rule.configPanel.title.designer')"
     :selfFunc="true"
@@ -390,7 +390,7 @@ watch(mode, (m) => {
         @close="handleDesignerClose"
       />
     </div>
-  </star-horse-dialog>
+  </star-horse-panel>
 </template>
 
 <style scoped lang="scss">

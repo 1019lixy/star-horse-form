@@ -215,7 +215,7 @@ const tableOperation = (actonName: string, _preps: any) => {
 };
 </script>
 <template>
-  <star-horse-dialog
+  <star-horse-panel
       box-width="450px"
       box-height="70%"
       :source="3"
@@ -231,7 +231,7 @@ const tableOperation = (actonName: string, _preps: any) => {
       </el-button>
     </template>
     <field-list @selectData="addItem"/>
-  </star-horse-dialog>
+  </star-horse-panel>
   <div
       class="field-item"
       :class="{ 'container-collapsed': collapsed }"

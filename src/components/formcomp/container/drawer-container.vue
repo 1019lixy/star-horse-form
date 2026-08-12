@@ -75,7 +75,7 @@ onMounted(() => {
       :form-item="field"
   >
     <!-- 触发按钮 -->
-    <div class="drawer-trigger" :class="{ 'design-mode': isDesign }">
+    <div class="dialog-trigger" :class="{ 'design-mode': isDesign }">
       <el-button
           :type="field.preps['btnType'] || 'primary'"
           :icon="field.preps['btnIcon'] || undefined"
@@ -129,14 +129,14 @@ onMounted(() => {
     </div>
 
     <!-- 抽屉(设计模式和运行模式都可以打开) -->
-    <el-drawer
+    <star-horse-panel
+        type="drawer"
         v-model="drawerVisible"
         :title="field.preps['drawerTitle'] || field.preps['btnText'] || i18n('dyform.container.drawerDefaultBtn')"
         :direction="field.preps['direction'] || 'rtl'"
         :size="field.preps['drawerSize'] || '40%'"
-        :close-on-click-modal="false"
-        append-to-body
-        destroy-on-close
+        :selfFunc="true"
+        @merge="handleClose"
         @close="handleClose"
     >
       <div class="drawer-content">
@@ -185,15 +185,13 @@ onMounted(() => {
           </template>
         </template>
         <div v-if="isDesign" class="quick-add-bar">
-          <el-button size="small" type="info" plain @click.stop="quickAddItem(field.preps.elements[0].items)" icon="Plus">
+          <el-button size="small" type="info" plain @click.stop="quickAddItem(field.preps.elements[0].items)"
+                     icon="Plus">
             {{ i18n("dyform.condition.addLeaf") }}
           </el-button>
         </div>
       </div>
-      <template #footer>
-        <el-button @click="handleClose">{{ i18n('dyform.container.btnClose') }}</el-button>
-      </template>
-    </el-drawer>
+    </star-horse-panel>
   </group-container>
 </template>
 

@@ -32,7 +32,7 @@ const hmsg: string = `
 </script>
 
 <template>
-  <star-horse-dialog
+  <star-horse-panel
     v-model="dialogVisible"
     :title="i18n('dyform.js.editor.title')"
     :isBatch="false"
@@ -121,7 +121,7 @@ const hmsg: string = `
         <pre>{{ JSON5.stringify(list, null, 4) }}</pre>
       </el-tab-pane>
     </el-tabs>
-  </star-horse-dialog>
+  </star-horse-panel>
 </template>
 <style lang="scss" scoped>
 pre {

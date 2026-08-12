@@ -1,5 +1,5 @@
 <template>
-  <star-horse-dialog
+  <star-horse-panel
     v-model="dialogVisible"
     :title="condition ? i18n('rule.dialog.editCondition') : i18n('rule.dialog.addCondition')"
     boxWidth="580px"
@@ -133,7 +133,7 @@
         />
       </el-form-item>
     </el-form>
-  </star-horse-dialog>
+  </star-horse-panel>
 </template>
 
 <script setup lang="ts">

@@ -98,7 +98,7 @@ onDeactivated(() => {
 </script>
 <template>
   <div class="flex flex-col h-full overflow-hidden">
-    <star-horse-dialog
+    <star-horse-panel
         :isShowBtnContinue="true"
         :dialog-visible="dialogProps.editVisible"
         :dialogProps="dialogProps"
@@ -109,8 +109,8 @@ onDeactivated(() => {
           :fieldList="tableFieldList"
           :rules="rules"
       />
-    </star-horse-dialog>
-    <star-horse-dialog
+    </star-horse-panel>
+    <star-horse-panel
         :dialog-visible="dialogProps.viewVisible"
         :dialogProps="dialogProps"
         :source="3"
@@ -120,7 +120,7 @@ onDeactivated(() => {
           :field-list="tableFieldList"
           :compUrl="dataUrl"
       />
-    </star-horse-dialog>
+    </star-horse-panel>
     <div class="search-content">
       <div class="search_btn">
         <star-horse-search-comp

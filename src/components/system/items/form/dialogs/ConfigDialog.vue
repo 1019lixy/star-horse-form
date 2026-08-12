@@ -98,7 +98,7 @@ defineExpose({
 </script>
 
 <template>
-  <star-horse-dialog
+  <star-horse-panel
     v-model="dialogVisible"
     @closeAction="closeAction"
     :selfFunc="true"
@@ -125,5 +125,5 @@ defineExpose({
         {{ i18n("dyform.config.draft.save") }}
       </el-button>
     </template>
-  </star-horse-dialog>
+  </star-horse-panel>
 </template>

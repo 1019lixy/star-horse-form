@@ -140,7 +140,7 @@
     </div>
 
     <!-- 规则设计器弹窗 -->
-    <star-horse-dialog
+    <star-horse-panel
       v-model="designerVisible"
       :title="currentRuleId ? '编辑规则' : '新建规则'"
       boxWidth="95%"
@@ -155,7 +155,7 @@
         @saved="handleRuleSaved"
         @close="designerVisible = false"
       />
-    </star-horse-dialog>
+    </star-horse-panel>
 
     <!-- 测试执行弹窗 -->
     <RuleTestDialog

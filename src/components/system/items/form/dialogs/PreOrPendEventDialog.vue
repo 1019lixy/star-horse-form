@@ -166,7 +166,7 @@ watch(
 </script>
 
 <template>
-  <star-horse-dialog
+  <star-horse-panel
       v-model="dialogVisible"
       :title="dialogTitle"
       :isBatch="false"
@@ -243,7 +243,7 @@ watch(
         </div>
       </div>
     </div>
-  </star-horse-dialog>
+  </star-horse-panel>
 </template>
 
 <style scoped lang="scss">

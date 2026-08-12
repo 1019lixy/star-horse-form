@@ -24,7 +24,7 @@ watch(()=>props.visible,(val)=>{
 </script>
 
 <template>
-  <star-horse-dialog
+  <star-horse-panel
     v-model="dialogVisible"
     @closeAction="closeAction"
     :selfFunc="true"
@@ -35,5 +35,5 @@ watch(()=>props.visible,(val)=>{
     boxWidth="70%"
   >
     <batch-edit-fields :compSize="compSize" />
-  </star-horse-dialog>
+  </star-horse-panel>
 </template>

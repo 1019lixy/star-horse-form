@@ -1,19 +1,13 @@
 <script setup lang="ts">
 import {computed, nextTick, onMounted, provide, ref, watch} from "vue";
-import {
-  analysisCompDatas,
-  apiInstance,
-  ApiUrls,
-  convertCompToAppComps,
-  dialogPreps,
-} from "star-horse-lowcode";
+import {analysisCompDatas, apiInstance, ApiUrls, convertCompToAppComps, dialogPreps,} from "star-horse-lowcode";
 import {i18n} from "@/lang";
 import CommonSkeleton from "./CommonSkeleton.vue";
 import {useFormRuleRuntime} from "@/components/rule/useFormRuleRuntime";
 
 const props = defineProps({
   currentPageClass: {type: String, default: ""},
-  preview:{type:Boolean, default:false},
+  preview: {type: Boolean, default: false},
   compList: {
     type: Array,
     required: true,
@@ -70,7 +64,7 @@ const onFormDataLoaded = async () => {
 };
 
 // ON_SUBMIT: 提交前进行规则引擎校验
-const handleBeforeSubmit = async ({type, formData: fd}: {type: string; formData: any}) => {
+const handleBeforeSubmit = async ({type, formData: fd}: { type: string; formData: any }) => {
   if (isEnabled.value && currentFormId.value) {
     const ok = await triggerOnSubmit();
     if (!ok) return false;
@@ -102,12 +96,11 @@ const loadFormData = async () => {
   if (props.currentPageClass == "main-design-phone") {
     tableFieldList.value = convertCompToAppComps(tableFieldList.value);
   }
-
+  console.log("result",tableFieldList.value);
   await nextTick();
   hasData.value = true;
   isLoading.value = false; // 加载完成
 };
-
 
 
 const dialogProps = dialogPreps();

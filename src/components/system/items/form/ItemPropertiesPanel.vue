@@ -357,7 +357,7 @@ watch(() => quickConfig.value, (val) => {
 });
 </script>
 <template>
-  <star-horse-dialog
+  <star-horse-panel
       v-model="buttonDialogVisible"
       :title="i18n('dyform.button.event.title')"
       :isBatch="false"
@@ -375,9 +375,9 @@ watch(() => quickConfig.value, (val) => {
         ref="buttonClickFormRef"
         :fieldList="buttonClickDataField()"
     />
-  </star-horse-dialog>
+  </star-horse-panel>
   <!--Unified Linkage Strategy-->
-  <star-horse-dialog
+  <star-horse-panel
       v-model="dataRelationDialogVisible"
       :title="i18n('dyform.data.relation.dialog.title')"
       :isBatch="false"
@@ -395,9 +395,9 @@ watch(() => quickConfig.value, (val) => {
         :optional="optional"
         :formFields="linkageFormFields"
     />
-  </star-horse-dialog>
+  </star-horse-panel>
   <!--Unified Data Source-->
-  <star-horse-dialog
+  <star-horse-panel
       v-model="dataSourceVisible"
       :title="i18n('dyform.data.source.dialog.title')"
       :isBatch="false"
@@ -415,9 +415,10 @@ watch(() => quickConfig.value, (val) => {
         :formProps="formProps"
         :formFields="linkageFormFields"
     />
-  </star-horse-dialog>
+  </star-horse-panel>
   <!--容器参数配置-->
-  <star-horse-dialog
+  <star-horse-panel
+      type="drawer"
       v-model="containerDialogVisible"
       :title="i18n('dyform.container.dialog.title')"
       :isBatch="false"
@@ -431,7 +432,7 @@ watch(() => quickConfig.value, (val) => {
         @inited="setContainerData"
         :fieldList="containerField(currentItemType)"
     />
-  </star-horse-dialog>
+  </star-horse-panel>
   <el-scrollbar>
     <template v-if="currentCompCategory == 'container'">
       <el-form-item :label="i18n('dyform.props.container.config')" prop="rows">

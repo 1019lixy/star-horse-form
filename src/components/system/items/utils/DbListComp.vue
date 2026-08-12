@@ -856,7 +856,7 @@ watch(() => props.optional.dbInfoApi, (val) => {
 defineExpose({});
 </script>
 <template>
-  <star-horse-dialog
+  <star-horse-panel
       v-model="tableDialogVisible"
       @closeAction="tableDialogVisible = false"
       :selfFunc="true"
@@ -873,8 +873,8 @@ defineExpose({});
         ref="tableFormRef"
     >
     </star-horse-form>
-  </star-horse-dialog>
-  <star-horse-dialog
+  </star-horse-panel>
+  <star-horse-panel
       :boxWidth="'40%'"
       :boxHeight="'60%'"
       v-model="currentDataVisible"
@@ -923,8 +923,8 @@ defineExpose({});
         </el-scrollbar>
       </el-tab-pane>
     </el-tabs>
-  </star-horse-dialog>
-  <star-horse-dialog
+  </star-horse-panel>
+  <star-horse-panel
       v-model="configDialogVisible"
       @closeAction="closeAction"
       :selfFunc="true"
@@ -941,7 +941,7 @@ defineExpose({});
         ref="configFormRef"
     >
     </star-horse-form>
-  </star-horse-dialog>
+  </star-horse-panel>
   <div
       class="flex flex-col justify-between mt-5 w-[98%] mx-auto h-full overflow-hidden"
   >

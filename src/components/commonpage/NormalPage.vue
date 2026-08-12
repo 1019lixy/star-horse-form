@@ -172,7 +172,7 @@ watch(
 
     <!-- 正常内容 -->
     <template v-else-if="hasData">
-      <star-horse-dialog
+      <star-horse-panel
           :isShowBtnContinue="true"
           v-model="dialogProps.editVisible"
       >
@@ -189,8 +189,8 @@ watch(
             :globalCondition="relationTables"
             :dynamicForm="true"
         />
-      </star-horse-dialog>
-      <star-horse-dialog
+      </star-horse-panel>
+      <star-horse-panel
           v-model="dialogProps.viewVisible"
           :source="3"
       >
@@ -202,7 +202,7 @@ watch(
             :dynamicForm="true"
             :compUrl="dataUrl"
         />
-      </star-horse-dialog>
+      </star-horse-panel>
       <div class="search-content" v-if="searchFormData.searchItemList?.length > 0">
         <div class="search_btn">
           <star-horse-search-comp

@@ -27,7 +27,7 @@ const codeDoSave = () => {
 </script>
 
 <template>
-  <star-horse-dialog
+  <star-horse-panel
     v-model="dialogVisible"
     @closeAction="closeAction"
     :selfFunc="true"
@@ -39,5 +39,5 @@ const codeDoSave = () => {
     :title="i18n('dyform.code.dialog.title')"
   >
     <code-comp :optional="optional" />
-  </star-horse-dialog>
+  </star-horse-panel>
 </template>

@@ -18,7 +18,7 @@
                       @save="handlePropertySave"/>
 
   <!-- 边标签编辑弹窗 -->
-  <star-horse-dialog
+  <star-horse-panel
       v-model="edgeLabelDialogVisible"
       :title="i18n('rule.msg.editEdgeLabel')"
       boxWidth="500px"
@@ -43,7 +43,7 @@
         </el-alert>
       </el-form-item>
     </el-form>
-  </star-horse-dialog>
+  </star-horse-panel>
 
   <div class="rule-designer">
     <!-- 顶部菜单栏 -->

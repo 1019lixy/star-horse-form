@@ -1,5 +1,5 @@
 <template>
-  <star-horse-dialog
+  <star-horse-panel
     v-model="dialogVisible"
     :title="action ? i18n('rule.dialog.editAction') : i18n('rule.dialog.addAction')"
     boxWidth="600px"
@@ -141,7 +141,7 @@
         />
       </el-form-item>
     </el-form>
-  </star-horse-dialog>
+  </star-horse-panel>
 </template>
 
 <script setup lang="ts">

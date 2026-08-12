@@ -43,7 +43,7 @@
     </template>
 
     <!-- 详情弹窗 -->
-    <star-horse-dialog
+    <star-horse-panel
       v-model="detailVisible"
       :title="i18n('rule.log.executionDetail')"
       boxWidth="800px"
@@ -83,7 +83,7 @@
           </el-alert>
         </div>
       </div>
-    </star-horse-dialog>
+    </star-horse-panel>
   </div>
 </template>
 

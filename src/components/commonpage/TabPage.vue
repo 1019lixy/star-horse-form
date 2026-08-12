@@ -171,7 +171,7 @@ watch(
     />
 
     <template v-else-if="hasData">
-      <star-horse-dialog
+      <star-horse-panel
           :dialog-visible="dialogProps.viewVisible"
           :dialogProps="dialogProps"
           :source="3"
@@ -184,7 +184,7 @@ watch(
             :field-list="tableFieldList"
             :compUrl="dataUrl"
         />
-      </star-horse-dialog>
+      </star-horse-panel>
       <el-card class="inner_content">
         <el-tabs
             v-model="activeName"

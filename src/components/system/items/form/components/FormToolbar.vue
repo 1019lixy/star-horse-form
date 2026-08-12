@@ -100,7 +100,7 @@ const doSave = (flag: boolean) => {
 </script>
 
 <template>
-  <star-horse-dialog
+  <star-horse-panel
       v-model="cooperationConfigVisible"
       @closeAction="cooperationConfigVisible = false"
       :selfFunc="true"
@@ -125,7 +125,7 @@ const doSave = (flag: boolean) => {
         </el-radio-group>
       </el-form-item>
     </el-form>
-  </star-horse-dialog>
+  </star-horse-panel>
   <div class="toolbar-root" @click="closeDropdown">
     <div class="toolbar-left">
       <!-- 工具条分组：文件(下拉) | 编辑(下拉) | 撤销/重做(平铺) | 风格(下拉) | 校验 | 预览 | 保存 -->

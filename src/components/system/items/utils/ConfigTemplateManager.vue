@@ -189,7 +189,7 @@ defineExpose({openSaveDialog, openLoadDialog});
 
 <template>
   <!-- 保存为模板弹窗 -->
-  <star-horse-dialog
+  <star-horse-panel
       v-model="saveDialogVisible"
       :title="i18n('dyform.template.save')"
       :selfFunc="true"
@@ -232,10 +232,10 @@ defineExpose({openSaveDialog, openLoadDialog});
         </el-radio-group>
       </el-form-item>
     </el-form>
-  </star-horse-dialog>
+  </star-horse-panel>
 
   <!-- 从模板加载弹窗 -->
-  <star-horse-dialog
+  <star-horse-panel
       v-model="loadDialogVisible"
       :title="i18n('dyform.template.load')"
       :selfFunc="true"
@@ -276,10 +276,10 @@ defineExpose({openSaveDialog, openLoadDialog});
         </div>
       </div>
     </div>
-  </star-horse-dialog>
+  </star-horse-panel>
 
   <!-- 预览弹窗 -->
-  <star-horse-dialog
+  <star-horse-panel
       v-model="previewVisible"
       :title="i18n('dyform.template.preview')"
       :selfFunc="true"
@@ -289,7 +289,7 @@ defineExpose({openSaveDialog, openLoadDialog});
     <el-scrollbar max-height="400px">
       <pre class="preview-json">{{ JSON.stringify(previewData, null, 2) }}</pre>
     </el-scrollbar>
-  </star-horse-dialog>
+  </star-horse-panel>
 </template>
 
 <style scoped lang="scss">

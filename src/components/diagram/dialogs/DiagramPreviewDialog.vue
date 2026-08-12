@@ -101,7 +101,7 @@ const handleExportPng = async () => {
 </script>
 
 <template>
-    <star-horse-dialog
+    <star-horse-panel
         v-model="innerVisible"
         :title="i18n('diagram.preview.title')"
         box-width="80%"
@@ -124,7 +124,7 @@ const handleExportPng = async () => {
         <template #footer>
             <el-button @click="innerVisible = false">{{ i18n('dialog.close') }}</el-button>
         </template>
-    </star-horse-dialog>
+    </star-horse-panel>
 </template>
 
 <style lang="scss" scoped>
