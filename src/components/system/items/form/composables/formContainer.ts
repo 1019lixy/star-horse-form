@@ -1,5 +1,26 @@
-import { CompType } from "star-horse-lowcode";
+import {CompType, ItemType} from "star-horse-lowcode";
 import {i18n} from "@/lang";
+
+/** 公共子项字段（元素型容器共享） */
+const elementCommonFields: ItemType[] = [
+  {label: i18n("dyform.container.cfg.displayName"), fieldName: "label", fieldType: "input", required: true, category: 1, configParams: []},
+  {label: i18n("dyform.container.cfg.identifier"), fieldName: "tabName", fieldType: "input", required: true, category: 1, configParams: []},
+  {
+    label: i18n("dyform.container.333"), fieldName: "subFormFlag", fieldType: "switch",
+    defaultValues: "Y", category: 1,
+    configParams: [{activeValue: "Y", inactiveValue: "N", showFields: ["objectName", "mapping"]}],
+  },
+  {label: i18n("dyform.utils.480"), fieldName: "objectName", fieldType: "input", required: true, category: 1, configParams: []},
+  {
+    label: i18n("dyform.utils.481"), fieldName: "mapping", fieldType: "select",
+    defaultValues: "1", category: 1,
+    selectValues: [
+      {name: i18n("dyform.utils.478"), value: "1"},
+      {name: i18n("dyform.utils.479"), value: "n"},
+    ],
+    configParams: [],
+  },
+];
 
 export const formContainer: CompType[] = [
   {
@@ -65,7 +86,14 @@ export const formContainer: CompType[] = [
     ],
     selfFields: [],
     actions: [],
-    preps: [],
+    preps: [
+      {
+        label: i18n("dyform.container.cfg.columnsConfig"), fieldName: "columns", fieldType: "gridColumns",
+        required: false, category: 1, configParams: [
+          {fieldName: "colspan", label: i18n("dyform.utils.435"), fieldType: "number", min: 1, max: 24, step: 1, default: 24},
+        ],
+      },
+    ],
   },
   {
     itemName: "Tab",
@@ -138,7 +166,7 @@ export const formContainer: CompType[] = [
     advancedFields: [],
     selfFields: [],
     actions: [],
-    preps: [],
+    preps: [...elementCommonFields],
   },
   {
     itemName: i18n("dyform.container.329"),
@@ -245,7 +273,7 @@ export const formContainer: CompType[] = [
     advancedFields: [],
     selfFields: [],
     actions: [],
-    preps: [],
+    preps: [...elementCommonFields],
   },
   {
     itemName: i18n("dyform.container.326"),
@@ -256,7 +284,7 @@ export const formContainer: CompType[] = [
     advancedFields: [],
     selfFields: [],
     actions: [],
-    preps: [],
+    preps: [...elementCommonFields],
   },
   {
     itemName: i18n("dyform.container.340"),
@@ -308,7 +336,15 @@ export const formContainer: CompType[] = [
     advancedFields: [],
     selfFields: [],
     actions: [],
-    preps: [],
+    preps: [
+      {
+        label: i18n("dyform.container.cfg.columnsConfig"), fieldName: "columns", fieldType: "gridColumns",
+        required: false, category: 1, configParams: [
+          {fieldName: "colWidth", label: i18n("dyform.utils.435"), fieldType: "number", min: 10, max: 100, step: 2, default: 100},
+          {fieldName: "colHeight", label: i18n("dyform.utils.434"), fieldType: "number", min: 30, max: 100, step: 1, default: 30},
+        ],
+      },
+    ],
   },
   {
     itemName: i18n("dyform.container.343"),
@@ -343,7 +379,14 @@ export const formContainer: CompType[] = [
     advancedFields: [],
     selfFields: [],
     actions: [],
-    preps: [],
+    preps: [
+      ...elementCommonFields,
+      {label: i18n("dyform.container.cfg.splitterSize"), fieldName: "size", fieldType: "input", required: false, category: 1, configParams: []},
+      {label: i18n("dyform.container.cfg.splitterMin"), fieldName: "min", fieldType: "number", required: false, category: 1, configParams: []},
+      {label: i18n("dyform.container.cfg.splitterMax"), fieldName: "max", fieldType: "number", required: false, category: 1, configParams: []},
+      {label: i18n("dyform.container.cfg.splitterResizable"), fieldName: "resizable", fieldType: "switch", defaultValues: true, required: false, category: 1, configParams: []},
+      {label: i18n("dyform.container.cfg.splitterCollapsible"), fieldName: "collapsible", fieldType: "switch", defaultValues: false, required: false, category: 1, configParams: []},
+    ],
   },
   {
     itemName: i18n("dyform.condition.containerName"),
@@ -374,7 +417,10 @@ export const formContainer: CompType[] = [
     advancedFields: [],
     selfFields: [],
     actions: [],
-    preps: [],
+    preps: [
+      {label: i18n("dyform.condition.label"), fieldName: "label", fieldType: "input", required: true, category: 1, configParams: []},
+      {label: i18n("dyform.condition.placeholder"), fieldName: "placeholder", fieldType: "input", required: false, category: 1, configParams: []},
+    ],
   },
   {
     itemName: i18n("dyform.step.containerName"),
@@ -504,7 +550,7 @@ export const formContainer: CompType[] = [
     ],
     selfFields: [],
     actions: [],
-    preps: [],
+    preps: [...elementCommonFields],
   },
   {
     itemName: i18n("dyform.container.dialog"),
@@ -592,7 +638,7 @@ export const formContainer: CompType[] = [
     ],
     selfFields: [],
     actions: [],
-    preps: [],
+    preps: [...elementCommonFields],
   },
   {
     itemName: i18n("dyform.container.drawer"),
@@ -694,7 +740,7 @@ export const formContainer: CompType[] = [
     ],
     selfFields: [],
     actions: [],
-    preps: [],
+    preps: [...elementCommonFields],
   },
   {
     itemName: i18n("dyform.container.fieldset"),
@@ -740,7 +786,7 @@ export const formContainer: CompType[] = [
     ],
     selfFields: [],
     actions: [],
-    preps: [],
+    preps: [...elementCommonFields],
   },
   {
     itemName: i18n("dyform.container.descriptions"),
@@ -863,7 +909,34 @@ export const formContainer: CompType[] = [
     advancedFields: [],
     selfFields: [],
     actions: [],
-    preps: [],
+    preps: [
+      ...elementCommonFields,
+      {label: i18n("dyform.container.descSpan"), fieldName: "span", fieldType: "number", required: false, defaultValues: "1", category: 1, configParams: []},
+      {label: i18n("dyform.container.descRowspan"), fieldName: "rowspan", fieldType: "number", required: false, category: 1, configParams: []},
+      {label: i18n("dyform.container.descWidth"), fieldName: "width", fieldType: "input", required: false, category: 1, configParams: []},
+      {label: i18n("dyform.container.descMinWidth"), fieldName: "minWidth", fieldType: "input", required: false, category: 1, configParams: []},
+      {label: i18n("dyform.container.descItemLabelWidth"), fieldName: "labelWidth", fieldType: "input", required: false, category: 1, configParams: []},
+      {
+        label: i18n("dyform.container.descItemAlign"), fieldName: "align", fieldType: "select", required: false, category: 1,
+        selectValues: [
+          {name: i18n("dyform.container.alignLeft"), value: "left"},
+          {name: i18n("dyform.container.alignCenter"), value: "center"},
+          {name: i18n("dyform.container.alignRight"), value: "right"},
+        ],
+        defaultValues: "", configParams: [],
+      },
+      {
+        label: i18n("dyform.container.descItemLabelAlign"), fieldName: "labelAlign", fieldType: "select", required: false, category: 1,
+        selectValues: [
+          {name: i18n("dyform.container.alignLeft"), value: "left"},
+          {name: i18n("dyform.container.alignCenter"), value: "center"},
+          {name: i18n("dyform.container.alignRight"), value: "right"},
+        ],
+        defaultValues: "", configParams: [],
+      },
+      {label: i18n("dyform.container.descItemClassName"), fieldName: "className", fieldType: "input", required: false, category: 1, configParams: []},
+      {label: i18n("dyform.container.descItemLabelClassName"), fieldName: "labelClassName", fieldType: "input", required: false, category: 1, configParams: []},
+    ],
   },
   {
     itemName: i18n("dyform.container.anchor"),

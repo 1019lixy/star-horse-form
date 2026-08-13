@@ -211,7 +211,7 @@ export function compFieldInit() {
 function buildCustomCompList(list: any[]): any[] {
     const designForm = getDesignFormStore();
     const allComps: any[] = [
-        ...designForm.containerList,
+        ...designForm.containerDataList,
         ...designForm.formDataList,
         ...designForm.selfFormDataList,
     ];

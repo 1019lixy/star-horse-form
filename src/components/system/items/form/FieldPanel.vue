@@ -13,7 +13,7 @@ const props = defineProps({
 const emits = defineEmits(["loadData"]);
 const designForm = getDesignFormStore();
 const baseFormDataList = computed(() => designForm.formDataList);
-const baseContainerList = computed(() => designForm.containerList);
+const baseContainerList = computed(() => designForm.containerDataList);
 const baseSelfFormDataList = computed(() => designForm.selfFormDataList);
 const formQuery = ref<string>("");
 const containerQuery = ref<string>("");

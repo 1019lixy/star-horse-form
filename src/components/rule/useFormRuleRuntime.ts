@@ -240,24 +240,8 @@ export const extractFieldMetaList = (compList: any[]): FormFieldMeta[] => {
       // condition 容器的 children
       if (Array.isArray(f.children)) traverseFieldInfos(f.children)
 
-      // tab/card/collapse/splitter 容器：每项含 fieldList
-      const containerLists = [f.tabList, f.cardList, f.collapseList, f.splitterList]
-      for (const list of containerLists) {
-        if (Array.isArray(list)) {
-          for (const container of list) {
-            if (container && Array.isArray(container.fieldList)) {
-              traverseFieldInfos(container.fieldList)
-            }
-          }
-        }
-      }
-
-      // dytable 容器：dytableList 是二维数组（与 box 同结构）
-      if (Array.isArray(f.dytableList)) traverseFieldInfos(f.dytableList)
-
-      // table 容器：batchFieldList[].fieldList
-      if (Array.isArray(f.batchFieldList)) {
-        for (const batch of f.batchFieldList) {
+      if (Array.isArray(f.containerFields)) {
+        for (const batch of f.containerFields) {
           if (batch && Array.isArray(batch.fieldList)) {
             traverseFieldInfos(batch.fieldList)
           }
@@ -310,47 +294,17 @@ export const extractFieldMetaList = (compList: any[]): FormFieldMeta[] => {
           if (Array.isArray(el.items)) traverseCompList(el.items)
         }
       }
-
-      // 兼容：preps.tabList / cardList / collapseList / splitterList
-      const containerKeys = ['tabList', 'cardList', 'collapseList', 'splitterList']
-      for (const key of containerKeys) {
-        const list = field.preps?.[key]
-        if (Array.isArray(list)) {
-          for (const container of list) {
-            if (!container) continue
-            if (Array.isArray(container.items)) traverseCompList(container.items)
-            if (Array.isArray(container.fieldList)) traverseCompList(container.fieldList)
-          }
-        }
-      }
-
-      // table 容器：preps.batchFieldList
-      if (Array.isArray(field.preps?.batchFieldList)) {
-        for (const batch of field.preps.batchFieldList) {
-          if (batch && Array.isArray(batch.fieldList)) {
-            traverseCompList(batch.fieldList)
-          }
-        }
-      }
-
-      // dytable 容器：preps.dytableList（二维数组）
-      if (Array.isArray(field.preps?.dytableList)) {
-        traverseCompList(field.preps.dytableList)
-      }
     }
   }
 
   // ===== 双轨制执行：先 analysisCompDatas，再用原始遍历补充 =====
-  let analysisFieldCount = 0
   let analysisFieldListLen = 0
   try {
     const parsed = analysisCompDatas(compList)
     const fieldList = (parsed as any)?.fieldList
     analysisFieldListLen = Array.isArray(fieldList) ? fieldList.length : 0
     if (analysisFieldListLen > 0) {
-      const beforeCount = result.length
       traverseFieldInfos(fieldList)
-      analysisFieldCount = result.length - beforeCount
     }
   } catch (e) {
     console.warn('[extractFieldMetaList] analysisCompDatas failed:', e)
@@ -358,21 +312,8 @@ export const extractFieldMetaList = (compList: any[]): FormFieldMeta[] => {
 
   // 关键改进：无论 analysisCompDatas 是否成功，都用原始遍历补充
   // 这能捕获 analysisCompDatas 遗漏的字段（容器嵌套过深、fieldName 缺失等）
-  const beforeFallback = result.length
   traverseCompList(compList)
-  const fallbackAdded = result.length - beforeFallback
 
-  // 无条件诊断日志：每次调用都打印，便于定位"选不到字段"问题
-  // 若浏览器控制台看不到这行，说明 extractFieldMetaList 根本没被调用（RuleConfigPanel 未打开 / computed 未求值）
-  console.log(
-    '[extractFieldMetaList] compList.length=', compList.length,
-    '| analysisCompDatas.fieldList.length=', analysisFieldListLen,
-    '| analysisFieldCount=', analysisFieldCount,
-    '| fallbackAdded=', fallbackAdded,
-    '| result.length=', result.length,
-    '| firstField=', result[0] ? `${result[0].fieldName}(${result[0].label})` : 'NONE',
-    '| firstCompItem=', compList[0] ? `${compList[0].compType}/${compList[0].itemType}/preps.name=${compList[0].preps?.name}` : 'empty',
-  )
 
   return result
 }
@@ -591,16 +532,16 @@ export function validateRule(
   formData: Record<string, any>
 ): RuleValidationResult[] {
   const results: RuleValidationResult[] = [];
-  
+
   // 过滤出验证规则
-  const validateRules = rules.filter(rule => 
+  const validateRules = rules.filter(rule =>
     rule.conditions && rule.conditions.some((condition: any) => condition.type === 'ON_VALIDATE')
   );
-  
+
   for (const rule of validateRules) {
     for (const condition of rule.conditions) {
       if (condition.type !== 'ON_VALIDATE') continue;
-      
+
       // 检查条件是否满足
       let conditionMet = false;
       try {
@@ -609,18 +550,18 @@ export function validateRule(
         console.warn(`[RuleValidator] 条件表达式执行失败: ${condition.expression}`, e);
         continue;
       }
-      
+
       if (conditionMet) {
         // 执行验证动作
         for (const action of rule.actions) {
           let valid = true;
           let message = '';
-          
+
           switch (action.type) {
             case 'required': {
               const value = formData[action.field];
               if (action.value === true || action.value === 'true') {
-                if (value === undefined || value === null || value === '' || 
+                if (value === undefined || value === null || value === '' ||
                     (Array.isArray(value) && value.length === 0)) {
                   valid = false;
                   message = `${action.field}为必填项`;
@@ -649,7 +590,7 @@ export function validateRule(
             default:
               break;
           }
-          
+
           if (!valid) {
             results.push({
               valid: false,
@@ -660,11 +601,11 @@ export function validateRule(
       }
     }
   }
-  
+
   // 如果没有验证失败，返回成功
   if (results.length === 0) {
     results.push({ valid: true });
   }
-  
+
   return results;
 }

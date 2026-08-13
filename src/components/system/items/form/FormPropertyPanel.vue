@@ -120,7 +120,8 @@ const tableFieldList = reactive<PageFieldInfo | any>({
           }
         },
       },
-      tabList: [
+      containerType:"tab",
+      containerFields: [
         {
           title: i18n("dyform.formProp.basicProps"),
           tabName: "tab1",

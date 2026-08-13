@@ -1185,16 +1185,6 @@ defineExpose({
       ref="previewDialogRef"
   />
   <PageConfig v-model="formConfigDialogVisible">
-    <!--    <template #header="{form}">
-          <el-form-item :label="i18n('dyform.design.pageStyle')" prop="pageStyle">
-            <select-item :formData="form" :field="{
-              fieldName:'pageStyle',
-              preps:{
-                values:langList
-              }
-            }"/>
-          </el-form-item>
-        </template>-->
   </PageConfig>
   <FieldLayerDrawer v-model:visible="dialogStates.formFieldLayer"
                     :operType="operType"/>

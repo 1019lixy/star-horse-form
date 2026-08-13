@@ -1,5 +1,5 @@
 <script setup lang="ts" name="fieldset-container">
-import {onMounted, PropType, ref, nextTick} from "vue";
+import {nextTick, onMounted, PropType, ref} from "vue";
 import {getDesignFormStore, itemCheck} from "star-horse-lowcode";
 import {i18n} from "@/lang";
 import {quickAddItem} from "@/api/form_utils";
@@ -27,19 +27,27 @@ const toggleInner = () => {
 // 标题内联编辑
 const editingTitle = ref(false);
 const titleInputRef = ref();
-const startEditTitle = () => {
+// 双击编辑相关
+const editingId = ref<string>("");
+const editingText = ref<string>("");
+
+const startEditTitle = (element: any) => {
   if (!props.isDesign) return;
-  editingTitle.value = true;
+  editingId.value = element.tabName || element.objectName;
+  editingText.value = element.label || "";
   nextTick(() => {
-    titleInputRef.value?.focus();
-    titleInputRef.value?.select();
+    const input = document.querySelector(`.fieldset-edit-input input`) as HTMLInputElement;
+    if (input) {
+      input.focus();
+      input.select();
+    }
   });
 };
-const finishEditTitle = () => {
-  editingTitle.value = false;
-  if (!props.field.preps['fieldsetTitle']) {
-    props.field.preps['fieldsetTitle'] = '';
+const finishEditTitle = (element: any) => {
+  if (editingText.value.trim()) {
+    element.label = editingText.value.trim();
   }
+  editingId.value = "";
 };
 
 const onDragAdd = (evt: Event | any, dataList: any) => {
@@ -74,6 +82,7 @@ onMounted(() => {
       :form-item="field"
   >
     <fieldset
+        v-for="adata in field['preps']['elements']"
         class="fieldset-container"
         :class="{
           'border-dashed': field.preps['borderStyle'] === 'dashed',
@@ -95,28 +104,28 @@ onMounted(() => {
           <path d="M1 1L5 5L9 1" stroke="currentColor" stroke-width="1.5"
                 stroke-linecap="round" stroke-linejoin="round"/>
         </svg>
-        <!-- 设计模式: 双击编辑标题 -->
-        <el-input
-            v-if="editingTitle && isDesign"
-            ref="titleInputRef"
-            v-model="field.preps['fieldsetTitle']"
-            size="small"
-            style="width: 200px"
-            @blur="finishEditTitle"
-            @keyup.enter="finishEditTitle"
-        />
+
         <span
-            v-else
+            v-if="editingId !== (adata.tabName || adata.objectName)"
             class="legend-text"
             :class="{ 'editable': isDesign }"
-            @dblclick.stop="startEditTitle"
+            @dblclick.stop="startEditTitle(adata)"
         >
-          {{ field.preps['fieldsetTitle'] || (isDesign ? i18n('dyform.container.fieldsetTitlePlaceholder') : '') }}
+          {{ adata.title || (isDesign ? i18n('dyform.container.fieldsetTitlePlaceholder') : '') }}
         </span>
+        <!-- 设计模式: 双击编辑标题 -->
+        <el-input
+            v-else
+            class="fieldset-edit-input"
+            v-model="adata.title"
+            size="small"
+            style="width: 200px"
+            @blur="finishEditTitle(adata)"
+            @keyup.enter="finishEditTitle(adata)"
+        />
       </legend>
-      <div v-show="!innerCollapsed" class="fieldset-body">
+      <div v-show="!adata.preps?.innerCollapsed" class="fieldset-body">
         <draggable
-            v-for="adata in field['preps']['elements']"
             :key="adata.tabName"
             @add="(evt: Event) => onDragAdd(evt, adata['items'])"
             @dragover="checkItem(adata)"
@@ -145,7 +154,8 @@ onMounted(() => {
           </template>
         </draggable>
         <div v-if="isDesign" class="quick-add-bar">
-          <el-button size="small" type="info" plain @click.stop="quickAddItem(field.preps.elements[0].items)" icon="Plus">
+          <el-button size="small" type="info" plain @click.stop="quickAddItem(field.preps.elements[0].items)"
+                     icon="Plus">
             {{ i18n("dyform.condition.addLeaf") }}
           </el-button>
         </div>
@@ -194,7 +204,7 @@ onMounted(() => {
   font-size: 14px;
   font-weight: 500;
   color: #303133;
- // background: #fff;
+  // background: #fff;
 
   &.clickable:hover {
     color: var(--star-horse-style, #409eff);

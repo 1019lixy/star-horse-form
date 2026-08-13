@@ -3,7 +3,7 @@ import {computed, nextTick, onMounted, PropType, ref} from "vue";
 
 import GroupContainer from "@/components/formcomp/container/group-container.vue";
 import JSON5 from "json5";
-import {getDesignFormStore, itemCheck, uuid} from "star-horse-lowcode";
+import {getDesignFormStore, itemCheck} from "star-horse-lowcode";
 import {i18n} from "@/lang";
 import {quickAddItem} from "@/api/form_utils";
 
@@ -65,24 +65,34 @@ const onDragAdd = (evt: Event | any, dataList: any) => {
 
 
 const checkData = (adata: any) => {
-  if (adata.preps) {
-    let temp = adata.preps;
-    if (typeof temp == "string") {
-      try {
-        temp = JSON5.parse(adata.preps);
-      } catch (e) {
-        console.log(e);
-      }
+  // 优先读取独立命名字段（新方案），兼容旧版 JSON preps 字符串
+  let raw: any = null;
+  if (adata.preps && typeof adata.preps === "string" && adata.preps.trim()) {
+    try {
+      raw = JSON5.parse(adata.preps);
+    } catch (e) {
+      console.log(e);
     }
-    return {
-      size: temp.size,
-      min: temp.min,
-      max: temp.max,
-      resizable: temp.resizable,
-      collapsible: temp.collapsible,
-    };
+  } else if (adata.preps && typeof adata.preps === "object") {
+    raw = adata.preps;
   }
-  return {};
+  const pick = (key: string) => {
+    if (adata[key] !== undefined) return adata[key];
+    if (raw && raw[key] !== undefined) return raw[key];
+    return undefined;
+  };
+  const result: any = {};
+  const size = pick("size");
+  const min = pick("min");
+  const max = pick("max");
+  const resizable = pick("resizable");
+  const collapsible = pick("collapsible");
+  if (size !== undefined) result.size = size;
+  if (min !== undefined) result.min = min;
+  if (max !== undefined) result.max = max;
+  if (resizable !== undefined) result.resizable = resizable;
+  if (collapsible !== undefined) result.collapsible = collapsible;
+  return result;
 };
 onMounted(() => {
   if (!props.field["preps"]) {
@@ -96,7 +106,8 @@ onMounted(() => {
         objectName: "splitter1",
         subFormFlag: "Y",
         items: [],
-        preps: "{}",
+        resizable: true,
+        collapsible: false,
       },
       {
         label: "Splitter2",
@@ -104,7 +115,8 @@ onMounted(() => {
         objectName: "splitter2",
         subFormFlag: "Y",
         items: [],
-        preps: "{}",
+        resizable: true,
+        collapsible: false,
       },
     ];
   }

@@ -105,7 +105,8 @@ export function createRequestTab(title: string, i18nPrefix: string, objectName: 
                 preps: {
                     hideTabs: tabHide,
                 },
-                tabList: [
+                containerType:"tab",
+                containerFields: [
                     {
                         title: i18n("dyform.apiConfig.section.apiInfo"),
                         tabName: "a",
@@ -563,7 +564,8 @@ export function createApiConfig(mode: "dataSource" | "linkage", formFields?: Sel
                 preps: {
                     type: "border-card"
                 },
-                tabList: [
+                containerType:"tab",
+                containerFields: [
                     createRequestTab(i18n("dyform.apiConfig.tab.apiConfig"), i18nPrefix, "apiInfo", defaultMethod, true, interfaceUtils),
                     responseTab,
                     createRequestTab(i18n("dyform.apiConfig.tab.authConfig"), i18nPrefix, "authInfo", defaultMethod, false, interfaceUtils),

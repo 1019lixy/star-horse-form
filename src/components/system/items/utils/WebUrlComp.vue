@@ -80,7 +80,8 @@ const dataSourceField = reactive<PageFieldInfo | any>({
   fieldList: [
     {
       fieldName: "apiInfo",
-      tabList: [
+      containerType:"tab",
+      containerFields: [
         {
           title: "接口信息",
           tabName: "apiInfo",

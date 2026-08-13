@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import {computed, nextTick, onMounted, PropType, ref, unref, watch} from "vue";
-import {buttonClickDataField, containerField, fieldPlaceholder} from "@/components/system/items/utils/ItemPreps.js";
+import {buttonClickDataField, fieldPlaceholder} from "@/components/system/items/utils/ItemPreps.js";
 import {
   analysisCompDatas,
   getDesignFormStore,
@@ -18,6 +18,7 @@ import DataSourceConfigPanel from "@/components/system/items/form/components/Dat
 import LinkageConfigPanel from "@/components/system/items/form/components/LinkageConfigPanel.vue";
 import DataSourceComp from "@/components/system/items/utils/DataSourceComp.vue";
 import LinkPolicyComp from "@/components/system/items/utils/LinkPolicyComp.vue";
+import ContainerConfigPanel from "@/components/system/items/form/components/ContainerConfigPanel.vue";
 
 defineOptions({
   name: "ItemPropertiesPanel"
@@ -175,6 +176,7 @@ const setRelationInitedData = () => {
 const editContainerPrep = () => {
   containerDialogVisible.value = true;
   getDesignFormStore().setShortKeyDisabled(true);
+  nextTick(() => setContainerData());
 };
 const setContainerData = () => {
   const temp = {...formProps.value};
@@ -427,10 +429,11 @@ watch(() => quickConfig.value, (val) => {
       @resetForm="resetForm"
       :selfFunc="true"
   >
-    <star-horse-form
+    <ContainerConfigPanel
         ref="containerPrepRef"
+        :currentItemType="currentItemType"
+        :compSize="compSize"
         @inited="setContainerData"
-        :fieldList="containerField(currentItemType)"
     />
   </star-horse-panel>
   <el-scrollbar>

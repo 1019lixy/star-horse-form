@@ -1,8 +1,9 @@
 <script setup lang="ts" name="descriptions-container">
-import {computed, onMounted, PropType} from "vue";
+import {computed, nextTick, onMounted, PropType, ref} from "vue";
 import {getDesignFormStore, itemCheck, warning} from "star-horse-lowcode";
 import {i18n} from "@/lang";
 import {quickAddItem} from "@/api/form_utils";
+import GroupContainer from "@/components/formcomp/container/group-container.vue";
 
 const props = defineProps({
   parentField: {type: Object as PropType<any>},
@@ -23,6 +24,7 @@ const isContainer = (data: any) => containerType.includes(data.itemType);
 
 const onDragAdd = (evt: Event | any, dataList: any) => {
   let newIndex = evt.newIndex;
+  console.log(draggingItem.value);
   if (isContainer(draggingItem.value.itemType)) {
     warning(i18n("dyform.comp.container.443"));
     let elements = props.field.preps.elements;
@@ -46,7 +48,29 @@ const onDragAdd = (evt: Event | any, dataList: any) => {
     designForm.selectItem(dataInfo, dataInfo.itemType, "");
   }
 };
+// 双击编辑相关
+const editingId = ref<string>("");
+const editingText = ref<string>("");
 
+const startEditName = (element: any) => {
+  if (!props.isDesign) return;
+  editingId.value = element.fieldName;
+  editingText.value = element.preps?.label || "";
+  nextTick(() => {
+    const input = document.querySelector(`.descriptions-edit-input input`) as HTMLInputElement;
+    if (input) {
+      input.focus();
+      input.select();
+    }
+  });
+};
+
+const finishEditName = (element: any) => {
+  if (editingText.value.trim()) {
+    element.preps.label = editingText.value.trim();
+  }
+  editingId.value = "";
+};
 const checkItem = (adata: any) => {
   if (!adata["items"]) adata["items"] = [];
 };
@@ -93,14 +117,32 @@ onMounted(() => {
         <el-descriptions-item
             v-for="item in adata['items']"
             :key="item.id"
-            :label="item.preps?.label || item.itemName"
+            :label="item.preps?.label || item.fieldName"
             :rowspan=" field.preps['descItemRowspan'] || 1"
             :align=" field.preps['descItemAlign'] || 'left'"
             :class-name=" field.preps['descItemClassName'] || ''"
-
             :span="field.preps['descItemSpan'] || 1"
             :label-class-name=" field.preps['descItemLabelClassName'] || ''"
         >
+          <template #label>
+            <div class="splitter-panel-header" v-if="isDesign">
+          <span
+              v-if="editingId !== (item.fieldName)"
+              class="editable-name"
+              @dblclick.stop="startEditName(item)"
+          >{{ item.label || item.objectName }}</span>
+              <el-input
+                  v-else
+                  class="descriptions-edit-input"
+                  v-model="editingText"
+                  size="small"
+                  @blur="finishEditName(item)"
+                  @keyup.enter="finishEditName(item)"
+                  @click.stop
+                  style="width: 120px;"
+              />
+            </div>
+          </template>
           <component
               :field="item"
               :isDesign="isDesign"
@@ -113,29 +155,6 @@ onMounted(() => {
           />
         </el-descriptions-item>
       </template>
-      <!-- 设计模式: 拖拽接收区域(空时显示占位) -->
-      <el-descriptions-item
-          v-if="isDesign && allItems().length === 0"
-          :label="i18n('dyform.container.descDropHint')"
-      >
-        <draggable
-            v-for="adata in field['preps']['elements']"
-            :key="adata.tabName"
-            @add="(evt: Event) => onDragAdd(evt, adata['items'])"
-            @dragover="checkItem(adata)"
-            class="desc-empty-design"
-            :class="{ 'dragging-area': designForm.isDragging }"
-            group="starHorseGroup"
-            animation="100"
-            item-key="id"
-            ghostClass="ghost"
-            v-model="adata['items']"
-        >
-          <template #item>
-            <div></div>
-          </template>
-        </draggable>
-      </el-descriptions-item>
     </el-descriptions>
 
     <!-- 设计模式: 拖拽区域(始终可拖入,放在descriptions下方) -->
