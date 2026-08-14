@@ -1,5 +1,5 @@
 import {
-    BatchFieldInfo,
+    ContainerFieldInfo,
     createDatetime,
     error,
     FieldInfo,
@@ -65,7 +65,7 @@ export async function loadData(
     await postRequest(url, cond, signal)
         .then((res: any) => {
             const redata = res.data;
-            if (redata.code !==200) {
+            if (redata.code !== 200) {
                 error = redata.cnMessage;
             } else {
                 //先去分页数据，没有再去非分页数据
@@ -205,7 +205,7 @@ export async function loadRolesInfo(param: any) {
         },
     )
         .then((res) => {
-            if (res.data.code !==200) {
+            if (res.data.code !== 200) {
                 console.warn(res.data.cnMessage);
             } else {
                 const redata = res.data.data;
@@ -805,7 +805,7 @@ export function formFieldMapping(fieldList: PageFieldInfo) {
         }
     };
 
-    const tableOperation = (batchTempList: Array<BatchFieldInfo>) => {
+    const tableOperation = (batchTempList: Array<ContainerFieldInfo>) => {
         // 优化点8: 预分配数组空间
         batchTempList.forEach((temp, index) => {
             const subTableName = temp.subTableName;
@@ -849,23 +849,16 @@ export function formFieldMapping(fieldList: PageFieldInfo) {
                         processFieldDefaultValue(item, defaultData);
                     }
                 } else if (
-                    temp["tabList"] ||
-                    temp["collapseList"] ||
-                    temp["cardList"]
+                    temp.containerType && !["box", "dytable", "table"].includes(temp.containerType)
                 ) {
-                    //如果是tabList
-                    const tabList =
-                        temp["tabList"] || temp["collapseList"] || temp["cardList"];
 
                     // 优化点14: 对tabList使用forEach
-                    tabList.forEach((tabItem: TabFieldInfo) => {
+                    temp.containerFields.forEach((tabItem: TabFieldInfo) => {
                         tabOperation(tabItem);
                     });
-                } else if (temp["containerType:"table",
-containerFields"]) {
+                } else if (temp.containerType == "table") {
                     //如果是tableList
-                    const tableList = temp["containerType:"table",
-containerFields"] as Array<BatchFieldInfo>;
+                    const tableList = temp["containerFields"] as Array<ContainerFieldInfo>;
                     tableOperation(tableList);
                 } else {
                     // 处理单个字段
@@ -894,10 +887,8 @@ containerFields"] as Array<BatchFieldInfo>;
                     tabList.forEach((tabItem: TabFieldInfo) => {
                         tabOperation(tabItem);
                     });
-                } else if (temp["containerType:"table",
-containerFields"]) {
-                    const tableList = temp["containerType:"table",
-containerFields"] as Array<BatchFieldInfo>;
+                } else if (temp["containerFields"]) {
+                    const tableList = temp["containerFields"] as Array<ContainerFieldInfo>;
                     tableOperation(tableList);
                 } else {
                     processFieldDefaultValue(temp, defaultData);
@@ -910,10 +901,11 @@ containerFields"] as Array<BatchFieldInfo>;
     fieldsOperation(tempList, defaultDatas);
 
     // 优化点16: 检查batchFieldList是否存在
-    if (fieldList?.containerType:"table",
-containerFields) {
-        tableOperation(fieldList.containerType:"table",
-containerFields);
+    if (fieldList?.containerFields
+    ) {
+        tableOperation(fieldList.containerFields
+        )
+        ;
     }
 
     // 优化点17: 使用Object.assign代替展开运算符，避免创建过多中间对象
@@ -936,7 +928,7 @@ containerFields);
  * 批量列表数据默认值
  * @param datas
  */
-export function batchFieldDefaultValues(datas: BatchFieldInfo, dataForm: any) {
+export function batchFieldDefaultValues(datas: ContainerFieldInfo, dataForm: any) {
     let defaultValues: any = {};
     if (datas["batchDefaultData"]) {
         defaultValues = {...datas["batchDefaultData"]};
@@ -1124,7 +1116,6 @@ export async function dbConfigList(): Promise<SelectOption[]> {
         };
     });
 }
-
 
 
 /**
