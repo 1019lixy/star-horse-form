@@ -18,8 +18,8 @@
         "elements": [
           {
             "label": "项目概况",
-            "tabName": "项目概况",
-            "objectName": "项目概况",
+            "subTablePrimaryKey": "项目概况",
+            "subTableName": "项目概况",
             "subFormFlag": "Y",
             "items": [
               {
@@ -285,8 +285,8 @@
         "elements": [
           {
             "label": "时间与预算",
-            "tabName": "时间与预算",
-            "objectName": "时间与预算",
+            "subTablePrimaryKey": "时间与预算",
+            "subTableName": "时间与预算",
             "subFormFlag": "Y",
             "items": [
               {
@@ -575,8 +575,8 @@
         "elements": [
           {
             "label": "团队与资源",
-            "tabName": "团队与资源",
-            "objectName": "团队与资源",
+            "subTablePrimaryKey": "团队与资源",
+            "subTableName": "团队与资源",
             "subFormFlag": "Y",
             "items": [
               {

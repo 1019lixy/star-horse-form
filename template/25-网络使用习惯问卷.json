@@ -18,8 +18,8 @@
         "elements": [
           {
             "label": "基本信息",
-            "tabName": "基本信息",
-            "objectName": "基本信息",
+            "subTablePrimaryKey": "基本信息",
+            "subTableName": "基本信息",
             "subFormFlag": "Y",
             "items": [
               {
@@ -372,8 +372,8 @@
         "elements": [
           {
             "label": "上网时长与设备",
-            "tabName": "上网时长与设备",
-            "objectName": "上网时长与设备",
+            "subTablePrimaryKey": "上网时长与设备",
+            "subTableName": "上网时长与设备",
             "subFormFlag": "Y",
             "items": [
               {
@@ -762,8 +762,8 @@
         "elements": [
           {
             "label": "上网内容与目的",
-            "tabName": "上网内容与目的",
-            "objectName": "上网内容与目的",
+            "subTablePrimaryKey": "上网内容与目的",
+            "subTableName": "上网内容与目的",
             "subFormFlag": "Y",
             "items": [
               {
@@ -1619,8 +1619,8 @@
         "elements": [
           {
             "label": "社交媒体使用",
-            "tabName": "社交媒体使用",
-            "objectName": "社交媒体使用",
+            "subTablePrimaryKey": "社交媒体使用",
+            "subTableName": "社交媒体使用",
             "subFormFlag": "Y",
             "items": [
               {
@@ -2242,8 +2242,8 @@
         "elements": [
           {
             "label": "网络安全与健康",
-            "tabName": "网络安全与健康",
-            "objectName": "网络安全与健康",
+            "subTablePrimaryKey": "网络安全与健康",
+            "subTableName": "网络安全与健康",
             "subFormFlag": "Y",
             "items": [
               {

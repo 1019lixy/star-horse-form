@@ -28,7 +28,7 @@ const editingText = ref<string>("");
 
 const startEditName = (element: any) => {
   if (!props.isDesign) return;
-  editingId.value = element.tabName || element.objectName;
+  editingId.value = element.subTablePrimaryKey || element.subTableName;
   editingText.value = element.label || "";
   nextTick(() => {
     const input = document.querySelector(`.splitter-edit-input input`) as HTMLInputElement;
@@ -102,8 +102,8 @@ onMounted(() => {
     props.field["preps"]["elements"] = [
       {
         label: "Splitter1",
-        tabName: "splitter1",
-        objectName: "splitter1",
+        subTablePrimaryKey: "splitter1",
+        subTableName: "splitter1",
         subFormFlag: "Y",
         items: [],
         resizable: true,
@@ -111,8 +111,8 @@ onMounted(() => {
       },
       {
         label: "Splitter2",
-        tabName: "splitter2",
-        objectName: "splitter2",
+        subTablePrimaryKey: "splitter2",
+        subTableName: "splitter2",
         subFormFlag: "Y",
         items: [],
         resizable: true,
@@ -142,10 +142,10 @@ onMounted(() => {
       >
         <div class="splitter-panel-header" v-if="isDesign">
           <span
-              v-if="editingId !== (adata.tabName || adata.objectName)"
+              v-if="editingId !== (adata.subTablePrimaryKey || adata.subTableName)"
               class="editable-name"
               @dblclick.stop="startEditName(adata)"
-          >{{ adata.label || adata.objectName }}</span>
+          >{{ adata.label || adata.subTableName }}</span>
           <el-input
               v-else
               class="splitter-edit-input"

@@ -18,8 +18,8 @@
         "elements": [
           {
             "label": "设备信息",
-            "tabName": "设备信息",
-            "objectName": "设备信息",
+            "subTablePrimaryKey": "设备信息",
+            "subTableName": "设备信息",
             "subFormFlag": "Y",
             "items": [
               {
@@ -502,8 +502,8 @@
         "elements": [
           {
             "label": "使用信息",
-            "tabName": "使用信息",
-            "objectName": "使用信息",
+            "subTablePrimaryKey": "使用信息",
+            "subTableName": "使用信息",
             "subFormFlag": "Y",
             "items": [
               {
@@ -693,8 +693,8 @@
         "elements": [
           {
             "label": "维护记录",
-            "tabName": "维护记录",
-            "objectName": "维护记录",
+            "subTablePrimaryKey": "维护记录",
+            "subTableName": "维护记录",
             "subFormFlag": "Y",
             "items": [
               {

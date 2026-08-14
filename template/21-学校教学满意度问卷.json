@@ -18,8 +18,8 @@
         "elements": [
           {
             "label": "学生基本信息",
-            "tabName": "学生基本信息",
-            "objectName": "学生基本信息",
+            "subTablePrimaryKey": "学生基本信息",
+            "subTableName": "学生基本信息",
             "subFormFlag": "Y",
             "items": [
               {
@@ -430,8 +430,8 @@
         "elements": [
           {
             "label": "教学质量评价",
-            "tabName": "教学质量评价",
-            "objectName": "教学质量评价",
+            "subTablePrimaryKey": "教学质量评价",
+            "subTableName": "教学质量评价",
             "subFormFlag": "Y",
             "items": [
               {
@@ -949,8 +949,8 @@
         "elements": [
           {
             "label": "课程与学科",
-            "tabName": "课程与学科",
-            "objectName": "课程与学科",
+            "subTablePrimaryKey": "课程与学科",
+            "subTableName": "课程与学科",
             "subFormFlag": "Y",
             "items": [
               {
@@ -1558,8 +1558,8 @@
         "elements": [
           {
             "label": "校园环境与设施",
-            "tabName": "校园环境与设施",
-            "objectName": "校园环境与设施",
+            "subTablePrimaryKey": "校园环境与设施",
+            "subTableName": "校园环境与设施",
             "subFormFlag": "Y",
             "items": [
               {
@@ -2077,8 +2077,8 @@
         "elements": [
           {
             "label": "师生关系与管理",
-            "tabName": "师生关系与管理",
-            "objectName": "师生关系与管理",
+            "subTablePrimaryKey": "师生关系与管理",
+            "subTableName": "师生关系与管理",
             "subFormFlag": "Y",
             "items": [
               {
@@ -2476,8 +2476,8 @@
         "elements": [
           {
             "label": "课外活动与发展",
-            "tabName": "课外活动与发展",
-            "objectName": "课外活动与发展",
+            "subTablePrimaryKey": "课外活动与发展",
+            "subTableName": "课外活动与发展",
             "subFormFlag": "Y",
             "items": [
               {
@@ -2836,8 +2836,8 @@
         "elements": [
           {
             "label": "总体评价与建议",
-            "tabName": "总体评价与建议",
-            "objectName": "总体评价与建议",
+            "subTablePrimaryKey": "总体评价与建议",
+            "subTableName": "总体评价与建议",
             "subFormFlag": "Y",
             "items": [
               {

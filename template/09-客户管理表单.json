@@ -18,8 +18,8 @@
         "elements": [
           {
             "label": "客户基本信息",
-            "tabName": "客户基本信息",
-            "objectName": "客户基本信息",
+            "subTablePrimaryKey": "客户基本信息",
+            "subTableName": "客户基本信息",
             "subFormFlag": "Y",
             "items": [
               {
@@ -409,8 +409,8 @@
         "elements": [
           {
             "label": "商务信息",
-            "tabName": "商务信息",
-            "objectName": "商务信息",
+            "subTablePrimaryKey": "商务信息",
+            "subTableName": "商务信息",
             "subFormFlag": "Y",
             "items": [
               {

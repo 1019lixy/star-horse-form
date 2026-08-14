@@ -80,7 +80,7 @@ const buildTabLikeChildren = (field: any): any[] => {
       `${field.id}__el_${idx}`,
       el.label || `Tab ${idx + 1}`,
       "__panel__",
-      el.tabName || "",
+      el.subTablePrimaryKey || "",
       false,
       allItems.map((item: any) =>
         CONTAINER_TYPES.includes(item.itemType)

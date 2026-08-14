@@ -18,8 +18,8 @@
         "elements": [
           {
             "label": "出差信息",
-            "tabName": "出差信息",
-            "objectName": "出差信息",
+            "subTablePrimaryKey": "出差信息",
+            "subTableName": "出差信息",
             "subFormFlag": "Y",
             "items": [
               {
@@ -414,8 +414,8 @@
         "elements": [
           {
             "label": "预算明细",
-            "tabName": "预算明细",
-            "objectName": "预算明细",
+            "subTablePrimaryKey": "预算明细",
+            "subTableName": "预算明细",
             "subFormFlag": "Y",
             "items": [
               {

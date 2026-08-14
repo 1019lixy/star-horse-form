@@ -18,8 +18,8 @@
         "elements": [
           {
             "label": "车主基本信息",
-            "tabName": "车主基本信息",
-            "objectName": "车主基本信息",
+            "subTablePrimaryKey": "车主基本信息",
+            "subTableName": "车主基本信息",
             "subFormFlag": "Y",
             "items": [
               {
@@ -422,8 +422,8 @@
         "elements": [
           {
             "label": "车辆信息",
-            "tabName": "车辆信息",
-            "objectName": "车辆信息",
+            "subTablePrimaryKey": "车辆信息",
+            "subTableName": "车辆信息",
             "subFormFlag": "Y",
             "items": [
               {
@@ -965,8 +965,8 @@
         "elements": [
           {
             "label": "日常用车习惯",
-            "tabName": "日常用车习惯",
-            "objectName": "日常用车习惯",
+            "subTablePrimaryKey": "日常用车习惯",
+            "subTableName": "日常用车习惯",
             "subFormFlag": "Y",
             "items": [
               {
@@ -1553,8 +1553,8 @@
         "elements": [
           {
             "label": "驾驶行为与安全",
-            "tabName": "驾驶行为与安全",
-            "objectName": "驾驶行为与安全",
+            "subTablePrimaryKey": "驾驶行为与安全",
+            "subTableName": "驾驶行为与安全",
             "subFormFlag": "Y",
             "items": [
               {
@@ -2058,8 +2058,8 @@
         "elements": [
           {
             "label": "保养与维护",
-            "tabName": "保养与维护",
-            "objectName": "保养与维护",
+            "subTablePrimaryKey": "保养与维护",
+            "subTableName": "保养与维护",
             "subFormFlag": "Y",
             "items": [
               {
@@ -2409,8 +2409,8 @@
         "elements": [
           {
             "label": "用车满意度与未来规划",
-            "tabName": "用车满意度与未来规划",
-            "objectName": "用车满意度与未来规划",
+            "subTablePrimaryKey": "用车满意度与未来规划",
+            "subTableName": "用车满意度与未来规划",
             "subFormFlag": "Y",
             "items": [
               {

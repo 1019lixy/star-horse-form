@@ -70,9 +70,10 @@ const dataLoadConditionList = ref<Array<SelectOption>>([]);
 const primaryKeyPolicyList = ref<Array<SelectOption>>([]);
 const buttonPermissionsList = ref<Array<SelectOption>>([]);
 const tableFieldInfo = ref<PageFieldInfo>({
-  batchFieldList: [
+  containerType:"table",
+containerFields: [
     {
-      batchName: "tableNameList",
+      subTableName: "tableNameList",
       staticData: "N",
       fieldList: [
         {
@@ -351,9 +352,10 @@ let dataFieldInfo = ref<PageFieldInfo>({
       },
     },
     {
-      batchFieldList: [
+      containerType:"table",
+containerFields: [
         {
-          batchName: "fieldCompTypes",
+          subTableName: "fieldCompTypes",
           title: i18n("dyform.utils.572"),
           helpMsg: fieldCompTypesMsg,
           fieldList: [

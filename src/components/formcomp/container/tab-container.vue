@@ -30,7 +30,7 @@ const editingText = ref<string>("");
 
 const startEditName = (element: any) => {
   if (!props.isDesign) return;
-  editingId.value = element.tabName;
+  editingId.value = element.subTablePrimaryKey;
   editingText.value = element.label || "";
   nextTick(() => {
     const input = document.querySelector(`.tab-edit-input input`) as HTMLInputElement;
@@ -76,22 +76,22 @@ onMounted(() => {
     props.field["preps"]["elements"] = [
       {
         label: "Tab1",
-        tabName: "tab1",
-        objectName: "tab1",
+        subTablePrimaryKey: "tab1",
+        subTableName: "tab1",
         subFormFlag: "Y",
         items: [],
       },
       {
         label: "Tab2",
-        tabName: "tab2",
-        objectName: "tab2",
+        subTablePrimaryKey: "tab2",
+        subTableName: "tab2",
         subFormFlag: "Y",
         items: [],
       },
     ];
     props.field["stretch"] = "N";
   }
-  activeTabName.value = props.field.preps.elements[0].tabName;
+  activeTabName.value = props.field.preps.elements[0].subTablePrimaryKey;
 });
 watch(
     () => activeTabName.value,
@@ -134,11 +134,14 @@ const addTab = () => {
       <el-tab-pane
           v-for="(adata, key) in field['preps']['elements']"
           :key="compKey(adata, key)"
-          :name="adata['tabName']"
+          :name="adata['subTablePrimaryKey']"
+          :disabled="adata['disabled'] || false"
+          :lazy="adata['lazy'] || false"
+          :closable="adata['paneClosable'] || false"
       >
         <template #label>
           <span
-            v-if="editingId !== adata.tabName"
+            v-if="editingId !== adata.subTablePrimaryKey"
             class="editable-name"
             @dblclick.stop="startEditName(adata)"
           >{{ adata['label'] }}</span>

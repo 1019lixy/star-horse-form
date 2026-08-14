@@ -201,7 +201,14 @@ const getColIndex = (rowIndex: number, colIndex: number, col: any) => {
       :parentField="parentField"
       :form-item="field"
   >
-    <table ref="containerTableRef" class="dynamic-table">
+    <table
+        ref="containerTableRef"
+        class="dynamic-table"
+        :border="field.preps['tableBorder'] !== undefined ? (field.preps['tableBorder'] ? 1 : 0) : 1"
+        :cellpadding="field.preps['cellpadding'] !== undefined ? field.preps['cellpadding'] : 5"
+        :cellspacing="field.preps['cellspacing'] !== undefined ? field.preps['cellspacing'] : 0"
+        :style="{ width: field.preps['tableWidth'] || '100%' }"
+    >
       <!-- 隐藏的表头行，用于保持列结构和宽度 -->
       <thead v-if="field.preps.elements.length > 0">
       <tr class="hidden-header">

@@ -60,7 +60,7 @@ onMounted(() => {
   if (!props.field["preps"]) props.field["preps"] = {};
   if (!props.field["preps"]?.["elements"]) {
     props.field["preps"]["elements"] = [
-      {label: "Dialog", tabName: "dialog", objectName: "dialog", subFormFlag: "Y", items: []},
+      {label: "Dialog", subTablePrimaryKey: "dialog", subTableName: "dialog", subFormFlag: "Y", items: []},
     ];
   }
 });
@@ -95,7 +95,7 @@ onMounted(() => {
       </div>
       <draggable
           v-for="adata in field['preps']['elements']"
-          :key="adata.tabName"
+          :key="adata.subTablePrimaryKey"
           @add="(evt: Event) => onDragAdd(evt, adata['items'])"
           @dragover="checkItem(adata)"
           class="dialog-design"
@@ -135,14 +135,21 @@ onMounted(() => {
         :title="field.preps['dialogTitle'] || field.preps['btnText'] || i18n('dyform.container.dialogDefaultBtn')"
         :boxWidth="field.preps['boxWidth'] || '50%'"
         :selfFunc="true"
-        :close-on-click-modal="false"
+        :close-on-click-modal="field.preps['closeOnClickModal'] !== undefined ? field.preps['closeOnClickModal'] : false"
+        :close-on-press-escape="field.preps['closeOnPressEscape'] !== undefined ? field.preps['closeOnPressEscape'] : true"
+        :show-close="field.preps['showClose'] !== undefined ? field.preps['showClose'] : true"
+        :modal="field.preps['modal'] !== undefined ? field.preps['modal'] : true"
+        :fullscreen="field.preps['fullscreen'] || false"
+        :draggable="field.preps['draggable'] || false"
+        :center="field.preps['center'] || false"
+        :top="field.preps['top'] || '15vh'"
         append-to-body
-        destroy-on-close
+        :destroy-on-close="field.preps['destroyOnClose'] !== undefined ? field.preps['destroyOnClose'] : true"
         @merge="handleClose"
         @closeAction="handleClose"
     >
       <div class="dialog-content">
-        <template v-for="adata in field['preps']['elements']" :key="adata.tabName">
+        <template v-for="adata in field['preps']['elements']" :key="adata.subTablePrimaryKey">
           <draggable
               v-if="isDesign"
               @add="(evt: Event) => onDragAdd(evt, adata['items'])"

@@ -112,11 +112,16 @@ const deleteCol = (index: number) => {
     <table
         ref="containerTableRef"
         class="dynamic-table"
+        :class="{'striped-table': field.preps['striped']}"
+        :border="field.preps['tableBorder'] !== undefined ? (field.preps['tableBorder'] ? 1 : 0) : 1"
+        :cellpadding="field.preps['cellpadding'] !== undefined ? field.preps['cellpadding'] : 5"
+        :cellspacing="field.preps['cellspacing'] !== undefined ? field.preps['cellspacing'] : 0"
         :style="{
-        border: isEdit && isDesign ? '1px solid #dfe6ec' : 'none',
+        width: field.preps['tableWidth'] || '100%',
+        border: isEdit && isDesign ? '1px solid #dfe6ec' : (field.preps['tableBorder'] === false ? 'none' : '1px solid #dfe6ec'),
       }"
     >
-      <thead class="container-thead">
+      <thead class="container-thead" v-if="field.preps['showHeader'] !== false">
       <tr>
         <th
             v-for="td of parseInt(field.preps.columns || 1)"
@@ -265,5 +270,9 @@ tr {
     height: 30px;
     font-size: 14px;
   }
+}
+
+.striped-table tbody tr:nth-child(odd) {
+  background: #fafafa;
 }
 </style>

@@ -18,8 +18,8 @@
         "elements": [
           {
             "label": "申请人信息",
-            "tabName": "申请人信息",
-            "objectName": "申请人信息",
+            "subTablePrimaryKey": "申请人信息",
+            "subTableName": "申请人信息",
             "subFormFlag": "Y",
             "items": [
               {
@@ -189,8 +189,8 @@
         "elements": [
           {
             "label": "业务详情",
-            "tabName": "业务详情",
-            "objectName": "业务详情",
+            "subTablePrimaryKey": "业务详情",
+            "subTableName": "业务详情",
             "subFormFlag": "Y",
             "items": [
               {
@@ -425,8 +425,8 @@
           },
           {
             "label": "审批流程",
-            "tabName": "审批流程",
-            "objectName": "审批流程",
+            "subTablePrimaryKey": "审批流程",
+            "subTableName": "审批流程",
             "subFormFlag": "Y",
             "items": [
               {
@@ -558,8 +558,8 @@
           },
           {
             "label": "执行记录",
-            "tabName": "执行记录",
-            "objectName": "执行记录",
+            "subTablePrimaryKey": "执行记录",
+            "subTableName": "执行记录",
             "subFormFlag": "Y",
             "items": [
               {

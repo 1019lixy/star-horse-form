@@ -18,8 +18,8 @@
         "elements": [
           {
             "label": "基本信息",
-            "tabName": "基本信息",
-            "objectName": "基本信息",
+            "subTablePrimaryKey": "基本信息",
+            "subTableName": "基本信息",
             "subFormFlag": "Y",
             "items": [
               {
@@ -601,8 +601,8 @@
         "elements": [
           {
             "label": "工作满意度",
-            "tabName": "工作满意度",
-            "objectName": "工作满意度",
+            "subTablePrimaryKey": "工作满意度",
+            "subTableName": "工作满意度",
             "subFormFlag": "Y",
             "items": [
               {
@@ -1321,8 +1321,8 @@
         "elements": [
           {
             "label": "职业发展",
-            "tabName": "职业发展",
-            "objectName": "职业发展",
+            "subTablePrimaryKey": "职业发展",
+            "subTableName": "职业发展",
             "subFormFlag": "Y",
             "items": [
               {
@@ -1776,8 +1776,8 @@
         "elements": [
           {
             "label": "团队与管理",
-            "tabName": "团队与管理",
-            "objectName": "团队与管理",
+            "subTablePrimaryKey": "团队与管理",
+            "subTableName": "团队与管理",
             "subFormFlag": "Y",
             "items": [
               {
@@ -2248,8 +2248,8 @@
         "elements": [
           {
             "label": "工作环境与福利",
-            "tabName": "工作环境与福利",
-            "objectName": "工作环境与福利",
+            "subTablePrimaryKey": "工作环境与福利",
+            "subTableName": "工作环境与福利",
             "subFormFlag": "Y",
             "items": [
               {

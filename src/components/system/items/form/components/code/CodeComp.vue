@@ -11,7 +11,7 @@ let designForm = getDesignFormStore();
 let compList = computed(() => designForm.compList);
 let formInfo = computed(() => designForm.formInfo);
 let compSize = computed(() => props.optional?.compSize ?? "default");
-let tabName = ref<string>("vue3");
+let subTablePrimaryKey = ref<string>("vue3");
 let codeStyle = ref<string>("pc");
 let pageInfo = ref<any>({});
 const init = async (type: string) => {
@@ -52,7 +52,7 @@ watch(
     () => {
       // 当舞台数据变化时（如导入），同步更新代码编辑器
       init(codeStyle.value);
-      if (tabName.value === "json_prototype") {
+      if (subTablePrimaryKey.value === "json_prototype") {
         jsonPrototype.value = compList.value;
       }
     },
@@ -60,7 +60,7 @@ watch(
 );
 </script>
 <template>
-  <el-tabs v-model="tabName" type="border-card" @tabChange="tabChange">
+  <el-tabs v-model="subTablePrimaryKey" type="border-card" @tabChange="tabChange">
     <el-tab-pane name="vue3" label="Vue3">
       <vue3 :formInfo="formInfo" :compList="pageInfo" :compSize="compSize"/>
     </el-tab-pane>

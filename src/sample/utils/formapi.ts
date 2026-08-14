@@ -625,17 +625,17 @@ export function setCssVar(
  * 获取关联属性逻辑
  * @param formFields 表单属性
  * @param fieldName 属性名称
- * @param batchName 关联Key 如果有
+ * @param subTableName 关联Key 如果有
  * @param xh 列序号
  */
 export function relationFieldOperation(
     formFields: any,
     fieldName: string,
-    batchName: string | null,
+    subTableName: string | null,
     xh: number | null,
 ): any {
-    if (batchName) {
-        const tempList = formFields[batchName];
+    if (subTableName) {
+        const tempList = formFields[subTableName];
         for (const index in tempList) {
             const tmpIndex = +index;
             const item = tempList[index] as Array<ShallowRef>;
@@ -756,7 +756,7 @@ export function formFieldMapping(fieldList: PageFieldInfo) {
     const processFieldDefaultValue = (
         item: FieldInfo,
         target: any,
-        batchName?: string,
+        subTableName?: string,
     ) => {
         if (item.defaultValue) {
             if (isJson(item.defaultValue)) {
@@ -787,8 +787,8 @@ export function formFieldMapping(fieldList: PageFieldInfo) {
                 actions: item.actions,
                 fieldName: item.fieldName,
             };
-            if (batchName) {
-                actionItem.batchName = batchName;
+            if (subTableName) {
+                actionItem.subTableName = subTableName;
             }
             actions.push(actionItem);
         }
@@ -797,9 +797,9 @@ export function formFieldMapping(fieldList: PageFieldInfo) {
     const tabOperation = (data: TabFieldInfo) => {
         const fieldList = data.fieldList as Array<FieldInfo>;
         if ("Y" == data.subFormFlag) {
-            defaultDatas[data.tabName] = {};
+            defaultDatas[data.subTablePrimaryKey] = {};
             //如果是子表
-            fieldsOperation(fieldList, defaultDatas[data.tabName]);
+            fieldsOperation(fieldList, defaultDatas[data.subTablePrimaryKey]);
         } else {
             fieldsOperation(fieldList, defaultDatas);
         }
@@ -808,13 +808,13 @@ export function formFieldMapping(fieldList: PageFieldInfo) {
     const tableOperation = (batchTempList: Array<BatchFieldInfo>) => {
         // 优化点8: 预分配数组空间
         batchTempList.forEach((temp, index) => {
-            const batchName = temp.batchName;
+            const subTableName = temp.subTableName;
 
-            if (!defaultDatas[batchName]) {
-                defaultDatas[batchName] = [];
+            if (!defaultDatas[subTableName]) {
+                defaultDatas[subTableName] = [];
             }
 
-            const defaultValueKey = batchName + "DefaultValue";
+            const defaultValueKey = subTableName + "DefaultValue";
             if (!batchDefaultValues[defaultValueKey]) {
                 batchDefaultValues[defaultValueKey] = [];
             }
@@ -825,7 +825,7 @@ export function formFieldMapping(fieldList: PageFieldInfo) {
             // 优化点9: 使用for循环代替forEach，减少函数调用开销
             for (let i = 0; i < fieldList.length; i++) {
                 const item = fieldList[i];
-                processFieldDefaultValue(item, tempData, batchName);
+                processFieldDefaultValue(item, tempData, subTableName);
             }
 
             batchDefaultValues[defaultValueKey].push(tempData);
@@ -861,9 +861,11 @@ export function formFieldMapping(fieldList: PageFieldInfo) {
                     tabList.forEach((tabItem: TabFieldInfo) => {
                         tabOperation(tabItem);
                     });
-                } else if (temp["batchFieldList"]) {
+                } else if (temp["containerType:"table",
+containerFields"]) {
                     //如果是tableList
-                    const tableList = temp["batchFieldList"] as Array<BatchFieldInfo>;
+                    const tableList = temp["containerType:"table",
+containerFields"] as Array<BatchFieldInfo>;
                     tableOperation(tableList);
                 } else {
                     // 处理单个字段
@@ -892,8 +894,10 @@ export function formFieldMapping(fieldList: PageFieldInfo) {
                     tabList.forEach((tabItem: TabFieldInfo) => {
                         tabOperation(tabItem);
                     });
-                } else if (temp["batchFieldList"]) {
-                    const tableList = temp["batchFieldList"] as Array<BatchFieldInfo>;
+                } else if (temp["containerType:"table",
+containerFields"]) {
+                    const tableList = temp["containerType:"table",
+containerFields"] as Array<BatchFieldInfo>;
                     tableOperation(tableList);
                 } else {
                     processFieldDefaultValue(temp, defaultData);
@@ -906,8 +910,10 @@ export function formFieldMapping(fieldList: PageFieldInfo) {
     fieldsOperation(tempList, defaultDatas);
 
     // 优化点16: 检查batchFieldList是否存在
-    if (fieldList?.batchFieldList) {
-        tableOperation(fieldList.batchFieldList);
+    if (fieldList?.containerType:"table",
+containerFields) {
+        tableOperation(fieldList.containerType:"table",
+containerFields);
     }
 
     // 优化点17: 使用Object.assign代替展开运算符，避免创建过多中间对象
@@ -938,7 +944,7 @@ export function batchFieldDefaultValues(datas: BatchFieldInfo, dataForm: any) {
 
     // 创建缓存键
     const fieldList = datas["fieldList"];
-    const cacheKey = `batch_default_${datas.batchName}_${fieldList?.length || 0}`;
+    const cacheKey = `batch_default_${datas.subTableName}_${fieldList?.length || 0}`;
 
     // 检查缓存
     const cachedResult = formFieldCache.get(cacheKey);
@@ -972,7 +978,7 @@ export function batchFieldDefaultValues(datas: BatchFieldInfo, dataForm: any) {
     }
 
     if (dataForm) {
-        let temp = unref(dataForm)[datas.batchName];
+        let temp = unref(dataForm)[datas.subTableName];
         if (temp) {
             defaultValues = {...temp, ...defaultValues};
         }

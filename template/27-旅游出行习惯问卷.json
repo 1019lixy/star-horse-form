@@ -18,8 +18,8 @@
         "elements": [
           {
             "label": "基本信息",
-            "tabName": "基本信息",
-            "objectName": "基本信息",
+            "subTablePrimaryKey": "基本信息",
+            "subTableName": "基本信息",
             "subFormFlag": "Y",
             "items": [
               {
@@ -417,8 +417,8 @@
         "elements": [
           {
             "label": "旅游频率与预算",
-            "tabName": "旅游频率与预算",
-            "objectName": "旅游频率与预算",
+            "subTablePrimaryKey": "旅游频率与预算",
+            "subTableName": "旅游频率与预算",
             "subFormFlag": "Y",
             "items": [
               {
@@ -798,8 +798,8 @@
         "elements": [
           {
             "label": "旅游偏好",
-            "tabName": "旅游偏好",
-            "objectName": "旅游偏好",
+            "subTablePrimaryKey": "旅游偏好",
+            "subTableName": "旅游偏好",
             "subFormFlag": "Y",
             "items": [
               {
@@ -1440,8 +1440,8 @@
         "elements": [
           {
             "label": "交通与住宿",
-            "tabName": "交通与住宿",
-            "objectName": "交通与住宿",
+            "subTablePrimaryKey": "交通与住宿",
+            "subTableName": "交通与住宿",
             "subFormFlag": "Y",
             "items": [
               {
@@ -1882,8 +1882,8 @@
         "elements": [
           {
             "label": "旅途体验",
-            "tabName": "旅途体验",
-            "objectName": "旅途体验",
+            "subTablePrimaryKey": "旅途体验",
+            "subTableName": "旅途体验",
             "subFormFlag": "Y",
             "items": [
               {
@@ -2551,8 +2551,8 @@
         "elements": [
           {
             "label": "旅游满意度与期望",
-            "tabName": "旅游满意度与期望",
-            "objectName": "旅游满意度与期望",
+            "subTablePrimaryKey": "旅游满意度与期望",
+            "subTableName": "旅游满意度与期望",
             "subFormFlag": "Y",
             "items": [
               {

@@ -59,7 +59,7 @@ onMounted(() => {
   if (!props.field["preps"]) props.field["preps"] = {};
   if (!props.field["preps"]?.["elements"]) {
     props.field["preps"]["elements"] = [
-      {label: "Drawer", tabName: "drawer", objectName: "drawer", subFormFlag: "Y", items: []},
+      {label: "Drawer", subTablePrimaryKey: "drawer", subTableName: "drawer", subFormFlag: "Y", items: []},
     ];
   }
 });
@@ -94,7 +94,7 @@ onMounted(() => {
       </div>
       <draggable
           v-for="adata in field['preps']['elements']"
-          :key="adata.tabName"
+          :key="adata.subTablePrimaryKey"
           @add="(evt: Event) => onDragAdd(evt, adata['items'])"
           @dragover="checkItem(adata)"
           class="drawer-design"
@@ -136,11 +136,16 @@ onMounted(() => {
         :direction="field.preps['direction'] || 'rtl'"
         :size="field.preps['drawerSize'] || '40%'"
         :selfFunc="true"
+        :modal="field.preps['modal'] !== undefined ? field.preps['modal'] : true"
+        :close-on-click-modal="field.preps['closeOnClickModal'] !== undefined ? field.preps['closeOnClickModal'] : true"
+        :close-on-press-escape="field.preps['closeOnPressEscape'] !== undefined ? field.preps['closeOnPressEscape'] : true"
+        :show-close="field.preps['showClose'] !== undefined ? field.preps['showClose'] : true"
+        :with-header="field.preps['withHeader'] !== undefined ? field.preps['withHeader'] : true"
         @merge="handleClose"
         @close="handleClose"
     >
       <div class="drawer-content">
-        <template v-for="adata in field['preps']['elements']" :key="adata.tabName">
+        <template v-for="adata in field['preps']['elements']" :key="adata.subTablePrimaryKey">
           <draggable
               v-if="isDesign"
               @add="(evt: Event) => onDragAdd(evt, adata['items'])"

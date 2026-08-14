@@ -18,8 +18,8 @@
         "elements": [
           {
             "label": "基本信息",
-            "tabName": "基本信息",
-            "objectName": "基本信息",
+            "subTablePrimaryKey": "基本信息",
+            "subTableName": "基本信息",
             "subFormFlag": "Y",
             "items": [
               {
@@ -393,8 +393,8 @@
         "elements": [
           {
             "label": "商品详情",
-            "tabName": "商品详情",
-            "objectName": "商品详情",
+            "subTablePrimaryKey": "商品详情",
+            "subTableName": "商品详情",
             "subFormFlag": "Y",
             "items": [
               {
@@ -520,8 +520,8 @@
         "elements": [
           {
             "label": "规格参数",
-            "tabName": "规格参数",
-            "objectName": "规格参数",
+            "subTablePrimaryKey": "规格参数",
+            "subTableName": "规格参数",
             "subFormFlag": "Y",
             "items": [
               {

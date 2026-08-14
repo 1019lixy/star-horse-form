@@ -30,7 +30,7 @@ const editingText = ref<string>("");
 
 const startEditName = (element: any) => {
   if (!props.isDesign) return;
-  editingId.value = element.tabName;
+  editingId.value = element.subTablePrimaryKey;
   editingText.value = element.label || "";
   nextTick(() => {
     const input = document.querySelector(`.step-edit-input input`) as HTMLInputElement;
@@ -76,7 +76,7 @@ const elements = computed(() => props.field?.preps?.elements || []);
 
 const activeStepName = computed(() => {
   const el = elements.value[activeStepIndex.value];
-  return el?.tabName || "";
+  return el?.subTablePrimaryKey || "";
 });
 
 watch(
@@ -124,6 +124,15 @@ const processStatus = computed(() => props.field?.preps?.processStatus || "proce
 
 // 居中对齐
 const alignCenter = computed(() => props.field?.preps?.alignCenter === "Y");
+
+// 步骤间距
+const stepSpace = computed(() => {
+  const space = props.field?.preps?.space;
+  return space ? `${space}px` : undefined;
+});
+
+// 完成图标
+const finishIcon = computed(() => props.field?.preps?.finishIcon || "");
 
 // ==================== 每步必填验证 ====================
 /**
@@ -185,7 +194,7 @@ const validateStep = (stepIndex: number): { valid: boolean; missingFields: any[]
   requiredFields.forEach((f: any) => {
     const val = sameForm.value
       ? formData.value?.[f.fieldName]
-      : formData.value?.[step.objectName]?.[f.fieldName];
+      : formData.value?.[step.subTableName]?.[f.fieldName];
     if (isEmptyValue(val)) {
       missing.push(f);
     }
@@ -301,8 +310,8 @@ const addStep = () => {
   const len = props.field.preps.elements.length;
   const newStep = {
     label: i18n("dyform.step.defaultName") + (len + 1),
-    tabName: "step" + (len + 1),
-    objectName: "step" + (len + 1),
+    subTablePrimaryKey: "step" + (len + 1),
+    subTableName: "step" + (len + 1),
     subFormFlag: sameForm.value ? "N" : "Y",
     items: [],
   };
@@ -331,15 +340,15 @@ onMounted(() => {
     props.field["preps"]["elements"] = [
       {
         label: i18n("dyform.step.defaultName") + "1",
-        tabName: "step1",
-        objectName: "step1",
+        subTablePrimaryKey: "step1",
+        subTableName: "step1",
         subFormFlag: "N",
         items: [],
       },
       {
         label: i18n("dyform.step.defaultName") + "2",
-        tabName: "step2",
-        objectName: "step2",
+        subTablePrimaryKey: "step2",
+        subTableName: "step2",
         subFormFlag: "N",
         items: [],
       },
@@ -355,8 +364,8 @@ onMounted(() => {
   if (activeStepIndex.value >= elements.value.length) {
     activeStepIndex.value = 0;
   }
-  if (elements.value[activeStepIndex.value]?.tabName) {
-    props.field["activeItemName"] = elements.value[activeStepIndex.value].tabName;
+  if (elements.value[activeStepIndex.value]?.subTablePrimaryKey) {
+    props.field["activeItemName"] = elements.value[activeStepIndex.value].subTablePrimaryKey;
     designForm.setCurrentSubTabName(props.field["activeItemName"]);
   }
 });
@@ -391,6 +400,7 @@ watch(
             `sh-step-bar--${stepDirection}`,
             { 'sh-step-bar--simple': stepSimple, 'sh-step-bar--align-center': alignCenter }
           ]"
+          :style="{ gap: stepSpace }"
       >
         <div
             v-for="(adata, idx) in elements"
@@ -403,7 +413,8 @@ watch(
           <div class="sh-step-indicator">
             <div class="sh-step-circle">
               <span v-if="getStepStatus(Number(idx)) === 'finish' || getStepStatus(Number(idx)) === 'success'" class="sh-step-icon">
-                <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                <star-horse-icon v-if="finishIcon" :icon-class="finishIcon" size="20px"/>
+                <svg v-else viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
                   <polyline points="20 6 9 17 4 12"/>
                 </svg>
               </span>
@@ -422,7 +433,7 @@ watch(
           <!-- 标题 -->
           <div class="sh-step-content">
             <span
-                v-if="editingId !== adata.tabName"
+                v-if="editingId !== adata.subTablePrimaryKey"
                 class="sh-step-title editable-name"
                 @dblclick.stop="startEditName(adata)"
             >{{ adata.label }}</span>
@@ -445,7 +456,7 @@ watch(
       <div class="step-content-wrapper">
         <div
             v-for="(adata, idx) in elements"
-            :key="adata.tabName"
+            :key="adata.subTablePrimaryKey"
             v-show="idx === activeStepIndex"
             class="step-pane"
         >

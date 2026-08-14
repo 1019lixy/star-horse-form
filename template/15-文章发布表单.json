@@ -18,8 +18,8 @@
         "elements": [
           {
             "label": "文章信息",
-            "tabName": "文章信息",
-            "objectName": "文章信息",
+            "subTablePrimaryKey": "文章信息",
+            "subTableName": "文章信息",
             "subFormFlag": "Y",
             "items": [
               {
@@ -337,8 +337,8 @@
         "elements": [
           {
             "label": "文章内容",
-            "tabName": "文章内容",
-            "objectName": "文章内容",
+            "subTablePrimaryKey": "文章内容",
+            "subTableName": "文章内容",
             "subFormFlag": "Y",
             "items": [
               {
@@ -386,8 +386,8 @@
         "elements": [
           {
             "label": "SEO 设置",
-            "tabName": "SEO 设置",
-            "objectName": "SEO 设置",
+            "subTablePrimaryKey": "SEO 设置",
+            "subTableName": "SEO 设置",
             "subFormFlag": "Y",
             "items": [
               {

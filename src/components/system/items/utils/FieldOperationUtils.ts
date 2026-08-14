@@ -117,8 +117,8 @@ export function fieldCopy(data: any, type: string) {
         mvData.preps["elements"] = [
             {
                 label: reData.itemName,
-                tabName: reData.itemType,
-                objectName: reData.itemType,
+                subTablePrimaryKey: reData.itemType,
+                subTableName: reData.itemType,
                 subFormFlag: "Y",
                 items: [],
             },
@@ -137,11 +137,11 @@ export function fieldCopy(data: any, type: string) {
                 }
             }
         });
-        // anchor默认创建2个区块
+        // anchor默认创建2个区块(含anchorItem独立配置字段)
         if (reData.itemType === "anchor") {
             mvData.preps["elements"] = [
-                {label: "区块 1", tabName: "anchor1", objectName: "anchor1", subFormFlag: "Y", items: []},
-                {label: "区块 2", tabName: "anchor2", objectName: "anchor2", subFormFlag: "Y", items: []},
+                {label: "区块 1", subTablePrimaryKey: "anchor1", subTableName: "anchor1", subFormFlag: "Y", anchorTitle: "", anchorHref: "", anchorIcon: "", anchorDisabled: false, items: []},
+                {label: "区块 2", subTablePrimaryKey: "anchor2", subTableName: "anchor2", subFormFlag: "Y", anchorTitle: "", anchorHref: "", anchorIcon: "", anchorDisabled: false, items: []},
             ];
         }
     }

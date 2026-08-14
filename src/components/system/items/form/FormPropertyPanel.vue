@@ -124,7 +124,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
       containerFields: [
         {
           title: i18n("dyform.formProp.basicProps"),
-          tabName: "tab1",
+          subTablePrimaryKey: "tab1",
           fieldList: [
               {
                 label: i18n("dyform.formProp.tableName"),
@@ -350,12 +350,13 @@ const tableFieldList = reactive<PageFieldInfo | any>({
         },
         {
           title: i18n("dyform.formProp.relationConfig"),
-          tabName: "tab2",
+          subTablePrimaryKey: "tab2",
           disVisible: model.value != "full",
           helpMsg: relationMsg,
-          batchFieldList: [
+          containerType:"table",
+containerFields: [
             {
-              batchName: "relations",
+              subTableName: "relations",
               initRows: 0,
               fieldList: [
                 {
@@ -385,13 +386,13 @@ const tableFieldList = reactive<PageFieldInfo | any>({
         },
         {
           title: i18n("dyform.formProp.scriptBinding"),
-          tabName: "tab3",
+          subTablePrimaryKey: "tab3",
           disVisible: !["default", "full"].includes(model.value),
           fieldList: [],
         },
         {
           title: i18n("dyform.formProp.otherProps"),
-          tabName: "tab4",
+          subTablePrimaryKey: "tab4",
           disVisible: !["default", "full"].includes(model.value),
           fieldList: [
             [
@@ -511,7 +512,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
         },
         {
           title: i18n("dyform.formProp.publicProps"),
-          tabName: "tab5",
+          subTablePrimaryKey: "tab5",
           disVisible: !["default", "full"].includes(model.value),
           helpMsg: commonColumnsMsg,
           fieldList: [
@@ -546,10 +547,11 @@ const tableFieldList = reactive<PageFieldInfo | any>({
               },
             ],
             {
-              batchFieldList: [
+              containerType:"table",
+containerFields: [
                 {
-                  objectName: "commonFieldControllers",
-                  batchName: "commonFieldControllers",
+                  subTableName: "commonFieldControllers",
+                  subTableName: "commonFieldControllers",
                   initRows: 0,
                   subFormFlag: "Y",
                   fieldList: [
@@ -595,14 +597,15 @@ const tableFieldList = reactive<PageFieldInfo | any>({
           ],
         },
         {
-          tabName: "tab6",
+          subTablePrimaryKey: "tab6",
           title: i18n("dyform.formProp.listConfig"),
           disVisible: !["full"].includes(model.value),
           helpMsg: tableListMsg,
-          batchFieldList: [
+          containerType:"table",
+containerFields: [
             {
-              objectName: "fieldMappingList",
-              batchName: "fieldMappingList",
+              subTableName: "fieldMappingList",
+              subTableName: "fieldMappingList",
               subFormFlag: "Y",
               initRows: 0,
               fieldList: [
@@ -676,13 +679,14 @@ const tableFieldList = reactive<PageFieldInfo | any>({
           ],
         },
         {
-          tabName: "tab7",
+          subTablePrimaryKey: "tab7",
           title: i18n("dyform.formProp.listCustomEvent"),
           disVisible: !["full"].includes(model.value),
-          batchFieldList: [
+          containerType:"table",
+containerFields: [
             {
-              objectName: "listActions",
-              batchName: "listActions",
+              subTableName: "listActions",
+              subTableName: "listActions",
               subFormFlag: "Y",
               staticData: "Y",
               initRows: 0,
@@ -782,13 +786,14 @@ const tableFieldList = reactive<PageFieldInfo | any>({
           ],
         },
         {
-          tabName: "tab8",
+          subTablePrimaryKey: "tab8",
           title: i18n("dyform.formProp.listSortField"),
           disVisible: !["default", "full"].includes(model.value),
-          batchFieldList: [
+          containerType:"table",
+containerFields: [
             {
-              objectName: "orderBy",
-              batchName: "orderBy",
+              subTableName: "orderBy",
+              subTableName: "orderBy",
               subFormFlag: "Y",
               initRows: 0,
               fieldList: [

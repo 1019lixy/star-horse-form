@@ -18,8 +18,8 @@
         "elements": [
           {
             "label": "看板基本信息",
-            "tabName": "看板基本信息",
-            "objectName": "看板基本信息",
+            "subTablePrimaryKey": "看板基本信息",
+            "subTableName": "看板基本信息",
             "subFormFlag": "Y",
             "items": [
               {
@@ -182,8 +182,8 @@
         "elements": [
           {
             "label": "图表配置",
-            "tabName": "图表配置",
-            "objectName": "图表配置",
+            "subTablePrimaryKey": "图表配置",
+            "subTableName": "图表配置",
             "subFormFlag": "Y",
             "items": [
               {
@@ -199,8 +199,8 @@
                   "elements": [
                     {
                       "label": "图表1 - 趋势图",
-                      "tabName": "图表1 - 趋势图",
-                      "objectName": "图表1 - 趋势图",
+                      "subTablePrimaryKey": "图表1 - 趋势图",
+                      "subTableName": "图表1 - 趋势图",
                       "subFormFlag": "Y",
                       "items": [
                         {
@@ -387,8 +387,8 @@
                     },
                     {
                       "label": "图表2 - 统计卡片",
-                      "tabName": "图表2 - 统计卡片",
-                      "objectName": "图表2 - 统计卡片",
+                      "subTablePrimaryKey": "图表2 - 统计卡片",
+                      "subTableName": "图表2 - 统计卡片",
                       "subFormFlag": "Y",
                       "items": [
                         {
@@ -550,8 +550,8 @@
                     },
                     {
                       "label": "图表3 - 数据表格",
-                      "tabName": "图表3 - 数据表格",
-                      "objectName": "图表3 - 数据表格",
+                      "subTablePrimaryKey": "图表3 - 数据表格",
+                      "subTableName": "图表3 - 数据表格",
                       "subFormFlag": "Y",
                       "items": [
                         {

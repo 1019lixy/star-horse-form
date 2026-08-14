@@ -49,12 +49,12 @@ export const typeConvertList: SelectOption[] = [
  * Create shared Request tab config
  * @param title
  * @param i18nPrefix - i18n key prefix: "dyform.apiSource" or "dyform.relation.apiLinkage"
- * @param objectName - tab object name
+ * @param subTableName - tab object name
  * @param defaultMethod - default HTTP method
  * @param dataRequired
  * @param interfaceUtils
  */
-export function createRequestTab(title: string, i18nPrefix: string, objectName: string, defaultMethod: string = "GET", dataRequired: boolean = true,
+export function createRequestTab(title: string, i18nPrefix: string, subTableName: string, defaultMethod: string = "GET", dataRequired: boolean = true,
                                  interfaceUtils?: any) {
     const {
         methodList,
@@ -71,8 +71,8 @@ export function createRequestTab(title: string, i18nPrefix: string, objectName: 
     const tabHide = ref<boolean>(false);
     return {
         title: title,
-        tabName: objectName,
-        objectName,
+        subTablePrimaryKey: subTableName,
+        subTableName,
         subFormFlag: "Y",
         fieldList: [
             [{
@@ -109,8 +109,8 @@ export function createRequestTab(title: string, i18nPrefix: string, objectName: 
                 containerFields: [
                     {
                         title: i18n("dyform.apiConfig.section.apiInfo"),
-                        tabName: "a",
-                        objectName: "a",
+                        subTablePrimaryKey: "a",
+                        subTableName: "a",
                         fieldList: [
                             [
                                 {
@@ -221,8 +221,8 @@ export function createRequestTab(title: string, i18nPrefix: string, objectName: 
                         ]
                     }, {
                         title: i18n("dyform.apiConfig.section.inputConfig"),
-                        tabName: "b",
-                        objectName: "b",
+                        subTablePrimaryKey: "b",
+                        subTableName: "b",
                         fieldList: [
                             {
                                 label: i18n(`${i18nPrefix}.dataType`),
@@ -238,9 +238,10 @@ export function createRequestTab(title: string, i18nPrefix: string, objectName: 
                                 },
                             },
                             {
-                                batchFieldList: [{
+                                containerType:"table",
+containerFields: [{
                                     title: i18n(`${i18nPrefix}.headers`),
-                                    batchName: "headers",
+                                    subTableName: "headers",
                                     helpMsg: i18n(`${i18nPrefix}.headers.helpMsg`),
                                     initRows: 0,
                                     subFormFlag: "Y",
@@ -273,9 +274,10 @@ export function createRequestTab(title: string, i18nPrefix: string, objectName: 
                                 }],
                             },
                             {
-                                batchFieldList: [{
+                                containerType:"table",
+containerFields: [{
                                     title: i18n(`${i18nPrefix}.requestParams`),
-                                    batchName: "requestParams",
+                                    subTableName: "requestParams",
                                     helpMsg: i18n(`${i18nPrefix}.requestParams.helpMsg`),
                                     initRows: 0,
                                     fieldList: [
@@ -318,8 +320,8 @@ export function createRequestTab(title: string, i18nPrefix: string, objectName: 
                             }]
                     }, {
                         title: i18n("dyform.apiConfig.section.outputConfig"),
-                        tabName: "c",
-                        objectName: "c",
+                        subTablePrimaryKey: "c",
+                        subTableName: "c",
                         fieldList: [{
                             label: i18n("dyform.apiSource.responseTemplate"),
                             fieldName: "responseTemplate",
@@ -374,8 +376,8 @@ export function createRequestTab(title: string, i18nPrefix: string, objectName: 
 export function createDataSourceResponseTab() {
     return {
         title: i18n("dyform.apiSource.tab.response"),
-        tabName: "optionField",
-        objectName: "optionField",
+        subTablePrimaryKey: "optionField",
+        subTableName: "optionField",
         subFormFlag: "Y",
         fieldList: [
             [
@@ -409,12 +411,13 @@ export function createDataSourceResponseTab() {
 export function createLinkageResponseTab(formFields: SelectOption[]) {
     return {
         title: i18n("dyform.relation.apiLinkage.tab.response"),
-        tabName: "response",
-        objectName: "response",
+        subTablePrimaryKey: "response",
+        subTableName: "response",
         fieldList: [
             {
-                batchFieldList: [{
-                    batchName: "fieldMappings",
+                containerType:"table",
+containerFields: [{
+                    subTableName: "fieldMappings",
                     title: i18n("dyform.relation.apiLinkage.fieldMapping"),
                     initRows: 0,
                     fieldList: [
@@ -473,8 +476,8 @@ export function createLinkageResponseTab(formFields: SelectOption[]) {
 export function createAreaIsolation() {
     return {
         title: "区域条件配置",
-        tabName: "isolationConfig",
-        objectName: "isolationConfig",
+        subTablePrimaryKey: "isolationConfig",
+        subTableName: "isolationConfig",
         subFormFlag: "Y",
         fieldList: [
             {
@@ -489,8 +492,9 @@ export function createAreaIsolation() {
                     ]
                 }
             }, {
-                batchFieldList: [{
-                    batchName: "isolationDetails",
+                containerType:"table",
+containerFields: [{
+                    subTableName: "isolationDetails",
                     title: "隔离标识",
                     initRows: 0,
                     fieldList: [

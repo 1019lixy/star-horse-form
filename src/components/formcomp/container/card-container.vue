@@ -30,7 +30,7 @@ const editingText = ref<string>("");
 
 const startEditName = (element: any) => {
   if (!props.isDesign) return;
-  editingId.value = element.tabName || element.objectName;
+  editingId.value = element.subTablePrimaryKey || element.subTableName;
   editingText.value = element.label || "";
   nextTick(() => {
     const input = document.querySelector(`.card-edit-input input`) as HTMLInputElement;
@@ -84,8 +84,8 @@ onMounted(() => {
     props.field["preps"]["elements"] = [
       {
         label: "Card",
-        tabName: "card",
-        objectName: "card",
+        subTablePrimaryKey: "card",
+        subTableName: "card",
         subFormFlag: "Y",
         headerFieldList: [],
         items: [],
@@ -108,17 +108,19 @@ onMounted(() => {
   >
     <el-card
         class="card-container"
-        :shadow="field.preps['shadow']"
+        :shadow="field.preps['shadow'] || 'always'"
+        :body-class="field.preps['bodyClass'] || undefined"
+        :header-class="field.preps['headerClass'] || undefined"
         v-for="adata in field['preps']['elements']"
     >
       <template #header>
         <div class="card-header flex items-center justify-between max-h-[50px]">
           <div class="w-[60%] flex items-center gap-1">
             <span
-              v-if="editingId !== (adata.tabName || adata.objectName)"
+              v-if="editingId !== (adata.subTablePrimaryKey || adata.subTableName)"
               class="editable-name"
               @dblclick.stop="startEditName(adata)"
-            >{{ adata.title || adata.label || adata.tabName }}</span>
+            >{{ adata.title || adata.label || adata.subTablePrimaryKey }}</span>
             <el-input
               v-else
               class="card-edit-input"

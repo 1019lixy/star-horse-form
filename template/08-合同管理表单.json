@@ -18,8 +18,8 @@
         "elements": [
           {
             "label": "合同基本信息",
-            "tabName": "合同基本信息",
-            "objectName": "合同基本信息",
+            "subTablePrimaryKey": "合同基本信息",
+            "subTableName": "合同基本信息",
             "subFormFlag": "Y",
             "items": [
               {
@@ -387,8 +387,8 @@
         "elements": [
           {
             "label": "签约方信息",
-            "tabName": "签约方信息",
-            "objectName": "签约方信息",
+            "subTablePrimaryKey": "签约方信息",
+            "subTableName": "签约方信息",
             "subFormFlag": "Y",
             "items": [
               {
@@ -616,8 +616,8 @@
         "elements": [
           {
             "label": "附件",
-            "tabName": "附件",
-            "objectName": "附件",
+            "subTablePrimaryKey": "附件",
+            "subTableName": "附件",
             "subFormFlag": "Y",
             "items": [
               {

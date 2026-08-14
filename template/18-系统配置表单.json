@@ -17,8 +17,8 @@
         "elements": [
           {
             "label": "基本设置",
-            "tabName": "基本设置",
-            "objectName": "基本设置",
+            "subTablePrimaryKey": "基本设置",
+            "subTableName": "基本设置",
             "subFormFlag": "Y",
             "items": [
               {
@@ -198,8 +198,8 @@
           },
           {
             "label": "邮件设置",
-            "tabName": "邮件设置",
-            "objectName": "邮件设置",
+            "subTablePrimaryKey": "邮件设置",
+            "subTableName": "邮件设置",
             "subFormFlag": "Y",
             "items": [
               {
@@ -438,8 +438,8 @@
           },
           {
             "label": "安全设置",
-            "tabName": "安全设置",
-            "objectName": "安全设置",
+            "subTablePrimaryKey": "安全设置",
+            "subTableName": "安全设置",
             "subFormFlag": "Y",
             "items": [
               {

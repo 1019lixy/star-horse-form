@@ -17,8 +17,8 @@
         "elements": [
           {
             "label": "第一步：基本信息",
-            "tabName": "第一步：基本信息",
-            "objectName": "第一步：基本信息",
+            "subTablePrimaryKey": "第一步：基本信息",
+            "subTableName": "第一步：基本信息",
             "subFormFlag": "Y",
             "items": [
               {
@@ -167,8 +167,8 @@
           },
           {
             "label": "第二步：详细配置",
-            "tabName": "第二步：详细配置",
-            "objectName": "第二步：详细配置",
+            "subTablePrimaryKey": "第二步：详细配置",
+            "subTableName": "第二步：详细配置",
             "subFormFlag": "Y",
             "items": [
               {
@@ -358,8 +358,8 @@
           },
           {
             "label": "第三步：确认提交",
-            "tabName": "第三步：确认提交",
-            "objectName": "第三步：确认提交",
+            "subTablePrimaryKey": "第三步：确认提交",
+            "subTableName": "第三步：确认提交",
             "subFormFlag": "Y",
             "items": [
               {

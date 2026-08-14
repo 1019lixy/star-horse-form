@@ -18,8 +18,8 @@
         "elements": [
           {
             "label": "个人资料",
-            "tabName": "个人资料",
-            "objectName": "个人资料",
+            "subTablePrimaryKey": "个人资料",
+            "subTableName": "个人资料",
             "subFormFlag": "Y",
             "items": [
               {
@@ -256,8 +256,8 @@
         "elements": [
           {
             "label": "联系方式",
-            "tabName": "联系方式",
-            "objectName": "联系方式",
+            "subTablePrimaryKey": "联系方式",
+            "subTableName": "联系方式",
             "subFormFlag": "Y",
             "items": [
               {
@@ -485,8 +485,8 @@
         "elements": [
           {
             "label": "工作信息",
-            "tabName": "工作信息",
-            "objectName": "工作信息",
+            "subTablePrimaryKey": "工作信息",
+            "subTableName": "工作信息",
             "subFormFlag": "Y",
             "items": [
               {

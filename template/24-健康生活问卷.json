@@ -18,8 +18,8 @@
         "elements": [
           {
             "label": "基本信息",
-            "tabName": "基本信息",
-            "objectName": "基本信息",
+            "subTablePrimaryKey": "基本信息",
+            "subTableName": "基本信息",
             "subFormFlag": "Y",
             "items": [
               {
@@ -462,8 +462,8 @@
         "elements": [
           {
             "label": "饮食习惯",
-            "tabName": "饮食习惯",
-            "objectName": "饮食习惯",
+            "subTablePrimaryKey": "饮食习惯",
+            "subTableName": "饮食习惯",
             "subFormFlag": "Y",
             "items": [
               {
@@ -1128,8 +1128,8 @@
         "elements": [
           {
             "label": "运动与锻炼",
-            "tabName": "运动与锻炼",
-            "objectName": "运动与锻炼",
+            "subTablePrimaryKey": "运动与锻炼",
+            "subTableName": "运动与锻炼",
             "subFormFlag": "Y",
             "items": [
               {
@@ -1693,8 +1693,8 @@
         "elements": [
           {
             "label": "睡眠与休息",
-            "tabName": "睡眠与休息",
-            "objectName": "睡眠与休息",
+            "subTablePrimaryKey": "睡眠与休息",
+            "subTableName": "睡眠与休息",
             "subFormFlag": "Y",
             "items": [
               {
@@ -2183,8 +2183,8 @@
         "elements": [
           {
             "label": "心理健康与压力",
-            "tabName": "心理健康与压力",
-            "objectName": "心理健康与压力",
+            "subTablePrimaryKey": "心理健康与压力",
+            "subTableName": "心理健康与压力",
             "subFormFlag": "Y",
             "items": [
               {
@@ -2621,8 +2621,8 @@
         "elements": [
           {
             "label": "生活习惯与健康",
-            "tabName": "生活习惯与健康",
-            "objectName": "生活习惯与健康",
+            "subTablePrimaryKey": "生活习惯与健康",
+            "subTableName": "生活习惯与健康",
             "subFormFlag": "Y",
             "items": [
               {

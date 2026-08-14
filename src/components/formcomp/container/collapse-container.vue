@@ -22,7 +22,7 @@ const editingText = ref<string>("");
 
 const startEditName = (element: any) => {
   if (!props.isDesign) return;
-  editingId.value = element.tabName || element.objectName;
+  editingId.value = element.subTablePrimaryKey || element.subTableName;
   editingText.value = element.label || "";
   nextTick(() => {
     const input = document.querySelector(`.collapse-edit-input input`) as HTMLInputElement;
@@ -67,21 +67,21 @@ onMounted(() => {
     props.field["preps"]["elements"] = [
       {
         label: "Collapse1",
-        tabName: "collapse1",
-        objectName: "collapse1",
+        subTablePrimaryKey: "collapse1",
+        subTableName: "collapse1",
         subFormFlag: "Y",
         items: [],
       },
       {
         label: "Collapse2",
-        tabName: "collapse2",
-        objectName: "collapse2",
+        subTablePrimaryKey: "collapse2",
+        subTableName: "collapse2",
         subFormFlag: "Y",
         items: [],
       },
     ];
   }
-  activeTabName.value = props.field["preps"]["elements"][0].tabName;
+  activeTabName.value = props.field["preps"]["elements"][0].subTablePrimaryKey;
 });
 watch(
     () => activeTabName.value,
@@ -108,15 +108,16 @@ watch(
     >
       <el-collapse-item
           v-for="adata in field['preps']['elements']"
-          :name="adata.tabName"
+          :name="adata.subTablePrimaryKey"
+          :disabled="adata['disabled'] || false"
       >
         <template #title>
           <div class="collapse-item-title title">
             <span
-              v-if="editingId !== (adata.tabName || adata.objectName)"
+              v-if="editingId !== (adata.subTablePrimaryKey || adata.subTableName)"
               class="editable-name"
               @dblclick.stop="startEditName(adata)"
-            >{{ adata.label || adata.objectName }}</span>
+            >{{ adata.label || adata.subTableName }}</span>
             <el-input
               v-else
               class="collapse-edit-input"

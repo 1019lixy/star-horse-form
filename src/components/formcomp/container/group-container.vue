@@ -155,7 +155,7 @@ const addItem = (item: any) => {
   let elements = props.formItem.preps.elements;
   for (let index in elements) {
     let element = elements[index];
-    if (activeItemName && activeItemName != element.tabName) {
+    if (activeItemName && activeItemName != element.subTablePrimaryKey) {
       continue;
     }
     let columns = element.columns;

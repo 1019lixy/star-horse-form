@@ -582,9 +582,10 @@ export function urlFields() {
     //需考虑或查询
     const paramFields: FieldInfo[] | any = [
         {
-            batchFieldList: [
+            containerType:"table",
+containerFields: [
                 {
-                    batchName: "queryParams",
+                    subTableName: "queryParams",
                     fieldList: [
                         {
                             label: i18n("dyform.utils.465"),
@@ -635,20 +636,20 @@ export function urlFields() {
         containerFields: [
             {
                 title: i18n("dyform.utils.470"),
-                tabName: "params",
-                objectName: "params",
+                subTablePrimaryKey: "params",
+                subTableName: "params",
                 fieldList: paramFields,
             },
             {
                 title: i18n("dyform.utils.471"),
-                tabName: "needField",
-                objectName: "needField",
+                subTablePrimaryKey: "needField",
+                subTableName: "needField",
                 fieldList: needFields,
             },
             {
                 title: i18n("dyform.utils.472"),
-                tabName: "orderBy",
-                objectName: "orderBy",
+                subTablePrimaryKey: "orderBy",
+                subTableName: "orderBy",
                 fieldList: orderBys,
             },
         ],
@@ -845,29 +846,30 @@ export function paramsFields(
                 listVisible: true,
             },
         ],
-        batchFieldList: [
+        containerType:"table",
+containerFields: [
             {
                 title: i18n("dyform.utils.475"),
-                tabName: "fieldLists",
-                batchName: "fieldLists",
+                subTablePrimaryKey: "fieldLists",
+                subTableName: "fieldLists",
                 fieldList: fieldLists,
             },
             {
                 title: i18n("dyform.utils.476"),
-                tabName: "needField",
-                batchName: "needField",
+                subTablePrimaryKey: "needField",
+                subTableName: "needField",
                 fieldList: needFields,
             },
             {
                 title: i18n("dyform.utils.477"),
-                tabName: "orderBy",
-                batchName: "orderBy",
+                subTablePrimaryKey: "orderBy",
+                subTableName: "orderBy",
                 fieldList: orderBys,
             },
             {
                 title: i18n("dyform.utils.470"),
-                tabName: "params",
-                batchName: "params",
+                subTablePrimaryKey: "params",
+                subTableName: "params",
                 formFlag: "Y",
                 fieldList: [
                     {
@@ -896,7 +898,7 @@ export function paramsFields(
 const fieldMap: any = reactive({
     form: {
         title: i18n("dyform.utils.494"),
-        tabName: "form",
+        subTablePrimaryKey: "form",
         fieldList: [
             {
                 label: i18n("dyform.utils.495"),
@@ -951,7 +953,7 @@ const fieldMap: any = reactive({
     },
     comp: {
         title: i18n("dyform.utils.497"),
-        tabName: "comp",
+        subTablePrimaryKey: "comp",
         fieldList: [
             {
                 label: i18n("dyform.item.0"),
@@ -965,12 +967,12 @@ const fieldMap: any = reactive({
     },
     inter: {
         title: i18n("dyform.utils.498"),
-        tabName: "interface",
+        subTablePrimaryKey: "interface",
         fieldList: urlFields(),
     },
     method: {
         title: i18n("dyform.utils.499"),
-        tabName: "method",
+        subTablePrimaryKey: "method",
         fieldList: [
             {
                 label: i18n("dyform.utils.500"),
@@ -984,7 +986,7 @@ const fieldMap: any = reactive({
     },
     code: {
         title: i18n("dyform.utils.501"),
-        tabName: "code",
+        subTablePrimaryKey: "code",
         fieldList: [
             {
                 label: i18n("dyform.utils.500"),
@@ -1085,11 +1087,12 @@ export function relationDataField(preps: any, model: string) {
     return reactive<PageFieldInfo | any>({
         fieldList: [
             {
-                batchFieldList: [
+                containerType:"table",
+containerFields: [
                     {
                         staticData: "Y",
                         subFormFlag: "Y",
-                        batchName: "relationDetails",
+                        subTableName: "relationDetails",
                         fieldList: [
                             [
                                 {
@@ -1240,7 +1243,7 @@ export function relationDataField(preps: any, model: string) {
                                 fieldName: "params",
                                 formVisible: false,
                                 preps: {
-                                    batchName: "params",
+                                    subTableName: "params",
                                     bareFlag: "Y",
                                     subFormFlag: true,
                                     compName: WebUrlComp,

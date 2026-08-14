@@ -38,7 +38,7 @@ const props = defineProps({
     type: Number,
     default: 0,
   },
-  batchName: {
+  subTableName: {
     type: String,
     default: "",
   },
@@ -69,7 +69,7 @@ const urlFields = getUrlFieldConfig(interfaceUtils, {
         fieldList,
         disableUrl,
         !dataForm.value,
-        dataForm.value[props.batchName],
+        dataForm.value[props.subTableName],
         true,
       );
     },
@@ -84,17 +84,18 @@ const dataSourceField = reactive<PageFieldInfo | any>({
       containerFields: [
         {
           title: "接口信息",
-          tabName: "apiInfo",
-          objectName: "apiInfo",
+          subTablePrimaryKey: "apiInfo",
+          subTableName: "apiInfo",
           fieldList: urlFields
         },
         {
           title: i18n("dyform.utils.600"),
-          tabName: "queryParams",
-          objectName: "queryParams",
-          batchFieldList: [
+          subTablePrimaryKey: "queryParams",
+          subTableName: "queryParams",
+          containerType:"table",
+containerFields: [
             {
-              batchName: "queryParams",
+              subTableName: "queryParams",
               fieldList: [
                 {
                   label: i18n("dyform.utils.467"),
@@ -133,8 +134,8 @@ const dataSourceField = reactive<PageFieldInfo | any>({
         },
         {
           title: i18n("dyform.utils.602"),
-          tabName: "customParams",
-          objectName: "customParams",
+          subTablePrimaryKey: "customParams",
+          subTableName: "customParams",
           fieldList: [
             {
               fieldName: "customParams",
@@ -182,14 +183,14 @@ const submitValid = async () => {
 };
 const isInited = ref<boolean>(false);
 const createSubForm = () => {
-  if (props.subFormFlag && !dataForm.value[props.batchName]) {
-    dataForm.value[props.batchName] = {};
+  if (props.subFormFlag && !dataForm.value[props.subTableName]) {
+    dataForm.value[props.subTableName] = {};
   }
-  return props.batchName;
+  return props.subTableName;
 };
 const init = () => {
   nextTick(() => {
-    if (props.preps?.objectName && dataForm.value) {
+    if (props.preps?.subTableName && dataForm.value) {
       let temp = dataForm.value;
 
       setFormData(temp);
@@ -221,8 +222,8 @@ defineExpose({
     <star-horse-form :fieldList="dataSourceField" ref="dataSourceFormRef" v-if="!dataForm" />
     <star-horse-form-item v-else ref="dataSourceFormRef" :fieldList="dataSourceField"
       :dataIndex="(props.preps?.params?.totalTab || 1) - 1" :subFormFlag="subFormFlag ? 'Y' : 'N'"
-      :propPrefix="batchName" :key="createSubForm()" :batchName="batchName" :source="source"
-      v-model:dataForm="dataForm[batchName]" />
+      :propPrefix="subTableName" :key="createSubForm()" :subTableName="subTableName" :source="source"
+      v-model:dataForm="dataForm[subTableName]" />
   </el-scrollbar>
 </template>
 

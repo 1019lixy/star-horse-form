@@ -18,8 +18,8 @@
         "elements": [
           {
             "label": "请假信息",
-            "tabName": "请假信息",
-            "objectName": "请假信息",
+            "subTablePrimaryKey": "请假信息",
+            "subTableName": "请假信息",
             "subFormFlag": "Y",
             "items": [
               {
@@ -351,8 +351,8 @@
         "elements": [
           {
             "label": "审批信息",
-            "tabName": "审批信息",
-            "objectName": "审批信息",
+            "subTablePrimaryKey": "审批信息",
+            "subTableName": "审批信息",
             "subFormFlag": "Y",
             "items": [
               {

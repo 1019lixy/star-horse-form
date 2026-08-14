@@ -171,7 +171,8 @@ const applyActionsToFormFields = (
  * - box 容器：Eie 返回二维数组 [[fieldInfo|fieldInfo[], staticData, empty, ...], ...]，
  *   zie 中 o.push(...i) 扁平化一维 → fieldList 中**直接出现数组元素**
  * - dytable 容器：返回 {fieldName:"", dytableList:二维数组, preps}
- * - table 容器：返回 {batchFieldList:[{fieldList:[...]}], preps}
+ * - table 容器：返回 {containerType:"table",
+containerFields:[{fieldList:[...]}], preps}
  * - tab/card/collapse/splitter：返回 {fieldName, tabList/cardList/...:[{fieldList}], preps}
  * - condition 容器：返回 {fieldName, children:[...], compType:"container", itemType:"condition"}
  *
@@ -261,7 +262,8 @@ export const extractFieldMetaList = (compList: any[]): FormFieldMeta[] => {
    *   - box/dytable：preps.elements[].columns[].items + preps.elements[].items
    *   - tab/card/collapse/splitter：preps.elements[].items（tab 项含 items 不含 columns）
    *     + preps.tabList/cardList/...[].items / .fieldList（兼容两种存储）
-   *   - table：preps.batchFieldList[].fieldList
+   *   - table：preps.containerType:"table",
+containerFields[].fieldList
    *   - dytable：preps.dytableList（二维数组）
    */
   const traverseCompList = (fields: any[]) => {

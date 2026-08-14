@@ -17,8 +17,8 @@
         "elements": [
           {
             "label": "基本信息",
-            "tabName": "基本信息",
-            "objectName": "基本信息",
+            "subTablePrimaryKey": "基本信息",
+            "subTableName": "基本信息",
             "subFormFlag": "Y",
             "items": [
               {
@@ -356,8 +356,8 @@
           },
           {
             "label": "工作信息",
-            "tabName": "工作信息",
-            "objectName": "工作信息",
+            "subTablePrimaryKey": "工作信息",
+            "subTableName": "工作信息",
             "subFormFlag": "Y",
             "items": [
               {
@@ -661,8 +661,8 @@
           },
           {
             "label": "紧急联系人",
-            "tabName": "紧急联系人",
-            "objectName": "紧急联系人",
+            "subTablePrimaryKey": "紧急联系人",
+            "subTableName": "紧急联系人",
             "subFormFlag": "Y",
             "items": [
               {

@@ -18,8 +18,8 @@
         "elements": [
           {
             "label": "报修信息",
-            "tabName": "报修信息",
-            "objectName": "报修信息",
+            "subTablePrimaryKey": "报修信息",
+            "subTableName": "报修信息",
             "subFormFlag": "Y",
             "items": [
               {
@@ -367,8 +367,8 @@
         "elements": [
           {
             "label": "处理信息",
-            "tabName": "处理信息",
-            "objectName": "处理信息",
+            "subTablePrimaryKey": "处理信息",
+            "subTableName": "处理信息",
             "subFormFlag": "Y",
             "items": [
               {

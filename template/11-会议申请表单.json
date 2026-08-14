@@ -18,8 +18,8 @@
         "elements": [
           {
             "label": "会议信息",
-            "tabName": "会议信息",
-            "objectName": "会议信息",
+            "subTablePrimaryKey": "会议信息",
+            "subTableName": "会议信息",
             "subFormFlag": "Y",
             "items": [
               {
@@ -375,8 +375,8 @@
         "elements": [
           {
             "label": "会后纪要",
-            "tabName": "会后纪要",
-            "objectName": "会后纪要",
+            "subTablePrimaryKey": "会后纪要",
+            "subTableName": "会后纪要",
             "subFormFlag": "Y",
             "items": [
               {

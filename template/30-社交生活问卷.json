@@ -18,8 +18,8 @@
         "elements": [
           {
             "label": "基本信息",
-            "tabName": "基本信息",
-            "objectName": "基本信息",
+            "subTablePrimaryKey": "基本信息",
+            "subTableName": "基本信息",
             "subFormFlag": "Y",
             "items": [
               {
@@ -492,8 +492,8 @@
         "elements": [
           {
             "label": "社交习惯",
-            "tabName": "社交习惯",
-            "objectName": "社交习惯",
+            "subTablePrimaryKey": "社交习惯",
+            "subTableName": "社交习惯",
             "subFormFlag": "Y",
             "items": [
               {
@@ -1324,8 +1324,8 @@
         "elements": [
           {
             "label": "线上社交",
-            "tabName": "线上社交",
-            "objectName": "线上社交",
+            "subTablePrimaryKey": "线上社交",
+            "subTableName": "线上社交",
             "subFormFlag": "Y",
             "items": [
               {
@@ -1844,8 +1844,8 @@
         "elements": [
           {
             "label": "社交质量与满意度",
-            "tabName": "社交质量与满意度",
-            "objectName": "社交质量与满意度",
+            "subTablePrimaryKey": "社交质量与满意度",
+            "subTableName": "社交质量与满意度",
             "subFormFlag": "Y",
             "items": [
               {
@@ -2279,8 +2279,8 @@
         "elements": [
           {
             "label": "社交能力与成长",
-            "tabName": "社交能力与成长",
-            "objectName": "社交能力与成长",
+            "subTablePrimaryKey": "社交能力与成长",
+            "subTableName": "社交能力与成长",
             "subFormFlag": "Y",
             "items": [
               {

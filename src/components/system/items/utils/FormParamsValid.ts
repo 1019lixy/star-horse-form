@@ -169,8 +169,8 @@ export function analysisFields(compList: Array<any>) {
   const tabListAnalysis = (tabList: Array<any>) => {
     for (const index in tabList) {
       const temp = tabList[index];
-      tabNames.push(temp.tabName);
-      objectNames.push(temp.objectName);
+      tabNames.push(temp.subTablePrimaryKey);
+      objectNames.push(temp.subTableName);
       normalAnalysis(temp.items);
     }
   };
@@ -207,8 +207,8 @@ export function analysisFields(compList: Array<any>) {
                 item.priority = priority++;
                 fieldList.push(item);
               });
-            } else if (temp.batchFieldList) {
-              temp.batchFieldList.forEach((item: any) => {
+            } else if (temp.containerFields) {
+              temp.containerFields.forEach((item: any) => {
                 item.fieldList.forEach((sitem: any) => {
                   sitem.priority = priority++;
                   fieldList.push(sitem);

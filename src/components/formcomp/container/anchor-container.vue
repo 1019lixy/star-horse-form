@@ -35,23 +35,43 @@ const checkItem = (adata: any) => {
   if (!adata["items"]) adata["items"] = [];
 };
 
-// 锚点链接列表
+// 锚点链接列表（支持 anchorItem 独立配置：anchorTitle/anchorHref/anchorIcon/anchorDisabled）
 const anchorLinks = computed(() => {
   const elements = props.field?.preps?.elements || [];
   return elements.map((el: any, idx: number) => ({
-    title: el.label || `${i18n('dyform.container.anchorSection')} ${idx + 1}`,
-    href: `#anchor-${props.field?.id}-${idx}`,
+    title: el.anchorTitle || el.label || `${i18n('dyform.container.anchorSection')} ${idx + 1}`,
+    href: el.anchorHref || `#anchor-${props.field?.id}-${idx}`,
+    icon: el.anchorIcon || "",
+    disabled: el.anchorDisabled === true || el.anchorDisabled === "true",
     index: idx,
   }));
 });
 
+// 是否显示导航标题
+const showNavTitle = computed(() => props.field?.preps?.showNavTitle !== false);
+// 导航栏宽度
+const navWidth = computed(() => `${props.field?.preps?.navWidth || 200}px`);
+// 是否显示区块序号
+const showSectionNumber = computed(() => props.field?.preps?.showSectionNumber !== false);
+// 是否平滑滚动
+const smoothScroll = computed(() => props.field?.preps?.smoothScroll !== false);
+// 滚动偏移量（高亮计算用）
+const scrollOffset = computed(() => Number(props.field?.preps?.scrollOffset) || 60);
+// 吸顶偏移量
+const stickyOffset = computed(() => `${props.field?.preps?.stickyOffset || 0}px`);
+// 高亮颜色
+const highlightColor = computed(() => props.field?.preps?.highlightColor || "");
+// 内容区最大高度
+const contentMaxHeight = computed(() => props.field?.preps?.contentMaxHeight || "70vh");
+
 // 滚动到指定锚点
-const scrollToSection = (href: string) => {
+const scrollToSection = (href: string, disabled?: boolean) => {
+  if (disabled) return;
   const el = sectionRefs.value[href];
   if (el && contentRef.value) {
-    const offset = props.field?.preps?.offset || 0;
+    const offset = Number(props.field?.preps?.offset) || 0;
     const top = el.offsetTop - offset;
-    contentRef.value.scrollTo({top, behavior: "smooth"});
+    contentRef.value.scrollTo({top, behavior: smoothScroll.value ? "smooth" : "auto"});
   }
 };
 
@@ -64,7 +84,7 @@ const handleScroll = () => {
   for (let i = 0; i < elements.length; i++) {
     const href = `#anchor-${props.field?.id}-${i}`;
     const el = sectionRefs.value[href];
-    if (el && el.offsetTop - 60 <= scrollTop) {
+    if (el && el.offsetTop - scrollOffset.value <= scrollTop) {
       current = href;
     }
   }
@@ -79,8 +99,8 @@ onMounted(() => {
   if (!props.field["preps"]) props.field["preps"] = {};
   if (!props.field["preps"]?.["elements"]) {
     props.field["preps"]["elements"] = [
-      {label: i18n("dyform.container.anchorSection") + " 1", tabName: "anchor1", objectName: "anchor1", subFormFlag: "Y", items: []},
-      {label: i18n("dyform.container.anchorSection") + " 2", tabName: "anchor2", objectName: "anchor2", subFormFlag: "Y", items: []},
+      {label: i18n("dyform.container.anchorSection") + " 1", subTablePrimaryKey: "anchor1", subTableName: "anchor1", subFormFlag: "Y", anchorTitle: "", anchorHref: "", anchorIcon: "", anchorDisabled: false, items: []},
+      {label: i18n("dyform.container.anchorSection") + " 2", subTablePrimaryKey: "anchor2", subTableName: "anchor2", subFormFlag: "Y", anchorTitle: "", anchorHref: "", anchorIcon: "", anchorDisabled: false, items: []},
     ];
   }
   if (!props.isDesign) {
@@ -107,10 +127,11 @@ onBeforeUnmount(() => {
   >
     <!-- 设计模式: 拖拽区域 -->
     <div v-if="isDesign" class="anchor-design-wrapper">
-      <div v-for="(adata, idx) in field['preps']['elements']" :key="adata.tabName" class="anchor-section-design">
+      <div v-for="(adata, idx) in field['preps']['elements']" :key="adata.subTablePrimaryKey" class="anchor-section-design">
         <div class="section-header-design">
-          <span class="section-index">{{ idx + 1 }}</span>
-          <span class="section-title">{{ adata.label || i18n('dyform.container.anchorSection') + ' ' + (idx + 1) }}</span>
+          <span v-if="showSectionNumber" class="section-index">{{ idx + 1 }}</span>
+          <star-horse-icon v-if="adata.anchorIcon" :icon-class="adata.anchorIcon" size="14px"/>
+          <span class="section-title">{{ adata.anchorTitle || adata.label || i18n('dyform.container.anchorSection') + ' ' + (idx + 1) }}</span>
         </div>
         <draggable
             @add="(evt: Event) => onDragAdd(evt, adata['items'])"
@@ -148,18 +169,19 @@ onBeforeUnmount(() => {
     </div>
 
     <!-- 运行模式: 锚点导航 + 内容区 -->
-    <div v-else class="anchor-layout" :class="`placement-${field.preps['placement'] || 'right'}`">
+    <div v-else class="anchor-layout" :class="`placement-${field.preps['placement'] || 'right'}`" :style="{'--anchor-nav-width': navWidth, '--anchor-highlight-color': highlightColor, '--anchor-sticky-top': stickyOffset, '--anchor-content-max-height': contentMaxHeight}">
       <!-- 内容区 -->
       <div class="anchor-content" ref="contentRef">
         <div
             v-for="(adata, idx) in field['preps']['elements']"
-            :key="adata.tabName"
+            :key="adata.subTablePrimaryKey"
             :ref="(el) => setSectionRef(`#anchor-${field.id}-${idx}`, el)"
             class="anchor-section"
         >
           <div class="section-title-bar">
-            <span class="section-dot">{{ idx + 1 }}</span>
-            <span class="section-name">{{ adata.label || i18n('dyform.container.anchorSection') + ' ' + (idx + 1) }}</span>
+            <span v-if="showSectionNumber" class="section-dot">{{ idx + 1 }}</span>
+            <star-horse-icon v-if="adata.anchorIcon" :icon-class="adata.anchorIcon" size="16px"/>
+            <span class="section-name">{{ adata.anchorTitle || adata.label || i18n('dyform.container.anchorSection') + ' ' + (idx + 1) }}</span>
           </div>
           <div class="section-items">
             <component
@@ -179,7 +201,7 @@ onBeforeUnmount(() => {
       </div>
       <!-- 锚点导航 -->
       <div class="anchor-nav" :class="`direction-${field.preps['direction'] || 'vertical'}`">
-        <div class="anchor-nav-title">
+        <div v-if="showNavTitle" class="anchor-nav-title">
           <star-horse-icon icon-class="list-left" size="14px"/>
           <span>{{ i18n('dyform.container.anchorNavTitle') }}</span>
         </div>
@@ -187,10 +209,11 @@ onBeforeUnmount(() => {
           <a
               v-for="link in anchorLinks"
               :key="link.href"
-              :class="['anchor-link', { active: activeSection === link.href }]"
-              @click.prevent="scrollToSection(link.href)"
+              :class="['anchor-link', { active: activeSection === link.href, disabled: link.disabled }]"
+              @click.prevent="scrollToSection(link.href, link.disabled)"
           >
-            <span class="link-dot"></span>
+            <star-horse-icon v-if="link.icon" :icon-class="link.icon" size="14px" class="link-icon"/>
+            <span v-else class="link-dot"></span>
             <span class="link-text">{{ link.title }}</span>
           </a>
         </div>
@@ -276,13 +299,13 @@ onBeforeUnmount(() => {
   &.placement-right {
     flex-direction: row;
     .anchor-content { flex: 1; order: 1; }
-    .anchor-nav { width: 200px; order: 2; }
+    .anchor-nav { width: var(--anchor-nav-width, 200px); order: 2; }
   }
 
   &.placement-left {
     flex-direction: row;
     .anchor-content { flex: 1; order: 2; }
-    .anchor-nav { width: 200px; order: 1; }
+    .anchor-nav { width: var(--anchor-nav-width, 200px); order: 1; }
   }
 
   &.placement-top {
@@ -303,7 +326,7 @@ onBeforeUnmount(() => {
 }
 
 .anchor-content {
-  max-height: 70vh;
+  max-height: var(--anchor-content-max-height, 70vh);
   overflow-y: auto;
   scroll-behavior: smooth;
   padding-right: 4px;
@@ -352,13 +375,13 @@ onBeforeUnmount(() => {
 /* ── 锚点导航 ── */
 .anchor-nav {
   position: sticky;
-  top: 0;
+  top: var(--anchor-sticky-top, 0);
   background: #fff;
   border: 1px solid #ebeef5;
   border-radius: 8px;
   padding: 12px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
-  max-height: 70vh;
+  max-height: var(--anchor-content-max-height, 70vh);
   overflow-y: auto;
 }
 
@@ -401,6 +424,10 @@ onBeforeUnmount(() => {
     flex-shrink: 0;
   }
 
+  .link-icon {
+    flex-shrink: 0;
+  }
+
   &:hover {
     background: #ecf5ff;
     color: var(--star-horse-style, #409eff);
@@ -411,7 +438,7 @@ onBeforeUnmount(() => {
   }
 
   &.active {
-    background: var(--star-horse-style, #409eff);
+    background: var(--anchor-highlight-color, var(--star-horse-style, #409eff));
     color: #fff;
     font-weight: 500;
 
@@ -419,6 +446,12 @@ onBeforeUnmount(() => {
       background: #fff;
       transform: scale(1.3);
     }
+  }
+
+  &.disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+    pointer-events: none;
   }
 }
 </style>

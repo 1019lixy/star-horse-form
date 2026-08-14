@@ -62,7 +62,7 @@ const hmsg: string = `
         :label="i18n('dyform.js.editor.tab.formInstance')"
         name="formInstance"
       >
-        {{ i18n("dyform.js.editor.objectName") }}：formInstance
+        {{ i18n("dyform.js.editor.subTableName") }}：formInstance
         <table
           border="1"
           cellpadding="0"

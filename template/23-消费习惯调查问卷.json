@@ -18,8 +18,8 @@
         "elements": [
           {
             "label": "基本信息",
-            "tabName": "基本信息",
-            "objectName": "基本信息",
+            "subTablePrimaryKey": "基本信息",
+            "subTableName": "基本信息",
             "subFormFlag": "Y",
             "items": [
               {
@@ -508,8 +508,8 @@
         "elements": [
           {
             "label": "消费渠道与方式",
-            "tabName": "消费渠道与方式",
-            "objectName": "消费渠道与方式",
+            "subTablePrimaryKey": "消费渠道与方式",
+            "subTableName": "消费渠道与方式",
             "subFormFlag": "Y",
             "items": [
               {
@@ -1041,8 +1041,8 @@
         "elements": [
           {
             "label": "消费金额与品类",
-            "tabName": "消费金额与品类",
-            "objectName": "消费金额与品类",
+            "subTablePrimaryKey": "消费金额与品类",
+            "subTableName": "消费金额与品类",
             "subFormFlag": "Y",
             "items": [
               {
@@ -1556,8 +1556,8 @@
         "elements": [
           {
             "label": "消费决策因素",
-            "tabName": "消费决策因素",
-            "objectName": "消费决策因素",
+            "subTablePrimaryKey": "消费决策因素",
+            "subTableName": "消费决策因素",
             "subFormFlag": "Y",
             "items": [
               {
@@ -2038,8 +2038,8 @@
         "elements": [
           {
             "label": "消费趋势与理念",
-            "tabName": "消费趋势与理念",
-            "objectName": "消费趋势与理念",
+            "subTablePrimaryKey": "消费趋势与理念",
+            "subTableName": "消费趋势与理念",
             "subFormFlag": "Y",
             "items": [
               {

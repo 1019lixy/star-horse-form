@@ -84,7 +84,6 @@ defineExpose({submitValid, setFormData, getFormData});
       boxHeight="90%"
       boxWidth="70%"
   >
-    {{ condition }}
     <dynamic-query-builder ref="dynamicQueryBuilderRef"
                            property-name="fieldName"
                            or-condition-name="orList"

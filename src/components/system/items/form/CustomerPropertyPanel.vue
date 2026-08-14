@@ -12,7 +12,7 @@ const ButtonEventDialog = defineAsyncComponent(() => import("@/components/system
 const JsEditorDialog = defineAsyncComponent(() => import("@/components/system/items/form/dialogs/JsEditorDialog.vue"));
 const ParamsDialog = defineAsyncComponent(() => import("@/components/system/items/form/dialogs/ParamsDialog.vue"));
 const PreOrPendDialog = defineAsyncComponent(() => import("@/components/system/items/form/dialogs/PreOrPendDialog.vue"));
-const UserDefinePrepsDialog = defineAsyncComponent(() => import("@/components/system/items/form/dialogs/UserDefinePrepsDialog.vue"));
+const UserDefinePrepsDialog = defineAsyncComponent(() => import("@/components/system/items/form/components/AllPropsOverviewPanel.vue"));
 const FieldLayerDrawer = defineAsyncComponent(() => import("@/components/system/items/form/dialogs/FieldLayerDrawer.vue"));
 
 const props = defineProps({
@@ -20,7 +20,7 @@ const props = defineProps({
 });
 let designForm = getDesignFormStore();
 let formDataList = computed(() => designForm.formDataList);
-let containerList = computed(() => designForm.containerList);
+let containerList = computed(() => designForm.containerDataList);
 let selfFormDataList = computed(() => designForm.selfFormDataList);
 let currentItemType = computed(() => {
   let comp = designForm.currentComp;
@@ -204,10 +204,11 @@ const assignValue = (fieldInfo: any) => {
 };
 // Dialog event handlers
 const handleDialogMerge = () => {
-  closeAllDialogs();
+  handleDialogClose();
 };
 
 const handleDialogClose = () => {
+  userDefinePrepsVisible.value = false
   closeAllDialogs();
 };
 const init = () => {
@@ -216,16 +217,12 @@ const init = () => {
 const prependOrAppend = () => {
   openDialog("preOrPendDialog");
 };
+const userDefinePrepsVisible = ref<boolean>(false);
 const configPreps = () => {
-  // userDefinePreps.value = formProps.value;
-  openDialog("userDefinePrepsDialog");
+  userDefinePrepsVisible.value = true;
+
 };
-const checkMatchComp = (item: OtherPreps) => {
-  if (item.matchComp) {
-    return item.matchComp.includes(currentItemType.value);
-  }
-  return true;
-}
+
 /**
  * 预过滤的 otherPreps，避免在 v-for 中逐项调用 checkMatchComp
  */
@@ -288,15 +285,17 @@ watch(
       @reset="handleDialogClose"
   />
 
-  <UserDefinePrepsDialog
-      :visible="dialogStates.userDefinePrepsDialog"
-      :formProps="formProps"
-      :formInfo="formInfo"
-      :fieldName="fieldName"
-      :currentField="currentField"
-      @close="handleDialogClose"
-      @reset="handleDialogClose"
-  />
+  <star-horse-panel
+      v-model="userDefinePrepsVisible"
+      :title="i18n('dyform.params.dialog.title')"
+      :isBatch="false"
+      :selfFunc="true"
+      boxHeight="60%"
+      @merge="handleDialogClose"
+      @closeAction="handleDialogClose"
+  >
+    <UserDefinePrepsDialog :formProps="formProps" :compSize="compSize"/>
+  </star-horse-panel>
 
   <!-- JS Editor Dialog -->
   <JsEditorDialog

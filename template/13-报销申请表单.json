@@ -18,8 +18,8 @@
         "elements": [
           {
             "label": "报销基本信息",
-            "tabName": "报销基本信息",
-            "objectName": "报销基本信息",
+            "subTablePrimaryKey": "报销基本信息",
+            "subTableName": "报销基本信息",
             "subFormFlag": "Y",
             "items": [
               {
@@ -212,8 +212,8 @@
         "elements": [
           {
             "label": "费用明细",
-            "tabName": "费用明细",
-            "objectName": "费用明细",
+            "subTablePrimaryKey": "费用明细",
+            "subTableName": "费用明细",
             "subFormFlag": "Y",
             "items": [
               {
@@ -505,8 +505,8 @@
         "elements": [
           {
             "label": "附件与说明",
-            "tabName": "附件与说明",
-            "objectName": "附件与说明",
+            "subTablePrimaryKey": "附件与说明",
+            "subTableName": "附件与说明",
             "subFormFlag": "Y",
             "items": [
               {

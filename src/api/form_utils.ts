@@ -28,19 +28,19 @@ export function getFormData(
     index: number,
 ) {
     if (item.subFormFlag == "Y") {
-        if (item && item.objectName) {
-            console.log("checkObject", item.objectName);
-            if (!Object.keys(dataForm).includes(item.objectName)) {
-                dataForm[item.objectName] = [{}];
+        if (item && item.subTableName) {
+            console.log("checkObject", item.subTableName);
+            if (!Object.keys(dataForm).includes(item.subTableName)) {
+                dataForm[item.subTableName] = [{}];
             }
         }
         let dataIndex = getDataIndex(item, prefix, parentIndex, index);
-        let len = dataForm[item.objectName].length;
+        let len = dataForm[item.subTableName].length;
         if (dataIndex >= len) {
-            dataForm[item.objectName].push({});
+            dataForm[item.subTableName].push({});
             dataIndex = len - 1;
         }
-        return dataForm[item.objectName][dataIndex];
+        return dataForm[item.subTableName][dataIndex];
     }
     return dataForm;
 }

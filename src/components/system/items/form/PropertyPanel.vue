@@ -17,13 +17,19 @@ let compSize = computed(() => props.optional?.compSize ?? "default");
 const itemPropertiesRef = ref();
 const customerPropertyPanelRef = ref();
 let matchTypeList = ref<SelectOption[]>();
+const panelDialogVisible = ref(false);
+const dialogPrepActiveName = ref<string>("base");
 const changeOperation = (val: string) => {
   if (val === "customer") {
-    nextTick(()=>{
+    nextTick(() => {
       customerPropertyPanelRef.value?.assignPrep();
     });
 
   }
+};
+const openPanelDialog = () => {
+  dialogPrepActiveName.value = prepActiveName.value;
+  panelDialogVisible.value = true;
 };
 onMounted(async () => {
   matchTypeList.value = searchMatchList();
@@ -56,6 +62,13 @@ watch(
         <star-horse-icon iconClass="data_db" size="14px"/>
         <span>{{ i18n('dyform.propPanel.customProps') }}</span>
       </button>
+      <button
+          class="property-tab expand-btn"
+          @click="openPanelDialog"
+          :title="i18n('dyform.propPanel.expandPanel')"
+      >
+        <el-icon size="14px"><FullScreen/></el-icon>
+      </button>
     </div>
 
     <!-- Tab Content -->
@@ -83,6 +96,32 @@ watch(
         </el-form>
       </el-scrollbar>
     </div>
+
+    <!-- 弹窗打开当前面板 -->
+    <star-horse-drawer
+        v-model="panelDialogVisible"
+        :title="dialogPrepActiveName === 'base' ? i18n('dyform.propPanel.baseProps') : i18n('dyform.propPanel.customProps')"
+        :selfFunc="true"
+        size="40%"
+        @closeAction="panelDialogVisible = false"
+    >
+      <el-scrollbar class="dialog-scrollbar">
+        <el-form
+            :model="formProps"
+            class="property-form"
+            :size="compSize"
+            label-width="auto"
+            label-position="right"
+            require-asterisk-position="right"
+        >
+          <item-properties-panel v-if="dialogPrepActiveName === 'base'" :optional="optional"/>
+          <customer-property-panel
+              v-if="dialogPrepActiveName === 'customer'"
+              :optional="optional"
+          />
+        </el-form>
+      </el-scrollbar>
+    </star-horse-drawer>
   </div>
 </template>
 
@@ -139,6 +178,38 @@ watch(
     border-color: #e4e7ed;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
     font-weight: 500;
+  }
+}
+
+.all-props-btn {
+  flex: 0 0 auto;
+  padding: 6px 10px;
+  color: #909399;
+  border: 1px dashed #dcdfe6;
+
+  &:hover {
+    color: #409eff;
+    border-color: #409eff;
+    background: #ecf5ff;
+  }
+}
+
+.expand-btn {
+  flex: 0 0 auto;
+  padding: 6px 8px;
+  color: #909399;
+
+  &:hover {
+    color: #409eff;
+    background: #ecf5ff;
+  }
+}
+
+.dialog-scrollbar {
+  height: 100%;
+
+  :deep(.el-scrollbar__wrap) {
+    overflow-x: hidden;
   }
 }
 

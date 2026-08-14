@@ -15,7 +15,7 @@ const emit = defineEmits<{
 }>();
 
 // 当前tab：json_prototype(可编辑) / json(只读完整数据)
-const tabName = ref<string>("json_prototype");
+const subTablePrimaryKey = ref<string>("json_prototype");
 
 // JSON原型数据（nodes+edges+variables，可编辑）
 const jsonPrototype = ref<any>({ nodes: [], edges: [], variables: [] });
@@ -76,7 +76,7 @@ syncFromDesign();
 watch(
   [() => props.nodes, () => props.edges, () => props.ruleData.variables],
   () => {
-    if (tabName.value === "json_prototype") {
+    if (subTablePrimaryKey.value === "json_prototype") {
       syncFromDesign();
     }
   },
@@ -86,7 +86,7 @@ watch(
 
 <template>
   <div class="rule-code-view">
-    <el-tabs v-model="tabName" type="border-card" @tabChange="onTabChange" class="code-tabs">
+    <el-tabs v-model="subTablePrimaryKey" type="border-card" @tabChange="onTabChange" class="code-tabs">
       <el-tab-pane name="json_prototype" :label="i18n('rule.codeView.flowJson')">
         <div class="tab-toolbar">
           <el-button type="primary" @click="applyToDesign">

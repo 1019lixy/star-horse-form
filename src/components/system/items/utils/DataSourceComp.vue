@@ -111,8 +111,9 @@ const staticFields: FieldInfo[] | any = [
     },
   ],
   {
-    batchFieldList: [{
-      batchName: "values",
+    containerType:"table",
+containerFields: [{
+      subTableName: "values",
       importInfo: {
         importDataUrl: props.optional?.api ? `${props.optional.api.basePrefix}/importStaticDataSource` : "",
         downloadTemplateUrl: props.optional?.api ? `${props.optional.api.basePrefix}/staticDataSourceTemplate` : "",

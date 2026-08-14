@@ -33,7 +33,7 @@ const editingText = ref<string>("");
 
 const startEditTitle = (element: any) => {
   if (!props.isDesign) return;
-  editingId.value = element.tabName || element.objectName;
+  editingId.value = element.subTablePrimaryKey || element.subTableName;
   editingText.value = element.label || "";
   nextTick(() => {
     const input = document.querySelector(`.fieldset-edit-input input`) as HTMLInputElement;
@@ -66,7 +66,7 @@ onMounted(() => {
   if (!props.field["preps"]) props.field["preps"] = {};
   if (!props.field["preps"]?.["elements"]) {
     props.field["preps"]["elements"] = [
-      {label: "Fieldset", tabName: "fieldset", objectName: "fieldset", subFormFlag: "Y", items: []},
+      {label: "Fieldset", subTablePrimaryKey: "fieldset", subTableName: "fieldset", subFormFlag: "Y", items: []},
     ];
   }
 });
@@ -90,6 +90,9 @@ onMounted(() => {
           'is-collapsible': field.preps['collapsible'],
           'is-collapsed': innerCollapsed
         }"
+        :disabled="field.preps['fieldsetDisabled'] || false"
+        :form="field.preps['fieldsetForm'] || undefined"
+        :name="field.preps['fieldsetName'] || undefined"
     >
       <legend
           class="fieldset-legend"
@@ -106,7 +109,7 @@ onMounted(() => {
         </svg>
 
         <span
-            v-if="editingId !== (adata.tabName || adata.objectName)"
+            v-if="editingId !== (adata.subTablePrimaryKey || adata.subTableName)"
             class="legend-text"
             :class="{ 'editable': isDesign }"
             @dblclick.stop="startEditTitle(adata)"
@@ -126,7 +129,7 @@ onMounted(() => {
       </legend>
       <div v-show="!adata.preps?.innerCollapsed" class="fieldset-body">
         <draggable
-            :key="adata.tabName"
+            :key="adata.subTablePrimaryKey"
             @add="(evt: Event) => onDragAdd(evt, adata['items'])"
             @dragover="checkItem(adata)"
             class="fieldset-design"

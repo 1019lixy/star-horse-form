@@ -86,6 +86,15 @@ onMounted(() => {
 <template>
   <el-col
       :span="field.colspan || 24"
+      :offset="field.offset || 0"
+      :push="field.push || 0"
+      :pull="field.pull || 0"
+      :xs="field.xs || undefined"
+      :sm="field.sm || undefined"
+      :md="field.md || undefined"
+      :lg="field.lg || undefined"
+      :xl="field.xl || undefined"
+      :tag="field.tag || 'div'"
       :class="{ 'dragging-area': isDragging }"
       class="edit_col flex! items-center justify-center"
       :style="{ height: field.colHeight || '100%' }"

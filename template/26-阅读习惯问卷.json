@@ -18,8 +18,8 @@
         "elements": [
           {
             "label": "基本信息",
-            "tabName": "基本信息",
-            "objectName": "基本信息",
+            "subTablePrimaryKey": "基本信息",
+            "subTableName": "基本信息",
             "subFormFlag": "Y",
             "items": [
               {
@@ -376,8 +376,8 @@
         "elements": [
           {
             "label": "阅读偏好",
-            "tabName": "阅读偏好",
-            "objectName": "阅读偏好",
+            "subTablePrimaryKey": "阅读偏好",
+            "subTableName": "阅读偏好",
             "subFormFlag": "Y",
             "items": [
               {
@@ -1117,8 +1117,8 @@
         "elements": [
           {
             "label": "阅读频率与时间",
-            "tabName": "阅读频率与时间",
-            "objectName": "阅读频率与时间",
+            "subTablePrimaryKey": "阅读频率与时间",
+            "subTableName": "阅读频率与时间",
             "subFormFlag": "Y",
             "items": [
               {
@@ -1634,8 +1634,8 @@
         "elements": [
           {
             "label": "数字阅读",
-            "tabName": "数字阅读",
-            "objectName": "数字阅读",
+            "subTablePrimaryKey": "数字阅读",
+            "subTableName": "数字阅读",
             "subFormFlag": "Y",
             "items": [
               {
@@ -2159,8 +2159,8 @@
         "elements": [
           {
             "label": "阅读与成长",
-            "tabName": "阅读与成长",
-            "objectName": "阅读与成长",
+            "subTablePrimaryKey": "阅读与成长",
+            "subTableName": "阅读与成长",
             "subFormFlag": "Y",
             "items": [
               {

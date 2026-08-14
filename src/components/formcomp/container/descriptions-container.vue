@@ -89,7 +89,7 @@ onMounted(() => {
   if (!props.field["preps"]) props.field["preps"] = {};
   if (!props.field["preps"]?.["elements"]) {
     props.field["preps"]["elements"] = [
-      {label: "Descriptions", tabName: "descriptions", objectName: "descriptions", subFormFlag: "Y", items: []},
+      {label: "Descriptions", subTablePrimaryKey: "descriptions", subTableName: "descriptions", subFormFlag: "Y", items: []},
     ];
   }
 });
@@ -113,7 +113,7 @@ onMounted(() => {
         :extra="field.preps['descExtra'] || ''"
         :label-width=" field.preps['descItemLabelWidth'] || ''"
     >
-      <template v-for="adata in field['preps']['elements']" :key="adata.tabName">
+      <template v-for="adata in field['preps']['elements']" :key="adata.subTablePrimaryKey">
         <el-descriptions-item
             v-for="item in adata['items']"
             :key="item.id"
@@ -130,7 +130,7 @@ onMounted(() => {
               v-if="editingId !== (item.fieldName)"
               class="editable-name"
               @dblclick.stop="startEditName(item)"
-          >{{ item.label || item.objectName }}</span>
+          >{{ item.label || item.subTableName }}</span>
               <el-input
                   v-else
                   class="descriptions-edit-input"

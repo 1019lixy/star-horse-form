@@ -64,6 +64,38 @@ const isEditableTarget = (evt: KeyboardEvent): boolean => {
   }
   return false;
 };
+
+/**
+ * 检查页面上是否有可见的弹窗（el-dialog / el-drawer / el-popover / el-message-box）
+ * 当弹窗打开时，设计器快捷键应全部禁用，避免影响弹窗内的输入和操作
+ */
+const hasOpenDialog = (): boolean => {
+  // el-dialog 可见体（display 不为 none）
+  if (document.querySelector(".el-dialog__wrapper:not([style*='display: none'])") ||
+      document.querySelector(".el-overlay-dialog .el-dialog[style*='display:']") ||
+      document.querySelector(".el-overlay-dialog .el-dialog:not([style*='display: none'])")) {
+    return true;
+  }
+  // el-drawer 可见体
+  if (document.querySelector(".el-drawer__container:not([style*='display: none'])") ||
+      document.querySelector(".el-overlay-drawer .el-drawer:not([style*='display: none'])")) {
+    return true;
+  }
+  // el-message-box（确认框）
+  if (document.querySelector(".el-message-box")) {
+    return true;
+  }
+  // 通用 overlay：有可见的 el-overlay 且内有弹窗内容
+  const overlays = document.querySelectorAll(".el-overlay");
+  for (const overlay of overlays) {
+    const style = (overlay as HTMLElement).style;
+    if (style.display !== "none" && style.zIndex && Number(style.zIndex) > 0) {
+      const hasDialog = overlay.querySelector(".el-dialog, .el-drawer, .el-message-box, .el-popover");
+      if (hasDialog) return true;
+    }
+  }
+  return false;
+};
 /**
  * 重置ctrlKey
  */
@@ -359,6 +391,10 @@ export const keyboardEvent = (
   // 当焦点在输入框/文本域/下拉框等可编辑元素中时，不拦截快捷键
   // 这样用户可以在弹窗、属性面板等输入框中正常使用 Ctrl+C/V 等操作
   if (isEditableTarget(evt)) {
+    return;
+  }
+  // 当弹窗打开时，禁用所有设计器快捷键，避免影响弹窗内的输入和操作
+  if (hasOpenDialog()) {
     return;
   }
   // 当弹窗打开等场景下 shortKeyDisabled 为 true 时，跳过快捷键处理

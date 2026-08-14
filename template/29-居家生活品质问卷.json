@@ -18,8 +18,8 @@
         "elements": [
           {
             "label": "基本信息",
-            "tabName": "基本信息",
-            "objectName": "基本信息",
+            "subTablePrimaryKey": "基本信息",
+            "subTableName": "基本信息",
             "subFormFlag": "Y",
             "items": [
               {
@@ -464,8 +464,8 @@
         "elements": [
           {
             "label": "居家环境与装修",
-            "tabName": "居家环境与装修",
-            "objectName": "居家环境与装修",
+            "subTablePrimaryKey": "居家环境与装修",
+            "subTableName": "居家环境与装修",
             "subFormFlag": "Y",
             "items": [
               {
@@ -978,8 +978,8 @@
         "elements": [
           {
             "label": "家务与生活",
-            "tabName": "家务与生活",
-            "objectName": "家务与生活",
+            "subTablePrimaryKey": "家务与生活",
+            "subTableName": "家务与生活",
             "subFormFlag": "Y",
             "items": [
               {
@@ -1362,8 +1362,8 @@
         "elements": [
           {
             "label": "智能家电",
-            "tabName": "智能家电",
-            "objectName": "智能家电",
+            "subTablePrimaryKey": "智能家电",
+            "subTableName": "智能家电",
             "subFormFlag": "Y",
             "items": [
               {
@@ -1797,8 +1797,8 @@
         "elements": [
           {
             "label": "社区与周边",
-            "tabName": "社区与周边",
-            "objectName": "社区与周边",
+            "subTablePrimaryKey": "社区与周边",
+            "subTableName": "社区与周边",
             "subFormFlag": "Y",
             "items": [
               {
@@ -2380,8 +2380,8 @@
         "elements": [
           {
             "label": "居家幸福感",
-            "tabName": "居家幸福感",
-            "objectName": "居家幸福感",
+            "subTablePrimaryKey": "居家幸福感",
+            "subTableName": "居家幸福感",
             "subFormFlag": "Y",
             "items": [
               {
