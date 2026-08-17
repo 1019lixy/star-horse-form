@@ -1,4 +1,5 @@
-import { SelectOption } from "star-horse-lowcode";
+import { SelectOption, error as showError } from "star-horse-lowcode";
+import { i18n } from "@/lang";
 
 /**
  * 数据适配器配置选项
@@ -10,6 +11,8 @@ export interface DataAdapterOptions {
   codePath?: string;
   /** 成功码值，默认 0 */
   successCode?: number | string;
+  /** 错误消息路径，默认 'data.message' */
+  messagePath?: string;
 }
 
 /**
@@ -86,22 +89,33 @@ async function fetchAndMap<T = any>(
 
   try {
     const res = await request();
-    if (res == null) return [];
+    if (res == null) {
+      showError(i18n("dyform.apiConfig.error.noData"));
+      return [];
+    }
 
     // 校验响应码（宽松比较，兼容字符串 "0" 和数字 0）
     const code = getNestedValue(res, codePath);
     if (code !== undefined && code !== null && code != successCode) {
+      const messagePath = options?.messagePath ?? "data.message";
+      const errMsg = getNestedValue(res, messagePath);
+      showError(errMsg || i18n("dyform.apiConfig.error.codeMismatch"));
       return [];
     }
 
     // 提取数据数组
     const raw = getNestedValue(res, dataPath);
-    const data: T[] = Array.isArray(raw) ? raw : raw != null ? [raw] : [];
+    if (raw == null) {
+      showError(i18n("dyform.apiConfig.error.noData"));
+      return [];
+    }
+    const data: T[] = Array.isArray(raw) ? raw : [raw];
 
     // 字段映射
     return data.map((item) => mapItemToSelectOption(item, mapping));
-  } catch (err) {
-    console.warn("[createDataAdapter] 请求失败:", err);
+  } catch (err: any) {
+    const errMsg = err?.message || err?.cnMessage || i18n("dyform.apiConfig.error.network");
+    showError(errMsg);
     return [];
   }
 }

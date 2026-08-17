@@ -3,6 +3,8 @@ import {computed, nextTick, onMounted, onBeforeUnmount, PropType, ref} from "vue
 import {getDesignFormStore, itemCheck} from "star-horse-lowcode";
 import {i18n} from "@/lang";
 import {quickAddItem} from "@/api/form_utils";
+import {isContainer, ensureDefaultElements} from "./container-types";
+import {useDragAdd, ensureItems} from "./container-utils";
 
 const props = defineProps({
   parentField: {type: Object as PropType<any>},
@@ -14,26 +16,12 @@ const props = defineProps({
 });
 let designForm = getDesignFormStore();
 const formData = defineModel("formData");
-let containerType: Array<string> = [
-  "tab", "box", "table", "card", "dytable", "collapse", "splitter", "step", "condition",
-  "dialog", "drawer", "fieldset", "descriptions", "anchor",
-];
-const isContainer = (data: any) => containerType.includes(data.itemType);
 const contentRef = ref<HTMLElement>();
 const activeSection = ref("");
 const sectionRefs = ref<Record<string, HTMLElement>>({});
 
-const onDragAdd = (evt: Event | any, dataList: any) => {
-  let newIndex = evt.newIndex;
-  if (newIndex != null && newIndex != "undefined") {
-    let dataInfo = dataList[newIndex];
-    designForm.selectItem(dataInfo, dataInfo.itemType, "");
-  }
-};
-
-const checkItem = (adata: any) => {
-  if (!adata["items"]) adata["items"] = [];
-};
+const {onDragAdd} = useDragAdd(designForm);
+const checkItem = (adata: any) => ensureItems(adata);
 
 // 锚点链接列表（支持 anchorItem 独立配置：anchorTitle/anchorHref/anchorIcon/anchorDisabled）
 const anchorLinks = computed(() => {
@@ -96,13 +84,7 @@ const setSectionRef = (href: string, el: any) => {
 };
 
 onMounted(() => {
-  if (!props.field["preps"]) props.field["preps"] = {};
-  if (!props.field["preps"]?.["elements"]) {
-    props.field["preps"]["elements"] = [
-      {label: i18n("dyform.container.anchorSection") + " 1", subTablePrimaryKey: "anchor1", subTableName: "anchor1", subFormFlag: "Y", anchorTitle: "", anchorHref: "", anchorIcon: "", anchorDisabled: false, items: []},
-      {label: i18n("dyform.container.anchorSection") + " 2", subTablePrimaryKey: "anchor2", subTableName: "anchor2", subFormFlag: "Y", anchorTitle: "", anchorHref: "", anchorIcon: "", anchorDisabled: false, items: []},
-    ];
-  }
+  ensureDefaultElements(props.field, "anchor");
   if (!props.isDesign) {
     nextTick(() => {
       contentRef.value?.addEventListener("scroll", handleScroll);

@@ -4,6 +4,7 @@ import {getDesignFormStore, itemCheck, operationConfirm, uuid,} from "star-horse
 import GroupContainer from "@/components/formcomp/container/group-container.vue";
 import {i18n} from "@/lang";
 import {quickAddItem} from "@/api/form_utils";
+import {useDragAdd, ensureItems} from "./container-utils";
 
 const props = defineProps({
   parentField: {type: Object as PropType<any>},
@@ -43,19 +44,8 @@ const selectData = () => {
   designForm.selectItem(container, container?.itemType, "");
 };
 
-const onDragAdd = (evt: Event | any, dataList: any) => {
-  let newIndex = evt.newIndex;
-  if (newIndex != null && newIndex != "undefined") {
-    let dataInfo = dataList[newIndex];
-    designForm.selectItem(dataInfo, dataInfo.itemType, "");
-  }
-};
-
-const checkItem = (adata: any) => {
-  if (!adata["children"]) {
-    adata["children"] = [];
-  }
-};
+const {onDragAdd} = useDragAdd(designForm);
+const checkItem = (adata: any) => ensureItems(adata, "children");
 
 // 创建子条件节点
 const createChildNode = (index: number) => {

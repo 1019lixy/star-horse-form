@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import {createApiConfig} from "@/components/system/items/utils/ApiSharedConfig";
-import {PageFieldInfo, postRequest, SelectOption, StarHorseDialog, success, warning} from "star-horse-lowcode";
+import {PageFieldInfo, postRequest, SelectOption, StarHorseDialog, success, warning, error} from "star-horse-lowcode";
 import {nextTick, PropType, reactive, ref, unref, watch} from "vue";
 import {i18n} from "@/lang";
 import DynamicQueryBuilder from "@/components/system/DynamicQueryBuilder.vue";
@@ -55,14 +55,26 @@ const apiValid = async () => {
     return;
   }
   const formDta = unref(formRef.value?.getFormData()) ?? {};
-  postRequest(formDta.proxyUrl ?? "/userdb-manage/redirect/apiValid", formDta).then((data) => {
-    const result = data.data;
-    if (result.code!==200) {
-      warning(result.cnMessage);
+  const proxyUrl = formDta.proxyUrl ?? "/userdb-manage/redirect/apiValid";
+  try {
+    const data = await postRequest(proxyUrl, formDta);
+    const result = data?.data;
+    if (!result) {
+      error(i18n("dyform.apiConfig.error.parseFailed"));
       return;
     }
-    success(result.cnMessage);
-  })
+    const code = result.code ?? result?.data?.code;
+    const message = result.cnMessage ?? result.message ?? result?.data?.message;
+    if (code !== 200 && code !== 0 && code !== "0" && code !== "200" && code !== "success") {
+      const errorMsg = message || i18n("dyform.apiConfig.error.codeMismatch");
+      error(errorMsg);
+      return;
+    }
+    success(message || i18n("dyform.apiConfig.btn.verify"));
+  } catch (err: any) {
+    const errMsg = err?.message || err?.cnMessage || i18n("dyform.apiConfig.error.network");
+    error(errMsg);
+  }
 };
 const visible = ref<boolean>(false);
 const condition = ref<any>({});

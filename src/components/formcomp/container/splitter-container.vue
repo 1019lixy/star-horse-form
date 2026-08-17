@@ -1,11 +1,14 @@
 <script setup lang="ts">
-import {computed, nextTick, onMounted, PropType, ref} from "vue";
+import {computed, onMounted, PropType} from "vue";
 
 import GroupContainer from "@/components/formcomp/container/group-container.vue";
 import JSON5 from "json5";
 import {getDesignFormStore, itemCheck} from "star-horse-lowcode";
 import {i18n} from "@/lang";
 import {quickAddItem} from "@/api/form_utils";
+import {ensureDefaultElements} from "./container-types";
+import {useDragAdd, ensureItems} from "./container-utils";
+import {useInlineEdit} from "./useInlineEdit";
 
 defineOptions({
   name: "SplitterContainer",
@@ -22,47 +25,9 @@ let designForm = getDesignFormStore();
 const isDragging = computed(() => designForm.isDragging);
 const formData = defineModel("formData");
 
-// 双击编辑相关
-const editingId = ref<string>("");
-const editingText = ref<string>("");
-
-const startEditName = (element: any) => {
-  if (!props.isDesign) return;
-  editingId.value = element.subTablePrimaryKey || element.subTableName;
-  editingText.value = element.label || "";
-  nextTick(() => {
-    const input = document.querySelector(`.splitter-edit-input input`) as HTMLInputElement;
-    if (input) {
-      input.focus();
-      input.select();
-    }
-  });
-};
-
-const finishEditName = (element: any) => {
-  if (editingText.value.trim()) {
-    element.label = editingText.value.trim();
-  }
-  editingId.value = "";
-};
-
-/**
- * 如果没有items，动态添加
- * @param adata
- */
-const checkItem = (adata: any) => {
-  if (!adata["items"]) {
-    adata["items"] = [];
-  }
-};
-const onDragAdd = (evt: Event | any, dataList: any) => {
-  let newIndex = evt.newIndex;
-  if (newIndex != null && newIndex != "undefined") {
-    let dataInfo = dataList[newIndex];
-    designForm.selectItem(dataInfo, dataInfo.itemType, "");
-  }
-};
-
+const {onDragAdd} = useDragAdd(designForm);
+const checkItem = (adata: any) => ensureItems(adata);
+const {editingId, editingText, startEditName, finishEditName} = useInlineEdit(() => props.isDesign, "splitter-edit-input");
 
 const checkData = (adata: any) => {
   // 优先读取独立命名字段（新方案），兼容旧版 JSON preps 字符串
@@ -95,31 +60,7 @@ const checkData = (adata: any) => {
   return result;
 };
 onMounted(() => {
-  if (!props.field["preps"]) {
-    props.field["preps"] = {};
-  }
-  if (!props.field["preps"]?.["elements"]) {
-    props.field["preps"]["elements"] = [
-      {
-        label: "Splitter1",
-        subTablePrimaryKey: "splitter1",
-        subTableName: "splitter1",
-        subFormFlag: "Y",
-        items: [],
-        resizable: true,
-        collapsible: false,
-      },
-      {
-        label: "Splitter2",
-        subTablePrimaryKey: "splitter2",
-        subTableName: "splitter2",
-        subFormFlag: "Y",
-        items: [],
-        resizable: true,
-        collapsible: false,
-      },
-    ];
-  }
+  ensureDefaultElements(props.field, "splitter");
   designForm.setCurrentSubTabName("");
 });
 </script>

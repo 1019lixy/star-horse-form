@@ -3,6 +3,7 @@ import {computed, nextTick, PropType, ref} from "vue";
 import {getDesignFormStore, itemCheck, operationConfirm, uuid} from "star-horse-lowcode";
 import {i18n} from "@/lang";
 import {quickAddItem} from "@/api/form_utils";
+import {useDragAdd, ensureItems} from "./container-utils";
 
 defineOptions({name: "ConditionNode"});
 
@@ -27,19 +28,8 @@ const isDragging = computed(() => designForm.isDragging);
 const editingId = ref<string>("");
 const editingText = ref<string>("");
 
-const checkItem = (adata: any) => {
-  if (!adata["items"]) {
-    adata["items"] = [];
-  }
-};
-
-const onDragAdd = (evt: Event | any, dataList: any) => {
-  let newIndex = evt.newIndex;
-  if (newIndex != null && newIndex != "undefined") {
-    let dataInfo = dataList[newIndex];
-    designForm.selectItem(dataInfo, dataInfo.itemType, "");
-  }
-};
+const {onDragAdd} = useDragAdd(designForm);
+const checkItem = (adata: any) => ensureItems(adata);
 
 const createChildNode = (index: number) => {
   return {

@@ -3,6 +3,8 @@ import {onMounted, PropType, ref} from "vue";
 import {getDesignFormStore, itemCheck} from "star-horse-lowcode";
 import {i18n} from "@/lang";
 import {quickAddItem} from "@/api/form_utils";
+import {isContainer, ensureDefaultElements} from "./container-types";
+import {useDragAdd, ensureItems, usePanelState} from "./container-utils";
 
 const props = defineProps({
   parentField: {type: Object as PropType<any>},
@@ -14,54 +16,12 @@ const props = defineProps({
 });
 let designForm = getDesignFormStore();
 const formData = defineModel("formData");
-let containerType: Array<string> = [
-  "tab", "box", "table", "card", "dytable", "collapse", "splitter", "step", "condition",
-  "dialog", "drawer", "fieldset", "descriptions", "anchor",
-];
-const isContainer = (data: any) => containerType.includes(data.itemType);
-const drawerVisible = ref(false);
-const tempFormData = ref<any>({});
-
-const onDragAdd = (evt: Event | any, dataList: any) => {
-  let newIndex = evt.newIndex;
-  if (newIndex != null && newIndex != "undefined") {
-    let dataInfo = dataList[newIndex];
-    designForm.selectItem(dataInfo, dataInfo.itemType, "");
-  }
-};
-
-const checkItem = (adata: any) => {
-  if (!adata["items"]) adata["items"] = [];
-};
-
-const handleOpen = () => {
-  tempFormData.value = JSON.parse(JSON.stringify(formData.value || {}));
-  drawerVisible.value = true;
-};
-
-const handleClose = () => {
-  const closeAction = props.field?.preps?.closeAction || "keep";
-  if (closeAction === "clear") {
-    drawerVisible.value = false;
-  } else if (closeAction === "keep") {
-    if (formData.value && tempFormData.value) {
-      Object.keys(tempFormData.value).forEach(key => {
-        formData.value[key] = tempFormData.value[key];
-      });
-    }
-    drawerVisible.value = false;
-  } else {
-    drawerVisible.value = false;
-  }
-};
+const {onDragAdd} = useDragAdd(designForm);
+const checkItem = (adata: any) => ensureItems(adata);
+const {visible: drawerVisible, tempFormData, handleOpen, handleClose} = usePanelState(formData, () => props.field);
 
 onMounted(() => {
-  if (!props.field["preps"]) props.field["preps"] = {};
-  if (!props.field["preps"]?.["elements"]) {
-    props.field["preps"]["elements"] = [
-      {label: "Drawer", subTablePrimaryKey: "drawer", subTableName: "drawer", subFormFlag: "Y", items: []},
-    ];
-  }
+  ensureDefaultElements(props.field, "drawer");
 });
 </script>
 

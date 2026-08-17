@@ -1245,7 +1245,7 @@ containerFields: [
                                 preps: {
                                     subTableName: "params",
                                     bareFlag: "Y",
-                                    subFormFlag: true,
+                                    subFormFlag: "Y",
                                     compName: WebUrlComp,
                                 },
                             },

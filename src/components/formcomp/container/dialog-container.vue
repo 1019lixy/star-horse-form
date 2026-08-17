@@ -4,6 +4,8 @@ import {getDesignFormStore, itemCheck} from "star-horse-lowcode";
 import {i18n} from "@/lang";
 import {quickAddItem} from "@/api/form_utils";
 import GroupContainer from "@/components/formcomp/container/group-container.vue";
+import {isContainer, ensureDefaultElements} from "./container-types";
+import {useDragAdd, ensureItems, usePanelState} from "./container-utils";
 
 const props = defineProps({
   parentField: {type: Object as PropType<any>},
@@ -15,54 +17,12 @@ const props = defineProps({
 });
 let designForm = getDesignFormStore();
 const formData = defineModel("formData");
-let containerType: Array<string> = [
-  "tab", "box", "table", "card", "dytable", "collapse", "splitter", "step", "condition",
-  "dialog", "drawer", "fieldset", "descriptions", "anchor",
-];
-const isContainer = (data: any) => containerType.includes(data.itemType);
-const dialogVisible = ref(false);
-const tempFormData = ref<any>({});
-
-const onDragAdd = (evt: Event | any, dataList: any) => {
-  let newIndex = evt.newIndex;
-  if (newIndex != null && newIndex != "undefined") {
-    let dataInfo = dataList[newIndex];
-    designForm.selectItem(dataInfo, dataInfo.itemType, "");
-  }
-};
-
-const checkItem = (adata: any) => {
-  if (!adata["items"]) adata["items"] = [];
-};
-
-const handleOpen = () => {
-  tempFormData.value = JSON.parse(JSON.stringify(formData.value || {}));
-  dialogVisible.value = true;
-};
-
-const handleClose = () => {
-  const closeAction = props.field?.preps?.closeAction || "keep";
-  if (closeAction === "clear") {
-    dialogVisible.value = false;
-  } else if (closeAction === "keep") {
-    if (formData.value && tempFormData.value) {
-      Object.keys(tempFormData.value).forEach(key => {
-        formData.value[key] = tempFormData.value[key];
-      });
-    }
-    dialogVisible.value = false;
-  } else {
-    dialogVisible.value = false;
-  }
-};
+const {onDragAdd} = useDragAdd(designForm);
+const checkItem = (adata: any) => ensureItems(adata);
+const {visible: dialogVisible, tempFormData, handleOpen, handleClose} = usePanelState(formData, () => props.field);
 
 onMounted(() => {
-  if (!props.field["preps"]) props.field["preps"] = {};
-  if (!props.field["preps"]?.["elements"]) {
-    props.field["preps"]["elements"] = [
-      {label: "Dialog", subTablePrimaryKey: "dialog", subTableName: "dialog", subFormFlag: "Y", items: []},
-    ];
-  }
+  ensureDefaultElements(props.field, "dialog");
 });
 </script>
 

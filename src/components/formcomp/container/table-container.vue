@@ -4,6 +4,8 @@ import {computed, PropType, ref} from "vue";
 import {i18n} from "@/lang";
 import GroupContainer from "@/components/formcomp/container/group-container.vue";
 import {getDesignFormStore, itemCheck, operationConfirm, uuid, warning} from "star-horse-lowcode";
+import {CONTAINER_TYPES} from "./container-types";
+import {useRowHeight} from "./container-utils";
 
 let containerTableRef = ref(); // 强制刷新表格
 const props = defineProps({
@@ -17,26 +19,13 @@ const props = defineProps({
 });
 let designForm = getDesignFormStore();
 let draggingItem = computed(() => designForm.draggingItem);
-let excludeContainerType: Array<string> = [
-  "box", "tab", "table", "dytable", "collapse", "card",
-  "splitter", "step", "condition",
-  "dialog", "drawer", "fieldset", "descriptions", "anchor",
-];
 let isEdit = computed(() => props.isDesign);
 const isDragging = computed(() => designForm.isDragging);
 const formData = defineModel("formData");
-const rowHeight = computed(() => {
-  if (props.compSize == "large") {
-    return "45px";
-  } else if (props.compSize == "small") {
-    return "35px";
-  } else {
-    return "40px";
-  }
-});
+const rowHeight = useRowHeight(() => props.compSize);
 const onDragAdd = (evt: Event | any, dataList: any) => {
   let newIndex = evt.newIndex;
-  if (excludeContainerType.includes(draggingItem.value.itemType)) {
+  if (CONTAINER_TYPES.includes(draggingItem.value.itemType)) {
     warning(i18n("table.containerCannotNest"));
     let elements = props.field.preps.elements;
     for (let inde in elements) {

@@ -1,8 +1,11 @@
 <script setup lang="ts" name="card-container">
-import {computed, onMounted, PropType, ref, nextTick} from "vue";
-import {getDesignFormStore, itemCheck, uuid, fieldCopy} from "star-horse-lowcode";
+import {computed, onMounted, PropType, ref} from "vue";
+import {getDesignFormStore, itemCheck} from "star-horse-lowcode";
 import {i18n} from "@/lang";
 import {quickAddItem} from "@/api/form_utils";
+import {isContainer, ensureDefaultElements} from "./container-types";
+import {useDragAdd, ensureItems} from "./container-utils";
+import {useInlineEdit} from "./useInlineEdit";
 
 const props = defineProps({
   parentField: {type: Object as PropType<any>},
@@ -15,84 +18,17 @@ const props = defineProps({
 let designForm = getDesignFormStore();
 const isDragging = computed(() => designForm.isDragging);
 const formData = defineModel("formData");
-let containerType: Array<string> = [
-  "tab", "box", "table", "card", "dytable", "collapse", "splitter", "step", "condition",
-  "dialog", "drawer", "fieldset", "descriptions", "anchor",
-];
 
-const isContainer = (data: any) => {
-  return containerType.includes(data.itemType);
-};
-
-// 双击编辑相关
-const editingId = ref<string>("");
-const editingText = ref<string>("");
-
-const startEditName = (element: any) => {
-  if (!props.isDesign) return;
-  editingId.value = element.subTablePrimaryKey || element.subTableName;
-  editingText.value = element.label || "";
-  nextTick(() => {
-    const input = document.querySelector(`.card-edit-input input`) as HTMLInputElement;
-    if (input) {
-      input.focus();
-      input.select();
-    }
-  });
-};
-
-const finishEditName = (element: any) => {
-  if (editingText.value.trim()) {
-    element.label = editingText.value.trim();
-  }
-  editingId.value = "";
-};
-
-/**
- * 如果没有items，动态添加
- * @param adata
- * @param type
- */
+const {onDragAdd} = useDragAdd(designForm);
 const checkItem = (adata: any, type: string) => {
-  if (type == "header") {
-    if (!adata["headerFieldList"]) {
-      adata["headerFieldList"] = [];
-    }
-  } else {
-    if (!adata["items"]) {
-      adata["items"] = [];
-    }
-  }
+  if (type === "header") ensureItems(adata, "headerFieldList");
+  else ensureItems(adata);
 };
-const onDragAdd = (evt: Event | any, dataList: any) => {
-  console.log(evt, dataList);
-  let newIndex = evt.newIndex;
-  if (newIndex != null && newIndex != "undefined") {
-    let dataInfo = dataList[newIndex];
-    designForm.selectItem(dataInfo, dataInfo.itemType, "");
-  }
-};
-
-
+const {editingId, editingText, startEditName, finishEditName} = useInlineEdit(() => props.isDesign, "card-edit-input");
 
 const activeTabName = ref();
 onMounted(() => {
-  if (!props.field["preps"]) {
-    props.field["preps"] = {};
-  }
-  if (!props.field["preps"]?.["elements"]) {
-    props.field["preps"]["elements"] = [
-      {
-        label: "Card",
-        subTablePrimaryKey: "card",
-        subTableName: "card",
-        subFormFlag: "Y",
-        headerFieldList: [],
-        items: [],
-      },
-    ];
-    props.field["stretch"] = "N";
-  }
+  ensureDefaultElements(props.field, "card");
   activeTabName.value = 0;
   designForm.setCurrentSubTabName(activeTabName.value);
 });

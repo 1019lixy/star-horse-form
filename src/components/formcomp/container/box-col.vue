@@ -5,6 +5,8 @@ import {i18n} from "@/lang";
 import {tableCellOperation} from "@/components/formcomp/container/dytableUtils";
 import {getDesignFormStore, itemCheck, uuid, warning} from "star-horse-lowcode";
 import ContainerDropDown from "@/components/formcomp/utils/ContainerDropDown.vue";
+import {CONTAINER_TYPES} from "./container-types";
+import {useRowHeight} from "./container-utils";
 
 const props = defineProps({
   parentField: {type: Object as PropType<any>},
@@ -25,27 +27,14 @@ const props = defineProps({
 let designForm = getDesignFormStore();
 let draggingItem = computed(() => designForm.draggingItem);
 const isDragging = computed(() => designForm.isDragging);
-let excludeContainerType: Array<string> = [
-  "box", "tab", "table", "dytable", "collapse", "card",
-  "splitter", "step", "condition",
-  "dialog", "drawer", "fieldset", "descriptions", "anchor",
-];
 let currentSubItemId = computed(() => designForm.currentSubItemId);
 let isEdit = computed(() => designForm.isEdit);
 const formData = defineModel("formData");
-const rowHeight = computed(() => {
-  if (props.compSize == "large") {
-    return "45px";
-  } else if (props.compSize == "small") {
-    return "35px";
-  } else {
-    return "40px";
-  }
-});
+const rowHeight = useRowHeight(() => props.compSize);
 const onDragAdd = (evt: Event | any, dataList: any) => {
   selectCurrentTd();
   let newIndex = evt.newIndex;
-  if (excludeContainerType.includes(draggingItem.value.itemType)) {
+  if (CONTAINER_TYPES.includes(draggingItem.value.itemType)) {
     warning(i18n("dyform.comp.container.443"));
     let elements = props.field.preps.elements;
     for (let inde in elements) {

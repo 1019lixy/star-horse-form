@@ -1,8 +1,11 @@
 <script setup lang="ts" name="step-container">
-import {computed, nextTick, onMounted, PropType, ref, watch} from "vue";
+import {computed, onMounted, PropType, ref, watch} from "vue";
 import {compKey, getDesignFormStore, itemCheck, operationConfirm, warning} from "star-horse-lowcode";
 import {i18n} from "@/lang";
 import {quickAddItem} from "@/api/form_utils";
+import {isContainer, ensureDefaultElements} from "./container-types";
+import {useDragAdd, ensureItems} from "./container-utils";
+import {useInlineEdit} from "./useInlineEdit";
 
 const props = defineProps({
   parentField: {type: Object as PropType<any>},
@@ -15,55 +18,10 @@ const props = defineProps({
 let designForm = getDesignFormStore();
 const isDragging = computed(() => designForm.isDragging);
 const formData = defineModel("formData");
-let containerType: Array<string> = [
-  "tab", "box", "table", "card", "dytable", "collapse", "splitter", "step", "condition",
-  "dialog", "drawer", "fieldset", "descriptions", "anchor",
-];
 
-const isContainer = (data: any) => {
-  return containerType.includes(data.itemType);
-};
-
-// 双击编辑相关
-const editingId = ref<string>("");
-const editingText = ref<string>("");
-
-const startEditName = (element: any) => {
-  if (!props.isDesign) return;
-  editingId.value = element.subTablePrimaryKey;
-  editingText.value = element.label || "";
-  nextTick(() => {
-    const input = document.querySelector(`.step-edit-input input`) as HTMLInputElement;
-    if (input) {
-      input.focus();
-      input.select();
-    }
-  });
-};
-
-const finishEditName = (element: any) => {
-  if (editingText.value.trim()) {
-    element.label = editingText.value.trim();
-  }
-  editingId.value = "";
-};
-
-/**
- * 如果没有items，动态添加
- * @param adata
- */
-const checkItem = (adata: any) => {
-  if (!adata["items"]) {
-    adata["items"] = [];
-  }
-};
-const onDragAdd = (evt: Event | any, dataList: any) => {
-  let newIndex = evt.newIndex;
-  if (newIndex != null && newIndex != "undefined") {
-    let dataInfo = dataList[newIndex];
-    designForm.selectItem(dataInfo, dataInfo.itemType, "");
-  }
-};
+const {onDragAdd} = useDragAdd(designForm);
+const checkItem = (adata: any) => ensureItems(adata);
+const {editingId, editingText, startEditName, finishEditName} = useInlineEdit(() => props.isDesign, "step-edit-input");
 
 // 当前激活的步骤索引
 const activeStepIndex = ref<number>(0);
@@ -143,7 +101,7 @@ const collectRequiredFields = (items: any[], result: any[] = []): any[] => {
   if (!items || !items.length) return result;
   items.forEach((item: any) => {
     if (!item) return;
-    if (containerType.includes(item.itemType)) {
+    if (isContainer(item)) {
       // 容器类型：递归处理子元素
       if (item.itemType === "condition") {
         collectRequiredFields(item.items || item.preps?.items || [], result);
@@ -333,26 +291,9 @@ const removeStep = (index: number) => {
 };
 
 onMounted(() => {
-  if (!props.field["preps"]) {
-    props.field["preps"] = {};
-  }
-  if (!props.field["preps"]?.["elements"]) {
-    props.field["preps"]["elements"] = [
-      {
-        label: i18n("dyform.step.defaultName") + "1",
-        subTablePrimaryKey: "step1",
-        subTableName: "step1",
-        subFormFlag: "N",
-        items: [],
-      },
-      {
-        label: i18n("dyform.step.defaultName") + "2",
-        subTablePrimaryKey: "step2",
-        subTableName: "step2",
-        subFormFlag: "N",
-        items: [],
-      },
-    ];
+  const isFirstInit = !props.field["preps"]?.["elements"];
+  ensureDefaultElements(props.field, "step");
+  if (isFirstInit) {
     props.field["preps"]["sameForm"] = "Y";
     props.field["preps"]["showStepBar"] = "Y";
     props.field["preps"]["showNavButtons"] = "Y";

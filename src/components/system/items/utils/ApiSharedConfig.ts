@@ -53,9 +53,10 @@ export const typeConvertList: SelectOption[] = [
  * @param defaultMethod - default HTTP method
  * @param dataRequired
  * @param interfaceUtils
+ * @param formFields - available form fields for dynamic value selection
  */
 export function createRequestTab(title: string, i18nPrefix: string, subTableName: string, defaultMethod: string = "GET", dataRequired: boolean = true,
-                                 interfaceUtils?: any) {
+                                 interfaceUtils?: any, formFields?: SelectOption[]) {
     const {
         methodList,
         interfaceList,
@@ -76,16 +77,17 @@ export function createRequestTab(title: string, i18nPrefix: string, subTableName
         subFormFlag: "Y",
         fieldList: [
             [{
-                label: "接口类型",
+                label: i18n("dyform.apiConfig.apiType"),
                 fieldName: "apiType",
                 type: "radio",
                 defaultValue: "systemApi",
                 formVisible: true,
                 required: dataRequired,
+                helpMsg: i18n("dyform.apiConfig.helpMsg.apiType"),
                 preps: {
                     values: [
-                        {name: "系统接口", value: "systemApi"},
-                        {name: "外部接口", value: "thirdApi"},
+                        {name: i18n("dyform.apiConfig.apiType.systemApi"), value: "systemApi"},
+                        {name: i18n("dyform.apiConfig.apiType.thirdApi"), value: "thirdApi"},
                     ],
                     dataRelation: {
                         actionName: "change",
@@ -117,6 +119,7 @@ export function createRequestTab(title: string, i18nPrefix: string, subTableName
                                     label: i18n("dyform.utils.453"),
                                     fieldName: "serviceName",
                                     type: "select",
+                                    helpMsg: i18n("dyform.apiConfig.helpMsg.serviceName"),
                                     formVisible: false,
                                     listVisible: true,
                                     actions: {
@@ -135,6 +138,7 @@ export function createRequestTab(title: string, i18nPrefix: string, subTableName
                                     label: i18n("dyform.utils.454"),
                                     fieldName: "interfaceName",
                                     type: "select",
+                                    helpMsg: i18n("dyform.apiConfig.helpMsg.interfaceName"),
                                     formVisible: false,
                                     listVisible: true,
                                     actions: {
@@ -152,6 +156,7 @@ export function createRequestTab(title: string, i18nPrefix: string, subTableName
                                     label: i18n("dyform.utils.455"),
                                     fieldName: "method",
                                     type: "select",
+                                    helpMsg: i18n("dyform.apiConfig.helpMsg.method"),
                                     formVisible: false,
                                     listVisible: true,
                                     actions: {
@@ -178,6 +183,7 @@ export function createRequestTab(title: string, i18nPrefix: string, subTableName
                                     label: i18n("dyform.utils.456"),
                                     fieldName: "redirect",
                                     type: "switch",
+                                    helpMsg: i18n("dyform.apiConfig.helpMsg.redirect"),
                                     defaultValue: true,
                                     formVisible: false,
                                     listVisible: true,
@@ -189,6 +195,7 @@ export function createRequestTab(title: string, i18nPrefix: string, subTableName
                                 type: "select",
                                 defaultValue: defaultMethod,
                                 required: dataRequired,
+                                helpMsg: i18n("dyform.apiConfig.helpMsg.httpMethod"),
                                 formVisible: true,
                                 listVisible: true,
                                 preps: {values: httpMethod(), colspan: 12},
@@ -198,6 +205,7 @@ export function createRequestTab(title: string, i18nPrefix: string, subTableName
                                     fieldName: "protocol",
                                     type: "select",
                                     required: dataRequired,
+                                    helpMsg: i18n("dyform.apiConfig.helpMsg.protocol"),
                                     defaultValue: "http",
                                     formVisible: true,
                                     listVisible: true,
@@ -230,6 +238,7 @@ export function createRequestTab(title: string, i18nPrefix: string, subTableName
                                 type: "select",
                                 defaultValue: "JSON",
                                 required: dataRequired,
+                                helpMsg: i18n("dyform.apiConfig.helpMsg.dataType"),
                                 formVisible: true,
                                 listVisible: true,
                                 preps: {
@@ -250,6 +259,7 @@ containerFields: [{
                                             label: i18n(`${i18nPrefix}.headerName`),
                                             fieldName: "paramName",
                                             required: dataRequired,
+                                            helpMsg: i18n("dyform.apiConfig.helpMsg.headerName"),
                                             formVisible: true,
                                             listVisible: true,
                                             preps: {colspan: 8},
@@ -257,6 +267,7 @@ containerFields: [{
                                         {
                                             label: i18n(`${i18nPrefix}.headerValue`),
                                             fieldName: "paramValue",
+                                            helpMsg: i18n("dyform.apiConfig.helpMsg.headerValue"),
                                             formVisible: true,
                                             listVisible: true,
                                             preps: {colspan: 10},
@@ -266,6 +277,7 @@ containerFields: [{
                                             fieldName: "valueType",
                                             type: "select",
                                             defaultValue: "static",
+                                            helpMsg: i18n("dyform.apiConfig.helpMsg.valueType"),
                                             formVisible: true,
                                             listVisible: true,
                                             preps: {values: valueTypeList, colspan: 6},
@@ -285,6 +297,7 @@ containerFields: [{
                                             label: i18n(`${i18nPrefix}.paramName`),
                                             fieldName: "paramName",
                                             required: true,
+                                            helpMsg: i18n("dyform.apiConfig.helpMsg.paramName"),
                                             formVisible: true,
                                             listVisible: true,
                                             preps: {colspan: 8},
@@ -292,15 +305,38 @@ containerFields: [{
                                         {
                                             label: i18n(`${i18nPrefix}.paramValue`),
                                             fieldName: "paramValue",
+                                            helpMsg: i18n("dyform.apiConfig.helpMsg.paramValue"),
                                             formVisible: true,
                                             listVisible: true,
                                             preps: {colspan: 10},
+                                        },
+                                        {
+                                            label: i18n("dyform.apiConfig.paramValueField"),
+                                            fieldName: "paramValueField",
+                                            type: "select",
+                                            helpMsg: i18n("dyform.apiConfig.helpMsg.paramValueField"),
+                                            formVisible: false,
+                                            listVisible: false,
+                                            actions: {
+                                                change: (val: any) => {
+                                                    if (val["paramValueField"]) {
+                                                        val["paramValue"] = "${" + val["paramValueField"] + "}";
+                                                    }
+                                                },
+                                            },
+                                            preps: {
+                                                values: formFields ?? [],
+                                                filterable: true,
+                                                allowCreate: true,
+                                                colspan: 10,
+                                            },
                                         },
                                         {
                                             label: i18n("dyform.utils.468"),
                                             fieldName: "matchType",
                                             type: "select",
                                             defaultValue: "eq",
+                                            helpMsg: i18n("dyform.apiConfig.helpMsg.matchType"),
                                             formVisible: true,
                                             listVisible: true,
                                             preps: {values: searchMatchList(), colspan: 6},
@@ -310,9 +346,43 @@ containerFields: [{
                                             fieldName: "valueType",
                                             type: "select",
                                             defaultValue: "static",
+                                            helpMsg: i18n("dyform.apiConfig.helpMsg.valueType"),
                                             formVisible: true,
                                             listVisible: true,
-                                            preps: {values: valueTypeList, colspan: 6},
+                                            actions: {
+                                                change: (val: any) => {
+                                                    if (val["valueType"] === "dynamic") {
+                                                        const pv = val["paramValue"];
+                                                        if (pv && typeof pv === "string") {
+                                                            const match = pv.match(/^\$\{(\w+)\}$/);
+                                                            if (match) {
+                                                                val["paramValueField"] = match[1];
+                                                            }
+                                                        }
+                                                    }
+                                                },
+                                            },
+                                            preps: {
+                                                values: valueTypeList,
+                                                colspan: 6,
+                                                dataRelation: {
+                                                    actionName: "change",
+                                                    relationDetails: [
+                                                        {
+                                                            matchType: "eq",
+                                                            controlCondition: "eqVisible",
+                                                            relationFields: ["paramValue"],
+                                                            matchFieldValue: ["static", "isolation"],
+                                                        },
+                                                        {
+                                                            matchType: "eq",
+                                                            controlCondition: "eqVisible",
+                                                            relationFields: ["paramValueField"],
+                                                            matchFieldValue: "dynamic",
+                                                        },
+                                                    ],
+                                                },
+                                            },
                                         },
 
                                     ],
@@ -475,45 +545,49 @@ containerFields: [{
 
 export function createAreaIsolation() {
     return {
-        title: "区域条件配置",
+        title: i18n("dyform.apiConfig.section.isolationConfig"),
         subTablePrimaryKey: "isolationConfig",
         subTableName: "isolationConfig",
         subFormFlag: "Y",
         fieldList: [
             {
-                label: "隔离类型",
+                label: i18n("dyform.apiConfig.isolationType"),
                 fieldName: "isolationType",
                 type: "select",
                 formVisible: true,
+                helpMsg: i18n("dyform.apiConfig.helpMsg.isolationType"),
                 preps: {
                     values: [
                         {name: "IP", value: "ip"},
-                        {name: "角色", value: "role"},
+                        {name: i18n("dyform.apiConfig.isolationType.role"), value: "role"},
                     ]
                 }
             }, {
                 containerType:"table",
 containerFields: [{
                     subTableName: "isolationDetails",
-                    title: "隔离标识",
+                    title: i18n("dyform.apiConfig.section.isolationDetails"),
                     initRows: 0,
                     fieldList: [
                         {
-                            label: "隔离Key",
+                            label: i18n("dyform.apiConfig.isolationName"),
                             fieldName: "isolationName",
                             required: true,
+                            helpMsg: i18n("dyform.apiConfig.helpMsg.isolationName"),
                             formVisible: true,
                         },
                         {
-                            label: "接口参数名",
+                            label: i18n("dyform.apiConfig.isolationParamName"),
                             fieldName: "paramName",
                             required: true,
+                            helpMsg: i18n("dyform.apiConfig.helpMsg.isolationParamName"),
                             formVisible: true,
                         },
                         {
-                            label: "隔离编码",
+                            label: i18n("dyform.apiConfig.isolationCode"),
                             fieldName: "isolationCode",
                             required: true,
+                            helpMsg: i18n("dyform.apiConfig.helpMsg.isolationCode"),
                             formVisible: true,
                         }
                     ]
@@ -544,16 +618,16 @@ export function createApiConfig(mode: "dataSource" | "linkage", formFields?: Sel
             {
                 label: i18n("dyform.apiSource.proxyUrl"),
                 fieldName: "proxyUrl",
-                helpMsg: i18n("dyform.apiSource.proxyUrl.helpMsg"),
+                helpMsg: i18n("dyform.apiSource.proxyUrl.helpMsg") + "\n\n" + i18n("dyform.apiConfig.helpMsg.configGuide"),
                 defaultValue: "/system-config/redirect/apiLinkage",
                 formVisible: true,
                 required: true
             },
             {
-                label: "条件属性",
+                label: i18n("dyform.apiConfig.conditionFields"),
                 fieldName: "conditionFields",
                 type: "select",
-                helpMsg: "登记接口需要哪些表单属性的值作为条件；在配置请求参数时,动态参数需要用这里选择的属性名作为参数值",
+                helpMsg: i18n("dyform.apiConfig.helpMsg.conditionFields"),
                 defaultValue: currentField ? [currentField] : [],
                 formVisible: true,
                 required: true,
@@ -570,9 +644,9 @@ export function createApiConfig(mode: "dataSource" | "linkage", formFields?: Sel
                 },
                 containerType:"tab",
                 containerFields: [
-                    createRequestTab(i18n("dyform.apiConfig.tab.apiConfig"), i18nPrefix, "apiInfo", defaultMethod, true, interfaceUtils),
+                    createRequestTab(i18n("dyform.apiConfig.tab.apiConfig"), i18nPrefix, "apiInfo", defaultMethod, true, interfaceUtils, formFields),
                     responseTab,
-                    createRequestTab(i18n("dyform.apiConfig.tab.authConfig"), i18nPrefix, "authInfo", defaultMethod, false, interfaceUtils),
+                    createRequestTab(i18n("dyform.apiConfig.tab.authConfig"), i18nPrefix, "authInfo", defaultMethod, false, interfaceUtils, formFields),
                     createAreaIsolation()
                 ],
             }]

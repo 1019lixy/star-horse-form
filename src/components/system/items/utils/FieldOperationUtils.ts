@@ -2,6 +2,7 @@ import {getDesignFormStore, postRequest, SearchParams, uuid,} from "star-horse-l
 import {computed} from "vue";
 import camelCase from "camelcase";
 import {getCustomComponentList, getLocalCustomComponentList} from "@/api/custom_component_api";
+import {createDefaultElements} from "@/components/formcomp/container/container-types";
 
 const formData = computed(() => getDesignFormStore().formData);
 const numField: Array<string> = [
@@ -83,46 +84,39 @@ export function fieldCopy(data: any, type: string) {
             }
         }
     }
-    if (reData.itemType == "box") {
+    if (reData.itemType == "box" || reData.itemType == "dytable") {
         mvData.rowNums = 1;
         mvData.columnNums = 1;
+        const col: any = {id: uuid(), cellVisible: true, colIndex: 1, items: []};
+        if (reData.itemType == "box") {
+            col.colspan = 24;
+        } else {
+            col.colspan = 1;
+            col.rowspan = 1;
+        }
         mvData.preps["elements"] = [
             {
                 id: uuid(),
                 rowIndex: 1,
-                columns: [{id: uuid(), cellVisible: true, colIndex: 1, colspan: 24, items: []}],
+                columns: [col],
             },
         ];
     } else if (reData.itemType == "table") {
         mvData.preps["elements"] = [
             {id: uuid(), colIndex: 1, columns: 1, items: []},
         ];
-    } else if (reData.itemType == "dytable") {
-        mvData.rowNums = 1;
-        mvData.columnNums = 1;
-        mvData.preps["elements"] = [
-            {
-                id: uuid(),
-                colIndex: 1,
-                columns: [
-                    {id: uuid(), cellVisible: true, colIndex: 1, colspan: 1, rowspan: 1, items: []},
-                ],
-            },
-        ];
     } else if (reData.itemType == "condition") {
         mvData.preps["children"] = [];
         mvData.preps["items"] = [];
-    } else if (["dialog", "drawer", "fieldset", "descriptions", "anchor"].includes(reData.itemType)) {
+    } else if (type == "container") {
         // 扁平型容器(tab-like): elements[].items[] 结构
-        mvData.preps["elements"] = [
-            {
-                label: reData.itemName,
-                subTablePrimaryKey: reData.itemType,
-                subTableName: reData.itemType,
-                subFormFlag: "Y",
-                items: [],
-            },
-        ];
+        const {elements: defaultElements, extraPreps} = createDefaultElements(reData.itemType, reData.itemName);
+        mvData.preps["elements"] = defaultElements;
+        if (extraPreps) {
+            for (const key in extraPreps) {
+                mvData[key] = extraPreps[key];
+            }
+        }
         // 从fields和advancedFields中提取默认值到preps
         const allFields = [...(reData.fields || []), ...(reData.advancedFields || [])];
         allFields.forEach((f: any) => {
@@ -130,20 +124,16 @@ export function fieldCopy(data: any, type: string) {
                 if (f.fieldType === "switch") {
                     mvData.preps[f.fieldName] = f.defaultValues === true || f.defaultValues === "true";
                 } else if (f.fieldType === "number") {
-                    try { mvData.preps[f.fieldName] = parseInt(f.defaultValues); }
-                    catch (e) { mvData.preps[f.fieldName] = null; }
+                    try {
+                        mvData.preps[f.fieldName] = parseInt(f.defaultValues);
+                    } catch (e) {
+                        mvData.preps[f.fieldName] = null;
+                    }
                 } else {
                     mvData.preps[f.fieldName] = f.defaultValues;
                 }
             }
         });
-        // anchor默认创建2个区块(含anchorItem独立配置字段)
-        if (reData.itemType === "anchor") {
-            mvData.preps["elements"] = [
-                {label: "区块 1", subTablePrimaryKey: "anchor1", subTableName: "anchor1", subFormFlag: "Y", anchorTitle: "", anchorHref: "", anchorIcon: "", anchorDisabled: false, items: []},
-                {label: "区块 2", subTablePrimaryKey: "anchor2", subTableName: "anchor2", subFormFlag: "Y", anchorTitle: "", anchorHref: "", anchorIcon: "", anchorDisabled: false, items: []},
-            ];
-        }
     }
     return mvData;
 }

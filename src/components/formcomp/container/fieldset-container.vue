@@ -1,8 +1,11 @@
 <script setup lang="ts" name="fieldset-container">
-import {nextTick, onMounted, PropType, ref} from "vue";
+import {onMounted, PropType, ref} from "vue";
 import {getDesignFormStore, itemCheck} from "star-horse-lowcode";
 import {i18n} from "@/lang";
 import {quickAddItem} from "@/api/form_utils";
+import {isContainer, ensureDefaultElements} from "./container-types";
+import {useDragAdd, ensureItems} from "./container-utils";
+import {useInlineEdit} from "./useInlineEdit";
 
 const props = defineProps({
   parentField: {type: Object as PropType<any>},
@@ -14,61 +17,19 @@ const props = defineProps({
 });
 let designForm = getDesignFormStore();
 const formData = defineModel("formData");
-let containerType: Array<string> = [
-  "tab", "box", "table", "card", "dytable", "collapse", "splitter", "step", "condition",
-  "dialog", "drawer", "fieldset", "descriptions", "anchor",
-];
-const isContainer = (data: any) => containerType.includes(data.itemType);
 const innerCollapsed = ref(false);
 const toggleInner = () => {
   if (props.field?.preps?.collapsible) innerCollapsed.value = !innerCollapsed.value;
 };
 
-// 标题内联编辑
+const {onDragAdd} = useDragAdd(designForm);
+const checkItem = (adata: any) => ensureItems(adata);
+const {editingId, editingText, startEditName: startEditTitle, finishEditName: finishEditTitle} = useInlineEdit(() => props.isDesign, "fieldset-edit-input");
 const editingTitle = ref(false);
 const titleInputRef = ref();
-// 双击编辑相关
-const editingId = ref<string>("");
-const editingText = ref<string>("");
-
-const startEditTitle = (element: any) => {
-  if (!props.isDesign) return;
-  editingId.value = element.subTablePrimaryKey || element.subTableName;
-  editingText.value = element.label || "";
-  nextTick(() => {
-    const input = document.querySelector(`.fieldset-edit-input input`) as HTMLInputElement;
-    if (input) {
-      input.focus();
-      input.select();
-    }
-  });
-};
-const finishEditTitle = (element: any) => {
-  if (editingText.value.trim()) {
-    element.label = editingText.value.trim();
-  }
-  editingId.value = "";
-};
-
-const onDragAdd = (evt: Event | any, dataList: any) => {
-  let newIndex = evt.newIndex;
-  if (newIndex != null && newIndex != "undefined") {
-    let dataInfo = dataList[newIndex];
-    designForm.selectItem(dataInfo, dataInfo.itemType, "");
-  }
-};
-
-const checkItem = (adata: any) => {
-  if (!adata["items"]) adata["items"] = [];
-};
 
 onMounted(() => {
-  if (!props.field["preps"]) props.field["preps"] = {};
-  if (!props.field["preps"]?.["elements"]) {
-    props.field["preps"]["elements"] = [
-      {label: "Fieldset", subTablePrimaryKey: "fieldset", subTableName: "fieldset", subFormFlag: "Y", items: []},
-    ];
-  }
+  ensureDefaultElements(props.field, "fieldset");
 });
 </script>
 

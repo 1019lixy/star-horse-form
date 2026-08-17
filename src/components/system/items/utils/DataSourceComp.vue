@@ -42,20 +42,20 @@ const sourceTypeOptions = computed<DataSourceTypeOption[]>(() => {
     },
   ];
   if (props.model === "full") {
-    opts.push(
-        /* {
+  /*  opts.push(
+        /!* {
            value: "url",
            label: i18n("dyform.unified.source.internalApi"),
            icon: "Link",
            desc: i18n("dyform.unified.source.internalApi.desc")
-         },*/
+         },*!/
         {
           value: "dict",
           label: i18n("dyform.unified.source.dict"),
           icon: "Collection",
           desc: i18n("dyform.unified.source.dict.desc")
         },
-    );
+    );*/
     opts.push(
         {
           value: "thirdParty",
@@ -98,6 +98,7 @@ const staticFields: FieldInfo[] | any = [
       label: i18n("dyform.dialog.420"),
       fieldName: "analysisValue",
       type: "input",
+      helpMsg: i18n("dyform.apiConfig.helpMsg.analysisValue"),
       formVisible: true,
       preps: {colspan: 14}
     },
@@ -124,6 +125,7 @@ containerFields: [{
           label: i18n("dyform.utils.598"),
           fieldName: "name",
           required: dataRequired,
+          helpMsg: i18n("dyform.apiConfig.helpMsg.staticName"),
           formVisible: true,
           listVisible: true
         },
@@ -131,6 +133,7 @@ containerFields: [{
           label: i18n("dyform.utils.599"),
           fieldName: "value",
           required: dataRequired,
+          helpMsg: i18n("dyform.apiConfig.helpMsg.staticValue"),
           formVisible: true,
           listVisible: true
         },

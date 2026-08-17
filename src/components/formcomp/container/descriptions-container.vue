@@ -4,6 +4,8 @@ import {getDesignFormStore, itemCheck, warning} from "star-horse-lowcode";
 import {i18n} from "@/lang";
 import {quickAddItem} from "@/api/form_utils";
 import GroupContainer from "@/components/formcomp/container/group-container.vue";
+import {isContainer, ensureDefaultElements} from "./container-types";
+import {ensureItems} from "./container-utils";
 
 const props = defineProps({
   parentField: {type: Object as PropType<any>},
@@ -16,11 +18,6 @@ const props = defineProps({
 let designForm = getDesignFormStore();
 let draggingItem = computed(() => designForm.draggingItem);
 const formData = defineModel("formData");
-let containerType: Array<string> = [
-  "tab", "box", "table", "card", "dytable", "collapse", "splitter", "step", "condition",
-  "dialog", "drawer", "fieldset", "descriptions", "anchor",
-];
-const isContainer = (data: any) => containerType.includes(data.itemType);
 
 const onDragAdd = (evt: Event | any, dataList: any) => {
   let newIndex = evt.newIndex;
@@ -71,9 +68,7 @@ const finishEditName = (element: any) => {
   }
   editingId.value = "";
 };
-const checkItem = (adata: any) => {
-  if (!adata["items"]) adata["items"] = [];
-};
+const checkItem = (adata: any) => ensureItems(adata);
 
 // 获取所有items(合并所有element的items)
 const allItems = () => {
@@ -86,12 +81,7 @@ const allItems = () => {
 };
 
 onMounted(() => {
-  if (!props.field["preps"]) props.field["preps"] = {};
-  if (!props.field["preps"]?.["elements"]) {
-    props.field["preps"]["elements"] = [
-      {label: "Descriptions", subTablePrimaryKey: "descriptions", subTableName: "descriptions", subFormFlag: "Y", items: []},
-    ];
-  }
+  ensureDefaultElements(props.field, "descriptions");
 });
 </script>
 

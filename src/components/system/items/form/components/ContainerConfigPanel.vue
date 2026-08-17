@@ -38,7 +38,7 @@ const showAdvanced = ref(false);
 
 /** 判断是否为特殊字段（非常规公共字段） */
 const isSpecialField = (f: ItemType): boolean => {
-  const commonNames = ["label", "subTablePrimaryKey", "subFormFlag", "subTableName", "mapping"];
+  const commonNames = ["label", "subTablePrimaryKey", "subFormFlag","formVisible", "subTableName", "mapping"];
   return !commonNames.includes(f.fieldName);
 };
 

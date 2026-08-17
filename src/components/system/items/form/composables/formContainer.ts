@@ -10,6 +10,11 @@ const elementCommonFields: ItemType[] = [
     defaultValues: "Y", category: 1,
     configParams: [{activeValue: "Y", inactiveValue: "N", showFields: ["subTableName", "mapping"]}],
   },
+  {
+    label: i18n("dyform.container.formVisible"), fieldName: "formVisible", fieldType: "switch",
+    defaultValues: "Y", category: 1,
+    configParams: [{activeValue: "Y", inactiveValue: "N"}],
+  },
   {label: i18n("dyform.utils.480"), fieldName: "subTableName", fieldType: "input", required: true, category: 1, configParams: []},
   {
     label: i18n("dyform.utils.481"), fieldName: "mapping", fieldType: "select",
@@ -227,7 +232,7 @@ export const formContainer: CompType[] = [
         fieldName: "subFormFlag",
         fieldType: "switch",
         required: false,
-        defaultValues: true,
+        defaultValues: "Y",
         category: 1,
         configParams: [],
       },
