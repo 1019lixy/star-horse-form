@@ -1,12 +1,10 @@
 import {computed, ref, Ref, ComputedRef} from "vue";
-import {getDesignFormStore} from "star-horse-lowcode";
-
 /**
  * Create the standard onDragAdd handler used by all container components.
  * Selects the dragged item in the design form store.
  */
 export function useDragAdd(designForm?: any) {
-    const store = designForm ?? getDesignFormStore();
+    const store = designForm;
     const onDragAdd = (evt: Event | any, dataList: any) => {
         const newIndex = evt.newIndex;
         if (newIndex != null && newIndex != "undefined") {

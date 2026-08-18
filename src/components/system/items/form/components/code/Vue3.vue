@@ -46,7 +46,7 @@ onMounted(() => {
 <star-horse-panel :isShowBtnContinue="true" v-model="dialogProps.editVisible" :dialogProps="dialogProps">
     <star-horse-form  @refresh="${convertToCamelCase(props.formInfo.tbName)}Ref?.loadByPage()" :compUrl="dataUrl" :fieldList="tableFieldList" :rules="rules"\/>
   <\/star-horse-panel>
-  <star-horse-panel :dialog-visible="dialogProps.viewVisible" :dialogProps="dialogProps"  :source="3">
+  <star-horse-panel v-model="dialogProps.viewVisible" :dialogProps="dialogProps"  :source="3">
     <star-horse-data-view :dataFormat="dataFormat" :field-list="tableFieldList" :compUrl="dataUrl"\/>
   <\/star-horse-panel>
   <div class="search-content">

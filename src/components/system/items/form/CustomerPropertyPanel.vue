@@ -1,7 +1,8 @@
 <script setup lang="ts" name="CustomerPropertyPanel">
 import {computed, defineAsyncComponent, nextTick, onMounted, PropType, ref, unref, watch,} from "vue";
 import {i18n} from "@/lang";
-import {formFieldMapping, getDesignFormStore, isJson, PageFieldInfo,} from "star-horse-lowcode";
+import {formFieldMapping, isJson, PageFieldInfo,} from "star-horse-lowcode";
+import {getDesignFormStore} from "@/store/StoreManager";
 import {loadSvgIcons} from "@/api/star_horse_form_utils.js";
 import {useDialogManager} from "@/components/system/items/form/composables/useDialogManager.js";
 import {FormConfig} from "@/components/types";

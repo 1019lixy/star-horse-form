@@ -1,6 +1,7 @@
 <script setup lang="ts" name="FieldLayer">
 import {computed, nextTick, onMounted, ref, watch} from "vue";
-import {analysisCompDatas, getDesignFormStore, SelectOption,} from "star-horse-lowcode";
+import {analysisCompDatas, SelectOption,} from "star-horse-lowcode";
+import {getDesignFormStore} from "@/store/StoreManager";
 import {i18n} from "@/lang/index.js";
 
 const props = defineProps({

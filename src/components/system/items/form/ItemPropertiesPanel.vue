@@ -3,13 +3,13 @@ import {computed, nextTick, onMounted, PropType, ref, unref, watch} from "vue";
 import {buttonClickDataField, fieldPlaceholder} from "@/components/system/items/utils/ItemPreps.js";
 import {
   analysisCompDatas,
-  getDesignFormStore,
   operationConfirm,
   searchMatchList,
   uuid,
   validRulesList,
   warning
 } from "star-horse-lowcode";
+import {getDesignFormStore} from "@/store/StoreManager";
 import {i18n} from "@/lang/index.js";
 import {FormConfig} from "@/components/types";
 import type {FormulaConfig} from "@/components/types/FormulaConfig";
@@ -448,7 +448,7 @@ watch(() => quickConfig.value, (val) => {
         </el-button>
       </el-form-item>
       <el-form-item :label="i18n('dyform.props.quickConfig')" label-position="top" prop="rowAndCol"
-                    v-if="['dytable','box'].includes(currentItemType)">
+                    v-if="['dytable','box','gridtable'].includes(currentItemType)">
         <el-form-item :label="i18n('dyform.props.quickConfig.rows')">
           <el-input-number v-model="quickConfig.rowNums" min="1" max="500" controls-position="right"/>
         </el-form-item>
@@ -470,7 +470,7 @@ watch(() => quickConfig.value, (val) => {
           <el-input-number v-else v-model="quickConfig.columnNums" min="1" max="50"
                            controls-position="right"/>
         </el-form-item>
-        <el-form-item v-if="currentItemType=='dytable'" label="显示行和列编号" prop="formProps.showLineNumber">
+        <el-form-item v-if="['dytable','gridtable'].includes(currentItemType)" label="显示行和列编号" prop="formProps.showLineNumber">
           <el-switch v-model="formProps.showLineNumber"/>
         </el-form-item>
         <el-form-item v-if="currentItemType=='dytable'" label="表单可改变单元格宽度" prop="formProps.allowResize">

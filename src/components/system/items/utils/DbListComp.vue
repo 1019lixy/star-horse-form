@@ -5,7 +5,6 @@ import {
   BtnAuth,
   closeLoad,
   convertToCamelCase,
-  getDesignFormStore,
   isJson,
   load,
   PageFieldInfo,
@@ -14,6 +13,7 @@ import {
   success,
   warning,
 } from "star-horse-lowcode";
+import {getDesignFormStore} from "@/store/StoreManager";
 import {computed, ComputedRef, nextTick, onMounted, PropType, ref, unref, watch,} from "vue";
 import {FormConfig} from "@/components/types";
 
@@ -36,7 +36,7 @@ let tableAndColumnsList = ref<any>([]);
 let currentIndex = ref<any>(null);
 let containerTypeList = computed(() => {
   let temp: Array<SelectOption> = [];
-  designForm.containerList.forEach((item: any) => {
+  designForm.containerDataList.forEach((item: any) => {
     temp.push({
       name: item.itemName,
       value: item.itemType,
@@ -70,8 +70,8 @@ const dataLoadConditionList = ref<Array<SelectOption>>([]);
 const primaryKeyPolicyList = ref<Array<SelectOption>>([]);
 const buttonPermissionsList = ref<Array<SelectOption>>([]);
 const tableFieldInfo = ref<PageFieldInfo>({
-  containerType:"table",
-containerFields: [
+  containerType: "table",
+  containerFields: [
     {
       subTableName: "tableNameList",
       staticData: "N",
@@ -352,8 +352,8 @@ let dataFieldInfo = ref<PageFieldInfo>({
       },
     },
     {
-      containerType:"table",
-containerFields: [
+      containerType: "table",
+      containerFields: [
         {
           subTableName: "fieldCompTypes",
           title: i18n("dyform.utils.572"),
@@ -829,7 +829,7 @@ const doCreateData = (type: string) => {
       configData.value,
   )
       .then((res: any) => {
-        if (res.data.code!==200) {
+        if (res.data.code !== 200) {
           warning(res.data.cnMessage);
           return;
         } else {

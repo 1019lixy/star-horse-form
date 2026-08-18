@@ -1,6 +1,7 @@
 <script setup lang="ts" name="FieldPanel">
 import {computed, PropType, ref} from "vue";
-import {getDesignFormStore, loadData, operationConfirm, StarHorseIcon, success,} from "star-horse-lowcode";
+import {loadData, operationConfirm, StarHorseIcon, success,} from "star-horse-lowcode";
+import {getDesignFormStore} from "@/store/StoreManager";
 import {fieldCopy, loadCustomComponents} from "@/components/system/items/utils/FieldOperationUtils.js";
 import {i18n} from "@/lang/index.js";
 import {FormConfig} from "@/components/types";

@@ -1,6 +1,7 @@
 import { ref } from "vue";
-import { ShortKey, getDesignFormStore } from "star-horse-lowcode";
+import { ShortKey } from "star-horse-lowcode";
 import { ModuleEnums } from "@/components/enums/ModuleEnums";
+import {getDesignFormStore} from "@/store/StoreManager";
 import {
   altDownFun,
   altLeftFun,

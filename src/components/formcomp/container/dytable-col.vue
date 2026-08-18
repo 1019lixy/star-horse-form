@@ -2,8 +2,10 @@
 import {computed, onMounted, PropType, ref} from "vue";
 import {i18n} from "@/lang";
 import {tableCellOperation} from "@/components/formcomp/container/dytableUtils";
-import {getDesignFormStore, itemCheck, uuid, warning} from "star-horse-lowcode";
+import {itemCheck, uuid, warning} from "star-horse-lowcode";
+import {getDesignFormStore} from "@/store/StoreManager";
 import ContainerDropDown from "@/components/formcomp/utils/ContainerDropDown.vue";
+import DesignItemWrapper from "@/components/formcomp/utils/DesignItemWrapper.vue";
 import {CONTAINER_TYPES} from "./container-types";
 import {useRowHeight} from "./container-utils";
 
@@ -143,18 +145,19 @@ onMounted(() => {
             :data-field-id="data?.id"
             style="height: 100%"
         >
-
-          <component
-              :key="data?.id"
-              :field="data"
-              :formInfo="formInfo"
-              :isDesign="isDesign"
-              :showFormItem="showFormItem"
-              :disabled="disabled"
-              :is="itemCheck(data)"
-              :parentField="parentField"
-              v-model:formData="formData"
-          />
+          <DesignItemWrapper :field="data" :isDesign="isDesign" :parentField="parentField" :disabled="disabled">
+            <component
+                :key="data?.id"
+                :field="data"
+                :formInfo="formInfo"
+                :isDesign="isDesign"
+                :showFormItem="showFormItem"
+                :disabled="disabled"
+                :is="itemCheck(data)"
+                :parentField="parentField"
+                v-model:formData="formData"
+            />
+          </DesignItemWrapper>
         </div>
       </template>
     </draggable>
@@ -181,7 +184,7 @@ onMounted(() => {
 <style lang="scss" scoped>
 .edit_col {
   &::before {
-    z-index: 1000;
+    //z-index: 1000;
     pointer-events: none;
   }
 

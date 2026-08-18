@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import {computed, onMounted, ref, watch} from "vue";
 import {i18n} from "@/lang";
-import {analysisAppComps, analysisCompDatas, getDesignFormStore, operationConfirm} from "star-horse-lowcode";
+import {analysisAppComps, analysisCompDatas, operationConfirm} from "star-horse-lowcode";
+import {getDesignFormStore} from "@/store/StoreManager";
 import {FormConfig} from "@/components/types/FormConfig";
 
 const props = defineProps<{

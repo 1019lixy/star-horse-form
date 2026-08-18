@@ -1,8 +1,10 @@
 <script setup lang="ts" name="dialog-container">
 import {onMounted, PropType, ref} from "vue";
-import {getDesignFormStore, itemCheck} from "star-horse-lowcode";
+import {itemCheck} from "star-horse-lowcode";
+import {getDesignFormStore} from "@/store/StoreManager";
 import {i18n} from "@/lang";
 import {quickAddItem} from "@/api/form_utils";
+import DesignItemWrapper from "@/components/formcomp/utils/DesignItemWrapper.vue";
 import GroupContainer from "@/components/formcomp/container/group-container.vue";
 import {isContainer, ensureDefaultElements} from "./container-types";
 import {useDragAdd, ensureItems, usePanelState} from "./container-utils";
@@ -68,17 +70,19 @@ onMounted(() => {
       >
         <template #item="{ element: item }">
           <div class="comp-item" :data-field-id="item.id">
-            <component
-                :key="item.id"
-                :field="item"
-                :isDesign="isDesign"
-                :disabled="disabled"
-                :showFormItem="showFormItem"
-                :formInfo="formInfo"
-                :is="itemCheck(item)"
-                :parentField="field"
-                v-model:formData="formData"
-            />
+            <DesignItemWrapper :field="item" :isDesign="isDesign" :parentField="field" :disabled="disabled">
+              <component
+                  :key="item.id"
+                  :field="item"
+                  :isDesign="isDesign"
+                  :disabled="disabled"
+                  :showFormItem="showFormItem"
+                  :formInfo="formInfo"
+                  :is="itemCheck(item)"
+                  :parentField="field"
+                  v-model:formData="formData"
+              />
+            </DesignItemWrapper>
           </div>
         </template>
       </draggable>
@@ -124,33 +128,35 @@ onMounted(() => {
           >
             <template #item="{ element: item }">
               <div class="comp-item" :data-field-id="item.id">
-                <component
-                    :key="item.id"
-                    :field="item"
-                    :isDesign="isDesign"
-                    :disabled="disabled"
-                    :showFormItem="showFormItem"
-                    :formInfo="formInfo"
-                    :is="itemCheck(item)"
-                    :parentField="field"
-                    v-model:formData="formData"
-                />
+                <DesignItemWrapper :field="item" :isDesign="isDesign" :parentField="field" :disabled="disabled">
+                  <component
+                      :key="item.id"
+                      :field="item"
+                      :isDesign="isDesign"
+                      :disabled="disabled"
+                      :showFormItem="showFormItem"
+                      :formInfo="formInfo"
+                      :is="itemCheck(item)"
+                      :parentField="field"
+                      v-model:formData="formData"
+                  />
+                </DesignItemWrapper>
               </div>
             </template>
           </draggable>
           <template v-else>
-            <component
-                v-for="item in adata['items']"
-                :key="item.id"
-                :field="item"
-                :isDesign="false"
-                :disabled="disabled"
-                :showFormItem="showFormItem"
-                :formInfo="formInfo"
-                :is="itemCheck(item)"
-                :parentField="field"
-                v-model:formData="formData"
-            />
+            <DesignItemWrapper v-for="item in adata['items']" :key="item.id" :field="item" :isDesign="false" :parentField="field" :disabled="disabled">
+              <component
+                  :field="item"
+                  :isDesign="false"
+                  :disabled="disabled"
+                  :showFormItem="showFormItem"
+                  :formInfo="formInfo"
+                  :is="itemCheck(item)"
+                  :parentField="field"
+                  v-model:formData="formData"
+              />
+            </DesignItemWrapper>
           </template>
         </template>
         <div v-if="isDesign" class="quick-add-bar">

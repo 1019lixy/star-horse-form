@@ -3,9 +3,11 @@
 import {computed, PropType, ref} from "vue";
 import {i18n} from "@/lang";
 import GroupContainer from "@/components/formcomp/container/group-container.vue";
-import {getDesignFormStore, itemCheck, operationConfirm, uuid, warning} from "star-horse-lowcode";
+import {itemCheck, operationConfirm, uuid, warning} from "star-horse-lowcode";
+import {getDesignFormStore} from "@/store/StoreManager";
 import {CONTAINER_TYPES} from "./container-types";
 import {useRowHeight} from "./container-utils";
+import DesignItemWrapper from "@/components/formcomp/utils/DesignItemWrapper.vue";
 
 let containerTableRef = ref(); // 强制刷新表格
 const props = defineProps({
@@ -171,17 +173,19 @@ const deleteCol = (index: number) => {
                     :data-field-id="data?.id"
                     style="height: 100%"
                 >
-                  <component
-                      :key="data?.id"
-                      :field="data"
-                      :showFormItem="showFormItem"
-                      :isDesign="isDesign"
-                      :disabled="disabled"
-                      :formInfo="formInfo"
-                      :is="itemCheck(data)"
-                      :parentField="field"
-                      v-model:formData="formData"
-                  />
+                  <DesignItemWrapper :field="data" :isDesign="isDesign" :parentField="field" :disabled="disabled">
+                    <component
+                        :key="data?.id"
+                        :field="data"
+                        :showFormItem="showFormItem"
+                        :isDesign="isDesign"
+                        :disabled="disabled"
+                        :formInfo="formInfo"
+                        :is="itemCheck(data)"
+                        :parentField="field"
+                        v-model:formData="formData"
+                    />
+                  </DesignItemWrapper>
                 </div>
               </template>
             </draggable>
@@ -230,7 +234,7 @@ th {
     position: absolute;
     right: 0;
     top: 0;
-    z-index: 9999;
+//    z-index: 9999;
   }
 }
 

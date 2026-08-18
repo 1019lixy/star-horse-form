@@ -1,8 +1,10 @@
 <script setup lang="ts" name="descriptions-container">
 import {computed, nextTick, onMounted, PropType, ref} from "vue";
-import {getDesignFormStore, itemCheck, warning} from "star-horse-lowcode";
+import {itemCheck, warning} from "star-horse-lowcode";
+import {getDesignFormStore} from "@/store/StoreManager";
 import {i18n} from "@/lang";
 import {quickAddItem} from "@/api/form_utils";
+import DesignItemWrapper from "@/components/formcomp/utils/DesignItemWrapper.vue";
 import GroupContainer from "@/components/formcomp/container/group-container.vue";
 import {isContainer, ensureDefaultElements} from "./container-types";
 import {ensureItems} from "./container-utils";
@@ -133,16 +135,18 @@ onMounted(() => {
               />
             </div>
           </template>
-          <component
-              :field="item"
-              :isDesign="isDesign"
-              :disabled="disabled"
-              :showFormItem="showFormItem"
-              :formInfo="formInfo"
-              :is="itemCheck(item)"
-              :parentField="field"
-              v-model:formData="formData"
-          />
+          <DesignItemWrapper :field="item" :isDesign="isDesign" :parentField="field" :disabled="disabled">
+            <component
+                :field="item"
+                :isDesign="isDesign"
+                :disabled="disabled"
+                :showFormItem="showFormItem"
+                :formInfo="formInfo"
+                :is="itemCheck(item)"
+                :parentField="field"
+                v-model:formData="formData"
+            />
+          </DesignItemWrapper>
         </el-descriptions-item>
       </template>
     </el-descriptions>

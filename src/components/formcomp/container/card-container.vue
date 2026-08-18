@@ -1,8 +1,10 @@
 <script setup lang="ts" name="card-container">
 import {computed, onMounted, PropType, ref} from "vue";
-import {getDesignFormStore, itemCheck} from "star-horse-lowcode";
+import {itemCheck} from "star-horse-lowcode";
+import {getDesignFormStore} from "@/store/StoreManager";
 import {i18n} from "@/lang";
 import {quickAddItem} from "@/api/form_utils";
+import DesignItemWrapper from "@/components/formcomp/utils/DesignItemWrapper.vue";
 import {isContainer, ensureDefaultElements} from "./container-types";
 import {useDragAdd, ensureItems} from "./container-utils";
 import {useInlineEdit} from "./useInlineEdit";
@@ -89,17 +91,19 @@ onMounted(() => {
                     :data-field-id="header.id"
                     :style="{ marginTop: isContainer(header) ? '25px' : '10px' }"
                 >
-                  <component
-                      :key="header.id"
-                      :field="header"
-                      :isDesign="isDesign"
-                      :showFormItem="showFormItem"
-                      :disabled="disabled"
-                      :formInfo="formInfo"
-                      :is="itemCheck(header)"
-                      :parentField="field"
-                      v-model:formData="formData"
-                  />
+                  <DesignItemWrapper :field="header" :isDesign="isDesign" :parentField="field" :disabled="disabled">
+                    <component
+                        :key="header.id"
+                        :field="header"
+                        :isDesign="isDesign"
+                        :showFormItem="showFormItem"
+                        :disabled="disabled"
+                        :formInfo="formInfo"
+                        :is="itemCheck(header)"
+                        :parentField="field"
+                        v-model:formData="formData"
+                    />
+                  </DesignItemWrapper>
                 </div>
               </template>
             </draggable>
@@ -120,17 +124,19 @@ onMounted(() => {
       >
         <template #item="{ element: item }">
           <div class="comp-item" :data-field-id="item.id">
-            <component
-                :key="item.id"
-                :field="item"
-                :isDesign="isDesign"
-                :disabled="disabled"
-                :showFormItem="showFormItem"
-                :formInfo="formInfo"
-                :is="itemCheck(item)"
-                :parentField="field"
-                v-model:formData="formData"
-            />
+            <DesignItemWrapper :field="item" :isDesign="isDesign" :parentField="field" :disabled="disabled">
+              <component
+                  :key="item.id"
+                  :field="item"
+                  :isDesign="isDesign"
+                  :disabled="disabled"
+                  :showFormItem="showFormItem"
+                  :formInfo="formInfo"
+                  :is="itemCheck(item)"
+                  :parentField="field"
+                  v-model:formData="formData"
+              />
+            </DesignItemWrapper>
           </div>
         </template>
       </draggable>

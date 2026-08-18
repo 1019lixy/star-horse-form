@@ -1,8 +1,11 @@
 <script setup lang="ts">
 import {computed, onMounted, PropType, ref, watch} from "vue";
 import {tableAction} from "@/components/formcomp/container/dytableUtils";
+import {tableAction as gridtableAction} from "@/components/formcomp/container/gridtableUtils";
 import {i18n} from "@/lang";
-import {FieldList, getDesignFormStore, numberRangeItem, StarHorseDialog, uuid, warning} from "star-horse-lowcode";
+import {getDesignFormStore} from "@/store/StoreManager";
+import FieldList from "@/components/formcomp/utils/FieldList.vue";
+import {numberRangeItem,  uuid, warning} from "star-horse-lowcode";
 import camelcase from "camelcase";
 
 const props = defineProps({
@@ -47,7 +50,7 @@ const checkMenuStatus = () => {
       ? null
       : elements[props.rowIndex + 1]?.columns.length;
   const isFullColumn =
-      props.type == "dytable" &&
+      (props.type == "dytable" || props.type == "gridtable") &&
       elements?.length == parseInt(props.field.rowspan);
   //检查当前列所有小于改列的数据是否存在合并
   const hasMergeCol = () => {
@@ -353,7 +356,11 @@ const compAddOperation = (type: string) => {
   close();
 };
 const init = () => {
-  tableAction(props, buttonControl.value, props.type);
+  if (props.type == "gridtable") {
+    gridtableAction(props, buttonControl.value);
+  } else {
+    tableAction(props, buttonControl.value, props.type);
+  }
 };
 onMounted(() => {
   init();
@@ -367,7 +374,13 @@ watch(
 );
 watch(
     () => props.parentField,
-    () => tableAction(props, buttonControl.value, props.type),
+    () => {
+      if (props.type == "gridtable") {
+        gridtableAction(props, buttonControl.value);
+      } else {
+        tableAction(props, buttonControl.value, props.type);
+      }
+    },
     {
       immediate: false,
       deep: true,
@@ -383,7 +396,7 @@ watch(
       :full-screen="false"
       :title="i18n('form.changeComponent')"
       :self-func="true"
-      :dialog-visible="componentVisible"
+      v-model="componentVisible"
       @merge="compAddOperation"
       @closeAction="close"
   >
@@ -443,7 +456,7 @@ watch(
       :hide-full-screen-icon="true"
       @merge="submitAction"
       @closeAction="close"
-      :dialog-visible="staticDataConfigDialog"
+      v-model="staticDataConfigDialog"
       box-width="40%"
   >
     <el-form v-model="fieldForm">
@@ -500,7 +513,7 @@ watch(
       :hide-full-screen-icon="true"
       @merge="submitAction"
       @closeAction="close"
-      :dialog-visible="configDialog"
+      v-model="configDialog"
       box-width="40%"
   >
     <el-form v-model="fieldForm">
@@ -541,7 +554,7 @@ watch(
       <el-form-item
           :label="i18n('dyform.utils.436')"
           prop="rowspan"
-          v-if="type == 'dytable' && currentCommand == 'cellConfig'"
+          v-if="(type == 'dytable' || type == 'gridtable') && currentCommand == 'cellConfig'"
       >
         <el-input-number min="1" step="1" :max="cellInfo.maxRow" v-model="fieldForm.rowspan"/>
         <help :message="i18n('dyform.utils.437')"/>
@@ -554,12 +567,12 @@ watch(
         <el-input-number
             min="1"
             step="1"
-            :max="type == 'dytable' ? cellInfo.maxCol : 24"
+            :max="(type == 'dytable' || type == 'gridtable') ? cellInfo.maxCol : 24"
             v-model="fieldForm.colspan"
         />
         <help
             :message="i18n('dyform.utils.439')"
-            v-if="type == 'dytable'"
+            v-if="type == 'dytable' || type == 'gridtable'"
         />
       </el-form-item>
     </el-form>

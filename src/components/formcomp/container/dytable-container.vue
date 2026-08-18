@@ -32,6 +32,7 @@ const handleColResizeStart = (e: MouseEvent, index: number) => {
 // 创建跟随鼠标的垂直线
   resizeLine = document.createElement("div");
   const handleHalf = 3; // 手柄宽度一半，用来居中
+  //z-index: 9999;
   resizeLine.style.cssText = `
     position: fixed;
     top: 0;
@@ -39,7 +40,7 @@ const handleColResizeStart = (e: MouseEvent, index: number) => {
     width: 4px;
     height: 100vh;
     background: #409eff;
-    z-index: 9999;
+
     pointer-events: none;
   `;
   document.body.appendChild(resizeLine);
@@ -296,7 +297,7 @@ const getColIndex = (rowIndex: number, colIndex: number, col: any) => {
   background: var(--star-horse-style);
   opacity: 0.5;
   transition: opacity 0.3s;
-  z-index: 1000;
+  //z-index: 1000;
   visibility: visible;
 
   &:hover {

@@ -2,7 +2,6 @@ import {
     ApiUrls,
     closeLoad,
     error,
-    getConsumerViewStore,
     getRequest,
     load,
     loadGetData,
@@ -115,7 +114,6 @@ export async function tableColumns(
                 return;
             }
             redata = res.data.data;
-            getConsumerViewStore().addTableInfo(tableName, redata);
         })
         .catch((err: any) => {
             console.error("Error fetching table columns:", err);

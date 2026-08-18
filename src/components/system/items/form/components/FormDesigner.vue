@@ -1,11 +1,12 @@
 <script setup lang="ts">
 import { onMounted, onUnmounted, ref } from "vue";
+import {dynamicFormContextMenuData} from "@/plugins/AblesPlugin";
 import {
-  dynamicFormContextMenuData,
   itemCheck,
   uuid,
 } from "star-horse-lowcode";
 import { i18n } from "@/lang/index";
+import DesignItemWrapper from "@/components/formcomp/utils/DesignItemWrapper.vue";
 
 const emit = defineEmits<{
   (e: "dragAdd", event: Event, dataList: Array<any>): void;
@@ -172,17 +173,23 @@ onUnmounted(() => {
             :data-field-id="data.id"
             :key="data.id"
           >
-            <component
-              :key="data.id"
-              :field="data"
-              :isDesign="true"
-              :formInfo="formInfo"
-              :showFormItem="data?.itemType != 'table'"
-              :index-of-parent-list="index"
-              :is="itemCheck(data)"
-              :formData="formData"
-              @update:formData="$emit('update:formData', $event)"
-            />
+            <DesignItemWrapper
+                :field="data"
+                :isDesign="true"
+                :parentField="null"
+            >
+              <component
+                :key="data.id"
+                :field="data"
+                :isDesign="true"
+                :formInfo="formInfo"
+                :showFormItem="data?.itemType != 'table'"
+                :index-of-parent-list="index"
+                :is="itemCheck(data)"
+                :formData="formData"
+                @update:formData="$emit('update:formData', $event)"
+              />
+            </DesignItemWrapper>
           </div>
         </template>
       </draggable>

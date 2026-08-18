@@ -5,7 +5,7 @@ import {i18n} from "@/lang";
  * Used by: isContainer(), excludeContainerType checks, and container registration.
  */
 export const CONTAINER_TYPES: ReadonlyArray<string> = [
-    "tab", "box", "table", "card", "dytable", "collapse", "splitter", "step", "condition",
+    "tab", "box", "table", "card", "dytable", "gridtable", "collapse", "splitter", "step", "condition",
     "dialog", "drawer", "fieldset", "descriptions", "anchor",
 ];
 

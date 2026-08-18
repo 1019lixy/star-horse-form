@@ -3,9 +3,11 @@ import {computed, onMounted, PropType} from "vue";
 
 import GroupContainer from "@/components/formcomp/container/group-container.vue";
 import JSON5 from "json5";
-import {getDesignFormStore, itemCheck} from "star-horse-lowcode";
+import {itemCheck} from "star-horse-lowcode";
+import {getDesignFormStore} from "@/store/StoreManager";
 import {i18n} from "@/lang";
 import {quickAddItem} from "@/api/form_utils";
+import DesignItemWrapper from "@/components/formcomp/utils/DesignItemWrapper.vue";
 import {ensureDefaultElements} from "./container-types";
 import {useDragAdd, ensureItems} from "./container-utils";
 import {useInlineEdit} from "./useInlineEdit";
@@ -111,17 +113,19 @@ onMounted(() => {
         >
           <template #item="{ element: data }">
             <div class="comp-item  my-[5px]" :data-field-id="data.id">
-              <component
-                  :key="data.id"
-                  :field="data"
-                  :isDesign="isDesign"
-                  :disabled="disabled"
-                  :showFormItem="showFormItem"
-                  :formInfo="formInfo"
-                  :is="itemCheck(data)"
-                  :parentField="field"
-                  v-model:formData="formData"
-              />
+              <DesignItemWrapper :field="data" :isDesign="isDesign" :parentField="field" :disabled="disabled">
+                <component
+                    :key="data.id"
+                    :field="data"
+                    :isDesign="isDesign"
+                    :disabled="disabled"
+                    :showFormItem="showFormItem"
+                    :formInfo="formInfo"
+                    :is="itemCheck(data)"
+                    :parentField="field"
+                    v-model:formData="formData"
+                />
+              </DesignItemWrapper>
             </div>
           </template>
         </draggable>

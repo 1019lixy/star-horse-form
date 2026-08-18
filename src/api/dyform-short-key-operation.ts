@@ -1,11 +1,12 @@
 import {
     copyContainer,
-    getCopyerOperationStore,
-    getDesignFormStore,
     moveDownItem,
     moveUpItem,
-        operationConfirm,
     removeItem,
+} from "@/plugins/AblesPlugin";
+import {getCopyerOperationStore, getDesignFormStore} from "@/store/StoreManager";
+import {
+    operationConfirm,
     uuid,
     warning,
 } from "star-horse-lowcode";

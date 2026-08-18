@@ -1,8 +1,10 @@
 <script setup lang="ts" name="step-container">
 import {computed, onMounted, PropType, ref, watch} from "vue";
-import {compKey, getDesignFormStore, itemCheck, operationConfirm, warning} from "star-horse-lowcode";
+import {compKey, itemCheck, operationConfirm, warning} from "star-horse-lowcode";
+import {getDesignFormStore} from "@/store/StoreManager";
 import {i18n} from "@/lang";
 import {quickAddItem} from "@/api/form_utils";
+import DesignItemWrapper from "@/components/formcomp/utils/DesignItemWrapper.vue";
 import {isContainer, ensureDefaultElements} from "./container-types";
 import {useDragAdd, ensureItems} from "./container-utils";
 import {useInlineEdit} from "./useInlineEdit";
@@ -418,17 +420,19 @@ watch(
                   :data-field-id="data.id"
                   :style="{ marginTop: isContainer(data) ? '25px' : '10px' }"
               >
-                <component
-                    :key="data.id"
-                    :field="data"
-                    :isDesign="isDesign"
-                    :disabled="disabled"
-                    :showFormItem="showFormItem"
-                    :formInfo="formInfo"
-                    :is="itemCheck(data)"
-                    :parentField="field"
-                    v-model:formData="formData"
-                />
+                <DesignItemWrapper :field="data" :isDesign="isDesign" :parentField="field" :disabled="disabled">
+                  <component
+                      :key="data.id"
+                      :field="data"
+                      :isDesign="isDesign"
+                      :disabled="disabled"
+                      :showFormItem="showFormItem"
+                      :formInfo="formInfo"
+                      :is="itemCheck(data)"
+                      :parentField="field"
+                      v-model:formData="formData"
+                  />
+                </DesignItemWrapper>
               </div>
             </template>
           </draggable>

@@ -4665,6 +4665,7 @@ If empty, the table information will be created in the current business database
     "dyform.container.dialogTitle": "Dialog Title",
     "dyform.container.drawerTitle": "Drawer Title",
     "dyform.container.boxWidth": "Dialog Width",
+    "dyform.container.gridtable": "Grid Table",
     "dyform.container.fullScreen": "Full Screen",
     "dyform.container.btnType": "Button Type",
     "dyform.container.btnPrimary": "Primary",
@@ -5293,4 +5294,33 @@ If empty, the table information will be created in the current business database
     "dyform.customComp.delete.confirm": "Are you sure to delete custom component \"{name}\"?",
     "dyform.customComp.delete.success": "Deleted successfully",
     "dyform.customComp.empty": "No custom components yet. Configure and save from the Component tab",
+    "form.empty": "Not set",
+    /**
+     * Additional Form Item Strings
+     */
+    "form.changeComponent": "Change component",
+    "form.selectParentContainer": "Select parent container",
+    "form.moveUp": "Move up",
+    "form.moveDown": "Move down",
+    /**
+     * Context Menu--------------
+     */
+    "context.new": "New",
+    "context.cut": "Cut",
+    "context.copy": "Copy",
+    "context.paste": "Paste",
+    "context.selectAll": "Select All",
+    "context.clear": "Clear",
+    "context.preview": "Preview",
+    "context.addComponent": "Add Component",
+    "context.selectContainer": "Select Container",
+    "context.undo": "Undo",
+    "context.delete": "Delete",
+    "context.properties": "Properties",
+    "context.centerHorizontally": "Center Horizontally",
+    "context.moveUpLayer": "Move Up Layer",
+    "context.moveDownLayer": "Move Down Layer",
+    "context.bringToFront": "Bring to Front",
+    "context.sendToBack": "Send to Back",
+    "context.clearGuides": "Clear Guides",
 };

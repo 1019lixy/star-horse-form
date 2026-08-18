@@ -100,7 +100,7 @@ onDeactivated(() => {
   <div class="flex flex-col h-full overflow-hidden">
     <star-horse-panel
         :isShowBtnContinue="true"
-        :dialog-visible="dialogProps.editVisible"
+        v-model="dialogProps.editVisible"
         :dialogProps="dialogProps"
     >
       <star-horse-form
@@ -111,7 +111,7 @@ onDeactivated(() => {
       />
     </star-horse-panel>
     <star-horse-panel
-        :dialog-visible="dialogProps.viewVisible"
+        v-model="dialogProps.viewVisible"
         :dialogProps="dialogProps"
         :source="3"
     >

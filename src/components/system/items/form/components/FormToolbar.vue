@@ -4,8 +4,8 @@ import {i18n} from "@/lang";
 import {computed, ref} from "vue";
 import {ToolBtnType} from "@/components/types/ToolBtnType";
 import {FormConfig} from "@/components/types";
-import {getDesignFormStore, StarHorseIcon,} from "star-horse-lowcode";
-
+import {StarHorseIcon,} from "star-horse-lowcode";
+import {getDesignFormStore} from "@/store/StoreManager";
 const emit = defineEmits<{
   (e: "action", action: ToolBtnType | any): void;
   (e: "cacheRestore", event: MouseEvent): void;

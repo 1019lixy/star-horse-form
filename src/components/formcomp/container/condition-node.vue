@@ -1,8 +1,10 @@
 <script setup lang="ts" name="condition-node">
 import {computed, nextTick, PropType, ref} from "vue";
-import {getDesignFormStore, itemCheck, operationConfirm, uuid} from "star-horse-lowcode";
+import {itemCheck, operationConfirm, uuid} from "star-horse-lowcode";
+import {getDesignFormStore} from "@/store/StoreManager";
 import {i18n} from "@/lang";
 import {quickAddItem} from "@/api/form_utils";
+import DesignItemWrapper from "@/components/formcomp/utils/DesignItemWrapper.vue";
 import {useDragAdd, ensureItems} from "./container-utils";
 
 defineOptions({name: "ConditionNode"});
@@ -165,19 +167,21 @@ const finishEditName = (node: any) => {
         <div class="condition-leaf-item my-[3px]"
              :data-field-id="data.id"
              :class="levelClass(data,depth + 1)">
-          <component
-              :key="data.id"
-              :field="data"
-              :isDesign="isDesign"
-              :disabled="disabled"
-              :showFormItem="showFormItem"
-              :formInfo="formInfo"
-              :is="itemCheck(data)"
+          <DesignItemWrapper :field="data" :isDesign="isDesign" :parentField="parentField" :disabled="disabled">
+            <component
+                :key="data.id"
+                :field="data"
+                :isDesign="isDesign"
+                :disabled="disabled"
+                :showFormItem="showFormItem"
+                :formInfo="formInfo"
+                :is="itemCheck(data)"
 
-              :parentField="parentField"
-              :formData="formData"
-              @update:formData="$emit('update:formData', $event)"
-          />
+                :parentField="parentField"
+                :formData="formData"
+                @update:formData="$emit('update:formData', $event)"
+            />
+          </DesignItemWrapper>
           <el-button
               v-if="isEdit && isDesign"
               class="leaf-remove-btn"

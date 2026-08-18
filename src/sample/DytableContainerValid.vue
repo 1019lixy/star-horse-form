@@ -25,7 +25,8 @@
 
 <script lang="ts" setup>
 import {onMounted, ref} from "vue";
-import {getDesignFormStore, StarHorseJsonEditor} from "star-horse-lowcode";
+import {StarHorseJsonEditor} from "star-horse-lowcode";
+import {getDesignFormStore} from "@/store/StoreManager";
 import JSON5 from "json5";
 
 let designForm = getDesignFormStore();
@@ -3681,7 +3682,7 @@ const formData = ref<any>({
                   "name": "formRemark",
                   "clearable": true,
                   "readonly": false,
-                  "placeholder": "请输入备注",
+                  "placeholder": "请输入备",
                   "rules": [],
                   "maxLength": 1000,
                   "formVisible": true,

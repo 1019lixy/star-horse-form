@@ -1,7 +1,5 @@
 import {ref} from "vue";
-import {getDesignFormStore} from "star-horse-lowcode";
-
-
+import {getDesignFormStore} from "@/store/StoreManager";
 export function useDialogManager() {
     const dialogStates = ref({
         codeDialogVisible: false,

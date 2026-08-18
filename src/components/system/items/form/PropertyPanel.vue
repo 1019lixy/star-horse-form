@@ -1,7 +1,8 @@
 <script setup lang="ts" name="ItemPropertiesPanel">
 import {computed, nextTick, onMounted, PropType, ref, watch} from "vue";
 import {i18n} from "@/lang";
-import {getDesignFormStore, searchMatchList, SelectOption, StarHorseIcon,} from "star-horse-lowcode";
+import {getDesignFormStore} from "@/store/StoreManager";
+import {searchMatchList, SelectOption, StarHorseIcon,} from "star-horse-lowcode";
 import ItemPropertiesPanel from "@/components/system/items/form/ItemPropertiesPanel.vue";
 import CustomerPropertyPanel from "@/components/system/items/form/CustomerPropertyPanel.vue";
 import {FormConfig} from "@/components/types";

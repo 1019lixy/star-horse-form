@@ -1,5 +1,6 @@
-import {getDesignFormStore, postRequest, SearchParams, uuid,} from "star-horse-lowcode";
+import {postRequest, SearchParams, uuid,} from "star-horse-lowcode";
 import {computed} from "vue";
+import {getDesignFormStore} from "@/store/StoreManager";
 import camelCase from "camelcase";
 import {getCustomComponentList, getLocalCustomComponentList} from "@/api/custom_component_api";
 import {createDefaultElements} from "@/components/formcomp/container/container-types";
@@ -84,12 +85,13 @@ export function fieldCopy(data: any, type: string) {
             }
         }
     }
-    if (reData.itemType == "box" || reData.itemType == "dytable") {
+    if (reData.itemType == "box" || reData.itemType == "dytable" || reData.itemType == "gridtable") {
         mvData.rowNums = 1;
         mvData.columnNums = 1;
         const col: any = {id: uuid(), cellVisible: true, colIndex: 1, items: []};
         if (reData.itemType == "box") {
-            col.colspan = 24;
+            col.colspan = 1;
+            col.rowspan = 1;
         } else {
             col.colspan = 1;
             col.rowspan = 1;

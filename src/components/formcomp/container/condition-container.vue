@@ -1,8 +1,10 @@
 <script setup lang="ts" name="condition-container">
 import {computed, nextTick, onMounted, PropType, ref} from "vue";
-import {getDesignFormStore, itemCheck, operationConfirm, uuid,} from "star-horse-lowcode";
+import {itemCheck, operationConfirm, uuid,} from "star-horse-lowcode";
+import {getDesignFormStore} from "@/store/StoreManager";
 import GroupContainer from "@/components/formcomp/container/group-container.vue";
 import {i18n} from "@/lang";
+import DesignItemWrapper from "@/components/formcomp/utils/DesignItemWrapper.vue";
 import {quickAddItem} from "@/api/form_utils";
 import {useDragAdd, ensureItems} from "./container-utils";
 
@@ -198,17 +200,19 @@ const levelClass = (data: any, depth: number) => {
         >
           <template #item="{ element: data, index }">
             <div class="condition-leaf-item my-[3px]" :data-field-id="data.id" :class="levelClass(data,1)">
-              <component
-                  :key="data.id"
-                  :field="data"
-                  :isDesign="isDesign"
-                  :disabled="disabled"
-                  :showFormItem="showFormItem"
-                  :formInfo="formInfo"
-                  :is="itemCheck(data)"
-                  :parentField="field"
-                  v-model:formData="formData"
-              />
+              <DesignItemWrapper :field="data" :isDesign="isDesign" :parentField="field" :disabled="disabled">
+                <component
+                    :key="data.id"
+                    :field="data"
+                    :isDesign="isDesign"
+                    :disabled="disabled"
+                    :showFormItem="showFormItem"
+                    :formInfo="formInfo"
+                    :is="itemCheck(data)"
+                    :parentField="field"
+                    v-model:formData="formData"
+                />
+              </DesignItemWrapper>
               <el-button
                   v-if="isEdit && isDesign"
                   class="leaf-remove-btn"

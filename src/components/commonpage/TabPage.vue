@@ -172,7 +172,7 @@ watch(
 
     <template v-else-if="hasData">
       <star-horse-panel
-          :dialog-visible="dialogProps.viewVisible"
+          v-model="dialogProps.viewVisible"
           :dialogProps="dialogProps"
           :source="3"
       >

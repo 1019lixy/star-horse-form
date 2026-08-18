@@ -1,6 +1,6 @@
 <script setup lang="ts" name="OutlineTree">
 import { computed, ref, watch, nextTick } from "vue";
-import { getDesignFormStore } from "star-horse-lowcode";
+import {getDesignFormStore} from "@/store/StoreManager";
 import { i18n } from "@/lang";
 
 const designForm = getDesignFormStore();
@@ -13,7 +13,7 @@ const selectedNodeId = ref<string>("");
 // Container item types
 const CONTAINER_TYPES = [
   "tab", "box", "table", "card",
-  "dytable", "collapse", "splitter", "condition", "step",
+  "dytable", "gridtable", "collapse", "splitter", "condition", "step",
   "dialog", "drawer", "fieldset", "descriptions", "anchor",
 ];
 
@@ -24,6 +24,7 @@ const containerLabels: Record<string, string> = {
   table: "表格布局",
   card: "卡片",
   dytable: "动态表格",
+  gridtable: "栅格表格",
   collapse: "折叠面板",
   splitter: "分割面板",
   condition: "条件组",
@@ -167,6 +168,7 @@ const buildContainerNode = (field: any): any => {
       break;
     case "box":
     case "dytable":
+    case "gridtable":
       children = buildBoxLikeChildren(field);
       break;
     case "table":
@@ -342,7 +344,7 @@ rebuildTree();
           <div :class="['outline-node', { 'is-container': data.isContainer, 'is-virtual': data.type?.startsWith('__') }]">
             <!-- Container expand indicator -->
             <span v-if="data.isContainer" class="node-badge container-badge">
-              {{ data.type === 'tab' ? 'T' : data.type === 'box' ? 'B' : data.type === 'card' ? 'C' : data.type === 'collapse' ? 'F' : data.type === 'table' ? 'G' : data.type === 'splitter' ? 'S' : data.type === 'dytable' ? 'D' : data.type === 'condition' ? '?' : data.type === 'step' ? 'P' : data.type === 'dialog' ? 'Dg' : data.type === 'drawer' ? 'Dr' : data.type === 'fieldset' ? 'Fs' : data.type === 'descriptions' ? 'De' : data.type === 'anchor' ? 'An' : '□' }}
+              {{ data.type === 'tab' ? 'T' : data.type === 'box' ? 'B' : data.type === 'card' ? 'C' : data.type === 'collapse' ? 'F' : data.type === 'table' ? 'G' : data.type === 'splitter' ? 'S' : data.type === 'dytable' ? 'D' : data.type === 'gridtable' ? 'GT' : data.type === 'condition' ? '?' : data.type === 'step' ? 'P' : data.type === 'dialog' ? 'Dg' : data.type === 'drawer' ? 'Dr' : data.type === 'fieldset' ? 'Fs' : data.type === 'descriptions' ? 'De' : data.type === 'anchor' ? 'An' : '□' }}
             </span>
             <!-- Virtual node (tab panel, cell, col) -->
             <span v-else-if="data.type?.startsWith('__')" class="node-badge virtual-badge">·</span>

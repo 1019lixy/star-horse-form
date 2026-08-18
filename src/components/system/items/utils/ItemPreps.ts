@@ -7,7 +7,6 @@ import {
     dictData,
     error,
     FieldInfo,
-    getDesignFormStore,
     httpMethod,
     loadData,
     loadGetData,
@@ -19,6 +18,7 @@ import {
     validRulesList,
     warning,
 } from "star-horse-lowcode";
+import {getDesignFormStore} from "@/store/StoreManager";
 import {validDataUrl} from "@/api/system.js";
 import WebUrlComp from "./WebUrlComp.vue";
 import camelcase from "camelcase";

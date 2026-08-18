@@ -1,6 +1,6 @@
 <script setup lang="ts" name="BatchEditFields">
 import {computed, reactive} from "vue";
-import {getDesignFormStore} from "star-horse-lowcode";
+import {getDesignFormStore} from "@/store/StoreManager";
 import {Config} from "@/api/settings.js";
 import {i18n} from "@/lang/index.js";
 

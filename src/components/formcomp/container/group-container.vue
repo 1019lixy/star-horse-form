@@ -1,14 +1,14 @@
 <script setup lang="ts">
 import {insertBelowRow, insertRightCol,} from "@/components/formcomp/container/dytableUtils";
+import {insertBelowRow as gtInsertBelowRow, insertRightCol as gtInsertRightCol,} from "@/components/formcomp/container/gridtableUtils";
 import {i18n} from "@/lang";
+import {copyContainer, dynamicFormContextMenuData} from "@/plugins/AblesPlugin";
+import {getDesignFormStore} from "@/store/StoreManager";
+import {fieldCopy} from "@/utils/FieldOperationUtils";
+import FieldList from "@/components/formcomp/utils/FieldList.vue";
 
 import {computed, PropType, ref, watch} from "vue";
 import {
-  copyContainer,
-  dynamicFormContextMenuData,
-  fieldCopy,
-  FieldList,
-  getDesignFormStore,
   operationConfirm,
   StarHorseDialog
 } from "star-horse-lowcode";
@@ -71,7 +71,7 @@ watch(currentItemId, (newId) => {
 const containerLabel = computed(() => {
   const labels: Record<string, string> = {
     tab: "选项卡", box: "栅格", table: "表格", card: "卡片",
-    dytable: "动态表格", collapse: "折叠", splitter: "分割", condition: "条件",
+    dytable: "动态表格", gridtable: "栅格表格", collapse: "折叠", splitter: "分割", condition: "条件",
     step: "步骤", dialog: "对话框", drawer: "抽屉", fieldset: "分组",
     descriptions: "描述列表", anchor: "锚点导航",
   };
@@ -103,7 +103,7 @@ const removeData = () => {
             }
           }
         }
-      } else if (parentType == "box" || parentType == "dytable" || parentType == "table") {
+      } else if (parentType == "box" || parentType == "dytable" || parentType == "gridtable" || parentType == "table") {
         // These containers store items in elements[i].columns[j].items
         let elements = props.parentField!.preps.elements;
         for (let i = 0; i < elements.length; i++) {
@@ -186,28 +186,49 @@ const tableOperation = (actonName: string, _preps: any) => {
     preps["elements"] = [];
   }
   const itemType = props.formItem.itemType;
+  const isGridtable = itemType == "gridtable";
   if (actonName == "insertRow") {
-    insertBelowRow(
-        {
-          parentField: props.formItem,
-          rowIndex: preps.elements.length - 1,
-        },
-        itemType,
-    );
+    if (isGridtable) {
+      gtInsertBelowRow(
+          {
+            parentField: props.formItem,
+            rowIndex: preps.elements.length - 1,
+          },
+          itemType,
+      );
+    } else {
+      insertBelowRow(
+          {
+            parentField: props.formItem,
+            rowIndex: preps.elements.length - 1,
+          },
+          itemType,
+      );
+    }
   } else if (actonName == "insertCol") {
     if (props.formItem.itemType == "table") {
       preps.columns = (preps.columns || 1) + 1;
       return;
     }
-    insertRightCol(
-        {
-          parentField: props.formItem,
-          colIndex: preps.elements[0].columns.length - 1,
-        },
-        itemType,
-        true,
-    );
-
+    if (isGridtable) {
+      gtInsertRightCol(
+          {
+            parentField: props.formItem,
+            colIndex: preps.elements[0].columns.length - 1,
+          },
+          itemType,
+          true,
+      );
+    } else {
+      insertRightCol(
+          {
+            parentField: props.formItem,
+            colIndex: preps.elements[0].columns.length - 1,
+          },
+          itemType,
+          true,
+      );
+    }
   } else if (actonName == "copy") {
     //拷贝容器
     copyContainer(props.parentField, props.formItem, false);
@@ -222,7 +243,7 @@ const tableOperation = (actonName: string, _preps: any) => {
       :full-screen="false"
       :title="i18n('form.addComponent')"
       :self-func="true"
-      :dialog-visible="componentVisible"
+      v-model="componentVisible"
       @closeAction="close"
   >
     <template #footer>
@@ -283,7 +304,7 @@ const tableOperation = (actonName: string, _preps: any) => {
     </div>
     <div class="field-action" v-if="isEdit && currentItemId == formItem.id && !collapsed">
       <template
-          v-if="formItem.itemType == 'dytable' || formItem.itemType == 'box'"
+          v-if="formItem.itemType == 'dytable' || formItem.itemType == 'box' || formItem.itemType == 'gridtable'"
       >
         <el-tooltip :content="i18n('form.insertRow')">
           <star-horse-icon
@@ -298,6 +319,7 @@ const tableOperation = (actonName: string, _preps: any) => {
           v-if="
           formItem.itemType == 'dytable' ||
           formItem.itemType == 'box' ||
+          formItem.itemType == 'gridtable' ||
           formItem.itemType == 'table'
         "
       >
@@ -352,7 +374,7 @@ const tableOperation = (actonName: string, _preps: any) => {
   border-radius: 4px;
   cursor: pointer;
   color: #fff;
-  z-index: 1200;
+  //z-index: 98;
   padding: 0;
 
   svg {
@@ -371,6 +393,7 @@ const tableOperation = (actonName: string, _preps: any) => {
 /* 选中容器时，拖拽按钮右移避开折叠按钮 */
 :deep(.drag-handler) {
   left: 28px !important;
+
 }
 
 .collapsed-placeholder {
@@ -463,5 +486,8 @@ const tableOperation = (actonName: string, _preps: any) => {
 :deep(.label-right-align) .el-form-item__label {
   text-align: right;
   justify-content: flex-end !important;
+}
+.field-action,.drag-handler{
+  transform: translate(0, -100%) translateZ(0);
 }
 </style>

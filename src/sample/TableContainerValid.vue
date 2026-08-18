@@ -11,7 +11,8 @@
 
 <script lang="ts" setup>
 import {onMounted, ref} from "vue";
-import {analysisCompDatas, getDesignFormStore} from "star-horse-lowcode";
+import {analysisCompDatas} from "star-horse-lowcode";
+import {getDesignFormStore} from "@/store/StoreManager";
 import {i18n} from "@/lang";
 import TableContainer from "@/components/formcomp/container/table-container.vue";
 

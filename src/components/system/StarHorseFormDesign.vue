@@ -17,7 +17,6 @@ import {
   closeLoad,
   CompType,
   error,
-  getDesignFormStore,
   getGlobalConfigStore,
   getSelfOperationStore,
   load,
@@ -26,6 +25,7 @@ import {
   uploadRequest,
   warning
 } from "star-horse-lowcode";
+import {getDesignFormStore} from "@/store/StoreManager";
 import {validDynamicFormCompParams} from "@/components/system/items/utils/FormParamsValid";
 import {delCacheData, getCacheData, setCacheData} from "@/api/cached_utils";
 import {i18n} from "@/lang";
@@ -126,9 +126,9 @@ const initContainerDimensions = (comps: any[]) => {
     if (comp.children && Array.isArray(comp.children)) {
       initContainerDimensions(comp.children);
     }
-    // Fix box/dytable dimensions
+    // Fix box/dytable/gridtable dimensions
     if (comp.compType === 'container' &&
-        (comp.itemType === 'box' || comp.itemType === 'dytable')) {
+        (comp.itemType === 'box' || comp.itemType === 'dytable' || comp.itemType === 'gridtable')) {
       const elements = comp.preps?.elements;
       if (Array.isArray(elements) && elements.length > 0) {
         const rows = elements.length;
