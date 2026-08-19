@@ -3,10 +3,9 @@
 import {computed, PropType, ref} from "vue";
 import {i18n} from "@/lang";
 import GroupContainer from "@/components/formcomp/container/group-container.vue";
-import {itemCheck, operationConfirm, uuid, warning} from "star-horse-lowcode";
+import {itemCheck, operationConfirm, uuid} from "star-horse-lowcode";
 import {getDesignFormStore} from "@/store/StoreManager";
-import {CONTAINER_TYPES} from "./container-types";
-import {useRowHeight} from "./container-utils";
+import {useRowHeight, useDropGuard} from "./container-utils";
 import DesignItemWrapper from "@/components/formcomp/utils/DesignItemWrapper.vue";
 
 let containerTableRef = ref(); // 强制刷新表格
@@ -20,74 +19,53 @@ const props = defineProps({
   compSize: {type: String, default: "default"},
 });
 let designForm = getDesignFormStore();
-let draggingItem = computed(() => designForm.draggingItem);
 let isEdit = computed(() => props.isDesign);
 const isDragging = computed(() => designForm.isDragging);
 const formData = defineModel("formData");
 const rowHeight = useRowHeight(() => props.compSize);
+const {moveHandler, guardAdd} = useDropGuard("table");
+const staticColumn = computed(() => props.field?.preps?.staticColumn || "N");
+const dialogType = computed(() => props.field?.preps?.dialogType || "dialog");
 const onDragAdd = (evt: Event | any, dataList: any) => {
   let newIndex = evt.newIndex;
-  if (CONTAINER_TYPES.includes(draggingItem.value.itemType)) {
-    warning(i18n("table.containerCannotNest"));
-    let elements = props.field.preps.elements;
-    for (let inde in elements) {
-      let element = elements[inde];
-      for (let sind in element?.columns) {
-        let column = element.columns[sind];
-        for (let i in column?.items) {
-          let item = column.items[i];
-          if (draggingItem.value.id == item.id) {
-            column.items.splice(i, 1);
-          }
-        }
-      }
-    }
-    return false;
-  }
+  if (!guardAdd(dataList, newIndex)) return;
   if (newIndex != null && newIndex != "undefined") {
     let dataInfo = dataList[newIndex];
     designForm.selectItem(dataInfo, dataInfo.itemType, "");
   }
 };
+const columnElements = computed(() => props.field?.preps?.elements || []);
+const columnCount = computed(() => parseInt(props.field?.preps?.columns || 1));
 const analysisData = (index: number) => {
-  let field = props.field?.preps;
-  let elements = field?.elements;
-  let f = elements.find((item: any) => item.colIndex == index);
-  if (index > 1) {
-    if (!f) {
-      elements.push({
-        colIndex: index,
-        items: [],
-      });
-    }
+  const elements = columnElements.value;
+  const col = elements.find((item: any) => item.colIndex == index);
+  if (index > 1 && !col) {
+    elements.push({colIndex: index, items: []});
   }
-  return f?.items[0]?.preps?.label || `Title${index}`;
+  return col?.items[0]?.preps?.label || `Title${index}`;
 };
 let currentIndex = ref<number>(-1);
 const tdOver = (evt: MouseEvent, index: number) => {
   evt.preventDefault();
   evt.stopPropagation();
-  if (currentIndex.value == index) {
-    return;
-  }
+  if (currentIndex.value == index) return;
   currentIndex.value = index;
 };
-const tdOut = (evt: MouseEvent, _index: number) => {
+const tdOut = (evt: MouseEvent) => {
   evt.preventDefault();
   evt.stopPropagation();
-  currentIndex.value = 0;
+  currentIndex.value = -1;
 };
 const deleteCol = (index: number) => {
   operationConfirm(i18n("table.confirmDeleteColumn")).then((res: boolean) => {
-    if (res) {
-      let elements = props.field.preps.elements;
-      elements.splice(index - 1, 1);
-      for (let index in elements) {
-        elements[index].colIndex = parseInt(index) + 1;
-      }
-      props.field.preps.columns = props.field.preps.columns - 1;
-      currentIndex.value = 0;
-    }
+    if (!res) return;
+    const elements = props.field.preps.elements;
+    elements.splice(index - 1, 1);
+    elements.forEach((item: any, i: number) => {
+      item.colIndex = i + 1;
+    });
+    props.field.preps.columns = elements.length;
+    currentIndex.value = -1;
   });
 };
 </script>
@@ -100,6 +78,10 @@ const deleteCol = (index: number) => {
       :parentField="parentField"
       :form-item="field"
   >
+    <div v-if="isDesign && staticColumn === 'Y'" class="table-edit-mode-hint">
+      <star-horse-icon icon-class="edit" color="var(--el-color-primary)" />
+      <span>{{ dialogType === "drawer" ? i18n("dyform.container.cfg.tableDialogTypeDrawer") : i18n("dyform.container.cfg.tableDialogTypeDialog") }}{{ i18n("dyform.container.cfg.tableStaticColumnY") }}</span>
+    </div>
     <table
         ref="containerTableRef"
         class="dynamic-table"
@@ -115,9 +97,9 @@ const deleteCol = (index: number) => {
       <thead class="container-thead" v-if="field.preps['showHeader'] !== false">
       <tr>
         <th
-            v-for="td of parseInt(field.preps.columns || 1)"
+            v-for="td of columnCount"
             @mouseenter="(evt) => tdOver(evt, td)"
-            @mouseleave="(evt) => tdOut(evt, td)"
+            @mouseleave="(evt) => tdOut(evt)"
         >
           <div class="td-operator" v-if="currentIndex == td && isDesign">
             <el-tooltip :content="i18n('dyform.comp.container.441')">
@@ -135,27 +117,28 @@ const deleteCol = (index: number) => {
       </thead>
       <tbody>
       <tr class="dy-tr">
-        <template v-for="td of parseInt(field.preps.columns || 1)">
+        <template v-for="td of columnCount">
           <td
               :style="{
-               width: field.colWidth || '100%',
-              height: field.colHeight || rowHeight,
-              'word-break': !!field.wordBreak ? 'break-all' : 'normal',
-              'text-overflow': 'ellipsis'
-              }"
+                width: field.colWidth || '100%',
+               height: field.colHeight || rowHeight,
+               'word-break': !!field.wordBreak ? 'break-all' : 'normal',
+               'text-overflow': 'ellipsis'
+               }"
               class="edit_col dy-cell"
               :class="{
                 'dragging-area': isDragging,
                 'no-drag': !isDesign,
               }"
               @mouseenter="(evt) => tdOver(evt, td)"
-              @mouseleave="(evt) => tdOut(evt, td)"
+              @mouseleave="(evt) => tdOut(evt)"
           >
             <draggable
                 @add="
                   (evt: Event) =>
                     onDragAdd(evt, field.preps.elements[td - 1].items)
                 "
+                :move="moveHandler"
                 class="smain-design"
                 tag="div"
                 group="starHorseGroup"
@@ -263,6 +246,19 @@ tr {
     height: 30px;
     font-size: 14px;
   }
+}
+
+.table-edit-mode-hint {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 8px;
+  margin-bottom: 6px;
+  border: 1px dashed var(--el-color-primary);
+  border-radius: 4px;
+  background: var(--el-color-primary-light-9);
+  color: var(--el-color-primary);
+  font-size: 12px;
 }
 
 .striped-table tbody tr:nth-child(odd) {

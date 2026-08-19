@@ -256,6 +256,7 @@ defineExpose({
             add: 'add',
             edit: 'eidt',
             view: 'view',
+            delete: 'delete',
           }"
           :showBatchField="true"
           :dataFormat="dataFormat"

@@ -1,12 +1,12 @@
 <script setup lang="ts" name="descriptions-container">
 import {computed, nextTick, onMounted, PropType, ref} from "vue";
-import {itemCheck, warning} from "star-horse-lowcode";
+import {itemCheck} from "star-horse-lowcode";
 import {getDesignFormStore} from "@/store/StoreManager";
 import {i18n} from "@/lang";
 import {quickAddItem} from "@/api/form_utils";
 import DesignItemWrapper from "@/components/formcomp/utils/DesignItemWrapper.vue";
 import GroupContainer from "@/components/formcomp/container/group-container.vue";
-import {isContainer, ensureDefaultElements} from "./container-types";
+import {ensureDefaultElements} from "./container-types";
 import {ensureItems} from "./container-utils";
 
 const props = defineProps({
@@ -18,32 +18,12 @@ const props = defineProps({
   field: {type: Object as PropType<any>},
 });
 let designForm = getDesignFormStore();
-let draggingItem = computed(() => designForm.draggingItem);
 const formData = defineModel("formData");
 
 const onDragAdd = (evt: Event | any, dataList: any) => {
   let newIndex = evt.newIndex;
-  console.log(draggingItem.value);
-  if (isContainer(draggingItem.value.itemType)) {
-    warning(i18n("dyform.comp.container.443"));
-    let elements = props.field.preps.elements;
-    for (let inde in elements) {
-      let element = elements[inde];
-      for (let sind in element?.columns) {
-        let column = element.columns[sind];
-        for (let i in column?.items) {
-          let item = column.items[i];
-          if (draggingItem.value.id == item.id) {
-            column.items.splice(i, 1);
-          }
-        }
-      }
-    }
-    return false;
-  }
   if (newIndex != null && newIndex != "undefined") {
     let dataInfo = dataList[newIndex];
-    console.log(dataInfo);
     designForm.selectItem(dataInfo, dataInfo.itemType, "");
   }
 };

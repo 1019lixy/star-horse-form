@@ -188,7 +188,9 @@ defineExpose({setFormData, getFormData});
 onMounted(() => emit("inited"));
 watch(() => props.currentItemType, () => {
   showAdvanced.value = false;
-});
+  if (!hasElements.value) propsModel.value = "props";
+  else propsModel.value = "elements";
+}, {immediate: true});
 </script>
 <template>
   <div v-if="containerDef" class="container-cfg-panel w-full">
@@ -284,7 +286,7 @@ watch(() => props.currentItemType, () => {
       <el-tab-pane name="props">
         <template #label><span class="section-title">{{ i18n("dyform.container.cfg.ownProps") }}</span></template>
         <el-descriptions border label-width="150px">
-          <el-descriptions-item v-for="f in ownFields" :key="f.fieldName">
+          <el-descriptions-item v-for="f in [...ownFields, ...advancedFields]" :key="f.fieldName">
             <template #label>
               <label class="prop-label">{{ f.label }}<span v-if="f.required" class="required-mark">*</span></label>
             </template>
@@ -299,31 +301,6 @@ watch(() => props.currentItemType, () => {
                          :value="opt.value"/>
             </el-select>
           </el-descriptions-item>
-          <template v-if="advancedFields.length">
-            <el-button text type="primary" size="small" @click="showAdvanced = !showAdvanced" style="margin-top:8px">
-              <el-icon>
-                <ArrowDown v-if="!showAdvanced"/>
-                <ArrowUp v-else/>
-              </el-icon>
-              {{ showAdvanced ? i18n("dyform.container.cfg.collapse") : i18n("dyform.container.cfg.more") }}
-            </el-button>
-            <el-descriptions v-show="showAdvanced" border style="margin-top:8px">
-              <el-descriptions-item v-for="f in advancedFields"  :key="f.fieldName">
-                <template #label>
-                  <label class="prop-label">{{ f.label }}<span v-if="f.required" class="required-mark">*</span></label>
-                </template>
-                <el-input v-if="f.fieldType === 'input'" v-model="containerProps[f.fieldName]" :size="compSize"/>
-                <el-input-number v-else-if="f.fieldType === 'number'" v-model="containerProps[f.fieldName]"
-                                 :size="compSize" controls-position="right" style="width:100%"/>
-                <el-switch v-else-if="f.fieldType === 'switch'" v-model="containerProps[f.fieldName]"/>
-                <el-select v-else-if="f.fieldType === 'select'" v-model="containerProps[f.fieldName]" :size="compSize"
-                           style="width:100%" clearable filterable>
-                  <el-option v-for="opt in parseOptions(f.selectValues)" :key="opt.value" :label="opt.name"
-                             :value="opt.value"/>
-                </el-select>
-              </el-descriptions-item>
-            </el-descriptions>
-          </template>
         </el-descriptions>
       </el-tab-pane>
     </el-tabs>

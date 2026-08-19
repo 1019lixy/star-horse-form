@@ -13,6 +13,7 @@ const props = defineProps({
 let designForm = getDesignFormStore();
 const formProps = computed(() => designForm.currentFormPreps);
 const currentId = computed(() => designForm.currentItemId);
+const currentComp = computed(() => designForm.currentComp);
 let prepActiveName = ref<string>("base");
 let compSize = computed(() => props.optional?.compSize ?? "default");
 const itemPropertiesRef = ref();
@@ -57,6 +58,7 @@ watch(
         <span>{{ i18n('dyform.propPanel.baseProps') }}</span>
       </button>
       <button
+          v-if="currentComp.compType=='formItem'"
           :class="['property-tab', { active: prepActiveName === 'customer' }]"
           @click="prepActiveName = 'customer'; changeOperation('customer')"
       >
@@ -68,7 +70,9 @@ watch(
           @click="openPanelDialog"
           :title="i18n('dyform.propPanel.expandPanel')"
       >
-        <el-icon size="14px"><FullScreen/></el-icon>
+        <el-icon size="14px">
+          <FullScreen/>
+        </el-icon>
       </button>
     </div>
 

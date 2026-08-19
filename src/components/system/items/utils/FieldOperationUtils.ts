@@ -90,7 +90,7 @@ export function fieldCopy(data: any, type: string) {
         mvData.columnNums = 1;
         const col: any = {id: uuid(), cellVisible: true, colIndex: 1, items: []};
         if (reData.itemType == "box") {
-            col.colspan = 1;
+            col.colspan = 24;
             col.rowspan = 1;
         } else {
             col.colspan = 1;

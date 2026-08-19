@@ -20,6 +20,7 @@ const props = defineProps({
   parentField: {type: Object as PropType<any>, default: null},
   isDesign: {type: Boolean, default: false},
   disabled: {type: Boolean, default: false},
+  dialogType: {type: String, default: "dialog"},
 });
 
 const designForm = getDesignFormStore();
@@ -179,34 +180,4 @@ onBeforeUnmount(() => {
 }
 
 
-.component-header-actions {
-  position: absolute;
-  top: 0;
-  right: 0;
-  z-index: 99;
-  pointer-events: auto;
-  display: flex;
-  align-items: flex-start;
-  gap: 2px;
-  transform: translate(0, -100%) translateZ(0);
-  .drag-handler {
-    display: flex;
-    align-items: center;
-    gap: 4px;
-    background: var(--star-horse-style);
-    border-radius: 3px;
-    padding: 2px 4px;
-    height: 22px;
-  }
-
-  .field-action {
-    display: flex;
-    align-items: center;
-    gap: 2px;
-    background: var(--star-horse-style);
-    border-radius: 3px;
-    padding: 2px 4px;
-    height: 22px;
-  }
-}
 </style>

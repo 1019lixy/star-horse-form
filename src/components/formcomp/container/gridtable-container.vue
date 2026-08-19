@@ -144,7 +144,7 @@ const getGridPosition = (rowIndex: number, colIndex: number, col: any) => {
   const colStart = gridModel.value[rowIndex]?.[colIndex] ?? 1;
   const colSpan = col.colspan || 1;
   const rowSpan = col.rowspan || 1;
-  const offset = showLineNumber.value ? 1 : 0;
+  const offset = shouldShowLineNumber.value ? 1 : 0;
   return {
     gridColumn: `${colStart + offset} / span ${colSpan}`,
     gridRow: `${rowIndex + 1} / span ${rowSpan}`,
@@ -190,6 +190,7 @@ const getColIndex = (rowIndex: number, colIndex: number, col: any) => {
 };
 
 const showLineNumber = computed(() => props.field.preps?.showLineNumber !== false);
+const shouldShowLineNumber = computed(() => props.isDesign || showLineNumber.value);
 
 const wrapperStyle = computed(() => {
   const baseWidth = props.field.preps?.tableWidth || '100%';
@@ -214,7 +215,7 @@ const wrapperStyle = computed(() => {
   >
     <div class="gridtable-wrapper" :style="wrapperStyle">
       <div
-          v-if="isDesign && showLineNumber && field.preps.elements.length > 0"
+          v-if="isDesign && field.preps.elements.length > 0"
           class="gridtable-header"
           :style="{ gridTemplateColumns: `30px ${gridTemplateColumns}` }"
       >
@@ -232,11 +233,11 @@ const wrapperStyle = computed(() => {
       <div
           class="gridtable-body"
           :style="{
-            gridTemplateColumns: showLineNumber ? `30px ${gridTemplateColumns}` : gridTemplateColumns,
+            gridTemplateColumns: shouldShowLineNumber ? `30px ${gridTemplateColumns}` : gridTemplateColumns,
           }"
       >
         <template v-for="(row, rowIndex) in field.preps.elements" :key="row.id || rowIndex">
-          <div v-if="showLineNumber" class="gridtable-line-number no-cell" :style="{ gridColumn: '1', gridRow: `${rowIndex + 1}` }">{{ rowIndex + 1 }}</div>
+          <div v-if="shouldShowLineNumber" class="gridtable-line-number no-cell" :style="{ gridColumn: '1', gridRow: `${rowIndex + 1}` }">{{ rowIndex + 1 }}</div>
           <template v-for="(td, colIndex) in row.columns" :key="td.id || colIndex">
             <gridtable-col
                 :field="td"

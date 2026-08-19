@@ -1,13 +1,11 @@
 <script setup lang="ts" name="box-container">
 import {computed, onMounted, PropType, ref} from "vue";
-import {i18n} from "@/lang";
 import {tableCellOperation} from "@/components/formcomp/container/dytableUtils";
-import {itemCheck, uuid, warning} from "star-horse-lowcode";
+import {itemCheck, uuid} from "star-horse-lowcode";
 import {getDesignFormStore} from "@/store/StoreManager";
 import ContainerDropDown from "@/components/formcomp/utils/ContainerDropDown.vue";
 import DesignItemWrapper from "@/components/formcomp/utils/DesignItemWrapper.vue";
-import {CONTAINER_TYPES} from "./container-types";
-import {useRowHeight} from "./container-utils";
+import {useRowHeight, useDropGuard} from "./container-utils";
 
 const props = defineProps({
   parentField: {type: Object as PropType<any>},
@@ -27,7 +25,6 @@ const props = defineProps({
   compSize: {type: String, default: "default"},
 });
 let designForm = getDesignFormStore();
-let draggingItem = computed(() => designForm.draggingItem);
 let currentSubItemId = computed(() => designForm.currentSubItemId);
 const isDragging = computed(() => designForm.isDragging);
 const formData = defineModel("formData");
@@ -36,25 +33,13 @@ const isResizing = ref(false);
 const resizeDirection = ref<"height" | null>(null);
 const startY = ref(0);
 const startHeight = ref(0);
+const {moveHandler, guardAdd} = useDropGuard("dytable");
 
 const onDragAdd = (evt: Event | any, dataList: any) => {
   selectCurrentTd();
   let newIndex = evt.newIndex;
-  if (CONTAINER_TYPES.includes(draggingItem.value.itemType)) {
-    warning(i18n("dyform.comp.container.442"));
-    let columns = props.field?.columns;
-    for (let sind in columns) {
-      let column = columns[sind];
-      for (let i in column?.items) {
-        let item = column.items[i];
-        if (draggingItem.value.id == item.id) {
-          column.items.splice(i, 1);
-        }
-      }
-    }
-    return false;
-  }
-  if (newIndex != null && newIndex != "undefined") {
+  if (!guardAdd(dataList, newIndex)) return;
+  if (newIndex != null && newIndex != undefined) {
     let dataInfo = dataList[newIndex];
     dataInfo.preps["hideLabel"] = true;
     designForm.selectItem(dataInfo, dataInfo.itemType, "");
@@ -128,6 +113,7 @@ onMounted(() => {
     <draggable
         v-else
         @add="(evt: Event) => onDragAdd(evt, field.items)"
+        :move="moveHandler"
         class="smain-design"
         tag="div"
         item-key="id"

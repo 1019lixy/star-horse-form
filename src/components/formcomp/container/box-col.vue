@@ -1,14 +1,12 @@
 <script setup lang="ts" name="box-container">
 import {computed, onMounted, PropType} from "vue";
-import {i18n} from "@/lang";
 // import piniaInstance from "@/store/index";
 import {tableCellOperation} from "@/components/formcomp/container/dytableUtils";
-import {itemCheck, uuid, warning} from "star-horse-lowcode";
+import {itemCheck, uuid} from "star-horse-lowcode";
 import {getDesignFormStore} from "@/store/StoreManager";
 import ContainerDropDown from "@/components/formcomp/utils/ContainerDropDown.vue";
 import DesignItemWrapper from "@/components/formcomp/utils/DesignItemWrapper.vue";
-import {CONTAINER_TYPES} from "./container-types";
-import {useRowHeight} from "./container-utils";
+import {useRowHeight, useDropGuard} from "./container-utils";
 
 const props = defineProps({
   parentField: {type: Object as PropType<any>},
@@ -27,32 +25,16 @@ const props = defineProps({
   compSize: {type: String, default: "default"},
 });
 let designForm = getDesignFormStore();
-let draggingItem = computed(() => designForm.draggingItem);
 const isDragging = computed(() => designForm.isDragging);
 let currentSubItemId = computed(() => designForm.currentSubItemId);
 let isEdit = computed(() => designForm.isEdit);
 const formData = defineModel("formData");
 const rowHeight = useRowHeight(() => props.compSize);
+const {moveHandler, guardAdd} = useDropGuard("box");
 const onDragAdd = (evt: Event | any, dataList: any) => {
   selectCurrentTd();
   let newIndex = evt.newIndex;
-  if (CONTAINER_TYPES.includes(draggingItem.value.itemType)) {
-    warning(i18n("dyform.comp.container.443"));
-    let elements = props.field.preps.elements;
-    for (let inde in elements) {
-      let element = elements[inde];
-      for (let sind in element?.columns) {
-        let column = element.columns[sind];
-        for (let i in column?.items) {
-          let item = column.items[i];
-          if (draggingItem.value.id == item.id) {
-            column.items.splice(i, 1);
-          }
-        }
-      }
-    }
-    return false;
-  }
+  if (!guardAdd(dataList, newIndex)) return;
   if (newIndex != null && newIndex != "undefined") {
     let dataInfo = dataList[newIndex];
     designForm.selectItem(dataInfo, dataInfo.itemType, "");
@@ -97,6 +79,7 @@ onMounted(() => {
         v-else
         @add="(evt: Event) => onDragAdd(evt, field.items)"
         @dragover="checkItem(field)"
+        :move="moveHandler"
         class="smain-design"
         tag="div"
         :disabled="!isEdit"

@@ -236,6 +236,15 @@ const filteredOtherPreps = computed(() => {
     return true;
   });
 });
+/**
+ * 容器类型时，容器专属属性（fields + advancedFields）统一在
+ * ContainerConfigPanel 的"容器属性"tab 管理，此处不重复渲染，
+ * 避免与"基础属性"tab 的容器配置不对称、让用户困惑。
+ */
+const visibleBasePreps = computed(() => {
+  if (currentCompCategory.value == "container") return [];
+  return basePreps.value;
+});
 const dataBind = (data: any) => {
   if (!formProps.value["labelFor"]) {
     formProps.value["labelFor"] = [];
@@ -347,7 +356,7 @@ watch(
         >
           <el-button @click="prependOrAppend" icon="setting"> {{ i18n('dyform.custProp.config') }}</el-button>
         </el-form-item>
-        <template v-for="item in basePreps" :key="item.fieldName">
+        <template v-for="item in visibleBasePreps" :key="item.fieldName">
           <el-form-item
               :label="item.label"
               :prop="item.fieldName"

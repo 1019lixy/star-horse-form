@@ -343,7 +343,7 @@ const doSave = (flag: boolean) => {
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
   box-sizing: border-box;
   position: relative;
-  z-index: 10;
+  z-index: 5;
 }
 
 .toolbar-left {

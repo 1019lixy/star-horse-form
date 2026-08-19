@@ -1,6 +1,9 @@
 <script setup lang="ts">
 import {insertBelowRow, insertRightCol,} from "@/components/formcomp/container/dytableUtils";
-import {insertBelowRow as gtInsertBelowRow, insertRightCol as gtInsertRightCol,} from "@/components/formcomp/container/gridtableUtils";
+import {
+  insertBelowRow as gtInsertBelowRow,
+  insertRightCol as gtInsertRightCol,
+} from "@/components/formcomp/container/gridtableUtils";
 import {i18n} from "@/lang";
 import {copyContainer, dynamicFormContextMenuData} from "@/plugins/AblesPlugin";
 import {getDesignFormStore} from "@/store/StoreManager";
@@ -8,10 +11,7 @@ import {fieldCopy} from "@/utils/FieldOperationUtils";
 import FieldList from "@/components/formcomp/utils/FieldList.vue";
 
 import {computed, PropType, ref, watch} from "vue";
-import {
-  operationConfirm,
-  StarHorseDialog
-} from "star-horse-lowcode";
+import {operationConfirm} from "star-horse-lowcode";
 
 const props = defineProps({
   isDesign: {type: Boolean, default: false},
@@ -260,9 +260,11 @@ const tableOperation = (actonName: string, _preps: any) => {
       @contextmenu="containerContextMenu"
   >
     <!-- Collapse toggle button (always visible in design mode) -->
-    <div class="collapse-toggle" @click.stop="toggleCollapse" :title="collapsed ? i18n('dyform.container.expand') : i18n('dyform.container.collapse')">
+    <div class="collapse-toggle" @click.stop="toggleCollapse"
+         :title="collapsed ? i18n('dyform.container.expand') : i18n('dyform.container.collapse')">
       <svg viewBox="0 0 16 16" fill="none" width="12" height="12" :class="{ 'rotated': collapsed }">
-        <path d="M4 6L8 10L12 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M4 6L8 10L12 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+              stroke-linejoin="round"/>
       </svg>
     </div>
 
@@ -276,69 +278,70 @@ const tableOperation = (actonName: string, _preps: any) => {
     <div v-show="!collapsed">
       <slot></slot>
     </div>
-
-    <div class="drag-handler" v-if="isEdit && currentItemId == formItem.id && !collapsed">
-      <el-tooltip :content="i18n('form.drag')">
-        <star-horse-icon
-            icon-class="drag"
-            size="18px"
-            style="color: var(--star-horse-white)"
-        />
-      </el-tooltip>
-      <el-tooltip :content="i18n('form.selectContainer')">
-        <star-horse-icon
-            cursor="pointer"
-            @click.stop="selectData"
-            icon-class="select-parent"
-            style="color: var(--star-horse-white)"
-        />
-      </el-tooltip>
-      <el-tooltip :content="i18n('form.deleteContainer')">
-        <star-horse-icon
-            cursor="pointer"
-            @click.stop="removeData"
-            icon-class="clear-all"
-            style="color: var(--star-horse-white)"
-        />
-      </el-tooltip>
-    </div>
-    <div class="field-action" v-if="isEdit && currentItemId == formItem.id && !collapsed">
-      <template
-          v-if="formItem.itemType == 'dytable' || formItem.itemType == 'box' || formItem.itemType == 'gridtable'"
-      >
-        <el-tooltip :content="i18n('form.insertRow')">
+    <div class="component-header-actions">
+      <div class="drag-handler" v-if="isEdit && currentItemId == formItem.id && !collapsed">
+        <el-tooltip :content="i18n('form.drag')">
           <star-horse-icon
-              @click.stop="tableOperation('insertRow', formItem?.preps)"
-              icon-class="insert_row"
-              cursor="pointer"
+              icon-class="drag"
+              size="18px"
               style="color: var(--star-horse-white)"
           />
         </el-tooltip>
-      </template>
-      <template
-          v-if="
+        <el-tooltip :content="i18n('form.selectContainer')">
+          <star-horse-icon
+              cursor="pointer"
+              @click.stop="selectData"
+              icon-class="select-parent"
+              style="color: var(--star-horse-white)"
+          />
+        </el-tooltip>
+        <el-tooltip :content="i18n('form.deleteContainer')">
+          <star-horse-icon
+              cursor="pointer"
+              @click.stop="removeData"
+              icon-class="clear-all"
+              style="color: var(--star-horse-white)"
+          />
+        </el-tooltip>
+      </div>
+      <div class="field-action" v-if="isEdit && currentItemId == formItem.id && !collapsed">
+        <template
+            v-if="formItem.itemType == 'dytable' || formItem.itemType == 'box' || formItem.itemType == 'gridtable'"
+        >
+          <el-tooltip :content="i18n('form.insertRow')">
+            <star-horse-icon
+                @click.stop="tableOperation('insertRow', formItem?.preps)"
+                icon-class="insert_row"
+                cursor="pointer"
+                style="color: var(--star-horse-white)"
+            />
+          </el-tooltip>
+        </template>
+        <template
+            v-if="
           formItem.itemType == 'dytable' ||
           formItem.itemType == 'box' ||
           formItem.itemType == 'gridtable' ||
           formItem.itemType == 'table'
         "
-      >
-        <el-tooltip :content="i18n('form.insertCol')">
+        >
+          <el-tooltip :content="i18n('form.insertCol')">
+            <star-horse-icon
+                @click.stop="tableOperation('insertCol', formItem?.preps)"
+                icon-class="insert_col"
+                cursor="pointer"
+                style="color: var(--star-horse-white)"
+            />
+          </el-tooltip>
+        </template>
+        <el-tooltip :content="i18n('form.copyContainer')">
           <star-horse-icon
-              @click.stop="tableOperation('insertCol', formItem?.preps)"
-              icon-class="insert_col"
-              cursor="pointer"
+              @click.stop="tableOperation('copy', formItem?.preps)"
+              icon-class="copy"
               style="color: var(--star-horse-white)"
           />
         </el-tooltip>
-      </template>
-      <el-tooltip :content="i18n('form.copyContainer')">
-        <star-horse-icon
-            @click.stop="tableOperation('copy', formItem?.preps)"
-            icon-class="copy"
-            style="color: var(--star-horse-white)"
-        />
-      </el-tooltip>
+      </div>
     </div>
     <Teleport to="body">
       <ContentMenu
@@ -487,7 +490,8 @@ const tableOperation = (actonName: string, _preps: any) => {
   text-align: right;
   justify-content: flex-end !important;
 }
-.field-action,.drag-handler{
-  transform: translate(0, -100%) translateZ(0);
+
+.component-header-actions{
+  justify-content: space-between;
 }
 </style>

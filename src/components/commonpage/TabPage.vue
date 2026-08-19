@@ -239,6 +239,7 @@ watch(
                 add: 'add',
                 edit: 'eidt',
                 view: 'view',
+                delete: 'delete',
               }"
                 :extendBtns="extBtns"
                 :showBatchField="true"

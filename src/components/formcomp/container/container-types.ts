@@ -15,6 +15,24 @@ export const CONTAINER_TYPES: ReadonlyArray<string> = [
 export const isContainer = (data: any): boolean => CONTAINER_TYPES.includes(data?.itemType);
 
 /**
+ * Container types that cannot nest any other container (leaf-only containers).
+ * These containers only accept form fields, not other containers.
+ */
+export const NO_NEST_CONTAINER_TYPES: ReadonlySet<string> = new Set([
+    "box", "gridtable", "dytable", "table", "descriptions",
+]);
+
+/**
+ * Check whether a parent container can accept a child of the given type.
+ * Returns false only when the parent is a no-nest container AND the child is a container.
+ */
+export const canAcceptChild = (parentItemType: string, childItemType?: string): boolean => {
+    if (!childItemType) return true;
+    if (!CONTAINER_TYPES.includes(childItemType)) return true;
+    return !NO_NEST_CONTAINER_TYPES.has(parentItemType);
+};
+
+/**
  * Public props shared by all container components.
  */
 export interface ContainerProps {

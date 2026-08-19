@@ -30,31 +30,22 @@ const validateForm = async () => {
 
 // HTML export function
 const exportToHtml = () => {
-  // if (!previewFormRef.value) return;
-  // let formContent = "";
-  // if (
-  //   previewFormRef.value.$el &&
-  //   typeof previewFormRef.value.$el.innerHTML === "string"
-  // ) {
-  //   formContent = previewFormRef.value.$el.innerHTML;
-  // } else {
-  //   console.error("Unable to access form content for export");
-  //   error(i18n("dyform.preview.html.export.failure"));
-  //   return;
-  // }
-
-
-  // Create blob and download
-  // const blob = new Blob([htmlContent], { type: "text/html;charset=utf-8" });
-  // const url = URL.createObjectURL(blob);
-  // const link = document.createElement("a");
-  // link.href = url;
-  // link.download = "form-preview.html";
-  // document.body.appendChild(link);
-  // link.click();
-  // document.body.removeChild(link);
-  // URL.revokeObjectURL(url);
-  // success(i18n("dyform.preview.html.export.success"));
+  const el = document.querySelector(".flex-1.w-full.h-full.relative") as HTMLElement | null;
+  if (!el) {
+    error(i18n("dyform.preview.html.export.failure"));
+    return;
+  }
+  const htmlContent = `<!DOCTYPE html><html><head><meta charset="utf-8"><title>Form Preview</title><style>body{padding:16px;}</style></head><body>${el.innerHTML}</body></html>`;
+  const blob = new Blob([htmlContent], { type: "text/html;charset=utf-8" });
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement("a");
+  link.href = url;
+  link.download = "form-preview.html";
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+  URL.revokeObjectURL(url);
+  success(i18n("dyform.preview.html.export.success"));
 };
 const selectDatas = ref<any>([]);
 const formData = ref<any>({
@@ -68,6 +59,16 @@ onMounted(() => {
       { name: i18n("dyform.common.430"), value: "form-table", key: "form-table" },
       { name: "Tab", value: "tab", key: "tab" },
       { name: i18n("dyform.common.431"), value: "view", key: "view" },
+      { name: i18n("dyform.common.433"), value: "tree", key: "tree" },
+      { name: i18n("dyform.common.434"), value: "master-detail", key: "master-detail" },
+      { name: i18n("dyform.common.435"), value: "detail", key: "detail" },
+      { name: i18n("dyform.common.436"), value: "wizard", key: "wizard" },
+      { name: i18n("dyform.common.437"), value: "card-list", key: "card-list" },
+      { name: i18n("dyform.common.438"), value: "import-export", key: "import-export" },
+      { name: i18n("dyform.common.439"), value: "approval", key: "approval" },
+      { name: i18n("dyform.common.440"), value: "dashboard", key: "dashboard" },
+      { name: i18n("dyform.common.441"), value: "compare", key: "compare" },
+      { name: i18n("dyform.common.442"), value: "print", key: "print" },
     ];
   });
 });
@@ -113,6 +114,16 @@ defineExpose({
       />
       <TabPage v-if="formData.pageStyle == 'tab'" :compList="list" :currentPageClass="currentPageClass" :preview="true"/>
       <ViewFormPage v-if="formData.pageStyle == 'view'" :compList="list" :currentPageClass="currentPageClass" :preview="true"/>
+      <TreePage v-if="formData.pageStyle == 'tree'" :compList="list" :currentPageClass="currentPageClass" :preview="true"/>
+      <MasterDetailPage v-if="formData.pageStyle == 'master-detail'" :compList="list" :currentPageClass="currentPageClass" :preview="true"/>
+      <DetailPage v-if="formData.pageStyle == 'detail'" :compList="list" :currentPageClass="currentPageClass" :preview="true"/>
+      <WizardPage v-if="formData.pageStyle == 'wizard'" :compList="list" :currentPageClass="currentPageClass" :preview="true"/>
+      <CardListPage v-if="formData.pageStyle == 'card-list'" :compList="list" :currentPageClass="currentPageClass" :preview="true"/>
+      <ImportExportPage v-if="formData.pageStyle == 'import-export'" :compList="list" :currentPageClass="currentPageClass" :preview="true"/>
+      <ApprovalPage v-if="formData.pageStyle == 'approval'" :compList="list" :currentPageClass="currentPageClass" :preview="true"/>
+      <DashboardPage v-if="formData.pageStyle == 'dashboard'" :compList="list" :currentPageClass="currentPageClass" :preview="true"/>
+      <ComparePage v-if="formData.pageStyle == 'compare'" :compList="list" :currentPageClass="currentPageClass" :preview="true"/>
+      <PrintPage v-if="formData.pageStyle == 'print'" :compList="list" :currentPageClass="currentPageClass" :preview="true"/>
     </div>
   </div>
 </template>

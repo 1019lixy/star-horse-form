@@ -1,4 +1,8 @@
 import {computed, ref, Ref, ComputedRef} from "vue";
+import {warning} from "star-horse-lowcode";
+import {i18n} from "@/lang";
+import {canAcceptChild} from "./container-types";
+import {getDesignFormStore} from "@/store/StoreManager";
 /**
  * Create the standard onDragAdd handler used by all container components.
  * Selects the dragged item in the design form store.
@@ -13,6 +17,45 @@ export function useDragAdd(designForm?: any) {
         }
     };
     return {onDragAdd};
+}
+
+/**
+ * Drop guard for container nesting restrictions.
+ * Use the returned `moveHandler` as vuedraggable's `:move` callback.
+ * Returns false to reject the drop BEFORE the item is added (pre-emptive),
+ * replacing the old post-add splice rollback pattern.
+ *
+ * @param parentItemType - the container's itemType (string or getter)
+ */
+let _nestWarnLastTime = 0;
+export function useDropGuard(parentItemType: string | (() => string)) {
+    const getType = typeof parentItemType === "function" ? parentItemType : () => parentItemType;
+    const reject = (): boolean => {
+        const now = Date.now();
+        if (now - _nestWarnLastTime > 800) {
+            _nestWarnLastTime = now;
+            warning(i18n("dyform.comp.container.nestDenied"));
+        }
+        return false;
+    };
+    const getDragType = (evt?: any): string | undefined => {
+        const child = evt?.draggedContext?.element;
+        return child?.itemType || getDesignFormStore()?.draggingItem?.itemType;
+    };
+    const moveHandler = (evt: any): boolean => {
+        if (!canAcceptChild(getType(), getDragType(evt))) return reject();
+        return true;
+    };
+    const guardAdd = (dataList: any[], newIndex: number): boolean => {
+        if (!canAcceptChild(getType(), getDesignFormStore()?.draggingItem?.itemType)) {
+            if (newIndex != null && newIndex >= 0 && dataList && dataList.length > newIndex) {
+                dataList.splice(newIndex, 1);
+            }
+            return reject();
+        }
+        return true;
+    };
+    return {moveHandler, guardAdd};
 }
 
 /**

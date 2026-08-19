@@ -227,6 +227,7 @@ watch(
             add: 'add',
             edit: 'edit',
             view: 'view',
+            delete: 'delete',
           }"
             :showBatchField="true"
             :dataFormat="dataFormat"

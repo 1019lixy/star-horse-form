@@ -1365,9 +1365,7 @@ defineExpose({
   }
 }
 
-:deep(.comp-item) {
-  margin-top: unset !important;
-}
+
 
 :deep(.el-card__body) {
   padding: 0 !important;
