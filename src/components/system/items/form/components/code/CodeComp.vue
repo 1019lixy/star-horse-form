@@ -84,7 +84,7 @@ watch(
       </div>
       <star-horse-json-editor currentMode="json" v-model="jsonPrototype" />
     </el-tab-pane>
-    <el-tab-pane name="json" :label="i18n('dyform.common.433')">
+    <el-tab-pane name="json" :label="i18n('dyform.common.m433')">
       <div class="flex justify-end my-3">
         <el-radio-group v-model="codeStyle" @change="init">
           <el-radio :label="i18n('dyform.code.pcCode')" value="pc" />

@@ -2,9 +2,10 @@
 import {computed, nextTick, ref, watch} from "vue";
 import {i18n} from "@/lang";
 import {validDynamicFormCompParams} from "@/components/system/items/utils/FormParamsValid";
-import {piniaInstance, useDesignFormStore, warning} from "star-horse-lowcode";
+import { warning} from "star-horse-lowcode";
 import FormPropertyPanel from "@/components/system/items/form/FormPropertyPanel.vue";
 import {FormConfig} from "@/components/types";
+import {getDesignFormStore} from "@/store/StoreManager";
 
 const props = defineProps<{
   visible: boolean;
@@ -15,7 +16,7 @@ const emits = defineEmits<{
   (e: "save", isDraft: boolean, formInfo: any): void;
 }>();
 
-const designForm = useDesignFormStore(piniaInstance);
+const designForm =getDesignFormStore();
 const list = computed(() => designForm.compList);
 let formInfo = computed(() => designForm.formInfo);
 let compSize = computed(() => props.optional?.compSize ?? "default");

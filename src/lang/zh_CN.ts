@@ -4355,7 +4355,7 @@ export default {
   "dyform.common.440": "统计概览",
   "dyform.common.441": "数据对比",
   "dyform.common.442": "打印模板",
-  "dyform.common.433": "Json代码",
+  "dyform.common.m433": "Json代码",
   "dyform.common.a433": "编辑Json代码",
   "dyform.utils.434": "行高",
   "dyform.utils.435": "列宽",

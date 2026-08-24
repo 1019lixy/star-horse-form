@@ -4481,7 +4481,7 @@ If empty, the table information will be created in the current business database
   "dyform.common.440": "Dashboard",
   "dyform.common.441": "Compare",
   "dyform.common.442": "Print",
-  "dyform.common.433": "JSON Code",
+  "dyform.common.m433": "JSON Code",
   "dyform.common.a433": "Edit JSON Code",
   "dyform.utils.434": "Row Height",
   "dyform.utils.435": "Column Width",

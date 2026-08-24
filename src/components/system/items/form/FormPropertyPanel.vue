@@ -8,21 +8,20 @@ import {
   loadData,
   orderBy,
   PageFieldInfo,
-  piniaInstance,
   postRequest,
   SelectOption,
-  useDesignFormStore,
   warning,
 } from "star-horse-lowcode";
 import {Config} from "@/api/settings.js";
 import {loadElementPlusIcon, loadSvgIcons,} from "@/api/star_horse_form_utils.js";
 import {FormConfig} from "@/components/types";
 import {i18n} from "@/lang/index.js";
+import {getDesignFormStore} from "@/store/StoreManager";
 
 const props = defineProps<{
   optional: FormConfig;
 }>();
-let designForm = useDesignFormStore(piniaInstance);
+let designForm =getDesignFormStore();
 let formInfo = computed(() => designForm.formInfo);
 const model = computed(() => props.optional?.model ?? "simple");
 let dynamicFormItemRef = ref();
@@ -552,7 +551,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
               containerFields: [
                 {
                   subTableName: "commonFieldControllers",
-                  subTableName: "commonFieldControllers",
+                  subTablePrimaryKey: "commonFieldControllers",
                   initRows: 0,
                   subFormFlag: "Y",
                   fieldList: [
@@ -606,7 +605,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
           containerFields: [
             {
               subTableName: "fieldMappingList",
-              subTableName: "fieldMappingList",
+              subTablePrimaryKey: "fieldMappingList",
               subFormFlag: "Y",
               initRows: 0,
               fieldList: [
@@ -686,7 +685,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
           containerFields: [
             {
               subTableName: "listActions",
-              subTableName: "listActions",
+              subTablePrimaryKey: "listActions",
               subFormFlag: "Y",
               staticData: "Y",
               initRows: 0,
@@ -792,7 +791,7 @@ const tableFieldList = reactive<PageFieldInfo | any>({
           containerFields: [
             {
               subTableName: "orderBy",
-              subTableName: "orderBy",
+              subTablePrimaryKey: "orderBy",
               subFormFlag: "Y",
               initRows: 0,
               fieldList: [
