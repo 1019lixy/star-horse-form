@@ -18,7 +18,9 @@ const props = defineProps({
 
 const formRef = ref();
 
-const fieldConfig = reactive<PageFieldInfo | any>(relationDataField(props.formProps, props.model));
+const fieldConfig = reactive<PageFieldInfo | any>(
+  relationDataField(props.formProps, props.model),
+);
 
 const setFormData = (data: any) => {
   nextTick(() => {
@@ -47,10 +49,7 @@ defineExpose({ submitValid, setFormData, getFormData });
 </script>
 
 <template>
-  <star-horse-form
-    :fieldList="fieldConfig"
-    ref="formRef"
-  />
+  <star-horse-form :fieldList="fieldConfig" ref="formRef" />
 </template>
 
 <style scoped lang="scss"></style>

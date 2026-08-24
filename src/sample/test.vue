@@ -1,15 +1,18 @@
 <script setup lang="ts" name="Areainfo">
-import {onMounted, ref, defineAsyncComponent} from "vue";
-import {i18n} from "@/lang";
+import { onMounted, ref, defineAsyncComponent } from "vue";
+import { i18n } from "@/lang";
 
 // 懒加载重量级组件，按需初始化
-const FormTestValid = defineAsyncComponent(() => import("@/sample/FormTestValid.vue"));
-const RuleTestValid = defineAsyncComponent(() => import("@/sample/RuleTestValid.vue"));
+const FormTestValid = defineAsyncComponent(
+  () => import("@/sample/FormTestValid.vue"),
+);
+const RuleTestValid = defineAsyncComponent(
+  () => import("@/sample/RuleTestValid.vue"),
+);
 
 const visible = ref<boolean>(false);
 const actName = ref<string>("form");
-const initData = async () => {
-};
+const initData = async () => {};
 onMounted(() => {
   initData();
 });
@@ -24,7 +27,7 @@ onMounted(() => {
         <RuleTestValid v-if="actName === 'rule'" />
       </el-tab-pane>
     </el-tabs>
-<!--    <el-tabs v-model="actName" class="h-full">
+    <!--    <el-tabs v-model="actName" class="h-full">
       <el-tab-pane name="a" :label="i18n('dyform.sample.dynamicForm')">
         <FormTestValid/>
       </el-tab-pane>

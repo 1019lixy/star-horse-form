@@ -1,29 +1,37 @@
 <script setup lang="ts" name="step-container">
-import {computed, onMounted, PropType, ref, watch} from "vue";
-import {compKey, itemCheck, operationConfirm, warning} from "star-horse-lowcode";
-import {getDesignFormStore} from "@/store/StoreManager";
-import {i18n} from "@/lang";
-import {quickAddItem} from "@/api/form_utils";
+import { computed, onMounted, PropType, ref, watch } from "vue";
+import {
+  compKey,
+  itemCheck,
+  operationConfirm,
+  warning,
+} from "star-horse-lowcode";
+import { getDesignFormStore } from "@/store/StoreManager";
+import { i18n } from "@/lang";
+import { quickAddItem } from "@/api/form_utils";
 import DesignItemWrapper from "@/components/formcomp/utils/DesignItemWrapper.vue";
-import {isContainer, ensureDefaultElements} from "./container-types";
-import {useDragAdd, ensureItems} from "./container-utils";
-import {useInlineEdit} from "./useInlineEdit";
+import { isContainer, ensureDefaultElements } from "./container-types";
+import { useDragAdd, ensureItems } from "./container-utils";
+import { useInlineEdit } from "./useInlineEdit";
 
 const props = defineProps({
-  parentField: {type: Object as PropType<any>},
-  isDesign: {type: Boolean, default: false},
-  showFormItem: {type: Boolean, default: false},
-  disabled: {type: Boolean, default: false},
-  formInfo: {type: Object as PropType<any>},
-  field: {type: Object as PropType<any>},
+  parentField: { type: Object as PropType<any> },
+  isDesign: { type: Boolean, default: false },
+  showFormItem: { type: Boolean, default: false },
+  disabled: { type: Boolean, default: false },
+  formInfo: { type: Object as PropType<any> },
+  field: { type: Object as PropType<any> },
 });
 let designForm = getDesignFormStore();
 const isDragging = computed(() => designForm.isDragging);
 const formData = defineModel("formData");
 
-const {onDragAdd} = useDragAdd(designForm);
+const { onDragAdd } = useDragAdd(designForm);
 const checkItem = (adata: any) => ensureItems(adata);
-const {editingId, editingText, startEditName, finishEditName} = useInlineEdit(() => props.isDesign, "step-edit-input");
+const { editingId, editingText, startEditName, finishEditName } = useInlineEdit(
+  () => props.isDesign,
+  "step-edit-input",
+);
 
 // 当前激活的步骤索引
 const activeStepIndex = ref<number>(0);
@@ -40,14 +48,14 @@ const activeStepName = computed(() => {
 });
 
 watch(
-    () => activeStepName.value,
-    (val) => {
-      if (val) {
-        props.field["activeItemName"] = val;
-        designForm.setCurrentSubTabName(val);
-      }
-    },
-    {immediate: true},
+  () => activeStepName.value,
+  (val) => {
+    if (val) {
+      props.field["activeItemName"] = val;
+      designForm.setCurrentSubTabName(val);
+    }
+  },
+  { immediate: true },
 );
 
 // 是否同属一个表单
@@ -59,10 +67,14 @@ const sameForm = computed(() => {
 const stepStyle = computed(() => props.field?.preps?.stepStyle || "steps");
 
 // 是否每步必须完成才能进入下一步
-const mustCompleteStep = computed(() => props.field?.preps?.mustCompleteStep === "Y");
+const mustCompleteStep = computed(
+  () => props.field?.preps?.mustCompleteStep === "Y",
+);
 
 // 步骤条方向
-const stepDirection = computed(() => props.field?.preps?.direction || "horizontal");
+const stepDirection = computed(
+  () => props.field?.preps?.direction || "horizontal",
+);
 
 // 是否显示步骤条：pager 风格强制隐藏
 const showStepBar = computed(() => {
@@ -71,16 +83,22 @@ const showStepBar = computed(() => {
 });
 
 // 是否显示导航按钮
-const showNavButtons = computed(() => props.field?.preps?.showNavButtons !== "N");
+const showNavButtons = computed(
+  () => props.field?.preps?.showNavButtons !== "N",
+);
 
 // 简洁模式
 const stepSimple = computed(() => props.field?.preps?.simple === "Y");
 
 // 完成状态
-const finishStatus = computed(() => props.field?.preps?.finishStatus || "finish");
+const finishStatus = computed(
+  () => props.field?.preps?.finishStatus || "finish",
+);
 
 // 进行中状态
-const processStatus = computed(() => props.field?.preps?.processStatus || "process");
+const processStatus = computed(
+  () => props.field?.preps?.processStatus || "process",
+);
 
 // 居中对齐
 const alignCenter = computed(() => props.field?.preps?.alignCenter === "Y");
@@ -108,7 +126,9 @@ const collectRequiredFields = (items: any[], result: any[] = []): any[] => {
       if (item.itemType === "condition") {
         collectRequiredFields(item.items || item.preps?.items || [], result);
         const children = item.children || item.preps?.children || [];
-        children.forEach((child: any) => collectRequiredFields([child], result));
+        children.forEach((child: any) =>
+          collectRequiredFields([child], result),
+        );
       } else if (item.preps?.elements) {
         item.preps.elements.forEach((el: any) => {
           if (el.columns) {
@@ -146,9 +166,11 @@ const isEmptyValue = (val: any): boolean => {
 /**
  * 验证指定步骤的必填字段
  */
-const validateStep = (stepIndex: number): { valid: boolean; missingFields: any[] } => {
+const validateStep = (
+  stepIndex: number,
+): { valid: boolean; missingFields: any[] } => {
   const step = elements.value[stepIndex];
-  if (!step) return {valid: true, missingFields: []};
+  if (!step) return { valid: true, missingFields: [] };
   const requiredFields = collectRequiredFields(step.items || []);
   const missing: any[] = [];
   requiredFields.forEach((f: any) => {
@@ -159,7 +181,7 @@ const validateStep = (stepIndex: number): { valid: boolean; missingFields: any[]
       missing.push(f);
     }
   });
-  return {valid: missing.length === 0, missingFields: missing};
+  return { valid: missing.length === 0, missingFields: missing };
 };
 
 /**
@@ -168,9 +190,13 @@ const validateStep = (stepIndex: number): { valid: boolean; missingFields: any[]
 const checkBeforeForward = (fromIndex: number, toIndex: number): boolean => {
   if (!mustCompleteStep.value || props.isDesign) return true;
   for (let i = fromIndex; i < toIndex; i++) {
-    const {valid, missingFields} = validateStep(i);
+    const { valid, missingFields } = validateStep(i);
     if (!valid) {
-      warning(i18n("dyform.step.validateFailed", [missingFields.map((f: any) => f.label).join("、")]));
+      warning(
+        i18n("dyform.step.validateFailed", [
+          missingFields.map((f: any) => f.label).join("、"),
+        ]),
+      );
       return false;
     }
   }
@@ -189,10 +215,14 @@ const goNext = () => {
   if (activeStepIndex.value >= elements.value.length - 1) {
     // 已是最后一步：校验通过则标记全部完成
     if (mustCompleteStep.value && !props.isDesign) {
-      const {valid, missingFields} = validateStep(activeStepIndex.value);
+      const { valid, missingFields } = validateStep(activeStepIndex.value);
       if (!valid) {
         stepValidationState.value[activeStepIndex.value] = "invalid";
-        warning(i18n("dyform.step.validateFailed", [missingFields.map((f: any) => f.label).join("、")]));
+        warning(
+          i18n("dyform.step.validateFailed", [
+            missingFields.map((f: any) => f.label).join("、"),
+          ]),
+        );
         return;
       }
     }
@@ -308,89 +338,134 @@ onMounted(() => {
     activeStepIndex.value = 0;
   }
   if (elements.value[activeStepIndex.value]?.subTablePrimaryKey) {
-    props.field["activeItemName"] = elements.value[activeStepIndex.value].subTablePrimaryKey;
+    props.field["activeItemName"] =
+      elements.value[activeStepIndex.value].subTablePrimaryKey;
     designForm.setCurrentSubTabName(props.field["activeItemName"]);
   }
 });
 
 // 同属表单切换时，同步所有步骤的 subFormFlag
 watch(
-    () => props.field?.preps?.sameForm,
-    (val) => {
-      const flag = val === "Y" ? "N" : "Y";
-      const els = props.field?.preps?.elements || [];
-      els.forEach((el: any) => {
-        el.subFormFlag = flag;
-      });
-    },
+  () => props.field?.preps?.sameForm,
+  (val) => {
+    const flag = val === "Y" ? "N" : "Y";
+    const els = props.field?.preps?.elements || [];
+    els.forEach((el: any) => {
+      el.subFormFlag = flag;
+    });
+  },
 );
 </script>
 <template>
   <group-container
-      class="star-horse-form-container"
-      :showFormItem="showFormItem"
-      :isDesign="isDesign"
-      :disabled="disabled"
-      :parentField="parentField"
-      :form-item="field"
+    class="star-horse-form-container"
+    :showFormItem="showFormItem"
+    :isDesign="isDesign"
+    :disabled="disabled"
+    :parentField="parentField"
+    :form-item="field"
   >
     <div class="step-wrapper">
       <!-- 自定义专业步骤条 -->
       <div
-          v-if="showStepBar"
-          class="sh-step-bar"
-          :class="[
-            `sh-step-bar--${stepDirection}`,
-            { 'sh-step-bar--simple': stepSimple, 'sh-step-bar--align-center': alignCenter }
-          ]"
-          :style="{ gap: stepSpace }"
+        v-if="showStepBar"
+        class="sh-step-bar"
+        :class="[
+          `sh-step-bar--${stepDirection}`,
+          {
+            'sh-step-bar--simple': stepSimple,
+            'sh-step-bar--align-center': alignCenter,
+          },
+        ]"
+        :style="{ gap: stepSpace }"
       >
         <div
-            v-for="(adata, idx) in elements"
-            :key="compKey(adata, idx)"
-            class="sh-step-item"
-            :class="[`sh-step-item--${getStepStatus(Number(idx))}`, { 'is-clickable': isStepClickable(Number(idx)) }]"
-            @click="isStepClickable(Number(idx)) && handleStepClick(Number(idx))"
+          v-for="(adata, idx) in elements"
+          :key="compKey(adata, idx)"
+          class="sh-step-item"
+          :class="[
+            `sh-step-item--${getStepStatus(Number(idx))}`,
+            { 'is-clickable': isStepClickable(Number(idx)) },
+          ]"
+          @click="isStepClickable(Number(idx)) && handleStepClick(Number(idx))"
         >
           <!-- 圆形指示器 -->
           <div class="sh-step-indicator">
             <div class="sh-step-circle">
-              <span v-if="getStepStatus(Number(idx)) === 'finish' || getStepStatus(Number(idx)) === 'success'" class="sh-step-icon">
-                <star-horse-icon v-if="finishIcon" :icon-class="finishIcon" size="20px"/>
-                <svg v-else viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
-                  <polyline points="20 6 9 17 4 12"/>
+              <span
+                v-if="
+                  getStepStatus(Number(idx)) === 'finish' ||
+                  getStepStatus(Number(idx)) === 'success'
+                "
+                class="sh-step-icon"
+              >
+                <star-horse-icon
+                  v-if="finishIcon"
+                  :icon-class="finishIcon"
+                  size="20px"
+                />
+                <svg
+                  v-else
+                  viewBox="0 0 24 24"
+                  width="20"
+                  height="20"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="3"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <polyline points="20 6 9 17 4 12" />
                 </svg>
               </span>
-              <span v-else-if="getStepStatus(Number(idx)) === 'error'" class="sh-step-icon">
-                <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
-                  <line x1="18" y1="6" x2="6" y2="18"/>
-                  <line x1="6" y1="6" x2="18" y2="18"/>
+              <span
+                v-else-if="getStepStatus(Number(idx)) === 'error'"
+                class="sh-step-icon"
+              >
+                <svg
+                  viewBox="0 0 24 24"
+                  width="20"
+                  height="20"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="3"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <line x1="18" y1="6" x2="6" y2="18" />
+                  <line x1="6" y1="6" x2="18" y2="18" />
                 </svg>
               </span>
               <span v-else class="sh-step-number">{{ Number(idx) + 1 }}</span>
             </div>
             <!-- 脉冲环（仅进行中） -->
-            <span v-if="getStepStatus(Number(idx)) === 'process'" class="sh-step-pulse"></span>
+            <span
+              v-if="getStepStatus(Number(idx)) === 'process'"
+              class="sh-step-pulse"
+            ></span>
           </div>
 
           <!-- 标题 -->
           <div class="sh-step-content">
             <span
-                v-if="editingId !== adata.subTablePrimaryKey"
-                class="sh-step-title editable-name"
-                @dblclick.stop="startEditName(adata)"
-            >{{ adata.label }}</span>
+              v-if="editingId !== adata.subTablePrimaryKey"
+              class="sh-step-title editable-name"
+              @dblclick.stop="startEditName(adata)"
+              >{{ adata.label }}</span
+            >
             <el-input
-                v-else
-                class="step-edit-input"
-                v-model="editingText"
-                size="small"
-                @blur="finishEditName(adata)"
-                @keyup.enter="finishEditName(adata)"
-                @click.stop
-                style="width: 120px;"
+              v-else
+              class="step-edit-input"
+              v-model="editingText"
+              size="small"
+              @blur="finishEditName(adata)"
+              @keyup.enter="finishEditName(adata)"
+              @click.stop
+              style="width: 120px"
             />
-            <span class="sh-step-index">{{ Number(idx) + 1 }} / {{ elements.length }}</span>
+            <span class="sh-step-index"
+              >{{ Number(idx) + 1 }} / {{ elements.length }}</span
+            >
           </div>
         </div>
       </div>
@@ -398,39 +473,44 @@ watch(
       <!-- 步骤内容区域 -->
       <div class="step-content-wrapper">
         <div
-            v-for="(adata, idx) in elements"
-            :key="adata.subTablePrimaryKey"
-            v-show="idx === activeStepIndex"
-            class="step-pane"
+          v-for="(adata, idx) in elements"
+          :key="adata.subTablePrimaryKey"
+          v-show="idx === activeStepIndex"
+          class="step-pane"
         >
           <draggable
-              @add="(evt: Event) => onDragAdd(evt, adata['items'])"
-              @dragover="checkItem(adata)"
-              class="step-design"
-              :class="{ 'dragging-area': isDragging }"
-              group="starHorseGroup"
-              animation="100"
-              item-key="id"
-              ghostClass="ghost"
-              :list="adata['items']"
+            @add="(evt: Event) => onDragAdd(evt, adata['items'])"
+            @dragover="checkItem(adata)"
+            class="step-design"
+            :class="{ 'dragging-area': isDragging }"
+            group="starHorseGroup"
+            animation="100"
+            item-key="id"
+            ghostClass="ghost"
+            :list="adata['items']"
           >
             <template #item="{ element: data }">
               <div
-                  class="comp-item my-[5px]"
-                  :data-field-id="data.id"
-                  :style="{ marginTop: isContainer(data) ? '25px' : '10px' }"
+                class="comp-item my-[5px]"
+                :data-field-id="data.id"
+                :style="{ marginTop: isContainer(data) ? '25px' : '10px' }"
               >
-                <DesignItemWrapper :field="data" :isDesign="isDesign" :parentField="field" :disabled="disabled">
+                <DesignItemWrapper
+                  :field="data"
+                  :isDesign="isDesign"
+                  :parentField="field"
+                  :disabled="disabled"
+                >
                   <component
-                      :key="data.id"
-                      :field="data"
-                      :isDesign="isDesign"
-                      :disabled="disabled"
-                      :showFormItem="showFormItem"
-                      :formInfo="formInfo"
-                      :is="itemCheck(data)"
-                      :parentField="field"
-                      v-model:formData="formData"
+                    :key="data.id"
+                    :field="data"
+                    :isDesign="isDesign"
+                    :disabled="disabled"
+                    :showFormItem="showFormItem"
+                    :formInfo="formInfo"
+                    :is="itemCheck(data)"
+                    :parentField="field"
+                    v-model:formData="formData"
                   />
                 </DesignItemWrapper>
               </div>
@@ -439,7 +519,13 @@ watch(
 
           <!-- 快捷添加组件按钮 -->
           <div v-if="isDesign" class="quick-add-bar">
-            <el-button size="small" type="info" plain @click.stop="quickAddItem(adata.items)" icon="Plus">
+            <el-button
+              size="small"
+              type="info"
+              plain
+              @click.stop="quickAddItem(adata.items)"
+              icon="Plus"
+            >
               {{ i18n("dyform.condition.addLeaf") }}
             </el-button>
           </div>
@@ -449,18 +535,20 @@ watch(
       <!-- 导航按钮：首尾页隐藏对应按钮 -->
       <div v-if="showNavButtons" class="step-nav-bar">
         <el-button
-            v-if="activeStepIndex > 0"
-            size="default"
-            @click.stop="goPrev"
+          v-if="activeStepIndex > 0"
+          size="default"
+          @click.stop="goPrev"
         >
           {{ i18n("dyform.step.prev") }}
         </el-button>
-        <span class="step-indicator">{{ activeStepIndex + 1 }} / {{ elements.length }}</span>
+        <span class="step-indicator"
+          >{{ activeStepIndex + 1 }} / {{ elements.length }}</span
+        >
         <el-button
-            v-if="activeStepIndex < elements.length - 1"
-            size="default"
-            type="primary"
-            @click.stop="goNext"
+          v-if="activeStepIndex < elements.length - 1"
+          size="default"
+          type="primary"
+          @click.stop="goNext"
         >
           {{ i18n("dyform.step.next") }}
         </el-button>
@@ -468,23 +556,42 @@ watch(
 
       <!-- 设计模式下的步骤管理 -->
       <div v-if="isDesign" class="step-manage-bar">
-        <el-button size="small" type="primary" plain @click.stop="addStep" icon="Plus">
+        <el-button
+          size="small"
+          type="primary"
+          plain
+          @click.stop="addStep"
+          icon="Plus"
+        >
           {{ i18n("dyform.step.add") }}
         </el-button>
         <el-button
-            size="small"
-            type="danger"
-            plain
-            :disabled="elements.length <= 1"
-            @click.stop="removeStep(activeStepIndex)"
-            icon="Delete"
+          size="small"
+          type="danger"
+          plain
+          :disabled="elements.length <= 1"
+          @click.stop="removeStep(activeStepIndex)"
+          icon="Delete"
         >
           {{ i18n("dyform.step.delete") }}
         </el-button>
         <span class="step-same-form-hint">
-          {{ i18n("dyform.step.styleLabel") }}: {{ stepStyle === "steps" ? i18n("dyform.step.styleSteps") : i18n("dyform.step.stylePager") }}
-          ｜ {{ i18n("dyform.step.sameFormHint") }}: {{ sameForm ? i18n("dyform.step.sameFormYes") : i18n("dyform.step.sameFormNo") }}
-          ｜ {{ i18n("dyform.step.mustCompleteStep") }}: {{ mustCompleteStep ? i18n("dyform.step.yes") : i18n("dyform.step.no") }}
+          {{ i18n("dyform.step.styleLabel") }}:
+          {{
+            stepStyle === "steps"
+              ? i18n("dyform.step.styleSteps")
+              : i18n("dyform.step.stylePager")
+          }}
+          ｜ {{ i18n("dyform.step.sameFormHint") }}:
+          {{
+            sameForm
+              ? i18n("dyform.step.sameFormYes")
+              : i18n("dyform.step.sameFormNo")
+          }}
+          ｜ {{ i18n("dyform.step.mustCompleteStep") }}:
+          {{
+            mustCompleteStep ? i18n("dyform.step.yes") : i18n("dyform.step.no")
+          }}
         </span>
       </div>
     </div>
@@ -574,17 +681,30 @@ watch(
       gap: 8px;
       padding: 4px 12px;
       border-radius: 16px;
-      &::after { display: none !important; }
-      .sh-step-indicator { width: auto; height: auto; }
+      &::after {
+        display: none !important;
+      }
+      .sh-step-indicator {
+        width: auto;
+        height: auto;
+      }
       .sh-step-circle {
         width: 22px !important;
         height: 22px !important;
         border-radius: 6px !important;
         font-size: 11px !important;
       }
-      .sh-step-content { display: flex; align-items: center; gap: 6px; }
-      .sh-step-index { font-size: 11px; }
-      .sh-step-title { font-size: 13px; }
+      .sh-step-content {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+      }
+      .sh-step-index {
+        font-size: 11px;
+      }
+      .sh-step-title {
+        font-size: 13px;
+      }
     }
   }
 
@@ -642,8 +762,14 @@ watch(
     box-sizing: border-box;
   }
 
-  .sh-step-number { line-height: 1; }
-  .sh-step-icon { display: flex; align-items: center; justify-content: center; }
+  .sh-step-number {
+    line-height: 1;
+  }
+  .sh-step-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
 
   // 标题与副信息
   .sh-step-content {
@@ -672,7 +798,9 @@ watch(
       background: #f9fafc;
       color: #a8abb2;
     }
-    .sh-step-title { color: #a8abb2; }
+    .sh-step-title {
+      color: #a8abb2;
+    }
   }
 
   // ===== 状态：进行中 =====
@@ -687,7 +815,9 @@ watch(
       color: #303133;
       font-weight: 600;
     }
-    .sh-step-index { color: #409eff; }
+    .sh-step-index {
+      color: #409eff;
+    }
   }
 
   // ===== 状态：完成 =====
@@ -698,8 +828,12 @@ watch(
       color: #fff;
       box-shadow: 0 2px 8px rgba(103, 194, 58, 0.3);
     }
-    .sh-step-title { color: #606266; }
-    .sh-step-index { color: #67c23a; }
+    .sh-step-title {
+      color: #606266;
+    }
+    .sh-step-index {
+      color: #67c23a;
+    }
   }
 
   // ===== 状态：成功 =====
@@ -710,8 +844,12 @@ watch(
       color: #fff;
       box-shadow: 0 2px 8px rgba(103, 194, 58, 0.3);
     }
-    .sh-step-title { color: #67c23a; }
-    .sh-step-index { color: #67c23a; }
+    .sh-step-title {
+      color: #67c23a;
+    }
+    .sh-step-index {
+      color: #67c23a;
+    }
   }
 
   // ===== 状态：错误 =====
@@ -722,8 +860,12 @@ watch(
       color: #fff;
       box-shadow: 0 2px 8px rgba(245, 108, 108, 0.3);
     }
-    .sh-step-title { color: #f56c6c; }
-    .sh-step-index { color: #f56c6c; }
+    .sh-step-title {
+      color: #f56c6c;
+    }
+    .sh-step-index {
+      color: #f56c6c;
+    }
   }
 }
 
@@ -756,7 +898,10 @@ watch(
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .sh-step-pulse { animation: none; display: none; }
+  .sh-step-pulse {
+    animation: none;
+    display: none;
+  }
 }
 
 .step-content-wrapper {
@@ -853,12 +998,17 @@ watch(
 }
 
 .dragging-area {
-  background: linear-gradient(45deg, #e6f7ff 25%, transparent 25%),
-  linear-gradient(-45deg, #e6f7ff 25%, transparent 25%),
-  linear-gradient(45deg, transparent 75%, #e6f7ff 75%),
-  linear-gradient(-45deg, transparent 75%, #e6f7ff 75%);
+  background:
+    linear-gradient(45deg, #e6f7ff 25%, transparent 25%),
+    linear-gradient(-45deg, #e6f7ff 25%, transparent 25%),
+    linear-gradient(45deg, transparent 75%, #e6f7ff 75%),
+    linear-gradient(-45deg, transparent 75%, #e6f7ff 75%);
   background-size: 20px 20px;
-  background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
+  background-position:
+    0 0,
+    0 10px,
+    10px -10px,
+    -10px 0px;
 }
 
 .ghost {

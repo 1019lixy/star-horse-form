@@ -1,18 +1,29 @@
 <script setup lang="ts">
-import {computed, nextTick, onMounted, PropType, ref, unref, watch} from "vue";
-import {buttonClickDataField, fieldPlaceholder} from "@/components/system/items/utils/ItemPreps.js";
+import {
+  computed,
+  nextTick,
+  onMounted,
+  PropType,
+  ref,
+  unref,
+  watch,
+} from "vue";
+import {
+  buttonClickDataField,
+  fieldPlaceholder,
+} from "@/components/system/items/utils/ItemPreps.js";
 import {
   analysisCompDatas,
   operationConfirm,
   searchMatchList,
   uuid,
   validRulesList,
-  warning
+  warning,
 } from "star-horse-lowcode";
-import {getDesignFormStore} from "@/store/StoreManager";
-import {i18n} from "@/lang/index.js";
-import {FormConfig} from "@/components/types";
-import type {FormulaConfig} from "@/components/types/FormulaConfig";
+import { getDesignFormStore } from "@/store/StoreManager";
+import { i18n } from "@/lang/index.js";
+import { FormConfig } from "@/components/types";
+import type { FormulaConfig } from "@/components/types/FormulaConfig";
 import FormulaConfigDialog from "@/components/system/items/form/dialogs/FormulaConfigDialog.vue";
 import DataSourceConfigPanel from "@/components/system/items/form/components/DataSourceConfigPanel.vue";
 import LinkageConfigPanel from "@/components/system/items/form/components/LinkageConfigPanel.vue";
@@ -21,19 +32,25 @@ import LinkPolicyComp from "@/components/system/items/utils/LinkPolicyComp.vue";
 import ContainerConfigPanel from "@/components/system/items/form/components/ContainerConfigPanel.vue";
 
 defineOptions({
-  name: "ItemPropertiesPanel"
+  name: "ItemPropertiesPanel",
 });
 
 /** 支持公式配置的组件类型 */
-const formulaSupportedTypes = ["input", "number","select","tselect","autocomplete"];
+const formulaSupportedTypes = [
+  "input",
+  "number",
+  "select",
+  "tselect",
+  "autocomplete",
+];
 
 const props = defineProps({
-  optional: {type: Object as PropType<FormConfig>}
+  optional: { type: Object as PropType<FormConfig> },
 });
 let designForm = getDesignFormStore();
 const quickConfig = ref<Record<string, number>>({
   rowNums: 1,
-  columnNums: 1
+  columnNums: 1,
 });
 let currentItemType = computed(() => {
   let comp = designForm.currentComp;
@@ -82,12 +99,12 @@ const linkageFormFields = computed(() => {
     }
   });
   return dataList
-      .filter((item: any) => item.fieldName)
-      .map((item: any) => ({
-        label: `${item.preps?.label ?? item.label} (${item.fieldName})`,
-        value: item.fieldName,
-        name: `${item.preps?.label ?? item.label} (${item.fieldName})`
-      }));
+    .filter((item: any) => item.fieldName)
+    .map((item: any) => ({
+      label: `${item.preps?.label ?? item.label} (${item.fieldName})`,
+      value: item.fieldName,
+      name: `${item.preps?.label ?? item.label} (${item.fieldName})`,
+    }));
 });
 
 /** 当前公式配置对象（响应式引用 formProps.formula） */
@@ -97,7 +114,7 @@ const formulaConfig = computed<FormulaConfig>(() => {
       enable: false,
       type: "calc",
       sourceFields: [],
-      expression: ""
+      expression: "",
     };
   }
   return formProps.value.formula;
@@ -113,8 +130,15 @@ const availableFields = computed(() => {
       dataList.push(value);
     }
   });
-  return dataList.filter((item: any) => item.fieldName && item.fieldName !== currentFieldName)
-      .map((item: any) => ({label: `${item.label} (${item.fieldName})`, value: item.fieldName, id: item.id}));
+  return dataList
+    .filter(
+      (item: any) => item.fieldName && item.fieldName !== currentFieldName,
+    )
+    .map((item: any) => ({
+      label: `${item.label} (${item.fieldName})`,
+      value: item.fieldName,
+      id: item.id,
+    }));
 });
 
 const openFormulaConfig = () => {
@@ -133,12 +157,12 @@ let relationComps: Array<string> = [
   "page-select",
   "dialog-input",
   "icon",
-  "datapicker"
+  "datapicker",
 ];
 let exclusionDataSource: Array<string> = [
   "page-select",
   "switch",
-  "dialog-input"
+  "dialog-input",
 ];
 const dataSourceFormRef = ref();
 const dataSourceVisible = ref<boolean>(false);
@@ -179,7 +203,7 @@ const editContainerPrep = () => {
   nextTick(() => setContainerData());
 };
 const setContainerData = () => {
-  const temp = {...formProps.value};
+  const temp = { ...formProps.value };
   containerPrepRef.value?.setFormData(temp);
 };
 const changeOperation = (val: any) => {
@@ -263,9 +287,7 @@ const resetDataSourceForm = () => {
   formProps.value["queryParams"] = [];
   formProps.value["values"] = [];
 };
-const init = () => {
-
-};
+const init = () => {};
 const boxAndTableQuickConfig = (val: any) => {
   // console.log("boxAndTableQuickConfig", val);
   if (!val.rowNums || !val.columnNums) {
@@ -297,15 +319,15 @@ const boxAndTableQuickConfig = (val: any) => {
           id: uuid(),
           colIndex: 1,
           rowspan: 1,
-          colspan: currentItemType.value == "box" ? (24 / val.columnNums) : 1,
+          colspan: currentItemType.value == "box" ? 24 / val.columnNums : 1,
           items: [],
-          cellVisible: true
+          cellVisible: true,
         });
       }
       tempRows.push({
         id: uuid(),
         colIndex: 1,
-        columns: columns
+        columns: columns,
       });
     }
   } else {
@@ -323,7 +345,7 @@ const boxAndTableQuickConfig = (val: any) => {
           rowspan: 1,
           colspan: 1,
           cellVisible: true,
-          items: []
+          items: [],
         });
       }
       if (currentItemType.value == "box") {
@@ -346,394 +368,476 @@ const boxAndTableQuickConfig = (val: any) => {
   elements.push(...tempRows);
   formProps.value["rowNums"] = val.rowNums;
   formProps.value["columnNums"] = val.columnNums;
-
 };
 onMounted(() => {
   init();
 });
-watch(() => quickConfig.value, (val) => {
-  boxAndTableQuickConfig(val);
-}, {
-  deep: true,
-  flush: "post",
-});
+watch(
+  () => quickConfig.value,
+  (val) => {
+    boxAndTableQuickConfig(val);
+  },
+  {
+    deep: true,
+    flush: "post",
+  },
+);
 </script>
 <template>
   <star-horse-panel
-      v-model="buttonDialogVisible"
-      :title="i18n('dyform.button.event.title')"
-      :isBatch="false"
-      :compSize="compSize"
-      @merge="buttonEventMerge"
-      @closeAction="closeAction"
-      @resetForm="buttonEventReset"
-      :selfFunc="true"
+    v-model="buttonDialogVisible"
+    :title="i18n('dyform.button.event.title')"
+    :isBatch="false"
+    :compSize="compSize"
+    @merge="buttonEventMerge"
+    @closeAction="closeAction"
+    @resetForm="buttonEventReset"
+    :selfFunc="true"
   >
     <star-horse-form
-        :outerFormData="formProps"
-        primary-key=""
-        :formSize="compSize"
-        @inited="setDataSourceData"
-        ref="buttonClickFormRef"
-        :fieldList="buttonClickDataField()"
+      :outerFormData="formProps"
+      primary-key=""
+      :formSize="compSize"
+      @inited="setDataSourceData"
+      ref="buttonClickFormRef"
+      :fieldList="buttonClickDataField()"
     />
   </star-horse-panel>
   <!--Unified Linkage Strategy-->
   <star-horse-panel
-      v-model="dataRelationDialogVisible"
-      :title="i18n('dyform.data.relation.dialog.title')"
-      :isBatch="false"
-      :compSize="compSize"
-      @merge="dataRelationMerge"
-      @closeAction="closeAction"
-      @resetForm="dataRelationReset"
-      :selfFunc="true"
-      boxHeight="80%"
+    v-model="dataRelationDialogVisible"
+    :title="i18n('dyform.data.relation.dialog.title')"
+    :isBatch="false"
+    :compSize="compSize"
+    @merge="dataRelationMerge"
+    @closeAction="closeAction"
+    @resetForm="dataRelationReset"
+    :selfFunc="true"
+    boxHeight="80%"
   >
     <link-policy-comp
-        ref="dataRelationFormRef"
-        :formProps="formProps"
-        :model="model"
-        :optional="optional"
-        :formFields="linkageFormFields"
+      ref="dataRelationFormRef"
+      :formProps="formProps"
+      :model="model"
+      :optional="optional"
+      :formFields="linkageFormFields"
     />
   </star-horse-panel>
   <!--Unified Data Source-->
   <star-horse-panel
-      v-model="dataSourceVisible"
-      :title="i18n('dyform.data.source.dialog.title')"
-      :isBatch="false"
-      :compSize="compSize"
-      @merge="submitValid"
-      @closeAction="closeAction"
-      @resetForm="resetDataSourceForm"
-      :selfFunc="true"
-      boxHeight="80%"
+    v-model="dataSourceVisible"
+    :title="i18n('dyform.data.source.dialog.title')"
+    :isBatch="false"
+    :compSize="compSize"
+    @merge="submitValid"
+    @closeAction="closeAction"
+    @resetForm="resetDataSourceForm"
+    :selfFunc="true"
+    boxHeight="80%"
   >
     <data-source-comp
-        ref="dataSourceFormRef"
-        :model="model"
-        :optional="optional"
-        :formProps="formProps"
-        :formFields="linkageFormFields"
+      ref="dataSourceFormRef"
+      :model="model"
+      :optional="optional"
+      :formProps="formProps"
+      :formFields="linkageFormFields"
     />
   </star-horse-panel>
   <!--容器参数配置-->
   <star-horse-panel
-      type="drawer"
-      v-model="containerDialogVisible"
-      :title="i18n('dyform.container.dialog.title')"
-      :isBatch="false"
-      @merge="containerAction"
-      @closeAction="closeAction"
-      @resetForm="resetForm"
-      :selfFunc="true"
+    type="drawer"
+    v-model="containerDialogVisible"
+    :title="i18n('dyform.container.dialog.title')"
+    :isBatch="false"
+    @merge="containerAction"
+    @closeAction="closeAction"
+    @resetForm="resetForm"
+    :selfFunc="true"
   >
     <ContainerConfigPanel
-        ref="containerPrepRef"
-        :currentItemType="currentItemType"
-        :compSize="compSize"
-        @inited="setContainerData"
+      ref="containerPrepRef"
+      :currentItemType="currentItemType"
+      :compSize="compSize"
+      @inited="setContainerData"
     />
   </star-horse-panel>
   <el-scrollbar>
     <template v-if="currentCompCategory == 'container'">
       <el-form-item :label="i18n('dyform.props.container.config')" prop="rows">
         <el-button
-            type="primary"
-            plain
-            icon="Setting"
-            @click="editContainerPrep"
-        >{{ i18n("dyform.props.container.config.btn") }}
+          type="primary"
+          plain
+          icon="Setting"
+          @click="editContainerPrep"
+          >{{ i18n("dyform.props.container.config.btn") }}
         </el-button>
       </el-form-item>
-      <el-form-item :label="i18n('dyform.props.quickConfig')" label-position="top" prop="rowAndCol"
-                    v-if="['dytable','box','gridtable'].includes(currentItemType)">
+      <el-form-item
+        :label="i18n('dyform.props.quickConfig')"
+        label-position="top"
+        prop="rowAndCol"
+        v-if="['dytable', 'box', 'gridtable'].includes(currentItemType)"
+      >
         <el-form-item :label="i18n('dyform.props.quickConfig.rows')">
-          <el-input-number v-model="quickConfig.rowNums" min="1" max="500" controls-position="right"/>
+          <el-input-number
+            v-model="quickConfig.rowNums"
+            min="1"
+            max="500"
+            controls-position="right"
+          />
         </el-form-item>
-        <el-form-item :label="i18n('dyform.props.quickConfig.cols')" style="margin-top: 10px">
-          <div class="flex flex-row items-center w-full" v-if="currentItemType=='box'">
-            <help :message="i18n('dyform.props.quickConfig.cols.helpMsg')"/>
-            <el-select v-model="quickConfig.columnNums" :options="[
-              {label:i18n('dyform.props.quickConfig.cols.1'),value:1},
-              {label:i18n('dyform.props.quickConfig.cols.2'),value:2},
-              {label:i18n('dyform.props.quickConfig.cols.3'),value:3},
-              {label:i18n('dyform.props.quickConfig.cols.4'),value:4},
-              {label:i18n('dyform.props.quickConfig.cols.6'),value:6},
-              {label:i18n('dyform.props.quickConfig.cols.8'),value:8},
-              {label:i18n('dyform.props.quickConfig.cols.12'),value:12},
-              {label:i18n('dyform.props.quickConfig.cols.24'),value:24}
-          ]">
+        <el-form-item
+          :label="i18n('dyform.props.quickConfig.cols')"
+          style="margin-top: 10px"
+        >
+          <div
+            class="flex flex-row items-center w-full"
+            v-if="currentItemType == 'box'"
+          >
+            <help :message="i18n('dyform.props.quickConfig.cols.helpMsg')" />
+            <el-select
+              v-model="quickConfig.columnNums"
+              :options="[
+                { label: i18n('dyform.props.quickConfig.cols.1'), value: 1 },
+                { label: i18n('dyform.props.quickConfig.cols.2'), value: 2 },
+                { label: i18n('dyform.props.quickConfig.cols.3'), value: 3 },
+                { label: i18n('dyform.props.quickConfig.cols.4'), value: 4 },
+                { label: i18n('dyform.props.quickConfig.cols.6'), value: 6 },
+                { label: i18n('dyform.props.quickConfig.cols.8'), value: 8 },
+                { label: i18n('dyform.props.quickConfig.cols.12'), value: 12 },
+                { label: i18n('dyform.props.quickConfig.cols.24'), value: 24 },
+              ]"
+            >
             </el-select>
           </div>
-          <el-input-number v-else v-model="quickConfig.columnNums" min="1" max="50"
-                           controls-position="right"/>
+          <el-input-number
+            v-else
+            v-model="quickConfig.columnNums"
+            min="1"
+            max="50"
+            controls-position="right"
+          />
         </el-form-item>
-        <el-form-item v-if="['dytable','gridtable'].includes(currentItemType)" label="显示行和列编号" prop="formProps.showLineNumber">
-          <el-switch v-model="formProps.showLineNumber"/>
+        <el-form-item
+          v-if="['dytable', 'gridtable'].includes(currentItemType)"
+          label="显示行和列编号"
+          prop="formProps.showLineNumber"
+        >
+          <el-switch v-model="formProps.showLineNumber" />
         </el-form-item>
-        <el-form-item v-if="currentItemType=='dytable'" label="表单可改变单元格宽度" prop="formProps.allowResize">
-          <el-switch v-model="formProps.allowResize"/>
+        <el-form-item
+          v-if="currentItemType == 'dytable'"
+          label="表单可改变单元格宽度"
+          prop="formProps.allowResize"
+        >
+          <el-switch v-model="formProps.allowResize" />
         </el-form-item>
       </el-form-item>
-
     </template>
     <template v-else>
-      <el-form-item :label="i18n('dyform.props.label')" label-position="top" prop="label" required>
+      <el-form-item
+        :label="i18n('dyform.props.label')"
+        label-position="top"
+        prop="label"
+        required
+      >
         <el-input
-            v-model="formProps.label"
-            :placeholder="i18n('dyform.props.label.placeholder')"
-            @blur="fieldPlaceholder(formProps)"
+          v-model="formProps.label"
+          :placeholder="i18n('dyform.props.label.placeholder')"
+          @blur="fieldPlaceholder(formProps)"
         />
       </el-form-item>
-      <el-form-item :label="i18n('dyform.props.name')" label-position="top" prop="name" required>
+      <el-form-item
+        :label="i18n('dyform.props.name')"
+        label-position="top"
+        prop="name"
+        required
+      >
         <el-input
-            v-model="formProps.name"
-            :placeholder="i18n('dyform.props.name.placeholder')"
-            @blur="fieldPlaceholder(formProps)"
+          v-model="formProps.name"
+          :placeholder="i18n('dyform.props.name.placeholder')"
+          @blur="fieldPlaceholder(formProps)"
         />
       </el-form-item>
-      <el-form-item :label="i18n('dyform.props.maxLength')" label-position="top" prop="maxLength">
+      <el-form-item
+        :label="i18n('dyform.props.maxLength')"
+        label-position="top"
+        prop="maxLength"
+      >
         <el-input-number
-            v-model="formProps.maxLength"
-            controls-position="right"
-            min="1"
+          v-model="formProps.maxLength"
+          controls-position="right"
+          min="1"
         />
-        <help :message="i18n('dyform.props.maxLength.helpMsg')"/>
+        <help :message="i18n('dyform.props.maxLength.helpMsg')" />
       </el-form-item>
       <DataSourceConfigPanel
-          :itemType="currentItemType"
-          :currentSourceType="(formProps.dataSource as string) || 'data'"
-          :model="model"
-          @open="dataSource"
+        :itemType="currentItemType"
+        :currentSourceType="(formProps.dataSource as string) || 'data'"
+        :model="model"
+        @open="dataSource"
       />
       <LinkageConfigPanel
-          :itemType="currentItemType"
-          :model="model"
-          @open="configRelationPolicy"
+        :itemType="currentItemType"
+        :model="model"
+        @open="configRelationPolicy"
       />
 
       <el-form-item
-          :label="i18n('dyform.props.event')"
-          prop="cfgClickEvent"
-          v-if="currentItemType == 'button'"
+        :label="i18n('dyform.props.event')"
+        prop="cfgClickEvent"
+        v-if="currentItemType == 'button'"
       >
-        <el-button type="primary" @click="btnClickOpen">{{ i18n("dyform.props.event.btn") }}</el-button>
+        <el-button type="primary" @click="btnClickOpen">{{
+          i18n("dyform.props.event.btn")
+        }}</el-button>
       </el-form-item>
 
       <!-- ==================== 公式计算配置 ==================== -->
       <el-form-item
-          :label="i18n('dyform.formula.label')"
-          prop="formula"
-          v-if="formulaSupportedTypes.includes(currentItemType)"
+        :label="i18n('dyform.formula.label')"
+        prop="formula"
+        v-if="formulaSupportedTypes.includes(currentItemType)"
       >
         <div style="display: flex; align-items: center; width: 100%">
           <el-switch
-              v-model="formulaConfig.enable"
-              :active-text="i18n('dyform.formula.enable')"
-              :inactive-text="i18n('dyform.formula.disable')"
+            v-model="formulaConfig.enable"
+            :active-text="i18n('dyform.formula.enable')"
+            :inactive-text="i18n('dyform.formula.disable')"
           />
           <help
-              v-if="!formulaConfig.enable"
-              :message="i18n('dyform.formula.helpMsg')"
+            v-if="!formulaConfig.enable"
+            :message="i18n('dyform.formula.helpMsg')"
           />
           <el-button
-              v-if="formulaConfig.enable"
-              type="primary"
-              plain
-              size="small"
-              icon="Setting"
-              @click="openFormulaConfig"
-              style="margin-left: 8px"
-          >{{ i18n("dyform.formula.config") }}
+            v-if="formulaConfig.enable"
+            type="primary"
+            plain
+            size="small"
+            icon="Setting"
+            @click="openFormulaConfig"
+            style="margin-left: 8px"
+            >{{ i18n("dyform.formula.config") }}
           </el-button>
         </div>
-
       </el-form-item>
       <FormulaConfigDialog
-          ref="formulaDialogRef"
-          v-model="formulaConfig"
-          :prepsConfig="formProps"
-          :item-type="currentItemType"
-          :fields="availableFields"
+        ref="formulaDialogRef"
+        v-model="formulaConfig"
+        :prepsConfig="formProps"
+        :item-type="currentItemType"
+        :fields="availableFields"
       />
       <!-- ==================== 公式计算配置 END ==================== -->
 
-      <el-form-item :label="i18n('dyform.props.rules')" label-position="top" prop="rules">
+      <el-form-item
+        :label="i18n('dyform.props.rules')"
+        label-position="top"
+        prop="rules"
+      >
         <el-select
-            v-model="formProps.rules"
-            multiple
-            @change="changeOperation"
-            :placeholder="i18n('dyform.props.rules.placeholder')"
+          v-model="formProps.rules"
+          multiple
+          @change="changeOperation"
+          :placeholder="i18n('dyform.props.rules.placeholder')"
         >
           <el-option
-              v-for="item in validRulesList"
-              :key="item.value"
-              :label="item.name"
-              :value="item.value"
+            v-for="item in validRulesList"
+            :key="item.value"
+            :label="item.name"
+            :value="item.value"
           />
         </el-select>
       </el-form-item>
       <el-form-item :label="i18n('dyform.props.required')" prop="required">
         <el-switch
-            @change="requiredChange"
-            v-model="formProps.required"
-            :active-text="i18n('dyform.props.yes')"
-            :inactive-text="i18n('dyform.props.no')"
+          @change="requiredChange"
+          v-model="formProps.required"
+          :active-text="i18n('dyform.props.yes')"
+          :inactive-text="i18n('dyform.props.no')"
         />
       </el-form-item>
-      <el-form-item :label="i18n('dyform.props.formVisible')" prop="formVisible">
+      <el-form-item
+        :label="i18n('dyform.props.formVisible')"
+        prop="formVisible"
+      >
         <el-switch
-            v-model="formProps.formVisible"
-            :active-text="i18n('dyform.props.yes')"
-            :inactive-text="i18n('dyform.props.no')"
+          v-model="formProps.formVisible"
+          :active-text="i18n('dyform.props.yes')"
+          :inactive-text="i18n('dyform.props.no')"
         />
       </el-form-item>
 
-      <el-form-item :label="i18n('dyform.props.listVisible')" prop="listVisible">
+      <el-form-item
+        :label="i18n('dyform.props.listVisible')"
+        prop="listVisible"
+      >
         <el-switch
-            v-model="formProps.listVisible"
-            :active-text="i18n('dyform.props.yes')"
-            :inactive-text="i18n('dyform.props.no')"
+          v-model="formProps.listVisible"
+          :active-text="i18n('dyform.props.yes')"
+          :inactive-text="i18n('dyform.props.no')"
         />
       </el-form-item>
-      <el-form-item :label="i18n('dyform.props.searchVisible')" prop="searchVisible">
+      <el-form-item
+        :label="i18n('dyform.props.searchVisible')"
+        prop="searchVisible"
+      >
         <el-switch
-            v-model="formProps.searchVisible"
-            :active-text="i18n('dyform.props.yes')"
-            :inactive-text="i18n('dyform.props.no')"
+          v-model="formProps.searchVisible"
+          :active-text="i18n('dyform.props.yes')"
+          :inactive-text="i18n('dyform.props.no')"
         />
       </el-form-item>
 
       <el-form-item :label="i18n('dyform.props.hideLabel')" prop="hideLabel">
         <el-switch
-            v-model="formProps.hideLabel"
-            :active-text="i18n('dyform.props.yes')"
-            :inactive-text="i18n('dyform.props.no')"
+          v-model="formProps.hideLabel"
+          :active-text="i18n('dyform.props.yes')"
+          :inactive-text="i18n('dyform.props.no')"
         />
       </el-form-item>
       <el-form-item
-          :label="i18n('dyform.props.defaultVisible')"
-          prop="defaultVisible"
-          v-if="formProps.searchVisible"
+        :label="i18n('dyform.props.defaultVisible')"
+        prop="defaultVisible"
+        v-if="formProps.searchVisible"
       >
         <el-switch
-            v-model="formProps.defaultVisible"
-            :active-text="i18n('dyform.props.defaultVisible.show')"
-            :inactive-text="i18n('dyform.props.defaultVisible.hide')"
+          v-model="formProps.defaultVisible"
+          :active-text="i18n('dyform.props.defaultVisible.show')"
+          :inactive-text="i18n('dyform.props.defaultVisible.hide')"
         />
-
       </el-form-item>
       <el-form-item
-          :label="i18n('dyform.props.matchType')"
-          prop="matchType"
-          v-if="formProps.searchVisible"
+        :label="i18n('dyform.props.matchType')"
+        prop="matchType"
+        v-if="formProps.searchVisible"
       >
         <el-select
-            v-model="formProps.matchType"
-            :options="searchMatchList()"
-            filterable
-            clearable
-            :props="{
-              label:'name'
-            }"
+          v-model="formProps.matchType"
+          :options="searchMatchList()"
+          filterable
+          clearable
+          :props="{
+            label: 'name',
+          }"
         />
-
       </el-form-item>
 
-      <el-form-item :label="i18n('dyform.props.viewVisible')" prop="viewVisible">
+      <el-form-item
+        :label="i18n('dyform.props.viewVisible')"
+        prop="viewVisible"
+      >
         <el-switch
-            v-model="formProps.viewVisible"
-            :active-text="i18n('dyform.props.yes')"
-            :inactive-text="i18n('dyform.props.no')"
+          v-model="formProps.viewVisible"
+          :active-text="i18n('dyform.props.yes')"
+          :inactive-text="i18n('dyform.props.no')"
         />
       </el-form-item>
 
       <el-form-item :label="i18n('dyform.props.disabled')" prop="disabled">
         <el-switch
-            v-model="formProps.disabled"
-            :active-text="i18n('dyform.props.yes')"
-            :inactive-text="i18n('dyform.props.no')"
+          v-model="formProps.disabled"
+          :active-text="i18n('dyform.props.yes')"
+          :inactive-text="i18n('dyform.props.no')"
         />
       </el-form-item>
-      <el-form-item :label="i18n('dyform.props.editDisabled')" prop="editDisabled">
+      <el-form-item
+        :label="i18n('dyform.props.editDisabled')"
+        prop="editDisabled"
+      >
         <el-switch
-            v-model="formProps.editDisabled"
-            :active-text="i18n('dyform.props.yes')"
-            :inactive-text="i18n('dyform.props.no')"
+          v-model="formProps.editDisabled"
+          :active-text="i18n('dyform.props.yes')"
+          :inactive-text="i18n('dyform.props.no')"
         />
       </el-form-item>
       <el-form-item :label="i18n('dyform.props.readonly')" prop="readonly">
         <el-switch
-            v-model="formProps.readonly"
-            :active-text="i18n('dyform.props.yes')"
-            :inactive-text="i18n('dyform.props.no')"
+          v-model="formProps.readonly"
+          :active-text="i18n('dyform.props.yes')"
+          :inactive-text="i18n('dyform.props.no')"
         />
       </el-form-item>
       <el-form-item :label="i18n('dyform.props.clearable')" prop="clearable">
         <el-switch
-            v-model="formProps.clearable"
-            :active-text="i18n('dyform.props.yes')"
-            :inactive-text="i18n('dyform.props.no')"
+          v-model="formProps.clearable"
+          :active-text="i18n('dyform.props.yes')"
+          :inactive-text="i18n('dyform.props.no')"
         />
       </el-form-item>
 
-
-      <el-form-item :label="i18n('dyform.props.prototypeDisplay')" prop="prototypeDisplay">
+      <el-form-item
+        :label="i18n('dyform.props.prototypeDisplay')"
+        prop="prototypeDisplay"
+      >
         <el-switch
-            v-model="formProps.prototypeDisplay"
-            :active-text="i18n('dyform.props.yes')"
-            :inactive-text="i18n('dyform.props.no')"
+          v-model="formProps.prototypeDisplay"
+          :active-text="i18n('dyform.props.yes')"
+          :inactive-text="i18n('dyform.props.no')"
         />
-        <help
-            :message="i18n('dyform.props.prototypeDisplay.helpMsg')"
+        <help :message="i18n('dyform.props.prototypeDisplay.helpMsg')" />
+      </el-form-item>
+      <el-form-item
+        :label="i18n('dyform.props.listPrototypeDisplay')"
+        label-position="top"
+        prop="listPrototypeDisplay"
+        v-if="formProps.prototypeDisplay === true"
+      >
+        <el-input
+          v-model="formProps.listPrototypeDisplay"
+          :placeholder="i18n('dyform.props.listPrototypeDisplay.placeholder')"
         />
       </el-form-item>
       <el-form-item
-          :label="i18n('dyform.props.listPrototypeDisplay')" label-position="top"
-          prop="listPrototypeDisplay"
-          v-if="formProps.prototypeDisplay === true"
+        :label="i18n('dyform.props.uniqueValid')"
+        prop="uniqueValid"
+      >
+        <el-switch
+          v-model="formProps.uniqueValid"
+          :active-text="i18n('dyform.props.yes')"
+          :inactive-text="i18n('dyform.props.no')"
+        />
+        <help :message="i18n('dyform.props.uniqueValid.helpMsg')" />
+      </el-form-item>
+      <el-form-item
+        :label="i18n('dyform.props.labelPosition')"
+        label-position="top"
+        prop="labelPosition"
+      >
+        <el-select
+          clearable
+          filterable
+          v-model="formProps.labelPosition"
+          :options="[
+            { label: i18n('dyform.props.labelPosition.top'), value: 'top' },
+            { label: i18n('dyform.props.labelPosition.left'), value: 'left' },
+            { label: i18n('dyform.props.labelPosition.right'), value: 'right' },
+          ]"
+        />
+      </el-form-item>
+      <el-form-item
+        :label="i18n('dyform.props.helpMsg')"
+        label-position="top"
+        prop="helpMsg"
       >
         <el-input
-            v-model="formProps.listPrototypeDisplay"
-            :placeholder="i18n('dyform.props.listPrototypeDisplay.placeholder')"
+          v-model="formProps.helpMsg"
+          :placeholder="i18n('dyform.props.helpMsg.placeholder')"
+          type="textarea"
         />
       </el-form-item>
-      <el-form-item :label="i18n('dyform.props.uniqueValid')" prop="uniqueValid">
-        <el-switch
-            v-model="formProps.uniqueValid"
-            :active-text="i18n('dyform.props.yes')"
-            :inactive-text="i18n('dyform.props.no')"
-        />
-        <help
-            :message="i18n('dyform.props.uniqueValid.helpMsg')"
-        />
-      </el-form-item>
-      <el-form-item :label="i18n('dyform.props.labelPosition')" label-position="top" prop="labelPosition">
-        <el-select
-            clearable
-            filterable
-            v-model="formProps.labelPosition"
-            :options="[{label:i18n('dyform.props.labelPosition.top'),value:'top'},{label:i18n('dyform.props.labelPosition.left'),value:'left'},{label:i18n('dyform.props.labelPosition.right'),value:'right'}]"
-        />
-      </el-form-item>
-      <el-form-item :label="i18n('dyform.props.helpMsg')" label-position="top" prop="helpMsg">
+      <el-form-item
+        :label="i18n('dyform.props.styles')"
+        label-position="top"
+        prop="styles"
+      >
         <el-input
-            v-model="formProps.helpMsg"
-            :placeholder="i18n('dyform.props.helpMsg.placeholder')"
-            type="textarea"
-        />
-      </el-form-item>
-      <el-form-item :label="i18n('dyform.props.styles')" label-position="top" prop="styles">
-        <el-input
-            v-model="formProps.styles"
-            :placeholder="i18n('dyform.props.styles.placeholder')"
-            type="textarea"
+          v-model="formProps.styles"
+          :placeholder="i18n('dyform.props.styles.placeholder')"
+          type="textarea"
         />
       </el-form-item>
     </template>
   </el-scrollbar>
 </template>
-<style lang="scss" scoped>
-</style>
+<style lang="scss" scoped></style>

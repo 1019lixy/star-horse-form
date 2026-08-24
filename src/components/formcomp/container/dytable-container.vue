@@ -1,17 +1,17 @@
 <script setup lang="ts" name="dytable-container">
 // 右键菜单组件
-import {computed, PropType, ref} from "vue";
+import { computed, PropType, ref } from "vue";
 import DytableCol from "@/components/formcomp/container/dytable-col.vue";
 import GroupContainer from "@/components/formcomp/container/group-container.vue";
 
 let containerTableRef = ref(); // 强制刷新表格
 const props = defineProps({
-  parentField: {type: Object as PropType<any>},
-  isDesign: {type: Boolean, default: false},
-  showFormItem: {type: Boolean, default: false},
-  disabled: {type: Boolean, default: false},
-  formInfo: {type: Object as PropType<any>},
-  field: {type: Object as PropType<any>},
+  parentField: { type: Object as PropType<any> },
+  isDesign: { type: Boolean, default: false },
+  showFormItem: { type: Boolean, default: false },
+  disabled: { type: Boolean, default: false },
+  formInfo: { type: Object as PropType<any> },
+  field: { type: Object as PropType<any> },
 });
 const formData = defineModel("formData");
 
@@ -29,7 +29,7 @@ const handleColResizeStart = (e: MouseEvent, index: number) => {
   const colElement = (e.target as HTMLElement).parentElement as HTMLElement;
   // console.log("colElement",e, colElement);
   startWidth.value = colElement.offsetWidth;
-// 创建跟随鼠标的垂直线
+  // 创建跟随鼠标的垂直线
   resizeLine = document.createElement("div");
   const handleHalf = 3; // 手柄宽度一半，用来居中
   //z-index: 9999;
@@ -87,9 +87,9 @@ const columnStructure = computed(() => {
   // 找到最大列数的行
   let maxColsRow = elements[0];
   let columns = maxColsRow.columns.length;
-  const colStructure =[];
+  const colStructure = [];
   for (let i = 0; i < columns; i++) {
-    colStructure.push({width: maxColsRow.columns[i].colWidth});
+    colStructure.push({ width: maxColsRow.columns[i].colWidth });
   }
   return colStructure;
 });
@@ -195,26 +195,40 @@ const getColIndex = (rowIndex: number, colIndex: number, col: any) => {
 </script>
 <template>
   <group-container
-      class="star-horse-form-container"
-      :showFormItem="showFormItem"
-      :isDesign="isDesign"
-      :disabled="disabled"
-      :parentField="parentField"
-      :form-item="field"
+    class="star-horse-form-container"
+    :showFormItem="showFormItem"
+    :isDesign="isDesign"
+    :disabled="disabled"
+    :parentField="parentField"
+    :form-item="field"
   >
     <table
-        ref="containerTableRef"
-        class="dynamic-table"
-        :border="field.preps['tableBorder'] !== undefined ? (field.preps['tableBorder'] ? 1 : 0) : 1"
-        :cellpadding="field.preps['cellpadding'] !== undefined ? field.preps['cellpadding'] : 5"
-        :cellspacing="field.preps['cellspacing'] !== undefined ? field.preps['cellspacing'] : 0"
-        :style="{ width: field.preps['tableWidth'] || '100%' }"
+      ref="containerTableRef"
+      class="dynamic-table"
+      :border="
+        field.preps['tableBorder'] !== undefined
+          ? field.preps['tableBorder']
+            ? 1
+            : 0
+          : 1
+      "
+      :cellpadding="
+        field.preps['cellpadding'] !== undefined
+          ? field.preps['cellpadding']
+          : 5
+      "
+      :cellspacing="
+        field.preps['cellspacing'] !== undefined
+          ? field.preps['cellspacing']
+          : 0
+      "
+      :style="{ width: field.preps['tableWidth'] || '100%' }"
     >
       <!-- 隐藏的表头行，用于保持列结构和宽度 -->
       <thead v-if="field.preps.elements.length > 0">
-      <tr class="hidden-header">
-        <td style="width:30px"></td>
-        <td
+        <tr class="hidden-header">
+          <td style="width: 30px"></td>
+          <td
             v-for="(col, index) in columnStructure"
             :key="index"
             :colspan="col.colspan"
@@ -223,32 +237,32 @@ const getColIndex = (rowIndex: number, colIndex: number, col: any) => {
               height: '10px',
               padding: '0',
               border: '1px',
-              background:'rgba(247,250,250,0.8)'
+              background: 'rgba(247,250,250,0.8)',
             }"
-        >
-          <div
+          >
+            <div
               class="col-resize-handle"
               @mousedown="(e) => handleColResizeStart(e, index)"
-          />
-        </td>
-      </tr>
-      <tr >
-        <td>NO.</td>
-        <td
+            />
+          </td>
+        </tr>
+        <tr>
+          <td>NO.</td>
+          <td
             v-for="(col, index) in columnStructure"
             :key="index"
             :colspan="col.colspan"
             class="dy-cell no-cell"
-        >
-        {{ index + 1}}
-        </td>
-      </tr>
+          >
+            {{ index + 1 }}
+          </td>
+        </tr>
       </thead>
       <tbody>
-      <tr v-for="(row, rowIndex) in field.preps.elements" class="dy-tr">
-        <td class="dy-cell no-cell">{{Number(rowIndex)+1}}</td>
-        <template v-for="(td, colIndex) in row.columns">
-          <dytable-col
+        <tr v-for="(row, rowIndex) in field.preps.elements" class="dy-tr">
+          <td class="dy-cell no-cell">{{ Number(rowIndex) + 1 }}</td>
+          <template v-for="(td, colIndex) in row.columns">
+            <dytable-col
               :field="td"
               v-if="td.cellVisible"
               :formInfo="formInfo"
@@ -263,11 +277,13 @@ const getColIndex = (rowIndex: number, colIndex: number, col: any) => {
               :isLastCol="colIndex == row.columns.length - 1"
               :rowIndex="Number(rowIndex)"
               :colIndex="Number(colIndex)"
-              :actionColIndex="getColIndex(Number(rowIndex),Number(colIndex),td)"
+              :actionColIndex="
+                getColIndex(Number(rowIndex), Number(colIndex), td)
+              "
               class="dy-cell"
-          />
-        </template>
-      </tr>
+            />
+          </template>
+        </tr>
       </tbody>
     </table>
   </group-container>
@@ -308,7 +324,7 @@ const getColIndex = (rowIndex: number, colIndex: number, col: any) => {
 .hidden-header:hover .col-resize-handle {
   opacity: 0.5;
 }
-.no-cell{
+.no-cell {
   border: 1px solid var(--star-horse-style);
 }
 </style>

@@ -1,12 +1,18 @@
 <script setup lang="ts">
-import {i18n} from "@/lang";
-import {error, warning, StarHorseIcon} from "star-horse-lowcode";
-import {computed, ref} from "vue";
-import {FormConfig} from "@/components/types";
-import {saveCurrentCompAsCustom, type CustomCompStorageMode} from "@/api/custom_component_api";
-import {COMMON_ICONS, ALL_ICONS} from "@/components/system/items/form/composables/customCompIcons";
+import { i18n } from "@/lang";
+import { error, warning, StarHorseIcon } from "star-horse-lowcode";
+import { computed, ref } from "vue";
+import { FormConfig } from "@/components/types";
+import {
+  saveCurrentCompAsCustom,
+  type CustomCompStorageMode,
+} from "@/api/custom_component_api";
+import {
+  COMMON_ICONS,
+  ALL_ICONS,
+} from "@/components/system/items/form/composables/customCompIcons";
 
-defineOptions({name: "SaveAsCustomCompDialog"});
+defineOptions({ name: "SaveAsCustomCompDialog" });
 
 const props = defineProps<{
   /** 当前选中组件数据 */
@@ -20,7 +26,13 @@ const emit = defineEmits<{
 
 const dialogVisible = ref(false);
 const saveLoading = ref(false);
-const saveForm = ref<{ compName: string; compIcon: string; description: string; storageMode: CustomCompStorageMode; isShared: boolean }>({
+const saveForm = ref<{
+  compName: string;
+  compIcon: string;
+  description: string;
+  storageMode: CustomCompStorageMode;
+  isShared: boolean;
+}>({
   compName: "",
   compIcon: "",
   description: "",
@@ -37,13 +49,15 @@ const showAllIcons = ref(false);
 const displayIcons = computed(() => {
   const key = iconSearchKey.value.trim().toLowerCase();
   if (key) {
-    return ALL_ICONS.filter(name => name.toLowerCase().includes(key));
+    return ALL_ICONS.filter((name) => name.toLowerCase().includes(key));
   }
   return showAllIcons.value ? ALL_ICONS : COMMON_ICONS;
 });
 
 const currentItemType = computed(() => props.currentComp?.itemType || "");
-const currentCompType = computed(() => props.currentComp?.compType || "formItem");
+const currentCompType = computed(
+  () => props.currentComp?.compType || "formItem",
+);
 
 const open = () => {
   if (!props.currentComp) {
@@ -51,7 +65,10 @@ const open = () => {
     return;
   }
   // 默认名称: 基于组件类型
-  const baseName = props.currentComp?.preps?.label || props.currentComp?.preps?.itemNameLabel || currentItemType.value;
+  const baseName =
+    props.currentComp?.preps?.label ||
+    props.currentComp?.preps?.itemNameLabel ||
+    currentItemType.value;
   saveForm.value = {
     compName: baseName + "-" + i18n("dyform.customComp.suffix"),
     compIcon: "",
@@ -87,7 +104,8 @@ const handleSave = async () => {
       baseCompType: currentCompType.value,
       preps: props.currentComp.preps,
       storageMode: saveForm.value.storageMode,
-      isShared: saveForm.value.storageMode === "db" ? saveForm.value.isShared : false,
+      isShared:
+        saveForm.value.storageMode === "db" ? saveForm.value.isShared : false,
     });
     if (ok) {
       dialogVisible.value = false;
@@ -100,99 +118,121 @@ const handleSave = async () => {
   }
 };
 
-defineExpose({open, close});
+defineExpose({ open, close });
 </script>
 
 <template>
   <star-horse-panel
-      v-model="dialogVisible"
-      :title="i18n('dyform.customComp.save.title')"
-      :selfFunc="true"
-      @merge="handleSave"
-      @closeAction="close"
-      boxWidth="40%"
+    v-model="dialogVisible"
+    :title="i18n('dyform.customComp.save.title')"
+    :selfFunc="true"
+    @merge="handleSave"
+    @closeAction="close"
+    boxWidth="40%"
   >
     <el-form label-position="top">
       <el-form-item :label="i18n('dyform.customComp.storageMode')">
         <el-radio-group v-model="saveForm.storageMode">
-          <el-radio value="local">{{ i18n('dyform.customComp.storageMode.local') }}</el-radio>
-          <el-radio value="db">{{ i18n('dyform.customComp.storageMode.db') }}</el-radio>
+          <el-radio value="local">{{
+            i18n("dyform.customComp.storageMode.local")
+          }}</el-radio>
+          <el-radio value="db">{{
+            i18n("dyform.customComp.storageMode.db")
+          }}</el-radio>
         </el-radio-group>
         <div class="storage-tip">
-          {{ saveForm.storageMode === 'local'
-              ? i18n('dyform.customComp.storageMode.local.tip')
-              : i18n('dyform.customComp.storageMode.db.tip') }}
+          {{
+            saveForm.storageMode === "local"
+              ? i18n("dyform.customComp.storageMode.local.tip")
+              : i18n("dyform.customComp.storageMode.db.tip")
+          }}
         </div>
       </el-form-item>
       <el-form-item
-          v-if="saveForm.storageMode === 'db'"
-          :label="i18n('dyform.customComp.share')"
+        v-if="saveForm.storageMode === 'db'"
+        :label="i18n('dyform.customComp.share')"
       >
-        <el-switch v-model="saveForm.isShared"/>
+        <el-switch v-model="saveForm.isShared" />
         <span class="share-tip">
-          {{ saveForm.isShared
-              ? i18n('dyform.customComp.share.on.tip')
-              : i18n('dyform.customComp.share.off.tip') }}
+          {{
+            saveForm.isShared
+              ? i18n("dyform.customComp.share.on.tip")
+              : i18n("dyform.customComp.share.off.tip")
+          }}
         </span>
       </el-form-item>
       <el-form-item :label="i18n('dyform.customComp.baseType')">
         <el-tag type="info">{{ currentItemType }}</el-tag>
-        <span style="margin-left: 8px; color: var(--el-text-color-secondary); font-size: 12px">
-          {{ i18n('dyform.customComp.baseType.desc') }}
+        <span
+          style="
+            margin-left: 8px;
+            color: var(--el-text-color-secondary);
+            font-size: 12px;
+          "
+        >
+          {{ i18n("dyform.customComp.baseType.desc") }}
         </span>
       </el-form-item>
       <el-form-item :label="i18n('dyform.customComp.name')" required>
         <el-input
-            v-model="saveForm.compName"
-            :placeholder="i18n('dyform.customComp.name.placeholder')"
-            maxlength="50"
-            show-word-limit
+          v-model="saveForm.compName"
+          :placeholder="i18n('dyform.customComp.name.placeholder')"
+          maxlength="50"
+          show-word-limit
         />
       </el-form-item>
       <el-form-item :label="i18n('dyform.customComp.icon')">
         <el-input
-            v-model="iconSearchKey"
-            :placeholder="i18n('dyform.customComp.icon.search')"
-            clearable
-            size="small"
-            style="margin-bottom: 8px"
+          v-model="iconSearchKey"
+          :placeholder="i18n('dyform.customComp.icon.search')"
+          clearable
+          size="small"
+          style="margin-bottom: 8px"
         >
           <template #prefix>
-            <star-horse-icon icon-class="search" size="14px"/>
+            <star-horse-icon icon-class="search" size="14px" />
           </template>
         </el-input>
         <div class="icon-picker">
           <div
-              v-for="icon in displayIcons"
-              :key="icon"
-              :class="['icon-item', { active: saveForm.compIcon === icon }]"
-              :title="icon"
-              @click="saveForm.compIcon = saveForm.compIcon === icon ? '' : icon"
+            v-for="icon in displayIcons"
+            :key="icon"
+            :class="['icon-item', { active: saveForm.compIcon === icon }]"
+            :title="icon"
+            @click="saveForm.compIcon = saveForm.compIcon === icon ? '' : icon"
           >
-            <star-horse-icon :icon-class="icon" size="20px"/>
+            <star-horse-icon :icon-class="icon" size="20px" />
           </div>
         </div>
         <div class="icon-footer">
-          <span class="icon-tip">{{ saveForm.compIcon ? saveForm.compIcon : i18n('dyform.customComp.icon.default') }}</span>
+          <span class="icon-tip">{{
+            saveForm.compIcon
+              ? saveForm.compIcon
+              : i18n("dyform.customComp.icon.default")
+          }}</span>
           <el-button
-              v-if="!iconSearchKey"
-              link
-              type="primary"
-              size="small"
-              @click="showAllIcons = !showAllIcons"
+            v-if="!iconSearchKey"
+            link
+            type="primary"
+            size="small"
+            @click="showAllIcons = !showAllIcons"
           >
-            {{ showAllIcons ? i18n('dyform.customComp.icon.collapse') : i18n('dyform.customComp.icon.expand') }}
+            {{
+              showAllIcons
+                ? i18n("dyform.customComp.icon.collapse")
+                : i18n("dyform.customComp.icon.expand")
+            }}
           </el-button>
         </div>
       </el-form-item>
       <el-form-item :label="i18n('dyform.customComp.description')">
         <el-input
-            v-model="saveForm.description"
-            :placeholder="i18n('dyform.customComp.description.placeholder')"
-            type="textarea"
-            :rows="2"
-            maxlength="200"
-            show-word-limit
+          v-model="saveForm.description"
+          :placeholder="i18n('dyform.customComp.description.placeholder')"
+          type="textarea"
+          :rows="2"
+          maxlength="200"
+          show-word-limit
         />
       </el-form-item>
     </el-form>

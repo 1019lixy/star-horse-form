@@ -12,270 +12,292 @@
  * 3. 解除绑定
  * 4. 字段覆盖范围分析：扫描规则节点中的 targetField/fieldName，与 formFields 比对
  */
-import { computed, ref, watch } from 'vue'
-import { Plus, Delete, Search, Link, View } from '@element-plus/icons-vue'
-import { i18n } from '@/lang'
-import { success, warning, error, operationConfirm } from 'star-horse-lowcode'
+import { computed, ref, watch } from "vue";
+import { Plus, Delete, Search, Link, View } from "@element-plus/icons-vue";
+import { i18n } from "@/lang";
+import { success, warning, error, operationConfirm } from "star-horse-lowcode";
 import {
   ruleSetApi,
   ruleSetItemApi,
   ruleDefinitionApi,
   ruleExecutionLogApi,
-} from '@/api/rule_engine_api'
-import type { FormFieldMeta } from '@/components/rule/useFormRuleRuntime'
+} from "@/api/rule_engine_api";
+import type { FormFieldMeta } from "@/components/rule/useFormRuleRuntime";
 
 const props = defineProps<{
-  modelValue: boolean
-  formId: string
-  formFields?: FormFieldMeta[]
-}>()
+  modelValue: boolean;
+  formId: string;
+  formFields?: FormFieldMeta[];
+}>();
 
 const emit = defineEmits<{
-  (e: 'update:modelValue', v: boolean): void
-}>()
+  (e: "update:modelValue", v: boolean): void;
+}>();
 
 const dialogVisible = computed({
   get: () => props.modelValue,
-  set: (v: boolean) => emit('update:modelValue', v),
-})
+  set: (v: boolean) => emit("update:modelValue", v),
+});
 
 const closeAction = () => {
-  dialogVisible.value = false
-}
+  dialogVisible.value = false;
+};
 
 // ==================== 规则集列表（绑定到本表单） ====================
-const setListLoading = ref(false)
-const setList = ref<any[]>([])
+const setListLoading = ref(false);
+const setList = ref<any[]>([]);
 
 const loadSetList = async () => {
-  if (!props.formId) return
-  setListLoading.value = true
+  if (!props.formId) return;
+  setListLoading.value = true;
   try {
-    const res = await ruleSetApi.listByFormId(props.formId)
+    const res = await ruleSetApi.listByFormId(props.formId);
     if (res.data.code === 200) {
-      setList.value = Array.isArray(res.data.data) ? res.data.data : []
+      setList.value = Array.isArray(res.data.data) ? res.data.data : [];
     } else {
-      warning(res.data.cnMessage || i18n('rule.bindManager.warning.loadSetFail'))
+      warning(
+        res.data.cnMessage || i18n("rule.bindManager.warning.loadSetFail"),
+      );
     }
   } catch (e: any) {
-    error(i18n('rule.bindManager.warning.loadSetFail') + ': ' + (e?.message || e))
+    error(
+      i18n("rule.bindManager.warning.loadSetFail") + ": " + (e?.message || e),
+    );
   } finally {
-    setListLoading.value = false
+    setListLoading.value = false;
   }
-}
+};
 
 watch(
   () => props.modelValue,
   (v) => {
     if (v && props.formId) {
-      loadSetList()
-      loadAvailableRules()
+      loadSetList();
+      loadAvailableRules();
     }
   },
   { immediate: true },
-)
+);
 
 // ==================== 当前展开的规则集 - 关联项 ====================
-const expandedSetId = ref<string>('')
-const setItems = ref<any[]>([])
-const setItemsLoading = ref(false)
+const expandedSetId = ref<string>("");
+const setItems = ref<any[]>([]);
+const setItemsLoading = ref(false);
 
 const toggleSet = async (setId: string) => {
   if (expandedSetId.value === setId) {
-    expandedSetId.value = ''
-    setItems.value = []
-    return
+    expandedSetId.value = "";
+    setItems.value = [];
+    return;
   }
-  expandedSetId.value = setId
-  setItemsLoading.value = true
+  expandedSetId.value = setId;
+  setItemsLoading.value = true;
   try {
-    const res = await ruleSetItemApi.listBySetId(setId)
+    const res = await ruleSetItemApi.listBySetId(setId);
     if (res.data.code === 200) {
-      setItems.value = Array.isArray(res.data.data) ? res.data.data : []
+      setItems.value = Array.isArray(res.data.data) ? res.data.data : [];
     } else {
-      setItems.value = []
+      setItems.value = [];
     }
   } catch {
-    setItems.value = []
+    setItems.value = [];
   } finally {
-    setItemsLoading.value = false
+    setItemsLoading.value = false;
   }
-}
+};
 
 const handleUnbindItem = async (item: any) => {
-  if (!item?.idRuleSetItem) return
+  if (!item?.idRuleSetItem) return;
   try {
-    await operationConfirm(i18n('rule.bindManager.confirm.unbind', [item.ruleName || item.idRule]))
-    const res = await ruleSetItemApi.deleteSetItem(item.idRuleSetItem)
+    await operationConfirm(
+      i18n("rule.bindManager.confirm.unbind", [item.ruleName || item.idRule]),
+    );
+    const res = await ruleSetItemApi.deleteSetItem(item.idRuleSetItem);
     if (res.data.code === 200) {
-      success(i18n('rule.bindManager.success.unbound'))
+      success(i18n("rule.bindManager.success.unbound"));
       if (expandedSetId.value) {
-        toggleSet(expandedSetId.value).then(() => toggleSet(expandedSetId.value))
+        toggleSet(expandedSetId.value).then(() =>
+          toggleSet(expandedSetId.value),
+        );
       }
     } else {
-      warning(res.data.cnMessage || i18n('rule.bindManager.warning.unbindFail'))
+      warning(
+        res.data.cnMessage || i18n("rule.bindManager.warning.unbindFail"),
+      );
     }
   } catch (e: any) {
-    if (e !== 'cancel' && e !== 'close') {
-      error(i18n('rule.bindManager.warning.unbindFail') + ': ' + (e?.message || e))
+    if (e !== "cancel" && e !== "close") {
+      error(
+        i18n("rule.bindManager.warning.unbindFail") + ": " + (e?.message || e),
+      );
     }
   }
-}
+};
 
 // ==================== 规则库（可选择绑定） ====================
-const availableLoading = ref(false)
-const availableRules = ref<any[]>([])
-const searchKeyword = ref('')
+const availableLoading = ref(false);
+const availableRules = ref<any[]>([]);
+const searchKeyword = ref("");
 
 const filteredAvailableRules = computed(() => {
-  if (!searchKeyword.value.trim()) return availableRules.value
-  const kw = searchKeyword.value.toLowerCase()
+  if (!searchKeyword.value.trim()) return availableRules.value;
+  const kw = searchKeyword.value.toLowerCase();
   return availableRules.value.filter(
     (r) =>
-      (r.ruleName || '').toLowerCase().includes(kw) ||
-      (r.ruleCode || '').toLowerCase().includes(kw),
-  )
-})
+      (r.ruleName || "").toLowerCase().includes(kw) ||
+      (r.ruleCode || "").toLowerCase().includes(kw),
+  );
+});
 
 const loadAvailableRules = async () => {
-  availableLoading.value = true
+  availableLoading.value = true;
   try {
-    const res = await ruleDefinitionApi.listByRuleType('FORM_LINKAGE')
+    const res = await ruleDefinitionApi.listByRuleType("FORM_LINKAGE");
     if (res.data.code === 200) {
-      availableRules.value = Array.isArray(res.data.data) ? res.data.data : []
+      availableRules.value = Array.isArray(res.data.data) ? res.data.data : [];
     }
   } catch (e: any) {
-    console.warn('[RuleBindManager] loadAvailableRules failed:', e)
+    console.warn("[RuleBindManager] loadAvailableRules failed:", e);
   } finally {
-    availableLoading.value = false
+    availableLoading.value = false;
   }
-}
+};
 
 // ==================== 绑定到规则集 ====================
-const bindDialogVisible = ref(false)
-const bindTargetSetId = ref('')
-const bindSelectedRuleIds = ref<string[]>([])
+const bindDialogVisible = ref(false);
+const bindTargetSetId = ref("");
+const bindSelectedRuleIds = ref<string[]>([]);
 
 const openBindDialog = (setId: string) => {
-  bindTargetSetId.value = setId
-  bindSelectedRuleIds.value = []
-  bindDialogVisible.value = true
-}
+  bindTargetSetId.value = setId;
+  bindSelectedRuleIds.value = [];
+  bindDialogVisible.value = true;
+};
 
 const handleConfirmBind = async () => {
   if (bindSelectedRuleIds.value.length === 0) {
-    warning(i18n('rule.bindManager.warning.noSelection'))
-    return
+    warning(i18n("rule.bindManager.warning.noSelection"));
+    return;
   }
   try {
     const items = bindSelectedRuleIds.value.map((ruleId, idx) => ({
       idRuleSet: bindTargetSetId.value,
       idRule: ruleId,
       priority: idx + 1,
-      enabled: 'Y',
-    }))
-    const res = await ruleSetItemApi.batchSaveSetItems(items)
+      enabled: "Y",
+    }));
+    const res = await ruleSetItemApi.batchSaveSetItems(items);
     if (res.data.code === 200) {
-      success(i18n('rule.bindManager.success.bound', [items.length]))
-      bindDialogVisible.value = false
+      success(i18n("rule.bindManager.success.bound", [items.length]));
+      bindDialogVisible.value = false;
       // 刷新关联项列表
       if (expandedSetId.value === bindTargetSetId.value) {
-        await toggleSet(bindTargetSetId.value)
-        await toggleSet(bindTargetSetId.value)
+        await toggleSet(bindTargetSetId.value);
+        await toggleSet(bindTargetSetId.value);
       }
     } else {
-      warning(res.data.cnMessage || i18n('rule.bindManager.warning.bindFail'))
+      warning(res.data.cnMessage || i18n("rule.bindManager.warning.bindFail"));
     }
   } catch (e: any) {
-    error(i18n('rule.bindManager.warning.bindFail') + ': ' + (e?.message || e))
+    error(i18n("rule.bindManager.warning.bindFail") + ": " + (e?.message || e));
   }
-}
+};
 
 // ==================== 字段覆盖范围分析 ====================
-const coverageVisible = ref(false)
-const coverageData = ref<Array<{ field: string; label: string; covered: boolean; rules: string[] }>>([])
+const coverageVisible = ref(false);
+const coverageData = ref<
+  Array<{ field: string; label: string; covered: boolean; rules: string[] }>
+>([]);
 
 const analyzeCoverage = (rules: any[]) => {
-  const fieldRulesMap = new Map<string, string[]>()
+  const fieldRulesMap = new Map<string, string[]>();
   const collectFields = (node: any, ruleName: string) => {
-    if (!node || !node.data) return
-    const d = node.data
+    if (!node || !node.data) return;
+    const d = node.data;
     // 收集 targetField
     if (d.targetField) {
-      const arr = Array.isArray(d.targetField) ? d.targetField : [d.targetField]
+      const arr = Array.isArray(d.targetField)
+        ? d.targetField
+        : [d.targetField];
       arr.forEach((f: string) => {
-        if (!fieldRulesMap.has(f)) fieldRulesMap.set(f, [])
+        if (!fieldRulesMap.has(f)) fieldRulesMap.set(f, []);
         if (!fieldRulesMap.get(f)!.includes(ruleName)) {
-          fieldRulesMap.get(f)!.push(ruleName)
+          fieldRulesMap.get(f)!.push(ruleName);
         }
-      })
+      });
     }
     // 收集 actions 中的 targetField
     if (Array.isArray(d.actions)) {
       d.actions.forEach((a: any) => {
         if (a.targetField) {
-          if (!fieldRulesMap.has(a.targetField)) fieldRulesMap.set(a.targetField, [])
+          if (!fieldRulesMap.has(a.targetField))
+            fieldRulesMap.set(a.targetField, []);
           if (!fieldRulesMap.get(a.targetField)!.includes(ruleName)) {
-            fieldRulesMap.get(a.targetField)!.push(ruleName)
+            fieldRulesMap.get(a.targetField)!.push(ruleName);
           }
         }
-      })
+      });
     }
     // 收集 conditions 中的 fieldName
     if (Array.isArray(d.conditions)) {
       d.conditions.forEach((c: any) => {
         if (c.fieldName) {
-          if (!fieldRulesMap.has(c.fieldName)) fieldRulesMap.set(c.fieldName, [])
+          if (!fieldRulesMap.has(c.fieldName))
+            fieldRulesMap.set(c.fieldName, []);
           if (!fieldRulesMap.get(c.fieldName)!.includes(ruleName)) {
-            fieldRulesMap.get(c.fieldName)!.push(ruleName)
+            fieldRulesMap.get(c.fieldName)!.push(ruleName);
           }
         }
-      })
+      });
     }
-  }
+  };
 
   for (const rule of rules) {
-    const ruleName = rule.ruleName || rule.ruleCode || rule.idRuleDefinition
-    let flowContent: any = rule.flowContent
-    if (typeof flowContent === 'string') {
+    const ruleName = rule.ruleName || rule.ruleCode || rule.idRuleDefinition;
+    let flowContent: any = rule.flowContent;
+    if (typeof flowContent === "string") {
       try {
-        flowContent = JSON.parse(flowContent)
+        flowContent = JSON.parse(flowContent);
       } catch {
-        flowContent = null
+        flowContent = null;
       }
     }
     if (flowContent && Array.isArray(flowContent.nodes)) {
-      flowContent.nodes.forEach((n: any) => collectFields(n, ruleName))
+      flowContent.nodes.forEach((n: any) => collectFields(n, ruleName));
     }
   }
 
-  const formFields = props.formFields || []
+  const formFields = props.formFields || [];
   return formFields.map((f) => ({
     field: f.fieldName,
     label: f.label || f.fieldName,
     covered: fieldRulesMap.has(f.fieldName),
     rules: fieldRulesMap.get(f.fieldName) || [],
-  }))
-}
+  }));
+};
 
 const handleViewCoverage = async () => {
   if (!props.formFields || props.formFields.length === 0) {
-    warning(i18n('rule.bindManager.warning.noFields'))
-    return
+    warning(i18n("rule.bindManager.warning.noFields"));
+    return;
   }
   // 加载当前表单所有规则
   try {
-    const res = await ruleDefinitionApi.listByFormId(props.formId)
+    const res = await ruleDefinitionApi.listByFormId(props.formId);
     if (res.data.code === 200 && Array.isArray(res.data.data)) {
-      coverageData.value = analyzeCoverage(res.data.data)
-      coverageVisible.value = true
+      coverageData.value = analyzeCoverage(res.data.data);
+      coverageVisible.value = true;
     }
   } catch (e: any) {
-    error(i18n('rule.bindManager.warning.coverageFail') + ': ' + (e?.message || e))
+    error(
+      i18n("rule.bindManager.warning.coverageFail") + ": " + (e?.message || e),
+    );
   }
-}
+};
 
-const coveredCount = computed(() => coverageData.value.filter((c) => c.covered).length)
+const coveredCount = computed(
+  () => coverageData.value.filter((c) => c.covered).length,
+);
 </script>
 
 <template>
@@ -289,30 +311,54 @@ const coveredCount = computed(() => coverageData.value.filter((c) => c.covered).
     @closeAction="coverageVisible = false"
   >
     <template #merge>
-      <el-button @click="coverageVisible = false">{{ i18n('common.close') }}</el-button>
+      <el-button @click="coverageVisible = false">{{
+        i18n("common.close")
+      }}</el-button>
     </template>
     <div class="coverage-panel">
       <div class="coverage-summary">
         <el-tag type="success" effect="dark">
-          {{ i18n('rule.bindManager.coverage.covered', [coveredCount]) }}
+          {{ i18n("rule.bindManager.coverage.covered", [coveredCount]) }}
         </el-tag>
         <el-tag type="info" effect="plain">
-          {{ i18n('rule.bindManager.coverage.total', [coverageData.length]) }}
+          {{ i18n("rule.bindManager.coverage.total", [coverageData.length]) }}
         </el-tag>
       </div>
       <el-table :data="coverageData" border stripe style="width: 100%">
-        <el-table-column prop="field" :label="i18n('rule.bindManager.coverage.col.field')" width="160" />
-        <el-table-column prop="label" :label="i18n('rule.bindManager.coverage.col.label')" min-width="140" />
-        <el-table-column :label="i18n('rule.bindManager.coverage.col.covered')" width="100" align="center">
+        <el-table-column
+          prop="field"
+          :label="i18n('rule.bindManager.coverage.col.field')"
+          width="160"
+        />
+        <el-table-column
+          prop="label"
+          :label="i18n('rule.bindManager.coverage.col.label')"
+          min-width="140"
+        />
+        <el-table-column
+          :label="i18n('rule.bindManager.coverage.col.covered')"
+          width="100"
+          align="center"
+        >
           <template #default="{ row }">
             <el-tag :type="row.covered ? 'success' : 'info'" size="small">
-              {{ row.covered ? i18n('common.yes') : i18n('common.no') }}
+              {{ row.covered ? i18n("common.yes") : i18n("common.no") }}
             </el-tag>
           </template>
         </el-table-column>
-        <el-table-column :label="i18n('rule.bindManager.coverage.col.relatedRules')" min-width="220">
+        <el-table-column
+          :label="i18n('rule.bindManager.coverage.col.relatedRules')"
+          min-width="220"
+        >
           <template #default="{ row }">
-            <el-tag v-for="r in row.rules" :key="r" size="small" type="warning" effect="plain" style="margin-right: 4px">
+            <el-tag
+              v-for="r in row.rules"
+              :key="r"
+              size="small"
+              type="warning"
+              effect="plain"
+              style="margin-right: 4px"
+            >
               {{ r }}
             </el-tag>
             <span v-if="row.rules.length === 0" style="color: #cbd5e1">-</span>
@@ -332,9 +378,11 @@ const coveredCount = computed(() => coverageData.value.filter((c) => c.covered).
     @closeAction="bindDialogVisible = false"
   >
     <template #merge>
-      <el-button @click="bindDialogVisible = false">{{ i18n('common.close') }}</el-button>
+      <el-button @click="bindDialogVisible = false">{{
+        i18n("common.close")
+      }}</el-button>
       <el-button type="primary" @click="handleConfirmBind">
-        {{ i18n('rule.bindManager.bind.confirm') }}
+        {{ i18n("rule.bindManager.bind.confirm") }}
       </el-button>
     </template>
     <div class="bind-dialog-content">
@@ -344,7 +392,9 @@ const coveredCount = computed(() => coverageData.value.filter((c) => c.covered).
         clearable
         style="margin-bottom: 12px"
       >
-        <template #prefix><el-icon><Search /></el-icon></template>
+        <template #prefix
+          ><el-icon><Search /></el-icon
+        ></template>
       </el-input>
       <el-table
         :data="filteredAvailableRules"
@@ -352,16 +402,45 @@ const coveredCount = computed(() => coverageData.value.filter((c) => c.covered).
         border
         stripe
         max-height="500"
-        @selection-change="(rows: any[]) => (bindSelectedRuleIds = rows.map((r) => r.idRuleDefinition))"
+        @selection-change="
+          (rows: any[]) =>
+            (bindSelectedRuleIds = rows.map((r) => r.idRuleDefinition))
+        "
       >
         <el-table-column type="selection" width="50" />
-        <el-table-column prop="ruleName" :label="i18n('rule.bindManager.col.ruleName')" min-width="160" show-overflow-tooltip />
-        <el-table-column prop="ruleCode" :label="i18n('rule.bindManager.col.ruleCode')" width="140" show-overflow-tooltip />
-        <el-table-column prop="ruleType" :label="i18n('rule.bindManager.col.ruleType')" width="120" />
-        <el-table-column prop="priority" :label="i18n('rule.bindManager.col.priority')" width="80" align="center" />
-        <el-table-column :label="i18n('rule.bindManager.col.status')" width="100" align="center">
+        <el-table-column
+          prop="ruleName"
+          :label="i18n('rule.bindManager.col.ruleName')"
+          min-width="160"
+          show-overflow-tooltip
+        />
+        <el-table-column
+          prop="ruleCode"
+          :label="i18n('rule.bindManager.col.ruleCode')"
+          width="140"
+          show-overflow-tooltip
+        />
+        <el-table-column
+          prop="ruleType"
+          :label="i18n('rule.bindManager.col.ruleType')"
+          width="120"
+        />
+        <el-table-column
+          prop="priority"
+          :label="i18n('rule.bindManager.col.priority')"
+          width="80"
+          align="center"
+        />
+        <el-table-column
+          :label="i18n('rule.bindManager.col.status')"
+          width="100"
+          align="center"
+        >
           <template #default="{ row }">
-            <el-tag :type="row.status === 'PUBLISHED' ? 'success' : 'info'" size="small">
+            <el-tag
+              :type="row.status === 'PUBLISHED' ? 'success' : 'info'"
+              size="small"
+            >
               {{ row.status }}
             </el-tag>
           </template>
@@ -380,27 +459,27 @@ const coveredCount = computed(() => coverageData.value.filter((c) => c.covered).
     @closeAction="closeAction"
   >
     <template #merge>
-      <el-button @click="closeAction">{{ i18n('common.close') }}</el-button>
+      <el-button @click="closeAction">{{ i18n("common.close") }}</el-button>
     </template>
     <div class="bind-manager">
       <!-- 顶部统计与操作 -->
       <div class="bind-toolbar">
         <div class="toolbar-left">
           <el-tag type="info" effect="plain">
-            {{ i18n('rule.bindManager.formId') }}: {{ formId || '-' }}
+            {{ i18n("rule.bindManager.formId") }}: {{ formId || "-" }}
           </el-tag>
           <el-tag type="success" effect="plain">
-            {{ i18n('rule.bindManager.setCount', [setList.length]) }}
+            {{ i18n("rule.bindManager.setCount", [setList.length]) }}
           </el-tag>
         </div>
         <div class="toolbar-right">
           <el-button @click="handleViewCoverage">
             <el-icon><View /></el-icon>
-            <span>{{ i18n('rule.bindManager.viewCoverage') }}</span>
+            <span>{{ i18n("rule.bindManager.viewCoverage") }}</span>
           </el-button>
           <el-button @click="loadSetList" :loading="setListLoading">
             <el-icon><Search /></el-icon>
-            <span>{{ i18n('common.refresh') }}</span>
+            <span>{{ i18n("common.refresh") }}</span>
           </el-button>
         </div>
       </div>
@@ -418,10 +497,16 @@ const coveredCount = computed(() => coverageData.value.filter((c) => c.covered).
           <template #default="{ row }">
             <div class="set-items-panel">
               <div class="set-items-header">
-                <span>{{ i18n('rule.bindManager.boundRules', [setItems.length]) }}</span>
-                <el-button type="primary" link @click="openBindDialog(row.idRuleSet)">
+                <span>{{
+                  i18n("rule.bindManager.boundRules", [setItems.length])
+                }}</span>
+                <el-button
+                  type="primary"
+                  link
+                  @click="openBindDialog(row.idRuleSet)"
+                >
                   <el-icon><Plus /></el-icon>
-                  <span>{{ i18n('rule.bindManager.bindRule') }}</span>
+                  <span>{{ i18n("rule.bindManager.bindRule") }}</span>
                 </el-button>
               </div>
               <el-table
@@ -431,21 +516,51 @@ const coveredCount = computed(() => coverageData.value.filter((c) => c.covered).
                 size="small"
                 style="width: 100%"
               >
-                <el-table-column type="index" width="50" :label="i18n('common.index')" />
-                <el-table-column prop="ruleName" :label="i18n('rule.bindManager.col.ruleName')" min-width="160" show-overflow-tooltip />
-                <el-table-column prop="priority" :label="i18n('rule.bindManager.col.priority')" width="80" align="center" />
-                <el-table-column prop="enabled" :label="i18n('rule.bindManager.col.enabled')" width="80" align="center">
+                <el-table-column
+                  type="index"
+                  width="50"
+                  :label="i18n('common.index')"
+                />
+                <el-table-column
+                  prop="ruleName"
+                  :label="i18n('rule.bindManager.col.ruleName')"
+                  min-width="160"
+                  show-overflow-tooltip
+                />
+                <el-table-column
+                  prop="priority"
+                  :label="i18n('rule.bindManager.col.priority')"
+                  width="80"
+                  align="center"
+                />
+                <el-table-column
+                  prop="enabled"
+                  :label="i18n('rule.bindManager.col.enabled')"
+                  width="80"
+                  align="center"
+                >
                   <template #default="{ row: r }">
-                    <el-tag :type="r.enabled === 'Y' ? 'success' : 'info'" size="small">
-                      {{ r.enabled === 'Y' ? i18n('common.yes') : i18n('common.no') }}
+                    <el-tag
+                      :type="r.enabled === 'Y' ? 'success' : 'info'"
+                      size="small"
+                    >
+                      {{
+                        r.enabled === "Y"
+                          ? i18n("common.yes")
+                          : i18n("common.no")
+                      }}
                     </el-tag>
                   </template>
                 </el-table-column>
-                <el-table-column :label="i18n('common.operation')" width="100" align="center">
+                <el-table-column
+                  :label="i18n('common.operation')"
+                  width="100"
+                  align="center"
+                >
                   <template #default="{ row: r }">
                     <el-button link type="danger" @click="handleUnbindItem(r)">
                       <el-icon><Delete /></el-icon>
-                      <span>{{ i18n('rule.bindManager.unbind') }}</span>
+                      <span>{{ i18n("rule.bindManager.unbind") }}</span>
                     </el-button>
                   </template>
                 </el-table-column>
@@ -453,18 +568,49 @@ const coveredCount = computed(() => coverageData.value.filter((c) => c.covered).
             </div>
           </template>
         </el-table-column>
-        <el-table-column prop="setName" :label="i18n('rule.bindManager.col.setName')" min-width="160" show-overflow-tooltip />
-        <el-table-column prop="setCode" :label="i18n('rule.bindManager.col.setCode')" width="160" show-overflow-tooltip />
-        <el-table-column prop="setType" :label="i18n('rule.bindManager.col.setType')" width="120" />
-        <el-table-column prop="priority" :label="i18n('rule.bindManager.col.priority')" width="80" align="center" />
-        <el-table-column :label="i18n('rule.bindManager.col.enabled')" width="80" align="center">
+        <el-table-column
+          prop="setName"
+          :label="i18n('rule.bindManager.col.setName')"
+          min-width="160"
+          show-overflow-tooltip
+        />
+        <el-table-column
+          prop="setCode"
+          :label="i18n('rule.bindManager.col.setCode')"
+          width="160"
+          show-overflow-tooltip
+        />
+        <el-table-column
+          prop="setType"
+          :label="i18n('rule.bindManager.col.setType')"
+          width="120"
+        />
+        <el-table-column
+          prop="priority"
+          :label="i18n('rule.bindManager.col.priority')"
+          width="80"
+          align="center"
+        />
+        <el-table-column
+          :label="i18n('rule.bindManager.col.enabled')"
+          width="80"
+          align="center"
+        >
           <template #default="{ row }">
-            <el-tag :type="row.enabled === 'Y' ? 'success' : 'info'" size="small">
-              {{ row.enabled === 'Y' ? i18n('common.yes') : i18n('common.no') }}
+            <el-tag
+              :type="row.enabled === 'Y' ? 'success' : 'info'"
+              size="small"
+            >
+              {{ row.enabled === "Y" ? i18n("common.yes") : i18n("common.no") }}
             </el-tag>
           </template>
         </el-table-column>
-        <el-table-column prop="setDesc" :label="i18n('rule.bindManager.col.desc')" min-width="180" show-overflow-tooltip />
+        <el-table-column
+          prop="setDesc"
+          :label="i18n('rule.bindManager.col.desc')"
+          min-width="180"
+          show-overflow-tooltip
+        />
       </el-table>
     </div>
   </star-horse-panel>

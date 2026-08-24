@@ -41,7 +41,10 @@ export { setCacheData, getCacheData, getAndDelCacheData, delCacheData };
 
 const LOCAL_TEMPLATE_KEY = "star_horse_config_templates";
 
-import type {ConfigTemplate, ConfigTemplateCategory} from "@/components/types/DataSourceTypes";
+import type {
+  ConfigTemplate,
+  ConfigTemplateCategory,
+} from "@/components/types/DataSourceTypes";
 
 /**
  * 获取本地所有模板
@@ -63,7 +66,7 @@ const setLocalAllTemplates = (templates: ConfigTemplate[]) => {
  */
 export const saveLocalTemplate = (template: ConfigTemplate) => {
   const templates = getLocalAllTemplates();
-  const idx = templates.findIndex(t => t.id === template.id);
+  const idx = templates.findIndex((t) => t.id === template.id);
   if (idx >= 0) {
     templates[idx] = template;
   } else {
@@ -75,10 +78,12 @@ export const saveLocalTemplate = (template: ConfigTemplate) => {
 /**
  * 获取本地模板列表（可按分类筛选）
  */
-export const getLocalTemplateList = (category?: ConfigTemplateCategory): ConfigTemplate[] => {
+export const getLocalTemplateList = (
+  category?: ConfigTemplateCategory,
+): ConfigTemplate[] => {
   const templates = getLocalAllTemplates();
   if (category) {
-    return templates.filter(t => t.category === category);
+    return templates.filter((t) => t.category === category);
   }
   return templates;
 };
@@ -88,7 +93,7 @@ export const getLocalTemplateList = (category?: ConfigTemplateCategory): ConfigT
  */
 export const getLocalTemplateById = (id: string): ConfigTemplate | null => {
   const templates = getLocalAllTemplates();
-  return templates.find(t => t.id === id) || null;
+  return templates.find((t) => t.id === id) || null;
 };
 
 /**
@@ -96,6 +101,6 @@ export const getLocalTemplateById = (id: string): ConfigTemplate | null => {
  */
 export const deleteLocalTemplate = (id: string) => {
   const templates = getLocalAllTemplates();
-  const filtered = templates.filter(t => t.id !== id);
+  const filtered = templates.filter((t) => t.id !== id);
   setLocalAllTemplates(filtered);
 };

@@ -63,7 +63,8 @@ function mapItemToSelectOption<T>(
   const result: SelectOption = { name: nameValue, value: valueValue };
 
   // 递归处理 children（树形数据）
-  const childrenKey = mapping.children !== undefined ? mapping.children : "children" as keyof T;
+  const childrenKey =
+    mapping.children !== undefined ? mapping.children : ("children" as keyof T);
   if (childrenKey && item[childrenKey] && Array.isArray(item[childrenKey])) {
     result.children = (item[childrenKey] as T[]).map((child: T) =>
       mapItemToSelectOption(child, mapping),
@@ -114,7 +115,8 @@ async function fetchAndMap<T = any>(
     // 字段映射
     return data.map((item) => mapItemToSelectOption(item, mapping));
   } catch (err: any) {
-    const errMsg = err?.message || err?.cnMessage || i18n("dyform.apiConfig.error.network");
+    const errMsg =
+      err?.message || err?.cnMessage || i18n("dyform.apiConfig.error.network");
     showError(errMsg);
     return [];
   }

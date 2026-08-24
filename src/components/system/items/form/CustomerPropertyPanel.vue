@@ -1,23 +1,48 @@
 <script setup lang="ts" name="CustomerPropertyPanel">
-import {computed, defineAsyncComponent, nextTick, onMounted, PropType, ref, unref, watch,} from "vue";
-import {i18n} from "@/lang";
-import {formFieldMapping, isJson, PageFieldInfo,} from "star-horse-lowcode";
-import {getDesignFormStore} from "@/store/StoreManager";
-import {loadSvgIcons} from "@/api/star_horse_form_utils.js";
-import {useDialogManager} from "@/components/system/items/form/composables/useDialogManager.js";
-import {FormConfig} from "@/components/types";
-import {deepClone} from "@/api/system.js";
-import {OtherPreps, otherPreps} from "@/components/system/items/form/composables/otherPreps";
+import {
+  computed,
+  defineAsyncComponent,
+  nextTick,
+  onMounted,
+  PropType,
+  ref,
+  unref,
+  watch,
+} from "vue";
+import { i18n } from "@/lang";
+import { formFieldMapping, isJson, PageFieldInfo } from "star-horse-lowcode";
+import { getDesignFormStore } from "@/store/StoreManager";
+import { loadSvgIcons } from "@/api/star_horse_form_utils.js";
+import { useDialogManager } from "@/components/system/items/form/composables/useDialogManager.js";
+import { FormConfig } from "@/components/types";
+import { deepClone } from "@/api/system.js";
+import {
+  OtherPreps,
+  otherPreps,
+} from "@/components/system/items/form/composables/otherPreps";
 // 对话框类组件改为异步加载，减小首屏 bundle
-const ButtonEventDialog = defineAsyncComponent(() => import("@/components/system/items/form/dialogs/ButtonEventDialog.vue"));
-const JsEditorDialog = defineAsyncComponent(() => import("@/components/system/items/form/dialogs/JsEditorDialog.vue"));
-const ParamsDialog = defineAsyncComponent(() => import("@/components/system/items/form/dialogs/ParamsDialog.vue"));
-const PreOrPendDialog = defineAsyncComponent(() => import("@/components/system/items/form/dialogs/PreOrPendDialog.vue"));
-const UserDefinePrepsDialog = defineAsyncComponent(() => import("@/components/system/items/form/components/AllPropsOverviewPanel.vue"));
-const FieldLayerDrawer = defineAsyncComponent(() => import("@/components/system/items/form/dialogs/FieldLayerDrawer.vue"));
+const ButtonEventDialog = defineAsyncComponent(
+  () => import("@/components/system/items/form/dialogs/ButtonEventDialog.vue"),
+);
+const JsEditorDialog = defineAsyncComponent(
+  () => import("@/components/system/items/form/dialogs/JsEditorDialog.vue"),
+);
+const ParamsDialog = defineAsyncComponent(
+  () => import("@/components/system/items/form/dialogs/ParamsDialog.vue"),
+);
+const PreOrPendDialog = defineAsyncComponent(
+  () => import("@/components/system/items/form/dialogs/PreOrPendDialog.vue"),
+);
+const UserDefinePrepsDialog = defineAsyncComponent(
+  () =>
+    import("@/components/system/items/form/components/AllPropsOverviewPanel.vue"),
+);
+const FieldLayerDrawer = defineAsyncComponent(
+  () => import("@/components/system/items/form/dialogs/FieldLayerDrawer.vue"),
+);
 
 const props = defineProps({
-  optional: {type: Object as PropType<FormConfig>},
+  optional: { type: Object as PropType<FormConfig> },
 });
 let designForm = getDesignFormStore();
 let formDataList = computed(() => designForm.formDataList);
@@ -34,7 +59,7 @@ let currentItemId = computed(() => designForm.currentItemId);
 let list = computed(() => designForm.compList);
 let formInfo = computed(() => designForm.formInfo);
 const formProps = computed(() => designForm.currentFormPreps);
-const {dialogStates, openDialog, closeAllDialogs} = useDialogManager();
+const { dialogStates, openDialog, closeAllDialogs } = useDialogManager();
 let currentField = ref<any>({});
 let fieldName = ref<string>("");
 let activeNames = ref<string[]>(["base"]);
@@ -55,11 +80,14 @@ const configParams = async (params: any) => {
 const otherDefaultValues = () => {
   for (let key in otherPreps) {
     const item = otherPreps[key];
-    if (!Object.keys(formProps.value).includes(item.fieldName) && Object.keys(item).includes("defaultValues")) {
+    if (
+      !Object.keys(formProps.value).includes(item.fieldName) &&
+      Object.keys(item).includes("defaultValues")
+    ) {
       formProps.value[item.fieldName] = item["defaultValues"];
     }
   }
-}
+};
 /**
  * 根据属性类别获取对应参数
 
@@ -69,7 +97,6 @@ const assignPrep = () => {
     let formDatas = unref(formDataList);
     let selfFormDatas = unref(selfFormDataList);
     let containers = unref(containerList);
-
 
     let isContainer = currentCompCategory.value == "container";
     if (isContainer) {
@@ -108,7 +135,10 @@ const convertFormFieldData = (items: any, type: string) => {
     }
     //增加Help
     item["helpMsg"] = `${item["remark"] ?? ""}`;
-    if (item["selectValues"] && (isJson(item["selectValues"]) || Array.isArray(item["selectValues"]))) {
+    if (
+      item["selectValues"] &&
+      (isJson(item["selectValues"]) || Array.isArray(item["selectValues"]))
+    ) {
       item.preps["values"] = [];
       let datas = item.selectValues;
       if (typeof datas == "string") {
@@ -182,7 +212,7 @@ const assignValue = (fieldInfo: any) => {
         fieldName: "cfgClickEvent",
         type: "button",
         formVisible: true,
-        actions: {click: (_data: any) => btnClickOpen()},
+        actions: { click: (_data: any) => btnClickOpen() },
       });
     }
     recordPreps.value[temp.itemType] = {
@@ -197,8 +227,6 @@ const assignValue = (fieldInfo: any) => {
         formProps.value[key] = defaultValues[key];
       }
     }
-
-
   } catch (e) {
     console.log(e);
   }
@@ -209,7 +237,7 @@ const handleDialogMerge = () => {
 };
 
 const handleDialogClose = () => {
-  userDefinePrepsVisible.value = false
+  userDefinePrepsVisible.value = false;
   closeAllDialogs();
 };
 const init = () => {
@@ -221,7 +249,6 @@ const prependOrAppend = () => {
 const userDefinePrepsVisible = ref<boolean>(false);
 const configPreps = () => {
   userDefinePrepsVisible.value = true;
-
 };
 
 /**
@@ -253,9 +280,11 @@ const dataBind = (data: any) => {
   if (!labelFor.includes(data.value)) {
     labelFor.push(data.value);
   } else {
-    formProps.value["labelFor"] = labelFor.filter(item => item !== data.value);
+    formProps.value["labelFor"] = labelFor.filter(
+      (item) => item !== data.value,
+    );
   }
-}
+};
 onMounted(() => {
   init();
 });
@@ -263,87 +292,89 @@ defineExpose({
   assignPrep,
 });
 watch(
-    () => [currentItemId.value, currentItemType.value],
-    () => {
-      // 选中组件、切换组件、取消选中均需刷新属性面板，
-      // 原先仅在两个字段均为空时刷新，导致首次挂载且已有选中组件时 actionPreps 不更新
-      assignPrep();
-    },
-    {
-      immediate: true,
-    },
+  () => [currentItemId.value, currentItemType.value],
+  () => {
+    // 选中组件、切换组件、取消选中均需刷新属性面板，
+    // 原先仅在两个字段均为空时刷新，导致首次挂载且已有选中组件时 actionPreps 不更新
+    assignPrep();
+  },
+  {
+    immediate: true,
+  },
 );
 </script>
 <template>
   <!-- Button Event Dialog -->
   <ButtonEventDialog
-      :visible="dialogStates.buttonEventDialog"
-      :formProps="formProps"
-      @merge="handleDialogMerge"
-      @close="handleDialogClose"
-      @reset="handleDialogClose"
+    :visible="dialogStates.buttonEventDialog"
+    :formProps="formProps"
+    @merge="handleDialogMerge"
+    @close="handleDialogClose"
+    @reset="handleDialogClose"
   />
   <!-- Params Dialog -->
   <ParamsDialog
-      :visible="dialogStates.paramsDialog"
-      :formProps="formProps"
-      :formInfo="formInfo"
-      :fieldName="fieldName"
-      :currentField="currentField"
-      @merge="handleDialogMerge"
-      @close="handleDialogClose"
-      @reset="handleDialogClose"
+    :visible="dialogStates.paramsDialog"
+    :formProps="formProps"
+    :formInfo="formInfo"
+    :fieldName="fieldName"
+    :currentField="currentField"
+    @merge="handleDialogMerge"
+    @close="handleDialogClose"
+    @reset="handleDialogClose"
   />
 
   <star-horse-panel
-      v-model="userDefinePrepsVisible"
-      :title="i18n('dyform.params.dialog.title')"
-      :isBatch="false"
-      :selfFunc="true"
-      boxHeight="60%"
-      @merge="handleDialogClose"
-      @closeAction="handleDialogClose"
+    v-model="userDefinePrepsVisible"
+    :title="i18n('dyform.params.dialog.title')"
+    :isBatch="false"
+    :selfFunc="true"
+    boxHeight="60%"
+    @merge="handleDialogClose"
+    @closeAction="handleDialogClose"
   >
-    <UserDefinePrepsDialog :formProps="formProps" :compSize="compSize"/>
+    <UserDefinePrepsDialog :formProps="formProps" :compSize="compSize" />
   </star-horse-panel>
 
   <!-- JS Editor Dialog -->
   <JsEditorDialog
-      :visible="dialogStates.jsEditor"
-      :formProps="formProps"
-      :fieldName="fieldName"
-      :currentField="currentField"
-      :list="list"
-      @close="handleDialogClose"
+    :visible="dialogStates.jsEditor"
+    :formProps="formProps"
+    :fieldName="fieldName"
+    :currentField="currentField"
+    :list="list"
+    @close="handleDialogClose"
   />
   <PreOrPendDialog
-      :visible="dialogStates.preOrPendDialog"
-      :formProps="formProps"
-      :formInfo="formInfo"
-      :fieldName="fieldName"
-      :currentField="currentField"
-      :itemType="currentItemType"
-      :model="optional?.model ?? 'full'"
-      @merge="handleDialogMerge"
-      @close="handleDialogClose"
-      @reset="handleDialogClose"
+    :visible="dialogStates.preOrPendDialog"
+    :formProps="formProps"
+    :formInfo="formInfo"
+    :fieldName="fieldName"
+    :currentField="currentField"
+    :itemType="currentItemType"
+    :model="optional?.model ?? 'full'"
+    @merge="handleDialogMerge"
+    @close="handleDialogClose"
+    @reset="handleDialogClose"
   />
-  <FieldLayerDrawer v-model:visible="dialogStates.bindFieldVisible"
-                    @dataBind="dataBind"
-                    operType="bind"/>
+  <FieldLayerDrawer
+    v-model:visible="dialogStates.bindFieldVisible"
+    @dataBind="dataBind"
+    operType="bind"
+  />
   <el-scrollbar>
     <el-collapse v-model="activeNames">
       <el-collapse-item name="base">
         <template #title="{ isActive }">
           <div :class="['title-wrapper', { 'is-active': isActive }]">
-            <star-horse-icon iconClass="base_preps"/>
-            <span>{{ i18n('dyform.custProp.compProps') }}</span>
+            <star-horse-icon iconClass="base_preps" />
+            <span>{{ i18n("dyform.custProp.compProps") }}</span>
           </div>
         </template>
         <el-form-item
-            :label="i18n('dyform.custProp.403')"
-            prop="cfg"
-            v-if="
+          :label="i18n('dyform.custProp.403')"
+          prop="cfg"
+          v-if="
             [
               'input',
               'autocomplete',
@@ -352,112 +383,115 @@ watch(
               'number-range',
             ].includes(currentItemType)
           "
-            :size="compSize"
+          :size="compSize"
         >
-          <el-button @click="prependOrAppend" icon="setting"> {{ i18n('dyform.custProp.config') }}</el-button>
+          <el-button @click="prependOrAppend" icon="setting">
+            {{ i18n("dyform.custProp.config") }}</el-button
+          >
         </el-form-item>
         <template v-for="item in visibleBasePreps" :key="item.fieldName">
           <el-form-item
-              :label="item.label"
-              :prop="item.fieldName"
-              :size="compSize"
-              :label-position="
+            :label="item.label"
+            :prop="item.fieldName"
+            :size="compSize"
+            :label-position="
               item.type == 'switch' || item.type == 'button' ? 'left' : 'top'
             "
           >
             <el-button
-                v-if="item.type == 'button'"
-                type="primary"
-                plain
-                @click="item.actions?.click?.(formProps)"
-                icon="Setting"
+              v-if="item.type == 'button'"
+              type="primary"
+              plain
+              @click="item.actions?.click?.(formProps)"
+              icon="Setting"
             >
-              {{ i18n('dyform.custProp.config') }}
+              {{ i18n("dyform.custProp.config") }}
             </el-button>
             <component
-                v-else
-                :is="item.type + '-item'"
-                v-model:formData="formProps"
-                :field="{
+              v-else
+              :is="item.type + '-item'"
+              v-model:formData="formProps"
+              :field="{
                 fieldName: item.fieldName,
                 preps: {
                   ...item.preps,
-                  clearable:true,
-                  filterable:true,
+                  clearable: true,
+                  filterable: true,
                 },
               }"
             />
           </el-form-item>
         </template>
         <el-form-item
-            :label="i18n('dyform.custProp.404')"
-            prop="userDefinePreps"
-            :size="compSize"
+          :label="i18n('dyform.custProp.404')"
+          prop="userDefinePreps"
+          :size="compSize"
         >
           <el-button type="primary" plain @click="configPreps" icon="Setting">
-            {{ i18n('dyform.custProp.config') }}
+            {{ i18n("dyform.custProp.config") }}
           </el-button>
         </el-form-item>
       </el-collapse-item>
       <el-collapse-item name="other">
         <template #title="{ isActive }">
           <div :class="['title-wrapper', { 'is-active': isActive }]">
-            <star-horse-icon iconClass="other"/>
-            <span>{{ i18n('dyform.custProp.otherConfig') }}</span>
+            <star-horse-icon iconClass="other" />
+            <span>{{ i18n("dyform.custProp.otherConfig") }}</span>
           </div>
         </template>
         <template v-for="item in filteredOtherPreps" :key="item.fieldName">
           <el-form-item
-              :label="item.label"
-              :prop="item.fieldName"
-              :size="compSize"
-              :label-position="
-              item.fieldType == 'switch' || item.fieldType == 'button' ? 'left' : 'top'
+            :label="item.label"
+            :prop="item.fieldName"
+            :size="compSize"
+            :label-position="
+              item.fieldType == 'switch' || item.fieldType == 'button'
+                ? 'left'
+                : 'top'
             "
           >
-            <div class="flex flex-col " v-if="item.fieldType == 'button'">
+            <div class="flex flex-col" v-if="item.fieldType == 'button'">
               <div class="flex gap-3 justify-start items-center w-full">
-                <help v-if="item.helpMsg" :message="item.helpMsg"/>
+                <help v-if="item.helpMsg" :message="item.helpMsg" />
                 <el-button
-                    type="primary"
-                    plain
-                    @click="item.actions?.click?.(dialogStates,formProps)"
-                    icon="Setting"
+                  type="primary"
+                  plain
+                  @click="item.actions?.click?.(dialogStates, formProps)"
+                  icon="Setting"
                 >
-                  {{ i18n('dyform.custProp.config') }}
+                  {{ i18n("dyform.custProp.config") }}
                 </el-button>
               </div>
               <div class="my-3">
                 <component
-                    :is="'input-tag-item'"
-                    v-model:formData="formProps"
-                    :field="{
-                fieldName: item.fieldName,
-                preps: {
-                  ...item.preps,
-                  clearable:true,
-                  filterable:true,
-                },
-              }"
+                  :is="'input-tag-item'"
+                  v-model:formData="formProps"
+                  :field="{
+                    fieldName: item.fieldName,
+                    preps: {
+                      ...item.preps,
+                      clearable: true,
+                      filterable: true,
+                    },
+                  }"
                 />
               </div>
             </div>
             <template v-else>
-              <help v-if="item.helpMsg" :message="item.helpMsg"/>
+              <help v-if="item.helpMsg" :message="item.helpMsg" />
               <component
-                  :is="item.fieldType + '-item'"
-                  v-model:formData="formProps"
-                  :field="{
-                fieldName: item.fieldName,
-                preps: {
-                  ...item.preps,
-                  clearable:true,
-                  filterable:true,
-                },
-              }"
+                :is="item.fieldType + '-item'"
+                v-model:formData="formProps"
+                :field="{
+                  fieldName: item.fieldName,
+                  preps: {
+                    ...item.preps,
+                    clearable: true,
+                    filterable: true,
+                  },
+                }"
               />
             </template>
-
           </el-form-item>
         </template>
       </el-collapse-item>

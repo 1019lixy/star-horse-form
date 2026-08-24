@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import {i18n} from "@/lang/index.js";
-import {onMounted, ref, watch} from "vue";
+import { i18n } from "@/lang/index.js";
+import { onMounted, ref, watch } from "vue";
 import FormPreview from "@/components/system/items/form/components/FormPreview.vue";
 
 const emit = defineEmits<{
@@ -28,15 +28,22 @@ const exportToHtml = () => {
   previewFormRef.value?.exportToHtml();
 };
 const pageStyle = ref<string>("");
-onMounted(() => {
-});
-watch(() => props.currentPageClass, (newVal) => {
-  pageStyle.value = newVal;
-}, {immediate: true});
-const dialogVisible=ref<boolean>(false);
-watch(()=>props.visible,(val)=>{
-  dialogVisible.value = val;
-},{immediate:true});
+onMounted(() => {});
+watch(
+  () => props.currentPageClass,
+  (newVal) => {
+    pageStyle.value = newVal;
+  },
+  { immediate: true },
+);
+const dialogVisible = ref<boolean>(false);
+watch(
+  () => props.visible,
+  (val) => {
+    dialogVisible.value = val;
+  },
+  { immediate: true },
+);
 defineExpose({
   validateForm,
   exportToHtml,
@@ -45,38 +52,38 @@ defineExpose({
 
 <template>
   <star-horse-panel
-      v-model="dialogVisible"
-      @closeAction="closeAction"
-      box-height="80%"
-      :selfFunc="true"
-      :compSize="compSize"
-      :fullScreen="true"
-      :title="i18n('dyform.preview.dialog.title')"
-      :source="3"
+    v-model="dialogVisible"
+    @closeAction="closeAction"
+    box-height="80%"
+    :selfFunc="true"
+    :compSize="compSize"
+    :fullScreen="true"
+    :title="i18n('dyform.preview.dialog.title')"
+    :source="3"
   >
     <el-tabs v-model="pageStyle">
       <el-tab-pane name="main-design" :label="i18n('dyform.dialog.411')">
         <FormPreview
-            :compSize="compSize"
-            :currentPageClass="pageStyle"
-            :list="list"
-            ref="previewFormRef"
+          :compSize="compSize"
+          :currentPageClass="pageStyle"
+          :list="list"
+          ref="previewFormRef"
         />
       </el-tab-pane>
       <el-tab-pane name="main-design-pad" :label="i18n('dyform.dialog.412')">
         <FormPreview
-            :compSize="compSize"
-            :currentPageClass="pageStyle"
-            :list="list"
-            ref="previewFormRef"
+          :compSize="compSize"
+          :currentPageClass="pageStyle"
+          :list="list"
+          ref="previewFormRef"
         />
       </el-tab-pane>
       <el-tab-pane name="main-design-phone" :label="i18n('dyform.dialog.413')">
         <FormPreview
-            :compSize="compSize"
-            :currentPageClass="pageStyle"
-            :list="list"
-            ref="previewFormRef"
+          :compSize="compSize"
+          :currentPageClass="pageStyle"
+          :list="list"
+          ref="previewFormRef"
         />
       </el-tab-pane>
     </el-tabs>

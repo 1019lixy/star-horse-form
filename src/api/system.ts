@@ -1,5 +1,5 @@
 import { loadData, SelectOption } from "star-horse-lowcode";
-import {i18n} from "@/lang";
+import { i18n } from "@/lang";
 import {
   AppContext,
   createVNode,

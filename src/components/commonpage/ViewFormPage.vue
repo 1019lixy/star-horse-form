@@ -7,11 +7,11 @@ import {
   PageFieldInfo,
   StarHorseDataView,
 } from "star-horse-lowcode";
-import {nextTick, onMounted, provide, ref, watch} from "vue";
+import { nextTick, onMounted, provide, ref, watch } from "vue";
 
 const props = defineProps({
-  currentPageClass: {type: String, default: ""},
-  preview: {type: Boolean, default: false},
+  currentPageClass: { type: String, default: "" },
+  preview: { type: Boolean, default: false },
   compList: {
     type: Array,
     required: true,
@@ -42,7 +42,6 @@ const loadFormData = async () => {
   isLoading.value = false; // 加载完成
 };
 
-
 const dialogProps = dialogPreps();
 provide("dialogProps", dialogProps);
 
@@ -56,28 +55,28 @@ onMounted(async () => {
   await init();
 });
 watch(
-    () => props.compList,
-    (val) => {
-      loadFormData();
-    },
-    {deep: true},
+  () => props.compList,
+  (val) => {
+    loadFormData();
+  },
+  { deep: true },
 );
 watch(
-    () => props.currentPageClass,
-    (val) => {
-      loadFormData();
-    },
-    {deep: true},
+  () => props.currentPageClass,
+  (val) => {
+    loadFormData();
+  },
+  { deep: true },
 );
 </script>
 <template>
   <div class="flex flex-col h-full overflow-hidden">
     <el-card class="inner_content">
       <star-horse-data-view
-          :field-list="tableFieldList"
-          :dataFormat="dataFormat"
-          :preview="preview"
-          :compUrl="dataUrl"
+        :field-list="tableFieldList"
+        :dataFormat="dataFormat"
+        :preview="preview"
+        :compUrl="dataUrl"
       />
     </el-card>
   </div>

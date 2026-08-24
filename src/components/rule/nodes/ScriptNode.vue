@@ -3,22 +3,41 @@
     <Handle type="target" :position="Position.Top" />
     <div class="node-card">
       <div class="node-header">
-        <svg class="header-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M16 18l6-6-6-6M8 6l-6 6 6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        <svg
+          class="header-icon"
+          viewBox="0 0 24 24"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M16 18l6-6-6-6M8 6l-6 6 6 6"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
         </svg>
-        <span class="header-title">{{ i18n('rule.node.script') }}</span>
-        <el-button type="primary" link  @click.stop="$emit('edit')" class="header-btn">
+        <span class="header-title">{{ i18n("rule.node.script") }}</span>
+        <el-button
+          type="primary"
+          link
+          @click.stop="$emit('edit')"
+          class="header-btn"
+        >
           <el-icon><Edit /></el-icon>
         </el-button>
       </div>
       <div class="node-body">
         <div v-if="!data.scriptContent" class="empty-tip">
           <el-icon class="empty-icon"><InfoFilled /></el-icon>
-          <span>{{ i18n('rule.node.scriptEmptyTip') }}</span>
+          <span>{{ i18n("rule.node.scriptEmptyTip") }}</span>
         </div>
         <div v-else class="script-content">
           <div class="script-meta">
-            <el-tag  :type="data.scriptLang === 'typescript' ? 'primary' : 'info'" class="lang-tag">
+            <el-tag
+              :type="data.scriptLang === 'typescript' ? 'primary' : 'info'"
+              class="lang-tag"
+            >
               {{ getLangLabel(data.scriptLang) }}
             </el-tag>
           </div>
@@ -31,40 +50,40 @@
 </template>
 
 <script setup lang="ts">
-import { Position, Handle } from '../compat'
-import { Edit, InfoFilled } from '@element-plus/icons-vue'
-import { computed } from 'vue'
-import { i18n } from '@/lang'
+import { Position, Handle } from "../compat";
+import { Edit, InfoFilled } from "@element-plus/icons-vue";
+import { computed } from "vue";
+import { i18n } from "@/lang";
 
 const props = defineProps<{
-  id?: string
+  id?: string;
   data: {
-    scriptLang?: string
-    scriptContent?: string
-  }
-}>()
+    scriptLang?: string;
+    scriptContent?: string;
+  };
+}>();
 
 defineEmits<{
-  (e: 'edit'): void
-}>()
+  (e: "edit"): void;
+}>();
 
 const getLangLabel = (lang: string) => {
   const map: Record<string, string> = {
-    javascript: 'JavaScript',
-    typescript: 'TypeScript'
-  }
-  return map[lang] || lang || 'JavaScript'
-}
+    javascript: "JavaScript",
+    typescript: "TypeScript",
+  };
+  return map[lang] || lang || "JavaScript";
+};
 
 const scriptPreview = computed(() => {
-  const content = props.data?.scriptContent || ''
-  const lines = content.split('\n').slice(0, 2)
-  return lines.join('\n')
-})
+  const content = props.data?.scriptContent || "";
+  const lines = content.split("\n").slice(0, 2);
+  return lines.join("\n");
+});
 </script>
 
 <style scoped lang="scss">
-@use '../styles/design-tokens.scss' as tokens;
+@use "../styles/design-tokens.scss" as tokens;
 
 .script-node {
   .node-card {
@@ -75,7 +94,9 @@ const scriptPreview = computed(() => {
     border-radius: tokens.$rd-radius-lg;
     box-shadow: tokens.$rd-shadow-xs;
     overflow: hidden;
-    transition: box-shadow tokens.$rd-transition-base, border-color tokens.$rd-transition-base;
+    transition:
+      box-shadow tokens.$rd-transition-base,
+      border-color tokens.$rd-transition-base;
 
     &:hover {
       border-color: tokens.$rd-primary-border;
@@ -149,7 +170,7 @@ const scriptPreview = computed(() => {
         background: tokens.$rd-bg-subtle;
         border: 1px solid tokens.$rd-divider;
         border-radius: tokens.$rd-radius-md;
-        font-family: 'Consolas', 'Monaco', monospace;
+        font-family: "Consolas", "Monaco", monospace;
         font-size: tokens.$rd-font-xs;
         color: tokens.$rd-text-secondary;
         line-height: 1.5;

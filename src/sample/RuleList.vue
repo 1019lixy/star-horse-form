@@ -18,21 +18,36 @@
     <div class="filter-bar">
       <el-form :inline="true" :model="filterForm" class="filter-form">
         <el-form-item label="规则类型">
-          <el-select v-model="filterForm.ruleType" placeholder="全部类型" clearable style="width: 150px;">
+          <el-select
+            v-model="filterForm.ruleType"
+            placeholder="全部类型"
+            clearable
+            style="width: 150px"
+          >
             <el-option label="表单联动" value="FORM_LINKAGE" />
             <el-option label="数据校验" value="DATA_VALID" />
             <el-option label="业务规则" value="BUSINESS" />
           </el-select>
         </el-form-item>
         <el-form-item label="状态">
-          <el-select v-model="filterForm.status" placeholder="全部状态" clearable style="width: 130px;">
+          <el-select
+            v-model="filterForm.status"
+            placeholder="全部状态"
+            clearable
+            style="width: 130px"
+          >
             <el-option label="草稿" value="DRAFT" />
             <el-option label="已发布" value="PUBLISHED" />
             <el-option label="已禁用" value="DISABLED" />
           </el-select>
         </el-form-item>
         <el-form-item label="关键词">
-          <el-input v-model="filterForm.keyword" placeholder="规则名称/编码" clearable style="width: 200px" />
+          <el-input
+            v-model="filterForm.keyword"
+            placeholder="规则名称/编码"
+            clearable
+            style="width: 200px"
+          />
         </el-form-item>
         <el-form-item>
           <el-button type="primary" @click="handleSearch">
@@ -48,7 +63,13 @@
 
     <!-- 规则表格 -->
     <div class="table-wrapper">
-      <el-table :data="ruleList" border style="width: 100%" v-loading="loading" stripe>
+      <el-table
+        :data="ruleList"
+        border
+        style="width: 100%"
+        v-loading="loading"
+        stripe
+      >
         <el-table-column prop="ruleCode" label="规则编码" width="160">
           <template #default="{ row }">
             <span class="rule-code">{{ row.ruleCode }}</span>
@@ -59,7 +80,12 @@
             <span class="rule-name">{{ row.ruleName }}</span>
           </template>
         </el-table-column>
-        <el-table-column prop="ruleType" label="规则类型" width="120" align="center">
+        <el-table-column
+          prop="ruleType"
+          label="规则类型"
+          width="120"
+          align="center"
+        >
           <template #default="{ row }">
             <el-tag :type="getRuleTypeTag(row.ruleType)" effect="plain">
               {{ getRuleTypeText(row.ruleType) }}
@@ -67,7 +93,12 @@
           </template>
         </el-table-column>
         <el-table-column prop="ruleCategory" label="规则分类" width="120" />
-        <el-table-column prop="priority" label="优先级" width="80" align="center">
+        <el-table-column
+          prop="priority"
+          label="优先级"
+          width="80"
+          align="center"
+        >
           <template #default="{ row }">
             <el-tag type="info">{{ row.priority }}</el-tag>
           </template>
@@ -168,7 +199,14 @@
 
 <script setup lang="ts">
 import { onMounted, reactive, ref } from "vue";
-import { Delete, Edit, Plus, Search, Upload, VideoPlay } from "@element-plus/icons-vue";
+import {
+  Delete,
+  Edit,
+  Plus,
+  Search,
+  Upload,
+  VideoPlay,
+} from "@element-plus/icons-vue";
 import { ruleDefinitionApi } from "@/api/rule_engine_api";
 import RuleDesigner from "../components/rule/RuleDesigner.vue";
 import RuleTestDialog from "../components/rule/dialogs/RuleTestDialog.vue";
@@ -183,7 +221,7 @@ const total = ref(0);
 const filterForm = reactive({
   ruleType: "",
   status: "",
-  keyword: ""
+  keyword: "",
 });
 
 const designerVisible = ref(false);
@@ -199,10 +237,10 @@ const loadRuleList = async () => {
     const params = {
       page: currentPage.value,
       pageSize: pageSize.value,
-      ...filterForm
+      ...filterForm,
     };
     const res = await ruleDefinitionApi.getRuleList(params);
-    if (res.data.code ===200) {
+    if (res.data.code === 200) {
       ruleList.value = res.data.data.records || [];
       total.value = res.data.data.total || 0;
     }
@@ -290,12 +328,20 @@ const handleCurrentChange = (val: number) => {
 
 // 工具方法
 const getRuleTypeTag = (type: string) => {
-  const map: any = { FORM_LINKAGE: "primary", DATA_VALID: "success", BUSINESS: "warning" };
+  const map: any = {
+    FORM_LINKAGE: "primary",
+    DATA_VALID: "success",
+    BUSINESS: "warning",
+  };
   return map[type] || "info";
 };
 
 const getRuleTypeText = (type: string) => {
-  const map: any = { FORM_LINKAGE: "表单联动", DATA_VALID: "数据校验", BUSINESS: "业务规则" };
+  const map: any = {
+    FORM_LINKAGE: "表单联动",
+    DATA_VALID: "数据校验",
+    BUSINESS: "业务规则",
+  };
   return map[type] || type;
 };
 
@@ -375,7 +421,7 @@ onMounted(() => {
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
 
     .rule-code {
-      font-family: 'Courier New', monospace;
+      font-family: "Courier New", monospace;
       font-size: 12px;
       color: #6366f1;
     }

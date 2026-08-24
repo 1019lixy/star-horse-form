@@ -1,5 +1,5 @@
 import { CompType, SelectOption } from "star-horse-lowcode";
-import {i18n} from "@/lang";
+import { i18n } from "@/lang";
 
 const commonSelectOptions: SelectOption[] = [
   { name: i18n("dyform.item.40"), value: "string" },
@@ -380,8 +380,7 @@ export const formExtendItems: CompType[] = [
         label: i18n("dyform.extend.367"),
         fieldName: "minWidth",
         required: false,
-        helpMsg:
-          i18n("dyform.extend.368"),
+        helpMsg: i18n("dyform.extend.368"),
         fieldType: "number",
         defaultValues: "1.5",
         category: 2,

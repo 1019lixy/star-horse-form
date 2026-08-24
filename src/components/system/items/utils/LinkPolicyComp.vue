@@ -1,15 +1,18 @@
 <script setup lang="ts">
-import {i18n} from "@/lang";
-import {linkPolicyTypeEvent, relationDataField} from "@/components/system/items/utils/ItemPreps.js";
-import {SelectOption, warning} from "star-horse-lowcode";
+import { i18n } from "@/lang";
+import {
+  linkPolicyTypeEvent,
+  relationDataField,
+} from "@/components/system/items/utils/ItemPreps.js";
+import { SelectOption, warning } from "star-horse-lowcode";
 import ApiConfigForm from "@/components/system/items/utils/ApiConfigForm.vue";
 import ConfigTemplateManager from "@/components/system/items/utils/ConfigTemplateManager.vue";
-import {computed, nextTick, PropType, reactive, ref} from "vue";
-import type {ConfigTemplateCategory} from "@/components/types/DataSourceTypes";
-import {FormConfig} from "@/components/types";
-import {userOperationMsg} from "@/components/system/items/utils/jsCodeFormatter";
+import { computed, nextTick, PropType, reactive, ref } from "vue";
+import type { ConfigTemplateCategory } from "@/components/types/DataSourceTypes";
+import { FormConfig } from "@/components/types";
+import { userOperationMsg } from "@/components/system/items/utils/jsCodeFormatter";
 
-defineOptions({name: "LinkPolicyComp"});
+defineOptions({ name: "LinkPolicyComp" });
 
 const props = defineProps({
   formProps: {
@@ -28,7 +31,7 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
-  optional: {type: Object as PropType<FormConfig>}
+  optional: { type: Object as PropType<FormConfig> },
 });
 
 // ─── Linkage type options ───
@@ -38,26 +41,25 @@ const linkageTypeOptions = computed(() => {
       value: "visibility",
       label: i18n("dyform.unified.linkage.tab.visibility"),
       icon: "View",
-      desc: i18n("dyform.unified.linkage.visibility.desc")
+      desc: i18n("dyform.unified.linkage.visibility.desc"),
     },
     {
       value: "apiFill",
       label: i18n("dyform.unified.linkage.tab.apiFill"),
       icon: "Connection",
-      desc: i18n("dyform.unified.linkage.apiFill.desc")
+      desc: i18n("dyform.unified.linkage.apiFill.desc"),
     },
-
   ];
   if (!props.hideUserDefine) {
     options.push({
       value: "custom",
       label: i18n("dyform.unified.linkage.tab.custom"),
       icon: "EditPen",
-      desc: i18n("dyform.unified.linkage.custom.desc")
-    })
+      desc: i18n("dyform.unified.linkage.custom.desc"),
+    });
   }
   return options;
-})
+});
 // ─── Active type ───
 const activeType = ref<string>("visibility");
 const actionName = ref<string>("change");
@@ -70,8 +72,9 @@ const customCode = ref<string>("");
 const codeEditorRef = ref();
 
 // ─── Visibility Rule field config ───
-const visibilityField = reactive<any>(relationDataField(props.formProps, props.model));
-
+const visibilityField = reactive<any>(
+  relationDataField(props.formProps, props.model),
+);
 
 // ─── Public API ───
 const setFormData = (data: any) => {
@@ -82,10 +85,15 @@ const setFormData = (data: any) => {
     }
     if (data?.dataRelation?.apiLinkage) {
       activeType.value = "apiFill";
-      nextTick(() => apiConfigRef.value?.setFormData(data?.dataRelation?.apiLinkage));
+      nextTick(() =>
+        apiConfigRef.value?.setFormData(data?.dataRelation?.apiLinkage),
+      );
     }
     // 自定义实现：读取 customCode
-    if (typeof data?.dataRelation?.customCode === "string" && data.dataRelation.customCode.trim()) {
+    if (
+      typeof data?.dataRelation?.customCode === "string" &&
+      data.dataRelation.customCode.trim()
+    ) {
       activeType.value = "custom";
       customCode.value = data.dataRelation.customCode;
     } else {
@@ -183,9 +191,17 @@ const templateCategory = computed<ConfigTemplateCategory>(() => "apiLinkage");
 /** 获取当前配置数据（用于保存模板） */
 const getCurrentConfigData = (): Record<string, any> => {
   if (activeType.value === "apiFill") {
-    return apiConfigRef.value?.getFormData()?.value ?? apiConfigRef.value?.getFormData() ?? {};
+    return (
+      apiConfigRef.value?.getFormData()?.value ??
+      apiConfigRef.value?.getFormData() ??
+      {}
+    );
   }
-  return visibilityFormRef.value?.getFormData()?.value ?? visibilityFormRef.value?.getFormData() ?? {};
+  return (
+    visibilityFormRef.value?.getFormData()?.value ??
+    visibilityFormRef.value?.getFormData() ??
+    {}
+  );
 };
 
 /** 从模板加载配置 */
@@ -196,58 +212,80 @@ const handleTemplateLoad = (configData: Record<string, any>) => {
 };
 const querySearch = (queryString: string, cb: any) => {
   const results = queryString
-      ? linkPolicyTypeEvent.filter(createFilter(queryString))
-      : linkPolicyTypeEvent
+    ? linkPolicyTypeEvent.filter(createFilter(queryString))
+    : linkPolicyTypeEvent;
   // call callback function to return suggestions
-  cb(results)
-}
+  cb(results);
+};
 const createFilter = (queryString: string) => {
   return (restaurant: SelectOption) => {
     return (
-        String(restaurant.value ?? "").toLowerCase().indexOf(queryString.toLowerCase()) === 0
-    )
-  }
-}
-defineExpose({submitValid, setFormData, getFormData});
+      String(restaurant.value ?? "")
+        .toLowerCase()
+        .indexOf(queryString.toLowerCase()) === 0
+    );
+  };
+};
+defineExpose({ submitValid, setFormData, getFormData });
 </script>
 
 <template>
   <div class="unified-linkage">
     <div class="linkage-selector">
       <div class="selector-header">
-        <span class="selector-title">{{ i18n("dyform.unified.linkage.type") }}</span>
-        <span class="selector-desc">{{ linkageTypeOptions.find(o => o.value === activeType)?.desc }}</span>
+        <span class="selector-title">{{
+          i18n("dyform.unified.linkage.type")
+        }}</span>
+        <span class="selector-desc">{{
+          linkageTypeOptions.find((o) => o.value === activeType)?.desc
+        }}</span>
       </div>
       <div class="type-cards">
         <div class="flex flex-row gap-3 flex-1">
           <div
-              v-for="opt in linkageTypeOptions"
-              :key="opt.value"
-              :class="['type-card', { active: activeType === opt.value }]"
-              @click="activeType = opt.value"
+            v-for="opt in linkageTypeOptions"
+            :key="opt.value"
+            :class="['type-card', { active: activeType === opt.value }]"
+            @click="activeType = opt.value"
           >
             <el-icon class="type-icon" :size="18">
-              <component :is="opt.icon"/>
+              <component :is="opt.icon" />
             </el-icon>
             <span class="type-label">{{ opt.label }}</span>
           </div>
         </div>
         <div class="w-[30%]">
           <el-form-item :label="i18n('dyform.utils.516')" prop="actionName">
-            <el-autocomplete v-model="actionName" allow-create clearable filterable :fetch-suggestions="querySearch"/>
+            <el-autocomplete
+              v-model="actionName"
+              allow-create
+              clearable
+              filterable
+              :fetch-suggestions="querySearch"
+            />
           </el-form-item>
         </div>
       </div>
-
     </div>
 
     <!-- Template Actions (only show when apiFill is active) -->
     <div v-if="activeType === 'apiFill'" class="template-actions-bar">
-      <el-button size="small" type="primary" plain icon="FolderAdd" @click="templateRef?.openSaveDialog()">
-        {{ i18n('dyform.template.save') }}
+      <el-button
+        size="small"
+        type="primary"
+        plain
+        icon="FolderAdd"
+        @click="templateRef?.openSaveDialog()"
+      >
+        {{ i18n("dyform.template.save") }}
       </el-button>
-      <el-button size="small" plain icon="FolderOpened" @click="templateRef?.openLoadDialog()">
-        {{ i18n('dyform.template.load') }}
+      <el-button
+        size="small"
+        plain
+        icon="FolderOpened"
+        @click="templateRef?.openLoadDialog()"
+      >
+        {{ i18n("dyform.template.load") }}
       </el-button>
     </div>
 
@@ -255,39 +293,42 @@ defineExpose({submitValid, setFormData, getFormData});
     <div class="linkage-content">
       <!-- Visibility Rule -->
       <div v-if="activeType === 'visibility'" class="visibility-panel">
-        <star-horse-form :fieldList="visibilityField" ref="visibilityFormRef"/>
+        <star-horse-form :fieldList="visibilityField" ref="visibilityFormRef" />
       </div>
 
       <div v-if="activeType === 'apiFill'" class="api-fill-panel">
         <ApiConfigForm
-            ref="apiConfigRef"
-            mode="linkage"
-            :currentField="formProps.name"
-            :formFields="formFields"
+          ref="apiConfigRef"
+          mode="linkage"
+          :currentField="formProps.name"
+          :formFields="formFields"
         />
       </div>
 
       <!-- 自定义实现 -->
-      <div v-if="activeType === 'custom'&&!hideUserDefine" class="custom-panel">
+      <div
+        v-if="activeType === 'custom' && !hideUserDefine"
+        class="custom-panel"
+      >
         <div class="custom-help">
-          <help :message="userOperationMsg"/>
+          <help :message="userOperationMsg" />
         </div>
         <star-horse-editor
-            v-model:value="customCode"
-            lang="javascript"
-            ref="codeEditorRef"
-            style="height: 320px;"
+          v-model:value="customCode"
+          lang="javascript"
+          ref="codeEditorRef"
+          style="height: 320px"
         />
       </div>
     </div>
 
     <!-- Config Template Manager -->
     <ConfigTemplateManager
-        ref="templateRef"
-        :optional="optional"
-        :category="templateCategory"
-        :currentConfigData="getCurrentConfigData()"
-        @load="handleTemplateLoad"
+      ref="templateRef"
+      :optional="optional"
+      :category="templateCategory"
+      :currentConfigData="getCurrentConfigData()"
+      @load="handleTemplateLoad"
     />
   </div>
 </template>

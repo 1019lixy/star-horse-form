@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { onMounted, PropType, ref, watch } from "vue";
 import { convertToCamelCase } from "star-horse-lowcode";
-import {i18n} from "@/lang";
+import { i18n } from "@/lang";
 
 const props = defineProps({
   formInfo: { type: Object as PropType<any>, required: true },
@@ -126,7 +126,7 @@ watch(
           size="16px"
           color="var(--star-horse-white)"
         />
-        {{ i18n('dyform.code.saveAsFile') }}
+        {{ i18n("dyform.code.saveAsFile") }}
       </el-button>
     </div>
   </div>
@@ -143,7 +143,7 @@ watch(
     overflow: hidden;
   }
 }
-.inner_button{
-  margin:8px auto;
+.inner_button {
+  margin: 8px auto;
 }
 </style>

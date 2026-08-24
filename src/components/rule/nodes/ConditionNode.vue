@@ -1,23 +1,45 @@
 <template>
   <div class="condition-node" @dblclick="$emit('edit')">
     <Handle type="target" :position="Position.Top" />
-    <div class="node-card">
+    <div class="node-card" :style="cardStyle">
       <div class="node-header">
-        <svg class="header-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        <svg
+          class="header-icon"
+          viewBox="0 0 24 24"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
         </svg>
-        <span class="header-title">{{ i18n('rule.node.condition') }}</span>
-        <el-tag  :type="data.logic === 'OR' ? 'warning' : 'primary'" class="logic-tag">
-          {{ data.logic || 'AND' }}
+        <span class="header-title">{{ i18n("rule.node.condition") }}</span>
+        <el-tag
+          :type="data.logic === 'OR' ? 'warning' : 'primary'"
+          class="logic-tag"
+        >
+          {{ data.logic || "AND" }}
         </el-tag>
-        <el-button type="primary" link  @click.stop="$emit('edit')" class="header-btn">
+        <el-button
+          type="primary"
+          link
+          @click.stop="$emit('edit')"
+          class="header-btn"
+        >
           <el-icon><Plus /></el-icon>
         </el-button>
       </div>
-      <div class="node-body">
-        <div v-if="!data.conditions || data.conditions.length === 0" class="empty-tip">
+      <div class="node-body" :style="bodyStyle">
+        <div
+          v-if="!data.conditions || data.conditions.length === 0"
+          class="empty-tip"
+        >
           <el-icon class="empty-icon"><InfoFilled /></el-icon>
-          <span>{{ i18n('rule.node.condEmptyTip') }}</span>
+          <span>{{ i18n("rule.node.condEmptyTip") }}</span>
         </div>
         <div v-else class="condition-list">
           <div
@@ -29,86 +51,139 @@
               {{ data.logic }}
             </div>
             <div class="cond-content">
-              <span class="cond-field">{{ cond.fieldLabel || cond.fieldName || i18n('rule.lbl.fieldName') }}</span>
-              <span class="cond-operator">{{ getOperatorSymbol(cond.operator) }}</span>
-              <span class="cond-value">{{ cond.valueType === 'VARIABLE' ? cond.valueField : cond.value || '-' }}</span>
+              <span class="cond-field">{{
+                cond.fieldLabel || cond.fieldName || i18n("rule.lbl.fieldName")
+              }}</span>
+              <span class="cond-operator">{{
+                getOperatorSymbol(cond.operator)
+              }}</span>
+              <span class="cond-value">{{
+                cond.valueType === "VARIABLE"
+                  ? cond.valueField
+                  : cond.value || "-"
+              }}</span>
             </div>
             <div class="cond-actions">
-              <el-button type="primary" link  @click.stop="$emit('editCondition', index)">
+              <el-button
+                type="primary"
+                link
+                @click.stop="$emit('editCondition', index)"
+              >
                 <el-icon><Edit /></el-icon>
               </el-button>
-              <el-button type="danger" link  @click.stop="$emit('deleteCondition', index)">
+              <el-button
+                type="danger"
+                link
+                @click.stop="$emit('deleteCondition', index)"
+              >
                 <el-icon><Delete /></el-icon>
               </el-button>
             </div>
           </div>
         </div>
       </div>
+      <div class="resize-handle" @mousedown.stop="onResizeStart"></div>
     </div>
     <Handle type="source" :position="Position.Bottom" />
   </div>
 </template>
 
 <script setup lang="ts">
-import { Position, Handle } from '../compat'
-import { Plus, Edit, Delete, InfoFilled } from '@element-plus/icons-vue'
-import { i18n } from '@/lang'
+import { Position, Handle } from "../compat";
+import { Plus, Edit, Delete, InfoFilled } from "@element-plus/icons-vue";
+import { i18n } from "@/lang";
+import { useNodeResize } from "../utils/useNodeResize";
 defineOptions({
-  name: 'ConditionNode',
-})
-defineProps<{
+  name: "ConditionNode",
+});
+const props = defineProps<{
   data: {
-    conditions: any[]
-    logic: string
-  }
-}>()
+    conditions: any[];
+    logic: string;
+    __width?: number;
+    __height?: number;
+  };
+}>();
+
+const { cardStyle, bodyStyle, onResizeStart } = useNodeResize(props.data);
 
 defineEmits<{
-  (e: 'edit'): void
-  (e: 'editCondition', index: number): void
-  (e: 'deleteCondition', index: number): void
-}>()
+  (e: "edit"): void;
+  (e: "editCondition", index: number): void;
+  (e: "deleteCondition", index: number): void;
+}>();
 
 const getOperatorSymbol = (op: string) => {
   const map: Record<string, string> = {
-    EQ: '=',
-    NEQ: '≠',
-    GT: '>',
-    GTE: '≥',
-    LT: '<',
-    LTE: '≤',
-    CONTAINS: i18n('rule.opt.contains'),
-    NOT_CONTAINS: i18n('rule.opt.notContains'),
-    STARTS_WITH: i18n('rule.opt.startsWith'),
-    ENDS_WITH: i18n('rule.opt.endsWith'),
-    IN: '∈',
-    NOT_IN: '∉',
-    IS_NULL: i18n('rule.opt.isNull'),
-    IS_NOT_NULL: i18n('rule.opt.isNotNull'),
-    BETWEEN: i18n('rule.opt.between')
-  }
-  return map[op] || op
-}
+    EQ: "=",
+    NEQ: "≠",
+    GT: ">",
+    GTE: "≥",
+    LT: "<",
+    LTE: "≤",
+    CONTAINS: i18n("rule.opt.contains"),
+    NOT_CONTAINS: i18n("rule.opt.notContains"),
+    STARTS_WITH: i18n("rule.opt.startsWith"),
+    ENDS_WITH: i18n("rule.opt.endsWith"),
+    IN: "∈",
+    NOT_IN: "∉",
+    IS_NULL: i18n("rule.opt.isNull"),
+    IS_NOT_NULL: i18n("rule.opt.isNotNull"),
+    BETWEEN: i18n("rule.opt.between"),
+  };
+  return map[op] || op;
+};
 </script>
 
 <style scoped lang="scss">
-@use '../styles/design-tokens.scss' as tokens;
+@use "../styles/design-tokens.scss" as tokens;
 
 .condition-node {
   .node-card {
+    position: relative;
     min-width: tokens.$rd-node-min-width;
-    max-width: tokens.$rd-node-max-width;
+    max-width: 600px;
     background: tokens.$rd-bg-surface;
     border: 1px solid tokens.$rd-border;
     border-radius: tokens.$rd-radius-lg;
     box-shadow: tokens.$rd-shadow-xs;
     overflow: hidden;
-    transition: box-shadow tokens.$rd-transition-base, border-color tokens.$rd-transition-base;
+    transition:
+      box-shadow tokens.$rd-transition-base,
+      border-color tokens.$rd-transition-base;
 
     &:hover {
       border-color: tokens.$rd-primary-border;
       box-shadow: tokens.$rd-shadow-sm;
     }
+  }
+
+  .resize-handle {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 14px;
+    height: 14px;
+    cursor: se-resize;
+    z-index: 10;
+    opacity: 0;
+    transition: opacity tokens.$rd-transition-fast;
+
+    &::after {
+      content: "";
+      position: absolute;
+      bottom: 2px;
+      right: 2px;
+      width: 8px;
+      height: 8px;
+      border-right: 2px solid tokens.$rd-text-tertiary;
+      border-bottom: 2px solid tokens.$rd-text-tertiary;
+      border-bottom-right-radius: 2px;
+    }
+  }
+
+  .node-card:hover .resize-handle {
+    opacity: 1;
   }
 
   .node-header {
@@ -179,7 +254,9 @@ const getOperatorSymbol = (op: string) => {
         background: rgba(37, 99, 235, 0.05);
         border-radius: tokens.$rd-radius-md;
         border: 1px solid rgba(37, 99, 235, 0.12);
-        transition: background tokens.$rd-transition-fast, border-color tokens.$rd-transition-fast;
+        transition:
+          background tokens.$rd-transition-fast,
+          border-color tokens.$rd-transition-fast;
 
         &:hover {
           border-color: rgba(37, 99, 235, 0.24);

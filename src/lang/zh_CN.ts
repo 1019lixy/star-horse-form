@@ -89,10 +89,12 @@ export default {
   // 提示信息
   "rule.msg.editEdgeLabel": "编辑连线标签",
   "rule.msg.edgeLabel": "连线标签",
-  "rule.msg.edgeLabelHint": "留空将根据节点类型自动生成标签，手动输入的内容不会被自动覆盖",
+  "rule.msg.edgeLabelHint":
+    "留空将根据节点类型自动生成标签，手动输入的内容不会被自动覆盖",
   "rule.msg.ruleName": "规则名称",
   "rule.msg.canvasDesign": "规则设计",
-  "rule.msg.canvasTip": "左键拖拽=平移画布 · Shift/Ctrl+拖拽=框选 · 滚轮=缩放 · Ctrl+Z=回退",
+  "rule.msg.canvasTip":
+    "左键拖拽=平移画布 · Shift/Ctrl+拖拽=框选 · 滚轮=缩放 · Ctrl+Z=回退",
   "rule.msg.tip": "小贴士",
   "rule.msg.selectedCount": "已选 {0} 项",
   "rule.msg.added": "已添加",
@@ -120,7 +122,8 @@ export default {
   "rule.msg.saveSuccess": "保存成功",
   "rule.msg.saveFail": "保存失败",
   "rule.msg.flowEmpty": "流程图为空",
-  "rule.msg.noFormFieldsHint": "未检测到表单字段。请从表单设计器进入规则配置，或在规则属性中设置 formId。也可手动输入字段名。",
+  "rule.msg.noFormFieldsHint":
+    "未检测到表单字段。请从表单设计器进入规则配置，或在规则属性中设置 formId。也可手动输入字段名。",
   "rule.msg.confirmPublish": "确定发布？",
   "rule.msg.publishSuccess": "发布成功",
   "rule.msg.publishFail": "发布失败",
@@ -182,6 +185,8 @@ export default {
   "rule.edge.interface": "接口",
 
   // 节点分类
+  "rule.category.basic": "基础节点",
+  "rule.category.advanced": "高级节点",
   "rule.category.decisionControl": "规则决策控制",
   "rule.category.businessLogic": "业务逻辑",
   "rule.category.dataContext": "数据入参&上下文",
@@ -407,9 +412,12 @@ export default {
   "rule.val.graphLevel": "图结构",
   "rule.val.locateNode": "定位节点",
   "rule.val.publishBlocked": "存在 {0} 项校验错误，无法发布，请先修复",
-  "rule.val.saveBlocked": "存在 {0} 项校验错误（含僵尸属性），无法保存，请先修复",
-  "rule.val.zombieField": "字段 \"{0}\" 不存在于表单中（僵尸属性，引用位置：{1}）",
-  "rule.fieldSync.confirm": "检测到字段名 \"{0}\" 已修改为 \"{1}\"，是否同步更新引用该字段的规则？（避免产生僵尸属性）",
+  "rule.val.saveBlocked":
+    "存在 {0} 项校验错误（含僵尸属性），无法保存，请先修复",
+  "rule.val.zombieField":
+    '字段 "{0}" 不存在于表单中（僵尸属性，引用位置：{1}）',
+  "rule.fieldSync.confirm":
+    '检测到字段名 "{0}" 已修改为 "{1}"，是否同步更新引用该字段的规则？（避免产生僵尸属性）',
   "rule.fieldSync.success": "已同步 {0} 条规则，共更新 {1} 处字段引用",
   "rule.fieldSync.noRef": "字段名已修改，未发现引用该字段的规则，无需同步",
   "rule.fieldSync.syncing": "正在同步规则字段引用...",
@@ -448,8 +456,10 @@ export default {
   "rule.val.edgeSelfLoop": "存在自环连线（源节点与目标节点相同）",
   "rule.val.edgeDangling": "存在悬空连线（端点节点不存在）",
   "rule.val.requiredMissing": "必填项「{0}」未配置",
-  "rule.val.noFormFieldReferenced": "规则已绑定表单「{0}」但未引用任何表单字段或变量，该规则无业务意义，请添加条件/动作/赋值等节点",
-  "rule.val.noBusinessNode": "规则流程中仅有开始/结束节点，缺少业务节点（条件/动作/赋值/网关等），请从左侧节点库拖入业务节点",
+  "rule.val.noFormFieldReferenced":
+    "规则已绑定表单「{0}」但未引用任何表单字段或变量，该规则无业务意义，请添加条件/动作/赋值等节点",
+  "rule.val.noBusinessNode":
+    "规则流程中仅有开始/结束节点，缺少业务节点（条件/动作/赋值/网关等），请从左侧节点库拖入业务节点",
 
   // 日志查看器
   "rule.log.noLogs": "暂无执行日志",
@@ -474,7 +484,8 @@ export default {
   // 节点描述
   "rule.desc.start": "规则评估起点，定义输入数据上下文",
   "rule.desc.end": "规则执行结果出口，可多个表示不同决策结果",
-  "rule.desc.exclusiveGateway": "互斥条件路由，根据条件评估结果选择唯一执行路径",
+  "rule.desc.exclusiveGateway":
+    "互斥条件路由，根据条件评估结果选择唯一执行路径",
   "rule.desc.parallelGateway": "同时执行多个独立规则，汇总所有规则结果",
   "rule.desc.inclusiveGateway": "多条件路由，满足条件的路径都执行",
   "rule.desc.loop": "遍历集合数据，对每项执行相同规则",
@@ -483,7 +494,8 @@ export default {
   "rule.desc.action": "显示/隐藏/赋值/校验/调API/脚本",
   "rule.desc.variableAssign": "设置上下文变量",
   "rule.desc.script": "执行自定义JS脚本，用于复杂业务逻辑",
-  "rule.desc.httpCall": "通用HTTP接口调用，结果通过字段映射写回表单或上下文变量",
+  "rule.desc.httpCall":
+    "通用HTTP接口调用，结果通过字段映射写回表单或上下文变量",
   "rule.desc.ruleSetRef": "引用一组子规则",
   "rule.desc.decisionTable": "多条件+多动作的表格化规则",
 
@@ -661,18 +673,24 @@ export default {
   "rule.comp.breakOnMatch": "满足条件时中断",
 
   // Demo
-  "rule.demo.productPricing": "商品定价决策",
-  "rule.demo.productPricingDesc": "根据商品类目、库存、季节计算最终售价",
-  "rule.demo.riskScoring": "风控评分卡",
-  "rule.demo.riskScoringDesc": "多条件嵌套评估用户风险等级",
-  "rule.demo.memberLevel": "会员等级判定",
-  "rule.demo.memberLevelDesc": "根据消费金额和频次判定会员等级，计算权益",
-  "rule.demo.couponBenefit": "优惠券权益计算",
-  "rule.demo.couponBenefitDesc": "根据优惠券类型和使用条件计算权益",
-  "rule.demo.abnormalTransaction": "异常交易识别",
-  "rule.demo.abnormalTransactionDesc": "多条件组合识别异常交易，调用外部接口验证",
-  "rule.demo.orderDiscount": "订单满减规则",
-  "rule.demo.orderDiscountDesc": "遍历订单商品，根据金额区间计算满减优惠",
+  "rule.demo.fieldVisibility": "表单字段显隐联动",
+  "rule.demo.fieldVisibilityDesc":
+    "合同字段联动：选择有合同时显示合同金额和签订日期并设为必填，否则隐藏并清空",
+  "rule.demo.fieldCalc": "表单字段计算赋值",
+  "rule.demo.fieldCalcDesc":
+    "金额计算：单价 × 数量 × (1 - 折扣) = 总价，超过1万元提示需要主管审批",
+  "rule.demo.multiBranch": "多分支表单路由",
+  "rule.demo.multiBranchDesc":
+    "项目类型路由：不同项目类型显示不同字段组（建设/采购/服务）",
+  "rule.demo.apiLinkage": "API选项联动",
+  "rule.demo.apiLinkageDesc":
+    "省市级联：选择省份后调用API获取城市列表，设置城市字段选项",
+  "rule.demo.formValidation": "表单必填校验",
+  "rule.demo.formValidationDesc":
+    "表单提交校验：邮箱正则、手机号非空+正则、年龄范围、身份证号正则",
+  "rule.demo.scriptCalc": "脚本复杂计算",
+  "rule.demo.scriptCalcDesc":
+    "累进税率计算：根据收入区间分段计税，脚本实现累进税率逻辑",
 
   // ========== 补全：rule.opt.* 选项文本（组件代码使用 rule.opt.* 前缀） ==========
   "rule.opt.formData": "表单数据",
@@ -706,13 +724,18 @@ export default {
   "rule.opt.neq": "不等于",
   "rule.opt.gt": "大于",
   "rule.opt.lt": "小于",
+  "rule.opt.gte": "大于等于",
+  "rule.opt.lte": "小于等于",
   "rule.opt.contains": "包含",
   "rule.opt.notContains": "不包含",
   "rule.opt.startsWith": "开头",
   "rule.opt.endsWith": "结尾",
   "rule.opt.isEmpty": "为空",
   "rule.opt.isNotEmpty": "不为空",
+  "rule.opt.in": "属于",
+  "rule.opt.notIn": "不属于",
   "rule.opt.between": "介于",
+  "rule.opt.regex": "正则匹配",
   "rule.opt.showField": "显示字段",
   "rule.opt.hideField": "隐藏字段",
   "rule.opt.setValue": "设置值",
@@ -980,7 +1003,8 @@ export default {
   "rule.desc.contextExtract": "从上下文中提取变量值",
   "rule.desc.typeCast": "转换变量的数据类型",
   "rule.desc.datasetLoad": "加载批量数据集到上下文",
-  "rule.desc.datasourceFetch": "拉取选项数据源（字典/级联），结果转为选项结构供下拉选择",
+  "rule.desc.datasourceFetch":
+    "拉取选项数据源（字典/级联），结果转为选项结构供下拉选择",
   "rule.desc.multiBranch": "根据字段值匹配多个分支",
   "rule.desc.setContains": "判断集合间的包含/交集关系",
   "rule.desc.dirtyCheck": "检查空值和脏数据并拦截",
@@ -1023,12 +1047,12 @@ export default {
   // ========== 补全：rule.ph.* 占位符文本 ==========
   "rule.ph.items": "请输入集合变量名",
   "rule.ph.script": "请输入JS脚本代码...",
-  "rule.ph.jsonBody": '请输入JSON格式请求体...',
+  "rule.ph.jsonBody": "请输入JSON格式请求体...",
   "rule.ph.responseVar": "响应数据存放变量名",
   "rule.ph.orderValidation": "如: ORDER_VALIDATION",
   "rule.ph.optionalDesc": "可选描述",
-  "rule.ph.inputMapping": "如: {\"orderId\": \"ctx.orderId\"}",
-  "rule.ph.outputMapping": "如: {\"result\": \"output.pass\"}",
+  "rule.ph.inputMapping": '如: {"orderId": "ctx.orderId"}',
+  "rule.ph.outputMapping": '如: {"result": "output.pass"}',
   "rule.ph.discountTable": "如: DISCOUNT_TABLE",
   "rule.ph.orderAmount": "如: ctx.order.amount",
   "rule.ph.totalAmount": "如: totalAmount",
@@ -1061,7 +1085,7 @@ export default {
   "rule.ph.ratioSource": "如: ratioConfig",
   "rule.ph.ratioField": "如: ratio",
   "rule.ph.targetField": "如: status",
-  "rule.ph.optionsValue": "JSON数组，如: [{\"label\":\"启用\",\"value\":1}]",
+  "rule.ph.optionsValue": 'JSON数组，如: [{"label":"启用","value":1}]',
   "rule.ph.optionsVar": "如: optionsVar",
   "rule.ph.markValue": "标记值",
   "rule.ph.targetUsers": "如: ${assignee}",
@@ -1135,7 +1159,8 @@ export default {
   "rule.expr.variables": "变量",
   "rule.expr.functions": "函数",
   "rule.expr.noMatch": "无匹配项",
-  "rule.expr.hint": "输入字段名或函数名可自动补全，按 $ 唤出变量列表，Tab/Enter 确认，Esc 关闭",
+  "rule.expr.hint":
+    "输入字段名或函数名可自动补全，按 $ 唤出变量列表，Tab/Enter 确认，Esc 关闭",
   "rule.expr.fnSum": "求和",
   "rule.expr.fnAvg": "平均值",
   "rule.expr.fnMin": "最小值",
@@ -1337,7 +1362,8 @@ export default {
   "rule.dialog.inclusiveGateway": "包容网关(OR)",
   "rule.dialog.gatewayTypeCannotChange": "网关类型创建后不可更改",
   "rule.dialog.noBranches": "暂无分支",
-  "rule.dialog.drawLineToCreateBranch": "从网关节点拖拽连线到目标节点即可创建分支",
+  "rule.dialog.drawLineToCreateBranch":
+    "从网关节点拖拽连线到目标节点即可创建分支",
   "rule.dialog.defaultBranch": "默认分支",
   "rule.dialog.conditionBranch": "条件分支",
   "rule.dialog.targetNode": "目标节点",
@@ -1357,7 +1383,8 @@ export default {
   "rule.dialog.scriptExample": "示例",
   "rule.dialog.loopNodeConfig": "循环节点配置",
   "rule.dialog.noActionsInLoop": "循环内暂无动作",
-  "rule.dialog.loopNodeHelpText": "循环节点将对集合中的每个元素执行内部动作。请先在动作面板中配置循环体内的动作。",
+  "rule.dialog.loopNodeHelpText":
+    "循环节点将对集合中的每个元素执行内部动作。请先在动作面板中配置循环体内的动作。",
   "rule.dialog.unknownAction": "未知动作",
   "rule.dialog.action": "动作",
   "rule.dialog.variableAssignConfig": "变量赋值配置",
@@ -1418,9 +1445,12 @@ export default {
   "rule.btn.addParams": "添加参数",
   "rule.btn.addAssignment": "添加赋值",
   "rule.btn.openDialogConfig": "打开详细配置",
-  "rule.hint.httpCallDialog": "参数较多，建议在弹窗中配置接口来源、请求头、响应解析、字段映射等",
-  "rule.hint.datasourceDialog": "数据源配置包含请求参数、响应解析、字段映射、OptionField 字段属性，建议弹窗编辑",
-  "rule.hint.setOptionsDialog": "支持静态/字典/接口/变量 4 种数据源，建议弹窗中切换模式",
+  "rule.hint.httpCallDialog":
+    "参数较多，建议在弹窗中配置接口来源、请求头、响应解析、字段映射等",
+  "rule.hint.datasourceDialog":
+    "数据源配置包含请求参数、响应解析、字段映射、OptionField 字段属性，建议弹窗编辑",
+  "rule.hint.setOptionsDialog":
+    "支持静态/字典/接口/变量 4 种数据源，建议弹窗中切换模式",
 
   // -- rule.ph.* 对话框占位符 --
   "rule.ph.headerName": "Header名称",
@@ -1450,7 +1480,7 @@ export default {
 
   // ========== 补全：RuleTestDialog 测试对话框 ==========
   "rule.lbl.testData": "测试数据",
-  "rule.ph.testDataExample": "如: {\"amount\": 100}",
+  "rule.ph.testDataExample": '如: {"amount": 100}',
   "rule.btn.executeTest": "执行测试",
   "rule.btn.loadSampleData": "加载示例数据",
   "rule.btn.stepReplay": "单步回放",
@@ -1500,7 +1530,8 @@ export default {
   "rule.codeView.readonly": "只读",
   "rule.codeView.applyToDesign": "应用到设计",
   "rule.codeView.syncFromDesign": "从设计同步",
-  "rule.codeView.confirmApply": "确定将代码视图的修改应用到设计视图？当前设计视图的数据将被覆盖。",
+  "rule.codeView.confirmApply":
+    "确定将代码视图的修改应用到设计视图？当前设计视图的数据将被覆盖。",
   "rule.codeView.applySuccess": "已成功应用到设计视图",
   "rule.codeView.invalidFormat": "JSON格式无效，nodes和edges必须为数组",
 
@@ -1553,11 +1584,13 @@ export default {
   "rule.configPanel.warning.skipped": "其中 {0} 项配置被跳过",
   "rule.configPanel.warning.convertFail": "联动转换失败",
   "rule.configPanel.confirm.delete": "确定删除规则「{0}」吗？",
-  "rule.configPanel.confirm.convertLinkage": "检测到 {0} 个字段配置了联动策略，将自动转换为规则流程图，是否继续？",
+  "rule.configPanel.confirm.convertLinkage":
+    "检测到 {0} 个字段配置了联动策略，将自动转换为规则流程图，是否继续？",
   "rule.configPanel.success.deleted": "删除成功",
   "rule.configPanel.success.enabled": "已启用",
   "rule.configPanel.success.disabled": "已禁用",
-  "rule.configPanel.success.converted": "转换完成：显隐控制 {0} 项 / API联动 {1} 项 / 自定义 {2} 项",
+  "rule.configPanel.success.converted":
+    "转换完成：显隐控制 {0} 项 / API联动 {1} 项 / 自定义 {2} 项",
   "rule.configPanel.bindManager": "规则绑定",
 
   // ========== rule.bindManager.* 规则绑定管理 ==========
@@ -1595,10 +1628,9 @@ export default {
   "rule.bindManager.warning.bindFail": "绑定失败",
   "rule.bindManager.warning.noFields": "未检测到表单字段，无法分析覆盖范围",
   "rule.bindManager.warning.coverageFail": "字段覆盖范围分析失败",
-  "rule.bindManager.confirm.unbind": "确定解除规则 \"{0}\" 的绑定吗？",
+  "rule.bindManager.confirm.unbind": '确定解除规则 "{0}" 的绑定吗？',
   "rule.bindManager.success.unbound": "已解除绑定",
   "rule.bindManager.success.bound": "已绑定 {0} 条规则",
-
 
   // ========== rule.backToForm 返回表单按钮 ==========
   "rule.backToForm": "返回表单",
@@ -3070,6 +3102,10 @@ export default {
   "commonPage.tree.add": "新增节点",
   "commonPage.tree.filter": "输入关键字过滤",
   "commonPage.tree.empty": "暂无树数据",
+  "commonPage.tree.addNode": "新增分类",
+  "commonPage.tree.editNode": "编辑分类",
+  "commonPage.tree.nodeLabel": "分类名称",
+  "commonPage.tree.nodeLabelPlaceholder": "请输入分类名称",
   "commonPage.masterDetail.master": "主表",
   "commonPage.masterDetail.detail": "子表",
   "commonPage.masterDetail.selectMaster": "请选择主表记录",
@@ -3112,6 +3148,9 @@ export default {
   "commonPage.approval.finance": "财务审批",
   "commonPage.approval.done": "完成",
   "commonPage.approval.flow": "审批流程",
+  "commonPage.approval.noFlow": "未配置审批流程",
+  "commonPage.approval.approver": "审批人",
+  "commonPage.approval.selectApprover": "请选择审批人",
   "commonPage.approval.form": "表单信息",
   "commonPage.approval.actions": "审批操作",
   "commonPage.approval.approve": "同意",
@@ -3473,8 +3512,8 @@ export default {
   "locale.japanese": "日本語",
   "locale.traditionalChinese": "繁體中文",
 
-  "ui.addText":"编辑文本",
-  "ui.removeText":"删除文本",
+  "ui.addText": "编辑文本",
+  "ui.removeText": "删除文本",
   "ui.insertLeftCol": "左边插入列",
   "ui.insertRightCol": "右边插入列",
   "ui.insertAboveRow": "上方插入行",
@@ -3504,7 +3543,7 @@ export default {
   "ui.colConfig": "列设置",
   "ui.rowConfig": "行设置",
   "ui.cellConfig": "单元格设置",
-  "ui.addComp":"添加组件",
+  "ui.addComp": "添加组件",
   "dialog.addTitle": "新增数据",
   "dialog.batchAddTitle": "批量新增数据",
   "dialog.interfaceError": "接口不存在或网络异常:",
@@ -3525,6 +3564,7 @@ export default {
   "form.container": "容器",
   "form.basicComponents": "基础组件",
   "form.customComponents": "自定义组件",
+  "form.myComponents": "我的组件",
   "form.dragFileHereOr": "将文件拖到此处 或",
   "form.clickToUpload": "点击上传",
   "form.fileSizeLimit": "文件大小不能超过",
@@ -3561,12 +3601,17 @@ export default {
   "dyform.formula.type.dateCalc.desc": "日期差值 / 偏移 / 格式化",
   "dyform.formula.expression": "表达式",
   "dyform.formula.expression.placeholder.calc": "如 ${price} * ${quantity}",
-  "dyform.formula.expression.placeholder.concat": "如 ${lastName}${firstName} 或 订单号：${orderNo}",
+  "dyform.formula.expression.placeholder.concat":
+    "如 ${lastName}${firstName} 或 订单号：${orderNo}",
   "dyform.formula.expression.placeholder.format": "如 ${amount}",
-  "dyform.formula.expression.placeholder.ternary": "如 ${score} >= 60 ? ${score} : 0",
-  "dyform.formula.expression.helpMsg.calc": "使用 ${fieldName} 引用字段值，支持 + - * / 运算及 Math 函数",
-  "dyform.formula.expression.helpMsg.concat": "使用 ${fieldName} 引用字段值，支持混合固定文本",
-  "dyform.formula.expression.helpMsg.ternary": "格式：条件 ? 真值 : 假值，条件中用 ${fieldName} 引用字段",
+  "dyform.formula.expression.placeholder.ternary":
+    "如 ${score} >= 60 ? ${score} : 0",
+  "dyform.formula.expression.helpMsg.calc":
+    "使用 ${fieldName} 引用字段值，支持 + - * / 运算及 Math 函数",
+  "dyform.formula.expression.helpMsg.concat":
+    "使用 ${fieldName} 引用字段值，支持混合固定文本",
+  "dyform.formula.expression.helpMsg.ternary":
+    "格式：条件 ? 真值 : 假值，条件中用 ${fieldName} 引用字段",
   "dyform.formula.precision": "精度",
   "dyform.formula.precision.placeholder": "小数位数",
   "dyform.formula.prefix": "前缀",
@@ -3576,7 +3621,8 @@ export default {
   "dyform.formula.branches": "条件分支",
   "dyform.formula.branch.condition": "条件",
   "dyform.formula.branch.when.placeholder": "条件表达式，如 ${score} >= 90",
-  "dyform.formula.branch.then.placeholder": "匹配时返回的值，支持 ${fieldName} 引用",
+  "dyform.formula.branch.then.placeholder":
+    "匹配时返回的值，支持 ${fieldName} 引用",
   "dyform.formula.branch.add": "+ 添加条件",
   "dyform.formula.branch.delete": "删除",
   "dyform.formula.defaultValue": "默认值",
@@ -3585,14 +3631,17 @@ export default {
   "dyform.formula.lookup.mappings": "回填映射",
   "dyform.formula.lookup.mapping": "映射",
   "dyform.formula.lookup.key.placeholder": "匹配值（源字段的值）",
-  "dyform.formula.lookup.values.placeholder": "回填目标字段的 JSON，如 {\"name\":\"张三\",\"age\":20}",
+  "dyform.formula.lookup.values.placeholder":
+    '回填目标字段的 JSON，如 {"name":"张三","age":20}',
   "dyform.formula.lookup.add": "+ 添加映射",
-  "dyform.formula.lookup.helpMsg": "根据依赖字段（sourceFields[0]）的值匹配 key，将 values 中的字段回填到表单",
+  "dyform.formula.lookup.helpMsg":
+    "根据依赖字段（sourceFields[0]）的值匹配 key，将 values 中的字段回填到表单",
   "dyform.formula.aggregate.method": "聚合方式",
   "dyform.formula.aggregate.method.placeholder": "选择聚合方式",
   "dyform.formula.aggregate.field": "聚合子字段",
   "dyform.formula.aggregate.field.placeholder": "子表单中要聚合的字段名",
-  "dyform.formula.aggregate.field.helpMsg": "sourceFields 选择子表单数据源（数组），此处填写子表单中要聚合的字段名",
+  "dyform.formula.aggregate.field.helpMsg":
+    "sourceFields 选择子表单数据源（数组），此处填写子表单中要聚合的字段名",
   "dyform.formula.aggregate.sum": "求和",
   "dyform.formula.aggregate.avg": "平均值",
   "dyform.formula.aggregate.count": "计数",
@@ -3615,7 +3664,8 @@ export default {
   "dyform.formula.dateCalc.offset.placeholder": "正数向后，负数向前",
   "dyform.formula.dateCalc.dateFormat": "输出格式",
   "dyform.formula.dateCalc.dateFormat.placeholder": "如 YYYY-MM-DD",
-  "dyform.formula.dateCalc.expression.placeholder.diff": "如 ${startDate} ~ ${endDate}",
+  "dyform.formula.dateCalc.expression.placeholder.diff":
+    "如 ${startDate} ~ ${endDate}",
   "dyform.formula.dateCalc.expression.placeholder.other": "如 ${baseDate}",
   "dyform.formula.format.type": "格式化类型",
   "dyform.formula.format.type.placeholder": "选择格式化方式",
@@ -3654,13 +3704,15 @@ export default {
   "dyform.props.name": "字段名称",
   "dyform.props.name.placeholder": "请输入字段名",
   "dyform.props.maxLength": "数据长度",
-  "dyform.props.maxLength.helpMsg": "长度超过4000，后台自动转为文本类型如：text,clob等",
+  "dyform.props.maxLength.helpMsg":
+    "长度超过4000，后台自动转为文本类型如：text,clob等",
   "dyform.props.dataSource": "数据源",
   "dyform.props.dataSource.btn": "配置",
   "dyform.props.dataSource.helpMsg": "配置当前属性的备选数据项",
   "dyform.props.dataRelation": "联动策略",
   "dyform.props.dataRelation.btn": "配置",
-  "dyform.props.dataRelation.helpMsg": "当前属性数据改变，控制表单内其他属性的数据范围及操作行为",
+  "dyform.props.dataRelation.helpMsg":
+    "当前属性数据改变，控制表单内其他属性的数据范围及操作行为",
   "dyform.props.event": "事件",
   "dyform.props.event.btn": "配置",
   "dyform.props.rules": "校验规则",
@@ -3673,18 +3725,20 @@ export default {
   "dyform.props.defaultVisible": "显示方式",
   "dyform.props.defaultVisible.show": "默认展示",
   "dyform.props.defaultVisible.hide": "默认隐藏",
-  "dyform.props.matchType":"数据匹配方式",
+  "dyform.props.matchType": "数据匹配方式",
   "dyform.props.viewVisible": "查看可见",
   "dyform.props.disabled": "全局禁用",
   "dyform.props.editDisabled": "修改禁用",
   "dyform.props.readonly": "全局只读",
   "dyform.props.clearable": "可清除",
   "dyform.props.prototypeDisplay": "原样显示",
-  "dyform.props.prototypeDisplay.helpMsg": "如果设置为true，组件值将原样显示，不进行任何处理，主要使用在数据列表",
+  "dyform.props.prototypeDisplay.helpMsg":
+    "如果设置为true，组件值将原样显示，不进行任何处理，主要使用在数据列表",
   "dyform.props.listPrototypeDisplay": "组件值",
   "dyform.props.listPrototypeDisplay.placeholder": "请输入组件值",
   "dyform.props.uniqueValid": "唯一性校验",
-  "dyform.props.uniqueValid.helpMsg": "如果开启此功能，\n在新增数据时系统对数据进行唯一性校验。",
+  "dyform.props.uniqueValid.helpMsg":
+    "如果开启此功能，\n在新增数据时系统对数据进行唯一性校验。",
   "dyform.props.labelPosition": "标签位置",
   "dyform.props.labelPosition.top": "顶部",
   "dyform.props.labelPosition.left": "左边",
@@ -3722,7 +3776,8 @@ export default {
  控制公共字段是否显示在页面对于的位置`,
   "dyform.formProp.dbName.helpMsg": `动态创建的表需要存在那个数据库，
 如果为空，则在当前业务数据库创建表信息。`,
-  "dyform.formProp.relationField.helpMsg": "对于关联字段的处理，\n将编码或者ID 映射为对应的名称显示。",
+  "dyform.formProp.relationField.helpMsg":
+    "对于关联字段的处理，\n将编码或者ID 映射为对应的名称显示。",
   "dyform.formProp.formName": "表单名称",
   "dyform.formProp.dataSource": "数据源",
   "dyform.formProp.dataSource.warning": "请选择数据源",
@@ -3730,7 +3785,7 @@ export default {
   "dyform.formProp.tableName": "表名",
   "dyform.formProp.appName": "归属应用",
   "dyform.formProp.createTable": "创建表",
-  "dyform.formProp.checkDuplicate":"数据是否验证重复",
+  "dyform.formProp.checkDuplicate": "数据是否验证重复",
   "dyform.formProp.primaryKey": "主键",
   "dyform.formProp.primaryKeyStrategy": "主键策略",
   "dyform.formProp.formIcon": "表单图标",
@@ -3740,9 +3795,11 @@ export default {
   "dyform.formProp.buttonAuth": "按钮权限",
   "dyform.formProp.saveAsTemplate": "存为模板",
   "dyform.formProp.cascadeDelete": "级联删除",
-  "dyform.formProp.cascadeDelete.helpMsg": "页面字段删除时同步删除数据库对应表字段",
+  "dyform.formProp.cascadeDelete.helpMsg":
+    "页面字段删除时同步删除数据库对应表字段",
   "dyform.formProp.cloneData": "克隆数据到目标环境",
-  "dyform.formProp.cloneData.helpMsg": "将表单模型和权限等在上面选中数据库中生成相同的数据,\n目标数据库上必须要有所需的表，将克隆失败",
+  "dyform.formProp.cloneData.helpMsg":
+    "将表单模型和权限等在上面选中数据库中生成相同的数据,\n目标数据库上必须要有所需的表，将克隆失败",
   "dyform.formProp.pageStyle": "页面风格",
   "dyform.formProp.loadCondition": "数据加载条件",
   "dyform.formProp.relationConfig": "映射关系配置",
@@ -3763,7 +3820,8 @@ export default {
   "dyform.formProp.showValidateIcon": "是否在输入框中显示校验结果反馈图标",
   "dyform.formProp.showErrorMessage": "是否显示校验错误信息",
   "dyform.formProp.inlineMessage": "是否以行内形式展示校验信息",
-  "dyform.formProp.validateOnRuleChange": "是否在 rules 属性改变后立即触发一次验证",
+  "dyform.formProp.validateOnRuleChange":
+    "是否在 rules 属性改变后立即触发一次验证",
   "dyform.formProp.inlineForm": "行内表单模式",
   "dyform.formProp.publicProps": "公共属性",
   "dyform.formProp.needPublicFields": "需要公共字段",
@@ -3778,7 +3836,8 @@ export default {
   "dyform.formProp.relationField2": "关联字段",
   "dyform.formProp.displayField": "显示字段",
   "dyform.formProp.displayAlias": "显示别名",
-  "dyform.formProp.displayAlias.helpMsg": "关联字段与主表字段冲突时配置,\n必须以字母开头不能有特殊符号",
+  "dyform.formProp.displayAlias.helpMsg":
+    "关联字段与主表字段冲突时配置,\n必须以字母开头不能有特殊符号",
   "dyform.formProp.displayAlias.validate": "必须以字母开头不能有特殊符号",
   "dyform.formProp.listCustomEvent": "列表自定义事件",
   "dyform.formProp.eventName": "事件名称",
@@ -3786,7 +3845,8 @@ export default {
   "dyform.formProp.operationAuth": "操作权限",
   "dyform.formProp.eventCategory": "事件类别",
   "dyform.formProp.requestUrl": "请求地址",
-  "dyform.formProp.requestUrl.helpMsg": "请求接口：填写接口地址， 例如：/userdb-manage/xx/xx/xx;\n页面跳转：填写前端路由，例如：/test/UserInfo;\n弹窗：填写弹窗组件名称，例如：UserInfo。",
+  "dyform.formProp.requestUrl.helpMsg":
+    "请求接口：填写接口地址， 例如：/userdb-manage/xx/xx/xx;\n页面跳转：填写前端路由，例如：/test/UserInfo;\n弹窗：填写弹窗组件名称，例如：UserInfo。",
   "dyform.formProp.requestMethod": "请求方式",
   "dyform.formProp.params": "参数",
   "dyform.formProp.listSortField": "列表排序字段",
@@ -3847,7 +3907,8 @@ export default {
   /** Auto-generated i18n keys - formItems and related */
   "dyform.item.0": "组件名称",
   "dyform.item.1": "参数说明",
-  "dyform.item.2": "此组件可在自定义属性中配置:<br/> 表单信息(fieldList:数组)，<br/>组件/表单参数(params:对象)",
+  "dyform.item.2":
+    "此组件可在自定义属性中配置:<br/> 表单信息(fieldList:数组)，<br/>组件/表单参数(params:对象)",
   "dyform.item.3": "内容",
   "dyform.item.4": "配置数据",
   "dyform.item.5": "单行文本框",
@@ -4049,7 +4110,8 @@ export default {
   "dyform.item.199": "图片",
   "dyform.item.200": "图片卡片",
   "dyform.item.201": "保留上传结果",
-  "dyform.item.202": "数据上传成功后会返回路径、文件名、文件类型、文件大小等信息",
+  "dyform.item.202":
+    "数据上传成功后会返回路径、文件名、文件类型、文件大小等信息",
   "dyform.item.203": "启用拖拽",
   "dyform.item.204": "请求头部",
   "dyform.item.205": "数量限制",
@@ -4217,7 +4279,8 @@ export default {
   "dyform.extend.365": "画笔最大宽度(px)",
   "dyform.extend.366": "是否开启笔锋效果",
   "dyform.extend.367": "画笔达到最小宽度所需最小速度(px/ms)",
-  "dyform.extend.368": "画笔达到最小宽度所需最小速度(px/ms),取值范围1.0-10.0，值越小，画笔越容易变细，笔锋效果会比较明显，可以自行调整查看效果，选出自己满意的值",
+  "dyform.extend.368":
+    "画笔达到最小宽度所需最小速度(px/ms),取值范围1.0-10.0，值越小，画笔越容易变细，笔锋效果会比较明显，可以自行调整查看效果，选出自己满意的值",
   "dyform.extend.369": "JSON数组",
   "dyform.extend.370": "系统组件",
   "dyform.extend.371": "只能是components/common目录下的组件，n不能带目录2",
@@ -4305,8 +4368,10 @@ export default {
   "dyform.comp.container.442": "动态表格容器不允许嵌套其他容器",
   "dyform.comp.container.443": "栅格容器不允许嵌套其他容器",
   "dyform.comp.container.nestDenied": "该容器不允许嵌套其他容器",
-  "dyform.comp.container.444": "删除当前列后，所有的合并和添加的组件都会被删除，是否确认?",
-  "dyform.comp.container.445": "删除当前行后，所有的合并和添加的组件都会被删除，是否确认?",
+  "dyform.comp.container.444":
+    "删除当前列后，所有的合并和添加的组件都会被删除，是否确认?",
+  "dyform.comp.container.445":
+    "删除当前行后，所有的合并和添加的组件都会被删除，是否确认?",
   "dyform.utils.446": "操作成功",
   "dyform.utils.447": "验证成功",
   "dyform.utils.448": "验证失败\n数据字典可能未配置",
@@ -4382,11 +4447,13 @@ export default {
   "dyform.utils.516": "触发事件",
   "dyform.utils.517": "控制条件",
   "dyform.utils.518": "被控制属性",
-  "dyform.utils.519": "相同的属性不能配置到多个相同的控制条件中，\n否则后面的条件会覆盖前面的条件,导致数据联动失效",
+  "dyform.utils.519":
+    "相同的属性不能配置到多个相同的控制条件中，\n否则后面的条件会覆盖前面的条件,导致数据联动失效",
   "dyform.utils.520": "匹配条件",
   "dyform.utils.521": "作为查询条件时的参数名",
   "dyform.utils.522": "参数/匹配值",
-  "dyform.utils.523": "作为触发事件的匹配值；\n控制条件为数据作为参数触发数据联动时，没有选中则所有数据都作为联动参数，\n否则只有选中的才会作为联动参数",
+  "dyform.utils.523":
+    "作为触发事件的匹配值；\n控制条件为数据作为参数触发数据联动时，没有选中则所有数据都作为联动参数，\n否则只有选中的才会作为联动参数",
   "dyform.utils.524": "赋新值",
   "dyform.utils.525": "修改字段类型",
   "dyform.utils.526": "字段:field_type",
@@ -4410,13 +4477,16 @@ export default {
   "dyform.utils.544": "可清除",
   "dyform.utils.545": "只读",
   "dyform.utils.546": "查询区域显示类别",
-  "dyform.utils.547": "如果开启此功能，查询区域的此组件默认展示，\n否则需要点击高级查询时才会展示",
+  "dyform.utils.547":
+    "如果开启此功能，查询区域的此组件默认展示，\n否则需要点击高级查询时才会展示",
   "dyform.utils.548": "组件原样显示",
-  "dyform.utils.549": "在列表上原样显示组件,\n此属性开启可能会导致列表数据加载缓慢",
+  "dyform.utils.549":
+    "在列表上原样显示组件,\n此属性开启可能会导致列表数据加载缓慢",
   "dyform.utils.550": "组件值",
   "dyform.utils.551": "可指定显示为什么组件",
   "dyform.utils.552": "唯一性校验",
-  "dyform.utils.553": "如果开启此功能，\n在新增数据时系统对数据进行唯一性校验。",
+  "dyform.utils.553":
+    "如果开启此功能，\n在新增数据时系统对数据进行唯一性校验。",
   "dyform.utils.554": "提示信息",
   "dyform.utils.555": "菜单名称",
   "dyform.utils.556": "数据库信息",
@@ -4459,7 +4529,8 @@ export default {
   "dyform.utils.593": "指定函数不存在",
   "dyform.utils.594": "未找到指定的工具函数",
   "dyform.utils.595": "解析方式",
-  "dyform.utils.596": "路径解析：只能解析项目public下的子路径，格式为 test/*.svg，\n函数解析：只能解析src/api/star_horse_utils.ts下的无参函数，格式为: analysisData",
+  "dyform.utils.596":
+    "路径解析：只能解析项目public下的子路径，格式为 test/*.svg，\n函数解析：只能解析src/api/star_horse_utils.ts下的无参函数，格式为: analysisData",
   "dyform.utils.597": "解析",
   "dyform.utils.598": "属性名",
   "dyform.utils.599": "属性值",
@@ -4471,10 +4542,12 @@ export default {
   "dyform.utils.605": "表单属性",
   "dyform.utils.606": "数据源类型",
   "dyform.utils.607": "Tab组件中tabName 名${dupTabNames.join(",
-  "dyform.utils.608": ")}重复，请在容器对应属性面板【基础属性->编辑容器属性】中检查所有Tab组件",
+  "dyform.utils.608":
+    ")}重复，请在容器对应属性面板【基础属性->编辑容器属性】中检查所有Tab组件",
   "dyform.utils.609": "\nTab组件中objectName 名${dupObjectNames.join(",
   "dyform.utils.610": "\nTable组件中集合名称${dupBatchNames.join(",
-  "dyform.utils.611": ")}重复，请在容器对应属性面板【个性化属性->集合名称】中检查所有Table组件",
+  "dyform.utils.611":
+    ")}重复，请在容器对应属性面板【个性化属性->集合名称】中检查所有Table组件",
   "dyform.utils.612": "】组件必须在【属性面板->个性化属性->参数配置】中",
   "dyform.utils.613": ",配置IP地址或服务名",
   "dyform.utils.614": ",配置Url地址",
@@ -4499,8 +4572,10 @@ export default {
   "dyform.settings.copyright": "星骁个人工作室",
 
   // dbList
-  "dyform.utils.dbList.fieldCompTypesMsg": "类型操作提示：\n1、系统默认将数字类型的字段映射为数字输入框组件；\n   将字符串类型的字段映射为单行文本框组件；\n   将日期类型映射为日期选择器组件；\n2、如果字段有特色业务需要，则可以将字段配置为对应的组件类型",
-  "dyform.utils.dbList.configMsg": "操作指引：\n1、此处配置主要是对字段展示方式,排除字段和组件类型做配置；\n1、表字段在添加到舞台前需要做配置，配置好后再拖入舞台，\n   否则配置不生效；\n3、其他细节配置需要在舞台中进行处理",
+  "dyform.utils.dbList.fieldCompTypesMsg":
+    "类型操作提示：\n1、系统默认将数字类型的字段映射为数字输入框组件；\n   将字符串类型的字段映射为单行文本框组件；\n   将日期类型映射为日期选择器组件；\n2、如果字段有特色业务需要，则可以将字段配置为对应的组件类型",
+  "dyform.utils.dbList.configMsg":
+    "操作指引：\n1、此处配置主要是对字段展示方式,排除字段和组件类型做配置；\n1、表字段在添加到舞台前需要做配置，配置好后再拖入舞台，\n   否则配置不生效；\n3、其他细节配置需要在舞台中进行处理",
   "dyform.utils.dbList.styleSetting": "风格设置",
   "dyform.utils.dbList.name": "名称",
   "dyform.utils.dbList.type": "类型",
@@ -4537,19 +4612,27 @@ export default {
   "dyform.propPanel.propValue": "属性值(value)",
   "dyform.propPanel.expandPanel": "弹窗打开",
 
-
   // preps
-  "dyform.preps.urlReturnDataHelpMsg": "接口返回的数据格式必须是：\n{\"data\":{\"pageSize\":0,\"currentPage\":0,\"totalDatas\":34,\"totalPages\":4,\"dataList\":[{}]},\"code\":0,\"message\":\"success\"}\n或者：\n{\"data\":[{}],\"code\":0,\"message\":\"success\"}",
-  "dyform.preps.tabNameHelp": "默认作为tab组件的名称，\n当设置对应关系时,系统作为表的主键",
-  "dyform.preps.collapseNameHelp": "默认作为Collapse组件的名称，\n当设置对应关系时,系统作为表的主键",
-  "dyform.preps.splitterNameHelp": "默认作为Splitter组件的名称，\n当设置对应关系时,系统作为表的主键",
-  "dyform.preps.stepNameHelp": "默认作为Step步骤的名称，\n当设置对应关系时,系统作为表的主键",
-  "dyform.preps.cardNameHelp": "默认作为Card组件的名称，\n当设置对应关系时,系统作为表的主键",
+  "dyform.preps.urlReturnDataHelpMsg":
+    '接口返回的数据格式必须是：\n{"data":{"pageSize":0,"currentPage":0,"totalDatas":34,"totalPages":4,"dataList":[{}]},"code":0,"message":"success"}\n或者：\n{"data":[{}],"code":0,"message":"success"}',
+  "dyform.preps.tabNameHelp":
+    "默认作为tab组件的名称，\n当设置对应关系时,系统作为表的主键",
+  "dyform.preps.collapseNameHelp":
+    "默认作为Collapse组件的名称，\n当设置对应关系时,系统作为表的主键",
+  "dyform.preps.splitterNameHelp":
+    "默认作为Splitter组件的名称，\n当设置对应关系时,系统作为表的主键",
+  "dyform.preps.stepNameHelp":
+    "默认作为Step步骤的名称，\n当设置对应关系时,系统作为表的主键",
+  "dyform.preps.cardNameHelp":
+    "默认作为Card组件的名称，\n当设置对应关系时,系统作为表的主键",
 
   // valid
-  "dyform.valid.dupTabName": "Tab组件中tabName 名{names}重复，请在容器对应属性面板【基础属性->编辑容器属性】中检查所有Tab组件",
-  "dyform.valid.dupObjectName": "Tab组件中objectName 名{names}重复，请在容器对应属性面板【基础属性->编辑容器属性】中检查所有Tab组件",
-  "dyform.valid.dupBatchName": "Table组件中集合名称{names}重复，请在容器对应属性面板【个性化属性->集合名称】中检查所有Table组件",
+  "dyform.valid.dupTabName":
+    "Tab组件中tabName 名{names}重复，请在容器对应属性面板【基础属性->编辑容器属性】中检查所有Tab组件",
+  "dyform.valid.dupObjectName":
+    "Tab组件中objectName 名{names}重复，请在容器对应属性面板【基础属性->编辑容器属性】中检查所有Tab组件",
+  "dyform.valid.dupBatchName":
+    "Table组件中集合名称{names}重复，请在容器对应属性面板【个性化属性->集合名称】中检查所有Table组件",
 
   // design ws
   "dyform.design.ws.comp": "组件",
@@ -4582,7 +4665,8 @@ export default {
   "dyform.sample.paramName": "参数名",
   "dyform.sample.paramValue": "参数值",
   "dyform.sample.remark": "备注",
-  "dyform.sample.systemParamHelp": "系统参数创建后，请不要随便删除或者修改，\n否则可能导致系统功能异常",
+  "dyform.sample.systemParamHelp":
+    "系统参数创建后，请不要随便删除或者修改，\n否则可能导致系统功能异常",
   "dyform.sample.submitting": "数据提交中，请等待",
   "dyform.sample.operationError": "操作异常:",
   "dyform.sample.dynamicList": "动态列表",
@@ -4618,7 +4702,8 @@ export default {
   "dyform.step.delete": "删除步骤",
   "dyform.step.confirmDelete": "确定要删除当前步骤及其所有字段吗？",
   "dyform.step.sameForm": "同属一个表单",
-  "dyform.step.sameFormRemark": "开启时所有步骤共享同一表单数据，关闭时每个步骤为独立子表单",
+  "dyform.step.sameFormRemark":
+    "开启时所有步骤共享同一表单数据，关闭时每个步骤为独立子表单",
   "dyform.step.sameFormHint": "当前模式",
   "dyform.step.sameFormYes": "同表单",
   "dyform.step.sameFormNo": "分表单",
@@ -4639,14 +4724,17 @@ export default {
   "dyform.step.styleLabel": "步骤风格",
   "dyform.step.styleSteps": "步骤条",
   "dyform.step.stylePager": "分页导航",
-  "dyform.step.styleRemark": "步骤条：头部显示第一步/第二步等；分页导航：底部显示上一步/下一步，首尾页隐藏对应按钮",
+  "dyform.step.styleRemark":
+    "步骤条：头部显示第一步/第二步等；分页导航：底部显示上一步/下一步，首尾页隐藏对应按钮",
   // dialog/drawer/fieldset/descriptions/anchor 容器
   "dyform.container.dialog": "对话框",
-  "dyform.container.dialogRemark": "以按钮形式触发,点击打开对话框编辑,关闭时回填数据",
+  "dyform.container.dialogRemark":
+    "以按钮形式触发,点击打开对话框编辑,关闭时回填数据",
   "dyform.container.dialogDefaultBtn": "打开对话框",
   "dyform.container.dialogDesignHint": "(设计模式:下方拖入对话框内字段)",
   "dyform.container.drawer": "抽屉",
-  "dyform.container.drawerRemark": "以按钮形式触发,点击打开抽屉编辑,关闭时回填数据",
+  "dyform.container.drawerRemark":
+    "以按钮形式触发,点击打开抽屉编辑,关闭时回填数据",
   "dyform.container.drawerDefaultBtn": "打开抽屉",
   "dyform.container.drawerDesignHint": "(设计模式:下方拖入抽屉内字段)",
   "dyform.container.fieldset": "分组",
@@ -4659,7 +4747,8 @@ export default {
   "dyform.container.borderDashed": "虚线",
   "dyform.container.borderNone": "无边框",
   "dyform.container.descriptions": "描述列表",
-  "dyform.container.descriptionsRemark": "Descriptions描述列表容器,适合展示键值对信息",
+  "dyform.container.descriptionsRemark":
+    "Descriptions描述列表容器,适合展示键值对信息",
   "dyform.container.descSpan": "跨度",
   "dyform.container.descRowspan": "行跨度",
   "dyform.container.descWidth": "宽度",
@@ -4675,7 +4764,8 @@ export default {
   "dyform.container.sizeDefault": "默认",
   "dyform.container.sizeSmall": "小",
   "dyform.container.anchor": "锚点导航",
-  "dyform.container.anchorRemark": "锚点导航容器,表单字段太多时分区展示并快速定位",
+  "dyform.container.anchorRemark":
+    "锚点导航容器,表单字段太多时分区展示并快速定位",
   "dyform.container.anchorDirection": "导航方向",
   "dyform.container.anchorPlacement": "导航位置",
   "dyform.container.anchorOffset": "偏移量",
@@ -4728,7 +4818,8 @@ export default {
   "dyform.container.alignCenter": "居中对齐",
   "dyform.container.alignRight": "右对齐",
   "dyform.step.mustCompleteStep": "每步必填",
-  "dyform.step.mustCompleteRemark": "开启时当前步骤必填字段全部完成后才能进入下一步",
+  "dyform.step.mustCompleteRemark":
+    "开启时当前步骤必填字段全部完成后才能进入下一步",
   "dyform.step.validateFailed": "请完成当前步骤的必填字段：{0}",
   "dyform.step.showStepBarRemark": "仅在步骤条风格下生效，分页导航风格强制隐藏",
   "dyform.step.yes": "是",
@@ -4827,14 +4918,15 @@ export default {
   // ===== API Data Source (Third-party) =====
   "dyform.props.apiDataSource": "API数据源",
   "dyform.props.apiDataSource.btn": "配置",
-  "dyform.props.apiDataSource.helpMsg": "配置第三方API接口作为下拉数据的数据列表",
+  "dyform.props.apiDataSource.helpMsg":
+    "配置第三方API接口作为下拉数据的数据列表",
   "dyform.apiSource.dialog.title": "API数据源配置",
   "dyform.apiSource.tab.request": "请求配置",
   "dyform.apiSource.tab.response": "响应配置",
   "dyform.apiSource.tab.auth": "认证配置",
   "dyform.apiSource.url": "接口地址",
   "dyform.apiSource.proxyUrl": "代理接口地址",
-  "dyform.apiSource.proxyUrl.helpMsg":"代理实际业务接口",
+  "dyform.apiSource.proxyUrl.helpMsg": "代理实际业务接口",
   "dyform.apiSource.url.helpMsg": "完整的API接口地址，如：/api/v1/users",
   "dyform.apiSource.httpMethod": "请求方式",
   "dyform.apiSource.dataType": "入参格式",
@@ -4845,29 +4937,35 @@ export default {
   "dyform.apiSource.env": "环境",
   "dyform.apiSource.env.helpMsg": "可选，指定运行环境",
   "dyform.apiSource.headers": "请求头",
-  "dyform.apiSource.headers.helpMsg": "配置自定义请求头，支持静态值和动态值（从表单数据获取）",
+  "dyform.apiSource.headers.helpMsg":
+    "配置自定义请求头，支持静态值和动态值（从表单数据获取）",
   "dyform.apiSource.headerName": "头部名称",
   "dyform.apiSource.headerValue": "头部值",
   "dyform.apiSource.valueType": "值类型",
   "dyform.apiSource.valueType.static": "固定值",
   "dyform.apiSource.valueType.dynamic": "动态值",
-  "dyform.apiSource.valueType.isolation":"基于配置隔离",
+  "dyform.apiSource.valueType.isolation": "基于配置隔离",
   "dyform.apiSource.requestParams": "请求参数",
-  "dyform.apiSource.requestParams.helpMsg": "配置接口请求参数，动态值将从表单当前数据中获取;\n如果配置的值类型是动态值，一定要用表单的字段名称,比如表单字段名称为userName,那么参数值为${userName}",
+  "dyform.apiSource.requestParams.helpMsg":
+    "配置接口请求参数，动态值将从表单当前数据中获取;\n如果配置的值类型是动态值，一定要用表单的字段名称,比如表单字段名称为userName,那么参数值为${userName}",
   "dyform.apiSource.paramName": "参数名",
   "dyform.apiSource.paramValue": "参数值",
   "dyform.apiSource.customBody": "自定义请求体",
-  "dyform.apiSource.customBody.helpMsg": "JSON格式的自定义请求体，将覆盖上方的请求参数配置",
+  "dyform.apiSource.customBody.helpMsg":
+    "JSON格式的自定义请求体，将覆盖上方的请求参数配置",
   "dyform.apiSource.responseTemplate": "响应模板",
-  "dyform.apiSource.responseTemplate.helpMsg": "选择接口返回的数据结构模板，用于正确解析响应数据",
+  "dyform.apiSource.responseTemplate.helpMsg":
+    "选择接口返回的数据结构模板，用于正确解析响应数据",
   "dyform.apiSource.successCode": "成功状态码",
-  "dyform.apiSource.successCode.helpMsg": "接口返回成功的状态码值，如：200、0、success等",
+  "dyform.apiSource.successCode.helpMsg":
+    "接口返回成功的状态码值，如：200、0、success等",
   "dyform.apiSource.codePath": "状态码路径",
   "dyform.apiSource.codePath.helpMsg": "响应JSON中状态码字段的路径，如：code",
   "dyform.apiSource.dataPath": "数据路径",
   "dyform.apiSource.dataPath.helpMsg": "响应JSON中业务数据的路径，如：data",
   "dyform.apiSource.labelField": "显示名字段",
-  "dyform.apiSource.labelField.helpMsg": "接口返回数据中用作下拉选项显示名的字段名",
+  "dyform.apiSource.labelField.helpMsg":
+    "接口返回数据中用作下拉选项显示名的字段名",
   "dyform.apiSource.valueField": "值字段",
   "dyform.apiSource.valueField.helpMsg": "接口返回数据中用作下拉选项值的字段名",
   "dyform.apiSource.testBtn": "测试接口",
@@ -4889,41 +4987,63 @@ export default {
   "dyform.apiConfig.isolationName": "隔离Key",
   "dyform.apiConfig.isolationParamName": "接口参数名",
   "dyform.apiConfig.isolationCode": "隔离编码",
-  "dyform.apiConfig.helpMsg.apiType": "选择接口来源：系统接口（已注册的微服务接口）或外部接口（自定义URL）",
+  "dyform.apiConfig.helpMsg.apiType":
+    "选择接口来源：系统接口（已注册的微服务接口）或外部接口（自定义URL）",
   "dyform.apiConfig.helpMsg.serviceName": "选择系统已注册的微服务名称",
   "dyform.apiConfig.helpMsg.interfaceName": "选择该服务下已注册的接口",
   "dyform.apiConfig.helpMsg.method": "选择接口方法，系统自动填充HTTP方法和URL",
-  "dyform.apiConfig.helpMsg.redirect": "开启后通过后端代理转发请求，避免跨域问题",
-  "dyform.apiConfig.helpMsg.httpMethod": "HTTP请求方法：GET、POST、PUT、DELETE等",
+  "dyform.apiConfig.helpMsg.redirect":
+    "开启后通过后端代理转发请求，避免跨域问题",
+  "dyform.apiConfig.helpMsg.httpMethod":
+    "HTTP请求方法：GET、POST、PUT、DELETE等",
   "dyform.apiConfig.helpMsg.protocol": "通信协议：HTTP或HTTPS",
   "dyform.apiConfig.helpMsg.dataType": "请求数据格式：JSON、Form等",
-  "dyform.apiConfig.helpMsg.headerName": "请求头名称，如Content-Type、Authorization等",
-  "dyform.apiConfig.helpMsg.headerValue": "请求头的值。静态值：直接填写固定内容；动态值：用 ${key} 格式引用认证实例数据（如 ${token}、${sessionId}），注意请求头动态值来自认证配置返回的实例数据，不是表单字段；隔离值：由系统根据区域隔离配置自动注入",
-  "dyform.apiConfig.helpMsg.valueType": "静态值：直接填写固定内容；动态值：用 ${fieldName} 格式引用变量（请求参数引用表单字段值，请求头引用认证实例数据）；隔离值：由系统根据区域隔离配置自动注入对应隔离标识的值",
-  "dyform.apiConfig.helpMsg.paramName": "请求参数名，需与后端接口定义的参数名完全一致",
-  "dyform.apiConfig.helpMsg.paramValue": "参数值。静态值：直接填写固定内容；动态值：用 ${fieldName} 格式引用表单字段值，如表单字段名为 userName 则填 ${userName}，系统在后端自动替换为实际值；隔离值：由系统根据区域隔离配置自动注入",
-  "dyform.apiConfig.helpMsg.matchType": "参数匹配方式：eq(精确匹配)、like(模糊匹配)等，决定后端如何用该参数过滤数据",
-  "dyform.apiConfig.helpMsg.conditionFields": "声明接口调用依赖哪些表单字段。配置请求参数时，动态值（${fieldName}）中的 fieldName 必须在此处选择过，否则后端无法获取对应表单值进行替换",
+  "dyform.apiConfig.helpMsg.headerName":
+    "请求头名称，如Content-Type、Authorization等",
+  "dyform.apiConfig.helpMsg.headerValue":
+    "请求头的值。静态值：直接填写固定内容；动态值：用 ${key} 格式引用认证实例数据（如 ${token}、${sessionId}），注意请求头动态值来自认证配置返回的实例数据，不是表单字段；隔离值：由系统根据区域隔离配置自动注入",
+  "dyform.apiConfig.helpMsg.valueType":
+    "静态值：直接填写固定内容；动态值：用 ${fieldName} 格式引用变量（请求参数引用表单字段值，请求头引用认证实例数据）；隔离值：由系统根据区域隔离配置自动注入对应隔离标识的值",
+  "dyform.apiConfig.helpMsg.paramName":
+    "请求参数名，需与后端接口定义的参数名完全一致",
+  "dyform.apiConfig.helpMsg.paramValue":
+    "参数值。静态值：直接填写固定内容；动态值：用 ${fieldName} 格式引用表单字段值，如表单字段名为 userName 则填 ${userName}，系统在后端自动替换为实际值；隔离值：由系统根据区域隔离配置自动注入",
+  "dyform.apiConfig.helpMsg.matchType":
+    "参数匹配方式：eq(精确匹配)、like(模糊匹配)等，决定后端如何用该参数过滤数据",
+  "dyform.apiConfig.helpMsg.conditionFields":
+    "声明接口调用依赖哪些表单字段。配置请求参数时，动态值（${fieldName}）中的 fieldName 必须在此处选择过，否则后端无法获取对应表单值进行替换",
   "dyform.apiConfig.helpMsg.isolationType": "选择隔离维度：按IP或按角色",
-  "dyform.apiConfig.helpMsg.isolationName": "隔离标识的键名，用于区分不同隔离区域",
-  "dyform.apiConfig.helpMsg.isolationParamName": "对应接口请求参数名，系统会将隔离值注入该参数",
-  "dyform.apiConfig.helpMsg.isolationCode": "隔离区域的编码值，如具体IP地址或角色编码",
-  "dyform.apiConfig.helpMsg.analysisValue": "填写数据生成函数名或路径，点击解析按钮生成静态数据选项",
+  "dyform.apiConfig.helpMsg.isolationName":
+    "隔离标识的键名，用于区分不同隔离区域",
+  "dyform.apiConfig.helpMsg.isolationParamName":
+    "对应接口请求参数名，系统会将隔离值注入该参数",
+  "dyform.apiConfig.helpMsg.isolationCode":
+    "隔离区域的编码值，如具体IP地址或角色编码",
+  "dyform.apiConfig.helpMsg.analysisValue":
+    "填写数据生成函数名或路径，点击解析按钮生成静态数据选项",
   "dyform.apiConfig.helpMsg.staticName": "下拉选项的显示名称",
   "dyform.apiConfig.helpMsg.staticValue": "下拉选项的实际值",
   "dyform.apiConfig.paramValueField": "选择字段",
-  "dyform.apiConfig.helpMsg.paramValueField": "值类型为动态值时显示。从下拉列表选择表单字段，系统自动生成 ${fieldName} 格式填入参数值；也可手动输入字段名",
-  "dyform.apiConfig.helpMsg.configGuide": "完整配置示例：\n1. 条件属性：选择触发表单字段（如 userName）\n2. 接口配置 → 入参配置 → 请求参数：\n   - 参数名：userId，参数值：${userName}，值类型：动态值\n   - 参数名：status，参数值：active，值类型：静态值\n3. 请求头（如需认证）：\n   - 头名称：Authorization，头值：${token}，值类型：动态值\n   - 注意：请求头动态值来自认证配置返回的实例数据，不是表单字段\n4. 出参配置：配置 successCode、codePath、dataPath 以正确解析响应\n5. 字段映射：将接口返回字段映射到表单字段",
+  "dyform.apiConfig.helpMsg.paramValueField":
+    "值类型为动态值时显示。从下拉列表选择表单字段，系统自动生成 ${fieldName} 格式填入参数值；也可手动输入字段名",
+  "dyform.apiConfig.helpMsg.configGuide":
+    "完整配置示例：\n1. 条件属性：选择触发表单字段（如 userName）\n2. 接口配置 → 入参配置 → 请求参数：\n   - 参数名：userId，参数值：${userName}，值类型：动态值\n   - 参数名：status，参数值：active，值类型：静态值\n3. 请求头（如需认证）：\n   - 头名称：Authorization，头值：${token}，值类型：动态值\n   - 注意：请求头动态值来自认证配置返回的实例数据，不是表单字段\n4. 出参配置：配置 successCode、codePath、dataPath 以正确解析响应\n5. 字段映射：将接口返回字段映射到表单字段",
   "dyform.apiConfig.error.network": "网络请求失败，请检查接口地址和网络连接",
-  "dyform.apiConfig.error.parseFailed": "响应数据解析失败，请检查出参配置（successCode/codePath/dataPath）是否与接口实际返回结构匹配",
-  "dyform.apiConfig.error.codeMismatch": "接口返回状态码不匹配成功码，请检查 successCode 配置或接口是否正常",
-  "dyform.apiConfig.error.noData": "未能从响应中提取数据，请检查 dataPath 配置是否指向正确的数据路径",
-  "dyform.apiConfig.error.paramMissing": "动态参数引用的表单字段不存在或未赋值，请检查条件属性配置和 ${fieldName} 格式",
-  "dyform.apiConfig.error.authFailed": "认证失败，请检查认证配置（登录接口、账号密码、token提取路径）",
+  "dyform.apiConfig.error.parseFailed":
+    "响应数据解析失败，请检查出参配置（successCode/codePath/dataPath）是否与接口实际返回结构匹配",
+  "dyform.apiConfig.error.codeMismatch":
+    "接口返回状态码不匹配成功码，请检查 successCode 配置或接口是否正常",
+  "dyform.apiConfig.error.noData":
+    "未能从响应中提取数据，请检查 dataPath 配置是否指向正确的数据路径",
+  "dyform.apiConfig.error.paramMissing":
+    "动态参数引用的表单字段不存在或未赋值，请检查条件属性配置和 ${fieldName} 格式",
+  "dyform.apiConfig.error.authFailed":
+    "认证失败，请检查认证配置（登录接口、账号密码、token提取路径）",
   // ===== API Linkage (Third-party) =====
   "dyform.props.apiLinkage": "API联动",
   "dyform.props.apiLinkage.btn": "配置",
-  "dyform.props.apiLinkage.helpMsg": "配置第三方API联动策略，当字段值变化时调用接口并将返回值赋给其他表单字段",
+  "dyform.props.apiLinkage.helpMsg":
+    "配置第三方API联动策略，当字段值变化时调用接口并将返回值赋给其他表单字段",
   "dyform.apiLinkage.dialog.title": "API联动策略配置",
   "dyform.apiLinkage.triggerEvent": "触发事件",
   "dyform.apiLinkage.triggerEvent.change": "值变化",
@@ -4964,86 +5084,109 @@ export default {
   "dyform.relation.apiLinkage.timeout": "超时(秒)",
   "dyform.relation.apiLinkage.timeout.helpMsg": "请求超时时间，默认120秒",
   "dyform.relation.apiLinkage.serviceName": "服务名",
-  "dyform.relation.apiLinkage.serviceName.helpMsg": "可选，Nacos微服务名，用于内部调用",
+  "dyform.relation.apiLinkage.serviceName.helpMsg":
+    "可选，Nacos微服务名，用于内部调用",
   "dyform.relation.apiLinkage.body": "请求体",
-  "dyform.relation.apiLinkage.body.helpMsg": "JSON格式自定义请求体，将覆盖请求参数配置",
+  "dyform.relation.apiLinkage.body.helpMsg":
+    "JSON格式自定义请求体，将覆盖请求参数配置",
   "dyform.relation.apiLinkage.headers": "请求头",
-  "dyform.relation.apiLinkage.headers.helpMsg": "配置自定义请求头，支持静态值和动态值（从表单数据获取）",
+  "dyform.relation.apiLinkage.headers.helpMsg":
+    "配置自定义请求头，支持静态值和动态值（从表单数据获取）",
   "dyform.relation.apiLinkage.headerName": "头部名称",
   "dyform.relation.apiLinkage.headerValue": "头部值",
   "dyform.relation.apiLinkage.valueType": "值类型",
   "dyform.relation.apiLinkage.requestParams": "请求参数",
-  "dyform.relation.apiLinkage.requestParams.helpMsg": "配置接口请求参数，动态值将从表单当前数据中获取。\n如果配置的值类型是动态值，一定要用表单的字段名称,比如表单字段名称为userName,那么参数值为${userName}",
+  "dyform.relation.apiLinkage.requestParams.helpMsg":
+    "配置接口请求参数，动态值将从表单当前数据中获取。\n如果配置的值类型是动态值，一定要用表单的字段名称,比如表单字段名称为userName,那么参数值为${userName}",
   "dyform.relation.apiLinkage.paramName": "参数名",
   "dyform.relation.apiLinkage.paramValue": "参数值",
-  "dyform.relation.apiLinkage.paramValue.helpMsg": "动态值时填写表单字段名，系统自动获取对应值",
+  "dyform.relation.apiLinkage.paramValue.helpMsg":
+    "动态值时填写表单字段名，系统自动获取对应值",
   "dyform.relation.apiLinkage.customBody": "自定义请求体",
-  "dyform.relation.apiLinkage.customBody.helpMsg": "JSON格式的自定义请求体，将覆盖上方的请求参数配置",
+  "dyform.relation.apiLinkage.customBody.helpMsg":
+    "JSON格式的自定义请求体，将覆盖上方的请求参数配置",
   "dyform.relation.apiLinkage.responseTemplate": "响应模板",
-  "dyform.relation.apiLinkage.responseTemplate.helpMsg": "选择接口返回的数据结构模板",
+  "dyform.relation.apiLinkage.responseTemplate.helpMsg":
+    "选择接口返回的数据结构模板",
   "dyform.relation.apiLinkage.successCode": "成功状态码",
-  "dyform.relation.apiLinkage.successCode.helpMsg": "接口返回成功的状态码，如：200、0",
+  "dyform.relation.apiLinkage.successCode.helpMsg":
+    "接口返回成功的状态码，如：200、0",
   "dyform.relation.apiLinkage.codePath": "状态码路径",
-  "dyform.relation.apiLinkage.codePath.helpMsg": "响应中状态码字段路径，如：code",
+  "dyform.relation.apiLinkage.codePath.helpMsg":
+    "响应中状态码字段路径，如：code",
   "dyform.relation.apiLinkage.dataPath": "数据路径",
   "dyform.relation.apiLinkage.dataPath.helpMsg": "响应中业务数据路径，如：data",
   "dyform.relation.apiLinkage.messagePath": "消息路径",
-  "dyform.relation.apiLinkage.messagePath.helpMsg": "响应中消息字段路径，如：message",
+  "dyform.relation.apiLinkage.messagePath.helpMsg":
+    "响应中消息字段路径，如：message",
   "dyform.relation.apiLinkage.fieldMapping": "字段映射",
   "dyform.relation.apiLinkage.sourceField": "接口字段",
   "dyform.relation.apiLinkage.sourceField.helpMsg": "接口返回数据中的字段名",
   "dyform.relation.apiLinkage.targetField": "表单字段",
   "dyform.relation.apiLinkage.targetField.helpMsg": "映射到表单中的目标字段",
   "dyform.relation.apiLinkage.typeConvert": "类型转换",
-  "dyform.relation.apiLinkage.typeConvert.helpMsg": "可选，将接口字段值转换为指定类型",
+  "dyform.relation.apiLinkage.typeConvert.helpMsg":
+    "可选，将接口字段值转换为指定类型",
   "dyform.relation.apiLinkage.typeConvert.string": "字符串",
   "dyform.relation.apiLinkage.typeConvert.number": "数字",
   "dyform.relation.apiLinkage.typeConvert.boolean": "布尔",
   "dyform.relation.apiLinkage.typeConvert.array": "数组",
   "dyform.relation.apiLinkage.transform": "转换表达式",
-  "dyform.relation.apiLinkage.transform.helpMsg": "可选，如：dateFormat:yyyy-MM-dd",
+  "dyform.relation.apiLinkage.transform.helpMsg":
+    "可选，如：dateFormat:yyyy-MM-dd",
   "dyform.relation.apiLinkage.authType": "认证方式",
   "dyform.relation.apiLinkage.loginConfig": "登录接口配置",
   "dyform.relation.apiLinkage.loginUrl": "登录地址",
   "dyform.relation.apiLinkage.loginUrl.helpMsg": "获取Token的登录接口地址",
   "dyform.relation.apiLinkage.loginMethod": "登录方式",
   "dyform.relation.apiLinkage.loginAccount": "登录账号",
-  "dyform.relation.apiLinkage.loginAccount.helpMsg": "登录账号，留空则使用登录参数",
+  "dyform.relation.apiLinkage.loginAccount.helpMsg":
+    "登录账号，留空则使用登录参数",
   "dyform.relation.apiLinkage.loginPassword": "登录密码",
   "dyform.relation.apiLinkage.loginParams": "登录参数",
-  "dyform.relation.apiLinkage.loginParams.helpMsg": "JSON格式，如：{\"username\":\"admin\",\"password\":\"123\"}",
+  "dyform.relation.apiLinkage.loginParams.helpMsg":
+    'JSON格式，如：{"username":"admin","password":"123"}',
   "dyform.relation.apiLinkage.loginTokenPath": "Token路径",
-  "dyform.relation.apiLinkage.loginTokenPath.helpMsg": "登录响应中Token的字段路径，如：data.token",
+  "dyform.relation.apiLinkage.loginTokenPath.helpMsg":
+    "登录响应中Token的字段路径，如：data.token",
   "dyform.relation.apiLinkage.loginHeaderName": "Token头部名",
-  "dyform.relation.apiLinkage.loginHeaderName.helpMsg": "将Token放入业务接口请求头的名称，默认Authorization",
+  "dyform.relation.apiLinkage.loginHeaderName.helpMsg":
+    "将Token放入业务接口请求头的名称，默认Authorization",
   "dyform.relation.apiLinkage.basicUsername": "用户名",
   "dyform.relation.apiLinkage.basicPassword": "密码",
   "dyform.relation.apiLinkage.bearerToken": "Token",
   "dyform.relation.apiLinkage.customHeaders": "认证自定义头",
-  "dyform.relation.apiLinkage.authCustomHeaders.helpMsg": "JSON格式，当认证方式为'自定义请求头'时生效，如：{\"X-Api-Key\":\"xxx\"}",
+  "dyform.relation.apiLinkage.authCustomHeaders.helpMsg":
+    'JSON格式，当认证方式为\'自定义请求头\'时生效，如：{"X-Api-Key":"xxx"}',
 
   // ===== Unified Data Source & Linkage =====
   "dyform.unified.source.type": "数据来源类型",
   "dyform.unified.source.static": "静态数据",
-  "dyform.unified.source.static.desc": "手动配置固定的选项数据，适用于数据不变的场景",
+  "dyform.unified.source.static.desc":
+    "手动配置固定的选项数据，适用于数据不变的场景",
   "dyform.unified.source.internalApi": "系统接口",
   "dyform.unified.source.internalApi.desc": "调用系统内部已配置的接口获取数据",
   "dyform.unified.source.dict": "数据字典",
   "dyform.unified.source.dict.desc": "从系统数据字典中获取选项数据",
   "dyform.unified.source.thirdParty": "第三方接口",
-  "dyform.unified.source.thirdParty.desc": "配置自定义第三方API接口，支持灵活的认证和响应解析",
+  "dyform.unified.source.thirdParty.desc":
+    "配置自定义第三方API接口，支持灵活的认证和响应解析",
   "dyform.unified.linkage.enable": "已启用联动策略",
   "dyform.unified.linkage.disable": "联动策略未启用",
-  "dyform.unified.linkage.disabledDesc": "启用后可配置字段值变化时的联动行为（显隐控制或接口回填）",
+  "dyform.unified.linkage.disabledDesc":
+    "启用后可配置字段值变化时的联动行为（显隐控制或接口回填）",
   "dyform.unified.linkage.trigger": "触发事件",
   "dyform.unified.linkage.tab.visibility": "显隐控制",
   "dyform.unified.linkage.tab.apiFill": "接口回填",
   "dyform.unified.linkage.type": "联动策略类型",
   "dyform.unified.linkage.visibility.desc": "根据条件控制表单字段的显示与隐藏",
-  "dyform.unified.linkage.apiFill.desc": "字段值变化时调用第三方接口，将返回值自动回填到表单字段",
+  "dyform.unified.linkage.apiFill.desc":
+    "字段值变化时调用第三方接口，将返回值自动回填到表单字段",
   "dyform.unified.linkage.tab.custom": "自定义实现",
-  "dyform.unified.linkage.custom.desc": "通过编写 JS 代码自定义事件处理逻辑，适合专业用户",
-  "dyform.unified.linkage.custom.helpMsg": "在代码中可通过 currentField（当前字段信息）、formData（表单数据）、formInstance（表单实例）等对象进行自定义处理。",
+  "dyform.unified.linkage.custom.desc":
+    "通过编写 JS 代码自定义事件处理逻辑，适合专业用户",
+  "dyform.unified.linkage.custom.helpMsg":
+    "在代码中可通过 currentField（当前字段信息）、formData（表单数据）、formInstance（表单实例）等对象进行自定义处理。",
   "dyform.unified.linkage.custom.warning.empty": "自定义代码不能为空",
 
   // ===== Dynamic Query Builder =====
@@ -5087,7 +5230,8 @@ export default {
   "queryBuilder.groupBy.selectField": "选择分组字段",
   "queryBuilder.action.addGroupBy": "添加分组",
   "queryBuilder.action.addHaving": "添加过滤条件",
-  "queryBuilder.having.hint": "HAVING 用于对聚合结果进行过滤，例如：COUNT(id) > 5",
+  "queryBuilder.having.hint":
+    "HAVING 用于对聚合结果进行过滤，例如：COUNT(id) > 5",
   /**
    * 容器下拉菜单国际化
    */
@@ -5171,8 +5315,16 @@ export default {
   "dyform.template.name.required": "模板名称不能为空",
   "dyform.template.storage.required": "请选择存储位置",
   "dyform.template.category.staticData.desc": "静态选项数据配置模板",
-  "dyform.template.category.thirdPartyDataSource.desc": "第三方接口请求/响应/认证配置模板",
+  "dyform.template.category.thirdPartyDataSource.desc":
+    "第三方接口请求/响应/认证配置模板",
   "dyform.template.category.apiLinkage.desc": "接口联动策略配置模板",
+  "dyform.template.system": "系统模板",
+  "dyform.template.custom": "自定义模板",
+  "dyform.template.search": "搜索模板名称或标签",
+  "dyform.template.allCategory": "全部分类",
+  "dyform.template.apply": "应用",
+  "dyform.template.apply.confirm": "应用模板将清空当前表单，确定继续吗？",
+  "dyform.template.apply.success": "模板应用成功",
   /**
    * AI 对话功能
    */
@@ -5188,8 +5340,10 @@ export default {
   "dyform.aiChat.noApiKey": "AI 服务未配置，请联系管理员",
   "dyform.aiChat.clearConfirm": "确定清空当前会话？",
   "dyform.aiChat.examplePrompts.0": "创建一个员工信息登记表",
-  "dyform.aiChat.examplePrompts.1": "设计一个请假申请表，包含请假类型、开始时间、结束时间、请假原因",
-  "dyform.aiChat.examplePrompts.2": "创建一个商品管理表单，包含基本信息和价格信息",
+  "dyform.aiChat.examplePrompts.1":
+    "设计一个请假申请表，包含请假类型、开始时间、结束时间、请假原因",
+  "dyform.aiChat.examplePrompts.2":
+    "创建一个商品管理表单，包含基本信息和价格信息",
   "dyform.aiChat.settings": "AI 设置",
   "dyform.aiChat.settingsTitle": "AI 服务配置",
   "dyform.aiChat.apiKey": "API Key",
@@ -5208,8 +5362,10 @@ export default {
   "dyform.aiChat.switchFailed": "切换失败",
   "dyform.aiChat.deleteConfirm": "确定删除此配置？",
   "dyform.aiChat.atLeastOne": "至少保留一个配置",
-  "dyform.aiChat.truncatedWarn": "响应内容较长已被截断，已自动提取完整部分，可在应用后补充缺失字段",
-  "dyform.aiChat.truncatedNoJson": "响应被截断且无法解析，请简化需求或在设置中调大最大Token后重试",
+  "dyform.aiChat.truncatedWarn":
+    "响应内容较长已被截断，已自动提取完整部分，可在应用后补充缺失字段",
+  "dyform.aiChat.truncatedNoJson":
+    "响应被截断且无法解析，请简化需求或在设置中调大最大Token后重试",
 
   /**
    * 通用图编辑器 --------------
@@ -5309,8 +5465,10 @@ export default {
   "dyform.customComp.storageMode": "存储模式",
   "dyform.customComp.storageMode.local": "本地缓存",
   "dyform.customComp.storageMode.db": "数据库",
-  "dyform.customComp.storageMode.local.tip": "仅缓存在当前浏览器,适合仅在某个或某几个表单中使用的场景",
-  "dyform.customComp.storageMode.db.tip": "持久化到服务端数据库,跨浏览器跨设备共享",
+  "dyform.customComp.storageMode.local.tip":
+    "仅缓存在当前浏览器,适合仅在某个或某几个表单中使用的场景",
+  "dyform.customComp.storageMode.db.tip":
+    "持久化到服务端数据库,跨浏览器跨设备共享",
   "dyform.customComp.icon.search": "搜索图标名称",
   "dyform.customComp.icon.expand": "展开全部",
   "dyform.customComp.icon.collapse": "收起",
@@ -5318,7 +5476,7 @@ export default {
   "dyform.customComp.share.on.tip": "共享后其他用户也可使用此组件",
   "dyform.customComp.share.off.tip": "仅自己可见可用,不共享给他人",
   "dyform.customComp.delete": "删除",
-  "dyform.customComp.delete.confirm": "确定删除自定义组件 \"{name}\" 吗?",
+  "dyform.customComp.delete.confirm": '确定删除自定义组件 "{name}" 吗?',
   "dyform.customComp.delete.success": "删除成功",
   "dyform.customComp.empty": "暂无自定义组件,在组件Tab中配置后保存即可",
   "form.changeComponent": "更换组件",

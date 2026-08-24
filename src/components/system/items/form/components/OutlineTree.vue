@@ -1,6 +1,6 @@
 <script setup lang="ts" name="OutlineTree">
 import { computed, ref, watch, nextTick } from "vue";
-import {getDesignFormStore} from "@/store/StoreManager";
+import { getDesignFormStore } from "@/store/StoreManager";
 import { i18n } from "@/lang";
 
 const designForm = getDesignFormStore();
@@ -12,9 +12,21 @@ const selectedNodeId = ref<string>("");
 
 // Container item types
 const CONTAINER_TYPES = [
-  "tab", "box", "table", "card",
-  "dytable", "gridtable", "collapse", "splitter", "condition", "step",
-  "dialog", "drawer", "fieldset", "descriptions", "anchor",
+  "tab",
+  "box",
+  "table",
+  "card",
+  "dytable",
+  "gridtable",
+  "collapse",
+  "splitter",
+  "condition",
+  "step",
+  "dialog",
+  "drawer",
+  "fieldset",
+  "descriptions",
+  "anchor",
 ];
 
 // Container display labels
@@ -185,15 +197,13 @@ const buildContainerNode = (field: any): any => {
 /** Build the complete tree from compList */
 const buildTree = (): any[] => {
   return compList.value.map((comp: any) => {
-    if (comp.compType === "container" || CONTAINER_TYPES.includes(comp.itemType)) {
+    if (
+      comp.compType === "container" ||
+      CONTAINER_TYPES.includes(comp.itemType)
+    ) {
       return buildContainerNode(comp);
     }
-    return createNode(
-      comp.id,
-      getLabel(comp),
-      comp.itemType,
-      getName(comp),
-    );
+    return createNode(comp.id, getLabel(comp), comp.itemType, getName(comp));
   });
 };
 
@@ -307,9 +317,26 @@ rebuildTree();
         size="small"
       >
         <template #prefix>
-          <svg class="search-icon" viewBox="0 0 16 16" fill="none" width="14" height="14">
-            <circle cx="6.5" cy="6.5" r="5" stroke="currentColor" stroke-width="1.5"/>
-            <path d="M10.5 10.5L14.5 14.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+          <svg
+            class="search-icon"
+            viewBox="0 0 16 16"
+            fill="none"
+            width="14"
+            height="14"
+          >
+            <circle
+              cx="6.5"
+              cy="6.5"
+              r="5"
+              stroke="currentColor"
+              stroke-width="1.5"
+            />
+            <path
+              d="M10.5 10.5L14.5 14.5"
+              stroke="currentColor"
+              stroke-width="1.5"
+              stroke-linecap="round"
+            />
           </svg>
         </template>
         <template #suffix>
@@ -322,10 +349,24 @@ rebuildTree();
     <el-scrollbar class="outline-scrollbar">
       <div v-if="treeData.length === 0" class="outline-empty">
         <svg viewBox="0 0 48 48" fill="none" width="40" height="40">
-          <rect x="8" y="8" width="32" height="32" rx="4" stroke="#dce1e8" stroke-width="1.5" fill="#f5f7fa"/>
-          <path d="M16 20H32M16 28H28" stroke="#c0c4cc" stroke-width="1.5" stroke-linecap="round"/>
+          <rect
+            x="8"
+            y="8"
+            width="32"
+            height="32"
+            rx="4"
+            stroke="#dce1e8"
+            stroke-width="1.5"
+            fill="#f5f7fa"
+          />
+          <path
+            d="M16 20H32M16 28H28"
+            stroke="#c0c4cc"
+            stroke-width="1.5"
+            stroke-linecap="round"
+          />
         </svg>
-        <span>{{ i18n('dyform.outline.noComponent') }}</span>
+        <span>{{ i18n("dyform.outline.noComponent") }}</span>
       </div>
       <el-tree
         v-else
@@ -341,19 +382,71 @@ rebuildTree();
         class="outline-el-tree"
       >
         <template #default="{ data }">
-          <div :class="['outline-node', { 'is-container': data.isContainer, 'is-virtual': data.type?.startsWith('__') }]">
+          <div
+            :class="[
+              'outline-node',
+              {
+                'is-container': data.isContainer,
+                'is-virtual': data.type?.startsWith('__'),
+              },
+            ]"
+          >
             <!-- Container expand indicator -->
             <span v-if="data.isContainer" class="node-badge container-badge">
-              {{ data.type === 'tab' ? 'T' : data.type === 'box' ? 'B' : data.type === 'card' ? 'C' : data.type === 'collapse' ? 'F' : data.type === 'table' ? 'G' : data.type === 'splitter' ? 'S' : data.type === 'dytable' ? 'D' : data.type === 'gridtable' ? 'GT' : data.type === 'condition' ? '?' : data.type === 'step' ? 'P' : data.type === 'dialog' ? 'Dg' : data.type === 'drawer' ? 'Dr' : data.type === 'fieldset' ? 'Fs' : data.type === 'descriptions' ? 'De' : data.type === 'anchor' ? 'An' : '□' }}
+              {{
+                data.type === "tab"
+                  ? "T"
+                  : data.type === "box"
+                    ? "B"
+                    : data.type === "card"
+                      ? "C"
+                      : data.type === "collapse"
+                        ? "F"
+                        : data.type === "table"
+                          ? "G"
+                          : data.type === "splitter"
+                            ? "S"
+                            : data.type === "dytable"
+                              ? "D"
+                              : data.type === "gridtable"
+                                ? "GT"
+                                : data.type === "condition"
+                                  ? "?"
+                                  : data.type === "step"
+                                    ? "P"
+                                    : data.type === "dialog"
+                                      ? "Dg"
+                                      : data.type === "drawer"
+                                        ? "Dr"
+                                        : data.type === "fieldset"
+                                          ? "Fs"
+                                          : data.type === "descriptions"
+                                            ? "De"
+                                            : data.type === "anchor"
+                                              ? "An"
+                                              : "□"
+              }}
             </span>
             <!-- Virtual node (tab panel, cell, col) -->
-            <span v-else-if="data.type?.startsWith('__')" class="node-badge virtual-badge">·</span>
+            <span
+              v-else-if="data.type?.startsWith('__')"
+              class="node-badge virtual-badge"
+              >·</span
+            >
             <!-- Regular item icon -->
             <span v-else class="node-dot"></span>
 
             <span class="node-label" :title="data.label">{{ data.label }}</span>
-            <span v-if="data.name && !data.type?.startsWith('__')" class="node-name">{{ data.name }}</span>
-            <span v-if="data.isContainer && data.children?.length" class="node-count">{{ data.children.length }}</span>
+            <span
+              v-if="data.name && !data.type?.startsWith('__')"
+              class="node-name"
+              >{{ data.name }}</span
+            >
+            <span
+              v-if="data.isContainer && data.children?.length"
+              class="node-count"
+              >{{ data.children.length }}</span
+            >
           </div>
         </template>
       </el-tree>

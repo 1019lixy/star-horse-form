@@ -1,7 +1,7 @@
 import { ref } from "vue";
 import { ShortKey } from "star-horse-lowcode";
 import { ModuleEnums } from "@/components/enums/ModuleEnums";
-import {getDesignFormStore} from "@/store/StoreManager";
+import { getDesignFormStore } from "@/store/StoreManager";
 import {
   altDownFun,
   altLeftFun,
@@ -60,7 +60,11 @@ const isEditableTarget = (evt: KeyboardEvent): boolean => {
     return true;
   }
   // el-input 等组件的内部 input
-  if (target.closest(".el-input") || target.closest(".el-textarea") || target.closest(".el-select")) {
+  if (
+    target.closest(".el-input") ||
+    target.closest(".el-textarea") ||
+    target.closest(".el-select")
+  ) {
     return true;
   }
   return false;
@@ -70,16 +74,30 @@ const isEditableTarget = (evt: KeyboardEvent): boolean => {
  * 检查页面上是否有可见的弹窗（el-dialog / el-drawer / el-popover / el-message-box）
  * 当弹窗打开时，设计器快捷键应全部禁用，避免影响弹窗内的输入和操作
  */
-const hasOpenDialog = (): boolean => {
+export const hasOpenDialog = (): boolean => {
   // el-dialog 可见体（display 不为 none）
-  if (document.querySelector(".el-dialog__wrapper:not([style*='display: none'])") ||
-      document.querySelector(".el-overlay-dialog .el-dialog[style*='display:']") ||
-      document.querySelector(".el-overlay-dialog .el-dialog:not([style*='display: none'])")) {
+  if (
+    document.querySelector(
+      ".el-dialog__wrapper:not([style*='display: none'])",
+    ) ||
+    document.querySelector(
+      ".el-overlay-dialog .el-dialog[style*='display:']",
+    ) ||
+    document.querySelector(
+      ".el-overlay-dialog .el-dialog:not([style*='display: none'])",
+    )
+  ) {
     return true;
   }
   // el-drawer 可见体
-  if (document.querySelector(".el-drawer__container:not([style*='display: none'])") ||
-      document.querySelector(".el-overlay-drawer .el-drawer:not([style*='display: none'])")) {
+  if (
+    document.querySelector(
+      ".el-drawer__container:not([style*='display: none'])",
+    ) ||
+    document.querySelector(
+      ".el-overlay-drawer .el-drawer:not([style*='display: none'])",
+    )
+  ) {
     return true;
   }
   // el-message-box（确认框）
@@ -91,7 +109,9 @@ const hasOpenDialog = (): boolean => {
   for (const overlay of overlays) {
     const style = (overlay as HTMLElement).style;
     if (style.display !== "none" && style.zIndex && Number(style.zIndex) > 0) {
-      const hasDialog = overlay.querySelector(".el-dialog, .el-drawer, .el-message-box, .el-popover");
+      const hasDialog = overlay.querySelector(
+        ".el-dialog, .el-drawer, .el-message-box, .el-popover",
+      );
       if (hasDialog) return true;
     }
   }

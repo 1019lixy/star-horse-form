@@ -768,6 +768,7 @@ $white: #ffffff;
   align-items: flex-start;
   gap: 2px;
   transform: translate(0, -100%) translateZ(0);
+
   .drag-handler {
     display: flex;
     align-items: center;
@@ -788,7 +789,6 @@ $white: #ffffff;
     height: 22px;
   }
 }
-
 
 .ruler {
   position: absolute;
@@ -820,7 +820,6 @@ $white: #ffffff;
   width: 100%;
 }
 
-
 @media (max-width: 768px) {
   .item {
     height: 35px;
@@ -836,9 +835,6 @@ $white: #ffffff;
   min-width: unset;
 }
 
-.is-message-box {
-  z-index: 3500 !important;
-}
-.el-tab-pane{
+.el-tab-pane {
   gap: 8px;
 }

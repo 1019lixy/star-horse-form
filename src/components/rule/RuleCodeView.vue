@@ -22,25 +22,48 @@ const jsonPrototype = ref<any>({ nodes: [], edges: [], variables: [] });
 
 // 完整规则数据（只读，包含ruleData全部信息）
 const fullRuleJson = computed(() => {
-  const { idRuleDefinition, ruleCode, ruleName, ruleDesc, ruleType, ruleCategory,
-    priority, enabled, conditionLogic, status, formId, variables } = props.ruleData;
+  const {
+    idRuleDefinition,
+    ruleCode,
+    ruleName,
+    ruleDesc,
+    ruleType,
+    ruleCategory,
+    priority,
+    enabled,
+    conditionLogic,
+    status,
+    formId,
+    variables,
+  } = props.ruleData;
   return {
-    idRuleDefinition, ruleCode, ruleName, ruleDesc, ruleType, ruleCategory,
-    priority, enabled, conditionLogic, status, formId,
+    idRuleDefinition,
+    ruleCode,
+    ruleName,
+    ruleDesc,
+    ruleType,
+    ruleCategory,
+    priority,
+    enabled,
+    conditionLogic,
+    status,
+    formId,
     variables: variables || [],
     flow: {
-      nodes: props.nodes.map(n => ({ ...n, selected: false })),
-      edges: props.edges.map(e => ({ ...e, selected: false }))
-    }
+      nodes: props.nodes.map((n) => ({ ...n, selected: false })),
+      edges: props.edges.map((e) => ({ ...e, selected: false })),
+    },
   };
 });
 
 // 从设计视图同步到代码视图
 const syncFromDesign = () => {
   jsonPrototype.value = {
-    nodes: props.nodes.map(n => ({ ...n, selected: false })),
-    edges: props.edges.map(e => ({ ...e, selected: false })),
-    variables: props.ruleData.variables ? JSON.parse(JSON.stringify(props.ruleData.variables)) : []
+    nodes: props.nodes.map((n) => ({ ...n, selected: false })),
+    edges: props.edges.map((e) => ({ ...e, selected: false })),
+    variables: props.ruleData.variables
+      ? JSON.parse(JSON.stringify(props.ruleData.variables))
+      : [],
   };
 };
 
@@ -59,7 +82,7 @@ const applyToDesign = async () => {
   emit("update", {
     nodes: data.nodes,
     edges: data.edges,
-    variables: Array.isArray(data.variables) ? data.variables : []
+    variables: Array.isArray(data.variables) ? data.variables : [],
   });
   success(i18n("rule.codeView.applySuccess"));
 };
@@ -80,14 +103,22 @@ watch(
       syncFromDesign();
     }
   },
-  { deep: true }
+  { deep: true },
 );
 </script>
 
 <template>
   <div class="rule-code-view">
-    <el-tabs v-model="subTablePrimaryKey" type="border-card" @tabChange="onTabChange" class="code-tabs">
-      <el-tab-pane name="json_prototype" :label="i18n('rule.codeView.flowJson')">
+    <el-tabs
+      v-model="subTablePrimaryKey"
+      type="border-card"
+      @tabChange="onTabChange"
+      class="code-tabs"
+    >
+      <el-tab-pane
+        name="json_prototype"
+        :label="i18n('rule.codeView.flowJson')"
+      >
         <div class="tab-toolbar">
           <el-button type="primary" @click="applyToDesign">
             <el-icon><Check /></el-icon>
@@ -102,7 +133,9 @@ watch(
       </el-tab-pane>
       <el-tab-pane name="json" :label="i18n('rule.codeView.fullJson')">
         <div class="tab-toolbar">
-          <el-tag type="info" effect="plain">{{ i18n("rule.codeView.readonly") }}</el-tag>
+          <el-tag type="info" effect="plain">{{
+            i18n("rule.codeView.readonly")
+          }}</el-tag>
         </div>
         <star-horse-json-editor currentMode="view" :modelValue="fullRuleJson" />
       </el-tab-pane>

@@ -8,14 +8,14 @@ import {
   SearchFields,
   UserFuncInfo,
 } from "star-horse-lowcode";
-import {computed, nextTick, onMounted, provide, ref, watch} from "vue";
-import {i18n} from "@/lang";
+import { computed, nextTick, onMounted, provide, ref, watch } from "vue";
+import { i18n } from "@/lang";
 import CommonSkeleton from "./CommonSkeleton.vue";
-import {useFormRuleRuntime} from "@/components/rule/useFormRuleRuntime";
+import { useFormRuleRuntime } from "@/components/rule/useFormRuleRuntime";
 
 const props = defineProps({
-  currentPageClass: {type: String, default: ""},
-  preview: {type: Boolean, default: false},
+  currentPageClass: { type: String, default: "" },
+  preview: { type: Boolean, default: false },
   compList: {
     type: Array,
     required: true,
@@ -26,7 +26,7 @@ const normalFormRef = ref();
 let relationTables = ref<any>({});
 let dataUrl = ref<ApiUrls>();
 const errorMsg = ref(i18n("commonPage.dataLoading"));
-let searchFormData = ref<SearchFields | any>({fieldList: []});
+let searchFormData = ref<SearchFields | any>({ fieldList: [] });
 const tableFieldList = ref<any>({
   fieldList: [],
   stopAutoLoad: true,
@@ -48,8 +48,8 @@ let extBtns = ref<Array<UserFuncInfo>>([]);
 // ==================== 规则引擎集成 ====================
 const ruleFormId = computed(() => {
   const list = props.compList as any[];
-  if (!list || list.length === 0) return '';
-  return list[0]?.formId || list[0]?.preps?.formId || '';
+  if (!list || list.length === 0) return "";
+  return list[0]?.formId || list[0]?.preps?.formId || "";
 });
 
 const ruleFormData = computed(() => {
@@ -78,7 +78,13 @@ const onFormDataLoaded = async () => {
 };
 
 // ON_SUBMIT: 对话框表单提交前校验
-const handleBeforeSubmit = async ({type, formData: fd}: {type: string; formData: any}) => {
+const handleBeforeSubmit = async ({
+  type,
+  formData: fd,
+}: {
+  type: string;
+  formData: any;
+}) => {
   if (isEnabled.value && currentFormId.value) {
     const ok = await triggerOnSubmit();
     if (!ok) return false;
@@ -113,7 +119,7 @@ const dataFormat = (name: string, cellValue: any, row: any): any => {
       let temp = dataSource.value[name];
       if (temp) {
         let stemp = temp.datas?.find(
-            (item: any) => item[temp.valueField] == cellValue,
+          (item: any) => item[temp.valueField] == cellValue,
         );
         return stemp ? stemp[temp.labelField] : cellValue || "--";
       }
@@ -122,7 +128,7 @@ const dataFormat = (name: string, cellValue: any, row: any): any => {
   };
   if (fieldMappingList.value && fieldMappingList.value?.length > 0) {
     let temp = fieldMappingList.value.find(
-        (item: any) => item["fieldName"] == name,
+      (item: any) => item["fieldName"] == name,
     );
     if (temp) {
       return row[temp.mappingDisplayField] || subFormat(name, cellValue, row);
@@ -145,92 +151,92 @@ onMounted(() => {
   init();
 });
 watch(
-    () => props.compList,
-    (val) => {
-      loadFormData();
-    },
-    {deep: true},
+  () => props.compList,
+  (val) => {
+    loadFormData();
+  },
+  { deep: true },
 );
 watch(
-    () => props.currentPageClass,
-    (val) => {
-      loadFormData();
-    },
-    {deep: true},
+  () => props.currentPageClass,
+  (val) => {
+    loadFormData();
+  },
+  { deep: true },
 );
 </script>
 <template>
   <div class="flex flex-col h-full overflow-hidden">
     <!-- 使用通用骨架屏组件 -->
     <CommonSkeleton
-        v-if="isLoading"
-        :showSearch="true"
-        :showHeader="true"
-        :showTable="true"
-        :tableRowCount="5"
+      v-if="isLoading"
+      :showSearch="true"
+      :showHeader="true"
+      :showTable="true"
+      :tableRowCount="5"
     />
 
     <!-- 正常内容 -->
     <template v-else-if="hasData">
       <star-horse-panel
-          :isShowBtnContinue="true"
-          v-model="dialogProps.editVisible"
+        :isShowBtnContinue="true"
+        v-model="dialogProps.editVisible"
       >
         <star-horse-form
-            @refresh="dataRecall"
-            @dataLoaded="onFormDataLoaded"
-            @beforeSubmit="handleBeforeSubmit"
-            :compUrl="dataUrl"
-            :preview="preview"
-            :fieldList="tableFieldList"
-            :primary-key="primaryKey"
-            :rules="rules"
-            ref="normalFormRef"
-            :globalCondition="relationTables"
-            :dynamicForm="true"
+          @refresh="dataRecall"
+          @dataLoaded="onFormDataLoaded"
+          @beforeSubmit="handleBeforeSubmit"
+          :compUrl="dataUrl"
+          :preview="preview"
+          :fieldList="tableFieldList"
+          :primary-key="primaryKey"
+          :rules="rules"
+          ref="normalFormRef"
+          :globalCondition="relationTables"
+          :dynamicForm="true"
         />
       </star-horse-panel>
-      <star-horse-panel
-          v-model="dialogProps.viewVisible"
-          :source="3"
-      >
+      <star-horse-panel v-model="dialogProps.viewVisible" :source="3">
         <star-horse-data-view
-            :dataFormat="dataFormat"
-            :field-list="tableFieldList"
-            :preview="preview"
-            :globalCondition="relationTables"
-            :dynamicForm="true"
-            :compUrl="dataUrl"
+          :dataFormat="dataFormat"
+          :field-list="tableFieldList"
+          :preview="preview"
+          :globalCondition="relationTables"
+          :dynamicForm="true"
+          :compUrl="dataUrl"
         />
       </star-horse-panel>
-      <div class="search-content" v-if="searchFormData.searchItemList?.length > 0">
+      <div
+        class="search-content"
+        v-if="searchFormData.searchItemList?.length > 0"
+      >
         <div class="search_btn">
           <star-horse-search-comp
-              @searchData="(data: any) => normalPageRef?.createSearchParams(data)"
-              :formData="{fieldList:tableFieldList.searchItemList}"
-              :preview="preview"
-              :compUrl="dataUrl"
+            @searchData="(data: any) => normalPageRef?.createSearchParams(data)"
+            :formData="{ fieldList: tableFieldList.searchItemList }"
+            :preview="preview"
+            :compUrl="dataUrl"
           />
         </div>
       </div>
       <el-card class="inner_content">
         <star-horse-table-comp
-            ref="normalPageRef"
-            :fieldList="tableFieldList"
-            :primaryKey="primaryKey"
-            :globalConfig="relationTables"
-            :isDynamic="true"
-            :preview="preview"
-            :extendBtns="extBtns"
-            :compUrl="dataUrl"
-            :btnPermissions="{
+          ref="normalPageRef"
+          :fieldList="tableFieldList"
+          :primaryKey="primaryKey"
+          :globalConfig="relationTables"
+          :isDynamic="true"
+          :preview="preview"
+          :extendBtns="extBtns"
+          :compUrl="dataUrl"
+          :btnPermissions="{
             add: 'add',
             edit: 'edit',
             view: 'view',
             delete: 'delete',
           }"
-            :showBatchField="true"
-            :dataFormat="dataFormat"
+          :showBatchField="true"
+          :dataFormat="dataFormat"
         />
       </el-card>
     </template>

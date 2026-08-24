@@ -3,24 +3,46 @@
     <Handle type="target" :position="Position.Top" />
     <div class="node-card">
       <div class="node-header">
-        <svg class="header-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2"/>
-          <path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        <svg
+          class="header-icon"
+          viewBox="0 0 24 24"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <circle
+            cx="12"
+            cy="12"
+            r="10"
+            stroke="currentColor"
+            stroke-width="2"
+          />
+          <path
+            d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
         </svg>
-        <span class="header-title">{{ i18n('rule.node.httpCall') }}</span>
-        <el-button type="primary" link  @click.stop="$emit('edit')" class="header-btn">
+        <span class="header-title">{{ i18n("rule.node.httpCall") }}</span>
+        <el-button
+          type="primary"
+          link
+          @click.stop="$emit('edit')"
+          class="header-btn"
+        >
           <el-icon><Edit /></el-icon>
         </el-button>
       </div>
       <div class="node-body">
         <div v-if="!data.url" class="empty-tip">
           <el-icon class="empty-icon"><InfoFilled /></el-icon>
-          <span>{{ i18n('rule.node.httpEmptyTip') }}</span>
+          <span>{{ i18n("rule.node.httpEmptyTip") }}</span>
         </div>
         <div v-else class="http-content">
           <div class="http-line">
-            <el-tag  :type="getMethodTagType(data.method)" class="method-tag">
-              {{ data.method || 'GET' }}
+            <el-tag :type="getMethodTagType(data.method)" class="method-tag">
+              {{ data.method || "GET" }}
             </el-tag>
             <span class="http-url">{{ data.url }}</span>
           </div>
@@ -40,44 +62,46 @@
 </template>
 
 <script setup lang="ts">
-import { Position, Handle } from '../compat'
-import { Edit, InfoFilled } from '@element-plus/icons-vue'
-import { computed } from 'vue'
-import { i18n } from '@/lang'
+import { Position, Handle } from "../compat";
+import { Edit, InfoFilled } from "@element-plus/icons-vue";
+import { computed } from "vue";
+import { i18n } from "@/lang";
 
 const props = defineProps<{
-  id?: string
+  id?: string;
   data: {
-    method?: string
-    url?: string
-    headers?: any[]
-    params?: any[]
-  }
-}>()
+    method?: string;
+    url?: string;
+    headers?: any[];
+    params?: any[];
+  };
+}>();
 
 defineEmits<{
-  (e: 'edit'): void
-}>()
+  (e: "edit"): void;
+}>();
 
 const getMethodTagType = (method: string) => {
   const map: Record<string, string> = {
-    GET: 'success',
-    POST: 'warning',
-    PUT: 'warning',
-    PATCH: 'primary',
-    DELETE: 'danger'
-  }
-  return map[(method || 'GET').toUpperCase()] || 'info'
-}
+    GET: "success",
+    POST: "warning",
+    PUT: "warning",
+    PATCH: "primary",
+    DELETE: "danger",
+  };
+  return map[(method || "GET").toUpperCase()] || "info";
+};
 
 const hasExtra = computed(() => {
-  const d = props.data
-  return (d?.headers && d.headers.length > 0) || (d?.params && d.params.length > 0)
-})
+  const d = props.data;
+  return (
+    (d?.headers && d.headers.length > 0) || (d?.params && d.params.length > 0)
+  );
+});
 </script>
 
 <style scoped lang="scss">
-@use '../styles/design-tokens.scss' as tokens;
+@use "../styles/design-tokens.scss" as tokens;
 .http-call-node {
   .node-card {
     min-width: tokens.$rd-node-min-width;
@@ -87,7 +111,9 @@ const hasExtra = computed(() => {
     border-radius: tokens.$rd-radius-lg;
     box-shadow: tokens.$rd-shadow-xs;
     overflow: hidden;
-    transition: box-shadow tokens.$rd-transition-base, border-color tokens.$rd-transition-base;
+    transition:
+      box-shadow tokens.$rd-transition-base,
+      border-color tokens.$rd-transition-base;
 
     &:hover {
       border-color: tokens.$rd-primary-border;
@@ -171,7 +197,7 @@ const hasExtra = computed(() => {
           overflow: hidden;
           text-overflow: ellipsis;
           white-space: nowrap;
-          font-family: 'Consolas', 'Monaco', monospace;
+          font-family: "Consolas", "Monaco", monospace;
         }
       }
 

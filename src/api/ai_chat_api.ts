@@ -1,10 +1,10 @@
-import {ApiUrls} from "star-horse-lowcode";
-import {ref} from "vue";
+import { ApiUrls } from "star-horse-lowcode";
+import { ref } from "vue";
 
 const aiApi = ref<ApiUrls>();
 
 export function initAiApi(api: ApiUrls) {
-    aiApi.value = api;
+  aiApi.value = api;
 }
 
 /**
@@ -17,134 +17,134 @@ export function initAiApi(api: ApiUrls) {
  * @returns AbortController 用于取消请求
  */
 export function sendAiChatMessage(
-    sessionId: string,
-    message: string,
-    onMessage: (chunk: string) => void,
-    onDone: () => void,
-    onError: (err: string) => void,
-    onTruncated?: () => void
+  sessionId: string,
+  message: string,
+  onMessage: (chunk: string) => void,
+  onDone: () => void,
+  onError: (err: string) => void,
+  onTruncated?: () => void,
 ): AbortController {
-    const controller = new AbortController();
+  const controller = new AbortController();
 
-    const baseUrl = aiApi.value?.appName || "userdb-manage";
-    const url = `/${baseUrl}/userdb/aiChat/chat`;
+  const baseUrl = aiApi.value?.appName || "userdb-manage";
+  const url = `/${baseUrl}/userdb/aiChat/chat`;
 
-    fetch(url, {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-            "Accept": "text/event-stream",
-        },
-        body: JSON.stringify({sessionId, message}),
-        signal: controller.signal,
-    })
-        .then(async (response) => {
-            if (!response.ok) {
-                const text = await response.text();
-                onError(text || `请求失败: ${response.status}`);
-                return;
-            }
+  fetch(url, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "text/event-stream",
+    },
+    body: JSON.stringify({ sessionId, message }),
+    signal: controller.signal,
+  })
+    .then(async (response) => {
+      if (!response.ok) {
+        const text = await response.text();
+        onError(text || `请求失败: ${response.status}`);
+        return;
+      }
 
-            const reader = response.body?.getReader();
-            if (!reader) {
-                onError("无法读取响应流");
-                return;
-            }
+      const reader = response.body?.getReader();
+      if (!reader) {
+        onError("无法读取响应流");
+        return;
+      }
 
-            const decoder = new TextDecoder();
-            let buffer = "";
+      const decoder = new TextDecoder();
+      let buffer = "";
 
-            while (true) {
-                const {done, value} = await reader.read();
-                if (done) break;
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
 
-                buffer += decoder.decode(value, {stream: true});
+        buffer += decoder.decode(value, { stream: true });
 
-                // 按 \n 分割，逐行处理 SSE 格式
-                const lines = buffer.split("\n");
-                // 最后一行可能不完整，保留到下次
-                buffer = lines.pop() || "";
+        // 按 \n 分割，逐行处理 SSE 格式
+        const lines = buffer.split("\n");
+        // 最后一行可能不完整，保留到下次
+        buffer = lines.pop() || "";
 
-                for (const line of lines) {
-                    const trimmed = line.trim();
-                    if (!trimmed) continue;
+        for (const line of lines) {
+          const trimmed = line.trim();
+          if (!trimmed) continue;
 
-                    // 处理 event:done 标记
-                    if (trimmed.startsWith("event:done")) {
-                        onDone();
-                        return;
-                    }
-
-                    if (trimmed.startsWith("data:")) {
-                        const data = trimmed.substring(5).trim();
-                        if (data === "[DONE]") {
-                            onDone();
-                            return;
-                        }
-                        try {
-                            const parsed = JSON.parse(data);
-                            if (parsed.content) {
-                                onMessage(parsed.content);
-                            }
-                            if (parsed.truncated) {
-                                onTruncated?.();
-                            }
-                            if (parsed.error) {
-                                onError(parsed.error);
-                                return;
-                            }
-                        } catch {
-                            // 非 JSON，直接作为文本内容
-                            if (data && data !== "[DONE]") {
-                                onMessage(data);
-                            }
-                        }
-                    }
-                }
-            }
-
-            // 处理 buffer 中剩余的数据
-            if (buffer.trim()) {
-                const trimmed = buffer.trim();
-                if (trimmed.startsWith("data:")) {
-                    const data = trimmed.substring(5).trim();
-                    if (data === "[DONE]") {
-                        onDone();
-                        return;
-                    }
-                    try {
-                        const parsed = JSON.parse(data);
-                        if (parsed.content) {
-                            onMessage(parsed.content);
-                        }
-                        if (parsed.truncated) {
-                            onTruncated?.();
-                        }
-                    } catch {
-                        if (data && data !== "[DONE]") {
-                            onMessage(data);
-                        }
-                    }
-                }
-            }
-
+          // 处理 event:done 标记
+          if (trimmed.startsWith("event:done")) {
             onDone();
-        })
-        .catch((err) => {
-            if (err.name !== "AbortError") {
-                onError(err.message || "网络错误");
-            }
-        });
+            return;
+          }
 
-    return controller;
+          if (trimmed.startsWith("data:")) {
+            const data = trimmed.substring(5).trim();
+            if (data === "[DONE]") {
+              onDone();
+              return;
+            }
+            try {
+              const parsed = JSON.parse(data);
+              if (parsed.content) {
+                onMessage(parsed.content);
+              }
+              if (parsed.truncated) {
+                onTruncated?.();
+              }
+              if (parsed.error) {
+                onError(parsed.error);
+                return;
+              }
+            } catch {
+              // 非 JSON，直接作为文本内容
+              if (data && data !== "[DONE]") {
+                onMessage(data);
+              }
+            }
+          }
+        }
+      }
+
+      // 处理 buffer 中剩余的数据
+      if (buffer.trim()) {
+        const trimmed = buffer.trim();
+        if (trimmed.startsWith("data:")) {
+          const data = trimmed.substring(5).trim();
+          if (data === "[DONE]") {
+            onDone();
+            return;
+          }
+          try {
+            const parsed = JSON.parse(data);
+            if (parsed.content) {
+              onMessage(parsed.content);
+            }
+            if (parsed.truncated) {
+              onTruncated?.();
+            }
+          } catch {
+            if (data && data !== "[DONE]") {
+              onMessage(data);
+            }
+          }
+        }
+      }
+
+      onDone();
+    })
+    .catch((err) => {
+      if (err.name !== "AbortError") {
+        onError(err.message || "网络错误");
+      }
+    });
+
+  return controller;
 }
 
 /**
  * 清空 AI 会话
  */
 export function clearAiChatSession(sessionId: string): Promise<any> {
-    const baseUrl =aiApi.value?.appName || "userdb-manage";
-    return fetch(`/${baseUrl}/userdb/aiChat/session/${sessionId}`, {
-        method: "DELETE",
-    }).then((res) => res.json());
+  const baseUrl = aiApi.value?.appName || "userdb-manage";
+  return fetch(`/${baseUrl}/userdb/aiChat/session/${sessionId}`, {
+    method: "DELETE",
+  }).then((res) => res.json());
 }

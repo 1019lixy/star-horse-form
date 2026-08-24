@@ -1,14 +1,18 @@
 <script setup lang="ts" name="ItemPropertiesPanel">
-import {computed, nextTick, onMounted, PropType, ref, watch} from "vue";
-import {i18n} from "@/lang";
-import {getDesignFormStore} from "@/store/StoreManager";
-import {searchMatchList, SelectOption, StarHorseIcon,} from "star-horse-lowcode";
+import { computed, nextTick, onMounted, PropType, ref, watch } from "vue";
+import { i18n } from "@/lang";
+import { getDesignFormStore } from "@/store/StoreManager";
+import {
+  searchMatchList,
+  SelectOption,
+  StarHorseIcon,
+} from "star-horse-lowcode";
 import ItemPropertiesPanel from "@/components/system/items/form/ItemPropertiesPanel.vue";
 import CustomerPropertyPanel from "@/components/system/items/form/CustomerPropertyPanel.vue";
-import {FormConfig} from "@/components/types";
+import { FormConfig } from "@/components/types";
 
 const props = defineProps({
-  optional: {type: Object as PropType<FormConfig>},
+  optional: { type: Object as PropType<FormConfig> },
 });
 let designForm = getDesignFormStore();
 const formProps = computed(() => designForm.currentFormPreps);
@@ -26,7 +30,6 @@ const changeOperation = (val: string) => {
     nextTick(() => {
       customerPropertyPanelRef.value?.assignPrep();
     });
-
   }
 };
 const openPanelDialog = () => {
@@ -37,12 +40,12 @@ onMounted(async () => {
   matchTypeList.value = searchMatchList();
 });
 watch(
-    () => currentId.value,
-    (newVal) => {
-      if (newVal && prepActiveName.value == "customer") {
-        changeOperation("customer");
-      }
-    },
+  () => currentId.value,
+  (newVal) => {
+    if (newVal && prepActiveName.value == "customer") {
+      changeOperation("customer");
+    }
+  },
 );
 </script>
 
@@ -51,27 +54,33 @@ watch(
     <!-- Tab Header -->
     <div class="property-tabs-header">
       <button
-          :class="['property-tab', { active: prepActiveName === 'base' }]"
-          @click="prepActiveName = 'base'; changeOperation('base')"
+        :class="['property-tab', { active: prepActiveName === 'base' }]"
+        @click="
+          prepActiveName = 'base';
+          changeOperation('base');
+        "
       >
-        <star-horse-icon iconClass="base_preps" size="14px"/>
-        <span>{{ i18n('dyform.propPanel.baseProps') }}</span>
+        <star-horse-icon iconClass="base_preps" size="14px" />
+        <span>{{ i18n("dyform.propPanel.baseProps") }}</span>
       </button>
       <button
-          v-if="currentComp.compType=='formItem'"
-          :class="['property-tab', { active: prepActiveName === 'customer' }]"
-          @click="prepActiveName = 'customer'; changeOperation('customer')"
+        v-if="currentComp?.compType == 'formItem'"
+        :class="['property-tab', { active: prepActiveName === 'customer' }]"
+        @click="
+          prepActiveName = 'customer';
+          changeOperation('customer');
+        "
       >
-        <star-horse-icon iconClass="data_db" size="14px"/>
-        <span>{{ i18n('dyform.propPanel.customProps') }}</span>
+        <star-horse-icon iconClass="data_db" size="14px" />
+        <span>{{ i18n("dyform.propPanel.customProps") }}</span>
       </button>
       <button
-          class="property-tab expand-btn"
-          @click="openPanelDialog"
-          :title="i18n('dyform.propPanel.expandPanel')"
+        class="property-tab expand-btn"
+        @click="openPanelDialog"
+        :title="i18n('dyform.propPanel.expandPanel')"
       >
         <el-icon size="14px">
-          <FullScreen/>
+          <FullScreen />
         </el-icon>
       </button>
     </div>
@@ -80,23 +89,26 @@ watch(
     <div class="property-tabs-content">
       <el-scrollbar class="property-scrollbar">
         <el-form
-            :model="formProps"
-            class="property-form"
-            ref="itemPropertiesRef"
-            :size="compSize"
-            :scroll-to-error="true"
-            :scroll-into-view-options="true"
-            :inline-message="false"
-            :status-icon="true"
-            label-width="auto"
-            label-position="right"
-            require-asterisk-position="right"
+          :model="formProps"
+          class="property-form"
+          ref="itemPropertiesRef"
+          :size="compSize"
+          :scroll-to-error="true"
+          :scroll-into-view-options="true"
+          :inline-message="false"
+          :status-icon="true"
+          label-width="auto"
+          label-position="right"
+          require-asterisk-position="right"
         >
-          <item-properties-panel v-if="prepActiveName === 'base'" :optional="optional"/>
+          <item-properties-panel
+            v-if="prepActiveName === 'base'"
+            :optional="optional"
+          />
           <customer-property-panel
-              v-if="prepActiveName === 'customer'"
-              ref="customerPropertyPanelRef"
-              :optional="optional"
+            v-if="prepActiveName === 'customer'"
+            ref="customerPropertyPanelRef"
+            :optional="optional"
           />
         </el-form>
       </el-scrollbar>
@@ -104,25 +116,32 @@ watch(
 
     <!-- 弹窗打开当前面板 -->
     <star-horse-drawer
-        v-model="panelDialogVisible"
-        :title="dialogPrepActiveName === 'base' ? i18n('dyform.propPanel.baseProps') : i18n('dyform.propPanel.customProps')"
-        :selfFunc="true"
-        size="40%"
-        @closeAction="panelDialogVisible = false"
+      v-model="panelDialogVisible"
+      :title="
+        dialogPrepActiveName === 'base'
+          ? i18n('dyform.propPanel.baseProps')
+          : i18n('dyform.propPanel.customProps')
+      "
+      :selfFunc="true"
+      size="40%"
+      @closeAction="panelDialogVisible = false"
     >
       <el-scrollbar class="dialog-scrollbar">
         <el-form
-            :model="formProps"
-            class="property-form"
-            :size="compSize"
-            label-width="auto"
-            label-position="right"
-            require-asterisk-position="right"
+          :model="formProps"
+          class="property-form"
+          :size="compSize"
+          label-width="auto"
+          label-position="right"
+          require-asterisk-position="right"
         >
-          <item-properties-panel v-if="dialogPrepActiveName === 'base'" :optional="optional"/>
+          <item-properties-panel
+            v-if="dialogPrepActiveName === 'base'"
+            :optional="optional"
+          />
           <customer-property-panel
-              v-if="dialogPrepActiveName === 'customer'"
-              :optional="optional"
+            v-if="dialogPrepActiveName === 'customer'"
+            :optional="optional"
           />
         </el-form>
       </el-scrollbar>

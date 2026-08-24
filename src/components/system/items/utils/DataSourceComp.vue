@@ -1,19 +1,28 @@
 <script setup lang="ts">
-import {i18n} from "@/lang";
+import { i18n } from "@/lang";
 import {
   createData,
   getInterfaceUtils,
   validInterface,
   validOperation,
 } from "@/components/system/items/utils/ItemPreps.js";
-import {error, FieldInfo, PageFieldInfo, SelectOption,} from "star-horse-lowcode";
-import type {ConfigTemplateCategory, DataSourceType, DataSourceTypeOption} from "@/components/types/DataSourceTypes";
+import {
+  error,
+  FieldInfo,
+  PageFieldInfo,
+  SelectOption,
+} from "star-horse-lowcode";
+import type {
+  ConfigTemplateCategory,
+  DataSourceType,
+  DataSourceTypeOption,
+} from "@/components/types/DataSourceTypes";
 import ApiConfigForm from "@/components/system/items/utils/ApiConfigForm.vue";
 import ConfigTemplateManager from "@/components/system/items/utils/ConfigTemplateManager.vue";
-import {computed, nextTick, PropType, reactive, ref, unref, watch} from "vue";
-import {FormConfig} from "@/components/types";
+import { computed, nextTick, PropType, reactive, ref, unref, watch } from "vue";
+import { FormConfig } from "@/components/types";
 
-defineOptions({name: "DataSourceComp"});
+defineOptions({ name: "DataSourceComp" });
 
 const props = defineProps({
   formProps: {
@@ -28,7 +37,7 @@ const props = defineProps({
     type: Array as PropType<SelectOption[]>,
     default: () => [],
   },
-  optional: {type: Object as PropType<FormConfig>}
+  optional: { type: Object as PropType<FormConfig> },
 });
 
 // ─── Type selector options ───
@@ -38,11 +47,11 @@ const sourceTypeOptions = computed<DataSourceTypeOption[]>(() => {
       value: "data",
       label: i18n("dyform.unified.source.static"),
       icon: "Document",
-      desc: i18n("dyform.unified.source.static.desc")
+      desc: i18n("dyform.unified.source.static.desc"),
     },
   ];
   if (props.model === "full") {
-  /*  opts.push(
+    /*  opts.push(
         /!* {
            value: "url",
            label: i18n("dyform.unified.source.internalApi"),
@@ -56,14 +65,12 @@ const sourceTypeOptions = computed<DataSourceTypeOption[]>(() => {
           desc: i18n("dyform.unified.source.dict.desc")
         },
     );*/
-    opts.push(
-        {
-          value: "thirdParty",
-          label: i18n("dyform.unified.source.thirdParty"),
-          icon: "Connection",
-          desc: i18n("dyform.unified.source.thirdParty.desc")
-        },
-    );
+    opts.push({
+      value: "thirdParty",
+      label: i18n("dyform.unified.source.thirdParty"),
+      icon: "Connection",
+      desc: i18n("dyform.unified.source.thirdParty.desc"),
+    });
   }
   return opts;
 });
@@ -76,22 +83,29 @@ const dataRequired = ref<boolean>(true);
 
 // ─── Interface utils (for url/dict validate buttons) ───
 const interfaceUtils = getInterfaceUtils();
-const {fieldList, disableUrl} = interfaceUtils;
+const { fieldList, disableUrl } = interfaceUtils;
 
 // ─── URL field config with validate button ───
-
 
 // ─── Static data fields ───
 const staticFields: FieldInfo[] | any = [
   [
     {
-      label: i18n("dyform.utils.595"), fieldName: "analysisType", helpMsg: i18n("dyform.utils.596"),
-      type: "radio", formVisible: true, defaultValue: "func",
+      label: i18n("dyform.utils.595"),
+      fieldName: "analysisType",
+      helpMsg: i18n("dyform.utils.596"),
+      type: "radio",
+      formVisible: true,
+      defaultValue: "func",
       preps: {
-        values: [{name: i18n("dyform.item.297"), value: "path", disabled: true}, {
-          name: i18n("dyform.utils.499"),
-          value: "func"
-        }], colspan: 8
+        values: [
+          { name: i18n("dyform.item.297"), value: "path", disabled: true },
+          {
+            name: i18n("dyform.utils.499"),
+            value: "func",
+          },
+        ],
+        colspan: 8,
       },
     },
     {
@@ -100,48 +114,53 @@ const staticFields: FieldInfo[] | any = [
       type: "input",
       helpMsg: i18n("dyform.apiConfig.helpMsg.analysisValue"),
       formVisible: true,
-      preps: {colspan: 14}
+      preps: { colspan: 14 },
     },
     {
       label: i18n("dyform.utils.597"),
       fieldName: "btn",
       type: "button",
       formVisible: true,
-      actions: {click: (val: any) => analysisOptionData(val)},
-      preps: {colspan: 2}
+      actions: { click: (val: any) => analysisOptionData(val) },
+      preps: { colspan: 2 },
     },
   ],
   {
-    containerType:"table",
-containerFields: [{
-      subTableName: "values",
-      importInfo: {
-        importDataUrl: props.optional?.api ? `${props.optional.api.basePrefix}/importStaticDataSource` : "",
-        downloadTemplateUrl: props.optional?.api ? `${props.optional.api.basePrefix}/staticDataSourceTemplate` : "",
+    containerType: "table",
+    containerFields: [
+      {
+        subTableName: "values",
+        importInfo: {
+          importDataUrl: props.optional?.api
+            ? `${props.optional.api.basePrefix}/importStaticDataSource`
+            : "",
+          downloadTemplateUrl: props.optional?.api
+            ? `${props.optional.api.basePrefix}/staticDataSourceTemplate`
+            : "",
+        },
+        enableSubNode: true,
+        fieldList: [
+          {
+            label: i18n("dyform.utils.598"),
+            fieldName: "name",
+            required: dataRequired,
+            helpMsg: i18n("dyform.apiConfig.helpMsg.staticName"),
+            formVisible: true,
+            listVisible: true,
+          },
+          {
+            label: i18n("dyform.utils.599"),
+            fieldName: "value",
+            required: dataRequired,
+            helpMsg: i18n("dyform.apiConfig.helpMsg.staticValue"),
+            formVisible: true,
+            listVisible: true,
+          },
+        ],
       },
-      enableSubNode: true,
-      fieldList: [
-        {
-          label: i18n("dyform.utils.598"),
-          fieldName: "name",
-          required: dataRequired,
-          helpMsg: i18n("dyform.apiConfig.helpMsg.staticName"),
-          formVisible: true,
-          listVisible: true
-        },
-        {
-          label: i18n("dyform.utils.599"),
-          fieldName: "value",
-          required: dataRequired,
-          helpMsg: i18n("dyform.apiConfig.helpMsg.staticValue"),
-          formVisible: true,
-          listVisible: true
-        },
-      ],
-    }],
+    ],
   },
 ];
-
 
 // ─── Dict fields ───
 const dictFields: FieldInfo[] | any = [
@@ -158,17 +177,28 @@ const dictFields: FieldInfo[] | any = [
       multiple: false,
       displayValue: "dictTypeCode",
       pageSize: 100,
-      colspan: 16
+      colspan: 16,
     },
   },
   {
-    label: i18n("dyform.utils.452"), fieldName: "urlOrDictNameBtn", type: "button",
+    label: i18n("dyform.utils.452"),
+    fieldName: "urlOrDictNameBtn",
+    type: "button",
     actions: {
       click: async (val: any) => {
-        await validOperation(val, formRef, fieldList, disableUrl, true, undefined);
-      }
+        await validOperation(
+          val,
+          formRef,
+          fieldList,
+          disableUrl,
+          true,
+          undefined,
+        );
+      },
     },
-    formVisible: true, listVisible: true, preps: {colspan: 8, icon: "valid"},
+    formVisible: true,
+    listVisible: true,
+    preps: { colspan: 8, icon: "valid" },
   },
 ];
 
@@ -176,7 +206,7 @@ const dictFields: FieldInfo[] | any = [
 const apiConfigRef = ref();
 
 // ─── The unified reactive field config ───
-const unifiedField = reactive<PageFieldInfo | any>({fieldList: []});
+const unifiedField = reactive<PageFieldInfo | any>({ fieldList: [] });
 
 // Static data analysis handler
 const analysisOptionData = (val: any) => {
@@ -188,14 +218,19 @@ const analysisOptionData = (val: any) => {
       return;
     }
     const publicPath = `/${analysisValue}`.replace(/\/+/g, "/");
-    temp["values"] = require("@/api/star_horse_form_utils.js").loadSvgIconsByPath(publicPath);
+    temp["values"] =
+      require("@/api/star_horse_form_utils.js").loadSvgIconsByPath(publicPath);
   } else if (temp["analysisType"] === "func") {
     if (!analysisValue) {
       error(i18n("dyform.utils.591"));
       return;
     }
     import("@/api/star_horse_form_utils.js").then(async (utils: any) => {
-      if (utils && utils[analysisValue] && typeof utils[analysisValue] === "function") {
+      if (
+        utils &&
+        utils[analysisValue] &&
+        typeof utils[analysisValue] === "function"
+      ) {
         try {
           const result = await utils[analysisValue]();
           temp.values = Array.isArray(result) ? result : [];
@@ -270,20 +305,20 @@ const submitValid = async () => {
 
   let flag = false;
   await validInterface(
-      props.formProps,
-      formRef,
-      (dataList: any, _successMsg: string, errorMsg: string) => {
-        if (!errorMsg) {
-          if (props.formProps) {
-            props.formProps["values"] = createData(formRef, dataList)?.reDataList;
-          }
-          flag = true;
-        } else {
-          error(errorMsg);
-          flag = false;
+    props.formProps,
+    formRef,
+    (dataList: any, _successMsg: string, errorMsg: string) => {
+      if (!errorMsg) {
+        if (props.formProps) {
+          props.formProps["values"] = createData(formRef, dataList)?.reDataList;
         }
-      },
-      true,
+        flag = true;
+      } else {
+        error(errorMsg);
+        flag = false;
+      }
+    },
+    true,
   );
   return flag;
 };
@@ -300,9 +335,15 @@ const templateCategory = computed<ConfigTemplateCategory>(() => {
 /** 获取当前配置数据（用于保存模板） */
 const getCurrentConfigData = (): Record<string, any> => {
   if (currentType.value === "thirdParty") {
-    return apiConfigRef.value?.getFormData()?.value ?? apiConfigRef.value?.getFormData() ?? {};
+    return (
+      apiConfigRef.value?.getFormData()?.value ??
+      apiConfigRef.value?.getFormData() ??
+      {}
+    );
   }
-  return formRef.value?.getFormData()?.value ?? formRef.value?.getFormData() ?? {};
+  return (
+    formRef.value?.getFormData()?.value ?? formRef.value?.getFormData() ?? {}
+  );
 };
 
 /** 从模板加载配置 */
@@ -314,7 +355,7 @@ const handleTemplateLoad = (configData: Record<string, any>) => {
   }
 };
 
-defineExpose({submitValid, setFormData, getFormData, currentType});
+defineExpose({ submitValid, setFormData, getFormData, currentType });
 </script>
 
 <template>
@@ -322,32 +363,46 @@ defineExpose({submitValid, setFormData, getFormData, currentType});
     <!-- Source Type Selector - Card Style -->
     <div class="source-selector">
       <div class="selector-header">
-        <span class="selector-title">{{ i18n("dyform.unified.source.type") }}</span>
-        <span class="selector-desc">{{ sourceTypeOptions.find(o => o.value === currentType)?.desc }}</span>
+        <span class="selector-title">{{
+          i18n("dyform.unified.source.type")
+        }}</span>
+        <span class="selector-desc">{{
+          sourceTypeOptions.find((o) => o.value === currentType)?.desc
+        }}</span>
       </div>
       <div class="type-cards">
         <div
-            v-for="opt in sourceTypeOptions"
-            :key="opt.value"
-            :class="['type-card', { active: currentType === opt.value }]"
-            @click="currentType = opt.value"
+          v-for="opt in sourceTypeOptions"
+          :key="opt.value"
+          :class="['type-card', { active: currentType === opt.value }]"
+          @click="currentType = opt.value"
         >
           <el-icon class="type-icon" :size="18">
-            <component :is="opt.icon"/>
+            <component :is="opt.icon" />
           </el-icon>
           <span class="type-label">{{ opt.label }}</span>
         </div>
-
       </div>
     </div>
 
     <!-- Template Actions -->
     <div class="template-actions-bar">
-      <el-button size="small" type="primary" plain icon="FolderAdd" @click="templateRef?.openSaveDialog()">
-        {{ i18n('dyform.template.save') }}
+      <el-button
+        size="small"
+        type="primary"
+        plain
+        icon="FolderAdd"
+        @click="templateRef?.openSaveDialog()"
+      >
+        {{ i18n("dyform.template.save") }}
       </el-button>
-      <el-button size="small" plain icon="FolderOpened" @click="templateRef?.openLoadDialog()">
-        {{ i18n('dyform.template.load') }}
+      <el-button
+        size="small"
+        plain
+        icon="FolderOpened"
+        @click="templateRef?.openLoadDialog()"
+      >
+        {{ i18n("dyform.template.load") }}
       </el-button>
     </div>
 
@@ -355,22 +410,22 @@ defineExpose({submitValid, setFormData, getFormData, currentType});
     <div class="source-content">
       <!-- Third-party API uses shared ApiConfigForm -->
       <ApiConfigForm
-          v-if="currentType === 'thirdParty'"
-          ref="apiConfigRef"
-          mode="dataSource"
-          :currentField="formProps.name"
+        v-if="currentType === 'thirdParty'"
+        ref="apiConfigRef"
+        mode="dataSource"
+        :currentField="formProps.name"
       />
       <!-- Other types use star-horse-form -->
-      <star-horse-form v-else :fieldList="unifiedField" ref="formRef"/>
+      <star-horse-form v-else :fieldList="unifiedField" ref="formRef" />
     </div>
 
     <!-- Config Template Manager -->
     <ConfigTemplateManager
-        ref="templateRef"
-        :category="templateCategory"
-        :optional="optional"
-        :currentConfigData="getCurrentConfigData()"
-        @load="handleTemplateLoad"
+      ref="templateRef"
+      :category="templateCategory"
+      :optional="optional"
+      :currentConfigData="getCurrentConfigData()"
+      @load="handleTemplateLoad"
     />
   </div>
 </template>

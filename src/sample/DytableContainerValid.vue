@@ -3,30 +3,27 @@
     <el-tabs>
       <el-tab-pane label="Basic Tab">
         <dytable-container
-            :formData="formData"
-            :field="(typeof fields=='string')?JSON5.parse(fields):fields"
-            :is-design="true"
-            :show-form-item="true"
-            :formInfo="{}"
+          :formData="formData"
+          :field="typeof fields == 'string' ? JSON5.parse(fields) : fields"
+          :is-design="true"
+          :show-form-item="true"
+          :formInfo="{}"
         />
       </el-tab-pane>
       <el-tab-pane label="Basic Tab2">
-
-        <StarHorseJsonEditor current-mode="json" v-model="fields"/>
+        <StarHorseJsonEditor current-mode="json" v-model="fields" />
       </el-tab-pane>
       <el-tab-pane label="Basic Tab3">
         <pre> {{ JSON.stringify(fields, null, 2) }}</pre>
       </el-tab-pane>
     </el-tabs>
-
-
   </el-scrollbar>
 </template>
 
 <script lang="ts" setup>
-import {onMounted, ref} from "vue";
-import {StarHorseJsonEditor} from "star-horse-lowcode";
-import {getDesignFormStore} from "@/store/StoreManager";
+import { onMounted, ref } from "vue";
+import { StarHorseJsonEditor } from "star-horse-lowcode";
+import { getDesignFormStore } from "@/store/StoreManager";
 import JSON5 from "json5";
 
 let designForm = getDesignFormStore();
@@ -3780,20 +3777,20 @@ const formData = ref<any>({
   "type": "dytable"
 });*/
 const fields = ref<any>({
-  "id": "Idsh8e6b6691-6f32-432b-8d83-3e8614460389",
-  "preps": {
-    "id": "Idsh8e6b6691-6f32-432b-8d83-3e8614460389",
-    "label": "动态表格",
-    "itemNameLabel": "动态表格",
-    "name": "dytable1",
-    "elements": [],
-    "compType": "container",
-    "fieldName": "dytable1",
-    "itemType": "dytable",
-    "rowNums": 1,
-    "columnNums": 1,
-    "type": "dytable"
-  }
+  id: "Idsh8e6b6691-6f32-432b-8d83-3e8614460389",
+  preps: {
+    id: "Idsh8e6b6691-6f32-432b-8d83-3e8614460389",
+    label: "动态表格",
+    itemNameLabel: "动态表格",
+    name: "dytable1",
+    elements: [],
+    compType: "container",
+    fieldName: "dytable1",
+    itemType: "dytable",
+    rowNums: 1,
+    columnNums: 1,
+    type: "dytable",
+  },
 });
 onMounted(() => {
   designForm.clearAll(true);
@@ -3803,11 +3800,11 @@ onMounted(() => {
     const id = "r" + i;
     for (let j = 1; j <= 12; j++) {
       columns.push({
-        "id": `${id + ("c" + j)}`,
-        "colspan": 1,
-        "rowspan": 1,
-        "items": [],
-        cellVisible: true
+        id: `${id + ("c" + j)}`,
+        colspan: 1,
+        rowspan: 1,
+        items: [],
+        cellVisible: true,
       });
     }
     elements.push({

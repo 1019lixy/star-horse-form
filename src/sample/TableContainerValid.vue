@@ -1,19 +1,19 @@
 <template>
   <el-scrollbar>
     <table-container
-        :formData="formData"
-        :field="fields"
-        :isDesign="true"
-        :formInfo="{}"
+      :formData="formData"
+      :field="fields"
+      :isDesign="true"
+      :formInfo="{}"
     />
   </el-scrollbar>
 </template>
 
 <script lang="ts" setup>
-import {onMounted, ref} from "vue";
-import {analysisCompDatas} from "star-horse-lowcode";
-import {getDesignFormStore} from "@/store/StoreManager";
-import {i18n} from "@/lang";
+import { onMounted, ref } from "vue";
+import { analysisCompDatas } from "star-horse-lowcode";
+import { getDesignFormStore } from "@/store/StoreManager";
+import { i18n } from "@/lang";
 import TableContainer from "@/components/formcomp/container/table-container.vue";
 
 let designForm = getDesignFormStore();
@@ -22,157 +22,157 @@ const formData = ref<any>({
 });
 const dataItem = ref<any>({});
 const fields = {
-  "id": "Idsh829d2794-3cb8-4b02-96b4-1c2655d1a646",
-  "preps": {
-    "id": "Idsh829d2794-3cb8-4b02-96b4-1c2655d1a646",
-    "label": i18n("dyform.sample.dynamicList"),
-    "itemNameLabel": i18n("dyform.sample.dynamicList"),
-    "name": "table1",
-    "elements": [
+  id: "Idsh829d2794-3cb8-4b02-96b4-1c2655d1a646",
+  preps: {
+    id: "Idsh829d2794-3cb8-4b02-96b4-1c2655d1a646",
+    label: i18n("dyform.sample.dynamicList"),
+    itemNameLabel: i18n("dyform.sample.dynamicList"),
+    name: "table1",
+    elements: [
       {
-        "id": "sh3b91d1f5-cbaf-4749-a8a3-809c6d526ad9",
-        "colIndex": 1,
-        "columns": 1,
-        "items": [
+        id: "sh3b91d1f5-cbaf-4749-a8a3-809c6d526ad9",
+        colIndex: 1,
+        columns: 1,
+        items: [
           {
-            "id": "Idshb790dbe5-4215-4e86-94d9-abe715ce0b55",
-            "preps": {
-              "id": "Idshb790dbe5-4215-4e86-94d9-abe715ce0b55",
-              "label": i18n("dyform.sample.singleLineInput"),
-              "itemNameLabel": i18n("dyform.sample.singleLineInput"),
-              "name": "input2",
-              "clearable": true,
-              "readonly": false,
-              "placeholder": i18n("dyform.sample.enterSingleLineInput"),
-              "rules": [],
-              "maxLength": 255,
-              "formVisible": true,
-              "listVisible": true,
-              "viewVisible": true
+            id: "Idshb790dbe5-4215-4e86-94d9-abe715ce0b55",
+            preps: {
+              id: "Idshb790dbe5-4215-4e86-94d9-abe715ce0b55",
+              label: i18n("dyform.sample.singleLineInput"),
+              itemNameLabel: i18n("dyform.sample.singleLineInput"),
+              name: "input2",
+              clearable: true,
+              readonly: false,
+              placeholder: i18n("dyform.sample.enterSingleLineInput"),
+              rules: [],
+              maxLength: 255,
+              formVisible: true,
+              listVisible: true,
+              viewVisible: true,
             },
-            "compType": "formItem",
-            "fieldName": "input2",
-            "itemType": "input",
-            "label": i18n("dyform.sample.singleLineInput"),
-            "type": "input"
-          }
-        ]
+            compType: "formItem",
+            fieldName: "input2",
+            itemType: "input",
+            label: i18n("dyform.sample.singleLineInput"),
+            type: "input",
+          },
+        ],
       },
       {
-        "colIndex": 2,
-        "items": [
+        colIndex: 2,
+        items: [
           {
-            "id": "Idsh49036256-5b09-45ea-a9da-ed64610ce886",
-            "preps": {
-              "id": "Idsh49036256-5b09-45ea-a9da-ed64610ce886",
-              "label": i18n("dyform.sample.singleLineInput"),
-              "itemNameLabel": i18n("dyform.sample.singleLineInput"),
-              "name": "input3",
-              "clearable": true,
-              "readonly": false,
-              "placeholder": i18n("dyform.sample.enterSingleLineInput"),
-              "rules": [],
-              "maxLength": 255,
-              "formVisible": true,
-              "listVisible": true,
-              "viewVisible": true
+            id: "Idsh49036256-5b09-45ea-a9da-ed64610ce886",
+            preps: {
+              id: "Idsh49036256-5b09-45ea-a9da-ed64610ce886",
+              label: i18n("dyform.sample.singleLineInput"),
+              itemNameLabel: i18n("dyform.sample.singleLineInput"),
+              name: "input3",
+              clearable: true,
+              readonly: false,
+              placeholder: i18n("dyform.sample.enterSingleLineInput"),
+              rules: [],
+              maxLength: 255,
+              formVisible: true,
+              listVisible: true,
+              viewVisible: true,
             },
-            "compType": "formItem",
-            "fieldName": "input3",
-            "itemType": "input",
-            "label": i18n("dyform.sample.singleLineInput"),
-            "type": "input"
-          }
-        ]
+            compType: "formItem",
+            fieldName: "input3",
+            itemType: "input",
+            label: i18n("dyform.sample.singleLineInput"),
+            type: "input",
+          },
+        ],
       },
       {
-        "colIndex": 3,
-        "items": [
+        colIndex: 3,
+        items: [
           {
-            "id": "Idsh21f9f594-594d-427a-a1de-f5df5681b16a",
-            "preps": {
-              "id": "Idsh21f9f594-594d-427a-a1de-f5df5681b16a",
-              "label": i18n("dyform.sample.singleLineInput"),
-              "itemNameLabel": i18n("dyform.sample.singleLineInput"),
-              "name": "input4",
-              "clearable": true,
-              "readonly": false,
-              "placeholder": i18n("dyform.sample.enterSingleLineInput"),
-              "rules": [],
-              "maxLength": 255,
-              "formVisible": true,
-              "listVisible": true,
-              "viewVisible": true
+            id: "Idsh21f9f594-594d-427a-a1de-f5df5681b16a",
+            preps: {
+              id: "Idsh21f9f594-594d-427a-a1de-f5df5681b16a",
+              label: i18n("dyform.sample.singleLineInput"),
+              itemNameLabel: i18n("dyform.sample.singleLineInput"),
+              name: "input4",
+              clearable: true,
+              readonly: false,
+              placeholder: i18n("dyform.sample.enterSingleLineInput"),
+              rules: [],
+              maxLength: 255,
+              formVisible: true,
+              listVisible: true,
+              viewVisible: true,
             },
-            "compType": "formItem",
-            "fieldName": "input4",
-            "itemType": "input",
-            "label": i18n("dyform.sample.singleLineInput"),
-            "type": "input"
-          }
-        ]
+            compType: "formItem",
+            fieldName: "input4",
+            itemType: "input",
+            label: i18n("dyform.sample.singleLineInput"),
+            type: "input",
+          },
+        ],
       },
       {
-        "colIndex": 4,
-        "items": [
+        colIndex: 4,
+        items: [
           {
-            "id": "Idshbbb4ea6d-7ce2-4650-90d6-c88cb0c900b9",
-            "preps": {
-              "id": "Idshbbb4ea6d-7ce2-4650-90d6-c88cb0c900b9",
-              "label": i18n("dyform.sample.singleLineInput"),
-              "itemNameLabel": i18n("dyform.sample.singleLineInput"),
-              "name": "input5",
-              "clearable": true,
-              "readonly": false,
-              "placeholder": i18n("dyform.sample.enterSingleLineInput"),
-              "rules": [],
-              "maxLength": 255,
-              "formVisible": true,
-              "listVisible": true,
-              "viewVisible": true
+            id: "Idshbbb4ea6d-7ce2-4650-90d6-c88cb0c900b9",
+            preps: {
+              id: "Idshbbb4ea6d-7ce2-4650-90d6-c88cb0c900b9",
+              label: i18n("dyform.sample.singleLineInput"),
+              itemNameLabel: i18n("dyform.sample.singleLineInput"),
+              name: "input5",
+              clearable: true,
+              readonly: false,
+              placeholder: i18n("dyform.sample.enterSingleLineInput"),
+              rules: [],
+              maxLength: 255,
+              formVisible: true,
+              listVisible: true,
+              viewVisible: true,
             },
-            "compType": "formItem",
-            "fieldName": "input5",
-            "itemType": "input",
-            "label": i18n("dyform.sample.singleLineInput"),
-            "type": "input"
-          }
-        ]
+            compType: "formItem",
+            fieldName: "input5",
+            itemType: "input",
+            label: i18n("dyform.sample.singleLineInput"),
+            type: "input",
+          },
+        ],
       },
       {
-        "colIndex": 5,
-        "items": [
+        colIndex: 5,
+        items: [
           {
-            "id": "Idsh505a394a-6d9d-4496-b6c5-dee6e72d1da9",
-            "preps": {
-              "id": "Idsh505a394a-6d9d-4496-b6c5-dee6e72d1da9",
-              "label": i18n("dyform.sample.singleLineInput"),
-              "itemNameLabel": i18n("dyform.sample.singleLineInput"),
-              "name": "input6",
-              "clearable": true,
-              "readonly": false,
-              "placeholder": i18n("dyform.sample.enterSingleLineInput"),
-              "rules": [],
-              "maxLength": 255,
-              "formVisible": true,
-              "listVisible": true,
-              "viewVisible": true
+            id: "Idsh505a394a-6d9d-4496-b6c5-dee6e72d1da9",
+            preps: {
+              id: "Idsh505a394a-6d9d-4496-b6c5-dee6e72d1da9",
+              label: i18n("dyform.sample.singleLineInput"),
+              itemNameLabel: i18n("dyform.sample.singleLineInput"),
+              name: "input6",
+              clearable: true,
+              readonly: false,
+              placeholder: i18n("dyform.sample.enterSingleLineInput"),
+              rules: [],
+              maxLength: 255,
+              formVisible: true,
+              listVisible: true,
+              viewVisible: true,
             },
-            "compType": "formItem",
-            "fieldName": "input6",
-            "itemType": "input",
-            "label": i18n("dyform.sample.singleLineInput"),
-            "type": "input"
-          }
-        ]
-      }
+            compType: "formItem",
+            fieldName: "input6",
+            itemType: "input",
+            label: i18n("dyform.sample.singleLineInput"),
+            type: "input",
+          },
+        ],
+      },
     ],
-    "columns": 5
+    columns: 5,
   },
-  "compType": "container",
-  "fieldName": "table1",
-  "itemType": "table",
-  "type": "table"
+  compType: "container",
+  fieldName: "table1",
+  itemType: "table",
+  type: "table",
 };
 onMounted(() => {
   const result = analysisCompDatas(fields);

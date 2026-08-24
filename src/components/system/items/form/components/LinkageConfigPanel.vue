@@ -17,9 +17,19 @@ const emit = defineEmits<{
 
 /** 支持联动策略的组件类型 */
 const relationComps = [
-  "select", "tselect", "switch", "autocomplete",
-  "checkbox", "radio", "cascade", "transfer","input",
-  "page-select", "dialog-input", "icon", "datapicker",
+  "select",
+  "tselect",
+  "switch",
+  "autocomplete",
+  "checkbox",
+  "radio",
+  "cascade",
+  "transfer",
+  "input",
+  "page-select",
+  "dialog-input",
+  "icon",
+  "datapicker",
 ];
 
 /** 不显示联动策略的组件类型 */
@@ -27,9 +37,11 @@ const exclusionRelation = ["icon", "transfer"];
 
 /** 是否显示联动策略配置 */
 const visible = computed(() => {
-  return relationComps.includes(props.itemType) &&
+  return (
+    relationComps.includes(props.itemType) &&
     !exclusionRelation.includes(props.itemType) &&
-    props.model === "full";
+    props.model === "full"
+  );
 });
 
 const handleOpen = () => {

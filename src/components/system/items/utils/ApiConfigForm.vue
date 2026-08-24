@@ -1,12 +1,20 @@
 <script setup lang="ts">
-import {createApiConfig} from "@/components/system/items/utils/ApiSharedConfig";
-import {PageFieldInfo, postRequest, SelectOption, StarHorseDialog, success, warning, error} from "star-horse-lowcode";
-import {nextTick, PropType, reactive, ref, unref, watch} from "vue";
-import {i18n} from "@/lang";
+import { createApiConfig } from "@/components/system/items/utils/ApiSharedConfig";
+import {
+  PageFieldInfo,
+  postRequest,
+  SelectOption,
+  StarHorseDialog,
+  success,
+  warning,
+  error,
+} from "star-horse-lowcode";
+import { nextTick, PropType, reactive, ref, unref, watch } from "vue";
+import { i18n } from "@/lang";
 import DynamicQueryBuilder from "@/components/system/DynamicQueryBuilder.vue";
-import {getInterfaceUtils} from "@/components/system/items/utils/ItemPreps";
+import { getInterfaceUtils } from "@/components/system/items/utils/ItemPreps";
 
-defineOptions({name: "ApiConfigForm"});
+defineOptions({ name: "ApiConfigForm" });
 const props = defineProps({
   /** "dataSource" - shows labelField/valueField in response; "linkage" - shows fieldMappings in response */
   mode: {
@@ -21,13 +29,18 @@ const props = defineProps({
   currentField: {
     type: String,
     default: "",
-  }
+  },
 });
 
 const formRef = ref();
 
 const apiConfig = reactive<PageFieldInfo | any>(
-    createApiConfig(props.mode, props.formFields, props.currentField, getInterfaceUtils())
+  createApiConfig(
+    props.mode,
+    props.formFields,
+    props.currentField,
+    getInterfaceUtils(),
+  ),
 );
 
 // ─── Public API ───
@@ -65,14 +78,21 @@ const apiValid = async () => {
     }
     const code = result.code ?? result?.data?.code;
     const message = result.cnMessage ?? result.message ?? result?.data?.message;
-    if (code !== 200 && code !== 0 && code !== "0" && code !== "200" && code !== "success") {
+    if (
+      code !== 200 &&
+      code !== 0 &&
+      code !== "0" &&
+      code !== "200" &&
+      code !== "success"
+    ) {
       const errorMsg = message || i18n("dyform.apiConfig.error.codeMismatch");
       error(errorMsg);
       return;
     }
     success(message || i18n("dyform.apiConfig.btn.verify"));
   } catch (err: any) {
-    const errMsg = err?.message || err?.cnMessage || i18n("dyform.apiConfig.error.network");
+    const errMsg =
+      err?.message || err?.cnMessage || i18n("dyform.apiConfig.error.network");
     error(errMsg);
   }
 };
@@ -83,35 +103,37 @@ const aggCondition = ref<any>({});
 const openDialog = () => {
   visible.value = true;
 };
-defineExpose({submitValid, setFormData, getFormData});
+defineExpose({ submitValid, setFormData, getFormData });
 </script>
 
 <template>
   <star-horse-panel
-      v-model="visible"
-      @closeAction="()=>visible=false"
-      :selfFunc="true"
-      @merge="apiValid"
-      :title="i18n('dyform.apiConfig.btn.verify')"
-      boxHeight="90%"
-      boxWidth="70%"
+    v-model="visible"
+    @closeAction="() => (visible = false)"
+    :selfFunc="true"
+    @merge="apiValid"
+    :title="i18n('dyform.apiConfig.btn.verify')"
+    boxHeight="90%"
+    boxWidth="70%"
   >
-    <dynamic-query-builder ref="dynamicQueryBuilderRef"
-                           property-name="fieldName"
-                           or-condition-name="orList"
-                           :properties="formFields"
-                           v-model="condition"
-                           v-model:sortValue="sortCondition"
-                           v-model:agg-value="aggCondition"/>
+    <dynamic-query-builder
+      ref="dynamicQueryBuilderRef"
+      property-name="fieldName"
+      or-condition-name="orList"
+      :properties="formFields"
+      v-model="condition"
+      v-model:sortValue="sortCondition"
+      v-model:agg-value="aggCondition"
+    />
   </star-horse-panel>
   <div class="api-config-form">
     <div class="flex my-[3px] justify-end w-full">
       <el-button size="small" @click="openDialog">
-        <star-horse-icon iconClass="valid"/>
-        {{ i18n('dyform.apiConfig.btn.verify') }}
+        <star-horse-icon iconClass="valid" />
+        {{ i18n("dyform.apiConfig.btn.verify") }}
       </el-button>
     </div>
-    <star-horse-form :fieldList="apiConfig" ref="formRef"/>
+    <star-horse-form :fieldList="apiConfig" ref="formRef" />
   </div>
 </template>
 

@@ -11,8 +11,8 @@ import {
   unref,
   watch,
 } from "vue";
-import {debounce} from "lodash";
-import {deepClone} from "@/api/system";
+import { debounce } from "lodash";
+import { deepClone } from "@/api/system";
 import {
   closeLoad,
   CompType,
@@ -23,42 +23,64 @@ import {
   operationConfirm,
   success,
   uploadRequest,
-  warning
+  warning,
 } from "star-horse-lowcode";
-import {getDesignFormStore} from "@/store/StoreManager";
-import {validDynamicFormCompParams} from "@/components/system/items/utils/FormParamsValid";
-import {delCacheData, getCacheData, setCacheData} from "@/api/cached_utils";
-import {i18n} from "@/lang";
-import {extractFieldMetaList} from "@/components/rule/useFormRuleRuntime";
-import {Config} from "@/api/settings";
-import {defineAsyncComponent} from "vue";
+import { getDesignFormStore } from "@/store/StoreManager";
+import { validDynamicFormCompParams } from "@/components/system/items/utils/FormParamsValid";
+import { delCacheData, getCacheData, setCacheData } from "@/api/cached_utils";
+import { i18n } from "@/lang";
+import { extractFieldMetaList } from "@/components/rule/useFormRuleRuntime";
+import { Config } from "@/api/settings";
+import { defineAsyncComponent } from "vue";
 // 对话框类组件改为异步加载，减小首屏 bundle
-const CodeDialog = defineAsyncComponent(() => import("@/components/system/items/form/dialogs/CodeDialog.vue"));
-const BatchEditDialog = defineAsyncComponent(() => import("@/components/system/items/form/dialogs/BatchEditDialog.vue"));
-const PreviewDialog = defineAsyncComponent(() => import("@/components/system/items/form/dialogs/PreviewDialog.vue"));
-const FieldLayerDrawer = defineAsyncComponent(() => import("@/components/system/items/form/dialogs/FieldLayerDrawer.vue"));
-const ConfigDialog = defineAsyncComponent(() => import("@/components/system/items/form/dialogs/ConfigDialog.vue"));
-const AiDialog = defineAsyncComponent(() => import("@/components/system/items/utils/AiDialog.vue"));
-const RuleConfigPanel = defineAsyncComponent(() => import("@/components/system/items/form/components/RuleConfigPanel.vue"));
-const SaveAsCustomCompDialog = defineAsyncComponent(() => import("@/components/system/items/form/dialogs/SaveAsCustomCompDialog.vue"));
+const CodeDialog = defineAsyncComponent(
+  () => import("@/components/system/items/form/dialogs/CodeDialog.vue"),
+);
+const BatchEditDialog = defineAsyncComponent(
+  () => import("@/components/system/items/form/dialogs/BatchEditDialog.vue"),
+);
+const PreviewDialog = defineAsyncComponent(
+  () => import("@/components/system/items/form/dialogs/PreviewDialog.vue"),
+);
+const FieldLayerDrawer = defineAsyncComponent(
+  () => import("@/components/system/items/form/dialogs/FieldLayerDrawer.vue"),
+);
+const ConfigDialog = defineAsyncComponent(
+  () => import("@/components/system/items/form/dialogs/ConfigDialog.vue"),
+);
+const AiDialog = defineAsyncComponent(
+  () => import("@/components/system/items/utils/AiDialog.vue"),
+);
+const RuleConfigPanel = defineAsyncComponent(
+  () => import("@/components/system/items/form/components/RuleConfigPanel.vue"),
+);
+const SaveAsCustomCompDialog = defineAsyncComponent(
+  () =>
+    import("@/components/system/items/form/dialogs/SaveAsCustomCompDialog.vue"),
+);
 import FormToolbar from "@/components/system/items/form/components/FormToolbar.vue";
 import FormDesigner from "@/components/system/items/form/components/FormDesigner.vue";
 import FieldPanel from "@/components/system/items/form/FieldPanel.vue";
 import PropertyPanel from "@/components/system/items/form/PropertyPanel.vue";
-import {useKeyboardEvents} from "@/components/system/items/form/composables/useKeyboardEvents";
-import {useDialogManager} from "@/components/system/items/form/composables/useDialogManager";
-import {ToolBtnType} from "@/components/types/ToolBtnType";
-import {formContainer} from "@/components/system/items/form/composables/formContainer";
-import {formExtendItems} from "@/components/system/items/form/composables/formExtendItems";
-import {formItems} from "@/components/system/items/form/composables/formItems";
-import {FormConfig} from "@/components/types";
-import {FormSocketService} from "@/components/system/items/FormSocketService";
+import { useKeyboardEvents } from "@/components/system/items/form/composables/useKeyboardEvents";
+import { useDialogManager } from "@/components/system/items/form/composables/useDialogManager";
+import { ToolBtnType } from "@/components/types/ToolBtnType";
+import { formContainer } from "@/components/system/items/form/composables/formContainer";
+import { formExtendItems } from "@/components/system/items/form/composables/formExtendItems";
+import { formItems } from "@/components/system/items/form/composables/formItems";
+import { FormConfig } from "@/components/types";
+import { FormSocketService } from "@/components/system/items/FormSocketService";
 import JSON5 from "json5";
-import {quickAddItem} from "@/api/form_utils";
-import type {Content} from "vanilla-jsoneditor";
-import {createJSONEditor, isTextContent, toJSONContent} from "vanilla-jsoneditor";
-import {loadCustomComponents} from "@/components/system/items/utils/FieldOperationUtils";
-import {initCustomCompApi} from "@/api/custom_component_api";
+import { quickAddItem } from "@/api/form_utils";
+import type { Content } from "vanilla-jsoneditor";
+import {
+  createJSONEditor,
+  isTextContent,
+  toJSONContent,
+} from "vanilla-jsoneditor";
+import { loadCustomComponents } from "@/components/system/items/utils/FieldOperationUtils";
+import { initCustomCompApi } from "@/api/custom_component_api";
+import { hasOpenDialog } from "@/api/keyboard-event-utils";
 
 defineOptions({
   name: "StarHorseFormDesign",
@@ -68,7 +90,7 @@ const props = defineProps({
     type: String,
     default: "idDynamicForm",
   },
-  optional: {type: Object as PropType<FormConfig>},
+  optional: { type: Object as PropType<FormConfig> },
 });
 
 // 合并默认值：确保 FormConfig 中标记为可选的字段有合理回退
@@ -106,7 +128,7 @@ const initContainerDimensions = (comps: any[]) => {
   if (!Array.isArray(comps)) return;
   for (const comp of comps) {
     // Recurse into nested containers (card, tab, collapse, splitter, condition)
-    if (comp.compType === 'container' && comp.preps?.elements) {
+    if (comp.compType === "container" && comp.preps?.elements) {
       for (const element of comp.preps.elements) {
         // tab/collapse/card/splitter elements have .items
         if (element.items && Array.isArray(element.items)) {
@@ -127,8 +149,12 @@ const initContainerDimensions = (comps: any[]) => {
       initContainerDimensions(comp.children);
     }
     // Fix box/dytable/gridtable dimensions
-    if (comp.compType === 'container' &&
-        (comp.itemType === 'box' || comp.itemType === 'dytable' || comp.itemType === 'gridtable')) {
+    if (
+      comp.compType === "container" &&
+      (comp.itemType === "box" ||
+        comp.itemType === "dytable" ||
+        comp.itemType === "gridtable")
+    ) {
       const elements = comp.preps?.elements;
       if (Array.isArray(elements) && elements.length > 0) {
         const rows = elements.length;
@@ -146,7 +172,7 @@ const initContainerDimensions = (comps: any[]) => {
 };
 
 let compSize = computed(
-    () => configStore.configFormInfo?.buttonSize || Config.compSize,
+  () => configStore.configFormInfo?.buttonSize || Config.compSize,
 );
 let draggingItem = computed(() => designForm.draggingItem);
 let list = computed(() => designForm.compList);
@@ -177,26 +203,34 @@ const saveAsCompDialogRef = ref();
 // ==================== 规则引擎上下文 ====================
 // 从 formInfo 提取表单主键作为规则引擎 formId
 const ruleFormId = computed(() => {
-  const pk = resolvedConfig.value?.primaryKey ?? props.primaryKey ?? "idDynamicForm";
+  const pk =
+    resolvedConfig.value?.primaryKey ?? props.primaryKey ?? "idDynamicForm";
   return formInfo.value?.[pk] || formInfo.value?.formId || "";
 });
 // 从 compList 提取字段元数据列表，供规则设计器 FieldSelector 使用
 const ruleFormFields = computed(() => {
   const fields = extractFieldMetaList(list.value || []);
-  console.log('[StarHorseFormDesign] ruleFormFields computed | compList.length=', list.value?.length, '| fields.length=', fields.length);
+  console.log(
+    "[StarHorseFormDesign] ruleFormFields computed | compList.length=",
+    list.value?.length,
+    "| fields.length=",
+    fields.length,
+  );
   return fields;
 });
 let reOrUnDoFlag = ref<boolean>(false);
-let currentPageStyle = ref<any>({label: i18n("dyform.design.pageStyle.pc"), key: "pc"});
+let currentPageStyle = ref<any>({
+  label: i18n("dyform.design.pageStyle.pc"),
+  key: "pc",
+});
 let currentPageClass = ref<string>("main-design");
 let cacheName = "dynamicFormCache";
 let cacheData = ref<any>([]);
 const propertyRef = ref();
 const isSubmit = ref(false);
 const configDialogRef = ref();
-let shortKeySwitch: Function = () => {
-};
-const {dialogStates, openDialog, closeAllDialogs} = useDialogManager();
+let shortKeySwitch: Function = () => {};
+const { dialogStates, openDialog, closeAllDialogs } = useDialogManager();
 const isCooperationMode = computed(() => formInfo.value?.cooperation === "Y");
 const aiDialogVisible = ref<boolean>(false);
 
@@ -210,8 +244,7 @@ const destroyEditor = () => {
   if (jsonEditorInstance) {
     try {
       jsonEditorInstance.destroy();
-    } catch (_) {
-    }
+    } catch (_) {}
     jsonEditorInstance = null;
   }
 };
@@ -223,7 +256,7 @@ const initEditor = () => {
     jsonEditorInstance = createJSONEditor({
       target: codeEditorTarget.value,
       props: {
-        content: {json: currentJsonData},
+        content: { json: currentJsonData },
         mode: "text" as any,
         mainMenuBar: true,
         navigationBar: false,
@@ -232,8 +265,7 @@ const initEditor = () => {
           if (isTextContent(content)) {
             try {
               currentJsonData = JSON.parse(content.text);
-            } catch (_) {
-            }
+            } catch (_) {}
           } else {
             currentJsonData = content.json;
           }
@@ -291,14 +323,13 @@ const applyCodeChanges = () => {
       if (typeof currentJsonData === "string") {
         try {
           data = JSON.parse(currentJsonData);
-        } catch (_) {
-        }
+        } catch (_) {}
       }
     }
   }
   if (!Array.isArray(data)) {
     try {
-      const parsed = toJSONContent({text: String(data)} as any);
+      const parsed = toJSONContent({ text: String(data) } as any);
       data = parsed.json;
     } catch (_) {
       warning(i18n("dyform.design.warning.jsonArrayRequired"));
@@ -315,7 +346,10 @@ const applyCodeChanges = () => {
     designForm.setCompList(parsed);
     success(i18n("dyform.design.importSuccess"));
   } catch (e: any) {
-    warning(i18n("dyform.design.warning.applyFailed") + (e?.message || i18n("dyform.design.warning.unknownError")));
+    warning(
+      i18n("dyform.design.warning.applyFailed") +
+        (e?.message || i18n("dyform.design.warning.unknownError")),
+    );
   }
 };
 
@@ -332,7 +366,7 @@ const applyAiForm = (dataList: any[]) => {
 const resetCodeEditor = () => {
   currentJsonData = JSON.parse(JSON.stringify(list.value));
   if (jsonEditorInstance) {
-    jsonEditorInstance.set({json: currentJsonData});
+    jsonEditorInstance.set({ json: currentJsonData });
   }
 };
 
@@ -346,7 +380,7 @@ const formatCodeEditor = () => {
     } else {
       parsed = content.json;
     }
-    jsonEditorInstance.set({text: JSON.stringify(parsed, null, 2)});
+    jsonEditorInstance.set({ text: JSON.stringify(parsed, null, 2) });
   } catch (_) {
     warning(i18n("dyform.design.warning.jsonFormatError"));
   }
@@ -366,48 +400,48 @@ const messageSubscriptions = ref<string[]>([]);
 const isSyncing = ref<boolean>(false);
 
 watch(
-    () => currentItemId.value,
-    (newVal, oldVal) => {
-      console.log("Current item changed:", oldVal, "->", newVal);
+  () => currentItemId.value,
+  (newVal, oldVal) => {
+    console.log("Current item changed:", oldVal, "->", newVal);
 
-      if (!isCooperationMode.value) {
-        return;
-      }
+    if (!isCooperationMode.value) {
+      return;
+    }
 
-      if (!formSocketInstance.value || !formSocketInstance.value.isConnected()) {
-        console.log("WebSocket not connected, skipping component lock/unlock");
-        return;
-      }
+    if (!formSocketInstance.value || !formSocketInstance.value.isConnected()) {
+      console.log("WebSocket not connected, skipping component lock/unlock");
+      return;
+    }
 
-      // 当组件切换时，解锁旧组件
-      if (oldVal && oldVal !== newVal) {
-        unlockComponentById(oldVal);
-      }
+    // 当组件切换时，解锁旧组件
+    if (oldVal && oldVal !== newVal) {
+      unlockComponentById(oldVal);
+    }
 
-      // 锁定新组件
-      if (newVal) {
-        lockComponent(newVal);
-      }
-    },
-    {immediate: true},
+    // 锁定新组件
+    if (newVal) {
+      lockComponent(newVal);
+    }
+  },
+  { immediate: true },
 );
 
 watch(
-    () => formInfo.value?.cooperation,
-    (newVal, oldVal) => {
-      console.log("Cooperation mode changed:", oldVal, "->", newVal);
+  () => formInfo.value?.cooperation,
+  (newVal, oldVal) => {
+    console.log("Cooperation mode changed:", oldVal, "->", newVal);
 
-      if (newVal === "Y" && oldVal !== "Y") {
-        // 切换到协作模式，初始化 WebSocket
-        initWebSocketService();
-      } else if (newVal !== "Y" && oldVal === "Y") {
-        // 切换到非协作模式，断开 WebSocket
-        if (formSocketInstance.value) {
-          formSocketInstance.value.disconnect();
-          formSocketInstance.value = null;
-        }
+    if (newVal === "Y" && oldVal !== "Y") {
+      // 切换到协作模式，初始化 WebSocket
+      initWebSocketService();
+    } else if (newVal !== "Y" && oldVal === "Y") {
+      // 切换到非协作模式，断开 WebSocket
+      if (formSocketInstance.value) {
+        formSocketInstance.value.disconnect();
+        formSocketInstance.value = null;
       }
-    },
+    }
+  },
 );
 const subscribeToMessages = () => {
   if (!formSocketInstance.value || !formSocketInstance.value.isConnected()) {
@@ -421,10 +455,10 @@ const subscribeToMessages = () => {
   messageSubscriptions.value = [];
 
   const privateSubscription = formSocketInstance.value.subscribeToGroupMessages(
-      (message: any) => {
-        handleIncomingMessage(message);
-      },
-      currentFormId.value,
+    (message: any) => {
+      handleIncomingMessage(message);
+    },
+    currentFormId.value,
   );
   if (privateSubscription) {
     messageSubscriptions.value.push(privateSubscription);
@@ -440,23 +474,23 @@ const handleIncomingMessage = (message: any) => {
         console.log("Component locked successfully:", message.compId);
         // 如果是自己锁定的组件，不需要添加编辑用户信息
         if (
-            message.userInfo &&
-            message.userInfo.userId !== currentUserInfo.value.userId
+          message.userInfo &&
+          message.userInfo.userId !== currentUserInfo.value.userId
         ) {
           designForm.addCurrentCompEditUserInfo(
-              message.compId,
-              message.userInfo,
+            message.compId,
+            message.userInfo,
           );
         }
       } else {
         console.error(
-            "Component lock failed:",
-            message.compId,
-            message.message,
+          "Component lock failed:",
+          message.compId,
+          message.message,
         );
         // 显示锁定失败的提示
         warning(
-            `${i18n("dyform.design.ws.comp")} ${message.compId} ${i18n("dyform.design.ws.lockedBy")} ${message.userInfo?.name || i18n("dyform.design.ws.otherUser")}`,
+          `${i18n("dyform.design.ws.comp")} ${message.compId} ${i18n("dyform.design.ws.lockedBy")} ${message.userInfo?.name || i18n("dyform.design.ws.otherUser")}`,
         );
       }
       break;
@@ -484,8 +518,8 @@ const handleIncomingMessage = (message: any) => {
         // 跳过自己的锁定状态，只显示其他用户的编辑状态
         if (message.userInfo.userId !== currentUserInfo.value.userId) {
           designForm.addCurrentCompEditUserInfo(
-              message.compId,
-              message.userInfo,
+            message.compId,
+            message.userInfo,
           );
         }
       }
@@ -531,23 +565,23 @@ const initWebSocketService = () => {
 
     console.log("Attempting to connect to WebSocket server");
     formSocketInstance.value
-        .connect()
-        .then((connected) => {
-          if (connected) {
-            isConnected.value = true;
-            connectionStatus.value = i18n("dyform.design.ws.connected");
-            console.log("WebSocket服务连接成功");
-          } else {
-            isConnected.value = false;
-            connectionStatus.value = i18n("dyform.design.ws.connectFailed");
-            console.error("WebSocket服务连接失败");
-          }
-        })
-        .catch((error) => {
-          console.error("WebSocket连接过程中出错:", error);
+      .connect()
+      .then((connected) => {
+        if (connected) {
+          isConnected.value = true;
+          connectionStatus.value = i18n("dyform.design.ws.connected");
+          console.log("WebSocket服务连接成功");
+        } else {
           isConnected.value = false;
-          connectionStatus.value = i18n("dyform.design.ws.connectError");
-        });
+          connectionStatus.value = i18n("dyform.design.ws.connectFailed");
+          console.error("WebSocket服务连接失败");
+        }
+      })
+      .catch((error) => {
+        console.error("WebSocket连接过程中出错:", error);
+        isConnected.value = false;
+        connectionStatus.value = i18n("dyform.design.ws.connectError");
+      });
 
     console.log("WebSocket服务初始化完成");
   } catch (error) {
@@ -562,15 +596,15 @@ const changeRole = (data: any) => {
 };
 //导入文件
 const operImportFile = () => {
-  const input = document.createElement('input');
-  input.type = 'file';
-  input.accept = '*.json;*.xls;*.xlsx;*.xlsm';
+  const input = document.createElement("input");
+  input.type = "file";
+  input.accept = "*.json;*.xls;*.xlsx;*.xlsm";
   input.onchange = async (event) => {
     const file = (event.target as HTMLInputElement).files?.[0];
     if (!file) return;
 
     const fileName = file.name.toLowerCase();
-    const isJson = fileName.endsWith('.json');
+    const isJson = fileName.endsWith(".json");
 
     if (isJson) {
       // JSON文件：前端直接解析
@@ -594,13 +628,13 @@ const operImportFile = () => {
             if (designMode.value == "code") {
               switchToCodeMode();
             }
-            success(i18n('dyform.design.importSuccess'));
+            success(i18n("dyform.design.importSuccess"));
           } else {
-            error(i18n('dyform.design.importFormatError'));
+            error(i18n("dyform.design.importFormatError"));
           }
         } catch (err) {
-          console.error('导入文件失败:', err);
-          error(i18n('dyform.design.importParseError'));
+          console.error("导入文件失败:", err);
+          error(i18n("dyform.design.importParseError"));
         }
       };
       reader.readAsText(file);
@@ -608,13 +642,13 @@ const operImportFile = () => {
       // Excel文件：上传到后端解析
       const excelUrl = resolvedConfig.value?.api?.customerUrl1;
       if (!excelUrl) {
-        error(i18n('dyform.design.importExcelNoApi'));
+        error(i18n("dyform.design.importExcelNoApi"));
         return;
       }
       try {
         const formData = new FormData();
-        formData.append('file', file);
-        load(i18n('dyform.design.parsing'));
+        formData.append("file", file);
+        load(i18n("dyform.design.parsing"));
         const res = await uploadRequest(excelUrl, formData);
         const jsonData = res?.data?.data;
         if (jsonData) {
@@ -632,22 +666,22 @@ const operImportFile = () => {
           if (designMode.value == "code") {
             switchToCodeMode();
           }
-          success(i18n('dyform.design.importSuccess'));
+          success(i18n("dyform.design.importSuccess"));
         } else {
-          error(i18n('dyform.design.importExcelFailed'));
+          error(i18n("dyform.design.importExcelFailed"));
         }
       } catch (err) {
-        console.error('Excel文件解析失败:', err);
-        error(i18n('dyform.design.importExcelFailed'));
+        console.error("Excel文件解析失败:", err);
+        error(i18n("dyform.design.importExcelFailed"));
       } finally {
         nextTick(() => {
           closeLoad();
-        })
+        });
       }
     }
   };
   input.click();
-}
+};
 const operExportFile = () => {
   try {
     // 获取要导出的数据
@@ -655,15 +689,15 @@ const operExportFile = () => {
       formInfo: formInfo.value,
       dataList: list.value,
       exportTime: new Date().toISOString(),
-      version: '1.0'
+      version: "1.0",
     };
     // 格式化JSON
     const jsonString = JSON.stringify(exportData, null, 2);
     // 创建Blob对象
-    const blob = new Blob([jsonString], {type: 'application/json'});
+    const blob = new Blob([jsonString], { type: "application/json" });
     // 创建下载链接
     const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
+    const a = document.createElement("a");
     a.href = url;
     a.download = `form-design-${new Date().getTime()}.json`;
     // 触发下载
@@ -673,10 +707,10 @@ const operExportFile = () => {
     document.body.removeChild(a);
     URL.revokeObjectURL(url);
     // 提示用户
-    success(i18n('dyform.design.exportSuccess'));
+    success(i18n("dyform.design.exportSuccess"));
   } catch (err) {
-    console.error('导出失败:', err);
-    error(i18n('dyform.design.exportFailed'));
+    console.error("导出失败:", err);
+    error(i18n("dyform.design.exportFailed"));
   }
 };
 const actions = (action: ToolBtnType | string) => {
@@ -783,31 +817,34 @@ const init = async () => {
     designForm.setAllFormDataList(allFormDataList);
   }
   if (
-      resolvedConfig.value?.containerList &&
-      typeof resolvedConfig.value.containerList == "function"
-    ) {
+    resolvedConfig.value?.containerList &&
+    typeof resolvedConfig.value.containerList == "function"
+  ) {
     resolvedConfig.value.containerList().then((res: CompType[]) => {
       designForm.addContainerList(res);
     });
   }
   if (
-      resolvedConfig.value?.itemList &&
-      typeof resolvedConfig.value.itemList == "function"
+    resolvedConfig.value?.itemList &&
+    typeof resolvedConfig.value.itemList == "function"
   ) {
     resolvedConfig.value.itemList().then((res: CompType[]) => {
       designForm.addFormDataList(res);
     });
   }
   if (
-      resolvedConfig.value?.extendItemList &&
-      typeof resolvedConfig.value.extendItemList == "function"
+    resolvedConfig.value?.extendItemList &&
+    typeof resolvedConfig.value.extendItemList == "function"
   ) {
     resolvedConfig.value.extendItemList().then((res: CompType[]) => {
       designForm.addSelfFormDataList(res);
     });
   }
   // 初始化自定义组件接口配置
-  initCustomCompApi(resolvedConfig.value?.customCompApi, resolvedConfig.value?.api?.basePrefix);
+  initCustomCompApi(
+    resolvedConfig.value?.customCompApi,
+    resolvedConfig.value?.api?.basePrefix,
+  );
   // 加载自定义第三方组件
   loadCustomComponents();
   cacheDataRestore(null as MouseEvent);
@@ -844,12 +881,12 @@ const closeAction = () => {
 const clearData = (flag: boolean = true) => {
   if (list.value?.length > 0) {
     operationConfirm(i18n("dyform.design.newConfirmMsg")).then(
-        (res: boolean) => {
-          if (res) {
-            designForm.clearAll(flag);
-            delCacheData(cacheName);
-          }
-        },
+      (res: boolean) => {
+        if (res) {
+          designForm.clearAll(flag);
+          delCacheData(cacheName);
+        }
+      },
     );
   } else {
     designForm.clearAll(flag);
@@ -884,9 +921,9 @@ const onDragAdd = async (_evt: Event, dataList?: Array<any>) => {
     designForm.selectItem(temp, temp["itemType"], "");
   } else {
     designForm.selectItem(
-        draggingItem.value,
-        draggingItem.value["itemType"],
-        "",
+      draggingItem.value,
+      draggingItem.value["itemType"],
+      "",
     );
   }
   // 仅在协作模式下同步数据到其他用户，且不在同步过程中
@@ -962,6 +999,7 @@ const contextMenu = (evt: MouseEvent) => {
     console.log("当前处于预览状态，不能右键操作");
     return;
   }
+  if (hasOpenDialog()) return;
   evt.preventDefault();
   evt.stopPropagation();
   nextTick(() => {
@@ -980,11 +1018,20 @@ const changeDataHandle = (type: string, data: any) => {
 const loadData = (data: any) => {
   emits("loadData", data);
 };
+const applySystemTemplate = (template: any) => {
+  setFormInfo(
+    template.dataList || [],
+    template.formInfo || {},
+    template.formData || {},
+    true,
+  );
+  success(i18n("dyform.template.apply.success"));
+};
 const saveData = (isDraft: boolean, formData: any) => {
   emits("saveData", isDraft, formData);
   setTimeout(() => {
     dialogStates.value.configDialogVisible = false;
-  }, 500)
+  }, 500);
 };
 onActivated(() => {
   designForm.setIsEdit(true);
@@ -1004,27 +1051,27 @@ onBeforeUnmount(() => {
 });
 
 const listWatcher = watch(
-    () => list.value,
-    debounce((val: any) => {
-      designForm.removePromise();
-      designForm.setRefresh();
-      // reOrUnDoFlag 为 true 表示本次变化由撤销/重做触发，不写入历史记录
-      designForm.addHistoryRecord(reOrUnDoFlag.value);
-      reOrUnDoFlag.value = false;
-      userOperation.setFormInstance(dynamicFormRef);
-      userOperation.setFormData(formData);
-      userOperation.addFormItemList(val);
-      setCacheData(cacheName, {
-        dataList: val,
-        formInfo: unref(formInfo),
-      });
-    }, 500),
-    {
-      immediate: false,
-      deep: true,
-      // flush: 'post' 让 watch 在 DOM 更新后触发，避免阻塞用户输入
-      flush: "post",
-    },
+  () => list.value,
+  debounce((val: any) => {
+    designForm.removePromise();
+    designForm.setRefresh();
+    // reOrUnDoFlag 为 true 表示本次变化由撤销/重做触发，不写入历史记录
+    designForm.addHistoryRecord(reOrUnDoFlag.value);
+    reOrUnDoFlag.value = false;
+    userOperation.setFormInstance(dynamicFormRef);
+    userOperation.setFormData(formData);
+    userOperation.addFormItemList(val);
+    setCacheData(cacheName, {
+      dataList: val,
+      formInfo: unref(formInfo),
+    });
+  }, 500),
+  {
+    immediate: false,
+    deep: true,
+    // flush: 'post' 让 watch 在 DOM 更新后触发，避免阻塞用户输入
+    flush: "post",
+  },
 );
 
 onMounted(async () => {
@@ -1079,18 +1126,18 @@ const lockComponent = (compId: string) => {
   }
 
   formSocketInstance.value.lockComponent(
-      compId,
-      currentFormId.value,
-      currentUserInfo.value,
+    compId,
+    currentFormId.value,
+    currentUserInfo.value,
   );
 };
 
 // 解锁组件
 const unlockComponentById = (compId: string) => {
   if (
-      !formSocketInstance.value ||
-      !formSocketInstance.value.isConnected() ||
-      !compId
+    !formSocketInstance.value ||
+    !formSocketInstance.value.isConnected() ||
+    !compId
   ) {
     return;
   }
@@ -1114,10 +1161,10 @@ const nodeList = () => {
   return list.value;
 };
 const setFormInfo = (
-    nodeList: Array<any>,
-    formInfo: any,
-    formData: any,
-    isEdit: boolean,
+  nodeList: Array<any>,
+  formInfo: any,
+  formData: any,
+  isEdit: boolean,
 ) => {
   initStoreData();
   designForm.setFormInfo(formInfo);
@@ -1150,6 +1197,7 @@ defineExpose({
   exportPreviewToHtml,
   nodeList,
   setFormInfo,
+  applySystemTemplate,
   closeAction,
   initStoreData,
   formShortKeySwitch,
@@ -1158,68 +1206,67 @@ defineExpose({
 
 <template>
   <ConfigDialog
-      ref="configDialogRef"
-      :visible="dialogStates.configDialogVisible"
-      :optional="resolvedConfig"
-      @save="saveData"
-      @close="closeAction"
+    ref="configDialogRef"
+    :visible="dialogStates.configDialogVisible"
+    :optional="resolvedConfig"
+    @save="saveData"
+    @close="closeAction"
   />
   <CodeDialog
-      :visible="dialogStates.codeDialogVisible"
-      :optional="resolvedConfig"
-      @close="closeAction"
-      @save="codeDoSave"
+    :visible="dialogStates.codeDialogVisible"
+    :optional="resolvedConfig"
+    @close="closeAction"
+    @save="codeDoSave"
   />
   <BatchEditDialog
-      :visible="dialogStates.batchEditFieldVisible"
-      :compSize="compSize"
-      @close="closeAction"
-      @save="closeAction"
+    :visible="dialogStates.batchEditFieldVisible"
+    :compSize="compSize"
+    @close="closeAction"
+    @save="closeAction"
   />
   <PreviewDialog
-      :visible="isPreview"
-      :compSize="compSize"
-      :list="list"
-      :currentPageClass="currentPageClass"
-      @close="closeAction"
-      ref="previewDialogRef"
+    :visible="isPreview"
+    :compSize="compSize"
+    :list="list"
+    :currentPageClass="currentPageClass"
+    @close="closeAction"
+    ref="previewDialogRef"
   />
-  <PageConfig v-model="formConfigDialogVisible">
-  </PageConfig>
-  <FieldLayerDrawer v-model:visible="dialogStates.formFieldLayer"
-                    :operType="operType"/>
-  <AiDialog
-      v-model:dialogVisible="aiDialogVisible"
-      @applyForm="applyAiForm"
+  <PageConfig v-model="formConfigDialogVisible"> </PageConfig>
+  <FieldLayerDrawer
+    v-model:visible="dialogStates.formFieldLayer"
+    :operType="operType"
   />
+  <AiDialog v-model:dialogVisible="aiDialogVisible" @applyForm="applyAiForm" />
   <RuleConfigPanel
-      v-model="ruleConfigDialogVisible"
-      :formId="ruleFormId"
-      :formFields="ruleFormFields"
-      :compList="list"
+    v-model="ruleConfigDialogVisible"
+    :formId="ruleFormId"
+    :formFields="ruleFormFields"
+    :compList="list"
   />
   <SaveAsCustomCompDialog
-      ref="saveAsCompDialogRef"
-      :currentComp="designForm.currentComp"
-      :optional="resolvedConfig"
-      @saved="loadCustomComponents"
+    ref="saveAsCompDialogRef"
+    :currentComp="designForm.currentComp"
+    :optional="resolvedConfig"
+    @saved="loadCustomComponents"
   />
   <div class="sh-form-design-root">
     <FormToolbar
-        :list="list"
-        :currentPageStyle="currentPageStyle"
-        :cacheData="cacheData"
-        @action="actions"
-        @changeRole="changeRole"
-        @cacheRestore="cacheDataRestore"
-        :optional="resolvedConfig"
+      :list="list"
+      :currentPageStyle="currentPageStyle"
+      :cacheData="cacheData"
+      @action="actions"
+      @changeRole="changeRole"
+      @cacheRestore="cacheDataRestore"
+      :optional="resolvedConfig"
     />
     <el-splitter class="sh-splitter">
       <el-splitter-panel collapsible size="320" min="220" max="450">
         <field-panel
-            ref="fieldPanelRef"
-            :optional="resolvedConfig"
-            @loadData="loadData"
+          ref="fieldPanelRef"
+          :optional="resolvedConfig"
+          @loadData="loadData"
+          @applySystemTemplate="applySystemTemplate"
         />
       </el-splitter-panel>
       <el-splitter-panel>
@@ -1232,62 +1279,122 @@ defineExpose({
                   <div class="mode-switcher-bar">
                     <div class="mode-switcher">
                       <button
-                          :class="['mode-btn', { active: designMode === 'design' }]"
-                          @click="setMode('design')"
+                        :class="[
+                          'mode-btn',
+                          { active: designMode === 'design' },
+                        ]"
+                        @click="setMode('design')"
                       >
-                        <svg viewBox="0 0 16 16" fill="none" width="14" height="14">
-                          <rect x="1" y="1" width="6" height="6" rx="1" stroke="currentColor" stroke-width="1.3"/>
-                          <rect x="9" y="1" width="6" height="6" rx="1" stroke="currentColor" stroke-width="1.3"/>
-                          <rect x="1" y="9" width="14" height="6" rx="1" stroke="currentColor" stroke-width="1.3"/>
+                        <svg
+                          viewBox="0 0 16 16"
+                          fill="none"
+                          width="14"
+                          height="14"
+                        >
+                          <rect
+                            x="1"
+                            y="1"
+                            width="6"
+                            height="6"
+                            rx="1"
+                            stroke="currentColor"
+                            stroke-width="1.3"
+                          />
+                          <rect
+                            x="9"
+                            y="1"
+                            width="6"
+                            height="6"
+                            rx="1"
+                            stroke="currentColor"
+                            stroke-width="1.3"
+                          />
+                          <rect
+                            x="1"
+                            y="9"
+                            width="14"
+                            height="6"
+                            rx="1"
+                            stroke="currentColor"
+                            stroke-width="1.3"
+                          />
                         </svg>
                         {{ i18n("dyform.action.designMode") }}
                       </button>
                       <button
-                          :class="['mode-btn', { active: designMode === 'code' }]"
-                          @click="setMode('code')"
+                        :class="['mode-btn', { active: designMode === 'code' }]"
+                        @click="setMode('code')"
                       >
-                        <svg viewBox="0 0 16 16" fill="none" width="14" height="14">
-                          <path d="M5 3L1 8L5 13" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"
-                                stroke-linejoin="round"/>
-                          <path d="M11 3L15 8L11 13" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"
-                                stroke-linejoin="round"/>
+                        <svg
+                          viewBox="0 0 16 16"
+                          fill="none"
+                          width="14"
+                          height="14"
+                        >
+                          <path
+                            d="M5 3L1 8L5 13"
+                            stroke="currentColor"
+                            stroke-width="1.3"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                          />
+                          <path
+                            d="M11 3L15 8L11 13"
+                            stroke="currentColor"
+                            stroke-width="1.3"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                          />
                         </svg>
-                        {{ i18n("dyform.action.codeMode")  }}
+                        {{ i18n("dyform.action.codeMode") }}
                       </button>
                     </div>
                     <!-- Code mode actions -->
                     <div v-if="designMode === 'code'" class="mode-actions">
-                      <el-button size="small" @click="formatCodeEditor">{{ i18n("dyform.design.format") }}</el-button>
-                      <el-button size="small" @click="resetCodeEditor">{{ i18n("dyform.design.reset") }}</el-button>
-                      <el-button size="small" type="primary" @click="applyCodeChanges">{{ i18n("dyform.design.applyChanges") }}</el-button>
+                      <el-button size="small" @click="formatCodeEditor">{{
+                        i18n("dyform.design.format")
+                      }}</el-button>
+                      <el-button size="small" @click="resetCodeEditor">{{
+                        i18n("dyform.design.reset")
+                      }}</el-button>
+                      <el-button
+                        size="small"
+                        type="primary"
+                        @click="applyCodeChanges"
+                        >{{ i18n("dyform.design.applyChanges") }}</el-button
+                      >
                     </div>
                   </div>
 
                   <!-- Design Mode -->
                   <template v-if="designMode === 'design'">
                     <FormDesigner
-                        :list="list"
-                        :form-data="formData"
-                        :form-info="formInfo"
-                        :is-dragging="isDragging"
-                        :current-page-class="currentPageClass"
-                        @drag-add="onDragAdd"
-                        @context-menu="contextMenu"
-                        @select-component="onComponentSelect"
-                        ref="dynamicFormRef"
+                      :list="list"
+                      :form-data="formData"
+                      :form-info="formInfo"
+                      :is-dragging="isDragging"
+                      :current-page-class="currentPageClass"
+                      @drag-add="onDragAdd"
+                      @context-menu="contextMenu"
+                      @select-component="onComponentSelect"
+                      ref="dynamicFormRef"
                     />
                     <FormMenuShot
-                        ref="formListRef"
-                        v-if="Object.keys(resolvedConfig?.api || {}).length > 0"
-                        @change="changeDataHandle"
-                        :dataUrl="resolvedConfig?.api"
-                        :prop="resolvedConfig?.shotProps"
-                        :primaryKey="resolvedConfig?.primaryKey"
+                      ref="formListRef"
+                      v-if="Object.keys(resolvedConfig?.api || {}).length > 0"
+                      @change="changeDataHandle"
+                      :dataUrl="resolvedConfig?.api"
+                      :prop="resolvedConfig?.shotProps"
+                      :primaryKey="resolvedConfig?.primaryKey"
                     />
                   </template>
 
                   <!-- Code Mode -->
-                  <div v-else class="code-mode-editor" ref="codeEditorTarget"></div>
+                  <div
+                    v-else
+                    class="code-mode-editor"
+                    ref="codeEditorTarget"
+                  ></div>
 
                   <div class="main-copyright">
                     {{ i18n("starhorse.copyright") }}
@@ -1295,15 +1402,18 @@ defineExpose({
                 </div>
               </el-splitter-panel>
               <el-splitter-panel
-                  collapsible
-                  :size="340"
-                  min="260"
-                  max="500"
-                  class="sh-property-panel"
-                  v-if="list.length > 0 && designMode === 'design'"
+                collapsible
+                :size="340"
+                min="260"
+                max="500"
+                class="sh-property-panel"
+                v-if="list.length > 0 && designMode === 'design'"
               >
                 <el-scrollbar class="sh-property-scrollbar">
-                  <property-panel ref="propertyRef" :optional="resolvedConfig"/>
+                  <property-panel
+                    ref="propertyRef"
+                    :optional="resolvedConfig"
+                  />
                 </el-scrollbar>
               </el-splitter-panel>
             </el-splitter>
@@ -1364,8 +1474,6 @@ defineExpose({
     border: none;
   }
 }
-
-
 
 :deep(.el-card__body) {
   padding: 0 !important;
@@ -1578,7 +1686,7 @@ defineExpose({
   }
 
   :deep(.jse-text-mode .cm-editor) {
-    font-family: 'Cascadia Code', 'Fira Code', 'Consolas', monospace;
+    font-family: "Cascadia Code", "Fira Code", "Consolas", monospace;
     font-size: 13px;
   }
 

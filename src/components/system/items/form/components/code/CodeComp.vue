@@ -1,9 +1,13 @@
 <script setup lang="ts">
-import {computed, onMounted, ref, watch} from "vue";
-import {i18n} from "@/lang";
-import {analysisAppComps, analysisCompDatas, operationConfirm} from "star-horse-lowcode";
-import {getDesignFormStore} from "@/store/StoreManager";
-import {FormConfig} from "@/components/types/FormConfig";
+import { computed, onMounted, ref, watch } from "vue";
+import { i18n } from "@/lang";
+import {
+  analysisAppComps,
+  analysisCompDatas,
+  operationConfirm,
+} from "star-horse-lowcode";
+import { getDesignFormStore } from "@/store/StoreManager";
+import { FormConfig } from "@/components/types/FormConfig";
 
 const props = defineProps<{
   optional: FormConfig;
@@ -17,7 +21,7 @@ let codeStyle = ref<string>("pc");
 let pageInfo = ref<any>({});
 const init = async (type: string) => {
   if (type == "pc") {
-    let {fieldList, searchItemList} = analysisCompDatas(compList);
+    let { fieldList, searchItemList } = analysisCompDatas(compList);
     pageInfo.value["searchFormData"] = {
       fieldList: searchItemList,
     };
@@ -25,7 +29,7 @@ const init = async (type: string) => {
       fieldList,
     };
   } else {
-    let {fieldList, searchItemList} = analysisAppComps(compList);
+    let { fieldList, searchItemList } = analysisAppComps(compList);
     pageInfo.value["searchFormData"] = {
       fieldList: searchItemList,
     };
@@ -39,55 +43,59 @@ const tabChange = (name: string) => {
   if (name == "json_prototype") {
     jsonPrototype.value = compList.value;
   }
-}
+};
 const updateJsonPrototype = () => {
   operationConfirm("确定更新JSON原型吗？").then(() => {
     designForm.setCompList(jsonPrototype.value);
   });
-}
+};
 onMounted(async () => {
   await init("pc");
 });
 watch(
-    () => compList.value,
-    () => {
-      // 当舞台数据变化时（如导入），同步更新代码编辑器
-      init(codeStyle.value);
-      if (subTablePrimaryKey.value === "json_prototype") {
-        jsonPrototype.value = compList.value;
-      }
-    },
-    {deep: true},
+  () => compList.value,
+  () => {
+    // 当舞台数据变化时（如导入），同步更新代码编辑器
+    init(codeStyle.value);
+    if (subTablePrimaryKey.value === "json_prototype") {
+      jsonPrototype.value = compList.value;
+    }
+  },
+  { deep: true },
 );
 </script>
 <template>
-  <el-tabs v-model="subTablePrimaryKey" type="border-card" @tabChange="tabChange">
+  <el-tabs
+    v-model="subTablePrimaryKey"
+    type="border-card"
+    @tabChange="tabChange"
+  >
     <el-tab-pane name="vue3" label="Vue3">
-      <vue3 :formInfo="formInfo" :compList="pageInfo" :compSize="compSize"/>
+      <vue3 :formInfo="formInfo" :compList="pageInfo" :compSize="compSize" />
     </el-tab-pane>
     <el-tab-pane name="vue2" label="Vue2">
-      <vue2 :formInfo="formInfo" :compList="pageInfo" :compSize="compSize"/>
+      <vue2 :formInfo="formInfo" :compList="pageInfo" :compSize="compSize" />
     </el-tab-pane>
     <el-tab-pane name="react" label="React">
-      <react :formInfo="formInfo" :compList="pageInfo" :compSize="compSize"/>
+      <react :formInfo="formInfo" :compList="pageInfo" :compSize="compSize" />
     </el-tab-pane>
     <el-tab-pane name="json_prototype" :label="i18n('dyform.common.a433')">
       <div class="flex justify-end my-3">
         <el-button type="primary" @click="updateJsonPrototype">
-          <star-horse-icon iconClass="edit" color="var(--star-horse-white)"/>
+          <star-horse-icon iconClass="edit" color="var(--star-horse-white)" />
           {{ i18n("workflow.edit") }}
         </el-button>
       </div>
-      <star-horse-json-editor currentMode="json" v-model="jsonPrototype"/>
+      <star-horse-json-editor currentMode="json" v-model="jsonPrototype" />
     </el-tab-pane>
     <el-tab-pane name="json" :label="i18n('dyform.common.433')">
       <div class="flex justify-end my-3">
         <el-radio-group v-model="codeStyle" @change="init">
-          <el-radio :label="i18n('dyform.code.pcCode')" value="pc"/>
-          <el-radio :label="i18n('dyform.code.appCode')" value="app"/>
+          <el-radio :label="i18n('dyform.code.pcCode')" value="pc" />
+          <el-radio :label="i18n('dyform.code.appCode')" value="app" />
         </el-radio-group>
       </div>
-      <star-horse-json-editor currentMode="json" v-model="pageInfo"/>
+      <star-horse-json-editor currentMode="json" v-model="pageInfo" />
     </el-tab-pane>
   </el-tabs>
 </template>

@@ -15,7 +15,7 @@ const items = import.meta.glob([
   "@/components/system/*.vue",
   "@/components/system/items/utils/*.vue",
   "@/components/formcomp/items/*.vue",
-    "@/components/formcomp/container/*.vue",
+  "@/components/formcomp/container/*.vue",
 ]);
 // 插件安装方法
 const install = (

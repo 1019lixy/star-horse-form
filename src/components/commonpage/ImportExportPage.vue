@@ -1,14 +1,14 @@
 <script setup lang="ts">
-import {computed, ref} from "vue";
-import {useCommonPage} from "./useCommonPage";
+import { computed, ref } from "vue";
+import { useCommonPage } from "./useCommonPage";
 import CommonSkeleton from "./CommonSkeleton.vue";
-import {i18n} from "@/lang";
-import {success, error} from "star-horse-lowcode";
+import { i18n } from "@/lang";
+import { success, error } from "star-horse-lowcode";
 
 const props = defineProps({
-  currentPageClass: {type: String, default: ""},
-  preview: {type: Boolean, default: false},
-  compList: {type: Array, required: true},
+  currentPageClass: { type: String, default: "" },
+  preview: { type: Boolean, default: false },
+  compList: { type: Array, required: true },
 });
 
 const activeTab = ref<"import" | "export">("import");
@@ -18,19 +18,19 @@ const importLoading = ref(false);
 const exportColumns = ref<string[]>([]);
 const exportLoading = ref(false);
 
-const {
-  isLoading, hasData, errorMsg, tableFieldList, dataUrl,
-} = useCommonPage({
-  props,
-  formRef: ref(null) as any,
-});
+const { isLoading, hasData, errorMsg, tableFieldList, dataUrl } = useCommonPage(
+  {
+    props,
+    formRef: ref(null) as any,
+  },
+);
 
 const allFields = computed(() => {
   const fl = tableFieldList.value?.fieldList || [];
   return fl.filter((f: any) => f && f.fieldName);
 });
 const exportSelectedFields = computed(() =>
-    allFields.value.filter((f: any) => exportColumns.value.includes(f.fieldName)),
+  allFields.value.filter((f: any) => exportColumns.value.includes(f.fieldName)),
 );
 
 const handleUploadChange = (file: any) => {
@@ -101,13 +101,21 @@ const handleExport = async () => {
   exportLoading.value = true;
   try {
     const rows = props.preview ? [] : [];
-    const headers = exportSelectedFields.value.map((f: any) => f.label || f.fieldName);
+    const headers = exportSelectedFields.value.map(
+      (f: any) => f.label || f.fieldName,
+    );
     const keys = exportSelectedFields.value.map((f: any) => f.fieldName);
     const csvLines = [headers.join(",")];
     for (const row of rows) {
-      csvLines.push(keys.map((k) => `"${(row[k] ?? "").toString().replace(/"/g, '""')}"`).join(","));
+      csvLines.push(
+        keys
+          .map((k) => `"${(row[k] ?? "").toString().replace(/"/g, '""')}"`)
+          .join(","),
+      );
     }
-    const blob = new Blob(["\ufeff" + csvLines.join("\n")], {type: "text/csv;charset=utf-8"});
+    const blob = new Blob(["\ufeff" + csvLines.join("\n")], {
+      type: "text/csv;charset=utf-8",
+    });
     const url = URL.createObjectURL(blob);
     const link = document.createElement("a");
     link.href = url;
@@ -125,7 +133,9 @@ const handleExport = async () => {
 };
 const handleDownloadTemplate = () => {
   const headers = allFields.value.map((f: any) => f.label || f.fieldName);
-  const blob = new Blob(["\ufeff" + headers.join(",")], {type: "text/csv;charset=utf-8"});
+  const blob = new Blob(["\ufeff" + headers.join(",")], {
+    type: "text/csv;charset=utf-8",
+  });
   const url = URL.createObjectURL(blob);
   const link = document.createElement("a");
   link.href = url;
@@ -138,21 +148,28 @@ const handleDownloadTemplate = () => {
 </script>
 <template>
   <div class="flex flex-col h-full overflow-hidden">
-    <CommonSkeleton v-if="isLoading" :showHeader="true" :showForm="true" :formRowCount="4"/>
+    <CommonSkeleton
+      v-if="isLoading"
+      :showHeader="true"
+      :showForm="true"
+      :formRowCount="4"
+    />
 
     <template v-else-if="hasData">
       <el-card class="inner_content">
         <el-tabs v-model="activeTab" type="border-card">
-          <el-tab-pane :label="i18n('commonPage.importExport.import')" name="import">
+          <el-tab-pane
+            :label="i18n('commonPage.importExport.import')"
+            name="import"
+          >
             <el-upload
-                ref="uploadRef"
-                drag
-                :auto-upload="false"
-                :on-change="handleUploadChange"
-                accept=".csv,.txt,.xls,.xlsx"
-                class="mb-4"
+              ref="uploadRef"
+              drag
+              :auto-upload="false"
+              :on-change="handleUploadChange"
+              accept=".csv,.txt,.xls,.xlsx"
+              class="mb-4"
             >
-
               <div class="el-upload__text">
                 {{ i18n("commonPage.importExport.uploadTip") }}
               </div>
@@ -162,51 +179,56 @@ const handleDownloadTemplate = () => {
                 {{ i18n("commonPage.importExport.downloadTemplate") }}
               </el-button>
               <el-button
-                  type="primary"
-                  :loading="importLoading"
-                  :disabled="!importPreviewData.length"
-                  @click="handleImport"
-                  icon=""
+                type="primary"
+                :loading="importLoading"
+                :disabled="!importPreviewData.length"
+                @click="handleImport"
+                icon=""
               >
                 {{ i18n("commonPage.importExport.confirmImport") }}
               </el-button>
             </div>
             <el-table
-                v-if="importPreviewData.length"
-                :data="importPreviewData.slice(0, 50)"
-                border
-                max-height="360"
-                size="small"
+              v-if="importPreviewData.length"
+              :data="importPreviewData.slice(0, 50)"
+              border
+              max-height="360"
+              size="small"
             >
               <el-table-column
-                  v-for="key in Object.keys(importPreviewData[0] || {})"
-                  :key="key"
-                  :prop="key"
-                  :label="key"
-                  show-overflow-tooltip
+                v-for="key in Object.keys(importPreviewData[0] || {})"
+                :key="key"
+                :prop="key"
+                :label="key"
+                show-overflow-tooltip
               />
             </el-table>
           </el-tab-pane>
 
-          <el-tab-pane :label="i18n('commonPage.importExport.export')" name="export">
+          <el-tab-pane
+            :label="i18n('commonPage.importExport.export')"
+            name="export"
+          >
             <div class="mb-4">
-              <div class="mb-2">{{ i18n("commonPage.importExport.selectColumns") }}</div>
+              <div class="mb-2">
+                {{ i18n("commonPage.importExport.selectColumns") }}
+              </div>
               <el-checkbox-group v-model="exportColumns">
                 <el-checkbox
-                    v-for="f in allFields"
-                    :key="f.fieldName"
-                    :value="f.fieldName"
-                    class="mr-4 mb-2"
+                  v-for="f in allFields"
+                  :key="f.fieldName"
+                  :value="f.fieldName"
+                  class="mr-4 mb-2"
                 >
                   {{ f.label || f.fieldName }}
                 </el-checkbox>
               </el-checkbox-group>
             </div>
             <el-button
-                type="success"
-                :loading="exportLoading"
-                @click="handleExport"
-                icon=""
+              type="success"
+              :loading="exportLoading"
+              @click="handleExport"
+              icon=""
             >
               {{ i18n("commonPage.importExport.confirmExport") }}
             </el-button>
@@ -215,7 +237,7 @@ const handleDownloadTemplate = () => {
       </el-card>
     </template>
 
-    <el-empty :content="errorMsg" v-else/>
+    <el-empty :content="errorMsg" v-else />
   </div>
 </template>
 <style scoped></style>

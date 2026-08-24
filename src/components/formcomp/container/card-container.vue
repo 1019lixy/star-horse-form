@@ -1,32 +1,35 @@
 <script setup lang="ts" name="card-container">
-import {computed, onMounted, PropType, ref} from "vue";
-import {itemCheck} from "star-horse-lowcode";
-import {getDesignFormStore} from "@/store/StoreManager";
-import {i18n} from "@/lang";
-import {quickAddItem} from "@/api/form_utils";
+import { computed, onMounted, PropType, ref } from "vue";
+import { itemCheck } from "star-horse-lowcode";
+import { getDesignFormStore } from "@/store/StoreManager";
+import { i18n } from "@/lang";
+import { quickAddItem } from "@/api/form_utils";
 import DesignItemWrapper from "@/components/formcomp/utils/DesignItemWrapper.vue";
-import {isContainer, ensureDefaultElements} from "./container-types";
-import {useDragAdd, ensureItems} from "./container-utils";
-import {useInlineEdit} from "./useInlineEdit";
+import { isContainer, ensureDefaultElements } from "./container-types";
+import { useDragAdd, ensureItems } from "./container-utils";
+import { useInlineEdit } from "./useInlineEdit";
 
 const props = defineProps({
-  parentField: {type: Object as PropType<any>},
-  isDesign: {type: Boolean, default: false},
-  showFormItem: {type: Boolean, default: false},
-  disabled: {type: Boolean, default: false},
-  formInfo: {type: Object as PropType<any>},
-  field: {type: Object as PropType<any>},
+  parentField: { type: Object as PropType<any> },
+  isDesign: { type: Boolean, default: false },
+  showFormItem: { type: Boolean, default: false },
+  disabled: { type: Boolean, default: false },
+  formInfo: { type: Object as PropType<any> },
+  field: { type: Object as PropType<any> },
 });
 let designForm = getDesignFormStore();
 const isDragging = computed(() => designForm.isDragging);
 const formData = defineModel("formData");
 
-const {onDragAdd} = useDragAdd(designForm);
+const { onDragAdd } = useDragAdd(designForm);
 const checkItem = (adata: any, type: string) => {
   if (type === "header") ensureItems(adata, "headerFieldList");
   else ensureItems(adata);
 };
-const {editingId, editingText, startEditName, finishEditName} = useInlineEdit(() => props.isDesign, "card-edit-input");
+const { editingId, editingText, startEditName, finishEditName } = useInlineEdit(
+  () => props.isDesign,
+  "card-edit-input",
+);
 
 const activeTabName = ref();
 onMounted(() => {
@@ -37,28 +40,33 @@ onMounted(() => {
 </script>
 <template>
   <group-container
-      class="star-horse-form-container"
-      :showFormItem="showFormItem"
-      :isDesign="isDesign"
-      :disabled="disabled"
-      :parentField="parentField"
-      :form-item="field"
+    class="star-horse-form-container"
+    :showFormItem="showFormItem"
+    :isDesign="isDesign"
+    :disabled="disabled"
+    :parentField="parentField"
+    :form-item="field"
   >
     <el-card
-        class="card-container"
-        :shadow="field.preps['shadow'] || 'always'"
-        :body-class="field.preps['bodyClass'] || undefined"
-        :header-class="field.preps['headerClass'] || undefined"
-        v-for="adata in field['preps']['elements']"
+      class="card-container"
+      :shadow="field.preps['shadow'] || 'always'"
+      :body-class="field.preps['bodyClass'] || undefined"
+      :header-class="field.preps['headerClass'] || undefined"
+      v-for="adata in field['preps']['elements']"
     >
       <template #header>
         <div class="card-header flex items-center justify-between max-h-[50px]">
           <div class="w-[60%] flex items-center gap-1">
             <span
-              v-if="editingId !== (adata.subTablePrimaryKey || adata.subTableName)"
+              v-if="
+                editingId !== (adata.subTablePrimaryKey || adata.subTableName)
+              "
               class="editable-name"
               @dblclick.stop="startEditName(adata)"
-            >{{ adata.title || adata.label || adata.subTablePrimaryKey }}</span>
+              >{{
+                adata.title || adata.label || adata.subTablePrimaryKey
+              }}</span
+            >
             <el-input
               v-else
               class="card-edit-input"
@@ -67,41 +75,46 @@ onMounted(() => {
               @blur="finishEditName(adata)"
               @keyup.enter="finishEditName(adata)"
               @click.stop
-              style="width: 120px;"
+              style="width: 120px"
             />
-            <help v-if="adata.helpMsg" :message="adata.helpMsg"/>
+            <help v-if="adata.helpMsg" :message="adata.helpMsg" />
           </div>
           <div
-              class="flex-1 min-h-[40px]"
-              :class="{ 'dragging-area': isDragging }"
+            class="flex-1 min-h-[40px]"
+            :class="{ 'dragging-area': isDragging }"
           >
             <draggable
-                @add="(evt: Event) => onDragAdd(evt, adata['headerFieldList'])"
-                @dragover="checkItem(adata, 'header')"
-                class="card-design"
-                group="starHorseGroup"
-                animation="100"
-                item-key="id"
-                ghostClass="ghost"
-                v-model="adata['headerFieldList']"
+              @add="(evt: Event) => onDragAdd(evt, adata['headerFieldList'])"
+              @dragover="checkItem(adata, 'header')"
+              class="card-design"
+              group="starHorseGroup"
+              animation="100"
+              item-key="id"
+              ghostClass="ghost"
+              v-model="adata['headerFieldList']"
             >
               <template #item="{ element: header }">
                 <div
-                    class="comp-item my-[5px]"
-                    :data-field-id="header.id"
-                    :style="{ marginTop: isContainer(header) ? '25px' : '10px' }"
+                  class="comp-item my-[5px]"
+                  :data-field-id="header.id"
+                  :style="{ marginTop: isContainer(header) ? '25px' : '10px' }"
                 >
-                  <DesignItemWrapper :field="header" :isDesign="isDesign" :parentField="field" :disabled="disabled">
+                  <DesignItemWrapper
+                    :field="header"
+                    :isDesign="isDesign"
+                    :parentField="field"
+                    :disabled="disabled"
+                  >
                     <component
-                        :key="header.id"
-                        :field="header"
-                        :isDesign="isDesign"
-                        :showFormItem="showFormItem"
-                        :disabled="disabled"
-                        :formInfo="formInfo"
-                        :is="itemCheck(header)"
-                        :parentField="field"
-                        v-model:formData="formData"
+                      :key="header.id"
+                      :field="header"
+                      :isDesign="isDesign"
+                      :showFormItem="showFormItem"
+                      :disabled="disabled"
+                      :formInfo="formInfo"
+                      :is="itemCheck(header)"
+                      :parentField="field"
+                      v-model:formData="formData"
                     />
                   </DesignItemWrapper>
                 </div>
@@ -112,29 +125,34 @@ onMounted(() => {
       </template>
 
       <draggable
-          @add="(evt: Event) => onDragAdd(evt, adata['items'])"
-          @dragover="checkItem(adata, 'body')"
-          class="card-design"
-          :class="{ 'dragging-area': isDragging }"
-          group="starHorseGroup"
-          animation="100"
-          item-key="id"
-          ghostClass="ghost"
-          v-model="adata['items']"
+        @add="(evt: Event) => onDragAdd(evt, adata['items'])"
+        @dragover="checkItem(adata, 'body')"
+        class="card-design"
+        :class="{ 'dragging-area': isDragging }"
+        group="starHorseGroup"
+        animation="100"
+        item-key="id"
+        ghostClass="ghost"
+        v-model="adata['items']"
       >
         <template #item="{ element: item }">
           <div class="comp-item" :data-field-id="item.id">
-            <DesignItemWrapper :field="item" :isDesign="isDesign" :parentField="field" :disabled="disabled">
+            <DesignItemWrapper
+              :field="item"
+              :isDesign="isDesign"
+              :parentField="field"
+              :disabled="disabled"
+            >
               <component
-                  :key="item.id"
-                  :field="item"
-                  :isDesign="isDesign"
-                  :disabled="disabled"
-                  :showFormItem="showFormItem"
-                  :formInfo="formInfo"
-                  :is="itemCheck(item)"
-                  :parentField="field"
-                  v-model:formData="formData"
+                :key="item.id"
+                :field="item"
+                :isDesign="isDesign"
+                :disabled="disabled"
+                :showFormItem="showFormItem"
+                :formInfo="formInfo"
+                :is="itemCheck(item)"
+                :parentField="field"
+                v-model:formData="formData"
               />
             </DesignItemWrapper>
           </div>
@@ -143,7 +161,13 @@ onMounted(() => {
 
       <!-- 快捷添加组件按钮 -->
       <div v-if="isDesign" class="quick-add-bar">
-        <el-button size="small" type="info" plain @click.stop="quickAddItem(adata.items)" icon="Plus">
+        <el-button
+          size="small"
+          type="info"
+          plain
+          @click.stop="quickAddItem(adata.items)"
+          icon="Plus"
+        >
           {{ i18n("dyform.condition.addLeaf") }}
         </el-button>
       </div>

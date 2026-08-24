@@ -1,10 +1,7 @@
 <script setup lang="ts">
 import { onMounted, onUnmounted, ref } from "vue";
-import {dynamicFormContextMenuData} from "@/plugins/AblesPlugin";
-import {
-  itemCheck,
-  uuid,
-} from "star-horse-lowcode";
+import { dynamicFormContextMenuData } from "@/plugins/AblesPlugin";
+import { itemCheck, uuid } from "star-horse-lowcode";
 import { i18n } from "@/lang/index";
 import DesignItemWrapper from "@/components/formcomp/utils/DesignItemWrapper.vue";
 
@@ -119,22 +116,77 @@ onUnmounted(() => {
         }"
       >
         <div class="empty-illustration">
-          <svg width="160" height="120" viewBox="0 0 160 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <svg
+            width="160"
+            height="120"
+            viewBox="0 0 160 120"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
             <!-- Form outline -->
-            <rect x="30" y="10" width="100" height="100" rx="8" fill="#f5f7fa" stroke="#dce1e8" stroke-width="1.5"/>
+            <rect
+              x="30"
+              y="10"
+              width="100"
+              height="100"
+              rx="8"
+              fill="#f5f7fa"
+              stroke="#dce1e8"
+              stroke-width="1.5"
+            />
             <!-- Header bar -->
-            <rect x="30" y="10" width="100" height="20" rx="8" fill="#e8eaed"/>
-            <rect x="30" y="22" width="100" height="8" fill="#e8eaed"/>
+            <rect x="30" y="10" width="100" height="20" rx="8" fill="#e8eaed" />
+            <rect x="30" y="22" width="100" height="8" fill="#e8eaed" />
             <!-- Form fields -->
-            <rect x="42" y="40" width="30" height="4" rx="2" fill="#c0c4cc"/>
-            <rect x="42" y="48" width="76" height="8" rx="4" fill="#e8eaed" stroke="#dce1e8" stroke-width="0.5"/>
-            <rect x="42" y="64" width="24" height="4" rx="2" fill="#c0c4cc"/>
-            <rect x="42" y="72" width="76" height="8" rx="4" fill="#e8eaed" stroke="#dce1e8" stroke-width="0.5"/>
-            <rect x="42" y="88" width="20" height="4" rx="2" fill="#c0c4cc"/>
-            <rect x="42" y="96" width="76" height="8" rx="4" fill="#e8eaed" stroke="#dce1e8" stroke-width="0.5"/>
+            <rect x="42" y="40" width="30" height="4" rx="2" fill="#c0c4cc" />
+            <rect
+              x="42"
+              y="48"
+              width="76"
+              height="8"
+              rx="4"
+              fill="#e8eaed"
+              stroke="#dce1e8"
+              stroke-width="0.5"
+            />
+            <rect x="42" y="64" width="24" height="4" rx="2" fill="#c0c4cc" />
+            <rect
+              x="42"
+              y="72"
+              width="76"
+              height="8"
+              rx="4"
+              fill="#e8eaed"
+              stroke="#dce1e8"
+              stroke-width="0.5"
+            />
+            <rect x="42" y="88" width="20" height="4" rx="2" fill="#c0c4cc" />
+            <rect
+              x="42"
+              y="96"
+              width="76"
+              height="8"
+              rx="4"
+              fill="#e8eaed"
+              stroke="#dce1e8"
+              stroke-width="0.5"
+            />
             <!-- Plus icon -->
-            <circle cx="130" cy="90" r="14" fill="#409eff" fill-opacity="0.1" stroke="#409eff" stroke-width="1.5"/>
-            <path d="M125 90H135M130 85V95" stroke="#409eff" stroke-width="1.5" stroke-linecap="round"/>
+            <circle
+              cx="130"
+              cy="90"
+              r="14"
+              fill="#409eff"
+              fill-opacity="0.1"
+              stroke="#409eff"
+              stroke-width="1.5"
+            />
+            <path
+              d="M125 90H135M130 85V95"
+              stroke="#409eff"
+              stroke-width="1.5"
+              stroke-linecap="round"
+            />
           </svg>
         </div>
         <div class="empty-message">
@@ -142,8 +194,12 @@ onUnmounted(() => {
           <p>{{ i18n("dyform.designer.instruction") }}</p>
           <div class="tips">
             <span class="tip-item">{{ i18n("dyform.designer.tip.drag") }}</span>
-            <span class="tip-item">{{ i18n("dyform.designer.tip.config") }}</span>
-            <span class="tip-item">{{ i18n("dyform.designer.tip.build") }}</span>
+            <span class="tip-item">{{
+              i18n("dyform.designer.tip.config")
+            }}</span>
+            <span class="tip-item">{{
+              i18n("dyform.designer.tip.build")
+            }}</span>
           </div>
         </div>
       </div>
@@ -174,9 +230,9 @@ onUnmounted(() => {
             :key="data.id"
           >
             <DesignItemWrapper
-                :field="data"
-                :isDesign="true"
-                :parentField="null"
+              :field="data"
+              :isDesign="true"
+              :parentField="null"
             >
               <component
                 :key="data.id"
@@ -222,8 +278,7 @@ onUnmounted(() => {
   scrollbar-width: thin;
   padding: 24px 16px 40px;
   position: relative;
-  background:
-    radial-gradient(circle, #dde0e4 1px, transparent 1px);
+  background: radial-gradient(circle, #dde0e4 1px, transparent 1px);
   background-size: 20px 20px;
   background-color: #f0f2f5;
 
@@ -279,7 +334,7 @@ onUnmounted(() => {
   justify-content: center;
   text-align: center;
   padding: 32px;
-  z-index: 0;
+  z-index: 1;
   pointer-events: none;
 }
 
@@ -327,8 +382,7 @@ onUnmounted(() => {
 
 /* ====== Drag State ====== */
 .dragging-area {
-  background:
-    radial-gradient(circle, #c8ddf5 1px, transparent 1px) !important;
+  background: radial-gradient(circle, #c8ddf5 1px, transparent 1px) !important;
   background-size: 20px 20px !important;
   background-color: #edf4ff !important;
 }

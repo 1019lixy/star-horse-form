@@ -1,11 +1,11 @@
 <script setup lang="ts" name="FieldLayer">
-import {computed, nextTick, onMounted, ref, watch} from "vue";
-import {analysisCompDatas, SelectOption,} from "star-horse-lowcode";
-import {getDesignFormStore} from "@/store/StoreManager";
-import {i18n} from "@/lang/index.js";
+import { computed, nextTick, onMounted, ref, watch } from "vue";
+import { analysisCompDatas, SelectOption } from "star-horse-lowcode";
+import { getDesignFormStore } from "@/store/StoreManager";
+import { i18n } from "@/lang/index.js";
 
 const props = defineProps({
-  operType: {type: String, required: false},
+  operType: { type: String, required: false },
 });
 const emits = defineEmits(["dataBind"]);
 const designForm = getDesignFormStore();
@@ -28,13 +28,13 @@ const dataChange = (data: any) => {
     designForm.selectItem(compItem, compItem.itemType, "");
     // 触发滚动定位 (延迟一帧，等待折叠容器展开)
     nextTick(() => {
-      const event = new CustomEvent("scroll-to-field", {detail: data.id});
+      const event = new CustomEvent("scroll-to-field", { detail: data.id });
       window.dispatchEvent(event);
     });
   }
 };
 const init = () => {
-  let {selectList, compListResult} = analysisCompDatas(compList);
+  let { selectList, compListResult } = analysisCompDatas(compList);
   compNames.value = selectList;
   compMap.value = compListResult;
 };
@@ -42,21 +42,21 @@ onMounted(() => {
   init();
 });
 watch(
-    () => compList.value,
-    () => {
-      init();
-    },
-    {deep: true},
+  () => compList.value,
+  () => {
+    init();
+  },
+  { deep: true },
 );
 </script>
 <template>
   <star-horse-tree
-      ref="starHorseTreeRef"
-      :expand="true"
-      :showCode="true"
-      :treeTitle="i18n('dyform.field.list.title')"
-      @selectData="dataChange"
-      v-model:treeDatas="compNames"
+    ref="starHorseTreeRef"
+    :expand="true"
+    :showCode="true"
+    :treeTitle="i18n('dyform.field.list.title')"
+    @selectData="dataChange"
+    v-model:treeDatas="compNames"
   />
 </template>
 <style scoped lang="scss">

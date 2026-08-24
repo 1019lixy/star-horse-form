@@ -2,7 +2,7 @@
 import { i18n } from "@/lang/index.js";
 import CodeComp from "@/components/system/items/form/components/code/CodeComp.vue";
 import { FormConfig } from "@/components/types";
-import {ref, watch} from "vue";
+import { ref, watch } from "vue";
 
 const emit = defineEmits<{
   (e: "close"): void;
@@ -17,10 +17,14 @@ const props = defineProps<{
 const closeAction = () => {
   emit("close");
 };
-const dialogVisible=ref<boolean>(false);
-watch(()=>props.visible,(val)=>{
-  dialogVisible.value = val;
-},{immediate:true});
+const dialogVisible = ref<boolean>(false);
+watch(
+  () => props.visible,
+  (val) => {
+    dialogVisible.value = val;
+  },
+  { immediate: true },
+);
 const codeDoSave = () => {
   emit("save");
 };

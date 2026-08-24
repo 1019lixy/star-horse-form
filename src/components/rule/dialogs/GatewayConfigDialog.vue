@@ -14,21 +14,39 @@
             <el-icon>
               <InfoFilled />
             </el-icon>
-            <span>{{ i18n('rule.dialog.gatewayConfigTip') }}</span>
+            <span>{{ i18n("rule.dialog.gatewayConfigTip") }}</span>
           </div>
         </template>
       </el-alert>
 
-      <el-form :model="formData" label-width="100px" size="default" ref="formRef" :rules="rules">
+      <el-form
+        :model="formData"
+        label-width="100px"
+        size="default"
+        ref="formRef"
+        :rules="rules"
+      >
         <el-form-item :label="i18n('rule.lbl.gatewayName')" prop="name">
-          <el-input v-model="formData.name" :placeholder="i18n('rule.ph.enterGatewayName')" />
+          <el-input
+            v-model="formData.name"
+            :placeholder="i18n('rule.ph.enterGatewayName')"
+          />
         </el-form-item>
         <el-form-item :label="i18n('rule.lbl.gatewayType')">
-          <el-radio-group v-model="formData.gatewayType" :disabled="gatewayTypeDisabled">
-            <el-radio-button label="XOR">{{ i18n('rule.dialog.exclusiveGateway') }}</el-radio-button>
-            <el-radio-button label="OR">{{ i18n('rule.dialog.inclusiveGateway') }}</el-radio-button>
+          <el-radio-group
+            v-model="formData.gatewayType"
+            :disabled="gatewayTypeDisabled"
+          >
+            <el-radio-button label="XOR">{{
+              i18n("rule.dialog.exclusiveGateway")
+            }}</el-radio-button>
+            <el-radio-button label="OR">{{
+              i18n("rule.dialog.inclusiveGateway")
+            }}</el-radio-button>
           </el-radio-group>
-          <span v-if="gatewayTypeDisabled" class="type-tip">{{ i18n('rule.dialog.gatewayTypeCannotChange') }}</span>
+          <span v-if="gatewayTypeDisabled" class="type-tip">{{
+            i18n("rule.dialog.gatewayTypeCannotChange")
+          }}</span>
         </el-form-item>
         <el-form-item :label="i18n('rule.lbl.branchList')">
           <div class="branch-list">
@@ -36,14 +54,28 @@
               <el-icon :size="32">
                 <InfoFilled />
               </el-icon>
-              <p>{{ i18n('rule.dialog.noBranches') }}</p>
-              <p class="hint">{{ i18n('rule.dialog.drawLineToCreateBranch') }}</p>
+              <p>{{ i18n("rule.dialog.noBranches") }}</p>
+              <p class="hint">
+                {{ i18n("rule.dialog.drawLineToCreateBranch") }}
+              </p>
             </div>
-            <div v-for="(branch, index) in formData.branches" :key="branch.id" class="branch-item">
+            <div
+              v-for="(branch, index) in formData.branches"
+              :key="branch.id"
+              class="branch-item"
+            >
               <div class="branch-header">
                 <div class="branch-index">{{ Number(index) + 1 }}</div>
-                <el-input v-model="branch.label" :placeholder="i18n('rule.ph.branchLabel')" class="branch-label-input" />
-                <el-button type="danger" link @click="removeBranch(Number(index))">
+                <el-input
+                  v-model="branch.label"
+                  :placeholder="i18n('rule.ph.branchLabel')"
+                  class="branch-label-input"
+                />
+                <el-button
+                  type="danger"
+                  link
+                  @click="removeBranch(Number(index))"
+                >
                   <el-icon>
                     <Delete />
                   </el-icon>
@@ -58,10 +90,18 @@
                   class="condition-input"
                 />
                 <div class="branch-meta">
-                  <el-tag v-if="branch.condition === 'default'" type="warning" size="small">{{ i18n('rule.dialog.defaultBranch') }}</el-tag>
-                  <el-tag v-else type="success" size="small">{{ i18n('rule.dialog.conditionBranch') }}</el-tag>
+                  <el-tag
+                    v-if="branch.condition === 'default'"
+                    type="warning"
+                    size="small"
+                    >{{ i18n("rule.dialog.defaultBranch") }}</el-tag
+                  >
+                  <el-tag v-else type="success" size="small">{{
+                    i18n("rule.dialog.conditionBranch")
+                  }}</el-tag>
                   <span class="target-info" v-if="branch.targetNodeId">
-                    → {{ i18n('rule.dialog.targetNode') }}: {{ branch.targetNodeId }}
+                    → {{ i18n("rule.dialog.targetNode") }}:
+                    {{ branch.targetNodeId }}
                   </span>
                 </div>
               </div>
@@ -77,19 +117,23 @@
 import { computed, reactive, ref, watch } from "vue";
 import type { FormInstance, FormRules } from "element-plus";
 import { Delete, InfoFilled } from "@element-plus/icons-vue";
-import { i18n } from '@/lang';
+import { i18n } from "@/lang";
 
 const props = defineProps<{
-  visible: boolean
-  gateway: any
+  visible: boolean;
+  gateway: any;
 }>();
-const dialogVisible=ref<boolean>(false);
-watch(()=>props.visible,(val)=>{
-  dialogVisible.value = val;
-},{immediate:true});
+const dialogVisible = ref<boolean>(false);
+watch(
+  () => props.visible,
+  (val) => {
+    dialogVisible.value = val;
+  },
+  { immediate: true },
+);
 const emit = defineEmits<{
-  (e: "close"): void
-  (e: "save", gateway: any): void
+  (e: "close"): void;
+  (e: "save", gateway: any): void;
 }>();
 
 const formRef = ref<FormInstance>();
@@ -97,33 +141,42 @@ const formRef = ref<FormInstance>();
 const defaultFormData = () => ({
   name: "",
   gatewayType: "XOR",
-  branches: [] as any[]
+  branches: [] as any[],
 });
 
 const formData = reactive<any>(defaultFormData());
 
 const rules = reactive<FormRules>({
-  name: [{ required: true, message: i18n('rule.ph.enterGatewayName'), trigger: "blur" }]
+  name: [
+    {
+      required: true,
+      message: i18n("rule.ph.enterGatewayName"),
+      trigger: "blur",
+    },
+  ],
 });
 
 const gatewayTypeDisabled = computed(() => {
   return props.gateway && props.gateway.gatewayType === "XOR";
 });
 
-watch(() => props.visible, (val) => {
-  if (val) {
-    if (props.gateway) {
-      formData.name = props.gateway.name || "";
-      formData.gatewayType = props.gateway.gatewayType || "XOR";
-      formData.branches = props.gateway.branches
-        ? JSON.parse(JSON.stringify(props.gateway.branches))
-        : [];
-    } else {
-      Object.assign(formData, defaultFormData());
+watch(
+  () => props.visible,
+  (val) => {
+    if (val) {
+      if (props.gateway) {
+        formData.name = props.gateway.name || "";
+        formData.gatewayType = props.gateway.gatewayType || "XOR";
+        formData.branches = props.gateway.branches
+          ? JSON.parse(JSON.stringify(props.gateway.branches))
+          : [];
+      } else {
+        Object.assign(formData, defaultFormData());
+      }
+      formRef.value?.clearValidate();
     }
-    formRef.value?.clearValidate();
-  }
-});
+  },
+);
 
 const removeBranch = (index: number) => {
   formData.branches.splice(index, 1);
@@ -225,7 +278,7 @@ const handleSave = async () => {
           margin-bottom: 8px;
 
           :deep(.el-textarea__inner) {
-            font-family: 'Consolas', 'Monaco', monospace;
+            font-family: "Consolas", "Monaco", monospace;
             font-size: 12px;
           }
         }
@@ -238,7 +291,7 @@ const handleSave = async () => {
           .target-info {
             font-size: 11px;
             color: #64748b;
-            font-family: 'Consolas', 'Monaco', monospace;
+            font-family: "Consolas", "Monaco", monospace;
           }
         }
       }

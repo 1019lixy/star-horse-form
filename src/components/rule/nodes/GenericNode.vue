@@ -1,16 +1,29 @@
 <template>
-  <div class="generic-node" :class="{ highlighted: data.__highlighted, dimmed: data.__dimmed }">
+  <div
+    class="generic-node"
+    :class="{ highlighted: data.__highlighted, dimmed: data.__dimmed }"
+  >
     <Handle type="target" :position="Position.Top" class="node-handle" />
     <div class="node-card" :style="{ borderLeftColor: categoryColor }">
       <div class="node-header">
-        <span class="node-icon" :style="{ color: categoryColor }">{{ nodeDef?.icon || '⬡' }}</span>
-        <span class="node-title">{{ nodeDef?.label ? i18n(nodeDef.label) : (data.__nodeType || i18n('rule.node.unknown')) }}</span>
-        <span class="node-cat" :style="{ color: categoryColor }">{{ categoryName }}</span>
+        <span class="node-icon" :style="{ color: categoryColor }">{{
+          nodeDef?.icon || "⬡"
+        }}</span>
+        <span class="node-title">{{
+          nodeDef?.label
+            ? i18n(nodeDef.label)
+            : data.__nodeType || i18n("rule.node.unknown")
+        }}</span>
+        <span class="node-cat" :style="{ color: categoryColor }">{{
+          categoryName
+        }}</span>
       </div>
       <div class="node-content">
         <!-- 动态显示关键配置摘要 -->
         <div v-if="summary" class="node-summary">{{ summary }}</div>
-        <div v-else class="node-empty">{{ i18n('rule.node.doubleClickEdit') }}</div>
+        <div v-else class="node-empty">
+          {{ i18n("rule.node.doubleClickEdit") }}
+        </div>
       </div>
     </div>
     <Handle type="source" :position="Position.Bottom" class="node-handle" />
@@ -18,84 +31,61 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue'
-import { Handle, Position } from '../compat'
-import { NODE_TYPE_MAP, NODE_CATEGORIES } from '../nodeTypes'
-import { i18n } from '@/lang'
+import { computed } from "vue";
+import { Handle, Position } from "../compat";
+import { NODE_TYPE_MAP, NODE_CATEGORIES } from "../nodeTypes";
+import { i18n } from "@/lang";
 
 const props = defineProps<{
-  id: string
-  type: string
-  data: any
-}>()
+  id: string;
+  type: string;
+  data: any;
+}>();
 
 // 节点的实际类型存在 data.__nodeType 中（因为Vue Flow的type字段统一为'generic'）
-const actualType = computed(() => props.data?.__nodeType || props.type)
-const nodeDef = computed(() => NODE_TYPE_MAP[actualType.value])
+const actualType = computed(() => props.data?.__nodeType || props.type);
+const nodeDef = computed(() => NODE_TYPE_MAP[actualType.value]);
 const categoryColor = computed(() => {
   if (nodeDef.value) {
-    const cat = NODE_CATEGORIES.find(c => c.nodes.some(n => n.type === actualType.value))
-    return cat?.color || '#64748b'
+    const cat = NODE_CATEGORIES.find((c) =>
+      c.nodes.some((n) => n.type === actualType.value),
+    );
+    return cat?.color || "#64748b";
   }
-  return '#64748b'
-})
+  return "#64748b";
+});
 const categoryName = computed(() => {
-  const cat = NODE_CATEGORIES.find(c => c.nodes.some(n => n.type === actualType.value))
-  return cat?.name || ''
-})
+  const cat = NODE_CATEGORIES.find((c) =>
+    c.nodes.some((n) => n.type === actualType.value),
+  );
+  return cat?.name || "";
+});
 
 // 根据节点类型生成配置摘要
 const summary = computed(() => {
-  const d = props.data
-  if (!d) return ''
+  const d = props.data;
+  if (!d) return "";
   switch (actualType.value) {
-    // 数据入参
-    case 'context-extract': return `${d.source} → ${d.targetVar || '?'} (${d.fieldPath || '-'})`
-    case 'type-cast': return `${d.sourceVar} → ${d.targetType}${d.precision ? ` (${d.precision}${i18n('rule.lbl.precisionUnit')})` : ''}`
-    case 'dataset-load': return `${d.source} → ${d.targetVar || '?'}`
-    case 'datasource-fetch': return `${d.httpMethod || 'GET'} ${d.url || '?'}`
-    // 条件判断
-    case 'cond-multibranch': return `${d.matchField || '?'} (${d.matchType}) → ${d.branches?.length || 0}${i18n('rule.lbl.branchCount')}`
-    case 'cond-set-contains': return `${d.sourceSet} ${d.checkType} ${d.targetSet}`
-    case 'cond-dirty-check': return `${d.fields?.length || 0}${i18n('rule.lbl.fieldCount')} (${d.checkRules?.join(',') || '-'})`
-    case 'cond-time-window': return `${d.dateField} ${d.windowType}`
-    case 'cond-unique': return `${d.fields?.join('+') || '?'} (${d.scope})`
-    case 'cond-threshold': return `${d.field} ${d.alertLevel}`
-    // 循环
-    case 'loop-iterate': return `${d.collectionVar} → ${d.itemVar}[${d.indexVar}]`
-    case 'loop-aggregate': return `${d.aggType}(${d.aggField}) → ${d.targetVar}`
-    case 'loop-filter': return `${d.collectionVar} → ${d.targetVar}`
-    case 'loop-break': return d.breakCondition || i18n('rule.msg.breakOnCondition')
-    // 运算
-    case 'calc-money': return `${d.operator} → ${d.targetVar} (${d.precision}${i18n('rule.lbl.precisionUnit')},${d.roundMode})`
-    case 'calc-date': return `${d.baseDate} +${d.offset}${d.offsetUnit} → ${d.targetVar}`
-    case 'calc-string': return `${d.operation} → ${d.targetVar}`
-    case 'calc-dict-map': return `${d.sourceVar} [${d.dictCode}] → ${d.targetVar}`
-    case 'calc-ratio': return `${d.totalAmount} × ${d.ratioField} → ${d.targetVar}`
-    // 分支事务动作
-    case 'action-set-options': return `${d.targetField || '?'} ← ${d.optionsSource || 'STATIC'}`
-    // 消息
-    case 'msg-push-todo': return `${d.pushType} → ${(d.targetUsers?.length || 0)}${i18n('rule.lbl.fieldCount')}`
-    case 'msg-alert': return `${d.channels?.join(',') || '?'} [${d.alertLevel}]`
-    case 'msg-log': return `${d.logType} → ${d.fields?.length || 0}${i18n('rule.lbl.fieldCount')}`
-    // 外部集成
-    case 'http-call': return `${d.httpMethod || 'GET'} ${d.url || '?'}`
-    case 'ext-sp-call': return `SP: ${d.spName} → ${d.resultVar}`
-    case 'ext-mq-send': return `MQ → ${d.queueName}`
-    case 'ext-file-export': return `${d.exportType} → ${d.fileName || '?'}`
-    // 基础节点
-    case 'start': return i18n('rule.exec.flowStart')
-    case 'end': return i18n('rule.exec.flowEnd')
-    case 'condition': return `${d.conditions?.length || 0}${i18n('rule.lbl.conditionCount')} (${d.logic})`
-    case 'action': return `${d.actions?.length || 0}${i18n('rule.lbl.actionCount')}`
-    case 'variable-assign': return `${d.assignments?.length || 0}${i18n('rule.lbl.itemAssignCount')}`
-    default: return ''
+    case "http-call":
+      return `${d.httpMethod || "GET"} ${d.url || "?"}`;
+    case "start":
+      return i18n("rule.exec.flowStart");
+    case "end":
+      return i18n("rule.exec.flowEnd");
+    case "condition":
+      return `${d.conditions?.length || 0}${i18n("rule.lbl.conditionCount")} (${d.logic})`;
+    case "action":
+      return `${d.actions?.length || 0}${i18n("rule.lbl.actionCount")}`;
+    case "variable-assign":
+      return `${d.assignments?.length || 0}${i18n("rule.lbl.itemAssignCount")}`;
+    default:
+      return "";
   }
-})
+});
 </script>
 
 <style scoped lang="scss">
-@use '../styles/design-tokens.scss' as tokens;
+@use "../styles/design-tokens.scss" as tokens;
 
 .generic-node {
   .node-card {
@@ -107,7 +97,9 @@ const summary = computed(() => {
     border-radius: tokens.$rd-radius-lg;
     box-shadow: tokens.$rd-shadow-xs;
     overflow: hidden;
-    transition: box-shadow tokens.$rd-transition-base, border-color tokens.$rd-transition-base;
+    transition:
+      box-shadow tokens.$rd-transition-base,
+      border-color tokens.$rd-transition-base;
 
     &:hover {
       border-color: tokens.$rd-primary-border;
@@ -159,7 +151,7 @@ const summary = computed(() => {
     .node-summary {
       font-size: tokens.$rd-font-xs;
       color: tokens.$rd-text-secondary;
-      font-family: 'JetBrains Mono', monospace;
+      font-family: "JetBrains Mono", monospace;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
@@ -195,7 +187,8 @@ const summary = computed(() => {
 }
 
 @keyframes node-pulse {
-  0%, 100% {
+  0%,
+  100% {
     box-shadow: 0 0 0 2px tokens.$rd-success;
   }
   50% {

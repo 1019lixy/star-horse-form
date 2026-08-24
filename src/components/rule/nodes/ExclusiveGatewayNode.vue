@@ -4,9 +4,15 @@
     <el-tooltip placement="right" :show-after="300" :disabled="!hasBranches">
       <template #content>
         <div class="branch-tooltip">
-          <div v-for="(branch, index) in data.branches" :key="index" class="tooltip-item">
+          <div
+            v-for="(branch, index) in data.branches"
+            :key="index"
+            class="tooltip-item"
+          >
             <span class="tooltip-num">{{ index + 1 }}.</span>
-            <span class="tooltip-text">{{ branch.condition || branch.label || i18n('rule.opt.default') }}</span>
+            <span class="tooltip-text">{{
+              branch.condition || branch.label || i18n("rule.opt.default")
+            }}</span>
           </div>
         </div>
       </template>
@@ -18,7 +24,9 @@
         </div>
       </div>
     </el-tooltip>
-    <div class="gateway-label">{{ data.name || i18n('rule.node.exclusiveGateway') }}</div>
+    <div class="gateway-label">
+      {{ data.name || i18n("rule.node.exclusiveGateway") }}
+    </div>
     <Handle type="source" :position="Position.Bottom" id="bottom" />
     <Handle type="source" :position="Position.Left" id="left" />
     <Handle type="source" :position="Position.Right" id="right" />
@@ -26,53 +34,73 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue'
-import { Position, Handle } from '../compat'
-import { i18n } from '@/lang'
+import { computed } from "vue";
+import { Position, Handle } from "../compat";
+import { i18n } from "@/lang";
 
 const props = defineProps<{
-  id?: string
+  id?: string;
   data: {
-    name?: string
-    branches?: Array<{ condition?: string; label?: string }>
-  }
-}>()
+    name?: string;
+    branches?: Array<{ condition?: string; label?: string }>;
+  };
+}>();
 
-defineEmits<{ (e: 'edit'): void }>()
+defineEmits<{ (e: "edit"): void }>();
 
-const hasBranches = computed(() => props.data?.branches && props.data.branches.length > 0)
+const hasBranches = computed(
+  () => props.data?.branches && props.data.branches.length > 0,
+);
 </script>
 
 <style scoped lang="scss">
-@use '../styles/design-tokens.scss' as tokens;
+@use "../styles/design-tokens.scss" as tokens;
 .exclusive-gateway {
-  display: flex; flex-direction: column; align-items: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 
   .gateway-shape {
-    width: 80px; height: 80px; position: relative;
+    width: 80px;
+    height: 80px;
+    position: relative;
     background: tokens.$rd-node-gw-xor;
     clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
     filter: drop-shadow(0 2px 4px rgba(17, 24, 39, 0.1));
     transition: filter tokens.$rd-transition-base;
     cursor: pointer;
-    display: flex; align-items: center; justify-content: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
-  &:hover .gateway-shape { filter: drop-shadow(0 4px 8px rgba(17, 24, 39, 0.15)); }
+  &:hover .gateway-shape {
+    filter: drop-shadow(0 4px 8px rgba(17, 24, 39, 0.15));
+  }
 
   .gateway-inner {
-    width: 64px; height: 64px;
+    width: 64px;
+    height: 64px;
     background: rgba(255, 255, 255, 0.18);
     clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
-    display: flex; align-items: center; justify-content: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
   .gateway-icon {
-    color: #fff; font-size: 28px; font-weight: 700; line-height: 1;
+    color: #fff;
+    font-size: 28px;
+    font-weight: 700;
+    line-height: 1;
   }
 
   .gateway-label {
-    text-align: center; margin-top: tokens.$rd-space-2; font-size: tokens.$rd-font-sm; font-weight: tokens.$rd-font-weight-semibold;
-    color: tokens.$rd-text-secondary; white-space: nowrap;
+    text-align: center;
+    margin-top: tokens.$rd-space-2;
+    font-size: tokens.$rd-font-sm;
+    font-weight: tokens.$rd-font-weight-semibold;
+    color: tokens.$rd-text-secondary;
+    white-space: nowrap;
   }
 }
 </style>

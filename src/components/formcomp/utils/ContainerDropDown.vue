@@ -1,26 +1,26 @@
 <script setup lang="ts">
-import {computed, onMounted, PropType, ref, watch} from "vue";
-import {tableAction} from "@/components/formcomp/container/dytableUtils";
-import {tableAction as gridtableAction} from "@/components/formcomp/container/gridtableUtils";
-import {i18n} from "@/lang";
-import {getDesignFormStore} from "@/store/StoreManager";
+import { computed, onMounted, PropType, ref, watch } from "vue";
+import { tableAction } from "@/components/formcomp/container/dytableUtils";
+import { tableAction as gridtableAction } from "@/components/formcomp/container/gridtableUtils";
+import { i18n } from "@/lang";
+import { getDesignFormStore } from "@/store/StoreManager";
 import FieldList from "@/components/formcomp/utils/FieldList.vue";
-import {numberRangeItem,  uuid, warning} from "star-horse-lowcode";
+import { numberRangeItem, uuid, warning } from "star-horse-lowcode";
 import camelcase from "camelcase";
 
 const props = defineProps({
-  parentField: {type: Object as PropType<any>},
-  disabled: {type: Object as PropType<Boolean | String>},
-  field: {type: Object as PropType<any>},
-  isFirstRow: {type: Boolean, default: false},
-  isLastRow: {type: Boolean, default: false},
-  isFirstCol: {type: Boolean, default: false},
-  isLastCol: {type: Boolean, default: false},
-  size: {type: String, default: "small"},
-  rowIndex: {type: Number, default: -1},
-  colIndex: {type: Number, default: -1},
-  type: {type: String},
-  validBox: {type: Boolean, default: false},
+  parentField: { type: Object as PropType<any> },
+  disabled: { type: Object as PropType<Boolean | String> },
+  field: { type: Object as PropType<any> },
+  isFirstRow: { type: Boolean, default: false },
+  isLastRow: { type: Boolean, default: false },
+  isFirstCol: { type: Boolean, default: false },
+  isLastCol: { type: Boolean, default: false },
+  size: { type: String, default: "small" },
+  rowIndex: { type: Number, default: -1 },
+  colIndex: { type: Number, default: -1 },
+  type: { type: String },
+  validBox: { type: Boolean, default: false },
 });
 const cellInfo = computed(() => {
   const elements = props.parentField.preps.elements;
@@ -28,14 +28,14 @@ const cellInfo = computed(() => {
   return {
     maxRow: elements.length - props.rowIndex,
     maxCol: columns.length - props.colIndex,
-  }
+  };
 });
 const currentCell = computed(() => {
   const elements = props.parentField.preps.elements;
   const element = elements[props.rowIndex];
   const columns = element.columns;
   return columns[props.colIndex];
-})
+});
 const emits = defineEmits(["command"]);
 const fieldForm = ref<Record<string, any>>({});
 const designForm = getDesignFormStore();
@@ -43,15 +43,15 @@ const checkMenuStatus = () => {
   const moveFlag = !props.field.items?.length;
   const elements = props.parentField.preps.elements;
   const lastRow = props.isFirstRow
-      ? 0
-      : elements[props.rowIndex - 1]?.columns.length;
+    ? 0
+    : elements[props.rowIndex - 1]?.columns.length;
   const currentRow = elements[props.rowIndex].columns.length;
   const nextRow = props.isLastRow
-      ? null
-      : elements[props.rowIndex + 1]?.columns.length;
+    ? null
+    : elements[props.rowIndex + 1]?.columns.length;
   const isFullColumn =
-      (props.type == "dytable" || props.type == "gridtable") &&
-      elements?.length == parseInt(props.field.rowspan);
+    (props.type == "dytable" || props.type == "gridtable") &&
+    elements?.length == parseInt(props.field.rowspan);
   //检查当前列所有小于改列的数据是否存在合并
   const hasMergeCol = () => {
     // const currentCol=elements[props.rowIndex].columns;
@@ -64,7 +64,7 @@ const checkMenuStatus = () => {
       for (let i = 0; i < props.colIndex; i++) {
         const col = tempCols[i];
         //合并2
-        if (col.colspan > 1 && (i + col.colspan) >= props.colIndex) {
+        if (col.colspan > 1 && i + col.colspan >= props.colIndex) {
           return true;
         }
       }
@@ -86,7 +86,7 @@ const checkMenuStatus = () => {
       for (let i = 0; i < props.rowIndex; i++) {
         const col = elements[i].columns[props.colIndex];
         //合并2
-        if (col.rowspan > 1 && (i + col.rowspan) >= props.rowIndex) {
+        if (col.rowspan > 1 && i + col.rowspan >= props.rowIndex) {
           return true;
         }
       }
@@ -126,10 +126,10 @@ const handleTableCellCommand = (command: string) => {
   } else if (command == "addText") {
     staticDataConfigDialog.value = true;
     fieldForm.value = {
-      dataType: props.field?.dataType ?? 'text',
+      dataType: props.field?.dataType ?? "text",
       textContent: props.field?.textContent,
       visiblePlatform: "all",
-      configRowType: "currentRow"
+      configRowType: "currentRow",
     };
   } else if (command == "removeText") {
     const elements = props.parentField.preps.elements;
@@ -145,7 +145,7 @@ const handleTableCellCommand = (command: string) => {
   } else if (command == "addComp") {
     componentVisible.value = true;
     fieldForm.value = {
-      configRowType: "currentRow"
+      configRowType: "currentRow",
     };
   } else {
     emits("command", command);
@@ -173,10 +173,10 @@ const operationCell = (endCol: number, endRow: number, columns: any) => {
       tempCols[col].cellVisible = false;
     }
   }
-}
+};
 const operationCellText = (column: any, fieldForm: any) => {
   column["dataType"] = fieldForm["dataType"];
-  column["staticData"] = column["dataType"] != 'none';
+  column["staticData"] = column["dataType"] != "none";
   column["visiblePlatform"] = column["visiblePlatform"] ?? "all";
   column["textContent"] = fieldForm["textContent"];
 };
@@ -195,7 +195,7 @@ const submitAction = () => {
     const startRow = props.rowIndex;
     const endRow = startRow + newRowspan;
     const endCol = props.colIndex + newColspan;
-    const configRowType = fieldForm.value.configRowType ?? 'currentRow';
+    const configRowType = fieldForm.value.configRowType ?? "currentRow";
     let unlinkRows = fieldForm.value.unlinkRows ?? [];
     if (configRowType == "linkRows") {
       const linkRowsMin = fieldForm.value.linkRowsMin;
@@ -227,9 +227,8 @@ const submitAction = () => {
       column["colspan"] = newColspan;
       operationCell(endCol, endRow, columns);
     }
-
   } else if (currentCommand.value === "addText") {
-    const configRowType = fieldForm.value.configRowType ?? 'currentRow';
+    const configRowType = fieldForm.value.configRowType ?? "currentRow";
     let unlinkRows = fieldForm.value.unlinkRows ?? [];
     if (configRowType == "linkRows") {
       const linkRowsMin = fieldForm.value.linkRowsMin;
@@ -263,7 +262,7 @@ const submitAction = () => {
 const currentItem = ref<any>();
 const changeItem = (item: any) => {
   const id = uuid();
-  const fieldName = camelcase(["field",id.substring(0, 6)]) ;
+  const fieldName = camelcase(["field", id.substring(0, 6)]);
   currentItem.value = {
     id: "Sh" + id,
     label: item.itemName,
@@ -274,24 +273,28 @@ const changeItem = (item: any) => {
     preps: {
       id: "Sh" + id,
       name: fieldName,
-      itemNameLabel:item.itemName,
-      label: item.itemName
-    }
-  }
+      itemNameLabel: item.itemName,
+      label: item.itemName,
+    },
+  };
 };
 const addCompOperation = (column: any, item: any, suffix: string) => {
   if (column.cellVisible) {
-    const listItems = Array.isArray(item) ? item.map(i => JSON.parse(JSON.stringify(i))) : [JSON.parse(JSON.stringify(item))];
+    const listItems = Array.isArray(item)
+      ? item.map((i) => JSON.parse(JSON.stringify(i)))
+      : [JSON.parse(JSON.stringify(item))];
     for (let i = 0; i < listItems.length; i++) {
       const id = uuid();
       const tempItem = listItems[i];
       tempItem.id = id;
-      tempItem.fieldName = camelcase(["field",id.substring(0, 6),suffix]) ;
+      tempItem.fieldName = camelcase(["field", id.substring(0, 6), suffix]);
       if (!tempItem.preps) {
         tempItem.preps = {};
       }
       tempItem.preps.id = id;
       tempItem.preps.name = tempItem.fieldName;
+      tempItem.preps.hideLabel = fieldForm.value.hideLabel;
+      tempItem.preps.required = fieldForm.value.required;
       if (!column.items) {
         column.items = [];
       }
@@ -302,13 +305,13 @@ const addCompOperation = (column: any, item: any, suffix: string) => {
       designForm.selectItem(newItem, newItem.itemType, newItem.compType);
     }
   }
-}
+};
 const compAddOperation = (type: string) => {
   if (!currentItem.value && !fieldForm.value.copyCurrentItem) {
     warning(i18n("dyform.container.warning.selectComponent"));
     return;
   }
-  const configRowType = fieldForm.value.configRowType ?? 'currentRow';
+  const configRowType = fieldForm.value.configRowType ?? "currentRow";
   const elements = props.parentField.preps.elements;
   let element = elements[props.rowIndex];
   let columns = element.columns;
@@ -329,7 +332,11 @@ const compAddOperation = (type: string) => {
       element = elements[i];
       columns = element.columns;
       for (let j = linkColsMin - 1; j < linkColsMax; j++) {
-        if (fieldForm.value.copyCurrentItem && i == props.rowIndex && j == props.colIndex) {
+        if (
+          fieldForm.value.copyCurrentItem &&
+          i == props.rowIndex &&
+          j == props.colIndex
+        ) {
           continue;
         }
         addCompOperation(columns[j], currentItem.value, i + "" + j);
@@ -344,10 +351,18 @@ const compAddOperation = (type: string) => {
       columns = element.columns;
       for (let col of unLinkCols) {
         const tempCol = parseInt(unLinkCols[col]) - 1;
-        if (fieldForm.value.copyCurrentItem && tempRow == props.rowIndex && tempCol == props.colIndex) {
+        if (
+          fieldForm.value.copyCurrentItem &&
+          tempRow == props.rowIndex &&
+          tempCol == props.colIndex
+        ) {
           continue;
         }
-        addCompOperation(columns[tempCol], currentItem.value, tempRow + "" + tempCol);
+        addCompOperation(
+          columns[tempCol],
+          currentItem.value,
+          tempRow + "" + tempCol,
+        );
       }
     }
   } else {
@@ -366,342 +381,483 @@ onMounted(() => {
   init();
 });
 watch(
-    () => props.field,
-    () => {
-      checkMenuStatus();
-    },
-    {deep: true, immediate: true},
+  () => props.field,
+  () => {
+    checkMenuStatus();
+  },
+  { deep: true, immediate: true },
 );
 watch(
-    () => props.parentField,
-    () => {
-      if (props.type == "gridtable") {
-        gridtableAction(props, buttonControl.value);
-      } else {
-        tableAction(props, buttonControl.value, props.type);
-      }
-    },
-    {
-      immediate: false,
-      deep: true,
-    },
+  () => props.parentField,
+  () => {
+    if (props.type == "gridtable") {
+      gridtableAction(props, buttonControl.value);
+    } else {
+      tableAction(props, buttonControl.value, props.type);
+    }
+  },
+  {
+    immediate: false,
+    deep: true,
+  },
 );
 </script>
 
 <template>
   <star-horse-panel
-      box-width="50%"
-      box-height="60%"
-      :source="2"
-      :full-screen="false"
-      :title="i18n('form.changeComponent')"
-      :self-func="true"
-      v-model="componentVisible"
-      @merge="compAddOperation"
-      @closeAction="close"
+    box-width="50%"
+    box-height="60%"
+    :source="2"
+    :full-screen="false"
+    :title="i18n('form.changeComponent')"
+    :self-func="true"
+    v-model="componentVisible"
+    @merge="compAddOperation"
+    @closeAction="close"
   >
     <el-splitter>
       <el-splitter-panel size="40%">
-        <field-list @selectData="changeItem"/>
+        <field-list @selectData="changeItem" />
       </el-splitter-panel>
       <el-splitter-panel>
         <el-form v-model="fieldForm" label-position="top">
-          <el-form-item
-              :label="i18n('dyform.container.selectedComponent')"
-              label-position="left"
+          <el-descriptions column="1" border label-width="120px">
+            <el-descriptions-item
               v-if="currentItem"
-          >
-            <el-tag type="primary">{{currentItem.label}}</el-tag>
-          </el-form-item>
-          <el-form-item
+              :label="i18n('dyform.container.selectedComponent')"
+            >
+              <el-tag type="primary">{{ currentItem.label }}</el-tag>
+            </el-descriptions-item>
+            <el-descriptions-item
               :label="i18n('dyform.container.sameConfigRows')"
-              prop="sameConfigRows"
-          >
-            <el-select v-model="fieldForm.configRowType">
-              <el-option :label="i18n('dyform.container.currentCell')" value="currentRow"/>
-              <el-option :label="i18n('dyform.container.continuous')" value="linkRows"/>
-              <el-option :label="i18n('dyform.container.nonContinuous')" value="unlinkRows"/>
-            </el-select>
-          </el-form-item>
-          <el-form-item label-position="left" :label="i18n('dyform.container.copyCurrentComponent')" v-if="currentCell?.items?.length>0&&fieldForm.configRowType!='currentRow'"
-                        prop="copyCurrentItem">
-            <el-switch v-model="fieldForm.copyCurrentItem"/>
-          </el-form-item>
-          <el-form-item :label="i18n('dyform.container.linkRows')" prop="linkRows" v-if="fieldForm.configRowType=='linkRows'">
-            <number-range-item :field="{
-              fieldName:'linkRows',
-              preps:{}
-            }" v-model:formData="fieldForm"/>
-          </el-form-item>
-          <el-form-item :label="i18n('dyform.container.linkCols')" prop="linkCols" v-if="fieldForm.configRowType=='linkRows'">
-            <number-range-item :field="{
-                fieldName:'linkCols',
-                preps:{}
-              }" v-model:formData="fieldForm"/>
-          </el-form-item>
-          <el-form-item :label="i18n('dyform.container.unlinkRows')" prop="unlinkRows" v-if="fieldForm.configRowType=='unlinkRows'">
-            <el-input-tag v-model="fieldForm.unlinkRows"/>
-          </el-form-item>
-          <el-form-item :label="i18n('dyform.container.unlinkCols')" prop="unlinkCols" v-if="fieldForm.configRowType=='unlinkRows'">
-            <el-input-tag v-model="fieldForm.unlinkCols"/>
-          </el-form-item>
+            >
+              <el-select v-model="fieldForm.configRowType">
+                <el-option
+                  :label="i18n('dyform.container.currentCell')"
+                  value="currentRow"
+                />
+                <el-option
+                  :label="i18n('dyform.container.continuous')"
+                  value="linkRows"
+                />
+                <el-option
+                  :label="i18n('dyform.container.nonContinuous')"
+                  value="unlinkRows"
+                />
+              </el-select>
+            </el-descriptions-item>
+            <el-descriptions-item
+              :label="i18n('dyform.container.copyCurrentComponent')"
+              v-if="
+                currentCell?.items?.length > 0 &&
+                fieldForm.configRowType != 'currentRow'
+              "
+            >
+              <el-switch v-model="fieldForm.copyCurrentItem" />
+            </el-descriptions-item>
+            <el-descriptions-item
+              :label="i18n('dyform.container.linkRows')"
+              v-if="fieldForm.configRowType == 'linkRows'"
+            >
+              <number-range-item
+                :field="{
+                  fieldName: 'linkRows',
+                  preps: {},
+                }"
+                v-model:formData="fieldForm"
+              />
+            </el-descriptions-item>
+            <el-descriptions-item
+              :label="i18n('dyform.container.linkCols')"
+              prop="linkCols"
+              v-if="fieldForm.configRowType == 'linkRows'"
+            >
+              <number-range-item
+                :field="{
+                  fieldName: 'linkCols',
+                  preps: {},
+                }"
+                v-model:formData="fieldForm"
+              />
+            </el-descriptions-item>
+            <el-descriptions-item
+              :label="i18n('dyform.container.unlinkRows')"
+              prop="unlinkRows"
+              v-if="fieldForm.configRowType == 'unlinkRows'"
+            >
+              <el-input-tag v-model="fieldForm.unlinkRows" />
+            </el-descriptions-item>
+            <el-descriptions-item
+              :label="i18n('dyform.container.unlinkCols')"
+              prop="unlinkCols"
+              v-if="fieldForm.configRowType == 'unlinkRows'"
+            >
+              <el-input-tag v-model="fieldForm.unlinkCols" />
+            </el-descriptions-item>
+            <el-descriptions-item
+              label-position="left"
+              :label="i18n('dyform.props.hideLabel')"
+              prop="hideLabel"
+            >
+              <el-switch v-model="fieldForm.hideLabel" />
+            </el-descriptions-item>
+            <el-descriptions-item
+              label-position="left"
+              :label="i18n('dyform.props.required')"
+              prop="required"
+            >
+              <el-switch v-model="fieldForm.required" />
+            </el-descriptions-item>
+          </el-descriptions>
         </el-form>
       </el-splitter-panel>
     </el-splitter>
-
   </star-horse-panel>
   <star-horse-panel
-      :title="i18n('dyform.container.editStaticText')"
-      :self-func="true"
-      :hide-full-screen-icon="true"
-      @merge="submitAction"
-      @closeAction="close"
-      v-model="staticDataConfigDialog"
-      box-width="40%"
+    :title="i18n('dyform.container.editStaticText')"
+    :self-func="true"
+    :hide-full-screen-icon="true"
+    @merge="submitAction"
+    @closeAction="close"
+    v-model="staticDataConfigDialog"
+    box-width="40%"
   >
     <el-form v-model="fieldForm">
       <el-form-item
-          :label="i18n('dyform.container.visiblePlatform')"
-          prop="visiblePlatform"
+        :label="i18n('dyform.container.visiblePlatform')"
+        prop="visiblePlatform"
       >
         <el-radio-group v-model="fieldForm.visiblePlatform">
-          <el-radio label="PC" value="pc"/>
-          <el-radio label="App" value="app"/>
-          <el-radio :label="i18n('dyform.container.all')" value="all"/>
+          <el-radio label="PC" value="pc" />
+          <el-radio label="App" value="app" />
+          <el-radio :label="i18n('dyform.container.all')" value="all" />
         </el-radio-group>
       </el-form-item>
       <el-form-item
-          :label="i18n('dyform.container.sameConfigRows')"
-          prop="sameConfigRows"
+        :label="i18n('dyform.container.sameConfigRows')"
+        prop="sameConfigRows"
       >
         <el-select v-model="fieldForm.configRowType">
-          <el-option :label="i18n('dyform.container.currentRow')" value="currentRow"/>
-          <el-option :label="i18n('dyform.container.continuousRow')" value="linkRows"/>
-          <el-option :label="i18n('dyform.container.nonContinuousRow')" value="unlinkRows"/>
+          <el-option
+            :label="i18n('dyform.container.currentRow')"
+            value="currentRow"
+          />
+          <el-option
+            :label="i18n('dyform.container.continuousRow')"
+            value="linkRows"
+          />
+          <el-option
+            :label="i18n('dyform.container.nonContinuousRow')"
+            value="unlinkRows"
+          />
         </el-select>
       </el-form-item>
-      <el-form-item :label="i18n('dyform.container.linkRows')" prop="linkRows" v-if="fieldForm.configRowType=='linkRows'">
-        <number-range-item :field="{
-          fieldName:'linkRows',
-          preps:{}
-        }" v-model:formData="fieldForm"/>
-      </el-form-item>
-      <el-form-item :label="i18n('dyform.container.unlinkRows')" prop="unlinkRows" v-if="fieldForm.configRowType=='unlinkRows'">
-        <el-input-tag v-model="fieldForm.unlinkRows"/>
+      <el-form-item
+        :label="i18n('dyform.container.linkRows')"
+        prop="linkRows"
+        v-if="fieldForm.configRowType == 'linkRows'"
+      >
+        <number-range-item
+          :field="{
+            fieldName: 'linkRows',
+            preps: {},
+          }"
+          v-model:formData="fieldForm"
+        />
       </el-form-item>
       <el-form-item
-          :label="i18n('dyform.container.textType')"
-          prop="dataType"
+        :label="i18n('dyform.container.unlinkRows')"
+        prop="unlinkRows"
+        v-if="fieldForm.configRowType == 'unlinkRows'"
       >
+        <el-input-tag v-model="fieldForm.unlinkRows" />
+      </el-form-item>
+      <el-form-item :label="i18n('dyform.container.textType')" prop="dataType">
         <el-radio-group v-model="fieldForm.dataType">
-          <el-radio label="Text" value="text"/>
-          <el-radio label="Html" value="html"/>
-          <el-radio :label="i18n('dyform.container.none')" value="none"/>
+          <el-radio label="Text" value="text" />
+          <el-radio label="Html" value="html" />
+          <el-radio :label="i18n('dyform.container.none')" value="none" />
         </el-radio-group>
       </el-form-item>
-      <el-form-item :label="i18n('dyform.container.textContent')" prop="textContent">
-        <el-input type="textarea" v-model="fieldForm.textContent" v-if="fieldForm.dataType=='text'"/>
-        <htmleditor-item v-if="fieldForm.dataType=='html'" :formData="fieldForm" :field="{
-          fieldName:'textContent'
-        }"/>
+      <el-form-item
+        :label="i18n('dyform.container.textContent')"
+        prop="textContent"
+      >
+        <el-input
+          type="textarea"
+          v-model="fieldForm.textContent"
+          v-if="fieldForm.dataType == 'text'"
+        />
+        <htmleditor-item
+          v-if="fieldForm.dataType == 'html'"
+          :formData="fieldForm"
+          :field="{
+            fieldName: 'textContent',
+          }"
+        />
       </el-form-item>
     </el-form>
   </star-horse-panel>
   <star-horse-panel
-      :title="i18n('ui.operation')"
-      :self-func="true"
-      :hide-full-screen-icon="true"
-      @merge="submitAction"
-      @closeAction="close"
-      v-model="configDialog"
-      box-width="40%"
+    :title="i18n('ui.operation')"
+    :self-func="true"
+    :hide-full-screen-icon="true"
+    @merge="submitAction"
+    @closeAction="close"
+    v-model="configDialog"
+    box-width="40%"
   >
     <el-form v-model="fieldForm">
       <el-form-item
-          :label="i18n('dyform.utils.434')"
-          prop="colHeight"
-          v-if="currentCommand == 'rowConfig'"
+        :label="i18n('dyform.utils.434')"
+        prop="colHeight"
+        v-if="currentCommand == 'rowConfig'"
       >
-        <el-input v-model="fieldForm.colHeight"/>
+        <el-input v-model="fieldForm.colHeight" />
       </el-form-item>
       <el-form-item
-          :label="i18n('dyform.utils.435')"
-          prop="colWidth"
-          v-if="currentCommand == 'colConfig'"
+        :label="i18n('dyform.utils.435')"
+        prop="colWidth"
+        v-if="currentCommand == 'colConfig'"
       >
-        <el-input v-model="fieldForm.colWidth"/>
+        <el-input v-model="fieldForm.colWidth" />
       </el-form-item>
       <el-form-item
-          :label="i18n('dyform.container.sameConfigRows')"
-          prop="sameConfigRows"
-          v-if="currentCommand == 'cellConfig'"
+        :label="i18n('dyform.container.sameConfigRows')"
+        prop="sameConfigRows"
+        v-if="currentCommand == 'cellConfig'"
       >
         <el-select v-model="fieldForm.configRowType">
-          <el-option :label="i18n('dyform.container.currentRow')" value="currentRow"/>
-          <el-option :label="i18n('dyform.container.continuousRow')" value="linkRows"/>
-          <el-option :label="i18n('dyform.container.nonContinuousRow')" value="unlinkRows"/>
+          <el-option
+            :label="i18n('dyform.container.currentRow')"
+            value="currentRow"
+          />
+          <el-option
+            :label="i18n('dyform.container.continuousRow')"
+            value="linkRows"
+          />
+          <el-option
+            :label="i18n('dyform.container.nonContinuousRow')"
+            value="unlinkRows"
+          />
         </el-select>
       </el-form-item>
-      <el-form-item :label="i18n('dyform.container.linkRows')" prop="linkRows" v-if="fieldForm.configRowType=='linkRows'">
-        <number-range-item :field="{
-          fieldName:'linkRows',
-          preps:{}
-        }" v-model:formData="fieldForm"/>
-      </el-form-item>
-      <el-form-item :label="i18n('dyform.container.unlinkRows')" prop="unlinkRows" v-if="fieldForm.configRowType=='unlinkRows'">
-        <el-input-tag v-model="fieldForm.unlinkRows"/>
-      </el-form-item>
       <el-form-item
-          :label="i18n('dyform.utils.436')"
-          prop="rowspan"
-          v-if="(type == 'dytable' || type == 'gridtable') && currentCommand == 'cellConfig'"
+        :label="i18n('dyform.container.linkRows')"
+        prop="linkRows"
+        v-if="fieldForm.configRowType == 'linkRows'"
       >
-        <el-input-number min="1" step="1" :max="cellInfo.maxRow" v-model="fieldForm.rowspan"/>
-        <help :message="i18n('dyform.utils.437')"/>
+        <number-range-item
+          :field="{
+            fieldName: 'linkRows',
+            preps: {},
+          }"
+          v-model:formData="fieldForm"
+        />
       </el-form-item>
       <el-form-item
-          :label="i18n('dyform.utils.438')"
-          prop="colspan"
-          v-if="currentCommand == 'cellConfig'"
+        :label="i18n('dyform.container.unlinkRows')"
+        prop="unlinkRows"
+        v-if="fieldForm.configRowType == 'unlinkRows'"
+      >
+        <el-input-tag v-model="fieldForm.unlinkRows" />
+      </el-form-item>
+      <el-form-item
+        :label="i18n('dyform.utils.436')"
+        prop="rowspan"
+        v-if="
+          (type == 'dytable' || type == 'gridtable') &&
+          currentCommand == 'cellConfig'
+        "
       >
         <el-input-number
-            min="1"
-            step="1"
-            :max="(type == 'dytable' || type == 'gridtable') ? cellInfo.maxCol : 24"
-            v-model="fieldForm.colspan"
+          min="1"
+          step="1"
+          :max="cellInfo.maxRow"
+          v-model="fieldForm.rowspan"
+        />
+        <help :message="i18n('dyform.utils.437')" />
+      </el-form-item>
+      <el-form-item
+        :label="i18n('dyform.utils.438')"
+        prop="colspan"
+        v-if="currentCommand == 'cellConfig'"
+      >
+        <el-input-number
+          min="1"
+          step="1"
+          :max="type == 'dytable' || type == 'gridtable' ? cellInfo.maxCol : 24"
+          v-model="fieldForm.colspan"
         />
         <help
-            :message="i18n('dyform.utils.439')"
-            v-if="type == 'dytable' || type == 'gridtable'"
+          :message="i18n('dyform.utils.439')"
+          v-if="type == 'dytable' || type == 'gridtable'"
         />
       </el-form-item>
     </el-form>
   </star-horse-panel>
   <el-dropdown
-      trigger="click"
-      :disabled="disabled"
-      @command="handleTableCellCommand"
-      :size="size"
+    trigger="click"
+    :disabled="disabled"
+    @command="handleTableCellCommand"
+    :size="size"
   >
-    <star-horse-icon icon-class="menu" style="color: var(--star-horse-white)"/>
+    <star-horse-icon icon-class="menu" style="color: var(--star-horse-white)" />
     <template #dropdown>
-      <el-dropdown-menu style="max-height: 400px; overflow-y: auto;">
-        <el-dropdown-item command="addText"
-        >
-          <star-horse-icon iconClass="edit"/>{{ i18n("ui.addText") }}
+      <el-dropdown-menu style="max-height: 400px; overflow-y: auto">
+        <el-dropdown-item command="addText">
+          <star-horse-icon iconClass="edit" />
+          {{ i18n("ui.addText") }}
         </el-dropdown-item>
-        <el-dropdown-item command="removeText"
-        > <star-horse-icon iconClass="delete"/>{{ i18n("ui.removeText") }}
+        <el-dropdown-item command="removeText">
+          <star-horse-icon iconClass="delete" />
+          {{ i18n("ui.removeText") }}
         </el-dropdown-item>
         <el-dropdown-item command="colConfig" divided>
-          <star-horse-icon iconClass="document"/> {{ i18n("ui.colConfig") }}
+          <star-horse-icon iconClass="document" />
+          {{ i18n("ui.colConfig") }}
         </el-dropdown-item>
         <el-dropdown-item command="rowConfig">
-          <star-horse-icon iconClass="document"/> {{ i18n("ui.rowConfig") }}
+          <star-horse-icon iconClass="document" />
+          {{ i18n("ui.rowConfig") }}
         </el-dropdown-item>
         <el-dropdown-item command="cellConfig">
-          <star-horse-icon iconClass="config"/>{{ i18n("ui.cellConfig") }}
+          <star-horse-icon iconClass="config" />
+          {{ i18n("ui.cellConfig") }}
         </el-dropdown-item>
         <el-dropdown-item command="addComp">
-          <star-horse-icon iconClass="add"/>  {{ i18n("ui.addComp") }}
+          <star-horse-icon iconClass="add" />
+          {{ i18n("ui.addComp") }}
         </el-dropdown-item>
 
-        <el-dropdown-item divided command="insertLeftCol"
-        > <star-horse-icon iconClass="document"/>{{ i18n("ui.insertLeftCol") }}
+        <el-dropdown-item divided command="insertLeftCol">
+          <star-horse-icon iconClass="document" />
+          {{ i18n("ui.insertLeftCol") }}
         </el-dropdown-item>
-        <el-dropdown-item command="insertRightCol"
-        > <star-horse-icon iconClass="document"/>{{ i18n("ui.insertRightCol") }}
+        <el-dropdown-item command="insertRightCol">
+          <star-horse-icon iconClass="document" />
+          {{ i18n("ui.insertRightCol") }}
         </el-dropdown-item>
-        <el-dropdown-item command="insertAboveRow"
-        > <star-horse-icon iconClass="document"/>{{ i18n("ui.insertAboveRow") }}
+        <el-dropdown-item command="insertAboveRow">
+          <star-horse-icon iconClass="document" />
+          {{ i18n("ui.insertAboveRow") }}
         </el-dropdown-item>
-        <el-dropdown-item command="insertBelowRow"
-        > <star-horse-icon iconClass="document"/>{{ i18n("ui.insertBelowRow") }}
-        </el-dropdown-item>
-
-        <el-dropdown-item
-            command="mergeLeftCol"
-            :disabled="buttonControl.mergeLeftColDisabled"
-            divided
-        > <star-horse-icon iconClass="document"/>{{ i18n("ui.mergeLeftCell") }}
-        </el-dropdown-item>
-        <el-dropdown-item
-            command="mergeRightCol"
-            :disabled="buttonControl.mergeRightColDisabled"
-        > <star-horse-icon iconClass="document"/>{{ i18n("ui.mergeRightCell") }}
-        </el-dropdown-item>
-        <el-dropdown-item
-            command="mergeWholeRow"
-            :disabled="buttonControl.mergeWholeRowDisabled"
-        > <star-horse-icon iconClass="document"/>{{ i18n("ui.mergeWholeRow") }}
-        </el-dropdown-item>
-        <el-dropdown-item
-            command="mergeAboveRow"
-            v-if="type != 'box' || validBox"
-            :disabled="buttonControl.mergeAboveRowDisabled"
-            divided
-        > <star-horse-icon iconClass="document"/>{{ i18n("ui.mergeAboveCell") }}
-        </el-dropdown-item>
-        <el-dropdown-item
-            command="mergeBelowRow"
-            v-if="type != 'box' || validBox"
-            :disabled="buttonControl.mergeBelowRowDisabled"
-        > <star-horse-icon iconClass="document"/>{{ i18n("ui.mergeBelowCell") }}
-        </el-dropdown-item>
-        <el-dropdown-item
-            command="mergeWholeCol"
-            v-if="type != 'box' || validBox"
-            :disabled="buttonControl.mergeWholeColDisabled"
-        > <star-horse-icon iconClass="plus"/>{{ i18n("ui.mergeWholeCol") }}
+        <el-dropdown-item command="insertBelowRow">
+          <star-horse-icon iconClass="document" />
+          {{ i18n("ui.insertBelowRow") }}
         </el-dropdown-item>
 
         <el-dropdown-item
-            command="undoMergeRow"
-            v-if="type != 'box' || validBox"
-            :disabled="buttonControl.undoMergeRowDisabled"
-            divided
-        > <star-horse-icon iconClass="undo"/>{{ i18n("ui.undoMergeRow") }}
+          command="mergeLeftCol"
+          :disabled="buttonControl.mergeLeftColDisabled"
+          divided
+        >
+          <star-horse-icon iconClass="document" />
+          {{ i18n("ui.mergeLeftCell") }}
         </el-dropdown-item>
         <el-dropdown-item
-            command="undoMergeCol"
-            :disabled="buttonControl.undoMergeColDisabled"
-        > <star-horse-icon iconClass="undo"/>{{ i18n("ui.undoMergeCol") }}
+          command="mergeRightCol"
+          :disabled="buttonControl.mergeRightColDisabled"
+        >
+          <star-horse-icon iconClass="document" />
+          {{ i18n("ui.mergeRightCell") }}
         </el-dropdown-item>
         <el-dropdown-item
-            command="resetMerge"
-            :disabled="buttonControl.resetMergeDisabled"
-        > <star-horse-icon iconClass="reset"/>{{ i18n("ui.resetMerge") }}
+          command="mergeWholeRow"
+          :disabled="buttonControl.mergeWholeRowDisabled"
+        >
+          <star-horse-icon iconClass="document" />
+          {{ i18n("ui.mergeWholeRow") }}
         </el-dropdown-item>
         <el-dropdown-item
-            command="addCellAfter"
-            v-if="type == 'box'"
-            :disabled="buttonControl.addCellAfterDisabled"
-            divided
-        > <star-horse-icon iconClass="add"/>{{ i18n("ui.addCellAfter") }}
+          command="mergeAboveRow"
+          v-if="type != 'box' || validBox"
+          :disabled="buttonControl.mergeAboveRowDisabled"
+          divided
+        >
+          <star-horse-icon iconClass="document" />
+          {{ i18n("ui.mergeAboveCell") }}
         </el-dropdown-item>
         <el-dropdown-item
-            command="addCellBefore"
-            v-if="type == 'box'"
-            :disabled="buttonControl.addCellBeforeDisabled"
-        > <star-horse-icon iconClass="add"/>{{ i18n("ui.addCellBefore") }}
+          command="mergeBelowRow"
+          v-if="type != 'box' || validBox"
+          :disabled="buttonControl.mergeBelowRowDisabled"
+        >
+          <star-horse-icon iconClass="document" />
+          {{ i18n("ui.mergeBelowCell") }}
         </el-dropdown-item>
         <el-dropdown-item
-            command="deleteWholeCol"
-            v-if="type != 'box'"
-            :disabled="buttonControl.deleteWholeColDisabled"
-            divided
-        > <star-horse-icon iconClass="delete"/>{{ i18n("ui.deleteWholeCol") }}
+          command="mergeWholeCol"
+          v-if="type != 'box' || validBox"
+          :disabled="buttonControl.mergeWholeColDisabled"
+        >
+          <star-horse-icon iconClass="plus" />
+          {{ i18n("ui.mergeWholeCol") }}
+        </el-dropdown-item>
+
+        <el-dropdown-item
+          command="undoMergeRow"
+          v-if="type != 'box' || validBox"
+          :disabled="buttonControl.undoMergeRowDisabled"
+          divided
+        >
+          <star-horse-icon iconClass="undo" />
+          {{ i18n("ui.undoMergeRow") }}
         </el-dropdown-item>
         <el-dropdown-item
-            command="deleteWholeRow"
-            :disabled="buttonControl.deleteWholeRowDisabled"
-        > <star-horse-icon iconClass="delete"/>{{ i18n("ui.deleteWholeRow") }}
+          command="undoMergeCol"
+          :disabled="buttonControl.undoMergeColDisabled"
+        >
+          <star-horse-icon iconClass="undo" />
+          {{ i18n("ui.undoMergeCol") }}
         </el-dropdown-item>
         <el-dropdown-item
-            v-if="type == 'box'"
-            command="deleteCurrentCol"
-            :disabled="buttonControl.deleteWholeColDisabled"
-        > <star-horse-icon iconClass="delete"/>{{ i18n("ui.deleteCurrentCol") }}
+          command="resetMerge"
+          :disabled="buttonControl.resetMergeDisabled"
+        >
+          <star-horse-icon iconClass="reset" />
+          {{ i18n("ui.resetMerge") }}
+        </el-dropdown-item>
+        <el-dropdown-item
+          command="addCellAfter"
+          v-if="type == 'box'"
+          :disabled="buttonControl.addCellAfterDisabled"
+          divided
+        >
+          <star-horse-icon iconClass="add" />
+          {{ i18n("ui.addCellAfter") }}
+        </el-dropdown-item>
+        <el-dropdown-item
+          command="addCellBefore"
+          v-if="type == 'box'"
+          :disabled="buttonControl.addCellBeforeDisabled"
+        >
+          <star-horse-icon iconClass="add" />
+          {{ i18n("ui.addCellBefore") }}
+        </el-dropdown-item>
+        <el-dropdown-item
+          command="deleteWholeCol"
+          v-if="type != 'box'"
+          :disabled="buttonControl.deleteWholeColDisabled"
+          divided
+        >
+          <star-horse-icon iconClass="delete" />
+          {{ i18n("ui.deleteWholeCol") }}
+        </el-dropdown-item>
+        <el-dropdown-item
+          command="deleteWholeRow"
+          :disabled="buttonControl.deleteWholeRowDisabled"
+        >
+          <star-horse-icon iconClass="delete" />
+          {{ i18n("ui.deleteWholeRow") }}
+        </el-dropdown-item>
+        <el-dropdown-item
+          v-if="type == 'box'"
+          command="deleteCurrentCol"
+          :disabled="buttonControl.deleteWholeColDisabled"
+        >
+          <star-horse-icon iconClass="delete" />
+          {{ i18n("ui.deleteCurrentCol") }}
         </el-dropdown-item>
       </el-dropdown-menu>
     </template>
@@ -709,7 +865,7 @@ watch(
 </template>
 
 <style scoped lang="scss">
-:deep(.field-item){
+:deep(.field-item) {
   cursor: pointer;
 }
 </style>

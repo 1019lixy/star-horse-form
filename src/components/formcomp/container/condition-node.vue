@@ -1,24 +1,24 @@
 <script setup lang="ts" name="condition-node">
-import {computed, nextTick, PropType, ref} from "vue";
-import {itemCheck, operationConfirm, uuid} from "star-horse-lowcode";
-import {getDesignFormStore} from "@/store/StoreManager";
-import {i18n} from "@/lang";
-import {quickAddItem} from "@/api/form_utils";
+import { computed, nextTick, PropType, ref } from "vue";
+import { itemCheck, operationConfirm, uuid } from "star-horse-lowcode";
+import { getDesignFormStore } from "@/store/StoreManager";
+import { i18n } from "@/lang";
+import { quickAddItem } from "@/api/form_utils";
 import DesignItemWrapper from "@/components/formcomp/utils/DesignItemWrapper.vue";
-import {useDragAdd, ensureItems} from "./container-utils";
+import { useDragAdd, ensureItems } from "./container-utils";
 
-defineOptions({name: "ConditionNode"});
+defineOptions({ name: "ConditionNode" });
 
 const props = defineProps({
-  node: {type: Object as PropType<any>, required: true},
-  depth: {type: Number, default: 1},
-  isDesign: {type: Boolean, default: false},
-  isEdit: {type: Boolean, default: false},
-  disabled: {type: Boolean, default: false},
-  formInfo: {type: Object as PropType<any>},
-  parentField: {type: Object as PropType<any>},
-  showFormItem: {type: Boolean, default: false},
-  formData: {type: Object as PropType<any>},
+  node: { type: Object as PropType<any>, required: true },
+  depth: { type: Number, default: 1 },
+  isDesign: { type: Boolean, default: false },
+  isEdit: { type: Boolean, default: false },
+  disabled: { type: Boolean, default: false },
+  formInfo: { type: Object as PropType<any> },
+  parentField: { type: Object as PropType<any> },
+  showFormItem: { type: Boolean, default: false },
+  formData: { type: Object as PropType<any> },
 });
 
 const emit = defineEmits(["remove", "update:formData"]);
@@ -30,7 +30,7 @@ const isDragging = computed(() => designForm.isDragging);
 const editingId = ref<string>("");
 const editingText = ref<string>("");
 
-const {onDragAdd} = useDragAdd(designForm);
+const { onDragAdd } = useDragAdd(designForm);
 const checkItem = (adata: any) => ensureItems(adata);
 
 const createChildNode = (index: number) => {
@@ -65,27 +65,32 @@ const addChildToNode = (node: any) => {
 
 const removeLeaf = (items: any[], index: number) => {
   if (items[index]?.compType == "container") {
-    operationConfirm(i18n("dyform.condition.confirmDeleteChild")).then((res: boolean) => {
-      if (res) {
-        items.splice(index, 1);
-      }
-    });
+    operationConfirm(i18n("dyform.condition.confirmDeleteChild")).then(
+      (res: boolean) => {
+        if (res) {
+          items.splice(index, 1);
+        }
+      },
+    );
   } else {
     items.splice(index, 1);
   }
-
 };
 
 const removeChild = (childList: any[], index: number) => {
-  operationConfirm(i18n("dyform.condition.confirmDeleteChild")).then((res: boolean) => {
-    if (res) {
-      childList.splice(index, 1);
-    }
-  });
+  operationConfirm(i18n("dyform.condition.confirmDeleteChild")).then(
+    (res: boolean) => {
+      if (res) {
+        childList.splice(index, 1);
+      }
+    },
+  );
 };
 
 const levelClass = (data: any, depth: number) => {
-  return data.itemType == "condition" ? `condition-depth-${Math.min(depth, 5)} condition-child` : "";
+  return data.itemType == "condition"
+    ? `condition-depth-${Math.min(depth, 5)} condition-child`
+    : "";
 };
 
 // 双击编辑名称
@@ -94,7 +99,9 @@ const startEditName = (node: any) => {
   editingId.value = node.id;
   editingText.value = node.label || "";
   nextTick(() => {
-    const el = document.querySelector(`[data-edit-id="${node.id}"] input`) as HTMLInputElement;
+    const el = document.querySelector(
+      `[data-edit-id="${node.id}"] input`,
+    ) as HTMLInputElement;
     if (el) {
       el.focus();
       el.select();
@@ -117,87 +124,125 @@ const finishEditName = (node: any) => {
   <div class="condition-node-wrapper">
     <div class="condition-child-header">
       <div class="condition-child-title">
-        <svg class="condition-icon" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor"
-             stroke-width="2">
-          <path d="M12 2L2 7l10 5 10-5-10-5z"/>
-          <path d="M2 17l10 5 10-5"/>
-          <path d="M2 12l10 5 10-5"/>
+        <svg
+          class="condition-icon"
+          viewBox="0 0 24 24"
+          width="14"
+          height="14"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+        >
+          <path d="M12 2L2 7l10 5 10-5-10-5z" />
+          <path d="M2 17l10 5 10-5" />
+          <path d="M2 12l10 5 10-5" />
         </svg>
         <span
-            v-if="editingId !== node.id"
-            class="editable-name"
-            @dblclick.stop="startEditName(node)"
-        >{{ node.label || i18n('dyform.condition.childCondition') }}</span>
+          v-if="editingId !== node.id"
+          class="editable-name"
+          @dblclick.stop="startEditName(node)"
+          >{{ node.label || i18n("dyform.condition.childCondition") }}</span
+        >
         <el-input
-            v-else
-            :data-edit-id="node.id"
-            v-model="editingText"
-            size="small"
-            @blur="finishEditName(node)"
-            @keyup.enter="finishEditName(node)"
-            @click.stop
-            style="width: 120px;"
+          v-else
+          :data-edit-id="node.id"
+          v-model="editingText"
+          size="small"
+          @blur="finishEditName(node)"
+          @keyup.enter="finishEditName(node)"
+          @click.stop
+          style="width: 120px"
         />
       </div>
       <div class="condition-child-actions" v-if="isEdit && isDesign">
         <el-tooltip :content="i18n('dyform.condition.addLeaf')">
-          <el-button size="small" type="primary" link @click.stop="addLeafField(node)" icon="Plus"/>
+          <el-button
+            size="small"
+            type="primary"
+            link
+            @click.stop="addLeafField(node)"
+            icon="Plus"
+          />
         </el-tooltip>
         <el-tooltip :content="i18n('dyform.condition.addChild')">
-          <el-button size="small" type="success" link @click.stop="addChildToNode(node)" icon="FolderAdd"/>
+          <el-button
+            size="small"
+            type="success"
+            link
+            @click.stop="addChildToNode(node)"
+            icon="FolderAdd"
+          />
         </el-tooltip>
         <el-tooltip :content="i18n('dyform.condition.deleteChild')">
-          <el-button size="small" type="danger" link @click.stop="$emit('remove')" icon="Delete"/>
+          <el-button
+            size="small"
+            type="danger"
+            link
+            @click.stop="$emit('remove')"
+            icon="Delete"
+          />
         </el-tooltip>
       </div>
     </div>
 
     <draggable
-        @add="(evt: Event) => onDragAdd(evt, node.children)"
-        @dragover="checkItem(node)"
-        class="condition-leaves"
-        :class="{'dragging-area': isDragging}"
-        group="starHorseGroup"
-        animation="100"
-        item-key="id"
-        ghostClass="ghost"
-        :list="node.children || []"
+      @add="(evt: Event) => onDragAdd(evt, node.children)"
+      @dragover="checkItem(node)"
+      class="condition-leaves"
+      :class="{ 'dragging-area': isDragging }"
+      group="starHorseGroup"
+      animation="100"
+      item-key="id"
+      ghostClass="ghost"
+      :list="node.children || []"
     >
       <template #item="{ element: data, index }">
-        <div class="condition-leaf-item my-[3px]"
-             :data-field-id="data.id"
-             :class="levelClass(data,depth + 1)">
-          <DesignItemWrapper :field="data" :isDesign="isDesign" :parentField="parentField" :disabled="disabled">
+        <div
+          class="condition-leaf-item my-[3px]"
+          :data-field-id="data.id"
+          :class="levelClass(data, depth + 1)"
+        >
+          <DesignItemWrapper
+            :field="data"
+            :isDesign="isDesign"
+            :parentField="parentField"
+            :disabled="disabled"
+          >
             <component
-                :key="data.id"
-                :field="data"
-                :isDesign="isDesign"
-                :disabled="disabled"
-                :showFormItem="showFormItem"
-                :formInfo="formInfo"
-                :is="itemCheck(data)"
-
-                :parentField="parentField"
-                :formData="formData"
-                @update:formData="$emit('update:formData', $event)"
+              :key="data.id"
+              :field="data"
+              :isDesign="isDesign"
+              :disabled="disabled"
+              :showFormItem="showFormItem"
+              :formInfo="formInfo"
+              :is="itemCheck(data)"
+              :parentField="parentField"
+              :formData="formData"
+              @update:formData="$emit('update:formData', $event)"
             />
           </DesignItemWrapper>
           <el-button
-              v-if="isEdit && isDesign"
-              class="leaf-remove-btn"
-              size="small"
-              type="danger"
-              link
-              @click.stop="removeLeaf(node.children, index)"
-              icon="Close"
+            v-if="isEdit && isDesign"
+            class="leaf-remove-btn"
+            size="small"
+            type="danger"
+            link
+            @click.stop="removeLeaf(node.children, index)"
+            icon="Close"
           />
         </div>
       </template>
     </draggable>
 
     <div v-if="isEdit && isDesign" class="condition-add-leaf">
-      <el-button size="small" type="info" plain @click.stop="addLeafField(node)" icon="Plus">
-        {{ i18n('dyform.condition.addLeaf') }}
+      <el-button
+        size="small"
+        type="info"
+        plain
+        @click.stop="addLeafField(node)"
+        icon="Plus"
+      >
+        {{ i18n("dyform.condition.addLeaf") }}
       </el-button>
     </div>
 
@@ -359,15 +404,17 @@ const finishEditName = (node: any) => {
 }
 
 .dragging-area {
-  background: linear-gradient(45deg, #e6f7ff 25%, transparent 25%),
-  linear-gradient(-45deg, #e6f7ff 25%, transparent 25%),
-  linear-gradient(45deg, transparent 75%, #e6f7ff 75%),
-  linear-gradient(-45deg, transparent 75%, #e6f7ff 75%);
+  background:
+    linear-gradient(45deg, #e6f7ff 25%, transparent 25%),
+    linear-gradient(-45deg, #e6f7ff 25%, transparent 25%),
+    linear-gradient(45deg, transparent 75%, #e6f7ff 75%),
+    linear-gradient(-45deg, transparent 75%, #e6f7ff 75%);
   background-size: 20px 20px;
-  background-position: 0 0,
-  0 10px,
-  10px -10px,
-  -10px 0px;
+  background-position:
+    0 0,
+    0 10px,
+    10px -10px,
+    -10px 0px;
 }
 
 .ghost {

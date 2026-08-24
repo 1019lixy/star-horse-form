@@ -26,45 +26,52 @@
           <el-icon>
             <VideoPlay />
           </el-icon>
-          {{ i18n('rule.btn.executeTest') }}
+          {{ i18n("rule.btn.executeTest") }}
         </el-button>
         <el-button @click="loadSampleData">
           <el-icon>
             <DocumentCopy />
           </el-icon>
-          {{ i18n('rule.btn.loadSampleData') }}
+          {{ i18n("rule.btn.loadSampleData") }}
         </el-button>
         <el-button @click="stepExecute" :disabled="!executionPath || executing">
           <el-icon>
             <VideoPause />
           </el-icon>
-          {{ i18n('rule.btn.stepReplay') }}
+          {{ i18n("rule.btn.stepReplay") }}
         </el-button>
         <el-button @click="resetHighlight" :disabled="!executionPath">
           <el-icon>
             <RefreshRight />
           </el-icon>
-          {{ i18n('rule.btn.clearHighlight') }}
+          {{ i18n("rule.btn.clearHighlight") }}
         </el-button>
       </div>
 
       <!-- 执行步骤时间线 -->
       <div v-if="executionPath" class="test-result">
         <el-divider content-position="left">
-          <span class="divider-title">{{ i18n('rule.dialog.executionPathReplay') }}</span>
+          <span class="divider-title">{{
+            i18n("rule.dialog.executionPathReplay")
+          }}</span>
         </el-divider>
 
         <el-descriptions :column="3" border class="result-summary">
           <el-descriptions-item :label="i18n('rule.lbl.executionStatus')">
             <el-tag :type="executionPath.success ? 'success' : 'danger'">
-              {{ executionPath.success ? i18n('rule.dialog.success') : i18n('rule.dialog.failed') }}
+              {{
+                executionPath.success
+                  ? i18n("rule.dialog.success")
+                  : i18n("rule.dialog.failed")
+              }}
             </el-tag>
           </el-descriptions-item>
           <el-descriptions-item :label="i18n('rule.lbl.executionDuration')">
             {{ executionPath.duration }} ms
           </el-descriptions-item>
           <el-descriptions-item :label="i18n('rule.lbl.visitedNodes')">
-            {{ executionPath.visitedNodeIds.length }} {{ i18n('rule.dialog.count') }}
+            {{ executionPath.visitedNodeIds.length }}
+            {{ i18n("rule.dialog.count") }}
           </el-descriptions-item>
         </el-descriptions>
 
@@ -92,10 +99,20 @@
 
         <!-- 条件评估结果 -->
         <div v-if="executionPath.conditionResults.length > 0">
-          <el-divider content-position="left">{{ i18n('rule.dialog.conditionEvaluation') }}</el-divider>
-          <div v-for="cond in executionPath.conditionResults" :key="cond.nodeId" class="cond-result">
+          <el-divider content-position="left">{{
+            i18n("rule.dialog.conditionEvaluation")
+          }}</el-divider>
+          <div
+            v-for="cond in executionPath.conditionResults"
+            :key="cond.nodeId"
+            class="cond-result"
+          >
             <el-tag :type="cond.passed ? 'success' : 'info'">
-              {{ cond.passed ? i18n('rule.dialog.satisfied') : i18n('rule.dialog.notSatisfied') }}
+              {{
+                cond.passed
+                  ? i18n("rule.dialog.satisfied")
+                  : i18n("rule.dialog.notSatisfied")
+              }}
             </el-tag>
             <pre class="cond-detail">{{ cond.detail }}</pre>
           </div>
@@ -103,23 +120,47 @@
 
         <!-- 动作执行结果 -->
         <div v-if="executionPath.actionResults.length > 0">
-          <el-divider content-position="left">{{ i18n('rule.dialog.actionExecutionResults') }}</el-divider>
+          <el-divider content-position="left">{{
+            i18n("rule.dialog.actionExecutionResults")
+          }}</el-divider>
           <el-table :data="executionPath.actionResults" border>
-            <el-table-column prop="actionType" :label="i18n('rule.lbl.actionType')" width="120" />
-            <el-table-column prop="targetField" :label="i18n('rule.lbl.targetField')" width="150" />
-            <el-table-column prop="success" :label="i18n('rule.lbl.status')" width="80">
+            <el-table-column
+              prop="actionType"
+              :label="i18n('rule.lbl.actionType')"
+              width="120"
+            />
+            <el-table-column
+              prop="targetField"
+              :label="i18n('rule.lbl.targetField')"
+              width="150"
+            />
+            <el-table-column
+              prop="success"
+              :label="i18n('rule.lbl.status')"
+              width="80"
+            >
               <template #default="{ row }">
                 <el-tag :type="row.success ? 'success' : 'danger'">
-                  {{ row.success ? i18n('rule.dialog.success') : i18n('rule.dialog.failed') }}
+                  {{
+                    row.success
+                      ? i18n("rule.dialog.success")
+                      : i18n("rule.dialog.failed")
+                  }}
                 </el-tag>
               </template>
             </el-table-column>
-            <el-table-column prop="message" :label="i18n('rule.lbl.message')" show-overflow-tooltip />
+            <el-table-column
+              prop="message"
+              :label="i18n('rule.lbl.message')"
+              show-overflow-tooltip
+            />
           </el-table>
         </div>
 
         <!-- 上下文数据 -->
-        <el-divider content-position="left">{{ i18n('rule.dialog.contextDataAfterExecution') }}</el-divider>
+        <el-divider content-position="left">{{
+          i18n("rule.dialog.contextDataAfterExecution")
+        }}</el-divider>
         <pre class="json-content">{{ formatJson(executionPath.context) }}</pre>
       </div>
     </div>
@@ -127,29 +168,38 @@
 </template>
 
 <script setup lang="ts">
-import {computed, ref, watch} from "vue";
-import { DocumentCopy, RefreshRight, VideoPause, VideoPlay } from "@element-plus/icons-vue";
+import { computed, ref, watch } from "vue";
+import {
+  DocumentCopy,
+  RefreshRight,
+  VideoPause,
+  VideoPlay,
+} from "@element-plus/icons-vue";
 import { executeRuleFlow, type ExecutionPath } from "../engine/RuleExecutor";
 import { error, success, warning } from "star-horse-lowcode";
-import { i18n } from '@/lang';
+import { i18n } from "@/lang";
 
 const props = defineProps<{
-  visible: boolean
-  ruleId: string
-  conditions?: any[]
-  nodes?: any[]
-  edges?: any[]
+  visible: boolean;
+  ruleId: string;
+  conditions?: any[];
+  nodes?: any[];
+  edges?: any[];
 }>();
 
 const emit = defineEmits<{
-  (e: "close"): void
-  (e: "highlight", path: ExecutionPath): void
-  (e: "resetHighlight"): void
+  (e: "close"): void;
+  (e: "highlight", path: ExecutionPath): void;
+  (e: "resetHighlight"): void;
 }>();
-const dialogVisible=ref<boolean>(false);
-watch(()=>props.visible,(val)=>{
-  dialogVisible.value = val;
-},{immediate:true});
+const dialogVisible = ref<boolean>(false);
+watch(
+  () => props.visible,
+  (val) => {
+    dialogVisible.value = val;
+  },
+  { immediate: true },
+);
 const testDataStr = ref("");
 const executing = ref(false);
 const executionPath = ref<ExecutionPath | null>(null);
@@ -166,7 +216,7 @@ const displaySteps = computed(() => {
 
 const executeTest = async () => {
   if (!testDataStr.value.trim()) {
-    warning(i18n('rule.ph.enterTestData'));
+    warning(i18n("rule.ph.enterTestData"));
     return;
   }
 
@@ -174,12 +224,12 @@ const executeTest = async () => {
   try {
     testData = JSON.parse(testDataStr.value);
   } catch (err) {
-    error(i18n('rule.dialog.testDataFormatError'));
+    error(i18n("rule.dialog.testDataFormatError"));
     return;
   }
 
   if (!props.nodes || props.nodes.length === 0) {
-    warning(i18n('rule.dialog.flowChartEmpty'));
+    warning(i18n("rule.dialog.flowChartEmpty"));
     return;
   }
 
@@ -188,7 +238,7 @@ const executeTest = async () => {
 
   try {
     // 延迟一下让loading显示
-    await new Promise(r => setTimeout(r, 300));
+    await new Promise((r) => setTimeout(r, 300));
 
     const result = executeRuleFlow(props.nodes, props.edges || [], testData);
     executionPath.value = result;
@@ -196,9 +246,11 @@ const executeTest = async () => {
     // 触发画布高亮
     emit("highlight", result);
 
-    success(i18n('rule.dialog.executionCompleted', result.visitedNodeIds.length));
+    success(
+      i18n("rule.dialog.executionCompleted", result.visitedNodeIds.length),
+    );
   } catch (err: any) {
-    error(i18n('rule.dialog.executionFailed') + (err.message || err));
+    error(i18n("rule.dialog.executionFailed") + (err.message || err));
   } finally {
     executing.value = false;
   }
@@ -213,15 +265,21 @@ const stepExecute = () => {
     if (stepIndex.value < executionPath.value.steps.length - 1) {
       stepIndex.value++;
     } else {
-      success(i18n('rule.dialog.reachedLastStep'));
+      success(i18n("rule.dialog.reachedLastStep"));
     }
   }
   // 高亮到当前步
   const partialPath: ExecutionPath = {
     ...executionPath.value,
-    visitedNodeIds: executionPath.value.visitedNodeIds.slice(0, stepIndex.value + 1),
-    visitedEdgeIds: executionPath.value.visitedEdgeIds.slice(0, stepIndex.value + 1),
-    steps: executionPath.value.steps.slice(0, stepIndex.value + 1)
+    visitedNodeIds: executionPath.value.visitedNodeIds.slice(
+      0,
+      stepIndex.value + 1,
+    ),
+    visitedEdgeIds: executionPath.value.visitedEdgeIds.slice(
+      0,
+      stepIndex.value + 1,
+    ),
+    steps: executionPath.value.steps.slice(0, stepIndex.value + 1),
   };
   emit("highlight", partialPath);
 };
@@ -263,7 +321,7 @@ const loadSampleData = () => {
   }
 
   testDataStr.value = JSON.stringify(sampleData, null, 2);
-  success(i18n('rule.dialog.sampleDataLoaded'));
+  success(i18n("rule.dialog.sampleDataLoaded"));
 };
 
 const getSampleValue = (fieldType: string) => {
@@ -383,7 +441,7 @@ const handleClose = () => {
         padding: 8px 12px;
         border-radius: 4px;
         font-size: 12px;
-        font-family: 'Courier New', monospace;
+        font-family: "Courier New", monospace;
         white-space: pre-wrap;
         word-break: break-all;
       }
@@ -396,7 +454,7 @@ const handleClose = () => {
       border-radius: 6px;
       max-height: 250px;
       overflow-y: auto;
-      font-family: 'Courier New', monospace;
+      font-family: "Courier New", monospace;
       font-size: 12px;
       line-height: 1.5;
     }

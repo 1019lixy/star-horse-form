@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {ref, watch} from "vue";
+import { ref, watch } from "vue";
 import { i18n } from "@/lang/index.js";
 import JSON5 from "json5";
 
@@ -17,10 +17,14 @@ const emit = defineEmits<{
 
 const codeTab = ref<string>("code");
 const codeCompRef = ref<any>(null);
-const dialogVisible=ref<boolean>(false);
-watch(()=>props.visible,(val)=>{
-  dialogVisible.value = val;
-},{immediate:true});
+const dialogVisible = ref<boolean>(false);
+watch(
+  () => props.visible,
+  (val) => {
+    dialogVisible.value = val;
+  },
+  { immediate: true },
+);
 const hmsg: string = `
    {{i18n("dyform.js.editor.customEvent")}：
    currentField:Object {{i18n("dyform.js.editor.currentFieldInfo")}

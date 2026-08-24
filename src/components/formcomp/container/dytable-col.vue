@@ -1,28 +1,28 @@
 <script setup lang="ts" name="box-container">
-import {computed, onMounted, PropType, ref} from "vue";
-import {tableCellOperation} from "@/components/formcomp/container/dytableUtils";
-import {itemCheck, uuid} from "star-horse-lowcode";
-import {getDesignFormStore} from "@/store/StoreManager";
+import { computed, onMounted, PropType, ref } from "vue";
+import { tableCellOperation } from "@/components/formcomp/container/dytableUtils";
+import { itemCheck, uuid } from "star-horse-lowcode";
+import { getDesignFormStore } from "@/store/StoreManager";
 import ContainerDropDown from "@/components/formcomp/utils/ContainerDropDown.vue";
 import DesignItemWrapper from "@/components/formcomp/utils/DesignItemWrapper.vue";
-import {useRowHeight, useDropGuard} from "./container-utils";
+import { useRowHeight, useDropGuard } from "./container-utils";
 
 const props = defineProps({
-  parentField: {type: Object as PropType<any>},
-  formInfo: {type: Object as PropType<any>},
-  parentComp: {type: Object as PropType<any>},
-  isDesign: {type: Boolean, default: false},
-  showFormItem: {type: Boolean, default: false},
-  disabled: {type: Object as PropType<Boolean | String>},
-  field: {type: Object as PropType<any>},
-  isFirstRow: {type: Boolean, default: false},
-  isLastRow: {type: Boolean, default: false},
-  isFirstCol: {type: Boolean, default: false},
-  isLastCol: {type: Boolean, default: false},
-  rowIndex: {type: Number, default: -1},
-  colIndex: {type: Number, default: -1},
-  actionColIndex: {type: Number, default: -1},
-  compSize: {type: String, default: "default"},
+  parentField: { type: Object as PropType<any> },
+  formInfo: { type: Object as PropType<any> },
+  parentComp: { type: Object as PropType<any> },
+  isDesign: { type: Boolean, default: false },
+  showFormItem: { type: Boolean, default: false },
+  disabled: { type: Object as PropType<Boolean | String> },
+  field: { type: Object as PropType<any> },
+  isFirstRow: { type: Boolean, default: false },
+  isLastRow: { type: Boolean, default: false },
+  isFirstCol: { type: Boolean, default: false },
+  isLastCol: { type: Boolean, default: false },
+  rowIndex: { type: Number, default: -1 },
+  colIndex: { type: Number, default: -1 },
+  actionColIndex: { type: Number, default: -1 },
+  compSize: { type: String, default: "default" },
 });
 let designForm = getDesignFormStore();
 let currentSubItemId = computed(() => designForm.currentSubItemId);
@@ -33,7 +33,7 @@ const isResizing = ref(false);
 const resizeDirection = ref<"height" | null>(null);
 const startY = ref(0);
 const startHeight = ref(0);
-const {moveHandler, guardAdd} = useDropGuard("dytable");
+const { moveHandler, guardAdd } = useDropGuard("dytable");
 
 const onDragAdd = (evt: Event | any, dataList: any) => {
   selectCurrentTd();
@@ -87,82 +87,90 @@ const handleResizeEnd = () => {
   document.removeEventListener("mouseup", handleResizeEnd);
 };
 
-onMounted(() => {
-});
+onMounted(() => {});
 //监控数据
 </script>
 <template>
   <td
-      class="edit_col"
-      :class="{
+    class="edit_col"
+    :class="{
       'dragging-area': isDragging,
       'no-drag': !isDesign,
     }"
-      :colspan="field.colspan || 1"
-      :rowspan="field.rowspan || 1"
-      :style="{
+    :colspan="field.colspan || 1"
+    :rowspan="field.rowspan || 1"
+    :style="{
       width: field.colWidth || '100%',
       height: field.colHeight || rowHeight,
       'word-break': !!field.wordBreak ? 'break-all' : 'normal',
-      'text-overflow': 'ellipsis'
+      'text-overflow': 'ellipsis',
     }"
-      @click="selectCurrentTd"
-      @mousedown="handleResizeStart"
+    @click="selectCurrentTd"
+    @mousedown="handleResizeStart"
   >
-    <div class="h-full w-full p-2 items-center justify-center flex flex-col" v-if="field.staticData===true" v-html="field.textContent"/>
+    <div
+      class="h-full w-full p-2 items-center justify-center flex flex-col"
+      v-if="field.staticData === true"
+      v-html="field.textContent"
+    />
     <draggable
-        v-else
-        @add="(evt: Event) => onDragAdd(evt, field.items)"
-        :move="moveHandler"
-        class="smain-design"
-        tag="div"
-        item-key="id"
-        group="starHorseGroup"
-        ghostClass="container_ghost"
-        animation="200"
-        :list="field.items"
+      v-else
+      @add="(evt: Event) => onDragAdd(evt, field.items)"
+      :move="moveHandler"
+      class="smain-design"
+      tag="div"
+      item-key="id"
+      group="starHorseGroup"
+      ghostClass="container_ghost"
+      animation="200"
+      :list="field.items"
     >
       <template #item="{ element: data }">
         <div
-            :class="{
+          :class="{
             'comp-item': data?.preps?.headerFlag != 'Y',
             'bare-item': data?.preps?.headerFlag,
           }"
-            :data-field-id="data?.id"
-            style="height: 100%"
+          :data-field-id="data?.id"
+          style="height: 100%"
         >
-          <DesignItemWrapper :field="data" :isDesign="isDesign" :parentField="parentField" :disabled="disabled">
+          <DesignItemWrapper
+            :field="data"
+            :isDesign="isDesign"
+            :parentField="parentField"
+            :disabled="disabled"
+          >
             <component
-                :key="data?.id"
-                :field="data"
-                :formInfo="formInfo"
-                :isDesign="isDesign"
-                :showFormItem="showFormItem"
-                :disabled="disabled"
-                :is="itemCheck(data)"
-                :parentField="parentField"
-                v-model:formData="formData"
+              :key="data?.id"
+              :field="data"
+              :formInfo="formInfo"
+              :isDesign="isDesign"
+              :showFormItem="showFormItem"
+              :disabled="disabled"
+              :is="itemCheck(data)"
+              :parentField="parentField"
+              v-model:formData="formData"
             />
           </DesignItemWrapper>
         </div>
       </template>
     </draggable>
     <div
-        class="table-cell-action"
-        v-if="isDesign && currentSubItemId == field.id"
+      class="table-cell-action"
+      v-if="isDesign && currentSubItemId == field.id"
     >
       <ContainerDropDown
-          :field="field"
-          :parentField="parentField"
-          :isFirstCol="isFirstCol"
-          :isLastCol="isLastCol"
-          :isFirstRow="isFirstRow"
-          :isLastRow="isLastRow"
-          :disabled="disabled"
-          :rowIndex="rowIndex"
-          :colIndex="colIndex"
-          :type="'dytable'"
-          @command="handleTableCellCommand"
+        :field="field"
+        :parentField="parentField"
+        :isFirstCol="isFirstCol"
+        :isLastCol="isLastCol"
+        :isFirstRow="isFirstRow"
+        :isLastRow="isLastRow"
+        :disabled="disabled"
+        :rowIndex="rowIndex"
+        :colIndex="colIndex"
+        :type="'dytable'"
+        @command="handleTableCellCommand"
       />
     </div>
   </td>
@@ -186,8 +194,9 @@ onMounted(() => {
     width: 80%;
     background: var(--star-horse-style);
     opacity: 0;
-    transition: opacity 0.3s,
-    bottom 0.1s;
+    transition:
+      opacity 0.3s,
+      bottom 0.1s;
   }
 
   &:hover {

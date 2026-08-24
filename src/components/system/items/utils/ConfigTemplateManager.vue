@@ -1,18 +1,23 @@
 <script setup lang="ts">
-import {i18n} from "@/lang";
-import {error, success, warning} from "star-horse-lowcode";
-import {computed, ref, watch} from "vue";
+import { i18n } from "@/lang";
+import { error, success, warning } from "star-horse-lowcode";
+import { computed, ref, watch } from "vue";
 import type {
   ConfigTemplate,
   ConfigTemplateCategory,
   ConfigTemplateCategoryOption,
   ConfigTemplateStorage,
-  SaveTemplateParams
+  SaveTemplateParams,
 } from "@/components/types/DataSourceTypes";
-import {getTemplateList, init, removeTemplate, saveTemplate} from "@/api/config_template_api";
-import {FormConfig} from "@/components/types";
+import {
+  getTemplateList,
+  init,
+  removeTemplate,
+  saveTemplate,
+} from "@/api/config_template_api";
+import { FormConfig } from "@/components/types";
 
-defineOptions({name: "ConfigTemplateManager"});
+defineOptions({ name: "ConfigTemplateManager" });
 
 const props = defineProps<{
   /** 模板分类 */
@@ -32,19 +37,19 @@ const categoryOptions: ConfigTemplateCategoryOption[] = [
     value: "staticData",
     label: i18n("dyform.template.category.staticData"),
     icon: "Document",
-    desc: i18n("dyform.template.category.staticData.desc")
+    desc: i18n("dyform.template.category.staticData.desc"),
   },
   {
     value: "thirdPartyDataSource",
     label: i18n("dyform.template.category.thirdPartyDataSource"),
     icon: "Connection",
-    desc: i18n("dyform.template.category.thirdPartyDataSource.desc")
+    desc: i18n("dyform.template.category.thirdPartyDataSource.desc"),
   },
   {
     value: "apiLinkage",
     label: i18n("dyform.template.category.apiLinkage"),
     icon: "Link",
-    desc: i18n("dyform.template.category.apiLinkage.desc")
+    desc: i18n("dyform.template.category.apiLinkage.desc"),
   },
 ];
 
@@ -75,7 +80,10 @@ const handleSave = async () => {
     warning(i18n("dyform.template.name.required"));
     return;
   }
-  if (!props.currentConfigData || Object.keys(props.currentConfigData).length === 0) {
+  if (
+    !props.currentConfigData ||
+    Object.keys(props.currentConfigData).length === 0
+  ) {
     warning(i18n("dyform.template.save.failed"));
     return;
   }
@@ -112,11 +120,10 @@ const previewVisible = ref(false);
 const previewData = ref<any>(null);
 
 const selectedTemplate = computed(() => {
-  return templateList.value.find(t => t.id === selectedTemplateId.value);
+  return templateList.value.find((t) => t.id === selectedTemplateId.value);
 });
 
 const openLoadDialog = async () => {
-
   loadDialogVisible.value = true;
   selectedTemplateId.value = "";
   previewData.value = null;
@@ -169,7 +176,7 @@ const closePreviewDialog = () => {
 };
 
 const getCategoryLabel = (category: string) => {
-  const opt = categoryOptions.find(o => o.value === category);
+  const opt = categoryOptions.find((o) => o.value === category);
   return opt?.label || category;
 };
 
@@ -177,33 +184,37 @@ const getStorageLabel = (storage: string) => {
   if (storage === "local") return i18n("dyform.template.storage.local");
   return i18n("dyform.template.storage.database");
 };
-watch(() => props.optional?.configTemplateApi, (val) => {
-  if (val) {
-    init(val);
-  }
-}, {
-  immediate: true,
-});
-defineExpose({openSaveDialog, openLoadDialog});
+watch(
+  () => props.optional?.configTemplateApi,
+  (val) => {
+    if (val) {
+      init(val);
+    }
+  },
+  {
+    immediate: true,
+  },
+);
+defineExpose({ openSaveDialog, openLoadDialog });
 </script>
 
 <template>
   <!-- 保存为模板弹窗 -->
   <star-horse-panel
-      v-model="saveDialogVisible"
-      :title="i18n('dyform.template.save')"
-      :selfFunc="true"
-      @merge="handleSave"
-      @closeAction="closeSaveDialog"
-      boxWidth="30%"
+    v-model="saveDialogVisible"
+    :title="i18n('dyform.template.save')"
+    :selfFunc="true"
+    @merge="handleSave"
+    @closeAction="closeSaveDialog"
+    boxWidth="30%"
   >
     <el-form label-position="top">
       <el-form-item :label="i18n('dyform.template.name')" required>
         <el-input
-            v-model="saveForm.name"
-            :placeholder="i18n('dyform.template.name.placeholder')"
-            maxlength="50"
-            show-word-limit
+          v-model="saveForm.name"
+          :placeholder="i18n('dyform.template.name.placeholder')"
+          maxlength="50"
+          show-word-limit
         />
       </el-form-item>
       <el-form-item :label="i18n('dyform.template.category')">
@@ -211,23 +222,27 @@ defineExpose({openSaveDialog, openLoadDialog});
       </el-form-item>
       <el-form-item :label="i18n('dyform.template.description')">
         <el-input
-            v-model="saveForm.description"
-            :placeholder="i18n('dyform.template.description.placeholder')"
-            type="textarea"
-            :rows="2"
-            maxlength="200"
-            show-word-limit
+          v-model="saveForm.description"
+          :placeholder="i18n('dyform.template.description.placeholder')"
+          type="textarea"
+          :rows="2"
+          maxlength="200"
+          show-word-limit
         />
       </el-form-item>
       <el-form-item :label="i18n('dyform.template.storage')" required>
         <el-radio-group v-model="saveForm.storage">
           <el-radio value="database">
-            <span>{{ i18n('dyform.template.storage.database') }}</span>
-            <span class="storage-desc">{{ i18n('dyform.template.storage.database.desc') }}</span>
+            <span>{{ i18n("dyform.template.storage.database") }}</span>
+            <span class="storage-desc">{{
+              i18n("dyform.template.storage.database.desc")
+            }}</span>
           </el-radio>
           <el-radio value="local">
-            <span>{{ i18n('dyform.template.storage.local') }}</span>
-            <span class="storage-desc">{{ i18n('dyform.template.storage.local.desc') }}</span>
+            <span>{{ i18n("dyform.template.storage.local") }}</span>
+            <span class="storage-desc">{{
+              i18n("dyform.template.storage.local.desc")
+            }}</span>
           </el-radio>
         </el-radio-group>
       </el-form-item>
@@ -236,41 +251,67 @@ defineExpose({openSaveDialog, openLoadDialog});
 
   <!-- 从模板加载弹窗 -->
   <star-horse-panel
-      v-model="loadDialogVisible"
-      :title="i18n('dyform.template.load')"
-      :selfFunc="true"
-      @merge="handleLoad"
-      @closeAction="closeLoadDialog"
-      boxWidth="40%"
+    v-model="loadDialogVisible"
+    :title="i18n('dyform.template.load')"
+    :selfFunc="true"
+    @merge="handleLoad"
+    @closeAction="closeLoadDialog"
+    boxWidth="40%"
   >
     <div v-loading="loadLoading" class="template-list">
-      <el-empty v-if="templateList.length === 0 && !loadLoading" :description="i18n('dyform.template.empty')"/>
+      <el-empty
+        v-if="templateList.length === 0 && !loadLoading"
+        :description="i18n('dyform.template.empty')"
+      />
       <div
-          v-for="template in templateList"
-          :key="template.id"
-          :class="['template-item', { active: selectedTemplateId === template.id }]"
-          @click="selectedTemplateId = template.id"
+        v-for="template in templateList"
+        :key="template.id"
+        :class="[
+          'template-item',
+          { active: selectedTemplateId === template.id },
+        ]"
+        @click="selectedTemplateId = template.id"
       >
         <div class="template-info">
           <div class="template-name">
-            <el-icon v-if="selectedTemplateId === template.id" color="var(--el-color-primary)">
-              <CircleCheckFilled/>
+            <el-icon
+              v-if="selectedTemplateId === template.id"
+              color="var(--el-color-primary)"
+            >
+              <CircleCheckFilled />
             </el-icon>
             {{ template.name }}
           </div>
           <div class="template-meta">
-            <el-tag size="small" type="info">{{ getCategoryLabel(template.category) }}</el-tag>
-            <el-tag size="small" :type="template.storage === 'database' ? 'success' : 'warning'">
+            <el-tag size="small" type="info">{{
+              getCategoryLabel(template.category)
+            }}</el-tag>
+            <el-tag
+              size="small"
+              :type="template.storage === 'database' ? 'success' : 'warning'"
+            >
               {{ getStorageLabel(template.storage) }}
             </el-tag>
-            <span v-if="template.description" class="template-desc">{{ template.description }}</span>
+            <span v-if="template.description" class="template-desc">{{
+              template.description
+            }}</span>
           </div>
         </div>
         <div class="template-actions">
-          <el-button size="small" link type="primary" @click.stop="handlePreview(template)">
-            {{ i18n('dyform.template.preview') }}
+          <el-button
+            size="small"
+            link
+            type="primary"
+            @click.stop="handlePreview(template)"
+          >
+            {{ i18n("dyform.template.preview") }}
           </el-button>
-          <el-button size="small" link type="danger" @click.stop="handleDelete(template)">
+          <el-button
+            size="small"
+            link
+            type="danger"
+            @click.stop="handleDelete(template)"
+          >
             删除
           </el-button>
         </div>
@@ -280,11 +321,11 @@ defineExpose({openSaveDialog, openLoadDialog});
 
   <!-- 预览弹窗 -->
   <star-horse-panel
-      v-model="previewVisible"
-      :title="i18n('dyform.template.preview')"
-      :selfFunc="true"
-      @closeAction="closePreviewDialog"
-      boxWidth="35%"
+    v-model="previewVisible"
+    :title="i18n('dyform.template.preview')"
+    :selfFunc="true"
+    @closeAction="closePreviewDialog"
+    boxWidth="35%"
   >
     <el-scrollbar max-height="400px">
       <pre class="preview-json">{{ JSON.stringify(previewData, null, 2) }}</pre>

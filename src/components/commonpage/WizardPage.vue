@@ -1,14 +1,14 @@
 <script setup lang="ts">
-import {computed, ref} from "vue";
-import {analysisCompDatas, convertCompToAppComps} from "star-horse-lowcode";
-import {useCommonPage} from "./useCommonPage";
+import { computed, ref } from "vue";
+import { analysisCompDatas, convertCompToAppComps } from "star-horse-lowcode";
+import { useCommonPage } from "./useCommonPage";
 import CommonSkeleton from "./CommonSkeleton.vue";
-import {i18n} from "@/lang";
+import { i18n } from "@/lang";
 
 const props = defineProps({
-  currentPageClass: {type: String, default: ""},
-  preview: {type: Boolean, default: false},
-  compList: {type: Array, required: true},
+  currentPageClass: { type: String, default: "" },
+  preview: { type: Boolean, default: false },
+  compList: { type: Array, required: true },
 });
 
 const wizardFormRefs = ref<any[]>([]);
@@ -16,9 +16,19 @@ const currentStep = ref(0);
 const stepSubmitting = ref(false);
 
 const {
-  isLoading, hasData, errorMsg, primaryKey, rules, relationTables,
-  tableFieldList, dataUrl, dialogProps, ruleFormId,
-  onFormDataLoaded, handleBeforeSubmit, dataRecall,
+  isLoading,
+  hasData,
+  errorMsg,
+  primaryKey,
+  rules,
+  relationTables,
+  tableFieldList,
+  dataUrl,
+  dialogProps,
+  ruleFormId,
+  onFormDataLoaded,
+  handleBeforeSubmit,
+  dataRecall,
 } = useCommonPage({
   props,
   formRef: computed(() => wizardFormRefs.value[currentStep.value]) as any,
@@ -49,17 +59,21 @@ const parseStepFields = (el: any): any => {
 const buildSteps = () => {
   const list = props.compList as any[];
   const stepComp = list?.find(
-      (c: any) => c?.preps?.itemType == "step" || c?.itemType == "step",
+    (c: any) => c?.preps?.itemType == "step" || c?.itemType == "step",
   );
   if (stepComp) {
     const elements = stepComp.preps?.elements || [];
     steps.value = elements.map((el: any, i: number) => ({
-      title: el.title || el.name || `${i18n("commonPage.wizard.step")} ${i + 1}`,
+      title:
+        el.title || el.name || `${i18n("commonPage.wizard.step")} ${i + 1}`,
       fieldList: parseStepFields(el),
     }));
   } else {
     steps.value = [
-      {title: i18n("commonPage.wizard.step"), fieldList: tableFieldList.value},
+      {
+        title: i18n("commonPage.wizard.step"),
+        fieldList: tableFieldList.value,
+      },
     ];
   }
 };
@@ -67,7 +81,7 @@ buildSteps();
 
 const isLastStep = computed(() => currentStep.value === steps.value.length - 1);
 const currentFieldList = computed(
-    () => steps.value[currentStep.value]?.fieldList ?? {fieldList: []},
+  () => steps.value[currentStep.value]?.fieldList ?? { fieldList: [] },
 );
 
 const validateCurrentStep = async (): Promise<boolean> => {
@@ -100,7 +114,7 @@ const handleSubmit = async () => {
   if (!ok) return;
   stepSubmitting.value = true;
   try {
-    const beforeOk = await handleBeforeSubmit({type: "merge", formData: {}});
+    const beforeOk = await handleBeforeSubmit({ type: "merge", formData: {} });
     if (beforeOk === false) return;
     const lastForm = wizardFormRefs.value[steps.value.length - 1];
     if (lastForm?.merge) await lastForm.merge("merge");
@@ -115,29 +129,34 @@ const setFormRef = (el: any, idx: number) => {
 </script>
 <template>
   <div class="flex flex-col h-full overflow-hidden">
-    <CommonSkeleton v-if="isLoading" :showHeader="true" :showForm="true" :formRowCount="6"/>
+    <CommonSkeleton
+      v-if="isLoading"
+      :showHeader="true"
+      :showForm="true"
+      :formRowCount="6"
+    />
 
     <template v-else-if="hasData">
       <el-card class="inner_content">
         <el-steps :active="currentStep" align-center class="mb-6">
-          <el-step v-for="(s, i) in steps" :key="i" :title="s.title"/>
+          <el-step v-for="(s, i) in steps" :key="i" :title="s.title" />
         </el-steps>
 
         <div class="wizard-body">
           <star-horse-form
-              v-for="(step, idx) in steps"
-              v-show="idx === currentStep"
-              :key="idx"
-              :compUrl="dataUrl"
-              :preview="preview"
-              :fieldList="step.fieldList"
-              :primary-key="primaryKey"
-              :rules="rules"
-              :globalCondition="relationTables"
-              :dynamicForm="true"
-              :typeModel="'form'"
-              :ref="(el: any) => setFormRef(el, idx)"
-              @dataLoaded="onFormDataLoaded"
+            v-for="(step, idx) in steps"
+            v-show="idx === currentStep"
+            :key="idx"
+            :compUrl="dataUrl"
+            :preview="preview"
+            :fieldList="step.fieldList"
+            :primary-key="primaryKey"
+            :rules="rules"
+            :globalCondition="relationTables"
+            :dynamicForm="true"
+            :typeModel="'form'"
+            :ref="(el: any) => setFormRef(el, idx)"
+            @dataLoaded="onFormDataLoaded"
           />
         </div>
 
@@ -149,10 +168,10 @@ const setFormRef = (el: any, idx: number) => {
             {{ i18n("commonPage.wizard.next") }}
           </el-button>
           <el-button
-              v-else
-              type="success"
-              :loading="stepSubmitting"
-              @click="handleSubmit"
+            v-else
+            type="success"
+            :loading="stepSubmitting"
+            @click="handleSubmit"
           >
             {{ i18n("commonPage.wizard.submit") }}
           </el-button>
@@ -160,7 +179,7 @@ const setFormRef = (el: any, idx: number) => {
       </el-card>
     </template>
 
-    <el-empty :content="errorMsg" v-else/>
+    <el-empty :content="errorMsg" v-else />
   </div>
 </template>
 <style lang="scss" scoped>

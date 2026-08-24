@@ -59,11 +59,15 @@ $rd-radius-pill: 999px;
 /* ========== 阴影（极弱） ========== */
 $rd-shadow-none: none;
 $rd-shadow-xs: 0 1px 2px rgba(17, 24, 39, 0.04);
-$rd-shadow-sm: 0 1px 3px rgba(17, 24, 39, 0.06), 0 1px 2px rgba(17, 24, 39, 0.04);
+$rd-shadow-sm:
+  0 1px 3px rgba(17, 24, 39, 0.06),
+  0 1px 2px rgba(17, 24, 39, 0.04);
 $rd-shadow-md: 0 2px 8px rgba(17, 24, 39, 0.08);
 $rd-shadow-lg: 0 4px 16px rgba(17, 24, 39, 0.1);
 $rd-shadow-focus: 0 0 0 3px rgba(79, 70, 229, 0.15);
-$rd-shadow-selected: 0 0 0 2px #4f46e5, 0 4px 12px rgba(79, 70, 229, 0.18);
+$rd-shadow-selected:
+  0 0 0 2px #4f46e5,
+  0 4px 12px rgba(79, 70, 229, 0.18);
 
 /* ========== 间距（4px 基准） ========== */
 $rd-space-1: 4px;
@@ -110,7 +114,9 @@ $rd-node-gateway-size: 56px;
   border: 1px solid $rd-border;
   border-radius: $rd-radius-lg;
   box-shadow: $rd-shadow-xs;
-  transition: box-shadow $rd-transition-base, border-color $rd-transition-base;
+  transition:
+    box-shadow $rd-transition-base,
+    border-color $rd-transition-base;
 }
 
 %rd-node-hover {

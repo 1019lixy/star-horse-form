@@ -1,17 +1,21 @@
 <script setup lang="ts">
-import {computed, nextTick, ref, watch} from "vue";
-import {i18n} from "@/lang";
-import {SelectOption} from "star-horse-lowcode";
-import {FormConfig} from "@/components/types";
+import { computed, nextTick, ref, watch } from "vue";
+import { i18n } from "@/lang";
+import { SelectOption } from "star-horse-lowcode";
+import { FormConfig } from "@/components/types";
 import LinkPolicyComp from "@/components/system/items/utils/LinkPolicyComp.vue";
 import DataSourceComp from "@/components/system/items/utils/DataSourceComp.vue";
 import {
   PreOrPendEventConfig,
   preOrPendEventTypeOptions,
 } from "@/components/system/items/form/composables/usePreOrPendEvent";
-import {compressJs, formatJs, userOperationMsg} from "@/components/system/items/utils/jsCodeFormatter";
+import {
+  compressJs,
+  formatJs,
+  userOperationMsg,
+} from "@/components/system/items/utils/jsCodeFormatter";
 
-defineOptions({name: "PreOrPendEventDialog"});
+defineOptions({ name: "PreOrPendEventDialog" });
 
 const props = defineProps<{
   visible: boolean;
@@ -81,19 +85,25 @@ const dialogTitle = computed(() => {
  * 自定义代码：加载时格式化，方便编辑
  */
 const initFormData = () => {
-  const cfg = props.eventConfig || {eventType: "none"};
+  const cfg = props.eventConfig || { eventType: "none" };
   currentEventType.value = cfg.eventType || "none";
   // 自定义代码：格式化后回填到编辑器，方便阅读编辑
   customCodeRef.value = cfg.customCode ? formatJs(cfg.customCode) : "";
 
   // 把已有配置放入临时对象，供子组件读取
   tempConfigHolder.value = {
-    dataRelation: cfg.dataRelation ? JSON.parse(JSON.stringify(cfg.dataRelation)) : undefined,
+    dataRelation: cfg.dataRelation
+      ? JSON.parse(JSON.stringify(cfg.dataRelation))
+      : undefined,
     dataSource: cfg.dataSourceConfig?.dataSource || "data",
-    ...(cfg.dataSourceConfig ? JSON.parse(JSON.stringify(cfg.dataSourceConfig)) : {}),
+    ...(cfg.dataSourceConfig
+      ? JSON.parse(JSON.stringify(cfg.dataSourceConfig))
+      : {}),
   };
   if (cfg.dataRelation) {
-    tempConfigHolder.value.dataRelation = JSON.parse(JSON.stringify(cfg.dataRelation));
+    tempConfigHolder.value.dataRelation = JSON.parse(
+      JSON.stringify(cfg.dataRelation),
+    );
   }
 
   nextTick(() => {
@@ -133,7 +143,10 @@ const handleSubmit = async () => {
     const valid = await linkageRef.value?.submitValid();
     if (!valid) return;
     const data = linkageRef.value?.getFormData();
-    config.dataRelation = data?.dataRelation ?? data?.value?.dataRelation ?? tempConfigHolder.value.dataRelation;
+    config.dataRelation =
+      data?.dataRelation ??
+      data?.value?.dataRelation ??
+      tempConfigHolder.value.dataRelation;
   } else if (currentEventType.value === "dataSource") {
     const valid = await dataSourceRef.value?.submitValid();
     if (!valid) return;
@@ -141,7 +154,9 @@ const handleSubmit = async () => {
     config.dataSourceConfig = data?.value ?? data ?? tempConfigHolder.value;
   } else if (currentEventType.value === "custom") {
     // 自定义代码：保存时压缩，去掉多余空格
-    config.customCode = customCodeRef.value ? compressJs(customCodeRef.value) : "";
+    config.customCode = customCodeRef.value
+      ? compressJs(customCodeRef.value)
+      : "";
   }
 
   emit("merge", config);
@@ -150,50 +165,60 @@ const handleSubmit = async () => {
 const handleClose = () => {
   emit("close");
 };
-const dialogVisible=ref<boolean>(false);
-watch(()=>props.visible,(val)=>{
-  dialogVisible.value = val;
-},{immediate:true});
+const dialogVisible = ref<boolean>(false);
 watch(
-    () => props.visible,
-    (val) => {
-      if (val) {
-        initFormData();
-      }
-    },
-    {immediate: true},
+  () => props.visible,
+  (val) => {
+    dialogVisible.value = val;
+  },
+  { immediate: true },
+);
+watch(
+  () => props.visible,
+  (val) => {
+    if (val) {
+      initFormData();
+    }
+  },
+  { immediate: true },
 );
 </script>
 
 <template>
   <star-horse-panel
-      v-model="dialogVisible"
-      :title="dialogTitle"
-      :isBatch="false"
-      @merge="handleSubmit"
-      @closeAction="handleClose"
-      @resetForm="handleClose"
-      :selfFunc="true"
-      box-height="80%"
+    v-model="dialogVisible"
+    :title="dialogTitle"
+    :isBatch="false"
+    @merge="handleSubmit"
+    @closeAction="handleClose"
+    @resetForm="handleClose"
+    :selfFunc="true"
+    box-height="80%"
   >
     <div class="pre-or-pend-event">
       <!-- 事件类型选择 -->
       <div class="event-type-selector">
         <div class="selector-header">
-          <span class="selector-title">{{ i18n("dyform.preOrPend.event.type") }}</span>
+          <span class="selector-title">{{
+            i18n("dyform.preOrPend.event.type")
+          }}</span>
           <span class="selector-desc">
-            {{ preOrPendEventTypeOptions.find((o) => o.value === currentEventType)?.label }}
+            {{
+              preOrPendEventTypeOptions.find(
+                (o) => o.value === currentEventType,
+              )?.label
+            }}
           </span>
         </div>
         <div class="type-cards">
           <div
-              v-for="opt in preOrPendEventTypeOptions"
-              :key="opt.value"
-              :class="['type-card', {active: currentEventType === opt.value}]"
-              @click="handleTypeChange(opt.value)"
+            v-for="opt in preOrPendEventTypeOptions"
+            :key="opt.value"
+            :class="['type-card', { active: currentEventType === opt.value }]"
+            @click="handleTypeChange(opt.value)"
           >
             <el-icon class="type-icon" :size="18">
-              <component :is="opt.icon"/>
+              <component :is="opt.icon" />
             </el-icon>
             <span class="type-label">{{ opt.label }}</span>
           </div>
@@ -205,41 +230,41 @@ watch(
         <!-- 联动策略 -->
         <div v-if="showLinkage" class="linkage-panel">
           <link-policy-comp
-              ref="linkageRef"
-              :formProps="tempConfigHolder"
-              :model="model || 'full'"
-              :hide-user-define="true"
-              :optional="optional"
-              :formFields="formFields"
+            ref="linkageRef"
+            :formProps="tempConfigHolder"
+            :model="model || 'full'"
+            :hide-user-define="true"
+            :optional="optional"
+            :formFields="formFields"
           />
         </div>
 
         <!-- 数据源 -->
         <div v-if="showDataSource" class="data-source-panel">
           <data-source-comp
-              ref="dataSourceRef"
-              :formProps="tempConfigHolder"
-              :model="model || 'full'"
-              :optional="optional"
-              :formFields="formFields"
+            ref="dataSourceRef"
+            :formProps="tempConfigHolder"
+            :model="model || 'full'"
+            :optional="optional"
+            :formFields="formFields"
           />
         </div>
 
         <!-- 自定义代码 -->
         <div v-if="showCustom" class="custom-panel">
           <div class="custom-help">
-            <help :message="userOperationMsg"/>
+            <help :message="userOperationMsg" />
           </div>
           <star-horse-editor
-              v-model:value="customCodeRef"
-              lang="javascript"
-              ref="codeEditorRef"
-              style="height: 100%"
+            v-model:value="customCodeRef"
+            lang="javascript"
+            ref="codeEditorRef"
+            style="height: 100%"
           />
         </div>
         <!-- 无事件 -->
         <div v-show="currentEventType === 'none'" class="empty-panel">
-          <el-empty :description="i18n('dyform.preOrPend.event.none.desc')"/>
+          <el-empty :description="i18n('dyform.preOrPend.event.none.desc')" />
         </div>
       </div>
     </div>

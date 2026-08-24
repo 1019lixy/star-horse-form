@@ -3,18 +3,37 @@
     <Handle type="target" :position="Position.Top" />
     <div class="node-card">
       <div class="node-header">
-        <svg class="header-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M8 3H6a2 2 0 0 0-2 2v4a2 2 0 0 1-2 2 2 2 0 0 1 2 2v4a2 2 0 0 0 2 2h2M16 3h2a2 2 0 0 1 2 2v4a2 2 0 0 0 2 2 2 2 0 0 0-2 2v4a2 2 0 0 1-2 2h-2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        <svg
+          class="header-icon"
+          viewBox="0 0 24 24"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M8 3H6a2 2 0 0 0-2 2v4a2 2 0 0 1-2 2 2 2 0 0 1 2 2v4a2 2 0 0 0 2 2h2M16 3h2a2 2 0 0 1 2 2v4a2 2 0 0 0 2 2 2 2 0 0 0-2 2v4a2 2 0 0 1-2 2h-2"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
         </svg>
-        <span class="header-title">{{ i18n('rule.node.variableAssign') }}</span>
-        <el-button type="primary" link  @click.stop="$emit('edit')" class="header-btn">
+        <span class="header-title">{{ i18n("rule.node.variableAssign") }}</span>
+        <el-button
+          type="primary"
+          link
+          @click.stop="$emit('edit')"
+          class="header-btn"
+        >
           <el-icon><Plus /></el-icon>
         </el-button>
       </div>
       <div class="node-body">
-        <div v-if="!data.assignments || data.assignments.length === 0" class="empty-tip">
+        <div
+          v-if="!data.assignments || data.assignments.length === 0"
+          class="empty-tip"
+        >
           <el-icon class="empty-icon"><InfoFilled /></el-icon>
-          <span>{{ i18n('rule.node.varAssignEmptyTip') }}</span>
+          <span>{{ i18n("rule.node.varAssignEmptyTip") }}</span>
         </div>
         <div v-else class="assign-list">
           <div
@@ -23,18 +42,31 @@
             class="assign-item"
           >
             <div class="assign-content">
-              <span class="assign-var">{{ item.variableName || i18n('rule.lbl.varName') }}</span>
+              <span class="assign-var">{{
+                item.variableName || i18n("rule.lbl.varName")
+              }}</span>
               <span class="assign-eq">=</span>
-              <el-tag  :type="item.valueType === 'VARIABLE' ? 'warning' : 'info'" class="assign-type-tag">
+              <el-tag
+                :type="item.valueType === 'VARIABLE' ? 'warning' : 'info'"
+                class="assign-type-tag"
+              >
                 {{ getValueTypeLabel(item.valueType) }}
               </el-tag>
               <span class="assign-value">{{ formatValue(item) }}</span>
             </div>
             <div class="assign-ops">
-              <el-button type="primary" link  @click.stop="$emit('editAssignment', index)">
+              <el-button
+                type="primary"
+                link
+                @click.stop="$emit('editAssignment', index)"
+              >
                 <el-icon><Edit /></el-icon>
               </el-button>
-              <el-button type="danger" link  @click.stop="$emit('deleteAssignment', index)">
+              <el-button
+                type="danger"
+                link
+                @click.stop="$emit('deleteAssignment', index)"
+              >
                 <el-icon><Delete /></el-icon>
               </el-button>
             </div>
@@ -47,47 +79,47 @@
 </template>
 
 <script setup lang="ts">
-import { Position, Handle } from '../compat'
-import { Plus, Edit, Delete, InfoFilled } from '@element-plus/icons-vue'
-import { i18n } from '@/lang'
+import { Position, Handle } from "../compat";
+import { Plus, Edit, Delete, InfoFilled } from "@element-plus/icons-vue";
+import { i18n } from "@/lang";
 
 defineProps<{
-  id?: string
+  id?: string;
   data: {
     assignments?: Array<{
-      variableName?: string
-      valueType?: string
-      value?: string
-      valueField?: string
-    }>
-  }
-}>()
+      variableName?: string;
+      valueType?: string;
+      value?: string;
+      valueField?: string;
+    }>;
+  };
+}>();
 
 defineEmits<{
-  (e: 'edit'): void
-  (e: 'editAssignment', index: number): void
-  (e: 'deleteAssignment', index: number): void
-}>()
+  (e: "edit"): void;
+  (e: "editAssignment", index: number): void;
+  (e: "deleteAssignment", index: number): void;
+}>();
 
 const getValueTypeLabel = (type: string) => {
   const map: Record<string, string> = {
-    CONSTANT: i18n('rule.opt.constant'),
-    VARIABLE: i18n('rule.opt.variable'),
-    EXPRESSION: i18n('rule.opt.expression')
-  }
-  return map[type] || type || i18n('rule.opt.constant')
-}
+    CONSTANT: i18n("rule.opt.constant"),
+    VARIABLE: i18n("rule.opt.variable"),
+    EXPRESSION: i18n("rule.opt.expression"),
+  };
+  return map[type] || type || i18n("rule.opt.constant");
+};
 
 const formatValue = (item: any) => {
-  if (item.valueType === 'VARIABLE') {
-    return item.valueField || item.value || '-'
+  if (item.valueType === "VARIABLE") {
+    return item.valueField || item.value || "-";
   }
-  return item.value || '-'
-}
+  return item.value || "-";
+};
 </script>
 
 <style scoped lang="scss">
-@use '../styles/design-tokens.scss' as tokens;
+@use "../styles/design-tokens.scss" as tokens;
 
 .variable-assign-node {
   .node-card {
@@ -98,7 +130,9 @@ const formatValue = (item: any) => {
     border-radius: tokens.$rd-radius-lg;
     box-shadow: tokens.$rd-shadow-xs;
     overflow: hidden;
-    transition: box-shadow tokens.$rd-transition-base, border-color tokens.$rd-transition-base;
+    transition:
+      box-shadow tokens.$rd-transition-base,
+      border-color tokens.$rd-transition-base;
 
     &:hover {
       border-color: tokens.$rd-primary-border;
@@ -168,7 +202,9 @@ const formatValue = (item: any) => {
         background: rgba(124, 58, 237, 0.05);
         border-radius: tokens.$rd-radius-md;
         border: 1px solid rgba(124, 58, 237, 0.12);
-        transition: background tokens.$rd-transition-fast, border-color tokens.$rd-transition-fast;
+        transition:
+          background tokens.$rd-transition-fast,
+          border-color tokens.$rd-transition-fast;
 
         &:hover {
           border-color: rgba(124, 58, 237, 0.24);

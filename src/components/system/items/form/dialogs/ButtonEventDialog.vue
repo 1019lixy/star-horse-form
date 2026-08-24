@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {ref, watch} from "vue";
+import { ref, watch } from "vue";
 import { buttonClickDataField } from "@/components/system/items/utils/ItemPreps.js";
 import { i18n } from "@/lang/index.js";
 
@@ -32,10 +32,14 @@ const buttonEventMerge = () => {
 const buttonEventReset = () => {
   buttonClickFormRef.value.$refs.starHorseFormRef.resetFields();
 };
-const dialogVisible=ref<boolean>(false);
-watch(()=>props.visible,(val)=>{
-  dialogVisible.value = val;
-},{immediate:true});
+const dialogVisible = ref<boolean>(false);
+watch(
+  () => props.visible,
+  (val) => {
+    dialogVisible.value = val;
+  },
+  { immediate: true },
+);
 defineExpose({
   buttonEventReset,
 });

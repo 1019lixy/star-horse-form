@@ -4,21 +4,28 @@
     <div class="node-pill">
       <div class="pill-badge">
         <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <rect x="7" y="7" width="10" height="10" rx="1.5" fill="currentColor"/>
+          <rect
+            x="7"
+            y="7"
+            width="10"
+            height="10"
+            rx="1.5"
+            fill="currentColor"
+          />
         </svg>
       </div>
-      <span class="pill-label">{{ i18n('rule.node.end') }}</span>
+      <span class="pill-label">{{ i18n("rule.node.end") }}</span>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { Handle, Position } from '../compat'
-import { i18n } from '@/lang'
+import { Handle, Position } from "../compat";
+import { i18n } from "@/lang";
 </script>
 
 <style scoped lang="scss">
-@use '../styles/design-tokens.scss' as tokens;
+@use "../styles/design-tokens.scss" as tokens;
 
 .end-node {
   position: relative;
@@ -33,7 +40,9 @@ import { i18n } from '@/lang'
     border: 1px solid tokens.$rd-border;
     border-radius: tokens.$rd-radius-pill;
     box-shadow: tokens.$rd-shadow-xs;
-    transition: box-shadow tokens.$rd-transition-base, border-color tokens.$rd-transition-base;
+    transition:
+      box-shadow tokens.$rd-transition-base,
+      border-color tokens.$rd-transition-base;
 
     &:hover {
       border-color: tokens.$rd-node-end;

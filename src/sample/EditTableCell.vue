@@ -1,8 +1,21 @@
 <script setup lang="ts" name="SystemParams">
-import {onActivated, onDeactivated, onMounted, provide, reactive, ref,} from "vue";
-import {i18n} from "@/lang";
+import {
+  onActivated,
+  onDeactivated,
+  onMounted,
+  provide,
+  reactive,
+  ref,
+} from "vue";
+import { i18n } from "@/lang";
 
-import {apiInstance, ApiUrls, dialogPreps,  PageFieldInfo, SearchFields} from "star-horse-lowcode";
+import {
+  apiInstance,
+  ApiUrls,
+  dialogPreps,
+  PageFieldInfo,
+  SearchFields,
+} from "star-horse-lowcode";
 //后端交互接口地址
 const dataUrl: ApiUrls = apiInstance("system-config", "system/systemParams");
 //主键
@@ -70,12 +83,9 @@ const rules = {};
 const dialogProps = dialogPreps();
 provide("dialogProps", dialogProps);
 //初始化方法
-const initData = async () => {
-};
-const activated = () => {
-};
-const deactivated = () => {
-};
+const initData = async () => {};
+const activated = () => {};
+const deactivated = () => {};
 /**
  * 列表，查看数据时数据转换
  * @param name 名称
@@ -99,45 +109,45 @@ onDeactivated(() => {
 <template>
   <div class="flex flex-col h-full overflow-hidden">
     <star-horse-panel
-        :isShowBtnContinue="true"
-        v-model="dialogProps.editVisible"
-        :dialogProps="dialogProps"
+      :isShowBtnContinue="true"
+      v-model="dialogProps.editVisible"
+      :dialogProps="dialogProps"
     >
       <star-horse-form
-          @refresh="systemParamsRef?.loadByPage()"
-          :compUrl="dataUrl"
-          :fieldList="tableFieldList"
-          :rules="rules"
+        @refresh="systemParamsRef?.loadByPage()"
+        :compUrl="dataUrl"
+        :fieldList="tableFieldList"
+        :rules="rules"
       />
     </star-horse-panel>
     <star-horse-panel
-        v-model="dialogProps.viewVisible"
-        :dialogProps="dialogProps"
-        :source="3"
+      v-model="dialogProps.viewVisible"
+      :dialogProps="dialogProps"
+      :source="3"
     >
       <star-horse-data-view
-          :dataFormat="dataFormat"
-          :field-list="tableFieldList"
-          :compUrl="dataUrl"
+        :dataFormat="dataFormat"
+        :field-list="tableFieldList"
+        :compUrl="dataUrl"
       />
     </star-horse-panel>
     <div class="search-content">
       <div class="search_btn">
         <star-horse-search-comp
-            @searchData="(data: any) => systemParamsRef?.createSearchParams(data)"
-            :formData="searchFormData"
-            :compUrl="dataUrl"
+          @searchData="(data: any) => systemParamsRef?.createSearchParams(data)"
+          :formData="searchFormData"
+          :compUrl="dataUrl"
         />
       </div>
     </div>
     <el-card class="inner_content">
       <star-horse-table-comp
-          ref="systemParamsRef"
-          :fieldList="tableFieldList"
-          :primaryKey="primaryKey"
-          :compUrl="dataUrl"
-          :help-msg="i18n('dyform.sample.systemParamHelp')"
-          :dataFormat="dataFormat"
+        ref="systemParamsRef"
+        :fieldList="tableFieldList"
+        :primaryKey="primaryKey"
+        :compUrl="dataUrl"
+        :help-msg="i18n('dyform.sample.systemParamHelp')"
+        :dataFormat="dataFormat"
       />
     </el-card>
   </div>

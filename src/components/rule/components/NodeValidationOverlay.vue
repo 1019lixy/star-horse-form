@@ -13,23 +13,38 @@
       <span class="vb-icon" v-else>?</span>
       <span class="vb-count" v-if="b.count > 1">{{ b.count }}</span>
       <transition name="vb-pop">
-        <div v-if="hoverId === b.id" class="vb-popover" @mouseenter="hoverId = b.id">
+        <div
+          v-if="hoverId === b.id"
+          class="vb-popover"
+          @mouseenter="hoverId = b.id"
+        >
           <div class="vb-pop-header">
             <span class="vb-pop-name">{{ b.nodeName }}</span>
             <span class="vb-pop-level" :class="'lv-' + b.level">
-              {{ b.level === 'error' ? i18n('rule.val.levelError') : i18n('rule.val.levelWarning') }} · {{ b.count }}
+              {{
+                b.level === "error"
+                  ? i18n("rule.val.levelError")
+                  : i18n("rule.val.levelWarning")
+              }}
+              · {{ b.count }}
             </span>
           </div>
           <ul class="vb-pop-list">
-            <li v-for="(iss, idx) in b.issues" :key="idx" :class="'lv-' + iss.level">
-              <span class="vb-pop-bullet">{{ iss.level === 'error' ? '✗' : '⚠' }}</span>
+            <li
+              v-for="(iss, idx) in b.issues"
+              :key="idx"
+              :class="'lv-' + iss.level"
+            >
+              <span class="vb-pop-bullet">{{
+                iss.level === "error" ? "✗" : "⚠"
+              }}</span>
               <span class="vb-pop-msg">{{ iss.message }}</span>
             </li>
           </ul>
           <div class="vb-pop-footer">
             <el-button link size="small" @click="emit('locate', b.id)">
               <el-icon><Aim /></el-icon>
-              {{ i18n('rule.val.locateNode') }}
+              {{ i18n("rule.val.locateNode") }}
             </el-button>
           </div>
         </div>
@@ -39,92 +54,101 @@
 </template>
 
 <script setup lang="ts">
-import { ref, watch, onMounted, onBeforeUnmount, nextTick } from 'vue'
-import { Aim } from '@element-plus/icons-vue'
-import { i18n } from '@/lang'
-import type { ValidationResult, ValidationIssue } from '../engine/validator'
+import { ref, watch, onMounted, onBeforeUnmount, nextTick } from "vue";
+import { Aim } from "@element-plus/icons-vue";
+import { i18n } from "@/lang";
+import type { ValidationResult, ValidationIssue } from "../engine/validator";
 
 const props = defineProps<{
-  result: ValidationResult | null
-}>()
+  result: ValidationResult | null;
+}>();
 const emit = defineEmits<{
-  (e: 'locate', nodeId: string): void
-}>()
+  (e: "locate", nodeId: string): void;
+}>();
 
 interface Badge {
-  id: string
-  nodeName: string
-  level: 'error' | 'warning'
-  count: number
-  issues: ValidationIssue[]
-  x: number
-  y: number
+  id: string;
+  nodeName: string;
+  level: "error" | "warning";
+  count: number;
+  issues: ValidationIssue[];
+  x: number;
+  y: number;
 }
 
-const overlayRef = ref<HTMLElement>()
-const hoverId = ref<string | null>(null)
-const badges = ref<Badge[]>([])
-let rafId: number | null = null
+const overlayRef = ref<HTMLElement>();
+const hoverId = ref<string | null>(null);
+const badges = ref<Badge[]>([]);
+let rafId: number | null = null;
 
 const rebuild = () => {
-  if (!props.result || props.result.nodeMap.size === 0) { badges.value = []; return }
-  const list: Badge[] = []
+  if (!props.result || props.result.nodeMap.size === 0) {
+    badges.value = [];
+    return;
+  }
+  const list: Badge[] = [];
   for (const [nodeId, issues] of props.result.nodeMap) {
-    if (!nodeId) continue // 图级问题不在画布上显示气泡
+    if (!nodeId) continue; // 图级问题不在画布上显示气泡
     // 节点级问题：error 优先，error 存在则展示 error 气泡
-    const hasError = issues.some(i => i.level === 'error')
-    const level = hasError ? 'error' : 'warning'
-    const scoped = hasError ? issues.filter(i => i.level === 'error') : issues
-    const node = issues[0]
+    const hasError = issues.some((i) => i.level === "error");
+    const level = hasError ? "error" : "warning";
+    const scoped = hasError
+      ? issues.filter((i) => i.level === "error")
+      : issues;
+    const node = issues[0];
     list.push({
       id: nodeId,
       nodeName: node.nodeName,
       level,
       count: scoped.length,
       issues: scoped,
-      x: 0, y: 0
-    })
+      x: 0,
+      y: 0,
+    });
   }
-  badges.value = list
-  nextTick(reposition)
-}
+  badges.value = list;
+  nextTick(reposition);
+};
 
 const reposition = () => {
-  const container = overlayRef.value?.parentElement
-  if (!container) return
-  const cRect = container.getBoundingClientRect()
+  const container = overlayRef.value?.parentElement;
+  if (!container) return;
+  const cRect = container.getBoundingClientRect();
   for (const b of badges.value) {
-    const el = container.querySelector(`.rule-canvas-node[data-id="${b.id}"]`) as HTMLElement | null
+    const el = container.querySelector(
+      `.rule-canvas-node[data-id="${b.id}"]`,
+    ) as HTMLElement | null;
     if (el) {
-      const r = el.getBoundingClientRect()
+      const r = el.getBoundingClientRect();
       // 定位到节点左上角外侧
-      b.x = r.left - cRect.left - 8
-      b.y = r.top - cRect.top - 8
+      b.x = r.left - cRect.left - 8;
+      b.y = r.top - cRect.top - 8;
     } else {
-      b.x = -9999; b.y = -9999
+      b.x = -9999;
+      b.y = -9999;
     }
   }
-}
+};
 
 const loop = () => {
-  reposition()
-  rafId = requestAnimationFrame(loop)
-}
+  reposition();
+  rafId = requestAnimationFrame(loop);
+};
 
-watch(() => props.result, rebuild, { deep: false })
+watch(() => props.result, rebuild, { deep: false });
 
 onMounted(() => {
-  rebuild()
+  rebuild();
   // 持续重定位以跟随平移/缩放/拖拽（RAF 循环替代 VueFlow 事件）
-  rafId = requestAnimationFrame(loop)
-})
+  rafId = requestAnimationFrame(loop);
+});
 onBeforeUnmount(() => {
-  if (rafId != null) cancelAnimationFrame(rafId)
-})
+  if (rafId != null) cancelAnimationFrame(rafId);
+});
 </script>
 
 <style scoped lang="scss">
-@use '../styles/design-tokens.scss' as tokens;
+@use "../styles/design-tokens.scss" as tokens;
 .val-overlay {
   position: absolute;
   top: 0;
@@ -153,9 +177,16 @@ onBeforeUnmount(() => {
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
   border: 2px solid #fff;
   transition: transform tokens.$rd-transition-fast;
-  &:hover { transform: scale(1.15); }
-  &.vb-error { background: tokens.$rd-error; animation: vb-pulse 1.6s ease-in-out infinite; }
-  &.vb-warning { background: tokens.$rd-warning; }
+  &:hover {
+    transform: scale(1.15);
+  }
+  &.vb-error {
+    background: tokens.$rd-error;
+    animation: vb-pulse 1.6s ease-in-out infinite;
+  }
+  &.vb-warning {
+    background: tokens.$rd-warning;
+  }
 }
 
 .vb-count {
@@ -175,8 +206,17 @@ onBeforeUnmount(() => {
 }
 
 @keyframes vb-pulse {
-  0%, 100% { box-shadow: 0 2px 6px rgba(0,0,0,0.2), 0 0 0 0 rgba(239, 68, 68, 0.4); }
-  50% { box-shadow: 0 2px 6px rgba(0,0,0,0.2), 0 0 0 6px rgba(239, 68, 68, 0); }
+  0%,
+  100% {
+    box-shadow:
+      0 2px 6px rgba(0, 0, 0, 0.2),
+      0 0 0 0 rgba(239, 68, 68, 0.4);
+  }
+  50% {
+    box-shadow:
+      0 2px 6px rgba(0, 0, 0, 0.2),
+      0 0 0 6px rgba(239, 68, 68, 0);
+  }
 }
 
 .vb-popover {
@@ -203,13 +243,28 @@ onBeforeUnmount(() => {
   padding-bottom: tokens.$rd-space-2;
   border-bottom: 1px solid tokens.$rd-divider;
   .vb-pop-name {
-    font-size: tokens.$rd-font-sm; font-weight: tokens.$rd-font-weight-semibold; color: tokens.$rd-text-primary;
-    white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 200px;
+    font-size: tokens.$rd-font-sm;
+    font-weight: tokens.$rd-font-weight-semibold;
+    color: tokens.$rd-text-primary;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 200px;
   }
   .vb-pop-level {
-    font-size: 10px; font-weight: 600; padding: 1px 6px; border-radius: tokens.$rd-radius-pill; flex-shrink: 0;
-    &.lv-error { background: rgba(239, 68, 68, 0.12); color: tokens.$rd-error; }
-    &.lv-warning { background: rgba(245, 158, 11, 0.12); color: tokens.$rd-warning; }
+    font-size: 10px;
+    font-weight: 600;
+    padding: 1px 6px;
+    border-radius: tokens.$rd-radius-pill;
+    flex-shrink: 0;
+    &.lv-error {
+      background: rgba(239, 68, 68, 0.12);
+      color: tokens.$rd-error;
+    }
+    &.lv-warning {
+      background: rgba(245, 158, 11, 0.12);
+      color: tokens.$rd-warning;
+    }
   }
 }
 
@@ -227,11 +282,20 @@ onBeforeUnmount(() => {
     line-height: 1.5;
     padding: 3px 0;
     color: tokens.$rd-text-primary;
-    &.lv-error .vb-pop-bullet { color: tokens.$rd-error; }
-    &.lv-warning .vb-pop-bullet { color: tokens.$rd-warning; }
+    &.lv-error .vb-pop-bullet {
+      color: tokens.$rd-error;
+    }
+    &.lv-warning .vb-pop-bullet {
+      color: tokens.$rd-warning;
+    }
   }
-  .vb-pop-bullet { flex-shrink: 0; font-weight: 700; }
-  .vb-pop-msg { word-break: break-word; }
+  .vb-pop-bullet {
+    flex-shrink: 0;
+    font-weight: 700;
+  }
+  .vb-pop-msg {
+    word-break: break-word;
+  }
 }
 
 .vb-pop-footer {
@@ -241,6 +305,15 @@ onBeforeUnmount(() => {
   text-align: right;
 }
 
-.vb-pop-enter-active, .vb-pop-leave-active { transition: opacity 0.12s, transform 0.12s; }
-.vb-pop-enter-from, .vb-pop-leave-to { opacity: 0; transform: translateY(-4px); }
+.vb-pop-enter-active,
+.vb-pop-leave-active {
+  transition:
+    opacity 0.12s,
+    transform 0.12s;
+}
+.vb-pop-enter-from,
+.vb-pop-leave-to {
+  opacity: 0;
+  transform: translateY(-4px);
+}
 </style>

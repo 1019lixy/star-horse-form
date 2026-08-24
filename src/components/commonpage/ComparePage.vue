@@ -1,13 +1,13 @@
 <script setup lang="ts">
-import {computed, ref} from "vue";
-import {useCommonPage} from "./useCommonPage";
+import { computed, ref } from "vue";
+import { useCommonPage } from "./useCommonPage";
 import CommonSkeleton from "./CommonSkeleton.vue";
-import {i18n} from "@/lang";
+import { i18n } from "@/lang";
 
 const props = defineProps({
-  currentPageClass: {type: String, default: ""},
-  preview: {type: Boolean, default: false},
-  compList: {type: Array, required: true},
+  currentPageClass: { type: String, default: "" },
+  preview: { type: Boolean, default: false },
+  compList: { type: Array, required: true },
 });
 
 const oldData = ref<any>({});
@@ -16,12 +16,11 @@ const oldLabel = ref(i18n("commonPage.compare.old"));
 const newLabel = ref(i18n("commonPage.compare.new"));
 const onlyDiff = ref(false);
 
-const {
-  isLoading, hasData, errorMsg, tableFieldList, dataFormat,
-} = useCommonPage({
-  props,
-  formRef: ref(null) as any,
-});
+const { isLoading, hasData, errorMsg, tableFieldList, dataFormat } =
+  useCommonPage({
+    props,
+    formRef: ref(null) as any,
+  });
 
 const buildCompareData = () => {
   const list = props.compList as any[];
@@ -37,41 +36,48 @@ buildCompareData();
 const compareFields = computed(() => {
   const fl = tableFieldList.value?.fieldList || [];
   const fields = fl
-      .filter((f: any) => f && f.fieldName)
-      .map((f: any) => {
-        const ov = oldData.value[f.fieldName];
-        const nv = newData.value[f.fieldName];
-        return {
-          ...f,
-          oldValue: ov,
-          newValue: nv,
-          oldDisplay: dataFormat(f.fieldName, ov, oldData.value),
-          newDisplay: dataFormat(f.fieldName, nv, newData.value),
-          changed: String(ov) !== String(nv),
-        };
-      });
+    .filter((f: any) => f && f.fieldName)
+    .map((f: any) => {
+      const ov = oldData.value[f.fieldName];
+      const nv = newData.value[f.fieldName];
+      return {
+        ...f,
+        oldValue: ov,
+        newValue: nv,
+        oldDisplay: dataFormat(f.fieldName, ov, oldData.value),
+        newDisplay: dataFormat(f.fieldName, nv, newData.value),
+        changed: String(ov) !== String(nv),
+      };
+    });
   return onlyDiff.value ? fields.filter((f: any) => f.changed) : fields;
 });
 const diffCount = computed(
-    () => compareFields.value.filter((f: any) => f.changed).length,
+  () => compareFields.value.filter((f: any) => f.changed).length,
 );
 </script>
 <template>
   <div class="flex flex-col h-full overflow-hidden">
-    <CommonSkeleton v-if="isLoading" :showHeader="true" :showPreview="true" :previewRowCount="6"/>
+    <CommonSkeleton
+      v-if="isLoading"
+      :showHeader="true"
+      :showPreview="true"
+      :previewRowCount="6"
+    />
 
     <template v-else-if="hasData">
       <el-card class="inner_content">
         <template #header>
           <div class="flex items-center justify-between">
-            <span class="font-semibold">{{ i18n("commonPage.compare.title") }}</span>
+            <span class="font-semibold">{{
+              i18n("commonPage.compare.title")
+            }}</span>
             <div class="flex items-center gap-3">
               <span class="text-sm" style="color: var(--el-color-danger)">
                 {{ i18n("commonPage.compare.diffCount") }}: {{ diffCount }}
               </span>
               <el-switch
-                  v-model="onlyDiff"
-                  :active-text="i18n('commonPage.compare.onlyDiff')"
+                v-model="onlyDiff"
+                :active-text="i18n('commonPage.compare.onlyDiff')"
               />
             </div>
           </div>
@@ -82,10 +88,10 @@ const diffCount = computed(
             <div class="compare-col">
               <div class="compare-header">{{ oldLabel }}</div>
               <div
-                  v-for="f in compareFields"
-                  :key="f.fieldName"
-                  class="compare-row"
-                  :class="{diff: f.changed}"
+                v-for="f in compareFields"
+                :key="f.fieldName"
+                class="compare-row"
+                :class="{ diff: f.changed }"
               >
                 <span class="compare-label">{{ f.label || f.fieldName }}</span>
                 <span class="compare-value">{{ f.oldDisplay ?? "--" }}</span>
@@ -96,14 +102,19 @@ const diffCount = computed(
             <div class="compare-col">
               <div class="compare-header">{{ newLabel }}</div>
               <div
-                  v-for="f in compareFields"
-                  :key="f.fieldName"
-                  class="compare-row"
-                  :class="{diff: f.changed}"
+                v-for="f in compareFields"
+                :key="f.fieldName"
+                class="compare-row"
+                :class="{ diff: f.changed }"
               >
                 <span class="compare-label">{{ f.label || f.fieldName }}</span>
                 <span class="compare-value">{{ f.newDisplay ?? "--" }}</span>
-                <el-tag v-if="f.changed" type="danger" size="small" class="ml-1">
+                <el-tag
+                  v-if="f.changed"
+                  type="danger"
+                  size="small"
+                  class="ml-1"
+                >
                   {{ i18n("commonPage.compare.changed") }}
                 </el-tag>
               </div>
@@ -113,7 +124,7 @@ const diffCount = computed(
       </el-card>
     </template>
 
-    <el-empty :content="errorMsg" v-else/>
+    <el-empty :content="errorMsg" v-else />
   </div>
 </template>
 <style lang="scss" scoped>

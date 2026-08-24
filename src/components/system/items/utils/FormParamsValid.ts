@@ -1,5 +1,5 @@
 import { SearchParams, success } from "star-horse-lowcode";
-import {i18n} from "@/lang";
+import { i18n } from "@/lang";
 
 /**
  * 解析查询字段类型
@@ -86,13 +86,19 @@ export function validDynamicFormCompParams(
   const dupObjectNames = arrayDuplicateDatas(objectNames);
   const dupBatchNames = arrayDuplicateDatas(batchNames);
   if (dupTabNames.length > 0) {
-    errorMsg = i18n("dyform.valid.dupTabName", {names: dupTabNames.join(";")});
+    errorMsg = i18n("dyform.valid.dupTabName", {
+      names: dupTabNames.join(";"),
+    });
   }
   if (dupObjectNames.length > 0) {
-    errorMsg += "\n" + i18n("dyform.valid.dupObjectName", {names: dupObjectNames.join(";")});
+    errorMsg +=
+      "\n" +
+      i18n("dyform.valid.dupObjectName", { names: dupObjectNames.join(";") });
   }
   if (dupBatchNames.length > 0) {
-    errorMsg += "\n" + i18n("dyform.valid.dupBatchName", {names: dupBatchNames.join(";")});
+    errorMsg +=
+      "\n" +
+      i18n("dyform.valid.dupBatchName", { names: dupBatchNames.join(";") });
   }
   /**
    * 主要校验 参数是否重名，必须的参数是否赋值，参数数据合法性，此举旨在保证数据提交后可以正常运行，
@@ -106,8 +112,7 @@ export function validDynamicFormCompParams(
     let msg = "";
     const itemType = temp.itemType;
     if (itemType == "dialog-input" || itemType == "page-select") {
-      const temp =
-        "\n【" + name + i18n("dyform.utils.612");
+      const temp = "\n【" + name + i18n("dyform.utils.612");
       if (!preps.dataUrl?.host) {
         msg += i18n("dyform.utils.613");
       }
@@ -131,10 +136,7 @@ export function validDynamicFormCompParams(
         !preps.urlOrDictName &&
         !preps.apiDataSource
       ) {
-        msg =
-          "\n【" +
-          name +
-          i18n("dyform.utils.617");
+        msg = "\n【" + name + i18n("dyform.utils.617");
       }
     }
     if (msg.length > 0) {

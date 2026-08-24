@@ -1,9 +1,15 @@
 <script lang="ts" setup>
-import {computed, nextTick, onBeforeUnmount, reactive, ref, watch} from "vue";
-import {i18n} from "@/lang";
-import {clearAiChatSession, sendAiChatMessage} from "@/api/ai_chat_api";
-import {activateAiConfig, AiConfigData, deleteAiConfig, getAiConfigList, saveAiConfig} from "@/api/ai_config_api";
-import {error, operationConfirm, success, warning} from "star-horse-lowcode";
+import { computed, nextTick, onBeforeUnmount, reactive, ref, watch } from "vue";
+import { i18n } from "@/lang";
+import { clearAiChatSession, sendAiChatMessage } from "@/api/ai_chat_api";
+import {
+  activateAiConfig,
+  AiConfigData,
+  deleteAiConfig,
+  getAiConfigList,
+  saveAiConfig,
+} from "@/api/ai_config_api";
+import { error, operationConfirm, success, warning } from "star-horse-lowcode";
 
 interface Props {
   dialogVisible: boolean;
@@ -34,7 +40,9 @@ const chatContainerRef = ref<HTMLDivElement>();
 const isThinking = computed(() => {
   if (!isGenerating.value) return false;
   const lastMsg = messages.value[messages.value.length - 1];
-  return lastMsg?.role === 'assistant' && lastMsg.isStreaming && !lastMsg.content;
+  return (
+    lastMsg?.role === "assistant" && lastMsg.isStreaming && !lastMsg.content
+  );
 });
 let abortController: AbortController | null = null;
 
@@ -46,14 +54,19 @@ const editingProfile = ref<AiConfigData | null>(null);
 const showProfileForm = ref(false);
 
 const activeProfileName = computed(() => {
-  const active = profileList.value.find((p: AiConfigData) => p.idAiConfig === activeProfileId.value);
+  const active = profileList.value.find(
+    (p: AiConfigData) => p.idAiConfig === activeProfileId.value,
+  );
   return active?.profileName || "";
 });
 
 // 抽屉打开时自动加载配置列表
-watch(() => props.dialogVisible, (val) => {
-  if (val) loadProfileList();
-});
+watch(
+  () => props.dialogVisible,
+  (val) => {
+    if (val) loadProfileList();
+  },
+);
 
 const openSettings = async () => {
   await loadProfileList();
@@ -66,7 +79,8 @@ const loadProfileList = async () => {
     const data = res.data?.data || res.data || [];
     profileList.value = Array.isArray(data) ? data : [];
     const active = profileList.value.find((p: AiConfigData) => p.isActive);
-    activeProfileId.value = active?.idAiConfig || (profileList.value[0]?.idAiConfig || "");
+    activeProfileId.value =
+      active?.idAiConfig || profileList.value[0]?.idAiConfig || "";
   } catch {
     profileList.value = [];
   }
@@ -91,7 +105,7 @@ const addProfile = () => {
 };
 
 const editProfile = (profile: AiConfigData) => {
-  editingProfile.value = {...profile};
+  editingProfile.value = { ...profile };
   showProfileForm.value = true;
 };
 
@@ -185,46 +199,64 @@ const scrollToBottom = () => {
 };
 
 // 监听消息数量变化自动滚动
-watch(() => messages.value.length, () => {
-  scrollToBottom();
-});
+watch(
+  () => messages.value.length,
+  () => {
+    scrollToBottom();
+  },
+);
 
 // 监听最后一条消息的内容变化（流式更新）
-watch(() => {
-  if (messages.value.length > 0) {
-    const last = messages.value[messages.value.length - 1];
-    return last.content;
-  }
-  return '';
-}, () => {
-  scrollToBottom();
-});
+watch(
+  () => {
+    if (messages.value.length > 0) {
+      const last = messages.value[messages.value.length - 1];
+      return last.content;
+    }
+    return "";
+  },
+  () => {
+    scrollToBottom();
+  },
+);
 
 // 从可能被 max_tokens 截断的内容中，提取已完整生成的 dataList 组件
 // 即使最后一个组件未生成完，也能把前面完整的组件提取出来
 const extractDataListFromTruncated = (content: string): any[] | null => {
   const keyMatch = content.match(/"dataList"\s*:\s*\[/);
   if (!keyMatch || keyMatch.index === undefined) return null;
-  const arrStart = content.indexOf('[', keyMatch.index);
+  const arrStart = content.indexOf("[", keyMatch.index);
   if (arrStart < 0) return null;
-  let inStr = false, esc = false, depth = 0, elemStart = -1;
+  let inStr = false,
+    esc = false,
+    depth = 0,
+    elemStart = -1;
   const slices: string[] = [];
   for (let i = arrStart + 1; i < content.length; i++) {
     const ch = content[i];
-    if (esc) { esc = false; continue; }
-    if (ch === '\\') { esc = true; continue; }
-    if (ch === '"') { inStr = !inStr; continue; }
+    if (esc) {
+      esc = false;
+      continue;
+    }
+    if (ch === "\\") {
+      esc = true;
+      continue;
+    }
+    if (ch === '"') {
+      inStr = !inStr;
+      continue;
+    }
     if (inStr) continue;
-    if (ch === '{') {
+    if (ch === "{") {
       if (depth === 0) elemStart = i;
       depth++;
-    } else if (ch === '}') {
+    } else if (ch === "}") {
       depth--;
       if (depth === 0 && elemStart >= 0) {
         slices.push(content.slice(elemStart, i + 1));
         elemStart = -1;
       }
-    } else if (ch === ']' && depth === 0) {
+    } else if (ch === "]" && depth === 0) {
       break; // 数组正常结束
     }
   }
@@ -232,7 +264,7 @@ const extractDataListFromTruncated = (content: string): any[] | null => {
   for (const s of slices) {
     try {
       const obj = JSON.parse(s);
-      if (obj && typeof obj === 'object' && (obj.compType || obj.itemType)) {
+      if (obj && typeof obj === "object" && (obj.compType || obj.itemType)) {
         valid.push(obj);
       }
     } catch {
@@ -242,17 +274,19 @@ const extractDataListFromTruncated = (content: string): any[] | null => {
   return valid.length > 0 ? valid : null;
 };
 
-const extractJsonFromContent = (content: string): { jsonData?: any; hasJson: boolean } => {
+const extractJsonFromContent = (
+  content: string,
+): { jsonData?: any; hasJson: boolean } => {
   // 1. 尝试从 markdown 代码块中提取 JSON
   const codeBlockMatch = content.match(/```json\s*([\s\S]*?)```/);
   if (codeBlockMatch) {
     try {
       const parsed = JSON.parse(codeBlockMatch[1].trim());
       if (parsed?.dataList) {
-        return {jsonData: parsed.dataList, hasJson: true};
+        return { jsonData: parsed.dataList, hasJson: true };
       }
       if (Array.isArray(parsed)) {
-        return {jsonData: parsed, hasJson: true};
+        return { jsonData: parsed, hasJson: true };
       }
     } catch {
       // 尝试修复并解析
@@ -265,7 +299,7 @@ const extractJsonFromContent = (content: string): { jsonData?: any; hasJson: boo
     try {
       const parsed = JSON.parse(dataListMatch[0]);
       if (parsed?.dataList) {
-        return {jsonData: parsed.dataList, hasJson: true};
+        return { jsonData: parsed.dataList, hasJson: true };
       }
     } catch {
       // 忽略解析错误
@@ -273,12 +307,14 @@ const extractJsonFromContent = (content: string): { jsonData?: any; hasJson: boo
   }
 
   // 3. 尝试匹配 JSON 数组
-  const arrayMatch = content.match(/\[[\s\S]*\{[\s\S]*"compType"[\s\S]*\}[\s\S]*\]/);
+  const arrayMatch = content.match(
+    /\[[\s\S]*\{[\s\S]*"compType"[\s\S]*\}[\s\S]*\]/,
+  );
   if (arrayMatch) {
     try {
       const parsed = JSON.parse(arrayMatch[0]);
       if (Array.isArray(parsed) && parsed.length > 0) {
-        return {jsonData: parsed, hasJson: true};
+        return { jsonData: parsed, hasJson: true };
       }
     } catch {
       // 忽略解析错误
@@ -288,10 +324,10 @@ const extractJsonFromContent = (content: string): { jsonData?: any; hasJson: boo
   // 4. 兜底：尝试从被截断的内容中提取已完整生成的 dataList 组件
   const truncatedList = extractDataListFromTruncated(content);
   if (truncatedList && truncatedList.length > 0) {
-    return {jsonData: truncatedList, hasJson: true};
+    return { jsonData: truncatedList, hasJson: true };
   }
 
-  return {hasJson: false};
+  return { hasJson: false };
 };
 
 const sendMessage = async () => {
@@ -316,40 +352,40 @@ const sendMessage = async () => {
   isTruncated.value = false;
 
   abortController = sendAiChatMessage(
-      sessionId.value,
-      msg,
-      (chunk: string) => {
-        aiMessage.content += chunk;
-        scrollToBottom();
-      },
-      () => {
-        aiMessage.isStreaming = false;
-        // 提取 JSON
-        const {jsonData, hasJson} = extractJsonFromContent(aiMessage.content);
-        if (hasJson && jsonData) {
-          aiMessage.hasJson = true;
-          aiMessage.jsonData = jsonData;
-          if (isTruncated.value) {
-            warning(i18n("dyform.aiChat.truncatedWarn"));
-          }
-        } else if (isTruncated.value) {
-          warning(i18n("dyform.aiChat.truncatedNoJson"));
+    sessionId.value,
+    msg,
+    (chunk: string) => {
+      aiMessage.content += chunk;
+      scrollToBottom();
+    },
+    () => {
+      aiMessage.isStreaming = false;
+      // 提取 JSON
+      const { jsonData, hasJson } = extractJsonFromContent(aiMessage.content);
+      if (hasJson && jsonData) {
+        aiMessage.hasJson = true;
+        aiMessage.jsonData = jsonData;
+        if (isTruncated.value) {
+          warning(i18n("dyform.aiChat.truncatedWarn"));
         }
-        isGenerating.value = false;
-        abortController = null;
-        scrollToBottom();
-      },
-      (err: string) => {
-        aiMessage.isStreaming = false;
-        if (!aiMessage.content) {
-          aiMessage.content = err;
-        }
-        isGenerating.value = false;
-        abortController = null;
-      },
-      () => {
-        isTruncated.value = true;
+      } else if (isTruncated.value) {
+        warning(i18n("dyform.aiChat.truncatedNoJson"));
       }
+      isGenerating.value = false;
+      abortController = null;
+      scrollToBottom();
+    },
+    (err: string) => {
+      aiMessage.isStreaming = false;
+      if (!aiMessage.content) {
+        aiMessage.content = err;
+      }
+      isGenerating.value = false;
+      abortController = null;
+    },
+    () => {
+      isTruncated.value = true;
+    },
   );
 };
 
@@ -362,7 +398,7 @@ const stopGeneration = () => {
   if (lastMsg && lastMsg.role === "assistant" && lastMsg.isStreaming) {
     lastMsg.isStreaming = false;
     // 提取 JSON
-    const {jsonData, hasJson} = extractJsonFromContent(lastMsg.content);
+    const { jsonData, hasJson } = extractJsonFromContent(lastMsg.content);
     if (hasJson && jsonData) {
       lastMsg.hasJson = true;
       lastMsg.jsonData = jsonData;
@@ -388,7 +424,8 @@ const newSession = async () => {
     await operationConfirm(i18n("dyform.aiChat.clearConfirm"));
     await clearAiChatSession(sessionId.value);
     messages.value = [];
-    sessionId.value = "ai_" + Date.now() + "_" + Math.random().toString(36).substring(2, 10);
+    sessionId.value =
+      "ai_" + Date.now() + "_" + Math.random().toString(36).substring(2, 10);
     sessionStorage.setItem("ai_chat_session_id", sessionId.value);
   } catch {
     // 用户取消
@@ -403,22 +440,29 @@ const handleKeydown = (e: KeyboardEvent) => {
   }
 };
 
-const renderContent = (content: string, hasJson: boolean | undefined): string => {
+const renderContent = (
+  content: string,
+  hasJson: boolean | undefined,
+): string => {
   if (!hasJson) return content;
   // 将 JSON 代码块替换为占位标记，便于模板中特殊渲染
   return content;
 };
 
-const getDisplayContent = (msg: ChatMessage): { textParts: string[]; jsonPart?: string } => {
+const getDisplayContent = (
+  msg: ChatMessage,
+): { textParts: string[]; jsonPart?: string } => {
   if (!msg.hasJson) {
-    return {textParts: [msg.content]};
+    return { textParts: [msg.content] };
   }
 
   // 提取纯文本部分和 JSON 部分
   const content = msg.content;
 
   // 尝试分离 markdown 代码块
-  const codeBlockMatch = content.match(/([\s\S]*?)```json\s*[\s\S]*?```([\s\S]*)/);
+  const codeBlockMatch = content.match(
+    /([\s\S]*?)```json\s*[\s\S]*?```([\s\S]*)/,
+  );
   if (codeBlockMatch) {
     const before = codeBlockMatch[1].trim();
     const after = codeBlockMatch[2].trim();
@@ -432,7 +476,9 @@ const getDisplayContent = (msg: ChatMessage): { textParts: string[]; jsonPart?: 
   }
 
   // 尝试分离纯 JSON
-  const jsonMatch = content.match(/([\s\S]*?)(\{[\s\S]*"dataList"[\s\S]*\})([\s\S]*)/);
+  const jsonMatch = content.match(
+    /([\s\S]*?)(\{[\s\S]*"dataList"[\s\S]*\})([\s\S]*)/,
+  );
   if (jsonMatch) {
     const before = jsonMatch[1].trim();
     const after = jsonMatch[3].trim();
@@ -446,7 +492,9 @@ const getDisplayContent = (msg: ChatMessage): { textParts: string[]; jsonPart?: 
   }
 
   // 数组 JSON
-  const arrayMatch = content.match(/([\s\S]*?)(\[[\s\S]*\{[\s\S]*"compType"[\s\S]*\}[\s\S]*\])([\s\S]*)/);
+  const arrayMatch = content.match(
+    /([\s\S]*?)(\[[\s\S]*\{[\s\S]*"compType"[\s\S]*\}[\s\S]*\])([\s\S]*)/,
+  );
   if (arrayMatch) {
     const before = arrayMatch[1].trim();
     const after = arrayMatch[3].trim();
@@ -459,7 +507,10 @@ const getDisplayContent = (msg: ChatMessage): { textParts: string[]; jsonPart?: 
     };
   }
 
-  return {textParts: [content], jsonPart: JSON.stringify(msg.jsonData, null, 2)};
+  return {
+    textParts: [content],
+    jsonPart: JSON.stringify(msg.jsonData, null, 2),
+  };
 };
 
 // --- UI 辅助（新增，不修改原有逻辑） ---
@@ -470,29 +521,24 @@ const toggleJsonExpand = (idx: number) => {
 const isJsonExpanded = (idx: number) => !!jsonExpandedMap[idx];
 
 const highlightJson = (jsonStr: string): string => {
-  return jsonStr.replace(
-      /("(?:\\.|[^"\\])*")\s*:/g,
-      '<span class="json-key">$1</span>:'
-  ).replace(
+  return jsonStr
+    .replace(/("(?:\\.|[^"\\])*")\s*:/g, '<span class="json-key">$1</span>:')
+    .replace(
       /:\s*("(?:\\.|[^"\\])*")/g,
-      ': <span class="json-string">$1</span>'
-  ).replace(
-      /:\s*(\d+\.?\d*)/g,
-      ': <span class="json-number">$1</span>'
-  ).replace(
-      /:\s*(true|false|null)/g,
-      ': <span class="json-bool">$1</span>'
-  );
+      ': <span class="json-string">$1</span>',
+    )
+    .replace(/:\s*(\d+\.?\d*)/g, ': <span class="json-number">$1</span>')
+    .replace(/:\s*(true|false|null)/g, ': <span class="json-bool">$1</span>');
 };
 
 const getJsonVisibleLines = (jsonStr: string, idx: number): string => {
-  const lines = jsonStr.split('\n');
+  const lines = jsonStr.split("\n");
   if (isJsonExpanded(idx) || lines.length <= 5) return highlightJson(jsonStr);
-  return highlightJson(lines.slice(0, 5).join('\n'));
+  return highlightJson(lines.slice(0, 5).join("\n"));
 };
 
 const getJsonTotalLines = (jsonStr: string): number => {
-  return jsonStr.split('\n').length;
+  return jsonStr.split("\n").length;
 };
 
 onBeforeUnmount(() => {
@@ -504,44 +550,80 @@ onBeforeUnmount(() => {
 
 <template>
   <el-drawer
-      v-model="visible"
-      direction="rtl"
-      size="500px"
-      :resizable="true"
-      :close-on-click-modal="false"
-      class="ai-chat-drawer"
+    v-model="visible"
+    direction="rtl"
+    size="500px"
+    :resizable="true"
+    :close-on-click-modal="false"
+    class="ai-chat-drawer"
   >
     <template #header>
       <div class="ai-chat-header">
         <div class="ai-chat-header-left">
-          <svg class="ai-header-icon" viewBox="0 0 24 24" fill="none" width="26" height="26">
-            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z" fill="url(#ai-grad-h)"/>
-            <path d="M8.5 11a1.5 1.5 0 100-3 1.5 1.5 0 000 3zM15.5 11a1.5 1.5 0 100-3 1.5 1.5 0 000 3z" fill="white"/>
-            <path d="M8 14.5c0 0 1.5 2.5 4 2.5s4-2.5 4-2.5" stroke="white" stroke-width="1.5" stroke-linecap="round"/>
+          <svg
+            class="ai-header-icon"
+            viewBox="0 0 24 24"
+            fill="none"
+            width="26"
+            height="26"
+          >
+            <path
+              d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"
+              fill="url(#ai-grad-h)"
+            />
+            <path
+              d="M8.5 11a1.5 1.5 0 100-3 1.5 1.5 0 000 3zM15.5 11a1.5 1.5 0 100-3 1.5 1.5 0 000 3z"
+              fill="white"
+            />
+            <path
+              d="M8 14.5c0 0 1.5 2.5 4 2.5s4-2.5 4-2.5"
+              stroke="white"
+              stroke-width="1.5"
+              stroke-linecap="round"
+            />
             <defs>
               <linearGradient id="ai-grad-h" x1="2" y1="2" x2="22" y2="22">
-                <stop stop-color="#667eea"/>
-                <stop offset="1" stop-color="#764ba2"/>
+                <stop stop-color="#667eea" />
+                <stop offset="1" stop-color="#764ba2" />
               </linearGradient>
             </defs>
           </svg>
           <span class="ai-chat-title">{{ i18n("dyform.aiChat.title") }}</span>
         </div>
         <div class="ai-chat-header-right">
-          <el-tooltip :content="i18n('dyform.aiChat.settings')" effect="dark" placement="bottom">
+          <el-tooltip
+            :content="i18n('dyform.aiChat.settings')"
+            effect="dark"
+            placement="bottom"
+          >
             <div class="settings-btn" @click="openSettings">
               <svg viewBox="0 0 24 24" fill="none" width="16" height="16">
-                <path d="M12 15a3 3 0 100-6 3 3 0 000 6z" stroke="currentColor" stroke-width="1.5"/>
                 <path
-                    d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"
-                    stroke="currentColor" stroke-width="1.5"/>
+                  d="M12 15a3 3 0 100-6 3 3 0 000 6z"
+                  stroke="currentColor"
+                  stroke-width="1.5"
+                />
+                <path
+                  d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"
+                  stroke="currentColor"
+                  stroke-width="1.5"
+                />
               </svg>
             </div>
           </el-tooltip>
-          <el-tooltip :content="i18n('dyform.aiChat.newSession')" effect="dark" placement="bottom">
+          <el-tooltip
+            :content="i18n('dyform.aiChat.newSession')"
+            effect="dark"
+            placement="bottom"
+          >
             <div class="new-session-btn" @click="newSession">
               <svg viewBox="0 0 24 24" fill="none" width="16" height="16">
-                <path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                <path
+                  d="M12 5v14M5 12h14"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                />
               </svg>
             </div>
           </el-tooltip>
@@ -554,13 +636,24 @@ onBeforeUnmount(() => {
       <div v-if="messages.length === 0" class="ai-chat-welcome">
         <div class="welcome-logo">
           <svg viewBox="0 0 24 24" fill="none" width="64" height="64">
-            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z" fill="url(#ai-grad-w)"/>
-            <path d="M8.5 11a1.5 1.5 0 100-3 1.5 1.5 0 000 3zM15.5 11a1.5 1.5 0 100-3 1.5 1.5 0 000 3z" fill="white"/>
-            <path d="M8 14.5c0 0 1.5 2.5 4 2.5s4-2.5 4-2.5" stroke="white" stroke-width="1.5" stroke-linecap="round"/>
+            <path
+              d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"
+              fill="url(#ai-grad-w)"
+            />
+            <path
+              d="M8.5 11a1.5 1.5 0 100-3 1.5 1.5 0 000 3zM15.5 11a1.5 1.5 0 100-3 1.5 1.5 0 000 3z"
+              fill="white"
+            />
+            <path
+              d="M8 14.5c0 0 1.5 2.5 4 2.5s4-2.5 4-2.5"
+              stroke="white"
+              stroke-width="1.5"
+              stroke-linecap="round"
+            />
             <defs>
               <linearGradient id="ai-grad-w" x1="2" y1="2" x2="22" y2="22">
-                <stop stop-color="#667eea"/>
-                <stop offset="1" stop-color="#764ba2"/>
+                <stop stop-color="#667eea" />
+                <stop offset="1" stop-color="#764ba2" />
               </linearGradient>
             </defs>
           </svg>
@@ -568,10 +661,10 @@ onBeforeUnmount(() => {
         <p class="welcome-text">{{ i18n("dyform.aiChat.placeholder") }}</p>
         <div class="example-prompts" v-if="examplePrompts.length > 0">
           <div
-              v-for="(prompt, idx) in examplePrompts"
-              :key="idx"
-              class="example-prompt-item"
-              @click="inputMessage = prompt"
+            v-for="(prompt, idx) in examplePrompts"
+            :key="idx"
+            class="example-prompt-item"
+            @click="inputMessage = prompt"
           >
             <span class="example-prompt-num">{{ idx + 1 }}</span>
             <span class="example-prompt-text">{{ prompt }}</span>
@@ -582,20 +675,34 @@ onBeforeUnmount(() => {
       <!-- 消息列表 -->
       <div v-else ref="chatContainerRef" class="ai-chat-messages">
         <div
-            v-for="(msg, idx) in messages"
-            :key="idx"
-            :class="['ai-chat-message', msg.role === 'user' ? 'message-user' : 'message-assistant']"
+          v-for="(msg, idx) in messages"
+          :key="idx"
+          :class="[
+            'ai-chat-message',
+            msg.role === 'user' ? 'message-user' : 'message-assistant',
+          ]"
         >
           <!-- AI 头像 -->
           <div v-if="msg.role === 'assistant'" class="message-avatar">
             <svg viewBox="0 0 24 24" fill="none" width="18" height="18">
-              <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z" fill="url(#ai-grad-a)"/>
-              <path d="M8.5 11a1.5 1.5 0 100-3 1.5 1.5 0 000 3zM15.5 11a1.5 1.5 0 100-3 1.5 1.5 0 000 3z" fill="white"/>
-              <path d="M8 14.5c0 0 1.5 2.5 4 2.5s4-2.5 4-2.5" stroke="white" stroke-width="1.5" stroke-linecap="round"/>
+              <path
+                d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"
+                fill="url(#ai-grad-a)"
+              />
+              <path
+                d="M8.5 11a1.5 1.5 0 100-3 1.5 1.5 0 000 3zM15.5 11a1.5 1.5 0 100-3 1.5 1.5 0 000 3z"
+                fill="white"
+              />
+              <path
+                d="M8 14.5c0 0 1.5 2.5 4 2.5s4-2.5 4-2.5"
+                stroke="white"
+                stroke-width="1.5"
+                stroke-linecap="round"
+              />
               <defs>
                 <linearGradient id="ai-grad-a" x1="2" y1="2" x2="22" y2="22">
-                  <stop stop-color="#667eea"/>
-                  <stop offset="1" stop-color="#764ba2"/>
+                  <stop stop-color="#667eea" />
+                  <stop offset="1" stop-color="#764ba2" />
                 </linearGradient>
               </defs>
             </svg>
@@ -619,52 +726,115 @@ onBeforeUnmount(() => {
               </template>
               <!-- 包含 JSON 的消息 -->
               <template v-else>
-                <template v-for="(part, pIdx) in getDisplayContent(msg).textParts" :key="'tp_' + pIdx">
+                <template
+                  v-for="(part, pIdx) in getDisplayContent(msg).textParts"
+                  :key="'tp_' + pIdx"
+                >
                   <span class="msg-text">{{ part }}</span>
                 </template>
                 <div v-if="getDisplayContent(msg).jsonPart" class="json-card">
                   <div class="json-card-header">
                     <span class="json-card-label">
-                      <svg viewBox="0 0 24 24" fill="none" width="14" height="14"
-                           style="vertical-align: middle; margin-right: 4px;">
-                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"
-                              fill="url(#ai-grad-j)"/>
-                        <path d="M8.5 11a1.5 1.5 0 100-3 1.5 1.5 0 000 3zM15.5 11a1.5 1.5 0 100-3 1.5 1.5 0 000 3z"
-                              fill="white"/>
-                        <path d="M8 14.5c0 0 1.5 2.5 4 2.5s4-2.5 4-2.5" stroke="white" stroke-width="1.5"
-                              stroke-linecap="round"/>
-                        <defs><linearGradient id="ai-grad-j" x1="2" y1="2" x2="22" y2="22"><stop stop-color="#667eea"/><stop
-                            offset="1" stop-color="#764ba2"/></linearGradient></defs>
+                      <svg
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        width="14"
+                        height="14"
+                        style="vertical-align: middle; margin-right: 4px"
+                      >
+                        <path
+                          d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"
+                          fill="url(#ai-grad-j)"
+                        />
+                        <path
+                          d="M8.5 11a1.5 1.5 0 100-3 1.5 1.5 0 000 3zM15.5 11a1.5 1.5 0 100-3 1.5 1.5 0 000 3z"
+                          fill="white"
+                        />
+                        <path
+                          d="M8 14.5c0 0 1.5 2.5 4 2.5s4-2.5 4-2.5"
+                          stroke="white"
+                          stroke-width="1.5"
+                          stroke-linecap="round"
+                        />
+                        <defs>
+                          <linearGradient
+                            id="ai-grad-j"
+                            x1="2"
+                            y1="2"
+                            x2="22"
+                            y2="22"
+                          >
+                            <stop stop-color="#667eea" />
+                            <stop offset="1" stop-color="#764ba2" />
+                          </linearGradient>
+                        </defs>
                       </svg>
                       {{ i18n("dyform.aiChat.jsonLabel") || "表单配置" }}
                     </span>
                     <el-button
-                        class="json-apply-btn"
-                        size="small"
-                        @click="applyForm(msg.jsonData)"
+                      class="json-apply-btn"
+                      size="small"
+                      @click="applyForm(msg.jsonData)"
                     >
                       {{ i18n("dyform.aiChat.applyForm") }}
-                      <svg viewBox="0 0 16 16" fill="none" width="12" height="12"
-                           style="margin-left: 4px; vertical-align: middle;">
-                        <path d="M6 3l5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
-                              stroke-linejoin="round"/>
+                      <svg
+                        viewBox="0 0 16 16"
+                        fill="none"
+                        width="12"
+                        height="12"
+                        style="margin-left: 4px; vertical-align: middle"
+                      >
+                        <path
+                          d="M6 3l5 5-5 5"
+                          stroke="currentColor"
+                          stroke-width="1.5"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                        />
                       </svg>
                     </el-button>
                   </div>
                   <div class="json-code-area">
-                    <pre class="json-pre" v-html="getJsonVisibleLines(getDisplayContent(msg).jsonPart!, idx)"></pre>
+                    <pre
+                      class="json-pre"
+                      v-html="
+                        getJsonVisibleLines(
+                          getDisplayContent(msg).jsonPart!,
+                          idx,
+                        )
+                      "
+                    ></pre>
                     <div
-                        v-if="getJsonTotalLines(getDisplayContent(msg).jsonPart!) > 5"
-                        class="json-expand-bar"
-                        @click="toggleJsonExpand(idx)"
+                      v-if="
+                        getJsonTotalLines(getDisplayContent(msg).jsonPart!) > 5
+                      "
+                      class="json-expand-bar"
+                      @click="toggleJsonExpand(idx)"
                     >
                       {{
-                        isJsonExpanded(idx) ? '收起' : `展开全部 ${getJsonTotalLines(getDisplayContent(msg).jsonPart!)} 行`
+                        isJsonExpanded(idx)
+                          ? "收起"
+                          : `展开全部 ${getJsonTotalLines(getDisplayContent(msg).jsonPart!)} 行`
                       }}
-                      <svg viewBox="0 0 16 16" fill="none" width="12" height="12"
-                           :style="{ transform: isJsonExpanded(idx) ? 'rotate(180deg)' : '', transition: 'transform 0.2s' }">
-                        <path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
-                              stroke-linejoin="round"/>
+                      <svg
+                        viewBox="0 0 16 16"
+                        fill="none"
+                        width="12"
+                        height="12"
+                        :style="{
+                          transform: isJsonExpanded(idx)
+                            ? 'rotate(180deg)'
+                            : '',
+                          transition: 'transform 0.2s',
+                        }"
+                      >
+                        <path
+                          d="M4 6l4 4 4-4"
+                          stroke="currentColor"
+                          stroke-width="1.5"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                        />
                       </svg>
                     </div>
                   </div>
@@ -680,33 +850,75 @@ onBeforeUnmount(() => {
     <template #footer>
       <div class="ai-chat-footer">
         <div class="profile-switcher" v-if="profileList.length > 0">
-          <el-dropdown trigger="click" @command="activateProfile" teleported placement="top-start">
+          <el-dropdown
+            trigger="click"
+            @command="activateProfile"
+            teleported
+            placement="top-start"
+          >
             <div class="profile-switcher-trigger">
-              <svg viewBox="0 0 24 24" fill="none" width="14" height="14" style="flex-shrink:0;">
-                <circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="1.5"/>
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                width="14"
+                height="14"
+                style="flex-shrink: 0"
+              >
+                <circle
+                  cx="12"
+                  cy="12"
+                  r="3"
+                  stroke="currentColor"
+                  stroke-width="1.5"
+                />
                 <path
-                    d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"
-                    stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>
+                  d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"
+                  stroke="currentColor"
+                  stroke-width="1.2"
+                  stroke-linecap="round"
+                />
               </svg>
               <span class="profile-switcher-name">{{ activeProfileName }}</span>
-              <svg viewBox="0 0 16 16" fill="none" width="12" height="12" style="flex-shrink:0;">
-                <path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
-                      stroke-linejoin="round"/>
+              <svg
+                viewBox="0 0 16 16"
+                fill="none"
+                width="12"
+                height="12"
+                style="flex-shrink: 0"
+              >
+                <path
+                  d="M4 6l4 4 4-4"
+                  stroke="currentColor"
+                  stroke-width="1.5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
               </svg>
             </div>
             <template #dropdown>
               <el-dropdown-menu>
                 <el-dropdown-item
-                    v-for="p in profileList"
-                    :key="p.idAiConfig"
-                    :command="p.idAiConfig"
+                  v-for="p in profileList"
+                  :key="p.idAiConfig"
+                  :command="p.idAiConfig"
                 >
                   <div class="profile-dropdown-item">
-                    <svg v-if="p.isActive" viewBox="0 0 16 16" fill="none" width="12" height="12"
-                         style="flex-shrink:0;">
-                      <circle cx="8" cy="8" r="6" fill="#667eea"/>
-                      <path d="M5.5 8l2 2 3.5-3.5" stroke="white" stroke-width="1.5" stroke-linecap="round"
-                            stroke-linejoin="round"/>
+                    <svg
+                      v-if="p.isActive"
+                      viewBox="0 0 16 16"
+                      fill="none"
+                      width="12"
+                      height="12"
+                      style="flex-shrink: 0"
+                    >
+                      <circle cx="8" cy="8" r="6" fill="#667eea" />
+                      <path
+                        d="M5.5 8l2 2 3.5-3.5"
+                        stroke="white"
+                        stroke-width="1.5"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      />
                     </svg>
                     <span>{{ p.profileName }}</span>
                   </div>
@@ -717,33 +929,34 @@ onBeforeUnmount(() => {
         </div>
         <div class="input-area">
           <el-input
-              v-model="inputMessage"
-              :placeholder="i18n('dyform.aiChat.placeholder')"
-              :disabled="isGenerating"
-              @keydown="handleKeydown"
-              type="textarea"
-              :autosize="{ minRows: 1, maxRows: 4 }"
-              resize="none"
-              class="ai-input"
+            v-model="inputMessage"
+            :placeholder="i18n('dyform.aiChat.placeholder')"
+            :disabled="isGenerating"
+            @keydown="handleKeydown"
+            type="textarea"
+            :autosize="{ minRows: 1, maxRows: 4 }"
+            resize="none"
+            class="ai-input"
           />
           <button
-              v-if="!isGenerating"
-              class="send-btn"
-              :disabled="!inputMessage.trim()"
-              @click="sendMessage"
+            v-if="!isGenerating"
+            class="send-btn"
+            :disabled="!inputMessage.trim()"
+            @click="sendMessage"
           >
             <svg viewBox="0 0 24 24" fill="none" width="18" height="18">
-              <path d="M5 12h14M12 5l7 7-7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                    stroke-linejoin="round"/>
+              <path
+                d="M5 12h14M12 5l7 7-7 7"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
             </svg>
           </button>
-          <button
-              v-else
-              class="stop-btn"
-              @click="stopGeneration"
-          >
+          <button v-else class="stop-btn" @click="stopGeneration">
             <svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16">
-              <rect x="6" y="6" width="12" height="12" rx="2"/>
+              <rect x="6" y="6" width="12" height="12" rx="2" />
             </svg>
           </button>
         </div>
@@ -751,42 +964,67 @@ onBeforeUnmount(() => {
     </template>
     <!-- AI 设置弹窗 - 配置列表 -->
     <star-horse-panel
-        v-model="showSettings"
-        :title="i18n('dyform.aiChat.settingsTitle')"
-        :selfFunc="true"
-        style="z-index: 3000"
-        @closeAction="closeSettings"
-        @merge="closeSettings"
-        boxWidth="480px"
+      v-model="showSettings"
+      :title="i18n('dyform.aiChat.settingsTitle')"
+      :selfFunc="true"
+      style="z-index: 3000"
+      @closeAction="closeSettings"
+      @merge="closeSettings"
+      boxWidth="480px"
     >
       <div class="profile-list">
         <div
-            v-for="profile in profileList"
-            :key="profile.idAiConfig"
-            :class="['profile-item', { active: profile.idAiConfig === activeProfileId }]"
+          v-for="profile in profileList"
+          :key="profile.idAiConfig"
+          :class="[
+            'profile-item',
+            { active: profile.idAiConfig === activeProfileId },
+          ]"
         >
-          <div class="profile-info" @click="activateProfile(profile.idAiConfig!)">
+          <div
+            class="profile-info"
+            @click="activateProfile(profile.idAiConfig!)"
+          >
             <div class="profile-name">
-              <svg v-if="profile.isActive" viewBox="0 0 16 16" fill="none" width="14" height="14"
-                   style="vertical-align: middle; margin-right: 4px;">
-                <circle cx="8" cy="8" r="6" fill="#667eea"/>
-                <path d="M5.5 8l2 2 3.5-3.5" stroke="white" stroke-width="1.5" stroke-linecap="round"
-                      stroke-linejoin="round"/>
+              <svg
+                v-if="profile.isActive"
+                viewBox="0 0 16 16"
+                fill="none"
+                width="14"
+                height="14"
+                style="vertical-align: middle; margin-right: 4px"
+              >
+                <circle cx="8" cy="8" r="6" fill="#667eea" />
+                <path
+                  d="M5.5 8l2 2 3.5-3.5"
+                  stroke="white"
+                  stroke-width="1.5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
               </svg>
               {{ profile.profileName }}
             </div>
-            <div class="profile-meta">{{ profile.model }} · {{
-                profile.apiUrl?.split('//')[1]?.split('/')[0] || ''
-              }}
+            <div class="profile-meta">
+              {{ profile.model }} ·
+              {{ profile.apiUrl?.split("//")[1]?.split("/")[0] || "" }}
             </div>
           </div>
           <div class="profile-actions">
-            <el-button link size="small" @click="editProfile(profile)">编辑</el-button>
-            <el-button link size="small" type="danger" @click="deleteProfile(profile.idAiConfig!)">删除</el-button>
+            <el-button link size="small" @click="editProfile(profile)"
+              >编辑</el-button
+            >
+            <el-button
+              link
+              size="small"
+              type="danger"
+              @click="deleteProfile(profile.idAiConfig!)"
+              >删除</el-button
+            >
           </div>
         </div>
       </div>
-      <div style="margin-top: 12px; text-align: center;">
+      <div style="margin-top: 12px; text-align: center">
         <el-button type="primary" plain size="small" @click="addProfile">
           + 添加配置
         </el-button>
@@ -795,35 +1033,70 @@ onBeforeUnmount(() => {
 
     <!-- AI 设置弹窗 - 编辑配置 -->
     <star-horse-panel
-        v-model="showProfileForm"
-        :title="editingProfile?.idAiConfig ? '编辑配置' : '添加配置'"
-        :selfFunc="true"
-        @closeAction="closeProfileForm"
-        @merge="saveProfile"
-        style="z-index: 3000"
-        boxWidth="480px"
+      v-model="showProfileForm"
+      :title="editingProfile?.idAiConfig ? '编辑配置' : '添加配置'"
+      :selfFunc="true"
+      @closeAction="closeProfileForm"
+      @merge="saveProfile"
+      style="z-index: 3000"
+      boxWidth="480px"
     >
-      <el-form :model="editingProfile" label-width="100px" label-position="right" v-if="editingProfile">
+      <el-form
+        :model="editingProfile"
+        label-width="100px"
+        label-position="right"
+        v-if="editingProfile"
+      >
         <el-form-item label="配置名称" required>
-          <el-input v-model="editingProfile.profileName" placeholder="如：Groq 免费版"/>
+          <el-input
+            v-model="editingProfile.profileName"
+            placeholder="如：Groq 免费版"
+          />
         </el-form-item>
         <el-form-item label="API Key">
-          <el-input v-model="editingProfile.apiKey" placeholder="sk-..." show-password/>
+          <el-input
+            v-model="editingProfile.apiKey"
+            placeholder="sk-..."
+            show-password
+          />
         </el-form-item>
         <el-form-item label="API 地址">
-          <el-input v-model="editingProfile.apiUrl" placeholder="https://api.groq.com/openai/v1/chat/completions"/>
+          <el-input
+            v-model="editingProfile.apiUrl"
+            placeholder="https://api.groq.com/openai/v1/chat/completions"
+          />
         </el-form-item>
         <el-form-item label="模型">
-          <el-input v-model="editingProfile.model" placeholder="llama-3.1-8b-instant"/>
+          <el-input
+            v-model="editingProfile.model"
+            placeholder="llama-3.1-8b-instant"
+          />
         </el-form-item>
         <el-form-item label="最大Token">
-          <el-input-number v-model="editingProfile.maxTokens" :min="256" :max="32768" :step="256"/>
+          <el-input-number
+            v-model="editingProfile.maxTokens"
+            :min="256"
+            :max="32768"
+            :step="256"
+          />
         </el-form-item>
         <el-form-item label="温度">
-          <el-slider v-model="editingProfile.temperature" :min="0" :max="2" :step="0.1" show-input input-size="small"/>
+          <el-slider
+            v-model="editingProfile.temperature"
+            :min="0"
+            :max="2"
+            :step="0.1"
+            show-input
+            input-size="small"
+          />
         </el-form-item>
         <el-form-item label="超时(秒)">
-          <el-input-number v-model="editingProfile.timeout" :min="10" :max="300" :step="10"/>
+          <el-input-number
+            v-model="editingProfile.timeout"
+            :min="10"
+            :max="300"
+            :step="10"
+          />
         </el-form-item>
       </el-form>
     </star-horse-panel>
@@ -1021,7 +1294,11 @@ onBeforeUnmount(() => {
 
   &:hover {
     border-color: #667eea;
-    background: linear-gradient(135deg, rgba(102, 126, 234, 0.04), rgba(118, 75, 162, 0.04));
+    background: linear-gradient(
+      135deg,
+      rgba(102, 126, 234, 0.04),
+      rgba(118, 75, 162, 0.04)
+    );
     color: #667eea;
     box-shadow: 0 2px 8px rgba(102, 126, 234, 0.12);
   }
@@ -1202,7 +1479,11 @@ onBeforeUnmount(() => {
   align-items: center;
   justify-content: space-between;
   padding: 10px 14px;
-  background: linear-gradient(135deg, rgba(102, 126, 234, 0.06), rgba(118, 75, 162, 0.06));
+  background: linear-gradient(
+    135deg,
+    rgba(102, 126, 234, 0.06),
+    rgba(118, 75, 162, 0.06)
+  );
   border-bottom: 1px solid #ebeef5;
 }
 
@@ -1222,7 +1503,9 @@ onBeforeUnmount(() => {
   font-size: 12px !important;
   padding: 6px 14px !important;
   height: auto !important;
-  transition: opacity 0.2s, box-shadow 0.2s !important;
+  transition:
+    opacity 0.2s,
+    box-shadow 0.2s !important;
 
   &:hover {
     opacity: 0.9;
@@ -1239,7 +1522,7 @@ onBeforeUnmount(() => {
   font-size: 12px;
   line-height: 1.6;
   overflow-x: auto;
-  font-family: 'Cascadia Code', 'Fira Code', Consolas, 'Courier New', monospace;
+  font-family: "Cascadia Code", "Fira Code", Consolas, "Courier New", monospace;
   margin: 0;
   background: #1e1e2e;
   color: #cdd6f4;
@@ -1271,7 +1554,9 @@ onBeforeUnmount(() => {
   color: #7f849c;
   font-size: 12px;
   cursor: pointer;
-  transition: color 0.2s, background 0.2s;
+  transition:
+    color 0.2s,
+    background 0.2s;
 
   &:hover {
     color: #cdd6f4;
@@ -1338,7 +1623,9 @@ onBeforeUnmount(() => {
     font-size: 14px;
     background: #f5f7fa;
     border-color: #e4e7ed;
-    transition: border-color 0.2s, box-shadow 0.2s;
+    transition:
+      border-color 0.2s,
+      box-shadow 0.2s;
 
     &:focus {
       border-color: #667eea;
@@ -1359,7 +1646,9 @@ onBeforeUnmount(() => {
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: opacity 0.2s, box-shadow 0.2s;
+  transition:
+    opacity 0.2s,
+    box-shadow 0.2s;
 
   &:hover:not(:disabled) {
     opacity: 0.9;
@@ -1384,7 +1673,9 @@ onBeforeUnmount(() => {
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: opacity 0.2s, box-shadow 0.2s;
+  transition:
+    opacity 0.2s,
+    box-shadow 0.2s;
 
   &:hover {
     opacity: 0.9;
@@ -1427,16 +1718,20 @@ onBeforeUnmount(() => {
 }
 
 @keyframes cursor-blink {
-  0%, 50% {
+  0%,
+  50% {
     opacity: 1;
   }
-  51%, 100% {
+  51%,
+  100% {
     opacity: 0;
   }
 }
 
 @keyframes thinking-bounce {
-  0%, 80%, 100% {
+  0%,
+  80%,
+  100% {
     transform: scale(0.4);
     opacity: 0.4;
   }
@@ -1456,5 +1751,4 @@ onBeforeUnmount(() => {
     max-height: 600px;
   }
 }
-
 </style>

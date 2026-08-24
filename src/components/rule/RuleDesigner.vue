@@ -1,43 +1,75 @@
 <template>
   <!-- 保留必要的弹窗（复杂编辑用） -->
-  <ConditionEditDialog :visible="conditionDialogVisible" :condition="editingCondition" :variables="ruleData.variables"
-                       @close="conditionDialogVisible = false" @save="handleConditionSave"/>
-  <ActionEditDialog :visible="actionDialogVisible" :action="editingAction" :variables="ruleData.variables"
-                    @close="actionDialogVisible = false"
-                    @save="handleActionSave"/>
-  <GatewayConfigDialog :visible="gatewayDialogVisible" :gateway="editingGateway" @close="gatewayDialogVisible = false"
-                       @save="handleGatewaySave"/>
-  <VariableAssignDialog :visible="variableDialogVisible" :assignments="editingAssignments"
-                        :variables="ruleData.variables"
-                        @close="variableDialogVisible = false" @save="handleVariableSave"/>
-  <ScriptEditDialog :visible="scriptDialogVisible" :script="editingScript" @close="scriptDialogVisible = false"
-                    @save="handleScriptSave"/>
-  <HttpCallDialog :visible="httpDialogVisible" :config="editingHttpConfig" @close="httpDialogVisible = false"
-                  @save="handleHttpSave"/>
-  <RulePropertyDialog :visible="propertyDialogVisible" :rule-data="ruleData" @close="propertyDialogVisible = false"
-                      @save="handlePropertySave"/>
+  <ConditionEditDialog
+    :visible="conditionDialogVisible"
+    :condition="editingCondition"
+    :variables="ruleData.variables"
+    @close="conditionDialogVisible = false"
+    @save="handleConditionSave"
+  />
+  <ActionEditDialog
+    :visible="actionDialogVisible"
+    :action="editingAction"
+    :variables="ruleData.variables"
+    @close="actionDialogVisible = false"
+    @save="handleActionSave"
+  />
+  <GatewayConfigDialog
+    :visible="gatewayDialogVisible"
+    :gateway="editingGateway"
+    @close="gatewayDialogVisible = false"
+    @save="handleGatewaySave"
+  />
+  <VariableAssignDialog
+    :visible="variableDialogVisible"
+    :assignments="editingAssignments"
+    :variables="ruleData.variables"
+    @close="variableDialogVisible = false"
+    @save="handleVariableSave"
+  />
+  <ScriptEditDialog
+    :visible="scriptDialogVisible"
+    :script="editingScript"
+    @close="scriptDialogVisible = false"
+    @save="handleScriptSave"
+  />
+  <HttpCallDialog
+    :visible="httpDialogVisible"
+    :config="editingHttpConfig"
+    @close="httpDialogVisible = false"
+    @save="handleHttpSave"
+  />
+  <RulePropertyDialog
+    :visible="propertyDialogVisible"
+    :rule-data="ruleData"
+    @close="propertyDialogVisible = false"
+    @save="handlePropertySave"
+  />
 
   <!-- 边标签编辑弹窗 -->
   <star-horse-panel
-      v-model="edgeLabelDialogVisible"
-      :title="i18n('rule.msg.editEdgeLabel')"
-      boxWidth="500px"
-      :selfFunc="true"
-      @closeAction="edgeLabelDialogVisible = false"
-      @merge="handleEdgeLabelSave"
+    v-model="edgeLabelDialogVisible"
+    :title="i18n('rule.msg.editEdgeLabel')"
+    boxWidth="500px"
+    :selfFunc="true"
+    @closeAction="edgeLabelDialogVisible = false"
+    @merge="handleEdgeLabelSave"
   >
     <el-form label-width="100px">
       <el-form-item :label="i18n('rule.msg.edgeLabel')">
-        <el-input v-model="edgeLabel" :placeholder="i18n('rule.msg.edgeLabel')"/>
+        <el-input
+          v-model="edgeLabel"
+          :placeholder="i18n('rule.msg.edgeLabel')"
+        />
       </el-form-item>
       <el-form-item>
         <el-alert type="info" :closable="false">
           <template #title>
-            <div style="display: flex; align-items: center; gap: 8px;">
+            <div style="display: flex; align-items: center; gap: 8px">
               <el-icon>
-                <InfoFilled/>
+                <InfoFilled />
               </el-icon>
-              <span>{{ i18n('rule.msg.edgeLabelHint') }}</span>
+              <span>{{ i18n("rule.msg.edgeLabelHint") }}</span>
             </div>
           </template>
         </el-alert>
@@ -50,23 +82,40 @@
     <div class="designer-toolbar">
       <!-- 左：规则名 + 状态 + 分类 -->
       <div class="toolbar-left">
-        <el-button v-if="props.formId" link @click="handleBackToForm" :title="i18n('rule.backToForm')">
+        <el-button
+          v-if="props.formId"
+          link
+          @click="handleBackToForm"
+          :title="i18n('rule.backToForm')"
+        >
           <el-icon>
-            <Back/>
+            <Back />
           </el-icon>
         </el-button>
         <div class="rule-title-wrap">
-          <span class="status-dot" :class="'dot-' + (ruleData.status || 'DRAFT').toLowerCase()"></span>
-          <el-input v-model="ruleData.ruleName" :placeholder="i18n('rule.msg.ruleName')" class="rule-name-input"
-                    size="large">
+          <span
+            class="status-dot"
+            :class="'dot-' + (ruleData.status || 'DRAFT').toLowerCase()"
+          ></span>
+          <el-input
+            v-model="ruleData.ruleName"
+            :placeholder="i18n('rule.msg.ruleName')"
+            class="rule-name-input"
+            size="large"
+          >
             <template #prefix>
               <el-icon>
-                <EditPen/>
+                <EditPen />
               </el-icon>
             </template>
           </el-input>
         </div>
-        <el-tag :type="getStatusType(ruleData.status)" size="small" effect="plain" round>
+        <el-tag
+          :type="getStatusType(ruleData.status)"
+          size="small"
+          effect="plain"
+          round
+        >
           {{ getStatusText(ruleData.status) }}
         </el-tag>
         <!-- 规则分类：下拉选择 -->
@@ -78,7 +127,7 @@
           clearable
         >
           <template #prefix>
-            <el-icon><FolderOpened/></el-icon>
+            <el-icon><FolderOpened /></el-icon>
           </template>
           <el-option
             v-for="cat in CATEGORY_OPTIONS"
@@ -91,48 +140,72 @@
       <!-- 中：主操作分组下拉 -->
       <div class="toolbar-center">
         <!-- 文件组：保存/发布/测试 -->
-        <el-dropdown trigger="click" @command="onToolbarCommand" popper-class="toolbar-dropdown-popper">
+        <el-dropdown
+          trigger="click"
+          @command="onToolbarCommand"
+          popper-class="toolbar-dropdown-popper"
+        >
           <el-button size="small">
-            <star-horse-icon iconClass="save"/>
-            <span>{{ i18n('rule.toolbar.file') }}</span>
-            <el-icon class="dropdown-caret"><ArrowDown/></el-icon>
+            <star-horse-icon iconClass="save" />
+            <span>{{ i18n("rule.toolbar.file") }}</span>
+            <el-icon class="dropdown-caret"><ArrowDown /></el-icon>
           </el-button>
           <template #dropdown>
             <el-dropdown-menu>
               <el-dropdown-item command="save" :icon="null">
-                <star-horse-icon iconClass="save"/>
-                <span>{{ i18n('rule.save') }}</span>
+                <star-horse-icon iconClass="save" />
+                <span>{{ i18n("rule.save") }}</span>
               </el-dropdown-item>
-              <el-dropdown-item v-if="ruleData.status !== 'PUBLISHED'" command="publish" :icon="null">
-                <star-horse-icon iconClass="publish"/>
-                <span>{{ i18n('rule.publish') }}</span>
+              <el-dropdown-item
+                v-if="ruleData.status !== 'PUBLISHED'"
+                command="publish"
+                :icon="null"
+              >
+                <star-horse-icon iconClass="publish" />
+                <span>{{ i18n("rule.publish") }}</span>
               </el-dropdown-item>
               <el-dropdown-item command="test" :icon="null" divided>
-                <star-horse-icon iconClass="run"/>
-                <span>{{ i18n('rule.test') }}</span>
+                <star-horse-icon iconClass="run" />
+                <span>{{ i18n("rule.test") }}</span>
               </el-dropdown-item>
             </el-dropdown-menu>
           </template>
         </el-dropdown>
 
         <!-- 视图组：设计/代码 -->
-        <el-dropdown trigger="click" @command="onToolbarCommand" popper-class="toolbar-dropdown-popper">
+        <el-dropdown
+          trigger="click"
+          @command="onToolbarCommand"
+          popper-class="toolbar-dropdown-popper"
+        >
           <el-button size="small">
-            <star-horse-icon iconClass="data-view"/>
-            <span>{{ i18n('rule.toolbar.view') }}</span>
-            <el-icon class="dropdown-caret"><ArrowDown/></el-icon>
+            <star-horse-icon iconClass="data-view" />
+            <span>{{ i18n("rule.toolbar.view") }}</span>
+            <el-icon class="dropdown-caret"><ArrowDown /></el-icon>
           </el-button>
           <template #dropdown>
             <el-dropdown-menu>
-              <el-dropdown-item command="viewDesign" :icon="null" :class="{ 'is-active': viewMode === 'design' }">
-                <star-horse-icon iconClass="data-view"/>
-                <span>{{ i18n('rule.codeView.design') }}</span>
-                <el-icon v-if="viewMode === 'design'" class="active-check"><Check/></el-icon>
+              <el-dropdown-item
+                command="viewDesign"
+                :icon="null"
+                :class="{ 'is-active': viewMode === 'design' }"
+              >
+                <star-horse-icon iconClass="data-view" />
+                <span>{{ i18n("rule.codeView.design") }}</span>
+                <el-icon v-if="viewMode === 'design'" class="active-check"
+                  ><Check
+                /></el-icon>
               </el-dropdown-item>
-              <el-dropdown-item command="viewCode" :icon="null" :class="{ 'is-active': viewMode === 'code' }">
-                <star-horse-icon iconClass="document"/>
-                <span>{{ i18n('rule.codeView.code') }}</span>
-                <el-icon v-if="viewMode === 'code'" class="active-check"><Check/></el-icon>
+              <el-dropdown-item
+                command="viewCode"
+                :icon="null"
+                :class="{ 'is-active': viewMode === 'code' }"
+              >
+                <star-horse-icon iconClass="document" />
+                <span>{{ i18n("rule.codeView.code") }}</span>
+                <el-icon v-if="viewMode === 'code'" class="active-check"
+                  ><Check
+                /></el-icon>
               </el-dropdown-item>
             </el-dropdown-menu>
           </template>
@@ -141,56 +214,108 @@
       <!-- 右：更多操作分组下拉 -->
       <div class="toolbar-right">
         <!-- 校验徽标（独立显示，方便快速查看问题数） -->
-        <el-popover placement="bottom-end" :width="420" trigger="click" popper-class="validation-popper">
+        <el-popover
+          placement="bottom-end"
+          :width="420"
+          trigger="click"
+          popper-class="validation-popper"
+        >
           <template #reference>
-            <el-badge :value="validationResult.errorCount" :hidden="validationResult.errorCount === 0" type="danger">
-              <el-button size="small"
-                  :class="{ 'val-ok': validationResult.errorCount === 0 && validationResult.warningCount === 0 }">
-                <star-horse-icon iconClass="check"
-                                 v-if="validationResult.errorCount === 0 && validationResult.warningCount === 0"/>
-                <star-horse-icon iconClass="warning" v-else/>
-                <span>{{ i18n('rule.val.title') }}</span>
+            <el-badge
+              :value="validationResult.errorCount"
+              :hidden="validationResult.errorCount === 0"
+              type="danger"
+            >
+              <el-button
+                size="small"
+                :class="{
+                  'val-ok':
+                    validationResult.errorCount === 0 &&
+                    validationResult.warningCount === 0,
+                }"
+              >
+                <star-horse-icon
+                  iconClass="check"
+                  v-if="
+                    validationResult.errorCount === 0 &&
+                    validationResult.warningCount === 0
+                  "
+                />
+                <star-horse-icon iconClass="warning" v-else />
+                <span>{{ i18n("rule.val.title") }}</span>
               </el-button>
             </el-badge>
           </template>
           <div class="validation-panel">
             <div class="validation-head">
               <div class="vh-title">
-                <star-horse-icon iconClass="warning"/>
-                {{ i18n('rule.val.title') }}
+                <star-horse-icon iconClass="warning" />
+                {{ i18n("rule.val.title") }}
               </div>
               <div class="vh-stats">
-                <el-tag v-if="validationResult.errorCount" type="danger" size="small" effect="dark">
-                  {{ i18n('rule.val.errorCount', [validationResult.errorCount]) }}
+                <el-tag
+                  v-if="validationResult.errorCount"
+                  type="danger"
+                  size="small"
+                  effect="dark"
+                >
+                  {{
+                    i18n("rule.val.errorCount", [validationResult.errorCount])
+                  }}
                 </el-tag>
-                <el-tag v-if="validationResult.warningCount" type="warning" size="small" effect="dark">
-                  {{ i18n('rule.val.warningCount', [validationResult.warningCount]) }}
+                <el-tag
+                  v-if="validationResult.warningCount"
+                  type="warning"
+                  size="small"
+                  effect="dark"
+                >
+                  {{
+                    i18n("rule.val.warningCount", [
+                      validationResult.warningCount,
+                    ])
+                  }}
                 </el-tag>
-                <el-tag v-if="validationResult.errorCount === 0 && validationResult.warningCount === 0" type="success"
-                        size="small" effect="dark">
-                  {{ i18n('rule.val.allPass') }}
+                <el-tag
+                  v-if="
+                    validationResult.errorCount === 0 &&
+                    validationResult.warningCount === 0
+                  "
+                  type="success"
+                  size="small"
+                  effect="dark"
+                >
+                  {{ i18n("rule.val.allPass") }}
                 </el-tag>
               </div>
             </div>
-            <el-divider style="margin: 8px 0"/>
+            <el-divider style="margin: 8px 0" />
             <div class="validation-list">
-              <div v-if="validationResult.issues.length === 0" class="val-empty">
-                <star-horse-icon iconClass="check"/>
-                <p>{{ i18n('rule.val.allPassDesc') }}</p>
+              <div
+                v-if="validationResult.issues.length === 0"
+                class="val-empty"
+              >
+                <star-horse-icon iconClass="check" />
+                <p>{{ i18n("rule.val.allPassDesc") }}</p>
               </div>
               <div
-                  v-for="(iss, idx) in validationResult.issues"
-                  :key="idx"
-                  class="val-item"
-                  :class="'vi-' + iss.level"
-                  @click="iss.nodeId && handleLocateNode(iss.nodeId)"
+                v-for="(iss, idx) in validationResult.issues"
+                :key="idx"
+                class="val-item"
+                :class="'vi-' + iss.level"
+                @click="iss.nodeId && handleLocateNode(iss.nodeId)"
               >
-                <span class="vi-bullet">{{ iss.level === 'error' ? '✗' : '⚠' }}</span>
+                <span class="vi-bullet">{{
+                  iss.level === "error" ? "✗" : "⚠"
+                }}</span>
                 <div class="vi-body">
                   <div class="vi-msg">{{ iss.message }}</div>
                   <div class="vi-meta">
-                    <span v-if="iss.nodeId" class="vi-node">{{ iss.nodeName }}</span>
-                    <span v-else class="vi-node">{{ i18n('rule.val.graphLevel') }}</span>
+                    <span v-if="iss.nodeId" class="vi-node">{{
+                      iss.nodeName
+                    }}</span>
+                    <span v-else class="vi-node">{{
+                      i18n("rule.val.graphLevel")
+                    }}</span>
                   </div>
                 </div>
               </div>
@@ -199,83 +324,139 @@
         </el-popover>
 
         <!-- 更多操作下拉 -->
-        <el-dropdown trigger="click" @command="onToolbarCommand" popper-class="toolbar-dropdown-popper">
+        <el-dropdown
+          trigger="click"
+          @command="onToolbarCommand"
+          popper-class="toolbar-dropdown-popper"
+        >
           <el-button size="small">
-            <star-horse-icon iconClass="setting"/>
-            <span>{{ i18n('rule.toolbar.more') }}</span>
-            <el-icon class="dropdown-caret"><ArrowDown/></el-icon>
+            <star-horse-icon iconClass="setting" />
+            <span>{{ i18n("rule.toolbar.more") }}</span>
+            <el-icon class="dropdown-caret"><ArrowDown /></el-icon>
           </el-button>
           <template #dropdown>
             <el-dropdown-menu>
               <el-dropdown-item command="import" :icon="null">
-                <star-horse-icon iconClass="upload"/>
-                <span>{{ i18n('rule.importRule') }}</span>
+                <star-horse-icon iconClass="upload" />
+                <span>{{ i18n("rule.importRule") }}</span>
               </el-dropdown-item>
               <el-dropdown-item command="export" :icon="null">
-                <star-horse-icon iconClass="download"/>
-                <span>{{ i18n('rule.exportRule') }}</span>
+                <star-horse-icon iconClass="download" />
+                <span>{{ i18n("rule.exportRule") }}</span>
               </el-dropdown-item>
               <el-dropdown-item command="demo" :icon="null" divided>
-                <star-horse-icon iconClass="info"/>
-                <span>{{ i18n('rule.demo') }}</span>
+                <star-horse-icon iconClass="info" />
+                <span>{{ i18n("rule.demo") }}</span>
               </el-dropdown-item>
               <el-dropdown-item command="help" :icon="null" divided>
-                <star-horse-icon iconClass="help"/>
-                <span>{{ i18n('rule.help') }}</span>
+                <star-horse-icon iconClass="help" />
+                <span>{{ i18n("rule.help") }}</span>
               </el-dropdown-item>
             </el-dropdown-menu>
           </template>
         </el-dropdown>
 
         <!-- 帮助面板（隐藏触发，由"更多"下拉调用） -->
-        <el-popover ref="helpPopoverRef" placement="bottom-end" :width="420" trigger="click" popper-class="help-popper">
+        <el-popover
+          ref="helpPopoverRef"
+          placement="bottom-end"
+          :width="420"
+          trigger="click"
+          popper-class="help-popper"
+        >
           <template #reference>
-            <span style="display:none"></span>
+            <span style="display: none"></span>
           </template>
           <div class="help-panel">
             <div class="help-title">
-              <star-horse-icon iconClass="help"/>
-              {{ i18n('rule.help.title') }}
+              <star-horse-icon iconClass="help" />
+              {{ i18n("rule.help.title") }}
             </div>
-            <el-divider style="margin: 8px 0"/>
+            <el-divider style="margin: 8px 0" />
             <div class="help-section">
-              <div class="help-section-title">{{ i18n('rule.help.basic') }}</div>
-              <div class="help-row"><kbd>{{ i18n('rule.help.dragAdd') }}</kbd></div>
-              <div class="help-row"><kbd>{{ i18n('rule.help.dragConnect') }}</kbd></div>
-              <div class="help-row"><kbd>{{ i18n('rule.help.doubleClick') }}</kbd></div>
-              <div class="help-row"><kbd>{{ i18n('rule.help.rightClick') }}</kbd></div>
-            </div>
-            <div class="help-section">
-              <div class="help-section-title">{{ i18n('rule.help.select') }}</div>
-              <div class="help-row"><kbd>{{ i18n('rule.help.clickSelect') }}</kbd></div>
-              <div class="help-row"><kbd>{{ i18n('rule.help.shiftSelect') }}</kbd></div>
-              <div class="help-row"><kbd>{{ i18n('rule.help.boxSelect') }}</kbd></div>
-              <div class="help-row"><kbd>{{ i18n('rule.help.middlePan') }}</kbd></div>
-              <div class="help-row"><kbd>{{ i18n('rule.help.ctrlA') }}</kbd></div>
-            </div>
-            <div class="help-section">
-              <div class="help-section-title">{{ i18n('rule.help.edit') }}</div>
-              <div class="help-row"><kbd>{{ i18n('rule.help.delete') }}</kbd></div>
-              <div class="help-row"><kbd>{{ i18n('rule.help.ctrlZ') }}</kbd></div>
-              <div class="help-row"><kbd>{{ i18n('rule.help.ctrlY') }}</kbd></div>
-              <div class="help-row"><kbd>{{ i18n('rule.help.ctrlC') }}</kbd> / <kbd>{{ i18n('rule.help.ctrlV') }}</kbd>
+              <div class="help-section-title">
+                {{ i18n("rule.help.basic") }}
+              </div>
+              <div class="help-row">
+                <kbd>{{ i18n("rule.help.dragAdd") }}</kbd>
+              </div>
+              <div class="help-row">
+                <kbd>{{ i18n("rule.help.dragConnect") }}</kbd>
+              </div>
+              <div class="help-row">
+                <kbd>{{ i18n("rule.help.doubleClick") }}</kbd>
+              </div>
+              <div class="help-row">
+                <kbd>{{ i18n("rule.help.rightClick") }}</kbd>
               </div>
             </div>
             <div class="help-section">
-              <div class="help-section-title">{{ i18n('rule.help.canvas') }}</div>
-              <div class="help-row"><kbd>{{ i18n('rule.help.wheelZoom') }}</kbd></div>
-              <div class="help-row"><kbd>{{ i18n('rule.help.alignTool') }}</kbd></div>
-              <div class="help-row"><kbd>{{ i18n('rule.help.edgeStyle') }}</kbd></div>
+              <div class="help-section-title">
+                {{ i18n("rule.help.select") }}
+              </div>
+              <div class="help-row">
+                <kbd>{{ i18n("rule.help.clickSelect") }}</kbd>
+              </div>
+              <div class="help-row">
+                <kbd>{{ i18n("rule.help.shiftSelect") }}</kbd>
+              </div>
+              <div class="help-row">
+                <kbd>{{ i18n("rule.help.boxSelect") }}</kbd>
+              </div>
+              <div class="help-row">
+                <kbd>{{ i18n("rule.help.middlePan") }}</kbd>
+              </div>
+              <div class="help-row">
+                <kbd>{{ i18n("rule.help.ctrlA") }}</kbd>
+              </div>
             </div>
             <div class="help-section">
-              <div class="help-section-title">{{ i18n('rule.help.test') }}</div>
-              <div class="help-row"><kbd>{{ i18n('rule.help.openConsole') }}</kbd></div>
-              <div class="help-row"><kbd>{{ i18n('rule.help.executeHighlight') }}</kbd></div>
-              <div class="help-row"><kbd>{{ i18n('rule.help.closeRestore') }}</kbd></div>
+              <div class="help-section-title">{{ i18n("rule.help.edit") }}</div>
+              <div class="help-row">
+                <kbd>{{ i18n("rule.help.delete") }}</kbd>
+              </div>
+              <div class="help-row">
+                <kbd>{{ i18n("rule.help.ctrlZ") }}</kbd>
+              </div>
+              <div class="help-row">
+                <kbd>{{ i18n("rule.help.ctrlY") }}</kbd>
+              </div>
+              <div class="help-row">
+                <kbd>{{ i18n("rule.help.ctrlC") }}</kbd> /
+                <kbd>{{ i18n("rule.help.ctrlV") }}</kbd>
+              </div>
             </div>
             <div class="help-section">
-              <div class="help-section-title">{{ i18n('rule.msg.tip') }}</div>
-              <div class="help-row"><kbd>{{ i18n('rule.msg.canvasTip') }}</kbd></div>
+              <div class="help-section-title">
+                {{ i18n("rule.help.canvas") }}
+              </div>
+              <div class="help-row">
+                <kbd>{{ i18n("rule.help.wheelZoom") }}</kbd>
+              </div>
+              <div class="help-row">
+                <kbd>{{ i18n("rule.help.alignTool") }}</kbd>
+              </div>
+              <div class="help-row">
+                <kbd>{{ i18n("rule.help.edgeStyle") }}</kbd>
+              </div>
+            </div>
+            <div class="help-section">
+              <div class="help-section-title">{{ i18n("rule.help.test") }}</div>
+              <div class="help-row">
+                <kbd>{{ i18n("rule.help.openConsole") }}</kbd>
+              </div>
+              <div class="help-row">
+                <kbd>{{ i18n("rule.help.executeHighlight") }}</kbd>
+              </div>
+              <div class="help-row">
+                <kbd>{{ i18n("rule.help.closeRestore") }}</kbd>
+              </div>
+            </div>
+            <div class="help-section">
+              <div class="help-section-title">{{ i18n("rule.msg.tip") }}</div>
+              <div class="help-row">
+                <kbd>{{ i18n("rule.msg.canvasTip") }}</kbd>
+              </div>
             </div>
           </div>
         </el-popover>
@@ -284,392 +465,684 @@
 
     <!-- 主体 -->
     <!-- 设计视图 -->
-    <el-splitter v-if="viewMode === 'design'" layout="vertical" class="designer-body">
+    <el-splitter
+      v-if="viewMode === 'design'"
+      layout="vertical"
+      class="designer-body"
+    >
       <!-- 上部：设计区 -->
       <el-splitter-panel>
         <el-splitter class="designer-main">
           <!-- 左侧：节点面板 -->
-          <el-splitter-panel collapsible :size="220" min="160" max="400" class="left-pane">
-            <NodePanel @add="handleNodeAdd" v-model:variables="ruleData.variables"/>
+          <el-splitter-panel
+            collapsible
+            :size="220"
+            min="160"
+            max="400"
+            class="left-pane"
+          >
+            <NodePanel
+              @add="handleNodeAdd"
+              v-model:variables="ruleData.variables"
+            />
           </el-splitter-panel>
 
           <!-- 中间：画布舞台 -->
           <el-splitter-panel class="center-pane flex flex-col">
             <div class="canvas-toolbar">
               <div class="canvas-toolbar-left">
-                <span class="canvas-title">{{ i18n('rule.msg.canvasDesign') }}</span>
-                <el-tag v-if="selectedCount > 0" size="small" type="primary" effect="light" round>
-                  {{ i18n('rule.msg.selectedCount', [selectedCount]) }}
+                <span class="canvas-title">{{
+                  i18n("rule.msg.canvasDesign")
+                }}</span>
+                <el-tag
+                  v-if="selectedCount > 0"
+                  size="small"
+                  type="primary"
+                  effect="light"
+                  round
+                >
+                  {{ i18n("rule.msg.selectedCount", [selectedCount]) }}
                 </el-tag>
               </div>
               <div class="canvas-actions">
                 <!-- 历史组 -->
-                <el-tooltip :content="i18n('rule.undo') + ' (Ctrl+Z)'" placement="bottom">
+                <el-tooltip
+                  :content="i18n('rule.undo') + ' (Ctrl+Z)'"
+                  placement="bottom"
+                >
                   <el-button link @click="undo" :disabled="!canUndo">
                     <el-icon>
-                      <Back/>
+                      <Back />
                     </el-icon>
                   </el-button>
                 </el-tooltip>
-                <el-tooltip :content="i18n('rule.redo') + ' (Ctrl+Y)'" placement="bottom">
+                <el-tooltip
+                  :content="i18n('rule.redo') + ' (Ctrl+Y)'"
+                  placement="bottom"
+                >
                   <el-button link @click="redo" :disabled="!canRedo">
                     <el-icon>
-                      <Right/>
+                      <Right />
                     </el-icon>
                   </el-button>
                 </el-tooltip>
-                <el-divider direction="vertical"/>
+                <el-divider direction="vertical" />
                 <!-- 对齐工具组：扁平化按钮，直观可见 -->
                 <el-button-group class="align-group">
-                  <el-tooltip :content="i18n('rule.align.left')" placement="bottom">
-                    <el-button :disabled="!hasMultiSelected" @click="handleAlign('left')" class="align-btn">
-                      <svg viewBox="0 0 16 16" width="14" height="14" fill="currentColor">
-                        <rect x="1" y="2" width="1.2" height="12"/>
-                        <rect x="3" y="4" width="6" height="3" rx="0.5"/>
-                        <rect x="3" y="9" width="9" height="3" rx="0.5"/>
+                  <el-tooltip
+                    :content="i18n('rule.align.left')"
+                    placement="bottom"
+                  >
+                    <el-button
+                      :disabled="!hasMultiSelected"
+                      @click="handleAlign('left')"
+                      class="align-btn"
+                    >
+                      <svg
+                        viewBox="0 0 16 16"
+                        width="14"
+                        height="14"
+                        fill="currentColor"
+                      >
+                        <rect x="1" y="2" width="1.2" height="12" />
+                        <rect x="3" y="4" width="6" height="3" rx="0.5" />
+                        <rect x="3" y="9" width="9" height="3" rx="0.5" />
                       </svg>
                     </el-button>
                   </el-tooltip>
-                  <el-tooltip :content="i18n('rule.align.centerH')" placement="bottom">
-                    <el-button :disabled="!hasMultiSelected" @click="handleAlign('center')" class="align-btn">
-                      <svg viewBox="0 0 16 16" width="14" height="14" fill="currentColor">
-                        <rect x="7.4" y="2" width="1.2" height="12"/>
-                        <rect x="4" y="4" width="8" height="3" rx="0.5"/>
-                        <rect x="2" y="9" width="12" height="3" rx="0.5"/>
+                  <el-tooltip
+                    :content="i18n('rule.align.centerH')"
+                    placement="bottom"
+                  >
+                    <el-button
+                      :disabled="!hasMultiSelected"
+                      @click="handleAlign('center')"
+                      class="align-btn"
+                    >
+                      <svg
+                        viewBox="0 0 16 16"
+                        width="14"
+                        height="14"
+                        fill="currentColor"
+                      >
+                        <rect x="7.4" y="2" width="1.2" height="12" />
+                        <rect x="4" y="4" width="8" height="3" rx="0.5" />
+                        <rect x="2" y="9" width="12" height="3" rx="0.5" />
                       </svg>
                     </el-button>
                   </el-tooltip>
-                  <el-tooltip :content="i18n('rule.align.right')" placement="bottom">
-                    <el-button :disabled="!hasMultiSelected" @click="handleAlign('right')" class="align-btn">
-                      <svg viewBox="0 0 16 16" width="14" height="14" fill="currentColor">
-                        <rect x="13.8" y="2" width="1.2" height="12"/>
-                        <rect x="7" y="4" width="6" height="3" rx="0.5"/>
-                        <rect x="4" y="9" width="9" height="3" rx="0.5"/>
+                  <el-tooltip
+                    :content="i18n('rule.align.right')"
+                    placement="bottom"
+                  >
+                    <el-button
+                      :disabled="!hasMultiSelected"
+                      @click="handleAlign('right')"
+                      class="align-btn"
+                    >
+                      <svg
+                        viewBox="0 0 16 16"
+                        width="14"
+                        height="14"
+                        fill="currentColor"
+                      >
+                        <rect x="13.8" y="2" width="1.2" height="12" />
+                        <rect x="7" y="4" width="6" height="3" rx="0.5" />
+                        <rect x="4" y="9" width="9" height="3" rx="0.5" />
                       </svg>
                     </el-button>
                   </el-tooltip>
-                  <el-tooltip :content="i18n('rule.align.top')" placement="bottom">
-                    <el-button :disabled="!hasMultiSelected" @click="handleAlign('top')" class="align-btn">
-                      <svg viewBox="0 0 16 16" width="14" height="14" fill="currentColor">
-                        <rect x="2" y="1" width="12" height="1.2"/>
-                        <rect x="4" y="3" width="3" height="6" rx="0.5"/>
-                        <rect x="9" y="3" width="3" height="9" rx="0.5"/>
+                  <el-tooltip
+                    :content="i18n('rule.align.top')"
+                    placement="bottom"
+                  >
+                    <el-button
+                      :disabled="!hasMultiSelected"
+                      @click="handleAlign('top')"
+                      class="align-btn"
+                    >
+                      <svg
+                        viewBox="0 0 16 16"
+                        width="14"
+                        height="14"
+                        fill="currentColor"
+                      >
+                        <rect x="2" y="1" width="12" height="1.2" />
+                        <rect x="4" y="3" width="3" height="6" rx="0.5" />
+                        <rect x="9" y="3" width="3" height="9" rx="0.5" />
                       </svg>
                     </el-button>
                   </el-tooltip>
-                  <el-tooltip :content="i18n('rule.align.centerV')" placement="bottom">
-                    <el-button :disabled="!hasMultiSelected" @click="handleAlign('middle')" class="align-btn">
-                      <svg viewBox="0 0 16 16" width="14" height="14" fill="currentColor">
-                        <rect x="2" y="7.4" width="12" height="1.2"/>
-                        <rect x="4" y="4" width="3" height="8" rx="0.5"/>
-                        <rect x="9" y="2" width="3" height="12" rx="0.5"/>
+                  <el-tooltip
+                    :content="i18n('rule.align.centerV')"
+                    placement="bottom"
+                  >
+                    <el-button
+                      :disabled="!hasMultiSelected"
+                      @click="handleAlign('middle')"
+                      class="align-btn"
+                    >
+                      <svg
+                        viewBox="0 0 16 16"
+                        width="14"
+                        height="14"
+                        fill="currentColor"
+                      >
+                        <rect x="2" y="7.4" width="12" height="1.2" />
+                        <rect x="4" y="4" width="3" height="8" rx="0.5" />
+                        <rect x="9" y="2" width="3" height="12" rx="0.5" />
                       </svg>
                     </el-button>
                   </el-tooltip>
-                  <el-tooltip :content="i18n('rule.align.bottom')" placement="bottom">
-                    <el-button :disabled="!hasMultiSelected" @click="handleAlign('bottom')" class="align-btn">
-                      <svg viewBox="0 0 16 16" width="14" height="14" fill="currentColor">
-                        <rect x="2" y="13.8" width="12" height="1.2"/>
-                        <rect x="4" y="7" width="3" height="6" rx="0.5"/>
-                        <rect x="9" y="4" width="3" height="9" rx="0.5"/>
+                  <el-tooltip
+                    :content="i18n('rule.align.bottom')"
+                    placement="bottom"
+                  >
+                    <el-button
+                      :disabled="!hasMultiSelected"
+                      @click="handleAlign('bottom')"
+                      class="align-btn"
+                    >
+                      <svg
+                        viewBox="0 0 16 16"
+                        width="14"
+                        height="14"
+                        fill="currentColor"
+                      >
+                        <rect x="2" y="13.8" width="12" height="1.2" />
+                        <rect x="4" y="7" width="3" height="6" rx="0.5" />
+                        <rect x="9" y="4" width="3" height="9" rx="0.5" />
                       </svg>
                     </el-button>
                   </el-tooltip>
-                  <el-tooltip :content="i18n('rule.align.distributeH')" placement="bottom">
-                    <el-button :disabled="!hasMultiSelected" @click="handleAlign('hDist')" class="align-btn">
-                      <svg viewBox="0 0 16 16" width="14" height="14" fill="currentColor">
-                        <rect x="1" y="5" width="3" height="6" rx="0.5"/>
-                        <rect x="6.5" y="5" width="3" height="6" rx="0.5"/>
-                        <rect x="12" y="5" width="3" height="6" rx="0.5"/>
-                        <line x1="2.5" y1="3" x2="2.5" y2="13" stroke="currentColor" stroke-width="0.6"
-                              stroke-dasharray="1 1"/>
-                        <line x1="8" y1="3" x2="8" y2="13" stroke="currentColor" stroke-width="0.6"
-                              stroke-dasharray="1 1"/>
-                        <line x1="13.5" y1="3" x2="13.5" y2="13" stroke="currentColor" stroke-width="0.6"
-                              stroke-dasharray="1 1"/>
+                  <el-tooltip
+                    :content="i18n('rule.align.distributeH')"
+                    placement="bottom"
+                  >
+                    <el-button
+                      :disabled="!hasMultiSelected"
+                      @click="handleAlign('hDist')"
+                      class="align-btn"
+                    >
+                      <svg
+                        viewBox="0 0 16 16"
+                        width="14"
+                        height="14"
+                        fill="currentColor"
+                      >
+                        <rect x="1" y="5" width="3" height="6" rx="0.5" />
+                        <rect x="6.5" y="5" width="3" height="6" rx="0.5" />
+                        <rect x="12" y="5" width="3" height="6" rx="0.5" />
+                        <line
+                          x1="2.5"
+                          y1="3"
+                          x2="2.5"
+                          y2="13"
+                          stroke="currentColor"
+                          stroke-width="0.6"
+                          stroke-dasharray="1 1"
+                        />
+                        <line
+                          x1="8"
+                          y1="3"
+                          x2="8"
+                          y2="13"
+                          stroke="currentColor"
+                          stroke-width="0.6"
+                          stroke-dasharray="1 1"
+                        />
+                        <line
+                          x1="13.5"
+                          y1="3"
+                          x2="13.5"
+                          y2="13"
+                          stroke="currentColor"
+                          stroke-width="0.6"
+                          stroke-dasharray="1 1"
+                        />
                       </svg>
                     </el-button>
                   </el-tooltip>
-                  <el-tooltip :content="i18n('rule.align.distributeV')" placement="bottom">
-                    <el-button :disabled="!hasMultiSelected" @click="handleAlign('vDist')" class="align-btn">
-                      <svg viewBox="0 0 16 16" width="14" height="14" fill="currentColor">
-                        <rect x="5" y="1" width="6" height="3" rx="0.5"/>
-                        <rect x="5" y="6.5" width="6" height="3" rx="0.5"/>
-                        <rect x="5" y="12" width="6" height="3" rx="0.5"/>
-                        <line x1="3" y1="2.5" x2="13" y2="2.5" stroke="currentColor" stroke-width="0.6"
-                              stroke-dasharray="1 1"/>
-                        <line x1="3" y1="8" x2="13" y2="8" stroke="currentColor" stroke-width="0.6"
-                              stroke-dasharray="1 1"/>
-                        <line x1="3" y1="13.5" x2="13" y2="13.5" stroke="currentColor" stroke-width="0.6"
-                              stroke-dasharray="1 1"/>
+                  <el-tooltip
+                    :content="i18n('rule.align.distributeV')"
+                    placement="bottom"
+                  >
+                    <el-button
+                      :disabled="!hasMultiSelected"
+                      @click="handleAlign('vDist')"
+                      class="align-btn"
+                    >
+                      <svg
+                        viewBox="0 0 16 16"
+                        width="14"
+                        height="14"
+                        fill="currentColor"
+                      >
+                        <rect x="5" y="1" width="6" height="3" rx="0.5" />
+                        <rect x="5" y="6.5" width="6" height="3" rx="0.5" />
+                        <rect x="5" y="12" width="6" height="3" rx="0.5" />
+                        <line
+                          x1="3"
+                          y1="2.5"
+                          x2="13"
+                          y2="2.5"
+                          stroke="currentColor"
+                          stroke-width="0.6"
+                          stroke-dasharray="1 1"
+                        />
+                        <line
+                          x1="3"
+                          y1="8"
+                          x2="13"
+                          y2="8"
+                          stroke="currentColor"
+                          stroke-width="0.6"
+                          stroke-dasharray="1 1"
+                        />
+                        <line
+                          x1="3"
+                          y1="13.5"
+                          x2="13"
+                          y2="13.5"
+                          stroke="currentColor"
+                          stroke-width="0.6"
+                          stroke-dasharray="1 1"
+                        />
                       </svg>
                     </el-button>
                   </el-tooltip>
                 </el-button-group>
-                <el-divider direction="vertical"/>
+                <el-divider direction="vertical" />
                 <!-- 连线类型 -->
-                <el-dropdown trigger="click" @command="handleEdgeType" popper-class="designer-dropdown-popper">
-                  <el-tooltip :content="i18n('rule.edge.bezier')" placement="bottom">
+                <el-dropdown
+                  trigger="click"
+                  @command="handleEdgeType"
+                  popper-class="designer-dropdown-popper"
+                >
+                  <el-tooltip
+                    :content="i18n('rule.edge.bezier')"
+                    placement="bottom"
+                  >
                     <el-button link>
                       <el-icon>
-                        <Connection/>
+                        <Connection />
                       </el-icon>
                     </el-button>
                   </el-tooltip>
                   <template #dropdown>
                     <el-dropdown-menu>
-                      <el-dropdown-item command="default" :class="{ 'is-active': edgeType === 'default' }">
-                        {{ i18n('rule.edge.bezier') }}
+                      <el-dropdown-item
+                        command="default"
+                        :class="{ 'is-active': edgeType === 'default' }"
+                      >
+                        {{ i18n("rule.edge.bezier") }}
                       </el-dropdown-item>
-                      <el-dropdown-item command="straight" :class="{ 'is-active': edgeType === 'straight' }">
-                        {{ i18n('rule.edge.straight') }}
+                      <el-dropdown-item
+                        command="straight"
+                        :class="{ 'is-active': edgeType === 'straight' }"
+                      >
+                        {{ i18n("rule.edge.straight") }}
                       </el-dropdown-item>
-                      <el-dropdown-item command="step" :class="{ 'is-active': edgeType === 'step' }">
-                        {{ i18n('rule.edge.step') }}
+                      <el-dropdown-item
+                        command="step"
+                        :class="{ 'is-active': edgeType === 'step' }"
+                      >
+                        {{ i18n("rule.edge.step") }}
                       </el-dropdown-item>
-                      <el-dropdown-item command="smoothstep" :class="{ 'is-active': edgeType === 'smoothstep' }">
-                        {{ i18n('rule.edge.smoothstep') }}
+                      <el-dropdown-item
+                        command="smoothstep"
+                        :class="{ 'is-active': edgeType === 'smoothstep' }"
+                      >
+                        {{ i18n("rule.edge.smoothstep") }}
                       </el-dropdown-item>
                     </el-dropdown-menu>
                   </template>
                 </el-dropdown>
-                <el-tooltip :content="i18n('rule.deleteSelected') + ' (Delete)'" placement="bottom">
-                  <el-button link @click="deleteSelected" :disabled="!hasSelected">
+                <el-tooltip
+                  :content="i18n('rule.deleteSelected') + ' (Delete)'"
+                  placement="bottom"
+                >
+                  <el-button
+                    link
+                    @click="deleteSelected"
+                    :disabled="!hasSelected"
+                  >
                     <el-icon>
-                      <Delete/>
+                      <Delete />
                     </el-icon>
                   </el-button>
                 </el-tooltip>
-                <el-divider direction="vertical"/>
-                <el-tooltip :content="i18n('rule.fitCanvas')" placement="bottom">
+                <el-divider direction="vertical" />
+                <el-tooltip
+                  :content="i18n('rule.fitCanvas')"
+                  placement="bottom"
+                >
                   <el-button link @click="fitView">
                     <el-icon>
-                      <FullScreen/>
+                      <FullScreen />
                     </el-icon>
                   </el-button>
                 </el-tooltip>
-                <el-tooltip :content="i18n('rule.autoLayout')" placement="bottom">
+                <el-tooltip
+                  :content="i18n('rule.autoLayout')"
+                  placement="bottom"
+                >
                   <el-button link @click="autoLayout">
                     <el-icon>
-                      <Grid/>
+                      <Grid />
                     </el-icon>
                   </el-button>
                 </el-tooltip>
-                <el-tooltip :content="i18n('rule.layoutSelected')" placement="bottom">
-                  <el-button link @click="layoutSelected" :disabled="!hasSelected">
+                <el-tooltip
+                  :content="i18n('rule.layoutSelected')"
+                  placement="bottom"
+                >
+                  <el-button
+                    link
+                    @click="layoutSelected"
+                    :disabled="!hasSelected"
+                  >
                     <el-icon>
-                      <Operation/>
+                      <Operation />
                     </el-icon>
                   </el-button>
                 </el-tooltip>
-                <el-tooltip :content="i18n('rule.clearCanvas')" placement="bottom">
+                <el-tooltip
+                  :content="i18n('rule.clearCanvas')"
+                  placement="bottom"
+                >
                   <el-button link @click="clearCanvas">
                     <el-icon>
-                      <Brush/>
+                      <Brush />
                     </el-icon>
                   </el-button>
                 </el-tooltip>
-                <el-divider direction="vertical"/>
+                <el-divider direction="vertical" />
                 <!-- 小地图开关 -->
-                <el-tooltip :content="showMinimap ? i18n('rule.minimapHide') : i18n('rule.minimapShow')"
-                            placement="bottom">
-                  <el-button link @click="showMinimap = !showMinimap" :class="{ 'is-active': showMinimap }">
+                <el-tooltip
+                  :content="
+                    showMinimap
+                      ? i18n('rule.minimapHide')
+                      : i18n('rule.minimapShow')
+                  "
+                  placement="bottom"
+                >
+                  <el-button
+                    link
+                    @click="showMinimap = !showMinimap"
+                    :class="{ 'is-active': showMinimap }"
+                  >
                     <el-icon>
-                      <Aim/>
+                      <Aim />
                     </el-icon>
                   </el-button>
                 </el-tooltip>
-
               </div>
             </div>
-            <div class="canvas-body" @drop="onDrop" @dragover.prevent="onDragOver" @dragleave.prevent="onDragLeave"
-                 @contextmenu.prevent="onCanvasContextMenu">
+            <div
+              class="canvas-body"
+              @drop="onDrop"
+              @dragover.prevent="onDragOver"
+              @dragleave.prevent="onDragLeave"
+              @contextmenu.prevent="onCanvasContextMenu"
+            >
               <RuleCanvas
-                  ref="ruleCanvasRef"
-                  v-model:nodes="nodes"
-                  v-model:edges="edges"
-                  :default-viewport="{ zoom: 1 }"
-                  :min-zoom="0.2" :max-zoom="2"
-                  :snap-to-grid="true" :snap-grid="[15, 15]"
-                  :connection-mode="isTestMode?ConnectionMode.Loose:ConnectionMode.Strict"
-                  :show-grid="true"
-                  :grid-size="20"
-                  :grid-color="'#e5e7eb'"
-                  fit-view-on-init
-                  v-model:show-minimap="showMinimap"
-                  class="rule-canvas-instance"
-                  :class="{ 'test-mode': isTestMode }"
-                  @node-double-click="onNodeDoubleClick"
-                  @node-click="onNodeClick"
-                  @edge-double-click="onEdgeDoubleClick"
-                  @connect="onConnect"
-                  @nodes-moved="pushHistory"
+                ref="ruleCanvasRef"
+                v-model:nodes="nodes"
+                v-model:edges="edges"
+                :default-viewport="{ zoom: 1 }"
+                :min-zoom="0.2"
+                :max-zoom="2"
+                :snap-to-grid="true"
+                :snap-grid="[15, 15]"
+                :connection-mode="
+                  isTestMode ? ConnectionMode.Loose : ConnectionMode.Strict
+                "
+                :show-grid="true"
+                :grid-size="20"
+                :grid-color="'#e5e7eb'"
+                fit-view-on-init
+                v-model:show-minimap="showMinimap"
+                class="rule-canvas-instance"
+                :class="{ 'test-mode': isTestMode }"
+                @node-double-click="onNodeDoubleClick"
+                @node-click="onNodeClick"
+                @edge-double-click="onEdgeDoubleClick"
+                @connect="onConnect"
+                @nodes-moved="pushHistory"
               >
                 <template #node-start="p">
-                  <StartNode v-bind="p"/>
+                  <StartNode v-bind="p" />
                 </template>
                 <template #node-end="p">
-                  <EndNode v-bind="p"/>
+                  <EndNode v-bind="p" />
                 </template>
                 <template #node-condition="p">
-                  <ConditionNode v-bind="p" @edit="openConditionDialog(p.id, -1)"
-                                 @editCondition="(i)=>openConditionDialog(p.id,i)"
-                                 @deleteCondition="(i)=>deleteCondition(p.id,i)"/>
+                  <ConditionNode
+                    v-bind="p"
+                    @edit="openConditionDialog(p.id, -1)"
+                    @editCondition="(i) => openConditionDialog(p.id, i)"
+                    @deleteCondition="(i) => deleteCondition(p.id, i)"
+                  />
                 </template>
                 <template #node-action="p">
-                  <ActionNode v-bind="p" @edit="openActionDialog(p.id, -1)" @editAction="(i)=>openActionDialog(p.id,i)"
-                              @deleteAction="(i)=>deleteAction(p.id,i)"/>
+                  <ActionNode
+                    v-bind="p"
+                    @edit="openActionDialog(p.id, -1)"
+                    @editAction="(i) => openActionDialog(p.id, i)"
+                    @deleteAction="(i) => deleteAction(p.id, i)"
+                  />
                 </template>
                 <template #node-exclusive-gateway="p">
-                  <ExclusiveGatewayNode v-bind="p" @edit="openGatewayDialog(p.id)"/>
-                </template>
-                <template #node-parallel-gateway="p">
-                  <ParallelGatewayNode v-bind="p"/>
-                </template>
-                <template #node-inclusive-gateway="p">
-                  <InclusiveGatewayNode v-bind="p" @edit="openGatewayDialog(p.id)"/>
+                  <ExclusiveGatewayNode
+                    v-bind="p"
+                    @edit="openGatewayDialog(p.id)"
+                  />
                 </template>
                 <template #node-variable-assign="p">
-                  <VariableAssignNode v-bind="p" @edit="openVariableDialog(p.id)"
-                                      @editAssignment="(i)=>openVariableDialog(p.id)"
-                                      @deleteAssignment="(i)=>deleteAssignment(p.id,i)"/>
+                  <VariableAssignNode
+                    v-bind="p"
+                    @edit="openVariableDialog(p.id)"
+                    @editAssignment="(i) => openVariableDialog(p.id)"
+                    @deleteAssignment="(i) => deleteAssignment(p.id, i)"
+                  />
                 </template>
                 <template #node-script="p">
-                  <ScriptNode v-bind="p" @edit="openScriptDialog(p.id)"/>
+                  <ScriptNode v-bind="p" @edit="openScriptDialog(p.id)" />
                 </template>
                 <template #node-http-call="p">
-                  <HttpCallNode v-bind="p" @edit="openHttpDialog(p.id)"/>
-                </template>
-                <template #node-join="p">
-                  <JoinNode v-bind="p"/>
+                  <HttpCallNode v-bind="p" @edit="openHttpDialog(p.id)" />
                 </template>
                 <template #node-generic="p">
-                  <GenericNode v-bind="p"/>
+                  <GenericNode v-bind="p" />
                 </template>
               </RuleCanvas>
 
               <!-- 执行回溯气泡 -->
-              <NodeExecOverlay :execution-path="executionPath" :visible-node-ids="overlayVisibleNodeIds"/>
+              <NodeExecOverlay
+                :execution-path="executionPath"
+                :visible-node-ids="overlayVisibleNodeIds"
+              />
               <!-- 实时校验红角标 -->
-              <NodeValidationOverlay :result="validationResult" @locate="handleLocateNode"/>
+              <NodeValidationOverlay
+                :result="validationResult"
+                @locate="handleLocateNode"
+              />
 
               <!-- 右键菜单 -->
-              <div v-if="contextMenu.visible" class="context-menu"
-                   :style="{ left: contextMenu.x + 'px', top: contextMenu.y + 'px' }" @click.stop>
+              <div
+                v-if="contextMenu.visible"
+                class="context-menu"
+                :style="{
+                  left: contextMenu.x + 'px',
+                  top: contextMenu.y + 'px',
+                }"
+                @click.stop
+              >
                 <template v-if="contextMenu.type === 'node'">
                   <div class="menu-item" @click="handleCtxAction('edit')">
                     <el-icon>
-                      <Edit/>
+                      <Edit />
                     </el-icon>
-                    <span>{{ i18n('rule.menu.editNode') }}</span></div>
+                    <span>{{ i18n("rule.menu.editNode") }}</span>
+                  </div>
                   <div class="menu-item" @click="handleCtxAction('copy')">
                     <el-icon>
-                      <CopyDocument/>
+                      <CopyDocument />
                     </el-icon>
-                    <span>{{ i18n('rule.menu.copyNode') }}</span></div>
+                    <span>{{ i18n("rule.menu.copyNode") }}</span>
+                  </div>
                   <div class="menu-divider"></div>
-                  <div class="menu-item danger" @click="handleCtxAction('delete')">
+                  <div
+                    class="menu-item danger"
+                    @click="handleCtxAction('delete')"
+                  >
                     <el-icon>
-                      <Delete/>
+                      <Delete />
                     </el-icon>
-                    <span>{{ i18n('rule.menu.deleteNode') }}</span></div>
+                    <span>{{ i18n("rule.menu.deleteNode") }}</span>
+                  </div>
                 </template>
                 <template v-else-if="contextMenu.type === 'edge'">
                   <div class="menu-item" @click="handleCtxAction('editEdge')">
                     <el-icon>
-                      <Edit/>
+                      <Edit />
                     </el-icon>
-                    <span>{{ i18n('rule.menu.editEdge') }}</span></div>
+                    <span>{{ i18n("rule.menu.editEdge") }}</span>
+                  </div>
                   <div class="menu-divider"></div>
-                  <div class="menu-item danger" @click="handleCtxAction('delete')">
+                  <div
+                    class="menu-item danger"
+                    @click="handleCtxAction('delete')"
+                  >
                     <el-icon>
-                      <Delete/>
+                      <Delete />
                     </el-icon>
-                    <span>{{ i18n('rule.menu.deleteEdge') }}</span></div>
+                    <span>{{ i18n("rule.menu.deleteEdge") }}</span>
+                  </div>
                 </template>
                 <template v-else>
                   <div class="menu-item" @click="handleCtxAction('paste')">
                     <el-icon>
-                      <CopyDocument/>
+                      <CopyDocument />
                     </el-icon>
-                    <span>{{ i18n('rule.menu.pasteNode') }}</span></div>
+                    <span>{{ i18n("rule.menu.pasteNode") }}</span>
+                  </div>
                   <div class="menu-divider"></div>
                   <div class="menu-item" @click="handleCtxAction('fitView')">
                     <el-icon>
-                      <FullScreen/>
+                      <FullScreen />
                     </el-icon>
-                    <span>{{ i18n('rule.menu.fitCanvas') }}</span></div>
+                    <span>{{ i18n("rule.menu.fitCanvas") }}</span>
+                  </div>
                 </template>
               </div>
             </div>
           </el-splitter-panel>
 
           <!-- 右侧：属性面板 -->
-          <el-splitter-panel collapsible :size="320" min="240" max="500" class="right-pane">
+          <el-splitter-panel
+            collapsible
+            :size="320"
+            min="240"
+            max="500"
+            class="right-pane"
+          >
             <PropertyPanel
-                :selected-node="selectedNode"
-                @update="handlePropertyUpdate"
-                @edit-condition="openConditionDialog"
-                @edit-action="openActionDialog"
-                @edit-gateway="openGatewayDialog"
-                @edit-script="openScriptDialog"
-                @edit-http="openHttpDialog"
+              :selected-node="selectedNode"
+              @update="handlePropertyUpdate"
+              @edit-condition="openConditionDialog"
+              @edit-action="openActionDialog"
+              @edit-gateway="openGatewayDialog"
+              @edit-script="openScriptDialog"
+              @edit-http="openHttpDialog"
             />
           </el-splitter-panel>
         </el-splitter>
       </el-splitter-panel>
 
       <!-- 下部：测试控制台（按需显示） -->
-      <el-splitter-panel v-if="testConsoleVisible" :size="300" min="150" max="600" class="test-console-panel">
+      <el-splitter-panel
+        v-if="testConsoleVisible"
+        :size="300"
+        min="150"
+        max="600"
+        class="test-console-panel"
+      >
         <div class="test-console">
           <div class="console-header">
             <div class="console-tabs">
-              <span class="console-tab"><el-icon><Monitor/></el-icon> {{ i18n('rule.console.title') }}</span>
-              <el-tag v-if="executionPath" :type="executionPath.success ? 'success' : 'danger'">
-                {{ executionPath.success ? i18n('rule.console.success') : i18n('rule.console.fail') }} ·
-                {{ executionPath.duration }}ms ·
-                {{ executionPath.visitedNodeIds.length }}{{ i18n('rule.node.start') }}
+              <span class="console-tab"
+                ><el-icon><Monitor /></el-icon>
+                {{ i18n("rule.console.title") }}</span
+              >
+              <el-tag
+                v-if="executionPath"
+                :type="executionPath.success ? 'success' : 'danger'"
+              >
+                {{
+                  executionPath.success
+                    ? i18n("rule.console.success")
+                    : i18n("rule.console.fail")
+                }}
+                · {{ executionPath.duration }}ms ·
+                {{ executionPath.visitedNodeIds.length
+                }}{{ i18n("rule.node.start") }}
               </el-tag>
             </div>
             <div class="console-actions">
-              <el-button type="primary" @click="executeTest" :loading="executing">
+              <el-button
+                type="primary"
+                @click="executeTest"
+                :loading="executing"
+              >
                 <el-icon>
-                  <VideoPlay/>
+                  <VideoPlay />
                 </el-icon>
-                {{ i18n('rule.execute') }}
+                {{ i18n("rule.execute") }}
               </el-button>
               <el-button @click="stepExecute" :disabled="!executionPath">
                 <el-icon>
-                  <VideoPause/>
+                  <VideoPause />
                 </el-icon>
-                {{ i18n('rule.step') }}
+                {{ i18n("rule.step") }}
               </el-button>
               <el-button @click="loadSampleData">
                 <el-icon>
-                  <DocumentCopy/>
+                  <DocumentCopy />
                 </el-icon>
-                {{ i18n('rule.sample') }}
+                {{ i18n("rule.sample") }}
               </el-button>
               <el-button @click="clearTestResult">
                 <el-icon>
-                  <Brush/>
+                  <Brush />
                 </el-icon>
-                {{ i18n('rule.clear') }}
+                {{ i18n("rule.clear") }}
               </el-button>
               <el-button link @click="closeTestConsole">
                 <el-icon>
-                  <Close/>
+                  <Close />
                 </el-icon>
               </el-button>
             </div>
           </div>
           <div class="console-body">
             <el-splitter class="console-splitter">
-              <el-splitter-panel :size="350" resizable collapsible min="200" max="550">
+              <el-splitter-panel
+                :size="350"
+                resizable
+                collapsible
+                min="200"
+                max="550"
+              >
                 <div class="pane-header">
-                  <span>{{ i18n('rule.console.input') }}</span>
+                  <span>{{ i18n("rule.console.input") }}</span>
                   <el-button link @click="switchToJsonMode">
-                    {{ jsonMode ? i18n('rule.console.formMode') : i18n('rule.console.jsonMode') }}
+                    {{
+                      jsonMode
+                        ? i18n("rule.console.formMode")
+                        : i18n("rule.console.jsonMode")
+                    }}
                   </el-button>
                 </div>
                 <div class="pane-body">
@@ -677,118 +1150,213 @@
                   <div v-if="!jsonMode">
                     <div v-if="testFields.length === 0" class="empty-output">
                       <el-icon :size="28">
-                        <Document/>
+                        <Document />
                       </el-icon>
-                      <p>{{ i18n('rule.console.noParams') }}</p>
-                      <p class="hint">{{ i18n('rule.console.addConditionHint') }}</p>
+                      <p>{{ i18n("rule.console.noParams") }}</p>
+                      <p class="hint">
+                        {{ i18n("rule.console.addConditionHint") }}
+                      </p>
                     </div>
-                    <el-form v-else label-width="100px" labelPosition="top" class="param-form">
-                      <el-form-item v-for="field in testFields" :key="field.name" :label="field.name">
+                    <el-form
+                      v-else
+                      label-width="100px"
+                      labelPosition="top"
+                      class="param-form"
+                    >
+                      <el-form-item
+                        v-for="field in testFields"
+                        :key="field.name"
+                        :label="field.name"
+                      >
                         <!-- 数字 -->
                         <el-input-number
-                            v-if="field.type === 'NUMBER'"
-                            v-model="testFormData[field.name]"
-                            :controls="false"
-                            :placeholder="i18n('rule.option.number')"
-                            style="width: 100%"
+                          v-if="field.type === 'NUMBER'"
+                          v-model="testFormData[field.name]"
+                          :controls="false"
+                          :placeholder="i18n('rule.option.number')"
+                          style="width: 100%"
                         />
                         <!-- 日期 -->
                         <el-date-picker
-                            v-else-if="field.type === 'DATE'"
-                            v-model="testFormData[field.name]"
-                            type="datetime"
-                            :placeholder="i18n('rule.option.date')"
-                            value-format="YYYY-MM-DD HH:mm:ss"
-                            style="width: 100%"
+                          v-else-if="field.type === 'DATE'"
+                          v-model="testFormData[field.name]"
+                          type="datetime"
+                          :placeholder="i18n('rule.option.date')"
+                          value-format="YYYY-MM-DD HH:mm:ss"
+                          style="width: 100%"
                         />
                         <!-- 布尔 -->
                         <el-select
-                            v-else-if="field.type === 'BOOLEAN'"
-                            v-model="testFormData[field.name]"
-                            style="width: 100%"
+                          v-else-if="field.type === 'BOOLEAN'"
+                          v-model="testFormData[field.name]"
+                          style="width: 100%"
                         >
-                          <el-option :label="i18n('rule.option.boolean')" :value="true"/>
-                          <el-option :label="i18n('rule.option.string')" :value="false"/>
+                          <el-option
+                            :label="i18n('rule.option.boolean')"
+                            :value="true"
+                          />
+                          <el-option
+                            :label="i18n('rule.option.string')"
+                            :value="false"
+                          />
                         </el-select>
                         <!-- 字符串/数组 -->
                         <el-input
-                            v-else
-                            v-model="testFormData[field.name]"
-                            :placeholder="field.type === 'ARRAY' ? i18n('rule.msg.arrayInput') : i18n('rule.msg.inputValue')"
+                          v-else
+                          v-model="testFormData[field.name]"
+                          :placeholder="
+                            field.type === 'ARRAY'
+                              ? i18n('rule.msg.arrayInput')
+                              : i18n('rule.msg.inputValue')
+                          "
                         />
-                        <el-tag type="info" class="field-type-tag">{{ field.type }}</el-tag>
+                        <el-tag type="info" class="field-type-tag">{{
+                          field.type
+                        }}</el-tag>
                       </el-form-item>
                     </el-form>
                   </div>
                   <!-- JSON模式 -->
                   <el-input
-                      v-else
-                      v-model="testDataStr"
-                      type="textarea"
-                      :autosize="{ minRows: 4, maxRows: 15 }"
-                      placeholder='{"amount": 6000}'
-                      class="json-input"
+                    v-else
+                    v-model="testDataStr"
+                    type="textarea"
+                    :autosize="{ minRows: 4, maxRows: 15 }"
+                    placeholder='{"amount": 6000}'
+                    class="json-input"
                   />
                 </div>
               </el-splitter-panel>
               <el-splitter-panel>
                 <div class="pane-header">
-                  <span>{{ i18n('rule.console.output') }}</span>
+                  <span>{{ i18n("rule.console.output") }}</span>
                   <el-radio-group v-if="executionPath" v-model="outputTab">
-                    <el-radio-button value="timeline">{{ i18n('rule.console.timeline') }}</el-radio-button>
-                    <el-radio-button value="conditions">{{ i18n('rule.console.condition') }}</el-radio-button>
-                    <el-radio-button value="actions">{{ i18n('rule.console.action') }}</el-radio-button>
-                    <el-radio-button value="context">{{ i18n('rule.console.context') }}</el-radio-button>
+                    <el-radio-button value="timeline">{{
+                      i18n("rule.console.timeline")
+                    }}</el-radio-button>
+                    <el-radio-button value="conditions">{{
+                      i18n("rule.console.condition")
+                    }}</el-radio-button>
+                    <el-radio-button value="actions">{{
+                      i18n("rule.console.action")
+                    }}</el-radio-button>
+                    <el-radio-button value="context">{{
+                      i18n("rule.console.context")
+                    }}</el-radio-button>
                   </el-radio-group>
                 </div>
                 <div class="pane-body">
                   <div v-if="!executionPath" class="empty-output">
                     <el-icon :size="32">
-                      <Cpu/>
+                      <Cpu />
                     </el-icon>
-                    <p>{{ i18n('rule.console.executeHint') }}</p></div>
-                  <div v-else-if="outputTab === 'timeline'" class="output-content">
+                    <p>{{ i18n("rule.console.executeHint") }}</p>
+                  </div>
+                  <div
+                    v-else-if="outputTab === 'timeline'"
+                    class="output-content"
+                  >
                     <el-timeline>
-                      <el-timeline-item v-for="(step, idx) in displaySteps" :key="idx" :type="getStepType(step.status)"
-                                        :timestamp="`+${step.timestamp - executionPath.steps[0].timestamp}ms`"
-                                        placement="top" size="large">
-                        <div class="step-card" :class="{ 'step-current': isStepping && idx === stepIndex }">
+                      <el-timeline-item
+                        v-for="(step, idx) in displaySteps"
+                        :key="idx"
+                        :type="getStepType(step.status)"
+                        :timestamp="`+${step.timestamp - executionPath.steps[0].timestamp}ms`"
+                        placement="top"
+                        size="large"
+                      >
+                        <div
+                          class="step-card"
+                          :class="{
+                            'step-current': isStepping && idx === stepIndex,
+                          }"
+                        >
                           <div class="step-header">
-                            <el-tag :type="getStepType(step.status)" effect="dark">{{ step.status }}</el-tag>
-                            <span class="step-node-name">{{ step.nodeName }}</span>
-                            <span class="step-node-type">[{{ step.nodeType }}]</span>
-                            <span class="step-duration">{{ step.duration || 0 }}ms</span>
+                            <el-tag
+                              :type="getStepType(step.status)"
+                              effect="dark"
+                              >{{ step.status }}</el-tag
+                            >
+                            <span class="step-node-name">{{
+                              step.nodeName
+                            }}</span>
+                            <span class="step-node-type"
+                              >[{{ step.nodeType }}]</span
+                            >
+                            <span class="step-duration"
+                              >{{ step.duration || 0 }}ms</span
+                            >
                           </div>
                           <div class="step-message">{{ step.message }}</div>
                         </div>
                       </el-timeline-item>
                     </el-timeline>
                   </div>
-                  <div v-else-if="outputTab === 'conditions'" class="output-content">
-                    <div v-for="cond in executionPath.conditionResults" :key="cond.nodeId" class="cond-item">
-                      <el-tag :type="cond.passed ? 'success' : 'info'" effect="dark">{{
-                          cond.passed ? i18n('rule.edge.satisfied') : i18n('rule.edge.notSatisfied')
+                  <div
+                    v-else-if="outputTab === 'conditions'"
+                    class="output-content"
+                  >
+                    <div
+                      v-for="cond in executionPath.conditionResults"
+                      :key="cond.nodeId"
+                      class="cond-item"
+                    >
+                      <el-tag
+                        :type="cond.passed ? 'success' : 'info'"
+                        effect="dark"
+                        >{{
+                          cond.passed
+                            ? i18n("rule.edge.satisfied")
+                            : i18n("rule.edge.notSatisfied")
                         }}
                       </el-tag>
                       <pre class="cond-detail">{{ cond.detail }}</pre>
                     </div>
                   </div>
-                  <div v-else-if="outputTab === 'actions'" class="output-content">
+                  <div
+                    v-else-if="outputTab === 'actions'"
+                    class="output-content"
+                  >
                     <el-table :data="executionPath.actionResults" border stripe>
-                      <el-table-column prop="actionType" :label="i18n('rule.field.actionType')" width="120"/>
-                      <el-table-column prop="targetField" :label="i18n('rule.field.targetField')" width="160"/>
-                      <el-table-column prop="success" :label="i18n('rule.status.draft')" width="80">
+                      <el-table-column
+                        prop="actionType"
+                        :label="i18n('rule.field.actionType')"
+                        width="120"
+                      />
+                      <el-table-column
+                        prop="targetField"
+                        :label="i18n('rule.field.targetField')"
+                        width="160"
+                      />
+                      <el-table-column
+                        prop="success"
+                        :label="i18n('rule.status.draft')"
+                        width="80"
+                      >
                         <template #default="{ row }">
                           <el-tag :type="row.success ? 'success' : 'danger'">
-                            {{ row.success ? i18n('rule.console.success') : i18n('rule.console.fail') }}
+                            {{
+                              row.success
+                                ? i18n("rule.console.success")
+                                : i18n("rule.console.fail")
+                            }}
                           </el-tag>
                         </template>
                       </el-table-column>
-                      <el-table-column prop="message" :label="i18n('rule.msg.message')" show-overflow-tooltip/>
+                      <el-table-column
+                        prop="message"
+                        :label="i18n('rule.msg.message')"
+                        show-overflow-tooltip
+                      />
                     </el-table>
                   </div>
-                  <div v-else-if="outputTab === 'context'" class="output-content">
-                    <pre class="json-output">{{ formatJson(executionPath.context) }}</pre>
+                  <div
+                    v-else-if="outputTab === 'context'"
+                    class="output-content"
+                  >
+                    <pre class="json-output">{{
+                      formatJson(executionPath.context)
+                    }}</pre>
                   </div>
                 </div>
               </el-splitter-panel>
@@ -800,56 +1368,88 @@
 
     <!-- 代码视图 -->
     <RuleCodeView
-        v-if="viewMode === 'code'"
-        :ruleData="ruleData"
-        :nodes="nodes"
-        :edges="edges"
-        @update="handleCodeViewUpdate"
-        class="designer-body"
+      v-if="viewMode === 'code'"
+      :ruleData="ruleData"
+      :nodes="nodes"
+      :edges="edges"
+      @update="handleCodeViewUpdate"
+      class="designer-body"
     />
   </div>
 </template>
 
 <script setup lang="ts">
 // 弹窗组件懒加载，只在用户点击编辑时才加载
-import {computed, defineAsyncComponent, nextTick, onMounted, onUnmounted, provide, reactive, ref, watch} from "vue";
-import {useRoute} from "vue-router";
-import {ConnectionMode, type Edge, type Node} from "./compat";
+import {
+  computed,
+  defineAsyncComponent,
+  nextTick,
+  onMounted,
+  onUnmounted,
+  provide,
+  reactive,
+  ref,
+  watch,
+} from "vue";
+import { useRoute } from "vue-router";
+import { ConnectionMode, type Edge, type Node } from "./compat";
 import RuleCanvas from "./RuleCanvas.vue";
-import {ruleActionApi, ruleConditionApi, ruleDefinitionApi, ruleVariableApi} from "@/api/rule_engine_api";
+import {
+  ruleActionApi,
+  ruleConditionApi,
+  ruleDefinitionApi,
+  ruleVariableApi,
+} from "@/api/rule_engine_api";
 import NodePanel from "./NodePanel.vue";
 import PropertyPanel from "./PropertyPanel.vue";
 import NodeExecOverlay from "./components/NodeExecOverlay.vue";
 import NodeValidationOverlay from "./components/NodeValidationOverlay.vue";
-import {validateRuleFlow, type ValidationResult} from "./engine/validator";
+import { validateRuleFlow, type ValidationResult } from "./engine/validator";
 import StartNode from "./nodes/StartNode.vue";
 import EndNode from "./nodes/EndNode.vue";
 import ConditionNode from "./nodes/ConditionNode.vue";
 import ActionNode from "./nodes/ActionNode.vue";
 import ExclusiveGatewayNode from "./nodes/ExclusiveGatewayNode.vue";
-import ParallelGatewayNode from "./nodes/ParallelGatewayNode.vue";
-import InclusiveGatewayNode from "./nodes/InclusiveGatewayNode.vue";
 import VariableAssignNode from "./nodes/VariableAssignNode.vue";
 import ScriptNode from "./nodes/ScriptNode.vue";
 import HttpCallNode from "./nodes/HttpCallNode.vue";
-import JoinNode from "./nodes/JoinNode.vue";
 import GenericNode from "./nodes/GenericNode.vue";
-import {DEMO_LIST} from "./demos/demoData";
-import {getNodeDefaultData, getNodeLabel} from "./nodeTypes";
-import {executeRuleFlow, type ExecutionPath} from "./engine/RuleExecutor";
-import {error, operationConfirm, postRequest, success, warning} from "star-horse-lowcode";
-import {i18n} from "@/lang";
-import {ElMessageBox} from "element-plus";
+import { DEMO_LIST } from "./demos/demoData";
+import { getNodeDefaultData, getNodeLabel } from "./nodeTypes";
+import { executeRuleFlow, type ExecutionPath } from "./engine/RuleExecutor";
+import {
+  error,
+  operationConfirm,
+  postRequest,
+  success,
+  warning,
+} from "star-horse-lowcode";
+import { i18n } from "@/lang";
+import { ElMessageBox } from "element-plus";
 import RuleCodeView from "./RuleCodeView.vue";
-import {extractFieldMetaList, type FormFieldMeta} from "./useFormRuleRuntime";
+import { extractFieldMetaList, type FormFieldMeta } from "./useFormRuleRuntime";
 
-const ConditionEditDialog = defineAsyncComponent(() => import("./dialogs/ConditionEditDialog.vue"));
-const ActionEditDialog = defineAsyncComponent(() => import("./dialogs/ActionEditDialog.vue"));
-const GatewayConfigDialog = defineAsyncComponent(() => import("./dialogs/GatewayConfigDialog.vue"));
-const VariableAssignDialog = defineAsyncComponent(() => import("./dialogs/VariableAssignDialog.vue"));
-const ScriptEditDialog = defineAsyncComponent(() => import("./dialogs/ScriptEditDialog.vue"));
-const HttpCallDialog = defineAsyncComponent(() => import("./dialogs/HttpCallDialog.vue"));
-const RulePropertyDialog = defineAsyncComponent(() => import("./dialogs/RulePropertyDialog.vue"));
+const ConditionEditDialog = defineAsyncComponent(
+  () => import("./dialogs/ConditionEditDialog.vue"),
+);
+const ActionEditDialog = defineAsyncComponent(
+  () => import("./dialogs/ActionEditDialog.vue"),
+);
+const GatewayConfigDialog = defineAsyncComponent(
+  () => import("./dialogs/GatewayConfigDialog.vue"),
+);
+const VariableAssignDialog = defineAsyncComponent(
+  () => import("./dialogs/VariableAssignDialog.vue"),
+);
+const ScriptEditDialog = defineAsyncComponent(
+  () => import("./dialogs/ScriptEditDialog.vue"),
+);
+const HttpCallDialog = defineAsyncComponent(
+  () => import("./dialogs/HttpCallDialog.vue"),
+);
+const RulePropertyDialog = defineAsyncComponent(
+  () => import("./dialogs/RulePropertyDialog.vue"),
+);
 
 /**
  * Props
@@ -884,17 +1484,29 @@ const autoLoadedFormFields = ref<FormFieldMeta[]>([]);
 const providedFormFields = computed<FormFieldMeta[]>(() => {
   // 优先用 props.formFields（从表单设计器传入）
   if (props.formFields && props.formFields.length > 0) {
-    console.log('[RuleDesigner] providedFormFields | source=props | len=', props.formFields.length)
-    return props.formFields
+    console.log(
+      "[RuleDesigner] providedFormFields | source=props | len=",
+      props.formFields.length,
+    );
+    return props.formFields;
   }
   // 否则用自动加载的字段（独立打开规则时从表单详情 API 加载）
-  console.log('[RuleDesigner] providedFormFields | source=autoLoaded | len=', autoLoadedFormFields.value.length)
-  return autoLoadedFormFields.value
+  console.log(
+    "[RuleDesigner] providedFormFields | source=autoLoaded | len=",
+    autoLoadedFormFields.value.length,
+  );
+  return autoLoadedFormFields.value;
 });
-provide('ruleFormFields', providedFormFields);
-provide('ruleFormId', computed(() => props.formId || ruleData.formId || ''));
+provide("ruleFormFields", providedFormFields);
+provide(
+  "ruleFormId",
+  computed(() => props.formId || ruleData.formId || ""),
+);
 // 提供规则变量库给 PropertyPanel/FieldSelector，使其在选择字段时可同时选表单字段与变量
-provide('ruleVariables', computed(() => ruleData.variables || []));
+provide(
+  "ruleVariables",
+  computed(() => ruleData.variables || []),
+);
 
 /**
  * 根据 formId 从后端加载表单 compList 并提取字段元数据
@@ -906,24 +1518,38 @@ provide('ruleVariables', computed(() => ruleData.variables || []));
 const loadFormFieldsFromApi = async (formId: string) => {
   if (!formId) return;
   try {
-    const res: any = await postRequest(`userdb-manage/userdb/dynamicForm/getById/${formId}`, {});
+    const res: any = await postRequest(
+      `userdb-manage/userdb/dynamicForm/getById/${formId}`,
+      {},
+    );
     const dynamicFormData = res?.data?.data;
     if (!dynamicFormData) {
-      console.warn('[RuleDesigner] loadFormFieldsFromApi | no data returned for formId=', formId);
+      console.warn(
+        "[RuleDesigner] loadFormFieldsFromApi | no data returned for formId=",
+        formId,
+      );
       return;
     }
     const details = dynamicFormData.details;
     if (!details?.content) {
-      console.warn('[RuleDesigner] loadFormFieldsFromApi | no details.content for formId=', formId);
+      console.warn(
+        "[RuleDesigner] loadFormFieldsFromApi | no details.content for formId=",
+        formId,
+      );
       return;
     }
     const compList = JSON.parse(details.content);
     if (Array.isArray(compList)) {
       autoLoadedFormFields.value = extractFieldMetaList(compList);
-      console.log('[RuleDesigner] loadFormFieldsFromApi | formId=', formId, '| fields=', autoLoadedFormFields.value.length);
+      console.log(
+        "[RuleDesigner] loadFormFieldsFromApi | formId=",
+        formId,
+        "| fields=",
+        autoLoadedFormFields.value.length,
+      );
     }
   } catch (e) {
-    console.warn('[RuleDesigner] loadFormFieldsFromApi failed:', e);
+    console.warn("[RuleDesigner] loadFormFieldsFromApi failed:", e);
   }
 };
 const saving = ref(false);
@@ -936,10 +1562,10 @@ const fitViewFn = (opts?: {
   duration?: number;
   padding?: number;
   maxZoom?: number;
-  nodes?: string[]
+  nodes?: string[];
 }) => ruleCanvasRef.value?.fitView(opts);
 const screenToFlowCoordinate = (pt: { x: number; y: number }) =>
-    ruleCanvasRef.value?.screenToFlowCoordinate(pt) || {x: 0, y: 0};
+  ruleCanvasRef.value?.screenToFlowCoordinate(pt) || { x: 0, y: 0 };
 const addNodes = (n: Node | Node[]) => {
   const arr = Array.isArray(n) ? n : [n];
   nodes.value.push(...arr);
@@ -950,11 +1576,11 @@ const addEdges = (e: Edge | Edge[]) => {
 };
 const removeNodes = (ids: string | string[]) => {
   const set = new Set(Array.isArray(ids) ? ids : [ids]);
-  nodes.value = nodes.value.filter(n => !set.has(n.id));
+  nodes.value = nodes.value.filter((n) => !set.has(n.id));
 };
 const removeEdges = (ids: string | string[]) => {
   const set = new Set(Array.isArray(ids) ? ids : [ids]);
-  edges.value = edges.value.filter(e => !set.has(e.id));
+  edges.value = edges.value.filter((e) => !set.has(e.id));
 };
 const selectedNode = ref<any>(null);
 // 视图模式：design=设计视图, code=代码视图
@@ -992,7 +1618,8 @@ const outputTab = ref("timeline");
 // 执行回溯气泡：步进模式下只显示到当前步
 const overlayVisibleNodeIds = computed(() => {
   if (!executionPath.value) return [];
-  if (isStepping.value) return executionPath.value.visitedNodeIds.slice(0, stepIndex.value + 1);
+  if (isStepping.value)
+    return executionPath.value.visitedNodeIds.slice(0, stepIndex.value + 1);
   return executionPath.value.visitedNodeIds;
 });
 
@@ -1000,13 +1627,22 @@ const overlayVisibleNodeIds = computed(() => {
 // 防抖：节点/边频繁变化时避免过度计算
 const validationTick = ref(0);
 let validationTimer: ReturnType<typeof setTimeout> | null = null;
-watch([nodes, edges], () => {
-  if (validationTimer) clearTimeout(validationTimer);
-  validationTimer = setTimeout(() => {
-    validationTick.value++
-  }, 200);
-}, {deep: true});
-const emptyResult: ValidationResult = {issues: [], errorCount: 0, warningCount: 0, nodeMap: new Map()};
+watch(
+  [nodes, edges],
+  () => {
+    if (validationTimer) clearTimeout(validationTimer);
+    validationTimer = setTimeout(() => {
+      validationTick.value++;
+    }, 200);
+  },
+  { deep: true },
+);
+const emptyResult: ValidationResult = {
+  issues: [],
+  errorCount: 0,
+  warningCount: 0,
+  nodeMap: new Map(),
+};
 const validationResult = computed<ValidationResult>(() => {
   // 依赖 validationTick 触发防抖重算
   void validationTick.value;
@@ -1014,23 +1650,31 @@ const validationResult = computed<ValidationResult>(() => {
   if (isTestMode.value || !nodes.value.length) return emptyResult;
   // 传入 formFieldNames + variableNames 进行僵尸属性校验
   // 字段引用可来自表单字段或规则变量库（合并并集校验）
-  const formFieldNames = (props.formFields || []).map((f: any) => f.fieldName).filter(Boolean);
-  const variableNames = (ruleData.variables || []).map((v: any) => v.field).filter(Boolean);
-  const boundFormId = ruleData.formId || props.formId || '';
-  return validateRuleFlow(nodes.value, edges.value, {formFieldNames, variableNames, boundFormId});
+  const formFieldNames = (props.formFields || [])
+    .map((f: any) => f.fieldName)
+    .filter(Boolean);
+  const variableNames = (ruleData.variables || [])
+    .map((v: any) => v.field)
+    .filter(Boolean);
+  const boundFormId = ruleData.formId || props.formId || "";
+  return validateRuleFlow(nodes.value, edges.value, {
+    formFieldNames,
+    variableNames,
+    boundFormId,
+  });
 });
 // 定位到节点：选中并居中
 const handleLocateNode = (nodeId: string) => {
   if (!nodeId) return;
-  const n = nodes.value.find(x => x.id === nodeId);
+  const n = nodes.value.find((x) => x.id === nodeId);
   if (!n) return;
-  nodes.value.forEach(x => {
-    x.selected = false
+  nodes.value.forEach((x) => {
+    x.selected = false;
   });
   n.selected = true;
-  selectedNode.value = {...n};
+  selectedNode.value = { ...n };
   // 居中到该节点
-  fitViewFn({nodes: [nodeId], maxZoom: 1.2, duration: 300});
+  fitViewFn({ nodes: [nodeId], maxZoom: 1.2, duration: 300 });
 };
 const jsonMode = ref(false);
 const testFormData = reactive<Record<string, any>>({});
@@ -1044,7 +1688,7 @@ const testFields = computed(() => {
       n.data.conditions.forEach((c: any) => {
         if (c.fieldName && !seen.has(c.fieldName)) {
           seen.add(c.fieldName);
-          fields.push({name: c.fieldName, type: c.fieldType || "STRING"});
+          fields.push({ name: c.fieldName, type: c.fieldType || "STRING" });
         }
       });
     }
@@ -1052,7 +1696,7 @@ const testFields = computed(() => {
       n.data.assignments.forEach((a: any) => {
         if (a.variableName && !seen.has(a.variableName)) {
           seen.add(a.variableName);
-          fields.push({name: a.variableName, type: "STRING"});
+          fields.push({ name: a.variableName, type: "STRING" });
         }
       });
     }
@@ -1067,50 +1711,75 @@ const contextMenu = reactive({
   y: 0,
   type: "pane" as "node" | "edge" | "pane",
   nodeId: "",
-  edgeId: ""
+  edgeId: "",
 });
 const clipboard = ref<Node | null>(null);
 
 const ruleData = reactive({
-  idRuleDefinition: "", ruleCode: "", ruleName: "", ruleDesc: "",
-  ruleType: "FORM_LINKAGE", ruleCategory: "", priority: 0, enabled: "Y",
-  conditionLogic: "AND", status: "DRAFT", formId: "", flowContent: "",
+  idRuleDefinition: "",
+  ruleCode: "",
+  ruleName: "",
+  ruleDesc: "",
+  ruleType: "FORM_LINKAGE",
+  ruleCategory: "",
+  priority: 0,
+  enabled: "Y",
+  conditionLogic: "AND",
+  status: "DRAFT",
+  formId: "",
+  flowContent: "",
   // 变量库：入参/上下文/常量统一管理，供条件编辑与表达式引用
   variables: [] as Array<{
-    field: string; label: string; type: "STRING" | "NUMBER" | "DATE" | "BOOLEAN" | "ARRAY";
-    source: "INPUT" | "CONTEXT" | "CONSTANT"; defaultValue?: string; desc?: string;
-  }>
+    field: string;
+    label: string;
+    type: "STRING" | "NUMBER" | "DATE" | "BOOLEAN" | "ARRAY";
+    source: "INPUT" | "CONTEXT" | "CONSTANT";
+    defaultValue?: string;
+    desc?: string;
+  }>,
 });
 
 const nodeDefaultData: Record<string, () => any> = {
-  "start": () => ({}),
-  "end": () => ({}),
-  "condition": () => ({conditions: [], logic: "AND"}),
-  "action": () => ({actions: []}),
-  "exclusive-gateway": () => ({name: i18n('rule.node.exclusiveGateway'), gatewayType: "XOR", branches: []}),
-  "parallel-gateway": () => ({name: i18n('rule.node.parallelGateway')}),
-  "inclusive-gateway": () => ({name: i18n('rule.node.inclusiveGateway'), gatewayType: "OR", branches: []}),
-  "variable-assign": () => ({assignments: []}),
-  "script": () => ({scriptContent: '', scriptLang: 'javascript', description: ''}),
-  "http-call": () => getNodeDefaultData('http-call'),
-  "join": () => ({joinType: 'AND', waitAll: 'Y'})
+  start: () => ({}),
+  end: () => ({}),
+  condition: () => ({ conditions: [], logic: "AND" }),
+  action: () => ({ actions: [] }),
+  "exclusive-gateway": () => ({
+    name: i18n("rule.node.exclusiveGateway"),
+    gatewayType: "XOR",
+    branches: [],
+  }),
+  "variable-assign": () => ({ assignments: [] }),
+  script: () => ({
+    scriptContent: "",
+    scriptLang: "javascript",
+    description: "",
+  }),
+  "http-call": () => getNodeDefaultData("http-call"),
 };
 // 规则分类选项（业务域分类，非自由文本）
 // 规则必须归属到明确业务分类，避免阿猫阿狗随便填
 const CATEGORY_OPTIONS = [
-  {label: 'rule.category.formLinkage', value: 'FORM_LINKAGE'},
-  {label: 'rule.category.dataValidation', value: 'DATA_VALIDATION'},
-  {label: 'rule.category.processControl', value: 'PROCESS_CONTROL'},
-  {label: 'rule.category.calcAssignment', value: 'CALC_ASSIGNMENT'},
-  {label: 'rule.category.businessRule', value: 'BUSINESS_RULE'},
-  {label: 'rule.category.notificationMsg', value: 'NOTIFICATION_MSG'},
-  {label: 'rule.category.dataTransform', value: 'DATA_TRANSFORM'},
-  {label: 'rule.category.other', value: 'OTHER'},
+  { label: "rule.category.formLinkage", value: "FORM_LINKAGE" },
+  { label: "rule.category.dataValidation", value: "DATA_VALIDATION" },
+  { label: "rule.category.processControl", value: "PROCESS_CONTROL" },
+  { label: "rule.category.calcAssignment", value: "CALC_ASSIGNMENT" },
+  { label: "rule.category.businessRule", value: "BUSINESS_RULE" },
+  { label: "rule.category.notificationMsg", value: "NOTIFICATION_MSG" },
+  { label: "rule.category.dataTransform", value: "DATA_TRANSFORM" },
+  { label: "rule.category.other", value: "OTHER" },
 ];
 // 基础节点类型（有专用组件）
-const BASIC_NODE_TYPES = new Set(["start", "end", "condition", "action",
-  "exclusive-gateway", "parallel-gateway", "inclusive-gateway", "variable-assign",
-  "script", "http-call", "join"]);
+const BASIC_NODE_TYPES = new Set([
+  "start",
+  "end",
+  "condition",
+  "action",
+  "exclusive-gateway",
+  "variable-assign",
+  "script",
+  "http-call",
+]);
 let nodeIdCounter = 0;
 const generateNodeId = (type: string) => {
   nodeIdCounter++;
@@ -1119,8 +1788,8 @@ const generateNodeId = (type: string) => {
 
 const initDefaultFlow = () => {
   nodes.value = [
-    {id: "start_1", type: "start", position: {x: 400, y: 50}, data: {}},
-    {id: "end_1", type: "end", position: {x: 400, y: 400}, data: {}}
+    { id: "start_1", type: "start", position: { x: 400, y: 50 }, data: {} },
+    { id: "end_1", type: "end", position: { x: 400, y: 400 }, data: {} },
   ];
   edges.value = [];
 };
@@ -1137,9 +1806,9 @@ const onDrop = (e: DragEvent) => {
   e.preventDefault();
   const nodeType = e.dataTransfer?.getData("application/vueflow");
   if (!nodeType) return;
-  const position = screenToFlowCoordinate({x: e.clientX, y: e.clientY});
+  const position = screenToFlowCoordinate({ x: e.clientX, y: e.clientY });
   // 清除其他节点的选中状态
-  nodes.value.forEach(n => n.selected = false);
+  nodes.value.forEach((n) => (n.selected = false));
   let newNode: Node;
   if (BASIC_NODE_TYPES.has(nodeType)) {
     newNode = {
@@ -1147,7 +1816,7 @@ const onDrop = (e: DragEvent) => {
       type: nodeType,
       position,
       data: nodeDefaultData[nodeType] ? nodeDefaultData[nodeType]() : {},
-      selected: true
+      selected: true,
     };
   } else {
     const defaultData = getNodeDefaultData(nodeType);
@@ -1155,105 +1824,114 @@ const onDrop = (e: DragEvent) => {
       id: generateNodeId(nodeType),
       type: "generic",
       position,
-      data: {...defaultData, __nodeType: nodeType},
-      selected: true
+      data: { ...defaultData, __nodeType: nodeType },
+      selected: true,
     };
   }
   addNodes(newNode);
   nextTick(() => {
     selectedNode.value = JSON.parse(JSON.stringify(newNode));
-    nodes.value.forEach(n => {
-      n.selected = (n.id === newNode.id);
+    nodes.value.forEach((n) => {
+      n.selected = n.id === newNode.id;
     });
   });
   pushHistory();
-  success(`${i18n('rule.msg.added')} ${getNodeLabel(nodeType)}`);
+  success(`${i18n("rule.msg.added")} ${getNodeLabel(nodeType)}`);
 };
 
 const onConnect = (c: any) => {
-  const sourceNode = nodes.value.find(n => n.id === c.source);
-  const targetNode = nodes.value.find(n => n.id === c.target);
+  const sourceNode = nodes.value.find((n) => n.id === c.source);
+  const targetNode = nodes.value.find((n) => n.id === c.target);
   if (!sourceNode || !targetNode) return;
 
   // 根据源节点类型自动生成边标签
   let label = "";
-  let labelStyle = {fill: "#64748b", fontSize: 11, fontWeight: 500};
-  const sourceType = sourceNode.type === "generic" ? sourceNode.data.__nodeType : sourceNode.type;
+  let labelStyle = { fill: "#64748b", fontSize: 11, fontWeight: 500 };
+  const sourceType =
+    sourceNode.type === "generic"
+      ? sourceNode.data.__nodeType
+      : sourceNode.type;
 
   switch (sourceType) {
     case "condition": {
       // 条件节点：第一条出边标注"满足✓"，第二条标注"不满足✗"
-      const outEdges = edges.value.filter(e => e.source === c.source);
+      const outEdges = edges.value.filter((e) => e.source === c.source);
       if (outEdges.length === 0) {
-        label = i18n('rule.edge.satisfied');
-        labelStyle = {fill: "#10b981", fontSize: 11, fontWeight: 600};
+        label = i18n("rule.edge.satisfied");
+        labelStyle = { fill: "#10b981", fontSize: 11, fontWeight: 600 };
       } else {
-        label = i18n('rule.edge.notSatisfied');
-        labelStyle = {fill: "#ef4444", fontSize: 11, fontWeight: 600};
+        label = i18n("rule.edge.notSatisfied");
+        labelStyle = { fill: "#ef4444", fontSize: 11, fontWeight: 600 };
       }
       break;
     }
     case "exclusive-gateway": {
       // 排他网关：根据分支配置自动生成条件摘要
       const branches = sourceNode.data.branches || [];
-      const outEdges = edges.value.filter(e => e.source === c.source);
+      const outEdges = edges.value.filter((e) => e.source === c.source);
       const branchIndex = outEdges.length;
       if (branchIndex < branches.length) {
         const branch = branches[branchIndex];
-        label = branch.condition || branch.label || `${i18n('rule.edge.branch')}${branchIndex + 1}`;
+        label =
+          branch.condition ||
+          branch.label ||
+          `${i18n("rule.edge.branch")}${branchIndex + 1}`;
       } else {
-        label = i18n('rule.edge.defaultBranch');
+        label = i18n("rule.edge.defaultBranch");
       }
-      labelStyle = {fill: "#f59e0b", fontSize: 11, fontWeight: 600};
+      labelStyle = { fill: "#f59e0b", fontSize: 11, fontWeight: 600 };
       break;
     }
     case "parallel-gateway": {
-      label = i18n('rule.edge.parallelExec');
-      labelStyle = {fill: "#06b6d4", fontSize: 11, fontWeight: 600};
+      label = i18n("rule.edge.parallelExec");
+      labelStyle = { fill: "#06b6d4", fontSize: 11, fontWeight: 600 };
       break;
     }
     case "inclusive-gateway": {
       const branches = sourceNode.data.branches || [];
-      const outEdges = edges.value.filter(e => e.source === c.source);
+      const outEdges = edges.value.filter((e) => e.source === c.source);
       const branchIndex = outEdges.length;
       if (branchIndex < branches.length) {
         const branch = branches[branchIndex];
-        label = branch.condition || branch.label || `${i18n('rule.edge.branch')}${branchIndex + 1}`;
+        label =
+          branch.condition ||
+          branch.label ||
+          `${i18n("rule.edge.branch")}${branchIndex + 1}`;
       } else {
-        label = i18n('rule.edge.defaultBranch');
+        label = i18n("rule.edge.defaultBranch");
       }
-      labelStyle = {fill: "#8b5cf6", fontSize: 11, fontWeight: 600};
+      labelStyle = { fill: "#8b5cf6", fontSize: 11, fontWeight: 600 };
       break;
     }
     case "variable-assign": {
       const assignments = sourceNode.data.assignments || [];
       if (assignments.length > 0) {
-        label = `${i18n('rule.edge.set')} ${assignments.map(a => a.variableName).join(", ")}`;
+        label = `${i18n("rule.edge.set")} ${assignments.map((a) => a.variableName).join(", ")}`;
       } else {
-        label = i18n('rule.edge.varAssign');
+        label = i18n("rule.edge.varAssign");
       }
-      labelStyle = {fill: "#6366f1", fontSize: 11, fontWeight: 500};
+      labelStyle = { fill: "#6366f1", fontSize: 11, fontWeight: 500 };
       break;
     }
     case "action": {
       const actions = sourceNode.data.actions || [];
       if (actions.length > 0) {
-        label = `${actions.length}${i18n('rule.edge.actions')}`;
+        label = `${actions.length}${i18n("rule.edge.actions")}`;
       } else {
-        label = i18n('rule.edge.execAction');
+        label = i18n("rule.edge.execAction");
       }
       break;
     }
     case "loop": {
-      label = `${i18n('rule.edge.loop')} ${sourceNode.data.collectionVar || i18n('rule.edge.collection')}`;
+      label = `${i18n("rule.edge.loop")} ${sourceNode.data.collectionVar || i18n("rule.edge.collection")}`;
       break;
     }
     case "script": {
-      label = i18n('rule.edge.execScript');
+      label = i18n("rule.edge.execScript");
       break;
     }
     case "http-call": {
-      label = `${sourceNode.data.method || "GET"} ${sourceNode.data.url || i18n('rule.edge.interface')}`;
+      label = `${sourceNode.data.method || "GET"} ${sourceNode.data.url || i18n("rule.edge.interface")}`;
       break;
     }
     default: {
@@ -1270,11 +1948,11 @@ const onConnect = (c: any) => {
     label,
     labelStyle,
     labelShowBg: true,
-    labelBgStyle: {fill: "#fff", fillOpacity: 0.9},
+    labelBgStyle: { fill: "#fff", fillOpacity: 0.9 },
     animated: false,
     type: edgeType.value,
-    style: {stroke: "#6366f1", strokeWidth: 2},
-    data: {manualLabel: false} // 标记为自动生成，可被用户编辑覆盖
+    style: { stroke: "#6366f1", strokeWidth: 2 },
+    data: { manualLabel: false }, // 标记为自动生成，可被用户编辑覆盖
   });
   pushHistory();
 };
@@ -1282,9 +1960,12 @@ const onConnect = (c: any) => {
 // 点击节点库添加节点
 const handleNodeAdd = (nodeType: string) => {
   const offset = nodes.value.length * 30;
-  const position = {x: 350 + offset % 300, y: 150 + Math.floor(offset / 300) * 120};
+  const position = {
+    x: 350 + (offset % 300),
+    y: 150 + Math.floor(offset / 300) * 120,
+  };
   // 清除其他节点的选中状态
-  nodes.value.forEach(n => n.selected = false);
+  nodes.value.forEach((n) => (n.selected = false));
   let newNode: Node;
   if (BASIC_NODE_TYPES.has(nodeType)) {
     newNode = {
@@ -1292,15 +1973,15 @@ const handleNodeAdd = (nodeType: string) => {
       type: nodeType,
       position,
       data: nodeDefaultData[nodeType] ? nodeDefaultData[nodeType]() : {},
-      selected: true
+      selected: true,
     };
   } else {
     newNode = {
       id: generateNodeId(nodeType),
       type: "generic",
       position,
-      data: {...getNodeDefaultData(nodeType), __nodeType: nodeType},
-      selected: true
+      data: { ...getNodeDefaultData(nodeType), __nodeType: nodeType },
+      selected: true,
     };
   }
   addNodes(newNode);
@@ -1309,24 +1990,24 @@ const handleNodeAdd = (nodeType: string) => {
   nextTick(() => {
     selectedNode.value = JSON.parse(JSON.stringify(newNode));
     // 再次确保只有当前节点为选中状态
-    nodes.value.forEach(n => {
-      n.selected = (n.id === newNode.id);
+    nodes.value.forEach((n) => {
+      n.selected = n.id === newNode.id;
     });
   });
   pushHistory();
-  success(`${i18n('rule.msg.added')} ${getNodeLabel(nodeType)}`);
+  success(`${i18n("rule.msg.added")} ${getNodeLabel(nodeType)}`);
 };
 
 // ========== 节点选中 ==========
 const onNodeClick = (payload: any) => {
   closeContextMenu();
   const node = payload?.node || payload;
-  const selected = nodes.value.filter(n => n.selected);
+  const selected = nodes.value.filter((n) => n.selected);
   selectedNode.value = selected.length > 0 ? selected[0] : node;
 };
 const onNodeDoubleClick = (payload: any) => {
   const node = payload?.node || payload;
-  const {id} = node;
+  const { id } = node;
   const type = node.type;
   // 企业级节点都是 generic 类型，实际节点类型存在 data.__nodeType 中
   const actualType = node.data?.__nodeType || type;
@@ -1373,77 +2054,82 @@ const onEdgeDoubleClick = (payload: any) => {
 };
 
 const handlePropertyUpdate = (nodeId: string, data: any) => {
-  const node = nodes.value.find(n => n.id === nodeId);
+  const node = nodes.value.find((n) => n.id === nodeId);
   if (node) {
-    node.data = {...node.data, ...data};
-    selectedNode.value = {...node};
+    node.data = { ...node.data, ...data };
+    selectedNode.value = { ...node };
   }
 };
 
 // ========== 数据操作 ==========
-const getNodeData = (id: string) => nodes.value.find(n => n.id === id)?.data || {};
+const getNodeData = (id: string) =>
+  nodes.value.find((n) => n.id === id)?.data || {};
 const updateNodeData = (id: string, data: any) => {
-  const n = nodes.value.find(n => n.id === id);
-  if (n) n.data = {...n.data, ...data};
+  const n = nodes.value.find((n) => n.id === id);
+  if (n) n.data = { ...n.data, ...data };
 };
 
 const openConditionDialog = (nodeId: string, index: number) => {
   editingNodeId.value = nodeId;
   editingConditionIndex.value = index;
   const data = getNodeData(nodeId);
-  editingCondition.value = index >= 0 ? {...data.conditions[index]} : null;
+  editingCondition.value = index >= 0 ? { ...data.conditions[index] } : null;
   conditionDialogVisible.value = true;
 };
 const handleConditionSave = (c: any) => {
   const data = getNodeData(editingNodeId.value);
   const list = [...(data.conditions || [])];
-  if (editingConditionIndex.value >= 0) list[editingConditionIndex.value] = c; else list.push(c);
-  updateNodeData(editingNodeId.value, {conditions: list});
+  if (editingConditionIndex.value >= 0) list[editingConditionIndex.value] = c;
+  else list.push(c);
+  updateNodeData(editingNodeId.value, { conditions: list });
   conditionDialogVisible.value = false;
-  if (selectedNode.value?.id === editingNodeId.value) selectedNode.value = {
-    ...selectedNode.value,
-    data: {...data, conditions: list}
-  };
+  if (selectedNode.value?.id === editingNodeId.value)
+    selectedNode.value = {
+      ...selectedNode.value,
+      data: { ...data, conditions: list },
+    };
 };
 const deleteCondition = (nodeId: string, i: number) => {
   const d = getNodeData(nodeId);
   const l = [...(d.conditions || [])];
   l.splice(i, 1);
-  updateNodeData(nodeId, {conditions: l});
+  updateNodeData(nodeId, { conditions: l });
 };
 
 const openActionDialog = (nodeId: string, index: number) => {
   editingNodeId.value = nodeId;
   editingActionIndex.value = index;
   const data = getNodeData(nodeId);
-  editingAction.value = index >= 0 ? {...data.actions[index]} : null;
+  editingAction.value = index >= 0 ? { ...data.actions[index] } : null;
   actionDialogVisible.value = true;
 };
 const handleActionSave = (a: any) => {
   const data = getNodeData(editingNodeId.value);
   const list = [...(data.actions || [])];
-  if (editingActionIndex.value >= 0) list[editingActionIndex.value] = a; else list.push(a);
-  updateNodeData(editingNodeId.value, {actions: list});
+  if (editingActionIndex.value >= 0) list[editingActionIndex.value] = a;
+  else list.push(a);
+  updateNodeData(editingNodeId.value, { actions: list });
   actionDialogVisible.value = false;
-  if (selectedNode.value?.id === editingNodeId.value) selectedNode.value = {
-    ...selectedNode.value,
-    data: {...data, actions: list}
-  };
+  if (selectedNode.value?.id === editingNodeId.value)
+    selectedNode.value = {
+      ...selectedNode.value,
+      data: { ...data, actions: list },
+    };
 };
 const deleteAction = (nodeId: string, i: number) => {
   const d = getNodeData(nodeId);
   const l = [...(d.actions || [])];
   l.splice(i, 1);
-  updateNodeData(nodeId, {actions: l});
+  updateNodeData(nodeId, { actions: l });
 };
 
 const openGatewayDialog = (id: string) => {
   editingNodeId.value = id;
   const d = getNodeData(id);
   editingGateway.value = {
-    name: d.name || i18n('rule.node.gateway'),
+    name: d.name || i18n("rule.node.gateway"),
     gatewayType: d.gatewayType || "XOR",
-    branches: d.branches ? JSON.parse(JSON.stringify(d.branches)) : []
+    branches: d.branches ? JSON.parse(JSON.stringify(d.branches)) : [],
   };
   gatewayDialogVisible.value = true;
 };
@@ -1455,24 +2141,29 @@ const handleGatewaySave = (g: any) => {
 const openVariableDialog = (id: string) => {
   editingNodeId.value = id;
   const d = getNodeData(id);
-  editingAssignments.value = d.assignments ? JSON.parse(JSON.stringify(d.assignments)) : [];
+  editingAssignments.value = d.assignments
+    ? JSON.parse(JSON.stringify(d.assignments))
+    : [];
   variableDialogVisible.value = true;
 };
 const handleVariableSave = (a: any[]) => {
-  updateNodeData(editingNodeId.value, {assignments: a});
+  updateNodeData(editingNodeId.value, { assignments: a });
   variableDialogVisible.value = false;
 };
 const deleteAssignment = (nodeId: string, i: number) => {
   const d = getNodeData(nodeId);
   const l = [...(d.assignments || [])];
   l.splice(i, 1);
-  updateNodeData(nodeId, {assignments: l});
+  updateNodeData(nodeId, { assignments: l });
 };
 
 const openScriptDialog = (id: string) => {
   editingNodeId.value = id;
   const d = getNodeData(id);
-  editingScript.value = {scriptLang: d.scriptLang || "javascript", scriptContent: d.scriptContent || ""};
+  editingScript.value = {
+    scriptLang: d.scriptLang || "javascript",
+    scriptContent: d.scriptContent || "",
+  };
   scriptDialogVisible.value = true;
 };
 const handleScriptSave = (s: any) => {
@@ -1492,22 +2183,22 @@ const handleHttpSave = (c: any) => {
 
 // 待执行动作：save 或 publish 触发时若缺少名称/编码则先打开属性对话框
 // 填写完成后自动继续执行对应的保存/发布操作
-const pendingAction = ref<'save' | 'publish' | null>(null)
+const pendingAction = ref<"save" | "publish" | null>(null);
 
-const openPropertyDialog = (action?: 'save' | 'publish') => {
-  if (action) pendingAction.value = action
+const openPropertyDialog = (action?: "save" | "publish") => {
+  if (action) pendingAction.value = action;
   propertyDialogVisible.value = true;
 };
 const handlePropertySave = (d: any) => {
   Object.assign(ruleData, d);
   propertyDialogVisible.value = false;
   // 属性对话框提交后，若之前是因保存/发布触发的，继续执行对应操作
-  const action = pendingAction.value
-  pendingAction.value = null
-  if (action === 'save') {
-    doSave()
-  } else if (action === 'publish') {
-    doPublish()
+  const action = pendingAction.value;
+  pendingAction.value = null;
+  if (action === "save") {
+    doSave();
+  } else if (action === "publish") {
+    doPublish();
   }
 };
 
@@ -1517,37 +2208,41 @@ const helpPopoverRef = ref();
 // 统一处理 toolbar 下拉命令分发
 const onToolbarCommand = (cmd: string) => {
   switch (cmd) {
-    case 'save':
+    case "save":
       handleSave();
       break;
-    case 'publish':
+    case "publish":
       handlePublish();
       break;
-    case 'test':
+    case "test":
       handleTest();
       break;
-    case 'viewDesign':
-      viewMode.value = 'design';
+    case "viewDesign":
+      viewMode.value = "design";
       break;
-    case 'viewCode':
-      viewMode.value = 'code';
+    case "viewCode":
+      viewMode.value = "code";
       break;
-    case 'import':
+    case "import":
       handleImportRule();
       break;
-    case 'export':
+    case "export":
       handleExportRule();
       break;
-    case 'demo':
+    case "demo":
       loadDemoData();
       break;
-    case 'help':
+    case "help":
       // 通过隐藏的 popover 引用打开帮助面板
       nextTick(() => {
         const popper = helpPopoverRef.value as any;
-        if (popper && typeof popper.show === 'function') {
+        if (popper && typeof popper.show === "function") {
           popper.show();
-        } else if (popper && popper.popperRef && typeof popper.popperRef.show === 'function') {
+        } else if (
+          popper &&
+          popper.popperRef &&
+          typeof popper.popperRef.show === "function"
+        ) {
           popper.popperRef.show();
         }
       });
@@ -1565,12 +2260,21 @@ const handleEdgeLabelSave = () => {
     if (!edgeLabel.value || edgeLabel.value.trim() === "") {
       editingEdge.value.data.manualLabel = false;
       // 立即触发自动更新
-      const sourceNode = nodes.value.find(n => n.id === editingEdge.value.source);
+      const sourceNode = nodes.value.find(
+        (n) => n.id === editingEdge.value.source,
+      );
       if (sourceNode) {
-        const outEdges = edges.value.filter(e => e.source === editingEdge.value.source);
-        const edgeIndex = outEdges.findIndex(e => e.id === editingEdge.value.id);
+        const outEdges = edges.value.filter(
+          (e) => e.source === editingEdge.value.source,
+        );
+        const edgeIndex = outEdges.findIndex(
+          (e) => e.id === editingEdge.value.id,
+        );
         if (edgeIndex >= 0) {
-          const {label, labelStyle} = generateEdgeLabel(sourceNode, edgeIndex);
+          const { label, labelStyle } = generateEdgeLabel(
+            sourceNode,
+            edgeIndex,
+          );
           editingEdge.value.label = label;
           editingEdge.value.labelStyle = labelStyle;
         }
@@ -1584,20 +2288,26 @@ const handleEdgeLabelSave = () => {
 
 // ========== 边标签自动同步 ==========
 // 根据节点类型和配置自动生成边标签
-const generateEdgeLabel = (sourceNode: any, edgeIndex: number): { label: string; labelStyle: any } => {
-  const sourceType = sourceNode.type === "generic" ? sourceNode.data.__nodeType : sourceNode.type;
+const generateEdgeLabel = (
+  sourceNode: any,
+  edgeIndex: number,
+): { label: string; labelStyle: any } => {
+  const sourceType =
+    sourceNode.type === "generic"
+      ? sourceNode.data.__nodeType
+      : sourceNode.type;
   let label = "";
-  let labelStyle = {fill: "#64748b", fontSize: 11, fontWeight: 500};
+  let labelStyle = { fill: "#64748b", fontSize: 11, fontWeight: 500 };
 
   switch (sourceType) {
     case "condition": {
       // 条件节点：第一条出边标注"满足✓"，第二条标注"不满足✗"
       if (edgeIndex === 0) {
-        label = i18n('rule.edge.satisfied');
-        labelStyle = {fill: "#10b981", fontSize: 11, fontWeight: 600};
+        label = i18n("rule.edge.satisfied");
+        labelStyle = { fill: "#10b981", fontSize: 11, fontWeight: 600 };
       } else {
-        label = i18n('rule.edge.notSatisfied');
-        labelStyle = {fill: "#ef4444", fontSize: 11, fontWeight: 600};
+        label = i18n("rule.edge.notSatisfied");
+        labelStyle = { fill: "#ef4444", fontSize: 11, fontWeight: 600 };
       }
       break;
     }
@@ -1606,58 +2316,64 @@ const generateEdgeLabel = (sourceNode: any, edgeIndex: number): { label: string;
       const branches = sourceNode.data.branches || [];
       if (edgeIndex < branches.length) {
         const branch = branches[edgeIndex];
-        label = branch.condition || branch.label || `${i18n('rule.edge.branch')}${edgeIndex + 1}`;
+        label =
+          branch.condition ||
+          branch.label ||
+          `${i18n("rule.edge.branch")}${edgeIndex + 1}`;
       } else {
-        label = i18n('rule.edge.defaultBranch');
+        label = i18n("rule.edge.defaultBranch");
       }
-      labelStyle = {fill: "#f59e0b", fontSize: 11, fontWeight: 600};
+      labelStyle = { fill: "#f59e0b", fontSize: 11, fontWeight: 600 };
       break;
     }
     case "parallel-gateway": {
-      label = i18n('rule.edge.parallelExec');
-      labelStyle = {fill: "#06b6d4", fontSize: 11, fontWeight: 600};
+      label = i18n("rule.edge.parallelExec");
+      labelStyle = { fill: "#06b6d4", fontSize: 11, fontWeight: 600 };
       break;
     }
     case "inclusive-gateway": {
       const branches = sourceNode.data.branches || [];
       if (edgeIndex < branches.length) {
         const branch = branches[edgeIndex];
-        label = branch.condition || branch.label || `${i18n('rule.edge.branch')}${edgeIndex + 1}`;
+        label =
+          branch.condition ||
+          branch.label ||
+          `${i18n("rule.edge.branch")}${edgeIndex + 1}`;
       } else {
-        label = i18n('rule.edge.defaultBranch');
+        label = i18n("rule.edge.defaultBranch");
       }
-      labelStyle = {fill: "#8b5cf6", fontSize: 11, fontWeight: 600};
+      labelStyle = { fill: "#8b5cf6", fontSize: 11, fontWeight: 600 };
       break;
     }
     case "variable-assign": {
       const assignments = sourceNode.data.assignments || [];
       if (assignments.length > 0) {
-        label = `${i18n('rule.edge.set')} ${assignments.map(a => a.variableName).join(", ")}`;
+        label = `${i18n("rule.edge.set")} ${assignments.map((a) => a.variableName).join(", ")}`;
       } else {
-        label = i18n('rule.edge.varAssign');
+        label = i18n("rule.edge.varAssign");
       }
-      labelStyle = {fill: "#6366f1", fontSize: 11, fontWeight: 500};
+      labelStyle = { fill: "#6366f1", fontSize: 11, fontWeight: 500 };
       break;
     }
     case "action": {
       const actions = sourceNode.data.actions || [];
       if (actions.length > 0) {
-        label = `${actions.length}${i18n('rule.edge.actions')}`;
+        label = `${actions.length}${i18n("rule.edge.actions")}`;
       } else {
-        label = i18n('rule.edge.execAction');
+        label = i18n("rule.edge.execAction");
       }
       break;
     }
     case "loop": {
-      label = `${i18n('rule.edge.loop')} ${sourceNode.data.collectionVar || i18n('rule.edge.collection')}`;
+      label = `${i18n("rule.edge.loop")} ${sourceNode.data.collectionVar || i18n("rule.edge.collection")}`;
       break;
     }
     case "script": {
-      label = i18n('rule.edge.execScript');
+      label = i18n("rule.edge.execScript");
       break;
     }
     case "http-call": {
-      label = `${sourceNode.data.method || "GET"} ${sourceNode.data.url || i18n('rule.edge.interface')}`;
+      label = `${sourceNode.data.method || "GET"} ${sourceNode.data.url || i18n("rule.edge.interface")}`;
       break;
     }
     default: {
@@ -1666,39 +2382,55 @@ const generateEdgeLabel = (sourceNode: any, edgeIndex: number): { label: string;
     }
   }
 
-  return {label, labelStyle};
+  return { label, labelStyle };
 };
 
 // 更新指定节点的所有出边标签（跳过手动编辑过的边）
 const updateEdgeLabelsForNode = (nodeId: string) => {
-  const sourceNode = nodes.value.find(n => n.id === nodeId);
+  const sourceNode = nodes.value.find((n) => n.id === nodeId);
   if (!sourceNode) return;
 
-  const outEdges = edges.value.filter(e => e.source === nodeId);
+  const outEdges = edges.value.filter((e) => e.source === nodeId);
   outEdges.forEach((edge, index) => {
     // 如果边被手动编辑过，跳过自动更新
     if (edge.data?.manualLabel) return;
 
-    const {label, labelStyle} = generateEdgeLabel(sourceNode, index);
+    const { label, labelStyle } = generateEdgeLabel(sourceNode, index);
     edge.label = label;
     edge.labelStyle = labelStyle;
     edge.labelShowBg = true;
-    edge.labelBgStyle = {fill: "#fff", fillOpacity: 0.9};
+    edge.labelBgStyle = { fill: "#fff", fillOpacity: 0.9 };
   });
 };
 
 // 监听节点数据变化，自动更新边标签
-watch(() => nodes.value, (newNodes) => {
-  // 遍历所有节点，更新其出边标签
-  newNodes.forEach(node => {
-    const nodeType = node.type === "generic" ? node.data.__nodeType : node.type;
-    // 只对需要自动生成边标签的节点类型进行处理
-    if (["condition", "exclusive-gateway", "inclusive-gateway", "parallel-gateway",
-      "variable-assign", "action", "loop", "script", "http-call"].includes(nodeType)) {
-      updateEdgeLabelsForNode(node.id);
-    }
-  });
-}, {deep: true});
+watch(
+  () => nodes.value,
+  (newNodes) => {
+    // 遍历所有节点，更新其出边标签
+    newNodes.forEach((node) => {
+      const nodeType =
+        node.type === "generic" ? node.data.__nodeType : node.type;
+      // 只对需要自动生成边标签的节点类型进行处理
+      if (
+        [
+          "condition",
+          "exclusive-gateway",
+          "inclusive-gateway",
+          "parallel-gateway",
+          "variable-assign",
+          "action",
+          "loop",
+          "script",
+          "http-call",
+        ].includes(nodeType)
+      ) {
+        updateEdgeLabelsForNode(node.id);
+      }
+    });
+  },
+  { deep: true },
+);
 
 // ========== 右键菜单 ==========
 const onCanvasContextMenu = (e: MouseEvent) => {
@@ -1713,7 +2445,7 @@ const onCanvasContextMenu = (e: MouseEvent) => {
     contextMenu.type = "node";
     contextMenu.nodeId = id;
     contextMenu.edgeId = "";
-    nodes.value.forEach(n => {
+    nodes.value.forEach((n) => {
       n.selected = n.id === id;
     });
   } else if (edgeEl) {
@@ -1721,7 +2453,7 @@ const onCanvasContextMenu = (e: MouseEvent) => {
     contextMenu.type = "edge";
     contextMenu.nodeId = "";
     contextMenu.edgeId = id;
-    edges.value.forEach(e2 => {
+    edges.value.forEach((e2) => {
       e2.selected = e2.id === id;
     });
   } else {
@@ -1734,20 +2466,20 @@ const closeContextMenu = () => {
   contextMenu.visible = false;
 };
 const handleCtxAction = (action: string) => {
-  const {type, nodeId, edgeId} = contextMenu;
+  const { type, nodeId, edgeId } = contextMenu;
   switch (action) {
     case "edit":
       if (nodeId) {
-        const n = nodes.value.find(n => n.id === nodeId);
-        if (n) onNodeDoubleClick({node: n});
+        const n = nodes.value.find((n) => n.id === nodeId);
+        if (n) onNodeDoubleClick({ node: n });
       }
       break;
     case "copy":
       if (nodeId) {
-        const n = nodes.value.find(n => n.id === nodeId);
+        const n = nodes.value.find((n) => n.id === nodeId);
         if (n) {
           clipboard.value = JSON.parse(JSON.stringify(n));
-          success(i18n('rule.msg.copied'));
+          success(i18n("rule.msg.copied"));
         }
       }
       break;
@@ -1756,25 +2488,30 @@ const handleCtxAction = (action: string) => {
         addNodes({
           ...JSON.parse(JSON.stringify(clipboard.value)),
           id: generateNodeId(clipboard.value.type || "node"),
-          position: {x: clipboard.value.position.x + 60, y: clipboard.value.position.y + 60},
-          selected: false
+          position: {
+            x: clipboard.value.position.x + 60,
+            y: clipboard.value.position.y + 60,
+          },
+          selected: false,
         });
-        success(i18n('rule.msg.pasted'));
-      } else warning(i18n('rule.msg.clipboardEmpty'));
+        success(i18n("rule.msg.pasted"));
+      } else warning(i18n("rule.msg.clipboardEmpty"));
       break;
     case "delete":
       if (type === "node" && nodeId) {
-        edges.value = edges.value.filter(e => e.source !== nodeId && e.target !== nodeId);
+        edges.value = edges.value.filter(
+          (e) => e.source !== nodeId && e.target !== nodeId,
+        );
         removeNodes([nodeId]);
-        success(i18n('rule.msg.deleted'));
+        success(i18n("rule.msg.deleted"));
       } else if (type === "edge" && edgeId) {
         removeEdges([edgeId]);
-        success(i18n('rule.msg.deleted'));
+        success(i18n("rule.msg.deleted"));
       }
       break;
     case "editEdge":
       if (edgeId) {
-        const e = edges.value.find(e => e.id === edgeId);
+        const e = edges.value.find((e) => e.id === edgeId);
         if (e) {
           editingEdge.value = e;
           edgeLabel.value = (e.label as string) || "";
@@ -1783,30 +2520,44 @@ const handleCtxAction = (action: string) => {
       }
       break;
     case "fitView":
-      fitViewFn({duration: 300});
+      fitViewFn({ duration: 300 });
       break;
   }
   closeContextMenu();
 };
 
 // ========== 删除选中 ==========
-const hasSelected = computed(() => nodes.value?.some(n => n.selected) || edges.value?.some(e => e.selected));
-const hasMultiSelected = computed(() => nodes.value?.filter(n => n.selected).length >= 2);
-const selectedCount = computed(() => (nodes.value?.filter(n => n.selected).length || 0) + (edges.value?.filter(e => e.selected).length || 0));
+const hasSelected = computed(
+  () =>
+    nodes.value?.some((n) => n.selected) ||
+    edges.value?.some((e) => e.selected),
+);
+const hasMultiSelected = computed(
+  () => nodes.value?.filter((n) => n.selected).length >= 2,
+);
+const selectedCount = computed(
+  () =>
+    (nodes.value?.filter((n) => n.selected).length || 0) +
+    (edges.value?.filter((e) => e.selected).length || 0),
+);
 const deleteSelected = () => {
-  const sn = nodes.value.filter(n => n.selected);
-  const se = edges.value.filter(e => e.selected);
+  const sn = nodes.value.filter((n) => n.selected);
+  const se = edges.value.filter((e) => e.selected);
   if (!sn.length && !se.length) {
-    warning(i18n('rule.msg.pleaseSelect'));
+    warning(i18n("rule.msg.pleaseSelect"));
     return;
   }
   if (sn.length) {
-    const ids = sn.map(n => n.id);
-    edges.value = edges.value.filter(e => !ids.includes(e.source) && !ids.includes(e.target));
+    const ids = sn.map((n) => n.id);
+    edges.value = edges.value.filter(
+      (e) => !ids.includes(e.source) && !ids.includes(e.target),
+    );
     removeNodes(ids);
   }
-  if (se.length) removeEdges(se.map(e => e.id));
-  success(`${i18n('rule.msg.deleted')} ${sn.length} ${i18n('rule.node.start')}, ${se.length} ${i18n('rule.edge.bezier')}`);
+  if (se.length) removeEdges(se.map((e) => e.id));
+  success(
+    `${i18n("rule.msg.deleted")} ${sn.length} ${i18n("rule.node.start")}, ${se.length} ${i18n("rule.edge.bezier")}`,
+  );
   pushHistory();
 };
 
@@ -1817,7 +2568,9 @@ const MAX_HISTORY = 50;
 let historyTimer: any = null;
 
 const canUndo = computed(() => historyIndex.value > 0);
-const canRedo = computed(() => historyIndex.value < historyStack.value.length - 1);
+const canRedo = computed(
+  () => historyIndex.value < historyStack.value.length - 1,
+);
 
 // 防抖推入历史栈（避免拖拽时频繁记录）
 const pushHistory = () => {
@@ -1825,7 +2578,7 @@ const pushHistory = () => {
   historyTimer = setTimeout(() => {
     const snapshot = {
       nodes: JSON.parse(JSON.stringify(nodes.value)),
-      edges: JSON.parse(JSON.stringify(edges.value))
+      edges: JSON.parse(JSON.stringify(edges.value)),
     };
     // 如果当前不在末尾，截断后面的历史
     if (historyIndex.value < historyStack.value.length - 1) {
@@ -1857,67 +2610,93 @@ const redo = () => {
 
 // ========== 对齐工具 ==========
 const handleAlign = (cmd: string) => {
-  const selected = nodes.value.filter(n => n.selected);
+  const selected = nodes.value.filter((n) => n.selected);
   if (selected.length < 2) {
-    warning(i18n('rule.msg.selectAtLeast2'));
+    warning(i18n("rule.msg.selectAtLeast2"));
     return;
   }
 
   switch (cmd) {
     case "left": {
-      const minX = Math.min(...selected.map(n => n.position.x));
-      selected.forEach(n => n.position = {...n.position, x: minX});
+      const minX = Math.min(...selected.map((n) => n.position.x));
+      selected.forEach((n) => (n.position = { ...n.position, x: minX }));
       break;
     }
     case "right": {
-      const maxX = Math.max(...selected.map(n => n.position.x + getNodeSize(n).width));
-      selected.forEach(n => n.position = {...n.position, x: maxX - getNodeSize(n).width});
+      const maxX = Math.max(
+        ...selected.map((n) => n.position.x + getNodeSize(n).width),
+      );
+      selected.forEach(
+        (n) => (n.position = { ...n.position, x: maxX - getNodeSize(n).width }),
+      );
       break;
     }
     case "center": {
-      const minX = Math.min(...selected.map(n => n.position.x));
-      const maxX = Math.max(...selected.map(n => n.position.x + getNodeSize(n).width));
+      const minX = Math.min(...selected.map((n) => n.position.x));
+      const maxX = Math.max(
+        ...selected.map((n) => n.position.x + getNodeSize(n).width),
+      );
       const centerX = (minX + maxX) / 2;
-      selected.forEach(n => n.position = {...n.position, x: centerX - getNodeSize(n).width / 2});
+      selected.forEach(
+        (n) =>
+          (n.position = {
+            ...n.position,
+            x: centerX - getNodeSize(n).width / 2,
+          }),
+      );
       break;
     }
     case "top": {
-      const minY = Math.min(...selected.map(n => n.position.y));
-      selected.forEach(n => n.position = {...n.position, y: minY});
+      const minY = Math.min(...selected.map((n) => n.position.y));
+      selected.forEach((n) => (n.position = { ...n.position, y: minY }));
       break;
     }
     case "bottom": {
-      const maxY = Math.max(...selected.map(n => n.position.y + getNodeSize(n).height));
-      selected.forEach(n => n.position = {...n.position, y: maxY - getNodeSize(n).height});
+      const maxY = Math.max(
+        ...selected.map((n) => n.position.y + getNodeSize(n).height),
+      );
+      selected.forEach(
+        (n) =>
+          (n.position = { ...n.position, y: maxY - getNodeSize(n).height }),
+      );
       break;
     }
     case "middle": {
-      const minY = Math.min(...selected.map(n => n.position.y));
-      const maxY = Math.max(...selected.map(n => n.position.y + getNodeSize(n).height));
+      const minY = Math.min(...selected.map((n) => n.position.y));
+      const maxY = Math.max(
+        ...selected.map((n) => n.position.y + getNodeSize(n).height),
+      );
       const centerY = (minY + maxY) / 2;
-      selected.forEach(n => n.position = {...n.position, y: centerY - getNodeSize(n).height / 2});
+      selected.forEach(
+        (n) =>
+          (n.position = {
+            ...n.position,
+            y: centerY - getNodeSize(n).height / 2,
+          }),
+      );
       break;
     }
     case "hDist": {
       // 水平分布：按X排序后均匀分布，保持首节点位置，自动扩展间距以避免重叠
       const sorted = [...selected].sort((a, b) => a.position.x - b.position.x);
       if (sorted.length < 3) {
-        warning(i18n('rule.msg.needAtLeast3'));
+        warning(i18n("rule.msg.needAtLeast3"));
         return;
       }
-      const sizes = sorted.map(n => getNodeSize(n));
+      const sizes = sorted.map((n) => getNodeSize(n));
       const sumWidths = sizes.reduce((s: number, sz: any) => s + sz.width, 0);
       const minGap = 40; // 节点间最小视觉间距（px）
       const first = sorted[0];
       const last = sorted[sorted.length - 1];
-      const currentSpan = (last.position.x + sizes[sizes.length - 1].width) - first.position.x;
+      const currentSpan =
+        last.position.x + sizes[sizes.length - 1].width - first.position.x;
       const requiredSpan = sumWidths + minGap * (sorted.length - 1);
       // 取较大值，确保有足够空间；若现有空间足够则保持，避免压缩
       const totalSpan = Math.max(currentSpan, requiredSpan);
       const gap = (totalSpan - sumWidths) / (sorted.length - 1);
       let xPos = first.position.x;
       sorted.forEach((n, i) => {
-        n.position = {...n.position, x: xPos};
+        n.position = { ...n.position, x: xPos };
         xPos += sizes[i].width + gap;
       });
       break;
@@ -1926,104 +2705,118 @@ const handleAlign = (cmd: string) => {
       // 垂直分布：按Y排序后均匀分布，保持首节点位置，自动扩展间距以避免重叠
       const sorted = [...selected].sort((a, b) => a.position.y - b.position.y);
       if (sorted.length < 3) {
-        warning(i18n('rule.msg.needAtLeast3'));
+        warning(i18n("rule.msg.needAtLeast3"));
         return;
       }
-      const sizes = sorted.map(n => getNodeSize(n));
+      const sizes = sorted.map((n) => getNodeSize(n));
       const sumHeights = sizes.reduce((s: number, sz: any) => s + sz.height, 0);
       const minGap = 40;
       const first = sorted[0];
       const last = sorted[sorted.length - 1];
-      const currentSpan = (last.position.y + sizes[sizes.length - 1].height) - first.position.y;
+      const currentSpan =
+        last.position.y + sizes[sizes.length - 1].height - first.position.y;
       const requiredSpan = sumHeights + minGap * (sorted.length - 1);
       const totalSpan = Math.max(currentSpan, requiredSpan);
       const gap = (totalSpan - sumHeights) / (sorted.length - 1);
       let yPos = first.position.y;
       sorted.forEach((n, i) => {
-        n.position = {...n.position, y: yPos};
+        n.position = { ...n.position, y: yPos };
         yPos += sizes[i].height + gap;
       });
       break;
     }
   }
   pushHistory();
-  success(i18n('rule.msg.aligned'));
+  success(i18n("rule.msg.aligned"));
 };
 
 // ========== 连线类型 ==========
 const edgeType = ref<string>("default");
 const handleEdgeType = (type: string) => {
   edgeType.value = type;
-  edges.value.forEach(e => {
+  edges.value.forEach((e) => {
     e.type = type;
   });
 };
 
 // ========== 画布操作 ==========
-const fitView = () => fitViewFn({duration: 300});
+const fitView = () => fitViewFn({ duration: 300 });
 
 // 获取节点尺寸：优先使用 RuleCanvas 实测值（来自 DOM ResizeObserver），fallback 到估算
 const getNodeSize = (node: any): { width: number; height: number } => {
   // 优先：实测尺寸（保证对齐/布局准确）
   const real = ruleCanvasRef.value?.getNodeDim?.(node.id);
   if (real && real.w > 0 && real.h > 0) {
-    return {width: real.w, height: real.h};
+    return { width: real.w, height: real.h };
   }
   // Fallback：根据节点类型估算
   const t = node.type === "generic" ? node.data?.__nodeType : node.type;
   switch (t) {
     case "start":
     case "end":
-      return {width: 80, height: 80};
+      return { width: 80, height: 80 };
     case "exclusive-gateway":
     case "parallel-gateway":
     case "inclusive-gateway":
     case "join":
-      return {width: 80, height: 80};
+      return { width: 80, height: 80 };
     case "condition":
-      return {width: 300, height: 120 + ((node.data?.conditions?.length || 0) * 28)};
+      return {
+        width: 300,
+        height: 120 + (node.data?.conditions?.length || 0) * 28,
+      };
     case "action":
-      return {width: 300, height: 100 + ((node.data?.actions?.length || 0) * 28)};
+      return {
+        width: 300,
+        height: 100 + (node.data?.actions?.length || 0) * 28,
+      };
     case "variable-assign":
-      return {width: 300, height: 100 + ((node.data?.assignments?.length || 0) * 28)};
+      return {
+        width: 300,
+        height: 100 + (node.data?.assignments?.length || 0) * 28,
+      };
     case "script":
-      return {width: 300, height: 140};
+      return { width: 300, height: 140 };
     case "http-call":
-      return {width: 300, height: 160};
+      return { width: 300, height: 160 };
     default:
-      return {width: 260, height: 100};
+      return { width: 260, height: 100 };
   }
 };
 
 const autoLayout = () => {
   if (!nodes.value.length) {
-    warning(i18n('rule.msg.canvasEmpty'));
+    warning(i18n("rule.msg.canvasEmpty"));
     return;
   }
 
   // 1. BFS分层（拓扑排序）
-  const startNodes = nodes.value.filter(n => n.type === "start");
+  const startNodes = nodes.value.filter((n) => n.type === "start");
   const visited = new Set<string>();
   const levels: Record<string, number> = {};
-  const queue = (startNodes.length ? startNodes : [nodes.value[0]]).map(n => ({id: n.id, level: 0}));
+  const queue = (startNodes.length ? startNodes : [nodes.value[0]]).map(
+    (n) => ({ id: n.id, level: 0 }),
+  );
   while (queue.length) {
-    const {id, level} = queue.shift()!;
+    const { id, level } = queue.shift()!;
     if (visited.has(id)) {
       levels[id] = Math.max(levels[id] || 0, level);
       continue;
     }
     visited.add(id);
     levels[id] = level;
-    edges.value.filter(e => e.source === id).forEach(e => {
-      queue.push({id: e.target, level: level + 1});
-    });
+    edges.value
+      .filter((e) => e.source === id)
+      .forEach((e) => {
+        queue.push({ id: e.target, level: level + 1 });
+      });
   }
   let maxLevel = 0;
-  nodes.value.forEach(n => {
+  nodes.value.forEach((n) => {
     if (!(n.id in levels)) levels[n.id] = 0;
     maxLevel = Math.max(maxLevel, levels[n.id]);
   });
-  nodes.value.forEach(n => {
+  nodes.value.forEach((n) => {
     if (!visited.has(n.id)) levels[n.id] = maxLevel + 1;
   });
 
@@ -2034,72 +2827,106 @@ const autoLayout = () => {
     groups[lv].push(id);
   });
 
-  // 3. 动态计算每层位置（Y轴根据上层最大节点高度累加，避免重叠）
-  const NODE_GAP_X = 80;    // 节点间水平间距
-  const LAYER_GAP_Y = 80;   // 层间额外垂直间距
-  const START_Y = 50;
+  // 3. 动态计算每层位置
+  const NODE_GAP_X = 120;
+  const LAYER_GAP_Y = 100;
+  const START_Y = 80;
   let currentY = START_Y;
 
-  // 按层级从小到大处理
-  const sortedLayers = Object.keys(groups).map(Number).sort((a, b) => a - b);
-  sortedLayers.forEach((layer, idx) => {
+  const sortedLayers = Object.keys(groups)
+    .map(Number)
+    .sort((a, b) => a - b);
+  sortedLayers.forEach((layer) => {
     const ids = groups[layer];
-    const layerNodes = ids.map(id => nodes.value.find(n => n.id === id)).filter(Boolean) as any[];
+    let layerNodes = ids
+      .map((id) => nodes.value.find((n) => n.id === id))
+      .filter(Boolean) as any[];
     if (!layerNodes.length) return;
 
-    // 计算该层所有节点的总宽度
-    const sizes = layerNodes.map(n => getNodeSize(n));
-    const totalWidth = sizes.reduce((sum, s) => sum + s.width, 0) + (layerNodes.length - 1) * NODE_GAP_X;
-    // 该层最大高度
-    const max_height = Math.max(...sizes.map(s => s.height));
+    // 边交叉优化：按源节点 X 坐标排序
+    if (layer > 0) {
+      layerNodes.sort((a, b) => {
+        const aSources = edges.value
+          .filter((e) => e.target === a.id)
+          .map(
+            (e) => nodes.value.find((n) => n.id === e.source)?.position.x ?? 0,
+          );
+        const bSources = edges.value
+          .filter((e) => e.target === b.id)
+          .map(
+            (e) => nodes.value.find((n) => n.id === e.source)?.position.x ?? 0,
+          );
+        const aAvg = aSources.length
+          ? aSources.reduce((s: number, x: number) => s + x, 0) /
+            aSources.length
+          : 0;
+        const bAvg = bSources.length
+          ? bSources.reduce((s: number, x: number) => s + x, 0) /
+            bSources.length
+          : 0;
+        return aAvg - bAvg;
+      });
+    }
 
-    // 从中心开始水平排布
+    const sizes = layerNodes.map((n) => getNodeSize(n));
+    const totalWidth =
+      sizes.reduce((sum, s) => sum + s.width, 0) +
+      (layerNodes.length - 1) * NODE_GAP_X;
+    const max_height = Math.max(...sizes.map((s) => s.height));
+
     let xPos = -totalWidth / 2;
     layerNodes.forEach((n, i) => {
       const size = sizes[i];
-      n.position = {x: xPos + size.width / 2, y: currentY};
+      n.position = { x: xPos + size.width / 2, y: currentY };
       xPos += size.width + NODE_GAP_X;
     });
 
-    // Y轴累加：当前层最大高度 + 层间距
     currentY += max_height + LAYER_GAP_Y;
   });
 
-  setTimeout(() => fitViewFn({duration: 300}), 100);
-  success(i18n('rule.msg.autoLayoutDone'));
+  setTimeout(() => fitViewFn({ duration: 300 }), 100);
+  success(i18n("rule.msg.autoLayoutDone"));
 };
 
 // 对选中节点进行局部自动布局
 const layoutSelected = () => {
-  const selectedNodes = nodes.value.filter(n => n.selected);
+  const selectedNodes = nodes.value.filter((n) => n.selected);
   if (selectedNodes.length < 2) {
-    warning(i18n('rule.msg.selectAtLeast2'));
+    warning(i18n("rule.msg.selectAtLeast2"));
     return;
   }
 
   // 提取选中节点之间的边（仅选中节点构成的子图）
-  const selectedIds = new Set(selectedNodes.map(n => n.id));
-  const subEdges = edges.value.filter(e => selectedIds.has(e.source) && selectedIds.has(e.target));
+  const selectedIds = new Set(selectedNodes.map((n) => n.id));
+  const subEdges = edges.value.filter(
+    (e) => selectedIds.has(e.source) && selectedIds.has(e.target),
+  );
 
   // BFS分层（在子图内）
   const levels: Record<string, number> = {};
   const visited = new Set<string>();
   // 入口：选中节点中没有入边（在子图内）的节点
-  const entryNodes = selectedNodes.filter(n => !subEdges.some(e => e.target === n.id));
-  const queue = (entryNodes.length ? entryNodes : [selectedNodes[0]]).map(n => ({id: n.id, level: 0}));
+  const entryNodes = selectedNodes.filter(
+    (n) => !subEdges.some((e) => e.target === n.id),
+  );
+  const queue = (entryNodes.length ? entryNodes : [selectedNodes[0]]).map(
+    (n) => ({ id: n.id, level: 0 }),
+  );
   while (queue.length) {
-    const {id, level} = queue.shift()!;
+    const { id, level } = queue.shift()!;
     if (visited.has(id)) {
       levels[id] = Math.max(levels[id] || 0, level);
       continue;
     }
     visited.add(id);
     levels[id] = level;
-    subEdges.filter(e => e.source === id).forEach(e => {
-      queue.push({id: e.target, level: level + 1});
-    });
+    subEdges
+      .filter((e) => e.source === id)
+      .forEach((e) => {
+        queue.push({ id: e.target, level: level + 1 });
+      });
   }
-  selectedNodes.forEach(n => {
+  selectedNodes.forEach((n) => {
     if (!(n.id in levels)) levels[n.id] = 0;
   });
 
@@ -2107,38 +2934,44 @@ const layoutSelected = () => {
   const groups: Record<number, any[]> = {};
   Object.entries(levels).forEach(([id, lv]) => {
     if (!groups[lv]) groups[lv] = [];
-    groups[lv].push(nodes.value.find(n => n.id === id));
+    groups[lv].push(nodes.value.find((n) => n.id === id));
   });
 
   // 计算选中节点整体的中心点（作为布局起点）
-  const centerX = selectedNodes.reduce((sum, n) => sum + n.position.x, 0) / selectedNodes.length;
-  const startY = Math.min(...selectedNodes.map(n => n.position.y));
+  const centerX =
+    selectedNodes.reduce((sum, n) => sum + n.position.x, 0) /
+    selectedNodes.length;
+  const startY = Math.min(...selectedNodes.map((n) => n.position.y));
 
   const NODE_GAP_X = 80;
   const LAYER_GAP_Y = 80;
   let currentY = startY;
 
-  const sortedLayers = Object.keys(groups).map(Number).sort((a, b) => a - b);
-  sortedLayers.forEach(layer => {
+  const sortedLayers = Object.keys(groups)
+    .map(Number)
+    .sort((a, b) => a - b);
+  sortedLayers.forEach((layer) => {
     const layerNodes = groups[layer].filter(Boolean);
     if (!layerNodes.length) return;
     const sizes = layerNodes.map((n: any) => getNodeSize(n));
-    const totalWidth = sizes.reduce((sum: number, s: any) => sum + s.width, 0) + (layerNodes.length - 1) * NODE_GAP_X;
+    const totalWidth =
+      sizes.reduce((sum: number, s: any) => sum + s.width, 0) +
+      (layerNodes.length - 1) * NODE_GAP_X;
     const maxH = Math.max(...sizes.map((s: any) => s.height));
 
     let xPos = centerX - totalWidth / 2;
     layerNodes.forEach((n: any, i: number) => {
       const size = sizes[i];
-      n.position = {x: xPos + size.width / 2, y: currentY};
+      n.position = { x: xPos + size.width / 2, y: currentY };
       xPos += size.width + NODE_GAP_X;
     });
     currentY += maxH + LAYER_GAP_Y;
   });
 
-  success(i18n('rule.msg.layoutSelectedDone', [selectedNodes.length]));
+  success(i18n("rule.msg.layoutSelectedDone", [selectedNodes.length]));
 };
 const clearCanvas = async () => {
-  await operationConfirm(i18n('rule.msg.confirmClear'));
+  await operationConfirm(i18n("rule.msg.confirmClear"));
   nodes.value = [];
   edges.value = [];
   initDefaultFlow();
@@ -2152,39 +2985,43 @@ const handleHighlightPath = (path: any) => {
   isTestMode.value = true;
   const nodeIds = new Set(path.visitedNodeIds);
   const edgeIds = new Set(path.visitedEdgeIds);
-  nodes.value.forEach(n => {
+  nodes.value.forEach((n) => {
     const v = nodeIds.has(n.id);
     if (n.data) {
       n.data.__highlighted = v;
       n.data.__dimmed = !v;
     }
-    ;n.class = v ? "node-highlighted" : (path.visitedNodeIds.length ? "node-dimmed" : "");
+    n.class = v
+      ? "node-highlighted"
+      : path.visitedNodeIds.length
+        ? "node-dimmed"
+        : "";
   });
-  edges.value.forEach(e => {
+  edges.value.forEach((e) => {
     const v = edgeIds.has(e.id);
     if (v) {
       e.animated = true;
-      e.style = {stroke: "#10b981", strokeWidth: 3};
+      e.style = { stroke: "#10b981", strokeWidth: 3 };
       e.class = "edge-highlighted";
     } else {
       e.animated = false;
-      e.style = {stroke: "#cbd5e1", strokeWidth: 1};
+      e.style = { stroke: "#cbd5e1", strokeWidth: 1 };
       e.class = path.visitedEdgeIds.length ? "edge-dimmed" : "";
     }
   });
 };
 const handleResetHighlight = () => {
   isTestMode.value = false;
-  nodes.value.forEach(n => {
+  nodes.value.forEach((n) => {
     if (n.data) {
       delete n.data.__highlighted;
       delete n.data.__dimmed;
     }
-    ;n.class = "";
+    n.class = "";
   });
-  edges.value.forEach(e => {
+  edges.value.forEach((e) => {
     e.animated = false;
-    e.style = {stroke: "#6366f1", strokeWidth: 2};
+    e.style = { stroke: "#6366f1", strokeWidth: 2 };
     e.class = "";
   });
 };
@@ -2192,29 +3029,34 @@ const handleResetHighlight = () => {
 // ========== 测试控制台 ==========
 const displaySteps = computed(() => {
   if (!executionPath.value) return [];
-  return isStepping.value ? executionPath.value.steps.slice(0, stepIndex.value + 1) : executionPath.value.steps;
+  return isStepping.value
+    ? executionPath.value.steps.slice(0, stepIndex.value + 1)
+    : executionPath.value.steps;
 });
 const executeTest = async () => {
   let d: any;
   if (jsonMode.value) {
     if (!testDataStr.value.trim()) {
-      warning(i18n('rule.msg.inputTestData'));
+      warning(i18n("rule.msg.inputTestData"));
       return;
     }
     try {
       d = JSON.parse(testDataStr.value);
     } catch {
-      error(i18n('rule.msg.jsonError'));
+      error(i18n("rule.msg.jsonError"));
       return;
     }
   } else {
     // 表单模式：从testFormData构建
     d = {};
-    testFields.value.forEach(f => {
+    testFields.value.forEach((f) => {
       const val = testFormData[f.name];
       if (val !== undefined && val !== "") {
         if (f.type === "NUMBER") d[f.name] = Number(val);
-        else if (f.type === "ARRAY") d[f.name] = String(val).split(",").map(s => s.trim());
+        else if (f.type === "ARRAY")
+          d[f.name] = String(val)
+            .split(",")
+            .map((s) => s.trim());
         else if (f.type === "BOOLEAN") d[f.name] = val;
         else d[f.name] = val;
       }
@@ -2223,14 +3065,16 @@ const executeTest = async () => {
   executing.value = true;
   isStepping.value = false;
   try {
-    await new Promise(r => setTimeout(r, 200));
+    await new Promise((r) => setTimeout(r, 200));
     const r = executeRuleFlow(nodes.value, edges.value, d);
     executionPath.value = r;
     handleHighlightPath(r);
     outputTab.value = "timeline";
-    success(`${i18n('rule.msg.executeSuccess')}, ${i18n('rule.msg.passedThrough')} ${r.visitedNodeIds.length} ${i18n('rule.msg.nodes')}`);
+    success(
+      `${i18n("rule.msg.executeSuccess")}, ${i18n("rule.msg.passedThrough")} ${r.visitedNodeIds.length} ${i18n("rule.msg.nodes")}`,
+    );
   } catch (e: any) {
-    error(`${i18n('rule.msg.executeFail')}: ` + e.message);
+    error(`${i18n("rule.msg.executeFail")}: ` + e.message);
   } finally {
     executing.value = false;
   }
@@ -2240,15 +3084,23 @@ const stepExecute = () => {
   if (!isStepping.value) {
     isStepping.value = true;
     stepIndex.value = 0;
-  } else if (stepIndex.value < executionPath.value.steps.length - 1) stepIndex.value++; else {
-    warning(i18n('rule.msg.lastStep'));
+  } else if (stepIndex.value < executionPath.value.steps.length - 1)
+    stepIndex.value++;
+  else {
+    warning(i18n("rule.msg.lastStep"));
     return;
   }
   handleHighlightPath({
     ...executionPath.value,
-    visitedNodeIds: executionPath.value.visitedNodeIds.slice(0, stepIndex.value + 1),
-    visitedEdgeIds: executionPath.value.visitedEdgeIds.slice(0, stepIndex.value + 1),
-    steps: executionPath.value.steps.slice(0, stepIndex.value + 1)
+    visitedNodeIds: executionPath.value.visitedNodeIds.slice(
+      0,
+      stepIndex.value + 1,
+    ),
+    visitedEdgeIds: executionPath.value.visitedEdgeIds.slice(
+      0,
+      stepIndex.value + 1,
+    ),
+    steps: executionPath.value.steps.slice(0, stepIndex.value + 1),
   });
 };
 const clearTestResult = () => {
@@ -2265,7 +3117,7 @@ const closeTestConsole = () => {
 const loadSampleData = () => {
   if (jsonMode.value) {
     const d: any = {};
-    testFields.value.forEach(f => {
+    testFields.value.forEach((f) => {
       d[f.name] = f.type === "NUMBER" ? 100 : "sample";
     });
     if (!Object.keys(d).length) {
@@ -2275,20 +3127,20 @@ const loadSampleData = () => {
     testDataStr.value = JSON.stringify(d, null, 2);
   } else {
     // 表单模式：填充默认值
-    testFields.value.forEach(f => {
+    testFields.value.forEach((f) => {
       if (f.type === "NUMBER") testFormData[f.name] = 100;
       else if (f.type === "BOOLEAN") testFormData[f.name] = true;
       else testFormData[f.name] = "sample";
     });
   }
-  success(i18n('rule.msg.sampleLoaded'));
+  success(i18n("rule.msg.sampleLoaded"));
 };
 
 const switchToJsonMode = () => {
   if (!jsonMode.value) {
     // 切到JSON模式：把表单数据序列化
     const d: any = {};
-    testFields.value.forEach(f => {
+    testFields.value.forEach((f) => {
       const val = testFormData[f.name];
       if (val !== undefined && val !== "") d[f.name] = val;
     });
@@ -2296,7 +3148,14 @@ const switchToJsonMode = () => {
   }
   jsonMode.value = !jsonMode.value;
 };
-const getStepType = (s: string) => s === "SUCCESS" ? "success" : s === "FAILED" ? "danger" : s === "SKIPPED" ? "info" : "primary";
+const getStepType = (s: string) =>
+  s === "SUCCESS"
+    ? "success"
+    : s === "FAILED"
+      ? "danger"
+      : s === "SKIPPED"
+        ? "info"
+        : "primary";
 const formatJson = (o: any) => {
   try {
     return JSON.stringify(o, null, 2);
@@ -2308,15 +3167,23 @@ const formatJson = (o: any) => {
 // ========== 数据加载保存 ==========
 const allConditions = computed(() => {
   const c: any[] = [];
-  nodes.value.filter(n => n.type === "condition").forEach(n => (n.data.conditions || []).forEach((cond: any) => c.push({
-    ...cond,
-    logic: n.data.logic || "AND"
-  })));
+  nodes.value
+    .filter((n) => n.type === "condition")
+    .forEach((n) =>
+      (n.data.conditions || []).forEach((cond: any) =>
+        c.push({
+          ...cond,
+          logic: n.data.logic || "AND",
+        }),
+      ),
+    );
   return c;
 });
 const allActions = computed(() => {
   const a: any[] = [];
-  nodes.value.filter(n => n.type === "action").forEach(n => (n.data.actions || []).forEach((act: any) => a.push(act)));
+  nodes.value
+    .filter((n) => n.type === "action")
+    .forEach((n) => (n.data.actions || []).forEach((act: any) => a.push(act)));
   return a;
 });
 
@@ -2328,21 +3195,23 @@ const loadRuleData = async () => {
   if (!ruleId.value) {
     // 新建场景：优先使用预填数据（联动策略转换）
     if (props.prefilledData && props.prefilledData.flowContent) {
-      const pf = props.prefilledData
-      if (pf.ruleName) ruleData.ruleName = pf.ruleName
-      if (pf.ruleCode) ruleData.ruleCode = pf.ruleCode
-      if (pf.ruleType) ruleData.ruleType = pf.ruleType
-      nodes.value = pf.flowContent.nodes || []
-      edges.value = pf.flowContent.edges || []
-      ruleData.variables = Array.isArray(pf.flowContent.variables) ? pf.flowContent.variables : []
+      const pf = props.prefilledData;
+      if (pf.ruleName) ruleData.ruleName = pf.ruleName;
+      if (pf.ruleCode) ruleData.ruleCode = pf.ruleCode;
+      if (pf.ruleType) ruleData.ruleType = pf.ruleType;
+      nodes.value = pf.flowContent.nodes || [];
+      edges.value = pf.flowContent.edges || [];
+      ruleData.variables = Array.isArray(pf.flowContent.variables)
+        ? pf.flowContent.variables
+        : [];
       // 同步生成 flowContent 字符串
       ruleData.flowContent = JSON.stringify({
         nodes: nodes.value,
         edges: edges.value,
         variables: ruleData.variables,
-      })
-      await loadFormVariables()
-      return
+      });
+      await loadFormVariables();
+      return;
     }
     initDefaultFlow();
     // 新建规则时，若 formId 已提供，预加载该表单的规则变量库（避免重复定义）
@@ -2368,12 +3237,15 @@ const loadRuleData = async () => {
         initDefaultFlow();
       }
       // 编辑场景下若变量库为空，也尝试从 formId 加载
-      if ((!ruleData.variables || ruleData.variables.length === 0) && ruleData.formId) {
+      if (
+        (!ruleData.variables || ruleData.variables.length === 0) &&
+        ruleData.formId
+      ) {
         await loadFormVariables();
       }
     }
   } catch {
-    error(i18n('rule.msg.loadFail'));
+    error(i18n("rule.msg.loadFail"));
     initDefaultFlow();
   }
 };
@@ -2389,7 +3261,9 @@ const loadFormVariables = async () => {
   try {
     const res = await ruleVariableApi.listByFormId(fid);
     if (res.data.code === 0 && Array.isArray(res.data.data)) {
-      const existing = new Map((ruleData.variables || []).map(v => [v.field, v]));
+      const existing = new Map(
+        (ruleData.variables || []).map((v) => [v.field, v]),
+      );
       for (const v of res.data.data) {
         if (v && v.field && !existing.has(v.field)) {
           existing.set(v.field, v);
@@ -2398,7 +3272,7 @@ const loadFormVariables = async () => {
       ruleData.variables = Array.from(existing.values());
     }
   } catch (e) {
-    console.warn('[RuleDesigner] loadFormVariables failed:', e);
+    console.warn("[RuleDesigner] loadFormVariables failed:", e);
   }
 };
 
@@ -2406,11 +3280,15 @@ const loadFormVariables = async () => {
  * 从表单设计器进入时，返回表单设计器（触发 close 事件，由 RuleConfigPanel 关闭弹窗）
  */
 const handleBackToForm = () => {
-  emit('close');
+  emit("close");
 };
 
 // 代码视图更新：将JSON编辑器的数据同步回设计视图
-const handleCodeViewUpdate = (data: { nodes: any[]; edges: any[]; variables: any[] }) => {
+const handleCodeViewUpdate = (data: {
+  nodes: any[];
+  edges: any[];
+  variables: any[];
+}) => {
   nodes.value = data.nodes;
   edges.value = data.edges;
   ruleData.variables = data.variables;
@@ -2419,29 +3297,37 @@ const handleCodeViewUpdate = (data: { nodes: any[]; edges: any[]; variables: any
 
 const handleSave = async () => {
   // 保存前始终打开属性对话框，让用户确认/修改规则属性
-  openPropertyDialog('save');
+  openPropertyDialog("save");
 };
 
 const doSave = async () => {
   if (!ruleData.ruleCode || !ruleData.ruleName) {
-    warning(i18n('rule.msg.fillCodeAndName'));
+    warning(i18n("rule.msg.fillCodeAndName"));
     return;
   }
   // 保存前强制校验：存在 error 级别问题时拦截，严禁保存僵尸属性规则
-  const formFieldNames = (props.formFields || []).map((f: any) => f.fieldName).filter(Boolean);
-  const variableNames = (ruleData.variables || []).map((v: any) => v.field).filter(Boolean);
-  const vr = validateRuleFlow(nodes.value, edges.value, {formFieldNames, variableNames, boundFormId: ruleData.formId || props.formId || ''});
+  const formFieldNames = (props.formFields || [])
+    .map((f: any) => f.fieldName)
+    .filter(Boolean);
+  const variableNames = (ruleData.variables || [])
+    .map((v: any) => v.field)
+    .filter(Boolean);
+  const vr = validateRuleFlow(nodes.value, edges.value, {
+    formFieldNames,
+    variableNames,
+    boundFormId: ruleData.formId || props.formId || "",
+  });
   if (vr.errorCount > 0) {
-    error(i18n('rule.val.saveBlocked', [vr.errorCount]));
+    error(i18n("rule.val.saveBlocked", [vr.errorCount]));
     validationTick.value++;
     return;
   }
   saving.value = true;
   try {
     ruleData.flowContent = JSON.stringify({
-      nodes: nodes.value.map(n => ({...n, selected: false})),
-      edges: edges.value.map(e => ({...e, selected: false})),
-      variables: ruleData.variables || []
+      nodes: nodes.value.map((n) => ({ ...n, selected: false })),
+      edges: edges.value.map((e) => ({ ...e, selected: false })),
+      variables: ruleData.variables || [],
     });
     let id = ruleData.idRuleDefinition;
     if (id) await ruleDefinitionApi.updateRule(ruleData);
@@ -2454,22 +3340,28 @@ const doSave = async () => {
     }
     await ruleConditionApi.deleteByRuleId(id);
     const cs = allConditions.value;
-    if (cs.length) await ruleConditionApi.batchSaveConditions(cs.map((c, i) => ({
-      ...c,
-      idRuleDefinition: id,
-      conditionIndex: i
-    })));
+    if (cs.length)
+      await ruleConditionApi.batchSaveConditions(
+        cs.map((c, i) => ({
+          ...c,
+          idRuleDefinition: id,
+          conditionIndex: i,
+        })),
+      );
     await ruleActionApi.deleteByRuleId(id);
     const as = allActions.value;
-    if (as.length) await ruleActionApi.batchSaveActions(as.map((a, i) => ({
-      ...a,
-      idRuleDefinition: id,
-      actionIndex: i
-    })));
-    success(i18n('rule.msg.saveSuccess'));
+    if (as.length)
+      await ruleActionApi.batchSaveActions(
+        as.map((a, i) => ({
+          ...a,
+          idRuleDefinition: id,
+          actionIndex: i,
+        })),
+      );
+    success(i18n("rule.msg.saveSuccess"));
     emit("saved");
   } catch {
-    error(i18n('rule.msg.saveFail'));
+    error(i18n("rule.msg.saveFail"));
   } finally {
     saving.value = false;
   }
@@ -2477,66 +3369,80 @@ const doSave = async () => {
 
 const handleTest = () => {
   if (!nodes.value.length) {
-    warning(i18n('rule.msg.flowEmpty'));
+    warning(i18n("rule.msg.flowEmpty"));
     return;
   }
   testConsoleVisible.value = true;
 };
 const handlePublish = async () => {
   // 发布前始终打开属性对话框，让用户确认/修改规则属性
-  openPropertyDialog('publish');
+  openPropertyDialog("publish");
 };
 
 const doPublish = async () => {
   if (!ruleData.ruleCode || !ruleData.ruleName) {
-    warning(i18n('rule.msg.fillCodeAndName'));
+    warning(i18n("rule.msg.fillCodeAndName"));
     return;
   }
   // 发布前强制校验，存在 error 级别问题时拦截（含僵尸属性校验）
-  const formFieldNames = (props.formFields || []).map((f: any) => f.fieldName).filter(Boolean);
-  const variableNames = (ruleData.variables || []).map((v: any) => v.field).filter(Boolean);
-  const vr = validateRuleFlow(nodes.value, edges.value, {formFieldNames, variableNames, boundFormId: ruleData.formId || props.formId || ''});
+  const formFieldNames = (props.formFields || [])
+    .map((f: any) => f.fieldName)
+    .filter(Boolean);
+  const variableNames = (ruleData.variables || [])
+    .map((v: any) => v.field)
+    .filter(Boolean);
+  const vr = validateRuleFlow(nodes.value, edges.value, {
+    formFieldNames,
+    variableNames,
+    boundFormId: ruleData.formId || props.formId || "",
+  });
   if (vr.errorCount > 0) {
-    error(i18n('rule.val.publishBlocked', [vr.errorCount]));
+    error(i18n("rule.val.publishBlocked", [vr.errorCount]));
     validationTick.value++;
     return;
   }
-  await operationConfirm(i18n('rule.msg.confirmPublish'));
+  await operationConfirm(i18n("rule.msg.confirmPublish"));
   try {
     ruleData.flowContent = JSON.stringify({
-      nodes: nodes.value.map(n => ({...n, selected: false})),
-      edges: edges.value.map(e => ({...e, selected: false})),
-      variables: ruleData.variables || []
+      nodes: nodes.value.map((n) => ({ ...n, selected: false })),
+      edges: edges.value.map((e) => ({ ...e, selected: false })),
+      variables: ruleData.variables || [],
     });
     ruleData.status = "PUBLISHED";
     await ruleDefinitionApi.updateRule(ruleData);
-    success(i18n('rule.msg.publishSuccess'));
+    success(i18n("rule.msg.publishSuccess"));
   } catch {
-    error(i18n('rule.msg.publishFail'));
+    error(i18n("rule.msg.publishFail"));
   }
 };
 
-const getStatusType = (s: string) => ({DRAFT: "info", PUBLISHED: "success", DISABLED: "danger"}[s] || "info");
-const getStatusText = (s: string) => ({
-  DRAFT: i18n('rule.status.draft'),
-  PUBLISHED: i18n('rule.status.published'),
-  DISABLED: i18n('rule.status.disabled')
-}[s] || s);
+const getStatusType = (s: string) =>
+  ({ DRAFT: "info", PUBLISHED: "success", DISABLED: "danger" })[s] || "info";
+const getStatusText = (s: string) =>
+  ({
+    DRAFT: i18n("rule.status.draft"),
+    PUBLISHED: i18n("rule.status.published"),
+    DISABLED: i18n("rule.status.disabled"),
+  })[s] || s;
 
 const loadDemoData = async () => {
-  const {value: demoType} = await ElMessageBox.prompt(
-      i18n('rule.msg.selectDemoType') + "\n" + DEMO_LIST.map(d => `${d.id}. ${i18n(d.nameKey)}（${i18n(d.descKey)}）`).join("\n"),
-      i18n('rule.msg.loadDemoTitle'),
-      {
-        confirmButtonText: i18n('rule.msg.confirm'),
-        cancelButtonText: i18n('rule.msg.cancel'),
-        inputPattern: /^[1-6]$/,
-        inputErrorMessage: i18n('rule.msg.inputDemoRange'),
-        inputValue: "1"
-      }
+  const { value: demoType } = await ElMessageBox.prompt(
+    i18n("rule.msg.selectDemoType") +
+      "\n" +
+      DEMO_LIST.map(
+        (d) => `${d.id}. ${i18n(d.nameKey)}（${i18n(d.descKey)}）`,
+      ).join("\n"),
+    i18n("rule.msg.loadDemoTitle"),
+    {
+      confirmButtonText: i18n("rule.msg.confirm"),
+      cancelButtonText: i18n("rule.msg.cancel"),
+      inputPattern: /^[1-6]$/,
+      inputErrorMessage: i18n("rule.msg.inputDemoRange"),
+      inputValue: "1",
+    },
   );
 
-  const demo = DEMO_LIST.find(d => d.id === demoType);
+  const demo = DEMO_LIST.find((d) => d.id === demoType);
   if (demo) {
     ruleData.ruleCode = demo.data.ruleCode;
     ruleData.ruleName = demo.data.ruleName;
@@ -2544,8 +3450,8 @@ const loadDemoData = async () => {
     ruleData.variables = JSON.parse(JSON.stringify(demo.data.variables || []));
     nodes.value = JSON.parse(JSON.stringify(demo.data.nodes));
     edges.value = JSON.parse(JSON.stringify(demo.data.edges));
-    setTimeout(() => fitViewFn({duration: 500}), 100);
-    success(i18n('rule.msg.demoLoaded'));
+    setTimeout(() => fitViewFn({ duration: 500 }), 100);
+    success(i18n("rule.msg.demoLoaded"));
     pushHistory();
   }
 };
@@ -2554,7 +3460,7 @@ const loadDemoData = async () => {
 // 导出：将当前规则数据序列化为 JSON 文件下载
 const handleExportRule = () => {
   if (!nodes.value.length && !ruleData.ruleCode) {
-    warning(i18n('rule.msg.exportEmpty'));
+    warning(i18n("rule.msg.exportEmpty"));
     return;
   }
   // 清理 selected 等瞬态字段，保持导出数据干净
@@ -2572,32 +3478,35 @@ const handleExportRule = () => {
       conditionLogic: ruleData.conditionLogic,
       status: ruleData.status,
       formId: ruleData.formId,
-      variables: ruleData.variables || []
+      variables: ruleData.variables || [],
     },
     flow: {
-      nodes: nodes.value.map(n => {
-        const {selected, ...rest} = n as any;
+      nodes: nodes.value.map((n) => {
+        const { selected, ...rest } = n as any;
         return rest;
       }),
-      edges: edges.value.map(e => {
-        const {selected, ...rest} = e as any;
+      edges: edges.value.map((e) => {
+        const { selected, ...rest } = e as any;
         return rest;
-      })
-    }
+      }),
+    },
   };
   const json = JSON.stringify(exportData, null, 2);
-  const blob = new Blob([json], {type: "application/json;charset=utf-8"});
+  const blob = new Blob([json], { type: "application/json;charset=utf-8" });
   const url = URL.createObjectURL(blob);
   const a = document.createElement("a");
   a.href = url;
   // 文件名：规则编码或规则名，去除非法字符
-  const safeName = (ruleData.ruleCode || ruleData.ruleName || "rule").replace(/[\\/:*?"<>|]/g, "_");
+  const safeName = (ruleData.ruleCode || ruleData.ruleName || "rule").replace(
+    /[\\/:*?"<>|]/g,
+    "_",
+  );
   a.download = `${safeName}_${new Date().toISOString().slice(0, 10)}.json`;
   document.body.appendChild(a);
   a.click();
   document.body.removeChild(a);
   URL.revokeObjectURL(url);
-  success(i18n('rule.msg.exportSuccess'));
+  success(i18n("rule.msg.exportSuccess"));
 };
 
 // 导入：从 JSON 文件加载规则数据
@@ -2631,23 +3540,35 @@ const handleImportRule = () => {
           ruleData.variables = rd.variables || [];
         }
         if (data.flow) {
-          nodes.value = (data.flow.nodes || []).map((n: any) => ({...n, selected: false}));
-          edges.value = (data.flow.edges || []).map((e: any) => ({...e, selected: false}));
+          nodes.value = (data.flow.nodes || []).map((n: any) => ({
+            ...n,
+            selected: false,
+          }));
+          edges.value = (data.flow.edges || []).map((e: any) => ({
+            ...e,
+            selected: false,
+          }));
         } else if (Array.isArray(data.nodes)) {
           // 兼容纯 flow 格式
-          nodes.value = data.nodes.map((n: any) => ({...n, selected: false}));
-          edges.value = (data.edges || []).map((e: any) => ({...e, selected: false}));
+          nodes.value = data.nodes.map((n: any) => ({ ...n, selected: false }));
+          edges.value = (data.edges || []).map((e: any) => ({
+            ...e,
+            selected: false,
+          }));
         } else {
           throw new Error("Invalid rule file format");
         }
-        setTimeout(() => fitViewFn({duration: 500}), 100);
-        success(i18n('rule.msg.importSuccess'));
+        setTimeout(() => fitViewFn({ duration: 500 }), 100);
+        success(i18n("rule.msg.importSuccess"));
         pushHistory();
       } catch (err: any) {
-        error(i18n('rule.msg.importFail') + (err?.message ? `: ${err.message}` : ""));
+        error(
+          i18n("rule.msg.importFail") +
+            (err?.message ? `: ${err.message}` : ""),
+        );
       }
     };
-    reader.onerror = () => error(i18n('rule.msg.importFail'));
+    reader.onerror = () => error(i18n("rule.msg.importFail"));
     reader.readAsText(file);
   };
   input.click();
@@ -2662,7 +3583,10 @@ const handleKeydown = (e: KeyboardEvent) => {
   if ((e.ctrlKey || e.metaKey) && e.key === "z" && !e.shiftKey) {
     e.preventDefault();
     undo();
-  } else if ((e.ctrlKey || e.metaKey) && (e.key === "y" || (e.key === "z" && e.shiftKey))) {
+  } else if (
+    (e.ctrlKey || e.metaKey) &&
+    (e.key === "y" || (e.key === "z" && e.shiftKey))
+  ) {
     e.preventDefault();
     redo();
   }
@@ -2691,7 +3615,7 @@ onUnmounted(() => {
 </script>
 
 <style scoped lang="scss">
-@use './styles/design-tokens.scss' as tokens;
+@use "./styles/design-tokens.scss" as tokens;
 
 .rule-designer {
   height: 100%;
@@ -3125,7 +4049,7 @@ onUnmounted(() => {
             background: #f8fafc;
             border: 1px solid #e2e8f0;
             color: #1e293b;
-            font-family: 'JetBrains Mono', 'Courier New', monospace;
+            font-family: "JetBrains Mono", "Courier New", monospace;
             font-size: 12px;
             line-height: 1.6;
             border-radius: 4px;
@@ -3200,7 +4124,7 @@ onUnmounted(() => {
               padding: 4px 6px;
               background: #f1f5f9;
               border-radius: 3px;
-              font-family: 'JetBrains Mono', monospace;
+              font-family: "JetBrains Mono", monospace;
             }
           }
 
@@ -3214,7 +4138,7 @@ onUnmounted(() => {
               padding: 6px 10px;
               border-radius: 4px;
               font-size: 11px;
-              font-family: 'JetBrains Mono', monospace;
+              font-family: "JetBrains Mono", monospace;
               white-space: pre-wrap;
             }
           }
@@ -3224,7 +4148,7 @@ onUnmounted(() => {
             color: #1e293b;
             padding: 10px;
             border-radius: 4px;
-            font-family: 'JetBrains Mono', monospace;
+            font-family: "JetBrains Mono", monospace;
             font-size: 12px;
             line-height: 1.5;
           }
@@ -3283,7 +4207,10 @@ onUnmounted(() => {
   font-size: 13px;
 }
 
-.toolbar-dropdown-popper .el-dropdown-menu .el-dropdown-menu__item .star-horse-icon,
+.toolbar-dropdown-popper
+  .el-dropdown-menu
+  .el-dropdown-menu__item
+  .star-horse-icon,
 .toolbar-dropdown-popper .el-dropdown-menu .el-dropdown-menu__item .el-icon {
   font-size: 16px;
   flex-shrink: 0;
@@ -3298,7 +4225,10 @@ onUnmounted(() => {
 }
 
 /* 选中项的勾选标记靠右 */
-.toolbar-dropdown-popper .el-dropdown-menu .el-dropdown-menu__item .active-check {
+.toolbar-dropdown-popper
+  .el-dropdown-menu
+  .el-dropdown-menu__item
+  .active-check {
   margin-left: auto;
   color: #6366f1;
   font-size: 14px;
@@ -3359,7 +4289,7 @@ onUnmounted(() => {
   display: inline-block;
   padding: 1px 6px;
   font-size: 11px;
-  font-family: 'Consolas', 'Monaco', monospace;
+  font-family: "Consolas", "Monaco", monospace;
   color: #475569;
   background: #f1f5f9;
   border: 1px solid #cbd5e1;

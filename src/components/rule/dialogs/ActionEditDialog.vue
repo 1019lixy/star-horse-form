@@ -1,29 +1,54 @@
 <template>
   <star-horse-panel
     v-model="dialogVisible"
-    :title="action ? i18n('rule.dialog.editAction') : i18n('rule.dialog.addAction')"
+    :title="
+      action ? i18n('rule.dialog.editAction') : i18n('rule.dialog.addAction')
+    "
     boxWidth="600px"
     :selfFunc="true"
     @closeAction="handleClose"
     @merge="handleSave"
   >
-    <el-form :model="formData" label-width="100px" size="default" ref="formRef" :rules="rules">
+    <el-form
+      :model="formData"
+      label-width="100px"
+      size="default"
+      ref="formRef"
+      :rules="rules"
+    >
       <el-form-item :label="i18n('rule.lbl.actionType')" prop="actionType">
-        <el-select v-model="formData.actionType" style="width: 100%;z-index:999 !important;" @change="handleActionTypeChange">
-          <el-option-group v-for="group in actionGroups" :key="group.label" :label="group.label">
-            <el-option v-for="act in group.options" :key="act.value" :label="act.label" :value="act.value" />
+        <el-select
+          v-model="formData.actionType"
+          style="width: 100%; z-index: 999 !important"
+          @change="handleActionTypeChange"
+        >
+          <el-option-group
+            v-for="group in actionGroups"
+            :key="group.label"
+            :label="group.label"
+          >
+            <el-option
+              v-for="act in group.options"
+              :key="act.value"
+              :label="act.label"
+              :value="act.value"
+            />
           </el-option-group>
         </el-select>
       </el-form-item>
 
-      <el-form-item :label="i18n('rule.lbl.targetField')" v-if="needsTargetField" prop="targetField">
+      <el-form-item
+        :label="i18n('rule.lbl.targetField')"
+        v-if="needsTargetField"
+        prop="targetField"
+      >
         <el-select
           v-model="formData.targetField"
           filterable
           allow-create
           default-first-option
           :placeholder="i18n('rule.ph.targetFieldExample')"
-          style="width: 100%;z-index:999 !important;"
+          style="width: 100%; z-index: 999 !important"
         >
           <!-- 表单字段分组 -->
           <el-option-group
@@ -36,7 +61,14 @@
               :label="`${f.label || f.fieldName} (${f.fieldName})`"
               :value="f.fieldName"
             >
-              <div style="display: flex; align-items: center; justify-content: space-between; width: 100%">
+              <div
+                style="
+                  display: flex;
+                  align-items: center;
+                  justify-content: space-between;
+                  width: 100%;
+                "
+              >
                 <span>{{ f.label || f.fieldName }}</span>
                 <span class="var-opt-field">{{ f.fieldName }}</span>
               </div>
@@ -62,13 +94,23 @@
 
       <el-form-item :label="i18n('rule.lbl.valueType')" v-if="needsValue">
         <el-radio-group v-model="formData.actionValueType">
-          <el-radio-button value="CONSTANT">{{ i18n('rule.dialog.constant') }}</el-radio-button>
-          <el-radio-button value="VARIABLE">{{ i18n('rule.dialog.variable') }}</el-radio-button>
-          <el-radio-button value="EXPRESSION">{{ i18n('rule.dialog.expression') }}</el-radio-button>
+          <el-radio-button value="CONSTANT">{{
+            i18n("rule.dialog.constant")
+          }}</el-radio-button>
+          <el-radio-button value="VARIABLE">{{
+            i18n("rule.dialog.variable")
+          }}</el-radio-button>
+          <el-radio-button value="EXPRESSION">{{
+            i18n("rule.dialog.expression")
+          }}</el-radio-button>
         </el-radio-group>
       </el-form-item>
 
-      <el-form-item :label="i18n('rule.lbl.actionValue')" v-if="needsValue" prop="actionValue">
+      <el-form-item
+        :label="i18n('rule.lbl.actionValue')"
+        v-if="needsValue"
+        prop="actionValue"
+      >
         <el-select
           v-if="formData.actionValueType === 'VARIABLE'"
           v-model="formData.actionValue"
@@ -76,7 +118,7 @@
           allow-create
           default-first-option
           :placeholder="i18n('rule.var.selectField')"
-          style="width: 100%;z-index:999 !important;"
+          style="width: 100%; z-index: 999 !important"
         >
           <el-option-group
             v-if="formFields.length"
@@ -110,12 +152,26 @@
         />
       </el-form-item>
 
-      <el-form-item :label="i18n('rule.lbl.messageContent')" v-if="formData.actionType === 'SHOW_MESSAGE'">
-        <el-input v-model="formData.message" type="textarea" :rows="2" :placeholder="i18n('rule.ph.enterMessageContent')" />
+      <el-form-item
+        :label="i18n('rule.lbl.messageContent')"
+        v-if="formData.actionType === 'SHOW_MESSAGE'"
+      >
+        <el-input
+          v-model="formData.message"
+          type="textarea"
+          :rows="2"
+          :placeholder="i18n('rule.ph.enterMessageContent')"
+        />
       </el-form-item>
 
-      <el-form-item :label="i18n('rule.lbl.messageType')" v-if="formData.actionType === 'SHOW_MESSAGE'">
-        <el-select v-model="formData.messageType" style="width: 100%;z-index:999 !important;">
+      <el-form-item
+        :label="i18n('rule.lbl.messageType')"
+        v-if="formData.actionType === 'SHOW_MESSAGE'"
+      >
+        <el-select
+          v-model="formData.messageType"
+          style="width: 100%; z-index: 999 !important"
+        >
           <el-option :label="i18n('rule.dialog.info')" value="INFO" />
           <el-option :label="i18n('rule.dialog.success')" value="SUCCESS" />
           <el-option :label="i18n('rule.dialog.warning')" value="WARNING" />
@@ -123,12 +179,21 @@
         </el-select>
       </el-form-item>
 
-      <el-form-item :label="i18n('rule.lbl.redirectUrl')" v-if="formData.actionType === 'REDIRECT'">
-        <el-input v-model="formData.actionValue" :placeholder="i18n('rule.ph.redirectUrlExample')" />
+      <el-form-item
+        :label="i18n('rule.lbl.redirectUrl')"
+        v-if="formData.actionType === 'REDIRECT'"
+      >
+        <el-input
+          v-model="formData.actionValue"
+          :placeholder="i18n('rule.ph.redirectUrlExample')"
+        />
       </el-form-item>
 
       <el-form-item :label="i18n('rule.lbl.description')">
-        <el-input v-model="formData.description" :placeholder="i18n('rule.ph.actionDescriptionOptional')" />
+        <el-input
+          v-model="formData.description"
+          :placeholder="i18n('rule.ph.actionDescriptionOptional')"
+        />
       </el-form-item>
 
       <el-form-item :label="i18n('rule.lbl.stopOnError')">
@@ -145,138 +210,177 @@
 </template>
 
 <script setup lang="ts">
-import { ref, reactive, watch, computed, inject, type Ref } from 'vue'
-import type { FormInstance, FormRules } from 'element-plus'
-import { i18n } from '@/lang'
-import ExpressionEditor from '../components/ExpressionEditor.vue'
-import type { FormFieldMeta } from '../useFormRuleRuntime'
+import { ref, reactive, watch, computed, inject, type Ref } from "vue";
+import type { FormInstance, FormRules } from "element-plus";
+import { i18n } from "@/lang";
+import ExpressionEditor from "../components/ExpressionEditor.vue";
+import type { FormFieldMeta } from "../useFormRuleRuntime";
 
 const props = defineProps<{
-  visible: boolean
-  action: any
-  variables?: Array<{ field: string; label: string; type: string; source: string; defaultValue?: string; desc?: string }>
-}>()
+  visible: boolean;
+  action: any;
+  variables?: Array<{
+    field: string;
+    label: string;
+    type: string;
+    source: string;
+    defaultValue?: string;
+    desc?: string;
+  }>;
+}>();
 
 // 从 RuleDesigner 注入表单字段列表
-const injectedFormFields = inject<Ref<FormFieldMeta[]> | FormFieldMeta[] | undefined>('ruleFormFields', undefined);
+const injectedFormFields = inject<
+  Ref<FormFieldMeta[]> | FormFieldMeta[] | undefined
+>("ruleFormFields", undefined);
 const formFields = computed<FormFieldMeta[]>(() => {
   if (!injectedFormFields) return [];
   const v = (injectedFormFields as any).value ?? injectedFormFields;
   return Array.isArray(v) ? v : [];
 });
-const dialogVisible=ref<boolean>(false);
-watch(()=>props.visible,(val)=>{
-  dialogVisible.value = val;
-},{immediate:true});
+const dialogVisible = ref<boolean>(false);
+watch(
+  () => props.visible,
+  (val) => {
+    dialogVisible.value = val;
+  },
+  { immediate: true },
+);
 const emit = defineEmits<{
-  (e: 'close'): void
-  (e: 'save', action: any): void
-}>()
+  (e: "close"): void;
+  (e: "save", action: any): void;
+}>();
 
-const formRef = ref<FormInstance>()
+const formRef = ref<FormInstance>();
 
 const defaultFormData = () => ({
-  actionType: 'SET_VALUE',
-  targetField: '',
-  actionValueType: 'CONSTANT',
-  actionValue: '',
-  message: '',
-  messageType: 'INFO',
-  description: '',
-  stopOnError: 'N'
-})
+  actionType: "SET_VALUE",
+  targetField: "",
+  actionValueType: "CONSTANT",
+  actionValue: "",
+  message: "",
+  messageType: "INFO",
+  description: "",
+  stopOnError: "N",
+});
 
-const formData = reactive(defaultFormData())
+const formData = reactive(defaultFormData());
 
 const rules = reactive<FormRules>({
-  actionType: [{ required: true, message: i18n('rule.ph.selectActionType'), trigger: 'change' }],
-  targetField: [{ required: true, message: i18n('rule.ph.enterTargetField'), trigger: 'blur' }],
-  actionValue: [{ required: true, message: i18n('rule.ph.enterValue'), trigger: 'blur' }]
-})
+  actionType: [
+    {
+      required: true,
+      message: i18n("rule.ph.selectActionType"),
+      trigger: "change",
+    },
+  ],
+  targetField: [
+    {
+      required: true,
+      message: i18n("rule.ph.enterTargetField"),
+      trigger: "blur",
+    },
+  ],
+  actionValue: [
+    { required: true, message: i18n("rule.ph.enterValue"), trigger: "blur" },
+  ],
+});
 
 // 动作类型分组（值与RuleExecutor一致）
 const actionGroups = computed(() => [
   {
-    label: i18n('rule.dialog.fieldVisibility'),
+    label: i18n("rule.dialog.fieldVisibility"),
     options: [
-      { label: i18n('rule.dialog.showField'), value: 'SHOW_FIELD' },
-      { label: i18n('rule.dialog.hideField'), value: 'HIDE_FIELD' }
-    ]
+      { label: i18n("rule.dialog.showField"), value: "SHOW_FIELD" },
+      { label: i18n("rule.dialog.hideField"), value: "HIDE_FIELD" },
+    ],
   },
   {
-    label: i18n('rule.dialog.fieldStatus'),
+    label: i18n("rule.dialog.fieldStatus"),
     options: [
-      { label: i18n('rule.dialog.setRequired'), value: 'SET_REQUIRED' },
-      { label: i18n('rule.dialog.setOptional'), value: 'SET_OPTIONAL' },
-      { label: i18n('rule.dialog.setReadonly'), value: 'SET_READONLY' },
-      { label: i18n('rule.dialog.setEditable'), value: 'SET_EDITABLE' },
-      { label: i18n('rule.dialog.setDisabled'), value: 'SET_DISABLED' },
-      { label: i18n('rule.dialog.setEnabled'), value: 'SET_ENABLED' }
-    ]
+      { label: i18n("rule.dialog.setRequired"), value: "SET_REQUIRED" },
+      { label: i18n("rule.dialog.setOptional"), value: "SET_OPTIONAL" },
+      { label: i18n("rule.dialog.setReadonly"), value: "SET_READONLY" },
+      { label: i18n("rule.dialog.setEditable"), value: "SET_EDITABLE" },
+      { label: i18n("rule.dialog.setDisabled"), value: "SET_DISABLED" },
+      { label: i18n("rule.dialog.setEnabled"), value: "SET_ENABLED" },
+    ],
   },
   {
-    label: i18n('rule.dialog.dataOperations'),
+    label: i18n("rule.dialog.dataOperations"),
     options: [
-      { label: i18n('rule.dialog.setFieldValue'), value: 'SET_VALUE' },
-      { label: i18n('rule.dialog.clearFieldValue'), value: 'CLEAR_VALUE' }
-    ]
+      { label: i18n("rule.dialog.setFieldValue"), value: "SET_VALUE" },
+      { label: i18n("rule.dialog.clearFieldValue"), value: "CLEAR_VALUE" },
+    ],
   },
   {
-    label: i18n('rule.dialog.messagePrompt'),
+    label: i18n("rule.dialog.messagePrompt"),
     options: [
-      { label: i18n('rule.dialog.showMessage'), value: 'SHOW_MESSAGE' }
-    ]
+      { label: i18n("rule.dialog.showMessage"), value: "SHOW_MESSAGE" },
+    ],
   },
   {
-    label: i18n('rule.dialog.pageOperations'),
-    options: [
-      { label: i18n('rule.dialog.pageRedirect'), value: 'REDIRECT' }
-    ]
-  }
-])
+    label: i18n("rule.dialog.pageOperations"),
+    options: [{ label: i18n("rule.dialog.pageRedirect"), value: "REDIRECT" }],
+  },
+]);
 
 const needsTargetField = computed(() => {
-  return ['SHOW_FIELD', 'HIDE_FIELD', 'SET_REQUIRED', 'SET_OPTIONAL', 'SET_READONLY', 'SET_EDITABLE', 'SET_DISABLED', 'SET_ENABLED', 'SET_VALUE', 'CLEAR_VALUE'].includes(formData.actionType)
-})
+  return [
+    "SHOW_FIELD",
+    "HIDE_FIELD",
+    "SET_REQUIRED",
+    "SET_OPTIONAL",
+    "SET_READONLY",
+    "SET_EDITABLE",
+    "SET_DISABLED",
+    "SET_ENABLED",
+    "SET_VALUE",
+    "CLEAR_VALUE",
+  ].includes(formData.actionType);
+});
 
 const needsValue = computed(() => {
-  return ['SET_VALUE'].includes(formData.actionType)
-})
+  return ["SET_VALUE"].includes(formData.actionType);
+});
 
-watch(() => props.visible, (val) => {
-  if (val) {
-    if (props.action) {
-      Object.assign(formData, defaultFormData(), props.action)
-    } else {
-      Object.assign(formData, defaultFormData())
+watch(
+  () => props.visible,
+  (val) => {
+    if (val) {
+      if (props.action) {
+        Object.assign(formData, defaultFormData(), props.action);
+      } else {
+        Object.assign(formData, defaultFormData());
+      }
+      formRef.value?.clearValidate();
     }
-    formRef.value?.clearValidate()
-  }
-})
+  },
+);
 
 const handleActionTypeChange = () => {
   if (!needsValue.value) {
-    formData.actionValue = ''
-    formData.actionValueType = 'CONSTANT'
+    formData.actionValue = "";
+    formData.actionValueType = "CONSTANT";
   }
   if (!needsTargetField.value) {
-    formData.targetField = ''
+    formData.targetField = "";
   }
-  if (formData.actionType === 'SHOW_MESSAGE' && !formData.message) {
-    formData.messageType = 'INFO'
+  if (formData.actionType === "SHOW_MESSAGE" && !formData.message) {
+    formData.messageType = "INFO";
   }
-}
+};
 
-const handleClose = () => emit('close')
+const handleClose = () => emit("close");
 
 const handleSave = async () => {
-  if (!formRef.value) return
+  if (!formRef.value) return;
   await formRef.value.validate((valid) => {
     if (valid) {
-      emit('save', { ...formData })
+      emit("save", { ...formData });
     }
-  })
-}
+  });
+};
 </script>
 
 <style scoped>

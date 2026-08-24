@@ -1,23 +1,24 @@
 <script setup lang="ts">
-import {computed, nextTick, onMounted, provide, ref, watch} from "vue";
+import { computed, nextTick, onMounted, provide, ref, watch } from "vue";
 import {
   analysisAppComps,
   analysisCompDatas,
   apiInstance,
-  ApiUrls, convertCompToAppComps,
+  ApiUrls,
+  convertCompToAppComps,
   createDatetime,
   dialogPreps,
   SearchFields,
   UserFuncInfo,
 } from "star-horse-lowcode";
-import {TabsPaneContext} from "element-plus";
-import {i18n} from "@/lang";
+import { TabsPaneContext } from "element-plus";
+import { i18n } from "@/lang";
 import CommonSkeleton from "./CommonSkeleton.vue";
-import {useFormRuleRuntime} from "@/components/rule/useFormRuleRuntime";
+import { useFormRuleRuntime } from "@/components/rule/useFormRuleRuntime";
 
 const props = defineProps({
-  currentPageClass: {type: String, default: ""},
-  preview: {type: Boolean, default: false},
+  currentPageClass: { type: String, default: "" },
+  preview: { type: Boolean, default: false },
   compList: {
     type: Array,
     required: true,
@@ -48,8 +49,8 @@ let extBtns = ref<Array<UserFuncInfo>>([]);
 // ==================== 规则引擎集成 ====================
 const ruleFormId = computed(() => {
   const list = props.compList as any[];
-  if (!list || list.length === 0) return '';
-  return list[0]?.formId || list[0]?.preps?.formId || '';
+  if (!list || list.length === 0) return "";
+  return list[0]?.formId || list[0]?.preps?.formId || "";
 });
 
 const ruleFormData = computed(() => {
@@ -76,15 +77,20 @@ const onFormDataLoaded = async () => {
   }
 };
 
-const handleBeforeSubmit = async ({type, formData: fd}: {type: string; formData: any}) => {
+const handleBeforeSubmit = async ({
+  type,
+  formData: fd,
+}: {
+  type: string;
+  formData: any;
+}) => {
   if (isEnabled.value && currentFormId.value) {
     const ok = await triggerOnSubmit();
     if (!ok) return false;
   }
 };
 
-const handleClick = (_tab: TabsPaneContext, _event: Event) => {
-};
+const handleClick = (_tab: TabsPaneContext, _event: Event) => {};
 
 const loadFormData = async () => {
   isLoading.value = true; // 开始加载
@@ -115,7 +121,7 @@ const dataFormat = (name: string, cellValue: object, row: any): any => {
       let temp = dataSource.value[name];
       if (temp) {
         let stemp = temp.datas?.find(
-            (item: any) => item[temp.valueField] == cellValue,
+          (item: any) => item[temp.valueField] == cellValue,
         );
         return stemp ? stemp[temp.labelField] : cellValue || "--";
       }
@@ -124,7 +130,7 @@ const dataFormat = (name: string, cellValue: object, row: any): any => {
   };
   if (fieldMappingList.value?.length > 0) {
     let temp = fieldMappingList.value.find(
-        (item: any) => item["fieldName"] == name,
+      (item: any) => item["fieldName"] == name,
     );
     if (temp) {
       return row[temp.mappingDisplayField] || subFormat(name, cellValue, row);
@@ -136,114 +142,114 @@ const dataRecall = (formData: any, result: any) => {
   if (props.preview) {
     starHorseTableCompRef.value?.assignStaticData(formData);
   } else {
-    starHorseTableCompRef.value?.loadByPage()
+    starHorseTableCompRef.value?.loadByPage();
   }
 };
 onMounted(async () => {
   await init();
 });
 watch(
-    () => props.compList,
-    (val) => {
-      loadFormData();
-    },
-    {deep: true},
+  () => props.compList,
+  (val) => {
+    loadFormData();
+  },
+  { deep: true },
 );
 watch(
-    () => props.currentPageClass,
-    (val) => {
-      loadFormData();
-    },
-    {deep: true},
+  () => props.currentPageClass,
+  (val) => {
+    loadFormData();
+  },
+  { deep: true },
 );
 </script>
 <template>
   <div class="flex flex-col h-full overflow-hidden">
     <!-- 使用通用骨架屏组件 - 带标签页样式 -->
     <CommonSkeleton
-        v-if="isLoading"
-        :showSearch="false"
-        :showHeader="true"
-        :showTabs="true"
-        :showForm="true"
-        :showTable="false"
-        :formRowCount="6"
+      v-if="isLoading"
+      :showSearch="false"
+      :showHeader="true"
+      :showTabs="true"
+      :showForm="true"
+      :showTable="false"
+      :formRowCount="6"
     />
 
     <template v-else-if="hasData">
       <star-horse-panel
-          v-model="dialogProps.viewVisible"
-          :dialogProps="dialogProps"
-          :source="3"
+        v-model="dialogProps.viewVisible"
+        :dialogProps="dialogProps"
+        :source="3"
       >
         <star-horse-data-view
-            :dataFormat="dataFormat"
-            :primary-key="primaryKey"
-            :dynamicForm="true"
-            :preview="preview"
-            :field-list="tableFieldList"
-            :compUrl="dataUrl"
+          :dataFormat="dataFormat"
+          :primary-key="primaryKey"
+          :dynamicForm="true"
+          :preview="preview"
+          :field-list="tableFieldList"
+          :compUrl="dataUrl"
         />
       </star-horse-panel>
       <el-card class="inner_content">
         <el-tabs
-            v-model="activeName"
-            type="border-card"
-            @tab-click="handleClick"
+          v-model="activeName"
+          type="border-card"
+          @tab-click="handleClick"
         >
           <el-tab-pane
-              :label="i18n('commonPage.tab.form')"
-              name="form"
-              class="flex flex-col"
+            :label="i18n('commonPage.tab.form')"
+            name="form"
+            class="flex flex-col"
           >
             <star-horse-form
-                @refresh="dataRecall"
-                @dataLoaded="onFormDataLoaded"
-                @beforeSubmit="handleBeforeSubmit"
-                :dynamicForm="true"
-                :compUrl="dataUrl"
-                :formInfo="formInfo"
-                :preview="preview"
-                :fieldList="tableFieldList"
-                :rules="rules"
-                :globalCondition="relationTables"
-                :typeModel="'form'"
-                ref="tabPageFormRef"
+              @refresh="dataRecall"
+              @dataLoaded="onFormDataLoaded"
+              @beforeSubmit="handleBeforeSubmit"
+              :dynamicForm="true"
+              :compUrl="dataUrl"
+              :formInfo="formInfo"
+              :preview="preview"
+              :fieldList="tableFieldList"
+              :rules="rules"
+              :globalCondition="relationTables"
+              :typeModel="'form'"
+              ref="tabPageFormRef"
             />
           </el-tab-pane>
           <el-tab-pane :label="i18n('commonPage.tab.dataList')" name="table">
             <div
-                class="search-content"
-                v-if="searchFormData.fieldList?.length > 0"
+              class="search-content"
+              v-if="searchFormData.fieldList?.length > 0"
             >
               <div class="search_btn">
                 <star-horse-search-comp
-                    @searchData="
+                  @searchData="
                     (data: any) =>
                       starHorseTableCompRef?.createSearchParams(data)
                   "
-                    :formData="searchFormData"
-                    :compUrl="dataUrl"
+                  :formData="searchFormData"
+                  :compUrl="dataUrl"
                 />
               </div>
             </div>
             <star-horse-table-comp
-                ref="starHorseTableCompRef"
-                :fieldList="tableFieldList"
-                :primaryKey="primaryKey"
-                :compUrl="dataUrl"
-                :globalConfig="relationTables"
-                :isDynamic="true"
-                :preview="preview"
-                :btnPermissions="{
+              ref="starHorseTableCompRef"
+              :fieldList="tableFieldList"
+              :primaryKey="primaryKey"
+              :compUrl="dataUrl"
+              :globalConfig="relationTables"
+              :isDynamic="true"
+              :preview="preview"
+              :btnPermissions="{
                 add: 'add',
                 edit: 'eidt',
                 view: 'view',
                 delete: 'delete',
               }"
-                :extendBtns="extBtns"
-                :showBatchField="true"
-                :dataFormat="dataFormat"
+              :extendBtns="extBtns"
+              :showBatchField="true"
+              :dataFormat="dataFormat"
             />
           </el-tab-pane>
         </el-tabs>

@@ -1,4 +1,4 @@
-import {i18n} from "@/lang";
+import { i18n } from "@/lang";
 const business = import.meta.glob("@/assets/icons/svg/business/*.svg");
 const education = import.meta.glob("@/assets/icons/svg/education/*.svg");
 const festival = import.meta.glob("@/assets/icons/svg/festival/*.svg");

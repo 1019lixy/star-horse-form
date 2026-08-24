@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import {computed, nextTick, ref, watch} from "vue";
-import {i18n} from "@/lang";
+import { computed, nextTick, ref, watch } from "vue";
+import { i18n } from "@/lang";
 import { validDynamicFormCompParams } from "@/components/system/items/utils/FormParamsValid";
 import { piniaInstance, useDesignFormStore, warning } from "star-horse-lowcode";
 import FormPropertyPanel from "@/components/system/items/form/FormPropertyPanel.vue";
@@ -77,10 +77,14 @@ const analysisDynamicFields = (submit: boolean) => {
   const tryCall = () => {
     nextTick(() => {
       if (formPropertyRef.value) {
-        console.log("[ConfigDialog] formPropertyRef available, calling analysisDynamicFields");
+        console.log(
+          "[ConfigDialog] formPropertyRef available, calling analysisDynamicFields",
+        );
         formPropertyRef.value.analysisDynamicFields(createFormInfo());
       } else {
-        console.log("[ConfigDialog] formPropertyRef is null, retrying in 50ms...");
+        console.log(
+          "[ConfigDialog] formPropertyRef is null, retrying in 50ms...",
+        );
         // el-dialog 的 destroy-on-close 可能导致组件还未挂载，延迟重试
         setTimeout(tryCall, 50);
       }
@@ -88,10 +92,14 @@ const analysisDynamicFields = (submit: boolean) => {
   };
   tryCall();
 };
-const dialogVisible=ref<boolean>(false);
-watch(()=>props.visible,(val)=>{
-  dialogVisible.value = val;
-},{immediate:true});
+const dialogVisible = ref<boolean>(false);
+watch(
+  () => props.visible,
+  (val) => {
+    dialogVisible.value = val;
+  },
+  { immediate: true },
+);
 defineExpose({
   analysisDynamicFields,
 });

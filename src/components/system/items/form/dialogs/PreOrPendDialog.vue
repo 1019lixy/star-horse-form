@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import {computed, nextTick, ref, shallowRef, unref, watch} from "vue";
-import {i18n} from "@/lang";
-import {loadSvgIcons} from "@/api/star_horse_form_utils.js";
-import {analysisCompDatas, SelectOption} from "star-horse-lowcode";
-import {getDesignFormStore} from "@/store/StoreManager";
+import { computed, nextTick, ref, shallowRef, unref, watch } from "vue";
+import { i18n } from "@/lang";
+import { loadSvgIcons } from "@/api/star_horse_form_utils.js";
+import { analysisCompDatas, SelectOption } from "star-horse-lowcode";
+import { getDesignFormStore } from "@/store/StoreManager";
 import PreOrPendEventDialog from "@/components/system/items/form/dialogs/PreOrPendEventDialog.vue";
 import {
   PreOrPendEventConfig,
@@ -80,8 +80,16 @@ const preOrPendFields = () => {
           jsonConfig: {
             dialogTitle: i18n("dyform.preOrPend.prependList.title"),
             columns: [
-              {title: i18n("dyform.dialog.419"), fieldName: "name", required: true},
-              {title: i18n("dyform.dialog.420"), fieldName: "value", required: true},
+              {
+                title: i18n("dyform.dialog.419"),
+                fieldName: "name",
+                required: true,
+              },
+              {
+                title: i18n("dyform.dialog.420"),
+                fieldName: "value",
+                required: true,
+              },
             ],
           },
         },
@@ -126,8 +134,16 @@ const preOrPendFields = () => {
           jsonConfig: {
             dialogTitle: i18n("dyform.preOrPend.appendList.title"),
             columns: [
-              {title: i18n("dyform.dialog.419"), fieldName: "name", required: true},
-              {title: i18n("dyform.dialog.420"), fieldName: "value", required: true},
+              {
+                title: i18n("dyform.dialog.419"),
+                fieldName: "name",
+                required: true,
+              },
+              {
+                title: i18n("dyform.dialog.420"),
+                fieldName: "value",
+                required: true,
+              },
             ],
           },
         },
@@ -182,13 +198,13 @@ const setFormData = async (data: any) => {
 };
 
 watch(
-    () => props.visible,
-    (newVal) => {
-      if (newVal) {
-        setFormData(props.formProps);
-      }
-    },
-    {immediate: true},
+  () => props.visible,
+  (newVal) => {
+    if (newVal) {
+      setFormData(props.formProps);
+    }
+  },
+  { immediate: true },
 );
 
 // ==================== 前置/后置按钮组管理 ====================
@@ -207,7 +223,9 @@ type ActionFieldName = "prependAction" | "appendAction";
  * 初始化在 ensureActionList 中完成，避免在 computed 内写入触发死循环
  */
 const getActionList = (fieldName: ActionFieldName): any[] => {
-  return Array.isArray(props.formProps?.[fieldName]) ? props.formProps[fieldName] : [];
+  return Array.isArray(props.formProps?.[fieldName])
+    ? props.formProps[fieldName]
+    : [];
 };
 
 /**
@@ -221,7 +239,9 @@ const ensureActionList = (fieldName: ActionFieldName): any[] => {
   return props.formProps[fieldName];
 };
 
-const prependActionItems = computed<any[]>(() => getActionList("prependAction"));
+const prependActionItems = computed<any[]>(() =>
+  getActionList("prependAction"),
+);
 const appendActionItems = computed<any[]>(() => getActionList("appendAction"));
 
 /**
@@ -232,7 +252,7 @@ const addAction = (fieldName: ActionFieldName) => {
   ensureActionList(fieldName).push({
     actionTitle: "",
     icon: "",
-    actions: {eventType: "none"},
+    actions: { eventType: "none" },
   });
 };
 
@@ -246,19 +266,26 @@ const removeAction = (fieldName: ActionFieldName, index: number) => {
 /**
  * 读取某个按钮的事件配置（直接从按钮项的 actions 字段读）
  */
-const getEventConfig = (fieldName: ActionFieldName, index: number): PreOrPendEventConfig => {
+const getEventConfig = (
+  fieldName: ActionFieldName,
+  index: number,
+): PreOrPendEventConfig => {
   const list = getActionList(fieldName);
   const item = list[index];
   if (item?.actions && typeof item.actions === "object") {
-    return {eventType: "none", ...item.actions};
+    return { eventType: "none", ...item.actions };
   }
-  return {eventType: "none"};
+  return { eventType: "none" };
 };
 
 /**
  * 赋值某个按钮的事件配置（直接写到按钮项的 actions 字段上）
  */
-const setEventConfig = (fieldName: ActionFieldName, index: number, config: PreOrPendEventConfig) => {
+const setEventConfig = (
+  fieldName: ActionFieldName,
+  index: number,
+  config: PreOrPendEventConfig,
+) => {
   const list = ensureActionList(fieldName);
   if (list[index]) {
     list[index].actions = config;
@@ -280,7 +307,7 @@ const currentSlotField = ref<"prependAction" | "appendAction">("appendAction");
 /** 当前编辑的数组索引 */
 const currentIndex = ref<number | undefined>(undefined);
 /** 当前事件配置 */
-const currentEventConfig = ref<PreOrPendEventConfig>({eventType: "none"});
+const currentEventConfig = ref<PreOrPendEventConfig>({ eventType: "none" });
 /** 当前编辑按钮标题 */
 const currentButtonTitle = ref<string>("");
 
@@ -296,12 +323,12 @@ const linkageFormFields = computed<SelectOption[]>(() => {
     }
   });
   return dataList
-      .filter((item: any) => item.fieldName)
-      .map((item: any) => ({
-        label: `${item.preps?.label ?? item.label} (${item.fieldName})`,
-        value: item.fieldName,
-        name: `${item.preps?.label ?? item.label} (${item.fieldName})`,
-      }));
+    .filter((item: any) => item.fieldName)
+    .map((item: any) => ({
+      label: `${item.preps?.label ?? item.label} (${item.fieldName})`,
+      value: item.fieldName,
+      name: `${item.preps?.label ?? item.label} (${item.fieldName})`,
+    }));
 });
 
 /**
@@ -314,7 +341,9 @@ const currentEventTypeOf = (fieldName: ActionFieldName, index: number) => {
 /**
  * 事件类型对应 tag 颜色
  */
-const eventTagType = (type: PreOrPendEventConfig["eventType"]): "success" | "warning" | "danger" | "primary" => {
+const eventTagType = (
+  type: PreOrPendEventConfig["eventType"],
+): "success" | "warning" | "danger" | "primary" => {
   switch (type) {
     case "linkage":
       return "primary";
@@ -331,7 +360,9 @@ const eventTagType = (type: PreOrPendEventConfig["eventType"]): "success" | "war
  * 事件类型对应标签文案
  */
 const eventTypeLabelOf = (type: PreOrPendEventConfig["eventType"]): string => {
-  return preOrPendEventTypeOptions.value.find((o) => o.value === type)?.label ?? "";
+  return (
+    preOrPendEventTypeOptions.value.find((o) => o.value === type)?.label ?? ""
+  );
 };
 
 /**
@@ -340,10 +371,14 @@ const eventTypeLabelOf = (type: PreOrPendEventConfig["eventType"]): string => {
 const openEventConfig = (fieldName: ActionFieldName, index: number) => {
   currentSlotField.value = fieldName;
   currentIndex.value = index;
-  const list = fieldName === "prependAction" ? prependActionItems.value : appendActionItems.value;
+  const list =
+    fieldName === "prependAction"
+      ? prependActionItems.value
+      : appendActionItems.value;
   const actionItem = list[index];
-  currentButtonTitle.value = actionItem?.actionTitle
-      || `${i18n("dyform.preOrPend.event.appendAction.item")} ${index + 1}`;
+  currentButtonTitle.value =
+    actionItem?.actionTitle ||
+    `${i18n("dyform.preOrPend.event.appendAction.item")} ${index + 1}`;
   currentEventConfig.value = getEventConfig(fieldName, index);
   eventDialogVisible.value = true;
   getDesignFormStore().setShortKeyDisabled(true);
@@ -369,38 +404,43 @@ const handleEventClose = () => {
 };
 const querySearch = (queryString: string, cb: any) => {
   const results = queryString
-      ? iconOptions.value.filter(createFilter(queryString))
-      : iconOptions.value
+    ? iconOptions.value.filter(createFilter(queryString))
+    : iconOptions.value;
   // call callback function to return suggestions
-  cb(results)
-}
+  cb(results);
+};
 const createFilter = (queryString: string) => {
   return (restaurant: SelectOption) => {
     return (
-        String(restaurant.value ?? "").toLowerCase().indexOf(queryString.toLowerCase()) === 0
-    )
-  }
-}
-const preOrPendVisible=ref<boolean>(false);
-watch(()=>props.visible,(val)=>{
-  preOrPendVisible.value = val;
-},{immediate:true});
+      String(restaurant.value ?? "")
+        .toLowerCase()
+        .indexOf(queryString.toLowerCase()) === 0
+    );
+  };
+};
+const preOrPendVisible = ref<boolean>(false);
+watch(
+  () => props.visible,
+  (val) => {
+    preOrPendVisible.value = val;
+  },
+  { immediate: true },
+);
 defineExpose({
   setFormData,
 });
 </script>
 
 <template>
-
   <star-horse-panel
-      v-model="preOrPendVisible"
-      :title="i18n('dyform.preOrPend.dialog.title')"
-      :isBatch="false"
-      @merge="preOrPendValid"
-      @closeAction="emit('close')"
-      @resetForm="resetDataSourceForm"
-      :selfFunc="true"
-      box-height="80%"
+    v-model="preOrPendVisible"
+    :title="i18n('dyform.preOrPend.dialog.title')"
+    :isBatch="false"
+    @merge="preOrPendValid"
+    @closeAction="emit('close')"
+    @resetForm="resetDataSourceForm"
+    :selfFunc="true"
+    box-height="80%"
   >
     <div class="pre-or-pend-body">
       <el-tabs v-model="activeTab" type="border-card" class="action-tabs">
@@ -408,214 +448,239 @@ defineExpose({
         <el-tab-pane name="basic">
           <template #label>
             <div class="tab-label">
-              <star-horse-icon icon-class="advance_preps"/>
-              <span>{{ i18n('dyform.preOrPend.basic') }}</span>
+              <star-horse-icon icon-class="advance_preps" />
+              <span>{{ i18n("dyform.preOrPend.basic") }}</span>
             </div>
           </template>
-          <star-horse-form ref="preOrPendRef" :fieldList="preOrPendFields()"/>
+          <star-horse-form ref="preOrPendRef" :fieldList="preOrPendFields()" />
         </el-tab-pane>
 
         <el-tab-pane name="prependAction">
           <template #label>
             <div class="tab-label">
-              <star-horse-icon icon-class="advance_preps"/>
-              <span>{{ i18n('dyform.preOrPend.prependAction') }}</span>
+              <star-horse-icon icon-class="advance_preps" />
+              <span>{{ i18n("dyform.preOrPend.prependAction") }}</span>
               <el-badge
-                  v-if="prependActionItems.length > 0"
-                  :value="prependActionItems.length"
-                  type="primary"
+                v-if="prependActionItems.length > 0"
+                :value="prependActionItems.length"
+                type="primary"
               />
             </div>
           </template>
 
           <div class="tab-toolbar">
-            <help :message="i18n('dyform.preOrPend.prependAction.helpMsg')"/>
+            <help :message="i18n('dyform.preOrPend.prependAction.helpMsg')" />
             <el-button
-                type="primary"
-                plain
-                size="small"
-                icon="Plus"
-                @click="addAction('prependAction')"
+              type="primary"
+              plain
+              size="small"
+              icon="Plus"
+              @click="addAction('prependAction')"
             >
-              {{ i18n('dyform.preOrPend.action.add') }}
+              {{ i18n("dyform.preOrPend.action.add") }}
             </el-button>
           </div>
 
           <div v-if="prependActionItems.length > 0" class="action-list">
             <div
-                v-for="(action, idx) in prependActionItems"
-                :key="`prepend-${idx}`"
-                class="action-row"
+              v-for="(action, idx) in prependActionItems"
+              :key="`prepend-${idx}`"
+              class="action-row"
             >
               <div class="row-field">
-                <label class="row-label">{{ i18n('dyform.item.139') }}</label>
+                <label class="row-label">{{ i18n("dyform.item.139") }}</label>
                 <el-autocomplete
-                    v-model="action.icon"
-                    :placeholder="i18n('dyform.item.139')"
-                    class="row-control"
-                    :fetch-suggestions="querySearch"
-                    clearable
-                    filterable
+                  v-model="action.icon"
+                  :placeholder="i18n('dyform.item.139')"
+                  class="row-control"
+                  :fetch-suggestions="querySearch"
+                  clearable
+                  filterable
                 >
                   <template #default="{ item }">
                     <div class="flex flex-row items-center">
-                      <star-horse-icon :iconClass="item.value"/>
+                      <star-horse-icon :iconClass="item.value" />
                       <span>{{ item.name }}</span>
                     </div>
                   </template>
                 </el-autocomplete>
               </div>
               <div class="row-field">
-                <label class="row-label">{{ i18n('dyform.dialog.425') }}</label>
+                <label class="row-label">{{ i18n("dyform.dialog.425") }}</label>
                 <el-input
-                    v-model="action.actionTitle"
-                    :placeholder="i18n('dyform.dialog.425')"
-                    class="row-control"
+                  v-model="action.actionTitle"
+                  :placeholder="i18n('dyform.dialog.425')"
+                  class="row-control"
                 />
               </div>
               <div class="row-field row-field--event">
-                <label class="row-label">{{ i18n('dyform.preOrPend.event.type') }}</label>
+                <label class="row-label">{{
+                  i18n("dyform.preOrPend.event.type")
+                }}</label>
                 <div class="row-control event-control">
                   <el-tag
-                      v-if="hasEventConfig('prependAction', idx)"
-                      :type="eventTagType(currentEventTypeOf('prependAction', idx))"
-                      effect="light"
+                    v-if="hasEventConfig('prependAction', idx)"
+                    :type="
+                      eventTagType(currentEventTypeOf('prependAction', idx))
+                    "
+                    effect="light"
                   >
-                    {{ eventTypeLabelOf(currentEventTypeOf('prependAction', idx)) }}
+                    {{
+                      eventTypeLabelOf(currentEventTypeOf("prependAction", idx))
+                    }}
                   </el-tag>
                   <el-tag v-else size="small" type="info" effect="plain">
-                    {{ i18n('dyform.preOrPend.event.type.none') }}
+                    {{ i18n("dyform.preOrPend.event.type.none") }}
                   </el-tag>
                   <el-button
-                      :type="hasEventConfig('prependAction', idx) ? 'success' : 'primary'"
-                      plain
-                      icon="Setting"
-                      @click="openEventConfig('prependAction', idx)"
+                    :type="
+                      hasEventConfig('prependAction', idx)
+                        ? 'success'
+                        : 'primary'
+                    "
+                    plain
+                    icon="Setting"
+                    @click="openEventConfig('prependAction', idx)"
                   >
-                    {{ i18n('dyform.custProp.config') }}
+                    {{ i18n("dyform.custProp.config") }}
                   </el-button>
                 </div>
               </div>
               <div class="row-actions">
-                <star-horse-icon iconClass="delete" color="var(--el-color-danger)"
-                                 @click="removeAction('prependAction', idx)"/>
+                <star-horse-icon
+                  iconClass="delete"
+                  color="var(--el-color-danger)"
+                  @click="removeAction('prependAction', idx)"
+                />
               </div>
             </div>
           </div>
           <el-empty
-              v-else
-              :description="i18n('dyform.preOrPend.prependAction.empty')"
-              :image-size="40"
+            v-else
+            :description="i18n('dyform.preOrPend.prependAction.empty')"
+            :image-size="40"
           />
         </el-tab-pane>
         <el-tab-pane name="appendAction">
           <template #label>
             <div class="tab-label">
-              <star-horse-icon icon-class="advance_preps"/>
-              <span>{{ i18n('dyform.preOrPend.appendAction') }}</span>
+              <star-horse-icon icon-class="advance_preps" />
+              <span>{{ i18n("dyform.preOrPend.appendAction") }}</span>
               <el-badge
-                  v-if="appendActionItems.length > 0"
-                  :value="appendActionItems.length"
-                  type="primary"
+                v-if="appendActionItems.length > 0"
+                :value="appendActionItems.length"
+                type="primary"
               />
             </div>
           </template>
 
           <div class="tab-toolbar">
-            <help :message="i18n('dyform.preOrPend.appendAction.helpMsg')"/>
+            <help :message="i18n('dyform.preOrPend.appendAction.helpMsg')" />
             <el-button
-                type="primary"
-                plain
-                size="small"
-                icon="Plus"
-                @click="addAction('appendAction')"
+              type="primary"
+              plain
+              size="small"
+              icon="Plus"
+              @click="addAction('appendAction')"
             >
-              {{ i18n('dyform.preOrPend.action.add') }}
+              {{ i18n("dyform.preOrPend.action.add") }}
             </el-button>
           </div>
 
           <div v-if="appendActionItems.length > 0" class="action-list">
             <div
-                v-for="(action, idx) in appendActionItems"
-                :key="`append-${idx}`"
-                class="action-row"
+              v-for="(action, idx) in appendActionItems"
+              :key="`append-${idx}`"
+              class="action-row"
             >
               <div class="row-field">
-                <label class="row-label">{{ i18n('dyform.item.139') }}</label>
+                <label class="row-label">{{ i18n("dyform.item.139") }}</label>
                 <el-autocomplete
-                    v-model="action.icon"
-                    :placeholder="i18n('dyform.item.139')"
-                    class="row-control"
-                    :fetch-suggestions="querySearch"
-                    clearable
-                    filterable
+                  v-model="action.icon"
+                  :placeholder="i18n('dyform.item.139')"
+                  class="row-control"
+                  :fetch-suggestions="querySearch"
+                  clearable
+                  filterable
                 >
                   <template #default="{ item }">
                     <div class="flex flex-row items-center">
-                      <star-horse-icon :iconClass="item.value"/>
+                      <star-horse-icon :iconClass="item.value" />
                       <span>{{ item.name }}</span>
                     </div>
                   </template>
                 </el-autocomplete>
               </div>
               <div class="row-field">
-                <label class="row-label">{{ i18n('dyform.dialog.425') }}</label>
+                <label class="row-label">{{ i18n("dyform.dialog.425") }}</label>
                 <el-input
-                    v-model="action.actionTitle"
-                    :placeholder="i18n('dyform.dialog.425')"
-                    class="row-control"
+                  v-model="action.actionTitle"
+                  :placeholder="i18n('dyform.dialog.425')"
+                  class="row-control"
                 />
               </div>
               <div class="row-field row-field--event">
-                <label class="row-label">{{ i18n('dyform.preOrPend.event.type') }}</label>
+                <label class="row-label">{{
+                  i18n("dyform.preOrPend.event.type")
+                }}</label>
                 <div class="row-control event-control">
                   <el-tag
-                      v-if="hasEventConfig('appendAction', idx)"
-                      :type="eventTagType(currentEventTypeOf('appendAction', idx))"
-                      effect="light"
+                    v-if="hasEventConfig('appendAction', idx)"
+                    :type="
+                      eventTagType(currentEventTypeOf('appendAction', idx))
+                    "
+                    effect="light"
                   >
-                    {{ eventTypeLabelOf(currentEventTypeOf('appendAction', idx)) }}
+                    {{
+                      eventTypeLabelOf(currentEventTypeOf("appendAction", idx))
+                    }}
                   </el-tag>
                   <el-tag v-else size="small" type="info" effect="plain">
-                    {{ i18n('dyform.preOrPend.event.type.none') }}
+                    {{ i18n("dyform.preOrPend.event.type.none") }}
                   </el-tag>
                   <el-button
-                      :type="hasEventConfig('appendAction', idx) ? 'success' : 'primary'"
-                      plain
-                      icon="Setting"
-                      @click="openEventConfig('appendAction', idx)"
+                    :type="
+                      hasEventConfig('appendAction', idx)
+                        ? 'success'
+                        : 'primary'
+                    "
+                    plain
+                    icon="Setting"
+                    @click="openEventConfig('appendAction', idx)"
                   >
-                    {{ i18n('dyform.custProp.config') }}
+                    {{ i18n("dyform.custProp.config") }}
                   </el-button>
                 </div>
               </div>
               <div class="row-actions">
-                <star-horse-icon iconClass="delete" color="var(--el-color-danger)"
-                                 @click="removeAction('appendAction', idx)"/>
-
+                <star-horse-icon
+                  iconClass="delete"
+                  color="var(--el-color-danger)"
+                  @click="removeAction('appendAction', idx)"
+                />
               </div>
             </div>
           </div>
           <el-empty
-              v-else
-              :description="i18n('dyform.preOrPend.appendAction.empty')"
-              :image-size="40"
+            v-else
+            :description="i18n('dyform.preOrPend.appendAction.empty')"
+            :image-size="40"
           />
         </el-tab-pane>
       </el-tabs>
     </div>
     <!-- 事件配置对话框 -->
     <PreOrPendEventDialog
-        :visible="eventDialogVisible"
-        :formProps="formProps"
-        :itemType="itemType || ''"
-        :eventConfig="currentEventConfig"
-        :buttonTitle="currentButtonTitle"
-        :index="currentIndex"
-        :formFields="linkageFormFields"
-        :model="model || 'full'"
-        @merge="handleEventMerge"
-        @close="handleEventClose"
+      :visible="eventDialogVisible"
+      :formProps="formProps"
+      :itemType="itemType || ''"
+      :eventConfig="currentEventConfig"
+      :buttonTitle="currentButtonTitle"
+      :index="currentIndex"
+      :formFields="linkageFormFields"
+      :model="model || 'full'"
+      @merge="handleEventMerge"
+      @close="handleEventClose"
     />
   </star-horse-panel>
 </template>
@@ -679,7 +744,9 @@ defineExpose({
     background: var(--el-fill-color-lighter);
     border-radius: 6px;
     border: 1px solid var(--el-border-color-lighter);
-    transition: border-color 0.2s, box-shadow 0.2s;
+    transition:
+      border-color 0.2s,
+      box-shadow 0.2s;
 
     &:hover {
       border-color: var(--el-color-primary-light-5);

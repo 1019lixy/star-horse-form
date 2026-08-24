@@ -1,20 +1,20 @@
 <script setup lang="ts" name="condition-container">
-import {computed, nextTick, onMounted, PropType, ref} from "vue";
-import {itemCheck, operationConfirm, uuid,} from "star-horse-lowcode";
-import {getDesignFormStore} from "@/store/StoreManager";
+import { computed, nextTick, onMounted, PropType, ref } from "vue";
+import { itemCheck, operationConfirm, uuid } from "star-horse-lowcode";
+import { getDesignFormStore } from "@/store/StoreManager";
 import GroupContainer from "@/components/formcomp/container/group-container.vue";
-import {i18n} from "@/lang";
+import { i18n } from "@/lang";
 import DesignItemWrapper from "@/components/formcomp/utils/DesignItemWrapper.vue";
-import {quickAddItem} from "@/api/form_utils";
-import {useDragAdd, ensureItems} from "./container-utils";
+import { quickAddItem } from "@/api/form_utils";
+import { useDragAdd, ensureItems } from "./container-utils";
 
 const props = defineProps({
-  parentField: {type: Object as PropType<any>},
-  isDesign: {type: Boolean, default: false},
-  showFormItem: {type: Boolean, default: false},
-  disabled: {type: Boolean, default: false},
-  formInfo: {type: Object as PropType<any>},
-  field: {type: Object as PropType<any>},
+  parentField: { type: Object as PropType<any> },
+  isDesign: { type: Boolean, default: false },
+  showFormItem: { type: Boolean, default: false },
+  disabled: { type: Boolean, default: false },
+  formInfo: { type: Object as PropType<any> },
+  field: { type: Object as PropType<any> },
 });
 
 let designForm = getDesignFormStore();
@@ -46,7 +46,7 @@ const selectData = () => {
   designForm.selectItem(container, container?.itemType, "");
 };
 
-const {onDragAdd} = useDragAdd(designForm);
+const { onDragAdd } = useDragAdd(designForm);
 const checkItem = (adata: any) => ensureItems(adata, "children");
 
 // 创建子条件节点
@@ -81,15 +81,16 @@ const addLeafField = (child: any) => {
   quickAddItem(child.children);
 };
 
-
 // 删除叶子节点
 const removeLeaf = (items: any[], index: number) => {
   if (items[index]?.compType == "container") {
-    operationConfirm(i18n("dyform.condition.confirmDeleteChild")).then((res: boolean) => {
-      if (res) {
-        items.splice(index, 1);
-      }
-    });
+    operationConfirm(i18n("dyform.condition.confirmDeleteChild")).then(
+      (res: boolean) => {
+        if (res) {
+          items.splice(index, 1);
+        }
+      },
+    );
   } else {
     items.splice(index, 1);
   }
@@ -101,7 +102,9 @@ const startEditName = (node: any) => {
   editingId.value = node.id;
   editingText.value = node.preps?.label || node.label || "";
   nextTick(() => {
-    const el = document.querySelector(`[data-edit-id="${node.id}"] input`) as HTMLInputElement;
+    const el = document.querySelector(
+      `[data-edit-id="${node.id}"] input`,
+    ) as HTMLInputElement;
     if (el) {
       el.focus();
       el.select();
@@ -121,62 +124,77 @@ const finishEditName = (node: any) => {
 
 // 层级缩进样式
 const levelClass = (data: any, depth: number) => {
-  return data.itemType == "condition" ? `condition-depth-${Math.min(depth, 5)} condition-child` : "";
+  return data.itemType == "condition"
+    ? `condition-depth-${Math.min(depth, 5)} condition-child`
+    : "";
 };
 </script>
 
 <template>
   <group-container
-      class="star-horse-form-container condition-container"
-      :showFormItem="showFormItem"
-      :isDesign="isDesign"
-      :disabled="disabled"
-      :parentField="parentField"
-      :form-item="field"
+    class="star-horse-form-container condition-container"
+    :showFormItem="showFormItem"
+    :isDesign="isDesign"
+    :disabled="disabled"
+    :parentField="parentField"
+    :form-item="field"
   >
     <div class="condition-wrapper">
       <!-- 条件组标题栏 -->
       <div class="condition-header" @click.stop="selectData">
         <div class="condition-title">
-          <svg class="condition-icon" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor"
-               stroke-width="2">
-            <path d="M12 2L2 7l10 5 10-5-10-5z"/>
-            <path d="M2 17l10 5 10-5"/>
-            <path d="M2 12l10 5 10-5"/>
+          <svg
+            class="condition-icon"
+            viewBox="0 0 24 24"
+            width="16"
+            height="16"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+          >
+            <path d="M12 2L2 7l10 5 10-5-10-5z" />
+            <path d="M2 17l10 5 10-5" />
+            <path d="M2 12l10 5 10-5" />
           </svg>
           <span
-              v-if="editingId !== field.id"
-              class="condition-label editable-name"
-              @dblclick.stop="startEditName(field)"
-          >{{ field.preps?.label || field.label || i18n("dyform.condition.defaultLabel") }}</span>
+            v-if="editingId !== field.id"
+            class="condition-label editable-name"
+            @dblclick.stop="startEditName(field)"
+            >{{
+              field.preps?.label ||
+              field.label ||
+              i18n("dyform.condition.defaultLabel")
+            }}</span
+          >
           <el-input
-              v-else
-              :data-edit-id="field.id"
-              v-model="editingText"
-              size="small"
-              @blur="finishEditName(field)"
-              @keyup.enter="finishEditName(field)"
-              @click.stop
-              style="width: 120px;"
+            v-else
+            :data-edit-id="field.id"
+            v-model="editingText"
+            size="small"
+            @blur="finishEditName(field)"
+            @keyup.enter="finishEditName(field)"
+            @click.stop
+            style="width: 120px"
           />
         </div>
         <div class="condition-actions" v-if="isEdit && isDesign">
           <el-tooltip :content="i18n('dyform.condition.addLeaf')">
             <el-button
-                size="small"
-                type="primary"
-                link
-                @click.stop="addLeafField(field)"
-                icon="Plus"
-            ><!--<star-horse-icon iconClass="plus"  size="16px" color="var(&#45;&#45;star-horse-white)"/>--></el-button>
+              size="small"
+              type="primary"
+              link
+              @click.stop="addLeafField(field)"
+              icon="Plus"
+              ><!--<star-horse-icon iconClass="plus"  size="16px" color="var(&#45;&#45;star-horse-white)"/>--></el-button
+            >
           </el-tooltip>
           <el-tooltip :content="i18n('dyform.condition.addChild')">
             <el-button
-                size="small"
-                type="primary"
-                link
-                @click.stop="addChildCondition"
-                icon="FolderAdd"
+              size="small"
+              type="primary"
+              link
+              @click.stop="addChildCondition"
+              icon="FolderAdd"
             >
               <!--              <star-horse-icon iconClass="folder" size="16px" color="var(&#45;&#45;star-horse-white)"/>-->
             </el-button>
@@ -188,39 +206,48 @@ const levelClass = (data: any, depth: number) => {
       <div class="condition-body">
         <!-- 直接子项（叶子节点） -->
         <draggable
-            @add="(evt: Event) => onDragAdd(evt, field.children)"
-            @dragover="checkItem(field)"
-            class="condition-leaves"
-            :class="{'dragging-area': isDragging}"
-            group="starHorseGroup"
-            animation="100"
-            item-key="id"
-            ghostClass="ghost"
-            :list="field.children || []"
+          @add="(evt: Event) => onDragAdd(evt, field.children)"
+          @dragover="checkItem(field)"
+          class="condition-leaves"
+          :class="{ 'dragging-area': isDragging }"
+          group="starHorseGroup"
+          animation="100"
+          item-key="id"
+          ghostClass="ghost"
+          :list="field.children || []"
         >
           <template #item="{ element: data, index }">
-            <div class="condition-leaf-item my-[3px]" :data-field-id="data.id" :class="levelClass(data,1)">
-              <DesignItemWrapper :field="data" :isDesign="isDesign" :parentField="field" :disabled="disabled">
+            <div
+              class="condition-leaf-item my-[3px]"
+              :data-field-id="data.id"
+              :class="levelClass(data, 1)"
+            >
+              <DesignItemWrapper
+                :field="data"
+                :isDesign="isDesign"
+                :parentField="field"
+                :disabled="disabled"
+              >
                 <component
-                    :key="data.id"
-                    :field="data"
-                    :isDesign="isDesign"
-                    :disabled="disabled"
-                    :showFormItem="showFormItem"
-                    :formInfo="formInfo"
-                    :is="itemCheck(data)"
-                    :parentField="field"
-                    v-model:formData="formData"
+                  :key="data.id"
+                  :field="data"
+                  :isDesign="isDesign"
+                  :disabled="disabled"
+                  :showFormItem="showFormItem"
+                  :formInfo="formInfo"
+                  :is="itemCheck(data)"
+                  :parentField="field"
+                  v-model:formData="formData"
                 />
               </DesignItemWrapper>
               <el-button
-                  v-if="isEdit && isDesign"
-                  class="leaf-remove-btn"
-                  size="small"
-                  type="danger"
-                  link
-                  @click.stop="removeLeaf(field.children, index)"
-                  icon="Close"
+                v-if="isEdit && isDesign"
+                class="leaf-remove-btn"
+                size="small"
+                type="danger"
+                link
+                @click.stop="removeLeaf(field.children, index)"
+                icon="Close"
               />
             </div>
           </template>
@@ -229,11 +256,11 @@ const levelClass = (data: any, depth: number) => {
         <!-- 添加叶子节点按钮 -->
         <div v-if="isEdit && isDesign" class="condition-add-leaf">
           <el-button
-              size="small"
-              type="primary"
-              plain
-              @click.stop="addLeafField(field)"
-              icon="Plus"
+            size="small"
+            type="primary"
+            plain
+            @click.stop="addLeafField(field)"
+            icon="Plus"
           >
             {{ i18n("dyform.condition.addLeaf") }}
           </el-button>
@@ -272,8 +299,6 @@ const levelClass = (data: any, depth: number) => {
   overflow: visible;
   background: #fff;
 }
-
-
 
 .condition-header {
   display: flex;
@@ -397,15 +422,17 @@ const levelClass = (data: any, depth: number) => {
 }
 
 .dragging-area {
-  background: linear-gradient(45deg, #e6f7ff 25%, transparent 25%),
-  linear-gradient(-45deg, #e6f7ff 25%, transparent 25%),
-  linear-gradient(45deg, transparent 75%, #e6f7ff 75%),
-  linear-gradient(-45deg, transparent 75%, #e6f7ff 75%);
+  background:
+    linear-gradient(45deg, #e6f7ff 25%, transparent 25%),
+    linear-gradient(-45deg, #e6f7ff 25%, transparent 25%),
+    linear-gradient(45deg, transparent 75%, #e6f7ff 75%),
+    linear-gradient(-45deg, transparent 75%, #e6f7ff 75%);
   background-size: 20px 20px;
-  background-position: 0 0,
-  0 10px,
-  10px -10px,
-  -10px 0px;
+  background-position:
+    0 0,
+    0 10px,
+    10px -10px,
+    -10px 0px;
 }
 
 .ghost {

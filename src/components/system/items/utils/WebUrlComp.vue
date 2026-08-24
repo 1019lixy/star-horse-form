@@ -22,17 +22,17 @@ defineOptions({
 const props = defineProps({
   formProps: {
     type: Object as PropType<any>,
-    default: () => { },
+    default: () => {},
   },
 
   preps: {
     type: Object as PropType<any>,
-    default: () => { },
+    default: () => {},
   },
 
   item: {
     type: Object as PropType<PageFieldInfo>,
-    default: () => { },
+    default: () => {},
   },
   source: {
     type: Number,
@@ -80,20 +80,20 @@ const dataSourceField = reactive<PageFieldInfo | any>({
   fieldList: [
     {
       fieldName: "apiInfo",
-      containerType:"tab",
+      containerType: "tab",
       containerFields: [
         {
           title: "接口信息",
           subTablePrimaryKey: "apiInfo",
           subTableName: "apiInfo",
-          fieldList: urlFields
+          fieldList: urlFields,
         },
         {
           title: i18n("dyform.utils.600"),
           subTablePrimaryKey: "queryParams",
           subTableName: "queryParams",
-          containerType:"table",
-containerFields: [
+          containerType: "table",
+          containerFields: [
             {
               subTableName: "queryParams",
               fieldList: [
@@ -219,11 +219,23 @@ defineExpose({
 
 <template>
   <el-scrollbar height="100%">
-    <star-horse-form :fieldList="dataSourceField" ref="dataSourceFormRef" v-if="!dataForm" />
-    <star-horse-form-item v-else ref="dataSourceFormRef" :fieldList="dataSourceField"
-      :dataIndex="(props.preps?.params?.totalTab || 1) - 1" :subFormFlag="subFormFlag ? 'Y' : 'N'"
-      :propPrefix="subTableName" :key="createSubForm()" :subTableName="subTableName" :source="source"
-      v-model:dataForm="dataForm[subTableName]" />
+    <star-horse-form
+      :fieldList="dataSourceField"
+      ref="dataSourceFormRef"
+      v-if="!dataForm"
+    />
+    <star-horse-form-item
+      v-else
+      ref="dataSourceFormRef"
+      :fieldList="dataSourceField"
+      :dataIndex="(props.preps?.params?.totalTab || 1) - 1"
+      :subFormFlag="subFormFlag ? 'Y' : 'N'"
+      :propPrefix="subTableName"
+      :key="createSubForm()"
+      :subTableName="subTableName"
+      :source="source"
+      v-model:dataForm="dataForm[subTableName]"
+    />
   </el-scrollbar>
 </template>
 

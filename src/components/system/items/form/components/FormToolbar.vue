@@ -1,11 +1,14 @@
 <script setup lang="ts">
-import {dynamicFormHelpMessage, formActions,} from "@/components/system/items/utils/DynamicForm";
-import {i18n} from "@/lang";
-import {computed, ref} from "vue";
-import {ToolBtnType} from "@/components/types/ToolBtnType";
-import {FormConfig} from "@/components/types";
-import {StarHorseIcon,} from "star-horse-lowcode";
-import {getDesignFormStore} from "@/store/StoreManager";
+import {
+  dynamicFormHelpMessage,
+  formActions,
+} from "@/components/system/items/utils/DynamicForm";
+import { i18n } from "@/lang";
+import { computed, ref } from "vue";
+import { ToolBtnType } from "@/components/types/ToolBtnType";
+import { FormConfig } from "@/components/types";
+import { StarHorseIcon } from "star-horse-lowcode";
+import { getDesignFormStore } from "@/store/StoreManager";
 const emit = defineEmits<{
   (e: "action", action: ToolBtnType | any): void;
   (e: "cacheRestore", event: MouseEvent): void;
@@ -41,7 +44,18 @@ const cacheDataRestore = (evt: MouseEvent) => {
 const hasComponents = computed(() => props.list.length > 0);
 
 const isDisabled = (item: ToolBtnType) => {
-  const alwaysEnabledKeys = ["file", "upload", "newForm", "new", "style", "pc", "pad", "phone", "aiChat", "ruleConfig"];
+  const alwaysEnabledKeys = [
+    "file",
+    "upload",
+    "newForm",
+    "new",
+    "style",
+    "pc",
+    "pad",
+    "phone",
+    "aiChat",
+    "ruleConfig",
+  ];
   if (!hasComponents.value && !alwaysEnabledKeys.includes(item.key)) {
     return true;
   }
@@ -51,8 +65,8 @@ const isDisabled = (item: ToolBtnType) => {
 const isGroupDisabled = (item: ToolBtnType) => {
   if (!isGroup(item)) return isDisabled(item);
   if (!hasComponents.value) {
-    const hasAlwaysEnabled = item.children?.some(child =>
-      ["newForm", "upload", "pc", "pad", "phone"].includes(child.key)
+    const hasAlwaysEnabled = item.children?.some((child) =>
+      ["newForm", "upload", "pc", "pad", "phone"].includes(child.key),
     );
     return !hasAlwaysEnabled;
   }
@@ -76,8 +90,12 @@ const cooperationConfigVisible = ref<boolean>(false);
 const tempForm = ref<any>({});
 const cooperationFormRef = ref();
 const roleList: any = [
-  {name: i18n("dyform.toolbar.testUser1"), value: "zhangsan", userId: "zhangsan"},
-  {name: i18n("dyform.toolbar.testUser2"), value: "lisi", userId: "lisi"},
+  {
+    name: i18n("dyform.toolbar.testUser1"),
+    value: "zhangsan",
+    userId: "zhangsan",
+  },
+  { name: i18n("dyform.toolbar.testUser2"), value: "lisi", userId: "lisi" },
 ];
 const cooperationConfig = () => {
   cooperationConfigVisible.value = true;
@@ -91,8 +109,8 @@ const doSave = (flag: boolean) => {
     }
   });
   emit(
-      "changeRole",
-      roleList.find((item) => item.value == tempForm.value.roleId),
+    "changeRole",
+    roleList.find((item) => item.value == tempForm.value.roleId),
   );
   // formInfo.value["formId"]=tempForm.value.formId;
 };
@@ -101,25 +119,37 @@ const doSave = (flag: boolean) => {
 
 <template>
   <star-horse-panel
-      v-model="cooperationConfigVisible"
-      @closeAction="cooperationConfigVisible = false"
-      :selfFunc="true"
-      compSize="default"
-      @merge="() => doSave(false)"
-      boxHeight="30%"
-      boxWidth="40%"
-      :title="i18n('dyform.toolbar.cooperationConfig')"
+    v-model="cooperationConfigVisible"
+    @closeAction="cooperationConfigVisible = false"
+    :selfFunc="true"
+    compSize="default"
+    @merge="() => doSave(false)"
+    boxHeight="30%"
+    boxWidth="40%"
+    :title="i18n('dyform.toolbar.cooperationConfig')"
   >
     <el-form :model="tempForm" ref="cooperationFormRef">
-      <el-form-item :label="i18n('dyform.toolbar.isCooperation')" required prop="cooperation">
-        <el-input v-model="tempForm.cooperation"/>
+      <el-form-item
+        :label="i18n('dyform.toolbar.isCooperation')"
+        required
+        prop="cooperation"
+      >
+        <el-input v-model="tempForm.cooperation" />
       </el-form-item>
-      <el-form-item :label="i18n('dyform.toolbar.formId')" required prop="formId">
-        <el-input v-model="tempForm.formId"/>
+      <el-form-item
+        :label="i18n('dyform.toolbar.formId')"
+        required
+        prop="formId"
+      >
+        <el-input v-model="tempForm.formId" />
       </el-form-item>
       <el-form-item :label="i18n('dyform.toolbar.role')" required prop="roleId">
         <el-radio-group v-model="tempForm.roleId">
-          <el-radio :value="item.value" v-for="item in roleList" :key="item.value">
+          <el-radio
+            :value="item.value"
+            v-for="item in roleList"
+            :key="item.value"
+          >
             {{ item.name }}
           </el-radio>
         </el-radio-group>
@@ -133,41 +163,109 @@ const doSave = (flag: boolean) => {
         <template v-for="(item, index) in allActions" :key="'tb_' + index">
           <!-- 组间分隔符（独立渲染，不参与按钮的 v-if 链） -->
           <div
-              v-if="showDividerBefore(item, index)"
-              class="toolbar-divider"
-              :key="'div_' + index"
+            v-if="showDividerBefore(item, index)"
+            class="toolbar-divider"
+            :key="'div_' + index"
           ></div>
 
           <!-- 平铺组：children 依次平铺为普通按钮（高频操作，如撤销/重做） -->
           <template v-if="isGroup(item) && item.flat">
-            <template v-for="(child, cidx) in item.children" :key="'flat_' + index + '_' + cidx">
+            <template
+              v-for="(child, cidx) in item.children"
+              :key="'flat_' + index + '_' + cidx"
+            >
               <el-tooltip
-                  :content="child.shortcut ? `${child.label} (${child.shortcut})` : child.label"
-                  effect="dark"
-                  placement="bottom"
-                  :show-after="500"
+                :content="
+                  child.shortcut
+                    ? `${child.label} (${child.shortcut})`
+                    : child.label
+                "
+                effect="dark"
+                placement="bottom"
+                :show-after="500"
               >
-                <el-button class="tb-btn" @click="actions(child)" :disabled="isDisabled(child)">
+                <el-button
+                  class="tb-btn"
+                  @click="actions(child)"
+                  :disabled="isDisabled(child)"
+                >
                   <template v-if="child.icon === 'ai'">
-                    <svg class="ai-toolbar-icon" viewBox="0 0 24 24" fill="none" width="20" height="20">
-                      <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z" fill="url(#ai-grad)" />
-                      <path d="M8.5 11a1.5 1.5 0 100-3 1.5 1.5 0 000 3zM15.5 11a1.5 1.5 0 100-3 1.5 1.5 0 000 3z" fill="white"/>
-                      <path d="M8 14.5c0 0 1.5 2.5 4 2.5s4-2.5 4-2.5" stroke="white" stroke-width="1.5" stroke-linecap="round"/>
-                      <defs><linearGradient id="ai-grad" x1="2" y1="2" x2="22" y2="22"><stop stop-color="#667eea"/><stop offset="1" stop-color="#764ba2"/></linearGradient></defs>
+                    <svg
+                      class="ai-toolbar-icon"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      width="20"
+                      height="20"
+                    >
+                      <path
+                        d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"
+                        fill="url(#ai-grad)"
+                      />
+                      <path
+                        d="M8.5 11a1.5 1.5 0 100-3 1.5 1.5 0 000 3zM15.5 11a1.5 1.5 0 100-3 1.5 1.5 0 000 3z"
+                        fill="white"
+                      />
+                      <path
+                        d="M8 14.5c0 0 1.5 2.5 4 2.5s4-2.5 4-2.5"
+                        stroke="white"
+                        stroke-width="1.5"
+                        stroke-linecap="round"
+                      />
+                      <defs>
+                        <linearGradient
+                          id="ai-grad"
+                          x1="2"
+                          y1="2"
+                          x2="22"
+                          y2="22"
+                        >
+                          <stop stop-color="#667eea" />
+                          <stop offset="1" stop-color="#764ba2" />
+                        </linearGradient>
+                      </defs>
                     </svg>
                   </template>
                   <template v-else-if="child.icon === 'rule'">
-                    <svg class="rule-toolbar-icon" viewBox="0 0 24 24" fill="none" width="20" height="20">
-                      <path d="M12 2L17 7L12 12L7 7Z" fill="url(#rule-grad)"/>
-                      <path d="M12 12L12 15.5" stroke="url(#rule-grad)" stroke-width="2" stroke-linecap="round"/>
-                      <rect x="5.5" y="15.5" width="13" height="6.5" rx="1.5" fill="url(#rule-grad)"/>
-                      <circle cx="10" cy="18.75" r="1" fill="white"/>
-                      <circle cx="14" cy="18.75" r="1" fill="white"/>
-                      <defs><linearGradient id="rule-grad" x1="2" y1="2" x2="22" y2="22"><stop stop-color="#3b82f6"/><stop offset="1" stop-color="#06b6d4"/></linearGradient></defs>
+                    <svg
+                      class="rule-toolbar-icon"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      width="20"
+                      height="20"
+                    >
+                      <path d="M12 2L17 7L12 12L7 7Z" fill="url(#rule-grad)" />
+                      <path
+                        d="M12 12L12 15.5"
+                        stroke="url(#rule-grad)"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                      />
+                      <rect
+                        x="5.5"
+                        y="15.5"
+                        width="13"
+                        height="6.5"
+                        rx="1.5"
+                        fill="url(#rule-grad)"
+                      />
+                      <circle cx="10" cy="18.75" r="1" fill="white" />
+                      <circle cx="14" cy="18.75" r="1" fill="white" />
+                      <defs>
+                        <linearGradient
+                          id="rule-grad"
+                          x1="2"
+                          y1="2"
+                          x2="22"
+                          y2="22"
+                        >
+                          <stop stop-color="#3b82f6" />
+                          <stop offset="1" stop-color="#06b6d4" />
+                        </linearGradient>
+                      </defs>
                     </svg>
                   </template>
                   <template v-else>
-                    <star-horse-icon :icon-class="child.icon" size="20px"/>
+                    <star-horse-icon :icon-class="child.icon" size="20px" />
                   </template>
                 </el-button>
               </el-tooltip>
@@ -176,68 +274,187 @@ const doSave = (flag: boolean) => {
 
           <!-- 下拉组：children 收进下拉菜单（触发器显示 图标+文字+箭头） -->
           <el-dropdown
-              v-else-if="isGroup(item)"
-              :show-arrow="false"
-              trigger="click"
-              :key="'dd_' + index"
+            v-else-if="isGroup(item)"
+            :show-arrow="false"
+            trigger="click"
+            :key="'dd_' + index"
           >
-            <el-button class="tb-btn tb-btn-group" :title="item.label" :disabled="isGroupDisabled(item)">
+            <el-button
+              class="tb-btn tb-btn-group"
+              :title="item.label"
+              :disabled="isGroupDisabled(item)"
+            >
               <template v-if="item.icon === 'ai'">
-                <svg class="ai-toolbar-icon" viewBox="0 0 24 24" fill="none" width="18" height="18">
-                  <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z" fill="url(#ai-grad)" />
-                  <path d="M8.5 11a1.5 1.5 0 100-3 1.5 1.5 0 000 3zM15.5 11a1.5 1.5 0 100-3 1.5 1.5 0 000 3z" fill="white"/>
-                  <path d="M8 14.5c0 0 1.5 2.5 4 2.5s4-2.5 4-2.5" stroke="white" stroke-width="1.5" stroke-linecap="round"/>
-                  <defs><linearGradient id="ai-grad" x1="2" y1="2" x2="22" y2="22"><stop stop-color="#667eea"/><stop offset="1" stop-color="#764ba2"/></linearGradient></defs>
+                <svg
+                  class="ai-toolbar-icon"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  width="18"
+                  height="18"
+                >
+                  <path
+                    d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"
+                    fill="url(#ai-grad)"
+                  />
+                  <path
+                    d="M8.5 11a1.5 1.5 0 100-3 1.5 1.5 0 000 3zM15.5 11a1.5 1.5 0 100-3 1.5 1.5 0 000 3z"
+                    fill="white"
+                  />
+                  <path
+                    d="M8 14.5c0 0 1.5 2.5 4 2.5s4-2.5 4-2.5"
+                    stroke="white"
+                    stroke-width="1.5"
+                    stroke-linecap="round"
+                  />
+                  <defs>
+                    <linearGradient id="ai-grad" x1="2" y1="2" x2="22" y2="22">
+                      <stop stop-color="#667eea" />
+                      <stop offset="1" stop-color="#764ba2" />
+                    </linearGradient>
+                  </defs>
                 </svg>
               </template>
               <template v-else-if="item.icon === 'rule'">
-                <svg class="rule-toolbar-icon" viewBox="0 0 24 24" fill="none" width="18" height="18">
-                  <path d="M12 2L17 7L12 12L7 7Z" fill="url(#rule-grad)"/>
-                  <path d="M12 12L12 15.5" stroke="url(#rule-grad)" stroke-width="2" stroke-linecap="round"/>
-                  <rect x="5.5" y="15.5" width="13" height="6.5" rx="1.5" fill="url(#rule-grad)"/>
-                  <circle cx="10" cy="18.75" r="1" fill="white"/>
-                  <circle cx="14" cy="18.75" r="1" fill="white"/>
-                  <defs><linearGradient id="rule-grad" x1="2" y1="2" x2="22" y2="22"><stop stop-color="#3b82f6"/><stop offset="1" stop-color="#06b6d4"/></linearGradient></defs>
+                <svg
+                  class="rule-toolbar-icon"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  width="18"
+                  height="18"
+                >
+                  <path d="M12 2L17 7L12 12L7 7Z" fill="url(#rule-grad)" />
+                  <path
+                    d="M12 12L12 15.5"
+                    stroke="url(#rule-grad)"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                  />
+                  <rect
+                    x="5.5"
+                    y="15.5"
+                    width="13"
+                    height="6.5"
+                    rx="1.5"
+                    fill="url(#rule-grad)"
+                  />
+                  <circle cx="10" cy="18.75" r="1" fill="white" />
+                  <circle cx="14" cy="18.75" r="1" fill="white" />
+                  <defs>
+                    <linearGradient
+                      id="rule-grad"
+                      x1="2"
+                      y1="2"
+                      x2="22"
+                      y2="22"
+                    >
+                      <stop stop-color="#3b82f6" />
+                      <stop offset="1" stop-color="#06b6d4" />
+                    </linearGradient>
+                  </defs>
                 </svg>
               </template>
               <template v-else>
-                <star-horse-icon :icon-class="item.icon" size="18px"/>
+                <star-horse-icon :icon-class="item.icon" size="18px" />
               </template>
               <span class="tb-btn-label">{{ item.label }}</span>
-              <el-icon class="el-icon--right"><arrow-down/></el-icon>
+              <el-icon class="el-icon--right"><arrow-down /></el-icon>
             </el-button>
             <template #dropdown>
               <el-dropdown-menu>
                 <el-dropdown-item
-                    v-for="(sitem, sindex) in item.children"
-                    :key="'sub_' + sindex"
-                    :disabled="isDisabled(sitem)"
-                    @click="actions(sitem)"
+                  v-for="(sitem, sindex) in item.children"
+                  :key="'sub_' + sindex"
+                  :disabled="isDisabled(sitem)"
+                  @click="actions(sitem)"
                 >
                   <div class="dropdown-item-inner">
                     <template v-if="sitem.icon === 'ai'">
-                      <svg class="ai-toolbar-icon" viewBox="0 0 24 24" fill="none" width="18" height="18">
-                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z" fill="url(#ai-grad)" />
-                        <path d="M8.5 11a1.5 1.5 0 100-3 1.5 1.5 0 000 3zM15.5 11a1.5 1.5 0 100-3 1.5 1.5 0 000 3z" fill="white"/>
-                        <path d="M8 14.5c0 0 1.5 2.5 4 2.5s4-2.5 4-2.5" stroke="white" stroke-width="1.5" stroke-linecap="round"/>
-                        <defs><linearGradient id="ai-grad" x1="2" y1="2" x2="22" y2="22"><stop stop-color="#667eea"/><stop offset="1" stop-color="#764ba2"/></linearGradient></defs>
+                      <svg
+                        class="ai-toolbar-icon"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        width="18"
+                        height="18"
+                      >
+                        <path
+                          d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"
+                          fill="url(#ai-grad)"
+                        />
+                        <path
+                          d="M8.5 11a1.5 1.5 0 100-3 1.5 1.5 0 000 3zM15.5 11a1.5 1.5 0 100-3 1.5 1.5 0 000 3z"
+                          fill="white"
+                        />
+                        <path
+                          d="M8 14.5c0 0 1.5 2.5 4 2.5s4-2.5 4-2.5"
+                          stroke="white"
+                          stroke-width="1.5"
+                          stroke-linecap="round"
+                        />
+                        <defs>
+                          <linearGradient
+                            id="ai-grad"
+                            x1="2"
+                            y1="2"
+                            x2="22"
+                            y2="22"
+                          >
+                            <stop stop-color="#667eea" />
+                            <stop offset="1" stop-color="#764ba2" />
+                          </linearGradient>
+                        </defs>
                       </svg>
                     </template>
                     <template v-else-if="sitem.icon === 'rule'">
-                      <svg class="rule-toolbar-icon" viewBox="0 0 24 24" fill="none" width="18" height="18">
-                        <path d="M12 2L17 7L12 12L7 7Z" fill="url(#rule-grad)"/>
-                        <path d="M12 12L12 15.5" stroke="url(#rule-grad)" stroke-width="2" stroke-linecap="round"/>
-                        <rect x="5.5" y="15.5" width="13" height="6.5" rx="1.5" fill="url(#rule-grad)"/>
-                        <circle cx="10" cy="18.75" r="1" fill="white"/>
-                        <circle cx="14" cy="18.75" r="1" fill="white"/>
-                        <defs><linearGradient id="rule-grad" x1="2" y1="2" x2="22" y2="22"><stop stop-color="#3b82f6"/><stop offset="1" stop-color="#06b6d4"/></linearGradient></defs>
+                      <svg
+                        class="rule-toolbar-icon"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        width="18"
+                        height="18"
+                      >
+                        <path
+                          d="M12 2L17 7L12 12L7 7Z"
+                          fill="url(#rule-grad)"
+                        />
+                        <path
+                          d="M12 12L12 15.5"
+                          stroke="url(#rule-grad)"
+                          stroke-width="2"
+                          stroke-linecap="round"
+                        />
+                        <rect
+                          x="5.5"
+                          y="15.5"
+                          width="13"
+                          height="6.5"
+                          rx="1.5"
+                          fill="url(#rule-grad)"
+                        />
+                        <circle cx="10" cy="18.75" r="1" fill="white" />
+                        <circle cx="14" cy="18.75" r="1" fill="white" />
+                        <defs>
+                          <linearGradient
+                            id="rule-grad"
+                            x1="2"
+                            y1="2"
+                            x2="22"
+                            y2="22"
+                          >
+                            <stop stop-color="#3b82f6" />
+                            <stop offset="1" stop-color="#06b6d4" />
+                          </linearGradient>
+                        </defs>
                       </svg>
                     </template>
                     <template v-else>
-                      <star-horse-icon :icon-class="sitem.icon" size="18px"/>
+                      <star-horse-icon :icon-class="sitem.icon" size="18px" />
                     </template>
                     <span>{{ sitem.label }}</span>
-                    <span v-if="sitem.shortcut" class="dropdown-item-shortcut">{{ sitem.shortcut }}</span>
+                    <span
+                      v-if="sitem.shortcut"
+                      class="dropdown-item-shortcut"
+                      >{{ sitem.shortcut }}</span
+                    >
                   </div>
                 </el-dropdown-item>
               </el-dropdown-menu>
@@ -246,34 +463,91 @@ const doSave = (flag: boolean) => {
 
           <!-- 普通按钮 -->
           <el-tooltip
-              v-else
-              :content="item.shortcut ? `${item.label} (${item.shortcut})` : item.label"
-              effect="dark"
-              placement="bottom"
-              :show-after="500"
-              :key="'btn_' + index"
+            v-else
+            :content="
+              item.shortcut ? `${item.label} (${item.shortcut})` : item.label
+            "
+            effect="dark"
+            placement="bottom"
+            :show-after="500"
+            :key="'btn_' + index"
           >
-            <el-button class="tb-btn" @click="actions(item)" :disabled="isDisabled(item)">
+            <el-button
+              class="tb-btn"
+              @click="actions(item)"
+              :disabled="isDisabled(item)"
+            >
               <template v-if="item.icon === 'ai'">
-                <svg class="ai-toolbar-icon" viewBox="0 0 24 24" fill="none" width="20" height="20">
-                  <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z" fill="url(#ai-grad)" />
-                  <path d="M8.5 11a1.5 1.5 0 100-3 1.5 1.5 0 000 3zM15.5 11a1.5 1.5 0 100-3 1.5 1.5 0 000 3z" fill="white"/>
-                  <path d="M8 14.5c0 0 1.5 2.5 4 2.5s4-2.5 4-2.5" stroke="white" stroke-width="1.5" stroke-linecap="round"/>
-                  <defs><linearGradient id="ai-grad" x1="2" y1="2" x2="22" y2="22"><stop stop-color="#667eea"/><stop offset="1" stop-color="#764ba2"/></linearGradient></defs>
+                <svg
+                  class="ai-toolbar-icon"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  width="20"
+                  height="20"
+                >
+                  <path
+                    d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"
+                    fill="url(#ai-grad)"
+                  />
+                  <path
+                    d="M8.5 11a1.5 1.5 0 100-3 1.5 1.5 0 000 3zM15.5 11a1.5 1.5 0 100-3 1.5 1.5 0 000 3z"
+                    fill="white"
+                  />
+                  <path
+                    d="M8 14.5c0 0 1.5 2.5 4 2.5s4-2.5 4-2.5"
+                    stroke="white"
+                    stroke-width="1.5"
+                    stroke-linecap="round"
+                  />
+                  <defs>
+                    <linearGradient id="ai-grad" x1="2" y1="2" x2="22" y2="22">
+                      <stop stop-color="#667eea" />
+                      <stop offset="1" stop-color="#764ba2" />
+                    </linearGradient>
+                  </defs>
                 </svg>
               </template>
               <template v-else-if="item.icon === 'rule'">
-                <svg class="rule-toolbar-icon" viewBox="0 0 24 24" fill="none" width="20" height="20">
-                  <path d="M12 2L17 7L12 12L7 7Z" fill="url(#rule-grad)"/>
-                  <path d="M12 12L12 15.5" stroke="url(#rule-grad)" stroke-width="2" stroke-linecap="round"/>
-                  <rect x="5.5" y="15.5" width="13" height="6.5" rx="1.5" fill="url(#rule-grad)"/>
-                  <circle cx="10" cy="18.75" r="1" fill="white"/>
-                  <circle cx="14" cy="18.75" r="1" fill="white"/>
-                  <defs><linearGradient id="rule-grad" x1="2" y1="2" x2="22" y2="22"><stop stop-color="#3b82f6"/><stop offset="1" stop-color="#06b6d4"/></linearGradient></defs>
+                <svg
+                  class="rule-toolbar-icon"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  width="20"
+                  height="20"
+                >
+                  <path d="M12 2L17 7L12 12L7 7Z" fill="url(#rule-grad)" />
+                  <path
+                    d="M12 12L12 15.5"
+                    stroke="url(#rule-grad)"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                  />
+                  <rect
+                    x="5.5"
+                    y="15.5"
+                    width="13"
+                    height="6.5"
+                    rx="1.5"
+                    fill="url(#rule-grad)"
+                  />
+                  <circle cx="10" cy="18.75" r="1" fill="white" />
+                  <circle cx="14" cy="18.75" r="1" fill="white" />
+                  <defs>
+                    <linearGradient
+                      id="rule-grad"
+                      x1="2"
+                      y1="2"
+                      x2="22"
+                      y2="22"
+                    >
+                      <stop stop-color="#3b82f6" />
+                      <stop offset="1" stop-color="#06b6d4" />
+                    </linearGradient>
+                  </defs>
                 </svg>
               </template>
               <template v-else>
-                <star-horse-icon :icon-class="item.icon" size="20px"/>
+                <star-horse-icon :icon-class="item.icon" size="20px" />
               </template>
             </el-button>
           </el-tooltip>
@@ -283,42 +557,45 @@ const doSave = (flag: boolean) => {
 
     <div class="toolbar-right">
       <el-tooltip
-          v-if="optional?.cooperationMode ?? false"
-          :content="i18n('dyform.toolbar.cooperationConfig')"
-          effect="dark"
-          placement="bottom"
-          :show-after="500"
+        v-if="optional?.cooperationMode ?? false"
+        :content="i18n('dyform.toolbar.cooperationConfig')"
+        effect="dark"
+        placement="bottom"
+        :show-after="500"
       >
         <el-button class="tb-btn tb-btn-ghost" @click="cooperationConfig">
-          <star-horse-icon icon-class="setting" size="20px"/>
+          <star-horse-icon icon-class="setting" size="20px" />
         </el-button>
       </el-tooltip>
 
       <el-tooltip
-          v-if="optional?.hideConfigBtn ?? true"
-          :content="i18n('dyform.toolbar.config')"
-          effect="dark"
-          placement="bottom"
-          :show-after="500"
+        v-if="optional?.hideConfigBtn ?? true"
+        :content="i18n('dyform.toolbar.config')"
+        effect="dark"
+        placement="bottom"
+        :show-after="500"
       >
         <el-button class="tb-btn tb-btn-ghost" @click="pageConfig">
-          <star-horse-icon icon-class="setting" size="20px"/>
+          <star-horse-icon icon-class="setting" size="20px" />
         </el-button>
       </el-tooltip>
 
       <el-tooltip
-          v-if="cacheData?.length > 0"
-          :content="i18n('dyform.toolbar.cache.restore')"
-          effect="dark"
-          placement="bottom"
-          :show-after="500"
+        v-if="cacheData?.length > 0"
+        :content="i18n('dyform.toolbar.cache.restore')"
+        effect="dark"
+        placement="bottom"
+        :show-after="500"
       >
-        <el-button class="tb-btn tb-btn-ghost" @click="cacheDataRestore($event)">
-          <star-horse-icon icon-class="reset" size="20px"/>
+        <el-button
+          class="tb-btn tb-btn-ghost"
+          @click="cacheDataRestore($event)"
+        >
+          <star-horse-icon icon-class="reset" size="20px" />
         </el-button>
       </el-tooltip>
 
-      <help :message="dynamicFormHelpMessage()"/>
+      <help :message="dynamicFormHelpMessage()" />
     </div>
   </div>
 </template>

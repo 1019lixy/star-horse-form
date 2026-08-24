@@ -4,21 +4,21 @@
     <div class="node-pill">
       <div class="pill-badge">
         <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M8 5v14l11-7z" fill="currentColor"/>
+          <path d="M8 5v14l11-7z" fill="currentColor" />
         </svg>
       </div>
-      <span class="pill-label">{{ i18n('rule.node.start') }}</span>
+      <span class="pill-label">{{ i18n("rule.node.start") }}</span>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { Handle, Position } from '../compat'
-import { i18n } from '@/lang'
+import { Handle, Position } from "../compat";
+import { i18n } from "@/lang";
 </script>
 
 <style scoped lang="scss">
-@use '../styles/design-tokens.scss' as tokens;
+@use "../styles/design-tokens.scss" as tokens;
 
 .start-node {
   position: relative;
@@ -33,7 +33,9 @@ import { i18n } from '@/lang'
     border: 1px solid tokens.$rd-border;
     border-radius: tokens.$rd-radius-pill;
     box-shadow: tokens.$rd-shadow-xs;
-    transition: box-shadow tokens.$rd-transition-base, border-color tokens.$rd-transition-base;
+    transition:
+      box-shadow tokens.$rd-transition-base,
+      border-color tokens.$rd-transition-base;
 
     &:hover {
       border-color: tokens.$rd-node-start;

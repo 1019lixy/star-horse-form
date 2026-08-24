@@ -1,21 +1,33 @@
 <script setup lang="ts">
-import { computed, nextTick, onMounted, provide, reactive, ref, watch } from "vue";
+import {
+  computed,
+  nextTick,
+  onMounted,
+  provide,
+  reactive,
+  ref,
+  watch,
+} from "vue";
 import {
   analysisAppComps,
   analysisCompDatas,
   apiInstance,
-  ApiUrls, convertCompToAppComps,
+  ApiUrls,
+  convertCompToAppComps,
   dialogPreps,
   PageFieldInfo,
   SearchFields,
 } from "star-horse-lowcode";
 import { i18n } from "@/lang";
 import CommonSkeleton from "./CommonSkeleton.vue";
-import {useFormRuleRuntime, validateRule} from "@/components/rule/useFormRuleRuntime";
+import {
+  useFormRuleRuntime,
+  validateRule,
+} from "@/components/rule/useFormRuleRuntime";
 
 const props = defineProps({
-  currentPageClass: {type:String, default:""},
-  preview:{type:Boolean, default:false},
+  currentPageClass: { type: String, default: "" },
+  preview: { type: Boolean, default: false },
   compList: {
     type: Array,
     required: true,
@@ -35,14 +47,14 @@ const isLoading = ref(true);
 const primaryKey = ref("");
 const rules = ref({});
 /** 验证错误信息：字段名 -> 错误消息 */
-const validationErrors = ref<Record<string, string>>({})
+const validationErrors = ref<Record<string, string>>({});
 const hasData = ref(false);
 
 // ==================== 规则引擎集成 ====================
 const ruleFormId = computed(() => {
   const list = props.compList as any[];
-  if (!list || list.length === 0) return '';
-  return list[0]?.formId || list[0]?.preps?.formId || '';
+  if (!list || list.length === 0) return "";
+  return list[0]?.formId || list[0]?.preps?.formId || "";
 });
 
 const ruleFormData = computed(() => {
@@ -75,34 +87,34 @@ const onFormDataLoaded = async () => {
  */
 const validateForm = (): boolean => {
   // 清除之前的验证错误
-  validationErrors.value = {}
+  validationErrors.value = {};
 
   // 如果没有规则，直接通过
   if (!rules.value || Object.keys(rules.value).length === 0) {
-    return true
+    return true;
   }
 
   // 执行验证规则
   const results = validateRule(
     Array.isArray(rules.value) ? rules.value : [],
-    ruleFormData.value
-  )
+    ruleFormData.value,
+  );
 
   // 收集验证错误
-  let isValid = true
+  let isValid = true;
   for (const result of results) {
     if (!result.valid) {
-      isValid = false
+      isValid = false;
       // 尝试从消息中提取字段名
-      const match = result.message?.match(/^(\w+)/)
+      const match = result.message?.match(/^(\w+)/);
       if (match) {
-        validationErrors.value[match[1]] = result.message || '验证失败'
+        validationErrors.value[match[1]] = result.message || "验证失败";
       }
     }
   }
 
-  return isValid
-}
+  return isValid;
+};
 
 /**
  * 获取字段验证错误
@@ -110,13 +122,19 @@ const validateForm = (): boolean => {
  * @returns 错误消息或空字符串
  */
 const getFieldError = (fieldName: string): string => {
-  return validationErrors.value[fieldName] || ''
-}
+  return validationErrors.value[fieldName] || "";
+};
 
-const handleBeforeSubmit = async ({type, formData: fd}: {type: string; formData: any}) => {
+const handleBeforeSubmit = async ({
+  type,
+  formData: fd,
+}: {
+  type: string;
+  formData: any;
+}) => {
   // 执行表单验证
   if (!validateForm()) {
-    return false
+    return false;
   }
   if (isEnabled.value && currentFormId.value) {
     const ok = await triggerOnSubmit();
@@ -136,7 +154,6 @@ const loadFormData = async () => {
   isLoading.value = false; // 加载完成
 };
 
-
 //记录表单的属性
 const formFields = reactive<Array<any>>([]);
 provide("formFields", formFields);
@@ -147,7 +164,7 @@ const dataRecall = (formData: any, result: any) => {
   if (props.preview) {
     starHorseTableCompRef.value?.assignStaticData(formData);
   } else {
-    starHorseTableCompRef.value?.loadByPage()
+    starHorseTableCompRef.value?.loadByPage();
   }
 };
 const dataFormat = (name: string, cellValue: object): any => {
@@ -160,24 +177,24 @@ onMounted(async () => {
   await init();
 });
 watch(
-    () => props.compList,
-    (val) => {
-      loadFormData();
-    },
-    { deep: true },
+  () => props.compList,
+  (val) => {
+    loadFormData();
+  },
+  { deep: true },
 );
 watch(
-    () => props.currentPageClass,
-    (val) => {
-      loadFormData();
-    },
-    {deep: true},
+  () => props.currentPageClass,
+  (val) => {
+    loadFormData();
+  },
+  { deep: true },
 );
 defineExpose({
   validateForm,
   validationErrors,
-  getFieldError
-})
+  getFieldError,
+});
 </script>
 <style scoped>
 .validation-error {
@@ -217,16 +234,20 @@ defineExpose({
           ref="ftFormRef"
         />
         <!-- 验证错误提示 -->
-        <div v-if="Object.keys(validationErrors).length > 0" class="validation-errors">
-          <div v-for="(msg, field) in validationErrors" :key="field" class="validation-error">
+        <div
+          v-if="Object.keys(validationErrors).length > 0"
+          class="validation-errors"
+        >
+          <div
+            v-for="(msg, field) in validationErrors"
+            :key="field"
+            class="validation-error"
+          >
             {{ msg }}
           </div>
         </div>
       </star-horse-panel>
-      <star-horse-panel
-       v-model="dialogProps.viewVisible"
-        :source="3"
-      >
+      <star-horse-panel v-model="dialogProps.viewVisible" :source="3">
         <star-horse-data-view
           :dataFormat="dataFormat"
           :preview="preview"

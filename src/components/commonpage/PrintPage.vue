@@ -1,36 +1,35 @@
 <script setup lang="ts">
-import {ref} from "vue";
-import {apiInstance} from "star-horse-lowcode";
-import {useCommonPage} from "./useCommonPage";
+import { ref } from "vue";
+import { apiInstance } from "star-horse-lowcode";
+import { useCommonPage } from "./useCommonPage";
 import CommonSkeleton from "./CommonSkeleton.vue";
-import {i18n} from "@/lang";
-import {success} from "star-horse-lowcode";
+import { i18n } from "@/lang";
+import { success } from "star-horse-lowcode";
 
 const props = defineProps({
-  currentPageClass: {type: String, default: ""},
-  preview: {type: Boolean, default: false},
-  compList: {type: Array, required: true},
+  currentPageClass: { type: String, default: "" },
+  preview: { type: Boolean, default: false },
+  compList: { type: Array, required: true },
 });
 
 const printFormRef = ref();
 const printTime = ref(new Date().toLocaleString());
 const printTitle = ref("");
 
-const {
-  isLoading, hasData, errorMsg, tableFieldList, dataFormat, dataUrl,
-} = useCommonPage({
-  props,
-  formRef: printFormRef,
-  defaultDataUrl: apiInstance("userdb-manage", "consumer/api"),
-});
+const { isLoading, hasData, errorMsg, tableFieldList, dataFormat, dataUrl } =
+  useCommonPage({
+    props,
+    formRef: printFormRef,
+    defaultDataUrl: apiInstance("userdb-manage", "consumer/api"),
+  });
 
 const buildPrintTitle = () => {
   const list = props.compList as any[];
   const first = list?.[0];
   printTitle.value =
-      first?.preps?.printTitle ||
-      first?.formName ||
-      i18n("commonPage.print.title");
+    first?.preps?.printTitle ||
+    first?.formName ||
+    i18n("commonPage.print.title");
 };
 buildPrintTitle();
 
@@ -41,7 +40,12 @@ const handlePrint = () => {
 </script>
 <template>
   <div class="flex flex-col h-full overflow-hidden">
-    <CommonSkeleton v-if="isLoading" :showHeader="true" :showPreview="true" :previewRowCount="8"/>
+    <CommonSkeleton
+      v-if="isLoading"
+      :showHeader="true"
+      :showPreview="true"
+      :previewRowCount="8"
+    />
 
     <template v-else-if="hasData">
       <div class="print-toolbar no-print">
@@ -61,11 +65,11 @@ const handlePrint = () => {
 
           <div class="print-body">
             <star-horse-data-view
-                :field-list="tableFieldList"
-                :dataFormat="dataFormat"
-                :preview="preview"
-                :compUrl="dataUrl"
-                :dynamicForm="true"
+              :field-list="tableFieldList"
+              :dataFormat="dataFormat"
+              :preview="preview"
+              :compUrl="dataUrl"
+              :dynamicForm="true"
             />
           </div>
 
@@ -79,7 +83,7 @@ const handlePrint = () => {
       </el-card>
     </template>
 
-    <el-empty :content="errorMsg" v-else/>
+    <el-empty :content="errorMsg" v-else />
   </div>
 </template>
 <style lang="scss" scoped>

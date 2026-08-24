@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { nextTick, onMounted, PropType, ref } from "vue";
-import {i18n} from "@/lang";
+import { i18n } from "@/lang";
 import {
   ApiUrls,
   operationConfirm,
@@ -160,7 +160,7 @@ const rmvData = (menu: any) => {
   operationConfirm(i18n("dyform.utils.619")).then(() => {
     postRequest(props.dataUrl?.deleteUrl!, [menu[props.primaryKey]]).then(
       (res) => {
-        if (res.data.code !==200) {
+        if (res.data.code !== 200) {
           warning(res.data.cnMessage);
           return;
         }
@@ -244,7 +244,7 @@ defineExpose({
   position: absolute;
   left: 20px;
   bottom: 40px; // 保持与按钮间距
-  z-index: 9999;
+  z-index: 125;
   max-width: 400px;
   height: 500px;
   background-color: #fff;

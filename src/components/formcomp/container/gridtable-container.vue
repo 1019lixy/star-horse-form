@@ -1,16 +1,16 @@
 <script setup lang="ts" name="gridtable-container">
-import {computed, PropType, ref} from "vue";
+import { computed, PropType, ref } from "vue";
 import GridtableCol from "@/components/formcomp/container/gridtable-col.vue";
 import GroupContainer from "@/components/formcomp/container/group-container.vue";
 
 const props = defineProps({
-  parentField: {type: Object as PropType<any>},
-  isDesign: {type: Boolean, default: false},
-  showFormItem: {type: Boolean, default: false},
-  disabled: {type: Boolean, default: false},
-  formInfo: {type: Object as PropType<any>},
-  field: {type: Object as PropType<any>},
-  compSize: {type: String, default: "default"},
+  parentField: { type: Object as PropType<any> },
+  isDesign: { type: Boolean, default: false },
+  showFormItem: { type: Boolean, default: false },
+  disabled: { type: Boolean, default: false },
+  formInfo: { type: Object as PropType<any> },
+  field: { type: Object as PropType<any> },
+  compSize: { type: String, default: "default" },
 });
 const formData = defineModel("formData");
 
@@ -103,7 +103,7 @@ const columnStructure = computed(() => {
   const columns = firstRow.columns.length;
   const colStructure = [];
   for (let i = 0; i < columns; i++) {
-    colStructure.push({width: firstRow.columns[i].colWidth});
+    colStructure.push({ width: firstRow.columns[i].colWidth });
   }
   return colStructure;
 });
@@ -116,14 +116,20 @@ const gridModel = computed(() => {
   const positions: number[][] = [];
   for (let r = 0; r < elements.length; r++) {
     const row = elements[r];
-    if (!row.columns) { positions.push([]); continue; }
+    if (!row.columns) {
+      positions.push([]);
+      continue;
+    }
     let colPos = 0;
     const rowPositions: number[] = [];
     for (let c = 0; c < row.columns.length; c++) {
       const cell = row.columns[c];
       const cs = cell.colspan || 1;
       const rs = cell.rowspan || 1;
-      if (cell.cellVisible === false) { rowPositions.push(0); continue; }
+      if (cell.cellVisible === false) {
+        rowPositions.push(0);
+        continue;
+      }
       while (colPos < cols && occupied[r][colPos]) colPos++;
       rowPositions.push(colPos + 1);
       if (rs > 1) {
@@ -158,7 +164,9 @@ const getColIndex = (rowIndex: number, colIndex: number, col: any) => {
   elements.forEach((row: any) => {
     if (row.columns) {
       let rowCols = 0;
-      row.columns.forEach((c: any) => { rowCols += c.colspan || 1; });
+      row.columns.forEach((c: any) => {
+        rowCols += c.colspan || 1;
+      });
       totalCols = Math.max(totalCols, rowCols);
     }
   });
@@ -189,74 +197,99 @@ const getColIndex = (rowIndex: number, colIndex: number, col: any) => {
   return colIndex;
 };
 
-const showLineNumber = computed(() => props.field.preps?.showLineNumber !== false);
-const shouldShowLineNumber = computed(() => props.isDesign || showLineNumber.value);
+const showLineNumber = computed(
+  () => props.field.preps?.showLineNumber !== false,
+);
+const shouldShowLineNumber = computed(
+  () => props.isDesign || showLineNumber.value,
+);
 
 const wrapperStyle = computed(() => {
-  const baseWidth = props.field.preps?.tableWidth || '100%';
+  const baseWidth = props.field.preps?.tableWidth || "100%";
   const style: Record<string, any> = {};
   if (hasCustomWidth.value) {
-    style['minWidth'] = baseWidth;
-    style['width'] = 'fit-content';
+    style["minWidth"] = baseWidth;
+    style["width"] = "fit-content";
   } else {
-    style['width'] = baseWidth;
+    style["width"] = baseWidth;
   }
   return style;
 });
 </script>
 <template>
   <group-container
-      class="star-horse-form-container"
-      :showFormItem="showFormItem"
-      :isDesign="isDesign"
-      :disabled="disabled"
-      :parentField="parentField"
-      :form-item="field"
+    class="star-horse-form-container"
+    :showFormItem="showFormItem"
+    :isDesign="isDesign"
+    :disabled="disabled"
+    :parentField="parentField"
+    :form-item="field"
   >
     <div class="gridtable-wrapper" :style="wrapperStyle">
       <div
-          v-if="isDesign && field.preps.elements.length > 0"
-          class="gridtable-header"
-          :style="{ gridTemplateColumns: `30px ${gridTemplateColumns}` }"
+        v-if="isDesign && field.preps.elements.length > 0"
+        class="gridtable-header"
+        :style="{ gridTemplateColumns: `30px ${gridTemplateColumns}` }"
       >
         <div class="gridtable-header-cell no-cell"></div>
         <div
-            v-for="(col, index) in columnStructure"
-            :key="index"
-            class="gridtable-header-cell no-cell col-resize-container"
-            :style="{ width: col.width || '100%' }"
+          v-for="(col, index) in columnStructure"
+          :key="index"
+          class="gridtable-header-cell no-cell col-resize-container"
+          :style="{ width: col.width || '100%' }"
         >
           {{ index + 1 }}
-          <div class="col-resize-handle" @mousedown="(e) => handleColResizeStart(e, index)"/>
+          <div
+            class="col-resize-handle"
+            @mousedown="(e) => handleColResizeStart(e, index)"
+          />
         </div>
       </div>
       <div
-          class="gridtable-body"
-          :style="{
-            gridTemplateColumns: shouldShowLineNumber ? `30px ${gridTemplateColumns}` : gridTemplateColumns,
-          }"
+        class="gridtable-body"
+        :style="{
+          gridTemplateColumns: shouldShowLineNumber
+            ? `30px ${gridTemplateColumns}`
+            : gridTemplateColumns,
+        }"
       >
-        <template v-for="(row, rowIndex) in field.preps.elements" :key="row.id || rowIndex">
-          <div v-if="shouldShowLineNumber" class="gridtable-line-number no-cell" :style="{ gridColumn: '1', gridRow: `${rowIndex + 1}` }">{{ rowIndex + 1 }}</div>
-          <template v-for="(td, colIndex) in row.columns" :key="td.id || colIndex">
+        <template
+          v-for="(row, rowIndex) in field.preps.elements"
+          :key="row.id || rowIndex"
+        >
+          <div
+            v-if="shouldShowLineNumber"
+            class="gridtable-line-number no-cell"
+            :style="{ gridColumn: '1', gridRow: `${rowIndex + 1}` }"
+          >
+            {{ rowIndex + 1 }}
+          </div>
+          <template
+            v-for="(td, colIndex) in row.columns"
+            :key="td.id || colIndex"
+          >
             <gridtable-col
-                :field="td"
-                v-if="td.cellVisible"
-                :formInfo="formInfo"
-                v-model:formData="formData"
-                :isDesign="isDesign"
-                :showFormItem="showFormItem"
-                :disabled="disabled"
-                :isFirstRow="rowIndex == 0"
-                :parentField="field"
-                :isLastRow="rowIndex == field.preps.elements.length - 1"
-                :isFirstCol="colIndex == 0"
-                :isLastCol="colIndex == row.columns.length - 1"
-                :rowIndex="Number(rowIndex)"
-                :colIndex="Number(colIndex)"
-                :actionColIndex="getColIndex(Number(rowIndex), Number(colIndex), td)"
-                :gridPosition="getGridPosition(Number(rowIndex), Number(colIndex), td)"
-                :showLineNumber="showLineNumber"
+              :field="td"
+              v-if="td.cellVisible"
+              :formInfo="formInfo"
+              v-model:formData="formData"
+              :isDesign="isDesign"
+              :showFormItem="showFormItem"
+              :disabled="disabled"
+              :isFirstRow="rowIndex == 0"
+              :parentField="field"
+              :isLastRow="rowIndex == field.preps.elements.length - 1"
+              :isFirstCol="colIndex == 0"
+              :isLastCol="colIndex == row.columns.length - 1"
+              :rowIndex="Number(rowIndex)"
+              :colIndex="Number(colIndex)"
+              :actionColIndex="
+                getColIndex(Number(rowIndex), Number(colIndex), td)
+              "
+              :gridPosition="
+                getGridPosition(Number(rowIndex), Number(colIndex), td)
+              "
+              :showLineNumber="showLineNumber"
             />
           </template>
         </template>
@@ -307,7 +340,7 @@ const wrapperStyle = computed(() => {
   background: var(--star-horse-style);
   opacity: 0.5;
   transition: opacity 0.3s;
- // z-index: 500;
+  // z-index: 500;
   &:hover {
     opacity: 1;
   }

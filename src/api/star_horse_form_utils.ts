@@ -2,7 +2,7 @@ import { SelectOption, warning } from "star-horse-lowcode";
 import * as ElementPlusIconsVue from "@element-plus/icons-vue";
 import { markRaw } from "vue";
 import { formIcons } from "@/assets/form_icons";
-import {i18n} from "@/lang";
+import { i18n } from "@/lang";
 /**
  * 自定义的svg图标（模块级缓存 + markRaw，避免被 Vue 响应式代理后
  * 触发 Array.values 与 star-horse-lowcode 互相递归导致栈溢出）

@@ -1,31 +1,38 @@
 <script setup lang="ts">
-import {insertBelowRow, insertRightCol,} from "@/components/formcomp/container/dytableUtils";
+import {
+  insertBelowRow,
+  insertRightCol,
+} from "@/components/formcomp/container/dytableUtils";
 import {
   insertBelowRow as gtInsertBelowRow,
   insertRightCol as gtInsertRightCol,
 } from "@/components/formcomp/container/gridtableUtils";
-import {i18n} from "@/lang";
-import {copyContainer, dynamicFormContextMenuData} from "@/plugins/AblesPlugin";
-import {getDesignFormStore} from "@/store/StoreManager";
-import {fieldCopy} from "@/utils/FieldOperationUtils";
+import { i18n } from "@/lang";
+import {
+  copyContainer,
+  dynamicFormContextMenuData,
+} from "@/plugins/AblesPlugin";
+import { getDesignFormStore } from "@/store/StoreManager";
+import { fieldCopy } from "@/utils/FieldOperationUtils";
+import { hasOpenDialog } from "@/api/keyboard-event-utils";
 import FieldList from "@/components/formcomp/utils/FieldList.vue";
 
-import {computed, PropType, ref, watch} from "vue";
-import {operationConfirm} from "star-horse-lowcode";
+import { computed, PropType, ref, watch } from "vue";
+import { operationConfirm } from "star-horse-lowcode";
 
 const props = defineProps({
-  isDesign: {type: Boolean, default: false},
-  disabled: {type: Boolean, default: false},
-  parentField: {type: Object as PropType<any>},
-  formItem: {type: Object, required: true},
+  isDesign: { type: Boolean, default: false },
+  disabled: { type: Boolean, default: false },
+  parentField: { type: Object as PropType<any> },
+  formItem: { type: Object, required: true },
 });
 let designForm = getDesignFormStore();
 let compList = computed(() => designForm.compList);
 let currentItemId = computed(() => designForm.currentItemId);
 let componentVisible = computed(() => {
   return (
-      designForm.componentVisible &&
-      currentItemId.value == props.formItem?.preps.id
+    designForm.componentVisible &&
+    currentItemId.value == props.formItem?.preps.id
   );
 });
 let isEdit = computed(() => props.isDesign);
@@ -70,10 +77,21 @@ watch(currentItemId, (newId) => {
 });
 const containerLabel = computed(() => {
   const labels: Record<string, string> = {
-    tab: "选项卡", box: "栅格", table: "表格", card: "卡片",
-    dytable: "动态表格", gridtable: "栅格表格", collapse: "折叠", splitter: "分割", condition: "条件",
-    step: "步骤", dialog: "对话框", drawer: "抽屉", fieldset: "分组",
-    descriptions: "描述列表", anchor: "锚点导航",
+    tab: "选项卡",
+    box: "栅格",
+    table: "表格",
+    card: "卡片",
+    dytable: "动态表格",
+    gridtable: "栅格表格",
+    collapse: "折叠",
+    splitter: "分割",
+    condition: "条件",
+    step: "步骤",
+    dialog: "对话框",
+    drawer: "抽屉",
+    fieldset: "分组",
+    descriptions: "描述列表",
+    anchor: "锚点导航",
   };
   return labels[props.formItem?.itemType] || "容器";
 });
@@ -88,9 +106,17 @@ const removeData = () => {
     if (res) {
       let id = props.formItem.preps?.id || props.formItem.id;
       let parentType = props.parentField?.itemType;
-      if (parentType == "tab" || parentType == "card" || parentType == "collapse" || parentType == "step"
-          || parentType == "dialog" || parentType == "drawer" || parentType == "fieldset"
-          || parentType == "descriptions" || parentType == "anchor") {
+      if (
+        parentType == "tab" ||
+        parentType == "card" ||
+        parentType == "collapse" ||
+        parentType == "step" ||
+        parentType == "dialog" ||
+        parentType == "drawer" ||
+        parentType == "fieldset" ||
+        parentType == "descriptions" ||
+        parentType == "anchor"
+      ) {
         // These containers store items in elements[i].items
         let elements = props.parentField!.preps.elements;
         for (let i = 0; i < elements.length; i++) {
@@ -103,7 +129,12 @@ const removeData = () => {
             }
           }
         }
-      } else if (parentType == "box" || parentType == "dytable" || parentType == "gridtable" || parentType == "table") {
+      } else if (
+        parentType == "box" ||
+        parentType == "dytable" ||
+        parentType == "gridtable" ||
+        parentType == "table"
+      ) {
         // These containers store items in elements[i].columns[j].items
         let elements = props.parentField!.preps.elements;
         for (let i = 0; i < elements.length; i++) {
@@ -137,12 +168,16 @@ const removeData = () => {
 const containerContextMenuRef = ref();
 const containerContextMenu = (evt: MouseEvent | any) => {
   if (!isEdit.value) return;
+  if (hasOpenDialog()) return;
   evt.stopPropagation();
   evt.preventDefault();
   evt.props = props;
   // 右键时先选中当前容器，确保"添加组件"弹窗等后续操作正常工作
-  designForm.selectItem(props.formItem, props.formItem.itemType, "");
+  selectContainer();
   containerContextMenuRef.value?.show(evt);
+};
+const selectContainer = () => {
+  designForm.selectItem(props.formItem, props.formItem.itemType, "");
 };
 const close = () => {
   designForm.setComponentVisible(false);
@@ -164,10 +199,12 @@ const addItem = (item: any) => {
       if (itemType == "table") {
         if (items.length == 0) {
           items.push(data);
+          designForm.selectItem(data, data.itemType, "");
           return;
         }
       } else {
         items.push(data);
+        designForm.selectItem(data, data.itemType, "");
         return;
       }
     }
@@ -175,6 +212,7 @@ const addItem = (item: any) => {
       let col = columns[colIndex];
       if (col.items.length == 0) {
         col.items.push(data);
+        designForm.selectItem(data, data.itemType, "");
         return;
       }
     }
@@ -190,19 +228,19 @@ const tableOperation = (actonName: string, _preps: any) => {
   if (actonName == "insertRow") {
     if (isGridtable) {
       gtInsertBelowRow(
-          {
-            parentField: props.formItem,
-            rowIndex: preps.elements.length - 1,
-          },
-          itemType,
+        {
+          parentField: props.formItem,
+          rowIndex: preps.elements.length - 1,
+        },
+        itemType,
       );
     } else {
       insertBelowRow(
-          {
-            parentField: props.formItem,
-            rowIndex: preps.elements.length - 1,
-          },
-          itemType,
+        {
+          parentField: props.formItem,
+          rowIndex: preps.elements.length - 1,
+        },
+        itemType,
       );
     }
   } else if (actonName == "insertCol") {
@@ -212,21 +250,21 @@ const tableOperation = (actonName: string, _preps: any) => {
     }
     if (isGridtable) {
       gtInsertRightCol(
-          {
-            parentField: props.formItem,
-            colIndex: preps.elements[0].columns.length - 1,
-          },
-          itemType,
-          true,
+        {
+          parentField: props.formItem,
+          colIndex: preps.elements[0].columns.length - 1,
+        },
+        itemType,
+        true,
       );
     } else {
       insertRightCol(
-          {
-            parentField: props.formItem,
-            colIndex: preps.elements[0].columns.length - 1,
-          },
-          itemType,
-          true,
+        {
+          parentField: props.formItem,
+          colIndex: preps.elements[0].columns.length - 1,
+        },
+        itemType,
+        true,
       );
     }
   } else if (actonName == "copy") {
@@ -237,41 +275,66 @@ const tableOperation = (actonName: string, _preps: any) => {
 </script>
 <template>
   <star-horse-panel
-      box-width="450px"
-      box-height="70%"
-      :source="3"
-      :full-screen="false"
-      :title="i18n('form.addComponent')"
-      :self-func="true"
-      v-model="componentVisible"
-      @closeAction="close"
+    box-width="450px"
+    box-height="70%"
+    :source="3"
+    :full-screen="false"
+    :title="i18n('form.addComponent')"
+    :self-func="true"
+    v-model="componentVisible"
+    @closeAction="close"
   >
     <template #footer>
       <el-button type="primary" size="default" @click="close"
-      >{{ i18n("form.confirm") }}
+        >{{ i18n("form.confirm") }}
       </el-button>
     </template>
-    <field-list @selectData="addItem"/>
+    <field-list @selectData="addItem" />
   </star-horse-panel>
   <div
-      class="field-item"
-      :class="{ 'container-collapsed': collapsed }"
-      v-if="isEdit && isDesign"
-      @contextmenu="containerContextMenu"
+    class="field-item"
+    :class="{ 'container-collapsed': collapsed }"
+    v-if="isEdit && isDesign"
+    @click.stop="selectContainer"
+    @contextmenu="containerContextMenu"
   >
     <!-- Collapse toggle button (always visible in design mode) -->
-    <div class="collapse-toggle" @click.stop="toggleCollapse"
-         :title="collapsed ? i18n('dyform.container.expand') : i18n('dyform.container.collapse')">
-      <svg viewBox="0 0 16 16" fill="none" width="12" height="12" :class="{ 'rotated': collapsed }">
-        <path d="M4 6L8 10L12 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
-              stroke-linejoin="round"/>
+    <div
+      class="collapse-toggle"
+      @click.stop="toggleCollapse"
+      :title="
+        collapsed
+          ? i18n('dyform.container.expand')
+          : i18n('dyform.container.collapse')
+      "
+    >
+      <svg
+        viewBox="0 0 16 16"
+        fill="none"
+        width="12"
+        height="12"
+        :class="{ rotated: collapsed }"
+      >
+        <path
+          d="M4 6L8 10L12 6"
+          stroke="currentColor"
+          stroke-width="1.5"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
       </svg>
     </div>
 
     <!-- Collapsed indicator (shown only when collapsed, click to expand) -->
-    <div v-if="collapsed" class="collapsed-placeholder" @click.stop="toggleCollapse">
+    <div
+      v-if="collapsed"
+      class="collapsed-placeholder"
+      @click.stop="toggleCollapse"
+    >
       <span class="collapsed-label">{{ containerLabel }}</span>
-      <span class="collapsed-hint">{{ i18n('dyform.container.collapsedClickExpand') }}</span>
+      <span class="collapsed-hint">{{
+        i18n("dyform.container.collapsedClickExpand")
+      }}</span>
     </div>
 
     <!-- Container content (hidden when collapsed) -->
@@ -279,74 +342,84 @@ const tableOperation = (actonName: string, _preps: any) => {
       <slot></slot>
     </div>
     <div class="component-header-actions">
-      <div class="drag-handler" v-if="isEdit && currentItemId == formItem.id && !collapsed">
+      <div
+        class="drag-handler"
+        v-if="isEdit && currentItemId == formItem.id && !collapsed"
+      >
         <el-tooltip :content="i18n('form.drag')">
           <star-horse-icon
-              icon-class="drag"
-              size="18px"
-              style="color: var(--star-horse-white)"
+            icon-class="drag"
+            size="18px"
+            style="color: var(--star-horse-white)"
           />
         </el-tooltip>
         <el-tooltip :content="i18n('form.selectContainer')">
           <star-horse-icon
-              cursor="pointer"
-              @click.stop="selectData"
-              icon-class="select-parent"
-              style="color: var(--star-horse-white)"
+            cursor="pointer"
+            @click.stop="selectData"
+            icon-class="select-parent"
+            style="color: var(--star-horse-white)"
           />
         </el-tooltip>
         <el-tooltip :content="i18n('form.deleteContainer')">
           <star-horse-icon
-              cursor="pointer"
-              @click.stop="removeData"
-              icon-class="clear-all"
-              style="color: var(--star-horse-white)"
+            cursor="pointer"
+            @click.stop="removeData"
+            icon-class="clear-all"
+            style="color: var(--star-horse-white)"
           />
         </el-tooltip>
       </div>
-      <div class="field-action" v-if="isEdit && currentItemId == formItem.id && !collapsed">
+      <div
+        class="field-action"
+        v-if="isEdit && currentItemId == formItem.id && !collapsed"
+      >
         <template
-            v-if="formItem.itemType == 'dytable' || formItem.itemType == 'box' || formItem.itemType == 'gridtable'"
+          v-if="
+            formItem.itemType == 'dytable' ||
+            formItem.itemType == 'box' ||
+            formItem.itemType == 'gridtable'
+          "
         >
           <el-tooltip :content="i18n('form.insertRow')">
             <star-horse-icon
-                @click.stop="tableOperation('insertRow', formItem?.preps)"
-                icon-class="insert_row"
-                cursor="pointer"
-                style="color: var(--star-horse-white)"
+              @click.stop="tableOperation('insertRow', formItem?.preps)"
+              icon-class="insert_row"
+              cursor="pointer"
+              style="color: var(--star-horse-white)"
             />
           </el-tooltip>
         </template>
         <template
-            v-if="
-          formItem.itemType == 'dytable' ||
-          formItem.itemType == 'box' ||
-          formItem.itemType == 'gridtable' ||
-          formItem.itemType == 'table'
-        "
+          v-if="
+            formItem.itemType == 'dytable' ||
+            formItem.itemType == 'box' ||
+            formItem.itemType == 'gridtable' ||
+            formItem.itemType == 'table'
+          "
         >
           <el-tooltip :content="i18n('form.insertCol')">
             <star-horse-icon
-                @click.stop="tableOperation('insertCol', formItem?.preps)"
-                icon-class="insert_col"
-                cursor="pointer"
-                style="color: var(--star-horse-white)"
+              @click.stop="tableOperation('insertCol', formItem?.preps)"
+              icon-class="insert_col"
+              cursor="pointer"
+              style="color: var(--star-horse-white)"
             />
           </el-tooltip>
         </template>
         <el-tooltip :content="i18n('form.copyContainer')">
           <star-horse-icon
-              @click.stop="tableOperation('copy', formItem?.preps)"
-              icon-class="copy"
-              style="color: var(--star-horse-white)"
+            @click.stop="tableOperation('copy', formItem?.preps)"
+            icon-class="copy"
+            style="color: var(--star-horse-white)"
           />
         </el-tooltip>
       </div>
     </div>
     <Teleport to="body">
       <ContentMenu
-          ref="containerContextMenuRef"
-          :menu-data="
+        ref="containerContextMenuRef"
+        :menu-data="
           dynamicFormContextMenuData(formItem, parentField, 'container')
         "
       />
@@ -377,7 +450,7 @@ const tableOperation = (actonName: string, _preps: any) => {
   border-radius: 4px;
   cursor: pointer;
   color: #fff;
-  //z-index: 98;
+  z-index: 98;
   padding: 0;
 
   svg {
@@ -396,7 +469,6 @@ const tableOperation = (actonName: string, _preps: any) => {
 /* 选中容器时，拖拽按钮右移避开折叠按钮 */
 :deep(.drag-handler) {
   left: 28px !important;
-
 }
 
 .collapsed-placeholder {
@@ -491,7 +563,7 @@ const tableOperation = (actonName: string, _preps: any) => {
   justify-content: flex-end !important;
 }
 
-.component-header-actions{
+.component-header-actions {
   justify-content: space-between;
 }
 </style>

@@ -12,7 +12,15 @@
  *
  * ON_CHANGE 通用化：通过 enableOnChange 开关启用，内置 300ms 防抖 watch
  */
-import { computed, nextTick, onMounted, provide, ref, watch, type Ref } from 'vue'
+import {
+  computed,
+  nextTick,
+  onMounted,
+  provide,
+  ref,
+  watch,
+  type Ref,
+} from "vue";
 import {
   analysisCompDatas,
   apiInstance,
@@ -22,35 +30,35 @@ import {
   dialogPreps,
   SearchFields,
   UserFuncInfo,
-} from 'star-horse-lowcode'
-import { i18n } from '@/lang'
-import { useFormRuleRuntime } from '@/components/rule/useFormRuleRuntime'
+} from "star-horse-lowcode";
+import { i18n } from "@/lang";
+import { useFormRuleRuntime } from "@/components/rule/useFormRuleRuntime";
 
 export interface CommonPageProps {
-  currentPageClass: string
-  preview: boolean
-  compList: any[]
+  currentPageClass: string;
+  preview: boolean;
+  compList: any[];
 }
 
 export interface CommonPageOptions {
-  props: CommonPageProps
-  formRef: Ref<any>
+  props: CommonPageProps;
+  formRef: Ref<any>;
   /** 是否启用 ON_CHANGE 规则引擎（300ms 防抖 watch formData） */
-  enableOnChange?: boolean
+  enableOnChange?: boolean;
   /** 默认数据源 URL */
-  defaultDataUrl?: ApiUrls
+  defaultDataUrl?: ApiUrls;
   /** 加载完成后是否自动调用 tableRef.loadByPage */
-  autoLoad?: boolean
-  tableRef?: Ref<any>
+  autoLoad?: boolean;
+  tableRef?: Ref<any>;
 }
 
 /** 默认按钮权限：增/改/查/删 */
 export const DEFAULT_BTN_PERMISSIONS = {
-  add: 'add',
-  edit: 'edit',
-  view: 'view',
-  delete: 'delete',
-}
+  add: "add",
+  edit: "edit",
+  view: "view",
+  delete: "delete",
+};
 
 export const useCommonPage = (options: CommonPageOptions) => {
   const {
@@ -60,33 +68,35 @@ export const useCommonPage = (options: CommonPageOptions) => {
     defaultDataUrl,
     autoLoad = false,
     tableRef,
-  } = options
+  } = options;
 
-  const isLoading = ref(true)
-  const hasData = ref(true)
-  const errorMsg = ref(i18n('commonPage.dataLoading'))
-  const primaryKey = ref('id')
-  const rules = ref<any>({})
-  const relationTables = ref<any>({})
-  const tableFieldList = ref<any>({ fieldList: [], stopAutoLoad: true })
-  const searchFormData = ref<SearchFields | any>({ fieldList: [] })
-  const dataUrl = ref<ApiUrls>(defaultDataUrl ?? apiInstance('', ''))
-  const dateFields = ref<string[]>([])
-  const fieldMappingList = ref<any>([])
-  const dataSource = ref<any>({})
-  const extBtns = ref<UserFuncInfo[]>([])
+  const isLoading = ref(true);
+  const hasData = ref(true);
+  const errorMsg = ref(i18n("commonPage.dataLoading"));
+  const primaryKey = ref("id");
+  const rules = ref<any>({});
+  const relationTables = ref<any>({});
+  const tableFieldList = ref<any>({ fieldList: [], stopAutoLoad: true });
+  const searchFormData = ref<SearchFields | any>({ fieldList: [] });
+  const dataUrl = ref<ApiUrls>(defaultDataUrl ?? apiInstance("", ""));
+  const dateFields = ref<string[]>([]);
+  const fieldMappingList = ref<any>([]);
+  const dataSource = ref<any>({});
+  const extBtns = ref<UserFuncInfo[]>([]);
 
-  const dialogProps = dialogPreps()
-  provide('dialogProps', dialogProps)
+  const dialogProps = dialogPreps();
+  provide("dialogProps", dialogProps);
 
   // ==================== 规则引擎集成 ====================
   const ruleFormId = computed(() => {
-    const list = props.compList as any[]
-    if (!list || list.length === 0) return ''
-    return list[0]?.formId || list[0]?.preps?.formId || ''
-  })
+    const list = props.compList as any[];
+    if (!list || list.length === 0) return "";
+    return list[0]?.formId || list[0]?.preps?.formId || "";
+  });
 
-  const ruleFormData = computed(() => formRef.value?.getFormData()?.value ?? {})
+  const ruleFormData = computed(
+    () => formRef.value?.getFormData()?.value ?? {},
+  );
 
   const {
     triggerOnLoad,
@@ -102,143 +112,148 @@ export const useCommonPage = (options: CommonPageOptions) => {
     formFields: tableFieldList,
     formData: ruleFormData,
     enabled: computed(() => !!ruleFormId.value),
-  })
+  });
 
   // ON_LOAD
   const onFormDataLoaded = async () => {
     if (isEnabled.value && currentFormId.value) {
-      await nextTick()
-      await triggerOnLoad()
+      await nextTick();
+      await triggerOnLoad();
     }
-  }
+  };
 
   // ON_SUBMIT
   const handleBeforeSubmit = async ({
     type,
     formData: fd,
   }: {
-    type: string
-    formData: any
+    type: string;
+    formData: any;
   }) => {
     if (isEnabled.value && currentFormId.value) {
-      const ok = await triggerOnSubmit()
-      if (!ok) return false
+      const ok = await triggerOnSubmit();
+      if (!ok) return false;
     }
-  }
+  };
 
   // ON_CHANGE 通用化（300ms 防抖，与 FormPage 现有逻辑一致）
-  let changeTimer: ReturnType<typeof setTimeout> | null = null
+  let changeTimer: ReturnType<typeof setTimeout> | null = null;
   if (enableOnChange) {
     watch(
       () => ruleFormData.value,
       () => {
-        if (!isEnabled.value || !currentFormId.value) return
-        if (changeTimer) clearTimeout(changeTimer)
-        changeTimer = setTimeout(() => triggerOnChange(), 300)
+        if (!isEnabled.value || !currentFormId.value) return;
+        if (changeTimer) clearTimeout(changeTimer);
+        changeTimer = setTimeout(() => triggerOnChange(), 300);
       },
       { deep: true },
-    )
+    );
   }
 
   // ==================== 加载 ====================
   const loadFormData = async () => {
-    isLoading.value = true
-    primaryKey.value = 'id'
-    tableFieldList.value = analysisCompDatas(props.compList)
-    if (props.currentPageClass == 'main-design-phone') {
-      tableFieldList.value = convertCompToAppComps(tableFieldList.value)
+    isLoading.value = true;
+    primaryKey.value = "id";
+    tableFieldList.value = analysisCompDatas(props.compList);
+    if (props.currentPageClass == "main-design-phone") {
+      tableFieldList.value = convertCompToAppComps(tableFieldList.value);
     }
-    await nextTick()
-    hasData.value = true
+    await nextTick();
+    hasData.value = true;
     if (autoLoad && tableRef?.value) {
-      tableRef.value.loadByPage?.()
+      tableRef.value.loadByPage?.();
     }
-    isLoading.value = false
-  }
+    isLoading.value = false;
+  };
 
   // ==================== 数据格式化 ====================
   const dataFormat = (name: string, cellValue: any, row?: any): any => {
     if (dateFields.value?.length > 0 && dateFields.value.includes(name)) {
-      return createDatetime(cellValue)
+      return createDatetime(cellValue);
     }
     const subFormat = (n: string, v: any, r: any) => {
       if (dataSource.value && Object.keys(dataSource.value).length > 0) {
-        const temp = dataSource.value[n]
+        const temp = dataSource.value[n];
         if (temp) {
-          const stemp = temp.datas?.find((item: any) => item[temp.valueField] == v)
-          return stemp ? stemp[temp.labelField] : v || '--'
+          const stemp = temp.datas?.find(
+            (item: any) => item[temp.valueField] == v,
+          );
+          return stemp ? stemp[temp.labelField] : v || "--";
         }
       }
-      return 'null' == v ? '--' : v || '--'
-    }
+      return "null" == v ? "--" : v || "--";
+    };
     if (fieldMappingList.value?.length > 0) {
-      const temp = fieldMappingList.value.find((item: any) => item.fieldName == name)
-      if (temp) return row[temp.mappingDisplayField] || subFormat(name, cellValue, row)
+      const temp = fieldMappingList.value.find(
+        (item: any) => item.fieldName == name,
+      );
+      if (temp)
+        return row[temp.mappingDisplayField] || subFormat(name, cellValue, row);
     }
-    return subFormat(name, cellValue, row)
-  }
+    return subFormat(name, cellValue, row);
+  };
 
   // ==================== 提交后回调 ====================
   const dataRecall = (formData: any, _result?: any, tr?: Ref<any>) => {
-    const ref = tr?.value ?? tableRef?.value
+    const ref = tr?.value ?? tableRef?.value;
     if (props.preview) {
-      ref?.assignStaticData?.(formData?.dataMap ?? formData)
+      ref?.assignStaticData?.(formData?.dataMap ?? formData);
     } else {
-      ref?.loadByPage?.()
+      ref?.loadByPage?.();
     }
-  }
+  };
 
   // ==================== 删除确认（二次确认） ====================
-  const deleteVisible = ref(false)
-  const deleteLoading = ref(false)
-  const pendingDeleteRows = ref<any[]>([])
+  const deleteVisible = ref(false);
+  const deleteLoading = ref(false);
+  const pendingDeleteRows = ref<any[]>([]);
   const handleDelete = (rows: any | any[]) => {
-    pendingDeleteRows.value = Array.isArray(rows) ? rows : [rows]
-    deleteVisible.value = true
-  }
+    pendingDeleteRows.value = Array.isArray(rows) ? rows : [rows];
+    deleteVisible.value = true;
+  };
   const confirmDelete = async (deleteFn?: (rows: any[]) => Promise<any>) => {
     if (!deleteFn) {
-      deleteVisible.value = false
-      return
+      deleteVisible.value = false;
+      return;
     }
-    deleteLoading.value = true
+    deleteLoading.value = true;
     try {
-      await deleteFn(pendingDeleteRows.value)
-      const ref = tableRef?.value
+      await deleteFn(pendingDeleteRows.value);
+      const ref = tableRef?.value;
       if (props.preview) {
-        ref?.assignStaticData?.([])
+        ref?.assignStaticData?.([]);
       } else {
-        ref?.loadByPage?.()
+        ref?.loadByPage?.();
       }
-      deleteVisible.value = false
+      deleteVisible.value = false;
     } catch (e) {
-      console.error('[useCommonPage] delete error:', e)
+      console.error("[useCommonPage] delete error:", e);
     } finally {
-      deleteLoading.value = false
+      deleteLoading.value = false;
     }
-  }
+  };
 
   // ==================== 生命周期 ====================
   const init = async () => {
-    await loadFormData()
-  }
+    await loadFormData();
+  };
   onMounted(() => {
-    init()
-  })
+    init();
+  });
   watch(
     () => props.compList,
     () => {
-      loadFormData()
+      loadFormData();
     },
     { deep: true },
-  )
+  );
   watch(
     () => props.currentPageClass,
     () => {
-      loadFormData()
+      loadFormData();
     },
     { deep: true },
-  )
+  );
 
   return {
     // 状态
@@ -280,5 +295,5 @@ export const useCommonPage = (options: CommonPageOptions) => {
     pendingDeleteRows,
     handleDelete,
     confirmDelete,
-  }
-}
+  };
+};
